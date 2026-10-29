@@ -49,5 +49,5 @@ src/i18n/index.ts 2                         # F-05: `import { registerForkI18n }
 # Repo meta
 LICENSE sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986 # F-04: verbatim GPL-3.0 text from gnu.org (gpl-3.0.txt); Handy's MIT text moved unchanged to LICENSES/MIT-Handy.txt
 README.md 2                                 # F-04: licence paragraph says the fork is GPL-3.0 and Handy's code stays MIT (1 line replaced)
-.gitignore 3                                # research packet: ignore docs/research/evidence/ (local-only captures)
+.gitignore 4                                # research packet: ignore docs/research/evidence/ (local-only captures); F-04 follow-up: ignore *.tsbuildinfo (tsc build cache)
 CLAUDE.md 4                                 # research packet: point agents at CONTEXT.md first

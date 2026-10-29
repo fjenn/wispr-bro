@@ -48,3 +48,4 @@ __pycache__/
 
 # Local-only reference captures (third-party UI, personal data)
 docs/research/evidence/
+*.tsbuildinfo
