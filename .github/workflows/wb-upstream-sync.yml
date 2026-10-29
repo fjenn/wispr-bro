@@ -1,0 +1,88 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Weekly upstream sync (F-09, R5 §4.13): merge cjpais/Handy main into
+# sync/upstream-<date> off `base` (--no-ff), run the cheap guards and open a
+# PR with the checklist, or an issue listing the conflicts. Process, secret
+# setup and cadence (never merge in the 3 days before a release; that rule is
+# for the person merging, not enforced here): docs/fork/UPSTREAM-SYNC.md.
+# - Pushes and PRs use secrets.WB_SYNC_TOKEN (fine-grained PAT or App token:
+#   contents, pull-requests, issues, workflows write). The default
+#   GITHUB_TOKEN would not trigger wb-ci.yml on the PR. It is passed only to
+#   the steps that push or call the API, never persisted in .git/config, and
+#   this job never gets signing secrets. No dependencies are installed.
+
+name: "wb-upstream-sync"
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays 06:17 UTC
+  workflow_dispatch:
+    inputs:
+      base:
+        description: "Branch to merge into (use a throwaway branch to test)"
+        default: wispr-bro
+
+concurrency:
+  group: wb-upstream-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BASE: ${{ inputs.base || 'wispr-bro' }}
+      HAS_TOKEN: ${{ secrets.WB_SYNC_TOKEN != '' }}
+      GH_REPO: ${{ github.repository }}
+      ISSUE_TITLE: "Upstream sync: merge conflicts"
+    steps:
+      - name: Require WB_SYNC_TOKEN
+        if: env.HAS_TOKEN != 'true'
+        run: echo "::error::Secret WB_SYNC_TOKEN is missing (docs/fork/UPSTREAM-SYNC.md)" && exit 1
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: ${{ env.BASE }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: latest
+
+      - name: Merge upstream/main and run guards
+        id: sync
+        run: |
+          git config user.name "Wispr Bro upstream sync"
+          git config user.email "upstream-sync@users.noreply.github.com"
+          git remote add upstream https://github.com/cjpais/Handy.git
+          git fetch --no-tags upstream main
+          BRANCH="sync/upstream-$(date -u +%F)"
+          echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
+          git switch -c "$BRANCH"
+          bun scripts/wb-upstream-sync.ts --in-place --base-branch "$BASE" --out "$RUNNER_TEMP/body.md"
+
+      - name: Push branch and open or update the PR
+        if: steps.sync.outputs.status == 'clean'
+        env:
+          GH_TOKEN: ${{ secrets.WB_SYNC_TOKEN }}
+        run: |
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/$BRANCH"
+          pr=$(gh pr list --head "$BRANCH" --base "$BASE" --state open --json number --jq '.[0].number')
+          if [ -n "$pr" ]; then gh pr edit "$pr" --body-file "$RUNNER_TEMP/body.md"
+          else gh pr create --base "$BASE" --head "$BRANCH" --title "chore(sync): merge upstream Handy $(date -u +%F)" --body-file "$RUNNER_TEMP/body.md"; fi
+          issue=$(gh issue list --state open --search "in:title \"$ISSUE_TITLE\"" --json number,title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -1)
+          if [ -n "$issue" ]; then gh issue close "$issue" --comment "Superseded: upstream merged cleanly in $BRANCH."; fi
+
+      - name: Open or update the conflict issue
+        if: steps.sync.outputs.status == 'conflict'
+        env:
+          GH_TOKEN: ${{ secrets.WB_SYNC_TOKEN }}
+        run: |
+          issue=$(gh issue list --state open --search "in:title \"$ISSUE_TITLE\"" --json number,title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -1)
+          if [ -n "$issue" ]; then gh issue edit "$issue" --body-file "$RUNNER_TEMP/body.md"
+          else gh issue create --title "$ISSUE_TITLE" --body-file "$RUNNER_TEMP/body.md"; fi
+          echo "::warning::Upstream merge conflicts; see the issue \"$ISSUE_TITLE\""

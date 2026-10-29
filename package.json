@@ -46,6 +46,7 @@
     "wb:format:check": "prettier --check --ignore-path .prettierignore --ignore-path .wb-prettierignore . && cd src-tauri && cargo fmt -- --check",
     "//fork:guards-end": "Wispr Bro CI guards: end",
     "wb:test:ui": "playwright test -c playwright.fork.config.ts",
+    "wb:sync:dryrun": "bun scripts/wb-upstream-sync.ts",
     "wb:eval:cleanup": "bun scripts/wb-eval-cleanup.ts"
   },
   "dependencies": {

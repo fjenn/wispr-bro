@@ -20,7 +20,7 @@
 # verbatim GPL-3.0 text (674 added + 21 deleted lines); a budget of 695 would
 # also accept any other 695-line edit, the pin accepts only that one text.
 # Budgets below equal the diff measured at merge base 7bfb2e2c: F-03's
-# entries as of F-03, raised to the measured diff for F-08 and F-10.
+# entries as of F-03, raised to the measured diff for F-08, F-10 and F-09.
 
 # Rust
 src-tauri/src/lib.rs 8                      # F-05: `pub mod fork;`, `.plugin(fork::init())`, `.invoke_handler(fork::compose_invoke(invoke_handler))`; F-01: log file_name → fork::FILE_PREFIX (×2)
@@ -35,7 +35,7 @@ src-tauri/src/managers/model.rs 5           # F-08: ModelSource::Url → `crate:
 
 # Manifests (DEC-48 version line; fork dependency blocks)
 src-tauri/Cargo.toml 7                      # F-01: `version = "1.0.0-alpha.1"` (2); F-05: `# fork: … (begin)/(end)` dev-dependency block (tauri `test`, 4); F-08: removed unused `rdev` (1)
-package.json 28                             # F-01: version line (2); F-05/F-01/F-03/F-10: `wb:*` scripts (F-03 guard block between `//fork:guards` keys; F-10 `wb:test:ui`, `wb:eval:cleanup`) (25); F-08: removed unused `@tauri-apps/plugin-sql` (1)
+package.json 29                             # F-01: version line (2); F-05/F-01/F-03/F-10/F-09: `wb:*` scripts (F-03 guard block between `//fork:guards` keys; F-10 `wb:test:ui`, `wb:eval:cleanup`; F-09 `wb:sync:dryrun`) (26); F-08: removed unused `@tauri-apps/plugin-sql` (1)
 
 # Generated lockfiles (lock mode: must follow the manifest above)
 src-tauri/Cargo.lock lock                   # F-01: `handy` version line; F-08: `rdev` and its now-unused transitive packages removed
