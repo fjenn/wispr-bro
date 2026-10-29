@@ -25,6 +25,14 @@
   about a minute (see below).
 - **whisper-base is not a usable starter in Dutch (63.6 % WER) and weak in
   French (28.3 %).** No model ≤ 150 MB in this set covers Dutch acceptably.
+- **whisper-small (270 MB, Apache-2.0; follow-up run, same day) halves
+  whisper-base's error in nl and fr**: short takes nl 29.5 % (fluent
+  27.8 %), fr 15.2 % (13.8 %); long takes nl 6.9 %, fr 8.0 % (whisper-base
+  25.9 % and 27.4 %), at 63-70 ms p50 and 670 MB peak footprint. It is a
+  usable French starter and the mid option for slower Macs in nl and fr, but
+  short Dutch dictations are still poor (about three words in ten wrong). In English it is no better than whisper-base on fluent
+  sentences (6/84 errors each) and better on long takes (7.7 % vs 11.2 %).
+  At 270 MB it cannot meet the §5.3 starter budget (see the policy).
 - **whisper-large-v3-turbo is the most accurate model in all three
   languages** (en 9.4 %, nl 12.1 %, fr 4.8 % normalised, all sentences;
   2.0-4.4 % on the long takes). On the fluent English sentences the best
@@ -75,11 +83,15 @@
 ### Models
 
 All Q8_0 from Handy's catalog (`src-tauri/src/catalog/catalog.json`); every
-file's sha256 matches the catalog.
+file's sha256 matches the catalog. whisper-small was added in a follow-up the
+same day: downloaded from the catalog's pinned repository and revision
+(`handy-computer/whisper-small-gguf` @ `c0214bd3…`, Hugging Face only) and
+run through the same bench (Metal only).
 
 | Model                    | File MB | Licence    | CC-BY | Languages (catalog)          | Streaming (catalog) | sha256                                                             |
 | ------------------------ | ------: | ---------- | ----- | ---------------------------- | ------------------- | ------------------------------------------------------------------ |
 | whisper-base             |      85 | Apache-2.0 | no    | multilingual                 | no                  | `81c069428bc8a24551a8169cf31cf09bcfd9d4cf50389ae281323c9aa9648c81` |
+| whisper-small            |     270 | Apache-2.0 | no    | multilingual                 | no                  | `9b9c8811bbcc82a7766f0fb0925614bdacb0923b2cc630daeac17108b655b860` |
 | whisper-large-v3-turbo   |     886 | Apache-2.0 | no    | multilingual                 | no                  | `b2e30cc286bc9f3aba4db9099fc7403543497c05ce7100d0d83091ddfd25a183` |
 | moonshine-base           |      77 | MIT        | no    | en                           | no                  | `7f0027dfd857d310b63a85ef57cadf183da712cc374f85a648f8bc18aaa2efc8` |
 | parakeet-tdt-0.6b-v3     |     740 | CC-BY-4.0  | yes   | 25 European incl. en, nl, fr | no                  | `5859f77944efcd8eafa23a6350731960b2b55b2203df51f319665c807d802cc7` |
@@ -195,13 +207,15 @@ model warm. Latency = from the end of the audio (the whole clip handed to
 | Model                    | WER norm | WER raw | CER | WER norm, fluent | p50 ms | p95 ms |   RTF |
 | ------------------------ | -------: | ------: | --: | ---------------: | -----: | -----: | ----: |
 | whisper-base             |     12.3 |    20.3 | 6.0 |              7.1 |     48 |     66 | 0.007 |
+| whisper-small            |     14.5 |    23.9 | 5.5 |              7.1 |     63 |     89 | 0.010 |
 | whisper-large-v3-turbo   |      9.4 |    18.8 | 3.6 |              2.4 |    318 |    426 | 0.051 |
 | moonshine-base           |     17.4 |    26.8 | 7.8 |             10.7 |     62 |    115 | 0.010 |
 | parakeet-tdt-0.6b-v3     |     13.8 |    15.9 | 5.1 |              4.8 |     56 |    101 | 0.009 |
 | parakeet-unified-en-0.6b |     10.1 |    18.1 | 3.6 |              3.6 |     48 |     66 | 0.008 |
 | parakeet-tdt_ctc-110m    |      6.5 |     6.5 | 3.8 |              3.6 |     21 |     27 | 0.004 |
 
-Errors / reference words (norm): whisper-base 17/138 (fluent 6/84), turbo
+Errors / reference words (norm): whisper-base 17/138 (fluent 6/84),
+whisper-small 20/138 (6/84), turbo
 13/138 (2/84), Moonshine 24/138 (9/84), Parakeet v3 19/138 (4/84), unified
 14/138 (3/84), 110m 9/138 (3/84). Most of the spread in the all-sentences
 column is en 5 (the spelled-out surname), where the models differ in how
@@ -212,6 +226,7 @@ they write the letters.
 | Model                  | WER norm | WER raw |  CER | WER norm, fluent | p50 ms | p95 ms |   RTF |
 | ---------------------- | -------: | ------: | ---: | ---------------: | -----: | -----: | ----: |
 | whisper-base           |     63.6 |    65.9 | 34.4 |             61.1 |     52 |    299 | 0.017 |
+| whisper-small          |     29.5 |    32.6 | 17.8 |             27.8 |     70 |     86 | 0.012 |
 | whisper-large-v3-turbo |     12.1 |    17.4 |  8.4 |             10.2 |    335 |    386 | 0.058 |
 | parakeet-tdt-0.6b-v3   |     16.7 |    21.2 | 10.1 |             14.8 |     57 |     70 | 0.010 |
 
@@ -220,6 +235,7 @@ they write the letters.
 | Model                  | WER norm | WER raw |  CER | WER norm, fluent | p50 ms | p95 ms |   RTF |
 | ---------------------- | -------: | ------: | ---: | ---------------: | -----: | -----: | ----: |
 | whisper-base           |     28.3 |    38.6 | 12.9 |             30.3 |     49 |     63 | 0.006 |
+| whisper-small          |     15.2 |    26.9 |  7.5 |             13.8 |     68 |     90 | 0.009 |
 | whisper-large-v3-turbo |      4.8 |    16.6 |  3.0 |              1.8 |    325 |    402 | 0.041 |
 | parakeet-tdt-0.6b-v3   |      6.2 |    14.5 |  4.4 |              3.7 |     64 |     86 | 0.008 |
 
@@ -233,6 +249,7 @@ numbers).
 | Model                    | en-long 203 s WER norm / raw |    ms | nl-long 60 s |    ms | fr-long 86 s |    ms | en-5m 292 s WER |     ms |
 | ------------------------ | ---------------------------- | ----: | ------------ | ----: | ------------ | ----: | --------------- | -----: |
 | whisper-base             | 11.2 / 11.4                  |   905 | 25.9 / 27.6  |   301 | 27.4 / 28.3  |   348 | 10.9            |  1,180 |
+| whisper-small            | 7.7 / 7.9                    | 1,225 | 6.9 / 6.9    |   424 | 8.0 / 9.7    |   450 | 7.4             |  1,700 |
 | whisper-large-v3-turbo   | 2.0 / 2.2                    | 3,467 | 2.6 / 2.6    | 1,191 | 4.4 / 6.2    | 1,857 | 4.0             |  4,758 |
 | moonshine-base           | fails (repetition stop)      | 5,200 | –            |     – | –            |     – | fails           | 11,465 |
 | parakeet-tdt-0.6b-v3     | 11.8 / 12.1                  | 1,913 | 6.0 / 7.8    |   327 | 12.4 / 15.0  |   619 | 11.8            |  3,335 |
@@ -256,6 +273,7 @@ the "10 s take" (en sentence 5, 9.8 s) cold and then warm.
 | Model                    | Load ms | First run ms | Same clip warm ms | Reload ms | Run after reload ms (cold → warm) | Peak RSS MB | Peak footprint MB | Footprint after unload MB |
 | ------------------------ | ------: | -----------: | ----------------: | --------: | --------------------------------- | ----------: | ----------------: | ------------------------: |
 | whisper-base             |      84 |          286 |                38 |        48 | 56 → 49                           |         339 |               428 |                       318 |
+| whisper-small            |      99 |          237 |                64 |        72 | 102 → 90                          |         580 |               670 |                       326 |
 | whisper-large-v3-turbo   |     316 |          199 |               385 |       283 | 252 → 431                         |       1,229 |             1,319 |                       389 |
 | moonshine-base           |      78 |          263 |                52 |        45 | 117 → 101                         |         655 |               745 |                       276 |
 | parakeet-tdt-0.6b-v3     |     264 |           54 |                45 |       274 | 65 → 57                           |       1,215 |             1,305 |                       435 |
@@ -290,15 +308,15 @@ v3).
 
 ## RS-09 criteria
 
-| Criterion (R5 §7 RS-09, §5.1)                                                 | Result on this Mac                                                                                                                                                            |
-| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Starter WER on clean English ≤ 15 %                                           | **Pass**: whisper-base 12.3 % (fluent 7.1 %); parakeet-110m 6.5 % (3.6 %). Moonshine base 17.4 % fails on all sentences, passes on fluent (10.7 %).                           |
-| ≤ 20 s take, cleanup none: p50 ≤ 500 ms, p95 ≤ 1,000 ms                       | **Pass for every model** on Metal (worst: turbo 318 / 426 ms) and for both CPU runs (worst: Parakeet v3 fr 264 / 458 ms; whisper-base nl p95 550 ms)                          |
-| First take after ASR unload ≤ +800 ms p50, ≤ +1,500 ms p95                    | **Pass** (single measurement per model): reload + first-run penalty ≤ about 300 ms for every model; page cache warm                                                           |
-| Starter ready within §5.3 (10 and 50 Mbit/s, clean Mac)                       | **Not measured** (no network part in this run)                                                                                                                                |
-| Policy table meets §5.1 on each machine class, twice (with and without CC-BY) | **Only one machine class measured** (an M5 Max is faster than any class in R5); tables below are provisional                                                                  |
-| DEC-51: a 5-minute take inserts within the Light budget (≤ 50 words) + 1 s    | **ASR part passes with chunking**: key-up waits 32-357 ms on en-5m with chunks or streaming (turbo whole-take: 4,758 ms, fails). Cleanup paragraph by paragraph not measured. |
-| §5.2: 8 GB Mac, ASR + LLM ≤ 3.2 GB                                            | **At risk with turbo**: 1.32 GB peak footprint here + Muesli 2B (2.0 GB in RS-07) ≈ 3.3 GB. Parakeet 0.6B: 1.25-1.31 GB; whisper-base 0.43 GB.                                |
+| Criterion (R5 §7 RS-09, §5.1)                                                 | Result on this Mac                                                                                                                                                                                   |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Starter WER on clean English ≤ 15 %                                           | **Pass**: whisper-base 12.3 % (fluent 7.1 %); parakeet-110m 6.5 % (3.6 %). Moonshine base 17.4 % fails on all sentences, passes on fluent (10.7 %). (whisper-small 14.5 % / 7.1 %, but over 150 MB.) |
+| ≤ 20 s take, cleanup none: p50 ≤ 500 ms, p95 ≤ 1,000 ms                       | **Pass for every model** on Metal (worst: turbo 318 / 426 ms) and for both CPU runs (worst: Parakeet v3 fr 264 / 458 ms; whisper-base nl p95 550 ms)                                                 |
+| First take after ASR unload ≤ +800 ms p50, ≤ +1,500 ms p95                    | **Pass** (single measurement per model): reload + first-run penalty ≤ about 300 ms for every model; page cache warm                                                                                  |
+| Starter ready within §5.3 (10 and 50 Mbit/s, clean Mac)                       | **Not measured** (no network part in this run)                                                                                                                                                       |
+| Policy table meets §5.1 on each machine class, twice (with and without CC-BY) | **Only one machine class measured** (an M5 Max is faster than any class in R5); tables below are provisional                                                                                         |
+| DEC-51: a 5-minute take inserts within the Light budget (≤ 50 words) + 1 s    | **ASR part passes with chunking**: key-up waits 32-357 ms on en-5m with chunks or streaming (turbo whole-take: 4,758 ms, fails). Cleanup paragraph by paragraph not measured.                        |
+| §5.2: 8 GB Mac, ASR + LLM ≤ 3.2 GB                                            | **At risk with turbo**: 1.32 GB peak footprint here + Muesli 2B (2.0 GB in RS-07) ≈ 3.3 GB. Parakeet 0.6B: 1.25-1.31 GB; whisper-base 0.43 GB.                                                       |
 
 ## DEC-51: transcribing long takes while the user speaks
 
@@ -332,6 +350,11 @@ reader's own deviations that happen to fall next to a seam.
 | whisper-base             | en-5m      |     292 |      10.9 |           1,180 |       11 |   9.4 |         170 | 0 / 0            |       27 |  10.8 |          32 | 3 / 0            |
 | whisper-base             | nl-long    |      60 |      25.9 |             301 |        2 |  27.6 |         146 | 0 / 0            |        4 |  25.9 |          94 | 1 / 0            |
 | whisper-base             | fr-long    |      86 |      27.4 |             348 |        3 |  27.4 |          99 | 0 / 1            |        7 |  31.9 |          84 | 0 / 0            |
+| whisper-small            | en-long-1m |      65 |       7.3 |             396 |        3 |   8.0 |         325 | 0 / 0            |        5 |   7.3 |          58 | 1 / 0            |
+| whisper-small            | en-long-3m |     179 |       8.4 |           1,080 |        7 |   6.7 |         216 | 0 / 0            |       13 |   6.9 |          99 | 2 / 0            |
+| whisper-small            | en-5m      |     292 |       7.4 |           1,700 |       11 |   6.2 |         231 | 0 / 0            |       27 |   7.6 |          51 | 3 / 0            |
+| whisper-small            | nl-long    |      60 |       6.9 |             424 |        2 |   7.8 |         246 | 0 / 0            |        4 |  11.2 |         107 | 0 / 0            |
+| whisper-small            | fr-long    |      86 |       8.0 |             450 |        3 |  16.8 |         111 | 3 / 0            |        7 |  13.3 |          85 | 0 / 0            |
 | whisper-large-v3-turbo   | en-long-1m |      65 |       2.9 |           1,174 |        3 |   2.9 |         795 | 0 / 0            |        5 |   3.6 |         310 | 1 / 0            |
 | whisper-large-v3-turbo   | en-long-3m |     179 |       2.2 |           3,020 |        7 |   3.2 |         768 | 0 / 0            |       13 |   3.2 |         371 | 1 / 0            |
 | whisper-large-v3-turbo   | en-5m      |     292 |       4.0 |           4,758 |       11 |   4.5 |         780 | 0 / 0            |       27 |   4.9 |         357 | 2 / 1            |
@@ -395,6 +418,11 @@ stayed far below the audio clock, so there was never a backlog at key-up):
   Eager chunks of the same audio scored 4.4 %. One occurrence, but it is the
   failure a user notices; it argues for turbo in French where it fits the
   budget.
+- **whisper-small prefers long context.** Its Dutch WER goes from 6.9 %
+  (whole 60 s take) to 7.8 % with Handy's ~30 s chunks and 11.2 % with
+  sentence-sized chunks, the same weakness that gives it 29.5 % on short
+  Dutch dictations. In French it hits the same self-correction seam as
+  turbo (8.0 → 16.8 % with Handy's chunks).
 - **Whisper chunking only adds a little over Handy.** DEC-51 needs the
   chunked live path for Whisper models (today `LiveDecode::None` because they
   report long form) and a smaller last chunk than Handy's 30-40 s if key-up
@@ -410,19 +438,19 @@ meets §5.1 there.
 
 **With CC-BY models (DEC-26 option 1, the current default)**
 
-| Language | Starter (≤ 150 MB)                                                  | Main pick, fast Apple Silicon (measured)                                                                                | Main pick where turbo misses §5.1 (to confirm)            |
-| -------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| en       | parakeet-tdt_ctc-110m (6.5 % / fluent 3.6 %, 21 ms)                 | parakeet-unified-en-0.6b (10.1 % / 3.6 %, 48 ms, streams); turbo is the alternative with the best long-take WER (2.0 %) | parakeet-unified-en-0.6b                                  |
-| nl       | none acceptable (whisper-base 63.6 %): go straight to the main pick | whisper-large-v3-turbo (12.1 % / 10.2 %, long 2.6 %)                                                                    | parakeet-tdt-0.6b-v3 (16.7 % / 14.8 %, long 6.0 %, 57 ms) |
-| fr       | whisper-base only as a stopgap (28.3 %)                             | whisper-large-v3-turbo (4.8 % / 1.8 %, long 4.4 %)                                                                      | parakeet-tdt-0.6b-v3 (6.2 % / 3.7 %), chunked             |
+| Language | Starter (≤ 150 MB)                                                                                                       | Main pick, fast Apple Silicon (measured)                                                                                | Main pick where turbo misses §5.1 (to confirm)                                                               |
+| -------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| en       | parakeet-tdt_ctc-110m (6.5 % / fluent 3.6 %, 21 ms)                                                                      | parakeet-unified-en-0.6b (10.1 % / 3.6 %, 48 ms, streams); turbo is the alternative with the best long-take WER (2.0 %) | parakeet-unified-en-0.6b                                                                                     |
+| nl       | none ≤ 150 MB (whisper-base 63.6 %); whisper-small (270 MB, 29.5 % / long 6.9 %) if the cap is relaxed for nl, see below | whisper-large-v3-turbo (12.1 % / 10.2 %, long 2.6 %)                                                                    | parakeet-tdt-0.6b-v3 (16.7 % / 14.8 %, long 6.0 %, 57 ms); whisper-small (29.5 %, long 6.9 %) on the slowest |
+| fr       | whisper-base as a stopgap (28.3 %); better whisper-small (270 MB, 15.2 % / long 8.0 %) if the cap is relaxed             | whisper-large-v3-turbo (4.8 % / 1.8 %, long 4.4 %)                                                                      | parakeet-tdt-0.6b-v3 (6.2 % / 3.7 %), chunked; whisper-small (15.2 %, long 8.0 %) on the slowest             |
 
 **Without CC-BY models**
 
-| Language | Starter (≤ 150 MB)                                               | Main pick, fast Apple Silicon (measured) | Main pick where turbo misses §5.1 (to confirm)                                                  |
-| -------- | ---------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| en       | whisper-base (12.3 % / 7.1 %, 48 ms; better than Moonshine base) | whisper-large-v3-turbo (9.4 % / 2.4 %)   | no measured candidate between whisper-base and turbo; whisper-small (269 MB) is the one to test |
-| nl       | none acceptable: go straight to the main pick                    | whisper-large-v3-turbo                   | as en: whisper-small or whisper-medium untested                                                 |
-| fr       | whisper-base only as a stopgap                                   | whisper-large-v3-turbo                   | as en                                                                                           |
+| Language | Starter (≤ 150 MB)                                                 | Main pick, fast Apple Silicon (measured) | Main pick where turbo misses §5.1 (to confirm)                                                                   |
+| -------- | ------------------------------------------------------------------ | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| en       | whisper-base (12.3 % / 7.1 %, 48 ms; better than Moonshine base)   | whisper-large-v3-turbo (9.4 % / 2.4 %)   | whisper-small (14.5 % / 7.1 %, long 7.7 %, 63 ms): no gain over whisper-base on short takes, better on long ones |
+| nl       | none ≤ 150 MB; whisper-small (270 MB) if the cap is relaxed for nl | whisper-large-v3-turbo                   | whisper-small (29.5 % short, 6.9 % long): weak on short takes; whisper-medium (831 MB) untested                  |
+| fr       | whisper-base as a stopgap; whisper-small if the cap is relaxed     | whisper-large-v3-turbo                   | whisper-small (15.2 % short, 8.0 % long)                                                                         |
 
 Why English differs from the DEC-02 rule taken literally: "the most accurate
 model that meets the budget" is turbo in all three languages on this Mac.
@@ -434,16 +462,30 @@ owner prefers the literal rule, turbo is the English pick on fast Macs in
 both variants. For nl and fr turbo leads clearly and is the pick in both
 variants. So on fast Macs CC-BY changes only the English starter and
 (optionally) the English main model; it matters much more on slower Macs,
-where Parakeet v3 and unified are the only measured models between
-whisper-base and turbo.
+where Parakeet v3 and unified sit between whisper-base and turbo; without
+CC-BY the only measured mid option is whisper-small, which is clearly worse
+than Parakeet v3 on short Dutch and French takes (29.5 % vs 16.7 %, 15.2 % vs
+6.2 %).
 
 Policy notes for S-07a/S-07b:
 
-- A Dutch-only user has no usable starter in this set. Either skip the
-  starter for nl (wait for the main model, R5 §7 RS-09 fallback "show
-  improving accuracy…" is not enough at 64 % WER) or test whisper-small
-  (269 MB, Apache-2.0) as an nl/fr starter. canary-180m-flash (218 MB,
-  CC-BY) does not cover Dutch. Neither file was downloaded for this run.
+- **The 150 MB starter cap and Dutch.** whisper-base's 64 % WER makes the
+  RS-09 fallback ("keep whisper-base and show improving accuracy…") worse
+  than waiting: most Dutch words come out wrong. whisper-small is the only
+  measured model that would help, and it does not fit the cap: 270 MB is
+  about 43 s at 50 Mbit/s and 3.6 min at 10 Mbit/s of transfer alone,
+  against §5.3's 25 s and 90 s for "starter ready" (whisper-base: 14 s and
+  68 s). The cap is really §5.3, so relaxing it means relaxing §5.3 for
+  Dutch. **Recommendation:** relax it for nl only, to whisper-small, and
+  accept a Dutch "starter ready" of ≈ 45 s at 50 Mbit/s / ≈ 4 min at
+  10 Mbit/s (owner decision; it changes a §5.3 budget). Until it is ready,
+  a Dutch take is recorded and queued (S-07a's "Setting up" card) instead of
+  being transcribed by whisper-base. Expect short Dutch dictations from
+  whisper-small to still need correcting (29.5 %); the main model (turbo or
+  Parakeet v3) follows. For French whisper-base (28 %) is a weak but usable
+  stopgap; whisper-small (15 %) is better, so the same exception could be
+  applied to fr, but it is less pressing. canary-180m-flash (218 MB, CC-BY)
+  does not cover Dutch and was not tested.
 - Moonshine base must never get a take in one run longer than about a
   minute; Handy's chunked path already prevents that.
 - Use Parakeet models only through the chunked or streaming path for takes
@@ -492,6 +534,14 @@ script, with only the error words from the model.
 - en 5: anna **dot devries→dvr is** at example **−dot** com
 - en 6: no **−wait on→actually** wednesday (the reader)
 
+**whisper-small** (nl/fr starter candidate)
+
+- nl 7: **−kun −je −de −pull −request −bekijken** en **−een** opmerking bij
+  (the first half of the sentence dropped)
+- nl 3: wil je **−twaalf dozen→twaalfduizend** papier
+- fr 1: **salut claire→s alluclère** est-ce qu'on … la **réunion→rignon**
+- fr 9: le **dentiste→don de tiste** la semaine
+
 **whisper-base** (current starter)
 
 - en 9: sorry **the→to** train **got→god** stuck outside **utrecht→utecht**
@@ -513,7 +563,8 @@ script, with only the error words from the model.
   the M1 run.
 - **Not covered:** the first-run and network part of RS-09 (§5.3, Network
   Link Conditioner); M 16 GB and Intel; es, de, ja, zh; 50 sample takes per
-  candidate; language detection (each take ran with its true language);
+  candidate; whisper-small on the CPU; language detection (each take ran
+  with its true language);
   vocabulary prompting; cleanup after ASR; a true cold load from disk (files
   were in the page cache).
 - **The split depends on two models.** Sections and sentences were placed

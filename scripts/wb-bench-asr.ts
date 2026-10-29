@@ -67,6 +67,15 @@ export const MODELS: ModelSpec[] = [
     sizeBytes: 84962880,
   },
   {
+    id: "whisper-small",
+    file: "whisper-small/whisper-small-Q8_0.gguf",
+    langs: ["en", "nl", "fr"],
+    license: "apache-2.0",
+    ccby: false,
+    streaming: false,
+    sizeBytes: 269751136,
+  },
+  {
     id: "whisper-large-v3-turbo",
     file: "whisper-large-v3-turbo/whisper-large-v3-turbo-Q8_0.gguf",
     langs: ["en", "nl", "fr"],

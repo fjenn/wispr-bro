@@ -369,6 +369,7 @@ describe("report helpers and CLI", () => {
         "parakeet-unified-en-0.6b",
         "whisper-base",
         "whisper-large-v3-turbo",
+        "whisper-small",
       ].sort(),
     );
     for (const m of MODELS) expect(m.ccby).toBe(m.license === "cc-by-4.0");
