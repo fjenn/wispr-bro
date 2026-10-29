@@ -9,6 +9,7 @@
 //! [`ForkError::NotReady`] when that state does not exist yet. It never panics.
 
 pub mod selfcheck;
+pub mod settings;
 
 use std::sync::Arc;
 
@@ -22,7 +23,8 @@ use super::{ForkState, HandyModelManager};
 
 /// Typed error returned by fork commands.
 ///
-/// Serialized as `{ "kind": "NotReady" }` or
+/// Serialized as `{ "kind": "NotReady" }`,
+/// `{ "kind": "InvalidSetting", "message": "…" }` or
 /// `{ "kind": "Internal", "message": "…" }`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(tag = "kind", content = "message")]
@@ -30,6 +32,8 @@ pub enum ForkError {
     /// Handy has not finished its setup (`RunEvent::Ready` has not run yet),
     /// or the app runs in a headless CLI mode where the fork stays inactive.
     NotReady,
+    /// A `fork_set_setting` value failed validation; nothing was changed.
+    InvalidSetting(String),
     /// Unexpected failure; the message is for logs and the debug panel only.
     Internal(String),
 }
@@ -38,6 +42,7 @@ impl std::fmt::Display for ForkError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ForkError::NotReady => write!(f, "fork not ready"),
+            ForkError::InvalidSetting(message) => write!(f, "invalid setting: {message}"),
             ForkError::Internal(message) => write!(f, "fork internal error: {message}"),
         }
     }

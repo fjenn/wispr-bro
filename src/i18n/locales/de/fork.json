@@ -18,6 +18,22 @@
     "pending": "Waiting…",
     "error": "Error: {{message}}"
   },
+  "settings": {
+    "debug": {
+      "title": "Fork settings",
+      "loading": "Loading settings…",
+      "loadError": "Could not read the settings: {{message}}",
+      "setError": "That change was not saved: {{message}}",
+      "contextAwareness": "Context awareness",
+      "cleanupLevel": "Cleanup level",
+      "levels": {
+        "none": "None",
+        "light": "Light",
+        "medium": "Medium"
+      },
+      "all": "All settings"
+    }
+  },
   "rust": {
     "appName": "Wispr Bro",
     "tray": {

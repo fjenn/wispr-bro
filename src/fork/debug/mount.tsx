@@ -11,7 +11,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
-import { DebugPanel } from "./DebugPanel";
+import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
+import { DebugPanel, registerForkDebugSection } from "./DebugPanel";
+
+// F-07: the fork settings section, until S-14's Settings modal.
+registerForkDebugSection({
+  id: "settings",
+  titleKey: "settings.debug.title",
+  render: () => <ForkSettingsDebug />,
+});
 
 export const FORK_DEBUG_ROUTE = "#/fork/debug";
 const ROOT_ID = "fork-debug-root";

@@ -40,6 +40,31 @@ async forkSelfcheckReport(report: string) : Promise<Result<null, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * All fork settings.
+ */
+async forkGetSettings() : Promise<Result<ForkSettings, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_get_settings") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Changes one fork setting. The value is type-checked by the IPC layer and
+ * range-checked by `fork::settings::validate`; an invalid value returns
+ * `InvalidSetting` and changes nothing. On success the new settings are
+ * saved, returned and broadcast as `ForkSettingsChanged`.
+ */
+async forkSetSetting(update: ForkSettingUpdate) : Promise<Result<ForkSettings, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_set_setting", { update }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -47,9 +72,11 @@ async forkSelfcheckReport(report: string) : Promise<Result<null, ForkError>> {
 
 
 export const events = __makeEvents__<{
-forkPingEvent: ForkPingEvent
+forkPingEvent: ForkPingEvent,
+forkSettingsChanged: ForkSettingsChanged
 }>({
-forkPingEvent: "fork-ping-event"
+forkPingEvent: "fork-ping-event",
+forkSettingsChanged: "fork-settings-changed"
 })
 
 /** user-defined constants **/
@@ -59,9 +86,18 @@ forkPingEvent: "fork-ping-event"
 /** user-defined types **/
 
 /**
+ * Where the resting bar sits (bottom by default, top in Advanced).
+ */
+export type BarPosition = "bottom" | "top"
+/**
+ * LLM cleanup level (DEC-03: Light by default).
+ */
+export type CleanupLevel = "none" | "light" | "medium"
+/**
  * Typed error returned by fork commands.
  * 
- * Serialized as `{ "kind": "NotReady" }` or
+ * Serialized as `{ "kind": "NotReady" }`,
+ * `{ "kind": "InvalidSetting", "message": "…" }` or
  * `{ "kind": "Internal", "message": "…" }`.
  */
 export type ForkError = 
@@ -70,6 +106,10 @@ export type ForkError =
  * or the app runs in a headless CLI mode where the fork stays inactive.
  */
 { kind: "NotReady" } | 
+/**
+ * A `fork_set_setting` value failed validation; nothing was changed.
+ */
+{ kind: "InvalidSetting"; message: string } | 
 /**
  * Unexpected failure; the message is for logs and the debug panel only.
  */
@@ -119,6 +159,175 @@ debug_build: boolean;
  * `true` when the app was launched with `--debug`.
  */
 cli_debug: boolean }
+/**
+ * One change sent by `fork_set_setting`, typed per field:
+ * `{ "key": "cleanup_level", "value": "medium" }`. The internal fields
+ * (`schema_version`, `applied_first_run_defaults`) have no variant.
+ */
+export type ForkSettingUpdate = 
+/**
+ * Replaces the bindings of one action. An empty list unsets it.
+ */
+{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "live_text_in_pill"; value: boolean } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
+/**
+ * All fork settings. Missing fields take their [`Default`] value
+ * (container-level `serde(default)`), so a partial file never fails as a
+ * whole.
+ */
+export type ForkSettings = { 
+/**
+ * Schema of this object; see [`MIGRATIONS`]. Not settable.
+ */
+schema_version: number; 
+/**
+ * Bindings per action id (≤ 4 each; an empty list means "unset").
+ */
+hotkeys: Partial<{ [key in string]: HotkeyBinding[] }>; cleanup_level: CleanupLevel; styles: StyleSettings; 
+/**
+ * DEC-24: on, local only, never stored.
+ */
+context_awareness: boolean; 
+/**
+ * DEC-31: Transforms and Command Mode are opt-in.
+ */
+transforms_enabled: boolean; command_mode_enabled: boolean; 
+/**
+ * Transform applied after every dictation (DEC-13), by transform id.
+ */
+auto_apply_transform: string | null; 
+/**
+ * "Always show the bar" (DEC-14; default on).
+ */
+bar_always_visible: boolean; bar_position: BarPosition; 
+/**
+ * "Hide for an hour": hidden until this Unix time in ms.
+ */
+bar_hidden_until_ms: number | null; 
+/**
+ * DEC-30: Handy's live transcript in the pill, Advanced option (off).
+ */
+live_text_in_pill: boolean; 
+/**
+ * DEC-7: `None` keeps text forever.
+ */
+text_retention_days: number | null; 
+/**
+ * DEC-7: audio 14 days; `None` keeps audio forever, `0` keeps none.
+ */
+audio_retention_days: number | null; notifications: NotificationSettings; 
+/**
+ * Mirrored into Handy's `update_checks_enabled` on every start.
+ */
+update_checks_enabled: boolean; update_channel: UpdateChannel; 
+/**
+ * DEC-14 (S-14 hook): the app shows a Dock icon.
+ */
+show_in_dock: boolean; onboarding: OnboardingState; dismissed_banners: string[]; seen_new_tags: string[]; 
+/**
+ * Option picked in the first-use chooser (S-30), by id.
+ */
+first_use_choice: string | null; 
+/**
+ * From the typing test (S-29b); `None` = not taken.
+ */
+typing_wpm: number | null; 
+/**
+ * DEC-50: typing time per day, hours (default 2).
+ */
+typing_hours_per_day: number; 
+/**
+ * Greeting name; `None` uses the macOS account name (S-15a).
+ */
+greeting_name: string | null; 
+/**
+ * DEC-20: opt-in.
+ */
+auto_learn_enabled: boolean; vibe_coding: VibeCodingSettings; 
+/**
+ * Keys of [`FIRST_RUN_DEFAULTS`] already applied. Not settable.
+ */
+applied_first_run_defaults: string[] }
+/**
+ * Emitted after a fork setting changes (`fork_set_setting`), with the full
+ * new settings, so every window's `useForkSettings()` store stays in sync.
+ */
+export type ForkSettingsChanged = { 
+/**
+ * The `key` of the update that caused the change.
+ */
+key: string; settings: ForkSettings }
+/**
+ * How a hotkey binding drives its action.
+ */
+export type HotkeyActivation = 
+/**
+ * Hold to run, release to stop (push to talk).
+ */
+"hold" | 
+/**
+ * Press once to start, press again to stop.
+ */
+"toggle" | 
+/**
+ * Two quick presses (fn double-tap).
+ */
+"double_tap" | 
+/**
+ * A single press fires the action (cancel, paste last, …).
+ */
+"press"
+/**
+ * One binding of an action. `chord` uses Handy's key-name format joined by
+ * `+` (`fn`, `fn+space`, `ctrl+option`, `escape`, `ctrl+command+v`).
+ */
+export type HotkeyBinding = { chord: string; activation: HotkeyActivation }
+/**
+ * Which notifications are shown (DEC-21). All on by default.
+ */
+export type NotificationSettings = { 
+/**
+ * Send macOS notifications (the in-app inbox always records).
+ */
+system: boolean; model_ready: boolean; update_ready: boolean; queued_takes_ready: boolean; errors: boolean }
+export type OnboardingState = { status: OnboardingStatus; 
+/**
+ * Id of the step to resume at (S-29a/b define the ids).
+ */
+current_step: string | null; completed_steps: string[]; 
+/**
+ * Setup-checklist items the user has done (S-30).
+ */
+checklist_done: string[]; 
+/**
+ * Unix milliseconds.
+ */
+completed_at_ms: number | null }
+/**
+ * Where the user is in onboarding. The single source of truth (RE-16);
+ * `fork/onboarding/state.rs` (S-29a) is only the logic over it.
+ */
+export type OnboardingStatus = "not_started" | "in_progress" | "completed"
+/**
+ * Style preset of an app group (S-19a). Personal offers Formal / Relaxed /
+ * Very relaxed; Work, Email and Other offer Formal / Relaxed / Upbeat.
+ */
+export type StylePreset = "formal" | "relaxed" | "very_relaxed" | "upbeat"
+/**
+ * Style per app group.
+ */
+export type StyleSettings = { personal: StylePreset; work: StylePreset; email: StylePreset; other: StylePreset }
+/**
+ * Update channel (DEC-33).
+ */
+export type UpdateChannel = "stable" | "beta"
+/**
+ * Vibe coding (DEC-41): off until the user runs its setup.
+ */
+export type VibeCodingSettings = { enabled: boolean; setup_completed: boolean; 
+/**
+ * Editors whose screen-reader mode the setup has confirmed.
+ */
+editors: string[] }
 
 /** tauri-specta globals **/
 

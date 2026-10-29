@@ -13,8 +13,11 @@
 //! 2. invokes `fork_ping` and `fork_model_status` through
 //!    `fork::compose_invoke`,
 //! 3. waits for the `ForkPingEvent` that `fork_ping` emits,
-//! 4. sends the results back with `fork_selfcheck_report`, which logs one
-//!    `fork selfcheck: PASS|FAIL …` line.
+//! 4. reads the fork settings (`fork_get_settings`), writes one unchanged
+//!    value and one out-of-range value (`fork_set_setting`, F-07),
+//! 5. sends the results back with `fork_selfcheck_report`, which logs one
+//!    `fork selfcheck: PASS|FAIL …` line. Debug builds also log the effective
+//!    fork settings and the `ENFORCED` values read back from Handy's settings.
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
@@ -24,6 +27,7 @@ use serde_json::Value;
 use tauri::{AppHandle, Manager, Runtime};
 
 use super::ForkError;
+use crate::fork::ForkRuntime;
 
 /// Env var that turns the self-check on.
 pub const SELFCHECK_ENV: &str = "WISPRBRO_SELFCHECK";
@@ -52,6 +56,15 @@ const SCRIPT: &str = r#"
   } catch (e) { r.listen = err(e); }
   try { r.ping = await T.invoke("fork_ping"); } catch (e) { r.ping = { error: err(e) }; }
   try { r.model_status = await T.invoke("fork_model_status"); } catch (e) { r.model_status = { error: err(e) }; }
+  try { r.settings = await T.invoke("fork_get_settings"); } catch (e) { r.settings = { error: err(e) }; }
+  try {
+    const value = r.settings && r.settings.context_awareness;
+    r.set_same = await T.invoke("fork_set_setting", { update: { key: "context_awareness", value } });
+  } catch (e) { r.set_same = { error: err(e) }; }
+  try {
+    await T.invoke("fork_set_setting", { update: { key: "typing_wpm", value: 100000 } });
+    r.set_invalid = "accepted";
+  } catch (e) { r.set_invalid = err(e); }
   for (let i = 0; i < 30 && eventSeq === null; i++) await new Promise((ok) => setTimeout(ok, 100));
   r.event_seq = eventSeq;
   try { await T.invoke("fork_selfcheck_report", { report: JSON.stringify(r) }); }
@@ -95,6 +108,12 @@ struct Report {
     ping: Value,
     model_status: Value,
     event_seq: Option<u32>,
+    #[serde(default)]
+    settings: Value,
+    #[serde(default)]
+    set_same: Value,
+    #[serde(default)]
+    set_invalid: Value,
 }
 
 /// Verdict for a report: `Ok(summary)` or `Err(reason)`.
@@ -112,9 +131,21 @@ fn judge(report: &Report) -> Result<String, String> {
     let Some(known) = report.model_status.get("known_models") else {
         return Err(format!("fork_model_status failed: {}", report.model_status));
     };
+    if report.settings.get("schema_version").is_none() {
+        return Err(format!("fork_get_settings failed: {}", report.settings));
+    }
+    if report.set_same.get("schema_version").is_none() {
+        return Err(format!("fork_set_setting failed: {}", report.set_same));
+    }
+    if report.set_invalid.get("kind").and_then(Value::as_str) != Some("InvalidSetting") {
+        return Err(format!(
+            "fork_set_setting accepted an invalid value: {}",
+            report.set_invalid
+        ));
+    }
     match report.event_seq {
         Some(event) if Some(u64::from(event)) == seq => Ok(format!(
-            "fork_ping seq={event} ready=true, fork_model_status known_models={known}, ForkPingEvent seq={event} received"
+            "fork_ping seq={event} ready=true, fork_model_status known_models={known}, ForkPingEvent seq={event} received, fork_get_settings ok, fork_set_setting ok and rejects invalid values"
         )),
         Some(event) => Err(format!(
             "ForkPingEvent seq={event} does not match fork_ping seq={seq:?}"
@@ -127,7 +158,7 @@ fn judge(report: &Report) -> Result<String, String> {
 /// verdict. Rejected unless the self-check is on.
 #[tauri::command]
 #[specta::specta]
-pub fn fork_selfcheck_report<R: Runtime>(
+pub fn fork_selfcheck_report<R: ForkRuntime>(
     app: AppHandle<R>,
     report: String,
 ) -> Result<(), ForkError> {
@@ -146,6 +177,9 @@ pub fn fork_selfcheck_report<R: Runtime>(
         app.config().identifier,
         app.package_info().version.to_string(),
     );
+    if cfg!(debug_assertions) {
+        log_settings(&app);
+    }
     let verdict = serde_json::from_str::<Report>(&report)
         .map_err(|e| format!("unreadable report ({e})"))
         .and_then(|r| judge(&r));
@@ -163,6 +197,27 @@ pub fn fork_selfcheck_report<R: Runtime>(
     Ok(())
 }
 
+/// Debug builds only: the effective fork settings and the `ENFORCED` values
+/// as Handy's own settings API reads them back.
+fn log_settings<R: ForkRuntime>(app: &AppHandle<R>) {
+    use crate::fork::settings::{enforced_snapshot, ForkSettingsHandle, HandySettings};
+    match app.try_state::<ForkSettingsHandle>().map(|h| h.get(app)) {
+        Some(Ok(settings)) => log::info!(
+            "fork selfcheck: fork settings: {}",
+            serde_json::to_string(&settings).unwrap_or_default()
+        ),
+        Some(Err(e)) => log::error!("fork selfcheck: fork settings unreadable: {e}"),
+        None => log::error!("fork selfcheck: fork settings not managed"),
+    }
+    match R::handy_settings(app) {
+        Some(HandySettings(handy)) => log::info!(
+            "fork selfcheck: Handy ENFORCED values: {}",
+            enforced_snapshot(&handy)
+        ),
+        None => log::warn!("fork selfcheck: Handy settings unavailable"),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -178,7 +233,10 @@ mod tests {
             "listen": "ok",
             "ping": { "message": "pong", "seq": 1, "ready": true },
             "model_status": { "known_models": 3, "downloaded_model_ids": [] },
-            "event_seq": 1
+            "event_seq": 1,
+            "settings": { "schema_version": 1 },
+            "set_same": { "schema_version": 1 },
+            "set_invalid": { "kind": "InvalidSetting", "message": "typing_wpm" }
         }));
         assert!(judge(&r).is_ok());
     }

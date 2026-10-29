@@ -23,6 +23,7 @@ pub mod commands;
 pub mod db;
 pub mod events;
 pub mod i18n;
+pub mod settings;
 #[cfg(test)]
 mod testutil;
 pub mod tray;
@@ -146,6 +147,7 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
         .setup(|app, _api| {
             app.manage(ForkState::default());
             db::register(app);
+            settings::register(app);
             // Merges into the same registry Handy's builder mounts into later
             // (`EventRegistry::get_or_manage`), so order does not matter.
             specta_builder::<R>().mount_events(app);
@@ -201,6 +203,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         }
     }
 
+    // F-07: fork settings, ENFORCED and FIRST_RUN_DEFAULTS (every start).
+    settings::on_ready(app);
+
     state.mark_ready();
     log::info!(
         "fork ready ({} v{}, locale {locale})",
@@ -224,8 +229,13 @@ macro_rules! fork_specta_builder {
                 commands::fork_ping::<$runtime>,
                 commands::fork_model_status::<$runtime>,
                 commands::selfcheck::fork_selfcheck_report::<$runtime>,
+                commands::settings::fork_get_settings::<$runtime>,
+                commands::settings::fork_set_setting::<$runtime>,
             ])
-            .events(tauri_specta::collect_events![events::ForkPingEvent])
+            .events(tauri_specta::collect_events![
+                events::ForkPingEvent,
+                events::ForkSettingsChanged
+            ])
     };
 }
 
@@ -239,6 +249,19 @@ pub trait ForkRuntime: Runtime {
     /// settings API is typed to `Wry`; other runtimes return `None` (the OS
     /// locale is used then).
     fn handy_app_language(app: &AppHandle<Self>) -> Option<String>;
+
+    /// Handy's settings through Handy's `settings::get_settings` (F-07).
+    /// `None` where Handy's settings API is unavailable.
+    fn handy_settings(app: &AppHandle<Self>) -> Option<settings::HandySettings>;
+
+    /// Writes Handy's settings through Handy's `settings::write_settings` and
+    /// runs the runtime side effects of the keys in `report` (F-07).
+    fn write_handy_settings(
+        app: &AppHandle<Self>,
+        before: &settings::HandySettings,
+        after: settings::HandySettings,
+        report: &settings::ProductReport,
+    );
 }
 
 impl ForkRuntime for tauri::Wry {
@@ -248,6 +271,19 @@ impl ForkRuntime for tauri::Wry {
 
     fn handy_app_language(app: &AppHandle<Self>) -> Option<String> {
         Some(crate::settings::get_settings(app).app_language)
+    }
+
+    fn handy_settings(app: &AppHandle<Self>) -> Option<settings::HandySettings> {
+        Some(settings::HandySettings(crate::settings::get_settings(app)))
+    }
+
+    fn write_handy_settings(
+        app: &AppHandle<Self>,
+        before: &settings::HandySettings,
+        after: settings::HandySettings,
+        report: &settings::ProductReport,
+    ) {
+        settings::write_handy_settings_wry(app, &before.0, after.0, report);
     }
 }
 
@@ -259,6 +295,25 @@ impl ForkRuntime for tauri::test::MockRuntime {
 
     fn handy_app_language(_app: &AppHandle<Self>) -> Option<String> {
         None
+    }
+
+    /// Tests stand in for Handy's store with `settings::FakeHandyStore`
+    /// (managed state); without it the product step is skipped.
+    fn handy_settings(app: &AppHandle<Self>) -> Option<settings::HandySettings> {
+        app.try_state::<settings::FakeHandyStore>()?
+            .get()
+            .map(settings::HandySettings)
+    }
+
+    fn write_handy_settings(
+        app: &AppHandle<Self>,
+        _before: &settings::HandySettings,
+        after: settings::HandySettings,
+        _report: &settings::ProductReport,
+    ) {
+        if let Some(store) = app.try_state::<settings::FakeHandyStore>() {
+            store.set(after.0);
+        }
     }
 }
 

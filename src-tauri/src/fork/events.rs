@@ -17,3 +17,12 @@ pub struct ForkPingEvent {
     /// Monotonic counter of `fork_ping` calls since launch.
     pub seq: u32,
 }
+
+/// Emitted after a fork setting changes (`fork_set_setting`), with the full
+/// new settings, so every window's `useForkSettings()` store stays in sync.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Type, tauri_specta::Event)]
+pub struct ForkSettingsChanged {
+    /// The `key` of the update that caused the change.
+    pub key: String,
+    pub settings: super::settings::ForkSettings,
+}

@@ -371,20 +371,80 @@ permission (see ACL above).
   content table.
 - `history.db` is never opened by this module.
 
+## Fork settings (F-07)
+
+`src-tauri/src/fork/settings.rs` (+ `settings/tests.rs`), commands in
+`fork/commands/settings.rs`, frontend `src/fork/settings/{store.ts,useForkSettings.ts,ForkSettingsDebug.tsx}`.
+
+- **Store.** `ForkSettings` (serde container default, specta types) lives in
+  `fork-settings.json` under key `"settings"` via tauri-plugin-store
+  (`portable::store_path`, so portable mode works). The plugin `setup` only
+  manages `ForkSettingsHandle` (the store plugin is registered after the fork
+  plugin, `lib.rs:909`); the file is opened on first use.
+- **Corrupt file.** tauri-plugin-store silently starts empty on a file it
+  cannot parse and would overwrite it, so the fork reads the raw file first:
+  unparseable JSON, a field that fails to deserialize or fails validation
+  (field-by-field salvage like Handy's `salvage_settings`), or a newer
+  `schema_version` → copy to `fork-settings.<corrupt|newer-vN>-<ts>.json`, keep
+  the readable fields, defaults for the rest, `warn!` naming the reset fields.
+- **Migrations.** `schema_version` (current 1) + `MIGRATIONS` on the raw JSON
+  object; append only. v0 (no version) → v1 drops unknown keys.
+- **Commands.** `fork_get_settings`; `fork_set_setting(update)` where
+  `update` is the adjacently tagged `ForkSettingUpdate`
+  (`{ key: "cleanup_level", value: "medium" }`, one variant per settable
+  field; `schema_version` and `applied_first_run_defaults` are not settable).
+  Wrong types fail at IPC deserialization; ranges/ids/limits (≤ 4 bindings per
+  action, WPM 1–300, …) return `ForkError::InvalidSetting`. Success saves,
+  returns the settings and emits `ForkSettingsChanged` (`fork-settings-changed`,
+  full settings). Setting `update_checks_enabled` mirrors into Handy at once.
+- **`apply_product_settings`** (pure, idempotent) runs from `fork::on_ready`
+  every start. `ENFORCED`: `recording_retention_period = never` (Handy deletes
+  nothing; `history_limit` is unused then and left alone), `post_process_enabled
+= false` (this is what registers Handy's second hotkey), `experimental_enabled
+= false`, provider not cloud (custom provider's `base_url` reset to
+  `http://localhost:11434/v1` if not loopback; a cloud selection becomes `local`
+  if that provider exists, else `custom`; `local`, Apple Intelligence and a
+  loopback `custom` stay), `update_checks_enabled` mirrored from the fork, and
+  `overlay_style = none` **gated by `HANDY_OVERLAY_REPLACED` (false until S-03
+  replaces the overlay; S-03 flips it)**. `FIRST_RUN_DEFAULTS` (once each, keys
+  recorded in `applied_first_run_defaults`): `reliable_paste` (Handy's
+  concealed-type paste), `audio_feedback`, `log_level = info`, `paste_method =
+ctrl_v`, `keyboard_implementation = handy_keys`, `theme = system`,
+  `autostart_enabled` (release builds only, so a dev run never registers
+  `target/debug` as a login item).
+- **Writes to Handy** go through `ForkRuntime::{handy_settings,
+write_handy_settings}` (opaque `HandySettings` newtype so `AppSettings` stays
+  crate-private): Wry uses Handy's `get_settings`/`write_settings`, then the
+  side effects Handy's commands would run (unregister the post-process hotkey,
+  `FILE_LOG_LEVEL` unless `--debug`, `apply_autostart`, `apply_window_theme`,
+  `change_keyboard_implementation_setting`) and emits Handy's
+  `settings-changed`. Tests use `settings::FakeHandyStore` on `MockRuntime`.
+- **Identity guard.** The product step runs only when the identifier is
+  `com.wisprbro.desktop`; a build without the overlay (`com.pais.handy`) never
+  rewrites a real Handy install's settings.
+- **Self-check.** The script also calls `fork_get_settings`, an unchanged
+  `fork_set_setting` and an invalid one (must be `InvalidSetting`); debug builds
+  log the effective fork settings and `enforced_snapshot` read back from Handy.
+- **Frontend.** `useForkSettingsStore` (Zustand) + `useForkSettings()`
+  (load once, `setSetting(key, value)` typed per key, follows
+  `ForkSettingsChanged`). Mounted as the debug panel's "Fork settings"
+  section until S-14.
+
 ## Tests
 
-| What                                                              | Where                                                                                                                                    |
-| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Init order, `NotReady` before Ready, Handy state after            | `fork/testutil.rs` `model_status_is_not_ready_before_ready_and_handy_state_after`                                                        |
-| Handy command still resolves through `compose_invoke`             | `handy_command_still_resolves_through_composed_handler`                                                                                  |
-| Fork event round trip through the shared registry                 | `fork_event_round_trips_through_mount_events`                                                                                            |
-| Headless modes skip `on_ready`, no fork windows                   | `headless_cli_mode_skips_on_ready_and_opens_no_windows`                                                                                  |
-| No Handy `fork_*` command; one `invoke_handler`; plain `build.rs` | `no_handy_command_name_starts_with_fork_prefix`, `compose_invoke_is_the_only_invoke_handler`, `build_rs_still_ends_in_plain_tauri_build` |
-| Fork bindings current; Handy bindings untouched                   | `fork_bindings_are_current_and_handy_bindings_untouched`                                                                                 |
-| UI smoke through mocked IPC                                       | `tests/fork/debug-panel.spec.ts` (`bunx playwright test -c playwright.fork.config.ts`)                                                   |
-| Identity, version lines, E-94, hook placement (F-01)              | `fork::identity_tests` in `fork/mod.rs`                                                                                                  |
-| `rust.*` strings in 26 locales, no "Handy"; tray label/icons      | `fork::i18n::tests`, `fork::tray::tests`                                                                                                 |
-| Brand overrides in 26 locales                                     | `scripts/wb-brand-overrides.test.ts` (`bun run wb:test:scripts`), `tests/fork/brand-overrides.spec.ts`                                   |
+| What                                                                                                          | Where                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Init order, `NotReady` before Ready, Handy state after                                                        | `fork/testutil.rs` `model_status_is_not_ready_before_ready_and_handy_state_after`                                                        |
+| Handy command still resolves through `compose_invoke`                                                         | `handy_command_still_resolves_through_composed_handler`                                                                                  |
+| Fork event round trip through the shared registry                                                             | `fork_event_round_trips_through_mount_events`                                                                                            |
+| Headless modes skip `on_ready`, no fork windows                                                               | `headless_cli_mode_skips_on_ready_and_opens_no_windows`                                                                                  |
+| No Handy `fork_*` command; one `invoke_handler`; plain `build.rs`                                             | `no_handy_command_name_starts_with_fork_prefix`, `compose_invoke_is_the_only_invoke_handler`, `build_rs_still_ends_in_plain_tauri_build` |
+| Fork bindings current; Handy bindings untouched                                                               | `fork_bindings_are_current_and_handy_bindings_untouched`                                                                                 |
+| UI smoke through mocked IPC                                                                                   | `tests/fork/debug-panel.spec.ts` (`bunx playwright test -c playwright.fork.config.ts`)                                                   |
+| Identity, version lines, E-94, hook placement (F-01)                                                          | `fork::identity_tests` in `fork/mod.rs`                                                                                                  |
+| `rust.*` strings in 26 locales, no "Handy"; tray label/icons                                                  | `fork::i18n::tests`, `fork::tray::tests`                                                                                                 |
+| Fork settings: defaults, migrations, salvage, validation, ENFORCED/FIRST_RUN, commands + event on MockRuntime | `fork::settings::tests` (`src-tauri/src/fork/settings/tests.rs`), `tests/fork/fork-settings.spec.ts`                                     |
+| Brand overrides in 26 locales                                                                                 | `scripts/wb-brand-overrides.test.ts` (`bun run wb:test:scripts`), `tests/fork/brand-overrides.spec.ts`                                   |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`
 and a Wry event loop cannot start inside `cargo test` on macOS (main thread).
