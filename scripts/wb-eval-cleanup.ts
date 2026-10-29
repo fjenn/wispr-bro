@@ -84,7 +84,8 @@ export type Item = {
   /** Normalizations under which an output still counts as equal. */
   allowed_changes: AllowedChange[];
   source: string;
-  labels: { first: string; second: string | null };
+  /** `revised`: tag of a label-policy revision applied after the first pass (e.g. `owner-policy-2026-10-29`). */
+  labels: { first: string; second: string | null; revised?: string };
   notes?: string;
 };
 
@@ -124,6 +125,8 @@ export function validateItem(raw: unknown): string[] {
   }
   if (!str(it.source)) errors.push("source");
   if (!it.labels || !str(it.labels.first)) errors.push("labels");
+  if (it.labels?.revised !== undefined && !str(it.labels.revised))
+    errors.push("labels.revised");
   return errors;
 }
 

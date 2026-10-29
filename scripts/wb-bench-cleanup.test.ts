@@ -5,6 +5,7 @@
 // the loopback-only spawn line. No server is started here.
 import { describe, expect, test } from "bun:test";
 import fs from "fs";
+import os from "os";
 import path from "path";
 import {
   GENERAL_PROMPTS,
@@ -16,14 +17,27 @@ import {
   parsePromptFile,
   parseReply,
   promptFileFor,
+  rescoreDir,
+  rescoreReport,
   selectStratified,
   serverArgs,
   toScorerRaw,
   variantsFor,
   type PromptFile,
+  type SavedReport,
   type Variant,
 } from "./wb-bench-cleanup";
-import { DEFAULT_ITEMS, loadItems, type Item } from "./wb-eval-cleanup";
+import {
+  DEFAULT_ITEMS,
+  REPO_ROOT,
+  evaluate,
+  fakeModel,
+  loadItems,
+  sha256,
+  stubGuard,
+  summarize,
+  type Item,
+} from "./wb-eval-cleanup";
 
 const items = loadItems(DEFAULT_ITEMS);
 const en = items.find((it) => it.language === "en")!;
@@ -234,5 +248,150 @@ describe("server spawn line", () => {
     expect(
       parseCli(["--server", "x", "--per-category", "4"])!.perCategory,
     ).toBe(4);
+  });
+});
+
+describe("rescore (saved outputs, current labels)", () => {
+  const trimmedFile = "eval/cleanup/prompts/trimmed.txt";
+  const body = parsePromptFile(
+    fs.readFileSync(path.join(REPO_ROOT, trimmedFile), "utf8"),
+  ).body;
+  const pick = ["disfluent-002", "disfluent-009", "question-001", "repair-006"];
+  const subset = items.filter((it) => pick.includes(it.id));
+  // disfluent-009 as first labelled: "so" and "basically" not yet fillers.
+  const FILLERS = ["so", "basically"];
+  const oldLabels = subset.map((it) =>
+    it.id === "disfluent-009"
+      ? {
+          ...it,
+          must_remove: it.must_remove.filter((f) => !FILLERS.includes(f)),
+        }
+      : it,
+  );
+
+  async function savedRun(on: Item[] = subset): Promise<SavedReport> {
+    const model = fakeModel("rules");
+    const results = await evaluate(on, model, {
+      levels: ["light"],
+      systemPrompt: body,
+      guard: stubGuard,
+      enforceDeadline: true,
+    });
+    return {
+      meta: {
+        date: "2026-10-29",
+        model: "fake__trimmed__json",
+        endpoint: null,
+        dryRun: true,
+        guard: "stub",
+        levels: ["light"],
+        items: subset.length,
+        itemsFile: "x",
+        itemsSha256: "old",
+        systemPromptSha256: sha256(body),
+        systemPromptFile: trimmedFile,
+        temperature: 0,
+        seed: 42,
+        enforceDeadline: true,
+        durationMs: 1,
+        runner: "test",
+      },
+      summaries: [summarize(results, "light")],
+      results,
+    };
+  }
+
+  test("same labels reproduce the saved scores exactly", async () => {
+    const saved = await savedRun();
+    const r = await rescoreReport(saved, subset, {
+      systemPrompt: body,
+      itemsFile: "x",
+      itemsSha256: "old",
+    });
+    expect(r.missing).toEqual([]);
+    expect(r.unknown).toEqual([]);
+    expect(r.guardChanged).toEqual([]);
+    expect(r.report.results).toEqual(saved.results);
+    expect(r.report.summaries).toEqual(saved.summaries);
+  });
+
+  test("new labels move the scores; missing and unknown outputs are reported", async () => {
+    const saved = await savedRun(oldLabels);
+    saved.results = saved.results.filter((x) => x.id !== "repair-006");
+    saved.results.push({ ...saved.results[0], id: "retired-001" });
+    const r = await rescoreReport(saved, subset, {
+      systemPrompt: body,
+      itemsFile: "x",
+      itemsSha256: "new",
+    });
+    expect(r.missing).toEqual(["light/repair-006"]);
+    expect(r.unknown).toEqual(["light/retired-001"]);
+    expect(r.report.meta.items).toBe(3);
+    expect(r.report.meta.itemsSha256).toBe("new");
+    // The two new filler spans join the denominator (repair-006 has none);
+    // the rule-based fake leaves both in, so the removed count stays.
+    const before = saved.summaries[0].post.fillerRemoval;
+    const after = r.report.summaries[0].post.fillerRemoval;
+    expect(after.den).toBe(before.den + FILLERS.length);
+    expect(after.num).toBe(before.num);
+    // Latency and guard outcome are replayed, not re-measured.
+    const d = r.report.results.find((x) => x.id === "disfluent-009")!;
+    const o = saved.results.find((x) => x.id === "disfluent-009")!;
+    expect(d.latencyMs).toBe(o.latencyMs);
+    expect(d.guard).toEqual(o.guard);
+  });
+
+  test("rescoreDir reads only the source dir and writes reports + summary", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "wb-rescore-"));
+    const src = path.join(tmp, "rs07-x");
+    const out = path.join(tmp, "rs07-x-rescored");
+    fs.mkdirSync(src);
+    const saved = await savedRun();
+    saved.results = saved.results.filter((x) => x.id !== "question-001");
+    fs.writeFileSync(
+      path.join(src, "fake__trimmed__json.json"),
+      JSON.stringify(saved),
+    );
+    const itemsFile = path.join(tmp, "items.jsonl");
+    fs.writeFileSync(
+      itemsFile,
+      subset.map((it) => JSON.stringify(it)).join("\n") + "\n",
+    );
+    const before = fs.readFileSync(path.join(src, "fake__trimmed__json.json"));
+    const r = await rescoreDir(src, out, itemsFile, () => {});
+    expect(r.rows.length).toBe(1);
+    expect(r.missing).toEqual({ fake__trimmed__json: ["light/question-001"] });
+    expect(fs.readdirSync(src)).toEqual(["fake__trimmed__json.json"]);
+    expect(fs.readFileSync(path.join(src, "fake__trimmed__json.json"))).toEqual(
+      before,
+    );
+    for (const f of [
+      "fake__trimmed__json.json",
+      "fake__trimmed__json.md",
+      "summary.json",
+    ])
+      expect(fs.existsSync(path.join(out, f))).toBe(true);
+    const summary = JSON.parse(
+      fs.readFileSync(path.join(out, "summary.json"), "utf8"),
+    );
+    expect(summary.meta.missing).toEqual(r.missing);
+    expect(summary.rows[0].prompt).toBe("trimmed");
+    await expect(rescoreDir(src, src, itemsFile, () => {})).rejects.toThrow();
+    // A prompt that changed since the run is refused (prompt-echo guard).
+    saved.meta.systemPromptSha256 = "0".repeat(64);
+    fs.writeFileSync(
+      path.join(src, "fake__trimmed__json.json"),
+      JSON.stringify(saved),
+    );
+    await expect(rescoreDir(src, out, itemsFile, () => {})).rejects.toThrow(
+      /changed since the run/,
+    );
+    fs.rmSync(tmp, { recursive: true, force: true });
+  });
+
+  test("CLI: --rescore needs no --server", () => {
+    const o = parseCli(["--rescore", "eval/cleanup/reports/rs07-x"])!;
+    expect(o.rescore).toBe(path.resolve("eval/cleanup/reports/rs07-x"));
+    expect(o.server).toBe("");
   });
 });

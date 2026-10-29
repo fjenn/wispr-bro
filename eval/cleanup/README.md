@@ -25,12 +25,16 @@ samples the server's RSS with `ps`, and stops it. Upstream prompts keep their
 own user-message framing; `trimmed` uses the R5 §4.5 framing; fine-tunes also
 run their model-card template (`native-*.txt`). Results go to
 `reports/rs07-<date>/` (one scorer report per model × prompt × format, plus
-`summary.json`). Findings: `docs/fork/spikes/RS-07-cleanup-bakeoff.md`.
+`summary.json`). `--rescore DIR` re-reads a saved run's raw outputs, re-applies
+the guard stub and the scorer with the current items, and writes
+`reports/<DIR name>-rescored/`; it reports any item whose output is missing.
+Findings: `docs/fork/spikes/RS-07-cleanup-bakeoff.md`.
 
 ```bash
 bun scripts/wb-bench-cleanup.ts --server <llama-server> --model-dir ~/wb-bench/llm
 bun scripts/wb-bench-cleanup.ts --server <llama-server> --per-category 6   # stratified cut
 bun scripts/wb-bench-cleanup.ts --server <llama-server> --probe            # RS-06 flags, unix socket
+bun scripts/wb-bench-cleanup.ts --rescore eval/cleanup/reports/rs07-2026-10-29  # new labels, no models
 ```
 
 ## Running
@@ -83,7 +87,7 @@ comparable only when both hashes match.
 | `content_words`   | string[]                                                           | R5 **content-word list**: input words minus stopwords minus filler spans                           |
 | `allowed_changes` | (`whitespace` \| `case` \| `punctuation` \| `final_punctuation`)[] | Normalizations under which an output still counts as equal (restraint, edit accuracy)              |
 | `source`          | string                                                             | `original` for every current item                                                                  |
-| `labels`          | `{ first, second }`                                                | Who labelled it; `second: null` until the second pass                                              |
+| `labels`          | `{ first, second, revised? }`                                      | Who labelled it; `second: null` until the second pass; `revised`: label-policy revision tag        |
 | `notes`           | string?                                                            | Why the item is tricky                                                                             |
 
 Words are ICU word segments (`Intl.Segmenter`, the item's language),
@@ -250,9 +254,10 @@ mode named in R5 F-10 / §4.5:
 | `mixed`       |     6 | Several of the above in one take                                                                     |
 
 Totals: 189 English and 40 non-English items in 11 other languages; 102
-instructions; 53 `unchanged` and 176 `edit` items; 148 protected spans; 68
-filler spans; 12 multi-line inputs. Only 3 items have their own Medium
-expected output; the rest fall back to Light (see "Gaps").
+instructions; 53 `unchanged` and 176 `edit` items; 148 protected spans; 86
+filler spans (68 before the owner filler policy, see "Discourse markers"); 12
+multi-line inputs. Only 2 items have their own Medium expected output; the
+rest fall back to Light (see "Gaps").
 
 **No personal data.** Names are invented or common given names; e-mail
 addresses use the reserved `example.*` domains (a self-test enforces it);
@@ -282,7 +287,11 @@ resolved by discussion and the agreement rate is recorded.
 
 **Status: single-labelled.** Every item was written and labelled by the F-10
 author (an AI coding agent), `labels.first = "author"`, `labels.second =
-null`. **The second labeller pass and the inter-labeller agreement are
+null`. On 2026-10-29, 13 items were relabelled to follow the product owner's
+filler policy (see "Discourse markers" below); they carry `labels.revised =
+"owner-policy-2026-10-29"` and a `notes` entry with the old label. That is a
+policy decision applied by the same author, not a second labeller, so
+`labels.second` stays `null`. **The second labeller pass and the inter-labeller agreement are
 pending and must be done by a human** before RS-07 relies on the numbers
 (F-10 exit criterion "inter-labeller agreement recorded").
 
@@ -329,6 +338,65 @@ language, must_remove)` (input words minus the runner's stopwords minus
 - `expected_class` is `unchanged` exactly when every expected output equals
   the input.
 
+### Discourse markers (owner policy, 2026-10-29)
+
+The product owner decided that Light cleanup **removes discourse markers and
+hesitation phrases that carry no content**, as Muesli does ("erm so basically
+the client wants uh a refund" → "The client wants a refund."; "hmm let me
+think um the second option is better" → "The second option is better.";
+"alors euh je voulais euh te demander un service" → "Je voulais te demander
+un service"). They are labelled like any other filler: one `must_remove`
+entry per occurrence, absent from `expected` at every level, and therefore
+not in `content_words`.
+
+Filler when used as a marker, a lead-in or a tag:
+
+| Language | Markers                                                                                                                                                              |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| en       | yeah / yes as a pure lead-in, okay / ok, so, basically, like (filler), right / you know / I mean (tags, lead-ins), well, hmm, ah, oh, let me think, actually (empty) |
+| de       | also, halt, naja, ähm / äh, sozusagen, quasi                                                                                                                         |
+| nl       | nou, dus, eh / ehm, zeg maar, ja (lead-in)                                                                                                                           |
+| fr       | alors, bon, ben, enfin, du coup, genre, quoi (tag), euh                                                                                                              |
+| es       | pues, bueno, o sea, este, eh                                                                                                                                         |
+| pt       | tipo, né, então, é (filler)                                                                                                                                          |
+| it       | allora, cioè, tipo, insomma, ehm                                                                                                                                     |
+| sv       | alltså, liksom, typ, öh                                                                                                                                              |
+| pl       | no (lead-in), yyy, eee, jakby                                                                                                                                        |
+| ja       | えーと / えっと, あのー, まあ                                                                                                                                        |
+| zh       | 那个, 就是 (filler), 嗯                                                                                                                                              |
+| ko       | 음, 어, 그러니까 (filler), 뭐                                                                                                                                        |
+
+**Kept** when they carry meaning:
+
+- "yes" / "okay" (and "ja", "oui", "sí", …) as an answer or agreement that is
+  the message itself ("okay, send it"; "Sure, Thursday works for me");
+- "so" as a real conjunction meaning "therefore" between clauses ("it rained,
+  so we stayed in"), and German "also" meaning "therefore" inside a clause
+  (English "also" is never a marker);
+- "like" as a verb or a comparison ("I like it", "like I'm five", "what's the
+  weather going to be like");
+- "right" meaning correct or a direction; "you know" / "I mean" as a verb
+  phrase ("you know what I mean", "I mean it");
+- "actually" contrasting with something ("the results are pretty good,
+  actually" keeps it: it contrasts with an expectation);
+- an utterance that consists only of such words ("ok", "you know what I mean
+  right") stays as it is.
+
+When in doubt for a lead-in at the start of a sentence, treat it as filler.
+Self-corrections ("blue no the green") keep only the correction (unchanged
+rule). Greetings and politeness ("hey", "hi team", "please", "thanks") are
+content.
+
+Items relabelled under this policy (`labels.revised`): `question-005`,
+`code-012`, `mixed-006` (lead-in "so"), `disfluent-001`, `-002`, `-003`,
+`-004`, `-008`, `-009`, `-012`, `-013`, `-015` (de "also"), `-016` (fr
+"alors"). Reviewed and kept as content: `question-025` (the whole utterance is
+the tag question), `disfluent-006` (contrastive "actually"), `question-011`
+("hey"), `clean-008`, `clean-010`, `clean-011`, `command-010`, `question-017`
+and `question-019`. To re-score a saved run under new labels without calling
+the models: `bun scripts/wb-bench-cleanup.ts --rescore
+eval/cleanup/reports/rs07-<date>`.
+
 ### Inter-labeller agreement (to be filled in by a human)
 
 | Date | Items sha256 | Labellers | `is_instruction` κ | `expected_class` κ | `must_keep` F1 | `must_remove` F1 | Light exact | Medium exact | Disagreements resolved |
@@ -343,7 +411,7 @@ language, must_remove)` (input words minus the runner's stopwords minus
 | Language detector is a stand-in (script detection + weighted stopword scoring), not Handy's `lang_id` (whatlang, confidence ≥ 0.9) | Language kept and the guard's language check can differ from the app; short Latin-script items are excluded (fails closed, never a wrong language on the expected outputs; self-tested) | S-12a (expose Handy `lang_id` to the eval)                      |
 | Stopwords are our own short lists for 12 languages, not stopwords-iso                                                              | Content-word lists and the answer metric's "content words" differ slightly from R5's wording                                                                                            | Swap in stopwords-iso (MIT) data and regenerate `content_words` |
 | Assistant markers are our own list, not Muesli's                                                                                   | Answer rate and the marker guard may miss some openings                                                                                                                                 | S-12a port                                                      |
-| Only 3 items have their own Medium expected output                                                                                 | Medium runs compare against Light labels, so Medium rewording counts as damage or a miss more often than it should                                                                      | Second labelling pass                                           |
+| Only 2 items have their own Medium expected output                                                                                 | Medium runs compare against Light labels, so Medium rewording counts as damage or a miss more often than it should                                                                      | Second labelling pass                                           |
 | Single labeller, agreement not recorded                                                                                            | F-10 exit criterion open                                                                                                                                                                | Human labelling pass                                            |
 | No Disfl-QA / AMI-disfluent / Voquill samples                                                                                      | Fewer natural disfluencies                                                                                                                                                              | Add with licence checks (above)                                 |
 | Run against real models only on an M5 Max (RS-07 provisional run, `docs/fork/spikes/RS-07-cleanup-bakeoff.md`)                     | The "report for one model in under 15 min on an M1" exit criterion is unverified                                                                                                        | RS-07 re-run on M1 8 GB                                         |

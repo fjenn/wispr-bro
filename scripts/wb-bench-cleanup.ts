@@ -10,6 +10,7 @@
  *   bun scripts/wb-bench-cleanup.ts --server ~/wb-bench/.../llama-server \
  *     --model-dir ~/wb-bench/llm --per-category 8
  *   bun scripts/wb-bench-cleanup.ts --server … --probe   # RS-06 flag/transport probe
+ *   bun scripts/wb-bench-cleanup.ts --rescore eval/cleanup/reports/rs07-<date>  # no server
  *   bun scripts/wb-bench-cleanup.ts --help
  *
  * The server only ever gets `--host 127.0.0.1` (or a `.sock` path in the
@@ -22,7 +23,9 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import {
+  type GuardFn,
   type Item,
+  type ItemResult,
   type Level,
   type Model,
   type ModelReply,
@@ -32,6 +35,7 @@ import {
   LEVELS,
   RESPONSE_FORMAT,
   evaluate,
+  evaluateItem,
   loadItems,
   percentile,
   renderMarkdown,
@@ -620,6 +624,223 @@ async function probe(bin: string, gguf: string, outDir: string) {
 }
 
 // ---------------------------------------------------------------------------
+// Rescore: saved raw outputs × current items, no model calls
+// ---------------------------------------------------------------------------
+
+/** A saved per-run report as `main` writes it (`extras` optional). */
+export type SavedReport = Report & { extras?: Record<string, Extra> };
+
+export type RescoreResult = {
+  report: SavedReport;
+  /** `level/id` of current items with no saved output in this run. */
+  missing: string[];
+  /** `level/id` of saved outputs whose item no longer exists. */
+  unknown: string[];
+  /** `level/id` where the re-applied guard decided differently than the saved run. */
+  guardChanged: string[];
+};
+
+/**
+ * Re-applies the guard and the scorer to a saved run's raw outputs with the
+ * current items. Latency, errors and the deadline outcome come from the saved
+ * result, so only labels (and guard code, if it changed) can move a number.
+ */
+export async function rescoreReport(
+  saved: SavedReport,
+  items: Item[],
+  opts: {
+    systemPrompt: string;
+    guard?: GuardFn;
+    itemsFile: string;
+    itemsSha256: string;
+    date?: string;
+  },
+): Promise<RescoreResult> {
+  const guard = opts.guard ?? stubGuard;
+  const levels = saved.meta.levels;
+  const byKey = new Map(saved.results.map((r) => [`${r.level}/${r.id}`, r]));
+  const ids = new Set(items.map((it) => it.id));
+  const missing: string[] = [];
+  const guardChanged: string[] = [];
+  const results: ItemResult[] = [];
+  for (const level of levels) {
+    for (const item of items) {
+      const key = `${level}/${item.id}`;
+      const old = byKey.get(key);
+      if (!old) {
+        missing.push(key);
+        continue;
+      }
+      // Replay clock: the request "takes" exactly its saved latency.
+      let clock = 0;
+      const replay: Model = {
+        name: saved.meta.model,
+        async complete() {
+          clock += old.latencyMs;
+          return old.error === null
+            ? { raw: old.raw }
+            : { raw: old.raw, error: old.error };
+        },
+      };
+      const r = await evaluateItem(item, level, replay, {
+        levels,
+        systemPrompt: opts.systemPrompt,
+        guard,
+        enforceDeadline: saved.meta.enforceDeadline,
+        now: () => clock,
+      });
+      if (
+        r.guard.accepted !== old.guard.accepted ||
+        r.guard.reasons.join(",") !== old.guard.reasons.join(",")
+      )
+        guardChanged.push(key);
+      results.push(r);
+    }
+  }
+  const unknown = saved.results
+    .filter((r) => !ids.has(r.id))
+    .map((r) => `${r.level}/${r.id}`);
+  const report: SavedReport = {
+    meta: {
+      ...saved.meta,
+      date: opts.date ?? saved.meta.date,
+      items: new Set(results.map((r) => r.id)).size,
+      itemsFile: opts.itemsFile,
+      itemsSha256: opts.itemsSha256,
+      runner: `scripts/wb-bench-cleanup.ts --rescore (saved outputs of ${saved.meta.itemsSha256.slice(0, 12)}…, items re-labelled) on scripts/wb-eval-cleanup.ts (F-10)`,
+    },
+    summaries: levels.map((l) => summarize(results, l)),
+    results,
+    ...(saved.extras ? { extras: saved.extras } : {}),
+  };
+  return { report, missing, unknown, guardChanged };
+}
+
+type SavedSummary = {
+  meta: Record<string, unknown>;
+  models: Record<string, unknown>[];
+  rows: RunRow[];
+};
+
+/**
+ * `--rescore DIR`: every `<model>__<prompt>__<format>.json` in DIR (the
+ * `summary.json` rows when present) is re-scored with the current items.
+ * DIR is only read. Writes per-run `.json`/`.md` and `summary.json` to OUT.
+ */
+export async function rescoreDir(
+  srcDir: string,
+  outDir: string,
+  itemsFile: string,
+  log: (s: string) => void = (s) => process.stderr.write(s),
+): Promise<{
+  rows: RunRow[];
+  missing: Record<string, string[]>;
+  unknown: Record<string, string[]>;
+  guardChanged: Record<string, string[]>;
+}> {
+  if (path.resolve(srcDir) === path.resolve(outDir))
+    throw new Error("--rescore needs an output dir different from the source");
+  const itemsText = fs.readFileSync(itemsFile, "utf8");
+  const items = loadItems(itemsFile);
+  const summaryPath = path.join(srcDir, "summary.json");
+  const savedSummary: SavedSummary | null = fs.existsSync(summaryPath)
+    ? (JSON.parse(fs.readFileSync(summaryPath, "utf8")) as SavedSummary)
+    : null;
+  const files = savedSummary
+    ? savedSummary.rows.map((r) => r.file)
+    : fs
+        .readdirSync(srcDir)
+        .filter((f) => /^[^_]+__[^_]+__(json|plain)\.json$/.test(f))
+        .sort();
+  fs.mkdirSync(outDir, { recursive: true });
+  const rows: RunRow[] = [];
+  const missing: Record<string, string[]> = {};
+  const unknown: Record<string, string[]> = {};
+  const guardChanged: Record<string, string[]> = {};
+  for (const file of files) {
+    const saved = JSON.parse(
+      fs.readFileSync(path.join(srcDir, file), "utf8"),
+    ) as SavedReport;
+    const name = saved.meta.model;
+    if (!saved.meta.systemPromptFile)
+      throw new Error(`${file}: no systemPromptFile in meta`);
+    const promptBody = parsePromptFile(
+      fs.readFileSync(
+        path.join(REPO_ROOT, saved.meta.systemPromptFile),
+        "utf8",
+      ),
+    ).body;
+    if (sha256(promptBody) !== saved.meta.systemPromptSha256)
+      throw new Error(
+        `${file}: ${saved.meta.systemPromptFile} changed since the run (sha256 mismatch); the guard's prompt-echo check would differ`,
+      );
+    const res = await rescoreReport(saved, items, {
+      systemPrompt: promptBody,
+      itemsFile: path.relative(REPO_ROOT, itemsFile),
+      itemsSha256: sha256(itemsText),
+    });
+    if (res.missing.length) missing[name] = res.missing;
+    if (res.unknown.length) unknown[name] = res.unknown;
+    if (res.guardChanged.length) guardChanged[name] = res.guardChanged;
+    const base = path.join(outDir, name);
+    fs.writeFileSync(
+      `${base}.json`,
+      JSON.stringify(res.report, null, 2) + "\n",
+    );
+    fs.writeFileSync(`${base}.md`, renderMarkdown(res.report));
+    const old = savedSummary?.rows.find((r) => r.file === file);
+    const [model, prompt, format] = name.split("__") as [
+      string,
+      PromptId,
+      Format,
+    ];
+    rows.push({
+      model: old?.model ?? model,
+      prompt: old?.prompt ?? prompt,
+      format: old?.format ?? format,
+      items: res.report.meta.items,
+      durationMs: old?.durationMs ?? saved.meta.durationMs,
+      rssPeakMb: old?.rssPeakMb ?? 0,
+      meanPromptTps: old?.meanPromptTps ?? null,
+      meanGenTps: old?.meanGenTps ?? null,
+      summaries: res.report.summaries,
+      file: path.basename(`${base}.json`),
+    });
+    const light = res.report.summaries[0];
+    log(
+      `   ${name}: damage post ${(light.post.contentDamage.value! * 100).toFixed(1)} % ` +
+        `(pre ${(light.pre.contentDamage.value! * 100).toFixed(1)} %), filler ${(light.post.fillerRemoval.value! * 100).toFixed(1)} %` +
+        (res.missing.length ? `, ${res.missing.length} missing` : "") +
+        "\n",
+    );
+  }
+  fs.writeFileSync(
+    path.join(outDir, "summary.json"),
+    JSON.stringify(
+      {
+        meta: {
+          ...(savedSummary?.meta ?? {}),
+          rescoredFrom: srcDir,
+          rescoredItemsFile: path.relative(REPO_ROOT, itemsFile),
+          rescoredItemsSha256: sha256(itemsText),
+          originalItemsSha256: savedSummary?.meta.itemsSha256 ?? null,
+          itemIds: items.map((it) => it.id),
+          itemsUsed: items.length,
+          missing,
+          unknown,
+          guardChanged,
+        },
+        models: savedSummary?.models ?? [],
+        rows,
+      },
+      null,
+      2,
+    ) + "\n",
+  );
+  return { rows, missing, unknown, guardChanged };
+}
+
+// ---------------------------------------------------------------------------
 // CLI
 // ---------------------------------------------------------------------------
 
@@ -639,6 +860,10 @@ export const HELP = `Usage: bun scripts/wb-bench-cleanup.ts --server PATH [optio
   --timeout-ms N         Per-request timeout (default 30000)
   --date YYYY-MM-DD      Date used in the output dir (default today, UTC)
   --probe                RS-06 probe only: flags, --offline, /health on a unix socket
+  --rescore DIR          No server: re-score the saved outputs in DIR (a previous
+                         rs07-<date>/ dir, only read) with the current --items;
+                         re-applies the guard stub and the scorer, writes to --out
+                         (default eval/cleanup/reports/<basename DIR>-rescored)
 `;
 
 type Cli = {
@@ -656,6 +881,7 @@ type Cli = {
   timeoutMs: number;
   date: string;
   probe: boolean;
+  rescore: string | null;
 };
 
 export function parseCli(argv: string[]): Cli | null {
@@ -674,6 +900,7 @@ export function parseCli(argv: string[]): Cli | null {
     timeoutMs: 30000,
     date: new Date().toISOString().slice(0, 10),
     probe: false,
+    rescore: null,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -728,6 +955,9 @@ export function parseCli(argv: string[]): Cli | null {
       case "--probe":
         o.probe = true;
         break;
+      case "--rescore":
+        o.rescore = path.resolve(val());
+        break;
       case "-h":
       case "--help":
         return null;
@@ -744,11 +974,32 @@ export function parseCli(argv: string[]): Cli | null {
     if (!FORMATS.includes(f)) throw new Error(`unknown format ${f}`);
   for (const l of o.levels)
     if (!LEVELS.includes(l)) throw new Error(`unknown level ${l}`);
-  if (!o.server) throw new Error("--server is required");
+  if (!o.server && !o.rescore) throw new Error("--server is required");
   return o;
 }
 
 async function main(o: Cli) {
+  if (o.rescore) {
+    const out =
+      o.out ??
+      path.join(
+        REPO_ROOT,
+        "eval/cleanup/reports",
+        `${path.basename(o.rescore)}-rescored`,
+      );
+    const r = await rescoreDir(o.rescore, out, o.itemsFile);
+    for (const [k, v] of [
+      ["missing outputs", r.missing],
+      ["outputs for unknown items", r.unknown],
+      ["guard verdict changed", r.guardChanged],
+    ] as const)
+      for (const [run, keys] of Object.entries(v))
+        process.stdout.write(`${k}: ${run}: ${keys.join(", ")}\n`);
+    process.stdout.write(
+      `rescored ${r.rows.length} runs; missing outputs in ${Object.keys(r.missing).length} runs\nSummary: ${path.relative(process.cwd(), path.join(out, "summary.json"))}\n`,
+    );
+    return;
+  }
   const outDir =
     o.out ?? path.join(REPO_ROOT, "eval/cleanup/reports", `rs07-${o.date}`);
   fs.mkdirSync(outDir, { recursive: true });
