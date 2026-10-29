@@ -1,0 +1,40 @@
+# Hosts that may appear in upstream code or in the built bundle but that the
+# app provably never contacts (R5 §4.12). Every active entry names the test
+# (or, for identifiers that are never dereferenced, the reason) that proves
+# it unreachable. Read by scripts/wb-guard-hosts.ts (upstream scan) and
+# scripts/wb-guard-bundle-hosts.ts (built bundle).
+#
+# Until the pending proofs land, the bundle guard and wb-egress.yml fail on a
+# real build for the hosts commented out below: that is the intended state
+# until F-08 (privacy cleanups) and S-26b (link hosts).
+
+[identifier]
+# Never dereferenced: identifiers, not requests.
+www.w3.org                  # reason: XML namespace URI (SVG xmlns in icon components, React DOM); browsers never fetch namespace URIs
+www.apple.com               # reason: plist DOCTYPE system id (PropertyList-1.0.dtd) in the binary; plist parsers never fetch it
+docs.rs                     # reason: documentation link inside a rustls error message string
+developer.apple.com         # reason: `// ref:` comment in ggml's embedded Metal shader source
+www.johndcook.com           # reason: `// ref:` comment in ggml's embedded Metal shader source
+www.opencompute.org         # reason: `// ref:` comment in ggml's embedded Metal shader source
+arxiv.org                   # reason: `// ref:` comment in ggml's embedded Metal shader source
+tailwindcss.com             # reason: `/*! tailwindcss … | https://tailwindcss.com */` licence banner in the built CSS
+reactjs.org                 # reason: React's production error-decoder link inside thrown error messages
+www.i18next.com             # reason: i18next deprecation-warning text (console only)
+bit.ly                      # reason: Immer's minified-error message text ("Full error at: …")
+
+[proven]
+# Network hosts proven unreachable by a test.
+# (none yet)
+
+# --- pending (uncomment when the named proof exists) ------------------------
+# blob.handy.computer        # proof: F-08 test "downloader never builds a blob.handy.computer URL" (fork::models mirror hook returns None)
+# api.openai.com             # proof: F-08 tests "settings read returns no cloud provider" + "non-loopback custom URL is refused by the backend" (DEC-04)
+# api.anthropic.com          # proof: F-08, same tests as api.openai.com
+# api.groq.com               # proof: F-08, same tests as api.openai.com
+# api.cerebras.ai            # proof: F-08, same tests as api.openai.com
+# api.z.ai                   # proof: F-08, same tests as api.openai.com
+# openrouter.ai              # proof: F-08, same tests as api.openai.com (+ neutral headers in llm_client.rs)
+# bedrock-mantle.us-east-1.api.aws # proof: F-08, same tests as api.openai.com
+# api.deepseek.com           # proof: F-08 loopback-only check (llm_client.rs only compares a base URL substring)
+# handy.computer             # proof: S-26b replaces Handy's docs/donate links; until then a [link] host candidate, not app traffic
+# eus.codesigning.azure.net  # proof: F-02 overlay nulls bundle.windows.signCommand (embedded config only, never requested)

@@ -1,0 +1,155 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro CI (F-03, R5 §4.12): privacy, identity, licence and thin-layer
+# guards plus the test suites, on every PR into and push to `wispr-bro`.
+# Make the jobs below required checks on `wispr-bro` (owner, repo settings).
+#
+# Choices (recorded here so they are not re-litigated per PR):
+# - Guards, lint, format and Playwright run on ubuntu-latest: pure bun/node,
+#   fastest runner, no macOS minutes.
+# - Rust runs on macos-26: the product is macOS-first and fork code has
+#   macOS-only paths (tray, Apple Intelligence bridge in build.rs needs the
+#   macOS 26 SDK, same runner as upstream release.yml).
+# - Clippy: upstream Handy is not clippy-clean (11 warnings at the F-03 merge
+#   base) and the thin-layer rule forbids fixing upstream files, so
+#   `cargo clippy -D warnings` is enforced on fork code only
+#   (scripts/wb-clippy-fork.ts: fails on any clippy warning or error whose
+#   primary span is in src-tauri/src/fork/ or src-tauri/crates/wb-*, and on
+#   any compile error).
+# - Formatting: Handy's `format:check` fails on the fork's research packet
+#   (docs/research/, long-form prose) and on the generated
+#   src/fork/bindings.ts, so CI runs `wb:format:check`: the same prettier +
+#   `cargo fmt --check` over the whole tree with .wb-prettierignore excluding
+#   exactly those two paths. Upstream files stay covered.
+# - The bundle-host guard needs a build; it runs in wb-egress.yml after the
+#   release build and skips here.
+
+name: "wb-ci"
+
+on:
+  pull_request:
+    branches: [wispr-bro]
+  push:
+    branches: [wispr-bro]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  guards:
+    name: guards, lint, format, UI tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream Handy (hook-size guard base)
+        run: |
+          git remote add upstream https://github.com/cjpais/Handy.git || true
+          git fetch --no-tags upstream main
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Guards (identity, plumbing, hooks, hosts, telemetry, SPDX)
+        run: bun run wb:guards
+
+      - name: Guard self-tests and fork script tests
+        run: bun run wb:test:scripts
+
+      - name: Translations (Handy keys + fork namespace parity, brand overrides)
+        run: |
+          bun run check:translations
+          bun run wb:check:translations
+
+      - name: ESLint
+        run: bun run lint
+
+      - name: Format (prettier + cargo fmt, fork exclusions in .wb-prettierignore)
+        run: bun run wb:format:check
+
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps chromium
+
+      - name: Fork Playwright tests
+        run: bunx playwright test -c playwright.fork.config.ts
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wb-playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  rust:
+    name: cargo test, clippy (fork)
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: cargo test
+        working-directory: src-tauri
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+        run: cargo test
+
+      - name: cargo clippy -D warnings (fork code)
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+        run: bun run wb:clippy
+
+  licences:
+    name: licence register (cargo-about)
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+          key: cargo-about
+
+      - name: Install cargo-about
+        # 0.9.x builds the binary only with the `cli` feature.
+        run: cargo install cargo-about --locked --version 0.9.3 --features cli
+
+      - name: Generate the Rust licence report (fails on non-accepted licences)
+        # about.toml accepts only free, GPL-3.0-compatible licences, so
+        # GPL-2.0-only, unlicensed and non-free crates fail here.
+        run: cargo about generate --fail --manifest-path src-tauri/Cargo.toml -c about.toml about.hbs -o wb-licences.html
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wb-licences
+          path: wb-licences.html
+          retention-days: 30

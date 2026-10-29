@@ -1,0 +1,33 @@
+# Hosts fork code may name (R5 §1 privacy promise; enforced by
+# scripts/wb-guard-hosts.ts and scripts/wb-guard-bundle-hosts.ts).
+#
+# Adding a host here changes the privacy promise: it needs an owner-approved
+# PR that also updates R5 §1. `*.x` matches subdomains of x, not x itself.
+
+[network]
+# Hosts the app may contact, and only for the §1 purposes.
+github.com                           # §1 #1: update check (latest.json) and update download
+objects.githubusercontent.com        # §1 #1: release-asset redirect
+release-assets.githubusercontent.com # §1 #1: release-asset redirect
+huggingface.co                       # §1 #2: model downloads (pinned revisions)
+*.hf.co                              # §1 #2: Hugging Face download CDN (cas-bridge.xethub.hf.co, …)
+*.huggingface.co                     # §1 #2: Hugging Face download CDN (cdn-lfs.huggingface.co, …)
+
+[link]
+# Allowed only as an openUrl(…) / open_url(…) argument (same line or up to
+# two lines above): the user clicks a link and the browser opens it; this is
+# not app traffic. None yet; S-26b (Help, support, Share with a friend) adds
+# its link hosts here.
+
+[schema]
+# Allowed only as a JSON "$schema" value (editor hint, never fetched by the
+# app).
+schema.tauri.app                     # tauri.fork.conf.json "$schema"
+
+[loopback]
+# Local hosts: never leave the machine (dev server, Tauri custom protocols,
+# the local HF mock and llama-server on loopback).
+localhost
+*.localhost                          # tauri.localhost, ipc.localhost, asset.localhost
+127.0.0.1
+[::1]

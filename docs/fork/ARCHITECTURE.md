@@ -610,6 +610,33 @@ S-07a/S-07b (silent model policy) and S-14 (Advanced list) call
 | CSP smoke panel (Playwright, devCsp header)                                   | `tests/fork/csp-smoke.spec.ts`                                                                                                                                                           |
 | Self-check verdict incl. CSP                                                  | `fork::commands::selfcheck::tests::*`                                                                                                                                                    |
 
+## CI guards (F-03)
+
+`bun run wb:guards` runs every source guard (R5 §4.12); add `-- --release`
+for release mode, `--base <ref>` for another upstream ref, `--binary <path>`
+to also scan a built app. Each guard also runs alone (`wb:guard:<name>`).
+Shared code: `scripts/wb-guard-lib.ts` (file listing, `FORK_PATHS`, list
+parsing, URL/host extraction). Self-tests: `scripts/wb-guards.test.ts`
+(`bun run wb:test:guards`, also part of `wb:test:scripts`).
+
+| Guard                      | Checks                                                                                                                                                                                                                                                                                    | Config                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `wb-guard-identity.ts`     | `tauri.conf.json` + overlay (RFC 7396 merge) has no `com.pais.handy`, `cjpais/Handy` or Handy pubkey prefix; productName/identifier ours; pubkey and a `github.com/<owner>/wispr-bro` endpoint present; Cargo/package/overlay versions (and tag) agree; `--release`: no F-02 placeholders | —                                                                              |
+| `wb-guard-plumbing.ts`     | `build.rs` `fn main` ends in `tauri_build::build()`, no `AppManifest`/`InlinedPlugin`; no Handy `fork_*` command; one `.invoke_handler(fork::compose_invoke(invoke_handler))`; upstream-bound files are fork-free and MIT-clean                                                           | `ci/upstream-bound.txt`                                                        |
+| `wb-guard-hooks.ts`        | `git diff --numstat` vs `merge-base(HEAD, upstream/main)`: every changed upstream file listed and within budget; new files only under `FORK_PATHS`                                                                                                                                        | `ci/hooks.txt`                                                                 |
+| `wb-guard-hosts.ts`        | URL hosts in fork code ⊆ allowed (`[link]` only in `openUrl(…)`, `[schema]` only as `"$schema"`); hosts in upstream code ⊆ baseline ∪ inert ∪ allowed                                                                                                                                     | `ci/allowed-hosts.txt`, `ci/upstream-hosts-baseline.txt`, `ci/inert-hosts.txt` |
+| `wb-guard-bundle-hosts.ts` | hosts in `dist/**/*.{js,css,html}` and Mach-O strings ⊆ allowed ∪ inert; skips without a build                                                                                                                                                                                            | same                                                                           |
+| `wb-guard-telemetry.ts`    | whole-name match of banned packages in `Cargo.lock`, `Cargo.toml`, `bun.lock`, `package.json`, TS/JS imports and Rust `use`                                                                                                                                                               | `ci/telemetry-packages.txt`                                                    |
+| `wb-guard-spdx.ts`         | SPDX header in fork code; AGPL files listed in `NOTICE` (once F-04 adds it); no GPL/AGPL header outside fork paths                                                                                                                                                                        | `ci/generated.txt`                                                             |
+
+Workflows: `wb-ci.yml` (PR/push to `wispr-bro`: guards, script tests,
+translations, lint, `wb:format:check`, fork Playwright; `cargo test` and
+`wb:clippy` on macos-26; `cargo-about` licence report from `about.toml`) and
+`wb-egress.yml` (nightly: release build, `scripts/wb-egress/session.ts` under
+a pf anchor for a dedicated user, bundle-host guard). The choices (fork-only
+clippy, `.wb-prettierignore`, egress isolation) are explained in each
+workflow's header.
+
 ## Tests
 
 | What                                                                                                          | Where                                                                                                                                    |

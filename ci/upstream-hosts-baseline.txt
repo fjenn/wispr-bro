@@ -1,0 +1,36 @@
+# Reviewed hosts in upstream Handy code (R5 §4.12 "Network: upstream code").
+# Scope: src/ and src-tauri/src/ outside the fork paths, src-tauri/*.json and
+# src/i18n/locales/*/translation.json. Checked by scripts/wb-guard-hosts.ts.
+#
+# Generated from the upstream tree at merge base 7bfb2e2c (upstream/main,
+# "fix: disable ggml Metal on Intel macOS builds (#2340)") with
+#   bun scripts/wb-guard-hosts.ts --list-upstream
+# then reviewed by hand, one line per host. Loopback hosts (localhost,
+# 127.0.0.1) are covered by [loopback] in allowed-hosts.txt and not repeated.
+#
+# A host listed here is only *known*, not allowed at runtime: the bundle guard
+# and the egress test still reject it unless it is in allowed-hosts.txt or
+# proven unreachable in inert-hosts.txt (F-08 removes the reachable ones).
+# A new upstream host fails the sync PR until it is reviewed here.
+
+[real]
+# Hosts Handy code can contact.
+api.openai.com                   # cloud LLM provider default (settings.rs default_post_process_providers); placeholder text in translation.json. F-08 drops the provider
+api.anthropic.com                # cloud LLM provider default (settings.rs); placeholder text in translation.json. F-08
+api.groq.com                     # cloud LLM provider default (settings.rs). F-08
+api.cerebras.ai                  # cloud LLM provider default (settings.rs). F-08
+api.z.ai                         # cloud LLM provider default (settings.rs). F-08
+openrouter.ai                    # cloud LLM provider default (settings.rs); test fixture in llm_client.rs. F-08
+bedrock-mantle.us-east-1.api.aws # cloud LLM provider default (settings.rs, AWS Bedrock). F-08
+api.deepseek.com                 # llm_client.rs reasoning-param special case (substring match) and its test; not a default provider
+blob.handy.computer              # model mirror (catalog/mod.rs MIRRORS) and legacy model URLs (managers/model.rs). F-08 mirror hook returns None
+github.com                       # Handy's update feed (tauri.conf.json, replaced by the overlay), About link, HTTP-Referer header (llm_client.rs, F-08), doc comments
+handy.computer                   # links opened in the browser: docs/troubleshooting (SecureInputWarning.tsx), Linux guide (LinuxGuide.tsx), donate (AboutSettings.tsx). S-26b replaces them
+eus.codesigning.azure.net        # build-time only: Windows signCommand (tauri.conf.json bundle.windows); never in the app's runtime traffic
+
+[doc]
+# Documentation, example and identifier hosts: never contacted.
+www.w3.org                       # SVG xmlns attribute in icon components (namespace identifier)
+schema.tauri.app                 # tauri.conf.json "$schema"
+example.com                      # test fixtures (llm_client.rs, managers/model.rs tests)
+api-docs.deepseek.com            # doc comment in llm_client.rs

@@ -1,0 +1,8 @@
+# Files holding upstream-bound fixes (code we would send to Handy, R5 §1
+# thin-layer rule). They must stay MIT-clean: no `crate::fork` / `fork::` use
+# and no GPL/AGPL header (scripts/wb-guard-plumbing.ts). Empty today.
+#
+# Planned (uncomment each when its slice lands):
+#   src-tauri/src/shortcut/handy_keys.rs          S-02: HandyKeysState::new returns its Result
+#   src-tauri/src/transcription_coordinator.rs    S-01: TranscriptionCoordinator::external_command
+#   src-tauri/src/llm_client.rs                   S-10: RequestOptions

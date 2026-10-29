@@ -30,7 +30,20 @@
     "wb:check:translations": "bun scripts/wb-translate-missing.ts --check && bun scripts/wb-brand-overrides.ts --check",
     "wb:brand": "bun scripts/wb-brand-overrides.ts",
     "wb:icons": "bun scripts/wb-icons.ts",
-    "wb:test:scripts": "bun test scripts/"
+    "wb:test:scripts": "bun test scripts/",
+    "//fork:guards": "Wispr Bro CI guards (F-03, R5 §4.12): begin",
+    "wb:guards": "bun scripts/wb-guards.ts",
+    "wb:guard:identity": "bun scripts/wb-guard-identity.ts",
+    "wb:guard:plumbing": "bun scripts/wb-guard-plumbing.ts",
+    "wb:guard:hooks": "bun scripts/wb-guard-hooks.ts",
+    "wb:guard:hosts": "bun scripts/wb-guard-hosts.ts",
+    "wb:guard:bundle-hosts": "bun scripts/wb-guard-bundle-hosts.ts",
+    "wb:guard:telemetry": "bun scripts/wb-guard-telemetry.ts",
+    "wb:guard:spdx": "bun scripts/wb-guard-spdx.ts",
+    "wb:test:guards": "bun test scripts/wb-guards.test.ts",
+    "wb:clippy": "bun scripts/wb-clippy-fork.ts",
+    "wb:format:check": "prettier --check --ignore-path .prettierignore --ignore-path .wb-prettierignore . && cd src-tauri && cargo fmt -- --check",
+    "//fork:guards-end": "Wispr Bro CI guards: end"
   },
   "dependencies": {
     "@handy-computer/models": "0.2.3",
