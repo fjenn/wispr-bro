@@ -17,5 +17,116 @@
     },
     "pending": "Waiting…",
     "error": "Error: {{message}}"
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro теперь использует модели нового типа. Загрузите новую версию, чтобы продолжить транскрибировать. Старые версии будут удалены."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Чтобы Wispr Bro мог вас слышать. Звук превращается в текст на этом компьютере и никуда не отправляется."
+        },
+        "accessibility": {
+          "why": "Чтобы сочетание клавиш работало в любом приложении, а Wispr Bro мог печатать текст там, где стоит курсор."
+        },
+        "turnOnMac": "Включите Wispr Bro в Системных настройках и возвращайтесь сюда.",
+        "relaunch": "Сочетание клавиш не реагирует? <relaunch>Перезапустите Wispr Bro</relaunch>, и вы вернётесь прямо сюда."
+      },
+      "welcome": {
+        "noMatch": "Нет языка, подходящего под «{{query}}». Модели Wispr Bro охватывают около 100 языков; остальные есть в настройках.",
+        "chinese": {
+          "question": "Вы говорите на этих языках: {{languages}}. Какими иероглифами Wispr Bro должен писать?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro в углу экрана подскажет, что делать"
+      },
+      "done": {
+        "subMac": "Wispr Bro теперь в строке меню. Удерживайте или нажимайте <keys/> в любом приложении, чтобы говорить.",
+        "subTray": "Wispr Bro теперь в области уведомлений. Удерживайте или нажимайте <keys/> в любом приложении, чтобы говорить.",
+        "atLogin": "Запускать Wispr Bro при входе в систему",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Ярлыки Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Языки, на которых вы говорите. Wispr Bro использует их, чтобы рекомендовать модели."
+        }
+      },
+      "models": {
+        "untestedNote": "Не проверялись в Wispr Bro. Могут работать медленнее или делать больше ошибок.",
+        "emptyYours": "Моделей пока нет. Выберите одну ниже: она загрузится, и Wispr Bro начнёт ею пользоваться.",
+        "deleteAskActive": "Удалить {{name}}? Wispr Bro не сможет транскрибировать, пока вы не выберете другую модель.",
+        "retiredNotice": {
+          "title": "Старые модели больше не работают с Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Пересканировать модели, добавленные в папку моделей или кэш Hugging Face вне Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Автоматически запускать Wispr Bro при входе в систему."
+        },
+        "showTrayIcon": {
+          "description": "Отображать значок Wispr Bro в системном трее."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Автоматически проверять наличие новых версий Wispr Bro",
+          "lockedDescription": "Отключено системной конфигурацией (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Проверяет, доходят ли события клавиатуры до Wispr Bro. Записывается только количество событий — никогда то, какие клавиши вы нажимаете.",
+          "verdictOk": "События клавиш доходят до Wispr Bro нормально."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Текущая версия Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Показывать примечания к выпуску после обновлений Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Место, где Wispr Bro хранит свои данные"
+        },
+        "supportDevelopment": {
+          "description": "Помогите нам продолжать развитие Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro использует ggml для быстрого локального преобразования речи в текст. Спасибо великолепной работе Георгия Герганова и участников."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Новое в Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Изменить язык интерфейса Wispr Bro"
+    },
+    "theme": {
+      "description": "Выберите, следует ли Wispr Bro системной теме или остаётся светлым либо тёмным"
+    }
   }
 }

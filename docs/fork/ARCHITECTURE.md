@@ -11,15 +11,16 @@ Re-check them when Tauri or tauri-specta is upgraded.
 
 ## Where fork code lives
 
-| Layer          | Location                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------- |
-| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `commands/`, `testutil.rs` under `cfg(test)`) |
-| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)             |
-| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                           |
-| Capabilities   | `src-tauri/capabilities/fork.json`                                                          |
-| Config overlay | `src-tauri/tauri.fork.conf.json` (empty until F-01)                                         |
-| Scripts        | `scripts/wb-*.ts`                                                                           |
-| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                  |
+| Layer          | Location                                                                                                                                 |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `commands/` (incl. `selfcheck.rs`), `testutil.rs` under `cfg(test)`) |
+| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                          |
+| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                        |
+| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                       |
+| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                        |
+| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                            |
+| Scripts        | `scripts/wb-*.ts`                                                                                                                        |
+| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                               |
 
 Every fork source file starts with `// SPDX-License-Identifier: GPL-3.0-or-later`.
 Generated files (`src/fork/bindings.ts`) and JSON files are exempt.
@@ -35,6 +36,21 @@ Generated files (`src/fork/bindings.ts`) and JSON files are exempt.
 | `src/i18n/index.ts`     | `import { registerForkI18n } from "@/fork";` + `registerForkI18n(i18n);` after `init`         |
 | `src-tauri/Cargo.toml`  | `[dev-dependencies]` block marked `# fork: … (begin)` / `(end)`: `tauri` with feature `test`  |
 | `package.json`          | scripts `wb:dev`, `wb:build`, `wb:translate`, `wb:check:translations` (no dependency changes) |
+
+## Upstream hooks (F-01)
+
+| File                                               | Hook                                                                                                                                           |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/Cargo.toml`                             | ⚠ `version = "1.0.0-alpha.1"` (DEC-48; re-apply at each sync)                                                                                 |
+| `package.json`                                     | ⚠ `"version": "1.0.0-alpha.1"` (DEC-48); scripts `wb:brand`, `wb:icons`, `wb:test:scripts`; `wb:check:translations` also runs the brand check |
+| `src-tauri/src/tray.rs` `build_menu`               | `crate::fork::tray::extend(app, &menu, &mut tooltip, &inputs.locale)?;` before the final `Ok`                                                  |
+| `src-tauri/src/tray.rs` `get_icon_path`            | first statement `if let Some(path) = crate::fork::tray::icon_path(&theme, state, warning) { return path; }` (3 lines after rustfmt)            |
+| `src-tauri/src/lib.rs` log target                  | `file_name: Some("handy".into())` → `Some(fork::FILE_PREFIX.into())` (2 lines, portable and normal target)                                     |
+| `src-tauri/src/actions.rs:701`                     | `format!("handy-{}.wav", …)` → `crate::fork::recording_file_name(…)` (2 lines after rustfmt)                                                   |
+| `src-tauri/src/managers/transcription_jobs.rs:134` | `format!("handy-file-{}.wav", …)` → `crate::fork::file_job_name(…)`                                                                            |
+
+`tauri.conf.json`, `Info.plist`, `Entitlements.plist` and Handy's 26
+`translation.json` files are **not** edited.
 
 `build.rs` is not edited and still ends in plain `tauri_build::build()`.
 
@@ -123,6 +139,146 @@ app (`tauri::test::MockRuntime`): `fork_model_status` returns `NotReady` after
   the app and `tauri::test::MockRuntime` in tests. `fork::init` and
   `compose_invoke` are generic over `ForkRuntime`.
 
+## Identity (F-01)
+
+### Overlay and how Tauri applies it
+
+`bun run wb:dev` / `wb:build` pass `--config src-tauri/tauri.fork.conf.json`.
+tauri-cli 2.11 applies it as an **RFC 7396 JSON merge patch** on top of
+`tauri.conf.json` (`json_patch::merge`; tauri-build 2.6.3 does the same with
+the `TAURI_CONFIG` env var the CLI forwards, `tauri-build/src/lib.rs:487-489`).
+Objects merge, `null` deletes, **arrays replace** (so `bundle.icon` is ours
+only). Plain `cargo build` / `bun run tauri dev` still build Handy's identity.
+
+| Key                                  | Value                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `productName`                        | `Wispr Bro` (also names Tauri's default macOS app menu)                                                                                                                                                                                                                                                                                                                                                                |
+| `identifier`                         | `com.wisprbro.desktop` (data, logs, TCC are separate from Handy)                                                                                                                                                                                                                                                                                                                                                       |
+| `version`                            | `1.0.0-alpha.1` = `Cargo.toml` = `package.json` (DEC-48)                                                                                                                                                                                                                                                                                                                                                               |
+| `bundle.icon`                        | `icons-fork/{32x32,128x128,128x128@2x}.png`, `icon.icns`, `icon.ico`                                                                                                                                                                                                                                                                                                                                                   |
+| `bundle.macOS.minimumSystemVersion`  | `13.0` (DEC-22)                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `plugins.updater.pubkey`/`endpoints` | **TODO F-02** placeholders `TODO-F02-<owner>-updater-pubkey`, `https://github.com/<owner>/wispr-bro/releases/latest/download/latest.json`. Deliberately _not_ Handy's feed/key, so a Wispr Bro build can never install a Handy update. The plugin parses endpoints at startup (the `<owner>` URL parses; `<`/`>` are percent-encoded) and reads the key only when verifying a download, so the build and startup work. |
+
+Not set yet: `bundle.externalBin` (S-10), `app.security` CSP (F-08),
+`license`, Linux `/usr/lib/Handy` paths and the Windows `signCommand` (F-02/F-04,
+not M1 macOS).
+
+**Usage strings.** Tauri 2.11 has `bundle.macOS.infoPlist` (tauri-utils
+2.9.3 `config.rs:661-666`: a path to a plist merged with the default one).
+F-01 does not need it: Handy's `Info.plist` has only
+`NSMicrophoneUsageDescription` = "Request microphone access to transcribe
+audio locally", which names no brand (macOS prefixes the prompt with the
+bundle name, now "Wispr Bro"). There is no `NSAppleEventsUsageDescription`
+(AppleScript is banned), and the Accessibility prompt has no usage string. So
+`Info.plist` stays untouched. If a later slice needs fork wording, add
+`bundle.macOS.infoPlist` in the overlay and verify on a bundled build which
+file wins (not verified in F-01).
+
+**Version.** `Cargo.toml` and `package.json` carry `1.0.0-alpha.1`, so
+`CARGO_PKG_VERSION` (Handy's tray label, `settings.rs:605` What's New) and
+`getVersion()` agree with the overlay. Test
+`cargo_and_package_versions_equal_the_overlay_version`.
+
+### Names Handy hard-codes
+
+| Where                                   | Handy                                   | Fork                                                                                                                   |
+| --------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Main window title (`lib.rs` setup)      | `Handy`                                 | `fork::on_ready` sets `rust.window.mainTitle`                                                                          |
+| Tray version item + tooltip (`tray.rs`) | `Handy v…`                              | `fork::tray::extend` → `rust.tray.version`/`versionDev`                                                                |
+| Tray glyphs (`resources/tray_*.png`)    | Handy hand                              | `fork::tray::icon_path` → `resources/fork/tray/*` (Dark/Light themes; Linux "Colored" keeps Handy's until Linux ships) |
+| Log file                                | `handy.log`                             | `wispr-bro.log`                                                                                                        |
+| Recordings                              | `handy-<ts>.wav`, `handy-file-<ms>.wav` | `wispr-bro-<ts>.wav`, `wispr-bro-file-<ms>.wav` (existing rows keep their stored names)                                |
+| Web UI strings (33 keys × 26 locales)   | "Handy"                                 | `fork.json > overrides` (below)                                                                                        |
+
+These could not be set "in `on_ready`" as the slice text says: the log target
+is built in the plugin chain before any fork code runs, and the WAV names are
+string literals at the call site. Each needed the one-line hook listed above.
+
+Known leftovers (not user-visible UI, out of F-01): `cli.rs` clap name/about
+(`handy`, "Handy - Speech to Text", shown by `--help`), the
+`handy-external-script-*.sh` temp file (`clipboard.rs:1021`), the
+`X-Title: Handy` LLM header (`llm_client.rs:195`, F-08/S-10), the
+`HANDY_DISABLE_UPDATER` text in a Rust error (`shortcut/mod.rs:831`), the
+Cargo package/binary name `handy` and `description = "Handy"`, the crate
+name `handy_app_lib` in log targets, `index.html` `<title>handy</title>`
+(not shown: the native window title is set by Rust), and the initial tray
+tooltip in `lib.rs` (replaced by Handy's first `update_tray_menu` during setup).
+
+### Updater kill switch (E-94)
+
+`fork::early_init` (runs in `main.rs` before `run()`) sets
+`HANDY_DISABLE_UPDATER=1` when `WISPRBRO_DISABLE_UPDATER` is truthy (same
+truthiness as Handy's `utils::env_flag_enabled`) and Handy's flag is not.
+Handy reads its flag lazily (`settings::update_checks_forced_disabled`), so
+both variables disable the updater with no upstream edit. Tests:
+`e94_both_env_vars_disable_the_updater`, `e94_truthiness_matches_handy_env_flag_enabled`.
+
+### Icons (PLACEHOLDER)
+
+The app icon (five white waveform bars on an indigo rounded square) and the
+tray glyphs are **original placeholders**, not final artwork, and contain no
+Handy or Wispr Flow artwork. Sources: `src-tauri/icons-fork/src/*.svg`.
+Regenerate with `bun run wb:icons` (`scripts/wb-icons.ts`, runs
+`tauri icon` for the app icons, drops the android/ios outputs, and renders
+64×64 white and black tray glyphs). Tray glyphs live in
+`src-tauri/resources/fork/tray/` rather than `icons-fork/` (deviation):
+Handy's `bundle.resources: ["resources/**/*"]` bundles them in every build,
+so the `icon_path` hook can never point at a missing file, even without the
+overlay. Replace the art before the first build that leaves the team.
+
+### Rust strings (`fork/i18n.rs`)
+
+`rust.*` keys live in each `fork.json` and are embedded for all 26 locales
+with `include_str!`. Locale: Handy's `app_language` setting (read through
+`ForkRuntime::handy_app_language`, `Wry` only), then the OS locale
+(`tauri_plugin_os::locale`), then English; tag matching mirrors Handy's
+`tray_i18n.rs` (exact, Chinese script/region, language subtag). Missing keys
+fall back to English. Keys today: `rust.appName`, `rust.tray.version`,
+`rust.tray.versionDev`, `rust.window.mainTitle` (copied English, flagged
+`untranslated`; they are brand + version only). Tests:
+`every_rust_key_resolves_in_every_locale`, `no_rust_string_names_handy`,
+`embeds_all_26_locale_directories`. The tray hook itself needs a native menu,
+which muda builds only on the macOS main thread, so `cargo test` covers its
+two pure functions and the self-check below covers the live tray.
+
+### Brand overrides (`scripts/wb-brand-overrides.ts`)
+
+For every locale, every key of Handy's `translation.json` whose English or
+local text contains `Handy` (or `HANDY_`) gets a rebranded copy under
+`fork.json > overrides` (33 keys; 35 in `nl`, which says "Over Handy" for
+"About"). The brand is written literally as "Wispr Bro" (deviation from
+`{{appName}}`: Handy's call sites pass no `appName`, so a variable would need
+i18next default variables; a literal keeps overrides plain strings). Grammar:
+Turkish suffixes follow vowel harmony (`Handy'nin` → `Wispr Bro'nun`,
+`'yi` → `'yu`, `'ye` → `'ya`); Danish/Swedish genitive `Handys` → `Wispr Bros`;
+compounds keep their hyphen. `HANDY_DISABLE_UPDATER` becomes
+`WISPRBRO_DISABLE_UPDATER`. Generated values are flagged
+`"overrides.<key>": "machine"` in `fork.flags.json` (or `"untranslated"` when
+the locale lacks the key); an override without a flag is treated as reviewed
+and kept on re-runs. `src/fork/i18n.ts` merges them with
+`addResourceBundle(lng, "translation", overrides, true, true)`.
+`wb-translate-missing.ts` leaves `overrides` and `overrides.*` flags alone
+(they are per-locale, not English-shaped). Checks: `bun run
+wb:check:translations` (runs both scripts in `--check` mode),
+`bun run wb:test:scripts` (`scripts/wb-brand-overrides.test.ts`: every key in
+all 26 locales, no "Handy" left, placeholders and `<tags>` preserved), and
+`tests/fork/brand-overrides.spec.ts` (Playwright: loads the real
+`src/i18n/index.ts` in the page and checks en, de, tr).
+
+### Startup self-check (`WISPRBRO_SELFCHECK=1`)
+
+`fork::on_ready` calls `commands::selfcheck::start`. When the env var is
+truthy (debug **and** release), it evaluates a script in the `main` webview
+that goes through the real IPC path: `plugin:event|listen` for
+`fork-ping-event`, `fork_ping` and `fork_model_status` through
+`compose_invoke`, waits for the event, then reports with the fork command
+`fork_selfcheck_report`, which logs one line
+`fork selfcheck: PASS|FAIL …` plus an identity line (product name,
+identifier, version, live window title, last tray tooltip). The command
+refuses reports when the env var is off. This is how the F-05 exit criterion
+(routing and ACL in a release build) is checked without clicking the hidden
+debug panel.
+
 ## Event naming and the shared registry
 
 - tauri-specta derives an event's name from its type name in kebab-case and has
@@ -196,6 +352,9 @@ permission (see ACL above).
 | No Handy `fork_*` command; one `invoke_handler`; plain `build.rs` | `no_handy_command_name_starts_with_fork_prefix`, `compose_invoke_is_the_only_invoke_handler`, `build_rs_still_ends_in_plain_tauri_build` |
 | Fork bindings current; Handy bindings untouched                   | `fork_bindings_are_current_and_handy_bindings_untouched`                                                                                 |
 | UI smoke through mocked IPC                                       | `tests/fork/debug-panel.spec.ts` (`bunx playwright test -c playwright.fork.config.ts`)                                                   |
+| Identity, version lines, E-94, hook placement (F-01)              | `fork::identity_tests` in `fork/mod.rs`                                                                                                  |
+| `rust.*` strings in 26 locales, no "Handy"; tray label/icons      | `fork::i18n::tests`, `fork::tray::tests`                                                                                                 |
+| Brand overrides in 26 locales                                     | `scripts/wb-brand-overrides.test.ts` (`bun run wb:test:scripts`), `tests/fork/brand-overrides.spec.ts`                                   |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`
 and a Wry event loop cannot start inside `cargo test` on macOS (main thread).

@@ -17,5 +17,116 @@
     },
     "pending": "Waiting…",
     "error": "Error: {{message}}"
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro hiện sử dụng loại mô hình mới hơn. Hãy tải phiên bản mới để tiếp tục chuyển đổi giọng nói. Các phiên bản cũ sẽ bị xóa."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Để Wispr Bro nghe được bạn. Âm thanh được chuyển thành văn bản ngay trên máy tính này và không bao giờ được tải lên."
+        },
+        "accessibility": {
+          "why": "Để phím tắt của bạn hoạt động trong mọi ứng dụng, và Wispr Bro có thể gõ văn bản vào nơi con trỏ của bạn đang đứng."
+        },
+        "turnOnMac": "Bật Wispr Bro trong Cài đặt Hệ thống, rồi quay lại đây.",
+        "relaunch": "Phím tắt không phản hồi sau bước này? <relaunch>Khởi chạy lại Wispr Bro</relaunch> và bạn sẽ quay lại đúng chỗ này."
+      },
+      "welcome": {
+        "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”. Các mô hình của Wispr Bro hỗ trợ khoảng 100 ngôn ngữ; còn nhiều ngôn ngữ khác trong cài đặt.",
+        "chinese": {
+          "question": "Bạn nói {{languages}}. Wispr Bro nên viết bằng chữ nào?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro ở ngay góc màn hình để hướng dẫn bạn"
+      },
+      "done": {
+        "subMac": "Wispr Bro giờ đã ở trên thanh menu. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
+        "subTray": "Wispr Bro giờ đã ở trong khay hệ thống. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
+        "atLogin": "Khởi động Wispr Bro khi tôi đăng nhập",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Phím tắt Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Các ngôn ngữ bạn nói. Wispr Bro dùng chúng để đề xuất mô hình."
+        }
+      },
+      "models": {
+        "untestedNote": "Chưa được kiểm thử với Wispr Bro. Chúng có thể chậm hơn hoặc mắc nhiều lỗi hơn.",
+        "emptyYours": "Chưa có mô hình nào. Hãy chọn một mô hình bên dưới: nó sẽ được tải xuống, rồi Wispr Bro sẽ dùng nó.",
+        "deleteAskActive": "Xóa {{name}}? Wispr Bro không thể chuyển đổi giọng nói cho đến khi bạn chọn mô hình khác.",
+        "retiredNotice": {
+          "title": "Các mô hình cũ không còn hoạt động với Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Tự động khởi động Wispr Bro khi bạn đăng nhập vào máy tính."
+        },
+        "showTrayIcon": {
+          "description": "Hiển thị biểu tượng Wispr Bro trong khay hệ thống."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Tự động kiểm tra phiên bản mới của Wispr Bro",
+          "lockedDescription": "Đã bị vô hiệu hóa bởi cấu hình hệ thống (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kiểm tra xem các sự kiện bàn phím có đến được Wispr Bro hay không. Chỉ số lượng sự kiện được ghi lại — không bao giờ ghi lại bạn bấm phím nào.",
+          "verdictOk": "Các sự kiện phím đang đến Wispr Bro bình thường."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Phiên bản hiện tại của Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Hiển thị ghi chú phát hành sau khi Wispr Bro cập nhật"
+        },
+        "appDataDirectory": {
+          "description": "Vị trí Wispr Bro lưu trữ dữ liệu"
+        },
+        "supportDevelopment": {
+          "description": "Giúp chúng tôi tiếp tục xây dựng Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro sử dụng ggml để xử lý chuyển đổi giọng nói thành văn bản nhanh, cục bộ. Cảm ơn công việc tuyệt vời của Georgi Gerganov và các cộng tác viên."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Điểm mới trong Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Thay đổi ngôn ngữ giao diện của Wispr Bro"
+    },
+    "theme": {
+      "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
+    }
   }
 }

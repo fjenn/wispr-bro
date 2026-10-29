@@ -8,6 +8,8 @@
 //! Rule: a fork command reads Handy state with `try_state` and returns
 //! [`ForkError::NotReady`] when that state does not exist yet. It never panics.
 
+pub mod selfcheck;
+
 use std::sync::Arc;
 
 use serde::{Deserialize, Serialize};

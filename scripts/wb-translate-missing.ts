@@ -25,7 +25,10 @@
  *   - checks that `{{placeholders}}` match English for every key; a backend
  *     result with different placeholders is rejected and the English copy is
  *     kept, flagged "untranslated",
- *   - never touches Handy's `translation.json` files.
+ *   - never touches Handy's `translation.json` files,
+ *   - leaves the top-level `overrides` object (brand overrides for Handy's
+ *     `translation` namespace) and its `overrides.*` flags alone: they are
+ *     per-locale and owned by `scripts/wb-brand-overrides.ts` (F-01).
  *
  * Backends are pluggable (`TranslationBackend`). Today: "copy-english".
  * S-10 adds a local `llama-server` backend (flag "machine"); no network
@@ -40,6 +43,8 @@ const LOCALES_DIR = path.join(__dirname, "..", "src", "i18n", "locales");
 const SOURCE_LANG = "en";
 const NAMESPACE_FILE = "fork.json";
 const FLAGS_FILE = "fork.flags.json";
+/** Top-level key owned by `wb-brand-overrides.ts`; not part of key parity. */
+export const OVERRIDES_KEY = "overrides";
 
 type Json = { [key: string]: string | Json };
 type Flag = "untranslated" | "machine";
@@ -110,6 +115,22 @@ function samePlaceholders(a: string, b: string): boolean {
   return placeholders(a).join("\u0000") === placeholders(b).join("\u0000");
 }
 
+/** Splits `fork.json` into its namespace strings and the `overrides` object. */
+export function splitOverrides(data: Json): {
+  strings: Json;
+  overrides: Json | undefined;
+} {
+  const { [OVERRIDES_KEY]: overrides, ...strings } = data;
+  if (overrides !== undefined && typeof overrides !== "object") {
+    throw new Error(`${OVERRIDES_KEY} must be an object`);
+  }
+  return { strings, overrides: overrides as Json | undefined };
+}
+
+function isOverrideFlag(key: string): boolean {
+  return key.startsWith(`${OVERRIDES_KEY}.`);
+}
+
 function readJson<T>(file: string, fallback: T): T {
   if (!fs.existsSync(file)) return fallback;
   return JSON.parse(fs.readFileSync(file, "utf8")) as T;
@@ -136,7 +157,8 @@ async function processLocale(
   const dir = path.join(LOCALES_DIR, lang);
   const jsonPath = path.join(dir, NAMESPACE_FILE);
   const flagsPath = path.join(dir, FLAGS_FILE);
-  const current = flatten(readJson<Json>(jsonPath, {}));
+  const { strings, overrides } = splitOverrides(readJson<Json>(jsonPath, {}));
+  const current = flatten(strings);
   const flags = readJson<Flags>(flagsPath, {});
   const report: LocaleReport = {
     lang,
@@ -170,16 +192,21 @@ async function processLocale(
     if (!source.has(key)) report.removed.push(key);
   }
   for (const key of Object.keys(flags)) {
-    if (!source.has(key)) delete flags[key];
+    if (!source.has(key) && !isOverrideFlag(key)) delete flags[key];
   }
   const sortedFlags: Flags = {};
   for (const key of source.keys()) {
     if (flags[key]) sortedFlags[key] = flags[key];
   }
   report.flagged = Object.keys(sortedFlags).length;
+  for (const key of Object.keys(flags).sort()) {
+    if (isOverrideFlag(key)) sortedFlags[key] = flags[key];
+  }
 
   if (write) {
-    writeJson(jsonPath, unflatten([...source.keys()], next));
+    const out = unflatten([...source.keys()], next);
+    if (overrides !== undefined) out[OVERRIDES_KEY] = overrides;
+    writeJson(jsonPath, out);
     writeJson(flagsPath, sortedFlags);
   }
   return report;
@@ -200,7 +227,9 @@ async function main(): Promise<void> {
   }
 
   const source = flatten(
-    readJson<Json>(path.join(LOCALES_DIR, SOURCE_LANG, NAMESPACE_FILE), {}),
+    splitOverrides(
+      readJson<Json>(path.join(LOCALES_DIR, SOURCE_LANG, NAMESPACE_FILE), {}),
+    ).strings,
   );
   for (const [key, value] of source) {
     if (!value.trim()) throw new Error(`en/${NAMESPACE_FILE}: ${key} is empty`);

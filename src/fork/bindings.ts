@@ -28,6 +28,18 @@ async forkModelStatus() : Promise<Result<ForkModelStatus, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Receives the self-check report from the `main` webview and logs the
+ * verdict. Rejected unless the self-check is on.
+ */
+async forkSelfcheckReport(report: string) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_selfcheck_report", { report }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 

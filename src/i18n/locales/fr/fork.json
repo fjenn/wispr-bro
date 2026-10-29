@@ -17,5 +17,116 @@
     },
     "pending": "Waiting…",
     "error": "Error: {{message}}"
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro utilise désormais un nouveau type de modèle. Téléchargez la nouvelle version pour continuer à transcrire. Les anciennes versions seront supprimées."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Pour que Wispr Bro puisse vous entendre. L'audio est converti en texte sur cet ordinateur et n'est jamais envoyé ailleurs."
+        },
+        "accessibility": {
+          "why": "Pour que votre raccourci fonctionne dans toutes les apps et que Wispr Bro puisse saisir le texte là où se trouve votre curseur."
+        },
+        "turnOnMac": "Activez Wispr Bro dans Réglages Système, puis revenez ici.",
+        "relaunch": "Le raccourci ne répond pas après ça ? <relaunch>Relancez Wispr Bro</relaunch> et vous reviendrez directement ici."
+      },
+      "welcome": {
+        "noMatch": "Aucune langue ne correspond à « {{query}} ». Les modèles de Wispr Bro couvrent environ 100 langues ; d'autres sont disponibles dans les paramètres.",
+        "chinese": {
+          "question": "Vous parlez {{languages}}. Quels caractères Wispr Bro doit-il écrire ?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro est dans le coin pour vous guider"
+      },
+      "done": {
+        "subMac": "Wispr Bro est maintenant dans votre barre des menus. Maintenez ou appuyez sur <keys/> dans n'importe quelle app pour parler.",
+        "subTray": "Wispr Bro est maintenant dans votre zone de notification. Maintenez ou appuyez sur <keys/> dans n'importe quelle app pour parler.",
+        "atLogin": "Lancer Wispr Bro à l'ouverture de ma session",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Raccourcis Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Les langues que vous parlez. Wispr Bro s'en sert pour recommander des modèles."
+        }
+      },
+      "models": {
+        "untestedNote": "Non testés avec Wispr Bro. Ils peuvent être plus lents ou faire plus d'erreurs.",
+        "emptyYours": "Aucun modèle pour l'instant. Choisissez-en un ci-dessous : il se télécharge, puis Wispr Bro l'utilise.",
+        "deleteAskActive": "Supprimer {{name}} ? Wispr Bro ne pourra plus transcrire tant que vous n'en aurez pas choisi un autre.",
+        "retiredNotice": {
+          "title": "Les anciens modèles ne fonctionnent plus avec Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Réanalyser pour détecter les modèles ajoutés au dossier des modèles ou au cache Hugging Face en dehors de Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Démarrer automatiquement Wispr Bro lorsque vous vous connectez à votre ordinateur."
+        },
+        "showTrayIcon": {
+          "description": "Afficher l'icône de Wispr Bro dans la barre système."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Vérifier automatiquement les nouvelles versions de Wispr Bro",
+          "lockedDescription": "Désactivé par la configuration système (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Vérifie si les événements clavier atteignent Wispr Bro. Seul le nombre d'événements est enregistré, jamais les touches sur lesquelles vous appuyez.",
+          "verdictOk": "Les événements clavier atteignent Wispr Bro normalement."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Version actuelle de Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Afficher les notes de version après les mises à jour de Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Emplacement où Wispr Bro stocke ses données"
+        },
+        "supportDevelopment": {
+          "description": "Aidez-nous à continuer à construire Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro utilise ggml pour un traitement rapide et local de la parole en texte. Merci au travail incroyable de Georgi Gerganov et des contributeurs."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Nouveautés de Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Changer la langue de l'interface de Wispr Bro"
+    },
+    "theme": {
+      "description": "Choisissez si Wispr Bro suit le thème du système ou reste clair ou sombre"
+    }
   }
 }

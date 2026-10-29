@@ -1,1 +1,26 @@
-{}
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Wispr Bro",
+  "version": "1.0.0-alpha.1",
+  "identifier": "com.wisprbro.desktop",
+  "bundle": {
+    "icon": [
+      "icons-fork/32x32.png",
+      "icons-fork/128x128.png",
+      "icons-fork/128x128@2x.png",
+      "icons-fork/icon.icns",
+      "icons-fork/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "13.0"
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "TODO-F02-<owner>-updater-pubkey",
+      "endpoints": [
+        "https://github.com/<owner>/wispr-bro/releases/latest/download/latest.json"
+      ]
+    }
+  }
+}

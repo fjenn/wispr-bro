@@ -192,6 +192,9 @@ fn windows_taskbar_theme() -> Option<AppTheme> {
 /// blocked (macOS Secure Input); recording/transcribing states keep their
 /// normal icons so in-flight activity stays recognizable.
 pub fn get_icon_path(theme: AppTheme, state: TrayIconState, warning: bool) -> &'static str {
+    if let Some(path) = crate::fork::tray::icon_path(&theme, state, warning) {
+        return path;
+    }
     if warning && state == TrayIconState::Idle {
         return match theme {
             AppTheme::Dark => "resources/tray_idle_warning.png",
@@ -605,6 +608,7 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
         tooltip = format!("{} — {}", tooltip, warning_item.text().unwrap_or_default());
     }
 
+    crate::fork::tray::extend(app, &menu, &mut tooltip, &inputs.locale)?;
     Ok((menu, tooltip))
 }
 

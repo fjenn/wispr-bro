@@ -17,5 +17,116 @@
     },
     "pending": "Waiting…",
     "error": "Error: {{message}}"
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro använder nu en nyare typ av modell. Ladda ner den nya versionen för att fortsätta transkribera. Gamla versioner kommer att tas bort."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Så att Wispr Bro kan höra dig. Ljudet omvandlas till text på den här datorn och laddas aldrig upp."
+        },
+        "accessibility": {
+          "why": "Så att din genväg fungerar i alla appar och Wispr Bro kan skriva texten där markören står."
+        },
+        "turnOnMac": "Slå på Wispr Bro i Systeminställningar och kom sedan tillbaka hit.",
+        "relaunch": "Svarar inte genvägen efter detta? <relaunch>Starta om Wispr Bro</relaunch> så hamnar du direkt här igen."
+      },
+      "welcome": {
+        "noMatch": "Inget språk matchar ”{{query}}”. Wispr Bros modeller täcker cirka 100 språk, fler finns i inställningarna.",
+        "chinese": {
+          "question": "Du talar {{languages}}. Vilka tecken ska Wispr Bro skriva?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro finns i hörnet och guidar dig"
+      },
+      "done": {
+        "subMac": "Wispr Bro finns nu i menyraden. Håll in eller tryck på <keys/> i valfri app för att tala.",
+        "subTray": "Wispr Bro finns nu i systemfältet. Håll in eller tryck på <keys/> i valfri app för att tala.",
+        "atLogin": "Starta Wispr Bro när jag loggar in",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro-kortkommandon"
+        },
+        "preferredLanguages": {
+          "description": "Språken du talar. Wispr Bro använder dem för att rekommendera modeller."
+        }
+      },
+      "models": {
+        "untestedNote": "Inte testade med Wispr Bro. De kan vara långsammare eller göra fler fel.",
+        "emptyYours": "Inga modeller ännu. Välj en nedan: den laddas ner och sedan använder Wispr Bro den.",
+        "deleteAskActive": "Ta bort {{name}}? Wispr Bro kan inte transkribera förrän du väljer en annan.",
+        "retiredNotice": {
+          "title": "Gamla modeller fungerar inte längre med Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Skanna om efter modeller som lagts till i modellmappen eller Hugging Face-cachen utanför Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Starta Wispr Bro automatiskt när du loggar in på din dator."
+        },
+        "showTrayIcon": {
+          "description": "Visa Wispr Bro-ikonen i systemfältet."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Sök automatiskt efter nya versioner av Wispr Bro",
+          "lockedDescription": "Inaktiverad av systemkonfiguration (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kontrollerar om tangentbordshändelser når Wispr Bro. Endast antalet händelser registreras — aldrig vilka tangenter du trycker på.",
+          "verdictOk": "Tangenthändelser når Wispr Bro som vanligt."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Nuvarande version av Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Visa versionsinformation efter Wispr Bro-uppdateringar"
+        },
+        "appDataDirectory": {
+          "description": "Plats där Wispr Bro lagrar sina data"
+        },
+        "supportDevelopment": {
+          "description": "Hjälp oss att fortsätta bygga Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro använder ggml för snabb, lokal tal-till-text-behandling. Tack till det fantastiska arbete som utförts av Georgi Gerganov med medarbetare."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Nytt i Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Ändra språket i Wispr Bro-gränssnittet"
+    },
+    "theme": {
+      "description": "Välj om Wispr Bro ska följa systemets tema eller förbli ljust eller mörkt"
+    }
   }
 }

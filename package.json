@@ -1,7 +1,7 @@
 {
   "name": "handy-app",
   "private": true,
-  "version": "0.9.8",
+  "version": "1.0.0-alpha.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -27,7 +27,10 @@
     "wb:dev": "tauri dev --config src-tauri/tauri.fork.conf.json",
     "wb:build": "tauri build --config src-tauri/tauri.fork.conf.json",
     "wb:translate": "bun scripts/wb-translate-missing.ts",
-    "wb:check:translations": "bun scripts/wb-translate-missing.ts --check"
+    "wb:check:translations": "bun scripts/wb-translate-missing.ts --check && bun scripts/wb-brand-overrides.ts --check",
+    "wb:brand": "bun scripts/wb-brand-overrides.ts",
+    "wb:icons": "bun scripts/wb-icons.ts",
+    "wb:test:scripts": "bun test scripts/"
   },
   "dependencies": {
     "@handy-computer/models": "0.2.3",

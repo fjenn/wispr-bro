@@ -17,5 +17,116 @@
     },
     "pending": "Waiting…",
     "error": "Error: {{message}}"
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "يستخدم Wispr Bro الآن نوعًا أحدث من النماذج. نزّل الإصدار الجديد لمواصلة التفريغ الصوتي. ستتم إزالة الإصدارات القديمة."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "ليتمكن Wispr Bro من سماعك. يُحوَّل الصوت إلى نص على هذا الكمبيوتر ولا يُرفع أبدًا."
+        },
+        "accessibility": {
+          "why": "ليعمل اختصارك في كل التطبيقات، ويتمكن Wispr Bro من كتابة النص حيث يوجد المؤشر."
+        },
+        "turnOnMac": "فعّل Wispr Bro في «إعدادات النظام»، ثم عد إلى هنا.",
+        "relaunch": "الاختصار لا يستجيب بعد هذا؟ <relaunch>أعد تشغيل Wispr Bro</relaunch> وستعود إلى هنا مباشرة."
+      },
+      "welcome": {
+        "noMatch": "لا توجد لغة تطابق «{{query}}». تغطي نماذج Wispr Bro نحو 100 لغة، والمزيد في الإعدادات.",
+        "chinese": {
+          "question": "أنت تتحدث {{languages}}. بأي حروف يجب أن يكتب Wispr Bro؟"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro في الزاوية ليرشدك خطوة بخطوة"
+      },
+      "done": {
+        "subMac": "Wispr Bro الآن في شريط القوائم. اضغط مطوّلًا أو انقر على <keys/> في أي تطبيق لتتحدث.",
+        "subTray": "Wispr Bro الآن في صينية النظام. اضغط مطوّلًا أو انقر على <keys/> في أي تطبيق لتتحدث.",
+        "atLogin": "تشغيل Wispr Bro عند تسجيل الدخول",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "اختصارات Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "اللغات التي تتحدثها. يستخدمها Wispr Bro للتوصية بالنماذج."
+        }
+      },
+      "models": {
+        "untestedNote": "لم تُختبر مع Wispr Bro. قد تكون أبطأ أو ترتكب أخطاء أكثر.",
+        "emptyYours": "لا توجد نماذج بعد. اختر واحدًا أدناه: يُنزَّل ثم يستخدمه Wispr Bro.",
+        "deleteAskActive": "حذف {{name}}؟ لن يستطيع Wispr Bro التفريغ الصوتي حتى تختار نموذجًا آخر.",
+        "retiredNotice": {
+          "title": "النماذج القديمة لم تعد تعمل مع Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "إعادة الفحص بحثًا عن النماذج المضافة إلى مجلد النماذج أو ذاكرة Hugging Face التخزينية المؤقتة خارج Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": ".بدء تشغيل Wispr Bro تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
+        },
+        "showTrayIcon": {
+          "description": ".عرض أيقونة Wispr Bro في شريط النظام"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "التحقق تلقائياً من وجود إصدارات جديدة من Wispr Bro",
+          "lockedDescription": "معطّل بواسطة إعدادات النظام (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "يتحقق مما إذا كانت أحداث لوحة المفاتيح تصل إلى Wispr Bro. يُسجَّل عدد الأحداث فقط — ولا تُسجَّل أبدًا المفاتيح التي تضغط عليها.",
+          "verdictOk": "أحداث المفاتيح تصل إلى Wispr Bro بشكل طبيعي."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "الإصدار الحالي من Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "إظهار ملاحظات الإصدار بعد تحديثات Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "الموقع الذي يخزن فيه Wispr Bro بياناته"
+        },
+        "supportDevelopment": {
+          "description": "ساعدنا في مواصلة بناء Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": ".يستخدم Wispr Bro برنامج ggml لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "الجديد في Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "تغيير لغة واجهة Wispr Bro"
+    },
+    "theme": {
+      "description": "اختر ما إذا كان Wispr Bro يتبع مظهر النظام أو يبقى فاتحًا أو داكنًا"
+    }
   }
 }

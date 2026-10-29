@@ -131,7 +131,7 @@ impl TranscriptionJobManager {
         }
 
         let hm = self.app.state::<Arc<HistoryManager>>();
-        let file_name = format!("handy-file-{}.wav", chrono::Utc::now().timestamp_millis());
+        let file_name = crate::fork::file_job_name(chrono::Utc::now().timestamp_millis());
         let recording = hm.get_audio_file_path(&file_name);
         // Written aside and renamed, so a crash never leaves a partial one.
         let partial = recording.with_extension("wav.partial");
