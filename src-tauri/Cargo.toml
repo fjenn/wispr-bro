@@ -199,6 +199,10 @@ tempfile = "3"
 # Test-only tokio features for the local socket servers exercising the
 # resumable HTTP downloader; normal builds keep the leaner feature set.
 tokio = { version = "1.43.0", features = ["macros", "net", "io-util", "sync", "time", "rt-multi-thread"] }
+# fork: Wispr Bro test-only dependencies (begin)
+# `tauri::test` (MockRuntime) for the fork plumbing tests in src/fork/.
+tauri = { version = "2.11.5", features = ["test"] }
+# fork: Wispr Bro test-only dependencies (end)
 
 [profile.release]
 lto = true

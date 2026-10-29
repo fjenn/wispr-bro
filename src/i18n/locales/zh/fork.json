@@ -1,0 +1,21 @@
+{
+  "debug": {
+    "title": "Fork debug panel",
+    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
+    "close": "Close",
+    "runAgain": "Run again",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Model status",
+      "notReady": "Not ready yet: the app has not finished starting."
+    },
+    "lastEvent": {
+      "title": "Last ping event",
+      "none": "No event received yet."
+    },
+    "pending": "Waiting…",
+    "error": "Error: {{message}}"
+  }
+}

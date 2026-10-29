@@ -23,7 +23,11 @@
     "check:catalog": "bun scripts/sync-catalog.ts --check",
     "build:cjk-font": "bun scripts/build-cjk-font.ts",
     "check:cjk-font": "bun scripts/build-cjk-font.ts --check",
-    "postinstall": "bun scripts/check-nix-deps.ts"
+    "postinstall": "bun scripts/check-nix-deps.ts",
+    "wb:dev": "tauri dev --config src-tauri/tauri.fork.conf.json",
+    "wb:build": "tauri build --config src-tauri/tauri.fork.conf.json",
+    "wb:translate": "bun scripts/wb-translate-missing.ts",
+    "wb:check:translations": "bun scripts/wb-translate-missing.ts --check"
   },
   "dependencies": {
     "@handy-computer/models": "0.2.3",

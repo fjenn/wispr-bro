@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import { locale } from "@tauri-apps/plugin-os";
 import { LANGUAGE_METADATA } from "./languages";
 import { commands } from "@/bindings";
+import { registerForkI18n } from "@/fork";
 import {
   getLanguageDirection,
   updateDocumentDirection,
@@ -98,6 +99,7 @@ i18n.use(initReactI18next).init({
     useSuspense: false, // Disable suspense for SSR compatibility
   },
 });
+registerForkI18n(i18n);
 
 // Sync language from app settings
 export const syncLanguageFromSettings = async () => {

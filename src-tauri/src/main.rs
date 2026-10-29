@@ -34,5 +34,6 @@ fn main() {
     }
 
     let cli_args = CliArgs::parse();
+    handy_app_lib::fork::early_init();
     handy_app_lib::run(cli_args)
 }

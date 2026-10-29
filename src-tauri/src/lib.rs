@@ -10,6 +10,7 @@ pub mod cli;
 mod clipboard;
 mod commands;
 pub mod engine_supervisor;
+pub mod fork;
 mod helpers;
 mod input;
 mod language_detection;
@@ -897,6 +898,7 @@ pub fn run(cli_args: CliArgs) {
     #[allow(unused_mut)]
     let mut app = builder
         .plugin(tauri_plugin_fs::init())
+        .plugin(fork::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_os::init())
@@ -1129,7 +1131,7 @@ pub fn run(cli_args: CliArgs) {
             }
             _ => {}
         })
-        .invoke_handler(invoke_handler)
+        .invoke_handler(fork::compose_invoke(invoke_handler))
         .build(tauri::generate_context!())
         .expect("error while building tauri application");
 
