@@ -11,6 +11,27 @@ from labels; there is **no LLM judge**. Source of truth: R5 §11.1 (metrics),
 | `../../scripts/wb-eval-cleanup.ts`      | Runner, metric functions, guard stub, report writer                    |
 | `../../scripts/wb-eval-cleanup.test.ts` | Metric unit tests on hand-made items, harness and item self-tests      |
 | `reports/`                              | `<date>-<model>.md` and `.json` per run (gitignored except `.gitkeep`) |
+| `prompts/`                              | RS-07 prompt variants; each header names source, commit, licence       |
+| `../../scripts/wb-bench-cleanup.ts`     | RS-07 bake-off: starts `llama-server` per model, runs every variant    |
+
+## RS-07 bake-off (`wb-bench-cleanup.ts`)
+
+A bench harness on top of this runner: per model it spawns a pinned
+`llama-server` on `127.0.0.1` with the R5 §4.5 flags (`-c 4096 -np 1
+--cache-ram 256 --reasoning off --jinja --no-webui --offline`, scrubbed env,
+random API key, never `-hf`), waits for `/health`, runs each prompt in
+`prompts/` × JSON schema vs plain through `evaluate()` with the guard stub,
+samples the server's RSS with `ps`, and stops it. Upstream prompts keep their
+own user-message framing; `trimmed` uses the R5 §4.5 framing; fine-tunes also
+run their model-card template (`native-*.txt`). Results go to
+`reports/rs07-<date>/` (one scorer report per model × prompt × format, plus
+`summary.json`). Findings: `docs/fork/spikes/RS-07-cleanup-bakeoff.md`.
+
+```bash
+bun scripts/wb-bench-cleanup.ts --server <llama-server> --model-dir ~/wb-bench/llm
+bun scripts/wb-bench-cleanup.ts --server <llama-server> --per-category 6   # stratified cut
+bun scripts/wb-bench-cleanup.ts --server <llama-server> --probe            # RS-06 flags, unix socket
+```
 
 ## Running
 
@@ -325,4 +346,4 @@ language, must_remove)` (input words minus the runner's stopwords minus
 | Only 3 items have their own Medium expected output                                                                                 | Medium runs compare against Light labels, so Medium rewording counts as damage or a miss more often than it should                                                                      | Second labelling pass                                           |
 | Single labeller, agreement not recorded                                                                                            | F-10 exit criterion open                                                                                                                                                                | Human labelling pass                                            |
 | No Disfl-QA / AMI-disfluent / Voquill samples                                                                                      | Fewer natural disfluencies                                                                                                                                                              | Add with licence checks (above)                                 |
-| Not run against a real model                                                                                                       | The "report for one model in under 15 min on an M1" exit criterion is unverified                                                                                                        | RS-07                                                           |
+| Run against real models only on an M5 Max (RS-07 provisional run, `docs/fork/spikes/RS-07-cleanup-bakeoff.md`)                     | The "report for one model in under 15 min on an M1" exit criterion is unverified                                                                                                        | RS-07 re-run on M1 8 GB                                         |

@@ -21,7 +21,7 @@ Re-check them when Tauri or tauri-specta is upgraded.
 | Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                         |
 | Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                     |
 | UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                            |
-| Cleanup eval   | `eval/cleanup/` (items, README, gitignored `reports/`), `scripts/wb-eval-cleanup.ts`                                                                                                                                  |
+| Cleanup eval   | `eval/cleanup/` (items, README, `prompts/` (RS-07 upstream prompts, MIT), gitignored `reports/`), `scripts/wb-eval-cleanup.ts`, RS-07 bench `scripts/wb-bench-cleanup.ts`                                             |
 | Manual tests   | `docs/fork/MAC-TEST-SCRIPT.md`                                                                                                                                                                                        |
 | CI guards      | `scripts/wb-guard*.ts`, `ci/`, `.github/workflows/wb-*.yml`, `about.toml`                                                                                                                                             |
 
@@ -734,6 +734,7 @@ Acknowledgements page) show "GPL-3.0", our source link and NOTICE §6.
 | F-10 fakes (clock, AX, pasteboard, coordinator, network)                                                      | `fork/testutil.rs` `fake_tests` (traits are test-only until their owning slice moves them; see the module doc)                           |
 | Playwright IPC fixture (commands and events)                                                                  | `tests/fork/fixtures.ts`, self-tests `tests/fork/ipc-fixture.spec.ts`, usage `tests/fork/README.md` (`bun run wb:test:ui`)               |
 | Cleanup eval metrics, guard stub, item labels                                                                 | `scripts/wb-eval-cleanup.test.ts`; runner `bun run wb:eval:cleanup` (`eval/cleanup/README.md`)                                           |
+| RS-07 bench harness (prompt provenance, request shapes, loopback-only spawn)                                  | `scripts/wb-bench-cleanup.test.ts`; report `docs/fork/spikes/RS-07-cleanup-bakeoff.md`                                                   |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`
 and a Wry event loop cannot start inside `cargo test` on macOS (main thread).

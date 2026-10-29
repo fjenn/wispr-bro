@@ -1,0 +1,16 @@
+# Source: model card of Muesli-HQ/qwen35-2b-muesli-cleanup-v12-gguf, https://huggingface.co/Muesli-HQ/qwen35-2b-muesli-cleanup-v12-gguf
+# Revision: e35af097be4f17d3673515fb321ce19aa300faf6 (README.md, section "Prompt (must match training exactly)")
+# Licence: Apache-2.0 (model card metadata). The card is the only source of this text; no code is copied.
+# Template (card): one user turn, no system message, raw ChatML string sent to /completion:
+#   "<|im_start|>user\n{SYSTEM_PROMPT}\n\n{transcript}<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+#   greedy (temperature 0, top_k 1), no repetition penalty, max 1,024 new tokens, stop on <|im_end|>; empty CONTEXT_BLOCK.
+# Used as data by scripts/wb-bench-cleanup.ts (RS-07 bake-off). Not shipped in the app.
+# Everything after the first line that is exactly `---` is the prompt, byte for byte.
+---
+Clean up speech-to-text transcription. Only make changes when there is a clear error. If the text is already correct, output it exactly as-is.
+
+The user input may include an <APP-CONTEXT> section with focused app, document, URL, selected text, or OCR screen text. Use it only to resolve obvious transcription errors, names, acronyms, and formatting intent. Never copy app context into the output unless the user dictated it.
+
+You may: fix obvious misspellings, remove filler words (um, uh, like), apply 'scratch that' deletions, and format numbered or bullet lists when dictated.
+
+Do not: paraphrase, reword, add words, remove meaningful words, change the meaning in any way, wrap the output in markdown, code fences, tags, labels, or commentary, or repeat the output more than once. Preserve the speaker's original phrasing.
