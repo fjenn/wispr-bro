@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# RS-09 speech-model bench (R5 §7 RS-09, DEC-51). A bench harness, not product
+# code: it is never built into the app. It drives transcribe-cpp the way the
+# app's engine worker does (src-tauri/src/engine_supervisor/worker.rs) and
+# reuses Handy's own Silero VAD wrapper and long-form Chunker through the app
+# library. See docs/fork/spikes/RS-09-asr-bench.md for how to build and run it.
+
+[package]
+name = "wb-bench-asr"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+
+# Its own workspace root, so it never joins (or changes) the app's build.
+[workspace]
+
+[[bin]]
+name = "wb-bench-asr"
+path = "src/main.rs"
+
+[dependencies]
+# The app library: Handy's SileroVad, Chunker, join_transcripts, WAV reader.
+handy = { path = "../.." }
+anyhow = "1.0.95"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+libc = "0.2"
+
+# Same engine and features as the app on Apple Silicon (src-tauri/Cargo.toml).
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+transcribe-cpp = { version = "0.4.0", default-features = false, features = ["metal", "serde"] }
+
+[target.'cfg(not(all(target_os = "macos", target_arch = "aarch64")))'.dependencies]
+transcribe-cpp = { version = "0.4.0", default-features = false, features = ["serde"] }
+
+# The app's patches, so the app library resolves to the same sources.
+[patch.crates-io]
+tao = { git = "https://github.com/cjpais/tao", rev = "c3bee28c1d446d95f08c95c3b6f8d4bde052b876" }
+tao-macros = { git = "https://github.com/cjpais/tao", rev = "c3bee28c1d446d95f08c95c3b6f8d4bde052b876" }
+
+# The app's release profile, so timings match a shipped build.
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+panic = "unwind"
