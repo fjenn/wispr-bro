@@ -24,6 +24,7 @@
     "build:cjk-font": "bun scripts/build-cjk-font.ts",
     "check:cjk-font": "bun scripts/build-cjk-font.ts --check",
     "postinstall": "bun scripts/check-nix-deps.ts",
+    "//fork": "Wispr Bro fork scripts (wb:*) from here to the end of this block; see docs/fork/ARCHITECTURE.md",
     "wb:dev": "tauri dev --config src-tauri/tauri.fork.conf.json",
     "wb:build": "tauri build --config src-tauri/tauri.fork.conf.json",
     "wb:translate": "bun scripts/wb-translate-missing.ts",
@@ -43,7 +44,9 @@
     "wb:test:guards": "bun test scripts/wb-guards.test.ts",
     "wb:clippy": "bun scripts/wb-clippy-fork.ts",
     "wb:format:check": "prettier --check --ignore-path .prettierignore --ignore-path .wb-prettierignore . && cd src-tauri && cargo fmt -- --check",
-    "//fork:guards-end": "Wispr Bro CI guards: end"
+    "//fork:guards-end": "Wispr Bro CI guards: end",
+    "wb:test:ui": "playwright test -c playwright.fork.config.ts",
+    "wb:eval:cleanup": "bun scripts/wb-eval-cleanup.ts"
   },
   "dependencies": {
     "@handy-computer/models": "0.2.3",

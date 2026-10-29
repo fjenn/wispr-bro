@@ -1,0 +1,4 @@
+# Eval reports are local results, not source (F-10).
+*
+!.gitignore
+!.gitkeep

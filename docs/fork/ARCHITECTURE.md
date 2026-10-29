@@ -21,6 +21,9 @@ Re-check them when Tauri or tauri-specta is upgraded.
 | Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                         |
 | Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                     |
 | UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                            |
+| Cleanup eval   | `eval/cleanup/` (items, README, gitignored `reports/`), `scripts/wb-eval-cleanup.ts`                                                                                                                                  |
+| Manual tests   | `docs/fork/MAC-TEST-SCRIPT.md`                                                                                                                                                                                        |
+| CI guards      | `scripts/wb-guard*.ts`, `ci/`, `.github/workflows/wb-*.yml`, `about.toml`                                                                                                                                             |
 
 Every fork source file starts with `// SPDX-License-Identifier: GPL-3.0-or-later`.
 Exception: AGPL ports start with `// SPDX-License-Identifier: AGPL-3.0-only`
@@ -652,6 +655,9 @@ workflow's header.
 | `rust.*` strings in 26 locales, no "Handy"; tray label/icons                                                  | `fork::i18n::tests`, `fork::tray::tests`                                                                                                 |
 | Fork settings: defaults, migrations, salvage, validation, ENFORCED/FIRST_RUN, commands + event on MockRuntime | `fork::settings::tests` (`src-tauri/src/fork/settings/tests.rs`), `tests/fork/fork-settings.spec.ts`                                     |
 | Brand overrides in 26 locales                                                                                 | `scripts/wb-brand-overrides.test.ts` (`bun run wb:test:scripts`), `tests/fork/brand-overrides.spec.ts`                                   |
+| F-10 fakes (clock, AX, pasteboard, coordinator, network)                                                      | `fork/testutil.rs` `fake_tests` (traits are test-only until their owning slice moves them; see the module doc)                           |
+| Playwright IPC fixture (commands and events)                                                                  | `tests/fork/fixtures.ts`, self-tests `tests/fork/ipc-fixture.spec.ts`, usage `tests/fork/README.md` (`bun run wb:test:ui`)               |
+| Cleanup eval metrics, guard stub, item labels                                                                 | `scripts/wb-eval-cleanup.test.ts`; runner `bun run wb:eval:cleanup` (`eval/cleanup/README.md`)                                           |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`
 and a Wry event loop cannot start inside `cargo test` on macOS (main thread).

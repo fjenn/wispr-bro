@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { test, expect, type Page } from "@playwright/test";
-import { installTauriMock, type MockResponses } from "./ipc-mock";
+import { test, expect, NOT_READY } from "./fixtures";
 
 const pingReply = {
   message: "pong",
@@ -10,27 +9,18 @@ const pingReply = {
   cli_debug: false,
 };
 
-async function ipcCalls(page: Page): Promise<string[]> {
-  return page.evaluate(() =>
-    (
-      (window as unknown as { __WB_IPC_CALLS__: { cmd: string }[] })
-        .__WB_IPC_CALLS__ ?? []
-    ).map((c) => c.cmd),
-  );
-}
-
 test.describe("fork debug panel", () => {
   test("route opens the panel and shows fork command results", async ({
     page,
+    ipc,
   }) => {
-    const responses: MockResponses = {
+    ipc.respond({
       fork_ping: pingReply,
       fork_model_status: {
         known_models: 4,
         downloaded_model_ids: ["parakeet-tdt-0.6b-v3"],
       },
-    };
-    await page.addInitScript(installTauriMock, responses);
+    });
     await page.goto("/#/fork/debug");
 
     const panel = page.getByTestId("fork-debug-panel");
@@ -44,7 +34,7 @@ test.describe("fork debug panel", () => {
     );
     await expect(page.getByTestId("fork-debug-event")).toContainText('"seq"');
 
-    const calls = await ipcCalls(page);
+    const calls = await ipc.commandNames();
     expect(calls).toContain("fork_ping");
     expect(calls).toContain("fork_model_status");
 
@@ -52,21 +42,33 @@ test.describe("fork debug panel", () => {
     await expect(panel).toBeHidden();
   });
 
-  test("NotReady error is shown as a friendly message", async ({ page }) => {
-    await page.addInitScript(installTauriMock, {
-      fork_ping: pingReply,
-      fork_model_status: { __error: { kind: "NotReady" } },
-    });
+  test("NotReady error is shown as a friendly message", async ({
+    page,
+    ipc,
+  }) => {
+    ipc.respond({ fork_ping: pingReply, fork_model_status: NOT_READY });
     await page.goto("/#/fork/debug");
     await expect(page.getByTestId("fork-debug-models")).toContainText(
       "Not ready yet",
     );
   });
 
+  test("an event emitted by the test reaches the panel", async ({
+    page,
+    ipc,
+  }) => {
+    ipc.respond({ fork_ping: pingReply });
+    await page.goto("/#/fork/debug");
+    await ipc.waitForListener("fork-ping-event");
+    expect(await ipc.emit("fork-ping-event", { seq: 4242 })).toBeGreaterThan(0);
+    await expect(page.getByTestId("fork-debug-event")).toContainText("4242");
+  });
+
   test("debug chord opens the panel only when the backend allows it", async ({
     page,
+    ipc,
   }) => {
-    await page.addInitScript(installTauriMock, {
+    ipc.respond({
       fork_ping: { ...pingReply, debug_build: false, cli_debug: false },
     });
     await page.goto("/");
@@ -74,14 +76,12 @@ test.describe("fork debug panel", () => {
       () => !!document.getElementById("fork-debug-root"),
     );
     await page.keyboard.press("ControlOrMeta+Shift+D");
-    await expect
-      .poll(async () => (await ipcCalls(page)).includes("fork_ping"))
-      .toBe(true);
+    await ipc.expectCalled("fork_ping");
     await expect(page.getByTestId("fork-debug-panel")).toHaveCount(0);
   });
 
-  test("debug chord opens the panel with --debug", async ({ page }) => {
-    await page.addInitScript(installTauriMock, {
+  test("debug chord opens the panel with --debug", async ({ page, ipc }) => {
+    ipc.respond({
       fork_ping: { ...pingReply, debug_build: false, cli_debug: true },
     });
     await page.goto("/");
