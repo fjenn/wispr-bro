@@ -470,7 +470,7 @@ The goal is to create both a useful tool and a foundation for others to build up
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+Wispr Bro, this fork, is distributed as a whole under GPL-3.0 - see [LICENSE](LICENSE) and [NOTICE](NOTICE). Handy's own code remains MIT - see [LICENSES/MIT-Handy.txt](LICENSES/MIT-Handy.txt).
 
 Handy is open-source software, but the Handy name, logo, icon, and brand assets are not open-source. Unofficial forks, rewrites, and redistributions must use their own branding and must not imply endorsement or affiliation.
 

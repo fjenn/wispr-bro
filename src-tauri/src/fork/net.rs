@@ -10,7 +10,7 @@
 //! - [`is_loopback`]: an `http(s)` URL on `localhost` or a loopback IP.
 //! - [`mirror_base`]: the hook in Handy's mirror URL builder
 //!   (`catalog::mirror_files`). Returns `None` for every mirror that is not on
-//!   the allowlist, so `https://blob.handy.computer/...` URLs are never built.
+//!   the allowlist, so no URL on Handy's static model mirror is ever built.
 //! - [`checked_download_url`]: the hook in `ModelManager::download_model` for
 //!   Handy's legacy URL-sourced models, which point at the same mirror.
 
@@ -64,8 +64,8 @@ pub fn is_allowed_host(url: &str) -> bool {
 ///
 /// Two independent parsers must agree: a plain split of the authority (no
 /// normalisation) and the WHATWG parser reqwest uses to connect. A URL the two
-/// read differently (`http://0x7f000001/`, tabs, backslashes, `user@host`) is
-/// not loopback, so the guard can only err on the side of refusing.
+/// read differently (127.0.0.1 written as one hex number, tabs, backslashes,
+/// `user@host`) is not loopback, so the guard can only err on the side of refusing.
 pub fn is_loopback(url: &str) -> bool {
     literal_loopback(url) && whatwg_loopback(url)
 }
@@ -119,16 +119,17 @@ fn whatwg_loopback(url: &str) -> bool {
 }
 
 /// Hook in Handy's mirror URL builder (`catalog::mirror_files`): the mirror
-/// base URL if it is on the allowlist, else `None`. Handy's only mirror,
-/// `https://blob.handy.computer`, is not, so no mirror URL is ever built and
-/// a failed Hugging Face download is reported instead of retried elsewhere.
+/// base URL if it is on the allowlist, else `None`. Handy's only mirror (its
+/// static model host, [`HANDY_MIRROR_HOST`]) is not, so no mirror URL is ever
+/// built and a failed Hugging Face download is reported instead of retried
+/// elsewhere.
 pub fn mirror_base(base: &str) -> Option<&str> {
     is_allowed_host(base).then_some(base)
 }
 
 /// Hook in `ModelManager::download_model` for URL-sourced models: the URL if
 /// it is on the allowlist, else an error before any request. Handy's five
-/// legacy Whisper/Breeze entries point at `blob.handy.computer` and fail here;
+/// legacy Whisper/Breeze entries point at that mirror and fail here;
 /// the same models are offered from Hugging Face by the catalog.
 pub fn checked_download_url(url: &str) -> anyhow::Result<String> {
     if is_allowed_host(url) {
@@ -164,11 +165,11 @@ mod tests {
             "https://blob.handy.computer/ggml-small.bin",
             "https://handy.computer/",
             "https://api.openai.com/v1",
-            "https://hf.co.evil.com/x",
+            "https://hf.co.evil.example/x",
             "https://evilhuggingface.co/x",
             "https://hf.co/x",
             "https://user:pw@huggingface.co/x",
-            "https://github.com.evil.com/",
+            "https://github.com.evil.example/",
             "ftp://github.com/",
             "not a url",
             "",
@@ -190,13 +191,13 @@ mod tests {
         }
         for url in [
             "https://api.openai.com/v1",
-            "http://localhost.evil.com/v1",
-            "http://127.0.0.1.nip.io/v1",
+            "http://localhost.evil.example/v1",
+            "http://127.0.0.1.nip.example/v1",
             "http://0x7f000001:11434/v1",
             "http://2130706433/v1",
             "http://user@127.0.0.1/v1",
-            "http://127.0.0.1\\@evil.com/v1",
-            "http://local\thost/v1",
+            "http://127.0.0.1\\@evil.example/v1",
+            "http://localhost\t/v1",
             "http://[::ffff:8.8.8.8]/v1",
             "http://10.0.0.5:11434/v1",
             "file:///etc/passwd",

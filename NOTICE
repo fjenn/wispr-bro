@@ -1,0 +1,257 @@
+Wispr Bro
+Copyright (C) 2026 Wispr Bro contributors
+
+This file lists the copyright and licence notices for Wispr Bro, the
+third-party code it is built on or ports, and the separately licensed
+model weights and fonts it uses. The full list of Rust crates and npm
+packages, with their licence texts, is THIRD-PARTY-NOTICES.md (generated
+by scripts/wb-notices.ts and attached to every release).
+
+======================================================================
+1. Licence of Wispr Bro
+======================================================================
+
+Wispr Bro is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License version 3 as published
+by the Free Software Foundation. The full text is in LICENSE.
+
+- Files written for Wispr Bro carry
+  "SPDX-License-Identifier: GPL-3.0-or-later".
+- The distributed app as a whole is licensed under GPL-3.0 (version 3
+  only), because some ported parts are licensed "-only" (see section 3
+  and section 4).
+- Wispr Bro is distributed WITHOUT ANY WARRANTY; see sections 15 and 16
+  of LICENSE.
+- The corresponding source code of every release, including its build
+  scripts, is published with that release.
+
+======================================================================
+2. Handy (MIT)
+======================================================================
+
+Wispr Bro is a fork of Handy.
+
+  Handy, https://github.com/cjpais/Handy
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT. The full text, with this copyright notice, is in
+  LICENSES/MIT-Handy.txt.
+
+Handy's files keep their MIT licence; Wispr Bro's changes to them are
+small hooks listed in ci/hooks.txt. The Handy name, logo, icon and brand
+assets are not part of this licence and are not used as Wispr Bro's
+branding.
+
+======================================================================
+3. Ported source code
+======================================================================
+
+Code ported from other projects. Each ported file keeps its original
+copyright line and carries a "Modified by Wispr Bro contributors" notice.
+Details per port: docs/fork/PORTS.md.
+
+- src-tauri/src/fork/diagnostics/sanitizer.rs
+  Source: Voquill, https://github.com/voquill/voquill
+  Commit: a5dfbe0e3a35807271293a0ef02c91902abc0104
+  File:   apps/desktop/src-tauri/src/utils/log_sanitizer.rs
+  Copyright (c) 2025-present Voquill, Inc.
+  Licence: AGPL-3.0 (this file: AGPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026 (added rules and tests).
+
+======================================================================
+4. Files licensed AGPL-3.0-only
+======================================================================
+
+These files are marked "SPDX-License-Identifier: AGPL-3.0-only" and stay
+under the GNU Affero General Public License version 3. Combining them
+with the GPL-3.0 rest of the app is permitted by section 13 of both
+licences. Wispr Bro is a local app and offers no network-reachable
+interface; if it ever does, AGPL section 13 requires offering the source
+to its remote users.
+
+- src-tauri/src/fork/diagnostics/sanitizer.rs
+
+======================================================================
+5. Apache-2.0 NOTICE files
+======================================================================
+
+Apache-2.0 section 4(d) requires passing on the NOTICE file of an
+Apache-licensed work. As of F-04 none of the shipped Rust crates or npm
+runtime packages ships a NOTICE file. scripts/wb-notices.ts reproduces
+every NOTICE file it finds in THIRD-PARTY-NOTICES.md and fails if the
+package is not named in this section, so a new one is listed here as
+"- <package name>".
+
+(none)
+
+======================================================================
+6. Model attributions
+======================================================================
+
+Speech-recognition model weights are separate works, downloaded from
+Hugging Face at first run; they are not covered by the GPL. The register
+of every model and asset, and which ones may be chosen silently, is
+docs/fork/LICENSE-REGISTER.md.
+
+6.1 CC-BY-4.0 models (may be silent defaults, DEC-26)
+
+- Parakeet Unified English 0.6B (catalog id parakeet-unified-en-0.6b)
+  Original model: nvidia/parakeet-unified-en-0.6b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-unified-en-0.6b
+  Files used: https://huggingface.co/handy-computer/parakeet-unified-en-0.6b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary 180M Flash (catalog id canary-180m-flash)
+  Original model: nvidia/canary-180m-flash by NVIDIA
+    https://huggingface.co/nvidia/canary-180m-flash
+  Files used: https://huggingface.co/handy-computer/canary-180m-flash-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet Ultra (catalog id parakeet-ultra)
+  Original model: moondream/parakeet-ultra by Moondream
+    https://huggingface.co/moondream/parakeet-ultra
+  Files used: https://huggingface.co/handy-computer/parakeet-ultra-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT 0.6B v3 (catalog id parakeet-tdt-0.6b-v3)
+  Original model: nvidia/parakeet-tdt-0.6b-v3 by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt-0.6b-v3-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT 0.6B v2 (catalog id parakeet-tdt-0.6b-v2)
+  Original model: nvidia/parakeet-tdt-0.6b-v2 by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt-0.6b-v2-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary 1B v2 (catalog id canary-1b-v2)
+  Original model: nvidia/canary-1b-v2 by NVIDIA
+    https://huggingface.co/nvidia/canary-1b-v2
+  Files used: https://huggingface.co/handy-computer/canary-1b-v2-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary-Qwen 2.5B (catalog id canary-qwen-2.5b)
+  Original model: nvidia/canary-qwen-2.5b by NVIDIA
+    https://huggingface.co/nvidia/canary-qwen-2.5b
+  Files used: https://huggingface.co/handy-computer/canary-qwen-2.5b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT-CTC 110M (catalog id parakeet-tdt_ctc-110m)
+  Original model: nvidia/parakeet-tdt_ctc-110m by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt_ctc-110m
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt_ctc-110m-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary 1B Flash (catalog id canary-1b-flash)
+  Original model: nvidia/canary-1b-flash by NVIDIA
+    https://huggingface.co/nvidia/canary-1b-flash
+  Files used: https://huggingface.co/handy-computer/canary-1b-flash-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet CTC 0.6B (catalog id parakeet-ctc-0.6b)
+  Original model: nvidia/parakeet-ctc-0.6b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-ctc-0.6b
+  Files used: https://huggingface.co/handy-computer/parakeet-ctc-0.6b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet CTC 1.1B (catalog id parakeet-ctc-1.1b)
+  Original model: nvidia/parakeet-ctc-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-ctc-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-ctc-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet Primeline (catalog id parakeet-primeline)
+  Original model: primeline/parakeet-primeline by primeLine
+    https://huggingface.co/primeline/parakeet-primeline
+  Files used: https://huggingface.co/handy-computer/parakeet-primeline-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet RNN-T 0.6B (catalog id parakeet-rnnt-0.6b)
+  Original model: nvidia/parakeet-rnnt-0.6b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-rnnt-0.6b
+  Files used: https://huggingface.co/handy-computer/parakeet-rnnt-0.6b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet RNN-T 1.1B (catalog id parakeet-rnnt-1.1b)
+  Original model: nvidia/parakeet-rnnt-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-rnnt-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-rnnt-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT-CTC 1.1B (catalog id parakeet-tdt_ctc-1.1b)
+  Original model: nvidia/parakeet-tdt_ctc-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt_ctc-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt_ctc-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT 1.1B (catalog id parakeet-tdt-1.1b)
+  Original model: nvidia/parakeet-tdt-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+6.2 CC-BY-SA-4.0 models (offered in the catalog, not a default)
+
+- Orukeet (catalog id orukeet)
+  Original model: oruk/orukeet by oruk
+    https://huggingface.co/oruk/orukeet
+  Files used: https://huggingface.co/handy-computer/orukeet-gguf
+  Licence: CC-BY-SA-4.0, https://creativecommons.org/licenses/by-sa/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+6.3 Other models
+
+The catalog's Apache-2.0 and MIT models (Whisper, Moonshine English,
+GigaAM, Granite Speech, Qwen3-ASR, Voxtral, Silero VAD, the ECAPA
+language detector and others) are not redistributed by Wispr Bro: the
+app downloads them unchanged from the handy-computer Hugging Face
+repositories, which carry their licences. The 12 non-English Moonshine models (non-commercial, although
+Handy's catalog says MIT) and models under non-commercial, NVIDIA Open
+Model or "other" licences are never chosen silently (DEC-27); see the
+register.
+
+======================================================================
+7. Fonts
+======================================================================
+
+- Noto Sans CJK SC (subset, src/assets/fonts/cjk-subset.woff2, from Handy)
+  © 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name
+  'Source'.
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-NotoSansCJK.txt.
+
+Fonts added by later slices (Newsreader, Source Serif 4, ...) are listed
+here, with their OFL text in LICENSES/, when they are added.

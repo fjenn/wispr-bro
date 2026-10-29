@@ -126,11 +126,18 @@ jobs:
         run: bun run wb:clippy
 
   licences:
-    name: licence register (cargo-about)
+    name: licence register (cargo-about, notices)
     runs-on: macos-26
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies (npm licence closure)
+        run: bun install --frozen-lockfile
 
       - uses: dtolnay/rust-toolchain@stable
 
@@ -147,6 +154,11 @@ jobs:
         # about.toml accepts only free, GPL-3.0-compatible licences, so
         # GPL-2.0-only, unlicensed and non-free crates fail here.
         run: cargo about generate --fail --manifest-path src-tauri/Cargo.toml -c about.toml about.hbs -o wb-licences.html
+
+      - name: Third-party notices current (F-04; fails on unknown/forbidden licences)
+        # Rust (cargo-about) + npm runtime closure + vendored C/C++ list +
+        # NOTICE model attributions; THIRD-PARTY-NOTICES.md must match.
+        run: bun scripts/wb-notices.ts --check
 
       - uses: actions/upload-artifact@v4
         with:

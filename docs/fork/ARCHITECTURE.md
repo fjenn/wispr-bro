@@ -518,7 +518,7 @@ no settings dump, nothing contacts `blob.handy.computer`, a strict CSP.
   `a5dfbe0e3a35807271293a0ef02c91902abc0104` (voquill/voquill), its 14 tests
   kept, plus `$HOME` → `~`, e-mails, bearer tokens, API keys, `transcript:` /
   `prompt:` / `custom words:` lines and user-text JSON fields. Listed in
-  `docs/fork/PORTS.md`; NOTICE arrives with F-04.
+  `docs/fork/PORTS.md` and `NOTICE` §3/§4 (F-04).
 - `crash.rs`: `fork::early_init` installs a panic hook chained in front of the
   previous one. It writes `crash-<YYYYMMDD-HHMMSS.mmm>-<pid>.txt` (version,
   build, OS/arch, time, thread, location, message, backtrace; sanitized) to the
@@ -622,15 +622,15 @@ Shared code: `scripts/wb-guard-lib.ts` (file listing, `FORK_PATHS`, list
 parsing, URL/host extraction). Self-tests: `scripts/wb-guards.test.ts`
 (`bun run wb:test:guards`, also part of `wb:test:scripts`).
 
-| Guard                      | Checks                                                                                                                                                                                                                                                                                    | Config                                                                         |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `wb-guard-identity.ts`     | `tauri.conf.json` + overlay (RFC 7396 merge) has no `com.pais.handy`, `cjpais/Handy` or Handy pubkey prefix; productName/identifier ours; pubkey and a `github.com/<owner>/wispr-bro` endpoint present; Cargo/package/overlay versions (and tag) agree; `--release`: no F-02 placeholders | —                                                                              |
-| `wb-guard-plumbing.ts`     | `build.rs` `fn main` ends in `tauri_build::build()`, no `AppManifest`/`InlinedPlugin`; no Handy `fork_*` command; one `.invoke_handler(fork::compose_invoke(invoke_handler))`; upstream-bound files are fork-free and MIT-clean                                                           | `ci/upstream-bound.txt`                                                        |
-| `wb-guard-hooks.ts`        | `git diff --numstat` vs `merge-base(HEAD, upstream/main)`: every changed upstream file listed and within budget; generated lockfiles (`lock` entries) may change only with their manifest changed and within budget; new files only under `FORK_PATHS`                                    | `ci/hooks.txt`                                                                 |
-| `wb-guard-hosts.ts`        | URL hosts in fork code ⊆ allowed (`[link]` only in `openUrl(…)`, `[schema]` only as `"$schema"`, `[test]` only in fork test code); hosts in upstream code ⊆ baseline ∪ inert ∪ allowed (never `[test]`); list entries carry checked comments                                              | `ci/allowed-hosts.txt`, `ci/upstream-hosts-baseline.txt`, `ci/inert-hosts.txt` |
-| `wb-guard-bundle-hosts.ts` | hosts in `dist/**/*.{js,css,html}` and Mach-O strings ⊆ allowed (except `[test]`) ∪ inert; skips without a build                                                                                                                                                                          | same                                                                           |
-| `wb-guard-telemetry.ts`    | whole-name match of banned packages in `Cargo.lock`, `Cargo.toml`, `bun.lock`, `package.json`, TS/JS imports and Rust `use`                                                                                                                                                               | `ci/telemetry-packages.txt`                                                    |
-| `wb-guard-spdx.ts`         | SPDX header in fork code; AGPL files listed in `NOTICE` (once F-04 adds it); no GPL/AGPL header outside fork paths                                                                                                                                                                        | `ci/generated.txt`                                                             |
+| Guard                      | Checks                                                                                                                                                                                                                                                                                                                  | Config                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `wb-guard-identity.ts`     | `tauri.conf.json` + overlay (RFC 7396 merge) has no `com.pais.handy`, `cjpais/Handy` or Handy pubkey prefix; productName/identifier ours; pubkey and a `github.com/<owner>/wispr-bro` endpoint present; Cargo/package/overlay versions (and tag) agree; `--release`: no F-02 placeholders                               | —                                                                              |
+| `wb-guard-plumbing.ts`     | `build.rs` `fn main` ends in `tauri_build::build()`, no `AppManifest`/`InlinedPlugin`; no Handy `fork_*` command; one `.invoke_handler(fork::compose_invoke(invoke_handler))`; upstream-bound files are fork-free and MIT-clean                                                                                         | `ci/upstream-bound.txt`                                                        |
+| `wb-guard-hooks.ts`        | `git diff --numstat` vs `merge-base(HEAD, upstream/main)`: every changed upstream file listed and within budget; generated lockfiles (`lock` entries) may change only with their manifest changed and within budget; `sha256:` entries (only `LICENSE`) must hash to the pinned text; new files only under `FORK_PATHS` | `ci/hooks.txt`                                                                 |
+| `wb-guard-hosts.ts`        | URL hosts in fork code ⊆ allowed (`[link]` only in `openUrl(…)`, `[schema]` only as `"$schema"`, `[test]` only in fork test code); hosts in upstream code ⊆ baseline ∪ inert ∪ allowed (never `[test]`); list entries carry checked comments                                                                            | `ci/allowed-hosts.txt`, `ci/upstream-hosts-baseline.txt`, `ci/inert-hosts.txt` |
+| `wb-guard-bundle-hosts.ts` | hosts in `dist/**/*.{js,css,html}` and Mach-O strings ⊆ allowed (except `[test]`) ∪ inert; skips without a build                                                                                                                                                                                                        | same                                                                           |
+| `wb-guard-telemetry.ts`    | whole-name match of banned packages in `Cargo.lock`, `Cargo.toml`, `bun.lock`, `package.json`, TS/JS imports and Rust `use`                                                                                                                                                                                             | `ci/telemetry-packages.txt`                                                    |
+| `wb-guard-spdx.ts`         | SPDX header in fork code; AGPL files listed in `NOTICE` (§4, since F-04); no GPL/AGPL header outside fork paths                                                                                                                                                                                                         | `ci/generated.txt`, `NOTICE`                                                   |
 
 **Hook budgets and lockfiles.** `ci/hooks.txt` budgets equal the measured
 diff (F-08 added `settings.rs` 7, `llm_client.rs` 3, `catalog/mod.rs` 2,
@@ -644,15 +644,32 @@ listed with a numeric budget, is changed and is within it; lockfile churn
 with an untouched manifest (a bare `cargo update`) fails, and `lock` on any
 other path is a list error.
 
+**Whole-file replacements (F-04).** `LICENSE` is Handy's MIT text replaced
+by the verbatim GPL-3.0 text (674 added + 21 deleted lines). It is listed as
+`LICENSE sha256:<hex>` instead of a budget: a 695-line budget would accept
+any other 695-line edit, while the pin accepts exactly the GNU text
+(`gpl-3.0.txt`, sha256 `3972dc97…`). The guard fails when the file is
+missing or its hash differs; only paths in `REPLACEABLE`
+(`wb-guard-hooks.ts`, today just `LICENSE`) may use the mode. Handy's MIT
+text lives on unchanged in `LICENSES/MIT-Handy.txt`. `README.md` has a
+normal budget (2: the licence sentence).
+
 **Test-only hosts.** Tests that prove a refusal name hosts the app must
 never contact. They go in the `[test]` section of `ci/allowed-hosts.txt`,
 accepted only in fork test code: `scripts/wb-*.test.ts`, `tests/fork/**`,
 fork `tests.rs` / `testutil.rs` files whose parent module declares them
 with exactly `#[cfg(test)] mod <name>;`, and, in other fork Rust files, the
 body of a `#[cfg(test)] mod <name> { … }` block (found by brace matching on
-a token stream that skips strings, raw strings, chars and nested comments)
-and comments. Anything the lexer cannot read, or `cfg(any(test, …))`, does
-not count as test code. Each entry's comment starts with a category the
+a token stream that skips strings, raw strings, chars and nested comments).
+Anything the lexer cannot read, or `cfg(any(test, …))`, does not count as
+test code. Comments of production fork code do not count either (F-04
+removed that exception): a doc comment names a refused host in words, not
+as a URL. Spoof hosts in tests use RFC 2606 names (`*.example`:
+`hf.co.evil.example`, `github.com.evil.example`, `localhost.evil.example`,
+`127.0.0.1.nip.example`); `refusal:` entries remain only where the test
+needs the real name (`api.openai.com` and the other cloud LLM hosts,
+`blob.handy.computer`, `handy.computer`, the bare `hf.co` apex and the
+no-dot lookalike `evilhuggingface.co`, which must end in the real `.co`). Each entry's comment starts with a category the
 guard checks: `example:` (RFC 2606/6761 name), `private:` (RFC 1918 /
 link-local IPv4), `loopback:` (127/8 in any spelling, `[::1]`) or
 `refusal:` (a real host named to prove refusal, no wildcard). `[test]`
@@ -671,11 +688,33 @@ F-08: Handy's cloud LLM hosts and `blob.handy.computer` are `[proven]`
 
 Workflows: `wb-ci.yml` (PR/push to `wispr-bro`: guards, script tests,
 translations, lint, `wb:format:check`, fork Playwright; `cargo test` and
-`wb:clippy` on macos-26; `cargo-about` licence report from `about.toml`) and
+`wb:clippy` on macos-26; `cargo-about` licence report from `about.toml` and
+`bun scripts/wb-notices.ts --check`), `wb-dco.yml` (F-04: every PR commit
+signed off) and
 `wb-egress.yml` (nightly: release build, `scripts/wb-egress/session.ts` under
 a pf anchor for a dedicated user, bundle-host guard). The choices (fork-only
 clippy, `.wb-prettierignore`, egress isolation) are explained in each
 workflow's header.
+
+## GPL compliance and notices (F-04)
+
+| File                               | What                                                                                                                                                                   |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LICENSE`                          | Verbatim GPL-3.0 (`gpl-3.0.txt` from gnu.org, pinned by sha256 in `ci/hooks.txt`)                                                                                      |
+| `LICENSES/MIT-Handy.txt`           | Handy's MIT text, unchanged (© 2025 CJ Pais)                                                                                                                          |
+| `LICENSES/OFL-1.1-NotoSansCJK.txt` | OFL for Handy's Noto Sans CJK subset font (copyright line read from the font)                                                                                          |
+| `NOTICE`                           | §1 licence, §2 Handy, §3 ports (from `PORTS.md`), §4 AGPL-3.0-only files (read by the SPDX guard), §5 Apache NOTICE files, §6 model attributions (DEC-26), §7 fonts    |
+| `docs/fork/LICENSE-REGISTER.md`    | Licence register (R4 §5 + DEC-26/DEC-27): source of truth for what may be a default                                                                                    |
+| `scripts/wb-notices.ts`            | Generates `THIRD-PARTY-NOTICES.md` (committed): cargo-about JSON + npm runtime closure + manual C/C++ list + NOTICE §6/§7; fails on unaccepted licences and list drift |
+| `CONTRIBUTING-WB.md`, `wb-dco.yml` | DCO sign-off, SPDX, thin-layer and no-Wispr-Flow rules; inline DCO check on PRs (upstream Handy commits exempt)                                                        |
+| `docs/fork/RELEASING.md`           | Stub: F-02 must attach `THIRD-PARTY-NOTICES.md`, `LICENSE`, `NOTICE` and a `git archive` source tarball to every release                                               |
+
+`README.md` gets one sentence (GPL-3.0 for the fork, Handy's code MIT).
+Handy's About page shows no licence and its source link is a hard-coded
+`openUrl` in `AboutSettings.tsx` (not a translation string), so the fork
+i18n overrides cannot change it; S-26b (links) and S-39 (About /
+Acknowledgements page) show "GPL-3.0", our source link and NOTICE §6.
+`src-tauri/Cargo.toml` gets no `license` field (thin-layer rule).
 
 ## Tests
 

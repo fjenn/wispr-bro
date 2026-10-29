@@ -26,8 +26,11 @@
 //     them with exactly `#[cfg(test)] mod <name>;`;
 //   - in other fork Rust files: the body of a `#[cfg(test)] mod <name> { … }`
 //     block (extent by brace matching on a real token stream, so braces in
-//     strings and comments do not count) and comments (a comment is never
-//     a request). If a file does not lex, none of it counts as test code.
+//     strings and comments do not count). If a file does not lex, none of it
+//     counts as test code.
+//   Comments of production fork code are NOT test code: describe a refused
+//   host in words there (F-04 tightening), so a URL pasted into a doc
+//   comment cannot hide a [test] host next to production code.
 //
 // Upstream code (the rest of src/, src-tauri/src/, src-tauri/*.json): every
 // host must be in `ci/upstream-hosts-baseline.txt` (reviewed), in
@@ -249,17 +252,13 @@ export function isForkTestFile(root: string, rel: string): boolean {
   });
 }
 
-/** Test-only spans of a fork Rust file: `#[cfg(test)] mod … { }` and comments. */
+/** Test-only spans of a fork Rust file: `#[cfg(test)] mod … { }` bodies. */
 export function forkTestSpans(rel: string, text: string): Span[] {
   if (!rel.endsWith(".rs")) return [];
-  const lex = lexRust(text);
-  if (!lex.ok) return [];
-  return [
-    ...lex.comments,
-    ...rustCfgTestMods(text)
-      .filter((x) => x.kind === "inline")
-      .map((x) => x.span),
-  ];
+  if (!lexRust(text).ok) return [];
+  return rustCfgTestMods(text)
+    .filter((x) => x.kind === "inline")
+    .map((x) => x.span);
 }
 
 const OPEN_URL_RE = /\bopen_?url\s*\(|\bopenUrl\b|\bopener::open_url\b/i;
@@ -346,7 +345,7 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
             file: f,
             line: hit.line,
             rule: "hosts/test-only",
-            message: `${h} is a [test] host: it may appear only in fork test code (test files, #[cfg(test)] mod blocks, comments)`,
+            message: `${h} is a [test] host: it may appear only in fork test code (test files, #[cfg(test)] mod blocks), never in production code or its comments`,
           });
           continue;
         }

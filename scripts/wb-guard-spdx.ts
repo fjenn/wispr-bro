@@ -5,8 +5,8 @@
 //     src-tauri/crates/wb-*, src/fork/, scripts/wb-*) has an
 //     `SPDX-License-Identifier:` line in its first 5 lines, except files
 //     matched by `ci/generated.txt` and formats without comments (JSON, images).
-//   - Files marked `AGPL-3.0-only` are listed in `NOTICE` (sub-check skipped
-//     until F-04 adds NOTICE).
+//   - Files marked `AGPL-3.0-only` are listed in `NOTICE` (F-04 added it; the
+//     sub-check is skipped only in a tree without NOTICE).
 //   - No file outside the fork paths carries a GPL/AGPL header (SPDX line or
 //     the GNU licence boilerplate in its first 30 lines). LICENSE, NOTICE,
 //     LICENSES/ and docs are exempt (they are the licence texts themselves).

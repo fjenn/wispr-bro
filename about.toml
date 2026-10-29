@@ -10,7 +10,7 @@
 # satisfied from this list fails the job: GPL-2.0-only, unlicensed crates (no
 # licence field and no LICENSE file) and non-free licences are deliberately
 # absent. Never add a licence here without a licence-register entry
-# (docs/fork/LICENSE-REGISTER.md, F-04).
+# (docs/fork/LICENSE-REGISTER.md).
 
 accepted = [
     "MIT",
@@ -45,8 +45,11 @@ targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]
 ignore-build-dependencies = true
 ignore-dev-dependencies = true
 
-# Our own crate (and fork crates under src-tauri/crates/wb-*) are GPL-3.0;
-# Handy's crate metadata has no `license` field yet (F-04 adds it).
+# Our own crate (and fork crates under src-tauri/crates/wb-*) are GPL-3.0.
+# Handy's crate metadata has no `license` field; F-04 leaves
+# src-tauri/Cargo.toml untouched (thin-layer rule): LICENSE and NOTICE state
+# the licence. scripts/wb-notices.ts (F-04) reads `accepted` below for npm
+# packages too.
 private = { ignore = true }
 
 # tauri-nspanel (git dependency, branch v2.1) has no `license` field, and

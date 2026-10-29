@@ -1,7 +1,8 @@
 # Ported code
 
 Every file in this repo that contains code ported from another project, with
-the exact source. F-04 turns this list into `NOTICE`. Ported files keep the
+the exact source. Each row is also in `NOTICE` §3 (F-04; AGPL files in §4).
+Ported files keep the
 original copyright line plus a "Modified by Wispr Bro contributors, <date>"
 notice. AGPL ports live in files marked `SPDX-License-Identifier:
 AGPL-3.0-only` and never in a Handy file.

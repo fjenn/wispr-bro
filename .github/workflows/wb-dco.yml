@@ -1,0 +1,80 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro DCO check (F-04, R5 §1 "Contributions use DCO sign-off";
+# CONTRIBUTING-WB.md §1): every commit a pull request adds must carry a
+# `Signed-off-by: Name <email>` trailer whose e-mail matches the commit's
+# author e-mail.
+#
+# Choices:
+# - A short inline script instead of a marketplace action: nothing third
+#   party runs with the repo token, and there is no action to pin or audit.
+#   It does not use actions/checkout either; it fetches only commit objects
+#   (`--filter=blob:none`) of the PR head, its base branch and upstream
+#   Handy.
+# - Checked: commits reachable from the PR head but not from the base branch
+#   and not from upstream Handy `main`. Upstream commits merged by the
+#   upstream-sync PR are Handy's (MIT, no DCO) and are exempt, as are merge
+#   commits (`--no-merges`); every commit with our own changes is checked.
+# - Make this job a required check on `wispr-bro` (owner, repo settings).
+
+name: "wb-dco"
+
+on:
+  pull_request:
+    branches: [wispr-bro]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  dco:
+    name: DCO sign-off
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check Signed-off-by on every PR commit
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER: ${{ github.server_url }}
+          PR: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -euo pipefail
+          git init -q dco && cd dco
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)"
+          git -c http.extraheader="$auth" fetch -q --no-tags --filter=blob:none \
+            "$SERVER/$REPO.git" \
+            "+refs/pull/$PR/head:refs/dco/head" \
+            "+refs/heads/$BASE_REF:refs/dco/base"
+          git fetch -q --no-tags --filter=blob:none \
+            https://github.com/cjpais/Handy.git "+refs/heads/main:refs/dco/upstream"
+
+          commits=$(git rev-list --no-merges refs/dco/head ^refs/dco/base ^refs/dco/upstream)
+          if [ -z "$commits" ]; then
+            echo "No commits to check."
+            exit 0
+          fi
+          bad=0
+          checked=0
+          for c in $commits; do
+            checked=$((checked + 1))
+            author=$(git log -1 --format='%ae' "$c" | tr '[:upper:]' '[:lower:]')
+            subject=$(git log -1 --format='%s' "$c")
+            signoffs=$(git log -1 --format='%(trailers:key=Signed-off-by,valueonly)' "$c" \
+              | sed -n 's/.*<\([^>]*\)>.*/\1/p' | tr '[:upper:]' '[:lower:]')
+            if [ -z "$signoffs" ]; then
+              echo "::error::${c:0:12} \"$subject\": no Signed-off-by trailer"
+              bad=$((bad + 1))
+            elif ! printf '%s\n' "$signoffs" | grep -qxF "$author"; then
+              echo "::error::${c:0:12} \"$subject\": no Signed-off-by matches the author e-mail <$author>"
+              bad=$((bad + 1))
+            fi
+          done
+          if [ "$bad" -gt 0 ]; then
+            echo "$bad of $checked commit(s) fail the DCO check."
+            echo "Fix: git rebase --signoff origin/$BASE_REF, then force-push (CONTRIBUTING-WB.md §1)."
+            exit 1
+          fi
+          echo "All $checked commit(s) are signed off."

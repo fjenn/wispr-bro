@@ -285,12 +285,13 @@ describe("hosts guard: [test] hosts", () => {
     expectPass(runHosts({ root }));
   });
 
-  test("allowed inside a #[cfg(test)] mod block and in comments, not after the block", () => {
+  test("allowed inside a #[cfg(test)] mod block (incl. its comments), not after the block", () => {
     const body =
-      `${SPDX}/// Refuses \`${H}blob.handy.computer\` (doc comment).\n` +
+      `${SPDX}/// Refuses Handy's mirror (described in words).\n` +
       `pub fn f() -> &'static str { "}" }\n` +
       `#[cfg(test)]\nmod tests {\n    const A: &str = "}{";\n    const C: char = '}';\n` +
       `    const R: &str = r#"}" }"#;\n    fn g<'a>(x: &'a str) -> &'a str { x }\n` +
+      `    // ${H}blob.handy.computer is refused (comment inside the test module).\n` +
       `    const U: &str = "${cloud}";\n}\n`;
     const root = fixture({ "src-tauri/src/fork/net.rs": body });
     expectPass(runHosts({ root }));
@@ -303,6 +304,25 @@ describe("hosts guard: [test] hosts", () => {
     const r = runHosts({ root });
     expect(rules(r)).toEqual(["hosts/test-only"]);
     expect(r.violations[0].line).toBe(body.split("\n").length);
+  });
+
+  test("a [test] host in a comment of production fork code fails", () => {
+    const prod = `pub fn f() {}\n`;
+    for (const comment of [
+      `/// Refuses \`${H}blob.handy.computer\` (doc comment).\n`,
+      `// e.g. ${cloud}\n`,
+      `/* ${H}127.0.0.1.nip.example/v1 */\n`,
+      `//! Module doc naming ${H}example.com/x.\n`,
+    ]) {
+      const root = fixture({
+        "src-tauri/src/fork/net.rs": `${SPDX}${comment}${prod}`,
+      });
+      const r = runHosts({ root });
+      expect(rules(r)).toEqual(["hosts/test-only"]);
+      expect(r.violations[0].line).toBe(2);
+      write(root, "src-tauri/src/fork/net.rs", `${SPDX}${prod}`);
+      expectPass(runHosts({ root }));
+    }
   });
 
   test("a [test] host in production fork code fails", () => {
@@ -329,8 +349,8 @@ describe("hosts guard: [test] hosts", () => {
 
   test("a [test] host is never accepted upstream or in the bundle", () => {
     const root = fixture({
-      "src-tauri/src/foo.rs": `const B: &str = "${H}127.0.0.1.nip.io/v1";\n`,
-      "dist/assets/a.js": `fetch("${H}127.0.0.1.nip.io/v1")`,
+      "src-tauri/src/foo.rs": `const B: &str = "${H}127.0.0.1.nip.example/v1";\n`,
+      "dist/assets/a.js": `fetch("${H}127.0.0.1.nip.example/v1")`,
     });
     expect(rules(runHosts({ root }))).toEqual(["hosts/upstream"]);
     expect(rules(runBundleHosts({ root }))).toEqual(["hosts/bundle"]);
@@ -821,6 +841,45 @@ describe("hooks guard", () => {
     expect(rules(runHooks({ root, base: "upstream-main" }))).toEqual([
       "hooks/list",
     ]);
+  });
+
+  test("sha256 mode: a replaced LICENSE passes only with the pinned text", () => {
+    const root = fixture({ LICENSE: "MIT License\n\nCopyright (c) Handy\n" });
+    sh(root, "init", "-q", "-b", "main");
+    sh(root, "add", "-A");
+    sh(root, "commit", "-q", "-m", "upstream");
+    sh(root, "branch", "upstream-main");
+    sh(root, "checkout", "-q", "-b", "wispr-bro");
+    write(root, "ci/hooks.txt", "");
+    const gpl = Array.from({ length: 700 }, (_, i) => `GPL line ${i}`).join(
+      "\n",
+    );
+    const pin = new Bun.CryptoHasher("sha256").update(gpl).digest("hex");
+    const hooks = readFileSync(join(root, "ci/hooks.txt"), "utf8");
+    write(root, "ci/hooks.txt", `${hooks}LICENSE sha256:${pin} # F-04: GPL\n`);
+    write(root, "LICENSE", gpl);
+    expectPass(runHooks({ root, base: "upstream-main" }));
+
+    // One changed character, or a deleted file, fails.
+    write(root, "LICENSE", gpl.replace("GPL line 5", "GPL line five"));
+    expect(rules(runHooks({ root, base: "upstream-main" }))).toEqual([
+      "hooks/sha256",
+    ]);
+    rmSync(join(root, "LICENSE"));
+    const r = runHooks({ root, base: "upstream-main" });
+    expect(rules(r)).toEqual(["hooks/sha256"]);
+    expect(r.violations[0].message).toContain("missing");
+
+    // Only REPLACEABLE files may use it; the hash must be 64 hex digits.
+    for (const bad of [
+      `src-tauri/src/lib.rs sha256:${pin} # F-05: no`,
+      `LICENSE sha256:abc # F-04: short`,
+    ]) {
+      write(root, "ci/hooks.txt", `${bad}\n`);
+      expect(rules(runHooks({ root, base: "upstream-main" }))).toEqual([
+        "hooks/list",
+      ]);
+    }
   });
 
   test("the real ci/hooks.txt parses and every entry has a slice comment", () => {

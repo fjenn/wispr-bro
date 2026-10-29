@@ -8,11 +8,17 @@
 #
 # Format: <path> <budget>  # <slice>: <hook>
 #     or: <path> lock      # <slice>: <reason>
+#     or: <path> sha256:<hex> # <slice>: <reason>
 # `lock` is only for generated lockfiles (Cargo.lock, bun.lock and the
 # bun2nix files .nix/bun.nix / .nix/bun-lock-hash, which Handy's postinstall
 # `scripts/check-nix-deps.ts` regenerates from bun.lock): any change is
 # accepted, but only if the manifest it is generated from (Cargo.toml /
 # package.json) is listed with a numeric budget, changed and within it.
+# `sha256:` is only for a whole-file replacement by a fixed external text
+# (wb-guard-hooks.ts REPLACEABLE, today just LICENSE): the file must hash to
+# exactly that value, whatever the diff size. F-04 replaced LICENSE with the
+# verbatim GPL-3.0 text (674 added + 21 deleted lines); a budget of 695 would
+# also accept any other 695-line edit, the pin accepts only that one text.
 # Budgets below equal the diff measured at merge base 7bfb2e2c: F-03's
 # entries as of F-03, raised to the measured diff for F-08 and F-10.
 
@@ -41,5 +47,7 @@ bun.lock lock                               # F-08: `@tauri-apps/plugin-sql` rem
 src/i18n/index.ts 2                         # F-05: `import { registerForkI18n } from "@/fork";` + `registerForkI18n(i18n);`
 
 # Repo meta
+LICENSE sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986 # F-04: verbatim GPL-3.0 text from gnu.org (gpl-3.0.txt); Handy's MIT text moved unchanged to LICENSES/MIT-Handy.txt
+README.md 2                                 # F-04: licence paragraph says the fork is GPL-3.0 and Handy's code stays MIT (1 line replaced)
 .gitignore 3                                # research packet: ignore docs/research/evidence/ (local-only captures)
 CLAUDE.md 4                                 # research packet: point agents at CONTEXT.md first

@@ -18,7 +18,18 @@
 // budget. So every lockfile change must follow a reviewed manifest change;
 // a lockfile change with an untouched manifest (e.g. a bare `cargo update`)
 // fails. Lock mode applies only to the files in LOCKFILES.
+//
+// `<path> sha256:<hex>   # <slice>: <reason>` is for a whole-file replacement
+// by a fixed external text (F-04: `LICENSE` replaced by the verbatim GPL-3.0
+// text). A changed-line budget would have to equal the whole diff (674 added
+// + 21 deleted) and would then also accept any other edit of that size; the
+// pin accepts exactly one content instead. The file must exist and its
+// SHA-256 must equal the listed value. Only the files in REPLACEABLE may use
+// it.
 
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   argValue,
   cliMain,
@@ -49,10 +60,16 @@ export function lockManifest(path: string): string | undefined {
   return undefined;
 }
 
+/**
+ * Upstream files that may be replaced wholesale by a pinned text
+ * (`sha256:` mode). Adding to this list is a guard change (reviewed).
+ */
+export const REPLACEABLE = ["LICENSE"];
+
 export interface HookBudget {
   path: string;
-  /** Changed-line budget, or "lock" for a generated lockfile. */
-  budget: number | "lock";
+  /** Changed-line budget, "lock" for a generated lockfile, or a pinned hash. */
+  budget: number | "lock" | { sha256: string };
   line: number;
   comment: string;
 }
@@ -60,10 +77,27 @@ export interface HookBudget {
 export function readHooks(root: string): HookBudget[] {
   return readList(root, "ci/hooks.txt").map((e) => {
     const [path, budget, ...rest] = e.value.split(/\s+/);
-    if (!path || rest.length || !/^(\d+|lock)$/.test(budget ?? "")) {
+    if (
+      !path ||
+      rest.length ||
+      !/^(\d+|lock|sha256:[0-9a-f]{64})$/.test(budget ?? "")
+    ) {
       throw new Error(
-        `ci/hooks.txt:${e.line}: expected "<path> <budget>" or "<path> lock", got "${e.value}"`,
+        `ci/hooks.txt:${e.line}: expected "<path> <budget>", "<path> lock" or "<path> sha256:<64 hex>", got "${e.value}"`,
       );
+    }
+    if (budget.startsWith("sha256:")) {
+      if (!REPLACEABLE.includes(path)) {
+        throw new Error(
+          `ci/hooks.txt:${e.line}: ${path} may not use sha256 mode; it is only for ${REPLACEABLE.join(", ")}`,
+        );
+      }
+      return {
+        path,
+        budget: { sha256: budget.slice("sha256:".length) },
+        line: e.line,
+        comment: e.comment,
+      };
     }
     if (budget === "lock" && !lockManifest(path)) {
       throw new Error(
@@ -168,12 +202,30 @@ export function runHooks(opts: HooksOptions = {}): GuardResult {
         rule: "hooks/unlisted",
         message: `upstream file changed (${n} line(s), status ${kind}) but not listed in ci/hooks.txt (R5 §4.2)`,
       });
+    } else if (typeof hook.budget === "object") {
+      let actual: string | undefined;
+      try {
+        actual = createHash("sha256")
+          .update(readFileSync(join(root, path)))
+          .digest("hex");
+      } catch {
+        actual = undefined;
+      }
+      if (actual !== hook.budget.sha256) {
+        r.violations.push({
+          file: path,
+          rule: "hooks/sha256",
+          message: actual
+            ? `replaced file does not match its pinned text (sha256 ${actual}, expected ${hook.budget.sha256}; ci/hooks.txt:${hook.line})`
+            : `replaced file is missing (ci/hooks.txt:${hook.line})`,
+        });
+      }
     } else if (hook.budget === "lock") {
       const manifest = lockManifest(path)!;
       const m = byPath.get(manifest);
       const mn = counts.get(manifest);
       const problem =
-        !m || m.budget === "lock"
+        !m || typeof m.budget !== "number"
           ? `its manifest ${manifest} has no numeric budget in ci/hooks.txt`
           : !kinds.has(manifest) || mn === undefined
             ? `its manifest ${manifest} is unchanged vs upstream; a lockfile may change only with a reviewed manifest change`
