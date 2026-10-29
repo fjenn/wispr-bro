@@ -341,6 +341,36 @@ permission (see ACL above).
 - `bun run wb:check:translations` exits 1 on missing or extra keys or a
   placeholder mismatch. Flags pass until S-37 (R5 §4.12).
 
+## `fork.db` (F-06)
+
+`src-tauri/src/fork/db/` (`mod.rs`, `fts.rs`, `migrations/0001_init.sql`,
+`tests.rs`). Schema: every M1 table of R5 §4.3; M2 tables arrive with N-04.
+
+- The plugin `setup` calls `db::register(app)`, which only manages a
+  `ForkDb` handle for `<app data dir>/fork.db`. The file is opened lazily by
+  the first `ForkDb::with_conn`, so `setup` does no database I/O.
+- One connection per process behind a mutex; pragmas `journal_mode=WAL`,
+  `busy_timeout=5000`, `synchronous=NORMAL`, `foreign_keys=ON`.
+- Migrations: `rusqlite_migration` on `fork.db`'s own `user_version`. Append
+  to `MIGRATIONS` in `db/mod.rs`; never edit a shipped file. Before migrating
+  an existing database (version ≥ 1) the WAL is checkpointed and the file is
+  copied to `fork.backup-v<N>-<ts>.db` (newest 3 kept). A newer
+  `user_version` than the build knows returns `DbError::SchemaTooNew` and the
+  file is left untouched.
+- Corruption: a file without the SQLite header, or with a failing open or
+  `PRAGMA quick_check`, is renamed with its `-wal`/`-shm` to
+  `fork.corrupt-<ts>.db*` and recreated; `db::report_db_recovered` logs a
+  warning (S-18 turns it into an inbox entry).
+- `ForkDb::delete_all` closes the connection and removes `fork.db`, `-wal`,
+  `-shm`, plus the backup and corrupt copies (they hold the same data).
+- Writes keyed by a Handy history row use `db::upsert_entry_meta` (UPDATE,
+  then INSERT if absent; column names checked against the table).
+- Search: `history_fts` and `notes_fts` are contentless FTS5 `trigram` tables
+  (`contentless_delete=1`) whose rowid is the content row's key, maintained
+  by the app via `db::fts`. Queries under 3 characters use `LIKE` on the
+  content table.
+- `history.db` is never opened by this module.
+
 ## Tests
 
 | What                                                              | Where                                                                                                                                    |

@@ -20,6 +20,7 @@
 //! managers being in state.
 
 pub mod commands;
+pub mod db;
 pub mod events;
 pub mod i18n;
 #[cfg(test)]
@@ -144,6 +145,7 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
     tauri::plugin::Builder::new(PLUGIN_NAME)
         .setup(|app, _api| {
             app.manage(ForkState::default());
+            db::register(app);
             // Merges into the same registry Handy's builder mounts into later
             // (`EventRegistry::get_or_manage`), so order does not matter.
             specta_builder::<R>().mount_events(app);
