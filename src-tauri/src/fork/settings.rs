@@ -52,13 +52,9 @@ pub const PRODUCT_IDENTIFIER: &str = "com.wisprbro.desktop";
 /// feedback at all.
 pub const HANDY_OVERLAY_REPLACED: bool = false;
 
-/// Handy's default for the custom (OpenAI-compatible) provider: Ollama on
-/// loopback.
-pub const LOOPBACK_CUSTOM_BASE_URL: &str = "http://localhost:11434/v1";
-/// Id of the fork's local LLM provider (added by F-08/S-10).
-pub const LOCAL_PROVIDER_ID: &str = "local";
-/// Id of Handy's custom provider.
-pub const CUSTOM_PROVIDER_ID: &str = "custom";
+/// Provider ids and the loopback default of Handy's custom provider live with
+/// the provider list (F-08, `fork/llm/providers.rs`).
+pub use super::llm::providers::{CUSTOM_PROVIDER_ID, LOCAL_PROVIDER_ID, LOOPBACK_CUSTOM_BASE_URL};
 
 /// Limits checked by [`validate`].
 pub const MAX_BINDINGS_PER_ACTION: usize = 4;
@@ -908,17 +904,53 @@ pub fn load_from_path(path: &Path) -> (ForkSettings, LoadStatus) {
 /// Inputs of [`apply_product_settings`] that do not live in either store.
 #[derive(Debug, Clone, Copy)]
 pub struct ProductContext {
-    /// Launch at login may be turned on. `false` in debug builds, so a dev
-    /// run never registers a `target/debug` binary as a login item; the key
-    /// then stays unrecorded and the first release run applies it.
+    /// Launch at login may be turned on. `false` in debug builds and for any
+    /// binary that is not inside an `.app` bundle, so dev and `--no-bundle`
+    /// release runs never register a `target/` binary as a login item; the
+    /// key then stays unrecorded and the first bundled run applies it.
     pub autostart_allowed: bool,
 }
 
 impl Default for ProductContext {
     fn default() -> Self {
         Self {
-            autostart_allowed: !cfg!(debug_assertions),
+            autostart_allowed: !cfg!(debug_assertions)
+                && std::env::current_exe()
+                    .map(|exe| is_inside_app_bundle(&exe))
+                    .unwrap_or(false),
         }
+    }
+}
+
+/// True when `exe` lives at `<Name>.app/Contents/MacOS/<binary>`.
+fn is_inside_app_bundle(exe: &std::path::Path) -> bool {
+    let mut parts = exe.ancestors().skip(1);
+    let macos = parts.next();
+    let contents = parts.next();
+    let bundle = parts.next();
+    matches!(
+        (macos, contents, bundle),
+        (Some(m), Some(c), Some(b))
+            if m.file_name().is_some_and(|n| n == "MacOS")
+                && c.file_name().is_some_and(|n| n == "Contents")
+                && b.extension().is_some_and(|e| e == "app")
+    )
+}
+
+#[cfg(test)]
+mod bundle_tests {
+    use super::is_inside_app_bundle;
+    use std::path::Path;
+
+    #[test]
+    fn only_binaries_inside_an_app_bundle_may_register_a_login_item() {
+        assert!(is_inside_app_bundle(Path::new(
+            "/Applications/Wispr Bro.app/Contents/MacOS/handy"
+        )));
+        assert!(!is_inside_app_bundle(Path::new(
+            "/Users/me/wispr-bro/src-tauri/target/release/handy"
+        )));
+        assert!(!is_inside_app_bundle(Path::new("/usr/local/bin/handy")));
     }
 }
 
@@ -947,6 +979,10 @@ pub(crate) const ENFORCED: &[EnforcedRule] = &[
     EnforcedRule {
         key: "experimental_enabled",
         apply: enforce_experimental_off,
+    },
+    EnforcedRule {
+        key: "post_process_providers",
+        apply: enforce_builtin_providers,
     },
     EnforcedRule {
         key: "post_process_provider_id",
@@ -997,31 +1033,54 @@ fn enforce_update_checks_mirror(handy: &mut AppSettings, fork: &ForkSettings) ->
     set(&mut handy.update_checks_enabled, fork.update_checks_enabled)
 }
 
-/// `true` for an `http(s)` URL whose host is `localhost` or a loopback IP.
+/// `true` for an `http(s)` URL whose host is `localhost` or a loopback IP
+/// (see [`crate::fork::net::is_loopback`]).
 pub fn is_loopback_url(url: &str) -> bool {
-    let Some((scheme, rest)) = url.trim().split_once("://") else {
-        return false;
-    };
-    if !matches!(scheme.to_ascii_lowercase().as_str(), "http" | "https") {
-        return false;
+    crate::fork::net::is_loopback(url)
+}
+
+/// DEC-04 / F-08: Handy's stored provider list becomes exactly the fork's
+/// built-in list ([`crate::fork::llm::default_providers`]). Providers stored
+/// by an older build (OpenAI, Anthropic, Groq, …) are dropped with their API
+/// key and model slots; `local` and Apple Intelligence are re-synced from the
+/// built-ins; the user's custom provider keeps its base URL and API format
+/// (its URL is checked by [`enforce_local_provider`]).
+fn enforce_builtin_providers(handy: &mut AppSettings, _: &ForkSettings) -> bool {
+    let builtins = crate::fork::llm::default_providers();
+    let wanted: Vec<_> = builtins
+        .into_iter()
+        .map(|builtin| {
+            match handy
+                .post_process_providers
+                .iter()
+                .find(|p| p.id == builtin.id)
+            {
+                Some(existing) if builtin.id == CUSTOM_PROVIDER_ID => {
+                    let mut kept = builtin.clone();
+                    kept.base_url = existing.base_url.clone();
+                    kept.api_format = existing.api_format;
+                    kept
+                }
+                _ => builtin,
+            }
+        })
+        .collect();
+    let same = serde_json::to_value(&wanted).ok()
+        == serde_json::to_value(&handy.post_process_providers).ok();
+    let mut changed = !same;
+    if changed {
+        handy.post_process_providers = wanted;
     }
-    let authority = rest.split(['/', '?', '#']).next().unwrap_or_default();
-    if authority.contains('@') {
-        return false;
-    }
-    let host = if let Some(v6) = authority.strip_prefix('[') {
-        match v6.split_once(']') {
-            Some((h, _)) => h,
-            None => return false,
-        }
-    } else {
-        authority.split(':').next().unwrap_or_default()
-    };
-    let host = host.to_ascii_lowercase();
-    host == "localhost"
-        || host
-            .parse::<std::net::IpAddr>()
-            .is_ok_and(|ip| ip.is_loopback())
+    let ids: Vec<String> = handy
+        .post_process_providers
+        .iter()
+        .map(|p| p.id.clone())
+        .collect();
+    let before = handy.post_process_api_keys.len() + handy.post_process_models.len();
+    handy.post_process_api_keys.retain(|id, _| ids.contains(id));
+    handy.post_process_models.retain(|id, _| ids.contains(id));
+    changed |= before != handy.post_process_api_keys.len() + handy.post_process_models.len();
+    changed
 }
 
 /// `true` for providers that keep audio text on this Mac: the fork's `local`
