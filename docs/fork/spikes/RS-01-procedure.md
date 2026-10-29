@@ -1,0 +1,96 @@
+# RS-01: fn / 🌐 key test, how to run it
+
+This test checks what happens when Wispr Bro listens to the fn key (the 🌐
+globe key, bottom left of the keyboard). It takes **about 15-20 minutes**.
+Nothing leaves your Mac.
+
+## Start it (3 steps)
+
+1. Open **Terminal** (press ⌘ Space, type `Terminal`, press Enter).
+2. Copy this line into Terminal and press Enter:
+
+   ```sh
+   ~/Projects/wispr-bro/scripts/wb-spike-fn.sh
+   ```
+
+   The first time, it spends about a minute getting ready.
+
+3. Follow what it says on screen. It asks short yes/no questions: type
+   `y` or `n` (or `u` if you're not sure) and press Enter.
+
+To stop at any time, press **Control + C**. What you did up to then is kept.
+
+## What will happen
+
+- **Permissions.** The test checks what Terminal may do. If something is
+  off it tells you exactly where to switch it on in System Settings, offers
+  to open that page, and waits for you:
+  - **Accessibility** (Privacy & Security → Accessibility → Terminal): needed.
+  - **Microphone** (macOS asks "Terminal would like to access the
+    microphone": click Allow): needed for the orange-dot checks.
+  - **Input Monitoring** (Privacy & Security → Input Monitoring → Terminal):
+    only if the test cannot see the fn key; it checks with one test press.
+  - If macOS says Terminal must quit and reopen, do that and run the same
+    command again.
+- **Your 🌐 setting.** It reads "Press 🌐 key to" (System Settings →
+  Keyboard) and asks you to confirm what it says. It never changes it.
+- **TextEdit.** It opens a TextEdit window with practice text. Put it next to
+  the Terminal window.
+- **Seven short tests**, each explained before it starts:
+  1. hold fn for a second, 10 times;
+  2. quick taps, 10 times;
+  3. double-taps, 10 times;
+  4. fn + Space in TextEdit, 5 times;
+  5. Esc while holding fn, 5 times;
+  6. about 30 fn shortcuts in TextEdit (fn + arrows, fn + delete, fn + F11);
+  7. 10 takes saying "testing one two three" as you press fn.
+
+  After each test you answer a few questions about what you saw: did the
+  emoji picker, a language switcher or Apple's Dictation pop up? Did the
+  orange microphone dot appear (top right of the screen)? Did the shortcut
+  still do its normal thing?
+
+- **Optional extra rounds** (about 2 minutes each): tests 1-3 again with each
+  of the other three "Press 🌐 key to" settings. It tells you exactly what to
+  pick in System Settings each time, and reminds you to set it back at the
+  end.
+- **Results.** At the end it prints a short summary and the folder it saved
+  everything in (`~/wb-bench/results/rs01/<date-time>/`). Tell Claude you're
+  done; it reads the results from there. You can close TextEdit without
+  saving.
+
+What is saved: the key presses during the test (ordinary typing in other
+apps is recorded only as "(typing)", never as letters), the test's decisions,
+your answers, and ten 2-second sound clips of "testing one two three". All
+of it stays on this Mac.
+
+## For the team: what this run covers and what it doesn't
+
+The tool is `src-tauri/crates/wb-spike-fn` (its own workspace and lockfile;
+`--dry-run` prints the intro and permission check and exits, `--self-test`
+runs the fn grammar against its scripted presses). It runs the RS-01 two-tap
+setup: Handy's `HotkeyManager::new_with_blocking()` registering Handy's macOS
+defaults the way `init_shortcuts` does (`transcribe` = option+space; `cancel`
+skipped; post-processing off), plus the fork's own
+`KeyboardListener::new_with_blocking` with the §4.8 blocking set (`{FN}`
+always; `{FN, Space}` while fn is down; `{Esc}` and `{FN, Esc}` while a take
+is active). The fn grammar is `src/grammar.rs` (S-01 rules 1-7, `T` = 500 ms,
+`T_show` = 150 ms). The mic is opened cold through handy-recorder at `T_show`
+(at once on a double-tap or fn+Space) and closed on release, cancel or a
+chord. Output: `events.jsonl` (raw events from both taps, every decision, mic
+open/first-audio/close times, blocking-set changes, tap health from
+`CGGetEventTapList` at every block boundary), `summary.json`, `summary.txt`,
+`takes/*.wav`.
+
+Compared with the RS-01 row in R5 §7, this run is smaller:
+
+- **macOS 26 only.** RS-01 also asks for macOS 14 and 15; only a macOS 26 Mac
+  is available. Re-run on 14 and 15 when there are machines.
+- **About 30 chords instead of 100**, in TextEdit only (not Finder), and only
+  fn + F11 / F1 instead of fn + F1..F12.
+- **10 clipping takes instead of 50.** The WAVs are saved; listening to or
+  transcribing them is a separate step.
+- **Not covered:** the F5 dictation key bound as fn+dictation, Ctrl+Opt on an
+  external keyboard, the 10 sleep/wake cycles, and Secure Input (RS-14).
+- Handy's tap only reports its own registered hotkeys, so `events.jsonl` has
+  every raw event from the fork's tap but only hotkey events from Handy's.
