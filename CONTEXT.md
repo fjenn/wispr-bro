@@ -17,6 +17,17 @@ This repo is a fork of [Handy](https://github.com/cjpais/Handy) (MIT; Tauri 2 + 
 
 Working files behind each deliverable are in `docs/research/r2-work/`, `r3-work/`, `r4-work/` and `r5-review.md`. Read them only when a deliverable points there.
 
+## Current status (update this when it changes)
+
+As of 2026-10-29:
+- **M0 foundations:** F-01 and F-03..F-10 are done on `wispr-bro`. F-02 (signing, notarization, updater, release workflows) is still open. Apple Team ID: `446XT9839S`; the owner keeps all certificates and keys. No Hugging Face org is needed: models download from their upstream HF repos, pinned by revision and sha256.
+- **GitHub:** the public repo `fjenn/wispr-bro` exists but is **empty on purpose**. Remote `origin` has its push URL disabled. The owner said: push nothing until we have tested. Ask before any push.
+- **M0.5 spikes done (provisional, one M5 Max):**
+  - RS-07 cleanup bake-off: `docs/fork/spikes/RS-07-cleanup-bakeoff.md`. Muesli 2B v12 is the default (DEC-03 update).
+  - RS-09 speech models: `docs/fork/spikes/RS-09-asr-bench.md`. Starters per language are in DEC-52; long-take chunking is DEC-51.
+- **RS-01 (fn/Globe):** the tool is built (`scripts/wb-spike-fn.sh`, procedure in `docs/fork/spikes/RS-01-procedure.md`). The owner runs it in their own Terminal; results land in `~/wb-bench/results/rs01/<timestamp>/`. **Next step:** read `summary.json`, `summary.txt` and `events.jsonl` there, write `docs/fork/spikes/RS-01-fn-globe.md`, and apply the outcome (DEC-44 path if the Globe action leaks). Then the RS-05 clipboard and RS-04 AX spikes, then S-01.
+- **Bench inputs** (outside the repo, never committed): `~/wb-bench/` holds models, llama.cpp b11624, the owner's voice recording (`audio/`, personal data) and results.
+
 ## How to work
 
 - **One slice at a time.** Pick the next slice in R5 whose dependencies are done. Build only that slice, to production quality (tests, translations, accessibility labels, dark mode). Order: M0 foundations (F-01..F-10), M0.5 real-Mac spikes (RS-01..RS-14, can run in parallel), then M1 slices S-01 onward. Do not start M2 (Notetaker, N-xx) until every M1 exit criterion in R5 §9 passes.
