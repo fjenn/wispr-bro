@@ -308,9 +308,10 @@ for S-12a and the M1 re-run, not as a final decision.
    candidate.** It is the only model that passes damage, answer, filler and
    language together, at the Qwen3.5-2B size class (1.27 GB file, 2.0 GB
    RSS, p95 451 ms on the M5 Max). Before it can be the default:
-   - R4 ship checklist item 6: its training-data provenance must be
-     documented (ask the authors). Until then **Qwen3.5-2B stays the
-     default**.
+   - R4 ship checklist item 6 (training-data provenance): **closed
+     2026-10-29.** The owner confirmed Muesli was trained on valid data
+     sources. **Muesli is the default on every tier** (R5 DEC-03 update),
+     pending RS-06 on M1 8 GB. The Qwen notes below describe the fallback.
    - Qwen3.5-2B is safe (0.0 % damage, 100 % restraint with trimmed + JSON)
      but removes only 49 % of fillers, so as the default it needs the
      deterministic filler pass (R5 §4.10 stage 7) in front of it to reach
