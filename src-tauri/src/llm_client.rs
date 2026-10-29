@@ -218,8 +218,7 @@ fn build_headers(provider: &PostProcessProvider, api_key: &str) -> Result<Header
 /// Create an HTTP client with provider-specific headers
 fn create_client(provider: &PostProcessProvider, api_key: &str) -> Result<reqwest::Client, String> {
     let headers = build_headers(provider, api_key)?;
-    reqwest::Client::builder()
-        .default_headers(headers)
+    crate::fork::llm::client_builder(provider, headers)? // fork: DEC-04 loopback only, neutral headers
         .build()
         .map_err(|e| report_reqwest_error("Failed to build HTTP client", &e))
 }

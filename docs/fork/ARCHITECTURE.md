@@ -11,18 +11,20 @@ Re-check them when Tauri or tauri-specta is upgraded.
 
 ## Where fork code lives
 
-| Layer          | Location                                                                                                                                 |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `commands/` (incl. `selfcheck.rs`), `testutil.rs` under `cfg(test)`) |
-| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                          |
-| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                        |
-| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                       |
-| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                        |
-| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                            |
-| Scripts        | `scripts/wb-*.ts`                                                                                                                        |
-| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                               |
+| Layer          | Location                                                                                                                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `net.rs`, `settings.rs`, `commands/` (incl. `selfcheck.rs`, `csp.rs`), `db/`, `llm/`, `diagnostics/`, `models/`, `testutil.rs` under `cfg(test)`) |
+| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                                                                                                       |
+| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                                                                                                     |
+| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                                                                                                    |
+| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                                                                                                     |
+| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                         |
+| Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                     |
+| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                            |
 
 Every fork source file starts with `// SPDX-License-Identifier: GPL-3.0-or-later`.
+Exception: AGPL ports start with `// SPDX-License-Identifier: AGPL-3.0-only`
+(today `fork/diagnostics/sanitizer.rs`); every port is listed in `docs/fork/PORTS.md`.
 Generated files (`src/fork/bindings.ts`) and JSON files are exempt.
 
 ## Upstream hooks (F-05)
@@ -93,7 +95,8 @@ Rules that follow:
   error `ForkError::NotReady` (`{ "kind": "NotReady" }`) when it is missing or
   `on_ready` has not run. They never panic.
 - **`fork::early_init`** runs in `main.rs` before `run()`, before any Tauri
-  object exists. Empty in F-05; F-08 fills it (`HF_HOME`, panic hook).
+  object exists. F-01 maps the updater kill switch; F-08 adds the panic hook
+  and `HF_HOME` (see "Privacy cleanups (F-08)").
 
 The tests in `src-tauri/src/fork/testutil.rs` prove the order on a real Tauri
 app (`tauri::test::MockRuntime`): `fork_model_status` returns `NotReady` after
@@ -159,8 +162,7 @@ only). Plain `cargo build` / `bun run tauri dev` still build Handy's identity.
 | `bundle.macOS.minimumSystemVersion`  | `13.0` (DEC-22)                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `plugins.updater.pubkey`/`endpoints` | **TODO F-02** placeholders `TODO-F02-<owner>-updater-pubkey`, `https://github.com/<owner>/wispr-bro/releases/latest/download/latest.json`. Deliberately _not_ Handy's feed/key, so a Wispr Bro build can never install a Handy update. The plugin parses endpoints at startup (the `<owner>` URL parses; `<`/`>` are percent-encoded) and reads the key only when verifying a download, so the build and startup work. |
 
-Not set yet: `bundle.externalBin` (S-10), `app.security` CSP (F-08),
-`license`, Linux `/usr/lib/Handy` paths and the Windows `signCommand` (F-02/F-04,
+Not set yet: `bundle.externalBin` (S-10), `license`, Linux `/usr/lib/Handy` paths and the Windows `signCommand` (F-02/F-04,
 not M1 macOS).
 
 **Usage strings.** Tauri 2.11 has `bundle.macOS.infoPlist` (tauri-utils
@@ -197,7 +199,6 @@ string literals at the call site. Each needed the one-line hook listed above.
 Known leftovers (not user-visible UI, out of F-01): `cli.rs` clap name/about
 (`handy`, "Handy - Speech to Text", shown by `--help`), the
 `handy-external-script-*.sh` temp file (`clipboard.rs:1021`), the
-`X-Title: Handy` LLM header (`llm_client.rs:195`, F-08/S-10), the
 `HANDY_DISABLE_UPDATER` text in a Rust error (`shortcut/mod.rs:831`), the
 Cargo package/binary name `handy` and `description = "Handy"`, the crate
 name `handy_app_lib` in log targets, `index.html` `<title>handy</title>`
@@ -429,6 +430,185 @@ write_handy_settings}` (opaque `HandySettings` newtype so `AppSettings` stays
   (load once, `setSetting(key, value)` typed per key, follows
   `ForkSettingsChanged`). Mounted as the debug panel's "Fork settings"
   section until S-14.
+
+## Privacy cleanups (F-08)
+
+The R5 §1 promise before any feature work: no cloud providers, Info logs with
+no settings dump, nothing contacts `blob.handy.computer`, a strict CSP.
+
+### Upstream hooks (F-08)
+
+| File                                                                | Hook                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ⚠ `src-tauri/src/settings.rs` `default_post_process_providers`     | first statement `return crate::fork::llm::default_providers();` + `#[allow(unreachable_code)]` on the fn. Handy's cloud list stays below as dead code, so upstream merges of that list do not conflict                                                                                                                                        |
+| ⚠ `src-tauri/src/settings.rs` `default_log_level`                  | body `crate::fork::diagnostics::default_log_level()` (Info)                                                                                                                                                                                                                                                                                   |
+| ⚠ `src-tauri/src/settings.rs` `load_or_create_app_settings`        | `debug!("Loaded settings: {:?}", settings);` → `crate::fork::diagnostics::settings_summary(&settings);`                                                                                                                                                                                                                                       |
+| `src-tauri/src/llm_client.rs` `create_client`                       | `reqwest::Client::builder().default_headers(headers)` (2 lines) → `crate::fork::llm::client_builder(provider, headers)?` (1 line). Every Handy LLM request (`send_chat_completion*`, `send_anthropic_message`, `fetch_models`) builds its client here                                                                                         |
+| `src-tauri/src/catalog/mod.rs` `mirror_files`                       | `.filter_map(\|base\| crate::fork::net::mirror_base(base))` after `MIRRORS.iter()`: the only builder of mirror URLs                                                                                                                                                                                                                           |
+| `src-tauri/src/managers/model.rs` `download_model`                  | `ModelSource::Url { url, sha256 } => (crate::fork::net::checked_download_url(url)?, sha256.clone())` (3 lines after rustfmt): Handy's five legacy URL models point at the mirror                                                                                                                                                              |
+| Handy tests                                                         | `#[ignore = "fork: …"]` on `every_offered_model_has_mirror_fallbacks_with_hashes` (catalog), `test_every_retired_model_has_a_downloadable_replacement` (model.rs; it asserts a mirror) and `post_process_defaults_sync_builtin_api_format_but_keep_custom` (settings.rs; needs the Anthropic built-in). They assert what DEC-04/DEC-16 remove |
+| ⚠ `src-tauri/Cargo.toml`, `Cargo.lock`                             | removed `rdev` (no `rdev::`/`use rdev` anywhere; Handy's keyboard backends are `handy-keys` and the global-shortcut plugin)                                                                                                                                                                                                                   |
+| ⚠ `package.json`, `bun.lock`, `.nix/bun.nix`, `.nix/bun-lock-hash` | removed `@tauri-apps/plugin-sql` (no import in `src/`, no `tauri-plugin-sql` crate, no `sql:` capability; `history.rs` only migrates its old `_sqlx_migrations` table). The `.nix` files are regenerated by Handy's `postinstall` (`check-nix-deps.ts`)                                                                                       |
+| `src-tauri/tauri.fork.conf.json`                                    | `app.security` (CSP, below); fork file, not upstream                                                                                                                                                                                                                                                                                          |
+
+`main.rs` is not edited again: `fork::early_init()` (F-05) does the new work.
+`src-tauri/src/fork/` files: `net.rs`, `llm/{mod,providers,tests}.rs`,
+`diagnostics/{mod,sanitizer,crash}.rs`, `models/{mod,license_filter}.rs`,
+`commands/csp.rs`. Frontend: `src/fork/debug/{CspSmoke.tsx,cspSmokeChecks.ts,cspViolations.ts}`.
+
+### Network allowlist (`fork/net.rs`)
+
+- `is_allowed_host(url)`: `https`, no credentials, host in `github.com`,
+  `objects.githubusercontent.com`, `release-assets.githubusercontent.com`,
+  `huggingface.co`, or a subdomain of `hf.co` / `huggingface.co`.
+- `is_loopback(url)`: `http(s)`, no credentials, `localhost` or a loopback IP.
+  Two parsers must agree (a literal split of the authority and the WHATWG
+  parser reqwest connects with), so `http://0x7f000001/`, `user@host`,
+  backslashes or whitespace read as "not loopback". `fork::settings::is_loopback_url`
+  now delegates here.
+- `mirror_base(base)` returns `None` for any mirror not on the allowlist, i.e.
+  `https://blob.handy.computer`; `checked_download_url(url)` errors before any
+  request for a non-allowed URL. A Hugging Face failure is now reported
+  instead of retried on the mirror.
+
+### Providers and the backend refusal (DEC-04)
+
+- `fork::llm::default_providers()`: `local` (placeholder until S-10:
+  `http://127.0.0.1/v1`, structured output on, no models endpoint, label
+  "Local"), Apple Intelligence (macOS arm64, on device, same entry as Handy's)
+  and `custom` (Ollama default, loopback only). No cloud provider.
+- `fork::llm::client_builder` (the `llm_client.rs` hook) refuses before any
+  network call: the `local` placeholder ("not available in this build yet")
+  and any non-loopback base URL ("Request refused …"). Handy's callers turn the
+  error into "fall back to the original transcript", so selecting `local`
+  cannot crash or send anything. It also sends neutral headers (drops
+  `Referer`, `User-Agent`, `X-Title`, `HTTP-Referer`; reqwest adds no default
+  user agent), disables proxies (`no_proxy`) and follows redirects only to
+  other loopback URLs (max 5), so a local server cannot bounce text to a
+  remote host. The header removal is generic and could go upstream as an
+  opt-out, but it lives in the fork so the hook stays one line.
+- `apply_product_settings` (F-07 `ENFORCED`) gained `post_process_providers`,
+  run before `post_process_provider_id`: Handy's stored list becomes exactly
+  the built-in list (old cloud entries removed with their API-key and model
+  slots; `local`/Apple re-synced; the user's `custom` keeps its base URL and
+  API format). A cloud selection now always becomes `local` (it is always in
+  the list). Handy's `ensure_post_process_defaults` only adds missing
+  built-ins and never prunes, hence the rule. Product identity only, like the
+  rest of F-07.
+- Handy's `default_post_process_provider_id()` still returns `"openai"`; on a
+  fresh install `apply_product_settings` maps it to `local` at the first
+  `on_ready`. In a plain Handy build the id matches no provider, so
+  post-processing is skipped.
+
+### Logs and diagnostics (`fork/diagnostics/`)
+
+- Default file log level Info (`default_log_level`). Handy's `FILE_LOG_LEVEL`
+  atomic (`lib.rs:59`) still starts at Debug until the settings are read in
+  Handy's setup, so the first Tauri runtime line can be `DEBUG` (not hooked;
+  no user data in it).
+- `settings_summary` logs one Info line `Loaded settings (summary): {…}`:
+  enums, booleans, ids the app ships (model, provider, language codes) and
+  counts. Custom words, prompts, filler words, device names, external script
+  path, API keys and endpoint URLs appear only as counts or flags.
+- `sanitizer.rs` (`AGPL-3.0-only`): port of Voquill
+  `apps/desktop/src-tauri/src/utils/log_sanitizer.rs` at
+  `a5dfbe0e3a35807271293a0ef02c91902abc0104` (voquill/voquill), its 14 tests
+  kept, plus `$HOME` → `~`, e-mails, bearer tokens, API keys, `transcript:` /
+  `prompt:` / `custom words:` lines and user-text JSON fields. Listed in
+  `docs/fork/PORTS.md`; NOTICE arrives with F-04.
+- `crash.rs`: `fork::early_init` installs a panic hook chained in front of the
+  previous one. It writes `crash-<YYYYMMDD-HHMMSS.mmm>-<pid>.txt` (version,
+  build, OS/arch, time, thread, location, message, backtrace; sanitized) to the
+  log dir, keeps the newest 10, never panics, then calls the previous hook.
+  The dir is `~/Library/Logs/com.wisprbro.desktop` (or portable `Data/logs`)
+  from `early_init`, replaced in the plugin `setup` by Tauri's resolved log
+  dir. Nothing is uploaded; S-27 reads the files.
+
+### `early_init` and identity
+
+`early_init` runs before Tauri, so it cannot read `app.config().identifier`.
+`fork::compiled_identifier()` rebuilds the identifier from the two env vars
+tauri-build emits for every target from the merged config (including
+`TAURI_CONFIG` from `--config`): `TAURI_ANDROID_PACKAGE_NAME_PREFIX`
+(`com_wisprbro`) and `TAURI_ANDROID_PACKAGE_NAME_APP_NAME` (`desktop`)
+(`tauri-build-2.6.3/src/lib.rs:493-508`). Only when it is
+`com.wisprbro.desktop` does `early_init`:
+
+1. call `portable::init()` first (idempotent `OnceLock`; `run()` calls it
+   again), so portable mode keeps its own `HF_HOME` and records the user's
+   previous one,
+2. set the crash dir and install the panic hook,
+3. set `HF_HOME` (DEC-39) to `~/Library/Application Support/com.wisprbro.desktop/huggingface`
+   unless portable (same `huggingface` sub-folder portable mode uses). macOS
+   only; Windows/Linux layout is S-07a. hf-hub reads `HF_HOME` through
+   `Cache::from_env()`, so downloads, `is_downloaded` and delete use it.
+   `on_ready` logs `fork: HF_HOME under the app data dir: true|false` (no path).
+
+Plain Handy builds (`cargo build`, `cargo test`, `bun run tauri dev`) skip all
+three. A user-set `HF_HOME` is overridden under our identity (product rule).
+
+### CSP (DEC-43)
+
+`tauri.fork.conf.json` carries the R5 §4.11 block exactly: `csp`, `devCsp`
+(`csp` plus `http://localhost:1420` in `script-src`, `style-src`, `img-src`,
+`connect-src` and `ws://localhost:1420` in `connect-src`) and
+`assetProtocol { enable: true, scope.allow: ["$APPDATA/**"] }` (merge patch:
+Handy's `requireLiteralLeadingDot: false` stays). Recordings live in
+`$APPDATA/recordings`, inside the scope. Portable mode's data dir is not added
+to the scope yet (E-88 runtime scope, later slice).
+
+- **Tauri applies the CSP only to pages it serves.** In tauri 2.11.5 a desktop
+  `tauri dev` loads the Vite dev server directly (`protocol/tauri.rs`: only
+  mobile proxies it), so `devCsp` is inert on macOS. It would also block Vite
+  dev's inline React-refresh preamble if it were applied. Release builds embed
+  `dist/`, hash Tauri's own inline scripts and send the CSP header.
+- **Smoke check** (`src/fork/debug/cspSmokeChecks.ts`): plays a local WAV
+  through `convertFileSrc(…, "asset")` (`fork_csp_smoke_media`: newest
+  recording, else a 0.1 s silent fixture `fork-csp-smoke.wav` written to the
+  app data dir; debug builds, `--debug` or self-check only), loads a canvas as
+  a `data:` and a `blob:` image, calls `fork_ping`, and checks that a
+  loopback probe image (`http://127.0.0.1:9/…`, not in `img-src`) is blocked
+  by a `securitypolicyviolation`. A recorder installed when the fork frontend
+  starts (`cspViolations.ts`) catches violations from page load too.
+  Mounted as the debug panel's "Content Security Policy" section
+  (`CspSmoke.tsx`) and exposed as `window.__wbCspSmoke` for the self-check.
+- **Self-check**: the `WISPRBRO_SELFCHECK` script runs `__wbCspSmoke()` and
+  logs `fork selfcheck: CSP smoke: {…}`. Release builds must report the CSP
+  enforced (probe blocked, no other violation); debug builds accept an
+  unenforced CSP when every allowed source loads.
+
+### Model licence filter (`fork/models/license_filter.rs`, DEC-27)
+
+Hidden from the fork's catalog view and never default: the 12
+`moonshine-{tiny,base}-{ar,ja,ko,uk,vi,zh}` models (non-commercial Moonshine
+Community License; catalog says `mit`) and any `cc-by-nc*` model
+(`canary-1b`, `granite-speech-5.0-470m-turboctc-nc`). Never default (and also
+not shown): `other`-licensed models and the NVIDIA Open Model License ones
+(Sortformer, multitalker-parakeet). Licences come from the bundled
+`catalog/catalog.json` (`include_str!`). `catalog_view(models)` keeps a model
+that is already downloaded. **Not hooked into Handy's model picker**: no hook
+is listed for `commands/models.rs`, the fork never mounts that UI in M1, and
+S-07a/S-07b (silent model policy) and S-14 (Advanced list) call
+`catalog_view` / `may_be_default` on `ModelManager::get_available_models()`.
+
+### F-08 tests
+
+| What                                                                          | Test                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Settings defaults/read have no cloud provider                                 | `fork::llm::tests::{default_list_has_no_cloud_provider, handy_settings_defaults_come_from_the_fork_list}`                                                                                |
+| Stored `openai` (and other cloud entries, keys, models) migrated to `local`   | `fork::settings::tests::a_stored_openai_provider_is_migrated_to_local`, `the_custom_provider_keeps_the_users_loopback_url_and_format`                                                    |
+| Non-loopback URL refused before any request (listener sees no connection)     | `fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request`, `refusal_covers_cloud_and_disguised_hosts_and_the_local_placeholder`                                          |
+| `local` sends nothing, does not panic                                         | `fork::llm::tests::selecting_local_sends_nothing_and_does_not_panic`                                                                                                                     |
+| Neutral headers on the wire                                                   | `fork::llm::tests::loopback_requests_carry_neutral_headers`, `neutral_headers_drop_app_identifying_headers_only`                                                                         |
+| Startup summary has no custom words, prompts, devices, keys; Info default     | `fork::diagnostics::tests::*`                                                                                                                                                            |
+| No download path builds a `blob.handy.computer` URL (`inert-hosts.txt` proof) | `fork::models::tests::downloader_never_builds_a_blob_handy_computer_url`, `fork::net::tests::the_handy_mirror_is_never_a_mirror_base`                                                    |
+| Sanitizer vectors (14 Voquill + 4 fork)                                       | `fork::diagnostics::sanitizer::tests::*`                                                                                                                                                 |
+| Panic hook writes a sanitized file and chains; pruning                        | `fork::diagnostics::crash::tests::*`                                                                                                                                                     |
+| Licence filter                                                                | `fork::models::license_filter::tests::*`                                                                                                                                                 |
+| Allowlist / loopback parsing                                                  | `fork::net::tests::*`                                                                                                                                                                    |
+| CSP block exact; compiled identity; `HF_HOME` gating                          | `fork::identity_tests::{effective_config_has_the_r5_csp, compiled_identifier_reads_the_build_identity}`, `fork::models::tests::hf_home_only_for_our_identity_and_never_in_portable_mode` |
+| CSP smoke panel (Playwright, devCsp header)                                   | `tests/fork/csp-smoke.spec.ts`                                                                                                                                                           |
+| Self-check verdict incl. CSP                                                  | `fork::commands::selfcheck::tests::*`                                                                                                                                                    |
 
 ## Tests
 

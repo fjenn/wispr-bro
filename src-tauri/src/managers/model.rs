@@ -2271,7 +2271,9 @@ impl ModelManager {
             model_info.ok_or_else(|| anyhow::anyhow!("Model not found: {}", model_id))?;
 
         let (url, expected_sha256) = match &model_info.source {
-            ModelSource::Url { url, sha256 } => (url.clone(), sha256.clone()),
+            ModelSource::Url { url, sha256 } => {
+                (crate::fork::net::checked_download_url(url)?, sha256.clone())
+            }
             ModelSource::HuggingFace { repo_id, revision } => {
                 return self
                     .download_hf_model(&model_info, repo_id.clone(), revision.clone())
@@ -2741,6 +2743,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "fork: DEC-16 drops the blob.handy.computer mirror (F-08)"]
     fn test_every_retired_model_has_a_downloadable_replacement() {
         // A missing replacement would silently hide a row in the migration UI.
         let mut registry = HashMap::new();

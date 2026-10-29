@@ -429,6 +429,7 @@ fn mirror_files(
 ) -> Vec<MirrorFile> {
     MIRRORS
         .iter()
+        .filter_map(|base| crate::fork::net::mirror_base(base))
         .map(|base| MirrorFile {
             url: format!(
                 "{}/{}/{}/{}",
@@ -570,6 +571,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "fork: DEC-16 drops the blob.handy.computer mirror (F-08)"]
     fn every_offered_model_has_mirror_fallbacks_with_hashes() {
         // The mirror fallback is the safety net for HF outages and blocked
         // networks; an offered entry without one silently loses that net.

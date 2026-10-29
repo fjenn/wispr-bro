@@ -65,6 +65,17 @@ async forkSetSetting(update: ForkSettingUpdate) : Promise<Result<ForkSettings, F
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * See the module docs.
+ */
+async forkCspSmokeMedia() : Promise<Result<ForkCspMedia, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_csp_smoke_media") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -93,6 +104,18 @@ export type BarPosition = "bottom" | "top"
  * LLM cleanup level (DEC-03: Light by default).
  */
 export type CleanupLevel = "none" | "light" | "medium"
+/**
+ * Reply of [`fork_csp_smoke_media`].
+ */
+export type ForkCspMedia = { 
+/**
+ * Absolute path of the audio file.
+ */
+path: string; 
+/**
+ * `"recording"` or `"fixture"`.
+ */
+source: string }
 /**
  * Typed error returned by fork commands.
  * 

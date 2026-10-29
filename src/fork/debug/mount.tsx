@@ -12,6 +12,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
+import { CspSmoke } from "./CspSmoke";
+import { runCspSmoke } from "./cspSmokeChecks";
 import { DebugPanel, registerForkDebugSection } from "./DebugPanel";
 
 // F-07: the fork settings section, until S-14's Settings modal.
@@ -20,6 +22,16 @@ registerForkDebugSection({
   titleKey: "settings.debug.title",
   render: () => <ForkSettingsDebug />,
 });
+
+// F-08: CSP smoke check. Also exposed to the WISPRBRO_SELFCHECK script
+// (`fork/commands/selfcheck.rs`), which runs it headlessly in any build.
+registerForkDebugSection({
+  id: "csp",
+  titleKey: "debug.csp.title",
+  render: () => <CspSmoke />,
+});
+(window as unknown as { __wbCspSmoke?: typeof runCspSmoke }).__wbCspSmoke =
+  runCspSmoke;
 
 export const FORK_DEBUG_ROUTE = "#/fork/debug";
 const ROOT_ID = "fork-debug-root";

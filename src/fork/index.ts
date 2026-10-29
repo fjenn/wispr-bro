@@ -9,6 +9,7 @@
  * `App.tsx` (`ForkApp`), and this side effect goes away.
  */
 import type { i18n as I18n } from "i18next";
+import { installCspViolationRecorder } from "./debug/cspViolations";
 import { registerForkI18n as registerForkNamespace } from "./i18n";
 
 export { FORK_NAMESPACE, forkResources } from "./i18n";
@@ -32,6 +33,7 @@ export function startForkFrontend(): void {
   if (started || typeof document === "undefined") return;
   if (currentWebviewLabel() !== "main") return;
   started = true;
+  installCspViolationRecorder();
   // Loaded lazily so other webviews (the overlay) never bundle the panel.
   void import("./debug/mount").then(({ mountForkDebugHost }) =>
     mountForkDebugHost(),

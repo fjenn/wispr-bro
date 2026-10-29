@@ -16,7 +16,27 @@
       "none": "No event received yet."
     },
     "pending": "Waiting…",
-    "error": "Error: {{message}}"
+    "error": "Error: {{message}}",
+    "csp": {
+      "title": "Content Security Policy",
+      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
+      "run": "Run CSP check",
+      "running": "Running…",
+      "pass": "Passed: no unexpected CSP violation.",
+      "fail": "Failed: see the checks below.",
+      "ok": "ok ({{detail}})",
+      "failed": "failed ({{detail}})",
+      "noViolations": "No CSP violations recorded.",
+      "violations_one": "{{count}} CSP violation recorded.",
+      "violations_other": "{{count}} CSP violations recorded.",
+      "checks": {
+        "media": "Audio (asset protocol)",
+        "dataImage": "data: image",
+        "blobImage": "blob: image",
+        "forkCommand": "Fork command",
+        "probe": "Blocked source"
+      }
+    }
   },
   "settings": {
     "debug": {

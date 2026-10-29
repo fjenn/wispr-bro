@@ -21,12 +21,18 @@
 
 pub mod commands;
 pub mod db;
+pub mod diagnostics;
 pub mod events;
 pub mod i18n;
+pub mod llm;
+pub mod models;
+pub mod net;
 pub mod settings;
 #[cfg(test)]
 mod testutil;
 pub mod tray;
+
+pub use settings::PRODUCT_IDENTIFIER;
 
 use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 
@@ -135,6 +141,64 @@ pub fn early_init() {
     if let Some((key, value)) = updater_env_to_set(|k| std::env::var(k).ok()) {
         std::env::set_var(key, value);
     }
+    // Plain Handy builds (`cargo build`, `bun run tauri dev`) keep Handy's
+    // behaviour: no crash files, no HF_HOME change.
+    if !is_product_build() {
+        return;
+    }
+    // Idempotent (`OnceLock`); `run()` calls it again. Run first so portable
+    // mode sets its own HF_HOME and records the user's previous one.
+    crate::portable::init();
+    let home = std::env::var_os("HOME").map(std::path::PathBuf::from);
+    // F-08: crash files go to the log dir. Until Tauri resolves it (plugin
+    // `setup` replaces this), use the macOS path for our identifier.
+    if let Some(dir) = crate::portable::data_dir()
+        .map(|d| d.join("logs"))
+        .or_else(|| early_log_dir(home.as_deref()))
+    {
+        diagnostics::crash::set_crash_dir(dir);
+    }
+    diagnostics::crash::install();
+    // DEC-39: models under our app data, before any manager starts.
+    if let Some(hf_home) = models::hf_home_to_set(
+        true,
+        crate::portable::is_portable(),
+        home.as_deref(),
+        PRODUCT_IDENTIFIER,
+    ) {
+        std::env::set_var("HF_HOME", hf_home);
+    }
+}
+
+/// Identifier the binary was built with, from the env vars tauri-build emits
+/// for every target (`TAURI_ANDROID_PACKAGE_NAME_PREFIX` / `_APP_NAME`, the
+/// identifier split at its last dot with `_` for `.`; `tauri-build`
+/// `lib.rs:493-508`). Available before any Tauri object exists, which is what
+/// `early_init` needs.
+pub fn compiled_identifier() -> String {
+    let prefix = option_env!("TAURI_ANDROID_PACKAGE_NAME_PREFIX").unwrap_or_default();
+    let app = option_env!("TAURI_ANDROID_PACKAGE_NAME_APP_NAME").unwrap_or_default();
+    format!("{}.{app}", prefix.replace('_', "."))
+}
+
+/// `true` when built with the identity overlay (`com.wisprbro.desktop`).
+pub fn is_product_build() -> bool {
+    compiled_identifier() == PRODUCT_IDENTIFIER
+}
+
+/// Portable-aware log dir for any runtime (Handy's `portable::app_log_dir`
+/// is typed to `Wry`).
+pub fn app_log_dir<R: Runtime>(app: &AppHandle<R>) -> Option<std::path::PathBuf> {
+    match crate::portable::data_dir() {
+        Some(dir) => Some(dir.join("logs")),
+        None => app.path().app_log_dir().ok(),
+    }
+}
+
+/// Tauri's macOS `app_log_dir()` for our identifier: `~/Library/Logs/<id>`.
+fn early_log_dir(home: Option<&std::path::Path>) -> Option<std::path::PathBuf> {
+    cfg!(target_os = "macos")
+        .then(|| home.map(|h| h.join("Library/Logs").join(PRODUCT_IDENTIFIER)))?
 }
 
 /// The in-app Tauri plugin `fork`.
@@ -146,6 +210,12 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
     tauri::plugin::Builder::new(PLUGIN_NAME)
         .setup(|app, _api| {
             app.manage(ForkState::default());
+            // F-08: crash files follow Tauri's (portable-aware) log dir.
+            if app.config().identifier == PRODUCT_IDENTIFIER {
+                if let Some(dir) = app_log_dir(app) {
+                    diagnostics::crash::set_crash_dir(dir);
+                }
+            }
             db::register(app);
             settings::register(app);
             // Merges into the same registry Handy's builder mounts into later
@@ -206,6 +276,19 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // F-07: fork settings, ENFORCED and FIRST_RUN_DEFAULTS (every start).
     settings::on_ready(app);
 
+    // F-08 / DEC-39: report (without the path) whether `early_init` put the
+    // Hugging Face cache under the app data dir.
+    if is_product_build() {
+        let data_dir = crate::portable::data_dir()
+            .cloned()
+            .or_else(|| app.path().app_data_dir().ok());
+        let under = std::env::var_os("HF_HOME")
+            .map(std::path::PathBuf::from)
+            .zip(data_dir)
+            .is_some_and(|(hf, data)| hf.starts_with(data));
+        log::info!("fork: HF_HOME under the app data dir: {under}");
+    }
+
     state.mark_ready();
     log::info!(
         "fork ready ({} v{}, locale {locale})",
@@ -231,6 +314,7 @@ macro_rules! fork_specta_builder {
                 commands::selfcheck::fork_selfcheck_report::<$runtime>,
                 commands::settings::fork_get_settings::<$runtime>,
                 commands::settings::fork_set_setting::<$runtime>,
+                commands::csp::fork_csp_smoke_media::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -534,6 +618,71 @@ mod identity_tests {
         }
         std::env::remove_var("WB_TEST_E94_TRUTHINESS");
         assert!(!super::flag_value_enabled(None));
+    }
+
+    /// DEC-43 / R5 §4.11: the CSP exactly as specified, merged over Handy's
+    /// `csp: null` and asset scope `**`.
+    #[test]
+    fn effective_config_has_the_r5_csp() {
+        let (raw, _) = effective_config();
+        let security = &raw["app"]["security"];
+        let csp = security["csp"].as_str().expect("csp set");
+        assert_eq!(
+            csp,
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: asset: http://asset.localhost; media-src 'self' blob: asset: http://asset.localhost; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+        );
+        let dev = security["devCsp"].as_str().expect("devCsp set");
+        for (directive, extra) in [
+            ("script-src", "http://localhost:1420"),
+            ("style-src", "http://localhost:1420"),
+            ("img-src", "http://localhost:1420"),
+            ("connect-src", "http://localhost:1420"),
+            ("connect-src", "ws://localhost:1420"),
+        ] {
+            let d = dev
+                .split(';')
+                .map(str::trim)
+                .find(|d| d.starts_with(directive))
+                .unwrap();
+            assert!(d.contains(extra), "{directive}: {d}");
+        }
+        // devCsp = csp + the dev-server sources, nothing else.
+        let strip = |s: &str| {
+            s.replace(" http://localhost:1420", "")
+                .replace(" ws://localhost:1420", "")
+        };
+        assert_eq!(strip(dev), csp);
+        assert_eq!(security["assetProtocol"]["enable"], true);
+        assert_eq!(
+            security["assetProtocol"]["scope"]["allow"],
+            serde_json::json!(["$APPDATA/**"])
+        );
+        // No remote source anywhere.
+        for token in csp.split_whitespace().map(|t| t.trim_end_matches(';')) {
+            assert!(
+                !token.starts_with("https:") && token != "*" && !token.contains("://")
+                    || token.ends_with(".localhost"),
+                "remote source {token}"
+            );
+        }
+    }
+
+    #[test]
+    fn compiled_identifier_reads_the_build_identity() {
+        // `cargo test` builds without the overlay, so this is Handy's id and
+        // `early_init` leaves HF_HOME and the panic hook alone.
+        let (_, config) = effective_config();
+        let base = read_json("tauri.conf.json");
+        let id = super::compiled_identifier();
+        assert!(
+            id == base["identifier"] || id == config.identifier,
+            "unexpected compiled identifier {id}"
+        );
+        assert_eq!(super::is_product_build(), id == "com.wisprbro.desktop");
+        let main =
+            std::fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("src/main.rs"))
+                .unwrap();
+        assert!(main.contains("handy_app_lib::fork::early_init();"));
     }
 
     #[test]

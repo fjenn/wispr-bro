@@ -15,7 +15,10 @@
 //! 3. waits for the `ForkPingEvent` that `fork_ping` emits,
 //! 4. reads the fork settings (`fork_get_settings`), writes one unchanged
 //!    value and one out-of-range value (`fork_set_setting`, F-07),
-//! 5. sends the results back with `fork_selfcheck_report`, which logs one
+//! 5. runs the CSP smoke check (`window.__wbCspSmoke`, F-08): plays an audio
+//!    file through the asset protocol, renders `data:`/`blob:` images, calls a
+//!    fork command and collects `securitypolicyviolation` events,
+//! 6. sends the results back with `fork_selfcheck_report`, which logs one
 //!    `fork selfcheck: PASS|FAIL …` line. Debug builds also log the effective
 //!    fork settings and the `ENFORCED` values read back from Handy's settings.
 
@@ -67,6 +70,10 @@ const SCRIPT: &str = r#"
   } catch (e) { r.set_invalid = err(e); }
   for (let i = 0; i < 30 && eventSeq === null; i++) await new Promise((ok) => setTimeout(ok, 100));
   r.event_seq = eventSeq;
+  try {
+    for (let i = 0; i < 50 && !window.__wbCspSmoke; i++) await new Promise((ok) => setTimeout(ok, 100));
+    r.csp = window.__wbCspSmoke ? await window.__wbCspSmoke() : { ok: false, error: "CSP smoke not loaded" };
+  } catch (e) { r.csp = { ok: false, error: String(e) }; }
   try { await T.invoke("fork_selfcheck_report", { report: JSON.stringify(r) }); }
   finally { window.__wbSelfcheckRunning = false; }
 })();
@@ -114,10 +121,33 @@ struct Report {
     set_same: Value,
     #[serde(default)]
     set_invalid: Value,
+    /// F-08: result of `window.__wbCspSmoke()` (`src/fork/debug/cspSmokeChecks.ts`).
+    #[serde(default)]
+    csp: Value,
 }
 
 /// Verdict for a report: `Ok(summary)` or `Err(reason)`.
+///
+/// `tauri dev` on desktop loads the Vite dev server directly and applies no
+/// CSP at all (tauri 2.11.5 `protocol/tauri.rs`: only mobile proxies the dev
+/// server; `devCsp` is used for pages Tauri serves itself). So debug builds
+/// accept an unenforced CSP (the blocked-source probe loads) as long as every
+/// other check passes and nothing was blocked; release builds must enforce it.
 fn judge(report: &Report) -> Result<String, String> {
+    judge_with(report, !cfg!(debug_assertions))
+}
+
+/// `true` when every CSP smoke check except the probe passed and no
+/// violation was recorded.
+fn csp_allowed_sources_ok(csp: &Value) -> bool {
+    let checks = &csp["checks"];
+    ["media", "dataImage", "blobImage", "forkCommand"]
+        .iter()
+        .all(|k| checks[*k]["state"] == "ok")
+        && csp["violations"].as_array().is_some_and(Vec::is_empty)
+}
+
+fn judge_with(report: &Report, require_enforced_csp: bool) -> Result<String, String> {
     if report.listen != Value::String("ok".into()) {
         return Err(format!("event listen failed: {}", report.listen));
     }
@@ -143,9 +173,18 @@ fn judge(report: &Report) -> Result<String, String> {
             report.set_invalid
         ));
     }
+    let csp_enforced = report.csp.get("ok") == Some(&Value::Bool(true));
+    if !csp_enforced && (require_enforced_csp || !csp_allowed_sources_ok(&report.csp)) {
+        return Err(format!("CSP smoke failed: {}", report.csp));
+    }
+    let csp_summary = if csp_enforced {
+        "CSP smoke ok (enforced, probe blocked)"
+    } else {
+        "CSP smoke ok (allowed sources load; no CSP under tauri dev)"
+    };
     match report.event_seq {
         Some(event) if Some(u64::from(event)) == seq => Ok(format!(
-            "fork_ping seq={event} ready=true, fork_model_status known_models={known}, ForkPingEvent seq={event} received, fork_get_settings ok, fork_set_setting ok and rejects invalid values"
+            "fork_ping seq={event} ready=true, fork_model_status known_models={known}, ForkPingEvent seq={event} received, fork_get_settings ok, fork_set_setting ok and rejects invalid values, {csp_summary}"
         )),
         Some(event) => Err(format!(
             "ForkPingEvent seq={event} does not match fork_ping seq={seq:?}"
@@ -179,6 +218,9 @@ pub fn fork_selfcheck_report<R: ForkRuntime>(
     );
     if cfg!(debug_assertions) {
         log_settings(&app);
+    }
+    if let Ok(raw) = serde_json::from_str::<Value>(&report) {
+        log::info!("fork selfcheck: CSP smoke: {}", raw["csp"]);
     }
     let verdict = serde_json::from_str::<Report>(&report)
         .map_err(|e| format!("unreadable report ({e})"))
@@ -236,9 +278,34 @@ mod tests {
             "event_seq": 1,
             "settings": { "schema_version": 1 },
             "set_same": { "schema_version": 1 },
-            "set_invalid": { "kind": "InvalidSetting", "message": "typing_wpm" }
+            "set_invalid": { "kind": "InvalidSetting", "message": "typing_wpm" },
+            "csp": { "ok": true, "violations": [] }
         }));
         assert!(judge(&r).is_ok());
+        let mut failed = serde_json::to_value(json!({
+            "listen": "ok",
+            "ping": { "message": "pong", "seq": 1, "ready": true },
+            "model_status": { "known_models": 3 },
+            "event_seq": 1,
+            "settings": { "schema_version": 1 },
+            "set_same": { "schema_version": 1 },
+            "set_invalid": { "kind": "InvalidSetting" }
+        }))
+        .unwrap();
+        assert!(judge(&report(failed.clone())).is_err(), "missing CSP smoke");
+        failed["csp"] = json!({ "ok": false, "violations": [{ "directive": "media-src" }] });
+        assert!(judge(&report(failed.clone())).is_err());
+
+        // Unenforced CSP (tauri dev): fine in debug, a failure in release.
+        let ok = json!({ "state": "ok" });
+        failed["csp"] = json!({
+            "ok": false,
+            "checks": { "media": ok, "dataImage": ok, "blobImage": ok, "forkCommand": ok,
+                        "probe": { "state": "failed" } },
+            "violations": []
+        });
+        assert!(judge_with(&report(failed.clone()), false).is_ok());
+        assert!(judge_with(&report(failed), true).is_err());
     }
 
     #[test]

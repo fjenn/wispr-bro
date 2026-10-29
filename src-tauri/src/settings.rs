@@ -654,7 +654,7 @@ fn default_debug_mode() -> bool {
 }
 
 fn default_log_level() -> LogLevel {
-    LogLevel::Debug
+    crate::fork::diagnostics::default_log_level()
 }
 
 fn default_word_correction_threshold() -> f64 {
@@ -711,7 +711,9 @@ fn default_post_process_provider_id() -> String {
     "openai".to_string()
 }
 
+#[allow(unreachable_code)] // fork: Handy's cloud list below is dead code (DEC-04)
 fn default_post_process_providers() -> Vec<PostProcessProvider> {
+    return crate::fork::llm::default_providers();
     let mut providers = vec![
         PostProcessProvider {
             id: "openai".to_string(),
@@ -1105,7 +1107,7 @@ impl AppSettings {
 /// one-time debug dump of the loaded settings.
 pub fn load_or_create_app_settings(app: &AppHandle) -> AppSettings {
     let settings = get_settings(app);
-    debug!("Loaded settings: {:?}", settings);
+    crate::fork::diagnostics::settings_summary(&settings);
     settings
 }
 
@@ -1986,6 +1988,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "fork: DEC-04 removes the built-in Anthropic provider (F-08)"]
     fn post_process_defaults_sync_builtin_api_format_but_keep_custom() {
         let mut settings = get_default_settings();
         for provider in settings.post_process_providers.iter_mut() {

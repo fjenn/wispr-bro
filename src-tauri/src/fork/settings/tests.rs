@@ -467,7 +467,7 @@ fn apply_product_settings_sets_both_lists_on_first_run() {
     );
     assert!(!handy.post_process_enabled);
     assert!(!handy.experimental_enabled);
-    assert_eq!(handy.post_process_provider_id, CUSTOM_PROVIDER_ID); // was "openai"
+    assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID); // was "openai"
     assert!(handy.update_checks_enabled);
     assert!(report.enforced.contains(&"post_process_provider_id"));
     assert!(report.enforced.contains(&"recording_retention_period"));
@@ -527,7 +527,7 @@ fn enforced_values_are_reapplied_after_a_manual_change() {
         RecordingRetentionPeriod::Never
     );
     assert!(!handy.post_process_enabled && !handy.experimental_enabled);
-    assert_eq!(handy.post_process_provider_id, CUSTOM_PROVIDER_ID);
+    assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID);
     assert!(handy.update_checks_enabled);
 }
 
@@ -611,8 +611,8 @@ fn a_new_first_run_key_is_applied_once_to_an_existing_install() {
 
 #[test]
 fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
-    // No `local` provider yet (F-08/S-10): a cloud choice falls back to the
-    // loopback custom provider.
+    // F-08: the built-in list always has `local`, so a cloud choice becomes
+    // `local`.
     for cloud in [
         "openai",
         "anthropic",
@@ -625,17 +625,15 @@ fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
         handy.post_process_provider_id = cloud.into();
         let mut fork = ForkSettings::default();
         apply_product_settings(&mut handy, &mut fork, &ctx());
-        assert_eq!(
-            handy.post_process_provider_id, CUSTOM_PROVIDER_ID,
-            "{cloud}"
-        );
+        assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID, "{cloud}");
     }
 
-    // With a `local` provider, a cloud choice becomes `local`.
+    // Without a `local` entry (a list edited by hand), the provider rule
+    // restores it first, so the choice still becomes `local`.
     let mut handy = fresh_handy();
     handy
         .post_process_providers
-        .push(provider(LOCAL_PROVIDER_ID, "http://127.0.0.1:0/v1"));
+        .retain(|p| p.id != LOCAL_PROVIDER_ID);
     handy.post_process_provider_id = "openai".into();
     let mut fork = ForkSettings::default();
     apply_product_settings(&mut handy, &mut fork, &ctx());
@@ -650,7 +648,7 @@ fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
     ] {
         let mut handy = fresh_handy();
         if id == LOCAL_PROVIDER_ID {
-            handy.post_process_providers.push(provider(id, url));
+            let _ = url; // the built-in `local` entry is used as is
         } else {
             handy
                 .post_process_providers
@@ -765,10 +763,111 @@ fn the_enforced_list_matches_r5() {
             "recording_retention_period",
             "post_process_enabled",
             "experimental_enabled",
+            "post_process_providers",
             "post_process_provider_id",
             "update_checks_enabled",
         ]
     );
+}
+
+/// F-08: a settings file written by an older build (Handy's cloud list, an
+/// OpenAI key, OpenAI selected) comes out with no cloud provider, no cloud
+/// key slot and `local` selected.
+#[test]
+fn a_stored_openai_provider_is_migrated_to_local() {
+    let mut stored = serde_json::to_value(fresh_handy()).unwrap();
+    let cloud = [
+        ("openai", "https://api.openai.com/v1"),
+        ("anthropic", "https://api.anthropic.com/v1"),
+        ("openrouter", "https://openrouter.ai/api/v1"),
+        (
+            "bedrock_mantle",
+            "https://bedrock-mantle.us-east-1.api.aws/v1",
+        ),
+    ];
+    stored["post_process_providers"]
+        .as_array_mut()
+        .unwrap()
+        .retain(|p| p["id"] != LOCAL_PROVIDER_ID);
+    for (id, url) in cloud {
+        stored["post_process_providers"]
+            .as_array_mut()
+            .unwrap()
+            .insert(0, serde_json::to_value(provider(id, url)).unwrap());
+        stored["post_process_api_keys"][id] = json!("sk-proj-secret-key-12345");
+        stored["post_process_models"][id] = json!("gpt-x");
+    }
+    stored["post_process_provider_id"] = json!("openai");
+    let mut handy: AppSettings = serde_json::from_value(stored).unwrap();
+    let mut fork = ForkSettings::default();
+    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+
+    assert!(report.enforced.contains(&"post_process_providers"));
+    assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID);
+    for p in &handy.post_process_providers {
+        assert!(
+            crate::fork::llm::providers::is_on_device(p),
+            "{} ({}) survived",
+            p.id,
+            p.base_url
+        );
+    }
+    for (id, _) in cloud {
+        assert!(
+            !handy.post_process_api_keys.contains_key(id),
+            "{id} key kept"
+        );
+        assert!(
+            !handy.post_process_models.contains_key(id),
+            "{id} model kept"
+        );
+    }
+    let ids: Vec<_> = handy
+        .post_process_providers
+        .iter()
+        .map(|p| p.id.as_str())
+        .collect();
+    let builtin: Vec<_> = crate::fork::llm::default_providers()
+        .into_iter()
+        .map(|p| p.id)
+        .collect();
+    assert_eq!(ids, builtin);
+    // The read side: what Handy's `get_app_settings` would now return.
+    let json = serde_json::to_string(&handy).unwrap();
+    for host in [
+        "api.openai.com",
+        "api.anthropic.com",
+        "openrouter.ai",
+        "api.aws",
+    ] {
+        assert!(!json.contains(host), "{host} still in settings");
+    }
+    // Idempotent.
+    assert_eq!(
+        apply_product_settings(&mut handy, &mut fork, &ctx()),
+        ProductReport::default()
+    );
+}
+
+#[test]
+fn the_custom_provider_keeps_the_users_loopback_url_and_format() {
+    let mut handy = fresh_handy();
+    let custom = handy
+        .post_process_providers
+        .iter_mut()
+        .find(|p| p.id == CUSTOM_PROVIDER_ID)
+        .unwrap();
+    custom.base_url = "http://127.0.0.1:8080/v1".into();
+    custom.api_format = PostProcessApiFormat::Anthropic;
+    let mut fork = ForkSettings::default();
+    apply_product_settings(&mut handy, &mut fork, &ctx());
+    let custom = handy
+        .post_process_providers
+        .iter()
+        .find(|p| p.id == CUSTOM_PROVIDER_ID)
+        .unwrap();
+    assert_eq!(custom.base_url, "http://127.0.0.1:8080/v1");
+    assert_eq!(custom.api_format, PostProcessApiFormat::Anthropic);
 }
 
 // --- Tauri: commands, event, on_ready, relaunch ------------------------------
@@ -934,7 +1033,7 @@ mod app {
         assert!(handy.audio_feedback);
         assert_eq!(handy.log_level, LogLevel::Info);
         assert!(!handy.experimental_enabled);
-        assert_eq!(handy.post_process_provider_id, CUSTOM_PROVIDER_ID);
+        assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID);
         let recorded = stored(&path)["applied_first_run_defaults"].clone();
         assert!(recorded
             .as_array()
