@@ -45,3 +45,6 @@ result
 
 # Python bytecode (scripts/)
 __pycache__/
+
+# Local-only reference captures (third-party UI, personal data)
+docs/research/evidence/
