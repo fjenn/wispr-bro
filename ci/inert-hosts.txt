@@ -1,12 +1,19 @@
 # Hosts that may appear in upstream code or in the built bundle but that the
 # app provably never contacts (R5 §4.12). Every active entry names the test
-# (or, for identifiers that are never dereferenced, the reason) that proves
-# it unreachable. Read by scripts/wb-guard-hosts.ts (upstream scan) and
+# (or, for identifiers that are never dereferenced, the reason; for
+# click-only links, the source) that proves it unreachable. Read by
+# scripts/wb-guard-hosts.ts (upstream scan) and
 # scripts/wb-guard-bundle-hosts.ts (built bundle).
 #
-# Until the pending proofs land, the bundle guard and wb-egress.yml fail on a
-# real build for the hosts commented out below: that is the intended state
-# until F-08 (privacy cleanups) and S-26b (link hosts).
+# Sections and the comment each entry needs (checked by wb-guard-hosts.ts):
+#   identifier: `reason: …`  never dereferenced;
+#   proven:     `proof: …`   names the test(s) proving it unreachable (the
+#                            guard self-tests check that every `fork::…::fn`
+#                            path named here is a Rust test that exists);
+#   link:       `source: …`  a link that only opens in the user's browser on
+#                            a click (opener plugin `openUrl`), never app
+#                            traffic; names every source location.
+# Still pending (commented out at the end): F-02 (Windows signCommand).
 
 [identifier]
 # Never dereferenced: identifiers, not requests.
@@ -23,18 +30,27 @@ www.i18next.com             # reason: i18next deprecation-warning text (console 
 bit.ly                      # reason: Immer's minified-error message text ("Full error at: …")
 
 [proven]
-# Network hosts proven unreachable by a test.
-# (none yet)
+# Network hosts proven unreachable by a test (F-08). Every LLM request in
+# Handy's llm_client.rs (send_chat_completion, …_with_schema,
+# send_anthropic_message, fetch_models) builds its client through
+# create_client → fork::llm::client_builder, which refuses any non-loopback
+# base URL before a request is made (DEC-04, hook in ci/hooks.txt). In the
+# frontend bundle the provider hosts are only placeholder text
+# (translation.json settings.postProcessing.api.baseUrl.placeholder*), shown
+# in the base-URL field; a URL typed there is refused by the same check.
+blob.handy.computer        # proof: fork::models::tests::downloader_never_builds_a_blob_handy_computer_url, fork::net::tests::the_handy_mirror_is_never_a_mirror_base (mirror hook returns None; legacy URL models refused by checked_download_url)
+api.openai.com             # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (chat + models refused, no connection), fork::llm::tests::default_list_has_no_cloud_provider, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
+api.anthropic.com          # proof: fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_the_local_placeholder, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
+api.groq.com               # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list (not offered), fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (any non-loopback URL refused)
+api.cerebras.ai            # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
+api.z.ai                   # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
+openrouter.ai              # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (names it), fork::llm::tests::neutral_headers_drop_app_identifying_headers_only (HTTP-Referer / X-Title dropped)
+bedrock-mantle.us-east-1.api.aws # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
+api.deepseek.com           # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (llm_client.rs only compares a base-URL substring; any non-loopback base URL is refused)
+
+[link]
+# Click-only links: opened in the user's browser by the opener plugin.
+handy.computer             # source: src/components/SecureInputWarning.tsx:100 openUrl(SECURE_INPUT_HELP_URL) (/docs/troubleshooting), src/components/onboarding/LinuxGuide.tsx:19 openUrl(LINUX_SETUP_URL) (/docs/linux), src/components/settings/about/AboutSettings.tsx:34 openUrl("…/donate"). S-26b replaces them
 
 # --- pending (uncomment when the named proof exists) ------------------------
-# blob.handy.computer        # proof: F-08 test "downloader never builds a blob.handy.computer URL" (fork::models mirror hook returns None)
-# api.openai.com             # proof: F-08 tests "settings read returns no cloud provider" + "non-loopback custom URL is refused by the backend" (DEC-04)
-# api.anthropic.com          # proof: F-08, same tests as api.openai.com
-# api.groq.com               # proof: F-08, same tests as api.openai.com
-# api.cerebras.ai            # proof: F-08, same tests as api.openai.com
-# api.z.ai                   # proof: F-08, same tests as api.openai.com
-# openrouter.ai              # proof: F-08, same tests as api.openai.com (+ neutral headers in llm_client.rs)
-# bedrock-mantle.us-east-1.api.aws # proof: F-08, same tests as api.openai.com
-# api.deepseek.com           # proof: F-08 loopback-only check (llm_client.rs only compares a base URL substring)
-# handy.computer             # proof: S-26b replaces Handy's docs/donate links; until then a [link] host candidate, not app traffic
 # eus.codesigning.azure.net  # proof: F-02 overlay nulls bundle.windows.signCommand (embedded config only, never requested)

@@ -413,3 +413,258 @@ export function tryGit(cwd: string, args: string[]): string | undefined {
 export function stripRustComments(src: string): string {
   return src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
 }
+
+// ---------------------------------------------------------------------------
+// Rust lexing (just enough to find comments and `#[cfg(test)]` modules)
+
+/** Half-open source range `[start, end)` (UTF-16 offsets). */
+export type Span = [number, number];
+
+export interface RustToken {
+  kind: "ident" | "punct" | "literal" | "lifetime";
+  text: string;
+  start: number;
+  end: number;
+}
+
+export interface RustLex {
+  tokens: RustToken[];
+  /** Line, block (nested) and doc comments. */
+  comments: Span[];
+  /** False when a string, char or block comment never closes. */
+  ok: boolean;
+}
+
+const IDENT_START = /[A-Za-z_\u0080-￿]/;
+const IDENT_CHAR = /[A-Za-z0-9_\u0080-￿]/;
+
+/**
+ * A small Rust lexer: strings (with escapes), raw strings (`r#"…"#`, `br`,
+ * `cr`), byte/C strings, char literals vs lifetimes, nested block comments.
+ * Braces inside literals and comments are therefore never counted. On
+ * malformed input it returns `ok: false` and callers fail closed.
+ */
+export function lexRust(src: string): RustLex {
+  const tokens: RustToken[] = [];
+  const comments: Span[] = [];
+  const n = src.length;
+  let i = 0;
+  const quoted = (from: number): number => {
+    // `from` is just past the opening `"`; returns the index past the close.
+    let j = from;
+    while (j < n) {
+      if (src[j] === "\\") j += 2;
+      else if (src[j] === '"') return j + 1;
+      else j++;
+    }
+    return -1;
+  };
+  while (i < n) {
+    const c = src[i];
+    if (/\s/.test(c)) {
+      i++;
+      continue;
+    }
+    if (c === "/" && src[i + 1] === "/") {
+      const e = src.indexOf("\n", i);
+      const end = e < 0 ? n : e;
+      comments.push([i, end]);
+      i = end;
+      continue;
+    }
+    if (c === "/" && src[i + 1] === "*") {
+      let depth = 1;
+      let j = i + 2;
+      while (j < n && depth > 0) {
+        if (src[j] === "/" && src[j + 1] === "*") {
+          depth++;
+          j += 2;
+        } else if (src[j] === "*" && src[j + 1] === "/") {
+          depth--;
+          j += 2;
+        } else j++;
+      }
+      if (depth > 0) return { tokens, comments, ok: false };
+      comments.push([i, j]);
+      i = j;
+      continue;
+    }
+    if (c === '"') {
+      const e = quoted(i + 1);
+      if (e < 0) return { tokens, comments, ok: false };
+      tokens.push({ kind: "literal", text: src.slice(i, e), start: i, end: e });
+      i = e;
+      continue;
+    }
+    if (c === "'") {
+      let e = -1;
+      if (src[i + 1] === "\\") {
+        e = src.indexOf("'", i + 3);
+        if (e >= 0) e++;
+      } else {
+        const cp = src.codePointAt(i + 1);
+        const w = cp !== undefined && cp > 0xffff ? 2 : 1;
+        if (src[i + 1] !== undefined && src[i + 1 + w] === "'") e = i + 2 + w;
+      }
+      if (e > 0) {
+        tokens.push({
+          kind: "literal",
+          text: src.slice(i, e),
+          start: i,
+          end: e,
+        });
+        i = e;
+        continue;
+      }
+      // Lifetime or label: `'a`, `'static`.
+      let j = i + 1;
+      while (j < n && IDENT_CHAR.test(src[j])) j++;
+      tokens.push({
+        kind: "lifetime",
+        text: src.slice(i, j),
+        start: i,
+        end: j,
+      });
+      i = j;
+      continue;
+    }
+    if (IDENT_START.test(c) || /[0-9]/.test(c)) {
+      let j = i + 1;
+      while (j < n && IDENT_CHAR.test(src[j])) j++;
+      const word = src.slice(i, j);
+      if (/^(r|br|cr)$/.test(word) && (src[j] === "#" || src[j] === '"')) {
+        let k = j;
+        while (src[k] === "#") k++;
+        if (src[k] === '"') {
+          const close = '"' + "#".repeat(k - j);
+          const e = src.indexOf(close, k + 1);
+          if (e < 0) return { tokens, comments, ok: false };
+          const end = e + close.length;
+          tokens.push({
+            kind: "literal",
+            text: src.slice(i, end),
+            start: i,
+            end,
+          });
+          i = end;
+          continue;
+        }
+      }
+      if (/^(b|c)$/.test(word) && src[j] === '"') {
+        const e = quoted(j + 1);
+        if (e < 0) return { tokens, comments, ok: false };
+        tokens.push({
+          kind: "literal",
+          text: src.slice(i, e),
+          start: i,
+          end: e,
+        });
+        i = e;
+        continue;
+      }
+      if (word === "b" && src[j] === "'") {
+        const e = src[j + 1] === "\\" ? src.indexOf("'", j + 3) : j + 2;
+        if (e < 0 || src[e] !== "'") return { tokens, comments, ok: false };
+        tokens.push({
+          kind: "literal",
+          text: src.slice(i, e + 1),
+          start: i,
+          end: e + 1,
+        });
+        i = e + 1;
+        continue;
+      }
+      tokens.push({
+        kind: /[0-9]/.test(c) ? "literal" : "ident",
+        text: word,
+        start: i,
+        end: j,
+      });
+      i = j;
+      continue;
+    }
+    tokens.push({ kind: "punct", text: c, start: i, end: i + 1 });
+    i++;
+  }
+  return { tokens, comments, ok: true };
+}
+
+export interface CfgTestMod {
+  name: string;
+  /** `decl`: `#[cfg(test)] mod name;` (body in another file). */
+  kind: "decl" | "inline";
+  /** From the `#` of `#[cfg(test)]` to just past `;` or the closing `}`. */
+  span: Span;
+}
+
+/**
+ * Modules gated by exactly `#[cfg(test)]` (further attributes and a `pub` /
+ * `pub(…)` visibility may follow): `#[cfg(test)] mod x;` declarations and
+ * `#[cfg(test)] mod x { … }` blocks, with the block's extent found by brace
+ * matching on the token stream. `cfg(any(test, …))` and other forms are not
+ * recognized (callers fail closed). Returns [] if the file does not lex.
+ */
+export function rustCfgTestMods(src: string): CfgTestMod[] {
+  const lex = lexRust(src);
+  if (!lex.ok) return [];
+  const t = lex.tokens;
+  const is = (k: number, text: string) =>
+    t[k]?.text === text && t[k].kind !== "literal";
+  /** Index past a `#[ … ]` attribute starting at k, or -1. */
+  const skipAttr = (k: number): number => {
+    if (!is(k, "#") || !is(k + 1, "[")) return -1;
+    let depth = 0;
+    for (let j = k + 1; j < t.length; j++) {
+      if (t[j].kind !== "punct") continue;
+      if (t[j].text === "[") depth++;
+      else if (t[j].text === "]" && --depth === 0) return j + 1;
+    }
+    return -1;
+  };
+  const out: CfgTestMod[] = [];
+  for (let k = 0; k < t.length; k++) {
+    if (
+      !(
+        is(k, "#") &&
+        is(k + 1, "[") &&
+        is(k + 2, "cfg") &&
+        is(k + 3, "(") &&
+        is(k + 4, "test") &&
+        is(k + 5, ")") &&
+        is(k + 6, "]")
+      )
+    )
+      continue;
+    let j = k + 7;
+    for (let next = skipAttr(j); next > 0; next = skipAttr(j)) j = next;
+    if (is(j, "pub")) {
+      j++;
+      if (is(j, "(")) {
+        while (j < t.length && !is(j, ")")) j++;
+        j++;
+      }
+    }
+    if (!is(j, "mod") || t[j + 1]?.kind !== "ident") continue;
+    const name = t[j + 1].text;
+    if (is(j + 2, ";")) {
+      out.push({ name, kind: "decl", span: [t[k].start, t[j + 2].end] });
+      continue;
+    }
+    if (!is(j + 2, "{")) continue;
+    let depth = 0;
+    for (let m = j + 2; m < t.length; m++) {
+      if (t[m].kind !== "punct") continue;
+      if (t[m].text === "{") depth++;
+      else if (t[m].text === "}" && --depth === 0) {
+        out.push({ name, kind: "inline", span: [t[k].start, t[m].end] });
+        k = m;
+        break;
+      }
+    }
+  }
+  return out;
+}
+
+export function inSpans(index: number, spans: Span[]): boolean {
+  return spans.some(([s, e]) => index >= s && index < e);
+}

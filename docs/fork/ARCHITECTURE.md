@@ -626,11 +626,48 @@ parsing, URL/host extraction). Self-tests: `scripts/wb-guards.test.ts`
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | `wb-guard-identity.ts`     | `tauri.conf.json` + overlay (RFC 7396 merge) has no `com.pais.handy`, `cjpais/Handy` or Handy pubkey prefix; productName/identifier ours; pubkey and a `github.com/<owner>/wispr-bro` endpoint present; Cargo/package/overlay versions (and tag) agree; `--release`: no F-02 placeholders | —                                                                              |
 | `wb-guard-plumbing.ts`     | `build.rs` `fn main` ends in `tauri_build::build()`, no `AppManifest`/`InlinedPlugin`; no Handy `fork_*` command; one `.invoke_handler(fork::compose_invoke(invoke_handler))`; upstream-bound files are fork-free and MIT-clean                                                           | `ci/upstream-bound.txt`                                                        |
-| `wb-guard-hooks.ts`        | `git diff --numstat` vs `merge-base(HEAD, upstream/main)`: every changed upstream file listed and within budget; new files only under `FORK_PATHS`                                                                                                                                        | `ci/hooks.txt`                                                                 |
-| `wb-guard-hosts.ts`        | URL hosts in fork code ⊆ allowed (`[link]` only in `openUrl(…)`, `[schema]` only as `"$schema"`); hosts in upstream code ⊆ baseline ∪ inert ∪ allowed                                                                                                                                     | `ci/allowed-hosts.txt`, `ci/upstream-hosts-baseline.txt`, `ci/inert-hosts.txt` |
-| `wb-guard-bundle-hosts.ts` | hosts in `dist/**/*.{js,css,html}` and Mach-O strings ⊆ allowed ∪ inert; skips without a build                                                                                                                                                                                            | same                                                                           |
+| `wb-guard-hooks.ts`        | `git diff --numstat` vs `merge-base(HEAD, upstream/main)`: every changed upstream file listed and within budget; generated lockfiles (`lock` entries) may change only with their manifest changed and within budget; new files only under `FORK_PATHS`                                    | `ci/hooks.txt`                                                                 |
+| `wb-guard-hosts.ts`        | URL hosts in fork code ⊆ allowed (`[link]` only in `openUrl(…)`, `[schema]` only as `"$schema"`, `[test]` only in fork test code); hosts in upstream code ⊆ baseline ∪ inert ∪ allowed (never `[test]`); list entries carry checked comments                                              | `ci/allowed-hosts.txt`, `ci/upstream-hosts-baseline.txt`, `ci/inert-hosts.txt` |
+| `wb-guard-bundle-hosts.ts` | hosts in `dist/**/*.{js,css,html}` and Mach-O strings ⊆ allowed (except `[test]`) ∪ inert; skips without a build                                                                                                                                                                          | same                                                                           |
 | `wb-guard-telemetry.ts`    | whole-name match of banned packages in `Cargo.lock`, `Cargo.toml`, `bun.lock`, `package.json`, TS/JS imports and Rust `use`                                                                                                                                                               | `ci/telemetry-packages.txt`                                                    |
 | `wb-guard-spdx.ts`         | SPDX header in fork code; AGPL files listed in `NOTICE` (once F-04 adds it); no GPL/AGPL header outside fork paths                                                                                                                                                                        | `ci/generated.txt`                                                             |
+
+**Hook budgets and lockfiles.** `ci/hooks.txt` budgets equal the measured
+diff (F-08 added `settings.rs` 7, `llm_client.rs` 3, `catalog/mod.rs` 2,
+`managers/model.rs` 5, and raised `Cargo.toml` to 7 and `package.json` to
+28). A generated lockfile is listed as `<path> lock` instead of a budget:
+`Cargo.lock`, `bun.lock` and the bun2nix files `.nix/bun.nix` /
+`.nix/bun-lock-hash` (regenerated from `bun.lock` by Handy's `postinstall`,
+`scripts/check-nix-deps.ts`). Any change to such a file passes only if its
+manifest (`Cargo.toml` for `Cargo.lock`, `package.json` for the others) is
+listed with a numeric budget, is changed and is within it; lockfile churn
+with an untouched manifest (a bare `cargo update`) fails, and `lock` on any
+other path is a list error.
+
+**Test-only hosts.** Tests that prove a refusal name hosts the app must
+never contact. They go in the `[test]` section of `ci/allowed-hosts.txt`,
+accepted only in fork test code: `scripts/wb-*.test.ts`, `tests/fork/**`,
+fork `tests.rs` / `testutil.rs` files whose parent module declares them
+with exactly `#[cfg(test)] mod <name>;`, and, in other fork Rust files, the
+body of a `#[cfg(test)] mod <name> { … }` block (found by brace matching on
+a token stream that skips strings, raw strings, chars and nested comments)
+and comments. Anything the lexer cannot read, or `cfg(any(test, …))`, does
+not count as test code. Each entry's comment starts with a category the
+guard checks: `example:` (RFC 2606/6761 name), `private:` (RFC 1918 /
+link-local IPv4), `loopback:` (127/8 in any spelling, `[::1]`) or
+`refusal:` (a real host named to prove refusal, no wildcard). `[test]`
+hosts are never accepted in production fork code (`hosts/test-only`), in
+upstream code or in the built bundle.
+
+**Inert hosts.** `ci/inert-hosts.txt` sections and their required comment:
+`[identifier]` `reason:`, `[proven]` `proof:` (fork test paths; the
+self-tests check every named `fork::…::fn` exists as a Rust test) and
+`[link]` `source:` (click-only `openUrl` links, with their locations). Since
+F-08: Handy's cloud LLM hosts and `blob.handy.computer` are `[proven]`
+(`fork::llm::tests::*`, `fork::settings::tests::a_stored_openai_provider_is_migrated_to_local`,
+`fork::models::tests::downloader_never_builds_a_blob_handy_computer_url`,
+`fork::net::tests::the_handy_mirror_is_never_a_mirror_base`) and
+`handy.computer` is a `[link]` until S-26b replaces Handy's links.
 
 Workflows: `wb-ci.yml` (PR/push to `wispr-bro`: guards, script tests,
 translations, lint, `wb:format:check`, fork Playwright; `cargo test` and

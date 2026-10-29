@@ -9,7 +9,25 @@
 //   [link]     hosts allowed only as an `openUrl(…)` / `open_url(…)` argument
 //              (a link the user clicks opens in the browser);
 //   [schema]   hosts allowed only as a JSON `"$schema"` value (editor hint);
-//   [loopback] local hosts, never network egress.
+//   [loopback] local hosts, never network egress;
+//   [test]     hosts allowed only in fork *test code* (see isForkTestFile and
+//              forkTestSpans): example names, private/loopback addresses and
+//              real hosts a test names to prove the app refuses them. Each
+//              entry's comment starts with its category (`example:`,
+//              `private:`, `loopback:` or `refusal:`); `example:` and
+//              `private:`/`loopback:` entries are checked against RFC 2606 /
+//              6761 names and the private/loopback ranges. A [test] host
+//              anywhere else in fork code fails (`hosts/test-only`); it is
+//              never accepted by the upstream or built-bundle scans.
+//
+// Fork test code is:
+//   - whole files: `scripts/wb-*.test.ts`, `tests/fork/**`, and fork Rust
+//     files named `tests.rs` / `testutil.rs` whose parent module declares
+//     them with exactly `#[cfg(test)] mod <name>;`;
+//   - in other fork Rust files: the body of a `#[cfg(test)] mod <name> { … }`
+//     block (extent by brace matching on a real token stream, so braces in
+//     strings and comments do not count) and comments (a comment is never
+//     a request). If a file does not lex, none of it counts as test code.
 //
 // Upstream code (the rest of src/, src-tauri/src/, src-tauri/*.json): every
 // host must be in `ci/upstream-hosts-baseline.txt` (reviewed), in
@@ -20,6 +38,10 @@
 import {
   cliMain,
   findUrls,
+  inSpans,
+  lexRust,
+  rustCfgTestMods,
+  type Span,
   hostInList,
   isForkCodePath,
   isTextFile,
@@ -37,11 +59,86 @@ export interface HostLists {
   link: string[];
   schema: string[];
   loopback: string[];
+  test: string[];
   baseline: string[];
   inert: string[];
 }
 
-const ALLOWED_SECTIONS = new Set(["network", "link", "schema", "loopback"]);
+const ALLOWED_SECTIONS = new Set([
+  "network",
+  "link",
+  "schema",
+  "loopback",
+  "test",
+]);
+const INERT_SECTIONS: Record<string, string> = {
+  identifier: "reason:",
+  proven: "proof:",
+  link: "source:",
+};
+
+const TEST_CATEGORIES = ["example", "private", "loopback", "refusal"] as const;
+
+/** RFC 2606 / RFC 6761 example and special-use names (and subdomains). */
+export function isExampleName(host: string): boolean {
+  const h = host.replace(/^\*\./, "x.");
+  return (
+    /(^|\.)example\.(com|net|org)$/.test(h) ||
+    /(^|\.)(example|test|invalid|localhost)$/.test(h)
+  );
+}
+
+/** IPv4 as a 32-bit number: dotted quad, or one hex / decimal integer. */
+function ipv4Value(host: string): number | undefined {
+  if (/^0x[0-9a-f]{1,8}$/i.test(host)) return parseInt(host, 16);
+  if (/^\d{1,10}$/.test(host)) {
+    const v = Number(host);
+    return v <= 0xffffffff ? v : undefined;
+  }
+  const m = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (!m) return undefined;
+  const o = m.slice(1).map(Number);
+  if (o.some((x) => x > 255)) return undefined;
+  return ((o[0] << 24) >>> 0) + (o[1] << 16) + (o[2] << 8) + o[3];
+}
+
+/** 127.0.0.0/8 in any IPv4 spelling, or [::1]. */
+export function isLoopbackAddress(host: string): boolean {
+  if (host === "[::1]") return true;
+  const v = ipv4Value(host);
+  return v !== undefined && v >>> 24 === 127;
+}
+
+/** RFC 1918 and link-local (169.254/16) IPv4. */
+export function isPrivateAddress(host: string): boolean {
+  const v = ipv4Value(host);
+  if (v === undefined) return false;
+  const a = v >>> 24;
+  const b = (v >>> 16) & 0xff;
+  return (
+    a === 10 ||
+    (a === 172 && b >= 16 && b < 32) ||
+    (a === 192 && b === 168) ||
+    (a === 169 && b === 254)
+  );
+}
+
+function testEntryProblem(e: ListEntry): string | undefined {
+  const cat = TEST_CATEGORIES.find((c) => e.comment.startsWith(`${c}:`));
+  if (!cat || e.comment.length <= cat.length + 2) {
+    return `${e.value}: a [test] entry needs a comment "<${TEST_CATEGORIES.join("|")}>: <why>"`;
+  }
+  const h = e.value.toLowerCase();
+  if (cat === "example" && !isExampleName(h))
+    return `${e.value} is not an RFC 2606/6761 example name`;
+  if (cat === "private" && !isPrivateAddress(h))
+    return `${e.value} is not a private (RFC 1918 / link-local) IPv4 address`;
+  if (cat === "loopback" && !isLoopbackAddress(h))
+    return `${e.value} is not a loopback address`;
+  if (cat === "refusal" && h.startsWith("*."))
+    return `${e.value}: [test] refusal entries name one host, no wildcard`;
+  return undefined;
+}
 
 export function readHostLists(root: string): {
   lists: HostLists;
@@ -56,17 +153,35 @@ export function readHostLists(root: string): {
       problems.push({
         file: "ci/allowed-hosts.txt",
         line: e.line,
-        message: `${e.value} is outside a [network]/[link]/[schema]/[loopback] section`,
+        message: `${e.value} is outside a [network]/[link]/[schema]/[loopback]/[test] section`,
       });
+    } else if (e.section === "test") {
+      const p = testEntryProblem(e);
+      if (p)
+        problems.push({
+          file: "ci/allowed-hosts.txt",
+          line: e.line,
+          message: p,
+        });
     }
   }
   const inert = readList(root, "ci/inert-hosts.txt");
   for (const e of inert) {
-    if (!e.comment) {
+    const prefix = INERT_SECTIONS[e.section];
+    if (!prefix) {
       problems.push({
         file: "ci/inert-hosts.txt",
         line: e.line,
-        message: `${e.value} needs a comment naming the test (or reason) that proves it unreachable`,
+        message: `${e.value} is outside an [identifier]/[proven]/[link] section`,
+      });
+    } else if (
+      !e.comment.startsWith(prefix) ||
+      e.comment.length <= prefix.length + 1
+    ) {
+      problems.push({
+        file: "ci/inert-hosts.txt",
+        line: e.line,
+        message: `${e.value} needs a comment "${prefix} …" naming the test (or reason, or link source) that proves it unreachable`,
       });
     }
   }
@@ -87,6 +202,7 @@ export function readHostLists(root: string): {
       link: pick("link"),
       schema: pick("schema"),
       loopback: pick("loopback"),
+      test: pick("test"),
       baseline: values(baseline),
       inert: values(inert),
     },
@@ -106,6 +222,44 @@ export function isUpstreamHostScope(rel: string): boolean {
   if (isForkHostScope(rel)) return false;
   if (rel.startsWith("src/") || rel.startsWith("src-tauri/src/")) return true;
   return /^src-tauri\/[^/]+\.json$/.test(rel);
+}
+
+/** Rust test files: `tests.rs` / `testutil.rs` declared `#[cfg(test)]`. */
+const RUST_TEST_FILE_RE =
+  /^src-tauri\/(?:src\/fork|crates\/wb-[^/]+)\/(?:.*\/)?(tests|testutil)\.rs$/;
+
+/** Parent-module candidates of `dir/name.rs` (Rust 2018 module layout). */
+function parentModules(rel: string): string[] {
+  const dir = rel.slice(0, rel.lastIndexOf("/"));
+  return [`${dir}/mod.rs`, `${dir}.rs`, `${dir}/lib.rs`, `${dir}/main.rs`];
+}
+
+/** Whole-file fork test code (see the header). */
+export function isForkTestFile(root: string, rel: string): boolean {
+  if (/^scripts\/wb-[^/]+\.test\.ts$/.test(rel)) return true;
+  if (rel.startsWith("tests/fork/")) return true;
+  const m = rel.match(RUST_TEST_FILE_RE);
+  if (!m) return false;
+  return parentModules(rel).some((p) => {
+    const src = readIfExists(root, p);
+    return (
+      src !== undefined &&
+      rustCfgTestMods(src).some((x) => x.kind === "decl" && x.name === m[1])
+    );
+  });
+}
+
+/** Test-only spans of a fork Rust file: `#[cfg(test)] mod … { }` and comments. */
+export function forkTestSpans(rel: string, text: string): Span[] {
+  if (!rel.endsWith(".rs")) return [];
+  const lex = lexRust(text);
+  if (!lex.ok) return [];
+  return [
+    ...lex.comments,
+    ...rustCfgTestMods(text)
+      .filter((x) => x.kind === "inline")
+      .map((x) => x.span),
+  ];
 }
 
 const OPEN_URL_RE = /\bopen_?url\s*\(|\bopenUrl\b|\bopener::open_url\b/i;
@@ -153,6 +307,14 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
     const lines = text.split("\n");
     if (fork) forkFiles++;
     else upstreamFiles++;
+    let testFile: boolean | undefined;
+    let testSpans: Span[] | undefined;
+    const inTestCode = (index: number): boolean => {
+      testFile ??= isForkTestFile(root, f);
+      if (testFile) return true;
+      testSpans ??= forkTestSpans(f, text);
+      return inSpans(index, testSpans);
+    };
     for (const hit of findUrls(text)) {
       const h = hit.host;
       if (fork) {
@@ -175,6 +337,16 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
             line: hit.line,
             rule: "hosts/schema-only",
             message: `${h} is a [schema] host: it may appear only as a "$schema" value`,
+          });
+          continue;
+        }
+        if (hostInList(h, lists.test)) {
+          if (inTestCode(hit.index)) continue;
+          r.violations.push({
+            file: f,
+            line: hit.line,
+            rule: "hosts/test-only",
+            message: `${h} is a [test] host: it may appear only in fork test code (test files, #[cfg(test)] mod blocks, comments)`,
           });
           continue;
         }

@@ -10,7 +10,14 @@
 //   - every added file must be in a fork path (wb-guard-lib FORK_PATHS) or be
 //     listed in `ci/hooks.txt`.
 //
-// `ci/hooks.txt`: `<path> <budget>   # <slice>: <hook>`.
+// `ci/hooks.txt`: `<path> <budget>   # <slice>: <hook>`, or
+// `<path> lock   # <slice>: <reason>` for a generated lockfile (LOCKFILES):
+// any change to it is accepted (lockfile churn from a dependency change is
+// not a hook), but only when its manifest (`Cargo.toml` / `package.json`) is
+// itself listed with a numeric budget, changed vs upstream and within that
+// budget. So every lockfile change must follow a reviewed manifest change;
+// a lockfile change with an untouched manifest (e.g. a bare `cargo update`)
+// fails. Lock mode applies only to the files in LOCKFILES.
 
 import {
   argValue,
@@ -24,9 +31,28 @@ import {
   type GuardResult,
 } from "./wb-guard-lib";
 
+/**
+ * Generated lockfiles that may use `lock` mode, and the manifest each one is
+ * generated from. Adding to this table is a guard change (reviewed).
+ */
+export function lockManifest(path: string): string | undefined {
+  const dir = path.includes("/")
+    ? path.slice(0, path.lastIndexOf("/") + 1)
+    : "";
+  const base = path.slice(dir.length);
+  if (base === "Cargo.lock") return `${dir}Cargo.toml`;
+  if (base === "bun.lock") return `${dir}package.json`;
+  // bun2nix output regenerated from bun.lock by `scripts/check-nix-deps.ts`
+  // (the `postinstall` script): derived from package.json via bun.lock.
+  if (path === ".nix/bun.nix" || path === ".nix/bun-lock-hash")
+    return "package.json";
+  return undefined;
+}
+
 export interface HookBudget {
   path: string;
-  budget: number;
+  /** Changed-line budget, or "lock" for a generated lockfile. */
+  budget: number | "lock";
   line: number;
   comment: string;
 }
@@ -34,12 +60,22 @@ export interface HookBudget {
 export function readHooks(root: string): HookBudget[] {
   return readList(root, "ci/hooks.txt").map((e) => {
     const [path, budget, ...rest] = e.value.split(/\s+/);
-    if (!path || rest.length || !/^\d+$/.test(budget ?? "")) {
+    if (!path || rest.length || !/^(\d+|lock)$/.test(budget ?? "")) {
       throw new Error(
-        `ci/hooks.txt:${e.line}: expected "<path> <budget>", got "${e.value}"`,
+        `ci/hooks.txt:${e.line}: expected "<path> <budget>" or "<path> lock", got "${e.value}"`,
       );
     }
-    return { path, budget: Number(budget), line: e.line, comment: e.comment };
+    if (budget === "lock" && !lockManifest(path)) {
+      throw new Error(
+        `ci/hooks.txt:${e.line}: ${path} is not a known generated lockfile; "lock" applies only to Cargo.lock, bun.lock and .nix/bun.nix / .nix/bun-lock-hash`,
+      );
+    }
+    return {
+      path,
+      budget: budget === "lock" ? "lock" : Number(budget),
+      line: e.line,
+      comment: e.comment,
+    };
   });
 }
 
@@ -132,6 +168,25 @@ export function runHooks(opts: HooksOptions = {}): GuardResult {
         rule: "hooks/unlisted",
         message: `upstream file changed (${n} line(s), status ${kind}) but not listed in ci/hooks.txt (R5 §4.2)`,
       });
+    } else if (hook.budget === "lock") {
+      const manifest = lockManifest(path)!;
+      const m = byPath.get(manifest);
+      const mn = counts.get(manifest);
+      const problem =
+        !m || m.budget === "lock"
+          ? `its manifest ${manifest} has no numeric budget in ci/hooks.txt`
+          : !kinds.has(manifest) || mn === undefined
+            ? `its manifest ${manifest} is unchanged vs upstream; a lockfile may change only with a reviewed manifest change`
+            : mn === "binary" || mn > m.budget
+              ? `its manifest ${manifest} is over budget (${mn} changed lines, budget ${m.budget})`
+              : undefined;
+      if (problem) {
+        r.violations.push({
+          file: path,
+          rule: "hooks/lock",
+          message: `lockfile changed (${n} line(s)) but ${problem} (ci/hooks.txt:${hook.line})`,
+        });
+      }
     } else if (n === "binary") {
       r.violations.push({
         file: path,
