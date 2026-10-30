@@ -34,12 +34,18 @@
 //
 // Output: one JSON object per line, `t` in ms since start.
 //
+// WB_FRONT=<app name> (e.g. TextEdit): every key-down and modifier-down is
+// posted only while that app is frontmost; otherwise the run aborts (exit
+// 3) after releasing anything held. Run GUI bursts under the shared lock:
+// `/usr/bin/lockf -k ~/wb-bench/gui.lock …`.
+//
 // Notes: synthetic events reach event taps (the fork's tap sees them) but
 // do not trigger the Globe key's system action, so DEC-44 behaviour is
 // covered by RS-01, not by this tool. The mic check reads
 // kAudioDevicePropertyDeviceIsRunningSomewhere, the state behind the orange
 // indicator. Needs Accessibility for the process that runs it.
 
+import AppKit
 import CoreAudio
 import CoreGraphics
 import Foundation
@@ -77,7 +83,34 @@ _ = pthread_set_qos_class_self_np(QOS_CLASS_USER_INTERACTIVE, 0)
 var held: CGEventFlags = []
 var lastTrigger: Double = 0
 
-func post(_ e: CGEvent?) { e?.post(tap: .cghidEventTap) }
+/// WB_FRONT=<app name>: post nothing unless that app is frontmost. Several
+/// agents may drive this Mac's GUI; a burst whose target lost focus is
+/// aborted (held modifiers released) instead of typing into another app.
+let requiredFront = ProcessInfo.processInfo.environment["WB_FRONT"]
+
+func checkFront() {
+    guard let want = requiredFront else { return }
+    let front = NSWorkspace.shared.frontmostApplication?.localizedName ?? "?"
+    if front != want {
+        out(["abort": "frontmost is \(front), not \(want)"])
+        if !held.isEmpty {
+            held = []
+            let e = CGEvent(keyboardEventSource: source, virtualKey: 63, keyDown: true)
+            e?.type = .flagsChanged
+            e?.flags = []
+            e?.post(tap: .cghidEventTap)
+        }
+        exit(3)
+    }
+}
+
+func post(_ e: CGEvent?) {
+    // Releases always go through (never leave a key held).
+    if let e = e, e.type == .keyDown || (e.type == .flagsChanged && !e.flags.isEmpty) {
+        checkFront()
+    }
+    e?.post(tap: .cghidEventTap)
+}
 
 func flagsEvent(keycode: CGKeyCode, flags: CGEventFlags) {
     let e = CGEvent(keyboardEventSource: source, virtualKey: keycode, keyDown: true)
