@@ -82,7 +82,7 @@ What will happen:
   it reminds you to set it back.
 - **One question:** does F11 or fn+F11 normally do anything on your Mac
   (for example, show the desktop)?
-- **Part A** (Wispr Bro does *not* hold back the fn key this time):
+- **Part A** (Wispr Bro does _not_ hold back the fn key this time):
   1. quick taps, 5 times;
   2. double-taps, 5 times;
   3. holds of about a second, 5 times;
@@ -92,6 +92,7 @@ What will happen:
 
   After each one: did anything pop up? Did the orange dot appear? Did the
   shortcut do its normal thing?
+
 - **Part B:** 20 takes of "testing one two three", 10 one way, then 10
   another way. Before each take you see "get ready...", then a line starting
   with **>>> NOW**. Then press fn and **start talking at once**: don't wait
@@ -158,7 +159,7 @@ Round 2 (`--round 2`, `src/round2.rs`; results in `report: RS-01-fn-globe.md`):
   (one model load for all takes; ffmpeg only if a WAV is not 16 kHz mono).
   If the binary is missing, the summary says how to build it:
   `cd src-tauri/crates/wb-bench-asr && CMAKE_POLICY_VERSION_MINIMUM=3.5
-  CARGO_TARGET_DIR=../../target cargo build --release --offline`.
+CARGO_TARGET_DIR=../../target cargo build --release --offline`.
 - `wb-spike-fn --analyze <run folder>` applies the same per-take analysis to
   any finished run (round 1 included) and writes `analysis.json` there.
 - `--round 2 --dry-run` prints the plan, the Globe setting and whether

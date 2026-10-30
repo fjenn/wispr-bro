@@ -40,18 +40,18 @@ cold through handy-recorder at `T_show`.
 
 ## Results against every RS-01 criterion
 
-| RS-01 criterion (R5 §7) | Round 1 | Notes |
-|---|---|---|
-| No Globe action on tap, hold or double-tap, all four settings | **FAIL** | See the table below. DEC-44 applies on macOS 26 for Emoji and Input Source. |
-| 100/100 chords keep their native function | partly | fn+←/→ (Home/End), fn+↑/↓ (PgUp/PgDn) and fn+Delete (forward delete): yes. fn+F11 "did not do what F11 normally does": unresolved, see Chords. 94 chord keys, but all in one fn hold. |
-| 0 starts during chords | **FAIL, but not a valid measurement** | The 94 keys came in a single 102 s fn hold whose first key (Home) arrived 1,256 ms after fn-down. By then the take had started and passed `T`, so later keys passed through and it kept recording (correct per rule 2). The block's other two "starts" were fn presses without a chord key: a 169 ms press, which opened the mic and was cancelled with no second press, and an 892 ms hold. |
-| Orange indicator never shown during chords or quick taps | quick taps PASS (40/40, mic never opened); chords FAIL | The dot during chords is explained by the 102 s hold, which was a real take. |
-| F5 dictation key suppressed | not run | |
-| Ctrl+Opt on an external keyboard | not run | Built-in keyboard only. |
-| ≤ 1 clipped first word in 50 takes | **not shown** | 10 takes, 0 clipped by us, because the speaker always started late. See Clipping. |
-| Both taps deliver after every wake | not run | 34 health checks (`CGGetEventTapList`) during the session: both taps present and enabled every time. |
-| §5.1 fn-down → capture running, cold: p50 ≤ 250, p95 ≤ 350 ms | **FAIL** (p50) | p50 262 ms, p95 293 ms over 50 takes. |
-| Grammar (S-01 rules 1-7, tool checks) | PASS | Hold 40/40, double-tap 40/40, fn+Space 5/5 (no space typed), Esc with fn held 5/5, quick tap 40/40 with the mic closed. |
+| RS-01 criterion (R5 §7)                                       | Round 1                                                | Notes                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No Globe action on tap, hold or double-tap, all four settings | **FAIL**                                               | See the table below. DEC-44 applies on macOS 26 for Emoji and Input Source.                                                                                                                                                                                                                                                                                                                  |
+| 100/100 chords keep their native function                     | partly                                                 | fn+←/→ (Home/End), fn+↑/↓ (PgUp/PgDn) and fn+Delete (forward delete): yes. fn+F11 "did not do what F11 normally does": unresolved, see Chords. 94 chord keys, but all in one fn hold.                                                                                                                                                                                                        |
+| 0 starts during chords                                        | **FAIL, but not a valid measurement**                  | The 94 keys came in a single 102 s fn hold whose first key (Home) arrived 1,256 ms after fn-down. By then the take had started and passed `T`, so later keys passed through and it kept recording (correct per rule 2). The block's other two "starts" were fn presses without a chord key: a 169 ms press, which opened the mic and was cancelled with no second press, and an 892 ms hold. |
+| Orange indicator never shown during chords or quick taps      | quick taps PASS (40/40, mic never opened); chords FAIL | The dot during chords is explained by the 102 s hold, which was a real take.                                                                                                                                                                                                                                                                                                                 |
+| F5 dictation key suppressed                                   | not run                                                |                                                                                                                                                                                                                                                                                                                                                                                              |
+| Ctrl+Opt on an external keyboard                              | not run                                                | Built-in keyboard only.                                                                                                                                                                                                                                                                                                                                                                      |
+| ≤ 1 clipped first word in 50 takes                            | **not shown**                                          | 10 takes, 0 clipped by us, because the speaker always started late. See Clipping.                                                                                                                                                                                                                                                                                                            |
+| Both taps deliver after every wake                            | not run                                                | 34 health checks (`CGGetEventTapList`) during the session: both taps present and enabled every time.                                                                                                                                                                                                                                                                                         |
+| §5.1 fn-down → capture running, cold: p50 ≤ 250, p95 ≤ 350 ms | **FAIL** (p50)                                         | p50 262 ms, p95 293 ms over 50 takes.                                                                                                                                                                                                                                                                                                                                                        |
+| Grammar (S-01 rules 1-7, tool checks)                         | PASS                                                   | Hold 40/40, double-tap 40/40, fn+Space 5/5 (no space typed), Esc with fn held 5/5, quick tap 40/40 with the mic closed.                                                                                                                                                                                                                                                                      |
 
 ### Globe action by "Press 🌐 key to" setting
 
@@ -59,12 +59,12 @@ The owner was asked after each block: "Did anything else pop up or change:
 the emoji picker, the input source switching, or Apple's own Dictation?" The
 fork tap blocked the fn-down event throughout.
 
-| Setting (`AppleFnUsageType`) | Hold 1 s ×10 | Quick tap ×10 | Double-tap ×10 | fn+Space ×5 | Chords |
-|---|---|---|---|---|---|
-| Show Emoji & Symbols (unset = default; 2) | nothing | **popped up** | **popped up** | **popped up** | **popped up** |
-| Change Input Source (1) | nothing | **popped up** | **popped up** | – | – |
-| Do Nothing (0) | nothing | nothing | nothing | – | – |
-| Start Dictation (3) | nothing | nothing | nothing | – | – |
+| Setting (`AppleFnUsageType`)              | Hold 1 s ×10 | Quick tap ×10 | Double-tap ×10 | fn+Space ×5   | Chords        |
+| ----------------------------------------- | ------------ | ------------- | -------------- | ------------- | ------------- |
+| Show Emoji & Symbols (unset = default; 2) | nothing      | **popped up** | **popped up**  | **popped up** | **popped up** |
+| Change Input Source (1)                   | nothing      | **popped up** | **popped up**  | –             | –             |
+| Do Nothing (0)                            | nothing      | nothing       | nothing        | –             | –             |
+| Start Dictation (3)                       | nothing      | nothing       | nothing        | –             | –             |
 
 How to read it:
 
@@ -95,11 +95,11 @@ and 3 alone.
 Distribution of the time from fn-down to the first chord key of each press,
 from `events.jsonl`:
 
-| Block | Presses with a chord key | fn-down → first key |
-|---|---|---|
-| Chords (the 94 keys) | 1 | Home at 1,256 ms (then 93 more keys over 101 s in the same hold) |
-| fn+Space (Space is a lock, not a chord) | 7 | 110, 171, 182, 200, 567, 1,108, 6,998 ms |
-| Esc with fn held | 6 | 480-1,252 ms (Esc and one Space) |
+| Block                                   | Presses with a chord key | fn-down → first key                                              |
+| --------------------------------------- | ------------------------ | ---------------------------------------------------------------- |
+| Chords (the 94 keys)                    | 1                        | Home at 1,256 ms (then 93 more keys over 101 s in the same hold) |
+| fn+Space (Space is a lock, not a chord) | 7                        | 110, 171, 182, 200, 567, 1,108, 6,998 ms                         |
+| Esc with fn held                        | 6                        | 480-1,252 ms (Esc and one Space)                                 |
 
 So there is **no chord timing distribution yet**. The single chord press is
 far beyond `T` (500 ms), which says the owner pressed fn first and looked for
@@ -113,7 +113,7 @@ pass through and the take continues.
 **fn+F11.** The fork tap logged `F11` with the Fn modifier, not blocked.
 `com.apple.keyboard.fnState` is unset, so the top row sends media keys and
 fn+F11 sends a plain F11. `AppleSymbolicHotKeys` has no entry 36 (Show
-Desktop). An absent entry means macOS uses its *default*, which for Show
+Desktop). An absent entry means macOS uses its _default_, which for Show
 Desktop is normally F11. So the absence does **not** show that F11 has no
 action on this Mac. Open possibilities: (1) Show Desktop is off or remapped
 in System Settings; (2) the dropped fn-down event left the system's modifier
@@ -127,11 +127,11 @@ Over the passing hold and clipping takes (fn press → first audio chunk):
 **p50 262 ms, p95 293 ms** (n = 50). The breakdown over all 68 cold opens
 after a held press:
 
-| Step | p50 | p95 |
-|---|---|---|
+| Step                                      | p50    | p95    |
+| ----------------------------------------- | ------ | ------ |
 | fn-down → mic requested (`T_show` + loop) | 154 ms | 155 ms |
-| request → `Recorder::open` returned | 44 ms | 72 ms |
-| open → first audio chunk | 66 ms | 68 ms |
+| request → `Recorder::open` returned       | 44 ms  | 72 ms  |
+| open → first audio chunk                  | 66 ms  | 68 ms  |
 
 Cutting `T_show` to 100 ms should give about 210 ms (passes p50). A
 prepared input unit removes most of the 110 ms. A bench on this Mac measured
@@ -149,18 +149,18 @@ this to every take. It finds the speech onset by energy (`src/onset.rs`) and
 transcribes each take with the RS-09 bench binary (parakeet-unified-en 0.6B
 Q8_0).
 
-| Take | fn → first audio | Speech began after the press | Verdict | Transcript |
-|---|---|---|---|---|
-| 1 | 262 ms | 1,542 ms | not clipped | Testing one. |
-| 2 | 278 ms | 1,408 ms | not clipped | Testing one |
-| 3 | 264 ms | 1,434 ms | not clipped | Destiny three. |
-| 4 | 293 ms | 1,353 ms | not clipped | Testing one two |
-| 5 | 267 ms | 837 ms | not clipped | Testing 123 |
-| 6 | 265 ms | 675 ms | not clipped | Testing 12 |
-| 7 | 267 ms | 617 ms | not clipped | Testing one, two, three. |
-| 8 | 268 ms | 1,328 ms | not clipped | Testing ain't five. |
-| 9 | 255 ms | 395 ms | not clipped | One, two, three, ten. |
-| 10 | 297 ms | 1,517 ms | not clipped | Testing when |
+| Take | fn → first audio | Speech began after the press | Verdict     | Transcript               |
+| ---- | ---------------- | ---------------------------- | ----------- | ------------------------ |
+| 1    | 262 ms           | 1,542 ms                     | not clipped | Testing one.             |
+| 2    | 278 ms           | 1,408 ms                     | not clipped | Testing one              |
+| 3    | 264 ms           | 1,434 ms                     | not clipped | Destiny three.           |
+| 4    | 293 ms           | 1,353 ms                     | not clipped | Testing one two          |
+| 5    | 267 ms           | 837 ms                       | not clipped | Testing 123              |
+| 6    | 265 ms           | 675 ms                       | not clipped | Testing 12               |
+| 7    | 267 ms           | 617 ms                       | not clipped | Testing one, two, three. |
+| 8    | 268 ms           | 1,328 ms                     | not clipped | Testing ain't five.      |
+| 9    | 255 ms           | 395 ms                       | not clipped | One, two, three, ten.    |
+| 10   | 297 ms           | 1,517 ms                     | not clipped | Testing when             |
 
 **0 of 10 clipped by us; 10 of 10 had leading silence.** Speech began a
 median 1.35 s after the press, so the mic had been live for about a second
@@ -168,7 +168,7 @@ before the first word. That is far later than "at the same moment". The two
 transcripts without "testing" are not mic clips:
 
 - **Take 3** ("Destiny three."): speech began 1.43 s after the press, so only
-  about 0.6 s of it fit in the 2 s clip. The *end* was cut by the save
+  about 0.6 s of it fit in the 2 s clip. The _end_ was cut by the save
   window, not the start. Round 2 saves 4 s.
 - **Take 9** ("One, two, three, ten."): the earliest speech start (395 ms
   after the press, 130 ms after the mic was live). Transcribed alone, its
@@ -239,19 +239,19 @@ bare fn press not blocked.
   remains; fluent chords (key within `T_show`) stay dark.
 - **First words** (10 cued takes each, all transcribed with "testing"):
 
-  | variant | fn → first audio p50 / p95 | clipped by us | speech began after fn (p50) |
-  |---|---|---|---|
-  | (a) cold open | 211 / 216 ms | 0 / 10 | 1162 ms |
-  | (b) prepared unit | 129 / 140 ms | 0 / 10 | 808 ms |
+  | variant           | fn → first audio p50 / p95 | clipped by us | speech began after fn (p50) |
+  | ----------------- | -------------------------- | ------------- | --------------------------- |
+  | (a) cold open     | 211 / 216 ms               | 0 / 10        | 1162 ms                     |
+  | (b) prepared unit | 129 / 140 ms               | 0 / 10        | 808 ms                      |
 
   The owner saw no dot while the unit was only prepared, the dot during each
   take, and it gone after. Decision (DEC-53): prepared unit, `T_show` stays
   150 ms (≈ 180 ms expected). Speech still began ≥ 635 ms after the press,
   so the ≤ 1-in-50 clipping gate is still not really stressed; S-01's
   acceptance run keeps it.
+
 - Both taps healthy at all 14 checks.
 
 Still open for S-01 and later: macOS 14/15, Finder, an external keyboard,
 the F5 key, sleep/wake, Bluetooth/USB mics, 50-take clipping, and "Start
 Dictation" with fn unblocked.
-
