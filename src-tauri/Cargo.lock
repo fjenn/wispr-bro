@@ -2425,6 +2425,7 @@ dependencies = [
  "tempfile",
  "tokio",
  "transcribe-cpp",
+ "unicode-segmentation",
  "webview2-com",
  "whatlang",
  "windows 0.61.3",

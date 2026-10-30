@@ -90,6 +90,8 @@ pub enum CardReason {
     /// The text could not be put on the clipboard or the paste key could
     /// not be sent.
     PasteFailed,
+    /// The disk filled up during the recording, which was stopped (S-09).
+    DiskFull,
 }
 
 impl CardReason {
@@ -99,6 +101,7 @@ impl CardReason {
             CardReason::ScreenLocked => "screen_locked",
             CardReason::SessionInactive => "session_inactive",
             CardReason::PasteFailed => "paste_failed",
+            CardReason::DiskFull => "disk_full",
         }
     }
 }

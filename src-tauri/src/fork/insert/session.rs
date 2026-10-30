@@ -28,6 +28,9 @@ pub enum Interruption {
     Sleep,
     ScreenLocked,
     SessionInactive,
+    /// The disk filled up during the recording (S-09, `fork::db::disk`).
+    /// Signalled as a begin and end at the same instant.
+    DiskFull,
 }
 
 impl Interruption {
@@ -36,6 +39,7 @@ impl Interruption {
             Interruption::Sleep => CardReason::Sleep,
             Interruption::ScreenLocked => CardReason::ScreenLocked,
             Interruption::SessionInactive => CardReason::SessionInactive,
+            Interruption::DiskFull => CardReason::DiskFull,
         }
     }
 }

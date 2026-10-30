@@ -477,6 +477,7 @@ impl ShortcutAction for TranscribeAction {
 
         let binding_id = binding_id.to_string();
         RECORDING_SESSION.fetch_add(1, Ordering::SeqCst);
+        crate::fork::on_record_start(app);
         let tray_started = Instant::now();
         set_tray_state(app, TrayIconState::Recording);
         let tray_elapsed = tray_started.elapsed();
@@ -699,8 +700,7 @@ impl ShortcutAction for TranscribeAction {
                 } else {
                     // Save WAV concurrently with transcription
                     let sample_count = samples.len();
-                    let file_name =
-                        crate::fork::recording_file_name(chrono::Utc::now().timestamp());
+                    let file_name = crate::fork::take_file_name(sample_count);
                     let wav_path = hm.recordings_dir().join(&file_name);
                     let wav_path_for_verify = wav_path.clone();
                     let samples_for_wav = samples.clone();
@@ -784,7 +784,7 @@ impl ShortcutAction for TranscribeAction {
                             }
 
                             // Save to history if WAV was saved
-                            if wav_saved {
+                            if wav_saved || crate::fork::keep_take(&wav_path_for_verify) {
                                 if let Err(err) = hm.save_entry(
                                     file_name,
                                     transcription,

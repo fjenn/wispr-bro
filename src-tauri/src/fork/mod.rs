@@ -23,6 +23,7 @@
 pub mod clipboard;
 pub mod audio;
 pub mod commands;
+pub mod context;
 pub mod db;
 pub mod diagnostics;
 pub mod events;
@@ -34,6 +35,7 @@ pub mod models;
 pub mod net;
 pub mod settings;
 pub mod shortcut;
+pub mod stats;
 #[cfg(test)]
 mod testutil;
 pub mod tray;
@@ -66,9 +68,65 @@ pub const FORK_BINDINGS_PATH: &str = "../src/fork/bindings.ts";
 /// their names; history rows store the full file name.
 pub const FILE_PREFIX: &str = "wispr-bro";
 
-/// Name of a dictation recording (`actions.rs` hook; Handy: `handy-<ts>.wav`).
-pub fn recording_file_name(timestamp_secs: i64) -> String {
-    format!("{FILE_PREFIX}-{timestamp_secs}.wav")
+/// Name of a dictation recording at `timestamp_millis` (Handy:
+/// `handy-<seconds>.wav`).
+pub fn recording_file_name(timestamp_millis: i64) -> String {
+    format!("{FILE_PREFIX}-{timestamp_millis}.wav")
+}
+
+/// The `actions.rs` hook that names a stopped take's WAV. Milliseconds, and
+/// never the same value twice in a process, so two takes stopped in the same
+/// second never share a file (RE-35). Also binds the take that just stopped
+/// to this file name and its speech time (`sample_count` at 16 kHz), so the
+/// history row knows its app and day (`fork::context::take`).
+pub fn take_file_name(sample_count: usize) -> String {
+    static LAST_MS: std::sync::atomic::AtomicI64 = std::sync::atomic::AtomicI64::new(0);
+    let now = context::now_ms();
+    let mut last = LAST_MS.load(Ordering::SeqCst);
+    let ms = loop {
+        let next = now.max(last + 1);
+        match LAST_MS.compare_exchange(last, next, Ordering::SeqCst, Ordering::SeqCst) {
+            Ok(_) => break next,
+            Err(current) => last = current,
+        }
+    };
+    let name = recording_file_name(ms);
+    context::take::ledger().bind(
+        &name,
+        stats::wpm::samples_to_ms(sample_count),
+        context::current_context,
+    );
+    name
+}
+
+/// The `actions.rs` hook for a take whose WAV could not be saved (disk
+/// full): keep its history row, text only (`fork::db::disk`).
+pub fn keep_take(wav: &std::path::Path) -> bool {
+    db::disk::keep_without_audio(wav)
+}
+
+/// The `managers/transcription.rs` hook (`finish_text`): Handy keeps
+/// `finished` for the verbatim ASR text `verbatim`; the history row stores
+/// both (D-06). Returns `finished`. S-11's `fork::text::process` replaces
+/// this call and reports the verbatim text the same way.
+pub fn note_verbatim(verbatim: String, finished: String) -> String {
+    context::take::ledger().note_verbatim(verbatim, &finished);
+    finished
+}
+
+/// The `actions.rs` record-start hook (R5 §4.2): runs when a dictation's
+/// recording starts. S-09: the frontmost app and the low-disk watch; S-03,
+/// S-05 and S-10 add the pill state, the AX target and the LLM prewarm.
+pub fn on_record_start<R: Runtime>(app: &AppHandle<R>) {
+    context::on_record_start();
+    match crate::portable::data_dir()
+        .cloned()
+        .map(Ok)
+        .unwrap_or_else(|| app.path().app_data_dir())
+    {
+        Ok(dir) => db::disk::on_record_start(app, dir),
+        Err(e) => log::debug!("disk: no app data dir to watch: {e}"),
+    }
 }
 
 /// Name of a transcribed-file copy (`managers/transcription_jobs.rs` hook;
@@ -283,6 +341,7 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     settings::on_ready(app);
     // S-04: session observers and recording phases for delivery.
     insert::on_ready(app);
+    db::jobs::start(app);
 
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
@@ -336,12 +395,18 @@ macro_rules! fork_specta_builder {
                 commands::csp::fork_csp_smoke_media::<$runtime>,
                 commands::hotkeys::fork_hotkey_status::<$runtime>,
                 commands::hotkeys::fork_use_hotkey_profile::<$runtime>,
+                commands::history::fork_stats_summary::<$runtime>,
+                commands::history::fork_history_search::<$runtime>,
+                commands::history::fork_history_meta::<$runtime>,
+                commands::history::fork_history_delete::<$runtime>,
+                commands::history::fork_history_undo_delete::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
                 events::ForkSettingsChanged,
                 events::ForkInsertOutcome,
-                shortcut::ForkHotkeyEvent
+                shortcut::ForkHotkeyEvent,
+                events::ForkStatsUpdated
             ])
     };
 }
@@ -376,6 +441,9 @@ pub trait ForkRuntime: Runtime {
 
     /// Hides a window's title text (macOS, S-13). No-op elsewhere.
     fn hub_hide_title_text(window: &tauri::WebviewWindow<Self>);
+
+    /// Handy's history manager (S-09 jobs), `None` before it exists.
+    fn handy_history(app: &AppHandle<Self>) -> Option<std::sync::Arc<dyn db::handy::HandyHistory>>;
 }
 
 impl ForkRuntime for tauri::Wry {
@@ -396,6 +464,13 @@ impl ForkRuntime for tauri::Wry {
 
     fn handy_app_language(app: &AppHandle<Self>) -> Option<String> {
         Some(crate::settings::get_settings(app).app_language)
+    }
+
+    fn handy_history(app: &AppHandle<Self>) -> Option<std::sync::Arc<dyn db::handy::HandyHistory>> {
+        let hm = app.try_state::<std::sync::Arc<crate::managers::history::HistoryManager>>()?;
+        Some(std::sync::Arc::new(db::handy::HandyHistoryManager(
+            hm.inner().clone(),
+        )))
     }
 
     fn handy_settings(app: &AppHandle<Self>) -> Option<settings::HandySettings> {
@@ -430,6 +505,11 @@ impl ForkRuntime for tauri::test::MockRuntime {
 
     /// Tests stand in for Handy's store with `settings::FakeHandyStore`
     /// (managed state); without it the product step is skipped.
+    fn handy_history(app: &AppHandle<Self>) -> Option<std::sync::Arc<dyn db::handy::HandyHistory>> {
+        app.try_state::<std::sync::Arc<db::handy::fake::FakeHistory>>()
+            .map(|h| h.inner().clone() as std::sync::Arc<dyn db::handy::HandyHistory>)
+    }
+
     fn handy_settings(app: &AppHandle<Self>) -> Option<settings::HandySettings> {
         app.try_state::<settings::FakeHandyStore>()?
             .get()
@@ -738,8 +818,20 @@ mod identity_tests {
         let read = |rel: &str| std::fs::read_to_string(root.join(rel)).unwrap();
         assert_eq!(super::FILE_PREFIX, "wispr-bro");
         assert_eq!(super::recording_file_name(17), "wispr-bro-17.wav");
+        let a = super::take_file_name(16_000);
+        let b = super::take_file_name(16_000);
+        assert_ne!(a, b, "two takes in the same millisecond get two files");
+        assert!(a.starts_with("wispr-bro-") && a.ends_with(".wav"));
+        let ms: i64 = a["wispr-bro-".len()..a.len() - 4].parse().unwrap();
+        assert!(ms > 1_700_000_000_000, "milliseconds, not seconds: {ms}");
+        assert_eq!(
+            crate::fork::context::take::ledger()
+                .take_bound(&b)
+                .map(|t| t.audio_ms),
+            Some(1_000)
+        );
         assert_eq!(super::file_job_name(18), "wispr-bro-file-18.wav");
-        assert!(read("src/actions.rs").contains("crate::fork::recording_file_name("));
+        assert!(read("src/actions.rs").contains("crate::fork::take_file_name(sample_count)"));
         assert!(read("src/managers/transcription_jobs.rs").contains("crate::fork::file_job_name("));
         let lib = read("src/lib.rs");
         assert_eq!(

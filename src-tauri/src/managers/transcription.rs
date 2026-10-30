@@ -1207,14 +1207,16 @@ fn finish_text(outcome: RunOutcome, settings: &AppSettings) -> String {
     } = outcome;
     let output_language = setup.output_language(settings, model_detected_language);
     debug!("Output language evidence: {:?}", output_language);
+    let verbatim = text.clone();
     // Skip fuzzy correction if the model already got the custom words.
-    post_process_transcription_text(
+    let finished = post_process_transcription_text(
         text,
         settings,
         setup.custom_words_prompted(),
         &output_language,
         &setup.languages,
-    )
+    );
+    crate::fork::note_verbatim(verbatim, finished)
 }
 
 /// How every run of one transcription (each chunk, or a whole clip) is

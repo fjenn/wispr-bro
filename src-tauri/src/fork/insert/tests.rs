@@ -858,12 +858,14 @@ fn every_card_reason_has_an_english_string() {
         CardReason::ScreenLocked,
         CardReason::SessionInactive,
         CardReason::PasteFailed,
+        CardReason::DiskFull,
     ] {
         let key = match r {
             CardReason::Sleep => "sleep",
             CardReason::ScreenLocked => "screenLocked",
             CardReason::SessionInactive => "sessionInactive",
             CardReason::PasteFailed => "pasteFailed",
+            CardReason::DiskFull => "diskFull",
         };
         let s = en["insert"]["cardReason"][key].as_str().unwrap_or_default();
         assert!(!s.is_empty() && !s.contains("Handy"), "{key}");
@@ -889,4 +891,30 @@ fn actions_rs_hook_is_in_place() {
             .unwrap();
         assert!(!s.contains("fork::"), "{f} calls into the fork");
     }
+}
+
+#[test]
+fn a_disk_full_signal_sends_only_that_take_to_the_card() {
+    use super::session::{Interruption, SessionLog, Signal};
+    let t0 = Instant::now();
+    let mut log = SessionLog::new();
+    log.take_started(t0);
+    // fork::insert::on_disk_full: begin and end at the same instant.
+    log.signal(
+        Signal::Begin(Interruption::DiskFull),
+        t0 + Duration::from_secs(2),
+    );
+    log.signal(
+        Signal::End(Interruption::DiskFull),
+        t0 + Duration::from_secs(2),
+    );
+    log.take_stopped(t0 + Duration::from_secs(2));
+    assert!(!log.recording());
+    assert_eq!(log.verdict(), Some(Interruption::DiskFull));
+    assert_eq!(Interruption::DiskFull.card_reason(), CardReason::DiskFull);
+    assert_eq!(CardReason::DiskFull.as_str(), "disk_full");
+    // The next take is not affected.
+    log.take_started(t0 + Duration::from_secs(5));
+    log.take_stopped(t0 + Duration::from_secs(6));
+    assert_eq!(log.verdict(), None);
 }

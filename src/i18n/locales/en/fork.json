@@ -314,7 +314,8 @@
       "sleep": "Not pasted: your Mac went to sleep during this dictation.",
       "screenLocked": "Not pasted: the screen was locked during this dictation.",
       "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead."
+      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
+      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   }
 }

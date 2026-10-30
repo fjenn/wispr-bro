@@ -47,6 +47,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key == "hotkey" {
         crate::fork::shortcut::reload(&app);
     }
+    if key == "text_retention_days" || key == "audio_retention_days" {
+        crate::fork::db::jobs::wake();
+    }
 
     let event = ForkSettingsChanged {
         key,

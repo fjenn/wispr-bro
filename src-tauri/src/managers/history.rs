@@ -365,6 +365,7 @@ impl HistoryManager {
             ],
         )?;
         entry.id = conn.last_insert_rowid();
+        crate::fork::db::on_saved(&self.app_handle, &entry);
 
         debug!("Saved history entry with id {}", entry.id);
 
@@ -419,6 +420,7 @@ impl HistoryManager {
             Self::map_history_entry,
         )?;
 
+        crate::fork::db::on_retried(&self.app_handle, &entry);
         debug!("Updated transcription for history entry {}", id);
 
         if let Err(e) = (HistoryUpdatePayload::Updated {
@@ -709,6 +711,7 @@ impl HistoryManager {
             params![id],
         )?;
 
+        crate::fork::db::on_deleted(&self.app_handle, id);
         debug!("Deleted history entry with id: {}", id);
 
         // Emit history updated event

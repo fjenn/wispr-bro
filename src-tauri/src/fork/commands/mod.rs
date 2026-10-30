@@ -10,6 +10,7 @@
 
 pub mod csp;
 pub mod hotkeys;
+pub mod history;
 pub mod selfcheck;
 pub mod settings;
 

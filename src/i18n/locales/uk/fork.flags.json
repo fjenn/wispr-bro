@@ -116,6 +116,11 @@
   "rust.hotkeys.keys.end": "untranslated",
   "rust.hotkeys.keys.pageUp": "untranslated",
   "rust.hotkeys.keys.pageDown": "untranslated",
+  "insert.cardReason.sleep": "untranslated",
+  "insert.cardReason.screenLocked": "untranslated",
+  "insert.cardReason.sessionInactive": "untranslated",
+  "insert.cardReason.pasteFailed": "untranslated",
+  "insert.cardReason.diskFull": "untranslated",
   "overrides.appLanguage.description": "machine",
   "overrides.onboarding.done.atLogin": "machine",
   "overrides.onboarding.done.panel.name": "machine",
@@ -147,9 +152,5 @@
   "overrides.settings.models.retiredNotice.title": "machine",
   "overrides.settings.models.untestedNote": "machine",
   "overrides.theme.description": "machine",
-  "overrides.whatsNew.title": "machine",
-  "insert.cardReason.sleep": "untranslated",
-  "insert.cardReason.screenLocked": "untranslated",
-  "insert.cardReason.sessionInactive": "untranslated",
-  "insert.cardReason.pasteFailed": "untranslated"
+  "overrides.whatsNew.title": "machine"
 }

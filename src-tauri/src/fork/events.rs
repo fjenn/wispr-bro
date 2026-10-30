@@ -48,6 +48,7 @@ pub enum ForkCardReason {
     ScreenLocked,
     SessionInactive,
     PasteFailed,
+    DiskFull,
 }
 
 /// Emitted once per delivered take. A card carries the text, so the pill can
@@ -59,4 +60,12 @@ pub struct ForkInsertOutcome {
     pub outcome: Option<ForkPasteOutcome>,
     pub card_reason: Option<ForkCardReason>,
     pub text: Option<String>,
+}
+
+/// Emitted after a take changed the stats (`fork::db::stats`), so the Home
+/// rail (S-15a) and Insights (S-25) refresh live.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type, tauri_specta::Event)]
+pub struct ForkStatsUpdated {
+    /// The local day whose numbers changed (`YYYY-MM-DD`).
+    pub day: String,
 }

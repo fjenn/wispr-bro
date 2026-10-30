@@ -94,6 +94,9 @@ hf-hub = { git = "https://github.com/cjpais/hf-hub", branch = "cancellable-downl
 
 [target.'cfg(unix)'.dependencies]
 signal-hook = "0.3"
+# fork: Wispr Bro dependencies (begin)
+unicode-segmentation = "1.12" # S-09 word counts (W-14); already in the tree
+# fork: Wispr Bro dependencies (end)
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-autostart = "2.5.1"

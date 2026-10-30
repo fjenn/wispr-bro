@@ -122,6 +122,29 @@ Details per port: docs/fork/PORTS.md.
     Copyright (c) 2025 Kit Langton. Licence: MIT
   Modified by Wispr Bro contributors, 2026-10-30 (timings T=500 ms,
   T_show=150 ms; expectations follow R5 S-01 where they differ).
+- src-tauri/src/fork/stats/streak.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/managers/history.rs (compute_streaks)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026 (named result, day parsing,
+  tests).
+
+- src-tauri/src/fork/context/categories.json (data)
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   src/helpers/toneAppCategories.js (app and browser signatures,
+          whole-token matching rule, ported to categories.rs)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  and AudioWhisper, https://github.com/mazdak/AudioWhisper
+  Commit: 71fed3683d6e62f631c606003e57430622be0b2b
+  File:   Sources/Managers/AppCategoryManager.swift (bundle ids)
+  Copyright (c) 2024 AudioWhisper Contributors
+  Licence: MIT (LICENSES/MIT-AudioWhisper.txt)
+  Modified by Wispr Bro contributors, 2026 (mapped to Wispr Bro's style
+  groups and usage categories; documents and AI apps added).
 
 ======================================================================
 4. Files licensed AGPL-3.0-only

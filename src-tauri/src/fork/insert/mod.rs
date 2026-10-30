@@ -73,7 +73,22 @@ pub fn deliver(text: String, app: AppHandle) -> Result<(), String> {
             return mac::deliver(text, app, &settings);
         }
     }
-    crate::utils::paste(text, app)
+    // Handy's own paste: it reports only success or failure.
+    let result = crate::utils::paste(text.clone(), app.clone());
+    let outcome = match result {
+        Ok(()) => PasteOutcome::Unverified,
+        Err(_) => PasteOutcome::Card,
+    };
+    crate::fork::db::entry_meta::on_paste_outcome(&app, &text, Some(outcome));
+    result
+}
+
+/// The disk filled up during a recording (`fork::db::disk`): stop it like a
+/// sleep would, and send its text to the card.
+pub fn on_disk_full<R: Runtime>(app: &AppHandle<R>) {
+    let now = Instant::now();
+    on_signal(app, Signal::Begin(Interruption::DiskFull), now);
+    on_signal(app, Signal::End(Interruption::DiskFull), now);
 }
 
 /// Registers the session observers and follows Handy's recording phases.
@@ -149,6 +164,7 @@ fn next_take() -> u32 {
 /// Logs the outcome (no transcript text), remembers a card, and tells the
 /// windows.
 fn publish_outcome<R: Runtime>(app: &AppHandle<R>, take: u32, delivery: Delivery, text: &str) {
+    crate::fork::db::entry_meta::on_paste_outcome(app, text, delivery.paste_outcome());
     let event = outcome_event(take, delivery, text);
     if let Delivery::Card { reason } = delivery {
         *lock(&LAST_CARD) = Some(CardText {
@@ -178,6 +194,7 @@ fn outcome_event(take: u32, delivery: Delivery, text: &str) -> ForkInsertOutcome
                 CardReason::ScreenLocked => ForkCardReason::ScreenLocked,
                 CardReason::SessionInactive => ForkCardReason::SessionInactive,
                 CardReason::PasteFailed => ForkCardReason::PasteFailed,
+                CardReason::DiskFull => ForkCardReason::DiskFull,
             }),
             _ => None,
         },

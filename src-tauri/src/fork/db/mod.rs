@@ -17,8 +17,23 @@
 //!   ([`report_db_recovered`]). Opening never panics.
 //! - Every fork write keyed by a Handy history row is an idempotent upsert
 //!   keyed by `entry_id` ([`upsert_entry_meta`]).
+//!
+//! S-09 adds the history data model on top: [`entry_meta`] (the hooks in
+//! Handy's `HistoryManager`), [`stats`] (the store that survives retention
+//! and deletes), [`retention`], the launch [`reconcile`], [`disk`] (a full
+//! disk keeps the text) and [`handy`] (the only way the fork touches Handy's
+//! history). [`jobs`] schedules reconcile and retention.
 
+pub mod disk;
+pub mod entry_meta;
 pub mod fts;
+pub mod handy;
+pub mod jobs;
+pub mod reconcile;
+pub mod retention;
+pub mod stats;
+
+pub use entry_meta::{on_deleted, on_retried, on_saved};
 
 use std::fmt;
 use std::fs;
@@ -52,7 +67,10 @@ pub const BUSY_TIMEOUT_MS: u64 = 5000;
 const SIDECAR_SUFFIXES: [&str; 2] = ["-wal", "-shm"];
 
 /// The fork's migrations, in order. Append only; never edit a shipped entry.
-static MIGRATIONS: &[M<'static>] = &[M::up(include_str!("migrations/0001_init.sql"))];
+static MIGRATIONS: &[M<'static>] = &[
+    M::up(include_str!("migrations/0001_init.sql")),
+    M::up(include_str!("migrations/0002_history.sql")),
+];
 
 /// Schema version this build creates and understands.
 pub fn latest_version() -> usize {
@@ -231,9 +249,14 @@ impl ForkDb {
 }
 
 /// Registers the [`ForkDb`] handle as Tauri state. Called from the fork
-/// plugin `setup`; resolves the app data dir and does no other I/O.
+/// plugin `setup`; resolves the app data dir (the portable `Data/` dir in
+/// portable mode, next to Handy's `history.db`) and does no other I/O.
 pub fn register<R: Runtime, A: Manager<R>>(app: &A) {
-    match app.path().app_data_dir() {
+    let dir = match crate::portable::data_dir() {
+        Some(dir) => Ok(dir.clone()),
+        None => app.path().app_data_dir(),
+    };
+    match dir {
         Ok(dir) => {
             app.manage(ForkDb::in_dir(&dir));
         }
