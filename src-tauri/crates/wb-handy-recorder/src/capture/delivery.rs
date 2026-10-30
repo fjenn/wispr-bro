@@ -310,6 +310,18 @@ impl<S: Sink> Processor<S> {
         let Some(active) = self.active.as_mut() else {
             return;
         };
+        if active.input_frames == 0 {
+            // Wall-clock stamp so callers can line it up with their own
+            // events (Wispr Bro: fn-down → first audio, R5 §5.1).
+            let unix_us = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|d| d.as_micros())
+                .unwrap_or(0);
+            log::debug!(
+                "first audio of the recording drained {:?} after start (unix_us {unix_us})",
+                active.started.elapsed()
+            );
+        }
         active.input_frames += (raw.len() / self.channels) as u64;
         active.observe_silence(raw, self.channels);
         let format = (self.out_sample_rate, self.channels as u16);
