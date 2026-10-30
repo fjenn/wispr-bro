@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# RS-11 small checks spike (R5 §7 RS-11; RC-06, RC-07, RC-13): mic loss and
+# permission revoke mid-take through handy-recorder, mouse buttons through
+# Handy's shortcut recorder path (handy-keys KeyboardListener), and ⌥
+# characters with ⌥1/⌥2/⌥O/⌥S/⌥M bound or not. A test tool, not product code:
+# it is never built into the app. See docs/fork/spikes/RS-11-small-checks.md.
+
+[package]
+name = "wb-spike-small"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+
+# Its own workspace root, so it never joins (or changes) the app's build.
+[workspace]
+
+[[bin]]
+name = "wb-spike-small"
+path = "src/main.rs"
+
+# The app's own versions (src-tauri/Cargo.toml); Cargo.lock is a pruned copy
+# of src-tauri/Cargo.lock, so nothing new is downloaded.
+[dependencies]
+handy-keys = "=0.3.4"
+handy-recorder = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+libc = "0.2"
+
+[profile.release]
+panic = "unwind"
