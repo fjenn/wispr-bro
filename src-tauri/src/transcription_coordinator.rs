@@ -4,6 +4,7 @@ use crate::settings::ShortcutActivation;
 use log::{debug, error, warn};
 use serde::{Deserialize, Serialize};
 use specta::Type;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Sender};
 use std::sync::Arc;
 use std::thread;
@@ -196,10 +197,33 @@ enum Effect {
     },
 }
 
+/// A lifecycle command from a caller that runs its own input grammar (a
+/// hotkey engine that decides hold, lock and cancel itself) rather than
+/// sending key edges through [`TranscriptionCoordinator::send_input`].
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ExternalCommand {
+    /// Start recording for a transcribe binding. While the pipeline is busy
+    /// the start is remembered and runs when it drains.
+    Start { binding_id: String },
+    /// Stop the recording and transcribe it. Forgets a remembered start.
+    Stop,
+    /// Keep the recording (or the remembered start) running until `Stop`.
+    Lock,
+    /// Cancel the recording, the transcription in progress and any
+    /// remembered start.
+    Cancel,
+}
+
 /// Commands processed sequentially by the coordinator thread.
 enum Command {
     Input(InputEvent),
-    Cancel { recording_was_active: bool },
+    External {
+        command: ExternalCommand,
+        origin: String,
+    },
+    Cancel {
+        recording_was_active: bool,
+    },
     ProcessingFinished,
 }
 
@@ -415,6 +439,71 @@ impl CoordinatorState {
         None
     }
 
+    /// An [`ExternalCommand`] other than `Cancel` (which the thread routes to
+    /// the app's cancel path). The caller owns hold-vs-tap decisions, so no
+    /// grace, debounce or threshold applies.
+    fn on_external(
+        &mut self,
+        command: ExternalCommand,
+        origin: &str,
+        now: Instant,
+    ) -> Option<Effect> {
+        match command {
+            ExternalCommand::Start { binding_id } => match &self.stage {
+                Stage::Idle => {
+                    Some(self.begin_recording(binding_id, origin.to_string(), now, false))
+                }
+                Stage::Processing => {
+                    if self.pending_press.is_none() {
+                        debug!("Remembering external start for '{binding_id}': pipeline busy");
+                        self.pending_press = Some(PendingPress {
+                            binding_id,
+                            hotkey_string: origin.to_string(),
+                            pressed_at: now,
+                            locked: false,
+                        });
+                    } else {
+                        debug!("Ignoring external start for '{binding_id}': a start is pending");
+                    }
+                    None
+                }
+                Stage::Recording(_) => {
+                    debug!("Ignoring external start for '{binding_id}': already recording");
+                    None
+                }
+            },
+            ExternalCommand::Stop => match &self.stage {
+                Stage::Recording(id) => {
+                    let id = id.clone();
+                    self.pending_release = None;
+                    Some(self.begin_processing(id, origin.to_string()))
+                }
+                Stage::Processing => {
+                    if self.pending_press.take().is_some() {
+                        debug!("Forgetting remembered start: stopped before the pipeline drained");
+                    }
+                    None
+                }
+                Stage::Idle => None,
+            },
+            ExternalCommand::Lock => {
+                if let Some(hold) = self.hold.as_mut() {
+                    hold.locked = true;
+                } else if let Some(pending) = self.pending_press.as_mut() {
+                    pending.locked = true;
+                }
+                None
+            }
+            ExternalCommand::Cancel => None,
+        }
+    }
+
+    /// Whether a cancel has anything to end: a recording, a transcription in
+    /// progress, or a remembered start.
+    fn is_busy(&self) -> bool {
+        !matches!(self.stage, Stage::Idle) || self.pending_press.is_some()
+    }
+
     /// The `RELEASE_GRACE` window elapsed with no cancelling press arriving:
     /// resolve the deferred release against whatever that binding's key was
     /// holding — the live recording, or a press remembered while busy.
@@ -566,6 +655,8 @@ impl CoordinatorState {
 /// returned [`Effect`]s.
 pub struct TranscriptionCoordinator {
     tx: Sender<Command>,
+    /// Mirrors [`CoordinatorState::is_busy`] after every command.
+    busy: Arc<AtomicBool>,
 }
 
 pub fn is_transcribe_binding(id: &str) -> bool {
@@ -575,6 +666,8 @@ pub fn is_transcribe_binding(id: &str) -> bool {
 impl TranscriptionCoordinator {
     pub fn new(app: AppHandle) -> Self {
         let (tx, rx) = mpsc::channel();
+        let busy = Arc::new(AtomicBool::new(false));
+        let busy_flag = Arc::clone(&busy);
 
         thread::spawn(move || {
             let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
@@ -592,6 +685,7 @@ impl TranscriptionCoordinator {
                                 if !was_locked && state.is_recording_locked() {
                                     emit_recording_phase(&app, RecordingPhase::Locked);
                                 }
+                                busy_flag.store(state.is_busy(), Ordering::Release);
                                 continue;
                             }
                             Err(mpsc::RecvTimeoutError::Disconnected) => break,
@@ -626,10 +720,25 @@ impl TranscriptionCoordinator {
                                 run_effect(&app, &mut state, effect);
                             }
                         }
+                        Command::External { command, origin } => {
+                            debug!("External command {command:?} from {origin}");
+                            if command == ExternalCommand::Cancel {
+                                // The app's cancel path; it reports back with
+                                // `notify_cancel`, which resets the state.
+                                if state.is_busy() {
+                                    crate::utils::cancel_current_operation(&app);
+                                }
+                            } else if let Some(effect) =
+                                state.on_external(command, &origin, Instant::now())
+                            {
+                                run_effect(&app, &mut state, effect);
+                            }
+                        }
                     }
                     if !was_locked && state.is_recording_locked() {
                         emit_recording_phase(&app, RecordingPhase::Locked);
                     }
+                    busy_flag.store(state.is_busy(), Ordering::Release);
                 }
                 debug!("Transcription coordinator exited");
             }));
@@ -638,7 +747,28 @@ impl TranscriptionCoordinator {
             }
         });
 
-        Self { tx }
+        Self { tx, busy }
+    }
+
+    /// Send a lifecycle command from a caller with its own input grammar.
+    /// `origin` is a tag for the logs (for example `"fork:fn"`).
+    pub fn external_command(&self, command: ExternalCommand, origin: &str) {
+        if self
+            .tx
+            .send(Command::External {
+                command,
+                origin: origin.to_string(),
+            })
+            .is_err()
+        {
+            warn!("Transcription coordinator channel closed");
+        }
+    }
+
+    /// Whether a recording, a transcription or a remembered start is in
+    /// progress, as of the last command the coordinator processed.
+    pub fn is_busy(&self) -> bool {
+        self.busy.load(Ordering::Acquire)
     }
 
     /// Send a keyboard input event for a transcribe binding. `hold_threshold`
@@ -1669,5 +1799,108 @@ mod tests {
             "held 400ms since the real key-down: must stop, not lock"
         );
         assert_eq!(state.stage, Stage::Processing);
+    }
+
+    fn start_cmd() -> ExternalCommand {
+        ExternalCommand::Start {
+            binding_id: BINDING.to_string(),
+        }
+    }
+
+    #[test]
+    fn external_start_and_stop_drive_one_recording() {
+        let mut state = CoordinatorState::new();
+        let t0 = Instant::now();
+        assert!(matches!(
+            state.on_external(start_cmd(), "test", t0),
+            Some(Effect::Start { .. })
+        ));
+        assert_eq!(state.stage, Stage::Recording(BINDING.to_string()));
+        assert!(state.is_busy());
+        // A second start while recording is ignored.
+        assert_eq!(state.on_external(start_cmd(), "test", t0), None);
+        assert!(matches!(
+            state.on_external(ExternalCommand::Stop, "test", t0),
+            Some(Effect::Stop { .. })
+        ));
+        assert_eq!(state.stage, Stage::Processing);
+        assert!(state.on_processing_finished().is_none());
+        assert!(!state.is_busy());
+        // Stop and lock while idle do nothing.
+        assert_eq!(state.on_external(ExternalCommand::Stop, "test", t0), None);
+        assert_eq!(state.on_external(ExternalCommand::Lock, "test", t0), None);
+        assert_eq!(state.stage, Stage::Idle);
+    }
+
+    #[test]
+    fn external_lock_marks_the_recording_locked() {
+        let mut state = CoordinatorState::new();
+        let t0 = Instant::now();
+        state.on_external(start_cmd(), "test", t0);
+        assert!(!state.is_recording_locked());
+        state.on_external(ExternalCommand::Lock, "test", t0);
+        assert!(state.is_recording_locked());
+        // Key releases of Handy's own bindings no longer end it.
+        assert_eq!(
+            state.on_input(ptt_input(false), t0 + Duration::from_millis(5)),
+            None
+        );
+    }
+
+    #[test]
+    fn external_start_while_busy_is_remembered_and_runs_on_drain() {
+        let mut state = CoordinatorState::new();
+        let t0 = Instant::now();
+        state.on_external(start_cmd(), "test", t0);
+        state.on_external(ExternalCommand::Stop, "test", t0);
+        assert_eq!(state.on_external(start_cmd(), "test", t0), None);
+        assert!(state.pending_press.is_some());
+        state.on_external(ExternalCommand::Lock, "test", t0);
+        assert!(state.pending_press.as_ref().is_some_and(|p| p.locked));
+        assert!(matches!(
+            state.on_processing_finished(),
+            Some(Effect::Start { .. })
+        ));
+        assert!(state.is_recording_locked());
+    }
+
+    #[test]
+    fn external_stop_while_busy_forgets_the_remembered_start() {
+        let mut state = CoordinatorState::new();
+        let t0 = Instant::now();
+        state.on_external(start_cmd(), "test", t0);
+        state.on_external(ExternalCommand::Stop, "test", t0);
+        state.on_external(start_cmd(), "test", t0);
+        assert_eq!(state.on_external(ExternalCommand::Stop, "test", t0), None);
+        assert!(state.pending_press.is_none());
+        assert!(state.on_processing_finished().is_none());
+        assert_eq!(state.stage, Stage::Idle);
+    }
+
+    #[test]
+    fn external_commands_are_never_debounced() {
+        let mut state = CoordinatorState::new();
+        let t0 = Instant::now();
+        state.on_external(start_cmd(), "test", t0);
+        state.on_external(ExternalCommand::Stop, "test", t0);
+        state.on_processing_finished();
+        // Inside DEBOUNCE of the first start.
+        assert!(matches!(
+            state.on_external(start_cmd(), "test", t0 + Duration::from_millis(1)),
+            Some(Effect::Start { .. })
+        ));
+    }
+
+    #[test]
+    fn cancel_after_an_external_start_resets_to_idle() {
+        let mut state = CoordinatorState::new();
+        let t0 = Instant::now();
+        state.on_external(start_cmd(), "test", t0);
+        state.on_external(ExternalCommand::Lock, "test", t0);
+        // The thread routes Cancel to the app, which reports back.
+        assert_eq!(state.on_external(ExternalCommand::Cancel, "test", t0), None);
+        state.on_cancel(true);
+        assert_eq!(state.stage, Stage::Idle);
+        assert!(!state.is_busy());
     }
 }
