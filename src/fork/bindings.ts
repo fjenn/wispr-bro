@@ -108,16 +108,13 @@ async forkUseHotkeyProfile(fallback: boolean) : Promise<Result<HotkeyStatus, For
 
 
 export const events = __makeEvents__<{
+forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged
 }>({
-forkInsertOutcome: "fork-insert-outcome",
-forkHotkeyEvent: ForkHotkeyEvent,
-forkPingEvent: ForkPingEvent,
-forkSettingsChanged: ForkSettingsChanged
-}>({
 forkHotkeyEvent: "fork-hotkey-event",
+forkInsertOutcome: "fork-insert-outcome",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed"
 })
@@ -178,14 +175,6 @@ export type ForkError =
  */
 { kind: "Internal"; message: string }
 /**
- * Emitted once per delivered take. A card carries the text, so the pill can
- * show it with Copy (S-05); a pasted take does not.
- */
-export type ForkInsertOutcome = { 
-/**
- * Delivery counter since launch.
- */
-take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
  * A hotkey decision, for listeners (the pill from S-03, the debug panel).
  */
 export type ForkHotkeyEvent = { 
@@ -204,6 +193,15 @@ detail: string | null;
  * for History (DEC-54).
  */
 keep: boolean }
+/**
+ * Emitted once per delivered take. A card carries the text, so the pill can
+ * show it with Copy (S-05); a pasted take does not.
+ */
+export type ForkInsertOutcome = { 
+/**
+ * Delivery counter since launch.
+ */
+take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
 /**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
