@@ -16,7 +16,7 @@ use std::time::{Duration, Instant};
 use crate::grammar::{Blocking, Effect, Grammar, Input, Key, Ms};
 use crate::log::Log;
 use crate::mic::{MicCmd, MicReport};
-use crate::taps::{fn_only, would_block, TapMsg};
+use crate::taps::{idle_set, would_block, TapMsg};
 use crate::verdict::{judge, BlockKind, ChordKey, Episode, MicSpan, Outcome, Press, Verdict};
 
 pub enum Msg {
@@ -34,6 +34,12 @@ pub enum UiMsg {
     Eof,
     BlockDone,
     FnSeen,
+    /// An attempt in the active block finished (`valid` attempts counted so
+    /// far, of `target`). Round 2 uses it to cue the next take.
+    EpisodeDone {
+        valid: u32,
+        target: u32,
+    },
 }
 
 #[derive(Clone, Debug)]
@@ -140,12 +146,15 @@ impl Engine {
         blocking: BlockingHotkeys,
         mic: Sender<MicCmd>,
         ui: Sender<UiMsg>,
+        grammar: Grammar,
     ) -> Engine {
+        // The tap starts with `taps::idle_set(grammar.blocks_fn())`.
+        let applied = grammar.blocking();
         Engine {
-            g: Grammar::default(),
+            g: grammar,
             log,
             blocking,
-            applied: Blocking::default(),
+            applied,
             mic,
             ui,
             take_seq: 0,
@@ -341,15 +350,21 @@ impl Engine {
         if let (Some(k), true) = (new_key, fn_was_down) {
             let after = t.saturating_sub(self.fn_down_at.unwrap_or(t));
             if let Some(ep) = self.episode.as_mut() {
+                let press = ep.presses.len().saturating_sub(1);
                 ep.chord_keys.push(ChordKey {
                     key: key_name(k),
                     after_fn_ms: after,
+                    press,
                 });
             }
             if let Some(b) = self.block.as_mut() {
                 b.run.chord_keys += 1;
                 if b.spec.kind == BlockKind::Chords && !self.quiet {
-                    println!("    chord {}: fn+{}", b.run.chord_keys, key_name(k));
+                    println!(
+                        "    chord {}: fn+{} ({after} ms after fn went down)",
+                        b.run.chord_keys,
+                        key_name(k)
+                    );
                 }
             }
         }
@@ -433,8 +448,7 @@ impl Engine {
             return;
         }
         if let Ok(mut set) = self.blocking.lock() {
-            set.clear();
-            set.insert(fn_only());
+            *set = idle_set(want.fn_press);
             if want.fn_space {
                 set.insert(Hotkey::new(Modifiers::FN, HkKey::Space).expect("hotkey"));
             }
@@ -447,7 +461,7 @@ impl Engine {
         self.log.write(
             "blocking",
             self.at(t),
-            json!({"fn": true, "fn_space": want.fn_space, "esc": want.esc}),
+            json!({"fn": want.fn_press, "fn_space": want.fn_space, "esc": want.esc}),
         );
     }
 
@@ -487,6 +501,10 @@ impl Engine {
         b.run.episodes.push(JudgedEpisode {
             episode: ep,
             verdict,
+        });
+        let _ = self.ui.send(UiMsg::EpisodeDone {
+            valid: b.valid,
+            target: b.spec.target,
         });
         if done && !b.done_sent {
             b.done_sent = true;
@@ -584,6 +602,8 @@ impl Engine {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::grammar::Timings;
+    use crate::taps::fn_only;
     use std::collections::HashSet;
     use std::sync::mpsc;
     use std::sync::Mutex;
@@ -597,13 +617,17 @@ mod tests {
     }
 
     fn rig() -> Rig {
+        rig_with(Grammar::default())
+    }
+
+    fn rig_with(grammar: Grammar) -> Rig {
         let epoch = Instant::now();
         let log = Arc::new(Log::null(epoch));
-        let blocking: BlockingHotkeys = Arc::new(Mutex::new(HashSet::from([fn_only()])));
+        let blocking: BlockingHotkeys = Arc::new(Mutex::new(idle_set(grammar.blocks_fn())));
         let (mic_tx, mic_rx) = mpsc::channel();
         let (ui_tx, ui_rx) = mpsc::channel();
         let (tx, rx) = mpsc::channel();
-        let mut engine = Engine::new(log, Arc::clone(&blocking), mic_tx, ui_tx);
+        let mut engine = Engine::new(log, Arc::clone(&blocking), mic_tx, ui_tx, grammar);
         engine.quiet = true;
         std::thread::spawn(move || engine.run(rx));
         Rig {
@@ -708,6 +732,13 @@ mod tests {
         ));
         assert!(matches!(
             r.ui.recv_timeout(Duration::from_secs(2)).unwrap(),
+            UiMsg::EpisodeDone {
+                valid: 1,
+                target: 1
+            }
+        ));
+        assert!(matches!(
+            r.ui.recv_timeout(Duration::from_secs(2)).unwrap(),
             UiMsg::BlockDone
         ));
         // Report the take closed so end() need not wait.
@@ -748,6 +779,35 @@ mod tests {
         assert_eq!(run.episodes.len(), 1);
         assert_eq!(run.count(Outcome::Pass), 1);
         assert!(r.mic.try_recv().is_err(), "mic must not open");
+    }
+
+    #[test]
+    fn without_the_fn_block_fn_is_never_in_the_set_but_space_and_esc_are() {
+        let r = rig_with(Grammar::with_fn_block(Timings::with_show_ms(100), false));
+        let fn_space = Hotkey::new(Modifiers::FN, HkKey::Space).unwrap();
+        let esc = Hotkey::new(Modifiers::empty(), HkKey::Escape).unwrap();
+        assert!(r.blocking.lock().unwrap().is_empty());
+        r.fn_down(10);
+        std::thread::sleep(Duration::from_millis(50));
+        {
+            let set = r.blocking.lock().unwrap();
+            assert!(set.contains(&fn_space));
+            assert!(!set.contains(&fn_only()));
+            assert!(!set.contains(&esc), "no take yet at 40 ms");
+        }
+        std::thread::sleep(Duration::from_millis(120)); // past T_show = 100
+        {
+            let set = r.blocking.lock().unwrap();
+            assert!(set.contains(&esc));
+            assert!(!set.contains(&fn_only()));
+        }
+        assert!(matches!(
+            r.mic.recv_timeout(Duration::from_secs(2)).unwrap(),
+            MicCmd::Open { take: 1, .. }
+        ));
+        r.fn_up(700);
+        std::thread::sleep(Duration::from_millis(50));
+        assert!(r.blocking.lock().unwrap().is_empty());
     }
 
     #[test]

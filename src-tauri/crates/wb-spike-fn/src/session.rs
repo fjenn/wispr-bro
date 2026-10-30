@@ -13,8 +13,9 @@ use std::time::{Duration, Instant};
 
 use crate::engine::{BlockRun, BlockSpec, Engine, Msg, UiMsg};
 use crate::globe::{self, FnUsage, GlobeSetting};
-use crate::grammar::Timings;
+use crate::grammar::{Grammar, Timings};
 use crate::log::Log;
+use crate::mic::MicCmd;
 use crate::summary::{self, Ans, Answer, HealthCheck};
 use crate::system::{self, Pane};
 use crate::taps::{self, TapMsg, Taps};
@@ -31,7 +32,7 @@ pub fn intro() {
          a few fn shortcuts in TextEdit, and answer simple yes/no questions about\n\
          what you saw on screen.\n\n\
          It takes about 15-20 minutes. Nothing leaves this Mac. The only audio kept\n\
-         is 10 short clips of you saying \"testing one two three\" (2 seconds each),\n\
+         is 10 short clips of you saying \"testing one two three\" (4 seconds each),\n\
          saved next to the results. You can stop at any time with Control+C;\n\
          everything up to that point is kept.\n"
     );
@@ -41,9 +42,9 @@ pub fn intro() {
 // Terminal input
 
 pub struct Ui {
-    rx: Receiver<UiMsg>,
+    pub(crate) rx: Receiver<UiMsg>,
     /// Stdin ended (once seen, every later read returns None at once).
-    eof: std::cell::Cell<bool>,
+    pub(crate) eof: std::cell::Cell<bool>,
 }
 
 pub enum BlockEnd {
@@ -61,7 +62,9 @@ impl Ui {
             }
             match self.rx.recv() {
                 Ok(UiMsg::Line(l)) => return Some(l.trim().to_string()),
-                Ok(UiMsg::BlockDone) | Ok(UiMsg::FnSeen) => continue,
+                Ok(UiMsg::BlockDone) | Ok(UiMsg::FnSeen) | Ok(UiMsg::EpisodeDone { .. }) => {
+                    continue
+                }
                 Ok(UiMsg::Eof) | Err(_) => {
                     self.eof.set(true);
                     return None;
@@ -71,7 +74,7 @@ impl Ui {
     }
 
     /// Throws away typed-ahead input and stale notices.
-    fn drain(&self) {
+    pub(crate) fn drain(&self) {
         system::flush_stdin();
         while let Ok(m) = self.rx.try_recv() {
             if matches!(m, UiMsg::Eof) {
@@ -80,13 +83,13 @@ impl Ui {
         }
     }
 
-    fn enter(&self, prompt: &str) -> Option<String> {
+    pub(crate) fn enter(&self, prompt: &str) -> Option<String> {
         print!("{prompt} ");
         let _ = std::io::stdout().flush();
         self.line()
     }
 
-    fn yes_no(&self, q: &str) -> Option<Ans> {
+    pub(crate) fn yes_no(&self, q: &str) -> Option<Ans> {
         loop {
             print!("  ? {q}\n    (y = yes, n = no, u = not sure) ");
             let _ = std::io::stdout().flush();
@@ -100,7 +103,7 @@ impl Ui {
         }
     }
 
-    fn choice(&self, q: &str, options: &[&str]) -> Option<usize> {
+    pub(crate) fn choice(&self, q: &str, options: &[&str]) -> Option<usize> {
         loop {
             println!("  ? {q}");
             for (i, o) in options.iter().enumerate() {
@@ -117,13 +120,34 @@ impl Ui {
         }
     }
 
-    fn wait_block(&self) -> BlockEnd {
+    /// Waits for the block to end. With a `cue`, prints a ready cue and then
+    /// the cue line before the first attempt and after every attempt until
+    /// the block's target is reached (round 2's clipping takes).
+    fn wait_block(&self, cue: Option<&str>, target: u32) -> BlockEnd {
+        let show_cue = |n: u32, target: u32| {
+            if let Some(c) = cue {
+                println!("\n    Take {n} of {target}: get ready...");
+                std::thread::sleep(Duration::from_millis(1200));
+                println!("    >>> NOW: {c}");
+            }
+        };
+        let mut cued = false;
         loop {
             if self.eof.get() {
                 return BlockEnd::Eof;
             }
+            if cue.is_some() && !cued {
+                cued = true;
+                show_cue(1, target);
+            }
             match self.rx.recv() {
                 Ok(UiMsg::BlockDone) => return BlockEnd::Done,
+                Ok(UiMsg::EpisodeDone { valid, target }) => {
+                    if valid < target {
+                        std::thread::sleep(Duration::from_millis(600));
+                        show_cue(valid + 1, target);
+                    }
+                }
                 Ok(UiMsg::Line(l)) if l.trim().eq_ignore_ascii_case("s") => return BlockEnd::Skip,
                 Ok(UiMsg::Line(l)) if l.trim().is_empty() => return BlockEnd::Enter,
                 Ok(UiMsg::Line(_)) | Ok(UiMsg::FnSeen) => continue,
@@ -135,7 +159,7 @@ impl Ui {
         }
     }
 
-    fn wait_fn(&self, timeout: Duration) -> bool {
+    pub(crate) fn wait_fn(&self, timeout: Duration) -> bool {
         let deadline = Instant::now() + timeout;
         loop {
             let left = deadline.saturating_duration_since(Instant::now());
@@ -154,7 +178,7 @@ impl Ui {
     }
 }
 
-fn spawn_stdin(tx: Sender<UiMsg>) {
+pub(crate) fn spawn_stdin(tx: Sender<UiMsg>) {
     std::thread::Builder::new()
         .name("wb-spike-fn-stdin".into())
         .spawn(move || {
@@ -238,7 +262,7 @@ fn wait_until(what: &str, check: impl Fn() -> bool, term: &str) {
     println!(" thanks, it's on.");
 }
 
-fn ensure_accessibility(ui: &Ui, term: &str) -> Option<()> {
+pub(crate) fn ensure_accessibility(ui: &Ui, term: &str) -> Option<()> {
     if system::accessibility_granted() {
         return Some(());
     }
@@ -257,7 +281,7 @@ fn ensure_accessibility(ui: &Ui, term: &str) -> Option<()> {
     Some(())
 }
 
-fn ensure_secure_input_off(term: &str) {
+pub(crate) fn ensure_secure_input_off(term: &str) {
     if !system::secure_input_on() {
         return;
     }
@@ -281,7 +305,7 @@ fn wait_until_off() {
     println!(" thanks.");
 }
 
-fn ensure_microphone(ui: &Ui, term: &str) -> Option<String> {
+pub(crate) fn ensure_microphone(ui: &Ui, term: &str) -> Option<String> {
     use handy_recorder::Permission;
     match handy_recorder::permission_status() {
         Permission::Denied => {
@@ -340,13 +364,13 @@ fn ensure_microphone(ui: &Ui, term: &str) -> Option<String> {
 // ---------------------------------------------------------------------------
 // The session
 
-struct Q {
-    id: &'static str,
-    text: &'static str,
-    expected: Option<Ans>,
+pub(crate) struct Q {
+    pub(crate) id: &'static str,
+    pub(crate) text: &'static str,
+    pub(crate) expected: Option<Ans>,
 }
 
-const fn q(id: &'static str, text: &'static str, expected: Ans) -> Q {
+pub(crate) const fn q(id: &'static str, text: &'static str, expected: Ans) -> Q {
     Q {
         id,
         text,
@@ -354,15 +378,17 @@ const fn q(id: &'static str, text: &'static str, expected: Ans) -> Q {
     }
 }
 
-const POPUP: &str = "Did anything else pop up or change while you did that: the emoji picker,\n    the keyboard language / input source switching, or Apple's own Dictation?";
+pub(crate) const POPUP: &str = "Did anything else pop up or change while you did that: the emoji picker,\n    the keyboard language / input source switching, or Apple's own Dictation?";
 
-struct BlockText {
-    kind: BlockKind,
-    title: &'static str,
-    target: u32,
-    auto_end: bool,
-    steps: &'static str,
-    questions: Vec<Q>,
+pub(crate) struct BlockText {
+    pub(crate) kind: BlockKind,
+    pub(crate) title: &'static str,
+    pub(crate) target: u32,
+    pub(crate) auto_end: bool,
+    pub(crate) steps: &'static str,
+    pub(crate) questions: Vec<Q>,
+    /// Printed (after a ready cue) before each attempt; round 2's takes.
+    pub(crate) cue: Option<&'static str>,
 }
 
 fn block_texts() -> Vec<BlockText> {
@@ -370,6 +396,7 @@ fn block_texts() -> Vec<BlockText> {
     vec![
         BlockText {
             kind: BlockKind::Hold,
+            cue: None,
             title: "Hold fn",
             target: 10,
             auto_end: true,
@@ -385,6 +412,7 @@ fn block_texts() -> Vec<BlockText> {
         },
         BlockText {
             kind: BlockKind::QuickTap,
+            cue: None,
             title: "Quick taps",
             target: 10,
             auto_end: true,
@@ -399,6 +427,7 @@ fn block_texts() -> Vec<BlockText> {
         },
         BlockText {
             kind: BlockKind::DoubleTap,
+            cue: None,
             title: "Double-tap",
             target: 10,
             auto_end: true,
@@ -416,6 +445,7 @@ fn block_texts() -> Vec<BlockText> {
         },
         BlockText {
             kind: BlockKind::FnSpace,
+            cue: None,
             title: "fn + Space",
             target: 5,
             auto_end: true,
@@ -432,6 +462,7 @@ fn block_texts() -> Vec<BlockText> {
         },
         BlockText {
             kind: BlockKind::EscHold,
+            cue: None,
             title: "Esc while holding fn",
             target: 5,
             auto_end: true,
@@ -446,6 +477,7 @@ fn block_texts() -> Vec<BlockText> {
         },
         BlockText {
             kind: BlockKind::Chords,
+            cue: None,
             title: "fn shortcuts in TextEdit (30 presses)",
             target: 30,
             auto_end: false,
@@ -478,6 +510,7 @@ fn block_texts() -> Vec<BlockText> {
         },
         BlockText {
             kind: BlockKind::Clipping,
+            cue: None,
             title: "First words (10 takes)",
             target: 10,
             auto_end: true,
@@ -492,33 +525,39 @@ fn block_texts() -> Vec<BlockText> {
 }
 
 #[derive(Clone, Debug, Serialize)]
-struct GlobeRound {
-    round: String,
-    expected: Option<FnUsage>,
-    read: GlobeSetting,
+pub(crate) struct GlobeRound {
+    pub(crate) round: String,
+    pub(crate) expected: Option<FnUsage>,
+    pub(crate) read: GlobeSetting,
     /// Owner's confirmation that System Settings shows what we read.
-    owner_confirms: Option<Ans>,
-    owner_says: Option<FnUsage>,
+    pub(crate) owner_confirms: Option<Ans>,
+    pub(crate) owner_says: Option<FnUsage>,
 }
 
-struct Session {
-    opts: Options,
-    dir: PathBuf,
-    log: Arc<Log>,
-    ui: Ui,
-    tx: Sender<Msg>,
-    taps: Option<Taps>,
-    term: String,
-    started_local: String,
-    machine: system::MachineInfo,
-    permissions: Permissions,
-    mic_device: Option<String>,
-    runs: Vec<BlockRun>,
-    answers: Vec<Answer>,
-    health: Vec<HealthCheck>,
-    globe_rounds: Vec<GlobeRound>,
-    original_globe: Option<FnUsage>,
-    builtin_keyboard: Option<Ans>,
+pub(crate) struct Session {
+    pub(crate) opts: Options,
+    pub(crate) dir: PathBuf,
+    pub(crate) log: Arc<Log>,
+    pub(crate) ui: Ui,
+    pub(crate) tx: Sender<Msg>,
+    pub(crate) taps: Option<Taps>,
+    pub(crate) mic_tx: Option<Sender<MicCmd>>,
+    pub(crate) term: String,
+    pub(crate) started_local: String,
+    pub(crate) machine: system::MachineInfo,
+    pub(crate) permissions: Permissions,
+    pub(crate) mic_device: Option<String>,
+    pub(crate) runs: Vec<BlockRun>,
+    pub(crate) answers: Vec<Answer>,
+    pub(crate) health: Vec<HealthCheck>,
+    pub(crate) globe_rounds: Vec<GlobeRound>,
+    pub(crate) original_globe: Option<FnUsage>,
+    pub(crate) builtin_keyboard: Option<Ans>,
+    /// The grammar's timings and fn-block option for this run.
+    pub(crate) timings: Timings,
+    pub(crate) block_fn: bool,
+    /// Round 2's extra results (per-take analysis, chord timing, notes).
+    pub(crate) extra: serde_json::Map<String, serde_json::Value>,
 }
 
 pub fn results_dir(opts: &Options) -> PathBuf {
@@ -526,10 +565,15 @@ pub fn results_dir(opts: &Options) -> PathBuf {
         PathBuf::from(std::env::var("HOME").unwrap_or_else(|_| ".".into()))
             .join("wb-bench/results/rs01")
     });
-    root.join(chrono::Local::now().format("%Y%m%d-%H%M%S").to_string())
+    let stamp = chrono::Local::now().format("%Y%m%d-%H%M%S").to_string();
+    root.join(if opts.round == 2 {
+        format!("{stamp}-r2")
+    } else {
+        stamp
+    })
 }
 
-fn write_practice_text(path: &Path) -> std::io::Result<()> {
+pub(crate) fn write_practice_text(path: &Path) -> std::io::Result<()> {
     let mut s = String::from(
         "Wispr Bro fn test: practice text. Nothing here is saved anywhere; you can\n\
          close this window without saving when the test is done.\n\n",
@@ -543,7 +587,17 @@ fn write_practice_text(path: &Path) -> std::io::Result<()> {
 }
 
 pub fn run(opts: Options) -> i32 {
-    intro();
+    let round2 = opts.round == 2;
+    if round2 {
+        crate::round2::intro();
+    } else {
+        intro();
+    }
+    let (timings, block_fn) = if round2 {
+        (crate::round2::TIMINGS, false)
+    } else {
+        (Timings::DEFAULT, true)
+    };
     let term = system::terminal_name(std::env::var("TERM_PROGRAM").ok().as_deref());
     let dir = results_dir(&opts);
     if let Err(e) = std::fs::create_dir_all(dir.join("takes")) {
@@ -566,7 +620,8 @@ pub fn run(opts: Options) -> i32 {
     log.write(
         "session_start",
         Instant::now(),
-        json!({"machine": machine, "permissions": permissions, "timings": Timings::DEFAULT,
+        json!({"machine": machine, "permissions": permissions, "timings": timings,
+               "block_fn": block_fn, "round": opts.round,
                "tool_version": env!("CARGO_PKG_VERSION"), "git": option_env!("WB_GIT_SHA")}),
     );
     let mut s = Session {
@@ -579,6 +634,7 @@ pub fn run(opts: Options) -> i32 {
         },
         tx,
         taps: None,
+        mic_tx: None,
         term,
         started_local: chrono::Local::now().to_rfc3339(),
         machine,
@@ -590,8 +646,16 @@ pub fn run(opts: Options) -> i32 {
         globe_rounds: Vec::new(),
         original_globe: None,
         builtin_keyboard: None,
+        timings,
+        block_fn,
+        extra: serde_json::Map::new(),
     };
-    let code = match s.guided(rx, ui_tx) {
+    let done = if round2 {
+        s.guided_round2(rx, ui_tx)
+    } else {
+        s.guided(rx, ui_tx)
+    };
+    let code = match done {
         Some(()) => 0,
         None => {
             println!(
@@ -606,7 +670,7 @@ pub fn run(opts: Options) -> i32 {
 }
 
 impl Session {
-    fn ask(&mut self, round: &str, kind: BlockKind, question: &Q) -> Option<Ans> {
+    pub(crate) fn ask(&mut self, round: &str, kind: BlockKind, question: &Q) -> Option<Ans> {
         let a = self.ui.yes_no(question.text)?;
         self.answers.push(Answer {
             round: round.to_string(),
@@ -624,7 +688,7 @@ impl Session {
         Some(a)
     }
 
-    fn health(&mut self, label: &str) {
+    pub(crate) fn health(&mut self, label: &str) {
         let Some(taps) = &self.taps else { return };
         let h = HealthCheck {
             label: label.to_string(),
@@ -639,18 +703,7 @@ impl Session {
     }
 
     fn guided(&mut self, rx: Receiver<Msg>, ui_tx: Sender<UiMsg>) -> Option<()> {
-        let term = self.term.clone();
-        println!("Results will be saved in:\n  {}\n", self.dir.display());
-        print_permissions(&self.permissions, &term);
-        self.ui.enter("\nPress Enter to begin.")?;
-
-        // 1. Permissions.
-        ensure_accessibility(&self.ui, &term)?;
-        ensure_secure_input_off(&term);
-        self.mic_device = ensure_microphone(&self.ui, &term);
-        self.permissions = read_permissions();
-        self.log
-            .write("permissions", Instant::now(), json!(self.permissions));
+        self.permissions_step()?;
 
         // 2. The Globe setting.
         let read = globe::read();
@@ -701,86 +754,13 @@ impl Session {
         self.builtin_keyboard?;
 
         // 3. Start both taps, the mic thread and the engine.
-        println!("\nStarting the keyboard listeners...");
-        let fwd = self.tx.clone();
-        let taps = match taps::start(move |m: TapMsg| {
-            let _ = fwd.send(Msg::Tap(m));
-        }) {
-            Ok(t) => t,
-            Err(e) => {
-                println!(
-                    "  !! Could not start: {e}\n  Check that {term} has Accessibility switched on,\n  \
-                     quit {term} (⌘Q), open it again and run the command again."
-                );
-                self.log
-                    .write("tap_error", Instant::now(), json!({"error": e}));
-                return None;
-            }
-        };
-        for (b, r) in &taps.handy_registered {
-            self.log.write(
-                "handy_register",
-                Instant::now(),
-                json!({"binding": b, "ok": r.is_ok(), "error": r.as_ref().err()}),
-            );
-        }
-        let blocking = Arc::clone(&taps.blocking);
-        self.taps = Some(taps);
-        let mic_tx = {
-            let tx = self.tx.clone();
-            mic::spawn(Arc::clone(&self.log), move |r| {
-                let _ = tx.send(Msg::Mic(r));
-            })
-        };
-        let engine = Engine::new(Arc::clone(&self.log), blocking, mic_tx, ui_tx);
-        std::thread::Builder::new()
-            .name("wb-spike-fn-engine".into())
-            .spawn(move || engine.run(rx))
-            .expect("spawn engine");
-        self.health("start");
+        self.start_listeners(rx, ui_tx)?;
 
         // 4. Prove the tap sees fn.
-        loop {
-            println!("\nQuick check: press and let go of the fn key once.");
-            self.ui.drain();
-            let _ = self.tx.send(Msg::ArmFnNotice);
-            if self.ui.wait_fn(Duration::from_secs(20)) {
-                println!("  Got it, the fn key is visible to the test.");
-                break;
-            }
-            println!(
-                "\n  I did not see the fn key. Two things to check:\n  \
-                 1. System Settings → Privacy & Security → Input Monitoring: switch \"{term}\" ON.\n     \
-                 If macOS asks to quit and reopen {term}, do that and run the command again.\n  \
-                 2. {term} menu (top left): \"Secure Keyboard Entry\" must NOT be ticked."
-            );
-            if !system::input_monitoring_granted() {
-                system::request_input_monitoring();
-            }
-            if self
-                .ui
-                .yes_no("Shall I open the Input Monitoring page for you?")?
-                == Ans::Yes
-            {
-                system::open_pane(Pane::InputMonitoring);
-            }
-            self.ui.enter("Press Enter to try again.")?;
-        }
+        self.prove_fn()?;
 
         // 5. TextEdit with practice text.
-        let practice = self.dir.join("practice-text.txt");
-        if write_practice_text(&practice).is_ok() {
-            let _ = std::process::Command::new("/usr/bin/open")
-                .args(["-a", "TextEdit"])
-                .arg(&practice)
-                .status();
-        }
-        println!(
-            "\nI opened a TextEdit window with some practice text (used in two tests).\n\
-             Please place it next to this window so you can see both, then click back\n\
-             into this window."
-        );
-        self.ui.enter("Press Enter when ready.")?;
+        self.open_textedit()?;
 
         // 6. The main round.
         let texts = block_texts();
@@ -828,6 +808,131 @@ impl Session {
         Some(())
     }
 
+    /// Step 1 of both rounds: show and fix the permissions.
+    pub(crate) fn permissions_step(&mut self) -> Option<()> {
+        let term = self.term.clone();
+        println!("Results will be saved in:\n  {}\n", self.dir.display());
+        print_permissions(&self.permissions, &term);
+        self.ui.enter("\nPress Enter to begin.")?;
+        ensure_accessibility(&self.ui, &term)?;
+        ensure_secure_input_off(&term);
+        self.mic_device = ensure_microphone(&self.ui, &term);
+        self.permissions = read_permissions();
+        self.log
+            .write("permissions", Instant::now(), json!(self.permissions));
+        Some(())
+    }
+
+    /// Starts both taps, the mic thread and the engine with this run's
+    /// grammar settings.
+    pub(crate) fn start_listeners(
+        &mut self,
+        rx: Receiver<Msg>,
+        ui_tx: Sender<UiMsg>,
+    ) -> Option<()> {
+        let term = self.term.clone();
+        let grammar = Grammar::with_fn_block(self.timings, self.block_fn);
+        println!(
+            "\nStarting the keyboard listeners{}...",
+            if grammar.blocks_fn() {
+                ""
+            } else {
+                " (fn itself not held back)"
+            }
+        );
+        let fwd = self.tx.clone();
+        let taps = match taps::start(
+            move |m: TapMsg| {
+                let _ = fwd.send(Msg::Tap(m));
+            },
+            grammar.blocks_fn(),
+        ) {
+            Ok(t) => t,
+            Err(e) => {
+                println!(
+                    "  !! Could not start: {e}\n  Check that {term} has Accessibility switched on,\n  \
+                     quit {term} (⌘Q), open it again and run the command again."
+                );
+                self.log
+                    .write("tap_error", Instant::now(), json!({"error": e}));
+                return None;
+            }
+        };
+        for (b, r) in &taps.handy_registered {
+            self.log.write(
+                "handy_register",
+                Instant::now(),
+                json!({"binding": b, "ok": r.is_ok(), "error": r.as_ref().err()}),
+            );
+        }
+        let blocking = Arc::clone(&taps.blocking);
+        self.taps = Some(taps);
+        let mic_tx = {
+            let tx = self.tx.clone();
+            mic::spawn(Arc::clone(&self.log), move |r| {
+                let _ = tx.send(Msg::Mic(r));
+            })
+        };
+        self.mic_tx = Some(mic_tx.clone());
+        let engine = Engine::new(Arc::clone(&self.log), blocking, mic_tx, ui_tx, grammar);
+        std::thread::Builder::new()
+            .name("wb-spike-fn-engine".into())
+            .spawn(move || engine.run(rx))
+            .expect("spawn engine");
+        self.health("start");
+        Some(())
+    }
+
+    /// Asks for one fn press and helps with Input Monitoring if none comes.
+    pub(crate) fn prove_fn(&mut self) -> Option<()> {
+        let term = self.term.clone();
+        loop {
+            println!("\nQuick check: press and let go of the fn key once.");
+            self.ui.drain();
+            let _ = self.tx.send(Msg::ArmFnNotice);
+            if self.ui.wait_fn(Duration::from_secs(20)) {
+                println!("  Got it, the fn key is visible to the test.");
+                break;
+            }
+            println!(
+                "\n  I did not see the fn key. Two things to check:\n  \
+                 1. System Settings → Privacy & Security → Input Monitoring: switch \"{term}\" ON.\n     \
+                 If macOS asks to quit and reopen {term}, do that and run the command again.\n  \
+                 2. {term} menu (top left): \"Secure Keyboard Entry\" must NOT be ticked."
+            );
+            if !system::input_monitoring_granted() {
+                system::request_input_monitoring();
+            }
+            if self
+                .ui
+                .yes_no("Shall I open the Input Monitoring page for you?")?
+                == Ans::Yes
+            {
+                system::open_pane(Pane::InputMonitoring);
+            }
+            self.ui.enter("Press Enter to try again.")?;
+        }
+        Some(())
+    }
+
+    /// Opens TextEdit with the practice text.
+    pub(crate) fn open_textedit(&mut self) -> Option<()> {
+        let practice = self.dir.join("practice-text.txt");
+        if write_practice_text(&practice).is_ok() {
+            let _ = std::process::Command::new("/usr/bin/open")
+                .args(["-a", "TextEdit"])
+                .arg(&practice)
+                .status();
+        }
+        println!(
+            "\nI opened a TextEdit window with some practice text (used in two tests).\n\
+             Please place it next to this window so you can see both, then click back\n\
+             into this window."
+        );
+        self.ui.enter("Press Enter when ready.")?;
+        Some(())
+    }
+
     fn globe_round(&mut self, u: FnUsage, texts: &[BlockText]) -> Option<()> {
         println!(
             "\n{RULE}\nRound: \"{}\"\n{RULE}\n\
@@ -867,7 +972,7 @@ impl Session {
         Some(())
     }
 
-    fn block(
+    pub(crate) fn block(
         &mut self,
         round: &str,
         b: &BlockText,
@@ -892,7 +997,15 @@ impl Session {
         if system::secure_input_on() {
             ensure_secure_input_off(&self.term);
         }
-        let save_dir = (b.kind == BlockKind::Clipping).then(|| self.dir.join("takes"));
+        let save_dir = (b.kind == BlockKind::Clipping).then(|| {
+            let d = if self.opts.round == 2 {
+                self.dir.join("takes").join(crate::round2::slug(round))
+            } else {
+                self.dir.join("takes")
+            };
+            let _ = std::fs::create_dir_all(&d);
+            d
+        });
         let _ = self.tx.send(Msg::Begin(BlockSpec {
             kind: b.kind,
             round: round.to_string(),
@@ -908,7 +1021,7 @@ impl Session {
         } else {
             println!("Go! (Press Enter here when you're done.)");
         }
-        let end = self.ui.wait_block();
+        let end = self.ui.wait_block(b.cue, b.target);
         let (reply_tx, reply_rx) = mpsc::channel();
         let _ = self.tx.send(Msg::End(reply_tx));
         let run = reply_rx.recv_timeout(Duration::from_secs(15)).ok();
@@ -947,7 +1060,10 @@ impl Session {
         Some(())
     }
 
-    fn summary_json(&self) -> serde_json::Value {
+    pub(crate) fn summary_json(&self) -> serde_json::Value {
+        if self.opts.round == 2 {
+            return self.summary_json_round2();
+        }
         let crits = summary::criteria(&self.runs, &self.answers, &self.health);
         json!({
             "tool": "wb-spike-fn",
@@ -960,7 +1076,7 @@ impl Session {
             "builtin_keyboard": self.builtin_keyboard,
             "permissions": self.permissions,
             "mic_device": self.mic_device,
-            "timings": Timings::DEFAULT,
+            "timings": self.timings,
             "handy_bindings": self.taps.as_ref().map(|t| t.handy_registered.iter().map(|(b, r)| json!({"binding": b, "ok": r.is_ok()})).collect::<Vec<_>>()),
             "tap_ids": self.taps.as_ref().map(|t| json!({"handy": t.handy_tap_ids, "fork": t.fork_tap_ids})),
             "globe": {"original": self.original_globe, "rounds": self.globe_rounds},
@@ -972,23 +1088,26 @@ impl Session {
         })
     }
 
-    fn save(&self) {
+    pub(crate) fn save(&self) {
         let v = self.summary_json();
         let _ = std::fs::write(
             self.dir.join("summary.json"),
             serde_json::to_string_pretty(&v).unwrap_or_default(),
         );
-        let crits = summary::criteria(&self.runs, &self.answers, &self.health);
-        let _ = std::fs::write(
-            self.dir.join("summary.txt"),
-            summary::render_text(&crits, &self.answers),
-        );
+        let _ = std::fs::write(self.dir.join("summary.txt"), self.summary_text());
     }
 
-    fn finish(&self) {
-        self.save();
+    pub(crate) fn summary_text(&self) -> String {
+        if self.opts.round == 2 {
+            return self.summary_text_round2();
+        }
         let crits = summary::criteria(&self.runs, &self.answers, &self.health);
-        println!("\n{}", summary::render_text(&crits, &self.answers));
+        summary::render_text(&crits, &self.answers)
+    }
+
+    pub(crate) fn finish(&self) {
+        self.save();
+        println!("\n{}", self.summary_text());
         println!(
             "All done, thank you! Everything is saved in:\n  {}\n\
              You can close TextEdit without saving. Tell Claude the test is finished;\n\

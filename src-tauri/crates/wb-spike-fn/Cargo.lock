@@ -1297,6 +1297,7 @@ name = "wb-spike-fn"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "handy-cpal",
  "handy-keys",
  "handy-recorder",
  "hound",

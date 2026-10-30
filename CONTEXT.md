@@ -19,13 +19,13 @@ Working files behind each deliverable are in `docs/research/r2-work/`, `r3-work/
 
 ## Current status (update this when it changes)
 
-As of 2026-10-29:
+As of 2026-10-30:
 - **M0 foundations:** F-01 and F-03..F-10 are done on `wispr-bro`. F-02 (signing, notarization, updater, release workflows) is still open. Apple Team ID: `446XT9839S`; the owner keeps all certificates and keys. No Hugging Face org is needed: models download from their upstream HF repos, pinned by revision and sha256.
 - **GitHub:** the public repo `fjenn/wispr-bro` exists but is **empty on purpose**. Remote `origin` has its push URL disabled. The owner said: push nothing until we have tested. Ask before any push.
 - **M0.5 spikes done (provisional, one M5 Max):**
   - RS-07 cleanup bake-off: `docs/fork/spikes/RS-07-cleanup-bakeoff.md`. Muesli 2B v12 is the default (DEC-03 update).
   - RS-09 speech models: `docs/fork/spikes/RS-09-asr-bench.md`. Starters per language are in DEC-52; long-take chunking is DEC-51.
-- **RS-01 (fn/Globe):** the tool is built (`scripts/wb-spike-fn.sh`, procedure in `docs/fork/spikes/RS-01-procedure.md`). The owner runs it in their own Terminal; results land in `~/wb-bench/results/rs01/<timestamp>/`. **Next step:** read `summary.json`, `summary.txt` and `events.jsonl` there, write `docs/fork/spikes/RS-01-fn-globe.md`, and apply the outcome (DEC-44 path if the Globe action leaks). Then the RS-05 clipboard and RS-04 AX spikes, then S-01.
+- **RS-01 (fn/Globe):** round 1 ran 2026-10-30 on macOS 26.6.2; report in `docs/fork/spikes/RS-01-fn-globe.md`. The Globe action leaks for Emoji and Input Source even with fn blocked, so DEC-44 is confirmed. The grammar passes. Cold-mic latency p50 262 ms fails §5.1. No take was clipped by us (the speaker started late), so clipping is still untested; DEC-53 is pending. **Next step:** the owner runs round 2 (`./scripts/wb-spike-fn.sh --round 2`, about 5-8 minutes; results in `~/wb-bench/results/rs01/<timestamp>-r2/`). Then read its `summary.txt`/`summary.json`, settle DEC-53, decide whether to stop blocking the bare fn press, and add round 2 to the report. Then the RS-05 clipboard and RS-04 AX spikes, then S-01.
 - **Bench inputs** (outside the repo, never committed): `~/wb-bench/` holds models, llama.cpp b11624, the owner's voice recording (`audio/`, personal data) and results.
 
 ## How to work

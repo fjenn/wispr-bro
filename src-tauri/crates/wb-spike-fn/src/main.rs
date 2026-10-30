@@ -15,14 +15,19 @@
 //! wb-spike-fn --dry-run     intro, permission check, Globe setting; no taps, no prompts
 //! wb-spike-fn --self-test   run the grammar against its scripted event sequences
 //! wb-spike-fn --out DIR     results under DIR/<timestamp>/ instead
+//! wb-spike-fn --round 2     round 2: the candidate fixes (src/round2.rs)
+//! wb-spike-fn --analyze DIR first-word clipping, per take, for a finished run
 //! ```
 //! See docs/fork/spikes/RS-01-procedure.md.
 
+mod clipcheck;
 mod engine;
 mod globe;
 mod grammar;
 mod log;
 mod mic;
+mod onset;
+mod round2;
 mod scenarios;
 mod session;
 mod summary;
@@ -35,18 +40,24 @@ use std::path::PathBuf;
 #[derive(Clone, Debug, Default, serde::Serialize)]
 pub struct Options {
     pub out: Option<PathBuf>,
+    /// 1 (the full RS-01 session) or 2 (the candidate fixes).
+    pub round: u8,
 }
 
 enum Mode {
     Session,
     DryRun,
     SelfTest,
+    Analyze(PathBuf),
     Help,
 }
 
 fn parse(args: &[String]) -> Result<(Mode, Options), String> {
     let mut mode = Mode::Session;
-    let mut opts = Options::default();
+    let mut opts = Options {
+        round: 1,
+        ..Options::default()
+    };
     let mut it = args.iter();
     while let Some(a) = it.next() {
         match a.as_str() {
@@ -56,6 +67,17 @@ fn parse(args: &[String]) -> Result<(Mode, Options), String> {
             "--out" => {
                 let dir = it.next().ok_or("--out needs a folder")?;
                 opts.out = Some(PathBuf::from(dir));
+            }
+            "--round" => {
+                opts.round = match it.next().map(String::as_str) {
+                    Some("1") => 1,
+                    Some("2") => 2,
+                    _ => return Err("--round needs 1 or 2".into()),
+                };
+            }
+            "--analyze" => {
+                let dir = it.next().ok_or("--analyze needs a results folder")?;
+                mode = Mode::Analyze(PathBuf::from(dir));
             }
             other => return Err(format!("unknown option {other} (try --help)")),
         }
@@ -90,7 +112,11 @@ fn self_test() -> i32 {
 }
 
 fn dry_run(opts: &Options) -> i32 {
-    session::intro();
+    if opts.round == 2 {
+        round2::intro();
+    } else {
+        session::intro();
+    }
     let term = system::terminal_name(std::env::var("TERM_PROGRAM").ok().as_deref());
     let p = session::read_permissions();
     session::print_permissions(&p, &term);
@@ -107,6 +133,28 @@ fn dry_run(opts: &Options) -> i32 {
         "Handy's shortcut listener would register: {:?}",
         taps::handy_bindings(false)
     );
+    if opts.round == 2 {
+        let t = round2::TIMINGS;
+        println!(
+            "Round 2 grammar: T = {} ms, T_show = {} ms, fn press NOT blocked \
+             (fn+Space and Esc still are); clipping variants: {}, {}",
+            t.tap_window_ms,
+            t.show_ms,
+            round2::VAR_A,
+            round2::VAR_B
+        );
+        if globe::read().usage() != Some(globe::FnUsage::DoNothing) {
+            println!("The session would first ask you to set it to \"Do Nothing\".");
+        }
+        match clipcheck::locate_asr() {
+            Ok(a) => println!(
+                "Transcripts: {} with {}",
+                a.bin.display(),
+                a.model.display()
+            ),
+            Err(e) => println!("Transcripts would be skipped: {e}"),
+        }
+    }
     println!(
         "Results would go to: {}\n\nDry run: nothing was started, prompted or written.",
         session::results_dir(opts).display()
@@ -123,12 +171,15 @@ fn main() {
                  (no options)   guided session (about 15-20 minutes)\n  \
                  --dry-run      intro + permission check, then exit\n  \
                  --self-test    check the fn grammar against scripted presses\n  \
-                 --out DIR      save results under DIR instead of ~/wb-bench/results/rs01"
+                 --out DIR      save results under DIR instead of ~/wb-bench/results/rs01\n  \
+                 --round 2      round 2: the candidate fixes (about 5-8 minutes)\n  \
+                 --analyze DIR  first-word clipping per take, for a finished run's folder"
             );
             0
         }
         Ok((Mode::SelfTest, _)) => self_test(),
         Ok((Mode::DryRun, opts)) => dry_run(&opts),
+        Ok((Mode::Analyze(dir), _)) => clipcheck::analyze_dir(&dir),
         Ok((Mode::Session, opts)) => session::run(opts),
         Err(e) => {
             eprintln!("{e}");
@@ -160,6 +211,17 @@ mod tests {
         let (_, o) = parse(&args(&["--out", "/tmp/x"])).unwrap();
         assert_eq!(o.out, Some(PathBuf::from("/tmp/x")));
         assert!(parse(&args(&["--out"])).is_err());
+        let (_, o) = parse(&args(&[])).unwrap();
+        assert_eq!(o.round, 1);
+        let (m, o) = parse(&args(&["--round", "2", "--dry-run"])).unwrap();
+        assert!(matches!(m, Mode::DryRun));
+        assert_eq!(o.round, 2);
+        assert!(parse(&args(&["--round", "3"])).is_err());
+        assert!(parse(&args(&["--round"])).is_err());
+        assert!(matches!(
+            parse(&args(&["--analyze", "/tmp/r"])),
+            Ok((Mode::Analyze(_), _))
+        ));
         assert!(parse(&args(&["--bogus"])).is_err());
     }
 

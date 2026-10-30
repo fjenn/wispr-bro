@@ -50,6 +50,8 @@ pub struct ChordKey {
     pub key: String,
     /// Time from the fn press to this key.
     pub after_fn_ms: Ms,
+    /// Index of the fn press (in `Episode::presses`) this key came with.
+    pub press: usize,
 }
 
 #[derive(Clone, Debug, Default, Serialize)]
@@ -107,6 +109,17 @@ impl Episode {
             )
         })
     }
+    /// fn press → first chord key, once per press that had one (a press
+    /// with several keys counts only its first: later keys say nothing about
+    /// how fast a chord follows the press).
+    pub fn first_chord_key_per_press(&self) -> Vec<Ms> {
+        let mut seen = std::collections::BTreeMap::new();
+        for k in &self.chord_keys {
+            seen.entry(k.press).or_insert(k.after_fn_ms);
+        }
+        seen.into_values().collect()
+    }
+
     pub fn first_held_ms(&self) -> Option<Ms> {
         self.presses.first().and_then(Press::held_ms)
     }
@@ -281,6 +294,27 @@ pub fn judge(kind: BlockKind, ep: &Episode, t: Timings) -> Verdict {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn first_chord_key_is_taken_once_per_press() {
+        let k = |key: &str, after_fn_ms, press| ChordKey {
+            key: key.into(),
+            after_fn_ms,
+            press,
+        };
+        let ep = Episode {
+            chord_keys: vec![
+                k("Home", 1256, 0),
+                k("End", 5385, 0),
+                k("F11", 90, 1),
+                k("F11", 400, 1),
+                k("Home", 310, 3),
+            ],
+            ..Default::default()
+        };
+        assert_eq!(ep.first_chord_key_per_press(), vec![1256, 90, 310]);
+        assert!(Episode::default().first_chord_key_per_press().is_empty());
+    }
     use crate::grammar::Input;
     use crate::scenarios::drive;
 
@@ -322,6 +356,7 @@ mod tests {
                 .map(|(k, ms)| ChordKey {
                     key: k.to_string(),
                     after_fn_ms: *ms,
+                    press: 0,
                 })
                 .collect(),
             effects,

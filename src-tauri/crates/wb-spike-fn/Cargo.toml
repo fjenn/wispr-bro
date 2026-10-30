@@ -25,6 +25,9 @@ path = "src/main.rs"
 [dependencies]
 handy-keys = "=0.3.4"
 handy-recorder = "0.1"
+# handy-recorder's own cpal (already in the lockfile), used directly only for
+# RS-01 round 2's "prepared but not started" input unit (src/mic.rs).
+cpal = { package = "handy-cpal", version = "=0.18.2" }
 hound = "3.5.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

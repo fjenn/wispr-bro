@@ -61,8 +61,51 @@ To stop at any time, press **Control + C**. What you did up to then is kept.
 
 What is saved: the key presses during the test (ordinary typing in other
 apps is recorded only as "(typing)", never as letters), the test's decisions,
-your answers, and ten 2-second sound clips of "testing one two three". All
+your answers, and ten 4-second sound clips of "testing one two three". All
 of it stays on this Mac.
+
+## Round 2 (about 5-8 minutes)
+
+Round 1 showed two things to fix. Round 2 tries the fixes. Start it the same
+way, with one extra word:
+
+```sh
+~/Projects/wispr-bro/scripts/wb-spike-fn.sh --round 2
+```
+
+What will happen:
+
+- **Permissions**, as in round 1 (usually nothing to do this time).
+- **Your 🌐 setting must be "Do Nothing".** The test reads it. If it says
+  something else, it tells you to change it in System Settings → Keyboard →
+  "Press 🌐 key to", offers to open that page, and checks again. At the end
+  it reminds you to set it back.
+- **One question:** does F11 or fn+F11 normally do anything on your Mac
+  (for example, show the desktop)?
+- **Part A** (Wispr Bro does *not* hold back the fn key this time):
+  1. quick taps, 5 times;
+  2. double-taps, 5 times;
+  3. holds of about a second, 5 times;
+  4. in TextEdit: fn + F11 five times, then fn + ← and fn + → five times.
+     **One shortcut at a time:** press fn, press the key, let go of both.
+     Don't keep fn held between shortcuts.
+
+  After each one: did anything pop up? Did the orange dot appear? Did the
+  shortcut do its normal thing?
+- **Part B:** 20 takes of "testing one two three", 10 one way, then 10
+  another way. Before each take you see "get ready...", then a line starting
+  with **>>> NOW**. Then press fn and **start talking at once**: don't wait
+  for the orange dot. Let go after "three". The next cue comes by itself.
+  Before the second set, the test asks whether the orange dot is showing even
+  though you're not pressing anything. Please look carefully: that answer
+  decides which fix we use.
+- **At the end** it checks every take by itself (did the mic catch the start
+  of "testing"?), writes it down, and prints a summary. Results go to
+  `~/wb-bench/results/rs01/<date-time>-r2/`. Tell Claude when you're done.
+
+What is saved: the same kind of key log as round 1, your answers, and the
+20 takes (4 seconds each), plus their transcripts. All of it stays on this
+Mac.
 
 ## For the team: what this run covers and what it doesn't
 
@@ -94,3 +137,29 @@ Compared with the RS-01 row in R5 §7, this run is smaller:
   external keyboard, the 10 sleep/wake cycles, and Secure Input (RS-14).
 - Handy's tap only reports its own registered hotkeys, so `events.jsonl` has
   every raw event from the fork's tap but only hotkey events from Handy's.
+
+Round 2 (`--round 2`, `src/round2.rs`; results in `report: RS-01-fn-globe.md`):
+
+- Grammar unchanged except two options: `Timings::with_show_ms(100)` for the
+  whole round, and `Grammar::with_fn_block(_, false)`, which leaves `{FN}`
+  out of the blocking set (`{FN, Space}` and `{Esc}`/`{FN, Esc}` as before).
+- Clipping variants, 10 takes each: (a) cold open through handy-recorder;
+  (b) a prepared input unit. That is cpal `build_input_stream`, which on
+  macOS ends in `AudioUnitInitialize` with the unit stopped, built before the
+  takes; each take then only calls `play`/`pause`
+  (`AudioOutputUnitStart`/`Stop`). handy-recorder cannot do this today:
+  `Recorder::open` builds and plays the stream. A pre-roll (c) was dropped:
+  it needs the input running while idle, which lights the indicator.
+- Each take is judged from the data: fn-down, first captured sample, speech
+  onset (energy, `src/onset.rs`). Speech within 50 ms of the first captured
+  sample counts as "clipped by us"; leading silence counts as "not clipped".
+  Transcripts come from `src-tauri/target/release/wb-bench-asr run` with
+  `~/wb-bench/asr/parakeet-unified-en-0.6b/parakeet-unified-en-0.6b-Q8_0.gguf`
+  (one model load for all takes; ffmpeg only if a WAV is not 16 kHz mono).
+  If the binary is missing, the summary says how to build it:
+  `cd src-tauri/crates/wb-bench-asr && CMAKE_POLICY_VERSION_MINIMUM=3.5
+  CARGO_TARGET_DIR=../../target cargo build --release --offline`.
+- `wb-spike-fn --analyze <run folder>` applies the same per-take analysis to
+  any finished run (round 1 included) and writes `analysis.json` there.
+- `--round 2 --dry-run` prints the plan, the Globe setting and whether
+  transcripts will work, then exits.

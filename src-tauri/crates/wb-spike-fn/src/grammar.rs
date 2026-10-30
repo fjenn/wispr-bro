@@ -4,7 +4,8 @@
 //! timestamped inputs and applies the effects it returns. Written so S-01 can
 //! lift this file into `fork/shortcut/processor.rs` unchanged.
 //!
-//! Timing rules (constants in [`Timings::DEFAULT`]):
+//! Timing rules (constants in [`Timings::DEFAULT`]; RS-01 round 2 also runs
+//! `T_show` = 100 ms through [`Timings::with_show_ms`]):
 //! - `T` = 500 ms (Wispr's tap window), `T_show` = 150 ms (DEC-47).
 //! - fn down alone → pending. After `T_show` of uninterrupted hold the take
 //!   starts and the mic opens (rule 1).
@@ -46,6 +47,14 @@ impl Timings {
         tap_window_ms: 500,
         show_ms: 150,
     };
+
+    /// The default timings with another `T_show` (RS-01 round 2: 100 ms).
+    pub const fn with_show_ms(show_ms: Ms) -> Timings {
+        Timings {
+            tap_window_ms: Self::DEFAULT.tap_window_ms,
+            show_ms,
+        }
+    }
 }
 
 /// A non-modifier key as the grammar sees it.
@@ -126,10 +135,14 @@ pub enum Effect {
     TapIgnored,
 }
 
-/// The dynamic part of the §4.8 blocking set. `{FN}` (modifier-only) is
-/// always blocked while fn is the active binding, so it is not a field.
+/// The §4.8 blocking set. `{FN}` (modifier-only) is blocked in every state
+/// while fn is the active binding, unless the grammar was built without the
+/// fn block (R5 §7 RS-01 fallback: "stop blocking the fn press, keep
+/// blocking fn+Space and Esc").
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Default)]
 pub struct Blocking {
+    /// `{FN}`: the bare fn press (constant for a given grammar).
+    pub fn_press: bool,
     /// `{FN, Space}`: only while fn is physically down.
     pub fn_space: bool,
     /// `{Esc}` and `{FN, Esc}`: only while a take is active, so idle Esc is
@@ -168,6 +181,8 @@ pub enum State {
 #[derive(Clone, Debug)]
 pub struct Grammar {
     timings: Timings,
+    /// Whether `{FN}` is in the blocking set (default true).
+    block_fn: bool,
     state: State,
     fn_down: bool,
 }
@@ -180,11 +195,22 @@ impl Default for Grammar {
 
 impl Grammar {
     pub fn new(timings: Timings) -> Self {
+        Self::with_fn_block(timings, true)
+    }
+
+    /// `block_fn = false` leaves the bare fn press out of the blocking set;
+    /// the grammar itself behaves exactly the same.
+    pub fn with_fn_block(timings: Timings, block_fn: bool) -> Self {
         Self {
             timings,
+            block_fn,
             state: State::Idle,
             fn_down: false,
         }
+    }
+
+    pub fn blocks_fn(&self) -> bool {
+        self.block_fn
     }
 
     pub fn timings(&self) -> Timings {
@@ -214,6 +240,7 @@ impl Grammar {
     /// What the blocking set must contain right now.
     pub fn blocking(&self) -> Blocking {
         Blocking {
+            fn_press: self.block_fn,
             fn_space: self.fn_down,
             esc: self.take_active(),
         }
@@ -449,43 +476,92 @@ mod tests {
 
     #[test]
     fn blocking_set_follows_the_state() {
-        let mut g = Grammar::default();
-        assert_eq!(g.blocking(), Blocking::default());
+        for block_fn in [true, false] {
+            let b = |fn_space, esc| Blocking {
+                fn_press: block_fn,
+                fn_space,
+                esc,
+            };
+            let mut g = Grammar::with_fn_block(Timings::DEFAULT, block_fn);
+            assert_eq!(g.blocking(), b(false, false));
+            g.step(0, &Input::FnDown);
+            assert_eq!(g.blocking(), b(true, false));
+            g.advance(150);
+            assert_eq!(g.blocking(), b(true, true));
+            g.step(300, &Input::FnUp); // tap with take: Esc still cancels
+            assert_eq!(g.blocking(), b(false, true));
+            g.step(400, &Input::FnDown); // double-tap lock
+            g.step(450, &Input::FnUp);
+            assert_eq!(g.blocking(), b(false, true));
+            g.step(2000, &Input::KeyDown(Key::Escape));
+            assert_eq!(g.blocking(), b(false, false));
+        }
+    }
+
+    #[test]
+    fn default_grammar_blocks_fn() {
+        assert!(Grammar::default().blocks_fn());
+        assert!(Grammar::new(Timings::DEFAULT).blocking().fn_press);
+        assert!(!Grammar::with_fn_block(Timings::DEFAULT, false).blocks_fn());
+    }
+
+    #[test]
+    fn without_the_fn_block_every_scenario_gives_the_same_effects() {
+        // The no-fn-block option changes only the blocking set, never a
+        // decision: replay every scripted scenario through both grammars.
+        for s in scenarios() {
+            let mut a = Grammar::default();
+            let mut b = Grammar::with_fn_block(Timings::DEFAULT, false);
+            for (t, input) in &s.inputs {
+                assert_eq!(a.step(*t, input), b.step(*t, input), "{}", s.name);
+                assert_eq!(a.state(), b.state(), "{}", s.name);
+                assert!(!b.blocking().fn_press);
+            }
+            assert_eq!(a.advance(s.end), b.advance(s.end), "{}", s.name);
+        }
+    }
+
+    #[test]
+    fn show_100_ms_opens_the_mic_at_100_and_keeps_quick_taps_closed() {
+        let t = Timings::with_show_ms(100);
+        assert_eq!(t.tap_window_ms, Timings::DEFAULT.tap_window_ms);
+        assert_eq!(t.show_ms, 100);
+        // Hold: the take starts at 100 ms, not 150.
+        let mut g = Grammar::new(t);
+        g.step(0, &Input::FnDown);
+        assert_eq!(g.next_deadline(), Some(100));
+        assert!(g.advance(99).is_empty());
+        assert_eq!(g.advance(100), vec![Effect::MicOpen, Effect::TakeStarted]);
+        // A 90 ms tap never opens the mic.
+        let mut g = Grammar::new(t);
+        g.step(1000, &Input::FnDown);
+        assert!(g.step(1090, &Input::FnUp).is_empty());
+        assert_eq!(g.advance(1590), vec![Effect::TapIgnored]);
+        // A chord at 120 ms now comes after T_show: the take had started and
+        // is dropped (with 150 ms it would have been discarded before the mic).
+        let mut g = Grammar::new(t);
         g.step(0, &Input::FnDown);
         assert_eq!(
-            g.blocking(),
-            Blocking {
-                fn_space: true,
-                esc: false
-            }
+            g.step(120, &other("Home")),
+            vec![
+                Effect::MicOpen,
+                Effect::TakeStarted,
+                Effect::ChordIgnored {
+                    key: "Home".into(),
+                    mic_was_open: true
+                },
+                Effect::MicClose
+            ]
         );
-        g.advance(150);
+        let mut g = Grammar::default();
+        g.step(0, &Input::FnDown);
         assert_eq!(
-            g.blocking(),
-            Blocking {
-                fn_space: true,
-                esc: true
-            }
+            g.step(120, &other("Home")),
+            vec![Effect::ChordIgnored {
+                key: "Home".into(),
+                mic_was_open: false
+            }]
         );
-        g.step(300, &Input::FnUp); // tap with take: Esc still cancels
-        assert_eq!(
-            g.blocking(),
-            Blocking {
-                fn_space: false,
-                esc: true
-            }
-        );
-        g.step(400, &Input::FnDown); // double-tap lock
-        g.step(450, &Input::FnUp);
-        assert_eq!(
-            g.blocking(),
-            Blocking {
-                fn_space: false,
-                esc: true
-            }
-        );
-        g.step(2000, &Input::KeyDown(Key::Escape));
-        assert_eq!(g.blocking(), Blocking::default());
     }
 
     #[test]
@@ -610,6 +686,7 @@ mod tests {
                 assert_eq!(mic, g.take_active(), "state {:?} at {t}", g.state());
                 assert_eq!(g.blocking().esc, g.take_active());
                 assert_eq!(g.blocking().fn_space, g.fn_is_down());
+                assert!(g.blocking().fn_press);
             }
         }
     }

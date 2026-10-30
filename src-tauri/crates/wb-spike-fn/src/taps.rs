@@ -12,7 +12,8 @@
 //!    Those functions need a Tauri `AppHandle`, so they are mirrored here and
 //!    a test checks the upstream source still says the same.
 //! 2. **The fork's own tap** (R5 §4.8): `KeyboardListener::new_with_blocking`
-//!    with the dynamic blocking set; `{FN}` is always in it.
+//!    with the dynamic blocking set; `{FN}` is always in it, except in RS-01
+//!    round 2's no-fn-block part (`block_fn = false`).
 //!
 //! Each tap's events are timestamped on receipt by a thread of its own and
 //! forwarded to the engine.
@@ -97,9 +98,18 @@ fn new_ids(before: &[TapInfo], after: &[TapInfo]) -> Vec<u32> {
         .collect()
 }
 
+/// The blocking set when nothing is active.
+pub fn idle_set(block_fn: bool) -> HashSet<Hotkey> {
+    if block_fn {
+        HashSet::from([fn_only()])
+    } else {
+        HashSet::new()
+    }
+}
+
 /// Starts Handy's manager, then the fork's tap (the app's order: Handy's
 /// shortcuts initialise at startup, the fork's tap after).
-pub fn start<F>(forward: F) -> Result<Taps, String>
+pub fn start<F>(forward: F, block_fn: bool) -> Result<Taps, String>
 where
     F: Fn(TapMsg) + Send + Sync + 'static,
 {
@@ -158,7 +168,7 @@ where
     let after_handy = own_taps();
 
     // 2. The fork's own blocking listener.
-    let blocking: BlockingHotkeys = Arc::new(Mutex::new(HashSet::from([fn_only()])));
+    let blocking: BlockingHotkeys = Arc::new(Mutex::new(idle_set(block_fn)));
     let listener = KeyboardListener::new_with_blocking(Arc::clone(&blocking))
         .map_err(|e| format!("the fork's keyboard listener: {e}"))?;
     {
@@ -239,6 +249,15 @@ mod tests {
             is_key_down: down,
             changed_modifier: changed,
         }
+    }
+
+    #[test]
+    fn idle_set_follows_the_fn_block_option() {
+        assert_eq!(idle_set(true), HashSet::from([fn_only()]));
+        assert!(idle_set(false).is_empty());
+        let fn_down = ev(Modifiers::FN, None, true, Some(Modifiers::FN));
+        assert!(would_block(&idle_set(true), &fn_down));
+        assert!(!would_block(&idle_set(false), &fn_down));
     }
 
     #[test]

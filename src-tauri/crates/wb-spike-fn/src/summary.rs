@@ -82,7 +82,7 @@ pub struct Criterion {
     pub detail: String,
 }
 
-fn crit(id: &str, text: &str, status: Status, detail: String) -> Criterion {
+pub(crate) fn crit(id: &str, text: &str, status: Status, detail: String) -> Criterion {
     Criterion {
         id: id.into(),
         text: text.into(),
@@ -95,7 +95,12 @@ fn runs_of(runs: &[BlockRun], kind: BlockKind) -> impl Iterator<Item = &BlockRun
     runs.iter().filter(move |r| r.kind == kind)
 }
 
-fn outcome_criterion(runs: &[BlockRun], kind: BlockKind, id: &str, text: &str) -> Criterion {
+pub(crate) fn outcome_criterion(
+    runs: &[BlockRun],
+    kind: BlockKind,
+    id: &str,
+    text: &str,
+) -> Criterion {
     let (mut pass, mut fail, mut invalid) = (0, 0, 0);
     let mut fails = Vec::new();
     for r in runs_of(runs, kind) {
@@ -131,7 +136,7 @@ pub fn percentile(sorted: &[f64], p: f64) -> Option<f64> {
     sorted.get(rank.min(sorted.len() - 1)).copied()
 }
 
-fn answers_criterion(
+pub(crate) fn answers_criterion(
     answers: &[Answer],
     id: &str,
     text: &str,
@@ -385,10 +390,9 @@ pub fn globe_table(answers: &[Answer]) -> Vec<(String, String, String)> {
     rows
 }
 
-pub fn render_text(crits: &[Criterion], answers: &[Answer]) -> String {
-    let mut s = String::new();
-    s.push_str("RS-01 results (what this tool can judge, plus your answers)\n");
-    s.push_str("-----------------------------------------------------------\n");
+/// The criteria lines under a title (shared by both rounds).
+pub fn render_criteria(title: &str, crits: &[Criterion]) -> String {
+    let mut s = format!("{title}\n{}\n", "-".repeat(title.chars().count()));
     for c in crits {
         s.push_str(&format!(
             "[{:>7}] {}\n          {}\n",
@@ -397,6 +401,14 @@ pub fn render_text(crits: &[Criterion], answers: &[Answer]) -> String {
             c.detail
         ));
     }
+    s
+}
+
+pub fn render_text(crits: &[Criterion], answers: &[Answer]) -> String {
+    let mut s = render_criteria(
+        "RS-01 results (what this tool can judge, plus your answers)",
+        crits,
+    );
     let table = globe_table(answers);
     if !table.is_empty() {
         s.push_str("\nGlobe action by setting (your answers):\n");
@@ -503,6 +515,7 @@ mod tests {
             chord_keys: vec![ChordKey {
                 key: "End".into(),
                 after_fn_ms: 230,
+                press: 0,
             }],
             effects: vec![
                 (150, Effect::MicOpen),
