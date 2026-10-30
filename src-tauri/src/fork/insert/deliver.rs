@@ -388,6 +388,16 @@ pub fn paste<P: Platform>(
         r.delivery = d;
         return (r, None);
     }
+    if w.1 {
+        // Still held after the wait: ⌘V (or the typed text) would arrive as
+        // another shortcut. The S-04 soak lost a paste exactly this way when
+        // another tool held a key for 3 s. Never paste blind: card.
+        r.error = Some("modifier keys were still held".into());
+        r.delivery = Delivery::Card {
+            reason: CardReason::PasteFailed,
+        };
+        return (r, None);
+    }
 
     // 3. The field before the paste.
     let before = p.field();

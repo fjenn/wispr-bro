@@ -1161,8 +1161,13 @@ fn open_app(ctx: &mut Ctx, app: &SoakApp, inst: &Installed) -> Result<Opened, St
             macos::pump(Duration::from_millis(600));
             // New message: focus is in To: (empty, so nothing can be sent);
             // Tab moves to the message field.
-            key(TAB);
-            macos::pump(Duration::from_millis(300));
+            for _ in 0..3 {
+                key(TAB);
+                macos::pump(Duration::from_millis(400));
+                if macos::focus_labels(front.pid).0.as_deref() == Some("Message") {
+                    break;
+                }
+            }
             let f = macos::focus(front.pid);
             let labels = macos::focus_labels(front.pid);
             ctx.ev(

@@ -518,6 +518,19 @@ fn modifiers_are_released_before_the_paste() {
     f.modifiers.set(1 << 16);
     let (r, _) = one_take(&f, &guard, &native("x"));
     assert_eq!(r.modifier_wait_ms, Some(0));
+    // Held past the wait (3 s): nothing is sent, the text goes to the card.
+    let f = Fake::new(user_items(), NATIVE);
+    f.modifiers.set(1 << 19); // ⌥ held by something else
+    let (r, pending) = deliver::paste(&f, &guard, &native("x"), &OPEN);
+    assert!(r.modifier_wait_timed_out);
+    assert_eq!(
+        r.delivery,
+        Delivery::Card {
+            reason: CardReason::PasteFailed
+        }
+    );
+    assert!(pending.is_none() && f.pb.log().is_empty());
+    assert_eq!(f.insertions.get(), 0);
 }
 
 #[test]
