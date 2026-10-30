@@ -49,16 +49,16 @@ records).
 
 | RS-04 criterion (R5 §7) | Unattended (agent) | Owner session |
 |---|---|---|
-| Editable verdict correct in ≥ 95 % of focused text fields (fail-open counts) | PASS: TextEdit 9/9, Safari 16/16, Chrome 14/14 | _to fill_ |
-| 0 false "no text field" | PASS: 0 in all three | _to fill_ |
-| Selected text readable in ≥ 90 % via the chain | PASS: TextEdit 4/4, Safari 6/6, Chrome 5/5, all by plain `AXSelectedText`, exact text each time | _to fill_ |
-| URL host readable in Chrome, Arc, Brave, Edge, Safari | Readable 28/28 Safari, 26/26 Chrome, but for a `file:` page (no host). **Hosts only from the owner's tabs.** Arc, Brave, Edge not installed | _to fill (Safari tab, Gmail, Docs)_ |
-| p95 AX call ≤ 100 ms | PASS: p95 0.12 ms TextEdit, 0.39 ms Safari, 0.11 ms Chrome (max 30 ms); whole read p95 6-23 ms | _to fill_ |
+| Editable verdict correct in ≥ 95 % of focused text fields (fail-open counts) | PASS: TextEdit 9/9, Safari 16/16, Chrome 14/14 | see Owner session |
+| 0 false "no text field" | PASS: 0 in all three | see Owner session |
+| Selected text readable in ≥ 90 % via the chain | PASS: TextEdit 4/4, Safari 6/6, Chrome 5/5, all by plain `AXSelectedText`, exact text each time | see Owner session |
+| URL host readable in Chrome, Arc, Brave, Edge, Safari | Readable 28/28 Safari, 26/26 Chrome, but for a `file:` page (no host). **Hosts only from the owner's tabs.** Arc, Brave, Edge not installed | Gmail 5/5 hosts; Docs 1/3; Safari tabs 30/30 |
+| p95 AX call ≤ 100 ms | PASS: p95 0.12 ms TextEdit, 0.39 ms Safari, 0.11 ms Chrome (max 30 ms); whole read p95 6-23 ms | see Owner session |
 | ≥ 20 focus events per app | TextEdit 9, Safari 28, Chrome 26 | 2-6 per app by design (see Coverage) |
-| With and without the `AXManualAccessibility` lease | Chrome: identical (attribute unsupported). Electron: see below | _to fill (Cursor, Obsidian, Claude)_ |
-| Latency at 0.1 and 0.25 s timeouts | No call came near either timeout; 0.1 s never changed an answer | _to fill_ |
-| `frontmostApplication` vs `AXFocusedApplication` freshness | AX call failed every time (see above); NSWorkspace 40-59 ms after `open -a` | _to fill_ |
-| `AXSelectedText` set | TextEdit 4/4 worked and put back; Safari 0/3, Chrome 0/2 (success reported, nothing changed) | _to fill_ |
+| With and without the `AXManualAccessibility` lease | Chrome: identical (attribute unsupported). Electron: see below | no change in any app; Electron mostly reports no focused element |
+| Latency at 0.1 and 0.25 s timeouts | No call came near either timeout; 0.1 s never changed an answer | see Owner session |
+| `frontmostApplication` vs `AXFocusedApplication` freshness | AX call failed every time (see above); NSWorkspace 40-59 ms after `open -a` | see Owner session |
+| `AXSelectedText` set | TextEdit 4/4 worked and put back; Safari 0/3, Chrome 0/2 (success reported, nothing changed) | see Owner session |
 
 ### Unattended runs
 
@@ -87,10 +87,54 @@ and `20261030-140423-auto`):
 
 ## Owner session
 
-_To fill from the owner's `summary.txt`: the per-app table, the
-with/without-lease rows for Cursor, Obsidian and Claude, the hosts seen,
-`AXSelectedText` per app, the activation timings, and whether system-wide
-`AXFocusedApplication` worked from Terminal._
+Run `~/wb-bench/results/rs04/20261030-153023` (guided, from Terminal,
+2026-10-30, 13 apps, 115 focus events). The raw summary fails most apps; on
+inspection that is mostly the test's ground truth, not the verdict:
+
+- **Ground truth was unreliable.** The tool auto-advanced on the first focus
+  change after a prompt. That is often an intermediate element (Notes and
+  Mail: the note/message list `AXTable` or the `AXWindow` while the owner was
+  clicking towards the body), and clicking a button or sidebar in a native
+  app often leaves focus in the text area, so "not text" steps recorded a
+  real `AXTextArea`. Steps confirmed with Enter probed Terminal itself (27
+  events, all of Chrome/Gmail/Docs' guided steps), which is also why the
+  summary labels TextEdit, Chrome, Cursor and Obsidian as "terminal".
+- **Judged against the element actually focused:** no text role
+  (`AXTextField`, `AXTextArea`, `AXComboBox`) was ever given the card. Every
+  card came from a table, button, window, group or web area. Two "text" steps
+  in Notes and Mail had the list `AXTable` focused, where the card is right.
+- **Change made:** containers (`AXWindow`, `AXGroup`, `AXScrollArea`, ...) and
+  a non-editable `AXWebArea` now fail open (paste) instead of showing the
+  card; only controls (button, table, list, link, ...) and "no window" get
+  it. Reason: in Safari, Obsidian, Cursor and ChatGPT the focused web area or
+  landmark group was the host of a field that AX did not report. With that
+  rule, 0 text steps get the card except the two list cases above. Cost: a
+  dictation with the page body focused pastes into nothing; S-04's paste
+  check shows the card when it can tell the text did not land.
+- **Electron (Cursor, Obsidian, Claude):** usually no focused element at all,
+  with or without our lease, so everything pastes by fail-open (correct) but
+  nothing can be read: selected text 0/1 in each. The lease did not change any
+  answer. ChatGPT (`com.openai.codex`, Chromium) reports its message box as a
+  real `AXTextArea`.
+- **Selected text:** readable in TextEdit, Notes, Terminal, Safari, Chrome,
+  Gmail, Docs, ChatGPT; not in Mail, Messages, Cursor, Obsidian, Claude. Those
+  need the copy fallback (Edit › Copy, then ⌘C with a sentinel), which is
+  RS-04's planned fallback and uses the RS-05 clipboard snapshot/restore.
+- **URL:** Gmail 5/5 (`mail.google.com`, `www.google.com`), Safari 30/30;
+  Google Docs only 1/3 (fallback: window title).
+- **`AXSelectedText` writes:** work in TextEdit and Notes; report success and
+  do nothing in Safari, Chrome, Gmail, Docs, Cursor, Obsidian, ChatGPT. Replace
+  selection by paste (already the default).
+- **`AXFocusedApplication`** failed on every call from Terminal too
+  (`CannotComplete`). NSWorkspace's frontmost app was always right, 50-206 ms
+  after `open -a`. S-05 uses NSWorkspace plus the app's own focused element.
+- **Latency:** p95 single call ≤ 4.6 ms everywhere, max 12 ms, 0 timeouts,
+  0.1 s never changed an answer. But a whole read (all attributes) reached
+  p95 ≈ 310-330 ms in Cursor, Obsidian and Claude. S-05 reads only what the
+  verdict needs before pasting and does the rest after.
+
+Tool issues to fix if RS-04 is re-run: confirm a step only when focus is in
+the target app; wait for focus to settle (≈ 300 ms) before recording.
 
 ## Coverage and what is not tested
 

@@ -54,12 +54,12 @@ committed): `~/wb-bench/results/rs05/`.
 
 | RS-05 criterion (R5 §7)                                     | Unattended                                                               | Owner run   |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------ | ----------- |
-| Byte-identical restore for all listed types                 | **PASS** in 4 apps (25/25), round trips 10/10                            | _owner run_ |
+| Byte-identical restore for all listed types                 | **PASS** in 4 apps (25/25), round trips 10/10                            | **PASS** 68/68 in 11 apps |
 | No clipboard manager records the dictated text              | **UNTESTED** (none installed); markers present on the text item in 25/25 | UNTESTED    |
-| Held ⌃⌘ never turns ⌘V into ⌃⌘V after the modifier wait     | not run (needs a person holding keys)                                    | _owner run_ |
-| Paste lands with a CJK IME active (or reports `unverified`) | **PASS** (Japanese Romaji, plain and composing)                          | _owner run_ |
+| Held ⌃⌘ never turns ⌘V into ⌃⌘V after the modifier wait     | not run (needs a person holding keys)                                    | **not measured**: the tool saw no modifiers held when it pasted (timing); moved to S-06 acceptance |
+| Paste lands with a CJK IME active (or reports `unverified`) | **PASS** (Japanese Romaji, plain and composing)                          | **PASS** (same)  |
 | Chrome version check for 155/156                            | Chrome 156.0.8078.79: in range; ⌘V dropped 0/18, typing 3/3              | -           |
-| (§5.4) Paste lands; never the old clipboard                 | **PASS** 19/19 (⌘V outside the race) + 6/6 race probes, 0 old-clipboard  | _owner run_ |
+| (§5.4) Paste lands; never the old clipboard                 | **PASS** 19/19 (⌘V outside the race) + 6/6 race probes, 0 old-clipboard  | **PASS** 56/56 in 11 apps, 0 old clipboard; Chromium 155/156 ⌘V dropped 0/12 |
 
 ## Sources
 
@@ -97,7 +97,11 @@ same four again.
 
 ## Held ⌃⌘ (S-06 paste-last)
 
-_Owner run._ Two variants in TextEdit: ⌘V posted while ⌃⌘ are still held (no
+**Owner run 2026-10-30 (`~/wb-bench/results/rs05/20261030-163841`): not
+measured.** In both variants the tool saw no modifier held when it posted ⌘V
+("held none"), so the owner's hold and the paste did not overlap; the owner
+was unsure whether anything else happened. S-06's acceptance run repeats it
+with the paste fired from a held key. Design: two variants in TextEdit: ⌘V posted while ⌃⌘ are still held (no
 wait), and with the modifier-release wait. The listen-only session tap records
 the flags our V key-down arrives with; the field shows whether the text
 arrived.

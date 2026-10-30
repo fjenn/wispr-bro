@@ -226,7 +226,10 @@ fn element_verdict(f: &Facts, family: Family) -> Verdict {
         if family.builds_tree_on_request() && !f.tree_on {
             return Verdict::Unknown(TreeNotBuilt);
         }
-        return Verdict::NotEditable(WebAreaNotEditable);
+        // RS-04 owner run: a focused web area or container is often the
+        // host of a field AX does not report (Safari, Obsidian, Cursor,
+        // ChatGPT), so it fails open rather than showing the card.
+        return Verdict::Unknown(WebAreaNotEditable);
     }
     if CONTROL_ROLES.contains(&role) {
         return Verdict::NotEditable(ControlRole);
@@ -238,7 +241,7 @@ fn element_verdict(f: &Facts, family: Family) -> Verdict {
         return Verdict::Unknown(TreeNotBuilt);
     }
     if CONTAINER_ROLES.contains(&role) {
-        return Verdict::NotEditable(ContainerRole);
+        return Verdict::Unknown(ContainerRole);
     }
     Verdict::Unknown(UnrecognizedRole)
 }
@@ -369,7 +372,7 @@ mod tests {
         let f = el("AXWebArea");
         assert_eq!(
             verdict(&f, Family::Webkit),
-            Verdict::NotEditable(WebAreaNotEditable)
+            Verdict::Unknown(WebAreaNotEditable)
         );
         let mut f = el("AXWebArea");
         f.value_settable = Some(true);
@@ -395,13 +398,13 @@ mod tests {
         f.tree_on = true;
         assert_eq!(
             verdict(&f, Family::Chromium),
-            Verdict::NotEditable(WebAreaNotEditable)
+            Verdict::Unknown(WebAreaNotEditable)
         );
         let mut f = el("AXGroup");
         f.tree_on = true;
         assert_eq!(
             verdict(&f, Family::Electron),
-            Verdict::NotEditable(ContainerRole)
+            Verdict::Unknown(ContainerRole)
         );
         // A control is a control even before the lease.
         let f = el("AXButton");
@@ -421,7 +424,7 @@ mod tests {
         }
         assert_eq!(
             verdict(&el("AXScrollArea"), Family::Native),
-            Verdict::NotEditable(ContainerRole)
+            Verdict::Unknown(ContainerRole)
         );
         let mut f = el("AXGroup");
         f.has_selected_range = true;
