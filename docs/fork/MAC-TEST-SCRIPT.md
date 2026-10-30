@@ -127,9 +127,9 @@ Slices: S-03, S-30.
 Slices: S-04, S-05, S-06, S-17. Apps (§5.4): Mail, Notes, TextEdit, Slack, VS Code, Chrome (Gmail), Safari, Notion, Messages, Terminal.
 
 - [ ] A4.1 10 apps × (short sentence, multi-line, snippet, no text field focused, password field). TODO (S-04, S-05, S-17)
-- [ ] A4.2 Clipboard restore types: plain text, RTF, HTML, file URL, image, multi-item. TODO (S-04)
+- [ ] A4.2 Clipboard restore types: plain text, RTF, HTML, file URL, image, multi-item. See S-04.1 (`wb-spike-clipboard --s04-soak`).
 - [ ] A4.3 Clipboard managers (Maccy, Raycast, Paste) do not record dictated text. TODO (S-04)
-- [ ] A4.4 Japanese IME and Pinyin active during paste. TODO (S-04)
+- [ ] A4.4 Japanese IME and Pinyin active during paste. See S-04.5 (`--s04-ime`; Japanese only, Pinyin by hand).
 - [ ] A4.5 App switch during processing → card, never the wrong field. TODO (S-05)
 
 ### A5. First run and network conditions
@@ -270,12 +270,56 @@ filled by the slice; "Machines" defaults to M1-8 and M-26 unless stated.
 
 ### S-04 Insertion and clipboard
 
-- [ ] S-04.1 RS-05 matrix on the real slice.
-- [ ] S-04.2 100-take insertion run across the 10 apps of §5.4.
-- [ ] S-04.3 Lid close mid-take.
-- [ ] S-04.4 Fast user switch mid-take.
-- [ ] S-04.5 Japanese IME active.
-- Procedure: TODO (S-04).
+- [ ] S-04.1 RS-05 matrix on the real slice: the six RS-05 source types
+      (plain text, RTF, HTML, a file, an image, two files) each before
+      pastes in all ten apps; the clipboard is byte-identical afterwards
+      (the soak below compares every take).
+- [ ] S-04.2 100-take insertion run across the 10 apps of §5.4: 0 lost,
+      0 duplicated, 0 old-clipboard pastes.
+- [ ] S-04.3 Lid close mid-take: the text is not pasted; after wake it is on
+      the card (S-05) and in History; the recording stopped at sleep.
+- [ ] S-04.4 Fast user switch mid-take: same as S-04.3.
+- [ ] S-04.5 Japanese IME active: the paste lands, plain and while a word
+      is being composed (or the take is `unverified`).
+- [ ] S-04.6 The log has one `insert: take N <paste_outcome>` line per take.
+
+**Procedure (S-04.1, S-04.2, S-04.5): unattended, about 5 minutes.** On a
+Mac with Accessibility granted to the terminal, nobody using it, and no
+other test tool driving the screen:
+
+```sh
+cd src-tauri/crates/wb-spike-clipboard && cargo build --release
+./target/release/wb-spike-clipboard --s04-soak            # 10 takes × 10 apps
+./target/release/wb-spike-clipboard --s04-ime             # S-04.5
+./target/release/wb-spike-clipboard --s04-leftovers       # closes test tabs left open
+```
+
+The soak compiles the product's `fork/clipboard` and `fork/insert`
+(`deliver.rs`, `verify.rs`) and delivers each take exactly as the app does.
+Apps (stand-ins for §5.4 where the original is not installed): TextEdit,
+Notes (a new note), Mail (a new message, never sent), Messages (a new message
+with no recipient), Terminal (a `cat` window), Safari and Chrome (a local test
+page instead of Gmail), Cursor (for VS Code; a test file in its editor panel),
+Claude (for Slack: an Electron chat box), ChatGPT (for Notion: a Chromium 156
+app). It saves the clipboard first and puts it back at the end, refuses to
+start if the pointer moved in the last 3 s, stops if it moves during the run,
+brings the target back if another app takes the front, and only removes its
+own text afterwards (drafts that were already in a chat box stay). Results:
+`~/wb-bench/results/s04/<time>/summary.txt` and `summary.json`; one row per
+app, and for each take the delivery, verification, read receipt, restore time
+and byte comparison. `--per-app N` and `--only textedit,notes,…` run part of
+it; an app interrupted by someone else is re-run on its own.
+
+**Procedure (S-04.3, S-04.4): a person, M-26.** Open TextEdit with a new
+document. Hold fn and start speaking, then (a) close the lid for 10 s and open
+it again, (b) switch to another user from the menu bar and back. Release fn
+after wake / switch-back. Expected: nothing is pasted into TextEdit; the log
+has `insert: session Begin(Sleep)` (or `Begin(SessionInactive)`), `insert:
+stopping the recording`, and `insert: take N card`; the text is in History.
+The card itself is S-05. Unattended, `wb-spike-clipboard --s04-session` checks
+the wiring: the product's observer receives NSWorkspace sleep/wake and session
+notifications (posted in-process) and the engine then returns a card and does
+not touch the clipboard.
 
 ### S-05 Accessibility layer, "no text field" card, secure fields
 
