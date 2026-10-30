@@ -214,3 +214,44 @@ blocked).
   automatically.
 
 DEC-53 in R5 records the choice once round 2 is in.
+
+### Round 2 results (2026-10-30)
+
+Run `20261030-131006-r2` (an earlier aborted start, `-130802-r2`, is
+ignored). macOS 26.6.2, M5 Max, built-in keyboard and mic, `T_show` = 100 ms,
+bare fn press not blocked.
+
+- **Part A, Globe = Do Nothing (macOS read 0), fn not blocked:** quick taps,
+  double-taps and holds all behaved (5/5 each; the rest were invalid, mostly
+  "quick taps" of 100-164 ms, which count as presses at 100 ms). Nothing
+  popped up in any block. fn+F11 showed the desktop as usual and fn+←/→
+  jumped to top and bottom. So with Do Nothing, blocking the fn press buys
+  nothing (DEC-44 update).
+- **Chords and the orange dot:** failed, but not because of blocking. As in
+  round 1, the owner held fn first and pressed every chord key during one
+  long hold, the first key 1.09 s after fn-down (fn+click, then PageUp/Down,
+  Home/End, F11). By then the take had started, so the dot showed; and under
+  the old rule 2 (keys after `T` pass through) the take would have pasted.
+  Holding fn before the key is how this owner types fn chords, so it is a
+  real pattern, not a test artefact. Fix: DEC-54, a chord at any time in a
+  push-to-talk press drops the take; changed in `grammar.rs` (rule 2) with
+  the scenario "key after T is still a chord". A brief dot for late chords
+  remains; fluent chords (key within `T_show`) stay dark.
+- **First words** (10 cued takes each, all transcribed with "testing"):
+
+  | variant | fn → first audio p50 / p95 | clipped by us | speech began after fn (p50) |
+  |---|---|---|---|
+  | (a) cold open | 211 / 216 ms | 0 / 10 | 1162 ms |
+  | (b) prepared unit | 129 / 140 ms | 0 / 10 | 808 ms |
+
+  The owner saw no dot while the unit was only prepared, the dot during each
+  take, and it gone after. Decision (DEC-53): prepared unit, `T_show` stays
+  150 ms (≈ 180 ms expected). Speech still began ≥ 635 ms after the press,
+  so the ≤ 1-in-50 clipping gate is still not really stressed; S-01's
+  acceptance run keeps it.
+- Both taps healthy at all 14 checks.
+
+Still open for S-01 and later: macOS 14/15, Finder, an external keyboard,
+the F5 key, sleep/wake, Bluetooth/USB mics, 50-take clipping, and "Start
+Dictation" with fn unblocked.
+

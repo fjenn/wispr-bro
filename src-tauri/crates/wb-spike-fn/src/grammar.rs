@@ -9,9 +9,11 @@
 //! - `T` = 500 ms (Wispr's tap window), `T_show` = 150 ms (DEC-47).
 //! - fn down alone → pending. After `T_show` of uninterrupted hold the take
 //!   starts and the mic opens (rule 1).
-//! - Another non-modifier key except Space while fn is held, within `T` of
-//!   the fn press → the press is a chord: discarded silently, the key passes
-//!   through (rule 2). After `T` keys pass through and the take continues.
+//! - Another non-modifier key except Space while fn is held in a
+//!   push-to-talk press → the press is a chord: discarded silently (nothing
+//!   inserted), the key passes through (rule 2). This holds at any time in
+//!   the press, not just within `T` (DEC-54, RS-01 round 2: the owner held fn
+//!   1.1-1.7 s before the first chord key). Keys while locked pass through.
 //! - fn up before `T` → tap: wait `T` (from the release) for a second press.
 //!   A second press → hands-free lock, the mic opens at once; no second press
 //!   → cancel, nothing saved (rule 3).
@@ -124,9 +126,9 @@ pub enum Effect {
     Cancelled {
         why: CancelWhy,
     },
-    /// Rule 2: the fn press was a chord. Discarded silently; the key passes
-    /// through. `mic_was_open` is true when the chord came after `T_show`
-    /// (the take had started and its audio is dropped).
+    /// Rule 2: the fn press was a chord. Discarded silently (never inserted);
+    /// the key passes through. `mic_was_open` is true when the chord came
+    /// after `T_show` (the take had started and its audio is dropped).
     ChordIgnored {
         key: String,
         mic_was_open: bool,
@@ -434,9 +436,7 @@ impl Grammar {
                         });
                         self.state = State::Draining;
                     }
-                    State::Holding { down }
-                        if now.saturating_sub(down) < self.timings.tap_window_ms =>
-                    {
+                    State::Holding { .. } => {
                         out.push(Effect::ChordIgnored {
                             key: name,
                             mic_was_open: true,
@@ -444,7 +444,7 @@ impl Grammar {
                         out.push(Effect::MicClose);
                         self.state = State::Draining;
                     }
-                    // After `T` (or locked, or draining) keys pass through.
+                    // Locked or draining: keys pass through.
                     _ => {}
                 }
             }

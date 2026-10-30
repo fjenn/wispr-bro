@@ -467,10 +467,20 @@ pub fn scenarios() -> Vec<Scenario> {
             ],
         },
         Scenario {
-            name: "key after T passes through and the take continues",
-            inputs: vec![(0, d()), (700, key("A")), (1200, u())],
-            end: 2000,
-            expect: vec![(150, OPEN), (150, START), (1200, RELEASE), (1200, CLOSE)],
+            name: "key after T is still a chord: take dropped, nothing inserted (DEC-54)",
+            inputs: vec![
+                (0, d()),
+                (1100, key("PageUp")),
+                (1300, key("PageDown")),
+                (2000, u()),
+            ],
+            end: 3000,
+            expect: vec![
+                (150, OPEN),
+                (150, START),
+                (1100, chord("PageUp", true)),
+                (1100, CLOSE),
+            ],
         },
         Scenario {
             name: "keys while locked pass through",
