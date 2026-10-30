@@ -40,7 +40,7 @@ one before each click, and types only into its own TextEdit document.
 | Re-shows on every Space                                           | **Full screen: PASS** 10/10. **Desktop switch: not run** (one desktop on this Mac)                                                                                          |
 | … after wake and display changes, placed correctly on both scales | **PASS**: 1× virtual display plugged ×3 and unplugged ×3, display sleep/wake ×3; follows the cursor within 0.57-0.99 s, back on the 2× display within 0.19-0.24 s of unplug |
 | Capture hiding in ≥ 2 of 3 recorders                              | **PASS 3/3**: `screencapture` still, `screencapture -v` video, ScreenCaptureKit `SCStream` all show 0 pill pixels with `set_content_protected(true)` (control: ~9,900)      |
-| Pill RSS growth ≤ 50 MB; combined idle RSS ≤ 250 MB; CPU ≤ 0.5 %  | See "Idle memory and CPU"                                                                                                                                                   |
+| Pill RSS growth ≤ 50 MB; combined idle RSS ≤ 250 MB; CPU ≤ 0.5 %  | **FAIL on trend**: WebContent +49 MB over 97 takes in 28 min, combined 244 MB; rest CPU 0.04 %. Fallback: native resting pill                                               |
 
 ## First click (RT-13, RC-01)
 
@@ -145,19 +145,24 @@ external display, and a 1× mode on the built-in panel (it offers none between
 
 ## Idle memory and CPU (RT-17, §5.2)
 
-**Interim (the 100-take run is still going; this section is updated when
-it ends).** The 8 h run was not possible: the Mac was on battery (36 % →
-13 % during this session) and would have slept. Two shorter runs instead:
+The 8 h run was not possible: the Mac was on battery (36 % to 3 % during
+this session). Two shorter runs instead:
 
 - **Rest, 10 min, no takes** (`20261030-1900-idle-rest`): the pill process
-  alone used 0.21 s of CPU in 540 s (**0.04 %**) and held 107 MB RSS, flat.
-  The tool's in-app sampler missed the WebKit processes in this run (a bare
-  binary has no bundle, so macOS makes the terminal responsible for them);
-  the sampler is fixed and an external sampler covers the next run.
-- **100 takes in 30 min** (`20261030-1900-idle-takes`; each take: 5 s of
-  30 fps level events, 1 s processing, back to resting): pill process +
-  three WebKit processes, sampled every 30 s by `ps`. At start 203 MB in
-  all; after 23 takes 221 MB.
+  used 0.04 % CPU and held 107 MB RSS, flat. (The in-app sampler missed the
+  WebKit processes here; fixed since.)
+- **97 takes in 28 min** (`20261030-1900-idle-takes`; each take 5 s of 30 fps
+  level events, 1 s processing, then resting), app + 3 WebKit processes
+  sampled every 30 s: total **199 MB at start, 244 MB at the end**. The app
+  process stayed at 103-108 MB; the WebContent process grew **48 → 97 MB
+  (+49 MB)**, steadily with takes. CPU averaged 2.9 % (mostly the takes).
+
+Verdict: **growth criterion fails on trend.** +49 MB after ~100 compressed
+takes is at the 50 MB ceiling already, and the combined 244 MB leaves no room
+for the Hub under the 250 MB budget. **Fallback applied (R5 row):** the
+resting pill is native (anarlog's Swift pill or Voquill `rust_macos_pill` as
+reference), and the webview exists only while a take is active. The 8 h run
+on mains power stays in S-03's acceptance.
 
 ## What changes in R5
 
