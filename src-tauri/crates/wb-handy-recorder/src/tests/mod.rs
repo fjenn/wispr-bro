@@ -5,4 +5,5 @@
 mod failures;
 mod formats;
 mod lifecycle;
+mod prepared;
 mod support;

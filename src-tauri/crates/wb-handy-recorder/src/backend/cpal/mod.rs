@@ -312,6 +312,25 @@ struct CpalStream {
 }
 
 impl InputStream for CpalStream {
+    fn set_running(&mut self, running: bool) -> Result<(), BackendError> {
+        let started = Instant::now();
+        let result = if running {
+            self._stream
+                .play()
+                .map_err(|e| map_error_during("Failed to start microphone stream", e))
+        } else {
+            self._stream
+                .pause()
+                .map_err(|e| map_error_during("Failed to stop microphone stream", e))
+        };
+        log::debug!(
+            "prepared stream {} in {:?}",
+            if running { "started" } else { "stopped" },
+            started.elapsed()
+        );
+        result
+    }
+
     #[cfg(target_os = "linux")]
     fn check_device(&mut self) -> Result<(), BackendError> {
         match &mut self.watch {
@@ -398,6 +417,7 @@ impl OpenDevice for CpalOpenDevice {
         self: Box<Self>,
         data: DataCallback,
         error: ErrorCallback,
+        run: bool,
     ) -> Result<Box<dyn InputStream>, BackendError> {
         #[cfg_attr(not(target_os = "linux"), allow(unused_mut))]
         let mut config = self.config.config();
@@ -432,11 +452,13 @@ impl OpenDevice for CpalOpenDevice {
         let build_elapsed = build_started.elapsed();
 
         let play_started = Instant::now();
-        stream
-            .play()
-            .map_err(|e| map_error_during("Failed to start microphone stream", e))?;
+        if run {
+            stream
+                .play()
+                .map_err(|e| map_error_during("Failed to start microphone stream", e))?;
+        }
         log::debug!(
-            "build_stream={:?} play={:?}",
+            "build_stream={:?} play={:?} (run: {run})",
             build_elapsed,
             play_started.elapsed()
         );

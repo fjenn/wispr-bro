@@ -21,6 +21,15 @@ pub struct RecorderConfig {
     /// Moves a Bluetooth headset (AirPods) to this Mac while recording.
     /// macOS only.
     pub take_headset: bool,
+    /// Keeps the open device stopped between recordings: `open` builds and
+    /// initialises the input stream without starting it, `start` starts it
+    /// and `stop` stops it again. An open, idle recorder then holds no
+    /// running input (on macOS the orange microphone indicator stays off)
+    /// while a recording still starts without the cost of building the
+    /// stream. Default `false`: the stream runs from `open` to `close`.
+    ///
+    /// Added by Wispr Bro (prepared microphone, DEC-53).
+    pub pause_when_idle: bool,
 }
 
 impl RecorderConfig {
@@ -32,6 +41,7 @@ impl RecorderConfig {
             channels: Channels::MixToMono,
             frames_per_chunk: Some(480),
             take_headset: false,
+            pause_when_idle: false,
         }
     }
 }

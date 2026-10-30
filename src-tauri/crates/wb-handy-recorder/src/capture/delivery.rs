@@ -107,6 +107,12 @@ pub(crate) fn run<S: Sink>(
             if let Some(cmd) = command.take() {
                 match cmd {
                     DeliveryCmd::Start(sink, sent_at) => {
+                        if processor.shared.pause_when_idle {
+                            // A stopped stream's ring holds only the blocks
+                            // written after the last recording's boundary:
+                            // not this recording's audio.
+                            discard_queued(&mut consumer);
+                        }
                         processor.begin(sink, sent_at, consumer.slots() > 0)
                     }
                     DeliveryCmd::Stop(reply_tx) => {
@@ -163,6 +169,16 @@ pub(crate) fn run<S: Sink>(
         if processor.capturing() {
             processor.observe_overrun(overrun_frames);
         }
+    }
+}
+
+/// Drops everything queued in the ring.
+fn discard_queued(consumer: &mut Consumer<f32>) {
+    let queued = consumer.slots();
+    if queued > 0
+        && let Ok(chunk) = consumer.read_chunk(queued)
+    {
+        chunk.commit_all();
     }
 }
 

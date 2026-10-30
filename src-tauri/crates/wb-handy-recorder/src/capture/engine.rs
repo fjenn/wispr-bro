@@ -11,7 +11,7 @@ use std::{
     panic::{AssertUnwindSafe, catch_unwind},
     sync::{
         Arc, Mutex, OnceLock,
-        atomic::{AtomicU64, Ordering},
+        atomic::{AtomicBool, AtomicU64, Ordering},
         mpsc,
     },
     thread::{self, JoinHandle, ThreadId},
@@ -108,10 +108,15 @@ pub(crate) struct Shared {
     /// Held while failing on a suspension, so `stop` sees the gap or the failure.
     pub(crate) watchdog_checked_at: Mutex<CheckTime>,
     device_tx: mpsc::Sender<DeviceMsg>,
+    /// `RecorderConfig::pause_when_idle`: the stream runs only while recording.
+    pub pause_when_idle: bool,
+    /// The built stream is running. Always true without `pause_when_idle`
+    /// once open; with it, true between a `start` and the following `stop`.
+    pub running: AtomicBool,
 }
 
 impl Shared {
-    fn new(device_tx: mpsc::Sender<DeviceMsg>) -> Self {
+    fn new(device_tx: mpsc::Sender<DeviceMsg>, pause_when_idle: bool) -> Self {
         Self {
             transport: CaptureTransportState::default(),
             failure: OnceLock::new(),
@@ -122,6 +127,8 @@ impl Shared {
             recording_since: Mutex::new(None),
             watchdog_checked_at: Mutex::new(CheckTime::now()),
             device_tx,
+            pause_when_idle,
+            running: AtomicBool::new(false),
         }
     }
 
@@ -165,6 +172,9 @@ enum DeviceMsg {
     Close,
     /// Start or stop holding the headset (`take_headset`).
     HoldHeadset(bool),
+    /// Start or stop a stream built for `pause_when_idle`, replying with the
+    /// platform's result when a sender is given.
+    SetRunning(bool, Option<mpsc::Sender<Result<(), Error>>>),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -227,7 +237,7 @@ impl<S: Sink> Engine<S> {
         let take_headset = config.take_headset;
 
         let (device_tx, device_rx) = mpsc::channel();
-        let shared = Arc::new(Shared::new(device_tx.clone()));
+        let shared = Arc::new(Shared::new(device_tx.clone(), config.pause_when_idle));
         let (init_tx, init_rx) = mpsc::sync_channel::<Result<Opened, Error>>(1);
         let open_state = Arc::new(Mutex::new(OpenState::Pending));
         let (device_exit_tx, device_exit) = mpsc::channel::<()>();
@@ -406,7 +416,69 @@ impl<S: Sink> Engine<S> {
         if self.take_headset {
             let _ = self.shared.device_tx.send(DeviceMsg::HoldHeadset(true));
         }
+        if self.shared.pause_when_idle
+            && let Err(error) = self.run_stream()
+        {
+            // Hand the sink back: the recording never received audio.
+            let error = self.shared.fail(error);
+            let sink = match self.collect() {
+                Ok(stopped) => Some(stopped.sink),
+                Err(_) => None,
+            };
+            if self.take_headset {
+                let _ = self.shared.device_tx.send(DeviceMsg::HoldHeadset(false));
+            }
+            *self.shared.recording_since.lock().unwrap() = None;
+            *slot = Slot::Idle;
+            return match sink {
+                Some(sink) => Err(StartError { error, sink }),
+                // The sink is lost with the delivery thread; the recorder has
+                // failed, so the caller reopens either way.
+                None => {
+                    log::error!("the prepared stream did not start and its sink was lost: {error}");
+                    Ok(())
+                }
+            };
+        }
         Ok(())
+    }
+
+    /// Starts the prepared stream on the device thread and waits for it.
+    fn run_stream(&self) -> Result<(), Error> {
+        let started = Instant::now();
+        let (reply_tx, reply_rx) = mpsc::channel();
+        if self
+            .shared
+            .device_tx
+            .send(DeviceMsg::SetRunning(true, Some(reply_tx)))
+            .is_err()
+        {
+            return Err(self
+                .shared
+                .error(ErrorKind::Processing)
+                .with_detail("the device thread exited"));
+        }
+        let result = match reply_rx.recv_timeout(self.timeouts.open) {
+            Ok(result) => result,
+            Err(mpsc::RecvTimeoutError::Timeout) => Err(self
+                .shared
+                .error(ErrorKind::OpenTimedOut)
+                .with_detail(format!(
+                    "the prepared stream did not start within {:.1} s",
+                    self.timeouts.open.as_secs_f64()
+                ))),
+            Err(mpsc::RecvTimeoutError::Disconnected) => {
+                Err(self.shared.failure().unwrap_or_else(|| {
+                    self.shared
+                        .error(ErrorKind::Processing)
+                        .with_detail("the device thread exited")
+                }))
+            }
+        };
+        if result.is_ok() {
+            log::debug!("prepared stream started in {:?}", started.elapsed());
+        }
+        result
     }
 
     pub fn stop(&self) -> Result<Stopped<S>, Error> {
@@ -426,6 +498,13 @@ impl<S: Sink> Engine<S> {
         let result = self.collect();
         if self.take_headset {
             let _ = self.shared.device_tx.send(DeviceMsg::HoldHeadset(false));
+        }
+        if self.shared.pause_when_idle {
+            // After the recording's last block: stop the input unit again.
+            let _ = self
+                .shared
+                .device_tx
+                .send(DeviceMsg::SetRunning(false, None));
         }
         *self.shared.recording_since.lock().unwrap() = None;
         *self.slot.lock().unwrap() = Slot::Idle;
@@ -723,11 +802,20 @@ fn open_stream(
     };
 
     let started = Instant::now();
+    let run = !config.pause_when_idle;
     let stream = device
-        .start(Box::new(data), Box::new(error))
+        .start(Box::new(data), Box::new(error), run)
         .map_err(|e| open_error(e, Some(&info)))?;
     let _ = shared.started_at.set(Instant::now());
-    log::debug!("stream built and started in {:?}", started.elapsed());
+    shared.running.store(run, Ordering::Release);
+    if run {
+        log::debug!("stream built and started in {:?}", started.elapsed());
+    } else {
+        log::debug!(
+            "stream built in {:?}; it runs only while recording",
+            started.elapsed()
+        );
+    }
 
     let format = Format {
         sample_rate: out_rate,
@@ -819,6 +907,30 @@ fn supervise(
             Ok(DeviceMsg::HoldHeadset(hold)) => {
                 if let Some(stream) = stream.as_mut() {
                     stream.hold_headset(hold);
+                }
+            }
+            Ok(DeviceMsg::SetRunning(running, reply)) => {
+                let result = match stream.as_mut() {
+                    Some(open) => match open.set_running(running) {
+                        Ok(()) => {
+                            shared.running.store(running, Ordering::Release);
+                            Ok(())
+                        }
+                        Err(error) => Err(runtime_error(backend, shared, error)),
+                    },
+                    None => Err(shared.failure().unwrap_or_else(|| {
+                        shared
+                            .error(ErrorKind::Processing)
+                            .with_detail("the stream was released")
+                    })),
+                };
+                if let Err(error) = &result
+                    && reply.is_none()
+                {
+                    log::warn!("cannot stop the prepared stream: {error}");
+                }
+                if let Some(reply) = reply {
+                    let _ = reply.send(result);
                 }
             }
             Ok(DeviceMsg::Failed) | Err(mpsc::RecvTimeoutError::Timeout) => {}

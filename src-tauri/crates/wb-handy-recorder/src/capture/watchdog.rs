@@ -79,6 +79,12 @@ impl Watchdog {
             self.heartbeat = heartbeat;
             self.last_heartbeat_at = now;
         }
+        // A stream stopped between recordings (`pause_when_idle`) delivers
+        // nothing by design: no-audio and stall bounds count from its start.
+        if !shared.running.load(Ordering::Acquire) {
+            self.opened_at = now;
+            self.last_callback_at = now;
+        }
 
         if matches!(suspended, Suspension::DuringRecording(_)) {
             return;

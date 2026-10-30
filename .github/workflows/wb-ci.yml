@@ -123,6 +123,12 @@ jobs:
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"
         run: cargo test
 
+      # The vendored handy-recorder (DEC-53 prepared mic) is a path patch, not
+      # a workspace member, so `cargo test` above does not run its suite.
+      - name: cargo test (vendored handy-recorder)
+        working-directory: src-tauri
+        run: cargo test --manifest-path crates/wb-handy-recorder/Cargo.toml
+
       - name: cargo clippy -D warnings (fork code)
         env:
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"

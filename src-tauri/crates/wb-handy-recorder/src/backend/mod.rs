@@ -37,12 +37,14 @@ pub(crate) trait OpenDevice {
     /// The device's OS format; the library never asks for another.
     fn format(&self) -> DeviceFormat;
 
-    /// Builds and starts the stream. `data` runs on the real-time thread;
-    /// `error` may too.
+    /// Builds the stream and, when `run` is set, starts it. `data` runs on
+    /// the real-time thread; `error` may too. A stream built with `run`
+    /// unset is ready to start: [`InputStream::set_running`] starts it.
     fn start(
         self: Box<Self>,
         data: DataCallback,
         error: ErrorCallback,
+        run: bool,
     ) -> Result<Box<dyn InputStream>, BackendError>;
 }
 
@@ -57,6 +59,10 @@ pub(crate) trait InputStream {
     fn check_device(&mut self) -> Result<(), BackendError> {
         Ok(())
     }
+
+    /// Starts (`true`) or stops (`false`) a built stream without releasing
+    /// the device (`RecorderConfig::pause_when_idle`). Idempotent.
+    fn set_running(&mut self, running: bool) -> Result<(), BackendError>;
 }
 
 /// Receives each block of interleaved device samples. Called on the

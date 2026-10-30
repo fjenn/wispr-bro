@@ -27,8 +27,15 @@ struct Shared {
 
 #[derive(Default)]
 struct State {
-    /// The running stream's callbacks. `None` when no stream is running.
+    /// The built stream's callbacks. `None` when no stream is built.
     stream: Option<(DataCallback, ErrorCallback)>,
+    /// The built stream is running (always, unless built for
+    /// `pause_when_idle`). A stopped stream gets no data blocks.
+    running: bool,
+    /// Every `set_running` call, in order.
+    run_calls: Vec<bool>,
+    /// Makes the next `set_running(true)` fail with this error.
+    next_run_error: Option<BackendError>,
     next_open_error: Option<BackendError>,
     streams_started: usize,
     /// Makes the next `start` hang until the gate opens.
@@ -88,15 +95,36 @@ impl FakeBackend {
     }
 
     /// Delivers one callback block to the running stream, on this thread.
-    /// Returns false if no stream is running.
+    /// Returns false if no stream is running (none built, or built and
+    /// stopped).
     pub fn push<T: InputSample>(&self, samples: &[T]) -> bool {
-        match &mut self.shared.state.lock().unwrap().stream {
+        let mut state = self.shared.state.lock().unwrap();
+        if !state.running {
+            return false;
+        }
+        match &mut state.stream {
             Some((data, _)) => {
                 data(T::wrap(samples));
                 true
             }
             None => false,
         }
+    }
+
+    /// Whether a built stream is running.
+    pub fn is_running(&self) -> bool {
+        let state = self.shared.state.lock().unwrap();
+        state.stream.is_some() && state.running
+    }
+
+    /// Every `set_running` call so far.
+    pub fn run_calls(&self) -> Vec<bool> {
+        self.shared.state.lock().unwrap().run_calls.clone()
+    }
+
+    /// Makes the next `set_running(true)` fail with `error`.
+    pub fn fail_next_run(&self, error: BackendError) {
+        self.shared.state.lock().unwrap().next_run_error = Some(error);
     }
 
     /// Reports a stream error, as the platform's error callback would.
@@ -209,6 +237,7 @@ impl OpenDevice for FakeOpenDevice {
         self: Box<Self>,
         data: DataCallback,
         error: ErrorCallback,
+        run: bool,
     ) -> Result<Box<dyn InputStream>, BackendError> {
         let gate = self.0.shared.state.lock().unwrap().start_gate.take();
         if let Some(gate) = gate {
@@ -222,6 +251,7 @@ impl OpenDevice for FakeOpenDevice {
             ));
         }
         state.stream = Some((data, error));
+        state.running = run;
         state.streams_started += 1;
         drop(state);
         Ok(Box::new(FakeStream(self.0)))
@@ -231,6 +261,16 @@ impl OpenDevice for FakeOpenDevice {
 struct FakeStream(FakeBackend);
 
 impl InputStream for FakeStream {
+    fn set_running(&mut self, running: bool) -> Result<(), BackendError> {
+        let mut state = self.0.shared.state.lock().unwrap();
+        state.run_calls.push(running);
+        if running && let Some(error) = state.next_run_error.take() {
+            return Err(error);
+        }
+        state.running = running;
+        Ok(())
+    }
+
     fn hold_headset(&mut self, hold: bool) {
         self.0.shared.state.lock().unwrap().headset_holds.push(hold);
     }
@@ -260,6 +300,8 @@ impl Drop for FakeStream {
         if let Some(gate) = gate {
             gate.wait();
         }
-        self.0.shared.state.lock().unwrap().stream = None;
+        let mut state = self.0.shared.state.lock().unwrap();
+        state.stream = None;
+        state.running = false;
     }
 }
