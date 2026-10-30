@@ -72,14 +72,14 @@ from `events.jsonl`; the summary is also written on Ctrl+C).
 
 `src/ax/` is the S-05 prototype of `fork/ax/` (R5 §4.6):
 
-| File | What | Origin |
-|---|---|---|
-| `element.rs` | AX call wrappers, app/bundle helpers, Secure Input | SpeakoFlow `smart_spacing/macos.rs` (MIT, port) + additions |
-| `thread.rs` | one AX thread; jobs with a budget; leases restored on expiry, exit and Ctrl+C | SpeakoFlow worker pattern (MIT), generalised |
-| `lease.rs` | `AXManualAccessibility` per-PID refcount, restore-previous, retry back-off, 60 s hold | VoiceInk `AccessibilityWebAccess` (GPL-3.0, port) + SpeakoFlow hold |
-| `editable.rs` | `is_editable` verdict + delivery (paste / fail-open paste / card / refuse) | OpenWhispr `isEditableTextElement` (MIT, port) + VoiceInk checks + R5 fail-open rule |
-| `markers.rs` | selected text via `AXSelectedTextMarkerRange` / `AXStringForTextMarkerRange` | VoiceInk (GPL-3.0, port) |
-| `probe.rs` | one timed full read per focus event | ours |
+| File          | What                                                                                  | Origin                                                                               |
+| ------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `element.rs`  | AX call wrappers, app/bundle helpers, Secure Input                                    | SpeakoFlow `smart_spacing/macos.rs` (MIT, port) + additions                          |
+| `thread.rs`   | one AX thread; jobs with a budget; leases restored on expiry, exit and Ctrl+C         | SpeakoFlow worker pattern (MIT), generalised                                         |
+| `lease.rs`    | `AXManualAccessibility` per-PID refcount, restore-previous, retry back-off, 60 s hold | VoiceInk `AccessibilityWebAccess` (GPL-3.0, port) + SpeakoFlow hold                  |
+| `editable.rs` | `is_editable` verdict + delivery (paste / fail-open paste / card / refuse)            | OpenWhispr `isEditableTextElement` (MIT, port) + VoiceInk checks + R5 fail-open rule |
+| `markers.rs`  | selected text via `AXSelectedTextMarkerRange` / `AXStringForTextMarkerRange`          | VoiceInk (GPL-3.0, port)                                                             |
+| `probe.rs`    | one timed full read per focus event                                                   | ours                                                                                 |
 
 Per focus event the tool records (`events.jsonl`, one `event` line with the
 raw probes and a `scored` row): role/subrole, enabled, `AXEditable`,

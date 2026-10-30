@@ -47,18 +47,18 @@ records).
 
 ## Results against every RS-04 criterion
 
-| RS-04 criterion (R5 §7) | Unattended (agent) | Owner session |
-|---|---|---|
-| Editable verdict correct in ≥ 95 % of focused text fields (fail-open counts) | PASS: TextEdit 9/9, Safari 16/16, Chrome 14/14 | see Owner session |
-| 0 false "no text field" | PASS: 0 in all three | see Owner session |
-| Selected text readable in ≥ 90 % via the chain | PASS: TextEdit 4/4, Safari 6/6, Chrome 5/5, all by plain `AXSelectedText`, exact text each time | see Owner session |
-| URL host readable in Chrome, Arc, Brave, Edge, Safari | Readable 28/28 Safari, 26/26 Chrome, but for a `file:` page (no host). **Hosts only from the owner's tabs.** Arc, Brave, Edge not installed | Gmail 5/5 hosts; Docs 1/3; Safari tabs 30/30 |
-| p95 AX call ≤ 100 ms | PASS: p95 0.12 ms TextEdit, 0.39 ms Safari, 0.11 ms Chrome (max 30 ms); whole read p95 6-23 ms | see Owner session |
-| ≥ 20 focus events per app | TextEdit 9, Safari 28, Chrome 26 | 2-6 per app by design (see Coverage) |
-| With and without the `AXManualAccessibility` lease | Chrome: identical (attribute unsupported). Electron: see below | no change in any app; Electron mostly reports no focused element |
-| Latency at 0.1 and 0.25 s timeouts | No call came near either timeout; 0.1 s never changed an answer | see Owner session |
-| `frontmostApplication` vs `AXFocusedApplication` freshness | AX call failed every time (see above); NSWorkspace 40-59 ms after `open -a` | see Owner session |
-| `AXSelectedText` set | TextEdit 4/4 worked and put back; Safari 0/3, Chrome 0/2 (success reported, nothing changed) | see Owner session |
+| RS-04 criterion (R5 §7)                                                      | Unattended (agent)                                                                                                                          | Owner session                                                    |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Editable verdict correct in ≥ 95 % of focused text fields (fail-open counts) | PASS: TextEdit 9/9, Safari 16/16, Chrome 14/14                                                                                              | see Owner session                                                |
+| 0 false "no text field"                                                      | PASS: 0 in all three                                                                                                                        | see Owner session                                                |
+| Selected text readable in ≥ 90 % via the chain                               | PASS: TextEdit 4/4, Safari 6/6, Chrome 5/5, all by plain `AXSelectedText`, exact text each time                                             | see Owner session                                                |
+| URL host readable in Chrome, Arc, Brave, Edge, Safari                        | Readable 28/28 Safari, 26/26 Chrome, but for a `file:` page (no host). **Hosts only from the owner's tabs.** Arc, Brave, Edge not installed | Gmail 5/5 hosts; Docs 1/3; Safari tabs 30/30                     |
+| p95 AX call ≤ 100 ms                                                         | PASS: p95 0.12 ms TextEdit, 0.39 ms Safari, 0.11 ms Chrome (max 30 ms); whole read p95 6-23 ms                                              | see Owner session                                                |
+| ≥ 20 focus events per app                                                    | TextEdit 9, Safari 28, Chrome 26                                                                                                            | 2-6 per app by design (see Coverage)                             |
+| With and without the `AXManualAccessibility` lease                           | Chrome: identical (attribute unsupported). Electron: see below                                                                              | no change in any app; Electron mostly reports no focused element |
+| Latency at 0.1 and 0.25 s timeouts                                           | No call came near either timeout; 0.1 s never changed an answer                                                                             | see Owner session                                                |
+| `frontmostApplication` vs `AXFocusedApplication` freshness                   | AX call failed every time (see above); NSWorkspace 40-59 ms after `open -a`                                                                 | see Owner session                                                |
+| `AXSelectedText` set                                                         | TextEdit 4/4 worked and put back; Safari 0/3, Chrome 0/2 (success reported, nothing changed)                                                | see Owner session                                                |
 
 ### Unattended runs
 
