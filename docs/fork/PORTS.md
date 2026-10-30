@@ -17,6 +17,10 @@ AGPL-3.0-only` and never in a Handy file.
 | `src-tauri/crates/wb-spike-clipboard/src/clip/carbon.rs`            | [anomalyco/hex](https://github.com/anomalyco/hex)                         | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | `src/paste.rs` (`capture_clipboard`, `restore_clipboard`)                                                                    | MIT (© 2026 Christopher Langton)                  | RS-05 (spike, not shipped)   |
 | `src-tauri/src/fork/clipboard/target.rs`                            | [anomalyco/hex](https://github.com/anomalyco/hex)                         | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | `src/paste.rs` (`chromium_major_versions`)                                                                                   | MIT (© 2026 Christopher Langton)                  | RS-05, shipped by S-04       |
 | `src-tauri/src/fork/clipboard/keys.rs`                              | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | hex `src/keyboard.rs`, `crates/capture/src/capture/macos.rs` (`wait_for_modifiers_released`); Handy `src-tauri/src/input.rs` | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05, shipped by S-04       |
+| `src-tauri/crates/wb-spike-clipboard/src/clip/target.rs`            | [anomalyco/hex](https://github.com/anomalyco/hex)                         | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | `src/paste.rs` (`chromium_major_versions`)                                                                                   | MIT (© 2026 Christopher Langton)                  | RS-05 (spike, not shipped)   |
+| `src-tauri/crates/wb-spike-clipboard/src/clip/keys.rs`              | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | hex `src/keyboard.rs`, `crates/capture/src/capture/macos.rs` (`wait_for_modifiers_released`); Handy `src-tauri/src/input.rs` | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05 (spike, not shipped)   |
+| `src-tauri/crates/wb-spike-pill/src/pill.rs`                        | [kozliq/Tolkovo](https://github.com/kozliq/Tolkovo)                       | `ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35`                   | `src-tauri/src/tolkovo/pill.rs` (panel set-up, `prevent_activation`, Space observer)                                         | MIT (© 2025 CJ Pais; © 2026 kozliq)              | RS-03 (spike; S-03 lifts it) |
+| `src-tauri/crates/wb-spike-pill/tools/vdisplay.m`                   | [Stengo/DeskPad](https://github.com/Stengo/DeskPad)                       | `c3349f0e237e000cb4826fb3ea1cdd1c44949461`                   | `DeskPad/CGVirtualDisplayPrivate.h` (declarations only)                                                                      | MIT (© 2022 Bastian Andelefski)                   | RS-03 (spike, not shipped)   |
 
 ## Notes per port
 
@@ -78,3 +82,12 @@ AGPL-3.0-only` and never in a Handy file.
   modifier-release poll. Changed: decisions returned instead of acting
   inline, string errors, injectable clock and flag source, fn added to the
   modifier set, deadlines per target (R5 W-07).
+
+### `crates/wb-spike-pill/` (RS-03 spike)
+
+- `pill.rs` follows Tolkovo's panel set-up and copies its
+  `_setPreventsActivation:` call (behind `respondsToSelector:`); RS-03 found
+  the call is not needed, so S-03 lifts the set-up without it.
+- `tools/vdisplay.m` re-declares DeskPad's interface for Apple's private
+  `CGVirtualDisplay` classes to add a test display; it is a test helper and
+  is never built into the app, so neither row is in `NOTICE` yet.

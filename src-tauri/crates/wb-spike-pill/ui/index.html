@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- RS-03 test pill: a stand-in for the S-03 Flow Bar, not product UI. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: transparent;
+        overflow: hidden;
+        font:
+          12px -apple-system,
+          sans-serif;
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: default;
+      }
+      #tip {
+        position: absolute;
+        left: 30px;
+        top: 4px;
+        width: 140px;
+        height: 22px;
+        line-height: 22px;
+        border-radius: 6px;
+        background: #222;
+        color: #fff;
+        text-align: center;
+        visibility: hidden;
+      }
+      #tip.on {
+        visibility: visible;
+      }
+      #pill {
+        position: absolute;
+        left: 0;
+        top: 32px;
+        width: 200px;
+        height: 40px;
+        border-radius: 20px;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      button {
+        width: 36px;
+        height: 36px;
+        margin: 2px;
+        border-radius: 18px;
+        border: 0;
+        background: #444;
+        color: #fff;
+        font-size: 16px;
+      }
+      #wave {
+        flex: 1;
+        height: 24px;
+        margin: 0 6px;
+        background: #ff00ff;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        justify-content: center;
+      }
+      .bar {
+        width: 3px;
+        background: #00ff00;
+        height: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tip">Hold fn to dictate</div>
+    <div id="pill">
+      <button id="cancel">✕</button>
+      <div id="wave"></div>
+      <button id="done">✓</button>
+    </div>
+    <script>
+      const inv = (cmd, args) => window.__TAURI__.core.invoke(cmd, args);
+      const ev = (kind, detail) =>
+        inv("pill_event", { kind, detail: detail || "" });
+      const wave = document.getElementById("wave");
+      const bars = [];
+      for (let i = 0; i < 16; i++) {
+        const b = document.createElement("div");
+        b.className = "bar";
+        wave.appendChild(b);
+        bars.push(b);
+      }
+      document
+        .getElementById("cancel")
+        .addEventListener("click", () => ev("click", "cancel"));
+      document
+        .getElementById("done")
+        .addEventListener("click", () => ev("click", "done"));
+      document
+        .getElementById("pill")
+        .addEventListener("mouseenter", () => ev("css_enter"));
+      const tip = document.getElementById("tip");
+      window.__TAURI__.event.listen("pill-hover", (e) => {
+        if (e.payload) {
+          tip.classList.add("on");
+          // Report once the tooltip has been painted (two frames).
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => ev("tip_painted")),
+          );
+        } else {
+          tip.classList.remove("on");
+        }
+      });
+      window.__TAURI__.event.listen("pill-levels", (e) => {
+        const lv = e.payload;
+        for (let i = 0; i < bars.length; i++)
+          bars[i].style.height = 2 + Math.round((lv[i] || 0) * 20) + "px";
+      });
+      window.__TAURI__.event.listen("pill-state", (e) => {
+        document.getElementById("pill").dataset.state = e.payload;
+      });
+      ev("loaded");
+    </script>
+  </body>
+</html>
