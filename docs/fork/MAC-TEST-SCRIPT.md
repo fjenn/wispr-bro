@@ -107,9 +107,9 @@ Slices: F-01, F-02, S-29a, S-29b, S-39.
 
 Slices: S-01, S-02, RS-01, RS-14.
 
-- [ ] A2.1 Grammar table: hold, tap, double-tap, fn+Space, Esc (with and without fn held). TODO (S-01)
-- [ ] A2.2 Fallback profile Ctrl+Opt on an external non-Apple keyboard. TODO (S-01)
-- [ ] A2.3 Chords: 100 fn+arrow / fn+F-key / fn+Delete keep their native function, 0 starts, orange mic indicator never shown. TODO (S-01)
+- [ ] A2.1 Grammar table: hold, tap, double-tap, fn+Space, Esc (with and without fn held). Procedure: Part B S-01 steps 3, 5, 6, with real keys.
+- [ ] A2.2 Fallback profile Ctrl+Opt on an external non-Apple keyboard. Procedure: Part B S-01 step 7, with real keys.
+- [ ] A2.3 Chords: 100 fn+arrow / fn+F-key / fn+Delete keep their native function, 0 insertions; fluent chords never show the orange indicator. Procedure: Part B S-01 step 4, with real keys.
 - [ ] A2.4 Secure Input cases (RS-14: Safari password field, Terminal Secure Keyboard Entry, iTerm2). TODO (S-02)
 - [ ] A2.5 Sleep/wake ×10: hotkey works within 2 s of wake. TODO (S-02)
 - [ ] A2.6 Revoke and re-grant Accessibility while running: told within 2 s, back within 5 s without relaunch. TODO (S-02)
@@ -244,14 +244,76 @@ filled by the slice; "Machines" defaults to M1-8 and M-26 unless stated.
 
 ### S-01 Hotkey engine
 
-- [ ] S-01.1 RS-01 and RS-14 outcomes applied.
+- [ ] S-01.1 RS-01 and RS-14 outcomes applied: with "Press 🌐 key to" = Do
+      Nothing the status (`fork_hotkey_status`) says `fn_blocked: false`; with
+      Start Dictation it says `true` (re-read when a take ends).
 - [ ] S-01.2 20 push-to-talk takes, 20 double-tap locks, 20 fn+Space locks.
-- [ ] S-01.3 100 fn+arrow / fn+F-key / fn+Delete chords: 0 starts, native function kept, orange mic indicator never shown (A-45).
-- [ ] S-01.4 50 quick taps with no indicator.
-- [ ] S-01.5 Esc with fn held cancels.
-- [ ] S-01.6 External keyboard with Ctrl+Opt.
-- [ ] S-01.7 Under Secure Input: fn hold and double-tap work.
-- Procedure: TODO (S-01). Machines: M1-8, M-15, M-26.
+- [ ] S-01.3 100 fn chords (fn+arrows = Home/End/PgUp/PgDn, fn+Delete, fn+F-keys):
+      0 insertions, the key reaches the app (native function), 50 typed fluently
+      (key within 150 ms: no take, mic never runs) and 50 with fn held first
+      (take dropped, never pasted, DEC-54).
+- [ ] S-01.4 50 quick taps (< 150 ms): no take, mic never runs.
+- [ ] S-01.5 Esc with fn held cancels; Esc while transcribing cancels; idle
+      Esc reaches the app.
+- [ ] S-01.6 Ctrl+Opt fallback on an external non-Apple keyboard.
+- [ ] S-01.7 Under Secure Input (Terminal Secure Keyboard Entry, a Safari
+      password field): fn hold and double-tap work.
+- [ ] S-01.8 fn-down → capture running: p50 ≤ 250 ms, p95 ≤ 350 ms (§5.1).
+- [ ] S-01.9 Idle: the app never runs the microphone (no orange dot) while
+      no take is active, also right after a take.
+- [ ] S-01.10 Text lands in TextEdit after a push-to-talk take.
+- [ ] S-01.11 `--toggle-transcription` and `--cancel` on a running instance
+      still start/stop and cancel.
+
+Procedure (automated where it can be; a person repeats S-01.3, S-01.6 and
+S-01.7 with real keys on each reference Mac):
+
+1. Build the product app (`bun run wb:build -- --bundles app`) and start
+   its binary from a Terminal that has Accessibility and Microphone access
+   (`"…/Wispr Bro.app/Contents/MacOS/handy" --debug`), so the log has the
+   trace lines. The log says `fork hotkeys: tap running (trigger Some("fn"),
+Globe …, fn blocked …)` and `fork audio: microphone prepared`.
+2. Driver: `swiftc -O scripts/wb-s01-keys.swift -o /tmp/wbkeys`. It posts
+   synthetic fn / key events (CGEvent, fn = flagsChanged keycode 63 with the
+   SecondaryFn flag) and reads per-process microphone use
+   (`WB_MIC_PID=<app pid>`; other apps may hold the mic). Synthetic events
+   do not trigger the Globe action (RS-01 covers that with real keys) and a
+   real fn chord arrives as Home/End/PageUp/PageDown/Forward Delete with the
+   fn flag, so post those keys (`key home` while fn is down).
+   `WB_LISTEN=1` reports which key-downs got past the app's tap.
+3. S-01.2: `fn down; waitmic on 1000; wait 1000; fn up; waitmic off 1500`
+   ×20; double-tap `fn down; wait 80; fn up; wait 200; fn down; wait 60; fn
+up; wait 1200; fn down; wait 70; fn up` ×20; fn+Space `fn down; wait N;
+key space; wait 100; fn up; wait 1000; fn down; wait 70; fn up` ×20. In
+   the log each gives `External command Start, Stop` / `Start, Lock, Stop`.
+4. S-01.3: `fn down; wait 40-100; key <home|end|pageup|pagedown|
+forwarddelete|f1…f12>; wait 80; fn up; watchmic 400` ×50 and the same
+   with `wait 600-1300` ×50, with `WB_LISTEN=1`: the key code is in
+   `passed_keycodes`; fluent → no `External command`, held → `Start,
+Cancel`. Text check: TextEdit "hello", Cmd+Up, fn+Forward Delete →
+   "ello" in both timings.
+5. S-01.4: `fn down; wait 50-140; fn up; watchmic 700` ×50 → `mic_ran`
+   false, no command.
+6. S-01.5: `fn down; waitmic on 1000; wait 400-1200; key escape; wait 200;
+fn up` → `Start, Cancel`.
+7. S-01.6: switch the profile (`fork_use_hotkey_profile(true)`, or set
+   `hotkeys.dictate` to `ctrl+option` hold and `hotkeys.hands_free` to
+   `ctrl+option` double-tap + `ctrl+option+space` in `fork-settings.json`
+   and relaunch); `mods down ctrl,option; … ; mods up option; mods up ctrl`.
+8. S-01.7: turn on Terminal > Secure Keyboard Entry (or focus a Safari
+   password field), check `ioreg -l -w 0 | grep kCGSSessionSecureInputPID`,
+   repeat the hold and double-tap; turn it off again. Do not post Space or
+   Esc while Terminal is frontmost.
+9. S-01.8: pair each `fork hotkeys: modifiers Fn down=true (unix_us …)`
+   with the following `first audio of the recording drained … (unix_us …)`
+   in the log (release build).
+10. S-01.10: TextEdit frontmost, `say` a sentence during a 4 s hold; the
+    text appears.
+11. S-01.11: run the binary again with `--toggle-transcription` (twice) and
+    with `--cancel` while recording.
+
+Machines: M1-8, M-15, M-26. Results of the first run (M5 Max, macOS
+26.6.2, synthetic events) are in R5 under S-01 "As built".
 
 ### S-02 Hotkey self-healing, permission health, Secure Input
 
