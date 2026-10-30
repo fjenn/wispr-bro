@@ -1,0 +1,380 @@
+{
+  "about": "RS-13 ITN corpus (R5 §7 RS-13, RT-39). Written for this project. Each sentence is the spoken text a user would dictate; [words|category|digits] marks one number expression: the number words as spoken, its category, and the digits a written form must contain (separators ignored). Synthesised with macOS say; see docs/fork/spikes/RS-13-itn.md.",
+  "voices": {
+    "en": ["Samantha", "Eddy (English (US))"],
+    "fr": ["Thomas", "Eddy (French (France))"],
+    "nl": ["Xander", "Ellen"]
+  },
+  "owner": {
+    "about": "Number expressions in the RS-09 reading script (READING-SCRIPT.md in eval/asr), marked the same way, to score the owner's own RS-09 recordings (results under ~/wb-bench/results/rs09, never committed). Keys are RS-09 clip ids.",
+    "items": {
+      "en-sentences-01": "Hey Sarah, can we move tomorrow's meeting to [three thirty|time|330]?",
+      "en-sentences-03": "Please order [twelve|cardinal|12] boxes of paper and two black ink cartridges.",
+      "en-sentences-04": "The flight leaves on the [fourteenth|date|14] of March at [seven forty five|time|745] in the morning.",
+      "en-sentences-07": "The new laptop costs about [eighteen hundred|money|1800] euros including tax.",
+      "en-sentences-09": "I'm running about [ten|cardinal|10] minutes late, sorry, the train got stuck outside Utrecht.",
+      "en-sentences-11": "The quarterly revenue grew by roughly [seven|percent|7] percent compared to last year.",
+      "nl-sentences-01": "Hoi Thomas, kunnen we de afspraak van morgen verzetten naar [half vier|time|330]?",
+      "nl-sentences-03": "Wil je [twaalf|cardinal|12] dozen papier en twee zwarte inktpatronen bestellen?",
+      "nl-sentences-04": "De vlucht vertrekt op [veertien maart|date|14] om [kwart voor acht|time|745] 's ochtends.",
+      "nl-sentences-06": "De nieuwe laptop kost ongeveer [achttienhonderd|money|1800] euro inclusief btw.",
+      "nl-sentences-08": "Ik ben een minuut of [tien|cardinal|10] later, sorry, de trein stond stil bij Utrecht.",
+      "nl-sentences-10": "De omzet is dit kwartaal met ongeveer [zeven|percent|7] procent gegroeid.",
+      "fr-sentences-01": "Salut Claire, est-ce qu'on peut déplacer la réunion de demain à [quinze heures trente|time|1530] ?",
+      "fr-sentences-03": "Peux-tu commander [douze|cardinal|12] boîtes de papier et deux cartouches d'encre noire ?",
+      "fr-sentences-04": "Le vol part le [quatorze mars|date|14] à [sept heures quarante-cinq|time|745] du matin.",
+      "fr-sentences-06": "Le nouvel ordinateur coûte environ [mille huit cents|money|1800] euros TTC.",
+      "fr-sentences-08": "J'ai à peu près [dix|cardinal|10] minutes de retard, désolé, le train est bloqué avant Bruxelles.",
+      "fr-sentences-10": "Le chiffre d'affaires a augmenté d'environ [sept|percent|7] pour cent ce trimestre."
+    }
+  },
+  "items": [
+    {
+      "id": "en-01",
+      "lang": "en",
+      "say": "The workshop has [forty two|cardinal|42] people signed up so far."
+    },
+    {
+      "id": "en-02",
+      "lang": "en",
+      "say": "Can you send me [two hundred fifty|money|250] dollars by Friday?"
+    },
+    {
+      "id": "en-03",
+      "lang": "en",
+      "say": "The invoice total is [one thousand three hundred and twenty|money|1320] euros."
+    },
+    {
+      "id": "en-04",
+      "lang": "en",
+      "say": "My flight lands at [six fifteen|time|615] pm on Thursday."
+    },
+    {
+      "id": "en-05",
+      "lang": "en",
+      "say": "Let's meet at [nine thirty|time|930] tomorrow morning."
+    },
+    {
+      "id": "en-06",
+      "lang": "en",
+      "say": "The deadline for the proposal is [March twenty first|date|21]."
+    },
+    {
+      "id": "en-07",
+      "lang": "en",
+      "say": "She was born on [July fourth nineteen ninety two|date|41992]."
+    },
+    {
+      "id": "en-08",
+      "lang": "en",
+      "say": "The package weighs [three point five|measure|35] kilograms."
+    },
+    {
+      "id": "en-09",
+      "lang": "en",
+      "say": "Drive another [twelve|measure|12] miles and then turn left."
+    },
+    {
+      "id": "en-10",
+      "lang": "en",
+      "say": "Sales are up [eighteen|percent|18] percent this quarter."
+    },
+    {
+      "id": "en-11",
+      "lang": "en",
+      "say": "Conversion dropped by [two point four|percent|24] percent last week."
+    },
+    {
+      "id": "en-12",
+      "lang": "en",
+      "say": "Our new office is on the [twenty third|ordinal|23] floor."
+    },
+    {
+      "id": "en-13",
+      "lang": "en",
+      "say": "He celebrates his [thirty first|ordinal|31] birthday on Saturday."
+    },
+    {
+      "id": "en-14",
+      "lang": "en",
+      "say": "Call me back at [five five five, two one three, four four seven nine|digits|5552134479]."
+    },
+    {
+      "id": "en-15",
+      "lang": "en",
+      "say": "The order number is [eight four seven three nine|digits|84739]."
+    },
+    {
+      "id": "en-16",
+      "lang": "en",
+      "say": "We need [fifteen hundred|cardinal|1500] units by the end of [twenty twenty six|year|2026]."
+    },
+    {
+      "id": "en-17",
+      "lang": "en",
+      "say": "The apartment is about [nine hundred|measure|900] square feet."
+    },
+    {
+      "id": "en-18",
+      "lang": "en",
+      "say": "Preheat the oven to [three hundred fifty|measure|350] degrees."
+    },
+    {
+      "id": "en-19",
+      "lang": "en",
+      "say": "The report covers [twenty twenty three|year|2023] and [twenty twenty four|year|2024]."
+    },
+    {
+      "id": "en-20",
+      "lang": "en",
+      "say": "The ticket costs [nineteen|money|19] dollars and [ninety nine|money|99] cents."
+    },
+    {
+      "id": "en-21",
+      "lang": "en",
+      "say": "Version [three point two|cardinal|32] ships on [October ninth|date|9]."
+    },
+    {
+      "id": "en-22",
+      "lang": "en",
+      "say": "About [sixty five thousand|cardinal|65000] people visited the site last month."
+    },
+    {
+      "id": "en-23",
+      "lang": "en",
+      "say": "The train leaves at [eleven forty five|time|1145] and arrives at [two ten|time|210]."
+    },
+
+    {
+      "id": "fr-01",
+      "lang": "fr",
+      "say": "L'atelier compte déjà [quarante-deux|cardinal|42] inscrits."
+    },
+    {
+      "id": "fr-02",
+      "lang": "fr",
+      "say": "Peux-tu m'envoyer [deux cent cinquante|money|250] euros avant vendredi ?"
+    },
+    {
+      "id": "fr-03",
+      "lang": "fr",
+      "say": "Le total de la facture est de [mille trois cent vingt|money|1320] euros."
+    },
+    {
+      "id": "fr-04",
+      "lang": "fr",
+      "say": "Mon vol atterrit à [dix-huit heures quinze|time|1815] jeudi."
+    },
+    {
+      "id": "fr-05",
+      "lang": "fr",
+      "say": "Retrouvons-nous à [neuf heures trente|time|930] demain matin."
+    },
+    {
+      "id": "fr-06",
+      "lang": "fr",
+      "say": "La date limite du projet est le [vingt et un mars|date|21]."
+    },
+    {
+      "id": "fr-07",
+      "lang": "fr",
+      "say": "Elle est née le [quatre juillet mille neuf cent quatre-vingt-douze|date|41992]."
+    },
+    {
+      "id": "fr-08",
+      "lang": "fr",
+      "say": "Le colis pèse [trois virgule cinq|measure|35] kilos."
+    },
+    {
+      "id": "fr-09",
+      "lang": "fr",
+      "say": "Continue encore [douze|measure|12] kilomètres puis tourne à gauche."
+    },
+    {
+      "id": "fr-10",
+      "lang": "fr",
+      "say": "Les ventes ont augmenté de [dix-huit|percent|18] pour cent ce trimestre."
+    },
+    {
+      "id": "fr-11",
+      "lang": "fr",
+      "say": "Le taux a baissé de [deux virgule quatre|percent|24] pour cent la semaine dernière."
+    },
+    {
+      "id": "fr-12",
+      "lang": "fr",
+      "say": "Notre nouveau bureau est au [vingt-troisième|ordinal|23] étage."
+    },
+    {
+      "id": "fr-13",
+      "lang": "fr",
+      "say": "Il fête son [trente et unième|ordinal|31] anniversaire samedi."
+    },
+    {
+      "id": "fr-14",
+      "lang": "fr",
+      "say": "Rappelle-moi au [zéro six, douze, trente-quatre, cinquante-six, soixante-dix-huit|digits|0612345678]."
+    },
+    {
+      "id": "fr-15",
+      "lang": "fr",
+      "say": "Le numéro de commande est le [quatre-vingt-quatre mille sept cent trente-neuf|digits|84739]."
+    },
+    {
+      "id": "fr-16",
+      "lang": "fr",
+      "say": "Il nous faut [mille cinq cents|cardinal|1500] pièces d'ici fin [deux mille vingt-six|year|2026]."
+    },
+    {
+      "id": "fr-17",
+      "lang": "fr",
+      "say": "L'appartement fait environ [quatre-vingt-cinq|measure|85] mètres carrés."
+    },
+    {
+      "id": "fr-18",
+      "lang": "fr",
+      "say": "Préchauffe le four à [cent quatre-vingts|measure|180] degrés."
+    },
+    {
+      "id": "fr-19",
+      "lang": "fr",
+      "say": "Le rapport couvre [deux mille vingt-trois|year|2023] et [deux mille vingt-quatre|year|2024]."
+    },
+    {
+      "id": "fr-20",
+      "lang": "fr",
+      "say": "Le billet coûte [dix-neuf|money|19] euros [quatre-vingt-dix-neuf|money|99]."
+    },
+    {
+      "id": "fr-21",
+      "lang": "fr",
+      "say": "La version [trois point deux|cardinal|32] sort le [neuf octobre|date|9]."
+    },
+    {
+      "id": "fr-22",
+      "lang": "fr",
+      "say": "Environ [soixante-cinq mille|cardinal|65000] personnes ont visité le site le mois dernier."
+    },
+    {
+      "id": "fr-23",
+      "lang": "fr",
+      "say": "Le train part à [onze heures quarante-cinq|time|1145] et arrive à [quatorze heures dix|time|1410]."
+    },
+
+    {
+      "id": "nl-01",
+      "lang": "nl",
+      "say": "Voor de workshop hebben zich al [tweeënveertig|cardinal|42] mensen aangemeld."
+    },
+    {
+      "id": "nl-02",
+      "lang": "nl",
+      "say": "Kun je me voor vrijdag [tweehonderdvijftig|money|250] euro sturen?"
+    },
+    {
+      "id": "nl-03",
+      "lang": "nl",
+      "say": "Het totaal van de factuur is [dertienhonderdtwintig|money|1320] euro."
+    },
+    {
+      "id": "nl-04",
+      "lang": "nl",
+      "say": "Mijn vlucht landt donderdag om [achttien uur vijftien|time|1815]."
+    },
+    {
+      "id": "nl-05",
+      "lang": "nl",
+      "say": "Zullen we morgenochtend om [negen uur dertig|time|930] afspreken?"
+    },
+    {
+      "id": "nl-06",
+      "lang": "nl",
+      "say": "De deadline voor het voorstel is [eenentwintig maart|date|21]."
+    },
+    {
+      "id": "nl-07",
+      "lang": "nl",
+      "say": "Ze is geboren op [vier juli negentienhonderdtweeënnegentig|date|41992]."
+    },
+    {
+      "id": "nl-08",
+      "lang": "nl",
+      "say": "Het pakket weegt [drie komma vijf|measure|35] kilo."
+    },
+    {
+      "id": "nl-09",
+      "lang": "nl",
+      "say": "Rij nog [twaalf|measure|12] kilometer door en sla dan linksaf."
+    },
+    {
+      "id": "nl-10",
+      "lang": "nl",
+      "say": "De verkoop is dit kwartaal met [achttien|percent|18] procent gestegen."
+    },
+    {
+      "id": "nl-11",
+      "lang": "nl",
+      "say": "De conversie daalde vorige week met [twee komma vier|percent|24] procent."
+    },
+    {
+      "id": "nl-12",
+      "lang": "nl",
+      "say": "Ons nieuwe kantoor zit op de [drieëntwintigste|ordinal|23] verdieping."
+    },
+    {
+      "id": "nl-13",
+      "lang": "nl",
+      "say": "Hij viert zaterdag zijn [eenendertigste|ordinal|31] verjaardag."
+    },
+    {
+      "id": "nl-14",
+      "lang": "nl",
+      "say": "Bel me terug op [nul zes, één twee, drie vier, vijf zes, zeven acht|digits|0612345678]."
+    },
+    {
+      "id": "nl-15",
+      "lang": "nl",
+      "say": "Het ordernummer is [vierentachtigduizend zevenhonderdnegenendertig|digits|84739]."
+    },
+    {
+      "id": "nl-16",
+      "lang": "nl",
+      "say": "We hebben voor eind [tweeduizend zesentwintig|year|2026] [vijftienhonderd|cardinal|1500] stuks nodig."
+    },
+    {
+      "id": "nl-17",
+      "lang": "nl",
+      "say": "Het appartement is ongeveer [vijfentachtig|measure|85] vierkante meter."
+    },
+    {
+      "id": "nl-18",
+      "lang": "nl",
+      "say": "Verwarm de oven voor op [honderdtachtig|measure|180] graden."
+    },
+    {
+      "id": "nl-19",
+      "lang": "nl",
+      "say": "Het rapport beslaat [tweeduizend drieëntwintig|year|2023] en [tweeduizend vierentwintig|year|2024]."
+    },
+    {
+      "id": "nl-20",
+      "lang": "nl",
+      "say": "Het kaartje kost [negentien|money|19] euro [negenennegentig|money|99]."
+    },
+    {
+      "id": "nl-21",
+      "lang": "nl",
+      "say": "Versie [drie punt twee|cardinal|32] komt uit op [negen oktober|date|9]."
+    },
+    {
+      "id": "nl-22",
+      "lang": "nl",
+      "say": "Vorige maand bezochten ongeveer [vijfenzestigduizend|cardinal|65000] mensen de site."
+    },
+    {
+      "id": "nl-23",
+      "lang": "nl",
+      "say": "De trein vertrekt om [elf uur vijfenveertig|time|1145] en komt aan om [veertien uur tien|time|1410]."
+    }
+  ]
+}
