@@ -44,6 +44,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key == "update_checks_enabled" {
         mirror_update_checks(&app, next.update_checks_enabled);
     }
+    if key == "hotkey" {
+        crate::fork::shortcut::reload(&app);
+    }
 
     let event = ForkSettingsChanged {
         key,

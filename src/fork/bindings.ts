@@ -76,6 +76,31 @@ async forkCspSmokeMedia() : Promise<Result<ForkCspMedia, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * The hotkey engine's state, the bindings with layout-aware labels and the
+ * bindings that could not be registered. Synchronous, so Tauri runs it on
+ * the main thread, where the keyboard layout can be read.
+ */
+async forkHotkeyStatus() : Promise<Result<HotkeyStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_hotkey_status") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Switches the dictation bindings to the default fn profile (`fallback`
+ * false) or to the Ctrl+Opt fallback for keyboards without fn (true).
+ */
+async forkUseHotkeyProfile(fallback: boolean) : Promise<Result<HotkeyStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_use_hotkey_profile", { fallback }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -88,6 +113,11 @@ forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged
 }>({
 forkInsertOutcome: "fork-insert-outcome",
+forkHotkeyEvent: ForkHotkeyEvent,
+forkPingEvent: ForkPingEvent,
+forkSettingsChanged: ForkSettingsChanged
+}>({
+forkHotkeyEvent: "fork-hotkey-event",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed"
 })
@@ -102,6 +132,10 @@ forkSettingsChanged: "fork-settings-changed"
  * Where the resting bar sits (bottom by default, top in Advanced).
  */
 export type BarPosition = "bottom" | "top"
+/**
+ * One binding with its label, for the hotkeys UI.
+ */
+export type BindingLabel = { action: string; chord: string; activation: HotkeyActivation; label: Label }
 /**
  * LLM cleanup level (DEC-03: Light by default).
  */
@@ -152,6 +186,24 @@ export type ForkInsertOutcome = {
  * Delivery counter since launch.
  */
 take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
+ * A hotkey decision, for listeners (the pill from S-03, the debug panel).
+ */
+export type ForkHotkeyEvent = { 
+/**
+ * `take_started`, `locked`, `stopped`, `cancelled`, `chord`, `warning`,
+ * `action`, `stuck_released`.
+ */
+kind: string; 
+/**
+ * The detail: how it locked/stopped, why it cancelled, the warning
+ * kind, the action id.
+ */
+detail: string | null; 
+/**
+ * For `chord`: the take ran ≥ `T` and its transcript should be kept
+ * for History (DEC-54).
+ */
+keep: boolean }
 /**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
@@ -325,6 +377,59 @@ export type HotkeyActivation =
  * `+` (`fn`, `fn+space`, `ctrl+option`, `escape`, `ctrl+command+v`).
  */
 export type HotkeyBinding = { chord: string; activation: HotkeyActivation }
+/**
+ * What `fork_hotkey_status` returns.
+ */
+export type HotkeyStatus = { 
+/**
+ * The fork tap is running.
+ */
+running: boolean; 
+/**
+ * Why it is not (no Accessibility permission, …).
+ */
+error: string | null; 
+/**
+ * `fn`, `ctrl+option`, or `None` when no trigger is bound.
+ */
+trigger: string | null; 
+/**
+ * The Globe setting as last read: `do_nothing`, `input_source`,
+ * `emoji`, `dictation`, `default`.
+ */
+globe: string; 
+/**
+ * `{FN}` is in the blocking set.
+ */
+fn_blocked: boolean; issues: Issue[]; bindings: BindingLabel[] }
+/**
+ * A problem with one binding. The binding is skipped; the rest still run.
+ */
+export type Issue = 
+/**
+ * The chord does not parse.
+ */
+{ kind: "invalid"; action: string; chord: string } | 
+/**
+ * Two actions claim the same chord in ways that cannot both work.
+ */
+{ kind: "conflict"; action: string; other: string; chord: string } | 
+/**
+ * Valid, but not something this build can run (see the module doc).
+ */
+{ kind: "unsupported"; action: string; chord: string; reason: string }
+/**
+ * A chord's label.
+ */
+export type Label = { 
+/**
+ * Shown text: modifier glyphs then the key ("⌃⌘V", "fn Space").
+ */
+text: string; 
+/**
+ * For screen readers ("Control Command V").
+ */
+spoken: string }
 /**
  * Which notifications are shown (DEC-21). All on by default.
  */

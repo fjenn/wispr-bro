@@ -21,6 +21,7 @@
 //! managers being in state.
 
 pub mod clipboard;
+pub mod audio;
 pub mod commands;
 pub mod db;
 pub mod diagnostics;
@@ -32,6 +33,7 @@ pub mod llm;
 pub mod models;
 pub mod net;
 pub mod settings;
+pub mod shortcut;
 #[cfg(test)]
 mod testutil;
 pub mod tray;
@@ -298,6 +300,14 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         log::info!("fork: HF_HOME under the app data dir: {under}");
     }
 
+    // S-01: the fork's hotkey engine and the prepared microphone (product
+    // builds only; plain Handy builds keep Handy's hotkeys, see
+    // `shortcut::owns`).
+    if is_product_build() {
+        audio::enable_prepared(app);
+        shortcut::start(app);
+    }
+
     state.mark_ready();
     log::info!(
         "fork ready ({} v{}, locale {locale})",
@@ -324,11 +334,14 @@ macro_rules! fork_specta_builder {
                 commands::settings::fork_get_settings::<$runtime>,
                 commands::settings::fork_set_setting::<$runtime>,
                 commands::csp::fork_csp_smoke_media::<$runtime>,
+                commands::hotkeys::fork_hotkey_status::<$runtime>,
+                commands::hotkeys::fork_use_hotkey_profile::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
                 events::ForkSettingsChanged,
-                events::ForkInsertOutcome
+                events::ForkInsertOutcome,
+                shortcut::ForkHotkeyEvent
             ])
     };
 }

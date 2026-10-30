@@ -32,10 +32,15 @@ src-tauri/src/settings.rs 7                 # F-08: default_log_level → `crate
 src-tauri/src/llm_client.rs 3               # F-08: create_client builder → `crate::fork::llm::client_builder(provider, headers)?` (DEC-04 loopback only, neutral headers)
 src-tauri/src/catalog/mod.rs 2              # F-08: `.filter_map(|base| crate::fork::net::mirror_base(base))` in mirror_files (DEC-16); `#[ignore]` on every_offered_model_has_mirror_fallbacks_with_hashes
 src-tauri/src/managers/model.rs 5           # F-08: ModelSource::Url → `crate::fork::net::checked_download_url(url)?` (4 after rustfmt, DEC-16); `#[ignore]` on test_every_retired_model_has_a_downloadable_replacement
+src-tauri/src/shortcut/handy_keys.rs 6      # S-01: `if crate::fork::shortcut::owns(&binding.id) { return Ok(()); }` first in HandyKeysState::register and ::unregister (3 lines each after rustfmt); every handy-keys path, startup included, goes through them
+src-tauri/src/shortcut/tauri_impl.rs 6      # S-01: the same `owns()` line first in register_shortcut and unregister_shortcut (Tauri backend, its startup and the secure-input Carbon shadows)
+src-tauri/src/transcription_coordinator.rs 237 # S-01 (separate MIT-clean commit): `ExternalCommand` + `external_command()` + `is_busy()` for the fork's own grammar, ~90 lines of code and 6 unit tests that need the private state machine
+src-tauri/src/managers/audio.rs 4           # S-01 / DEC-53: `microphone_config` result passes through `crate::fork::audio::recorder_config(…)` (prepared mic)
+src-tauri/src/overlay.rs 1                  # S-01: `crate::fork::audio::on_levels(app_handle, levels);` first in emit_levels, before the overlay gate (hands-free silence timer; S-03 extends it for the pill)
 
 # Manifests (DEC-48 version line; fork dependency blocks)
-src-tauri/Cargo.toml 7                      # F-01: `version = "1.0.0-alpha.1"` (2); F-05: `# fork: … (begin)/(end)` dev-dependency block (tauri `test`, 4); F-08: removed unused `rdev` (1)
-package.json 36                             # F-01: version line (2); F-05/F-01/F-03/F-10/F-09: `wb:*` scripts (F-03 guard block between `//fork:guards` keys; F-10 `wb:test:ui`, `wb:eval:cleanup`; F-09 `wb:sync:dryrun`) (26); F-08: removed unused `@tauri-apps/plugin-sql` (1); S-13: `wb:fonts` (1), Radix dropdown-menu/popover/tabs (3), dev @axe-core/playwright and the two @fontsource-variable font sources (3); npm has no comment keys inside dependency maps, so fork packages are listed here and in docs/fork/ARCHITECTURE.md
+src-tauri/Cargo.toml 9                      # F-01: `version = "1.0.0-alpha.1"` (2); F-05: `# fork: … (begin)/(end)` dev-dependency block (tauri `test`, 4); F-08: removed unused `rdev` (1); S-01: `[patch.crates-io] handy-recorder` → crates/wb-handy-recorder with its `# fork:` comment (2)
+package.json 36                             # F-01: version line (2); F-05/F-01/F-03/F-10/F-09: `wb:*` scripts (F-03 guard block between `//fork:guards` keys; F-10 `wb:test:ui`, `wb:eval:cleanup`; F-09 `wb:sync:dryrun`) (26); F-08: removed unused `@tauri-apps/plugin-sql` (1)
 
 # Generated lockfiles (lock mode: must follow the manifest above)
 src-tauri/Cargo.lock lock                   # F-01: `handy` version line; F-08: `rdev` and its now-unused transitive packages removed

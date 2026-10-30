@@ -400,12 +400,12 @@ fn microphone_config(
     channel: Option<u16>,
     frames_per_chunk: usize,
 ) -> RecorderConfig {
-    RecorderConfig {
+    crate::fork::audio::recorder_config(RecorderConfig {
         device,
         channels: channel.map_or(Channels::MixToMono, Channels::Only),
         frames_per_chunk: Some(frames_per_chunk),
         ..RecorderConfig::speech()
-    }
+    })
 }
 
 fn open_microphone(config: RecorderConfig) -> Result<OpenMicrophone, handy_recorder::Error> {

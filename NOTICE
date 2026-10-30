@@ -88,6 +88,41 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026 (injectable modifier wait, fn
   in the modifier set, Return for auto-submit, tests).
 
+- src-tauri/crates/wb-handy-recorder/ (vendored crate)
+  Source: handy-recorder 0.1.0, https://github.com/handy-computer/handy-recorder
+  Commit: 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1 (crates/handy-recorder)
+  Copyright (c) 2026 handy-computer
+  Licence: MIT (the crate keeps its LICENSE file)
+  Modified by Wispr Bro contributors, 2026 (prepared microphone:
+  RecorderConfig::pause_when_idle, S-01 / DEC-53).
+
+- src-tauri/src/fork/shortcut/tests/ported.rs (test vectors only)
+  Hotkey state-machine test cases re-expressed for Wispr Bro's grammar;
+  no upstream code is copied. Sources:
+  anarlog, https://github.com/fastrepl/anarlog
+    a82755f4604fc30c9c89fe3e97f4195988d8ca46, crates/shortcut-macos/tests/processor.rs
+    Copyright (c) 2023-present Fastrepl, Inc. Licence: MIT
+  MacParakeet, https://github.com/moona3k/macparakeet
+    a388b7d449c722875f24e26df35acecf881dd35e, Tests/MacParakeetTests/Hotkey/
+    FnKeyStateMachineTests.swift, HotkeyGestureControllerTests.swift
+    Copyright (C) 2026 Daniel Moon. Licence: GPL-3.0
+  FluidVoice, https://github.com/altic-dev/FluidVoice
+    ea94c8a6736d453c764a2431503832b3fb134911,
+    Tests/FluidDictationIntegrationTests/HotkeyShortcutTests.swift
+    FluidVoice contributors. Licence: GPL-3.0
+  OpenWhispr, https://github.com/OpenWhispr/openwhispr
+    b9e9ebefac4b961456c269164a93ddfdd53438b9, resources/macos-globe-listener.swift,
+    main.js (FN_INTERRUPTED). Copyright (c) 2024 OpenWhispr Team. Licence: MIT
+  hex, https://github.com/anomalyco/hex
+    ed8c18e9a172a8a781a6999683085622897f0e83, src/keyboard.rs, src/suppression.rs
+    Copyright (c) 2026 Christopher Langton. Licence: MIT
+  Hex (legacy), https://github.com/kitlangton/Hex
+    3e300721b8784ea19ede0359d8fbcca94cfb6a04,
+    HexCore/Tests/HexCoreTests/HotKeyProcessorTests.swift
+    Copyright (c) 2025 Kit Langton. Licence: MIT
+  Modified by Wispr Bro contributors, 2026-10-30 (timings T=500 ms,
+  T_show=150 ms; expectations follow R5 S-01 where they differ).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

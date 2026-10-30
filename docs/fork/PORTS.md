@@ -7,6 +7,7 @@ original copyright line plus a "Modified by Wispr Bro contributors, <date>"
 notice. AGPL ports live in files marked `SPDX-License-Identifier:
 AGPL-3.0-only` and never in a Handy file.
 
+<<<<<<< HEAD
 | Our file                                                            | Source repo                                                               | Commit                                                       | Source file(s)                                                                                                               | Licence                                            | Slice                        |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------- |
 | `src-tauri/src/fork/diagnostics/sanitizer.rs`                       | [voquill/voquill](https://github.com/voquill/voquill)                     | `a5dfbe0e3a35807271293a0ef02c91902abc0104`                   | `apps/desktop/src-tauri/src/utils/log_sanitizer.rs`                                                                          | AGPL-3.0 (© 2025-present Voquill, Inc.)           | F-08                         |
@@ -21,6 +22,20 @@ AGPL-3.0-only` and never in a Handy file.
 | `src-tauri/crates/wb-spike-clipboard/src/clip/keys.rs`              | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | hex `src/keyboard.rs`, `crates/capture/src/capture/macos.rs` (`wait_for_modifiers_released`); Handy `src-tauri/src/input.rs` | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05 (spike, not shipped)   |
 | `src-tauri/crates/wb-spike-pill/src/pill.rs`                        | [kozliq/Tolkovo](https://github.com/kozliq/Tolkovo)                       | `ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35`                   | `src-tauri/src/tolkovo/pill.rs` (panel set-up, `prevent_activation`, Space observer)                                         | MIT (© 2025 CJ Pais; © 2026 kozliq)              | RS-03 (spike; S-03 lifts it) |
 | `src-tauri/crates/wb-spike-pill/tools/vdisplay.m`                   | [Stengo/DeskPad](https://github.com/Stengo/DeskPad)                       | `c3349f0e237e000cb4826fb3ea1cdd1c44949461`                   | `DeskPad/CGVirtualDisplayPrivate.h` (declarations only)                                                                      | MIT (© 2022 Bastian Andelefski)                   | RS-03 (spike, not shipped)   |
+=======
+| Our file                                                                    | Source repo                                                                                                                                                                                                                                                                                                                                                        | Commit                                                                 | Source file(s)                                                                                                               | Licence                                                                | Slice                        |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------- |
+| `src-tauri/src/fork/diagnostics/sanitizer.rs`                               | [voquill/voquill](https://github.com/voquill/voquill)                                                                                                                                                                                                                                                                                                              | `a5dfbe0e3a35807271293a0ef02c91902abc0104`                             | `apps/desktop/src-tauri/src/utils/log_sanitizer.rs`                                                                          | AGPL-3.0 (© 2025-present Voquill, Inc.)                               | F-08                         |
+| `src-tauri/crates/wb-spike-ax/src/ax/element.rs`                            | [AbhishekBarali/SpeakoFlow](https://github.com/AbhishekBarali/SpeakoFlow)                                                                                                                                                                                                                                                                                          | `9818a17fcd124e5f1ea6d34780ddea9b154322d8`                             | `src-tauri/src/smart_spacing/macos.rs`                                                                                       | MIT (© 2026 Abhishek Barali)                                          | RS-04 (spike; S-05 lifts it) |
+| `src-tauri/crates/wb-spike-ax/src/ax/editable.rs`                           | [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr)                                                                                                                                                                                                                                                                                                  | `b9e9ebefac4b961456c269164a93ddfdd53438b9`                             | `resources/macos-text-monitor.swift` (`isEditableTextElement`)                                                               | MIT (© 2024 OpenWhispr Team)                                          | RS-04 (spike; S-05 lifts it) |
+| `src-tauri/crates/wb-spike-ax/src/ax/lease.rs`, `.../ax/markers.rs`         | [Beingpax/VoiceInk](https://github.com/Beingpax/VoiceInk)                                                                                                                                                                                                                                                                                                          | `19546d2a7f85578f49efb538eb888b37ff2f8f8c`                             | `VoiceInk/Infrastructure/SystemIntegration/Accessibility/AccessibilityTextReader.swift`                                      | GPL-3.0 (© the VoiceInk authors)                                      | RS-04 (spike; S-05 lifts it) |
+| `src-tauri/crates/wb-spike-clipboard/src/clip/restore.rs`                   | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                                                                                                                                                                                                                                                                                                          | `3607595d92345af4be9f0eaa86ae3750c8851e39` (hex, branch dev)           | hex `src/paste.rs` (`ClipboardRestore`); Handy `src-tauri/src/paste_tx/mod.rs` (`evaluate`)                                  | MIT (© 2026 Christopher Langton; © 2025 CJ Pais)                     | RS-05 (spike, not shipped)   |
+| `src-tauri/crates/wb-spike-clipboard/src/clip/carbon.rs`                    | [anomalyco/hex](https://github.com/anomalyco/hex)                                                                                                                                                                                                                                                                                                                  | `3607595d92345af4be9f0eaa86ae3750c8851e39`                             | `src/paste.rs` (`capture_clipboard`, `restore_clipboard`)                                                                    | MIT (© 2026 Christopher Langton)                                      | RS-05 (spike, not shipped)   |
+| `src-tauri/crates/wb-spike-clipboard/src/clip/target.rs`                    | [anomalyco/hex](https://github.com/anomalyco/hex)                                                                                                                                                                                                                                                                                                                  | `3607595d92345af4be9f0eaa86ae3750c8851e39`                             | `src/paste.rs` (`chromium_major_versions`)                                                                                   | MIT (© 2026 Christopher Langton)                                      | RS-05 (spike, not shipped)   |
+| `src-tauri/crates/wb-spike-clipboard/src/clip/keys.rs`                      | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                                                                                                                                                                                                                                                                                                          | `3607595d92345af4be9f0eaa86ae3750c8851e39`                             | hex `src/keyboard.rs`, `crates/capture/src/capture/macos.rs` (`wait_for_modifiers_released`); Handy `src-tauri/src/input.rs` | MIT (© 2026 Christopher Langton; © 2025 CJ Pais)                     | RS-05 (spike, not shipped)   |
+| `src-tauri/crates/wb-handy-recorder/` (vendored crate, `[patch.crates-io]`) | [handy-computer/handy-recorder](https://github.com/handy-computer/handy-recorder)                                                                                                                                                                                                                                                                                  | `1d975fe8c10f9a69d778cf16955c7e0699b4b8e1`                             | `crates/handy-recorder` (0.1.0 from crates.io)                                                                               | MIT (© 2026 handy-computer)                                           | S-01                         |
+| `src-tauri/src/fork/shortcut/tests/ported.rs` (test vectors only)           | [fastrepl/anarlog](https://github.com/fastrepl/anarlog), [moona3k/macparakeet](https://github.com/moona3k/macparakeet), [altic-dev/FluidVoice](https://github.com/altic-dev/FluidVoice), [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr), [anomalyco/hex](https://github.com/anomalyco/hex), [kitlangton/Hex](https://github.com/kitlangton/Hex) | `a82755f4`, `a388b7d4`, `ea94c8a6`, `b9e9ebef`, `ed8c18e9`, `3e300721` | see notes                                                                                                                    | MIT (anarlog, OpenWhispr, hex, Hex); GPL-3.0 (MacParakeet, FluidVoice) | S-01                         |
+>>>>>>> 6ed45c04 (feat(fork): S-01 hotkey engine, fn grammar on the fork's own tap)
 
 ## Notes per port
 
@@ -83,6 +98,7 @@ AGPL-3.0-only` and never in a Handy file.
   inline, string errors, injectable clock and flag source, fn added to the
   modifier set, deadlines per target (R5 W-07).
 
+<<<<<<< HEAD
 ### `crates/wb-spike-pill/` (RS-03 spike)
 
 - `pill.rs` follows Tolkovo's panel set-up and copies its
@@ -91,3 +107,37 @@ AGPL-3.0-only` and never in a Handy file.
 - `tools/vdisplay.m` re-declares DeskPad's interface for Apple's private
   `CGVirtualDisplay` classes to add a test display; it is a test helper and
   is never built into the app, so neither row is in `NOTICE` yet.
+=======
+### `crates/wb-handy-recorder` (S-01, DEC-53)
+
+- Vendored unchanged first (commit "vendor handy-recorder 0.1.0
+  unchanged"), with an SPDX/copyright header added to each file; the next
+  commit adds `RecorderConfig::pause_when_idle`: the input stream is built
+  and initialised at `open` but only runs between `start` and `stop`
+  (`InputStream::set_running`, a `SetRunning` device message, a watchdog
+  that does not count a stopped stream as silent, queued audio dropped at a
+  prepared start), six tests over the crate's fake backend, and a
+  first-audio wall-clock stamp in the debug log for the §5.1 latency check.
+- Upstream-bound (MIT). The app uses it through `[patch.crates-io]` in
+  `src-tauri/Cargo.toml`; CI runs the crate's own suite.
+
+### `fork/shortcut/tests/ported.rs` (S-01)
+
+- Only input sequences and expected outcomes are taken; no upstream code.
+  66 vectors: anarlog 19 (`crates/shortcut-macos/tests/processor.rs`; the
+  semantics from `src/processor.rs`, `src/decision.rs`; `enterprise/` not
+  read), MacParakeet 20 (`FnKeyStateMachineTests.swift`,
+  `HotkeyGestureControllerTests.swift`), FluidVoice 11
+  (`HotkeyShortcutTests.swift`, the `ModifierOnlyShortcutFlagsDecision`
+  cases), OpenWhispr 8 (from the `FN_INTERRUPTED` code, no upstream tests),
+  hex 7 (`src/keyboard.rs` chord breaker, `src/suppression.rs` tests), Hex
+  legacy 1 (`HotKeyProcessorTests.swift`).
+- Each vector is re-timed to T = 500 ms / T_show = 150 ms; where upstream
+  expects something else (300 ms double-tap window, keys after a threshold
+  that keep recording, a 5 s undo window), the expectation follows R5 S-01
+  and a `DIVERGES:` comment says how.
+- `fork/shortcut/processor.rs` itself is Wispr Bro's own grammar from the
+  RS-01 spike, written to the anarlog / Hex `HotKeyProcessor` behaviour
+  (credited, nothing copied). `fork/shortcut/labels.rs` repeats the
+  `UCKeyTranslate` technique of Handy's `input.rs` (MIT, private there).
+>>>>>>> 6ed45c04 (feat(fork): S-01 hotkey engine, fn grammar on the fork's own tap)
