@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! A clipboard snapshot as data: every `NSPasteboardItem` with every type it
 //! carries and that type's bytes, in pasteboard order (R5 §4 W-07). Pure: no
-//! AppKit here, so S-04 can lift it into `fork/clipboard/snapshot.rs` and its
-//! fake-pasteboard tests (`fork/testutil.rs` `PasteboardItem` has the same
-//! shape: `Vec<(uti, bytes)>`).
+//! AppKit here, so the fake-pasteboard tests use it directly
+//! ([`super::PasteboardItem`] is [`Item`]). Written for the RS-05 spike and
+//! lifted unchanged in behaviour by S-04.
 //!
 //! Also here: the skip policy (Wispr's documented rule: file contents, PDF,
 //! RTFD and audio are not restored, R3 §clipboard), the byte-level comparison
-//! RS-05 judges restores with, and a small binary format for the owner's
-//! clipboard backup file.
+//! RS-05 and the S-04 soak judge restores with, and a small binary format for
+//! a clipboard backup file (the test tools keep the owner's clipboard in one
+//! while they run).
 
 use serde::Serialize;
 
@@ -40,6 +41,20 @@ impl Item {
                 })
                 .collect(),
         }
+    }
+
+    /// One plain-text item (`public.utf8-plain-text`).
+    pub fn text(s: &str) -> Item {
+        Item::default().with(super::markers::TEXT, s.as_bytes())
+    }
+
+    /// Adds a type (builder style, for tests and sources).
+    pub fn with(mut self, uti: &str, data: &[u8]) -> Item {
+        self.flavors.push(Flavor {
+            uti: uti.to_string(),
+            data: data.to_vec(),
+        });
+        self
     }
 
     pub fn get(&self, uti: &str) -> Option<&[u8]> {

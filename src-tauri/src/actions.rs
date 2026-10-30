@@ -2,6 +2,7 @@
 use crate::apple_intelligence;
 use crate::audio_feedback::{play_feedback_sound, play_feedback_sound_blocking, SoundType};
 use crate::audio_toolkit::VadPolicy;
+use crate::fork::insert;
 use crate::managers::audio::{recording_error_type, AudioRecordingManager};
 use crate::managers::history::HistoryManager;
 use crate::managers::model::ModelManager;
@@ -828,7 +829,7 @@ impl ShortcutAction for TranscribeAction {
                                         }
 
                                         let outcome =
-                                            match utils::paste(final_text, ah_clone.clone()) {
+                                            match insert::deliver(final_text, ah_clone.clone()) {
                                                 Ok(()) => {
                                                     debug!(
                                                         "Text pasted successfully in {:?}",

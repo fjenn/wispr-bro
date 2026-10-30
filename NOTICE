@@ -57,6 +57,37 @@ Details per port: docs/fork/PORTS.md.
   Licence: AGPL-3.0 (this file: AGPL-3.0-only)
   Modified by Wispr Bro contributors, 2026 (added rules and tests).
 
+- src-tauri/src/fork/clipboard/restore.rs
+  Source: hex, https://github.com/anomalyco/hex (branch dev)
+  Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
+  File:   src/paste.rs (ClipboardRestore)
+  Copyright (c) 2026 Christopher Langton
+  and Handy, src-tauri/src/paste_tx/mod.rs (evaluate)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-hex.txt, LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (decisions returned instead of
+  acted on, per-target deadlines, tests).
+
+- src-tauri/src/fork/clipboard/target.rs
+  Source: hex, https://github.com/anomalyco/hex (branch dev)
+  Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
+  File:   src/paste.rs (chromium_major_versions)
+  Copyright (c) 2026 Christopher Langton
+  Licence: MIT (LICENSES/MIT-hex.txt)
+  Modified by Wispr Bro contributors, 2026 (Electron detection, target
+  class, tests).
+
+- src-tauri/src/fork/clipboard/keys.rs
+  Source: hex, https://github.com/anomalyco/hex (branch dev)
+  Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
+  Files:  src/keyboard.rs, crates/capture/src/capture/macos.rs
+  Copyright (c) 2026 Christopher Langton
+  and Handy, src-tauri/src/input.rs (layout-aware ⌘V key code)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-hex.txt, LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (injectable modifier wait, fn
+  in the modifier set, Return for auto-submit, tests).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

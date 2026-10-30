@@ -26,7 +26,7 @@
 src-tauri/src/lib.rs 8                      # F-05: `pub mod fork;`, `.plugin(fork::init())`, `.invoke_handler(fork::compose_invoke(invoke_handler))`; F-01: log file_name → fork::FILE_PREFIX (×2)
 src-tauri/src/main.rs 1                     # F-05: `handy_app_lib::fork::early_init();` (F-08 fills it, no new line)
 src-tauri/src/tray.rs 4                     # F-01: `fork::tray::extend(…)` in build_menu; `fork::tray::icon_path` first statement in get_icon_path (3 lines after rustfmt)
-src-tauri/src/actions.rs 3                  # F-01: recording WAV name → `crate::fork::recording_file_name(…)` (2 lines after rustfmt)
+src-tauri/src/actions.rs 6                  # F-01: recording WAV name → `crate::fork::recording_file_name(…)` (2 lines after rustfmt); S-04: `use crate::fork::insert;` + `insert::deliver(…)` in place of `utils::paste(…)` (3)
 src-tauri/src/managers/transcription_jobs.rs 2 # F-01: file-job WAV name → `crate::fork::file_job_name(…)`
 src-tauri/src/settings.rs 7                 # F-08: default_log_level → `crate::fork::diagnostics::default_log_level()` (2); `#[allow(unreachable_code)]` + `return crate::fork::llm::default_providers();` in default_post_process_providers (2, DEC-04); settings dump → `crate::fork::diagnostics::settings_summary(&settings)` (2); `#[ignore]` on post_process_defaults_sync_builtin_api_format_but_keep_custom (1)
 src-tauri/src/llm_client.rs 3               # F-08: create_client builder → `crate::fork::llm::client_builder(provider, headers)?` (DEC-04 loopback only, neutral headers)

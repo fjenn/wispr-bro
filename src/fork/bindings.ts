@@ -83,9 +83,11 @@ async forkCspSmokeMedia() : Promise<Result<ForkCspMedia, ForkError>> {
 
 
 export const events = __makeEvents__<{
+forkInsertOutcome: ForkInsertOutcome,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged
 }>({
+forkInsertOutcome: "fork-insert-outcome",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed"
 })
@@ -104,6 +106,10 @@ export type BarPosition = "bottom" | "top"
  * LLM cleanup level (DEC-03: Light by default).
  */
 export type CleanupLevel = "none" | "light" | "medium"
+/**
+ * Why a take went to the card (`fork.json` > `insert.cardReason.*`).
+ */
+export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed"
 /**
  * Reply of [`fork_csp_smoke_media`].
  */
@@ -138,6 +144,15 @@ export type ForkError =
  */
 { kind: "Internal"; message: string }
 /**
+ * Emitted once per delivered take. A card carries the text, so the pill can
+ * show it with Copy (S-05); a pasted take does not.
+ */
+export type ForkInsertOutcome = { 
+/**
+ * Delivery counter since launch.
+ */
+take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
+/**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
 export type ForkModelStatus = { 
@@ -149,6 +164,12 @@ known_models: number;
  * Ids of the models that are downloaded, in Handy's order.
  */
 downloaded_model_ids: string[] }
+/**
+ * What one take's delivery ended in (`fork::insert`, S-04): the take's
+ * `paste_outcome` (R5 §4.3). `outcome` is `None` for a take cancelled
+ * before the paste.
+ */
+export type ForkPasteOutcome = "confirmed" | "unverified" | "card" | "refused" | "queued"
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT AND GPL-3.0-or-later
 // Copyright (c) 2026 Christopher Langton (hex: Chromium version detection)
-// Modified by Wispr Bro contributors, 2026-10-30.
+// Modified by Wispr Bro contributors, 2026-10-30 (RS-05 spike; lifted into
+// fork/clipboard by S-04 the same day).
 //
 // `chromium_major_versions`, `chromium_major_version` and the 155..=156 range
 // are ported from hex `src/paste.rs` (anomalyco/hex on GitHub, branch dev,

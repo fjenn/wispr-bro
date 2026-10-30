@@ -7,9 +7,10 @@
 //! The transcript is written as one item: the three markers as eager empty
 //! data and the text as a lazy promise (`setDataProvider:forTypes:`), so the
 //! provider callback is the read receipt (Handy's reliable paste does the
-//! same with `declareTypes:owner:`). Callbacks arrive on the main run loop:
-//! everything here runs on the main thread, and waits pump the run loop
-//! (`crate::macos::pump`).
+//! same with `declareTypes:owner:`). Callbacks arrive on the main run loop,
+//! so the main thread must stay free while a paste waits: in the app the
+//! paste runs on its own thread (`fork::insert`), in the RS-05 / S-04 tools
+//! the waits pump the run loop. Written for RS-05, lifted by S-04.
 
 use objc2::rc::Retained;
 use objc2::runtime::ProtocolObject;
@@ -129,7 +130,7 @@ define_class!(
     // SAFETY: NSObject has no subclassing requirements; the ivars are plain
     // Rust values behind a Mutex.
     #[unsafe(super(NSObject))]
-    #[name = "WbRs05TranscriptProvider"]
+    #[name = "WispBroTranscriptProvider"]
     #[ivars = ProviderIvars]
     pub struct TranscriptProvider;
 
@@ -160,11 +161,19 @@ define_class!(
 );
 
 /// Our transcript on the clipboard. Keep it alive until the restore.
+///
+/// `Send`: the provider is an `NSObject` whose only state is behind an
+/// `Arc<Mutex<…>>`; retain and release are thread-safe, and AppKit calls it
+/// on the main thread whichever thread holds it.
 pub struct Published {
     pub change_count: i64,
     pub state: Arc<Mutex<ProviderState>>,
     _provider: Option<Retained<TranscriptProvider>>,
 }
+
+// SAFETY: see the type's doc comment. The provider is never messaged from
+// Rust after construction; only AppKit calls it, on the main thread.
+unsafe impl Send for Published {}
 
 impl Published {
     pub fn reads(&self) -> Vec<Instant> {
@@ -218,4 +227,21 @@ pub fn publish_transcript(text: &str, lazy: bool) -> Result<Published, String> {
         state,
         _provider: provider,
     })
+}
+
+/// Replaces the clipboard with `text` as plain text and no markers, so
+/// clipboard managers do record it (Handy's "copy to clipboard" setting:
+/// the user asked for the transcript to stay). Returns the change count.
+pub fn write_plain_text(text: &str) -> Result<i64, String> {
+    let pb = general();
+    let item = NSPasteboardItem::new();
+    if !item.setString_forType(
+        &NSString::from_str(text),
+        &NSString::from_str(markers::TEXT),
+    ) {
+        return Err("could not set the text".into());
+    }
+    pb.clearContents();
+    write_items(&pb, &[item])?;
+    Ok(pb.changeCount() as i64)
 }

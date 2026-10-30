@@ -11,6 +11,7 @@
 //!   `get_icon_path` (F-01).
 //! - `lib.rs` log target, `actions.rs` and `managers/transcription_jobs.rs`
 //!   WAV names: [`FILE_PREFIX`] (F-01).
+//! - `actions.rs` paste: [`insert::deliver`] in place of `utils::paste` (S-04).
 //!
 //! Init order (tauri 2.11.5, see `docs/fork/ARCHITECTURE.md` for line refs):
 //! plugins initialize inside `Builder::build()`, so the plugin `setup` below
@@ -19,12 +20,14 @@
 //! right after Handy's closure returns, so [`on_ready`] can rely on Handy's
 //! managers being in state.
 
+pub mod clipboard;
 pub mod commands;
 pub mod db;
 pub mod diagnostics;
 pub mod events;
 pub mod hub;
 pub mod i18n;
+pub mod insert;
 pub mod llm;
 pub mod models;
 pub mod net;
@@ -276,6 +279,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // F-07: fork settings, ENFORCED and FIRST_RUN_DEFAULTS (every start).
     settings::on_ready(app);
+    // S-04: session observers and recording phases for delivery.
+    insert::on_ready(app);
 
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
@@ -322,7 +327,8 @@ macro_rules! fork_specta_builder {
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
-                events::ForkSettingsChanged
+                events::ForkSettingsChanged,
+                events::ForkInsertOutcome
             ])
     };
 }

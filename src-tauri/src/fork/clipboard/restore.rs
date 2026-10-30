@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT AND GPL-3.0-or-later
 // Copyright (c) 2026 Christopher Langton (hex: `ClipboardRestore`)
 // Copyright (c) 2025 CJ Pais (Handy: `paste_tx::evaluate`)
-// Modified by Wispr Bro contributors, 2026-10-30.
+// Modified by Wispr Bro contributors, 2026-10-30 (RS-05 spike; lifted
+// into fork/clipboard by S-04 the same day, plus `is_current`).
 //
 // The restore guard is ported from hex `src/paste.rs` (`ClipboardRestore`
 // and the restore closure of `paste_through_clipboard`), anomalyco/hex on
@@ -25,7 +26,7 @@ use super::snapshot::Snapshot;
 // The guard (hex `ClipboardRestore`)
 
 /// Holds the user's clipboard across one or more back-to-back pastes.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct RestoreGuard {
     generation: u64,
     original: Option<Snapshot>,
@@ -57,6 +58,15 @@ impl RestoreDecision {
 }
 
 impl RestoreGuard {
+    /// An empty guard (usable in a `static`).
+    pub const fn new() -> RestoreGuard {
+        RestoreGuard {
+            generation: 0,
+            original: None,
+            last_change_count: None,
+        }
+    }
+
     /// Records a paste. `previous` is the clipboard just before our write
     /// (`previous_change_count`), `inserted_change_count` the count after it.
     /// If the clipboard still holds our previous transcript (its count is the
@@ -93,6 +103,13 @@ impl RestoreGuard {
         };
         self.last_change_count = None;
         RestoreDecision::Restore(previous)
+    }
+
+    /// Whether `generation` is still the latest paste (a newer one takes
+    /// over the restore; the waiter of an older one can stop early).
+    #[cfg_attr(not(test), allow(dead_code))] // used by fork::insert, not the spike
+    pub fn is_current(&self, generation: u64) -> bool {
+        self.generation == generation
     }
 
     /// The snapshot currently held (for reports).
@@ -241,8 +258,8 @@ pub fn evaluate(state: &TxState, timing: &Timing, class: TargetClass, now: Insta
 
 #[cfg(test)]
 mod tests {
+    use super::super::snapshot::Item;
     use super::*;
-    use crate::clip::snapshot::Item;
 
     fn s(text: &str) -> Snapshot {
         Snapshot {

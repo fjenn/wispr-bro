@@ -13,10 +13,10 @@ AGPL-3.0-only` and never in a Handy file.
 | `src-tauri/crates/wb-spike-ax/src/ax/element.rs`                    | [AbhishekBarali/SpeakoFlow](https://github.com/AbhishekBarali/SpeakoFlow) | `9818a17fcd124e5f1ea6d34780ddea9b154322d8`                   | `src-tauri/src/smart_spacing/macos.rs`                                                                                       | MIT (© 2026 Abhishek Barali)                      | RS-04 (spike; S-05 lifts it) |
 | `src-tauri/crates/wb-spike-ax/src/ax/editable.rs`                   | [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr)         | `b9e9ebefac4b961456c269164a93ddfdd53438b9`                   | `resources/macos-text-monitor.swift` (`isEditableTextElement`)                                                               | MIT (© 2024 OpenWhispr Team)                      | RS-04 (spike; S-05 lifts it) |
 | `src-tauri/crates/wb-spike-ax/src/ax/lease.rs`, `.../ax/markers.rs` | [Beingpax/VoiceInk](https://github.com/Beingpax/VoiceInk)                 | `19546d2a7f85578f49efb538eb888b37ff2f8f8c`                   | `VoiceInk/Infrastructure/SystemIntegration/Accessibility/AccessibilityTextReader.swift`                                      | GPL-3.0 (© the VoiceInk authors)                  | RS-04 (spike; S-05 lifts it) |
-| `src-tauri/crates/wb-spike-clipboard/src/clip/restore.rs`           | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39` (hex, branch dev) | hex `src/paste.rs` (`ClipboardRestore`); Handy `src-tauri/src/paste_tx/mod.rs` (`evaluate`)                                  | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05 (spike, not shipped)   |
+| `src-tauri/src/fork/clipboard/restore.rs`                           | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39` (hex, branch dev) | hex `src/paste.rs` (`ClipboardRestore`); Handy `src-tauri/src/paste_tx/mod.rs` (`evaluate`)                                  | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05, shipped by S-04       |
 | `src-tauri/crates/wb-spike-clipboard/src/clip/carbon.rs`            | [anomalyco/hex](https://github.com/anomalyco/hex)                         | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | `src/paste.rs` (`capture_clipboard`, `restore_clipboard`)                                                                    | MIT (© 2026 Christopher Langton)                  | RS-05 (spike, not shipped)   |
-| `src-tauri/crates/wb-spike-clipboard/src/clip/target.rs`            | [anomalyco/hex](https://github.com/anomalyco/hex)                         | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | `src/paste.rs` (`chromium_major_versions`)                                                                                   | MIT (© 2026 Christopher Langton)                  | RS-05 (spike, not shipped)   |
-| `src-tauri/crates/wb-spike-clipboard/src/clip/keys.rs`              | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | hex `src/keyboard.rs`, `crates/capture/src/capture/macos.rs` (`wait_for_modifiers_released`); Handy `src-tauri/src/input.rs` | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05 (spike, not shipped)   |
+| `src-tauri/src/fork/clipboard/target.rs`                            | [anomalyco/hex](https://github.com/anomalyco/hex)                         | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | `src/paste.rs` (`chromium_major_versions`)                                                                                   | MIT (© 2026 Christopher Langton)                  | RS-05, shipped by S-04       |
+| `src-tauri/src/fork/clipboard/keys.rs`                              | [anomalyco/hex](https://github.com/anomalyco/hex) + Handy                 | `3607595d92345af4be9f0eaa86ae3750c8851e39`                   | hex `src/keyboard.rs`, `crates/capture/src/capture/macos.rs` (`wait_for_modifiers_released`); Handy `src-tauri/src/input.rs` | MIT (© 2026 Christopher Langton; © 2025 CJ Pais) | RS-05, shipped by S-04       |
 
 ## Notes per port
 
@@ -51,12 +51,21 @@ AGPL-3.0-only` and never in a Handy file.
   markers. Swift → Rust; the lease is held 60 s after the last release
   (SpeakoFlow) instead of restored at refcount 0.
 
-### `crates/wb-spike-clipboard/src/clip/` (RS-05 spike)
+### `fork/clipboard/` (RS-05 spike, lifted by S-04)
 
-- A test tool, never built into the app, so these rows are not in `NOTICE`
-  yet. When S-04 lifts the files into `src-tauri/src/fork/clipboard/`, the
-  rows move to the new paths and the hex and Handy notices go into `NOTICE`
-  §3.
+- Written in the RS-05 spike (`crates/wb-spike-clipboard/src/clip/`) and
+  moved unchanged in behaviour to `src-tauri/src/fork/clipboard/` by S-04
+  (2026-10-30); the spike now compiles the product files through `#[path]`.
+  The hex and Handy notices are in `NOTICE` §3. Only `carbon.rs` (hex's
+  Carbon capture/restore, kept for the RS-05 comparison) stays in the
+  spike crate, which is never shipped.
+- S-04 additions (ours, GPL-3.0-or-later): `RestoreGuard::new`/`is_current`,
+  `keys::post_return`, `nspb::write_plain_text`, `Item::text`/`with`.
+- Not ported: TypeWhisper `insertTextAtAndVerifyChange` and FluidVoice
+  `PasteVerifier` / `PasteDeliveryCoordinator` (R4). `fork/insert/verify.rs`
+  and the delivery slot in `fork/insert/deliver.rs` follow their behaviour
+  (compare the field before and after; one delivery at a time) and were
+  written from the RS-05 measurements; no code was taken.
 - Read from the GitHub API (`gh api repos/anomalyco/hex/contents/...`, branch
   `dev`, head `3607595d92345af4be9f0eaa86ae3750c8851e39`; `src/paste.rs` last
   changed in `a8a4645d45c294aca85eb58f99f1d40a1569ddc8`). hex's `LICENSE`:

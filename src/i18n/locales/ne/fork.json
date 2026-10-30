@@ -285,5 +285,13 @@
     "theme": {
       "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
     }
+  },
+  "insert": {
+    "cardReason": {
+      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
+      "screenLocked": "Not pasted: the screen was locked during this dictation.",
+      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
+      "pasteFailed": "Couldn't paste this text. Copy it from here instead."
+    }
   }
 }

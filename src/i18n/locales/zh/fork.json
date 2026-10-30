@@ -285,5 +285,13 @@
     "theme": {
       "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
     }
+  },
+  "insert": {
+    "cardReason": {
+      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
+      "screenLocked": "Not pasted: the screen was locked during this dictation.",
+      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
+      "pasteFailed": "Couldn't paste this text. Copy it from here instead."
+    }
   }
 }

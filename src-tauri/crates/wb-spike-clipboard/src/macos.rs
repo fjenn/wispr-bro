@@ -251,6 +251,24 @@ pub struct Focus {
 }
 
 /// What Accessibility says about `pid`'s focused field and window.
+/// The focused element's description and placeholder (S-04 soak: tell a
+/// To: field from a message field when both are AXTextField).
+pub fn focus_labels(pid: i32) -> (Option<String>, Option<String>) {
+    if !accessibility_trusted() {
+        return (None, None);
+    }
+    let app = app_element(pid);
+    let Some(el) = attr(app.0, "AXFocusedUIElement") else {
+        return (None, None);
+    };
+    (
+        attr(el.0, "AXDescription").as_ref().and_then(cf_to_string),
+        attr(el.0, "AXPlaceholderValue")
+            .as_ref()
+            .and_then(cf_to_string),
+    )
+}
+
 pub fn focus(pid: i32) -> Focus {
     if !accessibility_trusted() {
         return Focus::default();
@@ -289,7 +307,30 @@ extern "C" {
 /// Clicks once in `pid`'s focused window, `frac_y` of the way down its
 /// height and in the middle horizontally (to give a web page focus before
 /// ⌘A). Moves the pointer there.
+/// One left click at screen point (`x`, `y`) (S-04 soak cleanup).
+pub fn click_at(x: f64, y: f64) -> bool {
+    let at = CGPoint { x, y };
+    for ty in [1u32, 2] {
+        // SAFETY: 1 = left mouse down, 2 = left mouse up; posted then released.
+        unsafe {
+            let e = CGEventCreateMouseEvent(std::ptr::null(), ty, at, 0);
+            if e.is_null() {
+                return false;
+            }
+            CGEventPost(0, e);
+            CFRelease(e.cast_const());
+        }
+        pump(Duration::from_millis(60));
+    }
+    true
+}
+
 pub fn click_in_window(pid: i32, frac_y: f64) -> bool {
+    click_in_window_at(pid, 0.5, frac_y)
+}
+
+/// As `click_in_window`, `frac_x` of the way across.
+pub fn click_in_window_at(pid: i32, frac_x: f64, frac_y: f64) -> bool {
     let app = app_element(pid);
     let Some(w) = attr(app.0, "AXFocusedWindow") else {
         return false;
@@ -309,7 +350,7 @@ pub fn click_in_window(pid: i32, frac_y: f64) -> bool {
         return false;
     }
     let at = CGPoint {
-        x: p.x + s.x / 2.0,
+        x: p.x + s.x * frac_x,
         y: p.y + s.y * frac_y,
     };
     for ty in [1u32, 2] {
@@ -325,6 +366,119 @@ pub fn click_in_window(pid: i32, frac_y: f64) -> bool {
         pump(Duration::from_millis(60));
     }
     true
+}
+
+/// The titles of `pid`'s windows (S-04 soak: check nothing of ours is left).
+pub fn window_titles(pid: i32) -> Vec<String> {
+    let app = app_element(pid);
+    let Some(ws) = attr(app.0, "AXWindows") else {
+        return Vec::new();
+    };
+    let mut out = Vec::new();
+    // SAFETY: type-checked array of AX elements.
+    unsafe {
+        if CFGetTypeID(ws.0) != CFArrayGetTypeID() {
+            return out;
+        }
+        for i in 0..CFArrayGetCount(ws.0) {
+            let w = CFArrayGetValueAtIndex(ws.0, i);
+            if let Some(t) = attr(w, "AXTitle").as_ref().and_then(cf_to_string) {
+                out.push(t);
+            }
+        }
+    }
+    out
+}
+
+fn children(e: AXUIElementRef) -> Vec<Cf> {
+    let Some(kids) = attr(e, "AXChildren") else {
+        return Vec::new();
+    };
+    let mut out = Vec::new();
+    // SAFETY: type-checked array; each element is retained before the
+    // array is released.
+    unsafe {
+        if CFGetTypeID(kids.0) != CFArrayGetTypeID() {
+            return out;
+        }
+        for i in 0..CFArrayGetCount(kids.0) {
+            let k = CFArrayGetValueAtIndex(kids.0, i);
+            out.push(Cf(CFRetain(k)));
+        }
+    }
+    out
+}
+
+/// Role, title and description of the focused window's elements, depth
+/// first, up to `depth` levels (S-04 soak diagnostics).
+pub fn window_outline(pid: i32, depth: usize) -> Vec<String> {
+    fn walk(e: AXUIElementRef, level: usize, depth: usize, out: &mut Vec<String>) {
+        let s = |n: &str| attr(e, n).as_ref().and_then(cf_to_string);
+        out.push(format!(
+            "{}{} {:?} {:?}",
+            "  ".repeat(level),
+            s("AXRole").unwrap_or_default(),
+            s("AXTitle"),
+            s("AXDescription")
+        ));
+        if level < depth {
+            for k in children(e) {
+                walk(k.0, level + 1, depth, out);
+            }
+        }
+    }
+    let app = app_element(pid);
+    let mut out = Vec::new();
+    if let Some(w) = attr(app.0, "AXFocusedWindow") {
+        walk(w.0, 0, depth, &mut out);
+    }
+    out
+}
+
+/// For each window of `pid`: its title and the text of its first text area
+/// (Terminal: the scrollback). S-04 soak: find stray test text.
+pub fn window_texts(pid: i32) -> Vec<(String, String)> {
+    fn first_text(e: AXUIElementRef, level: usize) -> Option<String> {
+        let role = attr(e, "AXRole").as_ref().and_then(cf_to_string);
+        if role.as_deref() == Some("AXTextArea") {
+            return attr(e, "AXValue").as_ref().and_then(cf_to_string);
+        }
+        if level >= 6 {
+            return None;
+        }
+        children(e)
+            .into_iter()
+            .find_map(|k| first_text(k.0, level + 1))
+    }
+    let app = app_element(pid);
+    let Some(ws) = attr(app.0, "AXWindows") else {
+        return Vec::new();
+    };
+    let mut out = Vec::new();
+    // SAFETY: type-checked array of AX elements.
+    unsafe {
+        if CFGetTypeID(ws.0) != CFArrayGetTypeID() {
+            return out;
+        }
+        for i in 0..CFArrayGetCount(ws.0) {
+            let w = CFArrayGetValueAtIndex(ws.0, i);
+            let title = attr(w, "AXTitle")
+                .as_ref()
+                .and_then(cf_to_string)
+                .unwrap_or_default();
+            out.push((title, first_text(w, 0).unwrap_or_default()));
+        }
+    }
+    out
+}
+
+/// The pid of a running app with this bundle id.
+pub fn running_pid(bundle_id: &str) -> Option<i32> {
+    use objc2_app_kit::NSRunningApplication;
+    let apps = NSRunningApplication::runningApplicationsWithBundleIdentifier(&NSString::from_str(
+        bundle_id,
+    ));
+    apps.iter().next().map(|a| a.processIdentifier())
 }
 
 /// Raises the window of `pid` whose title contains `needle`.

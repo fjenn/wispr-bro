@@ -130,5 +130,9 @@
   "overrides.settings.models.untestedNote": "machine",
   "overrides.sidebar.about": "machine",
   "overrides.theme.description": "machine",
-  "overrides.whatsNew.title": "machine"
+  "overrides.whatsNew.title": "machine",
+  "insert.cardReason.sleep": "untranslated",
+  "insert.cardReason.screenLocked": "untranslated",
+  "insert.cardReason.sessionInactive": "untranslated",
+  "insert.cardReason.pasteFailed": "untranslated"
 }

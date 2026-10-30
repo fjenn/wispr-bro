@@ -26,3 +26,37 @@ pub struct ForkSettingsChanged {
     pub key: String,
     pub settings: super::settings::ForkSettings,
 }
+
+/// What one take's delivery ended in (`fork::insert`, S-04): the take's
+/// `paste_outcome` (R5 §4.3). `outcome` is `None` for a take cancelled
+/// before the paste.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "snake_case")]
+pub enum ForkPasteOutcome {
+    Confirmed,
+    Unverified,
+    Card,
+    Refused,
+    Queued,
+}
+
+/// Why a take went to the card (`fork.json` > `insert.cardReason.*`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "snake_case")]
+pub enum ForkCardReason {
+    Sleep,
+    ScreenLocked,
+    SessionInactive,
+    PasteFailed,
+}
+
+/// Emitted once per delivered take. A card carries the text, so the pill can
+/// show it with Copy (S-05); a pasted take does not.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type, tauri_specta::Event)]
+pub struct ForkInsertOutcome {
+    /// Delivery counter since launch.
+    pub take: u32,
+    pub outcome: Option<ForkPasteOutcome>,
+    pub card_reason: Option<ForkCardReason>,
+    pub text: Option<String>,
+}

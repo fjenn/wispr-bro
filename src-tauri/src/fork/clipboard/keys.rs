@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT AND GPL-3.0-or-later
 // Copyright (c) 2026 Christopher Langton (hex: key events, typing, modifier wait)
 // Copyright (c) 2025 CJ Pais (Handy: layout-aware ⌘V key code)
-// Modified by Wispr Bro contributors, 2026-10-30.
+// Modified by Wispr Bro contributors, 2026-10-30 (RS-05 spike; lifted into
+// fork/clipboard by S-04 the same day, plus `post_return`).
 //
 // Ported from hex (anomalyco/hex on GitHub, branch dev, commit
 // 3607595d92345af4be9f0eaa86ae3750c8851e39, MIT): `shortcut_event_specs`,
@@ -33,6 +34,7 @@ pub const HOTKEY_MODIFIERS: u64 =
 
 const COMMAND_KEY_CODE: u16 = 55;
 const SHIFT_KEY_CODE: u16 = 56;
+const CONTROL_KEY_CODE: u16 = 59;
 const RETURN_KEY_CODE: u16 = 36;
 /// kVK_ANSI_V, the fallback when the layout cannot be read.
 pub const ANSI_V_KEYCODE: u16 = 9;
@@ -259,6 +261,18 @@ pub fn post_command_v() -> Result<u16, String> {
 /// A plain key press (no modifiers), e.g. Escape (53).
 pub fn post_key(key_code: u16) -> Result<(), String> {
     post_specs(&[(key_code, true, 0), (key_code, false, 0)])
+}
+
+/// Return with `flags` (auto-submit after a paste: plain, ⌃ or ⌘).
+pub fn post_return(flags: u64) -> Result<(), String> {
+    let mods: Vec<(u64, u16)> = [
+        (CONTROL_FLAG, CONTROL_KEY_CODE),
+        (COMMAND_FLAG, COMMAND_KEY_CODE),
+    ]
+    .into_iter()
+    .filter(|(f, _)| flags & f != 0)
+    .collect();
+    post_specs(&shortcut_event_specs(RETURN_KEY_CODE, &mods, 1))
 }
 
 /// Types `text` as synthesized key events, never touching the clipboard.
