@@ -1,0 +1,63 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 handy-computer.
+#
+# handy-recorder 0.1.0, vendored from crates.io (upstream
+# https://github.com/handy-computer/handy-recorder, crates/handy-recorder at
+# 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1) and used by the app through
+# `[patch.crates-io]` in src-tauri/Cargo.toml.
+# Modified by Wispr Bro contributors, 2026-10-30: `RecorderConfig::pause_when_idle`
+# (DEC-53, S-01): the input unit is built and initialised at open but only
+# runs between `start` and `stop`, so an idle open recorder does not light the
+# macOS microphone indicator. Upstream-bound; MIT like the rest of the crate.
+
+[package]
+name = "handy-recorder"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "Cross-platform microphone capture: exact, ordered, framed audio on an ordinary thread."
+license = "MIT"
+repository = "https://github.com/handy-computer/handy-recorder"
+readme = "README.md"
+keywords = ["audio", "microphone", "recording", "capture", "speech"]
+categories = ["multimedia::audio"]
+
+[features]
+# A deterministic fake microphone, for bindings' own test suites (`testing`).
+# Not for applications; not covered by semver.
+test-backend = []
+
+[dependencies]
+# Sample conversion to f32. cpal 0.18 re-exports the same crate; depending on
+# it directly keeps conversion independent of the backend's cpal version.
+dasp_sample = "0.11"
+log = "0.4"
+rtrb = "0.4.0"
+# Pinned so resampled output never changes with a dependency bump.
+rubato = "=5.0.0"
+
+# Temporary fork until upstream merges https://github.com/RustAudio/cpal/pull/1387.
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+cpal = { package = "handy-cpal", version = "=0.18.2" }
+
+# The native PulseAudio host (also serves pipewire-pulse), with ALSA fallback.
+# `pulseaudio` and `futures` (the versions cpal's host uses) watch that the
+# opened source still exists; `libc` reads CLOCK_BOOTTIME.
+[target.'cfg(target_os = "linux")'.dependencies]
+cpal = { package = "handy-cpal", version = "=0.18.2", features = ["pulseaudio"] }
+futures = { version = "0.3", default-features = false, features = ["executor"] }
+libc = "0.2"
+pulseaudio = "0.3"
+
+# Microphone permission status (the privacy settings' registry values). The
+# same crate and version cpal's WASAPI host uses.
+[target.'cfg(target_os = "windows")'.dependencies]
+windows = { version = "0.62", features = ["Win32_System_Registry"] }
+
+# Microphone permission status (AVCaptureDevice authorization), and finding a
+# Bluetooth headset's output device for `take_headset` (the CoreAudio and
+# CoreFoundation bindings cpal already uses).
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2-av-foundation = { version = "0.3.2", default-features = false, features = ["std", "AVCaptureDevice", "AVMediaFormat"] }
+objc2-core-audio = { version = "0.3.2", default-features = false, features = ["std", "AudioHardware"] }
+objc2-core-foundation = { version = "0.3.2", default-features = false, features = ["std", "CFString"] }
