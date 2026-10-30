@@ -23,6 +23,7 @@ pub mod commands;
 pub mod db;
 pub mod diagnostics;
 pub mod events;
+pub mod hub;
 pub mod i18n;
 pub mod llm;
 pub mod models;
@@ -276,6 +277,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // F-07: fork settings, ENFORCED and FIRST_RUN_DEFAULTS (every start).
     settings::on_ready(app);
 
+    // S-13: Hub window size and title bar.
+    hub::on_ready(app);
+
     // F-08 / DEC-39: report (without the path) whether `early_init` put the
     // Hugging Face cache under the app data dir.
     if is_product_build() {
@@ -346,9 +350,27 @@ pub trait ForkRuntime: Runtime {
         after: settings::HandySettings,
         report: &settings::ProductReport,
     );
+
+    /// Title bar height of a window in logical pixels (S-13, `fork::hub`).
+    /// Needs the real NSWindow; other runtimes return 0.
+    fn hub_title_bar_height(window: &tauri::WebviewWindow<Self>) -> f64;
+
+    /// Hides a window's title text (macOS, S-13). No-op elsewhere.
+    fn hub_hide_title_text(window: &tauri::WebviewWindow<Self>);
 }
 
 impl ForkRuntime for tauri::Wry {
+    fn hub_title_bar_height(window: &tauri::WebviewWindow<Self>) -> f64 {
+        hub::title_bar_height(window)
+    }
+
+    fn hub_hide_title_text(window: &tauri::WebviewWindow<Self>) {
+        #[cfg(target_os = "macos")]
+        hub::hide_title_text(window);
+        #[cfg(not(target_os = "macos"))]
+        let _ = window;
+    }
+
     fn fork_specta_builder() -> Builder<Self> {
         fork_specta_builder!(tauri::Wry)
     }
@@ -373,6 +395,12 @@ impl ForkRuntime for tauri::Wry {
 
 #[cfg(test)]
 impl ForkRuntime for tauri::test::MockRuntime {
+    fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {
+        0.0
+    }
+
+    fn hub_hide_title_text(_window: &tauri::WebviewWindow<Self>) {}
+
     fn fork_specta_builder() -> Builder<Self> {
         fork_specta_builder!(tauri::test::MockRuntime)
     }

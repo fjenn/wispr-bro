@@ -35,7 +35,7 @@ src-tauri/src/managers/model.rs 5           # F-08: ModelSource::Url → `crate:
 
 # Manifests (DEC-48 version line; fork dependency blocks)
 src-tauri/Cargo.toml 7                      # F-01: `version = "1.0.0-alpha.1"` (2); F-05: `# fork: … (begin)/(end)` dev-dependency block (tauri `test`, 4); F-08: removed unused `rdev` (1)
-package.json 29                             # F-01: version line (2); F-05/F-01/F-03/F-10/F-09: `wb:*` scripts (F-03 guard block between `//fork:guards` keys; F-10 `wb:test:ui`, `wb:eval:cleanup`; F-09 `wb:sync:dryrun`) (26); F-08: removed unused `@tauri-apps/plugin-sql` (1)
+package.json 36                             # F-01: version line (2); F-05/F-01/F-03/F-10/F-09: `wb:*` scripts (F-03 guard block between `//fork:guards` keys; F-10 `wb:test:ui`, `wb:eval:cleanup`; F-09 `wb:sync:dryrun`) (26); F-08: removed unused `@tauri-apps/plugin-sql` (1); S-13: `wb:fonts` (1), Radix dropdown-menu/popover/tabs (3), dev @axe-core/playwright and the two @fontsource-variable font sources (3); npm has no comment keys inside dependency maps, so fork packages are listed here and in docs/fork/ARCHITECTURE.md
 
 # Generated lockfiles (lock mode: must follow the manifest above)
 src-tauri/Cargo.lock lock                   # F-01: `handy` version line; F-08: `rdev` and its now-unused transitive packages removed
@@ -45,6 +45,7 @@ bun.lock lock                               # F-08: `@tauri-apps/plugin-sql` rem
 
 # Frontend
 src/i18n/index.ts 2                         # F-05: `import { registerForkI18n } from "@/fork";` + `registerForkI18n(i18n);`
+src/App.tsx 42                              # S-13: `import { ForkApp } …` (1) and Handy's sidebar + section layout JSX swapped for `<ForkApp …/>` (5 added, 36 removed); the now-unused Handy helpers above it stay untouched so upstream edits still merge
 
 # Repo meta
 LICENSE sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986 # F-04: verbatim GPL-3.0 text from gnu.org (gpl-3.0.txt); Handy's MIT text moved unchanged to LICENSES/MIT-Handy.txt

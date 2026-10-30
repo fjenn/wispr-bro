@@ -60,6 +60,11 @@ test.describe("fork debug panel", () => {
     ipc.respond({ fork_ping: pingReply });
     await page.goto("/#/fork/debug");
     await ipc.waitForListener("fork-ping-event");
+    // Let the panel's own pings and their events settle first, or one of
+    // them can land after ours and replace it.
+    await expect(page.getByTestId("fork-debug-ping")).toContainText('"pong"');
+    await expect(page.getByTestId("fork-debug-event")).toContainText('"seq"');
+    await page.waitForTimeout(100);
     expect(await ipc.emit("fork-ping-event", { seq: 4242 })).toBeGreaterThan(0);
     await expect(page.getByTestId("fork-debug-event")).toContainText("4242");
   });

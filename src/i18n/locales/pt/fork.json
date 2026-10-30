@@ -54,6 +54,127 @@
       "all": "All settings"
     }
   },
+  "hub": {
+    "nav": {
+      "label": "Main"
+    },
+    "sidebar": {
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar"
+    },
+    "header": {
+      "toDark": "Switch to dark appearance",
+      "toLight": "Switch to light appearance"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "empty": {
+        "title": "Nothing new",
+        "body": "Updates and tips will show up here."
+      }
+    },
+    "help": {
+      "title": "Help",
+      "essentials": "Essentials",
+      "shortcuts": "Shortcut and microphone",
+      "models": "Speech models and languages",
+      "history": "History"
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Settings sections"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Dictation",
+        "banner": {
+          "title": "Talk instead of typing",
+          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
+          "examplesLabel": "Things to try",
+          "examples": {
+            "reply": "A quick reply to a message",
+            "notes": "Notes right after a call",
+            "prompt": "A long prompt for an AI chat"
+          }
+        },
+        "empty": {
+          "title": "Your dictations will show up here",
+          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
+          "action": "Open history"
+        }
+      },
+      "insights": {
+        "title": "Insights",
+        "empty": {
+          "title": "Insights need a few dictations",
+          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
+          "action": "Go to Dictation"
+        }
+      },
+      "dictionary": {
+        "title": "Dictionary",
+        "empty": {
+          "title": "Teach {{appName}} your words",
+          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
+          "action": "Open custom words"
+        }
+      },
+      "snippets": {
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
+      },
+      "style": {
+        "title": "Style",
+        "empty": {
+          "title": "Styles are on the way",
+          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
+      },
+      "transforms": {
+        "title": "Transforms",
+        "empty": {
+          "title": "Transforms are on the way",
+          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
+      },
+      "scratchpad": {
+        "title": "Scratchpad",
+        "empty": {
+          "title": "Scratchpad is on the way",
+          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
+      },
+      "share": {
+        "title": "Share with a friend",
+        "empty": {
+          "title": "Know someone who types all day?",
+          "body": "{{appName}} is free and runs entirely on the Mac. A way to pass it on arrives in a later update.",
+          "action": "Go to Dictation"
+        }
+      },
+      "settings": {
+        "title": "Settings"
+      }
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "New!",
+      "beta": "Beta"
+    },
+    "banner": {
+      "dismiss": "Dismiss"
+    }
+  },
   "rust": {
     "appName": "Wispr Bro",
     "tray": {

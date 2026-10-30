@@ -14,6 +14,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | --- | --- | --- |
 | (Apache-2.0 OR MIT) AND BSD-3-Clause | 1 | 0 |
 | (MIT OR Apache-2.0) AND Unicode-3.0 | 1 | 0 |
+| 0BSD | 0 | 1 |
 | 0BSD OR Apache-2.0 | 1 | 0 |
 | 0BSD OR MIT OR Apache-2.0 | 1 | 0 |
 | Apache-2.0 | 11 | 1 |
@@ -33,7 +34,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | CC0-1.0 OR MIT-0 OR Apache-2.0 | 1 | 0 |
 | CDLA-Permissive-2.0 | 2 | 0 |
 | ISC | 2 | 4 |
-| MIT | 94 | 162 |
+| MIT | 94 | 203 |
 | MIT OR Apache-2.0 | 213 | 10 |
 | MIT OR Apache-2.0 OR Zlib | 3 | 0 |
 | MIT OR BSD-3-Clause | 1 | 0 |
@@ -45,7 +46,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | Zlib OR Apache-2.0 OR MIT | 21 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 462 Rust crates, 183 npm packages.
+Total: 462 Rust crates, 225 npm packages.
 
 ## Speech models
 
@@ -220,8 +221,24 @@ From `NOTICE` §7.
   Licence: SIL Open Font License 1.1; text in
   LICENSES/OFL-1.1-NotoSansCJK.txt.
 
-Fonts added by later slices (Newsreader, Source Serif 4, ...) are listed
-here, with their OFL text in LICENSES/, when they are added.
+- Newsreader (latin, latin-ext and vietnamese subsets,
+  src/assets/fonts/fork/newsreader-*.woff2, from the Fontsource package
+  @fontsource-variable/newsreader 5.3.0; S-13)
+  Copyright 2020 The Newsreader Project Authors
+  (http://github.com/productiontype/Newsreader).
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-Newsreader.txt.
+
+- Source Serif 4 (cyrillic, cyrillic-ext and greek subsets,
+  src/assets/fonts/fork/source-serif-4-*.woff2, from the Fontsource package
+  @fontsource-variable/source-serif-4 5.3.1; S-13)
+  © 2014 - 2021 Adobe Systems Incorporated (http://www.adobe.com/), with
+  Reserved Font Name 'Source'.
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-SourceSerif4.txt.
+
+Fonts added by later slices are listed here, with their OFL text in
+LICENSES/, when they are added.
 ```
 
 ## C/C++ compiled into Rust crates
@@ -10521,13 +10538,45 @@ the following restrictions:
 | @emotion/utils | 1.4.2 | MIT | https://github.com/emotion-js/emotion/tree/main/packages/utils |
 | @emotion/weak-memoize | 0.4.0 | MIT | https://github.com/emotion-js/emotion/tree/main/packages/weak-memoize |
 | @floating-ui/core | 1.7.3 | MIT | https://github.com/floating-ui/floating-ui |
+| @floating-ui/core | 1.8.0 | MIT | https://github.com/floating-ui/floating-ui |
 | @floating-ui/dom | 1.7.4 | MIT | https://github.com/floating-ui/floating-ui |
+| @floating-ui/dom | 1.8.0 | MIT | https://github.com/floating-ui/floating-ui |
+| @floating-ui/react-dom | 2.1.9 | MIT | https://github.com/floating-ui/floating-ui |
 | @floating-ui/utils | 0.2.10 | MIT | https://github.com/floating-ui/floating-ui |
+| @floating-ui/utils | 0.2.12 | MIT | https://github.com/floating-ui/floating-ui |
 | @handy-computer/models | 0.2.3 | MIT | https://github.com/handy-computer/models |
 | @jridgewell/gen-mapping | 0.3.13 | MIT | https://github.com/jridgewell/sourcemaps |
 | @jridgewell/resolve-uri | 3.1.2 | MIT | https://github.com/jridgewell/resolve-uri |
 | @jridgewell/sourcemap-codec | 1.5.5 | MIT | https://github.com/jridgewell/sourcemaps |
 | @jridgewell/trace-mapping | 0.3.31 | MIT | https://github.com/jridgewell/sourcemaps |
+| @radix-ui/primitive | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-arrow | 1.1.17 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-collection | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-compose-refs | 1.1.5 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-context | 1.3.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-direction | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-dismissable-layer | 1.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-dropdown-menu | 2.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-focus-guards | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-focus-scope | 1.3.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-id | 1.1.4 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-menu | 2.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-popover | 1.3.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-popper | 1.4.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-portal | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-presence | 1.1.11 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-primitive | 2.2.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-roving-focus | 1.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-slot | 1.5.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-tabs | 1.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-callback-ref | 1.1.5 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-controllable-state | 1.3.0 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-effect-event | 0.0.5 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-is-hydrated | 0.1.3 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-layout-effect | 1.1.4 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-rect | 1.1.4 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-use-size | 1.1.5 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/rect | 1.1.3 | MIT | https://github.com/radix-ui/primitives |
 | @tauri-apps/api | 2.9.0 | Apache-2.0 OR MIT | https://github.com/tauri-apps/tauri |
 | @tauri-apps/api | 2.10.1 | Apache-2.0 OR MIT | https://github.com/tauri-apps/tauri |
 | @tauri-apps/api | 2.11.1 | Apache-2.0 OR MIT | https://github.com/tauri-apps/tauri |
@@ -10550,10 +10599,12 @@ the following restrictions:
 | @types/parse-json | 4.0.2 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | @types/prop-types | 15.7.15 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | @types/react | 18.3.26 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| @types/react-dom | 18.3.7 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | @types/react-transition-group | 4.4.12 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | @types/unist | 2.0.11 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | @types/unist | 3.0.3 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | @ungap/structured-clone | 1.3.2 | ISC | https://github.com/ungap/structured-clone |
+| aria-hidden | 1.2.6 | MIT | https://github.com/theKashey/aria-hidden |
 | babel-plugin-macros | 3.1.0 | MIT | https://github.com/kentcdodds/babel-plugin-macros |
 | bail | 2.0.2 | MIT | wooorm/bail |
 | callsites | 3.1.0 | MIT | sindresorhus/callsites |
@@ -10569,6 +10620,7 @@ the following restrictions:
 | debug | 4.4.3 | MIT | git://github.com/debug-js/debug |
 | decode-named-character-reference | 1.3.0 | MIT | wooorm/decode-named-character-reference |
 | dequal | 2.0.3 | MIT | lukeed/dequal |
+| detect-node-es | 1.1.0 | MIT | https://github.com/thekashey/detect-node |
 | devlop | 1.1.0 | MIT | wooorm/devlop |
 | dom-helpers | 5.2.1 | MIT | https://github.com/react-bootstrap/dom-helpers |
 | error-ex | 1.3.4 | MIT | qix-/node-error-ex |
@@ -10577,6 +10629,7 @@ the following restrictions:
 | extend | 3.0.2 | MIT | https://github.com/justmoon/node-extend |
 | find-root | 1.1.0 | MIT | git@github.com:js-n/find-root |
 | function-bind | 1.1.2 | MIT | https://github.com/Raynos/function-bind |
+| get-nonce | 1.0.1 | MIT | git@github.com:theKashey/get-nonce |
 | hasown | 2.0.2 | MIT | https://github.com/inspect-js/hasOwn |
 | hast-util-to-jsx-runtime | 2.3.6 | MIT | syntax-tree/hast-util-to-jsx-runtime |
 | hast-util-whitespace | 3.0.0 | MIT | syntax-tree/hast-util-whitespace |
@@ -10646,7 +10699,10 @@ the following restrictions:
 | react-i18next | 16.4.1 | MIT | https://github.com/i18next/react-i18next |
 | react-is | 16.13.1 | MIT | https://github.com/facebook/react |
 | react-markdown | 10.1.0 | MIT | remarkjs/react-markdown |
+| react-remove-scroll | 2.7.2 | MIT | https://github.com/theKashey/react-remove-scroll |
+| react-remove-scroll-bar | 2.3.8 | MIT | https://github.com/theKashey/react-remove-scroll-bar |
 | react-select | 5.10.2 | MIT | https://github.com/JedWatson/react-select/tree/master/packages/react-select |
+| react-style-singleton | 2.2.3 | MIT | https://github.com/theKashey/react-style-singleton |
 | react-transition-group | 4.4.5 | BSD-3-Clause | https://github.com/reactjs/react-transition-group |
 | remark-parse | 11.0.0 | MIT | https://github.com/remarkjs/remark/tree/main/packages/remark-parse |
 | remark-rehype | 11.1.2 | MIT | remarkjs/remark-rehype |
@@ -10665,6 +10721,7 @@ the following restrictions:
 | tauri-plugin-macos-permissions-api | 2.3.0 | MIT | https://github.com/ayangweb/tauri-plugin-macos-permissions |
 | trim-lines | 3.0.1 | MIT | wooorm/trim-lines |
 | trough | 2.2.0 | MIT | wooorm/trough |
+| tslib | 2.8.1 | 0BSD | https://github.com/Microsoft/tslib |
 | typescript | 5.6.3 | Apache-2.0 | https://github.com/microsoft/TypeScript |
 | unified | 11.0.5 | MIT | unifiedjs/unified |
 | unist-util-is | 6.0.1 | MIT | syntax-tree/unist-util-is |
@@ -10672,7 +10729,9 @@ the following restrictions:
 | unist-util-stringify-position | 4.0.0 | MIT | syntax-tree/unist-util-stringify-position |
 | unist-util-visit | 5.1.0 | MIT | syntax-tree/unist-util-visit |
 | unist-util-visit-parents | 6.0.2 | MIT | syntax-tree/unist-util-visit-parents |
+| use-callback-ref | 1.3.3 | MIT | https://github.com/theKashey/use-callback-ref/ |
 | use-isomorphic-layout-effect | 1.2.1 | MIT | https://github.com/Andarist/use-isomorphic-layout-effect |
+| use-sidecar | 1.1.3 | MIT | https://github.com/theKashey/use-sidecar |
 | use-sync-external-store | 1.6.0 | MIT | https://github.com/facebook/react |
 | vfile | 6.0.3 | MIT | vfile/vfile |
 | vfile-message | 4.0.3 | MIT | vfile/vfile-message |
@@ -10761,7 +10820,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-Used by: @floating-ui/core 1.7.3, @floating-ui/dom 1.7.4, @floating-ui/utils 0.2.10
+Used by: @floating-ui/core 1.7.3, @floating-ui/core 1.8.0, @floating-ui/dom 1.7.4, @floating-ui/dom 1.8.0, @floating-ui/react-dom 2.1.9, @floating-ui/utils 0.2.10, @floating-ui/utils 0.2.12
 
 ```text
 MIT License
@@ -10824,6 +10883,32 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Used by: @radix-ui/primitive 1.2.0, @radix-ui/react-arrow 1.1.17, @radix-ui/react-collection 1.2.0, @radix-ui/react-compose-refs 1.1.5, @radix-ui/react-context 1.3.0, @radix-ui/react-direction 1.2.0, @radix-ui/react-dismissable-layer 1.2.1, @radix-ui/react-dropdown-menu 2.2.1, @radix-ui/react-focus-guards 1.2.0, @radix-ui/react-focus-scope 1.3.1, @radix-ui/react-id 1.1.4, @radix-ui/react-menu 2.2.1, @radix-ui/react-popover 1.3.1, @radix-ui/react-popper 1.4.0, @radix-ui/react-portal 1.2.0, @radix-ui/react-presence 1.1.11, @radix-ui/react-primitive 2.2.0, @radix-ui/react-roving-focus 1.2.1, @radix-ui/react-slot 1.5.0, @radix-ui/react-tabs 1.2.1, @radix-ui/react-use-callback-ref 1.1.5, @radix-ui/react-use-controllable-state 1.3.0, @radix-ui/react-use-effect-event 0.0.5, @radix-ui/react-use-is-hydrated 0.1.3, @radix-ui/react-use-layout-effect 1.1.4, @radix-ui/react-use-rect 1.1.4, @radix-ui/react-use-size 1.1.5, @radix-ui/rect 1.1.3
+
+```text
+MIT License
+
+Copyright (c) 2022 WorkOS
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -11067,7 +11152,7 @@ PackageDownloadLocation: git+ssh://github.com/tauri-apps/tauri.git
 Creator: Person: Daniel Thompson-Yvetot
 ```
 
-Used by: @types/debug 4.1.13, @types/estree 1.0.8, @types/estree-jsx 1.0.5, @types/hast 3.0.4, @types/mdast 4.0.4, @types/ms 2.1.0, @types/parse-json 4.0.2, @types/prop-types 15.7.15, @types/react 18.3.26, @types/react-transition-group 4.4.12, @types/unist 2.0.11, @types/unist 3.0.3
+Used by: @types/debug 4.1.13, @types/estree 1.0.8, @types/estree-jsx 1.0.5, @types/hast 3.0.4, @types/mdast 4.0.4, @types/ms 2.1.0, @types/parse-json 4.0.2, @types/prop-types 15.7.15, @types/react 18.3.26, @types/react-dom 18.3.7, @types/react-transition-group 4.4.12, @types/unist 2.0.11, @types/unist 3.0.3
 
 ```text
     MIT License
@@ -11111,6 +11196,32 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
 OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
+```
+
+Used by: aria-hidden 1.2.6, react-remove-scroll 2.7.2, react-style-singleton 2.2.3, use-callback-ref 1.3.3, use-sidecar 1.1.3
+
+```text
+MIT License
+
+Copyright (c) 2017 Anton Korzunov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 Used by: babel-plugin-macros 3.1.0
@@ -11361,6 +11472,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+Used by: detect-node-es 1.1.0
+
+```text
+MIT License
+
+Copyright (c) 2017 Ilya Kantor
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
 Used by: devlop 1.1.0
 
 ```text
@@ -11542,6 +11679,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
+
+Used by: get-nonce 1.0.1
+
+```text
+MIT License
+
+Copyright (c) 2020 Anton Korzunov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 Used by: hasown 2.0.2
@@ -12564,6 +12727,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+Used by: tslib 2.8.1
+
+```text
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+```
+
 Used by: typescript 5.6.3
 
 ```text
@@ -12833,4 +13013,5 @@ file; the standard text of the declared licence applies.
 
 - @handy-computer/models 0.2.3: MIT
 - html-parse-stringify 3.0.1: MIT, Henrik Joreteg <henrik@joreteg.com>
+- react-remove-scroll-bar 2.3.8: MIT, Anton Korzunov <thekashey@gmail.com>
 

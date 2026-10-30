@@ -20,6 +20,7 @@ Working files behind each deliverable are in `docs/research/r2-work/`, `r3-work/
 ## Current status (update this when it changes)
 
 As of 2026-10-30:
+
 - **M0 foundations:** F-01 and F-03..F-10 are done on `wispr-bro`. F-02 (signing, notarization, updater, release workflows) is still open. Apple Team ID: `446XT9839S`; the owner keeps all certificates and keys. No Hugging Face org is needed: models download from their upstream HF repos, pinned by revision and sha256.
 - **GitHub:** the public repo `fjenn/wispr-bro` exists but is **empty on purpose**. Remote `origin` has its push URL disabled. The owner said: push nothing until we have tested. Ask before any push.
 - **M0.5 spikes done (provisional, one M5 Max):**
@@ -28,6 +29,7 @@ As of 2026-10-30:
 - **RS-01 (fn/Globe):** rounds 1 and 2 done 2026-10-30 on macOS 26.6.2; report in `docs/fork/spikes/RS-01-fn-globe.md`. DEC-44 confirmed (onboarding sets the Globe setting to Do Nothing with consent); with Do Nothing the bare fn press is not blocked. DEC-53: prepared mic, `T_show` 150 ms (round 2: prepared p50 129 ms at 100 ms, no idle orange dot, 0 clipped). DEC-54: any key with fn during a push-to-talk press drops the take (owner holds fn ~1 s before chord keys). **Next step:** S-01 (lift `src-tauri/crates/wb-spike-fn/src/grammar.rs` into `fork/shortcut/processor.rs`; add the open/start split in handy-recorder).
 - **RS-04 (AX matrix):** done 2026-10-30 (owner session + unattended); report `docs/fork/spikes/RS-04-ax.md`, outcomes in R5 §4 `fork/ax/`. Prototype in `src-tauri/crates/wb-spike-ax/src/ax/` (containers now fail open).
 - **RS-05 (clipboard):** done 2026-10-30; report `docs/fork/spikes/RS-05-clipboard.md`, outcomes in R5 §4 `fork/clipboard/`. Prototype in `src-tauri/crates/wb-spike-clipboard/src/clip/`. Untested: clipboard managers (none installed), held ⌃⌘ (moved to S-06).
+- **S-13 (Hub shell):** built 2026-10-30 on branch `worktree-agent-a7d8efd6525200941` (to merge into `wispr-bro`): `src/fork/hub/`, `src/fork/ui/`, `src/fork/styles/`, `fork/hub.rs`; the `App.tsx` hook renders `ForkApp`. As-built decisions are in R5 under S-13. Not yet run: Mac-test-script S-13.1-S-13.5 by a person (VoiceOver itself, file drops from Finder, onboarding title-bar switch).
 - **Bench inputs** (outside the repo, never committed): `~/wb-bench/` holds models, llama.cpp b11624, the owner's voice recording (`audio/`, personal data) and results.
 
 ## How to work

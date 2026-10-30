@@ -1,0 +1,191 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * Wispr Bro Hub tokens (S-13, C-19 warm theme, C-20 dark theme).
+ *
+ * Same scheme as Handy's `src/styles/theme.css`: each colour is a light/dark
+ * pair, the active `--wb-*` token follows `prefers-color-scheme`, and an
+ * explicit `data-theme` on <html> (Handy's `applyTheme`) wins over the OS.
+ * Fork components use the active tokens through Tailwind arbitrary values,
+ * e.g. `bg-(--wb-canvas)` or `text-(--wb-ink-2)`.
+ *
+ * Every text/background pair below meets WCAG AA (4.5:1 for text, 3:1 for
+ * icons and edges) in both themes; `tests/fork/hub.spec.ts` checks the
+ * pairs, and axe checks the rendered pages.
+ *
+ * The block at the end retunes three of Handy's own tokens (background, text,
+ * secondary grey) so Handy's settings pages hosted in the Hub sit on the same
+ * warm canvas and pass AA. Handy's file is not edited (R5 §4.2).
+ */
+
+:root {
+  /* Surfaces */
+  --wb-light-canvas: #fbfaf7;
+  --wb-dark-canvas: #1f1e1c;
+  --wb-light-sidebar: #f3f1ec;
+  --wb-dark-sidebar: #191816;
+  --wb-light-card: #ffffff;
+  --wb-dark-card: #282725;
+  --wb-light-banner: #efedfb;
+  --wb-dark-banner: #29283d;
+
+  /* Text */
+  --wb-light-ink: #1f1d1a;
+  --wb-dark-ink: #f3f0ea;
+  --wb-light-ink-2: #57534c;
+  --wb-dark-ink-2: #c9c4ba;
+  --wb-light-ink-3: #6b665e;
+  --wb-dark-ink-3: #a8a297;
+
+  /* Edges and fills */
+  --wb-light-line: #e5e1d8;
+  --wb-dark-line: #36342f;
+  --wb-light-line-strong: #8f897e;
+  --wb-dark-line-strong: #7d776d;
+  --wb-light-hover: rgba(31, 29, 26, 0.06);
+  --wb-dark-hover: rgba(255, 255, 255, 0.07);
+  --wb-light-selected: #e7e4dc;
+  --wb-dark-selected: #32302c;
+
+  /* Brand indigo (from the app icon) */
+  --wb-light-accent: #4341cf;
+  --wb-dark-accent: #a9abff;
+  --wb-light-accent-fill: #4341cf;
+  --wb-dark-accent-fill: #5754e6;
+  --wb-light-on-accent: #ffffff;
+  --wb-dark-on-accent: #ffffff;
+
+  /* Tags */
+  --wb-light-tag-new-bg: #e4e3fb;
+  --wb-dark-tag-new-bg: #34336a;
+  --wb-light-tag-new-ink: #33309f;
+  --wb-dark-tag-new-ink: #d6d6ff;
+  --wb-light-tag-beta-bg: #f1e9d6;
+  --wb-dark-tag-beta-bg: #43391f;
+  --wb-light-tag-beta-ink: #6a5216;
+  --wb-dark-tag-beta-ink: #f1dca6;
+
+  --wb-light-shadow:
+    0 1px 2px rgba(31, 29, 26, 0.06), 0 8px 24px -12px rgba(31, 29, 26, 0.18);
+  --wb-dark-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+
+  /* Theme-independent */
+  --wb-font-display:
+    "WB Newsreader", "WB Source Serif 4", ui-serif, "New York",
+    "Iowan Old Style", Georgia, serif;
+  --wb-sidebar-width: 216px;
+  --wb-sidebar-collapsed-width: 64px;
+  /* Height of the macOS title bar strip the Hub draws under (overlay title
+     bar): the traffic lights sit in it. */
+  --wb-titlebar-height: 32px;
+  /* Top of the 24px collapse button so its centre is level with the
+     traffic lights (centre 15pt below the top on macOS 26, measured). */
+  --wb-traffic-top: 4px;
+  --wb-radius-card: 14px;
+  --wb-radius-control: 10px;
+
+  /* Active tokens: light by default */
+  --wb-canvas: var(--wb-light-canvas);
+  --wb-sidebar: var(--wb-light-sidebar);
+  --wb-card: var(--wb-light-card);
+  --wb-banner: var(--wb-light-banner);
+  --wb-ink: var(--wb-light-ink);
+  --wb-ink-2: var(--wb-light-ink-2);
+  --wb-ink-3: var(--wb-light-ink-3);
+  --wb-line: var(--wb-light-line);
+  --wb-line-strong: var(--wb-light-line-strong);
+  --wb-hover: var(--wb-light-hover);
+  --wb-selected: var(--wb-light-selected);
+  --wb-accent: var(--wb-light-accent);
+  --wb-accent-fill: var(--wb-light-accent-fill);
+  --wb-on-accent: var(--wb-light-on-accent);
+  --wb-tag-new-bg: var(--wb-light-tag-new-bg);
+  --wb-tag-new-ink: var(--wb-light-tag-new-ink);
+  --wb-tag-beta-bg: var(--wb-light-tag-beta-bg);
+  --wb-tag-beta-ink: var(--wb-light-tag-beta-ink);
+  --wb-shadow: var(--wb-light-shadow);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --wb-canvas: var(--wb-dark-canvas);
+    --wb-sidebar: var(--wb-dark-sidebar);
+    --wb-card: var(--wb-dark-card);
+    --wb-banner: var(--wb-dark-banner);
+    --wb-ink: var(--wb-dark-ink);
+    --wb-ink-2: var(--wb-dark-ink-2);
+    --wb-ink-3: var(--wb-dark-ink-3);
+    --wb-line: var(--wb-dark-line);
+    --wb-line-strong: var(--wb-dark-line-strong);
+    --wb-hover: var(--wb-dark-hover);
+    --wb-selected: var(--wb-dark-selected);
+    --wb-accent: var(--wb-dark-accent);
+    --wb-accent-fill: var(--wb-dark-accent-fill);
+    --wb-on-accent: var(--wb-dark-on-accent);
+    --wb-tag-new-bg: var(--wb-dark-tag-new-bg);
+    --wb-tag-new-ink: var(--wb-dark-tag-new-ink);
+    --wb-tag-beta-bg: var(--wb-dark-tag-beta-bg);
+    --wb-tag-beta-ink: var(--wb-dark-tag-beta-ink);
+    --wb-shadow: var(--wb-dark-shadow);
+  }
+}
+
+:root[data-theme="light"] {
+  --wb-canvas: var(--wb-light-canvas);
+  --wb-sidebar: var(--wb-light-sidebar);
+  --wb-card: var(--wb-light-card);
+  --wb-banner: var(--wb-light-banner);
+  --wb-ink: var(--wb-light-ink);
+  --wb-ink-2: var(--wb-light-ink-2);
+  --wb-ink-3: var(--wb-light-ink-3);
+  --wb-line: var(--wb-light-line);
+  --wb-line-strong: var(--wb-light-line-strong);
+  --wb-hover: var(--wb-light-hover);
+  --wb-selected: var(--wb-light-selected);
+  --wb-accent: var(--wb-light-accent);
+  --wb-accent-fill: var(--wb-light-accent-fill);
+  --wb-on-accent: var(--wb-light-on-accent);
+  --wb-tag-new-bg: var(--wb-light-tag-new-bg);
+  --wb-tag-new-ink: var(--wb-light-tag-new-ink);
+  --wb-tag-beta-bg: var(--wb-light-tag-beta-bg);
+  --wb-tag-beta-ink: var(--wb-light-tag-beta-ink);
+  --wb-shadow: var(--wb-light-shadow);
+}
+
+:root[data-theme="dark"] {
+  --wb-canvas: var(--wb-dark-canvas);
+  --wb-sidebar: var(--wb-dark-sidebar);
+  --wb-card: var(--wb-dark-card);
+  --wb-banner: var(--wb-dark-banner);
+  --wb-ink: var(--wb-dark-ink);
+  --wb-ink-2: var(--wb-dark-ink-2);
+  --wb-ink-3: var(--wb-dark-ink-3);
+  --wb-line: var(--wb-dark-line);
+  --wb-line-strong: var(--wb-dark-line-strong);
+  --wb-hover: var(--wb-dark-hover);
+  --wb-selected: var(--wb-dark-selected);
+  --wb-accent: var(--wb-dark-accent);
+  --wb-accent-fill: var(--wb-dark-accent-fill);
+  --wb-on-accent: var(--wb-dark-on-accent);
+  --wb-tag-new-bg: var(--wb-dark-tag-new-bg);
+  --wb-tag-new-ink: var(--wb-dark-tag-new-ink);
+  --wb-tag-beta-bg: var(--wb-dark-tag-beta-bg);
+  --wb-tag-beta-ink: var(--wb-dark-tag-beta-ink);
+  --wb-shadow: var(--wb-dark-shadow);
+}
+
+/*
+ * Retune of Handy's tokens (C-19). Handy's pairs are redefined, so its own
+ * media query and `data-theme` overrides pick the warm values up unchanged.
+ * Handy's secondary greys fail AA on its backgrounds (`--color-ink-3` is
+ * #808080 in both themes, 3.9:1; `--color-ink-2` is the text at 60 % alpha,
+ * about 4.2:1), so both become the Hub's themed greys.
+ */
+:root {
+  --light-color-background: var(--wb-light-canvas);
+  --light-color-text: var(--wb-light-ink);
+  --dark-color-background: var(--wb-dark-canvas);
+  --dark-color-text: var(--wb-dark-ink);
+  --color-ink-2: var(--wb-ink-2);
+  --color-ink-3: var(--wb-ink-3);
+}

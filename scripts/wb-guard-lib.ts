@@ -232,6 +232,7 @@ export const FORK_PATHS: string[] = [
   "src-tauri/capabilities/fork.json",
   "src-tauri/icons-fork/**",
   "src-tauri/resources/fork/**",
+  "src/assets/fonts/fork/**",
   "tests/fork/**",
   "playwright.fork.config.ts",
   ".github/workflows/wb-*",

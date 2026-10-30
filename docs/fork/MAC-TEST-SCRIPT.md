@@ -357,7 +357,52 @@ filled by the slice; "Machines" defaults to M1-8 and M-26 unless stated.
 
 - [ ] S-13.1 The overlay title bar drags the window (C-25 drag permission check).
 - [ ] S-13.2 VoiceOver reads the sidebar.
-- Procedure: TODO (S-13).
+- [ ] S-13.3 Window chrome: overlay title bar with no title text; the collapse button sits level with the traffic lights; default size and minimum size as below.
+- [ ] S-13.4 Light and dark: the header toggle switches the whole window (and the recording overlay) and the choice survives a relaunch.
+- [ ] S-13.5 A file dropped outside History is ignored; an audio file dropped on Settings › History is transcribed (RE-33).
+
+Procedure (any Mac; a dev build is enough: `bun run wb:dev`, or the
+`wb:build` app). Use a profile that has finished onboarding.
+
+1. **Chrome and size (S-13.3).** Launch. The window opens centred with a
+   1040 × 720 page area (smaller screens: the work area less 48 pt) and the
+   sidebar running under the traffic lights; no title text is drawn. The
+   collapse button (panel icon) sits just right of the green button, on the
+   same line. Drag the window corner inwards: it stops at a 720 × 600 page.
+   Click the collapse button: icons only; click again: labels back. Relaunch:
+   the collapsed/expanded choice is kept.
+2. **Drag (S-13.1).** Drag the window by the empty strip at the top of the
+   sidebar and by the empty part of the header (left of the moon icon): the
+   window moves. Double-click the strip: the window zooms (and back). Check
+   `~/Library/Logs/com.wisprbro.desktop/wispr-bro.log` has no `start_dragging`
+   or `set_title_bar_style` "not allowed" error.
+3. **Onboarding keeps a normal title bar.** Settings › Debug (turn on debug
+   mode with ⌘⇧D) › Run onboarding: the standard title bar returns while the
+   onboarding screens show, and the overlay comes back with the Hub.
+4. **Theme (S-13.4).** Click the moon icon: the whole window turns dark
+   (sidebar, page, footer, Handy's settings tabs) and the icon becomes a sun.
+   Start a dictation: the recording overlay is dark too. Relaunch: still dark.
+   Click the sun: light. Settings › About › Theme still offers System.
+5. **Keyboard.** Click the page once, then Tab: focus goes to the collapse
+   button, then each sidebar item, Help, the theme toggle and the bell, each
+   with a visible ring. Enter on a sidebar item opens its page; Enter on Help
+   opens the menu, ↓ and Enter pick an item; Enter on the bell opens the
+   panel and Esc closes it with focus back on the bell.
+6. **VoiceOver (S-13.2).** ⌘F5. VO-→ through the sidebar: VoiceOver reads the
+   "Main" navigation landmark, each item as "<name>, button" and the current
+   page as "current page"; the tags read "New!" / "Beta"; collapsed, each icon
+   still reads its name. VO-U › Landmarks lists Main, the banner (header),
+   main and content information (footer). ⌘F5 to stop.
+7. **File drops (S-13.5).** Drag any `.csv` from Finder onto the Dictation
+   page and drop it: nothing happens (no toast, no History entry). Open
+   Settings › History and drop an `.m4a` or `.wav` on it: the dashed "drop"
+   frame shows while over the list, a "Reading…" toast appears and the file
+   is added to History. Drop the same file on the sidebar: nothing happens.
+8. **Contrast.** System Settings › Accessibility › Display › Increase
+   contrast on: every label stays readable in light and dark.
+
+Record window sizes, screenshots (mocked or empty profile only, no personal
+data) and the log lines in the run file.
 
 ### S-14 Settings modal and hotkeys panel
 

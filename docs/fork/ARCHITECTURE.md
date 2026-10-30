@@ -312,12 +312,15 @@ permission (see ACL above).
   (imported from `src/fork/index.ts`). It adds namespace `fork` for every
   `locales/<lng>/fork.json`; a top-level `overrides` object, if present, is
   merged into Handy's `translation` namespace (brand overrides, F-01).
-- **Deviation (debug host mount).** F-05 has no `App.tsx` hook (that is S-13).
-  So `registerForkI18n` in `src/fork/index.ts` also starts the fork frontend:
-  in the `main` webview only, it lazy-loads `src/fork/debug/mount.tsx`, which
+- **Deviation (debug host mount).** F-05 had no `App.tsx` hook, so
+  `registerForkI18n` in `src/fork/index.ts` also starts the fork frontend: in
+  the `main` webview only, it lazy-loads `src/fork/debug/mount.tsx`, which
   renders a hidden host into its own root (`#fork-debug-root`). Other webviews
-  (Handy's overlay) skip it, and the panel code is a separate chunk. S-13 moves
-  this into `ForkApp` and removes the side effect.
+  (Handy's overlay) skip it, and the panel code is a separate chunk. F-05
+  planned to move this into `ForkApp` in S-13; S-13 **keeps it** as a separate
+  root, because `ForkApp` only mounts once onboarding is done, while the panel
+  must also open over onboarding and the startup self-check
+  (`WISPRBRO_SELFCHECK`) needs `window.__wbCspSmoke` in any state.
 - **Debug panel** (`src/fork/debug/DebugPanel.tsx`): opened by the same chord
   as Handy's debug-mode toggle (⌘⇧D / Ctrl+Shift+D; `App.tsx` handler) or by
   the route `#/fork/debug`, but only when `fork_ping` reports
@@ -327,6 +330,48 @@ permission (see ACL above).
   `fork_model_status` and the last `ForkPingEvent`; later slices mount early
   panels with `registerForkDebugSection`.
 - Fork components use `useTranslation("fork")`.
+
+## Hub (S-13)
+
+`src/App.tsx` renders `ForkApp` (`src/fork/hub/ForkApp.tsx`) in place of
+Handy's sidebar and section layout: one import and one JSX swap
+(`ci/hooks.txt` budget 42; Handy's now-unused helpers above it are left
+alone so upstream edits still merge). Handy's onboarding switch around it is
+unchanged until S-29a, and `ForkApp` gets the three onboarding callbacks
+Handy's Debug section needs as props.
+
+| File                                      | Role                                                                                                                                                                                                   |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/fork/hub/nav.tsx`                    | Page ids, the zustand nav store, `navigate(page, section?)` (the deep-link API), URL hash mirror `#/hub/<page>[/<section>]`                                                                            |
+| `src/fork/hub/pages.tsx`                  | `HUB_PAGES`: sidebar order, icon, tag and the component per page slot. A feature slice mounts its page by replacing its entry's `component`; until then a placeholder (empty state + one action) shows |
+| `src/fork/hub/Sidebar.tsx`                | Buttons with `aria-current`, collapse (icons + tooltips), New!/Beta tags, setup-checklist slot (`setSidebarCard`, S-30), Help menu                                                                     |
+| `src/fork/hub/Header.tsx`                 | Drag strip, theme toggle (light ⇄ dark, saved in Handy's `theme`), notifications bell (`setNotificationsPanel`, S-18)                                                                                  |
+| `src/fork/hub/Footer.tsx`                 | Background jobs (Handy's `TranscriptionStatus`); Handy's update checker and version until S-28                                                                                                         |
+| `src/fork/hub/HandySettingsPage.tsx`      | The Settings slot until S-14: Handy's sections as tabs (section = tab), History is a drop zone                                                                                                         |
+| `src/fork/hub/dropRouter.tsx`             | `useDropRouter` (one listener) + `useDropZone(ref, …)`: a file drop reaches only the zone under the pointer; outside every zone it is ignored (RE-33)                                                  |
+| `src/fork/ui/*`                           | `Banner` (dismissal in `dismissed_banners`), `EmptyState`, `Tag` (`seen_new_tags`), `Button`, Radix `Menu`, `Popover`, `Tabs`                                                                          |
+| `src/fork/styles/tokens.css`, `fonts.css` | `--wb-*` light/dark tokens (AA pairs tested), retune of Handy's background, text and grey tokens; Newsreader + Source Serif 4 faces                                                                    |
+| `src-tauri/src/fork/hub.rs`               | From `on_ready`: main window 1040 × 720 page (fits the work area), min 720 × 600 (Handy's), title text hidden, overlay title bar for onboarded users                                                   |
+
+**Title bar.** On macOS the Hub runs under an overlay title bar: `fork::hub`
+sets it at Ready when onboarding is done, and `ForkApp` sets it on mount and
+restores the standard bar on unmount (onboarding screens). The drag strips
+use `data-tauri-drag-region`, which needs `core:window:allow-start-dragging`;
+the switch needs `core:window:allow-set-title-bar-style`. Both are in
+`capabilities/fork.json`; `core:default` grants neither.
+
+**Fonts.** `scripts/wb-fonts.ts` copies the Fontsource woff2 subsets into
+`src/assets/fonts/fork/` (a fork path in `wb-guard-lib.ts`), pins each by
+sha256 (`--check` runs in `wb-ci.yml`) and writes the OFL texts in
+`LICENSES/`. Nothing is fetched at runtime.
+
+**Fork npm packages.** npm and bun have no comment keys inside dependency
+maps, so the fork's packages cannot sit between `//fork` markers. They are:
+`@radix-ui/react-dropdown-menu` 2.2.1, `@radix-ui/react-popover` 1.3.1,
+`@radix-ui/react-tabs` 1.2.1 (runtime, S-13); `@axe-core/playwright` 4.14.0,
+`@fontsource-variable/newsreader` 5.3.0, `@fontsource-variable/source-serif-4`
+5.3.1 (dev, S-13). The same list is in the `package.json` comment of
+`ci/hooks.txt`.
 
 ## i18n and the untranslated marking scheme
 

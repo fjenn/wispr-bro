@@ -253,5 +253,21 @@ register.
   Licence: SIL Open Font License 1.1; text in
   LICENSES/OFL-1.1-NotoSansCJK.txt.
 
-Fonts added by later slices (Newsreader, Source Serif 4, ...) are listed
-here, with their OFL text in LICENSES/, when they are added.
+- Newsreader (latin, latin-ext and vietnamese subsets,
+  src/assets/fonts/fork/newsreader-*.woff2, from the Fontsource package
+  @fontsource-variable/newsreader 5.3.0; S-13)
+  Copyright 2020 The Newsreader Project Authors
+  (http://github.com/productiontype/Newsreader).
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-Newsreader.txt.
+
+- Source Serif 4 (cyrillic, cyrillic-ext and greek subsets,
+  src/assets/fonts/fork/source-serif-4-*.woff2, from the Fontsource package
+  @fontsource-variable/source-serif-4 5.3.1; S-13)
+  © 2014 - 2021 Adobe Systems Incorporated (http://www.adobe.com/), with
+  Reserved Font Name 'Source'.
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-SourceSerif4.txt.
+
+Fonts added by later slices are listed here, with their OFL text in
+LICENSES/, when they are added.
