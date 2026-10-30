@@ -435,6 +435,36 @@ pub fn window_outline(pid: i32, depth: usize) -> Vec<String> {
     out
 }
 
+/// Presses the button titled `title` in `pid`'s focused window or a sheet
+/// on it. True if one was found and pressed (S-04 soak: Mail's "Don't
+/// Save" when closing an emptied test message).
+pub fn press_button(pid: i32, title: &str) -> bool {
+    fn find(e: AXUIElementRef, title: &str, level: usize) -> Option<Cf> {
+        let role = attr(e, "AXRole").as_ref().and_then(cf_to_string);
+        let t = attr(e, "AXTitle").as_ref().and_then(cf_to_string);
+        if role.as_deref() == Some("AXButton") && t.as_deref() == Some(title) {
+            // SAFETY: retained for the caller.
+            return Some(Cf(unsafe { CFRetain(e) }));
+        }
+        if level >= 5 {
+            return None;
+        }
+        children(e)
+            .into_iter()
+            .find_map(|k| find(k.0, title, level + 1))
+    }
+    let app = app_element(pid);
+    let Some(w) = attr(app.0, "AXFocusedWindow") else {
+        return false;
+    };
+    let Some(b) = find(w.0, title, 0) else {
+        return false;
+    };
+    let a = cfstr("AXPress");
+    // SAFETY: valid element and action name.
+    unsafe { AXUIElementPerformAction(b.0, as_cf(&a)) == 0 }
+}
+
 /// For each window of `pid`: its title and the text of its first text area
 /// (Terminal: the scrollback). S-04 soak: find stray test text.
 pub fn window_texts(pid: i32) -> Vec<(String, String)> {

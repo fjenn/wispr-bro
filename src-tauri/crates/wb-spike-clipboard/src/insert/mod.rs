@@ -9,5 +9,7 @@
 
 #[path = "../../../../src/fork/insert/deliver.rs"]
 pub mod deliver;
+#[path = "../../../../src/fork/insert/session.rs"]
+pub mod session;
 #[path = "../../../../src/fork/insert/verify.rs"]
 pub mod verify;

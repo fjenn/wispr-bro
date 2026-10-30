@@ -61,6 +61,12 @@ enum Mode {
         keep_open: bool,
     },
     Leftovers,
+    /// S-04.5: paste with the Japanese input method on.
+    Ime,
+    /// Cleanup by hand: press a button in an app's focused window.
+    Press(String, String),
+    /// S-04.3/4 wiring: the product's session observer and gate.
+    Session04,
     WaitQuiet(u64, u64),
     /// Empty the front field of an app if it holds only soak text.
     ClearField(String),
@@ -85,6 +91,13 @@ fn parse(args: &[String]) -> Result<(Mode, Options), String> {
             "--self-check" => mode = Mode::SelfCheck,
             "--dry-run" => mode = Mode::DryRun,
             "--s04-leftovers" => mode = Mode::Leftovers,
+            "--s04-ime" => mode = Mode::Ime,
+            "--s04-press" => {
+                let b = it.next().ok_or("needs BUNDLE TITLE")?.clone();
+                let t = it.next().ok_or("needs BUNDLE TITLE")?.clone();
+                mode = Mode::Press(b, t);
+            }
+            "--s04-session" => mode = Mode::Session04,
             "--s04-wait-quiet" => {
                 let n = |v: Option<&String>| v.and_then(|v| v.parse::<u64>().ok());
                 let (Some(q), Some(m)) = (n(it.next()), n(it.next())) else {
@@ -305,6 +318,13 @@ fn main() {
             0
         }
         Ok((Mode::WaitQuiet(q, m), _)) => soak::wait_quiet(q, m),
+        Ok((Mode::Ime, _)) => soak::ime_check(),
+        Ok((Mode::Press(b, t), _)) => {
+            let pressed = macos::running_pid(&b).is_some_and(|pid| macos::press_button(pid, &t));
+            println!("pressed {t:?}: {pressed}");
+            i32::from(!pressed)
+        }
+        Ok((Mode::Session04, _)) => soak::session_check(),
         Ok((Mode::Leftovers, _)) => {
             let left = soak::close_leftovers();
             println!("{left:#?}");

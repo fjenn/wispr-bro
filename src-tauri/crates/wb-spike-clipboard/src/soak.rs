@@ -28,7 +28,7 @@ use std::time::{Duration, Instant};
 use crate::apps::{self, Installed};
 use crate::clip::keys;
 use crate::clip::nspb;
-use crate::clip::restore::Timing;
+use crate::clip::restore::{TargetClass, Timing};
 use crate::clip::snapshot::{self, Snapshot};
 use crate::insert::deliver::{self, Delivery, Gate, Line, Platform, PublishedText, Request};
 use crate::insert::verify::{self, FieldState};
@@ -694,6 +694,236 @@ fn strip_tokens_in_focus(pid: i32) -> Result<usize, String> {
     Err("soak text still at the end of the field".into())
 }
 
+// ---------------------------------------------------------------------------
+// S-04.5: paste with the Japanese input method on (plain and mid-word)
+
+const IME_ID: &str = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese";
+
+fn saved_input_sources() -> String {
+    std::process::Command::new("/usr/bin/defaults")
+        .args(["read", "com.apple.HIToolbox", "AppleEnabledInputSources"])
+        .output()
+        .map(|o| String::from_utf8_lossy(&o.stdout).into_owned())
+        .unwrap_or_default()
+}
+
+/// Two takes into a fresh TextEdit document with Japanese (Romaji) on: one
+/// plain, one while "nihon" is being composed. The input sources are put
+/// back as they were (the tool turns off whatever it turned on).
+pub fn ime_check() -> i32 {
+    let dir = std::env::temp_dir().join(format!("wb-s04-ime-{}", std::process::id()));
+    let _ = fs::create_dir_all(&dir);
+    owner::install_signals(|| {});
+    if owner::save(&dir).is_err() {
+        eprintln!("could not save the clipboard; not started");
+        return 1;
+    }
+    let before_ids: Vec<String> = macos::input_sources(false)
+        .into_iter()
+        .map(|s| s.id)
+        .collect();
+    let saved_before = saved_input_sources();
+    let original = macos::current_input_source_id();
+    let installed = macos::input_sources(true);
+    let parent = IME_ID.rsplit_once('.').map(|(p, _)| p).unwrap_or(IME_ID);
+    for want in [parent, IME_ID] {
+        if !before_ids.iter().any(|b| b == want) {
+            if let Some(s) = installed.iter().find(|s| s.id == want) {
+                s.enable();
+            }
+        }
+    }
+    macos::pump(Duration::from_millis(500));
+    let f = dir.join("wb-s04-ime.txt");
+    let _ = fs::write(&f, b"");
+    macos::open(&["-a", "TextEdit", &f.to_string_lossy()]);
+    let mut code = 1;
+    if let Some(front) = macos::wait_front("com.apple.TextEdit", Duration::from_secs(10)) {
+        if wait_role(front.pid, &["AXTextArea"], Duration::from_secs(8)).is_some()
+            && macos::focus(front.pid)
+                .window_title
+                .is_some_and(|t| t.contains("wb-s04-ime"))
+        {
+            let selected = macos::input_sources(false)
+                .into_iter()
+                .find(|s| s.id == IME_ID)
+                .is_some_and(|s| s.select());
+            macos::pump(Duration::from_millis(500));
+            println!(
+                "input source: {} (selected {selected})",
+                macos::current_input_source_id()
+            );
+            let line = Mutex::new(Line::new());
+            let open = || false;
+            let none = || None;
+            let gate = Gate {
+                cancelled: &open,
+                interrupted: &none,
+            };
+            let mut ok = 0;
+            for (i, composing) in [false, true].into_iter().enumerate() {
+                if composing {
+                    // n i h o n (ANSI positions) as a word being composed.
+                    for k in [45u16, 34, 4, 31, 45] {
+                        let _ = keys::post_key(k);
+                        macos::pump(Duration::from_millis(60));
+                    }
+                    macos::pump(Duration::from_millis(300));
+                }
+                let token = format!("[S-04 ime {}]", i + 1);
+                let text = format!("{token} ");
+                let (r, pending) = deliver::paste(
+                    &SoakPlatform,
+                    &line,
+                    &Request::new(&text, TargetClass::Native),
+                    &gate,
+                );
+                if let Some(p) = pending {
+                    deliver::settle(&SoakPlatform, &line, p, &Timing::R5);
+                }
+                macos::pump(Duration::from_millis(400));
+                let value = macos::focus(front.pid).value.unwrap_or_default();
+                let landed = value.matches(token.as_str()).count();
+                let tail: String = value
+                    .chars()
+                    .rev()
+                    .take(40)
+                    .collect::<Vec<_>>()
+                    .into_iter()
+                    .rev()
+                    .collect();
+                println!(
+                    "{}: {:?}, verification {:?}, in the field {landed}× (tail {tail:?})",
+                    if composing {
+                        "while composing"
+                    } else {
+                        "plain"
+                    },
+                    r.delivery,
+                    r.verification
+                );
+                if landed == 1 {
+                    ok += 1;
+                }
+                if composing {
+                    let _ = keys::post_key(53); // Esc: drop any half-typed word
+                }
+                macos::pump(Duration::from_millis(300));
+            }
+            code = i32::from(ok != 2);
+            cmd(b'w');
+        }
+    }
+    // Input sources back as they were.
+    if let Some(s) = macos::input_sources(false)
+        .into_iter()
+        .find(|s| s.id == original)
+    {
+        s.select();
+    }
+    macos::pump(Duration::from_millis(300));
+    for _ in 0..2 {
+        let all = macos::input_sources(true);
+        for s in macos::input_sources(false) {
+            if !before_ids.contains(&s.id) {
+                if let Some(x) = all.iter().find(|x| x.id == s.id) {
+                    x.disable();
+                }
+            }
+        }
+        macos::pump(Duration::from_millis(300));
+    }
+    let same = saved_input_sources() == saved_before;
+    println!(
+        "input sources restored: {same} (now {})",
+        macos::current_input_source_id()
+    );
+    let back = owner::restore().is_some_and(|r| r.identical);
+    println!("clipboard put back: {back}");
+    let _ = fs::remove_dir_all(&dir);
+    if same {
+        code
+    } else {
+        2
+    }
+}
+
+// ---------------------------------------------------------------------------
+// S-04.3 / S-04.4 wiring: the product's session observer and the engine's
+// gate with real NSWorkspace notifications (posted in this process: the
+// tool cannot put the Mac to sleep and wake it, or switch users, unattended)
+
+pub fn session_check() -> i32 {
+    use crate::insert::session::{mac, Interruption, SessionLog, Signal};
+    use objc2_app_kit::{
+        NSWorkspace, NSWorkspaceDidWakeNotification, NSWorkspaceSessionDidBecomeActiveNotification,
+        NSWorkspaceSessionDidResignActiveNotification, NSWorkspaceWillSleepNotification,
+    };
+    static LOG: Mutex<SessionLog> = Mutex::new(SessionLog::new());
+    static SEEN: Mutex<Vec<String>> = Mutex::new(Vec::new());
+    mac::observe(|s: Signal| {
+        if let Ok(mut l) = LOG.lock() {
+            l.signal(s, Instant::now());
+        }
+        if let Ok(mut v) = SEEN.lock() {
+            v.push(format!("{s:?}"));
+        }
+    });
+    let center = NSWorkspace::sharedWorkspace().notificationCenter();
+    let post = |name: &objc2_foundation::NSNotificationName| {
+        // SAFETY: posting a named notification with no object.
+        unsafe { center.postNotificationName_object(name, None) };
+        macos::pump(Duration::from_millis(100));
+    };
+    let verdict = || LOG.lock().ok().and_then(|l| l.verdict());
+    let cc = nspb::change_count();
+    let line = Mutex::new(Line::new());
+    let open = || false;
+    let deliver_now = |label: &str| {
+        let interrupted = || verdict().map(Interruption::card_reason);
+        let gate = Gate {
+            cancelled: &open,
+            interrupted: &interrupted,
+        };
+        let (r, pending) = deliver::paste(
+            &SoakPlatform,
+            &line,
+            &Request::new("[S-04 session] ", TargetClass::Native),
+            &gate,
+        );
+        let untouched = pending.is_none() && nspb::change_count() == cc;
+        println!("{label}: {:?}; clipboard untouched {untouched}", r.delivery);
+        matches!(r.delivery, Delivery::Card { .. }) && untouched
+    };
+    let mut pass = 0;
+    // 1. Sleep during recording, wake, release: card.
+    LOG.lock().unwrap().take_started(Instant::now());
+    // SAFETY: framework statics.
+    post(unsafe { NSWorkspaceWillSleepNotification });
+    pass += usize::from(deliver_now("asleep (lid closed) during the take"));
+    post(unsafe { NSWorkspaceDidWakeNotification });
+    LOG.lock().unwrap().take_stopped(Instant::now());
+    pass += usize::from(deliver_now("woke, then the take ended"));
+    // 2. User switch while processing: card.
+    LOG.lock().unwrap().take_started(Instant::now());
+    LOG.lock().unwrap().take_stopped(Instant::now());
+    post(unsafe { NSWorkspaceSessionDidResignActiveNotification });
+    post(unsafe { NSWorkspaceSessionDidBecomeActiveNotification });
+    pass += usize::from(deliver_now("user switched away and back while processing"));
+    // 3. A quiet take after that: not interrupted.
+    LOG.lock().unwrap().take_started(Instant::now());
+    LOG.lock().unwrap().take_stopped(Instant::now());
+    let quiet = verdict().is_none();
+    println!("a later quiet take: interrupted {:?}", verdict());
+    pass += usize::from(quiet);
+    println!(
+        "signals seen: {:?}",
+        SEEN.lock().map(|v| v.clone()).unwrap_or_default()
+    );
+    println!("{pass}/4 as expected");
+    i32::from(pass != 4)
+}
+
 /// Waits until nobody (a person or another test tool) has moved the
 /// pointer or changed the front app for `quiet` seconds; gives up after
 /// `max` seconds. Returns 0 when quiet.
@@ -1006,7 +1236,8 @@ fn open_app(ctx: &mut Ctx, app: &SoakApp, inst: &Installed) -> Result<Opened, St
         }
         "safari" | "chrome" => {
             let end = Instant::now() + Duration::from_secs(10);
-            let mut clicked = false;
+            let mut clicks = 0;
+            let mut last_click = Instant::now();
             loop {
                 let f = macos::focus(front.pid);
                 let ours = f
@@ -1024,10 +1255,16 @@ fn open_app(ctx: &mut Ctx, app: &SoakApp, inst: &Installed) -> Result<Opened, St
                 }
                 // Safari keeps the focus in the address bar after `open`:
                 // click into the text box (top third of the page).
-                if ours && !clicked {
+                if ours
+                    && clicks < 3
+                    && (clicks == 0 || last_click.elapsed() > Duration::from_secs(2))
+                {
                     macos::pump(Duration::from_millis(500));
-                    ctx.click(front.pid, 0.3);
-                    clicked = true;
+                    // The text box sits in the top third of the page; a
+                    // little lower on each try.
+                    ctx.click(front.pid, 0.28 + 0.04 * clicks as f64);
+                    clicks += 1;
+                    last_click = Instant::now();
                 }
                 macos::pump(Duration::from_millis(200));
             }
@@ -1149,14 +1386,12 @@ fn read_back(app: &SoakApp, opened: &Opened) -> Option<String> {
                 .and_then(|f| fs::read_to_string(f).ok())
         }
         Read::CopyBack => {
-            cmd(b'a');
-            cmd(b'c');
-            macos::pump(Duration::from_millis(300));
-            let (snap, _) = nspb::read();
-            snap.items
-                .first()
-                .and_then(|i| i.get(sources::TEXT))
-                .map(|b| String::from_utf8_lossy(b).into_owned())
+            // Empty the clipboard first, so a copy that did not happen
+            // cannot be mistaken for the field's text (the last source is
+            // still on the clipboard).
+            let t = copy_field();
+            key(124); // drop the selection
+            (!t.is_empty()).then_some(t)
         }
     }
 }
@@ -1188,6 +1423,13 @@ fn tidy(app: &SoakApp, inst: &Installed, opened: &Opened, clean_field: bool) {
                 cmd(b'a');
                 key(DELETE);
                 cmd(b'w');
+                // Mail asks whether to keep the (auto-saved) draft: no.
+                macos::pump(Duration::from_millis(900));
+                if macos::press_button(opened.front.pid, "Don’t Save")
+                    || macos::press_button(opened.front.pid, "Don't Save")
+                {
+                    macos::pump(Duration::from_millis(600));
+                }
             }
         }
         "terminal" => {
