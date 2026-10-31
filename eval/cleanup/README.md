@@ -7,7 +7,7 @@ from labels; there is **no LLM judge**. Source of truth: R5 §11.1 (metrics),
 
 | File                                    | What                                                                   |
 | --------------------------------------- | ---------------------------------------------------------------------- |
-| `items.jsonl`                           | 229 items, one JSON object per line (schema below)                     |
+| `items.jsonl`                           | 271 items, one JSON object per line (schema below)                     |
 | `../../scripts/wb-eval-cleanup.ts`      | Runner, metric functions, guard stub, report writer                    |
 | `../../scripts/wb-eval-cleanup.test.ts` | Metric unit tests on hand-made items, harness and item self-tests      |
 | `reports/`                              | `<date>-<model>.md` and `.json` per run (gitignored except `.gitkeep`) |
@@ -36,6 +36,42 @@ bun scripts/wb-bench-cleanup.ts --server <llama-server> --per-category 6   # str
 bun scripts/wb-bench-cleanup.ts --server <llama-server> --probe            # RS-06 flags, unix socket
 bun scripts/wb-bench-cleanup.ts --rescore eval/cleanup/reports/rs07-2026-10-29  # new labels, no models
 ```
+
+## The shipped path (S-12a, `--replay`)
+
+The gate run uses the app's own code, not this runner's model client or the
+guard stub: the ignored Rust test `fork::llm::eval_run` sends every item
+through `fork::llm::post_process::clean` (lead-ins, the clean-text gate,
+blocks and the line fallback, the prompt builder, the guard chain, the
+deadlines) on the real `llama-server` sidecar via the real supervisor and
+transport, and writes one JSONL row per item × level (model reply, guard
+verdict, what the app would insert, Handy `lang_id` of the expected and
+actual output). The scorer then reads it:
+
+```bash
+cd src-tauri
+WB_LLAMA_SERVER=target/wb-sidecar/llama-server-aarch64-apple-darwin \
+WB_LLM_MODEL=~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf \
+WB_EVAL_OUT=../eval/cleanup/reports/s12a/run.jsonl \
+WB_EVAL_LEVELS=light,medium WB_EVAL_LANGUAGE=owner \
+  cargo test --lib fork::llm::eval_run -- --ignored --nocapture
+cd .. && bun scripts/wb-eval-cleanup.ts --replay eval/cleanup/reports/s12a/run.jsonl --level all
+```
+
+`WB_EVAL_LANGUAGE`: `owner` (the gate run) treats the language as unknown
+to the recognizer and lets the app guess it from the text among the
+owner's spoken languages (en, nl, fr, plus the item's), exactly as
+`plan()` does; `item` passes the labelled language as known (a user who
+picked their language); `none` gives no language at all. `WB_EVAL_IDS`
+limits the run to some ids.
+
+In replay mode **language kept** uses Handy's `lang_id` (whatlang,
+confidence ≥ 0.9), R5's definition, instead of the stand-in detector, with
+one refinement: an output that is the item's input unchanged (the
+deterministic text the app falls back to) counts as kept, since it cannot
+have changed language; the report also prints the strict number, where an
+undecided output counts as lost. The report adds a per-language table with
+each language's RS-07 gates.
 
 ## Running
 
@@ -231,7 +267,7 @@ decides how the real guard handles repairs.
 
 ## Item set
 
-229 original items, written for this set. Each category targets a failure
+271 original items (229 from F-10, 42 from S-12a), written for this set. Each category targets a failure
 mode named in R5 F-10 / §4.5:
 
 | Category      | Items | Tests                                                                                                |
@@ -253,7 +289,12 @@ mode named in R5 F-10 / §4.5:
 | `newline`     |     8 | Multi-line text: letters, addresses, to-do lists; line count must survive                            |
 | `mixed`       |     6 | Several of the above in one take                                                                     |
 
-Totals: 189 English and 40 non-English items in 11 other languages; 102
+S-12a added 42 Dutch and French items (22 nl, 20 fr: lead-ins and
+hesitations under the owner's policy, self-repairs, questions and commands
+that must stay in their language, clean text, a letter), labelled by the
+S-12a author (`labels.revised = "s12a-nl-fr-2026-10-31"`), and extended the
+Dutch and French stopword lists, so the content words of every nl/fr item
+were regenerated. Totals before S-12a: 189 English and 40 non-English items in 11 other languages; 102
 instructions; 53 `unchanged` and 176 `edit` items; 148 protected spans; 86
 filler spans (68 before the owner filler policy, see "Discourse markers"); 12
 multi-line inputs. Only 2 items have their own Medium expected output; the
@@ -277,7 +318,7 @@ URLs use `example.*`, private IPs or a placeholder repo; no phone numbers.
 
 ### Sources
 
-All 229 items: original, written for Wispr Bro, GPL-3.0-or-later with the
+All 271 items: original, written for Wispr Bro, GPL-3.0-or-later with the
 repository.
 
 ## Labelling protocol
@@ -405,13 +446,13 @@ eval/cleanup/reports/rs07-<date>`.
 
 ## Gaps (what F-10 does not do yet)
 
-| Gap                                                                                                                                | Effect                                                                                                                                                                                  | Closed by                                                       |
-| ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Guards are a TypeScript stub of R5 §4.5, not the shipped Rust guards                                                               | Post-guard numbers approximate what the app will do                                                                                                                                     | S-12a (call `fork/llm/guards.rs` from the eval)                 |
-| Language detector is a stand-in (script detection + weighted stopword scoring), not Handy's `lang_id` (whatlang, confidence ≥ 0.9) | Language kept and the guard's language check can differ from the app; short Latin-script items are excluded (fails closed, never a wrong language on the expected outputs; self-tested) | S-12a (expose Handy `lang_id` to the eval)                      |
-| Stopwords are our own short lists for 12 languages, not stopwords-iso                                                              | Content-word lists and the answer metric's "content words" differ slightly from R5's wording                                                                                            | Swap in stopwords-iso (MIT) data and regenerate `content_words` |
-| Assistant markers are our own list, not Muesli's                                                                                   | Answer rate and the marker guard may miss some openings                                                                                                                                 | S-12a port                                                      |
-| Only 2 items have their own Medium expected output                                                                                 | Medium runs compare against Light labels, so Medium rewording counts as damage or a miss more often than it should                                                                      | Second labelling pass                                           |
-| Single labeller, agreement not recorded                                                                                            | F-10 exit criterion open                                                                                                                                                                | Human labelling pass                                            |
-| No Disfl-QA / AMI-disfluent / Voquill samples                                                                                      | Fewer natural disfluencies                                                                                                                                                              | Add with licence checks (above)                                 |
-| Run against real models only on an M5 Max (RS-07 provisional run, `docs/fork/spikes/RS-07-cleanup-bakeoff.md`)                     | The "report for one model in under 15 min on an M1" exit criterion is unverified                                                                                                        | RS-07 re-run on M1 8 GB                                         |
+| Gap                                                                                                                                | Effect                                                                                                                                                        | Closed by                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Guards are a TypeScript stub of R5 §4.5, not the shipped Rust guards                                                               | Post-guard numbers of the non-replay runner approximate what the app will do                                                                                  | Closed by S-12a for gate runs: `--replay` (above)               |
+| Language detector is a stand-in (script detection + weighted stopword scoring), not Handy's `lang_id` (whatlang, confidence ≥ 0.9) | Non-replay runs only; with Handy's `lang_id` most short Dutch expected outputs are undecided, so Dutch has almost no language-kept denominator in replay runs | Closed by S-12a for gate runs (`--replay` carries `lang_id`)    |
+| Stopwords are our own short lists for 12 languages, not stopwords-iso                                                              | Content-word lists and the answer metric's "content words" differ slightly from R5's wording                                                                  | Swap in stopwords-iso (MIT) data and regenerate `content_words` |
+| Assistant markers are our own list, not Muesli's                                                                                   | The scorer's answer metric keeps its own list; the shipped guard uses Muesli's markers and our openers (`src-tauri/src/fork/llm/tables/markers.json`)         | S-12a port (guard side)                                         |
+| Only 2 items have their own Medium expected output                                                                                 | Medium runs compare against Light labels, so Medium rewording counts as damage or a miss more often than it should                                            | Second labelling pass                                           |
+| Single labeller, agreement not recorded                                                                                            | F-10 exit criterion open                                                                                                                                      | Human labelling pass                                            |
+| No Disfl-QA / AMI-disfluent / Voquill samples                                                                                      | Fewer natural disfluencies                                                                                                                                    | Add with licence checks (above)                                 |
+| Run against real models only on an M5 Max (RS-07 provisional run, `docs/fork/spikes/RS-07-cleanup-bakeoff.md`)                     | The "report for one model in under 15 min on an M1" exit criterion is unverified                                                                              | RS-07 re-run on M1 8 GB                                         |

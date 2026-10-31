@@ -270,10 +270,10 @@ const SW: Record<string, string> = {
   en: "a an the and or but if so of to in on at by for with from as is am are was were be been being it its this that these those there here i me my we our us you your he him his she her they them their what which who whom whose when where why how do does did done have has had having can could will would shall should may might must not no yes just than then too very also about into over under again up down out off all any each both few more most other some such only own same s t don't can't won't i'm it's that's let's i'll we'll you're they're i've we're isn't aren't wasn't didn't doesn't",
   de: "der die das den dem des ein eine einen einem einer und oder aber wenn so von zu in im an am auf für mit aus als ist sind war waren sein bin bist es ich mich mir wir uns du dich dir er ihn ihm sie ihr ihnen was wer wie wo warum nicht kein keine ja nein auch noch schon nur sehr dass bitte",
   es: "el la los las un una unos unas y o pero si de del a al en con por para como es son era fue ser estar está están yo me mi nosotros tú te tu él ella ellos ellas que qué quien cuando donde cómo no sí también muy lo le les se su sus este esta eso",
-  fr: "le la les un une des et ou mais si de du au aux en dans sur pour avec par comme est sont était être je me moi nous tu te toi il elle ils elles que qui quoi quand où comment ne pas oui non aussi très ce cette ces son sa ses mon ma mes",
+  fr: "le la les un une des et ou mais si de du au aux en dans sur pour avec par comme est sont était être je me moi nous tu te toi il elle ils elles que qui quoi quand où comment ne pas oui non aussi très ce cette ces son sa ses mon ma mes ai as a on j'ai c'est qu'on qu'il nous vous leur lui y à",
   it: "il lo la i gli le un una e o ma se di del della a al in con per come è sono era essere io mi noi tu ti lui lei loro che chi quando dove non sì anche molto questo questa",
   pt: "o a os as um uma e ou mas se de do da dos das em no na com por para como é são era ser estar eu me nós tu te você ele ela eles elas que quem quando onde não sim também muito este esta isso",
-  nl: "de het een en of maar als van te in op aan voor met uit is zijn was waren ik mij wij we jij je hij zij ze wat wie wanneer waar hoe niet geen ja nee ook nog al heel dat dit",
+  nl: "de het een en of maar als van te in op aan voor met uit is zijn was waren ik mij wij we jij je hij zij ze wat wie wanneer waar hoe niet geen ja nee ook nog al heel dat dit heb hebt heeft hebben kan kun kunt kunnen om naar deze die er wel zo nu u uw hun mijn ons onze bij dan door over",
   sv: "en ett och eller men om av till i på för med från som är var vara jag mig vi oss du dig han hon de dem vad vem när var hur inte ja nej också mycket det den detta",
   pl: "i oraz lub ale jeśli w we na z ze do od dla po jak jest są był była być ja mnie my nas ty ciebie on ona oni co kto kiedy gdzie nie tak też bardzo to ten ta że się",
   ja: "の は が を に で と も へ や か な ね よ です ます した して いる ある この その あの それ これ",
@@ -582,6 +582,23 @@ export function languageKept(
   if (wordCount(expected, item.language) < LANGUAGE_MIN_WORDS) return null;
   if (detectLanguage(expected) !== item.language) return null;
   return detectLanguage(output) === item.language;
+}
+
+/**
+ * `languageKept` with languages detected elsewhere: the replay of the shipped
+ * path carries Handy's own `lang_id` (whatlang, confidence ≥ 0.9) for the
+ * expected and the actual output, which is R5 §11.1's definition.
+ */
+export function languageKeptBy(
+  item: Item,
+  level: Level,
+  expectedLang: string | null,
+  outputLang: string | null,
+): boolean | null {
+  const expected = expectedFor(item, level);
+  if (wordCount(expected, item.language) < LANGUAGE_MIN_WORDS) return null;
+  if (expectedLang !== item.language) return null;
+  return outputLang === item.language;
 }
 
 // ---------------------------------------------------------------------------
@@ -959,11 +976,15 @@ export type OutputScore = {
   restraint: boolean | null;
   edit: EditResult | null;
   language: boolean | null;
+  /** Replay only: Handy `lang_id` with an undecided output counted as lost. */
+  languageStrict?: boolean | null;
 };
 
 export type ItemResult = {
   id: string;
   category: Category;
+  /** The item's labelled language. */
+  language: string;
   level: Level;
   latencyMs: number;
   deadlineMs: number;
@@ -1042,6 +1063,7 @@ export async function evaluateItem(
   return {
     id: item.id,
     category: item.category,
+    language: item.language,
     level,
     latencyMs,
     deadlineMs: deadline,
@@ -1086,6 +1108,8 @@ export type Metrics = {
   answerRate: Rate;
   fillerRemoval: Rate;
   languageKept: Rate;
+  /** Replay only (see `OutputScore.languageStrict`). */
+  languageKeptStrict?: Rate;
 };
 
 export function aggregate(scores: OutputScore[]): Metrics {
@@ -1113,6 +1137,17 @@ export function aggregate(scores: OutputScore[]): Metrics {
     ),
     fillerRemoval: rate(fillerRemoved, fillerTotal),
     languageKept: rate(lang.filter((s) => s.language).length, lang.length),
+    ...(scores.some((s) => s.languageStrict !== undefined)
+      ? {
+          languageKeptStrict: rate(
+            scores.filter((s) => s.languageStrict).length,
+            scores.filter(
+              (s) =>
+                s.languageStrict !== null && s.languageStrict !== undefined,
+            ).length,
+          ),
+        }
+      : {}),
   };
 }
 
@@ -1165,6 +1200,16 @@ export type LevelSummary = {
     value: number | null;
     pass: boolean | null;
   }[];
+  /** Post-guard metrics and RS-07 gates per item language (S-12a). */
+  byLanguage: Record<
+    string,
+    {
+      items: number;
+      post: Metrics;
+      guardCatchRate: Rate;
+      gates: LevelSummary["gates"];
+    }
+  >;
 };
 
 /** RS-07 pass criteria (R5 §7), evaluated on post-guard output. */
@@ -1221,10 +1266,23 @@ export function summarize(results: ItemResult[], level: Level): LevelSummary {
       postRestraint: cpost.restraint,
     };
   }
+  const byLanguage: LevelSummary["byLanguage"] = {};
+  for (const lang of [...new Set(rs.map((r) => r.language))].sort()) {
+    const c = rs.filter((r) => r.language === lang);
+    const cpost = aggregate(c.map((r) => r.post));
+    const ccatch = guardCatchRate(c);
+    byLanguage[lang] = {
+      items: c.length,
+      post: cpost,
+      guardCatchRate: ccatch,
+      gates: gatesFor(level, cpost, ccatch),
+    };
+  }
   return {
     level,
     pre,
     post,
+    byLanguage,
     guardCatchRate: catchRate,
     guardRejections: rs.filter((r) => !r.guard.accepted).length,
     guardFalseRejections: rs.filter(
@@ -1327,6 +1385,12 @@ export function renderMarkdown(report: Report): string {
     row("Answer rate", s.pre.answerRate, s.post.answerRate);
     row("Filler removal", s.pre.fillerRemoval, s.post.fillerRemoval);
     row("Language kept", s.pre.languageKept, s.post.languageKept);
+    if (s.pre.languageKeptStrict && s.post.languageKeptStrict)
+      row(
+        "Language kept (strict: undecided = lost)",
+        s.pre.languageKeptStrict,
+        s.post.languageKeptStrict,
+      );
     out.push("");
     out.push(
       `Guard catch rate: **${pct(s.guardCatchRate)}** (${frac(s.guardCatchRate)}). ` +
@@ -1356,6 +1420,19 @@ export function renderMarkdown(report: Report): string {
     for (const g of s.gates) {
       out.push(
         `| ${g.name} | ${g.threshold} | ${pct(g.value)} | ${g.pass === null ? "n/a" : g.pass ? "yes" : "**no**"} |`,
+      );
+    }
+    out.push(
+      "",
+      "### By language (post-guard)",
+      "",
+      "| Language | Items | Damage | Answer | Filler | Language kept | Guard catch | Gates |",
+      "| --- | --- | --- | --- | --- | --- | --- | --- |",
+    );
+    for (const [lang, l] of Object.entries(s.byLanguage)) {
+      const failed = l.gates.filter((g) => g.pass === false).map((g) => g.name);
+      out.push(
+        `| ${lang} | ${l.items} | ${pct(l.post.contentDamage)} (${frac(l.post.contentDamage)}) | ${pct(l.post.answerRate)} (${frac(l.post.answerRate)}) | ${pct(l.post.fillerRemoval)} (${frac(l.post.fillerRemoval)}) | ${pct(l.post.languageKept)} (${frac(l.post.languageKept)}) | ${pct(l.guardCatchRate)} (${frac(l.guardCatchRate)}) | ${failed.length ? `fail: ${failed.join(", ")}` : "pass"} |`,
       );
     }
     out.push(
@@ -1395,7 +1472,9 @@ export function renderMarkdown(report: Report): string {
     out.push("");
   }
   out.push(
-    "Metric definitions: `eval/cleanup/README.md`. The guard is a TypeScript stub of R5 §4.5; the shipped guards are S-10/S-12a's Rust code.",
+    meta.guard === "replay"
+      ? "Metric definitions: `eval/cleanup/README.md`. Replayed from the shipped Rust path (`fork::llm::post_process::clean`: gate, chunks, prompt builder, guard chain, deadlines) on the real sidecar."
+      : "Metric definitions: `eval/cleanup/README.md`. The guard is a TypeScript stub of R5 §4.5; the shipped guards are S-12a's Rust code (`--replay`).",
     "",
   );
   return out.join("\n");
@@ -1429,6 +1508,8 @@ export type CliOptions = {
   date: string | null;
   quiet: boolean;
   help: boolean;
+  /** JSONL written by `fork::llm::eval_run` (S-12a): score it, call nothing. */
+  replay: string | null;
 };
 
 export const HELP = `Usage: bun scripts/wb-eval-cleanup.ts [options]
@@ -1452,6 +1533,8 @@ export const HELP = `Usage: bun scripts/wb-eval-cleanup.ts [options]
   --no-think             Send chat_template_kwargs.enable_thinking=false
   --date YYYY-MM-DD      Report date (default today, UTC)
   --quiet                No progress output
+  --replay FILE          Score a run of the shipped Rust path (src-tauri fork::llm::eval_run);
+                         no server is called; --level picks the levels to report
 `;
 
 export function parseArgs(argv: string[]): CliOptions {
@@ -1475,6 +1558,7 @@ export function parseArgs(argv: string[]): CliOptions {
     date: null,
     quiet: false,
     help: false,
+    replay: null,
   };
   let port = 8080;
   for (let i = 0; i < argv.length; i++) {
@@ -1550,6 +1634,9 @@ export function parseArgs(argv: string[]): CliOptions {
       case "--quiet":
         o.quiet = true;
         break;
+      case "--replay":
+        o.replay = path.resolve(val());
+        break;
       case "-h":
       case "--help":
         o.help = true;
@@ -1571,6 +1658,135 @@ async function loadGuard(spec: string): Promise<GuardFn> {
   return mod.guard;
 }
 
+/** One row of `fork::llm::eval_run`'s JSONL. */
+export type ReplayRow = {
+  id: string;
+  level: Level;
+  input: string;
+  output: string;
+  /** The model's text in place of each chunk (pre-guard). */
+  pre?: string;
+  outcome: "applied" | "skipped" | "guard" | "timeout" | "error";
+  why: string | null;
+  llm_ms: number;
+  /** Handy `lang_id` of the expected output, the output and the pre-guard text. */
+  lang_id?: {
+    expected: string | null;
+    output: string | null;
+    pre: string | null;
+  };
+  chunks: {
+    input: string;
+    raw: string | null;
+    text: string | null;
+    accepted: boolean;
+    reasons: string[];
+    ms: number;
+    deadline_ms: number;
+    error: string | null;
+    timed_out: boolean;
+  }[];
+};
+
+export type ReplayMeta = {
+  runner: string;
+  model: string | null;
+  system_prompt_light: string;
+  system_prompt_medium: string;
+  language_hint: boolean;
+};
+
+export function parseReplay(text: string): {
+  meta: ReplayMeta;
+  rows: ReplayRow[];
+} {
+  const lines = text.split("\n").filter((l) => l.trim());
+  const first = JSON.parse(lines[0]) as { meta?: ReplayMeta };
+  if (!first.meta) throw new Error("replay: first line must be {meta}");
+  return {
+    meta: first.meta,
+    rows: lines.slice(1).map((l) => JSON.parse(l) as ReplayRow),
+  };
+}
+
+/**
+ * An item result from the shipped path. Pre-guard = the model's text for
+ * every chunk (its raw reply when unparsed; empty after a timeout or an
+ * error); post-guard = what the app inserts. A skipped item (level None,
+ * the clean-text gate) made no request: pre = post = the input.
+ */
+export function replayResult(item: Item, row: ReplayRow): ItemResult {
+  const pre =
+    row.pre ??
+    (row.chunks.length
+      ? row.chunks
+          .map(
+            (c) => c.text ?? c.raw ?? (c.timed_out || c.error ? "" : c.input),
+          )
+          .join("\n\n")
+      : row.input);
+  const reasons = [
+    ...new Set(
+      row.chunks.flatMap((c) => [
+        ...c.reasons,
+        ...(c.timed_out ? ["deadline"] : []),
+        ...(c.error ? ["error"] : []),
+      ]),
+    ),
+  ];
+  const accepted = row.outcome === "applied" || row.outcome === "skipped";
+  const preScore = scoreOutput(item, pre, row.level);
+  const postScore = scoreOutput(item, row.output, row.level);
+  if (row.lang_id) {
+    // The deterministic text (the input, unchanged) is the speaker's own
+    // words: it cannot have changed language, whatever the detector's
+    // confidence on lower-case, unpunctuated text. Counted strictly too.
+    const unchanged = (t: string) => nfc(t).trim() === nfc(row.input).trim();
+    preScore.languageStrict = languageKeptBy(
+      item,
+      row.level,
+      row.lang_id.expected,
+      row.lang_id.pre,
+    );
+    postScore.languageStrict = languageKeptBy(
+      item,
+      row.level,
+      row.lang_id.expected,
+      row.lang_id.output,
+    );
+    if (unchanged(pre) && preScore.languageStrict === false)
+      row.lang_id = { ...row.lang_id, pre: item.language };
+    if (unchanged(row.output) && postScore.languageStrict === false)
+      row.lang_id = { ...row.lang_id, output: item.language };
+    preScore.language = languageKeptBy(
+      item,
+      row.level,
+      row.lang_id.expected,
+      row.lang_id.pre,
+    );
+    postScore.language = languageKeptBy(
+      item,
+      row.level,
+      row.lang_id.expected,
+      row.lang_id.output,
+    );
+  }
+  return {
+    id: item.id,
+    category: item.category,
+    language: item.language,
+    level: row.level,
+    latencyMs: row.llm_ms,
+    deadlineMs: row.chunks.reduce((a, c) => a + c.deadline_ms, 0),
+    deadlineMissed: row.chunks.some((c) => c.timed_out),
+    error: row.chunks.find((c) => c.error)?.error ?? null,
+    raw: row.chunks.map((c) => c.raw ?? "").join("\n\n"),
+    guard: { accepted, reasons },
+    pre: preScore,
+    post: postScore,
+  };
+}
+
 export type RunResult = { report: Report; mdPath: string; jsonPath: string };
 
 export async function run(
@@ -1583,6 +1799,7 @@ export async function run(
   if (o.categories)
     items = items.filter((it) => o.categories!.includes(it.category));
   if (o.limit !== null) items = items.slice(0, o.limit);
+  if (o.replay) return runReplay(o, items, itemsText, started);
   const systemPrompt = o.systemPromptFile
     ? fs.readFileSync(o.systemPromptFile, "utf8")
     : DEFAULT_SYSTEM_PROMPT;
@@ -1643,6 +1860,67 @@ export async function run(
   return { report, mdPath, jsonPath };
 }
 
+function runReplay(
+  o: CliOptions,
+  items: Item[],
+  itemsText: string,
+  started: number,
+): RunResult {
+  const { meta, rows } = parseReplay(fs.readFileSync(o.replay!, "utf8"));
+  const byId = new Map(items.map((it) => [it.id, it]));
+  const results: ItemResult[] = [];
+  const missing: string[] = [];
+  for (const level of o.levels) {
+    const seen = new Set<string>();
+    for (const row of rows.filter((r) => r.level === level)) {
+      const item = byId.get(row.id);
+      if (!item) continue;
+      if (row.input !== item.input)
+        throw new Error(`replay: ${row.id} input differs from the items file`);
+      seen.add(row.id);
+      results.push(replayResult(item, row));
+    }
+    for (const it of items)
+      if (!seen.has(it.id)) missing.push(`${level}:${it.id}`);
+  }
+  if (missing.length)
+    throw new Error(
+      `replay: ${missing.length} item(s) missing, e.g. ${missing.slice(0, 5).join(", ")}`,
+    );
+  const date = o.date ?? new Date().toISOString().slice(0, 10);
+  const model = `s12a-${meta.model ?? "model"}${meta.language_hint ? "-langhint" : ""}`;
+  const systemPrompt = meta.system_prompt_light;
+  const report: Report = {
+    meta: {
+      date,
+      model,
+      endpoint: null,
+      dryRun: false,
+      guard: "replay",
+      levels: o.levels,
+      items: items.length,
+      itemsFile: path.relative(REPO_ROOT, o.itemsFile),
+      itemsSha256: sha256(itemsText),
+      systemPromptSha256: sha256(systemPrompt),
+      systemPromptFile: meta.runner,
+      temperature: 0,
+      seed: 42,
+      enforceDeadline: true,
+      durationMs: performance.now() - started,
+      runner: `scripts/wb-eval-cleanup.ts --replay (${meta.runner})`,
+    },
+    summaries: o.levels.map((l) => summarize(results, l)),
+    results,
+  };
+  fs.mkdirSync(o.outDir, { recursive: true });
+  const base = path.join(o.outDir, `${date}-${slug(model)}`);
+  const mdPath = `${base}.md`;
+  const jsonPath = `${base}.json`;
+  fs.writeFileSync(jsonPath, JSON.stringify(report, null, 2) + "\n");
+  fs.writeFileSync(mdPath, renderMarkdown(report));
+  return { report, mdPath, jsonPath };
+}
+
 if (import.meta.main) {
   try {
     const o = parseArgs(process.argv.slice(2));
@@ -1657,9 +1935,22 @@ if (import.meta.main) {
         `${s.level}: damage ${pct(s.post.contentDamage)}, answer ${pct(s.post.answerRate)}, ` +
           `filler ${pct(s.post.fillerRemoval)}, language ${pct(s.post.languageKept)}, ` +
           `guard catch ${pct(s.guardCatchRate)}, p50 ${ms(s.latency.p50)}, p95 ${ms(s.latency.p95)}` +
+          (s.post.languageKeptStrict
+            ? `, language strict ${pct(s.post.languageKeptStrict)} (${frac(s.post.languageKeptStrict)})`
+            : "") +
           (failed.length ? ` | RS-07 gates failed: ${failed.join(", ")}` : "") +
           "\n",
       );
+      for (const [lang, l] of Object.entries(s.byLanguage)) {
+        const lf = l.gates.filter((g) => g.pass === false).map((g) => g.name);
+        process.stdout.write(
+          `  ${lang} (${l.items}): damage ${pct(l.post.contentDamage)}, answer ${pct(l.post.answerRate)}, ` +
+            `filler ${pct(l.post.fillerRemoval)} (${frac(l.post.fillerRemoval)}), language ${pct(l.post.languageKept)} (${frac(l.post.languageKept)}), ` +
+            `catch ${pct(l.guardCatchRate)} (${frac(l.guardCatchRate)})` +
+            (lf.length ? ` | fail: ${lf.join(", ")}` : "") +
+            "\n",
+        );
+      }
     }
     process.stdout.write(
       `Report: ${path.relative(process.cwd(), mdPath)}\n        ${path.relative(process.cwd(), jsonPath)}\n`,

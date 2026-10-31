@@ -27,7 +27,10 @@ import {
   guardCatchRate,
   httpModel,
   languageKept,
+  languageKeptBy,
   loadItems,
+  parseReplay,
+  replayResult,
   noGuard,
   normalize,
   parseArgs,
@@ -51,6 +54,7 @@ import {
   type Item,
   type ItemResult,
   type Model,
+  type ReplayRow,
 } from "./wb-eval-cleanup";
 
 /** A hand-made item; fields not given get neutral defaults. */
@@ -1018,5 +1022,136 @@ describe("eval/cleanup/items.jsonl self-test", () => {
         `${it.id} phone-like number`,
       ).toBe(false);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// S-12a: replay of the shipped Rust path
+// ---------------------------------------------------------------------------
+
+describe("replay of the shipped path (S-12a)", () => {
+  const it = item({
+    input: "um so the client wants a refund",
+    expected: { light: "The client wants a refund." },
+    must_remove: ["um", "so"],
+  });
+  const row = (over: Partial<ReplayRow> = {}): ReplayRow => ({
+    id: it.id,
+    level: "light",
+    input: it.input,
+    output: "The client wants a refund.",
+    pre: "The client wants a refund.",
+    outcome: "applied",
+    why: null,
+    llm_ms: 210,
+    lang_id: { expected: "en", output: "en", pre: "en" },
+    chunks: [
+      {
+        input: it.input,
+        raw: json("The client wants a refund."),
+        text: "The client wants a refund.",
+        accepted: true,
+        reasons: [],
+        ms: 205,
+        deadline_ms: 1400,
+        error: null,
+        timed_out: false,
+      },
+    ],
+    ...over,
+  });
+
+  test("parses the meta line and the rows", () => {
+    const text = [
+      JSON.stringify({
+        meta: {
+          runner: "eval_run.rs",
+          model: "m.gguf",
+          system_prompt_light: "L",
+          system_prompt_medium: "M",
+          language_hint: true,
+        },
+      }),
+      JSON.stringify(row()),
+      "",
+    ].join("\n");
+    const { meta, rows } = parseReplay(text);
+    expect(meta.model).toBe("m.gguf");
+    expect(rows).toHaveLength(1);
+    expect(() => parseReplay(JSON.stringify(row()))).toThrow("meta");
+  });
+
+  test("an applied row scores the app's output, a rejected one keeps its reasons", () => {
+    const ok = replayResult(it, row());
+    expect(ok.guard.accepted).toBe(true);
+    expect(ok.post.filler.removed).toBe(2);
+    expect(ok.latencyMs).toBe(210);
+    const rejected = replayResult(
+      it,
+      row({
+        outcome: "guard",
+        why: "guard",
+        output: it.input,
+        pre: "The client wants it.",
+        chunks: [
+          { ...row().chunks[0], accepted: false, reasons: ["content_words"] },
+        ],
+      }),
+    );
+    expect(rejected.guard).toEqual({
+      accepted: false,
+      reasons: ["content_words"],
+    });
+    expect(rejected.pre.text).toBe("The client wants it.");
+    expect(rejected.post.filler.removed).toBe(0);
+    const late = replayResult(
+      it,
+      row({
+        outcome: "timeout",
+        why: "timeout",
+        output: it.input,
+        pre: "",
+        chunks: [
+          { ...row().chunks[0], raw: null, text: null, timed_out: true },
+        ],
+      }),
+    );
+    expect(late.deadlineMissed).toBe(true);
+    expect(late.guard.reasons).toEqual(["deadline"]);
+  });
+
+  test("language kept uses Handy lang_id; the unchanged input counts as kept", () => {
+    const long = item({
+      input: "please send the report to the whole team before friday",
+      expected: {
+        light: "Please send the report to the whole team before Friday.",
+      },
+    });
+    const r = (output: string, out: string | null) =>
+      replayResult(long, {
+        ...row(),
+        id: long.id,
+        input: long.input,
+        output,
+        pre: output,
+        lang_id: { expected: "en", output: out, pre: out },
+      });
+    expect(
+      r("Please send the report to the whole team before Friday.", "en").post
+        .language,
+    ).toBe(true);
+    expect(
+      r("Envoie le rapport à toute l'équipe avant vendredi.", "fr").post
+        .language,
+    ).toBe(false);
+    // Undecided output: lost when strict, kept when it is the input itself.
+    const same = r(long.input, null);
+    expect(same.post.language).toBe(true);
+    expect(same.post.languageStrict).toBe(false);
+    expect(
+      r("Please send it to the team before Friday.", null).post.language,
+    ).toBe(false);
+    // Expected output the detector cannot decide: the item does not count.
+    expect(languageKeptBy(long, "light", null, "en")).toBeNull();
   });
 });
