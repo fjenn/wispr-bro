@@ -161,6 +161,15 @@ async function openPill(
     : geometry.shapes.held;
   await page.setViewportSize({ width: size.w, height: size.h });
   await page.goto(PAGE);
+  // The page sets `dir` once it has mounted with the app language; tests
+  // that change `dir` themselves must come after that (a slow load reset
+  // their RTL setting otherwise).
+  if (snapshot) {
+    await expect(page.getByTestId("wb-pill")).toHaveAttribute(
+      "data-phase",
+      snapshot.phase,
+    );
+  }
 }
 
 test.describe("states", () => {
