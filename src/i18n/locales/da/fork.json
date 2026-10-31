@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Kunne ikke downloade",
-        "check_connection": "Kunne ikke downloade. Tjek din forbindelse.",
+        "check_connection": "Tjek din internetforbindelse",
         "no_space": "Der er ikke nok diskplads til at gøre diktering klar"
       }
     }

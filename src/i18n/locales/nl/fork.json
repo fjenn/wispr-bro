@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Downloaden mislukt",
-        "check_connection": "Downloaden mislukt. Controleer je verbinding.",
+        "check_connection": "Controleer je internetverbinding",
         "no_space": "Niet genoeg schijfruimte om dicteren in te stellen"
       }
     }

@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Stahování se nezdařilo",
-        "check_connection": "Stahování se nezdařilo. Zkontrolujte připojení.",
+        "check_connection": "Zkontrolujte připojení k internetu",
         "no_space": "Na disku není dost místa pro nastavení diktování"
       }
     }

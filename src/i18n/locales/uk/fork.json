@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Не вдалося завантажити",
-        "check_connection": "Не вдалося завантажити. Перевірте з'єднання.",
+        "check_connection": "Перевірте підключення до інтернету",
         "no_space": "Недостатньо місця на диску, щоб налаштувати диктування"
       }
     }

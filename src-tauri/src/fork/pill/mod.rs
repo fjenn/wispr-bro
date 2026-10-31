@@ -67,6 +67,11 @@ pub const HIDE_FOR_MS: i64 = 60 * 60 * 1000;
 /// a 1 s period followed the cursor in up to 1,016 ms on the real slice
 /// (S-03 run), over the "within 1 s" criterion; 2 Hz keeps it under.
 pub const TICK_MS: u64 = 500;
+/// A state not painted after this is sent to the page again (S-07a).
+pub const RESEND_UNPAINTED_MS: u64 = 2_000;
+/// A web view that has not painted the current state after this is
+/// destroyed and built again (S-07a).
+pub const REBUILD_UNPAINTED_MS: u64 = 8_000;
 
 /// The web view is showing a take (levels are sent only then).
 pub(crate) static WEB_SHOWN: AtomicBool = AtomicBool::new(false);
@@ -587,6 +592,10 @@ struct Controller {
     next_tick: u64,
     /// The microphone name is being looked up for the current take.
     mic_lookup: bool,
+    /// S-07a: since when the newest state waits for its paint, and when it
+    /// was last resent.
+    unpainted_since: Option<u64>,
+    last_resend: u64,
 }
 
 #[cfg(target_os = "macos")]
@@ -614,6 +623,8 @@ impl Controller {
             scene: None,
             next_tick: 0,
             mic_lookup: false,
+            unpainted_since: None,
+            last_resend: 0,
         }
     }
 
@@ -911,6 +922,42 @@ impl Controller {
                     Web::Built { shown } => shown,
                     Web::Absent => None,
                 };
+                // S-07a: a state that waits for its paint gets resent, and a
+                // web view that never paints is rebuilt (seen once on the real
+                // Mac: a card in a fresh web view after a long idle stayed on
+                // the bridge).
+                if self.painted < self.seq {
+                    let since = *self.unpainted_since.get_or_insert(now);
+                    let waited = now.saturating_sub(since);
+                    if waited >= REBUILD_UNPAINTED_MS {
+                        log::warn!(
+                            "pill: web view did not paint state {} in {waited} ms; rebuilding it",
+                            self.seq
+                        );
+                        self.unpainted_since = None;
+                        self.web = Web::Absent;
+                        self.painted = 0;
+                        self.loading_since = None;
+                        let scene = panel::Scene {
+                            native: panel::NativeScene::Bridge(active.shape),
+                            web: panel::WebScene::None,
+                            ..self.scene_base()
+                        };
+                        self.apply_scene(scene);
+                        return;
+                    }
+                    if waited >= RESEND_UNPAINTED_MS
+                        && now.saturating_sub(self.last_resend) >= RESEND_UNPAINTED_MS
+                    {
+                        self.last_resend = now;
+                        log::debug!("pill: resending state {} (not painted yet)", self.seq);
+                        if let Some(state) = snapshot() {
+                            let _ = tauri_specta::Event::emit_to(&state, &self.app, panel_label());
+                        }
+                    }
+                } else {
+                    self.unpainted_since = None;
+                }
                 if self.painted >= self.seq {
                     self.web = Web::Built {
                         shown: Some(active.shape),
@@ -977,6 +1024,17 @@ impl Controller {
         let scene = panel::Scene {
             native,
             web,
+            ..self.scene_base()
+        };
+        self.apply_scene(scene);
+    }
+
+    /// The scene's settings-driven parts (`native` and `web` are filled in
+    /// by the caller).
+    fn scene_base(&self) -> panel::Scene {
+        panel::Scene {
+            native: panel::NativeScene::Hidden,
+            web: panel::WebScene::None,
             edge: match self.settings.bar_position {
                 crate::fork::settings::BarPosition::Bottom => placement::Edge::Bottom,
                 crate::fork::settings::BarPosition::Top => placement::Edge::Top,
@@ -985,7 +1043,10 @@ impl Controller {
             protected: self.settings.bar_hide_in_recordings,
             dark: self.dark,
             texts: self.texts(),
-        };
+        }
+    }
+
+    fn apply_scene(&mut self, scene: panel::Scene) {
         if self.scene.as_ref() != Some(&scene) {
             self.scene = Some(scene.clone());
             let _ = self.app.run_on_main_thread(move || panel::apply(scene));

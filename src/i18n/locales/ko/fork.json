@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "다운로드할 수 없음",
-        "check_connection": "다운로드할 수 없습니다. 연결을 확인하세요.",
+        "check_connection": "인터넷 연결을 확인하세요",
         "no_space": "받아쓰기를 설정할 디스크 공간이 부족합니다"
       }
     }

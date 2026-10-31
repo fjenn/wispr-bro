@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "ダウンロードできませんでした",
-        "check_connection": "ダウンロードできませんでした。接続を確認してください。",
+        "check_connection": "インターネット接続を確認してください",
         "no_space": "音声入力の準備に必要なディスク容量が足りません"
       }
     }

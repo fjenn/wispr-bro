@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Nie udało się pobrać",
-        "check_connection": "Nie udało się pobrać. Sprawdź połączenie.",
+        "check_connection": "Sprawdź połączenie z internetem",
         "no_space": "Za mało miejsca na dysku, aby skonfigurować dyktowanie"
       }
     }

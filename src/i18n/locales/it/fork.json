@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Impossibile scaricare",
-        "check_connection": "Impossibile scaricare. Controlla la connessione.",
+        "check_connection": "Controlla la connessione a internet",
         "no_space": "Spazio su disco insufficiente per configurare la dettatura"
       }
     }

@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "无法下载",
-        "check_connection": "无法下载。请检查网络连接。",
+        "check_connection": "请检查网络连接",
         "no_space": "磁盘空间不足，无法设置听写"
       }
     }

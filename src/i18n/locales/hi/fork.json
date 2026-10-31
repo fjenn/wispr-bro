@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "डाउनलोड नहीं हो सका",
-        "check_connection": "डाउनलोड नहीं हो सका। अपना कनेक्शन जाँचें।",
+        "check_connection": "अपना इंटरनेट कनेक्शन जाँचें",
         "no_space": "डिक्टेशन सेट अप करने के लिए डिस्क में पर्याप्त जगह नहीं है"
       }
     }

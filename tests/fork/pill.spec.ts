@@ -397,7 +397,7 @@ test.describe("S-07a: setting up and the card", () => {
   test("setup problems offer Retry", async ({ page, ipc }) => {
     for (const [s, text] of [
       [STATES.downloadFailed, "Couldn't download"],
-      [STATES.checkConnection, "Check your connection"],
+      [STATES.checkConnection, "Check your internet connection"],
       [STATES.noSpace, "Not enough disk space"],
     ] as const) {
       await openPill(page, ipc, s);

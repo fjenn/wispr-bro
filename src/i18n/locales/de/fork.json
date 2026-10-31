@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Download fehlgeschlagen",
-        "check_connection": "Download fehlgeschlagen. Prüfe deine Verbindung.",
+        "check_connection": "Prüfe deine Internetverbindung",
         "no_space": "Nicht genug Speicherplatz, um das Diktat einzurichten"
       }
     }

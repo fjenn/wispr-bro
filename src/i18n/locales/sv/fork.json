@@ -392,7 +392,7 @@
         "no_microphone": "No microphone found",
         "mic_failed": "The microphone didn't start",
         "download_failed": "Det gick inte att ladda ned",
-        "check_connection": "Det gick inte att ladda ned. Kontrollera anslutningen.",
+        "check_connection": "Kontrollera internetanslutningen",
         "no_space": "Inte tillräckligt med diskutrymme för att förbereda diktering"
       }
     }
