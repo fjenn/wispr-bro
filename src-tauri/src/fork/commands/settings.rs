@@ -42,7 +42,10 @@ pub fn fork_set_setting<R: ForkRuntime>(
         .map_err(ForkError::Internal)?;
 
     if key == "update_checks_enabled" {
-        mirror_update_checks(&app, next.update_checks_enabled);
+        mirror_to_handy(&app, &next, "update_checks_enabled");
+    }
+    if key == "cleanup_level" {
+        mirror_to_handy(&app, &next, "filler_word_removal_enabled");
     }
     if key == "hotkey" {
         crate::fork::shortcut::reload(&app);
@@ -64,23 +67,30 @@ pub fn fork_set_setting<R: ForkRuntime>(
     Ok(next)
 }
 
-/// Mirrors the fork's update-check switch into Handy's setting at once (it is
-/// also re-applied on every start, `ENFORCED`).
-fn mirror_update_checks<R: ForkRuntime>(app: &AppHandle<R>, enabled: bool) {
+/// Applies one `ENFORCED` rule to Handy's settings at once (the update-check
+/// switch, the filler removal of level None); every rule is also re-applied
+/// on every start.
+fn mirror_to_handy<R: ForkRuntime>(
+    app: &AppHandle<R>,
+    fork: &ForkSettings,
+    handy_key: &'static str,
+) {
     if app.config().identifier != PRODUCT_IDENTIFIER {
         return;
     }
+    let Some(rule) = settings::ENFORCED.iter().find(|r| r.key == handy_key) else {
+        return;
+    };
     let Some(settings::HandySettings(handy)) = R::handy_settings(app) else {
         return;
     };
-    if handy.update_checks_enabled == enabled {
-        return;
-    }
     let before = handy.clone();
     let mut after = handy;
-    after.update_checks_enabled = enabled;
+    if !(rule.apply)(&mut after, fork) {
+        return;
+    }
     let report = settings::ProductReport {
-        enforced: vec!["update_checks_enabled"],
+        enforced: vec![handy_key],
         first_run: vec![],
     };
     R::write_handy_settings(

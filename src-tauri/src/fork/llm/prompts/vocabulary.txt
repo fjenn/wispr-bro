@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro's own text. Appended when the user's dictionary has terms (S-12a).
+# `{{terms}}` is replaced with the terms, comma-separated.
+# Everything after the first line that is exactly `---` is the fragment.
+---
+
+VOCABULARY: when these words occur, spell them exactly as written here: {{terms}}.

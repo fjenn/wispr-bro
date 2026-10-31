@@ -242,6 +242,13 @@ pub fn settings_changed(settings: &crate::fork::settings::ForkSettings) {
     send(Msg::Settings(Box::new(settings.clone())));
 }
 
+/// The LLM cleanup of the take started (S-12a): "Cleaning up…". Handy's own
+/// "processing" overlay state only comes with its post-process hotkey, which
+/// the fork keeps off.
+pub fn cleaning_up() {
+    input(Input::CleaningUp);
+}
+
 /// A later slice reports a message (S-12a: "Inserted without cleanup").
 pub fn show_message(message: PillMessage) {
     input(Input::Message(message));

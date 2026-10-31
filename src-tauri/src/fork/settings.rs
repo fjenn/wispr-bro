@@ -1038,6 +1038,10 @@ pub(crate) const ENFORCED: &[EnforcedRule] = &[
         key: "update_checks_enabled",
         apply: enforce_update_checks_mirror,
     },
+    EnforcedRule {
+        key: "filler_word_removal_enabled",
+        apply: enforce_filler_removal_level,
+    },
 ];
 
 fn set<T: PartialEq>(slot: &mut T, value: T) -> bool {
@@ -1077,6 +1081,16 @@ fn enforce_experimental_off(handy: &mut AppSettings, _: &ForkSettings) -> bool {
 
 fn enforce_update_checks_mirror(handy: &mut AppSettings, fork: &ForkSettings) -> bool {
     set(&mut handy.update_checks_enabled, fork.update_checks_enabled)
+}
+
+/// R5 §4.10 stage 5: Handy's filler and stutter removal is off at cleanup
+/// level None (S-12a), on otherwise. Mirrored at once when the level changes
+/// (`fork_set_setting`) and re-applied on every start.
+fn enforce_filler_removal_level(handy: &mut AppSettings, fork: &ForkSettings) -> bool {
+    set(
+        &mut handy.filler_word_removal_enabled,
+        fork.cleanup_level != CleanupLevel::None,
+    )
 }
 
 /// `true` for an `http(s)` URL whose host is `localhost` or a loopback IP

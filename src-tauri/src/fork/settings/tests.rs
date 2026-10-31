@@ -795,6 +795,7 @@ fn the_enforced_list_matches_r5() {
             "post_process_providers",
             "post_process_provider_id",
             "update_checks_enabled",
+            "filler_word_removal_enabled",
         ]
     );
 }
@@ -1123,4 +1124,20 @@ mod app {
             b"not json at all"
         );
     }
+}
+
+#[test]
+fn filler_removal_follows_the_cleanup_level() {
+    // R5 §4.10 stage 5: off at level None (S-12a).
+    let mut handy = fresh_handy();
+    let mut fork = ForkSettings::default();
+    apply_product_settings(&mut handy, &mut fork, &ctx());
+    assert!(handy.filler_word_removal_enabled);
+    fork.cleanup_level = CleanupLevel::None;
+    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    assert!(!handy.filler_word_removal_enabled);
+    assert!(report.enforced.contains(&"filler_word_removal_enabled"));
+    fork.cleanup_level = CleanupLevel::Medium;
+    apply_product_settings(&mut handy, &mut fork, &ctx());
+    assert!(handy.filler_word_removal_enabled);
 }

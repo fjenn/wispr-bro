@@ -755,5 +755,61 @@
     "theme": {
       "description": "Wählen Sie, ob Wispr Bro dem Systemthema folgt oder hell bzw. dunkel bleibt"
     }
+  },
+  "cleanup": {
+    "title": "Aufräumen",
+    "loading": "Lade das Reinigungslevel...",
+    "loadError": "Das Laden des Reinigungslevels konnte nicht erfolgen: {{message}}",
+    "setError": "Die Änderung wurde nicht gespeichert: {{message}}",
+    "notice": "Ohne Bereinigung eingefügt",
+    "picker": {
+      "legend": "Wie viel sollte deine Sprache gereinigt werden?",
+      "recommended": "Empfohlen",
+      "aiChat": "In AI-Chat-Anwendungen werden deine Wörter so eingefügt, wie du sie gesagt hast, ohne AI-Editierungen."
+    },
+    "levels": {
+      "none": {
+        "label": "Keine",
+        "description": "Genau das, was du gesagt hast, nur mit Abstand und Sprachbefehlen angepasst."
+      },
+      "light": {
+        "label": "Hell",
+        "description": "Entfernt Filler wie \"um\" und \"you know\", korrigiert Satzzeichen und Großschreibung und behält deine Korrekturen: \"at 2, actually 3\" wird zu \"at 3\"."
+      },
+      "medium": {
+        "label": "Mittel",
+        "description": "Alles im Licht, plus glatter Grammatik und Wortwahl. Ihre Fakten und Bedeutung bleiben gleich."
+      }
+    },
+    "last": {
+      "title": "Letzte Dictation",
+      "none": "Keine Dictation seit dem Start der App.",
+      "applied_one": "Geclebt in {{ms}} ms, {{count}} Änderung.",
+      "applied_other": "Geclebt in {{ms}} ms, {{count}} Änderungen.",
+      "partial": "Gesäubert teilweise ({{applied}} von {{total}} Absätzen); der Rest ist wie gesprochen: {{reason}}",
+      "checks": "Sicherheitsprüfungen, die es gestoppt haben: {{checks}}"
+    },
+    "why": {
+      "level_none": "Die Bereinigung ist deaktiviert.",
+      "empty": "Nichts zum Aufräumen.",
+      "already_clean": "Bereits sauber, daher benötigte das KI-System nichts.",
+      "ai_chat": "KI-Chat-App: eingefügt wie du es gesagt hast.",
+      "not_ready": "Ohne Bereinigung eingefügt: das Bereinigungsmodell ist noch nicht bereit.",
+      "low_memory": "Ohne Bereinigung eingefügt: Aktuell nicht genügend freie Speicherplatz.",
+      "guard": "Ohne Bereinigung eingefügt: Der bereinigte Text hat die Sicherheitsprüfungen nicht bestanden.",
+      "timeout": "Ohne Bereinigung eingefügt: Bereinigung dauerte zu lange.",
+      "error": "Ohne Bereinigung eingefügt: das AI-System hatte ein Problem."
+    },
+    "reason": {
+      "level_none": "Reinigung ist ausgeschaltet",
+      "empty": "nichts zum Aufräumen",
+      "already_clean": "bereits sauber",
+      "ai_chat": "KI-Chat-App",
+      "not_ready": "das Bereinigungsmodell ist noch nicht bereit",
+      "low_memory": "nicht genug freier Speicher",
+      "guard": "es hat die Sicherheitsprüfungen nicht bestanden",
+      "timeout": "Die Bereinigung dauerte zu lange",
+      "error": "das AI-System hatte ein Problem"
+    }
   }
 }

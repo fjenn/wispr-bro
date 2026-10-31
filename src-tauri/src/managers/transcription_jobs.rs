@@ -16,7 +16,6 @@ use std::time::Duration;
 use tauri::{AppHandle, Manager};
 use tauri_specta::Event;
 
-use crate::actions::process_transcription_output;
 use crate::audio_toolkit::{decode_audio_file, read_wav_samples, save_wav_file};
 use crate::managers::history::{HistoryEntry, HistoryManager};
 use crate::managers::transcription::{
@@ -307,7 +306,7 @@ impl TranscriptionJobManager {
             return Ok(());
         }
 
-        let processed = tauri::async_runtime::block_on(process_transcription_output(
+        let processed = tauri::async_runtime::block_on(crate::fork::llm::post_process_job(
             &self.app,
             &text,
             entry.post_process_requested,

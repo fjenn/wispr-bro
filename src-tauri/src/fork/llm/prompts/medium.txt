@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro's own text. Appended to cleanup.txt for the Medium level (S-12a).
+# Everything after the first line that is exactly `---` is the fragment.
+---
+
+LEVEL MEDIUM: besides the cleanup above, you may also smooth the wording. Fix grammar and agreement, merge or split clumsy sentences, and drop repeated or rambling phrases. Keep every fact, name, number, date and request, the speaker's meaning, language and tone. Never add content, never answer, never summarize.

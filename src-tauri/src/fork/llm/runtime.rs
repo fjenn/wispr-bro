@@ -28,12 +28,11 @@ use tauri::{AppHandle, Listener, Manager, Runtime};
 use tauri_specta::Event;
 
 use super::catalog::{self, LlmModel};
-use super::chat::{CancellationToken, ChatRequest};
+use super::chat::CancellationToken;
 use super::download::{self, DownloadError, ProgressCounter};
 use super::memory::{self, AsrState, LoadPlanner, PlanAction};
-use super::prompt;
 use super::supervisor::{
-    Config, ProcessLauncher, RequestError, ServerPhase, ServerStatus, StartError, Supervisor,
+    Config, ProcessLauncher, ServerPhase, ServerStatus, StartError, Supervisor,
 };
 
 /// Sub-folder of the app data dir: socket, PID file, verification markers.
@@ -73,11 +72,19 @@ pub struct ForkLlmStatus {
 /// `fork_llm_try` reply.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub struct ForkLlmTryResult {
+    /// What a dictation of this text would insert: the cleaned text, or
+    /// the text as given when cleanup did not apply.
     pub cleaned: String,
     /// Request time, after the server was ready.
     pub cleanup_ms: u32,
     /// Time spent starting the server first (0 when it was running).
     pub start_ms: u32,
+    /// The level used (the user's, or Light when it is None).
+    pub level: crate::fork::settings::CleanupLevel,
+    pub outcome: super::post_process::CleanupOutcome,
+    pub why: Option<super::post_process::CleanupWhy>,
+    /// Guard checks that rejected the reply.
+    pub guard_reasons: Vec<String>,
 }
 
 /// `fork_llm_try` error.
@@ -585,7 +592,9 @@ async fn first_launch_warmup<R: Runtime>(app: &AppHandle<R>) {
     }
 }
 
-/// "Try it": cleans `text` with the Light prompt.
+/// "Try it": cleans `text` the way a dictation would be cleaned (the user's
+/// level, Light when it is None; the gate, guards and deadlines of
+/// [`super::post_process::clean`]), with the server started first.
 pub async fn try_cleanup<R: Runtime>(
     app: &AppHandle<R>,
     text: &str,
@@ -609,24 +618,42 @@ pub async fn try_cleanup<R: Runtime>(
     } else {
         u32::try_from(t0.elapsed().as_millis()).unwrap_or(u32::MAX)
     };
-    let request = ChatRequest {
-        system: prompt::cleanup_system(),
-        user: prompt::cleanup_user(text),
-        max_tokens: prompt::max_tokens(text),
-        response_format: Some(prompt::response_format()),
+    use super::post_process::{clean, LocalEngine, Request};
+    use crate::fork::settings::CleanupLevel;
+    let level = match app
+        .try_state::<crate::fork::settings::ForkSettingsHandle>()
+        .and_then(|h| h.get(app).ok())
+        .map(|s| s.cleanup_level)
+    {
+        Some(CleanupLevel::Medium) => CleanupLevel::Medium,
+        _ => CleanupLevel::Light,
     };
-    let reply = sup
-        .complete(&request, Duration::from_secs(30), &CancellationToken::new())
-        .await
-        .map_err(|e| match e {
-            RequestError::Start(StartError::NoModel) => ForkLlmError::NotReady,
-            e => ForkLlmError::Failed(e.to_string()),
-        })?;
-    let cleaned = prompt::parse_reply(&reply.content).ok_or(ForkLlmError::BadReply)?;
+    let cleaned = clean(
+        &LocalEngine {
+            supervisor: &sup,
+            pill: false,
+        },
+        &Request {
+            text,
+            level,
+            language: None,
+            hint: None,
+            terms: &[],
+            keep: &[],
+        },
+    )
+    .await;
+    if let Some(e) = cleaned.chunks.iter().find_map(|c| c.error.clone()) {
+        return Err(ForkLlmError::Failed(e));
+    }
     Ok(ForkLlmTryResult {
-        cleaned,
-        cleanup_ms: u32::try_from(reply.total.as_millis()).unwrap_or(u32::MAX),
+        guard_reasons: cleaned.guard_reasons(),
+        cleaned: cleaned.text,
+        cleanup_ms: cleaned.llm_ms,
         start_ms,
+        level,
+        outcome: cleaned.outcome,
+        why: cleaned.why,
     })
 }
 

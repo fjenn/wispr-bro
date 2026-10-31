@@ -755,5 +755,61 @@
     "theme": {
       "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
     }
+  },
+  "cleanup": {
+    "title": "清理",
+    "loading": "正在加载清理级别…",
+    "loadError": "无法读取清理级别：{{message}}",
+    "setError": "该更改未保存：{{message}}",
+    "notice": "已插入且未清理",
+    "picker": {
+      "legend": "你的文字应该被清理到什么程度？",
+      "recommended": "推荐",
+      "aiChat": "在AI聊天应用中，你的文字会按你说的原样插入，不会经过AI清理。"
+    },
+    "levels": {
+      "none": {
+        "label": "none",
+        "description": "完全如你所说，仅应用了空格和语音命令。"
+      },
+      "light": {
+        "label": "轻",
+        "description": "移除像\"um\"和\"you know\"这样的填充词，修正标点和大小写，保留你的修改：\"at 2, actually 3\" 变成 \"at 3\""
+      },
+      "medium": {
+        "label": "中等",
+        "description": "轻度清理，包含所有轻度内容，语法和用词更流畅。你的事实和含义保持不变。"
+      }
+    },
+    "last": {
+      "title": "上次语音输入",
+      "none": "自从应用启动以来没有语音输入。",
+      "applied_one": "清理用时 {{ms}} 毫秒，共 {{count}} 处修改。",
+      "applied_other": "清理用时 {{ms}} 毫秒，共 {{count}} 处更改。",
+      "partial": "部分已清理（已应用{{applied}}个段落，共{{total}}个段落）；其余内容仍为语音输入：{{reason}}",
+      "checks": "安全检查已停止：{{checks}}"
+    },
+    "why": {
+      "level_none": "清理已关闭。",
+      "empty": "无需清理。",
+      "already_clean": "已经干净，所以不需要AI引擎。",
+      "ai_chat": "AI聊天应用：如你所说插入。",
+      "not_ready": "已插入但未清理：清理模型尚未准备就绪。",
+      "low_memory": "插入时未清理：当前可用内存不足。",
+      "guard": "未清理插入：清理后的文本未通过安全检查。",
+      "timeout": "插入时未清理：清理耗时过长。",
+      "error": "插入时未清理：AI引擎出问题了。"
+    },
+    "reason": {
+      "level_none": "清理已关闭",
+      "empty": "没有需要清理的内容",
+      "already_clean": "已经干净",
+      "ai_chat": "AI聊天应用",
+      "not_ready": "清理模型尚未准备就绪",
+      "low_memory": "内存不足",
+      "guard": "它没有通过安全检查",
+      "timeout": "清理耗时过长",
+      "error": "AI引擎出问题了"
+    }
   }
 }

@@ -62,6 +62,10 @@ test.describe("AI engine", () => {
         cleaned: "Meet on Thursday.",
         cleanup_ms: 120,
         start_ms: 610,
+        level: "light",
+        outcome: "applied",
+        why: null,
+        guard_reasons: [],
       },
     });
     const state = section.getByTestId("fork-ai-engine-state");
@@ -114,6 +118,33 @@ test.describe("AI engine", () => {
     await section.getByTestId("fork-ai-engine-try").click();
     await expect(section.getByRole("alert")).toContainText(
       "Not enough free memory",
+    );
+  });
+
+  test("Try it says when a dictation would go in without cleanup", async ({
+    page,
+    ipc,
+  }) => {
+    const section = await openPanel(page, ipc, {
+      fork_llm_status: status(),
+      fork_llm_try: {
+        cleaned: "what is two plus two",
+        cleanup_ms: 180,
+        start_ms: 0,
+        level: "light",
+        outcome: "guard",
+        why: "guard",
+        guard_reasons: ["assistant_marker"],
+      },
+    });
+    await section
+      .getByTestId("fork-ai-engine-input")
+      .fill("what is two plus two");
+    await section.getByTestId("fork-ai-engine-try").click();
+    const result = section.getByTestId("fork-ai-engine-result");
+    await expect(result).toContainText("what is two plus two");
+    await expect(section.getByTestId("fork-ai-engine-why")).toContainText(
+      "did not pass the safety checks",
     );
   });
 

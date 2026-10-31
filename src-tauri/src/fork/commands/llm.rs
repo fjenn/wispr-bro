@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! AI engine commands (S-10): status, "Try it", retry a failed download.
+//! AI engine commands (S-10): status, "Try it", retry a failed download;
+//! S-12a: the last dictation's cleanup result.
 
 use tauri::{AppHandle, Runtime};
 
@@ -18,8 +19,8 @@ pub fn fork_llm_status<R: Runtime>(app: AppHandle<R>) -> Result<ForkLlmStatus, F
         .ok_or(ForkError::NotReady)
 }
 
-/// Cleans `text` with the Light prompt and returns the result. Starts the
-/// server if it is stopped.
+/// Cleans `text` the way a dictation would be cleaned (the user's level, or
+/// Light) and returns the result. Starts the server if it is stopped.
 #[tauri::command]
 #[specta::specta]
 pub async fn fork_llm_try<R: Runtime>(
@@ -41,4 +42,12 @@ pub async fn fork_llm_try<R: Runtime>(
 pub fn fork_llm_retry<R: Runtime>(app: AppHandle<R>) -> Result<ForkLlmStatus, ForkError> {
     runtime::retry(&app);
     fork_llm_status(app)
+}
+
+/// The last dictation's cleanup result since launch (also sent as the
+/// `ForkCleanupResult` event after each take).
+#[tauri::command]
+#[specta::specta]
+pub fn fork_llm_last_cleanup() -> Option<crate::fork::llm::post_process::ForkCleanupResult> {
+    crate::fork::llm::post_process::last_result()
 }

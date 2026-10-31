@@ -755,5 +755,61 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
     }
+  },
+  "cleanup": {
+    "title": "Cleanup",
+    "loading": "Loading the cleanup level…",
+    "loadError": "Could not read the cleanup level: {{message}}",
+    "setError": "That change was not saved: {{message}}",
+    "notice": "Inserted without cleanup",
+    "picker": {
+      "legend": "How much should your words be cleaned up?",
+      "recommended": "Recommended",
+      "aiChat": "In AI chat apps your words are inserted as you said them, without AI cleanup."
+    },
+    "levels": {
+      "none": {
+        "label": "None",
+        "description": "Exactly what you said, with only spacing and voice commands applied."
+      },
+      "light": {
+        "label": "Light",
+        "description": "Removes fillers like “um” and “you know”, fixes punctuation and capitals, and keeps your corrections: “at 2, actually 3” becomes “at 3”."
+      },
+      "medium": {
+        "label": "Medium",
+        "description": "Everything in Light, plus smoother grammar and wording. Your facts and meaning stay the same."
+      }
+    },
+    "last": {
+      "title": "Last dictation",
+      "none": "No dictation since the app started.",
+      "applied_one": "Cleaned in {{ms}} ms, {{count}} change.",
+      "applied_other": "Cleaned in {{ms}} ms, {{count}} changes.",
+      "partial": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}",
+      "checks": "Safety checks that stopped it: {{checks}}"
+    },
+    "why": {
+      "level_none": "Cleanup is off.",
+      "empty": "Nothing to clean up.",
+      "already_clean": "Already clean, so the AI engine was not needed.",
+      "ai_chat": "AI chat app: inserted as you said it.",
+      "not_ready": "Inserted without cleanup: the cleanup model is not ready yet.",
+      "low_memory": "Inserted without cleanup: not enough free memory right now.",
+      "guard": "Inserted without cleanup: the cleaned text did not pass the safety checks.",
+      "timeout": "Inserted without cleanup: cleanup took too long.",
+      "error": "Inserted without cleanup: the AI engine had a problem."
+    },
+    "reason": {
+      "level_none": "cleanup is off",
+      "empty": "nothing to clean up",
+      "already_clean": "already clean",
+      "ai_chat": "AI chat app",
+      "not_ready": "the cleanup model is not ready yet",
+      "low_memory": "not enough free memory",
+      "guard": "it did not pass the safety checks",
+      "timeout": "cleanup took too long",
+      "error": "the AI engine had a problem"
+    }
   }
 }

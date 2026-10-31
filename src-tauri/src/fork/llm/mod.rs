@@ -9,13 +9,25 @@
 //!   chat client ([`chat`]), the OpenWhispr prompt seed ([`prompt`]) and the
 //!   app wiring ([`runtime`]). The `local` provider now reaches the sidecar
 //!   (Unix socket or loopback TCP with a key, DEC-49).
-//! - S-12a adds the cleanup pipeline and guards.
+//! - S-12a: cleanup levels on the local LLM ([`post_process`]: the
+//!   `actions.rs` hook, the gate, paragraph chunks, deadlines and the
+//!   outcome record), the prompt builder ([`prompt`]), the guard chain
+//!   ([`guards`]) with its word tables ([`markers`]) and the deadlines
+//!   ([`deadline`]). Handy's own post-processing chain runs only where the
+//!   fork does not own cleanup (headless CLI, plain Handy builds).
 
 pub mod catalog;
 pub mod chat;
+pub mod deadline;
 pub mod download;
+#[cfg(test)]
+mod eval_run;
+pub mod guards;
 pub mod health;
+pub mod leadins;
+pub mod markers;
 pub mod memory;
+pub mod post_process;
 pub mod process;
 pub mod prompt;
 pub mod providers;
@@ -28,6 +40,7 @@ pub mod transport;
 #[cfg(test)]
 mod tests;
 
+pub(crate) use post_process::{post_process, post_process_job};
 pub use providers::default_providers;
 
 use reqwest::header::{HeaderMap, REFERER, USER_AGENT};

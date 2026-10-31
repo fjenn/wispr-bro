@@ -14,6 +14,7 @@ import { commands } from "../bindings";
 import { AiEngine } from "../settings/advanced/AiEngine";
 import { BarSettings } from "../settings/BarSettings";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
+import { CleanupLevelPicker } from "../style/CleanupLevelPicker";
 import { CspSmoke } from "./CspSmoke";
 import { NotificationsDebug } from "./NotificationsDebug";
 import { runCspSmoke } from "./cspSmokeChecks";
@@ -24,6 +25,13 @@ registerForkDebugSection({
   id: "settings",
   titleKey: "settings.debug.title",
   render: () => <ForkSettingsDebug />,
+});
+
+// S-12a: the cleanup level picker, until S-19a's Style › Cleanup.
+registerForkDebugSection({
+  id: "cleanup",
+  titleKey: "cleanup.title",
+  render: () => <CleanupLevelPicker />,
 });
 
 // S-10: Settings › Advanced › AI engine, until S-14's Settings modal.

@@ -765,7 +765,7 @@ impl ShortcutAction for TranscribeAction {
                                 }
                             }
                             let Some(processed) = complete_unless_cancelled(
-                                process_transcription_output(&ah, &transcription, post_process),
+                                crate::fork::llm::post_process(&ah, &transcription, post_process),
                                 || rm.was_cancelled_since(cancel_generation),
                             )
                             .await

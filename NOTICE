@@ -188,6 +188,46 @@ Details per port: docs/fork/PORTS.md.
   Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
   Modified by Wispr Bro contributors, 2026 ({{agentName}} set to
   "Assistant"; one line asking for a JSON reply appended).
+  The same text ships as src-tauri/src/fork/llm/prompts/cleanup.txt (S-12a).
+- src-tauri/src/fork/llm/guards.rs (S-12a guard chain)
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/actions.rs (transcription_allows_empty_output,
+          is_leaked_channel_name, echo_words, prompt_echo,
+          is_implausibly_long)
+  Copyright (c) 2026 Abhishek Barali, Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  and FreeFlow, https://github.com/zachlatta/freeflow
+  Commit: 4ebd9366e9e2920928c65c879185e5f98af38806
+  File:   Sources/TranscriptTextCore.swift
+          (appearsToHaveExecutedInstruction, significantTokens)
+  Copyright (c) 2026 Zach Latta
+  Licence: MIT (LICENSES/MIT-FreeFlow.txt)
+  and BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  File:   Sources/BetterWisprCore/Transcription/TranscriptPolisher.swift
+          (accepted()); adapted there from VoiceInk,
+          https://github.com/Beingpax/VoiceInk at
+          c09cc1f677f40f2ee665843a61f07670210f012e
+  Licence: GPL-3.0 (LICENSE)
+  and Muesli, https://github.com/Muesli-HQ/muesli
+  Commit: e1b52117ffb1ab6980f7266b72d9cb9e706a5afb
+  File:   native/MuesliNative/Sources/MuesliNativeApp/Qwen3PostProcessor.swift
+          (assistant markers of shouldFallbackToInput; data in
+          src-tauri/src/fork/llm/tables/markers.json)
+  Copyright (c) 2026 Pranav Hari
+  Licence: MIT (LICENSES/MIT-Muesli.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (ported to one Rust
+  chain; multilingual word tables; filler- and repair-aware word band;
+  our own entity, formatting, content-word and language checks).
+- src-tauri/src/fork/llm/post_process.rs (the clean-text gate)
+  Source: open-flow, https://github.com/Robj1925/open-flow
+  Commit: 7055c59014ffaac3785e25532ee07ce39093490e
+  File:   Sources/OpenFlowCore/Postprocess/LLMCleanerStage.swift (needsCleanup)
+  Copyright (c) 2026 Rob J
+  Licence: MIT (LICENSES/MIT-open-flow.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (multilingual filler and
+  repair tables; unpunctuated text also needs the LLM).
 
 - src-tauri/src/fork/pill/panel.rs
   Source: Tolkovo, https://github.com/kozliq/Tolkovo

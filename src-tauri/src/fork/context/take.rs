@@ -31,6 +31,7 @@ use std::sync::Mutex;
 
 use super::categories::{self, AppClass};
 use super::frontmost::FrontApp;
+use crate::fork::llm::post_process::CleanupRecord;
 use crate::fork::text::counts::TextRecord;
 use crate::fork::text::rules::Provenance;
 
@@ -124,6 +125,8 @@ pub struct Processed {
     /// The verbatim ASR text.
     pub verbatim: String,
     pub record: TextRecord,
+    /// What the LLM cleanup did (S-12a), once it ran.
+    pub cleanup: Option<CleanupRecord>,
 }
 
 #[derive(Debug, Default)]
@@ -200,6 +203,7 @@ impl Ledger {
                 kept: kept.to_owned(),
                 verbatim,
                 record,
+                cleanup: None,
             },
         );
     }
@@ -213,6 +217,24 @@ impl Ledger {
     pub fn take_processed(&mut self, kept: &str) -> Option<Processed> {
         let at = self.processed.iter().rposition(|p| p.kept == kept)?;
         self.processed.remove(at)
+    }
+
+    /// The language the pipeline resolved for the newest transcription kept
+    /// as `kept` (not consumed).
+    pub fn language_for(&self, kept: &str) -> Option<String> {
+        self.processed
+            .iter()
+            .rev()
+            .find(|p| p.kept == kept)
+            .and_then(|p| p.record.language.clone())
+    }
+
+    /// The LLM cleanup of the newest transcription kept as `kept` (S-12a);
+    /// read by the save hook with the rest of the record.
+    pub fn note_cleanup(&mut self, kept: &str, cleanup: CleanupRecord) {
+        if let Some(p) = self.processed.iter_mut().rev().find(|p| p.kept == kept) {
+            p.cleanup = Some(cleanup);
+        }
     }
 
     /// The verbatim text for the newest transcription Handy kept as `kept`

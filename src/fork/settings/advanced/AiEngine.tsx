@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Settings › Advanced › "AI engine" (S-10). Shows whether the local cleanup
- * model is ready and lets the user try it on a sample sentence. Lives on the
+ * model is ready and lets the user try it on a sample sentence, cleaned the
+ * way a dictation would be (S-12a: level, gate, guards). Lives on the
  * fork debug panel until S-14 builds the Settings modal, which mounts this
  * same component.
  */
@@ -181,6 +182,14 @@ export function AiEngine() {
               <p className="rounded bg-wash px-2 py-1 select-text">
                 {tryState.result.cleaned || t("aiEngine.try.empty")}
               </p>
+              {tryState.result.why && (
+                <p
+                  className="text-xs text-ink-2"
+                  data-testid="fork-ai-engine-why"
+                >
+                  {t(`cleanup.why.${tryState.result.why}`)}
+                </p>
+              )}
               <p className="text-xs text-ink-3">
                 {tryState.result.start_ms > 0
                   ? t("aiEngine.try.timingCold", {

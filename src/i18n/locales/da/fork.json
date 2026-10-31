@@ -755,5 +755,61 @@
     "theme": {
       "description": "Vælg om Wispr Bro skal følge dit systemtema eller forblive lyst eller mørkt"
     }
+  },
+  "cleanup": {
+    "title": "Fjern sletning",
+    "loading": "Indlæser renholdningsniveauet...",
+    "loadError": "Kunne ikke læse rengøringsniveauet: {{message}}",
+    "setError": "Denne ændring blev ikke besat: {{message}}",
+    "notice": "Indsættes uden rengøring",
+    "picker": {
+      "legend": "Hvor meget bør dine ord være rene op?",
+      "recommended": "Anbefalet",
+      "aiChat": "I AI-chatapperne indsættes dine ord præcis som du sagde dem, uden AI-rensning."
+    },
+    "levels": {
+      "none": {
+        "label": "Ingen",
+        "description": "Præcis det, du sagde, med kun mellemrum og talekommandoer tilføjet."
+      },
+      "light": {
+        "label": "Lys",
+        "description": "Fjerner udfiller som \"um\" og \"you know\", retter punktuation og store bogstaver, og bevarer dine rettelser: \"at 2, faktisk 3\" bliver \"at 3\"."
+      },
+      "medium": {
+        "label": "Middel",
+        "description": "Alt i Lyse, plus mere smidig grammatik og formulering. Din fakta og betydning bliver ikke ændret."
+      }
+    },
+    "last": {
+      "title": "Sidste dictation",
+      "none": "Ingen dictation siden appen startede.",
+      "applied_one": "Fjernet i {{ms}} ms, {{count}} ændring.",
+      "applied_other": "Fjernet i {{ms}} ms, {{count}} ændringer.",
+      "partial": "Fjernet delvis ({{applied}} af {{total}} afsnit); resten er som talt: {{reason}}",
+      "checks": "Sikkerhedschecke, der stoppedped det: {{checks}}"
+    },
+    "why": {
+      "level_none": "Rejse er slået af.",
+      "empty": "Ingen ting at rydde op.",
+      "already_clean": "Allerede ren, så var AI-udgivelsen ikke nødvendig.",
+      "ai_chat": "AI-chatapp: Indsæt som du sagde det.",
+      "not_ready": "Indsat uden rengøring: rengøringssystemet er endnu ikke klar.",
+      "low_memory": "Indsæt uden rengøring: ikke nok ledig hukommelse nu.",
+      "guard": "Indsat uden rengøring: den rengørte tekst passede ikke safety kontrol.",
+      "timeout": "Indsat uden rengøring: rengøring tog for lang tid.",
+      "error": "Indsat uden rengøring: AI-motoren havde et problem."
+    },
+    "reason": {
+      "level_none": "rengøring er slået af",
+      "empty": "ingen ting at fjerne",
+      "already_clean": "allerede ren",
+      "ai_chat": "AI-chat-app",
+      "not_ready": "rejsemodellen er ikke klar endnu",
+      "low_memory": "ikke nok ledig hukommelse",
+      "guard": "det passed ikke de sikkerhedschecks",
+      "timeout": "fjernelse tog for langt tid",
+      "error": "AI-ingenen havde et problem"
+    }
   }
 }

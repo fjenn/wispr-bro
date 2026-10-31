@@ -179,8 +179,8 @@ async forkLlmStatus() : Promise<Result<ForkLlmStatus, ForkError>> {
 }
 },
 /**
- * Cleans `text` with the Light prompt and returns the result. Starts the
- * server if it is stopped.
+ * Cleans `text` the way a dictation would be cleaned (the user's level, or
+ * Light) and returns the result. Starts the server if it is stopped.
  */
 async forkLlmTry(text: string) : Promise<Result<ForkLlmTryResult, ForkLlmError>> {
     try {
@@ -398,6 +398,13 @@ async forkPillReady(seq: number) : Promise<void> {
  */
 async forkPillAction(action: PillUiAction) : Promise<void> {
     await TAURI_INVOKE("fork_pill_action", { action });
+},
+/**
+ * The last dictation's cleanup result since launch (also sent as the
+ * `ForkCleanupResult` event after each take).
+ */
+async forkLlmLastCleanup() : Promise<ForkCleanupResult | null> {
+    return await TAURI_INVOKE("fork_llm_last_cleanup");
 }
 }
 
@@ -405,6 +412,7 @@ async forkPillAction(action: PillUiAction) : Promise<void> {
 
 
 export const events = __makeEvents__<{
+forkCleanupResult: ForkCleanupResult,
 forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
@@ -418,6 +426,7 @@ forkSettingsChanged: ForkSettingsChanged,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss
 }>({
+forkCleanupResult: "fork-cleanup-result",
 forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
@@ -447,9 +456,49 @@ export type BarPosition = "bottom" | "top"
  */
 export type BindingLabel = { action: string; chord: string; activation: HotkeyActivation; label: Label }
 /**
+ * `entry_meta.cleanup_engine`.
+ */
+export type CleanupEngine = "none" | "local" | 
+/**
+ * Apple Foundation Models (S-12b).
+ */
+"apple"
+/**
  * LLM cleanup level (DEC-03: Light by default).
  */
 export type CleanupLevel = "none" | "light" | "medium"
+/**
+ * `entry_meta.cleanup_outcome`.
+ */
+export type CleanupOutcome = "applied" | "skipped" | "guard" | "timeout" | "error"
+/**
+ * Why a take was not (fully) cleaned.
+ */
+export type CleanupWhy = 
+/**
+ * Level None.
+ */
+"level_none" | 
+/**
+ * Nothing to clean.
+ */
+"empty" | 
+/**
+ * Light, and the text needs no cleanup (no LLM call).
+ */
+"already_clean" | 
+/**
+ * The target is an AI chat (`is_ai_chat`): no LLM formatting.
+ */
+"ai_chat" | 
+/**
+ * No cleanup model on this Mac yet (downloading, unsupported).
+ */
+"not_ready" | 
+/**
+ * R5 §4.5 memory rule.
+ */
+"low_memory" | "guard" | "timeout" | "error"
 /**
  * Entry counts the page shows on its tabs.
  */
@@ -588,6 +637,26 @@ entry_id: number | null }
  */
 export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed" | "disk_full"
 /**
+ * One take's result for the UI (pill, debug panel).
+ */
+export type ForkCleanupResult = { 
+/**
+ * Counter since launch.
+ */
+take: number; level: CleanupLevel; engine: CleanupEngine; outcome: CleanupOutcome; why: CleanupWhy | null; 
+/**
+ * Show "Inserted without cleanup".
+ */
+notice: boolean; chunks_total: number; chunks_applied: number; 
+/**
+ * Time in the LLM step (requests and a server start).
+ */
+llm_ms: number; fixes: number; 
+/**
+ * Guard checks that rejected a chunk (names, no text).
+ */
+guard_reasons: string[] }
+/**
  * Reply of [`fork_csp_smoke_media`].
  */
 export type ForkCspMedia = { 
@@ -713,7 +782,12 @@ error: string | null }
 /**
  * `fork_llm_try` reply.
  */
-export type ForkLlmTryResult = { cleaned: string; 
+export type ForkLlmTryResult = { 
+/**
+ * What a dictation of this text would insert: the cleaned text, or
+ * the text as given when cleanup did not apply.
+ */
+cleaned: string; 
 /**
  * Request time, after the server was ready.
  */
@@ -721,7 +795,15 @@ cleanup_ms: number;
 /**
  * Time spent starting the server first (0 when it was running).
  */
-start_ms: number }
+start_ms: number; 
+/**
+ * The level used (the user's, or Light when it is None).
+ */
+level: CleanupLevel; outcome: CleanupOutcome; why: CleanupWhy | null; 
+/**
+ * Guard checks that rejected the reply.
+ */
+guard_reasons: string[] }
 /**
  * Snapshot of Handy's model registry, as seen by the fork.
  */

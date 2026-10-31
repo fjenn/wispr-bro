@@ -62,6 +62,9 @@ pub struct TextRecord {
     pub rule_hits: Vec<RuleHit>,
     /// For stage 9 after an LLM rewrite.
     pub provenance: Vec<Provenance>,
+    /// The output language Handy resolved (ISO 639-1), for the cleanup
+    /// prompt and guards (S-12a).
+    pub language: Option<String>,
 }
 
 impl TextRecord {
@@ -121,9 +124,86 @@ pub fn changed_words(before: &str, after: &str) -> u32 {
     u32::try_from(a.len() + b.len() - 2 * lcs).unwrap_or(u32::MAX)
 }
 
+/// Lower-cased letters and digits of each whitespace word; words of only
+/// punctuation drop out.
+fn plain_words(s: &str) -> Vec<String> {
+    s.split_whitespace()
+        .map(|w| {
+            w.chars()
+                .filter(|c| c.is_alphanumeric())
+                .flat_map(char::to_lowercase)
+                .collect::<String>()
+        })
+        .filter(|w| !w.is_empty())
+        .collect()
+}
+
+/// Runs of changed words between `before` and `after`, ignoring case and
+/// punctuation (the LLM fix count, `entry_meta.fix_count_llm`): a removed
+/// "um" is one run, "at 2 actually 3" → "at 3" is one run, "colour" →
+/// "color" is one run.
+pub fn changed_runs(before: &str, after: &str) -> u32 {
+    let a = plain_words(before);
+    let b = plain_words(after);
+    if a == b {
+        return 0;
+    }
+    if a.len() > MAX_DIFF_TOKENS || b.len() > MAX_DIFF_TOKENS {
+        return 1;
+    }
+    // Full LCS table, then walk it: a run is a maximal stretch of
+    // insertions and deletions between two kept words.
+    let (n, m) = (a.len(), b.len());
+    let mut t = vec![vec![0u32; m + 1]; n + 1];
+    for i in (0..n).rev() {
+        for j in (0..m).rev() {
+            t[i][j] = if a[i] == b[j] {
+                t[i + 1][j + 1] + 1
+            } else {
+                t[i + 1][j].max(t[i][j + 1])
+            };
+        }
+    }
+    let (mut i, mut j) = (0, 0);
+    let mut runs = 0u32;
+    let mut in_run = false;
+    while i < n || j < m {
+        if i < n && j < m && a[i] == b[j] {
+            i += 1;
+            j += 1;
+            in_run = false;
+            continue;
+        }
+        if !in_run {
+            runs = runs.saturating_add(1);
+            in_run = true;
+        }
+        if j >= m || (i < n && t[i + 1][j] >= t[i][j + 1]) {
+            i += 1;
+        } else {
+            j += 1;
+        }
+    }
+    runs
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn changed_runs_count_edits_not_words() {
+        assert_eq!(changed_runs("um so hello there", "Hello there."), 1);
+        assert_eq!(changed_runs("coffee at 2 actually 3", "Coffee at 3."), 1);
+        assert_eq!(
+            changed_runs("um i think uh we should go", "I think we should go."),
+            2
+        );
+        assert_eq!(changed_runs("Same text.", "same text"), 0);
+        assert_eq!(changed_runs("colour me", "color me"), 1);
+        assert_eq!(changed_runs("", "added words"), 1);
+        assert_eq!(changed_runs("a b c", ""), 1);
+    }
 
     #[test]
     fn word_edits() {

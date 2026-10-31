@@ -123,7 +123,10 @@ pub fn run(
     rules: &RuleSet,
     handy: &mut impl FnMut(String) -> String,
 ) -> (String, TextRecord) {
-    let mut record = TextRecord::default();
+    let mut record = TextRecord {
+        language: language.map(str::to_owned),
+        ..TextRecord::default()
+    };
     let text = rules::sanitize(raw);
 
     let mut handy_changes = 0u32;

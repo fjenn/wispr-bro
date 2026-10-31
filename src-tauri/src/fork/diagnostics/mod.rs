@@ -20,6 +20,19 @@ use serde_json::{json, Value};
 
 use crate::settings::{AppSettings, LogLevel};
 
+/// Hook in `managers/transcription.rs` (Handy's Info line "Transcription
+/// result: …"; S-12a): the transcript never reaches the log, only its
+/// length. Debug builds show the text when `WB_DEBUG_TEXT_TRACE` is set
+/// (the same switch as the S-11 pipeline trace); release builds never do,
+/// whatever the environment.
+pub fn redact(text: &str) -> String {
+    #[cfg(debug_assertions)]
+    if std::env::var_os(crate::fork::text::TRACE_ENV).is_some() {
+        return text.to_owned();
+    }
+    format!("[{} chars]", text.chars().count())
+}
+
 /// Default file log level (Handy's default is Debug).
 pub fn default_log_level() -> LogLevel {
     LogLevel::Info
@@ -130,6 +143,20 @@ mod tests {
         }
         assert!(line.contains("\"custom_words\":2"), "{line}");
         assert!(line.contains("\"microphone_selected\":true"), "{line}");
+    }
+
+    #[test]
+    fn transcripts_are_redacted_to_their_length() {
+        // The env switch exists only in debug builds and is off in tests.
+        if std::env::var_os(crate::fork::text::TRACE_ENV).is_none() {
+            assert_eq!(redact("my bank pin is 1234"), "[19 chars]");
+            assert_eq!(redact(""), "[0 chars]");
+        }
+        let line = format!("Transcription result: {}", redact("secret words"));
+        assert!(!line.contains("secret"));
+        let src = include_str!("../../managers/transcription.rs");
+        assert!(src.contains("crate::fork::diagnostics::redact(&final_result)"));
+        assert!(!src.contains("crate::utils::redact_text(&final_result)"));
     }
 
     #[test]

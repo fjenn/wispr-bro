@@ -31,6 +31,7 @@ use crate::fork::context::frontmost::FrontApp;
 use crate::fork::context::now_ms;
 use crate::fork::context::take::{ledger, BoundTake, TakeContext, TakeSource};
 use crate::fork::insert::deliver::PasteOutcome;
+use crate::fork::llm::post_process::CleanupRecord;
 use crate::fork::stats::wordcount;
 use crate::fork::text::counts::TextRecord;
 use crate::managers::history::HistoryEntry;
@@ -64,6 +65,8 @@ pub struct EntryWrite {
     /// What the text pipeline did (S-11), when the fork saw the
     /// transcription.
     pub text: Option<TextRecord>,
+    /// What the LLM cleanup did (S-12a), when it ran.
+    pub cleanup: Option<CleanupRecord>,
 }
 
 /// The text Handy inserted for `entry`.
@@ -118,6 +121,7 @@ impl EntryWrite {
             class: ctx.class,
             backfilled: false,
             text: None,
+            cleanup: None,
         }
     }
 
@@ -127,8 +131,18 @@ impl EntryWrite {
         self
     }
 
+    /// The same write with the LLM cleanup's record.
+    pub fn with_cleanup(mut self, cleanup: Option<CleanupRecord>) -> EntryWrite {
+        self.cleanup = cleanup;
+        self
+    }
+
     fn dictionary_fixes(&self) -> Option<i64> {
         self.text.as_ref().map(TextRecord::dictionary_fixes)
+    }
+
+    fn llm_fixes(&self) -> Option<i64> {
+        self.cleanup.as_ref().map(|c| i64::from(c.fixes))
     }
 }
 
@@ -216,7 +230,9 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
             let audio_deleted_at = w.audio_missing.then_some(w.created_at);
             let audio_ms = i64::try_from(w.audio_ms).unwrap_or(i64::MAX);
             let fix_dictionary = w.dictionary_fixes().unwrap_or(0);
+            let fix_llm = w.llm_fixes().unwrap_or(0);
             let stages = w.text.as_ref().map(TextRecord::stages_json);
+            let (level, engine, outcome) = cleanup_columns(w.cleanup.as_ref());
             let after = contribution(
                 w.source,
                 Some(&w.day),
@@ -224,7 +240,7 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                 &w.final_text,
                 words,
                 audio_ms,
-                (fix_dictionary, 0),
+                (fix_dictionary, fix_llm),
             );
             let counted = i64::from(after.is_some());
             let bundle = w.app.as_ref().and_then(|a| a.bundle_id.clone());
@@ -252,6 +268,10 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                     ("counted", &counted),
                     ("fix_count_dictionary", &fix_dictionary),
                     ("text_stages", &stages),
+                    ("fix_count_llm", &fix_llm),
+                    ("cleanup_level", &level),
+                    ("cleanup_engine", &engine),
+                    ("cleanup_outcome", &outcome),
                 ],
             )?;
             if let Some(t) = w.text.as_ref().filter(|t| !t.rule_hits.is_empty()) {
@@ -271,7 +291,10 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                 fixes_dictionary: fixes.0,
                 fixes_llm: fixes.1,
             });
-            let new_fixes = (w.dictionary_fixes().unwrap_or(fixes.0), fixes.1);
+            let new_fixes = (
+                w.dictionary_fixes().unwrap_or(fixes.0),
+                w.llm_fixes().unwrap_or(fixes.1),
+            );
             let after = contribution(
                 source,
                 s.day.as_deref(),
@@ -302,6 +325,13 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                 fields.push(("fix_count_dictionary", &new_fixes.0));
                 fields.push(("text_stages", stages));
             }
+            let (level, engine, outcome) = cleanup_columns(w.cleanup.as_ref());
+            if w.cleanup.is_some() {
+                fields.push(("fix_count_llm", &new_fixes.1));
+                fields.push(("cleanup_level", &level));
+                fields.push(("cleanup_engine", &engine));
+                fields.push(("cleanup_outcome", &outcome));
+            }
             upsert_entry_meta(&tx, w.entry_id, &fields)?;
             if let Some(t) = &w.text {
                 super::rules::record_hits(&tx, w.entry_id, &t.rule_hits, now_ms())?;
@@ -317,6 +347,24 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
     let changed = stats::apply(&tx, before.as_ref(), after.as_ref())?;
     tx.commit()?;
     Ok(changed)
+}
+
+/// `cleanup_level`, `cleanup_engine`, `cleanup_outcome` of a record.
+fn cleanup_columns(
+    c: Option<&CleanupRecord>,
+) -> (
+    Option<&'static str>,
+    Option<&'static str>,
+    Option<&'static str>,
+) {
+    match c {
+        Some(c) => (
+            Some(c.level.as_str()),
+            Some(c.engine.as_str()),
+            Some(c.outcome.as_str()),
+        ),
+        None => (None, None, None),
+    }
 }
 
 /// Stores a take's `paste_outcome`.
@@ -429,12 +477,16 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
             l.take_processed(&entry.transcription_text),
         )
     };
-    let (verbatim, text) = processed.map(|p| (p.verbatim, p.record)).unzip();
+    let (verbatim, text, cleanup) = match processed {
+        Some(p) => (Some(p.verbatim), Some(p.record), p.cleanup),
+        None => (None, None, None),
+    };
     let w = EntryWrite::for_saved(entry, bound, verbatim, crate::fork::stats::local_day)
-        .with_text(text);
+        .with_text(text)
+        .with_cleanup(cleanup);
     if let Some(changed) = with_db(app, "save", |conn| write(conn, &w, false)) {
         log::info!(
-            "history: entry {} saved ({}, {} in {}, {} words, {} ms, {} dictionary fix(es))",
+            "history: entry {} saved ({}, {} in {}, {} words, {} ms, {} dictionary fix(es), cleanup {})",
             w.entry_id,
             w.source.as_str(),
             w.class.usage_category.as_str(),
@@ -444,7 +496,11 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
                 .unwrap_or("?"),
             wordcount::word_count(&w.final_text),
             w.audio_ms,
-            w.dictionary_fixes().unwrap_or(0)
+            w.dictionary_fixes().unwrap_or(0),
+            w.cleanup
+                .as_ref()
+                .map(|c| c.outcome.as_str())
+                .unwrap_or("-")
         );
         if changed {
             stats_changed(app, &w.day);
@@ -459,10 +515,14 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
 /// `entry` (a retry, or a queued file finishing).
 pub fn on_retried<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
     let processed = ledger().take_processed(&entry.transcription_text);
-    let (verbatim, text) = processed.map(|p| (p.verbatim, p.record)).unzip();
+    let (verbatim, text, cleanup) = match processed {
+        Some(p) => (Some(p.verbatim), Some(p.record), p.cleanup),
+        None => (None, None, None),
+    };
     // For a row the fork never saw, this is its first write.
-    let w =
-        EntryWrite::for_saved(entry, None, verbatim, crate::fork::stats::local_day).with_text(text);
+    let w = EntryWrite::for_saved(entry, None, verbatim, crate::fork::stats::local_day)
+        .with_text(text)
+        .with_cleanup(cleanup);
     let day = with_db(app, "retry", |conn| {
         let changed = write(conn, &w, true)?;
         let day: Option<String> = conn

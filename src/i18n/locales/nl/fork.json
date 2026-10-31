@@ -759,5 +759,61 @@
     "sidebar": {
       "about": "Over Wispr Bro"
     }
+  },
+  "cleanup": {
+    "title": "Opschonen",
+    "loading": "Laad het opruimen niveau...",
+    "loadError": "Kan het opruimingsniveau niet lezen: {{message}}",
+    "setError": "Die wijziging is niet opgeslagen: {{message}}",
+    "notice": "Ingewerkt zonder opschonen",
+    "picker": {
+      "legend": "Hoeveel moet je woorden worden opgeklaard?",
+      "recommended": "Aanbevolen",
+      "aiChat": "In AI chat apps worden je woorden ingevoegd zoals je ze zei, zonder AI-afwerk."
+    },
+    "levels": {
+      "none": {
+        "label": "Geen",
+        "description": "Precies wat je zei, met alleen spaties en stemopdrachten toegepast."
+      },
+      "light": {
+        "label": "Licht",
+        "description": "Verwijdert vullingen zoals \"um\" en \"you know\", corrigeert punctie en hoofdletters, en behoudt je correcties: \"at 2, actually 3\" wordt \"at 3\"."
+      },
+      "medium": {
+        "label": "Middel",
+        "description": "Alles in Licht, plus soepeler grammatica en woordkeuze. Je feiten en betekenis blijven hetzelfde."
+      }
+    },
+    "last": {
+      "title": "Laatste dictatie",
+      "none": "Geen dictatie sinds het app is gestart.",
+      "applied_one": "Gecombineerd in {{ms}} ms, {{count}} wijziging.",
+      "applied_other": "Gecombineerd in {{ms}} ms, {{count}} wijzigingen.",
+      "partial": "Gecombineerd in deel ({{applied}} van {{total}} paragrafen); de rest is zoals gesproken: {{reason}}",
+      "checks": "Veiligheidscontroles die het hebben gestopt: {{checks}}"
+    },
+    "why": {
+      "level_none": "Opschonen is uit.",
+      "empty": "Niets om op te ruimen.",
+      "already_clean": "Al rein, dus de AI-engine was niet nodig.",
+      "ai_chat": "AI chat app: ingevoerd zoals je het zei.",
+      "not_ready": "Ingewijd zonder opschonen: het opschonen model is nog niet klaar.",
+      "low_memory": "Geïntroduceerd zonder opschonen: niet genoeg vrije geheugen op dit moment.",
+      "guard": "Geïntroduceerd zonder opschonen: de geopende tekst is de veiligheidscontroles niet doorgegaan.",
+      "timeout": "Ingewerkt zonder opschonen: opschonen nam te lang.",
+      "error": "Geïntroduceerd zonder opschonen: de AI-engine had een probleem."
+    },
+    "reason": {
+      "level_none": "opruim is uit",
+      "empty": "niets om op te ruimen",
+      "already_clean": "algoritme al schoon",
+      "ai_chat": "AI chat app",
+      "not_ready": "de cleanup model is nog niet klaar",
+      "low_memory": "te weinig vrije geheugen",
+      "guard": "het is niet door de veiligheidscontroles gegaan",
+      "timeout": "opruiming namen te lang",
+      "error": "de AI-engine had een probleem"
+    }
   }
 }

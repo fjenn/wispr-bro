@@ -993,7 +993,7 @@ impl TranscriptionManager {
         } else {
             info!(
                 "Transcription result: {}",
-                crate::utils::redact_text(&final_result)
+                crate::fork::diagnostics::redact(&final_result)
             );
         }
 

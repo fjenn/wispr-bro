@@ -755,5 +755,61 @@
     "theme": {
       "description": "Wispr Bro'nun sistem temasını izlemesini ya da açık veya koyu kalmasını seçin"
     }
+  },
+  "cleanup": {
+    "title": "Temizle",
+    "loading": "Temizleme seviyesi yükleniyor...",
+    "loadError": "Temizleme seviyesi okunamadı: {{message}}",
+    "setError": "O değişiklik kaydedilmedi: {{message}}",
+    "notice": "Temizlenmeden eklendi",
+    "picker": {
+      "legend": "Kelimeleriniz ne kadar temizlenmeli?",
+      "recommended": "Önerilen",
+      "aiChat": "AI sohbet uygulamalarında kelimeleriniz, söylediğiniz gibi yerleştirilir, AI temizliği yoktur."
+    },
+    "levels": {
+      "none": {
+        "label": "Hiç",
+        "description": "Aşağıdaki gibi tam olarak söylediğin şey, sadece boşluk ve ses komutları uygulanmış şekilde."
+      },
+      "light": {
+        "label": "Hafif",
+        "description": "\"Um\" ve \"you know\" gibi doldurucuları kaldırır, noktalar ve büyük harfleri düzeltir ve düzeltmelerinizi korur: \"at 2, actually 3\" ifadesi \"at 3\" olur.\""
+      },
+      "medium": {
+        "label": "Orta",
+        "description": "Işık içindeki her şey, daha düzgün dil ve ifade ile birlikte. Bilgileriniz ve anlamlarınız aynı kalır."
+      }
+    },
+    "last": {
+      "title": "Son dictasyon",
+      "none": "Uygulama başlangıçtan beri hiçbir dictation yok.",
+      "applied_one": "Temizleme {{ms}} ms'de, {{count}} değişiklik.",
+      "applied_other": "Temizleme {{ms}} ms'de tamamlandı, {{count}} değişiklik yapıldı.",
+      "partial": "Bir kısmını temizledi ({{applied}} of {{total}} paragraf); kalan kısmı konuşulan şekilde: {{reason}}",
+      "checks": "Güvenlik kontrolleriyle durduruldu: {{checks}}"
+    },
+    "why": {
+      "level_none": "Temizleme kapalı.",
+      "empty": "Hiçbir şey temizlemede.",
+      "already_clean": "Zaten temiz, bu yüzden AI motoru gerekli değildi.",
+      "ai_chat": "AI sohbet uygulaması: size söylediğiniz gibi eklendi.",
+      "not_ready": "Temizleme olmadan eklendi: temizleme modeli henüz hazır değil.",
+      "low_memory": "Temizlenmeden eklendi: şu anki serbest bellek yetersiz.",
+      "guard": "Temizlenmeden eklendi: temizlenmiş metin güvenlik kontrollerinde geçmedi.",
+      "timeout": "Temizlemeden eklenen: temizleme çok uzun sürdü.",
+      "error": "Temizlenmeden eklendi: AI motoru bir sorun yaşadı."
+    },
+    "reason": {
+      "level_none": "temizleme kapalı",
+      "empty": "hiçbir şey temizlemede",
+      "already_clean": "zaten temiz",
+      "ai_chat": "AI sohbet uygulaması",
+      "not_ready": "temizleme modeli henüz hazır değil",
+      "low_memory": "yeterli boş bellek yok",
+      "guard": "güvenlik kontrollerine geçmedi",
+      "timeout": "temizleme çok uzun sürdü",
+      "error": "AI motorunda bir sorun var"
+    }
   }
 }

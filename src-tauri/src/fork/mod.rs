@@ -470,6 +470,7 @@ macro_rules! fork_specta_builder {
                 commands::pill::fork_pill_snapshot::<$runtime>,
                 commands::pill::fork_pill_ready::<$runtime>,
                 commands::pill::fork_pill_action::<$runtime>,
+                commands::llm::fork_llm_last_cleanup,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -483,7 +484,8 @@ macro_rules! fork_specta_builder {
                 notify::ForkNotificationOpened,
                 notify::ForkToastsDismiss,
                 pill::ForkPillState,
-                pill::ForkPillLevels
+                pill::ForkPillLevels,
+                llm::post_process::ForkCleanupResult
             ])
     };
 }
