@@ -62,6 +62,20 @@ As of 2026-10-30:
 - **Verify, don't assume.** Run the tests and the slice's real-Mac acceptance checks. Never report a slice done without running them; say plainly what was not verified.
 - **Commits.** Conventional commit prefixes; one slice per branch or PR.
 
+## Execution protocol (owner-approved 2026-10-31; applies to every agent, Claude Code or Kimi)
+
+Verification is batched by risk, not by slice. None of this weakens R5's exit criteria or the "verify, don't assume" rule above — the same checks run, on a better schedule.
+
+- **Backend slices** (event tap, AX, clipboard, models, LLM, transforms, updates, erase, context awareness, vibe coding): real-Mac acceptance runs stay mandatory, but run **batched per wave** — one scripted run covers the wave's slices that share a harness (e.g. S-21/22/23 one transform run; S-19b + S-36 one browser/AX run). No more per-slice solo release-build Mac runs.
+- **UI slices** (settings modal, menus, onboarding, tutorials, first-use chooser): the per-slice gate is the full Playwright suite (every state, light/dark, RTL, reduced motion, keyboard-only, axe) plus unit tests. Real-Mac evidence comes from **one consolidated Mac run per wave** (one scripted pass through the new screens), not one run per slice. VoiceOver-by-ear stays with S-37's checklist as planned.
+- **Debug builds for GUI verification** using the slice test identities (`com.wisprbro.<slice>check` runs the product runtime). Release bundles only for CSP-sensitive checks and wave/RC runs.
+- **Two lanes.** Builders work in worktrees in parallel and never wait on `~/wb-bench/gui.lock`; real-Mac runs are a single serialized verification queue driven by the orchestrator, overlapped with building.
+- **No re-testing settled evidence.** A slice's acceptance = its own R5 checks plus its "Not verified" items. Cite, don't re-run: RS-xx spike results and earlier slices' soak numbers. CI guards + `cargo test` + lint + Playwright on every merge are the regression net.
+- **Reuse the harness inventory** (`scripts/wb-s01`..`wb-s25`: take drivers, AX drivers, TTS takes, gui.lock, seeders, the local HF stand-in). New driver code only for genuinely new mechanics.
+- **Batch the mechanical work.** 26-locale translations run per merge wave (machine flags allowed until S-37 as planned); bindings regeneration rides the merge commit (`WB_WRITE_FORK_BINDINGS=1 cargo test fork_bindings_are_current`).
+- **S-35 (Wispr Flow / Handy vocabulary importer) is deferred to 1.1**, which R5 risk #15 allows without failing §9.
+- **Model routing (Kimi).** The orchestrator runs the strongest model; subagents are dispatched per task weight — hard slices and deep debugging to the top model, mechanical work (doc folding, translations, bindings regen, small fixes, test reruns) to the cheap pool entry. Claude sessions apply the same idea with their own tiering.
+
 ## Do not
 
 - Do not open or commit `docs/research/evidence/`. It holds local-only reference screenshots that include personal data and Wispr Flow's UI. It is gitignored.
