@@ -519,11 +519,67 @@ other), into a password field in Safari, and switch apps while
 
 ### S-06 Recovery shortcuts
 
-- [ ] S-06.1 RS-05 held-modifier case.
-- [ ] S-06.2 ⌃⌘V into Slack, Chrome, Terminal.
-- [ ] S-06.3 Mouse-button Press Enter per RS-11.
-- [ ] S-06.4 Cancel → Undo in Mail.
-- Procedure: TODO (S-06).
+- [ ] S-06.1 RS-05 held-modifier case: ⌃⌘V with ⌃⌘ still held pastes the
+      plain text once the keys come up (no ⌃⌘V reaches the app); held 3 s
+      or more → the card ("Couldn't paste this text"), nothing pasted.
+- [ ] S-06.2 ⌃⌘V into Slack, Chrome, Terminal: the last dictation, exactly,
+      and the clipboard byte-identical afterwards.
+- [ ] S-06.3 ⌃⌘C: the clipboard holds the last dictation (plain, not
+      transient), and stays (no restore).
+- [ ] S-06.4 Mouse-button Press Enter per RS-11: the back button types one
+      Return in the focused field; the settings say a mouse button still
+      clicks in the app under the pointer.
+- [ ] S-06.5 Cancel → Undo in Mail: Esc, "Cancelled · Undo" for 4 s,
+      Undo → the text in the field and in History.
+- [ ] S-06.6 Undo after focus moved → the card (`focus_moved`), nothing
+      pasted anywhere.
+- [ ] S-06.7 Nobody undoes: after 4 s the offer goes, Undo does nothing, no
+      History row; a tap with no second press or a fn chord never offers
+      Undo.
+
+**Profile: an isolated portable debug build** (as S-05; never the owner's
+app, data or clipboard). In the worktree:
+
+```sh
+ci/llama-server/build.sh --if-missing        # tauri build needs the sidecar
+echo '{"identifier":"com.wisprbro.s06check","plugins":{"updater":{"active":false}}}' > $SCRATCH/s06.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config $SCRATCH/s06.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s06-parakeet-v3.gguf
+cd ../../.. && scripts/wb-s05/app.sh init
+python3 -I scripts/wb-s06/setup.py "$PWD/src-tauri/target/debug/Data" s06-parakeet-v3
+scripts/wb-s05/app.sh start
+```
+
+`setup.py` turns cleanup off, binds Press Enter to the back mouse button
+and Undo to ⌃⌥Z, keeps recordings, and seeds one History dictation with a
+fixed text (no personal data) for paste-last and copy-last.
+
+Helpers (compiled once): `swiftc -O -o $BIN/post scripts/wb-s06/post.swift;
+swiftc -O -o $BIN/clip scripts/wb-s05/clip.swift; swiftc -O -o $BIN/pill
+scripts/wb-s03-pill.swift`. The Undo cases need a WAV of a short sentence
+(`say -o $SCRATCH/undo.aiff "<sentence>" && afconvert -f WAVE -d LEI16@16000
+$SCRATCH/undo.aiff $SCRATCH/undo.wav`) and `WB_S06_SAID="<sentence>"`.
+
+**Procedure (unattended):** `WB_S06_BIN=$BIN scripts/wb-s06/case.sh <case>
+<out dir> [wav]` for `paste:textedit`, `paste:held:1200`,
+`paste:held:3500`, `paste:chrome`, `paste:terminal`, `copy:textedit`,
+`enter:mouse` (no audio), then `undo:bar`, `undo:moved`, `undo:expire` with
+the WAV (through the speakers into the mic: run each once, at a moderate
+volume). Every case holds `~/wb-bench/gui.lock`, opens its own window
+(TextEdit document, a separate Chrome instance on `fields.html`, a Terminal
+window running `cat` into a file), posts each synthetic event only while
+that window's app is frontmost (`post` refuses otherwise), saves the whole
+clipboard first and checks it is byte-identical after, and closes what it
+opened. `summarize.py` prints PASS/FAIL per case from the field's text, the
+clipboard and the app log (`recovery: …`, `insert: take N (Again|Undo …)`;
+never text).
+
+**With a person:** ⌃⌘V in Slack and Mail, a real mouse's side button for
+Press Enter (and a middle click in a browser: it also opens the link), Undo
+in Mail's compose window, VoiceOver on the offer ("Undo is on the dictation
+bar for 4 seconds"), Esc on the offer.
 
 ### S-07a Starter model, mic gate, "Setting up" first run
 
