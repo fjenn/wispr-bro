@@ -145,7 +145,7 @@ Slices: S-07a, S-07b, S-07c.
 
 Slices: S-10, S-11, S-12a, S-12b, S-19a, S-19b, S-20.
 
-- [ ] A6.1 Cleanup levels None / Light / Medium; "Inserted without cleanup" on a forced timeout. TODO (S-12a)
+- [ ] A6.1 Cleanup levels None / Light / Medium; "Inserted without cleanup" on a forced timeout (debug build: `WB_DEBUG_CLEANUP_DEADLINE_MS=1`; see S-12a below).
 - [ ] A6.2 Styles per app group; AI-chat apps skip LLM formatting. TODO (S-19a, S-12a)
 - [ ] A6.3 Context awareness. TODO (S-20)
 - [ ] A6.4 Voice commands: "new line", "new paragraph", "scratch that". TODO (S-11)
@@ -689,10 +689,53 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-11.md`.
 
 ### S-12a Cleanup levels on the local LLM
 
-- [ ] S-12a.1 RS-07 thresholds on the real build (`bun run wb:eval:cleanup`, `eval/cleanup/README.md`).
-- [ ] S-12a.2 §5.1 Light latency on M1 8 GB and 16 GB.
-- [ ] S-12a.3 Cleanup works offline.
-- Procedure: TODO (S-12a). Machines: M1-8, M-15.
+- [ ] S-12a.1 RS-07 thresholds on the real build: the eval through the
+      shipped path (`fork::llm::eval_run` + `wb-eval-cleanup.ts --replay`,
+      `eval/cleanup/README.md` "The shipped path"), all Light gates and the
+      Medium gates pass, per language too; real takes in en, nl and fr come
+      out cleaned (fillers and lead-ins gone, repairs applied, questions not
+      answered, dictionary spellings kept).
+- [ ] S-12a.2 §5.1 Light latency on M1 8 GB and 16 GB (key-up → text).
+- [ ] S-12a.3 Cleanup works offline: the sidecar listens only on loopback
+      (`lsof -nP -a -c llama-serv -i`) and nothing else is contacted.
+- [ ] S-12a.4 Forced timeout and level None: the take goes in as spoken
+      (lead-ins removed on timeout), `cleanup_outcome` is `timeout` /
+      `skipped`; in a product build the bar says "Inserted without
+      cleanup" and Handy's filler removal is off at None.
+
+**Profile: an isolated portable debug build** (as S-11; never the owner's
+app or data). In the worktree:
+
+```sh
+ci/llama-server/build.sh --if-missing
+echo '{"identifier":"com.wisprbro.s12acheck","plugins":{"updater":{"active":false}}}' > /tmp/s12a.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s12a.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+# The catalog's own Parakeet file, dropped in (a custom-named model does not
+# count as a speech model for the cleanup download):
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/
+./handy --start-hidden & sleep 20; kill %1
+/usr/bin/python3 ../../../scripts/wb-s12a/setup.py "$PWD/Data" parakeet-tdt-0.6b-v3 ~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf light
+WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden &
+```
+
+`setup.py` sets Parakeet, VAD off, spoken languages en/nl/fr, puts the
+pinned Muesli GGUF in the profile's HF cache (its sha256 is checked, nothing
+is downloaded), sets the level and two dictionary replacements. Stop the
+app by its main process only (the other `handy --start-hidden` is S-10's
+watchdog, which stops the sidecar).
+
+**Procedure (unattended, needs the speakers and the mic):**
+`scripts/wb-s12a/run.sh light 2` (seven takes per round: en fillers +
+repair, an en question, an en dictionary spelling, nl lead-ins, an nl
+repair, fr lead-ins, an fr repair), then restart the app with
+`WB_DEBUG_CLEANUP_DEADLINE_MS=1` and run `run.sh timeout`, then
+`setup.py … none`, restart, `run.sh none`. Each take opens and closes its
+own TextEdit document under `~/wb-bench/gui.lock` and prints the key-up →
+text time. Check the log's `cleanup:` lines and `fork.db`
+(`entry_meta.cleanup_*`, `fix_count_llm`, `daily_stats.fixes_llm`).
+Machines: M1-8, M-15, M-26. First run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-12a.md`.
 
 ### S-12b Apple Foundation Models path
 

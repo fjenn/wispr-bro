@@ -1,5 +1,15 @@
 # RS-07: cleanup quality bake-off (provisional run, rescored)
 
+> **S-12a re-measure (2026-10-31).** The guard-catch gap below is closed:
+> with S-12a's Rust guards on the shipped path (`fork::llm::eval_run`,
+> `wb-eval-cleanup.ts --replay`, 271 items incl. 42 new nl/fr items),
+> Muesli 2B v12 + the OpenWhispr prompt + JSON passes every Light gate:
+> damage 0.0 %, answer 0.0 %, filler 95.0 %, language 100 %, guard catch
+> 100 % (7/7); Medium damage 0.0 %. The RS-07 fallback is not triggered.
+> Numbers and method: R5 S-12a "As built",
+> `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-12a.md`. Still one Mac (M5 Max)
+> and single-labelled items.
+
 ## Rescore with owner filler policy (2026-10-29)
 
 > **Still provisional.** The labels now follow the product owner's filler

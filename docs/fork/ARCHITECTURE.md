@@ -1121,6 +1121,92 @@ under "Accepted format" (shown in place: the app opens no web page).
 `@types/papaparse` 5.5.2 (dev). Rust: `csv` 1.4 and `encoding_rs` 0.8 (the
 latter already compiled) in the `# fork:` dependency block.
 
+## Cleanup levels (S-12a)
+
+R5 §4.10 stage 8 on the local LLM: every dictation is cleaned at the
+user's level (None / Light / Medium, fork setting `cleanup_level`, default
+Light) by `fork::llm::post_process`, with the guard chain between the model
+and the field. Eval: `eval/cleanup/README.md` "S-12a"; numbers in R5 S-12a
+"As built".
+
+### Files
+
+| File                                         | Role                                                                                                                                                        |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fork/llm/post_process.rs` (+ `_tests`)      | The core `clean()` (gate, lead-ins, blocks, line fallback, deadlines, outcome) and the hooks `post_process` / `post_process_job`; `ForkCleanupResult` event |
+| `fork/llm/guards.rs` (+ `_tests`)            | The guard chain (R5 §4.5 order): ports of SpeakoFlow, FreeFlow, BetterWispr `accepted()`, Muesli markers; our entity, formatting, content-word, language    |
+| `fork/llm/markers.rs`, `tables/markers.json` | Per-language hesitations, the owner's filler table, repair markers, stopwords, assistant openers; word segmentation                                         |
+| `fork/llm/leadins.rs`                        | Sentence lead-ins removed without the model ("nou dus …", "alors du coup …", "so …")                                                                        |
+| `fork/llm/prompt.rs`, `prompts/*.txt`        | Prompt builder: OpenWhispr `cleanupPrompt` (MIT, byte-identical to the RS-07 input) + our Medium, vocabulary and language fragments                         |
+| `fork/llm/deadline.rs`                       | Request, take and server-start budgets                                                                                                                      |
+| `fork/llm/eval_run.rs`                       | Ignored test: the eval set through `clean()` on the real sidecar (JSONL for `wb-eval-cleanup.ts --replay`)                                                  |
+| `src/fork/style/CleanupLevelPicker.tsx`      | The level picker and the last take's result; on the debug panel until S-19a                                                                                 |
+
+### Hooks
+
+| File                             | Hook                                                                                                                                     |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| ⚠ `actions.rs` (stop task)      | `process_transcription_output(&ah, …)` → `crate::fork::llm::post_process(&ah, &transcription, post_process)` (same signature and result) |
+| `managers/transcription_jobs.rs` | the same for retries and file transcriptions → `crate::fork::llm::post_process_job(…)`; the now-unused import removed                    |
+| `managers/transcription.rs`      | Handy's Info line "Transcription result: …" logs `crate::fork::diagnostics::redact(&final_result)` (`[N chars]`) instead of the text     |
+
+Handy's `process_transcription_output` / `post_process_transcription`
+(its cloud-era chain, Apple call included) stay untouched; the fork calls
+them only where it does not own cleanup (headless CLI, a plain Handy build
+without the LLM runtime). Apple Foundation Models is S-12b.
+
+### One take
+
+1. **Plan** (`plan`): level from fork settings; the take's language from
+   Handy's pipeline (ledger, `TextRecord.language`), else a **hint** from the
+   text among the user's `spoken_languages` (word votes over the tables,
+   then whatlang ≥ 0.8 from 8 words); the dictionary's words (Handy's custom
+   words, S-16 mirror) and the replacements' outputs for the prompt.
+   Skips, in order: an AI-chat target (`is_ai_chat` of the frontmost app,
+   where the text will go; dictations only), no model yet, the memory rule.
+2. **`clean`**: level None or no words → skipped. Sentence lead-ins of the
+   prompt language go (`leadins.rs`). Light and already clean (no filler,
+   repair or stutter; capitalized and punctuated; open-flow's gate) →
+   skipped, no request. Otherwise the text is cut into **blocks** of ≤ 120
+   words (lines grouped; a short letter is one request); each block is one
+   request with the R5 deadline, inside a take deadline whose 6 s cap
+   grows per 200 words (24 s at most), plus 2.5 s for a cold server start.
+3. **Guards** on each reply. A multi-line reply that only lost its line
+   breaks is **realigned** (word alignment puts the input's breaks back) and
+   guarded again; one that came back as a list, or cannot be realigned, is
+   sent again line by line (clean lines skipped). Any rejection, timeout or
+   error keeps that block's deterministic text.
+4. **After**: stage 9 (`restore_spellings`: `note_rewrite` + `finish`)
+   puts back replacement outputs the model undid; the record
+   (`cleanup_level`, `cleanup_engine`, `cleanup_outcome`, `fix_count_llm`
+   = runs of changed words, `daily_stats.fixes_llm`) goes through the
+   ledger to `on_saved` / `on_retried`; one Info line without text
+   (`cleanup: applied light (local, 1/1 chunk(s), 212 ms, 2 fix(es))`);
+   `ForkCleanupResult` with `notice` (not ready, low memory, guard,
+   timeout, error → "Inserted without cleanup", shown by S-03's pill).
+
+The history row's `post_processed_text` is the cleaned text (Handy's own
+column), so History and `entry_meta.final_text` show what was inserted;
+`asr_text` keeps the verbatim recognizer text. Level None also turns
+Handy's filler removal off (`ENFORCED` rule `filler_word_removal_enabled`,
+mirrored at once on change).
+
+### Guard order and what each catches
+
+`json` → `empty` (unless the input was only fillers) → `punctuation_only`
+→ `channel` → `prompt_echo` (SpeakoFlow 6-grams + the user-turn framing)
+→ `too_long` → `executed_instruction` (FreeFlow) → `word_band` (BetterWispr,
+lower bound on the words that must stay) → `question_mark` → `new_tokens`
+(≤ 25 %, a joined word or an added/dropped ending is not new) →
+`assistant_marker` → `entity` (digits, URLs, e-mails, code spans,
+dictionary words; a number inside a self-repair may go; no new digits) →
+`line_count` → `formatting` (no bullets, numbering, headings or bold the
+input lacked) → `content_words` (stopwords, fillers and up to 8 words
+before a repair marker excluded; Light 1 in 10 may go, Medium 1 in 4; a
+word changed into a look-alike, "negeer" → "Neger", never) → `language`
+(Handy `lang_id` of the output vs the take's or the input's language).
+The guards use only the take's known language, never the hint.
+
 ## Tests
 
 | What                                                                                                                                                                                                                                                                                                          | Where                                                                                                                                                                                                        |
