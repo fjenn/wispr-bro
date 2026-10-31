@@ -940,10 +940,10 @@ Machines: M1-8, M-15, M-26. First run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S
       `rateLimited`). The RS-08 decision (`fork::llm::apple::ROLE`) matches
       the numbers.
 - [ ] S-12b.2 With the local model not ready (`WB_DEBUG_LLM_HOLD_MODEL=1`,
-      debug builds) a real dictation is cleaned on Apple's model
-      (`cleanup: applied light (apple, …)`, `entry_meta.cleanup_engine =
-    apple`); the AI engine panel shows the Apple Intelligence row and Try it
-      says "Ran on Apple Intelligence".
+      debug builds) a real dictation goes to Apple's model (log
+      `cleanup: … (apple, …)`; engine `apple` in `entry_meta`); the AI
+      engine panel shows the Apple Intelligence row and Try it says "Ran on
+      Apple Intelligence".
 - [ ] S-12b.3 With the local model ready nothing changes: every take is
       `local` (self-check with the model in place).
 - [ ] S-12b.4 Apple Intelligence off, or a Mac without it (M1-8 on macOS
