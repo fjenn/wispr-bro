@@ -101,6 +101,63 @@ async forkUseHotkeyProfile(fallback: boolean) : Promise<Result<HotkeyStatus, For
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Lifetime and today's stats (survive retention and deletes).
+ */
+async forkStatsSummary() : Promise<Result<StatsSummary, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_stats_summary") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Entry ids whose text contains `query`, newest first, soft-deleted rows
+ * left out. Fewer than 3 characters use a `LIKE` scan.
+ */
+async forkHistorySearch(query: string, limit: number) : Promise<Result<number[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_search", { query, limit }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * The fork's data for these entries (unknown ids are skipped).
+ */
+async forkHistoryMeta(ids: number[]) : Promise<Result<ForkEntryMeta[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_meta", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Soft-deletes entries: hidden now, deleted through Handy in 10 s unless
+ * [`fork_history_undo_delete`] runs first. Returns how many were hidden.
+ */
+async forkHistoryDelete(ids: number[]) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_delete", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Restores soft-deleted entries still inside their undo window.
+ */
+async forkHistoryUndoDelete(ids: number[]) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_undo_delete", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -111,12 +168,14 @@ export const events = __makeEvents__<{
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkPingEvent: ForkPingEvent,
-forkSettingsChanged: ForkSettingsChanged
+forkSettingsChanged: ForkSettingsChanged,
+forkStatsUpdated: ForkStatsUpdated
 }>({
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
 forkPingEvent: "fork-ping-event",
-forkSettingsChanged: "fork-settings-changed"
+forkSettingsChanged: "fork-settings-changed",
+forkStatsUpdated: "fork-stats-updated"
 })
 
 /** user-defined constants **/
@@ -140,7 +199,7 @@ export type CleanupLevel = "none" | "light" | "medium"
 /**
  * Why a take went to the card (`fork.json` > `insert.cardReason.*`).
  */
-export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed"
+export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed" | "disk_full"
 /**
  * Reply of [`fork_csp_smoke_media`].
  */
@@ -153,6 +212,30 @@ path: string;
  * `"recording"` or `"fixture"`.
  */
 source: string }
+/**
+ * What the fork knows about one history entry, beyond Handy's row.
+ */
+export type ForkEntryMeta = { entry_id: number; 
+/**
+ * Unix ms at record start.
+ */
+created_at: number; 
+/**
+ * Verbatim ASR text (D-06), before any fix.
+ */
+asr_text: string | null; final_text: string | null; previous_text: string | null; audio_ms: number; word_count: number; app_bundle_id: string | null; app_name: string | null; style_group: string | null; usage_category: string | null; paste_outcome: string | null; source: string; 
+/**
+ * The WAV is still on disk (not expired, not lost to a full disk).
+ */
+has_audio: boolean; 
+/**
+ * Rebuilt from Handy's row at launch.
+ */
+backfilled: boolean; 
+/**
+ * Soft-deleted: hidden, purged after 10 s unless undone.
+ */
+deleted: boolean }
 /**
  * Typed error returned by fork commands.
  * 
@@ -351,6 +434,15 @@ export type ForkSettingsChanged = {
  */
 key: string; settings: ForkSettings }
 /**
+ * Emitted after a take changed the stats (`fork::db::stats`), so the Home
+ * rail (S-15a) and Insights (S-25) refresh live.
+ */
+export type ForkStatsUpdated = { 
+/**
+ * The local day whose numbers changed (`YYYY-MM-DD`).
+ */
+day: string }
+/**
  * How a hotkey binding drives its action.
  */
 export type HotkeyActivation = 
@@ -454,6 +546,19 @@ completed_at_ms: number | null }
  * `fork/onboarding/state.rs` (S-29a) is only the logic over it.
  */
 export type OnboardingStatus = "not_started" | "in_progress" | "completed"
+/**
+ * Lifetime and today's numbers for the Home rail (S-15a) and Insights
+ * (S-25).
+ */
+export type StatsSummary = { total_words: number; total_dictations: number; today_words: number; today_dictations: number; 
+/**
+ * Speech time of the counted dictations, ms.
+ */
+speech_ms: number; 
+/**
+ * Words per minute on speech time; `None` with under 3 s of speech.
+ */
+words_per_minute: number | null; current_streak_days: number; longest_streak_days: number; active_days: number; fixes_dictionary: number; fixes_llm: number }
 /**
  * Style preset of an app group (S-19a). Personal offers Formal / Relaxed /
  * Very relaxed; Work, Email and Other offer Formal / Relaxed / Upbeat.

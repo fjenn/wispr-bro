@@ -20,8 +20,8 @@
 //! right after Handy's closure returns, so [`on_ready`] can rely on Handy's
 //! managers being in state.
 
-pub mod clipboard;
 pub mod audio;
+pub mod clipboard;
 pub mod commands;
 pub mod context;
 pub mod db;
