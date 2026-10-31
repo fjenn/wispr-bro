@@ -672,4 +672,69 @@ fn handy_hooks_are_in_place() {
     assert!(actions.contains("if wav_saved || crate::fork::keep_take(&wav_path_for_verify) {"));
     let transcription = read("src/managers/transcription.rs");
     assert!(transcription.contains("crate::fork::text::process(text, &output_language, |text| {"));
+    // S-20: the context hints reach the recognizer's vocabulary.
+    assert!(transcription.contains("vocabulary: crate::fork::context::awareness::vocabulary("));
+}
+
+/// S-20 (R5 tests: "nothing persisted (DB and logs checked)"): a take whose
+/// context had a name the user did not say stores only the flag; the text
+/// near the caret and its hints are in no table and in no byte of the
+/// database files, and the hints are gone when the take ends.
+#[test]
+fn context_hints_are_never_stored() {
+    use crate::audio_toolkit::OutputLanguageEvidence;
+    use crate::fork::context::awareness;
+    let _l = awareness::tests::lock();
+    let (dir, db) = db();
+    awareness::tests::armed_take(&["Zebulonix", "Kowalczyk"]);
+    let kept = crate::fork::text::process(
+        "send it to Kovalczyk".into(),
+        &OutputLanguageEvidence::Unknown,
+        |t| t,
+    );
+    assert_eq!(kept, "send it to Kowalczyk");
+    let p = ledger().take_processed(&kept).expect("processed");
+    assert!(p.context_used);
+    assert!(p.record.describe().contains("context=1"));
+    let e = entry(41, 1_793_400_000, &kept);
+    let w = EntryWrite::for_saved(&e, None, Some(p.verbatim), day)
+        .with_text(Some(p.record))
+        .with_context_used(p.context_used);
+    db.with_conn(|conn| {
+        write(conn, &w, false)?;
+        let m = crate::fork::commands::history::read_meta(conn, 41)?.unwrap();
+        assert!(m.context_used);
+        // Every text value of every table.
+        let tables: Vec<String> = conn
+            .prepare("SELECT name FROM sqlite_master WHERE type = 'table'")?
+            .query_map([], |r| r.get(0))?
+            .collect::<Result<_, _>>()?;
+        for t in tables {
+            let mut stmt = conn.prepare(&format!("SELECT * FROM \"{t}\""))?;
+            let cols = stmt.column_count();
+            let mut rows = stmt.query([])?;
+            while let Some(row) = rows.next()? {
+                for i in 0..cols {
+                    if let Ok(Some(s)) = row.get::<_, Option<String>>(i) {
+                        assert!(!s.contains("Zebulonix"), "{t} stores a context hint");
+                    }
+                }
+            }
+        }
+        Ok(())
+    })
+    .unwrap();
+    db.close();
+    for f in std::fs::read_dir(dir.path()).unwrap().flatten() {
+        if f.path().is_file() {
+            let bytes = std::fs::read(f.path()).unwrap();
+            assert!(
+                !bytes.windows(9).any(|w| w == b"Zebulonix"),
+                "{} holds a context hint",
+                f.path().display()
+            );
+        }
+    }
+    awareness::on_take_over();
+    assert_eq!(awareness::hints(), None);
 }

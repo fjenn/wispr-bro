@@ -111,6 +111,9 @@ pub struct ForkPillState {
     /// The take will press Return after its paste (S-19a; the label says
     /// "Sends automatically").
     pub sends_automatically: bool,
+    /// S-20: this take used text near the caret (the context glyph while
+    /// it is processed).
+    pub context: bool,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -184,6 +187,8 @@ pub fn on_overlay_state<R: Runtime>(_app: &AppHandle<R>, state: &str) {
 /// `overlay.rs` `hide_recording_overlay` hook.
 pub fn on_overlay_hide<R: Runtime>(_app: &AppHandle<R>) {
     input(Input::Hide);
+    // S-20: the take is over; its context hints go.
+    crate::fork::context::awareness::on_take_over();
 }
 
 /// Mic levels (from `fork::audio::on_levels`, the `emit_levels` hook).
@@ -275,6 +280,12 @@ pub fn settings_changed(settings: &crate::fork::settings::ForkSettings) {
 /// the fork keeps off.
 pub fn cleaning_up() {
     input(Input::CleaningUp);
+}
+
+/// S-20: the take used text near the caret: the context glyph shows while
+/// it is processed.
+pub fn context_used() {
+    input(Input::ContextUsed);
 }
 
 /// A later slice reports a message (S-12a: "Inserted without cleanup").
@@ -411,6 +422,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         more: a.more,
         copied: a.copied,
         sends_automatically: a.sends_automatically,
+        context: a.context,
     }
 }
 

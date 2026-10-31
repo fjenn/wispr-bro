@@ -1516,7 +1516,51 @@ the owner's real conversations and drafts and are never typed into.`
 ### S-20 Context awareness
 
 - [ ] S-20.1 Dictate a colleague's unusual surname visible in a Slack thread (a made-up name in a test workspace); verify the spelling and that the text never hits disk.
-- Procedure: TODO (S-20).
+- [ ] S-20.2 The same take with context awareness off spells it as the recognizer heard it.
+- [ ] S-20.3 No read in excluded places: a "Card number" field, Terminal (and by the unit tests: password fields, Secure Input, password managers, banking apps and sites, URL bars, numeric fields).
+- [ ] S-20.4 The read stays within 100 ms (p95 of the `context: read` log lines) and the clipboard is byte-identical after every take.
+- [ ] S-20.5 (person) Slack itself, a real colleague's name, the glyph seen on the bar, VoiceOver reading "Nearby text helped with spelling".
+
+**Profile:** the S-12a portable debug build with a test identity
+(`com.wisprbro.s20check`; never the owner's app, data or clipboard). In
+the worktree:
+
+```sh
+ci/llama-server/build.sh --if-missing
+echo '{"identifier":"com.wisprbro.s20check","plugins":{"updater":{"active":false}}}' > $SCRATCH/s20.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config $SCRATCH/s20.conf.json
+cd src-tauri/target/debug && printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp -c ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s20-parakeet-v3.gguf
+cd ../../.. && scripts/wb-s05/app.sh init
+scripts/wb-s20/setup.sh "$PWD/src-tauri/target/debug/Data" s20-parakeet-v3 ~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf on
+swiftc -O -o $BIN/clip scripts/wb-s05/clip.swift
+say -v Samantha -o $SCRATCH/s20.aiff "Thanks Siobhán Kowalczyk, I will send the checklist to Thibault today."
+afconvert -f WAVE -d LEI16@16000 -c 1 $SCRATCH/s20.aiff $SCRATCH/s20.wav
+scripts/wb-s05/app.sh start
+```
+
+**Procedure (unattended):** `WB_S20_BIN=$BIN scripts/wb-s20/take.sh <case>
+<wav|none> <out dir>` for `textedit` and `chrome` with the WAV (through
+the speakers into the mic, once each, moderate volume), then
+`setup.sh … off`, restart, `textedit` with the WAV again (S-20.2), then
+`card none` and `terminal none` (silent takes: the read still runs at
+record start). Each case holds `~/wb-bench/gui.lock`, opens its own
+window (a TextEdit document whose text names the people; the
+`thread.html` stand-in for a Slack thread in a separate Chrome instance;
+a Terminal window running `cat`), records only while that window is in
+front, saves and checks the whole clipboard, and closes what it opened.
+The log lines (`context: read <outcome> (<chars>, <hints>, <ms>)`,
+`context: this take used its hints`) carry counts only. Then S-20.1's
+disk check, with the app stopped: `grep -rl "Zebulonix\|Quarterbridge"
+src-tauri/target/debug/Data` must find nothing (a name only the context
+had, never said), nor the context's sentence; `entry_meta.context_used`
+is 1 for the context-on takes.
+
+The name eval (exit criterion): `bun scripts/wb-s20/names-audio.ts
+$SCRATCH/names` (TTS written to files, never played), then
+`WB_ASR_MODEL=<gguf> WB_NAMES_AUDIO=$SCRATCH/names WB_EVAL_OUT=<run.jsonl>
+WB_LLAMA_SERVER=<sidecar> WB_LLM_MODEL=<muesli gguf> cargo test --lib
+fork::context::names_eval -- --ignored --nocapture` per speech model.
 
 ### S-21 Transforms core
 

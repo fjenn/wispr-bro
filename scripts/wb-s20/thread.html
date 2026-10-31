@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!--
+  Mac test S-20: a chat thread stand-in (Slack is not installed on the test
+  Mac). Made-up people only. The composer has focus at load; with #card the
+  focused field is a "Card number" input instead (a sensitive field: the
+  read must skip it). The page title mirrors the composer's text, so the
+  driver reads it through the window title (no JavaScript from Apple Events).
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>S20 thread</title>
+    <style>
+      body { font: 14px -apple-system, sans-serif; margin: 0; display: flex; height: 100vh; }
+      nav { width: 180px; background: #3f0e40; color: #fff; padding: 12px; }
+      main { flex: 1; display: flex; flex-direction: column; }
+      .msg { padding: 8px 16px; }
+      .who { font-weight: 600; }
+      textarea, input { margin: 12px 16px; font: inherit; padding: 8px; }
+      textarea { height: 80px; }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div>Channels</div>
+      <div># general</div>
+      <div># launch-plan</div>
+    </nav>
+    <main>
+      <h1 style="font-size: 16px; padding: 0 16px">Thread</h1>
+      <div class="msg">
+        <div class="who">Siobhán Kowalczyk</div>
+        <div>The launch checklist is in the shared folder. Thibault Moreau is reviewing the legal part.</div>
+      </div>
+      <div class="msg">
+        <div class="who">Zebulonix Quarterbridge</div>
+        <div>I can take the press kit if nobody else has it.</div>
+      </div>
+      <div class="msg">
+        <div class="who">Siobhán Kowalczyk</div>
+        <div>Great, thanks. Can someone confirm the venue by Friday?</div>
+      </div>
+      <textarea id="composer" aria-label="Reply in thread"></textarea>
+      <input id="card" aria-label="Card number" placeholder="Card number" />
+    </main>
+    <script>
+      const target = location.hash === "#card" ? "card" : "composer";
+      const el = document.getElementById(target);
+      el.focus();
+      const mirror = () => (document.title = "S20:" + el.value.replace(/\s+/g, " ").trim());
+      el.addEventListener("input", mirror);
+      setInterval(mirror, 200);
+    </script>
+  </body>
+</html>

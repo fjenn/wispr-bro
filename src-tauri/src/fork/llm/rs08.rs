@@ -63,6 +63,7 @@ fn req(text: &str) -> Request<'_> {
         terms: &[],
         keep: &[],
         style: None,
+        context: &[],
     }
 }
 

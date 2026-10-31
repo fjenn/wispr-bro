@@ -382,6 +382,17 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026-10-31 (Swift to Rust; one app
   or site per rule with its style group; no modes or trigger words; the
   built-in app table is the last tier).
+- src-tauri/src/fork/context/caret.rs,
+  src-tauri/src/fork/context/exclusions.json (password_manager_markers)
+  Source: FluidVoice, https://github.com/altic-dev/FluidVoice
+  Commit: ea94c8a6736d453c764a2431503832b3fb134911
+  Files:  Sources/Fluid/Services/DictationContextCapture.swift,
+          Tests/FluidDictationIntegrationTests/DictationContextCaptureTests.swift
+  FluidVoice contributors. Licence: GPL-3.0
+  Modified by Wispr Bro contributors, 2026-10-31 (Rust on the fork's AX
+  thread; the walk starts at the focused field; R5 S-20's 1,500-character
+  and 100 ms budgets; the caret window before, selected and after; Wispr's
+  exclusions; no OCR; only spelling hints leave the read, S-20).
 
 ======================================================================
 4. Files licensed AGPL-3.0-only

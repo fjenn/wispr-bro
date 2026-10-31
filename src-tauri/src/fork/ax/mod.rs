@@ -133,7 +133,7 @@ pub fn on_exit() {
 }
 
 #[cfg(target_os = "macos")]
-fn accessibility_trusted() -> bool {
+pub(crate) fn accessibility_trusted() -> bool {
     #[link(name = "ApplicationServices", kind = "framework")]
     extern "C" {
         fn AXIsProcessTrusted() -> u8;

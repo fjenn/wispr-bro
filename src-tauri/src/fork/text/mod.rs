@@ -141,7 +141,17 @@ pub fn process(
 ) -> String {
     let rules = active_rules();
     let lang = language.language();
-    let outcome = catch_unwind(AssertUnwindSafe(|| run(&raw, lang, &rules, &mut handy)));
+    // S-20: the armed take's context hints, if any (never for a file or a
+    // retry outside a dictation).
+    let hints = crate::fork::context::awareness::hints();
+    let outcome = catch_unwind(AssertUnwindSafe(|| {
+        let (text, mut record) = run(&raw, lang, &rules, &mut handy);
+        let text = match hints.as_deref() {
+            Some(h) => context_stage(text, h, &mut record),
+            None => text,
+        };
+        (text, record)
+    }));
     let (kept, record) = match outcome {
         Ok(done) => done,
         Err(_) => {
@@ -161,8 +171,36 @@ pub fn process(
     if std::env::var_os(TRACE_ENV).is_some() {
         log::info!("text trace: {raw:?} -> {kept:?}");
     }
+    let context_fixed = record
+        .stages
+        .iter()
+        .any(|s| s.stage == Stage::Context && s.changes > 0);
     ledger().note_processed(raw, &kept, record);
+    if hints.is_some()
+        && (context_fixed || crate::fork::context::awareness::vocabulary_sent())
+    {
+        crate::fork::context::awareness::note_used();
+        ledger().note_context_used(&kept);
+    }
     kept
+}
+
+/// S-20's stage: transcript words that are a near-caret name misspelled
+/// take its spelling ([`crate::fork::context::hints::correct`]).
+/// The dictionary rules' outputs are never touched, and stay findable for
+/// stage 9 (their offsets follow the edits).
+pub fn context_stage(text: String, hints: &[String], record: &mut TextRecord) -> String {
+    let protected: Vec<(usize, usize)> = record
+        .provenance
+        .iter()
+        .map(|p| (p.target_start, p.target_start + p.target_text.len()))
+        .collect();
+    let c = crate::fork::context::hints::correct_outside(&text, hints, &protected);
+    for p in &mut record.provenance {
+        p.target_start = c.map_offset(p.target_start);
+    }
+    record.push(Stage::Context, c.fixes);
+    c.text
 }
 
 /// Debug builds log each take's verbatim and kept text when this is set.

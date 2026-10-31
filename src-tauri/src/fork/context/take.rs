@@ -133,6 +133,9 @@ pub struct Processed {
     pub record: TextRecord,
     /// What the LLM cleanup did (S-12a), once it ran.
     pub cleanup: Option<CleanupRecord>,
+    /// S-20: text near the caret helped this take (`entry_meta.context_used`;
+    /// never the text).
+    pub context_used: bool,
 }
 
 #[derive(Debug, Default)]
@@ -210,8 +213,16 @@ impl Ledger {
                 verbatim,
                 record,
                 cleanup: None,
+                context_used: false,
             },
         );
+    }
+
+    /// S-20: the newest transcription kept as `kept` used context hints.
+    pub fn note_context_used(&mut self, kept: &str) {
+        if let Some(p) = self.processed.iter_mut().rev().find(|p| p.kept == kept) {
+            p.context_used = true;
+        }
     }
 
     /// [`Ledger::note_processed`] without a pipeline record.

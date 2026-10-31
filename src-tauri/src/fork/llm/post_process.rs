@@ -291,6 +291,9 @@ pub struct Request<'a> {
     /// deterministic rules (stage 10)
     /// run after [`clean`], in [`run`].
     pub style: Option<StylePreset>,
+    /// S-20: names near the caret this text has or nearly has (the
+    /// prompt's CONTEXT line); empty without context awareness.
+    pub context: &'a [String],
 }
 
 impl Request<'_> {
@@ -673,6 +676,7 @@ pub fn system_prompt(req: &Request<'_>) -> String {
         language: req.prompt_language(),
         terms: req.terms,
         style: req.style,
+        context: req.context,
     })
 }
 
@@ -1067,6 +1071,9 @@ pub struct Plan {
     /// A guess from the text when Handy did not know it.
     pub hint: Option<String>,
     pub terms: Vec<String>,
+    /// S-20: the armed take's context hints this text has or nearly has
+    /// (none for a job, or with context awareness off).
+    pub context: Vec<String>,
     /// Decided before any LLM call.
     pub skip: Option<CleanupWhy>,
     /// The style of this take (S-19a), see [`StyleDecision`].
@@ -1210,6 +1217,12 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
         language,
         hint,
         terms,
+        context: match source {
+            Source::Dictation => crate::fork::context::awareness::hints()
+                .map(|h| crate::fork::context::hints::relevant(text, &h))
+                .unwrap_or_default(),
+            Source::Job => Vec::new(),
+        },
         skip: None,
         style,
     };
@@ -1292,6 +1305,7 @@ pub fn prewarm_apple<R: Runtime>(app: &AppHandle<R>) {
                 terms: &[],
                 keep: &[],
                 style: None,
+                context: &[],
             })
         });
     super::apple::prewarm(&system);
@@ -1363,6 +1377,18 @@ pub fn fix_count(before: &str, after: &str) -> u32 {
     crate::fork::text::counts::changed_runs(before, after)
 }
 
+/// The guards' keep list: the dictionary's words, plus the context hints
+/// `text` already spells exactly (S-20).
+pub fn keep_with_context(words: &[String], context: &[String], text: &str) -> Vec<String> {
+    let mut keep = words.to_vec();
+    for c in context {
+        if text.contains(c.as_str()) && !keep.iter().any(|k| k == c) {
+            keep.push(c.clone());
+        }
+    }
+    keep
+}
+
 /// Runs a plan: [`clean`] on the sidecar, stage 9, the record and the event.
 pub async fn run<R: Runtime>(
     app: &AppHandle<R>,
@@ -1372,6 +1398,9 @@ pub async fn run<R: Runtime>(
     let cleaned = match plan.skip {
         Some(why) => Cleaned::skipped(text, why),
         None => {
+            // S-20: a near-caret name the text already spells right must
+            // come back from the LLM exactly (the entity guard).
+            let keep = keep_with_context(&plan.words, &plan.context, text);
             let req = Request {
                 text,
                 level: plan.level,
@@ -1380,10 +1409,14 @@ pub async fn run<R: Runtime>(
                 terms: &plan.terms,
                 keep: &plan.words,
                 style: plan.style.preset,
+                keep: &keep,
+                context: &plan.context,
             };
             if plan.engine == CleanupEngine::Apple {
+                // The prewarm prompt outlives the take: never with its
+                // context names.
                 *LAST_SYSTEM.lock().unwrap_or_else(|p| p.into_inner()) =
-                    Some((plan.level, system_prompt(&req)));
+                    Some((plan.level, system_prompt(&Request { context: &[], ..req.clone() })));
                 clean(&super::apple::AppleEngine::for_dictation(), &req).await
             } else {
                 match super::runtime::runtime(app).and_then(|rt| rt.supervisor().cloned()) {
@@ -1409,6 +1442,11 @@ pub async fn run<R: Runtime>(
     } else {
         CleanupEngine::Local
     };
+    if engine != CleanupEngine::None && !plan.context.is_empty() {
+        // S-20: the prompt named near-caret names.
+        crate::fork::context::awareness::note_used();
+        crate::fork::context::take::ledger().note_context_used(text);
+    }
     let restored = restore_spellings(text, cleaned.text.clone());
     let fixes = fix_count(text, &restored);
     // Stage 10 (S-19a): the preset's deterministic rules, on the cleaned

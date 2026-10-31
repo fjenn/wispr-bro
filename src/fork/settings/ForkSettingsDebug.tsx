@@ -16,6 +16,7 @@ export function ForkSettingsDebug() {
   const { t } = useTranslation(FORK_NAMESPACE);
   const { settings, status, error, pending, setSetting } = useForkSettings();
   const contextId = useId();
+  const contextHintId = useId();
   const levelId = useId();
 
   if (!settings) {
@@ -37,6 +38,7 @@ export function ForkSettingsDebug() {
         <input
           id={contextId}
           type="checkbox"
+          aria-describedby={contextHintId}
           data-testid="fork-settings-context-awareness"
           checked={settings.context_awareness}
           disabled={!!pending.context_awareness}
@@ -46,6 +48,9 @@ export function ForkSettingsDebug() {
         />
         {t("settings.debug.contextAwareness")}
       </label>
+      <p id={contextHintId} className="-mt-1 ps-6 text-xs text-ink-3">
+        {t("settings.debug.contextAwarenessHint")}
+      </p>
       <label htmlFor={levelId} className="flex items-center gap-2">
         {t("settings.debug.cleanupLevel")}
         <select

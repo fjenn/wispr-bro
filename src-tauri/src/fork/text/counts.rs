@@ -27,6 +27,9 @@ pub enum Stage {
     Whitespace,
     /// 11: snippets expanded (after the LLM, S-17).
     Snippets,
+    /// S-20: names near the caret spelled as written there (after 12;
+    /// letters only, so stage 12's result holds).
+    Context,
 }
 
 impl Stage {
@@ -39,6 +42,7 @@ impl Stage {
             Stage::RulesRestored => "rules_restored",
             Stage::Whitespace => "whitespace",
             Stage::Snippets => "snippets",
+            Stage::Context => "context",
         }
     }
 }

@@ -39,6 +39,7 @@ const cancelled: ForkPillState = {
   card_reason: null,
   more: 0,
   copied: false,
+  context: false,
 };
 
 test.describe("Cancelled · Undo on the bar", () => {

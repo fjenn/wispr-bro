@@ -171,6 +171,20 @@ body {
   min-width: 0;
 }
 
+/* S-20: nearby text helped spell this take. */
+.wb-pill-context {
+  display: inline-flex;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--wb-pill-accent);
+}
+
+.wb-pill-context svg {
+  width: 14px;
+  height: 14px;
+}
+
 .wb-pill-dots {
   display: inline-flex;
   gap: 3px;

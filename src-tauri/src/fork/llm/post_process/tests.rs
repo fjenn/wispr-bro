@@ -64,6 +64,7 @@ fn req(text: &str, level: CleanupLevel) -> Request<'_> {
         terms: &[],
         keep: &[],
         style: None,
+        context: &[],
     }
 }
 
@@ -332,6 +333,7 @@ async fn medium_and_terms_reach_the_prompt() {
             terms: &terms,
             keep: &terms,
             style: None,
+            context: &[],
         },
     )
     .await;

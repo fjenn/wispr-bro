@@ -292,6 +292,8 @@ pub enum Input {
     /// Undo is transcribing a cancelled take (S-06): "Transcribing…" from
     /// whatever the bar shows ("Cancelled · Undo"), unless a take records.
     Undoing,
+    /// S-20: the take used text near the caret (spelling hints).
+    ContextUsed,
 }
 
 /// What the card shows (one card for S-07a's queued takes and S-05's
@@ -344,6 +346,8 @@ pub struct ActiveView {
     pub copied: bool,
     /// Held/hands-free: the label says "Sends automatically" (S-19a).
     pub sends_automatically: bool,
+    /// S-20: the context glyph (processing states only).
+    pub context: bool,
 }
 
 /// Everything on screen.
@@ -388,6 +392,8 @@ pub struct Model {
     copied_until: Option<Ms>,
     /// A card that arrived during a take; shown when the take is over.
     pending_card: Option<CardContent>,
+    /// S-20: the take in progress used text near the caret.
+    context: bool,
 }
 
 impl Model {
@@ -437,6 +443,7 @@ impl Model {
         self.card = None;
         self.more = 0;
         self.copied_until = None;
+        self.context = false;
     }
 
     fn go_idle(&mut self) {
@@ -541,6 +548,16 @@ impl Model {
                     self.set(Phase::CleaningUp);
                     self.label_until = None;
                     self.warning = None;
+                }
+            }
+            Input::ContextUsed => {
+                // Only the take being processed (a late report after the
+                // next take started is dropped by that start).
+                if matches!(
+                    self.phase(),
+                    Phase::Held | Phase::Locked | Phase::Transcribing | Phase::CleaningUp
+                ) {
+                    self.context = true;
                 }
             }
             Input::Cancelled => {
@@ -734,6 +751,7 @@ impl Model {
                     more: 0,
                     copied: false,
                     sends_automatically: sends,
+                    context: false,
                 })
             }
             Phase::Transcribing | Phase::CleaningUp => Some(ActiveView {
@@ -752,6 +770,7 @@ impl Model {
                 more: 0,
                 copied: false,
                 sends_automatically: false,
+                context: self.context,
             }),
             Phase::Message => self.message.map(|(kind, _)| ActiveView {
                 phase: PillPhase::Message,
@@ -765,6 +784,7 @@ impl Model {
                 more: 0,
                 copied: false,
                 sends_automatically: false,
+                context: false,
             }),
             Phase::SettingUp => Some(ActiveView {
                 phase: PillPhase::SettingUp,
@@ -778,6 +798,7 @@ impl Model {
                 more: 0,
                 copied: false,
                 sends_automatically: false,
+                context: false,
             }),
             Phase::Card => self.card.as_ref().map(|card| ActiveView {
                 phase: PillPhase::Card,
@@ -791,6 +812,7 @@ impl Model {
                 more: self.more,
                 copied: self.copied_until.is_some(),
                 sends_automatically: false,
+                context: false,
             }),
         };
         let p = self.prefs;
@@ -825,6 +847,31 @@ mod tests {
 
     fn phase(m: &mut Model, now: Ms) -> Option<PillPhase> {
         m.view_at(now).active.map(|a| a.phase)
+    }
+
+    #[test]
+    fn the_context_glyph_shows_only_while_its_take_is_processed() {
+        let ctx = |m: &mut Model, now: Ms| m.view_at(now).active.map(|a| a.context);
+        let mut m = Model::new(ready());
+        m.step(1_000, Input::TakeStarted { locked: false });
+        // Recording: the glyph is for processing states only.
+        m.step(1_050, Input::ContextUsed);
+        assert_eq!(ctx(&mut m, 1_050), Some(false));
+        m.step(2_000, Input::Stopped);
+        assert_eq!(ctx(&mut m, 2_000), Some(true));
+        m.step(2_100, Input::CleaningUp);
+        assert_eq!(ctx(&mut m, 2_100), Some(true));
+        // A message after the take carries no glyph.
+        m.step(2_500, Input::Message(PillMessage::InsertedWithoutCleanup));
+        assert_eq!(ctx(&mut m, 2_500), Some(false));
+        // The next take starts without it.
+        m.step(9_000, Input::TakeStarted { locked: false });
+        m.step(9_500, Input::Stopped);
+        assert_eq!(ctx(&mut m, 9_500), Some(false));
+        // A report while resting is ignored.
+        m.step(9_600, Input::Hide);
+        m.step(9_600 + HIDE_GRACE_MS, Input::ContextUsed);
+        assert!(m.view_at(9_600 + HIDE_GRACE_MS).active.is_none());
     }
 
     #[test]

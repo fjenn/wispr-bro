@@ -1319,7 +1319,10 @@ fn run_setup(info: &LoadedInfo, settings: &AppSettings, language: LanguageDecisi
         task: run_plan.task,
         language: run_plan.language,
         target_language: run_plan.target_language,
-        vocabulary: vocabulary_for_model(info.supports_vocabulary, &settings.custom_words),
+        vocabulary: crate::fork::context::awareness::vocabulary(
+            info.supports_vocabulary,
+            vocabulary_for_model(info.supports_vocabulary, &settings.custom_words),
+        ),
         ..Default::default()
     };
 

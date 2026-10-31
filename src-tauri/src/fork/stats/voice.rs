@@ -126,7 +126,7 @@ pub struct VoiceProfile {
 }
 
 /// stopwords-iso 1.1.0 (MIT, `tables/stopwords-iso.json`, unmodified).
-fn stopwords() -> &'static HashMap<String, HashSet<String>> {
+pub(crate) fn stopword_table() -> &'static HashMap<String, HashSet<String>> {
     static SW: OnceLock<HashMap<String, HashSet<String>>> = OnceLock::new();
     SW.get_or_init(|| {
         let raw: HashMap<String, Vec<String>> =
@@ -172,7 +172,7 @@ fn stopword_set(entries: &[VoiceEntry]) -> HashSet<&'static str> {
         .map(primary)
         .collect();
     langs.insert("en".into());
-    let sw = stopwords();
+    let sw = stopword_table();
     langs
         .iter()
         .filter_map(|l| sw.get(l))
@@ -570,7 +570,7 @@ mod tests {
 
     #[test]
     fn stopword_data_loads() {
-        let sw = stopwords();
+        let sw = stopword_table();
         assert_eq!(sw.len(), 58);
         assert!(sw["en"].contains("the"));
         assert!(sw["de"].contains("und"));

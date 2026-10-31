@@ -67,6 +67,8 @@ pub struct EntryWrite {
     pub text: Option<TextRecord>,
     /// What the LLM cleanup did (S-12a), when it ran.
     pub cleanup: Option<CleanupRecord>,
+    /// S-20: text near the caret helped (only the flag is stored).
+    pub context_used: bool,
 }
 
 /// The text Handy inserted for `entry`.
@@ -122,7 +124,14 @@ impl EntryWrite {
             backfilled: false,
             text: None,
             cleanup: None,
+            context_used: false,
         }
+    }
+
+    /// The same write with S-20's flag.
+    pub fn with_context_used(mut self, used: bool) -> EntryWrite {
+        self.context_used = used;
+        self
     }
 
     /// The same write with the text pipeline's record of the transcription.
@@ -272,6 +281,7 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                     ("cleanup_level", &level),
                     ("cleanup_engine", &engine),
                     ("cleanup_outcome", &outcome),
+                    ("context_used", &i64::from(w.context_used)),
                 ],
             )?;
             if let Some(t) = w.text.as_ref().filter(|t| !t.rule_hits.is_empty()) {
@@ -485,16 +495,17 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
             l.take_processed(&entry.transcription_text),
         )
     };
-    let (verbatim, text, cleanup) = match processed {
-        Some(p) => (Some(p.verbatim), Some(p.record), p.cleanup),
-        None => (None, None, None),
+    let (verbatim, text, cleanup, context_used) = match processed {
+        Some(p) => (Some(p.verbatim), Some(p.record), p.cleanup, p.context_used),
+        None => (None, None, None, false),
     };
     let w = EntryWrite::for_saved(entry, bound, verbatim, crate::fork::stats::local_day)
         .with_text(text)
-        .with_cleanup(cleanup);
+        .with_cleanup(cleanup)
+        .with_context_used(context_used);
     if let Some(changed) = with_db(app, "save", |conn| write(conn, &w, false)) {
         log::info!(
-            "history: entry {} saved ({}, {} in {}, {} words, {} ms, {} dictionary fix(es), cleanup {})",
+            "history: entry {} saved ({}, {} in {}, {} words, {} ms, {} dictionary fix(es), cleanup {}, context {})",
             w.entry_id,
             w.source.as_str(),
             w.class.usage_category.as_str(),
@@ -508,7 +519,8 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
             w.cleanup
                 .as_ref()
                 .map(|c| c.outcome.as_str())
-                .unwrap_or("-")
+                .unwrap_or("-"),
+            if w.context_used { "used" } else { "-" }
         );
         if changed {
             stats_changed(app, &w.day);

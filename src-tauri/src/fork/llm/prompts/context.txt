@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro's own text. Appended when context awareness found names near the
+# caret that this transcript has or nearly has (S-20). `{{names}}` is
+# replaced with them, comma-separated. A separate fragment from the
+# vocabulary and the style (S-19a), so each can change on its own.
+# Everything after the first line that is exactly `---` is the fragment.
+---
+
+CONTEXT: the text around the cursor contains these names and terms: {{names}}. When the transcript has one of them, or a word that sounds like one of them, spell it exactly as written here. Never add a name the speaker did not say.

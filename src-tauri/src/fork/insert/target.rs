@@ -138,6 +138,8 @@ pub fn capture_now() -> u64 {
 
 /// Handy's `recording-state-event` `cancelled`.
 pub fn on_cancelled() {
+    // S-20: a cancelled take's context hints go at once.
+    crate::fork::context::awareness::on_take_over();
     let mut t = takes();
     for id in [t.start.take(), t.pending.take().and_then(|(_, s)| s)]
         .into_iter()

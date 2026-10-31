@@ -72,6 +72,8 @@ pub fn style_fragment(style: Option<StylePreset>) -> Option<&'static str> {
         | StylePreset::VeryRelaxed
         | StylePreset::Upbeat => None,
     }
+fn context_fragment() -> &'static str {
+    body(include_str!("prompts/context.txt"))
 }
 
 /// Our line appended for the JSON reply (RS-07 `JSON_SUFFIX`).
@@ -91,6 +93,10 @@ pub struct Spec<'a> {
     /// The take's style preset (S-19a): set only for English takes outside
     /// AI chats.
     pub style: Option<StylePreset>,
+    /// S-20 context awareness: names near the caret that this transcript
+    /// has or nearly has. Its own field and fragment (the style of S-19a
+    /// is another), empty when context awareness is off or found none.
+    pub context: &'a [String],
 }
 
 /// English name of a language for the prompt ("Dutch (nl)"), or the code.
@@ -184,6 +190,11 @@ pub fn system(spec: &Spec<'_>) -> String {
     if !terms.is_empty() {
         s.push_str("\n\n");
         s.push_str(&vocabulary_fragment().replace("{{terms}}", &terms.join(", ")));
+    }
+    let context = prompt_terms(spec.context);
+    if !context.is_empty() {
+        s.push_str("\n\n");
+        s.push_str(&context_fragment().replace("{{names}}", &context.join(", ")));
     }
     if let Some(lang) = spec.language.filter(|l| !is_english(l)) {
         s.push_str("\n\n");

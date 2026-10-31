@@ -41,6 +41,7 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
     more: 0,
     copied: false,
     sends_automatically: false,
+    context: false,
     ...partial,
   };
 }

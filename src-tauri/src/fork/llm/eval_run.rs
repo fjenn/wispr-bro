@@ -169,6 +169,7 @@ async fn eval_run_through_the_shipped_path() {
             terms: &[],
             keep: &[],
             style: None,
+            context: &[],
         },
     )
     .await;
@@ -202,6 +203,8 @@ async fn eval_run_through_the_shipped_path() {
                 "style": style.map(|s| format!("{s:?}")),
                 "system_prompt_light": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Light, language: None, hint: None, terms: &[], keep: &[], style }),
                 "system_prompt_medium": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Medium, language: None, hint: None, terms: &[], keep: &[], style }),
+                "system_prompt_light": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Light, language: None, hint: None, terms: &[], keep: &[], context: &[] }),
+                "system_prompt_medium": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Medium, language: None, hint: None, terms: &[], keep: &[], context: &[] }),
             }
         })
     )
@@ -245,6 +248,7 @@ async fn eval_run_through_the_shipped_path() {
                 terms: &[],
                 keep: &[],
                 style: style.filter(|_| lang.is_none_or(|l| l == "en")),
+                context: &[],
             };
             if let (Some(ms), EvalEngine::Apple(_)) = (prewarm_ms, &engine) {
                 // The app prewarms at key-down; the take is spoken meanwhile.

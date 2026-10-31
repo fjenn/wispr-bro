@@ -1,11 +1,21 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! What a take knows about where it is going (S-09: the frontmost app and its
 //! taxonomy; S-19b adds the browser host, S-20 the text near the caret).
+//!
+//! S-20 (context awareness): [`caret`] reads the text around the caret at
+//! record start, [`hints`] turns it into spelling hints at once (the text is
+//! dropped), [`awareness`] holds the take's hints in memory until the take
+//! ends.
 
 pub mod app_rules;
 pub mod apps;
+pub mod awareness;
+pub mod caret;
 pub mod categories;
 pub mod frontmost;
+pub mod hints;
+#[cfg(test)]
+mod names_eval;
 pub mod take;
 
 use take::{ledger, TakeContext};

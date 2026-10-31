@@ -116,6 +116,8 @@ pub fn take_file_name(sample_count: usize) -> String {
     );
     // S-06: the take a cancel during transcription would bring back.
     recovery::note_take_file(&name);
+    // S-20: the stopped take may now use its context hints.
+    context::awareness::on_stopped();
     name
 }
 
@@ -147,8 +149,18 @@ fn install_rule_source<R: Runtime>(app: &AppHandle<R>) {
 /// The `actions.rs` record-start hook (R5 §4.2): runs when a dictation's
 /// recording starts. S-09: the frontmost app and the low-disk watch; S-03,
 /// S-05 and S-10 add the pill state, the AX target and the LLM prewarm.
-pub fn on_record_start<R: Runtime>(app: &AppHandle<R>) {
+pub fn on_record_start<R: ForkRuntime>(app: &AppHandle<R>) {
     context::on_record_start();
+    // S-20: the text near the caret, read once on the AX thread (never
+    // waits; DEC-24: on unless the user switched it off).
+    let enabled = app
+        .try_state::<settings::ForkSettingsHandle>()
+        .and_then(|h| h.get(app).ok())
+        .is_none_or(|s| s.context_awareness);
+    let languages = R::handy_settings(app)
+        .map(|settings::HandySettings(s)| s.spoken_languages)
+        .unwrap_or_default();
+    context::awareness::on_record_start(enabled, languages);
     match crate::portable::data_dir()
         .cloned()
         .map(Ok)

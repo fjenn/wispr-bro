@@ -60,6 +60,9 @@ pub struct ForkEntryMeta {
     pub backfilled: bool,
     /// Soft-deleted: hidden, purged after 10 s unless undone.
     pub deleted: bool,
+    /// S-20: text near the caret helped this take (History says "Context
+    /// used"; the text itself is never stored).
+    pub context_used: bool,
 }
 
 pub(crate) fn read_meta(
@@ -71,7 +74,7 @@ pub(crate) fn read_meta(
             "SELECT entry_id, created_at, asr_text, final_text, previous_text, audio_ms,
                     word_count, app_bundle_id, app_name, style_group, usage_category,
                     paste_outcome, source, audio_deleted_at IS NULL, backfilled,
-                    deleted_at IS NOT NULL
+                    deleted_at IS NOT NULL, context_used
              FROM entry_meta WHERE entry_id = ?1",
             [id],
             |r| {
@@ -92,6 +95,7 @@ pub(crate) fn read_meta(
                     has_audio: r.get(13)?,
                     backfilled: r.get::<_, i64>(14)? == 1,
                     deleted: r.get(15)?,
+                    context_used: r.get::<_, i64>(16)? == 1,
                 })
             },
         )
