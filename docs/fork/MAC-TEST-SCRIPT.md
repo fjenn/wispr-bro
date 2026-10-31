@@ -634,7 +634,45 @@ data) and the log lines in the run file.
 ### S-15a Dictation home and stats rail
 
 - [ ] S-15a.1 10 takes update the rail live.
-- Procedure: TODO (S-15a).
+- [ ] S-15a.2 The rail matches `daily_stats`; the home is the page the Hub
+      opens on; the greeting uses the macOS first name.
+
+**Profile: an isolated portable debug build** (as for S-09, own identifier
+`com.wisprbro.s15acheck`, so the owner's app and data are never touched).
+In the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s15acheck","plugins":{"updater":{"active":false}}}' > /tmp/s15a.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s15a.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/whisper-base/whisper-base-Q8_0.gguf Data/models/s15a-whisper-base.gguf
+./handy --start-hidden & sleep 15; kill %1       # creates Data/
+```
+
+In `Data/settings_store.json` › `settings` set `onboarding_completed: true`
+(the Hub shows), `selected_model: "s15a-whisper-base"`,
+`recording_retention_period: "never"`, `paste_method: "none"`,
+`vad_enabled: false`, `selected_language: "en"`. Seed 30 neutral rows over
+five days: `python3 -I ../../../scripts/wb-s15a-seed.py Data`.
+
+**Procedure S-15a.2 (2 min).** Launch `./handy` (window visible). The Hub
+opens on Dictation with "Hello, <macOS first name>". Compare the rail with
+`sqlite3 Data/fork.db "SELECT SUM(words), SUM(timed_words), SUM(speech_ms),
+COUNT(*) FROM daily_stats WHERE dictations > 0"`: total words = words; words
+per minute = round(timed_words / (speech_ms / 60000)); streak = days in a
+row up to today (5 with the seed). Click the pencil, enter a name, Save: the
+greeting changes; "Use my Mac account name" restores it.
+
+**Procedure S-15a.1 (unattended, ~2 min, needs speakers and the mic):**
+with the app running, `scripts/wb-s15a-takes.sh <pid> <…>/Data <out dir> 10`.
+Each take (holding `~/wb-bench/gui.lock`) plays a `say` sentence between two
+SIGUSR2s, then screenshots the app's window and prints the `daily_stats`
+totals. Pass: every screenshot shows the totals printed for that take
+(words, rounded WPM, streak) without any reload or click; the voice profile
+count equals total words. Quit, relaunch: the same numbers.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-15a.md` (both pass).
 
 ### S-15b History and row actions
 

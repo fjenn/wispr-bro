@@ -373,6 +373,26 @@ maps, so the fork's packages cannot sit between `//fork` markers. They are:
 5.3.1 (dev, S-13). The same list is in the `package.json` comment of
 `ci/hooks.txt`.
 
+## Dictation home (S-15a)
+
+`src/fork/home/` fills the Hub's Dictation slot (`HUB_PAGES` in
+`pages.tsx`), the page the Hub opens on. No Handy file is touched.
+
+| File                                   | Role                                                                                                                                                                                                                    |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/fork/home/Home.tsx`               | Layout by container query on the page's own width: ≥ 680 px greeting above, main column + 240 px rail; narrower, one column (greeting, rail, main). History slot (S-15b) until then an empty state → Settings › History |
+| `src/fork/home/Greeting.tsx`           | The page's `h1` "Hello, <name>": `greeting_name` (fork setting) → `fork_account_name` (macOS) → "Hello". Pencil button opens a Radix popover to set or clear the override                                               |
+| `src/fork/home/useStatsSummary.ts`     | `fork_stats_summary` on mount, on every `ForkStatsUpdated`, on window focus/visibility and after local midnight; overlapping triggers collapse into one extra read; `NotReady` retried at 1, 2, 4, 8, 16 s              |
+| `src/fork/home/StatsRail.tsx`          | `<dl>` of total words, words per minute (rounded; a dash with "Not enough speech yet" under 3 s of timed speech) and current day streak, grouped per the app language                                                   |
+| `src/fork/home/VoiceProfileBar.tsx`    | `role="progressbar"` over Handy's `ProgressLine` (recoloured), goal 1,700 words (DEC-50); unlocked → "Open Insights" (`navigate("insights", "voice")`, S-25)                                                            |
+| `src/fork/home/PromoBanner.tsx`        | The Hub `Banner` with id `hub.dictation.start` (S-13's id, so an earlier dismissal holds)                                                                                                                               |
+| `src-tauri/src/fork/commands/stats.rs` | `fork_account_name`: first word of `NSFullUserName` (objc2-foundation, in tree), surrounding punctuation trimmed, ≤ 64 chars; `None` off macOS or for an empty name                                                     |
+
+The numbers are S-09's `daily_stats` read as they are (`fork_stats_summary`
+stayed in `commands/history.rs`); the rail does no maths of its own, so it
+matches `daily_stats` by construction. `Popover` (`src/fork/ui/`) gained an
+optional controlled `open`/`onOpenChange` for the name editor.
+
 ## i18n and the untranslated marking scheme
 
 - English source: `src/i18n/locales/en/fork.json`. All 26 locales have a
@@ -910,6 +930,7 @@ gained `wb:llama-server` and the build step in `wb:dev`/`wb:build`.
 | Cleanup eval metrics, guard stub, item labels                                                                                                                                                                   | `scripts/wb-eval-cleanup.test.ts`; runner `bun run wb:eval:cleanup` (`eval/cleanup/README.md`)                                                                                                               |
 | RS-07 bench harness (prompt provenance, request shapes, loopback-only spawn)                                                                                                                                    | `scripts/wb-bench-cleanup.test.ts`; report `docs/fork/spikes/RS-07-cleanup-bakeoff.md`                                                                                                                       |
 | S-10 LLM runtime: supervisor (fake HTTP server on the real socket/TCP), spawn line, env scrub, watchdog, stale PID, transport, streamed client + abort, download verification, memory planner, provider routing | `fork::llm::*` tests; real sidecar: ignored `real_*` and `rs06_bench` (`docs/fork/spikes/RS-06-llm-runtime.md`); UI `tests/fork/ai-engine.spec.ts`; translation backend `scripts/wb-translate-llama.test.ts` |
+| S-15a home: greeting sources and name editor, rail against a fixture, live refresh, event bursts, `NotReady` retry, voice profile, banner, layout, RTL, axe light/dark; account-name parsing                    | `tests/fork/home.spec.ts`; `fork::commands::stats::tests`                                                                                                                                                    |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`
 and a Wry event loop cannot start inside `cargo test` on macOS (main thread).
