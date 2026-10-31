@@ -501,6 +501,42 @@ spike) the frontmost app 5/5, and the paste then went to Wispr Bro. The
 native panel never activates the app. `WISPRBRO_PILL_ALLOW_ACTIVATION=1`
 leaves the flag off, to re-run that check on a new macOS.
 
+## First speech model and the mic gate (S-07a)
+
+A new install downloads a small speech model at launch (at Welcome), and a
+press before it is ready still records. Nothing is pasted late: the take's
+text comes to the bar's card with Copy, and the clipboard is written only
+by Copy.
+
+| File                                                        | Role                                                                                                                                                                                                                                                                                                   |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src-tauri/src/fork/models/catalog.fork.json`, `starter.rs` | Which model comes first: the candidates in order (parakeet-110m, whisper-base, Parakeet TDT 0.6B v3) and the languages each is unusable for (whisper-base: nl, RS-09). Pick = first candidate usable for every language the user speaks, else for the first one. Pins come from Handy's `catalog.json` |
+| `src-tauri/src/fork/models/readiness.rs`                    | SpeakoFlow `speech_readiness.rs` port (MIT): Ready / UseOther / Downloading / Missing from Handy's model list and `selected_model`                                                                                                                                                                     |
+| `src-tauri/src/fork/models/download.rs`                     | Pure download state machine around Handy's downloader: disk check (size + 256 MB), backoff 5/15/30/60/120 s, `Retry-After` (≤ 600 s), captive portal (every 30 s), sha256 against the pin (one extra download on a mismatch), 6 transfers, then "Couldn't download · Retry"                            |
+| `src-tauri/src/fork/models/probe.rs`                        | After a failed transfer: one `Range: bytes=0-0` GET of the pinned resolve URL, redirects only to allowed hosts → offline / captive portal / rate limited / server error / reachable                                                                                                                    |
+| `src-tauri/src/fork/models/setup.rs`                        | The loop (kicks: start, Retry, wake, languages, a Handy download ending), `ForkSpeechSetup` (`fork-speech-setup`, no model name), the three `actions.rs` hooks, selecting the model only when no take runs (`switch_active_model`), draining the queue                                                 |
+| `src-tauri/src/fork/models/queue_session.rs`                | In-session queue + `fork.db` › `queued_takes` rows (`waiting` → `transcribing` → `ready`/`failed`)                                                                                                                                                                                                     |
+| `src-tauri/src/fork/commands/models.rs`                     | `fork_speech_setup_status`, `fork_speech_setup_retry`, `fork_speech_setup_refresh`                                                                                                                                                                                                                     |
+| `src/fork/pill/states/SettingUp.tsx`, `Card.tsx`            | "Setting up… 40%" (ring, ✕) and the card (two lines, Copy, ✕); setup problems are bar messages with Retry                                                                                                                                                                                              |
+| `src/fork/onboarding/firstRun.ts`                           | Inside Handy's onboarding (until S-29a): skips the Model screen when the fork manages the model, counts Demo/Try it as ready when the fork says so, re-picks after Welcome                                                                                                                             |
+
+A queued take, end to end: the mic gate lets the take record; at stop
+`transcribe_take` returns an empty transcription and queues the WAV name;
+Handy saves the WAV and an empty History row (`entry_meta::on_saved` binds
+it); the bar swallows the empty outcome and shows "Setting up". When the
+model is verified and selected, each waiting row goes through Handy's
+`TranscriptionJobManager::retry` (which updates the History row), and the
+`transcription-job` `finished` event puts the text on the card
+(`paste_outcome = queued`). Copy uses `nspb::write_plain_text` (no restore,
+R5 §4.7). Esc, ✕ or the next take dismiss the card; the text stays in
+History.
+
+Test identities: `fork::is_product_build()` is also true for
+`com.wisprbro.<slice>check` identifiers (`is_test_identity`), so a real-Mac
+run gets the product (hotkeys, bar, product settings) with its own app
+data, WebKit storage and TCC rows; `early_init` puts `HF_HOME` and crash
+files under the build's own identifier.
+
 ## i18n and the untranslated marking scheme
 
 - English source: `src/i18n/locales/en/fork.json`. All 26 locales have a

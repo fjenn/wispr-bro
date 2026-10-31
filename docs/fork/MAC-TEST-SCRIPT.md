@@ -136,9 +136,9 @@ Slices: S-04, S-05, S-06, S-17. Apps (§5.4): Mail, Notes, TextEdit, Slack, VS C
 
 Slices: S-07a, S-07b, S-07c.
 
-- [ ] A5.1 First run at 10 and 50 Mbit/s (Network Link Conditioner) meets §5.3. TODO (S-07a)
+- [ ] A5.1 First run at 10 and 50 Mbit/s (Network Link Conditioner) meets §5.3. See S-07a.1.
 - [ ] A5.2 Offline first launch with queued takes, then online. TODO (S-07c)
-- [ ] A5.3 Captive portal Wi-Fi. TODO (S-07a)
+- [ ] A5.3 Captive portal Wi-Fi. See S-07a.3 (simulated) and S-07a.5 (real, a person).
 - [ ] A5.4 Language change re-picks the model. TODO (S-07b)
 
 ### A6. Cleanup, styles, context, voice commands
@@ -475,7 +475,72 @@ not touch the clipboard.
 - [ ] S-07a.1 RS-09 first-run part: clean installs at 10 and 50 Mbit/s meet §5.3.
 - [ ] S-07a.2 A press during the download records and shows the card when ready.
 - [ ] S-07a.3 Captive-portal Wi-Fi simulation.
-- Procedure: TODO (S-07a).
+- [ ] S-07a.4 A 429 with `Retry-After`, a reset mid-transfer, a quit and
+      relaunch mid-download (resume), and a disk too full for the model.
+- [ ] S-07a.5 (person) A real captive portal (hotel or café Wi-Fi), and the
+      onboarding by eye: no Model screen, no model name in the bar.
+
+**Profile: an isolated portable debug build with a test identity**
+(`com.wisprbro.s07acheck`; `fork::is_test_identity` makes it a product
+build: fork hotkeys, the bar and product settings run, with its own app
+data, WebKit storage and TCC rows). In the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s07acheck","productName":"Wispr Bro S07a Check","plugins":{"updater":{"active":false}}}' > <scratch>/s07a.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config <scratch>/s07a.conf.json
+mkdir -p <scratch>/app && cp src-tauri/target/debug/handy <scratch>/app/
+printf "Handy Portable Mode\n" > <scratch>/app/portable   # data in <scratch>/app/Data
+```
+
+No model is copied in: the first launch must find none. Each run starts
+from an empty `Data/`. The model files come from a local Hugging Face
+stand-in, `scripts/wb-s07a/hf-mirror.py` (serves `~/wb-bench/asr` with the
+headers hf-hub reads, one throttled link, runtime modes `normal`,
+`captive`, `429`, `drop`), and the debug build follows a loopback
+`HF_ENDPOINT` for both Handy's downloader and the fork's probe (release
+builds always use `huggingface.co`). One run also downloads from the real
+Hugging Face (no `HF_ENDPOINT`). Takes go through Handy's record path with
+SIGUSR2 and `say` through the speakers (`scripts/wb-s07a/take.sh`), so no
+key events are posted; clicks on the bar's card use `scripts/wb-s03-pill.swift`
+with `WB_FRONT` set to a TextEdit window the run opened, under
+`~/wb-bench/gui.lock`. Save the clipboard first and put it back at the end.
+
+**Procedure (unattended, ~20 min).**
+
+1. S-07a.1: `python3 -I scripts/wb-s07a/hf-mirror.py --root ~/wb-bench/asr
+--rate 6250000` (50 Mbit/s), then
+   `HF_ENDPOINT=http://127.0.0.1:18077 ./handy --debug` with an empty
+   `Data/`. Pass: the log has `speech setup at launch: Missing`, `downloading
+the first speech model parakeet-tdt_ctc-110m`, `checksum … ok`,
+   `selected …`, and launch → ready ≤ 25 s. Again at `--rate 1250000`
+   (10 Mbit/s): ≤ 90 s.
+2. S-07a.2: at 10 Mbit/s, start a take 3 s after launch, play a sentence,
+   stop it. Pass: the bar shows "Setting up… N%" (screenshot), the log has
+   `take queued`, the clipboard's change count is unchanged; when the model
+   is ready the card shows the sentence; the clipboard is still unchanged;
+   a click on Copy puts exactly the card text on it; History has the row
+   with its text and `paste_outcome = queued`.
+3. S-07a.3: mirror mode `captive` before launch. Pass: `probe after the
+failure: CaptivePortal`, a take shows "Couldn't download. Check your
+   connection." with Retry; mode `normal`, Retry → the download finishes and
+   the card shows the take.
+4. S-07a.4: mode `429` with Retry-After 20 → the log waits 20 s; mode `drop`
+   mid-transfer → backoff and a later transfer finishes; quit at ~50 % and
+   relaunch → the progress continues from about the same percent (hf-hub's
+   `.sync.part`); a checksum mismatch (serve a truncated or altered copy) →
+   deleted, downloaded once more, then "Couldn't download".
+5. Real Hugging Face: empty `Data/`, no `HF_ENDPOINT`: the starter
+   downloads from `huggingface.co` and its checksum matches.
+
+Scripted: `scripts/wb-s07a/run.sh` (one launch, optional take, screenshots
+of the bar only), `scripts/wb-s07a/copy.sh` (Copy on the card, clipboard
+saved and restored) and `scripts/wb-s07a/scenarios.sh <app dir> <seed
+settings> <out> t50 t10 429 drop resume corrupt realhf` (no audio). The
+Python stand-in tops out near 18 Mbit/s on M-26, so time the 50 Mbit/s case
+on a real link (or Network Link Conditioner by a person). Use the speakers
+only for the take that needs the mic (S-07a.2).
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-07a.md`.
 
 ### S-07b Silent model policy
 
