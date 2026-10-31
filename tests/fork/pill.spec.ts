@@ -329,6 +329,9 @@ test.describe("reduced motion", () => {
     page,
     ipc,
   }) => {
+    // Every state twice (S-06 added three): more than the default 30 s
+    // when the Mac is busy.
+    test.setTimeout(120_000);
     for (const theme of ["light", "dark"] as const) {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       for (const s of Object.values(STATES)) {
