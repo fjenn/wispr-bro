@@ -289,6 +289,9 @@ mod tests {
         assert_eq!(notes.style_group, StyleGroup::Other);
         assert_eq!(notes.usage_category, UsageCategory::Documents);
 
+        // ChatGPT.app's bundle id is `com.openai.codex` in current builds
+        // (seen on macOS 26.6, 2026-10-30); older builds use `com.openai.chat`.
+        assert!(c("com.openai.codex", "ChatGPT").is_ai_chat);
         let chatgpt = c("com.openai.chat", "ChatGPT");
         assert!(chatgpt.is_ai_chat);
         assert_eq!(chatgpt.usage_category, UsageCategory::AiPrompts);

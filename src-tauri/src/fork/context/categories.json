@@ -118,6 +118,11 @@
       "usage_category": "documents"
     },
 
+    "com.openai.codex": {
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
     "com.openai.chat": {
       "style_group": "other",
       "usage_category": "ai_prompts",
