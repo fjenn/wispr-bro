@@ -13,3 +13,6 @@ src/fork/bindings.ts
 THIRD-PARTY-NOTICES.md
 # Vendored data kept byte for byte (S-25: stopwords-iso 1.1.0, see PORTS.md).
 src-tauri/src/fork/stats/tables/stopwords-iso.json
+
+# Agent worktrees: disposable checkouts, not the product tree.
+.claude/
