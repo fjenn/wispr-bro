@@ -443,9 +443,17 @@ toasts from the window (a `keydown` listener that never stops the event) and
 from the hotkey tap (the Esc registry emits `ForkToastsDismiss`), so it is
 observed and never blocked.
 
-**Debug.** `WISPRBRO_NOTIFY_DEMO="<ms>:<kind>,…"` (debug builds only) posts a
-sample of each kind `<ms>` apart through the real path; the Mac test script
-uses it.
+**Debug.** `WISPRBRO_NOTIFY_DEMO="<ms>:<kind>,…"` (debug builds, or any
+build started with `--debug`) posts a sample of each kind `<ms>` apart
+through the real path (a sample's dedupe key is cleared first, so samples
+repeat); the Mac test script uses it.
+
+**What macOS needs.** `UNUserNotificationCenter` refuses a process that is
+not a bundle LaunchServices accepts: an unbundled `tauri dev` binary would
+raise an exception (gated by `macos::bundled()`), and an ad-hoc bundle under
+`/tmp` is refused ("not allowed"). An ad-hoc release bundle in
+`~/Applications` works (S-18 Mac run); the notarized Developer ID build is
+Mac test S-18.2.
 
 ## i18n and the untranslated marking scheme
 

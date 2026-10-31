@@ -68,3 +68,12 @@ Nothing of the macOS 13 half could run here. What it needs, exactly:
   macOS 13 part waits for F-02 and a macOS 13 Mac).
 - S-18: R4 parts switch to `objc2-user-notifications` (the fallback); the
   plugin and `@tauri-apps/plugin-notification` are not added.
+
+## S-18 follow-up (2026-10-30)
+
+The fallback was built in S-18 and run on macOS 26.6.2 with an ad-hoc
+release bundle in `~/Applications` (`docs/fork/test-runs/1.0.0-alpha.1-M-26-S-18.md`):
+delivery, the permission request at the first real need, the click opening
+the right Hub page, and the Copy latest, Open and Open Settings buttons all
+pass. Still open, as above: the Developer ID build, macOS 15 and 13, and a
+click on a notification after the app has quit (Mac test S-18.2).

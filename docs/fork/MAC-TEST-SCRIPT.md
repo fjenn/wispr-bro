@@ -416,7 +416,8 @@ not touch the clipboard.
 ### S-07c Offline queue and late delivery
 
 - [ ] S-07c.1 Offline first launch with networking off, 3 takes, quit, relaunch online.
-- [ ] S-07c.2 The notification action copies the latest.
+- [ ] S-07c.2 The notification action copies the latest (the button itself is
+      verified by S-18.1 with a sample; S-07c adds the real producer).
 - Procedure: TODO (S-07c).
 
 ### S-08 Microphone and sound polish
@@ -788,8 +789,86 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-16.md`.
 
 ### S-18 Notifications
 
-- [ ] S-18.1 RS-10 notification items on the real slice.
-- Procedure: TODO (S-18). Machines: M-13, M-15, M-26.
+- [ ] S-18.1 RS-10 notification items on the real slice: delivery, the click
+      opens the right page, the action buttons run their action, and the
+      permission prompt appears at the first real need and not before.
+- [ ] S-18.2 The same on the **Developer ID signed, notarized** build (F-02)
+      in `/Applications`, launched normally, on macOS 26, 15 and 13 (M-26,
+      M-15, M-13), plus a click on a notification after the app has quit
+      (relaunch → right page) and "Notification Settings" in System Settings
+      (opens the panel).
+- [ ] S-18.3 In-app: the bell, the panel (All / Unread, ⋯ › Mark all as
+      read, the four toggles), a toast while the Hub is in front, Esc closes
+      it, the version's feature popup shows once.
+
+**Profile (S-18.1, S-18.3): an isolated portable release build** with its
+own identity ("Wispr Bro S18 Check", `com.wisprbro.s18check`), so the
+owner's app, data and notification settings are never touched. Why release
+and `~/Applications`: a debug build panics under `open` (it writes TypeScript
+bindings relative to `/`), and usernoted refuses a bundle outside a location
+LaunchServices accepts (`/tmp`: "Notifications are not allowed for this
+application"). In the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s18check","productName":"Wispr Bro S18 Check","plugins":{"updater":{"active":false}}}' > /tmp/s18.conf.json
+bun run tauri build --bundles app --config src-tauri/tauri.fork.conf.json --config /tmp/s18.conf.json
+# the updater-signature error at the end is expected (no F-02 key)
+swiftc -O -o /tmp/wbnotif scripts/wb-s18-notifications.swift   # the terminal needs Accessibility
+```
+
+Copy the `.app` from `target/release/bundle/macos/` to `~/Applications/`, add
+`Contents/MacOS/portable` (`Handy Portable Mode`), re-sign
+(`codesign --force --deep --options runtime --entitlements src-tauri/Entitlements.plist -s -`),
+`lsregister -f` it, run `Contents/MacOS/handy --start-hidden` once and quit,
+then set `onboarding_completed: true`, `paste_method: "none"` and
+`update_checks_enabled: false` in `Data/settings_store.json` and add one row
+to `Data/history.db` › `transcription_history` (the text "Copy latest" must
+copy). Run the bundle executable directly: it then shares the terminal's
+Accessibility and Microphone grants, so Handy's permission screen does not
+replace the Hub. Save the clipboard text first and put it back at the end.
+macOS asks an app only once: a second Allow run needs another identifier
+(`PlistBuddy -c "Set :CFBundleIdentifier …"`, re-sign, `lsregister -f`).
+
+**Procedure S-18.1 + S-18.3 (unattended, ~5 min, hold
+`~/wb-bench/gui.lock`).**
+
+1. Start with the Hub in front: the feature popup shows; Got it; the bell's
+   panel lists the announcement. Pass: no `asking macOS` line in the log.
+2. `open -a Finder`, then start the demo (samples through the real path):
+   `WISPRBRO_NOTIFY_DEMO="8000:model_ready,queued_takes_ready,queued_takes_ready,shortcut_problem,update_ready" <app>/Contents/MacOS/handy --debug --start-hidden`.
+   Pass: the first post logs `asking macOS for notification permission
+(first real need: model_ready)` and macOS asks;
+   `wbnotif action "S18 Check" Allow`; every later post logs `delivered to
+the center` and no second request. (Don't Allow instead: `permission not
+granted`, later posts `stay in the inbox`, no second prompt.)
+3. With a Focus on, notifications wait in Notification Center:
+   `wbnotif nc-toggle`, `wbnotif expand "S18 Check"`. Without one, act on the
+   banners directly. Then, bringing Finder back to the front each time:
+   - `wbnotif click "Dictation is ready"` → the Hub in front on Dictation.
+   - `wbnotif action "3 dictations ready" "Copy latest"` → the clipboard holds
+     the seeded text; Finder stays in front.
+   - `wbnotif action "3 dictations ready" Open` → Settings › History.
+   - `wbnotif action "shortcut is not working" "Open Settings"` → System
+     Settings, Privacy & Security › Accessibility (quit it if it was not
+     running).
+   - `wbnotif click "Update ready"` → Settings › About.
+     Pass: each logs `activated via System` with that action; the entries are
+     read in `Data/fork.db` › `notifications`.
+4. Hub in front (click into its window), demo `7000:crash_report,model_ready`.
+   Pass: both show as toasts in the Hub and the model-ready one logs no
+   `delivered` line; `wbnotif key-escape` closes the toast.
+5. Clean up: close the test notifications (`wbnotif action "S18 Check"
+Close`), quit, `lsregister -u`, delete the bundle and its
+   `~/Library/{WebKit,Caches}/<identifier>` folders, put the clipboard back.
+   macOS keeps the app's row in System Settings › Notifications until it
+   prunes it (no supported command removes it).
+
+`wbnotif list <filter>` prints only matching notifications; never print
+Notification Center unfiltered (`dump`), it holds the user's own
+notifications.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-18.md` (S-18.1 on an
+ad-hoc build and S-18.3 pass; S-18.2 open).
 
 ### S-19a Styles: app groups and presets
 
