@@ -682,6 +682,13 @@ async forkInsightsSaveImage(path: string, pngBase64: string) : Promise<Result<nu
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Apple's on-device model (S-12b): availability, its role (RS-08) and
+ * request counts since launch.
+ */
+async forkLlmAppleStatus() : Promise<ForkAppleStatus> {
+    return await TAURI_INVOKE("fork_llm_apple_status");
 }
 }
 
@@ -732,6 +739,38 @@ forkToastsDismiss: "fork-toasts-dismiss"
 
 /** user-defined types **/
 
+/**
+ * `SystemLanguageModel.default.availability` for the UI.
+ */
+export type AppleAvailability = "available" | 
+/**
+ * This Mac cannot run Apple Intelligence.
+ */
+"device_not_eligible" | 
+/**
+ * Apple Intelligence is off in System Settings.
+ */
+"not_enabled" | 
+/**
+ * Apple's model is still downloading.
+ */
+"model_not_ready" | 
+/**
+ * macOS before 26, or a build without the bridge.
+ */
+"unsupported" | "unknown"
+/**
+ * What Apple's model is used for (RS-08 outcome).
+ */
+export type AppleRole = 
+/**
+ * Every cleanup runs on Apple's model when it is available.
+ */
+"default" | 
+/**
+ * Only while the local model is not ready (downloading, failed).
+ */
+"fallback"
 /**
  * Whether a row's recording can be played and saved.
  */
@@ -967,6 +1006,26 @@ export type FlagResult = { outcome: SaveOutcome;
  */
 row: HistoryRow | null }
 /**
+ * Apple's model in the AI engine panel.
+ */
+export type ForkAppleStatus = { availability: AppleAvailability; role: AppleRole; 
+/**
+ * Context window in tokens (0 when unavailable).
+ */
+context_tokens: number; 
+/**
+ * Requests since launch.
+ */
+requests: number; 
+/**
+ * Of those, refused by Apple's guardrails.
+ */
+refusals: number; 
+/**
+ * Of those, throttled by the system (`rateLimited`).
+ */
+rate_limited: number }
+/**
  * Why a take went to the card (`fork.json` > `rust.pill.card.*`, shared by
  * the card and its VoiceOver announcement).
  */
@@ -1140,7 +1199,12 @@ level: CleanupLevel; outcome: CleanupOutcome; why: CleanupWhy | null;
 /**
  * Guard checks that rejected the reply.
  */
-guard_reasons: string[] }
+guard_reasons: string[]; 
+/**
+ * The engine that cleaned it (S-12b: Apple's model when it stands in
+ * for the local one; `none` when no request was made).
+ */
+engine: CleanupEngine }
 /**
  * The microphones changed (plugged, unplugged, default changed). Payload:
  * how many inputs there are now.

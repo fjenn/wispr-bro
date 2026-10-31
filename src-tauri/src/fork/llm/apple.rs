@@ -301,7 +301,15 @@ pub fn selfcheck<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
                     tokio::time::sleep(Duration::from_millis(1500)).await;
                 }
                 let t0 = Instant::now();
-                let Some(p) = plan(&app, text, Source::Dictation, Vec::new(), spoken.clone()).await
+                let Some(p) = plan(
+                    &app,
+                    text,
+                    Source::Dictation,
+                    Vec::new(),
+                    spoken.clone(),
+                    None,
+                )
+                .await
                 else {
                     log::error!("fork apple selfcheck: FAIL the fork does not own cleanup here");
                     return;
