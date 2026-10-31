@@ -458,6 +458,10 @@
         "title_one": "È stato salvato un'immagine quando è stato chiuso l'applicazione",
         "title_other": "Sono stati salvati {{count}} registrazioni quando è stato chiuso l'app",
         "body": "Stavano ancora registrando quando è stato chiuso {{appName}}. Sono nell'Historia, dove sono stati trascritti."
+      },
+      "slowerMac": {
+        "title": "La dictazione potrebbe essere più lenta su questo Mac",
+        "body": "Nessun modello di riconoscimento vocale è sufficientemente veloce per le tue lingue su questo Mac, quindi viene usato il più veloce. Il testo potrebbe richiedere un po' di tempo prima di apparire."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Si sblocca a {{goal}} parole. Continua a parlare per completarlo.",
       "unlocked": "Sbloccato. Vedere come parli in Insights.",
       "open": "Apri Insights"
+    },
+    "history": {
+      "title": "Le tue dictature vengono salvate su questo Mac",
+      "body": "Apri Storico per copiare, riprodurre o cercare.",
+      "action": "Apri storia"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” è nel tuo dizionario.",
       "openDictionary": "Apri il Dizionario"
     }
+  },
+  "speechModels": {
+    "title": "Modelli di riconoscimento vocale",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Sto caricando i modelli di riconoscimento vocale…",
+    "current": "In uso: {{name}}",
+    "none": "Nessun modello di riconoscimento vocale ancora",
+    "phase": {
+      "checking": "Sto verificando quale modello si adatta a questo Mac…",
+      "settled": "Questo è il modello migliore per le tue lingue su questo Mac.",
+      "downloading": "Sto scaricando un modello migliore in background… {{percent}}%",
+      "downloadingNoPercent": "Sto scaricando un modello migliore in background…",
+      "waiting_to_swap": "Un modello migliore è pronto. Viene sostituito quando non stai dicendo qualcosa.",
+      "paused": "Il modello migliore non è stato scaricato. Sarà provato di nuovo in seguito."
+    },
+    "next": "Successivo: {{name}}",
+    "progressLabel": "Download del modello di riconoscimento vocale migliore",
+    "slower": "La diczione potrebbe essere più lenta su questo Mac: nessun modello è abbastanza veloce per le tue lingue qui, quindi ne viene usato il più veloce.",
+    "pinned": "Hai scelto questo modello tu stesso, quindi {{appName}} non ci fa nulla.",
+    "automatic": "Scegli il modello automaticamente",
+    "automaticHint": "Disattivato quando selezioni un modello nella lista sottostante.",
+    "languages": "Per: {{languages}}",
+    "machine": "Questo Mac: {{chip}}, {{ram}} GB memoria",
+    "freeDisk": "{{gb}} GB liberi per i modelli",
+    "chip": {
+      "apple": "M{{generation}} di Apple",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Processore Intel"
+    },
+    "list": "Tutti i modelli"
   }
 }

@@ -458,6 +458,10 @@
         "title_one": "Uygulama kapanırken bir kayıt kaydedildi",
         "title_other": "{{count}} kaydedilen kayıt uygulama kapanırken kaydedildi",
         "body": "Hâlâ kaydedildiğinde {{appName}} kapatıldı. Tarih içinde, onlar metin haline getirildi."
+      },
+      "slowerMac": {
+        "title": "Bu Mac'te dictasyon daha yavaş olabilir",
+        "body": "Bu Mac'te kullanacağınız diller için konuşma modeli yeterince hızlı değildir, bu yüzden en hızlı olan kullanılır. Metin biraz daha uzun sürede görünür."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "{{goal}} kelimeye ulaşınca açılır. Devam etmek için söylenmeyi artırın.",
       "unlocked": "Kilitlenmedi. İnceleme bölümünde nasıl konuşuyorsunuzı görün.",
       "open": "Insightları aç"
+    },
+    "history": {
+      "title": "Dictasyonlarınız bu Mac'te kaydedilir",
+      "body": "Tarihleri açarak kopyalayın, oynayın veya arayın.",
+      "action": "Tarihleri aç"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” sözlüğinizde.",
       "openDictionary": "Sözlüğü Aç"
     }
+  },
+  "speechModels": {
+    "title": "Ses modelleri",
+    "intro": "{{appName}}, dilin ve bu Mac'in için konuşma modelini seçer ve uygun biri varsa değiştirir. Her zaman seçmenize gerek yok.",
+    "loading": "Ses modelleri kontrol ediliyor...",
+    "current": "Kullanılıyor: {{name}}",
+    "none": "Hâlâ konuşma modeli yok",
+    "phase": {
+      "checking": "Hangi modelin bu Mac ile uyum sağladığını kontrol ediyorum…",
+      "settled": "Bu, bu Mac'inize uygun diller için en iyi modeldir.",
+      "downloading": "Arka planda bir iyi model indiriliyor… {{percent}}%",
+      "downloadingNoPercent": "Arka planda bir iyi model indiriliyor…",
+      "waiting_to_swap": "Daha iyi bir model hazır. Dictation yapmadığınızda değiştirilir.",
+      "paused": "Daha iyi model indirilemedi. Bir sonraki zaman denenecek."
+    },
+    "next": "Sonraki: {{name}}",
+    "progressLabel": "Daha iyi konuşma modeli indiriliyor",
+    "slower": "Bu Mac'te dictation daha yavaş olabilir: burada kullanılabilecek hiçbir model hızı yeterli değil, bu yüzden en hızlı model kullanılır.",
+    "pinned": "Bu modeli kendi seçtin, bu yüzden {{appName}} onu bozmadı.",
+    "automatic": "Modeli otomatik seç",
+    "automaticHint": "Aşağıdaki listede bir model seçtiğinizde kapandı.",
+    "languages": "For: {{languages}}",
+    "machine": "Bu Mac: {{chip}}, {{ram}} GB bellek",
+    "freeDisk": "{{gb}} GB model için boş alan",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel işlemci"
+    },
+    "list": "Tüm modeller"
   }
 }

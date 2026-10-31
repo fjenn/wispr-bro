@@ -458,6 +458,10 @@
         "title_one": "ההקלדה נשמרה כשהאפליקציה נעצרה",
         "title_other": "ההקלטות {{count}} נשמרו כשהאפליקציה נסגרה",
         "body": "היהו מקלידים כש{{appName}} נסגר. הם בהיסטוריה, שם הם מתרגם."
+      },
+      "slowerMac": {
+        "title": "הדיקציה יכולה להיות איטית על המחשב הזה",
+        "body": "אין מודל שפה מהיר מספיק עבור שפותך על זהה המחשב, לכן מותאם המודל המהיר ביותר. הטקסט יופיע לאחר רגע."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "הפתיחה ב-{{goal}} מילים. המשך לרשום כדי לבנות את זה.",
       "unlocked": "הפתוח. ראה איך אתה מדבר בניתוחים.",
       "open": "הפתיחה של תובנות"
+    },
+    "history": {
+      "title": "ההקלטות שלך נשמרות על זה המاك",
+      "body": "הפתוח את ההיסטוריה כדי להעתק, להפוך למשחק או לחפש.",
+      "action": "הפתוח את היסטוריה"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "המילה \"{{word}}\" נמצאת בדיקטונאריה שלך.",
       "openDictionary": "הפתיחה של מילון"
     }
+  },
+  "speechModels": {
+    "title": "מודלים של דיבור",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "הבדיקה של מודלים דיבור…",
+    "current": "הנוכreon: {{name}}",
+    "none": "ללא מודל שיחה עדיין",
+    "phase": {
+      "checking": "הבדיקה של המודל המתאים למחשב זה…",
+      "settled": "המודל הזה הוא המודל הטוב ביותר עבור שפותך על זה המاك.",
+      "downloading": "העתקת מודל טוב יותר בפונקציית רקע… {{percent}}%",
+      "downloadingNoPercent": "הצגת מודל טוב יותר בפונקציית רקע…",
+      "waiting_to_swap": "מודל טוב יותר מוכן. מוחלט ברגע שאל תכתוב.",
+      "paused": "המודל הטוב יותר לא נגלה. ננסה שוב מאוחר יותר."
+    },
+    "next": "הבא: {{name}}",
+    "progressLabel": "הטמעת מודל שפה טוב יותר",
+    "slower": "ההערכה יכולה להיות איטית על המחשב הזה: לא קיים מודל מהיר מספיק עבור שפותיך כאן, לכן מודל מהיר ביותר נבחר.",
+    "pinned": "הemodel שציינת בעצמך, לכן {{appName}} לא מפריע.",
+    "automatic": "הבחר את המודל אוטומטי",
+    "automaticHint": "הופך לא פעיל כשאתה מזמין מודל מתוך הרשימה התחתית.",
+    "languages": "ל: {{languages}}",
+    "machine": "המגדר הזה: {{chip}}, {{ram}} גב מיזוג",
+    "freeDisk": "{{gb}} גב חופשי למודלים",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "모델ות כלים"
   }
 }

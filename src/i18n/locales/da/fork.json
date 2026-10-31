@@ -458,6 +458,10 @@
         "title_one": "En opslag blev gemt, da appen blev lukket",
         "title_other": "{{count}} opslag blev beskrevet, da programmet blev lukket",
         "body": "De blev stadig opnået, da {{appName}} blev lukket. De er i Historikken, hvor de er omdannet."
+      },
+      "slowerMac": {
+        "title": "Talek kan være langsom på denne Mac",
+        "body": "Ingen talemodel er hurtig nok for dine sprog på denne Mac, så bruges den hurtigste. Teksten kan tage lidt længere at vises."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Åbner ved {{goal}} ord. Fortæl fortsat for at bygge det.",
       "unlocked": "Ukendt. Se, hvordan du taler i Insigt.",
       "open": "Åbne indsigt"
+    },
+    "history": {
+      "title": "Dit dictation er beskrevet på denne Mac",
+      "body": "Åbn Historik for at kopiere, spille eller søge i dem.",
+      "action": "Åbn historik"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” er i din ordbog.",
       "openDictionary": "Åbne ordbog"
     }
+  },
+  "speechModels": {
+    "title": "Talmodeller",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Tjekker talemodellerne...",
+    "current": "I brug: {{name}}",
+    "none": "Ingen talemodel endnu",
+    "phase": {
+      "checking": "Tjekker hvilken model passer til denne Mac…",
+      "settled": "Dette er den bedste model for dine sprog på denne Mac.",
+      "downloading": "Downloader et bedre model i baggrunden… {{percent}}%",
+      "downloadingNoPercent": "Downloader et bedre model i baggrunden…",
+      "waiting_to_swap": "Et bedre model er klar. Det er erstattet, når du ikke siger noget.",
+      "paused": "Den bedre model kunne ikke downloades. Den prøves igen senere."
+    },
+    "next": "Næste: {{name}}",
+    "progressLabel": "Bedre talemodel download",
+    "slower": "Talek kan være langsom på denne Mac: ingen model er hurtig nok for dine sprog her, så bruges den hurtigste.",
+    "pinned": "Du valgte selv dette model, så {{appName}} lad det stå.",
+    "automatic": "Vælg modellen automatisk",
+    "automaticHint": "Deaktiveret når du vælger et model i listen nedenfor.",
+    "languages": "For: {{languages}}",
+    "machine": "Dette Mac: {{chip}}, {{ram}} GB minde",
+    "freeDisk": "{{gb}} GB ledig for modeller",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicium",
+      "intel": "Intel-procesor"
+    },
+    "list": "Alle modeller"
   }
 }

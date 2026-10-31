@@ -458,6 +458,10 @@
         "title_one": "Es va guardar una gravació quan l'aplicació es va tancar",
         "title_other": "Es van guardar {{count}} registres quan es tancà l'aplicació",
         "body": "Encara estaven gravant quan es va tancar {{appName}}. Estan a la Historia, on s'han transcrits."
+      },
+      "slowerMac": {
+        "title": "La dictació pot ser més lenta en aquest Mac",
+        "body": "Cap model de parla no és suficientment ràpid per a les teves llengües en aquest Mac, per tant es fa servir el més ràpid. El text pot tardar un moment més en aparèixer."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Es desbloqueja a {{goal}} paraules. Continua dictant per construir-lo.",
       "unlocked": "Desbloquejat. Veu com parles a Insights.",
       "open": "Obre Insights"
+    },
+    "history": {
+      "title": "Les teves dictacions estan guardades a aquest Mac",
+      "body": "Obre l'Històric per copiar, reproduir o cercar-los.",
+      "action": "Obre l'història"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” està al teu diccionari.",
       "openDictionary": "Obre el diccionari"
     }
+  },
+  "speechModels": {
+    "title": "Models de parla",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Estan carregant els models de parla...",
+    "current": "En ús: {{name}}",
+    "none": "Encara no hi ha un model de parla",
+    "phase": {
+      "checking": "Estic comprovant quin model és adequat per a aquest Mac…",
+      "settled": "Aquest és el model millor per a les teves llengües a aquest Mac.",
+      "downloading": "Baixant un model millor en segon pla… {{percent}}%",
+      "downloadingNoPercent": "Baixant un model millor en segon pla...",
+      "waiting_to_swap": "Un model millor està preparat. Es canvia quan no estàs dictant.",
+      "paused": "El model millor no es pot descarregar. Es tornarà a intentar més tard."
+    },
+    "next": "Següent: {{name}}",
+    "progressLabel": "Baixada de model de parla millor",
+    "slower": "La dictació pot ser més lenta en aquest Mac: cap model no és suficientment ràpid per a les teves llengües aquí, per tant es fa servir el més ràpid.",
+    "pinned": "Has triat aquest model, per tant {{appName}} no se n'ajuda.",
+    "automatic": "Escogeix el model automàticament",
+    "automaticHint": "Desactivat quan seleccionis un model a la llista que segueix.",
+    "languages": "Per: {{languages}}",
+    "machine": "Aquest Mac: {{chip}}, {{ram}} GB de memòria",
+    "freeDisk": "{{gb}} GB lliure per models",
+    "chip": {
+      "apple": "M{{generation}} d'Apple",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "Tots els models"
   }
 }

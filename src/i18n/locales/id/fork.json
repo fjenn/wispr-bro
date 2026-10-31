@@ -458,6 +458,10 @@
         "title_one": "Sebuah rekaman disimpan saat aplikasi dimatikan",
         "title_other": "{{count}} rekaman disimpan saat aplikasi dimatikan",
         "body": "Mereka masih mencatat saat {{appName}} ditutup. Mereka ada di Sejarah, di mana mereka telah diterjemahkan."
+      },
+      "slowerMac": {
+        "title": "Pengucapan mungkin lebih lambat di perangkat ini",
+        "body": "Tidak ada model percakapan yang cepat cukup untuk bahasa Anda di perangkat ini, jadi yang paling cepat digunakan. Teks bisa membutuhkan waktu lebih lama untuk muncul."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Dibuka pada {{goal}} kata. Terus berbicara untuk membangunnya.",
       "unlocked": "Dibuka. Lihat bagaimana Anda berbicara di Insights.",
       "open": "Buka Insights"
+    },
+    "history": {
+      "title": "Dictasan Anda disimpan di Mac ini",
+      "body": "Buka Sejarah untuk menyalin, memutar atau mencari mereka.",
+      "action": "Buka riwayat"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” ada di kamarmu.",
       "openDictionary": "Buka Kamus"
     }
+  },
+  "speechModels": {
+    "title": "Model suara",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Memeriksa model suara…",
+    "current": "Dalam penggunaan: {{name}}",
+    "none": "Tidak ada model suara belum",
+    "phase": {
+      "checking": "Memeriksa model mana yang cocok untuk Mac ini…",
+      "settled": "Ini adalah model terbaik untuk bahasa Anda di Mac ini.",
+      "downloading": "Mengunduh model yang lebih baik di latar belakang… {{percent}}%",
+      "downloadingNoPercent": "Mengunduh model yang lebih baik di latar belakang…",
+      "waiting_to_swap": "Model yang lebih baik sudah siap. Akan diganti saat Anda tidak sedang mengetikkan suara.",
+      "paused": "Model yang lebih baik tidak dapat diunduh. Akan dicoba lagi nanti."
+    },
+    "next": "Berikutnya: {{name}}",
+    "progressLabel": "Unduhan model suara yang lebih baik",
+    "slower": "Pengucapan mungkin lebih lambat di perangkat ini: tidak ada model yang cepat cukup untuk bahasa Anda di sini, jadi yang paling cepat digunakan.",
+    "pinned": "Kamu memilih model ini sendiri, jadi {{appName}} tidak mengubahnya.",
+    "automatic": "Pilih model secara otomatis",
+    "automaticHint": "Dinyalakan ketika Anda memilih model di daftar di bawah ini.",
+    "languages": "Untuk: {{languages}}",
+    "machine": "Pada Mac ini: {{chip}}, {{ram}} GB memori",
+    "freeDisk": "{{gb}} GB kosong untuk model",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "Semua model"
   }
 }

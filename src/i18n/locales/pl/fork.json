@@ -458,6 +458,10 @@
         "title_one": "Zapisano nagranie podczas zamknięcia aplikacji",
         "title_other": "Zapisano {{count}} nagrania podczas zakończenia działania aplikacji",
         "body": "Przestarzały nadal w trakcie nagrywania, gdy {{appName}} został zamknięty. Zostały w Historii, gdzie zostały przetłumaczone."
+      },
+      "slowerMac": {
+        "title": "Wprowadzanie tekstu może być wolniejsze na tym Macie",
+        "body": "Brak modelu mowy szybkiego dla Twoich języków na tym Macu, dlatego wykorzystywany jest najszybszy. Tekst może pojawić się później."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Otwiera się po {{goal}} słów. Kontynuuj dictowanie, aby go utworzyć.",
       "unlocked": "Otwarte. Sprawdź, jak mówisz w Insights.",
       "open": "Otwórz Insights"
+    },
+    "history": {
+      "title": "Twoje dictacje są zapisywane na tym Macie",
+      "body": "Otwórz Historię, aby skopiować, odtworzyć lub wyszukać.",
+      "action": "Otwórz historię"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "„{{word}}” znajduje się w twoim słowniku.",
       "openDictionary": "Otwórz Słownik"
     }
+  },
+  "speechModels": {
+    "title": "Modely mowy",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Sprawdzanie modeli mowy...",
+    "current": "Aktualnie używany: {{name}}",
+    "none": "Brak modelu mowy jeszcze",
+    "phase": {
+      "checking": "Sprawdzam, który model pasuje do tego Maca…",
+      "settled": "To jest najlepszy model dla języków na tym Macie.",
+      "downloading": "Pobieranie lepszego modelu w tle… {{percent}}%",
+      "downloadingNoPercent": "Pobieranie lepszego modelu w tle…",
+      "waiting_to_swap": "Model lepszy jest gotowy. Zastępuje się go, gdy nie dictujesz.",
+      "paused": "Model lepszy nie został pobrać. Spróbuj ponownie później."
+    },
+    "next": "Następny: {{name}}",
+    "progressLabel": "Lepszy model mowy w trakcie pobierania",
+    "slower": "Wypowiedź może być wolniejsza na tym Macie: żaden model nie jest szybki dla Twoich języków, więc wykorzystywany jest najszybszy.",
+    "pinned": "Wybrałeś ten model sam, więc {{appName}} go nie zmienia.",
+    "automatic": "Wybierz model automatycznie",
+    "automaticHint": "Wyłączone, gdy wybierasz model w liście poniżej.",
+    "languages": "Dla: {{languages}}",
+    "machine": "Ten Mac: {{chip}}, {{ram}} GB pamięci",
+    "freeDisk": "{{gb}} GB wolnych dla modeli",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Procesor Intel"
+    },
+    "list": "Wszystkie modele"
   }
 }

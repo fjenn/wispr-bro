@@ -458,6 +458,10 @@
         "title_one": "アプリを終了したときに録音が保存されました",
         "title_other": "アプリを終了したときに{{count}}録音が保存されました",
         "body": "{{appName}}が閉じたとき、まだ記録されていた。履歴に保存されて、テキストに変換されています。"
+      },
+      "slowerMac": {
+        "title": "このMacでは、ディクテーションが遅くなる可能性があります",
+        "body": "このMacで使用可能な話すモデルは、あなたの言語に対応していません。そのため、最も速いモデルが使用されます。テキストが表示されるまで少し時間がかかります。"
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "{{goal}}語まで解放されます。話すことで構築してください。",
       "unlocked": "ロック解除。インサイトで話すスタイルを確認してください。",
       "open": "インサイトを開く"
+    },
+    "history": {
+      "title": "あなたのディクテーションはこのMacに保存されています",
+      "body": "履歴を開くことでコピー、再生、または検索できます。",
+      "action": "履歴を開く"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” はあなたの辞書に保存されています。",
       "openDictionary": "辞書を開く"
     }
+  },
+  "speechModels": {
+    "title": "スピーチモデル",
+    "intro": "{{appName}} はあなたの言語とこの Mac 用に話すモデルを選択し、改善されたモデルに切り替えることができます。選ぶ必要はありません。",
+    "loading": "スピーチモデルを確認中…",
+    "current": "現在使用中: {{name}}",
+    "none": "まだスピーチモデルがありません",
+    "phase": {
+      "checking": "どのモデルがこのMacに適しているか確認中…",
+      "settled": "これは、このMacで使用する言語に最適なモデルです。",
+      "downloading": "バックグラウンドでより良いモデルをダウンロード中… {{percent}}%",
+      "downloadingNoPercent": "バックグラウンドでより良いモデルをダウンロード中…",
+      "waiting_to_swap": "より良いモデルが準備ができました。話すときではありませんが、切り替わります。",
+      "paused": "より良いモデルがダウンロードできませんでした。あとで再試行されます。"
+    },
+    "next": "次: {{name}}",
+    "progressLabel": "より良いスピーチモデルのダウンロード",
+    "slower": "このMacでは、辞書が遅くなる可能性があります：あなたの言語に対応するモデルが十分に速くないため、最も速いモデルが使用されます。",
+    "pinned": "このモデルは自分で選ばれたので、{{appName}}はそのままにします。",
+    "automatic": "モデルを自動的に選ぶ",
+    "automaticHint": "下記のリストからモデルを選択すると、自動的にオフになります。",
+    "languages": "言語: {{languages}}",
+    "machine": "このMac：{{chip}}, {{ram}} GBメモリ",
+    "freeDisk": "{{gb}} GB がモデル用に無料",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intelプロセッサ"
+    },
+    "list": "すべてのモデル"
   }
 }

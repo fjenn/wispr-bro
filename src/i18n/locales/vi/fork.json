@@ -458,6 +458,10 @@
         "title_one": "Một bản ghi đã được lưu khi ứng dụng tắt",
         "title_other": "Đã lưu {{count}} bản ghi khi ứng dụng tắt",
         "body": "Chúng vẫn đang ghi lại khi {{appName}} được đóng. Chúng nằm trong Lịch sử, nơi được chuyển thành văn bản."
+      },
+      "slowerMac": {
+        "title": "Việc ghi âm có thể chậm hơn trên máy Mac này",
+        "body": "Không có mô hình nhận diện giọng nói nào nhanh đủ cho các ngôn ngữ của bạn trên thiết bị này, do đó mô hình nhanh nhất sẽ được sử dụng. Văn bản có thể mất một chút thời gian để xuất hiện."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Mở khóa tại {{goal}} từ. Tiếp tục ghi âm để xây dựng nó.",
       "unlocked": "Đã mở khóa. Xem cách bạn nói trong Insights.",
       "open": "Mở Insights"
+    },
+    "history": {
+      "title": "Các bản ghi giọng nói của bạn được lưu trên máy Mac này",
+      "body": "Mở Lịch sử để sao chép, phát hoặc tìm kiếm chúng.",
+      "action": "Mở lịch sử"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}” đã được thêm vào từ điển của bạn.",
       "openDictionary": "Mở Từ điển"
     }
+  },
+  "speechModels": {
+    "title": "Mô hình phát âm",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Đang kiểm tra các mô hình giọng nói…",
+    "current": "Đang sử dụng: {{name}}",
+    "none": "Chưa có mô hình giọng nói nào",
+    "phase": {
+      "checking": "Đang kiểm tra mô hình nào phù hợp với chiếc Mac này…",
+      "settled": "Đây là mô hình tốt nhất cho các ngôn ngữ của bạn trên máy Mac này.",
+      "downloading": "Đang tải xuống một mô hình tốt hơn trong nền… {{percent}}%",
+      "downloadingNoPercent": "Đang tải về một mô hình tốt hơn trong nền...",
+      "waiting_to_swap": "Một mô hình tốt hơn đã sẵn sàng. Nó sẽ được thay thế khi bạn không đang ghi âm.",
+      "paused": "Mô hình tốt hơn không thể được tải xuống. Sẽ thử lại sau này."
+    },
+    "next": "Tiếp theo: {{name}}",
+    "progressLabel": "Tải xuống mô hình giọng nói tốt hơn",
+    "slower": "Điều khiển giọng nói có thể chậm hơn trên máy Mac này: không có mô hình nào nhanh đủ cho các ngôn ngữ của bạn ở đây, do đó mô hình nhanh nhất sẽ được sử dụng.",
+    "pinned": "Bạn đã chọn mô hình này, nên {{appName}} không thay đổi nó.",
+    "automatic": "Chọn mô hình tự động",
+    "automaticHint": "Tắt khi bạn chọn một mô hình trong danh sách dưới đây.",
+    "languages": "Đối với: {{languages}}",
+    "machine": "Máy này: {{chip}}, {{ram}} GB bộ nhớ",
+    "freeDisk": "{{gb}} GB trống cho các mô hình",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "vi xử lý intel"
+    },
+    "list": "Tất cả các mô hình"
   }
 }

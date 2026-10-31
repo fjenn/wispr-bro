@@ -458,6 +458,10 @@
         "title_one": "當應用程式退出時，已儲存一段錄音",
         "title_other": "當應用程式退出時，已儲存 {{count}} 順序錄音",
         "body": "他們在 {{appName}} 關閉時仍持續錄製。這些內容已存入歷史記錄中，並已轉譯。"
+      },
+      "slowerMac": {
+        "title": "語音輸入在這台 Mac 上可能會較慢",
+        "body": "此 Mac 上沒有足夠快速的語音模型來支援您的語言，因此使用最快的一個。文字顯示可能需要稍長一點的時間。"
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "在 {{goal}} 個字時解鎖。持續輸入以建立它。",
       "unlocked": "已解鎖。請參閱「洞察」中您說話的方式。",
       "open": "開啟 Insights"
+    },
+    "history": {
+      "title": "你的語音輸入已儲存在這台 Mac 上",
+      "body": "開啟歷史記錄以複製、播放或搜尋。",
+      "action": "開啟歷史"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "「{{word}}」已經加入你的詞典。",
       "openDictionary": "開啟詞典"
     }
+  },
+  "speechModels": {
+    "title": "語音模型",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "正在檢查語音模型…",
+    "current": "目前使用中：{{name}}",
+    "none": "尚未加入語音模型",
+    "phase": {
+      "checking": "正在檢查哪個模型適合這台 Mac…",
+      "settled": "這是最適合您這台 Mac 的語言模型。",
+      "downloading": "正在背景下載較好的模型… {{percent}}%",
+      "downloadingNoPercent": "正在背景下載較好的模型…",
+      "waiting_to_swap": "一個更好的模型已經準備好。當您未輸入語音時會進行切換。",
+      "paused": "較好的模型無法下載。稍後會再嘗試。"
+    },
+    "next": "下一項：{{name}}",
+    "progressLabel": "下載較好的語音模型",
+    "slower": "語音輸入在這台 Mac 上可能較慢：目前沒有足夠快速的模型支援您的語言，因此會使用最快的一個。",
+    "pinned": "你自己選了這個模型，所以 {{appName}} 會留它原樣。",
+    "automatic": "選擇模型自動進行",
+    "automaticHint": "關閉時，您會從以下清單中選擇一個模型。",
+    "languages": "語種：{{languages}}",
+    "machine": "這台 Mac：{{chip}}, {{ram}} GB 記憶體",
+    "freeDisk": "{{gb}} GB 空間可供模型使用",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "所有模型"
   }
 }

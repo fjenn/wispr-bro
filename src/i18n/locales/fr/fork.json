@@ -458,6 +458,10 @@
         "title_one": "Un enregistrement a été sauvegardé à la fermeture de l'app",
         "title_other": "{{count}} enregistrements ont été enregistrés lorsque l'application a été fermée",
         "body": "Ils continuaient à enregistrer quand {{appName}} est arrivé. Ils sont dans l'Historique, où ils ont été transcrits."
+      },
+      "slowerMac": {
+        "title": "La dictation peut être plus lente sur ce Mac",
+        "body": "Aucun modèle de parole n'est rapide assez pour vos langues sur ce Mac, donc le plus rapide est utilisé. Le texte peut prendre un peu plus de temps pour apparaître."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Désbloque à {{goal}} mots. Continuez à dictater pour l'ajouter.",
       "unlocked": "Désbloqué. Découvrez comment vous parlez dans Insights.",
       "open": "Ouvrir Insights"
+    },
+    "history": {
+      "title": "Vos dictations sont enregistrées sur ce Mac",
+      "body": "Ouvrir l'Historique pour le copier, le jouer ou le rechercher.",
+      "action": "Ouvrir l'histoire"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "« {{word}} » est dans votre dictionnaire.",
       "openDictionary": "Ouvrir le dictionnaire"
     }
+  },
+  "speechModels": {
+    "title": "Modèles de parole",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Vérification des modèles de parole…",
+    "current": "En cours d'utilisation : {{name}}",
+    "none": "Aucun modèle de parole encore",
+    "phase": {
+      "checking": "Vérification du modèle adapté à ce Mac…",
+      "settled": "Ceci est le meilleur modèle pour vos langues sur ce Mac.",
+      "downloading": "Téléchargement d'un modèle amélioré en arrière-plan… {{percent}}%",
+      "downloadingNoPercent": "Téléchargement d'un modèle amélioré en arrière-plan…",
+      "waiting_to_swap": "Un modèle meilleur est prêt. Il est chargé lorsque vous ne dictiez pas.",
+      "paused": "Le modèle supérieur ne peut pas être téléchargé. Il sera essayer à nouveau plus tard."
+    },
+    "next": "Suivant : {{name}}",
+    "progressLabel": "Téléchargement du modèle de parole amélioré",
+    "slower": "La dictation peut être plus lente sur cet Mac : aucun modèle n'est rapide assez pour vos langues ici, donc le plus rapide est utilisé.",
+    "pinned": "Vous avez choisi ce modèle vous-même, donc {{appName}} ne le touche pas.",
+    "automatic": "Choisir le modèle automatiquement",
+    "automaticHint": "Désactivé lorsque vous sélectionnez un modèle dans la liste ci-dessous.",
+    "languages": "Pour : {{languages}}",
+    "machine": "Cet ordinateur : {{chip}}, {{ram}} Go de mémoire",
+    "freeDisk": "{{gb}} Go libre pour les modèles",
+    "chip": {
+      "apple": "M{{generation}} d'Apple",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Processeur Intel"
+    },
+    "list": "Tous les modèles"
   }
 }

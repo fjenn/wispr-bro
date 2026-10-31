@@ -458,6 +458,10 @@
         "title_one": "Během ukončení aplikace byl záznam uložen",
         "title_other": "Během ukončení aplikace bylo uloženo {{count}} záznamů",
         "body": "Stále se zaznamenávaly, když byl {{appName}} uzavřen. Jsou v historii, kde jsou převedeny na text."
+      },
+      "slowerMac": {
+        "title": "Dictace může být pomalejší na tomto Macu",
+        "body": "Žádný model řeči není dostatečně rychlý pro vaše jazyky na tomto Macu, proto se použije nejrychlejší. Text může zaznamenat trochu déle."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Otevře se při {{goal}} slovech. Pokračujte v řeči, aby se vytvořil profil.",
       "unlocked": "Otevřeno. Podívejte se, jak říkáte v Insights.",
       "open": "Otevřít Insights"
+    },
+    "history": {
+      "title": "Vaše dictace jsou uložené na tomto Macu",
+      "body": "Otevřít historii pro zkopírování, přehrání nebo hledání.",
+      "action": "Otevřít historii"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "„{{word}}\" je v tvé slovníku.",
       "openDictionary": "Otevřít slovník"
     }
+  },
+  "speechModels": {
+    "title": "Modely řeči",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Zkontrolování mluvených modelů…",
+    "current": "Aktuálně používáno: {{name}}",
+    "none": "Žádný model řeči ještě nebyl nainstalován",
+    "phase": {
+      "checking": "Zkontrolování, který model je vhodný pro tento Mac…",
+      "settled": "Tento model je nejlepší pro vaše jazyky na tomto Macu.",
+      "downloading": "Stahuji lepší model v pozadí… {{percent}}%",
+      "downloadingNoPercent": "Stahuji lepší model v pozadí…",
+      "waiting_to_swap": "Připravený model je připraven. Bude nahrazen, když neříkáš nic.",
+      "paused": "Lepší model se nepodařilo stáhnout. Bude zkoušen znovu později."
+    },
+    "next": "Další: {{name}}",
+    "progressLabel": "Stáhnutí lepšího modelu pro řeč",
+    "slower": "Dictace může být pomalejší na tomto Macu: žádný model není rychlý dostatečně pro vaše jazyky zde, proto se použije nejrychlejší.",
+    "pinned": "Vybrali jste tento model sami, protože {{appName}} ho nezmění.",
+    "automatic": "Vybrat model automaticky",
+    "automaticHint": "Vypnuto, když zvolíte model v seznamu níže.",
+    "languages": "Pro: {{languages}}",
+    "machine": "Tento Mac: {{chip}}, {{ram}} GB paměti",
+    "freeDisk": "{{gb}} GB volné pro modely",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Procesor Intel"
+    },
+    "list": "Všechny modely"
   }
 }

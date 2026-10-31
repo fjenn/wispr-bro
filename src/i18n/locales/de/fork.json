@@ -458,6 +458,10 @@
         "title_one": "Eine Aufnahme wurde beim Beenden gespeichert",
         "title_other": "Beim Beenden der App wurden {{count}} Aufnahmen gespeichert",
         "body": "Sie lief noch, als {{appName}} beendet wurde. Sie ist jetzt im Verlauf und wird dort transkribiert."
+      },
+      "slowerMac": {
+        "title": "Die Dictation könnte auf diesem Mac langsamer sein",
+        "body": "Kein Sprachmodell ist schnell genug für deine Sprachen auf diesem Mac, daher wird das schnellste verwendet. Der Text kann etwas länger dauern, bis er erscheint."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "Entspricht {{goal}} Wörtern. Weiter dictieren, um es zu bauen.",
       "unlocked": "Entschlossen. Schauen Sie, wie Sie sprechen, in Insights.",
       "open": "Insights öffnen"
+    },
+    "history": {
+      "title": "Deine Dictationen werden auf diesem Mac gespeichert",
+      "body": "Historie öffnen, kopieren, abspielen oder suchen",
+      "action": "Geschichte öffnen"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "„{{word}}“ ist in deinem Wörterbuch.",
       "openDictionary": "Wörterbuch öffnen"
     }
+  },
+  "speechModels": {
+    "title": "Sprachmodelle",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Die Sprachmodelle werden überprüft…",
+    "current": "Aktuell verwendet: {{name}}",
+    "none": "Noch kein Sprachmodell",
+    "phase": {
+      "checking": "Prüfe, welles Modell passt zu diesem Mac…",
+      "settled": "Dies ist das beste Modell für Ihre Sprachen auf diesem Mac.",
+      "downloading": "Ein besseres Modell im Hintergrund herunterladen… {{percent}}%",
+      "downloadingNoPercent": "Ein besseres Modell wird im Hintergrund heruntergeladen…",
+      "waiting_to_swap": "Ein besseres Modell ist bereit. Es wird eingeschaltet, wenn du nicht dictierst.",
+      "paused": "Das bessere Modell konnte nicht heruntergeladen werden. Es wird später erneut versucht."
+    },
+    "next": "Nächste: {{name}}",
+    "progressLabel": "Besseres Sprachmodell wird heruntergeladen",
+    "slower": "Die Dictation könnte auf diesem Mac langsamer sein: Kein Modell ist schnell genug für Ihre Sprachen, daher wird das schnellste verwendet.",
+    "pinned": "Du hast dieses Modell selbst gewählt, daher lässt {{appName}} es allein.",
+    "automatic": "Modell automatisch wählen",
+    "automaticHint": "Deaktiviert, wenn du ein Modell in der Liste unten auswählst.",
+    "languages": "Für: {{languages}}",
+    "machine": "Dieser Mac: {{chip}}, {{ram}} GB Speicher",
+    "freeDisk": "{{gb}} GB frei für Modelle",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple Silicon",
+      "intel": "Intel-Prozessor"
+    },
+    "list": "Alle Modelle"
   }
 }

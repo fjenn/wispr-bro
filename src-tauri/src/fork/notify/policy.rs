@@ -54,7 +54,7 @@ pub enum NotificationKind {
 }
 
 impl NotificationKind {
-    pub const ALL: [NotificationKind; 10] = [
+    pub const ALL: [NotificationKind; 11] = [
         NotificationKind::ModelReady,
         NotificationKind::UpdateReady,
         NotificationKind::QueuedTakesReady,

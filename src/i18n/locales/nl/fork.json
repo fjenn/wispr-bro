@@ -458,6 +458,10 @@
         "title_one": "Een opname is opgeslagen bij afsluiten van de app",
         "title_other": "{{count}} opnames werden opgeslagen bij het afsluiten van de app",
         "body": "Ze werden nog opgenomen toen {{appName}} werd gesloten. Ze staan in Geschiedenis, waar ze worden overgezet."
+      },
+      "slowerMac": {
+        "title": "Dictatie kan trager zijn op deze Mac",
+        "body": "Geen spraakmodel is snel genoeg voor je talen op deze Mac, dus wordt het snelste gebruikt. De tekst kan een moment langer duren vooraf."
       }
     },
     "pill": {
@@ -691,6 +695,11 @@
       "locked": "Onthuld bij {{goal}} woorden. Zet voort met dictatie om het op te bouwen.",
       "unlocked": "Ongeblokkeerd. Bekijk hoe je spreekt in Insights.",
       "open": "Insights openen"
+    },
+    "history": {
+      "title": "Je dictaties worden op deze Mac opgeslagen",
+      "body": "Open Historie om te kopiëren, af te spelen of ze te zoeken.",
+      "action": "Geschiedenis openen"
     }
   },
   "dictionary": {
@@ -1276,5 +1285,38 @@
       "savedWord": "“{{word}}” staat in je woordenboek.",
       "openDictionary": "Woordenboek openen"
     }
+  },
+  "speechModels": {
+    "title": "Spraakmodellen",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Controleert de spraakmodellen…",
+    "current": "Actief: {{name}}",
+    "none": "Geen spraakmodel nog",
+    "phase": {
+      "checking": "Controleren welk model geschikt is voor deze Mac…",
+      "settled": "Dit is het beste model voor je talen op deze Mac.",
+      "downloading": "Een beter model downloaden in de achtergrond… {{percent}}%",
+      "downloadingNoPercent": "Een beter model downloaden in de achtergrond…",
+      "waiting_to_swap": "Een beter model is klaar. Het wordt ingeladen wanneer je niet aan het dictaten bent.",
+      "paused": "De betere model kon niet worden gedownload. Het wordt later opnieuw geprobeerd."
+    },
+    "next": "Volgende: {{name}}",
+    "progressLabel": "Beter spraakmodel downloaden",
+    "slower": "Dictatie kan trager zijn op deze Mac: geen model is snel genoeg voor je talen hier, dus wordt het snelste gebruikt.",
+    "pinned": "Je hebt dit model zelf gekozen, dus laat {{appName}} het in rust.",
+    "automatic": "Kies het model automatisch",
+    "automaticHint": "Uitgeschakeld wanneer je een model kiest in de lijst hieronder.",
+    "languages": "Voor: {{languages}}",
+    "machine": "Dit Mac: {{chip}}, {{ram}} GB geheugen",
+    "freeDisk": "{{gb}} GB vrij voor modellen",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "Alle modellen"
   }
 }

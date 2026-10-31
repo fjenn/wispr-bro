@@ -458,6 +458,10 @@
         "title_one": "앱이 종료될 때 녹화가 저장되었습니다",
         "title_other": "앱이 종료될 때 {{count}}개의 녹음이 저장되었습니다",
         "body": "그들이 {{appName}}이 닫힐 때까지 계속 녹화되고 있었어요. 역사에 저장되어 있어요. 그 내용이 텍스트로 변환되어 있습니다."
+      },
+      "slowerMac": {
+        "title": "이 맥에서 디타이션은 더 느릴 수 있습니다",
+        "body": "이 맥에서 당신의 언어에 적합한 음성 모델이 없기 때문에 가장 빠른 모델이 사용됩니다. 텍스트가 나타나기까지 약간 더 걸릴 수 있습니다."
       }
     },
     "pill": {
@@ -687,6 +691,11 @@
       "locked": "{{goal}} 단어에 도달하면 풀림. 계속 말해 보세요.",
       "unlocked": "잠금 해제됨. 인사이트에서 어떻게 말하는지 확인하세요.",
       "open": "인사이트 열기"
+    },
+    "history": {
+      "title": "당신의 디타이션은 이 맥 컴퓨터에 저장됩니다",
+      "body": "히스토리 열기로 복사, 재생 또는 검색할 수 있습니다.",
+      "action": "히스토리 열기"
     }
   },
   "dictionary": {
@@ -1272,5 +1281,38 @@
       "savedWord": "“{{word}}”은 당신의 사전에 있습니다.",
       "openDictionary": "사전 열기"
     }
+  },
+  "speechModels": {
+    "title": "스피치 모델",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "스피치 모델을 확인 중입니다…",
+    "current": "현재 사용 중: {{name}}",
+    "none": "스피치 모델이 아직 없습니다",
+    "phase": {
+      "checking": "Mac에 맞는 모델을 확인 중입니다…",
+      "settled": "이 Mac에서 당신의 언어에 가장 적합한 모델입니다.",
+      "downloading": "배경에서 더 좋은 모델을 다운로드 중입니다… {{percent}}%",
+      "downloadingNoPercent": "배경에서 더 좋은 모델을 다운로드 중입니다…",
+      "waiting_to_swap": "더 좋은 모델이 준비되었습니다. 말씀을 입력하지 않을 때 교체됩니다.",
+      "paused": "더 좋은 모델을 다운로드할 수 없습니다. 나중에 다시 시도합니다."
+    },
+    "next": "다음: {{name}}",
+    "progressLabel": "더 나은 음성 모델 다운로드",
+    "slower": "이 맥에서 명령어 입력이 느릴 수 있습니다: 여기 언어에 적합한 모델이 없기 때문에 가장 빠른 모델이 사용됩니다.",
+    "pinned": "이 모델을 직접 선택하셨으므로 {{appName}}은 그걸 두고 있습니다.",
+    "automatic": "모델을 자동으로 선택",
+    "automaticHint": "아래 목록에서 모델을 선택할 때 끄입니다.",
+    "languages": "언어: {{languages}}",
+    "machine": "이 맥: {{chip}}, {{ram}} GB 메모리",
+    "freeDisk": "{{gb}} GB 무료로 모델 사용",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple 스퀘어",
+      "intel": "Intel 프로세서"
+    },
+    "list": "모든 모델"
   }
 }
