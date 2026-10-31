@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "正在設定聽寫。你說的話已儲存。",
+        "card": "你的聽寫已就緒。可從列中拷貝。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "無法下載",
+        "check_connection": "無法下載。請檢查網路連線。",
+        "no_space": "磁碟空間不足，無法設定聽寫"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "正在設定…",
+    "settingUpPercent": "正在設定… {{percent}}%",
+    "settingUpHint": "你說的話已儲存。聽寫準備就緒後，文字會顯示在這裡。",
+    "cardReady": "你的聽寫",
+    "cardMore_one": "你的聽寫 · 歷史記錄中還有 {{count}} 則",
+    "cardMore_other": "你的聽寫 · 歷史記錄中還有 {{count}} 則",
+    "copy": "拷貝",
+    "copied": "已拷貝",
+    "retry": "重試"
   },
   "overrides": {
     "onboarding": {

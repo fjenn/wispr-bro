@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "جارٍ إعداد الإملاء. تم حفظ كلامك.",
+        "card": "إملاؤك جاهز. انسخه من الشريط."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "تعذّر التنزيل",
+        "check_connection": "تعذّر التنزيل. تحقّق من اتصالك.",
+        "no_space": "لا توجد مساحة كافية على القرص لإعداد الإملاء"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "جارٍ الإعداد…",
+    "settingUpPercent": "جارٍ الإعداد… {{percent}}%",
+    "settingUpHint": "تم حفظ كلامك. سيظهر النص هنا عندما يصبح الإملاء جاهزًا.",
+    "cardReady": "إملاؤك",
+    "cardMore_one": "إملاؤك · {{count}} آخر في السجل",
+    "cardMore_other": "إملاؤك · {{count}} أخرى في السجل",
+    "copy": "نسخ",
+    "copied": "تم النسخ",
+    "retry": "إعادة المحاولة"
   },
   "overrides": {
     "onboarding": {

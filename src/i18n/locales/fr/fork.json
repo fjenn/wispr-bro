@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Configuration de la dictée. Vos paroles sont enregistrées.",
+        "card": "Votre dictée est prête. Copiez-la depuis la barre."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Téléchargement impossible",
+        "check_connection": "Téléchargement impossible. Vérifiez votre connexion.",
+        "no_space": "Pas assez d’espace disque pour configurer la dictée"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Configuration…",
+    "settingUpPercent": "Configuration… {{percent}} %",
+    "settingUpHint": "Vos paroles sont enregistrées. Le texte apparaîtra ici dès que la dictée sera prête.",
+    "cardReady": "Votre dictée",
+    "cardMore_one": "Votre dictée · {{count}} autre dans l’historique",
+    "cardMore_other": "Votre dictée · {{count}} autres dans l’historique",
+    "copy": "Copier",
+    "copied": "Copié",
+    "retry": "Réessayer"
   },
   "overrides": {
     "onboarding": {

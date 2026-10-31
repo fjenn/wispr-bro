@@ -581,5 +581,19 @@
   "snippets.export.fileName": "machine",
   "snippets.export.done_one": "machine",
   "snippets.export.done_other": "machine",
-  "snippets.export.failed": "machine"
+  "snippets.export.failed": "machine",
+  "pill.settingUp": "machine",
+  "pill.settingUpPercent": "machine",
+  "pill.settingUpHint": "machine",
+  "pill.cardReady": "machine",
+  "pill.cardMore_one": "machine",
+  "pill.cardMore_other": "machine",
+  "pill.copy": "machine",
+  "pill.copied": "machine",
+  "pill.retry": "machine",
+  "rust.pill.announce.settingUp": "machine",
+  "rust.pill.announce.card": "machine",
+  "rust.pill.message.download_failed": "machine",
+  "rust.pill.message.check_connection": "machine",
+  "rust.pill.message.no_space": "machine"
 }

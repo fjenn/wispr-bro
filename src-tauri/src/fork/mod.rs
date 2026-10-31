@@ -254,7 +254,7 @@ pub fn early_init() {
         true,
         crate::portable::is_portable(),
         home.as_deref(),
-        PRODUCT_IDENTIFIER,
+        &compiled_identifier(),
     ) {
         std::env::set_var("HF_HOME", hf_home);
     }
@@ -271,9 +271,26 @@ pub fn compiled_identifier() -> String {
     format!("{}.{app}", prefix.replace('_', "."))
 }
 
-/// `true` when built with the identity overlay (`com.wisprbro.desktop`).
+/// `true` when built with the identity overlay (`com.wisprbro.desktop`), or
+/// with a test identity of ours ([`is_test_identity`]).
 pub fn is_product_build() -> bool {
-    compiled_identifier() == PRODUCT_IDENTIFIER
+    is_product_identity(&compiled_identifier())
+}
+
+/// The product identifier or a test identity.
+pub fn is_product_identity(id: &str) -> bool {
+    id == PRODUCT_IDENTIFIER || is_test_identity(id)
+}
+
+/// A test identity for real-Mac checks (`com.wisprbro.<slice>check`, e.g.
+/// `com.wisprbro.s07acheck`, S-07a): the product build with its own app
+/// data, WebKit storage and TCC rows, so a run never touches the owner's
+/// app. It behaves exactly like the product (hotkeys, the bar, product
+/// settings); its data lives under its own identifier.
+pub fn is_test_identity(id: &str) -> bool {
+    id.strip_prefix("com.wisprbro.")
+        .and_then(|rest| rest.strip_suffix("check"))
+        .is_some_and(|slice| !slice.is_empty() && slice.chars().all(|c| c.is_ascii_alphanumeric()))
 }
 
 /// Portable-aware log dir for any runtime (Handy's `portable::app_log_dir`
@@ -288,7 +305,7 @@ pub fn app_log_dir<R: Runtime>(app: &AppHandle<R>) -> Option<std::path::PathBuf>
 /// Tauri's macOS `app_log_dir()` for our identifier: `~/Library/Logs/<id>`.
 fn early_log_dir(home: Option<&std::path::Path>) -> Option<std::path::PathBuf> {
     cfg!(target_os = "macos")
-        .then(|| home.map(|h| h.join("Library/Logs").join(PRODUCT_IDENTIFIER)))?
+        .then(|| home.map(|h| h.join("Library/Logs").join(compiled_identifier())))?
 }
 
 /// The in-app Tauri plugin `fork`.
@@ -301,7 +318,7 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
         .setup(|app, _api| {
             app.manage(ForkState::default());
             // F-08: crash files follow Tauri's (portable-aware) log dir.
-            if app.config().identifier == PRODUCT_IDENTIFIER {
+            if is_product_identity(&app.config().identifier) {
                 if let Some(dir) = app_log_dir(app) {
                     diagnostics::crash::set_crash_dir(dir);
                 }
@@ -411,6 +428,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // builds only; plain Handy builds keep Handy's hotkeys, see
     // `shortcut::owns`).
     if is_product_build() {
+        // S-07a: the speech model check and the first-run download, before
+        // the hotkeys, so the first press already knows.
+        R::models_start(app);
         audio::enable_prepared(app);
         shortcut::start(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
@@ -482,6 +502,9 @@ macro_rules! fork_specta_builder {
                 commands::snippets::fork_snippets_import_review::<$runtime>,
                 commands::snippets::fork_snippets_import::<$runtime>,
                 commands::snippets::fork_snippets_export::<$runtime>,
+                commands::models::fork_speech_setup_status,
+                commands::models::fork_speech_setup_retry,
+                commands::models::fork_speech_setup_refresh,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -497,7 +520,8 @@ macro_rules! fork_specta_builder {
                 pill::ForkPillState,
                 pill::ForkPillLevels,
                 llm::post_process::ForkCleanupResult,
-                snippets::ForkSnippetsChanged
+                snippets::ForkSnippetsChanged,
+                models::setup::ForkSpeechSetup
             ])
     };
 }
@@ -537,9 +561,16 @@ pub trait ForkRuntime: Runtime {
     fn handy_history(app: &AppHandle<Self>) -> Option<std::sync::Arc<dyn db::handy::HandyHistory>>;
     /// Starts the Flow Bar (S-03; macOS product builds). No-op elsewhere.
     fn pill_start(app: &AppHandle<Self>);
+    /// Starts the speech model setup (S-07a; product builds). No-op on
+    /// runtimes without Handy's managers.
+    fn models_start(app: &AppHandle<Self>);
 }
 
 impl ForkRuntime for tauri::Wry {
+    fn models_start(app: &AppHandle<Self>) {
+        models::setup::start(app);
+    }
+
     fn pill_start(app: &AppHandle<Self>) {
         #[cfg(target_os = "macos")]
         pill::start(app);
@@ -590,6 +621,8 @@ impl ForkRuntime for tauri::Wry {
 #[cfg(test)]
 impl ForkRuntime for tauri::test::MockRuntime {
     fn pill_start(_app: &AppHandle<Self>) {}
+
+    fn models_start(_app: &AppHandle<Self>) {}
 
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {
         0.0
@@ -908,6 +941,15 @@ mod identity_tests {
             "unexpected compiled identifier {id}"
         );
         assert_eq!(super::is_product_build(), id == "com.wisprbro.desktop");
+        // Test identities (S-07a) are product builds with their own data.
+        assert!(super::is_test_identity("com.wisprbro.s07acheck"));
+        assert!(super::is_test_identity("com.wisprbro.s18check"));
+        assert!(super::is_product_identity("com.wisprbro.desktop"));
+        assert!(!super::is_test_identity("com.wisprbro.desktop"));
+        assert!(!super::is_test_identity("com.wisprbro.check"));
+        assert!(!super::is_test_identity("com.wisprbro.a.bcheck"));
+        assert!(!super::is_test_identity("com.pais.handy"));
+        assert!(!super::is_product_identity("com.wisprbro.desktopx"));
         let main =
             std::fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("src/main.rs"))
                 .unwrap();

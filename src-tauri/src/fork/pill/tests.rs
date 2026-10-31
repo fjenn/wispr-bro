@@ -65,6 +65,10 @@ fn view(phase: PillPhase, message: Option<PillMessage>) -> ActiveView {
         mic: None,
         message,
         warning: None,
+        progress: None,
+        text: None,
+        more: 0,
+        copied: false,
     }
 }
 

@@ -7,7 +7,7 @@ use tauri_specta::Event;
 use super::ForkError;
 use crate::fork::events::ForkSettingsChanged;
 use crate::fork::settings::{
-    self, apply_update, ForkSettingUpdate, ForkSettings, ForkSettingsHandle, PRODUCT_IDENTIFIER,
+    self, apply_update, ForkSettingUpdate, ForkSettings, ForkSettingsHandle,
 };
 use crate::fork::ForkRuntime;
 
@@ -75,7 +75,7 @@ fn mirror_to_handy<R: ForkRuntime>(
     fork: &ForkSettings,
     handy_key: &'static str,
 ) {
-    if app.config().identifier != PRODUCT_IDENTIFIER {
+    if !crate::fork::is_product_identity(&app.config().identifier) {
         return;
     }
     let Some(rule) = settings::ENFORCED.iter().find(|r| r.key == handy_key) else {

@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "S'està configurant el dictat. Les teves paraules estan desades.",
+        "card": "El teu dictat és a punt. Copia'l des de la barra."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "No s'ha pogut baixar",
+        "check_connection": "No s'ha pogut baixar. Comprova la connexió.",
+        "no_space": "No hi ha prou espai al disc per configurar el dictat"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "S'està configurant…",
+    "settingUpPercent": "S'està configurant… {{percent}}%",
+    "settingUpHint": "Les teves paraules estan desades. El text apareixerà aquí quan el dictat estigui a punt.",
+    "cardReady": "El teu dictat",
+    "cardMore_one": "El teu dictat · {{count}} més a l'historial",
+    "cardMore_other": "El teu dictat · {{count}} més a l'historial",
+    "copy": "Copia",
+    "copied": "Copiat",
+    "retry": "Torna-ho a provar"
   },
   "overrides": {
     "onboarding": {

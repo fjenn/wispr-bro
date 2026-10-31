@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * The active Flow Bar (S-03): held, hands-free, processing, messages.
+ * The active Flow Bar (S-03): held, hands-free, processing, messages;
+ * S-07a adds "Setting up" and the card.
  *
  * The window is exactly the size of the shape it shows (sizes from Rust,
  * `geometry.gen.json`); the backend resizes it once this page has painted
@@ -14,7 +15,9 @@ import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FORK_NAMESPACE } from "../i18n";
 import { shapeSize } from "./geometry";
 import { Listening } from "./states/Listening";
+import { Card } from "./states/Card";
 import { Message } from "./states/Message";
+import { SettingUp } from "./states/SettingUp";
 import { Working } from "./states/Working";
 import { usePillState } from "./usePill";
 
@@ -42,6 +45,12 @@ export function Pill() {
       break;
     case "message":
       body = <Message state={state} />;
+      break;
+    case "setting_up":
+      body = <SettingUp state={state} />;
+      break;
+    case "card":
+      body = <Card state={state} />;
       break;
   }
 

@@ -29,10 +29,14 @@ pub enum Shape {
     Status,
     /// A message or an error, with an optional Fix button.
     Message,
+    /// "Setting up… 40%" while the first speech model downloads (S-07a).
+    Setup,
+    /// A finished take's text with Copy and ✕ (S-07a queued takes).
+    Card,
 }
 
 impl Shape {
-    pub const ALL: [Shape; 7] = [
+    pub const ALL: [Shape; 9] = [
         Shape::Rest,
         Shape::Held,
         Shape::HeldLabel,
@@ -40,6 +44,8 @@ impl Shape {
         Shape::LockedLabel,
         Shape::Status,
         Shape::Message,
+        Shape::Setup,
+        Shape::Card,
     ];
 
     /// Width and height in points.
@@ -52,6 +58,8 @@ impl Shape {
             Shape::LockedLabel => (328.0, ACTIVE_H),
             Shape::Status => (208.0, ACTIVE_H),
             Shape::Message => (360.0, ACTIVE_H),
+            Shape::Setup => (248.0, ACTIVE_H),
+            Shape::Card => (400.0, CARD_H),
         }
     }
 
@@ -65,6 +73,8 @@ impl Shape {
             Shape::LockedLabel => "locked_label",
             Shape::Status => "status",
             Shape::Message => "message",
+            Shape::Setup => "setup",
+            Shape::Card => "card",
         }
     }
 }
@@ -73,8 +83,10 @@ impl Shape {
 pub const REST_W: f64 = 60.0;
 pub const REST_H: f64 = 12.0;
 
-/// Height of every active shape.
+/// Height of every active shape but the card.
 pub const ACTIVE_H: f64 = 34.0;
+/// The card: two lines of text beside Copy and ✕.
+pub const CARD_H: f64 = 58.0;
 
 /// The hover bubble of the resting bar: height, horizontal padding around
 /// its text, and its width limits (the text is measured, localized).

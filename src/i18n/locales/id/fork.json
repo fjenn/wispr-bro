@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Menyiapkan dikte. Kata-kata Anda sudah disimpan.",
+        "card": "Dikte Anda siap. Salin dari bilah."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Tidak dapat mengunduh",
+        "check_connection": "Tidak dapat mengunduh. Periksa koneksi Anda.",
+        "no_space": "Ruang disk tidak cukup untuk menyiapkan dikte"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Menyiapkan…",
+    "settingUpPercent": "Menyiapkan… {{percent}}%",
+    "settingUpHint": "Kata-kata Anda sudah disimpan. Teksnya muncul di sini saat dikte siap.",
+    "cardReady": "Dikte Anda",
+    "cardMore_one": "Dikte Anda · {{count}} lagi di Riwayat",
+    "cardMore_other": "Dikte Anda · {{count}} lagi di Riwayat",
+    "copy": "Salin",
+    "copied": "Disalin",
+    "retry": "Coba lagi"
   },
   "overrides": {
     "onboarding": {

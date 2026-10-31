@@ -39,6 +39,10 @@ pub const LENGTH_WARNING_MS: Ms = 10_000;
 /// Handy hides first and reports an empty or failed take right after, so
 /// the message replaces the bar without a resting frame in between.
 pub const HIDE_GRACE_MS: Ms = 150;
+/// How long "Copied" shows on the card before the bar rests.
+pub const COPIED_MS: Ms = 1_200;
+/// A message that stays until the user acts (setup problems with Retry).
+pub const STICKY: Ms = Ms::MAX;
 
 /// What the active bar is doing (the web view's `state`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -51,6 +55,10 @@ pub enum PillPhase {
     Transcribing,
     CleaningUp,
     Message,
+    /// A take is waiting for the first speech model (S-07a).
+    SettingUp,
+    /// A queued take's text, with Copy (S-07a).
+    Card,
 }
 
 /// A message or an error after (or instead of) a take. The English copy is
@@ -74,6 +82,12 @@ pub enum PillMessage {
     NoMicrophone,
     /// The microphone could not be opened.
     MicFailed,
+    /// The first speech model could not be downloaded (S-07a).
+    DownloadFailed,
+    /// A Wi-Fi login page or a proxy blocks the download (S-07a).
+    CheckConnection,
+    /// Not enough free disk space for the speech model (S-07a).
+    NoSpace,
 }
 
 /// Information or error (changes the colour and the VoiceOver priority).
@@ -92,6 +106,8 @@ pub enum PillFix {
     MicrophonePrivacy,
     /// Opens System Settings › Sound › Input.
     SoundInput,
+    /// Starts the speech model download again (S-07a).
+    RetryDownload,
 }
 
 impl PillMessage {
@@ -104,7 +120,10 @@ impl PillMessage {
             | PillMessage::TranscriptionFailed
             | PillMessage::MicDenied
             | PillMessage::NoMicrophone
-            | PillMessage::MicFailed => PillTone::Error,
+            | PillMessage::MicFailed
+            | PillMessage::DownloadFailed
+            | PillMessage::CheckConnection
+            | PillMessage::NoSpace => PillTone::Error,
         }
     }
 
@@ -113,6 +132,9 @@ impl PillMessage {
             PillMessage::MicDenied => Some(PillFix::MicrophonePrivacy),
             PillMessage::MicMuted | PillMessage::NoMicrophone | PillMessage::MicFailed => {
                 Some(PillFix::SoundInput)
+            }
+            PillMessage::DownloadFailed | PillMessage::CheckConnection | PillMessage::NoSpace => {
+                Some(PillFix::RetryDownload)
             }
             _ => None,
         }
@@ -127,7 +149,15 @@ impl PillMessage {
         )
     }
 
+    /// Setup problems: they stay until Retry, ✕ or the next take.
+    pub fn sticky(self) -> bool {
+        self.fix() == Some(PillFix::RetryDownload)
+    }
+
     pub fn duration(self) -> Ms {
+        if self.sticky() {
+            return STICKY;
+        }
         match (self.tone(), self.fix()) {
             (PillTone::Info, _) => INFO_MS,
             (PillTone::Error, None) => ERROR_MS,
@@ -146,6 +176,9 @@ impl PillMessage {
             PillMessage::MicDenied => "mic_denied",
             PillMessage::NoMicrophone => "no_microphone",
             PillMessage::MicFailed => "mic_failed",
+            PillMessage::DownloadFailed => "download_failed",
+            PillMessage::CheckConnection => "check_connection",
+            PillMessage::NoSpace => "no_space",
         }
     }
 }
@@ -158,6 +191,18 @@ pub enum PillWarning {
     Silence,
     /// The take stops at 30 minutes.
     Length,
+}
+
+/// The speech model setup as the bar sees it (S-07a).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct SetupView {
+    /// Download progress, 0-99.
+    pub percent: Option<u8>,
+    /// What to tell a waiting user instead of the progress (a setup
+    /// problem with Retry).
+    pub problem: Option<PillMessage>,
+    /// A speech model is ready.
+    pub ready: bool,
 }
 
 /// What may show while nothing is active (refreshed by the controller).
@@ -206,6 +251,16 @@ pub enum Input {
     /// The user dismissed a message (✕) or acted on it (Fix).
     Dismiss,
     Prefs(Prefs),
+    /// A take stopped before any speech model was ready (S-07a).
+    Queued,
+    /// The speech setup changed.
+    Setup(SetupView),
+    /// The queued takes are being transcribed.
+    QueueTranscribing,
+    /// A queued take's text is ready.
+    Card(String),
+    /// The card's text was copied.
+    Copied,
 }
 
 /// The active bar, as sent to the web view (`ForkPillState` minus `seq`).
@@ -216,6 +271,14 @@ pub struct ActiveView {
     pub mic: Option<String>,
     pub message: Option<PillMessage>,
     pub warning: Option<PillWarning>,
+    /// Setting up: the download progress.
+    pub progress: Option<u8>,
+    /// The card's text.
+    pub text: Option<String>,
+    /// Takes finished before the one on the card (they are in History).
+    pub more: u32,
+    /// "Copied" shows on the card.
+    pub copied: bool,
 }
 
 /// Everything on screen.
@@ -234,6 +297,8 @@ enum Phase {
     Transcribing,
     CleaningUp,
     Message,
+    SettingUp,
+    Card,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -247,6 +312,15 @@ pub struct Model {
     warning: Option<(PillWarning, Option<Ms>)>,
     /// Handy hid its overlay; back to rest at this time ([`HIDE_GRACE_MS`]).
     closing_until: Option<Ms>,
+    /// S-07a: the speech setup, whether a queued take waits for it, and
+    /// the card.
+    setup: SetupView,
+    waiting: bool,
+    card: Option<String>,
+    more: u32,
+    copied_until: Option<Ms>,
+    /// A card that arrived during a take; shown when the take is over.
+    pending_card: Option<String>,
 }
 
 impl Model {
@@ -270,6 +344,11 @@ impl Model {
         self.prefs
     }
 
+    /// The last speech setup the bar heard of.
+    pub fn setup(&self) -> SetupView {
+        self.setup
+    }
+
     /// `true` while the take records (held or hands-free).
     pub fn recording(&self) -> bool {
         matches!(self.phase(), Phase::Held | Phase::Locked)
@@ -286,6 +365,10 @@ impl Model {
         self.mic = None;
         self.message = None;
         self.warning = None;
+        // The card's text is in History.
+        self.card = None;
+        self.more = 0;
+        self.copied_until = None;
     }
 
     fn go_idle(&mut self) {
@@ -293,6 +376,56 @@ impl Model {
         self.label_until = None;
         self.message = None;
         self.warning = None;
+        self.card = None;
+        self.more = 0;
+        self.copied_until = None;
+        if let Some(text) = self.pending_card.take() {
+            self.show_card(text);
+        }
+    }
+
+    fn show_card(&mut self, text: String) {
+        self.more = if self.phase() == Phase::Card {
+            self.more + 1
+        } else {
+            0
+        };
+        self.set(Phase::Card);
+        self.card = Some(text);
+        self.copied_until = None;
+        self.message = None;
+        self.label_until = None;
+        self.warning = None;
+    }
+
+    /// The bar shows the setup (or its problem) to a waiting user.
+    fn setup_screen(&mut self, now: Ms) {
+        match self.setup.problem {
+            Some(kind) => {
+                self.set(Phase::Message);
+                self.message = Some((kind, now.saturating_add(kind.duration())));
+            }
+            None => {
+                self.set(Phase::SettingUp);
+                self.message = None;
+            }
+        }
+        self.label_until = None;
+        self.warning = None;
+    }
+
+    /// Showing the setup or one of its problems.
+    fn on_setup_screen(&self) -> bool {
+        self.phase() == Phase::SettingUp
+            || (self.phase() == Phase::Message && self.message.is_some_and(|(k, _)| k.sticky()))
+    }
+
+    /// States that outlive Handy's overlay (it hides after every take).
+    fn lingers(&self) -> bool {
+        matches!(
+            self.phase(),
+            Phase::Message | Phase::Idle | Phase::SettingUp | Phase::Card
+        )
     }
 
     /// Applies one input at `now`.
@@ -319,7 +452,7 @@ impl Model {
                 }
             }
             Input::Transcribing => match self.phase() {
-                Phase::Message | Phase::CleaningUp => {}
+                Phase::Message | Phase::CleaningUp | Phase::SettingUp | Phase::Card => {}
                 _ => {
                     self.set(Phase::Transcribing);
                     self.label_until = None;
@@ -327,19 +460,19 @@ impl Model {
                 }
             },
             Input::CleaningUp => {
-                if self.phase() != Phase::Message {
+                if !self.lingers() {
                     self.set(Phase::CleaningUp);
                     self.label_until = None;
                     self.warning = None;
                 }
             }
             Input::Cancelled => {
-                if self.phase() != Phase::Message {
+                if !self.lingers() {
                     self.go_idle();
                 }
             }
             Input::Hide => {
-                if self.phase() != Phase::Message && self.phase() != Phase::Idle {
+                if !self.lingers() {
                     self.closing_until.get_or_insert(now + HIDE_GRACE_MS);
                 }
             }
@@ -350,7 +483,7 @@ impl Model {
                 self.set(Phase::Message);
                 self.label_until = None;
                 self.warning = None;
-                self.message = Some((kind, now + kind.duration()));
+                self.message = Some((kind, now.saturating_add(kind.duration())));
             }
             Input::Warning(kind) => {
                 if self.recording() {
@@ -373,11 +506,52 @@ impl Model {
                 }
             }
             Input::Dismiss => {
-                if self.phase() == Phase::Message {
+                if matches!(
+                    self.phase(),
+                    Phase::Message | Phase::SettingUp | Phase::Card
+                ) {
                     self.go_idle();
                 }
             }
             Input::Prefs(p) => self.prefs = p,
+            Input::Queued => {
+                self.waiting = true;
+                if !self.recording() {
+                    self.setup_screen(now);
+                }
+            }
+            Input::Setup(v) => {
+                let before = self.setup;
+                self.setup = v;
+                if v.ready {
+                    self.waiting = false;
+                    if self.on_setup_screen() {
+                        self.set(Phase::Transcribing);
+                        self.message = None;
+                    }
+                } else if self.waiting && self.on_setup_screen() && before.problem != v.problem {
+                    // A new problem, or a retry clearing one.
+                    self.setup_screen(now);
+                }
+            }
+            Input::QueueTranscribing => {
+                if self.on_setup_screen() {
+                    self.set(Phase::Transcribing);
+                    self.message = None;
+                }
+            }
+            Input::Card(text) => {
+                if self.recording() {
+                    self.pending_card = Some(text);
+                } else {
+                    self.show_card(text);
+                }
+            }
+            Input::Copied => {
+                if self.phase() == Phase::Card {
+                    self.copied_until = Some(now + COPIED_MS);
+                }
+            }
         }
     }
 
@@ -393,6 +567,9 @@ impl Model {
             if now >= t {
                 self.warning = None;
             }
+        }
+        if self.copied_until.is_some_and(|t| now >= t) {
+            self.go_idle();
         }
         if let Some((_, t)) = self.message {
             if now >= t {
@@ -411,9 +588,11 @@ impl Model {
             self.message.map(|(_, t)| t),
             self.warning.and_then(|(_, t)| t),
             self.closing_until,
+            self.copied_until,
         ]
         .into_iter()
         .flatten()
+        .filter(|&t| t != STICKY)
         .min()
     }
 
@@ -447,6 +626,10 @@ impl Model {
                     },
                     message: None,
                     warning,
+                    progress: None,
+                    text: None,
+                    more: 0,
+                    copied: false,
                 })
             }
             Phase::Transcribing | Phase::CleaningUp => Some(ActiveView {
@@ -459,6 +642,10 @@ impl Model {
                 mic: None,
                 message: None,
                 warning: None,
+                progress: None,
+                text: None,
+                more: 0,
+                copied: false,
             }),
             Phase::Message => self.message.map(|(kind, _)| ActiveView {
                 phase: PillPhase::Message,
@@ -466,6 +653,32 @@ impl Model {
                 mic: None,
                 message: Some(kind),
                 warning: None,
+                progress: None,
+                text: None,
+                more: 0,
+                copied: false,
+            }),
+            Phase::SettingUp => Some(ActiveView {
+                phase: PillPhase::SettingUp,
+                shape: Shape::Setup,
+                mic: None,
+                message: None,
+                warning: None,
+                progress: self.setup.percent,
+                text: None,
+                more: 0,
+                copied: false,
+            }),
+            Phase::Card => self.card.as_ref().map(|text| ActiveView {
+                phase: PillPhase::Card,
+                shape: Shape::Card,
+                mic: None,
+                message: None,
+                warning: None,
+                progress: None,
+                text: Some(text.clone()),
+                more: self.more,
+                copied: self.copied_until.is_some(),
             }),
         };
         let p = self.prefs;
@@ -719,6 +932,9 @@ mod tests {
             MicDenied,
             NoMicrophone,
             MicFailed,
+            DownloadFailed,
+            CheckConnection,
+            NoSpace,
         ] {
             assert!(!k.key().is_empty());
             assert!(k.duration() >= INFO_MS);
@@ -728,5 +944,155 @@ mod tests {
             // The serde name is the fork.json key.
             assert_eq!(serde_json::to_value(k).unwrap(), serde_json::json!(k.key()));
         }
+    }
+
+    // S-07a -----------------------------------------------------------------
+
+    fn setup(percent: u8) -> Input {
+        Input::Setup(SetupView {
+            percent: Some(percent),
+            problem: None,
+            ready: false,
+        })
+    }
+
+    fn view_of(m: &mut Model, now: Ms) -> ActiveView {
+        m.view_at(now).active.expect("active")
+    }
+
+    #[test]
+    fn a_take_before_the_model_shows_setting_up_then_the_card() {
+        let mut m = Model::new(ready());
+        m.step(0, setup(10));
+        m.step(100, Input::TakeStarted { locked: false });
+        m.step(2_000, Input::Stopped);
+        assert_eq!(phase(&mut m, 2_000), Some(PillPhase::Transcribing));
+        // The hook queued the take; Handy hides its overlay and reports an
+        // empty take, which the controller swallows.
+        m.step(2_010, Input::Queued);
+        m.step(2_020, Input::Hide);
+        let v = view_of(&mut m, 2_200);
+        assert_eq!(
+            (v.phase, v.shape, v.progress),
+            (PillPhase::SettingUp, Shape::Setup, Some(10))
+        );
+        // Progress moves; nothing times out.
+        m.step(30_000, setup(40));
+        assert_eq!(view_of(&mut m, 30_000).progress, Some(40));
+        assert_eq!(m.next_deadline(), None);
+        assert!(m.view_at(600_000).active.is_some());
+        // Ready: the queue transcribes, then the card with the text.
+        m.step(
+            600_001,
+            Input::Setup(SetupView {
+                percent: None,
+                problem: None,
+                ready: true,
+            }),
+        );
+        assert_eq!(phase(&mut m, 600_001), Some(PillPhase::Transcribing));
+        m.step(600_500, Input::Card("hello world".into()));
+        let v = view_of(&mut m, 600_500);
+        assert_eq!((v.phase, v.shape), (PillPhase::Card, Shape::Card));
+        assert_eq!(v.text.as_deref(), Some("hello world"));
+        assert!(!v.copied);
+        // A card stays until the user acts.
+        assert!(m.view_at(3_600_000).active.is_some());
+        m.step(3_600_000, Input::Copied);
+        assert!(view_of(&mut m, 3_600_000).copied);
+        assert!(m.view_at(3_600_000 + COPIED_MS).resting);
+    }
+
+    #[test]
+    fn a_second_card_counts_the_first_and_dismiss_or_a_new_take_clears_it() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::Card("one".into()));
+        m.step(1, Input::Card("two".into()));
+        let v = view_of(&mut m, 1);
+        assert_eq!((v.text.as_deref(), v.more), (Some("two"), 1));
+        m.step(2, Input::Dismiss);
+        assert!(m.view_at(2).resting);
+        m.step(3, Input::Card("three".into()));
+        assert_eq!(view_of(&mut m, 3).more, 0);
+        m.step(4, Input::TakeStarted { locked: false });
+        assert_eq!(phase(&mut m, 4), Some(PillPhase::Held));
+        // Handy's hide after a cancelled take does not bring it back.
+        m.step(5, Input::Cancelled);
+        assert!(m.view_at(5).resting);
+    }
+
+    #[test]
+    fn a_card_during_a_take_waits_for_the_take_to_end() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: true });
+        m.step(10, Input::Card("queued text".into()));
+        assert_eq!(phase(&mut m, 10), Some(PillPhase::Locked));
+        m.step(500, Input::Stopped);
+        m.step(900, Input::Hide);
+        let v = view_of(&mut m, 900 + HIDE_GRACE_MS);
+        assert_eq!(v.text.as_deref(), Some("queued text"));
+    }
+
+    #[test]
+    fn setup_problems_replace_the_progress_and_retry_brings_it_back() {
+        let mut m = Model::new(ready());
+        m.step(0, setup(5));
+        m.step(1, Input::Queued);
+        assert_eq!(phase(&mut m, 1), Some(PillPhase::SettingUp));
+        let failed = Input::Setup(SetupView {
+            percent: Some(5),
+            problem: Some(PillMessage::CheckConnection),
+            ready: false,
+        });
+        m.step(2, failed);
+        let v = view_of(&mut m, 2);
+        assert_eq!(v.message, Some(PillMessage::CheckConnection));
+        assert_eq!(
+            PillMessage::CheckConnection.fix(),
+            Some(PillFix::RetryDownload)
+        );
+        // Sticky: still there an hour later.
+        assert!(m.view_at(3_600_000).active.is_some());
+        assert_eq!(m.next_deadline(), None);
+        // Retry: back to the progress.
+        m.step(3_600_001, setup(5));
+        assert_eq!(phase(&mut m, 3_600_001), Some(PillPhase::SettingUp));
+        // No queued take: setup changes never pop the bar up.
+        let mut m = Model::new(ready());
+        m.step(0, setup(50));
+        assert!(m.view_at(0).resting);
+        m.step(
+            1,
+            Input::Setup(SetupView {
+                percent: None,
+                problem: Some(PillMessage::DownloadFailed),
+                ready: false,
+            }),
+        );
+        assert!(m.view_at(1).resting);
+        // A take queued while the download is stopped shows the problem.
+        m.step(2, Input::Queued);
+        assert_eq!(
+            view_of(&mut m, 2).message,
+            Some(PillMessage::DownloadFailed)
+        );
+    }
+
+    #[test]
+    fn setting_up_can_be_dismissed_and_a_queued_take_mid_recording_waits() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::Queued);
+        m.step(1, Input::Dismiss);
+        assert!(m.view_at(1).resting);
+        // Progress does not bring it back; the card later does.
+        m.step(2, setup(70));
+        assert!(m.view_at(2).resting);
+        m.step(3, Input::Card("x".into()));
+        assert_eq!(phase(&mut m, 3), Some(PillPhase::Card));
+        // A queue report during a new take is held until after it.
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: false });
+        m.step(1, Input::Queued);
+        assert_eq!(phase(&mut m, 1), Some(PillPhase::Held));
     }
 }

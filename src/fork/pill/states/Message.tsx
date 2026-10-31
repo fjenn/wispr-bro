@@ -33,7 +33,7 @@ export function Message({ state }: { state: ForkPillState }) {
           data-testid="wb-pill-fix"
           onClick={() => void commands.forkPillAction("fix")}
         >
-          {t("pill.fix")}
+          {state.fix === "retry_download" ? t("pill.retry") : t("pill.fix")}
         </button>
       )}
       <button

@@ -151,6 +151,14 @@ Details per port: docs/fork/PORTS.md.
   Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
   Modified by Wispr Bro contributors, 2026 (named result, day parsing,
   tests).
+- src-tauri/src/fork/models/readiness.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/speech_readiness.rs (resolve and its tests)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (no cloud engine; a press
+  is recorded and queued instead of refused; names the model to switch to).
 
 - src-tauri/src/fork/context/categories.json (data)
   Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr

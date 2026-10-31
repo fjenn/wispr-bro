@@ -51,6 +51,7 @@ use tauri::{AppHandle, Runtime};
 use self::geometry::Shape;
 use self::model::{
     ActiveView, Input, Model, PillFix, PillMessage, PillPhase, PillTone, PillWarning, Prefs,
+    SetupView,
 };
 
 /// How long the web view stays loaded after a take (a quick next take
@@ -90,6 +91,14 @@ pub struct ForkPillState {
     pub tone: Option<PillTone>,
     pub fix: Option<PillFix>,
     pub warning: Option<PillWarning>,
+    /// Setting up: download progress, 0-99 (S-07a).
+    pub progress: Option<u8>,
+    /// The card's text (S-07a).
+    pub text: Option<String>,
+    /// Takes that finished before the one on the card.
+    pub more: u32,
+    /// The card's text was just copied.
+    pub copied: bool,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -108,8 +117,10 @@ pub enum PillUiAction {
     Cancel,
     /// ✕ on a message.
     Dismiss,
-    /// The message's Fix button.
+    /// The message's Fix button (Retry for a setup problem).
     Fix,
+    /// The card's Copy button: the text replaces the clipboard (no restore).
+    Copy,
 }
 
 #[derive(Debug)]
@@ -254,6 +265,45 @@ pub fn show_message(message: PillMessage) {
     input(Input::Message(message));
 }
 
+/// S-07a: a take stopped before any speech model was ready.
+pub fn on_take_queued() {
+    input(Input::Queued);
+}
+
+/// S-07a: the speech setup changed.
+pub fn on_speech_setup(status: &crate::fork::models::setup::ForkSpeechSetup) {
+    input(Input::Setup(setup_view(status)));
+}
+
+/// S-07a: the queued takes are being transcribed.
+pub fn on_queue_transcribing() {
+    input(Input::QueueTranscribing);
+}
+
+/// S-07a: a queued take's text, for the card with Copy.
+pub fn show_card(text: String) {
+    input(Input::Card(text));
+}
+
+/// What the bar shows for a setup status.
+pub fn setup_view(s: &crate::fork::models::setup::ForkSpeechSetup) -> SetupView {
+    use crate::fork::models::download::SetupProblem;
+    use crate::fork::models::setup::SetupPhase;
+    let problem = match (s.phase, s.problem) {
+        (_, Some(SetupProblem::NoSpace)) => Some(PillMessage::NoSpace),
+        (SetupPhase::Failed | SetupPhase::Waiting, Some(SetupProblem::CheckConnection)) => {
+            Some(PillMessage::CheckConnection)
+        }
+        (SetupPhase::Failed, _) => Some(PillMessage::DownloadFailed),
+        _ => None,
+    };
+    SetupView {
+        percent: s.percent,
+        problem,
+        ready: s.phase == SetupPhase::Ready,
+    }
+}
+
 /// `fork_pill_snapshot`.
 pub fn snapshot() -> Option<ForkPillState> {
     SNAPSHOT.lock().unwrap_or_else(|e| e.into_inner()).clone()
@@ -301,6 +351,10 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         tone: a.message.map(PillMessage::tone),
         fix: a.message.and_then(PillMessage::fix),
         warning: a.warning,
+        progress: a.progress,
+        text: a.text.clone(),
+        more: a.more,
+        copied: a.copied,
     }
 }
 
@@ -333,6 +387,12 @@ pub fn announcement(
         }
         (_, Some(a)) if a.phase == PillPhase::CleaningUp => {
             Some(("rust.pill.announce.cleaningUp".into(), false))
+        }
+        (_, Some(a)) if a.phase == PillPhase::SettingUp => {
+            Some(("rust.pill.announce.settingUp".into(), false))
+        }
+        (_, Some(a)) if a.phase == PillPhase::Card => {
+            Some(("rust.pill.announce.card".into(), true))
         }
         (_, Some(a)) if a.phase == PillPhase::Message => a.message.map(|m| {
             (
@@ -384,6 +444,12 @@ pub fn start(app: &AppHandle<tauri::Wry>) {
         let outcome = serde_json::from_str::<serde_json::Value>(event.payload())
             .ok()
             .and_then(|v| v.get("outcome")?.as_str().map(str::to_owned));
+        // S-07a: a queued take's empty outcome is not "No speech heard".
+        if matches!(outcome.as_deref(), Some("empty" | "silent"))
+            && crate::fork::models::setup::take_queued_outcome()
+        {
+            return;
+        }
         if let Some(m) = outcome.as_deref().and_then(message_for_outcome) {
             input(Input::Message(m));
         }
@@ -411,6 +477,14 @@ pub fn start(app: &AppHandle<tauri::Wry>) {
             send(Msg::Theme(theme_dark(t)));
         }
     });
+
+    // Esc dismisses a message, "Setting up" or the card (observed, never
+    // blocked; an Esc that cancelled a take is the take's).
+    crate::fork::shortcut::registry().observe_esc(std::sync::Arc::new(|ctx| {
+        if !ctx.cancelled_take {
+            input(Input::Dismiss);
+        }
+    }));
 
     let settings = app
         .try_state::<crate::fork::settings::ForkSettingsHandle>()
@@ -625,10 +699,36 @@ impl Controller {
                     .as_ref()
                     .and_then(|a| a.message)
                     .and_then(PillMessage::fix);
+                if fix == Some(PillFix::RetryDownload) {
+                    // Back to the progress while the download starts again.
+                    log::info!("pill: Retry (speech model download)");
+                    crate::fork::models::setup::retry();
+                    let current = self.model.setup();
+                    self.model.step(
+                        now,
+                        Input::Setup(SetupView {
+                            problem: None,
+                            ..current
+                        }),
+                    );
+                    return;
+                }
                 if let Some(fix) = fix {
                     open_fix(fix);
                 }
                 self.model.step(now, Input::Dismiss);
+            }
+            PillUiAction::Copy => {
+                let text = self.sent.as_ref().and_then(|a| a.text.clone());
+                if let Some(text) = text {
+                    match crate::fork::clipboard::nspb::write_plain_text(&text) {
+                        Ok(_) => {
+                            log::info!("pill: card text copied ({} chars)", text.chars().count());
+                            self.model.step(now, Input::Copied);
+                        }
+                        Err(e) => log::warn!("pill: could not copy the card text: {e}"),
+                    }
+                }
             }
         }
     }
@@ -901,6 +1001,10 @@ fn open_fix(fix: PillFix) {
             "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone"
         }
         PillFix::SoundInput => "x-apple.systempreferences:com.apple.Sound-Settings.extension?input",
+        PillFix::RetryDownload => {
+            crate::fork::models::setup::retry();
+            return;
+        }
     };
     if let Err(e) = std::process::Command::new("/usr/bin/open").arg(url).spawn() {
         log::warn!("pill: cannot open System Settings: {e}");

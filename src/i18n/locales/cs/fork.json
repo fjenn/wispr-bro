@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Diktování se nastavuje. Vaše slova jsou uložena.",
+        "card": "Vaše diktování je připravené. Zkopírujte ho z lišty."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Stahování se nezdařilo",
+        "check_connection": "Stahování se nezdařilo. Zkontrolujte připojení.",
+        "no_space": "Na disku není dost místa pro nastavení diktování"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Nastavuje se…",
+    "settingUpPercent": "Nastavuje se… {{percent}} %",
+    "settingUpHint": "Vaše slova jsou uložena. Text se zobrazí tady, až bude diktování připravené.",
+    "cardReady": "Vaše diktování",
+    "cardMore_one": "Vaše diktování · {{count}} další v historii",
+    "cardMore_other": "Vaše diktování · {{count}} dalších v historii",
+    "copy": "Kopírovat",
+    "copied": "Zkopírováno",
+    "retry": "Zkusit znovu"
   },
   "overrides": {
     "onboarding": {

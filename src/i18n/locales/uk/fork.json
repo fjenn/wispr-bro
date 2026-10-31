@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Диктування налаштовується. Ваші слова збережено.",
+        "card": "Ваше диктування готове. Скопіюйте його з панелі."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Не вдалося завантажити",
+        "check_connection": "Не вдалося завантажити. Перевірте з'єднання.",
+        "no_space": "Недостатньо місця на диску, щоб налаштувати диктування"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Налаштування…",
+    "settingUpPercent": "Налаштування… {{percent}}%",
+    "settingUpHint": "Ваші слова збережено. Текст з'явиться тут, коли диктування буде готове.",
+    "cardReady": "Ваше диктування",
+    "cardMore_one": "Ваше диктування · ще {{count}} в історії",
+    "cardMore_other": "Ваше диктування · ще {{count}} в історії",
+    "copy": "Копіювати",
+    "copied": "Скопійовано",
+    "retry": "Повторити"
   },
   "overrides": {
     "onboarding": {

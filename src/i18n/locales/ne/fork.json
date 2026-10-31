@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "डिक्टेसन सेटअप हुँदैछ। तपाईंका शब्दहरू सुरक्षित छन्।",
+        "card": "तपाईंको डिक्टेसन तयार छ। बारबाट प्रतिलिपि गर्नुहोस्।"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "डाउनलोड गर्न सकिएन",
+        "check_connection": "डाउनलोड गर्न सकिएन। आफ्नो जडान जाँच गर्नुहोस्।",
+        "no_space": "डिक्टेसन सेटअप गर्न डिस्कमा पर्याप्त ठाउँ छैन"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "सेटअप हुँदैछ…",
+    "settingUpPercent": "सेटअप हुँदैछ… {{percent}}%",
+    "settingUpHint": "तपाईंका शब्दहरू सुरक्षित छन्। डिक्टेसन तयार भएपछि पाठ यहाँ देखिन्छ।",
+    "cardReady": "तपाईंको डिक्टेसन",
+    "cardMore_one": "तपाईंको डिक्टेसन · इतिहासमा थप {{count}}",
+    "cardMore_other": "तपाईंको डिक्टेसन · इतिहासमा थप {{count}}",
+    "copy": "प्रतिलिपि",
+    "copied": "प्रतिलिपि गरियो",
+    "retry": "फेरि प्रयास गर्नुहोस्"
   },
   "overrides": {
     "onboarding": {

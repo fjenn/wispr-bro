@@ -23,6 +23,7 @@ import { useModelStore } from "@/stores/modelStore";
 import { moveScreens } from "./screenTransitions";
 import { downloadPick } from "./downloadPick";
 import "./screenTransitions.css";
+import { forkShowsStep, useForkFirstRun } from "@/fork/onboarding/firstRun";
 
 interface OnboardingFlowProps {
   /** Debug preview: inert (no prompts, downloads or setting writes). */
@@ -54,6 +55,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
   const models = useOnboardingModels(store.languages);
   const currentModel = useModelStore((s) => s.currentModel);
   const selectModel = useModelStore((s) => s.selectModel);
+  const fork = useForkFirstRun(store.step, preview);
 
   // Once models load: start from an on-disk model if there is one, or flag a
   // download interrupted by a quit. Reads the store since reset() runs first.
@@ -126,7 +128,9 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
   if (!permissions.checked) return null;
 
   const steps = STEP_ORDER.filter(
-    (s) => s !== "permissions" || permissions.needed || store.welcomeBack,
+    (s) =>
+      forkShowsStep(s, fork.managed) &&
+      (s !== "permissions" || permissions.needed || store.welcomeBack),
   );
   const step = steps.includes(store.step) ? store.step : steps[0];
   const progress = { index: steps.indexOf(step), count: steps.length };
@@ -174,7 +178,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
   const downloadNow = preview
     ? ({ state: "ready" } as const)
     : models.downloadState(downloaded);
-  const modelReady = downloadNow.state === "ready";
+  const modelReady = downloadNow.state === "ready" || fork.ready;
 
   const saveLanguages = () => {
     if (preview) return;

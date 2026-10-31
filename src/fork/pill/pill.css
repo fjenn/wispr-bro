@@ -234,6 +234,95 @@ body {
   cursor: default;
 }
 
+/* S-07a: "Setting up… 40%" with a progress ring. */
+.wb-pill[data-phase="setting_up"] {
+  padding: 0 4px 0 6px;
+  justify-content: space-between;
+}
+
+.wb-pill-setup {
+  flex: 1;
+  padding: 0 6px;
+}
+
+.wb-pill-ring {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  fill: none;
+  stroke-width: 2;
+}
+
+.wb-pill-ring-track {
+  stroke: var(--wb-pill-btn-hover);
+}
+
+.wb-pill-ring-fill {
+  stroke: var(--wb-pill-accent);
+  stroke-linecap: round;
+  transition: stroke-dasharray 300ms linear;
+}
+
+.wb-pill-ring-spin {
+  animation: wb-pill-spin 1.1s linear infinite;
+}
+
+@keyframes wb-pill-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* S-07a: the card, a rounded panel with two lines of text. */
+.wb-pill[data-phase="card"] {
+  border-radius: 16px;
+  padding: 0 8px 0 14px;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.wb-pill-card {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.wb-pill-card-label {
+  color: var(--wb-pill-accent);
+  font-size: 11px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-pill-card-text {
+  color: var(--wb-pill-ink);
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.wb-pill-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-pill-copy svg {
+  width: 13px;
+  height: 13px;
+}
+
 .wb-sr-only {
   position: absolute;
   width: 1px;
@@ -256,8 +345,22 @@ body {
     animation: none;
     opacity: 0.85;
   }
+  .wb-pill-ring-spin {
+    animation: none;
+  }
+  .wb-pill-ring-fill {
+    transition: none;
+  }
 }
 
 [dir="rtl"] .wb-pill[data-phase="message"] {
   padding: 0 12px 0 4px;
+}
+
+[dir="rtl"] .wb-pill[data-phase="setting_up"] {
+  padding: 0 6px 0 4px;
+}
+
+[dir="rtl"] .wb-pill[data-phase="card"] {
+  padding: 0 14px 0 8px;
 }

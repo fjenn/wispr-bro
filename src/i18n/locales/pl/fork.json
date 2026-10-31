@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Konfigurowanie dyktowania. Twoje słowa są zapisane.",
+        "card": "Twoje dyktowanie jest gotowe. Skopiuj je z paska."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Nie udało się pobrać",
+        "check_connection": "Nie udało się pobrać. Sprawdź połączenie.",
+        "no_space": "Za mało miejsca na dysku, aby skonfigurować dyktowanie"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Konfigurowanie…",
+    "settingUpPercent": "Konfigurowanie… {{percent}}%",
+    "settingUpHint": "Twoje słowa są zapisane. Tekst pojawi się tutaj, gdy dyktowanie będzie gotowe.",
+    "cardReady": "Twoje dyktowanie",
+    "cardMore_one": "Twoje dyktowanie · jeszcze {{count}} w historii",
+    "cardMore_other": "Twoje dyktowanie · jeszcze {{count}} w historii",
+    "copy": "Kopiuj",
+    "copied": "Skopiowano",
+    "retry": "Spróbuj ponownie"
   },
   "overrides": {
     "onboarding": {

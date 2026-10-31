@@ -1,10 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Fork model layer. F-08: the licence filter ([`license_filter`]), the
 //! `HF_HOME` location (DEC-39) and the proof that no download path builds a
-//! `blob.handy.computer` URL (DEC-16). S-07a/S-07b add the silent model
-//! policy and the catalog overlay.
+//! `blob.handy.computer` URL (DEC-16). S-07a: the first speech model and
+//! the mic gate ([`setup`], [`starter`], [`readiness`], [`download`],
+//! [`probe`], [`queue_session`]). S-07b adds the silent model policy.
+//!
+//! S-07a needs no catalog overlay and no `managers/model.rs` hook: every
+//! starter is in Handy's catalog, and Handy's downloader moves the bytes.
 
+pub mod download;
 pub mod license_filter;
+pub mod probe;
+pub mod queue_session;
+pub mod readiness;
+pub mod setup;
+pub mod starter;
 
 use std::path::{Path, PathBuf};
 

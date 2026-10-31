@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Đang thiết lập đọc chính tả. Lời bạn nói đã được lưu.",
+        "card": "Bản đọc chính tả của bạn đã sẵn sàng. Hãy sao chép từ thanh."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Không tải xuống được",
+        "check_connection": "Không tải xuống được. Hãy kiểm tra kết nối.",
+        "no_space": "Không đủ dung lượng đĩa để thiết lập đọc chính tả"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Đang thiết lập…",
+    "settingUpPercent": "Đang thiết lập… {{percent}}%",
+    "settingUpHint": "Lời bạn nói đã được lưu. Văn bản sẽ hiện ở đây khi tính năng đọc chính tả sẵn sàng.",
+    "cardReady": "Bản đọc chính tả của bạn",
+    "cardMore_one": "Bản đọc chính tả của bạn · còn {{count}} trong Lịch sử",
+    "cardMore_other": "Bản đọc chính tả của bạn · còn {{count}} trong Lịch sử",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "retry": "Thử lại"
   },
   "overrides": {
     "onboarding": {

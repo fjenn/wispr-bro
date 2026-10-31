@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Диктовката се настройва. Думите ви са запазени.",
+        "card": "Диктовката ви е готова. Копирайте я от лентата."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Изтеглянето не успя",
+        "check_connection": "Изтеглянето не успя. Проверете връзката си.",
+        "no_space": "Няма достатъчно място на диска за настройване на диктовката"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Настройване…",
+    "settingUpPercent": "Настройване… {{percent}}%",
+    "settingUpHint": "Думите ви са запазени. Текстът ще се появи тук, когато диктовката е готова.",
+    "cardReady": "Вашата диктовка",
+    "cardMore_one": "Вашата диктовка · още {{count}} в историята",
+    "cardMore_other": "Вашата диктовка · още {{count}} в историята",
+    "copy": "Копирай",
+    "copied": "Копирано",
+    "retry": "Опитай отново"
   },
   "overrides": {
     "onboarding": {

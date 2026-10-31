@@ -13,6 +13,7 @@ pub mod dictionary;
 pub mod history;
 pub mod hotkeys;
 pub mod llm;
+pub mod models;
 pub mod notifications;
 pub mod pill;
 pub mod selfcheck;

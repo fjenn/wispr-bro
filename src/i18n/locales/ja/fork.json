@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "音声入力を準備しています。話した内容は保存されています。",
+        "card": "音声入力の準備ができました。バーからコピーできます。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "ダウンロードできませんでした",
+        "check_connection": "ダウンロードできませんでした。接続を確認してください。",
+        "no_space": "音声入力の準備に必要なディスク容量が足りません"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "準備中…",
+    "settingUpPercent": "準備中… {{percent}}%",
+    "settingUpHint": "話した内容は保存されています。音声入力の準備ができるとここにテキストが表示されます。",
+    "cardReady": "あなたの音声入力",
+    "cardMore_one": "あなたの音声入力 · ほかに {{count}} 件が履歴にあります",
+    "cardMore_other": "あなたの音声入力 · ほかに {{count}} 件が履歴にあります",
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "retry": "再試行"
   },
   "overrides": {
     "onboarding": {

@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Dicteren wordt ingesteld. Je woorden zijn bewaard.",
+        "card": "Je dictaat is klaar. Kopieer het vanuit de balk."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Downloaden mislukt",
+        "check_connection": "Downloaden mislukt. Controleer je verbinding.",
+        "no_space": "Niet genoeg schijfruimte om dicteren in te stellen"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Instellen…",
+    "settingUpPercent": "Instellen… {{percent}}%",
+    "settingUpHint": "Je woorden zijn bewaard. De tekst verschijnt hier zodra dicteren klaar is.",
+    "cardReady": "Je dictaat",
+    "cardMore_one": "Je dictaat · nog {{count}} in de geschiedenis",
+    "cardMore_other": "Je dictaat · nog {{count}} in de geschiedenis",
+    "copy": "Kopiëren",
+    "copied": "Gekopieerd",
+    "retry": "Opnieuw"
   },
   "overrides": {
     "onboarding": {

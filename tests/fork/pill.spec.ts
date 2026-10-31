@@ -35,6 +35,10 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
     tone: null,
     fix: null,
     warning: null,
+    progress: null,
+    text: null,
+    more: 0,
+    copied: false,
     ...partial,
   };
 }
@@ -81,6 +85,47 @@ const STATES: Record<string, ForkPillState> = {
     message: "mic_muted",
     tone: "error",
     fix: "sound_input",
+  }),
+  // S-07a.
+  settingUp: state({ phase: "setting_up", shape: "setup", progress: 42 }),
+  settingUpStarting: state({ phase: "setting_up", shape: "setup" }),
+  card: state({
+    phase: "card",
+    shape: "card",
+    text: "Can we move the design review to Thursday afternoon? I still need the latest mockups from Anna before we meet.",
+  }),
+  cardMore: state({
+    phase: "card",
+    shape: "card",
+    text: "Short one.",
+    more: 2,
+  }),
+  cardCopied: state({
+    phase: "card",
+    shape: "card",
+    text: "Short one.",
+    copied: true,
+  }),
+  downloadFailed: state({
+    phase: "message",
+    shape: "message",
+    message: "download_failed",
+    tone: "error",
+    fix: "retry_download",
+  }),
+  checkConnection: state({
+    phase: "message",
+    shape: "message",
+    message: "check_connection",
+    tone: "error",
+    fix: "retry_download",
+  }),
+  noSpace: state({
+    phase: "message",
+    shape: "message",
+    message: "no_space",
+    tone: "error",
+    fix: "retry_download",
   }),
 };
 
@@ -303,6 +348,115 @@ test("RTL locales mirror the hands-free buttons", async ({ page, ipc }) => {
   const cancel = await page.getByTestId("wb-pill-cancel").boundingBox();
   const finish = await page.getByTestId("wb-pill-finish").boundingBox();
   expect(cancel!.x).toBeGreaterThan(finish!.x);
+});
+
+test.describe("S-07a: setting up and the card", () => {
+  test("setting up shows the progress and no model name", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, STATES.settingUp);
+    const setup = page.getByTestId("wb-pill-setup");
+    await expect(setup).toContainText("Setting up… 42%");
+    await expect(setup).toHaveAttribute("role", "status");
+    await expect(setup).not.toContainText(/whisper|parakeet/i);
+    await ipc.emit("fork-pill-state", { ...STATES.settingUpStarting, seq: 2 });
+    await expect(setup).toContainText("Setting up…");
+    await expect(setup).not.toContainText("%");
+    await page.getByRole("button", { name: "Dismiss" }).click();
+    await ipc.expectCalled("fork_pill_action", { action: "dismiss" });
+  });
+
+  test("the card shows the text, Copy and Dismiss", async ({ page, ipc }) => {
+    await openPill(page, ipc, STATES.card);
+    await expect(page.getByTestId("wb-pill-card-text")).toContainText(
+      "design review",
+    );
+    await expect(page.getByTestId("wb-pill-card")).toContainText(
+      "Your dictation",
+    );
+    // Long text is clamped to two lines inside the card.
+    const text = page.getByTestId("wb-pill-card-text");
+    const box = await text.boundingBox();
+    expect(box!.height).toBeLessThanOrEqual(geometry.shapes.card.h);
+    await page.getByRole("button", { name: "Copy" }).click();
+    await ipc.expectCalled("fork_pill_action", { action: "copy" });
+    await page.getByRole("button", { name: "Dismiss" }).click();
+    await ipc.expectCalled("fork_pill_action", { action: "dismiss" });
+  });
+
+  test("more takes in History, and Copied", async ({ page, ipc }) => {
+    await openPill(page, ipc, STATES.cardMore);
+    await expect(page.getByTestId("wb-pill-card")).toContainText(
+      "2 more in History",
+    );
+    await ipc.emit("fork-pill-state", { ...STATES.cardCopied, seq: 2 });
+    await expect(page.getByTestId("wb-pill-copy")).toHaveText("Copied");
+  });
+
+  test("setup problems offer Retry", async ({ page, ipc }) => {
+    for (const [s, text] of [
+      [STATES.downloadFailed, "Couldn't download"],
+      [STATES.checkConnection, "Check your connection"],
+      [STATES.noSpace, "Not enough disk space"],
+    ] as const) {
+      await openPill(page, ipc, s);
+      await expect(page.getByTestId("wb-pill-message")).toContainText(text);
+      await expect(page.getByTestId("wb-pill-message")).toHaveAttribute(
+        "role",
+        "alert",
+      );
+      await page.getByRole("button", { name: "Retry" }).click();
+      await ipc.expectCalled("fork_pill_action", { action: "fix" });
+    }
+  });
+
+  test("keyboard only: Copy and Dismiss act on Enter and Space", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, STATES.card);
+    // As for the hands-free buttons: the panel never becomes key, so focus
+    // starts on the first button (VoiceOver users reach it the same way).
+    const copy = page.getByRole("button", { name: "Copy" });
+    await copy.focus();
+    await expect(copy).toBeFocused();
+    await page.keyboard.press("Enter");
+    await ipc.expectCalled("fork_pill_action", { action: "copy" });
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("button", { name: "Dismiss" })).toBeFocused();
+    await page.keyboard.press("Space");
+    await ipc.expectCalled("fork_pill_action", { action: "dismiss" });
+  });
+
+  test("RTL mirrors the card and setting up", async ({ page, ipc }) => {
+    await openPill(page, ipc, STATES.card);
+    await page.evaluate(() => {
+      document.documentElement.dir = "rtl";
+    });
+    const text = await page.getByTestId("wb-pill-card").boundingBox();
+    const close = await page.getByTestId("wb-pill-dismiss").boundingBox();
+    expect(text!.x).toBeGreaterThan(close!.x);
+    await openPill(page, ipc, STATES.settingUp);
+    await page.evaluate(() => {
+      document.documentElement.dir = "rtl";
+    });
+    const setup = await page.getByTestId("wb-pill-setup").boundingBox();
+    const dismiss = await page.getByTestId("wb-pill-dismiss").boundingBox();
+    expect(setup!.x).toBeGreaterThan(dismiss!.x);
+  });
+
+  test("the progress ring is still under reduced motion", async ({
+    page,
+    ipc,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await openPill(page, ipc, STATES.settingUpStarting);
+    await expect(page.locator(".wb-pill-ring")).toHaveCSS(
+      "animation-name",
+      "none",
+    );
+  });
 });
 
 test.describe("screenshots", () => {

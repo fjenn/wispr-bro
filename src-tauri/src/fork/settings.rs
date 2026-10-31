@@ -1418,7 +1418,7 @@ pub fn on_ready<R: super::ForkRuntime>(app: &tauri::AppHandle<R>) -> Option<Prod
         return None;
     };
     let identifier = app.config().identifier.clone();
-    if identifier != PRODUCT_IDENTIFIER {
+    if !super::is_product_identity(&identifier) {
         log::warn!(
             "fork settings: running as {identifier:?}, not {PRODUCT_IDENTIFIER:?}; not touching Handy's settings (build with the identity overlay)"
         );

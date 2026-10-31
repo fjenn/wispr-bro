@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "받아쓰기를 설정하는 중입니다. 말씀하신 내용이 저장되었습니다.",
+        "card": "받아쓰기가 준비되었습니다. 막대에서 복사하세요."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "다운로드할 수 없음",
+        "check_connection": "다운로드할 수 없습니다. 연결을 확인하세요.",
+        "no_space": "받아쓰기를 설정할 디스크 공간이 부족합니다"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "설정 중…",
+    "settingUpPercent": "설정 중… {{percent}}%",
+    "settingUpHint": "말씀하신 내용이 저장되었습니다. 받아쓰기가 준비되면 텍스트가 여기에 표시됩니다.",
+    "cardReady": "받아쓰기 결과",
+    "cardMore_one": "받아쓰기 결과 · 기록에 {{count}}개 더 있음",
+    "cardMore_other": "받아쓰기 결과 · 기록에 {{count}}개 더 있음",
+    "copy": "복사",
+    "copied": "복사됨",
+    "retry": "다시 시도"
   },
   "overrides": {
     "onboarding": {

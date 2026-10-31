@@ -378,7 +378,9 @@
         "cleaningUp": "Cleaning up your text",
         "cancelled": "Dictation cancelled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes."
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Configurando el dictado. Tus palabras están guardadas.",
+        "card": "Tu dictado está listo. Cópialo desde la barra."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -388,7 +390,10 @@
         "transcription_failed": "Couldn't transcribe that",
         "mic_denied": "Microphone access is off",
         "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start"
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "No se pudo descargar",
+        "check_connection": "No se pudo descargar. Revisa tu conexión.",
+        "no_space": "No hay espacio suficiente en el disco para configurar el dictado"
       }
     }
   },
@@ -648,7 +653,16 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes"
-    }
+    },
+    "settingUp": "Configurando…",
+    "settingUpPercent": "Configurando… {{percent}} %",
+    "settingUpHint": "Tus palabras están guardadas. El texto aparecerá aquí cuando el dictado esté listo.",
+    "cardReady": "Tu dictado",
+    "cardMore_one": "Tu dictado · {{count}} más en el historial",
+    "cardMore_other": "Tu dictado · {{count}} más en el historial",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "retry": "Reintentar"
   },
   "overrides": {
     "onboarding": {
