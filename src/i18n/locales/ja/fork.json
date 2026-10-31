@@ -53,6 +53,7 @@
       "loadError": "Could not read the settings: {{message}}",
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -443,6 +444,10 @@
           "body": "よく使う名前や用語を追加することで、常に正しいようにスペルできます。"
         }
       },
+      "slowerMac": {
+        "title": "このMacでは、ディクテーションが遅くなる可能性があります",
+        "body": "このMacで使用可能な話すモデルは、あなたの言語に対応していません。そのため、最も速いモデルが使用されます。テキストが表示されるまで少し時間がかかります。"
+      },
       "features": {
         "inbox": {
           "title": "あなたの通知はここにあります",
@@ -458,10 +463,6 @@
         "title_one": "アプリを終了したときに録音が保存されました",
         "title_other": "アプリを終了したときに{{count}}録音が保存されました",
         "body": "{{appName}}が閉じたとき、まだ記録されていた。履歴に保存されて、テキストに変換されています。"
-      },
-      "slowerMac": {
-        "title": "このMacでは、ディクテーションが遅くなる可能性があります",
-        "body": "このMacで使用可能な話すモデルは、あなたの言語に対応していません。そのため、最も速いモデルが使用されます。テキストが表示されるまで少し時間がかかります。"
       }
     },
     "pill": {
@@ -508,106 +509,38 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro は新しい種類のモデルを使用するようになりました。文字起こしを続けるには、新しいバージョンをダウンロードしてください。古いバージョンは削除されます。"
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Wispr Bro があなたの声を聞くために必要です。音声はこのコンピューター上でテキストに変換され、アップロードされることはありません。"
-        },
-        "accessibility": {
-          "why": "どのアプリでもショートカットが使え、Wispr Bro がカーソル位置にテキストを入力できるようにします。"
-        },
-        "turnOnMac": "システム設定で Wispr Bro をオンにして、ここに戻ってください。",
-        "relaunch": "このあとショートカットが反応しない場合は、<relaunch>Wispr Bro を再起動</relaunch>してください。この画面にすぐ戻れます。"
-      },
-      "welcome": {
-        "noMatch": "「{{query}}」に一致する言語はありません。Wispr Bro のモデルは約100言語に対応しており、ほかの言語は設定から選べます。",
-        "chinese": {
-          "question": "{{languages}}を話しますね。Wispr Bro にはどの文字で書かせますか?"
-        }
-      },
-      "try": {
-        "subtitle": "画面の隅から Wispr Bro が案内します"
-      },
-      "done": {
-        "subMac": "Wispr Bro はメニューバーにいます。どのアプリでも <keys/> を押したまま、またはタップして話してください。",
-        "subTray": "Wispr Bro はシステムトレイにいます。どのアプリでも <keys/> を押したまま、またはタップして話してください。",
-        "atLogin": "ログイン時に Wispr Bro を起動する",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "speechModels": {
+    "title": "スピーチモデル",
+    "intro": "{{appName}} はあなたの言語とこの Mac 用に話すモデルを選択し、改善されたモデルに切り替えることができます。選ぶ必要はありません。",
+    "loading": "スピーチモデルを確認中…",
+    "current": "現在使用中: {{name}}",
+    "none": "まだスピーチモデルがありません",
+    "phase": {
+      "checking": "どのモデルがこのMacに適しているか確認中…",
+      "settled": "これは、このMacで使用する言語に最適なモデルです。",
+      "downloading": "バックグラウンドでより良いモデルをダウンロード中… {{percent}}%",
+      "downloadingNoPercent": "バックグラウンドでより良いモデルをダウンロード中…",
+      "waiting_to_swap": "より良いモデルが準備ができました。話すときではありませんが、切り替わります。",
+      "paused": "より良いモデルがダウンロードできませんでした。あとで再試行されます。"
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro ショートカット"
-        },
-        "preferredLanguages": {
-          "description": "あなたが話す言語です。Wispr Bro はこれをもとにモデルをおすすめします。"
-        }
-      },
-      "models": {
-        "untestedNote": "Wispr Bro ではテストされていません。速度が遅かったり、間違いが多かったりする可能性があります。",
-        "emptyYours": "モデルはまだありません。下から選ぶとダウンロードされ、Wispr Bro が使用します。",
-        "deleteAskActive": "{{name}} を削除しますか? ほかのモデルを選ぶまで、Wispr Bro は文字起こしできません。",
-        "retiredNotice": {
-          "title": "古いモデルは Wispr Bro で使用できなくなりました"
-        },
-        "rescan": {
-          "tooltip": "Wispr Bro を使わずに models フォルダーまたは Hugging Face キャッシュに追加されたモデルを再スキャンします"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "コンピューターにログインしたときに Wispr Bro を自動的に起動。"
-        },
-        "showTrayIcon": {
-          "description": "システムトレイに Wispr Bro のアイコンを表示します。"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Wispr Bro の新しいバージョンを自動的にチェック",
-          "lockedDescription": "システム設定により無効化されています (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "キーボードイベントが Wispr Bro に届いているかを確認します。記録されるのはイベント数のみで、押したキーの内容は記録されません。",
-          "verdictOk": "キーイベントは Wispr Bro に正常に届いています。"
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro の現在のバージョン"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro のアップデート後にリリースノートを表示"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro がデータを保存する場所"
-        },
-        "supportDevelopment": {
-          "description": "Wispr Bro の開発を支援してください"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro のローカルの音声からテキストへの文字起こしは transcribe.cpp と ggml を基盤としています。Georgi Gerganov 氏と貢献者の皆様の素晴らしい仕事に感謝します。"
-          }
-        }
-      }
+    "next": "次: {{name}}",
+    "progressLabel": "より良いスピーチモデルのダウンロード",
+    "slower": "このMacでは、辞書が遅くなる可能性があります：あなたの言語に対応するモデルが十分に速くないため、最も速いモデルが使用されます。",
+    "pinned": "このモデルは自分で選ばれたので、{{appName}}はそのままにします。",
+    "automatic": "モデルを自動的に選ぶ",
+    "automaticHint": "下記のリストからモデルを選択すると、自動的にオフになります。",
+    "languages": "言語: {{languages}}",
+    "machine": "このMac：{{chip}}, {{ram}} GBメモリ",
+    "freeDisk": "{{gb}} GB がモデル用に無料",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intelプロセッサ"
     },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} の新機能"
-    },
-    "appLanguage": {
-      "description": "Wispr Bro インターフェースの言語を変更"
-    },
-    "theme": {
-      "description": "Wispr Bro をシステムのテーマに合わせるか、ライトまたはダークで固定するかを選択します"
-    }
+    "list": "すべてのモデル"
   },
   "aiEngine": {
     "title": "AIエンジン",
@@ -864,6 +797,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1283,39 +1217,6 @@
       "openDictionary": "辞書を開く"
     }
   },
-  "speechModels": {
-    "title": "スピーチモデル",
-    "intro": "{{appName}} はあなたの言語とこの Mac 用に話すモデルを選択し、改善されたモデルに切り替えることができます。選ぶ必要はありません。",
-    "loading": "スピーチモデルを確認中…",
-    "current": "現在使用中: {{name}}",
-    "none": "まだスピーチモデルがありません",
-    "phase": {
-      "checking": "どのモデルがこのMacに適しているか確認中…",
-      "settled": "これは、このMacで使用する言語に最適なモデルです。",
-      "downloading": "バックグラウンドでより良いモデルをダウンロード中… {{percent}}%",
-      "downloadingNoPercent": "バックグラウンドでより良いモデルをダウンロード中…",
-      "waiting_to_swap": "より良いモデルが準備ができました。話すときではありませんが、切り替わります。",
-      "paused": "より良いモデルがダウンロードできませんでした。あとで再試行されます。"
-    },
-    "next": "次: {{name}}",
-    "progressLabel": "より良いスピーチモデルのダウンロード",
-    "slower": "このMacでは、辞書が遅くなる可能性があります：あなたの言語に対応するモデルが十分に速くないため、最も速いモデルが使用されます。",
-    "pinned": "このモデルは自分で選ばれたので、{{appName}}はそのままにします。",
-    "automatic": "モデルを自動的に選ぶ",
-    "automaticHint": "下記のリストからモデルを選択すると、自動的にオフになります。",
-    "languages": "言語: {{languages}}",
-    "machine": "このMac：{{chip}}, {{ram}} GBメモリ",
-    "freeDisk": "{{gb}} GB がモデル用に無料",
-    "chip": {
-      "apple": "Apple M{{generation}}",
-      "apple_pro": "Apple M{{generation}} Pro",
-      "apple_max": "Apple M{{generation}} Max",
-      "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple silicon",
-      "intel": "Intelプロセッサ"
-    },
-    "list": "すべてのモデル"
-  },
   "style": {
     "tabsLabel": "スタイルグループ",
     "groups": {
@@ -1401,6 +1302,107 @@
     "cleanup": {
       "tab": "クリーンアップ",
       "description": "どのくらいあなたの言葉が整えられるか、すべてのアプリとすべての言語で。各グループのスタイルが上書きされます。"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro は新しい種類のモデルを使用するようになりました。文字起こしを続けるには、新しいバージョンをダウンロードしてください。古いバージョンは削除されます。"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Wispr Bro があなたの声を聞くために必要です。音声はこのコンピューター上でテキストに変換され、アップロードされることはありません。"
+        },
+        "accessibility": {
+          "why": "どのアプリでもショートカットが使え、Wispr Bro がカーソル位置にテキストを入力できるようにします。"
+        },
+        "turnOnMac": "システム設定で Wispr Bro をオンにして、ここに戻ってください。",
+        "relaunch": "このあとショートカットが反応しない場合は、<relaunch>Wispr Bro を再起動</relaunch>してください。この画面にすぐ戻れます。"
+      },
+      "welcome": {
+        "noMatch": "「{{query}}」に一致する言語はありません。Wispr Bro のモデルは約100言語に対応しており、ほかの言語は設定から選べます。",
+        "chinese": {
+          "question": "{{languages}}を話しますね。Wispr Bro にはどの文字で書かせますか?"
+        }
+      },
+      "try": {
+        "subtitle": "画面の隅から Wispr Bro が案内します"
+      },
+      "done": {
+        "subMac": "Wispr Bro はメニューバーにいます。どのアプリでも <keys/> を押したまま、またはタップして話してください。",
+        "subTray": "Wispr Bro はシステムトレイにいます。どのアプリでも <keys/> を押したまま、またはタップして話してください。",
+        "atLogin": "ログイン時に Wispr Bro を起動する",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro ショートカット"
+        },
+        "preferredLanguages": {
+          "description": "あなたが話す言語です。Wispr Bro はこれをもとにモデルをおすすめします。"
+        }
+      },
+      "models": {
+        "untestedNote": "Wispr Bro ではテストされていません。速度が遅かったり、間違いが多かったりする可能性があります。",
+        "emptyYours": "モデルはまだありません。下から選ぶとダウンロードされ、Wispr Bro が使用します。",
+        "deleteAskActive": "{{name}} を削除しますか? ほかのモデルを選ぶまで、Wispr Bro は文字起こしできません。",
+        "retiredNotice": {
+          "title": "古いモデルは Wispr Bro で使用できなくなりました"
+        },
+        "rescan": {
+          "tooltip": "Wispr Bro を使わずに models フォルダーまたは Hugging Face キャッシュに追加されたモデルを再スキャンします"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "コンピューターにログインしたときに Wispr Bro を自動的に起動。"
+        },
+        "showTrayIcon": {
+          "description": "システムトレイに Wispr Bro のアイコンを表示します。"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Wispr Bro の新しいバージョンを自動的にチェック",
+          "lockedDescription": "システム設定により無効化されています (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "キーボードイベントが Wispr Bro に届いているかを確認します。記録されるのはイベント数のみで、押したキーの内容は記録されません。",
+          "verdictOk": "キーイベントは Wispr Bro に正常に届いています。"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro の現在のバージョン"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro のアップデート後にリリースノートを表示"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro がデータを保存する場所"
+        },
+        "supportDevelopment": {
+          "description": "Wispr Bro の開発を支援してください"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro のローカルの音声からテキストへの文字起こしは transcribe.cpp と ggml を基盤としています。Georgi Gerganov 氏と貢献者の皆様の素晴らしい仕事に感謝します。"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} の新機能"
+    },
+    "appLanguage": {
+      "description": "Wispr Bro インターフェースの言語を変更"
+    },
+    "theme": {
+      "description": "Wispr Bro をシステムのテーマに合わせるか、ライトまたはダークで固定するかを選択します"
     }
   }
 }

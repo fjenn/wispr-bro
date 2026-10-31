@@ -53,6 +53,7 @@
       "loadError": "Could not read the settings: {{message}}",
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -443,6 +444,10 @@
           "body": "अक्सर प्रयोग गर्ने नाम र शब्दहरू थप गर्नुहोस जब ती सही लेखिन्छ।"
         }
       },
+      "slowerMac": {
+        "title": "माइक्रोसॉफ्ट यस मेक पर डिक्टेशन धीमा हुन सक्छ",
+        "body": "एहि मेक लागि तपाईंको भाषा सभ लेख्ने मोडल अत्यधिक तेज होइन, त्यसैले सबैभन्दा तेज मोडल प्रयोग गरिन्छ। टेक्स्ट देखि अगाडि लेख्ने अवधि बढी हुन सक्छ।"
+      },
       "features": {
         "inbox": {
           "title": "आपका संदेश सेवा यहाँ छला",
@@ -458,10 +463,6 @@
         "title_one": "एक रिकॉर्डिंग बचाइए गए जब एप्लिकेशन बन्द भएको",
         "title_other": "{{count}} रेकर्डिंग सेव गरिएका छन् जब एप बन्द भयो",
         "body": "They were still recording when {{appName}} closed. They are in History, where they are transcribed."
-      },
-      "slowerMac": {
-        "title": "माइक्रोसॉफ्ट यस मेक पर डिक्टेशन धीमा हुन सक्छ",
-        "body": "एहि मेक लागि तपाईंको भाषा सभ लेख्ने मोडल अत्यधिक तेज होइन, त्यसैले सबैभन्दा तेज मोडल प्रयोग गरिन्छ। टेक्स्ट देखि अगाडि लेख्ने अवधि बढी हुन सक्छ।"
       }
     },
     "pill": {
@@ -508,106 +509,38 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro ले अब नयाँ प्रकारको मोडेल प्रयोग गर्छ। ट्रान्सक्राइब गर्न जारी राख्न नयाँ संस्करण डाउनलोड गर्नुहोस्। पुराना संस्करणहरू हटाइनेछन्।"
-      },
-      "permissions": {
-        "microphone": {
-          "why": "ताकि Wispr Bro ले तपाईंलाई सुन्न सकोस्। अडियो यही कम्प्युटरमा टेक्स्टमा बदलिन्छ र कहिल्यै अपलोड गरिँदैन।"
-        },
-        "accessibility": {
-          "why": "ताकि तपाईंको सर्टकट हरेक एपमा चलोस्, र Wispr Bro ले कर्सर भएको ठाउँमा टेक्स्ट टाइप गर्न सकोस्।"
-        },
-        "turnOnMac": "System Settings मा Wispr Bro अन गर्नुहोस्, अनि यहाँ फर्कनुहोस्।",
-        "relaunch": "यसपछि सर्टकटले काम गरेन? <relaunch>Wispr Bro फेरि सुरु गर्नुहोस्</relaunch> र तपाईं ठ्याक्कै यहीँ फर्कनुहुनेछ।"
-      },
-      "welcome": {
-        "noMatch": "“{{query}}” सँग मिल्ने कुनै भाषा छैन। Wispr Bro का मोडेलहरूले करिब १०० भाषा समेट्छन्; थप भाषाहरू सेटिङमा छन्।",
-        "chinese": {
-          "question": "तपाईं {{languages}} बोल्नुहुन्छ। Wispr Bro ले कुन अक्षर लेखोस्?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro कुनामा छ, तपाईंलाई बाटो देखाउन"
-      },
-      "done": {
-        "subMac": "Wispr Bro अब तपाईंको मेनु बारमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
-        "subTray": "Wispr Bro अब तपाईंको सिस्टम ट्रेमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
-        "atLogin": "लग इन गर्दा Wispr Bro सुरु गर्नुहोस्",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "speechModels": {
+    "title": "स्पीच मोडल",
+    "intro": "Wispr Bro {{appName}} तपाईंको भाषा र यो Mac का लेल भाषा मोड चयन गर्छ र जब सम्भव छ भने अच्छो मोड बदल्छ। तपाईंको कुनै चयन गर्नुपर्दैन।",
+    "loading": "स्पीच मोडल चेक गर्दै छ…",
+    "current": "अपयोग: {{name}}",
+    "none": "अब स्पीच मोडल छैन",
+    "phase": {
+      "checking": "अहिए गर्ने मोडल के यस Mac सँ अनुकूल छ त जाँच गर्दैछ…",
+      "settled": "यो तपाईंको भाषामा यस Mac लागि सबैभन्दा राम्रो मोडेल हो।",
+      "downloading": "पृष्ठभूत एक बेहतर मोडल डाउनलोड गर्दै छ… {{percent}}%",
+      "downloadingNoPercent": "पीछे बाट एक बेहतर मोडल डाउनलोड गर्दै छ…",
+      "waiting_to_swap": "एक बेहतर मोडल तयार छ। आप बोल्नु छैन तर बदल्ने देखि बदल्ने छ।",
+      "paused": "अति बेहतर मोडल डाउनलोड गर्न सकिएको छैन। अगाडि देखि पुनर्प्रयोग गरिन्छ।"
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro सर्टकटहरू"
-        },
-        "preferredLanguages": {
-          "description": "तपाईंले बोल्ने भाषाहरू। Wispr Bro ले यिनको आधारमा मोडेल सिफारिस गर्छ।"
-        }
-      },
-      "models": {
-        "untestedNote": "Wispr Bro मा परीक्षण गरिएको छैन। यिनी ढिलो हुन सक्छन् वा बढी गल्ती गर्न सक्छन्।",
-        "emptyYours": "अहिलेसम्म कुनै मोडेल छैन। तल एउटा छान्नुहोस्: त्यो डाउनलोड हुन्छ, अनि Wispr Bro ले प्रयोग गर्छ।",
-        "deleteAskActive": "{{name}} मेटाउने? अर्को मोडेल नछान्दासम्म Wispr Bro ले ट्रान्सक्राइब गर्न सक्दैन।",
-        "retiredNotice": {
-          "title": "पुराना मोडेलहरूले अब Wispr Bro सँग काम गर्दैनन्"
-        },
-        "rescan": {
-          "tooltip": "Wispr Bro बाहिरबाट मोडेल फोल्डर वा Hugging Face क्यासमा थपिएका मोडेलहरू फेरि स्क्यान गर्नुहोस्"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "कम्प्युटरमा लगइन गर्दा Wispr Bro स्वतः सुरु गर्नुहोस्।"
-        },
-        "showTrayIcon": {
-          "description": "सिस्टम ट्रेमा Wispr Bro आइकन देखाउनुहोस्।"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Wispr Bro को नयाँ संस्करण स्वतः जाँच गर्नुहोस्",
-          "lockedDescription": "प्रणाली कन्फिगरेसनद्वारा असक्षम पारिएको (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "किबोर्ड इभेन्टहरू Wispr Bro सम्म पुग्छन् कि पुग्दैनन् भनी जाँच्छ। इभेन्टको संख्या मात्र रेकर्ड हुन्छ — तपाईंले कुन कुञ्जी थिच्नुभयो भन्ने कहिल्यै होइन।",
-          "verdictOk": "कुञ्जी इभेन्टहरू Wispr Bro सम्म सामान्य रूपमा पुगिरहेका छन्।"
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro को हालको संस्करण"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro अपडेट भएपछि रिलिज नोटहरू देखाउनुहोस्"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro ले आफ्नो डेटा भण्डारण गर्ने स्थान"
-        },
-        "supportDevelopment": {
-          "description": "Wispr Bro निर्माण जारी राख्न हामीलाई सहयोग गर्नुहोस्"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
-          }
-        }
-      }
+    "next": "अगाडि: {{name}}",
+    "progressLabel": "सुधारिएको भाषा मोडल डाउनलोड",
+    "slower": "माइक्रोसॉफ्टमा भाषण धेरै धीमा हुन सक्छ: तपाईंको भाषा लागि कोनो मोडल त्वरित छैन, त्यसैले सबैभन्दा त्वरित मोडल प्रयोग गरिन्छ।",
+    "pinned": "तपाईंले यो मोडल आफैं चयन गरेको छ, त्यसैले {{appName}} त्यसलाई बिर्साउँदै छ।",
+    "automatic": "अटोमेटिक गर्नुहोस",
+    "automaticHint": "Turned off when you pick a model in the list below.",
+    "languages": "लेख: {{languages}}",
+    "machine": "यस मेक: {{chip}}, {{ram}} जीबी मेमोरी",
+    "freeDisk": "{{gb}} GB मा मोडलको खाली स्थान",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
     },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} मा नयाँ"
-    },
-    "appLanguage": {
-      "description": "Wispr Bro इन्टरफेसको भाषा परिवर्तन गर्नुहोस्"
-    },
-    "theme": {
-      "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
-    }
+    "list": "सभ नमूना"
   },
   "aiEngine": {
     "title": "AI engine",
@@ -864,6 +797,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1283,39 +1217,6 @@
       "openDictionary": "दिशा खोल्नुहोस"
     }
   },
-  "speechModels": {
-    "title": "स्पीच मोडल",
-    "intro": "Wispr Bro {{appName}} तपाईंको भाषा र यो Mac का लेल भाषा मोड चयन गर्छ र जब सम्भव छ भने अच्छो मोड बदल्छ। तपाईंको कुनै चयन गर्नुपर्दैन।",
-    "loading": "स्पीच मोडल चेक गर्दै छ…",
-    "current": "अपयोग: {{name}}",
-    "none": "अब स्पीच मोडल छैन",
-    "phase": {
-      "checking": "अहिए गर्ने मोडल के यस Mac सँ अनुकूल छ त जाँच गर्दैछ…",
-      "settled": "यो तपाईंको भाषामा यस Mac लागि सबैभन्दा राम्रो मोडेल हो।",
-      "downloading": "पृष्ठभूत एक बेहतर मोडल डाउनलोड गर्दै छ… {{percent}}%",
-      "downloadingNoPercent": "पीछे बाट एक बेहतर मोडल डाउनलोड गर्दै छ…",
-      "waiting_to_swap": "एक बेहतर मोडल तयार छ। आप बोल्नु छैन तर बदल्ने देखि बदल्ने छ।",
-      "paused": "अति बेहतर मोडल डाउनलोड गर्न सकिएको छैन। अगाडि देखि पुनर्प्रयोग गरिन्छ।"
-    },
-    "next": "अगाडि: {{name}}",
-    "progressLabel": "सुधारिएको भाषा मोडल डाउनलोड",
-    "slower": "माइक्रोसॉफ्टमा भाषण धेरै धीमा हुन सक्छ: तपाईंको भाषा लागि कोनो मोडल त्वरित छैन, त्यसैले सबैभन्दा त्वरित मोडल प्रयोग गरिन्छ।",
-    "pinned": "तपाईंले यो मोडल आफैं चयन गरेको छ, त्यसैले {{appName}} त्यसलाई बिर्साउँदै छ।",
-    "automatic": "अटोमेटिक गर्नुहोस",
-    "automaticHint": "Turned off when you pick a model in the list below.",
-    "languages": "लेख: {{languages}}",
-    "machine": "यस मेक: {{chip}}, {{ram}} जीबी मेमोरी",
-    "freeDisk": "{{gb}} GB मा मोडलको खाली स्थान",
-    "chip": {
-      "apple": "Apple M{{generation}}",
-      "apple_pro": "Apple M{{generation}} Pro",
-      "apple_max": "Apple M{{generation}} Max",
-      "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple silicon",
-      "intel": "Intel processor"
-    },
-    "list": "सभ नमूना"
-  },
   "style": {
     "tabsLabel": "स्टाइल गुट",
     "groups": {
@@ -1401,6 +1302,107 @@
     "cleanup": {
       "tab": "स्वच्छता",
       "description": "हरूको शब्दहरू कति साफ गरिएका छन्, सभ प्रयोग र सभ भाषामा। प्रत्येक समूहको शैली तात्कालिक लगायित छ।"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro ले अब नयाँ प्रकारको मोडेल प्रयोग गर्छ। ट्रान्सक्राइब गर्न जारी राख्न नयाँ संस्करण डाउनलोड गर्नुहोस्। पुराना संस्करणहरू हटाइनेछन्।"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "ताकि Wispr Bro ले तपाईंलाई सुन्न सकोस्। अडियो यही कम्प्युटरमा टेक्स्टमा बदलिन्छ र कहिल्यै अपलोड गरिँदैन।"
+        },
+        "accessibility": {
+          "why": "ताकि तपाईंको सर्टकट हरेक एपमा चलोस्, र Wispr Bro ले कर्सर भएको ठाउँमा टेक्स्ट टाइप गर्न सकोस्।"
+        },
+        "turnOnMac": "System Settings मा Wispr Bro अन गर्नुहोस्, अनि यहाँ फर्कनुहोस्।",
+        "relaunch": "यसपछि सर्टकटले काम गरेन? <relaunch>Wispr Bro फेरि सुरु गर्नुहोस्</relaunch> र तपाईं ठ्याक्कै यहीँ फर्कनुहुनेछ।"
+      },
+      "welcome": {
+        "noMatch": "“{{query}}” सँग मिल्ने कुनै भाषा छैन। Wispr Bro का मोडेलहरूले करिब १०० भाषा समेट्छन्; थप भाषाहरू सेटिङमा छन्।",
+        "chinese": {
+          "question": "तपाईं {{languages}} बोल्नुहुन्छ। Wispr Bro ले कुन अक्षर लेखोस्?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro कुनामा छ, तपाईंलाई बाटो देखाउन"
+      },
+      "done": {
+        "subMac": "Wispr Bro अब तपाईंको मेनु बारमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
+        "subTray": "Wispr Bro अब तपाईंको सिस्टम ट्रेमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
+        "atLogin": "लग इन गर्दा Wispr Bro सुरु गर्नुहोस्",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro सर्टकटहरू"
+        },
+        "preferredLanguages": {
+          "description": "तपाईंले बोल्ने भाषाहरू। Wispr Bro ले यिनको आधारमा मोडेल सिफारिस गर्छ।"
+        }
+      },
+      "models": {
+        "untestedNote": "Wispr Bro मा परीक्षण गरिएको छैन। यिनी ढिलो हुन सक्छन् वा बढी गल्ती गर्न सक्छन्।",
+        "emptyYours": "अहिलेसम्म कुनै मोडेल छैन। तल एउटा छान्नुहोस्: त्यो डाउनलोड हुन्छ, अनि Wispr Bro ले प्रयोग गर्छ।",
+        "deleteAskActive": "{{name}} मेटाउने? अर्को मोडेल नछान्दासम्म Wispr Bro ले ट्रान्सक्राइब गर्न सक्दैन।",
+        "retiredNotice": {
+          "title": "पुराना मोडेलहरूले अब Wispr Bro सँग काम गर्दैनन्"
+        },
+        "rescan": {
+          "tooltip": "Wispr Bro बाहिरबाट मोडेल फोल्डर वा Hugging Face क्यासमा थपिएका मोडेलहरू फेरि स्क्यान गर्नुहोस्"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "कम्प्युटरमा लगइन गर्दा Wispr Bro स्वतः सुरु गर्नुहोस्।"
+        },
+        "showTrayIcon": {
+          "description": "सिस्टम ट्रेमा Wispr Bro आइकन देखाउनुहोस्।"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Wispr Bro को नयाँ संस्करण स्वतः जाँच गर्नुहोस्",
+          "lockedDescription": "प्रणाली कन्फिगरेसनद्वारा असक्षम पारिएको (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "किबोर्ड इभेन्टहरू Wispr Bro सम्म पुग्छन् कि पुग्दैनन् भनी जाँच्छ। इभेन्टको संख्या मात्र रेकर्ड हुन्छ — तपाईंले कुन कुञ्जी थिच्नुभयो भन्ने कहिल्यै होइन।",
+          "verdictOk": "कुञ्जी इभेन्टहरू Wispr Bro सम्म सामान्य रूपमा पुगिरहेका छन्।"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro को हालको संस्करण"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro अपडेट भएपछि रिलिज नोटहरू देखाउनुहोस्"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro ले आफ्नो डेटा भण्डारण गर्ने स्थान"
+        },
+        "supportDevelopment": {
+          "description": "Wispr Bro निर्माण जारी राख्न हामीलाई सहयोग गर्नुहोस्"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} मा नयाँ"
+    },
+    "appLanguage": {
+      "description": "Wispr Bro इन्टरफेसको भाषा परिवर्तन गर्नुहोस्"
+    },
+    "theme": {
+      "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
     }
   }
 }

@@ -53,6 +53,7 @@
       "loadError": "Could not read the settings: {{message}}",
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -443,6 +444,10 @@
           "body": "Додайте імена та терміни, які часто використовуєте, щоб вони правильно відображалися кожного разу."
         }
       },
+      "slowerMac": {
+        "title": "Дикція може бути повільнішою на цьому Mac",
+        "body": "Немає моделі мовлення, яка була б швидкою для ваших мов на цьому Mac, тому використовується найшвидша. Текст може з'являтися трохи пізніше."
+      },
       "features": {
         "inbox": {
           "title": "Ваші сповіщення тут",
@@ -458,10 +463,6 @@
         "title_one": "Запис було збережено, коли додаток вийшов",
         "title_other": "{{count}} записів було збережено, коли програма вийшла",
         "body": "Вони все ще записували, коли {{appName}} закрився. Вони є в Історії, де вони перекладаються."
-      },
-      "slowerMac": {
-        "title": "Дикція може бути повільнішою на цьому Mac",
-        "body": "Немає моделі мовлення, яка була б швидкою для ваших мов на цьому Mac, тому використовується найшвидша. Текст може з'являтися трохи пізніше."
       }
     },
     "pill": {
@@ -508,106 +509,38 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro тепер використовує моделі нового типу. Завантажте нову версію, щоб і далі транскрибувати. Старі версії буде видалено."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Щоб Wispr Bro міг вас чути. Звук перетворюється на текст на цьому комп'ютері й нікуди не надсилається."
-        },
-        "accessibility": {
-          "why": "Щоб ваша комбінація клавіш працювала в усіх програмах, а Wispr Bro міг вводити текст там, де стоїть курсор."
-        },
-        "turnOnMac": "Увімкніть Wispr Bro в Системних налаштуваннях і поверніться сюди.",
-        "relaunch": "Комбінація клавіш після цього не реагує? <relaunch>Перезапустіть Wispr Bro</relaunch>, і ви повернетеся просто сюди."
-      },
-      "welcome": {
-        "noMatch": "Жодна мова не відповідає «{{query}}». Моделі Wispr Bro охоплюють близько 100 мов; решту можна знайти в налаштуваннях.",
-        "chinese": {
-          "question": "Ви говорите такими мовами: {{languages}}. Якими ієрогліфами Wispr Bro має писати?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro в кутку допоможе вам пройти цей шлях"
-      },
-      "done": {
-        "subMac": "Wispr Bro тепер у рядку меню. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
-        "subTray": "Wispr Bro тепер у системному треї. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
-        "atLogin": "Запускати Wispr Bro під час входу в систему",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "speechModels": {
+    "title": "Моделі розпізнавання мови",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Перевірка моделей мовлення…",
+    "current": "У дії: {{name}}",
+    "none": "Ще немає моделі мовлення",
+    "phase": {
+      "checking": "Перевірка, який моделі підходить до цього Mac…",
+      "settled": "Цей моделю є найкращим для ваших мов на цьому Mac.",
+      "downloading": "Передбачається завантаження кращого моделі в фоновому режимі… {{percent}}%",
+      "downloadingNoPercent": "Передбачається завантаження кращого моделі в фоновому режимі…",
+      "waiting_to_swap": "Більш кращий моделює готовий. Він замінюється, коли ви не вводите голосом.",
+      "paused": "Краща модель не може бути завантажена. Спробується ще раз пізніше."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Комбінації клавіш"
-        },
-        "preferredLanguages": {
-          "description": "Мови, якими ви говорите. Wispr Bro використовує їх, щоб рекомендувати моделі."
-        }
-      },
-      "models": {
-        "untestedNote": "Не перевірені з Wispr Bro. Вони можуть працювати повільніше або робити більше помилок.",
-        "emptyYours": "Моделей поки немає. Оберіть одну нижче: вона завантажиться, і Wispr Bro її використає.",
-        "deleteAskActive": "Видалити {{name}}? Wispr Bro не зможе транскрибувати, доки ви не оберете іншу модель.",
-        "retiredNotice": {
-          "title": "Старі моделі більше не працюють з Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Пересканувати моделі, додані до папки моделей або кешу Hugging Face поза межами Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Автоматично запускати Wispr Bro при вході в систему"
-        },
-        "showTrayIcon": {
-          "description": "Відображати значок Wispr Bro у системному треї."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Автоматично перевіряти наявність нових версій Wispr Bro",
-          "lockedDescription": "Вимкнено системною конфігурацією (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Перевіряє, чи доходять події клавіатури до Wispr Bro. Записується лише кількість подій — ніколи те, які клавіші ви натискаєте.",
-          "verdictOk": "Події клавіш надходять до Wispr Bro нормально."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Поточна версія Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Показувати примітки до випуску після оновлень Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "Розташування даних Wispr Bro"
-        },
-        "supportDevelopment": {
-          "description": "Допоможіть нам продовжувати розвивати Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro використовує ggml для швидкої локальної обробки мовлення в текст. Дякуємо за чудову роботу Георгію Герганову та контриб'юторам."
-          }
-        }
-      }
+    "next": "Наступне: {{name}}",
+    "progressLabel": "Краща модель мовлення для завантаження",
+    "slower": "Дикція може бути повільнішою на цьому Mac: жодного моделю не вистачає для вашого мовлення, тому використовується найшвидший.",
+    "pinned": "Ви самі вибрали цю модель, тому {{appName}} її не змінює.",
+    "automatic": "Вибрати модель автоматично",
+    "automaticHint": "Вимкнено, коли ви виберете модель у списку нижче.",
+    "languages": "Для: {{languages}}",
+    "machine": "Цей Mac: {{chip}}, {{ram}} ГБ пам'яті",
+    "freeDisk": "{{gb}} ГБ вільного простору для моделей",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Процесор Intel"
     },
-    "whatsNew": {
-      "title": "Нове в Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Змінити мову інтерфейсу Wispr Bro"
-    },
-    "theme": {
-      "description": "Виберіть, чи має Wispr Bro слідувати темі системи, чи залишатися світлою або темною"
-    }
+    "list": "Усі моделі"
   },
   "aiEngine": {
     "title": "Енгін AI",
@@ -864,6 +797,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1283,39 +1217,6 @@
       "openDictionary": "Відкрити словник"
     }
   },
-  "speechModels": {
-    "title": "Моделі розпізнавання мови",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
-    "loading": "Перевірка моделей мовлення…",
-    "current": "У дії: {{name}}",
-    "none": "Ще немає моделі мовлення",
-    "phase": {
-      "checking": "Перевірка, який моделі підходить до цього Mac…",
-      "settled": "Цей моделю є найкращим для ваших мов на цьому Mac.",
-      "downloading": "Передбачається завантаження кращого моделі в фоновому режимі… {{percent}}%",
-      "downloadingNoPercent": "Передбачається завантаження кращого моделі в фоновому режимі…",
-      "waiting_to_swap": "Більш кращий моделює готовий. Він замінюється, коли ви не вводите голосом.",
-      "paused": "Краща модель не може бути завантажена. Спробується ще раз пізніше."
-    },
-    "next": "Наступне: {{name}}",
-    "progressLabel": "Краща модель мовлення для завантаження",
-    "slower": "Дикція може бути повільнішою на цьому Mac: жодного моделю не вистачає для вашого мовлення, тому використовується найшвидший.",
-    "pinned": "Ви самі вибрали цю модель, тому {{appName}} її не змінює.",
-    "automatic": "Вибрати модель автоматично",
-    "automaticHint": "Вимкнено, коли ви виберете модель у списку нижче.",
-    "languages": "Для: {{languages}}",
-    "machine": "Цей Mac: {{chip}}, {{ram}} ГБ пам'яті",
-    "freeDisk": "{{gb}} ГБ вільного простору для моделей",
-    "chip": {
-      "apple": "Apple M{{generation}}",
-      "apple_pro": "Apple M{{generation}} Pro",
-      "apple_max": "Apple M{{generation}} Max",
-      "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple silicon",
-      "intel": "Процесор Intel"
-    },
-    "list": "Усі моделі"
-  },
   "style": {
     "tabsLabel": "Групи стилів",
     "groups": {
@@ -1401,6 +1302,107 @@
     "cleanup": {
       "tab": "Очистити",
       "description": "Який рівень очищення твоїх слів у кожному додатку та кожній мові. Стиль кожного групу застосовується над іншим."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro тепер використовує моделі нового типу. Завантажте нову версію, щоб і далі транскрибувати. Старі версії буде видалено."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Щоб Wispr Bro міг вас чути. Звук перетворюється на текст на цьому комп'ютері й нікуди не надсилається."
+        },
+        "accessibility": {
+          "why": "Щоб ваша комбінація клавіш працювала в усіх програмах, а Wispr Bro міг вводити текст там, де стоїть курсор."
+        },
+        "turnOnMac": "Увімкніть Wispr Bro в Системних налаштуваннях і поверніться сюди.",
+        "relaunch": "Комбінація клавіш після цього не реагує? <relaunch>Перезапустіть Wispr Bro</relaunch>, і ви повернетеся просто сюди."
+      },
+      "welcome": {
+        "noMatch": "Жодна мова не відповідає «{{query}}». Моделі Wispr Bro охоплюють близько 100 мов; решту можна знайти в налаштуваннях.",
+        "chinese": {
+          "question": "Ви говорите такими мовами: {{languages}}. Якими ієрогліфами Wispr Bro має писати?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro в кутку допоможе вам пройти цей шлях"
+      },
+      "done": {
+        "subMac": "Wispr Bro тепер у рядку меню. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
+        "subTray": "Wispr Bro тепер у системному треї. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
+        "atLogin": "Запускати Wispr Bro під час входу в систему",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Комбінації клавіш"
+        },
+        "preferredLanguages": {
+          "description": "Мови, якими ви говорите. Wispr Bro використовує їх, щоб рекомендувати моделі."
+        }
+      },
+      "models": {
+        "untestedNote": "Не перевірені з Wispr Bro. Вони можуть працювати повільніше або робити більше помилок.",
+        "emptyYours": "Моделей поки немає. Оберіть одну нижче: вона завантажиться, і Wispr Bro її використає.",
+        "deleteAskActive": "Видалити {{name}}? Wispr Bro не зможе транскрибувати, доки ви не оберете іншу модель.",
+        "retiredNotice": {
+          "title": "Старі моделі більше не працюють з Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Пересканувати моделі, додані до папки моделей або кешу Hugging Face поза межами Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Автоматично запускати Wispr Bro при вході в систему"
+        },
+        "showTrayIcon": {
+          "description": "Відображати значок Wispr Bro у системному треї."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Автоматично перевіряти наявність нових версій Wispr Bro",
+          "lockedDescription": "Вимкнено системною конфігурацією (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Перевіряє, чи доходять події клавіатури до Wispr Bro. Записується лише кількість подій — ніколи те, які клавіші ви натискаєте.",
+          "verdictOk": "Події клавіш надходять до Wispr Bro нормально."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Поточна версія Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Показувати примітки до випуску після оновлень Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Розташування даних Wispr Bro"
+        },
+        "supportDevelopment": {
+          "description": "Допоможіть нам продовжувати розвивати Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro використовує ggml для швидкої локальної обробки мовлення в текст. Дякуємо за чудову роботу Георгію Герганову та контриб'юторам."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Нове в Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Змінити мову інтерфейсу Wispr Bro"
+    },
+    "theme": {
+      "description": "Виберіть, чи має Wispr Bro слідувати темі системи, чи залишатися світлою або темною"
     }
   }
 }

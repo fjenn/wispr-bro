@@ -53,6 +53,7 @@
       "loadError": "Could not read the settings: {{message}}",
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -443,6 +444,10 @@
           "body": "Aggiungi nomi e termini che usi spesso in modo che siano sempre scritti correttamente."
         }
       },
+      "slowerMac": {
+        "title": "La dictazione potrebbe essere più lenta su questo Mac",
+        "body": "Nessun modello di riconoscimento vocale è sufficientemente veloce per le tue lingue su questo Mac, quindi viene usato il più veloce. Il testo potrebbe richiedere un po' di tempo prima di apparire."
+      },
       "features": {
         "inbox": {
           "title": "Le tue notifiche sono qui",
@@ -458,10 +463,6 @@
         "title_one": "È stato salvato un'immagine quando è stato chiuso l'applicazione",
         "title_other": "Sono stati salvati {{count}} registrazioni quando è stato chiuso l'app",
         "body": "Stavano ancora registrando quando è stato chiuso {{appName}}. Sono nell'Historia, dove sono stati trascritti."
-      },
-      "slowerMac": {
-        "title": "La dictazione potrebbe essere più lenta su questo Mac",
-        "body": "Nessun modello di riconoscimento vocale è sufficientemente veloce per le tue lingue su questo Mac, quindi viene usato il più veloce. Il testo potrebbe richiedere un po' di tempo prima di apparire."
       }
     },
     "pill": {
@@ -508,106 +509,38 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro ora usa un nuovo tipo di modello. Scarica la nuova versione per continuare a trascrivere. Le versioni precedenti verranno rimosse."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Così Wispr Bro può sentirti. L'audio viene trasformato in testo su questo computer e non viene mai caricato online."
-        },
-        "accessibility": {
-          "why": "Così la tua scorciatoia funziona in ogni app e Wispr Bro può scrivere il testo dove si trova il cursore."
-        },
-        "turnOnMac": "Attiva Wispr Bro in Impostazioni di Sistema, poi torna qui.",
-        "relaunch": "La scorciatoia non risponde dopo questo passaggio? <relaunch>Riavvia Wispr Bro</relaunch> e tornerai subito qui."
-      },
-      "welcome": {
-        "noMatch": "Nessuna lingua corrisponde a «{{query}}». I modelli di Wispr Bro coprono circa 100 lingue; altre sono nelle impostazioni.",
-        "chinese": {
-          "question": "Parli {{languages}}. Quali caratteri deve scrivere Wispr Bro?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro è nell'angolo per guidarti passo passo"
-      },
-      "done": {
-        "subMac": "Wispr Bro ora è nella barra dei menu. Tieni premuto o tocca <keys/> in qualsiasi app per parlare.",
-        "subTray": "Wispr Bro ora è nell'area di notifica. Tieni premuto o tocca <keys/> in qualsiasi app per parlare.",
-        "atLogin": "Avvia Wispr Bro quando accedo",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "speechModels": {
+    "title": "Modelli di riconoscimento vocale",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Sto caricando i modelli di riconoscimento vocale…",
+    "current": "In uso: {{name}}",
+    "none": "Nessun modello di riconoscimento vocale ancora",
+    "phase": {
+      "checking": "Sto verificando quale modello si adatta a questo Mac…",
+      "settled": "Questo è il modello migliore per le tue lingue su questo Mac.",
+      "downloading": "Sto scaricando un modello migliore in background… {{percent}}%",
+      "downloadingNoPercent": "Sto scaricando un modello migliore in background…",
+      "waiting_to_swap": "Un modello migliore è pronto. Viene sostituito quando non stai dicendo qualcosa.",
+      "paused": "Il modello migliore non è stato scaricato. Sarà provato di nuovo in seguito."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Scorciatoie di Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "Le lingue che parli. Wispr Bro le usa per consigliare i modelli."
-        }
-      },
-      "models": {
-        "untestedNote": "Non testati con Wispr Bro. Potrebbero essere più lenti o commettere più errori.",
-        "emptyYours": "Ancora nessun modello. Scegline uno qui sotto: si scarica e poi Wispr Bro lo usa.",
-        "deleteAskActive": "Eliminare {{name}}? Wispr Bro non potrà trascrivere finché non ne scegli un altro.",
-        "retiredNotice": {
-          "title": "I modelli precedenti non funzionano più con Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Riscansiona per trovare modelli aggiunti alla cartella dei modelli o alla cache di Hugging Face al di fuori di Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Avvia Wispr Bro automaticamente quando accedi al computer."
-        },
-        "showTrayIcon": {
-          "description": "Mostra l'icona di Wispr Bro nella barra di sistema."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Controlla automaticamente la disponibilità di nuove versioni di Wispr Bro",
-          "lockedDescription": "Disabilitato dalla configurazione di sistema (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Verifica se gli eventi della tastiera arrivano a Wispr Bro. Viene registrato solo il numero di eventi, mai quali tasti premi.",
-          "verdictOk": "Gli eventi dei tasti arrivano a Wispr Bro normalmente."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Versione attuale di Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Mostra le note di rilascio dopo gli aggiornamenti di Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "Cartella in cui Wispr Bro salva i dati"
-        },
-        "supportDevelopment": {
-          "description": "Aiutaci a sviluppare Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro usa ggml per il riconoscimento vocale veloce in locale. Grazie a Georgi Gerganov e collaboratori per il fantastico lavoro."
-          }
-        }
-      }
+    "next": "Successivo: {{name}}",
+    "progressLabel": "Download del modello di riconoscimento vocale migliore",
+    "slower": "La diczione potrebbe essere più lenta su questo Mac: nessun modello è abbastanza veloce per le tue lingue qui, quindi ne viene usato il più veloce.",
+    "pinned": "Hai scelto questo modello tu stesso, quindi {{appName}} non ci fa nulla.",
+    "automatic": "Scegli il modello automaticamente",
+    "automaticHint": "Disattivato quando selezioni un modello nella lista sottostante.",
+    "languages": "Per: {{languages}}",
+    "machine": "Questo Mac: {{chip}}, {{ram}} GB memoria",
+    "freeDisk": "{{gb}} GB liberi per i modelli",
+    "chip": {
+      "apple": "M{{generation}} di Apple",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Processore Intel"
     },
-    "whatsNew": {
-      "title": "Novità in Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Cambia la lingua dell'interfaccia di Wispr Bro"
-    },
-    "theme": {
-      "description": "Scegli se Wispr Bro segue il tema di sistema o resta chiaro o scuro"
-    }
+    "list": "Tutti i modelli"
   },
   "aiEngine": {
     "title": "Motore AI",
@@ -864,6 +797,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1283,39 +1217,6 @@
       "openDictionary": "Apri il Dizionario"
     }
   },
-  "speechModels": {
-    "title": "Modelli di riconoscimento vocale",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
-    "loading": "Sto caricando i modelli di riconoscimento vocale…",
-    "current": "In uso: {{name}}",
-    "none": "Nessun modello di riconoscimento vocale ancora",
-    "phase": {
-      "checking": "Sto verificando quale modello si adatta a questo Mac…",
-      "settled": "Questo è il modello migliore per le tue lingue su questo Mac.",
-      "downloading": "Sto scaricando un modello migliore in background… {{percent}}%",
-      "downloadingNoPercent": "Sto scaricando un modello migliore in background…",
-      "waiting_to_swap": "Un modello migliore è pronto. Viene sostituito quando non stai dicendo qualcosa.",
-      "paused": "Il modello migliore non è stato scaricato. Sarà provato di nuovo in seguito."
-    },
-    "next": "Successivo: {{name}}",
-    "progressLabel": "Download del modello di riconoscimento vocale migliore",
-    "slower": "La diczione potrebbe essere più lenta su questo Mac: nessun modello è abbastanza veloce per le tue lingue qui, quindi ne viene usato il più veloce.",
-    "pinned": "Hai scelto questo modello tu stesso, quindi {{appName}} non ci fa nulla.",
-    "automatic": "Scegli il modello automaticamente",
-    "automaticHint": "Disattivato quando selezioni un modello nella lista sottostante.",
-    "languages": "Per: {{languages}}",
-    "machine": "Questo Mac: {{chip}}, {{ram}} GB memoria",
-    "freeDisk": "{{gb}} GB liberi per i modelli",
-    "chip": {
-      "apple": "M{{generation}} di Apple",
-      "apple_pro": "Apple M{{generation}} Pro",
-      "apple_max": "Apple M{{generation}} Max",
-      "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple silicon",
-      "intel": "Processore Intel"
-    },
-    "list": "Tutti i modelli"
-  },
   "style": {
     "tabsLabel": "Gruppi di stile",
     "groups": {
@@ -1401,6 +1302,107 @@
     "cleanup": {
       "tab": "Pulizia",
       "description": "Quanto il tuo testo viene pulito, in ogni app e in ogni lingua. Lo stile di ogni gruppo viene applicato successivamente."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro ora usa un nuovo tipo di modello. Scarica la nuova versione per continuare a trascrivere. Le versioni precedenti verranno rimosse."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Così Wispr Bro può sentirti. L'audio viene trasformato in testo su questo computer e non viene mai caricato online."
+        },
+        "accessibility": {
+          "why": "Così la tua scorciatoia funziona in ogni app e Wispr Bro può scrivere il testo dove si trova il cursore."
+        },
+        "turnOnMac": "Attiva Wispr Bro in Impostazioni di Sistema, poi torna qui.",
+        "relaunch": "La scorciatoia non risponde dopo questo passaggio? <relaunch>Riavvia Wispr Bro</relaunch> e tornerai subito qui."
+      },
+      "welcome": {
+        "noMatch": "Nessuna lingua corrisponde a «{{query}}». I modelli di Wispr Bro coprono circa 100 lingue; altre sono nelle impostazioni.",
+        "chinese": {
+          "question": "Parli {{languages}}. Quali caratteri deve scrivere Wispr Bro?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro è nell'angolo per guidarti passo passo"
+      },
+      "done": {
+        "subMac": "Wispr Bro ora è nella barra dei menu. Tieni premuto o tocca <keys/> in qualsiasi app per parlare.",
+        "subTray": "Wispr Bro ora è nell'area di notifica. Tieni premuto o tocca <keys/> in qualsiasi app per parlare.",
+        "atLogin": "Avvia Wispr Bro quando accedo",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Scorciatoie di Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Le lingue che parli. Wispr Bro le usa per consigliare i modelli."
+        }
+      },
+      "models": {
+        "untestedNote": "Non testati con Wispr Bro. Potrebbero essere più lenti o commettere più errori.",
+        "emptyYours": "Ancora nessun modello. Scegline uno qui sotto: si scarica e poi Wispr Bro lo usa.",
+        "deleteAskActive": "Eliminare {{name}}? Wispr Bro non potrà trascrivere finché non ne scegli un altro.",
+        "retiredNotice": {
+          "title": "I modelli precedenti non funzionano più con Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Riscansiona per trovare modelli aggiunti alla cartella dei modelli o alla cache di Hugging Face al di fuori di Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Avvia Wispr Bro automaticamente quando accedi al computer."
+        },
+        "showTrayIcon": {
+          "description": "Mostra l'icona di Wispr Bro nella barra di sistema."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Controlla automaticamente la disponibilità di nuove versioni di Wispr Bro",
+          "lockedDescription": "Disabilitato dalla configurazione di sistema (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Verifica se gli eventi della tastiera arrivano a Wispr Bro. Viene registrato solo il numero di eventi, mai quali tasti premi.",
+          "verdictOk": "Gli eventi dei tasti arrivano a Wispr Bro normalmente."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Versione attuale di Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Mostra le note di rilascio dopo gli aggiornamenti di Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Cartella in cui Wispr Bro salva i dati"
+        },
+        "supportDevelopment": {
+          "description": "Aiutaci a sviluppare Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro usa ggml per il riconoscimento vocale veloce in locale. Grazie a Georgi Gerganov e collaboratori per il fantastico lavoro."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Novità in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Cambia la lingua dell'interfaccia di Wispr Bro"
+    },
+    "theme": {
+      "description": "Scegli se Wispr Bro segue il tema di sistema o resta chiaro o scuro"
     }
   }
 }

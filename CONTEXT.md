@@ -19,7 +19,7 @@ Working files behind each deliverable are in `docs/research/r2-work/`, `r3-work/
 
 ## Current status (update this when it changes)
 
-As of 2026-10-30:
+As of 2026-10-31 (S-15b, S-07b, S-19a and S-20 merged by the Kimi orchestrator; S-20's real-Mac acceptance is the only open item below):
 
 - **M0 foundations:** F-01 and F-03..F-10 are done on `wispr-bro`. F-02 (signing, notarization, updater, release workflows) is still open. Apple Team ID: `446XT9839S`; the owner keeps all certificates and keys. No Hugging Face org is needed: models download from their upstream HF repos, pinned by revision and sha256.
 - **GitHub:** the public repo `fjenn/wispr-bro` exists but is **empty on purpose**. Remote `origin` has its push URL disabled. The owner said: push nothing until we have tested. Ask before any push.

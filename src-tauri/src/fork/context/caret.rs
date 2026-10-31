@@ -242,7 +242,7 @@ impl Exclusions {
     }
 }
 
-/// The host of a URL (`https://mail.google.com/x` → `mail.google.com`).
+/// The host of a URL (`https://huggingface.co/x` → `huggingface.co`).
 pub fn url_host(url: &str) -> Option<String> {
     let rest = url.split_once("://")?.1;
     let authority = rest.split(['/', '?', '#']).next()?;
@@ -925,8 +925,8 @@ mod tests {
             assert!(!e.host(h), "{h}");
         }
         assert_eq!(
-            url_host("https://user@Mail.Google.com:443/u/0?x#y").as_deref(),
-            Some("mail.google.com")
+            url_host("https://user@Example.com:443/u/0?x#y").as_deref(),
+            Some("example.com")
         );
         assert_eq!(url_host("file:///tmp/x.html"), None);
         assert_eq!(url_host("not a url"), None);

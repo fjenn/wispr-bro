@@ -53,6 +53,7 @@
       "loadError": "Could not read the settings: {{message}}",
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -443,6 +444,10 @@
           "body": "加入您經常使用的名稱和詞語，讓它們每次都能正確拼寫。"
         }
       },
+      "slowerMac": {
+        "title": "語音輸入在這台 Mac 上可能會較慢",
+        "body": "此 Mac 上沒有足夠快速的語音模型來支援您的語言，因此使用最快的一個。文字顯示可能需要稍長一點的時間。"
+      },
       "features": {
         "inbox": {
           "title": "您的通知都在這裡",
@@ -458,10 +463,6 @@
         "title_one": "當應用程式退出時，已儲存一段錄音",
         "title_other": "當應用程式退出時，已儲存 {{count}} 順序錄音",
         "body": "他們在 {{appName}} 關閉時仍持續錄製。這些內容已存入歷史記錄中，並已轉譯。"
-      },
-      "slowerMac": {
-        "title": "語音輸入在這台 Mac 上可能會較慢",
-        "body": "此 Mac 上沒有足夠快速的語音模型來支援您的語言，因此使用最快的一個。文字顯示可能需要稍長一點的時間。"
       }
     },
     "pill": {
@@ -508,106 +509,38 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro 現在使用更新的模型類型。請下載新版本以繼續轉錄。舊版本將會移除。"
-      },
-      "permissions": {
-        "microphone": {
-          "why": "讓 Wispr Bro 聽得到您說話。音訊只會在這台電腦上轉成文字，絕不會上傳。"
-        },
-        "accessibility": {
-          "why": "讓快捷鍵在每個應用程式中都能使用，也讓 Wispr Bro 能把文字打在游標所在的位置。"
-        },
-        "turnOnMac": "請在「系統設定」中開啟 Wispr Bro，然後回到這裡。",
-        "relaunch": "之後快捷鍵沒有反應嗎？<relaunch>重新啟動 Wispr Bro</relaunch>，就會直接回到這裡。"
-      },
-      "welcome": {
-        "noMatch": "找不到符合「{{query}}」的語言。Wispr Bro 的模型涵蓋約 100 種語言，更多語言可在設定中找到。",
-        "chinese": {
-          "question": "您說{{languages}}。Wispr Bro 該使用哪種字體書寫？"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro 就在角落，陪您一步步操作"
-      },
-      "done": {
-        "subMac": "Wispr Bro 現在位於選單列中。在任何應用程式中按住或輕按 <keys/> 即可開口說話。",
-        "subTray": "Wispr Bro 現在位於系統匣中。在任何應用程式中按住或輕按 <keys/> 即可開口說話。",
-        "atLogin": "登入時啟動 Wispr Bro",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "speechModels": {
+    "title": "語音模型",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "正在檢查語音模型…",
+    "current": "目前使用中：{{name}}",
+    "none": "尚未加入語音模型",
+    "phase": {
+      "checking": "正在檢查哪個模型適合這台 Mac…",
+      "settled": "這是最適合您這台 Mac 的語言模型。",
+      "downloading": "正在背景下載較好的模型… {{percent}}%",
+      "downloadingNoPercent": "正在背景下載較好的模型…",
+      "waiting_to_swap": "一個更好的模型已經準備好。當您未輸入語音時會進行切換。",
+      "paused": "較好的模型無法下載。稍後會再嘗試。"
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro 快捷鍵"
-        },
-        "preferredLanguages": {
-          "description": "您所說的語言。Wispr Bro 會依據這些語言推薦模型。"
-        }
-      },
-      "models": {
-        "untestedNote": "尚未經過 Wispr Bro 測試，可能較慢或錯誤較多。",
-        "emptyYours": "尚無模型。請從下方選擇一個：下載完成後 Wispr Bro 就會使用它。",
-        "deleteAskActive": "要刪除 {{name}} 嗎？在您選擇其他模型之前，Wispr Bro 無法進行轉錄。",
-        "retiredNotice": {
-          "title": "舊模型已無法在 Wispr Bro 中使用"
-        },
-        "rescan": {
-          "tooltip": "重新掃描在 Wispr Bro 之外新增到模型資料夾或 Hugging Face 快取中的模型"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "登入電腦時自動啟動 Wispr Bro"
-        },
-        "showTrayIcon": {
-          "description": "在系統匣中顯示 Wispr Bro 圖示"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "自動檢查 Wispr Bro 的新版本",
-          "lockedDescription": "已被系統設定停用 (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "檢查鍵盤事件是否能送達 Wispr Bro。只會記錄事件數量，絕不記錄您按了哪些按鍵。",
-          "verdictOk": "按鍵事件正常送達 Wispr Bro。"
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro 的目前版本"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro 更新後顯示版本資訊"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro 儲存資料的位置"
-        },
-        "supportDevelopment": {
-          "description": "幫助我們繼續開發 Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro 使用 ggml 進行快速的本機語音轉文字處理。感謝 Georgi Gerganov 和貢獻者們的傑出工作"
-          }
-        }
-      }
+    "next": "下一項：{{name}}",
+    "progressLabel": "下載較好的語音模型",
+    "slower": "語音輸入在這台 Mac 上可能較慢：目前沒有足夠快速的模型支援您的語言，因此會使用最快的一個。",
+    "pinned": "你自己選了這個模型，所以 {{appName}} 會留它原樣。",
+    "automatic": "選擇模型自動進行",
+    "automaticHint": "關閉時，您會從以下清單中選擇一個模型。",
+    "languages": "語種：{{languages}}",
+    "machine": "這台 Mac：{{chip}}, {{ram}} GB 記憶體",
+    "freeDisk": "{{gb}} GB 空間可供模型使用",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
     },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} 新功能"
-    },
-    "appLanguage": {
-      "description": "變更 Wispr Bro 介面的語言"
-    },
-    "theme": {
-      "description": "選擇 Wispr Bro 跟隨系統主題，或維持淺色或深色"
-    }
+    "list": "所有模型"
   },
   "aiEngine": {
     "title": "AI引擎",
@@ -864,6 +797,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1283,39 +1217,6 @@
       "openDictionary": "開啟詞典"
     }
   },
-  "speechModels": {
-    "title": "語音模型",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
-    "loading": "正在檢查語音模型…",
-    "current": "目前使用中：{{name}}",
-    "none": "尚未加入語音模型",
-    "phase": {
-      "checking": "正在檢查哪個模型適合這台 Mac…",
-      "settled": "這是最適合您這台 Mac 的語言模型。",
-      "downloading": "正在背景下載較好的模型… {{percent}}%",
-      "downloadingNoPercent": "正在背景下載較好的模型…",
-      "waiting_to_swap": "一個更好的模型已經準備好。當您未輸入語音時會進行切換。",
-      "paused": "較好的模型無法下載。稍後會再嘗試。"
-    },
-    "next": "下一項：{{name}}",
-    "progressLabel": "下載較好的語音模型",
-    "slower": "語音輸入在這台 Mac 上可能較慢：目前沒有足夠快速的模型支援您的語言，因此會使用最快的一個。",
-    "pinned": "你自己選了這個模型，所以 {{appName}} 會留它原樣。",
-    "automatic": "選擇模型自動進行",
-    "automaticHint": "關閉時，您會從以下清單中選擇一個模型。",
-    "languages": "語種：{{languages}}",
-    "machine": "這台 Mac：{{chip}}, {{ram}} GB 記憶體",
-    "freeDisk": "{{gb}} GB 空間可供模型使用",
-    "chip": {
-      "apple": "Apple M{{generation}}",
-      "apple_pro": "Apple M{{generation}} Pro",
-      "apple_max": "Apple M{{generation}} Max",
-      "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple silicon",
-      "intel": "Intel processor"
-    },
-    "list": "所有模型"
-  },
   "style": {
     "tabsLabel": "風格組",
     "groups": {
@@ -1401,6 +1302,107 @@
     "cleanup": {
       "tab": "清理",
       "description": "你的文字在每一個應用程式和每一種語言中被整理的程度。每個組的樣式會疊加應用。"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro 現在使用更新的模型類型。請下載新版本以繼續轉錄。舊版本將會移除。"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "讓 Wispr Bro 聽得到您說話。音訊只會在這台電腦上轉成文字，絕不會上傳。"
+        },
+        "accessibility": {
+          "why": "讓快捷鍵在每個應用程式中都能使用，也讓 Wispr Bro 能把文字打在游標所在的位置。"
+        },
+        "turnOnMac": "請在「系統設定」中開啟 Wispr Bro，然後回到這裡。",
+        "relaunch": "之後快捷鍵沒有反應嗎？<relaunch>重新啟動 Wispr Bro</relaunch>，就會直接回到這裡。"
+      },
+      "welcome": {
+        "noMatch": "找不到符合「{{query}}」的語言。Wispr Bro 的模型涵蓋約 100 種語言，更多語言可在設定中找到。",
+        "chinese": {
+          "question": "您說{{languages}}。Wispr Bro 該使用哪種字體書寫？"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro 就在角落，陪您一步步操作"
+      },
+      "done": {
+        "subMac": "Wispr Bro 現在位於選單列中。在任何應用程式中按住或輕按 <keys/> 即可開口說話。",
+        "subTray": "Wispr Bro 現在位於系統匣中。在任何應用程式中按住或輕按 <keys/> 即可開口說話。",
+        "atLogin": "登入時啟動 Wispr Bro",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro 快捷鍵"
+        },
+        "preferredLanguages": {
+          "description": "您所說的語言。Wispr Bro 會依據這些語言推薦模型。"
+        }
+      },
+      "models": {
+        "untestedNote": "尚未經過 Wispr Bro 測試，可能較慢或錯誤較多。",
+        "emptyYours": "尚無模型。請從下方選擇一個：下載完成後 Wispr Bro 就會使用它。",
+        "deleteAskActive": "要刪除 {{name}} 嗎？在您選擇其他模型之前，Wispr Bro 無法進行轉錄。",
+        "retiredNotice": {
+          "title": "舊模型已無法在 Wispr Bro 中使用"
+        },
+        "rescan": {
+          "tooltip": "重新掃描在 Wispr Bro 之外新增到模型資料夾或 Hugging Face 快取中的模型"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "登入電腦時自動啟動 Wispr Bro"
+        },
+        "showTrayIcon": {
+          "description": "在系統匣中顯示 Wispr Bro 圖示"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "自動檢查 Wispr Bro 的新版本",
+          "lockedDescription": "已被系統設定停用 (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "檢查鍵盤事件是否能送達 Wispr Bro。只會記錄事件數量，絕不記錄您按了哪些按鍵。",
+          "verdictOk": "按鍵事件正常送達 Wispr Bro。"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro 的目前版本"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro 更新後顯示版本資訊"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro 儲存資料的位置"
+        },
+        "supportDevelopment": {
+          "description": "幫助我們繼續開發 Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro 使用 ggml 進行快速的本機語音轉文字處理。感謝 Georgi Gerganov 和貢獻者們的傑出工作"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} 新功能"
+    },
+    "appLanguage": {
+      "description": "變更 Wispr Bro 介面的語言"
+    },
+    "theme": {
+      "description": "選擇 Wispr Bro 跟隨系統主題，或維持淺色或深色"
     }
   }
 }

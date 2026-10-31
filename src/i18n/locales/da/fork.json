@@ -53,6 +53,7 @@
       "loadError": "Could not read the settings: {{message}}",
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -443,6 +444,10 @@
           "body": "Tilføj navne og ord, du bruger ofte, så de skrives korrekt hver gang."
         }
       },
+      "slowerMac": {
+        "title": "Talek kan være langsom på denne Mac",
+        "body": "Ingen talemodel er hurtig nok for dine sprog på denne Mac, så bruges den hurtigste. Teksten kan tage lidt længere at vises."
+      },
       "features": {
         "inbox": {
           "title": "Dine notifikationer leverer her",
@@ -458,10 +463,6 @@
         "title_one": "En opslag blev gemt, da appen blev lukket",
         "title_other": "{{count}} opslag blev beskrevet, da programmet blev lukket",
         "body": "De blev stadig opnået, da {{appName}} blev lukket. De er i Historikken, hvor de er omdannet."
-      },
-      "slowerMac": {
-        "title": "Talek kan være langsom på denne Mac",
-        "body": "Ingen talemodel er hurtig nok for dine sprog på denne Mac, så bruges den hurtigste. Teksten kan tage lidt længere at vises."
       }
     },
     "pill": {
@@ -508,106 +509,38 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro bruger nu en nyere type model. Download den nye version for at fortsætte med at transskribere. Gamle versioner vil blive fjernet."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Så Wispr Bro kan høre dig. Lyd bliver omdannet til tekst på denne computer og uploades aldrig."
-        },
-        "accessibility": {
-          "why": "Så din genvej virker i alle apps, og Wispr Bro kan skrive teksten dér, hvor din markør er."
-        },
-        "turnOnMac": "Slå Wispr Bro til i Systemindstillinger, og kom så tilbage hertil.",
-        "relaunch": "Reagerer genvejen ikke efter dette? <relaunch>Genstart Wispr Bro</relaunch>, så lander du lige her igen."
-      },
-      "welcome": {
-        "noMatch": "Intet sprog matcher »{{query}}«. Wispr Bros modeller dækker omkring 100 sprog; flere findes i indstillingerne.",
-        "chinese": {
-          "question": "Du taler {{languages}}. Hvilke tegn skal Wispr Bro skrive?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro er i hjørnet og hjælper dig igennem"
-      },
-      "done": {
-        "subMac": "Wispr Bro ligger nu i din menulinje. Hold eller tryk på <keys/> i en vilkårlig app for at tale.",
-        "subTray": "Wispr Bro ligger nu i dit meddelelsesområde. Hold eller tryk på <keys/> i en vilkårlig app for at tale.",
-        "atLogin": "Start Wispr Bro, når jeg logger ind",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "speechModels": {
+    "title": "Talmodeller",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Tjekker talemodellerne...",
+    "current": "I brug: {{name}}",
+    "none": "Ingen talemodel endnu",
+    "phase": {
+      "checking": "Tjekker hvilken model passer til denne Mac…",
+      "settled": "Dette er den bedste model for dine sprog på denne Mac.",
+      "downloading": "Downloader et bedre model i baggrunden… {{percent}}%",
+      "downloadingNoPercent": "Downloader et bedre model i baggrunden…",
+      "waiting_to_swap": "Et bedre model er klar. Det er erstattet, når du ikke siger noget.",
+      "paused": "Den bedre model kunne ikke downloades. Den prøves igen senere."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro-genveje"
-        },
-        "preferredLanguages": {
-          "description": "De sprog, du taler. Wispr Bro bruger dem til at anbefale modeller."
-        }
-      },
-      "models": {
-        "untestedNote": "Ikke testet med Wispr Bro. De kan være langsommere eller lave flere fejl.",
-        "emptyYours": "Ingen modeller endnu. Vælg en nedenfor: den downloades, og så bruger Wispr Bro den.",
-        "deleteAskActive": "Slet {{name}}? Wispr Bro kan ikke transskribere, før du vælger en anden.",
-        "retiredNotice": {
-          "title": "Gamle modeller virker ikke længere med Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Søg igen efter modeller, der er tilføjet til modelmappen eller Hugging Face-cachen uden for Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Start Wispr Bro automatisk, når du logger ind på din computer."
-        },
-        "showTrayIcon": {
-          "description": "Vis Wispr Bro-ikonet i meddelelsesområdet."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Tjek automatisk for nye versioner af Wispr Bro",
-          "lockedDescription": "Deaktiveret af systemkonfiguration (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Kontrollerer, om tastaturhændelser når frem til Wispr Bro. Kun antallet af hændelser registreres — aldrig hvilke taster du trykker på.",
-          "verdictOk": "Tastehændelser når frem til Wispr Bro som normalt."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Nuværende version af Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Vis udgivelsesnoter, efter Wispr Bro opdateres"
-        },
-        "appDataDirectory": {
-          "description": "Placering, hvor Wispr Bro gemmer sine data"
-        },
-        "supportDevelopment": {
-          "description": "Hjælp os med at fortsætte udviklingen af Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bros lokale tale-til-tekst funktionalitet er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde af Georgi Gerganov og bidragyderne."
-          }
-        }
-      }
+    "next": "Næste: {{name}}",
+    "progressLabel": "Bedre talemodel download",
+    "slower": "Talek kan være langsom på denne Mac: ingen model er hurtig nok for dine sprog her, så bruges den hurtigste.",
+    "pinned": "Du valgte selv dette model, så {{appName}} lad det stå.",
+    "automatic": "Vælg modellen automatisk",
+    "automaticHint": "Deaktiveret når du vælger et model i listen nedenfor.",
+    "languages": "For: {{languages}}",
+    "machine": "Dette Mac: {{chip}}, {{ram}} GB minde",
+    "freeDisk": "{{gb}} GB ledig for modeller",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicium",
+      "intel": "Intel-procesor"
     },
-    "whatsNew": {
-      "title": "Nyt i Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Skift sproget for Wispr Bro-grænsefladen"
-    },
-    "theme": {
-      "description": "Vælg om Wispr Bro skal følge dit systemtema eller forblive lyst eller mørkt"
-    }
+    "list": "Alle modeller"
   },
   "aiEngine": {
     "title": "AI-engine",
@@ -864,6 +797,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1283,39 +1217,6 @@
       "openDictionary": "Åbne ordbog"
     }
   },
-  "speechModels": {
-    "title": "Talmodeller",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
-    "loading": "Tjekker talemodellerne...",
-    "current": "I brug: {{name}}",
-    "none": "Ingen talemodel endnu",
-    "phase": {
-      "checking": "Tjekker hvilken model passer til denne Mac…",
-      "settled": "Dette er den bedste model for dine sprog på denne Mac.",
-      "downloading": "Downloader et bedre model i baggrunden… {{percent}}%",
-      "downloadingNoPercent": "Downloader et bedre model i baggrunden…",
-      "waiting_to_swap": "Et bedre model er klar. Det er erstattet, når du ikke siger noget.",
-      "paused": "Den bedre model kunne ikke downloades. Den prøves igen senere."
-    },
-    "next": "Næste: {{name}}",
-    "progressLabel": "Bedre talemodel download",
-    "slower": "Talek kan være langsom på denne Mac: ingen model er hurtig nok for dine sprog her, så bruges den hurtigste.",
-    "pinned": "Du valgte selv dette model, så {{appName}} lad det stå.",
-    "automatic": "Vælg modellen automatisk",
-    "automaticHint": "Deaktiveret når du vælger et model i listen nedenfor.",
-    "languages": "For: {{languages}}",
-    "machine": "Dette Mac: {{chip}}, {{ram}} GB minde",
-    "freeDisk": "{{gb}} GB ledig for modeller",
-    "chip": {
-      "apple": "Apple M{{generation}}",
-      "apple_pro": "Apple M{{generation}} Pro",
-      "apple_max": "Apple M{{generation}} Max",
-      "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple silicium",
-      "intel": "Intel-procesor"
-    },
-    "list": "Alle modeller"
-  },
   "style": {
     "tabsLabel": "Stilgrupper",
     "groups": {
@@ -1401,6 +1302,107 @@
     "cleanup": {
       "tab": "Fjern forurening",
       "description": "Hvor meget dine ord er fjernt op, i hver app og hver sprog. Stilen for hvert gruppe tilføjes på top."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro bruger nu en nyere type model. Download den nye version for at fortsætte med at transskribere. Gamle versioner vil blive fjernet."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Så Wispr Bro kan høre dig. Lyd bliver omdannet til tekst på denne computer og uploades aldrig."
+        },
+        "accessibility": {
+          "why": "Så din genvej virker i alle apps, og Wispr Bro kan skrive teksten dér, hvor din markør er."
+        },
+        "turnOnMac": "Slå Wispr Bro til i Systemindstillinger, og kom så tilbage hertil.",
+        "relaunch": "Reagerer genvejen ikke efter dette? <relaunch>Genstart Wispr Bro</relaunch>, så lander du lige her igen."
+      },
+      "welcome": {
+        "noMatch": "Intet sprog matcher »{{query}}«. Wispr Bros modeller dækker omkring 100 sprog; flere findes i indstillingerne.",
+        "chinese": {
+          "question": "Du taler {{languages}}. Hvilke tegn skal Wispr Bro skrive?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro er i hjørnet og hjælper dig igennem"
+      },
+      "done": {
+        "subMac": "Wispr Bro ligger nu i din menulinje. Hold eller tryk på <keys/> i en vilkårlig app for at tale.",
+        "subTray": "Wispr Bro ligger nu i dit meddelelsesområde. Hold eller tryk på <keys/> i en vilkårlig app for at tale.",
+        "atLogin": "Start Wispr Bro, når jeg logger ind",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro-genveje"
+        },
+        "preferredLanguages": {
+          "description": "De sprog, du taler. Wispr Bro bruger dem til at anbefale modeller."
+        }
+      },
+      "models": {
+        "untestedNote": "Ikke testet med Wispr Bro. De kan være langsommere eller lave flere fejl.",
+        "emptyYours": "Ingen modeller endnu. Vælg en nedenfor: den downloades, og så bruger Wispr Bro den.",
+        "deleteAskActive": "Slet {{name}}? Wispr Bro kan ikke transskribere, før du vælger en anden.",
+        "retiredNotice": {
+          "title": "Gamle modeller virker ikke længere med Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Søg igen efter modeller, der er tilføjet til modelmappen eller Hugging Face-cachen uden for Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Start Wispr Bro automatisk, når du logger ind på din computer."
+        },
+        "showTrayIcon": {
+          "description": "Vis Wispr Bro-ikonet i meddelelsesområdet."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Tjek automatisk for nye versioner af Wispr Bro",
+          "lockedDescription": "Deaktiveret af systemkonfiguration (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kontrollerer, om tastaturhændelser når frem til Wispr Bro. Kun antallet af hændelser registreres — aldrig hvilke taster du trykker på.",
+          "verdictOk": "Tastehændelser når frem til Wispr Bro som normalt."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Nuværende version af Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Vis udgivelsesnoter, efter Wispr Bro opdateres"
+        },
+        "appDataDirectory": {
+          "description": "Placering, hvor Wispr Bro gemmer sine data"
+        },
+        "supportDevelopment": {
+          "description": "Hjælp os med at fortsætte udviklingen af Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bros lokale tale-til-tekst funktionalitet er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde af Georgi Gerganov og bidragyderne."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Nyt i Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Skift sproget for Wispr Bro-grænsefladen"
+    },
+    "theme": {
+      "description": "Vælg om Wispr Bro skal følge dit systemtema eller forblive lyst eller mørkt"
     }
   }
 }
