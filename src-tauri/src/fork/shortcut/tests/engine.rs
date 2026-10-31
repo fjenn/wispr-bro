@@ -422,6 +422,44 @@ fn a_keyed_action_fires_its_handler_without_touching_the_grammar() {
 }
 
 #[test]
+fn press_enter_on_a_mouse_button_fires_and_never_blocks_the_click() {
+    let reg = Registry::default();
+    let hits = Arc::new(AtomicUsize::new(0));
+    let h = hits.clone();
+    reg.register(
+        "press_enter",
+        Arc::new(move || {
+            h.fetch_add(1, Ordering::SeqCst);
+        }),
+    )
+    .unwrap();
+    let mut map = default_hotkeys();
+    map.insert(
+        "press_enter".into(),
+        vec![crate::fork::settings::HotkeyBinding {
+            chord: "mousex1".into(),
+            activation: crate::fork::settings::HotkeyActivation::Press,
+        }],
+    );
+    let profile = compile(&map, |id| reg.handles(id));
+    let mut r = Rig::with(profile, reg);
+    // In the set like any keyed binding; handy-keys' tap never consults it
+    // for mouse buttons (RS-11), so the click still reaches the app.
+    assert!(r.host.blocking.contains(&hk("mousex1")));
+    r.key(10, Modifiers::empty(), HkKey::MouseX1);
+    assert_eq!(
+        hits.load(Ordering::SeqCst),
+        1,
+        "fires on the button-down only"
+    );
+    // Another button, or the button with a modifier, does not.
+    r.key(100, Modifiers::empty(), HkKey::MouseX2);
+    r.key(200, Modifiers::OPT_LEFT, HkKey::MouseX1);
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
+    assert!(r.host.commands.is_empty(), "no take started or stopped");
+}
+
+#[test]
 fn a_stuck_fn_is_released_after_one_second() {
     let mut r = Rig::new();
     r.host.physical = Some(true);

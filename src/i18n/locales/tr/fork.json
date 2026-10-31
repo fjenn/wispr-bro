@@ -120,6 +120,38 @@
       "preview": "Oynat",
       "mute": "Dictiyerek tüm sesi kapalı yap",
       "muteHelp": "Müzik ve videolar konuşurken sessiz olur ve sonra aynı hacimle döner."
+    },
+    "recovery": {
+      "title": "Kurtarma kısayolları",
+      "description": "Son diktenizi klavyeden ayrılmadan geri alın ya da gönderin.",
+      "notSet": "Ayarlanmadı",
+      "current": "Kısayol: {{shortcut}}",
+      "listening": "Bir kısayola basın…",
+      "listeningHelp": "İstediğiniz tuşlara veya fare düğmesine basın. Escape iptal eder.",
+      "record": "Kaydet",
+      "cancel": "İptal",
+      "clear": "Temizle",
+      "useDefault": "Varsayılanı kullan",
+      "unusable": "Bu kısayol kullanılamaz. Başka bir tane seçin.",
+      "saveFailed": "Kısayol kaydedilemedi.",
+      "recordFailed": "Kısayol kaydedilemedi. Uygulamanın Erişilebilirlik iznini kontrol edin.",
+      "pasteLast": {
+        "title": "Son dikteyi yapıştır",
+        "help": "Son diktenizi yazdığınız yere yeniden yapıştırır."
+      },
+      "copyLast": {
+        "title": "Son dikteyi kopyala",
+        "help": "Son diktenizi panoya koyar."
+      },
+      "pressEnter": {
+        "title": "Enter’a bas",
+        "help": "Sizin yerinize Return’e basar; örneğin az önce dikte ettiğiniz mesajı göndermek için.",
+        "mouse": "Fare düğmesi işaretçinin altındaki uygulamada yine normal tıklamasını yapar; bu yüzden yan düğme (geri veya ileri) en iyisidir."
+      },
+      "undoCancel": {
+        "title": "İptali geri al",
+        "help": "Az önce iptal ettiğiniz bir dikteyi, çubuk Geri al gösterirken geri getirir."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "Sol fare düğmesi",
+        "mouseRight": "Sağ fare düğmesi",
+        "mouseMiddle": "Orta fare düğmesi",
+        "mouseBack": "Fare Geri düğmesi",
+        "mouseForward": "Fare İleri düğmesi"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Dikte hazırlanıyor. Söyledikleriniz kaydedildi.",
         "card": "Dikteniz hazır. Çubuktan kopyalayabilirsiniz.",
-        "micLostWarning": "Mikrofon bağlantısı kesildi. Daha önce söyledikleriniz korunuyor."
+        "micLostWarning": "Mikrofon bağlantısı kesildi. Daha önce söyledikleriniz korunuyor.",
+        "undo": "Geri al, dikte çubuğunda 4 saniye kalır."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "İndirilemedi",
         "check_connection": "İnternet bağlantınızı kontrol edin",
-        "no_space": "Dikteyi hazırlamak için yeterli disk alanı yok"
+        "no_space": "Dikteyi hazırlamak için yeterli disk alanı yok",
+        "cancelled": "İptal edildi",
+        "no_transcript": "Henüz yapıştırılacak dikte yok",
+        "copied_last": "Son dikte kopyalandı"
       },
       "card": {
         "no_text_field": "Önce bir metin alanı içine tıklayın",
@@ -737,7 +778,8 @@
     "retry": "Yeniden dene",
     "card": {
       "hidden": "Gizli, çünkü şifre alanına yönelik olarak oluşturuldu"
-    }
+    },
+    "undo": "Geri al"
   },
   "cleanup": {
     "title": "Temizle",
@@ -944,6 +986,95 @@
       "failed": "Özetler dışa aktarılamadı. Lütfen tekrar dene."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "Görüşler",
+      "usage": "Kullanım",
+      "voice": "Ses"
+    },
+    "asOf": "Sayılarınız {{date}} itibariyle",
+    "unavailable": "Şu anda görüşler okunamıyor. Aniden görünür.",
+    "save": {
+      "button": "Resim olarak kaydet",
+      "fileName": "{{appName}} analizleri {{date}}.png",
+      "filter": "PNG resmi",
+      "done": "Resmi kaydetti.",
+      "failed": "Resim kaydedilemedi. Yeniden dene."
+    },
+    "speed": {
+      "title": "Söyleme hızı",
+      "value": "{{wpm}} kelimeler dakika",
+      "notEnough": "A biraz daha dictate edin, hızınızı görün.",
+      "measured": "{{ratio}}× yazım hızınızın {{typing}} wpm'si",
+      "average": "{{ratio}}× orta bir yazıcı hızına sahip ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Toplam kelime",
+      "dictations_one": "{{count, number}} dictasyon",
+      "dictations_other": "{{count, number}} dictasyonda"
+    },
+    "fixes": {
+      "title": "Düzenlemeler yapıldı",
+      "dictionary": "Sözlük düzeltmeleri",
+      "ai": "AI temizleme düzeltilmeleri"
+    },
+    "categories": {
+      "title": "Nerede dictation yapacaksın",
+      "empty": "A few uygulamada dictation yaparak kelimelerinize ne kadar gittiğini görebilirsiniz.",
+      "words_one": "{{count, number}} kelime",
+      "words_other": "{{count, number}} kelime",
+      "documents": "Dokümanlar",
+      "ai_prompts": "AI istekleri",
+      "email": "E-posta",
+      "work": "İş mesajları",
+      "personal": "Kişisel mesajlar",
+      "other": "Tüm diğer şeyler"
+    },
+    "heatmap": {
+      "title": "Sıra senin",
+      "current": "Mevcut serbest",
+      "longest": "En uzun süre",
+      "days_one": "{{count, number}} gün",
+      "days_other": "{{count, number}} gün",
+      "active_one": "Geçen yılın içinde dictation yapılan {{count, number}} gün",
+      "active_other": "Geçen yılın içinde {{count, number}} gün dictation yapıldı",
+      "day_one": "{{date}}: {{count, number}} kelime",
+      "day_other": "{{date}}: {{count, number}} kelime",
+      "less": "Düşük",
+      "more": "Daha fazla",
+      "band0": "Kelime yok",
+      "band1": "1 ile 249 kelime",
+      "band2": "250 ila 499 kelime",
+      "band3": "500 ila 749 kelime",
+      "band4": "750 kelime veya daha fazla"
+    },
+    "voice": {
+      "lockedTitle": "Ses profili, {{goal}} kelimeye kadar açılır",
+      "lockedBody": "Devam et: {{current}} kelime {{goal}} kelime kadar yazdın. Sonra en çok kullandığın ifadeyi, ne zaman ve nerede dictation yaptığını ve {{appName}} tarafından senin için düzeltilen kelimeleri göreceksin.",
+      "locked": "Kilitlenmiş",
+      "phrase": "Your phrase",
+      "phraseIn_one": "{{count, number}} dictasyon",
+      "phraseIn_other": "{{count, number}} dictasyonda",
+      "peak": "Tepede zaman ve uygulama",
+      "peakApp": "En çok kelime {{app}}",
+      "word": "En çok kullanılan kelime",
+      "uses_one": "{{count, number}} kez kullanıldı",
+      "uses_other": "{{count, number}} kez kullanıldı",
+      "corrected": "En düzeltme yapılan kelime",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Düzeltildi {{count, number}} kez",
+      "fixed_other": "Düzeltti {{count, number}} kez",
+      "notEnough": "Yeterli dictation yok.",
+      "footnote_one": "Bu Mac'te son dictation'dan çalıştırıldı. Hiçbir şey Mac'in dışına çıkmaz.",
+      "footnote_other": "Bu Mac'te son {{count, number}} dictasyonuyla çalışıldı. Hiçbir şey Mac'ten çıkmaz.",
+      "sample": {
+        "phrase": "sık kullanılan bir ifade",
+        "peak": "bir günün zamanı",
+        "word": "bir favori kelime",
+        "corrected": "bir kelime ki düzeltmesi yapılır"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "Wispr Bro'nun sistem temasını izlemesini ya da açık veya koyu kalmasını seçin"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "Görüşler",
-      "usage": "Kullanım",
-      "voice": "Ses"
-    },
-    "asOf": "Sayılarınız {{date}} itibariyle",
-    "unavailable": "Şu anda görüşler okunamıyor. Aniden görünür.",
-    "save": {
-      "button": "Resim olarak kaydet",
-      "fileName": "{{appName}} analizleri {{date}}.png",
-      "filter": "PNG resmi",
-      "done": "Resmi kaydetti.",
-      "failed": "Resim kaydedilemedi. Yeniden dene."
-    },
-    "speed": {
-      "title": "Söyleme hızı",
-      "value": "{{wpm}} kelimeler dakika",
-      "notEnough": "A biraz daha dictate edin, hızınızı görün.",
-      "measured": "{{ratio}}× yazım hızınızın {{typing}} wpm'si",
-      "average": "{{ratio}}× orta bir yazıcı hızına sahip ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "Toplam kelime",
-      "dictations_one": "{{count, number}} dictasyon",
-      "dictations_other": "{{count, number}} dictasyonda"
-    },
-    "fixes": {
-      "title": "Düzenlemeler yapıldı",
-      "dictionary": "Sözlük düzeltmeleri",
-      "ai": "AI temizleme düzeltilmeleri"
-    },
-    "categories": {
-      "title": "Nerede dictation yapacaksın",
-      "empty": "A few uygulamada dictation yaparak kelimelerinize ne kadar gittiğini görebilirsiniz.",
-      "words_one": "{{count, number}} kelime",
-      "words_other": "{{count, number}} kelime",
-      "documents": "Dokümanlar",
-      "ai_prompts": "AI istekleri",
-      "email": "E-posta",
-      "work": "İş mesajları",
-      "personal": "Kişisel mesajlar",
-      "other": "Tüm diğer şeyler"
-    },
-    "heatmap": {
-      "title": "Sıra senin",
-      "current": "Mevcut serbest",
-      "longest": "En uzun süre",
-      "days_one": "{{count, number}} gün",
-      "days_other": "{{count, number}} gün",
-      "active_one": "Geçen yılın içinde dictation yapılan {{count, number}} gün",
-      "active_other": "Geçen yılın içinde {{count, number}} gün dictation yapıldı",
-      "day_one": "{{date}}: {{count, number}} kelime",
-      "day_other": "{{date}}: {{count, number}} kelime",
-      "less": "Düşük",
-      "more": "Daha fazla",
-      "band0": "Kelime yok",
-      "band1": "1 ile 249 kelime",
-      "band2": "250 ila 499 kelime",
-      "band3": "500 ila 749 kelime",
-      "band4": "750 kelime veya daha fazla"
-    },
-    "voice": {
-      "lockedTitle": "Ses profili, {{goal}} kelimeye kadar açılır",
-      "lockedBody": "Devam et: {{current}} kelime {{goal}} kelime kadar yazdın. Sonra en çok kullandığın ifadeyi, ne zaman ve nerede dictation yaptığını ve {{appName}} tarafından senin için düzeltilen kelimeleri göreceksin.",
-      "locked": "Kilitlenmiş",
-      "phrase": "Your phrase",
-      "phraseIn_one": "{{count, number}} dictasyon",
-      "phraseIn_other": "{{count, number}} dictasyonda",
-      "peak": "Tepede zaman ve uygulama",
-      "peakApp": "En çok kelime {{app}}",
-      "word": "En çok kullanılan kelime",
-      "uses_one": "{{count, number}} kez kullanıldı",
-      "uses_other": "{{count, number}} kez kullanıldı",
-      "corrected": "En düzeltme yapılan kelime",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Düzeltildi {{count, number}} kez",
-      "fixed_other": "Düzeltti {{count, number}} kez",
-      "notEnough": "Yeterli dictation yok.",
-      "footnote_one": "Bu Mac'te son dictation'dan çalıştırıldı. Hiçbir şey Mac'in dışına çıkmaz.",
-      "footnote_other": "Bu Mac'te son {{count, number}} dictasyonuyla çalışıldı. Hiçbir şey Mac'ten çıkmaz.",
-      "sample": {
-        "phrase": "sık kullanılan bir ifade",
-        "peak": "bir günün zamanı",
-        "word": "bir favori kelime",
-        "corrected": "bir kelime ki düzeltmesi yapılır"
-      }
     }
   }
 }

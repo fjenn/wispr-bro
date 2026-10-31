@@ -120,6 +120,38 @@
       "preview": "再生",
       "mute": "すべての音を発話中には無音に",
       "muteHelp": "音楽や動画は話すときには静かになり、その後同じ音量に戻ります。"
+    },
+    "recovery": {
+      "title": "復元ショートカット",
+      "description": "キーボードから手を離さずに、最後の音声入力を取り戻したり送信したりできます。",
+      "notSet": "未設定",
+      "current": "ショートカット: {{shortcut}}",
+      "listening": "ショートカットを押してください…",
+      "listeningHelp": "使いたいキーまたはマウスボタンを押してください。Escapeでキャンセルします。",
+      "record": "記録",
+      "cancel": "キャンセル",
+      "clear": "消去",
+      "useDefault": "デフォルトに戻す",
+      "unusable": "このショートカットは使えません。別のものを選んでください。",
+      "saveFailed": "ショートカットを保存できませんでした。",
+      "recordFailed": "ショートカットを記録できませんでした。アプリにアクセシビリティの許可があるか確認してください。",
+      "pasteLast": {
+        "title": "最後の音声入力をペースト",
+        "help": "最後の音声入力を、入力中の場所にもう一度ペーストします。"
+      },
+      "copyLast": {
+        "title": "最後の音声入力をコピー",
+        "help": "最後の音声入力をクリップボードに入れます。"
+      },
+      "pressEnter": {
+        "title": "Enterを押す",
+        "help": "代わりにReturnを押します。たとえば、音声入力したメッセージを送信するときに使います。",
+        "mouse": "マウスボタンはポインタの下のアプリでも通常どおりクリックされるため、サイドボタン（戻るまたは進む）がおすすめです。"
+      },
+      "undoCancel": {
+        "title": "キャンセルを取り消す",
+        "help": "バーに「取り消す」が表示されている間、キャンセルしたばかりの音声入力を戻します。"
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "マウスの左ボタン",
+        "mouseRight": "マウスの右ボタン",
+        "mouseMiddle": "マウスの中央ボタン",
+        "mouseBack": "マウスの戻るボタン",
+        "mouseForward": "マウスの進むボタン"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "音声入力を準備しています。話した内容は保存されています。",
         "card": "音声入力の準備ができました。バーからコピーできます。",
-        "micLostWarning": "マイクが切断されました。これまで言ったことは保存されます。"
+        "micLostWarning": "マイクが切断されました。これまで言ったことは保存されます。",
+        "undo": "「取り消す」は音声入力バーに4秒間表示されます。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "ダウンロードできませんでした",
         "check_connection": "インターネット接続を確認してください",
-        "no_space": "音声入力の準備に必要なディスク容量が足りません"
+        "no_space": "音声入力の準備に必要なディスク容量が足りません",
+        "cancelled": "キャンセルしました",
+        "no_transcript": "貼り付ける音声入力はまだありません",
+        "copied_last": "最後の音声入力をコピーしました"
       },
       "card": {
         "no_text_field": "まずテキストフィールドにカーソルを合わせてください",
@@ -737,7 +778,8 @@
     "retry": "再試行",
     "card": {
       "hidden": "非表示、パスワードフィールド用だったから"
-    }
+    },
+    "undo": "取り消す"
   },
   "cleanup": {
     "title": "クリーンアップ",
@@ -944,6 +986,95 @@
       "failed": "スニペットのエクスポートに失敗しました。再度お試しください。"
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "インサイト",
+      "usage": "使用量",
+      "voice": "音声"
+    },
+    "asOf": "あなたの数字（{{date}}まで）",
+    "unavailable": "Insightsを今すぐ読み取ることができません。しばらくすると表示されます。",
+    "save": {
+      "button": "画像として保存",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG画像",
+      "done": "画像を保存しました。",
+      "failed": "画像を保存できませんでした。再度試してください。"
+    },
+    "speed": {
+      "title": "話すスピード",
+      "value": "{{wpm}} wpm",
+      "notEnough": "少し話してみましょう。スピードを確認できます。",
+      "measured": "{{ratio}}× あなたのタイピングスピードの {{typing}} wpm",
+      "average": "平均打字者の{{ratio}}倍の速度（{{typing}} wpm）"
+    },
+    "words": {
+      "title": "合計語数",
+      "dictations_one": "{{count, number}}回の辞書入力",
+      "dictations_other": "{{count, number}} 回のディクテーション"
+    },
+    "fixes": {
+      "title": "修正された内容",
+      "dictionary": "辞書の修正",
+      "ai": "AIクリーンアップの修正"
+    },
+    "categories": {
+      "title": "どこでディクテーションをする",
+      "empty": "いくつかのアプリで発話して、あなたの言葉がどこにいくかを確認してください。",
+      "words_one": "{{count, number}}語",
+      "words_other": "{{count, number}} ワード",
+      "documents": "ドキュメント",
+      "ai_prompts": "AIプロンプト",
+      "email": "メール",
+      "work": "仕事のメッセージ",
+      "personal": "個人のメッセージ",
+      "other": "その他"
+    },
+    "heatmap": {
+      "title": "あなたの連続記録",
+      "current": "現在の連続",
+      "longest": "最も長い連続",
+      "days_one": "{{count, number}} 日",
+      "days_other": "{{count, number}} 日",
+      "active_one": "過去1年間でdictationを{{count, number}}日実施",
+      "active_other": "過去1年間でdictationが{{count, number}}日行われた",
+      "day_one": "{{date}}: {{count, number}} word",
+      "day_other": "{{date}}: {{count, number}} ワード",
+      "less": "少ない",
+      "more": "もっと",
+      "band0": "言葉なし",
+      "band1": "1から249語",
+      "band2": "250 から 499 語",
+      "band3": "500 から 749 語",
+      "band4": "750語以上"
+    },
+    "voice": {
+      "lockedTitle": "あなたの声プロファイルは{{goal}}語まで解錠されます",
+      "lockedBody": "継続して話す：これまでに{{current}}語のうち{{goal}}語まで。その後、最もよく使うフレーズ、話すタイミングと場所、そして{{appName}}が自動で修正してくれる語を確認できます。",
+      "locked": "ロックされている",
+      "phrase": "あなたのフレーズ",
+      "phraseIn_one": "{{count, number}}回の音声入力",
+      "phraseIn_other": "{{count, number}}回のディクテーション中",
+      "peak": "ピーク時間とアプリ",
+      "peakApp": "{{app}}における最もよく使われる語",
+      "word": "最も使われている語",
+      "uses_one": "{{count, number}}回使用しました",
+      "uses_other": "{{count, number}}回使用されました",
+      "corrected": "修正された最も頻出の語",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "修正しました {{count, number}} 回",
+      "fixed_other": "修正しました {{count, number}} 回",
+      "notEnough": "まだ十分な音声入力がありません。",
+      "footnote_one": "このMacでの最新の音声入力で処理されました。何もMacから離れません。",
+      "footnote_other": "このMacで最新の{{count, number}}回の音声入力で処理されました。何もMacから離れません。",
+      "sample": {
+        "phrase": "よく言うフレーズ",
+        "peak": "1日の中でいつの時間か",
+        "word": "好きな言葉",
+        "corrected": "修正される単語"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "Wispr Bro をシステムのテーマに合わせるか、ライトまたはダークで固定するかを選択します"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "インサイト",
-      "usage": "使用量",
-      "voice": "音声"
-    },
-    "asOf": "あなたの数字（{{date}}まで）",
-    "unavailable": "Insightsを今すぐ読み取ることができません。しばらくすると表示されます。",
-    "save": {
-      "button": "画像として保存",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG画像",
-      "done": "画像を保存しました。",
-      "failed": "画像を保存できませんでした。再度試してください。"
-    },
-    "speed": {
-      "title": "話すスピード",
-      "value": "{{wpm}} wpm",
-      "notEnough": "少し話してみましょう。スピードを確認できます。",
-      "measured": "{{ratio}}× あなたのタイピングスピードの {{typing}} wpm",
-      "average": "平均打字者の{{ratio}}倍の速度（{{typing}} wpm）"
-    },
-    "words": {
-      "title": "合計語数",
-      "dictations_one": "{{count, number}}回の辞書入力",
-      "dictations_other": "{{count, number}} 回のディクテーション"
-    },
-    "fixes": {
-      "title": "修正された内容",
-      "dictionary": "辞書の修正",
-      "ai": "AIクリーンアップの修正"
-    },
-    "categories": {
-      "title": "どこでディクテーションをする",
-      "empty": "いくつかのアプリで発話して、あなたの言葉がどこにいくかを確認してください。",
-      "words_one": "{{count, number}}語",
-      "words_other": "{{count, number}} ワード",
-      "documents": "ドキュメント",
-      "ai_prompts": "AIプロンプト",
-      "email": "メール",
-      "work": "仕事のメッセージ",
-      "personal": "個人のメッセージ",
-      "other": "その他"
-    },
-    "heatmap": {
-      "title": "あなたの連続記録",
-      "current": "現在の連続",
-      "longest": "最も長い連続",
-      "days_one": "{{count, number}} 日",
-      "days_other": "{{count, number}} 日",
-      "active_one": "過去1年間でdictationを{{count, number}}日実施",
-      "active_other": "過去1年間でdictationが{{count, number}}日行われた",
-      "day_one": "{{date}}: {{count, number}} word",
-      "day_other": "{{date}}: {{count, number}} ワード",
-      "less": "少ない",
-      "more": "もっと",
-      "band0": "言葉なし",
-      "band1": "1から249語",
-      "band2": "250 から 499 語",
-      "band3": "500 から 749 語",
-      "band4": "750語以上"
-    },
-    "voice": {
-      "lockedTitle": "あなたの声プロファイルは{{goal}}語まで解錠されます",
-      "lockedBody": "継続して話す：これまでに{{current}}語のうち{{goal}}語まで。その後、最もよく使うフレーズ、話すタイミングと場所、そして{{appName}}が自動で修正してくれる語を確認できます。",
-      "locked": "ロックされている",
-      "phrase": "あなたのフレーズ",
-      "phraseIn_one": "{{count, number}}回の音声入力",
-      "phraseIn_other": "{{count, number}}回のディクテーション中",
-      "peak": "ピーク時間とアプリ",
-      "peakApp": "{{app}}における最もよく使われる語",
-      "word": "最も使われている語",
-      "uses_one": "{{count, number}}回使用しました",
-      "uses_other": "{{count, number}}回使用されました",
-      "corrected": "修正された最も頻出の語",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "修正しました {{count, number}} 回",
-      "fixed_other": "修正しました {{count, number}} 回",
-      "notEnough": "まだ十分な音声入力がありません。",
-      "footnote_one": "このMacでの最新の音声入力で処理されました。何もMacから離れません。",
-      "footnote_other": "このMacで最新の{{count, number}}回の音声入力で処理されました。何もMacから離れません。",
-      "sample": {
-        "phrase": "よく言うフレーズ",
-        "peak": "1日の中でいつの時間か",
-        "word": "好きな言葉",
-        "corrected": "修正される単語"
-      }
     }
   }
 }

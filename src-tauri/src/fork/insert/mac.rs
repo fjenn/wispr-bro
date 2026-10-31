@@ -14,7 +14,7 @@ use tauri::{AppHandle, Manager};
 use super::deliver::{self, Gate, Platform, PublishedText, Request};
 use super::verify::{self, FieldState};
 use super::{
-    discard_target, hook_result, interruption, lock, next_take, publish_outcome, route_take, LINE,
+    discard_target, hook_result, interruption, lock, next_take, publish_outcome, route, Kind, LINE,
     SLOT,
 };
 use crate::fork::clipboard::restore::{TargetClass, Timing};
@@ -22,8 +22,14 @@ use crate::fork::clipboard::snapshot::Snapshot;
 use crate::fork::clipboard::{keys, nspb, target};
 use crate::settings::{AppSettings, AutoSubmitKey, ClipboardHandling};
 
-/// Delivers on the paste thread Handy spawned for this take.
-pub(super) fn deliver(text: String, app: AppHandle, settings: &AppSettings) -> Result<(), String> {
+/// Delivers on the paste thread Handy spawned for this take (or on the
+/// recovery thread for Undo and paste-last, S-06).
+pub(super) fn deliver(
+    text: String,
+    app: AppHandle,
+    settings: &AppSettings,
+    kind: Kind,
+) -> (Result<(), String>, Option<deliver::PasteOutcome>) {
     let text = if settings.append_trailing_space {
         format!("{text} ")
     } else {
@@ -44,17 +50,19 @@ pub(super) fn deliver(text: String, app: AppHandle, settings: &AppSettings) -> R
     // S-05: the key-up target still has focus and is a place to type.
     if cancelled() || interruption().is_some() {
         // `paste` reports the cancel or the interruption.
-        discard_target();
-    } else if let Some(reason) = route_take(take) {
+        if kind == Kind::Take {
+            discard_target();
+        }
+    } else if let Some(reason) = route(take, kind) {
         let delivery = deliver::Delivery::Card { reason };
-        publish_outcome(&app, take, delivery, &text);
-        return hook_result(delivery);
+        publish_outcome(&app, take, delivery, &text, kind);
+        return (hook_result(delivery), delivery.paste_outcome());
     }
 
     let (bundle, class) = frontmost_class();
     let mut req = Request::new(&text, class);
-    req.submit = settings
-        .auto_submit
+    // Paste-last puts the text back; it never sends it (S-06).
+    req.submit = (settings.auto_submit && kind != Kind::Again)
         .then(|| submit_flags(settings.auto_submit_key));
     req.keep_transcript = settings.clipboard_handling == ClipboardHandling::CopyToClipboard;
 
@@ -65,7 +73,7 @@ pub(super) fn deliver(text: String, app: AppHandle, settings: &AppSettings) -> R
     };
     let (report, pending) = deliver::paste(&platform, &LINE, &req, &gate);
     log::info!(
-        "insert: take {take} {} via {:?} into {} ({}): {}",
+        "insert: take {take} ({kind:?}) {} via {:?} into {} ({}): {}",
         report
             .delivery
             .paste_outcome()
@@ -93,8 +101,11 @@ pub(super) fn deliver(text: String, app: AppHandle, settings: &AppSettings) -> R
             log::error!("insert: could not start the restore thread: {e}");
         }
     }
-    publish_outcome(&app, take, report.delivery, &text);
-    hook_result(report.delivery)
+    publish_outcome(&app, take, report.delivery, &text, kind);
+    (
+        hook_result(report.delivery),
+        report.delivery.paste_outcome(),
+    )
 }
 
 fn submit_flags(key: AutoSubmitKey) -> u64 {

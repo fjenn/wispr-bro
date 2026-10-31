@@ -163,7 +163,11 @@ fn status_lists_every_binding_with_its_label_and_the_skipped_ones() {
     assert_eq!(s.trigger.as_deref(), Some("fn"));
     assert_eq!(s.globe, "do_nothing");
     assert!(!s.fn_blocked);
-    assert_eq!(s.issues.len(), 1, "paste_last has no handler yet");
+    assert_eq!(
+        s.issues.len(),
+        2,
+        "paste_last and copy_last have no handler here"
+    );
     let texts: Vec<_> = s
         .bindings
         .iter()
@@ -181,4 +185,20 @@ fn status_lists_every_binding_with_its_label_and_the_skipped_ones() {
         &Ansi,
     );
     assert!(blocked.fn_blocked);
+}
+
+#[test]
+fn mouse_buttons_have_spoken_names() {
+    // S-06: Press Enter may be a mouse button.
+    for (chord, text) in [
+        ("mousemiddle", "Middle mouse button"),
+        ("mousex1", "Back mouse button"),
+        ("mousex2", "Forward mouse button"),
+        ("option+mousex1", "⌥ Back mouse button"),
+    ] {
+        let l = crate::fork::shortcut::labels::label(chord, &Ansi, "en").unwrap();
+        assert_eq!(l.text, text, "{chord}");
+    }
+    let l = crate::fork::shortcut::labels::label("option+mousex2", &Ansi, "en").unwrap();
+    assert_eq!(l.spoken, "Option Forward mouse button");
 }

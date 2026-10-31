@@ -87,9 +87,44 @@ fn an_empty_or_missing_store_gives_defaults() {
         decode_stored(None),
         (ForkSettings::default(), LoadStatus::Fresh)
     );
-    let (s, status) = decode_stored(Some(&json!({ "schema_version": 1 })));
+    let (s, status) = decode_stored(Some(&json!({ "schema_version": CURRENT_SCHEMA_VERSION })));
     assert_eq!(s, ForkSettings::default());
     assert_eq!(status, LoadStatus::Loaded);
+    // A v1 file without hotkeys takes every default too.
+    let (s, status) = decode_stored(Some(&json!({ "schema_version": 1 })));
+    assert_eq!(s, ForkSettings::default());
+    assert_eq!(status, LoadStatus::Migrated { from: 1 });
+}
+
+#[test]
+fn v1_hotkeys_gain_copy_last_and_keep_what_the_user_set() {
+    // S-06: v1 knew no copy_last; a stored map gets its default, nothing
+    // else changes (paste-last unset by the user stays unset).
+    let stored = json!({
+        "schema_version": 1,
+        "hotkeys": {
+            "dictate": [{ "chord": "fn", "activation": "hold" }],
+            "paste_last": [],
+        },
+    });
+    let (s, status) = decode_stored(Some(&stored));
+    assert_eq!(status, LoadStatus::Migrated { from: 1 });
+    assert_eq!(s.hotkeys.len(), 3);
+    assert!(s.hotkeys["paste_last"].is_empty());
+    assert_eq!(
+        s.hotkeys["copy_last"],
+        vec![HotkeyBinding::new(
+            "ctrl+command+c",
+            HotkeyActivation::Press
+        )]
+    );
+    // A v1 user who already had a copy_last entry (by hand) keeps it.
+    let stored = json!({
+        "schema_version": 1,
+        "hotkeys": { "copy_last": [] },
+    });
+    let (s, _) = decode_stored(Some(&stored));
+    assert!(s.hotkeys["copy_last"].is_empty());
 }
 
 #[test]

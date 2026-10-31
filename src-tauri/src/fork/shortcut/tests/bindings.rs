@@ -25,24 +25,100 @@ fn the_default_bindings_compile_to_the_fn_grammar() {
     assert_eq!(p.trigger, Some(Trigger::Fn));
     assert!(p.hold && p.double_tap && p.trigger_space && p.esc_cancels);
     assert!(p.keyed.is_empty());
-    // paste_last has no handler in S-01: reported, not registered.
+    // Keyed actions with no handler (S-06 registers them in the app):
+    // reported, not registered.
+    let no_handler = |action: &str, chord: &str| Issue::Unsupported {
+        action: action.into(),
+        chord: chord.into(),
+        reason: "no handler for this action yet".into(),
+    };
     assert_eq!(
         p.issues,
-        vec![Issue::Unsupported {
-            action: "paste_last".into(),
-            chord: "ctrl+command+v".into(),
-            reason: "no handler for this action yet".into(),
-        }]
+        vec![
+            no_handler("copy_last", "ctrl+command+c"),
+            no_handler("paste_last", "ctrl+command+v"),
+        ]
     );
 }
 
 #[test]
 fn a_handled_keyed_action_is_registered() {
     let p = compile(&default_hotkeys(), |id| id == "paste_last");
-    assert!(p.issues.is_empty());
+    assert_eq!(p.issues.len(), 1, "copy_last has no handler here");
     assert_eq!(p.keyed.len(), 1);
     assert_eq!(p.keyed[0].action, "paste_last");
     assert_eq!(p.keyed[0].hotkey, "ctrl+command+v".parse().unwrap());
+}
+
+// S-06 ------------------------------------------------------------------
+
+#[test]
+fn the_recovery_defaults_paste_and_copy_and_leave_the_rest_unset() {
+    let map = default_hotkeys();
+    assert_eq!(map["paste_last"], vec![b("ctrl+command+v", Press)]);
+    assert_eq!(map["copy_last"], vec![b("ctrl+command+c", Press)]);
+    assert!(!map.contains_key("press_enter"));
+    assert!(!map.contains_key("undo_cancel"));
+    let p = compile(&map, |_| true);
+    assert!(p.issues.is_empty(), "{:?}", p.issues);
+    let mut actions: Vec<_> = p.keyed.iter().map(|k| k.action.as_str()).collect();
+    actions.sort();
+    assert_eq!(actions, ["copy_last", "paste_last"]);
+}
+
+#[test]
+fn press_enter_takes_a_key_or_a_mouse_button_but_never_return() {
+    let with = |chord: &str| {
+        let mut map = default_hotkeys();
+        map.insert("press_enter".into(), vec![b(chord, Press)]);
+        compile(&map, |_| true)
+    };
+    for chord in [
+        "mousex1",
+        "mousex2",
+        "mousemiddle",
+        "option+mousex1",
+        "f13",
+        "ctrl+option+return",
+    ] {
+        let p = with(chord);
+        let keyed = p.keyed.iter().find(|k| k.action == "press_enter");
+        if chord.ends_with("return") {
+            assert!(keyed.is_none(), "{chord}");
+            assert!(matches!(
+                &p.issues[..],
+                [Issue::Unsupported { action, .. }] if action == "press_enter"
+            ));
+        } else {
+            let keyed = keyed.unwrap_or_else(|| panic!("{chord}: {:?}", p.issues));
+            assert_eq!(keyed.hotkey, normalize(chord).unwrap().1);
+        }
+    }
+    for chord in ["return", "enter", "keypadenter"] {
+        let p = with(chord);
+        assert!(p.keyed.iter().all(|k| k.action != "press_enter"), "{chord}");
+        assert_eq!(p.issues.len(), 1, "{chord}");
+    }
+    // The recorder's side-specific spelling normalises.
+    assert_eq!(
+        normalize("option_left+mousex1").unwrap().0,
+        "option+mousex1"
+    );
+}
+
+#[test]
+fn undo_cancel_can_be_bound_like_any_keyed_action() {
+    let mut map = default_hotkeys();
+    map.insert("undo_cancel".into(), vec![b("ctrl+option+z", Press)]);
+    let p = compile(&map, |_| true);
+    assert!(p.keyed.iter().any(|k| k.action == "undo_cancel"));
+    // The same chord as paste-last is a conflict.
+    map.insert("undo_cancel".into(), vec![b("ctrl+command+v", Press)]);
+    let p = compile(&map, |_| true);
+    assert!(p
+        .issues
+        .iter()
+        .any(|i| matches!(i, Issue::Conflict { action, .. } if action == "undo_cancel" || action == "paste_last")));
 }
 
 #[test]

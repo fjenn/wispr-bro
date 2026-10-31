@@ -89,6 +89,13 @@ pub enum PillMessage {
     CheckConnection,
     /// Not enough free disk space for the speech model (S-07a).
     NoSpace,
+    /// A take was cancelled; Undo brings it back for
+    /// [`crate::fork::recovery::UNDO_WINDOW_MS`] (S-06).
+    Cancelled,
+    /// Paste-last or copy-last found no transcript in History (S-06).
+    NoTranscript,
+    /// Copy-last put the last transcript on the clipboard (S-06).
+    CopiedLast,
 }
 
 /// Information or error (changes the colour and the VoiceOver priority).
@@ -109,6 +116,8 @@ pub enum PillFix {
     SoundInput,
     /// Starts the speech model download again (S-07a).
     RetryDownload,
+    /// Brings the cancelled take back (S-06).
+    Undo,
 }
 
 impl PillMessage {
@@ -116,7 +125,10 @@ impl PillMessage {
         match self {
             PillMessage::NoSpeech
             | PillMessage::InsertedWithoutCleanup
-            | PillMessage::NotPasted => PillTone::Info,
+            | PillMessage::NotPasted
+            | PillMessage::Cancelled
+            | PillMessage::NoTranscript
+            | PillMessage::CopiedLast => PillTone::Info,
             PillMessage::MicMuted
             | PillMessage::TranscriptionFailed
             | PillMessage::MicDenied
@@ -137,6 +149,7 @@ impl PillMessage {
             PillMessage::DownloadFailed | PillMessage::CheckConnection | PillMessage::NoSpace => {
                 Some(PillFix::RetryDownload)
             }
+            PillMessage::Cancelled => Some(PillFix::Undo),
             _ => None,
         }
     }
@@ -159,6 +172,10 @@ impl PillMessage {
         if self.sticky() {
             return STICKY;
         }
+        if self == PillMessage::Cancelled {
+            // The bar offers Undo exactly as long as the audio is kept.
+            return crate::fork::recovery::UNDO_WINDOW_MS;
+        }
         match (self.tone(), self.fix()) {
             (PillTone::Info, _) => INFO_MS,
             (PillTone::Error, None) => ERROR_MS,
@@ -180,6 +197,9 @@ impl PillMessage {
             PillMessage::DownloadFailed => "download_failed",
             PillMessage::CheckConnection => "check_connection",
             PillMessage::NoSpace => "no_space",
+            PillMessage::Cancelled => "cancelled",
+            PillMessage::NoTranscript => "no_transcript",
+            PillMessage::CopiedLast => "copied_last",
         }
     }
 }
@@ -266,6 +286,9 @@ pub enum Input {
     Card(CardContent),
     /// The card's text was copied.
     Copied,
+    /// Undo is transcribing a cancelled take (S-06): "Transcribing…" from
+    /// whatever the bar shows ("Cancelled · Undo"), unless a take records.
+    Undoing,
 }
 
 /// What the card shows (one card for S-07a's queued takes and S-05's
@@ -602,6 +625,17 @@ impl Model {
             Input::Copied => {
                 if self.phase() == Phase::Card {
                     self.copied_until = Some(now + COPIED_MS);
+                }
+            }
+            Input::Undoing => {
+                if !self.recording() {
+                    self.set(Phase::Transcribing);
+                    self.message = None;
+                    self.label_until = None;
+                    self.warning = None;
+                    self.card = None;
+                    self.more = 0;
+                    self.copied_until = None;
                 }
             }
         }
@@ -992,6 +1026,9 @@ mod tests {
             DownloadFailed,
             CheckConnection,
             NoSpace,
+            Cancelled,
+            NoTranscript,
+            CopiedLast,
         ] {
             assert!(!k.key().is_empty());
             assert!(k.duration() >= INFO_MS);
@@ -1151,5 +1188,93 @@ mod tests {
         m.step(0, Input::TakeStarted { locked: false });
         m.step(1, Input::Queued);
         assert_eq!(phase(&mut m, 1), Some(PillPhase::Held));
+    }
+
+    // S-06 ------------------------------------------------------------------
+
+    #[test]
+    fn a_cancel_offers_undo_for_exactly_the_undo_window() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: false });
+        // The engine's cancel, then the recovery hook's offer.
+        m.step(2_000, Input::Cancelled);
+        m.step(2_001, Input::Message(PillMessage::Cancelled));
+        let v = view_of(&mut m, 2_001);
+        assert_eq!(
+            (v.phase, v.shape, v.message),
+            (
+                PillPhase::Message,
+                Shape::Message,
+                Some(PillMessage::Cancelled)
+            )
+        );
+        assert_eq!(PillMessage::Cancelled.fix(), Some(PillFix::Undo));
+        assert_eq!(PillMessage::Cancelled.tone(), PillTone::Info);
+        // Handy's "cancelled" phase arrives after the offer: it stays.
+        m.step(2_002, Input::Cancelled);
+        m.step(2_003, Input::Hide);
+        assert_eq!(phase(&mut m, 2_200), Some(PillPhase::Message));
+        assert_eq!(
+            m.next_deadline(),
+            Some(2_001 + crate::fork::recovery::UNDO_WINDOW_MS)
+        );
+        assert!(
+            m.view_at(2_001 + crate::fork::recovery::UNDO_WINDOW_MS)
+                .resting
+        );
+    }
+
+    #[test]
+    fn a_cli_cancel_mid_take_still_shows_the_offer() {
+        // No engine effect: the offer itself arrives during "recording".
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: true });
+        m.step(500, Input::Cancelled);
+        m.step(500, Input::Message(PillMessage::Cancelled));
+        assert_eq!(view_of(&mut m, 500).message, Some(PillMessage::Cancelled));
+    }
+
+    #[test]
+    fn undo_shows_transcribing_then_the_card_or_rest() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::Message(PillMessage::Cancelled));
+        m.step(1_000, Input::Undoing);
+        assert_eq!(phase(&mut m, 1_000), Some(PillPhase::Transcribing));
+        // Pasted: Handy-style hide, then rest.
+        m.step(1_500, Input::Hide);
+        assert!(m.view_at(1_500 + HIDE_GRACE_MS).resting);
+        // Focus moved: the card.
+        m.step(2_000, Input::Undoing);
+        m.step(
+            2_500,
+            Input::Card(CardContent {
+                text: "back again".into(),
+                reason: Some(ForkCardReason::FocusMoved),
+            }),
+        );
+        let v = view_of(&mut m, 2_500);
+        assert_eq!(
+            (v.phase, v.card_reason, v.text.as_deref()),
+            (
+                PillPhase::Card,
+                Some(ForkCardReason::FocusMoved),
+                Some("back again")
+            )
+        );
+        // An undo never interrupts a take that records.
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: false });
+        m.step(1, Input::Undoing);
+        assert_eq!(phase(&mut m, 1), Some(PillPhase::Held));
+    }
+
+    #[test]
+    fn recovery_messages_are_short_information() {
+        for k in [PillMessage::NoTranscript, PillMessage::CopiedLast] {
+            assert_eq!(
+                (k.tone(), k.fix(), k.duration()),
+                (PillTone::Info, None, INFO_MS)
+            );
+        }
     }
 }

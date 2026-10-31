@@ -510,6 +510,8 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
         ledger().await_outcome(w.entry_id, &w.final_text);
     } // S-07a: a take recorded before any speech model was ready.
     crate::fork::models::setup::on_entry_saved(app, &entry.file_name, entry.id);
+    // S-06: a take cancelled just before its paste keeps its row for Undo.
+    crate::fork::recovery::on_entry_saved(&entry.file_name, entry.id);
 }
 
 /// `HistoryManager::update_transcription` stored a new transcription of

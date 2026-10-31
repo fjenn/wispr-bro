@@ -128,6 +128,26 @@ const STATES: Record<string, ForkPillState> = {
     tone: "error",
     fix: "retry_download",
   }),
+  // S-06: "Cancelled · Undo", and the recovery shortcuts' notes.
+  cancelled: state({
+    phase: "message",
+    shape: "message",
+    message: "cancelled",
+    tone: "info",
+    fix: "undo",
+  }),
+  noTranscript: state({
+    phase: "message",
+    shape: "message",
+    message: "no_transcript",
+    tone: "info",
+  }),
+  copiedLast: state({
+    phase: "message",
+    shape: "message",
+    message: "copied_last",
+    tone: "info",
+  }),
 };
 
 async function openPill(

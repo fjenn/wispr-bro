@@ -120,6 +120,38 @@
       "preview": "Spelen",
       "mute": "Alle geluiden uitschakelen tijdens dictatie",
       "muteHelp": "Muziek en video's worden stil tijdens het praten en komen weer terug op dezelfde volume."
+    },
+    "recovery": {
+      "title": "Herstelsneltoetsen",
+      "description": "Haal je laatste dictaat terug, of verstuur het, zonder het toetsenbord los te laten.",
+      "notSet": "Niet ingesteld",
+      "current": "Sneltoets: {{shortcut}}",
+      "listening": "Druk op een sneltoets…",
+      "listeningHelp": "Druk op de toetsen of de muisknop die je wilt. Escape annuleert.",
+      "record": "Opnemen",
+      "cancel": "Annuleren",
+      "clear": "Wissen",
+      "useDefault": "Standaard gebruiken",
+      "unusable": "Deze sneltoets kan niet worden gebruikt. Kies een andere.",
+      "saveFailed": "De sneltoets kon niet worden bewaard.",
+      "recordFailed": "Kon geen sneltoets opnemen. Controleer of de app Toegankelijkheid mag gebruiken.",
+      "pasteLast": {
+        "title": "Laatste dictaat plakken",
+        "help": "Plakt je laatste dictaat opnieuw waar je aan het typen bent."
+      },
+      "copyLast": {
+        "title": "Laatste dictaat kopiëren",
+        "help": "Zet je laatste dictaat op het klembord."
+      },
+      "pressEnter": {
+        "title": "Enter indrukken",
+        "help": "Drukt voor je op Return, bijvoorbeeld om een bericht te versturen dat je net hebt gedicteerd.",
+        "mouse": "Een muisknop klikt nog steeds gewoon in de app onder de aanwijzer, dus een zijknop (terug of vooruit) werkt het best."
+      },
+      "undoCancel": {
+        "title": "Annuleren ongedaan maken",
+        "help": "Haalt een dictaat terug dat je net hebt geannuleerd, zolang de balk Ongedaan maken toont."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "Linkermuisknop",
+        "mouseRight": "Rechtermuisknop",
+        "mouseMiddle": "Middelste muisknop",
+        "mouseBack": "Muisknop Terug",
+        "mouseForward": "Muisknop Vooruit"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Dicteren wordt ingesteld. Je woorden zijn bewaard.",
         "card": "Je dictaat is klaar. Kopieer het vanuit de balk.",
-        "micLostWarning": "De microfoon is verloren. Wat je net zei wordt opgeslagen."
+        "micLostWarning": "De microfoon is verloren. Wat je net zei wordt opgeslagen.",
+        "undo": "Ongedaan maken staat 4 seconden op de dicteerbalk."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "Downloaden mislukt",
         "check_connection": "Controleer je internetverbinding",
-        "no_space": "Niet genoeg schijfruimte om dicteren in te stellen"
+        "no_space": "Niet genoeg schijfruimte om dicteren in te stellen",
+        "cancelled": "Geannuleerd",
+        "no_transcript": "Nog geen dictaat om te plakken",
+        "copied_last": "Laatste dictaat gekopieerd"
       },
       "card": {
         "no_text_field": "Klik eerst in een tekstveld",
@@ -737,7 +778,8 @@
     "retry": "Opnieuw",
     "card": {
       "hidden": "Verborgen, omdat het was bedoeld voor een wachtwoordveld"
-    }
+    },
+    "undo": "Ongedaan maken"
   },
   "cleanup": {
     "title": "Opschonen",
@@ -944,6 +986,95 @@
       "failed": "De snippets konden niet worden geëxporteerd. Probeer het opnieuw."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "Inzichten",
+      "usage": "Gebruik",
+      "voice": "Stem"
+    },
+    "asOf": "Je cijfers tot {{date}}",
+    "unavailable": "Insights kunnen op dit moment niet worden gelezen. Ze verschijnen over een moment.",
+    "save": {
+      "button": "Opslaan als afbeelding",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG-afbeelding",
+      "done": "Beeld is opgeslagen.",
+      "failed": "De afbeelding kon niet worden opgeslagen. Probeer het opnieuw."
+    },
+    "speed": {
+      "title": "Spraak snelheid",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dictateer een beetje meer om je snelheid te zien.",
+      "measured": "{{ratio}}× je typingsnelheid van {{typing}} wpm",
+      "average": "{{ratio}}× de snelheid van een gemiddelde typist ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Totaal woorden",
+      "dictations_one": "in {{count, number}} dictatie",
+      "dictations_other": "in {{count, number}} dictaties"
+    },
+    "fixes": {
+      "title": "Correcties gemaakt",
+      "dictionary": "Verbeteringen woordenboek",
+      "ai": "AI-afwijkingen verbeteren"
+    },
+    "categories": {
+      "title": "Waar je dictieert",
+      "empty": "Dictate in een paar apps om te zien waar je woorden heen gaan.",
+      "words_one": "{{count, number}} woord",
+      "words_other": "{{count, number}} woorden",
+      "documents": "Dokumenten",
+      "ai_prompts": "AI-prompten",
+      "email": "E-mail",
+      "work": "Berichten van werk",
+      "personal": "Persoonlijke berichten",
+      "other": "Al het andere"
+    },
+    "heatmap": {
+      "title": "Je streek",
+      "current": "Huidige reeks",
+      "longest": "Langste reeks",
+      "days_one": "{{count, number}} dag",
+      "days_other": "{{count, number}} dagen",
+      "active_one": "1 dag met dictie in de afgelopen jaar",
+      "active_other": "{{count, number}} dagen met dictatie in de afgelopen jaar",
+      "day_one": "{{date}}: {{count, number}} woord",
+      "day_other": "{{date}}: {{count, number}} woorden",
+      "less": "Minder",
+      "more": "Meer",
+      "band0": "Geen woorden",
+      "band1": "1 tot 249 woorden",
+      "band2": "250 tot 499 woorden",
+      "band3": "500 tot 749 woorden",
+      "band4": "750 woorden of meer"
+    },
+    "voice": {
+      "lockedTitle": "Je stemprofiel ontgrendelt op {{goal}} woorden",
+      "lockedBody": "Voeg nog meer tekst toe: {{current}} van {{goal}} woorden tot nu toe. Dan zie je de zin die je het meest gebruikt, wanneer en waar je tekent, en de woorden die {{appName}} voor je corrigeert.",
+      "locked": "Gelocked",
+      "phrase": "Je zin",
+      "phraseIn_one": "In {{count, number}} dictatie",
+      "phraseIn_other": "In {{count, number}} dictaties",
+      "peak": "Peaktijd en app",
+      "peakApp": "Meeste woorden in {{app}}",
+      "word": "Meest gebruikte woord",
+      "uses_one": "Gebruikt {{count, number}} keer",
+      "uses_other": "Gebruikt {{count, number}} keer",
+      "corrected": "Meest gecorrigeerde woord",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Geblokkeerd {{count, number}} keer",
+      "fixed_other": "Verbeterd {{count, number}} keer",
+      "notEnough": "Niet genoeg dicties nog.",
+      "footnote_one": "Gewerkt op deze Mac van je laatste dictatie. Niets verlaat je Mac.",
+      "footnote_other": "Berekend op deze Mac uit je laatste {{count, number}} dictaten. Niets verlaat je Mac.",
+      "sample": {
+        "phrase": "een zin die je vaak zegt",
+        "peak": "een tijd van de dag",
+        "word": "een favoriete woord",
+        "corrected": "een woord dat wordt gecorrigeerd"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1047,95 +1178,6 @@
     },
     "sidebar": {
       "about": "Over Wispr Bro"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "Inzichten",
-      "usage": "Gebruik",
-      "voice": "Stem"
-    },
-    "asOf": "Je cijfers tot {{date}}",
-    "unavailable": "Insights kunnen op dit moment niet worden gelezen. Ze verschijnen over een moment.",
-    "save": {
-      "button": "Opslaan als afbeelding",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG-afbeelding",
-      "done": "Beeld is opgeslagen.",
-      "failed": "De afbeelding kon niet worden opgeslagen. Probeer het opnieuw."
-    },
-    "speed": {
-      "title": "Spraak snelheid",
-      "value": "{{wpm}} wpm",
-      "notEnough": "Dictateer een beetje meer om je snelheid te zien.",
-      "measured": "{{ratio}}× je typingsnelheid van {{typing}} wpm",
-      "average": "{{ratio}}× de snelheid van een gemiddelde typist ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "Totaal woorden",
-      "dictations_one": "in {{count, number}} dictatie",
-      "dictations_other": "in {{count, number}} dictaties"
-    },
-    "fixes": {
-      "title": "Correcties gemaakt",
-      "dictionary": "Verbeteringen woordenboek",
-      "ai": "AI-afwijkingen verbeteren"
-    },
-    "categories": {
-      "title": "Waar je dictieert",
-      "empty": "Dictate in een paar apps om te zien waar je woorden heen gaan.",
-      "words_one": "{{count, number}} woord",
-      "words_other": "{{count, number}} woorden",
-      "documents": "Dokumenten",
-      "ai_prompts": "AI-prompten",
-      "email": "E-mail",
-      "work": "Berichten van werk",
-      "personal": "Persoonlijke berichten",
-      "other": "Al het andere"
-    },
-    "heatmap": {
-      "title": "Je streek",
-      "current": "Huidige reeks",
-      "longest": "Langste reeks",
-      "days_one": "{{count, number}} dag",
-      "days_other": "{{count, number}} dagen",
-      "active_one": "1 dag met dictie in de afgelopen jaar",
-      "active_other": "{{count, number}} dagen met dictatie in de afgelopen jaar",
-      "day_one": "{{date}}: {{count, number}} woord",
-      "day_other": "{{date}}: {{count, number}} woorden",
-      "less": "Minder",
-      "more": "Meer",
-      "band0": "Geen woorden",
-      "band1": "1 tot 249 woorden",
-      "band2": "250 tot 499 woorden",
-      "band3": "500 tot 749 woorden",
-      "band4": "750 woorden of meer"
-    },
-    "voice": {
-      "lockedTitle": "Je stemprofiel ontgrendelt op {{goal}} woorden",
-      "lockedBody": "Voeg nog meer tekst toe: {{current}} van {{goal}} woorden tot nu toe. Dan zie je de zin die je het meest gebruikt, wanneer en waar je tekent, en de woorden die {{appName}} voor je corrigeert.",
-      "locked": "Gelocked",
-      "phrase": "Je zin",
-      "phraseIn_one": "In {{count, number}} dictatie",
-      "phraseIn_other": "In {{count, number}} dictaties",
-      "peak": "Peaktijd en app",
-      "peakApp": "Meeste woorden in {{app}}",
-      "word": "Meest gebruikte woord",
-      "uses_one": "Gebruikt {{count, number}} keer",
-      "uses_other": "Gebruikt {{count, number}} keer",
-      "corrected": "Meest gecorrigeerde woord",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Geblokkeerd {{count, number}} keer",
-      "fixed_other": "Verbeterd {{count, number}} keer",
-      "notEnough": "Niet genoeg dicties nog.",
-      "footnote_one": "Gewerkt op deze Mac van je laatste dictatie. Niets verlaat je Mac.",
-      "footnote_other": "Berekend op deze Mac uit je laatste {{count, number}} dictaten. Niets verlaat je Mac.",
-      "sample": {
-        "phrase": "een zin die je vaak zegt",
-        "peak": "een tijd van de dag",
-        "word": "een favoriete woord",
-        "corrected": "een woord dat wordt gecorrigeerd"
-      }
     }
   }
 }

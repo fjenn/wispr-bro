@@ -120,6 +120,38 @@
       "preview": "Tanca",
       "mute": "Mutar tota la sona mentre dicta",
       "muteHelp": "La música i els vídeos es silencien quan parles i tornen a la mateixa volum després."
+    },
+    "recovery": {
+      "title": "Dreceres de recuperació",
+      "description": "Recupera el teu últim dictat, o envia’l, sense deixar el teclat.",
+      "notSet": "Sense definir",
+      "current": "Drecera: {{shortcut}}",
+      "listening": "Prem una drecera…",
+      "listeningHelp": "Prem les tecles o el botó del ratolí que vulguis. Escapada cancel·la.",
+      "record": "Enregistra",
+      "cancel": "Cancel·la",
+      "clear": "Esborra",
+      "useDefault": "Fes servir la predeterminada",
+      "unusable": "Aquesta drecera no es pot fer servir. Tria’n una altra.",
+      "saveFailed": "No s’ha pogut desar la drecera.",
+      "recordFailed": "No s’ha pogut enregistrar cap drecera. Comprova que l’app pot fer servir l’Accessibilitat.",
+      "pasteLast": {
+        "title": "Enganxa l’últim dictat",
+        "help": "Torna a enganxar l’últim dictat on estàs escrivint."
+      },
+      "copyLast": {
+        "title": "Copia l’últim dictat",
+        "help": "Posa l’últim dictat al porta-retalls."
+      },
+      "pressEnter": {
+        "title": "Prem Retorn",
+        "help": "Prem Retorn per tu, per exemple per enviar un missatge que acabes de dictar.",
+        "mouse": "Un botó del ratolí continua fent el seu clic habitual a l’app sota el punter, així que un botó lateral (Enrere o Endavant) és la millor opció."
+      },
+      "undoCancel": {
+        "title": "Desfés una cancel·lació",
+        "help": "Recupera un dictat que acabes de cancel·lar, mentre la barra mostra Desfés."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "Botó esquerre del ratolí",
+        "mouseRight": "Botó dret del ratolí",
+        "mouseMiddle": "Botó central del ratolí",
+        "mouseBack": "Botó Enrere del ratolí",
+        "mouseForward": "Botó Endavant del ratolí"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "S'està configurant el dictat. Les teves paraules estan desades.",
         "card": "El teu dictat és a punt. Copia'l des de la barra.",
-        "micLostWarning": "El microfònim s'ha desconnectat. El que has dit fins ara es manté."
+        "micLostWarning": "El microfònim s'ha desconnectat. El que has dit fins ara es manté.",
+        "undo": "Desfés és a la barra de dictat durant 4 segons."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "No s'ha pogut baixar",
         "check_connection": "Comprova la connexió a internet",
-        "no_space": "No hi ha prou espai al disc per configurar el dictat"
+        "no_space": "No hi ha prou espai al disc per configurar el dictat",
+        "cancelled": "Cancel·lat",
+        "no_transcript": "Encara no hi ha cap dictat per enganxar",
+        "copied_last": "Últim dictat copiat"
       },
       "card": {
         "no_text_field": "Clica dins un camp de text abans",
@@ -737,7 +778,8 @@
     "retry": "Torna-ho a provar",
     "card": {
       "hidden": "Ocult, perquè era destinat a un camp de contrasenya"
-    }
+    },
+    "undo": "Desfés"
   },
   "cleanup": {
     "title": "Neteja",
@@ -944,6 +986,95 @@
       "failed": "Els snippets no es poden exportar. Si us plau, torni a intentar-ho."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Uso",
+      "voice": "Voces"
+    },
+    "asOf": "Els teus números com a de {{date}}",
+    "unavailable": "Les insights no es poden llegir en aquest moment. Es mostraran en un moment.",
+    "save": {
+      "button": "Guardar com a imatge",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "imatge PNG",
+      "done": "Es va guardar l'imatge.",
+      "failed": "L'imatge no ha pogut ser desat. Prova de nou."
+    },
+    "speed": {
+      "title": "Velocitat de parlar",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dicta un poc més per veure la teva velocitat.",
+      "measured": "{{ratio}}× la velocitat de teixit de {{typing}} wpm",
+      "average": "{{ratio}}× la velocitat d'un tipografe mitjà ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Paraules totals",
+      "dictations_one": "a {{count, number}} dictació",
+      "dictations_other": "a {{count, number}} dictacions"
+    },
+    "fixes": {
+      "title": "Correccions realitzades",
+      "dictionary": "Correccions del diccionari",
+      "ai": "correccions d'AI"
+    },
+    "categories": {
+      "title": "On dictes",
+      "empty": "Dicta a unes quantes aplicacions per veure on anen les teves paraules.",
+      "words_one": "{{count, number}} paraula",
+      "words_other": "{{count, number}} paraules",
+      "documents": "Documents",
+      "ai_prompts": "prompts d'IA",
+      "email": "Correu",
+      "work": "Missatges de treball",
+      "personal": "Missatges personals",
+      "other": "Tots els altres"
+    },
+    "heatmap": {
+      "title": "La teva cadena",
+      "current": "Rècord actual",
+      "longest": "Més llarg",
+      "days_one": "{{count, number}} dia",
+      "days_other": "{{count, number}} dies",
+      "active_one": "Un dia amb dictació en les darreres anys",
+      "active_other": "{{count, number}} dies amb dictació durant les darreres anys",
+      "day_one": "{{date}}: {{count, number}} paraula",
+      "day_other": "{{date}}: {{count, number}} paraules",
+      "less": "Menys",
+      "more": "Més",
+      "band0": "No paraules",
+      "band1": "1 a 249 paraules",
+      "band2": "250 a 499 paraules",
+      "band3": "de 500 a 749 paraules",
+      "band4": "750 paraules o més"
+    },
+    "voice": {
+      "lockedTitle": "El teu perfil de veu es desbloqueja a {{goal}} paraules",
+      "lockedBody": "Continua dictant: {{current}} de {{goal}} paraules fins ara. Aleshores veuret la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà.",
+      "locked": "Bloquejat",
+      "phrase": "La teva frase",
+      "phraseIn_one": "En {{count, number}} dictació",
+      "phraseIn_other": "A {{count, number}} dictacions",
+      "peak": "El moment de punta i l'aplicació",
+      "peakApp": "La majoria de paraules a {{app}}",
+      "word": "Paraula més utilitzada",
+      "uses_one": "Utilitzat {{count, number}} vegada",
+      "uses_other": "Utilitzat {{count, number}} vegades",
+      "corrected": "Paraula corregida més freqüent",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Corregit {{count, number}} vegada",
+      "fixed_other": "Corregit {{count, number}} vegades",
+      "notEnough": "Encara no has fet pràcticament cap dictada.",
+      "footnote_one": "És un treball realitzat en aquest Mac des de la teva darrera dictació. Res es trenca del teu Mac.",
+      "footnote_other": "És un Mac de aquesta Mac des de les teves darreres {{count, number}} dictacions. Res es queda fora del teu Mac.",
+      "sample": {
+        "phrase": "una frase que dius sovint",
+        "peak": "un moment del dia",
+        "word": "una paraula preferida",
+        "corrected": "una paraula que es corregix"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "Tria si el Wispr Bro segueix el tema del sistema o es manté en mode clar o fosc"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "Insights",
-      "usage": "Uso",
-      "voice": "Voces"
-    },
-    "asOf": "Els teus números com a de {{date}}",
-    "unavailable": "Les insights no es poden llegir en aquest moment. Es mostraran en un moment.",
-    "save": {
-      "button": "Guardar com a imatge",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "imatge PNG",
-      "done": "Es va guardar l'imatge.",
-      "failed": "L'imatge no ha pogut ser desat. Prova de nou."
-    },
-    "speed": {
-      "title": "Velocitat de parlar",
-      "value": "{{wpm}} wpm",
-      "notEnough": "Dicta un poc més per veure la teva velocitat.",
-      "measured": "{{ratio}}× la velocitat de teixit de {{typing}} wpm",
-      "average": "{{ratio}}× la velocitat d'un tipografe mitjà ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "Paraules totals",
-      "dictations_one": "a {{count, number}} dictació",
-      "dictations_other": "a {{count, number}} dictacions"
-    },
-    "fixes": {
-      "title": "Correccions realitzades",
-      "dictionary": "Correccions del diccionari",
-      "ai": "correccions d'AI"
-    },
-    "categories": {
-      "title": "On dictes",
-      "empty": "Dicta a unes quantes aplicacions per veure on anen les teves paraules.",
-      "words_one": "{{count, number}} paraula",
-      "words_other": "{{count, number}} paraules",
-      "documents": "Documents",
-      "ai_prompts": "prompts d'IA",
-      "email": "Correu",
-      "work": "Missatges de treball",
-      "personal": "Missatges personals",
-      "other": "Tots els altres"
-    },
-    "heatmap": {
-      "title": "La teva cadena",
-      "current": "Rècord actual",
-      "longest": "Més llarg",
-      "days_one": "{{count, number}} dia",
-      "days_other": "{{count, number}} dies",
-      "active_one": "Un dia amb dictació en les darreres anys",
-      "active_other": "{{count, number}} dies amb dictació durant les darreres anys",
-      "day_one": "{{date}}: {{count, number}} paraula",
-      "day_other": "{{date}}: {{count, number}} paraules",
-      "less": "Menys",
-      "more": "Més",
-      "band0": "No paraules",
-      "band1": "1 a 249 paraules",
-      "band2": "250 a 499 paraules",
-      "band3": "de 500 a 749 paraules",
-      "band4": "750 paraules o més"
-    },
-    "voice": {
-      "lockedTitle": "El teu perfil de veu es desbloqueja a {{goal}} paraules",
-      "lockedBody": "Continua dictant: {{current}} de {{goal}} paraules fins ara. Aleshores veuret la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà.",
-      "locked": "Bloquejat",
-      "phrase": "La teva frase",
-      "phraseIn_one": "En {{count, number}} dictació",
-      "phraseIn_other": "A {{count, number}} dictacions",
-      "peak": "El moment de punta i l'aplicació",
-      "peakApp": "La majoria de paraules a {{app}}",
-      "word": "Paraula més utilitzada",
-      "uses_one": "Utilitzat {{count, number}} vegada",
-      "uses_other": "Utilitzat {{count, number}} vegades",
-      "corrected": "Paraula corregida més freqüent",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Corregit {{count, number}} vegada",
-      "fixed_other": "Corregit {{count, number}} vegades",
-      "notEnough": "Encara no has fet pràcticament cap dictada.",
-      "footnote_one": "És un treball realitzat en aquest Mac des de la teva darrera dictació. Res es trenca del teu Mac.",
-      "footnote_other": "És un Mac de aquesta Mac des de les teves darreres {{count, number}} dictacions. Res es queda fora del teu Mac.",
-      "sample": {
-        "phrase": "una frase que dius sovint",
-        "peak": "un moment del dia",
-        "word": "una paraula preferida",
-        "corrected": "una paraula que es corregix"
-      }
     }
   }
 }

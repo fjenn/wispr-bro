@@ -128,6 +128,14 @@ pub fn on_stopped() {
     }
 }
 
+/// S-06: captures the element focused now (a cancelled take's field, for
+/// Undo) and returns its capture id. Never waits.
+pub fn capture_now() -> u64 {
+    let id = next_id();
+    crate::fork::ax::capture(id);
+    id
+}
+
 /// Handy's `recording-state-event` `cancelled`.
 pub fn on_cancelled() {
     let mut t = takes();

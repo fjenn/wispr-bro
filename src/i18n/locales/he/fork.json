@@ -120,6 +120,38 @@
       "preview": "לצאת",
       "mute": "לכבות כל שמע במהלך כתיבה",
       "muteHelp": "המוזיקה והסרטונים מפסיקים לצלול כשאתם מדברים ומחזירים את הדרמה לאחר מכן."
+    },
+    "recovery": {
+      "title": "קיצורי שחזור",
+      "description": "החזירו את ההכתבה האחרונה, או שלחו אותה, בלי לעזוב את המקלדת.",
+      "notSet": "לא מוגדר",
+      "current": "קיצור: {{shortcut}}",
+      "listening": "הקישו קיצור…",
+      "listeningHelp": "הקישו את המקשים או את לחצן העכבר הרצויים. Escape מבטל.",
+      "record": "הקלטה",
+      "cancel": "ביטול",
+      "clear": "ניקוי",
+      "useDefault": "ברירת מחדל",
+      "unusable": "אי אפשר להשתמש בקיצור הזה. בחרו קיצור אחר.",
+      "saveFailed": "לא ניתן לשמור את הקיצור.",
+      "recordFailed": "לא ניתן להקליט קיצור. בדקו שלאפליקציה מותר להשתמש בנגישות.",
+      "pasteLast": {
+        "title": "הדבקת ההכתבה האחרונה",
+        "help": "מדביק שוב את ההכתבה האחרונה במקום שבו אתם מקלידים."
+      },
+      "copyLast": {
+        "title": "העתקת ההכתבה האחרונה",
+        "help": "שם את ההכתבה האחרונה בלוח."
+      },
+      "pressEnter": {
+        "title": "הקשה על Enter",
+        "help": "מקיש עבורכם על Return, למשל כדי לשלוח הודעה שהכתבתם זה עתה.",
+        "mouse": "לחצן עכבר עדיין לוחץ כרגיל באפליקציה שמתחת לסמן, לכן לחצן צד (אחורה או קדימה) הוא הבחירה הטובה ביותר."
+      },
+      "undoCancel": {
+        "title": "ביטול ביטול",
+        "help": "מחזיר הכתבה שביטלתם זה עתה, כל עוד הסרגל מציג ״ביטול פעולה״."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "לחצן עכבר שמאלי",
+        "mouseRight": "לחצן עכבר ימני",
+        "mouseMiddle": "לחצן עכבר אמצעי",
+        "mouseBack": "לחצן העכבר ״אחורה״",
+        "mouseForward": "לחצן העכבר ״קדימה״"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "ההכתבה בהגדרה. המילים שלך נשמרו.",
         "card": "ההכתבה שלך מוכנה. אפשר להעתיק אותה מהסרגל.",
-        "micLostWarning": "המיקרופון נ desconנected. מה שדיברתם עד כה נשמר."
+        "micLostWarning": "המיקרופון נ desconנected. מה שדיברתם עד כה נשמר.",
+        "undo": "״ביטול פעולה״ מופיע בסרגל ההכתבה למשך 4 שניות."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "ההורדה נכשלה",
         "check_connection": "כדאי לבדוק את החיבור לאינטרנט",
-        "no_space": "אין מספיק מקום בדיסק כדי להגדיר הכתבה"
+        "no_space": "אין מספיק מקום בדיסק כדי להגדיר הכתבה",
+        "cancelled": "בוטל",
+        "no_transcript": "עדיין אין הכתבה להדבקה",
+        "copied_last": "ההכתבה האחרונה הועתקה"
       },
       "card": {
         "no_text_field": "העתק לשדה טקסט קודם",
@@ -737,7 +778,8 @@
     "retry": "ניסיון חוזר",
     "card": {
       "hidden": "המוסר, כי היה מכוון לשדה סיסמה"
-    }
+    },
+    "undo": "ביטול פעולה"
   },
   "cleanup": {
     "title": "הטיה",
@@ -944,6 +986,95 @@
       "failed": "לא ניתן להפוך את המדריכים. אנא נסה שוב."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "ההערכות",
+      "usage": "שימוש",
+      "voice": "הקול"
+    },
+    "asOf": "המספרים שלך עד {{date}}",
+    "unavailable": "האינספורטים לא ניתן לקרוא כרגע. הם יופיעו ברגע.",
+    "save": {
+      "button": "שמור כהופעה",
+      "fileName": "השאלה של {{appName}} {{date}}.png",
+      "filter": "תמונה בפורמט PNG",
+      "done": "ההערכה נשמרה.",
+      "failed": "ההערכה לא נמצאה. נסה שוב."
+    },
+    "speed": {
+      "title": "מהירות דיבור",
+      "value": "{{wpm}} wpm",
+      "notEnough": "הקלד קצת יותר כדי לראות את מהירותך.",
+      "measured": "המהירות שלך היא {{ratio}}× מההירות שלך של {{typing}} wpm",
+      "average": "{{ratio}}× מההירות של טיפוסר ממוצע ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "מילים סהופות",
+      "dictations_one": "ב{{count, number}} דיקטציה",
+      "dictations_other": "ב{{count, number}} דיקטציות"
+    },
+    "fixes": {
+      "title": "שיפוצים שנעשו",
+      "dictionary": "תיקון מילון",
+      "ai": "תיקון מיקוד AI"
+    },
+    "categories": {
+      "title": "איפה אתה מדבר",
+      "empty": "הקלד במספר יישומים כדי לראות איפה מילים שלך מתרחשות.",
+      "words_one": "{{count, number}} מילה",
+      "words_other": "{{count, number}} מילים",
+      "documents": "מסמך",
+      "ai_prompts": "הנחיות ל-AI",
+      "email": "דואר אלקטרוני",
+      "work": "رسائل עבודה",
+      "personal": "הודעות אישיות",
+      "other": "הכל אחר"
+    },
+    "heatmap": {
+      "title": "הרצף שלך",
+      "current": "השורה הנוכחית",
+      "longest": "ההערכה הארוכה ביותר",
+      "days_one": "יום {{count, number}}",
+      "days_other": "{{count, number}} ימים",
+      "active_one": "יום אחד עם דיקטציה בשנתיים האחרונים",
+      "active_other": "{{count, number}} ימים עם דיקטציה בשנתיים האחרונות",
+      "day_one": "{{date}}: {{count, number}} מילה",
+      "day_other": "{{date}}: {{count, number}} מילים",
+      "less": "פחות",
+      "more": "הרבה",
+      "band0": "אין מילים",
+      "band1": "1 עד 249 מילים",
+      "band2": "250 ל-499 מילים",
+      "band3": "500 לـ 749 מילים",
+      "band4": "750 מילים או יותר"
+    },
+    "voice": {
+      "lockedTitle": "פרופיל הצלחה שלך מופק عند {{goal}} מילים",
+      "lockedBody": "המשתמש ממשיך לרשום: {{current}} מתוך {{goal}} מילים עד כה. אז תראה את המילה שמשתמשת בה הכי הרבה, בקогда ובאיפה אתה מרשום, ואת המילים ש{{appName}} מתקן עבורך.",
+      "locked": "مוגן",
+      "phrase": "הביטוי שלך",
+      "phraseIn_one": "ב{{count, number}} דיקטציה",
+      "phraseIn_other": "ב{{count, number}} דיקטציות",
+      "peak": "השעת הפסגה והאפליקציה",
+      "peakApp": "המילים הכי נפוצות ב-{{app}}",
+      "word": "המילה הנפוצה ביותר",
+      "uses_one": "השתמשתי {{count, number}} פעם",
+      "uses_other": "השתמשו ב{{count, number}} פעמים",
+      "corrected": "המילה שוקלטת ביותר",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "שיניתי {{count, number}} פעם",
+      "fixed_other": "שופטתי {{count, number}} פעמים",
+      "notEnough": "לא מספיק דיקטציות עדיין.",
+      "footnote_one": "הנתח על המחשב הזה מההקלדה האחרונה שלך. לא מתרחשת שום דבר על המחשב שלך.",
+      "footnote_other": "הועבר על זה המاك מההערכות האחרונות שלך {{count, number}}. כל דבר נשאר במקלט שלך.",
+      "sample": {
+        "phrase": "הביטוי שאתה אומר לעתים קרובות",
+        "peak": "שעון ביום",
+        "word": "מונח מועדף",
+        "corrected": "מילה שמתוקנת"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "בחר אם Wispr Bro יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "ההערכות",
-      "usage": "שימוש",
-      "voice": "הקול"
-    },
-    "asOf": "המספרים שלך עד {{date}}",
-    "unavailable": "האינספורטים לא ניתן לקרוא כרגע. הם יופיעו ברגע.",
-    "save": {
-      "button": "שמור כהופעה",
-      "fileName": "השאלה של {{appName}} {{date}}.png",
-      "filter": "תמונה בפורמט PNG",
-      "done": "ההערכה נשמרה.",
-      "failed": "ההערכה לא נמצאה. נסה שוב."
-    },
-    "speed": {
-      "title": "מהירות דיבור",
-      "value": "{{wpm}} wpm",
-      "notEnough": "הקלד קצת יותר כדי לראות את מהירותך.",
-      "measured": "המהירות שלך היא {{ratio}}× מההירות שלך של {{typing}} wpm",
-      "average": "{{ratio}}× מההירות של טיפוסר ממוצע ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "מילים סהופות",
-      "dictations_one": "ב{{count, number}} דיקטציה",
-      "dictations_other": "ב{{count, number}} דיקטציות"
-    },
-    "fixes": {
-      "title": "שיפוצים שנעשו",
-      "dictionary": "תיקון מילון",
-      "ai": "תיקון מיקוד AI"
-    },
-    "categories": {
-      "title": "איפה אתה מדבר",
-      "empty": "הקלד במספר יישומים כדי לראות איפה מילים שלך מתרחשות.",
-      "words_one": "{{count, number}} מילה",
-      "words_other": "{{count, number}} מילים",
-      "documents": "מסמך",
-      "ai_prompts": "הנחיות ל-AI",
-      "email": "דואר אלקטרוני",
-      "work": "رسائل עבודה",
-      "personal": "הודעות אישיות",
-      "other": "הכל אחר"
-    },
-    "heatmap": {
-      "title": "הרצף שלך",
-      "current": "השורה הנוכחית",
-      "longest": "ההערכה הארוכה ביותר",
-      "days_one": "יום {{count, number}}",
-      "days_other": "{{count, number}} ימים",
-      "active_one": "יום אחד עם דיקטציה בשנתיים האחרונים",
-      "active_other": "{{count, number}} ימים עם דיקטציה בשנתיים האחרונות",
-      "day_one": "{{date}}: {{count, number}} מילה",
-      "day_other": "{{date}}: {{count, number}} מילים",
-      "less": "פחות",
-      "more": "הרבה",
-      "band0": "אין מילים",
-      "band1": "1 עד 249 מילים",
-      "band2": "250 ל-499 מילים",
-      "band3": "500 לـ 749 מילים",
-      "band4": "750 מילים או יותר"
-    },
-    "voice": {
-      "lockedTitle": "פרופיל הצלחה שלך מופק عند {{goal}} מילים",
-      "lockedBody": "המשתמש ממשיך לרשום: {{current}} מתוך {{goal}} מילים עד כה. אז תראה את המילה שמשתמשת בה הכי הרבה, בקогда ובאיפה אתה מרשום, ואת המילים ש{{appName}} מתקן עבורך.",
-      "locked": "مוגן",
-      "phrase": "הביטוי שלך",
-      "phraseIn_one": "ב{{count, number}} דיקטציה",
-      "phraseIn_other": "ב{{count, number}} דיקטציות",
-      "peak": "השעת הפסגה והאפליקציה",
-      "peakApp": "המילים הכי נפוצות ב-{{app}}",
-      "word": "המילה הנפוצה ביותר",
-      "uses_one": "השתמשתי {{count, number}} פעם",
-      "uses_other": "השתמשו ב{{count, number}} פעמים",
-      "corrected": "המילה שוקלטת ביותר",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "שיניתי {{count, number}} פעם",
-      "fixed_other": "שופטתי {{count, number}} פעמים",
-      "notEnough": "לא מספיק דיקטציות עדיין.",
-      "footnote_one": "הנתח על המחשב הזה מההקלדה האחרונה שלך. לא מתרחשת שום דבר על המחשב שלך.",
-      "footnote_other": "הועבר על זה המاك מההערכות האחרונות שלך {{count, number}}. כל דבר נשאר במקלט שלך.",
-      "sample": {
-        "phrase": "הביטוי שאתה אומר לעתים קרובות",
-        "peak": "שעון ביום",
-        "word": "מונח מועדף",
-        "corrected": "מילה שמתוקנת"
-      }
     }
   }
 }

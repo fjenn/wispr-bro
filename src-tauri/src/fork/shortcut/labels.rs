@@ -117,6 +117,12 @@ fn named_key(key: Key) -> Option<(&'static str, &'static str)> {
         Key::End => ("↘", "end"),
         Key::PageUp => ("⇞", "pageUp"),
         Key::PageDown => ("⇟", "pageDown"),
+        // S-06: Press Enter may be a mouse button (RS-11).
+        Key::MouseLeft => ("", "mouseLeft"),
+        Key::MouseRight => ("", "mouseRight"),
+        Key::MouseMiddle => ("", "mouseMiddle"),
+        Key::MouseX1 => ("", "mouseBack"),
+        Key::MouseX2 => ("", "mouseForward"),
         _ => return None,
     })
 }

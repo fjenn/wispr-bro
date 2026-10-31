@@ -299,6 +299,24 @@ pub fn show_card(text: String) {
     input(Input::Card(text.into()));
 }
 
+/// S-06: a take was cancelled and can be brought back: "Cancelled · Undo"
+/// (the cancel itself returns the bar to rest first, so a cancel the engine
+/// did not see, such as `--cancel`, ends the take on screen too).
+pub fn show_undo_offer() {
+    input(Input::Cancelled);
+    input(Input::Message(PillMessage::Cancelled));
+}
+
+/// S-06: Undo is transcribing the cancelled take.
+pub fn undo_started() {
+    input(Input::Undoing);
+}
+
+/// S-06: Undo pasted the take; the bar rests (after the usual grace).
+pub fn undo_finished() {
+    input(Input::Hide);
+}
+
 /// S-05: a take that was not pasted (`fork::insert`), on the same card with
 /// its reason as the label.
 pub fn show_insert_card(reason: crate::fork::events::ForkCardReason, text: String) {
@@ -432,10 +450,12 @@ pub fn announcement(
             true,
         )),
         (_, Some(a)) if a.phase == PillPhase::Message => a.message.map(|m| {
-            (
-                format!("rust.pill.message.{}", m.key()),
-                m.tone() == PillTone::Error,
-            )
+            let key = match m {
+                // "Cancelled" was just announced by the take's end.
+                PillMessage::Cancelled => "rust.pill.announce.undo".to_string(),
+                _ => format!("rust.pill.message.{}", m.key()),
+            };
+            (key, m.tone() == PillTone::Error)
         }),
         (Some(PillPhase::Held | PillPhase::Locked), None) => {
             Some(("rust.pill.announce.cancelled".into(), false))
@@ -690,6 +710,7 @@ impl Controller {
     fn handle(&mut self, msg: Msg) {
         let now = monotonic_ms();
         match msg {
+            Msg::Input(Input::Dismiss) => self.dismiss(now),
             Msg::Input(i) => {
                 let starting = matches!(i, Input::TakeStarted { .. } | Input::Locked)
                     && !self.model.recording();
@@ -735,13 +756,20 @@ impl Controller {
         match action {
             PillUiAction::Stop => self.pill_action(PillAction::Stop),
             PillUiAction::Cancel => self.pill_action(PillAction::Cancel),
-            PillUiAction::Dismiss => self.model.step(now, Input::Dismiss),
+            PillUiAction::Dismiss => self.dismiss(now),
             PillUiAction::Fix => {
                 let fix = self
                     .sent
                     .as_ref()
                     .and_then(|a| a.message)
                     .and_then(PillMessage::fix);
+                if fix == Some(PillFix::Undo) {
+                    // S-06: the window may have closed a moment ago.
+                    if !crate::fork::recovery::undo("bar") {
+                        self.model.step(now, Input::Dismiss);
+                    }
+                    return;
+                }
                 if fix == Some(PillFix::RetryDownload) {
                     // Back to the progress while the download starts again.
                     log::info!("pill: Retry (speech model download)");
@@ -777,6 +805,16 @@ impl Controller {
                 }
             }
         }
+    }
+
+    /// ✕ or Esc on a message, "Setting up" or the card. Dismissing
+    /// "Cancelled · Undo" also drops the cancelled audio at once (S-06).
+    fn dismiss(&mut self, now: u64) {
+        let offer = self.sent.as_ref().and_then(|a| a.message) == Some(PillMessage::Cancelled);
+        if offer {
+            crate::fork::recovery::discard("dismissed");
+        }
+        self.model.step(now, Input::Dismiss);
     }
 
     fn pill_action(&self, action: crate::fork::shortcut::engine::PillAction) {
@@ -1101,6 +1139,10 @@ fn open_fix(fix: PillFix) {
         PillFix::SoundInput => "x-apple.systempreferences:com.apple.Sound-Settings.extension?input",
         PillFix::RetryDownload => {
             crate::fork::models::setup::retry();
+            return;
+        }
+        PillFix::Undo => {
+            crate::fork::recovery::undo("bar");
             return;
         }
     };

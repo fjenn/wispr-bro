@@ -2,12 +2,16 @@
 //! The action registry and the Esc registry (R5 §S-01, §4.8).
 //!
 //! **Actions.** Fixed ids (`fork::settings::hotkey_actions`: `dictate`,
-//! `hands_free`, `cancel`, `paste_last`) plus runtime ids that later slices
-//! add (user transforms `transform.<id>`, Scratchpad, Notetaker). The three
+//! `hands_free`, `cancel`, and S-06's `paste_last`, `copy_last`,
+//! `press_enter`, `undo_cancel`) plus runtime ids that later slices add
+//! (user transforms `transform.<id>`, Scratchpad, Notetaker). The three
 //! dictation ids are run by the grammar itself; every other id fires a
 //! handler registered here. A keyed binding is only registered (and its
 //! chord only blocked) while its action has a handler, so ⌃⌘V keeps its
-//! normal meaning in other apps until paste-last exists.
+//! normal meaning in other apps until paste-last is registered.
+//!
+//! The S-06 handlers live in `actions/` ([`paste_last`], [`copy_last`],
+//! [`press_enter`], [`undo_cancel`]); `fork::recovery` registers them.
 //!
 //! **Esc registry.** Cards, toasts and the spotlight observe Esc from the
 //! fork tap; they never block it. Observers are called on the engine
@@ -18,6 +22,11 @@ use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 
 use crate::fork::settings::{hotkey_actions, MAX_ID_LEN};
+
+pub mod copy_last;
+pub mod paste_last;
+pub mod press_enter;
+pub mod undo_cancel;
 
 /// A registered action handler.
 pub type Handler = Arc<dyn Fn() + Send + Sync>;
@@ -46,7 +55,17 @@ pub const RUNTIME_PREFIXES: [&str; 3] = ["transform.", "scratchpad.", "notetaker
 /// within the settings id rules (`[a-z0-9_.-]`, ≤ 64).
 pub fn is_action_id(id: &str) -> bool {
     use hotkey_actions::*;
-    if [DICTATE, HANDS_FREE, CANCEL, PASTE_LAST].contains(&id) {
+    if [
+        DICTATE,
+        HANDS_FREE,
+        CANCEL,
+        PASTE_LAST,
+        COPY_LAST,
+        PRESS_ENTER,
+        UNDO_CANCEL,
+    ]
+    .contains(&id)
+    {
         return true;
     }
     id.len() <= MAX_ID_LEN

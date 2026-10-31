@@ -38,7 +38,7 @@ pub const FORK_SETTINGS_FILE: &str = "fork-settings.json";
 /// Key of the settings object inside the store (same layout as Handy's store).
 pub const STORE_KEY: &str = "settings";
 /// Current [`ForkSettings::schema_version`].
-pub const CURRENT_SCHEMA_VERSION: u32 = 1;
+pub const CURRENT_SCHEMA_VERSION: u32 = 2;
 
 /// The only app identity whose Handy settings the fork may rewrite. A build
 /// without the identity overlay (`cargo build`, `bun run tauri dev`) runs as
@@ -110,10 +110,19 @@ pub mod hotkey_actions {
     pub const HANDS_FREE: &str = "hands_free";
     pub const CANCEL: &str = "cancel";
     pub const PASTE_LAST: &str = "paste_last";
+    /// S-06: copy the last transcript (⌃⌘C).
+    pub const COPY_LAST: &str = "copy_last";
+    /// S-06: press Return in the frontmost app (unset by default; a key or
+    /// a mouse button).
+    pub const PRESS_ENTER: &str = "press_enter";
+    /// S-06: bring back the take just cancelled (unset by default; the
+    /// bar's Undo button does the same).
+    pub const UNDO_CANCEL: &str = "undo_cancel";
 }
 
 /// Default bindings (DEC-09): hold fn to talk; double-tap fn or fn+Space for
-/// hands-free; Esc cancels; ⌃⌘V pastes the last take.
+/// hands-free; Esc cancels; ⌃⌘V pastes the last take and ⌃⌘C copies it
+/// (S-06). Press Enter and Undo are unset (no entry = unset for them).
 pub fn default_hotkeys() -> BTreeMap<String, Vec<HotkeyBinding>> {
     use hotkey_actions::*;
     use HotkeyActivation::*;
@@ -130,6 +139,10 @@ pub fn default_hotkeys() -> BTreeMap<String, Vec<HotkeyBinding>> {
         (
             PASTE_LAST.into(),
             vec![HotkeyBinding::new("ctrl+command+v", Press)],
+        ),
+        (
+            COPY_LAST.into(),
+            vec![HotkeyBinding::new("ctrl+command+c", Press)],
         ),
     ])
 }
@@ -724,14 +737,36 @@ pub struct Migration {
 /// v0 is a settings object without `schema_version` (pre-F-07 builds or a
 /// hand-made file). v0 → v1 drops keys this build does not know (they could
 /// only come from such a file) and stamps the version.
-pub const MIGRATIONS: &[Migration] = &[Migration {
-    from: 0,
-    apply: migrate_v0_to_v1,
-}];
+pub const MIGRATIONS: &[Migration] = &[
+    Migration {
+        from: 0,
+        apply: migrate_v0_to_v1,
+    },
+    Migration {
+        from: 1,
+        apply: migrate_v1_to_v2,
+    },
+];
 
 fn migrate_v0_to_v1(map: &mut Map<String, Value>) {
     let known = known_fields();
     map.retain(|k, _| known.contains(&k.as_str()));
+}
+
+/// v1 → v2 (S-06): a stored `hotkeys` map gets the new default binding of
+/// `copy_last` (⌃⌘C), which v1 did not know; a map without `hotkeys` takes
+/// all defaults anyway. Bindings the user set are never touched.
+fn migrate_v1_to_v2(map: &mut Map<String, Value>) {
+    let Some(Value::Object(hotkeys)) = map.get_mut("hotkeys") else {
+        return;
+    };
+    let defaults = default_hotkeys();
+    let id = hotkey_actions::COPY_LAST;
+    if !hotkeys.contains_key(id) {
+        if let Some(value) = defaults.get(id).and_then(|b| serde_json::to_value(b).ok()) {
+            hotkeys.insert(id.to_string(), value);
+        }
+    }
 }
 
 fn known_fields() -> Vec<&'static str> {

@@ -16,6 +16,7 @@ import { BarSettings } from "../settings/BarSettings";
 import { MicrophonePicker } from "../settings/MicrophonePicker";
 import { SoundSettings } from "../settings/SoundSettings";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
+import { RecoveryShortcuts } from "../settings/RecoveryShortcuts";
 import { CleanupLevelPicker } from "../style/CleanupLevelPicker";
 import { CspSmoke } from "./CspSmoke";
 import { NotificationsDebug } from "./NotificationsDebug";
@@ -60,6 +61,13 @@ registerForkDebugSection({
   id: "sound",
   titleKey: "settings.sound.title",
   render: () => <SoundSettings />,
+});
+
+// S-06: the recovery shortcuts, until S-14's Settings modal (Shortcuts).
+registerForkDebugSection({
+  id: "recovery",
+  titleKey: "settings.recovery.title",
+  render: () => <RecoveryShortcuts />,
 });
 
 // S-18: macOS permission and a sample poster for the Mac test script.

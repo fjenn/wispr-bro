@@ -423,14 +423,25 @@ fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
         .expect("Handy's history save");
     let deliver = actions.find("insert::deliver(").expect("the S-04 hook");
     assert!(llm < deliver && save < deliver);
+    // S-06: `deliver` is `deliver_as(…, Kind::Take)`, whose first step for
+    // a take (and an Undo) is stage 11's `finish`, before any paste path.
     let insert = include_str!("../insert/mod.rs");
-    let body = &insert[insert.find("pub fn deliver(").unwrap()..];
-    let first = body
+    let hook = &insert[insert.find("pub fn deliver(").unwrap()..];
+    let first = hook
         .lines()
         .skip(1)
         .find(|l| !l.trim().starts_with("//"))
         .unwrap();
-    assert!(first.contains("crate::fork::text::finish(text)"), "{first}");
+    assert!(
+        first.contains("deliver_as(text, app, Kind::Take)"),
+        "{first}"
+    );
+    let body = &insert[insert.find("pub fn deliver_as(").unwrap()..];
+    let finish = body
+        .find("Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text)")
+        .expect("takes go through finish first");
+    let paste = body.find("mac::deliver(").expect("the macOS paste");
+    assert!(finish < paste);
     let llm_code = include_str!("../llm/post_process.rs");
     assert!(llm_code.contains("crate::fork::text::after_llm(output)"));
     assert!(!llm_code.contains("crate::fork::text::finish("));

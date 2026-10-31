@@ -108,7 +108,7 @@ pub fn cancel_current_operation(app: &AppHandle) {
     // Cancel any ongoing recording
     let audio_manager = app.state::<Arc<AudioRecordingManager>>();
     let recording_was_active = audio_manager.is_recording();
-    audio_manager.cancel_recording();
+    crate::fork::recovery::cancel_keeping_audio(app, &audio_manager);
 
     // Abandon any live streaming transcription, and stop a transcription
     // already in progress

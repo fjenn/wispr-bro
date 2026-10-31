@@ -120,6 +120,38 @@
       "preview": "Zvuk zvuk",
       "mute": "Vypnout všechny zvuky během psaní",
       "muteHelp": "Hudební a videa zůstávají tiché během hovoru a vrátí se po něm do původní hlasitosti."
+    },
+    "recovery": {
+      "title": "Zkratky pro obnovení",
+      "description": "Získejte poslední diktát zpět nebo ho odešlete, aniž byste pustili klávesnici.",
+      "notSet": "Nenastaveno",
+      "current": "Zkratka: {{shortcut}}",
+      "listening": "Stiskněte zkratku…",
+      "listeningHelp": "Stiskněte požadované klávesy nebo tlačítko myši. Escape ruší.",
+      "record": "Nahrát",
+      "cancel": "Zrušit",
+      "clear": "Vymazat",
+      "useDefault": "Použít výchozí",
+      "unusable": "Tuto zkratku nelze použít. Vyberte jinou.",
+      "saveFailed": "Zkratku se nepodařilo uložit.",
+      "recordFailed": "Zkratku se nepodařilo nahrát. Zkontrolujte, zda aplikace smí používat Zpřístupnění.",
+      "pasteLast": {
+        "title": "Vložit poslední diktát",
+        "help": "Znovu vloží poslední diktát tam, kde píšete."
+      },
+      "copyLast": {
+        "title": "Kopírovat poslední diktát",
+        "help": "Uloží poslední diktát do schránky."
+      },
+      "pressEnter": {
+        "title": "Stisknout Enter",
+        "help": "Stiskne za vás Return, například pro odeslání právě nadiktované zprávy.",
+        "mouse": "Tlačítko myši stále klikne jako obvykle v aplikaci pod ukazatelem, proto se nejlépe hodí boční tlačítko (zpět nebo vpřed)."
+      },
+      "undoCancel": {
+        "title": "Vrátit zrušení",
+        "help": "Vrátí diktát, který jste právě zrušili, dokud lišta ukazuje Zpět."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "Levé tlačítko myši",
+        "mouseRight": "Pravé tlačítko myši",
+        "mouseMiddle": "Prostřední tlačítko myši",
+        "mouseBack": "Tlačítko myši Zpět",
+        "mouseForward": "Tlačítko myši Vpřed"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Diktování se nastavuje. Vaše slova jsou uložena.",
         "card": "Vaše diktování je připravené. Zkopírujte ho z lišty.",
-        "micLostWarning": "Mikrofon se odpojil. Co jsi řekl, je uloženo."
+        "micLostWarning": "Mikrofon se odpojil. Co jsi řekl, je uloženo.",
+        "undo": "Zpět je na diktovací liště 4 sekundy."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "Stahování se nezdařilo",
         "check_connection": "Zkontrolujte připojení k internetu",
-        "no_space": "Na disku není dost místa pro nastavení diktování"
+        "no_space": "Na disku není dost místa pro nastavení diktování",
+        "cancelled": "Zrušeno",
+        "no_transcript": "Zatím není co vložit",
+        "copied_last": "Poslední diktát zkopírován"
       },
       "card": {
         "no_text_field": "Nejprve klikněte do položky textu",
@@ -737,7 +778,8 @@
     "retry": "Zkusit znovu",
     "card": {
       "hidden": "Skryto, protože bylo určeno pro pole hesla"
-    }
+    },
+    "undo": "Zpět"
   },
   "cleanup": {
     "title": "Omyvání",
@@ -944,6 +986,95 @@
       "failed": "Snípky se nepodařilo exportovat. Zkuste to prosím znovu."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "Závěry",
+      "usage": "Použití",
+      "voice": "Hlas"
+    },
+    "asOf": "Vaše čísla dne {{date}}",
+    "unavailable": "Závěry se aktuálně nepodařilo načíst. Závěry se objeví za chvíle.",
+    "save": {
+      "button": "Uložit jako obrázek",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG obrázek",
+      "done": "Obrázek byl uložen.",
+      "failed": "Obrázek se nepodařilo uložit. Zkuste to znovu."
+    },
+    "speed": {
+      "title": "Rychlost mluvení",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Zadejte trochu více, abyste viděli svou rychlost.",
+      "measured": "{{ratio}}× rychlost psaní {{typing}} wpm",
+      "average": "{{ratio}}× rychlost průměrného psaní ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Celkový počet slov",
+      "dictations_one": "v {{count, number}} dictaci",
+      "dictations_other": "v {{count, number}} dictacích"
+    },
+    "fixes": {
+      "title": "Vyřešené opravy",
+      "dictionary": " Opravy slovníku ",
+      "ai": " Opravy čistění AI"
+    },
+    "categories": {
+      "title": "Kde dictujete",
+      "empty": "Dictujte v několika aplikacích, abyste viděli, kam jde vaše řeč.",
+      "words_one": "{{count, number}} slovo",
+      "words_other": "{{count, number}} slov",
+      "documents": "Dokumenty",
+      "ai_prompts": "AI prompty",
+      "email": "E-mail",
+      "work": "Zprávy z práce",
+      "personal": "Osobní zprávy",
+      "other": "Všechno jiné"
+    },
+    "heatmap": {
+      "title": "Tvoje sériové",
+      "current": "Současná řada",
+      "longest": "Nejdelší řada",
+      "days_one": "{{count, number}} den",
+      "days_other": "{{count, number}} dní",
+      "active_one": "1 den s dictací posledního roku",
+      "active_other": "{{count, number}} dní s dictací za poslední rok",
+      "day_one": "{{date}}: {{count, number}} slovo",
+      "day_other": "{{date}}: {{count, number}} slov",
+      "less": "Méně",
+      "more": "Víc",
+      "band0": "Žádná slova",
+      "band1": "1 až 249 slov",
+      "band2": "250 až 499 slov",
+      "band3": "500 až 749 slov",
+      "band4": "750 slov nebo více"
+    },
+    "voice": {
+      "lockedTitle": "Vaši hlasový profil se otevře při {{goal}} slovách",
+      "lockedBody": "Pokračujte v dictování: {{current}} z {{goal}} slov do dnešního dne. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde dictujete, a slova, která {{appName}} pro vás opravuje.",
+      "locked": "Zamknuto",
+      "phrase": "Vaše věta",
+      "phraseIn_one": "V {{count, number}} dictaci",
+      "phraseIn_other": "V {{count, number}} dictacích",
+      "peak": "Horní čas a aplikace",
+      "peakApp": "Nejvíce slov v {{app}}",
+      "word": "Nejčastější slovo",
+      "uses_one": "Použito {{count, number}} krát",
+      "uses_other": "Použito {{count, number}} krát",
+      "corrected": "Nejčastěji opravené slovo",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Upraveno {{count, number}}krát",
+      "fixed_other": "Upraveno {{count, number}}krát",
+      "notEnough": "Ještě není dostatek dictací.",
+      "footnote_one": "Vypracováno na tomto Macu z vaší poslední dictace. Nic neopouští váš Mac.",
+      "footnote_other": "Vyřešeno na tomto Macu z vašich posledních {{count, number}} dictací. Nic neopouští váš Mac.",
+      "sample": {
+        "phrase": "fráze, kterou říkáte často",
+        "peak": "čas dne",
+        "word": "oblibené slovo",
+        "corrected": "slovo, které se opraví"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "Zvolte, zda má Wispr Bro sledovat motiv systému, nebo zůstat světlý či tmavý"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "Závěry",
-      "usage": "Použití",
-      "voice": "Hlas"
-    },
-    "asOf": "Vaše čísla dne {{date}}",
-    "unavailable": "Závěry se aktuálně nepodařilo načíst. Závěry se objeví za chvíle.",
-    "save": {
-      "button": "Uložit jako obrázek",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG obrázek",
-      "done": "Obrázek byl uložen.",
-      "failed": "Obrázek se nepodařilo uložit. Zkuste to znovu."
-    },
-    "speed": {
-      "title": "Rychlost mluvení",
-      "value": "{{wpm}} wpm",
-      "notEnough": "Zadejte trochu více, abyste viděli svou rychlost.",
-      "measured": "{{ratio}}× rychlost psaní {{typing}} wpm",
-      "average": "{{ratio}}× rychlost průměrného psaní ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "Celkový počet slov",
-      "dictations_one": "v {{count, number}} dictaci",
-      "dictations_other": "v {{count, number}} dictacích"
-    },
-    "fixes": {
-      "title": "Vyřešené opravy",
-      "dictionary": " Opravy slovníku ",
-      "ai": " Opravy čistění AI"
-    },
-    "categories": {
-      "title": "Kde dictujete",
-      "empty": "Dictujte v několika aplikacích, abyste viděli, kam jde vaše řeč.",
-      "words_one": "{{count, number}} slovo",
-      "words_other": "{{count, number}} slov",
-      "documents": "Dokumenty",
-      "ai_prompts": "AI prompty",
-      "email": "E-mail",
-      "work": "Zprávy z práce",
-      "personal": "Osobní zprávy",
-      "other": "Všechno jiné"
-    },
-    "heatmap": {
-      "title": "Tvoje sériové",
-      "current": "Současná řada",
-      "longest": "Nejdelší řada",
-      "days_one": "{{count, number}} den",
-      "days_other": "{{count, number}} dní",
-      "active_one": "1 den s dictací posledního roku",
-      "active_other": "{{count, number}} dní s dictací za poslední rok",
-      "day_one": "{{date}}: {{count, number}} slovo",
-      "day_other": "{{date}}: {{count, number}} slov",
-      "less": "Méně",
-      "more": "Víc",
-      "band0": "Žádná slova",
-      "band1": "1 až 249 slov",
-      "band2": "250 až 499 slov",
-      "band3": "500 až 749 slov",
-      "band4": "750 slov nebo více"
-    },
-    "voice": {
-      "lockedTitle": "Vaši hlasový profil se otevře při {{goal}} slovách",
-      "lockedBody": "Pokračujte v dictování: {{current}} z {{goal}} slov do dnešního dne. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde dictujete, a slova, která {{appName}} pro vás opravuje.",
-      "locked": "Zamknuto",
-      "phrase": "Vaše věta",
-      "phraseIn_one": "V {{count, number}} dictaci",
-      "phraseIn_other": "V {{count, number}} dictacích",
-      "peak": "Horní čas a aplikace",
-      "peakApp": "Nejvíce slov v {{app}}",
-      "word": "Nejčastější slovo",
-      "uses_one": "Použito {{count, number}} krát",
-      "uses_other": "Použito {{count, number}} krát",
-      "corrected": "Nejčastěji opravené slovo",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Upraveno {{count, number}}krát",
-      "fixed_other": "Upraveno {{count, number}}krát",
-      "notEnough": "Ještě není dostatek dictací.",
-      "footnote_one": "Vypracováno na tomto Macu z vaší poslední dictace. Nic neopouští váš Mac.",
-      "footnote_other": "Vyřešeno na tomto Macu z vašich posledních {{count, number}} dictací. Nic neopouští váš Mac.",
-      "sample": {
-        "phrase": "fráze, kterou říkáte často",
-        "peak": "čas dne",
-        "word": "oblibené slovo",
-        "corrected": "slovo, které se opraví"
-      }
     }
   }
 }

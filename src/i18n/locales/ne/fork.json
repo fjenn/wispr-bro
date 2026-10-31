@@ -120,6 +120,38 @@
       "preview": "भन्नुहोस",
       "mute": "Mute all audio while dictating",
       "muteHelp": "म्युजिक र विडियो सुनाउँछ जब तपाईं बोल्नुहुन्छ र बाँचि एउटा वोल्युममा फर्किन्छ।"
+    },
+    "recovery": {
+      "title": "पुनःप्राप्ति सर्टकटहरू",
+      "description": "किबोर्ड नछोडी आफ्नो पछिल्लो डिक्टेसन फिर्ता पाउनुहोस् वा पठाउनुहोस्।",
+      "notSet": "सेट गरिएको छैन",
+      "current": "सर्टकट: {{shortcut}}",
+      "listening": "कुनै सर्टकट थिच्नुहोस्…",
+      "listeningHelp": "चाहिएका कुञ्जी वा माउस बटन थिच्नुहोस्। Escape ले रद्द गर्छ।",
+      "record": "रेकर्ड गर्नुहोस्",
+      "cancel": "रद्द गर्नुहोस्",
+      "clear": "हटाउनुहोस्",
+      "useDefault": "पूर्वनिर्धारित प्रयोग गर्नुहोस्",
+      "unusable": "यो सर्टकट प्रयोग गर्न सकिँदैन। अर्को छान्नुहोस्।",
+      "saveFailed": "सर्टकट सुरक्षित गर्न सकिएन।",
+      "recordFailed": "सर्टकट रेकर्ड गर्न सकिएन। एपलाई पहुँचयोग्यता प्रयोग गर्ने अनुमति छ कि जाँच्नुहोस्।",
+      "pasteLast": {
+        "title": "पछिल्लो डिक्टेसन टाँस्नुहोस्",
+        "help": "तपाईंले लेखिरहेको ठाउँमा पछिल्लो डिक्टेसन फेरि टाँस्छ।"
+      },
+      "copyLast": {
+        "title": "पछिल्लो डिक्टेसन प्रतिलिपि गर्नुहोस्",
+        "help": "पछिल्लो डिक्टेसन क्लिपबोर्डमा राख्छ।"
+      },
+      "pressEnter": {
+        "title": "Enter थिच्नुहोस्",
+        "help": "तपाईंको सट्टा Return थिच्छ, जस्तै भर्खरै बोलेको सन्देश पठाउन।",
+        "mouse": "माउस बटनले पोइन्टर मुनिको एपमा पनि सामान्य क्लिक गर्छ, त्यसैले साइड बटन (पछाडि वा अगाडि) सबैभन्दा राम्रो हुन्छ।"
+      },
+      "undoCancel": {
+        "title": "रद्द गरेको पूर्ववत् गर्नुहोस्",
+        "help": "बारमा “पूर्ववत् गर्नुहोस्” देखिँदासम्म भर्खरै रद्द गरिएको डिक्टेसन फिर्ता ल्याउँछ।"
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "माउसको बायाँ बटन",
+        "mouseRight": "माउसको दायाँ बटन",
+        "mouseMiddle": "माउसको बीचको बटन",
+        "mouseBack": "माउसको पछाडि बटन",
+        "mouseForward": "माउसको अगाडि बटन"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "डिक्टेसन सेटअप हुँदैछ। तपाईंका शब्दहरू सुरक्षित छन्।",
         "card": "तपाईंको डिक्टेसन तयार छ। बारबाट प्रतिलिपि गर्नुहोस्।",
-        "micLostWarning": "माइक्रोफोन अनलाइन छैन। तपाईंको भन्दा अहिले सभ बचाइएको छ।"
+        "micLostWarning": "माइक्रोफोन अनलाइन छैन। तपाईंको भन्दा अहिले सभ बचाइएको छ।",
+        "undo": "“पूर्ववत् गर्नुहोस्” डिक्टेसन बारमा ४ सेकेन्डसम्म रहन्छ।"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "डाउनलोड गर्न सकिएन",
         "check_connection": "आफ्नो इन्टरनेट जडान जाँच गर्नुहोस्",
-        "no_space": "डिक्टेसन सेटअप गर्न डिस्कमा पर्याप्त ठाउँ छैन"
+        "no_space": "डिक्टेसन सेटअप गर्न डिस्कमा पर्याप्त ठाउँ छैन",
+        "cancelled": "रद्द गरियो",
+        "no_transcript": "अहिलेसम्म टाँस्न कुनै डिक्टेसन छैन",
+        "copied_last": "पछिल्लो डिक्टेसन प्रतिलिपि भयो"
       },
       "card": {
         "no_text_field": "पहिले एक टेक्स्ट फील्ड में क्लिक गर्नुहोस",
@@ -737,7 +778,8 @@
     "retry": "फेरि प्रयास गर्नुहोस्",
     "card": {
       "hidden": "निहित, किनभने गुप्त फील्डका लेल थियो"
-    }
+    },
+    "undo": "पूर्ववत् गर्नुहोस्"
   },
   "cleanup": {
     "title": "स्वच्छता",
@@ -944,6 +986,95 @@
       "failed": "अनुच्छेदहरू निर्यात गर्न सकिएन। कृपया पुनः प्रयास गर्नुहोस।"
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "समाचार",
+      "usage": "प्रयोग",
+      "voice": "वाक्य"
+    },
+    "asOf": "आपला संख्या {{date}} ले",
+    "unavailable": "Insights can't be read right now. They will appear in a moment.",
+    "save": {
+      "button": "चित्रमा सेभ गर्नुहोस",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG चित्र",
+      "done": "चित्रलाई सेभ गरिएको छ।",
+      "failed": "चित्र बचाउँ गर्न सकिन्छ भने अगाडि गर्नुहोस।"
+    },
+    "speed": {
+      "title": "बोल्ने गतिको चाल",
+      "value": "{{wpm}} wpm",
+      "notEnough": "अनुच्छेद थप गर्नुहोस् जबसम्म तपाईंको गतिलाई देख्न सक्नुहुन्छ।",
+      "measured": "{{ratio}}× तपाईंको टाइपिङ स्पीड लगभग {{typing}} wpm",
+      "average": "{{ratio}}× {{typing}} wpm ले एक सामान्य टाइपिस्टको गतिमान गति"
+    },
+    "words": {
+      "title": "सभ शब्द",
+      "dictations_one": "{{count, number}} अनुमान अनुसार",
+      "dictations_other": "{{count, number}} अन्य विचारमा"
+    },
+    "fixes": {
+      "title": "सुधार गरिएका",
+      "dictionary": "दिक्षाको सुधार",
+      "ai": "AI साफ कर्ने ठीक गर्ने"
+    },
+    "categories": {
+      "title": "जहाँ तपाईं बोल्नुहुन्छ",
+      "empty": "मात्र केहि एप्स में बोल्नुहोस् जब तपाईंको शब्दहरू कहाँ जान्छन् भने देखाउनुहोस्।",
+      "words_one": "{{count, number}} शब्द",
+      "words_other": "{{count, number}} शब्द",
+      "documents": "दस्तावेज",
+      "ai_prompts": "AI prompts",
+      "email": "ईमेल",
+      "work": "कामको संदेश",
+      "personal": "व्यक्तिगत संदेश",
+      "other": "सबै अन्य"
+    },
+    "heatmap": {
+      "title": "आपको लगाने गरिएको",
+      "current": "अहिए गतिविधि",
+      "longest": "सबै लम्बाइको लम्बाइ",
+      "days_one": "{{count, number}} दिन",
+      "days_other": "{{count, number}} दिन",
+      "active_one": "{{count, number}} day with dictation in the last year",
+      "active_other": "पिछलो वर्षमा अनुमान गर्ने दिनहरू {{count, number}}",
+      "day_one": "{{date}}: {{count, number}} शब्द",
+      "day_other": "{{date}}: {{count, number}} शब्द",
+      "less": "कम",
+      "more": "प्रति अधिक",
+      "band0": "कुनै शब्द छैन",
+      "band1": "1 देखि 249 शब्द",
+      "band2": "250 देखि 499 शब्द",
+      "band3": "500 देखि 749 शब्द",
+      "band4": "750 शब्द वा धेरै"
+    },
+    "voice": {
+      "lockedTitle": "आपको आवाज फ़ाइल ओटा भने {{goal}} शब्द भने खोल्याउन्छ",
+      "lockedBody": "अगाडि बोल्ने राख्नुहोस: {{current}} शब्द अब तक {{goal}} शब्द सम्म। तपाईंले अति बारेमा बोल्ने वाक्य, तपाईं बोल्ने समय र स्थान, र {{appName}} ले तपाईंलाई सुधार्ने शब्दहरू देख्न सक्नुहुन्छ।",
+      "locked": "लक्ष्य गरिएको",
+      "phrase": "आपको वाक्य",
+      "phraseIn_one": "एक बार {{count, number}} बोल्ने में",
+      "phraseIn_other": "अन्य {{count, number}} वाक्यमा",
+      "peak": "पीक समय र एप",
+      "peakApp": "{{app}} मा सबै शब्दहरू",
+      "word": "सबैभन्दा प्रयोग गरिएको शब्द",
+      "uses_one": "प्रयोग गरिएको छ {{count, number}} बार",
+      "uses_other": "प्रयोग गरिएको छ {{count, number}} बार",
+      "corrected": "सबै ठीक गरिएको शब्द",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "स्थिर गरिएको {{count, number}} बार",
+      "fixed_other": "लगायला गए गए {{count, number}} बार",
+      "notEnough": "अभिलेख अझै नभएको छ।",
+      "footnote_one": "एहि Mac मा तपाईंको नयाँ भाषण अनुसार काम गरिएको छ। कुनै पनि बाहिर निकालिन्छ।",
+      "footnote_other": "एहि Mac मा तपाईंको नयाँ {{count, number}} विचार गरेको छ। कुनै पनि तपाईंको Mac बाहिर निकाल्यो छैन।",
+      "sample": {
+        "phrase": "एक वाक्य जुटाउने आम भाषण",
+        "peak": "एक दिनको समय",
+        "word": "एक पसंद गरिने शब्द",
+        "corrected": "एक शब्द जसलाई सुधारिएको छ"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "समाचार",
-      "usage": "प्रयोग",
-      "voice": "वाक्य"
-    },
-    "asOf": "आपला संख्या {{date}} ले",
-    "unavailable": "Insights can't be read right now. They will appear in a moment.",
-    "save": {
-      "button": "चित्रमा सेभ गर्नुहोस",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG चित्र",
-      "done": "चित्रलाई सेभ गरिएको छ।",
-      "failed": "चित्र बचाउँ गर्न सकिन्छ भने अगाडि गर्नुहोस।"
-    },
-    "speed": {
-      "title": "बोल्ने गतिको चाल",
-      "value": "{{wpm}} wpm",
-      "notEnough": "अनुच्छेद थप गर्नुहोस् जबसम्म तपाईंको गतिलाई देख्न सक्नुहुन्छ।",
-      "measured": "{{ratio}}× तपाईंको टाइपिङ स्पीड लगभग {{typing}} wpm",
-      "average": "{{ratio}}× {{typing}} wpm ले एक सामान्य टाइपिस्टको गतिमान गति"
-    },
-    "words": {
-      "title": "सभ शब्द",
-      "dictations_one": "{{count, number}} अनुमान अनुसार",
-      "dictations_other": "{{count, number}} अन्य विचारमा"
-    },
-    "fixes": {
-      "title": "सुधार गरिएका",
-      "dictionary": "दिक्षाको सुधार",
-      "ai": "AI साफ कर्ने ठीक गर्ने"
-    },
-    "categories": {
-      "title": "जहाँ तपाईं बोल्नुहुन्छ",
-      "empty": "मात्र केहि एप्स में बोल्नुहोस् जब तपाईंको शब्दहरू कहाँ जान्छन् भने देखाउनुहोस्।",
-      "words_one": "{{count, number}} शब्द",
-      "words_other": "{{count, number}} शब्द",
-      "documents": "दस्तावेज",
-      "ai_prompts": "AI prompts",
-      "email": "ईमेल",
-      "work": "कामको संदेश",
-      "personal": "व्यक्तिगत संदेश",
-      "other": "सबै अन्य"
-    },
-    "heatmap": {
-      "title": "आपको लगाने गरिएको",
-      "current": "अहिए गतिविधि",
-      "longest": "सबै लम्बाइको लम्बाइ",
-      "days_one": "{{count, number}} दिन",
-      "days_other": "{{count, number}} दिन",
-      "active_one": "{{count, number}} day with dictation in the last year",
-      "active_other": "पिछलो वर्षमा अनुमान गर्ने दिनहरू {{count, number}}",
-      "day_one": "{{date}}: {{count, number}} शब्द",
-      "day_other": "{{date}}: {{count, number}} शब्द",
-      "less": "कम",
-      "more": "प्रति अधिक",
-      "band0": "कुनै शब्द छैन",
-      "band1": "1 देखि 249 शब्द",
-      "band2": "250 देखि 499 शब्द",
-      "band3": "500 देखि 749 शब्द",
-      "band4": "750 शब्द वा धेरै"
-    },
-    "voice": {
-      "lockedTitle": "आपको आवाज फ़ाइल ओटा भने {{goal}} शब्द भने खोल्याउन्छ",
-      "lockedBody": "अगाडि बोल्ने राख्नुहोस: {{current}} शब्द अब तक {{goal}} शब्द सम्म। तपाईंले अति बारेमा बोल्ने वाक्य, तपाईं बोल्ने समय र स्थान, र {{appName}} ले तपाईंलाई सुधार्ने शब्दहरू देख्न सक्नुहुन्छ।",
-      "locked": "लक्ष्य गरिएको",
-      "phrase": "आपको वाक्य",
-      "phraseIn_one": "एक बार {{count, number}} बोल्ने में",
-      "phraseIn_other": "अन्य {{count, number}} वाक्यमा",
-      "peak": "पीक समय र एप",
-      "peakApp": "{{app}} मा सबै शब्दहरू",
-      "word": "सबैभन्दा प्रयोग गरिएको शब्द",
-      "uses_one": "प्रयोग गरिएको छ {{count, number}} बार",
-      "uses_other": "प्रयोग गरिएको छ {{count, number}} बार",
-      "corrected": "सबै ठीक गरिएको शब्द",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "स्थिर गरिएको {{count, number}} बार",
-      "fixed_other": "लगायला गए गए {{count, number}} बार",
-      "notEnough": "अभिलेख अझै नभएको छ।",
-      "footnote_one": "एहि Mac मा तपाईंको नयाँ भाषण अनुसार काम गरिएको छ। कुनै पनि बाहिर निकालिन्छ।",
-      "footnote_other": "एहि Mac मा तपाईंको नयाँ {{count, number}} विचार गरेको छ। कुनै पनि तपाईंको Mac बाहिर निकाल्यो छैन।",
-      "sample": {
-        "phrase": "एक वाक्य जुटाउने आम भाषण",
-        "peak": "एक दिनको समय",
-        "word": "एक पसंद गरिने शब्द",
-        "corrected": "एक शब्द जसलाई सुधारिएको छ"
-      }
     }
   }
 }

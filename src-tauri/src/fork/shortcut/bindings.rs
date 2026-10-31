@@ -200,6 +200,14 @@ pub fn compile(
                 chord,
                 "this action runs on the trigger, <trigger>+space or Esc",
             ),
+            (PRESS_ENTER, Press) if !super::actions::press_enter::is_allowed(hotkey) => {
+                unsupported(
+                    &mut p,
+                    action,
+                    chord,
+                    "Press Enter cannot be bound to Return itself",
+                )
+            }
             (_, Press) if hotkey.key.is_some() && handled(action) => {
                 if keyed_seen.insert(*hotkey) {
                     p.keyed.push(KeyedBinding {

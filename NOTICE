@@ -189,6 +189,16 @@ Details per port: docs/fork/PORTS.md.
   Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
   Modified by Wispr Bro contributors, 2026-10-31 (no cloud engine; a press
   is recorded and queued instead of refused; names the model to switch to).
+- src-tauri/src/fork/recovery/undo.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/dictation_recovery.rs (the one-offer slot, the
+          half-second speech minimum and their tests)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (cancels only; a fixed
+  4 s window on a caller clock; audio in memory, Handy's WAV or a saved
+  row; Handy's short-take padding).
 
 - src-tauri/src/fork/context/categories.json (data)
   Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr

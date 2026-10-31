@@ -120,6 +120,38 @@
       "preview": "Play",
       "mute": "Mute tutti i suoni durante la dicazione",
       "muteHelp": "Musica e video si spegnono quando parli e riapparono al medesimo volume dopo."
+    },
+    "recovery": {
+      "title": "Scorciatoie di recupero",
+      "description": "Recupera l’ultima dettatura, o inviala, senza lasciare la tastiera.",
+      "notSet": "Non impostata",
+      "current": "Scorciatoia: {{shortcut}}",
+      "listening": "Premi una scorciatoia…",
+      "listeningHelp": "Premi i tasti o il tasto del mouse che vuoi. Esc annulla.",
+      "record": "Registra",
+      "cancel": "Annulla",
+      "clear": "Rimuovi",
+      "useDefault": "Usa predefinita",
+      "unusable": "Questa scorciatoia non si può usare. Scegline un’altra.",
+      "saveFailed": "Impossibile salvare la scorciatoia.",
+      "recordFailed": "Impossibile registrare una scorciatoia. Controlla che l’app possa usare l’Accessibilità.",
+      "pasteLast": {
+        "title": "Incolla l’ultima dettatura",
+        "help": "Incolla di nuovo l’ultima dettatura dove stai scrivendo."
+      },
+      "copyLast": {
+        "title": "Copia l’ultima dettatura",
+        "help": "Mette l’ultima dettatura negli appunti."
+      },
+      "pressEnter": {
+        "title": "Premi Invio",
+        "help": "Preme Invio al posto tuo, per esempio per inviare un messaggio appena dettato.",
+        "mouse": "Un tasto del mouse fa comunque il suo clic abituale nell’app sotto il puntatore, quindi un tasto laterale (Indietro o Avanti) è la scelta migliore."
+      },
+      "undoCancel": {
+        "title": "Annulla un annullamento",
+        "help": "Recupera una dettatura appena annullata, finché la barra mostra Annulla."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "Tasto sinistro del mouse",
+        "mouseRight": "Tasto destro del mouse",
+        "mouseMiddle": "Tasto centrale del mouse",
+        "mouseBack": "Tasto Indietro del mouse",
+        "mouseForward": "Tasto Avanti del mouse"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Configurazione della dettatura. Le tue parole sono salvate.",
         "card": "La tua dettatura è pronta. Copiala dalla barra.",
-        "micLostWarning": "Il microfono è disconnesso. Ciò che hai detto finora viene conservato."
+        "micLostWarning": "Il microfono è disconnesso. Ciò che hai detto finora viene conservato.",
+        "undo": "Annulla resta sulla barra di dettatura per 4 secondi."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "Impossibile scaricare",
         "check_connection": "Controlla la connessione a internet",
-        "no_space": "Spazio su disco insufficiente per configurare la dettatura"
+        "no_space": "Spazio su disco insufficiente per configurare la dettatura",
+        "cancelled": "Annullata",
+        "no_transcript": "Ancora nessuna dettatura da incollare",
+        "copied_last": "Ultima dettatura copiata"
       },
       "card": {
         "no_text_field": "Fai clic in un campo testo prima",
@@ -737,7 +778,8 @@
     "retry": "Riprova",
     "card": {
       "hidden": "Nascosto, perché era destinato a un campo password"
-    }
+    },
+    "undo": "Annulla"
   },
   "cleanup": {
     "title": "Pulizia",
@@ -944,6 +986,95 @@
       "failed": "I snippeti non possono essere esportati. Riprova."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "Insighti",
+      "usage": "Uso",
+      "voice": "Voz"
+    },
+    "asOf": "I tuoi numeri fino a {{date}}",
+    "unavailable": "I dati non possono essere letti in questo momento. Appariranno in un momento.",
+    "save": {
+      "button": "Salva come immagine",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "immagine PNG",
+      "done": "Salvato l'immagine.",
+      "failed": "L'immagine non può essere salvata. Riprova."
+    },
+    "speed": {
+      "title": "Velocità della parola",
+      "value": "{{wpm}} parole/minuto",
+      "notEnough": "Dicci un po' di più per vedere la tua velocità.",
+      "measured": "{{ratio}}× la tua velocità di battitura di {{typing}} wpm",
+      "average": "{{ratio}} volte la velocità di un tipografo medio ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Parole totali",
+      "dictations_one": "in {{count, number}} dictazioni",
+      "dictations_other": "in {{count, number}} dictazioni"
+    },
+    "fixes": {
+      "title": "Correzioni apportate",
+      "dictionary": "Correzioni dizionario",
+      "ai": "correzioni AI per la pulizia"
+    },
+    "categories": {
+      "title": "Dove dicti",
+      "empty": "Dicci in pochi app per capire dove vanno le tue parole.",
+      "words_one": "{{count, number}} parola",
+      "words_other": "{{count, number}} parole",
+      "documents": "Documenti",
+      "ai_prompts": "Prompt AI",
+      "email": "Email",
+      "work": "Messaggi lavoro",
+      "personal": "Messaggi personali",
+      "other": "Tutto il resto"
+    },
+    "heatmap": {
+      "title": "La tua serie",
+      "current": "Streak attuale",
+      "longest": "Fase più lunga",
+      "days_one": "{{count, number}} giorno",
+      "days_other": "{{count, number}} giorni",
+      "active_one": "1 giorno con dictazione negli ultimi anni",
+      "active_other": "{{count, number}} giorni con dictazione negli ultimi anni",
+      "day_one": "{{date}}: {{count, number}} parola",
+      "day_other": "{{date}}: {{count, number}} parole",
+      "less": "Poco",
+      "more": "Di più",
+      "band0": "Nessuna parola",
+      "band1": "da 1 a 249 parole",
+      "band2": "250 a 499 parole",
+      "band3": "500 a 749 parole",
+      "band4": "750 parole o più"
+    },
+    "voice": {
+      "lockedTitle": "Il tuo profilo vocale si sblocca a {{goal}} parole",
+      "lockedBody": "Continua a dictare: {{current}} di {{goal}} parole finora. Poi vedrai la frase che usi di più, quando e dove la dici, e le parole che {{appName}} corregge per te.",
+      "locked": "Bloccato",
+      "phrase": "La tua frase",
+      "phraseIn_one": "In {{count, number}} dictazione",
+      "phraseIn_other": "In {{count, number}} dictazioni",
+      "peak": "Ora di punta e app",
+      "peakApp": "La maggior parte delle parole in {{app}}",
+      "word": "Parola più usata",
+      "uses_one": "Usato {{count, number}} volta",
+      "uses_other": "Usato {{count, number}} volte",
+      "corrected": "Parola corretta più frequente",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Corretto {{count, number}} volta",
+      "fixed_other": "Corretto {{count, number}} volte",
+      "notEnough": "Ancora troppe dictazioni.",
+      "footnote_one": "Elaborato su questo Mac dalla tua ultima dictazione. Niente lascia il tuo Mac.",
+      "footnote_other": "Calcolato su questo Mac dalle tue ultime {{count, number}} dictazioni. Niente lascia il tuo Mac.",
+      "sample": {
+        "phrase": "una frase che dici spesso",
+        "peak": "un momento della giornata",
+        "word": "una parola preferita",
+        "corrected": "una parola che viene corretta"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "Scegli se Wispr Bro segue il tema di sistema o resta chiaro o scuro"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "Insighti",
-      "usage": "Uso",
-      "voice": "Voz"
-    },
-    "asOf": "I tuoi numeri fino a {{date}}",
-    "unavailable": "I dati non possono essere letti in questo momento. Appariranno in un momento.",
-    "save": {
-      "button": "Salva come immagine",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "immagine PNG",
-      "done": "Salvato l'immagine.",
-      "failed": "L'immagine non può essere salvata. Riprova."
-    },
-    "speed": {
-      "title": "Velocità della parola",
-      "value": "{{wpm}} parole/minuto",
-      "notEnough": "Dicci un po' di più per vedere la tua velocità.",
-      "measured": "{{ratio}}× la tua velocità di battitura di {{typing}} wpm",
-      "average": "{{ratio}} volte la velocità di un tipografo medio ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "Parole totali",
-      "dictations_one": "in {{count, number}} dictazioni",
-      "dictations_other": "in {{count, number}} dictazioni"
-    },
-    "fixes": {
-      "title": "Correzioni apportate",
-      "dictionary": "Correzioni dizionario",
-      "ai": "correzioni AI per la pulizia"
-    },
-    "categories": {
-      "title": "Dove dicti",
-      "empty": "Dicci in pochi app per capire dove vanno le tue parole.",
-      "words_one": "{{count, number}} parola",
-      "words_other": "{{count, number}} parole",
-      "documents": "Documenti",
-      "ai_prompts": "Prompt AI",
-      "email": "Email",
-      "work": "Messaggi lavoro",
-      "personal": "Messaggi personali",
-      "other": "Tutto il resto"
-    },
-    "heatmap": {
-      "title": "La tua serie",
-      "current": "Streak attuale",
-      "longest": "Fase più lunga",
-      "days_one": "{{count, number}} giorno",
-      "days_other": "{{count, number}} giorni",
-      "active_one": "1 giorno con dictazione negli ultimi anni",
-      "active_other": "{{count, number}} giorni con dictazione negli ultimi anni",
-      "day_one": "{{date}}: {{count, number}} parola",
-      "day_other": "{{date}}: {{count, number}} parole",
-      "less": "Poco",
-      "more": "Di più",
-      "band0": "Nessuna parola",
-      "band1": "da 1 a 249 parole",
-      "band2": "250 a 499 parole",
-      "band3": "500 a 749 parole",
-      "band4": "750 parole o più"
-    },
-    "voice": {
-      "lockedTitle": "Il tuo profilo vocale si sblocca a {{goal}} parole",
-      "lockedBody": "Continua a dictare: {{current}} di {{goal}} parole finora. Poi vedrai la frase che usi di più, quando e dove la dici, e le parole che {{appName}} corregge per te.",
-      "locked": "Bloccato",
-      "phrase": "La tua frase",
-      "phraseIn_one": "In {{count, number}} dictazione",
-      "phraseIn_other": "In {{count, number}} dictazioni",
-      "peak": "Ora di punta e app",
-      "peakApp": "La maggior parte delle parole in {{app}}",
-      "word": "Parola più usata",
-      "uses_one": "Usato {{count, number}} volta",
-      "uses_other": "Usato {{count, number}} volte",
-      "corrected": "Parola corretta più frequente",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Corretto {{count, number}} volta",
-      "fixed_other": "Corretto {{count, number}} volte",
-      "notEnough": "Ancora troppe dictazioni.",
-      "footnote_one": "Elaborato su questo Mac dalla tua ultima dictazione. Niente lascia il tuo Mac.",
-      "footnote_other": "Calcolato su questo Mac dalle tue ultime {{count, number}} dictazioni. Niente lascia il tuo Mac.",
-      "sample": {
-        "phrase": "una frase che dici spesso",
-        "peak": "un momento della giornata",
-        "word": "una parola preferita",
-        "corrected": "una parola che viene corretta"
-      }
     }
   }
 }

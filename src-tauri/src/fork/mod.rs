@@ -48,6 +48,7 @@ pub mod models;
 pub mod net;
 pub mod notify;
 pub mod pill;
+pub mod recovery;
 pub mod settings;
 pub mod shortcut;
 pub mod snippets;
@@ -113,6 +114,8 @@ pub fn take_file_name(sample_count: usize) -> String {
         stats::wpm::samples_to_ms(sample_count),
         context::current_context,
     );
+    // S-06: the take a cancel during transcription would bring back.
+    recovery::note_take_file(&name);
     name
 }
 
@@ -448,6 +451,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         // S-08: the wireless-default rule, the device watch, saved takes.
         audio::on_ready(app);
         audio::enable_prepared(app);
+        // S-06: Undo and the recovery actions, registered before the
+        // engine compiles the bindings.
+        R::recovery_start(app);
         shortcut::start(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
         R::pill_start(app);
@@ -590,11 +596,18 @@ pub trait ForkRuntime: Runtime {
     /// Starts the speech model setup (S-07a; product builds). No-op on
     /// runtimes without Handy's managers.
     fn models_start(app: &AppHandle<Self>);
+    /// Starts Undo and registers the recovery actions (S-06; product
+    /// builds). No-op on runtimes without Handy's managers.
+    fn recovery_start(app: &AppHandle<Self>);
 }
 
 impl ForkRuntime for tauri::Wry {
     fn models_start(app: &AppHandle<Self>) {
         models::setup::start(app);
+    }
+
+    fn recovery_start(app: &AppHandle<Self>) {
+        recovery::on_ready(app);
     }
 
     fn pill_start(app: &AppHandle<Self>) {
@@ -649,6 +662,8 @@ impl ForkRuntime for tauri::test::MockRuntime {
     fn pill_start(_app: &AppHandle<Self>) {}
 
     fn models_start(_app: &AppHandle<Self>) {}
+
+    fn recovery_start(_app: &AppHandle<Self>) {}
 
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {
         0.0

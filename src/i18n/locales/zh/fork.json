@@ -120,6 +120,38 @@
       "preview": "播放",
       "mute": "关闭所有语音输入时的音频",
       "muteHelp": "音乐和视频在你说话时会变静，之后会恢复原来的音量。"
+    },
+    "recovery": {
+      "title": "恢复快捷键",
+      "description": "不离开键盘就能找回或发送最近一次听写。",
+      "notSet": "未设置",
+      "current": "快捷键：{{shortcut}}",
+      "listening": "请按下快捷键…",
+      "listeningHelp": "按下想用的按键或鼠标按钮。按 Escape 取消。",
+      "record": "录制",
+      "cancel": "取消",
+      "clear": "清除",
+      "useDefault": "使用默认",
+      "unusable": "无法使用这个快捷键，请换一个。",
+      "saveFailed": "无法保存快捷键。",
+      "recordFailed": "无法录制快捷键。请检查应用是否获得了辅助功能权限。",
+      "pasteLast": {
+        "title": "粘贴最近一次听写",
+        "help": "把最近一次听写再次粘贴到你正在输入的位置。"
+      },
+      "copyLast": {
+        "title": "复制最近一次听写",
+        "help": "把最近一次听写放到剪贴板。"
+      },
+      "pressEnter": {
+        "title": "按下回车",
+        "help": "替你按下回车键，例如发送刚刚听写的消息。",
+        "mouse": "鼠标按钮仍会在指针下的应用中照常点击，所以侧键（后退或前进）最合适。"
+      },
+      "undoCancel": {
+        "title": "撤销取消",
+        "help": "在听写栏显示“撤销”时，找回刚刚取消的听写。"
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "鼠标左键",
+        "mouseRight": "鼠标右键",
+        "mouseMiddle": "鼠标中键",
+        "mouseBack": "鼠标后退键",
+        "mouseForward": "鼠标前进键"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "正在设置听写。你说的话已保存。",
         "card": "你的听写已就绪。可从栏中复制。",
-        "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。"
+        "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。",
+        "undo": "“撤销”会在听写栏上显示 4 秒。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "无法下载",
         "check_connection": "请检查网络连接",
-        "no_space": "磁盘空间不足，无法设置听写"
+        "no_space": "磁盘空间不足，无法设置听写",
+        "cancelled": "已取消",
+        "no_transcript": "还没有可粘贴的听写",
+        "copied_last": "已复制最近一次听写"
       },
       "card": {
         "no_text_field": "先点击文本框",
@@ -737,7 +778,8 @@
     "retry": "重试",
     "card": {
       "hidden": "隐藏，因为它本应用于密码字段"
-    }
+    },
+    "undo": "撤销"
   },
   "cleanup": {
     "title": "清理",
@@ -944,6 +986,95 @@
       "failed": "片段无法导出，请重试。"
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "洞察",
+      "usage": "使用情况",
+      "voice": "语音"
+    },
+    "asOf": "你的数据截至 {{date}}",
+    "unavailable": "洞察目前无法读取。稍后会出现。",
+    "save": {
+      "button": "保存为图片",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG图片",
+      "done": "已保存图片。",
+      "failed": "图片保存失败。请重试。"
+    },
+    "speed": {
+      "title": "说话速度",
+      "value": "{{wpm}} 字/分钟",
+      "notEnough": "多说一点以查看你的速度。",
+      "measured": "您的打字速度为 {{typing}} wpm，测量速度是 {{ratio}} 倍",
+      "average": "{{ratio}}× 一个普通打字员的速度（{{typing}} wpm）"
+    },
+    "words": {
+      "title": "总词数",
+      "dictations_one": "在 {{count, number}} 次语音输入中",
+      "dictations_other": "在 {{count, number}} 次语音输入中"
+    },
+    "fixes": {
+      "title": "已修复",
+      "dictionary": "词典修复",
+      "ai": "AI清理修复"
+    },
+    "categories": {
+      "title": "你在哪里输入语音",
+      "empty": "在几个应用中输入语音以查看你的文字去向。",
+      "words_one": "{{count, number}} 个词",
+      "words_other": "{{count, number}} 个词",
+      "documents": "文档",
+      "ai_prompts": "AI提示",
+      "email": "邮件",
+      "work": "工作消息",
+      "personal": "个人消息",
+      "other": "其他一切"
+    },
+    "heatmap": {
+      "title": "你的连贯记录",
+      "current": "当前连贯",
+      "longest": "最长连贯",
+      "days_one": "{{count, number}} 天",
+      "days_other": "{{count, number}} 天",
+      "active_one": "过去一年中，有{{count, number}}天使用语音输入",
+      "active_other": "过去一年中，有{{count, number}}天使用了语音输入",
+      "day_one": "{{date}}: {{count, number}} 字",
+      "day_other": "{{date}}: {{count, number}} 个词",
+      "less": "少",
+      "more": "更多",
+      "band0": "没有词语",
+      "band1": "1 到 249 个词",
+      "band2": "250 到 499 个词",
+      "band3": "500 到 749 个词",
+      "band4": "750个字或更多"
+    },
+    "voice": {
+      "lockedTitle": "你的语音配置在达到 {{goal}} 个词时解锁",
+      "lockedBody": "继续语音输入：到目前为止已输入 {{current}} 个词，共 {{goal}} 个词。之后你将看到你最常使用的短语、语音输入的时间和地点，以及 {{appName}} 为你自动修正的词语。",
+      "locked": "已锁定",
+      "phrase": "你的短语",
+      "phraseIn_one": "一次语音输入",
+      "phraseIn_other": "在 {{count, number}} 次语音输入中",
+      "peak": "高峰时段和应用",
+      "peakApp": "在 {{app}} 中最常见的词",
+      "word": "最常用的词",
+      "uses_one": "使用了 {{count, number}} 次",
+      "uses_other": "已使用 {{count, number}} 次",
+      "corrected": "最修正的词",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "已修复 {{count, number}} 次",
+      "fixed_other": "已修复 {{count, number}} 次",
+      "notEnough": "语音输入还不足够。",
+      "footnote_one": "在你最近的语音输入中，此 Mac 已完成处理。没有任何内容会离开你的 Mac。",
+      "footnote_other": "在你最近的{{count, number}}段语音输入中，本设备上完成的。没有内容会离开你的Mac。",
+      "sample": {
+        "phrase": "你经常说的一句话",
+        "peak": "一天中的某个时间",
+        "word": "一个最喜欢的词",
+        "corrected": "一个被修正的词"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "洞察",
-      "usage": "使用情况",
-      "voice": "语音"
-    },
-    "asOf": "你的数据截至 {{date}}",
-    "unavailable": "洞察目前无法读取。稍后会出现。",
-    "save": {
-      "button": "保存为图片",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG图片",
-      "done": "已保存图片。",
-      "failed": "图片保存失败。请重试。"
-    },
-    "speed": {
-      "title": "说话速度",
-      "value": "{{wpm}} 字/分钟",
-      "notEnough": "多说一点以查看你的速度。",
-      "measured": "您的打字速度为 {{typing}} wpm，测量速度是 {{ratio}} 倍",
-      "average": "{{ratio}}× 一个普通打字员的速度（{{typing}} wpm）"
-    },
-    "words": {
-      "title": "总词数",
-      "dictations_one": "在 {{count, number}} 次语音输入中",
-      "dictations_other": "在 {{count, number}} 次语音输入中"
-    },
-    "fixes": {
-      "title": "已修复",
-      "dictionary": "词典修复",
-      "ai": "AI清理修复"
-    },
-    "categories": {
-      "title": "你在哪里输入语音",
-      "empty": "在几个应用中输入语音以查看你的文字去向。",
-      "words_one": "{{count, number}} 个词",
-      "words_other": "{{count, number}} 个词",
-      "documents": "文档",
-      "ai_prompts": "AI提示",
-      "email": "邮件",
-      "work": "工作消息",
-      "personal": "个人消息",
-      "other": "其他一切"
-    },
-    "heatmap": {
-      "title": "你的连贯记录",
-      "current": "当前连贯",
-      "longest": "最长连贯",
-      "days_one": "{{count, number}} 天",
-      "days_other": "{{count, number}} 天",
-      "active_one": "过去一年中，有{{count, number}}天使用语音输入",
-      "active_other": "过去一年中，有{{count, number}}天使用了语音输入",
-      "day_one": "{{date}}: {{count, number}} 字",
-      "day_other": "{{date}}: {{count, number}} 个词",
-      "less": "少",
-      "more": "更多",
-      "band0": "没有词语",
-      "band1": "1 到 249 个词",
-      "band2": "250 到 499 个词",
-      "band3": "500 到 749 个词",
-      "band4": "750个字或更多"
-    },
-    "voice": {
-      "lockedTitle": "你的语音配置在达到 {{goal}} 个词时解锁",
-      "lockedBody": "继续语音输入：到目前为止已输入 {{current}} 个词，共 {{goal}} 个词。之后你将看到你最常使用的短语、语音输入的时间和地点，以及 {{appName}} 为你自动修正的词语。",
-      "locked": "已锁定",
-      "phrase": "你的短语",
-      "phraseIn_one": "一次语音输入",
-      "phraseIn_other": "在 {{count, number}} 次语音输入中",
-      "peak": "高峰时段和应用",
-      "peakApp": "在 {{app}} 中最常见的词",
-      "word": "最常用的词",
-      "uses_one": "使用了 {{count, number}} 次",
-      "uses_other": "已使用 {{count, number}} 次",
-      "corrected": "最修正的词",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "已修复 {{count, number}} 次",
-      "fixed_other": "已修复 {{count, number}} 次",
-      "notEnough": "语音输入还不足够。",
-      "footnote_one": "在你最近的语音输入中，此 Mac 已完成处理。没有任何内容会离开你的 Mac。",
-      "footnote_other": "在你最近的{{count, number}}段语音输入中，本设备上完成的。没有内容会离开你的Mac。",
-      "sample": {
-        "phrase": "你经常说的一句话",
-        "peak": "一天中的某个时间",
-        "word": "一个最喜欢的词",
-        "corrected": "一个被修正的词"
-      }
     }
   }
 }

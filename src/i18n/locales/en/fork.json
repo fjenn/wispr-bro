@@ -120,6 +120,38 @@
       "preview": "Play",
       "mute": "Mute all audio while dictating",
       "muteHelp": "Music and videos go quiet while you talk and come back at the same volume afterwards."
+    },
+    "recovery": {
+      "title": "Recovery shortcuts",
+      "description": "Get your last dictation back, or send it, without leaving the keyboard.",
+      "notSet": "Not set",
+      "current": "Shortcut: {{shortcut}}",
+      "listening": "Press a shortcut…",
+      "listeningHelp": "Press the keys or the mouse button you want. Escape cancels.",
+      "record": "Record",
+      "cancel": "Cancel",
+      "clear": "Clear",
+      "useDefault": "Use default",
+      "unusable": "This shortcut can't be used. Pick another one.",
+      "saveFailed": "Couldn't save the shortcut.",
+      "recordFailed": "Couldn't record a shortcut. Check that the app may use Accessibility.",
+      "pasteLast": {
+        "title": "Paste last dictation",
+        "help": "Pastes your last dictation again where you're typing."
+      },
+      "copyLast": {
+        "title": "Copy last dictation",
+        "help": "Puts your last dictation on the clipboard."
+      },
+      "pressEnter": {
+        "title": "Press Enter",
+        "help": "Presses Return for you, for example to send a message you just dictated.",
+        "mouse": "A mouse button still does its usual click in the app under the pointer, so a side button (back or forward) works best."
+      },
+      "undoCancel": {
+        "title": "Undo a cancel",
+        "help": "Brings back a dictation you just cancelled, while the bar shows Undo."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "Left mouse button",
+        "mouseRight": "Right mouse button",
+        "mouseMiddle": "Middle mouse button",
+        "mouseBack": "Back mouse button",
+        "mouseForward": "Forward mouse button"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Setting up dictation. Your words are saved.",
         "card": "Your dictation is ready. Copy it from the bar.",
-        "micLostWarning": "The microphone disconnected. What you said so far is kept."
+        "micLostWarning": "The microphone disconnected. What you said so far is kept.",
+        "undo": "Undo is on the dictation bar for 4 seconds."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "Couldn't download",
         "check_connection": "Check your internet connection",
-        "no_space": "Not enough disk space to set up dictation"
+        "no_space": "Not enough disk space to set up dictation",
+        "cancelled": "Cancelled",
+        "no_transcript": "No dictation to paste yet",
+        "copied_last": "Last dictation copied"
       },
       "card": {
         "no_text_field": "Click into a text field first",
@@ -838,7 +879,8 @@
     "retry": "Retry",
     "card": {
       "hidden": "Hidden, because it was meant for a password field"
-    }
+    },
+    "undo": "Undo"
   },
   "cleanup": {
     "title": "Cleanup",

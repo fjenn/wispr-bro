@@ -465,6 +465,21 @@ impl<R: Runtime> Host for AppHost<R> {
             {
                 crate::fork::insert::target::note_auto_stop();
             }
+            // S-06: only a cancel the user asked for (Esc, ✕, a third
+            // quick press) offers Undo. A tap with no second press, a
+            // dropped chord (DEC-54) and a reset are silent. Observed
+            // before the engine sends the cancel to the coordinator.
+            if matches!(
+                effect,
+                Effect::Cancelled {
+                    why: processor::CancelWhy::NoSecondPress | processor::CancelWhy::Reset,
+                } | Effect::ChordIgnored {
+                    mic_was_open: true,
+                    ..
+                }
+            ) {
+                crate::fork::recovery::cancel_is_silent();
+            }
         }
         if let Some(ev) = ForkHotkeyEvent::from_observed(event) {
             if let Err(e) = ev.emit(&self.app) {

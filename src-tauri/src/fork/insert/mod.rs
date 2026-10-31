@@ -69,25 +69,61 @@ pub fn last_card() -> Option<CardText> {
     lock(&LAST_CARD).clone()
 }
 
+/// What a delivery carries (S-06 adds the two recovery kinds).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Kind {
+    /// A take that was just transcribed (the `actions.rs` hook).
+    Take,
+    /// A cancelled take brought back by Undo: it goes into the element that
+    /// had focus at the cancel (`target`, an AX capture) if that still has
+    /// focus, else to the card (`focus_moved`).
+    Undo { target: Option<u64> },
+    /// The last transcript again (paste-last, ⌃⌘V): already final text, so
+    /// no text stages and no auto-submit; it goes wherever focus is now.
+    Again,
+}
+
+impl Kind {
+    /// The take's own delivery, whose outcome History records through the
+    /// take ledger (the recovery kinds record theirs by entry id).
+    fn is_take(self) -> bool {
+        self == Kind::Take
+    }
+}
+
 /// The `actions.rs` hook: delivers one take's final text. Same contract as
 /// Handy's `utils::paste`: `Err` when the text was not pasted (here: it went
 /// to the card; it is in History either way).
 pub fn deliver(text: String, app: AppHandle) -> Result<(), String> {
-    // S-11: the text stages after the LLM (R5 §4.10 stages 9 and 12).
-    let text = crate::fork::text::finish(text);
+    deliver_as(text, app, Kind::Take).0
+}
+
+/// Delivers `text` as `kind`; returns the hook result and the paste outcome
+/// (`None` for a delivery cancelled before the paste).
+pub fn deliver_as(
+    text: String,
+    app: AppHandle,
+    kind: Kind,
+) -> (Result<(), String>, Option<PasteOutcome>) {
+    // S-11: the text stages after the LLM (R5 §4.10 stages 9 and 12). The
+    // last transcript already went through them.
+    let text = match kind {
+        Kind::Again => text,
+        Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text),
+    };
     #[cfg(target_os = "macos")]
     {
         let settings = crate::settings::get_settings(&app);
         if settings.paste_method == crate::settings::PasteMethod::CtrlV {
-            return mac::deliver(text, app, &settings);
+            return mac::deliver(text, app, &settings, kind);
         }
     }
     // S-05: Handy's other paste methods get the same target check.
     let take = next_take();
-    if let Some(reason) = route_take(take) {
+    if let Some(reason) = route(take, kind) {
         let delivery = Delivery::Card { reason };
-        publish_outcome(&app, take, delivery, &text);
-        return hook_result(delivery);
+        publish_outcome(&app, take, delivery, &text, kind);
+        return (hook_result(delivery), delivery.paste_outcome());
     }
     // Handy's own paste: it reports only success or failure.
     let result = crate::utils::paste(text.clone(), app.clone());
@@ -95,8 +131,11 @@ pub fn deliver(text: String, app: AppHandle) -> Result<(), String> {
         Ok(()) => PasteOutcome::Unverified,
         Err(_) => PasteOutcome::Card,
     };
-    crate::fork::db::entry_meta::on_paste_outcome(&app, &text, Some(outcome));
-    result
+    if kind.is_take() {
+        crate::fork::db::entry_meta::on_paste_outcome(&app, &text, Some(outcome));
+        crate::fork::recovery::on_take_delivered();
+    }
+    (result, Some(outcome))
 }
 
 /// The disk filled up during a recording (`fork::db::disk`): stop it like a
@@ -164,6 +203,31 @@ fn route_take(take: u32) -> Option<CardReason> {
     log::info!(
         "insert: take {take} target {}",
         describe_target(focus.as_ref(), pending.map(|(t, _)| t), route)
+    );
+    match route {
+        target::Route::Card(reason) => Some(reason),
+        target::Route::Paste { .. } => None,
+    }
+}
+
+/// [`route_take`] for every kind. The recovery kinds never touch the take
+/// waiting for delivery: Undo compares with its own capture (taken at the
+/// cancel), paste-last with nothing (it goes wherever focus is now).
+fn route(take: u32, kind: Kind) -> Option<CardReason> {
+    let captured = match kind {
+        Kind::Take => return route_take(take),
+        Kind::Undo { target } => target,
+        Kind::Again => None,
+    };
+    let focus = crate::fork::ax::focus_now(captured, crate::fork::ax::READ_BUDGET);
+    let route = target::plan(captured.is_some(), focus.as_ref());
+    let as_target = captured.map(|id| target::Target {
+        id,
+        auto_stop: false,
+    });
+    log::info!(
+        "insert: take {take} ({kind:?}) target {}",
+        describe_target(focus.as_ref(), as_target, route)
     );
     match route {
         target::Route::Card(reason) => Some(reason),
@@ -253,8 +317,20 @@ fn next_take() -> u32 {
 
 /// Logs the outcome (no transcript text), remembers a card, and tells the
 /// windows.
-fn publish_outcome<R: Runtime>(app: &AppHandle<R>, take: u32, delivery: Delivery, text: &str) {
-    crate::fork::db::entry_meta::on_paste_outcome(app, text, delivery.paste_outcome());
+fn publish_outcome<R: Runtime>(
+    app: &AppHandle<R>,
+    take: u32,
+    delivery: Delivery,
+    text: &str,
+    kind: Kind,
+) {
+    if kind.is_take() {
+        crate::fork::db::entry_meta::on_paste_outcome(app, text, delivery.paste_outcome());
+        if delivery != Delivery::Cancelled {
+            // S-06: a take that reached its delivery is no longer undoable.
+            crate::fork::recovery::on_take_delivered();
+        }
+    }
     let event = outcome_event(take, delivery, text);
     if let Delivery::Card { reason } = delivery {
         if text.trim().is_empty() {

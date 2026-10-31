@@ -19,7 +19,15 @@ fn counter() -> (Arc<AtomicUsize>, Handler) {
 
 #[test]
 fn fixed_and_runtime_ids() {
-    for id in ["dictate", "hands_free", "cancel", "paste_last"] {
+    for id in [
+        "dictate",
+        "hands_free",
+        "cancel",
+        "paste_last",
+        "copy_last",
+        "press_enter",
+        "undo_cancel",
+    ] {
         assert!(is_action_id(id), "{id}");
     }
     for id in [

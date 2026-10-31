@@ -120,6 +120,38 @@
       "preview": "أعد التشغيل",
       "mute": "إيقاف جميع الأصوات أثناء التدوين",
       "muteHelp": "الموسيقى والفيديوهات تصبح هادئة أثناء الحديث وتُعاد إلى نفس مستوى الصوت بعد ذلك."
+    },
+    "recovery": {
+      "title": "اختصارات الاسترجاع",
+      "description": "استرجع آخر إملاء أو أرسله دون أن تترك لوحة المفاتيح.",
+      "notSet": "غير معيّن",
+      "current": "الاختصار: {{shortcut}}",
+      "listening": "اضغط اختصارًا…",
+      "listeningHelp": "اضغط المفاتيح أو زر الفأرة الذي تريده. Escape يلغي.",
+      "record": "تسجيل",
+      "cancel": "إلغاء",
+      "clear": "مسح",
+      "useDefault": "استخدام الافتراضي",
+      "unusable": "لا يمكن استخدام هذا الاختصار. اختر اختصارًا آخر.",
+      "saveFailed": "تعذّر حفظ الاختصار.",
+      "recordFailed": "تعذّر تسجيل اختصار. تحقّق من أن التطبيق مسموح له باستخدام تسهيلات الاستخدام.",
+      "pasteLast": {
+        "title": "لصق آخر إملاء",
+        "help": "يلصق آخر إملاء مرة أخرى حيث تكتب."
+      },
+      "copyLast": {
+        "title": "نسخ آخر إملاء",
+        "help": "يضع آخر إملاء في الحافظة."
+      },
+      "pressEnter": {
+        "title": "ضغط Enter",
+        "help": "يضغط Return نيابةً عنك، مثلًا لإرسال رسالة أمليتها للتو.",
+        "mouse": "يظل زر الفأرة ينقر كالمعتاد في التطبيق الموجود تحت المؤشر، لذا يُفضَّل زر جانبي (رجوع أو تقدم)."
+      },
+      "undoCancel": {
+        "title": "التراجع عن الإلغاء",
+        "help": "يعيد إملاءً ألغيته للتو، ما دام الشريط يعرض «تراجع»."
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "زر الفأرة الأيسر",
+        "mouseRight": "زر الفأرة الأيمن",
+        "mouseMiddle": "زر الفأرة الأوسط",
+        "mouseBack": "زر الرجوع في الفأرة",
+        "mouseForward": "زر التقدم في الفأرة"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "جارٍ إعداد الإملاء. تم حفظ كلامك.",
         "card": "إملاؤك جاهز. انسخه من الشريط.",
-        "micLostWarning": "تم فقد ميكروفون. ما قلتَه حتى الآن يُحتفظ به."
+        "micLostWarning": "تم فقد ميكروفون. ما قلتَه حتى الآن يُحتفظ به.",
+        "undo": "يبقى «تراجع» على شريط الإملاء لمدة 4 ثوانٍ."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "تعذّر التنزيل",
         "check_connection": "تحقّق من اتصالك بالإنترنت",
-        "no_space": "لا توجد مساحة كافية على القرص لإعداد الإملاء"
+        "no_space": "لا توجد مساحة كافية على القرص لإعداد الإملاء",
+        "cancelled": "أُلغي",
+        "no_transcript": "لا يوجد إملاء للصقه بعد",
+        "copied_last": "نُسخ آخر إملاء"
       },
       "card": {
         "no_text_field": "انقر أولاً في حقل نص",
@@ -737,7 +778,8 @@
     "retry": "إعادة المحاولة",
     "card": {
       "hidden": "مُخفي، لأنه كان مُخصصًا لحقل كلمة المرور"
-    }
+    },
+    "undo": "تراجع"
   },
   "cleanup": {
     "title": "التنظيف",
@@ -944,6 +986,95 @@
       "failed": "لا يمكن استيراد المُلخصات. يُرجى المحاولة مرة أخرى."
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "الإحصائيات",
+      "usage": "الاستخدام",
+      "voice": "الصوت"
+    },
+    "asOf": "أرقامك حتى تاريخ {{date}}",
+    "unavailable": "لا يمكن قراءة الملاحظات الآن. ستصبح متوفرة في لحظة.",
+    "save": {
+      "button": "احفظ كصورة",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "صورة PNG",
+      "done": "تم حفظ الصورة.",
+      "failed": "لا يمكن حفظ الصورة. جرّب مرة أخرى."
+    },
+    "speed": {
+      "title": "سرعة التحدث",
+      "value": "{{wpm}} كلمة في الدقيقة",
+      "notEnough": "أدخل أكثر قليلاً لرؤية سرعتك.",
+      "measured": "{{ratio}}× سرعة كتابتك التي تبلغ {{typing}} wpm",
+      "average": "{{ratio}}× سرعة مُكتّب متوسط ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "الكلمات الإجمالية",
+      "dictations_one": "في {{count, number}} تدوين",
+      "dictations_other": "في {{count, number}} تدوين"
+    },
+    "fixes": {
+      "title": "التصحيحات المُطبقة",
+      "dictionary": "تصحيحات القاموس",
+      "ai": "إصلاحات تنظيف الذكاء الاصطناعي"
+    },
+    "categories": {
+      "title": "أين تُكتب الأوامر",
+      "empty": "أدخل في عدد قليل من التطبيقات لرؤية أين تذهب كلماتك.",
+      "words_one": "{{count, number}} كلمة",
+      "words_other": "{{count, number}} كلمات",
+      "documents": "الوثائق",
+      "ai_prompts": "مُحفّزات الذكاء الاصطناعي",
+      "email": "البريد الإلكتروني",
+      "work": "رسائل العمل",
+      "personal": "الرسائل الشخصية",
+      "other": "الباقية"
+    },
+    "heatmap": {
+      "title": "سلسلتك",
+      "current": "السلاسل الحالية",
+      "longest": "السلاسل الأطول",
+      "days_one": "{{count, number}} يوم",
+      "days_other": "{{count, number}} أيام",
+      "active_one": "أحد الأيام {{count, number}} في العام الماضي مع التدوين",
+      "active_other": "{{count, number}} يومًا مع التدوين في العام الماضي",
+      "day_one": "{{date}}: {{count, number}} كلمة",
+      "day_other": "{{date}}: {{count, number}} كلمة",
+      "less": "أقل",
+      "more": "أكثر",
+      "band0": "لا كلمات",
+      "band1": "من 1 إلى 249 كلمة",
+      "band2": "من 250 إلى 499 كلمة",
+      "band3": "من 500 إلى 749 كلمة",
+      "band4": "750 كلمة أو أكثر"
+    },
+    "voice": {
+      "lockedTitle": "مُلَفَّتُكَ الصوتي يُفتح عند {{goal}} كلمة",
+      "lockedBody": "استمر في التدوين: {{current}} من {{goal}} كلمات حتى الآن. ثم ستجد الجملة التي تستخدمها أكثر، وعندما وحيث تدوّن، و الكلمات التي يُصححها لك {{appName}}.",
+      "locked": "مُغلق",
+      "phrase": "جملتك",
+      "phraseIn_one": "في {{count, number}} تدوين",
+      "phraseIn_other": "في {{count, number}} تدوين",
+      "peak": "الوقت القصوى والتطبيق",
+      "peakApp": "أكبر الكلمات في {{app}}",
+      "word": "الكلمة الأكثر استخدامًا",
+      "uses_one": "استخدم {{count, number}} مرة",
+      "uses_other": "استخدم {{count, number}} مرة",
+      "corrected": "الكلمة المصححة أكثر",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "تم تصحيحه مرة واحدة",
+      "fixed_other": "تم إصلاحه {{count, number}} مرة",
+      "notEnough": "لا توجد ملاحظات كافية بعد.",
+      "footnote_one": "تم التحليل على هذا Mac من التدوين الأخير. لا شيء يغادر Macك.",
+      "footnote_other": "تم حسابها على جهاز Mac هذا من آخر {{count, number}} من إملاءاتك. لا شيء يغادر جهاز Mac الخاص بك.",
+      "sample": {
+        "phrase": "عبارة تقولها كثيرًا",
+        "peak": "زمن من اليوم",
+        "word": "كلمة مفضلة",
+        "corrected": "كلمة تُصحَّح"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "اختر ما إذا كان Wispr Bro يتبع مظهر النظام أو يبقى فاتحًا أو داكنًا"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "الإحصائيات",
-      "usage": "الاستخدام",
-      "voice": "الصوت"
-    },
-    "asOf": "أرقامك حتى تاريخ {{date}}",
-    "unavailable": "لا يمكن قراءة الملاحظات الآن. ستصبح متوفرة في لحظة.",
-    "save": {
-      "button": "احفظ كصورة",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "صورة PNG",
-      "done": "تم حفظ الصورة.",
-      "failed": "لا يمكن حفظ الصورة. جرّب مرة أخرى."
-    },
-    "speed": {
-      "title": "سرعة التحدث",
-      "value": "{{wpm}} كلمة في الدقيقة",
-      "notEnough": "أدخل أكثر قليلاً لرؤية سرعتك.",
-      "measured": "{{ratio}}× سرعة كتابتك التي تبلغ {{typing}} wpm",
-      "average": "{{ratio}}× سرعة مُكتّب متوسط ({{typing}} wpm)"
-    },
-    "words": {
-      "title": "الكلمات الإجمالية",
-      "dictations_one": "في {{count, number}} تدوين",
-      "dictations_other": "في {{count, number}} تدوين"
-    },
-    "fixes": {
-      "title": "التصحيحات المُطبقة",
-      "dictionary": "تصحيحات القاموس",
-      "ai": "إصلاحات تنظيف الذكاء الاصطناعي"
-    },
-    "categories": {
-      "title": "أين تُكتب الأوامر",
-      "empty": "أدخل في عدد قليل من التطبيقات لرؤية أين تذهب كلماتك.",
-      "words_one": "{{count, number}} كلمة",
-      "words_other": "{{count, number}} كلمات",
-      "documents": "الوثائق",
-      "ai_prompts": "مُحفّزات الذكاء الاصطناعي",
-      "email": "البريد الإلكتروني",
-      "work": "رسائل العمل",
-      "personal": "الرسائل الشخصية",
-      "other": "الباقية"
-    },
-    "heatmap": {
-      "title": "سلسلتك",
-      "current": "السلاسل الحالية",
-      "longest": "السلاسل الأطول",
-      "days_one": "{{count, number}} يوم",
-      "days_other": "{{count, number}} أيام",
-      "active_one": "أحد الأيام {{count, number}} في العام الماضي مع التدوين",
-      "active_other": "{{count, number}} يومًا مع التدوين في العام الماضي",
-      "day_one": "{{date}}: {{count, number}} كلمة",
-      "day_other": "{{date}}: {{count, number}} كلمة",
-      "less": "أقل",
-      "more": "أكثر",
-      "band0": "لا كلمات",
-      "band1": "من 1 إلى 249 كلمة",
-      "band2": "من 250 إلى 499 كلمة",
-      "band3": "من 500 إلى 749 كلمة",
-      "band4": "750 كلمة أو أكثر"
-    },
-    "voice": {
-      "lockedTitle": "مُلَفَّتُكَ الصوتي يُفتح عند {{goal}} كلمة",
-      "lockedBody": "استمر في التدوين: {{current}} من {{goal}} كلمات حتى الآن. ثم ستجد الجملة التي تستخدمها أكثر، وعندما وحيث تدوّن، و الكلمات التي يُصححها لك {{appName}}.",
-      "locked": "مُغلق",
-      "phrase": "جملتك",
-      "phraseIn_one": "في {{count, number}} تدوين",
-      "phraseIn_other": "في {{count, number}} تدوين",
-      "peak": "الوقت القصوى والتطبيق",
-      "peakApp": "أكبر الكلمات في {{app}}",
-      "word": "الكلمة الأكثر استخدامًا",
-      "uses_one": "استخدم {{count, number}} مرة",
-      "uses_other": "استخدم {{count, number}} مرة",
-      "corrected": "الكلمة المصححة أكثر",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "تم تصحيحه مرة واحدة",
-      "fixed_other": "تم إصلاحه {{count, number}} مرة",
-      "notEnough": "لا توجد ملاحظات كافية بعد.",
-      "footnote_one": "تم التحليل على هذا Mac من التدوين الأخير. لا شيء يغادر Macك.",
-      "footnote_other": "تم حسابها على جهاز Mac هذا من آخر {{count, number}} من إملاءاتك. لا شيء يغادر جهاز Mac الخاص بك.",
-      "sample": {
-        "phrase": "عبارة تقولها كثيرًا",
-        "peak": "زمن من اليوم",
-        "word": "كلمة مفضلة",
-        "corrected": "كلمة تُصحَّح"
-      }
     }
   }
 }

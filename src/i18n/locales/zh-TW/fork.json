@@ -120,6 +120,38 @@
       "preview": "播放",
       "mute": "關閉所有語音輸入時的聲音",
       "muteHelp": "音樂和影片在你說話時會變靜音，之後會恢復原來的音量。"
+    },
+    "recovery": {
+      "title": "復原快速鍵",
+      "description": "不離開鍵盤就能找回或傳送最近一次聽寫。",
+      "notSet": "未設定",
+      "current": "快速鍵：{{shortcut}}",
+      "listening": "請按下快速鍵…",
+      "listeningHelp": "按下想用的按鍵或滑鼠按鈕。按 Escape 取消。",
+      "record": "錄製",
+      "cancel": "取消",
+      "clear": "清除",
+      "useDefault": "使用預設值",
+      "unusable": "無法使用這個快速鍵，請換一個。",
+      "saveFailed": "無法儲存快速鍵。",
+      "recordFailed": "無法錄製快速鍵。請檢查 App 是否取得輔助使用權限。",
+      "pasteLast": {
+        "title": "貼上最近一次聽寫",
+        "help": "把最近一次聽寫再次貼到你正在輸入的位置。"
+      },
+      "copyLast": {
+        "title": "拷貝最近一次聽寫",
+        "help": "把最近一次聽寫放到剪貼板。"
+      },
+      "pressEnter": {
+        "title": "按下 Return",
+        "help": "替你按下 Return 鍵，例如傳送剛剛聽寫的訊息。",
+        "mouse": "滑鼠按鈕仍會在指標下的 App 中照常點按，所以側鍵（上一頁或下一頁）最合適。"
+      },
+      "undoCancel": {
+        "title": "復原取消",
+        "help": "在聽寫列顯示「復原」時，找回剛剛取消的聽寫。"
+      }
     }
   },
   "hub": {
@@ -346,7 +378,12 @@
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down"
+        "pageDown": "Page Down",
+        "mouseLeft": "滑鼠左鍵",
+        "mouseRight": "滑鼠右鍵",
+        "mouseMiddle": "滑鼠中鍵",
+        "mouseBack": "滑鼠上一頁鍵",
+        "mouseForward": "滑鼠下一頁鍵"
       }
     },
     "notify": {
@@ -436,7 +473,8 @@
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "正在設定聽寫。你說的話已儲存。",
         "card": "你的聽寫已就緒。可從列中拷貝。",
-        "micLostWarning": "麥克風已斷線。你之前說過的話會被保留。"
+        "micLostWarning": "麥克風已斷線。你之前說過的話會被保留。",
+        "undo": "「復原」會在聽寫列上顯示 4 秒。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -449,7 +487,10 @@
         "mic_failed": "The microphone didn't start",
         "download_failed": "無法下載",
         "check_connection": "請檢查網路連線",
-        "no_space": "磁碟空間不足，無法設定聽寫"
+        "no_space": "磁碟空間不足，無法設定聽寫",
+        "cancelled": "已取消",
+        "no_transcript": "還沒有可貼上的聽寫",
+        "copied_last": "已拷貝最近一次聽寫"
       },
       "card": {
         "no_text_field": "先點進文字欄位",
@@ -737,7 +778,8 @@
     "retry": "重試",
     "card": {
       "hidden": "隱藏，因為原本是用來填寫密碼欄位"
-    }
+    },
+    "undo": "復原"
   },
   "cleanup": {
     "title": "清理",
@@ -944,6 +986,95 @@
       "failed": "無法匯出片段。請再試一次。"
     }
   },
+  "insights": {
+    "tabs": {
+      "label": "洞察",
+      "usage": "使用情況",
+      "voice": "語音"
+    },
+    "asOf": "您的數據截至 {{date}}",
+    "unavailable": "目前無法讀取洞察。稍後就會出現。",
+    "save": {
+      "button": "儲存為圖片",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG 圖像",
+      "done": "已儲存圖片。",
+      "failed": "圖片無法儲存，請再試一次。"
+    },
+    "speed": {
+      "title": "語速",
+      "value": "每分鐘 {{wpm}} 字",
+      "notEnough": "再多說一點看看你的語速。",
+      "measured": "{{ratio}}× your typing speed of {{typing}} wpm",
+      "average": "{{ratio}}× 一般打字速度（{{typing}} wpm）"
+    },
+    "words": {
+      "title": "總字數",
+      "dictations_one": "在 {{count, number}} 次語音輸入中",
+      "dictations_other": "在 {{count, number}} 次語音輸入中"
+    },
+    "fixes": {
+      "title": "已修復的項目",
+      "dictionary": "詞典修正",
+      "ai": "AI 整理修正"
+    },
+    "categories": {
+      "title": "你在哪裡打字",
+      "empty": "在幾款應用程式中輸入語音，以查看你的文字去向。",
+      "words_one": "{{count, number}} 個字",
+      "words_other": "{{count, number}} 個字",
+      "documents": "文件",
+      "ai_prompts": "AI 提示",
+      "email": "電子郵件",
+      "work": "工作訊息",
+      "personal": "個人訊息",
+      "other": "其他"
+    },
+    "heatmap": {
+      "title": "你的連線紀錄",
+      "current": "目前連線",
+      "longest": "最長連擊",
+      "days_one": "{{count, number}} 天",
+      "days_other": "{{count, number}} 天",
+      "active_one": "過去一年中，有 {{count, number}} 天使用語音輸入",
+      "active_other": "過去一年中有 {{count, number}} 天使用語音輸入",
+      "day_one": "{{date}}: {{count, number}} 個字",
+      "day_other": "{{date}}: {{count, number}} 個字",
+      "less": "較少",
+      "more": "更多",
+      "band0": "沒有字",
+      "band1": "1 到 249 個字",
+      "band2": "250 到 499 個字",
+      "band3": "500 到 749 字",
+      "band4": "750 個字以上"
+    },
+    "voice": {
+      "lockedTitle": "您的語音檔案在輸入 {{goal}} 個字時解鎖",
+      "lockedBody": "繼續打字：到目前為止已輸入 {{current}} 個字，共 {{goal}} 個字。之後你將看到你最常使用的語句、打字時的時間與地點，以及 {{appName}} 自動為你修正的詞彙。",
+      "locked": "已鎖定",
+      "phrase": "你的語句",
+      "phraseIn_one": "在 {{count, number}} 次語音輸入中",
+      "phraseIn_other": "在 {{count, number}} 筆筆錄中",
+      "peak": "高峰時間與應用程式",
+      "peakApp": "在 {{app}} 中最常出現的詞",
+      "word": "最常使用的詞",
+      "uses_one": "使用了 {{count, number}} 次",
+      "uses_other": "已使用 {{count, number}} 次",
+      "corrected": "最修正的詞",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "已修復 {{count, number}} 次",
+      "fixed_other": "已修正 {{count, number}} 次",
+      "notEnough": "還不夠的語音輸入。",
+      "footnote_one": "在這台 Mac 上由您最新的語音輸入完成。沒有任何資料會離開您的 Mac。",
+      "footnote_other": "在這台 Mac 上從你最近的 {{count, number}} 次語音輸入中處理完成。沒有資料離開你的 Mac。",
+      "sample": {
+        "phrase": "一個你常說的句子",
+        "peak": "一天中的時間",
+        "word": "一個最喜歡的詞",
+        "corrected": "一個詞語被修正"
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
@@ -1043,95 +1174,6 @@
     },
     "theme": {
       "description": "選擇 Wispr Bro 跟隨系統主題，或維持淺色或深色"
-    }
-  },
-  "insights": {
-    "tabs": {
-      "label": "洞察",
-      "usage": "使用情況",
-      "voice": "語音"
-    },
-    "asOf": "您的數據截至 {{date}}",
-    "unavailable": "目前無法讀取洞察。稍後就會出現。",
-    "save": {
-      "button": "儲存為圖片",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG 圖像",
-      "done": "已儲存圖片。",
-      "failed": "圖片無法儲存，請再試一次。"
-    },
-    "speed": {
-      "title": "語速",
-      "value": "每分鐘 {{wpm}} 字",
-      "notEnough": "再多說一點看看你的語速。",
-      "measured": "{{ratio}}× your typing speed of {{typing}} wpm",
-      "average": "{{ratio}}× 一般打字速度（{{typing}} wpm）"
-    },
-    "words": {
-      "title": "總字數",
-      "dictations_one": "在 {{count, number}} 次語音輸入中",
-      "dictations_other": "在 {{count, number}} 次語音輸入中"
-    },
-    "fixes": {
-      "title": "已修復的項目",
-      "dictionary": "詞典修正",
-      "ai": "AI 整理修正"
-    },
-    "categories": {
-      "title": "你在哪裡打字",
-      "empty": "在幾款應用程式中輸入語音，以查看你的文字去向。",
-      "words_one": "{{count, number}} 個字",
-      "words_other": "{{count, number}} 個字",
-      "documents": "文件",
-      "ai_prompts": "AI 提示",
-      "email": "電子郵件",
-      "work": "工作訊息",
-      "personal": "個人訊息",
-      "other": "其他"
-    },
-    "heatmap": {
-      "title": "你的連線紀錄",
-      "current": "目前連線",
-      "longest": "最長連擊",
-      "days_one": "{{count, number}} 天",
-      "days_other": "{{count, number}} 天",
-      "active_one": "過去一年中，有 {{count, number}} 天使用語音輸入",
-      "active_other": "過去一年中有 {{count, number}} 天使用語音輸入",
-      "day_one": "{{date}}: {{count, number}} 個字",
-      "day_other": "{{date}}: {{count, number}} 個字",
-      "less": "較少",
-      "more": "更多",
-      "band0": "沒有字",
-      "band1": "1 到 249 個字",
-      "band2": "250 到 499 個字",
-      "band3": "500 到 749 字",
-      "band4": "750 個字以上"
-    },
-    "voice": {
-      "lockedTitle": "您的語音檔案在輸入 {{goal}} 個字時解鎖",
-      "lockedBody": "繼續打字：到目前為止已輸入 {{current}} 個字，共 {{goal}} 個字。之後你將看到你最常使用的語句、打字時的時間與地點，以及 {{appName}} 自動為你修正的詞彙。",
-      "locked": "已鎖定",
-      "phrase": "你的語句",
-      "phraseIn_one": "在 {{count, number}} 次語音輸入中",
-      "phraseIn_other": "在 {{count, number}} 筆筆錄中",
-      "peak": "高峰時間與應用程式",
-      "peakApp": "在 {{app}} 中最常出現的詞",
-      "word": "最常使用的詞",
-      "uses_one": "使用了 {{count, number}} 次",
-      "uses_other": "已使用 {{count, number}} 次",
-      "corrected": "最修正的詞",
-      "pair": "{{heard}} → {{written}}",
-      "fixed_one": "已修復 {{count, number}} 次",
-      "fixed_other": "已修正 {{count, number}} 次",
-      "notEnough": "還不夠的語音輸入。",
-      "footnote_one": "在這台 Mac 上由您最新的語音輸入完成。沒有任何資料會離開您的 Mac。",
-      "footnote_other": "在這台 Mac 上從你最近的 {{count, number}} 次語音輸入中處理完成。沒有資料離開你的 Mac。",
-      "sample": {
-        "phrase": "一個你常說的句子",
-        "peak": "一天中的時間",
-        "word": "一個最喜歡的詞",
-        "corrected": "一個詞語被修正"
-      }
     }
   }
 }
