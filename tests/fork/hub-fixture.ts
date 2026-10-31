@@ -114,6 +114,8 @@ export interface OpenHubOptions {
   hash?: string;
   /** Viewport (default 1040×720, the Hub's default page size). */
   size?: { width: number; height: number };
+  /** Runs after the default replies are installed, before navigation. */
+  beforeNavigate?: () => void;
 }
 
 export const test = base.extend<{ hub: HubState }>({
@@ -182,6 +184,12 @@ export async function openHub(
     counts: { words: 0, rules: 0, suggested: 0 },
   });
   ipc.handle("fork_account_name", () => hub.accountName);
+  // S-15b: an empty history unless the spec installs its own backend.
+  ipc.respond("fork_history_page", { rows: [], next: null });
+  ipc.respond("fork_history_find", { rows: [], next: null });
+  ipc.respond("fork_history_rows", []);
+  // A spec's own backend, installed over these defaults.
+  options.beforeNavigate?.();
 
   await page.goto(`/${options.hash ?? ""}`);
   await expect(page.getByTestId("wb-sidebar")).toBeVisible();

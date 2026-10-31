@@ -202,10 +202,8 @@ test.describe("dictation home", () => {
       "137",
       "6",
     ]);
-    // With dictations, the history slot says where they are.
-    await expect(page.getByTestId("wb-empty-dictation")).toContainText(
-      "Your dictations are saved on this Mac",
-    );
+    // The main column holds History (S-15b, history.spec.ts).
+    await expect(page.getByTestId("wb-history")).toBeVisible();
   });
 
   test("numbers follow the app language's grouping", async ({
@@ -383,17 +381,6 @@ test.describe("dictation home", () => {
     await page.reload();
     await expect(page.getByTestId("wb-stats-rail")).toBeVisible();
     await expect(banner).toHaveCount(0);
-  });
-
-  test("the history slot links to Settings › History", async ({
-    page,
-    ipc,
-    hub,
-  }) => {
-    hub.stats = fixtureStats();
-    await openHub(page, ipc, hub);
-    await page.getByRole("button", { name: "Open history" }).click();
-    await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
   });
 
   test("layout: rail on the right when wide, stacked under the greeting when narrow", async ({
