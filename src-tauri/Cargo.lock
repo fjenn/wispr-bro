@@ -2366,6 +2366,7 @@ dependencies = [
 name = "handy"
 version = "1.0.0-alpha.1"
 dependencies = [
+ "aho-corasick",
  "anyhow",
  "chrono",
  "clap",

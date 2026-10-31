@@ -11,7 +11,11 @@
 //!   `get_icon_path` (F-01).
 //! - `lib.rs` log target, `actions.rs` and `managers/transcription_jobs.rs`
 //!   WAV names: [`FILE_PREFIX`] (F-01).
-//! - `actions.rs` paste: [`insert::deliver`] in place of `utils::paste` (S-04).
+//! - `actions.rs` paste: [`insert::deliver`] in place of `utils::paste` (S-04;
+//!   S-11's post-LLM text stages run inside it).
+//! - `managers/transcription.rs` `finish_text`: [`text::process`] wraps
+//!   Handy's deterministic stages per line (S-11; S-09's verbatim text
+//!   goes through it).
 //! - `llm_client.rs`: [`llm::client_builder`] (F-08); S-10 routes `local`
 //!   to the sidecar there, with no new upstream line.
 //!
@@ -40,6 +44,7 @@ pub mod shortcut;
 pub mod stats;
 #[cfg(test)]
 mod testutil;
+pub mod text;
 pub mod tray;
 
 pub use settings::PRODUCT_IDENTIFIER;
@@ -107,13 +112,23 @@ pub fn keep_take(wav: &std::path::Path) -> bool {
     db::disk::keep_without_audio(wav)
 }
 
-/// The `managers/transcription.rs` hook (`finish_text`): Handy keeps
-/// `finished` for the verbatim ASR text `verbatim`; the history row stores
-/// both (D-06). Returns `finished`. S-11's `fork::text::process` replaces
-/// this call and reports the verbatim text the same way.
-pub fn note_verbatim(verbatim: String, finished: String) -> String {
-    context::take::ledger().note_verbatim(verbatim, &finished);
-    finished
+/// Points the text pipeline at `fork.db` for its dictionary rules. A take
+/// reads them once (a small indexed query), so S-16's edits apply to the
+/// next take without a reload signal; a database error means no rules for
+/// that take, never a failed take.
+fn install_rule_source<R: Runtime>(app: &AppHandle<R>) {
+    let app = app.clone();
+    text::install_rule_source(move || {
+        let Some(fork_db) = app.try_state::<db::ForkDb>() else {
+            return Vec::new();
+        };
+        fork_db
+            .with_conn(|conn| db::rules::active_rules(conn))
+            .unwrap_or_else(|e| {
+                log::warn!("text: could not read the dictionary rules: {e}");
+                Vec::new()
+            })
+    });
 }
 
 /// The `actions.rs` record-start hook (R5 §4.2): runs when a dictation's
@@ -348,6 +363,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-04: session observers and recording phases for delivery.
     insert::on_ready(app);
     db::jobs::start(app);
+    // S-11: the dictionary rules the text pipeline applies, read per take.
+    install_rule_source(app);
 
     // S-13: Hub window size and title bar.
     hub::on_ready(app);

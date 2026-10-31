@@ -22,7 +22,9 @@
 //! Handy's `HistoryManager`), [`stats`] (the store that survives retention
 //! and deletes), [`retention`], the launch [`reconcile`], [`disk`] (a full
 //! disk keeps the text) and [`handy`] (the only way the fork touches Handy's
-//! history). [`jobs`] schedules reconcile and retention.
+//! history). [`jobs`] schedules reconcile and retention. S-11 adds
+//! [`rules`]: the active dictionary rules for the text pipeline and the
+//! record of the ones that applied.
 
 pub mod disk;
 pub mod entry_meta;
@@ -31,6 +33,7 @@ pub mod handy;
 pub mod jobs;
 pub mod reconcile;
 pub mod retention;
+pub mod rules;
 pub mod stats;
 
 pub use entry_meta::{on_deleted, on_retried, on_saved};
@@ -70,6 +73,7 @@ const SIDECAR_SUFFIXES: [&str; 2] = ["-wal", "-shm"];
 static MIGRATIONS: &[M<'static>] = &[
     M::up(include_str!("migrations/0001_init.sql")),
     M::up(include_str!("migrations/0002_history.sql")),
+    M::up(include_str!("migrations/0003_text.sql")),
 ];
 
 /// Schema version this build creates and understands.

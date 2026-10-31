@@ -192,6 +192,89 @@ fn retry_updates_counts_by_the_delta_and_keeps_the_first_context() {
     .unwrap();
 }
 
+/// S-11: the pipeline's record lands on the row, in the stats and in
+/// `corrections`; a retry replaces it.
+#[test]
+fn the_text_record_is_stored_per_take_and_replaced_by_a_retry() {
+    use crate::fork::text::counts::{RuleHit, Stage, TextRecord};
+    let (_d, db) = db();
+    db.with_conn(|conn| {
+        conn.execute(
+            "INSERT INTO dictionary_entries (kind, from_text, to_text, created_at)
+             VALUES ('rule', 'jira', 'Jira', 1)",
+            [],
+        )?;
+        let rule_id = conn.last_insert_rowid();
+        let hit = RuleHit {
+            rule_id,
+            from_text: "JIRA".into(),
+            to_text: "Jira".into(),
+        };
+        let mut record = TextRecord::default();
+        record.push(Stage::Rules, 2);
+        record.push(Stage::Handy, 0);
+        record.rule_hits = vec![hit.clone(), hit.clone()];
+
+        let mut l = Ledger::new();
+        l.record_started(ctx("com.apple.mail", "Mail"));
+        l.bind("wispr-bro-1.wav", 4_000, || unreachable!());
+        l.note_processed("jira and jira".into(), "Jira and Jira", record);
+        let mut e = entry(1, 1_793_400_000, "Jira and Jira");
+        e.file_name = "wispr-bro-1.wav".into();
+        let p = l.take_processed(&e.transcription_text).unwrap();
+        let w = EntryWrite::for_saved(&e, l.take_bound(&e.file_name), Some(p.verbatim), day)
+            .with_text(Some(p.record));
+        write(conn, &w, false)?;
+
+        let row = |conn: &Connection| -> rusqlite::Result<(i64, String, String)> {
+            conn.query_row(
+                "SELECT fix_count_dictionary, text_stages, asr_text FROM entry_meta WHERE entry_id = 1",
+                [],
+                |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
+            )
+        };
+        let (fixes, stages, asr) = row(conn)?;
+        assert_eq!(fixes, 2);
+        assert_eq!(
+            stages,
+            r#"[{"stage":"rules","changes":2},{"stage":"handy","changes":0}]"#
+        );
+        assert_eq!(asr, "jira and jira");
+        let corrections = |conn: &Connection| -> rusqlite::Result<i64> {
+            conn.query_row(
+                "SELECT COUNT(*) FROM corrections WHERE entry_id = 1 AND source = 'rule'",
+                [],
+                |r| r.get(0),
+            )
+        };
+        assert_eq!(corrections(conn)?, 2);
+        let day_fixes = |conn: &Connection| -> rusqlite::Result<i64> {
+            conn.query_row("SELECT SUM(fixes_dictionary) FROM daily_stats", [], |r| r.get(0))
+        };
+        assert_eq!(day_fixes(conn)?, 2);
+
+        // A retry with one hit moves the stats by the delta and replaces the
+        // corrections.
+        let mut retried = TextRecord::default();
+        retried.push(Stage::Rules, 1);
+        retried.rule_hits = vec![hit];
+        let e2 = entry(1, 1_793_400_000, "Jira and jura");
+        let w = EntryWrite::for_saved(&e2, None, None, day).with_text(Some(retried));
+        write(conn, &w, true)?;
+        assert_eq!(row(conn)?.0, 1);
+        assert_eq!(corrections(conn)?, 1);
+        assert_eq!(day_fixes(conn)?, 1);
+
+        // A write that knows nothing about the text keeps the record.
+        let w = EntryWrite::for_saved(&e2, None, None, day);
+        write(conn, &w, true)?;
+        assert_eq!(row(conn)?.0, 1);
+        assert_eq!(corrections(conn)?, 1);
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[test]
 fn a_failed_take_fixed_by_retry_is_counted_then() {
     let (_d, db) = db();
@@ -588,5 +671,5 @@ fn handy_hooks_are_in_place() {
     assert!(actions.contains("crate::fork::take_file_name(sample_count)"));
     assert!(actions.contains("if wav_saved || crate::fork::keep_take(&wav_path_for_verify) {"));
     let transcription = read("src/managers/transcription.rs");
-    assert!(transcription.contains("crate::fork::note_verbatim(verbatim, finished)"));
+    assert!(transcription.contains("crate::fork::text::process(text, &output_language, |text| {"));
 }

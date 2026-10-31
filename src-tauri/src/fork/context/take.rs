@@ -9,11 +9,13 @@
 //! 2. The stop task gets the samples and names the WAV through
 //!    `fork::history_file_name(sample_count)`: the current take is *bound*
 //!    to that file name with its speech time.
-//! 3. Handy transcribes; `finish_text` hands the verbatim ASR text and the
-//!    text Handy keeps to [`Ledger::note_verbatim`].
+//! 3. Handy transcribes; the text pipeline (`fork::text::process`, from
+//!    `finish_text`) hands the verbatim ASR text, the text Handy keeps and
+//!    what the pipeline did to [`Ledger::note_processed`].
 //! 4. `HistoryManager::save_entry` → `fork::db::on_saved` finds the bound
-//!    take by the entry's `file_name` and its verbatim text by the entry's
-//!    `transcription_text`, then registers the entry for its paste outcome.
+//!    take by the entry's `file_name` and its verbatim text and pipeline
+//!    record by the entry's `transcription_text`, then registers the entry
+//!    for its paste outcome.
 //! 5. `fork::insert` delivers the text and reports the outcome, matched to
 //!    the entry by its final text.
 //!
@@ -29,6 +31,8 @@ use std::sync::Mutex;
 
 use super::categories::{self, AppClass};
 use super::frontmost::FrontApp;
+use crate::fork::text::counts::TextRecord;
+use crate::fork::text::rules::Provenance;
 
 /// How many entries each queue keeps.
 pub const KEEP: usize = 16;
@@ -112,12 +116,23 @@ pub struct BoundTake {
     pub audio_missing: bool,
 }
 
+/// One transcription as the text pipeline left it.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Processed {
+    /// The text Handy keeps (the history row's `transcription_text`).
+    pub kept: String,
+    /// The verbatim ASR text.
+    pub verbatim: String,
+    pub record: TextRecord,
+}
+
 #[derive(Debug, Default)]
 pub struct Ledger {
     current: Option<TakeContext>,
     bound: VecDeque<BoundTake>,
-    /// (text Handy keeps, verbatim ASR text)
-    verbatim: VecDeque<(String, String)>,
+    processed: VecDeque<Processed>,
+    /// (LLM output, rule provenance of its input) for stage 9.
+    rewrites: VecDeque<(String, Vec<Provenance>)>,
     /// (entry id, final text) waiting for their paste outcome.
     awaiting: VecDeque<(i64, String)>,
 }
@@ -134,7 +149,8 @@ impl Ledger {
         Self {
             current: None,
             bound: VecDeque::new(),
-            verbatim: VecDeque::new(),
+            processed: VecDeque::new(),
+            rewrites: VecDeque::new(),
             awaiting: VecDeque::new(),
         }
     }
@@ -176,16 +192,64 @@ impl Ledger {
         self.bound.remove(at)
     }
 
-    /// Step 3: Handy kept `kept` for verbatim ASR text `verbatim`.
+    /// Step 3: the pipeline turned verbatim ASR text `verbatim` into `kept`.
+    pub fn note_processed(&mut self, verbatim: String, kept: &str, record: TextRecord) {
+        push_bounded(
+            &mut self.processed,
+            Processed {
+                kept: kept.to_owned(),
+                verbatim,
+                record,
+            },
+        );
+    }
+
+    /// [`Ledger::note_processed`] without a pipeline record.
     pub fn note_verbatim(&mut self, verbatim: String, kept: &str) {
-        push_bounded(&mut self.verbatim, (kept.to_owned(), verbatim));
+        self.note_processed(verbatim, kept, TextRecord::default());
+    }
+
+    /// The newest transcription kept as `kept` (consumed).
+    pub fn take_processed(&mut self, kept: &str) -> Option<Processed> {
+        let at = self.processed.iter().rposition(|p| p.kept == kept)?;
+        self.processed.remove(at)
     }
 
     /// The verbatim text for the newest transcription Handy kept as `kept`
     /// (consumed).
     pub fn take_verbatim(&mut self, kept: &str) -> Option<String> {
-        let at = self.verbatim.iter().rposition(|(k, _)| k == kept)?;
-        self.verbatim.remove(at).map(|(_, v)| v)
+        self.take_processed(kept).map(|p| p.verbatim)
+    }
+
+    /// The rule provenance of the newest transcription kept as `kept`, if
+    /// any rule applied (not consumed).
+    pub fn provenance_for(&self, kept: &str) -> Option<Vec<Provenance>> {
+        self.processed
+            .iter()
+            .rev()
+            .find(|p| p.kept == kept)
+            .map(|p| p.record.provenance.clone())
+            .filter(|p| !p.is_empty())
+    }
+
+    /// The LLM rewrote a kept text into `output`; stage 9 restores
+    /// `provenance` in it.
+    pub fn note_rewrite(&mut self, output: &str, provenance: Vec<Provenance>) {
+        push_bounded(&mut self.rewrites, (output.to_owned(), provenance));
+    }
+
+    /// The provenance registered for `output` (consumed).
+    pub fn take_rewrite(&mut self, output: &str) -> Option<Vec<Provenance>> {
+        let at = self.rewrites.iter().rposition(|(o, _)| o == output)?;
+        self.rewrites.remove(at).map(|(_, p)| p)
+    }
+
+    /// The text of an entry waiting for its paste outcome changed on its way
+    /// to the field (stages after the LLM).
+    pub fn rekey_awaiting(&mut self, old: &str, new: &str) {
+        if let Some(slot) = self.awaiting.iter_mut().find(|(_, t)| t == old) {
+            slot.1 = new.to_owned();
+        }
     }
 
     /// Step 4: `entry_id` will be pasted as `final_text`.
@@ -297,6 +361,47 @@ mod tests {
             l.take_verbatim("Retry text").as_deref(),
             Some("retry text uh")
         );
+    }
+
+    #[test]
+    fn processed_takes_carry_their_record_and_rewrites_their_provenance() {
+        use crate::fork::text::counts::{RuleHit, Stage};
+        let mut l = Ledger::new();
+        let mut record = TextRecord::default();
+        record.push(Stage::Rules, 1);
+        record.rule_hits.push(RuleHit {
+            rule_id: 4,
+            from_text: "voice typer".into(),
+            to_text: "Voicetypr".into(),
+        });
+        record.provenance.push(Provenance {
+            source_form: "voice typer".into(),
+            target_text: "Voicetypr".into(),
+            target_start: 0,
+        });
+        l.note_processed(
+            "voice typer rocks".into(),
+            "Voicetypr rocks",
+            record.clone(),
+        );
+        let p = l.provenance_for("Voicetypr rocks").unwrap();
+        l.note_rewrite("Voice typer rocks!", p.clone());
+        assert_eq!(l.take_rewrite("Voice typer rocks!"), Some(p));
+        assert_eq!(l.take_rewrite("Voice typer rocks!"), None);
+        let taken = l.take_processed("Voicetypr rocks").unwrap();
+        assert_eq!(taken.verbatim, "voice typer rocks");
+        assert_eq!(taken.record, record);
+        // A take without rule hits has no provenance to restore.
+        l.note_verbatim("plain".into(), "Plain");
+        assert!(l.provenance_for("Plain").is_none());
+    }
+
+    #[test]
+    fn an_awaiting_entry_follows_its_text() {
+        let mut l = Ledger::new();
+        l.await_outcome(3, "a  b");
+        l.rekey_awaiting("a  b", "a b");
+        assert_eq!(l.take_awaiting("a b"), Some(3));
     }
 
     #[test]

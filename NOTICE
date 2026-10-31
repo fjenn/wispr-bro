@@ -57,6 +57,27 @@ Details per port: docs/fork/PORTS.md.
   Licence: AGPL-3.0 (this file: AGPL-3.0-only)
   Modified by Wispr Bro contributors, 2026 (added rules and tests).
 
+- src-tauri/src/fork/text/rules.rs
+  Source: Voicetypr, https://github.com/ideaplexa/voicetypr
+  Commit: f86e571df5bd5c0a4d8950095167b45185fa59d4
+  File:   src-tauri/src/writing/library_rules.rs
+  Copyright (c) the Voicetypr authors
+  Licence: AGPL-3.0 (this file: AGPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026 (one aho-corasick automaton
+  over Unicode case-folded rules, caller-chosen replacement, no snippets
+  or language scopes, tests).
+
+- src-tauri/src/fork/text/tables/commands.*.json (data)
+  Source: MacParakeet, https://github.com/moona3k/macparakeet
+  Commit: 3ec699152f78df8adccba0cbff5cb968c9790947
+  File:   Sources/MacParakeetCore/TextProcessing/SpokenPunctuation.swift
+          (spoken punctuation phrases and literal prefixes; the matching
+          rules are re-expressed in src-tauri/src/fork/text/commands.rs)
+  Copyright (C) 2026 Daniel Moon
+  Licence: GPL-3.0
+  Modified by Wispr Bro contributors, 2026 (split per language; line,
+  paragraph and "scratch that" phrases and blocker words added).
+
 - src-tauri/src/fork/clipboard/restore.rs
   Source: hex, https://github.com/anomalyco/hex (branch dev)
   Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
@@ -180,6 +201,7 @@ interface; if it ever does, AGPL section 13 requires offering the source
 to its remote users.
 
 - src-tauri/src/fork/diagnostics/sanitizer.rs
+- src-tauri/src/fork/text/rules.rs
 
 ======================================================================
 5. Apache-2.0 NOTICE files

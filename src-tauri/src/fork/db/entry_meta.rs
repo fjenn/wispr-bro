@@ -28,9 +28,11 @@ use super::stats::{self, Contribution};
 use super::{fts, upsert_entry_meta, DbError, ForkDb};
 use crate::fork::context::categories::{AppClass, UsageCategory};
 use crate::fork::context::frontmost::FrontApp;
+use crate::fork::context::now_ms;
 use crate::fork::context::take::{ledger, BoundTake, TakeContext, TakeSource};
 use crate::fork::insert::deliver::PasteOutcome;
 use crate::fork::stats::wordcount;
+use crate::fork::text::counts::TextRecord;
 use crate::managers::history::HistoryEntry;
 
 /// How long a soft-deleted row can be restored.
@@ -59,6 +61,9 @@ pub struct EntryWrite {
     pub class: AppClass,
     /// Rebuilt by the launch reconcile from Handy's row.
     pub backfilled: bool,
+    /// What the text pipeline did (S-11), when the fork saw the
+    /// transcription.
+    pub text: Option<TextRecord>,
 }
 
 /// The text Handy inserted for `entry`.
@@ -112,7 +117,18 @@ impl EntryWrite {
             app: ctx.app,
             class: ctx.class,
             backfilled: false,
+            text: None,
         }
+    }
+
+    /// The same write with the text pipeline's record of the transcription.
+    pub fn with_text(mut self, text: Option<TextRecord>) -> EntryWrite {
+        self.text = text;
+        self
+    }
+
+    fn dictionary_fixes(&self) -> Option<i64> {
+        self.text.as_ref().map(TextRecord::dictionary_fixes)
     }
 }
 
@@ -199,6 +215,8 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
         None => {
             let audio_deleted_at = w.audio_missing.then_some(w.created_at);
             let audio_ms = i64::try_from(w.audio_ms).unwrap_or(i64::MAX);
+            let fix_dictionary = w.dictionary_fixes().unwrap_or(0);
+            let stages = w.text.as_ref().map(TextRecord::stages_json);
             let after = contribution(
                 w.source,
                 Some(&w.day),
@@ -206,7 +224,7 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                 &w.final_text,
                 words,
                 audio_ms,
-                (0, 0),
+                (fix_dictionary, 0),
             );
             let counted = i64::from(after.is_some());
             let bundle = w.app.as_ref().and_then(|a| a.bundle_id.clone());
@@ -232,8 +250,13 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                     ("usage_category", &w.class.usage_category.as_str()),
                     ("backfilled", &i64::from(w.backfilled)),
                     ("counted", &counted),
+                    ("fix_count_dictionary", &fix_dictionary),
+                    ("text_stages", &stages),
                 ],
             )?;
+            if let Some(t) = w.text.as_ref().filter(|t| !t.rule_hits.is_empty()) {
+                super::rules::record_hits(&tx, w.entry_id, &t.rule_hits, now_ms())?;
+            }
             (None, after)
         }
         Some(s) => {
@@ -248,6 +271,7 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                 fixes_dictionary: fixes.0,
                 fixes_llm: fixes.1,
             });
+            let new_fixes = (w.dictionary_fixes().unwrap_or(fixes.0), fixes.1);
             let after = contribution(
                 source,
                 s.day.as_deref(),
@@ -255,7 +279,7 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                 &w.final_text,
                 words,
                 s.audio_ms,
-                fixes,
+                new_fixes,
             );
             let previous = match (retry, &s.final_text) {
                 (true, Some(old)) if *old != w.final_text => Some(old.clone()),
@@ -273,7 +297,15 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
             if let Some(p) = &previous {
                 fields.push(("previous_text", p));
             }
+            let stages = w.text.as_ref().map(TextRecord::stages_json);
+            if let Some(stages) = &stages {
+                fields.push(("fix_count_dictionary", &new_fixes.0));
+                fields.push(("text_stages", stages));
+            }
             upsert_entry_meta(&tx, w.entry_id, &fields)?;
+            if let Some(t) = &w.text {
+                super::rules::record_hits(&tx, w.entry_id, &t.rule_hits, now_ms())?;
+            }
             (before, after)
         }
     };
@@ -390,17 +422,19 @@ fn stats_changed<R: Runtime>(app: &AppHandle<R>, day: &str) {
 /// `HistoryManager::insert_entry` saved `entry` (a dictation, a failed take
 /// or a queued file).
 pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
-    let (bound, verbatim) = {
+    let (bound, processed) = {
         let mut l = ledger();
         (
             l.take_bound(&entry.file_name),
-            l.take_verbatim(&entry.transcription_text),
+            l.take_processed(&entry.transcription_text),
         )
     };
-    let w = EntryWrite::for_saved(entry, bound, verbatim, crate::fork::stats::local_day);
+    let (verbatim, text) = processed.map(|p| (p.verbatim, p.record)).unzip();
+    let w = EntryWrite::for_saved(entry, bound, verbatim, crate::fork::stats::local_day)
+        .with_text(text);
     if let Some(changed) = with_db(app, "save", |conn| write(conn, &w, false)) {
         log::info!(
-            "history: entry {} saved ({}, {} in {}, {} words, {} ms)",
+            "history: entry {} saved ({}, {} in {}, {} words, {} ms, {} dictionary fix(es))",
             w.entry_id,
             w.source.as_str(),
             w.class.usage_category.as_str(),
@@ -409,7 +443,8 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
                 .and_then(|a| a.bundle_id.as_deref())
                 .unwrap_or("?"),
             wordcount::word_count(&w.final_text),
-            w.audio_ms
+            w.audio_ms,
+            w.dictionary_fixes().unwrap_or(0)
         );
         if changed {
             stats_changed(app, &w.day);
@@ -423,9 +458,11 @@ pub fn on_saved<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
 /// `HistoryManager::update_transcription` stored a new transcription of
 /// `entry` (a retry, or a queued file finishing).
 pub fn on_retried<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
-    let verbatim = ledger().take_verbatim(&entry.transcription_text);
+    let processed = ledger().take_processed(&entry.transcription_text);
+    let (verbatim, text) = processed.map(|p| (p.verbatim, p.record)).unzip();
     // For a row the fork never saw, this is its first write.
-    let w = EntryWrite::for_saved(entry, None, verbatim, crate::fork::stats::local_day);
+    let w =
+        EntryWrite::for_saved(entry, None, verbatim, crate::fork::stats::local_day).with_text(text);
     let day = with_db(app, "retry", |conn| {
         let changed = write(conn, &w, true)?;
         let day: Option<String> = conn

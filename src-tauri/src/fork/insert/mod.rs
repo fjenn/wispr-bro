@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Delivery of a take's text (R5 S-04; S-05, S-11 and S-17 add their stages
-//! in front of the paste later).
+//! Delivery of a take's text (R5 S-04). S-11's post-LLM text stages
+//! (`fork::text::finish`) run first; S-05 and S-17 add theirs in front of
+//! the paste later.
 //!
 //! Handy reaches this through one hook: `actions.rs` calls [`deliver`]
 //! where it called `utils::paste` (same signature). On macOS with the ⌘V
@@ -66,6 +67,8 @@ pub fn last_card() -> Option<CardText> {
 /// Handy's `utils::paste`: `Err` when the text was not pasted (here: it went
 /// to the card; it is in History either way).
 pub fn deliver(text: String, app: AppHandle) -> Result<(), String> {
+    // S-11: the text stages after the LLM (R5 §4.10 stages 9 and 12).
+    let text = crate::fork::text::finish(text);
     #[cfg(target_os = "macos")]
     {
         let settings = crate::settings::get_settings(&app);
