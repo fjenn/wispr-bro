@@ -737,7 +737,49 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-15a.md` (both pass).
 ### S-16 Dictionary
 
 - [ ] S-16.1 Add "Siobhán" and "gonna → going to"; dictate both in Mail.
-- Procedure: TODO (S-16).
+- [ ] S-16.2 A Handy user's custom words appear once in the Dictionary
+      ("From your earlier custom words") and stay in Handy's list.
+- [ ] S-16.3 After a take that used a replacement, its row shows "Used N
+      times" without a reload.
+- [ ] S-16.4 (person) Import: drag a `.csv` from Finder onto step 1 of the
+      wizard: it is imported, never transcribed; Export opens the save panel
+      and the file opens in Numbers with accents intact.
+
+**Profile: an isolated portable debug build** (own identifier
+`com.wisprbro.s16check`; the owner's app and data are never touched). In
+the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s16check","plugins":{"updater":{"active":false}}}' > /tmp/s16.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s16.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s16-parakeet-v3.gguf
+./handy --start-hidden & sleep 15; kill %1      # creates Data/
+python3 -I ../../../scripts/wb-s16/setup.py "$PWD/Data" s16-parakeet-v3   # Handy custom words, empty dictionary
+WB_DEBUG_TEXT_TRACE=1 ./handy &                 # window visible
+```
+
+**Procedure (unattended, ~3 min, needs the speakers and the mic).**
+`say -v Samantha --data-format=LEI16@16000 -o /tmp/s16.wav "I'm gonna call
+Siobhan about the Kubernetes rollout tomorrow."`, then:
+
+1. S-16.2: the log has `dictionary: synced with Handy's custom words (taken
+in 2, …)`; Dictionary shows Siobhán and Kubernetes.
+2. `scripts/wb-s16/take.sh <pid> /tmp/s16.wav out-before.txt`: "gonna"
+   stays.
+3. Add "gonna → going to" in Dictionary › Add word (a person, or
+   `swift scripts/wb-s16/ui.swift <pid> 'front; click …; type gonna; …'`
+   with coordinates from a window screenshot, under `~/wb-bench/gui.lock`).
+4. Take again: "going to"; the row shows "Used 1 time" (S-16.3);
+   `sqlite3 Data/fork.db "SELECT from_text, to_text, hit_count FROM
+dictionary_entries WHERE kind='rule'"` has hit count 1.
+
+With a person: the same in Mail with a throwaway account, plus S-16.4.
+A word with accents (Siobhán) only changes the take on a model that takes
+vocabulary; on Parakeet add the replacement `Siobhan → Siobhán`.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-16.md`.
 
 ### S-17 Snippets
 
