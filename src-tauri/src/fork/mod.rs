@@ -546,6 +546,9 @@ macro_rules! fork_specta_builder {
                 commands::insights::fork_insights_voice::<$runtime>,
                 commands::insights::fork_insights_save_image,
                 commands::llm::fork_llm_apple_status,
+                commands::models::fork_model_policy_status,
+                commands::models::fork_model_policy_set_automatic,
+                commands::models::fork_models_hidden::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -564,7 +567,8 @@ macro_rules! fork_specta_builder {
                 snippets::ForkSnippetsChanged,
                 models::setup::ForkSpeechSetup,
                 audio::watch::ForkMicDevicesChanged,
-                audio::monitor::ForkMicLevel
+                audio::monitor::ForkMicLevel,
+                models::upgrade::ForkModelPolicy
             ])
     };
 }
@@ -749,8 +753,32 @@ where
         if is_fork_command(invoke.message.command()) {
             fork(invoke)
         } else {
-            handy(invoke)
+            let observed = observe_handy_command(invoke.message.command());
+            let handled = handy(invoke);
+            if let Some(after) = observed {
+                after();
+            }
+            handled
         }
+    }
+}
+
+/// Handy commands the fork reacts to, without a hook in Handy's file: what
+/// to do once Handy has taken the call. S-07b: a change of the spoken
+/// languages (Settings › General, onboarding) re-picks the speech model.
+/// Handy's command may still be running (async commands), so the reaction
+/// only wakes the fork, which reads the settings when it gets to it.
+pub fn observe_handy_command(command: &str) -> Option<fn()> {
+    match command {
+        "change_spoken_languages_setting" => Some(|| {
+            std::thread::spawn(|| {
+                // Handy writes the setting synchronously in its command;
+                // give the store a moment anyway.
+                std::thread::sleep(std::time::Duration::from_millis(300));
+                models::setup::refresh();
+            });
+        }),
+        _ => None,
     }
 }
 

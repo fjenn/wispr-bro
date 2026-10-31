@@ -120,6 +120,53 @@ export const MODELS: ModelSpec[] = [
     streaming: false,
     sizeBytes: 135373280,
   },
+  // S-07b: smaller quants of the two starters, for slow links (§5.3 at
+  // 10 Mbit/s). Same repositories and revisions as the Q8_0 files.
+  {
+    id: "parakeet-tdt_ctc-110m-Q6_K",
+    file: "parakeet-tdt_ctc-110m/parakeet-tdt_ctc-110m-Q6_K.gguf",
+    langs: ["en"],
+    license: "cc-by-4.0",
+    ccby: true,
+    streaming: false,
+    sizeBytes: 112311264,
+  },
+  {
+    id: "parakeet-tdt_ctc-110m-Q5_K_M",
+    file: "parakeet-tdt_ctc-110m/parakeet-tdt_ctc-110m-Q5_K_M.gguf",
+    langs: ["en"],
+    license: "cc-by-4.0",
+    ccby: true,
+    streaming: false,
+    sizeBytes: 101335520,
+  },
+  {
+    id: "parakeet-tdt_ctc-110m-Q4_K_M",
+    file: "parakeet-tdt_ctc-110m/parakeet-tdt_ctc-110m-Q4_K_M.gguf",
+    langs: ["en"],
+    license: "cc-by-4.0",
+    ccby: true,
+    streaming: false,
+    sizeBytes: 89989600,
+  },
+  {
+    id: "whisper-base-Q5_K_M",
+    file: "whisper-base/whisper-base-Q5_K_M.gguf",
+    langs: ["en", "nl", "fr"],
+    license: "apache-2.0",
+    ccby: false,
+    streaming: false,
+    sizeBytes: 63786048,
+  },
+  {
+    id: "whisper-base-Q4_K_M",
+    file: "whisper-base/whisper-base-Q4_K_M.gguf",
+    langs: ["en", "nl", "fr"],
+    license: "apache-2.0",
+    ccby: false,
+    streaming: false,
+    sizeBytes: 58870848,
+  },
 ];
 
 /** The strongest multilingual model, used to split the recording. */

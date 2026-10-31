@@ -22,6 +22,9 @@ const M1_TABLES: &[&str] = &[
     "transforms",
     "transform_runs",
     "queued_takes",
+    "speech_models",
+    "asr_speed",
+    "model_policy_state",
 ];
 
 const M2_TABLES: &[&str] = &["meetings", "meeting_segments", "meeting_notes", "folders"];
@@ -67,7 +70,7 @@ fn fresh_create_has_every_m1_table_and_the_pragmas() {
 
     db.with_conn(|conn| {
         assert_eq!(user_version(conn)?, latest_version());
-        assert_eq!(latest_version(), 6);
+        assert_eq!(latest_version(), 7);
         for table in M1_TABLES {
             assert!(table_exists(conn, table), "missing table {table}");
         }

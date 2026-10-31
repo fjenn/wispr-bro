@@ -242,7 +242,10 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
           finished={step === "done"}
           // Falls back to the selected model in a preview.
           model={
-            downloaded ?? models.catalogFor(settings?.selected_model ?? "")
+            fork.managed
+              ? undefined
+              : (downloaded ??
+                models.catalogFor(settings?.selected_model ?? ""))
           }
           ready={modelReady}
           download={<DownloadStatus models={models} model={downloaded} />}

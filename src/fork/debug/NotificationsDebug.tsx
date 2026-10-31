@@ -25,6 +25,7 @@ const KINDS: NotificationKind[] = [
   "milestone",
   "tip",
   "announcement",
+  "slower_mac",
 ];
 
 export function NotificationsDebug() {

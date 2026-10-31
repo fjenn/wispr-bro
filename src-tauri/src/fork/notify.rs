@@ -729,7 +729,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     let handle = app.clone();
     app.listen("model-download-complete", move |event| {
-        if is_speech_model_id(event.payload()) {
+        // S-07b: only the first model; silent upgrades say nothing.
+        if is_speech_model_id(event.payload()) && !crate::fork::models::setup::is_ready() {
             post(&handle, Notice::model_ready());
         }
     });

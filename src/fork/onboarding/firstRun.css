@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * S-07b (B-207): no model name outside Settings › Advanced. When the fork
+ * manages the speech model, Handy's All set panel gets no model (the
+ * `OnboardingFlow.tsx` hook passes none), so its "Model" row has an empty
+ * value; hide that row instead of showing a blank line. Until S-29a
+ * replaces the flow.
+ */
+.try-panel-row:has(> .try-panel-value:empty) {
+  display: none;
+}

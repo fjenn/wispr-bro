@@ -103,13 +103,18 @@ pub enum Kick {
     Wake,
     /// The user's languages changed (Welcome).
     Languages,
-    /// A Handy download ended (someone else's, or ours).
+    /// A Handy download ended (someone else's, or ours), or the selection
+    /// changed.
     ModelEvent,
+    /// S-07b: five more warm takes were timed (re-check the speed).
+    Speed,
+    /// S-07b: "Choose automatically" changed on the Models panel.
+    Policy,
 }
 
 static KICK: OnceLock<tokio::sync::mpsc::UnboundedSender<Kick>> = OnceLock::new();
 
-fn kick(k: Kick) {
+pub(super) fn kick(k: Kick) {
     if let Some(tx) = KICK.get() {
         let _ = tx.send(k);
     }
@@ -129,7 +134,25 @@ pub fn retry() {
 
 /// `fork_speech_setup_refresh`: the languages may have changed.
 pub fn refresh() {
+    super::upgrade::clear_pause();
     kick(Kick::Languages);
+}
+
+/// `fork_model_policy_set_automatic`: "Choose automatically" on the Models
+/// panel.
+pub fn set_automatic(on: bool) {
+    if let Some(app) = WRY_APP.get() {
+        super::upgrade::set_automatic(app, on);
+    }
+    super::upgrade::clear_pause();
+    kick(Kick::Policy);
+}
+
+/// Whether a speech model is ready (the first model is done). Handy's
+/// `model-download-complete` for a later, silent download then says nothing
+/// to the user (`fork::notify`).
+pub fn is_ready() -> bool {
+    READY.load(Ordering::Acquire) == YES
 }
 
 // ---------------------------------------------------------------------------
@@ -170,10 +193,36 @@ pub fn transcribe_take(
     }
     // The model may have been selected while this take recorded (it was
     // queued at key-down): load it now; the batch run waits for the load.
-    if !tm.is_model_loaded() {
+    let warm = tm.is_model_loaded();
+    if !warm {
         tm.initiate_model_load();
     }
-    tm.transcribe_recording(samples)
+    let audio_ms = samples.len() as u64 * 1000 / 16_000;
+    let started = std::time::Instant::now();
+    let result = tm.transcribe_recording(samples);
+    super::upgrade::on_take_ended();
+    if result.is_ok() {
+        on_take_timed(app, warm, audio_ms, started.elapsed().as_millis() as u64);
+    }
+    result
+}
+
+/// S-07b: a transcribed take proves the selection loads, and a warm one of
+/// dictation length feeds the measured speed (lengths and times only).
+fn on_take_timed(app: &AppHandle, warm: bool, audio_ms: u64, keyup_ms: u64) {
+    if READY.load(Ordering::Acquire) != YES {
+        return;
+    }
+    let model = crate::settings::get_settings(app).selected_model;
+    if model.is_empty() {
+        return;
+    }
+    super::upgrade::record_loaded(app, &model);
+    if super::speed::counts(audio_ms, warm)
+        && super::upgrade::record_speed(app, &model, audio_ms, keyup_ms)
+    {
+        kick(Kick::Speed);
+    }
 }
 
 /// The bar asks whether a take's empty outcome is a queued take (so it says
@@ -305,23 +354,16 @@ pub fn start(app: &AppHandle) {
         }
         let done = p.get("downloaded").and_then(|v| v.as_u64()).unwrap_or(0);
         let total = p.get("total").and_then(|v| v.as_u64()).unwrap_or(0);
-        let before = lock_status().percent;
-        let percent = percent_of(done, total);
-        let s = set_status(|s| {
-            s.downloaded_bytes = done;
-            s.total_bytes = total;
-            s.percent = Some(percent);
-        });
-        if before != s.percent {
-            if let Some(app) = WRY_APP.get() {
-                emit(app);
-            }
-        }
+        on_download_progress(done, total);
     });
     for name in [
         "model-download-complete",
         "model-download-failed",
         "model-download-cancelled",
+        // S-07b: a selection on the Models page (pins it) or a deleted
+        // model.
+        "model-state-changed",
+        "models-updated",
     ] {
         app.listen_any(name, |_| kick(Kick::ModelEvent));
     }
@@ -368,9 +410,32 @@ pub fn start(app: &AppHandle) {
 
 /// The Handy model id whose progress events feed the status.
 static FOLLOWED: Mutex<Option<String>> = Mutex::new(None);
+/// The followed download is a silent upgrade (S-07b): its progress goes to
+/// the Models panel, not to the bar.
+static BACKGROUND: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
 
 fn follow(id: Option<&str>) {
     *FOLLOWED.lock().unwrap_or_else(|e| e.into_inner()) = id.map(str::to_owned);
+}
+
+/// Progress of the followed download: the bar's status for the first model,
+/// the Models panel for a silent upgrade (S-07b).
+fn on_download_progress(done: u64, total: u64) {
+    let percent = percent_of(done, total);
+    let Some(app) = WRY_APP.get() else { return };
+    if BACKGROUND.load(Ordering::Acquire) {
+        super::upgrade::on_progress(app, percent);
+        return;
+    }
+    let before = lock_status().percent;
+    let s = set_status(|s| {
+        s.downloaded_bytes = done;
+        s.total_bytes = total;
+        s.percent = Some(percent);
+    });
+    if before != s.percent {
+        emit(app);
+    }
 }
 
 /// Never 100 before the file is verified.
@@ -426,12 +491,15 @@ async fn run(
                     log::info!("models: speech model ready ({model_id})");
                 }
                 become_ready(&app);
+                // S-07b: the best model for this Mac, silently.
+                super::upgrade::step(&app, &mm, &model_id, &mut rx).await;
             }
             SpeechReadiness::UseOther { model_id } => {
                 log::info!("models: selecting the speech model on disk ({model_id})");
                 set_ready(false);
                 if select_when_idle(&app, &model_id).await {
                     become_ready(&app);
+                    kick(Kick::Start);
                 }
             }
             SpeechReadiness::Downloading { model_id } => {
@@ -451,10 +519,14 @@ async fn run(
                     log::error!("models: no starter table; nothing to download");
                     continue;
                 };
-                if download(&app, &mm, pinned, &mut rx).await {
+                if download(&app, &mm, pinned, &mut rx, Mode::Setup).await {
                     let id = pinned.handy_id();
+                    super::upgrade::record(&app, &id, super::cleanup::Origin::Starter);
                     if select_when_idle(&app, &id).await {
+                        super::upgrade::record_loaded(&app, &id);
                         become_ready(&app);
+                        // S-07b: right after the starter, the best model.
+                        kick(Kick::Start);
                     }
                 }
                 // Not ready: wait for the next kick (Retry, wake, a new
@@ -480,8 +552,26 @@ fn become_ready(app: &AppHandle) {
 /// Selects `id` once no take records or transcribes ("swap never during a
 /// take"). `false` if Handy refused it.
 async fn select_when_idle(app: &AppHandle, id: &str) -> bool {
-    for _ in 0..1200 {
-        if !crate::tray::dictation_in_progress(app) {
+    select_when(
+        app,
+        id,
+        |app| !crate::tray::dictation_in_progress(app),
+        1200,
+    )
+    .await
+}
+
+/// S-07b: like [`select_when_idle`], but also not within
+/// [`super::upgrade::QUIET_MS`] of a take; waits as long as it takes.
+pub(super) async fn select_when_quiet(app: &AppHandle, id: &str) -> bool {
+    select_when(app, id, super::upgrade::quiet_now, u32::MAX).await
+}
+
+async fn select_when(app: &AppHandle, id: &str, ready: fn(&AppHandle) -> bool, tries: u32) -> bool {
+    for _ in 0..tries {
+        if ready(app) {
+            let previous = crate::settings::get_settings(app).selected_model;
+            super::upgrade::note_fork_selection(app, id);
             let (app2, id2) = (app.clone(), id.to_string());
             let r = tauri::async_runtime::spawn_blocking(move || {
                 crate::commands::models::switch_active_model(&app2, &id2)
@@ -493,10 +583,13 @@ async fn select_when_idle(app: &AppHandle, id: &str) -> bool {
                     log::info!("models: selected {id}");
                     return true;
                 }
-                Err(e) if e.contains("already in progress") => {}
                 Err(e) => {
-                    log::error!("models: could not select {id}: {e}");
-                    return false;
+                    // Handy kept (or put back) the old selection.
+                    super::upgrade::note_fork_selection(app, &previous);
+                    if !e.contains("already in progress") {
+                        log::error!("models: could not select {id}: {e}");
+                        return false;
+                    }
                 }
             }
         }
@@ -513,7 +606,61 @@ fn free_space(path: &std::path::Path) -> Option<u64> {
         .and_then(crate::fork::db::disk::free_bytes)
 }
 
-fn hub_dir() -> std::path::PathBuf {
+/// Whether a download shows on the bar (the first model) or only on the
+/// Models panel (a silent upgrade, S-07b).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(super) enum Mode {
+    Setup,
+    Background,
+}
+
+/// How a background download ended.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(super) enum Background {
+    /// On disk and verified.
+    Done,
+    /// It gave up (network, disk, checksum).
+    Failed,
+    /// The pick changed or a kick stopped it.
+    Stopped,
+}
+
+/// Set by the background download machine when it gives up.
+static BACKGROUND_FAILED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// S-07b: downloads and verifies a policy pick without telling the bar.
+pub(super) async fn download_background(
+    app: &AppHandle,
+    mm: &std::sync::Arc<crate::managers::model::ModelManager>,
+    pinned: &'static super::starter::Pinned,
+    rx: &mut tokio::sync::mpsc::UnboundedReceiver<Kick>,
+) -> Background {
+    BACKGROUND.store(true, Ordering::Release);
+    BACKGROUND_FAILED.store(false, Ordering::Release);
+    let ok = download(app, mm, pinned, rx, Mode::Background).await;
+    BACKGROUND.store(false, Ordering::Release);
+    follow(None);
+    match (ok, BACKGROUND_FAILED.swap(false, Ordering::AcqRel)) {
+        (true, _) => Background::Done,
+        (false, true) => Background::Failed,
+        (false, false) => Background::Stopped,
+    }
+}
+
+/// The model the download should still be fetching (a language change may
+/// have moved the pick).
+async fn wanted(
+    app: &AppHandle,
+    mm: &crate::managers::model::ModelManager,
+    mode: Mode,
+) -> Option<String> {
+    match mode {
+        Mode::Setup => target(app).map(|p| p.handy_id()),
+        Mode::Background => super::upgrade::target_handy_id(app, mm).await,
+    }
+}
+
+pub(super) fn hub_dir() -> std::path::PathBuf {
     crate::fork::llm::download::hub_dir()
 }
 
@@ -524,11 +671,26 @@ async fn download(
     mm: &std::sync::Arc<crate::managers::model::ModelManager>,
     pinned: &'static super::starter::Pinned,
     rx: &mut tokio::sync::mpsc::UnboundedReceiver<Kick>,
+    mode: Mode,
 ) -> bool {
     use super::download::{Event, Machine, Step};
     let id = pinned.handy_id();
+    let fg = mode == Mode::Setup;
+    // The bar's status only for the first model; a silent upgrade reports
+    // to the Models panel (`upgrade::on_progress`) and the log.
+    let show = |f: &dyn Fn(&mut ForkSpeechSetup)| {
+        if fg {
+            set_status(f);
+            emit(app);
+        }
+    };
     log::info!(
-        "models: downloading the first speech model {} ({} MB) for {:?}",
+        "models: downloading {} {} ({} MB) for {:?}",
+        if fg {
+            "the first speech model"
+        } else {
+            "a better speech model"
+        },
         pinned.catalog_id,
         pinned.size / 1_000_000,
         user_languages(app)
@@ -550,26 +712,38 @@ async fn download(
                 m.on(Event::DiskFree(free))
             }
             Step::Transfer => {
-                set_status(|s| {
+                show(&|s| {
                     s.phase = SetupPhase::Downloading;
                     s.problem = None;
                     s.needed_mb = None;
                     s.total_bytes = pinned.size;
                     s.percent.get_or_insert(0);
                 });
-                emit(app);
                 log::info!("models: transfer {} of {id}", m.transfers());
+                // A catalog default goes through Handy's downloader; another
+                // quant of a catalog model (the English starter, S-07b) is not
+                // in Handy's registry until its file is in the cache, so the
+                // fork fetches it with the same hf-hub cache and pin.
+                let alternate = mm.get_model_info(&id).is_none();
+                let cancel = hf_hub::api::tokio::CancellationToken::new();
                 let result = {
-                    let fut = mm.download_model(&id);
+                    let fut = async {
+                        if alternate {
+                            transfer_alternate(mm, pinned, cancel.clone()).await
+                        } else {
+                            mm.download_model(&id).await
+                        }
+                    };
                     tokio::pin!(fut);
                     loop {
                         tokio::select! {
                             r = &mut fut => break r,
                             Some(k) = rx.recv() => {
                                 if k == Kick::Languages {
-                                    let next = target(app).map(|p| p.handy_id());
+                                    let next = wanted(app, mm, mode).await;
                                     if next.as_deref() != Some(id.as_str()) {
                                         log::info!("models: languages changed; switching downloads");
+                                        cancel.cancel();
                                         let _ = mm.cancel_download(&id);
                                     }
                                 }
@@ -591,8 +765,7 @@ async fn download(
                 }
             }
             Step::Verify => {
-                set_status(|s| s.phase = SetupPhase::Verifying);
-                emit(app);
+                show(&|s| s.phase = SetupPhase::Verifying);
                 let ok = verify(mm, &id, pinned).await;
                 log::info!(
                     "models: checksum of {id}: {}",
@@ -607,13 +780,12 @@ async fn download(
                 m.on(Event::Deleted)
             }
             Step::Wait { delay, problem } => {
-                set_status(|s| {
+                show(&|s| {
                     s.phase = SetupPhase::Waiting;
                     s.problem = problem;
                 });
-                emit(app);
                 log::info!("models: next attempt in {} s", delay.as_secs());
-                let woke = wait_or_kick(app, delay, &id, rx).await;
+                let woke = wait_or_kick(app, mm, mode, delay, &id, rx).await;
                 match woke {
                     Woken::Timer => m.on(Event::Waited),
                     Woken::Retry => m.on(Event::Retry),
@@ -622,15 +794,21 @@ async fn download(
             }
             Step::Ready => return true,
             Step::Failed(problem) => {
-                set_status(|s| {
+                if !fg {
+                    // A silent upgrade never waits for a Retry the user
+                    // cannot see: the next launch or change tries again.
+                    log::warn!("models: background download stopped: {problem:?}");
+                    BACKGROUND_FAILED.store(true, Ordering::Release);
+                    return false;
+                }
+                let needed = m.needed_bytes() / 1_000_000;
+                show(&|s| {
                     s.phase = SetupPhase::Failed;
                     s.problem = Some(problem);
-                    s.needed_mb =
-                        (problem == SetupProblem::NoSpace).then(|| m.needed_bytes() / 1_000_000);
+                    s.needed_mb = (problem == SetupProblem::NoSpace).then_some(needed);
                 });
-                emit(app);
                 log::warn!("models: download stopped: {problem:?} (Retry restarts it)");
-                match wait_or_kick(app, std::time::Duration::MAX, &id, rx).await {
+                match wait_or_kick(app, mm, mode, std::time::Duration::MAX, &id, rx).await {
                     Woken::Retry | Woken::Timer => m.on(Event::Retry),
                     Woken::NewTarget => return false,
                 }
@@ -670,6 +848,94 @@ fn probe_target(pinned: &super::starter::Pinned) -> (String, fn(&str) -> bool) {
     (pinned.resolve_url(), crate::fork::net::is_allowed_host)
 }
 
+/// The Hugging Face endpoint the fork's own transfer uses: `huggingface.co`,
+/// or in debug builds a loopback `HF_ENDPOINT` (the S-07a test stand-in),
+/// the same rule as [`probe_target`].
+fn transfer_endpoint() -> String {
+    #[cfg(debug_assertions)]
+    if let Ok(endpoint) = std::env::var("HF_ENDPOINT") {
+        if crate::fork::net::is_loopback(&endpoint) {
+            return endpoint.trim_end_matches('/').to_string();
+        }
+    }
+    crate::fork::llm::download::HF_ENDPOINT.to_string()
+}
+
+#[derive(Clone)]
+struct AltProgress {
+    done: std::sync::Arc<std::sync::atomic::AtomicU64>,
+    total: std::sync::Arc<std::sync::atomic::AtomicU64>,
+}
+
+impl hf_hub::api::tokio::Progress for AltProgress {
+    async fn init(&mut self, size: usize, _filename: &str) {
+        self.total.store(size as u64, Ordering::Relaxed);
+        self.done.store(0, Ordering::Relaxed);
+        on_download_progress(0, size as u64);
+    }
+    async fn update(&mut self, size: usize) {
+        let done = self.done.fetch_add(size as u64, Ordering::Relaxed) + size as u64;
+        on_download_progress(done, self.total.load(Ordering::Relaxed));
+    }
+    async fn finish(&mut self) {}
+}
+
+/// S-07b: one transfer of a non-default quant of a catalog model into the
+/// Hugging Face cache Handy scans (`HF_HOME/hub`), at the pinned revision,
+/// no token; then Handy's rescan registers it under `<repo>/<file>`. The
+/// checksum is checked by the caller like any other download. hf-hub keeps
+/// a `.sync.part` on failure, so the next transfer resumes.
+async fn transfer_alternate(
+    mm: &std::sync::Arc<crate::managers::model::ModelManager>,
+    pinned: &super::starter::Pinned,
+    cancel: hf_hub::api::tokio::CancellationToken,
+) -> anyhow::Result<()> {
+    use hf_hub::api::tokio::ApiBuilder;
+    use hf_hub::{Cache, Repo, RepoType};
+    let endpoint = transfer_endpoint();
+    let url = format!(
+        "{endpoint}/{}/resolve/{}/{}",
+        pinned.repo, pinned.revision, pinned.file
+    );
+    if !crate::fork::net::is_allowed_host(&url) && !crate::fork::net::is_loopback(&url) {
+        anyhow::bail!("download host not allowed");
+    }
+    let api = ApiBuilder::from_cache(Cache::new(hub_dir()))
+        .with_endpoint(endpoint)
+        .with_token(None)
+        .with_progress(false)
+        .build()?;
+    let repo = api.repo(Repo::with_revision(
+        pinned.repo.clone(),
+        RepoType::Model,
+        pinned.revision.clone(),
+    ));
+    let progress = AltProgress {
+        done: Default::default(),
+        total: Default::default(),
+    };
+    match repo
+        .download_with_progress_cancellable(&pinned.file, progress, cancel.clone())
+        .await
+    {
+        Ok(_) => {}
+        // A cancel is not a failure: the machine sees "not on disk".
+        Err(_) if cancel.is_cancelled() => return Ok(()),
+        Err(e) => return Err(e.into()),
+    }
+    let mm = mm.clone();
+    tauri::async_runtime::spawn_blocking(move || mm.rescan_local_models())
+        .await
+        .map_err(|e| anyhow::anyhow!("{e}"))??;
+    // What Handy's downloader announces after its own downloads: the model
+    // list refreshes and the first model's "Dictation is ready" is posted.
+    if let Some(app) = WRY_APP.get() {
+        use tauri::Emitter;
+        let _ = app.emit("model-download-complete", pinned.handy_id());
+    }
+    Ok(())
+}
+
 enum Woken {
     Timer,
     Retry,
@@ -678,6 +944,8 @@ enum Woken {
 
 async fn wait_or_kick(
     app: &AppHandle,
+    mm: &crate::managers::model::ModelManager,
+    mode: Mode,
     delay: std::time::Duration,
     id: &str,
     rx: &mut tokio::sync::mpsc::UnboundedReceiver<Kick>,
@@ -689,8 +957,8 @@ async fn wait_or_kick(
             _ = &mut sleep => return Woken::Timer,
             k = rx.recv() => match k {
                 Some(Kick::Retry) | Some(Kick::Wake) | Some(Kick::Start) => return Woken::Retry,
-                Some(Kick::Languages) => {
-                    if target(app).map(|p| p.handy_id()).as_deref() != Some(id) {
+                Some(Kick::Languages) | Some(Kick::Speed) | Some(Kick::Policy) => {
+                    if wanted(app, mm, mode).await.as_deref() != Some(id) {
                         kick(Kick::Start);
                         return Woken::NewTarget;
                     }

@@ -55,6 +55,12 @@ impl Notice {
             .action(NotificationAction::page("dictation", None))
     }
 
+    /// S-07b (B-208): no speech model meets the latency budget on this Mac;
+    /// the fastest one is used. Said once (inbox only).
+    pub fn slower_on_this_mac() -> Notice {
+        notice(NotificationKind::SlowerMac, "slowerMac").dedupe("slower-mac".into())
+    }
+
     /// An update is downloaded and installs at the next restart (S-28).
     pub fn update_ready(version: &str) -> Notice {
         notice(NotificationKind::UpdateReady, "updateReady")

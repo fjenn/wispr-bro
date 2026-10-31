@@ -12,6 +12,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
 import { AiEngine } from "../settings/advanced/AiEngine";
+import { SpeechModels } from "../settings/advanced/Models";
 import { BarSettings } from "../settings/BarSettings";
 import { MicrophonePicker } from "../settings/MicrophonePicker";
 import { SoundSettings } from "../settings/SoundSettings";
@@ -42,6 +43,13 @@ registerForkDebugSection({
   id: "ai-engine",
   titleKey: "aiEngine.title",
   render: () => <AiEngine />,
+});
+
+// S-07b: Settings › Advanced › Speech models, until S-14's Settings modal.
+registerForkDebugSection({
+  id: "speech-models",
+  titleKey: "speechModels.title",
+  render: () => <SpeechModels />,
 });
 
 // S-03: the Flow Bar settings, until S-14's Settings modal.

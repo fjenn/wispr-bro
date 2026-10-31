@@ -146,6 +146,7 @@ pub fn sample_notice(kind: NotificationKind, seq: i64) -> Notice {
         NotificationKind::Milestone => Notice::words_milestone(catalog::WORD_MILESTONES[0]),
         NotificationKind::Tip => Notice::tip(&catalog::TIPS[0]),
         NotificationKind::Announcement => Notice::announcement(&catalog::FEATURES[0]),
+        NotificationKind::SlowerMac => Notice::slower_on_this_mac(),
     }
 }
 

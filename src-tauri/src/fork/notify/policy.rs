@@ -48,6 +48,9 @@ pub enum NotificationKind {
     Tip,
     /// A new feature in this version (Announcements toggle).
     Announcement,
+    /// S-07b: dictation is slower on this Mac than the budget (said once,
+    /// inbox only).
+    SlowerMac,
 }
 
 impl NotificationKind {
@@ -62,6 +65,7 @@ impl NotificationKind {
         NotificationKind::Milestone,
         NotificationKind::Tip,
         NotificationKind::Announcement,
+        NotificationKind::SlowerMac,
     ];
 
     /// The stored name (same as the serde name).
@@ -77,6 +81,7 @@ impl NotificationKind {
             NotificationKind::Milestone => "milestone",
             NotificationKind::Tip => "tip",
             NotificationKind::Announcement => "announcement",
+            NotificationKind::SlowerMac => "slower_mac",
         }
     }
 

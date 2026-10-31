@@ -76,12 +76,15 @@ struct ForkCatalog {
 #[serde(rename_all = "camelCase")]
 struct Candidate {
     id: String,
+    /// This candidate's quant, when not the table's (S-07b).
+    #[serde(default)]
+    quant: Option<String>,
     #[serde(default)]
     unusable_for: Vec<String>,
 }
 
 #[derive(Deserialize)]
-struct HandyCatalog {
+pub(crate) struct HandyCatalog {
     models: Vec<HandyModel>,
 }
 
@@ -90,6 +93,9 @@ struct HandyModel {
     id: String,
     repository: String,
     revision: String,
+    /// The default quant.
+    #[serde(default)]
+    quant: String,
     #[serde(default)]
     license: String,
     #[serde(default)]
@@ -110,37 +116,68 @@ pub struct Starters {
     pub last_resort: Pinned,
 }
 
+/// Pins catalog model `id` at `quant` from Handy's parsed catalog.
+pub(crate) fn pin_in(
+    handy: &HandyCatalog,
+    id: &str,
+    quant: &str,
+    unusable_for: Vec<String>,
+) -> Result<Pinned, String> {
+    let m = handy
+        .models
+        .iter()
+        .find(|m| m.id == id)
+        .ok_or_else(|| format!("{id} is not in Handy's catalog"))?;
+    let f = m
+        .files
+        .get(quant)
+        .ok_or_else(|| format!("{id} has no {quant} file"))?;
+    Ok(Pinned {
+        catalog_id: m.id.clone(),
+        repo: m.repository.clone(),
+        revision: m.revision.clone(),
+        file: f.filename.clone(),
+        size: f.size,
+        sha256: f.sha256.to_ascii_lowercase(),
+        license: m.license.to_ascii_lowercase(),
+        languages: m.languages.iter().map(|l| base_language(l)).collect(),
+        unusable_for,
+    })
+}
+
+pub(crate) fn parse_handy(handy_json: &str) -> Result<HandyCatalog, String> {
+    serde_json::from_str(handy_json).map_err(|e| format!("catalog.json: {e}"))
+}
+
+/// Handy's bundled catalog, parsed once for the fork's tables.
+pub(crate) static HANDY: Lazy<Option<HandyCatalog>> = Lazy::new(|| {
+    parse_handy(include_str!("../../catalog/catalog.json"))
+        .map_err(|e| log::error!("models: {e}"))
+        .ok()
+});
+
+/// Catalog model `id` pinned at `quant` (its default quant when `None`).
+pub fn pinned(id: &str, quant: Option<&str>) -> Option<Pinned> {
+    let handy = HANDY.as_ref()?;
+    let quant = match quant {
+        Some(q) => q.to_string(),
+        None => handy.models.iter().find(|m| m.id == id)?.quant.clone(),
+    };
+    pin_in(handy, id, &quant, Vec::new()).ok()
+}
+
 fn load(fork_json: &str, handy_json: &str) -> Result<Starters, String> {
     let fork: ForkCatalog =
         serde_json::from_str(fork_json).map_err(|e| format!("catalog.fork.json: {e}"))?;
-    let handy: HandyCatalog =
-        serde_json::from_str(handy_json).map_err(|e| format!("catalog.json: {e}"))?;
-    let pin = |id: &str, unusable_for: Vec<String>| -> Result<Pinned, String> {
-        let m = handy
-            .models
-            .iter()
-            .find(|m| m.id == id)
-            .ok_or_else(|| format!("{id} is not in Handy's catalog"))?;
-        let f = m
-            .files
-            .get(&fork.quant)
-            .ok_or_else(|| format!("{id} has no {} file", fork.quant))?;
-        Ok(Pinned {
-            catalog_id: m.id.clone(),
-            repo: m.repository.clone(),
-            revision: m.revision.clone(),
-            file: f.filename.clone(),
-            size: f.size,
-            sha256: f.sha256.to_ascii_lowercase(),
-            license: m.license.to_ascii_lowercase(),
-            languages: m.languages.iter().map(|l| base_language(l)).collect(),
-            unusable_for,
-        })
-    };
+    let handy = parse_handy(handy_json)?;
+    let pin = |id: &str, unusable_for: Vec<String>| pin_in(&handy, id, &fork.quant, unusable_for);
     let candidates = fork
         .candidates
         .iter()
-        .map(|c| pin(&c.id, c.unusable_for.clone()))
+        .map(|c| {
+            let quant = c.quant.as_deref().unwrap_or(&fork.quant);
+            pin_in(&handy, &c.id, quant, c.unusable_for.clone())
+        })
         .collect::<Result<Vec<_>, _>>()?;
     let last_resort = candidates
         .iter()
@@ -244,9 +281,14 @@ mod tests {
         );
         // RS-09's sha256 values (docs/fork/spikes/RS-09-asr-bench.md).
         let by = |id: &str| s.candidates.iter().find(|c| c.catalog_id == id).unwrap();
+        // S-07b: the Q4_K_M file (S-07b bench, docs/fork/test-runs/…-S-07b.md).
         assert_eq!(
             by("parakeet-tdt_ctc-110m").sha256,
-            "7dd44c74a331d788a4e5f8b16913b3feb29ced22cf5613aad0e0f6cd30516296"
+            "486414fd90185a8c8a4ced7c123cfb133ff4f7958426c6b8bd9049946b56b448"
+        );
+        assert_eq!(
+            by("parakeet-tdt_ctc-110m").file,
+            "parakeet-tdt_ctc-110m-Q4_K_M.gguf"
         );
         assert_eq!(
             by("whisper-base").sha256,
@@ -262,10 +304,11 @@ mod tests {
             assert_eq!(c.revision.len(), 40, "{}: pinned commit", c.catalog_id);
             assert!(c.repo.starts_with("handy-computer/"));
             assert!(crate::fork::net::is_allowed_host(&c.resolve_url()));
-            // Handy's catalog offers it under this id.
+            // A file of Handy's catalog (a default, or another quant the
+            // fork downloads itself, S-07b).
             assert!(
-                crate::catalog::CATALOG.iter().any(|d| d.id == c.handy_id()),
-                "{} not offered by Handy",
+                crate::catalog::file_in_catalog(&c.file, Some(&c.repo)).is_some(),
+                "{} not in Handy's catalog",
                 c.handy_id()
             );
             // DEC-27: never a non-commercial or never-default model.
@@ -277,9 +320,12 @@ mod tests {
             );
         }
         assert_eq!(s.last_resort.catalog_id, "whisper-base");
-        // The §5.3 starter cap (150 MB) holds for the true starters.
-        assert!(by("parakeet-tdt_ctc-110m").size < 150_000_000);
-        assert!(by("whisper-base").size < 150_000_000);
+        // The §5.3 starter cap (150 MB) holds for the true starters, and
+        // S-07b: both transfer within 80 s at 10 Mbit/s (1.25 MB/s), so
+        // "ready" fits the 90 s budget with launch and checksum.
+        for id in ["parakeet-tdt_ctc-110m", "whisper-base"] {
+            assert!(by(id).size < 100_000_000, "{id}");
+        }
     }
 
     #[test]

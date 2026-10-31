@@ -443,6 +443,10 @@
           "body": "Add names and terms you use often so they are spelled right every time."
         }
       },
+      "slowerMac": {
+        "title": "Dictation may be slower on this Mac",
+        "body": "No speech model is quick enough for your languages on this Mac, so the fastest one is used. Text can take a moment longer to appear."
+      },
       "features": {
         "inbox": {
           "title": "Your notifications live here",
@@ -604,6 +608,39 @@
     "theme": {
       "description": "Choose whether Wispr Bro follows your system theme or stays light or dark"
     }
+  },
+  "speechModels": {
+    "title": "Speech models",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Checking the speech models…",
+    "current": "In use: {{name}}",
+    "none": "No speech model yet",
+    "phase": {
+      "checking": "Checking which model suits this Mac…",
+      "settled": "This is the best model for your languages on this Mac.",
+      "downloading": "Downloading a better model in the background… {{percent}}%",
+      "downloadingNoPercent": "Downloading a better model in the background…",
+      "waiting_to_swap": "A better model is ready. It is swapped in when you are not dictating.",
+      "paused": "The better model could not be downloaded. It is tried again later."
+    },
+    "next": "Next: {{name}}",
+    "progressLabel": "Better speech model download",
+    "slower": "Dictation may be slower on this Mac: no model is quick enough for your languages here, so the fastest one is used.",
+    "pinned": "You chose this model yourself, so {{appName}} leaves it alone.",
+    "automatic": "Choose the model automatically",
+    "automaticHint": "Turned off when you pick a model in the list below.",
+    "languages": "For: {{languages}}",
+    "machine": "This Mac: {{chip}}, {{ram}} GB memory",
+    "freeDisk": "{{gb}} GB free for models",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "All models"
   },
   "aiEngine": {
     "title": "AI engine",

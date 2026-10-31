@@ -16,6 +16,7 @@
  * Hook in `src/components/onboarding/OnboardingFlow.tsx` (`ci/hooks.txt`).
  */
 import { useEffect, useRef, useState } from "react";
+import "./firstRun.css";
 import type { UnlistenFn } from "@tauri-apps/api/event";
 import { commands, events, type ForkSpeechSetup } from "../bindings";
 
