@@ -198,7 +198,11 @@ test.describe("screenshots", () => {
   for (const theme of ["light", "dark"] as const) {
     test(`cards, ${theme}`, async ({ page, ipc }) => {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
-      for (const reason of ["no_text_field", "focus_moved", "secure_field"] as const) {
+      for (const reason of [
+        "no_text_field",
+        "focus_moved",
+        "secure_field",
+      ] as const) {
         await openCard(page, ipc, cardState(reason));
         await page.screenshot({
           path: path.join(shotsDir!, `card-${theme}-${reason}.png`),
