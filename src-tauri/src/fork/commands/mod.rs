@@ -13,6 +13,7 @@ pub mod csp;
 pub mod dictionary;
 pub mod history;
 pub mod hotkeys;
+pub mod insights;
 pub mod llm;
 pub mod models;
 pub mod notifications;

@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "चुनें कि Wispr Bro आपकी सिस्टम थीम के हिसाब से चले या हमेशा लाइट या डार्क रहे"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "समाचार",
+      "usage": "उपयोग",
+      "voice": "बोलना"
+    },
+    "asOf": "आपके नंबर {{date}} तक के",
+    "unavailable": "अभी तक जानकारी पढ़ी नहीं जा सकती हैं। एक पल के भीतर उन्हें देखा जाएगा।",
+    "save": {
+      "button": "के रूप में बचाएं चित्र",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG इमेज",
+      "done": "चित्र बचा गया है।",
+      "failed": "चित्र बचाया नहीं जा सकता है। फिर बार-बार कोशिश करें।"
+    },
+    "speed": {
+      "title": "बोलने की गति",
+      "value": "{{wpm}} wpm",
+      "notEnough": "कम से कम थोड़ा बोलें ताकि आपकी गति देख सकें।",
+      "measured": "{{ratio}}× आपके टाइपिंग स्पीड का {{typing}} wpm",
+      "average": "{{ratio}}× एक औसत टाइपर के गति के बराबर ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "कुल शब्द",
+      "dictations_one": "{{count, number}} डिक्टेशन में",
+      "dictations_other": "{{count, number}} डिक्टेशन में"
+    },
+    "fixes": {
+      "title": "सुधार किए गए",
+      "dictionary": "शब्दकोश सुधार",
+      "ai": "AI साफ करने वाले फिक्स"
+    },
+    "categories": {
+      "title": "जहां आप बोलते हैं",
+      "empty": "में थोड़े अप्लिकेशन में बोलकर देखें कि आपके शब्द कहाँ जाते हैं।",
+      "words_one": "{{count, number}} शब्द",
+      "words_other": "{{count, number}} शब्द",
+      "documents": "दस्तावेज़",
+      "ai_prompts": "AI prompts",
+      "email": "ईमेल",
+      "work": "काम के संदेश",
+      "personal": "व्यक्तिगत संदेश",
+      "other": "बाकी सब"
+    },
+    "heatmap": {
+      "title": "आपका सीरीज",
+      "current": "वर्तमान लगातार",
+      "longest": "सबसे लंबा चलना",
+      "days_one": "{{count, number}} दिन",
+      "days_other": "{{count, number}} दिन",
+      "active_one": "पिछले साल में डिक्टेशन के साथ {{count, number}} दिन",
+      "active_other": "पिछले साल में डिक्टेशन के {{count, number}} दिन",
+      "day_one": "{{date}}: {{count, number}} शब्द",
+      "day_other": "{{date}}: {{count, number}} शब्द",
+      "less": "कम",
+      "more": "अधिक",
+      "band0": "कोई शब्द नहीं",
+      "band1": "1 से 249 शब्द तक",
+      "band2": "250 तक 499 शब्द",
+      "band3": "500 से 749 शब्द",
+      "band4": "750 शब्द या अधिक"
+    },
+    "voice": {
+      "lockedTitle": "आपका आवाज़ का प्रोफाइल {{goal}} शब्दों पर खोला जाएगा",
+      "lockedBody": "रहे बातें बोल रहे हैं: {{current}} शब्द {{goal}} शब्दों तक तक बोले गए हैं। फिर आप देखेंगे कि आप अक्सर किस वाक्य का उपयोग करते हैं, जहां और कब बोलते हैं, और {{appName}} आपके लिए कौन-कौन से शब्द सुधारता है।",
+      "locked": "लॉक कर दिया गया",
+      "phrase": "आपका वाक्य",
+      "phraseIn_one": "एक {{count, number}} बार बोली गई",
+      "phraseIn_other": "अन्य {{count, number}} बार बोली गई",
+      "peak": "पीक टाइम और एप्प",
+      "peakApp": "{{app}} में सबसे ज्यादा शब्द",
+      "word": "सबसे ज्यादा उपयोग किया गया शब्द",
+      "uses_one": "{{count, number}} बार उपयोग किया गया",
+      "uses_other": "{{count, number}} बार उपयोग किया गया",
+      "corrected": "सबसे ठीक किए गए शब्द",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "स्थिर किया गया {{count, number}} बार",
+      "fixed_other": "स्थिर किया गया {{count, number}} बार",
+      "notEnough": "अभी तक कम बार बातचीत नहीं हुई।",
+      "footnote_one": "इस Mac पर आपके नवीनतम डिक्टेशन से काम किया गया है। कुछ भी आपके Mac से निकलता नहीं है।",
+      "footnote_other": "इस Mac पर आपकी आखिरी {{count, number}} डिक्टेशन से काम किया गया है। कोई भी आपके Mac से निकल नहीं जाता।",
+      "sample": {
+        "phrase": "एक वाक्य जो आप अक्सर कहते हैं",
+        "peak": "एक दिन का समय",
+        "word": "एक पसंदीदा शब्द",
+        "corrected": "एक शब्द जो सही हो जाता है"
+      }
+    }
   }
 }

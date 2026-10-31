@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insight",
+      "usage": "Penggunaan",
+      "voice": "Suara"
+    },
+    "asOf": "Angka Anda hingga {{date}}",
+    "unavailable": "Insight tidak bisa dibaca saat ini. Mereka akan muncul sebentar lagi.",
+    "save": {
+      "button": "Simpan sebagai gambar",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "gambar PNG",
+      "done": "Gambar disimpan.",
+      "failed": "Gambar tidak bisa disimpan. Coba lagi."
+    },
+    "speed": {
+      "title": "Kecepatan berbicara",
+      "value": "{{wpm}} kata per menit",
+      "notEnough": "Dicatat sedikit lebih untuk melihat kecepatan Anda.",
+      "measured": "{{ratio}}× kecepatan ketik Anda sebesar {{typing}} wpm",
+      "average": "{{ratio}}× kecepatan seorang pengetik rata-rata ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Jumlah kata",
+      "dictations_one": "dalam {{count, number}} dictasi",
+      "dictations_other": "dalam {{count, number}} dictasi"
+    },
+    "fixes": {
+      "title": "Perbaikan yang telah dilakukan",
+      "dictionary": "Perbaikan kamus",
+      "ai": "perbaikan pembersihan AI"
+    },
+    "categories": {
+      "title": "Di mana Anda mengatur",
+      "empty": "Dicatat di beberapa aplikasi untuk melihat ke mana kata-kata Anda pergi.",
+      "words_one": "{{count, number}} kata",
+      "words_other": "{{count, number}} kata",
+      "documents": "Dokumen",
+      "ai_prompts": "prompts AI",
+      "email": "Email",
+      "work": "Pesan kerja",
+      "personal": "Pesan pribadi",
+      "other": "Semuanya lain"
+    },
+    "heatmap": {
+      "title": "Streak Anda",
+      "current": "Streak saat ini",
+      "longest": "Rantai terpanjang",
+      "days_one": "{{count, number}} hari",
+      "days_other": "{{count, number}} hari",
+      "active_one": "1 hari dengan dictation dalam tahun terakhir",
+      "active_other": "{{count, number}} hari dengan dictation dalam satu tahun terakhir",
+      "day_one": "{{date}}: {{count, number}} kata",
+      "day_other": "{{date}}: {{count, number}} kata",
+      "less": "Kurang",
+      "more": "Lebih",
+      "band0": "Tidak ada kata",
+      "band1": "1 hingga 249 kata",
+      "band2": "250 hingga 499 kata",
+      "band3": "500 hingga 749 kata",
+      "band4": "750 kata atau lebih"
+    },
+    "voice": {
+      "lockedTitle": "Profil suara Anda terbuka saat mencapai {{goal}} kata",
+      "lockedBody": "Lanjutkan mengetik: {{current}} dari {{goal}} kata hingga saat ini. Kemudian Anda akan melihat frasa yang sering digunakan, kapan dan di mana Anda mengetik, serta kata-kata yang {{appName}} perbaiki untuk Anda.",
+      "locked": "Dilock",
+      "phrase": "Frasa Anda",
+      "phraseIn_one": "Dalam {{count, number}} dictasi",
+      "phraseIn_other": "Di {{count, number}} dictasi",
+      "peak": "Waktu puncak dan aplikasi",
+      "peakApp": "Kata-kata paling banyak di {{app}}",
+      "word": "Kata yang paling digunakan",
+      "uses_one": "Digunakan {{count, number}} kali",
+      "uses_other": "Digunakan {{count, number}} kali",
+      "corrected": "Kata yang paling dikoreksi",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Diperbaiki {{count, number}} kali",
+      "fixed_other": "Diperbaiki {{count, number}} kali",
+      "notEnough": "Belum cukup dictasi.",
+      "footnote_one": "Dikalkulasi dari dictasi terbaru ini di Mac Anda. Tidak ada yang meninggalkan Mac Anda.",
+      "footnote_other": "Dikerjakan di Mac ini dari {{count, number}} dictasi terbaru Anda. Tidak ada yang meninggalkan Mac Anda.",
+      "sample": {
+        "phrase": "sebuah kalimat yang sering kamu ucapkan",
+        "peak": "waktu sehari",
+        "word": "kata favorit",
+        "corrected": "kata yang diperbaiki"
+      }
+    }
   }
 }

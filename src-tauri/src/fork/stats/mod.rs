@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Stats math (W-14): word counts, streaks and words per minute. Pure
 //! functions; the tables they feed (`daily_stats`, `daily_app_stats`) are
-//! written by `fork::db::stats`. S-25 adds `insights.rs` and `voice.rs`.
+//! written by `fork::db::stats`. S-25 adds [`insights`] (the Usage tab) and
+//! [`voice`] (the voice profile); `fork::db::insights` reads their rows.
 
+pub mod insights;
 pub mod streak;
+pub mod voice;
 pub mod wordcount;
 pub mod wpm;
 

@@ -174,6 +174,12 @@ Details per port: docs/fork/PORTS.md.
   Licence: MIT (LICENSES/MIT-AudioWhisper.txt)
   Modified by Wispr Bro contributors, 2026 (mapped to Wispr Bro's style
   groups and usage categories; documents and AI apps added).
+- src-tauri/src/fork/stats/tables/stopwords-iso.json (data)
+  Source: stopwords-iso, https://github.com/stopwords-iso/stopwords-iso
+  Version: npm stopwords-iso 1.1.0
+  File:   stopwords-iso.json (unmodified)
+  Copyright (c) 2020 Gene Diaz
+  Licence: MIT (LICENSES/MIT-stopwords-iso.txt)
 - src-tauri/src/fork/llm/process.rs, src-tauri/src/fork/llm/supervisor.rs,
   src-tauri/src/fork/llm/chat.rs
   Source: TypeWhisper, https://github.com/TypeWhisper/typewhisper-mac
@@ -339,7 +345,9 @@ every NOTICE file it finds in THIRD-PARTY-NOTICES.md and fails if the
 package is not named in this section, so a new one is listed here as
 "- <package name>".
 
-(none)
+- es-toolkit (MIT, not Apache-2.0; a Recharts dependency since S-25. Its
+  NOTICE carries the Lodash copyright and permission notice for the parts
+  derived from Lodash; it is reproduced in THIRD-PARTY-NOTICES.md.)
 
 ======================================================================
 6. Model attributions

@@ -1034,5 +1034,94 @@
     "sidebar": {
       "about": "Over Wispr Bro"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Inzichten",
+      "usage": "Gebruik",
+      "voice": "Stem"
+    },
+    "asOf": "Je cijfers tot {{date}}",
+    "unavailable": "Insights kunnen op dit moment niet worden gelezen. Ze verschijnen over een moment.",
+    "save": {
+      "button": "Opslaan als afbeelding",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG-afbeelding",
+      "done": "Beeld is opgeslagen.",
+      "failed": "De afbeelding kon niet worden opgeslagen. Probeer het opnieuw."
+    },
+    "speed": {
+      "title": "Spraak snelheid",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dictateer een beetje meer om je snelheid te zien.",
+      "measured": "{{ratio}}× je typingsnelheid van {{typing}} wpm",
+      "average": "{{ratio}}× de snelheid van een gemiddelde typist ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Totaal woorden",
+      "dictations_one": "in {{count, number}} dictatie",
+      "dictations_other": "in {{count, number}} dictaties"
+    },
+    "fixes": {
+      "title": "Correcties gemaakt",
+      "dictionary": "Verbeteringen woordenboek",
+      "ai": "AI-afwijkingen verbeteren"
+    },
+    "categories": {
+      "title": "Waar je dictieert",
+      "empty": "Dictate in een paar apps om te zien waar je woorden heen gaan.",
+      "words_one": "{{count, number}} woord",
+      "words_other": "{{count, number}} woorden",
+      "documents": "Dokumenten",
+      "ai_prompts": "AI-prompten",
+      "email": "E-mail",
+      "work": "Berichten van werk",
+      "personal": "Persoonlijke berichten",
+      "other": "Al het andere"
+    },
+    "heatmap": {
+      "title": "Je streek",
+      "current": "Huidige reeks",
+      "longest": "Langste reeks",
+      "days_one": "{{count, number}} dag",
+      "days_other": "{{count, number}} dagen",
+      "active_one": "1 dag met dictie in de afgelopen jaar",
+      "active_other": "{{count, number}} dagen met dictatie in de afgelopen jaar",
+      "day_one": "{{date}}: {{count, number}} woord",
+      "day_other": "{{date}}: {{count, number}} woorden",
+      "less": "Minder",
+      "more": "Meer",
+      "band0": "Geen woorden",
+      "band1": "1 tot 249 woorden",
+      "band2": "250 tot 499 woorden",
+      "band3": "500 tot 749 woorden",
+      "band4": "750 woorden of meer"
+    },
+    "voice": {
+      "lockedTitle": "Je stemprofiel ontgrendelt op {{goal}} woorden",
+      "lockedBody": "Voeg nog meer tekst toe: {{current}} van {{goal}} woorden tot nu toe. Dan zie je de zin die je het meest gebruikt, wanneer en waar je tekent, en de woorden die {{appName}} voor je corrigeert.",
+      "locked": "Gelocked",
+      "phrase": "Je zin",
+      "phraseIn_one": "In {{count, number}} dictatie",
+      "phraseIn_other": "In {{count, number}} dictaties",
+      "peak": "Peaktijd en app",
+      "peakApp": "Meeste woorden in {{app}}",
+      "word": "Meest gebruikte woord",
+      "uses_one": "Gebruikt {{count, number}} keer",
+      "uses_other": "Gebruikt {{count, number}} keer",
+      "corrected": "Meest gecorrigeerde woord",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Geblokkeerd {{count, number}} keer",
+      "fixed_other": "Verbeterd {{count, number}} keer",
+      "notEnough": "Niet genoeg dicties nog.",
+      "footnote_one": "Gewerkt op deze Mac van je laatste dictatie. Niets verlaat je Mac.",
+      "footnote_other": "Berekend op deze Mac uit je laatste {{count, number}} dictaten. Niets verlaat je Mac.",
+      "sample": {
+        "phrase": "een zin die je vaak zegt",
+        "peak": "een tijd van de dag",
+        "word": "een favoriete woord",
+        "corrected": "een woord dat wordt gecorrigeerd"
+      }
+    }
   }
 }

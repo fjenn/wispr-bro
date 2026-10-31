@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Wählen Sie, ob Wispr Bro dem Systemthema folgt oder hell bzw. dunkel bleibt"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Verwendung",
+      "voice": "Stimme"
+    },
+    "asOf": "Deine Zahlen bis zum {{date}}",
+    "unavailable": "Die Einblicke können derzeit nicht gelesen werden. Sie erscheinen in einem Moment.",
+    "save": {
+      "button": "Als Bild speichern",
+      "fileName": "{{appName}} Statistiken {{date}}.png",
+      "filter": "PNG-Bild",
+      "done": "Bild gespeichert.",
+      "failed": "Das Bild konnte nicht gespeichert werden. Versuchen Sie es erneut."
+    },
+    "speed": {
+      "title": "Sprachgeschwindigkeit",
+      "value": "{{wpm}} Wörper pro Minute",
+      "notEnough": "Ein wenig mehr dictieren, um Ihre Geschwindigkeit zu sehen.",
+      "measured": "{{ratio}}× deine Tippgeschwindigkeit von {{typing}} wpm",
+      "average": "{{ratio}}× die Geschwindigkeit eines durchschnittlichen Schreibers ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Gesamtwortanzahl",
+      "dictations_one": "in {{count, number}} Dictation",
+      "dictations_other": "in {{count, number}} Dictationen"
+    },
+    "fixes": {
+      "title": "Vergleiche erstellt",
+      "dictionary": "Wörterbuch-Fixierungen",
+      "ai": "AI-Reinigungsbehebungen"
+    },
+    "categories": {
+      "title": "Wo Sie dictieren",
+      "empty": "In ein paar Apps dictieren, um zu sehen, wo deine Wörter hinwandern.",
+      "words_one": "{{count, number}} Wort",
+      "words_other": "{{count, number}} Wörter",
+      "documents": "Dokumente",
+      "ai_prompts": "AI-Aufforderungen",
+      "email": "E-Mail",
+      "work": "Arbeitsmeldungen",
+      "personal": "Persönliche Nachrichten",
+      "other": "Alles andere"
+    },
+    "heatmap": {
+      "title": "Deine Streak",
+      "current": "Aktuelle Serie",
+      "longest": "Längste Folge",
+      "days_one": "{{count, number}} Tag",
+      "days_other": "{{count, number}} Tage",
+      "active_one": "Ein Tag mit Dictation in den letzten Jahren",
+      "active_other": "{{count, number}} Tage mit Dictation in den letzten Jahren",
+      "day_one": "{{date}}: {{count, number}} Wort",
+      "day_other": "{{date}}: {{count, number}} Wörter",
+      "less": "Weniger",
+      "more": "Mehr",
+      "band0": "Keine Wörter",
+      "band1": "1 bis 249 Wörter",
+      "band2": "250 bis 499 Wörter",
+      "band3": "500 bis 749 Wörter",
+      "band4": "750 Wörter oder mehr"
+    },
+    "voice": {
+      "lockedTitle": "Dein Stimmenprofil entlockt bei {{goal}} Wörtern",
+      "lockedBody": "Weitere Dictation fortsetzen: {{current}} von {{goal}} Wörtern bisher. Dann sehen Sie den häufigsten Ausdruck, wann und wo Sie dictieren, sowie die Wörter, die {{appName}} für Sie korrigiert.",
+      "locked": "Geschlossen",
+      "phrase": "Deine Phrase",
+      "phraseIn_one": "In {{count, number}} Dictation",
+      "phraseIn_other": "In {{count, number}} Dictationen",
+      "peak": "Peakzeit und App",
+      "peakApp": "Die meisten Wörter in {{app}}",
+      "word": "Häufigstes Wort",
+      "uses_one": "Gebraucht {{count, number}} Mal",
+      "uses_other": "Gebraucht {{count, number}} Mal",
+      "corrected": "Wort mit der meisten Korrekturen",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Gebunden {{count, number}} Mal",
+      "fixed_other": "Festgelegt {{count, number}} Mal",
+      "notEnough": "Noch nicht genug Dictationen.",
+      "footnote_one": "Auf diesem Mac aus deiner neuesten Dictation erstellt. Nichts verlässt dein Mac.",
+      "footnote_other": "Auf diesem Mac aus Ihren letzten {{count, number}} Diktaten berechnet. Nichts verlässt Ihren Mac.",
+      "sample": {
+        "phrase": "eine Phrase, die du oft sagst",
+        "peak": "eine zeit des tags",
+        "word": "ein beliebtes Wort",
+        "corrected": "ein Wort, das korrigiert wird"
+      }
+    }
   }
 }

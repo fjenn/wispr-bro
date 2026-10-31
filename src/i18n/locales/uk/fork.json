@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Виберіть, чи має Wispr Bro слідувати темі системи, чи залишатися світлою або темною"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Дослідження",
+      "usage": "Використання",
+      "voice": "Голос"
+    },
+    "asOf": "Ваші дані на {{date}}",
+    "unavailable": "Дані не можна прочитати в цей момент. Вони з'являться через мить.",
+    "save": {
+      "button": "Зберегти як зображення",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG зображення",
+      "done": "Збережено зображення.",
+      "failed": "Зображення не вдалося зберегти. Спробуйте ще раз."
+    },
+    "speed": {
+      "title": "Швидкість мовлення",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Диктуйте більше, щоб побачити свою швидкість.",
+      "measured": "{{ratio}}× ваша швидкість вводу {{typing}} wpm",
+      "average": "{{ratio}}× швидкість середнього клавіатурного користувача ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Усього слів",
+      "dictations_one": "у {{count, number}} dictation",
+      "dictations_other": "у {{count, number}} диктаціях"
+    },
+    "fixes": {
+      "title": "Виправлено",
+      "dictionary": "Фікси дікціонару",
+      "ai": "відновлення AI виправлення"
+    },
+    "categories": {
+      "title": "Де ви диктуєте",
+      "empty": "Диктувати в кількох додатках, щоб побачити, куди йдуть ваші слова.",
+      "words_one": "{{count, number}} слово",
+      "words_other": "{{count, number}} слів",
+      "documents": "Документи",
+      "ai_prompts": "Підказки AI",
+      "email": "Електронна пошта",
+      "work": "Повідомлення з роботи",
+      "personal": "Особисті повідомлення",
+      "other": "Всё інше"
+    },
+    "heatmap": {
+      "title": "Ваша послідовність",
+      "current": "Поточний рекорд",
+      "longest": "Найбільший тренд",
+      "days_one": "{{count, number}} день",
+      "days_other": "{{count, number}} днів",
+      "active_one": "{{count, number}} день з дикції в останній рік",
+      "active_other": "{{count, number}} днів з дикції в останній рік",
+      "day_one": "{{date}}: {{count, number}} слово",
+      "day_other": "{{date}}: {{count, number}} слів",
+      "less": "Менше",
+      "more": "Більше",
+      "band0": "Нічого",
+      "band1": "1 до 249 слів",
+      "band2": "250 до 499 слів",
+      "band3": "500 до 749 слів",
+      "band4": "750 слів або більше"
+    },
+    "voice": {
+      "lockedTitle": "Ваш профіль голосу розблокується при {{goal}} слів",
+      "lockedBody": "Продовжуйте вводити: {{current}} з {{goal}} слів. Потім ви побачите фразу, яку використовуєте найчастіше, коли і де вводите, та слова, які {{appName}} виправляє для вас.",
+      "locked": "Заблоковано",
+      "phrase": "Ваша фраза",
+      "phraseIn_one": "У {{count, number}} dictation",
+      "phraseIn_other": "У {{count, number}} диктаціях",
+      "peak": "Пік часу та додаток",
+      "peakApp": "Більшість слів у {{app}}",
+      "word": "Найчастіше використовуваний слово",
+      "uses_one": "Використовувався {{count, number}} раз",
+      "uses_other": "Використовувалося {{count, number}} разів",
+      "corrected": "Найкраще виправлений слово",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Виправлено {{count, number}} раз",
+      "fixed_other": "Виправлено {{count, number}} разів",
+      "notEnough": "Ще не достатньо диктовок.",
+      "footnote_one": "Розраховано на цьому Mac з вашої останньої дикції. Нічого не виходить з вашого Mac.",
+      "footnote_other": "Розраховано на цьому Mac з вашої останньої {{count, number}} дикції. Нічого не виходить з вашого Mac.",
+      "sample": {
+        "phrase": "фразу, яку часто говориш",
+        "peak": "час доби",
+        "word": "слово-любиме",
+        "corrected": "слово, яке виправляється"
+      }
+    }
   }
 }

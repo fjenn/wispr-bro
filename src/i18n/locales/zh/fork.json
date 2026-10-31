@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "洞察",
+      "usage": "使用情况",
+      "voice": "语音"
+    },
+    "asOf": "你的数据截至 {{date}}",
+    "unavailable": "洞察目前无法读取。稍后会出现。",
+    "save": {
+      "button": "保存为图片",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG图片",
+      "done": "已保存图片。",
+      "failed": "图片保存失败。请重试。"
+    },
+    "speed": {
+      "title": "说话速度",
+      "value": "{{wpm}} 字/分钟",
+      "notEnough": "多说一点以查看你的速度。",
+      "measured": "您的打字速度为 {{typing}} wpm，测量速度是 {{ratio}} 倍",
+      "average": "{{ratio}}× 一个普通打字员的速度（{{typing}} wpm）"
+    },
+    "words": {
+      "title": "总词数",
+      "dictations_one": "在 {{count, number}} 次语音输入中",
+      "dictations_other": "在 {{count, number}} 次语音输入中"
+    },
+    "fixes": {
+      "title": "已修复",
+      "dictionary": "词典修复",
+      "ai": "AI清理修复"
+    },
+    "categories": {
+      "title": "你在哪里输入语音",
+      "empty": "在几个应用中输入语音以查看你的文字去向。",
+      "words_one": "{{count, number}} 个词",
+      "words_other": "{{count, number}} 个词",
+      "documents": "文档",
+      "ai_prompts": "AI提示",
+      "email": "邮件",
+      "work": "工作消息",
+      "personal": "个人消息",
+      "other": "其他一切"
+    },
+    "heatmap": {
+      "title": "你的连贯记录",
+      "current": "当前连贯",
+      "longest": "最长连贯",
+      "days_one": "{{count, number}} 天",
+      "days_other": "{{count, number}} 天",
+      "active_one": "过去一年中，有{{count, number}}天使用语音输入",
+      "active_other": "过去一年中，有{{count, number}}天使用了语音输入",
+      "day_one": "{{date}}: {{count, number}} 字",
+      "day_other": "{{date}}: {{count, number}} 个词",
+      "less": "少",
+      "more": "更多",
+      "band0": "没有词语",
+      "band1": "1 到 249 个词",
+      "band2": "250 到 499 个词",
+      "band3": "500 到 749 个词",
+      "band4": "750个字或更多"
+    },
+    "voice": {
+      "lockedTitle": "你的语音配置在达到 {{goal}} 个词时解锁",
+      "lockedBody": "继续语音输入：到目前为止已输入 {{current}} 个词，共 {{goal}} 个词。之后你将看到你最常使用的短语、语音输入的时间和地点，以及 {{appName}} 为你自动修正的词语。",
+      "locked": "已锁定",
+      "phrase": "你的短语",
+      "phraseIn_one": "一次语音输入",
+      "phraseIn_other": "在 {{count, number}} 次语音输入中",
+      "peak": "高峰时段和应用",
+      "peakApp": "在 {{app}} 中最常见的词",
+      "word": "最常用的词",
+      "uses_one": "使用了 {{count, number}} 次",
+      "uses_other": "已使用 {{count, number}} 次",
+      "corrected": "最修正的词",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "已修复 {{count, number}} 次",
+      "fixed_other": "已修复 {{count, number}} 次",
+      "notEnough": "语音输入还不足够。",
+      "footnote_one": "在你最近的语音输入中，此 Mac 已完成处理。没有任何内容会离开你的 Mac。",
+      "footnote_other": "在你最近的{{count, number}}段语音输入中，本设备上完成的。没有内容会离开你的Mac。",
+      "sample": {
+        "phrase": "你经常说的一句话",
+        "peak": "一天中的某个时间",
+        "word": "一个最喜欢的词",
+        "corrected": "一个被修正的词"
+      }
+    }
   }
 }

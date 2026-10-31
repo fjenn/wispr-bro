@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "בחר אם Wispr Bro יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "ההערכות",
+      "usage": "שימוש",
+      "voice": "הקול"
+    },
+    "asOf": "המספרים שלך עד {{date}}",
+    "unavailable": "האינספורטים לא ניתן לקרוא כרגע. הם יופיעו ברגע.",
+    "save": {
+      "button": "שמור כהופעה",
+      "fileName": "השאלה של {{appName}} {{date}}.png",
+      "filter": "תמונה בפורמט PNG",
+      "done": "ההערכה נשמרה.",
+      "failed": "ההערכה לא נמצאה. נסה שוב."
+    },
+    "speed": {
+      "title": "מהירות דיבור",
+      "value": "{{wpm}} wpm",
+      "notEnough": "הקלד קצת יותר כדי לראות את מהירותך.",
+      "measured": "המהירות שלך היא {{ratio}}× מההירות שלך של {{typing}} wpm",
+      "average": "{{ratio}}× מההירות של טיפוסר ממוצע ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "מילים סהופות",
+      "dictations_one": "ב{{count, number}} דיקטציה",
+      "dictations_other": "ב{{count, number}} דיקטציות"
+    },
+    "fixes": {
+      "title": "שיפוצים שנעשו",
+      "dictionary": "תיקון מילון",
+      "ai": "תיקון מיקוד AI"
+    },
+    "categories": {
+      "title": "איפה אתה מדבר",
+      "empty": "הקלד במספר יישומים כדי לראות איפה מילים שלך מתרחשות.",
+      "words_one": "{{count, number}} מילה",
+      "words_other": "{{count, number}} מילים",
+      "documents": "מסמך",
+      "ai_prompts": "הנחיות ל-AI",
+      "email": "דואר אלקטרוני",
+      "work": "رسائل עבודה",
+      "personal": "הודעות אישיות",
+      "other": "הכל אחר"
+    },
+    "heatmap": {
+      "title": "הרצף שלך",
+      "current": "השורה הנוכחית",
+      "longest": "ההערכה הארוכה ביותר",
+      "days_one": "יום {{count, number}}",
+      "days_other": "{{count, number}} ימים",
+      "active_one": "יום אחד עם דיקטציה בשנתיים האחרונים",
+      "active_other": "{{count, number}} ימים עם דיקטציה בשנתיים האחרונות",
+      "day_one": "{{date}}: {{count, number}} מילה",
+      "day_other": "{{date}}: {{count, number}} מילים",
+      "less": "פחות",
+      "more": "הרבה",
+      "band0": "אין מילים",
+      "band1": "1 עד 249 מילים",
+      "band2": "250 ל-499 מילים",
+      "band3": "500 לـ 749 מילים",
+      "band4": "750 מילים או יותר"
+    },
+    "voice": {
+      "lockedTitle": "פרופיל הצלחה שלך מופק عند {{goal}} מילים",
+      "lockedBody": "המשתמש ממשיך לרשום: {{current}} מתוך {{goal}} מילים עד כה. אז תראה את המילה שמשתמשת בה הכי הרבה, בקогда ובאיפה אתה מרשום, ואת המילים ש{{appName}} מתקן עבורך.",
+      "locked": "مוגן",
+      "phrase": "הביטוי שלך",
+      "phraseIn_one": "ב{{count, number}} דיקטציה",
+      "phraseIn_other": "ב{{count, number}} דיקטציות",
+      "peak": "השעת הפסגה והאפליקציה",
+      "peakApp": "המילים הכי נפוצות ב-{{app}}",
+      "word": "המילה הנפוצה ביותר",
+      "uses_one": "השתמשתי {{count, number}} פעם",
+      "uses_other": "השתמשו ב{{count, number}} פעמים",
+      "corrected": "המילה שוקלטת ביותר",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "שיניתי {{count, number}} פעם",
+      "fixed_other": "שופטתי {{count, number}} פעמים",
+      "notEnough": "לא מספיק דיקטציות עדיין.",
+      "footnote_one": "הנתח על המחשב הזה מההקלדה האחרונה שלך. לא מתרחשת שום דבר על המחשב שלך.",
+      "footnote_other": "הועבר על זה המاك מההערכות האחרונות שלך {{count, number}}. כל דבר נשאר במקלט שלך.",
+      "sample": {
+        "phrase": "הביטוי שאתה אומר לעתים קרובות",
+        "peak": "שעון ביום",
+        "word": "מונח מועדף",
+        "corrected": "מילה שמתוקנת"
+      }
+    }
   }
 }

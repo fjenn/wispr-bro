@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Välj om Wispr Bro ska följa systemets tema eller förbli ljust eller mörkt"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Användning",
+      "voice": "Röst"
+    },
+    "asOf": "Dina siffror som gäller {{date}}",
+    "unavailable": "Insights kan inte läsas just nu. De kommer att visas snart.",
+    "save": {
+      "button": "Spara som bild",
+      "fileName": "{{appName}} insikter {{date}}.png",
+      "filter": "PNG-bild",
+      "done": "Bilden sparades.",
+      "failed": "Bilden kunde inte sparas. Försök igen."
+    },
+    "speed": {
+      "title": "Talningsspeed",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dictata en liten bit mer för att se din hastighet.",
+      "measured": "{{ratio}}× din typsningshastighet av {{typing}} wpm",
+      "average": "{{ratio}}× hastigheten av en genomsnittlig typist ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Totala ord",
+      "dictations_one": "i {{count, number}} dictation",
+      "dictations_other": "i {{count, number}} dictationer"
+    },
+    "fixes": {
+      "title": "Fikar gjorda",
+      "dictionary": "Förbättringar av ordbok",
+      "ai": "AI-reparationar för bättre kvalitet"
+    },
+    "categories": {
+      "title": "Var du dictat",
+      "empty": "Dictata i några appar för att se där dina ord går.",
+      "words_one": "{{count, number}} ord",
+      "words_other": "{{count, number}} ord",
+      "documents": "Dokument",
+      "ai_prompts": "AI-prompter",
+      "email": "E-post",
+      "work": "Arbetsmeddelanden",
+      "personal": "Personliga meddelanden",
+      "other": "Allt annat"
+    },
+    "heatmap": {
+      "title": "Din streak",
+      "current": "Nuvarande streak",
+      "longest": "Längsta streaken",
+      "days_one": "{{count, number}} dag",
+      "days_other": "{{count, number}} dagar",
+      "active_one": "En dag med dictation den senaste året",
+      "active_other": "{{count, number}} dagar med dictation den senaste året",
+      "day_one": "{{date}}: {{count, number}} ord",
+      "day_other": "{{date}}: {{count, number}} ord",
+      "less": "Mindre",
+      "more": "Mer",
+      "band0": "Inga ord",
+      "band1": "1 till 249 ord",
+      "band2": "250 till 499 ord",
+      "band3": "500 till 749 ord",
+      "band4": "750 ord eller mer"
+    },
+    "voice": {
+      "lockedTitle": "Din röstprofil låser upp vid {{goal}} ord",
+      "lockedBody": "Fortsätt dicta: {{current}} av {{goal}} ord hittills. Då ser du phrasen du använder mest, när och var du dictar, samt orden {{appName}} korrigerar för dig.",
+      "locked": "Låst",
+      "phrase": "Din fras",
+      "phraseIn_one": "I {{count, number}} dictation",
+      "phraseIn_other": "I {{count, number}} dictationer",
+      "peak": "Peak tid och app",
+      "peakApp": "Mest av orden i {{app}}",
+      "word": "Vanligtvis använd word",
+      "uses_one": "Används {{count, number}} gång",
+      "uses_other": "Används {{count, number}} gånger",
+      "corrected": "Mest korrigerad ord",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Fikat {{count, number}} gång",
+      "fixed_other": "Fikat {{count, number}} gånger",
+      "notEnough": "Ingen tillräckligt många dictationer än.",
+      "footnote_one": "Arbetsmedel på denna Mac från din senaste dictation. Inget lämnar din Mac.",
+      "footnote_other": "Arbetsutvecklade på denna Mac från din senaste {{count, number}} dictation. Inget lämnar din Mac.",
+      "sample": {
+        "phrase": "en fras du säger ofta",
+        "peak": "en tid i dagen",
+        "word": "en vänlig ord",
+        "corrected": "en ord som korrigeras"
+      }
+    }
   }
 }

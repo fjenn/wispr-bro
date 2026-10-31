@@ -2389,6 +2389,7 @@ version = "1.0.0-alpha.1"
 dependencies = [
  "aho-corasick",
  "anyhow",
+ "base64 0.22.1",
  "block2",
  "chrono",
  "clap",

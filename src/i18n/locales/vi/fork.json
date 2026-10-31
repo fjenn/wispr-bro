@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Các phát hiện",
+      "usage": "Sử dụng",
+      "voice": "Voice"
+    },
+    "asOf": "Các con số cập nhật đến {{date}}",
+    "unavailable": "Không thể đọc được Insights lúc này. Chúng sẽ xuất hiện trong một lúc.",
+    "save": {
+      "button": "Lưu dưới dạng hình ảnh",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "ảnh PNG",
+      "done": "Đã lưu hình ảnh.",
+      "failed": "Không thể lưu hình ảnh. Hãy thử lại."
+    },
+    "speed": {
+      "title": "Tốc độ nói",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Điều khiển thêm một chút để xem tốc độ của bạn.",
+      "measured": "Tốc độ gõ của bạn là {{ratio}}× {{typing}} wpm",
+      "average": "{{ratio}}× tốc độ của một người gõ văn bản trung bình ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Tổng số từ",
+      "dictations_one": "trong {{count, number}} dictation",
+      "dictations_other": "trong {{count, number}} bản ghi dictation"
+    },
+    "fixes": {
+      "title": "Các sửa đổi đã thực hiện",
+      "dictionary": "Sửa lỗi từ điển",
+      "ai": "sửa lỗi làm sạch AI"
+    },
+    "categories": {
+      "title": "Địa điểm bạn ghi âm",
+      "empty": "Dictate trong một vài ứng dụng để thấy những nơi từ của bạn được gửi đi.",
+      "words_one": "{{count, number}} từ",
+      "words_other": "{{count, number}} từ",
+      "documents": "Tài liệu",
+      "ai_prompts": "Các gợi ý AI",
+      "email": "Email",
+      "work": "Tin nhắn công việc",
+      "personal": "Tin nhắn cá nhân",
+      "other": "Tất cả những thứ khác"
+    },
+    "heatmap": {
+      "title": "Dãy liên tiếp của bạn",
+      "current": "Câu chuyện hiện tại",
+      "longest": "Câu chuyện dài nhất",
+      "days_one": "{{count, number}} ngày",
+      "days_other": "{{count, number}} ngày",
+      "active_one": "Một ngày trong số {{count, number}} ngày có ghi âm trong năm qua",
+      "active_other": "{{count, number}} ngày dùng dictation trong 1 năm qua",
+      "day_one": "{{date}}: {{count, number}} từ",
+      "day_other": "{{date}}: {{count, number}} từ",
+      "less": "Ít hơn",
+      "more": "Thêm",
+      "band0": "Không có từ",
+      "band1": "từ 1 đến 249 từ",
+      "band2": "250 đến 499 từ",
+      "band3": "500 đến 749 từ",
+      "band4": "750 từ hoặc nhiều hơn"
+    },
+    "voice": {
+      "lockedTitle": "Hình ảnh giọng nói của bạn được giải khóa tại {{goal}} từ",
+      "lockedBody": "Tiếp tục ghi âm: {{current}} từ trong {{goal}} từ đến nay. Sau đó bạn sẽ thấy cụm từ bạn sử dụng nhiều nhất, thời điểm và nơi bạn ghi âm, cùng các từ được {{appName}} sửa tự động cho bạn.",
+      "locked": "Đã khóa",
+      "phrase": "Câu của bạn",
+      "phraseIn_one": "Trong {{count, number}} dictation",
+      "phraseIn_other": "Trong {{count, number}} bản ghi giọng nói",
+      "peak": "Thời gian cao điểm và ứng dụng",
+      "peakApp": "Hầu hết các từ trong {{app}}",
+      "word": "Từ được sử dụng nhiều nhất",
+      "uses_one": "Đã sử dụng {{count, number}} lần",
+      "uses_other": "Đã sử dụng {{count, number}} lần",
+      "corrected": "Từ được sửa chính xác nhất",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Đã sửa {{count, number}} lần",
+      "fixed_other": "Đã sửa {{count, number}} lần",
+      "notEnough": "Chưa đủ bản ghi giọng nói.",
+      "footnote_one": "Đã xử lý trên thiết bị Mac này từ bản ghi giọng nói mới nhất của bạn. Không có gì rời khỏi Mac của bạn.",
+      "footnote_other": "Đã xử lý trên máy Mac này từ {{count, number}} bản ghi giọng nói gần nhất của bạn. Không gì rời khỏi máy Mac của bạn.",
+      "sample": {
+        "phrase": "một cụm từ bạn thường nói",
+        "peak": "một thời điểm trong ngày",
+        "word": "từ yêu thích",
+        "corrected": "một từ được sửa lại"
+      }
+    }
   }
 }

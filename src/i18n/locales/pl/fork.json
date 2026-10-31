@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Wybierz, czy Wispr Bro ma podążać za motywem systemu, czy pozostać jasny lub ciemny"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Widoki",
+      "usage": "Użycie",
+      "voice": "Głos"
+    },
+    "asOf": "Twoje dane na dzień {{date}}",
+    "unavailable": "Insighty nie mogą być przeczytane w tej chwili. Wykazują się za chwilę.",
+    "save": {
+      "button": "Zapisz jako obraz",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG image",
+      "done": "Zapisano obraz.",
+      "failed": "Obraz nie został zapisany. Spróbuj ponownie."
+    },
+    "speed": {
+      "title": "Szybkość mówienia",
+      "value": "{{wpm}} słów na minutę",
+      "notEnough": "Wpisz trochę więcej, aby zobaczyć swoją szybkość.",
+      "measured": "{{ratio}}× Twoje szybkość wpisywania {{typing}} wpm",
+      "average": "{{ratio}} razy szybsze niż typowanie przeciętnego użytkownika ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Całkowita liczba słów",
+      "dictations_one": "w {{count, number}} dictacji",
+      "dictations_other": "w {{count, number}} dictacjach"
+    },
+    "fixes": {
+      "title": "Poprawki wprowadzone",
+      "dictionary": "Poprawki słownika",
+      "ai": "Poprawki dla czyszczenia AI"
+    },
+    "categories": {
+      "title": "Gdzie dokonujesz dictacji",
+      "empty": "Dictuj w kilku aplikacjach, aby zobaczyć, gdzie idą Twoje słowa.",
+      "words_one": "{{count, number}} słowo",
+      "words_other": "{{count, number}} słów",
+      "documents": "Dokumenty",
+      "ai_prompts": "Prompty AI",
+      "email": "E-mail",
+      "work": "Wiadomości z pracy",
+      "personal": "Wiadomości osobiste",
+      "other": "Wszystko inne"
+    },
+    "heatmap": {
+      "title": "Twoja ciągłość",
+      "current": "Obecny ciąg",
+      "longest": "Najdłuższy ciąg",
+      "days_one": "{{count, number}} dzień",
+      "days_other": "{{count, number}} dni",
+      "active_one": "Dzień {{count, number}} z dictacją w ciągu ostatnich lat",
+      "active_other": "{{count, number}} dni z dictacją w ciągu ostatnich lat",
+      "day_one": "{{date}}: {{count, number}} słowo",
+      "day_other": "{{date}}: {{count, number}} słów",
+      "less": "Mniej",
+      "more": "Więcej",
+      "band0": "Brak słów",
+      "band1": "1 do 249 słów",
+      "band2": "250 do 499 słów",
+      "band3": "500 do 749 słów",
+      "band4": "750 słów lub więcej"
+    },
+    "voice": {
+      "lockedTitle": "Profil mowy odblokowuje się po {{goal}} słów",
+      "lockedBody": "Kontynuuj dictowanie: {{current}} z {{goal}} słów dotychczas. Następnie zobaczysz frazę, którą najczęściej używasz, kiedy i gdzie dictujesz, oraz słowa, które {{appName}} automatycznie poprawia.",
+      "locked": "Zablokowane",
+      "phrase": "Twoja fraza",
+      "phraseIn_one": "W jednym wpisie dictacji",
+      "phraseIn_other": "W {{count, number}} dictacjach",
+      "peak": "Czas peak i aplikacja",
+      "peakApp": "Najwięcej słów w {{app}}",
+      "word": "Najczęściej używany słowo",
+      "uses_one": "Użyto {{count, number}} razy",
+      "uses_other": "Używane {{count, number}} razy",
+      "corrected": "Najczęściej poprawiona słowa",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Dopasowano {{count, number}} razy",
+      "fixed_other": "Poprawione {{count, number}} razy",
+      "notEnough": "Nie wystarczająco dictacji.",
+      "footnote_one": "Wykonane na tym Macie z Twojego ostatniego dictationu. Nic nie opuszcza Twojego Maca.",
+      "footnote_other": "Wykonane na tym Macie z Twoich ostatnich {{count, number}} dictacji. Nic nie opuszcza Twojego Maca.",
+      "sample": {
+        "phrase": "fraza, którą często mówisz",
+        "peak": "czas dnia",
+        "word": "słowo ulubione",
+        "corrected": "słowo, które jest poprawione"
+      }
+    }
   }
 }

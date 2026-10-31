@@ -28,6 +28,8 @@ tailwindcss.com             # reason: `/*! tailwindcss … | https://tailwindcss
 reactjs.org                 # reason: React's production error-decoder link inside thrown error messages
 www.i18next.com             # reason: i18next deprecation-warning text (console only)
 bit.ly                      # reason: Immer's minified-error message text ("Full error at: …")
+redux.js.org                # reason: Redux's minified-error message text inside thrown errors (Recharts' state store, S-25 Insights chart chunk)
+redux-toolkit.js.org        # reason: Redux Toolkit's minified-error message text inside thrown errors (Recharts, S-25)
 
 [proven]
 # Network hosts proven unreachable by a test (F-08). Every LLM request in

@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Wispr Bro가 시스템 테마를 따를지, 밝게 또는 어둡게 유지할지 선택하세요"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "인사이트",
+      "usage": "사용량",
+      "voice": "음성"
+    },
+    "asOf": "당신의 숫자는 {{date}} 기준입니다",
+    "unavailable": "지금 인사이트를 읽을 수 없습니다. 잠시 후에 나타날 것입니다.",
+    "save": {
+      "button": "이미지로 저장",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG 이미지",
+      "done": "이미지를 저장했습니다.",
+      "failed": "이미지를 저장할 수 없습니다. 다시 시도하세요."
+    },
+    "speed": {
+      "title": "말하기 속도",
+      "value": "{{wpm}} wpm",
+      "notEnough": "약간 더 말해 보세요. 속도를 확인하세요.",
+      "measured": "타이핑 속도 {{typing}} wpm의 {{ratio}}×",
+      "average": "평균 타이핑 속도의 {{ratio}}× ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "전체 단어",
+      "dictations_one": "dictation에서 {{count, number}}개",
+      "dictations_other": "in {{count, number}} dictations"
+    },
+    "fixes": {
+      "title": "수정된 내용",
+      "dictionary": "사전 수정",
+      "ai": "AI 정리 수정 사항"
+    },
+    "categories": {
+      "title": "어디에서 디테이트하는가",
+      "empty": "몇 가지 앱에서 말로 입력해보세요. 당신의 말이 어디로 가는지 확인하세요.",
+      "words_one": "{{count, number}} 단어",
+      "words_other": "{{count, number}} 단어",
+      "documents": "문서",
+      "ai_prompts": "AI 프롬프트",
+      "email": "이메일",
+      "work": "직장 메시지",
+      "personal": "개인 메시지",
+      "other": "다른 모든 것"
+    },
+    "heatmap": {
+      "title": "당신의 연속 기록",
+      "current": "현재 스티커",
+      "longest": "가장 긴 연속",
+      "days_one": "{{count, number}} 일",
+      "days_other": "{{count, number}}일",
+      "active_one": "지난 1년 동안 dictation을 한 {{count, number}}일",
+      "active_other": "지난 1년 동안 dictation을 {{count, number}}일 동안 사용했습니다",
+      "day_one": "{{date}}: {{count, number}} 단어",
+      "day_other": "{{date}}: {{count, number}} 단어",
+      "less": "덜",
+      "more": "더 보기",
+      "band0": "단어 없음",
+      "band1": "1에서 249단어",
+      "band2": "250에서 499단어",
+      "band3": "500에서 749단어",
+      "band4": "750자 이상"
+    },
+    "voice": {
+      "lockedTitle": "당신의 음성 프로필은 {{goal}} 단어를 입력할 때 풀립니다",
+      "lockedBody": "계속 말씀을 입력하세요: 지금까지 {{current}}개의 {{goal}}개 단어. 그런 다음 가장 자주 사용하는 문장, 말씀을 입력하는 시점과 장소, 그리고 {{appName}}이 자동으로 고치는 단어를 확인할 수 있습니다.",
+      "locked": "잠겨 있음",
+      "phrase": "당신의 문장",
+      "phraseIn_one": "dictation에서 {{count, number}}개",
+      "phraseIn_other": "다른 {{count, number}}개의 디타이션에서",
+      "peak": "피크 시간 및 앱",
+      "peakApp": "가장 많은 단어: {{app}}",
+      "word": "가장 자주 사용되는 단어",
+      "uses_one": "{{count, number}}회 사용",
+      "uses_other": "{{count, number}}회 사용",
+      "corrected": "가장 수정된 단어",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "정리된 {{count, number}} 번",
+      "fixed_other": "수정한 횟수: {{count, number}}회",
+      "notEnough": "아직 충분한 음성 입력이 없습니다.",
+      "footnote_one": "이 Mac에서 최신 디타이션으로 작성한 내용입니다. 아무것도 Mac에서 나가지 않습니다.",
+      "footnote_other": "이 Mac에서 최근 {{count, number}}개의 디타이션을 처리했습니다. 아무것도 Mac에서 나가지 않습니다.",
+      "sample": {
+        "phrase": "자주 말하는 문장",
+        "peak": "하루 중의 시간",
+        "word": "좋아하는 단어",
+        "corrected": "정해진 단어"
+      }
+    }
   }
 }

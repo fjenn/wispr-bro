@@ -523,6 +523,9 @@ macro_rules! fork_specta_builder {
                 commands::audio::fork_mic_choose::<$runtime>,
                 commands::audio::fork_mic_monitor_start::<$runtime>,
                 commands::audio::fork_mic_monitor_stop,
+                commands::insights::fork_insights_usage::<$runtime>,
+                commands::insights::fork_insights_voice::<$runtime>,
+                commands::insights::fork_insights_save_image,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,

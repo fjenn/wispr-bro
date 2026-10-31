@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "समाचार",
+      "usage": "प्रयोग",
+      "voice": "वाक्य"
+    },
+    "asOf": "आपला संख्या {{date}} ले",
+    "unavailable": "Insights can't be read right now. They will appear in a moment.",
+    "save": {
+      "button": "चित्रमा सेभ गर्नुहोस",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG चित्र",
+      "done": "चित्रलाई सेभ गरिएको छ।",
+      "failed": "चित्र बचाउँ गर्न सकिन्छ भने अगाडि गर्नुहोस।"
+    },
+    "speed": {
+      "title": "बोल्ने गतिको चाल",
+      "value": "{{wpm}} wpm",
+      "notEnough": "अनुच्छेद थप गर्नुहोस् जबसम्म तपाईंको गतिलाई देख्न सक्नुहुन्छ।",
+      "measured": "{{ratio}}× तपाईंको टाइपिङ स्पीड लगभग {{typing}} wpm",
+      "average": "{{ratio}}× {{typing}} wpm ले एक सामान्य टाइपिस्टको गतिमान गति"
+    },
+    "words": {
+      "title": "सभ शब्द",
+      "dictations_one": "{{count, number}} अनुमान अनुसार",
+      "dictations_other": "{{count, number}} अन्य विचारमा"
+    },
+    "fixes": {
+      "title": "सुधार गरिएका",
+      "dictionary": "दिक्षाको सुधार",
+      "ai": "AI साफ कर्ने ठीक गर्ने"
+    },
+    "categories": {
+      "title": "जहाँ तपाईं बोल्नुहुन्छ",
+      "empty": "मात्र केहि एप्स में बोल्नुहोस् जब तपाईंको शब्दहरू कहाँ जान्छन् भने देखाउनुहोस्।",
+      "words_one": "{{count, number}} शब्द",
+      "words_other": "{{count, number}} शब्द",
+      "documents": "दस्तावेज",
+      "ai_prompts": "AI prompts",
+      "email": "ईमेल",
+      "work": "कामको संदेश",
+      "personal": "व्यक्तिगत संदेश",
+      "other": "सबै अन्य"
+    },
+    "heatmap": {
+      "title": "आपको लगाने गरिएको",
+      "current": "अहिए गतिविधि",
+      "longest": "सबै लम्बाइको लम्बाइ",
+      "days_one": "{{count, number}} दिन",
+      "days_other": "{{count, number}} दिन",
+      "active_one": "{{count, number}} day with dictation in the last year",
+      "active_other": "पिछलो वर्षमा अनुमान गर्ने दिनहरू {{count, number}}",
+      "day_one": "{{date}}: {{count, number}} शब्द",
+      "day_other": "{{date}}: {{count, number}} शब्द",
+      "less": "कम",
+      "more": "प्रति अधिक",
+      "band0": "कुनै शब्द छैन",
+      "band1": "1 देखि 249 शब्द",
+      "band2": "250 देखि 499 शब्द",
+      "band3": "500 देखि 749 शब्द",
+      "band4": "750 शब्द वा धेरै"
+    },
+    "voice": {
+      "lockedTitle": "आपको आवाज फ़ाइल ओटा भने {{goal}} शब्द भने खोल्याउन्छ",
+      "lockedBody": "अगाडि बोल्ने राख्नुहोस: {{current}} शब्द अब तक {{goal}} शब्द सम्म। तपाईंले अति बारेमा बोल्ने वाक्य, तपाईं बोल्ने समय र स्थान, र {{appName}} ले तपाईंलाई सुधार्ने शब्दहरू देख्न सक्नुहुन्छ।",
+      "locked": "लक्ष्य गरिएको",
+      "phrase": "आपको वाक्य",
+      "phraseIn_one": "एक बार {{count, number}} बोल्ने में",
+      "phraseIn_other": "अन्य {{count, number}} वाक्यमा",
+      "peak": "पीक समय र एप",
+      "peakApp": "{{app}} मा सबै शब्दहरू",
+      "word": "सबैभन्दा प्रयोग गरिएको शब्द",
+      "uses_one": "प्रयोग गरिएको छ {{count, number}} बार",
+      "uses_other": "प्रयोग गरिएको छ {{count, number}} बार",
+      "corrected": "सबै ठीक गरिएको शब्द",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "स्थिर गरिएको {{count, number}} बार",
+      "fixed_other": "लगायला गए गए {{count, number}} बार",
+      "notEnough": "अभिलेख अझै नभएको छ।",
+      "footnote_one": "एहि Mac मा तपाईंको नयाँ भाषण अनुसार काम गरिएको छ। कुनै पनि बाहिर निकालिन्छ।",
+      "footnote_other": "एहि Mac मा तपाईंको नयाँ {{count, number}} विचार गरेको छ। कुनै पनि तपाईंको Mac बाहिर निकाल्यो छैन।",
+      "sample": {
+        "phrase": "एक वाक्य जुटाउने आम भाषण",
+        "peak": "एक दिनको समय",
+        "word": "एक पसंद गरिने शब्द",
+        "corrected": "एक शब्द जसलाई सुधारिएको छ"
+      }
+    }
   }
 }

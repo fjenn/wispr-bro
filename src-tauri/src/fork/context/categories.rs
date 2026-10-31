@@ -36,7 +36,7 @@ impl StyleGroup {
 }
 
 /// Insights usage bucket (S-25). Values match the `usage_category` CHECKs.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize, specta::Type)]
 #[serde(rename_all = "snake_case")]
 pub enum UsageCategory {
     Documents,
@@ -48,6 +48,21 @@ pub enum UsageCategory {
 }
 
 impl UsageCategory {
+    /// Every category, in the order Insights lists them (S-25).
+    pub const ALL: [UsageCategory; 6] = [
+        UsageCategory::Documents,
+        UsageCategory::AiPrompts,
+        UsageCategory::Email,
+        UsageCategory::Work,
+        UsageCategory::Personal,
+        UsageCategory::Other,
+    ];
+
+    /// The category stored as `s`, if it is one.
+    pub fn parse(s: &str) -> Option<UsageCategory> {
+        Self::ALL.into_iter().find(|c| c.as_str() == s)
+    }
+
     pub fn as_str(self) -> &'static str {
         match self {
             UsageCategory::Documents => "documents",

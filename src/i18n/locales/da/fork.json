@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Vælg om Wispr Bro skal følge dit systemtema eller forblive lyst eller mørkt"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Brug",
+      "voice": "Stem"
+    },
+    "asOf": "Dine tal som af {{date}}",
+    "unavailable": "Insights kan ikke læses nu. De vil dukke op om et øjeblik.",
+    "save": {
+      "button": "Gem som billede",
+      "fileName": "{{appName}} indsigt {{date}}.png",
+      "filter": "PNG-billede",
+      "done": "Billedet er sat op.",
+      "failed": "Billedet kunne ikke besvares. Prøv igen."
+    },
+    "speed": {
+      "title": "Talhastighed",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dictater lidt mere for at se din hastighed.",
+      "measured": "{{ratio}}× din skrivningsspeed af {{typing}} wpm",
+      "average": "{{ratio}}× hastigheden af en gennemsnitlig skrivende person ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Total ord",
+      "dictations_one": "i {{count, number}} dictation",
+      "dictations_other": "i {{count, number}} dictationer"
+    },
+    "fixes": {
+      "title": "Fikser, der er blevet gjort",
+      "dictionary": "Fikser af ordbogen",
+      "ai": "AI-rengøring af fejl"
+    },
+    "categories": {
+      "title": "Hvor du skriver med tale",
+      "empty": "Dictater i et par apps for at se, hvor dine ord går.",
+      "words_one": "{{count, number}} ord",
+      "words_other": "{{count, number}} ord",
+      "documents": "Dokumenter",
+      "ai_prompts": "AI-prompter",
+      "email": "E-mail",
+      "work": "Arbejdsbesked",
+      "personal": "Personlige beskeder",
+      "other": "Alt andet"
+    },
+    "heatmap": {
+      "title": "Din trække",
+      "current": "Nuværende strek",
+      "longest": "Langst strek",
+      "days_one": "{{count, number}} dag",
+      "days_other": "{{count, number}} dage",
+      "active_one": "En dag med dictation i de sidste år",
+      "active_other": "{{count, number}} dage med dictation i de sidste år",
+      "day_one": "{{date}}: {{count, number}} ord",
+      "day_other": "{{date}}: {{count, number}} ord",
+      "less": "Mindre",
+      "more": "Mer",
+      "band0": "Ingen ord",
+      "band1": "1 til 249 ord",
+      "band2": "250 til 499 ord",
+      "band3": "500 til 749 ord",
+      "band4": "750 ord eller mere"
+    },
+    "voice": {
+      "lockedTitle": "Din stemmeprofil låses op ved {{goal}} ord",
+      "lockedBody": "Fortsæt at sige: {{current}} af {{goal}} ord så langt. Så vil du se det sæt, du bruger mest, når og hvor du siger, og de ord, der {{appName}} retter for dig.",
+      "locked": "Låst",
+      "phrase": "Din frase",
+      "phraseIn_one": "I {{count, number}} dictation",
+      "phraseIn_other": "I {{count, number}} dictater",
+      "peak": "Top tid og app",
+      "peakApp": "Mest ord i {{app}}",
+      "word": "Mest brugt ord",
+      "uses_one": "Brugt {{count, number}} gang",
+      "uses_other": "Brugt {{count, number}} gange",
+      "corrected": "Mest rettet ord",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Fikse {{count, number}} gang",
+      "fixed_other": "Fikse {{count, number}} gange",
+      "notEnough": "Ingen suffisient dictationer endnu.",
+      "footnote_one": "Arbejdet ud på denne Mac fra din sidste dictation. Ingen forlader din Mac.",
+      "footnote_other": "Arbejdet ud på denne Mac fra dine seneste {{count, number}} dictationer. Ingen forlader din Mac.",
+      "sample": {
+        "phrase": "en frase, du siger ofte",
+        "peak": "en tid i døgnet",
+        "word": "et populært ord",
+        "corrected": "et ord, der får rettet"
+      }
+    }
   }
 }

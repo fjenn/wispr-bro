@@ -1030,5 +1030,94 @@
       "done_other": "Exported {{count}} snippets.",
       "failed": "The snippets couldn't be exported. Please try again."
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Usage",
+      "voice": "Voice"
+    },
+    "asOf": "Your numbers as of {{date}}",
+    "unavailable": "Insights can't be read right now. They will appear in a moment.",
+    "save": {
+      "button": "Save as image",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG image",
+      "done": "Saved the image.",
+      "failed": "The image could not be saved. Try again."
+    },
+    "speed": {
+      "title": "Speaking speed",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dictate a little more to see your speed.",
+      "measured": "{{ratio}}× your typing speed of {{typing}} wpm",
+      "average": "{{ratio}}× the speed of an average typist ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Total words",
+      "dictations_one": "in {{count, number}} dictation",
+      "dictations_other": "in {{count, number}} dictations"
+    },
+    "fixes": {
+      "title": "Fixes made",
+      "dictionary": "Dictionary fixes",
+      "ai": "AI cleanup fixes"
+    },
+    "categories": {
+      "title": "Where you dictate",
+      "empty": "Dictate in a few apps to see where your words go.",
+      "words_one": "{{count, number}} word",
+      "words_other": "{{count, number}} words",
+      "documents": "Documents",
+      "ai_prompts": "AI prompts",
+      "email": "Email",
+      "work": "Work messages",
+      "personal": "Personal messages",
+      "other": "Everything else"
+    },
+    "heatmap": {
+      "title": "Your streak",
+      "current": "Current streak",
+      "longest": "Longest streak",
+      "days_one": "{{count, number}} day",
+      "days_other": "{{count, number}} days",
+      "active_one": "{{count, number}} day with dictation in the last year",
+      "active_other": "{{count, number}} days with dictation in the last year",
+      "day_one": "{{date}}: {{count, number}} word",
+      "day_other": "{{date}}: {{count, number}} words",
+      "less": "Less",
+      "more": "More",
+      "band0": "No words",
+      "band1": "1 to 249 words",
+      "band2": "250 to 499 words",
+      "band3": "500 to 749 words",
+      "band4": "750 words or more"
+    },
+    "voice": {
+      "lockedTitle": "Your voice profile unlocks at {{goal}} words",
+      "lockedBody": "Keep dictating: {{current}} of {{goal}} words so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you.",
+      "locked": "Locked",
+      "phrase": "Your phrase",
+      "phraseIn_one": "In {{count, number}} dictation",
+      "phraseIn_other": "In {{count, number}} dictations",
+      "peak": "Peak time and app",
+      "peakApp": "Most words in {{app}}",
+      "word": "Most used word",
+      "uses_one": "Used {{count, number}} time",
+      "uses_other": "Used {{count, number}} times",
+      "corrected": "Most corrected word",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Fixed {{count, number}} time",
+      "fixed_other": "Fixed {{count, number}} times",
+      "notEnough": "Not enough dictations yet.",
+      "footnote_one": "Worked out on this Mac from your latest dictation. Nothing leaves your Mac.",
+      "footnote_other": "Worked out on this Mac from your latest {{count, number}} dictations. Nothing leaves your Mac.",
+      "sample": {
+        "phrase": "a phrase you say often",
+        "peak": "a time of day",
+        "word": "a favourite word",
+        "corrected": "a word that gets fixed"
+      }
+    }
   }
 }

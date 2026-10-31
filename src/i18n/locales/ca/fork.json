@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "Tria si el Wispr Bro segueix el tema del sistema o es manté en mode clar o fosc"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Uso",
+      "voice": "Voces"
+    },
+    "asOf": "Els teus números com a de {{date}}",
+    "unavailable": "Les insights no es poden llegir en aquest moment. Es mostraran en un moment.",
+    "save": {
+      "button": "Guardar com a imatge",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "imatge PNG",
+      "done": "Es va guardar l'imatge.",
+      "failed": "L'imatge no ha pogut ser desat. Prova de nou."
+    },
+    "speed": {
+      "title": "Velocitat de parlar",
+      "value": "{{wpm}} wpm",
+      "notEnough": "Dicta un poc més per veure la teva velocitat.",
+      "measured": "{{ratio}}× la velocitat de teixit de {{typing}} wpm",
+      "average": "{{ratio}}× la velocitat d'un tipografe mitjà ({{typing}} wpm)"
+    },
+    "words": {
+      "title": "Paraules totals",
+      "dictations_one": "a {{count, number}} dictació",
+      "dictations_other": "a {{count, number}} dictacions"
+    },
+    "fixes": {
+      "title": "Correccions realitzades",
+      "dictionary": "Correccions del diccionari",
+      "ai": "correccions d'AI"
+    },
+    "categories": {
+      "title": "On dictes",
+      "empty": "Dicta a unes quantes aplicacions per veure on anen les teves paraules.",
+      "words_one": "{{count, number}} paraula",
+      "words_other": "{{count, number}} paraules",
+      "documents": "Documents",
+      "ai_prompts": "prompts d'IA",
+      "email": "Correu",
+      "work": "Missatges de treball",
+      "personal": "Missatges personals",
+      "other": "Tots els altres"
+    },
+    "heatmap": {
+      "title": "La teva cadena",
+      "current": "Rècord actual",
+      "longest": "Més llarg",
+      "days_one": "{{count, number}} dia",
+      "days_other": "{{count, number}} dies",
+      "active_one": "Un dia amb dictació en les darreres anys",
+      "active_other": "{{count, number}} dies amb dictació durant les darreres anys",
+      "day_one": "{{date}}: {{count, number}} paraula",
+      "day_other": "{{date}}: {{count, number}} paraules",
+      "less": "Menys",
+      "more": "Més",
+      "band0": "No paraules",
+      "band1": "1 a 249 paraules",
+      "band2": "250 a 499 paraules",
+      "band3": "de 500 a 749 paraules",
+      "band4": "750 paraules o més"
+    },
+    "voice": {
+      "lockedTitle": "El teu perfil de veu es desbloqueja a {{goal}} paraules",
+      "lockedBody": "Continua dictant: {{current}} de {{goal}} paraules fins ara. Aleshores veuret la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà.",
+      "locked": "Bloquejat",
+      "phrase": "La teva frase",
+      "phraseIn_one": "En {{count, number}} dictació",
+      "phraseIn_other": "A {{count, number}} dictacions",
+      "peak": "El moment de punta i l'aplicació",
+      "peakApp": "La majoria de paraules a {{app}}",
+      "word": "Paraula més utilitzada",
+      "uses_one": "Utilitzat {{count, number}} vegada",
+      "uses_other": "Utilitzat {{count, number}} vegades",
+      "corrected": "Paraula corregida més freqüent",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Corregit {{count, number}} vegada",
+      "fixed_other": "Corregit {{count, number}} vegades",
+      "notEnough": "Encara no has fet pràcticament cap dictada.",
+      "footnote_one": "És un treball realitzat en aquest Mac des de la teva darrera dictació. Res es trenca del teu Mac.",
+      "footnote_other": "És un Mac de aquesta Mac des de les teves darreres {{count, number}} dictacions. Res es queda fora del teu Mac.",
+      "sample": {
+        "phrase": "una frase que dius sovint",
+        "peak": "un moment del dia",
+        "word": "una paraula preferida",
+        "corrected": "una paraula que es corregix"
+      }
+    }
   }
 }

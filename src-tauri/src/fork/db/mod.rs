@@ -24,12 +24,14 @@
 //! disk keeps the text) and [`handy`] (the only way the fork touches Handy's
 //! history). [`jobs`] schedules reconcile and retention. S-11 adds
 //! [`rules`]: the active dictionary rules for the text pipeline and the
-//! record of the ones that applied.
+//! record of the ones that applied. S-25 adds [`insights`], the read side
+//! of the Insights page.
 
 pub mod disk;
 pub mod entry_meta;
 pub mod fts;
 pub mod handy;
+pub mod insights;
 pub mod jobs;
 pub mod reconcile;
 pub mod retention;

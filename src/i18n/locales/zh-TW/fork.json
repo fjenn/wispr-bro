@@ -1030,5 +1030,94 @@
     "theme": {
       "description": "選擇 Wispr Bro 跟隨系統主題，或維持淺色或深色"
     }
+  },
+  "insights": {
+    "tabs": {
+      "label": "洞察",
+      "usage": "使用情況",
+      "voice": "語音"
+    },
+    "asOf": "您的數據截至 {{date}}",
+    "unavailable": "目前無法讀取洞察。稍後就會出現。",
+    "save": {
+      "button": "儲存為圖片",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG 圖像",
+      "done": "已儲存圖片。",
+      "failed": "圖片無法儲存，請再試一次。"
+    },
+    "speed": {
+      "title": "語速",
+      "value": "每分鐘 {{wpm}} 字",
+      "notEnough": "再多說一點看看你的語速。",
+      "measured": "{{ratio}}× your typing speed of {{typing}} wpm",
+      "average": "{{ratio}}× 一般打字速度（{{typing}} wpm）"
+    },
+    "words": {
+      "title": "總字數",
+      "dictations_one": "在 {{count, number}} 次語音輸入中",
+      "dictations_other": "在 {{count, number}} 次語音輸入中"
+    },
+    "fixes": {
+      "title": "已修復的項目",
+      "dictionary": "詞典修正",
+      "ai": "AI 整理修正"
+    },
+    "categories": {
+      "title": "你在哪裡打字",
+      "empty": "在幾款應用程式中輸入語音，以查看你的文字去向。",
+      "words_one": "{{count, number}} 個字",
+      "words_other": "{{count, number}} 個字",
+      "documents": "文件",
+      "ai_prompts": "AI 提示",
+      "email": "電子郵件",
+      "work": "工作訊息",
+      "personal": "個人訊息",
+      "other": "其他"
+    },
+    "heatmap": {
+      "title": "你的連線紀錄",
+      "current": "目前連線",
+      "longest": "最長連擊",
+      "days_one": "{{count, number}} 天",
+      "days_other": "{{count, number}} 天",
+      "active_one": "過去一年中，有 {{count, number}} 天使用語音輸入",
+      "active_other": "過去一年中有 {{count, number}} 天使用語音輸入",
+      "day_one": "{{date}}: {{count, number}} 個字",
+      "day_other": "{{date}}: {{count, number}} 個字",
+      "less": "較少",
+      "more": "更多",
+      "band0": "沒有字",
+      "band1": "1 到 249 個字",
+      "band2": "250 到 499 個字",
+      "band3": "500 到 749 字",
+      "band4": "750 個字以上"
+    },
+    "voice": {
+      "lockedTitle": "您的語音檔案在輸入 {{goal}} 個字時解鎖",
+      "lockedBody": "繼續打字：到目前為止已輸入 {{current}} 個字，共 {{goal}} 個字。之後你將看到你最常使用的語句、打字時的時間與地點，以及 {{appName}} 自動為你修正的詞彙。",
+      "locked": "已鎖定",
+      "phrase": "你的語句",
+      "phraseIn_one": "在 {{count, number}} 次語音輸入中",
+      "phraseIn_other": "在 {{count, number}} 筆筆錄中",
+      "peak": "高峰時間與應用程式",
+      "peakApp": "在 {{app}} 中最常出現的詞",
+      "word": "最常使用的詞",
+      "uses_one": "使用了 {{count, number}} 次",
+      "uses_other": "已使用 {{count, number}} 次",
+      "corrected": "最修正的詞",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "已修復 {{count, number}} 次",
+      "fixed_other": "已修正 {{count, number}} 次",
+      "notEnough": "還不夠的語音輸入。",
+      "footnote_one": "在這台 Mac 上由您最新的語音輸入完成。沒有任何資料會離開您的 Mac。",
+      "footnote_other": "在這台 Mac 上從你最近的 {{count, number}} 次語音輸入中處理完成。沒有資料離開你的 Mac。",
+      "sample": {
+        "phrase": "一個你常說的句子",
+        "peak": "一天中的時間",
+        "word": "一個最喜歡的詞",
+        "corrected": "一個詞語被修正"
+      }
+    }
   }
 }
