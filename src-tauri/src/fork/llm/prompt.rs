@@ -72,6 +72,8 @@ pub fn style_fragment(style: Option<StylePreset>) -> Option<&'static str> {
         | StylePreset::VeryRelaxed
         | StylePreset::Upbeat => None,
     }
+}
+
 fn context_fragment() -> &'static str {
     body(include_str!("prompts/context.txt"))
 }
