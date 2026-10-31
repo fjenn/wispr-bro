@@ -118,9 +118,9 @@ Slices: S-01, S-02, RS-01, RS-14.
 
 Slices: S-03, S-30.
 
-- [ ] A3.1 States: resting, listening, locked, processing, messages, errors. TODO (S-03)
-- [ ] A3.2 Click to start without stealing focus; hover tooltip; drag; "Hide for an hour". TODO (S-03)
-- [ ] A3.3 Displays: two displays with mixed scale, unplug/replug, full screen, Spaces, top position. TODO (S-03)
+- [ ] A3.1 States: resting, listening, locked, processing, messages, errors (S-03.6).
+- [ ] A3.2 Click to start without stealing focus; hover tooltip; drag; "Hide for an hour" (S-03.2, S-03.7, S-03.8).
+- [ ] A3.3 Displays: two displays with mixed scale, unplug/replug, full screen, Spaces, top position (S-03.4, S-03.11).
 
 ### A4. Insertion matrix
 
@@ -323,12 +323,82 @@ Machines: M1-8, M-15, M-26. Results of the first run (M5 Max, macOS
 
 ### S-03 Flow Bar
 
-- [ ] S-03.1 RS-03 criteria on the real slice.
-- [ ] S-03.2 Click-to-start in TextEdit, Slack, Chrome inserts into that app (keeps focus).
+- [ ] S-03.1 RS-03 criteria on the real slice: first click (resting bar and
+      ✓) acts without focus loss 20/20; hover bubble ≤ 200 ms 20/20; bar on
+      every Space and over a full-screen app; after display sleep/wake and
+      display plug/unplug, placed correctly on 1× and 2× displays; "Hide the
+      bar in screen recordings" hides it from `screencapture` (still and
+      `-v`) and a ScreenCaptureKit recorder; idle RSS and CPU within §5.2.
+- [ ] S-03.2 Click-to-start in TextEdit, Slack, Chrome inserts into that app
+      (keeps focus).
 - [ ] S-03.3 The waveform moves with speech.
 - [ ] S-03.4 The bar follows the cursor's display within 1 s.
-- [ ] S-03.5 Idle 8 h memory run.
-- Procedure: TODO (S-03).
+- [ ] S-03.5 Idle 8 h memory run (100 takes): pill web view growth ≤ 50 MB.
+- [ ] S-03.6 States look right in light and dark, with Reduce Motion on and
+      off: resting, hover, held (mic label for 1.5 s, then waveform),
+      hands-free (✕ waveform ✓), Transcribing / Cleaning up, "No speech
+      heard", "Microphone access is off" with Fix (opens Privacy ›
+      Microphone).
+- [ ] S-03.7 Right-click → Hide for an hour hides the resting bar (active
+      states still show); the debug panel's "Show it again" brings it back.
+- [ ] S-03.8 Drag along the edge; the position is kept per display and after
+      a relaunch; dragging back to the centre forgets it.
+- [ ] S-03.9 DEC-38: with setup not finished the resting bar stays hidden,
+      takes still show the bar.
+- [ ] S-03.10 VoiceOver: the resting bar reads "Dictation bar, button" with
+      its hint; starting, transcribing, messages and cancel are announced.
+- [ ] S-03.11 Two desktops (Mission Control): the bar is on both after
+      switching; system sleep and wake; a real external display.
+
+Procedure (automated where it can be; a person does S-03.6 by eye with
+VoiceOver for S-03.10, and S-03.11):
+
+1. Build the product app (`bun run wb:build -- --bundles app`; without
+   F-02 keys the updater signing step fails after the `.app` is written,
+   which is enough). Copy `Wispr Bro.app` to a scratch folder, add a file
+   `Contents/MacOS/portable` containing `Handy Portable Mode` and a model in
+   `Contents/MacOS/Data/models/` (e.g. `parakeet-tdt-0.6b-v3-Q8_0.gguf`), so
+   the run never touches the owner's data. Launch once, quit, set
+   `onboarding_completed: true` and `selected_model` in
+   `Data/settings_store.json`. Start `…/Contents/MacOS/handy --start-hidden
+--debug` from a terminal with Accessibility, Microphone and Screen
+   Recording access. The log says `pill: Flow Bar started` and
+   `pill: on screen native=Some(Rest)`.
+2. Driver: `xcrun swiftc -O scripts/wb-s03-pill.swift -o /tmp/wbpill`;
+   `WB_PID=<app pid> WB_FRONT=TextEdit /tmp/wbpill -e '<commands>'` (see
+   its header). Open a TextEdit document of your own; run every GUI step
+   under `/usr/bin/lockf -k ~/wb-bench/gui.lock`. Never write the open
+   document's file from outside (TextEdit then shows a "changed by another
+   application" sheet that takes the keyboard); read it through AX.
+3. S-03.1 appear latency and hover: `rest; hover 20; appear 20 900` →
+   `bubble_ms`, `active_ms` (fn-down → active bar on screen), `web_ms`
+   (→ web view on screen). Log: `pill: on screen … (unix_us …)`.
+4. S-03.1/S-03.2 first click: `rest; clickbar; wait 1900; front; clickat
+151 17; watchfront 1500` ×20 (✓ is at x 151 of the 168 pt hands-free
+   bar); every `front` must stay TextEdit and the log must show one
+   `pill: Stop` per trial. With speech: speak (or `say`) between the two
+   clicks; the insert log says `confirmed via CommandV into
+com.apple.TextEdit`. Repeat in Slack and Chrome. DEC-28 check on a new
+   macOS: launch with `WISPRBRO_PILL_ALLOW_ACTIVATION=1`; if `watchfront`
+   still shows TextEdit after ✓, the private flag is no longer needed.
+5. S-03.3: hands-free take with speech; `shot` during speech; the bars
+   move (the web view's bars follow `ForkPillLevels`).
+6. S-03.4: plug a 1× virtual display (`crates/wb-spike-pill/tools/vdisplay.m`,
+   `vdisplay plug 1920 1080 1 30`), `follow <x> <y>` onto it and back
+   (≤ 1,000 ms), kill the helper while the bar is on it (re-placed on the
+   built-in display).
+7. Capture: set `bar_hide_in_recordings: true` (debug panel › Dictation
+   bar), `windows` shows `sharing: 0`, `shot` shows no bar at rest and in a
+   take; turn it off again.
+8. S-03.5: `procs` after each take and once a minute at rest (RSS of the app
+   and its WebKit processes; `footprint -p <pid>` for physical footprint);
+   100 takes spaced 20 s, then ≥ 10 min at rest.
+9. S-03.7/S-03.8: `rclickbar`, then click the menu item; `drag 300`,
+   `drag -300`; check `bar_hidden_until_ms` and `bar_x_by_display` in
+   `Data/fork-settings.json`.
+
+Machines: M1-8, M-15, M-26. Results of the first run (M5 Max, macOS
+26.6.2) are in R5 under S-03 "As built".
 
 ### S-04 Insertion and clipboard
 

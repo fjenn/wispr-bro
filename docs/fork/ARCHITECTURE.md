@@ -455,6 +455,52 @@ raise an exception (gated by `macos::bundled()`), and an ad-hoc bundle under
 `~/Applications` works (S-18 Mac run); the notarized Developer ID build is
 Mac test S-18.2.
 
+## Flow Bar (S-03)
+
+The bar is two windows. At rest it is a **native** `NSPanel` (no web view,
+no WebKit process): RS-03 measured the always-visible web view pill growing
+~49 MB over 97 takes. Around a take a `fork-pill` **web view** panel shows
+the active states; it is built when fn goes down (or a take starts some
+other way), shown once its page has painted the current state, and
+destroyed `WEB_LINGER_MS` (10 s) after the take, so its WebContent process
+exits. Handy's `recording_overlay` is never built in product builds, and
+F-07's `ENFORCED` now turns Handy's `overlay_style` off
+(`HANDY_OVERLAY_REPLACED = true`).
+
+| File                                                               | Role                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/pill/model.rs`                                 | Pure state machine: held, hands-free, transcribing, cleaning up, message; mic label 1.5 s; warnings; message durations; a 150 ms grace after Handy's hide (Handy hides first and reports an empty take right after); resting visibility (DEC-38, DEC-14, Hide for an hour) |
+| `src-tauri/src/fork/pill/mod.rs`                                   | The controller thread `wb-pill`: hooks and listeners → model → `panel::Scene` on the main thread; `ForkPillState` / `ForkPillLevels` events; settings writes (hide for an hour, drag positions); VoiceOver announcements (`rust.pill.*`)                                   |
+| `src-tauri/src/fork/pill/native.rs`                                | The resting panel and view: capsule, hover bubble (native tracking area), click → hands-free take, right-click menu, horizontal drag, a "bridge" capsule while the web view loads, VoiceOver button                                                                        |
+| `src-tauri/src/fork/pill/panel.rs`                                 | Both windows on the main thread: placement, the web view's lifecycle (tauri-nspanel, Tolkovo set-up), content protection, screen-parameter and Space observers                                                                                                             |
+| `src-tauri/src/fork/pill/geometry.rs`, `placement.rs`, `levels.rs` | Sizes (→ `src/fork/pill/geometry.gen.json`, a test fails when stale), pure placement over screen rects, 30 fps level frames                                                                                                                                                |
+| `src-tauri/src/fork/commands/pill.rs`                              | `fork_pill_snapshot`, `fork_pill_ready(seq)`, `fork_pill_action`                                                                                                                                                                                                           |
+| `src/fork/pill/`                                                   | The web view: `Pill.tsx`, `states/` (Listening, Working, Message), `usePill.ts` (state + ready handshake, levels), `pill.css` (dark capsule in both themes, reduced motion)                                                                                                |
+| `src/fork/settings/BarSettings.tsx`                                | Always show the bar, position, hide in screen recordings, show again, forget positions (debug panel until S-14)                                                                                                                                                            |
+
+How a take reaches the bar: the hotkey engine's effects
+(`fork::shortcut` host `observe`, also the fn-down prewarm), Handy's
+`RecordingStateEvent`, the `overlay.rs` hooks (`on_overlay_state` for
+transcribing/processing, `on_overlay_hide`), `transcription-complete-event`
+(empty → "No speech heard", silent → "Mic looks muted", failed),
+`recording-error` (permission, no device) and `fork-insert-outcome`
+(card → "Not pasted"). A click on the bar goes to the hotkey engine
+(`shortcut::pill_action`), so a bar take is an ordinary hands-free take:
+fn stops it, Esc cancels it.
+
+The show handshake: each state change gets a `seq`; the page renders it
+and calls `fork_pill_ready(seq)` after two animation frames; only then is
+the web panel shown or resized. Until the first paint the native panel
+shows a bridge capsule of the active size, so fn-down → bar on screen is
+`T_show` + ~10 ms, not the web view's load time.
+
+Clicks: the web panel sets `_setPreventsActivation:` once at creation
+(DEC-28 fallback). Without it, on macOS 26.6.2 a click on the web view
+made Wispr Bro (a Regular app with a Dock icon, unlike the Accessory RS-03
+spike) the frontmost app 5/5, and the paste then went to Wispr Bro. The
+native panel never activates the app. `WISPRBRO_PILL_ALLOW_ACTIVATION=1`
+leaves the flag off, to re-run that check on a new macOS.
+
 ## i18n and the untranslated marking scheme
 
 - English source: `src/i18n/locales/en/fork.json`. All 26 locales have a
