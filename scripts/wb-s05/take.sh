@@ -37,6 +37,13 @@ PORT=47815
 PROFILE="${TMPDIR:-/tmp}/wb-s05-chrome-profile"
 LOG="$APP_DIR/Data/logs/wispr-bro.log"
 PAGE="http://127.0.0.1:$PORT/fields.html"
+# The card (S-07a's 400 x 58 pt shape since the S-05 rebase): its height,
+# and Copy / close centres from its bottom-left corner. The S-05 run used
+# S-05's earlier 360 x 132 card; these values are not re-measured yet.
+CARD_H=58
+CARD_MID=29
+COPY_X=322
+CLOSE_X=379
 
 if [ "${WB_S05_LOCKED:-}" != 1 ]; then
   WB_S05_LOCKED=1 exec /usr/bin/lockf -k -t 900 "$LOCK" /bin/bash "$HERE/take.sh" "$@"
@@ -59,7 +66,7 @@ print(int(max([w["h"] for w in d["windows"] if w["h"]>=30] or [0])))'
 }
 wait_card() {
   for _ in $(seq 1 60); do
-    [ "$(active_h)" = 132 ] && return 0
+    [ "$(active_h)" = "$CARD_H" ] && return 0
     sleep 0.2
   done
   return 1
@@ -174,15 +181,15 @@ case "$CASE" in
       echo yes >"$T/card-shown"
       shot_card
       if [ "$CASE" = card:desktop ]; then
-        # ✕ (a click on our own bar). Esc is observed by the hotkey engine's
-        # tap, which a test build does not run (WISPRBRO_TEST_PILL starts
-        # only the bar), so Esc is covered by the unit tests.
-        WB_PID=$pid "$BIN/pill" -e 'clickat 337 109' >/dev/null
+        # ✕ (a click on our own bar). Esc is observed by the hotkey
+        # engine's tap (a test identity runs it since S-07a; the S-05 run
+        # predates that, so Esc was covered by the unit tests only).
+        WB_PID=$pid "$BIN/pill" -e "clickat $CLOSE_X $CARD_MID" >/dev/null
         sleep 0.8
         echo "$(active_h)" >"$T/after-close-h"
       else
         last_text
-        WB_PID=$pid "$BIN/pill" -e 'clickat 316 23' >/dev/null
+        WB_PID=$pid "$BIN/pill" -e "clickat $COPY_X $CARD_MID" >/dev/null
         sleep 0.5
         "$BIN/clip" ours "$T/history-text.txt" >"$T/clip-ours.json"
         shot_card
@@ -225,7 +232,7 @@ case "$CASE" in
     record
     stop_take "$expect"
     sleep 4
-    [ "$(active_h)" = 132 ] && echo yes >"$T/card-shown"
+    [ "$(active_h)" = "$CARD_H" ] && echo yes >"$T/card-shown"
     case "$CASE" in
       field:textedit) osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/result.txt" ;;
       field:safari:*) safari_title >"$T/result.txt" ;;

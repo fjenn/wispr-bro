@@ -460,7 +460,62 @@ not touch the clipboard.
 - [ ] S-05.3 Card appears on the desktop and in Finder.
 - [ ] S-05.4 Start a take in Slack, release in Notes → text in Notes.
 - [ ] S-05.5 Switch apps during processing → card.
-- Procedure: TODO (S-05).
+- [ ] S-05.6 Password field → refused card with the text hidden; Copy puts
+      the text on the clipboard with `org.nspasteboard.ConcealedType`.
+- [ ] S-05.7 Card Copy replaces the clipboard (no restore) and the card says
+      "Copied", then goes; Esc dismisses the card (observed, not blocked).
+- [ ] S-05.8 With VoiceOver on, the card is announced ("Click into a text
+      field first") and Copy is a named button (a person).
+
+**Profile: an isolated portable debug build** (as S-09; the owner's app and
+data are never touched). In the worktree:
+
+```sh
+ci/llama-server/build.sh --if-missing        # tauri build needs the sidecar
+echo '{"identifier":"com.wisprbro.s05check","plugins":{"updater":{"active":false}}}' > /tmp/s05.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s05.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s05-parakeet-v3.gguf
+cd ../../.. && scripts/wb-s05/app.sh init      # creates Data/settings_store.json and fork.db
+python3 scripts/wb-s05/setup.py "$PWD/src-tauri/target/debug/Data" s05-parakeet-v3
+scripts/wb-s05/app.sh start   # a test identity runs as a product build (S-07a)
+```
+
+Helpers (compiled once): `for h in clip drive; do swiftc -O -o $BIN/$h
+scripts/wb-s05/$h.swift; done; swiftc -O -o $BIN/pill scripts/wb-s03-pill.swift`.
+
+**Procedure (S-05.2 to S-05.7, unattended, ~1 min per take, speakers and
+mic):** `WB_S05_BIN=$BIN scripts/wb-s05/run.sh <out dir> [rounds]` (or `python3 -I scripts/wb-s05/run.py …` when executing scripts made on this Mac hangs: syspolicyd down). Before the stop each take checks again that its own window has focus and cancels the take otherwise (`handy --cancel`), so nothing goes to a window the run did not open. Keep speaker runs to one round. Each
+take holds `~/wb-bench/gui.lock`, opens its own window, checks the
+frontmost app before recording, records through Handy's toggle (SIGUSR2)
+while `say`'s speech plays through the speakers, and closes only what it
+opened; card cases save the whole clipboard first and put it back after
+(byte-identical, checked). Cases: the fields (a new TextEdit document;
+`fields.html` input, textarea, contenteditable and search in Safari; input,
+textarea and contenteditable in a separate Chrome instance) must paste with
+no card; our own Finder window and the desktop (an empty spot clicked) must
+show the card (Finder: Copy clicked, clipboard = the History text, no
+markers; desktop: ✕ clicked, the card goes; Esc needs the hotkey engine, so a person checks it in a product build); `fields.html#password` must be
+refused with the text hidden and Copy concealed; `switch` starts in Chrome
+and activates TextEdit before the stop (stand-ins for Slack and Notes, not
+installed): the text must land in TextEdit only; `moved:40` stops in
+TextEdit and activates Safari 40 ms later: the card "You moved on, so
+nothing was pasted", neither field changed. `summarize.py` prints PASS/FAIL
+per take from the files and the app log (`insert: take N target {…}`: route,
+app, role, verdict, `same_as_key_up`, AX ms; never text).
+
+**Procedure (S-05.1):** `src-tauri/crates/wb-spike-ax`: `cargo build
+--release`, then `wb-spike-ax --auto` (TextEdit + the RS-04 test page in
+Safari and Chrome; the spike now compiles the product's `fork/ax` verdict)
+and `wb-spike-ax --watch 3` while a window of each installed app has a
+field, a button and nothing focused. Finder: `scripts/wb-s05/finder-probe.sh
+<out>` under the GUI lock.
+
+**With a person (S-05.8 and the real apps):** VoiceOver on; dictate with
+the desktop focused, in Slack and Notes (start in one, release in the
+other), into a password field in Safari, and switch apps while
+"Transcribing…" shows.
 
 ### S-06 Recovery shortcuts
 
