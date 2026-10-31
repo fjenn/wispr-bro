@@ -738,6 +738,24 @@ mod identity_tests {
     use serde_json::Value;
     use std::path::Path;
 
+    #[test]
+    fn test_identities_run_the_product_runtime_but_nothing_else_does() {
+        use super::is_product_identity;
+        assert!(is_product_identity("com.wisprbro.desktop"));
+        assert!(is_product_identity("com.wisprbro.s08check"));
+        assert!(is_product_identity("com.wisprbro.s15acheck"));
+        for other in [
+            "com.pais.handy",
+            "com.wisprbro.check",
+            "com.wisprbro.s08",
+            "com.wisprbro.s08.check",
+            "com.wisprbro.desktop2",
+            "org.wisprbro.s08check",
+        ] {
+            assert!(!is_product_identity(other), "{other}");
+        }
+    }
+
     fn read_json(rel: &str) -> Value {
         let path = Path::new(env!("CARGO_MANIFEST_DIR")).join(rel);
         serde_json::from_str(&std::fs::read_to_string(&path).unwrap())
