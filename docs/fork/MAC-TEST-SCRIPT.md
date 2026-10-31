@@ -139,7 +139,7 @@ Slices: S-07a, S-07b, S-07c.
 - [ ] A5.1 First run at 10 and 50 Mbit/s (Network Link Conditioner) meets §5.3. See S-07a.1.
 - [ ] A5.2 Offline first launch with queued takes, then online. TODO (S-07c)
 - [ ] A5.3 Captive portal Wi-Fi. See S-07a.3 (simulated) and S-07a.5 (real, a person).
-- [ ] A5.4 Language change re-picks the model. TODO (S-07b)
+- [ ] A5.4 Language change re-picks the model. See S-07b.3.
 
 ### A6. Cleanup, styles, context, voice commands
 
@@ -650,6 +650,54 @@ settings> <out> t50 t10 429 drop resume corrupt realhf` (no audio). The
 Python stand-in tops out near 18 Mbit/s on M-26, so time the 50 Mbit/s case
 on a real link (or Network Link Conditioner by a person). Use the speakers
 only for the take that needs the mic (S-07a.2).
+
+### S-07b Silent model policy, upgrades and cleanup
+
+- [ ] S-07b.1 English, empty profile: the starter (parakeet-110m Q4_K_M,
+      90 MB) is ready, then the policy's pick downloads in the background
+      with nothing on the bar, is swapped in at a quiet moment after it
+      loaded, and the starter file is deleted.
+- [ ] S-07b.2 A take during the background download is transcribed by the
+      starter; the swap waits until no take has ended for 10 s.
+- [ ] S-07b.3 Language change to ja + en re-picks (RS-09 policy part on the
+      real slice); the superseded model is deleted after the new one loaded.
+- [ ] S-07b.4 Settings › Advanced › Speech models (debug panel) names the
+      model, shows the background phase; picking a model in "All models"
+      turns "Choose the model automatically" off and the policy leaves it.
+- [ ] S-07b.5 No model name outside Advanced: bar, tray (no Model ▸, no
+      Unload), onboarding All set panel (no Model row), notifications ("Dictation
+      is ready" only for the first model).
+- [ ] S-07b.6 §5.3 at 10 Mbit/s in English with the Q4_K_M starter (≤ 90 s).
+- [ ] S-07b.7 (Intel, DEC-29 later milestone) Intel picks a CPU model.
+
+**Profile:** as S-07a with the identity `com.wisprbro.s07bcheck`, the
+stand-in `scripts/wb-s07a/hf-mirror.py --root ~/wb-bench/asr` (it needs
+`parakeet-tdt_ctc-110m-Q4_K_M.gguf`, `parakeet-unified-en-0.6b-Q8_0.gguf`
+and `whisper-large-v3-turbo-Q8_0.gguf` under that root) and a seed
+`settings_store.json` with onboarding done.
+
+**Procedure (unattended, ~25 min).**
+
+1. S-07b.1: `scripts/wb-s07b/run.sh <app> <seed> <out> fresh en`. Pass: the
+   log has `downloading the first speech model parakeet-tdt_ctc-110m`,
+   `selected …Q4_K_M.gguf`, `policy for ["en"] … parakeet-unified-en-0.6b
+… → Download`, `downloading a better speech model`, `checksum … ok`,
+   `swapped … → …unified…`, `deleted superseded model …110m…Q4_K_M.gguf`;
+   the cache holds only the unified file; `speech_models` has the starter
+   `superseded`+`deleted`, the unified row `loaded`. The bar never showed
+   "Setting up" after the starter was ready (`pill:` lines).
+2. S-07b.2: during step 1's background download play one `say` sentence
+   through `scripts/wb-s07a/take.sh <pid> <aiff>`. Pass: it is pasted /
+   in History with text from the starter; `swapped` is ≥ 10 s after the
+   take ended.
+3. S-07b.3: quit; `scripts/wb-s07b/run.sh <app> <seed> <out> relaunch ja,en`.
+   Pass: `policy for ["ja", "en"] … whisper-large-v3-turbo … → Download`,
+   `swapped`, the unified file deleted. (A live change in Settings ›
+   General goes through `change_spoken_languages_setting`, which the fork
+   observes; the relaunch is the unattended stand-in.)
+4. S-07b.4 / .5: open the debug panel (⌘⇧D) in the test build, screenshot
+   the Speech models section; screenshot the tray menu; read the inbox.
+5. S-07b.6: mirror `--rate 1250000`, `fresh en`, time launch → `selected`.
 
 Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-07a.md`.
 

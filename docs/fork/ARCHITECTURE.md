@@ -670,6 +670,59 @@ when it is Bluetooth. The sounds are Handy's own Marimba and Pop files
 (MIT, Handy's repo), on by default through F-07's `FIRST_RUN_DEFAULTS`; no
 new sound file was added.
 
+## Silent model policy, upgrades and cleanup (S-07b)
+
+The user never picks a speech model. After the first model (S-07a) is
+ready, the fork works out the best model for this Mac and the user's
+languages, downloads it in the background, swaps it in at a quiet moment
+once it has loaded, and deletes the model it replaced. Nothing of this
+reaches the bar; Settings › Advanced › Speech models (on the debug panel
+until S-14) is the only place a model is named.
+
+| File                                               | Role                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/models/policy.fork.json`       | The data: RS-09's short-take p50/p95 on the M5 Max (CPU numbers where measured), peak footprints, per-language rankings with and without CC-BY models (DEC-26; `*` for languages without a row), machine-class factors, RAM-tier footprint caps, the 5 GB disk reserve, §5.1 budgets (Apple Silicon and Intel) and the policy's `retired` list |
+| `src-tauri/src/fork/models/policy.rs`              | `decide`: a pure function from languages, `Machine`, measured factor, on-disk models and the DEC-26 switch to the pick (rules in the module docs); ≥ 60 vectors in `policy_tests.rs`                                                                                                                                                           |
+| `src-tauri/src/fork/models/machine.rs`             | sysinfo 0.39 (`system`, `disk`): chip from the brand string (M1-M5 × base/Pro/Max/Ultra, Intel), RAM, free space on the model volume (macOS `AvailableCapacityForImportantUsage`, purgeable-aware)                                                                                                                                             |
+| `src-tauri/src/fork/models/speed.rs`               | `fork.db` › `asr_speed`: key-up → text of warm 2-20 s takes (lengths and times only); the median of the newest 5 over RS-09's p50 is the measured factor, used when slower than the class                                                                                                                                                      |
+| `src-tauri/src/fork/models/upgrade.rs`             | `step` (runs in the S-07a setup loop on every kick): who chose the selection (a different selection while the fork's model is still on disk pins it), the decision, background download (S-07a's state machine in `Mode::Background`: no bar, no Retry wait), swap at a quiet moment, cleanup; `ForkModelPolicy` (`fork-model-policy`)         |
+| `src-tauri/src/fork/models/cleanup.rs`             | `fork.db` › `speech_models` (origin `starter`/`policy`/`selection`, `loaded_at`, `superseded_at`, `deleted_at`) and `model_policy_state`; `to_delete`: superseded or retired, not selected, only after the selection loaded, never a model the user downloaded                                                                                 |
+| `src-tauri/src/fork/db/migrations/0007_models.sql` | The three tables above                                                                                                                                                                                                                                                                                                                         |
+| `src-tauri/src/fork/commands/models.rs`            | `fork_model_policy_status`, `fork_model_policy_set_automatic`, `fork_models_hidden`                                                                                                                                                                                                                                                            |
+| `src-tauri/src/fork/tray.rs`                       | Product builds: Handy's Model ▸ submenu, Unload and the doubled separator are removed in the existing `extend` hook (no new `tray.rs` line)                                                                                                                                                                                                    |
+| `src/fork/settings/advanced/Models.tsx`            | Speech models panel: model in use, background phase and progress, "slower on this Mac", this Mac and the languages, "Choose the model automatically", and Handy's Models page folded under "All models" (wrapped, retired and restricted models pruned from Handy's model store)                                                               |
+| `src/fork/onboarding/firstRun.css`                 | Hides the empty Model row of Handy's All set panel (the `OnboardingFlow.tsx` hook passes no model when the fork manages it)                                                                                                                                                                                                                    |
+
+**The rule** (`policy::decide`): candidates hear every language the user
+speaks (Handy's `spoken_languages`; else the macOS preferred languages plus
+English, DEC-02) and are ranked by their worst rank over those languages;
+the first whose expected p50/p95 (RS-09 × factor) meets §5.1, whose
+footprint fits the RAM tier and whose file fits free disk − 5 GB is the
+pick; else the fastest that fits, marked "slower on this Mac" (one inbox
+entry, `NotificationKind::SlowerMac`). Intel (DEC-29, not built in M1)
+uses the CPU numbers and the Intel budget. With RS-09's table: English →
+parakeet-unified-en on every Apple Silicon class; nl/fr → turbo on M3-M5
+Max and the Ultras, Parakeet v3 elsewhere; ja/zh → turbo or
+whisper-small; en + nl → turbo or Parakeet v3; without CC-BY the Whisper
+ladder (turbo, small, base).
+
+**Triggers** (`setup::Kick`): launch, the first model ready, a language
+change (Handy's `change_spoken_languages_setting` command is observed in
+`fork::compose_invoke`, no Handy hook; onboarding's
+`fork_speech_setup_refresh`), five more timed takes, a Handy download or
+selection change, "Choose automatically". A catalog update arrives with an
+app update and is picked up at launch.
+
+**Swap and cleanup.** The background file is checked against its pin like
+the first model. It is selected (`switch_active_model`, which loads it)
+only when nothing records or transcribes and no take ended in the last
+10 s; a load failure leaves the old selection and the pick is skipped for
+the session. Then the old model is marked superseded and every
+superseded `starter`/`policy` model, plus a retired selection the fork
+migrated away from and Handy's retired ONNX files, is deleted. Handy's
+`model-download-complete` notification ("Dictation is ready") is posted
+only for the first model.
+
 ## i18n and the untranslated marking scheme
 
 - English source: `src/i18n/locales/en/fork.json`. All 26 locales have a
