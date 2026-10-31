@@ -897,8 +897,55 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-16.md`.
 
 ### S-17 Snippets
 
-- [ ] S-17.1 A three-line address snippet in Mail, Slack, Notes (use a made-up address).
-- Procedure: TODO (S-17).
+- [ ] S-17.1 A three-line address snippet in Mail, Slack, Notes (use a
+      made-up address): said alone it becomes exactly the three lines; said
+      inside a sentence only the trigger is replaced; in a chat box nothing
+      is sent (Shift+Return between the lines).
+- [ ] S-17.2 After a take that used the snippet, the Snippets page shows the
+      new use count ("Used N times", "used N times" in the header) without
+      a reload.
+- [ ] S-17.3 (person) Import a `.csv` with a multi-line text (quoted cell)
+      by dragging it from Finder onto step 1; Export opens the save panel and
+      the file opens in Numbers with the line breaks inside the cell.
+
+**Profile: an isolated portable debug build** (own identifier
+`com.wisprbro.s17check`; the owner's app and data are never touched). In
+the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s17check","plugins":{"updater":{"active":false}},"bundle":{"externalBin":[]}}' > /tmp/s17.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s17.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s17-parakeet-v3.gguf
+./handy --start-hidden & sleep 15; kill %1      # creates Data/
+python3 -I ../../../scripts/wb-s17/setup.py "$PWD/Data" s17-parakeet-v3   # no snippets yet
+WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden &
+./handy                                         # second launch shows the window
+```
+
+**Procedure (unattended, ~6 min, needs the speakers and the mic).**
+
+1. Snippets › Add snippet: `my address`, text on three lines (a person, or
+   `swift scripts/wb-s16/ui.swift <pid> 'front; click …; type my address;
+key tab; type …; key return; …'` with coordinates from a window
+   screenshot, under `~/wb-bench/gui.lock`), then click Add snippet.
+2. `scripts/wb-s17/run.sh` (one round): alone and inline into TextEdit,
+   the Safari editor page and the Chrome chat page (S-11's `take.sh`;
+   snapshots and restores the clipboard). Every line must say PASS. The
+   audio goes through the speakers (the real mic path), so keep to one
+   round at moderate volume when someone is at the Mac; repetition is
+   covered by the matcher's unit tests (the acceptance table), not by more
+   takes.
+3. S-17.2: a window screenshot of the page shows the use count;
+   `sqlite3 Data/fork.db "SELECT hit_count FROM snippets"` matches, and
+   `SELECT text_stages, inserted_text FROM entry_meta` shows
+   `{"stage":"snippets","changes":1}` and the expansion per take.
+
+With a person: the same in Mail (throwaway account), Slack and Notes, plus
+S-17.3.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-17.md`.
 
 ### S-18 Notifications
 

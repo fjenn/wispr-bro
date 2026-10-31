@@ -1207,6 +1207,55 @@ word changed into a look-alike, "negeer" → "Neger", never) → `language`
 (Handy `lang_id` of the output vs the take's or the input's language).
 The guards use only the take's known language, never the hint.
 
+## Snippets (S-17)
+
+A snippet is a spoken trigger and the plain text written instead (DEC-12;
+`body_html` stays NULL). Store: `fork.db` `snippets` (created by 0001),
+extended by migration `0006_snippets.sql` (`last_hit_at`, `source`, and
+`entry_meta.inserted_text`). Expansion is stage 11 of the text pipeline and
+runs **after** the LLM step, inside `fork::insert::deliver`:
+
+```text
+finish_text hook → fork::text::process (stages 3, 2/4/5, 7, 12; no snippets)
+  → fork::llm::post_process (S-12a; its stage 9 is text::after_llm: 9 → 12,
+    no snippets) → history save
+  → insert::deliver → fork::text::finish: 9 → 12 → 11 (snippets) → paste
+```
+
+Stage 12 runs before the snippets, so a trigger meets tidy spacing and the
+saved text is inserted exactly as written (its own spacing, blank lines,
+indentation), and nothing scans it again. `text::finish_with` is the pure
+form the tests use; a panic in the stage inserts the text without snippets.
+`finish` is the only entry that expands snippets: S-12a's stage 9 after the
+LLM calls `text::after_llm` (the same stages without 11), so a saved text
+is expanded once, after History saved the spoken words, and never scanned
+twice. A unit test reads `actions.rs`, `insert/mod.rs` and
+`llm/post_process.rs` and fails if this order changes.
+
+| File                                                 | Role                                                                                                                                                                                                                                                                                                                |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/text/snippets.rs`                | The matcher (MIT AND GPL: OpenWhispr `snippets.ts` port). `aho-corasick` over triggers folded like S-11 (plus Turkish İ/ı → i), NFC through `icu_normalizer` (already compiled), alone rule (punctuation, symbols, spacing ignored), inline boundaries (letters, digits, `_`, combining marks), `'s` yes / `n't` no |
+| `src-tauri/src/fork/text/snippets_tests.rs`          | The acceptance table (50 cases) and Unicode boundaries                                                                                                                                                                                                                                                              |
+| `src-tauri/src/fork/text/mod.rs`                     | `install_snippets(source, sink)`, `active_snippets` (compiled once per change), `finish`/`finish_with`, `SnippetUse`                                                                                                                                                                                                |
+| `src-tauri/src/fork/snippets/mod.rs`                 | Types, validation (`clean`: trigger ≤ 60 characters on one line with a letter or digit; text ≤ 4,000, `\r\n` → `\n`, trailing whitespace and leading blank lines dropped), `ForkSnippetsChanged`, `install` (DB source, the use recorder on its own thread)                                                         |
+| `src-tauri/src/fork/snippets/store.rs`               | Add / edit (keeps the use count) / delete / restore; one snippet per `trigger_norm`; 1,000 at most; `record_use` (hit counts, `text_stages` gets `{"stage":"snippets","changes":n}`, `inserted_text`)                                                                                                               |
+| `src-tauri/src/fork/snippets/import.rs`, `export.rs` | CSV `trigger,text` through S-16's reader and formula guard; ≤ 1,000 rows per file; multi-line cells; atomic write (`dictionary::export::write_atomic`)                                                                                                                                                              |
+| `src-tauri/src/fork/commands/snippets.rs`            | `fork_snippets_{list,add,update,delete,restore,import_review,import,export}`; the file is read by `fork_dictionary_read_file`                                                                                                                                                                                       |
+| `src/fork/snippets/`                                 | `SnippetsPage` (banner `snippets.examples` with three examples, live counts, search over trigger and text, sort, refresh, Undo), `SnippetDialog` (⌘Return saves), `ImportWizard` (S-16's shared wizard), `useSnippets`                                                                                              |
+
+**History.** Handy's row and `entry_meta.final_text` keep the spoken words
+(the stats count those, so a long saved text never inflates words per
+minute); `entry_meta.inserted_text` holds what was pasted, for S-15b's Copy.
+The paste outcome still finds the row: `finish` rekeys the ledger's
+awaiting entry to the inserted text, as S-11 does.
+
+**Live counts.** Every page edit and every take that expanded a snippet
+emits `ForkSnippetsChanged` (with the counts); the page also re-reads on
+`ForkStatsUpdated` and focus.
+
+**Logs.** One INFO line per delivery with counts only (`snippets=1`);
+neither triggers nor texts are logged.
+
 ## Tests
 
 | What                                                                                                                                                                                                                                                                                                          | Where                                                                                                                                                                                                        |

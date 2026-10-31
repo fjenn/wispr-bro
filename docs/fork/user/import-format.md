@@ -1,11 +1,15 @@
-# Importing words into the Dictionary
+# Importing words and snippets
+
+This page covers the Dictionary (below) and [Snippets](#importing-snippets).
+
+## The Dictionary
 
 Wispr Bro's Dictionary (sidebar › Dictionary › Import) reads a spreadsheet
 saved as **CSV**. The same rules are shown in the app under "Accepted
 format"; Export writes this format too, so an exported file imports back
 unchanged.
 
-## The format
+### The format
 
 One entry per row, two columns:
 
@@ -40,7 +44,7 @@ gonna,going to
   with `=`, `+`, `-` or `@`, so a spreadsheet app shows it as text instead
   of running it. Import removes that `'` again.
 
-## What the wizard checks
+### What the wizard checks
 
 Step 3 shows, before anything changes:
 
@@ -56,7 +60,7 @@ Step 3 shows, before anything changes:
 
 Matching ignores letter case: `Gonna` and `gonna` are the same entry.
 
-## How entries are used
+### How entries are used
 
 - **Words** help the speech model hear and spell them (they become its
   custom vocabulary).
@@ -65,3 +69,54 @@ Matching ignores letter case: `Gonna` and `gonna` are the same entry.
   never changed.
 
 Both apply from your next dictation.
+
+## Importing snippets
+
+Snippets (sidebar › Snippets › Import) use the same wizard and the same
+file rules (CSV, 3 MB, encodings, separators, the `'` formula guard).
+Export writes this format, so an exported file imports back unchanged.
+
+### The format
+
+One snippet per row, two columns, both needed:
+
+| Column     | What goes in it                               |
+| ---------- | --------------------------------------------- |
+| 1: trigger | What you say, e.g. `my address`               |
+| 2: text    | What is written instead; line breaks are kept |
+
+```csv
+trigger,text
+my sign-off,"Best wishes,
+Finn"
+my hours,Mondays to Thursdays 9-17
+```
+
+- **Header row:** optional; names such as `trigger`, `cue`, `shortcut`,
+  `text`, `body`, `snippet` or `expansion` are recognised.
+- **Line breaks** inside a text are fine: the cell is quoted, as
+  spreadsheet apps save it. Blank lines inside a text are kept; blank lines
+  at its start and spaces at its end are not.
+- **Limits:** a trigger up to 60 characters on one line with at least one
+  letter or digit; a text up to 4,000 characters; up to 1,000 rows per
+  file and 1,000 snippets in all.
+
+### What the wizard checks
+
+- **New** snippets that will be added;
+- **Already there:** the same trigger (in any case) with the same text, or
+  earlier in the same file. Skipped;
+- **Conflicts:** the same trigger with another text. Yours is kept unless
+  you tick "use the file's" for that row;
+- **Can't be imported:** an empty trigger or text, too long, or a trigger
+  that is only punctuation, each with its row number.
+
+### How snippets are used
+
+Say the trigger on its own, and the whole dictation becomes the saved
+text (punctuation, spacing and case you said are ignored). Say it inside a
+sentence, and just those words are replaced: they must be said as saved
+(in any case, with the same punctuation), as whole words. "My address's"
+works; "can't" never matches a trigger `can`. Where triggers overlap, the
+longest wins. The text is written exactly as saved, after cleanup, so the
+AI never rewrites it.
