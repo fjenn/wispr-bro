@@ -394,16 +394,17 @@
         "download_failed": "Не вдалося завантажити",
         "check_connection": "Перевірте підключення до інтернету",
         "no_space": "Недостатньо місця на диску, щоб налаштувати диктування"
+      },
+      "card": {
+        "no_text_field": "Натисніть у поле тексту спочатку",
+        "focus_moved": "Ви перейшли далі, тому нічого не вставлялося",
+        "secure_field": "Не введено в поле паролю",
+        "sleep": "Не вставлено: ваш Mac вийшов з роботи",
+        "screen_locked": "Не вставлено: екран був заблокований",
+        "session_inactive": "Не вставлено: ви змінили користувача",
+        "paste_failed": "Не вміло вставити цей текст",
+        "disk_full": "Диск повністю заповнений: запис зупинено"
       }
-    }
-  },
-  "insert": {
-    "cardReason": {
-      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
-      "screenLocked": "Not pasted: the screen was locked during this dictation.",
-      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
-      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
   "aiEngine": {
@@ -662,107 +663,9 @@
     "cardMore_other": "Ваше диктування · ще {{count}} в історії",
     "copy": "Копіювати",
     "copied": "Скопійовано",
-    "retry": "Повторити"
-  },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro тепер використовує моделі нового типу. Завантажте нову версію, щоб і далі транскрибувати. Старі версії буде видалено."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Щоб Wispr Bro міг вас чути. Звук перетворюється на текст на цьому комп'ютері й нікуди не надсилається."
-        },
-        "accessibility": {
-          "why": "Щоб ваша комбінація клавіш працювала в усіх програмах, а Wispr Bro міг вводити текст там, де стоїть курсор."
-        },
-        "turnOnMac": "Увімкніть Wispr Bro в Системних налаштуваннях і поверніться сюди.",
-        "relaunch": "Комбінація клавіш після цього не реагує? <relaunch>Перезапустіть Wispr Bro</relaunch>, і ви повернетеся просто сюди."
-      },
-      "welcome": {
-        "noMatch": "Жодна мова не відповідає «{{query}}». Моделі Wispr Bro охоплюють близько 100 мов; решту можна знайти в налаштуваннях.",
-        "chinese": {
-          "question": "Ви говорите такими мовами: {{languages}}. Якими ієрогліфами Wispr Bro має писати?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro в кутку допоможе вам пройти цей шлях"
-      },
-      "done": {
-        "subMac": "Wispr Bro тепер у рядку меню. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
-        "subTray": "Wispr Bro тепер у системному треї. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
-        "atLogin": "Запускати Wispr Bro під час входу в систему",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
-    },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Комбінації клавіш"
-        },
-        "preferredLanguages": {
-          "description": "Мови, якими ви говорите. Wispr Bro використовує їх, щоб рекомендувати моделі."
-        }
-      },
-      "models": {
-        "untestedNote": "Не перевірені з Wispr Bro. Вони можуть працювати повільніше або робити більше помилок.",
-        "emptyYours": "Моделей поки немає. Оберіть одну нижче: вона завантажиться, і Wispr Bro її використає.",
-        "deleteAskActive": "Видалити {{name}}? Wispr Bro не зможе транскрибувати, доки ви не оберете іншу модель.",
-        "retiredNotice": {
-          "title": "Старі моделі більше не працюють з Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Пересканувати моделі, додані до папки моделей або кешу Hugging Face поза межами Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Автоматично запускати Wispr Bro при вході в систему"
-        },
-        "showTrayIcon": {
-          "description": "Відображати значок Wispr Bro у системному треї."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Автоматично перевіряти наявність нових версій Wispr Bro",
-          "lockedDescription": "Вимкнено системною конфігурацією (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Перевіряє, чи доходять події клавіатури до Wispr Bro. Записується лише кількість подій — ніколи те, які клавіші ви натискаєте.",
-          "verdictOk": "Події клавіш надходять до Wispr Bro нормально."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Поточна версія Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Показувати примітки до випуску після оновлень Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "Розташування даних Wispr Bro"
-        },
-        "supportDevelopment": {
-          "description": "Допоможіть нам продовжувати розвивати Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro використовує ggml для швидкої локальної обробки мовлення в текст. Дякуємо за чудову роботу Георгію Герганову та контриб'юторам."
-          }
-        }
-      }
-    },
-    "whatsNew": {
-      "title": "Нове в Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Змінити мову інтерфейсу Wispr Bro"
-    },
-    "theme": {
-      "description": "Виберіть, чи має Wispr Bro слідувати темі системи, чи залишатися світлою або темною"
+    "retry": "Повторити",
+    "card": {
+      "hidden": "Схований, оскільки був призначений для поля паролю"
     }
   },
   "cleanup": {
@@ -968,6 +871,107 @@
       "done_one": "Експортовано {{count}} фрагмента.",
       "done_other": "Експортовано {{count}} ознайомлень.",
       "failed": "Неможливо експортовати відрізки. Спробуйте ще раз."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro тепер використовує моделі нового типу. Завантажте нову версію, щоб і далі транскрибувати. Старі версії буде видалено."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Щоб Wispr Bro міг вас чути. Звук перетворюється на текст на цьому комп'ютері й нікуди не надсилається."
+        },
+        "accessibility": {
+          "why": "Щоб ваша комбінація клавіш працювала в усіх програмах, а Wispr Bro міг вводити текст там, де стоїть курсор."
+        },
+        "turnOnMac": "Увімкніть Wispr Bro в Системних налаштуваннях і поверніться сюди.",
+        "relaunch": "Комбінація клавіш після цього не реагує? <relaunch>Перезапустіть Wispr Bro</relaunch>, і ви повернетеся просто сюди."
+      },
+      "welcome": {
+        "noMatch": "Жодна мова не відповідає «{{query}}». Моделі Wispr Bro охоплюють близько 100 мов; решту можна знайти в налаштуваннях.",
+        "chinese": {
+          "question": "Ви говорите такими мовами: {{languages}}. Якими ієрогліфами Wispr Bro має писати?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro в кутку допоможе вам пройти цей шлях"
+      },
+      "done": {
+        "subMac": "Wispr Bro тепер у рядку меню. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
+        "subTray": "Wispr Bro тепер у системному треї. Утримуйте або натискайте <keys/> у будь-якій програмі, щоб говорити.",
+        "atLogin": "Запускати Wispr Bro під час входу в систему",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Комбінації клавіш"
+        },
+        "preferredLanguages": {
+          "description": "Мови, якими ви говорите. Wispr Bro використовує їх, щоб рекомендувати моделі."
+        }
+      },
+      "models": {
+        "untestedNote": "Не перевірені з Wispr Bro. Вони можуть працювати повільніше або робити більше помилок.",
+        "emptyYours": "Моделей поки немає. Оберіть одну нижче: вона завантажиться, і Wispr Bro її використає.",
+        "deleteAskActive": "Видалити {{name}}? Wispr Bro не зможе транскрибувати, доки ви не оберете іншу модель.",
+        "retiredNotice": {
+          "title": "Старі моделі більше не працюють з Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Пересканувати моделі, додані до папки моделей або кешу Hugging Face поза межами Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Автоматично запускати Wispr Bro при вході в систему"
+        },
+        "showTrayIcon": {
+          "description": "Відображати значок Wispr Bro у системному треї."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Автоматично перевіряти наявність нових версій Wispr Bro",
+          "lockedDescription": "Вимкнено системною конфігурацією (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Перевіряє, чи доходять події клавіатури до Wispr Bro. Записується лише кількість подій — ніколи те, які клавіші ви натискаєте.",
+          "verdictOk": "Події клавіш надходять до Wispr Bro нормально."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Поточна версія Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Показувати примітки до випуску після оновлень Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Розташування даних Wispr Bro"
+        },
+        "supportDevelopment": {
+          "description": "Допоможіть нам продовжувати розвивати Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro використовує ggml для швидкої локальної обробки мовлення в текст. Дякуємо за чудову роботу Георгію Герганову та контриб'юторам."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Нове в Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Змінити мову інтерфейсу Wispr Bro"
+    },
+    "theme": {
+      "description": "Виберіть, чи має Wispr Bro слідувати темі системи, чи залишатися світлою або темною"
     }
   }
 }

@@ -32,6 +32,7 @@
 //! managers being in state.
 
 pub mod audio;
+pub mod ax;
 pub mod clipboard;
 pub mod commands;
 pub mod context;
@@ -336,7 +337,12 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
             RunEvent::Ready => on_ready(app),
             // S-10: the sidecar never outlives the app (the watchdog covers
             // a crash or SIGKILL).
-            RunEvent::Exit => llm::runtime::on_exit(app),
+            RunEvent::Exit => {
+                llm::runtime::on_exit(app);
+                // S-05: apps whose accessibility tree we switched on get it
+                // switched back.
+                ax::on_exit();
+            }
             _ => {}
         })
         .build()

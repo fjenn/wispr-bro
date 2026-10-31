@@ -30,7 +30,7 @@
 //! | Trait          | Owner module when it ships          | Slice        |
 //! | -------------- | ----------------------------------- | ------------ |
 //! | `Clock`        | `fork::shortcut` (shared by `stats`, `db` retention) | S-01 |
-//! | `AxProvider`   | `fork::ax`                          | S-05         |
+//! | `AxProvider`   | `fork::ax` (S-05 shipped the focus and verdict reads as `ax::Focus` over RS-04's `ax::Facts`, which carry more than `AxElement`; the selection, title and URL reads move with S-19b/S-21) | S-05, S-19b, S-21 |
 //! | `Pasteboard`   | `fork::clipboard` (moved in S-04)   | S-04         |
 //! | `Coordinator`  | `fork::shortcut` (wraps `TranscriptionCoordinator::external_command`) | S-01 |
 //! | `Network`      | `fork::net`                         | F-08 / S-10  |

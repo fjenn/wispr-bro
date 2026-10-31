@@ -258,6 +258,38 @@ Details per port: docs/fork/PORTS.md.
   Rust on aho-corasick; Wispr Flow's alone/inline, possessive and
   contraction rules; limits).
 
+- src-tauri/src/fork/ax/element.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/smart_spacing/macos.rs (AX helpers, app helpers,
+          Secure Input)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31 (timeout
+  as a parameter, raw-error reads, URL, bounds, setters, app families,
+  Secure Input holder; RS-04, S-05).
+
+- src-tauri/src/fork/ax/editable.rs
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   resources/macos-text-monitor.swift (isEditableTextElement)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31 (pure
+  verdict over read facts, fail-open rule, web, Electron, terminal,
+  Gecko and Finder cases; RS-04, S-05).
+
+- src-tauri/src/fork/ax/lease.rs, src-tauri/src/fork/ax/markers.rs
+  Source: VoiceInk, https://github.com/Beingpax/VoiceInk
+  Commit: 19546d2a7f85578f49efb538eb888b37ff2f8f8c
+  File:   VoiceInk/Infrastructure/SystemIntegration/Accessibility/
+          AccessibilityTextReader.swift (AccessibilityWebAccess lease
+          refcount; text-marker selection read)
+  Copyright (c) the VoiceInk authors
+  Licence: GPL-3.0 (files marked GPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026-10-30 (Swift to Rust; 60 s
+  hold after the last reader; RS-04, shipped by S-05).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

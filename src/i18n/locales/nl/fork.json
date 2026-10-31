@@ -394,16 +394,17 @@
         "download_failed": "Downloaden mislukt",
         "check_connection": "Controleer je internetverbinding",
         "no_space": "Niet genoeg schijfruimte om dicteren in te stellen"
+      },
+      "card": {
+        "no_text_field": "Klik eerst in een tekstveld",
+        "focus_moved": "Je is verder gegaan, dus niets is geplakt",
+        "secure_field": "Niet ingetypen in een wachtwoordveld",
+        "sleep": "Niet geplakt: je Mac is in slaap gegaan",
+        "screen_locked": "Niet geplakt: het scherm was verlocked",
+        "session_inactive": "Niet geplakt: je hebt gebruiker gewijzigd",
+        "paste_failed": "Kan dit tekst niet plakken",
+        "disk_full": "Schijf vol: opname gestopt"
       }
-    }
-  },
-  "insert": {
-    "cardReason": {
-      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
-      "screenLocked": "Not pasted: the screen was locked during this dictation.",
-      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
-      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
   "aiEngine": {
@@ -662,111 +663,9 @@
     "cardMore_other": "Je dictaat · nog {{count}} in de geschiedenis",
     "copy": "Kopiëren",
     "copied": "Gekopieerd",
-    "retry": "Opnieuw"
-  },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro gebruikt nu een nieuwer soort model. Download de nieuwe versie om te blijven transcriberen. Oude versies worden verwijderd."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Zodat Wispr Bro je kan horen. Audio wordt op deze computer omgezet in tekst en nooit geüpload."
-        },
-        "accessibility": {
-          "why": "Zodat je sneltoets in elke app werkt en Wispr Bro de tekst kan typen waar je cursor staat."
-        },
-        "turnOnMac": "Zet Wispr Bro aan in Systeeminstellingen en kom dan hier terug.",
-        "relaunch": "Reageert de sneltoets hierna niet? <relaunch>Start Wispr Bro opnieuw</relaunch> en je komt direct weer hier uit."
-      },
-      "welcome": {
-        "noMatch": "Geen taal gevonden voor „{{query}}”. De modellen van Wispr Bro dekken ongeveer 100 talen; meer vind je in de instellingen.",
-        "chinese": {
-          "question": "Je spreekt {{languages}}. Welke tekens moet Wispr Bro schrijven?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro staat in de hoek om je er doorheen te helpen"
-      },
-      "done": {
-        "subMac": "Wispr Bro staat nu in je menubalk. Houd <keys/> ingedrukt of tik erop in elke app om te praten.",
-        "subTray": "Wispr Bro staat nu in je systeemvak. Houd <keys/> ingedrukt of tik erop in elke app om te praten.",
-        "atLogin": "Wispr Bro starten als ik inlog",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
-    },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Sneltoetsen"
-        },
-        "preferredLanguages": {
-          "description": "De talen die je spreekt. Wispr Bro gebruikt ze om modellen aan te bevelen."
-        }
-      },
-      "models": {
-        "untestedNote": "Niet getest met Wispr Bro. Ze kunnen langzamer zijn of meer fouten maken.",
-        "emptyYours": "Nog geen modellen. Kies hieronder een model: het wordt gedownload en daarna gebruikt Wispr Bro het.",
-        "deleteAskActive": "{{name}} verwijderen? Wispr Bro kan niet transcriberen totdat je een ander model kiest.",
-        "retiredNotice": {
-          "title": "Oude modellen werken niet meer met Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Scannen naar modellen die buiten Wispr Bro om zijn toegevoegd aan de modellenmap of Hugging Face-cache"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Wispr Bro automatisch starten zodra je inlogt op je computer."
-        },
-        "showTrayIcon": {
-          "description": "Toon het Wispr Bro-pictogram in het systeemvak."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Automatisch controleren op nieuwe versies van Wispr Bro",
-          "lockedDescription": "Uitgeschakeld door systeemconfiguratie (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Controleert of toetsenbordgebeurtenissen Wispr Bro bereiken. Alleen het aantal gebeurtenissen wordt vastgelegd — nooit welke toetsen je indrukt.",
-          "verdictOk": "Toetsgebeurtenissen bereiken Wispr Bro normaal."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Huidige versie van Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Release-notes tonen nadat Wispr Bro is bijgewerkt"
-        },
-        "appDataDirectory": {
-          "description": "Locatie waar Wispr Bro de gegevens opslaat"
-        },
-        "supportDevelopment": {
-          "description": "Help ons om te blijven bouwen aan Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro's lokale spraak-naar-tekst is gebouwd op transcribe.cpp en ggml. Met dank aan het geweldige werk van Georgi Gerganov en alle bijdragers."
-          }
-        },
-        "title": "Over Wispr Bro"
-      }
-    },
-    "whatsNew": {
-      "title": "Nieuw in Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Wijzig de taal van de Wispr Bro-interface"
-    },
-    "theme": {
-      "description": "Kies of Wispr Bro het systeemthema volgt of licht of donker blijft"
-    },
-    "sidebar": {
-      "about": "Over Wispr Bro"
+    "retry": "Opnieuw",
+    "card": {
+      "hidden": "Verborgen, omdat het was bedoeld voor een wachtwoordveld"
     }
   },
   "cleanup": {
@@ -972,6 +871,111 @@
       "done_one": "Geëxporteerd {{count}} snippet.",
       "done_other": "Geëxporteerd {{count}} snippets.",
       "failed": "De snippets konden niet worden geëxporteerd. Probeer het opnieuw."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro gebruikt nu een nieuwer soort model. Download de nieuwe versie om te blijven transcriberen. Oude versies worden verwijderd."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Zodat Wispr Bro je kan horen. Audio wordt op deze computer omgezet in tekst en nooit geüpload."
+        },
+        "accessibility": {
+          "why": "Zodat je sneltoets in elke app werkt en Wispr Bro de tekst kan typen waar je cursor staat."
+        },
+        "turnOnMac": "Zet Wispr Bro aan in Systeeminstellingen en kom dan hier terug.",
+        "relaunch": "Reageert de sneltoets hierna niet? <relaunch>Start Wispr Bro opnieuw</relaunch> en je komt direct weer hier uit."
+      },
+      "welcome": {
+        "noMatch": "Geen taal gevonden voor „{{query}}”. De modellen van Wispr Bro dekken ongeveer 100 talen; meer vind je in de instellingen.",
+        "chinese": {
+          "question": "Je spreekt {{languages}}. Welke tekens moet Wispr Bro schrijven?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro staat in de hoek om je er doorheen te helpen"
+      },
+      "done": {
+        "subMac": "Wispr Bro staat nu in je menubalk. Houd <keys/> ingedrukt of tik erop in elke app om te praten.",
+        "subTray": "Wispr Bro staat nu in je systeemvak. Houd <keys/> ingedrukt of tik erop in elke app om te praten.",
+        "atLogin": "Wispr Bro starten als ik inlog",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Sneltoetsen"
+        },
+        "preferredLanguages": {
+          "description": "De talen die je spreekt. Wispr Bro gebruikt ze om modellen aan te bevelen."
+        }
+      },
+      "models": {
+        "untestedNote": "Niet getest met Wispr Bro. Ze kunnen langzamer zijn of meer fouten maken.",
+        "emptyYours": "Nog geen modellen. Kies hieronder een model: het wordt gedownload en daarna gebruikt Wispr Bro het.",
+        "deleteAskActive": "{{name}} verwijderen? Wispr Bro kan niet transcriberen totdat je een ander model kiest.",
+        "retiredNotice": {
+          "title": "Oude modellen werken niet meer met Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Scannen naar modellen die buiten Wispr Bro om zijn toegevoegd aan de modellenmap of Hugging Face-cache"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Wispr Bro automatisch starten zodra je inlogt op je computer."
+        },
+        "showTrayIcon": {
+          "description": "Toon het Wispr Bro-pictogram in het systeemvak."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Automatisch controleren op nieuwe versies van Wispr Bro",
+          "lockedDescription": "Uitgeschakeld door systeemconfiguratie (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Controleert of toetsenbordgebeurtenissen Wispr Bro bereiken. Alleen het aantal gebeurtenissen wordt vastgelegd — nooit welke toetsen je indrukt.",
+          "verdictOk": "Toetsgebeurtenissen bereiken Wispr Bro normaal."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Huidige versie van Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Release-notes tonen nadat Wispr Bro is bijgewerkt"
+        },
+        "appDataDirectory": {
+          "description": "Locatie waar Wispr Bro de gegevens opslaat"
+        },
+        "supportDevelopment": {
+          "description": "Help ons om te blijven bouwen aan Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro's lokale spraak-naar-tekst is gebouwd op transcribe.cpp en ggml. Met dank aan het geweldige werk van Georgi Gerganov en alle bijdragers."
+          }
+        },
+        "title": "Over Wispr Bro"
+      }
+    },
+    "whatsNew": {
+      "title": "Nieuw in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Wijzig de taal van de Wispr Bro-interface"
+    },
+    "theme": {
+      "description": "Kies of Wispr Bro het systeemthema volgt of licht of donker blijft"
+    },
+    "sidebar": {
+      "about": "Over Wispr Bro"
     }
   }
 }

@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Delivery of a take's text (R5 S-04). S-11's post-LLM text stages
-//! (`fork::text::finish`) run first; S-05 and S-17 add theirs in front of
-//! the paste later.
+//! (`fork::text::finish`) run first; then S-05's target check ([`target`]:
+//! still the element focused at key-up, and a place to type that is not a
+//! password field, else the card); S-17 adds its stage in front of the
+//! paste later.
 //!
 //! Handy reaches this through one hook: `actions.rs` calls [`deliver`]
 //! where it called `utils::paste` (same signature). On macOS with the ⌘V
@@ -14,13 +16,17 @@
 //! - [`deliver`]: the engine, pure over a `Platform` (tests: fakes).
 //! - [`verify`]: the ≤ 300 ms field check behind `confirmed`/`unverified`.
 //! - [`session`]: sleep, lock and user switching → card, never pasted blind.
+//! - [`target`]: the key-up target and the "no text field" decision (S-05).
 //!
 //! Every take gets a `paste_outcome` ([`deliver::PasteOutcome`]), logged
 //! here and sent as [`ForkInsertOutcome`](super::events::ForkInsertOutcome)
-//! (S-05 renders the card from it; S-09 stores it per take).
+//! (S-09 stores it per take). A card goes to the Flow Bar
+//! ([`crate::fork::pill::show_insert_card`]: the reason, the text, Copy, ✕); the text is in
+//! History either way.
 
 pub mod deliver;
 pub mod session;
+pub mod target;
 pub mod verify;
 
 #[cfg(target_os = "macos")]
@@ -76,6 +82,13 @@ pub fn deliver(text: String, app: AppHandle) -> Result<(), String> {
             return mac::deliver(text, app, &settings);
         }
     }
+    // S-05: Handy's other paste methods get the same target check.
+    let take = next_take();
+    if let Some(reason) = route_take(take) {
+        let delivery = Delivery::Card { reason };
+        publish_outcome(&app, take, delivery, &text);
+        return hook_result(delivery);
+    }
     // Handy's own paste: it reports only success or failure.
     let result = crate::utils::paste(text.clone(), app.clone());
     let outcome = match result {
@@ -101,6 +114,7 @@ pub fn on_ready<R: Runtime>(app: &AppHandle<R>) {
     // with `{"phase": "started" | "locked" | "stopped" | "cancelled"}`.
     app.listen_any("recording-state-event", |event| {
         on_recording_phase(event.payload(), Instant::now());
+        on_target_phase(event.payload());
     });
     #[cfg(all(target_os = "macos", not(test)))]
     {
@@ -110,9 +124,7 @@ pub fn on_ready<R: Runtime>(app: &AppHandle<R>) {
 }
 
 fn on_recording_phase(payload: &str, at: Instant) {
-    let phase = serde_json::from_str::<serde_json::Value>(payload)
-        .ok()
-        .and_then(|v| v.get("phase")?.as_str().map(str::to_owned));
+    let phase = phase_of(payload);
     let mut s = lock(&SESSION);
     match phase.as_deref() {
         Some("started") => s.take_started(at),
@@ -120,6 +132,81 @@ fn on_recording_phase(payload: &str, at: Instant) {
         Some("cancelled") => s.take_cancelled(),
         _ => {}
     }
+}
+
+fn phase_of(payload: &str) -> Option<String> {
+    serde_json::from_str::<serde_json::Value>(payload)
+        .ok()
+        .and_then(|v| v.get("phase")?.as_str().map(str::to_owned))
+}
+
+/// S-05: the take's target captures follow the same phases.
+fn on_target_phase(payload: &str) {
+    match phase_of(payload).as_deref() {
+        Some("started") => target::on_started(),
+        Some("stopped") => target::on_stopped(),
+        Some("cancelled") => target::on_cancelled(),
+        _ => {}
+    }
+}
+
+/// S-05: where this take may go ([`target::plan`]). Reads the focused
+/// element once (≤ [`crate::fork::ax::READ_BUDGET`], else paste anyway) and
+/// logs the decision: roles and verdict only, never text.
+fn route_take(take: u32) -> Option<CardReason> {
+    let pending = target::take_pending();
+    let captured = pending.map(|(t, _)| t.id);
+    let focus = crate::fork::ax::focus_now(captured, crate::fork::ax::READ_BUDGET);
+    let route = target::plan(pending.is_some(), focus.as_ref());
+    if let Some((_, start)) = pending {
+        target::done(start);
+    }
+    log::info!(
+        "insert: take {take} target {}",
+        describe_target(focus.as_ref(), pending.map(|(t, _)| t), route)
+    );
+    match route {
+        target::Route::Card(reason) => Some(reason),
+        target::Route::Paste { .. } => None,
+    }
+}
+
+/// A take that will not be pasted for another reason (cancelled, session
+/// interrupted) still releases its target.
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+fn discard_target() {
+    if let Some((_, start)) = target::take_pending() {
+        target::done(start);
+    }
+}
+
+fn describe_target(
+    focus: Option<&crate::fork::ax::Focus>,
+    t: Option<target::Target>,
+    route: target::Route,
+) -> String {
+    let route = match route {
+        target::Route::Paste { fail_open: false } => "paste".to_string(),
+        target::Route::Paste { fail_open: true } => "paste (fail-open)".to_string(),
+        target::Route::Card(r) => format!("card ({})", r.as_str()),
+    };
+    let Some(f) = focus else {
+        return format!("{route}: AX did not answer");
+    };
+    serde_json::json!({
+        "route": route,
+        "app": f.app,
+        "family": f.family,
+        "role": f.facts.role,
+        "subrole": f.facts.subrole,
+        "window": f.facts.has_focused_window,
+        "secure_input": f.facts.secure_input,
+        "verdict": f.verdict,
+        "same_as_key_up": f.same_as_captured,
+        "auto_stop": t.map(|t| t.auto_stop),
+        "ax_ms": f.ms,
+    })
+    .to_string()
 }
 
 #[cfg_attr(any(test, not(target_os = "macos")), allow(dead_code))]
@@ -170,11 +257,17 @@ fn publish_outcome<R: Runtime>(app: &AppHandle<R>, take: u32, delivery: Delivery
     crate::fork::db::entry_meta::on_paste_outcome(app, text, delivery.paste_outcome());
     let event = outcome_event(take, delivery, text);
     if let Delivery::Card { reason } = delivery {
-        *lock(&LAST_CARD) = Some(CardText {
-            take,
-            reason,
-            text: text.to_string(),
-        });
+        if text.trim().is_empty() {
+            // Nothing to copy: an empty or formatting-only transcript.
+            crate::fork::pill::show_message(crate::fork::pill::model::PillMessage::NoSpeech);
+        } else {
+            *lock(&LAST_CARD) = Some(CardText {
+                take,
+                reason,
+                text: text.to_string(),
+            });
+            crate::fork::pill::show_insert_card(card_reason(reason), text.to_string());
+        }
     }
     if let Err(e) = tauri_specta::Event::emit(&event, app) {
         log::warn!("insert: could not emit the outcome: {e}");
@@ -192,17 +285,27 @@ fn outcome_event(take: u32, delivery: Delivery, text: &str) -> ForkInsertOutcome
             PasteOutcome::Queued => ForkPasteOutcome::Queued,
         }),
         card_reason: match delivery {
-            Delivery::Card { reason } => Some(match reason {
-                CardReason::Sleep => ForkCardReason::Sleep,
-                CardReason::ScreenLocked => ForkCardReason::ScreenLocked,
-                CardReason::SessionInactive => ForkCardReason::SessionInactive,
-                CardReason::PasteFailed => ForkCardReason::PasteFailed,
-                CardReason::DiskFull => ForkCardReason::DiskFull,
-            }),
+            Delivery::Card { reason } => Some(card_reason(reason)),
             _ => None,
         },
-        // Only a card carries the text: everything else is in the field.
-        text: matches!(delivery, Delivery::Card { .. }).then(|| text.to_string()),
+        // Only a card carries the text: everything else is in the field. A
+        // password field's text is never broadcast.
+        text: matches!(delivery, Delivery::Card { reason } if reason != CardReason::SecureField)
+            .then(|| text.to_string()),
+    }
+}
+
+/// The wire name of a card reason.
+pub fn card_reason(reason: CardReason) -> ForkCardReason {
+    match reason {
+        CardReason::Sleep => ForkCardReason::Sleep,
+        CardReason::ScreenLocked => ForkCardReason::ScreenLocked,
+        CardReason::SessionInactive => ForkCardReason::SessionInactive,
+        CardReason::PasteFailed => ForkCardReason::PasteFailed,
+        CardReason::DiskFull => ForkCardReason::DiskFull,
+        CardReason::NoTextField => ForkCardReason::NoTextField,
+        CardReason::FocusMoved => ForkCardReason::FocusMoved,
+        CardReason::SecureField => ForkCardReason::SecureField,
     }
 }
 

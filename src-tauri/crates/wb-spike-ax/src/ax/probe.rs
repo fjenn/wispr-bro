@@ -234,18 +234,7 @@ pub struct Probe {
 }
 
 pub fn family_of(bundle: &str) -> Family {
-    let name = el::bundle_name(bundle);
-    if el::is_terminal(&name) {
-        Family::Terminal
-    } else if el::is_chromium(&name) {
-        Family::Chromium
-    } else if el::is_electron(bundle) {
-        Family::Electron
-    } else if name == "safari" || name == "safari technology preview" {
-        Family::Webkit
-    } else {
-        Family::Native
-    }
+    el::family_of(bundle)
 }
 
 fn rect4(r: CGRect) -> [f64; 4] {
@@ -498,9 +487,12 @@ fn set_test(
 pub fn probe(ctx: &mut Ctx, opts: &ProbeOpts) -> Probe {
     let start = Instant::now();
     let mut rec = Rec::default();
-    let secure_input = el::secure_input_on();
     let focus = focused(&mut rec, ctx, opts.timeout);
     let (pid, ax_pid, app_source) = (focus.pid, focus.ax_pid, focus.app_source);
+    // As the product does (S-05): Secure Input counts only when the focused
+    // app holds it, or when the window server does not say who does.
+    let secure_input =
+        el::secure_input_on() && el::secure_input_pid().is_none_or(|holder| Some(holder) == pid);
     let (field, focus_source) = (focus.element, focus.source);
     let bundle = pid.and_then(el::app_bundle_path).unwrap_or_default();
     let family = family_of(&bundle);

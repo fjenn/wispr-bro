@@ -458,6 +458,13 @@ impl<R: Runtime> Host for AppHost<R> {
         log::debug!("fork hotkeys: {event:?}");
         if let Observed::Effect(effect) = event {
             crate::fork::pill::on_hotkey_effect(effect);
+            // S-05 / DEC-32: an auto-stopped take keeps its start target.
+            if let Effect::Stopped {
+                via: processor::StopVia::Silence | processor::StopVia::MaxLength,
+            } = effect
+            {
+                crate::fork::insert::target::note_auto_stop();
+            }
         }
         if let Some(ev) = ForkHotkeyEvent::from_observed(event) {
             if let Err(e) = ev.emit(&self.app) {

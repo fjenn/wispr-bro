@@ -394,16 +394,17 @@
         "download_failed": "无法下载",
         "check_connection": "请检查网络连接",
         "no_space": "磁盘空间不足，无法设置听写"
+      },
+      "card": {
+        "no_text_field": "先点击文本框",
+        "focus_moved": "你已经移动到下一个位置，因此没有进行粘贴",
+        "secure_field": "未输入到密码字段",
+        "sleep": "未粘贴：您的 Mac 进入睡眠状态",
+        "screen_locked": "未粘贴：屏幕已锁定",
+        "session_inactive": "未粘贴：您切换了用户",
+        "paste_failed": "无法粘贴这段文字",
+        "disk_full": "磁盘已满：录音已停止"
       }
-    }
-  },
-  "insert": {
-    "cardReason": {
-      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
-      "screenLocked": "Not pasted: the screen was locked during this dictation.",
-      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
-      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
   "aiEngine": {
@@ -662,107 +663,9 @@
     "cardMore_other": "你的听写 · 历史记录中还有 {{count}} 条",
     "copy": "复制",
     "copied": "已复制",
-    "retry": "重试"
-  },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro 现在使用一种更新的模型类型。请下载新版本以继续转录。旧版本将被移除。"
-      },
-      "permissions": {
-        "microphone": {
-          "why": "这样 Wispr Bro 才能听到您说话。音频只在这台电脑上转成文字，绝不会上传。"
-        },
-        "accessibility": {
-          "why": "这样快捷键在每个应用中都能使用，Wispr Bro 也能把文字输入到光标所在的位置。"
-        },
-        "turnOnMac": "请在“系统设置”中打开 Wispr Bro，然后回到这里。",
-        "relaunch": "之后快捷键没有反应？<relaunch>重新启动 Wispr Bro</relaunch>，您会直接回到这里。"
-      },
-      "welcome": {
-        "noMatch": "没有与“{{query}}”匹配的语言。Wispr Bro 的模型涵盖约 100 种语言，更多语言可在设置中找到。",
-        "chinese": {
-          "question": "您说{{languages}}。Wispr Bro 应该写哪种汉字？"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro 就在角落里，带您一步步体验"
-      },
-      "done": {
-        "subMac": "Wispr Bro 现在位于菜单栏中。在任何应用里按住或轻按 <keys/> 即可说话。",
-        "subTray": "Wispr Bro 现在位于系统托盘中。在任何应用里按住或轻按 <keys/> 即可说话。",
-        "atLogin": "登录时启动 Wispr Bro",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
-    },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro 快捷键"
-        },
-        "preferredLanguages": {
-          "description": "您会说的语言。Wispr Bro 会据此推荐模型。"
-        }
-      },
-      "models": {
-        "untestedNote": "尚未经过 Wispr Bro 测试，可能更慢或错误更多。",
-        "emptyYours": "还没有模型。请在下方选择一个：它会先下载，然后由 Wispr Bro 使用。",
-        "deleteAskActive": "删除{{name}}？在您选择其他模型之前，Wispr Bro 无法转录。",
-        "retiredNotice": {
-          "title": "旧模型已无法在 Wispr Bro 中使用"
-        },
-        "rescan": {
-          "tooltip": "重新扫描在 Wispr Bro 之外添加到模型文件夹或 Hugging Face 缓存中的模型"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "登录计算机时自动启动 Wispr Bro。"
-        },
-        "showTrayIcon": {
-          "description": "在系统托盘中显示 Wispr Bro 图标。"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "自动检查 Wispr Bro 的新版本",
-          "lockedDescription": "已被系统配置禁用 (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "检查键盘事件是否能到达 Wispr Bro。仅记录事件数量，绝不记录您按了哪些键。",
-          "verdictOk": "按键事件正常到达 Wispr Bro。"
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro 的当前版本"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro 更新后显示发行说明"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro 存储数据的位置"
-        },
-        "supportDevelopment": {
-          "description": "帮助我们继续开发 Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro 使用 ggml 进行快速的本地语音转文字处理。感谢 Georgi Gerganov 和贡献者们的出色工作。"
-          }
-        }
-      }
-    },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} 新功能"
-    },
-    "appLanguage": {
-      "description": "更改 Wispr Bro 界面的语言"
-    },
-    "theme": {
-      "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
+    "retry": "重试",
+    "card": {
+      "hidden": "隐藏，因为它本应用于密码字段"
     }
   },
   "cleanup": {
@@ -968,6 +871,107 @@
       "done_one": "已导出 {{count}} 个片段。",
       "done_other": "已导出 {{count}} 个片段。",
       "failed": "片段无法导出，请重试。"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro 现在使用一种更新的模型类型。请下载新版本以继续转录。旧版本将被移除。"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "这样 Wispr Bro 才能听到您说话。音频只在这台电脑上转成文字，绝不会上传。"
+        },
+        "accessibility": {
+          "why": "这样快捷键在每个应用中都能使用，Wispr Bro 也能把文字输入到光标所在的位置。"
+        },
+        "turnOnMac": "请在“系统设置”中打开 Wispr Bro，然后回到这里。",
+        "relaunch": "之后快捷键没有反应？<relaunch>重新启动 Wispr Bro</relaunch>，您会直接回到这里。"
+      },
+      "welcome": {
+        "noMatch": "没有与“{{query}}”匹配的语言。Wispr Bro 的模型涵盖约 100 种语言，更多语言可在设置中找到。",
+        "chinese": {
+          "question": "您说{{languages}}。Wispr Bro 应该写哪种汉字？"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro 就在角落里，带您一步步体验"
+      },
+      "done": {
+        "subMac": "Wispr Bro 现在位于菜单栏中。在任何应用里按住或轻按 <keys/> 即可说话。",
+        "subTray": "Wispr Bro 现在位于系统托盘中。在任何应用里按住或轻按 <keys/> 即可说话。",
+        "atLogin": "登录时启动 Wispr Bro",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro 快捷键"
+        },
+        "preferredLanguages": {
+          "description": "您会说的语言。Wispr Bro 会据此推荐模型。"
+        }
+      },
+      "models": {
+        "untestedNote": "尚未经过 Wispr Bro 测试，可能更慢或错误更多。",
+        "emptyYours": "还没有模型。请在下方选择一个：它会先下载，然后由 Wispr Bro 使用。",
+        "deleteAskActive": "删除{{name}}？在您选择其他模型之前，Wispr Bro 无法转录。",
+        "retiredNotice": {
+          "title": "旧模型已无法在 Wispr Bro 中使用"
+        },
+        "rescan": {
+          "tooltip": "重新扫描在 Wispr Bro 之外添加到模型文件夹或 Hugging Face 缓存中的模型"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "登录计算机时自动启动 Wispr Bro。"
+        },
+        "showTrayIcon": {
+          "description": "在系统托盘中显示 Wispr Bro 图标。"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "自动检查 Wispr Bro 的新版本",
+          "lockedDescription": "已被系统配置禁用 (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "检查键盘事件是否能到达 Wispr Bro。仅记录事件数量，绝不记录您按了哪些键。",
+          "verdictOk": "按键事件正常到达 Wispr Bro。"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro 的当前版本"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro 更新后显示发行说明"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro 存储数据的位置"
+        },
+        "supportDevelopment": {
+          "description": "帮助我们继续开发 Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro 使用 ggml 进行快速的本地语音转文字处理。感谢 Georgi Gerganov 和贡献者们的出色工作。"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} 新功能"
+    },
+    "appLanguage": {
+      "description": "更改 Wispr Bro 界面的语言"
+    },
+    "theme": {
+      "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
     }
   }
 }

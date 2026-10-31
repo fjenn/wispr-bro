@@ -13,7 +13,10 @@ use tauri::{AppHandle, Manager};
 
 use super::deliver::{self, Gate, Platform, PublishedText, Request};
 use super::verify::{self, FieldState};
-use super::{hook_result, interruption, lock, next_take, publish_outcome, LINE, SLOT};
+use super::{
+    discard_target, hook_result, interruption, lock, next_take, publish_outcome, route_take, LINE,
+    SLOT,
+};
 use crate::fork::clipboard::restore::{TargetClass, Timing};
 use crate::fork::clipboard::snapshot::Snapshot;
 use crate::fork::clipboard::{keys, nspb, target};
@@ -37,6 +40,16 @@ pub(super) fn deliver(text: String, app: AppHandle, settings: &AppSettings) -> R
         (Some(r), Some(g)) => r.was_cancelled_since(g),
         _ => false,
     };
+
+    // S-05: the key-up target still has focus and is a place to type.
+    if cancelled() || interruption().is_some() {
+        // `paste` reports the cancel or the interruption.
+        discard_target();
+    } else if let Some(reason) = route_take(take) {
+        let delivery = deliver::Delivery::Card { reason };
+        publish_outcome(&app, take, delivery, &text);
+        return hook_result(delivery);
+    }
 
     let (bundle, class) = frontmost_class();
     let mut req = Request::new(&text, class);

@@ -22,6 +22,7 @@ use serde::{Deserialize, Serialize};
 use specta::Type;
 
 use super::geometry::Shape;
+use crate::fork::events::ForkCardReason;
 
 /// Milliseconds on the controller's monotonic clock.
 pub type Ms = u64;
@@ -257,10 +258,41 @@ pub enum Input {
     Setup(SetupView),
     /// The queued takes are being transcribed.
     QueueTranscribing,
-    /// A queued take's text is ready.
-    Card(String),
+    /// A take's text for the card: a queued take (S-07a) or one that was
+    /// not pasted (S-05, with its reason).
+    Card(CardContent),
     /// The card's text was copied.
     Copied,
+}
+
+/// What the card shows (one card for S-07a's queued takes and S-05's
+/// takes that were not pasted).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct CardContent {
+    pub text: String,
+    /// Why it was not pasted (S-05); `None` for a queued take (S-07a).
+    pub reason: Option<ForkCardReason>,
+}
+
+impl CardContent {
+    /// A password field's text is never shown (Copy still copies it,
+    /// concealed from clipboard managers).
+    pub fn hidden(&self) -> bool {
+        self.reason == Some(ForkCardReason::SecureField)
+    }
+}
+
+impl From<String> for CardContent {
+    /// A queued take's text (S-07a).
+    fn from(text: String) -> CardContent {
+        CardContent { text, reason: None }
+    }
+}
+
+impl From<&str> for CardContent {
+    fn from(text: &str) -> CardContent {
+        CardContent::from(text.to_string())
+    }
 }
 
 /// The active bar, as sent to the web view (`ForkPillState` minus `seq`).
@@ -273,8 +305,10 @@ pub struct ActiveView {
     pub warning: Option<PillWarning>,
     /// Setting up: the download progress.
     pub progress: Option<u8>,
-    /// The card's text.
+    /// The card's text (`None` for a password field's, S-05).
     pub text: Option<String>,
+    /// Why the card's take was not pasted (S-05); `None` for a queued take.
+    pub card_reason: Option<ForkCardReason>,
     /// Takes finished before the one on the card (they are in History).
     pub more: u32,
     /// "Copied" shows on the card.
@@ -316,11 +350,11 @@ pub struct Model {
     /// the card.
     setup: SetupView,
     waiting: bool,
-    card: Option<String>,
+    card: Option<CardContent>,
     more: u32,
     copied_until: Option<Ms>,
     /// A card that arrived during a take; shown when the take is over.
-    pending_card: Option<String>,
+    pending_card: Option<CardContent>,
 }
 
 impl Model {
@@ -384,7 +418,15 @@ impl Model {
         }
     }
 
-    fn show_card(&mut self, text: String) {
+    /// The card on screen, if any (Copy reads its full text).
+    pub fn card(&self) -> Option<&CardContent> {
+        match self.phase() {
+            Phase::Card => self.card.as_ref(),
+            _ => None,
+        }
+    }
+
+    fn show_card(&mut self, text: CardContent) {
         self.more = if self.phase() == Phase::Card {
             self.more + 1
         } else {
@@ -479,6 +521,11 @@ impl Model {
             Input::Message(kind) => {
                 if self.recording() && !kind.at_start() {
                     return; // a late report of an earlier take
+                }
+                if self.phase() == Phase::Card && !kind.at_start() {
+                    // S-05: Handy reports a take that went to the card as
+                    // failed (its paste contract); the card already says why.
+                    return;
                 }
                 self.set(Phase::Message);
                 self.label_until = None;
@@ -628,6 +675,7 @@ impl Model {
                     warning,
                     progress: None,
                     text: None,
+                    card_reason: None,
                     more: 0,
                     copied: false,
                 })
@@ -644,6 +692,7 @@ impl Model {
                 warning: None,
                 progress: None,
                 text: None,
+                card_reason: None,
                 more: 0,
                 copied: false,
             }),
@@ -655,6 +704,7 @@ impl Model {
                 warning: None,
                 progress: None,
                 text: None,
+                card_reason: None,
                 more: 0,
                 copied: false,
             }),
@@ -666,17 +716,19 @@ impl Model {
                 warning: None,
                 progress: self.setup.percent,
                 text: None,
+                card_reason: None,
                 more: 0,
                 copied: false,
             }),
-            Phase::Card => self.card.as_ref().map(|text| ActiveView {
+            Phase::Card => self.card.as_ref().map(|card| ActiveView {
                 phase: PillPhase::Card,
                 shape: Shape::Card,
                 mic: None,
                 message: None,
                 warning: None,
                 progress: None,
-                text: Some(text.clone()),
+                text: (!card.hidden()).then(|| card.text.clone()),
+                card_reason: card.reason,
                 more: self.more,
                 copied: self.copied_until.is_some(),
             }),

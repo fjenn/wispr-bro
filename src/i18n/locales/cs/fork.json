@@ -394,16 +394,17 @@
         "download_failed": "Stahování se nezdařilo",
         "check_connection": "Zkontrolujte připojení k internetu",
         "no_space": "Na disku není dost místa pro nastavení diktování"
+      },
+      "card": {
+        "no_text_field": "Nejprve klikněte do položky textu",
+        "focus_moved": "Přesunul jste se, takže nic nebylo vloženo",
+        "secure_field": "Nepřidané do pole hesla",
+        "sleep": "Nebylo vloženo: váš Mac se zastavil",
+        "screen_locked": "Nebylo vloženo: obrazovka byla uzavřena",
+        "session_inactive": "Nebylo vloženo: přepnul jste uživatele",
+        "paste_failed": "Nemohu vložit tento text",
+        "disk_full": "Disk je plný: záznam byl zastaven"
       }
-    }
-  },
-  "insert": {
-    "cardReason": {
-      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
-      "screenLocked": "Not pasted: the screen was locked during this dictation.",
-      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
-      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
   "aiEngine": {
@@ -662,107 +663,9 @@
     "cardMore_other": "Vaše diktování · {{count}} dalších v historii",
     "copy": "Kopírovat",
     "copied": "Zkopírováno",
-    "retry": "Zkusit znovu"
-  },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro nyní používá novější typ modelů. Stáhněte si novou verzi, abyste mohli dál přepisovat. Staré verze budou odstraněny."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Aby vás Wispr Bro slyšel. Zvuk se mění na text přímo v tomto počítači a nikam se neodesílá."
-        },
-        "accessibility": {
-          "why": "Aby vaše zkratka fungovala v každé aplikaci a Wispr Bro mohl psát text tam, kde máte kurzor."
-        },
-        "turnOnMac": "Zapněte Wispr Bro v Nastavení systému a pak se vraťte sem.",
-        "relaunch": "Zkratka po tomhle nereaguje? <relaunch>Restartujte Wispr Bro</relaunch> a skončíte hned zase tady."
-      },
-      "welcome": {
-        "noMatch": "Žádný jazyk neodpovídá „{{query}}“. Modely Wispr Bro pokrývají zhruba 100 jazyků, další najdete v nastavení.",
-        "chinese": {
-          "question": "Mluvíte jazykem: {{languages}}. Jaké znaky má Wispr Bro psát?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro je v rohu a provede vás tím"
-      },
-      "done": {
-        "subMac": "Wispr Bro je teď na řádku nabídek. Podržte nebo klepněte na <keys/> v jakékoli aplikaci a mluvte.",
-        "subTray": "Wispr Bro je teď v oznamovací oblasti. Podržte nebo klepněte na <keys/> v jakékoli aplikaci a mluvte.",
-        "atLogin": "Spustit Wispr Bro po přihlášení",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
-    },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Zkratky Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "Jazyky, kterými mluvíte. Wispr Bro podle nich doporučuje modely."
-        }
-      },
-      "models": {
-        "untestedNote": "Netestováno s Wispr Bro. Mohou být pomalejší nebo dělat více chyb.",
-        "emptyYours": "Zatím žádné modely. Vyberte některý níže: stáhne se a Wispr Bro ho začne používat.",
-        "deleteAskActive": "Smazat {{name}}? Wispr Bro nebude moci přepisovat, dokud nevyberete jiný model.",
-        "retiredNotice": {
-          "title": "Staré modely už s Wispr Bro nefungují"
-        },
-        "rescan": {
-          "tooltip": "Znovu prohledat modely přidané do složky modelů nebo mezipaměti Hugging Face mimo Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Automaticky spustit Wispr Bro po přihlášení do počítače."
-        },
-        "showTrayIcon": {
-          "description": "Zobrazit ikonu Wispr Bro v systémové liště."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Automaticky kontrolovat nové verze Wispr Bro",
-          "lockedDescription": "Zakázáno systémovou konfigurací (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Ověří, zda události klávesnice dorazí do Wispr Bro. Zaznamenává se pouze počet událostí — nikdy to, které klávesy stisknete.",
-          "verdictOk": "Události kláves dorazí do Wispr Bro normálně."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Aktuální verze Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Zobrazovat poznámky k vydání po aktualizacích Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "Umístění, kde Wispr Bro ukládá data"
-        },
-        "supportDevelopment": {
-          "description": "Pomozte nám pokračovat ve vývoji Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro používá ggml pro rychlé lokální zpracování řeči na text. Díky skvělé práci Georgiho Gerganova a přispěvatelů."
-          }
-        }
-      }
-    },
-    "whatsNew": {
-      "title": "Novinky v Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Změňte jazyk rozhraní Wispr Bro"
-    },
-    "theme": {
-      "description": "Zvolte, zda má Wispr Bro sledovat motiv systému, nebo zůstat světlý či tmavý"
+    "retry": "Zkusit znovu",
+    "card": {
+      "hidden": "Skryto, protože bylo určeno pro pole hesla"
     }
   },
   "cleanup": {
@@ -968,6 +871,107 @@
       "done_one": "Exportováno {{count}} snippetu.",
       "done_other": "Exportováno {{count}} základních úseček.",
       "failed": "Snípky se nepodařilo exportovat. Zkuste to prosím znovu."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro nyní používá novější typ modelů. Stáhněte si novou verzi, abyste mohli dál přepisovat. Staré verze budou odstraněny."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Aby vás Wispr Bro slyšel. Zvuk se mění na text přímo v tomto počítači a nikam se neodesílá."
+        },
+        "accessibility": {
+          "why": "Aby vaše zkratka fungovala v každé aplikaci a Wispr Bro mohl psát text tam, kde máte kurzor."
+        },
+        "turnOnMac": "Zapněte Wispr Bro v Nastavení systému a pak se vraťte sem.",
+        "relaunch": "Zkratka po tomhle nereaguje? <relaunch>Restartujte Wispr Bro</relaunch> a skončíte hned zase tady."
+      },
+      "welcome": {
+        "noMatch": "Žádný jazyk neodpovídá „{{query}}“. Modely Wispr Bro pokrývají zhruba 100 jazyků, další najdete v nastavení.",
+        "chinese": {
+          "question": "Mluvíte jazykem: {{languages}}. Jaké znaky má Wispr Bro psát?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro je v rohu a provede vás tím"
+      },
+      "done": {
+        "subMac": "Wispr Bro je teď na řádku nabídek. Podržte nebo klepněte na <keys/> v jakékoli aplikaci a mluvte.",
+        "subTray": "Wispr Bro je teď v oznamovací oblasti. Podržte nebo klepněte na <keys/> v jakékoli aplikaci a mluvte.",
+        "atLogin": "Spustit Wispr Bro po přihlášení",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Zkratky Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Jazyky, kterými mluvíte. Wispr Bro podle nich doporučuje modely."
+        }
+      },
+      "models": {
+        "untestedNote": "Netestováno s Wispr Bro. Mohou být pomalejší nebo dělat více chyb.",
+        "emptyYours": "Zatím žádné modely. Vyberte některý níže: stáhne se a Wispr Bro ho začne používat.",
+        "deleteAskActive": "Smazat {{name}}? Wispr Bro nebude moci přepisovat, dokud nevyberete jiný model.",
+        "retiredNotice": {
+          "title": "Staré modely už s Wispr Bro nefungují"
+        },
+        "rescan": {
+          "tooltip": "Znovu prohledat modely přidané do složky modelů nebo mezipaměti Hugging Face mimo Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Automaticky spustit Wispr Bro po přihlášení do počítače."
+        },
+        "showTrayIcon": {
+          "description": "Zobrazit ikonu Wispr Bro v systémové liště."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Automaticky kontrolovat nové verze Wispr Bro",
+          "lockedDescription": "Zakázáno systémovou konfigurací (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Ověří, zda události klávesnice dorazí do Wispr Bro. Zaznamenává se pouze počet událostí — nikdy to, které klávesy stisknete.",
+          "verdictOk": "Události kláves dorazí do Wispr Bro normálně."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Aktuální verze Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Zobrazovat poznámky k vydání po aktualizacích Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Umístění, kde Wispr Bro ukládá data"
+        },
+        "supportDevelopment": {
+          "description": "Pomozte nám pokračovat ve vývoji Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro používá ggml pro rychlé lokální zpracování řeči na text. Díky skvělé práci Georgiho Gerganova a přispěvatelů."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Novinky v Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Změňte jazyk rozhraní Wispr Bro"
+    },
+    "theme": {
+      "description": "Zvolte, zda má Wispr Bro sledovat motiv systému, nebo zůstat světlý či tmavý"
     }
   }
 }

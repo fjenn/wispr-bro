@@ -312,6 +312,12 @@ body {
   -webkit-user-select: text;
 }
 
+/* S-05: a password field's text is never shown. */
+.wb-pill-card-text[data-hidden] {
+  color: var(--wb-pill-ink-2);
+  font-style: italic;
+}
+
 .wb-pill-copy {
   display: inline-flex;
   align-items: center;

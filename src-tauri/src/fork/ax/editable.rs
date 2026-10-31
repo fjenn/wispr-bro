@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (c) 2024 OpenWhispr Team (OpenWhispr; MIT, notice below)
-// Modified by Wispr Bro contributors, 2026-10-30.
+// Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31.
 //
 // The text-role rule is ported from OpenWhispr
 // `resources/macos-text-monitor.swift` `isEditableTextElement`
@@ -17,7 +17,10 @@
 // terminal and Secure Input cases, the Chromium/Electron "tree not built"
 // case, and R5 §4.6's fail-open rule (an empty AX answer with a focused
 // window means "paste anyway"; the rule as TypeWhisper describes it, no code
-// copied).
+// copied). S-05 (2026-10-31): moved from the RS-04 spike into the product;
+// added the Gecko family (fail open, TypeWhisper's Gecko exclusion as
+// behaviour) and the Finder family (the desktop and file windows have no
+// place to type).
 //
 // MIT License
 //
@@ -58,6 +61,11 @@ pub enum Family {
     /// Electron apps: same as Chromium.
     Electron,
     Terminal,
+    /// Firefox and its forks, Thunderbird: AX answers are not trusted for
+    /// a card (fail open), and no AX writes.
+    Gecko,
+    /// Finder (the desktop and file windows).
+    Finder,
 }
 
 impl Family {
@@ -69,6 +77,9 @@ impl Family {
 /// What AX told us about the focused element (None = not answered).
 #[derive(Clone, Debug, Default, PartialEq, Serialize)]
 pub struct Facts {
+    /// Secure Event Input is on and held by the focused app (or by a process
+    /// the window server does not name): the product checks the holder, so
+    /// Terminal's Secure Keyboard Entry does not refuse a paste elsewhere.
     pub secure_input: bool,
     pub has_focused_window: bool,
     pub has_focused_element: bool,
@@ -104,6 +115,10 @@ pub enum Reason {
     WebAreaNotEditable,
     ContainerRole,
     UnrecognizedRole,
+    /// Gecko said "not a text field"; not trusted, so paste.
+    GeckoNotTrusted,
+    /// Finder with no text field focused (desktop, file list, sidebar).
+    FinderNoTextField,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -193,7 +208,19 @@ pub fn verdict(f: &Facts, family: Family) -> Verdict {
     if f.secure_input && matches!(v, Verdict::Unknown(_)) {
         return Verdict::Secure(SecureInput);
     }
-    v
+    match (family, v) {
+        // Gecko: a "not a text field" answer is not trusted (fail open).
+        (Family::Gecko, Verdict::NotEditable(NoWindow)) => v,
+        (Family::Gecko, Verdict::NotEditable(_)) => Verdict::Unknown(GeckoNotTrusted),
+        // Finder hosts no web content or custom editors: anything that is
+        // not a text field (rename, search, Go to Folder) is the desktop or
+        // a file view.
+        (
+            Family::Finder,
+            Verdict::Unknown(ContainerRole | UnrecognizedRole | NoElementWithWindow),
+        ) => Verdict::NotEditable(FinderNoTextField),
+        _ => v,
+    }
 }
 
 fn element_verdict(f: &Facts, family: Family) -> Verdict {

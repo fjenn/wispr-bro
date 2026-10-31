@@ -98,8 +98,12 @@ pub struct ForkPillState {
     pub warning: Option<PillWarning>,
     /// Setting up: download progress, 0-99 (S-07a).
     pub progress: Option<u8>,
-    /// The card's text (S-07a).
+    /// The card's text (S-07a); `None` on a card for a password field
+    /// (S-05: the text never reaches the web view; Copy still copies it).
     pub text: Option<String>,
+    /// Why the card's take was not pasted (S-05; `fork.json` >
+    /// `rust.pill.card.<reason>`); `None` for a queued take (S-07a).
+    pub card_reason: Option<crate::fork::events::ForkCardReason>,
     /// Takes that finished before the one on the card.
     pub more: u32,
     /// The card's text was just copied.
@@ -287,7 +291,26 @@ pub fn on_queue_transcribing() {
 
 /// S-07a: a queued take's text, for the card with Copy.
 pub fn show_card(text: String) {
-    input(Input::Card(text));
+    input(Input::Card(text.into()));
+}
+
+/// S-05: a take that was not pasted (`fork::insert`), on the same card with
+/// its reason as the label.
+pub fn show_insert_card(reason: crate::fork::events::ForkCardReason, text: String) {
+    input(Input::Card(model::CardContent {
+        text,
+        reason: Some(reason),
+    }));
+}
+
+/// The `rust.pill.card.*` key of a card reason (its label on the card and
+/// its VoiceOver announcement).
+pub fn card_key(reason: crate::fork::events::ForkCardReason) -> String {
+    let name = serde_json::to_value(reason)
+        .ok()
+        .and_then(|v| v.as_str().map(str::to_owned))
+        .unwrap_or_default();
+    format!("rust.pill.card.{name}")
 }
 
 /// What the bar shows for a setup status.
@@ -358,6 +381,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         warning: a.warning,
         progress: a.progress,
         text: a.text.clone(),
+        card_reason: a.card_reason,
         more: a.more,
         copied: a.copied,
     }
@@ -396,9 +420,11 @@ pub fn announcement(
         (_, Some(a)) if a.phase == PillPhase::SettingUp => {
             Some(("rust.pill.announce.settingUp".into(), false))
         }
-        (_, Some(a)) if a.phase == PillPhase::Card => {
-            Some(("rust.pill.announce.card".into(), true))
-        }
+        (_, Some(a)) if a.phase == PillPhase::Card => Some((
+            a.card_reason
+                .map_or_else(|| "rust.pill.announce.card".into(), card_key),
+            true,
+        )),
         (_, Some(a)) if a.phase == PillPhase::Message => a.message.map(|m| {
             (
                 format!("rust.pill.message.{}", m.key()),
@@ -730,9 +756,12 @@ impl Controller {
                 self.model.step(now, Input::Dismiss);
             }
             PillUiAction::Copy => {
-                let text = self.sent.as_ref().and_then(|a| a.text.clone());
-                if let Some(text) = text {
-                    match crate::fork::clipboard::nspb::write_plain_text(&text) {
+                // The model holds the full text (a password field's is not
+                // in the web view's state); it is copied concealed (S-05).
+                let card = self.model.card().cloned();
+                if let Some(card) = card {
+                    let text = card.text.clone();
+                    match crate::fork::clipboard::nspb::write_text(&text, card.hidden()) {
                         Ok(_) => {
                             log::info!("pill: card text copied ({} chars)", text.chars().count());
                             self.model.step(now, Input::Copied);

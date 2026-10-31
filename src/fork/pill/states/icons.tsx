@@ -54,3 +54,21 @@ export function InfoIcon() {
     </svg>
   );
 }
+
+export function CopyIcon() {
+  return (
+    <svg {...common} strokeWidth={1.5}>
+      <rect x="5.5" y="5.5" width="8" height="8" rx="1.75" />
+      <path d="M10.5 3.5v-.25A1.25 1.25 0 009.25 2h-6A1.25 1.25 0 002 3.25v6A1.25 1.25 0 003.25 10.5h.25" />
+    </svg>
+  );
+}
+
+export function LockIcon() {
+  return (
+    <svg {...common} strokeWidth={1.5}>
+      <rect x="3.25" y="7" width="9.5" height="7" rx="1.75" />
+      <path d="M5.5 7V5a2.5 2.5 0 015 0v2" />
+    </svg>
+  );
+}

@@ -48,7 +48,7 @@ use super::verify::{self, FieldState, Verification};
 // Outcomes
 
 /// What one take's delivery ended in (`entry_meta.paste_outcome`, R5 §4.3;
-/// `refused` and `queued` are written by S-05 and S-07a).
+/// `refused` is a card for a password field (S-05); `queued` is S-07a's).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PasteOutcome {
@@ -92,6 +92,14 @@ pub enum CardReason {
     PasteFailed,
     /// The disk filled up during the recording, which was stopped (S-09).
     DiskFull,
+    /// No text field had focus: a control, the desktop, Finder, no window
+    /// (S-05).
+    NoTextField,
+    /// Focus moved to another app or field between key-up and delivery
+    /// (S-05, R5 §4.6 target rule).
+    FocusMoved,
+    /// A password field had focus: refused (S-05; `paste_outcome` `refused`).
+    SecureField,
 }
 
 impl CardReason {
@@ -102,8 +110,22 @@ impl CardReason {
             CardReason::SessionInactive => "session_inactive",
             CardReason::PasteFailed => "paste_failed",
             CardReason::DiskFull => "disk_full",
+            CardReason::NoTextField => "no_text_field",
+            CardReason::FocusMoved => "focus_moved",
+            CardReason::SecureField => "secure_field",
         }
     }
+
+    pub const ALL: [CardReason; 8] = [
+        CardReason::Sleep,
+        CardReason::ScreenLocked,
+        CardReason::SessionInactive,
+        CardReason::PasteFailed,
+        CardReason::DiskFull,
+        CardReason::NoTextField,
+        CardReason::FocusMoved,
+        CardReason::SecureField,
+    ];
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -122,6 +144,9 @@ impl Delivery {
     pub fn paste_outcome(&self) -> Option<PasteOutcome> {
         match self {
             Delivery::Pasted { outcome } => Some(*outcome),
+            Delivery::Card {
+                reason: CardReason::SecureField,
+            } => Some(PasteOutcome::Refused),
             Delivery::Card { .. } => Some(PasteOutcome::Card),
             Delivery::Cancelled => None,
         }

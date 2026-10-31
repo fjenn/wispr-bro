@@ -394,16 +394,17 @@
         "download_failed": "डाउनलोड गर्न सकिएन",
         "check_connection": "आफ्नो इन्टरनेट जडान जाँच गर्नुहोस्",
         "no_space": "डिक्टेसन सेटअप गर्न डिस्कमा पर्याप्त ठाउँ छैन"
+      },
+      "card": {
+        "no_text_field": "पहिले एक टेक्स्ट फील्ड में क्लिक गर्नुहोस",
+        "focus_moved": "You moved on, so nothing was pasted",
+        "secure_field": "पासवर्ड फील्ड में टाइप गरिएको छैन",
+        "sleep": "अपलोड नहि गरिएको: तपाईंको Mac सोमाइ गएको छ",
+        "screen_locked": "अपलोड नहि गरिएको: स्क्रीन लॉक भएको थियो",
+        "session_inactive": "अपलोड नहि गरिएको: तपाईंले विभिन्न उपयोगकर्ताको बदलाइएको छ",
+        "paste_failed": "एहि टेक्स्ट लगाउन सकिएन",
+        "disk_full": "डिस्क पूरा: रिकॉर्डिंग बंद गरिएको"
       }
-    }
-  },
-  "insert": {
-    "cardReason": {
-      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
-      "screenLocked": "Not pasted: the screen was locked during this dictation.",
-      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
-      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
   "aiEngine": {
@@ -662,107 +663,9 @@
     "cardMore_other": "तपाईंको डिक्टेसन · इतिहासमा थप {{count}}",
     "copy": "प्रतिलिपि",
     "copied": "प्रतिलिपि गरियो",
-    "retry": "फेरि प्रयास गर्नुहोस्"
-  },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro ले अब नयाँ प्रकारको मोडेल प्रयोग गर्छ। ट्रान्सक्राइब गर्न जारी राख्न नयाँ संस्करण डाउनलोड गर्नुहोस्। पुराना संस्करणहरू हटाइनेछन्।"
-      },
-      "permissions": {
-        "microphone": {
-          "why": "ताकि Wispr Bro ले तपाईंलाई सुन्न सकोस्। अडियो यही कम्प्युटरमा टेक्स्टमा बदलिन्छ र कहिल्यै अपलोड गरिँदैन।"
-        },
-        "accessibility": {
-          "why": "ताकि तपाईंको सर्टकट हरेक एपमा चलोस्, र Wispr Bro ले कर्सर भएको ठाउँमा टेक्स्ट टाइप गर्न सकोस्।"
-        },
-        "turnOnMac": "System Settings मा Wispr Bro अन गर्नुहोस्, अनि यहाँ फर्कनुहोस्।",
-        "relaunch": "यसपछि सर्टकटले काम गरेन? <relaunch>Wispr Bro फेरि सुरु गर्नुहोस्</relaunch> र तपाईं ठ्याक्कै यहीँ फर्कनुहुनेछ।"
-      },
-      "welcome": {
-        "noMatch": "“{{query}}” सँग मिल्ने कुनै भाषा छैन। Wispr Bro का मोडेलहरूले करिब १०० भाषा समेट्छन्; थप भाषाहरू सेटिङमा छन्।",
-        "chinese": {
-          "question": "तपाईं {{languages}} बोल्नुहुन्छ। Wispr Bro ले कुन अक्षर लेखोस्?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro कुनामा छ, तपाईंलाई बाटो देखाउन"
-      },
-      "done": {
-        "subMac": "Wispr Bro अब तपाईंको मेनु बारमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
-        "subTray": "Wispr Bro अब तपाईंको सिस्टम ट्रेमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
-        "atLogin": "लग इन गर्दा Wispr Bro सुरु गर्नुहोस्",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
-    },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro सर्टकटहरू"
-        },
-        "preferredLanguages": {
-          "description": "तपाईंले बोल्ने भाषाहरू। Wispr Bro ले यिनको आधारमा मोडेल सिफारिस गर्छ।"
-        }
-      },
-      "models": {
-        "untestedNote": "Wispr Bro मा परीक्षण गरिएको छैन। यिनी ढिलो हुन सक्छन् वा बढी गल्ती गर्न सक्छन्।",
-        "emptyYours": "अहिलेसम्म कुनै मोडेल छैन। तल एउटा छान्नुहोस्: त्यो डाउनलोड हुन्छ, अनि Wispr Bro ले प्रयोग गर्छ।",
-        "deleteAskActive": "{{name}} मेटाउने? अर्को मोडेल नछान्दासम्म Wispr Bro ले ट्रान्सक्राइब गर्न सक्दैन।",
-        "retiredNotice": {
-          "title": "पुराना मोडेलहरूले अब Wispr Bro सँग काम गर्दैनन्"
-        },
-        "rescan": {
-          "tooltip": "Wispr Bro बाहिरबाट मोडेल फोल्डर वा Hugging Face क्यासमा थपिएका मोडेलहरू फेरि स्क्यान गर्नुहोस्"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "कम्प्युटरमा लगइन गर्दा Wispr Bro स्वतः सुरु गर्नुहोस्।"
-        },
-        "showTrayIcon": {
-          "description": "सिस्टम ट्रेमा Wispr Bro आइकन देखाउनुहोस्।"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Wispr Bro को नयाँ संस्करण स्वतः जाँच गर्नुहोस्",
-          "lockedDescription": "प्रणाली कन्फिगरेसनद्वारा असक्षम पारिएको (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "किबोर्ड इभेन्टहरू Wispr Bro सम्म पुग्छन् कि पुग्दैनन् भनी जाँच्छ। इभेन्टको संख्या मात्र रेकर्ड हुन्छ — तपाईंले कुन कुञ्जी थिच्नुभयो भन्ने कहिल्यै होइन।",
-          "verdictOk": "कुञ्जी इभेन्टहरू Wispr Bro सम्म सामान्य रूपमा पुगिरहेका छन्।"
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro को हालको संस्करण"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro अपडेट भएपछि रिलिज नोटहरू देखाउनुहोस्"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro ले आफ्नो डेटा भण्डारण गर्ने स्थान"
-        },
-        "supportDevelopment": {
-          "description": "Wispr Bro निर्माण जारी राख्न हामीलाई सहयोग गर्नुहोस्"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
-          }
-        }
-      }
-    },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} मा नयाँ"
-    },
-    "appLanguage": {
-      "description": "Wispr Bro इन्टरफेसको भाषा परिवर्तन गर्नुहोस्"
-    },
-    "theme": {
-      "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
+    "retry": "फेरि प्रयास गर्नुहोस्",
+    "card": {
+      "hidden": "निहित, किनभने गुप्त फील्डका लेल थियो"
     }
   },
   "cleanup": {
@@ -968,6 +871,107 @@
       "done_one": "{{count}} टुक्रा निर्यात गरिएको छ।",
       "done_other": "{{count}} टुक्रा निर्यात गरिएका छन्।",
       "failed": "अनुच्छेदहरू निर्यात गर्न सकिएन। कृपया पुनः प्रयास गर्नुहोस।"
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro ले अब नयाँ प्रकारको मोडेल प्रयोग गर्छ। ट्रान्सक्राइब गर्न जारी राख्न नयाँ संस्करण डाउनलोड गर्नुहोस्। पुराना संस्करणहरू हटाइनेछन्।"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "ताकि Wispr Bro ले तपाईंलाई सुन्न सकोस्। अडियो यही कम्प्युटरमा टेक्स्टमा बदलिन्छ र कहिल्यै अपलोड गरिँदैन।"
+        },
+        "accessibility": {
+          "why": "ताकि तपाईंको सर्टकट हरेक एपमा चलोस्, र Wispr Bro ले कर्सर भएको ठाउँमा टेक्स्ट टाइप गर्न सकोस्।"
+        },
+        "turnOnMac": "System Settings मा Wispr Bro अन गर्नुहोस्, अनि यहाँ फर्कनुहोस्।",
+        "relaunch": "यसपछि सर्टकटले काम गरेन? <relaunch>Wispr Bro फेरि सुरु गर्नुहोस्</relaunch> र तपाईं ठ्याक्कै यहीँ फर्कनुहुनेछ।"
+      },
+      "welcome": {
+        "noMatch": "“{{query}}” सँग मिल्ने कुनै भाषा छैन। Wispr Bro का मोडेलहरूले करिब १०० भाषा समेट्छन्; थप भाषाहरू सेटिङमा छन्।",
+        "chinese": {
+          "question": "तपाईं {{languages}} बोल्नुहुन्छ। Wispr Bro ले कुन अक्षर लेखोस्?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro कुनामा छ, तपाईंलाई बाटो देखाउन"
+      },
+      "done": {
+        "subMac": "Wispr Bro अब तपाईंको मेनु बारमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
+        "subTray": "Wispr Bro अब तपाईंको सिस्टम ट्रेमा छ। जुनसुकै एपमा बोल्न <keys/> थिचिराख्नुहोस् वा थिच्नुहोस्।",
+        "atLogin": "लग इन गर्दा Wispr Bro सुरु गर्नुहोस्",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro सर्टकटहरू"
+        },
+        "preferredLanguages": {
+          "description": "तपाईंले बोल्ने भाषाहरू। Wispr Bro ले यिनको आधारमा मोडेल सिफारिस गर्छ।"
+        }
+      },
+      "models": {
+        "untestedNote": "Wispr Bro मा परीक्षण गरिएको छैन। यिनी ढिलो हुन सक्छन् वा बढी गल्ती गर्न सक्छन्।",
+        "emptyYours": "अहिलेसम्म कुनै मोडेल छैन। तल एउटा छान्नुहोस्: त्यो डाउनलोड हुन्छ, अनि Wispr Bro ले प्रयोग गर्छ।",
+        "deleteAskActive": "{{name}} मेटाउने? अर्को मोडेल नछान्दासम्म Wispr Bro ले ट्रान्सक्राइब गर्न सक्दैन।",
+        "retiredNotice": {
+          "title": "पुराना मोडेलहरूले अब Wispr Bro सँग काम गर्दैनन्"
+        },
+        "rescan": {
+          "tooltip": "Wispr Bro बाहिरबाट मोडेल फोल्डर वा Hugging Face क्यासमा थपिएका मोडेलहरू फेरि स्क्यान गर्नुहोस्"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "कम्प्युटरमा लगइन गर्दा Wispr Bro स्वतः सुरु गर्नुहोस्।"
+        },
+        "showTrayIcon": {
+          "description": "सिस्टम ट्रेमा Wispr Bro आइकन देखाउनुहोस्।"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Wispr Bro को नयाँ संस्करण स्वतः जाँच गर्नुहोस्",
+          "lockedDescription": "प्रणाली कन्फिगरेसनद्वारा असक्षम पारिएको (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "किबोर्ड इभेन्टहरू Wispr Bro सम्म पुग्छन् कि पुग्दैनन् भनी जाँच्छ। इभेन्टको संख्या मात्र रेकर्ड हुन्छ — तपाईंले कुन कुञ्जी थिच्नुभयो भन्ने कहिल्यै होइन।",
+          "verdictOk": "कुञ्जी इभेन्टहरू Wispr Bro सम्म सामान्य रूपमा पुगिरहेका छन्।"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro को हालको संस्करण"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro अपडेट भएपछि रिलिज नोटहरू देखाउनुहोस्"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro ले आफ्नो डेटा भण्डारण गर्ने स्थान"
+        },
+        "supportDevelopment": {
+          "description": "Wispr Bro निर्माण जारी राख्न हामीलाई सहयोग गर्नुहोस्"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} मा नयाँ"
+    },
+    "appLanguage": {
+      "description": "Wispr Bro इन्टरफेसको भाषा परिवर्तन गर्नुहोस्"
+    },
+    "theme": {
+      "description": "Wispr Bro ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्"
     }
   }
 }

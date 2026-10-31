@@ -394,6 +394,16 @@
         "download_failed": "Couldn't download",
         "check_connection": "Check your internet connection",
         "no_space": "Not enough disk space to set up dictation"
+      },
+      "card": {
+        "no_text_field": "Click into a text field first",
+        "focus_moved": "You moved on, so nothing was pasted",
+        "secure_field": "Not typed into a password field",
+        "sleep": "Not pasted: your Mac went to sleep",
+        "screen_locked": "Not pasted: the screen was locked",
+        "session_inactive": "Not pasted: you switched users",
+        "paste_failed": "Couldn't paste this text",
+        "disk_full": "Disk full: recording stopped"
       }
     }
   },
@@ -496,15 +506,6 @@
     },
     "theme": {
       "description": "Choose whether Wispr Bro follows your system theme or stays light or dark"
-    }
-  },
-  "insert": {
-    "cardReason": {
-      "sleep": "Not pasted: your Mac went to sleep during this dictation.",
-      "screenLocked": "Not pasted: the screen was locked during this dictation.",
-      "sessionInactive": "Not pasted: you switched to another user during this dictation.",
-      "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
-      "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
   "aiEngine": {
@@ -763,7 +764,10 @@
     "cardMore_other": "Your dictation · {{count}} more in History",
     "copy": "Copy",
     "copied": "Copied",
-    "retry": "Retry"
+    "retry": "Retry",
+    "card": {
+      "hidden": "Hidden, because it was meant for a password field"
+    }
   },
   "cleanup": {
     "title": "Cleanup",

@@ -5,6 +5,7 @@
 
 use super::model::*;
 use super::*;
+use crate::fork::events::ForkCardReason;
 use crate::fork::settings::{ForkSettings, OnboardingStatus};
 
 #[test]
@@ -67,9 +68,83 @@ fn view(phase: PillPhase, message: Option<PillMessage>) -> ActiveView {
         warning: None,
         progress: None,
         text: None,
+        card_reason: None,
         more: 0,
         copied: false,
     }
+}
+
+fn card_view(reason: Option<ForkCardReason>, text: Option<&str>) -> ActiveView {
+    ActiveView {
+        phase: PillPhase::Card,
+        shape: geometry::Shape::Card,
+        text: text.map(str::to_string),
+        card_reason: reason,
+        ..view(PillPhase::Card, None)
+    }
+}
+
+#[test]
+fn one_card_for_queued_and_not_pasted_takes() {
+    let tr = view(PillPhase::Transcribing, None);
+    // S-07a: a queued take.
+    let queued = card_view(None, Some("hello"));
+    assert_eq!(
+        announcement(Some(&tr), Some(&queued)),
+        Some(("rust.pill.announce.card".into(), true))
+    );
+    // S-05: the reason is the announcement (and the card's label).
+    let moved = card_view(Some(ForkCardReason::FocusMoved), Some("hello"));
+    assert_eq!(
+        announcement(Some(&tr), Some(&moved)),
+        Some(("rust.pill.card.focus_moved".into(), true))
+    );
+    let e = state_event(3, &moved);
+    assert_eq!(e.card_reason, Some(ForkCardReason::FocusMoved));
+    assert_eq!(e.text.as_deref(), Some("hello"));
+    let v = serde_json::to_value(&e).unwrap();
+    assert_eq!(v["phase"], "card");
+    assert_eq!(v["card_reason"], "focus_moved");
+    assert_eq!(serde_json::to_value(PillUiAction::Copy).unwrap(), "copy");
+    // Every reason has its string.
+    let keys = crate::fork::i18n::english_keys();
+    for r in [
+        ForkCardReason::Sleep,
+        ForkCardReason::ScreenLocked,
+        ForkCardReason::SessionInactive,
+        ForkCardReason::PasteFailed,
+        ForkCardReason::DiskFull,
+        ForkCardReason::NoTextField,
+        ForkCardReason::FocusMoved,
+        ForkCardReason::SecureField,
+    ] {
+        assert!(keys.contains(&card_key(r)), "{}", card_key(r));
+    }
+}
+
+#[test]
+fn a_password_fields_card_never_carries_its_text() {
+    let mut m = Model::new(Prefs::default());
+    m.step(
+        0,
+        Input::Card(model::CardContent {
+            text: "pw".into(),
+            reason: Some(ForkCardReason::SecureField),
+        }),
+    );
+    let a = m.view_at(1).active.unwrap();
+    assert_eq!(a.text, None);
+    assert_eq!(state_event(1, &a).text, None);
+    // Copy reads the model's full text.
+    let c = m.card().unwrap();
+    assert!(c.hidden());
+    assert_eq!(c.text, "pw");
+    // Handy's "failed" report of the same take does not replace the card;
+    // a start error does.
+    m.step(2, Input::Message(PillMessage::TranscriptionFailed));
+    assert_eq!(m.view_at(2).active.unwrap().phase, PillPhase::Card);
+    m.step(3, Input::Message(PillMessage::MicDenied));
+    assert_eq!(m.view_at(3).active.unwrap().phase, PillPhase::Message);
 }
 
 #[test]

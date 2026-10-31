@@ -37,6 +37,7 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
     warning: null,
     progress: null,
     text: null,
+    card_reason: null,
     more: 0,
     copied: false,
     ...partial,

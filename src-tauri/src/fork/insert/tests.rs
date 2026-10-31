@@ -851,24 +851,35 @@ fn recording_phases_feed_the_session_log() {
 
 #[test]
 fn every_card_reason_has_an_english_string() {
+    // The card's title and its VoiceOver announcement share
+    // `rust.pill.card.<reason>` (S-05).
     let en: serde_json::Value =
         serde_json::from_str(include_str!("../../../../src/i18n/locales/en/fork.json")).unwrap();
-    for r in [
-        CardReason::Sleep,
-        CardReason::ScreenLocked,
-        CardReason::SessionInactive,
-        CardReason::PasteFailed,
-        CardReason::DiskFull,
-    ] {
-        let key = match r {
-            CardReason::Sleep => "sleep",
-            CardReason::ScreenLocked => "screenLocked",
-            CardReason::SessionInactive => "sessionInactive",
-            CardReason::PasteFailed => "pasteFailed",
-            CardReason::DiskFull => "diskFull",
-        };
-        let s = en["insert"]["cardReason"][key].as_str().unwrap_or_default();
+    for r in CardReason::ALL {
+        let key = crate::fork::pill::card_key(super::card_reason(r));
+        assert_eq!(key, format!("rust.pill.card.{}", r.as_str()));
+        let s = en["rust"]["pill"]["card"][r.as_str()]
+            .as_str()
+            .unwrap_or_default();
         assert!(!s.is_empty() && !s.contains("Handy"), "{key}");
+    }
+}
+
+#[test]
+fn a_password_field_is_refused_and_its_text_never_broadcast() {
+    use crate::fork::events::{ForkCardReason, ForkPasteOutcome};
+    let d = Delivery::Card {
+        reason: CardReason::SecureField,
+    };
+    assert_eq!(d.paste_outcome(), Some(PasteOutcome::Refused));
+    let e = super::outcome_event(9, d, "pw");
+    assert_eq!(e.outcome, Some(ForkPasteOutcome::Refused));
+    assert_eq!(e.card_reason, Some(ForkCardReason::SecureField));
+    assert_eq!(e.text, None);
+    for r in [CardReason::NoTextField, CardReason::FocusMoved] {
+        let e = super::outcome_event(10, Delivery::Card { reason: r }, "hi");
+        assert_eq!(e.outcome, Some(ForkPasteOutcome::Card));
+        assert_eq!(e.text.as_deref(), Some("hi"));
     }
 }
 

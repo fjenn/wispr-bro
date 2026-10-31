@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (c) 2026 Abhishek Barali (SpeakoFlow; MIT, notice below)
-// Modified by Wispr Bro contributors, 2026-10-30.
+// Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31.
 //
 // Ported from SpeakoFlow `src-tauri/src/smart_spacing/macos.rs`
 // (https://github.com/AbhishekBarali/SpeakoFlow, commit
@@ -14,7 +14,11 @@
 // returns the AXError. Added: `attr_raw` keeping the AXError, `attr_url`,
 // `attr_rect`/`bounds_for_range` (CGRect), `is_settable`, `set_string`,
 // `set_range`, `children`, `copy_names`, `parameterized`, `error_name`.
-// SpeakoFlow's read logic (caret window, Chromium quirks) is in probe.rs.
+// SpeakoFlow's read logic (caret window, Chromium quirks) is in the RS-04
+// spike's probe.rs. S-05 (2026-10-31) moved this file from the spike into
+// the product (`fork/ax/`; the spike compiles it through `#[path]`) and added
+// `family_of` (from the spike's probe.rs), `is_gecko` and
+// `secure_input_pid`.
 //
 // MIT License
 //
@@ -42,6 +46,7 @@
 //! Every call is a synchronous message answered by the target app's main
 //! thread: call these only from the AX thread (`thread.rs`), never from a UI
 //! thread. Attribute names are string literals (the crate has no constants).
+//! The RS-04 spike (`crates/wb-spike-ax`) compiles this file too.
 
 use std::ffi::c_void;
 use std::ptr::NonNull;
@@ -62,6 +67,45 @@ extern "C" {
 pub fn secure_input_on() -> bool {
     // SAFETY: no arguments; reads global state.
     unsafe { IsSecureEventInputEnabled() != 0 }
+}
+
+#[link(name = "CoreGraphics", kind = "framework")]
+extern "C" {
+    fn CGSessionCopyCurrentDictionary() -> *const c_void;
+}
+
+#[link(name = "CoreFoundation", kind = "framework")]
+extern "C" {
+    fn CFDictionaryGetValue(dict: *const c_void, key: *const c_void) -> *const c_void;
+    fn CFRelease(cf: *const c_void);
+}
+
+/// The process holding Secure Event Input, if the window server says
+/// (`kCGSSessionSecureInputPID` in the session dictionary; the same value
+/// `ioreg -l | grep kCGSSessionSecureInputPID` shows). `None` when nobody
+/// holds it or the session does not report it.
+pub fn secure_input_pid() -> Option<i32> {
+    // SAFETY: Copy rule; released below.
+    let dict = unsafe { CGSessionCopyCurrentDictionary() };
+    if dict.is_null() {
+        return None;
+    }
+    let key = CFString::from_str("kCGSSessionSecureInputPID");
+    // SAFETY: valid dictionary and CFString key; Get rule (not retained).
+    let value = unsafe { CFDictionaryGetValue(dict, (&*key as *const CFString).cast()) };
+    let pid = (!value.is_null())
+        .then(|| {
+            // SAFETY: a non-null value of the dictionary is a CFType; the
+            // downcast checks it is a CFNumber.
+            let value: &CFType = unsafe { &*(value as *const CFType) };
+            value.downcast_ref::<CFNumber>().and_then(|n| n.as_i64())
+        })
+        .flatten()
+        .and_then(|p| i32::try_from(p).ok())
+        .filter(|p| *p > 0);
+    // SAFETY: we own the dictionary (Copy rule).
+    unsafe { CFRelease(dict) };
+    pid
 }
 
 /* ───────────────────────────── AX helpers ───────────────────────────── */
@@ -402,6 +446,45 @@ pub fn is_electron(bundle: &str) -> bool {
         .exists()
 }
 
+/// Gecko apps (Firefox and its forks, Thunderbird): their AX answers are
+/// not trusted for a "no text field" card (TypeWhisper excludes Gecko the
+/// same way; behaviour only) and they get no AX writes.
+pub fn is_gecko(name: &str) -> bool {
+    matches!(
+        name,
+        "firefox"
+            | "firefox developer edition"
+            | "firefox nightly"
+            | "thunderbird"
+            | "zen"
+            | "zen browser"
+            | "librewolf"
+            | "floorp"
+            | "waterfox"
+    )
+}
+
+/// The app family of a bundle path (the spike's `probe::family_of`).
+pub fn family_of(bundle: &str) -> super::editable::Family {
+    use super::editable::Family;
+    let name = bundle_name(bundle);
+    if is_terminal(&name) {
+        Family::Terminal
+    } else if is_chromium(&name) {
+        Family::Chromium
+    } else if is_gecko(&name) {
+        Family::Gecko
+    } else if is_electron(bundle) {
+        Family::Electron
+    } else if name == "safari" || name == "safari technology preview" {
+        Family::Webkit
+    } else if name == "finder" {
+        Family::Finder
+    } else {
+        Family::Native
+    }
+}
+
 /// Apps that only build their accessibility tree on request.
 #[allow(dead_code)] // kept from the port (probe::family_of splits it by family)
 pub fn builds_tree_on_request(bundle: &str, name: &str) -> bool {
@@ -438,5 +521,33 @@ mod tests {
         assert!(!is_terminal("textedit"));
         assert!(is_chromium("google chrome") && is_chromium("arc"));
         assert!(!is_chromium("safari"));
+        assert!(is_gecko("firefox") && is_gecko("thunderbird"));
+        assert!(!is_gecko("safari"));
+        use super::super::editable::Family;
+        assert_eq!(family_of("/Applications/Firefox.app"), Family::Gecko);
+        assert_eq!(
+            family_of("/System/Library/CoreServices/Finder.app"),
+            Family::Finder
+        );
+        assert_eq!(
+            family_of("/System/Applications/Utilities/Terminal.app"),
+            Family::Terminal
+        );
+        assert_eq!(family_of("/Applications/Safari.app"), Family::Webkit);
+        assert_eq!(
+            family_of("/Applications/Google Chrome.app"),
+            Family::Chromium
+        );
+        assert_eq!(
+            family_of("/System/Applications/TextEdit.app"),
+            Family::Native
+        );
+    }
+
+    #[test]
+    fn secure_input_reads_do_not_panic() {
+        // Any answer is fine under `cargo test` (no GUI session needed).
+        let _ = secure_input_on();
+        let _ = secure_input_pid();
     }
 }

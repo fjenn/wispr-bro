@@ -40,7 +40,8 @@ pub enum ForkPasteOutcome {
     Queued,
 }
 
-/// Why a take went to the card (`fork.json` > `insert.cardReason.*`).
+/// Why a take went to the card (`fork.json` > `rust.pill.card.*`, shared by
+/// the card and its VoiceOver announcement).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]
 pub enum ForkCardReason {
@@ -49,10 +50,15 @@ pub enum ForkCardReason {
     SessionInactive,
     PasteFailed,
     DiskFull,
+    NoTextField,
+    FocusMoved,
+    SecureField,
 }
 
-/// Emitted once per delivered take. A card carries the text, so the pill can
-/// show it with Copy (S-05); a pasted take does not.
+/// Emitted once per delivered take. A card carries the text (other windows
+/// may show it); a pasted take does not, and neither does a refused one (a
+/// password field: the text is never broadcast). The Flow Bar's card gets
+/// the text in Rust (`fork::pill::show_card`), not from this event.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type, tauri_specta::Event)]
 pub struct ForkInsertOutcome {
     /// Delivery counter since launch.

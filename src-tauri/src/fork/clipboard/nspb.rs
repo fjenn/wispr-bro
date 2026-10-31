@@ -233,8 +233,20 @@ pub fn publish_transcript(text: &str, lazy: bool) -> Result<Published, String> {
 /// clipboard managers do record it (Handy's "copy to clipboard" setting:
 /// the user asked for the transcript to stay). Returns the change count.
 pub fn write_plain_text(text: &str) -> Result<i64, String> {
+    write_text(text, false)
+}
+
+/// Replaces the clipboard with `text` as plain text: the card's Copy (S-05;
+/// it replaces the clipboard and does not restore it, R5 §4.7). `concealed`
+/// adds only `org.nspasteboard.ConcealedType`, so clipboard managers keep
+/// it out of their history (a password field's text), while the user can
+/// still paste it anywhere.
+pub fn write_text(text: &str, concealed: bool) -> Result<i64, String> {
     let pb = general();
     let item = NSPasteboardItem::new();
+    if concealed && !item.setData_forType(&NSData::new(), &NSString::from_str(markers::CONCEALED)) {
+        return Err("could not set the concealed marker".into());
+    }
     if !item.setString_forType(
         &NSString::from_str(text),
         &NSString::from_str(markers::TEXT),

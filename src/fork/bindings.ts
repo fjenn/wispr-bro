@@ -747,9 +747,10 @@ dismiss_id: string; title_key: string; body_key: string; action: NotificationAct
  */
 entry_id: number | null }
 /**
- * Why a take went to the card (`fork.json` > `insert.cardReason.*`).
+ * Why a take went to the card (`fork.json` > `rust.pill.card.*`, shared by
+ * the card and its VoiceOver announcement).
  */
-export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed" | "disk_full"
+export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed" | "disk_full" | "no_text_field" | "focus_moved" | "secure_field"
 /**
  * One take's result for the UI (pill, debug panel).
  */
@@ -853,8 +854,10 @@ detail: string | null;
  */
 keep: boolean }
 /**
- * Emitted once per delivered take. A card carries the text, so the pill can
- * show it with Copy (S-05); a pasted take does not.
+ * Emitted once per delivered take. A card carries the text (other windows
+ * may show it); a pasted take does not, and neither does a refused one (a
+ * password field: the text is never broadcast). The Flow Bar's card gets
+ * the text in Rust (`fork::pill::show_card`), not from this event.
  */
 export type ForkInsertOutcome = { 
 /**
@@ -968,9 +971,15 @@ mic: string | null; message: PillMessage | null; tone: PillTone | null; fix: Pil
  */
 progress: number | null; 
 /**
- * The card's text (S-07a).
+ * The card's text (S-07a); `None` on a card for a password field
+ * (S-05: the text never reaches the web view; Copy still copies it).
  */
 text: string | null; 
+/**
+ * Why the card's take was not pasted (S-05; `fork.json` >
+ * `rust.pill.card.<reason>`); `None` for a queued take (S-07a).
+ */
+card_reason: ForkCardReason | null; 
 /**
  * Takes that finished before the one on the card.
  */

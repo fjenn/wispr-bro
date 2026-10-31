@@ -45,6 +45,7 @@ enum Mode {
     DryRun,
     Summarize(PathBuf),
     LeaseCheck(i32),
+    Watch(u64),
     Help,
 }
 
@@ -81,6 +82,13 @@ fn parse(args: &[String]) -> Result<(Mode, Options), String> {
                     .and_then(|p| p.parse().ok())
                     .ok_or("--lease-check needs a process id")?;
                 mode = Mode::LeaseCheck(pid);
+            }
+            "--watch" => {
+                let secs = it
+                    .next()
+                    .and_then(|p| p.parse().ok())
+                    .ok_or("--watch needs a number of seconds")?;
+                mode = Mode::Watch(secs);
             }
             "--summarize" => {
                 let dir = it.next().ok_or("--summarize needs a results folder")?;
@@ -177,6 +185,56 @@ fn lease_check(pid: i32) -> i32 {
     0
 }
 
+/// `--watch SECS` (S-05): every 0.4 s, the product's verdict for the
+/// focused element of the frontmost app, one JSON line per change (roles,
+/// verdict and delivery only; never text). Used by the S-05 real-Mac run to
+/// check the desktop, Finder and each app's fields.
+fn watch(secs: u64) -> i32 {
+    use ax::probe::{self, LeaseMode, ProbeOpts};
+    let ax = ax::thread::AxThread::spawn();
+    let end = std::time::Instant::now() + std::time::Duration::from_secs(secs);
+    let mut last = String::new();
+    while std::time::Instant::now() < end {
+        system::tick(std::time::Duration::from_millis(400));
+        let line = ax.run(std::time::Duration::from_secs(2), |ctx| {
+            let web = probe::focused_family(ctx).is_some_and(|f| f.builds_tree_on_request());
+            let p = probe::probe(
+                ctx,
+                &ProbeOpts {
+                    timeout: 0.2,
+                    lease: if web { LeaseMode::On } else { LeaseMode::NotNeeded },
+                    allow_text: false,
+                    set_test: false,
+                    menu_copy: false,
+                },
+            );
+            serde_json::json!({
+                "app": p.app,
+                "family": p.family,
+                "role": p.facts.role,
+                "subrole": p.facts.subrole,
+                "window": p.facts.has_focused_window,
+                "element": p.facts.has_focused_element,
+                "secure_input": p.facts.secure_input,
+                "verdict": p.verdict,
+                "delivery": p.delivery,
+                "ms": p.total_ms,
+            })
+            .to_string()
+        });
+        if let Some(line) = line {
+            // Print on change only (the timing field aside).
+            let key = line.split(",\"ms\"").next().unwrap_or("").to_string();
+            if key != last {
+                println!("{line}");
+                last = key;
+            }
+        }
+    }
+    ax.shutdown();
+    0
+}
+
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let code = match parse(&args) {
@@ -188,13 +246,15 @@ fn main() {
                  --dry-run        permission check and plan, then exit\n  \
                  --apps a,b       only these apps\n  \
                  --out DIR        save results under DIR instead of ~/wb-bench/results/rs04\n  \
-                 --summarize DIR  rebuild summary.txt/json from a run's events.jsonl"
+                 --summarize DIR  rebuild summary.txt/json from a run's events.jsonl\n  \
+                 --watch SECS     print the product's verdict for the focused element (S-05)"
             );
             0
         }
         Ok((Mode::DryRun, opts)) => dry_run(&opts),
         Ok((Mode::Summarize(dir), _)) => summary::summarize_dir(&dir),
         Ok((Mode::LeaseCheck(pid), _)) => lease_check(pid),
+        Ok((Mode::Watch(secs), _)) => watch(secs),
         Ok((Mode::Auto, opts)) => session::auto(opts),
         Ok((Mode::Session, opts)) => session::run(opts),
         Err(e) => {
