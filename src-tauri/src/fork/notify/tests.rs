@@ -1042,6 +1042,25 @@ mod app {
         assert_eq!(h.sink.kinds(), vec![NotificationKind::UpdateReady]);
     }
 
+    /// Samples (debug panel, Mac test demo) repeat even when their dedupe
+    /// key was earned already.
+    #[test]
+    fn samples_repeat_past_their_dedupe_key() {
+        let (app, _h) = build(true);
+        let (first, second) = run(app, |handle, _w| {
+            let post = |seq| {
+                crate::fork::commands::notifications::post_sample(
+                    handle,
+                    NotificationKind::Milestone,
+                    seq,
+                )
+            };
+            (post(0), post(1))
+        });
+        assert!(first.is_some() && second.is_some(), "posted both times");
+        assert_eq!(first.unwrap().kind, NotificationKind::Milestone);
+    }
+
     /// Esc observed by the hotkey tap closes toasts (and is never blocked:
     /// the registry has no way to block).
     #[test]

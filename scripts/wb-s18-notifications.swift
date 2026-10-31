@@ -7,8 +7,10 @@
 // app's own window.
 //
 //   swiftc -O -o /tmp/wbnotif scripts/wb-s18-notifications.swift
-//   wbnotif dump                         # Notification Center's AX tree
-//   wbnotif list                         # visible banners and their actions
+//   wbnotif dump                         # Notification Center's AX tree (shows every app's notifications: debugging only)
+//   wbnotif list   <filter>              # matching notifications and their actions
+//   wbnotif nc-toggle                    # open/close Notification Center (with a Focus on)
+//   wbnotif expand <text>                # expand the stack that contains <text>
 //   wbnotif wait   <text> [seconds]      # until a banner shows <text>
 //   wbnotif click  <text>                # AXPress (the notification's click)
 //   wbnotif action <text> <action name>  # a named action (a button)
@@ -66,9 +68,11 @@ func text(_ e: AXUIElement, depth: Int = 0) -> String {
 /// Elements that look like a notification: subrole AXNotificationCenter*.
 func banners(_ e: AXUIElement, depth: Int = 0, into out: inout [AXUIElement]) {
     if depth > 14 { return }
-    if str(e, kAXSubroleAttribute).hasPrefix("AXNotificationCenter") {
+    let subrole = str(e, kAXSubroleAttribute)
+    if subrole.hasPrefix("AXNotificationCenter") {
         out.append(e)
-        return
+        // A stack's members show up as children once it is expanded.
+        if !subrole.hasSuffix("Stack") { return }
     }
     for c in children(e) { banners(c, depth: depth + 1, into: &out) }
 }
@@ -90,7 +94,8 @@ func dump(_ e: AXUIElement, depth: Int = 0) {
 }
 
 func find(_ needle: String) -> AXUIElement? {
-    allBanners().first { text($0).localizedCaseInsensitiveContains(needle) }
+    let hits = allBanners().filter { text($0).localizedCaseInsensitiveContains(needle) }
+    return hits.first { !str($0, kAXSubroleAttribute).hasSuffix("Stack") } ?? hits.first
 }
 
 func frame(_ e: AXUIElement) -> CGRect? {
@@ -134,9 +139,37 @@ switch arg(0) {
 case "dump":
     if let root = center() { dump(root) }
 case "list":
-    for b in allBanners() {
-        print("\(str(b, kAXSubroleAttribute))\t\(text(b))\tactions=\(actions(b))")
+    // Only notifications that contain <filter>: other apps' notifications are
+    // the user's own and are never printed.
+    let filter = arg(1)
+    guard !filter.isEmpty else { print("usage: list <filter>"); exit(64) }
+    for b in allBanners() where text(b).localizedCaseInsensitiveContains(filter) {
+        let names = actions(b).map { $0.split(separator: "\n").first.map(String.init) ?? $0 }
+        print("\(str(b, kAXSubroleAttribute))\t\(text(b))\tactions=\(names)")
     }
+case "nc-toggle":
+    // Opens or closes Notification Center (the menu-bar clock). With a Focus
+    // on, banners are not shown and notifications wait there.
+    guard let cc = NSRunningApplication.runningApplications(
+        withBundleIdentifier: "com.apple.controlcenter").first else { print("no Control Center"); exit(1) }
+    var clock: AXUIElement?
+    func walk(_ e: AXUIElement, _ d: Int) {
+        if d > 6 || clock != nil { return }
+        let id = ((attr(e, "AXIdentifier") as? String) ?? "") + str(e, kAXDescriptionAttribute)
+        if id.lowercased().contains("clock") { clock = e; return }
+        for c in children(e) { walk(c, d + 1) }
+    }
+    walk(AXUIElementCreateApplication(cc.processIdentifier), 0)
+    guard let item = clock else { print("no clock item"); exit(1) }
+    let r = AXUIElementPerformAction(item, kAXPressAction as CFString)
+    print("clock pressed → \(r.rawValue)")
+case "expand":
+    // Expands the stack that contains <text> (a click on a stack expands it).
+    guard let stack = allBanners().first(where: {
+        str($0, kAXSubroleAttribute).hasSuffix("Stack") && text($0).localizedCaseInsensitiveContains(arg(1))
+    }) else { print("no stack"); exit(1) }
+    let r = AXUIElementPerformAction(stack, kAXPressAction as CFString)
+    print("expanded → \(r.rawValue)")
 case "wait":
     let seconds = Double(arg(2)) ?? 15
     let deadline = Date().addingTimeInterval(seconds)
@@ -163,7 +196,9 @@ case "action":
         Thread.sleep(forTimeInterval: 0.6)
         names = actions(b)
     }
-    guard let name = names.first(where: { $0.localizedCaseInsensitiveContains(wanted) }) else {
+    // An exact action name first ("Allow" must not pick "Don’t Allow").
+    let exact = names.first { $0.split(separator: "\n").first == "Name:\(wanted)" }
+    guard let name = exact ?? names.first(where: { $0.localizedCaseInsensitiveContains(wanted) }) else {
         print("no action \(wanted.debugDescription); actions=\(names)")
         exit(1)
     }

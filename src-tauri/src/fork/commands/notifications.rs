@@ -148,6 +148,28 @@ pub fn sample_notice(kind: NotificationKind, seq: i64) -> Notice {
     }
 }
 
+/// Posts [`sample_notice`] through the real path. Samples repeat: an entry
+/// with the same dedupe key (a milestone already earned, …) is removed first.
+pub fn post_sample<R: ForkRuntime>(
+    app: &AppHandle<R>,
+    kind: NotificationKind,
+    seq: i64,
+) -> Option<notify::NotificationItem> {
+    let notice = sample_notice(kind, seq);
+    if let Some(key) = notice.dedupe_key.clone() {
+        if let Some(db) = app.try_state::<ForkDb>() {
+            let cleared = db.with_conn(|c| {
+                c.execute("DELETE FROM notifications WHERE dedupe_key = ?1", [key])?;
+                Ok(())
+            });
+            if let Err(e) = cleared {
+                log::debug!("notify: sample key not cleared: {e}");
+            }
+        }
+    }
+    notify::post(app, notice)
+}
+
 /// Debug builds and `--debug` only: posts a sample of `kind` after
 /// `delay_ms` (≤ 60 s, so the tester can bring another app to the front),
 /// through the real path (toggles, inbox, macOS policy). Samples repeat:
@@ -165,17 +187,10 @@ pub fn fork_notifications_debug_post<R: ForkRuntime>(
         return Err(ForkError::Internal("debug builds only".into()));
     }
     let seq = crate::fork::context::now_ms();
-    let notice = sample_notice(kind, seq);
-    if let Some(key) = notice.dedupe_key.clone() {
-        with_db(&app, |c| {
-            c.execute("DELETE FROM notifications WHERE dedupe_key = ?1", [key])?;
-            Ok(())
-        })?;
-    }
     let delay = std::time::Duration::from_millis(u64::from(delay_ms.unwrap_or(0).min(60_000)));
     std::thread::spawn(move || {
         std::thread::sleep(delay);
-        notify::post(&app, notice);
+        post_sample(&app, kind, seq);
     });
     Ok(())
 }

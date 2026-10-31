@@ -797,9 +797,8 @@ fn start_demo<R: ForkRuntime>(app: &AppHandle<R>, value: Option<&str>) {
     std::thread::spawn(move || {
         for (i, kind) in kinds.into_iter().enumerate() {
             std::thread::sleep(std::time::Duration::from_millis(delay));
-            let notice =
-                crate::fork::commands::notifications::sample_notice(kind, now_ms() + i as i64);
-            post(&app, notice);
+            let _ =
+                crate::fork::commands::notifications::post_sample(&app, kind, now_ms() + i as i64);
         }
     });
 }
