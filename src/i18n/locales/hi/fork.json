@@ -256,6 +256,42 @@
       "failed": "स्वच्छता अनाम रही: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "नमस्ते, {{name}}",
+      "anonymous": "नमस्ते",
+      "edit": "ग्रीटिंग में नाम बदलें"
+    },
+    "nameEditor": {
+      "label": "स्वागत में नाम",
+      "field": "आपका नाम",
+      "hint": "केवल इस Mac पर दिखाया जाता है।",
+      "save": "बचाएं",
+      "useAccountName": "मेरे Mac अकाउंट नाम का उपयोग करें",
+      "clear": "नाम हटाएं",
+      "saveFailed": "नाम सेव नहीं किया जा सकता है। फिर से कोशिश करें।"
+    },
+    "stats": {
+      "label": "आपके स्टैट्स",
+      "totalWords": "कुल शब्द",
+      "wordsPerMinute": "प्रति मिनट शब्द",
+      "streak": "लगातार दिन",
+      "notEnoughSpeech": "अभी तक कम बातें नहीं",
+      "unavailable": "अभी उपलब्ध नहीं है"
+    },
+    "voiceProfile": {
+      "title": "आपका आवाज का प्रोफाइल",
+      "progress": "{{goal}} में से {{current}} शब्द",
+      "locked": "{{goal}} शब्दों पर खोला जाता है। बनाए रखें ताकि इसे बना लिया जा सके।",
+      "unlocked": "बरकरार है। अपने बोलने के तरीके को देखें इंसाइट्स में।",
+      "open": "Insights ke upar kholne"
+    },
+    "history": {
+      "title": "आपके डिक्टेशन इस मैक पर सेव रहते हैं",
+      "body": "हिस्ट्री खोलें ताकि उन्हें कॉपी करें, खेलें या खोजें।",
+      "action": "इतिहास खोलें"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

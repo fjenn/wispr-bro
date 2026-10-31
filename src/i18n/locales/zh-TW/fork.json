@@ -256,6 +256,42 @@
       "failed": "清理失敗：{{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "你好，{{name}}",
+      "anonymous": "你好",
+      "edit": "修改歡迎語的名稱"
+    },
+    "nameEditor": {
+      "label": "打招呼時的姓名",
+      "field": "你的名字",
+      "hint": "僅在這台 Mac 上顯示。",
+      "save": "儲存",
+      "useAccountName": "使用我的 Mac 帳戶名稱",
+      "clear": "移除名稱",
+      "saveFailed": "無法儲存名稱。請再試一次。"
+    },
+    "stats": {
+      "label": "你的統計資料",
+      "totalWords": "總字數",
+      "wordsPerMinute": "每分鐘字數",
+      "streak": "連續天數",
+      "notEnoughSpeech": "還不夠語音",
+      "unavailable": "尚未提供"
+    },
+    "voiceProfile": {
+      "title": "你的語音檔案",
+      "progress": "{{current}} / {{goal}} 個字",
+      "locked": "在 {{goal}} 個字時解鎖。持續輸入以建立它。",
+      "unlocked": "已解鎖。請參閱「洞察」中您說話的方式。",
+      "open": "開啟 Insights"
+    },
+    "history": {
+      "title": "你的語音輸入已儲存在這台 Mac 上",
+      "body": "開啟歷史記錄以複製、播放或搜尋。",
+      "action": "開啟歷史"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

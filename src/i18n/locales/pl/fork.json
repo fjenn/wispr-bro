@@ -256,6 +256,42 @@
       "failed": "Usuwanie nie powiodło się: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Cześć, {{name}}",
+      "anonymous": "Cześć",
+      "edit": "Zmień imię w powitaniu"
+    },
+    "nameEditor": {
+      "label": "Imię w powitaniu",
+      "field": "Twoje imię",
+      "hint": "Pokażane tylko na tym Macie.",
+      "save": "Zapisz",
+      "useAccountName": "Użyj nazwy konta mojego Maca",
+      "clear": "Usunąć nazwę",
+      "saveFailed": "Nie udało się zapisać nazwy. Spróbuj ponownie."
+    },
+    "stats": {
+      "label": "Twoje statystyki",
+      "totalWords": "Całkowita liczba słów",
+      "wordsPerMinute": "Słowa na minutę",
+      "streak": "Seria dni",
+      "notEnoughSpeech": "Nie wystarczająca mowa jeszcze",
+      "unavailable": "Nie dostępne jeszcze"
+    },
+    "voiceProfile": {
+      "title": "Twój profil głosowy",
+      "progress": "{{current}} z {{goal}} słów",
+      "locked": "Otwiera się po {{goal}} słów. Kontynuuj dictowanie, aby go utworzyć.",
+      "unlocked": "Otwarte. Sprawdź, jak mówisz w Insights.",
+      "open": "Otwórz Insights"
+    },
+    "history": {
+      "title": "Twoje dictacje są zapisywane na tym Macie",
+      "body": "Otwórz Historię, aby skopiować, odtworzyć lub wyszukać.",
+      "action": "Otwórz historię"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -2,7 +2,7 @@
 /**
  * The Hub's pages (S-13, C-01): sidebar order, icons, tags and the component
  * each page slot renders. A feature slice mounts its page by replacing the
- * `component` of its entry (S-15a Dictation, S-25 Insights, S-16 Dictionary,
+ * `component` of its entry (S-15a Dictation: done, S-25 Insights, S-16 Dictionary,
  * S-17 Snippets, S-19a Style, S-22 Transforms, S-24 Scratchpad, S-26b Share,
  * S-14 Settings). Until then the slot shows a placeholder page with an empty
  * state and one clear action.
@@ -22,7 +22,8 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
-import { Banner, EmptyState, type TagKind } from "../ui";
+import { Home } from "../home/Home";
+import { EmptyState, type TagKind } from "../ui";
 import { HandySettingsPage } from "./HandySettingsPage";
 import { navigate, type HubPageId } from "./nav";
 import { PageHeader } from "./PageHeader";
@@ -69,44 +70,12 @@ function placeholder(
   return PlaceholderPage;
 }
 
-/** Dictation home until S-15a: a welcome banner and the empty history. */
-function DictationPlaceholder() {
-  const { t } = useTranslation(FORK_NAMESPACE);
-  const appName = t("rust.appName");
-  return (
-    <>
-      <PageHeader title={t(pageLabelKey("dictation"))} />
-      <Banner
-        id="hub.dictation.start"
-        title={t("hub.pages.dictation.banner.title")}
-        body={t("hub.pages.dictation.banner.body", { appName })}
-        examplesLabel={t("hub.pages.dictation.banner.examplesLabel")}
-        examples={[
-          t("hub.pages.dictation.banner.examples.reply"),
-          t("hub.pages.dictation.banner.examples.notes"),
-          t("hub.pages.dictation.banner.examples.prompt"),
-        ]}
-      />
-      <EmptyState
-        testId="wb-empty-dictation"
-        icon={AudioLines}
-        title={t("hub.pages.dictation.empty.title")}
-        body={t("hub.pages.dictation.empty.body")}
-        action={{
-          label: t("hub.pages.dictation.empty.action"),
-          onClick: () => navigate("settings", "history"),
-        }}
-      />
-    </>
-  );
-}
-
 export const HUB_PAGES: HubPage[] = [
   {
     id: "dictation",
     group: "main",
     icon: AudioLines,
-    component: DictationPlaceholder,
+    component: Home,
   },
   {
     id: "insights",

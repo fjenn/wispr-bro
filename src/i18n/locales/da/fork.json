@@ -256,6 +256,42 @@
       "failed": "Opklaringsfejl: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Hej, {{name}}",
+      "anonymous": "Hej",
+      "edit": "Ændr navnet i hilsenen"
+    },
+    "nameEditor": {
+      "label": "Navn i hilsen",
+      "field": "Dit navn",
+      "hint": "Vises kun på denne Mac.",
+      "save": "Gem",
+      "useAccountName": "Brug mit Mac-konto-navn",
+      "clear": "Fjern navnet",
+      "saveFailed": "Navnet kunne ikke beskrevet. Prøv igen."
+    },
+    "stats": {
+      "label": "Dine statistikker",
+      "totalWords": "Total ord",
+      "wordsPerMinute": "Ord pr. minut",
+      "streak": "Dage i træk",
+      "notEnoughSpeech": "Ingen nok tale endnu",
+      "unavailable": "Ikke tilgængelig endnu"
+    },
+    "voiceProfile": {
+      "title": "Din stemmeprofil",
+      "progress": "{{current}} af {{goal}} ord",
+      "locked": "Åbner ved {{goal}} ord. Fortæl fortsat for at bygge det.",
+      "unlocked": "Ukendt. Se, hvordan du taler i Insigt.",
+      "open": "Åbne indsigt"
+    },
+    "history": {
+      "title": "Dit dictation er beskrevet på denne Mac",
+      "body": "Åbn Historik for at kopiere, spille eller søge i dem.",
+      "action": "Åbn historik"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

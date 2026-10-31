@@ -256,6 +256,42 @@
       "failed": "정리 실패: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "안녕하세요, {{name}}",
+      "anonymous": "안녕하세요",
+      "edit": "인사말의 이름 변경"
+    },
+    "nameEditor": {
+      "label": "인사할 때 이름",
+      "field": "당신의 이름",
+      "hint": "이 맥에서만 표시됩니다.",
+      "save": "저장",
+      "useAccountName": "내 Mac 계정 이름 사용",
+      "clear": "이름 제거",
+      "saveFailed": "이름을 저장할 수 없습니다. 다시 시도하세요."
+    },
+    "stats": {
+      "label": "당신의 통계",
+      "totalWords": "전체 단어",
+      "wordsPerMinute": "분당 단어 수",
+      "streak": "연속 일수",
+      "notEnoughSpeech": "아직 충분한 말이 없음",
+      "unavailable": "아직 제공되지 않음"
+    },
+    "voiceProfile": {
+      "title": "당신의 음성 프로필",
+      "progress": "{{goal}}단어 중 {{current}}단어",
+      "locked": "{{goal}} 단어에 도달하면 풀림. 계속 말해 보세요.",
+      "unlocked": "잠금 해제됨. 인사이트에서 어떻게 말하는지 확인하세요.",
+      "open": "인사이트 열기"
+    },
+    "history": {
+      "title": "당신의 디타이션은 이 맥 컴퓨터에 저장됩니다",
+      "body": "히스토리 열기로 복사, 재생 또는 검색할 수 있습니다.",
+      "action": "히스토리 열기"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

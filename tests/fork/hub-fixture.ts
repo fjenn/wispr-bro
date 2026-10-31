@@ -12,6 +12,7 @@
  */
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
+import type { StatsSummary } from "../../src/fork/bindings";
 import { test as base, expect, type IpcMock } from "./fixtures";
 
 export { expect };
@@ -55,6 +56,23 @@ export function defaultForkSettings(): Record<string, unknown> {
   };
 }
 
+/** `fork_stats_summary` for a profile with no dictations (S-09 shape). */
+export function emptyStats(): StatsSummary {
+  return {
+    total_words: 0,
+    total_dictations: 0,
+    today_words: 0,
+    today_dictations: 0,
+    speech_ms: 0,
+    words_per_minute: null,
+    current_streak_days: 0,
+    longest_streak_days: 0,
+    active_days: 0,
+    fixes_dictionary: 0,
+    fixes_llm: 0,
+  };
+}
+
 /** Handy settings for a returning user. */
 export function handySettings(
   overrides: Record<string, unknown> = {},
@@ -81,6 +99,10 @@ export interface HubState {
   forkSettings: Record<string, unknown>;
   /** Handy settings the mocked backend holds. */
   handy: Record<string, unknown>;
+  /** What `fork_stats_summary` returns (change it, then emit `fork-stats-updated`). */
+  stats: StatsSummary;
+  /** What `fork_account_name` returns (the macOS first name, or null). */
+  accountName: string | null;
 }
 
 export interface OpenHubOptions {
@@ -94,7 +116,12 @@ export interface OpenHubOptions {
 
 export const test = base.extend<{ hub: HubState }>({
   hub: async ({}, use) => {
-    await use({ forkSettings: defaultForkSettings(), handy: handySettings() });
+    await use({
+      forkSettings: defaultForkSettings(),
+      handy: handySettings(),
+      stats: emptyStats(),
+      accountName: "Sam",
+    });
   },
 });
 
@@ -144,6 +171,9 @@ export async function openHub(
     hub.forkSettings[update.key] = update.value;
     return hub.forkSettings;
   });
+
+  ipc.handle("fork_stats_summary", () => hub.stats);
+  ipc.handle("fork_account_name", () => hub.accountName);
 
   await page.goto(`/${options.hash ?? ""}`);
   await expect(page.getByTestId("wb-sidebar")).toBeVisible();

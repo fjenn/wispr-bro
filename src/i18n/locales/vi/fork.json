@@ -256,6 +256,42 @@
       "failed": "Không thể làm sạch: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Xin chào, {{name}}",
+      "anonymous": "Xin chào",
+      "edit": "Thay đổi tên trong lời chào"
+    },
+    "nameEditor": {
+      "label": "Tên trong lời chào",
+      "field": "Tên của bạn",
+      "hint": "Chỉ hiển thị trên máy Mac này.",
+      "save": "Lưu",
+      "useAccountName": "Sử dụng tên tài khoản Mac của tôi",
+      "clear": "Xóa tên",
+      "saveFailed": "Tên không thể được lưu. Hãy thử lại."
+    },
+    "stats": {
+      "label": "Thống kê của bạn",
+      "totalWords": "Tổng số từ",
+      "wordsPerMinute": "Từ mỗi phút",
+      "streak": "Chuỗi ngày",
+      "notEnoughSpeech": "Chưa đủ lời nói yet",
+      "unavailable": "Chưa có sẵn"
+    },
+    "voiceProfile": {
+      "title": "Bản sắc giọng nói của bạn",
+      "progress": "{{current}} / {{goal}} từ",
+      "locked": "Mở khóa tại {{goal}} từ. Tiếp tục ghi âm để xây dựng nó.",
+      "unlocked": "Đã mở khóa. Xem cách bạn nói trong Insights.",
+      "open": "Mở Insights"
+    },
+    "history": {
+      "title": "Các bản ghi giọng nói của bạn được lưu trên máy Mac này",
+      "body": "Mở Lịch sử để sao chép, phát hoặc tìm kiếm chúng.",
+      "action": "Mở lịch sử"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

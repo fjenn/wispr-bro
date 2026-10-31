@@ -356,5 +356,41 @@
       "badReply": "The model's reply could not be used. Your text would be inserted without cleanup.",
       "failed": "Cleanup failed: {{message}}"
     }
+  },
+  "home": {
+    "greeting": {
+      "named": "Hello, {{name}}",
+      "anonymous": "Hello",
+      "edit": "Change the name in the greeting"
+    },
+    "nameEditor": {
+      "label": "Name in the greeting",
+      "field": "Your name",
+      "hint": "Shown only on this Mac.",
+      "save": "Save",
+      "useAccountName": "Use my Mac account name",
+      "clear": "Remove the name",
+      "saveFailed": "The name could not be saved. Try again."
+    },
+    "stats": {
+      "label": "Your stats",
+      "totalWords": "Total words",
+      "wordsPerMinute": "Words per minute",
+      "streak": "Day streak",
+      "notEnoughSpeech": "Not enough speech yet",
+      "unavailable": "Not available yet"
+    },
+    "voiceProfile": {
+      "title": "Your voice profile",
+      "progress": "{{current}} of {{goal}} words",
+      "locked": "Unlocks at {{goal}} words. Keep dictating to build it.",
+      "unlocked": "Unlocked. See how you speak in Insights.",
+      "open": "Open Insights"
+    },
+    "history": {
+      "title": "Your dictations are saved on this Mac",
+      "body": "Open History to copy, play or search them.",
+      "action": "Open history"
+    }
   }
 }

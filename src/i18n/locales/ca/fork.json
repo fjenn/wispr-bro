@@ -256,6 +256,42 @@
       "failed": "Ha fallat la neteja: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Hola, {{name}}",
+      "anonymous": "Hola",
+      "edit": "Canvia el nom a la salutació"
+    },
+    "nameEditor": {
+      "label": "Nom a la salutació",
+      "field": "El teu nom",
+      "hint": "Només mostrat en aquest Mac.",
+      "save": "Desa",
+      "useAccountName": "Utilitzar el nom de la meva compte de Mac",
+      "clear": "Eliminar el nom",
+      "saveFailed": "No s'ha pogut guardar el nom. Prova again."
+    },
+    "stats": {
+      "label": "Les teves estadístiques",
+      "totalWords": "Paraules totals",
+      "wordsPerMinute": "Paraules per minut",
+      "streak": "Dies seguits",
+      "notEnoughSpeech": "Encara no hi ha prou parla",
+      "unavailable": "Encara no està disponible"
+    },
+    "voiceProfile": {
+      "title": "El teu perfil de veu",
+      "progress": "{{current}} de {{goal}} paraules",
+      "locked": "Es desbloqueja a {{goal}} paraules. Continua dictant per construir-lo.",
+      "unlocked": "Desbloquejat. Veu com parles a Insights.",
+      "open": "Obre Insights"
+    },
+    "history": {
+      "title": "Les teves dictacions estan guardades a aquest Mac",
+      "body": "Obre l'Històric per copiar, reproduir o cercar-los.",
+      "action": "Obre l'història"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

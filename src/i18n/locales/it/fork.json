@@ -256,6 +256,42 @@
       "failed": "Errore durante il pulito: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Ciao, {{name}}",
+      "anonymous": "Ciao",
+      "edit": "Modifica il nome nel saluto"
+    },
+    "nameEditor": {
+      "label": "Nome nella saluta",
+      "field": "Il tuo nome",
+      "hint": "Mostrato solo su questo Mac.",
+      "save": "Salva",
+      "useAccountName": "Usa il nome dell'account Mac",
+      "clear": "Elimina il nome",
+      "saveFailed": "Impossibile salvare il nome. Riprova."
+    },
+    "stats": {
+      "label": "I tuoi dati",
+      "totalWords": "Parole totali",
+      "wordsPerMinute": "Parole al minuto",
+      "streak": "Giorni di fila",
+      "notEnoughSpeech": "Ancora poco parlato",
+      "unavailable": "Ancora non disponibile"
+    },
+    "voiceProfile": {
+      "title": "Il tuo profilo vocale",
+      "progress": "{{current}} di {{goal}} parole",
+      "locked": "Si sblocca a {{goal}} parole. Continua a parlare per completarlo.",
+      "unlocked": "Sbloccato. Vedere come parli in Insights.",
+      "open": "Apri Insights"
+    },
+    "history": {
+      "title": "Le tue dictature vengono salvate su questo Mac",
+      "body": "Apri Storico per copiare, riprodurre o cercare.",
+      "action": "Apri storia"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

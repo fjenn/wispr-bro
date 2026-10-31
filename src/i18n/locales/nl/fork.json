@@ -256,6 +256,42 @@
       "failed": "Opslag mislukt: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Hallo, {{name}}",
+      "anonymous": "Hallo",
+      "edit": "Wijzig de naam in de groet"
+    },
+    "nameEditor": {
+      "label": "Naam in de groet",
+      "field": "Je naam",
+      "hint": "Alleen weergegeven op dit Mac.",
+      "save": "Opslaan",
+      "useAccountName": "Gebruik mijn Mac accountnaam",
+      "clear": "Naam verwijderen",
+      "saveFailed": "De naam kon niet worden opgeslagen. Probeer het opnieuw."
+    },
+    "stats": {
+      "label": "Je statistieken",
+      "totalWords": "Totaal aantal woorden",
+      "wordsPerMinute": "Worden per minuut",
+      "streak": "Dagen op rij",
+      "notEnoughSpeech": "Niet genoeg spraak nog",
+      "unavailable": "Niet beschikbaar nog"
+    },
+    "voiceProfile": {
+      "title": "Je stemprofiel",
+      "progress": "{{current}} van {{goal}} woorden",
+      "locked": "Onthuld bij {{goal}} woorden. Zet voort met dictatie om het op te bouwen.",
+      "unlocked": "Ongeblokkeerd. Bekijk hoe je spreekt in Insights.",
+      "open": "Insights openen"
+    },
+    "history": {
+      "title": "Je dictaties worden op deze Mac opgeslagen",
+      "body": "Open Historie om te kopiëren, af te spelen of ze te zoeken.",
+      "action": "Geschiedenis openen"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -256,6 +256,42 @@
       "failed": "Opravení selhalo: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Ahoj, {{name}}",
+      "anonymous": "Ahoj",
+      "edit": "Změnit jméno v pozdravu"
+    },
+    "nameEditor": {
+      "label": "Jméno v pozdravu",
+      "field": "Tvoje jméno",
+      "hint": "Zobrazeno pouze na tomto Macu.",
+      "save": "Uložit",
+      "useAccountName": "Použít jméno účtu na Mac",
+      "clear": "Odstranit jméno",
+      "saveFailed": "Název se nepodařilo uložit. Zkuste to znovu."
+    },
+    "stats": {
+      "label": "Tvoje statistiky",
+      "totalWords": "Celkový počet slov",
+      "wordsPerMinute": "Slova za minutu",
+      "streak": "Dní v řadě",
+      "notEnoughSpeech": "Příliš málo řeči ještě",
+      "unavailable": "Ještě není dostupné"
+    },
+    "voiceProfile": {
+      "title": "Vaš profil hlasu",
+      "progress": "{{current}} z {{goal}} slov",
+      "locked": "Otevře se při {{goal}} slovech. Pokračujte v řeči, aby se vytvořil profil.",
+      "unlocked": "Otevřeno. Podívejte se, jak říkáte v Insights.",
+      "open": "Otevřít Insights"
+    },
+    "history": {
+      "title": "Vaše dictace jsou uložené na tomto Macu",
+      "body": "Otevřít historii pro zkopírování, přehrání nebo hledání.",
+      "action": "Otevřít historii"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

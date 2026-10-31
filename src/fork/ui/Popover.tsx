@@ -3,7 +3,8 @@
  * Popover on Radix Popover (R4 "UI primitives", MIT): a non-modal panel
  * anchored to its trigger, closed by Esc or a click outside, with focus moved
  * in and returned to the trigger. Used for the notifications panel (S-13
- * shell, S-18 content).
+ * shell, S-18 content) and the greeting's name editor (S-15a). Uncontrolled
+ * unless `open` is passed (then `onOpenChange` reports every change).
  */
 import * as RadixPopover from "@radix-ui/react-popover";
 import type { ReactElement, ReactNode } from "react";
@@ -17,6 +18,9 @@ export interface PopoverProps {
   align?: "start" | "center" | "end";
   testId?: string;
   className?: string;
+  /** Controlled open state (optional). */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function Popover({
@@ -27,9 +31,11 @@ export function Popover({
   align = "end",
   testId,
   className = "",
+  open,
+  onOpenChange,
 }: PopoverProps) {
   return (
-    <RadixPopover.Root>
+    <RadixPopover.Root open={open} onOpenChange={onOpenChange}>
       <RadixPopover.Trigger asChild>{trigger}</RadixPopover.Trigger>
       <RadixPopover.Portal>
         <RadixPopover.Content

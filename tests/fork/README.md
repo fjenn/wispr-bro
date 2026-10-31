@@ -21,6 +21,8 @@ specs; they pass under either config. It is not edited (R5 §4.2).
 | `ipc-fixture.spec.ts`     | Self-tests of the fixture on a bare page (no app code)                            |
 | `debug-panel.spec.ts`     | Fork debug panel (F-05), written with the fixture                                 |
 | `brand-overrides.spec.ts` | Brand overrides (F-01), uses `installTauriMock` directly                          |
+| `hub-fixture.ts`          | `openHub` for a returning user, mocked settings, stats and account name (S-13)    |
+| `home.spec.ts`            | Dictation home (S-15a): greeting, stats rail, live refresh, voice profile         |
 
 ## Writing a spec
 

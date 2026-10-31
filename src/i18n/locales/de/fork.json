@@ -256,6 +256,42 @@
       "failed": "Löschen fehlgeschlagen: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Hallo, {{name}}",
+      "anonymous": "Hallo",
+      "edit": "Namen in der Begrüßung ändern"
+    },
+    "nameEditor": {
+      "label": "Name im Gruss",
+      "field": "Dein Name",
+      "hint": "Nur auf diesem Mac angezeigt.",
+      "save": "Speichern",
+      "useAccountName": "Mein Mac-Kontoname verwenden",
+      "clear": "Name entfernen",
+      "saveFailed": "Der Name konnte nicht gespeichert werden. Versuchen Sie es erneut."
+    },
+    "stats": {
+      "label": "Deine Statistiken",
+      "totalWords": "Gesamtwörter",
+      "wordsPerMinute": "Wörter pro Minute",
+      "streak": "Tage in Folge",
+      "notEnoughSpeech": "Noch nicht genug Sprache",
+      "unavailable": "Noch nicht verfügbar"
+    },
+    "voiceProfile": {
+      "title": "Dein Stimmenprofil",
+      "progress": "{{current}} von {{goal}} Wörtern",
+      "locked": "Entspricht {{goal}} Wörtern. Weiter dictieren, um es zu bauen.",
+      "unlocked": "Entschlossen. Schauen Sie, wie Sie sprechen, in Insights.",
+      "open": "Insights öffnen"
+    },
+    "history": {
+      "title": "Deine Dictationen werden auf diesem Mac gespeichert",
+      "body": "Historie öffnen, kopieren, abspielen oder suchen",
+      "action": "Geschichte öffnen"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

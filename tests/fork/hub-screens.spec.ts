@@ -25,6 +25,13 @@ test.describe("hub screenshots", () => {
     for (const size of SIZES) {
       test(`${theme} ${size.name}`, async ({ page, ipc, hub }) => {
         await page.emulateMedia({ colorScheme: theme });
+        // Mocked numbers so the home's rail shows a used profile (S-15a).
+        Object.assign(hub.stats, {
+          total_words: 1_284,
+          total_dictations: 57,
+          words_per_minute: 142.6,
+          current_streak_days: 4,
+        });
         await openHub(page, ipc, hub, {
           handy: { theme },
           size: { width: size.width, height: size.height },

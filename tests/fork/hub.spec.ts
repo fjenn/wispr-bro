@@ -23,6 +23,10 @@ const PAGE_TITLES: Record<(typeof HUB_PAGE_IDS)[number], string> = {
   settings: "Settings",
 };
 
+/** Each page's h1: its title, except the home's greeting (S-15a; the
+ *  fixture's macOS first name is Sam). */
+const PAGE_HEADINGS = { ...PAGE_TITLES, dictation: "Hello, Sam" };
+
 const main = (page: Page) => page.getByTestId("wb-main");
 
 async function currentPage(page: Page) {
@@ -49,7 +53,7 @@ test.describe("hub shell", () => {
       await page.getByTestId(`wb-nav-${id}`).click();
       await expect(main(page)).toHaveAttribute("data-page", id);
       await expect(main(page).getByRole("heading", { level: 1 })).toHaveText(
-        PAGE_TITLES[id],
+        PAGE_HEADINGS[id],
       );
       const current = page.locator('[aria-current="page"]');
       await expect(current).toHaveCount(1);

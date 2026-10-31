@@ -256,6 +256,42 @@
       "failed": "Radering misslyckades: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Hej, {{name}}",
+      "anonymous": "Hej",
+      "edit": "Ändra namnet i hälsningen"
+    },
+    "nameEditor": {
+      "label": "Namn i välkomsten",
+      "field": "Ditt namn",
+      "hint": "Visas endast på denna Mac.",
+      "save": "Spara",
+      "useAccountName": "Använd mitt Mac-kontonamn",
+      "clear": "Ta bort namnet",
+      "saveFailed": "Namnet kunde inte sparas. Försök igen."
+    },
+    "stats": {
+      "label": "Dina statistik",
+      "totalWords": "Totala ord",
+      "wordsPerMinute": "Ord per minut",
+      "streak": "Dagar i rad",
+      "notEnoughSpeech": "Ingen tillräckande tal än",
+      "unavailable": "Inte tillgänglig ännu"
+    },
+    "voiceProfile": {
+      "title": "Din röstprofil",
+      "progress": "{{current}} av {{goal}} ord",
+      "locked": "Öppnas vid {{goal}} ord. Fortsätt att säga för att bygga det.",
+      "unlocked": "Oppen. Se hur du pratar i Insikter.",
+      "open": "Öppna Insikter"
+    },
+    "history": {
+      "title": "Dina dictationer sparas på denna Mac",
+      "body": "Öppna Historik för att kopia, spela eller söka efter dem.",
+      "action": "Öppna historia"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

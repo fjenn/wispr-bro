@@ -256,6 +256,42 @@
       "failed": "ההכנה נכשלה: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "שלום, {{name}}",
+      "anonymous": "שלום",
+      "edit": "החלף את השם בברכה"
+    },
+    "nameEditor": {
+      "label": "השם בברכה",
+      "field": "השם שלך",
+      "hint": "הנראה רק על המחשב הזה.",
+      "save": "שמור",
+      "useAccountName": "למשתמש בחשבון המاك שלי",
+      "clear": "למחוק את השם",
+      "saveFailed": "השם לא נשמש. נסה שוב."
+    },
+    "stats": {
+      "label": "הסטטיסטיקות שלך",
+      "totalWords": "המילים הכולות",
+      "wordsPerMinute": "מילים לדקה",
+      "streak": "ימים ברצף",
+      "notEnoughSpeech": "לא מספיק שיחה עדיין",
+      "unavailable": "לא זמין עדיין"
+    },
+    "voiceProfile": {
+      "title": "פרופיל הצלח שלך",
+      "progress": "{{current}} מתוך {{goal}} מילים",
+      "locked": "הפתיחה ב-{{goal}} מילים. המשך לרשום כדי לבנות את זה.",
+      "unlocked": "הפתוח. ראה איך אתה מדבר בניתוחים.",
+      "open": "הפתיחה של תובנות"
+    },
+    "history": {
+      "title": "ההקלטות שלך נשמרות על זה המاك",
+      "body": "הפתוח את ההיסטוריה כדי להעתק, להפוך למשחק או לחפש.",
+      "action": "הפתוח את היסטוריה"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -256,6 +256,42 @@
       "failed": "Limpeza falhou: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Olá, {{name}}",
+      "anonymous": "Olá",
+      "edit": "Mude o nome na saudação"
+    },
+    "nameEditor": {
+      "label": "Nome na saudação",
+      "field": "Seu nome",
+      "hint": "Exibido apenas neste Mac.",
+      "save": "Salvar",
+      "useAccountName": "Usar o nome da conta do meu Mac",
+      "clear": "Remover o nome",
+      "saveFailed": "O nome não pôde ser salvo. Tente novamente."
+    },
+    "stats": {
+      "label": "Seus estatísticas",
+      "totalWords": "Palavras totais",
+      "wordsPerMinute": "Palavras por minuto",
+      "streak": "Dias seguidos",
+      "notEnoughSpeech": "Ainda não há suficiente fala",
+      "unavailable": "Ainda não disponível"
+    },
+    "voiceProfile": {
+      "title": "Seu perfil de voz",
+      "progress": "{{current}} de {{goal}} palavras",
+      "locked": "Desbloqueia em {{goal}} palavras. Continue dictando para construí-lo.",
+      "unlocked": "Desbloqueado. Veja como você fala nas Insights.",
+      "open": "Abrir Insights"
+    },
+    "history": {
+      "title": "As suas dictações são salvas nesse Mac",
+      "body": "Abra Histórico para copiar, reproduzir ou procurar.",
+      "action": "Abrir histórico"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

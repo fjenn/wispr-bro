@@ -409,6 +409,7 @@ macro_rules! fork_specta_builder {
                 commands::history::fork_history_meta::<$runtime>,
                 commands::history::fork_history_delete::<$runtime>,
                 commands::history::fork_history_undo_delete::<$runtime>,
+                commands::stats::fork_account_name,
                 commands::llm::fork_llm_status::<$runtime>,
                 commands::llm::fork_llm_try::<$runtime>,
                 commands::llm::fork_llm_retry::<$runtime>,

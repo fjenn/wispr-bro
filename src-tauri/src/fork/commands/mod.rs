@@ -14,6 +14,7 @@ pub mod hotkeys;
 pub mod llm;
 pub mod selfcheck;
 pub mod settings;
+pub mod stats;
 
 use std::sync::Arc;
 

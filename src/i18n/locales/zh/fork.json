@@ -256,6 +256,42 @@
       "failed": "清理失败：{{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "你好，{{name}}",
+      "anonymous": "你好",
+      "edit": "更改问候语中的名称"
+    },
+    "nameEditor": {
+      "label": "问候中的名称",
+      "field": "你的名字",
+      "hint": "仅在该 Mac 上显示。",
+      "save": "保存",
+      "useAccountName": "使用我的 Mac 账户名称",
+      "clear": "删除名称",
+      "saveFailed": "名称保存失败。请重试。"
+    },
+    "stats": {
+      "label": "你的统计数据",
+      "totalWords": "总词数",
+      "wordsPerMinute": "每分钟单词数",
+      "streak": "连续天数",
+      "notEnoughSpeech": "语音还不够",
+      "unavailable": "尚未可用"
+    },
+    "voiceProfile": {
+      "title": "你的语音档案",
+      "progress": "{{current}} / {{goal}} 个词",
+      "locked": "在 {{goal}} 个词时解锁。继续说话以完善它。",
+      "unlocked": "已解锁。在洞察中查看你的语音说话方式。",
+      "open": "打开洞察"
+    },
+    "history": {
+      "title": "你的语音输入保存在这款 Mac 上",
+      "body": "打开历史记录以复制、播放或搜索。",
+      "action": "打开历史记录"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

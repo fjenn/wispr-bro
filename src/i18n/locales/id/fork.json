@@ -256,6 +256,42 @@
       "failed": "Pembersihan gagal: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Halo, {{name}}",
+      "anonymous": "Halo",
+      "edit": "Ubah nama di salam"
+    },
+    "nameEditor": {
+      "label": "Nama di salam",
+      "field": "Nama Anda",
+      "hint": "Hanya ditampilkan di Mac ini.",
+      "save": "Simpan",
+      "useAccountName": "Gunakan nama akun Mac saya",
+      "clear": "Hapus nama",
+      "saveFailed": "Nama tidak bisa disimpan. Coba lagi."
+    },
+    "stats": {
+      "label": "Statistik Anda",
+      "totalWords": "Jumlah kata",
+      "wordsPerMinute": "Kata per menit",
+      "streak": "Hari berturut-turut",
+      "notEnoughSpeech": "Belum cukup bicara",
+      "unavailable": "Belum tersedia"
+    },
+    "voiceProfile": {
+      "title": "Profil suara Anda",
+      "progress": "{{current}} dari {{goal}} kata",
+      "locked": "Dibuka pada {{goal}} kata. Terus berbicara untuk membangunnya.",
+      "unlocked": "Dibuka. Lihat bagaimana Anda berbicara di Insights.",
+      "open": "Buka Insights"
+    },
+    "history": {
+      "title": "Dictasan Anda disimpan di Mac ini",
+      "body": "Buka Sejarah untuk menyalin, memutar atau mencari mereka.",
+      "action": "Buka riwayat"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

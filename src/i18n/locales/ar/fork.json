@@ -256,6 +256,42 @@
       "failed": "فشل في تنظيف البيانات: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "مرحبا، {{name}}",
+      "anonymous": "مرحبًا",
+      "edit": "تغيير اسم الترحيب"
+    },
+    "nameEditor": {
+      "label": "الاسم في التحية",
+      "field": "اسمك",
+      "hint": "يُعرض فقط على هذا Mac.",
+      "save": "احفظ",
+      "useAccountName": "استخدم اسم حساب مك",
+      "clear": "أزل الاسم",
+      "saveFailed": "لا يمكن حفظ الاسم. جرّب مرة أخرى."
+    },
+    "stats": {
+      "label": "إحصائياتك",
+      "totalWords": "الكلمات الإجمالية",
+      "wordsPerMinute": "الكلمات في الدقيقة",
+      "streak": "أيام متتالية",
+      "notEnoughSpeech": "لا توجد كمية كافية من الكلام بعد",
+      "unavailable": "لا يُتوفر بعد"
+    },
+    "voiceProfile": {
+      "title": "ملف صوتك",
+      "progress": "{{current}} من {{goal}} كلمة",
+      "locked": "يُفتح عند {{goal}} كلمة. استمر في التحدث لبناءه.",
+      "unlocked": "مُفتح. اعرض طريقة تحدثك في التحليلات.",
+      "open": "افتح التحليلات"
+    },
+    "history": {
+      "title": "أوامر التدوين الخاصة بك محفوظة على هذا Mac",
+      "body": "افتح التاريخ لنسخه أو تشغيلها أو بحثها.",
+      "action": "افتح التاريخ"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

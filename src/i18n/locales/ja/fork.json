@@ -256,6 +256,42 @@
       "failed": "クリーンアップに失敗しました: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "こんにちは、{{name}}",
+      "anonymous": "こんにちは",
+      "edit": "あいさつの名前を変更"
+    },
+    "nameEditor": {
+      "label": "挨拶での名前",
+      "field": "あなたの名前",
+      "hint": "このMacでのみ表示されます。",
+      "save": "保存",
+      "useAccountName": "私のMacアカウント名を使用",
+      "clear": "名前を削除",
+      "saveFailed": "名前を保存できませんでした。再度試してください。"
+    },
+    "stats": {
+      "label": "あなたの統計",
+      "totalWords": "合計語数",
+      "wordsPerMinute": "分あたりの単語数",
+      "streak": "連続日数",
+      "notEnoughSpeech": "まだ十分な発話は不足しています",
+      "unavailable": "まだ利用できません"
+    },
+    "voiceProfile": {
+      "title": "あなたの声プロファイル",
+      "progress": "{{current}} / {{goal}} 語",
+      "locked": "{{goal}}語まで解放されます。話すことで構築してください。",
+      "unlocked": "ロック解除。インサイトで話すスタイルを確認してください。",
+      "open": "インサイトを開く"
+    },
+    "history": {
+      "title": "あなたのディクテーションはこのMacに保存されています",
+      "body": "履歴を開くことでコピー、再生、または検索できます。",
+      "action": "履歴を開く"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -256,6 +256,42 @@
       "failed": "Temizleme başarısız oldu: {{message}}"
     }
   },
+  "home": {
+    "greeting": {
+      "named": "Merhaba, {{name}}",
+      "anonymous": "Merhaba",
+      "edit": "Selamlamadaki adı değiştir"
+    },
+    "nameEditor": {
+      "label": "Merhaba mesajında isim",
+      "field": "Adınız",
+      "hint": "Sadece bu Mac'te gösterilir.",
+      "save": "Kaydet",
+      "useAccountName": "Benim Mac hesabımın adımı kullan",
+      "clear": "İsimi kaldır",
+      "saveFailed": "İsim kaydedilemedi. Yeniden dene."
+    },
+    "stats": {
+      "label": "Stateleriniz",
+      "totalWords": "Toplam kelime",
+      "wordsPerMinute": "Dakika başına kelime",
+      "streak": "Gün serisi",
+      "notEnoughSpeech": "Yeterli konuşma yapılmadı",
+      "unavailable": "Hâlâ mevcut değil"
+    },
+    "voiceProfile": {
+      "title": "Ses profili",
+      "progress": "{{current}} / {{goal}} kelime",
+      "locked": "{{goal}} kelimeye ulaşınca açılır. Devam etmek için söylenmeyi artırın.",
+      "unlocked": "Kilitlenmedi. İnceleme bölümünde nasıl konuşuyorsunuzı görün.",
+      "open": "Insightları aç"
+    },
+    "history": {
+      "title": "Dictasyonlarınız bu Mac'te kaydedilir",
+      "body": "Tarihleri açarak kopyalayın, oynayın veya arayın.",
+      "action": "Tarihleri aç"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

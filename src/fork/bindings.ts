@@ -160,6 +160,14 @@ async forkHistoryUndoDelete(ids: number[]) : Promise<Result<number, ForkError>> 
 }
 },
 /**
+ * The first name of the macOS account (the first word of its full name),
+ * or `None` when the account has no usable full name or the platform has
+ * none. Never fails: the greeting then says hello without a name.
+ */
+async forkAccountName() : Promise<string | null> {
+    return await TAURI_INVOKE("fork_account_name");
+},
+/**
  * The AI engine's state (model download, server).
  */
 async forkLlmStatus() : Promise<Result<ForkLlmStatus, ForkError>> {
