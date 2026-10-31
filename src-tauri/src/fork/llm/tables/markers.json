@@ -76,23 +76,8 @@
       ]
     },
     "nl": {
-      "hesitations": [
-        "eh",
-        "ehm",
-        "uh",
-        "uhm",
-        "hm",
-        "hmm",
-        "euh"
-      ],
-      "fillers": [
-        "nou",
-        "dus",
-        "eh",
-        "ehm",
-        "zeg maar",
-        "ja"
-      ],
+      "hesitations": ["eh", "ehm", "uh", "uhm", "hm", "hmm", "euh"],
+      "fillers": ["nou", "dus", "eh", "ehm", "zeg maar", "ja"],
       "repairs": [
         "nee wacht",
         "wacht even",
@@ -118,15 +103,7 @@
       ]
     },
     "fr": {
-      "hesitations": [
-        "euh",
-        "heu",
-        "hum",
-        "bah",
-        "hein",
-        "uh",
-        "um"
-      ],
+      "hesitations": ["euh", "heu", "hum", "bah", "hein", "uh", "um"],
       "fillers": [
         "alors",
         "bon",
@@ -162,26 +139,8 @@
       ]
     },
     "de": {
-      "hesitations": [
-        "äh",
-        "ähm",
-        "öh",
-        "hm",
-        "hmm",
-        "eh",
-        "ehm",
-        "uh",
-        "um"
-      ],
-      "fillers": [
-        "also",
-        "halt",
-        "naja",
-        "ähm",
-        "äh",
-        "sozusagen",
-        "quasi"
-      ],
+      "hesitations": ["äh", "ähm", "öh", "hm", "hmm", "eh", "ehm", "uh", "um"],
+      "fillers": ["also", "halt", "naja", "ähm", "äh", "sozusagen", "quasi"],
       "repairs": [
         "nein warte",
         "warte",
@@ -205,22 +164,8 @@
       ]
     },
     "es": {
-      "hesitations": [
-        "eh",
-        "em",
-        "ehm",
-        "mm",
-        "este",
-        "uh",
-        "um"
-      ],
-      "fillers": [
-        "pues",
-        "bueno",
-        "o sea",
-        "este",
-        "eh"
-      ],
+      "hesitations": ["eh", "em", "ehm", "mm", "este", "uh", "um"],
+      "fillers": ["pues", "bueno", "o sea", "este", "eh"],
       "repairs": [
         "no espera",
         "espera",
@@ -242,21 +187,8 @@
       ]
     },
     "it": {
-      "hesitations": [
-        "ehm",
-        "eh",
-        "uhm",
-        "mmm",
-        "uh",
-        "um"
-      ],
-      "fillers": [
-        "allora",
-        "cioè",
-        "tipo",
-        "insomma",
-        "ehm"
-      ],
+      "hesitations": ["ehm", "eh", "uhm", "mmm", "uh", "um"],
+      "fillers": ["allora", "cioè", "tipo", "insomma", "ehm"],
       "repairs": [
         "no aspetta",
         "aspetta",
@@ -268,30 +200,11 @@
         "o meglio"
       ],
       "stopwords": "il lo la i gli le un una e o ma se di del della a al in con per come è sono era essere io mi noi tu ti lui lei loro che chi quando dove non sì anche molto questo questa",
-      "openers": [
-        "certo",
-        "certamente",
-        "ecco",
-        "ecco a te",
-        "la risposta è"
-      ]
+      "openers": ["certo", "certamente", "ecco", "ecco a te", "la risposta è"]
     },
     "pt": {
-      "hesitations": [
-        "hum",
-        "hã",
-        "é",
-        "ah",
-        "eh",
-        "uh",
-        "um"
-      ],
-      "fillers": [
-        "tipo",
-        "né",
-        "então",
-        "é"
-      ],
+      "hesitations": ["hum", "hã", "é", "ah", "eh", "uh", "um"],
+      "fillers": ["tipo", "né", "então", "é"],
       "repairs": [
         "não espera",
         "espera",
@@ -311,21 +224,8 @@
       ]
     },
     "sv": {
-      "hesitations": [
-        "öh",
-        "eh",
-        "hm",
-        "hmm",
-        "äh",
-        "uh",
-        "um"
-      ],
-      "fillers": [
-        "alltså",
-        "liksom",
-        "typ",
-        "öh"
-      ],
+      "hesitations": ["öh", "eh", "hm", "hmm", "äh", "uh", "um"],
+      "fillers": ["alltså", "liksom", "typ", "öh"],
       "repairs": [
         "nej vänta",
         "vänta",
@@ -335,29 +235,11 @@
         "nej"
       ],
       "stopwords": "en ett och eller men om av till i på för med från som är var vara jag mig vi oss du dig han hon de dem vad vem när var hur inte ja nej också mycket det den detta",
-      "openers": [
-        "självklart",
-        "visst",
-        "här är",
-        "svaret är"
-      ]
+      "openers": ["självklart", "visst", "här är", "svaret är"]
     },
     "pl": {
-      "hesitations": [
-        "yyy",
-        "eee",
-        "hmm",
-        "yy",
-        "ee",
-        "uh",
-        "um"
-      ],
-      "fillers": [
-        "no",
-        "yyy",
-        "eee",
-        "jakby"
-      ],
+      "hesitations": ["yyy", "eee", "hmm", "yy", "ee", "uh", "um"],
+      "fillers": ["no", "yyy", "eee", "jakby"],
       "repairs": [
         "nie czekaj",
         "czekaj",
@@ -368,91 +250,28 @@
         "nie"
       ],
       "stopwords": "i oraz lub ale jeśli w we na z ze do od dla po jak jest są był była być ja mnie my nas ty ciebie on ona oni co kto kiedy gdzie nie tak też bardzo to ten ta że się",
-      "openers": [
-        "oczywiście",
-        "jasne",
-        "oto",
-        "odpowiedź to"
-      ]
+      "openers": ["oczywiście", "jasne", "oto", "odpowiedź to"]
     },
     "ja": {
-      "hesitations": [
-        "えーと",
-        "えっと",
-        "あのー",
-        "あの",
-        "えー",
-        "うーん"
-      ],
-      "fillers": [
-        "えーと",
-        "えっと",
-        "あのー",
-        "まあ"
-      ],
-      "repairs": [
-        "いや",
-        "じゃなくて",
-        "間違えた",
-        "ごめん",
-        "というか"
-      ],
+      "hesitations": ["えーと", "えっと", "あのー", "あの", "えー", "うーん"],
+      "fillers": ["えーと", "えっと", "あのー", "まあ"],
+      "repairs": ["いや", "じゃなくて", "間違えた", "ごめん", "というか"],
       "stopwords": "の は が を に で と も へ や か な ね よ です ます した して いる ある この その あの それ これ",
-      "openers": [
-        "もちろん",
-        "はい、",
-        "こちらが"
-      ]
+      "openers": ["もちろん", "はい、", "こちらが"]
     },
     "zh": {
-      "hesitations": [
-        "嗯",
-        "呃",
-        "啊",
-        "那个"
-      ],
-      "fillers": [
-        "那个",
-        "就是",
-        "嗯"
-      ],
-      "repairs": [
-        "不对",
-        "不是",
-        "我是说",
-        "应该是",
-        "说错了"
-      ],
+      "hesitations": ["嗯", "呃", "啊", "那个"],
+      "fillers": ["那个", "就是", "嗯"],
+      "repairs": ["不对", "不是", "我是说", "应该是", "说错了"],
       "stopwords": "的 了 是 在 和 也 就 都 而 及 与 着 或 一个 我 你 他 她 我们 你们 他们 这 那 吗 呢 吧",
-      "openers": [
-        "当然",
-        "好的，",
-        "以下是"
-      ]
+      "openers": ["当然", "好的，", "以下是"]
     },
     "ko": {
-      "hesitations": [
-        "음",
-        "어",
-        "그"
-      ],
-      "fillers": [
-        "음",
-        "어",
-        "그러니까",
-        "뭐"
-      ],
-      "repairs": [
-        "아니",
-        "아니 그게 아니라",
-        "잠깐"
-      ],
+      "hesitations": ["음", "어", "그"],
+      "fillers": ["음", "어", "그러니까", "뭐"],
+      "repairs": ["아니", "아니 그게 아니라", "잠깐"],
       "stopwords": "은 는 이 가 을 를 에 의 와 과 도 로 으로 하고 그리고 저 나 우리",
-      "openers": [
-        "물론",
-        "네,",
-        "다음은"
-      ]
+      "openers": ["물론", "네,", "다음은"]
     }
   },
   "assistant_markers": [
