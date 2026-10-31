@@ -500,7 +500,7 @@
       "lowMemory": "Nie ma wystarczającej ilości wolnej pamięci, aby uruchomić silnik AI w chwili obecnej. Zamknij niektóre aplikacje i spróbuj ponownie.",
       "badReply": "Odpowiedź modelu nie może być użyta. Twoje tekst będzie wstawione bez czyszczenia.",
       "failed": "Usuwanie nie powiodło się: {{message}}",
-      "engineApple": "Oczyszczono za pomocą Inteligencji Apple."
+      "ranOnApple": "Wykonane na Apple Intelligence."
     },
     "apple": {
       "title": "Apple Intelligence",
@@ -942,62 +942,6 @@
       "done_one": "Eksportowano {{count}} fragment.",
       "done_other": "Eksportowano {{count}} fragmentów.",
       "failed": "Nie udało się wyeksportować fragmentów. Proszę spróbować ponownie."
-    }
-  },
-  "cleanup": {
-    "title": "Oczyszczanie",
-    "loading": "Ładowanie poziomu czyszczenia…",
-    "loadError": "Nie można odczytać poziomu czyszczenia: {{message}}",
-    "setError": "Zmiana nie została zapisana: {{message}}",
-    "notice": "Wstawiono bez czyszczenia",
-    "picker": {
-      "legend": "O ile powinny być oczyścić Twoje słowa?",
-      "recommended": "Rekomendowane",
-      "aiChat": "W aplikacjach AI Twoje słowa są wstawiane tak, jak je powiedziałeś, bez czyszczenia przez AI."
-    },
-    "levels": {
-      "none": {
-        "label": "None",
-        "description": "Tak jak to powiedziałeś, tylko z dodanym odstępem i komendami głosowymi."
-      },
-      "light": {
-        "label": "Łatwy",
-        "description": "Usuwa wypełniacze takie jak \"um\" i \"you know\", poprawia znaki interpunkcyjne i wielkość liter, a Twoje poprawki zostają zachowane: \"at 2, actually 3\" staje się \"at 3\"."
-      },
-      "medium": {
-        "label": "Średnie",
-        "description": "Wszystko w świetle, plus lepsza gramatyka i sformułowanie. Twoje fakty i znaczenie pozostają takie same."
-      }
-    },
-    "last": {
-      "title": "Ostatnia dictacja",
-      "none": "Brak dictacji od początku działania aplikacji.",
-      "applied_one": "Wyczyszczone w {{ms}} ms, {{count}} zmiana.",
-      "applied_other": "Wyczyszczone w {{ms}} ms, {{count}} zmian.",
-      "partial": "Wyczyścięto częściowo ({{applied}} z {{total}} paragrafów); reszta jest jak mówiono: {{reason}}",
-      "checks": "Sprawdzenia bezpieczeństwa, które zatrzymały to: {{checks}}"
-    },
-    "why": {
-      "level_none": "Oczyszczanie jest wyłączone.",
-      "empty": "Nic do czyszczenia.",
-      "already_clean": "Juz czyste, dlatego motoryzacja AI nie była potrzebna.",
-      "ai_chat": "Aplikacja chat AI: wstawiona tak jak powiedziałeś.",
-      "not_ready": "Wstawiono bez czyszczenia: model czyszczenia nie jest jeszcze gotowy.",
-      "low_memory": "Wstawiono bez czyszczenia: obecnie nie ma wystarczającej ilości wolnej pamięci.",
-      "guard": "Wstawiono bez czyszczenia: tekst oczyścił się, ale nie przeszedł testów bezpieczeństwa.",
-      "timeout": "Wstawiono bez czyszczenia: czyszczenie trwało zbyt długo.",
-      "error": "Wstawiono bez czyszczenia: engine AI miał problem."
-    },
-    "reason": {
-      "level_none": "czyszczenie jest wyłączone",
-      "empty": "nic do czyszczenia",
-      "already_clean": "już czyste",
-      "ai_chat": "aplikacja chat AI",
-      "not_ready": "model usuwania nie jest jeszcze gotowy",
-      "low_memory": "mniej pamięci wolnej",
-      "guard": "nie przeszło testów bezpieczeństwa",
-      "timeout": "usunięcie zajęło zbyt długo",
-      "error": "engine AI miał problem"
     }
   },
   "overrides": {

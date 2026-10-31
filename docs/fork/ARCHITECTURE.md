@@ -1452,7 +1452,7 @@ next request with the same instructions uses that session once (Swift
 `Prewarmed`), so the instructions are not prefilled after key-up.
 
 **"Try it"** cleans on Apple's model when it would stand in, and says so
-("Cleaned with Apple Intelligence"); the panel shows Apple's availability,
+("Ran on Apple Intelligence"); the panel shows Apple's availability,
 role and counts (`fork_llm_apple_status`).
 
 **Debug-only switches:** `WB_DEBUG_LLM_HOLD_MODEL=1` keeps the local model

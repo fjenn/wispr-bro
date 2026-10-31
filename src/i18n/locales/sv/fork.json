@@ -500,7 +500,7 @@
       "lowMemory": "För lite ledig minne för att starta AI-engine just nu. Stäng några appar och försök igen.",
       "badReply": "Modellen kunde inte svara. Ditt text skulle infogas utan rensning.",
       "failed": "Radering misslyckades: {{message}}",
-      "engineApple": "Rekent med Apple Intelligent."
+      "ranOnApple": "Kördes på Apple Intelligence."
     },
     "apple": {
       "title": "Apple Intelligence",
@@ -942,62 +942,6 @@
       "done_one": "Exportade {{count}} snippet.",
       "done_other": "Exportade {{count}} snippet.",
       "failed": "Snippeterna kunde inte exporteras. Försök igen."
-    }
-  },
-  "cleanup": {
-    "title": "Rekommendation",
-    "loading": "Laddar rensningsnivå...",
-    "loadError": "Kunde inte läsa rensningsnivån: {{message}}",
-    "setError": "Den här ändringen sparas inte: {{message}}",
-    "notice": "Infogad utan rensning",
-    "picker": {
-      "legend": "Hur mycket ska dina ord förbättras?",
-      "recommended": "Förslag",
-      "aiChat": "I AI-chatappar läggs dina ord in exakt som du sa dem, utan AI-rengöring."
-    },
-    "levels": {
-      "none": {
-        "label": "Inget",
-        "description": "Exakt vad du sa, med endast mellanslag och röstorder tillämpade."
-      },
-      "light": {
-        "label": "Ljus",
-        "description": "Tar bort fyllningar som \"um\" och \"you know\", fixar punkter och storlek, och bevarar dina korrigeringar: \"at 2, actually 3\" blir \"at 3\"."
-      },
-      "medium": {
-        "label": "Medium",
-        "description": "Allt i ljus, plus smidigare grammatik och uttryck. Dina fakta och betydelse ändras inte."
-      }
-    },
-    "last": {
-      "title": "Sista dictation",
-      "none": "Ingen dictation sedan appen startade.",
-      "applied_one": "Rekommenderat i {{ms}} ms, {{count}} ändring.",
-      "applied_other": "Raderade i {{ms}} ms, {{count}} ändringar.",
-      "partial": "Raderat delvis ({{applied}} av {{total}} avsnitt); resten är som talats: {{reason}}",
-      "checks": "Säkerhetskontroller som avbröt det: {{checks}}"
-    },
-    "why": {
-      "level_none": "Rekommendation är inaktiverad.",
-      "empty": "Inget att rengöra.",
-      "already_clean": "Redan rensad, så behövdes AI-motorn inte.",
-      "ai_chat": "AI-chatapp: infogjord som du sa.",
-      "not_ready": "Infogörd utan rensning: rensningsmodellen är inte klar än.",
-      "low_memory": "Infogad utan rensning: inte tillräckligt med ledig minne just nu.",
-      "guard": "Infoges utan rensning: den rensade texten passerade inte säkerhetskontrollen.",
-      "timeout": "Infogad utan rensning: rensning tog för lång tid.",
-      "error": "Infogjord utan rensning: AI-motorn hade ett problem."
-    },
-    "reason": {
-      "level_none": "rengöring är inaktiverad",
-      "empty": "ingen något att rensa",
-      "already_clean": "redan rensad",
-      "ai_chat": "AI-chatapp",
-      "not_ready": "rengöringsmodellen är inte klar än",
-      "low_memory": "inte tillräckligt mycket ledig minne",
-      "guard": "det passerade inte säkerhetskontrollen",
-      "timeout": "rengöring tog för lång tid",
-      "error": "AI-engine hade ett problem"
     }
   },
   "overrides": {

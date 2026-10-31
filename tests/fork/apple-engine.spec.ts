@@ -131,7 +131,7 @@ test.describe("AI engine: Apple Intelligence", () => {
     const result = section.getByTestId("fork-ai-engine-result");
     await expect(result).toContainText("Meet on Thursday.");
     await expect(section.getByTestId("fork-ai-engine-engine")).toHaveText(
-      "Cleaned with Apple Intelligence.",
+      "Ran on Apple Intelligence.",
     );
     expect(await ipc.calls("fork_llm_try")).toHaveLength(1);
     // The counts are read again after Try it.

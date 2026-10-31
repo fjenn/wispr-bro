@@ -500,7 +500,7 @@
       "lowMemory": "Không đủ bộ nhớ trống để khởi động động cơ AI lúc này. Đóng một số ứng dụng và thử lại.",
       "badReply": "Trả lời của mô hình không thể được sử dụng. Văn bản của bạn sẽ được chèn mà không được xử lý.",
       "failed": "Không thể làm sạch: {{message}}",
-      "engineApple": "Đã được làm sạch bằng Apple Intelligence."
+      "ranOnApple": "Đã chạy trên Apple Intelligence."
     },
     "apple": {
       "title": "Apple Intelligence",
@@ -942,62 +942,6 @@
       "done_one": "Đã xuất {{count}} đoạn trích.",
       "done_other": "Đã xuất {{count}} đoạn trích.",
       "failed": "Không thể xuất các mẫu. Vui lòng thử lại."
-    }
-  },
-  "cleanup": {
-    "title": "Xử lý",
-    "loading": "Đang tải mức làm sạch…",
-    "loadError": "Không thể đọc mức làm sạch: {{message}}",
-    "setError": "Sửa đổi đó không được lưu: {{message}}",
-    "notice": "Đã chèn mà không làm sạch",
-    "picker": {
-      "legend": "Câu hỏi: Câu nói của bạn nên được làm sạch đến mức độ nào?",
-      "recommended": "Gợi ý",
-      "aiChat": "Trong các ứng dụng trò chuyện AI, những gì bạn nói sẽ được chèn vào đúng như bạn nói, mà không có việc xử lý bởi AI."
-    },
-    "levels": {
-      "none": {
-        "label": "Không",
-        "description": "Điều chính xác như bạn đã nói, chỉ có khoảng cách và lệnh giọng được áp dụng."
-      },
-      "light": {
-        "label": "Nhẹ",
-        "description": "Xóa các từ như \"um\", \"you know\", sửa dấu câu và chữ hoa, đồng thời giữ lại các sửa đổi của bạn: \"at 2, actually 3\" trở thành \"at 3\"."
-      },
-      "medium": {
-        "label": "Trung bình",
-        "description": "Tất cả nội dung ở mức sáng, thêm ngữ pháp và cách diễn đạt mượt hơn. Thông tin và ý nghĩa của bạn vẫn được giữ nguyên."
-      }
-    },
-    "last": {
-      "title": "Dictation cuối cùng",
-      "none": "Không có ghi âm nào kể từ khi mở ứng dụng.",
-      "applied_one": "Đã làm sạch trong {{ms}} ms, {{count}} thay đổi.",
-      "applied_other": "Đã làm sạch trong {{ms}} ms, {{count}} thay đổi.",
-      "partial": "Đã làm sạch một phần ({{applied}} trong {{total}} đoạn); phần còn lại là như đã nói: {{reason}}",
-      "checks": "Kiểm tra an toàn đã dừng lại: {{checks}}"
-    },
-    "why": {
-      "level_none": "Sự làm sạch được tắt.",
-      "empty": "Không có gì cần làm sạch.",
-      "already_clean": "Đã sạch rồi, nên không cần đến động cơ AI.",
-      "ai_chat": "Ứng dụng trò chuyện AI: được chèn như bạn nói.",
-      "not_ready": "Đã chèn mà chưa làm sạch: mô hình làm sạch chưa sẵn sàng yet.",
-      "low_memory": "Đã chèn mà không làm sạch: hiện tại không đủ bộ nhớ trống.",
-      "guard": "Đã chèn mà không làm sạch: văn bản đã được làm sạch nhưng không qua kiểm tra an toàn.",
-      "timeout": "Đã chèn mà không làm sạch: thời gian làm sạch quá dài.",
-      "error": "Đã chèn mà không làm sạch: động cơ AI gặp vấn đề."
-    },
-    "reason": {
-      "level_none": "xóa dữ liệu đã tắt",
-      "empty": "không có gì để làm sạch",
-      "already_clean": "đã sạch",
-      "ai_chat": "ứng dụng trò chuyện AI",
-      "not_ready": "mô hình làm sạch chưa sẵn sàng",
-      "low_memory": "không đủ bộ nhớ trống",
-      "guard": "nó không vượt qua các kiểm tra an toàn",
-      "timeout": "xóa dọn mất quá lâu",
-      "error": "máy học AI có vấn đề"
     }
   },
   "overrides": {

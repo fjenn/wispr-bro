@@ -500,7 +500,7 @@
       "lowMemory": "No hay suficiente memoria libre para iniciar el motor de IA en este momento. Cierra algunas aplicaciones y vuelve a intentarlo.",
       "badReply": "La respuesta del modelo no pudo usarse. Tu texto se insertaría sin limpieza.",
       "failed": "Error al limpiar: {{message}}",
-      "engineApple": "Limpio con Inteligencia de Apple."
+      "ranOnApple": "Ejecutado en Apple Intelligence."
     },
     "apple": {
       "title": "Apple Intelligence",
@@ -942,62 +942,6 @@
       "done_one": "Exportado {{count}} fragmento.",
       "done_other": "Exportado {{count}} fragmentos.",
       "failed": "Los fragmentos no se pudieron exportar. Por favor, inténtalo de nuevo."
-    }
-  },
-  "cleanup": {
-    "title": "Limpiar",
-    "loading": "Cargando el nivel de limpieza…",
-    "loadError": "No se pudo leer el nivel de limpieza: {{message}}",
-    "setError": "Ese cambio no se guardó: {{message}}",
-    "notice": "Insertado sin limpieza",
-    "picker": {
-      "legend": "¿Cuánto debería limpiarse tu texto?",
-      "recommended": "Recomendado",
-      "aiChat": "En aplicaciones de chat con IA, tus palabras se insertan tal como las dijiste, sin limpieza de IA."
-    },
-    "levels": {
-      "none": {
-        "label": "Ninguno",
-        "description": "Exactamente lo que dijiste, con solo espaciado y comandos de voz aplicados."
-      },
-      "light": {
-        "label": "Luz",
-        "description": "Elimina frases como \"um\" y \"you know\", corrige puntuación y mayúsculas, y mantiene tus correcciones: \"at 2, actually 3\" se convierte en \"at 3\"."
-      },
-      "medium": {
-        "label": "Medio",
-        "description": "Todo en Luz, más gramática y redacción más suave. Tus hechos y significado permanecen iguales."
-      }
-    },
-    "last": {
-      "title": "Última dictado",
-      "none": "No dictación desde que inició la aplicación.",
-      "applied_one": "Limpiado en {{ms}} ms, {{count}} cambio.",
-      "applied_other": "Limpiado en {{ms}} ms, {{count}} cambios.",
-      "partial": "Limpiado en parte ({{applied}} de {{total}} párrafos); el resto es como fue dicho: {{reason}}",
-      "checks": "Verificaciones de seguridad que la detuvieron: {{checks}}"
-    },
-    "why": {
-      "level_none": "La limpieza está desactivada.",
-      "empty": "Nada que limpiar.",
-      "already_clean": "Ya limpio, por lo que no fue necesario el motor de IA.",
-      "ai_chat": "Aplicación de chat con IA: insertada como lo dijiste.",
-      "not_ready": "Insertado sin limpieza: el modelo de limpieza aún no está listo.",
-      "low_memory": "Insertado sin limpieza: no hay suficiente memoria libre en este momento.",
-      "guard": "Insertado sin limpieza: el texto limpio no pasó las verificaciones de seguridad.",
-      "timeout": "Insertado sin limpieza: la limpieza tardó demasiado.",
-      "error": "Insertado sin limpieza: el motor de IA tuvo un problema."
-    },
-    "reason": {
-      "level_none": "la limpieza está desactivada",
-      "empty": "nada que limpiar",
-      "already_clean": "ya limpio",
-      "ai_chat": "aplicación de chat de IA",
-      "not_ready": "el modelo de limpieza aún no está listo",
-      "low_memory": "no suficiente memoria libre",
-      "guard": "no pasó las verificaciones de seguridad",
-      "timeout": "la limpieza tardó demasiado",
-      "error": "el motor de IA tuvo un problema"
     }
   },
   "overrides": {

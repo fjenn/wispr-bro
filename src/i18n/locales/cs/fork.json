@@ -500,7 +500,7 @@
       "lowMemory": "Není dostatek volné paměti k spuštění AI motoru v tomto okamžiku. Zavři některé aplikace a zkus to znovu.",
       "badReply": "Odpověď modelu nemohla být použita. Váš text bude vložen bez opravy.",
       "failed": "Opravení selhalo: {{message}}",
-      "engineApple": "Očištěno pomocí Apple Intelligence."
+      "ranOnApple": "Běželo na Apple Intelligence."
     },
     "apple": {
       "title": "Apple Intelligence",
@@ -942,62 +942,6 @@
       "done_one": "Exportováno {{count}} snippetu.",
       "done_other": "Exportováno {{count}} základních úseček.",
       "failed": "Snípky se nepodařilo exportovat. Zkuste to prosím znovu."
-    }
-  },
-  "cleanup": {
-    "title": "Omyvání",
-    "loading": "Načítání úrovně čištění…",
-    "loadError": "Nemohu načíst úroveň čištění: {{message}}",
-    "setError": "Tato změna nebyla uložena: {{message}}",
-    "notice": "Vloženo bez čištění",
-    "picker": {
-      "legend": "O kolik by měly být vaše slova zjednodušena?",
-      "recommended": "Doporučené",
-      "aiChat": "V aplikacích AI jsou vaše slova vložena tak, jak jste je řekli, bez čistění AI."
-    },
-    "levels": {
-      "none": {
-        "label": "Žádné",
-        "description": "Presne to, co jsi řekl, s pouze mezerami a příkazy hlasu."
-      },
-      "light": {
-        "label": "Široké",
-        "description": "Odstraňuje např. \"um\" nebo \"you know\", opravuje interpunkci a velká písmena a udržuje vaše opravy: \"at 2, actually 3\" se stává \"at 3\"."
-      },
-      "medium": {
-        "label": "Střední",
-        "description": "Všechno v světle, plus hladší gramatika a výraz. Tvá skutečnost a význam zůstávají stejné."
-      }
-    },
-    "last": {
-      "title": "Poslední dictace",
-      "none": "Žádná dictace od spuštění aplikace.",
-      "applied_one": "Očistěno za {{ms}} ms, {{count}} změna.",
-      "applied_other": "Očistěno za {{ms}} ms, {{count}} změn.",
-      "partial": "Opraveno částečně ({{applied}} z {{total}} odstavců); zbytek je jako řečeno: {{reason}}",
-      "checks": "Záruka kontrol, která jí zastavila: {{checks}}"
-    },
-    "why": {
-      "level_none": "Omyvání je vypnuto.",
-      "empty": "Nic k odstraňování.",
-      "already_clean": "Už čisté, protože AI motor nebyl potřebný.",
-      "ai_chat": "Aplikace AI chat: vložena jak jste řekl/a.",
-      "not_ready": "Vloženo bez čištění: model čištění je ještě není připraven.",
-      "low_memory": "Vloženo bez čištění: dnes není dostatek volné paměti.",
-      "guard": "Vloženo bez čištění: čistý text neúspěšně prošel kontrolou bezpečnosti.",
-      "timeout": "Vloženo bez čištění: čištění trvalo příliš dlouho.",
-      "error": "Vloženo bez čištění: AI motor měl problém."
-    },
-    "reason": {
-      "level_none": "odebrání je vypnuto",
-      "empty": "nic k odstraňování",
-      "already_clean": "už čisté",
-      "ai_chat": "Aplikace pro chat s AI",
-      "not_ready": "model pro čistící proces je ještě nenastaven",
-      "low_memory": "není dostatek volné paměti",
-      "guard": "neúspěšně prošlo kontrolu bezpečnosti",
-      "timeout": "odstraňování trval příliš dlouho",
-      "error": "AI motor měl problém"
     }
   },
   "overrides": {

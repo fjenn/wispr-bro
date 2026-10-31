@@ -942,8 +942,8 @@ Machines: M1-8, M-15, M-26. First run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S
 - [ ] S-12b.2 With the local model not ready (`WB_DEBUG_LLM_HOLD_MODEL=1`,
       debug builds) a real dictation is cleaned on Apple's model
       (`cleanup: applied light (apple, …)`, `entry_meta.cleanup_engine =
-      apple`); the AI engine panel shows the Apple Intelligence row and Try it
-      says "Cleaned with Apple Intelligence".
+    apple`); the AI engine panel shows the Apple Intelligence row and Try it
+      says "Ran on Apple Intelligence".
 - [ ] S-12b.3 With the local model ready nothing changes: every take is
       `local` (self-check with the model in place).
 - [ ] S-12b.4 Apple Intelligence off, or a Mac without it (M1-8 on macOS
@@ -968,7 +968,7 @@ HF cache).
    `scripts/wb-s12b/takes.sh <out dir>` (three takes through the speakers at
    volume 40, restored after; the clipboard is saved and restored by
    `scripts/wb-s12b/clip.swift`). Open the debug panel (⌘⇧D) › AI engine:
-   the Apple Intelligence row, Try it → "Cleaned with Apple Intelligence".
+   the Apple Intelligence row, Try it → "Ran on Apple Intelligence".
 4. Restart with `WISPRBRO_SELFCHECK_APPLE=local` only (the model verified
    from the HF cache): `fork apple selfcheck: PASS engines {"local": 38}`.
 

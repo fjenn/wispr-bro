@@ -601,7 +601,7 @@
       "lowMemory": "Not enough free memory to start the AI engine right now. Close some apps and try again.",
       "badReply": "The model's reply could not be used. Your text would be inserted without cleanup.",
       "failed": "Cleanup failed: {{message}}",
-      "engineApple": "Cleaned with Apple Intelligence."
+      "ranOnApple": "Ran on Apple Intelligence."
     },
     "apple": {
       "title": "Apple Intelligence",

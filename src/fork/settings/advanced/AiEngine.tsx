@@ -202,7 +202,7 @@ export function AiEngine() {
                   className="text-xs text-ink-2"
                   data-testid="fork-ai-engine-engine"
                 >
-                  {t("aiEngine.try.engineApple")}
+                  {t("aiEngine.try.ranOnApple")}
                 </p>
               )}
               <p className="text-xs text-ink-3">
