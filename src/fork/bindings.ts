@@ -160,6 +160,94 @@ async forkHistoryUndoDelete(ids: number[]) : Promise<Result<number, ForkError>> 
 }
 },
 /**
+ * History rows older than row `cursor` (the newest without one), at most
+ * `limit` (≤ 100). Soft-deleted rows are left out.
+ */
+async forkHistoryPage(cursor: number | null, limit: number) : Promise<Result<HistoryPage, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_page", { cursor, limit }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * History rows whose text contains `query`, newest first, `limit` from
+ * `offset` on; `next` is the offset of the next page.
+ */
+async forkHistoryFind(query: string, offset: number, limit: number) : Promise<Result<HistoryPage, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_find", { query, offset, limit }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * These rows as the list shows them (after Handy added or re-transcribed
+ * them). Missing and soft-deleted ids are left out.
+ */
+async forkHistoryRows(ids: number[]) : Promise<Result<HistoryRow[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_rows", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Undo AI edit (`raw`) or Redo AI edit (`final`): which text the row shows
+ * and copies. Never re-pastes (DEC-19); the stats are unchanged. Returns
+ * the row.
+ */
+async forkHistorySetVariant(id: number, variant: ShownVariant) : Promise<Result<HistoryRow | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_set_variant", { id, variant }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Transcribes the row's audio again with the current model (Handy's
+ * background job, C-43) and cleans it at `level`, or at the cleanup
+ * setting when `None`. The text it replaces becomes `previous_text`.
+ */
+async forkHistoryRetry(id: number, level: CleanupLevel | null) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_retry", { id, level }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Flag (DEC-18): the user picked `from` in the row's text and typed `to`.
+ * Adds a replacement or a word through the S-16 store; `replace` edits
+ * that existing entry instead (the dialog's "Replace it" after a
+ * conflict).
+ */
+async forkHistoryFlag(id: number, from: string, to: string, kind: FlagKind, replace: number | null) : Promise<Result<FlagResult, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_flag", { id, from, to, kind, replace }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Copies the row's recording to `path` (the save panel's choice; written
+ * beside it and renamed, so a failure never leaves half a file).
+ */
+async forkHistorySaveAudio(id: number, path: string) : Promise<Result<SaveAudioError | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_history_save_audio", { id, path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
  * The first name of the macOS account (the first word of its full name),
  * or `None` when the account has no usable full name or the platform has
  * none. Never fails: the greeting then says hello without a name.
@@ -594,13 +682,6 @@ async forkInsightsSaveImage(path: string, pngBase64: string) : Promise<Result<nu
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
-},
-/**
- * Apple's on-device model (S-12b): availability, its role (RS-08) and
- * request counts since launch.
- */
-async forkLlmAppleStatus() : Promise<ForkAppleStatus> {
-    return await TAURI_INVOKE("fork_llm_apple_status");
 }
 }
 
@@ -652,37 +733,17 @@ forkToastsDismiss: "fork-toasts-dismiss"
 /** user-defined types **/
 
 /**
- * `SystemLanguageModel.default.availability` for the UI.
+ * Whether a row's recording can be played and saved.
  */
-export type AppleAvailability = "available" | 
+export type AudioState = "available" | 
 /**
- * This Mac cannot run Apple Intelligence.
+ * Removed by audio retention (14 days by default, DEC-07).
  */
-"device_not_eligible" | 
+"expired" | 
 /**
- * Apple Intelligence is off in System Settings.
+ * Never saved (full disk) or the file is gone.
  */
-"not_enabled" | 
-/**
- * Apple's model is still downloading.
- */
-"model_not_ready" | 
-/**
- * macOS before 26, or a build without the bridge.
- */
-"unsupported" | "unknown"
-/**
- * What Apple's model is used for (RS-08 outcome).
- */
-export type AppleRole = 
-/**
- * Every cleanup runs on Apple's model when it is available.
- */
-"default" | 
-/**
- * Only while the local model is not ready (downloading, failed).
- */
-"fallback"
+"missing"
 /**
  * Where the resting bar sits (bottom by default, top in Advanced).
  */
@@ -886,25 +947,25 @@ dismiss_id: string; title_key: string; body_key: string; action: NotificationAct
  */
 entry_id: number | null }
 /**
- * Apple's model in the AI engine panel.
+ * What the "Wrong word?" dialog saves.
  */
-export type ForkAppleStatus = { availability: AppleAvailability; role: AppleRole; 
+export type FlagKind = 
 /**
- * Context window in tokens (0 when unavailable).
+ * Replace `from` with `to` every time (a dictionary replacement).
  */
-context_tokens: number; 
+"rule" | 
 /**
- * Requests since launch.
+ * Teach the spelling `to` (a dictionary word).
  */
-requests: number; 
+"word"
 /**
- * Of those, refused by Apple's guardrails.
+ * The dictionary's answer to a flag, and the row after it.
  */
-refusals: number; 
+export type FlagResult = { outcome: SaveOutcome; 
 /**
- * Of those, throttled by the system (`rateLimited`).
+ * The flagged row (when the entry was saved or already there).
  */
-rate_limited: number }
+row: HistoryRow | null }
 /**
  * Why a take went to the card (`fork.json` > `rust.pill.card.*`, shared by
  * the card and its VoiceOver announcement).
@@ -1079,12 +1140,7 @@ level: CleanupLevel; outcome: CleanupOutcome; why: CleanupWhy | null;
 /**
  * Guard checks that rejected the reply.
  */
-guard_reasons: string[]; 
-/**
- * The engine that cleaned it (S-12b: Apple's model when it stands in
- * for the local one; `none` when no request was made).
- */
-engine: CleanupEngine }
+guard_reasons: string[] }
 /**
  * The microphones changed (plugged, unplugged, default changed). Payload:
  * how many inputs there are now.
@@ -1412,6 +1468,51 @@ date: string; words: number;
  * Band 0-4 ([`band`]).
  */
 level: number }
+/**
+ * A page of rows and the cursor for the next one.
+ */
+export type HistoryPage = { rows: HistoryRow[]; 
+/**
+ * Pass back to read on; `None` at the end.
+ */
+next: number | null }
+/**
+ * One History row.
+ */
+export type HistoryRow = { id: number; 
+/**
+ * Unix ms at record start (Handy's save time for rows the fork did not
+ * see start).
+ */
+created_at: number; 
+/**
+ * The text shown (empty: the transcription failed or is pending).
+ */
+text: string; 
+/**
+ * What Copy puts on the clipboard.
+ */
+copy_text: string; variant: ShownVariant; 
+/**
+ * The AI cleanup changed the text, so Undo / Redo AI edit applies.
+ */
+ai_edited: boolean; 
+/**
+ * `dictation`, `file`, `practice`, `command` or `transform`.
+ */
+source: string; 
+/**
+ * The file a file transcription came from.
+ */
+source_name: string | null; app_name: string | null; 
+/**
+ * Handy's WAV name (for its `get_audio_file_path`).
+ */
+file_name: string; audio: AudioState; flagged: boolean; 
+/**
+ * The cleanup level the text was made at, when the LLM step ran.
+ */
+cleanup_level: string | null }
 /**
  * How a hotkey binding drives its action.
  */
@@ -1911,6 +2012,18 @@ export type PillWarning =
  */
 export type ReviewRow = { row: number; kind: EntryKind; phrase: string; replacement: string | null }
 /**
+ * Why Save audio as… did not write the file.
+ */
+export type SaveAudioError = 
+/**
+ * The row or its recording is gone.
+ */
+{ kind: "NoAudio" } | 
+/**
+ * Writing the copy failed (message for the log).
+ */
+{ kind: "WriteFailed"; message: string }
+/**
  * Result of saving one entry.
  */
 export type SaveOutcome = 
@@ -2048,6 +2161,18 @@ export type Shape =
  * A finished take's text with Copy and ✕ (S-07a queued takes).
  */
 "card"
+/**
+ * Which text a row shows and copies (`entry_meta.shown_variant`).
+ */
+export type ShownVariant = 
+/**
+ * After the AI cleanup (the default).
+ */
+"final" | 
+/**
+ * Before it ("Undo AI edit").
+ */
+"raw"
 /**
  * The counts the page shows.
  */

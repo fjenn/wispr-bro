@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro ara utilitza un tipus de model més nou. Baixeu la versió nova per continuar transcrivint. Les versions antigues s'eliminaran."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Perquè el Wispr Bro us pugui sentir. L'àudio es converteix en text en aquest ordinador i no es puja mai enlloc."
+        },
+        "accessibility": {
+          "why": "Perquè la drecera funcioni a totes les aplicacions i el Wispr Bro pugui escriure el text on tingueu el cursor."
+        },
+        "turnOnMac": "Activeu el Wispr Bro a Configuració del Sistema i torneu aquí.",
+        "relaunch": "La drecera no respon després d'això? <relaunch>Reinicieu el Wispr Bro</relaunch> i tornareu a aparèixer just aquí."
+      },
+      "welcome": {
+        "noMatch": "Cap llengua coincideix amb «{{query}}». Els models del Wispr Bro cobreixen unes 100 llengües; en trobareu més a la configuració.",
+        "chinese": {
+          "question": "Parleu {{languages}}. Quins caràcters ha d'escriure el Wispr Bro?"
+        }
+      },
+      "try": {
+        "subtitle": "El Wispr Bro és a la cantonada per guiar-vos"
+      },
+      "done": {
+        "subMac": "El Wispr Bro ja és a la barra de menús. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
+        "subTray": "El Wispr Bro ja és a la safata del sistema. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
+        "atLogin": "Inicia el Wispr Bro quan entri a la sessió",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Dreceres del Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Les llengües que parleu. El Wispr Bro les utilitza per recomanar models."
+        }
+      },
+      "models": {
+        "untestedNote": "No s'han provat amb el Wispr Bro. Poden ser més lents o cometre més errors.",
+        "emptyYours": "Encara no hi ha models. Trieu-ne un a sota: es baixa i el Wispr Bro l'utilitza.",
+        "deleteAskActive": "Voleu suprimir {{name}}? El Wispr Bro no podrà transcriure fins que en trieu un altre.",
+        "retiredNotice": {
+          "title": "Els models antics ja no funcionen amb Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Torna a cercar models afegits a la carpeta de models o a la memòria cau de Hugging Face des de fora del Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Inicia automàticament el Wispr Bro quan entreu a la sessió de l'ordinador."
+        },
+        "showTrayIcon": {
+          "description": "Mostra la icona del Wispr Bro a la safata del sistema."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Comprova automàticament si hi ha versions noves del Wispr Bro",
+          "lockedDescription": "Desactivat per la configuració del sistema (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Comprova si els esdeveniments del teclat arriben al Wispr Bro. Només se'n registra el recompte, mai les tecles que premeu.",
+          "verdictOk": "Els esdeveniments de tecla arriben al Wispr Bro amb normalitat."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Versió actual del Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Mostra les notes de la versió després d'actualitzar el Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Ubicació on el Wispr Bro desa les dades"
+        },
+        "supportDevelopment": {
+          "description": "Ajudeu-nos a continuar desenvolupant el Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "La transcripció local de veu a text del Wispr Bro es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Novetats del Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Canvia la llengua de la interfície del Wispr Bro"
+    },
+    "theme": {
+      "description": "Tria si el Wispr Bro segueix el tema del sistema o es manté en mode clar o fosc"
+    }
+  },
   "aiEngine": {
     "title": "Motor d'IA",
     "loading": "Estan comprovant l'enginy de l'IA...",
@@ -586,11 +687,6 @@
       "locked": "Es desbloqueja a {{goal}} paraules. Continua dictant per construir-lo.",
       "unlocked": "Desbloquejat. Veu com parles a Insights.",
       "open": "Obre Insights"
-    },
-    "history": {
-      "title": "Les teves dictacions estan guardades a aquest Mac",
-      "body": "Obre l'Històric per copiar, reproduir o cercar-los.",
-      "action": "Obre l'història"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro ara utilitza un tipus de model més nou. Baixeu la versió nova per continuar transcrivint. Les versions antigues s'eliminaran."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Perquè el Wispr Bro us pugui sentir. L'àudio es converteix en text en aquest ordinador i no es puja mai enlloc."
-        },
-        "accessibility": {
-          "why": "Perquè la drecera funcioni a totes les aplicacions i el Wispr Bro pugui escriure el text on tingueu el cursor."
-        },
-        "turnOnMac": "Activeu el Wispr Bro a Configuració del Sistema i torneu aquí.",
-        "relaunch": "La drecera no respon després d'això? <relaunch>Reinicieu el Wispr Bro</relaunch> i tornareu a aparèixer just aquí."
-      },
-      "welcome": {
-        "noMatch": "Cap llengua coincideix amb «{{query}}». Els models del Wispr Bro cobreixen unes 100 llengües; en trobareu més a la configuració.",
-        "chinese": {
-          "question": "Parleu {{languages}}. Quins caràcters ha d'escriure el Wispr Bro?"
-        }
-      },
-      "try": {
-        "subtitle": "El Wispr Bro és a la cantonada per guiar-vos"
-      },
-      "done": {
-        "subMac": "El Wispr Bro ja és a la barra de menús. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
-        "subTray": "El Wispr Bro ja és a la safata del sistema. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
-        "atLogin": "Inicia el Wispr Bro quan entri a la sessió",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "Historial",
+    "today": "Avui",
+    "yesterday": "D'hui",
+    "rowLabel": "Dictació a {{time}}",
+    "loading": "Carregant les teves dictacions…",
+    "loadingMore": "Carregant més…",
+    "unavailable": "L'història no està disponible encara. Es mostra tan aviat com l'aplicació ha acabat d'iniciar-se.",
+    "empty": {
+      "body": "Tingui fn a qualsevol app i comença a parlar. Cada dictació està guardada aquí, a aquest Mac."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Dreceres del Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "Les llengües que parleu. El Wispr Bro les utilitza per recomanar models."
-        }
-      },
-      "models": {
-        "untestedNote": "No s'han provat amb el Wispr Bro. Poden ser més lents o cometre més errors.",
-        "emptyYours": "Encara no hi ha models. Trieu-ne un a sota: es baixa i el Wispr Bro l'utilitza.",
-        "deleteAskActive": "Voleu suprimir {{name}}? El Wispr Bro no podrà transcriure fins que en trieu un altre.",
-        "retiredNotice": {
-          "title": "Els models antics ja no funcionen amb Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Torna a cercar models afegits a la carpeta de models o a la memòria cau de Hugging Face des de fora del Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Inicia automàticament el Wispr Bro quan entreu a la sessió de l'ordinador."
-        },
-        "showTrayIcon": {
-          "description": "Mostra la icona del Wispr Bro a la safata del sistema."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Comprova automàticament si hi ha versions noves del Wispr Bro",
-          "lockedDescription": "Desactivat per la configuració del sistema (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Comprova si els esdeveniments del teclat arriben al Wispr Bro. Només se'n registra el recompte, mai les tecles que premeu.",
-          "verdictOk": "Els esdeveniments de tecla arriben al Wispr Bro amb normalitat."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Versió actual del Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Mostra les notes de la versió després d'actualitzar el Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "Ubicació on el Wispr Bro desa les dades"
-        },
-        "supportDevelopment": {
-          "description": "Ajudeu-nos a continuar desenvolupant el Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "La transcripció local de veu a text del Wispr Bro es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
-          }
-        }
-      }
+    "noResults": {
+      "title": "Res trobat",
+      "body": "No conté dictacions amb \"{{query}}\"."
     },
-    "whatsNew": {
-      "title": "Novetats del Wispr Bro v{{version}}"
+    "results_one": "{{count}} dictació trobada",
+    "results_other": "{{count}} dictacions trobades",
+    "resultsMore_one": "Les {{count}} matches més recents. Fes scroll per obtenir més.",
+    "resultsMore_other": "Els {{count}} resultats més recents. Fes scroll per obtenir-ne més.",
+    "search": {
+      "open": "Historial de cerca",
+      "label": "Cerca les teves dictacions",
+      "placeholder": "Cercar dictacions",
+      "close": "Tancar cerca"
     },
-    "appLanguage": {
-      "description": "Canvia la llengua de la interfície del Wispr Bro"
+    "transcribeFile": "Transcriure un arxiu…",
+    "transcribeFailed": "Aquest fitxer no es pot obrir. Si us plau, torni a intentar-ho.",
+    "showMore": "Mostrar més",
+    "showLess": "Mostrar menys",
+    "failed": "La transcripció ha fallat. Prova amb Retry transcript al menú ⋮.",
+    "notTranscribed": "Encara no s'ha transcrit.",
+    "job": {
+      "waiting": "Esperant transcriure...",
+      "transcribing": "Està transcribint...",
+      "percent": "Transcribint… {{percent}}%"
     },
-    "theme": {
-      "description": "Tria si el Wispr Bro segueix el tema del sistema o es manté en mode clar o fosc"
+    "tag": {
+      "file": "Arxiu",
+      "practice": "Pràctica",
+      "raw": "Abans de la neteja de l'IA",
+      "flagged": "Marcat"
+    },
+    "actions": {
+      "play": "Reprodueix l'registrat",
+      "hidePlayer": "Ocultar el jugador",
+      "copy": "Copiar text",
+      "copied": "Copiat",
+      "flag": "Paraula incorrecta? Corregeix-ho",
+      "more": "Més accions"
+    },
+    "menu": {
+      "label": "Accions de dictado",
+      "undoAi": "Desfer edició AI",
+      "redoAi": "Refa l'edició AI",
+      "retry": "Tentar transcripció",
+      "retryAt": {
+        "none": "Tentar sense netejar",
+        "light": "Tentar amb neteja lligera",
+        "medium": "Tentar amb neteja mitjana"
+      },
+      "saveAudio": "Desar l'audio com…",
+      "delete": "Esborrar transcripció"
+    },
+    "audio": {
+      "expired_one": "L'audio eliminat després de {{count}} dia",
+      "expired_other": "L'audio ha estat eliminat després de {{count}} dies",
+      "removed": "Audio eliminat",
+      "missing": "No registre per a aquesta dictació",
+      "filter": "WAV audio",
+      "saved": "L'registrat ha estat guardat.",
+      "saveFailed": "L'registració no ha pogut ser desat. Si us plau, torni a intentar-ho."
+    },
+    "copyFailed": "El text no ha pogut copiar-se. Si us plau, torni a intentar-ho.",
+    "actionFailed": "No va funcionar. Si us plau, torni a intentar-ho.",
+    "deleted": "Esborrat",
+    "undo": "Desfer",
+    "deleteFailed": "Aquesta dictació no ha pogut ser eliminada. Si us plau, torni a intentar-ho.",
+    "undoFailed": "És too tard per tornar aquesta dictació.",
+    "flag": {
+      "title": "Paraula incorrecta?",
+      "description": "Selecciona la paraula que ha sortit malament i escriu-la com hauria de ser. El teu diccionari la corregirà des d'ara.",
+      "close": "Tancar",
+      "cancel": "Cancel·lar",
+      "save": "Afegir a el diccionari",
+      "pick": "Selecciona la paraula errònia (Selecciona la següent també per a algunes paraules)",
+      "noWords": "Aquesta dictació no té paraules per triar.",
+      "correction": "Corregir la grafia",
+      "correctionFor": "Correcció de la grafia de \"{{word}}\"",
+      "correctionPlaceholder": "Escriu-ho com hauria de ser",
+      "kindLabel": "Què afegir",
+      "rule": "Substituir-ho cada vegada",
+      "ruleHint": "Afegeix una substitució, per corregir l'error en totes les dictacions.",
+      "ruleHintFilled": "“{{from}}” es converteix en “{{to}}” en cada dictació.",
+      "word": "Enseñar l'escritura",
+      "wordHint": "Afegeix la paraula, així l'app la detecta quan la dites.",
+      "duplicate": "Aquest ja està al teu diccionari.",
+      "failed": "No es pot guardar això. Si us plau, torni a intentar-ho.",
+      "savedRule": "Des d'ara \"{{from}}\" esdevé \"{{to}}\".",
+      "savedWord": "“{{word}}” està al teu diccionari.",
+      "openDictionary": "Obre el diccionari"
     }
   }
 }

@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro 现在使用一种更新的模型类型。请下载新版本以继续转录。旧版本将被移除。"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "这样 Wispr Bro 才能听到您说话。音频只在这台电脑上转成文字，绝不会上传。"
+        },
+        "accessibility": {
+          "why": "这样快捷键在每个应用中都能使用，Wispr Bro 也能把文字输入到光标所在的位置。"
+        },
+        "turnOnMac": "请在“系统设置”中打开 Wispr Bro，然后回到这里。",
+        "relaunch": "之后快捷键没有反应？<relaunch>重新启动 Wispr Bro</relaunch>，您会直接回到这里。"
+      },
+      "welcome": {
+        "noMatch": "没有与“{{query}}”匹配的语言。Wispr Bro 的模型涵盖约 100 种语言，更多语言可在设置中找到。",
+        "chinese": {
+          "question": "您说{{languages}}。Wispr Bro 应该写哪种汉字？"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro 就在角落里，带您一步步体验"
+      },
+      "done": {
+        "subMac": "Wispr Bro 现在位于菜单栏中。在任何应用里按住或轻按 <keys/> 即可说话。",
+        "subTray": "Wispr Bro 现在位于系统托盘中。在任何应用里按住或轻按 <keys/> 即可说话。",
+        "atLogin": "登录时启动 Wispr Bro",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro 快捷键"
+        },
+        "preferredLanguages": {
+          "description": "您会说的语言。Wispr Bro 会据此推荐模型。"
+        }
+      },
+      "models": {
+        "untestedNote": "尚未经过 Wispr Bro 测试，可能更慢或错误更多。",
+        "emptyYours": "还没有模型。请在下方选择一个：它会先下载，然后由 Wispr Bro 使用。",
+        "deleteAskActive": "删除{{name}}？在您选择其他模型之前，Wispr Bro 无法转录。",
+        "retiredNotice": {
+          "title": "旧模型已无法在 Wispr Bro 中使用"
+        },
+        "rescan": {
+          "tooltip": "重新扫描在 Wispr Bro 之外添加到模型文件夹或 Hugging Face 缓存中的模型"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "登录计算机时自动启动 Wispr Bro。"
+        },
+        "showTrayIcon": {
+          "description": "在系统托盘中显示 Wispr Bro 图标。"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "自动检查 Wispr Bro 的新版本",
+          "lockedDescription": "已被系统配置禁用 (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "检查键盘事件是否能到达 Wispr Bro。仅记录事件数量，绝不记录您按了哪些键。",
+          "verdictOk": "按键事件正常到达 Wispr Bro。"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro 的当前版本"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro 更新后显示发行说明"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro 存储数据的位置"
+        },
+        "supportDevelopment": {
+          "description": "帮助我们继续开发 Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro 使用 ggml 进行快速的本地语音转文字处理。感谢 Georgi Gerganov 和贡献者们的出色工作。"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} 新功能"
+    },
+    "appLanguage": {
+      "description": "更改 Wispr Bro 界面的语言"
+    },
+    "theme": {
+      "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
+    }
+  },
   "aiEngine": {
     "title": "AI引擎",
     "loading": "正在检查AI引擎…",
@@ -586,11 +687,6 @@
       "locked": "在 {{goal}} 个词时解锁。继续说话以完善它。",
       "unlocked": "已解锁。在洞察中查看你的语音说话方式。",
       "open": "打开洞察"
-    },
-    "history": {
-      "title": "你的语音输入保存在这款 Mac 上",
-      "body": "打开历史记录以复制、播放或搜索。",
-      "action": "打开历史记录"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro 现在使用一种更新的模型类型。请下载新版本以继续转录。旧版本将被移除。"
-      },
-      "permissions": {
-        "microphone": {
-          "why": "这样 Wispr Bro 才能听到您说话。音频只在这台电脑上转成文字，绝不会上传。"
-        },
-        "accessibility": {
-          "why": "这样快捷键在每个应用中都能使用，Wispr Bro 也能把文字输入到光标所在的位置。"
-        },
-        "turnOnMac": "请在“系统设置”中打开 Wispr Bro，然后回到这里。",
-        "relaunch": "之后快捷键没有反应？<relaunch>重新启动 Wispr Bro</relaunch>，您会直接回到这里。"
-      },
-      "welcome": {
-        "noMatch": "没有与“{{query}}”匹配的语言。Wispr Bro 的模型涵盖约 100 种语言，更多语言可在设置中找到。",
-        "chinese": {
-          "question": "您说{{languages}}。Wispr Bro 应该写哪种汉字？"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro 就在角落里，带您一步步体验"
-      },
-      "done": {
-        "subMac": "Wispr Bro 现在位于菜单栏中。在任何应用里按住或轻按 <keys/> 即可说话。",
-        "subTray": "Wispr Bro 现在位于系统托盘中。在任何应用里按住或轻按 <keys/> 即可说话。",
-        "atLogin": "登录时启动 Wispr Bro",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "历史",
+    "today": "今天",
+    "yesterday": "昨天",
+    "rowLabel": "语音输入于 {{time}}",
+    "loading": "正在加载你的语音输入…",
+    "loadingMore": "加载更多…",
+    "unavailable": "历史尚未可用。应用启动完成后就会显示。",
+    "empty": {
+      "body": "按住 fn 键在任意应用中开始说话。每段语音记录都会保存在这里，保存在本台 Mac 上。"
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro 快捷键"
-        },
-        "preferredLanguages": {
-          "description": "您会说的语言。Wispr Bro 会据此推荐模型。"
-        }
-      },
-      "models": {
-        "untestedNote": "尚未经过 Wispr Bro 测试，可能更慢或错误更多。",
-        "emptyYours": "还没有模型。请在下方选择一个：它会先下载，然后由 Wispr Bro 使用。",
-        "deleteAskActive": "删除{{name}}？在您选择其他模型之前，Wispr Bro 无法转录。",
-        "retiredNotice": {
-          "title": "旧模型已无法在 Wispr Bro 中使用"
-        },
-        "rescan": {
-          "tooltip": "重新扫描在 Wispr Bro 之外添加到模型文件夹或 Hugging Face 缓存中的模型"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "登录计算机时自动启动 Wispr Bro。"
-        },
-        "showTrayIcon": {
-          "description": "在系统托盘中显示 Wispr Bro 图标。"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "自动检查 Wispr Bro 的新版本",
-          "lockedDescription": "已被系统配置禁用 (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "检查键盘事件是否能到达 Wispr Bro。仅记录事件数量，绝不记录您按了哪些键。",
-          "verdictOk": "按键事件正常到达 Wispr Bro。"
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro 的当前版本"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro 更新后显示发行说明"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro 存储数据的位置"
-        },
-        "supportDevelopment": {
-          "description": "帮助我们继续开发 Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro 使用 ggml 进行快速的本地语音转文字处理。感谢 Georgi Gerganov 和贡献者们的出色工作。"
-          }
-        }
-      }
+    "noResults": {
+      "title": "未找到任何内容",
+      "body": "没有语音输入包含“{{query}}”。“"
     },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} 新功能"
+    "results_one": "{{count}} 条语音记录",
+    "results_other": "{{count}} 条语音记录",
+    "resultsMore_one": "最近的{{count}}个匹配项。滚动查看更多。",
+    "resultsMore_other": "最近的{{count}}个匹配项。滚动查看更多。",
+    "search": {
+      "open": "搜索历史",
+      "label": "搜索你的语音笔记",
+      "placeholder": "搜索语音记录",
+      "close": "关闭搜索"
     },
-    "appLanguage": {
-      "description": "更改 Wispr Bro 界面的语言"
+    "transcribeFile": "将文件转录…",
+    "transcribeFailed": "该文件无法打开，请重新尝试。",
+    "showMore": "显示更多",
+    "showLess": "显示更少",
+    "failed": "转录失败。请尝试在 ⋮ 菜单中点击重试转录。",
+    "notTranscribed": "尚未转录。",
+    "job": {
+      "waiting": "正在转录中…",
+      "transcribing": "正在转录…",
+      "percent": "转录中… {{percent}}%"
     },
-    "theme": {
-      "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
+    "tag": {
+      "file": "文件",
+      "practice": "练习",
+      "raw": "AI清理之前",
+      "flagged": "标记"
+    },
+    "actions": {
+      "play": "播放录音",
+      "hidePlayer": "隐藏播放器",
+      "copy": "复制文本",
+      "copied": "已复制",
+      "flag": "词错了？修改它",
+      "more": "更多操作"
+    },
+    "menu": {
+      "label": "语音输入操作",
+      "undoAi": "撤销AI编辑",
+      "redoAi": "重新执行AI编辑",
+      "retry": "重新转录",
+      "retryAt": {
+        "none": "重新尝试而不清理",
+        "light": "重试并使用轻度清理",
+        "medium": "重新尝试，中等清理"
+      },
+      "saveAudio": "保存音频为…",
+      "delete": "删除字幕"
+    },
+    "audio": {
+      "expired_one": "音频在{{count}}天后被移除",
+      "expired_other": "音频在{{count}}天后被移除",
+      "removed": "音频已删除",
+      "missing": "此语音输入无记录",
+      "filter": "WAV 音频",
+      "saved": "录音已保存。",
+      "saveFailed": "录音保存失败。请重试。"
+    },
+    "copyFailed": "文本复制失败。请重试。",
+    "actionFailed": "那没成功。请再试一次。",
+    "deleted": "已删除",
+    "undo": "撤销",
+    "deleteFailed": "该语音记录无法删除，请重试。",
+    "undoFailed": "已经太晚了，无法把那段语音输入恢复。",
+    "flag": {
+      "title": "词错了？",
+      "description": "选择拼写错误的词，并将其正确拼写。从此你的词典会自动修正它。",
+      "close": "关闭",
+      "cancel": "取消",
+      "save": "添加到词典",
+      "pick": "选错词（如果要几个词，就选下一个）",
+      "noWords": "这段语音输入没有可以选取的词语。",
+      "correction": "纠正拼写",
+      "correctionFor": "纠正“{{word}}”的拼写",
+      "correctionPlaceholder": "把它按正确的方式输入",
+      "kindLabel": "添加什么",
+      "rule": "每次都替换它",
+      "ruleHint": "添加一个替换规则，以便在每次语音输入中纠正相同的错误。",
+      "ruleHintFilled": "“{{from}}” 变成 “{{to}}” 在每次语音输入中。",
+      "word": "教拼写",
+      "wordHint": "添加这个词，以便应用在你说出它时能够识别。",
+      "duplicate": "那已经存在于你的词典中了。",
+      "failed": "该内容无法保存，请重新尝试。",
+      "savedRule": "从现在开始，“{{from}}”将变为“{{to}}”。“",
+      "savedWord": "“{{word}}” 已加入你的词典。",
+      "openDictionary": "打开词典"
     }
   }
 }

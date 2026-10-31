@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro hiện sử dụng loại mô hình mới hơn. Hãy tải phiên bản mới để tiếp tục chuyển đổi giọng nói. Các phiên bản cũ sẽ bị xóa."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Để Wispr Bro nghe được bạn. Âm thanh được chuyển thành văn bản ngay trên máy tính này và không bao giờ được tải lên."
+        },
+        "accessibility": {
+          "why": "Để phím tắt của bạn hoạt động trong mọi ứng dụng, và Wispr Bro có thể gõ văn bản vào nơi con trỏ của bạn đang đứng."
+        },
+        "turnOnMac": "Bật Wispr Bro trong Cài đặt Hệ thống, rồi quay lại đây.",
+        "relaunch": "Phím tắt không phản hồi sau bước này? <relaunch>Khởi chạy lại Wispr Bro</relaunch> và bạn sẽ quay lại đúng chỗ này."
+      },
+      "welcome": {
+        "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”. Các mô hình của Wispr Bro hỗ trợ khoảng 100 ngôn ngữ; còn nhiều ngôn ngữ khác trong cài đặt.",
+        "chinese": {
+          "question": "Bạn nói {{languages}}. Wispr Bro nên viết bằng chữ nào?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro ở ngay góc màn hình để hướng dẫn bạn"
+      },
+      "done": {
+        "subMac": "Wispr Bro giờ đã ở trên thanh menu. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
+        "subTray": "Wispr Bro giờ đã ở trong khay hệ thống. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
+        "atLogin": "Khởi động Wispr Bro khi tôi đăng nhập",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Phím tắt Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Các ngôn ngữ bạn nói. Wispr Bro dùng chúng để đề xuất mô hình."
+        }
+      },
+      "models": {
+        "untestedNote": "Chưa được kiểm thử với Wispr Bro. Chúng có thể chậm hơn hoặc mắc nhiều lỗi hơn.",
+        "emptyYours": "Chưa có mô hình nào. Hãy chọn một mô hình bên dưới: nó sẽ được tải xuống, rồi Wispr Bro sẽ dùng nó.",
+        "deleteAskActive": "Xóa {{name}}? Wispr Bro không thể chuyển đổi giọng nói cho đến khi bạn chọn mô hình khác.",
+        "retiredNotice": {
+          "title": "Các mô hình cũ không còn hoạt động với Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Tự động khởi động Wispr Bro khi bạn đăng nhập vào máy tính."
+        },
+        "showTrayIcon": {
+          "description": "Hiển thị biểu tượng Wispr Bro trong khay hệ thống."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Tự động kiểm tra phiên bản mới của Wispr Bro",
+          "lockedDescription": "Đã bị vô hiệu hóa bởi cấu hình hệ thống (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kiểm tra xem các sự kiện bàn phím có đến được Wispr Bro hay không. Chỉ số lượng sự kiện được ghi lại — không bao giờ ghi lại bạn bấm phím nào.",
+          "verdictOk": "Các sự kiện phím đang đến Wispr Bro bình thường."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Phiên bản hiện tại của Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Hiển thị ghi chú phát hành sau khi Wispr Bro cập nhật"
+        },
+        "appDataDirectory": {
+          "description": "Vị trí Wispr Bro lưu trữ dữ liệu"
+        },
+        "supportDevelopment": {
+          "description": "Giúp chúng tôi tiếp tục xây dựng Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro sử dụng ggml để xử lý chuyển đổi giọng nói thành văn bản nhanh, cục bộ. Cảm ơn công việc tuyệt vời của Georgi Gerganov và các cộng tác viên."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Điểm mới trong Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Thay đổi ngôn ngữ giao diện của Wispr Bro"
+    },
+    "theme": {
+      "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
+    }
+  },
   "aiEngine": {
     "title": "AI engine",
     "loading": "Đang kiểm tra động cơ trí tuệ nhân tạo…",
@@ -586,11 +687,6 @@
       "locked": "Mở khóa tại {{goal}} từ. Tiếp tục ghi âm để xây dựng nó.",
       "unlocked": "Đã mở khóa. Xem cách bạn nói trong Insights.",
       "open": "Mở Insights"
-    },
-    "history": {
-      "title": "Các bản ghi giọng nói của bạn được lưu trên máy Mac này",
-      "body": "Mở Lịch sử để sao chép, phát hoặc tìm kiếm chúng.",
-      "action": "Mở lịch sử"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro hiện sử dụng loại mô hình mới hơn. Hãy tải phiên bản mới để tiếp tục chuyển đổi giọng nói. Các phiên bản cũ sẽ bị xóa."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Để Wispr Bro nghe được bạn. Âm thanh được chuyển thành văn bản ngay trên máy tính này và không bao giờ được tải lên."
-        },
-        "accessibility": {
-          "why": "Để phím tắt của bạn hoạt động trong mọi ứng dụng, và Wispr Bro có thể gõ văn bản vào nơi con trỏ của bạn đang đứng."
-        },
-        "turnOnMac": "Bật Wispr Bro trong Cài đặt Hệ thống, rồi quay lại đây.",
-        "relaunch": "Phím tắt không phản hồi sau bước này? <relaunch>Khởi chạy lại Wispr Bro</relaunch> và bạn sẽ quay lại đúng chỗ này."
-      },
-      "welcome": {
-        "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”. Các mô hình của Wispr Bro hỗ trợ khoảng 100 ngôn ngữ; còn nhiều ngôn ngữ khác trong cài đặt.",
-        "chinese": {
-          "question": "Bạn nói {{languages}}. Wispr Bro nên viết bằng chữ nào?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro ở ngay góc màn hình để hướng dẫn bạn"
-      },
-      "done": {
-        "subMac": "Wispr Bro giờ đã ở trên thanh menu. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
-        "subTray": "Wispr Bro giờ đã ở trong khay hệ thống. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
-        "atLogin": "Khởi động Wispr Bro khi tôi đăng nhập",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "Lịch sử",
+    "today": "Hôm nay",
+    "yesterday": "Hôm qua",
+    "rowLabel": "Điều khiển bằng giọng nói vào {{time}}",
+    "loading": "Đang tải các bản ghi giọng nói của bạn…",
+    "loadingMore": "Đang tải thêm…",
+    "unavailable": "Lịch sử chưa được cung cấp. Nó xuất hiện ngay khi ứng dụng đã hoàn thành khởi động.",
+    "empty": {
+      "body": "Giữ phím fn trong bất kỳ ứng dụng nào và bắt đầu nói. Mỗi bản ghi giọng nói đều được lưu ở đây, trên chiếc Mac này."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Phím tắt Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "Các ngôn ngữ bạn nói. Wispr Bro dùng chúng để đề xuất mô hình."
-        }
-      },
-      "models": {
-        "untestedNote": "Chưa được kiểm thử với Wispr Bro. Chúng có thể chậm hơn hoặc mắc nhiều lỗi hơn.",
-        "emptyYours": "Chưa có mô hình nào. Hãy chọn một mô hình bên dưới: nó sẽ được tải xuống, rồi Wispr Bro sẽ dùng nó.",
-        "deleteAskActive": "Xóa {{name}}? Wispr Bro không thể chuyển đổi giọng nói cho đến khi bạn chọn mô hình khác.",
-        "retiredNotice": {
-          "title": "Các mô hình cũ không còn hoạt động với Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Tự động khởi động Wispr Bro khi bạn đăng nhập vào máy tính."
-        },
-        "showTrayIcon": {
-          "description": "Hiển thị biểu tượng Wispr Bro trong khay hệ thống."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Tự động kiểm tra phiên bản mới của Wispr Bro",
-          "lockedDescription": "Đã bị vô hiệu hóa bởi cấu hình hệ thống (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Kiểm tra xem các sự kiện bàn phím có đến được Wispr Bro hay không. Chỉ số lượng sự kiện được ghi lại — không bao giờ ghi lại bạn bấm phím nào.",
-          "verdictOk": "Các sự kiện phím đang đến Wispr Bro bình thường."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Phiên bản hiện tại của Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Hiển thị ghi chú phát hành sau khi Wispr Bro cập nhật"
-        },
-        "appDataDirectory": {
-          "description": "Vị trí Wispr Bro lưu trữ dữ liệu"
-        },
-        "supportDevelopment": {
-          "description": "Giúp chúng tôi tiếp tục xây dựng Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro sử dụng ggml để xử lý chuyển đổi giọng nói thành văn bản nhanh, cục bộ. Cảm ơn công việc tuyệt vời của Georgi Gerganov và các cộng tác viên."
-          }
-        }
-      }
+    "noResults": {
+      "title": "Không tìm thấy gì",
+      "body": "Không có nội dung ghi âm nào chứa \"{{query}}\"."
     },
-    "whatsNew": {
-      "title": "Điểm mới trong Wispr Bro v{{version}}"
+    "results_one": "{{count}} kết quả ghi âm được tìm thấy",
+    "results_other": "{{count}} bản ghi dictation được tìm thấy",
+    "resultsMore_one": "{{count}} kết quả gần đây nhất. Cuộn để xem thêm.",
+    "resultsMore_other": "{{count}} kết quả gần đây nhất. Cuộn để xem thêm.",
+    "search": {
+      "open": "Lịch sử tìm kiếm",
+      "label": "Tìm kiếm các bản ghi giọng nói của bạn",
+      "placeholder": "Tìm kiếm các bản ghi giọng nói",
+      "close": "Đóng tìm kiếm"
     },
-    "appLanguage": {
-      "description": "Thay đổi ngôn ngữ giao diện của Wispr Bro"
+    "transcribeFile": "Chuyển đổi file…",
+    "transcribeFailed": "Tập file này không thể mở. Vui lòng thử lại.",
+    "showMore": "Xem thêm",
+    "showLess": "Hiện ít hơn",
+    "failed": "Đã thất bại khi ghi âm. Hãy thử nhấn nút \"Thử lại\" trong menu ⋮.",
+    "notTranscribed": "Chưa được ghi lại",
+    "job": {
+      "waiting": "Đang chờ chuyển đổi...",
+      "transcribing": "Đang chuyển đổi...",
+      "percent": "Đang chuyển đổi… {{percent}}%"
     },
-    "theme": {
-      "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
+    "tag": {
+      "file": "Tệp",
+      "practice": "Thực hành",
+      "raw": "Trước khi xử lý bởi AI",
+      "flagged": "Đánh dấu"
+    },
+    "actions": {
+      "play": "Chơi bản ghi",
+      "hidePlayer": "Ẩn người chơi",
+      "copy": "Sao chép văn bản",
+      "copied": "Đã sao chép",
+      "flag": "Từ sai? Sửa lại",
+      "more": "Những hành động khác"
+    },
+    "menu": {
+      "label": "Hành động ghi âm",
+      "undoAi": "Hoàn tác chỉnh sửa AI",
+      "redoAi": "Làm lại chỉnh sửa AI",
+      "retry": "Thử lại bản ghi",
+      "retryAt": {
+        "none": "Thử lại mà không xóa",
+        "light": "Thử lại với việc làm sạch nhẹ",
+        "medium": "Thử lại với việc làm sạch trung bình"
+      },
+      "saveAudio": "Lưu âm thanh dưới dạng…",
+      "delete": "Xoá bản ghi"
+    },
+    "audio": {
+      "expired_one": "Âm thanh đã bị xóa sau {{count}} ngày",
+      "expired_other": "Âm thanh đã bị xóa sau {{count}} ngày",
+      "removed": "Âm thanh đã bị xóa",
+      "missing": "Không có bản ghi cho bản ghi này",
+      "filter": "âm thanh WAV",
+      "saved": "Đã lưu âm thanh.",
+      "saveFailed": "Không thể lưu bản ghi. Vui lòng thử lại."
+    },
+    "copyFailed": "Không thể sao chép văn bản. Vui lòng thử lại.",
+    "actionFailed": "Đó không thành công. Hãy thử lại.",
+    "deleted": "Đã xóa",
+    "undo": "Hoàn tác",
+    "deleteFailed": "Đoạn ghi âm đó không thể xóa. Vui lòng thử lại.",
+    "undoFailed": "Không thể lấy lại bản ghi đó rồi.",
+    "flag": {
+      "title": "Từ sai?",
+      "description": "Chọn từ bị sai và nhập lại theo cách đúng. Từ điển của bạn sẽ sửa nó từ nay về sau.",
+      "close": "Đóng",
+      "cancel": "Hủy",
+      "save": "Thêm vào từ điển",
+      "pick": "Chọn từ sai (chọn từ tiếp theo để chọn vài từ)",
+      "noWords": "Đoạn ghi âm này không có từ nào để chọn.",
+      "correction": "Chỉnh sửa chính tả",
+      "correctionFor": "Chỉnh sửa chính tả của \"{{word}}\"",
+      "correctionPlaceholder": "Nhập nó theo cách đúng",
+      "kindLabel": "Thêm gì",
+      "rule": "Thay thế mỗi lần",
+      "ruleHint": "Thêm một thay thế, để sửa lỗi giống nhau trong mọi bản ghi giọng nói.",
+      "ruleHintFilled": "“{{from}}” trở thành “{{to}}” trong mọi bản ghi giọng nói.",
+      "word": "Giảng cách viết",
+      "wordHint": "Thêm từ này, để ứng dụng nhận biết khi bạn nói nó.",
+      "duplicate": "Đó đã có trong từ điển của bạn rồi.",
+      "failed": "Không thể lưu. Vui lòng thử lại.",
+      "savedRule": "Từ nay \"{{from}}\" sẽ trở thành \"{{to}}\".",
+      "savedWord": "“{{word}}” đã được thêm vào từ điển của bạn.",
+      "openDictionary": "Mở Từ điển"
     }
   }
 }

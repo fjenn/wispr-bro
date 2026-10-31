@@ -307,9 +307,7 @@ impl TranscriptionJobManager {
         }
 
         let processed = tauri::async_runtime::block_on(crate::fork::llm::post_process_job(
-            &self.app,
-            &text,
-            entry.post_process_requested,
+            &self.app, &text, &entry,
         ));
         // Post-processing can take a while; a cancel during it still wins.
         if cancelled.load(Ordering::Acquire) {

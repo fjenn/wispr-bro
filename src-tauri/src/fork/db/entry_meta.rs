@@ -320,6 +320,14 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
             if let Some(p) = &previous {
                 fields.push(("previous_text", p));
             }
+            // S-15b: a new transcription is shown as made (any "Undo AI
+            // edit" was about the old text), and what the old take
+            // inserted (a snippet) no longer applies to Copy.
+            let no_text: Option<String> = None;
+            if retry {
+                fields.push(("shown_variant", &"final"));
+                fields.push(("inserted_text", &no_text));
+            }
             let stages = w.text.as_ref().map(TextRecord::stages_json);
             if let Some(stages) = &stages {
                 fields.push(("fix_count_dictionary", &new_fixes.0));

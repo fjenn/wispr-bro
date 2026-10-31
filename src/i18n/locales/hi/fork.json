@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro अब एक नए प्रकार के मॉडल का उपयोग करता है. ट्रांसक्राइब करना जारी रखने के लिए नया संस्करण डाउनलोड करें. पुराने संस्करण हटा दिए जाएंगे."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "ताकि Wispr Bro आपको सुन सके. ऑडियो इसी कंप्यूटर पर टेक्स्ट में बदलता है और कभी अपलोड नहीं होता."
+        },
+        "accessibility": {
+          "why": "ताकि आपका शॉर्टकट हर ऐप में चले और Wispr Bro टेक्स्ट वहीं टाइप कर सके जहां आपका कर्सर है."
+        },
+        "turnOnMac": "सिस्टम सेटिंग्स में Wispr Bro को चालू करें, फिर यहां लौट आएं.",
+        "relaunch": "इसके बाद शॉर्टकट जवाब नहीं दे रहा? <relaunch>Wispr Bro को दोबारा शुरू करें</relaunch> और आप सीधे यहीं लौट आएंगे."
+      },
+      "welcome": {
+        "noMatch": "“{{query}}” से कोई भाषा मेल नहीं खाती. Wispr Bro के मॉडल करीब 100 भाषाओं को कवर करते हैं; बाकी सेटिंग्स में हैं.",
+        "chinese": {
+          "question": "आप {{languages}} बोलते हैं. Wispr Bro कौन-से अक्षर लिखे?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro कोने में है, आपको राह दिखाने के लिए"
+      },
+      "done": {
+        "subMac": "Wispr Bro अब आपके मेन्यू बार में है. बोलने के लिए किसी भी ऐप में <keys/> दबाए रखें या टैप करें.",
+        "subTray": "Wispr Bro अब आपके सिस्टम ट्रे में है. बोलने के लिए किसी भी ऐप में <keys/> दबाए रखें या टैप करें.",
+        "atLogin": "लॉग इन करने पर Wispr Bro शुरू करें",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro शॉर्टकट"
+        },
+        "preferredLanguages": {
+          "description": "वे भाषाएं जो आप बोलते हैं. Wispr Bro इनके आधार पर मॉडल सुझाता है."
+        }
+      },
+      "models": {
+        "untestedNote": "Wispr Bro के साथ परखे नहीं गए हैं. ये धीमे हो सकते हैं या ज़्यादा गलतियां कर सकते हैं.",
+        "emptyYours": "अभी कोई मॉडल नहीं है. नीचे से कोई चुनें: वह डाउनलोड होगा, फिर Wispr Bro उसका उपयोग करेगा.",
+        "deleteAskActive": "{{name}} हटाएं? दूसरा मॉडल चुनने तक Wispr Bro ट्रांसक्राइब नहीं कर पाएगा.",
+        "retiredNotice": {
+          "title": "पुराने मॉडल अब Wispr Bro के साथ काम नहीं करते"
+        },
+        "rescan": {
+          "tooltip": "Wispr Bro के बाहर, मॉडल फ़ोल्डर या Hugging Face कैश में जोड़े गए मॉडल के लिए फिर से स्कैन करें"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "कंप्यूटर में लॉग इन करने पर Wispr Bro अपने आप शुरू हो जाए."
+        },
+        "showTrayIcon": {
+          "description": "सिस्टम ट्रे में Wispr Bro का आइकन दिखाएं."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Wispr Bro के नए वर्शन की अपने आप जांच करें",
+          "lockedDescription": "सिस्टम कॉन्फ़िगरेशन द्वारा अक्षम (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "जाँचता है कि कीबोर्ड इवेंट Wispr Bro तक पहुँच रहे हैं या नहीं. सिर्फ़ इवेंट की गिनती रिकॉर्ड होती है — कभी नहीं कि आपने कौन-सी कुंजियाँ दबाईं.",
+          "verdictOk": "कुंजी इवेंट Wispr Bro तक सामान्य रूप से पहुँच रहे हैं."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro का मौजूदा वर्शन"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro अपडेट होने के बाद रिलीज़ नोट दिखाएं"
+        },
+        "appDataDirectory": {
+          "description": "वह जगह जहां Wispr Bro अपना डेटा सेव करता है"
+        },
+        "supportDevelopment": {
+          "description": "Wispr Bro को आगे बढ़ाने में हमारी मदद करें"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro का लोकल स्पीच-टू-टेक्स्ट transcribe.cpp और ggml पर आधारित है. Georgi Gerganov और योगदान देने वालों के शानदार काम के लिए धन्यवाद."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} में नया क्या है"
+    },
+    "appLanguage": {
+      "description": "Wispr Bro इंटरफ़ेस की भाषा बदलें"
+    },
+    "theme": {
+      "description": "चुनें कि Wispr Bro आपकी सिस्टम थीम के हिसाब से चले या हमेशा लाइट या डार्क रहे"
+    }
+  },
   "aiEngine": {
     "title": "AI engine",
     "loading": "AI इंजीन की जांच कर रहा है…",
@@ -586,11 +687,6 @@
       "locked": "{{goal}} शब्दों पर खोला जाता है। बनाए रखें ताकि इसे बना लिया जा सके।",
       "unlocked": "बरकरार है। अपने बोलने के तरीके को देखें इंसाइट्स में।",
       "open": "Insights ke upar kholne"
-    },
-    "history": {
-      "title": "आपके डिक्टेशन इस मैक पर सेव रहते हैं",
-      "body": "हिस्ट्री खोलें ताकि उन्हें कॉपी करें, खेलें या खोजें।",
-      "action": "इतिहास खोलें"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro अब एक नए प्रकार के मॉडल का उपयोग करता है. ट्रांसक्राइब करना जारी रखने के लिए नया संस्करण डाउनलोड करें. पुराने संस्करण हटा दिए जाएंगे."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "ताकि Wispr Bro आपको सुन सके. ऑडियो इसी कंप्यूटर पर टेक्स्ट में बदलता है और कभी अपलोड नहीं होता."
-        },
-        "accessibility": {
-          "why": "ताकि आपका शॉर्टकट हर ऐप में चले और Wispr Bro टेक्स्ट वहीं टाइप कर सके जहां आपका कर्सर है."
-        },
-        "turnOnMac": "सिस्टम सेटिंग्स में Wispr Bro को चालू करें, फिर यहां लौट आएं.",
-        "relaunch": "इसके बाद शॉर्टकट जवाब नहीं दे रहा? <relaunch>Wispr Bro को दोबारा शुरू करें</relaunch> और आप सीधे यहीं लौट आएंगे."
-      },
-      "welcome": {
-        "noMatch": "“{{query}}” से कोई भाषा मेल नहीं खाती. Wispr Bro के मॉडल करीब 100 भाषाओं को कवर करते हैं; बाकी सेटिंग्स में हैं.",
-        "chinese": {
-          "question": "आप {{languages}} बोलते हैं. Wispr Bro कौन-से अक्षर लिखे?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro कोने में है, आपको राह दिखाने के लिए"
-      },
-      "done": {
-        "subMac": "Wispr Bro अब आपके मेन्यू बार में है. बोलने के लिए किसी भी ऐप में <keys/> दबाए रखें या टैप करें.",
-        "subTray": "Wispr Bro अब आपके सिस्टम ट्रे में है. बोलने के लिए किसी भी ऐप में <keys/> दबाए रखें या टैप करें.",
-        "atLogin": "लॉग इन करने पर Wispr Bro शुरू करें",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "इतिहास",
+    "today": "आज",
+    "yesterday": "कल",
+    "rowLabel": "Dictation at {{time}}",
+    "loading": "आपकी बातें लोड हो रही हैं…",
+    "loadingMore": "अधिक लोड कर रहा है…",
+    "unavailable": "इतिहास अभी उपलब्ध नहीं है। ऐप शुरू होने के बाद इसका दिखाई देता है।",
+    "empty": {
+      "body": "fn के साथ किसी भी ऐप में बोलें। हर बोली यहां, इस Mac पर बची रहेगी।"
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro शॉर्टकट"
-        },
-        "preferredLanguages": {
-          "description": "वे भाषाएं जो आप बोलते हैं. Wispr Bro इनके आधार पर मॉडल सुझाता है."
-        }
-      },
-      "models": {
-        "untestedNote": "Wispr Bro के साथ परखे नहीं गए हैं. ये धीमे हो सकते हैं या ज़्यादा गलतियां कर सकते हैं.",
-        "emptyYours": "अभी कोई मॉडल नहीं है. नीचे से कोई चुनें: वह डाउनलोड होगा, फिर Wispr Bro उसका उपयोग करेगा.",
-        "deleteAskActive": "{{name}} हटाएं? दूसरा मॉडल चुनने तक Wispr Bro ट्रांसक्राइब नहीं कर पाएगा.",
-        "retiredNotice": {
-          "title": "पुराने मॉडल अब Wispr Bro के साथ काम नहीं करते"
-        },
-        "rescan": {
-          "tooltip": "Wispr Bro के बाहर, मॉडल फ़ोल्डर या Hugging Face कैश में जोड़े गए मॉडल के लिए फिर से स्कैन करें"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "कंप्यूटर में लॉग इन करने पर Wispr Bro अपने आप शुरू हो जाए."
-        },
-        "showTrayIcon": {
-          "description": "सिस्टम ट्रे में Wispr Bro का आइकन दिखाएं."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Wispr Bro के नए वर्शन की अपने आप जांच करें",
-          "lockedDescription": "सिस्टम कॉन्फ़िगरेशन द्वारा अक्षम (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "जाँचता है कि कीबोर्ड इवेंट Wispr Bro तक पहुँच रहे हैं या नहीं. सिर्फ़ इवेंट की गिनती रिकॉर्ड होती है — कभी नहीं कि आपने कौन-सी कुंजियाँ दबाईं.",
-          "verdictOk": "कुंजी इवेंट Wispr Bro तक सामान्य रूप से पहुँच रहे हैं."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro का मौजूदा वर्शन"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro अपडेट होने के बाद रिलीज़ नोट दिखाएं"
-        },
-        "appDataDirectory": {
-          "description": "वह जगह जहां Wispr Bro अपना डेटा सेव करता है"
-        },
-        "supportDevelopment": {
-          "description": "Wispr Bro को आगे बढ़ाने में हमारी मदद करें"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro का लोकल स्पीच-टू-टेक्स्ट transcribe.cpp और ggml पर आधारित है. Georgi Gerganov और योगदान देने वालों के शानदार काम के लिए धन्यवाद."
-          }
-        }
-      }
+    "noResults": {
+      "title": "कुछ नहीं मिला",
+      "body": "कोई भी डिक्टेशन “{{query}}” में नहीं है।"
     },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} में नया क्या है"
+    "results_one": "{{count}} डिक्टेशन ढूंढा गया",
+    "results_other": "{{count}} डिक्टेशन खोजे गए",
+    "resultsMore_one": "पिछले {{count}} में से सबसे नए मेल। अधिक देखने के लिए गुजरें।",
+    "resultsMore_other": "अंतिम {{count}} में से सभी मेल खोजें। अधिक देखने के लिए गुजरें।",
+    "search": {
+      "open": "खोज इतिहास",
+      "label": "अपने डिक्टेशन को खोजें",
+      "placeholder": "दिक्तेश खोजें",
+      "close": "खोज बंद करें"
     },
-    "appLanguage": {
-      "description": "Wispr Bro इंटरफ़ेस की भाषा बदलें"
+    "transcribeFile": "फ़ाइल को ट्रांसक्रिप्ट करें…",
+    "transcribeFailed": "वह फ़ाइल खोली नहीं जा सकती है। कृपया फिर से कोशिश करें।",
+    "showMore": "अधिक दिखाएं",
+    "showLess": "कम दिखाएँ",
+    "failed": "प्रतिलिपि विफल रही। फिर से प्रतिलिपि करने के लिए ⋮ मेनू में \"Retry transcript\" को कोशिश करें।",
+    "notTranscribed": "अभी टाइप नहीं किया गया है।",
+    "job": {
+      "waiting": "ट्रान्सक्रिप्ट करने के लिए इंतजार कर रहा है…",
+      "transcribing": "प्राणीकरण चल रहा है...",
+      "percent": "प्रस्तुत कर रहा है… {{percent}}%"
     },
-    "theme": {
-      "description": "चुनें कि Wispr Bro आपकी सिस्टम थीम के हिसाब से चले या हमेशा लाइट या डार्क रहे"
+    "tag": {
+      "file": "फाइल",
+      "practice": "प्रैक्टिस",
+      "raw": "AI साफ करने से पहले",
+      "flagged": "प्रतिष्ठित"
+    },
+    "actions": {
+      "play": "रिकॉर्डिंग प्ले करें",
+      "hidePlayer": "गेमर को छुपाएं",
+      "copy": "टेक्स्ट कॉपी करें",
+      "copied": "लगाया गया",
+      "flag": "गलत शब्द? ठीक करें",
+      "more": "अधिक क्रियाएँ"
+    },
+    "menu": {
+      "label": "Dictation actions",
+      "undoAi": "AI संपादन को वापस करें",
+      "redoAi": "AI संपादन को दोबारा करें",
+      "retry": "पुनः प्रयास करें",
+      "retryAt": {
+        "none": "निकाले बिना पुनरावृत्ति करें",
+        "light": "Light cleanup me repeat kare",
+        "medium": "मध्यम साफ करके पुनरारंभ करें"
+      },
+      "saveAudio": "आवाज को बचाएं जैसे…",
+      "delete": "ट्रान्सक्रिप्ट हटाएं"
+    },
+    "audio": {
+      "expired_one": "आवाज़ {{count}} दिन बाद हटा दिया गया",
+      "expired_other": "आवाज़ {{count}} दिन बाद हटा दिया गया",
+      "removed": "आवाज़ हटा दी गई",
+      "missing": "इस डिक्टेशन के लिए कोई रिकॉर्डिंग नहीं",
+      "filter": "WAV audio",
+      "saved": "रिकॉर्डिंग सेव कर दी गई है।",
+      "saveFailed": "रिकॉर्डिंग को सेव नहीं किया जा सका। कृपया फिर से कोशिश करें।"
+    },
+    "copyFailed": "टेक्स्ट कॉपी नहीं किया जा सका। कृपया फिर से कोशिश करें।",
+    "actionFailed": "वह काम नहीं कर पाया। कृपया फिर से कोशिश करें।",
+    "deleted": "हटा दिया गया",
+    "undo": "विरोधाभास",
+    "deleteFailed": "वह बयान हटाया नहीं जा सकता था। कृपया फिर से कोशिश करें।",
+    "undoFailed": "उस डिक्टेशन को वापस लाने के लिए अब बहुत देर हो गई है।",
+    "flag": {
+      "title": "गलत शब्द?",
+      "description": "वह शब्द चुनें जो गलत तरीके से आया है और उसका सही रूप टाइप करें। आपका शब्दकोश इसे अब सही कर लेगा।",
+      "close": "बंद करें",
+      "cancel": "रद्द करें",
+      "save": "शब्दकोश में जोड़ें",
+      "pick": "गलत शब्द चुनें (अगले शब्द के लिए एक और चुनें ताकि कुछ शब्दों के लिए)",
+      "noWords": "यह डिक्टेशन में कोई शब्द नहीं हैं जिनका चुनाव किया जा सकता है।",
+      "correction": "शब्द का सही लिखा जाए",
+      "correctionFor": "“{{word}}” के लिए सही लिखावट सही करें",
+      "correctionPlaceholder": "इसे वही तरीके से लिखें जैसे यह होना चाहिए",
+      "kindLabel": "क्या जोड़ें",
+      "rule": "हर बार इसे बदलें",
+      "ruleHint": "एक बदलाव जोड़ता है, इसलिए हर बार बातचीत में एक ही गलती सही कर ली जाती है।",
+      "ruleHintFilled": "“{{from}}” ko “{{to}}” में हर बार बोला जाता है।",
+      "word": "Spelling ko sikha",
+      "wordHint": "शब्द जोड़ेगा, ताकि जब आप उसे कहेंगे तो ऐप उसे पहचान सके।",
+      "duplicate": "वह पहले ही आपके शब्दकोश में है।",
+      "failed": "वह सेव नहीं किया जा सकता था। कृपया फिर से कोशिश करें।",
+      "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
+      "savedWord": "“{{word}}” आपके शब्दकोश में है।",
+      "openDictionary": "Dictionary kholne"
     }
   }
 }

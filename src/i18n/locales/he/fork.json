@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro משתמש כעת בסוג חדש יותר של מודלים. יש להוריד את הגרסה החדשה כדי להמשיך לתמלל. גרסאות ישנות יוסרו."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "כדי ש-Wispr Bro ישמע אותך. השמע הופך לטקסט במחשב הזה ולא מועלה לשום מקום."
+        },
+        "accessibility": {
+          "why": "כדי שקיצור המקשים שלך יעבוד בכל אפליקציה, ו-Wispr Bro יוכל להקליד את הטקסט איפה שהסמן נמצא."
+        },
+        "turnOnMac": "הפעל את Wispr Bro בהגדרות המערכת ואז חזור לכאן.",
+        "relaunch": "קיצור המקשים לא מגיב אחרי זה? <relaunch>הפעל מחדש את Wispr Bro</relaunch> ותחזור בדיוק לכאן."
+      },
+      "welcome": {
+        "noMatch": "אין שפה שתואמת ל„{{query}}”. המודלים של Wispr Bro מכסים כ-100 שפות; עוד שפות זמינות בהגדרות.",
+        "chinese": {
+          "question": "אתה מדבר {{languages}}. באילו תווים Wispr Bro צריך לכתוב?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro בפינה, ילווה אותך בדרך"
+      },
+      "done": {
+        "subMac": "Wispr Bro נמצא עכשיו בשורת התפריטים. החזק או הקש על <keys/> בכל אפליקציה כדי לדבר.",
+        "subTray": "Wispr Bro נמצא עכשיו במגש המערכת. החזק או הקש על <keys/> בכל אפליקציה כדי לדבר.",
+        "atLogin": "הפעל את Wispr Bro כשאני נכנס למערכת",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "קיצורי מקשים של Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "השפות שאתה מדבר. Wispr Bro משתמש בהן כדי להמליץ על מודלים."
+        }
+      },
+      "models": {
+        "untestedNote": "לא נבדקו עם Wispr Bro. ייתכן שהם איטיים יותר או שיעשו יותר טעויות.",
+        "emptyYours": "עדיין אין מודלים. בחר אחד למטה: הוא יורד, ואז Wispr Bro משתמש בו.",
+        "deleteAskActive": "למחוק את {{name}}? Wispr Bro לא יוכל לתמלל עד שתבחר מודל אחר.",
+        "retiredNotice": {
+          "title": "מודלים ישנים כבר לא עובדים עם Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "סריקה מחדש לאיתור מודלים שנוספו לתיקיית המודלים או למטמון של Hugging Face מחוץ ל-Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "הפעל את Wispr Bro אוטומטית כשאתה מתחבר למחשב."
+        },
+        "showTrayIcon": {
+          "description": "הצג את האייקון של Wispr Bro במגש המערכת."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "בדוק אוטומטית אם קיימות גרסאות חדשות של Wispr Bro",
+          "lockedDescription": "מושבת על ידי תצורת המערכת (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "בודק אם אירועי מקלדת מגיעים ל-Wispr Bro. נרשם רק מספר האירועים — לעולם לא אילו מקשים הקשת.",
+          "verdictOk": "אירועי מקשים מגיעים ל-Wispr Bro כרגיל."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "הגרסה הנוכחית של Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "הצג הערות גרסה לאחר עדכוני Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "המיקום שבו Wispr Bro שומר את הנתונים שלו"
+        },
+        "supportDevelopment": {
+          "description": "עזור לנו להמשיך לבנות את Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro משתמש ב-ggml לתמלול מהיר ומקומי. תודה לעבודה המדהימה של Georgi Gerganov וכל התורמים."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "חדש ב-Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "שנה את שפת הממשק של Wispr Bro"
+    },
+    "theme": {
+      "description": "בחר אם Wispr Bro יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה"
+    }
+  },
   "aiEngine": {
     "title": "מנוע אינטיליגנציה מלאכותית",
     "loading": "הבדיקה של המנוע האי…",
@@ -586,11 +687,6 @@
       "locked": "הפתיחה ב-{{goal}} מילים. המשך לרשום כדי לבנות את זה.",
       "unlocked": "הפתוח. ראה איך אתה מדבר בניתוחים.",
       "open": "הפתיחה של תובנות"
-    },
-    "history": {
-      "title": "ההקלטות שלך נשמרות על זה המاك",
-      "body": "הפתוח את ההיסטוריה כדי להעתק, להפוך למשחק או לחפש.",
-      "action": "הפתוח את היסטוריה"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro משתמש כעת בסוג חדש יותר של מודלים. יש להוריד את הגרסה החדשה כדי להמשיך לתמלל. גרסאות ישנות יוסרו."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "כדי ש-Wispr Bro ישמע אותך. השמע הופך לטקסט במחשב הזה ולא מועלה לשום מקום."
-        },
-        "accessibility": {
-          "why": "כדי שקיצור המקשים שלך יעבוד בכל אפליקציה, ו-Wispr Bro יוכל להקליד את הטקסט איפה שהסמן נמצא."
-        },
-        "turnOnMac": "הפעל את Wispr Bro בהגדרות המערכת ואז חזור לכאן.",
-        "relaunch": "קיצור המקשים לא מגיב אחרי זה? <relaunch>הפעל מחדש את Wispr Bro</relaunch> ותחזור בדיוק לכאן."
-      },
-      "welcome": {
-        "noMatch": "אין שפה שתואמת ל„{{query}}”. המודלים של Wispr Bro מכסים כ-100 שפות; עוד שפות זמינות בהגדרות.",
-        "chinese": {
-          "question": "אתה מדבר {{languages}}. באילו תווים Wispr Bro צריך לכתוב?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro בפינה, ילווה אותך בדרך"
-      },
-      "done": {
-        "subMac": "Wispr Bro נמצא עכשיו בשורת התפריטים. החזק או הקש על <keys/> בכל אפליקציה כדי לדבר.",
-        "subTray": "Wispr Bro נמצא עכשיו במגש המערכת. החזק או הקש על <keys/> בכל אפליקציה כדי לדבר.",
-        "atLogin": "הפעל את Wispr Bro כשאני נכנס למערכת",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "היסטוריה",
+    "today": "היום",
+    "yesterday": "אתמול",
+    "rowLabel": "ההערכה ב-{{time}}",
+    "loading": "הטמעת הכתובות שלך…",
+    "loadingMore": "טוען עוד…",
+    "unavailable": "ההיסטוריה לא זמינה עדיין. מופיעה מיד לאחר שהאפליקציה התחילה לפעול.",
+    "empty": {
+      "body": "העתק fn במערכת אפליקציה ותחיל לדבר. כל תיאום נשמור כאן, על זה המاك."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "קיצורי מקשים של Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "השפות שאתה מדבר. Wispr Bro משתמש בהן כדי להמליץ על מודלים."
-        }
-      },
-      "models": {
-        "untestedNote": "לא נבדקו עם Wispr Bro. ייתכן שהם איטיים יותר או שיעשו יותר טעויות.",
-        "emptyYours": "עדיין אין מודלים. בחר אחד למטה: הוא יורד, ואז Wispr Bro משתמש בו.",
-        "deleteAskActive": "למחוק את {{name}}? Wispr Bro לא יוכל לתמלל עד שתבחר מודל אחר.",
-        "retiredNotice": {
-          "title": "מודלים ישנים כבר לא עובדים עם Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "סריקה מחדש לאיתור מודלים שנוספו לתיקיית המודלים או למטמון של Hugging Face מחוץ ל-Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "הפעל את Wispr Bro אוטומטית כשאתה מתחבר למחשב."
-        },
-        "showTrayIcon": {
-          "description": "הצג את האייקון של Wispr Bro במגש המערכת."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "בדוק אוטומטית אם קיימות גרסאות חדשות של Wispr Bro",
-          "lockedDescription": "מושבת על ידי תצורת המערכת (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "בודק אם אירועי מקלדת מגיעים ל-Wispr Bro. נרשם רק מספר האירועים — לעולם לא אילו מקשים הקשת.",
-          "verdictOk": "אירועי מקשים מגיעים ל-Wispr Bro כרגיל."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "הגרסה הנוכחית של Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "הצג הערות גרסה לאחר עדכוני Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "המיקום שבו Wispr Bro שומר את הנתונים שלו"
-        },
-        "supportDevelopment": {
-          "description": "עזור לנו להמשיך לבנות את Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro משתמש ב-ggml לתמלול מהיר ומקומי. תודה לעבודה המדהימה של Georgi Gerganov וכל התורמים."
-          }
-        }
-      }
+    "noResults": {
+      "title": "לא נמצאו תוצאות",
+      "body": "אין תיאום דיקטציה שמכיל \"{{query}}\"."
     },
-    "whatsNew": {
-      "title": "חדש ב-Wispr Bro v{{version}}"
+    "results_one": "{{count}} תוצאות של דיקטציה נמצאות",
+    "results_other": "{{count}} תוצאות של דיקטציה נמצאו",
+    "resultsMore_one": "ה{{count}} התוצאות האחרונות. סרף למטה.",
+    "resultsMore_other": "ה{{count}} התוצאות האחרונות. סרף למטה.",
+    "search": {
+      "open": "היסטוריה של חיפוש",
+      "label": "חפש את הכתובות שלך",
+      "placeholder": "חפש תרגומים",
+      "close": "לסיום חיפוש"
     },
-    "appLanguage": {
-      "description": "שנה את שפת הממשק של Wispr Bro"
+    "transcribeFile": "לכתוב את הקובץ…",
+    "transcribeFailed": "הקובץ לא נפתח. אנא נסה שוב.",
+    "showMore": "הצג יותר",
+    "showLess": "הצג פחות",
+    "failed": "התרגום נכשל. נסה ללחוץ על \"Retry transcript\" בתפריט ⋮.",
+    "notTranscribed": "לא נרשם עדיין.",
+    "job": {
+      "waiting": "מתאריך לתרגום...",
+      "transcribing": "התרגום…",
+      "percent": "התרגום… {{percent}}%"
     },
-    "theme": {
-      "description": "בחר אם Wispr Bro יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה"
+    "tag": {
+      "file": "הקובץ",
+      "practice": "התרגול",
+      "raw": "לפני סינון AI",
+      "flagged": "הסימן"
+    },
+    "actions": {
+      "play": "לצאת את הקליפ",
+      "hidePlayer": "להסתיר את המתרגל",
+      "copy": "העתק טקסט",
+      "copied": "הועלה",
+      "flag": "מילה שגויה? ערוך אותה",
+      "more": "פעולות נוספות"
+    },
+    "menu": {
+      "label": "פעולות דיקטציה",
+      "undoAi": "החזיר עריכה של AI",
+      "redoAi": "השכלה מחדש של עריכה AI",
+      "retry": "לנסות שוב",
+      "retryAt": {
+        "none": "לנסות שוב ללא ניקוי",
+        "light": "לנסות שוב עם ניקוי קל",
+        "medium": "לנסות שוב עם ניקוי בינוני"
+      },
+      "saveAudio": "שמור אודיו כ…",
+      "delete": "למחוק את התרגום"
+    },
+    "audio": {
+      "expired_one": "האודיו נמחק לאחר {{count}} יום",
+      "expired_other": "השמעה נמחתה לאחר {{count}} ימים",
+      "removed": "המוסיקה נמחקה",
+      "missing": "אין הקלטה עבור הכתיבה הזו",
+      "filter": "אודיו WAV",
+      "saved": "ההקלדה נשמרה.",
+      "saveFailed": "ההקלטה לא נשמרה. אנא נסה שוב."
+    },
+    "copyFailed": "הטקסט לא נוכחות. אנא נסה שוב.",
+    "actionFailed": "הפעולה לא הצליחה. אנא נסה שוב.",
+    "deleted": "הנחת",
+    "undo": "החזיר",
+    "deleteFailed": "ההערכה לא נמחקה. אנא נסה שוב.",
+    "undoFailed": "לא אפשר להחזיר את הכתיבה הזו.",
+    "flag": {
+      "title": "מילה שגויה?",
+      "description": "בחר את המילה שיצאה לא נכון וכתוב אותה כפי שהיא должна להיות. מילון שלך תיקן את זה מכאן למטה.",
+      "close": "לסיום",
+      "cancel": "ל hủy",
+      "save": "הוסף למילון",
+      "pick": "בחר את המילה שגויה (בחר את המילה הבאה גם כדי לשים מילה)",
+      "noWords": "ההערכה הזו לא מכילה מילים להבחנה.",
+      "correction": "התקן את הכתב",
+      "correctionFor": "הצגת כתיבת מילה נכונה של \"{{word}}\"",
+      "correctionPlaceholder": "הקלד את זה כמו שצריך",
+      "kindLabel": "מה להוסיף",
+      "rule": "החלף כל פעם",
+      "ruleHint": "يضيف תיקון, כך שהטעות نفسها תיקנת בכל דיקטציה.",
+      "ruleHintFilled": "ה\"{{from}}\" מتحول ל\"{{to}}\" בכל דיקטציה.",
+      "word": "למד את הכתיבה",
+      "wordHint": "يضfü את המילה, כך שהאפליקציה תראה אותה כשאתה מדבר עליה.",
+      "duplicate": "הذا כבר נמצא בדיקטורים שלך.",
+      "failed": "ההערכה לא נסגרה. אנא נסה שוב.",
+      "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
+      "savedWord": "המילה \"{{word}}\" נמצאת בדיקטונאריה שלך.",
+      "openDictionary": "הפתיחה של מילון"
     }
   }
 }

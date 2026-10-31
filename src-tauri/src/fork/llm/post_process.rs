@@ -1092,6 +1092,7 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
     source: Source,
     words: Vec<String>,
     spoken: Vec<String>,
+    level_override: Option<CleanupLevel>,
 ) -> Option<Plan> {
     // The prompt also names the replacements' outputs (S-11 rules).
     let mut terms = words.clone();
@@ -1113,7 +1114,7 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
     {
         return None;
     }
-    let level = level(app);
+    let level = level_override.unwrap_or_else(|| level(app));
     let language = crate::fork::context::take::ledger().language_for(text);
     let hint = match language {
         Some(_) => None,
@@ -1356,18 +1357,47 @@ pub(crate) async fn post_process(
     transcription: &str,
     post_process: bool,
 ) -> crate::actions::ProcessedTranscription {
-    processed(app, transcription, post_process, Source::Dictation).await
+    processed(app, transcription, post_process, Source::Dictation, None).await
+}
+
+/// Cleanup levels asked for one retry each (S-15b "Retry transcript" with
+/// another level), by history entry id; taken by the entry's next job.
+static RETRY_LEVELS: Mutex<Vec<(i64, CleanupLevel)>> = Mutex::new(Vec::new());
+
+/// The next job for `entry_id` cleans at `level` instead of the setting.
+pub fn set_retry_level(entry_id: i64, level: Option<CleanupLevel>) {
+    let mut levels = RETRY_LEVELS.lock().unwrap_or_else(|e| e.into_inner());
+    levels.retain(|(id, _)| *id != entry_id);
+    if let Some(level) = level {
+        levels.push((entry_id, level));
+    }
+}
+
+/// The level asked for `entry_id`'s retry, removed (one retry each).
+pub fn take_retry_level(entry_id: i64) -> Option<CleanupLevel> {
+    let mut levels = RETRY_LEVELS.lock().unwrap_or_else(|e| e.into_inner());
+    let at = levels.iter().position(|(id, _)| *id == entry_id)?;
+    Some(levels.remove(at).1)
 }
 
 /// The `managers/transcription_jobs.rs` hook: retries and file
 /// transcriptions are cleaned at the same level (no AI-chat skip: the text
-/// goes to History, not to an app).
+/// goes to History, not to an app), or at the level the user picked for
+/// this retry (S-15b).
 pub(crate) async fn post_process_job(
     app: &AppHandle,
     transcription: &str,
-    post_process: bool,
+    entry: &crate::managers::history::HistoryEntry,
 ) -> crate::actions::ProcessedTranscription {
-    processed(app, transcription, post_process, Source::Job).await
+    let level = take_retry_level(entry.id);
+    processed(
+        app,
+        transcription,
+        entry.post_process_requested,
+        Source::Job,
+        level,
+    )
+    .await
 }
 
 async fn processed(
@@ -1375,6 +1405,7 @@ async fn processed(
     transcription: &str,
     post_process: bool,
     source: Source,
+    level: Option<CleanupLevel>,
 ) -> crate::actions::ProcessedTranscription {
     let settings = crate::settings::get_settings(app);
     let Some(plan) = plan(
@@ -1383,6 +1414,7 @@ async fn processed(
         source,
         settings.custom_words,
         settings.spoken_languages,
+        level,
     )
     .await
     else {

@@ -657,6 +657,14 @@
     url = "https://registry.npmjs.org/@tailwindcss/vite/-/vite-4.1.16.tgz";
     hash = "sha512-bbguNBcDxsRmi9nnlWJxhfDWamY3lmcyACHcdO1crxfzuLpOhHLLtEIN/nCbbAtj5rchUgQD17QVAKi1f7IsKg==";
   };
+  "@tanstack/react-virtual@3.14.23" = fetchurl {
+    url = "https://registry.npmjs.org/@tanstack/react-virtual/-/react-virtual-3.14.23.tgz";
+    hash = "sha512-Oyy58qQwdaQieA+A4WUDtnh9D1rv5FZvGdw8og9Xeyh88V6HH94vMSyV5i9ATIbYNe9t5Ix0WXRo9NOTpHDkYw==";
+  };
+  "@tanstack/virtual-core@3.19.8" = fetchurl {
+    url = "https://registry.npmjs.org/@tanstack/virtual-core/-/virtual-core-3.19.8.tgz";
+    hash = "sha512-Oz/SYBo/aVPyQkwtOw7Q23myITUgFIof2glQqydYJAPL6mH2SkJDkvDKZTklB+7gv5jGLZQhyTcd7SO1A1EODQ==";
+  };
   "@tauri-apps/api@2.10.1" = fetchurl {
     url = "https://registry.npmjs.org/@tauri-apps/api/-/api-2.10.1.tgz";
     hash = "sha512-hKL/jWf293UDSUN09rR69hrToyIXBb8CjGaWC7gfinvnQrBVvnLr08FeFi38gxtugAVyVcTa5/FD/Xnkb1siBw==";

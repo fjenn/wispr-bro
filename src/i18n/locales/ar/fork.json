@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "يستخدم Wispr Bro الآن نوعًا أحدث من النماذج. نزّل الإصدار الجديد لمواصلة التفريغ الصوتي. ستتم إزالة الإصدارات القديمة."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "ليتمكن Wispr Bro من سماعك. يُحوَّل الصوت إلى نص على هذا الكمبيوتر ولا يُرفع أبدًا."
+        },
+        "accessibility": {
+          "why": "ليعمل اختصارك في كل التطبيقات، ويتمكن Wispr Bro من كتابة النص حيث يوجد المؤشر."
+        },
+        "turnOnMac": "فعّل Wispr Bro في «إعدادات النظام»، ثم عد إلى هنا.",
+        "relaunch": "الاختصار لا يستجيب بعد هذا؟ <relaunch>أعد تشغيل Wispr Bro</relaunch> وستعود إلى هنا مباشرة."
+      },
+      "welcome": {
+        "noMatch": "لا توجد لغة تطابق «{{query}}». تغطي نماذج Wispr Bro نحو 100 لغة، والمزيد في الإعدادات.",
+        "chinese": {
+          "question": "أنت تتحدث {{languages}}. بأي حروف يجب أن يكتب Wispr Bro؟"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro في الزاوية ليرشدك خطوة بخطوة"
+      },
+      "done": {
+        "subMac": "Wispr Bro الآن في شريط القوائم. اضغط مطوّلًا أو انقر على <keys/> في أي تطبيق لتتحدث.",
+        "subTray": "Wispr Bro الآن في صينية النظام. اضغط مطوّلًا أو انقر على <keys/> في أي تطبيق لتتحدث.",
+        "atLogin": "تشغيل Wispr Bro عند تسجيل الدخول",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "اختصارات Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "اللغات التي تتحدثها. يستخدمها Wispr Bro للتوصية بالنماذج."
+        }
+      },
+      "models": {
+        "untestedNote": "لم تُختبر مع Wispr Bro. قد تكون أبطأ أو ترتكب أخطاء أكثر.",
+        "emptyYours": "لا توجد نماذج بعد. اختر واحدًا أدناه: يُنزَّل ثم يستخدمه Wispr Bro.",
+        "deleteAskActive": "حذف {{name}}؟ لن يستطيع Wispr Bro التفريغ الصوتي حتى تختار نموذجًا آخر.",
+        "retiredNotice": {
+          "title": "النماذج القديمة لم تعد تعمل مع Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "إعادة الفحص بحثًا عن النماذج المضافة إلى مجلد النماذج أو ذاكرة Hugging Face التخزينية المؤقتة خارج Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": ".بدء تشغيل Wispr Bro تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
+        },
+        "showTrayIcon": {
+          "description": ".عرض أيقونة Wispr Bro في شريط النظام"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "التحقق تلقائياً من وجود إصدارات جديدة من Wispr Bro",
+          "lockedDescription": "معطّل بواسطة إعدادات النظام (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "يتحقق مما إذا كانت أحداث لوحة المفاتيح تصل إلى Wispr Bro. يُسجَّل عدد الأحداث فقط — ولا تُسجَّل أبدًا المفاتيح التي تضغط عليها.",
+          "verdictOk": "أحداث المفاتيح تصل إلى Wispr Bro بشكل طبيعي."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "الإصدار الحالي من Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "إظهار ملاحظات الإصدار بعد تحديثات Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "الموقع الذي يخزن فيه Wispr Bro بياناته"
+        },
+        "supportDevelopment": {
+          "description": "ساعدنا في مواصلة بناء Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": ".يستخدم Wispr Bro برنامج ggml لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "الجديد في Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "تغيير لغة واجهة Wispr Bro"
+    },
+    "theme": {
+      "description": "اختر ما إذا كان Wispr Bro يتبع مظهر النظام أو يبقى فاتحًا أو داكنًا"
+    }
+  },
   "aiEngine": {
     "title": "مُحرّك الذكاء الاصطناعي",
     "loading": "أنا أتحقق من محرك الذكاء الاصطناعي…",
@@ -586,11 +687,6 @@
       "locked": "يُفتح عند {{goal}} كلمة. استمر في التحدث لبناءه.",
       "unlocked": "مُفتح. اعرض طريقة تحدثك في التحليلات.",
       "open": "افتح التحليلات"
-    },
-    "history": {
-      "title": "أوامر التدوين الخاصة بك محفوظة على هذا Mac",
-      "body": "افتح التاريخ لنسخه أو تشغيلها أو بحثها.",
-      "action": "افتح التاريخ"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "يستخدم Wispr Bro الآن نوعًا أحدث من النماذج. نزّل الإصدار الجديد لمواصلة التفريغ الصوتي. ستتم إزالة الإصدارات القديمة."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "ليتمكن Wispr Bro من سماعك. يُحوَّل الصوت إلى نص على هذا الكمبيوتر ولا يُرفع أبدًا."
-        },
-        "accessibility": {
-          "why": "ليعمل اختصارك في كل التطبيقات، ويتمكن Wispr Bro من كتابة النص حيث يوجد المؤشر."
-        },
-        "turnOnMac": "فعّل Wispr Bro في «إعدادات النظام»، ثم عد إلى هنا.",
-        "relaunch": "الاختصار لا يستجيب بعد هذا؟ <relaunch>أعد تشغيل Wispr Bro</relaunch> وستعود إلى هنا مباشرة."
-      },
-      "welcome": {
-        "noMatch": "لا توجد لغة تطابق «{{query}}». تغطي نماذج Wispr Bro نحو 100 لغة، والمزيد في الإعدادات.",
-        "chinese": {
-          "question": "أنت تتحدث {{languages}}. بأي حروف يجب أن يكتب Wispr Bro؟"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro في الزاوية ليرشدك خطوة بخطوة"
-      },
-      "done": {
-        "subMac": "Wispr Bro الآن في شريط القوائم. اضغط مطوّلًا أو انقر على <keys/> في أي تطبيق لتتحدث.",
-        "subTray": "Wispr Bro الآن في صينية النظام. اضغط مطوّلًا أو انقر على <keys/> في أي تطبيق لتتحدث.",
-        "atLogin": "تشغيل Wispr Bro عند تسجيل الدخول",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "السجل",
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "rowLabel": "الإذاعة في {{time}}",
+    "loading": "جارٍ تحميل مذكراتك…",
+    "loadingMore": "جارٍ تحميل المزيد…",
+    "unavailable": "السجل غير متوفر حاليًا. يظهر بعد أن ينتهي تحميل التطبيق.",
+    "empty": {
+      "body": "أضغط على fn في أي تطبيق وابدأ بالتحدث. يتم حفظ كل تدوين هنا، على هذا Mac."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "اختصارات Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "اللغات التي تتحدثها. يستخدمها Wispr Bro للتوصية بالنماذج."
-        }
-      },
-      "models": {
-        "untestedNote": "لم تُختبر مع Wispr Bro. قد تكون أبطأ أو ترتكب أخطاء أكثر.",
-        "emptyYours": "لا توجد نماذج بعد. اختر واحدًا أدناه: يُنزَّل ثم يستخدمه Wispr Bro.",
-        "deleteAskActive": "حذف {{name}}؟ لن يستطيع Wispr Bro التفريغ الصوتي حتى تختار نموذجًا آخر.",
-        "retiredNotice": {
-          "title": "النماذج القديمة لم تعد تعمل مع Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "إعادة الفحص بحثًا عن النماذج المضافة إلى مجلد النماذج أو ذاكرة Hugging Face التخزينية المؤقتة خارج Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": ".بدء تشغيل Wispr Bro تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
-        },
-        "showTrayIcon": {
-          "description": ".عرض أيقونة Wispr Bro في شريط النظام"
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "التحقق تلقائياً من وجود إصدارات جديدة من Wispr Bro",
-          "lockedDescription": "معطّل بواسطة إعدادات النظام (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "يتحقق مما إذا كانت أحداث لوحة المفاتيح تصل إلى Wispr Bro. يُسجَّل عدد الأحداث فقط — ولا تُسجَّل أبدًا المفاتيح التي تضغط عليها.",
-          "verdictOk": "أحداث المفاتيح تصل إلى Wispr Bro بشكل طبيعي."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "الإصدار الحالي من Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "إظهار ملاحظات الإصدار بعد تحديثات Wispr Bro"
-        },
-        "appDataDirectory": {
-          "description": "الموقع الذي يخزن فيه Wispr Bro بياناته"
-        },
-        "supportDevelopment": {
-          "description": "ساعدنا في مواصلة بناء Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": ".يستخدم Wispr Bro برنامج ggml لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
-          }
-        }
-      }
+    "noResults": {
+      "title": "لا نتائج متوفرة",
+      "body": "لا توجد ملاحظات تحتوي على \"{{query}}\"."
     },
-    "whatsNew": {
-      "title": "الجديد في Wispr Bro v{{version}}"
+    "results_one": "{{count}} تدوين مُكتشف",
+    "results_other": "{{count}} تدوينات تم العثور عليها",
+    "resultsMore_one": "الـ {{count}} نتيجة أحدث. اسحب للحصول على المزيد.",
+    "resultsMore_other": "الـ {{count}} أحدث نتائج. اسحب للحصول على المزيد.",
+    "search": {
+      "open": "سجل البحث",
+      "label": "ابحث عن ملاحظاتك",
+      "placeholder": "ابحث عن ملاحظات",
+      "close": "إغلاق البحث"
     },
-    "appLanguage": {
-      "description": "تغيير لغة واجهة Wispr Bro"
+    "transcribeFile": "تحويل ملف…",
+    "transcribeFailed": "لا يمكن فتح هذا الملف. يُرجى المحاولة مرة أخرى.",
+    "showMore": "أظهر المزيد",
+    "showLess": "أظهر أقل",
+    "failed": "تم فشل الترجمة. حاول إعادة الترجمة في قائمة ⋮.",
+    "notTranscribed": "لم يُترجم بعد.",
+    "job": {
+      "waiting": "أنا أنتظر لتحويله...",
+      "transcribing": "التحويل…",
+      "percent": "التحويل… {{percent}}%"
     },
-    "theme": {
-      "description": "اختر ما إذا كان Wispr Bro يتبع مظهر النظام أو يبقى فاتحًا أو داكنًا"
+    "tag": {
+      "file": "ملف",
+      "practice": "التدريب",
+      "raw": "قبل تنظيف الذكاء الاصطناعي",
+      "flagged": "مُصنّف"
+    },
+    "actions": {
+      "play": "تشغيل التسجيل",
+      "hidePlayer": "إخفاء المُشاهد",
+      "copy": "النسخ",
+      "copied": "تم النسخ",
+      "flag": "كلمة خاطئة؟ اجعلها صحيحة",
+      "more": "مزيد من الإجراءات"
+    },
+    "menu": {
+      "label": "إجراءات التدوين",
+      "undoAi": "إلغاء تعديل الذكاء الاصطناعي",
+      "redoAi": "إعادة تعديل الذكاء الاصطناعي",
+      "retry": "إعادة ترجمة",
+      "retryAt": {
+        "none": "إعادة المحاولة دون تنظيف",
+        "light": "إعادة المحاولة مع تنظيف خفيف",
+        "medium": "إعادة المحاولة مع تنظيف متوسط"
+      },
+      "saveAudio": "احفظ الصوت كـ…",
+      "delete": "حذف السجل"
+    },
+    "audio": {
+      "expired_one": "تم إزالة الصوت بعد {{count}} يوم",
+      "expired_other": "الصوت تم إزالته بعد {{count}} يوم",
+      "removed": "تم إزالة الصوت",
+      "missing": "لا تسجيل للاستماع هذا",
+      "filter": "مُصَوَّر مُوَسَّع WAV",
+      "saved": "تم حفظ التسجيل.",
+      "saveFailed": "لا يمكن حفظ التسجيل. يُرجى المحاولة مرة أخرى."
+    },
+    "copyFailed": "لا يمكن نسخ النص. يُرجى المحاولة مرة أخرى.",
+    "actionFailed": "لم ينجح ذلك. يُرجى المحاولة مرة أخرى.",
+    "deleted": "مُحذوف",
+    "undo": "إلغاء",
+    "deleteFailed": "لا يمكن حذف هذا التدوين. يُرجى المحاولة مرة أخرى.",
+    "undoFailed": "لا يمكن استرجاع هذا التدوين الآن.",
+    "flag": {
+      "title": "كلمة خاطئة؟",
+      "description": "اختر الكلمة التي صدرت بشكل خاطئ وأدخلها كما يجب. سيُصلح مكتلك من الآن.",
+      "close": "إغلاق",
+      "cancel": "إلغاء",
+      "save": "إضافة إلى القاموس",
+      "pick": "اختر الكلمة الخاطئة (اختر الكلمة التالية أيضًا لبعض الكلمات)",
+      "noWords": "هذا التدوين لا يحتوي على كلمات للاختيار.",
+      "correction": "تصحيح التهجئة",
+      "correctionFor": "تصحيح كتابة \"{{word}}\"",
+      "correctionPlaceholder": "اكتبها كما يجب",
+      "kindLabel": "ما يُضاف",
+      "rule": "أعد استبداله كل مرة",
+      "ruleHint": "يُضيف تغييرًا، لتصحيح نفس الخطأ في كل تدوين.",
+      "ruleHintFilled": "يصبح \"{{from}}\" يصبح \"{{to}}\" في كل تدوين.",
+      "word": "أعلم كتابة الكلمة",
+      "wordHint": "يُضاف الكلمة، لكي يُكتشفها التطبيق عندما تقولها.",
+      "duplicate": "هذا موجود بالفعل في قاموسك.",
+      "failed": "لا يمكن حفظ ذلك. يُرجى المحاولة مرة أخرى.",
+      "savedRule": "من الآن فصاعدًا \"{{from}}\" يصبح \"{{to}}\".",
+      "savedWord": "الكلمة \"{{word}}\" موجودة في قاموسك.",
+      "openDictionary": "فتح القاموس"
     }
   }
 }

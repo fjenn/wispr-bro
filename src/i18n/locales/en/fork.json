@@ -687,11 +687,6 @@
       "locked": "Unlocks at {{goal}} words. Keep dictating to build it.",
       "unlocked": "Unlocked. See how you speak in Insights.",
       "open": "Open Insights"
-    },
-    "history": {
-      "title": "Your dictations are saved on this Mac",
-      "body": "Open History to copy, play or search them.",
-      "action": "Open history"
     }
   },
   "dictionary": {
@@ -1174,6 +1169,108 @@
         "word": "a favourite word",
         "corrected": "a word that gets fixed"
       }
+    }
+  },
+  "history": {
+    "title": "History",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "rowLabel": "Dictation at {{time}}",
+    "loading": "Loading your dictations…",
+    "loadingMore": "Loading more…",
+    "unavailable": "History is not available yet. It appears as soon as the app has finished starting.",
+    "empty": {
+      "body": "Hold fn in any app and start talking. Every dictation is kept here, on this Mac."
+    },
+    "noResults": {
+      "title": "Nothing found",
+      "body": "No dictation contains “{{query}}”."
+    },
+    "results_one": "{{count}} dictation found",
+    "results_other": "{{count}} dictations found",
+    "resultsMore_one": "The {{count}} most recent match. Scroll for more.",
+    "resultsMore_other": "The {{count}} most recent matches. Scroll for more.",
+    "search": {
+      "open": "Search history",
+      "label": "Search your dictations",
+      "placeholder": "Search dictations",
+      "close": "Close search"
+    },
+    "transcribeFile": "Transcribe a file…",
+    "transcribeFailed": "That file could not be opened. Please try again.",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "failed": "Transcription failed. Try Retry transcript in the ⋮ menu.",
+    "notTranscribed": "Not transcribed yet.",
+    "job": {
+      "waiting": "Waiting to transcribe…",
+      "transcribing": "Transcribing…",
+      "percent": "Transcribing… {{percent}}%"
+    },
+    "tag": {
+      "file": "File",
+      "practice": "Practice",
+      "raw": "Before AI cleanup",
+      "flagged": "Flagged"
+    },
+    "actions": {
+      "play": "Play recording",
+      "hidePlayer": "Hide the player",
+      "copy": "Copy text",
+      "copied": "Copied",
+      "flag": "Wrong word? Fix it",
+      "more": "More actions"
+    },
+    "menu": {
+      "label": "Dictation actions",
+      "undoAi": "Undo AI edit",
+      "redoAi": "Redo AI edit",
+      "retry": "Retry transcript",
+      "retryAt": {
+        "none": "Retry without cleanup",
+        "light": "Retry with Light cleanup",
+        "medium": "Retry with Medium cleanup"
+      },
+      "saveAudio": "Save audio as…",
+      "delete": "Delete transcript"
+    },
+    "audio": {
+      "expired_one": "Audio removed after {{count}} day",
+      "expired_other": "Audio removed after {{count}} days",
+      "removed": "Audio removed",
+      "missing": "No recording for this dictation",
+      "filter": "WAV audio",
+      "saved": "Recording saved.",
+      "saveFailed": "The recording could not be saved. Please try again."
+    },
+    "copyFailed": "The text could not be copied. Please try again.",
+    "actionFailed": "That did not work. Please try again.",
+    "deleted": "Deleted",
+    "undo": "Undo",
+    "deleteFailed": "That dictation could not be deleted. Please try again.",
+    "undoFailed": "It is too late to bring that dictation back.",
+    "flag": {
+      "title": "Wrong word?",
+      "description": "Pick the word that came out wrong and type it the way it should be. Your dictionary fixes it from now on.",
+      "close": "Close",
+      "cancel": "Cancel",
+      "save": "Add to dictionary",
+      "pick": "Pick the wrong word (pick the next one too for a few words)",
+      "noWords": "This dictation has no words to pick.",
+      "correction": "Correct spelling",
+      "correctionFor": "Correct spelling of “{{word}}”",
+      "correctionPlaceholder": "Type it the way it should be",
+      "kindLabel": "What to add",
+      "rule": "Replace it every time",
+      "ruleHint": "Adds a replacement, so the same mistake is fixed in every dictation.",
+      "ruleHintFilled": "“{{from}}” becomes “{{to}}” in every dictation.",
+      "word": "Teach the spelling",
+      "wordHint": "Adds the word, so the app can spot it when you say it.",
+      "duplicate": "That is already in your dictionary.",
+      "failed": "That could not be saved. Please try again.",
+      "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
+      "savedWord": "“{{word}}” is in your dictionary.",
+      "openDictionary": "Open Dictionary"
     }
   }
 }

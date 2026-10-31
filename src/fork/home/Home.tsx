@@ -12,46 +12,17 @@
  * The layout follows the page's own width (a container query), not the
  * window's, so it also holds with the sidebar expanded at the minimum size.
  * The DOM order is greeting, rail, main column, which is also the narrow
- * reading order. The history column is S-15b's; until it lands an empty
- * state links to Settings › History.
+ * reading order. The main column holds History (S-15b,
+ * `../history/HistoryList`).
  */
-import { AudioLines } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { HistoryList } from "../history/HistoryList";
 import { FORK_NAMESPACE } from "../i18n";
-import { navigate } from "../hub/nav";
-import { EmptyState } from "../ui";
 import { Greeting } from "./Greeting";
 import { PromoBanner } from "./PromoBanner";
 import { StatsRail } from "./StatsRail";
 import { useStatsSummary } from "./useStatsSummary";
 import { VoiceProfileBar } from "./VoiceProfileBar";
-
-function HistorySlot({ hasDictations }: { hasDictations: boolean }) {
-  const { t } = useTranslation(FORK_NAMESPACE);
-  const keys = hasDictations
-    ? {
-        title: "home.history.title",
-        body: "home.history.body",
-        action: "home.history.action",
-      }
-    : {
-        title: "hub.pages.dictation.empty.title",
-        body: "hub.pages.dictation.empty.body",
-        action: "hub.pages.dictation.empty.action",
-      };
-  return (
-    <EmptyState
-      testId="wb-empty-dictation"
-      icon={AudioLines}
-      title={t(keys.title)}
-      body={t(keys.body)}
-      action={{
-        label: t(keys.action),
-        onClick: () => navigate("settings", "history"),
-      }}
-    />
-  );
-}
 
 export function Home() {
   const { summary, status } = useStatsSummary();
@@ -72,7 +43,7 @@ export function Home() {
         </aside>
         <div className="flex min-w-0 flex-col gap-6 [grid-area:main]">
           <PromoBanner />
-          <HistorySlot hasDictations={(summary?.total_dictations ?? 0) > 0} />
+          <HistoryList />
         </div>
       </div>
     </div>

@@ -25,12 +25,13 @@
 //! history). [`jobs`] schedules reconcile and retention. S-11 adds
 //! [`rules`]: the active dictionary rules for the text pipeline and the
 //! record of the ones that applied. S-25 adds [`insights`], the read side
-//! of the Insights page.
+//! of the Insights page; S-15b [`history_list`], the History list.
 
 pub mod disk;
 pub mod entry_meta;
 pub mod fts;
 pub mod handy;
+pub mod history_list;
 pub mod insights;
 pub mod jobs;
 pub mod reconcile;

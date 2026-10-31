@@ -10,6 +10,7 @@
         "@radix-ui/react-popover": "1.3.1",
         "@radix-ui/react-tabs": "1.2.1",
         "@tailwindcss/vite": "^4.1.16",
+        "@tanstack/react-virtual": "3.14.23",
         "@tauri-apps/api": "^2.11.0",
         "@tauri-apps/plugin-autostart": "~2.5.1",
         "@tauri-apps/plugin-clipboard-manager": "~2.3.2",
@@ -370,6 +371,10 @@
     "@tailwindcss/oxide-win32-x64-msvc": ["@tailwindcss/oxide-win32-x64-msvc@4.1.16", "", { "os": "win32", "cpu": "x64" }, "sha512-m5dDFJUEejbFqP+UXVstd4W/wnxA4F61q8SoL+mqTypId2T2ZpuxosNSgowiCnLp2+Z+rivdU0AqpfgiD7yCBg=="],
 
     "@tailwindcss/vite": ["@tailwindcss/vite@4.1.16", "", { "dependencies": { "@tailwindcss/node": "4.1.16", "@tailwindcss/oxide": "4.1.16", "tailwindcss": "4.1.16" }, "peerDependencies": { "vite": "^5.2.0 || ^6 || ^7" } }, "sha512-bbguNBcDxsRmi9nnlWJxhfDWamY3lmcyACHcdO1crxfzuLpOhHLLtEIN/nCbbAtj5rchUgQD17QVAKi1f7IsKg=="],
+
+    "@tanstack/react-virtual": ["@tanstack/react-virtual@3.14.23", "", { "dependencies": { "@tanstack/virtual-core": "3.19.8" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-Oyy58qQwdaQieA+A4WUDtnh9D1rv5FZvGdw8og9Xeyh88V6HH94vMSyV5i9ATIbYNe9t5Ix0WXRo9NOTpHDkYw=="],
+
+    "@tanstack/virtual-core": ["@tanstack/virtual-core@3.19.8", "", {}, "sha512-Oz/SYBo/aVPyQkwtOw7Q23myITUgFIof2glQqydYJAPL6mH2SkJDkvDKZTklB+7gv5jGLZQhyTcd7SO1A1EODQ=="],
 
     "@tauri-apps/api": ["@tauri-apps/api@2.11.1", "", {}, "sha512-M2FPuYND2m+wh5hfW9ZpSdxMPdEJovPBWwoHJmwUpysTYNHaOkVFN419m/K0LIgjb/7KU2vBgsUepJWugQCvAA=="],
 

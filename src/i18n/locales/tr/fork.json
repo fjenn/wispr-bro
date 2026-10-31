@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro artık daha yeni bir model türü kullanıyor. Transkripsiyona devam etmek için yeni sürümü indirin. Eski sürümler kaldırılacak."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Wispr Bro sizi duyabilsin diye. Ses bu bilgisayarda metne dönüştürülür, hiçbir yere yüklenmez."
+        },
+        "accessibility": {
+          "why": "Kısayolunuz her uygulamada çalışsın ve Wispr Bro metni imlecinizin bulunduğu yere yazabilsin diye."
+        },
+        "turnOnMac": "Sistem Ayarları'nda Wispr Bro'yu açın, sonra buraya dönün.",
+        "relaunch": "Bundan sonra kısayol yanıt vermiyor mu? <relaunch>Wispr Bro'yu yeniden başlatın</relaunch>, doğrudan buraya döneceksiniz."
+      },
+      "welcome": {
+        "noMatch": "“{{query}}” ile eşleşen dil yok. Wispr Bro'nun modelleri yaklaşık 100 dili kapsıyor; daha fazlası ayarlarda.",
+        "chinese": {
+          "question": "{{languages}} konuşuyorsunuz. Wispr Bro hangi karakterleri yazsın?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro köşede, size yol göstermek için hazır"
+      },
+      "done": {
+        "subMac": "Wispr Bro artık menü çubuğunuzda. Konuşmak için herhangi bir uygulamada <keys/> tuşlarını basılı tutun veya dokunun.",
+        "subTray": "Wispr Bro artık sistem tepsinizde. Konuşmak için herhangi bir uygulamada <keys/> tuşlarını basılı tutun veya dokunun.",
+        "atLogin": "Oturum açtığımda Wispr Bro'yu başlat",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro Kısayolları"
+        },
+        "preferredLanguages": {
+          "description": "Konuştuğunuz diller. Wispr Bro bunları model önermek için kullanır."
+        }
+      },
+      "models": {
+        "untestedNote": "Wispr Bro ile test edilmedi. Daha yavaş olabilir veya daha fazla hata yapabilir.",
+        "emptyYours": "Henüz model yok. Aşağıdan birini seçin: iner, sonra Wispr Bro onu kullanır.",
+        "deleteAskActive": "{{name}} silinsin mi? Başka bir model seçene kadar Wispr Bro transkripsiyon yapamaz.",
+        "retiredNotice": {
+          "title": "Eski modeller artık Wispr Bro ile çalışmıyor"
+        },
+        "rescan": {
+          "tooltip": "Wispr Bro dışında modeller klasörüne veya Hugging Face önbelleğine eklenen modelleri yeniden tara"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Bilgisayara giriş yaptığınızda Wispr Bro otomatik olarak başlatılır."
+        },
+        "showTrayIcon": {
+          "description": "Wispr Bro simgesini sistem tepsisinde göster."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Wispr Bro için yeni sürümleri otomatik olarak kontrol eder",
+          "lockedDescription": "Sistem yapılandırması tarafından devre dışı bırakıldı (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Klavye olaylarının Wispr Bro'ya ulaşıp ulaşmadığını denetler. Yalnızca olay sayıları kaydedilir — hangi tuşlara bastığınız asla kaydedilmez.",
+          "verdictOk": "Tuş olayları Wispr Bro'ya normal şekilde ulaşıyor."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro'nun mevcut sürümü"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro güncellemelerinden sonra sürüm notlarını göster"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro'nun verilerini sakladığı konum"
+        },
+        "supportDevelopment": {
+          "description": "Wispr Bro'yu geliştirmeye devam etmemize yardımcı olun"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro'nun yerel konuşmadan metne dönüştürme özelliği transcribe.cpp ve ggml üzerine kuruludur. Georgi Gerganov'a ve katkıda bulunanlara harika çalışmaları için teşekkür ederiz."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} yenilikleri"
+    },
+    "appLanguage": {
+      "description": "Wispr Bro arayüzünün dilini değiştirin"
+    },
+    "theme": {
+      "description": "Wispr Bro'nun sistem temasını izlemesini ya da açık veya koyu kalmasını seçin"
+    }
+  },
   "aiEngine": {
     "title": "AI motoru",
     "loading": "AI motoru kontrol ediliyor...",
@@ -586,11 +687,6 @@
       "locked": "{{goal}} kelimeye ulaşınca açılır. Devam etmek için söylenmeyi artırın.",
       "unlocked": "Kilitlenmedi. İnceleme bölümünde nasıl konuşuyorsunuzı görün.",
       "open": "Insightları aç"
-    },
-    "history": {
-      "title": "Dictasyonlarınız bu Mac'te kaydedilir",
-      "body": "Tarihleri açarak kopyalayın, oynayın veya arayın.",
-      "action": "Tarihleri aç"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro artık daha yeni bir model türü kullanıyor. Transkripsiyona devam etmek için yeni sürümü indirin. Eski sürümler kaldırılacak."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Wispr Bro sizi duyabilsin diye. Ses bu bilgisayarda metne dönüştürülür, hiçbir yere yüklenmez."
-        },
-        "accessibility": {
-          "why": "Kısayolunuz her uygulamada çalışsın ve Wispr Bro metni imlecinizin bulunduğu yere yazabilsin diye."
-        },
-        "turnOnMac": "Sistem Ayarları'nda Wispr Bro'yu açın, sonra buraya dönün.",
-        "relaunch": "Bundan sonra kısayol yanıt vermiyor mu? <relaunch>Wispr Bro'yu yeniden başlatın</relaunch>, doğrudan buraya döneceksiniz."
-      },
-      "welcome": {
-        "noMatch": "“{{query}}” ile eşleşen dil yok. Wispr Bro'nun modelleri yaklaşık 100 dili kapsıyor; daha fazlası ayarlarda.",
-        "chinese": {
-          "question": "{{languages}} konuşuyorsunuz. Wispr Bro hangi karakterleri yazsın?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro köşede, size yol göstermek için hazır"
-      },
-      "done": {
-        "subMac": "Wispr Bro artık menü çubuğunuzda. Konuşmak için herhangi bir uygulamada <keys/> tuşlarını basılı tutun veya dokunun.",
-        "subTray": "Wispr Bro artık sistem tepsinizde. Konuşmak için herhangi bir uygulamada <keys/> tuşlarını basılı tutun veya dokunun.",
-        "atLogin": "Oturum açtığımda Wispr Bro'yu başlat",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "Tarih",
+    "today": "Bugün",
+    "yesterday": "Dün",
+    "rowLabel": "Dictation at {{time}}",
+    "loading": "Dictasyonlarınızı yükleniyor…",
+    "loadingMore": "Daha fazla yükleniyor...",
+    "unavailable": "Tarih henüz kullanılabilir değil. Uygulama başlatıldıktan sonra görünür.",
+    "empty": {
+      "body": "Herhangi bir uygulamada fn'ı tutup konuşun. Her dictation burada, bu Mac'te saklanır."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro Kısayolları"
-        },
-        "preferredLanguages": {
-          "description": "Konuştuğunuz diller. Wispr Bro bunları model önermek için kullanır."
-        }
-      },
-      "models": {
-        "untestedNote": "Wispr Bro ile test edilmedi. Daha yavaş olabilir veya daha fazla hata yapabilir.",
-        "emptyYours": "Henüz model yok. Aşağıdan birini seçin: iner, sonra Wispr Bro onu kullanır.",
-        "deleteAskActive": "{{name}} silinsin mi? Başka bir model seçene kadar Wispr Bro transkripsiyon yapamaz.",
-        "retiredNotice": {
-          "title": "Eski modeller artık Wispr Bro ile çalışmıyor"
-        },
-        "rescan": {
-          "tooltip": "Wispr Bro dışında modeller klasörüne veya Hugging Face önbelleğine eklenen modelleri yeniden tara"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Bilgisayara giriş yaptığınızda Wispr Bro otomatik olarak başlatılır."
-        },
-        "showTrayIcon": {
-          "description": "Wispr Bro simgesini sistem tepsisinde göster."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Wispr Bro için yeni sürümleri otomatik olarak kontrol eder",
-          "lockedDescription": "Sistem yapılandırması tarafından devre dışı bırakıldı (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Klavye olaylarının Wispr Bro'ya ulaşıp ulaşmadığını denetler. Yalnızca olay sayıları kaydedilir — hangi tuşlara bastığınız asla kaydedilmez.",
-          "verdictOk": "Tuş olayları Wispr Bro'ya normal şekilde ulaşıyor."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Wispr Bro'nun mevcut sürümü"
-        },
-        "whatsNewUpdates": {
-          "description": "Wispr Bro güncellemelerinden sonra sürüm notlarını göster"
-        },
-        "appDataDirectory": {
-          "description": "Wispr Bro'nun verilerini sakladığı konum"
-        },
-        "supportDevelopment": {
-          "description": "Wispr Bro'yu geliştirmeye devam etmemize yardımcı olun"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro'nun yerel konuşmadan metne dönüştürme özelliği transcribe.cpp ve ggml üzerine kuruludur. Georgi Gerganov'a ve katkıda bulunanlara harika çalışmaları için teşekkür ederiz."
-          }
-        }
-      }
+    "noResults": {
+      "title": "Hiçbir şey bulunamadı",
+      "body": "Hiç bir dictation “{{query}}” içermiyor."
     },
-    "whatsNew": {
-      "title": "Wispr Bro v{{version}} yenilikleri"
+    "results_one": "{{count}} dictasyon bulundu",
+    "results_other": "{{count}} dictasyon bulundu",
+    "resultsMore_one": "En son eşleşen {{count}}. Daha fazla için kaydırın.",
+    "resultsMore_other": "En son {{count}} eşleşmedir. Daha fazlası için kaydırın.",
+    "search": {
+      "open": "Arama tarihi",
+      "label": "Dictasyonlarınızı arayın",
+      "placeholder": "Dictasyonları arayın",
+      "close": "Arama'yı kapat"
     },
-    "appLanguage": {
-      "description": "Wispr Bro arayüzünün dilini değiştirin"
+    "transcribeFile": "Bir dosyayı metin haline getir...",
+    "transcribeFailed": "O dosya açılamadı. Lütfen tekrar dene.",
+    "showMore": "Daha fazla göster",
+    "showLess": "Daha az göster",
+    "failed": "Metin dönüştürme başarısız oldu. ⋮ menüsünden Tekrar metin dönüştür düğmesini deneyin.",
+    "notTranscribed": "Hâlâ transkribe edilmemiş.",
+    "job": {
+      "waiting": "Dönüştürülmede bekleniyor...",
+      "transcribing": "Metinleştiriliyor...",
+      "percent": "Metinleştiriliyor… {{percent}}%"
     },
-    "theme": {
-      "description": "Wispr Bro'nun sistem temasını izlemesini ya da açık veya koyu kalmasını seçin"
+    "tag": {
+      "file": "Dosya",
+      "practice": "Uygulama",
+      "raw": "AI temizliği öncesi",
+      "flagged": "Belirtilmiş"
+    },
+    "actions": {
+      "play": "Kaydı oynat",
+      "hidePlayer": "Oynatıcıyı gizle",
+      "copy": "Metni kopyala",
+      "copied": "Kopyalandı",
+      "flag": "Yanlış kelime? Düzelt",
+      "more": "Daha fazla eylem"
+    },
+    "menu": {
+      "label": "Dictation eylemleri",
+      "undoAi": "AI düzenlemeyi geri al",
+      "redoAi": "AI düzeltmeyi tekrarla",
+      "retry": "Transkripti tekrar dene",
+      "retryAt": {
+        "none": "Yeniden dene olmadan",
+        "light": "Hafızayı hafif temizle ve tekrar dene",
+        "medium": "Orta temizleme ile tekrar dene"
+      },
+      "saveAudio": "İşlemi kaydet",
+      "delete": "Transkripti sil"
+    },
+    "audio": {
+      "expired_one": "Ses {{count}} gün sonra kaldırıldı",
+      "expired_other": "Ses {{count}} gün sonra kaldırıldı",
+      "removed": "Ses kaldırıldı",
+      "missing": "Bu dictation için kayıtlı bir ses yok",
+      "filter": "WAV sesi",
+      "saved": "Kaydedildi.",
+      "saveFailed": "Kaydedilemedi. Lütfen tekrar dene."
+    },
+    "copyFailed": "Metin kopyalanamadı. Lütfen tekrar dene.",
+    "actionFailed": "O işlenmedi. Lütfen tekrar dene.",
+    "deleted": "Silindi",
+    "undo": "Geri al",
+    "deleteFailed": "O dictasyon silinemedi. Lütfen tekrar dene.",
+    "undoFailed": "O dictasyonu geri almak için zaman kalmadı.",
+    "flag": {
+      "title": "Yanlış kelime?",
+      "description": "Yanlış çıkan kelimeyi seçip doğru şekilde yazın. Sözlüğünüz bunu artık düzeltir.",
+      "close": "Kapat",
+      "cancel": "İptal",
+      "save": "Sözlüğe ekleyin",
+      "pick": "Yanlış kelimeyi seç (bir kaç kelime için sonraki olanı da seç)",
+      "noWords": "Bu dictasyonun seçilecek kelimeleri yok.",
+      "correction": "Yazım düzelt",
+      "correctionFor": "‘{{word}}’ kelimesinin yazımını düzelt",
+      "correctionPlaceholder": "O şekilde yaz",
+      "kindLabel": "Ne eklemek",
+      "rule": "Her seferinde değiştir",
+      "ruleHint": "Bir değiştirme ekler, böylece her dictation'da aynı hata düzeltilir.",
+      "ruleHintFilled": "“{{from}}” her dictationda “{{to}}” olur.",
+      "word": "Yazımını öğret",
+      "wordHint": "Kelimeyi ekler, böylece uygulama seni o kelimeyi söylerken fark edebilsin.",
+      "duplicate": "O zaten sözlüğinizde.",
+      "failed": "O kaydedilemedi. Lütfen tekrar dene.",
+      "savedRule": "Şimdi itibariyle \"{{from}}\" \"{{to}}\" olur.",
+      "savedWord": "“{{word}}” sözlüğinizde.",
+      "openDictionary": "Sözlüğü Aç"
     }
   }
 }

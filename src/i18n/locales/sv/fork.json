@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro använder nu en nyare typ av modell. Ladda ner den nya versionen för att fortsätta transkribera. Gamla versioner kommer att tas bort."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Så att Wispr Bro kan höra dig. Ljudet omvandlas till text på den här datorn och laddas aldrig upp."
+        },
+        "accessibility": {
+          "why": "Så att din genväg fungerar i alla appar och Wispr Bro kan skriva texten där markören står."
+        },
+        "turnOnMac": "Slå på Wispr Bro i Systeminställningar och kom sedan tillbaka hit.",
+        "relaunch": "Svarar inte genvägen efter detta? <relaunch>Starta om Wispr Bro</relaunch> så hamnar du direkt här igen."
+      },
+      "welcome": {
+        "noMatch": "Inget språk matchar ”{{query}}”. Wispr Bros modeller täcker cirka 100 språk, fler finns i inställningarna.",
+        "chinese": {
+          "question": "Du talar {{languages}}. Vilka tecken ska Wispr Bro skriva?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro finns i hörnet och guidar dig"
+      },
+      "done": {
+        "subMac": "Wispr Bro finns nu i menyraden. Håll in eller tryck på <keys/> i valfri app för att tala.",
+        "subTray": "Wispr Bro finns nu i systemfältet. Håll in eller tryck på <keys/> i valfri app för att tala.",
+        "atLogin": "Starta Wispr Bro när jag loggar in",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro-kortkommandon"
+        },
+        "preferredLanguages": {
+          "description": "Språken du talar. Wispr Bro använder dem för att rekommendera modeller."
+        }
+      },
+      "models": {
+        "untestedNote": "Inte testade med Wispr Bro. De kan vara långsammare eller göra fler fel.",
+        "emptyYours": "Inga modeller ännu. Välj en nedan: den laddas ner och sedan använder Wispr Bro den.",
+        "deleteAskActive": "Ta bort {{name}}? Wispr Bro kan inte transkribera förrän du väljer en annan.",
+        "retiredNotice": {
+          "title": "Gamla modeller fungerar inte längre med Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Skanna om efter modeller som lagts till i modellmappen eller Hugging Face-cachen utanför Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Starta Wispr Bro automatiskt när du loggar in på din dator."
+        },
+        "showTrayIcon": {
+          "description": "Visa Wispr Bro-ikonen i systemfältet."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Sök automatiskt efter nya versioner av Wispr Bro",
+          "lockedDescription": "Inaktiverad av systemkonfiguration (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kontrollerar om tangentbordshändelser når Wispr Bro. Endast antalet händelser registreras — aldrig vilka tangenter du trycker på.",
+          "verdictOk": "Tangenthändelser når Wispr Bro som vanligt."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Nuvarande version av Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Visa versionsinformation efter Wispr Bro-uppdateringar"
+        },
+        "appDataDirectory": {
+          "description": "Plats där Wispr Bro lagrar sina data"
+        },
+        "supportDevelopment": {
+          "description": "Hjälp oss att fortsätta bygga Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro använder ggml för snabb, lokal tal-till-text-behandling. Tack till det fantastiska arbete som utförts av Georgi Gerganov med medarbetare."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Nytt i Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Ändra språket i Wispr Bro-gränssnittet"
+    },
+    "theme": {
+      "description": "Välj om Wispr Bro ska följa systemets tema eller förbli ljust eller mörkt"
+    }
+  },
   "aiEngine": {
     "title": "AI-engine",
     "loading": "Kontrollerar AI-motor…",
@@ -586,11 +687,6 @@
       "locked": "Öppnas vid {{goal}} ord. Fortsätt att säga för att bygga det.",
       "unlocked": "Oppen. Se hur du pratar i Insikter.",
       "open": "Öppna Insikter"
-    },
-    "history": {
-      "title": "Dina dictationer sparas på denna Mac",
-      "body": "Öppna Historik för att kopia, spela eller söka efter dem.",
-      "action": "Öppna historia"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro använder nu en nyare typ av modell. Ladda ner den nya versionen för att fortsätta transkribera. Gamla versioner kommer att tas bort."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Så att Wispr Bro kan höra dig. Ljudet omvandlas till text på den här datorn och laddas aldrig upp."
-        },
-        "accessibility": {
-          "why": "Så att din genväg fungerar i alla appar och Wispr Bro kan skriva texten där markören står."
-        },
-        "turnOnMac": "Slå på Wispr Bro i Systeminställningar och kom sedan tillbaka hit.",
-        "relaunch": "Svarar inte genvägen efter detta? <relaunch>Starta om Wispr Bro</relaunch> så hamnar du direkt här igen."
-      },
-      "welcome": {
-        "noMatch": "Inget språk matchar ”{{query}}”. Wispr Bros modeller täcker cirka 100 språk, fler finns i inställningarna.",
-        "chinese": {
-          "question": "Du talar {{languages}}. Vilka tecken ska Wispr Bro skriva?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro finns i hörnet och guidar dig"
-      },
-      "done": {
-        "subMac": "Wispr Bro finns nu i menyraden. Håll in eller tryck på <keys/> i valfri app för att tala.",
-        "subTray": "Wispr Bro finns nu i systemfältet. Håll in eller tryck på <keys/> i valfri app för att tala.",
-        "atLogin": "Starta Wispr Bro när jag loggar in",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "Historik",
+    "today": "Idag",
+    "yesterday": "Igår",
+    "rowLabel": "Dictation at {{time}}",
+    "loading": "Laddar dina dictationer…",
+    "loadingMore": "Laddar mer…",
+    "unavailable": "Historik är inte tillgänglig ännu. Den visas direkt när appen har startats.",
+    "empty": {
+      "body": "Håll fn i varje app och börja prata. Varje dictation sparas här, på denna Mac."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro-kortkommandon"
-        },
-        "preferredLanguages": {
-          "description": "Språken du talar. Wispr Bro använder dem för att rekommendera modeller."
-        }
-      },
-      "models": {
-        "untestedNote": "Inte testade med Wispr Bro. De kan vara långsammare eller göra fler fel.",
-        "emptyYours": "Inga modeller ännu. Välj en nedan: den laddas ner och sedan använder Wispr Bro den.",
-        "deleteAskActive": "Ta bort {{name}}? Wispr Bro kan inte transkribera förrän du väljer en annan.",
-        "retiredNotice": {
-          "title": "Gamla modeller fungerar inte längre med Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Skanna om efter modeller som lagts till i modellmappen eller Hugging Face-cachen utanför Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Starta Wispr Bro automatiskt när du loggar in på din dator."
-        },
-        "showTrayIcon": {
-          "description": "Visa Wispr Bro-ikonen i systemfältet."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Sök automatiskt efter nya versioner av Wispr Bro",
-          "lockedDescription": "Inaktiverad av systemkonfiguration (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Kontrollerar om tangentbordshändelser når Wispr Bro. Endast antalet händelser registreras — aldrig vilka tangenter du trycker på.",
-          "verdictOk": "Tangenthändelser når Wispr Bro som vanligt."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Nuvarande version av Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Visa versionsinformation efter Wispr Bro-uppdateringar"
-        },
-        "appDataDirectory": {
-          "description": "Plats där Wispr Bro lagrar sina data"
-        },
-        "supportDevelopment": {
-          "description": "Hjälp oss att fortsätta bygga Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro använder ggml för snabb, lokal tal-till-text-behandling. Tack till det fantastiska arbete som utförts av Georgi Gerganov med medarbetare."
-          }
-        }
-      }
+    "noResults": {
+      "title": "Inget hittat",
+      "body": "Ingen dictation innehåller \"{{query}}\"."
     },
-    "whatsNew": {
-      "title": "Nytt i Wispr Bro v{{version}}"
+    "results_one": "{{count}} dictation hittad",
+    "results_other": "{{count}} dictationer hittade",
+    "resultsMore_one": "De {{count}} senaste matchen. Skrolla för mer.",
+    "resultsMore_other": "De {{count}} senaste matcherna. Skrolla för mer.",
+    "search": {
+      "open": "Sökhistorik",
+      "label": "Sök dina dictationer",
+      "placeholder": "Sök dictationer",
+      "close": "Stäng sökning"
     },
-    "appLanguage": {
-      "description": "Ändra språket i Wispr Bro-gränssnittet"
+    "transcribeFile": "Översätt en fil…",
+    "transcribeFailed": "Den här filen kunde inte öppnas. Försök igen.",
+    "showMore": "Visa mer",
+    "showLess": "Visa mindre",
+    "failed": "Översättning misslyckades. Försök Retry transcript i menyn ⋮.",
+    "notTranscribed": "Översatt inte ännu.",
+    "job": {
+      "waiting": "Väntar på transkription...",
+      "transcribing": "Översätter...",
+      "percent": "Översätter… {{percent}}%"
     },
-    "theme": {
-      "description": "Välj om Wispr Bro ska följa systemets tema eller förbli ljust eller mörkt"
+    "tag": {
+      "file": "Fil",
+      "practice": "Övning",
+      "raw": "Före AI-rengöring",
+      "flagged": "Blandade"
+    },
+    "actions": {
+      "play": "Spela upp inspelning",
+      "hidePlayer": "Dölj spelaren",
+      "copy": "Kopiera text",
+      "copied": "Kopierat",
+      "flag": "Fel ord? Fikas det",
+      "more": "Fler åtgärder"
+    },
+    "menu": {
+      "label": "Dictation åtgärder",
+      "undoAi": "Ångra AI-redigering",
+      "redoAi": "Återställ AI-redigering",
+      "retry": "Försök omtranskription",
+      "retryAt": {
+        "none": "Försök utan rensning",
+        "light": "Försök med lätt rensning",
+        "medium": "Försök med medelrening"
+      },
+      "saveAudio": "Spara ljud som…",
+      "delete": "Radera transkript"
+    },
+    "audio": {
+      "expired_one": "Ljud tomt efter {{count}} dag",
+      "expired_other": "Ljud tomt efter {{count}} dagar",
+      "removed": "Ljudet har tagits bort",
+      "missing": "Ingen inspelning för denna dictation",
+      "filter": "WAV-ljud",
+      "saved": "Inspektionen sparades.",
+      "saveFailed": "Det går inte att spara ljudet. Försök igen."
+    },
+    "copyFailed": "Texten kunde inte kopieras. Försök igen.",
+    "actionFailed": "Det fungerade inte. Försök igen.",
+    "deleted": "Raderad",
+    "undo": "Ångra",
+    "deleteFailed": "Den dictationen kunde inte tas bort. Försök igen.",
+    "undoFailed": "Det är för sent att få tillbaka den här dictationen.",
+    "flag": {
+      "title": "Fel ord?",
+      "description": "Välj ordet som kom fel och skriv det på rätt sätt. Din ordbok rättar det från nu.",
+      "close": "Stäng",
+      "cancel": "Avbryt",
+      "save": "Lägg till i ordbok",
+      "pick": "Välj fel ord (valfritt nästa för några ord)",
+      "noWords": "Den här dictationen har inga ord att välja.",
+      "correction": "Rätta stavningen",
+      "correctionFor": "Rätta stavningen av \"{{word}}\"",
+      "correctionPlaceholder": "Typa det så det ska vara",
+      "kindLabel": "Vad att lägga till",
+      "rule": "Ersätt det varje gång",
+      "ruleHint": "Lägger till en ersättning så att samma fel korrigeras i varje dictation.",
+      "ruleHintFilled": "“{{from}}” blir “{{to}}” i varje dictation.",
+      "word": "Lär dig stavning",
+      "wordHint": "Lägger till ordet så kan appen upptäcka det när du säger det.",
+      "duplicate": "Det finns redan i din ordbok.",
+      "failed": "Det kunde inte sparas. Försök igen.",
+      "savedRule": "Nu blir \"{{from}}\" till \"{{to}}\".",
+      "savedWord": "“{{word}}” är i din ordbok.",
+      "openDictionary": "Öppna ordbok"
     }
   }
 }

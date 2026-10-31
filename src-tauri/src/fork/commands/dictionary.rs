@@ -28,7 +28,7 @@ fn internal(e: DbError) -> ForkError {
 }
 
 /// Syncs Handy's word list and tells every window.
-fn changed<R: ForkRuntime>(app: &AppHandle<R>) {
+pub(crate) fn changed<R: ForkRuntime>(app: &AppHandle<R>) {
     migrate::sync(app);
     dictionary::notify_changed(app);
 }

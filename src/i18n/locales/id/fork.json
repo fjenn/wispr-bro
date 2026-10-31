@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro kini menggunakan jenis model yang lebih baru. Unduh versi baru untuk terus mentranskripsi. Versi lama akan dihapus."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Agar Wispr Bro dapat mendengar Anda. Audio diubah menjadi teks di komputer ini dan tidak pernah diunggah."
+        },
+        "accessibility": {
+          "why": "Agar pintasan Anda berfungsi di semua aplikasi, dan Wispr Bro dapat mengetik teks di tempat kursor Anda berada."
+        },
+        "turnOnMac": "Aktifkan Wispr Bro di Pengaturan Sistem, lalu kembali ke sini.",
+        "relaunch": "Pintasan tidak merespons setelah ini? <relaunch>Luncurkan ulang Wispr Bro</relaunch> dan Anda akan kembali tepat ke sini."
+      },
+      "welcome": {
+        "noMatch": "Tidak ada bahasa yang cocok dengan “{{query}}”. Model Wispr Bro mencakup sekitar 100 bahasa; sisanya ada di pengaturan.",
+        "chinese": {
+          "question": "Anda berbicara {{languages}}. Aksara mana yang harus ditulis Wispr Bro?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro ada di pojok untuk memandu Anda"
+      },
+      "done": {
+        "subMac": "Wispr Bro kini ada di bilah menu Anda. Tahan atau ketuk <keys/> di aplikasi apa pun untuk bicara.",
+        "subTray": "Wispr Bro kini ada di baki sistem Anda. Tahan atau ketuk <keys/> di aplikasi apa pun untuk bicara.",
+        "atLogin": "Jalankan Wispr Bro saat saya masuk",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Pintasan Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Bahasa yang Anda gunakan. Wispr Bro memakainya untuk merekomendasikan model."
+        }
+      },
+      "models": {
+        "untestedNote": "Belum diuji dengan Wispr Bro. Mungkin lebih lambat atau lebih banyak salah.",
+        "emptyYours": "Belum ada model. Pilih satu di bawah: model diunduh, lalu Wispr Bro menggunakannya.",
+        "deleteAskActive": "Hapus {{name}}? Wispr Bro tidak dapat mentranskripsi sampai Anda memilih model lain.",
+        "retiredNotice": {
+          "title": "Model lama tidak lagi berfungsi dengan Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Pindai ulang model yang ditambahkan ke folder model atau cache Hugging Face dari luar Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Mulai Wispr Bro secara otomatis saat Anda masuk ke komputer."
+        },
+        "showTrayIcon": {
+          "description": "Tampilkan ikon Wispr Bro di baki sistem."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Periksa versi baru Wispr Bro secara otomatis",
+          "lockedDescription": "Dinonaktifkan oleh konfigurasi sistem (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Memeriksa apakah peristiwa keyboard mencapai Wispr Bro. Hanya jumlah peristiwa yang dicatat — bukan tombol yang Anda tekan.",
+          "verdictOk": "Peristiwa tombol mencapai Wispr Bro secara normal."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Versi Wispr Bro saat ini"
+        },
+        "whatsNewUpdates": {
+          "description": "Tampilkan catatan rilis setelah Wispr Bro diperbarui"
+        },
+        "appDataDirectory": {
+          "description": "Lokasi Wispr Bro menyimpan datanya"
+        },
+        "supportDevelopment": {
+          "description": "Bantu kami terus mengembangkan Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Fitur ucapan-ke-teks lokal Wispr Bro dibangun menggunakan transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Baru di Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Ubah bahasa antarmuka Wispr Bro"
+    },
+    "theme": {
+      "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap"
+    }
+  },
   "aiEngine": {
     "title": "Mesin AI",
     "loading": "Memeriksa engine AI…",
@@ -586,11 +687,6 @@
       "locked": "Dibuka pada {{goal}} kata. Terus berbicara untuk membangunnya.",
       "unlocked": "Dibuka. Lihat bagaimana Anda berbicara di Insights.",
       "open": "Buka Insights"
-    },
-    "history": {
-      "title": "Dictasan Anda disimpan di Mac ini",
-      "body": "Buka Sejarah untuk menyalin, memutar atau mencari mereka.",
-      "action": "Buka riwayat"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro kini menggunakan jenis model yang lebih baru. Unduh versi baru untuk terus mentranskripsi. Versi lama akan dihapus."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Agar Wispr Bro dapat mendengar Anda. Audio diubah menjadi teks di komputer ini dan tidak pernah diunggah."
-        },
-        "accessibility": {
-          "why": "Agar pintasan Anda berfungsi di semua aplikasi, dan Wispr Bro dapat mengetik teks di tempat kursor Anda berada."
-        },
-        "turnOnMac": "Aktifkan Wispr Bro di Pengaturan Sistem, lalu kembali ke sini.",
-        "relaunch": "Pintasan tidak merespons setelah ini? <relaunch>Luncurkan ulang Wispr Bro</relaunch> dan Anda akan kembali tepat ke sini."
-      },
-      "welcome": {
-        "noMatch": "Tidak ada bahasa yang cocok dengan “{{query}}”. Model Wispr Bro mencakup sekitar 100 bahasa; sisanya ada di pengaturan.",
-        "chinese": {
-          "question": "Anda berbicara {{languages}}. Aksara mana yang harus ditulis Wispr Bro?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro ada di pojok untuk memandu Anda"
-      },
-      "done": {
-        "subMac": "Wispr Bro kini ada di bilah menu Anda. Tahan atau ketuk <keys/> di aplikasi apa pun untuk bicara.",
-        "subTray": "Wispr Bro kini ada di baki sistem Anda. Tahan atau ketuk <keys/> di aplikasi apa pun untuk bicara.",
-        "atLogin": "Jalankan Wispr Bro saat saya masuk",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "Sejarah",
+    "today": "Hari ini",
+    "yesterday": "Kemarin",
+    "rowLabel": "Dictasi pada {{time}}",
+    "loading": "Memuat dictasi Anda…",
+    "loadingMore": "Memuat lebih banyak…",
+    "unavailable": "Sejarah belum tersedia. Tampil setelah aplikasi selesai dimulai.",
+    "empty": {
+      "body": "Tahan fn di aplikasi apa pun dan mulai berbicara. Setiap dictasi disimpan di sini, di Mac ini."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Pintasan Wispr Bro"
-        },
-        "preferredLanguages": {
-          "description": "Bahasa yang Anda gunakan. Wispr Bro memakainya untuk merekomendasikan model."
-        }
-      },
-      "models": {
-        "untestedNote": "Belum diuji dengan Wispr Bro. Mungkin lebih lambat atau lebih banyak salah.",
-        "emptyYours": "Belum ada model. Pilih satu di bawah: model diunduh, lalu Wispr Bro menggunakannya.",
-        "deleteAskActive": "Hapus {{name}}? Wispr Bro tidak dapat mentranskripsi sampai Anda memilih model lain.",
-        "retiredNotice": {
-          "title": "Model lama tidak lagi berfungsi dengan Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Pindai ulang model yang ditambahkan ke folder model atau cache Hugging Face dari luar Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Mulai Wispr Bro secara otomatis saat Anda masuk ke komputer."
-        },
-        "showTrayIcon": {
-          "description": "Tampilkan ikon Wispr Bro di baki sistem."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Periksa versi baru Wispr Bro secara otomatis",
-          "lockedDescription": "Dinonaktifkan oleh konfigurasi sistem (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Memeriksa apakah peristiwa keyboard mencapai Wispr Bro. Hanya jumlah peristiwa yang dicatat — bukan tombol yang Anda tekan.",
-          "verdictOk": "Peristiwa tombol mencapai Wispr Bro secara normal."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Versi Wispr Bro saat ini"
-        },
-        "whatsNewUpdates": {
-          "description": "Tampilkan catatan rilis setelah Wispr Bro diperbarui"
-        },
-        "appDataDirectory": {
-          "description": "Lokasi Wispr Bro menyimpan datanya"
-        },
-        "supportDevelopment": {
-          "description": "Bantu kami terus mengembangkan Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Fitur ucapan-ke-teks lokal Wispr Bro dibangun menggunakan transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
-          }
-        }
-      }
+    "noResults": {
+      "title": "Tidak ditemukan",
+      "body": "Tidak ada dictation yang mengandung “{{query}}”."
     },
-    "whatsNew": {
-      "title": "Baru di Wispr Bro v{{version}}"
+    "results_one": "{{count}} dictasi ditemukan",
+    "results_other": "{{count}} dictasi ditemukan",
+    "resultsMore_one": "Hasil {{count}} yang paling baru. Geser untuk melihat lebih banyak.",
+    "resultsMore_other": "{{count}} hasil pencocokan terbaru. Geser untuk melihat lebih banyak.",
+    "search": {
+      "open": "Riwayat pencarian",
+      "label": "Cari dictasi Anda",
+      "placeholder": "Cari dictasi",
+      "close": "Tutup pencarian"
     },
-    "appLanguage": {
-      "description": "Ubah bahasa antarmuka Wispr Bro"
+    "transcribeFile": "Transkripsi file…",
+    "transcribeFailed": "File tersebut tidak dapat dibuka. Silakan coba lagi.",
+    "showMore": "Tampilkan lebih banyak",
+    "showLess": "Tampilkan sedikit",
+    "failed": "Transkripsi gagal. Coba Retry transkripsi di menu ⋮.",
+    "notTranscribed": "Belum ditranskripsi.",
+    "job": {
+      "waiting": "Menunggu transkripsi...",
+      "transcribing": "Mengubah teks...",
+      "percent": "Mengtranskripsi… {{percent}}%"
     },
-    "theme": {
-      "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap"
+    "tag": {
+      "file": "File",
+      "practice": "Latihan",
+      "raw": "Sebelum penyuntingan AI",
+      "flagged": "Ditandai"
+    },
+    "actions": {
+      "play": "Putar rekaman",
+      "hidePlayer": "Sembunyikan pemain",
+      "copy": "Salin teks",
+      "copied": "Dikopi",
+      "flag": "Kata salah? Perbaiki",
+      "more": "Aksi lebih"
+    },
+    "menu": {
+      "label": "Aksi Dictation",
+      "undoAi": "Unduk edit AI",
+      "redoAi": "Ulang AI edit",
+      "retry": "Coba ulang terjemahan",
+      "retryAt": {
+        "none": "Coba lagi tanpa membersihkan",
+        "light": "Coba lagi dengan pembersihan ringan",
+        "medium": "Coba lagi dengan pembersihan sedang"
+      },
+      "saveAudio": "Simpan audio sebagai…",
+      "delete": "Hapus transkrip"
+    },
+    "audio": {
+      "expired_one": "Audio dihapus setelah {{count}} hari",
+      "expired_other": "Audio dihapus setelah {{count}} hari",
+      "removed": "Audio dihapus",
+      "missing": "Tidak ada rekaman untuk dictasi ini",
+      "filter": "WAV audio",
+      "saved": "Rekaman disimpan.",
+      "saveFailed": "Rekaman tidak bisa disimpan. Silakan coba lagi."
+    },
+    "copyFailed": "Teks tidak bisa disalin. Silakan coba lagi.",
+    "actionFailed": "Itu tidak berhasil. Silakan coba lagi.",
+    "deleted": "Dihapus",
+    "undo": "Unduk",
+    "deleteFailed": "Dictasi tersebut tidak bisa dihapus. Silakan coba lagi.",
+    "undoFailed": "Tidak mungkin mengembalikan dictasi itu lagi.",
+    "flag": {
+      "title": "Kata salah?",
+      "description": "Pilih kata yang keluar salah dan ketikkan sesuai dengan cara yang benar. Kamu akan memperbaikinya di dalam kamus dari sekarang.",
+      "close": "Tutup",
+      "cancel": "Batal",
+      "save": "Tambahkan ke kamus",
+      "pick": "Pilih kata yang salah (pilih yang berikutnya juga untuk beberapa kata)",
+      "noWords": "Pengucapan ini tidak memiliki kata untuk dipilih.",
+      "correction": "Perbaiki ejaan",
+      "correctionFor": "Perbaiki ejaan dari \"{{word}}\"",
+      "correctionPlaceholder": "Tulisnya seperti seharusnya",
+      "kindLabel": "Apa yang akan ditambahkan",
+      "rule": "Ganti setiap kali",
+      "ruleHint": "Menambahkan pengganti, sehingga kesalahan yang sama diperbaiki di setiap dictasi.",
+      "ruleHintFilled": "“{{from}}” menjadi “{{to}}” di setiap dictation.",
+      "word": "Ajarkan penulisan kata",
+      "wordHint": "Menambahkan kata tersebut, agar aplikasi bisa mendeteksi ketika kamu mengatakannya.",
+      "duplicate": "Itu sudah ada di kamarmu.",
+      "failed": "Yang itu tidak bisa disimpan. Silakan coba lagi.",
+      "savedRule": "Sejak sekarang \"{{from}}\" menjadi \"{{to}}\".",
+      "savedWord": "“{{word}}” ada di kamarmu.",
+      "openDictionary": "Buka Kamus"
     }
   }
 }

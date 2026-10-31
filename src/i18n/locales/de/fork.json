@@ -504,6 +504,107 @@
       }
     }
   },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro verwendet jetzt eine neuere Art von Modellen. Lade die neue Version herunter, um weiter zu transkribieren. Alte Versionen werden entfernt."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Damit Wispr Bro dich hören kann. Audio wird auf diesem Computer in Text umgewandelt und nie hochgeladen."
+        },
+        "accessibility": {
+          "why": "Damit dein Tastenkürzel in jeder App funktioniert und Wispr Bro den Text dort eintippen kann, wo dein Cursor steht."
+        },
+        "turnOnMac": "Aktiviere Wispr Bro in den Systemeinstellungen und komm dann hierher zurück.",
+        "relaunch": "Tastenkürzel reagiert danach nicht? <relaunch>Wispr Bro neu starten</relaunch> und du landest direkt wieder hier."
+      },
+      "welcome": {
+        "noMatch": "Keine Sprache passt zu „{{query}}“. Die Modelle von Wispr Bro decken etwa 100 Sprachen ab; weitere findest du in den Einstellungen.",
+        "chinese": {
+          "question": "Du sprichst {{languages}}. Welche Schriftzeichen soll Wispr Bro schreiben?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro ist in der Ecke und führt dich durch"
+      },
+      "done": {
+        "subMac": "Wispr Bro ist jetzt in deiner Menüleiste. Halte <keys/> gedrückt oder tippe darauf, um in jeder App zu sprechen.",
+        "subTray": "Wispr Bro ist jetzt in deinem Infobereich. Halte <keys/> gedrückt oder tippe darauf, um in jeder App zu sprechen.",
+        "atLogin": "Wispr Bro beim Anmelden starten",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro-Tastenkürzel"
+        },
+        "preferredLanguages": {
+          "description": "Die Sprachen, die du sprichst. Wispr Bro nutzt sie, um Modelle zu empfehlen."
+        }
+      },
+      "models": {
+        "untestedNote": "Nicht mit Wispr Bro getestet. Sie könnten langsamer sein oder mehr Fehler machen.",
+        "emptyYours": "Noch keine Modelle. Wähle unten eines aus: Es wird heruntergeladen, dann nutzt Wispr Bro es.",
+        "deleteAskActive": "{{name}} löschen? Wispr Bro kann erst wieder transkribieren, wenn du ein anderes wählst.",
+        "retiredNotice": {
+          "title": "Alte Modelle funktionieren nicht mehr mit Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Erneut nach Modellen scannen, die außerhalb von Wispr Bro zum Modellordner oder Hugging-Face-Cache hinzugefügt wurden"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Wispr Bro automatisch beim Anmelden starten."
+        },
+        "showTrayIcon": {
+          "description": "Das Wispr Bro-Symbol in der Taskleiste anzeigen."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Automatisch nach neuen Versionen von Wispr Bro suchen",
+          "lockedDescription": "Durch Systemkonfiguration deaktiviert (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Prüft, ob Tastaturereignisse Wispr Bro erreichen. Es wird nur die Anzahl der Ereignisse erfasst — niemals, welche Tasten du drückst.",
+          "verdictOk": "Tastenereignisse erreichen Wispr Bro normal."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Aktuelle Version von Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Versionshinweise nach Wispr Bro-Updates anzeigen"
+        },
+        "appDataDirectory": {
+          "description": "Speicherort der Wispr Bro-Daten"
+        },
+        "supportDevelopment": {
+          "description": "Hilf uns, Wispr Bro weiterzuentwickeln"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro verwendet ggml für schnelle, lokale Sprach-zu-Text-Verarbeitung. Dank an Georgi Gerganov und die Mitwirkenden für ihre großartige Arbeit."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Neu in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Sprache der Wispr Bro-Oberfläche ändern"
+    },
+    "theme": {
+      "description": "Wählen Sie, ob Wispr Bro dem Systemthema folgt oder hell bzw. dunkel bleibt"
+    }
+  },
   "aiEngine": {
     "title": "KI-Engine",
     "loading": "Prüfe das AI-Engine…",
@@ -586,11 +687,6 @@
       "locked": "Entspricht {{goal}} Wörtern. Weiter dictieren, um es zu bauen.",
       "unlocked": "Entschlossen. Schauen Sie, wie Sie sprechen, in Insights.",
       "open": "Insights öffnen"
-    },
-    "history": {
-      "title": "Deine Dictationen werden auf diesem Mac gespeichert",
-      "body": "Historie öffnen, kopieren, abspielen oder suchen",
-      "action": "Geschichte öffnen"
     }
   },
   "dictionary": {
@@ -1075,105 +1171,106 @@
       }
     }
   },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro verwendet jetzt eine neuere Art von Modellen. Lade die neue Version herunter, um weiter zu transkribieren. Alte Versionen werden entfernt."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "Damit Wispr Bro dich hören kann. Audio wird auf diesem Computer in Text umgewandelt und nie hochgeladen."
-        },
-        "accessibility": {
-          "why": "Damit dein Tastenkürzel in jeder App funktioniert und Wispr Bro den Text dort eintippen kann, wo dein Cursor steht."
-        },
-        "turnOnMac": "Aktiviere Wispr Bro in den Systemeinstellungen und komm dann hierher zurück.",
-        "relaunch": "Tastenkürzel reagiert danach nicht? <relaunch>Wispr Bro neu starten</relaunch> und du landest direkt wieder hier."
-      },
-      "welcome": {
-        "noMatch": "Keine Sprache passt zu „{{query}}“. Die Modelle von Wispr Bro decken etwa 100 Sprachen ab; weitere findest du in den Einstellungen.",
-        "chinese": {
-          "question": "Du sprichst {{languages}}. Welche Schriftzeichen soll Wispr Bro schreiben?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro ist in der Ecke und führt dich durch"
-      },
-      "done": {
-        "subMac": "Wispr Bro ist jetzt in deiner Menüleiste. Halte <keys/> gedrückt oder tippe darauf, um in jeder App zu sprechen.",
-        "subTray": "Wispr Bro ist jetzt in deinem Infobereich. Halte <keys/> gedrückt oder tippe darauf, um in jeder App zu sprechen.",
-        "atLogin": "Wispr Bro beim Anmelden starten",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
+  "history": {
+    "title": "Geschichte",
+    "today": "Heute",
+    "yesterday": "Gestern",
+    "rowLabel": "Dictation bei {{time}}",
+    "loading": "Ihre Dictationen werden geladen…",
+    "loadingMore": "Mehr laden…",
+    "unavailable": "Die Geschichte ist derzeit nicht verfügbar. Sie erscheint, sobald die App fertig gestartet ist.",
+    "empty": {
+      "body": "Fn halten Sie in jeder App und beginnen Sie zu sprechen. Jede Dictation wird hier, auf diesem Mac, gespeichert."
     },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro-Tastenkürzel"
-        },
-        "preferredLanguages": {
-          "description": "Die Sprachen, die du sprichst. Wispr Bro nutzt sie, um Modelle zu empfehlen."
-        }
-      },
-      "models": {
-        "untestedNote": "Nicht mit Wispr Bro getestet. Sie könnten langsamer sein oder mehr Fehler machen.",
-        "emptyYours": "Noch keine Modelle. Wähle unten eines aus: Es wird heruntergeladen, dann nutzt Wispr Bro es.",
-        "deleteAskActive": "{{name}} löschen? Wispr Bro kann erst wieder transkribieren, wenn du ein anderes wählst.",
-        "retiredNotice": {
-          "title": "Alte Modelle funktionieren nicht mehr mit Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Erneut nach Modellen scannen, die außerhalb von Wispr Bro zum Modellordner oder Hugging-Face-Cache hinzugefügt wurden"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Wispr Bro automatisch beim Anmelden starten."
-        },
-        "showTrayIcon": {
-          "description": "Das Wispr Bro-Symbol in der Taskleiste anzeigen."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Automatisch nach neuen Versionen von Wispr Bro suchen",
-          "lockedDescription": "Durch Systemkonfiguration deaktiviert (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Prüft, ob Tastaturereignisse Wispr Bro erreichen. Es wird nur die Anzahl der Ereignisse erfasst — niemals, welche Tasten du drückst.",
-          "verdictOk": "Tastenereignisse erreichen Wispr Bro normal."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Aktuelle Version von Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Versionshinweise nach Wispr Bro-Updates anzeigen"
-        },
-        "appDataDirectory": {
-          "description": "Speicherort der Wispr Bro-Daten"
-        },
-        "supportDevelopment": {
-          "description": "Hilf uns, Wispr Bro weiterzuentwickeln"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro verwendet ggml für schnelle, lokale Sprach-zu-Text-Verarbeitung. Dank an Georgi Gerganov und die Mitwirkenden für ihre großartige Arbeit."
-          }
-        }
-      }
+    "noResults": {
+      "title": "Nichts gefunden",
+      "body": "Keine Dictation enthält „{{query}}“."
     },
-    "whatsNew": {
-      "title": "Neu in Wispr Bro v{{version}}"
+    "results_one": "{{count}} Dictation gefunden",
+    "results_other": "{{count}} Dictationen gefunden",
+    "resultsMore_one": "Die {{count}} letzten Treffer. Scrollen für weitere.",
+    "resultsMore_other": "Die {{count}} letzten Treffer. Scrollen Sie weiter.",
+    "search": {
+      "open": "Suchgeschichte",
+      "label": "Ihre Dictationen suchen",
+      "placeholder": "Suche Dictate",
+      "close": "Suche schließen"
     },
-    "appLanguage": {
-      "description": "Sprache der Wispr Bro-Oberfläche ändern"
+    "transcribeFile": "Eine Datei transkribieren…",
+    "transcribeFailed": "Diese Datei konnte nicht geöffnet werden. Bitte versuchen Sie es erneut.",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen",
+    "failed": "Transkription fehlgeschlagen. Versuchen Sie erneut Transkription im ⋮-Menü.",
+    "notTranscribed": "Noch nicht transkribiert.",
+    "job": {
+      "waiting": "Wartet auf Transkription…",
+      "transcribing": "Übersetzen…",
+      "percent": "Wird transkriptiert… {{percent}}%"
     },
-    "theme": {
-      "description": "Wählen Sie, ob Wispr Bro dem Systemthema folgt oder hell bzw. dunkel bleibt"
+    "tag": {
+      "file": "Datei",
+      "practice": "Übung",
+      "raw": "Bevor AI-Aufbereitung",
+      "flagged": "Markiert"
+    },
+    "actions": {
+      "play": "Aufnahme abspielen",
+      "hidePlayer": "Spieler verstecken",
+      "copy": "Text kopieren",
+      "copied": "Kopiert",
+      "flag": "Falsche Wort? Korrigiere es",
+      "more": "Weitere Aktionen"
+    },
+    "menu": {
+      "label": "Dictation-Aktionen",
+      "undoAi": "AI-Edit rückgängig machen",
+      "redoAi": "AI-Edit wiederholen",
+      "retry": "Transkript erneut versuchen",
+      "retryAt": {
+        "none": "Wiederholen ohne Bereinigung",
+        "light": "Wiederholen mit leichten Reinigung",
+        "medium": "Wiederholen mit mittlerer Reinigung"
+      },
+      "saveAudio": "Audiodatei als…",
+      "delete": "Transkript löschen"
+    },
+    "audio": {
+      "expired_one": "Audio entfernt nach {{count}} Tag",
+      "expired_other": "Audio entfernt nach {{count}} Tagen",
+      "removed": "Audio entfernt",
+      "missing": "Keine Aufnahme für diese Dictation",
+      "filter": "WAV-Audio",
+      "saved": "Aufnahme gespeichert.",
+      "saveFailed": "Die Aufnahme konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+    },
+    "copyFailed": "Der Text konnte nicht kopiert werden. Bitte versuchen Sie es erneut.",
+    "actionFailed": "Das hat nicht funktioniert. Bitte versuchen Sie es erneut.",
+    "deleted": "Gelöscht",
+    "undo": "Rückgängig machen",
+    "deleteFailed": "Diese Dictation konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+    "undoFailed": "Es ist zu spät, diese Dictation zurückzubringen.",
+    "flag": {
+      "title": "Falsches Wort?",
+      "description": "Wähle das Wort aus, das falsch gesprochen wurde, und tippe es so ein, wie es korrekt sein sollte. Dein Wörterbuch korrigiert es von nun an.",
+      "close": "Schließen",
+      "cancel": "Abbrechen",
+      "save": "Zu Wörterbuch hinzufügen",
+      "pick": "Falsches Wort wählen (wähle das nächste auch aus, um einige Wörter zu erhalten)",
+      "noWords": "Diese Dictation hat keine Wörter zum Auswählen.",
+      "correction": "Rechtschreibung korrigieren",
+      "correctionFor": "Rechtschreibung von „{{word}}“ korrigieren",
+      "correctionPlaceholder": "Geben Sie es so ein, wie es sein sollte",
+      "kindLabel": "Was hinzuzufügen",
+      "rule": "Setze es jedes Mal ersetzen",
+      "ruleHint": "Fügt eine Ersetzung hinzu, damit der gleiche Fehler in jeder Dictation behoben wird.",
+      "ruleHintFilled": "„{{from}}“ wird in jeder Dictation zu „{{to}}“.",
+      "word": "Bedeute das Schreiben lernen",
+      "wordHint": "Das Wort hinzufügen, damit die App es beim Sprechen erkennt.",
+      "duplicate": "Das ist bereits in deinem Wörterbuch.",
+      "failed": "Das konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+      "savedRule": "Ab jetzt wird \"{{from}}\" zu \"{{to}}\".",
+      "savedWord": "„{{word}}“ ist in deinem Wörterbuch.",
+      "openDictionary": "Wörterbuch öffnen"
     }
   }
 }

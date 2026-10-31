@@ -14,6 +14,9 @@ use crate::managers::history::HistoryEntry;
 pub trait HandyHistory: Send + Sync {
     /// Every row, newest first.
     fn entries(&self) -> Result<Vec<HistoryEntry>, String>;
+    /// Up to `limit` rows older than row `cursor` (all rows without one),
+    /// newest first, and whether more follow (S-15b's History list).
+    fn page(&self, cursor: Option<i64>, limit: usize) -> Result<(Vec<HistoryEntry>, bool), String>;
     /// One row.
     fn entry(&self, id: i64) -> Result<Option<HistoryEntry>, String>;
     /// Deletes the row and its WAV through Handy (which then calls
@@ -38,6 +41,16 @@ mod real {
         fn entries(&self) -> Result<Vec<HistoryEntry>, String> {
             tauri::async_runtime::block_on(self.0.get_history_entries(None, None))
                 .map(|page| page.entries)
+                .map_err(|e| e.to_string())
+        }
+
+        fn page(
+            &self,
+            cursor: Option<i64>,
+            limit: usize,
+        ) -> Result<(Vec<HistoryEntry>, bool), String> {
+            tauri::async_runtime::block_on(self.0.get_history_entries(cursor, Some(limit)))
+                .map(|page| (page.entries, page.has_more))
                 .map_err(|e| e.to_string())
         }
 
@@ -120,6 +133,25 @@ pub mod fake {
     impl HandyHistory for FakeHistory {
         fn entries(&self) -> Result<Vec<HistoryEntry>, String> {
             Ok(self.rows.lock().unwrap().values().rev().cloned().collect())
+        }
+        fn page(
+            &self,
+            cursor: Option<i64>,
+            limit: usize,
+        ) -> Result<(Vec<HistoryEntry>, bool), String> {
+            // Handy caps a page at 100 rows.
+            let limit = limit.min(100);
+            let rows = self.rows.lock().unwrap();
+            let mut older: Vec<HistoryEntry> = rows
+                .values()
+                .rev()
+                .filter(|e| cursor.is_none_or(|c| e.id < c))
+                .take(limit + 1)
+                .cloned()
+                .collect();
+            let more = older.len() > limit;
+            older.truncate(limit);
+            Ok((older, more))
         }
         fn entry(&self, id: i64) -> Result<Option<HistoryEntry>, String> {
             Ok(self.rows.lock().unwrap().get(&id).cloned())

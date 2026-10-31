@@ -419,6 +419,10 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
+    // S-15b: History plays recordings through the asset protocol; the
+    // static scope covers `$APPDATA/**`, portable mode's `Data/` is added
+    // here (only Handy's recordings dir).
+    commands::history::allow_recordings_in_asset_scope(app);
 
     // S-18: notifications inbox, macOS delegate (no prompt), producers.
     notify::on_ready(app);
@@ -492,6 +496,13 @@ macro_rules! fork_specta_builder {
                 commands::history::fork_history_meta::<$runtime>,
                 commands::history::fork_history_delete::<$runtime>,
                 commands::history::fork_history_undo_delete::<$runtime>,
+                commands::history::fork_history_page::<$runtime>,
+                commands::history::fork_history_find::<$runtime>,
+                commands::history::fork_history_rows::<$runtime>,
+                commands::history::fork_history_set_variant::<$runtime>,
+                commands::history::fork_history_retry::<$runtime>,
+                commands::history::fork_history_flag::<$runtime>,
+                commands::history::fork_history_save_audio::<$runtime>,
                 commands::stats::fork_account_name,
                 commands::llm::fork_llm_status::<$runtime>,
                 commands::llm::fork_llm_try::<$runtime>,
