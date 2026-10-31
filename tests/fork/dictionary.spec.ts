@@ -676,6 +676,11 @@ dictTest.describe("import wizard", () => {
       });
       await page.getByTestId("wb-dictionary-import").click();
       const zone = page.getByTestId("wb-import-wizard-drop");
+      await expect(zone).toBeVisible();
+      // Measure after the dialog's open animation, or the point can miss.
+      await page.waitForFunction(() =>
+        document.getAnimations().every((a) => a.playState !== "running"),
+      );
       const box = (await zone.boundingBox())!;
       const scale = await page.evaluate(() => window.devicePixelRatio || 1);
       const position = {
