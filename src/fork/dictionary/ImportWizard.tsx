@@ -4,7 +4,7 @@
  * dictionary's two columns (word or "from", optional replacement), the
  * review of new rows, duplicates, conflicts (keep mine / use the file's,
  * per row) and rows that cannot be imported, and the counts at the end.
- * The format is `docs/user/import-format.md`; the same rules are shown in
+ * The format is `docs/fork/user/import-format.md`; the same rules are shown in
  * place under "Accepted format" (no web page is opened).
  */
 import { useMemo } from "react";

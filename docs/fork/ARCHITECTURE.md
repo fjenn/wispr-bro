@@ -1068,7 +1068,7 @@ own Settings › Advanced editor, still hosted until S-14, show up). The
 mirror records what Handy holds after the write, read back, so a failed
 write never looks like a removal.
 
-**Format.** `docs/user/import-format.md`; the same rules are in the wizard
+**Format.** `docs/fork/user/import-format.md`; the same rules are in the wizard
 under "Accepted format" (shown in place: the app opens no web page).
 
 **Fork npm package.** `papaparse` 5.7.0 (runtime, MIT) and

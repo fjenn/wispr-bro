@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! CSV export (S-16, C-65), written with the `csv` crate (R4): the format
-//! the import reads back (`docs/user/import-format.md`):
+//! the import reads back (`docs/fork/user/import-format.md`):
 //!
 //! ```text
 //! phrase,replacement
