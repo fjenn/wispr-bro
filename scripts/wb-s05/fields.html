@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!--
+  S-05 real-Mac test page (docs/fork/MAC-TEST-SCRIPT.md S-05): one field per
+  kind, focused from the URL hash (#input, #textarea, #editable, #password,
+  #search, #button, #body). The title reports what the field holds, by
+  length only for the password field: "WB-S05 <field> <length> <text>".
+  Served on 127.0.0.1 by scripts/wb-s05/run.sh; nothing leaves the Mac.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>WB-S05 ready</title>
+    <style>
+      body {
+        font:
+          16px -apple-system,
+          sans-serif;
+        margin: 24px;
+      }
+      label {
+        display: block;
+        margin: 10px 0 4px;
+      }
+      input,
+      textarea,
+      [contenteditable] {
+        width: 520px;
+        font: inherit;
+        border: 1px solid #888;
+        padding: 6px;
+      }
+      [contenteditable] {
+        min-height: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="input">Input</label>
+    <input id="input" type="text" autocomplete="off" />
+    <label for="textarea">Textarea</label>
+    <textarea id="textarea" rows="3"></textarea>
+    <label for="search">Search</label>
+    <input id="search" type="search" autocomplete="off" />
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="off" />
+    <p id="editable-label">Editor</p>
+    <div
+      id="editable"
+      contenteditable="true"
+      aria-labelledby="editable-label"
+    ></div>
+    <p><button id="button" type="button">A button</button></p>
+    <script>
+      const which = location.hash.slice(1) || "input";
+      const fields = ["input", "textarea", "search", "password", "editable"];
+      function report() {
+        const parts = [];
+        for (const id of fields) {
+          const el = document.getElementById(id);
+          const v = id === "editable" ? el.innerText.trim() : el.value;
+          if (!v) continue;
+          parts.push(
+            id === "password" ? `${id} ${v.length}` : `${id} ${v.length} ${v}`,
+          );
+        }
+        document.title = "WB-S05 " + (parts.join(" | ") || "empty");
+      }
+      document.addEventListener("input", report);
+      function focusTarget() {
+        if (which === "body") {
+          document.activeElement && document.activeElement.blur();
+          return;
+        }
+        const el = document.getElementById(which);
+        if (el) el.focus();
+      }
+      window.addEventListener("load", () => {
+        focusTarget();
+        setTimeout(focusTarget, 300);
+        report();
+      });
+    </script>
+  </body>
+</html>
