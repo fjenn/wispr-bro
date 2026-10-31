@@ -640,6 +640,9 @@ async fn apple_replies_go_through_the_same_guard_chain() {
             c.text
         );
         assert!(c.why.is_some_and(CleanupWhy::is_notice), "{code:?}");
+    }
+}
+
 // ---------------------------------------------------------------------------
 // S-19a: styles
 

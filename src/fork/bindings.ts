@@ -160,94 +160,6 @@ async forkHistoryUndoDelete(ids: number[]) : Promise<Result<number, ForkError>> 
 }
 },
 /**
- * History rows older than row `cursor` (the newest without one), at most
- * `limit` (≤ 100). Soft-deleted rows are left out.
- */
-async forkHistoryPage(cursor: number | null, limit: number) : Promise<Result<HistoryPage, ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_page", { cursor, limit }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
- * History rows whose text contains `query`, newest first, `limit` from
- * `offset` on; `next` is the offset of the next page.
- */
-async forkHistoryFind(query: string, offset: number, limit: number) : Promise<Result<HistoryPage, ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_find", { query, offset, limit }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
- * These rows as the list shows them (after Handy added or re-transcribed
- * them). Missing and soft-deleted ids are left out.
- */
-async forkHistoryRows(ids: number[]) : Promise<Result<HistoryRow[], ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_rows", { ids }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
- * Undo AI edit (`raw`) or Redo AI edit (`final`): which text the row shows
- * and copies. Never re-pastes (DEC-19); the stats are unchanged. Returns
- * the row.
- */
-async forkHistorySetVariant(id: number, variant: ShownVariant) : Promise<Result<HistoryRow | null, ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_set_variant", { id, variant }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
- * Transcribes the row's audio again with the current model (Handy's
- * background job, C-43) and cleans it at `level`, or at the cleanup
- * setting when `None`. The text it replaces becomes `previous_text`.
- */
-async forkHistoryRetry(id: number, level: CleanupLevel | null) : Promise<Result<null, ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_retry", { id, level }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
- * Flag (DEC-18): the user picked `from` in the row's text and typed `to`.
- * Adds a replacement or a word through the S-16 store; `replace` edits
- * that existing entry instead (the dialog's "Replace it" after a
- * conflict).
- */
-async forkHistoryFlag(id: number, from: string, to: string, kind: FlagKind, replace: number | null) : Promise<Result<FlagResult, ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_flag", { id, from, to, kind, replace }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
- * Copies the row's recording to `path` (the save panel's choice; written
- * beside it and renamed, so a failure never leaves half a file).
- */
-async forkHistorySaveAudio(id: number, path: string) : Promise<Result<SaveAudioError | null, ForkError>> {
-    try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_history_save_audio", { id, path }) };
-} catch (e) {
-    if(e instanceof Error) throw e;
-    else return { status: "error", error: e  as any };
-}
-},
-/**
  * The first name of the macOS account (the first word of its full name),
  * or `None` when the account has no usable full name or the platform has
  * none. Never fails: the greeting then says hello without a name.
@@ -598,9 +510,8 @@ async forkSpeechSetupRetry() : Promise<void> {
     await TAURI_INVOKE("fork_speech_setup_retry");
 },
 /**
- * The user's languages may have changed (onboarding Welcome, General):
- * re-pick the first model if setup is still running, and the best model
- * once it is done (S-07b).
+ * The user's languages may have changed (onboarding Welcome): re-pick the
+ * first model if setup is still running.
  */
 async forkSpeechSetupRefresh() : Promise<void> {
     await TAURI_INVOKE("fork_speech_setup_refresh");
@@ -692,24 +603,70 @@ async forkLlmAppleStatus() : Promise<ForkAppleStatus> {
     return await TAURI_INVOKE("fork_llm_apple_status");
 },
 /**
- * Settings › Advanced › Models: what the policy chose and what it is doing
- * (also sent as `fork-model-policy`).
+ * The Style page's apps.
  */
-async forkModelPolicyStatus() : Promise<ForkModelPolicy> {
-    return await TAURI_INVOKE("fork_model_policy_status");
+async forkStyleOverview() : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_overview") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 },
 /**
- * "Choose automatically" on the Models panel. Off pins the current model.
+ * Installed apps for the "+" picker, by name, with their current group.
  */
-async forkModelPolicySetAutomatic(on: boolean) : Promise<ForkModelPolicy> {
-    return await TAURI_INVOKE("fork_model_policy_set_automatic", { on });
+async forkStyleInstalledApps() : Promise<Result<StylePickerApp[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_installed_apps") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 },
 /**
- * Handy model ids the Models panel hides: retired by the policy, or
- * restricted by the licence filter (DEC-27), unless downloaded.
+ * An app's icon as a PNG `data:` URL (`None` if it is not installed).
  */
-async forkModelsHidden() : Promise<string[]> {
-    return await TAURI_INVOKE("fork_models_hidden");
+async forkStyleAppIcon(bundleId: string) : Promise<Result<string | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_app_icon", { bundleId }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Puts an app in `group`; `None` returns it to its built-in group.
+ */
+async forkStyleSetAppGroup(bundleId: string, name: string | null, group: StyleGroup | null) : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_set_app_group", { bundleId, name, group }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Takes an app out of its group (it joins "all other apps").
+ */
+async forkStyleRemoveApp(bundleId: string, name: string | null) : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_remove_app", { bundleId, name }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * "Press Enter after dictating" for one app.
+ */
+async forkStyleSetAutoSend(bundleId: string, name: string | null, on: boolean) : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_set_auto_send", { bundleId, name, on }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -725,7 +682,6 @@ forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
 forkMicDevicesChanged: ForkMicDevicesChanged,
 forkMicLevel: ForkMicLevel,
-forkModelPolicy: ForkModelPolicy,
 forkNotificationOpened: ForkNotificationOpened,
 forkNotificationsChanged: ForkNotificationsChanged,
 forkPillLevels: ForkPillLevels,
@@ -745,7 +701,6 @@ forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
 forkMicDevicesChanged: "fork-mic-devices-changed",
 forkMicLevel: "fork-mic-level",
-forkModelPolicy: "fork-model-policy",
 forkNotificationOpened: "fork-notification-opened",
 forkNotificationsChanged: "fork-notifications-changed",
 forkPillLevels: "fork-pill-levels",
@@ -797,18 +752,6 @@ export type AppleRole =
  */
 "fallback"
 /**
- * Whether a row's recording can be played and saved.
- */
-export type AudioState = "available" | 
-/**
- * Removed by audio retention (14 days by default, DEC-07).
- */
-"expired" | 
-/**
- * Never saved (full disk) or the file is gone.
- */
-"missing"
-/**
  * Where the resting bar sits (bottom by default, top in Advanced).
  */
 export type BarPosition = "bottom" | "top"
@@ -824,22 +767,6 @@ export type CategoryInsight = { category: UsageCategory; words: number; dictatio
  * Share of all categorized words, 0..=1 (0 when there are none).
  */
 share: number }
-/**
- * The chip, as far as the policy cares.
- */
-export type Chip = 
-/**
- * `generation` 1 for M1, 5 for M5; `tier` from the suffix.
- */
-{ kind: "apple_silicon"; generation: number; tier: Tier } | 
-/**
- * Apple Silicon whose brand string we could not read.
- */
-{ kind: "unknown_apple_silicon" } | 
-/**
- * x86_64 (DEC-29: CPU only, later milestone).
- */
-{ kind: "intel" }
 /**
  * `entry_meta.cleanup_engine`.
  */
@@ -1027,25 +954,9 @@ dismiss_id: string; title_key: string; body_key: string; action: NotificationAct
  */
 entry_id: number | null }
 /**
- * What the "Wrong word?" dialog saves.
+ * The user's app rules changed (another window refreshes its Style page).
  */
-export type FlagKind = 
-/**
- * Replace `from` with `to` every time (a dictionary replacement).
- */
-"rule" | 
-/**
- * Teach the spelling `to` (a dictionary word).
- */
-"word"
-/**
- * The dictionary's answer to a flag, and the row after it.
- */
-export type FlagResult = { outcome: SaveOutcome; 
-/**
- * The flagged row (when the entry was saved or already there).
- */
-row: HistoryRow | null }
+export type ForkAppRulesChanged = { rules: number }
 /**
  * Apple's model in the AI engine panel.
  */
@@ -1305,36 +1216,6 @@ system_default: string | null;
  * The wireless default the rule is skipping (never chosen), by name.
  */
 avoided: string | null }
-/**
- * The `fork-model-policy` event and `fork_model_policy_status` reply.
- * Unlike the bar's status it may name models: it is for Settings ›
- * Advanced only.
- */
-export type ForkModelPolicy = { 
-/**
- * The policy picks (false: the user pinned a model).
- */
-automatic: boolean; phase: PolicyPhase; 
-/**
- * Display name of the selected speech model.
- */
-current_model: string | null; 
-/**
- * Display name of the policy's pick when it is not the selection yet.
- */
-next_model: string | null; 
-/**
- * 0-99 while the next model downloads.
- */
-percent: number | null; 
-/**
- * Nothing meets the latency budget on this Mac.
- */
-slower: boolean; 
-/**
- * The languages the pick is for.
- */
-languages: string[]; machine: MachineSummary | null }
 /**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
@@ -1609,51 +1490,6 @@ date: string; words: number;
  */
 level: number }
 /**
- * A page of rows and the cursor for the next one.
- */
-export type HistoryPage = { rows: HistoryRow[]; 
-/**
- * Pass back to read on; `None` at the end.
- */
-next: number | null }
-/**
- * One History row.
- */
-export type HistoryRow = { id: number; 
-/**
- * Unix ms at record start (Handy's save time for rows the fork did not
- * see start).
- */
-created_at: number; 
-/**
- * The text shown (empty: the transcription failed or is pending).
- */
-text: string; 
-/**
- * What Copy puts on the clipboard.
- */
-copy_text: string; variant: ShownVariant; 
-/**
- * The AI cleanup changed the text, so Undo / Redo AI edit applies.
- */
-ai_edited: boolean; 
-/**
- * `dictation`, `file`, `practice`, `command` or `transform`.
- */
-source: string; 
-/**
- * The file a file transcription came from.
- */
-source_name: string | null; app_name: string | null; 
-/**
- * Handy's WAV name (for its `get_audio_file_path`).
- */
-file_name: string; audio: AudioState; flagged: boolean; 
-/**
- * The cleanup level the text was made at, when the LLM step ran.
- */
-cleanup_level: string | null }
-/**
  * How a hotkey binding drives its action.
  */
 export type HotkeyActivation = 
@@ -1822,10 +1658,6 @@ export type LlmState =
  */
 "download_failed"
 /**
- * This Mac, as the Models panel shows it.
- */
-export type MachineSummary = { chip: Chip; ram_gb: number; free_disk_gb: number | null }
-/**
  * What kind of row a microphone list entry is.
  */
 export type MicEntryKind = 
@@ -1930,12 +1762,7 @@ export type NotificationKind =
 /**
  * A new feature in this version (Announcements toggle).
  */
-"announcement" | 
-/**
- * S-07b: dictation is slower on this Mac than the budget (said once,
- * inbox only).
- */
-"slower_mac"
+"announcement"
 /**
  * macOS notification authorization as the app sees it.
  */
@@ -2024,11 +1851,7 @@ export type PillFix =
 /**
  * Starts the speech model download again (S-07a).
  */
-"retry_download" | 
-/**
- * Brings the cancelled take back (S-06).
- */
-"undo"
+"retry_download"
 /**
  * A message or an error after (or instead of) a take. The English copy is
  * in `fork.json` > `pill.message.<kind>`.
@@ -2077,20 +1900,7 @@ export type PillMessage =
 /**
  * Not enough free disk space for the speech model (S-07a).
  */
-"no_space" | 
-/**
- * A take was cancelled; Undo brings it back for
- * [`crate::fork::recovery::UNDO_WINDOW_MS`] (S-06).
- */
-"cancelled" | 
-/**
- * Paste-last or copy-last found no transcript in History (S-06).
- */
-"no_transcript" | 
-/**
- * Copy-last put the last transcript on the clipboard (S-06).
- */
-"copied_last"
+"no_space"
 /**
  * What the active bar is doing (the web view's `state`).
  */
@@ -2157,41 +1967,9 @@ export type PillWarning =
  */
 "mic_lost"
 /**
- * What the background work is doing (Settings › Advanced › Models).
- */
-export type PolicyPhase = 
-/**
- * Before the first decision, or no policy (plain Handy).
- */
-"checking" | 
-/**
- * The selection is the policy's pick (or pinned).
- */
-"settled" | "downloading" | 
-/**
- * Downloaded; waiting for a moment without dictation.
- */
-"waiting_to_swap" | 
-/**
- * The download stopped; tried again at the next launch or change.
- */
-"paused"
-/**
  * A valid row as it would be saved.
  */
 export type ReviewRow = { row: number; kind: EntryKind; phrase: string; replacement: string | null }
-/**
- * Why Save audio as… did not write the file.
- */
-export type SaveAudioError = 
-/**
- * The row or its recording is gone.
- */
-{ kind: "NoAudio" } | 
-/**
- * Writing the copy failed (message for the log).
- */
-{ kind: "WriteFailed"; message: string }
 /**
  * Result of saving one entry.
  */
@@ -2330,18 +2108,6 @@ export type Shape =
  * A finished take's text with Copy and ✕ (S-07a queued takes).
  */
 "card"
-/**
- * Which text a row shows and copies (`entry_meta.shown_variant`).
- */
-export type ShownVariant = 
-/**
- * After the AI cleanup (the default).
- */
-"final" | 
-/**
- * Before it ("Undo AI edit").
- */
-"raw"
 /**
  * The counts the page shows.
  */
@@ -2599,10 +2365,6 @@ export type StylePreset = "formal" | "relaxed" | "very_relaxed" | "upbeat"
  * Style per app group.
  */
 export type StyleSettings = { personal: StylePreset; work: StylePreset; email: StylePreset; other: StylePreset }
-/**
- * Apple Silicon tier from the brand string (`Apple M2 Pro`).
- */
-export type Tier = "base" | "pro" | "max" | "ultra"
 /**
  * How a device is connected (CoreAudio `kAudioDevicePropertyTransportType`).
  */
