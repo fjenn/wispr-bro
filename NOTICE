@@ -189,6 +189,16 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026 ({{agentName}} set to
   "Assistant"; one line asking for a JSON reply appended).
 
+- src-tauri/src/fork/pill/panel.rs
+  Source: Tolkovo, https://github.com/kozliq/Tolkovo
+  Commit: ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35
+  File:   src-tauri/src/tolkovo/pill.rs (panel set-up, Space observer)
+  Copyright (c) 2025 CJ Pais
+  Copyright (c) 2026 kozliq
+  Licence: MIT
+  Modified by Wispr Bro contributors, 2026-10-30 (web view only around a
+  take, exact sizes per state, no private activation API, S-03).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

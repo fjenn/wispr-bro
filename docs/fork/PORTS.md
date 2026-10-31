@@ -37,6 +37,7 @@ AGPL-3.0-only` and never in a Handy file.
 | `src-tauri/src/fork/llm/prompt.rs` (system prompt text)                                   | [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr)                                                                                                                                                                                                                                                                                                  | `b9e9ebefac4b961456c269164a93ddfdd53438b9`                                                                         | `src/locales/en/prompts.json` (`cleanupPrompt`)                                                                                      | MIT (© 2024 OpenWhispr Team)                                          | S-10                         |
 | `src-tauri/src/fork/text/rules.rs`                                                        | [ideaplexa/voicetypr](https://github.com/ideaplexa/voicetypr)                                                                                                                                                                                                                                                                                                      | `f86e571df5bd5c0a4d8950095167b45185fa59d4`                                                                         | `src-tauri/src/writing/library_rules.rs`                                                                                             | AGPL-3.0 (© the Voicetypr authors); file marked AGPL-3.0-only         | S-11                         |
 | `src-tauri/src/fork/text/tables/commands.*.json` (data)                                   | [moona3k/macparakeet](https://github.com/moona3k/macparakeet)                                                                                                                                                                                                                                                                                                      | `3ec699152f78df8adccba0cbff5cb968c9790947`                                                                         | `Sources/MacParakeetCore/TextProcessing/SpokenPunctuation.swift` (phrases, literal prefixes); `SpokenPunctuationTests.swift` (cases) | GPL-3.0 (© 2026 Daniel Moon)                                          | S-11                         |
+| `src-tauri/src/fork/pill/panel.rs`                                                        | [kozliq/Tolkovo](https://github.com/kozliq/Tolkovo)                                                                                                                                                                                                                                                                                                                | `ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35`                                                                         | `src-tauri/src/tolkovo/pill.rs` (panel set-up, Space observer; via `crates/wb-spike-pill/src/pill.rs`)                               | MIT (© 2025 CJ Pais; © 2026 kozliq)                                  | S-03                         |
 
 ## Notes per port
 
@@ -220,3 +221,15 @@ AGPL-3.0-only` and never in a Handy file.
   comma-before and terminators-after consumption.
 - Our own: the line, paragraph and "scratch that" phrases, Italian, the
   blocker words, and the clause-edge rule.
+
+### `fork/pill/` (S-03)
+
+- `panel.rs` lifts the RS-03 spike's Tolkovo panel set-up (status level,
+  non-activating, never key, `hides_on_deactivate(false)`, all Spaces +
+  full-screen auxiliary, the Space-change re-show). It sets
+  `_setPreventsActivation:` once at creation (DEC-28 fallback, as Tolkovo
+  does); everything else in `fork/pill/` is ours.
+- `native.rs` (the native resting bar) follows the approach of anarlog's Swift
+  pill and Voquill's `rust_macos_pill` (a native panel at rest, a web view
+  only while active, the RS-03 fallback); neither project's code was read for
+  it or copied, so neither is a port.
