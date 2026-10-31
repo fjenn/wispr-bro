@@ -12,6 +12,15 @@
 //! bun scripts/wb-eval-cleanup.ts --replay <run.jsonl> --level all
 //! ```
 //!
+//! S-12b / RS-08: `WB_EVAL_ENGINE=apple` runs the same path on Apple
+//! Foundation Models instead (no sidecar or model needed), with
+//! `WB_APPLE_GUARDRAILS=default|permissive` (default permissive) and
+//! `WB_APPLE_GUIDED=1|0` (default: the shipped `apple::GUIDED`). `WB_EVAL_APPLE_PREWARM_MS=<ms>`
+//! prewarms Apple's model with the item's prompt that long before each item
+//! (the app's key-down prewarm); `WB_EVAL_NO_DEADLINE=1` (with
+//! `WB_DEBUG_CLEANUP_DEADLINE_MS=<ms>` for each request) scores quality
+//! without the latency budget.
+//!
 //! `WB_EVAL_LANGUAGE=item` passes each item's labelled language as the
 //! take's language (a user who picked their language); the default `none`
 //! leaves it unknown, as with an auto-detecting recognizer, so the guards
@@ -24,9 +33,58 @@ use std::time::Instant;
 
 use serde_json::{json, Value};
 
-use super::post_process::{clean, LocalEngine, Request};
+use super::apple::AppleEngine;
+use super::chat::ChatRequest;
+use super::post_process::{clean, clean_within, Engine, EngineError, LocalEngine, Request};
 use super::supervisor::{Config, ProcessLauncher, Supervisor};
 use crate::fork::settings::CleanupLevel;
+
+/// The engine under test.
+enum EvalEngine<'a> {
+    Local(LocalEngine<'a>),
+    Apple(AppleEngine),
+}
+
+impl Engine for EvalEngine<'_> {
+    async fn complete(
+        &self,
+        request: ChatRequest,
+        timeout: std::time::Duration,
+    ) -> Result<String, EngineError> {
+        match self {
+            EvalEngine::Local(e) => e.complete(request, timeout).await,
+            EvalEngine::Apple(e) => e.complete(request, timeout).await,
+        }
+    }
+}
+
+fn apple_engine() -> AppleEngine {
+    AppleEngine {
+        pill: false,
+        guardrails: match env("WB_APPLE_GUARDRAILS").as_deref() {
+            Some("default") => wb_apple_fm::Guardrails::Default,
+            None | Some("permissive") => wb_apple_fm::Guardrails::PermissiveContentTransformations,
+            Some(other) => panic!("unknown WB_APPLE_GUARDRAILS {other}"),
+        },
+        guided: match env("WB_APPLE_GUIDED").as_deref() {
+            Some("1") => true,
+            Some("0") => false,
+            _ => super::apple::GUIDED,
+        },
+    }
+}
+
+fn apple_label(e: &AppleEngine) -> String {
+    format!(
+        "apple-foundation-models ({}, {} guardrails)",
+        if e.guided { "guided" } else { "plain" },
+        if e.guardrails == wb_apple_fm::Guardrails::Default {
+            "default"
+        } else {
+            "permissive"
+        }
+    )
+}
 
 fn env(k: &str) -> Option<String> {
     std::env::var(k).ok().filter(|v| !v.is_empty())
@@ -35,14 +93,19 @@ fn env(k: &str) -> Option<String> {
 #[tokio::test(flavor = "multi_thread")]
 #[ignore = "needs WB_LLAMA_SERVER, WB_LLM_MODEL and WB_EVAL_OUT"]
 async fn eval_run_through_the_shipped_path() {
-    let (Some(bin), Some(model), Some(out)) = (
+    let apple = env("WB_EVAL_ENGINE").as_deref() == Some("apple");
+    let (bin, model, Some(out)) = (
         env("WB_LLAMA_SERVER"),
         env("WB_LLM_MODEL"),
         env("WB_EVAL_OUT"),
     ) else {
-        eprintln!("eval_run: set WB_LLAMA_SERVER, WB_LLM_MODEL and WB_EVAL_OUT");
+        eprintln!("eval_run: set WB_EVAL_OUT (and WB_LLAMA_SERVER + WB_LLM_MODEL, or WB_EVAL_ENGINE=apple)");
         return;
     };
+    if !apple && (bin.is_none() || model.is_none()) {
+        eprintln!("eval_run: set WB_LLAMA_SERVER and WB_LLM_MODEL, or WB_EVAL_ENGINE=apple");
+        return;
+    }
     let items_path = env("WB_EVAL_ITEMS").map(PathBuf::from).unwrap_or_else(|| {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../eval/cleanup/items.jsonl")
     });
@@ -64,18 +127,29 @@ async fn eval_run_through_the_shipped_path() {
         env("WB_EVAL_IDS").map(|s| s.split(',').map(str::to_owned).collect());
 
     let dir = tempfile::tempdir().unwrap();
-    let mut cfg = Config::new(bin.into(), dir.path().join("llm"));
-    cfg.model = Some(model.clone().into());
-    let sup: Arc<Supervisor> = Supervisor::new(Arc::new(ProcessLauncher), cfg);
+    let sup: Option<Arc<Supervisor>> = (!apple).then(|| {
+        let mut cfg = Config::new(
+            bin.clone().unwrap_or_default().into(),
+            dir.path().join("llm"),
+        );
+        cfg.model = model.clone().map(Into::into);
+        Supervisor::new(Arc::new(ProcessLauncher), cfg)
+    });
     let t0 = Instant::now();
-    sup.ensure_ready().await.expect("sidecar starts");
-    eprintln!("eval_run: server ready in {} ms", t0.elapsed().as_millis());
+    if let Some(sup) = &sup {
+        sup.ensure_ready().await.expect("sidecar starts");
+        eprintln!("eval_run: server ready in {} ms", t0.elapsed().as_millis());
+    }
+    let engine = match &sup {
+        Some(sup) => EvalEngine::Local(LocalEngine {
+            supervisor: sup,
+            pill: false,
+        }),
+        None => EvalEngine::Apple(apple_engine()),
+    };
     // One warm-up request (Metal shaders, prompt cache), not scored.
     let _ = clean(
-        &LocalEngine {
-            supervisor: &sup,
-            pill: false,
-        },
+        &engine,
         &Request {
             text: "um so this is a warm up",
             level: CleanupLevel::Light,
@@ -104,7 +178,11 @@ async fn eval_run_through_the_shipped_path() {
         json!({
             "meta": {
                 "runner": "src-tauri/src/fork/llm/eval_run.rs (S-12a shipped path)",
-                "model": std::path::Path::new(&model).file_name().map(|f| f.to_string_lossy().to_string()),
+                "model": match &engine {
+                    EvalEngine::Apple(e) => Some(apple_label(e)),
+                    EvalEngine::Local(_) => model.as_deref().and_then(|m| std::path::Path::new(m).file_name()).map(|f| f.to_string_lossy().to_string()),
+                },
+                "engine": if apple { "apple" } else { "local" },
                 "items": items.len(),
                 "levels": levels.iter().map(|l| l.as_str()).collect::<Vec<_>>(),
                 "language_hint": language_mode != "none",
@@ -115,10 +193,11 @@ async fn eval_run_through_the_shipped_path() {
         })
     )
     .unwrap();
-    let engine = LocalEngine {
-        supervisor: &sup,
-        pill: false,
-    };
+    // RS-08: quality without the latency budget (debug builds also need
+    // WB_DEBUG_CLEANUP_DEADLINE_MS for the per-request deadline), and the
+    // app's key-down prewarm before each Apple item.
+    let no_deadline = env("WB_EVAL_NO_DEADLINE").as_deref() == Some("1");
+    let prewarm_ms: Option<u64> = env("WB_EVAL_APPLE_PREWARM_MS").and_then(|v| v.parse().ok());
     let started = Instant::now();
     let mut n = 0;
     for level in &levels {
@@ -153,8 +232,17 @@ async fn eval_run_through_the_shipped_path() {
                 terms: &[],
                 keep: &[],
             };
+            if let (Some(ms), EvalEngine::Apple(_)) = (prewarm_ms, &engine) {
+                // The app prewarms at key-down; the take is spoken meanwhile.
+                super::apple::prewarm(&super::post_process::system_prompt(&req));
+                tokio::time::sleep(std::time::Duration::from_millis(ms)).await;
+            }
             let t = Instant::now();
-            let cleaned = clean(&engine, &req).await;
+            let cleaned = if no_deadline {
+                clean_within(&engine, &req, std::time::Duration::from_secs(120)).await
+            } else {
+                clean(&engine, &req).await
+            };
             let wall = t.elapsed().as_secs_f64() * 1000.0;
             let expected = item["expected"][level.as_str()]
                 .as_str()
@@ -213,5 +301,7 @@ async fn eval_run_through_the_shipped_path() {
         "eval_run: {n} runs in {:.1} s -> {out}",
         started.elapsed().as_secs_f64()
     );
-    sup.stop().await;
+    if let Some(sup) = sup {
+        sup.stop().await;
+    }
 }

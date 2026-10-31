@@ -499,7 +499,21 @@
       "timingCold": "Nettoyé en {{ms}} ms, après {{start}} ms pour démarrer l'engine.",
       "lowMemory": "Pas assez de mémoire libre pour démarrer l'engine AI en ce moment. Fermez certains logiciels et réessayez.",
       "badReply": "La réponse du modèle ne peut pas être utilisée. Votre texte serait inséré sans nettoyage.",
-      "failed": "Échec de la nettoyage : {{message}}"
+      "failed": "Échec de la nettoyage : {{message}}",
+      "engineApple": "Nettoyé avec Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Prêt sur ce Mac. Wispr Bro l'utilise lorsque son modèle de nettoyage ne peut pas encore s'exécuter, par exemple pendant le téléchargement.",
+        "available_default": "Prêt sur ce Mac. Wispr Bro nettoie vos dictées avec cela.",
+        "device_not_eligible": "Ce Mac ne peut pas exécuter Apple Intelligence. Wispr Bro utilise son propre modèle de nettoyage.",
+        "not_enabled": "Apple Intelligence est désactivé dans les paramètres du système. Wispr Bro utilise son propre modèle de nettoyage.",
+        "model_not_ready": "Apple Intelligence continue à préparer son modèle.",
+        "unsupported": "Apple Intelligence nécessite macOS 26 ou une version ultérieure. Wispr Bro utilise son propre modèle de nettoyage.",
+        "unknown": "L'intelligence Apple n'est pas disponible en ce moment."
+      },
+      "counts": "Depuis le lancement de l'application : {{requests}} demandes, {{refusals}} refusées, {{rateLimited}} limitées."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "Exporté {{count}} snippet.",
       "done_other": "Exportés {{count}} snippets.",
       "failed": "Les snippets ne peuvent pas être exportés. Veuillez réessayer."
+    }
+  },
+  "cleanup": {
+    "title": "Nettoyage",
+    "loading": "Chargement du niveau de nettoyage…",
+    "loadError": "Impossible de lire le niveau de nettoyage : {{message}}",
+    "setError": "Cette modification n'a pas été enregistrée : {{message}}",
+    "notice": "Inséré sans nettoyage",
+    "picker": {
+      "legend": "À quelle extent vos mots devraient-ils être nettoyés ?",
+      "recommended": "Recommandé",
+      "aiChat": "Dans les applications de chat AI, vos mots sont insérés telles que vous les avez dits, sans nettoyage par l'IA."
+    },
+    "levels": {
+      "none": {
+        "label": "Aucun",
+        "description": "Exactement ce que vous avez dit, avec uniquement des espaces et des commandes vocales appliquées."
+      },
+      "light": {
+        "label": "Léger",
+        "description": "Supprime des éléments comme \"um\" et \"you know\", corrige les ponctuations et les majuscules, et conserve tes corrections : \"at 2, actually 3\" devient \"at 3\"."
+      },
+      "medium": {
+        "label": "Moyen",
+        "description": "Tout ce qui est en lumière, plus de grammaire et de formulation fluide. Vos faits et votre sens restent les mêmes."
+      }
+    },
+    "last": {
+      "title": "Dernière dictée",
+      "none": "Aucune dictation depuis le lancement de l'application.",
+      "applied_one": "Nettoyé en {{ms}} ms, {{count}} modification.",
+      "applied_other": "Nettoyé en {{ms}} ms, {{count}} modifications.",
+      "partial": "Nettoyé en partie ({{applied}} de {{total}} paragraphes) ; le reste est tel qu'il a été dit : {{reason}}",
+      "checks": "Vérifications de sécurité qui l'ont arrêté : {{checks}}"
+    },
+    "why": {
+      "level_none": "Le nettoyage est désactivé.",
+      "empty": "Rien à nettoyer.",
+      "already_clean": "Déjà propre, donc l'engine AI n'était pas nécessaire.",
+      "ai_chat": "Application de chat AI : insérée comme vous l'avez dit.",
+      "not_ready": "Inséré sans nettoyage : le modèle de nettoyage n'est pas prêt encore.",
+      "low_memory": "Inséré sans nettoyage : pas assez de mémoire libre actuellement.",
+      "guard": "Inséré sans nettoyage : le texte nettoyé n'a pas passé les vérifications de sécurité.",
+      "timeout": "Inséré sans nettoyage : le nettoyage a pris trop longtemps.",
+      "error": "Inséré sans nettoyage : l'engine AI a eu un problème."
+    },
+    "reason": {
+      "level_none": "le nettoyage est désactivé",
+      "empty": "rien à nettoyer",
+      "already_clean": "déjà propre",
+      "ai_chat": "application de chat AI",
+      "not_ready": "le modèle de nettoyage n'est pas prêt encore",
+      "low_memory": "pas assez de mémoire libre",
+      "guard": "il n'a pas passé les vérifications de sécurité",
+      "timeout": "le nettoyage a pris trop de temps",
+      "error": "l'engine AI a eu un problème"
     }
   },
   "overrides": {

@@ -15,7 +15,10 @@
 //!   ([`guards`]) with its word tables ([`markers`]) and the deadlines
 //!   ([`deadline`]). Handy's own post-processing chain runs only where the
 //!   fork does not own cleanup (headless CLI, plain Handy builds).
+//! - S-12b: Apple Foundation Models as a cleanup engine ([`apple`], bridge
+//!   in `crates/wb-apple-fm`), with RS-08's role and the same guard chain.
 
+pub mod apple;
 pub mod catalog;
 pub mod chat;
 pub mod deadline;
@@ -33,6 +36,8 @@ pub mod prompt;
 pub mod providers;
 #[cfg(test)]
 mod rs06;
+#[cfg(test)]
+mod rs08;
 pub mod runtime;
 pub mod supervisor;
 pub mod transport;

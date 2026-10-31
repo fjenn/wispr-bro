@@ -499,7 +499,21 @@
       "timingCold": "Limpado em {{ms}} ms, após {{start}} ms para iniciar o engine.",
       "lowMemory": "Não há memória livre suficiente para iniciar o motor de IA agora. Feche alguns aplicativos e tente novamente.",
       "badReply": "A resposta do modelo não pode ser usada. Seu texto será inserido sem limpeza.",
-      "failed": "Limpeza falhou: {{message}}"
+      "failed": "Limpeza falhou: {{message}}",
+      "engineApple": "Limpo com Inteligência Apple."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Pronto neste Mac. O Wispr Bro o usa quando o seu modelo de limpeza não puder rodar ainda, por exemplo enquanto está a baixar.",
+        "available_default": "Pronto neste Mac. Wispr Bro limpa suas dictações com ele.",
+        "device_not_eligible": "Este Mac não pode executar a Inteligência da Apple. O Wispr Bro usa o seu próprio modelo de limpeza.",
+        "not_enabled": "A Inteligência Apple está desligada nas Configurações do Sistema. O Wispr Bro usa o seu próprio modelo de limpeza.",
+        "model_not_ready": "A Inteligência Apple ainda está preparando seu modelo.",
+        "unsupported": "A Apple Intelligence precisa de macOS 26 ou posterior. O Wispr Bro utiliza seu próprio modelo de limpeza.",
+        "unknown": "A Inteligência Apple não está disponível no momento."
+      },
+      "counts": "Desde que o app começou: {{requests}} solicitações, {{refusals}} recusadas, {{rateLimited}} limitadas."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "Exportado {{count}} snippet.",
       "done_other": "Exportado {{count}} trechos.",
       "failed": "Os snippets não foram exportados. Por favor, tente novamente."
+    }
+  },
+  "cleanup": {
+    "title": "Limpeza",
+    "loading": "Carregando o nível de limpeza...",
+    "loadError": "Impossível ler o nível de limpeza: {{message}}",
+    "setError": "Essa alteração não foi salva: {{message}}",
+    "notice": "Inserido sem limpeza",
+    "picker": {
+      "legend": "Quanto sua fala deve ser limpa?",
+      "recommended": "Recomendado",
+      "aiChat": "Em aplicativos de chat com IA, suas palavras são inseridas como você disse, sem limpeza da IA."
+    },
+    "levels": {
+      "none": {
+        "label": "Nenhum",
+        "description": "Exatamente o que você disse, com apenas espaçamento e comandos de voz aplicados."
+      },
+      "light": {
+        "label": "Claro",
+        "description": "Remove filler como \"um\" e \"você sabe\", corrige pontuação e maiúsculas, e mantém suas correções: \"em 2, na verdade 3\" vira \"em 3\"."
+      },
+      "medium": {
+        "label": "Médio",
+        "description": "Tudo em Luz, mais gramática e redação suave. Seus fatos e significado permanecem os mesmos."
+      }
+    },
+    "last": {
+      "title": "Última dictação",
+      "none": "Nenhuma dictação desde que o app começou.",
+      "applied_one": "Limpo em {{ms}} ms, {{count}} alteração.",
+      "applied_other": "Limpo em {{ms}} ms, {{count}} alterações.",
+      "partial": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}",
+      "checks": "Verificações de segurança que a pararam: {{checks}}"
+    },
+    "why": {
+      "level_none": "Limpeza desligada.",
+      "empty": "Nada para limpar.",
+      "already_clean": "Já limpo, então o motor de IA não foi necessário.",
+      "ai_chat": "Aplicativo de chat com IA: inserido como você disse.",
+      "not_ready": "Inserido sem limpeza: o modelo de limpeza ainda não está pronto.",
+      "low_memory": "Inserido sem limpeza: não há memória livre suficiente agora.",
+      "guard": "Inserido sem limpeza: o texto limpo não passou nas verificações de segurança.",
+      "timeout": "Inserido sem limpeza: a limpeza demorou muito.",
+      "error": "Inserido sem limpeza: o motor de IA teve um problema."
+    },
+    "reason": {
+      "level_none": "limpeza desligada",
+      "empty": "nada para limpar",
+      "already_clean": "já limpo",
+      "ai_chat": "aplicativo de chat com IA",
+      "not_ready": "o modelo de limpeza ainda não está pronto",
+      "low_memory": "memória insuficiente",
+      "guard": "não passou pelos testes de segurança",
+      "timeout": "a limpeza demorou muito",
+      "error": "o motor de IA teve um problema"
     }
   },
   "overrides": {

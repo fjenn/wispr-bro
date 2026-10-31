@@ -499,7 +499,21 @@
       "timingCold": "Pulito in {{ms}} ms, dopo {{start}} ms per avviare l'engine.",
       "lowMemory": "Memoria libera insufficiente per avviare l'engine AI in questo momento. Chiudi alcuni programmi e prova di nuovo.",
       "badReply": "La risposta del modello non può essere utilizzata. Il tuo testo verrà inserito senza pulizia.",
-      "failed": "Errore durante il pulito: {{message}}"
+      "failed": "Errore durante il pulito: {{message}}",
+      "engineApple": "Pulito con Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Pronto su questo Mac. Wispr Bro lo utilizza quando il proprio modello di pulizia non può ancora eseguirsi, ad esempio mentre sta scaricando.",
+        "available_default": "Pronto su questo Mac. Wispr Bro pulisce le tue dictazioni con esso.",
+        "device_not_eligible": "Questo Mac non può eseguire Apple Intelligence. Wispr Bro utilizza il proprio modello di pulizia.",
+        "not_enabled": "Apple Intelligence è disabilitato nelle Impostazioni del sistema. Wispr Bro utilizza il proprio modello di pulizia.",
+        "model_not_ready": "Apple Intelligence sta ancora preparando il modello.",
+        "unsupported": "Apple Intelligence necessita di macOS 26 o successivo. Wispr Bro utilizza il proprio modello di pulizia.",
+        "unknown": "L'Intelligenza Apple non è attualmente disponibile."
+      },
+      "counts": "Da quando è stato avviato l'app: {{requests}} richieste, {{refusals}} rifiutate, {{rateLimited}} limitate."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "Esportato {{count}} snippet.",
       "done_other": "Esportato {{count}} snippeti.",
       "failed": "I snippeti non possono essere esportati. Riprova."
+    }
+  },
+  "cleanup": {
+    "title": "Pulizia",
+    "loading": "Caricamento del livello di pulizia…",
+    "loadError": "Impossibile leggere il livello di pulizia: {{message}}",
+    "setError": "Quella modifica non è stata salvata: {{message}}",
+    "notice": "Inserito senza pulizia",
+    "picker": {
+      "legend": "Quanto dovrebbero essere puliti i tuoi testi?",
+      "recommended": "Consigliato",
+      "aiChat": "Negli app di chat AI le tue parole vengono inserite esattamente come le hai detto, senza pulizia effettuata dall'IA."
+    },
+    "levels": {
+      "none": {
+        "label": "Nessuno",
+        "description": "Esattamente ciò che hai detto, con solo spaziatura e comandi vocali applicati."
+      },
+      "light": {
+        "label": "Light",
+        "description": "Elimina filler come \"um\" e \"you know\", corregge punteggiatura e maiuscole, e mantiene le tue correzioni: \"at 2, actually 3\" diventa \"at 3\"."
+      },
+      "medium": {
+        "label": "Medio",
+        "description": "Tutto in Luce, più grammatica e formulazione fluide. I tuoi fatti e il significato rimangono gli stessi."
+      }
+    },
+    "last": {
+      "title": "Ultima dictazione",
+      "none": "Nessuna dictazione dal momento in cui è stato avviato l'app.",
+      "applied_one": "Pulito in {{ms}} ms, {{count}} modifica.",
+      "applied_other": "Pulito in {{ms}} ms, {{count}} modifiche.",
+      "partial": "Pulito in parte ({{applied}} di {{total}} paragrafi); il resto è come pronunciato: {{reason}}",
+      "checks": "Verifiche di sicurezza che l'hanno fermato: {{checks}}"
+    },
+    "why": {
+      "level_none": "Il pulitore è disattivato.",
+      "empty": "Niente da pulire.",
+      "already_clean": "Già pulito, quindi non era necessario l'engine AI.",
+      "ai_chat": "App chat AI: inserito come hai detto.",
+      "not_ready": "Inserito senza pulizia: il modello di pulizia non è ancora pronto.",
+      "low_memory": "Inserito senza pulizia: non ci sono abbastanza risorse libere al momento.",
+      "guard": "Inserito senza pulizia: il testo pulito non ha superato i controlli di sicurezza.",
+      "timeout": "Inserito senza pulizia: la pulizia ha impiegato troppo tempo.",
+      "error": "Inserito senza pulizia: l'engine AI ha avuto un problema."
+    },
+    "reason": {
+      "level_none": "la pulizia è disabilitata",
+      "empty": "niente da pulire",
+      "already_clean": "già pulito",
+      "ai_chat": "app di chat AI",
+      "not_ready": "il modello di pulizia non è ancora pronto",
+      "low_memory": "memoria insufficiente",
+      "guard": "non ha superato i controlli di sicurezza",
+      "timeout": "il pulitore ha impiegato troppo tempo",
+      "error": "l'engine AI ha un problema"
     }
   },
   "overrides": {

@@ -499,7 +499,21 @@
       "timingCold": "Dibersihkan dalam {{ms}} ms, setelah {{start}} ms untuk memulai engine.",
       "lowMemory": "Memori yang tersedia tidak cukup untuk memulai engine AI saat ini. Tutup beberapa aplikasi dan coba lagi.",
       "badReply": "Balasan model tidak dapat digunakan. Teks Anda akan dimasukkan tanpa penyelesaian.",
-      "failed": "Pembersihan gagal: {{message}}"
+      "failed": "Pembersihan gagal: {{message}}",
+      "engineApple": "Diperjelas dengan Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Siap di perangkat ini. Wispr Bro menggunakan fitur ini ketika model pembersihnya belum bisa dijalankan, misalnya saat sedang mengunduh.",
+        "available_default": "Siap di perangkat ini. Wispr Bro membersihkan dictasi dengan ini.",
+        "device_not_eligible": "Mac ini tidak dapat menjalankan Apple Intelligence. Wispr Bro menggunakan model pembersihnya sendiri.",
+        "not_enabled": "Apple Intelligence dinonaktifkan di System Settings. Wispr Bro menggunakan model pembersih sendiri.",
+        "model_not_ready": "Apple Intelligence masih mempersiapkan modelnya.",
+        "unsupported": "Apple Intelligence membutuhkan macOS 26 atau lebih baru. Wispr Bro menggunakan model pembersihnya sendiri.",
+        "unknown": "Kecerdasan Buatan Apple saat ini tidak tersedia."
+      },
+      "counts": "Since the app started: {{requests}} permintaan, {{refusals}} ditolak, {{rateLimited}} terbatas."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "Diekspor {{count}} snippet.",
       "done_other": "Diekspor {{count}} snippet.",
       "failed": "Snippet tidak bisa diekspor. Silakan coba lagi."
+    }
+  },
+  "cleanup": {
+    "title": "Pembersihan",
+    "loading": "Memuat tingkat pembersihan...",
+    "loadError": "Tidak dapat membaca tingkat pemrosesan: {{message}}",
+    "setError": "Perubahan tersebut tidak disimpan: {{message}}",
+    "notice": "Dipasang tanpa pembersihan",
+    "picker": {
+      "legend": "Seberapa banyak kata-kata Anda harus dibersihkan?",
+      "recommended": "Rekomendasi",
+      "aiChat": "Dalam aplikasi obrolan AI kata-kata Anda dimasukkan seperti yang Anda katakan, tanpa pemrosesan bersih oleh AI."
+    },
+    "levels": {
+      "none": {
+        "label": "Tidak ada",
+        "description": "Tepat seperti yang kamu katakan, hanya dengan spasi dan perintah suara yang diterapkan."
+      },
+      "light": {
+        "label": "Ringan",
+        "description": "Menghapus pengisi seperti \"um\" dan \"you know\", memperbaiki tanda baca dan huruf kapital, serta mempertahankan perbaikan Anda: \"at 2, actually 3\" menjadi \"at 3\"."
+      },
+      "medium": {
+        "label": "Sedang",
+        "description": "Semua yang ada di Cahaya, ditambah tata bahasa dan pengucapan yang lebih halus. Fakta dan makna Anda tetap sama."
+      }
+    },
+    "last": {
+      "title": "Pengucapan terakhir",
+      "none": "Tidak ada dictation sejak aplikasi dimulai.",
+      "applied_one": "Dihapus dalam {{ms}} ms, {{count}} perubahan.",
+      "applied_other": "Dihapus dalam {{ms}} ms, {{count}} perubahan.",
+      "partial": "Dihapus sebagian ({{applied}} dari {{total}} paragraf); sisanya seperti yang diucapkan: {{reason}}",
+      "checks": "Pemeriksaan keamanan yang menghentikannya: {{checks}}"
+    },
+    "why": {
+      "level_none": "Pembersihan dinonaktifkan.",
+      "empty": "Tidak ada yang perlu dibersihkan.",
+      "already_clean": "Sudah bersih, jadi mesin AI tidak diperlukan.",
+      "ai_chat": "Aplikasi obrolan AI: dimasukkan seperti yang Anda katakan.",
+      "not_ready": "Dipasang tanpa pembersihan: model pembersihan belum siap.",
+      "low_memory": "Dipasang tanpa pembersihan: memori gratis saat ini tidak cukup.",
+      "guard": "Dipasang tanpa penyelesaian: teks yang telah dibersihkan tidak lewat pengecekan keamanan.",
+      "timeout": "Dipasang tanpa pemrosesan: pemrosesan membutuhkan waktu terlalu lama.",
+      "error": "Dipasang tanpa pembersihan: mesin AI mengalami masalah."
+    },
+    "reason": {
+      "level_none": "pembersihan dinonaktifkan",
+      "empty": "tidak ada yang perlu dibersihkan",
+      "already_clean": "sudah bersih",
+      "ai_chat": "aplikasi obrolan AI",
+      "not_ready": "model pembersihan belum siap",
+      "low_memory": "memori yang tidak cukup",
+      "guard": "tidak lulus uji keamanan",
+      "timeout": "pembersihan membutuhkan waktu terlalu lama",
+      "error": "mesin AI mengalami masalah"
     }
   },
   "overrides": {

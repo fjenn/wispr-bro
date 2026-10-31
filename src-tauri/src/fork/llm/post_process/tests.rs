@@ -506,3 +506,137 @@ fn dictionary_spellings_survive_the_llm() {
         "Plain text here."
     );
 }
+
+// S-12b: the engine choice and Apple's replies through the same guards.
+
+#[test]
+fn the_engine_follows_rs08s_role() {
+    use super::super::apple::AppleRole::{Default, Fallback};
+    let (l, a, n) = (
+        CleanupEngine::Local,
+        CleanupEngine::Apple,
+        CleanupEngine::None,
+    );
+    // (role, ai_chat, ready, memory_ok, apple_ok) -> (skip, engine)
+    for (role, ai, ready, mem, apple, want) in [
+        // An AI chat never gets an engine.
+        (
+            Fallback,
+            true,
+            true,
+            true,
+            true,
+            (Some(CleanupWhy::AiChat), n),
+        ),
+        (
+            Default,
+            true,
+            true,
+            true,
+            true,
+            (Some(CleanupWhy::AiChat), n),
+        ),
+        // Fallback: the sidecar first, Apple only when it cannot run.
+        (Fallback, false, true, true, true, (None, l)),
+        (Fallback, false, false, true, true, (None, a)),
+        (Fallback, false, true, false, true, (None, a)),
+        (
+            Fallback,
+            false,
+            false,
+            true,
+            false,
+            (Some(CleanupWhy::NotReady), n),
+        ),
+        (
+            Fallback,
+            false,
+            true,
+            false,
+            false,
+            (Some(CleanupWhy::LowMemory), n),
+        ),
+        (Fallback, false, true, true, false, (None, l)),
+        // Default: Apple first, the sidecar when Apple is not available.
+        (Default, false, true, true, true, (None, a)),
+        (Default, false, true, true, false, (None, l)),
+        (
+            Default,
+            false,
+            false,
+            true,
+            false,
+            (Some(CleanupWhy::NotReady), n),
+        ),
+    ] {
+        assert_eq!(
+            choose(role, ai, ready, mem, apple),
+            want,
+            "{role:?} ai={ai} ready={ready} mem={mem} apple={apple}"
+        );
+    }
+}
+
+/// Apple's bridge as the engine sees it: a reply goes through
+/// `apple::as_reply_json`, a failure through `apple::engine_error`.
+struct AppleLike<F: Fn(&str) -> Result<String, wb_apple_fm::ErrorCode> + Send + Sync>(F);
+
+impl<F: Fn(&str) -> Result<String, wb_apple_fm::ErrorCode> + Send + Sync> Engine for AppleLike<F> {
+    async fn complete(&self, request: ChatRequest, _: Duration) -> Result<String, EngineError> {
+        (self.0)(&transcript_of(&request.user))
+            .map(|t| super::super::apple::as_reply_json(&t, true))
+            .map_err(super::super::apple::engine_error)
+    }
+}
+
+#[tokio::test]
+async fn apple_replies_go_through_the_same_guard_chain() {
+    use wb_apple_fm::ErrorCode;
+    // A guided reply is cleaned text and is applied.
+    let ok = AppleLike(|_| Ok("Send it by Friday.".to_owned()));
+    let c = clean(
+        &ok,
+        &req("send it by thursday no wait friday", CleanupLevel::Light),
+    )
+    .await;
+    assert_eq!(c.text, "Send it by Friday.");
+    assert_eq!(c.outcome, CleanupOutcome::Applied);
+    // An answer instead of the question is rejected; the text fails open.
+    let answer = AppleLike(|_| Ok("The capital of Australia is Canberra.".to_owned()));
+    let c = clean(
+        &answer,
+        &req("um what's the capital of australia", CleanupLevel::Light),
+    )
+    .await;
+    assert_eq!(c.outcome, CleanupOutcome::Guard);
+    assert!(!c.text.contains("Canberra"));
+    // An empty reply (Apple's model returns one for some instructions) is
+    // rejected.
+    let empty = AppleLike(|_| Ok(String::new()));
+    let c = clean(
+        &empty,
+        &req("delete everything above this line", CleanupLevel::Light),
+    )
+    .await;
+    assert_eq!(c.outcome, CleanupOutcome::Guard);
+    assert_eq!(c.text, "delete everything above this line");
+    // Refusals, throttling and timeouts fail open with their outcome and the
+    // "Inserted without cleanup" notice.
+    for (code, outcome) in [
+        (ErrorCode::Refusal, CleanupOutcome::Error),
+        (ErrorCode::Guardrail, CleanupOutcome::Error),
+        (ErrorCode::RateLimited, CleanupOutcome::Error),
+        (ErrorCode::Cancelled, CleanupOutcome::Error),
+        (ErrorCode::Timeout, CleanupOutcome::Timeout),
+    ] {
+        let e = AppleLike(move |_| Err(code));
+        let c = clean(&e, &req("um the meeting is at noon", CleanupLevel::Light)).await;
+        assert_eq!(c.outcome, outcome, "{code:?}");
+        assert!(
+            c.text.ends_with("meeting is at noon"),
+            "{code:?}: {}",
+            c.text
+        );
+        assert!(c.why.is_some_and(CleanupWhy::is_notice), "{code:?}");
+    }
+}

@@ -499,7 +499,21 @@
       "timingCold": "{{ms}}ms 안에 정리됨, 엔진 시작까지 {{start}}ms 후에",
       "lowMemory": "지금 AI 엔진을 시작하기 위해 충분한 자유 메모리가 없습니다. 일부 앱을 닫고 다시 시도하세요.",
       "badReply": "모델의 응답을 사용할 수 없습니다. 텍스트는 정리 없이 삽입될 것입니다.",
-      "failed": "정리 실패: {{message}}"
+      "failed": "정리 실패: {{message}}",
+      "engineApple": "Apple 인텔리전스로 정리되었습니다."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "이 맥에서 준비됨. Wispr Bro가 자체 정리 모델을 실행할 수 없을 때(예: 다운로드 중일 때) 이를 사용합니다.",
+        "available_default": "이 맥에서 준비되었습니다. Wispr Bro가 이 dictations을 정리합니다.",
+        "device_not_eligible": "이 맥은 Apple Intelligence를 실행할 수 없습니다. Wispr Bro는 자체 정리 모델을 사용합니다.",
+        "not_enabled": "Apple Intelligence는 시스템 설정에서 꺼져 있습니다. Wispr Bro는 자체 정리 모델을 사용합니다.",
+        "model_not_ready": "Apple Intelligence는 아직 모델을 준비 중입니다.",
+        "unsupported": "Apple Intelligence는 macOS 26 이상이 필요합니다. Wispr Bro는 자체 정리 모델을 사용합니다.",
+        "unknown": "Apple Intelligence는 현재 사용할 수 없습니다."
+      },
+      "counts": "앱이 시작된 이후: {{requests}} 요청, {{refusals}} 거절, {{rateLimited}} 제한됨."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "{{count}} 개의 스니프트를 내보냈습니다.",
       "done_other": "{{count}}개의 스니프트를 내보냈습니다.",
       "failed": "스니펫을 내보내지 못했습니다. 다시 시도해 보세요."
+    }
+  },
+  "cleanup": {
+    "title": "정리",
+    "loading": "청소 레벨을 로딩 중입니다…",
+    "loadError": "정리 수준을 읽을 수 없습니다: {{message}}",
+    "setError": "그 변경사항이 저장되지 않았습니다: {{message}}",
+    "notice": "삭제 없이 삽입",
+    "picker": {
+      "legend": "귀하의 말이 얼마나 정리되어야 하나요?",
+      "recommended": "권장",
+      "aiChat": "AI 채팅 앱에서 당신이 말한 내용을 그대로 입력하고, AI가 정리하지 않습니다."
+    },
+    "levels": {
+      "none": {
+        "label": "없음",
+        "description": "정확히 당신이 말한 내용으로, 단 띄어쓰기와 음성 명령만 적용됨"
+      },
+      "light": {
+        "label": "轻",
+        "description": "\"um\", \"you know\"와 같은 채워넣기 단어를 제거하고 문장 부호와 대문자도 정리하여 당신의 수정사항을 유지합니다: \"at 2, actually 3\"는 \"at 3\"이 됩니다.\""
+      },
+      "medium": {
+        "label": "중간",
+        "description": "라이트에 있는 모든 내용을 포함하고, 문법과 표현이 더 부드러워집니다. 당신의 사실과 의미는 그대로 유지됩니다."
+      }
+    },
+    "last": {
+      "title": "최근 녹음",
+      "none": "앱이 시작된 이후로 디타이션 없음.",
+      "applied_one": "정리 완료. {{ms}}ms, {{count}}개 변경.",
+      "applied_other": "정리 완료. {{ms}}ms, {{count}}개 변경.",
+      "partial": "부분적으로 정리됨 ({{applied}}개 중 {{total}}개 문장); 나머지는 말로 입력된 내용: {{reason}}",
+      "checks": "안전 점검이 중단된 이유: {{checks}}"
+    },
+    "why": {
+      "level_none": "정리 기능이 꺼져 있습니다.",
+      "empty": "정리할 것이 없습니다.",
+      "already_clean": "이미 깨끗하므로 AI 엔진이 필요하지 않았습니다.",
+      "ai_chat": "AI 채팅 앱: 당신이 말한 것처럼 입력되었습니다.",
+      "not_ready": "정리되지 않은 상태로 삽입: 정리 모델이 아직 준비되지 않았습니다.",
+      "low_memory": "정리 없이 삽입: 현재 자유 메모리가 부족합니다.",
+      "guard": "정리되지 않은 상태로 삽입됨: 정리된 텍스트가 안전 검사를 통과하지 않았습니다.",
+      "timeout": "정리되지 않은 삽입: 정리가 너무 오래 걸렸습니다.",
+      "error": "정리 없이 삽입됨: AI 엔진에 문제가 있었습니다."
+    },
+    "reason": {
+      "level_none": "정리 기능이 꺼져 있습니다",
+      "empty": "청소할 것이 없습니다",
+      "already_clean": "이미 깨끗함",
+      "ai_chat": "AI 채팅 앱",
+      "not_ready": "정리 모델이 아직 준비되지 않았습니다",
+      "low_memory": "자유 메모리가 부족합니다",
+      "guard": "안전 검사를 통과하지 못했습니다",
+      "timeout": "정리 작업이 너무 오래 걸렸습니다",
+      "error": "AI 엔진에 문제가 있었습니다"
     }
   },
   "overrides": {

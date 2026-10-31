@@ -23,7 +23,8 @@
 //!
 //! [`post_process`] is the `actions.rs` hook (R5 §4.2): it decides what the
 //! take may do (level, AI-chat skip by `is_ai_chat`, model ready, memory
-//! rule), runs [`clean`] on the sidecar, puts back dictionary spellings the
+//! rule) and on which engine ([`choose`]: the sidecar, or Apple's model per
+//! RS-08's [`super::apple::ROLE`], S-12b), runs [`clean`] on it, puts back dictionary spellings the
 //! LLM undid (stage 9 via `fork::text::note_rewrite`), records the outcome
 //! for the history row and tells the UI (`ForkCleanupResult`; the pill says
 //! "Inserted without cleanup" when `notice` is set, S-03).
@@ -1048,6 +1049,9 @@ pub enum Source {
 /// What the app lets this take do.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Plan {
+    /// The engine that cleans this take ([`CleanupEngine::None`] when it is
+    /// skipped).
+    pub engine: CleanupEngine,
     pub level: CleanupLevel,
     /// The dictionary's words (guards and prompt).
     pub words: Vec<String>,
@@ -1116,6 +1120,7 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
         None => hint_language(text, &spoken),
     };
     let mut plan = Plan {
+        engine: CleanupEngine::None,
         level,
         words: words.clone(),
         language,
@@ -1130,8 +1135,80 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
     let ready = rt.is_ready() && rt.supervisor().is_some();
     // The memory rule only matters once the model could run.
     let memory_ok = !ready || ai_chat || rt.memory_allows_start().await;
-    plan.skip = skip_reason(ai_chat, ready, memory_ok);
+    let apple_ok =
+        !ai_chat && super::apple::usable_for(plan.language.as_deref().or(plan.hint.as_deref()));
+    (plan.skip, plan.engine) = choose(super::apple::ROLE, ai_chat, ready, memory_ok, apple_ok);
     Some(plan)
+}
+
+/// The engine for a take that wants cleanup (S-12b), or why it goes without:
+/// an AI-chat target never gets one; with [`AppleRole::Default`] Apple's
+/// model comes first; the sidecar when its model is ready and the memory rule
+/// allows it; with [`AppleRole::Fallback`] Apple's model stands in when the
+/// sidecar cannot (model downloading or failed, or not enough free memory:
+/// Apple's model runs in a system process the memory rule does not cover);
+/// else [`skip_reason`].
+///
+/// [`AppleRole::Default`]: super::apple::AppleRole::Default
+/// [`AppleRole::Fallback`]: super::apple::AppleRole::Fallback
+pub fn choose(
+    role: super::apple::AppleRole,
+    ai_chat: bool,
+    ready: bool,
+    memory_ok: bool,
+    apple_ok: bool,
+) -> (Option<CleanupWhy>, CleanupEngine) {
+    use super::apple::AppleRole;
+    if ai_chat {
+        return (Some(CleanupWhy::AiChat), CleanupEngine::None);
+    }
+    if role == AppleRole::Default && apple_ok {
+        return (None, CleanupEngine::Apple);
+    }
+    if ready && memory_ok {
+        return (None, CleanupEngine::Local);
+    }
+    if apple_ok {
+        return (None, CleanupEngine::Apple);
+    }
+    (skip_reason(false, ready, memory_ok), CleanupEngine::None)
+}
+
+/// The last take's system prompt (no text of the take), so the next key-down
+/// can prewarm Apple's model with the same instructions (their dictionary
+/// terms and level).
+static LAST_SYSTEM: Mutex<Option<(CleanupLevel, String)>> = Mutex::new(None);
+
+/// Key-down (S-12b): prewarm Apple's model when it would clean this take
+/// ([`super::apple::ROLE`] Default, or the sidecar's model not ready), with
+/// the last take's instructions, else the plain prompt for the level.
+pub fn prewarm_apple<R: Runtime>(app: &AppHandle<R>) {
+    use super::apple::{AppleRole, ROLE};
+    let level = level(app);
+    if level == CleanupLevel::None {
+        return;
+    }
+    let local_ready = super::runtime::runtime(app).is_some_and(|rt| rt.is_ready());
+    if ROLE == AppleRole::Fallback && local_ready {
+        return;
+    }
+    let system = LAST_SYSTEM
+        .lock()
+        .unwrap_or_else(|p| p.into_inner())
+        .clone()
+        .filter(|(l, _)| *l == level)
+        .map(|(_, s)| s)
+        .unwrap_or_else(|| {
+            system_prompt(&Request {
+                text: "",
+                level,
+                language: None,
+                hint: None,
+                terms: &[],
+                keep: &[],
+            })
+        });
+    super::apple::prewarm(&system);
 }
 
 /// Why a take that wants cleanup must go without the LLM, in this order:
@@ -1185,23 +1262,31 @@ pub async fn run<R: Runtime>(
                 terms: &plan.terms,
                 keep: &plan.words,
             };
-            match super::runtime::runtime(app).and_then(|rt| rt.supervisor().cloned()) {
-                Some(sup) => {
-                    clean(
-                        &LocalEngine {
-                            supervisor: &sup,
-                            pill: true,
-                        },
-                        &req,
-                    )
-                    .await
+            if plan.engine == CleanupEngine::Apple {
+                *LAST_SYSTEM.lock().unwrap_or_else(|p| p.into_inner()) =
+                    Some((plan.level, system_prompt(&req)));
+                clean(&super::apple::AppleEngine::for_dictation(), &req).await
+            } else {
+                match super::runtime::runtime(app).and_then(|rt| rt.supervisor().cloned()) {
+                    Some(sup) => {
+                        clean(
+                            &LocalEngine {
+                                supervisor: &sup,
+                                pill: true,
+                            },
+                            &req,
+                        )
+                        .await
+                    }
+                    None => Cleaned::skipped(text, CleanupWhy::NotReady),
                 }
-                None => Cleaned::skipped(text, CleanupWhy::NotReady),
             }
         }
     };
     let engine = if cleaned.chunks.is_empty() {
         CleanupEngine::None
+    } else if plan.engine == CleanupEngine::Apple {
+        CleanupEngine::Apple
     } else {
         CleanupEngine::Local
     };

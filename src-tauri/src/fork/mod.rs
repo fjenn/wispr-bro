@@ -422,6 +422,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // S-10: stale sidecar kill, prewarm wiring, silent model download.
     llm::runtime::on_ready(app);
+    // S-12b: WISPRBRO_SELFCHECK_APPLE (Mac test).
+    llm::apple::selfcheck(app);
 
     // F-08 / DEC-39: report (without the path) whether `early_init` put the
     // Hugging Face cache under the app data dir.
@@ -526,6 +528,7 @@ macro_rules! fork_specta_builder {
                 commands::insights::fork_insights_usage::<$runtime>,
                 commands::insights::fork_insights_voice::<$runtime>,
                 commands::insights::fork_insights_save_image,
+                commands::llm::fork_llm_apple_status,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,

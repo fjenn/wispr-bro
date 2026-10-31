@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro's Apple Foundation Models bridge (R5 S-12b, RV-11): its own Swift
+# build and its own `wb_apple_fm_` symbols, so Handy's bridge
+# (`src-tauri/swift/apple_intelligence.swift`, `src-tauri/build.rs`) stays
+# untouched and the two never clash. Used only by `fork/llm/apple.rs`.
+
+[package]
+name = "wb-apple-fm"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+build = "build.rs"
+links = "wb_apple_fm"
+
+[lib]
+path = "src/lib.rs"

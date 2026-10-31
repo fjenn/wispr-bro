@@ -600,7 +600,21 @@
       "timingCold": "Cleaned in {{ms}} ms, after {{start}} ms to start the engine.",
       "lowMemory": "Not enough free memory to start the AI engine right now. Close some apps and try again.",
       "badReply": "The model's reply could not be used. Your text would be inserted without cleanup.",
-      "failed": "Cleanup failed: {{message}}"
+      "failed": "Cleanup failed: {{message}}",
+      "engineApple": "Cleaned with Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Ready on this Mac. Wispr Bro uses it when its own cleanup model can't run yet, for example while it downloads.",
+        "available_default": "Ready on this Mac. Wispr Bro cleans your dictations with it.",
+        "device_not_eligible": "This Mac can't run Apple Intelligence. Wispr Bro uses its own cleanup model.",
+        "not_enabled": "Apple Intelligence is off in System Settings. Wispr Bro uses its own cleanup model.",
+        "model_not_ready": "Apple Intelligence is still getting its model ready.",
+        "unsupported": "Apple Intelligence needs macOS 26 or later. Wispr Bro uses its own cleanup model.",
+        "unknown": "Apple Intelligence isn't available right now."
+      },
+      "counts": "Since the app started: {{requests}} requests, {{refusals}} declined, {{rateLimited}} throttled."
     }
   },
   "home": {

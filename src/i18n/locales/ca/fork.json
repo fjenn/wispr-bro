@@ -499,7 +499,21 @@
       "timingCold": "Neteja en {{ms}} ms, després de {{start}} ms per iniciar l'enginy.",
       "lowMemory": "No hi ha suficient memòria lliure per iniciar l'enginy de IA ara. Tancar alguns aplicacions i tornar a provar.",
       "badReply": "La resposta del model no es pot utilitzar. El teu text es inserirà sense neteja.",
-      "failed": "Ha fallat la neteja: {{message}}"
+      "failed": "Ha fallat la neteja: {{message}}",
+      "engineApple": "Neteja amb Intel·ligència d'Apple."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Ready en aquest Mac. Wispr Bro l'utilitza quan el seu model de neteja no pot executar-se encara, per exemple mentre descarrega.",
+        "available_default": "Ready aquest Mac. Wispr Bro neteja les teves dictacions amb això.",
+        "device_not_eligible": "Aquest Mac no pot executar l'Intel·ligència d'Apple. Wispr Bro utilitza el seu propi model de neteja.",
+        "not_enabled": "L'Intel·ligència d'Apple està desactivada a les opcions del sistema. Wispr Bro utilitza el seu propi model de neteja.",
+        "model_not_ready": "L'Intel·ligència d'Apple encara està preparant el model.",
+        "unsupported": "Apple Intelligence necessita macOS 26 o posterior. Wispr Bro utilitza el seu model de neteja.",
+        "unknown": "L'Intel·ligència d'Apple no està disponible en aquest moment."
+      },
+      "counts": "Des que l'aplicació ha començat: {{requests}} sol·licituds, {{refusals}} rejetades, {{rateLimited}} limitades."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "Exportat {{count}} fragment.",
       "done_other": "Exportat {{count}} fragments.",
       "failed": "Els snippets no es poden exportar. Si us plau, torni a intentar-ho."
+    }
+  },
+  "cleanup": {
+    "title": "Neteja",
+    "loading": "Carregant el nivell de neteja...",
+    "loadError": "No s'ha pogut llegir el nivell de neteja: {{message}}",
+    "setError": "Aquest canvi no ha estat desat: {{message}}",
+    "notice": "Inserit sense neteja",
+    "picker": {
+      "legend": "En quin grau han de netejar les paraules?",
+      "recommended": "Recomanat",
+      "aiChat": "A les aplicacions d'AI els teus paraules es introduïn com les has dit, sense neteja d'AI."
+    },
+    "levels": {
+      "none": {
+        "label": "Cap",
+        "description": "Exactament com el que dius, amb només espais i ordres de veu aplicades."
+      },
+      "light": {
+        "label": "Lluminància",
+        "description": "Elimina fillers comes \"um\" i \"you know\", corregix la puntuació i majúscules, i conserva les teves correccions: \"at 2, en realitat 3\" es converteix en \"at 3\"."
+      },
+      "medium": {
+        "label": "Mitjà",
+        "description": "Tots els elements de clar, més gramàtica i redacció fluida. Les teves dades i significat es mantenen iguals."
+      }
+    },
+    "last": {
+      "title": "La dita d'ahir",
+      "none": "No dictació des que va començar l'aplicació.",
+      "applied_one": "Neteja en {{ms}} ms, {{count}} canvi.",
+      "applied_other": "Neteja en {{ms}} ms, {{count}} canvis.",
+      "partial": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}",
+      "checks": "Comprovacions de seguretat que l'han parat: {{checks}}"
+    },
+    "why": {
+      "level_none": "La neteja està desactivada.",
+      "empty": "Res per netejar.",
+      "already_clean": "Ja net, per tant no necessitava l'enginy de l'IA.",
+      "ai_chat": "Aplicació d'interacció AI: inserida com has dit.",
+      "not_ready": "Inserit sense neteja: el model de neteja encara no està preparat.",
+      "low_memory": "Inserit sense neteja: no hi ha prou memòria lliure en aquest moment.",
+      "guard": "Inserit sense neteja: el text net no ha passat les comprovacions de seguretat.",
+      "timeout": "Inserit sense neteja: la neteja ha durat massa de temps.",
+      "error": "Inserit sense neteja: l'enginy de l'IA va tenir un problema."
+    },
+    "reason": {
+      "level_none": "la neteja està desactivada",
+      "empty": "res per netejar",
+      "already_clean": "ja net",
+      "ai_chat": "aplicació de conversa AI",
+      "not_ready": "el model de neteja encara no està preparat",
+      "low_memory": "memoria libera insuficient",
+      "guard": "no ha passat les comprovacions de seguretat",
+      "timeout": "la neteja ha durat massa temps",
+      "error": "l'enginy de l'IA va tenir un problema"
     }
   },
   "overrides": {

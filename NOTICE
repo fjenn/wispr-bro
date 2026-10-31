@@ -109,6 +109,36 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026 (injectable modifier wait, fn
   in the modifier set, Return for auto-submit, tests).
 
+- src-tauri/crates/wb-apple-fm/swift/fork_apple_fm.swift,
+  src-tauri/crates/wb-apple-fm/src/lib.rs
+  Source: hex, https://github.com/anomalyco/hex
+  Commit: f316831775f63106d41200578c4a752fe8c3e174
+  Files:  src/apple_intelligence.swift, src/apple_intelligence.rs
+  Copyright (c) 2026 Christopher Langton
+  Licence: MIT (LICENSES/MIT-hex.txt)
+  and MacParakeet, https://github.com/moona3k/macparakeet
+  Commit: 3ec699152f78df8adccba0cbff5cb968c9790947
+  File:   Sources/MacParakeetCore/Services/LLM/
+          FoundationModelsAppleIntelligenceGenerator.swift (error mapping)
+  Copyright (C) 2026 Daniel Moon
+  Licence: GPL-3.0
+  and TypeWhisper, https://github.com/TypeWhisper/typewhisper-mac
+  Commit: 4620bb59a804a2aeeaf5607cf10aa437c7589504
+  File:   TypeWhisper/Services/LLM/FoundationModelsProvider.swift (prewarm)
+  Copyright (c) 2026 TypeWhisper
+  Licence: GPL-3.0-or-later (LICENSE)
+  Modified by Wispr Bro contributors, 2026 (one cleanup call with
+  wb_apple_fm_ symbols, request ids for cancelling, the prewarmed session
+  reused once, numeric error codes only, guided or plain replies, greedy
+  sampling, a Rust stub where the Swift part is not built).
+
+- src-tauri/crates/wb-apple-fm/build.rs
+  Source: Handy, src-tauri/build.rs (build_apple_intelligence_bridge)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (own crate and symbols, no stub
+  Swift file).
+
 - src-tauri/crates/wb-handy-recorder/ (vendored crate)
   Source: handy-recorder 0.1.0, https://github.com/handy-computer/handy-recorder
   Commit: 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1 (crates/handy-recorder)

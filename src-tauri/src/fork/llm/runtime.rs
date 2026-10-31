@@ -85,6 +85,9 @@ pub struct ForkLlmTryResult {
     pub why: Option<super::post_process::CleanupWhy>,
     /// Guard checks that rejected the reply.
     pub guard_reasons: Vec<String>,
+    /// The engine that cleaned it (S-12b: Apple's model when it stands in
+    /// for the local one; `none` when no request was made).
+    pub engine: super::post_process::CleanupEngine,
 }
 
 /// `fork_llm_try` error.
@@ -407,6 +410,10 @@ fn has_speech_model<R: Runtime>(app: &AppHandle<R>) -> bool {
 
 fn on_recording_phase<R: Runtime>(app: &AppHandle<R>, phase: Option<&str>) {
     let Some(rt) = runtime(app) else { return };
+    if phase == Some("started") {
+        // S-12b: Apple's model too, when it would clean this take.
+        super::post_process::prewarm_apple(app);
+    }
     let action = {
         let mut p = lock(&rt.planner);
         match phase {
@@ -468,9 +475,20 @@ async fn on_wake<R: Runtime>(app: &AppHandle<R>) {
     }
 }
 
+/// Debug builds only (S-12b Mac test): the cleanup model is never checked
+/// or downloaded, so the app runs as if it were still downloading and Apple's
+/// model stands in (RS-08 fallback role).
+#[cfg(debug_assertions)]
+pub const HOLD_MODEL_ENV: &str = "WB_DEBUG_LLM_HOLD_MODEL";
+
 /// Starts the model check/download once (idempotent while one runs).
 pub fn start_download<R: Runtime>(app: &AppHandle<R>) {
     let Some(rt) = runtime(app) else { return };
+    #[cfg(debug_assertions)]
+    if crate::utils::env_flag_enabled(HOLD_MODEL_ENV) {
+        log::info!("llm: {HOLD_MODEL_ENV} is set; the cleanup model stays not ready");
+        return;
+    }
     let Some(model) = rt.model else { return };
     if rt.supervisor.is_none() || rt.is_ready() {
         return;
@@ -599,27 +617,10 @@ pub async fn try_cleanup<R: Runtime>(
     app: &AppHandle<R>,
     text: &str,
 ) -> Result<ForkLlmTryResult, ForkLlmError> {
-    let rt = runtime(app).ok_or(ForkLlmError::NotReady)?;
-    let sup = rt.supervisor.clone().ok_or(ForkLlmError::NotReady)?;
-    if !rt.is_ready() {
-        return Err(ForkLlmError::NotReady);
-    }
-    if !rt.memory_allows_start().await {
-        return Err(ForkLlmError::LowMemory);
-    }
-    let t0 = Instant::now();
-    let was_ready = sup.status().phase == ServerPhase::Ready && sup.is_running().await;
-    sup.ensure_ready().await.map_err(|e| match e {
-        StartError::NoModel => ForkLlmError::NotReady,
-        e => ForkLlmError::Failed(e.to_string()),
-    })?;
-    let start_ms = if was_ready {
-        0
-    } else {
-        u32::try_from(t0.elapsed().as_millis()).unwrap_or(u32::MAX)
-    };
-    use super::post_process::{clean, LocalEngine, Request};
+    use super::apple;
+    use super::post_process::{clean, Cleaned, CleanupEngine, LocalEngine, Request};
     use crate::fork::settings::CleanupLevel;
+    let rt = runtime(app).ok_or(ForkLlmError::NotReady)?;
     let level = match app
         .try_state::<crate::fork::settings::ForkSettingsHandle>()
         .and_then(|h| h.get(app).ok())
@@ -628,26 +629,65 @@ pub async fn try_cleanup<R: Runtime>(
         Some(CleanupLevel::Medium) => CleanupLevel::Medium,
         _ => CleanupLevel::Light,
     };
-    let cleaned = clean(
-        &LocalEngine {
-            supervisor: &sup,
-            pill: false,
-        },
-        &Request {
-            text,
-            level,
-            language: None,
-            hint: None,
-            terms: &[],
-            keep: &[],
-        },
-    )
-    .await;
+    let req = Request {
+        text,
+        level,
+        language: None,
+        hint: None,
+        terms: &[],
+        keep: &[],
+    };
+    let local_ready = rt.is_ready() && rt.supervisor.is_some();
+    let memory_ok = local_ready && rt.memory_allows_start().await;
+    let (skip, engine) = super::post_process::choose(
+        apple::ROLE,
+        false,
+        local_ready,
+        memory_ok,
+        apple::usable_for(None),
+    );
+    let (cleaned, start_ms): (Cleaned, u32) = match (skip, engine) {
+        (_, CleanupEngine::Apple) => {
+            let engine = apple::AppleEngine {
+                pill: false,
+                ..apple::AppleEngine::for_dictation()
+            };
+            (clean(&engine, &req).await, 0)
+        }
+        (_, CleanupEngine::Local) => {
+            let sup = rt.supervisor.clone().ok_or(ForkLlmError::NotReady)?;
+            let t0 = Instant::now();
+            let was_ready = sup.status().phase == ServerPhase::Ready && sup.is_running().await;
+            sup.ensure_ready().await.map_err(|e| match e {
+                StartError::NoModel => ForkLlmError::NotReady,
+                e => ForkLlmError::Failed(e.to_string()),
+            })?;
+            let start_ms = if was_ready {
+                0
+            } else {
+                u32::try_from(t0.elapsed().as_millis()).unwrap_or(u32::MAX)
+            };
+            let engine = LocalEngine {
+                supervisor: &sup,
+                pill: false,
+            };
+            (clean(&engine, &req).await, start_ms)
+        }
+        (Some(super::post_process::CleanupWhy::LowMemory), _) => {
+            return Err(ForkLlmError::LowMemory)
+        }
+        _ => return Err(ForkLlmError::NotReady),
+    };
     if let Some(e) = cleaned.chunks.iter().find_map(|c| c.error.clone()) {
         return Err(ForkLlmError::Failed(e));
     }
     Ok(ForkLlmTryResult {
         guard_reasons: cleaned.guard_reasons(),
+        engine: if cleaned.chunks.is_empty() {
+            CleanupEngine::None
+        } else {
+            engine
+        },
         cleaned: cleaned.text,
         cleanup_ms: cleaned.llm_ms,
         start_ms,

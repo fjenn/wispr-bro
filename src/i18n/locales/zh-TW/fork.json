@@ -499,7 +499,21 @@
       "timingCold": "清理耗時 {{ms}} ms，從 {{start}} ms 開始啟動引擎。",
       "lowMemory": "目前記憶體不足，無法啟動 AI 引擎。請關閉一些應用程式，再試一次。",
       "badReply": "模型的回覆無法使用。您的文字將會被插入且不進行清理。",
-      "failed": "清理失敗：{{message}}"
+      "failed": "清理失敗：{{message}}",
+      "engineApple": "以 Apple Intelligence 清理。"
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "已準備好於這台 Mac 上。當 Wispr Bro 自己的清理模型還無法運行時（例如下載中），會使用它。",
+        "available_default": "已準備好於這台 Mac。Wispr Bro 會使用它來清理你的語音輸入。",
+        "device_not_eligible": "這台 Mac 無法運行 Apple Intelligence。Wispr Bro 使用自己的清理模型。",
+        "not_enabled": "Apple Intelligence 在系統設定中已關閉。Wispr Bro 使用其自身的清理模型。",
+        "model_not_ready": "Apple Intelligence 還在準備模型中。",
+        "unsupported": "Apple Intelligence 需要 macOS 26 或更高版本。Wispr Bro 使用其自身的清理模型。",
+        "unknown": "目前 Apple Intelligence 還不可用。"
+      },
+      "counts": "自應用程式啟動以來：{{requests}} 個請求，{{refusals}} 個拒絕，{{rateLimited}} 個速率限制。"
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "已導出 {{count}} 個片段。",
       "done_other": "已導出 {{count}} 個片段。",
       "failed": "無法匯出片段。請再試一次。"
+    }
+  },
+  "cleanup": {
+    "title": "清理",
+    "loading": "正在載入清理等級…",
+    "loadError": "無法讀取清理等級：{{message}}",
+    "setError": "該變更未儲存：{{message}}",
+    "notice": "已插入且未清理",
+    "picker": {
+      "legend": "你的語句應該被清理到什麼程度？",
+      "recommended": "推薦",
+      "aiChat": "在 AI 聊天應用中，你的話會依照你說的內容直接插入，不會經過 AI 的清理。"
+    },
+    "levels": {
+      "none": {
+        "label": "無",
+        "description": "正是你說的內容，僅應用了空格和語音指令。"
+      },
+      "light": {
+        "label": "輕",
+        "description": "移除例如「um」和「you know」這樣的填充詞，修正標點符號和大寫，並保留你的更正：「at 2, actually 3」會變成「at 3」。"
+      },
+      "medium": {
+        "label": "中等",
+        "description": "所有輕度內容，加上更流暢的語法和用詞。你的事實和意義保持不變。"
+      }
+    },
+    "last": {
+      "title": "上次語音輸入",
+      "none": "沒有語音輸入自應用程式啟動以來。",
+      "applied_one": "已清理，耗時 {{ms}} 毫秒，共 {{count}} 次變更。",
+      "applied_other": "已清理，耗時 {{ms}} 毫秒，共 {{count}} 次變更。",
+      "partial": "已部分清理（已應用 {{applied}} 篇段，共 {{total}} 篇段）；其餘內容仍為口語輸入：{{reason}}",
+      "checks": "安全檢查中停止的項目：{{checks}}"
+    },
+    "why": {
+      "level_none": "清理已關閉。",
+      "empty": "沒有東西可清理。",
+      "already_clean": "已經乾淨了，所以不需要AI引擎。",
+      "ai_chat": "AI 聊天應用：依照你說的插入。",
+      "not_ready": "已插入且未清理：清理模型尚未準備好。",
+      "low_memory": "插入時未清理：目前自由記憶體不足。",
+      "guard": "插入時未清理：清理後的文本未通過安全檢查。",
+      "timeout": "插入時未清理：清理耗時過長。",
+      "error": "插入時未清理：AI引擎出現問題。"
+    },
+    "reason": {
+      "level_none": "清理已關閉",
+      "empty": "沒有東西可清理",
+      "already_clean": "已經乾淨",
+      "ai_chat": "AI 聊天應用",
+      "not_ready": "清理模型尚未準備好",
+      "low_memory": "記憶體不足",
+      "guard": "沒有通過安全檢查",
+      "timeout": "清理耗時過長",
+      "error": "AI引擎有問題"
     }
   },
   "overrides": {

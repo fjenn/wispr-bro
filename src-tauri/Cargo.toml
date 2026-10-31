@@ -101,6 +101,7 @@ csv = "1.4" # S-16 dictionary export (R4 import/export)
 encoding_rs = "0.8" # S-16 CSV import from older spreadsheet exports; already in the tree
 icu_normalizer = { version = "2.1", default-features = false, features = ["compiled_data"] } # S-17 snippet triggers and text compared in NFC, combining marks as word characters; already in the tree
 base64 = "0.22" # S-25 "Save as image": the PNG the page rendered; already in the tree
+wb-apple-fm = { path = "crates/wb-apple-fm" } # S-12b Apple Foundation Models bridge (own Swift build; a Rust stub elsewhere)
 # fork: Wispr Bro dependencies (end)
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]

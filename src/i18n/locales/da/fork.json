@@ -499,7 +499,21 @@
       "timingCold": "Rejst i {{ms}} ms, efter {{start}} ms til at starte engine'et.",
       "lowMemory": "Ikke nok ledig minde til at starte AI-ingeniør nu. Luk nogle programmer og prøv igen.",
       "badReply": "Modellen kunne ikke bruge svaret. Din tekst vil blive indsat uden rengøring.",
-      "failed": "Opklaringsfejl: {{message}}"
+      "failed": "Opklaringsfejl: {{message}}",
+      "engineApple": "Rejst med Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Færdig på denne Mac. Wispr Bro bruger det, når sit egen rengøring modul ikke kan køre endnu, f.eks. under download.",
+        "available_default": "Færdig på denne Mac. Wispr Bro rengør dine dictationer med det.",
+        "device_not_eligible": "Denne Mac kan ikke køre Apple Intelligence. Wispr Bro bruger sin egen rengøringsmodel.",
+        "not_enabled": "Apple Intelligence er deaktiveret i Systemindstillingerne. Wispr Bro bruger sin egen rengøringsmodel.",
+        "model_not_ready": "Apple Intelligence er stadig i proces for at få modellen klar.",
+        "unsupported": "Apple Intelligence kræver macOS 26 eller senere. Wispr Bro bruger sin egen rengøringsmodel.",
+        "unknown": "Apple Intelligence er ikke tilgængelig i øjeblikket."
+      },
+      "counts": "Siden appen startede: {{requests}} anmodninger, {{refusals}} afvist, {{rateLimited}} begrænset."
     }
   },
   "home": {
@@ -928,6 +942,62 @@
       "done_one": "Eksporteret {{count}} snippet.",
       "done_other": "Eksporteret {{count}} snippets.",
       "failed": "Snippeterne kunne ikke eksporteres. Prøv venligst igen."
+    }
+  },
+  "cleanup": {
+    "title": "Fjern sletning",
+    "loading": "Indlæser renholdningsniveauet...",
+    "loadError": "Kunne ikke læse rengøringsniveauet: {{message}}",
+    "setError": "Denne ændring blev ikke besat: {{message}}",
+    "notice": "Indsættes uden rengøring",
+    "picker": {
+      "legend": "Hvor meget bør dine ord være rene op?",
+      "recommended": "Anbefalet",
+      "aiChat": "I AI-chatapperne indsættes dine ord præcis som du sagde dem, uden AI-rensning."
+    },
+    "levels": {
+      "none": {
+        "label": "Ingen",
+        "description": "Præcis det, du sagde, med kun mellemrum og talekommandoer tilføjet."
+      },
+      "light": {
+        "label": "Lys",
+        "description": "Fjerner udfiller som \"um\" og \"you know\", retter punktuation og store bogstaver, og bevarer dine rettelser: \"at 2, faktisk 3\" bliver \"at 3\"."
+      },
+      "medium": {
+        "label": "Middel",
+        "description": "Alt i Lyse, plus mere smidig grammatik og formulering. Din fakta og betydning bliver ikke ændret."
+      }
+    },
+    "last": {
+      "title": "Sidste dictation",
+      "none": "Ingen dictation siden appen startede.",
+      "applied_one": "Fjernet i {{ms}} ms, {{count}} ændring.",
+      "applied_other": "Fjernet i {{ms}} ms, {{count}} ændringer.",
+      "partial": "Fjernet delvis ({{applied}} af {{total}} afsnit); resten er som talt: {{reason}}",
+      "checks": "Sikkerhedschecke, der stoppedped det: {{checks}}"
+    },
+    "why": {
+      "level_none": "Rejse er slået af.",
+      "empty": "Ingen ting at rydde op.",
+      "already_clean": "Allerede ren, så var AI-udgivelsen ikke nødvendig.",
+      "ai_chat": "AI-chatapp: Indsæt som du sagde det.",
+      "not_ready": "Indsat uden rengøring: rengøringssystemet er endnu ikke klar.",
+      "low_memory": "Indsæt uden rengøring: ikke nok ledig hukommelse nu.",
+      "guard": "Indsat uden rengøring: den rengørte tekst passede ikke safety kontrol.",
+      "timeout": "Indsat uden rengøring: rengøring tog for lang tid.",
+      "error": "Indsat uden rengøring: AI-motoren havde et problem."
+    },
+    "reason": {
+      "level_none": "rengøring er slået af",
+      "empty": "ingen ting at fjerne",
+      "already_clean": "allerede ren",
+      "ai_chat": "AI-chat-app",
+      "not_ready": "rejsemodellen er ikke klar endnu",
+      "low_memory": "ikke nok ledig hukommelse",
+      "guard": "det passed ikke de sikkerhedschecks",
+      "timeout": "fjernelse tog for langt tid",
+      "error": "AI-ingenen havde et problem"
     }
   },
   "overrides": {

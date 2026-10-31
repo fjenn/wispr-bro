@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! AI engine commands (S-10): status, "Try it", retry a failed download;
-//! S-12a: the last dictation's cleanup result.
+//! S-12a: the last dictation's cleanup result; S-12b: Apple's model.
 
 use tauri::{AppHandle, Runtime};
 
@@ -50,4 +50,12 @@ pub fn fork_llm_retry<R: Runtime>(app: AppHandle<R>) -> Result<ForkLlmStatus, Fo
 #[specta::specta]
 pub fn fork_llm_last_cleanup() -> Option<crate::fork::llm::post_process::ForkCleanupResult> {
     crate::fork::llm::post_process::last_result()
+}
+
+/// Apple's on-device model (S-12b): availability, its role (RS-08) and
+/// request counts since launch.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_llm_apple_status() -> crate::fork::llm::apple::ForkAppleStatus {
+    crate::fork::llm::apple::status()
 }

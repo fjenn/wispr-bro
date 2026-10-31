@@ -2457,6 +2457,7 @@ dependencies = [
  "tokio",
  "transcribe-cpp",
  "unicode-segmentation",
+ "wb-apple-fm",
  "webview2-com",
  "whatlang",
  "windows 0.61.3",
@@ -7780,6 +7781,10 @@ checksum = "1e6dbfc3ac5ef974c92a2235805cc0114033018ae1290a72e474aa8b28cbbdfd"
 dependencies = [
  "pkg-config",
 ]
+
+[[package]]
+name = "wb-apple-fm"
+version = "0.1.0"
 
 [[package]]
 name = "web-sys"

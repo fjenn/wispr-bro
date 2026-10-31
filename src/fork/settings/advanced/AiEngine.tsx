@@ -4,7 +4,8 @@
  * model is ready and lets the user try it on a sample sentence, cleaned the
  * way a dictation would be (S-12a: level, gate, guards). Lives on the
  * fork debug panel until S-14 builds the Settings modal, which mounts this
- * same component.
+ * same component. S-12b: the Apple Intelligence row below it, and Try it
+ * also runs on Apple's model while it stands in for the cleanup model.
  */
 import { useCallback, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +18,7 @@ import {
 } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
 import { Button } from "../../ui";
+import { AppleEngine, useAppleStatus } from "./AppleEngine";
 
 type TryState =
   | { kind: "idle" }
@@ -45,6 +47,9 @@ export function AiEngine() {
   const [text, setText] = useState(() => t("aiEngine.try.sample"));
   const [tryState, setTryState] = useState<TryState>({ kind: "idle" });
   const textId = useId();
+  const apple = useAppleStatus(
+    tryState.kind === "done" ? tryState.result : null,
+  );
 
   useEffect(() => {
     let disposed = false;
@@ -96,6 +101,8 @@ export function AiEngine() {
 
   const percent = downloadPercent(status);
   const ready = status.state === "ready";
+  // Try it also works while Apple's model stands in for the cleanup model.
+  const canTry = ready || apple?.availability === "available";
   const serverKey = `aiEngine.server.${status.server.phase}`;
 
   return (
@@ -160,16 +167,16 @@ export function AiEngine() {
             variant="primary"
             data-testid="fork-ai-engine-try"
             disabled={
-              !ready || tryState.kind === "running" || text.trim() === ""
+              !canTry || tryState.kind === "running" || text.trim() === ""
             }
-            aria-describedby={ready ? undefined : `${textId}-hint`}
+            aria-describedby={canTry ? undefined : `${textId}-hint`}
             onClick={() => void tryIt()}
           >
             {tryState.kind === "running"
               ? t("aiEngine.try.running")
               : t("aiEngine.try.button")}
           </Button>
-          {!ready && (
+          {!canTry && (
             <p id={`${textId}-hint`} className="mt-1 text-xs text-ink-3">
               {t("aiEngine.try.notReady")}
             </p>
@@ -188,6 +195,14 @@ export function AiEngine() {
                   data-testid="fork-ai-engine-why"
                 >
                   {t(`cleanup.why.${tryState.result.why}`)}
+                </p>
+              )}
+              {tryState.result.engine === "apple" && (
+                <p
+                  className="text-xs text-ink-2"
+                  data-testid="fork-ai-engine-engine"
+                >
+                  {t("aiEngine.try.engineApple")}
                 </p>
               )}
               <p className="text-xs text-ink-3">
@@ -220,6 +235,7 @@ export function AiEngine() {
           )}
         </div>
       </div>
+      <AppleEngine status={apple} />
     </div>
   );
 }
