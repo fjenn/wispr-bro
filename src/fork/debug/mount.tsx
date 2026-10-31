@@ -31,6 +31,8 @@ registerForkDebugSection({
   id: "ai-engine",
   titleKey: "aiEngine.title",
   render: () => <AiEngine />,
+});
+
 // S-03: the Flow Bar settings, until S-14's Settings modal.
 registerForkDebugSection({
   id: "bar",

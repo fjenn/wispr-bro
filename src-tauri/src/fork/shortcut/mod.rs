@@ -473,9 +473,9 @@ fn physical_flags() -> Option<u64> {
     {
         #[link(name = "CoreGraphics", kind = "framework")]
         extern "C" {
-            fn CGEventSourceFlagsState(state_id: u32) -> u64;
+            fn CGEventSourceFlagsState(state_id: i32) -> u64;
         }
-        const HID_SYSTEM_STATE: u32 = 1;
+        const HID_SYSTEM_STATE: i32 = 1;
         // SAFETY: a pure query with a valid state id.
         Some(unsafe { CGEventSourceFlagsState(HID_SYSTEM_STATE) })
     }
