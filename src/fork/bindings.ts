@@ -1774,7 +1774,11 @@ export type PillFix =
 /**
  * Starts the speech model download again (S-07a).
  */
-"retry_download"
+"retry_download" | 
+/**
+ * Brings the cancelled take back (S-06).
+ */
+"undo"
 /**
  * A message or an error after (or instead of) a take. The English copy is
  * in `fork.json` > `pill.message.<kind>`.
@@ -1823,7 +1827,20 @@ export type PillMessage =
 /**
  * Not enough free disk space for the speech model (S-07a).
  */
-"no_space"
+"no_space" | 
+/**
+ * A take was cancelled; Undo brings it back for
+ * [`crate::fork::recovery::UNDO_WINDOW_MS`] (S-06).
+ */
+"cancelled" | 
+/**
+ * Paste-last or copy-last found no transcript in History (S-06).
+ */
+"no_transcript" | 
+/**
+ * Copy-last put the last transcript on the clipboard (S-06).
+ */
+"copied_last"
 /**
  * What the active bar is doing (the web view's `state`).
  */
