@@ -34,7 +34,16 @@ for (const item of items) {
   const aiff = path.join(outDir, `${item.id}.aiff`);
   const wav = path.join(outDir, `${item.id}.wav`);
   run("/usr/bin/say", ["-v", voice, "-o", aiff, item.said]);
-  run("/usr/bin/afconvert", ["-f", "WAVE", "-d", "LEI16@16000", "-c", "1", aiff, wav]);
+  run("/usr/bin/afconvert", [
+    "-f",
+    "WAVE",
+    "-d",
+    "LEI16@16000",
+    "-c",
+    "1",
+    aiff,
+    wav,
+  ]);
   fs.rmSync(aiff);
 }
 console.log(`${items.length} WAVs in ${outDir} (${voice})`);
