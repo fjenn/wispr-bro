@@ -80,6 +80,7 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::n
             include_str!("migrations/0004_dictionary.sql"),
             crate::fork::dictionary::store::migrate_v4,
         ),
+        M::up(include_str!("migrations/0005_notifications.sql")),
     ]
 });
 
@@ -283,13 +284,16 @@ pub fn register<R: Runtime, A: Manager<R>>(app: &A) {
 
 /// Called after a corrupted `fork.db` was moved aside and recreated.
 ///
-/// Only logs for now. S-18 turns this into a notifications inbox entry.
+/// Logs, and queues a notifications inbox entry (S-18) that `fork::notify`
+/// posts once the new database is open. Called from inside the open path, so
+/// it never touches the database itself.
 pub fn report_db_recovered(db_path: &Path, moved_to: &[PathBuf], reason: &str) {
     log::warn!(
         "fork.db at {} could not be used ({reason}); moved it aside to {:?} and created a new one",
         db_path.display(),
         moved_to
     );
+    crate::fork::notify::queue_data_recovered(db_path);
 }
 
 /// Opens one connection with the fork's pragmas, without migrating. Used by

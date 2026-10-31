@@ -2389,6 +2389,7 @@ version = "1.0.0-alpha.1"
 dependencies = [
  "aho-corasick",
  "anyhow",
+ "block2",
  "chrono",
  "clap",
  "csv",
@@ -2412,6 +2413,7 @@ dependencies = [
  "objc2-app-kit",
  "objc2-foundation",
  "objc2-service-management",
+ "objc2-user-notifications",
  "once_cell",
  "regex",
  "reqwest 0.12.28",
@@ -3999,6 +4001,8 @@ version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9df9128cbbfef73cda168416ccf7f837b62737d748333bfe9ab71c245d76613e"
 dependencies = [
+ "bitflags 2.11.0",
+ "block2",
  "objc2",
  "objc2-foundation",
 ]

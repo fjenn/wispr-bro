@@ -916,8 +916,17 @@ mod tests {
     /// invoke handler.
     fn build_app(cli_args: CliArgs) -> App<MockRuntime> {
         let headless = fork::is_headless(&cli_args);
+        // S-18's `on_ready` reads the fork settings and writes `fork.db`:
+        // keep both in a temp dir, never in the mock identifier's real app
+        // data dir.
+        let dir = tempfile::tempdir().expect("temp dir").keep();
         mock_builder()
+            .manage(fork::settings::ForkSettingsHandle::new(
+                dir.join("fork-settings.json"),
+            ))
+            .manage(fork::db::ForkDb::in_dir(&dir))
             .plugin(fork::init())
+            .plugin(tauri_plugin_store::Builder::default().build())
             .manage(cli_args)
             .setup(move |app| {
                 if !headless {

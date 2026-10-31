@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Thông báo",
+      "permission": "quyền macOS: {{state}}",
+      "kind": "Loại",
+      "delay": "Trễ (s)",
+      "post": "Gửi mẫu",
+      "posted": "Đang đăng trong {{seconds}} giây. Chuyển sang một ứng dụng khác để xem thông báo của macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Thông báo, {{count}} chưa đọc",
+      "bellUnread_other": "Thông báo, {{count}} chưa đọc",
+      "filter": {
+        "label": "Hiện",
+        "all": "Tất cả",
+        "unread": "Chưa đọc"
+      },
+      "more": "Các lựa chọn thông báo khác",
+      "markAllRead": "Chỉ định tất cả như đã đọc",
+      "groups": {
+        "show": "Hiện trong danh sách này",
+        "mac": "Trên Mac này"
+      },
+      "toggles": {
+        "suggestions": "Gợi ý",
+        "announcements": "Các thông báo",
+        "milestones": "Các mốc",
+        "system": "Thông báo Mac"
+      },
+      "list": "Thông báo",
+      "unreadDot": "Chưa đọc",
+      "emptyUnread": {
+        "title": "Không có điều gì mới",
+        "body": "Bạn đã đọc hết mọi nội dung."
+      },
+      "loadFailed": "Không thể tải thông báo.",
+      "actionFailed": "Đó không thành công. Hãy thử lại.",
+      "copied": "Đã sao chép bản đọc chính tả mới nhất",
+      "nothingToCopy": "Chưa có nội dung ghi âm nào để sao chép",
+      "justNow": "Vừa rồi"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Mới trong phiên bản này",
+      "dismiss": "Được rồi",
+      "open": "Hãy cho tôi xem"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Đọc chính tả đã sẵn sàng",
+        "body": "Mô hình giọng nói đã hoàn thành việc tải xuống. Nhấn và giữ phím fn trong bất kỳ ứng dụng nào rồi bắt đầu nói."
+      },
+      "updateReady": {
+        "title": "Cập nhật sẵn sàng",
+        "body": "{{appName}} {{version}} sẽ cài đặt lần tiếp theo khi ứng dụng được khởi động lại."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} bản đọc chính tả đã sẵn sàng",
+        "title_other": "{{count}} bản ghi sẵn sàng",
+        "body": "Điều bạn nói khi mô hình phát âm chưa có đã được ghi lại."
+      },
+      "shortcutProblem": {
+        "title": "Tắt tắt nhanh của bạn không đang hoạt động",
+        "body": "{{appName}} không thể bắt đầu lắng nghe phím fn. Mở Cài đặt để kiểm tra phím tắt của bạn.",
+        "bodyPermission": "{{appName}} cần quyền Truy cập Tính năng để nghe fn. Bật nó trong Cài đặt Hệ thống."
+      },
+      "crashReport": {
+        "title": "{{appName}} đã thoát bất ngờ",
+        "body": "Đã lưu báo cáo sự cố trên máy Mac này. Không có gì được gửi đi đâu."
+      },
+      "dataRecovered": {
+        "title": "Tệp lịch sử của bạn đã được sửa chữa",
+        "body": "Không thể đọc được, do đó đã bắt đầu một file mới. File bị hỏng được giữ bên cạnh nó."
+      },
+      "milestoneWords": {
+        "title": "{{words}} từ được ghi âm",
+        "body": "Đó là {{words}} từ bạn không cần phải đánh. Chúc mừng."
+      },
+      "milestoneStreak": {
+        "title": "dãy {{days}} ngày",
+        "body": "Bạn đã ghi âm liên tục trong {{days}} ngày."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Nói mà không cần giữ phím",
+          "body": "Nhấn hai lần phím fn, hoặc nhấn fn và phím Space, để bật chế độ không cần chạm tay. Nhấn lại phím fn khi bạn đã xong."
+        },
+        "cancel": {
+          "title": "Đã thay đổi ý kiến chưa?",
+          "body": "Nhấn Esc khi bạn đang nói và bản ghi sẽ bị hủy. Không có gì được dán vào."
+        },
+        "history": {
+          "title": "Mỗi bản ghi giọng nói đều được lưu giữ",
+          "body": "Các bản ghi giọng nói của bạn sẽ được lưu trên máy Mac này. Mở Lịch sử để sao chép lại một bản."
+        },
+        "darkMode": {
+          "title": "Sáng hoặc tối",
+          "body": "Nút trăng ở trên cửa sổ này đổi kiểu hiển thị."
+        },
+        "customWords": {
+          "title": "Giáo dục nó những từ của bạn",
+          "body": "Thêm các tên và cụm từ bạn sử dụng thường xuyên để chúng luôn được đánh dấu chính xác mỗi lần."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Các thông báo của bạn được lưu ở đây",
+          "body": "Tải về, mốc quan trọng và lời khuyên giờ đây sẽ được tập trung phía sau hình chuông. Chọn những nội dung bạn muốn nhận trong menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Sao chép bản mới nhất",
+        "open": "Mở",
+        "openAccessibility": "Mở Cài đặt"
       }
     }
   },

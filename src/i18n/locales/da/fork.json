@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notifikationer",
+      "permission": "macOS tilladelse: {{state}}",
+      "kind": "Type",
+      "delay": "Forsinkelse (s)",
+      "post": "Post eksempel",
+      "posted": "Sender i {{seconds}} s. Skift til en anden app for at se en macOS-notifikation."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notifikationer, {{count}} u læst",
+      "bellUnread_other": "Notifikationer, {{count}} u læst",
+      "filter": {
+        "label": "Vis",
+        "all": "Alle",
+        "unread": "Ikke læst"
+      },
+      "more": "Yderligere notifikationsmuligheder",
+      "markAllRead": "Marker alle som læst",
+      "groups": {
+        "show": "Vis i denne liste",
+        "mac": "På denne Mac"
+      },
+      "toggles": {
+        "suggestions": "Forslag",
+        "announcements": "Anmeldelser",
+        "milestones": "Målposter",
+        "system": "Mac-notifikationer"
+      },
+      "list": "Notifikationer",
+      "unreadDot": "Ikke læst",
+      "emptyUnread": {
+        "title": "Ingen nyhed",
+        "body": "Du har læst alt."
+      },
+      "loadFailed": "Notifikationer kunne ikke indlæses.",
+      "actionFailed": "Det fungerede ikke. Prøv igen.",
+      "copied": "Seneste diktat kopieret",
+      "nothingToCopy": "Intet diktat at kopiere endnu",
+      "justNow": "Juster nu"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Ny i denne version",
+      "dismiss": "Jeg har det",
+      "open": "Vis mig"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Diktering er klar",
+        "body": "Talmodellen er færdig med at downloade. Hold fn i enhver app og begynd at sige."
+      },
+      "updateReady": {
+        "title": "Opdatering klar",
+        "body": "{{appName}} {{version}} installer den næste gang appen starts."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} diktat klar",
+        "title_other": "{{count}} diktater klar",
+        "body": "Det du sagde, mens talemodellen manglende, er blevet omdannet."
+      },
+      "shortcutProblem": {
+        "title": "Din genvej fungerer ikke",
+        "body": "{{appName}} kunne ikke starte at lytte til fn. Åbn indstillinger for at tjekke din genvej.",
+        "bodyPermission": "{{appName}} har brug for adgang til Accessibility for at høre fn. Åbn det i Systemindstillingerne."
+      },
+      "crashReport": {
+        "title": "{{appName}} afbrudt uventet",
+        "body": "En krashtilfælde blev beskrevet på denne Mac. Ingen blev sendt nenhvor."
+      },
+      "dataRecovered": {
+        "title": "Din historiefil er repareret",
+        "body": "Det kunne ikke læses, så blev der startet et nyt. Den skadede fil blev bevaret ved siden af det."
+      },
+      "milestoneWords": {
+        "title": "{{words}} ord dikteret",
+        "body": "Det er {{words}} ord, du ikke skulle skrive. God job."
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-dage strek",
+        "body": "Du har dictateret på {{days}} dage i træk."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Tal uden at holde en tast",
+          "body": "Dobbelttryk fn, eller tryk fn og mellemrum, for håndfri mode. Tryk på fn igen, når du er færdig."
+        },
+        "cancel": {
+          "title": "Skiftet din sind?",
+          "body": "Tryk på Esc mens du taler og bliver dictationen afbrudt. Ingen tekst bliver indsat."
+        },
+        "history": {
+          "title": "Hver dictation bliver bevaret",
+          "body": "Dit dictation holder sig på denne Mac. Åbn Historik for at kopiere en igen."
+        },
+        "darkMode": {
+          "title": "Lyse eller mørk",
+          "body": "Knappen måne i toppen af dette vindue skifter udseendet."
+        },
+        "customWords": {
+          "title": "Lær det dine ord",
+          "body": "Tilføj navne og ord, du bruger ofte, så de skrives korrekt hver gang."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Dine notifikationer leverer her",
+          "body": "Downloads, milepæler og tips samles nu bag hornet. Vælg, hvad du får, i menuen."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Kopier seneste",
+        "open": "Åbn",
+        "openAccessibility": "Åbn indstillinger"
       }
     }
   },

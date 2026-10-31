@@ -36,8 +36,10 @@ import {
   HandyAppHandlersContext,
   type HandyAppHandlers,
 } from "./HandySettingsPage";
+import { FeaturePopup } from "./FeaturePopup";
 import { Header } from "./Header";
 import { syncHubWithHash, useHubNav } from "./nav";
+import { useNotificationsLive } from "./NotificationsPanel";
 import { hubPage, newTagId } from "./pages";
 import { Sidebar } from "./Sidebar";
 import "../styles/fonts.css";
@@ -102,6 +104,7 @@ export function ForkApp(props: ForkAppProps) {
 
   useOverlayTitleBar();
   useDropRouter();
+  useNotificationsLive();
   useEffect(() => syncHubWithHash(), []);
 
   // Each navigation starts at the top of the page.
@@ -151,6 +154,9 @@ export function ForkApp(props: ForkAppProps) {
         </button>
         <ErrorBoundary context="What's New">
           <WhatsNewGate />
+        </ErrorBoundary>
+        <ErrorBoundary context="Feature popup">
+          <FeaturePopup />
         </ErrorBoundary>
         <Sidebar collapsed={collapsed} />
         <div className="flex min-w-0 flex-1 flex-col">

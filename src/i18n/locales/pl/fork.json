@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Powiadomienia",
+      "permission": "Opcja macOS: {{state}}",
+      "kind": "Rodzaj",
+      "delay": "Opóźnienie (s)",
+      "post": "Przykład postu",
+      "posted": "Wyświetlanie w {{seconds}} s. Przełącz się na inny program, aby zobaczyć powiadomienie macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Powiadomienia, {{count}} nieprzeczytane",
+      "bellUnread_other": "Powiadomienia, {{count}} nieprzeczytane",
+      "filter": {
+        "label": "Pokaż",
+        "all": "Wszystkie",
+        "unread": "Nieprzeczytane"
+      },
+      "more": "Więcej opcji powiadomień",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "groups": {
+        "show": "Pokaż w tej liście",
+        "mac": "Na tym Macie"
+      },
+      "toggles": {
+        "suggestions": "Sugestie",
+        "announcements": "Ogłoszenia",
+        "milestones": "Markowanie punktów",
+        "system": "Powiadomienia Mac"
+      },
+      "list": "Powiadomienia",
+      "unreadDot": "Nieprzeczytane",
+      "emptyUnread": {
+        "title": "Nic nowego",
+        "body": "Czytane wszystko."
+      },
+      "loadFailed": "Nie udało się załadować powiadomień.",
+      "actionFailed": "To nie działało. Spróbuj ponownie.",
+      "copied": "Ostatnia dictacja skopiowana",
+      "nothingToCopy": "Brak dictacji do kopiowania jeszcze",
+      "justNow": "Przecież teraz"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Nowe w tej wersji",
+      "dismiss": "Rozumiem",
+      "open": "Pokaż mi"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dictacja jest gotowa",
+        "body": "Model mowy został pomyślnie pobrany. Wpisz fn w dowolnym programie i zacznij mówić."
+      },
+      "updateReady": {
+        "title": "Aktualizacja gotowa",
+        "body": "{{appName}} {{version}} zainstaluje się następnym razem, gdy aplikacja zostanie uruchomiona."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictacja gotowa",
+        "title_other": "{{count}} dictacji gotowych",
+        "body": "Co powiedziałeś, gdy model mowy był nie dostępny, zostało przetłumaczone."
+      },
+      "shortcutProblem": {
+        "title": "Twoj skrót nie działa",
+        "body": "{{appName}} nie może zacząć słuchania funkcji. Otwórz Ustawienia, aby sprawdzić swój skrót.",
+        "bodyPermission": "{{appName}} potrzebuje dostępu do Dostępu do dostępności, aby słyszeć fn. Włącz to w Ustawieniach systemu."
+      },
+      "crashReport": {
+        "title": "{{appName}} nie uruchomił się nieoczekiwanie",
+        "body": "Zapisano raport o awarii na tym Macu. Nic nie zostało wysłane gdzieś."
+      },
+      "dataRecovered": {
+        "title": "Plik historii został naprawiony",
+        "body": "Nie dało się odczytać, więc został utworzony nowy plik. Uszkodzony plik został zachowany obok niego."
+      },
+      "milestoneWords": {
+        "title": "{{words}} słów przekazanych",
+        "body": "To jest {{words}} słów, które nie musieliście wpisać. Dobrze zrobiłeś."
+      },
+      "milestoneStreak": {
+        "title": "ciąg {{days}}-dniowy",
+        "body": "Wykonałeś dictację w ciągu {{days}} dni pod rząd."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Mów beztrzymania klawisza",
+          "body": "Dwa razy naciśnij fn, lub naciśnij fn i przestrzeń, aby włączyć tryb bez rąk. Ponownie naciśnij fn, gdy zakończysz."
+        },
+        "cancel": {
+          "title": "Zmieniłeś zdanie?",
+          "body": "Naciśnij Esc podczas mówienia i dictacja będzie anulowana. Nic nie wkleje się."
+        },
+        "history": {
+          "title": "Każda dictacja jest zachowana",
+          "body": "Twoje dictacje pozostają na tym Macie. Otwórz Historię, aby skopiować ponownie jedno."
+        },
+        "darkMode": {
+          "title": "Jasny lub ciemny",
+          "body": "Przycisk księżycowy w górze tego okna zmienia wygląd."
+        },
+        "customWords": {
+          "title": "Naucz go Twoich słów",
+          "body": "Dodaj imiona i wyrażenia, które często używasz, aby były zapisywane poprawnie zawsze."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Twoje powiadomienia są tutaj",
+          "body": "Pliki, punkty i wskazówki teraz są zbierane za zamek. Wybierz, co otrzymujesz, w jego menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Skopiuj ostatni",
+        "open": "Otwórz",
+        "openAccessibility": "Otwórz Ustawienia"
       }
     }
   },

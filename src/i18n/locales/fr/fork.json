@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "permission": "permission macOS : {{state}}",
+      "kind": "Type",
+      "delay": "Délai (s)",
+      "post": "Exemple de publication",
+      "posted": "Envoi en {{seconds}} s. Passer à une autre application pour voir une notification macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notifications, {{count}} non lues",
+      "bellUnread_other": "Notifications, {{count}} non lues",
+      "filter": {
+        "label": "Afficher",
+        "all": "Tout",
+        "unread": "Non lu"
+      },
+      "more": "Plus d'options de notifications",
+      "markAllRead": "Marquer tout comme lu",
+      "groups": {
+        "show": "Afficher dans cette liste",
+        "mac": "Sur ce Mac"
+      },
+      "toggles": {
+        "suggestions": "Suggestions",
+        "announcements": "Annonces",
+        "milestones": "Les jalons",
+        "system": "Notifications Mac"
+      },
+      "list": "Notifications",
+      "unreadDot": "Non lu",
+      "emptyUnread": {
+        "title": "Rien de nouveau",
+        "body": "Vous avez lu tout cela."
+      },
+      "loadFailed": "Les notifications ne peuvent pas être chargées.",
+      "actionFailed": "Cela n'a pas fonctionné. Réessayer.",
+      "copied": "Dernière dictation copiée",
+      "nothingToCopy": "Aucune dictation à copier encore",
+      "justNow": "Il y a tout à l'heure"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Nouveau dans cette version",
+      "dismiss": "J'ai compris",
+      "open": "Montrez-moi"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "La dictation est prête",
+        "body": "Le modèle de reconnaissance vocale est terminé. Tenez enfoncé fn dans n'importe quelle application et commencez à parler."
+      },
+      "updateReady": {
+        "title": "Mise à jour prête",
+        "body": "{{appName}} {{version}} installe la prochaine fois que l'application est redémarrée."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictation prête",
+        "title_other": "{{count}} dictations prêtes",
+        "body": "Ce que vous avez dit lorsque le modèle de parole était absent a été transcrit."
+      },
+      "shortcutProblem": {
+        "title": "Votre raccourci ne fonctionne pas",
+        "body": "{{appName}} ne peut pas commencer à écouter fn. Ouvrez les paramètres pour vérifier votre raccourci.",
+        "bodyPermission": "{{appName}} a besoin d'accès à Accessibility pour entendre fn. Activez-le dans les paramètres du système."
+      },
+      "crashReport": {
+        "title": "{{appName}} a quitté inattendument",
+        "body": "Un rapport de crash a été enregistré sur ce Mac. Rien n'a été envoyé ailleurs."
+      },
+      "dataRecovered": {
+        "title": "Votre fichier d'historique a été réparé",
+        "body": "Il ne pouvait pas être lu, donc un nouveau fichier a été créé. Le fichier endommagé a été conservé à côté."
+      },
+      "milestoneWords": {
+        "title": "{{words}} mots dictés",
+        "body": "Cela fait {{words}} mots que vous n'avez pas eu à taper. Bon travail."
+      },
+      "milestoneStreak": {
+        "title": "Séquence de {{days}} jours",
+        "body": "Vous avez dicté sur {{days}} jours consécutifs."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Parlez sans tenir une touche",
+          "body": "Double-clique sur fn, ou appuyez sur fn et espace, pour le mode mains libres. Appuyez à nouveau sur fn lorsque vous êtes prêt."
+        },
+        "cancel": {
+          "title": "Vous avez changé d'avis ?",
+          "body": "Appuyez sur Esc pendant que vous parlez et la dictée est annulée. Rien n'est collé."
+        },
+        "history": {
+          "title": "Chaque dictée est conservée",
+          "body": "Vos dictations restent sur ce Mac. Ouvrez l'Historique pour en copier une autre."
+        },
+        "darkMode": {
+          "title": "Clair ou sombre",
+          "body": "Le bouton lune en haut de cette fenêtre permet de changer l'apparence."
+        },
+        "customWords": {
+          "title": "Enseigne-lui tes mots",
+          "body": "Ajoutez des noms et des termes que vous utilisez souvent afin qu'ils soient correctement orthographiés chaque fois."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Vos notifications sont ici",
+          "body": "Les téléchargements, les jalons et les conseils se regroupent maintenant derrière la sonnette. Choisissez ce que vous recevez dans son menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Copier le dernier",
+        "open": "Ouvrir",
+        "openAccessibility": "Ouvrir Paramètres"
       }
     }
   },

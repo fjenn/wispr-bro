@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "通知",
+      "permission": "macOS 權限：{{state}}",
+      "kind": "類型",
+      "delay": "延遲 (s)",
+      "post": "張貼樣本",
+      "posted": "正在發送，耗時 {{seconds}} 秒。切換到另一個應用程式以查看 macOS 通知。"
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "通知，{{count}} 無法讀取",
+      "bellUnread_other": "通知，{{count}} 無法讀取",
+      "filter": {
+        "label": "顯示",
+        "all": "全部",
+        "unread": "未讀"
+      },
+      "more": "更多通知選項",
+      "markAllRead": "全部標為已讀",
+      "groups": {
+        "show": "在這個清單中顯示",
+        "mac": "在這台 Mac"
+      },
+      "toggles": {
+        "suggestions": "建議",
+        "announcements": "公告",
+        "milestones": "里程碑",
+        "system": "Mac 通知"
+      },
+      "list": "通知",
+      "unreadDot": "未讀",
+      "emptyUnread": {
+        "title": "沒有新內容",
+        "body": "你已經讀完所有內容。"
+      },
+      "loadFailed": "無法載入通知。",
+      "actionFailed": "那沒成功。再試一次。",
+      "copied": "最新語音已複製",
+      "nothingToCopy": "尚無筆記可複製",
+      "justNow": "剛剛"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "本版本的新功能",
+      "dismiss": "知道了",
+      "open": "讓我看看"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "語音輸入已準備好",
+        "body": "語音模型已下載完成。在任何應用程式中按住 fn 開始說話。"
+      },
+      "updateReady": {
+        "title": "更新準備就緒",
+        "body": "{{appName}} {{version}} 在下次啟動時會安裝。"
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} 個語音輸入已準備好",
+        "title_other": "有 {{count}} 筆筆記已準備好",
+        "body": "你在語音模型缺失時說的話已經被轉寫了。"
+      },
+      "shortcutProblem": {
+        "title": "你的快捷鍵無法使用",
+        "body": "{{appName}} 無法開始監聽 fn。請開啟設定以檢查您的快捷鍵。",
+        "bodyPermission": "{{appName}} 需要存取性權限來聆聽 fn。請在系統設定中啟用它。"
+      },
+      "crashReport": {
+        "title": "{{appName}} 突然退出",
+        "body": "在這台 Mac 上已儲存崩潰報告。沒有任何資料被傳送。"
+      },
+      "dataRecovered": {
+        "title": "您的歷史檔案已修復",
+        "body": "無法讀取，因此啟動了新的檔案。損壞的檔案則保留在其旁邊。"
+      },
+      "milestoneWords": {
+        "title": "{{words}} 個字被輸入",
+        "body": "那是一共 {{words}} 個字，你不必打的。做得很好。"
+      },
+      "milestoneStreak": {
+        "title": "連續{{days}}天",
+        "body": "您已連續在 {{days}} 天內使用語音輸入。"
+      },
+      "tips": {
+        "handsFree": {
+          "title": "說話不用按鍵",
+          "body": "雙擊 fn，或按 fn 與空格鍵，啟用無手模式。完成後再次按 fn。"
+        },
+        "cancel": {
+          "title": "改變主意了嗎？",
+          "body": "在說話時按 Esc，會取消語音輸入，不會有任何內容貼上。"
+        },
+        "history": {
+          "title": "每一筆語音記錄都會被保存",
+          "body": "你的語音筆記會留在這台 Mac 上。點擊歷史記錄來複製一次。"
+        },
+        "darkMode": {
+          "title": "亮或暗",
+          "body": "這個窗口頂部的月亮按鈕可切換視覺效果。"
+        },
+        "customWords": {
+          "title": "教它你的詞語",
+          "body": "加入您經常使用的名稱和詞語，讓它們每次都能正確拼寫。"
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "您的通知都在這裡",
+          "body": "下載、里程碑和小貼士現在會在鈴後面收集。請在其選單中選擇您想要的內容。"
+        }
+      },
+      "buttons": {
+        "copyLatest": "複製最新",
+        "open": "開啟",
+        "openAccessibility": "開啟設定"
       }
     }
   },

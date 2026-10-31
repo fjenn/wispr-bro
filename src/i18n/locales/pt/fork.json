@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notificações",
+      "permission": "permissão do macOS: {{state}}",
+      "kind": "Tipo",
+      "delay": "Atraso (s)",
+      "post": "Exemplo de post",
+      "posted": "Postando em {{seconds}} s. Mude para outro app para ver uma notificação do macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notificações, {{count}} não lidas",
+      "bellUnread_other": "Notificações, {{count}} não lidas",
+      "filter": {
+        "label": "Mostrar",
+        "all": "Todos",
+        "unread": "Não lido"
+      },
+      "more": "Mais opções de notificações",
+      "markAllRead": "Marcar tudo como lido",
+      "groups": {
+        "show": "Mostrar nesta lista",
+        "mac": "Neste Mac"
+      },
+      "toggles": {
+        "suggestions": "Sugestões",
+        "announcements": "Anúncios",
+        "milestones": "Marcos",
+        "system": "Notificações do Mac"
+      },
+      "list": "Notificações",
+      "unreadDot": "Não lido",
+      "emptyUnread": {
+        "title": "Nada novo",
+        "body": "Você leu tudo."
+      },
+      "loadFailed": "As notificações não foram carregadas.",
+      "actionFailed": "Isso não funcionou. Tente novamente.",
+      "copied": "Última dictação copiada",
+      "nothingToCopy": "Nada para copiar ainda",
+      "justNow": "Agora"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Novo nesta versão",
+      "dismiss": "Entendido",
+      "open": "Mostre-me"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "A dictação está pronta",
+        "body": "O modelo de fala finalizou a download. Mantenha o fn em qualquer aplicativo e comece a falar."
+      },
+      "updateReady": {
+        "title": "Atualização pronta",
+        "body": "O {{appName}} {{version}} instala na próxima reinicialização do app."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictação pronta",
+        "title_other": "{{count}} dictações prontas",
+        "body": "O que você disse enquanto o modelo de fala estava ausente foi transcrita."
+      },
+      "shortcutProblem": {
+        "title": "O seu atalho não está funcionando",
+        "body": "O {{appName}} não pôde começar a ouvir o fn. Abra as Configurações para verificar o atalho.",
+        "bodyPermission": "O {{appName}} precisa de acesso à Accessibility para ouvir fn. Ative-o nas Configurações do Sistema."
+      },
+      "crashReport": {
+        "title": "O {{appName}} encerrou inesperadamente",
+        "body": "Um relatório de crash foi salvo neste Mac. Nada foi enviado para nenhum lugar."
+      },
+      "dataRecovered": {
+        "title": "Seu arquivo de histórico foi reparado",
+        "body": "Não foi possível ler, então começou um novo. O arquivo danificado foi mantido ao lado dele."
+      },
+      "milestoneWords": {
+        "title": "{{words}} palavras ditadas",
+        "body": "Isso são {{words}} palavras que você não tinha que digitar. Parabéns."
+      },
+      "milestoneStreak": {
+        "title": "cadeia de {{days}} dias",
+        "body": "Você dictou por {{days}} dias seguidos."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Fale sem segurar uma tecla",
+          "body": "Dobrar o toque em fn, ou pressione fn e Espaço, para modo sem mãos. Pressione fn novamente quando terminar."
+        },
+        "cancel": {
+          "title": "Mudou de ideia?",
+          "body": "Pressione Esc enquanto estiver falando e a dictação será descartada. Nada será colado."
+        },
+        "history": {
+          "title": "Cada dictação é mantida",
+          "body": "As suas dictações ficam neste Mac. Abra Histórico para copiar uma novamente."
+        },
+        "darkMode": {
+          "title": "Claro ou escuro",
+          "body": "O botão lua no topo desta janela altera a aparência."
+        },
+        "customWords": {
+          "title": "Ensine-lhe suas palavras",
+          "body": "Adicione nomes e termos que usa com frequência para que sejam escritos corretamente sempre."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Suas notificações estão aqui",
+          "body": "Downloads, marcos e dicas agora acumulam atrás do sino. Escolha o que recebe no seu menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Copiar último",
+        "open": "Abrir",
+        "openAccessibility": "Abrir Configurações"
       }
     }
   },

@@ -14,6 +14,7 @@ import { commands } from "../bindings";
 import { AiEngine } from "../settings/advanced/AiEngine";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
 import { CspSmoke } from "./CspSmoke";
+import { NotificationsDebug } from "./NotificationsDebug";
 import { runCspSmoke } from "./cspSmokeChecks";
 import { DebugPanel, registerForkDebugSection } from "./DebugPanel";
 
@@ -29,6 +30,13 @@ registerForkDebugSection({
   id: "ai-engine",
   titleKey: "aiEngine.title",
   render: () => <AiEngine />,
+});
+
+// S-18: macOS permission and a sample poster for the Mac test script.
+registerForkDebugSection({
+  id: "notifications",
+  titleKey: "debug.notifications.title",
+  render: () => <NotificationsDebug />,
 });
 
 // F-08: CSP smoke check. Also exposed to the WISPRBRO_SELFCHECK script

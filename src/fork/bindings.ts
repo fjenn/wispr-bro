@@ -309,17 +309,23 @@ forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
+forkNotificationOpened: ForkNotificationOpened,
+forkNotificationsChanged: ForkNotificationsChanged,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged,
-forkStatsUpdated: ForkStatsUpdated
+forkStatsUpdated: ForkStatsUpdated,
+forkToastsDismiss: ForkToastsDismiss
 }>({
 forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
+forkNotificationOpened: "fork-notification-opened",
+forkNotificationsChanged: "fork-notifications-changed",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed",
-forkStatsUpdated: "fork-stats-updated"
+forkStatsUpdated: "fork-stats-updated",
+forkToastsDismiss: "fork-toasts-dismiss"
 })
 
 /** user-defined constants **/
@@ -613,6 +619,16 @@ known_models: number;
  */
 downloaded_model_ids: string[] }
 /**
+ * Emitted when a macOS notification (or its settings link) was activated
+ * and the Hub must show something: the Hub navigates to `action`.
+ */
+export type ForkNotificationOpened = { id: number | null; action: NotificationAction }
+/**
+ * Emitted after the inbox changed. `posted` is the entry just created (the
+ * Hub shows it as a toast); `None` after reads and clears.
+ */
+export type ForkNotificationsChanged = { unread: number; posted: NotificationItem | null }
+/**
  * What one take's delivery ended in (`fork::insert`, S-04): the take's
  * `paste_outcome` (R5 §4.3). `outcome` is `None` for a take cancelled
  * before the paste.
@@ -757,6 +773,15 @@ export type ForkStatsUpdated = {
  * The local day whose numbers changed (`YYYY-MM-DD`).
  */
 day: string }
+/**
+ * Emitted for every Esc key-down the hotkey tap sees: toasts close
+ * (R1: Esc dismisses notifications; the key is never blocked).
+ */
+export type ForkToastsDismiss = { 
+/**
+ * Whether the same Esc cancelled a take.
+ */
+cancelled_take: boolean }
 /**
  * How a hotkey binding drives its action.
  */
@@ -926,13 +951,135 @@ export type LlmState =
  */
 "download_failed"
 /**
- * Which notifications are shown (DEC-21). All on by default.
+ * What activating a notification does.
+ */
+export type NotificationAction = 
+/**
+ * Show the Hub on `page` (a Hub page id), optionally at `section`.
+ */
+{ type: "open_page"; page: string; section: string | null } | 
+/**
+ * Show the Hub and open the notifications panel.
+ */
+{ type: "open_notifications" } | 
+/**
+ * System Settings › Privacy & Security › Accessibility.
+ */
+{ type: "open_accessibility_settings" } | 
+/**
+ * Reveal a crash file (by name, inside the crash folder) in Finder.
+ */
+{ type: "reveal_crash_report"; file_name: string } | 
+/**
+ * Copy the latest dictation to the clipboard (no window).
+ */
+{ type: "copy_latest" }
+/**
+ * A button on a notification (macOS action, inbox button).
+ */
+export type NotificationButton = 
+/**
+ * "Copy latest".
+ */
+"copy_latest" | 
+/**
+ * "Open": the entry's default action.
+ */
+"open" | 
+/**
+ * "Open Settings" (Accessibility pane).
+ */
+"open_accessibility"
+/**
+ * Which entries the panel lists.
+ */
+export type NotificationFilter = "all" | "unread"
+/**
+ * One inbox entry as the panel shows it.
+ */
+export type NotificationItem = { id: number; kind: NotificationKind; title_key: string; body_key: string | null; args: Partial<{ [key in string]: string }>; action: NotificationAction | null; buttons: NotificationButton[]; 
+/**
+ * Unix ms.
+ */
+created_at: number; read: boolean }
+/**
+ * The kind of a notification. Stored as its snake_case name in
+ * `notifications.kind`.
+ */
+export type NotificationKind = 
+/**
+ * A speech model finished downloading: dictation works.
+ */
+"model_ready" | 
+/**
+ * An app update is downloaded and installs on restart (S-28 posts it).
+ */
+"update_ready" | 
+/**
+ * Takes recorded without a model were transcribed (S-07c posts it).
+ */
+"queued_takes_ready" | 
+/**
+ * The hotkey cannot work (no Accessibility permission, tap failure).
+ */
+"shortcut_problem" | 
+/**
+ * The app quit unexpectedly last time; a local crash file exists.
+ */
+"crash_report" | 
+/**
+ * `fork.db` could not be read and was recreated.
+ */
+"data_recovered" | 
+/**
+ * Word-count and streak milestones.
+ */
+"milestone" | 
+/**
+ * A usage tip (Suggestions toggle).
+ */
+"tip" | 
+/**
+ * A new feature in this version (Announcements toggle).
+ */
+"announcement"
+/**
+ * macOS notification authorization as the app sees it.
+ */
+export type NotificationPermission = 
+/**
+ * Not a bundled app (`tauri dev`, tests): inbox only.
+ */
+"unavailable" | 
+/**
+ * macOS has not asked yet.
+ */
+"not_determined" | "denied" | "authorized"
+/**
+ * Which notifications are shown (DEC-21, C-91). All on by default.
  */
 export type NotificationSettings = { 
 /**
- * Send macOS notifications (the in-app inbox always records).
+ * Send macOS notifications (the in-app inbox always records the four
+ * kinds below).
  */
-system: boolean; model_ready: boolean; update_ready: boolean; queued_takes_ready: boolean; errors: boolean }
+system: boolean; model_ready: boolean; update_ready: boolean; queued_takes_ready: boolean; errors: boolean; 
+/**
+ * S-18: tips in the inbox ("Suggestions").
+ */
+suggestions: boolean; 
+/**
+ * S-18: feature announcements, inbox and the one-time popup.
+ */
+announcements: boolean; 
+/**
+ * S-18: word-count and streak milestones in the inbox.
+ */
+milestones: boolean }
+/**
+ * A page of the inbox plus the unread count (for the bell badge).
+ */
+export type NotificationsPage = { items: NotificationItem[]; unread: number; total: number }
 export type OnboardingState = { status: OnboardingStatus; 
 /**
  * Id of the step to resume at (S-29a/b define the ids).

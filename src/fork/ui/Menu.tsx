@@ -2,8 +2,8 @@
 /**
  * Dropdown menu on Radix DropdownMenu (R4 "UI primitives", MIT): a real
  * `menu` with arrow-key navigation, typeahead, Esc to close and focus
- * returned to the trigger. Used for the Help menu (S-13) and row menus later
- * (S-15b).
+ * returned to the trigger. Used for the Help menu (S-13), the notifications
+ * menu with its toggles (S-18, `checked` items) and row menus later (S-15b).
  *
  * ```tsx
  * <Menu trigger={<button …/>} label={t("…")} side="right"
@@ -11,7 +11,7 @@
  * ```
  */
 import * as RadixMenu from "@radix-ui/react-dropdown-menu";
-import type { LucideIcon } from "lucide-react";
+import { Check, type LucideIcon } from "lucide-react";
 import type { ReactElement } from "react";
 
 export interface MenuItem {
@@ -20,6 +20,8 @@ export interface MenuItem {
   icon?: LucideIcon;
   onSelect: () => void;
   disabled?: boolean;
+  /** Makes the item a checkbox (`menuitemcheckbox`) in this state (S-18). */
+  checked?: boolean;
 }
 
 export interface MenuGroup {
@@ -74,13 +76,41 @@ export function Menu({
               )}
               {group.items.map((item) => {
                 const Icon = item.icon;
+                const itemClass =
+                  "flex cursor-pointer items-center gap-2.5 rounded-[8px] px-2.5 py-1.5 text-[13px] outline-none select-none data-[disabled]:cursor-default data-[disabled]:opacity-50 data-[highlighted]:bg-(--wb-hover)";
+                if (item.checked !== undefined) {
+                  return (
+                    <RadixMenu.CheckboxItem
+                      key={item.id}
+                      checked={item.checked}
+                      disabled={item.disabled}
+                      // Toggles keep the menu open, so several can change.
+                      onSelect={(event) => {
+                        event.preventDefault();
+                        item.onSelect();
+                      }}
+                      data-testid={`wb-menu-item-${item.id}`}
+                      className={itemClass}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="grid size-[15px] place-items-center text-(--wb-accent)"
+                      >
+                        <RadixMenu.ItemIndicator>
+                          <Check size={15} />
+                        </RadixMenu.ItemIndicator>
+                      </span>
+                      {item.label}
+                    </RadixMenu.CheckboxItem>
+                  );
+                }
                 return (
                   <RadixMenu.Item
                     key={item.id}
                     disabled={item.disabled}
                     onSelect={item.onSelect}
                     data-testid={`wb-menu-item-${item.id}`}
-                    className="flex cursor-pointer items-center gap-2.5 rounded-[8px] px-2.5 py-1.5 text-[13px] outline-none select-none data-[disabled]:cursor-default data-[disabled]:opacity-50 data-[highlighted]:bg-(--wb-hover)"
+                    className={itemClass}
                   >
                     {Icon && (
                       <Icon

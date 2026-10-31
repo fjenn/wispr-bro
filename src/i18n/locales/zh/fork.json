@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "通知",
+      "permission": "macOS 权限：{{state}}",
+      "kind": "类型",
+      "delay": "延迟 (s)",
+      "post": "发送示例",
+      "posted": "正在发布，耗时{{seconds}}秒。切换到另一个应用以查看macOS通知。"
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "通知，{{count}} 条未读",
+      "bellUnread_other": "通知，{{count}} 条未读",
+      "filter": {
+        "label": "显示",
+        "all": "全部",
+        "unread": "未读"
+      },
+      "more": "更多通知选项",
+      "markAllRead": "全部标记为已读",
+      "groups": {
+        "show": "在此列表中显示",
+        "mac": "在这款 Mac 上"
+      },
+      "toggles": {
+        "suggestions": "建议",
+        "announcements": "公告",
+        "milestones": "里程碑",
+        "system": "Mac 通知"
+      },
+      "list": "通知",
+      "unreadDot": "未读",
+      "emptyUnread": {
+        "title": "没有新内容",
+        "body": "你已经读完了所有内容。"
+      },
+      "loadFailed": "通知无法加载。",
+      "actionFailed": "那没成功。再试一次。",
+      "copied": "最新语音笔记已复制",
+      "nothingToCopy": "还没有需要复制的语音输入",
+      "justNow": "刚刚"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "本版本的新功能",
+      "dismiss": "明白了",
+      "open": "给我看"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "语音输入已准备就绪",
+        "body": "语音模型下载完成。在任意应用中按住fn键并开始说话。"
+      },
+      "updateReady": {
+        "title": "更新就绪",
+        "body": "{{appName}} {{version}} 下次重启应用时将进行安装。"
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} 语音输入就绪",
+        "title_other": "共有 {{count}} 条语音备妥",
+        "body": "你在语音模型缺失时所说的内容已经转录了。"
+      },
+      "shortcutProblem": {
+        "title": "你的快捷方式不起作用",
+        "body": "{{appName}} 无法开始监听 fn。请打开设置以检查您的快捷方式。",
+        "bodyPermission": "{{appName}} 需要无障碍访问权限来监听 fn。请在系统设置中开启它。"
+      },
+      "crashReport": {
+        "title": "{{appName}} 异常退出",
+        "body": "在该 Mac 上保存了一个崩溃报告。没有任何内容被发送到任何地方。"
+      },
+      "dataRecovered": {
+        "title": "您的历史文件已修复",
+        "body": "无法读取，因此创建了一个新的文件。损坏的文件被保留在其旁边。"
+      },
+      "milestoneWords": {
+        "title": "已听写 {{words}} 个词",
+        "body": "你不需要输入的字数是 {{words}}，做得很好。"
+      },
+      "milestoneStreak": {
+        "title": "连续{{days}}天",
+        "body": "您已连续{{days}}天使用语音输入。"
+      },
+      "tips": {
+        "handsFree": {
+          "title": "说话而无需按键",
+          "body": "双击fn键，或按fn加空格键，开启无手模式。完成时再次按fn键。"
+        },
+        "cancel": {
+          "title": "改变主意了？",
+          "body": "说话时按 Esc，语音输入将被取消。不会有任何内容被粘贴。"
+        },
+        "history": {
+          "title": "每段语音输入都会被保存",
+          "body": "你的语音输入会保留在这台 Mac 上。打开历史记录以再次复制一条。"
+        },
+        "darkMode": {
+          "title": "亮或暗",
+          "body": "此窗口顶部的月亮按钮可切换外观。"
+        },
+        "customWords": {
+          "title": "教它你的词语",
+          "body": "添加你经常使用的名称和术语，以确保每次都能正确拼写。"
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "您的通知都在这里",
+          "body": "下载、里程碑和提示现在会聚集在铃铛后面。在菜单中选择您想要的内容。"
+        }
+      },
+      "buttons": {
+        "copyLatest": "复制最新",
+        "open": "打开",
+        "openAccessibility": "打开设置"
       }
     }
   },

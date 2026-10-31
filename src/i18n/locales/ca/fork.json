@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notificacions",
+      "permission": "permisió de macOS: {{state}}",
+      "kind": "Tipus",
+      "delay": "Retard (s)",
+      "post": "Exemple de post",
+      "posted": "Enviant en {{seconds}} s. Canvia a un altre programa per veure una notificació de macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notificacions, {{count}} no llegides",
+      "bellUnread_other": "Notificacions, {{count}} no llegides",
+      "filter": {
+        "label": "Mostrar",
+        "all": "Tots",
+        "unread": "No llegit"
+      },
+      "more": "Més opcions de notificacions",
+      "markAllRead": "Marcar tot com llegit",
+      "groups": {
+        "show": "Mostrar a aquesta llista",
+        "mac": "Aquest Mac"
+      },
+      "toggles": {
+        "suggestions": "D'ajuda",
+        "announcements": "Anuncis",
+        "milestones": "Marcadors",
+        "system": "Notificacions de Mac"
+      },
+      "list": "Notificacions",
+      "unreadDot": "No llegit",
+      "emptyUnread": {
+        "title": "Res nou",
+        "body": "Has llegit tots els missatges."
+      },
+      "loadFailed": "No es van poder carregar les notificacions.",
+      "actionFailed": "No va funcionar. Prova de nou.",
+      "copied": "La darrera dictació ha estat copiada",
+      "nothingToCopy": "No dictació per copiar encara",
+      "justNow": "Just ara"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Nou en aquesta versió",
+      "dismiss": "D'acord",
+      "open": "M'ho mostri"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "La dictació està preparada",
+        "body": "El model de parla ha acabat de descarregar. Téni fn en qualsevol app i comença a parlar."
+      },
+      "updateReady": {
+        "title": "Actualització preparada",
+        "body": "{{appName}} {{version}} instal·la la propera vegada que es reinicii l'aplicació."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictació preparada",
+        "title_other": "{{count}} dictacions preparades",
+        "body": "El que has dit mentre el model de parla era absent ha estat transcrit."
+      },
+      "shortcutProblem": {
+        "title": "El teu atal no està funcionant",
+        "body": "{{appName}} no pot començar a detectar fn. Obre les opcions per comprovar el teu atal.",
+        "bodyPermission": "{{appName}} necessita accés a Accessibility per entendre fn. Activa-lo a les opcions del sistema."
+      },
+      "crashReport": {
+        "title": "{{appName}} ha sortit inesperadament",
+        "body": "Un informe de fallo ha estat desat a aquest Mac. Res ha estat enviat cap a cap lloc."
+      },
+      "dataRecovered": {
+        "title": "El fitxer de la teva història ha estat reparat",
+        "body": "No es pot llegir, per tant es va començar un nou. El fitxer dañat es va mantenir a prop d'ell."
+      },
+      "milestoneWords": {
+        "title": "{{words}} paraules dictades",
+        "body": "Això són {{words}} paraules que no havies de teclar. Molt bé!"
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-dia de cadena",
+        "body": "Has dictat en {{days}} dies seguits."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Parla sense tenir una tecla",
+          "body": "Tanca dos vegades fn, o prem fn i Espai, per a mode sense mans. Prem fn una altra vegada quan hagis acabat."
+        },
+        "cancel": {
+          "title": "Has canviat d'opinió?",
+          "body": "Prem Esc mentre parles i la dictació es cancel·la. Res no es copia."
+        },
+        "history": {
+          "title": "Cada dictació es conserva",
+          "body": "Les teves dictacions es queden dins aquest Mac. Obre Historial per copiar-ne una altra."
+        },
+        "darkMode": {
+          "title": "Clar o fosc",
+          "body": "El botó de la luna al dalt d'aquesta finestra canvia l'aspecte."
+        },
+        "customWords": {
+          "title": "Ensena les teves paraules",
+          "body": "Afegiu noms i expressions que us useu sovint perquè es diguin correctament cada vegada."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Les teves notificacions viven aquí",
+          "body": "Els descàrregues, els marcadors i les dades actuals es recullen darrere del campanet. Triar el que vols al seu menú."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Copiar d'últim",
+        "open": "Obre",
+        "openAccessibility": "Obre les opcions"
       }
     }
   },

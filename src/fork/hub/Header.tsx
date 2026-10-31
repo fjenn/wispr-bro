@@ -6,16 +6,18 @@
  *
  * The theme toggle flips between light and dark in one click and saves
  * Handy's `theme` setting (Settings › About keeps the System choice). From
- * System it switches to the opposite of what the OS shows now.
+ * System it switches to the opposite of what the OS shows now. The bell and
+ * its panel are S-18's (`NotificationsPanel.tsx`).
  */
-import { useEffect, useState, type ReactNode } from "react";
-import { Bell, BellOff, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { Theme } from "@/bindings";
 import { useSettings } from "@/hooks/useSettings";
 import { applyTheme, getStoredTheme } from "@/lib/utils/theme";
 import { FORK_NAMESPACE } from "../i18n";
-import { EmptyState, FOCUS_RING, Popover } from "../ui";
+import { FOCUS_RING } from "../ui";
+import { NotificationsBell } from "./NotificationsPanel";
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 
@@ -65,49 +67,6 @@ function ThemeToggle() {
         <Moon size={17} aria-hidden="true" />
       )}
     </button>
-  );
-}
-
-/** Content of the notifications panel; S-18 replaces it. */
-let notificationsPanel: (() => ReactNode) | null = null;
-
-/** S-18 mounts the notifications list here. */
-export function setNotificationsPanel(render: (() => ReactNode) | null): void {
-  notificationsPanel = render;
-}
-
-function NotificationsBell() {
-  const { t } = useTranslation(FORK_NAMESPACE);
-  const label = t("hub.notifications.title");
-  return (
-    <Popover
-      label={label}
-      testId="wb-notifications-panel"
-      trigger={
-        <button
-          type="button"
-          data-testid="wb-notifications-bell"
-          aria-label={label}
-          title={label}
-          className={iconButton}
-        >
-          <Bell size={17} aria-hidden="true" />
-        </button>
-      }
-    >
-      <div className="border-b border-(--wb-line) px-4 py-3">
-        <h2 className="text-[13.5px] font-semibold">{label}</h2>
-      </div>
-      {notificationsPanel?.() ?? (
-        <EmptyState
-          compact
-          testId="wb-notifications-empty"
-          icon={BellOff}
-          title={t("hub.notifications.empty.title")}
-          body={t("hub.notifications.empty.body")}
-        />
-      )}
-    </Popover>
   );
 }
 

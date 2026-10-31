@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Benachrichtigungen",
+      "permission": "macOS-Berechtigung: {{state}}",
+      "kind": "Art",
+      "delay": "Verzögerung (s)",
+      "post": "Beispiel veröffentlichen",
+      "posted": "Beim Posten in {{seconds}} s. Wechsel zu einer anderen App, um eine macOS-Benachrichtigung zu sehen."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Benachrichtigungen, {{count}} ungelesen",
+      "bellUnread_other": "Benachrichtigungen, {{count}} ungelesen",
+      "filter": {
+        "label": "Anzeigen",
+        "all": "Alle",
+        "unread": "Nicht gelesen"
+      },
+      "more": "Weitere Benachrichtigungsoptionen",
+      "markAllRead": "Alle als gelesen markieren",
+      "groups": {
+        "show": "In dieser Liste anzeigen",
+        "mac": "Auf diesem Mac"
+      },
+      "toggles": {
+        "suggestions": "Vorschläge",
+        "announcements": "Meldungen",
+        "milestones": "Meilensteine",
+        "system": "Mac-Benachrichtigungen"
+      },
+      "list": "Benachrichtigungen",
+      "unreadDot": "Nicht gelesen",
+      "emptyUnread": {
+        "title": "Nichts Neues",
+        "body": "Sie haben alles gelesen."
+      },
+      "loadFailed": "Benachrichtigungen konnten nicht geladen werden.",
+      "actionFailed": "Das hat nicht funktioniert. Versuche es noch einmal.",
+      "copied": "Neuestes Diktat kopiert",
+      "nothingToCopy": "Noch kein Diktat zum Kopieren",
+      "justNow": "Gestern"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Neu in dieser Version",
+      "dismiss": "Verstanden",
+      "open": "Zeige mir"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Diktieren ist bereit",
+        "body": "Das Sprachmodell wurde erfolgreich heruntergeladen. Halten Sie fn in jeder Anwendung und beginnen Sie zu sprechen."
+      },
+      "updateReady": {
+        "title": "Aktualisierung bereit",
+        "body": "{{appName}} {{version}} wird beim nächsten Neustart des Apps installiert."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} Diktat bereit",
+        "title_other": "{{count}} Diktate bereit",
+        "body": "Was du gesagt hast, während das Sprachmodell fehlte, wurde transkribiert."
+      },
+      "shortcutProblem": {
+        "title": "Dein Shortcut funktioniert nicht",
+        "body": "{{appName}} konnte das Abhören von fn. nicht starten. Öffnen Sie die Einstellungen, um Ihren Shortcut zu überprüfen.",
+        "bodyPermission": "{{appName}} benötigt Zugriff auf Accessibility, um die fn zu hören. Aktiviere es in Systemeinstellungen."
+      },
+      "crashReport": {
+        "title": "{{appName}} ist unerwartet beendet worden",
+        "body": "Ein Crashbericht wurde auf diesem Mac gespeichert. Nirgends wurde etwas gesendet."
+      },
+      "dataRecovered": {
+        "title": "Ihr Historie-Datei wurde repariert",
+        "body": "Es konnte nicht gelesen werden, daher wurde ein neuer erstellt. Die beschädigte Datei wurde daneben beibehalten."
+      },
+      "milestoneWords": {
+        "title": "{{words}} Wörter dictiert",
+        "body": "Das sind {{words}} Wörter, die du nicht tippen musst. Gute Arbeit."
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-Tage-Streak",
+        "body": "Du hast auf {{days}} Tage in Folge dictiert."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Sprechen ohne Tasten zu drücken",
+          "body": "Doppelklicken Sie auf fn, oder drücken Sie fn und Leertaste, um den Handfreimodus zu aktivieren. Drücken Sie fn erneut, wenn Sie fertig sind."
+        },
+        "cancel": {
+          "title": "Deine Entscheidung geändert?",
+          "body": "Drück Esc, während du sprichst, und das Diktat wird verworfen. Es wird nichts eingefügt."
+        },
+        "history": {
+          "title": "Jede Dictation wird gespeichert",
+          "body": "Deine Dictationen bleiben auf diesem Mac. Öffne die Geschichte, um eine erneut zu kopieren."
+        },
+        "darkMode": {
+          "title": "Hell oder dunkel",
+          "body": "Die Mond-Taste oben in diesem Fenster wechselt das Erscheinungsbild."
+        },
+        "customWords": {
+          "title": "Lerne deine Wörter",
+          "body": "Füge Namen und Begriffe hinzu, die du häufig verwendest, damit sie immer korrekt geschrieben werden."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Deine Benachrichtigungen leben hier",
+          "body": "Downloads, Meilensteine und Tipps sammeln sich jetzt hinter dem Glocken. Wählen Sie im Menü, was Sie erhalten."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Letzten kopieren",
+        "open": "Öffnen",
+        "openAccessibility": "Einstellungen öffnen"
       }
     }
   },

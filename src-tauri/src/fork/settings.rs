@@ -190,16 +190,23 @@ pub enum UpdateChannel {
     Beta,
 }
 
-/// Which notifications are shown (DEC-21). All on by default.
+/// Which notifications are shown (DEC-21, C-91). All on by default.
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type)]
 #[serde(default)]
 pub struct NotificationSettings {
-    /// Send macOS notifications (the in-app inbox always records).
+    /// Send macOS notifications (the in-app inbox always records the four
+    /// kinds below).
     pub system: bool,
     pub model_ready: bool,
     pub update_ready: bool,
     pub queued_takes_ready: bool,
     pub errors: bool,
+    /// S-18: tips in the inbox ("Suggestions").
+    pub suggestions: bool,
+    /// S-18: feature announcements, inbox and the one-time popup.
+    pub announcements: bool,
+    /// S-18: word-count and streak milestones in the inbox.
+    pub milestones: bool,
 }
 
 impl Default for NotificationSettings {
@@ -210,6 +217,9 @@ impl Default for NotificationSettings {
             update_ready: true,
             queued_takes_ready: true,
             errors: true,
+            suggestions: true,
+            announcements: true,
+            milestones: true,
         }
     }
 }

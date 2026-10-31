@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Bildirimler",
+      "permission": "macOS izni: {{state}}",
+      "kind": "Tür",
+      "delay": "Gecikme (s)",
+      "post": "Örnek gönder",
+      "posted": "{{seconds}} s'de gönderiliyor. Bir başka uygulama açın ve macOS bildirimi görün."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Bildirimler, {{count}} okunmamış",
+      "bellUnread_other": "Bildirimler, {{count}} okunmamış",
+      "filter": {
+        "label": "Göster",
+        "all": "Tümü",
+        "unread": "Okunmamış"
+      },
+      "more": "Daha fazla bildirim seçeneği",
+      "markAllRead": "Hepsi okunmuş olarak işaretle",
+      "groups": {
+        "show": "Bu listede göster",
+        "mac": "Bu Mac'te"
+      },
+      "toggles": {
+        "suggestions": "Öneriler",
+        "announcements": "Bildirimler",
+        "milestones": "Kilometre taşları",
+        "system": "Mac bildirimleri"
+      },
+      "list": "Bildirimler",
+      "unreadDot": "Okunmamış",
+      "emptyUnread": {
+        "title": "Yeni hiçbir şey yok",
+        "body": "Tümünü okudunuz."
+      },
+      "loadFailed": "Bildirimler yüklenemedi.",
+      "actionFailed": "O işlenmedi. Yine dene.",
+      "copied": "En son dictasyon kopyalandı",
+      "nothingToCopy": "Henüz kopyalanacak dikte yok",
+      "justNow": "Yakın bir zaman"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Bu sürümde yeni özellikler",
+      "dismiss": "Anladım",
+      "open": "Bana göster"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dikte hazır",
+        "body": "Söyleme modeli indirildi. Herhangi bir uygulamada fn'ı tutup konuşmaya başlayın."
+      },
+      "updateReady": {
+        "title": "Güncelleme hazır",
+        "body": "{{appName}} {{version}} uygulama yeniden başlatıldığında kurulur."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictasyon hazır",
+        "title_other": "{{count}} dictasyon hazır",
+        "body": "Söylediğiniz şey, konuşmalar modeli eksikken transkribe edildi."
+      },
+      "shortcutProblem": {
+        "title": "Kısayolunuz çalışmıyor",
+        "body": "{{appName}} fonksiyonunu dinlemek için başlayamadı. Kısa yolu kontrol etmek için Ayarlar'a girin.",
+        "bodyPermission": "{{appName}} fonksiyonunu dinlemek için Erişilebilirlik erişimine ihtiyaç duyor. Sistem Ayarlarında açın."
+      },
+      "crashReport": {
+        "title": "{{appName}} beklenmedik şekilde kapatıldı",
+        "body": "Bir çöküş raporu bu Mac'te kaydedildi. Herhangi bir yerde gönderilmemiştir."
+      },
+      "dataRecovered": {
+        "title": "Tarih dosyanız onarlandı",
+        "body": "Okunamadı, bu yüzden yeni biri başlatıldı. Hasar görmüş dosya onun yanında korundu."
+      },
+      "milestoneWords": {
+        "title": "{{words}} kelime dikte edildi",
+        "body": "O, {{words}} kelimeyi yazmamanız gerekmiyordu. Güzel bir iş."
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-gün süreklilik",
+        "body": "{{days}} gündür art arda dikte ediyorsunuz."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Anahtar tutmadan konuş",
+          "body": "fn'ı iki kez basın veya fn ve boşluk tuşunu basın, elinizden bağımsız modunu etkinleştirin. İşlemi bitirdiğinizde yeniden fn'ı basın."
+        },
+        "cancel": {
+          "title": "Fikrin değişti mi?",
+          "body": "Söyleyken Esc tuşuna basılırsa, metin atılır. Hiçbir şey yapıştırılmaz."
+        },
+        "history": {
+          "title": "Her dictasyon saklanır",
+          "body": "Dictasyonlarınız bu Mac'te kalır. Tarih'i açarak birini tekrar kopyalayın."
+        },
+        "darkMode": {
+          "title": "Aydınlık ya da koyu",
+          "body": "Bu pencerenin üstünde bulunan ay button'u görünümüni değiştirir."
+        },
+        "customWords": {
+          "title": "Onun kelimelerini öğret",
+          "body": "Sık kullandığınız isimler ve terimleri ekleyin ki her seferinde doğru yazilsin."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Bilgilendirme mesajlarınız burada",
+          "body": "Indirmeler, dönüm noktaları ve ipuçları şimdi çanın arkasında toplanıyor. Ne almak istediğinizi menüde seçin."
+        }
+      },
+      "buttons": {
+        "copyLatest": "En sonu kopyala",
+        "open": "Aç",
+        "openAccessibility": "Ayarlar'a Aç"
       }
     }
   },

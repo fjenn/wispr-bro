@@ -43,10 +43,10 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | Unicode-3.0 | 18 | 0 |
 | Unlicense OR MIT | 7 | 0 |
 | Zlib | 2 | 0 |
-| Zlib OR Apache-2.0 OR MIT | 21 | 0 |
+| Zlib OR Apache-2.0 OR MIT | 22 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 462 Rust crates, 225 npm packages.
+Total: 463 Rust crates, 225 npm packages.
 
 ## Speech models
 
@@ -1242,6 +1242,7 @@ No shipped Rust crate or npm package has a NOTICE file.
 | objc2-quartz-core | 0.3.2 | Zlib OR Apache-2.0 OR MIT | https://github.com/madsmtm/objc2 |
 | objc2-security | 0.3.2 | Zlib OR Apache-2.0 OR MIT | https://github.com/madsmtm/objc2 |
 | objc2-service-management | 0.3.2 | Zlib OR Apache-2.0 OR MIT | https://github.com/madsmtm/objc2 |
+| objc2-user-notifications | 0.3.2 | Zlib OR Apache-2.0 OR MIT | https://github.com/madsmtm/objc2 |
 | objc2-web-kit | 0.3.2 | Zlib OR Apache-2.0 OR MIT | https://github.com/madsmtm/objc2 |
 | once_cell | 1.21.3 | MIT OR Apache-2.0 | https://github.com/matklad/once_cell |
 | open | 5.3.3 | MIT | https://github.com/Byron/open-rs |
@@ -4589,7 +4590,7 @@ DEALINGS IN THE SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: block2 0.6.2, brotli-decompressor 5.0.0, chrono 0.4.43, dasp_sample 0.11.0, dispatch2 0.3.0, dpi 0.1.2, earshot 1.2.2, fax 0.2.6, fax_derive 0.2.0, macos-accessibility-client 0.0.1, minisign-verify 0.2.4, objc2 0.6.4, objc2-app-kit 0.3.2, objc2-audio-toolbox 0.3.2, objc2-av-foundation 0.3.2, objc2-cloud-kit 0.3.2, objc2-core-audio 0.3.2, objc2-core-audio-types 0.3.2, objc2-core-data 0.3.2, objc2-core-foundation 0.3.2, objc2-core-graphics 0.3.2, objc2-core-image 0.3.2, objc2-core-text 0.3.2, objc2-core-video 0.3.2, objc2-encode 4.1.0, objc2-exception-helper 0.1.1, objc2-foundation 0.3.2, objc2-metal 0.3.2, objc2-osa-kit 0.3.2, objc2-quartz-core 0.3.2, objc2-security 0.3.2, objc2-service-management 0.3.2, objc2-web-kit 0.3.2, realfft 3.5.0, siphasher 1.0.2, specta 2.0.0-rc.22, specta-macros 2.0.0-rc.18, specta-serde 0.0.9, specta-typescript 0.0.9, tauri 2.11.5, tauri-codegen 2.6.3, tauri-macros 2.6.3, tauri-plugin-autostart 2.5.1, tauri-plugin-clipboard-manager 2.3.2, tauri-plugin-dialog 2.6.0, tauri-plugin-fs 2.4.5, tauri-plugin-global-shortcut 2.3.2, tauri-plugin-log 2.8.0, tauri-plugin-opener 2.5.3, tauri-plugin-os 2.3.2, tauri-plugin-process 2.3.1, tauri-plugin-single-instance 2.4.0, tauri-plugin-store 2.4.2, tauri-plugin-updater 2.10.1, tauri-runtime 2.11.3, tauri-runtime-wry 2.11.4, tauri-specta 2.0.0-rc.21, tauri-specta-macros 2.0.0-rc.16, tauri-utils 2.9.3, unic-char-property 0.9.0, unic-char-range 0.9.0, unic-common 0.9.0, unic-ucd-ident 0.9.0, unic-ucd-version 0.9.0, whatlang 0.16.4, zune-core 0.4.12, zune-jpeg 0.4.21
+Used by: block2 0.6.2, brotli-decompressor 5.0.0, chrono 0.4.43, dasp_sample 0.11.0, dispatch2 0.3.0, dpi 0.1.2, earshot 1.2.2, fax 0.2.6, fax_derive 0.2.0, macos-accessibility-client 0.0.1, minisign-verify 0.2.4, objc2 0.6.4, objc2-app-kit 0.3.2, objc2-audio-toolbox 0.3.2, objc2-av-foundation 0.3.2, objc2-cloud-kit 0.3.2, objc2-core-audio 0.3.2, objc2-core-audio-types 0.3.2, objc2-core-data 0.3.2, objc2-core-foundation 0.3.2, objc2-core-graphics 0.3.2, objc2-core-image 0.3.2, objc2-core-text 0.3.2, objc2-core-video 0.3.2, objc2-encode 4.1.0, objc2-exception-helper 0.1.1, objc2-foundation 0.3.2, objc2-metal 0.3.2, objc2-osa-kit 0.3.2, objc2-quartz-core 0.3.2, objc2-security 0.3.2, objc2-service-management 0.3.2, objc2-user-notifications 0.3.2, objc2-web-kit 0.3.2, realfft 3.5.0, siphasher 1.0.2, specta 2.0.0-rc.22, specta-macros 2.0.0-rc.18, specta-serde 0.0.9, specta-typescript 0.0.9, tauri 2.11.5, tauri-codegen 2.6.3, tauri-macros 2.6.3, tauri-plugin-autostart 2.5.1, tauri-plugin-clipboard-manager 2.3.2, tauri-plugin-dialog 2.6.0, tauri-plugin-fs 2.4.5, tauri-plugin-global-shortcut 2.3.2, tauri-plugin-log 2.8.0, tauri-plugin-opener 2.5.3, tauri-plugin-os 2.3.2, tauri-plugin-process 2.3.1, tauri-plugin-single-instance 2.4.0, tauri-plugin-store 2.4.2, tauri-plugin-updater 2.10.1, tauri-runtime 2.11.3, tauri-runtime-wry 2.11.4, tauri-specta 2.0.0-rc.21, tauri-specta-macros 2.0.0-rc.16, tauri-utils 2.9.3, unic-char-property 0.9.0, unic-char-range 0.9.0, unic-common 0.9.0, unic-ucd-ident 0.9.0, unic-ucd-version 0.9.0, whatlang 0.16.4, zune-core 0.4.12, zune-jpeg 0.4.21
 
 ```text
 MIT License

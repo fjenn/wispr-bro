@@ -19,6 +19,10 @@
 //! - `llm_client.rs`: [`llm::client_builder`] (F-08); S-10 routes `local`
 //!   to the sidecar there, with no new upstream line.
 //!
+//! S-18's notifications ([`notify`]) need no upstream hook: they listen to
+//! Handy's `model-download-complete` event and install their macOS delegate
+//! from [`on_ready`].
+//!
 //! Init order (tauri 2.11.5, see `docs/fork/ARCHITECTURE.md` for line refs):
 //! plugins initialize inside `Builder::build()`, so the plugin `setup` below
 //! runs *before* Handy's `.setup()` closure, which only runs on the first
@@ -40,6 +44,7 @@ pub mod insert;
 pub mod llm;
 pub mod models;
 pub mod net;
+pub mod notify;
 pub mod settings;
 pub mod shortcut;
 pub mod stats;
@@ -378,6 +383,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
 
+    // S-18: notifications inbox, macOS delegate (no prompt), producers.
+    notify::on_ready(app);
+
     // S-10: stale sidecar kill, prewarm wiring, silent model download.
     llm::runtime::on_ready(app);
 
@@ -448,6 +456,13 @@ macro_rules! fork_specta_builder {
                 commands::dictionary::fork_dictionary_import_review::<$runtime>,
                 commands::dictionary::fork_dictionary_import::<$runtime>,
                 commands::dictionary::fork_dictionary_export::<$runtime>,
+                commands::notifications::fork_notifications_list::<$runtime>,
+                commands::notifications::fork_notifications_mark_read::<$runtime>,
+                commands::notifications::fork_notifications_mark_all_read::<$runtime>,
+                commands::notifications::fork_notifications_activate::<$runtime>,
+                commands::notifications::fork_notifications_feature::<$runtime>,
+                commands::notifications::fork_notifications_permission::<$runtime>,
+                commands::notifications::fork_notifications_debug_post::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -456,7 +471,10 @@ macro_rules! fork_specta_builder {
                 shortcut::ForkHotkeyEvent,
                 events::ForkStatsUpdated,
                 llm::runtime::ForkLlmStatus,
-                dictionary::ForkDictionaryChanged
+                dictionary::ForkDictionaryChanged,
+                notify::ForkNotificationsChanged,
+                notify::ForkNotificationOpened,
+                notify::ForkToastsDismiss
             ])
     };
 }

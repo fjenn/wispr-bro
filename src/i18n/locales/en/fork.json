@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "permission": "macOS permission: {{state}}",
+      "kind": "Kind",
+      "delay": "Delay (s)",
+      "post": "Post sample",
+      "posted": "Posting in {{seconds}} s. Switch to another app to see a macOS notification."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notifications, {{count}} unread",
+      "bellUnread_other": "Notifications, {{count}} unread",
+      "filter": {
+        "label": "Show",
+        "all": "All",
+        "unread": "Unread"
+      },
+      "more": "More notification options",
+      "markAllRead": "Mark all as read",
+      "groups": {
+        "show": "Show in this list",
+        "mac": "On this Mac"
+      },
+      "toggles": {
+        "suggestions": "Suggestions",
+        "announcements": "Announcements",
+        "milestones": "Milestones",
+        "system": "Mac notifications"
+      },
+      "list": "Notifications",
+      "unreadDot": "Unread",
+      "emptyUnread": {
+        "title": "Nothing new",
+        "body": "You have read everything."
+      },
+      "loadFailed": "Notifications could not be loaded.",
+      "actionFailed": "That did not work. Try again.",
+      "copied": "Latest dictation copied",
+      "nothingToCopy": "No dictation to copy yet",
+      "justNow": "Just now"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "New in this version",
+      "dismiss": "Got it",
+      "open": "Show me"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dictation is ready",
+        "body": "The speech model finished downloading. Hold fn in any app and start talking."
+      },
+      "updateReady": {
+        "title": "Update ready",
+        "body": "{{appName}} {{version}} installs the next time the app restarts."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictation ready",
+        "title_other": "{{count}} dictations ready",
+        "body": "What you said while the speech model was missing has been transcribed."
+      },
+      "shortcutProblem": {
+        "title": "Your shortcut is not working",
+        "body": "{{appName}} could not start listening for fn. Open Settings to check your shortcut.",
+        "bodyPermission": "{{appName}} needs Accessibility access to hear fn. Turn it on in System Settings."
+      },
+      "crashReport": {
+        "title": "{{appName}} quit unexpectedly",
+        "body": "A crash report was saved on this Mac. Nothing was sent anywhere."
+      },
+      "dataRecovered": {
+        "title": "Your history file was repaired",
+        "body": "It could not be read, so a new one was started. The damaged file was kept next to it."
+      },
+      "milestoneWords": {
+        "title": "{{words}} words dictated",
+        "body": "That is {{words}} words you did not have to type. Nice going."
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-day streak",
+        "body": "You have dictated on {{days}} days in a row."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Talk without holding a key",
+          "body": "Double-tap fn, or press fn and Space, for hands-free mode. Press fn again when you are done."
+        },
+        "cancel": {
+          "title": "Changed your mind?",
+          "body": "Press Esc while you talk and the dictation is dropped. Nothing is pasted."
+        },
+        "history": {
+          "title": "Every dictation is kept",
+          "body": "Your dictations stay on this Mac. Open History to copy one again."
+        },
+        "darkMode": {
+          "title": "Light or dark",
+          "body": "The moon button at the top of this window switches the appearance."
+        },
+        "customWords": {
+          "title": "Teach it your words",
+          "body": "Add names and terms you use often so they are spelled right every time."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Your notifications live here",
+          "body": "Downloads, milestones and tips now collect behind the bell. Choose what you get in its menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Copy latest",
+        "open": "Open",
+        "openAccessibility": "Open Settings"
       }
     }
   },

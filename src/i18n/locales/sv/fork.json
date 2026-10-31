@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notifikationer",
+      "permission": "macOS-rättighet: {{state}}",
+      "kind": "Typ",
+      "delay": "Fördröjning (s)",
+      "post": "Skicka exempel",
+      "posted": "Plockar upp efter {{seconds}} s. Byt till en annan app för att se en macOS-notifikation."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notifikationer, {{count}} olästa",
+      "bellUnread_other": "Notifikationer, {{count}} olästa",
+      "filter": {
+        "label": "Visa",
+        "all": "Alla",
+        "unread": "Okänt"
+      },
+      "more": "Fler notifikationsalternativ",
+      "markAllRead": "Marka alla som lästa",
+      "groups": {
+        "show": "Visa i denna lista",
+        "mac": "På denna Mac"
+      },
+      "toggles": {
+        "suggestions": "Förslag",
+        "announcements": "Uppdateringar",
+        "milestones": "Målposten",
+        "system": "Mac-meddelanden"
+      },
+      "list": "Notifikationer",
+      "unreadDot": "Okänt",
+      "emptyUnread": {
+        "title": "Inget nytt",
+        "body": "Du har läst allt."
+      },
+      "loadFailed": "Notifikationer kunde inte laddas.",
+      "actionFailed": "Det fungerade inte. Försök igen.",
+      "copied": "Senaste dikteringen kopierad",
+      "nothingToCopy": "Ingen diktering att kopiera än",
+      "justNow": "Jag precis"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Ny i denna version",
+      "dismiss": "Förstått",
+      "open": "Visa mig"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Diktering är klar",
+        "body": "Talmodellen har slutförts. Håll fn i vilken app som helst och börja prata."
+      },
+      "updateReady": {
+        "title": "Uppdatering klar",
+        "body": "{{appName}} {{version}} installer den nästa gång appen startas."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} diktering klar",
+        "title_other": "{{count}} dikteringar klara",
+        "body": "Det du sa när talmodellen var borttagen har översatts."
+      },
+      "shortcutProblem": {
+        "title": "Din kortkommando fungerar inte",
+        "body": "{{appName}} kunde inte starta att lyssna på fn. Öppna inställningar för att kontrollera din kortkommando.",
+        "bodyPermission": "{{appName}} behöver tillgång till Accessibility för att höra fn. Aktivera det i Systeminställningar."
+      },
+      "crashReport": {
+        "title": "{{appName}} avbrutit oväntat",
+        "body": "En kraschrapport har sparats på denna Mac. Inget skickades någonstans."
+      },
+      "dataRecovered": {
+        "title": "Din historikfil har återställts",
+        "body": "Det kunde inte läsas, så startades ett nytt. Det skadade filen sparas intill."
+      },
+      "milestoneWords": {
+        "title": "{{words}} ord dicterade",
+        "body": "Det är {{words}} ord som du inte behövde skriva. Bra jobbat."
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-dagars ström",
+        "body": "Du har dictat på {{days}} dagar i rad."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Tala utan att hålla en knapp",
+          "body": "Dubbleklicka fn, eller tryck fn och mellanslag, för hands-free-läge. Tryck igen på fn när du är färdig."
+        },
+        "cancel": {
+          "title": "Ändrat din åsikt?",
+          "body": "Tryck Esc när du pratar och dictationen avbryts. Inget kopieras."
+        },
+        "history": {
+          "title": "Varje dictation sparas",
+          "body": "Dina dictationer finns kvar på denna Mac. Öppna Historik för att kopiera en igen."
+        },
+        "darkMode": {
+          "title": "Ljus eller mörk",
+          "body": "Knappen månen högst upp i denna fönstret byter utseendet."
+        },
+        "customWords": {
+          "title": "Lär det dig dina ord",
+          "body": "Lägg till namn och termer du använder ofta så att de skrivs rätt varje gång."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Dina meddelanden finns här",
+          "body": "Nedladdningar, mål och tips sammanfattas nu bakom bellet. Välj vad du får i dess meny."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Kopiera senaste",
+        "open": "Öppna",
+        "openAccessibility": "Öppna inställningar"
       }
     }
   },

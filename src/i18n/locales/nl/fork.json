@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notificaties",
+      "permission": "macOS toestemming: {{state}}",
+      "kind": "Soort",
+      "delay": "Vertraging (s)",
+      "post": "Voorbeeld posten",
+      "posted": "Bezig met plaatsen in {{seconds}} s. Schakel naar een andere app om een macOS-notify te zien."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notificaties, {{count}} ongelezen",
+      "bellUnread_other": "Notificaties, {{count}} ongelezen",
+      "filter": {
+        "label": "Toon",
+        "all": "Alle",
+        "unread": "Ongelezen"
+      },
+      "more": "Meer notificaties opties",
+      "markAllRead": "Alle als gelezen markeren",
+      "groups": {
+        "show": "Toon in deze lijst",
+        "mac": "Op deze Mac"
+      },
+      "toggles": {
+        "suggestions": "Aanbevelingen",
+        "announcements": "Aankondigingen",
+        "milestones": "Milesten",
+        "system": "Macs notificaties"
+      },
+      "list": "Notificaties",
+      "unreadDot": "Niet gelezen",
+      "emptyUnread": {
+        "title": "Niets nieuws",
+        "body": "Je hebt alles gelezen."
+      },
+      "loadFailed": "Meldingen konden niet worden geladen.",
+      "actionFailed": "Dat is niet gewerkt. Probeer het opnieuw.",
+      "copied": "Laatste dictatie gekopieerd",
+      "nothingToCopy": "Geen dictatie om te kopiëren nog",
+      "justNow": "Geen moment geleden"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Nieuw in deze versie",
+      "dismiss": "Oké",
+      "open": "Toon me"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dictatie is klaar",
+        "body": "De spraakmodel is voltooid gedownload. Houd fn in elke app en begin dan praten."
+      },
+      "updateReady": {
+        "title": "Update klaar",
+        "body": "{{appName}} {{version}} installeert de volgende keer wanneer de app opnieuw gestart wordt."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictatie klaar",
+        "title_other": "{{count}} dictaties klaar",
+        "body": "Wat je zei terwijl de spraakmodel ontbrak is overgezet."
+      },
+      "shortcutProblem": {
+        "title": "Je sneltoets werkt niet",
+        "body": "{{appName}} kon niet beginnen met luisteren naar fn. Open Instellingen om je sneltoets te controleren.",
+        "bodyPermission": "{{appName}} heeft toegang tot Accessibility nodig om fn te horen. Schakel het in in System Settings."
+      },
+      "crashReport": {
+        "title": "{{appName}} is onzegeval geïnactiveerd",
+        "body": "Een crashrapport is op deze Mac opgeslagen. Niets is verzonden naar een andere plek."
+      },
+      "dataRecovered": {
+        "title": "Je historiebestand is hersteld",
+        "body": "Het kon niet worden gelezen, dus is een nieuw bestand opgestart. Het beschadigde bestand is naast het nieuwe blijven staan."
+      },
+      "milestoneWords": {
+        "title": "{{words}} woorden gedicteerde",
+        "body": "Dat zijn {{words}} woorden die je niet had moeten typen. Goed gedaan."
+      },
+      "milestoneStreak": {
+        "title": "{{days}}-dag stroom",
+        "body": "Je hebt dictieerd op {{days}} dagen in een rij."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Praten zonder een toets te houden",
+          "body": "Dubbelklik fn, of druk fn en ruimte, voor hands-free modus. Druk op fn opnieuw wanneer je klaar bent."
+        },
+        "cancel": {
+          "title": "Wijziging je gedachten?",
+          "body": "Druk op Esc terwijl je praat en de dictatie wordt verwijderd. Niets wordt geplaatst."
+        },
+        "history": {
+          "title": "Elke dictatie wordt opgeslagen",
+          "body": "Je dictaties blijven op deze Mac. Open Historie om er een opnieuw te kopiëren."
+        },
+        "darkMode": {
+          "title": "Licht of donker",
+          "body": "De maanknop boven deze venster verandert het uiterlijk."
+        },
+        "customWords": {
+          "title": "Leer het met je woorden",
+          "body": "Voeg namen en woorden toe die je vaak gebruikt zodat ze elke keer goed worden gespeld."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Je notificaties wonen hier",
+          "body": "Downloads, mijlpunten en tips verzamelen nu achter de bel. Kies wat je krijgt in het menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Laatste kopiëren",
+        "open": "Open",
+        "openAccessibility": "Instellingen openen"
       }
     }
   },

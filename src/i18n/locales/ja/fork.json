@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "通知",
+      "permission": "macOS の許可: {{state}}",
+      "kind": "種類",
+      "delay": "遅延 (s)",
+      "post": "サンプルを投稿",
+      "posted": "{{seconds}}秒後に投稿します。macOSの通知を確認するため、別のアプリに切り替えましょう。"
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "通知 {{count}} 件（未読）",
+      "bellUnread_other": "通知、{{count}}件未読",
+      "filter": {
+        "label": "表示",
+        "all": "すべて",
+        "unread": "読まれていない"
+      },
+      "more": "さらに多くの通知オプション",
+      "markAllRead": "すべてを読了にする",
+      "groups": {
+        "show": "このリストに表示",
+        "mac": "このMacで"
+      },
+      "toggles": {
+        "suggestions": "提案",
+        "announcements": "お知らせ",
+        "milestones": "マイルストーン",
+        "system": "Mac の通知"
+      },
+      "list": "通知",
+      "unreadDot": "読まれていない",
+      "emptyUnread": {
+        "title": "何も新しくない",
+        "body": "すべてを読了しています。"
+      },
+      "loadFailed": "通知を読み込めませんでした。",
+      "actionFailed": "それはうまくいきませんでした。もう一度試してください。",
+      "copied": "最新のディクテーションがコピーされました",
+      "nothingToCopy": "コピーできる音声入力はまだありません",
+      "justNow": "今"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "このバージョンで新しく追加された機能",
+      "dismiss": "わかりました",
+      "open": "私に見せます"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "ディクテーションが準備完了",
+        "body": "スピーチモデルのダウンロードが完了しました。どのアプリでもfnを押しながら話してください。"
+      },
+      "updateReady": {
+        "title": "更新が準備完了",
+        "body": "{{appName}} {{version}} はアプリを再起動したときにインストールされます。"
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} のディクテーションが準備完了",
+        "title_other": "{{count}} のディクテーションが準備完了",
+        "body": "スピーチモデルが欠落していたときのあなたの発言が記録されました。"
+      },
+      "shortcutProblem": {
+        "title": "ショートカットが動作していません",
+        "body": "{{appName}} が fn を受信するように開始できませんでした。ショートカットを確認するため、設定を開いてください。",
+        "bodyPermission": "{{appName}} は fn を聞くためにアクセシビリティアクセスが必要です。システム設定で有効にしてください。"
+      },
+      "crashReport": {
+        "title": "{{appName}} が予期せぬ間に終了しました",
+        "body": "このMacにクラッシュレポートが保存されました。どこかに送信されました。"
+      },
+      "dataRecovered": {
+        "title": "あなたの履歴ファイルが修復されました",
+        "body": "読み取れなかったため、新しいものが開始されました。損傷したファイルはその側に残されました。"
+      },
+      "milestoneWords": {
+        "title": "{{words}} 語を音声入力しました",
+        "body": "そのは {{words}} 語をタイプしなくてもよかった。よくやったね。"
+      },
+      "milestoneStreak": {
+        "title": "{{days}}日連続",
+        "body": "あなたは{{days}}日連続で辞書を入力しました。"
+      },
+      "tips": {
+        "handsFree": {
+          "title": "キーを押さなくても話す",
+          "body": "fn を2回タップするか、fn とスペースキーを同時に押すことで、手を動かさないモードを有効にします。使用終了後、fn を再度押してください。"
+        },
+        "cancel": {
+          "title": "迷った？",
+          "body": "話している間に Esc を押すと、辞められます。何も貼り付けられません。"
+        },
+        "history": {
+          "title": "すべてのディクテーションは保存されます",
+          "body": "あなたのディクテーションはこのMacに残ります。履歴を開いて再度コピーできます。"
+        },
+        "darkMode": {
+          "title": "明るいか、暗いか",
+          "body": "このウィンドウの上部のmoonボタンで表示を切り替えることができます。"
+        },
+        "customWords": {
+          "title": "あなたの言葉を教える",
+          "body": "よく使う名前や用語を追加することで、常に正しいようにスペルできます。"
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "あなたの通知はここにあります",
+          "body": "ダウンロード、マイルストーン、ヒントは今、ベルの後ろに集まります。メニューから何を取得するかを選んでください。"
+        }
+      },
+      "buttons": {
+        "copyLatest": "最新をコピー",
+        "open": "開く",
+        "openAccessibility": "設定を開く"
       }
     }
   },

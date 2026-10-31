@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Oznámení",
+      "permission": "Ověření macOS: {{state}}",
+      "kind": "Druh",
+      "delay": "Zpoždění (s)",
+      "post": "Příklad zprávy",
+      "posted": "Odesílání za {{seconds}} s. Přepněte se na jiný program, abyste viděli oznámení macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Upozornění, {{count}} nečtená",
+      "bellUnread_other": "Upozornění, {{count}} nečtená",
+      "filter": {
+        "label": "Zobraz",
+        "all": "Vše",
+        "unread": "Nečtené"
+      },
+      "more": "Více možností upozornění",
+      "markAllRead": "Označit vše jako přečtené",
+      "groups": {
+        "show": "Zobrazit v tomto seznamu",
+        "mac": "Na tomto Macu"
+      },
+      "toggles": {
+        "suggestions": "Doporučení",
+        "announcements": "Oznámení",
+        "milestones": "Body",
+        "system": "Oznámení Mac"
+      },
+      "list": "Upozornění",
+      "unreadDot": "Nečtené",
+      "emptyUnread": {
+        "title": "Žádné nové",
+        "body": "Přečetl jste vše."
+      },
+      "loadFailed": "Oznámení se nepodařilo načíst.",
+      "actionFailed": "To nevyšlo. Zkuste to znovu.",
+      "copied": "Nejnovější dictace byla zkopírována",
+      "nothingToCopy": "Žádná dictace k zkopírování ještě",
+      "justNow": "Před chvílí"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Nové v této verzi",
+      "dismiss": "Pořád",
+      "open": "Ukaž mi"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dictace je připravena",
+        "body": "Model pro hlasové příkazy byl stažen. V jakékoliv aplikaci držte tlačítko fn a začněte mluvit."
+      },
+      "updateReady": {
+        "title": "Aktualizace je připravena",
+        "body": "{{appName}} {{version}} nainstaluje se dalšíkrát při restartu aplikace."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictace připravena",
+        "title_other": "{{count}} dictací připravených",
+        "body": "Co jsi řekl, když byl model hlasu nepřítomný, bylo převedeno na text."
+      },
+      "shortcutProblem": {
+        "title": "Váš klávesový zkrat nefunguje",
+        "body": "{{appName}} nemůže začít sluchat klávesové zkratky. Otevřete Nastavení, abyste zkontrolovali své zkratky.",
+        "bodyPermission": "{{appName}} potřebuje přístup k přístupnosti, aby slyšel fn. Zapni jej v Nastavení systému."
+      },
+      "crashReport": {
+        "title": "{{appName}} nečekaně ukončila",
+        "body": "Byl uložen soubor s hlášením o chybě na tomto Macu. Nic nebylo odesláno nikam."
+      },
+      "dataRecovered": {
+        "title": "Soubor s historiem byl opraven",
+        "body": "Nelze bylo přečíst, proto byl spuštěn nový. Poškozený soubor byl udržen vedle něj."
+      },
+      "milestoneWords": {
+        "title": "{{words}} slov dictováno",
+        "body": "To je {{words}} slov, která jste nemuseli psát. Skvělé děláte."
+      },
+      "milestoneStreak": {
+        "title": "střední {{days}} dní",
+        "body": "Dictujete po {{days}} dnech po sobě."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Mluv bez držení klávesy",
+          "body": "Dvojité stiskněte fn, nebo stiskněte fn a mezerník, pro režim bez rukou. Stiskněte fn znovu, když jste hotovi."
+        },
+        "cancel": {
+          "title": "Změnil jsi svůj názor?",
+          "body": "Stiskněte Esc během mluvení a dictace bude zrušena. Nic není vloženo."
+        },
+        "history": {
+          "title": "Každá dictace je uchovávána",
+          "body": "Vaše dictace zůstávají na tomto Macu. Otevřete Historii, abyste je zkopírovali znovu."
+        },
+        "darkMode": {
+          "title": "Světlé nebo tmavé",
+          "body": "Tlačítko Měsíce v horní části tohoto okna přepíná vzhled."
+        },
+        "customWords": {
+          "title": "Uči ho tvými slovy",
+          "body": "Přidejte jména a výrazy, které často používáte, aby byly správně psaná každýkrát."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Vaše upozornění jsou zde",
+          "body": "Stahování, významy a tipy nyní sbíráte za zvonek. Vyberte, co získáte, v jejím menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Zkopírovat nejnovější",
+        "open": "Otevřít",
+        "openAccessibility": "Otevřít nastavení"
       }
     }
   },

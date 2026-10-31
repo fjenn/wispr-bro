@@ -249,7 +249,7 @@ fn status_for(
 }
 
 /// Starts the engine (from `fork::on_ready`, product builds only).
-pub fn start<R: Runtime>(app: &AppHandle<R>) {
+pub fn start<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
     if RUNTIME.get().is_some() {
         return;
     }
@@ -291,6 +291,11 @@ pub fn start<R: Runtime>(app: &AppHandle<R>) {
         Err(e) => {
             log::error!("fork hotkeys: {e}");
             set_status(|s| s.error = Some(e.clone()));
+            // S-18: an error needing action (inbox, and macOS when away).
+            crate::fork::notify::shortcut_problem(
+                app,
+                !crate::fork::notify::accessibility_trusted(),
+            );
             return;
         }
     };

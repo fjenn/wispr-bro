@@ -36,6 +36,14 @@
         "forkCommand": "Fork command",
         "probe": "Blocked source"
       }
+    },
+    "notifications": {
+      "title": "Notifikasi",
+      "permission": "izin macOS: {{state}}",
+      "kind": "Jenis",
+      "delay": "Jeda (dtk)",
+      "post": "Contoh posting",
+      "posted": "Mengunggah dalam {{seconds}} detik. Beralih ke aplikasi lain untuk melihat notifikasi macOS."
     }
   },
   "settings": {
@@ -71,7 +79,37 @@
       "empty": {
         "title": "Nothing new",
         "body": "Updates and tips will show up here."
-      }
+      },
+      "bellUnread_one": "Notifikasi, {{count}} belum dibaca",
+      "bellUnread_other": "Notifikasi, {{count}} belum dibaca",
+      "filter": {
+        "label": "Tampilkan",
+        "all": "Semua",
+        "unread": "Tidak dibaca"
+      },
+      "more": "Pilihan notifikasi lebih",
+      "markAllRead": "Tandai semua sebagai sudah dibaca",
+      "groups": {
+        "show": "Tampilkan di daftar ini",
+        "mac": "Pada Mac ini"
+      },
+      "toggles": {
+        "suggestions": "Rekomendasi",
+        "announcements": "Pemberitahuan",
+        "milestones": "Tanda-tanda penting",
+        "system": "Notifikasi Mac"
+      },
+      "list": "Notifikasi",
+      "unreadDot": "Belum dibaca",
+      "emptyUnread": {
+        "title": "Tidak ada yang baru",
+        "body": "Kamu sudah membaca semua."
+      },
+      "loadFailed": "Notifikasi tidak bisa dimuat.",
+      "actionFailed": "Itu tidak berhasil. Coba lagi.",
+      "copied": "Dictasi terbaru telah disalin",
+      "nothingToCopy": "Belum ada dikte untuk disalin",
+      "justNow": "Baru saja"
     },
     "help": {
       "title": "Help",
@@ -159,6 +197,11 @@
       "settings": {
         "title": "Settings"
       }
+    },
+    "featurePopup": {
+      "label": "Baru di versi ini",
+      "dismiss": "Paham",
+      "open": "Tunjukkan saya"
     }
   },
   "ui": {
@@ -239,6 +282,75 @@
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dikte siap",
+        "body": "Model suara selesai didownload. Tekan fn di aplikasi apa pun dan mulai berbicara."
+      },
+      "updateReady": {
+        "title": "Pembaruan siap",
+        "body": "{{appName}} {{version}} akan diinstal saat aplikasi diperbarui."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictasi siap",
+        "title_other": "{{count}} dictasi siap",
+        "body": "Yang Anda katakan saat model bicara tidak tersedia telah di transkripsi."
+      },
+      "shortcutProblem": {
+        "title": "Pembatas Anda tidak berfungsi",
+        "body": "{{appName}} tidak bisa memulai mendengarkan fn. Buka Pengaturan untuk memeriksa shortcut Anda.",
+        "bodyPermission": "{{appName}} membutuhkan akses Accessibility untuk mendengar fn. Nyalakan di System Settings."
+      },
+      "crashReport": {
+        "title": "{{appName}} berhenti secara tidak terduga",
+        "body": "Laporan kegagalan disimpan di Mac ini. Tidak ada yang dikirim ke mana pun."
+      },
+      "dataRecovered": {
+        "title": "File sejarah Anda telah diperbaiki",
+        "body": "Tidak bisa dibaca, jadi dimulai yang baru. File rusak tetap disimpan di sampingnya."
+      },
+      "milestoneWords": {
+        "title": "{{words}} kata yang dikatakan",
+        "body": "Itu adalah {{words}} kata yang tidak perlu Anda ketik. Selamat."
+      },
+      "milestoneStreak": {
+        "title": "streak {{days}} hari",
+        "body": "Anda telah mengetikkan perintah selama {{days}} hari berturut-turut."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Bicaralah tanpa memegang tombol",
+          "body": "Klik dua kali fn, atau tekan fn dan Spasi, untuk mode tanpa tangan. Tekan fn lagi saat selesai."
+        },
+        "cancel": {
+          "title": "Ubah pikiranmu?",
+          "body": "Tekan Esc saat berbicara dan dictasi akan dibatalkan. Tidak ada yang disalin."
+        },
+        "history": {
+          "title": "Setiap dictasi disimpan",
+          "body": "Diktemu tetap tersimpan di Mac ini. Buka Riwayat untuk menyalinnya lagi."
+        },
+        "darkMode": {
+          "title": "Terang atau gelap",
+          "body": "Tombol bulan di bagian atas jendela ini mengganti tampilan."
+        },
+        "customWords": {
+          "title": "Ajarkan padanya kata-kata kamu",
+          "body": "Tambahkan nama dan istilah yang sering digunakan agar selalu ditulis dengan benar."
+        }
+      },
+      "features": {
+        "inbox": {
+          "title": "Pemberitahuan Anda berada di sini",
+          "body": "Unduhan, milestone dan tips sekarang dikumpulkan di belakang lonceng. Pilih apa yang Anda terima di menu tersebut."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Salin terbaru",
+        "open": "Buka",
+        "openAccessibility": "Buka Pengaturan"
       }
     }
   },
