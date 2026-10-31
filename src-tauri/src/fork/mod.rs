@@ -576,7 +576,7 @@ macro_rules! fork_specta_builder {
                 models::setup::ForkSpeechSetup,
                 audio::watch::ForkMicDevicesChanged,
                 audio::monitor::ForkMicLevel,
-                models::upgrade::ForkModelPolicy
+                models::upgrade::ForkModelPolicy,
                 commands::style::ForkAppRulesChanged
             ])
     };

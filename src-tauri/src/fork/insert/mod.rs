@@ -95,6 +95,16 @@ impl Kind {
 /// Handy's `utils::paste`: `Err` when the text was not pasted (here: it went
 /// to the card; it is in History either way).
 pub fn deliver(text: String, app: AppHandle) -> Result<(), String> {
+    deliver_as(text, app, Kind::Take).0
+}
+
+/// Delivers `text` as `kind`; returns the hook result and the paste outcome
+/// (`None` for a delivery cancelled before the paste).
+pub fn deliver_as(
+    text: String,
+    app: AppHandle,
+    kind: Kind,
+) -> (Result<(), String>, Option<PasteOutcome>) {
     // S-19a: Return after this take, if the cleanup step armed it. Only a
     // fresh take: Undo and paste-last never send (S-06).
     let auto_send = match kind {
