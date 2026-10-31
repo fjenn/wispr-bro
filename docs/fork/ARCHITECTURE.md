@@ -11,19 +11,19 @@ Re-check them when Tauri or tauri-specta is upgraded.
 
 ## Where fork code lives
 
-| Layer          | Location                                                                                                                                                                                                              |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `net.rs`, `settings.rs`, `commands/` (incl. `selfcheck.rs`, `csp.rs`), `db/`, `llm/`, `diagnostics/`, `models/`, `testutil.rs` under `cfg(test)`) |
-| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                                                                                                       |
-| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                                                                                                     |
-| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                                                                                                    |
-| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                                                                                                     |
-| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                         |
-| Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                     |
-| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                            |
-| Cleanup eval   | `eval/cleanup/` (items, README, `prompts/` (RS-07 upstream prompts, MIT), gitignored `reports/`), `scripts/wb-eval-cleanup.ts`, RS-07 bench `scripts/wb-bench-cleanup.ts`                                             |
-| Manual tests   | `docs/fork/MAC-TEST-SCRIPT.md`                                                                                                                                                                                        |
-| CI guards      | `scripts/wb-guard*.ts`, `ci/`, `.github/workflows/wb-*.yml`, `about.toml`                                                                                                                                             |
+| Layer          | Location                                                                                                                                                                                                                                                  |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `net.rs`, `settings.rs`, `commands/` (incl. `selfcheck.rs`, `csp.rs`, `history.rs`), `db/`, `context/`, `stats/`, `llm/`, `diagnostics/`, `models/`, `testutil.rs` under `cfg(test)`) |
+| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                                                                                                                                           |
+| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                                                                                                                                         |
+| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                                                                                                                                        |
+| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                                                                                                                                         |
+| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                                                             |
+| Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                                                         |
+| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                                                                |
+| Cleanup eval   | `eval/cleanup/` (items, README, `prompts/` (RS-07 upstream prompts, MIT), gitignored `reports/`), `scripts/wb-eval-cleanup.ts`, RS-07 bench `scripts/wb-bench-cleanup.ts`                                                                                 |
+| Manual tests   | `docs/fork/MAC-TEST-SCRIPT.md`                                                                                                                                                                                                                            |
+| CI guards      | `scripts/wb-guard*.ts`, `ci/`, `.github/workflows/wb-*.yml`, `about.toml`                                                                                                                                                                                 |
 
 Every fork source file starts with `// SPDX-License-Identifier: GPL-3.0-or-later`.
 Exception: AGPL ports start with `// SPDX-License-Identifier: AGPL-3.0-only`
@@ -419,6 +419,68 @@ maps, so the fork's packages cannot sit between `//fork` markers. They are:
   by the app via `db::fts`. Queries under 3 characters use `LIKE` on the
   content table.
 - `history.db` is never opened by this module.
+- The handle lives next to Handy's `history.db`: the portable `Data/` dir in
+  portable mode (S-09 fix; F-06 used `app_data_dir()` even then).
+
+## History data model (S-09)
+
+`fork/db/{entry_meta,stats,retention,reconcile,disk,handy,jobs}.rs`,
+`fork/db/migrations/0002_history.sql`, `fork/stats/{wordcount,streak,wpm}.rs`,
+`fork/context/{frontmost,categories,take}.rs` + `categories.json`,
+`fork/commands/history.rs`.
+
+**Hooks** (budgets in `ci/hooks.txt`):
+
+| Upstream file                                | Hook                                                                   |
+| -------------------------------------------- | ---------------------------------------------------------------------- |
+| `managers/history.rs` `insert_entry`         | `crate::fork::db::on_saved(&self.app_handle, &entry);`                 |
+| `managers/history.rs` `update_transcription` | `crate::fork::db::on_retried(&self.app_handle, &entry);`               |
+| `managers/history.rs` `delete_entry`         | `crate::fork::db::on_deleted(&self.app_handle, id);`                   |
+| `actions.rs` `TranscribeAction::start`       | `crate::fork::on_record_start(app);` (frontmost app, low-disk watch)   |
+| `actions.rs` stop task, WAV name             | `crate::fork::take_file_name(sample_count)` (ms names; binds the take) |
+| `actions.rs` history save                    | `if wav_saved \|\| crate::fork::keep_take(&wav_path_for_verify) {`     |
+| `managers/transcription.rs` `finish_text`    | `crate::fork::note_verbatim(verbatim, finished)` (verbatim ASR text)   |
+
+**How a take finds its row.** `fork::context::take::Ledger` (process-wide,
+bounded to 16 per queue): record start sets the _current_ take (time, local
+day, frontmost app and its taxonomy); `take_file_name` binds it to the WAV
+name with its speech time (samples / 16 kHz, VAD-trimmed); `finish_text`
+notes (kept text → verbatim text); `on_saved` looks both up by the entry's
+`file_name` and `transcription_text`, writes the row, and registers
+(entry id, final text) for `fork::insert`'s outcome, which
+`on_paste_outcome` matches by text (trailing space ignored). Rows the fork
+never saw start (retries of unknown rows, crashes) get Handy's save time and
+app `other`.
+
+**Writes** (`entry_meta::write`): one transaction per entry with its search
+document and its stats change. The first write sets time, day, app,
+taxonomy, source and speech time; later writes (a retry, a second save)
+change only the texts, counts and `previous_text`, and move the stats by the
+delta. `counted = 1` while the row's words are in `daily_stats`; only
+non-empty `dictation` rows count. Deletes never subtract.
+
+**Jobs** (`db::jobs`, thread `fork-history-jobs`, started in `on_ready`):
+launch reconcile (purge expired soft deletes, backfill Handy rows without
+`entry_meta`, drop orphans), then retention at launch, every 6 h and on a
+retention setting change. Handy's rows are read and deleted only through
+`HistoryManager` (`db::handy::HandyHistory`, driven with `block_on` on the
+fork's own threads); a WAV past the audio limit is a plain file delete.
+Debug builds honour `WB_DEBUG_RETENTION_CLOCK_OFFSET_DAYS` (Mac test S-09.2).
+
+**Soft delete:** `fork_history_delete` sets `deleted_at` (search and History
+hide the row), `fork_history_undo_delete` clears it, and a purge thread
+deletes through Handy after 10 s; the launch reconcile finishes purges a quit
+interrupted.
+
+**Full disk:** during a recording `db::disk` polls free space every second;
+below 50 MB it stops the recording through `fork::insert::on_disk_full`
+(`Interruption::DiskFull`, so the take goes to the card with
+`CardReason::DiskFull`). If the WAV still fails to save, `keep_take` keeps
+the history row with text only (`audio_deleted_at` set).
+
+**App taxonomy** (`context/categories.json`): exact bundle id, then
+OpenWhispr's whole-token signatures on name + bundle id (email, work,
+personal), then browsers (`other` until S-19b's host rules), else `other`.
 
 ## Fork settings (F-07)
 

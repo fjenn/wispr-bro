@@ -428,9 +428,74 @@ not touch the clipboard.
 
 ### S-09 History data model, retention, stats
 
-- [ ] S-09.1 50 takes in 5 apps produce correct per-app rows.
-- [ ] S-09.2 14-day audio expiry simulated by clock override.
-- Procedure: TODO (S-09).
+- [ ] S-09.1 50 takes in 5 apps produce correct per-app rows: each row has
+      the app that was frontmost at record start, its `usage_category`, its
+      words and speech time, a `paste_outcome`; `daily_stats` and
+      `daily_app_stats` add up to the rows.
+- [ ] S-09.2 14-day audio expiry simulated by clock override: WAVs older
+      than 14 days are deleted, their rows and text stay, the stats do not
+      change.
+- [ ] S-09.3 Delete a row from History, undo within 10 s: it comes back;
+      delete again and wait: it is gone from Handy's `history.db` and
+      `fork.db`, the stats keep it. (Needs S-15b's UI; until then
+      `fork_history_delete` / `fork_history_undo_delete` from the debug
+      console.)
+- [ ] S-09.4 Fill the disk to under 50 MB free during a take: the
+      recording stops, the text goes to the card (S-05) and History; the
+      log has `disk: … stopping the recording`.
+
+**Profile (all S-09 runs): an isolated portable debug build**, so the
+owner's app and data are never touched. In the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s09check","plugins":{"updater":{"active":false}}}' > /tmp/s09.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s09.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable          # data goes to ./Data
+mkdir -p Data/models && cp ~/wb-bench/asr/whisper-base/whisper-base-Q8_0.gguf Data/models/s09-whisper-base.gguf
+./handy --start-hidden & sleep 15; kill %1        # creates Data/settings_store.json
+```
+
+The test identifier (its own single-instance socket) means the product
+settings are not applied, so set in `Data/settings_store.json` >
+`settings`: `selected_model: "s09-whisper-base"`,
+`recording_retention_period: "never"` (Handy's own retention off, as the
+product enforces), `paste_method: "none"` (nothing is typed into the five
+apps), `vad_enabled: false` (speaker-to-mic audio is too quiet for VAD),
+`selected_language: "en"`, `log_level: "debug"`.
+
+**Procedure S-09.1 (unattended, ~13 min, needs speakers and the mic):**
+`./handy --start-hidden &`, then
+`scripts/wb-s09-soak.sh ~/wb-bench/audio/segments 50`. Each take holds
+`~/wb-bench/gui.lock`, brings the app to the front and checks it is
+frontmost before sending SIGUSR2 (Handy's toggle); a skipped take is
+retried. Then:
+
+```sh
+sqlite3 Data/fork.db "SELECT app_bundle_id, usage_category, COUNT(*), SUM(word_count), SUM(counted)
+                      FROM entry_meta GROUP BY 1, 2"
+sqlite3 Data/fork.db "SELECT paste_outcome, COUNT(*) FROM entry_meta GROUP BY 1"
+sqlite3 Data/fork.db "SELECT SUM(words), SUM(dictations), SUM(speech_ms) FROM daily_stats"
+sqlite3 Data/fork.db "SELECT usage_category, words, dictations FROM daily_app_stats"
+```
+
+Pass: 10 rows per app with the right category (TextEdit and Notes
+`documents`, Mail `email`, Messages `personal`, Claude `ai_prompts`);
+every row has a `paste_outcome` (`unverified` with paste method none);
+`daily_stats` words = the sum of counted rows' `word_count`, dictations =
+counted rows, `speech_ms` = their `audio_ms`; `daily_app_stats` matches per
+category; `history.db` has the same 50 ids.
+
+**Procedure S-09.2 (unattended, 1 min):** quit the app, relaunch it with
+`WB_DEBUG_RETENTION_CLOCK_OFFSET_DAYS=15 ./handy --start-hidden` (debug
+builds only). Pass: the log has `retention: 50 audio file(s) and 0 row(s)
+deleted`, `Data/recordings/` is empty, every `entry_meta` row has
+`audio_deleted_at`, `history.db` still has 50 rows, and the `daily_stats`
+query gives the same numbers as before. With offset 13 nothing is
+deleted.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-09.md` (S-09.1, S-09.2
+pass; S-09.3 purge path only; S-09.4 not run).
 
 ### S-10 Local LLM runtime
 
