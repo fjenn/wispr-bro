@@ -129,14 +129,14 @@ mod platform {
         ) -> CFStringRef;
         fn CFPreferencesAppSynchronize(app: CFStringRef) -> u8;
         fn CFPreferencesCopyAppValue(key: CFStringRef, app: CFStringRef) -> CFTypeRef;
-        fn CFNumberGetValue(number: CFTypeRef, the_type: i64, value: *mut c_void) -> u8;
+        fn CFNumberGetValue(number: CFTypeRef, the_type: isize, value: *mut c_void) -> u8;
         fn CFGetTypeID(cf: CFTypeRef) -> usize;
         fn CFNumberGetTypeID() -> usize;
         fn CFRelease(cf: CFTypeRef);
     }
 
     const UTF8: u32 = 0x0800_0100;
-    const CF_NUMBER_SINT64: i64 = 4;
+    const CF_NUMBER_SINT64: isize = 4;
 
     fn cfstr(s: &std::ffi::CStr) -> CFStringRef {
         // SAFETY: a valid NUL-terminated C string; the result is released by

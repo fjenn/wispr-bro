@@ -179,7 +179,7 @@ extern "C" {
     fn CGEventKeyboardSetUnicodeString(event: EventRef, length: usize, text: *const u16);
     fn CGEventSetIntegerValueField(event: EventRef, field: u32, value: i64);
     fn CGEventPost(tap: u32, event: EventRef);
-    fn CGEventSourceFlagsState(state_id: u32) -> u64;
+    fn CGEventSourceFlagsState(state_id: i32) -> u64;
 }
 
 #[link(name = "CoreFoundation", kind = "framework")]
