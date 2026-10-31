@@ -560,6 +560,40 @@ async forkMicMonitorStart() : Promise<Result<number, ForkError>> {
  */
 async forkMicMonitorStop() : Promise<void> {
     await TAURI_INVOKE("fork_mic_monitor_stop");
+},
+/**
+ * The Usage tab: speed, fixes, totals, categories and the streak heatmap.
+ */
+async forkInsightsUsage() : Promise<Result<UsageInsights, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_insights_usage") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * The Voice tab: locked below 1,700 words, else the four cards. The rows
+ * are read under the database lock; the cards are computed off it.
+ */
+async forkInsightsVoice() : Promise<Result<VoiceProfile, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_insights_voice") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * "Save as image" (C-56): writes the rendered Insights to `path`.
+ */
+async forkInsightsSaveImage(path: string, pngBase64: string) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_insights_save_image", { path, pngBase64 }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -619,6 +653,14 @@ export type BarPosition = "bottom" | "top"
  */
 export type BindingLabel = { action: string; chord: string; activation: HotkeyActivation; label: Label }
 /**
+ * Words in one usage category.
+ */
+export type CategoryInsight = { category: UsageCategory; words: number; dictations: number; 
+/**
+ * Share of all categorized words, 0..=1 (0 when there are none).
+ */
+share: number }
+/**
  * `entry_meta.cleanup_engine`.
  */
 export type CleanupEngine = "none" | "local" | 
@@ -662,6 +704,15 @@ export type CleanupWhy =
  * R5 §4.5 memory rule.
  */
 "low_memory" | "guard" | "timeout" | "error"
+export type CorrectedCard = { 
+/**
+ * What the recognizer heard.
+ */
+heard: string; 
+/**
+ * What was written instead.
+ */
+written: string; times: number }
 /**
  * Entry counts the page shows on its tabs.
  */
@@ -1286,6 +1337,18 @@ export type ForkToastsDismiss = {
  */
 cancelled_take: boolean }
 /**
+ * One heatmap cell.
+ */
+export type HeatmapDay = { 
+/**
+ * Local day, `YYYY-MM-DD`.
+ */
+date: string; words: number; 
+/**
+ * Band 0-4 ([`band`]).
+ */
+level: number }
+/**
  * How a hotkey binding drives its action.
  */
 export type HotkeyActivation = 
@@ -1614,6 +1677,24 @@ completed_at_ms: number | null }
  * `fork/onboarding/state.rs` (S-29a) is only the logic over it.
  */
 export type OnboardingStatus = "not_started" | "in_progress" | "completed"
+export type PeakCard = { 
+/**
+ * Local hour of day, 0-23 (the hour from `hour:00` to `hour+1:00`).
+ */
+hour: number; hour_words: number; 
+/**
+ * The hour's share of the words read, 0..=1.
+ */
+hour_share: number; 
+/**
+ * The app with the most words (`None` when no app was recorded).
+ */
+app_name: string | null; app_words: number; app_share: number }
+export type PhraseCard = { phrase: string; 
+/**
+ * Dictations that contain it.
+ */
+dictations: number }
 /**
  * What a message's Fix button does.
  */
@@ -2065,6 +2146,18 @@ export type SnippetSaveOutcome =
  */
 { status: "missing" }
 /**
+ * Speaking speed against typing speed.
+ */
+export type SpeedInsight = { 
+/**
+ * Words per minute on speech time; `None` under 3 s of speech.
+ */
+words_per_minute: number | null; typing_wpm: number; typing_source: TypingSource; 
+/**
+ * `words_per_minute / typing_wpm`, rounded to one decimal.
+ */
+times_typing: number | null }
+/**
  * Lifetime and today's numbers for the Home rail (S-15a) and Insights
  * (S-25).
  */
@@ -2107,9 +2200,49 @@ export type Transport = "built_in" | "usb" |
  */
 "display" | "thunderbolt" | "pci" | "fire_wire" | "avb" | "unknown"
 /**
+ * Where the typing speed comes from.
+ */
+export type TypingSource = 
+/**
+ * The user's typing test result (S-29b).
+ */
+"measured" | 
+/**
+ * [`AVERAGE_TYPING_WPM`].
+ */
+"average"
+/**
  * Update channel (DEC-33).
  */
 export type UpdateChannel = "stable" | "beta"
+/**
+ * Insights usage bucket (S-25). Values match the `usage_category` CHECKs.
+ */
+export type UsageCategory = "documents" | "ai_prompts" | "email" | "work" | "personal" | "other"
+/**
+ * Everything on the Usage tab.
+ */
+export type UsageInsights = { total_words: number; total_dictations: number; speech_ms: number; speed: SpeedInsight; fixes_dictionary: number; fixes_llm: number; 
+/**
+ * All six categories in [`UsageCategory::ALL`] order.
+ */
+categories: CategoryInsight[]; 
+/**
+ * [`HEATMAP_DAYS`] cells, oldest first, ending today.
+ */
+heatmap: HeatmapDay[]; 
+/**
+ * Days with at least one word inside the heatmap.
+ */
+heatmap_active_days: number; current_streak_days: number; longest_streak_days: number; 
+/**
+ * Local day of the first counted dictation.
+ */
+first_day: string | null; 
+/**
+ * Local day the numbers were computed for.
+ */
+today: string }
 /**
  * Vibe coding (DEC-41): off until the user runs its setup.
  */
@@ -2118,6 +2251,23 @@ export type VibeCodingSettings = { enabled: boolean; setup_completed: boolean;
  * Editors whose screen-reader mode the setup has confirmed.
  */
 editors: string[] }
+/**
+ * Everything on the Voice tab.
+ */
+export type VoiceProfile = { unlocked: boolean; 
+/**
+ * Lifetime words (`daily_stats`).
+ */
+total_words: number; 
+/**
+ * [`VOICE_PROFILE_WORDS`].
+ */
+goal: number; 
+/**
+ * Dictations the cards were computed from (0 while locked).
+ */
+dictations_read: number; phrase: PhraseCard | null; peak: PeakCard | null; word: WordCard | null; corrected: CorrectedCard | null }
+export type WordCard = { word: string; uses: number }
 
 /** tauri-specta globals **/
 
