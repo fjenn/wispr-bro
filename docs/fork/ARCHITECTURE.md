@@ -537,6 +537,34 @@ run gets the product (hotkeys, bar, product settings) with its own app
 data, WebKit storage and TCC rows; `early_init` puts `HF_HOME` and crash
 files under the build's own identifier.
 
+## Microphone and sounds (S-08)
+
+Which mic a take uses, what happens when it goes away, the level meter,
+the sounds and "Mute all audio while dictating". Everything is in
+`fork/audio/`; Handy is touched only in `managers/audio.rs` (the existing
+`recorder_config` hook, plus the two `osascript` bodies replaced by calls).
+
+| File                                                          | Role                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/audio/transport.rs`                       | HAL snapshot (device UID, name, transport, has input; default input), never opens a device; `Transport` and `is_wireless` (Bluetooth/LE, iPhone over the air, AirPlay); cpal ID ↔ UID (`coreaudio:<uid>`). Readers ported from handy-recorder `headset_macos.rs`    |
+| `src-tauri/src/fork/audio/choice.rs`                          | Pure rules: the wireless-default rule, which device a take opens, the list order (built-in "(recommended)", Auto-detect, wired, wireless)                                                                                                                            |
+| `src-tauri/src/fork/audio/mod.rs`                             | `recorder_config` hook: prepared mic (S-01) + the wireless rule for `device: None`; records the opened device (UID, name) for the bar label and the watch; `on_ready`                                                                                                |
+| `src-tauri/src/fork/audio/watch.rs`                           | Thread `wb-mic-watch`: HAL poll 1 Hz at rest, 5 Hz in a take; `ForkMicDevicesChanged`; take mic gone → bar warning `mic_lost` (audio before it is kept by Handy); at rest re-prepares a stale prepared mic (never in a take, not within 2 s of a press, ≤ 1 per 3 s) |
+| `src-tauri/src/fork/audio/monitor.rs`                         | Mic-test level meter: its own handy-recorder, `ForkMicLevel` at 20 Hz (RMS on a −60..0 dBFS scale, fast attack, slow release), ends on stop, 60 s, or a take start. Not a take: no Handy manager, history or bar                                                     |
+| `src-tauri/src/fork/audio/mute.rs` (AGPL, Tambourine)         | Mute sessions on CoreAudio: device mute flag, else volume scalars to 0 with exact restore; restored on the device that was muted; user's own mute left alone; `set_mute`/`get_mute` hooks; restore at `RunEvent::Exit`                                               |
+| `src-tauri/src/fork/audio/permission.rs`                      | DEC-55: at `ExitRequested`/`Exit`, a take still recording is stopped and saved as `<data>/recovered/wispr-bro-recovered-<ms>.wav`; at the next launch each is handed to Handy's file transcription (History) and removed; inbox entry `take_recovered`               |
+| `src-tauri/src/fork/commands/audio.rs`                        | `fork_mic_list`, `fork_mic_choose` (Handy `selected_microphone` + fork `mic_follow_system`, then re-prepare), `fork_mic_monitor_start` / `_stop`                                                                                                                     |
+| `src/fork/settings/MicrophonePicker.tsx`, `SoundSettings.tsx` | Settings › Sound on the debug panel until S-14: radio list with the Bluetooth caution and the "skipped headset" note, `MicLevelMeter`; sounds on/off, theme, volume, Play, mute while dictating (Handy's settings through Handy's store)                             |
+
+The choice is two settings: Handy's `selected_microphone` (a name, or
+`None` for the system default) and the fork's `mic_follow_system`. `None`
+with the flag off means "never chosen": the system default, except that a
+wireless default is replaced by the built-in mic (if the Mac has one).
+"Auto-detect (system setting)" sets the flag and follows the default even
+when it is Bluetooth. The sounds are Handy's own Marimba and Pop files
+(MIT, Handy's repo), on by default through F-07's `FIRST_RUN_DEFAULTS`; no
+new sound file was added.
+
 ## i18n and the untranslated marking scheme
 
 - English source: `src/i18n/locales/en/fork.json`. All 26 locales have a

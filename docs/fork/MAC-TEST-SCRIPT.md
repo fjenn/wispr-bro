@@ -612,10 +612,82 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-07a.md`.
 
 ### S-08 Microphone and sound polish
 
-- [ ] S-08.1 RS-11 mic-loss and permission-revoke cases.
-- [ ] S-08.2 AirPods connected as default → built-in mic used.
-- [ ] S-08.3 Mute restores the previous volume exactly.
-- Procedure: TODO (S-08).
+- [ ] S-08.1 RS-11 mic-loss and permission-revoke cases: the take's mic
+      disappears mid-take → the bar says "Mic lost, keeping what you said"
+      and the text before the loss reaches History; Microphone revoked
+      mid-take, then **Quit & Reopen** → the take's audio is saved at quit
+      and is in History after the relaunch (inbox entry); the next take
+      without access shows "Microphone access is off" with Fix.
+- [ ] S-08.1b (person, hardware) The same with a real USB mic unplugged and
+      AirPods dropping out mid-take.
+- [ ] S-08.2 AirPods connected as the macOS default, never chosen → takes
+      use the built-in mic (log `the system microphone is wireless …`, the
+      bar's label), the list shows the "skipped headset" note; "Use … anyway"
+      switches to the headset.
+- [ ] S-08.3 "Mute all audio while dictating": muted during the take,
+      afterwards the output's mute flag and volume scalars are back bit for
+      bit; a user who had muted stays muted; no `osascript` process runs.
+- [ ] S-08.4 Settings › Sound on the debug panel: list order (built-in
+      "(recommended)", Auto-detect, wired, Bluetooth with its caution), the
+      level meter moves with speech, sounds on by default.
+
+**Profile: an isolated portable release bundle** with its own identity
+(`com.wisprbro.s08check`, "Wispr Bro S08 Check"), launched with `open` so
+macOS keeps its own Microphone permission (a binary started from a
+terminal shares the terminal's, and revoking it would revoke the
+terminal's). Never the owner's app or data. In the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s08check","productName":"Wispr Bro S08 Check","plugins":{"updater":{"active":false}}}' > $SCRATCH/s08.conf.json
+bun run tauri build --bundles app --config src-tauri/tauri.fork.conf.json --config $SCRATCH/s08.conf.json
+swiftc -O -o $SCRATCH/wbhal scripts/wb-s08/hal.swift     # the terminal needs Accessibility
+```
+
+Copy the `.app` to `~/Applications/`, add `Contents/MacOS/portable`
+(`Handy Portable Mode`), put a speech model in `Contents/MacOS/Data/models/`,
+re-sign (`codesign --force --deep --options runtime --entitlements
+src-tauri/Entitlements.plist -s -`), `lsregister -f`, launch once and quit,
+then `python3 -I scripts/wb-s08/setup.py <app>/Contents/MacOS/Data <model> [1]`
+(never chosen, sounds on, no paste, optional mute). Takes are toggled with
+`kill -USR2`. Keep speaker playback to the one check that needs real mic
+audio (the mic loss: one short WAV made once with `say -o`, played at a
+moderate volume); everything else runs silent. Hold `~/wb-bench/gui.lock`
+for every run that plays sound or changes the default input; put the
+default input and the output volume back. `scripts/wb-s08/run.sh` has a
+case per step (`HAL`, `APP`, `OUT` set; `grant.sh` answers the first
+Microphone prompt with Allow).
+
+**Procedure (unattended, ~10 min).**
+
+1. Mic loss (`run.sh loss`): a public aggregate over the built-in mic (the
+   stand-in USB mic) as the default input, relaunch so it is prepared, a
+   take with the WAV, destroy the aggregate right after it, stop the take.
+   Pass: log `the take's microphone disappeared` at once, the History row
+   holds the words before the loss, the watch re-prepares on the built-in
+   mic and the next take records.
+2. Mute (`run.sh relaunch 1`, `mute`, `premuted`): `wbhal state` before,
+   during and after a take. Pass: `mute` 1 during, the same `mute` and
+   volume `bits` after; with the output muted beforehand it stays muted; no
+   `osascript` process.
+3. Revoke + quit (`grant.sh`, `run.sh revoke`): `tccutil reset Microphone
+   com.wisprbro.s08check` 3 s into a take. If macOS shows "Quit & Reopen",
+   press it; otherwise (2026-10-31: no dialog appeared) send the quit Apple
+   event and reopen. Pass: log `saved the take running at quit`, after the
+   relaunch `take(s) saved at the last quit are in History`, a History row
+   with `source_name` `wispr-bro-recovered-….wav`, inbox `take_recovered`,
+   `Data/recovered/` empty.
+4. Denied (`run.sh denied`): answer the prompt with Don't Allow. In the same
+   process the bar says "Only silence came in" (the open succeeds, silent);
+   after a relaunch it shows "Microphone access is off" with Fix.
+5. Clean up: quit, `tccutil reset All com.wisprbro.s08check`,
+   `lsregister -u`, delete the bundle and its `~/Library/{WebKit,Caches}`
+   folders, compare `wbhal state` with the one before the run.
+
+Not reproducible without hardware: S-08.1b and S-08.2 (a Bluetooth
+transport cannot be faked; the rule is covered by `fork::audio::choice`
+tests).
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-08.md`.
 
 ### S-09 History data model, retention, stats
 
