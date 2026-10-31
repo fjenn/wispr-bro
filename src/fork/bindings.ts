@@ -598,8 +598,9 @@ async forkSpeechSetupRetry() : Promise<void> {
     await TAURI_INVOKE("fork_speech_setup_retry");
 },
 /**
- * The user's languages may have changed (onboarding Welcome): re-pick the
- * first model if setup is still running.
+ * The user's languages may have changed (onboarding Welcome, General):
+ * re-pick the first model if setup is still running, and the best model
+ * once it is done (S-07b).
  */
 async forkSpeechSetupRefresh() : Promise<void> {
     await TAURI_INVOKE("fork_speech_setup_refresh");
@@ -689,6 +690,26 @@ async forkInsightsSaveImage(path: string, pngBase64: string) : Promise<Result<nu
  */
 async forkLlmAppleStatus() : Promise<ForkAppleStatus> {
     return await TAURI_INVOKE("fork_llm_apple_status");
+},
+/**
+ * Settings › Advanced › Models: what the policy chose and what it is doing
+ * (also sent as `fork-model-policy`).
+ */
+async forkModelPolicyStatus() : Promise<ForkModelPolicy> {
+    return await TAURI_INVOKE("fork_model_policy_status");
+},
+/**
+ * "Choose automatically" on the Models panel. Off pins the current model.
+ */
+async forkModelPolicySetAutomatic(on: boolean) : Promise<ForkModelPolicy> {
+    return await TAURI_INVOKE("fork_model_policy_set_automatic", { on });
+},
+/**
+ * Handy model ids the Models panel hides: retired by the policy, or
+ * restricted by the licence filter (DEC-27), unless downloaded.
+ */
+async forkModelsHidden() : Promise<string[]> {
+    return await TAURI_INVOKE("fork_models_hidden");
 }
 }
 
@@ -703,6 +724,7 @@ forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
 forkMicDevicesChanged: ForkMicDevicesChanged,
 forkMicLevel: ForkMicLevel,
+forkModelPolicy: ForkModelPolicy,
 forkNotificationOpened: ForkNotificationOpened,
 forkNotificationsChanged: ForkNotificationsChanged,
 forkPillLevels: ForkPillLevels,
@@ -721,6 +743,7 @@ forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
 forkMicDevicesChanged: "fork-mic-devices-changed",
 forkMicLevel: "fork-mic-level",
+forkModelPolicy: "fork-model-policy",
 forkNotificationOpened: "fork-notification-opened",
 forkNotificationsChanged: "fork-notifications-changed",
 forkPillLevels: "fork-pill-levels",
@@ -799,6 +822,22 @@ export type CategoryInsight = { category: UsageCategory; words: number; dictatio
  * Share of all categorized words, 0..=1 (0 when there are none).
  */
 share: number }
+/**
+ * The chip, as far as the policy cares.
+ */
+export type Chip = 
+/**
+ * `generation` 1 for M1, 5 for M5; `tier` from the suffix.
+ */
+{ kind: "apple_silicon"; generation: number; tier: Tier } | 
+/**
+ * Apple Silicon whose brand string we could not read.
+ */
+{ kind: "unknown_apple_silicon" } | 
+/**
+ * x86_64 (DEC-29: CPU only, later milestone).
+ */
+{ kind: "intel" }
 /**
  * `entry_meta.cleanup_engine`.
  */
@@ -1264,6 +1303,36 @@ system_default: string | null;
  * The wireless default the rule is skipping (never chosen), by name.
  */
 avoided: string | null }
+/**
+ * The `fork-model-policy` event and `fork_model_policy_status` reply.
+ * Unlike the bar's status it may name models: it is for Settings ›
+ * Advanced only.
+ */
+export type ForkModelPolicy = { 
+/**
+ * The policy picks (false: the user pinned a model).
+ */
+automatic: boolean; phase: PolicyPhase; 
+/**
+ * Display name of the selected speech model.
+ */
+current_model: string | null; 
+/**
+ * Display name of the policy's pick when it is not the selection yet.
+ */
+next_model: string | null; 
+/**
+ * 0-99 while the next model downloads.
+ */
+percent: number | null; 
+/**
+ * Nothing meets the latency budget on this Mac.
+ */
+slower: boolean; 
+/**
+ * The languages the pick is for.
+ */
+languages: string[]; machine: MachineSummary | null }
 /**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
@@ -1746,6 +1815,10 @@ export type LlmState =
  */
 "download_failed"
 /**
+ * This Mac, as the Models panel shows it.
+ */
+export type MachineSummary = { chip: Chip; ram_gb: number; free_disk_gb: number | null }
+/**
  * What kind of row a microphone list entry is.
  */
 export type MicEntryKind = 
@@ -1850,7 +1923,12 @@ export type NotificationKind =
 /**
  * A new feature in this version (Announcements toggle).
  */
-"announcement"
+"announcement" | 
+/**
+ * S-07b: dictation is slower on this Mac than the budget (said once,
+ * inbox only).
+ */
+"slower_mac"
 /**
  * macOS notification authorization as the app sees it.
  */
@@ -2071,6 +2149,26 @@ export type PillWarning =
  * what it heard before is kept (S-08). Stays until the take ends.
  */
 "mic_lost"
+/**
+ * What the background work is doing (Settings › Advanced › Models).
+ */
+export type PolicyPhase = 
+/**
+ * Before the first decision, or no policy (plain Handy).
+ */
+"checking" | 
+/**
+ * The selection is the policy's pick (or pinned).
+ */
+"settled" | "downloading" | 
+/**
+ * Downloaded; waiting for a moment without dictation.
+ */
+"waiting_to_swap" | 
+/**
+ * The download stopped; tried again at the next launch or change.
+ */
+"paused"
 /**
  * A valid row as it would be saved.
  */
@@ -2449,6 +2547,10 @@ export type StylePreset = "formal" | "relaxed" | "very_relaxed" | "upbeat"
  * Style per app group.
  */
 export type StyleSettings = { personal: StylePreset; work: StylePreset; email: StylePreset; other: StylePreset }
+/**
+ * Apple Silicon tier from the brand string (`Apple M2 Pro`).
+ */
+export type Tier = "base" | "pro" | "max" | "ultra"
 /**
  * How a device is connected (CoreAudio `kAudioDevicePropertyTransportType`).
  */
