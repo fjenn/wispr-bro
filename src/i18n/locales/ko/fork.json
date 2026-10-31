@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "안전 검사를 통과하지 못했습니다",
       "timeout": "정리 작업이 너무 오래 걸렸습니다",
       "error": "AI 엔진에 문제가 있었습니다"
+    }
+  },
+  "snippets": {
+    "add": "단편 추가",
+    "added": "“{{trigger}}”을 추가했습니다.",
+    "search": "검색할 수 있는 스니프트",
+    "refresh": "새로고침",
+    "shown_one": "{{count}} 개의 샘플이 표시됨",
+    "shown_other": "{{count}} 개의 스니프트가 표시됨",
+    "deleted": "삭제했습니다. \"{{trigger}}\"",
+    "deleteFailed": "그 스니펫을 삭제할 수 없습니다. 다시 시도해 주세요.",
+    "undo": "되돌리기",
+    "counts": {
+      "snippets_one": "{{count}} 개의 스니프트",
+      "snippets_other": "{{count}} 개의 스니프트",
+      "uses_one": "사용한 횟수: {{count}}",
+      "uses_other": "{{count}}번 사용"
+    },
+    "sort": {
+      "label": "정렬",
+      "newest": "가장 최신 순",
+      "oldest": "가장 오래된 것부터",
+      "az": "A에서 Z까지",
+      "za": "Z에서 A로",
+      "used": "가장 자주 사용"
+    },
+    "banner": {
+      "title": "몇 개의 단어를 말하면 전체 텍스트를 얻으세요",
+      "body": "다시 and again 쓰는 텍스트를 저장하세요. 어떤 앱에서든 그 텍스트의 쿼리를 단독으로 또는 문장 중간에 말하면, {{appName}}은 저장된 텍스트와 줄 바꿈을 모두 작성합니다.",
+      "examplesLabel": "예제",
+      "example1": "“내 주소” → 당신의 전체 우편 주소",
+      "example2": "“내 서명” → 최선의 기원과 당신의 이름",
+      "example3": "“내 예약 링크” → 사람들이 전화 예약할 때 사용하는 링크"
+    },
+    "entry": {
+      "becomes": "은 다음과 같이 쓰입니다",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} 줄",
+      "lines_other": "{{count}} 줄",
+      "imported": "импортированный",
+      "used_one": "Used {{count}} time",
+      "used_other": "사용한 횟수: {{count}}회",
+      "edit": "편집 {{trigger}}",
+      "delete": "{{trigger}} 삭제"
+    },
+    "empty": {
+      "title": "아직 스니프트가 없습니다",
+      "body": "주소, 서명, 링크를 한 번만 저장하세요. 그 쿼를 말하면 {{appName}}이 자동으로 입력합니다."
+    },
+    "noMatch": {
+      "title": "아무것도 일치하지 않음",
+      "body": "스니프트에 \"{{query}}\"가 포함되어 있지 않습니다.",
+      "action": "검색을 초기화"
+    },
+    "unavailable": {
+      "title": "스니펫은 아직 사용할 수 없습니다",
+      "body": "앱이 시작을 끝내면 즉시 열립니다."
+    },
+    "problem": {
+      "empty_trigger": "먼저 말할 내용을 입력하세요.",
+      "trigger_too_long": "말하는 내용은 최대 {{max}}자까지 가능합니다.",
+      "trigger_not_spoken": "말한 내용에는 최소한 한 개의 글자 또는 숫자가 필요합니다.",
+      "trigger_control_character": "말한 내용은 한 줄에 맞춰야 해.",
+      "empty_body": "텍스트를 입력하세요.",
+      "body_too_long": "텍스트는 최대 {{maxBody}}자까지 가능합니다.",
+      "body_control_character": "텍스트에는 작성할 수 없는 문자가 포함되어 있습니다. 그것을 제거하고 다시 시도하세요.",
+      "full": "앱이 저장할 수 있는 최대 스티커 수를 초과했습니다. 먼저 몇 개를 삭제하세요."
+    },
+    "dialog": {
+      "addTitle": "단편 추가",
+      "editTitle": "단편 편집",
+      "description": "cue를 말하고 저장된 텍스트가 입력됩니다.",
+      "trigger": "내가 말할 때",
+      "triggerPlaceholder": "예: 내 주소",
+      "body": "쓰기",
+      "bodyPlaceholder": "작성할 텍스트입니다. 줄 바꿈은 유지됩니다.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "자체적으로 작동하거나 문장 안에서 사용할 수 있으며, 어떤 경우든 동일합니다. 문장 내에서 쿼리에 들어가는 문장 부호는 동일하게 말해야 합니다. 텍스트는 저장된 그대로입니다.",
+      "cancel": "취소",
+      "add": "단편 추가",
+      "save": "저장",
+      "close": "닫기",
+      "duplicate": "“{{trigger}}”는 이미 이 텍스트와 함께 저장되어 있습니다.",
+      "conflict": "“{{trigger}}”는 이미 다른 텍스트와 함께 스티프트입니다.",
+      "replaceExisting": "그걸 대체",
+      "missing": "이 스니프트는 그 사이에 삭제되었습니다.",
+      "failed": "그게 저장되지 않았습니다. 다시 시도해 주세요."
+    },
+    "import": {
+      "open": "импортировать",
+      "title": "단편을 가져오기",
+      "description": "스프레드시트를 CSV로 저장하여 스니펫을 가져옵니다.",
+      "fieldTrigger": "당신이 말하는 것",
+      "fieldBody": "작성할 텍스트",
+      "format": {
+        "intro": "하나의 스티커를 한 줄에:",
+        "columns": "첫 번째 열은 당신이 말하는 내용이고, 두 번째 열은 쓸 내용입니다.",
+        "lines": "줄바꿈이 포함된 텍스트는 따옴표 안에 입력되며, 스프레드시트 앱이 저장할 때 그럴 때가 있습니다.",
+        "limits": "당신이 말하는 내용은 최대 {{max}}자까지, 텍스트는 최대 {{maxBody}}까지이며, 파일당 최대 1,000행과 3MB입니다.",
+        "encoding": "CSV UTF-8로 저장하여 어코스와 기타 문자가 올 수 있도록 합니다."
+      },
+      "review": {
+        "new_one": "새로운 스티프",
+        "new_other": "새로운 스니프트",
+        "duplicates_one": "이미 있음",
+        "duplicates_other": "이미 있음",
+        "conflicts_one": "충돌",
+        "conflicts_other": "충돌",
+        "invalid_one": "импортировать невозможно",
+        "invalid_other": "импортировать невозможно",
+        "overLimit_one": "더 {{room}} 개의 공간이 있습니다; {{count}} 개의 새 스티커는 들어가지 않습니다.",
+        "overLimit_other": "더 {{room}} 개의 공간이 있습니다; {{count}} 개의 새 스니프트가 들어가지 않습니다.",
+        "ignoredRows_one": "첫 1,000개 행만 읽힘; {{count}}개 더 행이 생략됨.",
+        "ignoredRows_other": "첫 1,000개 행만 읽힘; {{count}}개 더 생략됨.",
+        "showNew": "새로운 스니프트를 표시",
+        "more_one": "그리고 {{count}}개 더",
+        "more_other": "그리고 {{count}}개 더",
+        "conflictsTitle": "이미 다른 텍스트와 함께 저장됨",
+        "conflictsHelp": "파일의 텍스트가 당신의 텍스트를 대체해야 할 경우 체크하세요.",
+        "useAllFile": "모든 파일의 텍스트를 사용합니다",
+        "keepAllMine": "모든 것을 내 것이 되게 하기",
+        "useFile": "파일의:",
+        "yours": "당신의:",
+        "showInvalid": "입력이 불가능한 행을 표시",
+        "invalidRow": "행 {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} 스니프트가 임포트되었습니다",
+        "title_other": "{{count}} 스니프트가 임포트되었습니다",
+        "added_one": "{{count}} 추가됨",
+        "added_other": "{{count}} 추가됨",
+        "replaced_one": "{{count}} 개가 파일의 텍스트로 대체되었습니다",
+        "replaced_other": "{{count}} 개가 파일의 텍스트로 대체되었습니다",
+        "skipped_one": "{{count}} 이미 있음, 건너뜀",
+        "skipped_other": "{{count}} 이미 있음, 건너뜀",
+        "kept_one": "{{count}} 충돌이 유지되었습니다",
+        "kept_other": "{{count}} 충돌이 그대로 유지되었습니다",
+        "invalid_one": "{{count}} 행이 임포트되지 않았습니다",
+        "invalid_other": "{{count}} 행이 임포트되지 않았습니다",
+        "overLimit_one": "{{count}}이 들어가지 않았습니다",
+        "overLimit_other": "{{count}}이 들어가지 않았습니다"
+      }
+    },
+    "export": {
+      "open": "내보내기",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "{{count}} 개의 스니프트를 내보냈습니다.",
+      "done_other": "{{count}}개의 스니프트를 내보냈습니다.",
+      "failed": "스니펫을 내보내지 못했습니다. 다시 시도해 보세요."
     }
   }
 }

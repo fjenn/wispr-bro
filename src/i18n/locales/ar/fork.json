@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "لم يمر عبر فحص السلامة",
       "timeout": "التنظيف استغرق وقتًا طويلاً",
       "error": "لديه مشكلة في محرك الذكاء الاصطناعي"
+    }
+  },
+  "snippets": {
+    "add": "إضافة مُلصق",
+    "added": "أُضيفت \"{{trigger}}\".",
+    "search": "ابحث عن مقتطفاتك",
+    "refresh": "إعادة التحميل",
+    "shown_one": "{{count}} مُظهر",
+    "shown_other": "{{count}} مُلَفَّات عُرضت",
+    "deleted": "تم حذف \"{{trigger}}\".",
+    "deleteFailed": "لا يمكن حذف هذا المُلخص. يُرجى المحاولة مرة أخرى.",
+    "undo": "إلغاء",
+    "counts": {
+      "snippets_one": "{{count}} مُلخص",
+      "snippets_other": "{{count}} مُلخصات",
+      "uses_one": "استخدم {{count}} مرة",
+      "uses_other": "استخدم {{count}} مرة"
+    },
+    "sort": {
+      "label": "ترتيب",
+      "newest": "أولًا الأحدث",
+      "oldest": "أولًا أقدم",
+      "az": "من أ إلى ز",
+      "za": "ز إلى أ",
+      "used": "الأكثر استخدامًا"
+    },
+    "banner": {
+      "title": "قل بعض الكلمات، واحصل على النص الكامل",
+      "body": "احفظ النص الذي تكتبُه مرارًا وتكرارًا. قل مُدخله بذاته أو في منتصف جملة، في أي تطبيق، وستكتب {{appName}} النص المحفوظ مع الأسطر والمسافات.",
+      "examplesLabel": "أمثلة",
+      "example1": "«عنواني» → عنوانك الكامل البريدي",
+      "example2": "«مُوَافِقِي» → كل التقديرات، واسمك",
+      "example3": "«رابط حجزي أنا» → الرابط الذي يستخدمه الناس لحجز مكالمة"
+    },
+    "entry": {
+      "becomes": "يُكتب على الشكل",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} سطر",
+      "lines_other": "{{count}} سطر",
+      "imported": "مُستَمَدَّ",
+      "used_one": "استخدم {{count}} مرة",
+      "used_other": "استخدم {{count}} مرة",
+      "edit": "تعديل {{trigger}}",
+      "delete": "حذف {{trigger}}"
+    },
+    "empty": {
+      "title": "لا توجد ملخصات بعد",
+      "body": "احفظ عنوانًا أو عبارة توقّعًا أو رابطًا مرة واحدة. عندما تقول مفتاحه، يُكتب من قبل {{appName}}."
+    },
+    "noMatch": {
+      "title": "لا يوجد تطابق",
+      "body": "لا يحتوي أي مقتطف على “{{query}}”.",
+      "action": "إزالة البحث"
+    },
+    "unavailable": {
+      "title": "لا يُمكن استخدام المُلصقات بعد",
+      "body": "يُفتحون فورًا بعد أن ينتهي تحميل التطبيق."
+    },
+    "problem": {
+      "empty_trigger": "اكتب ما ستفعله أولاً.",
+      "trigger_too_long": "ما تقوله يمكن أن يصل إلى {{max}} حرفًا.",
+      "trigger_not_spoken": "ما تقوله يجب أن يحتوي على حرف أو رقم على الأقل.",
+      "trigger_control_character": "ما تقوله يجب أن يناسب سطرًا واحدًا.",
+      "empty_body": "أدخل النص الذي ترغب في كتابته.",
+      "body_too_long": "النص يمكن أن يصل إلى {{maxBody}} حرفًا.",
+      "body_control_character": "النص يحتوي على رمز لا يمكن كتابته. احذفه وحاول مرة أخرى.",
+      "full": "لديك أقصى عدد من المُلصقات التي يمكن أن يحتويها التطبيق. احذف بعضها أولاً."
+    },
+    "dialog": {
+      "addTitle": "إضافة مقتطف",
+      "editTitle": "تعديل المُلصق",
+      "description": "قل الإشارة وستُكتَب النص المحفوظ بدلًا من ذلك.",
+      "trigger": "عندما أقول",
+      "triggerPlaceholder": "مثلاً: عنواني",
+      "body": "اكتب",
+      "bodyPlaceholder": "النص الذي يُكتب. تُحتفظ الأسطر.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "يُستخدم بشكل منفصل أو داخل جملة، في أي حالة. داخل الجملة، يجب أن يُقال التصريف في الإشارة بنفس الطريقة. يكون النص مكتوبًا بالضبط كما تم حفظه.",
+      "cancel": "إلغاء",
+      "add": "إضافة مُلصق",
+      "save": "احفظ",
+      "close": "إغلاق",
+      "duplicate": "النص \"{{trigger}}\" مُحفوظ بالفعل مع هذا النص.",
+      "conflict": "النص \"{{trigger}}\" موجود بالفعل كنص مُختصر مع نص آخر.",
+      "replaceExisting": "أعِدْه",
+      "missing": "تم حذف هذا المُلخص في الوقت نفسه.",
+      "failed": "لا يمكن حفظ ذلك. يُرجى المحاولة مرة أخرى."
+    },
+    "import": {
+      "open": "استيراد",
+      "title": "استيراد قطع",
+      "description": "أدخل قطعًا من جدول بيانات محفوظ كـ CSV.",
+      "fieldTrigger": "ما تقوله",
+      "fieldBody": "النص الذي يُكتب",
+      "format": {
+        "intro": "واحدة من المُلصقات في كل صف:",
+        "columns": "العمود الأول هو ما تقوله؛ والثاني هو النص الذي تكتب его.",
+        "lines": "نص يحتوي على أسطر يُوضع داخل علامات تنصيص، كما يحفظه برامج الجداول.",
+        "limits": "ما تقوله حتى {{max}} حرفًا، نصوص حتى {{maxBody}}، بحد أقصى 1000 صف و 3 ميغابايت لكل ملف.",
+        "encoding": "احفظ كـ CSV UTF-8 لكي تظهر الأحرف المُسَمَّاة واللغات الأخرى."
+      },
+      "review": {
+        "new_one": "مُلصق جديد",
+        "new_other": "أكواد جديدة",
+        "duplicates_one": "موجود بالفعل",
+        "duplicates_other": "موجود بالفعل",
+        "conflicts_one": "تناقض",
+        "conflicts_other": "تعارض",
+        "invalid_one": "لا يمكن استيراده",
+        "invalid_other": "لا يمكن استيراده",
+        "overLimit_one": "هناك مساحة لـ {{room}} أكثر؛ لن يناسب {{count}} مُلصق جديد.",
+        "overLimit_other": "هناك مساحة لـ {{room}} أكثر؛ لن تتناسب {{count}} ملصق جديد.",
+        "ignoredRows_one": "فقط الصفوف الأولى 1000 تُقرأ؛ {{count}} صف آخر يتم تجاهله.",
+        "ignoredRows_other": "فقط الصفوف الأولى 1000 تُقرأ؛ هناك {{count}} صفوف مُستبعدة.",
+        "showNew": "أظهر القطع الجديدة",
+        "more_one": "و {{count}} أكثر",
+        "more_other": "و {{count}} أكثر",
+        "conflictsTitle": "مُحفوظ بالفعل مع نص آخر",
+        "conflictsHelp": "أَخِذِ الَّذِي يَسْتَحِلُّ بِمَوْضِعِ النَّصِّ الَّذِي يَسْتَحِلُّ بِمَوْضِعِكَ.",
+        "useAllFile": "استخدم نص الملف لجميع",
+        "keepAllMine": "أبقِ كل ما يخصي",
+        "useFile": "استخدم ملفه:",
+        "yours": "أنت:",
+        "showInvalid": "أظهر الصفوف التي لا يمكن استيرادها",
+        "invalidRow": "الصف {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "تم استيراد {{count}} مُلخص",
+        "title_other": "تم استيراد {{count}} مُلخص",
+        "added_one": "{{count}} مُضاف",
+        "added_other": "{{count}} أُضيف",
+        "replaced_one": "{{count}} تم استبداله بالنص المُرفق",
+        "replaced_other": "{{count}} تم استبداله بالنص المُرفق",
+        "skipped_one": "{{count}} موجود بالفعل، تم تخطيه",
+        "skipped_other": "{{count}} موجود بالفعل، تم تخطيه",
+        "kept_one": "تم الحفاظ على {{count}} تعارض كما كان",
+        "kept_other": "تم الحفاظ على {{count}} تعارض كما كانت",
+        "invalid_one": "لا يمكن استيراد {{count}} صف",
+        "invalid_other": "لا يمكن استيراد {{count}} صفًا",
+        "overLimit_one": "{{count}} لم يناسب",
+        "overLimit_other": "{{count}} لم يناسب"
+      }
+    },
+    "export": {
+      "open": "تصدير",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "تم استيراد {{count}} مُلخص.",
+      "done_other": "تم استيراد {{count}} مُلخص.",
+      "failed": "لا يمكن استيراد المُلخصات. يُرجى المحاولة مرة أخرى."
     }
   }
 }

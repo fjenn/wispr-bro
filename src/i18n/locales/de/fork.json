@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "es hat die Sicherheitsprüfungen nicht bestanden",
       "timeout": "Die Bereinigung dauerte zu lange",
       "error": "das AI-System hatte ein Problem"
+    }
+  },
+  "snippets": {
+    "add": "Snippet hinzufügen",
+    "added": "„{{trigger}}“ hinzugefügt.",
+    "search": "Ihre Snippets suchen",
+    "refresh": "Aktualisieren",
+    "shown_one": "{{count}} Stichprobe angezeigt",
+    "shown_other": "{{count}} Stichproben angezeigt",
+    "deleted": "Gelöscht „{{trigger}}“.",
+    "deleteFailed": "Dieser Eintrag konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+    "undo": "Rückgängig",
+    "counts": {
+      "snippets_one": "{{count}} Snippet",
+      "snippets_other": "{{count}} Stichworte",
+      "uses_one": "benutzt {{count}} Zeit",
+      "uses_other": "benutzt {{count}} mal"
+    },
+    "sort": {
+      "label": "Sortieren",
+      "newest": "Neueste zuerst",
+      "oldest": "Älterer zuerst",
+      "az": "A bis Z",
+      "za": "Z bis A",
+      "used": "Am häufigsten verwendet"
+    },
+    "banner": {
+      "title": "Ein paar Wörter sagen, den ganzen Text erhalten",
+      "body": "Text, den Sie wieder und wieder schreiben, speichern. Sagen Sie den Auslöser allein oder mitten in einem Satz, in jeder App, und {{appName}} schreibt den gespeicherten Text mit allen Zeilenumbrüchen.",
+      "examplesLabel": "Beispiele",
+      "example1": "„meine Adresse“ → deine vollständige Postadresse",
+      "example2": "„mein Abschluss“ → Herzliche Grüße und dein Name",
+      "example3": "„mein Buchungslink“ → der Link, den Menschen verwenden, um eine Gesprächsreservation zu buchen"
+    },
+    "entry": {
+      "becomes": "wird als geschrieben",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} Zeile",
+      "lines_other": "{{count}} Zeilen",
+      "imported": "Importiert",
+      "used_one": "Gebraucht {{count}} Mal",
+      "used_other": "Gebraucht {{count}} Mal",
+      "edit": "Bearbeite {{trigger}}",
+      "delete": "Löschen {{trigger}}"
+    },
+    "empty": {
+      "title": "Noch keine Stichwörter",
+      "body": "Ein Adresse, eine Unterschrift oder einen Link einmal speichern. Sobald Sie den Hinweis nennen, schreibt {{appName}} ihn für Sie."
+    },
+    "noMatch": {
+      "title": "Nichts passt",
+      "body": "Kein Snippet enthält „{{query}}“.",
+      "action": "Suche löschen"
+    },
+    "unavailable": {
+      "title": "Zusammenfassungen sind noch nicht verfügbar",
+      "body": "Sie öffnen, sobald die App fertig gestartet ist."
+    },
+    "problem": {
+      "empty_trigger": "Tippe, was du zuerst sagen wirst.",
+      "trigger_too_long": "Was du sagst kann bis zu {{max}} Zeichen lang sein.",
+      "trigger_not_spoken": "Was du sagst, muss mindestens ein Buchstabe oder eine Zahl enthalten.",
+      "trigger_control_character": "Was du sagst, muss auf einer Zeile passen.",
+      "empty_body": "Geben Sie den Text ein, den Sie schreiben möchten.",
+      "body_too_long": "Der Text kann bis zu {{maxBody}} Zeichen lang sein.",
+      "body_control_character": "Der Text enthält einen Zeichen, der nicht geschrieben werden kann. Entfernen Sie es und versuchen Sie es erneut.",
+      "full": "Sie haben die maximale Anzahl an Stichwörtern, die die App speichern kann. Löschen Sie einige zuerst."
+    },
+    "dialog": {
+      "addTitle": "Snippet hinzufügen",
+      "editTitle": "Snippet bearbeiten",
+      "description": "Sagen Sie den Hinweis und der gespeicherte Text wird geschrieben.",
+      "trigger": "Wenn ich sage",
+      "triggerPlaceholder": "z. B. meine Adresse",
+      "body": "Schreiben",
+      "bodyPlaceholder": "Der Text, den man schreiben soll. Zeilenumbrüche werden beibehalten.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funktioniert allein oder in einem Satz, in jedem Fall. In einem Satz muss die Zeichensetzung im Hinweis genau so gesprochen werden. Der Text wird genau so abgespeichert.",
+      "cancel": "Abbrechen",
+      "add": "Snippet hinzufügen",
+      "save": "Speichern",
+      "close": "Schließen",
+      "duplicate": "„{{trigger}}\" ist bereits mit diesem Text gespeichert.",
+      "conflict": "„{{trigger}}\" ist bereits ein Eintrag mit einem anderen Text.",
+      "replaceExisting": "Es ersetzen",
+      "missing": "Dieser Eintrag wurde zeitweise gelöscht.",
+      "failed": "Das konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Snippets importieren",
+      "description": "CSV-Tabelleninhalte importieren.",
+      "fieldTrigger": "Was du sagst",
+      "fieldBody": "Text zum Schreiben",
+      "format": {
+        "intro": "Ein Eintrag pro Zeile:",
+        "columns": "Die erste Spalte ist das, was du sagst; die zweite ist der Text, den du schreiben willst.",
+        "lines": "Ein Text mit Zeilenumbrüchen wird in Anführungszeichen eingegeben, wie Spreadsheet-Apps es speichern.",
+        "limits": "Was Sie sagen, bis zu {{max}} Zeichen, Texte bis zu {{maxBody}}, höchstens 1.000 Zeilen und 3 MB pro Datei.",
+        "encoding": "Als CSV UTF-8 speichern, damit Akzente und andere Schriftarten korrekt angezeigt werden."
+      },
+      "review": {
+        "new_one": "neuer Eintrag",
+        "new_other": "neue Einträge",
+        "duplicates_one": "bereits vorhanden",
+        "duplicates_other": "bereits vorhanden",
+        "conflicts_one": "Konflikt",
+        "conflicts_other": "Konflikte",
+        "invalid_one": "kann nicht importiert werden",
+        "invalid_other": "kann nicht importiert werden",
+        "overLimit_one": "Es gibt Platz für {{room}} mehr; {{count}} neue Snippet passen nicht hinein.",
+        "overLimit_other": "Es gibt Platz für {{room}} mehr; {{count}} neue Snippets passen nicht hinein.",
+        "ignoredRows_one": "Nur die ersten 1.000 Zeilen werden gelesen; {{count}} weitere Zeile werden übersprungen.",
+        "ignoredRows_other": "Nur die ersten 1.000 Zeilen werden gelesen; {{count}} weitere Zeilen werden übersprungen.",
+        "showNew": "Neue Einträge anzeigen",
+        "more_one": "und {{count}} mehr",
+        "more_other": "und {{count}} weitere",
+        "conflictsTitle": "Bereits mit einem anderen Text gespeichert",
+        "conflictsHelp": "Machen Sie die Auswahl, bei denen der Text der Datei Ihren ersetzen soll.",
+        "useAllFile": "Der Text der Datei für alle verwenden",
+        "keepAllMine": "Alle meine behalten",
+        "useFile": "Verwenden Sie die Datei:",
+        "yours": "Ihre:",
+        "showInvalid": "Zeige die Zeilen an, die nicht importiert werden können",
+        "invalidRow": "Zeile {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} Snippet importiert",
+        "title_other": "{{count}} Einträge importiert",
+        "added_one": "{{count}} hinzugefügt",
+        "added_other": "{{count}} hinzugefügt",
+        "replaced_one": "{{count}} durch den Text der Datei ersetzt",
+        "replaced_other": "{{count}} durch den Text der Datei ersetzt",
+        "skipped_one": "{{count}} bereits vorhanden, übersprungen",
+        "skipped_other": "{{count}} bereits vorhanden, übersprungen",
+        "kept_one": "{{count}} Konflikt wurde beibehalten wie ursprünglich",
+        "kept_other": "{{count}} Konflikte beibehalten, wie sie waren",
+        "invalid_one": "{{count}} Zeile konnte nicht importiert werden",
+        "invalid_other": "{{count}} Zeilen konnten nicht importiert werden",
+        "overLimit_one": "{{count}} passte nicht hin",
+        "overLimit_other": "{{count}} passte nicht hin"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} Snippets.csv",
+      "done_one": "Gespeichert {{count}} Snippet.",
+      "done_other": "Geklappt {{count}} Einträge.",
+      "failed": "Die Einträge konnten nicht exportiert werden. Bitte versuchen Sie es erneut."
     }
   }
 }

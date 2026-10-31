@@ -71,6 +71,15 @@ pub fn with_csv_extension(path: &Path) -> PathBuf {
 /// Writes the export file atomically (a hidden temp file next to it,
 /// renamed over it).
 pub fn write_file(path: &Path, entries: &[DictionaryEntry]) -> std::io::Result<u32> {
+    write_atomic(path, |file| write_csv(file, entries))
+}
+
+/// Writes a `.csv` export atomically: `write` fills a hidden temp file next
+/// to `path`, which is then renamed over it (S-17's export uses it too).
+pub fn write_atomic(
+    path: &Path,
+    write: impl FnOnce(&mut std::fs::File) -> Result<u32, csv::Error>,
+) -> std::io::Result<u32> {
     let path = with_csv_extension(path);
     let name = path
         .file_name()
@@ -81,7 +90,7 @@ pub fn write_file(path: &Path, entries: &[DictionaryEntry]) -> std::io::Result<u
     let tmp = path.with_file_name(tmp_name);
     let result = (|| {
         let mut file = std::fs::File::create(&tmp)?;
-        let n = write_csv(&mut file, entries).map_err(std::io::Error::other)?;
+        let n = write(&mut file).map_err(std::io::Error::other)?;
         file.sync_all()?;
         std::fs::rename(&tmp, &path)?;
         Ok(n)

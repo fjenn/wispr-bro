@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "沒有通過安全檢查",
       "timeout": "清理耗時過長",
       "error": "AI引擎有問題"
+    }
+  },
+  "snippets": {
+    "add": "新增片段",
+    "added": "已新增 \"{{trigger}}\"。",
+    "search": "搜尋您的片段",
+    "refresh": "刷新",
+    "shown_one": "顯示了 {{count}} 個片段",
+    "shown_other": "顯示 {{count}} 個片段",
+    "deleted": "已刪除「{{trigger}}」。",
+    "deleteFailed": "這個片段無法刪除，請再試一次。",
+    "undo": "撤銷",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} 個片段",
+      "uses_one": "已使用 {{count}} 次",
+      "uses_other": "已使用 {{count}} 次"
+    },
+    "sort": {
+      "label": "排序",
+      "newest": "最新先行",
+      "oldest": "最舊的在前",
+      "az": "A 到 Z",
+      "za": "Z 到 A",
+      "used": "最常使用的"
+    },
+    "banner": {
+      "title": "說幾句話，獲得完整文字",
+      "body": "Save text you write again and again. Say its cue on its own or in the middle of a sentence, in any app, and {{appName}} writes the saved text, line breaks and all.",
+      "examplesLabel": "範例",
+      "example1": "「我的地址」→ 你的完整郵遞區號地址",
+      "example2": "「我的簽名」→ 最好的祝願，以及你的名字",
+      "example3": "「我的預約連結」→ 人們用來預約通話的連結"
+    },
+    "entry": {
+      "becomes": "被寫成為",
+      "pair": "「{{trigger}}」→ 「{{text}}」",
+      "lines_one": "{{count}} 行",
+      "lines_other": "{{count}} 行",
+      "imported": "已導入",
+      "used_one": "已使用 {{count}} 次",
+      "used_other": "已使用 {{count}} 次",
+      "edit": "編輯 {{trigger}}",
+      "delete": "刪除 {{trigger}}"
+    },
+    "empty": {
+      "title": "還沒有片段",
+      "body": "一次儲存一個地址、簽名或連結。當你說出它的提示時，{{appName}} 就會為你寫下來。"
+    },
+    "noMatch": {
+      "title": "沒有相符的內容",
+      "body": "沒有片段包含 \"{{query}}\"。",
+      "action": "清除搜尋"
+    },
+    "unavailable": {
+      "title": "片段目前尚不可用",
+      "body": "他們在應用程式啟動完成後立即開啟。"
+    },
+    "problem": {
+      "empty_trigger": "輸入你第一句要說的話。",
+      "trigger_too_long": "你說的內容最多可達 {{max}} 個字元。",
+      "trigger_not_spoken": "你說的內容至少要有一個字母或數字。",
+      "trigger_control_character": "你說的話必須只佔一行。",
+      "empty_body": "請輸入要撰寫的文字。",
+      "body_too_long": "文字最多可達 {{maxBody}} 個字元。",
+      "body_control_character": "文字中包含無法輸入的字元。請移除它並重新嘗試。",
+      "full": "您已達到應用程式可儲存的最多片段數。請先刪除一些。"
+    },
+    "dialog": {
+      "addTitle": "新增片段",
+      "editTitle": "編輯片段",
+      "description": "說出提示詞，就會寫入已儲存的文字。",
+      "trigger": "當我說",
+      "triggerPlaceholder": "例如：我的地址",
+      "body": "寫",
+      "bodyPlaceholder": "要輸入的文字。換行符會被保留。",
+      "counter": "{{count}}/{{max}}",
+      "hint": "可獨立使用，或嵌入句子中，無論如何。當嵌入句子時，提示中的標點符號必須以相同方式說出。文字會完全依照儲存時的內容顯示。",
+      "cancel": "取消",
+      "add": "新增片段",
+      "save": "儲存",
+      "close": "關閉",
+      "duplicate": "「{{trigger}}」已經存為這段文字了。",
+      "conflict": "「{{trigger}}」已經是另一段文字的片段了。",
+      "replaceExisting": "替換它",
+      "missing": "這個片段已經被刪除。",
+      "failed": "那無法儲存。請再試一次。"
+    },
+    "import": {
+      "open": "匯入",
+      "title": "匯入片段",
+      "description": "將儲存為 CSV 的電子表格中的片段導入。",
+      "fieldTrigger": "你說的",
+      "fieldBody": "要輸入的文字",
+      "format": {
+        "intro": "每行一個片段：",
+        "columns": "第一列是你要說的；第二列是你要輸入的文字。",
+        "lines": "一個帶有段落換行的文本放入引號內，就像電子表格應用程式儲存的樣子。",
+        "limits": "你說的內容最多 {{max}} 個字元，文字內容最多 {{maxBody}}，每檔最多 1,000 行和 3 MB。",
+        "encoding": "儲存為 CSV UTF-8 以便正確顯示重音符號和其他文字。"
+      },
+      "review": {
+        "new_one": "新的片段",
+        "new_other": "新的片段",
+        "duplicates_one": "已經有了",
+        "duplicates_other": "已經有了",
+        "conflicts_one": "衝突",
+        "conflicts_other": "衝突",
+        "invalid_one": "無法匯入",
+        "invalid_other": "無法匯入",
+        "overLimit_one": "還有 {{room}} 個空間；{{count}} 個新的片段不會適合。",
+        "overLimit_other": "還有 {{room}} 個空間；{{count}} 個新的片段不會適合。",
+        "ignoredRows_one": "僅讀取前 1,000 行；{{count}} 行被忽略。",
+        "ignoredRows_other": "僅讀取前 1,000 行；{{count}} 行被忽略。",
+        "showNew": "顯示新的片段",
+        "more_one": "以及 {{count}} 更多",
+        "more_other": "以及 {{count}} 更多",
+        "conflictsTitle": "已另存為其他文字",
+        "conflictsHelp": "勾選文件內容應取代您原有內容的項目。",
+        "useAllFile": "使用該檔案的內容於全部",
+        "keepAllMine": "保留我所有的",
+        "useFile": "使用檔案的：",
+        "yours": "你的：",
+        "showInvalid": "顯示無法匯入的行",
+        "invalidRow": "第 {{row}} 行（{{trigger}}）：{{reason}}"
+      },
+      "done": {
+        "title_one": "已導入 {{count}} 個片段",
+        "title_other": "已匯入 {{count}} 個片段",
+        "added_one": "已新增 {{count}} 筆",
+        "added_other": "已新增 {{count}} 筆",
+        "replaced_one": "已將 {{count}} 個取代為檔案內容",
+        "replaced_other": "已將 {{count}} 個取代為檔案內容",
+        "skipped_one": "{{count}} already there, skipped",
+        "skipped_other": "已經存在 {{count}}，已跳過",
+        "kept_one": "{{count}} 個衝突已保留原樣",
+        "kept_other": "已保留 {{count}} 個衝突項目",
+        "invalid_one": "{{count}} 行無法匯入",
+        "invalid_other": "{{count}} 行無法匯入",
+        "overLimit_one": "{{count}} 未符合",
+        "overLimit_other": "{{count}} 未符合"
+      }
+    },
+    "export": {
+      "open": "導出",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "已導出 {{count}} 個片段。",
+      "done_other": "已導出 {{count}} 個片段。",
+      "failed": "無法匯出片段。請再試一次。"
     }
   }
 }

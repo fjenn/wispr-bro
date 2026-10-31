@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "güvenlik kontrollerine geçmedi",
       "timeout": "temizleme çok uzun sürdü",
       "error": "AI motorunda bir sorun var"
+    }
+  },
+  "snippets": {
+    "add": "Örneği ekle",
+    "added": "“{{trigger}}” eklendi.",
+    "search": "Snippets'ini arayın",
+    "refresh": "Yenile",
+    "shown_one": "{{count}} örnekleme gösterildi",
+    "shown_other": "{{count}} parça gösterildi",
+    "deleted": "Silindi “{{trigger}}”.",
+    "deleteFailed": "O parçacık silinemedi. Lütfen tekrar dene.",
+    "undo": "Geri al",
+    "counts": {
+      "snippets_one": "{{count}} parça",
+      "snippets_other": "{{count}} parça",
+      "uses_one": "{{count}} kez kullanıldı",
+      "uses_other": "{{count}} kez kullanıldı"
+    },
+    "sort": {
+      "label": "Sırala",
+      "newest": "Yeni en başta",
+      "oldest": "En eski önce",
+      "az": "A dan Z ye",
+      "za": "Z'den A'ya",
+      "used": "En çok kullanılan"
+    },
+    "banner": {
+      "title": "A few words söyle, tam metni al",
+      "body": "Tekrar ve tekrar yazdığınız metni kaydedin. Metnin içinde veya bir cümle içinde, herhangi bir uygulamada metnin işaretini söyleyin ve {{appName}} tüm satırları ve yeni satırları ile metni yazacaktır.",
+      "examplesLabel": "Örnekler",
+      "example1": "“benim adresim” → tam posta adresin",
+      "example2": "“benim imzaım” → İyi günler ve isminiz",
+      "example3": "“benim rezervasyon linkim” → insanlar arası bir görüşme için kullanılabilecek link"
+    },
+    "entry": {
+      "becomes": "yazılır",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} satır",
+      "lines_other": "{{count}} satır",
+      "imported": "Dışarıdan aktarılmış",
+      "used_one": "Kullanıldı {{count}} kez",
+      "used_other": "{{count}} kez kullanıldı",
+      "edit": "{{trigger}}'i düzenle",
+      "delete": "{{trigger}}'yi sil"
+    },
+    "empty": {
+      "title": "Hâlâ hiç snip yok",
+      "body": "Bir adres, imza ya da bir linki bir kez kaydet. İpuçunu söylerken {{appName}} onu senin için yazır."
+    },
+    "noMatch": {
+      "title": "Hiçbir şey uyuşmuyor",
+      "body": "Hiçbir örnekte \"{{query}}\" bulunmuyor.",
+      "action": "Arama sonuçlarını temizle"
+    },
+    "unavailable": {
+      "title": "Parça yok",
+      "body": "Çalışma tamamlandığında hemen açılırlar."
+    },
+    "problem": {
+      "empty_trigger": "İlk olarak neyi söyleyeceğini yaz.",
+      "trigger_too_long": "Nasıl söyleyebileceğinizi en fazla {{max}} karakter olabilir.",
+      "trigger_not_spoken": "Nasıl söyler misiniz, en az bir harf ya da rakam gerekir.",
+      "trigger_control_character": "Nasıl bir şey söyleyebileceğin, bir satırda olmalı.",
+      "empty_body": "Metni yazmak için metin girin.",
+      "body_too_long": "Metin en fazla {{maxBody}} karakter olabilir.",
+      "body_control_character": "Metin içinde yazılabilir olmayan bir karakter var. Onu kaldırın ve tekrar dene.",
+      "full": "En çok snipet sayısına ulaşmışsın. Önce bazılarını sil."
+    },
+    "dialog": {
+      "addTitle": "Öğe ekle",
+      "editTitle": "Örneği düzenle",
+      "description": "Cue'yi söyle ve kaydedilen metin yazılır.",
+      "trigger": "İfademde diyem",
+      "triggerPlaceholder": "örneğin: ev adresim",
+      "body": "Yaz",
+      "bodyPlaceholder": "Yazılacak metin. Satır geçişleri korunur.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Kendine ait ya da bir cümle içinde çalışır, her durumda. Bir cümle içinde, ipucunda noktalama işaretleri aynı şekilde söylenmelidir. Metin tam olarak kaydedilen şekilde yazılmıştır.",
+      "cancel": "İptal",
+      "add": "Örneği ekle",
+      "save": "Kaydet",
+      "close": "Kapat",
+      "duplicate": "“{{trigger}}” zaten bu metinle kaydedildi.",
+      "conflict": "“{{trigger}}” zaten başka bir metinle bir snippet olarak var.",
+      "replaceExisting": "Bunu değiştir",
+      "missing": "Bu örnekleme zaman içinde silindi.",
+      "failed": "O kaydedilemedi. Lütfen tekrar dene."
+    },
+    "import": {
+      "open": "İçe aktar",
+      "title": "Örnekleri içe aktar",
+      "description": "CSV olarak kaydedilmiş bir tabloda örneklemleri getir.",
+      "fieldTrigger": "Neyi söyleyorsun",
+      "fieldBody": "Yazılacak metin",
+      "format": {
+        "intro": "Bir snipet her satırda:",
+        "columns": "İlk sütun, neyi dediğin; ikinci sütun, yazılacak metin.",
+        "lines": "Bir metin ile satır atlamaları çift tırnak içinde olur, çünkü_spreadsheet_uygulamaları bunu kaydeder.",
+        "limits": "Nasıl söyleyebileceğinizi {{max}} karaktere kadar, metinlerin {{maxBody}} karaktere kadar olacağını, en fazla 1.000 satır ve 3 MB'ye kadar bir dosya olacağını.",
+        "encoding": "CSV UTF-8 olarak kaydetmek için ünlem ve diğer yazı tipleri doğru gelir."
+      },
+      "review": {
+        "new_one": "yeni parçacık",
+        "new_other": "yeni parçalar",
+        "duplicates_one": "zaten var",
+        "duplicates_other": "zaten var",
+        "conflicts_one": "karşılaşma",
+        "conflicts_other": "karşılaşmalar",
+        "invalid_one": "ihrin import edilemez",
+        "invalid_other": "ihrincen import edilemez",
+        "overLimit_one": "{{room}} daha yer var; {{count}} yeni snipet yer alamaz.",
+        "overLimit_other": "{{room}} daha yer var; {{count}} yeni örnekleme yer almaz.",
+        "ignoredRows_one": "Sadece ilk 1.000 satır okunuyor; {{count}} daha fazla satır atlanıyor.",
+        "ignoredRows_other": "Sadece ilk 1.000 satır okunuyor; {{count}} daha fazla satır atlanıyor.",
+        "showNew": "Yeni örneklere göster",
+        "more_one": "ve {{count}} daha fazla",
+        "more_other": "ve {{count}} daha fazla",
+        "conflictsTitle": "Zaten başka bir metinle kaydedildi",
+        "conflictsHelp": "Dosyanın metninin kendi metnini değiştirmesini istiyorsanız onları işaretleyin.",
+        "useAllFile": "Tümü için dosyanın metnini kullan",
+        "keepAllMine": "Hepsi benim kal",
+        "useFile": "Dosyanın:",
+        "yours": "Yours:",
+        "showInvalid": "İçe aktarılamayacak satırları göster",
+        "invalidRow": "Satır {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} parçası içeri aktarıldı",
+        "title_other": "{{count}} parçacık içeri aktarıldı",
+        "added_one": "{{count}} eklendi",
+        "added_other": "{{count}} eklendi",
+        "replaced_one": "{{count}} dosyanın metniyle değiştirildi",
+        "replaced_other": "{{count}} dosyanın metniyle değiştirildi",
+        "skipped_one": "{{count}} zaten var, atlandı",
+        "skipped_other": "{{count}} zaten var, atlandı",
+        "kept_one": "{{count}} çakışma korundu",
+        "kept_other": "{{count}} çakışma korundu çünkü olduğu gibi",
+        "invalid_one": "{{count}} satır içeriye alınamadı",
+        "invalid_other": "{{count}} satır içeriye alınamadı",
+        "overLimit_one": "{{count}} yerlemedi",
+        "overLimit_other": "{{count}} sığmadı"
+      }
+    },
+    "export": {
+      "open": "Dışa aktar",
+      "fileName": "{{appName}} parçaları.csv",
+      "done_one": "{{count}} parçası dışa aktarıldı.",
+      "done_other": "{{count}} örneği dışa aktarıldı.",
+      "failed": "Özetler dışa aktarılamadı. Lütfen tekrar dene."
     }
   }
 }

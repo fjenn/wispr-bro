@@ -17,6 +17,7 @@ pub mod notifications;
 pub mod pill;
 pub mod selfcheck;
 pub mod settings;
+pub mod snippets;
 pub mod stats;
 
 use std::sync::Arc;

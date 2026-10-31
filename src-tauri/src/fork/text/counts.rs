@@ -25,6 +25,8 @@ pub enum Stage {
     RulesRestored,
     /// 12: line-safe whitespace.
     Whitespace,
+    /// 11: snippets expanded (after the LLM, S-17).
+    Snippets,
 }
 
 impl Stage {
@@ -36,6 +38,7 @@ impl Stage {
             Stage::Scratch => "scratch",
             Stage::RulesRestored => "rules_restored",
             Stage::Whitespace => "whitespace",
+            Stage::Snippets => "snippets",
         }
     }
 }

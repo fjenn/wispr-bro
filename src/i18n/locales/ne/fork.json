@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "यसलाई सुरक्षा जाँचमा गुजारिएको छैन",
       "timeout": "स्वचालित कर्तव्य लेल अतिरिक्त समय लगाएको छ",
       "error": "AI इन्जिनमा समस्या छ"
+    }
+  },
+  "snippets": {
+    "add": "स्निपेट थप",
+    "added": "थपयो \"{{trigger}}}\"।",
+    "search": "आपका स्निपेट सर्च गर्नुहोस",
+    "refresh": "नयाँ गर्नुहोस",
+    "shown_one": "{{count}} स्निपेट देखाइएको छ",
+    "shown_other": "{{count}} स्निपेट देखाइएको",
+    "deleted": "हटाइए “{{trigger}}”।",
+    "deleteFailed": "एउटा स्निपेट निकाल्न सकिन्छ भने गर्नुहोस्।",
+    "undo": "उन्दो",
+    "counts": {
+      "snippets_one": "{{count}} स्निपेट",
+      "snippets_other": "{{count}} स्निपेट",
+      "uses_one": "प्रयोग गरिएको छ {{count}} बार",
+      "uses_other": "प्रयोग गरिएको छ {{count}} बार"
+    },
+    "sort": {
+      "label": "सोर्ट",
+      "newest": "पहिले नयाँ",
+      "oldest": "पहिले बाट अन्त माथि",
+      "az": "A सम्म जे",
+      "za": "Z बाट A भने",
+      "used": "सबैभन्दा प्रयोग गरिएको"
+    },
+    "banner": {
+      "title": "केहि शब्द भन्नुहोस, पूरा टेक्स्ट प्राप्त गर्नुहोस",
+      "body": "Save text you write again and again. Say its cue on its own or in the middle of a sentence, in any app, and {{appName}} writes the saved text, line breaks and all.",
+      "examplesLabel": "विदलाहरू",
+      "example1": "“मेरो पत्ता” → तपाईंको पूरा पोस्टल पत्ता",
+      "example2": "“मेरो साइन ओफ” → सुनिश्चित गर्ने, र तपाईंको नाम",
+      "example3": "“मेरो बुकिङ लिंक” → लोगहरूले कल बुक गर्न अपनाउने लिङ्क"
+    },
+    "entry": {
+      "becomes": "केहि गर्ने गर्ने छ",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} लाइन",
+      "lines_other": "{{count}} लाइन",
+      "imported": "imported",
+      "used_one": "प्रयोग गरिएको छ {{count}} बार",
+      "used_other": "प्रयोग गरिएको {{count}} बार",
+      "edit": "संपादन गर्नुहोस {{trigger}}",
+      "delete": "{{trigger}} निकाल्नुहोस"
+    },
+    "empty": {
+      "title": "अबसम्म गैर छैन",
+      "body": "एक पता, एक निर्देश वा एक लिंक सेव गर्नुहोस्। तपाईंको निर्देश भए त्यसलाई भन्नुहोस्, {{appName}} तपाईंलाई लेख्छ।"
+    },
+    "noMatch": {
+      "title": "कुनै भने नमान",
+      "body": "कोनो स्निपेट “{{query}}” लागि छैन।",
+      "action": "गोष्ट सार्वजनिक गर्नुहोस"
+    },
+    "unavailable": {
+      "title": "स्निपेट समावेश नहि छन्",
+      "body": "तिनीहरूलाई अनुमोदन गरिएको अन्त्य भएपछि खुल्ने छ।"
+    },
+    "problem": {
+      "empty_trigger": "पहिले के बारेमा लेख्नुहोस।",
+      "trigger_too_long": "जस्तै भन्न सक्नुहुन्छ जो {{max}} अक्षर सम्म।",
+      "trigger_not_spoken": "जस्तै एउटा अक्षर वा संख्या लगाउन आवश्यक छ।",
+      "trigger_control_character": "एक लाइनमा तपाईंको भनाइ बस्नु पर्छ।",
+      "empty_body": "गर्नुहोस लेख्न लेख्नुहोस।",
+      "body_too_long": "अनुच्छेद अधिकतम {{maxBody}} अक्षर सम्मेलन गर्न सक्छ।",
+      "body_control_character": "अनुच्छेदमा लेख्न सकिने एक अक्षर छ। त्यसलाई हटाउनुहोस र फेरि प्रयास गर्नुहोस।",
+      "full": "आपले सबै टुक्रा अन्तिम सीमा सीमा सुन्न छन्। पहिले केहि डिलेट गर्नुहोस।"
+    },
+    "dialog": {
+      "addTitle": "अतिरिक्त जोड्नुहोस",
+      "editTitle": "स्निपेट बिछाउनुहोस",
+      "description": "केन्द्रण भन्नुहोस र सेभिन गरिएको टेक्स्ट लेखिन्छ।",
+      "trigger": "जब म भन्छु",
+      "triggerPlaceholder": "जस्तै मे ठाउँ",
+      "body": "लेख्नुहोस",
+      "bodyPlaceholder": "लेख्ने टेक्स्ट हो। लाइन ब्रेक सेव गरिन्छ।",
+      "counter": "{{count}}/{{max}}",
+      "hint": "अपनै बाट वा वाक्यक भितर चल्छ, कुनै पनि अवस्थामा। वाक्यक भितर, संकेतमा चिन्ह एउटै ढंगले भनिन्छ। टेक्स्ट बचाइएको ठाउमा लेखिन्छ।",
+      "cancel": "रद्द गर्नुहोस",
+      "add": "स्निपेट थप",
+      "save": "बचाउनुहोस",
+      "close": "बन्द गर्नुहोस",
+      "duplicate": "“{{trigger}}” अहिंसा अपनाएको अनुच्छेद सँग अपनाइएको छ।",
+      "conflict": "“{{trigger}}” मा पहिले अन्य टेक्स्ट सँग एउटा स्निपेट छ।",
+      "replaceExisting": "उहाँ बदल्नुहोस",
+      "missing": "एहि स्निपेट अब डिलीट गरिएको छ।",
+      "failed": "उहि सेभाउन सकिन्छ। कृपया पुनः प्रयास गर्नुहोस।"
+    },
+    "import": {
+      "open": "Import",
+      "title": "स्निपेट आयोजन गर्नुहोस",
+      "description": "CSV मा सेभ गएको स्प्रेडशीटबाट स्निपेट ल्याउनुहोस",
+      "fieldTrigger": "के भन्नुहुन्छ",
+      "fieldBody": "ग्राहकको लेख्ने टेक्स्ट",
+      "format": {
+        "intro": "एक स्निपेट प्रति पंक्ति:",
+        "columns": "पहिलो स्तम्भ तपाईंको भन्ने छ, दोस्रो स्तम्भ लेख्ने टेक्स्ट हो।",
+        "lines": "एक टेक्स्ट जसमा लाइन ब्रेक छ लेख्न जाहे, जस्तो स्प्रेडशीट एप्लिकेशन सेव गर्छ।",
+        "limits": "जस्तै आप भन्नुहुन्छ त्यसको {{max}} अक्षर सम्म, टेक्स्ट त्यसको {{maxBody}} सम्म, अधिकतम 1,000 पंक्ति र प्रति फाइल 3 MB सम्म।",
+        "encoding": "CSV UTF-8 मा सेभ गर्नु भने अक्षर र अन्य स्क्रिप्ट सँगै आउन्छ।"
+      },
+      "review": {
+        "new_one": "नया स्निपेट",
+        "new_other": "नया स्निपेट",
+        "duplicates_one": "पहिले भनेको छ",
+        "duplicates_other": "पहिले भनेको छ",
+        "conflicts_one": "विरोध",
+        "conflicts_other": "संघर्ष",
+        "invalid_one": "import garna sakdina",
+        "invalid_other": "import garna sakdina",
+        "overLimit_one": "There is room for {{room}} more; {{count}} new snippet won't fit.",
+        "overLimit_other": "अहिए अन्य {{room}} जम्मा गर्ने छ; {{count}} नयाँ स्निपेट फिट भएन।",
+        "ignoredRows_one": "पहिलो 1,000 टेबल लेल छ; {{count}} अन्य रो छोड़िएको छ।",
+        "ignoredRows_other": "पहिलो 1,000 टेबल लेल छल छ; {{count}} अन्य टेबल छोड़िएको छ।",
+        "showNew": "नया स्निपेट देखाउनुहोस",
+        "more_one": "एउटा अगाडि {{count}} भने",
+        "more_other": "एउटा {{count}} अधिक",
+        "conflictsTitle": "पहिले अन्य टेक्स्ट सँ सेवा गरिएको छ",
+        "conflictsHelp": "चेक गर्नुहोस जहाँ फाइलको टेक्स्ट तपाईंको अनुसार बदल्नुपर्छ।",
+        "useAllFile": "सभ फाइलको टेक्स्ट को उपयोग गर्नुहोस",
+        "keepAllMine": "मेरा सबै राख्नुहोस",
+        "useFile": "फाइलको उपयोग गर्ने:",
+        "yours": "तपाईंको:",
+        "showInvalid": "अन्तिम रोलहरू देखाउनुहोस",
+        "invalidRow": "प्रतिलिपि {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} टुक्रा आयो",
+        "title_other": "{{count}} स्निपेट आयोजित गरिएको",
+        "added_one": "{{count}} थपिएको",
+        "added_other": "{{count}} थपिएको",
+        "replaced_one": "{{count}} फाइलको टेक्स्ट सँग बदलिएको छ",
+        "replaced_other": "{{count}} अन्य संस्करण सँ बदलिए गए",
+        "skipped_one": "{{count}} पहिले भने छ, छोड़िएको",
+        "skipped_other": "{{count}} पहिले भने छ, छोड़िएको",
+        "kept_one": "{{count}} झलक बचाइए गए जस्तो थियो",
+        "kept_other": "{{count}} लागि अन्य गरिएको राखिएको",
+        "invalid_one": "{{count}} फेर आयो नभएको",
+        "invalid_other": "{{count}} टाइप निर्यात गर्न सकिन्छ",
+        "overLimit_one": "{{count}} भने निकालिएको छ",
+        "overLimit_other": "{{count}} म न बस्ने"
+      }
+    },
+    "export": {
+      "open": "निर्यात",
+      "fileName": "{{appName}} टुक्राहरू.csv",
+      "done_one": "{{count}} टुक्रा निर्यात गरिएको छ।",
+      "done_other": "{{count}} टुक्रा निर्यात गरिएका छन्।",
+      "failed": "अनुच्छेदहरू निर्यात गर्न सकिएन। कृपया पुनः प्रयास गर्नुहोस।"
     }
   }
 }

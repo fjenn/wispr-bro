@@ -1151,13 +1151,14 @@ pub fn skip_reason(ai_chat: bool, ready: bool, memory_ok: bool) -> Option<Cleanu
 
 /// Stage 9 (R5 §4.10) on an LLM rewrite of `input`: the dictionary
 /// replacements' outputs the rewrite undid come back
-/// (`fork::text::note_rewrite` + `finish`).
+/// (`fork::text::note_rewrite` + `after_llm`; the snippets are expanded
+/// later, once, in `deliver`, S-17).
 pub fn restore_spellings(input: &str, output: String) -> String {
     if output == input {
         return output;
     }
     crate::fork::text::note_rewrite(input, &output);
-    crate::fork::text::finish(output)
+    crate::fork::text::after_llm(output)
 }
 
 /// Word edits between the deterministic text and the cleaned one: runs of

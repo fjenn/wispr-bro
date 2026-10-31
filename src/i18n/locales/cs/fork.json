@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "neúspěšně prošlo kontrolu bezpečnosti",
       "timeout": "odstraňování trval příliš dlouho",
       "error": "AI motor měl problém"
+    }
+  },
+  "snippets": {
+    "add": "Přidat ukázku",
+    "added": "Přidáno „{{trigger}}“.",
+    "search": "Hledání vašich snippetů",
+    "refresh": "Obnovit",
+    "shown_one": "{{count}} příkladu zobrazen",
+    "shown_other": "{{count}} příkladů zobrazeno",
+    "deleted": "Odstraněno „{{trigger}}“.",
+    "deleteFailed": "Tento snippet se nepodařilo smazat. Zkuste to prosím znovu.",
+    "undo": "Zpět",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} příkladů",
+      "uses_one": "použito {{count}} krát",
+      "uses_other": "použito {{count}} krát"
+    },
+    "sort": {
+      "label": "Třídit",
+      "newest": "Nejnovější nejprve",
+      "oldest": "Nejstarší nejprve",
+      "az": "A do Z",
+      "za": "Z na A",
+      "used": "Nejčastěji používané"
+    },
+    "banner": {
+      "title": "Řekni pár slov, dostaneš celý text",
+      "body": "Uložte text, který psát opakovaně. Řekněte jeho základní výraz samostatně nebo v prostředí věty, v jakémkoliv aplikaci, a {{appName}} napíše uložený text, včetně řádkových přerušení.",
+      "examplesLabel": "Příklady",
+      "example1": "„moje adresa“ → vaše úplná poštovní adresa",
+      "example2": "„moje uzavírací zpráva“ → S přátelstvím a váš jméno",
+      "example3": "„moje odkaz na rezervaci“ → odkaz, který lidé používají k rezervaci volání"
+    },
+    "entry": {
+      "becomes": "je zapsáno jako",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} řádek",
+      "lines_other": "{{count}} řádků",
+      "imported": "Importované",
+      "used_one": "Použito {{count}} krát",
+      "used_other": "Použito {{count}} krát",
+      "edit": "Upravit {{trigger}}",
+      "delete": "Odstranit {{trigger}}"
+    },
+    "empty": {
+      "title": "Žádné snippety ještě",
+      "body": "Uložte adresu, podpis nebo odkaz jednou. Když řeknete jeho zvuk, {{appName}} to pro vás zapiše."
+    },
+    "noMatch": {
+      "title": "Nic neodpovídá",
+      "body": "Žádný snippet neobsahuje „{{query}}“.",
+      "action": "Vyčistit hledání"
+    },
+    "unavailable": {
+      "title": "Snipky jsou ještě nepřístupné",
+      "body": "Otevřou se, jakmile aplikace dokončí spuštění."
+    },
+    "problem": {
+      "empty_trigger": "Napiš, co budeš říkat nejprve.",
+      "trigger_too_long": "Co říkáš, může být až {{max}} znaků.",
+      "trigger_not_spoken": "To, co říkáš, musí obsahovat alespoň jedno písmeno nebo číslo.",
+      "trigger_control_character": "Co říkáš musí fit na jednu řádku.",
+      "empty_body": "Napište text, který chcete zapsat.",
+      "body_too_long": "Text může být až {{maxBody}} znaků.",
+      "body_control_character": "Text obsahuje znak, který se nepodařilo zapsat. Odstraňte jej a zkuste to znovu.",
+      "full": "Máte nejvíce snippetů, které může aplikace uchovat. Nejprve je vymažte."
+    },
+    "dialog": {
+      "addTitle": "Přidat ukázku",
+      "editTitle": "Upravit základní text",
+      "description": "Řekni podnět a ukládaný text bude zapsán.",
+      "trigger": "Když řeknu",
+      "triggerPlaceholder": "např. můj adresu",
+      "body": "Napiš",
+      "bodyPlaceholder": "Text, který se má napsat. Přechody řádku se udrží.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funguje samostatně nebo uvnitř věty, v jakémkoliv případě. Uvnitř věty musí být interpunkce v pokynu řečena stejně. Text je zapsán přesně tak, jak byl uložen.",
+      "cancel": "Storno",
+      "add": "Přidat ukázku",
+      "save": "Uložit",
+      "close": "Zavřít",
+      "duplicate": "„{{trigger}}\" je už uložený s tímto textem.",
+      "conflict": "„{{trigger}}\" je už snippet s jiným textem.",
+      "replaceExisting": "Zaměnit to",
+      "missing": "Tento snippet byl včera smazán.",
+      "failed": "To se nepovedlo uložit. Zkuste to prosím znovu."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importovat ukázky",
+      "description": "Zavést úseky z tabulky uložené jako CSV.",
+      "fieldTrigger": "Co říkáš",
+      "fieldBody": "Text k zápisu",
+      "format": {
+        "intro": "Jeden snippet na řádek:",
+        "columns": "První sloupec je to, co říkáš; druhý je text, který máš zapsat.",
+        "lines": "Text s přerušením řádků se vkládá do uvozovek, jak to uchovávají tabulkové aplikace.",
+        "limits": "Co říkáte do {{max}} znaků, texty do {{maxBody}}, maximálně 1 000 řádků a 3 MB na soubor.",
+        "encoding": "Uložit jako CSV UTF-8, aby se vykreslily akcenty a jiné psaní."
+      },
+      "review": {
+        "new_one": "nový snippet",
+        "new_other": "nové snižování",
+        "duplicates_one": "už je zde",
+        "duplicates_other": "už je zde",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikty",
+        "invalid_one": "nemůže být importováno",
+        "invalid_other": "nemůže být importováno",
+        "overLimit_one": "Je místo pro {{room}} více; {{count}} nového snippetu se nevejde.",
+        "overLimit_other": "Je místo pro {{room}} více; {{count}} nových úseček se nevejde.",
+        "ignoredRows_one": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
+        "ignoredRows_other": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
+        "showNew": "Zobraz nové ukázky",
+        "more_one": "a {{count}} více",
+        "more_other": "a {{count}} více",
+        "conflictsTitle": "Už uloženo s jiným textem",
+        "conflictsHelp": "Zaznačte ty, kde text souboru by měl nahradit váš.",
+        "useAllFile": "Použít text souboru pro vše",
+        "keepAllMine": "Zůstat všechno moje",
+        "useFile": "Použít soubor:",
+        "yours": "Tvoje:",
+        "showInvalid": "Zobrazit řádky, které se nepodařilo importovat",
+        "invalidRow": "Řádek {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Zavedeno {{count}} snippetu",
+        "title_other": "Importováno {{count}} ukázek",
+        "added_one": "{{count}} přidáno",
+        "added_other": "{{count}} přidáno",
+        "replaced_one": "{{count}} nahrazeno textem souboru",
+        "replaced_other": "{{count}} nahrazeno textem souboru",
+        "skipped_one": "{{count}} už je zde, přeskočeno",
+        "skipped_other": "{{count}} je už zde, přeskočeno",
+        "kept_one": "Zachováno {{count}} konfliktu jako bylo",
+        "kept_other": "{{count}} konfliktů byl uchován, jak byl",
+        "invalid_one": "Nelze naimportovat {{count}} řádek",
+        "invalid_other": "Nelze naimportovat {{count}} řádků",
+        "overLimit_one": "{{count}} se nepovedlo",
+        "overLimit_other": "{{count}} se nepovedlo"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exportováno {{count}} snippetu.",
+      "done_other": "Exportováno {{count}} základních úseček.",
+      "failed": "Snípky se nepodařilo exportovat. Zkuste to prosím znovu."
     }
   }
 }

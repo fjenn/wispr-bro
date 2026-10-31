@@ -279,6 +279,16 @@ impl Ledger {
         push_bounded(&mut self.awaiting, (entry_id, final_text.to_owned()));
     }
 
+    /// The oldest entry waiting with this text (not consumed): the history
+    /// row a delivery belongs to (S-17 records its snippets there).
+    pub fn awaiting_entry(&self, text: &str) -> Option<i64> {
+        let text = text.trim_end();
+        self.awaiting
+            .iter()
+            .find(|(_, t)| t.trim_end() == text)
+            .map(|(id, _)| *id)
+    }
+
     /// Step 5: the oldest entry waiting with this text (consumed). The paste
     /// may carry Handy's trailing space.
     pub fn take_awaiting(&mut self, pasted: &str) -> Option<i64> {

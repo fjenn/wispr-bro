@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "לא עבר את בדיקות האבטחה",
       "timeout": "ההטלה לקח יותר מדי זמן",
       "error": "המנוע של המחשב נתקל בבעיה"
+    }
+  },
+  "snippets": {
+    "add": "הוסף קטע",
+    "added": "הוספת \"{{trigger}}\".",
+    "search": "חפש את המדריכים שלך",
+    "refresh": "השדר",
+    "shown_one": "{{count}} מדריך נציג",
+    "shown_other": "{{count}} מוצגים",
+    "deleted": "הוסר \"{{trigger}}\".",
+    "deleteFailed": "הsnippet לא נמחק. אנא נסה שוב.",
+    "undo": "החזיר",
+    "counts": {
+      "snippets_one": "{{count}} מדריך",
+      "snippets_other": "{{count}} שיעורים",
+      "uses_one": "השתמשתי ב{{count}} פעם",
+      "uses_other": "השתמשו ב{{count}} פעמים"
+    },
+    "sort": {
+      "label": "צִיר",
+      "newest": "החדש ביותר",
+      "oldest": "הראשון ביותר",
+      "az": "א ל ז",
+      "za": "Z ל-A",
+      "used": "הנפוצה ביותר"
+    },
+    "banner": {
+      "title": "אמר כמה מילים, תקבל את הטקסט המלא",
+      "body": "שמור טקסט שכתבת שוב ושוב. קורא את הסימן שלו לבד או בתוך משפט, בכל אפליקציה, ו{{appName}} יכתוב את הטקסט שמוגדר, כולל שורות.",
+      "examplesLabel": "הנחיות",
+      "example1": "„הכתובת שלי“ → כתובת почת שלך",
+      "example2": "„הסימן שלי“ → בהצלחה, ושמך",
+      "example3": "הקישור להזמנה שלי → הלינק שמשמש ליצירת ההזמנה"
+    },
+    "entry": {
+      "becomes": "הכתוב כـ",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} שורה",
+      "lines_other": "{{count}} שורות",
+      "imported": "הנחת",
+      "used_one": "השתמשתי ב-{{count}} פעם",
+      "used_other": "השתמשו ב{{count}} פעמים",
+      "edit": "עריכה {{trigger}}",
+      "delete": "למחוק {{trigger}}"
+    },
+    "empty": {
+      "title": "עדיין לא נוצרו שיעורים",
+      "body": "שמור כתובת, סימן או קישור פעם אחת. כשאתה אומר את הסימן, {{appName}} יכתוב אותו עבורך."
+    },
+    "noMatch": {
+      "title": "ללא התאמה",
+      "body": "אין קטע שמכיל \"{{query}}\".",
+      "action": "למחוק את החיפוש"
+    },
+    "unavailable": {
+      "title": "המוצעים לא זמינים עדיין",
+      "body": "הן מופעלות מיד לאחר שהאפליקציה הסתיימה להתחיל."
+    },
+    "problem": {
+      "empty_trigger": "הקלד מה שתרצה לומר أولًا.",
+      "trigger_too_long": "מה שאתה אומר יכול להכיל עד {{max}} תווים.",
+      "trigger_not_spoken": "מה שאתה אומר צריך להכיל לפחות אות או מספר.",
+      "trigger_control_character": "מה שאתה אומר חייב להישאר על שורה אחת.",
+      "empty_body": "הקלד את הטקסט שתרצה לכתוב.",
+      "body_too_long": "הטקסט יכול להכיל עד {{maxBody}} תווים.",
+      "body_control_character": "הטקסט מכיל תו שאינו ניתן לכתיבה. הסר אותו ונסה שוב.",
+      "full": "אתם יש לכם את המספר הגדול ביותר של שיעורים שהאפליקציה יכולה להכיל. נמחק כמה קודם."
+    },
+    "dialog": {
+      "addTitle": "הוסף נייד",
+      "editTitle": "עריכה של סניפ",
+      "description": "אמר את התוואי והטקסט המحفז יכתב.",
+      "trigger": "כשאני אומר",
+      "triggerPlaceholder": "למשל: כתובתי",
+      "body": "כתוב",
+      "bodyPlaceholder": "הטקסט להכין. שורות מושארות.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "עובד לבדו או בתוך משפט, בכל מקרה. בתוך משפט, הסימנים במשמעת חייבים להופיע בדיוק כמו שכתובים. הטקסט נכתב בדיוק כמו שמוגדר.",
+      "cancel": "ל hủy",
+      "add": "הוסף קטע",
+      "save": "שמור",
+      "close": "לסגור",
+      "duplicate": "הטקסט \"{{trigger}}\" כבר נשמר.",
+      "conflict": "ה\"{{trigger}}\" כבר קיים כטקסט של סניפט.",
+      "replaceExisting": "לחלופין",
+      "missing": "הסניפט נמחק במקביל.",
+      "failed": "לא יתכן שמירתו. אנא נסה שוב."
+    },
+    "import": {
+      "open": "העתק",
+      "title": "העתקת קטעים",
+      "description": "הכניסה של שיעורים מטבלה שמוגדרת כ-CSV.",
+      "fieldTrigger": "מה שאתה אומר",
+      "fieldBody": "טקסט לכתיבה",
+      "format": {
+        "intro": "אחת המילים בכל שורה:",
+        "columns": "העמוד הראשון הוא מה שאתה אומר; העמוד השני הוא הטקסט להקלדה.",
+        "lines": "טקסט עם שורות נפרדות מכניסים במרכאות, כמו ש程序ים שמורים שמורים.",
+        "limits": "מה שאתה אומר עד {{max}} תווים, טקסטים עד {{maxBody}}, עד 1,000 שורות ו-3 מיליארד בקובץ.",
+        "encoding": "להציל כ-CSV UTF-8 כדי שיתקבלו אקסיים וסקריפטים אחרים."
+      },
+      "review": {
+        "new_one": "ל-snippet חדש",
+        "new_other": "ל-snippets חדשים",
+        "duplicates_one": "הذا כבר קיים",
+        "duplicates_other": "הذا כבר קיים",
+        "conflicts_one": "תנגש",
+        "conflicts_other": "הפרעות",
+        "invalid_one": "לא ניתן להעניק",
+        "invalid_other": "לא ניתן להעניק",
+        "overLimit_one": "המקום שנותר הוא {{room}}; {{count}} ניחוחים חדשים לא יתאימו.",
+        "overLimit_other": "המקום שנותר הוא {{room}}; {{count}} ניחושים חדשים לא יתאימו.",
+        "ignoredRows_one": "רק שורה אחת מקרבת; {{count}} שורות נוספות נוצלו.",
+        "ignoredRows_other": "רק שורה אחת מקרבת; {{count}} שורות נוספות נוצלו.",
+        "showNew": "הצג את הפסוקים החדשים",
+        "more_one": "ו-{{count}} נוספים",
+        "more_other": "ו-{{count}} אחרים",
+        "conflictsTitle": "הנחת כבר עם טקסט אחר",
+        "conflictsHelp": "העתק את הלחיצות שבהן הטקסט של הקובץ צריך להחליף את הטקסט שלך.",
+        "useAllFile": "למשתמשים של כל הקובץ",
+        "keepAllMine": "השאירו את כל שלי",
+        "useFile": "לשימוש בקובץ:",
+        "yours": "שאתה:",
+        "showInvalid": "הצג את השורות שאלות להעתקה",
+        "invalidRow": "שורה {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "הsnippet {{count}} נקלט",
+        "title_other": "הנחת {{count}} קטעים",
+        "added_one": "{{count}} נוסף",
+        "added_other": "{{count}} הוספה",
+        "replaced_one": "{{count}} נוצר עם הטקסט של הקובץ",
+        "replaced_other": "{{count}} נוצר עם טקסט הקובץ",
+        "skipped_one": "{{count}} already there, skipped",
+        "skipped_other": "{{count}} already there, skipped",
+        "kept_one": "ההערכה של {{count}} נמצאה והושמרה כהיה",
+        "kept_other": "{{count}} נקודות התנגשות נשמרו כהן",
+        "invalid_one": "השורה {{count}} לא נקלטה",
+        "invalid_other": "השורות {{count}} לא יכולות להיבחן",
+        "overLimit_one": "{{count}} לא נכנס",
+        "overLimit_other": "{{count}} לא נכנס"
+      }
+    },
+    "export": {
+      "open": "יצוא",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "הועלה {{count}} נקודה.",
+      "done_other": "הועלה {{count}} קטעים.",
+      "failed": "לא ניתן להפוך את המדריכים. אנא נסה שוב."
     }
   }
 }

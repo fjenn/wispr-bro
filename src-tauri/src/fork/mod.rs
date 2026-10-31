@@ -49,6 +49,7 @@ pub mod notify;
 pub mod pill;
 pub mod settings;
 pub mod shortcut;
+pub mod snippets;
 pub mod stats;
 #[cfg(test)]
 mod testutil;
@@ -373,6 +374,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     db::jobs::start(app);
     // S-11: the dictionary rules the text pipeline applies, read per take.
     install_rule_source(app);
+    // S-17: the snippets stage 11 expands, read per delivery.
+    snippets::install(app);
     // S-16: Handy's custom words and the dictionary's words (one-time
     // migration, then the mirror), off the main thread.
     {
@@ -471,6 +474,14 @@ macro_rules! fork_specta_builder {
                 commands::pill::fork_pill_ready::<$runtime>,
                 commands::pill::fork_pill_action::<$runtime>,
                 commands::llm::fork_llm_last_cleanup,
+                commands::snippets::fork_snippets_list::<$runtime>,
+                commands::snippets::fork_snippets_add::<$runtime>,
+                commands::snippets::fork_snippets_update::<$runtime>,
+                commands::snippets::fork_snippets_delete::<$runtime>,
+                commands::snippets::fork_snippets_restore::<$runtime>,
+                commands::snippets::fork_snippets_import_review::<$runtime>,
+                commands::snippets::fork_snippets_import::<$runtime>,
+                commands::snippets::fork_snippets_export::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -485,7 +496,8 @@ macro_rules! fork_specta_builder {
                 notify::ForkToastsDismiss,
                 pill::ForkPillState,
                 pill::ForkPillLevels,
-                llm::post_process::ForkCleanupResult
+                llm::post_process::ForkCleanupResult,
+                snippets::ForkSnippetsChanged
             ])
     };
 }

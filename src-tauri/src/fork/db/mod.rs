@@ -81,6 +81,8 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::n
             crate::fork::dictionary::store::migrate_v4,
         ),
         M::up(include_str!("migrations/0005_notifications.sql")),
+        // S-17: snippets' last use and source, the inserted text per take.
+        M::up(include_str!("migrations/0006_snippets.sql")),
     ]
 });
 

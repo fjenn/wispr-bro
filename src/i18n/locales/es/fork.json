@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "no pasó las verificaciones de seguridad",
       "timeout": "la limpieza tardó demasiado",
       "error": "el motor de IA tuvo un problema"
+    }
+  },
+  "snippets": {
+    "add": "Agregar fragmento",
+    "added": "Agregado \"{{trigger}}\".",
+    "search": "Buscar tus fragmentos",
+    "refresh": "Actualiza",
+    "shown_one": "{{count}} fragmento mostrado",
+    "shown_other": "{{count}} fragmentos mostrados",
+    "deleted": "Eliminado “{{trigger}}”.",
+    "deleteFailed": "Ese fragmento no se pudo eliminar. Por favor, inténtalo de nuevo.",
+    "undo": "Deshacer",
+    "counts": {
+      "snippets_one": "{{count}} fragmento",
+      "snippets_other": "{{count}} fragmentos",
+      "uses_one": "usado {{count}} vez",
+      "uses_other": "usado {{count}} veces"
+    },
+    "sort": {
+      "label": "Ordenar",
+      "newest": "Primero los más recientes",
+      "oldest": "Primero el más antiguo",
+      "az": "A hasta Z",
+      "za": "Z a A",
+      "used": "Más utilizados"
+    },
+    "banner": {
+      "title": "Diga unas palabras, obtenga el texto completo",
+      "body": "Guarda el texto que escribes repetidamente. Dile su comando por separado o en medio de una oración, en cualquier aplicación, y {{appName}} escribirá el texto guardado, con saltos de línea incluidos.",
+      "examplesLabel": "Ejemplos",
+      "example1": "“mi dirección” → tu dirección postal completa",
+      "example2": "«mi despedida» → Saludos, y tu nombre",
+      "example3": "«mi enlace de reserva» → el enlace que las personas usan para reservar una llamada"
+    },
+    "entry": {
+      "becomes": "se escribe como",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} línea",
+      "lines_other": "{{count}} líneas",
+      "imported": "Importado",
+      "used_one": "Usado {{count}} vez",
+      "used_other": "Usado {{count}} veces",
+      "edit": "Editar {{trigger}}",
+      "delete": "Eliminar {{trigger}}"
+    },
+    "empty": {
+      "title": "Aún no hay fragmentos",
+      "body": "Guarda una dirección, una firma o un enlace una vez. Cuando digas su palabra clave, {{appName}} lo escribe por ti."
+    },
+    "noMatch": {
+      "title": "Nada coincide",
+      "body": "Ningún fragmento contiene “{{query}}”.",
+      "action": "Borrar la búsqueda"
+    },
+    "unavailable": {
+      "title": "Los fragmentos aún no están disponibles",
+      "body": "Se abren en cuanto finalice el inicio de la aplicación."
+    },
+    "problem": {
+      "empty_trigger": "Escribe lo que dirás primero.",
+      "trigger_too_long": "Lo que dices puede tener hasta {{max}} caracteres.",
+      "trigger_not_spoken": "Lo que dices necesita al menos una letra o número.",
+      "trigger_control_character": "Lo que dices tiene que caber en una línea.",
+      "empty_body": "Escribe el texto para escribir.",
+      "body_too_long": "El texto puede tener hasta {{maxBody}} caracteres.",
+      "body_control_character": "El texto contiene un carácter que no se puede escribir. Elimínalo y vuelve a intentarlo.",
+      "full": "Tienes la cantidad máxima de fragmentos que puede almacenar la aplicación. Elimina algunos primero."
+    },
+    "dialog": {
+      "addTitle": "Agregar fragmento",
+      "editTitle": "Editar fragmento",
+      "description": "Diga la pista y el texto guardado se escribe en su lugar.",
+      "trigger": "Cuando digo",
+      "triggerPlaceholder": "por ejemplo, mi dirección",
+      "body": "Escribe",
+      "bodyPlaceholder": "El texto para escribir. Se mantienen las saltos de línea.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funciona por sí solo o dentro de una oración, en cualquier caso. Dentro de una oración, la puntuación en la pista debe decirse de la misma manera. El texto se escribe exactamente como se guardó.",
+      "cancel": "Cancelar",
+      "add": "Agregar fragmento",
+      "save": "Guardar",
+      "close": "Cerrar",
+      "duplicate": "“{{trigger}}” ya está guardado con este texto.",
+      "conflict": "“{{trigger}}” ya es un fragmento con otro texto.",
+      "replaceExisting": "Reemplazarlo",
+      "missing": "Este fragmento fue eliminado en el transcurso del tiempo.",
+      "failed": "Eso no se pudo guardar. Por favor, inténtalo de nuevo."
+    },
+    "import": {
+      "open": "Importar",
+      "title": "Importar fragmentos",
+      "description": "Introducir fragmentos desde una hoja de cálculo guardada como CSV.",
+      "fieldTrigger": "Lo que dices",
+      "fieldBody": "Texto para escribir",
+      "format": {
+        "intro": "Uno por fila:",
+        "columns": "La primera columna es lo que dices; la segunda es el texto para escribir.",
+        "lines": "Un texto con saltos de línea se introduce entre comillas, como lo guardan las aplicaciones de hojas de cálculo.",
+        "limits": "Lo que dices hasta {{max}} caracteres, textos hasta {{maxBody}}, como máximo 1.000 filas y 3 MB por archivo.",
+        "encoding": "Guardar como CSV UTF-8 para que los acentos y otros scripts aparezcan."
+      },
+      "review": {
+        "new_one": "nuevo fragmento",
+        "new_other": "nuevos fragmentos",
+        "duplicates_one": "ya está aquí",
+        "duplicates_other": "ya está aquí",
+        "conflicts_one": "conflicto",
+        "conflicts_other": "conflictos",
+        "invalid_one": "no se puede importar",
+        "invalid_other": "no se puede importar",
+        "overLimit_one": "Hay espacio para {{room}} más; {{count}} nuevo fragmento no cabrá.",
+        "overLimit_other": "Hay espacio para {{room}} más; {{count}} nuevos fragmentos no encajarán.",
+        "ignoredRows_one": "Solo se leen las primeras 1.000 filas; {{count}} más fila se omite.",
+        "ignoredRows_other": "Solo se leen las primeras 1.000 filas; {{count}} filas adicionales se omiten.",
+        "showNew": "Mostrar los nuevos fragmentos",
+        "more_one": "y {{count}} más",
+        "more_other": "y {{count}} más",
+        "conflictsTitle": "Ya guardado con otro texto",
+        "conflictsHelp": "Marque los que tengan el texto del archivo que debe reemplazar el tuyo.",
+        "useAllFile": "Usar el texto del archivo para todos",
+        "keepAllMine": "Mantener todos los míos",
+        "useFile": "Usar el archivo:",
+        "yours": "Tuyo:",
+        "showInvalid": "Mostrar las filas que no pueden importarse",
+        "invalidRow": "Fila {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Se importó {{count}} fragmento",
+        "title_other": "Se importaron {{count}} fragmentos",
+        "added_one": "{{count}} agregado",
+        "added_other": "{{count}} agregados",
+        "replaced_one": "{{count}} reemplazado con el texto del archivo",
+        "replaced_other": "{{count}} reemplazado con el texto del archivo",
+        "skipped_one": "{{count}} ya está allí, omitido",
+        "skipped_other": "{{count}} ya está allí, omitido",
+        "kept_one": "{{count}} conflicto conservado tal como estaba",
+        "kept_other": "{{count}} conflictos conservados tal como estaban",
+        "invalid_one": "{{count}} fila no se pudo importar",
+        "invalid_other": "{{count}} filas no se pudieron importar",
+        "overLimit_one": "{{count}} no encajó",
+        "overLimit_other": "{{count}} no encajó"
+      }
+    },
+    "export": {
+      "open": "Exportar",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exportado {{count}} fragmento.",
+      "done_other": "Exportado {{count}} fragmentos.",
+      "failed": "Los fragmentos no se pudieron exportar. Por favor, inténtalo de nuevo."
     }
   }
 }

@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "non ha superato i controlli di sicurezza",
       "timeout": "il pulitore ha impiegato troppo tempo",
       "error": "l'engine AI ha un problema"
+    }
+  },
+  "snippets": {
+    "add": "Aggiungi snippet",
+    "added": "Aggiunto \"{{trigger}}\".",
+    "search": "Cerca i tuoi snippet",
+    "refresh": "Aggiorna",
+    "shown_one": "{{count}} snippet mostrato",
+    "shown_other": "{{count}} frammenti visualizzati",
+    "deleted": "Cancellato \"{{trigger}}\".",
+    "deleteFailed": "Quel frammento non può essere eliminato. Riprova.",
+    "undo": "Annulla",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} frammenti",
+      "uses_one": "usato {{count}} volta",
+      "uses_other": "usato {{count}} volte"
+    },
+    "sort": {
+      "label": "Ordina",
+      "newest": "Primi quelli più recenti",
+      "oldest": "Primi quelli più vecchi",
+      "az": "A a Z",
+      "za": "Z a A",
+      "used": "Più usato"
+    },
+    "banner": {
+      "title": "Digita poche parole, ottieni il testo completo",
+      "body": "Salva il testo che scrivi di nuovo e di nuovo. Dici il comando del testo da solo o in mezzo a una frase, in qualsiasi app, e {{appName}} scrive il testo salvato, con i salti di riga e tutto.",
+      "examplesLabel": "Esempi",
+      "example1": "«il mio indirizzo» → il tuo indirizzo postale completo",
+      "example2": "«il mio saluto» → Cordiali saluti, e il tuo nome",
+      "example3": "«il mio link per la prenotazione» → il link che le persone usano per prenotare una chiamata"
+    },
+    "entry": {
+      "becomes": "è scritto come",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} linea",
+      "lines_other": "{{count}} righe",
+      "imported": "Importato",
+      "used_one": "Usato {{count}} volta",
+      "used_other": "Usato {{count}} volte",
+      "edit": "Modifica {{trigger}}",
+      "delete": "Cancella {{trigger}}"
+    },
+    "empty": {
+      "title": "Ancora nessun frammento",
+      "body": "Salva un indirizzo, una firma o un collegamento una volta. Quando dici il suo comando, {{appName}} lo scrive per te."
+    },
+    "noMatch": {
+      "title": "Niente corrisponde",
+      "body": "Nessun frammento contiene “{{query}}”.",
+      "action": "Elimina la ricerca"
+    },
+    "unavailable": {
+      "title": "I snippet non sono ancora disponibili",
+      "body": "Si aprono appena l'app è terminata di avviarsi."
+    },
+    "problem": {
+      "empty_trigger": "Inserisci ciò che vorrai dire prima.",
+      "trigger_too_long": "Cio che dici può contenere fino a {{max}} caratteri.",
+      "trigger_not_spoken": "Cio che dici deve contenere almeno una lettera o un numero.",
+      "trigger_control_character": "Cio che dici deve stare su una sola riga.",
+      "empty_body": "Inserisci il testo da scrivere.",
+      "body_too_long": "Il testo può essere fino a {{maxBody}} caratteri.",
+      "body_control_character": "Il testo contiene un carattere che non può essere scritto. Rimuovilo e prova di nuovo.",
+      "full": "Hai il massimo numero di snippet che l'app può contenere. Elimina alcuni prima."
+    },
+    "dialog": {
+      "addTitle": "Aggiungi snippet",
+      "editTitle": "Modifica snippet",
+      "description": "Dici il comando e il testo salvato viene scritto.",
+      "trigger": "Quando dico",
+      "triggerPlaceholder": "ad es. il mio indirizzo",
+      "body": "Scrivi",
+      "bodyPlaceholder": "Il testo da scrivere. I salti di riga vengono mantenuti.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funziona da solo o all'interno di una frase, in ogni caso. All'interno di una frase, la punteggiatura nel suggerimento deve essere detta in modo identico. Il testo è scritto esattamente come salvato.",
+      "cancel": "Annulla",
+      "add": "Aggiungi snippet",
+      "save": "Salva",
+      "close": "Chiudi",
+      "duplicate": "“{{trigger}}” è già salvato con questo testo.",
+      "conflict": "“{{trigger}}” è già un frammento con un altro testo.",
+      "replaceExisting": "Sostituiscila",
+      "missing": "Questo snippet è stato cancellato in seguito.",
+      "failed": "Non è stato possibile salvare. Riprova."
+    },
+    "import": {
+      "open": "Importa",
+      "title": "Importa snippet",
+      "description": "Porta i frammenti da una tabella salvata come CSV.",
+      "fieldTrigger": "Cosa dici",
+      "fieldBody": "Testo da inserire",
+      "format": {
+        "intro": "Un snippet per riga:",
+        "columns": "La prima colonna è ciò che dici; la seconda è il testo da scrivere.",
+        "lines": "Un testo con salti di riga va inserito tra virgolette, come salvano le applicazioni di foglio di calcolo.",
+        "limits": "Ciò che dici fino a {{max}} caratteri, testi fino a {{maxBody}}, al massimo 1.000 righe e 3 MB per file.",
+        "encoding": "Salva come CSV UTF-8 in modo che i toni e altri script siano visualizzati."
+      },
+      "review": {
+        "new_one": "nuovo snippet",
+        "new_other": "nuovi snippet",
+        "duplicates_one": "già presente",
+        "duplicates_other": "già presente",
+        "conflicts_one": "conflitto",
+        "conflicts_other": "conflitti",
+        "invalid_one": "non può essere importato",
+        "invalid_other": "non può essere importato",
+        "overLimit_one": "Ci sono ancora spazio per {{room}} altri; {{count}} nuovo snippet non entrerà.",
+        "overLimit_other": "Ci sono ancora spazio per {{room}} altri; {{count}} nuovi snippet non entreranno.",
+        "ignoredRows_one": "Solo le prime 1.000 righe vengono lette; {{count}} altre righe vengono ignorate.",
+        "ignoredRows_other": "Solo le prime 1.000 righe vengono lette; {{count}} righe in più vengono ignorate.",
+        "showNew": "Mostra i nuovi snippet",
+        "more_one": "e {{count}} altri",
+        "more_other": "e {{count}} altri",
+        "conflictsTitle": "Già salvato con un altro testo",
+        "conflictsHelp": "Seleziona quelli in cui il testo del file deve sostituire il tuo.",
+        "useAllFile": "Usa il testo del file per tutti",
+        "keepAllMine": "Mantenere tutti quelli miei",
+        "useFile": "Usa il file:",
+        "yours": "Tuo:",
+        "showInvalid": "Mostra le righe che non possono essere importate",
+        "invalidRow": "Riga {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "È stato importato {{count}} snippet",
+        "title_other": "{{count}} frammenti importati",
+        "added_one": "{{count}} aggiunti",
+        "added_other": "{{count}} aggiunti",
+        "replaced_one": "{{count}} sostituito con il testo del file",
+        "replaced_other": "{{count}} sostituiti con il testo del file",
+        "skipped_one": "{{count}} già presente, saltato",
+        "skipped_other": "{{count}} già presente, saltato",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflitti conservati come erano",
+        "invalid_one": "Non è possibile importare {{count}} riga",
+        "invalid_other": "{{count}} righe non possono essere importate",
+        "overLimit_one": "{{count}} non è riuscito a inserirsi",
+        "overLimit_other": "{{count}} non è riuscito a inserirsi"
+      }
+    },
+    "export": {
+      "open": "Esporta",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Esportato {{count}} snippet.",
+      "done_other": "Esportato {{count}} snippeti.",
+      "failed": "I snippeti non possono essere esportati. Riprova."
     }
   }
 }

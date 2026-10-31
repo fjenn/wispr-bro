@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "no ha passat les comprovacions de seguretat",
       "timeout": "la neteja ha durat massa temps",
       "error": "l'enginy de l'IA va tenir un problema"
+    }
+  },
+  "snippets": {
+    "add": "Afegir fragment",
+    "added": "Afegit “{{trigger}}”.",
+    "search": "Cerca els teus snippets",
+    "refresh": "Refresca",
+    "shown_one": "{{count}} fragment mostrat",
+    "shown_other": "{{count}} fragments mostrats",
+    "deleted": "Esborrat “{{trigger}}”.",
+    "deleteFailed": "Aquesta fragment no es pot eliminar. Si us plau, torni a intentar-ho.",
+    "undo": "Desfer",
+    "counts": {
+      "snippets_one": "{{count}} fragment",
+      "snippets_other": "{{count}} fragments",
+      "uses_one": "utilitzat {{count}} vegada",
+      "uses_other": "utilitzat {{count}} vegades"
+    },
+    "sort": {
+      "label": "Ordenar",
+      "newest": "Primers els més nous",
+      "oldest": "Primers els més vells",
+      "az": "A a Z",
+      "za": "Z a A",
+      "used": "Més utilitzat"
+    },
+    "banner": {
+      "title": "Diga unes paraules, obté el text complet",
+      "body": "Guarda el text que escrius repetidament. Digueu el seu indicador per separat o dins d'una frase, en qualsevol aplicació, i {{appName}} escriu el text guardat, amb enters i tot.",
+      "examplesLabel": "Exemples",
+      "example1": "«la meva adreça» → la teva adreça postal completa",
+      "example2": "«la meva adéu» → Amb els millors vols, i el teu nom",
+      "example3": "«el meu enllaç d'assignació» → el enllaç que les persones utilitzen per programar una conversa"
+    },
+    "entry": {
+      "becomes": "es escriu com",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} línia",
+      "lines_other": "{{count}} línies",
+      "imported": "Importat",
+      "used_one": "Utilitzat {{count}} vegada",
+      "used_other": "Utilitzat {{count}} vegades",
+      "edit": "Edita {{trigger}}",
+      "delete": "Esborrar {{trigger}}"
+    },
+    "empty": {
+      "title": "Encara no hi ha snippets",
+      "body": "Guarda una adreça, una firma o un enllaç una vegada. Quan diguis el seu indicador, {{appName}} el escriu per tu."
+    },
+    "noMatch": {
+      "title": "Res no coincideix",
+      "body": "Cap fragment conté “{{query}}”.",
+      "action": "Netejar la cerca"
+    },
+    "unavailable": {
+      "title": "Els snippets no són disponibles encara",
+      "body": "Es obren tan aviat com a que l'aplicació ha acabat d'iniciar-se."
+    },
+    "problem": {
+      "empty_trigger": "Escriu el que diràs primer.",
+      "trigger_too_long": "El que diguis pot tenir fins a {{max}} caràcters.",
+      "trigger_not_spoken": "El que dius necessita almenys una lletra o un número.",
+      "trigger_control_character": "El que diguis ha de quedar en una línia.",
+      "empty_body": "Escriu el text per escriure.",
+      "body_too_long": "El text pot tenir fins a {{maxBody}} caràcters.",
+      "body_control_character": "El text conté un caràcter que no es pot escriure. Elimina'l i torna a provar.",
+      "full": "Tens els més snippets que pot contenir l'aplicació. Esborra alguns primer."
+    },
+    "dialog": {
+      "addTitle": "Afegir fragment",
+      "editTitle": "Editar fragment",
+      "description": "Diga la instrucció i el text guardat es escriu en lloc.",
+      "trigger": "Quan digui",
+      "triggerPlaceholder": "per exemple: la meva adreça",
+      "body": "Escriu",
+      "bodyPlaceholder": "El text per escriure. Les pauses de línia es mantenen.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funciona sol o dins d'una frase, en qualsevol cas. Dins d'una frase, la puntuació de la frase ha de ser dita de la mateixa manera. El text es escriu exactament com està guardat.",
+      "cancel": "Cancel·lar",
+      "add": "Afegir fragment",
+      "save": "Guardar",
+      "close": "Tancar",
+      "duplicate": "“{{trigger}}” ja està guardat amb aquest text.",
+      "conflict": "“{{trigger}}” ja és un fragment amb un altre text.",
+      "replaceExisting": "La substitueix",
+      "missing": "Aquesta frases va ser suprimeix en el moment.",
+      "failed": "No es pot guardar. Si us plau, torni a intentar-ho."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importar fragments",
+      "description": "Introdueix fragments d'un full de càlcul guardat com a CSV.",
+      "fieldTrigger": "El que dius",
+      "fieldBody": "Text per escriure",
+      "format": {
+        "intro": "Un fragment per fila:",
+        "columns": "La primera columna és el que dius; la segona és el text per escriure.",
+        "lines": "Un text amb salts de línia es posa entre cometes, com fan les aplicacions de full de càlcul.",
+        "limits": "El que dius fins a {{max}} caràcters, textos fins a {{maxBody}}, a més de 1.000 files i 3 MB per arxiu.",
+        "encoding": "Desar com CSV UTF-8 perquè els acentos i altres scripts es mostren."
+      },
+      "review": {
+        "new_one": "un nou fragment",
+        "new_other": "nou snippets",
+        "duplicates_one": "ja hi ha",
+        "duplicates_other": "ja hi ha",
+        "conflicts_one": "conflicte",
+        "conflicts_other": "conflictes",
+        "invalid_one": "no es pot importar",
+        "invalid_other": "no es pot importar",
+        "overLimit_one": "Hi ha lloc per {{room}} més; {{count}} snippet nou no encau.",
+        "overLimit_other": "Hi ha lloc per {{room}} més; {{count}} snippets novels no en cabran.",
+        "ignoredRows_one": "Només es llegen les primeres 1.000 files; {{count}} més fila es desprendeix.",
+        "ignoredRows_other": "Només es llegen les primeres 1.000 files; {{count}} files més s'omplen.",
+        "showNew": "Mostra els nous snippets",
+        "more_one": "i {{count}} més",
+        "more_other": "i {{count}} més",
+        "conflictsTitle": "Ja guardat amb un altre text",
+        "conflictsHelp": "Marca les que el text del fitxer ha de substituir el teu.",
+        "useAllFile": "Utilitza el text del fitxer per a tot",
+        "keepAllMine": "Tingui tot el meu",
+        "useFile": "Utilitza el fitxer's:",
+        "yours": "Ets:",
+        "showInvalid": "Mostra les files que no es poden importar",
+        "invalidRow": "Fila {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Es ha importat {{count}} snippet",
+        "title_other": "Es han importat {{count}} snippets",
+        "added_one": "{{count}} afegit",
+        "added_other": "{{count}} afegit",
+        "replaced_one": "{{count}} substituït per el text del fitxer",
+        "replaced_other": "{{count}} substituït amb el text del fitxer",
+        "skipped_one": "{{count}} ja hi ha, saltat",
+        "skipped_other": "{{count}} ja hi està, es va saltar",
+        "kept_one": "Un conflicte {{count}} s'ha mantingut com estava",
+        "kept_other": "{{count}} conflictes conservats com estaven",
+        "invalid_one": "{{count}} fila no ha pogut ser importada",
+        "invalid_other": "{{count}} files no es poden importar",
+        "overLimit_one": "{{count}} no va entrar",
+        "overLimit_other": "{{count}} no va entrar"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exportat {{count}} fragment.",
+      "done_other": "Exportat {{count}} fragments.",
+      "failed": "Els snippets no es poden exportar. Si us plau, torni a intentar-ho."
     }
   }
 }

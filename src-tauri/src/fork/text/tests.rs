@@ -5,6 +5,7 @@
 
 use super::counts::Stage;
 use super::rules::{Rule, RuleSet};
+use super::snippets::{Snippet, SnippetSet};
 use super::*;
 use crate::audio_toolkit::{
     apply_custom_words, normalize_transcription_output, remove_filler_words, OutputLanguageEvidence,
@@ -359,6 +360,152 @@ fn rules_come_from_the_installed_source_and_are_cached() {
     let b = active_rules();
     assert!(Arc::ptr_eq(&a, &b));
     assert_eq!(a.rules().len(), 1);
+}
+
+// ------------------------------------------------------------ S-17
+
+const PROBE_BODY: &str = "Alex Morgan\n12 Harbour Lane\nKiel 24103";
+
+fn probe_set() -> SnippetSet {
+    SnippetSet::new(vec![Snippet {
+        id: 1,
+        trigger: "zq probe address".into(),
+        body: PROBE_BODY.into(),
+    }])
+}
+
+#[test]
+fn snippet_bodies_never_pass_through_the_llm() {
+    // Before the LLM (`process`, from `finish_text`) no stage expands a
+    // snippet, whatever is installed.
+    install_probe_snippets();
+    let raw = "Please send it to zq probe address.";
+    let kept = process(
+        raw.into(),
+        &OutputLanguageEvidence::UserSelected("en".into()),
+        handy(&[]),
+    );
+    assert_eq!(kept, raw);
+    let _ = ledger().take_processed(&kept);
+
+    // The LLM step (S-12a; Handy's post-processing until then) gets that
+    // text: the trigger, never the saved text.
+    let mut llm_inputs: Vec<String> = Vec::new();
+    let mut llm = |t: &str| {
+        llm_inputs.push(t.to_owned());
+        format!("Hi Anna, {}", t.to_lowercase())
+    };
+    let rewritten = llm(&kept);
+
+    // After it, inside `deliver`, stage 11 expands the trigger.
+    let (out, done) = finish_with(&rewritten, None, &probe_set());
+    assert_eq!(
+        out,
+        "Hi Anna, please send it to Alex Morgan\n12 Harbour Lane\nKiel 24103."
+    );
+    assert_eq!(done.snippet_hits.len(), 1);
+    assert!(llm_inputs.iter().all(|t| !t.contains("Harbour")));
+}
+
+#[test]
+fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
+    // The order lives in Handy's `actions.rs`: the LLM step (S-12a's
+    // `fork::llm::post_process` hook) and the history save run before
+    // `insert::deliver`, whose first line is `text::finish`; the LLM step's
+    // own stage 9 uses `text::after_llm`, which expands nothing. If an
+    // upstream merge or a later slice moves any of these, this fails.
+    let actions = include_str!("../../actions.rs");
+    let llm = actions
+        .find("crate::fork::llm::post_process(")
+        .expect("the S-12a LLM hook");
+    let save = actions
+        .find("hm.save_entry(")
+        .expect("Handy's history save");
+    let deliver = actions.find("insert::deliver(").expect("the S-04 hook");
+    assert!(llm < deliver && save < deliver);
+    let insert = include_str!("../insert/mod.rs");
+    let body = &insert[insert.find("pub fn deliver(").unwrap()..];
+    let first = body
+        .lines()
+        .skip(1)
+        .find(|l| !l.trim().starts_with("//"))
+        .unwrap();
+    assert!(first.contains("crate::fork::text::finish(text)"), "{first}");
+    let llm_code = include_str!("../llm/post_process.rs");
+    assert!(llm_code.contains("crate::fork::text::after_llm(output)"));
+    assert!(!llm_code.contains("crate::fork::text::finish("));
+}
+
+#[test]
+fn the_llm_steps_stage_9_expands_no_snippet() {
+    // S-12a restores dictionary spellings right after the LLM, before
+    // History saves the take: snippets must wait for `deliver`.
+    install_probe_snippets();
+    let text = "Restore zq probe address here f4a1";
+    assert_eq!(after_llm(text.to_string()), text);
+}
+
+fn install_probe_snippets() {
+    // The only test that installs snippets; its trigger appears in no other
+    // test's text.
+    install_snippets(
+        || {
+            vec![Snippet {
+                id: 1,
+                trigger: "zq probe address".into(),
+                body: PROBE_BODY.into(),
+            }]
+        },
+        |used| PROBE_USES.lock().unwrap().push(used),
+    );
+}
+
+static PROBE_USES: std::sync::Mutex<Vec<SnippetUse>> = std::sync::Mutex::new(Vec::new());
+
+#[test]
+fn finish_expands_installed_snippets_and_records_the_take() {
+    install_probe_snippets();
+    let text = "Ship it to zq   probe address please e5c2";
+    ledger().await_outcome(991_017, text);
+    let out = finish(text.to_string());
+    assert_eq!(
+        out,
+        "Ship it to Alex Morgan\n12 Harbour Lane\nKiel 24103 please e5c2"
+    );
+    // The paste outcome still finds the row by the inserted text.
+    assert_eq!(ledger().take_awaiting(&out), Some(991_017));
+    let uses = PROBE_USES.lock().unwrap();
+    let used = uses
+        .iter()
+        .find(|u| u.entry_id == Some(991_017))
+        .expect("the take's use");
+    assert_eq!(used.hits.len(), 1);
+    assert_eq!(used.inserted.as_deref(), Some(out.as_str()));
+    // Cached: the same list compiles once.
+    let (a, _) = active_snippets();
+    let (b, _) = active_snippets();
+    assert!(Arc::ptr_eq(&a, &b));
+}
+
+#[test]
+fn saved_text_keeps_its_spacing_and_is_not_rescanned() {
+    let set = SnippetSet::new(vec![
+        Snippet {
+            id: 1,
+            trigger: "my table".into(),
+            body: "Name    Age\n\n  Finn    40".into(),
+        },
+        Snippet {
+            id: 2,
+            trigger: "age".into(),
+            body: "AGE".into(),
+        },
+    ]);
+    // Stage 12 tidies the dictated text first; the saved text is inserted
+    // as written and never scanned again ("Age" inside it stays).
+    let (out, done) = finish_with("Here  is my table:", None, &set);
+    assert_eq!(out, "Here is Name    Age\n\n  Finn    40:");
+    assert_eq!(done.whitespace, 1);
 }
 
 #[test]

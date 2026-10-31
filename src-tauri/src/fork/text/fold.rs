@@ -19,7 +19,7 @@ pub struct Folded {
 }
 
 /// One character, folded.
-fn fold_char(c: char, out: &mut String) {
+pub fn fold_char(c: char, out: &mut String) {
     match c {
         '\u{2019}' | '\u{2018}' | '\u{02BC}' => out.push('\''),
         c if c.is_ascii() => out.push(c.to_ascii_lowercase()),
@@ -38,11 +38,17 @@ pub fn fold_str(s: &str) -> String {
 
 impl Folded {
     pub fn new(original: &str) -> Folded {
+        Folded::with(original, fold_char)
+    }
+
+    /// `original` folded per character by `fold` (S-17's snippets fold the
+    /// Turkish dotted and dotless i as well).
+    pub fn with(original: &str, fold: impl Fn(char, &mut String)) -> Folded {
         let mut text = String::with_capacity(original.len());
         let mut map = Vec::with_capacity(original.len() + 1);
         for (at, c) in original.char_indices() {
             let before = text.len();
-            fold_char(c, &mut text);
+            fold(c, &mut text);
             map.extend(std::iter::repeat_n(at, text.len() - before));
         }
         map.push(original.len());

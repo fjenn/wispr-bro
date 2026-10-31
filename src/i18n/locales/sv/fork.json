@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "det passerade inte säkerhetskontrollen",
       "timeout": "rengöring tog för lång tid",
       "error": "AI-engine hade ett problem"
+    }
+  },
+  "snippets": {
+    "add": "Lägg till snippet",
+    "added": "Lägg till \"{{trigger}}\".",
+    "search": "Sök dina snippet",
+    "refresh": "Uppdatera",
+    "shown_one": "{{count}} snippet visad",
+    "shown_other": "{{count}} snippet visade",
+    "deleted": "Raderat “{{trigger}}”.",
+    "deleteFailed": "Den snippeten kunde inte tas bort. Försök igen.",
+    "undo": "Ångra",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} snippet",
+      "uses_one": "används {{count}} gång",
+      "uses_other": "används {{count}} gånger"
+    },
+    "sort": {
+      "label": "Sortera",
+      "newest": "Nyaste först",
+      "oldest": "Åldersförsta",
+      "az": "A till Z",
+      "za": "Z till A",
+      "used": "Mest använd"
+    },
+    "banner": {
+      "title": "Säg några ord, får hela texten",
+      "body": "Spara text du skriver igen och igen. Säg dess prompt ensam eller i mitten av en mening, i vilken app som helst, och {{appName}} skriver den sparade texten, med radavbrott och allt.",
+      "examplesLabel": "Exempel",
+      "example1": "„min adress“ → din fulla postadress",
+      "example2": "„min avslutning“ → Vänliga hälsningar och ditt namn",
+      "example3": "„min bokningslänk“ → länken som personer använder för att boka en samtal"
+    },
+    "entry": {
+      "becomes": "skrivs som",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} rad",
+      "lines_other": "{{count}} rader",
+      "imported": "Importad",
+      "used_one": "Används {{count}} gång",
+      "used_other": "Används {{count}} gånger",
+      "edit": "Redigera {{trigger}}",
+      "delete": "Radera {{trigger}}"
+    },
+    "empty": {
+      "title": "Inga snippet ännu",
+      "body": "Spara en adress, en signatur eller en länk en gång. När du säger dess prompt, skriver {{appName}} den för dig."
+    },
+    "noMatch": {
+      "title": "Inget matchar",
+      "body": "Ingen snippet innehåller \"{{query}}\".",
+      "action": "Radera sökningen"
+    },
+    "unavailable": {
+      "title": "Snippeter är inte tillgängliga ännu",
+      "body": "De öppnas direkt efter att appen har startat."
+    },
+    "problem": {
+      "empty_trigger": "Skriv vad du vill säga först.",
+      "trigger_too_long": "Det du säger kan vara upp till {{max}} tecken.",
+      "trigger_not_spoken": "Det du säger behöver ha minst en bokstav eller siffra.",
+      "trigger_control_character": "Det du säger måste passa på en rad.",
+      "empty_body": "Skriv texten du vill skriva.",
+      "body_too_long": "Texten kan vara upp till {{maxBody}} tecken.",
+      "body_control_character": "Texten innehåller ett tecken som inte kan skrivas. Ta bort det och försök igen.",
+      "full": "Du har de mest snippet som appen kan hålla. Radera några först."
+    },
+    "dialog": {
+      "addTitle": "Lägg till snippet",
+      "editTitle": "Redigera snippet",
+      "description": "Säg prompten och texten som sparats skrivs istället.",
+      "trigger": "När jag säger",
+      "triggerPlaceholder": "t.ex. min adress",
+      "body": "Skriv",
+      "bodyPlaceholder": "Texten att skriva. Radbrytningar behålls.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Fungerar ensamt eller inom en mening, oavsett. Inom en mening måste punkterna i prompten sägas på samma sätt. Texten skrivs exakt som den sparas.",
+      "cancel": "Avbryt",
+      "add": "Lägg till snippet",
+      "save": "Spara",
+      "close": "Stäng",
+      "duplicate": "“{{trigger}}” är redan sparad med denna text.",
+      "conflict": "“{{trigger}}” är redan en snippet med annan text.",
+      "replaceExisting": "Ersätt det",
+      "missing": "Den här snippeten togs bort under tiden.",
+      "failed": "Det kunde inte sparas. Försök igen."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importera snippet",
+      "description": "Importera snippet från en tabell som sparats som CSV.",
+      "fieldTrigger": "Vad du säger",
+      "fieldBody": "Text att skriva",
+      "format": {
+        "intro": "En snippet per rad:",
+        "columns": "Första kolumnen är det du säger; andra kolumnen är texten att skriva.",
+        "lines": "En text med radavbrytningar går in i citat, som spridningsprogram sparar den.",
+        "limits": "Vad du säger upp till {{max}} tecken, texter upp till {{maxBody}}, högst 1 000 rader och 3 MB per fil.",
+        "encoding": "Spara som CSV UTF-8 så kommer akcenter och andra skrifter till."
+      },
+      "review": {
+        "new_one": "ny snippet",
+        "new_other": "nyt snippeter",
+        "duplicates_one": "finns redan",
+        "duplicates_other": "redan där",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikter",
+        "invalid_one": "kan inte importeras",
+        "invalid_other": "kan inte importeras",
+        "overLimit_one": "Det finns plats för {{room}} mer; {{count}} nytt snippet går inte att lägga till.",
+        "overLimit_other": "Det finns plats för {{room}} mer; {{count}} nya snippet går inte att lägga till.",
+        "ignoredRows_one": "Endast de första 1 000 raderna läses; {{count}} mer rad är avbryt.",
+        "ignoredRows_other": "Endast de första 1 000 raderna läses; {{count}} mer rader är avslutade.",
+        "showNew": "Visa de nya snippeten",
+        "more_one": "och {{count}} mer",
+        "more_other": "och {{count}} mer",
+        "conflictsTitle": "Redan sparad med annan text",
+        "conflictsHelp": "Marka de där filens text ska ersätta din.",
+        "useAllFile": "Använd filens text för allt",
+        "keepAllMine": "Behåll alla mina",
+        "useFile": "Använd filens:",
+        "yours": "Dina:",
+        "showInvalid": "Visa raderna som inte kan importeras",
+        "invalidRow": "Rad {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet importerad",
+        "title_other": "{{count}} snippet importerade",
+        "added_one": "{{count}} tillagd",
+        "added_other": "{{count}} tillagd",
+        "replaced_one": "{{count}} ersatt med texten från filen",
+        "replaced_other": "{{count}} ersatt med texten från filen",
+        "skipped_one": "{{count}} finns redan där, hopplad",
+        "skipped_other": "{{count}} finns redan där, hopplades över",
+        "kept_one": "{{count}} konflikt behålls som det var",
+        "kept_other": "{{count}} konflikter behålls eftersom de var sådana",
+        "invalid_one": "{{count}} rad kunde inte importeras",
+        "invalid_other": "{{count}} rader kunde inte importeras",
+        "overLimit_one": "{{count}} gick inte in",
+        "overLimit_other": "{{count}} passade inte"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exportade {{count}} snippet.",
+      "done_other": "Exportade {{count}} snippet.",
+      "failed": "Snippeterna kunde inte exporteras. Försök igen."
     }
   }
 }

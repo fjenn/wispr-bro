@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "安全性チェックを通過しなかった",
       "timeout": "クリーンアップが長すぎた",
       "error": "AIエンジンに問題がありました"
+    }
+  },
+  "snippets": {
+    "add": "スニペットを追加",
+    "added": "「{{trigger}}」を追加しました。",
+    "search": "あなたのスニペットを検索",
+    "refresh": "リフレッシュ",
+    "shown_one": "{{count}} スニペットが表示されました",
+    "shown_other": "{{count}} スニペットが表示されています",
+    "deleted": "「{{trigger}}」を削除しました。",
+    "deleteFailed": "そのスニペットを削除できませんでした。再度お試しください。",
+    "undo": "元に戻す",
+    "counts": {
+      "snippets_one": "{{count}} スニペット",
+      "snippets_other": "{{count}} スニペット",
+      "uses_one": "{{count}}回使用しました",
+      "uses_other": "{{count}}回使用されました"
+    },
+    "sort": {
+      "label": "並べ替え",
+      "newest": "新しいものから",
+      "oldest": "一番古いものから",
+      "az": "A から Z まで",
+      "za": "ZからA",
+      "used": "最も使われている"
+    },
+    "banner": {
+      "title": "数語を言うだけで、全文が得られます",
+      "body": "繰り返し書くテキストを保存してください。そのコールを単独または文の途中で、どのアプリでも言うだけで、{{appName}} が保存したテキストと改行を正確に書きます。",
+      "examplesLabel": "例",
+      "example1": "「my address」→ あなたのフル郵便住所",
+      "example2": "「私の署名」→ お祝いの気持ちとあなたの名前",
+      "example3": "「私の予約リンク」→ 人々が電話予約をする際に使うリンク"
+    },
+    "entry": {
+      "becomes": "is written as",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} 行",
+      "lines_other": "{{count}} 行",
+      "imported": "インポートされた",
+      "used_one": "{{count}}回使用",
+      "used_other": "{{count}}回使用されました",
+      "edit": "{{trigger}} を編集",
+      "delete": "{{trigger}} を削除"
+    },
+    "empty": {
+      "title": "スニペットはまだありません",
+      "body": "住所、署名、またはリンクを一度保存します。そのコールを言うと、{{appName}}が自動で記録します。"
+    },
+    "noMatch": {
+      "title": "一致するものはありません",
+      "body": "スニペットに「{{query}}」は含まれていません。",
+      "action": "検索をクリアする"
+    },
+    "unavailable": {
+      "title": "スニペットはまだ利用できません",
+      "body": "アプリが起動した直後に開きます。"
+    },
+    "problem": {
+      "empty_trigger": "最初に何を言うかタイプしてください。",
+      "trigger_too_long": "あなたが言う内容は{{max}}文字までです。",
+      "trigger_not_spoken": "言葉を言うには少なくとも1文字または数字が必要です。",
+      "trigger_control_character": "言葉は1行に収まらなければならない。",
+      "empty_body": "テキストを入力してください。",
+      "body_too_long": "テキストは最大 {{maxBody}} 文字までです。",
+      "body_control_character": "テキストには書き込めない文字が含まれています。それを削除して再度お試しください。",
+      "full": "あなたはアプリが保持できるスニペットの最大数を超過しています。まずはいくつか削除してください。"
+    },
+    "dialog": {
+      "addTitle": "スニペットを追加",
+      "editTitle": "スニペットを編集",
+      "description": "キューコメントを言うと、保存されたテキストが表示されます。",
+      "trigger": "「私が言うとき」",
+      "triggerPlaceholder": "たとえば my address",
+      "body": "書く",
+      "bodyPlaceholder": "書くテキスト。改行は保持されます。",
+      "counter": "{{count}}/{{max}}",
+      "hint": "独自に使用するか、文の中に入れるか、どちらでもOKです。文の中では、ヒントに含まれる記号も、同じように発音してください。テキストは、保存された内容とまったく同じになります。",
+      "cancel": "キャンセル",
+      "add": "スニペットを追加",
+      "save": "保存",
+      "close": "閉じる",
+      "duplicate": "「{{trigger}}」はすでにこのテキストで保存されています。",
+      "conflict": "「{{trigger}}」はすでに別のテキストと重複しています。",
+      "replaceExisting": "それを置き換える",
+      "missing": "このスニペットはその間削除されました。",
+      "failed": "そのデータは保存できません。再度お試しください。"
+    },
+    "import": {
+      "open": "インポート",
+      "title": "スニペットをインポート",
+      "description": "CSV として保存されたスプレッドシートからスニペットをインポートします。",
+      "fieldTrigger": "あなたが言うこと",
+      "fieldBody": "書くテキスト",
+      "format": {
+        "intro": "1行に1つのスニペット:",
+        "columns": "最初の列はあなたが言うもの；2番目の列は書くべきテキストです。",
+        "lines": "改行が含まれたテキストは引用符の中に入れて、スプレッドシートアプリがそれを保存するようにします。",
+        "limits": "あなたが言う内容は{{max}}文字まで、テキストは{{maxBody}}まで、1,000行、1ファイルあたり3MBまでです。",
+        "encoding": "CSV UTF-8 に保存して、アクセントや他の文字を使うようにします。"
+      },
+      "review": {
+        "new_one": "新しいスニペット",
+        "new_other": "新しいスニペット",
+        "duplicates_one": "すでにあります",
+        "duplicates_other": "すでにそこにある",
+        "conflicts_one": "衝突",
+        "conflicts_other": "conflicts",
+        "invalid_one": "インポートできません",
+        "invalid_other": "インポートできません",
+        "overLimit_one": "{{room}} 余裕があります；{{count}} 個の新しいスニペットは収まりません。",
+        "overLimit_other": "{{room}} さらに余裕があります；{{count}} 個のスニペットは収まりません。",
+        "ignoredRows_one": "最初の1,000行だけが読み込まれました；{{count}}行が除外されました。",
+        "ignoredRows_other": "最初の1,000行だけが読み込まれました；{{count}}行が除外されました。",
+        "showNew": "新しいスニペットを表示",
+        "more_one": "そして{{count}}つ以上",
+        "more_other": "そして{{count}}つ以上",
+        "conflictsTitle": "すでに別のテキストで保存されています",
+        "conflictsHelp": "ファイルのテキストが自分のものに置き換わるべき ones にチェックをつけてください。",
+        "useAllFile": "すべてのためのファイルのテキストを使用",
+        "keepAllMine": "すべてを私のものにしたまえ",
+        "useFile": "ファイルの:",
+        "yours": "あなたのもの:",
+        "showInvalid": "インポートできない行を表示する",
+        "invalidRow": "行 {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} スニペットがインポートされました",
+        "title_other": "{{count}} スニペットがインポートされました",
+        "added_one": "{{count}} が追加されました",
+        "added_other": "{{count}} が追加されました",
+        "replaced_one": "{{count}} がファイルのテキストで置き換えられました",
+        "replaced_other": "{{count}} がファイルのテキストで置き換えられました",
+        "skipped_one": "{{count}} すでに存在するのでスキップ",
+        "skipped_other": "{{count}} すでに存在するためスキップ",
+        "kept_one": "{{count}} 冲突はそのまま保持されました",
+        "kept_other": "{{count}} つの競合はそのまま保持されました",
+        "invalid_one": "{{count}} 行がインポートできません",
+        "invalid_other": "{{count}} 行がインポートできません",
+        "overLimit_one": "{{count}} は入らない",
+        "overLimit_other": "{{count}} は収まらない"
+      }
+    },
+    "export": {
+      "open": "エクスポート",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "{{count}}個のスニペットをエクスポートしました。",
+      "done_other": "{{count}} 個のスニペットをエクスポートしました。",
+      "failed": "スニペットのエクスポートに失敗しました。再度お試しください。"
     }
   }
 }

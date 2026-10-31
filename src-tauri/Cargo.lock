@@ -2405,6 +2405,7 @@ dependencies = [
  "handy-recorder",
  "hf-hub",
  "hound",
+ "icu_normalizer",
  "isolang",
  "libc",
  "log",

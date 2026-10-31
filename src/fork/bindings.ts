@@ -405,6 +405,97 @@ async forkPillAction(action: PillUiAction) : Promise<void> {
  */
 async forkLlmLastCleanup() : Promise<ForkCleanupResult | null> {
     return await TAURI_INVOKE("fork_llm_last_cleanup");
+},
+/**
+ * Every snippet.
+ */
+async forkSnippetsList() : Promise<Result<SnippetList, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_list") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Adds a snippet.
+ */
+async forkSnippetsAdd(input: SnippetInput) : Promise<Result<SnippetSaveOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_add", { input }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Changes snippet `id`.
+ */
+async forkSnippetsUpdate(id: number, input: SnippetInput) : Promise<Result<SnippetSaveOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_update", { id, input }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Deletes snippets. Returns them, so the page can offer Undo
+ * ([`fork_snippets_restore`]).
+ */
+async forkSnippetsDelete(ids: number[]) : Promise<Result<SnippetEntry[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_delete", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Puts deleted snippets back (Undo). Returns how many came back.
+ */
+async forkSnippetsRestore(snippets: SnippetEntry[]) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_restore", { snippets }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * The import wizard's review step.
+ */
+async forkSnippetsImportReview(rows: SnippetImportRow[]) : Promise<Result<SnippetImportReview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_import_review", { rows }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Imports the rows. Conflicts listed in `replace_rows` (row numbers) take
+ * the file's text.
+ */
+async forkSnippetsImport(rows: SnippetImportRow[], replaceRows: number[]) : Promise<Result<SnippetImportOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_import", { rows, replaceRows }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Writes every snippet to `path` (from the save panel) as CSV. Returns how
+ * many rows were written.
+ */
+async forkSnippetsExport(path: string) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_snippets_export", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -423,6 +514,7 @@ forkPillLevels: ForkPillLevels,
 forkPillState: ForkPillState,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged,
+forkSnippetsChanged: ForkSnippetsChanged,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss
 }>({
@@ -437,6 +529,7 @@ forkPillLevels: "fork-pill-levels",
 forkPillState: "fork-pill-state",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed",
+forkSnippetsChanged: "fork-snippets-changed",
 forkStatsUpdated: "fork-stats-updated",
 forkToastsDismiss: "fork-toasts-dismiss"
 })
@@ -991,6 +1084,11 @@ export type ForkSettingsChanged = {
  */
 key: string; settings: ForkSettings }
 /**
+ * Emitted after the snippets changed (page edits, imports) or a take used
+ * one, so every window's Snippets page and counts refresh.
+ */
+export type ForkSnippetsChanged = { counts: SnippetCounts }
+/**
  * Emitted after a take changed the stats (`fork::db::stats`), so the Home
  * rail (S-15a) and Insights (S-25) refresh live.
  */
@@ -1515,6 +1613,184 @@ export type Shape =
  * A message or an error, with an optional Fix button.
  */
 "message"
+/**
+ * The counts the page shows.
+ */
+export type SnippetCounts = { snippets: number; 
+/**
+ * Takes that used a snippet, summed over every snippet.
+ */
+uses: number }
+/**
+ * One snippet as the page shows it.
+ */
+export type SnippetEntry = { id: number; 
+/**
+ * What the user says.
+ */
+trigger: string; 
+/**
+ * The text written instead (plain text, `\n` line breaks).
+ */
+body: string; source: SnippetOrigin; 
+/**
+ * Unix ms.
+ */
+created_at: number; 
+/**
+ * Unix ms of the last edit.
+ */
+updated_at: number; 
+/**
+ * How many takes expanded it.
+ */
+hit_count: number; last_hit_at: number | null }
+/**
+ * A row whose trigger is already used with another text.
+ */
+export type SnippetImportConflict = { incoming: SnippetReviewRow; existing: SnippetEntry }
+/**
+ * A row that already is a snippet, or repeats an earlier row.
+ */
+export type SnippetImportDuplicate = { incoming: SnippetReviewRow; 
+/**
+ * `true`: an earlier row of the same file; `false`: a saved snippet.
+ */
+in_file: boolean }
+/**
+ * What an import did.
+ */
+export type SnippetImportOutcome = { added: number; 
+/**
+ * Conflicts the user chose to take from the file.
+ */
+replaced: number; 
+/**
+ * Duplicates skipped.
+ */
+skipped: number; 
+/**
+ * Conflicts kept as they were.
+ */
+kept: number; invalid: number; 
+/**
+ * New rows left out because the page was full (or past the row limit).
+ */
+over_limit: number }
+/**
+ * The review step.
+ */
+export type SnippetImportReview = { new_snippets: SnippetReviewRow[]; duplicates: SnippetImportDuplicate[]; conflicts: SnippetImportConflict[]; invalid: SnippetInvalidRow[]; 
+/**
+ * How many more snippets fit ([`super::MAX_SNIPPETS`]).
+ */
+room: number; 
+/**
+ * Rows after the first [`MAX_IMPORT_ROWS`], left out.
+ */
+ignored_rows: number }
+/**
+ * One mapped row of the file. `row` is its 1-based record number.
+ */
+export type SnippetImportRow = { row: number; trigger: string; body: string }
+/**
+ * What the user typed (or a CSV row).
+ */
+export type SnippetInput = { trigger: string; body: string }
+/**
+ * A row that is not a valid snippet.
+ */
+export type SnippetInvalidRow = { row: number; 
+/**
+ * The trigger as written, cut to 80 characters.
+ */
+trigger: string; problem: SnippetProblem }
+/**
+ * The page's data.
+ */
+export type SnippetList = { 
+/**
+ * Newest first.
+ */
+snippets: SnippetEntry[]; counts: SnippetCounts }
+/**
+ * Where a snippet came from (`snippets.source`).
+ */
+export type SnippetOrigin = 
+/**
+ * Added on the Snippets page.
+ */
+"user" | 
+/**
+ * From a CSV import.
+ */
+"import"
+/**
+ * Why an input is not a valid snippet.
+ */
+export type SnippetProblem = 
+/**
+ * The trigger is blank.
+ */
+"empty_trigger" | 
+/**
+ * The trigger is longer than [`MAX_TRIGGER_CHARS`].
+ */
+"trigger_too_long" | 
+/**
+ * The trigger has no letter or digit (nothing that can be spoken).
+ */
+"trigger_not_spoken" | 
+/**
+ * A line break, tab or other control character in the trigger.
+ */
+"trigger_control_character" | 
+/**
+ * The text is blank.
+ */
+"empty_body" | 
+/**
+ * The text is longer than [`MAX_BODY_CHARS`].
+ */
+"body_too_long" | 
+/**
+ * A control character other than a line break or tab in the text.
+ */
+"body_control_character" | 
+/**
+ * The page already holds [`MAX_SNIPPETS`] snippets.
+ */
+"full"
+/**
+ * A valid row as it would be saved.
+ */
+export type SnippetReviewRow = { row: number; trigger: string; body: string }
+/**
+ * Result of saving one snippet.
+ */
+export type SnippetSaveOutcome = 
+/**
+ * Added or changed.
+ */
+{ status: "saved"; snippet: SnippetEntry } | 
+/**
+ * The same trigger with the same text is already there; nothing
+ * changed.
+ */
+{ status: "duplicate"; existing: SnippetEntry } | 
+/**
+ * The same trigger with another text is there; nothing changed.
+ * Saving over it is an edit of `existing`.
+ */
+{ status: "conflict"; existing: SnippetEntry } | 
+/**
+ * Not a valid snippet; nothing changed.
+ */
+{ status: "invalid"; problem: SnippetProblem } | 
+/**
+ * The snippet to edit no longer exists.
+ */
+{ status: "missing" }
 /**
  * Lifetime and today's numbers for the Home rail (S-15a) and Insights
  * (S-25).

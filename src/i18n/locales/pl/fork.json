@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "nie przeszło testów bezpieczeństwa",
       "timeout": "usunięcie zajęło zbyt długo",
       "error": "engine AI miał problem"
+    }
+  },
+  "snippets": {
+    "add": "Dodaj fragment",
+    "added": "Dodano „{{trigger}}”.",
+    "search": "Szukaj swoich fragmentów",
+    "refresh": "Odśwież",
+    "shown_one": "{{count}} przykład pokazany",
+    "shown_other": "{{count}} fragmentów wyświetlonych",
+    "deleted": "Usunięto „{{trigger}}”.",
+    "deleteFailed": "Nie udało się usunąć tego fragmentu. Proszę spróbować ponownie.",
+    "undo": "Cofnij",
+    "counts": {
+      "snippets_one": "{{count}} fragment",
+      "snippets_other": "{{count}} fragmentów",
+      "uses_one": "użyto {{count}} razy",
+      "uses_other": "używane {{count}} razy"
+    },
+    "sort": {
+      "label": "Sortuj",
+      "newest": "Nowe najpierw",
+      "oldest": "Najstarsze najpierw",
+      "az": "A do Z",
+      "za": "A do Z",
+      "used": "Najczęściej używane"
+    },
+    "banner": {
+      "title": "Powiedz kilka słów, otrzymasz cały tekst",
+      "body": "Zapisuj tekst, który piszesz ponownie i ponownie. Powiedz jego wywołanie samodzielnie lub w środku zdania, w dowolnym aplikacji, i {{appName}} zapisać tekst, znaki nowej linii i wszystko.",
+      "examplesLabel": "Przykłady",
+      "example1": "„moja adresa” → Twoje pełne adresy pocztowe",
+      "example2": "„moje podpisanie” → Powodzenia, i Twoje imię",
+      "example3": "„moja link do rezerwacji\" → link, który ludzie używają, aby zarezerwować rozmowę"
+    },
+    "entry": {
+      "becomes": "jest napisany jako",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} linia",
+      "lines_other": "{{count}} linii",
+      "imported": "Importowane",
+      "used_one": "Użyto {{count}} razy",
+      "used_other": "Używane {{count}} razy",
+      "edit": "Edytuj {{trigger}}",
+      "delete": "Usunąć {{trigger}}"
+    },
+    "empty": {
+      "title": "Nie ma jeszcze żadnych fragmentów",
+      "body": "Zapisz adres, podpis lub link raz. Gdy powiesz jego wywołanie, {{appName}} zapisze go dla Ciebie."
+    },
+    "noMatch": {
+      "title": "Nic nie pasuje",
+      "body": "Brak fragmentów zawierających „{{query}}”.",
+      "action": "Wyczyść wyszukiwanie"
+    },
+    "unavailable": {
+      "title": "Fragmenty nie są dostępne jeszcze",
+      "body": "Otwierają się, gdy aplikacja zakończy uruchamianie."
+    },
+    "problem": {
+      "empty_trigger": "Wpisz to, co najpierw chcesz powiedzieć.",
+      "trigger_too_long": "Co powiesz może być do {{max}} znaków.",
+      "trigger_not_spoken": "Co powiesz musi zawierać co najmniej jedną literę lub cyfrę.",
+      "trigger_control_character": "Co powiesz musi się zmieścić na jednej linii.",
+      "empty_body": "Wpisz tekst, aby go napisać.",
+      "body_too_long": "Tekst może zawierać do {{maxBody}} znaków.",
+      "body_control_character": "Tekst zawiera znak, który nie może być wpisany. Usuń go i spróbuj ponownie.",
+      "full": "Masz maksymalną liczbę fragmentów, które może przechowywać aplikacja. Usuń niektóre najpierw."
+    },
+    "dialog": {
+      "addTitle": "Dodaj fragment",
+      "editTitle": "Edytuj fragment",
+      "description": "Powiedz wywołanie i tekst zapisany zostanie wpisany.",
+      "trigger": "Gdy powiem",
+      "triggerPlaceholder": "np. moja adresa",
+      "body": "Napisz",
+      "bodyPlaceholder": "Tekst do wpisania. Zapisywane są przejścia wierszy.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Działa samodzielnie lub wewnątrz zdania, w dowolnym przypadku. Wewnątrz zdania, znaki interpunkcyjne w wskazówce muszą być mówione tak samo. Tekst jest napisany dokładnie tak, jak został zapisany.",
+      "cancel": "Anuluj",
+      "add": "Dodaj fragment",
+      "save": "Zapisz",
+      "close": "Zamknij",
+      "duplicate": "„{{trigger}}\" już jest zapisany z tym tekstem.",
+      "conflict": "„{{trigger}}\" jest już fragmentem z innym tekstem.",
+      "replaceExisting": "Zastąp je",
+      "missing": "Ten fragment został usunięty w międzyczasie.",
+      "failed": "Nie dało się zapisania. Proszę spróbować ponownie."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importuj fragmenty",
+      "description": "Wprowadź fragmenty z arkusza kalkulacyjnego zapisanego jako CSV.",
+      "fieldTrigger": "Co powiesz",
+      "fieldBody": "Tekst do wpisania",
+      "format": {
+        "intro": "Jeden fragment na wiersz:",
+        "columns": "Pierwsza kolumna to to, co mówisz; druga to tekst do wpisania.",
+        "lines": "Tekst z przejściami wierszy wpisuje się w cudzysłowie, jak to zapisują aplikacje arkuszy kalkulacyjnych.",
+        "limits": "Co powiesz do {{max}} znaków, teksty do {{maxBody}}, maksymalnie 1000 wierszy i 3 MB na plik.",
+        "encoding": "Zapisz jako CSV UTF-8, aby znaki diakrytyczne i inne systemy były poprawnie wyświetlane."
+      },
+      "review": {
+        "new_one": "nowy fragment",
+        "new_other": "nowe fragmenty",
+        "duplicates_one": "juz tam",
+        "duplicates_other": "juz tam",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikty",
+        "invalid_one": "nie można zaimportować",
+        "invalid_other": "nie można zaimportować",
+        "overLimit_one": "Mieści się {{room}} więcej; {{count}} nowego fragmentu nie zmieści się.",
+        "overLimit_other": "Mieści się {{room}} więcej; {{count}} nowych fragmentów nie zmieści się.",
+        "ignoredRows_one": "Tylko pierwsze 1000 wierszy są czytane; {{count}} więcej wierszy zostaje pominęte.",
+        "ignoredRows_other": "Tylko pierwsze 1000 wierszy są czytane; {{count}} więcej wierszy zostaje pominęte.",
+        "showNew": "Pokaż nowe fragmenty",
+        "more_one": "i {{count}} więcej",
+        "more_other": "i {{count}} więcej",
+        "conflictsTitle": "Zapisane już z innym tekstem",
+        "conflictsHelp": "Zaznacz te, w których tekst pliku powinien zastąpić Twój.",
+        "useAllFile": "Użyj tekstu pliku dla wszystkiego",
+        "keepAllMine": "Zachowaj wszystkie moje",
+        "useFile": "Użyj pliku:",
+        "yours": "Twoje:",
+        "showInvalid": "Pokaż wiersze, które nie mogą być zaimportowane",
+        "invalidRow": "Wiersz {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} fragmentu zaimportowano",
+        "title_other": "Zaimportowano {{count}} fragmentów",
+        "added_one": "{{count}} dodano",
+        "added_other": "{{count}} dodano",
+        "replaced_one": "{{count}} zastąpiony przez tekst pliku",
+        "replaced_other": "{{count}} zastąpiono tekstem pliku",
+        "skipped_one": "{{count}} już jest, pominęto",
+        "skipped_other": "{{count}} już jest, pominęto",
+        "kept_one": "{{count}} konfliktów zachowany w oryginalnej formie",
+        "kept_other": "{{count}} konfliktów zachowane jako były",
+        "invalid_one": "Nie można zaimportować {{count}} wiersza",
+        "invalid_other": "{{count}} wierszy nie dało się zaimportować",
+        "overLimit_one": "{{count}} nie zmieścił się",
+        "overLimit_other": "{{count}} nie zmieścił się"
+      }
+    },
+    "export": {
+      "open": "Eksport",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Eksportowano {{count}} fragment.",
+      "done_other": "Eksportowano {{count}} fragmentów.",
+      "failed": "Nie udało się wyeksportować fragmentów. Proszę spróbować ponownie."
     }
   }
 }

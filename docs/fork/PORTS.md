@@ -40,6 +40,7 @@ AGPL-3.0-only` and never in a Handy file.
 | `src-tauri/src/fork/llm/prompts/cleanup.txt`                                              | [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr)                                                                                                                                                                                                                                                                                                  | `b9e9ebefac4b961456c269164a93ddfdd53438b9`                                                                         | `src/locales/en/prompts.json` (`cleanupPrompt`)                                                                                                                                                               | MIT (© 2024 OpenWhispr Team)                                                 | S-12a                        |
 | `src-tauri/src/fork/text/rules.rs`                                                        | [ideaplexa/voicetypr](https://github.com/ideaplexa/voicetypr)                                                                                                                                                                                                                                                                                                      | `f86e571df5bd5c0a4d8950095167b45185fa59d4`                                                                         | `src-tauri/src/writing/library_rules.rs`                                                                                                                                                                      | AGPL-3.0 (© the Voicetypr authors); file marked AGPL-3.0-only                | S-11                         |
 | `src-tauri/src/fork/text/tables/commands.*.json` (data)                                   | [moona3k/macparakeet](https://github.com/moona3k/macparakeet)                                                                                                                                                                                                                                                                                                      | `3ec699152f78df8adccba0cbff5cb968c9790947`                                                                         | `Sources/MacParakeetCore/TextProcessing/SpokenPunctuation.swift` (phrases, literal prefixes); `SpokenPunctuationTests.swift` (cases)                                                                          | GPL-3.0 (© 2026 Daniel Moon)                                                 | S-11                         |
+| `src-tauri/src/fork/text/snippets.rs`                                                     | [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr)                                                                                                                                                                                                                                                                                                  | `fc786f41c91de8177ce7d9333d2834d973cc3c19`                                                                         | `src/utils/snippets.ts` (`buildMatcher`, `expandSnippets`, `foldCapitalIDot`)                                                                                                                                 | MIT (© 2024 OpenWhispr Team)                                                 | S-17                         |
 | `src-tauri/src/fork/pill/panel.rs`                                                        | [kozliq/Tolkovo](https://github.com/kozliq/Tolkovo)                                                                                                                                                                                                                                                                                                                | `ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35`                                                                         | `src-tauri/src/tolkovo/pill.rs` (panel set-up, Space observer; via `crates/wb-spike-pill/src/pill.rs`)                                                                                                        | MIT (© 2025 CJ Pais; © 2026 kozliq)                                         | S-03                         |
 
 ## Notes per port
@@ -224,6 +225,32 @@ AGPL-3.0-only` and never in a Handy file.
   comma-before and terminators-after consumption.
 - Our own: the line, paragraph and "scratch that" phrases, Italian, the
   blocker words, and the clause-edge rule.
+
+### `fork/text/snippets.rs` (S-17)
+
+- Kept (re-expressed in Rust): one case-insensitive pass over the finished
+  text with every trigger at once, longest first, triggers never inside a
+  word (Unicode-aware boundaries: OpenWhispr's lookarounds on whitespace,
+  `\p{P}` and `\p{S}`), NFC on the trigger and the text, Turkish `İ` folded
+  to `i` (`foldCapitalIDot`) and `ı` read as `i` too, the saved text
+  inserted as written.
+- Changed: one `aho-corasick` automaton over the folded triggers (S-11's
+  byte-mapped fold) instead of a regex alternation; overlapping matches
+  are chosen by trigger length over the whole text (then the earlier, then
+  the older snippet); underscores and combining marks count as word
+  characters (Wispr: a trigger must not touch letters, digits or
+  underscores); no boundary next to scripts written without spaces; the
+  trigger limit is Wispr's 60 characters (OpenWhispr: 100).
+- Added (Wispr Flow's documented rules, behaviour only): a trigger spoken
+  alone ignores its punctuation, symbols and spacing; possessives (`'s`)
+  expand, other contractions (`can't`, `it'll`) do not; a sentence mark is
+  not doubled after a saved text that ends in it; the 4,000-character text
+  limit.
+- Not ported: the dictionary hint lists, shared/team words and cloud
+  fields in the same file (no cloud, no teams), and wake-word ranges
+  (`findSnippetTriggerRanges`; no agent name).
+- Only this file was read, in a read-only clone at the pinned commit;
+  nothing was built or run.
 
 ### `fork/pill/` (S-03)
 

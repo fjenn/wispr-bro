@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "não passou pelos testes de segurança",
       "timeout": "a limpeza demorou muito",
       "error": "o motor de IA teve um problema"
+    }
+  },
+  "snippets": {
+    "add": "Adicionar trecho",
+    "added": "Adicionado “{{trigger}}”.",
+    "search": "Procurar seus snippets",
+    "refresh": "Atualizar",
+    "shown_one": "{{count}} snippet exibido",
+    "shown_other": "{{count}} fragmentos exibidos",
+    "deleted": "Apagado “{{trigger}}”.",
+    "deleteFailed": "Esse snippet não pôde ser excluído. Por favor, tente novamente.",
+    "undo": "Desfazer",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} fragmentos",
+      "uses_one": "usado {{count}} vez",
+      "uses_other": "usado {{count}} vezes"
+    },
+    "sort": {
+      "label": "Ordenar",
+      "newest": "Novos primeiro",
+      "oldest": "Mais antigo primeiro",
+      "az": "A à Z",
+      "za": "Z para A",
+      "used": "Mais usado"
+    },
+    "banner": {
+      "title": "Diga algumas palavras, obtenha o texto completo",
+      "body": "Salve o texto que escreve novamente e novamente. Diga seu comando sozinho ou no meio de uma frase, em qualquer app, e o {{appName}} escreve o texto salvo, com quebras de linha e tudo mais.",
+      "examplesLabel": "Exemplos",
+      "example1": "“meu endereço” → seu endereço postal completo",
+      "example2": "“meu sinal de encerramento” → Boas-vindas, e seu nome",
+      "example3": "“meu link de reserva” → o link que as pessoas usam para agendar uma chamada"
+    },
+    "entry": {
+      "becomes": "é escrito como",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} linha",
+      "lines_other": "{{count}} linhas",
+      "imported": "Importado",
+      "used_one": "Usado {{count}} vez",
+      "used_other": "Usado {{count}} vezes",
+      "edit": "Editar {{trigger}}",
+      "delete": "Excluir {{trigger}}"
+    },
+    "empty": {
+      "title": "Ainda não há snippets",
+      "body": "Salve um endereço, uma assinatura ou um link apenas uma vez. Quando você dizer o comando, o {{appName}} escreve por você."
+    },
+    "noMatch": {
+      "title": "Nada corresponde",
+      "body": "Nenhum snippet contém “{{query}}”.",
+      "action": "Limpar a busca"
+    },
+    "unavailable": {
+      "title": "Os snippets ainda não estão disponíveis",
+      "body": "Eles abrem assim que o aplicativo tiver finalizado o início."
+    },
+    "problem": {
+      "empty_trigger": "Digite o que você vai dizer primeiro.",
+      "trigger_too_long": "O que você diz pode ter até {{max}} caracteres.",
+      "trigger_not_spoken": "O que você diz precisa ter pelo menos uma letra ou número.",
+      "trigger_control_character": "O que você disser deve caber em uma linha.",
+      "empty_body": "Digite o texto para escrever.",
+      "body_too_long": "O texto pode ter até {{maxBody}} caracteres.",
+      "body_control_character": "O texto contém um caractere que não pode ser escrito. Remova-o e tente novamente.",
+      "full": "Você tem o número máximo de trechos que o aplicativo pode armazenar. Apague alguns primeiro."
+    },
+    "dialog": {
+      "addTitle": "Adicionar trecho",
+      "editTitle": "Editar snippet",
+      "description": "Diga a palavra-chave e o texto salvo será escrito.",
+      "trigger": "Quando eu dizer",
+      "triggerPlaceholder": "por exemplo, meu endereço",
+      "body": "Escreva",
+      "bodyPlaceholder": "O texto para escrever. As quebras de linha são mantidas.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funciona sozinho ou dentro de uma frase, em qualquer caso. Dentro de uma frase, a pontuação no comando deve ser dita da mesma forma. O texto é escrito exatamente como salvo.",
+      "cancel": "Cancelar",
+      "add": "Adicionar trecho",
+      "save": "Salvar",
+      "close": "Fechar",
+      "duplicate": "“{{trigger}}” já está salvo com esse texto.",
+      "conflict": "“{{trigger}}” já é um trecho com outro texto.",
+      "replaceExisting": "Substituir",
+      "missing": "Este snippet foi apagado no meio do tempo.",
+      "failed": "Isso não pôde ser salvo. Por favor, tente novamente."
+    },
+    "import": {
+      "open": "Importar",
+      "title": "Importar trechos",
+      "description": "Traga trechos de uma planilha salva como CSV.",
+      "fieldTrigger": "O que você diz",
+      "fieldBody": "Texto para escrever",
+      "format": {
+        "intro": "Um snippet por linha:",
+        "columns": "A primeira coluna é o que você diz; a segunda é o texto a ser escrito.",
+        "lines": "Um texto com quebras de linha vai dentro das aspas, como os aplicativos de planilhas o salvam.",
+        "limits": "O que você diz até {{max}} caracteres, textos até {{maxBody}}, no máximo 1.000 linhas e 3 MB por arquivo.",
+        "encoding": "Salve como CSV UTF-8 para que acentos e outros scripts sejam exibidos."
+      },
+      "review": {
+        "new_one": "novamente",
+        "new_other": "novos snippets",
+        "duplicates_one": "já está lá",
+        "duplicates_other": "já está lá",
+        "conflicts_one": "conflito",
+        "conflicts_other": "conflitos",
+        "invalid_one": "não pode ser importado",
+        "invalid_other": "não pode ser importado",
+        "overLimit_one": "Há espaço para {{room}} mais; {{count}} novo snippet não caberá.",
+        "overLimit_other": "Há espaço para {{room}} mais; {{count}} novos snippets não cabem.",
+        "ignoredRows_one": "Apenas as primeiras 1.000 linhas são lidas; {{count}} mais linha é ignorada.",
+        "ignoredRows_other": "Apenas as primeiras 1.000 linhas são lidas; {{count}} linhas adicionais são ignoradas.",
+        "showNew": "Mostrar os novos snippets",
+        "more_one": "e {{count}} mais",
+        "more_other": "e {{count}} mais",
+        "conflictsTitle": "Já salvo com outro texto",
+        "conflictsHelp": "Marque os que o texto do arquivo deve substituir o seu.",
+        "useAllFile": "Usar o texto do arquivo para todos",
+        "keepAllMine": "Manter todos os meus",
+        "useFile": "Usar o arquivo:",
+        "yours": "O seu:",
+        "showInvalid": "Mostrar as linhas que não podem ser importadas",
+        "invalidRow": "Linha {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippeto importado",
+        "title_other": "{{count}} fragmentos importados",
+        "added_one": "{{count}} adicionado",
+        "added_other": "{{count}} adicionado",
+        "replaced_one": "{{count}} substituído pelo texto do arquivo",
+        "replaced_other": "{{count}} substituído pelo texto do arquivo",
+        "skipped_one": "{{count}} já existe, pular",
+        "skipped_other": "{{count}} já está lá, pular",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflitos mantidos como estavam",
+        "invalid_one": "{{count}} linha não foi importada",
+        "invalid_other": "{{count}} linhas não foram importadas",
+        "overLimit_one": "{{count}} não cabia",
+        "overLimit_other": "{{count}} não cabia"
+      }
+    },
+    "export": {
+      "open": "Exportar",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exportado {{count}} snippet.",
+      "done_other": "Exportado {{count}} trechos.",
+      "failed": "Os snippets não foram exportados. Por favor, tente novamente."
     }
   }
 }

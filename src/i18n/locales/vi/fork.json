@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "nó không vượt qua các kiểm tra an toàn",
       "timeout": "xóa dọn mất quá lâu",
       "error": "máy học AI có vấn đề"
+    }
+  },
+  "snippets": {
+    "add": "Thêm mẫu",
+    "added": "Đã thêm \"{{trigger}}\".",
+    "search": "Tìm kiếm các mẫu của bạn",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} mẫu được hiển thị",
+    "shown_other": "{{count}} mẫu được hiển thị",
+    "deleted": "Đã xóa “{{trigger}}”.",
+    "deleteFailed": "Snippet đó không thể xóa. Vui lòng thử lại.",
+    "undo": "Hoàn tác",
+    "counts": {
+      "snippets_one": "{{count}} mẫu",
+      "snippets_other": "{{count}} đoạn trích",
+      "uses_one": "đã sử dụng {{count}} lần",
+      "uses_other": "đã sử dụng {{count}} lần"
+    },
+    "sort": {
+      "label": "Sắp xếp",
+      "newest": "Mới nhất trước",
+      "oldest": "Cũ nhất trước",
+      "az": "A đến Z",
+      "za": "Từ Z đến A",
+      "used": "Dùng nhiều nhất"
+    },
+    "banner": {
+      "title": "Nói vài từ, nhận được toàn bộ văn bản",
+      "body": "Lưu văn bản bạn viết lại và lại. Nói lệnh của nó riêng biệt hoặc giữa một câu, trong bất kỳ ứng dụng nào, và {{appName}} sẽ ghi lại văn bản đã lưu, cùng các dấu xuống dòng.",
+      "examplesLabel": "Ví dụ",
+      "example1": "“địa chỉ của tôi” → địa chỉ bưu điện đầy đủ của bạn",
+      "example2": "“ký tên của tôi” → Chúc bạn tốt lành, và tên của bạn",
+      "example3": "“liên kết đặt lịch của tôi” → liên kết mà người khác dùng để đặt cuộc gọi"
+    },
+    "entry": {
+      "becomes": "được viết là",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} dòng",
+      "lines_other": "{{count}} dòng",
+      "imported": "Đã nhập",
+      "used_one": "Đã sử dụng {{count}} lần",
+      "used_other": "Đã sử dụng {{count}} lần",
+      "edit": "Sửa {{trigger}}",
+      "delete": "Xoá {{trigger}}"
+    },
+    "empty": {
+      "title": "Chưa có đoạn trích nào",
+      "body": "Lưu một địa chỉ, lời chúc hoặc liên kết một lần. Khi bạn nói ra tín hiệu, {{appName}} sẽ ghi lại nó cho bạn."
+    },
+    "noMatch": {
+      "title": "Không có gì khớp",
+      "body": "Không có đoạn trích nào chứa \"{{query}}\".",
+      "action": "Xoá tìm kiếm"
+    },
+    "unavailable": {
+      "title": "Các mẫu chưa được cung cấp",
+      "body": "Chúng được mở ngay khi ứng dụng đã hoàn thành khởi động."
+    },
+    "problem": {
+      "empty_trigger": "Nhập những gì bạn sẽ nói trước.",
+      "trigger_too_long": "Điều bạn nói có thể lên đến {{max}} ký tự.",
+      "trigger_not_spoken": "Điều bạn nói cần ít nhất một chữ cái hoặc chữ số.",
+      "trigger_control_character": "Điều bạn nói phải nằm trên một dòng.",
+      "empty_body": "Nhập văn bản để viết.",
+      "body_too_long": "Text này có thể lên đến {{maxBody}} ký tự.",
+      "body_control_character": "Text chứa một ký tự không thể ghi. Xóa nó và thử lại.",
+      "full": "Bạn đã có số lượng đoạn văn tối đa mà ứng dụng có thể lưu trữ. Hãy xóa một số trước."
+    },
+    "dialog": {
+      "addTitle": "Thêm mẫu",
+      "editTitle": "Sửa mẫu",
+      "description": "Nói cụm từ và văn bản đã lưu sẽ được ghi lại thay cho đó.",
+      "trigger": "Khi tôi nói",
+      "triggerPlaceholder": "ví dụ: địa chỉ của tôi",
+      "body": "Viết",
+      "bodyPlaceholder": "Văn bản để gõ. Các dòng cách nhau được giữ nguyên.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Làm việc độc lập hoặc trong một câu, trong mọi trường hợp. Trong một câu, dấu câu trong gợi ý phải được nói giống hệt. Văn bản được ghi lại chính xác như đã lưu.",
+      "cancel": "Hủy",
+      "add": "Thêm mẫu",
+      "save": "Lưu",
+      "close": "Đóng",
+      "duplicate": "“{{trigger}}” đã được lưu với văn bản này.",
+      "conflict": "“{{trigger}}” đã là một mẫu văn bản với văn bản khác.",
+      "replaceExisting": "Thay thế nó",
+      "missing": "Snippet này đã bị xóa trong thời gian qua.",
+      "failed": "Không thể lưu. Vui lòng thử lại."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Đưa vào các mẫu",
+      "description": "Đưa vào các mẫu từ một bảng tính được lưu dưới dạng CSV.",
+      "fieldTrigger": "Điều bạn nói",
+      "fieldBody": "Văn bản để ghi",
+      "format": {
+        "intro": "Một đoạn văn trên mỗi dòng:",
+        "columns": "Cột đầu tiên là điều bạn nói; cột thứ hai là văn bản cần gõ.",
+        "lines": "Một đoạn văn có ký tự xuống dòng được đặt trong dấu ngoặc, giống như các ứng dụng bảng tính lưu trữ nó.",
+        "limits": "Điều bạn nói đến {{max}} ký tự, văn bản đến {{maxBody}}, tối đa 1.000 dòng và 3 MB mỗi file.",
+        "encoding": "Lưu dưới dạng CSV UTF-8 để các dấu sắc và các bộ ký tự khác được hiển thị đúng."
+      },
+      "review": {
+        "new_one": "một đoạn mới",
+        "new_other": "các đoạn trích mới",
+        "duplicates_one": "đã có ở đó",
+        "duplicates_other": "đã có ở đó",
+        "conflicts_one": "mâu thuẫn",
+        "conflicts_other": "xung đột",
+        "invalid_one": "không thể nhập",
+        "invalid_other": "không thể nhập",
+        "overLimit_one": "Có chỗ trống cho {{room}} thêm; {{count}} đoạn mới sẽ không phù hợp.",
+        "overLimit_other": "Có chỗ trống cho {{room}} thêm; {{count}} đoạn nội dung mới sẽ không phù hợp.",
+        "ignoredRows_one": "Chỉ đọc 1.000 hàng đầu tiên; {{count}} hàng còn lại bị bỏ qua.",
+        "ignoredRows_other": "Chỉ đọc được 1.000 hàng đầu tiên; {{count}} hàng còn lại bị bỏ qua.",
+        "showNew": "Hiện các đoạn trích mới",
+        "more_one": "và {{count}} thêm",
+        "more_other": "và {{count}} thêm",
+        "conflictsTitle": "Đã lưu với văn bản khác",
+        "conflictsHelp": "Chọn những mục nơi nội dung tệp sẽ thay thế nội dung của bạn.",
+        "useAllFile": "Sử dụng văn bản của tệp này cho tất cả",
+        "keepAllMine": "Giữ tất cả của tôi",
+        "useFile": "Sử dụng tệp:'",
+        "yours": "Của bạn:",
+        "showInvalid": "Hiện các hàng không thể nhập",
+        "invalidRow": "Hàng {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Đã nhập {{count}} mẫu",
+        "title_other": "Đã nhập {{count}} đoạn trích",
+        "added_one": "{{count}} đã được thêm",
+        "added_other": "{{count}} đã được thêm",
+        "replaced_one": "{{count}} đã được thay thế bằng nội dung của tập tin",
+        "replaced_other": "{{count}} đã được thay thế bằng nội dung của tập tin",
+        "skipped_one": "{{count}} đã có, đã bỏ qua",
+        "skipped_other": "{{count}} đã có, đã bỏ qua",
+        "kept_one": "{{count}} xung đột được giữ nguyên",
+        "kept_other": "Đã giữ {{count}} xung đột như cũ",
+        "invalid_one": "{{count}} dòng không thể được nhập",
+        "invalid_other": "{{count}} hàng không thể được nhập",
+        "overLimit_one": "{{count}} không phù hợp",
+        "overLimit_other": "{{count}} không phù hợp"
+      }
+    },
+    "export": {
+      "open": "Xuất",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Đã xuất {{count}} đoạn trích.",
+      "done_other": "Đã xuất {{count}} đoạn trích.",
+      "failed": "Không thể xuất các mẫu. Vui lòng thử lại."
     }
   }
 }

@@ -99,6 +99,7 @@ unicode-segmentation = "1.12" # S-09 word counts (W-14); already in the tree
 aho-corasick = "1.1" # S-11 dictionary rules and voice commands (W-13); already in the tree
 csv = "1.4" # S-16 dictionary export (R4 import/export)
 encoding_rs = "0.8" # S-16 CSV import from older spreadsheet exports; already in the tree
+icu_normalizer = { version = "2.1", default-features = false, features = ["compiled_data"] } # S-17 snippet triggers and text compared in NFC, combining marks as word characters; already in the tree
 # fork: Wispr Bro dependencies (end)
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]

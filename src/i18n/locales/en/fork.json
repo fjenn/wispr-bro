@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "it did not pass the safety checks",
       "timeout": "cleanup took too long",
       "error": "the AI engine had a problem"
+    }
+  },
+  "snippets": {
+    "add": "Add snippet",
+    "added": "Added “{{trigger}}”.",
+    "search": "Search your snippets",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} snippet shown",
+    "shown_other": "{{count}} snippets shown",
+    "deleted": "Deleted “{{trigger}}”.",
+    "deleteFailed": "That snippet couldn't be deleted. Please try again.",
+    "undo": "Undo",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} snippets",
+      "uses_one": "used {{count}} time",
+      "uses_other": "used {{count}} times"
+    },
+    "sort": {
+      "label": "Sort",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "az": "A to Z",
+      "za": "Z to A",
+      "used": "Most used"
+    },
+    "banner": {
+      "title": "Say a few words, get the whole text",
+      "body": "Save text you write again and again. Say its cue on its own or in the middle of a sentence, in any app, and {{appName}} writes the saved text, line breaks and all.",
+      "examplesLabel": "Examples",
+      "example1": "“my address” → your full postal address",
+      "example2": "“my sign-off” → Best wishes, and your name",
+      "example3": "“my booking link” → the link people use to book a call"
+    },
+    "entry": {
+      "becomes": "is written as",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} line",
+      "lines_other": "{{count}} lines",
+      "imported": "Imported",
+      "used_one": "Used {{count}} time",
+      "used_other": "Used {{count}} times",
+      "edit": "Edit {{trigger}}",
+      "delete": "Delete {{trigger}}"
+    },
+    "empty": {
+      "title": "No snippets yet",
+      "body": "Save an address, a sign-off or a link once. When you say its cue, {{appName}} writes it for you."
+    },
+    "noMatch": {
+      "title": "Nothing matches",
+      "body": "No snippet contains “{{query}}”.",
+      "action": "Clear the search"
+    },
+    "unavailable": {
+      "title": "Snippets aren't available yet",
+      "body": "They open as soon as the app has finished starting."
+    },
+    "problem": {
+      "empty_trigger": "Type what you will say first.",
+      "trigger_too_long": "What you say can be up to {{max}} characters.",
+      "trigger_not_spoken": "What you say needs at least one letter or number.",
+      "trigger_control_character": "What you say has to fit on one line.",
+      "empty_body": "Type the text to write.",
+      "body_too_long": "The text can be up to {{maxBody}} characters.",
+      "body_control_character": "The text contains a character that can't be written. Remove it and try again.",
+      "full": "You have the most snippets the app can hold. Delete some first."
+    },
+    "dialog": {
+      "addTitle": "Add snippet",
+      "editTitle": "Edit snippet",
+      "description": "Say the cue and the saved text is written instead.",
+      "trigger": "When I say",
+      "triggerPlaceholder": "e.g. my address",
+      "body": "Write",
+      "bodyPlaceholder": "The text to write. Line breaks are kept.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Works on its own or inside a sentence, in any case. Inside a sentence, punctuation in the cue must be said the same way. The text is written exactly as saved.",
+      "cancel": "Cancel",
+      "add": "Add snippet",
+      "save": "Save",
+      "close": "Close",
+      "duplicate": "“{{trigger}}” is already saved with this text.",
+      "conflict": "“{{trigger}}” is already a snippet with another text.",
+      "replaceExisting": "Replace it",
+      "missing": "This snippet was deleted in the meantime.",
+      "failed": "That couldn't be saved. Please try again."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Import snippets",
+      "description": "Bring in snippets from a spreadsheet saved as CSV.",
+      "fieldTrigger": "What you say",
+      "fieldBody": "Text to write",
+      "format": {
+        "intro": "One snippet per row:",
+        "columns": "The first column is what you say; the second is the text to write.",
+        "lines": "A text with line breaks goes in quotes, as spreadsheet apps save it.",
+        "limits": "What you say up to {{max}} characters, texts up to {{maxBody}}, at most 1,000 rows and 3 MB per file.",
+        "encoding": "Save as CSV UTF-8 so accents and other scripts come through."
+      },
+      "review": {
+        "new_one": "new snippet",
+        "new_other": "new snippets",
+        "duplicates_one": "already there",
+        "duplicates_other": "already there",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicts",
+        "invalid_one": "can't be imported",
+        "invalid_other": "can't be imported",
+        "overLimit_one": "There is room for {{room}} more; {{count}} new snippet won't fit.",
+        "overLimit_other": "There is room for {{room}} more; {{count}} new snippets won't fit.",
+        "ignoredRows_one": "Only the first 1,000 rows are read; {{count}} more row is left out.",
+        "ignoredRows_other": "Only the first 1,000 rows are read; {{count}} more rows are left out.",
+        "showNew": "Show the new snippets",
+        "more_one": "and {{count}} more",
+        "more_other": "and {{count}} more",
+        "conflictsTitle": "Already saved with another text",
+        "conflictsHelp": "Tick the ones where the file's text should replace yours.",
+        "useAllFile": "Use the file's text for all",
+        "keepAllMine": "Keep all of mine",
+        "useFile": "Use the file's:",
+        "yours": "Yours:",
+        "showInvalid": "Show the rows that can't be imported",
+        "invalidRow": "Row {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet imported",
+        "title_other": "{{count}} snippets imported",
+        "added_one": "{{count}} added",
+        "added_other": "{{count}} added",
+        "replaced_one": "{{count}} replaced with the file's text",
+        "replaced_other": "{{count}} replaced with the file's text",
+        "skipped_one": "{{count}} already there, skipped",
+        "skipped_other": "{{count}} already there, skipped",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflicts kept as they were",
+        "invalid_one": "{{count}} row couldn't be imported",
+        "invalid_other": "{{count}} rows couldn't be imported",
+        "overLimit_one": "{{count}} didn't fit",
+        "overLimit_other": "{{count}} didn't fit"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exported {{count}} snippet.",
+      "done_other": "Exported {{count}} snippets.",
+      "failed": "The snippets couldn't be exported. Please try again."
     }
   }
 }

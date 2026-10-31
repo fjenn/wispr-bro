@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "il n'a pas passé les vérifications de sécurité",
       "timeout": "le nettoyage a pris trop de temps",
       "error": "l'engine AI a eu un problème"
+    }
+  },
+  "snippets": {
+    "add": "Ajouter un snippet",
+    "added": "Ajouté «{{trigger}}».",
+    "search": "Rechercher vos snippets",
+    "refresh": "Actualiser",
+    "shown_one": "{{count}} exemple affiché",
+    "shown_other": "{{count}} fragments affichés",
+    "deleted": "Supprimé «{{trigger}}».",
+    "deleteFailed": "Ce snippet ne peut pas être supprimé. Veuillez réessayer.",
+    "undo": "Annuler",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} fragments",
+      "uses_one": "utilisé {{count}} fois",
+      "uses_other": "utilisé {{count}} fois"
+    },
+    "sort": {
+      "label": "Trier",
+      "newest": "Premier les plus récents",
+      "oldest": "Le plus ancien en premier",
+      "az": "A à Z",
+      "za": "Z à A",
+      "used": "Les plus utilisés"
+    },
+    "banner": {
+      "title": "Dites quelques mots, obtenez le texte complet",
+      "body": "Enregistrez le texte que vous réécrivez souvent. Dites simplement son mot-clé, ou au milieu d'une phrase, dans n'importe quelle application, et {{appName}} écrit le texte enregistré, avec les sauts de ligne.",
+      "examplesLabel": "Exemples",
+      "example1": "« mon adresse » → votre adresse postale complète",
+      "example2": "« mon signe de fin » → Tout le meilleur, et ton nom",
+      "example3": "« mon lien de réservation » → le lien que les gens utilisent pour réserver une appel"
+    },
+    "entry": {
+      "becomes": "est écrit comme",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} ligne",
+      "lines_other": "{{count}} lignes",
+      "imported": "Importé",
+      "used_one": "Utilisé {{count}} fois",
+      "used_other": "Utilisé {{count}} fois",
+      "edit": "Modifier {{trigger}}",
+      "delete": "Supprimer {{trigger}}"
+    },
+    "empty": {
+      "title": "Aucun snippet encore",
+      "body": "Enregistrer une adresse, une formule de signature ou un lien une seule fois. Quand vous dites son mot de passe, {{appName}} l'écrit pour vous."
+    },
+    "noMatch": {
+      "title": "Rien ne correspond",
+      "body": "Aucun snippet ne contient “{{query}}”.",
+      "action": "Effacer la recherche"
+    },
+    "unavailable": {
+      "title": "Les snippets ne sont pas encore disponibles",
+      "body": "Ils s'ouvrent dès que l'application a fini de s'initialiser."
+    },
+    "problem": {
+      "empty_trigger": "Écrivez ce que vous allez dire en premier.",
+      "trigger_too_long": "Ce que vous dites peut contenir jusqu'à {{max}} caractères.",
+      "trigger_not_spoken": "Ce que vous dites doit contenir au moins une lettre ou un chiffre.",
+      "trigger_control_character": "Ce que tu dis doit s'inscrire sur une seule ligne.",
+      "empty_body": "Saisissez le texte à écrire.",
+      "body_too_long": "Le texte peut atteindre jusqu'à {{maxBody}} caractères.",
+      "body_control_character": "Le texte contient un caractère qui ne peut pas être écrit. Le supprimer et réessayer.",
+      "full": "Vous avez le maximum de snippets que l'application peut stocker. Supprimez-en d'abord quelques-uns."
+    },
+    "dialog": {
+      "addTitle": "Ajouter un snippet",
+      "editTitle": "Éditer le snippet",
+      "description": "Dites la commande et le texte enregistré est écrit au lieu.",
+      "trigger": "Quand je dis",
+      "triggerPlaceholder": "par ex. mon adresse",
+      "body": "Écrire",
+      "bodyPlaceholder": "Le texte à écrire. Les sauts de ligne sont conservés.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Fonctionne seul ou au sein d'une phrase, dans tous les cas. Au sein d'une phrase, la ponctuation dans l'indice doit être prononcée de la même manière. Le texte est écrit exactement comme sauvegardé.",
+      "cancel": "Annuler",
+      "add": "Ajouter un snippet",
+      "save": "Enregistrer",
+      "close": "Fermer",
+      "duplicate": "«{{trigger}}» est déjà enregistré avec ce texte.",
+      "conflict": "« {{trigger}} » est déjà un morceau de texte avec un autre texte.",
+      "replaceExisting": "Le remplacer",
+      "missing": "Ce snippet a été supprimé en cours de route.",
+      "failed": "Ce n'aurait pas pu être enregistré. Veuillez réessayer."
+    },
+    "import": {
+      "open": "Importer",
+      "title": "Importer des fragments",
+      "description": "Apporter des extraits d'un tableau de données enregistré au format CSV.",
+      "fieldTrigger": "Ce que vous dites",
+      "fieldBody": "Texte à écrire",
+      "format": {
+        "intro": "Un snippet par ligne :",
+        "columns": "La première colonne est ce que vous dites ; la deuxième est le texte à écrire.",
+        "lines": "Un texte avec des sauts de ligne entre guillemets, comme les applications de tableau de données le sauvegardent.",
+        "limits": "Ce que vous dites jusqu'à {{max}} caractères, des textes jusqu'à {{maxBody}}, au maximum 1 000 lignes et 3 Mo par fichier.",
+        "encoding": "Enregistrer sous CSV UTF-8 afin que les accents et autres scripts soient présents."
+      },
+      "review": {
+        "new_one": "un nouveau snippet",
+        "new_other": "nouveaux snippets",
+        "duplicates_one": "déjà là",
+        "duplicates_other": "déjà là",
+        "conflicts_one": "conflit",
+        "conflicts_other": "conflicts",
+        "invalid_one": "ne peut pas être importé",
+        "invalid_other": "ne peut pas être importé",
+        "overLimit_one": "Il y a encore place pour {{room}} plus ; {{count}} nouveau snippet ne va pas s'insérer.",
+        "overLimit_other": "Il y a encore place pour {{room}} autres ; {{count}} nouveaux snippets ne vont pas s'insérer.",
+        "ignoredRows_one": "Seulement les 1 000 premières lignes sont lues ; {{count}} autre ligne est ignorée.",
+        "ignoredRows_other": "Seulement les 1 000 premières lignes sont lues ; {{count}} lignes supplémentaires sont ignorées.",
+        "showNew": "Afficher les nouveaux snippets",
+        "more_one": "et {{count}} autres",
+        "more_other": "et {{count}} autres",
+        "conflictsTitle": "Déjà enregistré avec un autre texte",
+        "conflictsHelp": "Cochez ceux où le texte du fichier doit remplacer le vôtre.",
+        "useAllFile": "Utiliser le texte du fichier pour tout",
+        "keepAllMine": "Gardez tous les miens",
+        "useFile": "Utiliser le fichier :",
+        "yours": "Les tiens :",
+        "showInvalid": "Afficher les lignes qui ne peuvent pas être importées",
+        "invalidRow": "Ligne {{row}} ({{trigger}}) : {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet importé",
+        "title_other": "{{count}} fragments importés",
+        "added_one": "{{count}} ajouté",
+        "added_other": "{{count}} ajoutés",
+        "replaced_one": "{{count}} remplacé par le texte du fichier",
+        "replaced_other": "{{count}} remplacé par le texte du fichier",
+        "skipped_one": "{{count}} déjà présent, sauté",
+        "skipped_other": "{{count}} déjà présent, sauté",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflits conservés telles quelles",
+        "invalid_one": "{{count}} ligne ne peut pas être importée",
+        "invalid_other": "{{count}} lignes ne peuvent pas être importées",
+        "overLimit_one": "{{count}} n'a pas pu être importé",
+        "overLimit_other": "{{count}} n'a pas pu être importé"
+      }
+    },
+    "export": {
+      "open": "Exporter",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exporté {{count}} snippet.",
+      "done_other": "Exportés {{count}} snippets.",
+      "failed": "Les snippets ne peuvent pas être exportés. Veuillez réessayer."
     }
   }
 }

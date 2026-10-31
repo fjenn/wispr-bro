@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -814,6 +809,155 @@
       "guard": "het is niet door de veiligheidscontroles gegaan",
       "timeout": "opruiming namen te lang",
       "error": "de AI-engine had een probleem"
+    }
+  },
+  "snippets": {
+    "add": "Snippet toevoegen",
+    "added": "Gebaseerd op \"{{trigger}}\".",
+    "search": "Zoek je snippets",
+    "refresh": "Vernieuwen",
+    "shown_one": "{{count}} snippet getoond",
+    "shown_other": "{{count}} snippets getoond",
+    "deleted": "Geweest “{{trigger}}” verwijderd.",
+    "deleteFailed": "Die snippet kon niet worden verwijderd. Probeer het opnieuw.",
+    "undo": "Ongedaan maken",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} snippets",
+      "uses_one": "gebruikt {{count}} keer",
+      "uses_other": "gebruikt {{count}} keer"
+    },
+    "sort": {
+      "label": "Sorteren",
+      "newest": "Nieuwste eerst",
+      "oldest": "Oudste eerst",
+      "az": "A tot Z",
+      "za": "Z tot A",
+      "used": "Meest gebruikte"
+    },
+    "banner": {
+      "title": "Sprek een paar woorden, krijg de hele tekst",
+      "body": "Bewaar tekst die je herhaalt. Zeg de aanwijzing op zijn eigen, of in het midden van een zin, in elke app, en {{appName}} schrijft de opgeslagen tekst, inclusief regelopbouw.",
+      "examplesLabel": "Voorbeelden",
+      "example1": "“mijn adres” → jouw volledig postadres",
+      "example2": "“mijn afsluiting” → Met vriendelijke groet, en je naam",
+      "example3": "“mijn boekingslink” → de link die mensen gebruiken om een call te boeken"
+    },
+    "entry": {
+      "becomes": "is geschreven als",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} regel",
+      "lines_other": "{{count}} regels",
+      "imported": "Geïmporteerd",
+      "used_one": "Gebruikt {{count}} keer",
+      "used_other": "Gebruikt {{count}} keer",
+      "edit": "Bewerk {{trigger}}",
+      "delete": "Verwijder {{trigger}}"
+    },
+    "empty": {
+      "title": "Geen snippets nog",
+      "body": "Een adres, een ondertekening of een link opslaan één keer. Zodra je het cue zegt, schrijft {{appName}} het voor je."
+    },
+    "noMatch": {
+      "title": "Niets komt overeen",
+      "body": "Geen snippet bevat \"{{query}}\".",
+      "action": "Zoekterm wissen"
+    },
+    "unavailable": {
+      "title": "Snippets zijn nog niet beschikbaar",
+      "body": "Ze openen zodra de app is gestart."
+    },
+    "problem": {
+      "empty_trigger": "Typ wat je eerst zegt.",
+      "trigger_too_long": "Wat je zegt kan tot {{max}} tekens zijn.",
+      "trigger_not_spoken": "Wat je zegt moet minstens één letter of cijfer bevatten.",
+      "trigger_control_character": "Wat je zegt moet op één regel passen.",
+      "empty_body": "Typ de tekst om te schrijven.",
+      "body_too_long": "De tekst kan tot {{maxBody}} tekens lang zijn.",
+      "body_control_character": "De tekst bevat een teken dat niet kan worden geschreven. Verwijder het en probeer opnieuw.",
+      "full": "U heeft de meeste snippets die het programma kan opslaan. Verwijder er eerst een."
+    },
+    "dialog": {
+      "addTitle": "Snippet toevoegen",
+      "editTitle": "Snippet bewerken",
+      "description": "Zeg de aanwijzing en het opgeslagen tekst wordt geschreven.",
+      "trigger": "Wanneer ik zeg",
+      "triggerPlaceholder": "bijv. mijn adres",
+      "body": "Schrijf",
+      "bodyPlaceholder": "De tekst om te schrijven. Regelopbouw wordt behouden.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Werkt alleen of in een zin, in elk geval. In een zin moet de uitspraak van de puntens符 precies hetzelfde zijn. De tekst is precies zoals opgeslagen.",
+      "cancel": "Annuleren",
+      "add": "Snippet toevoegen",
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "duplicate": "“{{trigger}}” is al opgeslagen met deze tekst.",
+      "conflict": "“{{trigger}}” is al een snippet met een ander tekst.",
+      "replaceExisting": "Vervang het",
+      "missing": "Deze snippet is in de tussentijd verwijderd.",
+      "failed": "Dat kon niet worden opgeslagen. Probeer het opnieuw."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Snippets importeren",
+      "description": "Snippets uit een spreadsheet ophalen die opgeslagen is als CSV.",
+      "fieldTrigger": "Wat je zegt",
+      "fieldBody": "Tekst om te schrijven",
+      "format": {
+        "intro": "Één snippet per rij:",
+        "columns": "De eerste kolom is wat je zegt; de tweede is de tekst om te schrijven.",
+        "lines": "Tekst met regelopbreken gaat in aanhalingstekens, zoals spreadsheet-apps het opslaan.",
+        "limits": "Wat je zegt tot {{max}} tekens, teksten tot {{maxBody}}, maximaal 1.000 rijen en 3 MB per bestand.",
+        "encoding": "Opslaan als CSV UTF-8 zodat accenten en andere scripts goed worden weergegeven."
+      },
+      "review": {
+        "new_one": "nieuwe snippet",
+        "new_other": "nieuwe snippets",
+        "duplicates_one": "algoritme er al",
+        "duplicates_other": "algoritme er al",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicten",
+        "invalid_one": "kan niet worden geïmporteerd",
+        "invalid_other": "kan niet worden geïmporteerd",
+        "overLimit_one": "Er is ruimte voor {{room}} meer; {{count}} nieuwe snippet past niet.",
+        "overLimit_other": "Er is ruimte voor {{room}} meer; {{count}} nieuwe snippets passen niet.",
+        "ignoredRows_one": "Alleen de eerste 1.000 rijen worden gelezen; {{count}} meer rijen worden overgeslagen.",
+        "ignoredRows_other": "Alleen de eerste 1.000 rijen worden gelezen; {{count}} meer rijen worden overgeslagen.",
+        "showNew": "Toon de nieuwe snippets",
+        "more_one": "en {{count}} meer",
+        "more_other": "en {{count}} meer",
+        "conflictsTitle": "Al opgeslagen met een ander tekst",
+        "conflictsHelp": "Kies de paren waarin de tekst van het bestand jouw tekst moet vervangen.",
+        "useAllFile": "Gebruik de tekst van het bestand voor alle",
+        "keepAllMine": "Alle mijne houden",
+        "useFile": "Gebruik de bestands:",
+        "yours": "Jares:",
+        "showInvalid": "Toon de rijen die niet kunnen worden geïmporteerd",
+        "invalidRow": "Rij {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet geïmporteerd",
+        "title_other": "{{count}} snippets geïmporteerd",
+        "added_one": "{{count}} toegevoegd",
+        "added_other": "{{count}} toegevoegd",
+        "replaced_one": "{{count}} vervangen door de tekst van het bestand",
+        "replaced_other": "{{count}} vervangen door de tekst van het bestand",
+        "skipped_one": "{{count}} al aanwezig, overgeslagen",
+        "skipped_other": "{{count}} al aanwezig, overgeslagen",
+        "kept_one": "{{count}} conflict behouden zoals het was",
+        "kept_other": "{{count}} conflicten behouden zoals ze waren",
+        "invalid_one": "{{count}} rij kon niet worden geïmporteerd",
+        "invalid_other": "{{count}} rijen konden niet worden geïmporteerd",
+        "overLimit_one": "{{count}} paste niet",
+        "overLimit_other": "{{count}} paste niet"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Geëxporteerd {{count}} snippet.",
+      "done_other": "Geëxporteerd {{count}} snippets.",
+      "failed": "De snippets konden niet worden geëxporteerd. Probeer het opnieuw."
     }
   }
 }

@@ -21,9 +21,11 @@
 //!
 //! After the LLM, inside `fork::insert::deliver` ([`finish`]): stage 9 puts
 //! back rule outputs the LLM reverted (for a rewrite registered with
-//! [`note_rewrite`]), and stage 12 runs again. Stages 10 (style rules) and
-//! 11 (snippets) are S-19a and S-17; stage 13 (Shift+Return when typing)
-//! is S-04's typing path.
+//! [`note_rewrite`]), stage 12 runs again, then stage 11 expands the
+//! snippets ([`snippets`], S-17) and nothing touches the text after it, so
+//! a saved text is inserted exactly as written and never reaches the LLM.
+//! Stage 10 (style rules) is S-19a; stage 13 (Shift+Return when typing) is
+//! S-04's typing path.
 //!
 //! Every stage is fail-open: a panic in a fork stage falls back to Handy's
 //! own result for the whole text. Per take, the stage order and change
@@ -37,6 +39,7 @@ pub mod lines;
 pub mod placeholders;
 pub mod rules;
 pub mod scratch;
+pub mod snippets;
 pub mod whitespace;
 
 #[cfg(test)]
@@ -50,11 +53,58 @@ use crate::fork::context::take::ledger;
 use counts::{changed_words, RuleHit, Stage, TextRecord};
 use placeholders::Placeholders;
 use rules::{Provenance, Rule, RuleSet};
+use snippets::{Snippet, SnippetHit, SnippetSet};
 
 type RuleSource = Arc<dyn Fn() -> Vec<Rule> + Send + Sync>;
+type SnippetSource = Arc<dyn Fn() -> Vec<Snippet> + Send + Sync>;
+type SnippetSink = Arc<dyn Fn(SnippetUse) + Send + Sync>;
 
 static SOURCE: RwLock<Option<RuleSource>> = RwLock::new(None);
 static COMPILED: Mutex<Option<(Vec<Rule>, Arc<RuleSet>)>> = Mutex::new(None);
+static SNIPPET_SOURCE: RwLock<Option<(SnippetSource, SnippetSink)>> = RwLock::new(None);
+static SNIPPETS_COMPILED: Mutex<Option<(Vec<Snippet>, Arc<SnippetSet>)>> = Mutex::new(None);
+
+/// What stage 11 did to one delivery, for its history row (S-17).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct SnippetUse {
+    /// The history row being delivered, if known.
+    pub entry_id: Option<i64>,
+    pub hits: Vec<SnippetHit>,
+    /// The text inserted, when the stages after the LLM changed it.
+    pub inserted: Option<String>,
+}
+
+/// Where the snippets come from (`fork.db`) and where their use is
+/// recorded (hit counts, the history row), set by `fork::on_ready`.
+/// Without them no snippet expands (headless CLI).
+pub fn install_snippets(
+    source: impl Fn() -> Vec<Snippet> + Send + Sync + 'static,
+    sink: impl Fn(SnippetUse) + Send + Sync + 'static,
+) {
+    *SNIPPET_SOURCE.write().unwrap_or_else(|e| e.into_inner()) =
+        Some((Arc::new(source), Arc::new(sink)));
+}
+
+/// The snippets, compiled; recompiled only when they changed.
+pub fn active_snippets() -> (Arc<SnippetSet>, Option<SnippetSink>) {
+    let installed = SNIPPET_SOURCE
+        .read()
+        .unwrap_or_else(|e| e.into_inner())
+        .clone();
+    let Some((source, sink)) = installed else {
+        return (Arc::new(SnippetSet::empty()), None);
+    };
+    let list = source();
+    let mut cache = SNIPPETS_COMPILED.lock().unwrap_or_else(|e| e.into_inner());
+    if let Some((cached, set)) = cache.as_ref() {
+        if *cached == list {
+            return (Arc::clone(set), Some(sink));
+        }
+    }
+    let set = Arc::new(SnippetSet::new(list.clone()));
+    *cache = Some((list, Arc::clone(&set)));
+    (set, Some(sink))
+}
 
 /// Where the active dictionary rules come from (`fork.db`, set by
 /// `fork::on_ready`). Without a source no rule applies (headless CLI).
@@ -248,31 +298,109 @@ fn rules_then_handy(
     }
 }
 
-/// Stages after the LLM, inside `fork::insert::deliver`: stage 9 for a
-/// rewrite registered with [`note_rewrite`], then stage 12. Returns the
-/// text to insert.
-pub fn finish(text: String) -> String {
-    let provenance = ledger().take_rewrite(&text);
-    let (restored_text, restored) = match &provenance {
-        Some(p) => rules::restore(&text, p),
-        None => (text.clone(), 0),
+/// What the stages after the LLM did.
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct Finished {
+    /// Stage 9: rule outputs put back.
+    pub restored: u32,
+    /// Stage 12: lines whose whitespace changed.
+    pub whitespace: u32,
+    /// Stage 11: the snippets that expanded.
+    pub snippet_hits: Vec<SnippetHit>,
+}
+
+/// Stages 9 → 12 → 11 on the text the LLM step returned. Pure (the tests
+/// call it directly); [`finish`] supplies the provenance and the snippets.
+///
+/// Stage 12 runs before the snippets so the triggers meet tidy spacing and
+/// the saved texts are inserted as written (their own spacing and blank
+/// lines kept, never rescanned).
+pub fn finish_with(
+    text: &str,
+    provenance: Option<&[Provenance]>,
+    snippets: &SnippetSet,
+) -> (String, Finished) {
+    let mut done = Finished::default();
+    let restored_text = match provenance {
+        Some(p) => {
+            let (t, n) = rules::restore(text, p);
+            done.restored = n;
+            t
+        }
+        None => text.to_owned(),
     };
-    let (out, changed) = whitespace::normalize(&restored_text);
-    if provenance.is_some() || changed > 0 {
+    let (tidy, changed) = whitespace::normalize(&restored_text);
+    done.whitespace = changed;
+    if snippets.is_empty() {
+        return (tidy, done);
+    }
+    match catch_unwind(AssertUnwindSafe(|| snippets::expand(snippets, &tidy))) {
+        Ok((out, hits)) => {
+            done.snippet_hits = hits;
+            (out, done)
+        }
+        Err(_) => {
+            log::error!("text: the snippet stage panicked; inserting the text without snippets");
+            (tidy, done)
+        }
+    }
+}
+
+/// Stages after the LLM, inside `fork::insert::deliver`: stage 9 for a
+/// rewrite registered with [`note_rewrite`], stage 12, then stage 11 (the
+/// snippets). Returns the text to insert. The only caller that may expand
+/// snippets: it runs once per delivery, so a saved text is never scanned
+/// twice and never saved to History as the spoken words.
+pub fn finish(text: String) -> String {
+    finish_stages(text, true)
+}
+
+/// Stages 9 and 12 only, for the LLM step itself (S-12a's
+/// `restore_spellings`, before History saves the take): the snippets wait
+/// for [`finish`] in `deliver`.
+pub fn after_llm(text: String) -> String {
+    finish_stages(text, false)
+}
+
+fn finish_stages(text: String, expand_snippets: bool) -> String {
+    let (provenance, entry_id) = {
+        let mut l = ledger();
+        (l.take_rewrite(&text), l.awaiting_entry(&text))
+    };
+    let (snippets, sink) = if expand_snippets {
+        active_snippets()
+    } else {
+        (Arc::new(SnippetSet::empty()), None)
+    };
+    let (out, done) = finish_with(&text, provenance.as_deref(), &snippets);
+    if provenance.is_some() || done.whitespace > 0 || !done.snippet_hits.is_empty() {
         log::info!(
-            "text: after the LLM {}={restored} {}={changed}",
+            "text: after the LLM {}={} {}={} {}={}",
             Stage::RulesRestored.as_str(),
-            Stage::Whitespace.as_str()
+            done.restored,
+            Stage::Whitespace.as_str(),
+            done.whitespace,
+            Stage::Snippets.as_str(),
+            done.snippet_hits.len()
         );
     }
     if out != text {
         ledger().rekey_awaiting(&text, &out);
     }
+    if let Some(sink) = sink {
+        if !done.snippet_hits.is_empty() || out != text {
+            sink(SnippetUse {
+                entry_id,
+                hits: done.snippet_hits,
+                inserted: (out != text).then(|| out.clone()),
+            });
+        }
+    }
     out
 }
 
 /// For the LLM step (S-12a): `output` is the LLM's rewrite of `input` (the
-/// text [`process`] kept). [`finish`] then restores the dictionary rule
+/// text [`process`] kept). [`after_llm`] (or [`finish`]) then restores the dictionary rule
 /// outputs the rewrite undid.
 pub fn note_rewrite(input: &str, output: &str) {
     let mut l = ledger();

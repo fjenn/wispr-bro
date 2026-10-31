@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "det passed ikke de sikkerhedschecks",
       "timeout": "fjernelse tog for langt tid",
       "error": "AI-ingenen havde et problem"
+    }
+  },
+  "snippets": {
+    "add": "Tilføj snippet",
+    "added": "Tilføjet \"{{trigger}}\".",
+    "search": "Søg i dine snippets",
+    "refresh": "Opdater",
+    "shown_one": "{{count}} snippet vist",
+    "shown_other": "{{count}} snippets vist",
+    "deleted": "Slettet “{{trigger}}”.",
+    "deleteFailed": "Denne snippet kunne ikke slettes. Prøv venligst igen.",
+    "undo": "Åbn",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} klipper",
+      "uses_one": "brugt {{count}} gang",
+      "uses_other": "brugt {{count}} gange"
+    },
+    "sort": {
+      "label": "Sorter",
+      "newest": "Nyeste først",
+      "oldest": "Første i tid",
+      "az": "A til Z",
+      "za": "Z til A",
+      "used": "Mest brugt"
+    },
+    "banner": {
+      "title": "Sæt et par ord, får hele teksten",
+      "body": "Gem teksten du skriver igen og igen. Sæt det ud som en prompt eller i midten af en sætning, i enhver app, og {{appName}} skriver den gemmede tekst, med linjeskift og alle.",
+      "examplesLabel": "Eksempler",
+      "example1": "„min adresse“ → din fulde postadresse",
+      "example2": "„min afslutning“ → God fornemmelse, og din navn",
+      "example3": "„min bokningelink“ → lenken, folk bruger til at bokse en samtale"
+    },
+    "entry": {
+      "becomes": "skrives som",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} linje",
+      "lines_other": "{{count}} linjer",
+      "imported": "Importet",
+      "used_one": "Brugt {{count}} gang",
+      "used_other": "Brugt {{count}} gange",
+      "edit": "Rediger {{trigger}}",
+      "delete": "Slet {{trigger}}"
+    },
+    "empty": {
+      "title": "Ingen snipper endnu",
+      "body": "Lag en adresse, en underskrift eller en link én gang. Når du siger dens prompt, skriver {{appName}} det for dig."
+    },
+    "noMatch": {
+      "title": "Ingen matcher",
+      "body": "Ingen snippet indeholder „{{query}}“.",
+      "action": "Fjern søgningen"
+    },
+    "unavailable": {
+      "title": "Snippet'er er endnu ikke tilgængelige",
+      "body": "De åbner allerede så snart appen er færdig med at starte."
+    },
+    "problem": {
+      "empty_trigger": "Skriv det, du vil sige først.",
+      "trigger_too_long": "Det du siger kan være op til {{max}} tegn.",
+      "trigger_not_spoken": "Det du siger skal indeholde mindst én bogstav eller tal.",
+      "trigger_control_character": "Det, du siger, må passe på én linje.",
+      "empty_body": "Skriv teksten til at skrive.",
+      "body_too_long": "Teksten kan være op til {{maxBody}} tegn.",
+      "body_control_character": "Teksten indeholder et tegn, som ikke kan skrives. Fjern det og prøv igen.",
+      "full": "Du har de mest snipper, appen kan holde. Slet nogle før."
+    },
+    "dialog": {
+      "addTitle": "Tilføj snippet",
+      "editTitle": "Rediger snippet",
+      "description": "Sæt cue og den gemmede tekst skrives istedet.",
+      "trigger": "Når jeg siger",
+      "triggerPlaceholder": "f.eks. min adresse",
+      "body": "Skriv",
+      "bodyPlaceholder": "Teksten til at skrive. Linjeskift bevares.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funktioner alene eller inden i en sætning, i alle tilfælde. Inden i en sætning skal punktuationen i prompten sige sig på samme måde. Teksten skrives præcist som den er beskrevet.",
+      "cancel": "Annuller",
+      "add": "Tilføj snippet",
+      "save": "Gem",
+      "close": "Luk",
+      "duplicate": "“{{trigger}}” er allerede beskrevet med denne tekst.",
+      "conflict": "“{{trigger}}” er allerede en snipset med andet tekst.",
+      "replaceExisting": "Erstat det",
+      "missing": "Denne snippet er slettet i mellem.",
+      "failed": "Det kunne ikke beskæftiges. Prøv venligst igen."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importér snipper",
+      "description": "Bring ind snipper fra en spreadsheet, gemt som CSV.",
+      "fieldTrigger": "Det, du siger",
+      "fieldBody": "Tekst at skrive",
+      "format": {
+        "intro": "En snippet pr. linje:",
+        "columns": "Første kolonne er det du siger; anden er teksten du skriver.",
+        "lines": "Tekst med linjeskift går ind i anførselstegn, som spreadsheet-tilknytninger gemmer det.",
+        "limits": "Det du siger op til {{max}} tegn, tekster op til {{maxBody}}, højst 1.000 rader og 3 MB pr. fil.",
+        "encoding": "Gem som CSV UTF-8 så accent og andre skriftformer kommer igennem."
+      },
+      "review": {
+        "new_one": "ny snippet",
+        "new_other": "nye snippets",
+        "duplicates_one": "er allerede der",
+        "duplicates_other": "er allerede der",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikter",
+        "invalid_one": "kan ikke importeres",
+        "invalid_other": "kan ikke importeres",
+        "overLimit_one": "Der er plads for {{room}} flere; {{count}} nye snippet passer ikke.",
+        "overLimit_other": "Der er plads for {{room}} flere; {{count}} nye snipper vil ikke passe.",
+        "ignoredRows_one": "Kun de første 1.000 rækker bliver læst; {{count}} flere rækker er udeladt.",
+        "ignoredRows_other": "Kun de første 1.000 rækker bliver læst; {{count}} flere rækker bliver udeladt.",
+        "showNew": "Vis de nye snippeter",
+        "more_one": "og {{count}} flere",
+        "more_other": "og {{count}} flere",
+        "conflictsTitle": "Allerede gemt med anden tekst",
+        "conflictsHelp": "Mark de der filens tekst skal erstatte din.",
+        "useAllFile": "Brug filens tekst til alle",
+        "keepAllMine": "Behold alle mine",
+        "useFile": "Brug filens:",
+        "yours": "Dine:",
+        "showInvalid": "Vis rækkerne, der ikke kan importeres",
+        "invalidRow": "Række {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet importeret",
+        "title_other": "{{count}} klipper importered",
+        "added_one": "{{count}} tilføjet",
+        "added_other": "{{count}} tilføjet",
+        "replaced_one": "{{count}} er erstattet med teksten fra filen",
+        "replaced_other": "{{count}} er erstattet med teksten fra filen",
+        "skipped_one": "{{count}} allerede der, springet over",
+        "skipped_other": "{{count}} allerede der, springet over",
+        "kept_one": "{{count}} konflikt blev bevaret som det var",
+        "kept_other": "{{count}} konflikter blev bevaret som de var",
+        "invalid_one": "{{count}} række kunne ikke importeres",
+        "invalid_other": "{{count}} rækker kunne ikke importeres",
+        "overLimit_one": "{{count}} passed ikke",
+        "overLimit_other": "{{count}} passed ikke"
+      }
+    },
+    "export": {
+      "open": "Eksport",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Eksporteret {{count}} snippet.",
+      "done_other": "Eksporteret {{count}} snippets.",
+      "failed": "Snippeterne kunne ikke eksporteres. Prøv venligst igen."
     }
   }
 }

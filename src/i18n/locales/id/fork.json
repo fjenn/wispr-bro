@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -810,6 +805,155 @@
       "guard": "tidak lulus uji keamanan",
       "timeout": "pembersihan membutuhkan waktu terlalu lama",
       "error": "mesin AI mengalami masalah"
+    }
+  },
+  "snippets": {
+    "add": "Tambahkan snippet",
+    "added": "Ditambahkan “{{trigger}}”.",
+    "search": "Cari snippet Anda",
+    "refresh": "Segarkan",
+    "shown_one": "{{count}} snippet ditampilkan",
+    "shown_other": "{{count}} snippet ditampilkan",
+    "deleted": "Dihapus “{{trigger}}”.",
+    "deleteFailed": "Snippet tersebut tidak bisa dihapus. Silakan coba lagi.",
+    "undo": "Unduh",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} snippet",
+      "uses_one": "digunakan {{count}} kali",
+      "uses_other": "digunakan {{count}} kali"
+    },
+    "sort": {
+      "label": "Urutkan",
+      "newest": "Yang paling baru terlebih dahulu",
+      "oldest": "Paling tua terlebih dahulu",
+      "az": "A hingga Z",
+      "za": "Z ke A",
+      "used": "Paling sering digunakan"
+    },
+    "banner": {
+      "title": "Katakan beberapa kata, dapatkan teks lengkap",
+      "body": "Simpan teks yang kamu tulis berulang-ulang. Katakan pesan pengingatnya sendiri atau di tengah kalimat, di mana saja di aplikasi, dan {{appName}} akan menulis teks yang disimpan, termasuk baris baru.",
+      "examplesLabel": "Contoh",
+      "example1": "“alamat saya” → alamat pos lengkap Anda",
+      "example2": "“tanda tangan saya” → Semoga sukses, dan nama Anda",
+      "example3": "“tautan pemesanan saya” → tautan yang digunakan orang untuk memesan panggilan"
+    },
+    "entry": {
+      "becomes": "ditulis sebagai",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} baris",
+      "lines_other": "{{count}} baris",
+      "imported": "Diperimpitkan",
+      "used_one": "Digunakan {{count}} kali",
+      "used_other": "Digunakan {{count}} kali",
+      "edit": "Sunting {{trigger}}",
+      "delete": "Hapus {{trigger}}"
+    },
+    "empty": {
+      "title": "Belum ada snippet",
+      "body": "Simpan alamat, tanda tangan atau tautan sekali. Ketika Anda mengatakan panggilan nya, {{appName}} akan menulisnya untuk Anda."
+    },
+    "noMatch": {
+      "title": "Tidak ada yang cocok",
+      "body": "Tidak ada snippet yang mengandung “{{query}}”.",
+      "action": "Hapus pencarian"
+    },
+    "unavailable": {
+      "title": "Snippets belum tersedia",
+      "body": "Mereka terbuka segera setelah aplikasi selesai dimulai."
+    },
+    "problem": {
+      "empty_trigger": "Tulis apa yang akan kamu katakan terlebih dahulu.",
+      "trigger_too_long": "Yang kamu katakan bisa mencapai {{max}} karakter.",
+      "trigger_not_spoken": "Yang kamu katakan perlu setidaknya satu huruf atau angka.",
+      "trigger_control_character": "Yang kamu katakan harus masuk dalam satu baris.",
+      "empty_body": "Masukkan teks yang ingin ditulis.",
+      "body_too_long": "Teks dapat mencapai {{maxBody}} karakter.",
+      "body_control_character": "Teks mengandung karakter yang tidak bisa ditulis. Hapus karakter tersebut dan coba lagi.",
+      "full": "Anda memiliki jumlah snippet terbanyak yang dapat disimpan oleh aplikasi. Hapus beberapa dulu."
+    },
+    "dialog": {
+      "addTitle": "Tambahkan snippet",
+      "editTitle": "Sunting snippet",
+      "description": "Ucapkan petunjuk dan teks yang disimpan akan ditulis.",
+      "trigger": "Ketika saya katakan",
+      "triggerPlaceholder": "misalnya alamat saya",
+      "body": "Tulis",
+      "bodyPlaceholder": "Teks yang akan ditulis. Baris baru tetap dipertahankan.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Bisa digunakan sendiri atau di dalam kalimat, dalam kasus apa pun. Di dalam kalimat, tanda baca di prompt harus dibaca dengan cara yang sama. Teks ditulis tepat seperti disimpan.",
+      "cancel": "Batal",
+      "add": "Tambahkan snippet",
+      "save": "Simpan",
+      "close": "Tutup",
+      "duplicate": "“{{trigger}}” sudah disimpan dengan teks ini.",
+      "conflict": "“{{trigger}}” sudah merupakan snippet dengan teks lain.",
+      "replaceExisting": "Ganti saja",
+      "missing": "Snippet ini dihapus saat ini.",
+      "failed": "Itu tidak bisa disimpan. Silakan coba lagi."
+    },
+    "import": {
+      "open": "Impor",
+      "title": "Impor snippet",
+      "description": "Bawa snippet dari spreadsheet yang disimpan sebagai CSV.",
+      "fieldTrigger": "Apa yang kamu katakan",
+      "fieldBody": "Teks untuk ditulis",
+      "format": {
+        "intro": "Satu snippet per baris:",
+        "columns": "Kolom pertama adalah yang kamu katakan; kolom kedua adalah teks yang akan ditulis.",
+        "lines": "Sebuah teks dengan baris baru dimasukkan dalam tanda kutip, seperti yang disimpan oleh aplikasi spreadsheet.",
+        "limits": "Yang kamu katakan hingga {{max}} karakter, teks hingga {{maxBody}}, paling banyak 1.000 baris dan 3 MB per file.",
+        "encoding": "Simpan sebagai CSV UTF-8 agar tanda baca dan skrip lainnya muncul."
+      },
+      "review": {
+        "new_one": "snippet baru",
+        "new_other": "snippets baru",
+        "duplicates_one": "sudah ada",
+        "duplicates_other": "sudah ada",
+        "conflicts_one": "konflik",
+        "conflicts_other": "konflik",
+        "invalid_one": "tidak bisa diimpor",
+        "invalid_other": "tidak bisa diimpor",
+        "overLimit_one": "Ada ruang untuk {{room}} lebih; {{count}} snippet baru tidak akan masuk.",
+        "overLimit_other": "Ada ruang untuk {{room}} lebih; {{count}} snippet baru tidak akan masuk.",
+        "ignoredRows_one": "Hanya 1.000 baris pertama yang dibaca; {{count}} baris lebih diabaikan.",
+        "ignoredRows_other": "Hanya 1.000 baris pertama yang dibaca; {{count}} baris lainnya diabaikan.",
+        "showNew": "Tampilkan snippet baru",
+        "more_one": "dan {{count}} lebih",
+        "more_other": "dan {{count}} lainnya",
+        "conflictsTitle": "Sudah disimpan dengan teks lain",
+        "conflictsHelp": "Centang yang mana saja di mana teks file harus menggantikan yang ada.",
+        "useAllFile": "Gunakan teks file untuk semua",
+        "keepAllMine": "Tetapkan semua milik saya",
+        "useFile": "Gunakan file's:",
+        "yours": "Milikmu:",
+        "showInvalid": "Tampilkan baris yang tidak bisa diimpor",
+        "invalidRow": "Baris {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet diimpor",
+        "title_other": "{{count}} snippet diimpor",
+        "added_one": "{{count}} ditambahkan",
+        "added_other": "{{count}} ditambahkan",
+        "replaced_one": "{{count}} diganti dengan teks file",
+        "replaced_other": "{{count}} diganti dengan teks file",
+        "skipped_one": "{{count}} sudah ada, dilewati",
+        "skipped_other": "{{count}} sudah ada, diabaikan",
+        "kept_one": "{{count}} konflik dipertahankan seperti semula",
+        "kept_other": "{{count}} konflik dipertahankan karena sebelumnya",
+        "invalid_one": "{{count}} baris tidak bisa diimpor",
+        "invalid_other": "{{count}} baris tidak bisa diimpor",
+        "overLimit_one": "{{count}} tidak sesuai",
+        "overLimit_other": "{{count}} tidak sesuai"
+      }
+    },
+    "export": {
+      "open": "Ekspor",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Diekspor {{count}} snippet.",
+      "done_other": "Diekspor {{count}} snippet.",
+      "failed": "Snippet tidak bisa diekspor. Silakan coba lagi."
     }
   }
 }
