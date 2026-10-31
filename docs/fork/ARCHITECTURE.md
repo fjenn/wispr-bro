@@ -394,6 +394,68 @@ stayed in `commands/history.rs`); the rail does no maths of its own, so it
 matches `daily_stats` by construction. `Popover` (`src/fork/ui/`) gained an
 optional controlled `open`/`onOpenChange` for the name editor.
 
+## History and row actions (S-15b)
+
+History fills the home's main column (`Home.tsx` renders `HistoryList`;
+the S-15a empty-state slot is gone). Handy's own Settings › History page
+stays reachable (hosted until S-14) and still is the drop zone for files.
+One Handy hook line changed; no migration (every column was already in
+0001/0006).
+
+| File                                     | Role                                                                                                                                                                                                                                                                                                                            |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/db/history_list.rs`  | The read side: Handy's rows (through `HandyHistory`, which gained `page`) merged with `entry_meta`: shown text and copy text by variant, `ai_edited`, audio state, source/file tags, flag. `page` refills from the next Handy page around soft-deleted rows; `find` pages S-09's search by offset; `set_variant`; `record_flag` |
+| `src-tauri/src/fork/commands/history.rs` | `fork_history_page`, `_find`, `_rows`, `_set_variant`, `_retry`, `_flag` (+ `save_flag`), `_save_audio` (+ `copy_atomically`); `fork_history_delete` now also cancels a queued retry; `allow_recordings_in_asset_scope` (Ready)                                                                                                 |
+| `src-tauri/src/fork/llm/post_process.rs` | `set_retry_level` / `take_retry_level`: one cleanup level per entry for its next job; `post_process_job` takes the `HistoryEntry`; `plan` takes a level override                                                                                                                                                                |
+| `src-tauri/src/fork/db/entry_meta.rs`    | A retry (`write(…, retry = true)`) resets `shown_variant` to `final` and clears `inserted_text` (the old take's snippet no longer applies)                                                                                                                                                                                      |
+| `src/fork/history/HistoryList.tsx`       | Section with heading, search, "Transcribe a file…" (Handy's picker); the virtual list (@tanstack/react-virtual 3.14.23, MIT) in `wb-main`'s scroll, day headings + rows measured as they render, next page 15 items before the end; every action handler                                                                        |
+| `src/fork/history/HistoryRow.tsx`        | Time, tags (file name, Practice, "Before AI cleanup", Flagged), text folded to 4 lines, job progress (Handy's `transcriptionJobsStore`), actions play/copy/flag/⋮ shown on hover and `focus-within`; Play mounts Handy's `AudioPlayer` with autoplay                                                                            |
+| `src/fork/history/RowMenu.tsx`           | ⋮ on S-13's `Menu`: Undo/Redo AI edit (only when the LLM changed the text), Retry transcript + the two other levels, Save audio as… (disabled with the reason as its label), Delete transcript                                                                                                                                  |
+| `src/fork/history/FlagDialog.tsx`        | "Wrong word?": words as `aria-pressed` buttons (`Intl.Segmenter`, so CJK and accents work), widen to ≤ 4 neighbours, correction field, replacement (default) or word; S-16's feedback (duplicate, conflict + "Replace it", invalid)                                                                                             |
+| `src/fork/history/Search.tsx`            | Search button → field (`role="search"`), 200 ms debounce, Esc clears, closes and refocuses the button                                                                                                                                                                                                                           |
+| `src/fork/history/{useHistory,dates}.ts` | Zustand store (pages, search, live `history-update-payload` added/updated/deleted, a new row read again after 1.5 s for `inserted_text`, `NotReady` retried 1-16 s); local-day keys, Today/Yesterday/dates, the midnight timer                                                                                                  |
+
+**Texts.** `entry_meta.final_text` is shown (the spoken words: search and
+stats use it). "Raw" (Undo AI edit) is Handy's `transcription_text`, the
+deterministic text before the LLM cleanup (S-11's rules, Handy's filler
+removal and word fix included): what Wispr's "Undo AI edit" gives back.
+`ai_edited` = Handy's `post_processed_text` exists and differs. Copy copies
+the shown variant: raw, or `inserted_text` (a snippet's saved text, S-17)
+else the final text. The variant never changes the stats or the search
+index, and nothing is pasted again (DEC-19).
+
+**Retry.** Handy's `TranscriptionJobManager::retry` (background job, ahead
+of files; C-43). The level asked for is kept in a per-entry slot the job's
+`post_process_job` takes (one retry each); `None` uses the setting. The
+replaced text goes to `previous_text` (S-09) and the row shows the new text
+as made. Level None on a retry skips the LLM only: Handy's filler removal
+follows the global setting.
+
+**Audio.** `available` (no `audio_deleted_at`, WAV on disk), `expired`
+(`audio_deleted_at` after the take: retention) or `missing` (set at the take's
+start by a full disk, or the file is gone). Play uses Handy's
+`get_audio_file_path` + `convertFileSrc(…, "asset")`; portable mode's
+recordings dir is outside the static `$APPDATA/**` scope, so Ready adds that
+one directory to the asset scope at run time (the E-88 note under CSP).
+Save audio as… = tauri-plugin-dialog `save` (`dictation-YYYY-MM-DD-HHMM.wav`)
+
+- `fork_history_save_audio` (copy to `<name>.partial`, rename).
+
+**Flag** (DEC-18) writes through S-16's store with source `flag`
+(`store::add`, or `store::update` of the conflicting entry for "Replace
+it"), then `entry_meta.flagged = 1` and one `corrections` row (source
+`flag`, which S-25 counts). A duplicate still flags the row. A blank
+correction is refused in Rust too (it would turn a replacement into a
+word).
+
+**Delete** = S-09's soft delete: the row leaves the list at once, a sonner
+toast "Deleted · Undo" stays 9 s (the purge runs after 10 s), Undo restores
+and re-reads the row.
+
+**Fork npm package.** `@tanstack/react-virtual` 3.14.23 (MIT, runtime; R4
+"Virtual list"). Handy's own `AudioPlayer`, `copyToClipboard` and
+`pickAndTranscribeFiles` are reused by import.
+
 ## Insights (S-25)
 
 `src/fork/insights/` fills the Hub's Insights slot. Tabs Usage and Voice

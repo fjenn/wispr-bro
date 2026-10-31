@@ -1135,7 +1135,94 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-15a.md` (both pass).
 
 - [ ] S-15b.1 Play audio (CSP check), retry, undo AI edit, delete/undo.
 - [ ] S-15b.2 Flag → the word appears in Dictionary.
-- Procedure: TODO (S-15b).
+- [ ] S-15b.3 Grouping by day across midnight, file tag, expired audio
+      ("Audio removed after 14 days"), Save audio as…, Copy uses the shown
+      text.
+
+**Profile: an isolated portable release build** with its own identity
+("Wispr Bro S15b Check", `com.wisprbro.s15bcheck`). Release, because Play
+goes through the asset protocol under the §4.11 `csp` (a debug build uses
+`devCsp`), and portable mode needs the run-time asset scope S-15b adds. The
+history is synthetic: `seed.py` renders each made-up sentence with `say -o`
+to a file (never the speakers) and converts it to Handy's 16 kHz WAV. In the
+worktree:
+
+```sh
+S=<scratch>/s15b   # a folder whose path contains s15b
+echo '{"identifier":"com.wisprbro.s15bcheck","productName":"Wispr Bro S15b Check","plugins":{"updater":{"active":false}}}' > $S/s15b.conf.json
+bun run tauri build --bundles app --config src-tauri/tauri.fork.conf.json --config $S/s15b.conf.json
+# the updater-signature error at the end is expected (no F-02 key)
+swiftc -O scripts/wb-s15b/ax.swift -o $S/wbax       # AX driver; the terminal needs Accessibility
+swiftc -O scripts/wb-s25/ui.swift -o $S/wbui        # key presses for the save panel
+swiftc -O scripts/wb-window-id.swift -o $S/wbwin
+swiftc -O scripts/wb-s17/clip.swift -o $S/wbclip    # clipboard snapshot/restore
+```
+
+Copy the `.app` from `target/release/bundle/macos/` to `$S/app/`, add
+`Contents/MacOS/portable` (`Handy Portable Mode`), re-sign ad hoc
+(`codesign --force --deep -s -`), run `Contents/MacOS/handy --start-hidden`
+once and quit. Then (app closed):
+
+```sh
+D=$S/app/Wispr\ Bro\ S15b\ Check.app/Contents/MacOS/Data
+mkdir -p "$D/models" && cp -c ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf "$D/models/s15b-parakeet-v3.gguf"
+# Muesli for "Retry with Medium cleanup" (sha256-checked by the app; nothing downloads)
+M="$D/huggingface/hub/models--Muesli-HQ--qwen35-2b-muesli-cleanup-v12-gguf/snapshots/e35af097be4f17d3673515fb321ce19aa300faf6"
+mkdir -p "$M" && cp -c ~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf "$M/"
+python3 -I scripts/wb-s15b/setup.py "$D" s15b-parakeet-v3
+python3 -I scripts/wb-s15b/seed.py "$D"          # prints the seeded ids
+$S/wbclip save $S/clip.bin                         # put back at the end
+```
+
+Run the bundle executable directly (it shares the terminal's grants) and
+hold `~/wb-bench/gui.lock` for every GUI step (`lockf -k ~/wb-bench/gui.lock
+$S/wbax <pid> '…'`). Set the output volume to 0 for the Play step and put
+it back after (Play is checked by the player's clock, not by ear).
+
+**Procedure (unattended, ~6 min).** Driver notes: Radix menus (⋮) open on
+a key or pointer press, not on an AX press, so open ⋮ with `front; focus
+More actions#n; key return` in one locked call, then `press <item>` or `key
+return`; use `=Dictation` for the sidebar item (plain "Dictation" also
+matches the Flow Bar's "Dictation bar" button, which starts a take); if
+another test app's window sits at the same default position, `move 60 60`
+first. Never take focus from an app a person may be using.
+
+1. Launch, `wbax <pid> front`, screenshot (`screencapture -l $(wbwin <pid>
+| cut -d' ' -f1)`). Pass (S-15b.3): "Today" holds the AI take, the plain
+   take, the file row (tag "Weekly sync.m4a") and the 00:01 note;
+   "Yesterday" holds 23:59 and the Sioban row; the old row's day is a date;
+   its Play button is named "Audio removed after 14 days" (`wbax <pid> 'find
+Audio removed'`).
+2. `press Play recording#1`, wait 1.5 s, `find Pause`; screenshot. Pass
+   (S-15b.1 Play): the player shows "Pause" and its clock passed 0:00; the
+   log has no CSP or asset error.
+3. On the AI row: `press More actions#1; press Undo AI edit`. Pass: the row
+   reads "so um the meeting is at 2 actually 3" with "Before AI cleanup";
+   `entry_meta.shown_variant = 'raw'`; `daily_stats` unchanged. `press Copy
+text#1`: `pbpaste` is the raw text. Redo AI edit puts "The meeting is at
+   3." back.
+4. On the plain row: More actions → "Retry with Medium cleanup". Pass
+   (S-15b.1 Retry): "Transcribing…" then the new text; the log says
+   `retry queued (cleanup medium)` and `re-transcribed`; `previous_text`
+   holds the old text when it changed.
+5. Plain row: More actions → Delete transcript; within 9 s `press Undo`.
+   Pass: the row comes back, `deleted_at` is NULL, `history.db` still has it.
+   Delete again and wait 12 s: `history.db` no longer has the row, the WAV is
+   gone, `daily_stats` unchanged.
+6. Flag (S-15b.2): `press Wrong word? Fix it#…` on the Sioban row, `press
+Sioban`, `focus Correct spelling; key …; type Siobhán`, `press Add to
+dictionary`. Pass: toast "From now on “Sioban” becomes “Siobhán”."; the
+   Dictionary page lists "Sioban → Siobhán"; `dictionary_entries.source =
+'flag'`, one `corrections` row (source `flag`), `entry_meta.flagged = 1`.
+7. Save audio as… on the 23:59 row; in the panel `wbui <pid> 'key
+cmd-shift-g; key cmd-a; keys $S/out/; key return; key return'`. Pass:
+   `$S/out/dictation-<date>-2359.wav` equals the recording byte for byte.
+8. Quit; `wbclip restore $S/clip.bin`; volume back; delete `$S/app` and
+   `~/Library/{WebKit,Caches}/com.wisprbro.s15bcheck`.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-15b.md` (S-15b.1,
+S-15b.2 and the list part of S-15b.3 pass; Save audio as… not run in the
+real app).
 
 ### S-16 Dictionary
 
