@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI引擎",
+    "loading": "正在檢查 AI 引擎…",
+    "loadError": "無法讀取 AI 引擎狀態：{{message}}",
+    "state": {
+      "unsupported": "在這台 Mac 上，無法使用本地 AI 引擎進行文字清理。",
+      "missing_runtime": "AI引擎在此版本中缺失。",
+      "waiting_for_speech_model": "清理模型會在語音模型之後下載。",
+      "downloading": "正在下載清理模型… {{percent}}%",
+      "verifying": "正在驗證清理模型…",
+      "ready": "準備好了",
+      "download_failed": "無法下載清理模型。"
+    },
+    "progressLabel": "清除模型下載",
+    "model": "模型：{{name}}",
+    "server": {
+      "stopped": "引擎閒置：你開始口語輸入時就會啟動。",
+      "starting": "引擎開始運行…",
+      "ready": "引擎運行中",
+      "failed": "引擎啟動失敗；將會再次嘗試。"
+    },
+    "cpuOnly": "在 CPU 上運行",
+    "downloadError": "錯誤：{{message}}",
+    "retry": "重試",
+    "try": {
+      "label": "在一句句子上試試看",
+      "sample": "嗯，所以我想我們可以週四見面，去討論預算",
+      "button": "試一下",
+      "running": "正在清理…",
+      "notReady": "一旦清理模型準備好後才會可用。",
+      "result": "已清理的文本",
+      "empty": "(清理後無內容)",
+      "timing": "清理耗時 {{ms}} ms。",
+      "timingCold": "清理耗時 {{ms}} ms，從 {{start}} ms 開始啟動引擎。",
+      "lowMemory": "目前記憶體不足，無法啟動 AI 引擎。請關閉一些應用程式，再試一次。",
+      "badReply": "模型的回覆無法使用。您的文字將會被插入且不進行清理。",
+      "failed": "清理失敗：{{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -207,6 +207,12 @@ describe("generate on a fixture tree", () => {
       "",
       "- Some font, OFL-1.1",
       "",
+      "=====",
+      "8. Bundled programs",
+      "=====",
+      "",
+      "- some-server: MIT; text in LICENSES/MIT-some-server.txt.",
+      "",
     ].join("\n");
 
   const treeFixture = () => {
@@ -220,6 +226,7 @@ describe("generate on a fixture tree", () => {
     );
     write(root, "src-tauri/src/catalog/catalog.json", JSON.stringify(catalog));
     write(root, "NOTICE", notice("- P1: handy-computer/p1-gguf, CC-BY-4.0"));
+    write(root, "LICENSES/MIT-some-server.txt", "some-server MIT text\n");
     const crates: AboutJson["crates"] = [];
     for (const n of NATIVE) {
       const dir = join(root, "crates", n.crate);
@@ -259,6 +266,9 @@ describe("generate on a fixture tree", () => {
     for (const h of [
       "## Speech models",
       "## Fonts",
+      "## Bundled programs",
+      "### `LICENSES/MIT-some-server.txt`",
+      "some-server MIT text",
       "## C/C++ compiled into Rust crates",
       "### transcribe-cpp-sys 1.0.0",
       "ggml/LICENSE",
@@ -267,6 +277,16 @@ describe("generate on a fixture tree", () => {
     ])
       expect(r.markdown).toContain(h);
     expect(r.markdown).toContain("handy-computer/p1-gguf");
+  });
+
+  test("a licence file NOTICE §8 names must exist", () => {
+    const { root, about } = treeFixture();
+    rmSync(join(root, "LICENSES/MIT-some-server.txt"));
+    const r = generate({ root, about });
+    expect(r.problems).toContainEqual({
+      where: "NOTICE §8",
+      message: "missing LICENSES/MIT-some-server.txt",
+    });
   });
 
   test("a forbidden crate licence, an unlisted native crate, a stale entry fail", () => {

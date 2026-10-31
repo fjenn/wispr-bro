@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI engine",
+    "loading": "Zkontrolování AI motoru…",
+    "loadError": "Nelze načíst stav AI motoru: {{message}}",
+    "state": {
+      "unsupported": "Odstraňování textu pomocí lokálního AI motoru není k dispozici na tomto Macu.",
+      "missing_runtime": "AI engine je chybějící v tomto sestavení.",
+      "waiting_for_speech_model": "Model pro čištění se stáhne po modelu pro řeč.",
+      "downloading": "Stahuji model pro čištění… {{percent}}%",
+      "verifying": "Zkontrolování modelu pro odstraňování…",
+      "ready": "Připraven",
+      "download_failed": "Nemohu stáhnout model pro čištění."
+    },
+    "progressLabel": "Odstraňování stažení modelu",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Motor v klidu: spouští se, když řekneš něco.",
+      "starting": "Engine starting…",
+      "ready": "Engine běží",
+      "failed": "Engine nezapočal; zkusí to znovu."
+    },
+    "cpuOnly": "spuštěno na CPU",
+    "downloadError": "Chyba: {{message}}",
+    "retry": "Zopakovat",
+    "try": {
+      "label": "Zkus to na větě",
+      "sample": "um takže jsem myslel, že bychom mohli setkat se v pátek, nečekám, středa, abychom projednali budget",
+      "button": "Zkusit to",
+      "running": "Očišťuji...",
+      "notReady": "Dostupné po přípravě modelu pro čištění.",
+      "result": "Očištěný text",
+      "empty": "(nic nezbylo po vyčištění)",
+      "timing": "Očištěno za {{ms}} ms.",
+      "timingCold": "Očištěno za {{ms}} ms, po {{start}} ms od spuštění motoru.",
+      "lowMemory": "Není dostatek volné paměti k spuštění AI motoru v tomto okamžiku. Zavři některé aplikace a zkus to znovu.",
+      "badReply": "Odpověď modelu nemohla být použita. Váš text bude vložen bez opravy.",
+      "failed": "Opravení selhalo: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

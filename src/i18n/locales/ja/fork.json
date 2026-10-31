@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AIエンジン",
+    "loading": "AIエンジンを確認中…",
+    "loadError": "AIエンジンの状態を読み込めません: {{message}}",
+    "state": {
+      "unsupported": "ローカルAIエンジンによるテキストクリーンアップは、このMacでは利用できません。",
+      "missing_runtime": "このビルドにはAIエンジンが含まれていません。",
+      "waiting_for_speech_model": "クリーンアップモデルは話すモデルの後にダウンロードされます。",
+      "downloading": "クリーンアップモデルをダウンロード中… {{percent}}%",
+      "verifying": "クリーンアップモデルを確認中…",
+      "ready": "準備完了",
+      "download_failed": "クリーンアップモデルをダウンロードできませんでした。"
+    },
+    "progressLabel": "モデルのダウンロードをクリーンアップ中",
+    "model": "モデル: {{name}}",
+    "server": {
+      "stopped": "エンジンは空いています：話すと開始されます。",
+      "starting": "エンジンを起動中…",
+      "ready": "エンジンが動作中",
+      "failed": "エンジンの起動に失敗しました。再試行されます。"
+    },
+    "cpuOnly": "CPU上で実行中",
+    "downloadError": "エラー: {{message}}",
+    "retry": "Retry",
+    "try": {
+      "label": "文に適用してみる",
+      "sample": "うん、だから金曜日に会ってみようと思ってたけど、待ってて木曜日に予算を確認するつもりだった",
+      "button": "試してみる",
+      "running": "きれいにする…",
+      "notReady": "クリーンアップモデルが準備されたら利用可能になります。",
+      "result": "テキストをクリーン",
+      "empty": "(クリーンアップ後何も残っていない)",
+      "timing": "{{ms}}msでクリーンされました。",
+      "timingCold": "{{ms}}msでクリーン完了。エンジン開始まで{{start}}msかかりました。",
+      "lowMemory": "現在、AIエンジンを開始するための空きメモリが不足しています。いくつかのアプリを閉じて再度試してください。",
+      "badReply": "モデルの返答を使用できませんでした。テキストはクリーンアップせずに挿入されます。",
+      "failed": "クリーンアップに失敗しました: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

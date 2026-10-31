@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Motor d'IA",
+    "loading": "Estan comprovant l'enginy de l'IA...",
+    "loadError": "No s'ha pogut llegir l'estat de l'enginy de IA: {{message}}",
+    "state": {
+      "unsupported": "La neteja de text amb l'enginyeria local d'IA no està disponible en aquest Mac.",
+      "missing_runtime": "L'enginy de IA està faltant a aquesta edició.",
+      "waiting_for_speech_model": "El model de netjament es descarrega després del model de parla.",
+      "downloading": "Baixant el model de neteja… {{percent}}%",
+      "verifying": "Està verificant el model de neteja...",
+      "ready": "Ready",
+      "download_failed": "No s'ha pogut descarregar el model de neteja."
+    },
+    "progressLabel": "Neteja de la descàrrega del model",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Motor inactiu: comença quan dictes.",
+      "starting": "Motor iniciant...",
+      "ready": "Motor en funcionament",
+      "failed": "L'enginy ha fallat al iniciar; tornarà a intentar-ho."
+    },
+    "cpuOnly": "en funcionament a la CPU",
+    "downloadError": "Error: {{message}}",
+    "retry": "Reintentar",
+    "try": {
+      "label": "Prova-ho en una frase",
+      "sample": "um doncs estic pensant que podriem trobar-nos el dimecres no espera el dimecres per revisar el budget",
+      "button": "Prova-ho",
+      "running": "Neteja…",
+      "notReady": "Disponible quan el model de neteja estigui preparat.",
+      "result": "Text netejat",
+      "empty": "(resposta en blanc després de netejar)",
+      "timing": "Neteja en {{ms}} ms.",
+      "timingCold": "Neteja en {{ms}} ms, després de {{start}} ms per iniciar l'enginy.",
+      "lowMemory": "No hi ha suficient memòria lliure per iniciar l'enginy de IA ara. Tancar alguns aplicacions i tornar a provar.",
+      "badReply": "La resposta del model no es pot utilitzar. El teu text es inserirà sense neteja.",
+      "failed": "Ha fallat la neteja: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

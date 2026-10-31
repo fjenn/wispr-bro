@@ -11,6 +11,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
+import { AiEngine } from "../settings/advanced/AiEngine";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
 import { CspSmoke } from "./CspSmoke";
 import { runCspSmoke } from "./cspSmokeChecks";
@@ -21,6 +22,13 @@ registerForkDebugSection({
   id: "settings",
   titleKey: "settings.debug.title",
   render: () => <ForkSettingsDebug />,
+});
+
+// S-10: Settings › Advanced › AI engine, until S-14's Settings modal.
+registerForkDebugSection({
+  id: "ai-engine",
+  titleKey: "aiEngine.title",
+  render: () => <AiEngine />,
 });
 
 // F-08: CSP smoke check. Also exposed to the WISPRBRO_SELFCHECK script

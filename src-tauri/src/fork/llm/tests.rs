@@ -98,8 +98,13 @@ fn handy_settings_defaults_come_from_the_fork_list() {
     assert!(src.contains("crate::fork::llm::default_providers()"));
 }
 
+/// Serializes the tests that set the process-wide local transport.
+static LOCAL_LOCK: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
 #[test]
-fn refusal_covers_cloud_and_disguised_hosts_and_the_local_placeholder() {
+fn refusal_covers_cloud_and_disguised_hosts_and_a_stopped_local_llm() {
+    let _g = LOCAL_LOCK.blocking_lock();
+    super::set_local_transport(None);
     for url in [
         "https://api.openai.com/v1",
         "https://api.anthropic.com/v1",
@@ -172,7 +177,9 @@ async fn non_loopback_custom_url_is_refused_before_any_request() {
 }
 
 #[tokio::test]
-async fn selecting_local_sends_nothing_and_does_not_panic() {
+async fn selecting_local_sends_nothing_while_the_sidecar_is_stopped() {
+    let _g = LOCAL_LOCK.lock().await;
+    super::set_local_transport(None);
     let local = providers::default_providers().remove(0);
     let err = crate::llm_client::send_chat_completion_with_schema(
         &local,
@@ -185,7 +192,61 @@ async fn selecting_local_sends_nothing_and_does_not_panic() {
     )
     .await
     .unwrap_err();
-    assert!(err.contains("not available"), "{err}");
+    assert!(err.contains("not running"), "{err}");
+}
+
+/// S-10: with the sidecar running, Handy's own chain reaches it through the
+/// hook (here a stand-in on a Unix socket): the request carries the
+/// sidecar's key instead of the stored API key, and no app headers.
+#[tokio::test]
+async fn handy_chain_reaches_the_sidecar_over_its_socket() {
+    use super::transport::{Endpoint, Transport};
+    let _g = LOCAL_LOCK.lock().await;
+    let dir = tempfile::tempdir().unwrap();
+    let sock = dir.path().join("llm.sock");
+    let listener = tokio::net::UnixListener::bind(&sock).unwrap();
+    let server = tokio::spawn(async move {
+        let (mut s, _) = listener.accept().await.unwrap();
+        let mut buf = vec![0u8; 16 * 1024];
+        let mut read = 0;
+        loop {
+            let n = s.read(&mut buf[read..]).await.unwrap_or(0);
+            read += n;
+            if n == 0 || buf[..read].windows(4).any(|w| w == b"\r\n\r\n") {
+                break;
+            }
+        }
+        let body = r#"{"choices":[{"message":{"content":"ok"},"finish_reason":"stop"}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\ncontent-type: application/json\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{body}",
+            body.len()
+        );
+        let _ = s.write_all(resp.as_bytes()).await;
+        String::from_utf8_lossy(&buf[..read]).to_string()
+    });
+    super::set_local_transport(Some(Transport::new(
+        Endpoint::Unix(sock),
+        "sidecar-key".into(),
+    )));
+    let local = providers::default_providers().remove(0);
+    let out = crate::llm_client::send_chat_completion(
+        &local,
+        "stored-key".into(),
+        "local",
+        "hello".into(),
+        false,
+    )
+    .await;
+    super::set_local_transport(None);
+    assert_eq!(out.unwrap().as_deref(), Some("ok"));
+    let head = server.await.unwrap().to_ascii_lowercase();
+    assert!(head.starts_with("post /v1/chat/completions"), "{head}");
+    assert!(head.contains("authorization: bearer sidecar-key"), "{head}");
+    assert!(!head.contains("stored-key"), "{head}");
+    assert!(
+        !head.contains("\r\nuser-agent:") && !head.contains("handy"),
+        "{head}"
+    );
 }
 
 #[tokio::test]

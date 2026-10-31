@@ -23,6 +23,7 @@
       "icons-fork/icon.icns",
       "icons-fork/icon.ico"
     ],
+    "externalBin": ["target/wb-sidecar/llama-server"],
     "macOS": {
       "minimumSystemVersion": "13.0"
     }

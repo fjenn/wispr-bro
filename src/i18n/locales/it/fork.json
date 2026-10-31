@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Motore AI",
+    "loading": "Sto verificando l'engine AI…",
+    "loadError": "Impossibile leggere lo stato dell'engine AI: {{message}}",
+    "state": {
+      "unsupported": "La pulizia del testo con l'engine AI locale non è disponibile su questo Mac.",
+      "missing_runtime": "L'engine AI manca in questa versione.",
+      "waiting_for_speech_model": "Il modello di pulizia viene scaricato dopo il modello di riconoscimento vocale.",
+      "downloading": "Sto scaricando il modello di pulizia… {{percent}}%",
+      "verifying": "Sto verificando il modello di pulizia…",
+      "ready": "Pronto",
+      "download_failed": "Impossibile scaricare il modello di pulizia."
+    },
+    "progressLabel": "Eliminazione del download del modello",
+    "model": "Modello: {{name}}",
+    "server": {
+      "stopped": "Motore in attesa: si avvia quando parli.",
+      "starting": "Motore inizio...",
+      "ready": "Motore in esecuzione",
+      "failed": "L'engine non è riuscito a avviarsi; provvierà di nuovo."
+    },
+    "cpuOnly": "in esecuzione sul CPU",
+    "downloadError": "Errore: {{message}}",
+    "retry": "Riprova",
+    "try": {
+      "label": "Provalo su una frase",
+      "sample": "um quindi stavo pensando che potremmo incontrarci il venerdì no aspetta giovedì per vedere il budget",
+      "button": "Provalo",
+      "running": "Sto pulendo...",
+      "notReady": "Disponibile una volta che il modello di pulizia è pronto.",
+      "result": "Testo pulito",
+      "empty": "(niente rimasto dopo il pulito)",
+      "timing": "Pulito in {{ms}} ms.",
+      "timingCold": "Pulito in {{ms}} ms, dopo {{start}} ms per avviare l'engine.",
+      "lowMemory": "Memoria libera insufficiente per avviare l'engine AI in questo momento. Chiudi alcuni programmi e prova di nuovo.",
+      "badReply": "La risposta del modello non può essere utilizzata. Il tuo testo verrà inserito senza pulizia.",
+      "failed": "Errore durante il pulito: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -567,6 +567,17 @@ export interface RenderInput {
   npm: Pkg[];
   native: { entry: NativeEntry; texts: Map<string, string> }[];
   notice: string;
+  /** `LICENSES/*` texts referenced by NOTICE §8, keyed by path. */
+  licenceTexts?: Map<string, string>;
+}
+
+/** `LICENSES/<file>.txt` paths named in a NOTICE section, in order. */
+export function bundledLicenceFiles(section: string): string[] {
+  return [
+    ...new Set(
+      [...section.matchAll(/LICENSES\/[A-Za-z0-9._-]+\.txt/g)].map((m) => m[0]),
+    ),
+  ];
 }
 
 export function render(input: RenderInput): string {
@@ -618,6 +629,20 @@ export function render(input: RenderInput): string {
     fence(noticeSection(input.notice, "Fonts")),
     "",
   );
+
+  // S-10: programs shipped next to the app binary (NOTICE §8), with the
+  // licence texts it points to in LICENSES/.
+  const bundled = noticeSection(input.notice, "Bundled programs");
+  push(
+    "## Bundled programs",
+    "",
+    "From `NOTICE` §8, with the licence texts it references.",
+    "",
+    fence(bundled),
+    "",
+  );
+  for (const file of bundledLicenceFiles(bundled))
+    push(`### \`${file}\``, "", fence(input.licenceTexts?.get(file) ?? ""), "");
 
   push("## C/C++ compiled into Rust crates", "");
   for (const { entry, texts } of input.native) {
@@ -818,11 +843,27 @@ export function generate(opts: GenerateOptions): GenerateResult {
     problems.push({ where: "NOTICE", message: (e as Error).message });
   }
 
+  // NOTICE §8: every licence file it names must exist.
+  const licenceTexts = new Map<string, string>();
+  try {
+    for (const file of bundledLicenceFiles(
+      noticeSection(notice, "Bundled programs"),
+    )) {
+      const full = join(root, file);
+      if (!existsSync(full))
+        problems.push({ where: "NOTICE §8", message: `missing ${file}` });
+      else licenceTexts.set(file, readFileSync(full, "utf8").trimEnd());
+    }
+  } catch (e) {
+    problems.push({ where: "NOTICE", message: (e as Error).message });
+  }
+
   const licences = new Map<string, number>();
   for (const p of [...(rust?.pkgs ?? []), ...npm.pkgs])
     licences.set(p.license, (licences.get(p.license) ?? 0) + 1);
   return {
-    markdown: render({ rust, npm: npm.pkgs, native, notice }) + "\n",
+    markdown:
+      render({ rust, npm: npm.pkgs, native, notice, licenceTexts }) + "\n",
     problems,
     warnings,
     licences,

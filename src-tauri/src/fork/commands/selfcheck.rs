@@ -59,6 +59,7 @@ const SCRIPT: &str = r#"
   } catch (e) { r.listen = err(e); }
   try { r.ping = await T.invoke("fork_ping"); } catch (e) { r.ping = { error: err(e) }; }
   try { r.model_status = await T.invoke("fork_model_status"); } catch (e) { r.model_status = { error: err(e) }; }
+  try { r.llm_status = await T.invoke("fork_llm_status"); } catch (e) { r.llm_status = { error: err(e) }; }
   try { r.settings = await T.invoke("fork_get_settings"); } catch (e) { r.settings = { error: err(e) }; }
   try {
     const value = r.settings && r.settings.context_awareness;
@@ -124,6 +125,9 @@ struct Report {
     /// F-08: result of `window.__wbCspSmoke()` (`src/fork/debug/cspSmokeChecks.ts`).
     #[serde(default)]
     csp: Value,
+    /// S-10: `fork_llm_status`.
+    #[serde(default)]
+    llm_status: Value,
 }
 
 /// Verdict for a report: `Ok(summary)` or `Err(reason)`.
@@ -173,6 +177,9 @@ fn judge_with(report: &Report, require_enforced_csp: bool) -> Result<String, Str
             report.set_invalid
         ));
     }
+    let Some(llm_state) = report.llm_status.get("state").and_then(Value::as_str) else {
+        return Err(format!("fork_llm_status failed: {}", report.llm_status));
+    };
     let csp_enforced = report.csp.get("ok") == Some(&Value::Bool(true));
     if !csp_enforced && (require_enforced_csp || !csp_allowed_sources_ok(&report.csp)) {
         return Err(format!("CSP smoke failed: {}", report.csp));
@@ -184,7 +191,7 @@ fn judge_with(report: &Report, require_enforced_csp: bool) -> Result<String, Str
     };
     match report.event_seq {
         Some(event) if Some(u64::from(event)) == seq => Ok(format!(
-            "fork_ping seq={event} ready=true, fork_model_status known_models={known}, ForkPingEvent seq={event} received, fork_get_settings ok, fork_set_setting ok and rejects invalid values, {csp_summary}"
+            "fork_ping seq={event} ready=true, fork_model_status known_models={known}, ForkPingEvent seq={event} received, fork_get_settings ok, fork_set_setting ok and rejects invalid values, fork_llm_status state={llm_state}, {csp_summary}"
         )),
         Some(event) => Err(format!(
             "ForkPingEvent seq={event} does not match fork_ping seq={seq:?}"
@@ -279,9 +286,14 @@ mod tests {
             "settings": { "schema_version": 1 },
             "set_same": { "schema_version": 1 },
             "set_invalid": { "kind": "InvalidSetting", "message": "typing_wpm" },
-            "csp": { "ok": true, "violations": [] }
+            "csp": { "ok": true, "violations": [] },
+            "llm_status": { "state": "ready" }
         }));
-        assert!(judge(&r).is_ok());
+        assert!(judge(&r).unwrap().contains("fork_llm_status state=ready"));
+        // S-10: a failed fork_llm_status fails the check.
+        let mut no_llm = r;
+        no_llm.llm_status = json!({ "error": { "kind": "NotReady" } });
+        assert!(judge(&no_llm).unwrap_err().contains("fork_llm_status"));
         let mut failed = serde_json::to_value(json!({
             "listen": "ok",
             "ping": { "message": "pong", "seq": 1, "ready": true },
@@ -289,7 +301,8 @@ mod tests {
             "event_seq": 1,
             "settings": { "schema_version": 1 },
             "set_same": { "schema_version": 1 },
-            "set_invalid": { "kind": "InvalidSetting" }
+            "set_invalid": { "kind": "InvalidSetting" },
+            "llm_status": { "state": "unsupported" }
         }))
         .unwrap();
         assert!(judge(&report(failed.clone())).is_err(), "missing CSP smoke");

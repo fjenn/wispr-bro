@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI motoru",
+    "loading": "AI motoru kontrol ediliyor...",
+    "loadError": "AI motorun durumunu okuyamadım: {{message}}",
+    "state": {
+      "unsupported": "Yerel AI motoru ile metin temizleme, bu Mac'te mevcut değildir.",
+      "missing_runtime": "AI motoru bu derlemede bulunmuyor.",
+      "waiting_for_speech_model": "Temizleme modeli konuşma modeli之后 indirilir.",
+      "downloading": "Temizleme modeli indiriliyor… {{percent}}%",
+      "verifying": "Düzenleme modeli kontrol ediliyor...",
+      "ready": "Hazır",
+      "download_failed": "Temizleme modeli indirilemiyor."
+    },
+    "progressLabel": "Model indirimi temizleniyor",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Motor boş: belirtilirken başlar.",
+      "starting": "Motor başlatılıyor...",
+      "ready": "Motor çalışıyor",
+      "failed": "Motor başlatılamadı; tekrar denecek."
+    },
+    "cpuOnly": "CPU'ye bağlı çalışıyor",
+    "downloadError": "Hata: {{message}}",
+    "retry": "Tekrar deneyin",
+    "try": {
+      "label": "Bir cümle üzerinde deneyin",
+      "sample": "um bu yüzden friday'de buluşabiliriz, bekle, actually çarşamba, bütçe hakkında konuşalım",
+      "button": "Deneyin",
+      "running": "Temizleniyor...",
+      "notReady": "Çıkış modeli hazır olduğunda kullanılabilir.",
+      "result": "Düzelttili metin",
+      "empty": "(cleanup sonrası hiçbir şey kalmadı)",
+      "timing": "{{ms}} ms'de temizlendi.",
+      "timingCold": "{{ms}} ms'de temizlendi, motor başlatmadan {{start}} ms sonra.",
+      "lowMemory": "Şu an için yeterli boş bellek yok, AI motorunu başlatmak için bazı uygulamaları kapatın ve tekrar dene.",
+      "badReply": "Modelin cevabı kullanılamadı. Metin, temizlenmeden yerleştirilecek.",
+      "failed": "Temizleme başarısız oldu: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

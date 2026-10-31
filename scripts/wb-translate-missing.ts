@@ -8,6 +8,8 @@
  *   bun scripts/wb-translate-missing.ts --check    # report only, exit 1 on drift
  *   (both modes exit 1 on a placeholder mismatch in an existing translation)
  *   bun scripts/wb-translate-missing.ts --backend copy-english
+ *   bun scripts/wb-translate-missing.ts --backend llama-server \
+ *     --server <llama-server> --model <gguf>   # local LLM, flag "machine"
  *
  * Marking scheme (documented in docs/fork/ARCHITECTURE.md, "i18n"):
  *   Every locale may have a sidecar `fork.flags.json` next to its `fork.json`:
@@ -30,13 +32,15 @@
  *     `translation` namespace) and its `overrides.*` flags alone: they are
  *     per-locale and owned by `scripts/wb-brand-overrides.ts` (F-01).
  *
- * Backends are pluggable (`TranslationBackend`). Today: "copy-english".
- * S-10 adds a local `llama-server` backend (flag "machine"); no network
+ * Backends are pluggable (`TranslationBackend`): "copy-english" (default)
+ * and, since S-10, "llama-server" (`scripts/wb-translate-llama.ts`: the
+ * bundled sidecar on a Unix socket, `--offline`; flag "machine"). No network
  * backend may be added (R5 §1 privacy rule).
  */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { startLlamaServerBackend } from "./wb-translate-llama";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LOCALES_DIR = path.join(__dirname, "..", "src", "i18n", "locales");
@@ -60,6 +64,8 @@ export interface TranslationBackend {
     targetLang: string,
     key: string,
   ): Promise<string | null>;
+  /** Releases resources (the llama-server process). */
+  close?(): Promise<void>;
 }
 
 /** Copies English and flags the entry "untranslated". */
@@ -218,10 +224,27 @@ async function main(): Promise<void> {
   const backendIndex = args.indexOf("--backend");
   const backendName =
     backendIndex >= 0 ? args[backendIndex + 1] : copyEnglishBackend.name;
-  const backend = BACKENDS[backendName];
+  const value = (flag: string) => {
+    const i = args.indexOf(flag);
+    return i >= 0 ? args[i + 1] : undefined;
+  };
+  let backend: TranslationBackend | undefined = BACKENDS[backendName];
+  if (backendName === "llama-server" && !check) {
+    const server = value("--server");
+    const model = value("--model");
+    if (!server || !model) {
+      console.error(
+        "--backend llama-server needs --server <path> and --model <gguf>",
+      );
+      process.exit(2);
+    }
+    backend = await startLlamaServerBackend(server, model);
+  } else if (backendName === "llama-server") {
+    backend = copyEnglishBackend; // --check never translates
+  }
   if (!backend) {
     console.error(
-      `Unknown backend "${backendName}". Available: ${Object.keys(BACKENDS).join(", ")}`,
+      `Unknown backend "${backendName}". Available: ${[...Object.keys(BACKENDS), "llama-server"].join(", ")}`,
     );
     process.exit(2);
   }
@@ -260,6 +283,7 @@ async function main(): Promise<void> {
     console.log(`${unresolved ? "✗" : "✓"} ${lang}: ${parts.join(", ")}`);
   }
 
+  await backend.close?.();
   console.log(
     `\n${langs.length} locales, ${source.size} keys, backend ${backend.name}${check ? " (check only)" : ""}`,
   );

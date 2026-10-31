@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Engine AI",
+    "loading": "Vérification de l'engine AI…",
+    "loadError": "Impossible de lire l'état du moteur AI : {{message}}",
+    "state": {
+      "unsupported": "Le nettoyage du texte avec l'engine AI local n'est pas disponible sur ce Mac.",
+      "missing_runtime": "L'engine AI manque dans cette version.",
+      "waiting_for_speech_model": "Le modèle de nettoyage est téléchargé après le modèle de parole.",
+      "downloading": "Téléchargement du modèle de nettoyage… {{percent}}%",
+      "verifying": "Vérification du modèle de nettoyage…",
+      "ready": "Prêt",
+      "download_failed": "Impossible de télécharger le modèle de nettoyage."
+    },
+    "progressLabel": "Suppression du téléchargement du modèle",
+    "model": "Modèle : {{name}}",
+    "server": {
+      "stopped": "Moteur en état d'inactivité : il démarre lorsque vous dictérez.",
+      "starting": "Engine démarrage…",
+      "ready": "Engine en cours de fonctionnement",
+      "failed": "L'engine n'a pas pu démarrer ; il tentera à nouveau."
+    },
+    "cpuOnly": "en cours sur le CPU",
+    "downloadError": "Erreur : {{message}}",
+    "retry": "Réessayer",
+    "try": {
+      "label": "Essayer sur une phrase",
+      "sample": "euh donc je pensais que nous pourrions nous rencontrer vendredi non, je dis jeudi pour parler du budget",
+      "button": "Essayer",
+      "running": "Nettoyage…",
+      "notReady": "Disponible une fois que le modèle de nettoyage est prêt.",
+      "result": "Texte nettoyé",
+      "empty": "(rien ne reste après le nettoyage)",
+      "timing": "Nettoyé en {{ms}} ms.",
+      "timingCold": "Nettoyé en {{ms}} ms, après {{start}} ms pour démarrer l'engine.",
+      "lowMemory": "Pas assez de mémoire libre pour démarrer l'engine AI en ce moment. Fermez certains logiciels et réessayez.",
+      "badReply": "La réponse du modèle ne peut pas être utilisée. Votre texte serait inséré sans nettoyage.",
+      "failed": "Échec de la nettoyage : {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

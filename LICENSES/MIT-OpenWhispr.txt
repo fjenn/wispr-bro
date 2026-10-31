@@ -1,3 +1,7 @@
+OpenWhispr, https://github.com/OpenWhispr/openwhispr
+File: LICENSE at commit b9e9ebefac4b961456c269164a93ddfdd53438b9.
+Used by src-tauri/src/fork/llm/prompt.rs (cleanup prompt).
+
 MIT License
 
 Copyright (c) 2024 OpenWhispr Team

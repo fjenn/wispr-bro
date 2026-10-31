@@ -12,6 +12,8 @@
 //! - `lib.rs` log target, `actions.rs` and `managers/transcription_jobs.rs`
 //!   WAV names: [`FILE_PREFIX`] (F-01).
 //! - `actions.rs` paste: [`insert::deliver`] in place of `utils::paste` (S-04).
+//! - `llm_client.rs`: [`llm::client_builder`] (F-08); S-10 routes `local`
+//!   to the sidecar there, with no new upstream line.
 //!
 //! Init order (tauri 2.11.5, see `docs/fork/ARCHITECTURE.md` for line refs):
 //! plugins initialize inside `Builder::build()`, so the plugin `setup` below
@@ -282,15 +284,19 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
             }
             db::register(app);
             settings::register(app);
+            // S-10: LLM runtime state (nothing starts before on_ready).
+            llm::runtime::register(app);
             // Merges into the same registry Handy's builder mounts into later
             // (`EventRegistry::get_or_manage`), so order does not matter.
             specta_builder::<R>().mount_events(app);
             Ok(())
         })
-        .on_event(|app, event| {
-            if let RunEvent::Ready = event {
-                on_ready(app);
-            }
+        .on_event(|app, event| match event {
+            RunEvent::Ready => on_ready(app),
+            // S-10: the sidecar never outlives the app (the watchdog covers
+            // a crash or SIGKILL).
+            RunEvent::Exit => llm::runtime::on_exit(app),
+            _ => {}
         })
         .build()
 }
@@ -346,6 +352,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
 
+    // S-10: stale sidecar kill, prewarm wiring, silent model download.
+    llm::runtime::on_ready(app);
+
     // F-08 / DEC-39: report (without the path) whether `early_init` put the
     // Hugging Face cache under the app data dir.
     if is_product_build() {
@@ -400,13 +409,17 @@ macro_rules! fork_specta_builder {
                 commands::history::fork_history_meta::<$runtime>,
                 commands::history::fork_history_delete::<$runtime>,
                 commands::history::fork_history_undo_delete::<$runtime>,
+                commands::llm::fork_llm_status::<$runtime>,
+                commands::llm::fork_llm_try::<$runtime>,
+                commands::llm::fork_llm_retry::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
                 events::ForkSettingsChanged,
                 events::ForkInsertOutcome,
                 shortcut::ForkHotkeyEvent,
-                events::ForkStatsUpdated
+                events::ForkStatsUpdated,
+                llm::runtime::ForkLlmStatus
             ])
     };
 }

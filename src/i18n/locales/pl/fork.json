@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Engine AI",
+    "loading": "Sprawdzanie engine AI…",
+    "loadError": "Nie można odczytać stanu engine AI: {{message}}",
+    "state": {
+      "unsupported": "Oczyszczanie tekstu za pomocą lokalnego engine AI nie jest dostępne na tym Macie.",
+      "missing_runtime": "Engine AI brakuje w tym budowie.",
+      "waiting_for_speech_model": "Model usuwania pobiera się po modelu mowy.",
+      "downloading": "Pobieranie modelu usuwania… {{percent}}%",
+      "verifying": "Sprawdzam model usuwania...",
+      "ready": "Gotowe",
+      "download_failed": "Nie udało się pobrać modelu do czyszczenia."
+    },
+    "progressLabel": "Usuwanie pobierania modelu",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Engine idle: uruchamia się, gdy podajesz dictację.",
+      "starting": "Uruchamianie engine…",
+      "ready": "Engine running",
+      "failed": "Engine nie powiódł się podczas uruchamiania; spróbuje ponownie."
+    },
+    "cpuOnly": "pracuje na procesorze",
+    "downloadError": "Błąd: {{message}}",
+    "retry": "Ponownie",
+    "try": {
+      "label": "Spróbuj to na zdaniu",
+      "sample": "um więc myślałem, że moglibyśmy się spotkać w piątek, nie, czwartek, żeby przejrzeć budżet",
+      "button": "Spróbuj",
+      "running": "Czyszczenie...",
+      "notReady": "Dostępny po gotowości modelu oczyszczania.",
+      "result": "Tekst wydzielony",
+      "empty": "(nic już po oczyszczeniu)",
+      "timing": "Oczyszczono w {{ms}} ms.",
+      "timingCold": "Wyczyszczono w {{ms}} ms, po {{start}} ms do uruchomienia engine.",
+      "lowMemory": "Nie ma wystarczającej ilości wolnej pamięci, aby uruchomić silnik AI w chwili obecnej. Zamknij niektóre aplikacje i spróbuj ponownie.",
+      "badReply": "Odpowiedź modelu nie może być użyta. Twoje tekst będzie wstawione bez czyszczenia.",
+      "failed": "Usuwanie nie powiodło się: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

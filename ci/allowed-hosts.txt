@@ -47,7 +47,7 @@ example.com                          # example: RFC 2606 fixture host
 *.example                            # example: RFC 2606 `.example` TLD spoofs (hf.co.evil.example, github.com.evil.example, localhost.evil.example, 127.0.0.1.nip.example in fork::net::tests; scripts/wb-guards.test.ts)
 10.0.0.2                             # private: non-loopback LAN LLM is refused (fork/settings/tests.rs loopback_detection)
 10.0.0.5                             # private: non-loopback LAN LLM is refused (fork::net::tests::loopback_requires_both_parsers_to_agree)
-192.168.1.10                         # private: LAN LLM is refused (fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_the_local_placeholder)
+192.168.1.10                         # private: LAN LLM is refused (fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_a_stopped_local_llm)
 127.1.2.3                            # loopback: any 127/8 address counts as loopback (fork::net::tests::loopback_requires_both_parsers_to_agree)
 127.8.9.10                           # loopback: any 127/8 address counts as loopback (fork/settings/tests.rs loopback_detection)
 0x7f000001                           # loopback: hex spelling of 127.0.0.1 that only one URL parser accepts; refused (fork::net, fork::llm tests)

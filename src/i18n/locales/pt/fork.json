@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Engine de IA",
+    "loading": "Verificando o motor de IA...",
+    "loadError": "Impossível ler o estado do motor de IA: {{message}}",
+    "state": {
+      "unsupported": "Limpeza de texto com o motor de IA local não está disponível neste Mac.",
+      "missing_runtime": "O motor de IA está faltando nesta versão.",
+      "waiting_for_speech_model": "O modelo de limpeza baixa depois do modelo de fala.",
+      "downloading": "Baixando o modelo de limpeza… {{percent}}%",
+      "verifying": "Verificando o modelo de limpeza...",
+      "ready": "Pronto",
+      "download_failed": "Não foi possível baixar o modelo de limpeza."
+    },
+    "progressLabel": "Limpeza do download do modelo",
+    "model": "Modelo: {{name}}",
+    "server": {
+      "stopped": "Motor inativo: inicia quando você falar.",
+      "starting": "Motor iniciando…",
+      "ready": "Motor executando",
+      "failed": "O motor falhou ao iniciar; tentará novamente."
+    },
+    "cpuOnly": "executando no CPU",
+    "downloadError": "Erro: {{message}}",
+    "retry": "Retry",
+    "try": {
+      "label": "Tente em uma frase",
+      "sample": "um então eu estava pensando que poderíamos uh nos encontrar sexta-feira não, quarta-feira para revisar o orçamento",
+      "button": "Tente",
+      "running": "Limpando…",
+      "notReady": "Disponível assim que o modelo de limpeza estiver pronto.",
+      "result": "Texto limpo",
+      "empty": "(nada restante após a limpeza)",
+      "timing": "Limpo em {{ms}} ms.",
+      "timingCold": "Limpado em {{ms}} ms, após {{start}} ms para iniciar o engine.",
+      "lowMemory": "Não há memória livre suficiente para iniciar o motor de IA agora. Feche alguns aplicativos e tente novamente.",
+      "badReply": "A resposta do modelo não pode ser usada. Seu texto será inserido sem limpeza.",
+      "failed": "Limpeza falhou: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

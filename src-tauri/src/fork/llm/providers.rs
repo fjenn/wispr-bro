@@ -5,10 +5,11 @@
 //! the list Handy merges into every settings read. It holds no cloud
 //! provider:
 //!
-//! - `local`: the fork's own LLM. A placeholder until S-10 ships the
-//!   `llama-server` sidecar; the request guard ([`super::client_builder`])
-//!   refuses it before any network call, and Handy's post-processing falls
-//!   back to the raw transcript.
+//! - `local`: the fork's own LLM, the bundled `llama-server` sidecar (S-10).
+//!   Its base URL is [`LOCAL_BASE_URL`]; [`super::client_builder`] routes the
+//!   request to the sidecar's Unix socket or loopback port (DEC-49) and
+//!   refuses it before any network call while the sidecar is not running, so
+//!   Handy's post-processing falls back to the raw transcript.
 //! - Apple Intelligence (macOS on Apple Silicon): on device, never reaches
 //!   `llm_client`.
 //! - `custom`: Handy's OpenAI-compatible endpoint, loopback only (Ollama).
@@ -23,10 +24,11 @@ use crate::settings::{PostProcessApiFormat, PostProcessProvider};
 pub const LOCAL_PROVIDER_ID: &str = "local";
 /// Id of Handy's custom (OpenAI-compatible) provider.
 pub const CUSTOM_PROVIDER_ID: &str = "custom";
-/// Placeholder base URL of the `local` provider until S-10 sets the real
-/// transport (Unix socket or a random loopback port, DEC-49). Loopback, so
-/// even a future bug in the refusal could not leave the Mac.
-pub const LOCAL_PLACEHOLDER_BASE_URL: &str = "http://127.0.0.1/v1";
+/// Base URL of the `local` provider. The host is a name only: the client is
+/// bound to the sidecar's Unix socket, or resolves `localhost` to the
+/// sidecar's random loopback port (`transport::Transport::configure`).
+/// Loopback either way, so a bug in the routing still could not leave the Mac.
+pub const LOCAL_BASE_URL: &str = "http://localhost/v1";
 /// Handy's default for the custom provider: Ollama on loopback.
 pub const LOOPBACK_CUSTOM_BASE_URL: &str = "http://localhost:11434/v1";
 
@@ -35,7 +37,7 @@ pub fn default_providers() -> Vec<PostProcessProvider> {
     let mut providers = vec![PostProcessProvider {
         id: LOCAL_PROVIDER_ID.to_string(),
         label: "Local".to_string(),
-        base_url: LOCAL_PLACEHOLDER_BASE_URL.to_string(),
+        base_url: LOCAL_BASE_URL.to_string(),
         allow_base_url_edit: false,
         models_endpoint: None,
         supports_structured_output: true,

@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI-engine",
+    "loading": "Controleer de AI-engine...",
+    "loadError": "Kon de status van de AI-engine niet lezen: {{message}}",
+    "state": {
+      "unsupported": "Textopmaak met de lokale AI-engine is niet beschikbaar op deze Mac.",
+      "missing_runtime": "De AI-engine ontbreekt in deze build.",
+      "waiting_for_speech_model": "De opschonen model downloadt na het spraakmodel.",
+      "downloading": "Het cleanup model downloaden… {{percent}}%",
+      "verifying": "Controleert het opschonen model…",
+      "ready": "Klaar",
+      "download_failed": "Kan het opschonen model niet downloaden."
+    },
+    "progressLabel": "Model download wissen",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Motor inactief: start wanneer je schrijft.",
+      "starting": "Engine startend…",
+      "ready": "Engine actief",
+      "failed": "Engine is niet gestart; het zal opnieuw proberen."
+    },
+    "cpuOnly": "op de CPU",
+    "downloadError": "Fout: {{message}}",
+    "retry": "Herproberen",
+    "try": {
+      "label": "Probeer het op een zin",
+      "sample": "um dus ik dacht dat we op donderdag konden ontmoeten om de budget te bespreken",
+      "button": "Probeer het",
+      "running": "Afmaken...",
+      "notReady": "Beschikbaar zodra het opschonen model klaar is.",
+      "result": "Gecombineerd tekst",
+      "empty": "(niets meer na opruimen)",
+      "timing": "Gecombineerd in {{ms}} ms.",
+      "timingCold": "Gecombineerd in {{ms}} ms, na {{start}} ms om de engine te starten.",
+      "lowMemory": "Niet genoeg vrije geheugen om de AI-engine nu te starten. Sluit enkele apps en probeer opnieuw.",
+      "badReply": "De antwoord van het model kon niet worden gebruikt. Je tekst zou worden ingevoerd zonder opmaak.",
+      "failed": "Opslag mislukt: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

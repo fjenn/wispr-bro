@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI 엔진",
+    "loading": "AI 엔진을 확인 중입니다…",
+    "loadError": "AI 엔진 상태를 읽을 수 없습니다: {{message}}",
+    "state": {
+      "unsupported": "로컬 AI 엔진을 사용한 텍스트 정리 기능은 이 Mac에서는 지원되지 않습니다.",
+      "missing_runtime": "AI 엔진이 이 빌드에 없습니다.",
+      "waiting_for_speech_model": "정리 모델은 음성 모델 이후에 다운로드됩니다.",
+      "downloading": "청소 모델을 다운로드 중입니다… {{percent}}%",
+      "verifying": "청소 모델을 확인 중입니다…",
+      "ready": "준비됨",
+      "download_failed": "클리닝 모델을 다운로드할 수 없습니다."
+    },
+    "progressLabel": "모델 다운로드 정리 중",
+    "model": "모델: {{name}}",
+    "server": {
+      "stopped": "엔진 비활성 상태: 말로 입력할 때 시작됩니다.",
+      "starting": "엔진 시작 중…",
+      "ready": "엔진 실행 중",
+      "failed": "엔진이 시작되지 않았습니다. 다시 시도합니다."
+    },
+    "cpuOnly": "CPU에서 실행 중",
+    "downloadError": "오류: {{message}}",
+    "retry": "재시도",
+    "try": {
+      "label": "문장에 적용해 보세요",
+      "sample": "아, 그러니까 저는 금요일에 만나는 걸 생각했어요. 아니, 목요일이었어요. 예산을 논해보는 거죠.",
+      "button": "시도",
+      "running": "정리 중...",
+      "notReady": "클린업 모델이 준비되면 사용 가능합니다.",
+      "result": "정리된 텍스트",
+      "empty": "(청소 후 아무것도 남지 않음)",
+      "timing": "{{ms}}ms에 정리되었습니다.",
+      "timingCold": "{{ms}}ms 안에 정리됨, 엔진 시작까지 {{start}}ms 후에",
+      "lowMemory": "지금 AI 엔진을 시작하기 위해 충분한 자유 메모리가 없습니다. 일부 앱을 닫고 다시 시도하세요.",
+      "badReply": "모델의 응답을 사용할 수 없습니다. 텍스트는 정리 없이 삽입될 것입니다.",
+      "failed": "정리 실패: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

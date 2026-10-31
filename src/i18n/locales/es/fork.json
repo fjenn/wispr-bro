@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Motor de IA",
+    "loading": "Verificando el motor de IA…",
+    "loadError": "No se pudo leer el estado del motor de IA: {{message}}",
+    "state": {
+      "unsupported": "La limpieza de texto con el motor de IA local no está disponible en este Mac.",
+      "missing_runtime": "El motor de IA está faltando en esta compilación.",
+      "waiting_for_speech_model": "El modelo de limpieza se descarga después del modelo de voz.",
+      "downloading": "Descargando el modelo de limpieza… {{percent}}%",
+      "verifying": "Verificando el modelo de limpieza…",
+      "ready": "Listo",
+      "download_failed": "No se pudo descargar el modelo de limpieza."
+    },
+    "progressLabel": "Eliminación de descarga del modelo",
+    "model": "Modelo: {{name}}",
+    "server": {
+      "stopped": "Motor en estado de inactividad: comienza cuando dictas.",
+      "starting": "Motor iniciando…",
+      "ready": "Motor en ejecución",
+      "failed": "El motor no pudo iniciarse; intentará de nuevo."
+    },
+    "cpuOnly": "corriendo en la CPU",
+    "downloadError": "Error: {{message}}",
+    "retry": "Reintentar",
+    "try": {
+      "label": "Prúebalo en una oración",
+      "sample": "um entonces estaba pensando que podríamos encontrarnos el viernes no, espera, jueves para revisar el presupuesto",
+      "button": "Préntalo",
+      "running": "Limpieza…",
+      "notReady": "Disponible una vez que el modelo de limpieza esté listo.",
+      "result": "Texto limpio",
+      "empty": "(nada quedado después de la limpieza)",
+      "timing": "Limpiado en {{ms}} ms.",
+      "timingCold": "Limpio en {{ms}} ms, después de {{start}} ms para iniciar el motor.",
+      "lowMemory": "No hay suficiente memoria libre para iniciar el motor de IA en este momento. Cierra algunas aplicaciones y vuelve a intentarlo.",
+      "badReply": "La respuesta del modelo no pudo usarse. Tu texto se insertaría sin limpieza.",
+      "failed": "Error al limpiar: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

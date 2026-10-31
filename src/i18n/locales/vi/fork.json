@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI engine",
+    "loading": "Đang kiểm tra động cơ trí tuệ nhân tạo…",
+    "loadError": "Không thể đọc trạng thái động cơ AI: {{message}}",
+    "state": {
+      "unsupported": "Chức năng làm sạch văn bản với động cơ AI cục bộ không khả dụng trên máy Mac này.",
+      "missing_runtime": "Engine AI vắng mặt trong bản xây dựng này.",
+      "waiting_for_speech_model": "Mô hình làm sạch tải sau mô hình giọng nói.",
+      "downloading": "Đang tải mô hình làm sạch… {{percent}}%",
+      "verifying": "Đang kiểm tra mô hình làm sạch...",
+      "ready": "Đã sẵn sàng",
+      "download_failed": "Không thể tải xuống mô hình làm sạch."
+    },
+    "progressLabel": "Xóa sạch việc tải xuống mô hình",
+    "model": "Mô hình: {{name}}",
+    "server": {
+      "stopped": "Engine đang nghỉ: nó bắt đầu khi bạn ghi âm.",
+      "starting": "Đang khởi động động cơ…",
+      "ready": "Engine đang chạy",
+      "failed": "Engine không thể khởi động; nó sẽ cố gắng lại."
+    },
+    "cpuOnly": "chạy trên CPU",
+    "downloadError": "Lỗi: {{message}}",
+    "retry": "Thử lại",
+    "try": {
+      "label": "Thử nó trên một câu",
+      "sample": "um vậy tôi đang nghĩ rằng chúng ta có thể gặp nhau vào thứ Năm ạ không, chờ đã, thứ Tư để thảo luận về ngân sách",
+      "button": "Thử xem",
+      "running": "Đang làm sạch...",
+      "notReady": "Sẵn sàng sau khi mô hình làm sạch sẵn sàng.",
+      "result": "Văn bản đã được làm sạch",
+      "empty": "(không còn gì sau khi làm sạch)",
+      "timing": "Đã làm sạch trong {{ms}} ms.",
+      "timingCold": "Đã làm sạch trong {{ms}} ms, sau {{start}} ms để khởi động động cơ.",
+      "lowMemory": "Không đủ bộ nhớ trống để khởi động động cơ AI lúc này. Đóng một số ứng dụng và thử lại.",
+      "badReply": "Trả lời của mô hình không thể được sử dụng. Văn bản của bạn sẽ được chèn mà không được xử lý.",
+      "failed": "Không thể làm sạch: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

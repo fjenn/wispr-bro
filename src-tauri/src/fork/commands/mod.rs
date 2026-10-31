@@ -11,6 +11,7 @@
 pub mod csp;
 pub mod history;
 pub mod hotkeys;
+pub mod llm;
 pub mod selfcheck;
 pub mod settings;
 

@@ -40,13 +40,25 @@ bit.ly                      # reason: Immer's minified-error message text ("Full
 # in the base-URL field; a URL typed there is refused by the same check.
 blob.handy.computer        # proof: fork::models::tests::downloader_never_builds_a_blob_handy_computer_url, fork::net::tests::the_handy_mirror_is_never_a_mirror_base (mirror hook returns None; legacy URL models refused by checked_download_url)
 api.openai.com             # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (chat + models refused, no connection), fork::llm::tests::default_list_has_no_cloud_provider, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
-api.anthropic.com          # proof: fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_the_local_placeholder, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
+api.anthropic.com          # proof: fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_a_stopped_local_llm, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
 api.groq.com               # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list (not offered), fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (any non-loopback URL refused)
 api.cerebras.ai            # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
 api.z.ai                   # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
 openrouter.ai              # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (names it), fork::llm::tests::neutral_headers_drop_app_identifying_headers_only (HTTP-Referer / X-Title dropped)
 bedrock-mantle.us-east-1.api.aws # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
 api.deepseek.com           # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (llm_client.rs only compares a base-URL substring; any non-loopback base URL is refused)
+
+# S-10: strings inside the bundled llama-server sidecar (its -hf / -dr /
+# model-catalog download code, chat-template docs links, the JSON-schema
+# id). The sidecar is built without TLS (ci/llama-server/build.sh:
+# LLAMA_OPENSSL=OFF, LLAMA_BUILD_BORINGSSL=OFF), so it cannot make any HTTPS
+# request, and the app spawns it with --offline and never a download flag.
+llama.app                  # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06, fork::llm::process::tests::the_overlay_bundles_the_sidecar_build_sh_builds
+ggml.ai                    # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06 (--no-ui: the web UI that links it is not served)
+registry-1.docker.io       # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06 (no -dr flag)
+auth.docker.io             # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06 (no -dr flag)
+docs.z.ai                  # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests (a docs link in a chat-template comment string)
+json-schema.org            # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests (a JSON-schema `$schema` id string, never fetched)
 
 [link]
 # Click-only links: opened in the user's browser by the opener plugin.

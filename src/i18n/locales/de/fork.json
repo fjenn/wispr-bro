@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "KI-Engine",
+    "loading": "Prüfe das AI-Engine…",
+    "loadError": "Kann den Zustand des AI-Engines nicht lesen: {{message}}",
+    "state": {
+      "unsupported": "Die Textbereinigung mit dem lokalen AI-Engine ist auf diesem Mac nicht verfügbar.",
+      "missing_runtime": "Der AI-Engine fehlt in dieser Build.",
+      "waiting_for_speech_model": "Das Cleanup-Modell wird nach dem Sprachmodell heruntergeladen.",
+      "downloading": "Das Cleanup-Modell wird heruntergeladen… {{percent}}%",
+      "verifying": "Prüfe das Reinigungsmodell…",
+      "ready": "Ready",
+      "download_failed": "Konnte das Cleanup-Modell nicht herunterladen."
+    },
+    "progressLabel": "Modell-Download bereinigen",
+    "model": "Modell: {{name}}",
+    "server": {
+      "stopped": "Motor idle: es startet, sobald du dictierst.",
+      "starting": "Engine startet…",
+      "ready": "Engine läuft",
+      "failed": "Engine konnte nicht gestartet werden; versucht es erneut."
+    },
+    "cpuOnly": "auf dem CPU",
+    "downloadError": "Fehler: {{message}}",
+    "retry": "Wiederholen",
+    "try": {
+      "label": "Probieren Sie es auf einem Satz aus",
+      "sample": "um also dachte ich, wir könnten uns am donnerstag treffen, um die budgetierung zu besprechen",
+      "button": "Probieren",
+      "running": "Bereinigen…",
+      "notReady": "Verfügbar, sobald das Reinigungsmodell bereit ist.",
+      "result": "Geschäftstext",
+      "empty": "(nichts mehr nach der Reinigung)",
+      "timing": "Geschafft in {{ms}} ms.",
+      "timingCold": "In {{ms}} ms gereinigt, nach {{start}} ms zum Start der Engine.",
+      "lowMemory": "Nicht genug freie Speicherplatz, um den AI-Engine jetzt zu starten. Schließe einige Apps und versuche es erneut.",
+      "badReply": "Die Antwort des Modells konnte nicht verwendet werden. Dein Text würde ohne Bearbeitung eingefügt werden.",
+      "failed": "Löschen fehlgeschlagen: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

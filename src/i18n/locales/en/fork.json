@@ -317,5 +317,44 @@
       "pasteFailed": "Couldn't paste this text. Copy it from here instead.",
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
+  },
+  "aiEngine": {
+    "title": "AI engine",
+    "loading": "Checking the AI engine…",
+    "loadError": "Could not read the AI engine state: {{message}}",
+    "state": {
+      "unsupported": "Text cleanup with the local AI engine is not available on this Mac.",
+      "missing_runtime": "The AI engine is missing from this build.",
+      "waiting_for_speech_model": "The cleanup model downloads after the speech model.",
+      "downloading": "Downloading the cleanup model… {{percent}}%",
+      "verifying": "Checking the cleanup model…",
+      "ready": "Ready",
+      "download_failed": "Couldn't download the cleanup model."
+    },
+    "progressLabel": "Cleanup model download",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Engine idle: it starts when you dictate.",
+      "starting": "Engine starting…",
+      "ready": "Engine running",
+      "failed": "Engine failed to start; it will try again."
+    },
+    "cpuOnly": "running on the CPU",
+    "downloadError": "Error: {{message}}",
+    "retry": "Retry",
+    "try": {
+      "label": "Try it on a sentence",
+      "sample": "um so I was thinking we could uh meet on friday no wait thursday to go over the the budget",
+      "button": "Try it",
+      "running": "Cleaning…",
+      "notReady": "Available once the cleanup model is ready.",
+      "result": "Cleaned text",
+      "empty": "(nothing left after cleanup)",
+      "timing": "Cleaned in {{ms}} ms.",
+      "timingCold": "Cleaned in {{ms}} ms, after {{start}} ms to start the engine.",
+      "lowMemory": "Not enough free memory to start the AI engine right now. Close some apps and try again.",
+      "badReply": "The model's reply could not be used. Your text would be inserted without cleanup.",
+      "failed": "Cleanup failed: {{message}}"
+    }
   }
 }

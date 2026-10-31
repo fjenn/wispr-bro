@@ -145,6 +145,28 @@ Details per port: docs/fork/PORTS.md.
   Licence: MIT (LICENSES/MIT-AudioWhisper.txt)
   Modified by Wispr Bro contributors, 2026 (mapped to Wispr Bro's style
   groups and usage categories; documents and AI apps added).
+- src-tauri/src/fork/llm/process.rs, src-tauri/src/fork/llm/supervisor.rs,
+  src-tauri/src/fork/llm/chat.rs
+  Source: TypeWhisper, https://github.com/TypeWhisper/typewhisper-mac
+  Commit: 4620bb59a804a2aeeaf5607cf10aa437c7589504
+  Files:  TypeWhisperPluginSDK/Plugins/LlamaCppPlugin/LlamaCppServer.swift,
+          LlamaCppRuntime.swift (verification marker idea),
+          Tests/LlamaCppPluginTests.swift (acceptance list)
+  Copyright (c) 2026 TypeWhisper
+  Licence: GPL-3.0-or-later (LICENSE)
+  Modified by Wispr Bro contributors, 2026 (ported from Swift to Rust;
+  Unix-socket transport, kqueue watchdog instead of a shell script, CPU
+  fallback, backoff, idle stop, wake check, streamed replies for abort; no
+  runtime download).
+
+- src-tauri/src/fork/llm/prompt.rs (the cleanup system prompt)
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   src/locales/en/prompts.json ("cleanupPrompt")
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026 ({{agentName}} set to
+  "Assistant"; one line asking for a JSON reply appended).
 
 ======================================================================
 4. Files licensed AGPL-3.0-only
@@ -332,6 +354,24 @@ Handy's catalog says MIT) and models under non-commercial, NVIDIA Open
 Model or "other" licences are never chosen silently (DEC-27); see the
 register.
 
+6.4 Cleanup language models (S-10)
+
+Downloaded unchanged from their upstream Hugging Face repositories at a
+pinned revision and checked by sha256 (src-tauri/src/fork/llm/catalog.rs);
+not redistributed by Wispr Bro.
+
+- Muesli 2B v12, Q4_K_M (the cleanup model on Apple Silicon, DEC-03)
+  Files used: https://huggingface.co/Muesli-HQ/qwen35-2b-muesli-cleanup-v12-gguf
+  (revision e35af097be4f17d3673515fb321ce19aa300faf6)
+  Based on Qwen3.5-2B by the Qwen team, Alibaba Cloud.
+  Licence: Apache-2.0, https://www.apache.org/licenses/LICENSE-2.0
+
+- Qwen3.5-2B, Q4_K_M (pinned fallback, not chosen today)
+  Original model: Qwen/Qwen3.5-2B by the Qwen team, Alibaba Cloud
+  Files used: https://huggingface.co/unsloth/Qwen3.5-2B-GGUF
+  (revision f6d5376be1edb4d416d56da11e5397a961aca8ae)
+  Licence: Apache-2.0, https://www.apache.org/licenses/LICENSE-2.0
+
 ======================================================================
 7. Fonts
 ======================================================================
@@ -360,3 +400,30 @@ register.
 
 Fonts added by later slices are listed here, with their OFL text in
 LICENSES/, when they are added.
+
+======================================================================
+8. Bundled programs
+======================================================================
+
+- llama-server (Contents/MacOS/llama-server), the local language-model
+  runtime (S-10). Built by ci/llama-server/build.sh from llama.cpp tag
+  b11624 (commit af0579c78a07a555d84830d01da7b61cfadbc7ef),
+  https://github.com/ggml-org/llama.cpp, unmodified, statically linked.
+  It runs as a separate process; its source is that tag.
+  Components compiled into it:
+  - llama.cpp and ggml: Copyright (c) 2023-2026 The ggml authors.
+    Licence: MIT; text in LICENSES/MIT-llama.cpp.txt.
+  - cpp-httplib: Copyright (c) 2017 yhirose. Licence: MIT; text in
+    LICENSES/MIT-cpp-httplib.txt.
+  - JSON for Modern C++: Copyright (c) 2013-2025 Niels Lohmann.
+    Licence: MIT; text in LICENSES/MIT-nlohmann-json.txt.
+  - xxHash: Copyright (C) 2012-2023 Yann Collet. Licence: BSD-2-Clause;
+    text in LICENSES/BSD-2-Clause-xxHash.txt.
+  - subprocess.h (sheredom): public domain (Unlicense); text in
+    LICENSES/Unlicense-subprocess.txt.
+  - miniaudio: David Reid. Public domain (Unlicense) or MIT-0; text in
+    LICENSES/Unlicense-or-MIT-0-miniaudio.txt.
+  - stb_image: Sean Barrett. MIT or public domain (Unlicense); text in
+    LICENSES/MIT-or-Unlicense-stb_image.txt.
+  - SHA-1 by Steve Reid and SHA-256 by Igor Pavlov (from Crypto++):
+    public domain, as stated in the source files.

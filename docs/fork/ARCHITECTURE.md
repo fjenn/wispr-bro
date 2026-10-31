@@ -165,7 +165,7 @@ only). Plain `cargo build` / `bun run tauri dev` still build Handy's identity.
 | `bundle.macOS.minimumSystemVersion`  | `13.0` (DEC-22)                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `plugins.updater.pubkey`/`endpoints` | **TODO F-02** placeholders `TODO-F02-<owner>-updater-pubkey`, `https://github.com/<owner>/wispr-bro/releases/latest/download/latest.json`. Deliberately _not_ Handy's feed/key, so a Wispr Bro build can never install a Handy update. The plugin parses endpoints at startup (the `<owner>` URL parses; `<`/`>` are percent-encoded) and reads the key only when verifying a download, so the build and startup work. |
 
-Not set yet: `bundle.externalBin` (S-10), `license`, Linux `/usr/lib/Handy` paths and the Windows `signCommand` (F-02/F-04,
+`bundle.externalBin`: `target/wb-sidecar/llama-server` (S-10, below). Not set yet: `license`, Linux `/usr/lib/Handy` paths and the Windows `signCommand` (F-02/F-04,
 not M1 macOS).
 
 **Usage strings.** Tauri 2.11 has `bundle.macOS.infoPlist` (tauri-utils
@@ -707,8 +707,8 @@ S-07a/S-07b (silent model policy) and S-14 (Advanced list) call
 | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Settings defaults/read have no cloud provider                                 | `fork::llm::tests::{default_list_has_no_cloud_provider, handy_settings_defaults_come_from_the_fork_list}`                                                                                |
 | Stored `openai` (and other cloud entries, keys, models) migrated to `local`   | `fork::settings::tests::a_stored_openai_provider_is_migrated_to_local`, `the_custom_provider_keeps_the_users_loopback_url_and_format`                                                    |
-| Non-loopback URL refused before any request (listener sees no connection)     | `fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request`, `refusal_covers_cloud_and_disguised_hosts_and_the_local_placeholder`                                          |
-| `local` sends nothing, does not panic                                         | `fork::llm::tests::selecting_local_sends_nothing_and_does_not_panic`                                                                                                                     |
+| Non-loopback URL refused before any request (listener sees no connection)     | `fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request`, `refusal_covers_cloud_and_disguised_hosts_and_a_stopped_local_llm`                                            |
+| `local` sends nothing, does not panic                                         | `fork::llm::tests::selecting_local_sends_nothing_while_the_sidecar_is_stopped`                                                                                                           |
 | Neutral headers on the wire                                                   | `fork::llm::tests::loopback_requests_carry_neutral_headers`, `neutral_headers_drop_app_identifying_headers_only`                                                                         |
 | Startup summary has no custom words, prompts, devices, keys; Info default     | `fork::diagnostics::tests::*`                                                                                                                                                            |
 | No download path builds a `blob.handy.computer` URL (`inert-hosts.txt` proof) | `fork::models::tests::downloader_never_builds_a_blob_handy_computer_url`, `fork::net::tests::the_handy_mirror_is_never_a_mirror_base`                                                    |
@@ -823,25 +823,93 @@ i18n overrides cannot change it; S-26b (links) and S-39 (About /
 Acknowledgements page) show "GPL-3.0", our source link and NOTICE §6.
 `src-tauri/Cargo.toml` gets no `license` field (thin-layer rule).
 
+## Local LLM runtime (S-10)
+
+The `llama-server` sidecar, its supervisor and the `local` provider (R5
+§4.5, DEC-03, DEC-49). Numbers: `docs/fork/spikes/RS-06-llm-runtime.md`.
+
+### Files
+
+| File                                      | Role                                                                                                                                        |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci/llama-server/build.sh`                | Builds the static sidecar from llama.cpp b11624 (sha256-pinned source), checks dylibs/minos/version, signs ad hoc with the hardened runtime |
+| `fork/llm/catalog.rs`                     | Pinned models (repo, revision, sha256, size, licence, resident MiB) and the tier rule (`select`)                                            |
+| `fork/llm/download.rs`                    | hf-hub download into `HF_HOME/hub` at the pinned revision, fixed endpoint, no token, stall watchdog, backoff, sha256 + verification marker  |
+| `fork/llm/process.rs`                     | Spawn line, cleared env, SIGTERM→SIGKILL, PID file + stale kill, forked kqueue watchdog, stderr tail                                        |
+| `fork/llm/transport.rs`                   | DEC-49 endpoint choice (socket, else loopback TCP), random key, reqwest client config shared with Handy's chain                             |
+| `fork/llm/health.rs`                      | `/health` probe and wait                                                                                                                    |
+| `fork/llm/supervisor.rs` (+ `tests`)      | One start at a time, restart once → CPU → backoff, crash restart, idle stop, wake check, completions                                        |
+| `fork/llm/chat.rs`                        | The request (temperature 0, seed, JSON schema, no thinking) and the streamed reply                                                          |
+| `fork/llm/memory.rs`                      | Available memory, the headroom rule, the ordered-load planner                                                                               |
+| `fork/llm/prompt.rs`                      | OpenWhispr cleanup prompt (seed for S-12a), budgets, reply parsing                                                                          |
+| `fork/llm/runtime.rs`                     | App wiring: state, events, download trigger, prewarm, wake, first-launch warm-up, `WISPRBRO_SELFCHECK_LLM`                                  |
+| `fork/llm/rs06.rs`                        | RS-06 bench (ignored test)                                                                                                                  |
+| `fork/commands/llm.rs`                    | `fork_llm_status`, `fork_llm_try`, `fork_llm_retry`; event `fork-llm-status` (`ForkLlmStatus`)                                              |
+| `src/fork/settings/advanced/AiEngine.tsx` | Settings › Advanced › AI engine, mounted on the debug panel until S-14                                                                      |
+| `scripts/wb-translate-llama.ts`           | `llama-server` backend of `wb-translate-missing.ts` (`--backend llama-server --server … --model …`)                                         |
+
+No new upstream hook: the plugin's `setup` registers the runtime state,
+`on_ready` starts it, `RunEvent::Exit` stops the server; prewarm listens to
+Handy's `recording-state-event` and `model-state-changed`; Handy's chain
+reaches the sidecar through F-08's `client_builder` hook. `package.json`
+gained `wb:llama-server` and the build step in `wb:dev`/`wb:build`.
+
+### Lifecycle
+
+1. **Launch** (`on_ready`): kill a `llama-server` named in
+   `<app data>/llm/llama-server.pid` (only if that PID is a `llama-server`).
+   Pick the model by RAM (`catalog::select`; none on Intel or in a plain
+   Handy build). If Handy has a speech model on disk, check/download the
+   cleanup model; otherwise wait for `model-download-complete`.
+2. **Ready**: the model is verified; the server is not running. Right after
+   the first download (and after an update changes the sidecar) the runtime
+   starts and stops it once to pay Metal's shader compile (~3.5 s on an M5
+   Max) outside a take.
+3. **Key-down**: the planner wakes the server at once if ASR is loaded,
+   else after ASR loads or at key-up; the memory rule can veto the start.
+4. **Requests**: `Supervisor::complete` (fork) or Handy's chain (`local`
+   provider) over the socket with the key; streamed replies so Esc frees the
+   slot at once.
+5. **Idle**: stopped 120 s after the last request. **Wake**: `/health`
+   probe, restart if dead. **Crash**: restart once in the background.
+   **Quit / app crash**: `RunEvent::Exit` stops it; on SIGKILL or a crash
+   the watchdog kills it within milliseconds.
+
+### Signing (F-02 slots in here)
+
+- `build.sh` signs ad hoc with `--options runtime` and the identifier
+  `com.wisprbro.desktop.llama-server`. RS-06: Metal works under the hardened
+  runtime with no entitlement (no `allow-jit` / `allow-unsigned-executable-memory`).
+- `tauri build` re-signs every `externalBin` with the app's identity, the
+  hardened runtime and the app's `Entitlements.plist` (verified on the ad-hoc
+  debug bundle: `flags=adhoc,runtime`, entitlements = microphone). With the
+  Developer ID in `APPLE_SIGNING_IDENTITY`, F-02 gets a Developer-ID-signed,
+  timestamped sidecar for notarization with no change here. The sidecar does
+  not need the microphone entitlement; Tauri 2.11 has no per-binary
+  entitlements, which is harmless (TCC attributes it to the app).
+- Gatekeeper (`spctl --assess`) rejects the ad-hoc binary, as expected; the
+  notarized check is S-10.1 in the Mac test script.
+
 ## Tests
 
-| What                                                                                                          | Where                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Init order, `NotReady` before Ready, Handy state after                                                        | `fork/testutil.rs` `model_status_is_not_ready_before_ready_and_handy_state_after`                                                        |
-| Handy command still resolves through `compose_invoke`                                                         | `handy_command_still_resolves_through_composed_handler`                                                                                  |
-| Fork event round trip through the shared registry                                                             | `fork_event_round_trips_through_mount_events`                                                                                            |
-| Headless modes skip `on_ready`, no fork windows                                                               | `headless_cli_mode_skips_on_ready_and_opens_no_windows`                                                                                  |
-| No Handy `fork_*` command; one `invoke_handler`; plain `build.rs`                                             | `no_handy_command_name_starts_with_fork_prefix`, `compose_invoke_is_the_only_invoke_handler`, `build_rs_still_ends_in_plain_tauri_build` |
-| Fork bindings current; Handy bindings untouched                                                               | `fork_bindings_are_current_and_handy_bindings_untouched`                                                                                 |
-| UI smoke through mocked IPC                                                                                   | `tests/fork/debug-panel.spec.ts` (`bunx playwright test -c playwright.fork.config.ts`)                                                   |
-| Identity, version lines, E-94, hook placement (F-01)                                                          | `fork::identity_tests` in `fork/mod.rs`                                                                                                  |
-| `rust.*` strings in 26 locales, no "Handy"; tray label/icons                                                  | `fork::i18n::tests`, `fork::tray::tests`                                                                                                 |
-| Fork settings: defaults, migrations, salvage, validation, ENFORCED/FIRST_RUN, commands + event on MockRuntime | `fork::settings::tests` (`src-tauri/src/fork/settings/tests.rs`), `tests/fork/fork-settings.spec.ts`                                     |
-| Brand overrides in 26 locales                                                                                 | `scripts/wb-brand-overrides.test.ts` (`bun run wb:test:scripts`), `tests/fork/brand-overrides.spec.ts`                                   |
-| F-10 fakes (clock, AX, pasteboard, coordinator, network)                                                      | `fork/testutil.rs` `fake_tests` (traits are test-only until their owning slice moves them; see the module doc)                           |
-| Playwright IPC fixture (commands and events)                                                                  | `tests/fork/fixtures.ts`, self-tests `tests/fork/ipc-fixture.spec.ts`, usage `tests/fork/README.md` (`bun run wb:test:ui`)               |
-| Cleanup eval metrics, guard stub, item labels                                                                 | `scripts/wb-eval-cleanup.test.ts`; runner `bun run wb:eval:cleanup` (`eval/cleanup/README.md`)                                           |
-| RS-07 bench harness (prompt provenance, request shapes, loopback-only spawn)                                  | `scripts/wb-bench-cleanup.test.ts`; report `docs/fork/spikes/RS-07-cleanup-bakeoff.md`                                                   |
+| What                                                                                                                                                                                                            | Where                                                                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Init order, `NotReady` before Ready, Handy state after                                                                                                                                                          | `fork/testutil.rs` `model_status_is_not_ready_before_ready_and_handy_state_after`                                                                                                                            |
+| Handy command still resolves through `compose_invoke`                                                                                                                                                           | `handy_command_still_resolves_through_composed_handler`                                                                                                                                                      |
+| Fork event round trip through the shared registry                                                                                                                                                               | `fork_event_round_trips_through_mount_events`                                                                                                                                                                |
+| Headless modes skip `on_ready`, no fork windows                                                                                                                                                                 | `headless_cli_mode_skips_on_ready_and_opens_no_windows`                                                                                                                                                      |
+| No Handy `fork_*` command; one `invoke_handler`; plain `build.rs`                                                                                                                                               | `no_handy_command_name_starts_with_fork_prefix`, `compose_invoke_is_the_only_invoke_handler`, `build_rs_still_ends_in_plain_tauri_build`                                                                     |
+| Fork bindings current; Handy bindings untouched                                                                                                                                                                 | `fork_bindings_are_current_and_handy_bindings_untouched`                                                                                                                                                     |
+| UI smoke through mocked IPC                                                                                                                                                                                     | `tests/fork/debug-panel.spec.ts` (`bunx playwright test -c playwright.fork.config.ts`)                                                                                                                       |
+| Identity, version lines, E-94, hook placement (F-01)                                                                                                                                                            | `fork::identity_tests` in `fork/mod.rs`                                                                                                                                                                      |
+| `rust.*` strings in 26 locales, no "Handy"; tray label/icons                                                                                                                                                    | `fork::i18n::tests`, `fork::tray::tests`                                                                                                                                                                     |
+| Fork settings: defaults, migrations, salvage, validation, ENFORCED/FIRST_RUN, commands + event on MockRuntime                                                                                                   | `fork::settings::tests` (`src-tauri/src/fork/settings/tests.rs`), `tests/fork/fork-settings.spec.ts`                                                                                                         |
+| Brand overrides in 26 locales                                                                                                                                                                                   | `scripts/wb-brand-overrides.test.ts` (`bun run wb:test:scripts`), `tests/fork/brand-overrides.spec.ts`                                                                                                       |
+| F-10 fakes (clock, AX, pasteboard, coordinator, network)                                                                                                                                                        | `fork/testutil.rs` `fake_tests` (traits are test-only until their owning slice moves them; see the module doc)                                                                                               |
+| Playwright IPC fixture (commands and events)                                                                                                                                                                    | `tests/fork/fixtures.ts`, self-tests `tests/fork/ipc-fixture.spec.ts`, usage `tests/fork/README.md` (`bun run wb:test:ui`)                                                                                   |
+| Cleanup eval metrics, guard stub, item labels                                                                                                                                                                   | `scripts/wb-eval-cleanup.test.ts`; runner `bun run wb:eval:cleanup` (`eval/cleanup/README.md`)                                                                                                               |
+| RS-07 bench harness (prompt provenance, request shapes, loopback-only spawn)                                                                                                                                    | `scripts/wb-bench-cleanup.test.ts`; report `docs/fork/spikes/RS-07-cleanup-bakeoff.md`                                                                                                                       |
+| S-10 LLM runtime: supervisor (fake HTTP server on the real socket/TCP), spawn line, env scrub, watchdog, stale PID, transport, streamed client + abort, download verification, memory planner, provider routing | `fork::llm::*` tests; real sidecar: ignored `real_*` and `rs06_bench` (`docs/fork/spikes/RS-06-llm-runtime.md`); UI `tests/fork/ai-engine.spec.ts`; translation backend `scripts/wb-translate-llama.test.ts` |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`
 and a Wry event loop cannot start inside `cargo test` on macOS (main thread).

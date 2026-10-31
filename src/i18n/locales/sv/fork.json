@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI-engine",
+    "loading": "Kontrollerar AI-motor…",
+    "loadError": "Kunde inte läsa AI-engine-status: {{message}}",
+    "state": {
+      "unsupported": "Textrening med den lokala AI-motorn är inte tillgänglig på denna Mac.",
+      "missing_runtime": "AI-engineen finns inte i denna build.",
+      "waiting_for_speech_model": "Rekommendationen av avslutningsmodellen hämtas efter talmodellen.",
+      "downloading": "Laddar ner rengöringsmodellen… {{percent}}%",
+      "verifying": "Kontrollerar rensningsmodellen...",
+      "ready": "Klar",
+      "download_failed": "Kunde inte ladda ner rensningsmodellen."
+    },
+    "progressLabel": "Radera modell nedladdning",
+    "model": "Mall: {{name}}",
+    "server": {
+      "stopped": "Motor i väntan: startar när du dictat.",
+      "starting": "Motor startar...",
+      "ready": "Motor körs",
+      "failed": "Motorn misslyckades med att starta; den försöker igen."
+    },
+    "cpuOnly": "kör på CPU",
+    "downloadError": "Fel: {{message}}",
+    "retry": "Försök igen",
+    "try": {
+      "label": "Prova det på en mening",
+      "sample": "um så tänkte jag att vi kunde mötas på fredag, nej vänta, onsdag för att gå igenom budgeten",
+      "button": "Prova det",
+      "running": "Räknar...",
+      "notReady": "Tillgänglig när rensningsmodellen är klar.",
+      "result": "Förkortad text",
+      "empty": "(ingen kvar efter rensning)",
+      "timing": "Rekens i {{ms}} ms.",
+      "timingCold": "Rekens i {{ms}} ms, efter {{start}} ms att starta motorn.",
+      "lowMemory": "För lite ledig minne för att starta AI-engine just nu. Stäng några appar och försök igen.",
+      "badReply": "Modellen kunde inte svara. Ditt text skulle infogas utan rensning.",
+      "failed": "Radering misslyckades: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "AI-engine",
+    "loading": "Tjekker AI-ingen...",
+    "loadError": "Kunne ikke læse AI-engine-status: {{message}}",
+    "state": {
+      "unsupported": "Tekstrengsel med den lokale AI-engine er ikke tilgængelig på denne Mac.",
+      "missing_runtime": "AI-engineen mangler i denne build.",
+      "waiting_for_speech_model": "Modelforretningsafslutningen downloades efter talemodellen.",
+      "downloading": "Downloader af rengøringsmodellen… {{percent}}%",
+      "verifying": "Tjekker fjernslet model...",
+      "ready": "Færdig",
+      "download_failed": "Kunne ikke downloade rengøringsmodellen."
+    },
+    "progressLabel": "Fjern modeldownload",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Motor i hvile: det starter, når du siger det.",
+      "starting": "Motor starter...",
+      "ready": "Motor kører",
+      "failed": "Motoren kunne ikke starte; den vil prøve igen."
+    },
+    "cpuOnly": "kører på CPU",
+    "downloadError": "Fejl: {{message}}",
+    "retry": "Prøv igen",
+    "try": {
+      "label": "Prøv det på en sætning",
+      "sample": "um så tænkte jeg vi kunne mødes på fredag, nej vent, torsdag for at gøre budgettet over",
+      "button": "Prøv det",
+      "running": "Rengører...",
+      "notReady": "Tilgængelig når cleanup-model er klar.",
+      "result": "Tøjet tekst",
+      "empty": "(ingen ting tilbage efter rengøring)",
+      "timing": "Fjernet i {{ms}} ms.",
+      "timingCold": "Rejst i {{ms}} ms, efter {{start}} ms til at starte engine'et.",
+      "lowMemory": "Ikke nok ledig minde til at starte AI-ingeniør nu. Luk nogle programmer og prøv igen.",
+      "badReply": "Modellen kunne ikke bruge svaret. Din tekst vil blive indsat uden rengøring.",
+      "failed": "Opklaringsfejl: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

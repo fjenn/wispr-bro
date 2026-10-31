@@ -158,6 +158,40 @@ async forkHistoryUndoDelete(ids: number[]) : Promise<Result<number, ForkError>> 
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * The AI engine's state (model download, server).
+ */
+async forkLlmStatus() : Promise<Result<ForkLlmStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_llm_status") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Cleans `text` with the Light prompt and returns the result. Starts the
+ * server if it is stopped.
+ */
+async forkLlmTry(text: string) : Promise<Result<ForkLlmTryResult, ForkLlmError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_llm_try", { text }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Retries a failed model download.
+ */
+async forkLlmRetry() : Promise<Result<ForkLlmStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_llm_retry") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -167,12 +201,14 @@ async forkHistoryUndoDelete(ids: number[]) : Promise<Result<number, ForkError>> 
 export const events = __makeEvents__<{
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
+forkLlmStatus: ForkLlmStatus,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged,
 forkStatsUpdated: ForkStatsUpdated
 }>({
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
+forkLlmStatus: "fork-llm-status",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed",
 forkStatsUpdated: "fork-stats-updated"
@@ -285,6 +321,50 @@ export type ForkInsertOutcome = {
  * Delivery counter since launch.
  */
 take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
+/**
+ * `fork_llm_try` error.
+ */
+export type ForkLlmError = 
+/**
+ * No model yet, unsupported Mac or missing runtime.
+ */
+{ kind: "NotReady" } | 
+/**
+ * Not enough free memory (R5 §4.5 headroom rule).
+ */
+{ kind: "LowMemory" } | 
+/**
+ * The server could not start or the request failed (log text).
+ */
+{ kind: "Failed"; message: string } | 
+/**
+ * The model replied with something that is not the expected JSON.
+ */
+{ kind: "BadReply" }
+/**
+ * Status event and `fork_llm_status` reply.
+ */
+export type ForkLlmStatus = { state: LlmState; 
+/**
+ * Display name of the model for this Mac.
+ */
+model_name: string | null; downloaded_bytes: number; total_bytes: number; server: ServerStatus; 
+/**
+ * Last download error (no user data).
+ */
+error: string | null }
+/**
+ * `fork_llm_try` reply.
+ */
+export type ForkLlmTryResult = { cleaned: string; 
+/**
+ * Request time, after the server was ready.
+ */
+cleanup_ms: number; 
+/**
+ * Time spent starting the server first (0 when it was running).
+ */
+start_ms: number }
 /**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
@@ -521,6 +601,30 @@ text: string;
  */
 spoken: string }
 /**
+ * Overall state shown in Settings › Advanced › AI engine.
+ */
+export type LlmState = 
+/**
+ * No local LLM on this Mac (Intel, DEC-29; or a plain Handy build).
+ */
+"unsupported" | 
+/**
+ * The `llama-server` sidecar is not in this build.
+ */
+"missing_runtime" | 
+/**
+ * Waiting for the speech model before downloading.
+ */
+"waiting_for_speech_model" | "downloading" | "verifying" | 
+/**
+ * Model verified; the server starts on demand.
+ */
+"ready" | 
+/**
+ * Download failed; Retry is offered.
+ */
+"download_failed"
+/**
  * Which notifications are shown (DEC-21). All on by default.
  */
 export type NotificationSettings = { 
@@ -546,6 +650,38 @@ completed_at_ms: number | null }
  * `fork/onboarding/state.rs` (S-29a) is only the logic over it.
  */
 export type OnboardingStatus = "not_started" | "in_progress" | "completed"
+/**
+ * Server phase for the status event.
+ */
+export type ServerPhase = "stopped" | "starting" | "ready" | 
+/**
+ * Last start failed; waiting for the backoff to pass.
+ */
+"failed"
+/**
+ * Snapshot published on every change.
+ */
+export type ServerStatus = { phase: ServerPhase; 
+/**
+ * `gpu` or `cpu`.
+ */
+device: string; 
+/**
+ * `unix` or `tcp` while running.
+ */
+transport: string | null; 
+/**
+ * Spawn to `/health` OK of the current server, in ms.
+ */
+ready_ms: number | null; 
+/**
+ * Automatic restarts since launch.
+ */
+restarts: number; 
+/**
+ * Last failure, for the debug panel and logs (no user text).
+ */
+last_error: string | null }
 /**
  * Lifetime and today's numbers for the Home rail (S-15a) and Insights
  * (S-25).

@@ -217,6 +217,45 @@
       "diskFull": "Your disk is full, so recording stopped. Your words are safe here and in History."
     }
   },
+  "aiEngine": {
+    "title": "Mesin AI",
+    "loading": "Memeriksa engine AI…",
+    "loadError": "Tidak dapat membaca keadaan engine AI: {{message}}",
+    "state": {
+      "unsupported": "Pembersihan teks dengan engine AI lokal tidak tersedia di perangkat ini.",
+      "missing_runtime": "Mesin AI tidak tersedia pada build ini.",
+      "waiting_for_speech_model": "Model pemrosesan penghapusan didownload setelah model suara.",
+      "downloading": "Mengunduh model pemrosesan… {{percent}}%",
+      "verifying": "Memverifikasi model pemrosesan...",
+      "ready": "Siap",
+      "download_failed": "Tidak bisa mengunduh model pemrosesan."
+    },
+    "progressLabel": "Pembersihan unduhan model",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Mesin idle: dimulai saat Anda mengucapkan.",
+      "starting": "Mesin dimulai…",
+      "ready": "Mesin berjalan",
+      "failed": "Engine gagal dimulai; akan mencoba lagi."
+    },
+    "cpuOnly": "berjalan di CPU",
+    "downloadError": "Error: {{message}}",
+    "retry": "Coba lagi",
+    "try": {
+      "label": "Coba di kalimat",
+      "sample": "um jadi saya sedang berpikir kita bisa bertemu pada hari kamis ya tunggu hari jumat untuk membahas anggaran",
+      "button": "Coba saja",
+      "running": "Membersihkan…",
+      "notReady": "Tersedia setelah model pembersihan siap.",
+      "result": "Teks yang telah dibersihkan",
+      "empty": "(tidak ada yang tersisa setelah pembersihan)",
+      "timing": "Diperjelas dalam {{ms}} ms.",
+      "timingCold": "Dibersihkan dalam {{ms}} ms, setelah {{start}} ms untuk memulai engine.",
+      "lowMemory": "Memori yang tersedia tidak cukup untuk memulai engine AI saat ini. Tutup beberapa aplikasi dan coba lagi.",
+      "badReply": "Balasan model tidak dapat digunakan. Teks Anda akan dimasukkan tanpa penyelesaian.",
+      "failed": "Pembersihan gagal: {{message}}"
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {
