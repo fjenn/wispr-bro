@@ -40,6 +40,13 @@ function errorText(e: unknown): string {
   return String(e);
 }
 
+/** A reply that can be rendered (a backend not ready yet may send none). */
+function isList(v: unknown): v is ForkMicList {
+  return (
+    !!v && typeof v === "object" && Array.isArray((v as ForkMicList).entries)
+  );
+}
+
 function EntryLabel({
   entry,
   list,
@@ -91,11 +98,14 @@ export function MicrophonePicker() {
   const load = useCallback(async () => {
     try {
       const r = await commands.forkMicList();
-      setState(
-        r.status === "ok"
-          ? { kind: "ready", list: r.data }
-          : { kind: "error", message: errorText(r.error) },
-      );
+      if (r.status === "ok" && isList(r.data)) {
+        setState({ kind: "ready", list: r.data });
+      } else {
+        setState({
+          kind: "error",
+          message: errorText(r.status === "ok" ? r.data : r.error),
+        });
+      }
     } catch (e) {
       setState({ kind: "error", message: errorText(e) });
     }
@@ -118,8 +128,11 @@ export function MicrophonePicker() {
     setChooseError(null);
     try {
       const r = await commands.forkMicChoose(value);
-      if (r.status === "ok") setState({ kind: "ready", list: r.data });
-      else setChooseError(errorText(r.error));
+      if (r.status === "ok" && isList(r.data)) {
+        setState({ kind: "ready", list: r.data });
+      } else {
+        setChooseError(errorText(r.status === "ok" ? r.data : r.error));
+      }
     } catch (e) {
       setChooseError(errorText(e));
     } finally {
@@ -275,11 +288,12 @@ export function MicLevelMeter({ describedBy }: { describedBy?: string }) {
     setRunning(true);
     try {
       const r = await commands.forkMicMonitorStart();
-      if (r.status === "ok") session.current = r.data;
-      else {
+      if (r.status === "ok" && typeof r.data === "number") {
+        session.current = r.data;
+      } else {
         runningRef.current = false;
         setRunning(false);
-        setError(r.error.kind);
+        setError(r.status === "ok" ? "failed" : r.error.kind);
       }
     } catch (e) {
       runningRef.current = false;
