@@ -34,19 +34,19 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | CC0-1.0 OR MIT-0 OR Apache-2.0 | 1 | 0 |
 | CDLA-Permissive-2.0 | 2 | 0 |
 | ISC | 2 | 4 |
-| MIT | 94 | 203 |
+| MIT | 94 | 204 |
 | MIT OR Apache-2.0 | 213 | 10 |
 | MIT OR Apache-2.0 OR Zlib | 3 | 0 |
 | MIT OR BSD-3-Clause | 1 | 0 |
 | MIT OR Zlib OR Apache-2.0 | 1 | 0 |
 | MPL-2.0 | 20 | 0 |
 | Unicode-3.0 | 18 | 0 |
-| Unlicense OR MIT | 7 | 0 |
+| Unlicense OR MIT | 9 | 0 |
 | Zlib | 2 | 0 |
 | Zlib OR Apache-2.0 OR MIT | 22 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 463 Rust crates, 225 npm packages.
+Total: 465 Rust crates, 226 npm packages.
 
 ## Speech models
 
@@ -1078,6 +1078,8 @@ No shipped Rust crate or npm package has a NOTICE file.
 | crypto-common | 0.1.7 | MIT OR Apache-2.0 | https://github.com/RustCrypto/traits |
 | cssparser | 0.36.0 | MPL-2.0 | https://github.com/servo/rust-cssparser |
 | cssparser-macros | 0.6.1 | MPL-2.0 | https://github.com/servo/rust-cssparser |
+| csv | 1.4.0 | Unlicense OR MIT | https://github.com/BurntSushi/rust-csv |
+| csv-core | 0.1.13 | Unlicense OR MIT | https://github.com/BurntSushi/rust-csv |
 | ctor | 0.8.0 | Apache-2.0 OR MIT | https://github.com/mmastrac/rust-ctor |
 | ctor-proc-macro | 0.0.7 | Apache-2.0 OR MIT | https://github.com/mmastrac/rust-ctor |
 | darling | 0.21.3 | MIT | https://github.com/TedDriggs/darling |
@@ -4127,7 +4129,7 @@ DEALINGS IN THE SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: aho-corasick 1.1.4, byteorder 1.5.0, byteorder-lite 0.1.0, fst 0.4.7, memchr 2.8.0, walkdir 2.5.0
+Used by: aho-corasick 1.1.4, byteorder 1.5.0, byteorder-lite 0.1.0, csv 1.4.0, csv-core 0.1.13, fst 0.4.7, memchr 2.8.0, walkdir 2.5.0
 
 ```text
 The MIT License (MIT)
@@ -10993,6 +10995,7 @@ the following restrictions:
 | micromark-util-types | 2.0.2 | MIT | https://github.com/micromark/micromark/tree/main/packages/micromark-util-types |
 | ms | 2.1.3 | MIT | vercel/ms |
 | object-assign | 4.1.1 | MIT | sindresorhus/object-assign |
+| papaparse | 5.7.0 | MIT | https://github.com/mholt/PapaParse |
 | parent-module | 1.0.1 | MIT | sindresorhus/parent-module |
 | parse-entities | 4.0.2 | MIT | wooorm/parse-entities |
 | parse-json | 5.2.0 | MIT | sindresorhus/parse-json |
@@ -12499,6 +12502,31 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
+
+Used by: papaparse 5.7.0
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2015 Matthew Holt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
 Used by: parse-entities 4.0.2, property-information 7.2.0

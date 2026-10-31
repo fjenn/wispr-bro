@@ -204,7 +204,7 @@ pub const TIPS: &[Tip] = &[
         id: "custom_words",
         key: "customWords",
         after_dictations: 40,
-        action: Some(("settings", Some("advanced"))),
+        action: Some(("dictionary", None)),
     },
 ];
 

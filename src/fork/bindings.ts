@@ -298,6 +298,88 @@ async forkDictionaryExport(path: string) : Promise<Result<number, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Inbox entries, newest first (`limit` ≤ 200), with the unread count.
+ */
+async forkNotificationsList(filter: NotificationFilter, limit: number | null) : Promise<Result<NotificationsPage, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_list", { filter, limit }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Marks entries read. Returns the unread count.
+ */
+async forkNotificationsMarkRead(ids: number[]) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_mark_read", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Marks every entry read. Returns the unread count (0).
+ */
+async forkNotificationsMarkAllRead() : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_mark_all_read") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Activates an entry from the Hub: a click (`button` null) or one of its
+ * buttons. Marks it read and runs the Rust side of the action (copy,
+ * System Settings, Finder); returns the action so the Hub navigates.
+ */
+async forkNotificationsActivate(id: number, button: NotificationButton | null) : Promise<Result<NotificationAction | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_activate", { id, button }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * The feature this version announces (the Hub's one-time popup), or null.
+ */
+async forkNotificationsFeature() : Promise<Result<FeatureAnnouncement | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_feature") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * macOS notification authorization. Never prompts.
+ */
+async forkNotificationsPermission() : Promise<Result<NotificationPermission, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_permission") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Debug builds and `--debug` only: posts a sample of `kind` after
+ * `delay_ms` (≤ 60 s, so the tester can bring another app to the front),
+ * through the real path (toggles, inbox, macOS policy). Samples repeat:
+ * their dedupe keys are cleared first.
+ */
+async forkNotificationsDebugPost(kind: NotificationKind, delayMs: number | null) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_notifications_debug_post", { kind, delayMs }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -467,6 +549,18 @@ export type EntrySource =
  * `active` entries apply; `suggested` ones wait for approval (S-34).
  */
 export type EntryStatus = "active" | "suggested"
+/**
+ * The feature this version announces, for the Hub's one-time popup.
+ */
+export type FeatureAnnouncement = { id: string; 
+/**
+ * Popup dismissal id stored in `dismissed_banners`.
+ */
+dismiss_id: string; title_key: string; body_key: string; action: NotificationAction; 
+/**
+ * Its inbox entry, marked read when the popup closes.
+ */
+entry_id: number | null }
 /**
  * Why a take went to the card (`fork.json` > `insert.cardReason.*`).
  */
