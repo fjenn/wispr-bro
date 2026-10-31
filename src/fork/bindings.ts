@@ -515,6 +515,51 @@ async forkSpeechSetupRetry() : Promise<void> {
  */
 async forkSpeechSetupRefresh() : Promise<void> {
     await TAURI_INVOKE("fork_speech_setup_refresh");
+},
+/**
+ * The microphone list, in the S-08 order, with what is chosen and in use.
+ */
+async forkMicList() : Promise<Result<ForkMicList, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_mic_list") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Chooses a microphone: `"auto"` (Auto-detect, the system setting) or a
+ * device name from [`fork_mic_list`]. Writes Handy's `selected_microphone`
+ * and the fork's `mic_follow_system`, then re-prepares the microphone on
+ * the new device (never during a take: Handy reopens at the next take).
+ */
+async forkMicChoose(value: string) : Promise<Result<ForkMicList, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_mic_choose", { value }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Starts the mic test's level meter on the microphone takes use now and
+ * returns its session number. Levels arrive as `ForkMicLevel` events; the
+ * session ends on [`fork_mic_monitor_stop`], after 60 s, or when a take
+ * starts. Not a take: no history row, no paste.
+ */
+async forkMicMonitorStart() : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_mic_monitor_start") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Ends the mic test's level meter.
+ */
+async forkMicMonitorStop() : Promise<void> {
+    await TAURI_INVOKE("fork_mic_monitor_stop");
 }
 }
 
@@ -527,6 +572,8 @@ forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
+forkMicDevicesChanged: ForkMicDevicesChanged,
+forkMicLevel: ForkMicLevel,
 forkNotificationOpened: ForkNotificationOpened,
 forkNotificationsChanged: ForkNotificationsChanged,
 forkPillLevels: ForkPillLevels,
@@ -543,6 +590,8 @@ forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
+forkMicDevicesChanged: "fork-mic-devices-changed",
+forkMicLevel: "fork-mic-level",
 forkNotificationOpened: "fork-notification-opened",
 forkNotificationsChanged: "fork-notifications-changed",
 forkPillLevels: "fork-pill-levels",
@@ -922,6 +971,65 @@ level: CleanupLevel; outcome: CleanupOutcome; why: CleanupWhy | null;
  */
 guard_reasons: string[] }
 /**
+ * The microphones changed (plugged, unplugged, default changed). Payload:
+ * how many inputs there are now.
+ */
+export type ForkMicDevicesChanged = { inputs: number }
+/**
+ * One row (see `fork::audio::choice::MicEntry`).
+ */
+export type ForkMicEntry = { value: string; name: string; kind: MicEntryKind; recommended: boolean; wireless: boolean; system_default: boolean; transport: Transport }
+/**
+ * A level reading of the monitored mic, or the end of a session.
+ */
+export type ForkMicLevel = { 
+/**
+ * Session number (from `fork_mic_monitor_start`).
+ */
+session: number; 
+/**
+ * `false` once: the session ended.
+ */
+running: boolean; 
+/**
+ * 0..1 on a dB scale from [`FLOOR_DB`] to 0 dBFS, lightly smoothed.
+ */
+level: number; 
+/**
+ * Why the session could not start or ended early (`permission_denied`,
+ * `no_input_device`, `device_lost`, `failed`).
+ */
+error: string | null }
+/**
+ * Reply of [`fork_mic_list`].
+ */
+export type ForkMicList = { 
+/**
+ * Built-in (recommended), Auto-detect, then the other inputs.
+ */
+entries: ForkMicEntry[]; 
+/**
+ * The entry that is chosen: `"auto"` or a device name.
+ */
+selected: string; 
+/**
+ * "Auto-detect" was chosen explicitly (it then follows a Bluetooth
+ * default too).
+ */
+follow_system: boolean; 
+/**
+ * The device takes use now, by name.
+ */
+in_use: string | null; 
+/**
+ * The macOS default input, by name.
+ */
+system_default: string | null; 
+/**
+ * The wireless default the rule is skipping (never chosen), by name.
+ */
+avoided: string | null }
+/**
  * Snapshot of Handy's model registry, as seen by the fork.
  */
 export type ForkModelStatus = { 
@@ -1116,6 +1224,14 @@ greeting_name: string | null;
  * DEC-20: opt-in.
  */
 auto_learn_enabled: boolean; vibe_coding: VibeCodingSettings; 
+/**
+ * S-08: "Auto-detect (system setting)" was chosen in the microphone
+ * list, so the system default is used even when it is a Bluetooth
+ * headset. Off (never chosen): a wireless default is skipped for the
+ * built-in mic. Written by `fork_mic_choose` with Handy's
+ * `selected_microphone`; not settable on its own.
+ */
+mic_follow_system: boolean; 
 /**
  * Keys of [`FIRST_RUN_DEFAULTS`] already applied. Not settable.
  */
@@ -1338,6 +1454,14 @@ export type LlmState =
  */
 "download_failed"
 /**
+ * What kind of row a microphone list entry is.
+ */
+export type MicEntryKind = 
+/**
+ * "Auto-detect (system setting)".
+ */
+"auto" | "device"
+/**
  * What activating a notification does.
  */
 export type NotificationAction = 
@@ -1418,6 +1542,11 @@ export type NotificationKind =
  * `fork.db` could not be read and was recreated.
  */
 "data_recovered" | 
+/**
+ * Takes that were recording when the app quit are in History (S-08,
+ * DEC-55).
+ */
+"take_recovered" | 
 /**
  * Word-count and streak milestones.
  */
@@ -1609,7 +1738,12 @@ export type PillWarning =
 /**
  * The take stops at 30 minutes.
  */
-"length"
+"length" | 
+/**
+ * The take's microphone disappeared (unplugged, Bluetooth dropped);
+ * what it heard before is kept (S-08). Stays until the take ends.
+ */
+"mic_lost"
 /**
  * A valid row as it would be saved.
  */
@@ -1952,6 +2086,26 @@ export type StylePreset = "formal" | "relaxed" | "very_relaxed" | "upbeat"
  * Style per app group.
  */
 export type StyleSettings = { personal: StylePreset; work: StylePreset; email: StylePreset; other: StylePreset }
+/**
+ * How a device is connected (CoreAudio `kAudioDevicePropertyTransportType`).
+ */
+export type Transport = "built_in" | "usb" | 
+/**
+ * Classic Bluetooth and Bluetooth LE.
+ */
+"bluetooth" | 
+/**
+ * An iPhone used as a microphone over the air (Continuity).
+ */
+"continuity_wireless" | 
+/**
+ * An iPhone used as a microphone over a cable.
+ */
+"continuity_wired" | "air_play" | "aggregate" | "virtual" | 
+/**
+ * HDMI and DisplayPort (a display's speakers or mic).
+ */
+"display" | "thunderbolt" | "pci" | "fire_wire" | "avb" | "unknown"
 /**
  * Update channel (DEC-33).
  */

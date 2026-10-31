@@ -90,6 +90,8 @@ export function MicrophonePicker() {
   const { t } = useTranslation(FORK_NAMESPACE);
   const [state, setState] = useState<LoadState>({ kind: "loading" });
   const [busy, setBusy] = useState(false);
+  // The choice shows at once; the backend's reply confirms or reverts it.
+  const [pending, setPending] = useState<string | null>(null);
   const [chooseError, setChooseError] = useState<string | null>(null);
   const groupId = useId();
   const cautionId = useId();
@@ -125,6 +127,7 @@ export function MicrophonePicker() {
 
   const choose = useCallback(async (value: string) => {
     setBusy(true);
+    setPending(value);
     setChooseError(null);
     try {
       const r = await commands.forkMicChoose(value);
@@ -137,6 +140,7 @@ export function MicrophonePicker() {
       setChooseError(errorText(e));
     } finally {
       setBusy(false);
+      setPending(null);
     }
   }, []);
 
@@ -187,7 +191,7 @@ export function MicrophonePicker() {
                 name={groupId}
                 className="mt-0.5"
                 value={entry.value}
-                checked={list.selected === entry.value}
+                checked={(pending ?? list.selected) === entry.value}
                 onChange={() => void choose(entry.value)}
               />
               <EntryLabel entry={entry} list={list} />
