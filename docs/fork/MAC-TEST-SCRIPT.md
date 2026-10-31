@@ -670,7 +670,7 @@ Microphone prompt with Allow).
    volume `bits` after; with the output muted beforehand it stays muted; no
    `osascript` process.
 3. Revoke + quit (`grant.sh`, `run.sh revoke`): `tccutil reset Microphone
-   com.wisprbro.s08check` 3 s into a take. If macOS shows "Quit & Reopen",
+com.wisprbro.s08check` 3 s into a take. If macOS shows "Quit & Reopen",
    press it; otherwise (2026-10-31: no dialog appeared) send the quit Apple
    event and reopen. Pass: log `saved the take running at quit`, after the
    relaunch `take(s) saved at the last quit are in History`, a History row
