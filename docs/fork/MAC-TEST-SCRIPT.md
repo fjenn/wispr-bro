@@ -558,9 +558,63 @@ M-13, M1-8, M-26.
 
 ### S-11 Text pipeline v2
 
-- [ ] S-11.1 Dictate a three-paragraph e-mail into Mail.
-- [ ] S-11.2 Dictate a two-line Slack message (Shift+Return path in typing mode).
-- Procedure: TODO (S-11).
+- [ ] S-11.1 Dictate a three-paragraph e-mail into Mail: say "Hi Anna,
+      new paragraph, thanks for the notes … I'll send the draft Monday,
+      scratch that, I'll send it Tuesday. New paragraph. Best, new line,
+      Finn" (pausing briefly around each command). The field shows three
+      paragraphs, the last one on two lines, no command words, no Monday
+      clause; a from→to rule in the dictionary (S-16, or `fork.db` until
+      then) is applied.
+- [ ] S-11.2 Dictate a two-line Slack message ("Running late. New line.
+      Start without me."): both lines are in the message box and nothing
+      was sent (Slack is a Chromium app: in typing mode the line break is
+      Shift+Return, S-04).
+- [ ] S-11.3 Ordinary words stay words: "We launched a new line of
+      shoes" is unchanged; "literally new line" types the words "new line".
+- [ ] S-11.4 Per take, `fork.db` has `entry_meta.text_stages` (stage order
+      and counts), `fix_count_dictionary` = the rules that applied, and one
+      `corrections` row (source `rule`) per hit.
+
+**Profile: an isolated portable debug build** (as S-09; the owner's app and
+data are never touched). In the worktree:
+
+```sh
+ci/llama-server/build.sh --if-missing        # tauri build needs the sidecar
+echo '{"identifier":"com.wisprbro.s11check","plugins":{"updater":{"active":false}}}' > /tmp/s11.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s11.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s11-parakeet-v3.gguf
+./handy --start-hidden & sleep 15; kill %1     # creates Data/settings_store.json and fork.db
+python3 ../../../scripts/wb-s11/setup.py "$PWD/Data" s11-parakeet-v3   # settings + 4 rules
+WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden &  # debug builds log each take's texts
+```
+
+**Procedure (unattended, ~2 min per round, needs the speakers and the
+mic):** `scripts/wb-s11/run.sh 3`. Each round dictates six takes with
+macOS TTS (`say`): the e-mail into a new TextEdit document and into a
+WebKit contenteditable page in a new Safari window (`compose.html`, the
+stand-in for Mail's editor), the chat message into TextEdit and into
+`chat.html` in a separate Chrome instance with its own profile (Enter
+sends, Shift+Enter is a new line: the stand-in for Slack; Chrome 155/156
+is S-04's typing path), and S-11.3's two sentences. Every take holds
+`~/wb-bench/gui.lock`, checks the frontmost app before recording and
+closes only the window it opened; `check.py` prints PASS/FAIL per take.
+Then:
+
+```sh
+sqlite3 Data/fork.db "SELECT entry_id, app_bundle_id, fix_count_dictionary, paste_outcome, text_stages FROM entry_meta"
+sqlite3 Data/fork.db "SELECT entry_id, from_text, to_text FROM corrections WHERE source = 'rule'"
+grep -E "text: rules|text trace|insert: take [0-9]+ [a-z]+ via" Data/logs/wispr-bro.log
+```
+
+Pass: every take PASS; the Chrome takes are `via Typing` and the title
+says `sent=0`; every row has `text_stages` and a `paste_outcome`; the
+e-mail rows have `fix_count_dictionary` 2 and two `corrections` rows.
+With a person (and Mail with a throwaway account, Slack with a test
+workspace) say the same sentences.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-11.md`.
 
 ### S-12a Cleanup levels on the local LLM
 

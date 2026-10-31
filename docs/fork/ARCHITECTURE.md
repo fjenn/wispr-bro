@@ -459,13 +459,14 @@ optional controlled `open`/`onOpenChange` for the name editor.
 | `actions.rs` `TranscribeAction::start`       | `crate::fork::on_record_start(app);` (frontmost app, low-disk watch)   |
 | `actions.rs` stop task, WAV name             | `crate::fork::take_file_name(sample_count)` (ms names; binds the take) |
 | `actions.rs` history save                    | `if wav_saved \|\| crate::fork::keep_take(&wav_path_for_verify) {`     |
-| `managers/transcription.rs` `finish_text`    | `crate::fork::note_verbatim(verbatim, finished)` (verbatim ASR text)   |
+| `managers/transcription.rs` `finish_text`    | `crate::fork::text::process(…)` (S-11; verbatim ASR text, see below)   |
 
 **How a take finds its row.** `fork::context::take::Ledger` (process-wide,
 bounded to 16 per queue): record start sets the _current_ take (time, local
 day, frontmost app and its taxonomy); `take_file_name` binds it to the WAV
-name with its speech time (samples / 16 kHz, VAD-trimmed); `finish_text`
-notes (kept text → verbatim text); `on_saved` looks both up by the entry's
+name with its speech time (samples / 16 kHz, VAD-trimmed); the text
+pipeline notes (kept text → verbatim text + pipeline record, S-11);
+`on_saved` looks both up by the entry's
 `file_name` and `transcription_text`, writes the row, and registers
 (entry id, final text) for `fork::insert`'s outcome, which
 `on_paste_outcome` matches by text (trailing space ignored). Rows the fork
@@ -909,6 +910,66 @@ gained `wb:llama-server` and the build step in `wb:dev`/`wb:build`.
   entitlements, which is harmless (TCC attributes it to the app).
 - Gatekeeper (`spctl --assess`) rejects the ad-hoc binary, as expected; the
   notarized check is S-10.1 in the Mac test script.
+
+## Text pipeline (S-11)
+
+`fork/text/{mod,fold,rules,placeholders,lines,commands,scratch,whitespace,counts}.rs`,
+`fork/text/tables/commands.<lang>.json` (de, en, es, fr, it, ja, pl, pt,
+zh), `fork/db/rules.rs`, `fork/db/migrations/0003_text.sql`. R5 §4.10 is
+the stage list; this is how it is wired.
+
+**Hooks.** `managers/transcription.rs` `finish_text` wraps Handy's call:
+
+```rust
+crate::fork::text::process(text, &output_language, |text| {
+    post_process_transcription_text(text, settings, …)
+})
+```
+
+so Handy's stages (script conversion, fuzzy custom words, fillers,
+stutters, normalize) run once per line inside the fork pipeline, and
+`audio_toolkit/text.rs` stays untouched. After the LLM,
+`fork::insert::deliver` calls `fork::text::finish` first (no new upstream
+line; S-04's `actions.rs` hook is unchanged).
+
+**Order per take** (`text::run`): sanitize (VoiceTypr) → per line: dictionary
+rules with outputs replaced by Private Use Area placeholders → Handy's
+stages → placeholders restored (if one moved, the line is redone with the
+outputs inserted plainly) → voice commands and "scratch that" over the
+whole text → line-safe whitespace. Rules run before Handy's script
+conversion because Handy's stages are one unit; their outputs are
+placeholders while Handy runs, so nothing rewrites them.
+
+**Rules** come from `fork.db` (`dictionary_entries` kind `rule`, status
+`active`) through a source `fork::on_ready` installs; each take reads them
+(one indexed query) and recompiles only when they changed, so S-16's edits
+apply to the next take with no reload signal. Headless CLI runs have no
+source and no rules.
+
+**Voice commands** are chosen by the output language Handy resolved
+(`OutputLanguageEvidence::language()`): that language's table, every table
+when unknown, none for a language without one. Clause-edge rule, literal
+escape and the CJK right-edge rule are documented in
+`fork/text/commands.rs`.
+
+**Per take** the pipeline's record (stage order and change counts, rule
+hits, provenance) goes through the take ledger (`Ledger::note_processed`,
+keyed by the kept text like S-09's verbatim text) to `on_saved` /
+`on_retried`: `entry_meta.text_stages` (JSON), `fix_count_dictionary`,
+`daily_stats.fixes_dictionary`, one `corrections` row per hit (source
+`rule`, replaced on retry) and `dictionary_entries.hit_count`. The log gets
+one line per take without text: `text: rules=1 handy=1 commands=3
+scratch=1 whitespace=0 (language en, 2 dictionary rule(s) active)`.
+
+**After the LLM** (S-12a): `text::note_rewrite(kept, output)` registers the
+rule provenance of the kept text for the LLM's output; `finish` restores
+any rule output the LLM reverted (VoiceTypr's final guard) and re-runs the
+whitespace stage, then re-keys the take's paste-outcome match to the new
+text. Without a registered rewrite `finish` only normalizes whitespace,
+which is a no-op on pipeline output.
+
+**Fail-open.** A panic in a fork stage returns Handy's own result for the
+whole text (Handy's stages keep their own `fail_open_text_transform`).
 
 ## Tests
 
