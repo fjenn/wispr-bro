@@ -176,9 +176,7 @@ pub fn process(
         .iter()
         .any(|s| s.stage == Stage::Context && s.changes > 0);
     ledger().note_processed(raw, &kept, record);
-    if hints.is_some()
-        && (context_fixed || crate::fork::context::awareness::vocabulary_sent())
-    {
+    if hints.is_some() && (context_fixed || crate::fork::context::awareness::vocabulary_sent()) {
         crate::fork::context::awareness::note_used();
         ledger().note_context_used(&kept);
     }

@@ -302,6 +302,7 @@ mod tests {
             language: Some("nl"),
             terms: &terms,
             style: None,
+            context: &[],
         });
         let tail = light.strip_prefix(*OPENWHISPR_CLEANUP).unwrap();
         assert_eq!(
@@ -318,6 +319,7 @@ mod tests {
             language: Some("en-GB"),
             terms: &[],
             style: None,
+            context: &[],
         });
         assert_eq!(en, cleanup_system());
         let medium = system(&Spec {
@@ -344,6 +346,7 @@ mod tests {
                     language,
                     terms: &terms,
                     style: None,
+                    context: &[],
                 });
                 for style in [
                     StylePreset::Formal,
@@ -357,6 +360,7 @@ mod tests {
                             language,
                             terms: &terms,
                             style: Some(style),
+                            context: &[],
                         }),
                         base,
                         "{level:?} {language:?} {style:?}"

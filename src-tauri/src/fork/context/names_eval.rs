@@ -165,6 +165,7 @@ async fn names_eval_through_the_shipped_path() {
                         hint: None,
                         terms: &[],
                         keep: &[],
+                        style: None,
                         context: &[],
                     },
                 )
@@ -179,6 +180,7 @@ async fn names_eval_through_the_shipped_path() {
                         hint: None,
                         terms: &[],
                         keep: &keep,
+                        style: None,
                         context: &relevant,
                     },
                 )

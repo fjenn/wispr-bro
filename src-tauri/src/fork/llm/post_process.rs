@@ -1407,16 +1407,20 @@ pub async fn run<R: Runtime>(
                 language: plan.language.as_deref(),
                 hint: plan.hint.as_deref(),
                 terms: &plan.terms,
-                keep: &plan.words,
-                style: plan.style.preset,
                 keep: &keep,
+                style: plan.style.preset,
                 context: &plan.context,
             };
             if plan.engine == CleanupEngine::Apple {
                 // The prewarm prompt outlives the take: never with its
                 // context names.
-                *LAST_SYSTEM.lock().unwrap_or_else(|p| p.into_inner()) =
-                    Some((plan.level, system_prompt(&Request { context: &[], ..req.clone() })));
+                *LAST_SYSTEM.lock().unwrap_or_else(|p| p.into_inner()) = Some((
+                    plan.level,
+                    system_prompt(&Request {
+                        context: &[],
+                        ..req.clone()
+                    }),
+                ));
                 clean(&super::apple::AppleEngine::for_dictation(), &req).await
             } else {
                 match super::runtime::runtime(app).and_then(|rt| rt.supervisor().cloned()) {

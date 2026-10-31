@@ -171,7 +171,12 @@ fn stopword_set(languages: &[String]) -> HashSet<&'static str> {
     let sw = crate::fork::stats::voice::stopword_table();
     let mut langs: Vec<String> = languages
         .iter()
-        .map(|l| l.split(['-', '_']).next().unwrap_or("").to_ascii_lowercase())
+        .map(|l| {
+            l.split(['-', '_'])
+                .next()
+                .unwrap_or("")
+                .to_ascii_lowercase()
+        })
         .collect();
     langs.push("en".into());
     langs
@@ -517,7 +522,9 @@ mod tests {
 
     #[test]
     fn hints_are_capped_and_unique() {
-        let text: String = (0..60).map(|i| format!("and Zed{} ", "a".repeat(i % 30 + 1))).collect();
+        let text: String = (0..60)
+            .map(|i| format!("and Zed{} ", "a".repeat(i % 30 + 1)))
+            .collect();
         let hints = extract(&[&text], &[]);
         assert_eq!(hints.len(), MAX_HINTS);
         let unique: HashSet<_> = hints.iter().collect();
@@ -546,10 +553,7 @@ mod tests {
         let text = "mark this word as done, will you? The ward was full.";
         assert_eq!(correct(text, &hints).text, text);
         // A lowercase word with other accents is the same name.
-        assert_eq!(
-            correct("ask siobhan", &s(&["Siobhán"])).text,
-            "ask Siobhán"
-        );
+        assert_eq!(correct("ask siobhan", &s(&["Siobhán"])).text, "ask Siobhán");
         // Already spelled as a hint: unchanged.
         let c = correct("Mark and Marc", &s(&["Mark", "Marc"]));
         assert_eq!((c.text.as_str(), c.fixes), ("Mark and Marc", 0));
@@ -594,7 +598,10 @@ mod tests {
 
     #[test]
     fn vocabulary_keeps_the_dictionary_first() {
-        let v = vocabulary_terms(&s(&["Wispr Bro", "kowalczyk"]), &s(&["Kowalczyk", "Siobhán"]));
+        let v = vocabulary_terms(
+            &s(&["Wispr Bro", "kowalczyk"]),
+            &s(&["Kowalczyk", "Siobhán"]),
+        );
         assert_eq!(v, s(&["Wispr Bro", "kowalczyk", "Siobhán"]));
         let many: Vec<String> = (0..40).map(|i| format!("Name{i}")).collect();
         assert_eq!(vocabulary_terms(&[], &many).len(), MAX_VOCABULARY);

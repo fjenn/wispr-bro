@@ -1202,7 +1202,12 @@ backfilled: boolean;
 /**
  * Soft-deleted: hidden, purged after 10 s unless undone.
  */
-deleted: boolean }
+deleted: boolean; 
+/**
+ * S-20: text near the caret helped this take (History says "Context
+ * used"; the text itself is never stored).
+ */
+context_used: boolean }
 /**
  * Typed error returned by fork commands.
  * 
@@ -1476,7 +1481,12 @@ copied: boolean;
  * The take will press Return after its paste (S-19a; the label says
  * "Sends automatically").
  */
-sends_automatically: boolean }
+sends_automatically: boolean; 
+/**
+ * S-20: this take used text near the caret (the context glyph while
+ * it is processed).
+ */
+context: boolean }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.

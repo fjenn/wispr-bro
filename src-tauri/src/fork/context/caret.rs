@@ -189,7 +189,10 @@ impl Exclusions {
             return Some(Skip::OwnApp);
         }
         let name_words = words_of(name.unwrap_or(""));
-        if self.password_manager_markers.iter().any(|m| id.contains(m.as_str()))
+        if self
+            .password_manager_markers
+            .iter()
+            .any(|m| id.contains(m.as_str()))
             || name_words.iter().any(|w| {
                 self.password_manager_markers
                     .iter()
@@ -202,11 +205,12 @@ impl Exclusions {
             return Some(Skip::Finance);
         }
         let segments: Vec<&str> = id.split(['.', '-', '_']).collect();
-        if self
-            .finance_markers
-            .iter()
-            .any(|m| segments.contains(&m.as_str()) || name_words.contains(m))
-        {
+        if self.finance_markers.iter().any(|m| {
+            // Segments may carry a marker inside a longer word
+            // ("mobilebanking"); over-matching only reads less, which is
+            // the safe direction for a privacy exclusion.
+            segments.iter().any(|s| s.contains(m.as_str())) || name_words.contains(m)
+        }) {
             return Some(Skip::Finance);
         }
         None
@@ -355,11 +359,7 @@ impl CaretWindow {
 /// a field of `total` units (`None`: unknown): before, selected, after.
 /// Twice the character budget in units covers any text (surrogate pairs
 /// are two units); [`CaretWindow::new`] trims to characters.
-pub fn caret_ranges(
-    location: isize,
-    length: isize,
-    total: Option<isize>,
-) -> [(isize, isize); 3] {
+pub fn caret_ranges(location: isize, length: isize, total: Option<isize>) -> [(isize, isize); 3] {
     let location = location.max(0);
     let length = length.max(0);
     let before_lo = (location - 2 * BEFORE_CHARS as isize).max(0);
@@ -445,8 +445,13 @@ pub mod mac {
     use std::time::Instant;
 
     use objc2_app_kit::NSWorkspace;
-    use objc2_application_services::{AXCopyMultipleAttributeOptions, AXUIElement, AXValue, AXValueType};
-    use objc2_core_foundation::{CFArray, CFRange, CFRetained, CFString, CFType, CGPoint, CGRect, CGSize};
+    use objc2_application_services::{
+        AXCopyMultipleAttributeOptions, AXUIElement, AXValue, AXValueType,
+    };
+    use objc2_core_foundation::Type;
+    use objc2_core_foundation::{
+        CFArray, CFRange, CFRetained, CFString, CFType, CGPoint, CGRect, CGSize,
+    };
 
     use super::*;
     use crate::fork::ax::editable::Family;
@@ -535,9 +540,8 @@ pub mod mac {
             return None;
         }
         let get = |i: usize| values.get(i);
-        let text = |i: usize| {
-            get(i).and_then(|v| v.downcast_ref::<CFString>().map(|s| s.to_string()))
-        };
+        let text =
+            |i: usize| get(i).and_then(|v| v.downcast_ref::<CFString>().map(|s| s.to_string()));
         let role = text(0).unwrap_or_default();
         let subrole = text(1).unwrap_or_default();
         let mut texts = Vec::new();
@@ -559,7 +563,10 @@ pub mod mac {
                 texts.push(d);
             }
         }
-        let frame = match (get(5).as_deref().and_then(point), get(6).as_deref().and_then(size)) {
+        let frame = match (
+            get(5).as_deref().and_then(point),
+            get(6).as_deref().and_then(size),
+        ) {
             (Some(origin), Some(size)) => Some(CGRect { origin, size }),
             _ => None,
         };
@@ -599,7 +606,11 @@ pub mod mac {
         out
     }
 
-    fn range_text(e: &AXUIElement, (location, length): (isize, isize), value: &mut Option<Option<Vec<u16>>>) -> String {
+    fn range_text(
+        e: &AXUIElement,
+        (location, length): (isize, isize),
+        value: &mut Option<Option<Vec<u16>>>,
+    ) -> String {
         if length <= 0 {
             return String::new();
         }
@@ -644,7 +655,8 @@ pub mod mac {
         budget: usize,
         deadline: Instant,
     ) -> LineCollector {
-        let names: Vec<CFRetained<CFString>> = FETCHED.iter().map(|n| CFString::from_str(n)).collect();
+        let names: Vec<CFRetained<CFString>> =
+            FETCHED.iter().map(|n| CFString::from_str(n)).collect();
         let names = CFArray::from_retained_objects(&names);
         // SAFETY: an array of CFStrings is an array of CFTypes.
         let names: &CFArray = unsafe { names.cast_unchecked() };
@@ -719,9 +731,11 @@ pub mod mac {
         }
         let bundle = el::app_bundle_path(pid).unwrap_or_default();
         let family = el::family_of(&bundle);
-        if let Some(skip) =
-            exclusions().app(bundle_id.as_deref(), name.as_deref(), family == Family::Terminal)
-        {
+        if let Some(skip) = exclusions().app(
+            bundle_id.as_deref(),
+            name.as_deref(),
+            family == Family::Terminal,
+        ) {
             return Read::skipped(skip, ms(start));
         }
         let lease = family.builds_tree_on_request() && ctx.lease_acquire(pid);
@@ -737,7 +751,13 @@ pub mod mac {
         Read { ms: took, ..read }
     }
 
-    fn read_app(ctx: &mut Ctx, pid: i32, family: Family, languages: &[String], start: Instant) -> Read {
+    fn read_app(
+        ctx: &mut Ctx,
+        pid: i32,
+        family: Family,
+        languages: &[String],
+        start: Instant,
+    ) -> Read {
         let app = ctx.app(pid);
         el::set_timeout(&app, CALL_TIMEOUT_S);
         let window = el::attr_element(&app, "AXFocusedWindow");
@@ -748,17 +768,26 @@ pub mod mac {
             el::set_timeout(f, CALL_TIMEOUT_S);
             let role = string(f, "AXRole");
             let subrole = string(f, "AXSubrole");
-            if is_secure_role(&role, &subrole) || el::attr_bool(f, "AXProtectedContent") == Some(true) {
+            if is_secure_role(&role, &subrole)
+                || el::attr_bool(f, "AXProtectedContent") == Some(true)
+            {
                 return Read::skipped(Skip::SecureField, 0.0);
             }
             if is_numeric_role(&role, &subrole) {
                 return Read::skipped(Skip::Numeric, 0.0);
             }
-            let labels = ["AXDescription", "AXTitle", "AXPlaceholderValue", "AXIdentifier", "AXDOMIdentifier", "AXHelp"]
-                .iter()
-                .map(|a| string(f, a))
-                .collect::<Vec<_>>()
-                .join(" ");
+            let labels = [
+                "AXDescription",
+                "AXTitle",
+                "AXPlaceholderValue",
+                "AXIdentifier",
+                "AXDOMIdentifier",
+                "AXHelp",
+            ]
+            .iter()
+            .map(|a| string(f, a))
+            .collect::<Vec<_>>()
+            .join(" ");
             if exclusions().sensitive_label(&labels) {
                 return Read::skipped(Skip::Sensitive, 0.0);
             }
@@ -769,10 +798,14 @@ pub mod mac {
                 let web = if role == "AXWebArea" {
                     Some(f.retain())
                 } else {
-                    up.iter().find(|a| string(a, "AXRole") == "AXWebArea").cloned()
+                    up.iter()
+                        .find(|a| string(a, "AXRole") == "AXWebArea")
+                        .cloned()
                 };
                 match web {
-                    None if TEXT_ENTRY_ROLES.contains(&role.as_str()) || role == "AXSearchField" => {
+                    None if TEXT_ENTRY_ROLES.contains(&role.as_str())
+                        || role == "AXSearchField" =>
+                    {
                         return Read::skipped(Skip::UrlBar, 0.0);
                     }
                     None => {}
@@ -784,7 +817,10 @@ pub mod mac {
                     }
                 }
             }
-            if TEXT_ENTRY_ROLES.contains(&role.as_str()) || role == "AXWebArea" || role == "AXSearchField" {
+            if TEXT_ENTRY_ROLES.contains(&role.as_str())
+                || role == "AXWebArea"
+                || role == "AXSearchField"
+            {
                 caret = caret_window(f);
             }
         }
@@ -816,15 +852,42 @@ mod tests {
     fn exclusions_load_and_match() {
         let e = exclusions();
         // FluidVoice testPasswordManagerDropsCursorAndScreenContext.
-        assert_eq!(e.app(Some("com.1password.1password"), None, false), Some(Skip::PasswordManager));
-        assert_eq!(e.app(Some("com.bitwarden.desktop"), Some("Bitwarden"), false), Some(Skip::PasswordManager));
-        assert_eq!(e.app(Some("com.apple.Passwords"), Some("Passwords"), false), Some(Skip::PasswordManager));
-        assert_eq!(e.app(Some("com.apple.keychainaccess"), None, false), Some(Skip::PasswordManager));
-        assert_eq!(e.app(Some("com.revolut.Revolut"), Some("Revolut"), false), Some(Skip::Finance));
-        assert_eq!(e.app(Some("nl.ing.mobilebanking"), None, false), Some(Skip::Finance));
-        assert_eq!(e.app(Some("com.example.app"), Some("My Bank"), false), Some(Skip::Finance));
-        assert_eq!(e.app(Some("com.apple.Terminal"), None, true), Some(Skip::Terminal));
-        assert_eq!(e.app(Some("com.wisprbro.desktop"), None, false), Some(Skip::OwnApp));
+        assert_eq!(
+            e.app(Some("com.1password.1password"), None, false),
+            Some(Skip::PasswordManager)
+        );
+        assert_eq!(
+            e.app(Some("com.bitwarden.desktop"), Some("Bitwarden"), false),
+            Some(Skip::PasswordManager)
+        );
+        assert_eq!(
+            e.app(Some("com.apple.Passwords"), Some("Passwords"), false),
+            Some(Skip::PasswordManager)
+        );
+        assert_eq!(
+            e.app(Some("com.apple.keychainaccess"), None, false),
+            Some(Skip::PasswordManager)
+        );
+        assert_eq!(
+            e.app(Some("com.revolut.Revolut"), Some("Revolut"), false),
+            Some(Skip::Finance)
+        );
+        assert_eq!(
+            e.app(Some("nl.ing.mobilebanking"), None, false),
+            Some(Skip::Finance)
+        );
+        assert_eq!(
+            e.app(Some("com.example.app"), Some("My Bank"), false),
+            Some(Skip::Finance)
+        );
+        assert_eq!(
+            e.app(Some("com.apple.Terminal"), None, true),
+            Some(Skip::Terminal)
+        );
+        assert_eq!(
+            e.app(Some("com.wisprbro.desktop"), None, false),
+            Some(Skip::OwnApp)
+        );
         // Ordinary apps are read.
         for (id, name) in [
             ("com.tinyspeck.slackmacgap", "Slack"),
@@ -842,13 +905,29 @@ mod tests {
     #[test]
     fn finance_hosts_and_bank_labels() {
         let e = exclusions();
-        for h in ["www.paypal.com", "secure.chase.com", "mijn.ing.nl", "online.mybank.example", "app.ynab.com", "www.bankofamerica.com"] {
+        for h in [
+            "www.paypal.com",
+            "secure.chase.com",
+            "mijn.ing.nl",
+            "online.mybank.example",
+            "app.ynab.com",
+            "www.bankofamerica.com",
+        ] {
             assert!(e.host(h), "{h}");
         }
-        for h in ["mail.google.com", "app.slack.com", "notion.so", "example.com", "github.com"] {
+        for h in [
+            "mail.google.com",
+            "app.slack.com",
+            "notion.so",
+            "example.com",
+            "github.com",
+        ] {
             assert!(!e.host(h), "{h}");
         }
-        assert_eq!(url_host("https://user@Mail.Google.com:443/u/0?x#y").as_deref(), Some("mail.google.com"));
+        assert_eq!(
+            url_host("https://user@Mail.Google.com:443/u/0?x#y").as_deref(),
+            Some("mail.google.com")
+        );
         assert_eq!(url_host("file:///tmp/x.html"), None);
         assert_eq!(url_host("not a url"), None);
     }
@@ -856,10 +935,25 @@ mod tests {
     #[test]
     fn sensitive_and_numeric_fields() {
         let e = exclusions();
-        for l in ["Password", "Enter your PIN", "Card number", "one-time code", "IBAN", "Wachtwoord", "otp-input"] {
+        for l in [
+            "Password",
+            "Enter your PIN",
+            "Card number",
+            "one-time code",
+            "IBAN",
+            "Wachtwoord",
+            "otp-input",
+        ] {
             assert!(e.sensitive_label(l), "{l}");
         }
-        for l in ["Message #general", "Search", "Subject", "Spinner", "pinned messages", ""] {
+        for l in [
+            "Message #general",
+            "Search",
+            "Subject",
+            "Spinner",
+            "pinned messages",
+            "",
+        ] {
             assert!(!e.sensitive_label(l), "{l}");
         }
         assert!(is_numeric_role("AXIncrementor", ""));
@@ -881,7 +975,10 @@ mod tests {
         // testVisibleRangeUsesUTF16Offsets.
         let v = "Zoë 🐈 rest";
         let units: Vec<u16> = "Zoë 🐈".encode_utf16().collect();
-        assert_eq!(text_entry_value(v, Some((0, units.len() as isize))), "Zoë 🐈");
+        assert_eq!(
+            text_entry_value(v, Some((0, units.len() as isize))),
+            "Zoë 🐈"
+        );
         // testEmptyOrInvalidVisibleRangeNeverExposesTheFullValue.
         for r in [(0, 0), (-1, 3), (20, 1), (2, 100)] {
             assert_eq!(text_entry_value("hidden text", Some(r)), "", "{r:?}");
@@ -919,7 +1016,9 @@ mod tests {
     #[test]
     fn lines_are_unique_trimmed_and_within_the_budget() {
         let mut c = LineCollector::new(30);
-        c.add("  Siobhán Kowalczyk  \n\n12:30\nSiobhán Kowalczyk\nA reply that is long enough to cut");
+        c.add(
+            "  Siobhán Kowalczyk  \n\n12:30\nSiobhán Kowalczyk\nA reply that is long enough to cut",
+        );
         assert!(c.is_full());
         assert_eq!(c.chars(), 30);
         let lines = c.into_lines();

@@ -201,10 +201,8 @@ async fn eval_run_through_the_shipped_path() {
                 "language_hint": language_mode != "none",
                 "language_mode": language_mode,
                 "style": style.map(|s| format!("{s:?}")),
-                "system_prompt_light": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Light, language: None, hint: None, terms: &[], keep: &[], style }),
-                "system_prompt_medium": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Medium, language: None, hint: None, terms: &[], keep: &[], style }),
-                "system_prompt_light": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Light, language: None, hint: None, terms: &[], keep: &[], context: &[] }),
-                "system_prompt_medium": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Medium, language: None, hint: None, terms: &[], keep: &[], context: &[] }),
+                "system_prompt_light": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Light, language: None, hint: None, terms: &[], keep: &[], style, context: &[] }),
+                "system_prompt_medium": super::post_process::system_prompt(&Request { text: "", level: CleanupLevel::Medium, language: None, hint: None, terms: &[], keep: &[], style, context: &[] }),
             }
         })
     )
