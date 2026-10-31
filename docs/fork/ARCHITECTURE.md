@@ -1260,7 +1260,7 @@ and the field. Eval: `eval/cleanup/README.md` "S-12a"; numbers in R5 S-12a
 Handy's `process_transcription_output` / `post_process_transcription`
 (its cloud-era chain, Apple call included) stay untouched; the fork calls
 them only where it does not own cleanup (headless CLI, a plain Handy build
-without the LLM runtime). Apple Foundation Models is S-12b.
+without the LLM runtime). Apple Foundation Models: "Apple Foundation Models (S-12b)" below.
 
 ### One take
 
@@ -1405,6 +1405,62 @@ instead and copies nothing. Copy replaces the clipboard with plain text and
 does not restore it (R5 §4.7); a password field's text is written with only
 `org.nspasteboard.ConcealedType`. The text of a password field never
 reaches the web view or `ForkInsertOutcome`.
+
+## Apple Foundation Models (S-12b)
+
+Apple's on-device model as a second cleanup engine behind the same
+`clean()` (gate, prompt, guard chain, deadlines, fail-open). RS-08
+(`docs/fork/spikes/RS-08-apple-fm.md`) decided its role: **fallback only**
+(`fork::llm::apple::ROLE`): it cleans a take only when the local model
+cannot (not downloaded yet, failed, or the memory rule says no). Handy's
+bridge (`swift/apple_intelligence.swift`, `apple_intelligence.rs`,
+`build.rs`) is not edited and never called by the fork.
+
+### Files
+
+| File                                                 | Role                                                                                                                                                                                                                                                   |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `crates/wb-apple-fm/swift/fork_apple_fm.swift`       | The Swift bridge (hex port + MacParakeet error mapping + TypeWhisper prewarm): availability codes, context size, language support, prewarm, one guided (`{text}`) or plain generation with greedy sampling, a cancelling timeout, cancel by request id |
+| `crates/wb-apple-fm/build.rs`                        | Its own `swiftc` build (`-module-name WbAppleFm`, static lib, weak FoundationModels); without the macOS 26 SDK, full Xcode or Apple Silicon (or `WB_APPLE_FM_STUB=1`) it sets `cfg(wb_apple_fm_stub)` and no Swift is built                            |
+| `crates/wb-apple-fm/src/lib.rs`                      | Safe Rust: `availability()` (10 s cache), `complete()`, `cancel()`, `prewarm()`, `supports_language()`; the stub                                                                                                                                       |
+| `fork/llm/apple.rs`                                  | `AppleEngine` (the `Engine` of `clean()`: `spawn_blocking`, cancel on drop, reply → `{"text"}` for the guards), `ROLE`, availability for the UI, counters, `WISPRBRO_SELFCHECK_APPLE`                                                                  |
+| `fork/llm/post_process.rs` `choose`, `prewarm_apple` | The engine per take; the key-down prewarm with the last take's instructions                                                                                                                                                                            |
+| `fork/llm/rs08.rs`                                   | RS-08 latency bench (ignored test)                                                                                                                                                                                                                     |
+| `src/fork/settings/advanced/AppleEngine.tsx`         | The Apple Intelligence row of the AI engine panel (debug panel until S-14)                                                                                                                                                                             |
+
+All symbols are `wb_apple_fm_*` (a unit test checks there is no overlap with
+Handy's `@_cdecl` names). The bridge returns numeric error codes only, never
+model or transcript text.
+
+### One take
+
+`plan()` → `choose(ROLE, ai_chat, local_ready, memory_ok, apple_ok)`:
+AI chat → no engine; with `Fallback` the sidecar when its model is ready and
+memory allows, else Apple's model when `availability` is `available` and it
+supports the take's language (or the hint; unknown counts as supported),
+else the S-12a skip reason. `run()` cleans with `AppleEngine` and records
+`cleanup_engine = apple`. The request deadline is the same R5 formula as
+for the sidecar; Swift cancels the task when it passes, and dropping the
+future (take bound, Esc) cancels it by id. A refusal, guardrail, throttling
+(`rateLimited`) or unsupported-language error is an `error` outcome with the
+"Inserted without cleanup" notice.
+
+**Prewarm.** On Handy's `recording-state-event` `started` (key-down),
+`prewarm_apple` prewarms a session with the last Apple take's instructions
+(or the level's plain prompt) when Apple's model would clean this take; the
+next request with the same instructions uses that session once (Swift
+`Prewarmed`), so the instructions are not prefilled after key-up.
+
+**"Try it"** cleans on Apple's model when it would stand in, and says so
+("Cleaned with Apple Intelligence"); the panel shows Apple's availability,
+role and counts (`fork_llm_apple_status`).
+
+**Debug-only switches:** `WB_DEBUG_LLM_HOLD_MODEL=1` keeps the local model
+"not ready" (never checked or downloaded) so the fallback can be tested;
+`WISPRBRO_SELFCHECK_APPLE=1` (or `=local`, expecting the local engine)
+runs `plan`+`run` on our own 50-word samples with the app in the
+background and logs `fork apple selfcheck: PASS|FAIL …` (the
+selfcheck itself is in every build, like `WISPRBRO_SELFCHECK_LLM`).
 
 ## Tests
 

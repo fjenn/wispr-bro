@@ -931,8 +931,49 @@ Machines: M1-8, M-15, M-26. First run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S
 
 ### S-12b Apple Foundation Models path
 
-- [ ] S-12b.1 RS-08 thresholds on the real build.
-- Procedure: TODO (S-12b). Machines: M-26.
+- [ ] S-12b.1 RS-08 on the real build: the eval through the shipped path
+      on Apple's model (`scripts/wb-s12b/rs08.sh`; quality without the
+      latency budget, the app's deadlines with the key-down prewarm, default
+      vs permissive guardrails, guided vs plain), the 50-word cold /
+      prewarmed / warm latency and a burst, and the app's own self-check in
+      the background (`WISPRBRO_SELFCHECK_APPLE=1`: engine, outcome,
+      `rateLimited`). The RS-08 decision (`fork::llm::apple::ROLE`) matches
+      the numbers.
+- [ ] S-12b.2 With the local model not ready (`WB_DEBUG_LLM_HOLD_MODEL=1`,
+      debug builds) a real dictation is cleaned on Apple's model
+      (`cleanup: applied light (apple, …)`, `entry_meta.cleanup_engine =
+      apple`); the AI engine panel shows the Apple Intelligence row and Try it
+      says "Cleaned with Apple Intelligence".
+- [ ] S-12b.3 With the local model ready nothing changes: every take is
+      `local` (self-check with the model in place).
+- [ ] S-12b.4 Apple Intelligence off, or a Mac without it (M1-8 on macOS
+      15, M-26 with it turned off by its owner): the row says why, takes use
+      the local model, nothing else changes. Never turn the setting off on
+      someone else's Mac for this.
+
+**Profile:** the S-12a portable debug build with its own identifier
+`com.wisprbro.s12bcheck` (`/tmp/s12b.conf.json` as in S-12a), Parakeet in
+`Data/models`, `scripts/wb-s12a/setup.py … light` (Muesli in the profile's
+HF cache).
+
+**Procedure (M-26, unattended, ~40 min + 10 min):**
+
+1. `scripts/wb-s12b/rs08.sh all` (no app running; Apple's model only;
+   results in `eval/cleanup/reports/rs08/`, local).
+2. `WB_DEBUG_LLM_HOLD_MODEL=1 WISPRBRO_SELFCHECK_APPLE=1 ./handy --start-hidden`
+   and leave another app in front: after ~4 min the log has
+   `fork apple selfcheck: PASS engines {"apple": 38} …` with the latencies and
+   `rate_limited`.
+3. Restart with `WB_DEBUG_LLM_HOLD_MODEL=1` only and run
+   `scripts/wb-s12b/takes.sh <out dir>` (three takes through the speakers at
+   volume 40, restored after; the clipboard is saved and restored by
+   `scripts/wb-s12b/clip.swift`). Open the debug panel (⌘⇧D) › AI engine:
+   the Apple Intelligence row, Try it → "Cleaned with Apple Intelligence".
+4. Restart with `WISPRBRO_SELFCHECK_APPLE=local` only (the model verified
+   from the HF cache): `fork apple selfcheck: PASS engines {"local": 38}`.
+
+Machines: M-26 (and M-15/M1-8 for S-12b.4). First run:
+`docs/fork/test-runs/1.0.0-alpha.1-M-26-S-12b.md`.
 
 ### S-13 Hub shell
 

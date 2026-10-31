@@ -12,7 +12,7 @@
 //   click <x> <y>          left click at a point in the app's largest window,
 //                          in points from its top-left corner
 //   type <text>            the text as Unicode key events (any script)
-//   key <name>             return | escape | tab | space | down | up | cmd-a
+//   key <name>             return | escape | tab | space | down | up | cmd-a | cmd-shift-d
 //   wait <ms>              sleep
 // Prints one line per command.
 import AppKit
@@ -95,6 +95,8 @@ func typeText(_ text: String) {
 let keys: [String: (CGKeyCode, CGEventFlags)] = [
     "return": (36, []), "escape": (53, []), "tab": (48, []), "space": (49, []),
     "down": (125, []), "up": (126, []), "cmd-a": (0, .maskCommand),
+    // S-12b: the fork debug panel (⌘⇧D).
+    "cmd-shift-d": (2, [.maskCommand, .maskShift]),
 ]
 
 func key(_ name: String) {
