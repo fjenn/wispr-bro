@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "استيراد خطوات",
+      "stepOf": "الخط {{step}} من {{total}}: {{title}}",
+      "steps": {
+        "choose": "اختر ملفًا",
+        "columns": "يُطابق الأعمدة",
+        "review": "التحقق من",
+        "done": "تم"
+      },
+      "dropHint": "أضف ملف .csv هنا، أو اختر واحدًا.",
+      "browse": "اختر ملف .csv",
+      "limit": "حتى 3 ميغابايت.",
+      "formatLink": "صيغة مقبولة",
+      "csvFilter": "ملف CSV",
+      "fileSummary_one": "{{name}}: {{count}} سطر",
+      "fileSummary_other": "{{name}}: {{count}} صف",
+      "hasHeader": "الصف الأول يحتوي على أسماء الأعمدة",
+      "optional": "(اختياري)",
+      "noColumn": "لا في هذا الملف",
+      "column": "العمود {{letter}}",
+      "columnNamed": "العمود {{letter}}: {{name}}",
+      "mapRequired": "اختر عمودًا لكل حقل ليس إجباريًا.",
+      "previewCaption_one": "معاينة الصف الأول",
+      "previewCaption_other": "معاينة الصفوف الأولى {{count}}",
+      "rowHeader": "الصف",
+      "cancel": "إلغاء",
+      "back": "العودة",
+      "next": "التالي",
+      "import": "استيراد",
+      "done": "تم",
+      "close": "إغلاق",
+      "errors": {
+        "notCsv": "هذا ليس ملف .csv. احفظ الورقة على صيغة CSV وحاول مرة أخرى.",
+        "tooLarge": "الملف هذا يبلغ حجمه {{size}} ميغا. يمكن أن يكون الملفات حتى 3 ميغا.",
+        "unreadable": "لا يمكن قراءة هذا الملف. تأكد أن الملف هو ملف CSV وحاول مرة أخرى.",
+        "empty": "هذا الملف لا يحتوي على صفوف للإدخال.",
+        "failed": "حدث خطأ ما. لم يتم استيراد أي شيء؛ يُرجى المحاولة مرة أخرى."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "أوامر التدوين الخاصة بك محفوظة على هذا Mac",
       "body": "افتح التاريخ لنسخه أو تشغيلها أو بحثها.",
       "action": "افتح التاريخ"
+    }
+  },
+  "dictionary": {
+    "add": "إضافة كلمة",
+    "added": "أُضيفت \"{{entry}}\".",
+    "search": "ابحث في قاموسك",
+    "refresh": "إعادة التحميل",
+    "shown_one": "تم عرض {{count}} مدخل",
+    "shown_other": "{{count}} مدخلات عرضت",
+    "deleted": "تم حذف \"{{entry}}\".",
+    "deleteFailed": "لا يمكن حذف هذا العنصر. يُرجى المحاولة مرة أخرى.",
+    "undo": "إلغاء",
+    "tabs": {
+      "label": "مُدخلات القاموس",
+      "all": "الكامل ({{count}})",
+      "mine": "أُضيفت من قبلك ({{count}})",
+      "suggested": "مُقترح ({{count}})"
+    },
+    "sort": {
+      "label": "ترتيب",
+      "newest": "أولًا الأحدث",
+      "oldest": "أولًا أقدم",
+      "az": "من أ إلى ز",
+      "za": "من Z إلى A",
+      "used": "الأكثر استخدامًا"
+    },
+    "banner": {
+      "title": "أعلم {{appName}} كلماتك",
+      "body": "أضف أسماء، وعبارات المنتجات والاختصارات لكي تُكتب وفقًا لطريقةك، أو استبدل كلمة تقولها بنص ترغب في استخدامه.",
+      "examplesLabel": "أمثلة",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "سيكون → سأذهب",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "تُصبح",
+      "used_one": "استخدم {{count}} مرة",
+      "used_other": "استخدم {{count}} مرة",
+      "edit": "تعديل {{entry}}",
+      "delete": "حذف {{entry}}",
+      "accept": "أضف {{entry}} إلى قاموسك"
+    },
+    "source": {
+      "import": "مُستَمَد",
+      "migrated": "من كلماتك السابقة",
+      "learn": "تم التعلم",
+      "flag": "من مُعلَّق دِكْتِيَة"
+    },
+    "empty": {
+      "title": "مكتبة الترجمة فارغة",
+      "body": "أضف الأسماء، والكلمات، والتعويضات التي يجب أن يعرفها {{appName}}. تُطبّق على التدوين التالي."
+    },
+    "emptySuggested": {
+      "title": "لا توجد اقتراحات بعد",
+      "body": "عندما يمكن {{appName}} أن يتعلم من الكلمات التي تصححها، سترى هنا لتصبح مُعتمدًا."
+    },
+    "noMatch": {
+      "title": "لا يوجد تطابق",
+      "body": "لا توجد مدخلة تحتوي على “{{query}}”.",
+      "action": "إلغاء البحث"
+    },
+    "unavailable": {
+      "title": "الخريطة غير متوفرة بعد",
+      "body": "يُفتح فورًا بعد أن ينتهي تحميل التطبيق."
+    },
+    "problem": {
+      "empty": "أدخل كلمة أولاً.",
+      "too_long": "يمكن أن تصل الكلمات إلى {{max}} حرفًا.",
+      "replacement_too_long": "يمكن أن تصل استبدالات إلى {{maxReplacement}} حرفًا.",
+      "same_as_replacement": "الاستبدال هو نفسه ككلمة.",
+      "control_character": "لا يمكن استخدام أشرطة الانتقال أو التبويب هنا.",
+      "full": "قام مكتبة المفردات بالتعبئة. احذف بعض المدخلات أولاً."
+    },
+    "dialog": {
+      "addTitle": "إضافة إلى القاموس",
+      "editTitle": "تعديل مدخل القاموس",
+      "description": "الكلمات تُكتب كما تكتبها هنا.",
+      "replaceToggle": "يُستبدل كلمة",
+      "word": "كلمة أو اسم",
+      "wordPlaceholder": "مثلاً: سيبهان",
+      "from": "عندما أقول",
+      "fromPlaceholder": "مثلاً سأقوم",
+      "to": "اكتب",
+      "toPlaceholder": "مثلاً: ذهاب إلى",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "يساعد نموذج التحدث على سماعه وكتابة الكلمة بشكل صحيح.",
+      "ruleHint": "يُطابق الكلمة بالكامل، بغض النظر عن الحالة، ويُكتب التعويض بالضبط كما تم إدخاله.",
+      "cancel": "إلغاء",
+      "add": "إضافة كلمة",
+      "save": "احفظ",
+      "close": "إغلاق",
+      "duplicate": "العبارة \"{{entry}}\" موجودة بالفعل في قاموسك.",
+      "conflictRule": "الـ \"{{from}}\" يصبح بالفعل \"{{to}}\".",
+      "conflictWord": "الكلمة \"{{word}}\" موجودة بالفعل في قاموسك بكتابة أخرى.",
+      "replaceExisting": "يُستبدل",
+      "missing": "تم حذف هذا العنصر في الوقت نفسه.",
+      "failed": "لا يمكن حفظ ذلك. يُرجى المحاولة مرة أخرى."
+    },
+    "import": {
+      "open": "إدخال",
+      "title": "استيراد قاموس",
+      "description": "أدخل كلمات وتعويضات من ملف جدول محفوظ كـ CSV.",
+      "fieldPhrase": "كلمة، أو ما تقوله",
+      "fieldReplacement": "استبدال بـ",
+      "format": {
+        "intro": "واحدة لكل صف:",
+        "columns": "العمود الأول هو كلمة أو ما تقوله؛ والثاني، إذا كان ممتلئًا، هو النص الذي تكتب بدلًا منه.",
+        "header": "يُسمح بصف أول يحتوي على أسماء الأعمدة؛ تختار الأعمدة في الخطوة التالية.",
+        "limits": "الكلمات حتى 60 حرفًا، التعويضات حتى 200، الملفات حتى 3 ميغابايت.",
+        "encoding": "احفظ كـ CSV UTF-8 لكي تظهر الأحرف المُسَمَّاة واللغات الأخرى."
+      },
+      "review": {
+        "new_one": "مُدخل جديد",
+        "new_other": "مُدخلات جديدة",
+        "duplicates_one": "موجود بالفعل",
+        "duplicates_other": "موجود بالفعل",
+        "conflicts_one": "تناقض",
+        "conflicts_other": "تعارض",
+        "invalid_one": "لا يمكن استيراده",
+        "invalid_other": "لا يمكن استيراده",
+        "overLimit_one": "مُحتوى القاموس يحتوي على مساحة لـ {{room}} أكثر؛ لن يناسب إضافة {{count}} مُدخل جديد.",
+        "overLimit_other": "مُحتوى القاموس يحتوي على مساحة لـ {{room}} أكثر؛ لن يناسب {{count}} مدخل جديد.",
+        "showNew": "أظهر المدخلات الجديدة",
+        "more_one": "و {{count}} أكثر",
+        "more_other": "و {{count}} أخرى",
+        "conflictsTitle": "موجود بالفعل في قاموسك، بشكل مختلف",
+        "conflictsHelp": "أختيِر الأُخرى حيث يجب أن يُستبدل نسخة الملف بنسخة مُتَّسِقة",
+        "useAllFile": "استخدم إصدار الملف للكل",
+        "keepAllMine": "احتفظ بجميع ما يخصي",
+        "useFile": "استخدم ملفه:",
+        "yours": "أنت:",
+        "showInvalid": "أظهر الصفوف التي لا يمكن استيرادها",
+        "invalidRow": "الصف {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "تم استيراد {{count}} مدخل",
+        "title_other": "تم استيراد {{count}} مدخل",
+        "added_one": "{{count}} مُضاف",
+        "added_other": "أُضيف {{count}}",
+        "replaced_one": "{{count}} تم استبداله بالنسخة من الملف",
+        "replaced_other": "{{count}} تم استبداله بالنسخة من الملف",
+        "skipped_one": "{{count}} موجود بالفعل، تم تخطيه",
+        "skipped_other": "الـ {{count}} موجود بالفعل، تم تجاهله",
+        "kept_one": "تم استلام {{count}} تعارض وتم الحفاظ عليه كما هو",
+        "kept_other": "تم الحفاظ على {{count}} تعارض كما كانت",
+        "invalid_one": "لا يمكن استيراد {{count}} صف",
+        "invalid_other": "لا يمكن استيراد {{count}} صفًا",
+        "overLimit_one": "لم يناسب {{count}} (الخزينة ممتلئة)",
+        "overLimit_other": "لم يناسب {{count}} (الخزينة ممتلئة)"
+      }
+    },
+    "export": {
+      "open": "إ xuất",
+      "fileName": "{{appName}} دليل.csv",
+      "done_one": "تم استيراد {{count}} مُدخل.",
+      "done_other": "تم استيراد {{count}} مدخل.",
+      "failed": "لا يمكن استيراد القاموس. يُرجى المحاولة مرة أخرى."
     }
   },
   "overrides": {

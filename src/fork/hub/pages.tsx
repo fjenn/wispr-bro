@@ -2,8 +2,8 @@
 /**
  * The Hub's pages (S-13, C-01): sidebar order, icons, tags and the component
  * each page slot renders. A feature slice mounts its page by replacing the
- * `component` of its entry (S-15a Dictation: done, S-25 Insights, S-16 Dictionary,
- * S-17 Snippets, S-19a Style, S-22 Transforms, S-24 Scratchpad, S-26b Share,
+ * `component` of its entry (S-15a Dictation: done, S-16 Dictionary: done,
+ * S-25 Insights, S-17 Snippets, S-19a Style, S-22 Transforms, S-24 Scratchpad, S-26b Share,
  * S-14 Settings). Until then the slot shows a placeholder page with an empty
  * state and one clear action.
  */
@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
+import { DictionaryPage } from "../dictionary/DictionaryPage";
 import { Home } from "../home/Home";
 import { EmptyState, type TagKind } from "../ui";
 import { HandySettingsPage } from "./HandySettingsPage";
@@ -88,10 +89,7 @@ export const HUB_PAGES: HubPage[] = [
     id: "dictionary",
     group: "main",
     icon: BookA,
-    component: placeholder("dictionary", BookA, {
-      page: "settings",
-      section: "advanced",
-    }),
+    component: DictionaryPage,
   },
   {
     id: "snippets",

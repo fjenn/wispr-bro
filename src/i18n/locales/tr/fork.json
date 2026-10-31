@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Adımları içe aktar",
+      "stepOf": "Adım {{step}} of {{total}}: {{title}}",
+      "steps": {
+        "choose": "Bir dosya seçin",
+        "columns": "Sütunları eşleştir",
+        "review": "Gözden geçir",
+        "done": "Bitti"
+      },
+      "dropHint": "Buraya .csv dosyası bırakın veya seçin.",
+      "browse": "Bir .csv dosyası seçin",
+      "limit": "Maksimum 3 MB.",
+      "formatLink": "Alınan format",
+      "csvFilter": "CSV dosyası",
+      "fileSummary_one": "{{name}}: {{count}} satır",
+      "fileSummary_other": "{{name}}: {{count}} satır",
+      "hasHeader": "İlk satır sütun isimlerini içerir",
+      "optional": "(isteğe bağlı)",
+      "noColumn": "Bu dosyada değil",
+      "column": "Sütun {{letter}}",
+      "columnNamed": "Sütun {{letter}}: {{name}}",
+      "mapRequired": "Her zorunlu olmayan alan için bir sütun seçin.",
+      "previewCaption_one": "İlk satırın önizlemesi",
+      "previewCaption_other": "İlk {{count}} satırın önizlemesi",
+      "rowHeader": "Satır",
+      "cancel": "İptal",
+      "back": "Geri",
+      "next": "Sonraki",
+      "import": "İçe aktar",
+      "done": "Bitti",
+      "close": "Kapat",
+      "errors": {
+        "notCsv": "O, .csv dosyası değil. Sayfayı CSV olarak kaydet ve tekrar dene.",
+        "tooLarge": "O dosya {{size}} MB'dir. Dosyaların en fazla 3 MB olabilir.",
+        "unreadable": "O dosya okunamadı. CSV dosyası olduğunu kontrol edin ve tekrar dene.",
+        "empty": "O dosya satır içermez.",
+        "failed": "Bir şey yanlış oldu. Hiçbir şey import edilmedi; lütfen tekrar dene."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Dictasyonlarınız bu Mac'te kaydedilir",
       "body": "Tarihleri açarak kopyalayın, oynayın veya arayın.",
       "action": "Tarihleri aç"
+    }
+  },
+  "dictionary": {
+    "add": "Kelime ekle",
+    "added": "“{{entry}}” eklendi.",
+    "search": "Sözlüğünüzü arayın",
+    "refresh": "Yenile",
+    "shown_one": "{{count}} giriş gösterildi",
+    "shown_other": "{{count}} giriş gösterildi",
+    "deleted": "“{{entry}}” silindi.",
+    "deleteFailed": "O giriş silinemedi. Lütfen tekrar dene.",
+    "undo": "Geri al",
+    "tabs": {
+      "label": "Sözlük girişleri",
+      "all": "Tümü ({{count}})",
+      "mine": "Kendin tarafından eklendi ({{count}})",
+      "suggested": "Önerilen ({{count}})"
+    },
+    "sort": {
+      "label": "Sırala",
+      "newest": "Yeni en başta",
+      "oldest": "En eski önce",
+      "az": "A dan Z ye",
+      "za": "Z'den A'ya",
+      "used": "En çok kullanılan"
+    },
+    "banner": {
+      "title": "Teach {{appName}} your words",
+      "body": "İsimler, ürün terimleri ve akronimleri kendi yazım biçiminizle ekleyin veya söyleydiğiniz kelimeyi istediklerinizle değiştirin.",
+      "examplesLabel": "Örnekler",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "gonna → going to",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "olur",
+      "used_one": "Kullanıldı {{count}} kez",
+      "used_other": "{{count}} kez kullanıldı",
+      "edit": "Giriş {{entry}}'i düzenle",
+      "delete": "Girişin silinsin {{entry}}",
+      "accept": "Add {{entry}} to your dictionary"
+    },
+    "source": {
+      "import": "Dışa aktarıldı",
+      "migrated": "Daha önceki özel kelimelerinizden",
+      "learn": "Öğrendi",
+      "flag": "Bir işaretli dictation'dan"
+    },
+    "empty": {
+      "title": "Sözlük boş",
+      "body": "Ekleyin adlar, kelimeler ve değiştirme isimleri {{appName}} bilmesi gerekir. Son dictation için geçerlidir."
+    },
+    "emptySuggested": {
+      "title": "Hâlâ öneri yok",
+      "body": "{{appName}}'in düzeltilen kelimelerden öğrenmesi durumunda, onları buraya onaylamak için buraya getirir."
+    },
+    "noMatch": {
+      "title": "Hiçbir şey uyuşmuyor",
+      "body": "Hiçbir girişte “{{query}}” yok.",
+      "action": "Arama sonuçlarını temizle"
+    },
+    "unavailable": {
+      "title": "Sözlük henüz kullanılamıyor",
+      "body": "Uygulama başlatıldıktan sonra hemen açılır."
+    },
+    "problem": {
+      "empty": "İlk olarak bir kelime yazın.",
+      "too_long": "Kelimeler en fazla {{max}} karakter olabilir.",
+      "replacement_too_long": "Değişiklikler en fazla {{maxReplacement}} karakter olabilir.",
+      "same_as_replacement": "Yer değiştirme kelimeyle aynı.",
+      "control_character": "Satır geçişleri ve tablar burada kullanılamaz.",
+      "full": "Sözlük full. İlk olarak bazı girişleri silin."
+    },
+    "dialog": {
+      "addTitle": "Sözlüğe ekle",
+      "editTitle": "Sözlük girişi düzenle",
+      "description": "Kelimeler burada yazdığın gibi yazılır.",
+      "replaceToggle": "Bir kelimeyi değiştir",
+      "word": "Kelime ya da isim",
+      "wordPlaceholder": "örneğin Siobhán",
+      "from": "İfademde",
+      "fromPlaceholder": "örneğin gonna",
+      "to": "Yaz",
+      "toPlaceholder": "örneğin gitmek üzere",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Sözlük modelinin doğru şekilde dinlemesini ve yazmasını sağlar.",
+      "ruleHint": "Tam kelimeyi her durumda eşleştirir ve değiştirme metnini tam olarak yazdırır.",
+      "cancel": "İptal",
+      "add": "Kelime ekle",
+      "save": "Kaydet",
+      "close": "Kapat",
+      "duplicate": "“{{entry}}” zaten sözlüğinizde.",
+      "conflictRule": "“{{from}}” zaten “{{to}}” olur.",
+      "conflictWord": "“{{word}}” zaten başka bir yazım ile sözlüğinizde.",
+      "replaceExisting": "Bunu değiştir",
+      "missing": "Bu giriş, bir süre önce silindi.",
+      "failed": "O kaydedilemedi. Lütfen tekrar dene."
+    },
+    "import": {
+      "open": "İçe aktar",
+      "title": "Sözlüğü içe aktar",
+      "description": "Bir CSV olarak kaydedilmiş bir tabloda kelimeler ve değiştirme değerlerini getir.",
+      "fieldPhrase": "Kelime, ya da ne dediğin",
+      "fieldReplacement": "Yerine koy",
+      "format": {
+        "intro": "Her satır bir giriş:",
+        "columns": "İlk sütun bir kelime ya da ne dediğin; ikinci sütun, doldurulursa, yazılacak metin.",
+        "header": "İlk satırda sütun isimleri olabilir; sonraki adımda sütunları seçersiniz.",
+        "limits": "Kelimeler en fazla 60 karakter, değiştirme en fazla 200, dosyalar en fazla 3 MB.",
+        "encoding": "CSV UTF-8 olarak kaydetmek için ünlem ve diğer yazı tipleri doğru gelir."
+      },
+      "review": {
+        "new_one": "yeni giriş",
+        "new_other": "yeni girişler",
+        "duplicates_one": "zaten var",
+        "duplicates_other": "zaten var",
+        "conflicts_one": "karşılaşma",
+        "conflicts_other": "karşılaşmalar",
+        "invalid_one": "ihrincen import edilemez",
+        "invalid_other": "ihrincen import edilemez",
+        "overLimit_one": "Sözlüğünüzde {{room}} daha fazla yer var; {{count}} yeni giriş yer almaz.",
+        "overLimit_other": "Sözlüğünüzde {{room}} daha fazla yer var; {{count}} yeni giriş yer almaz.",
+        "showNew": "Yeni girişleri göster",
+        "more_one": "ve {{count}} daha fazla",
+        "more_other": "ve {{count}} daha fazla",
+        "conflictsTitle": "Zaten sözlüğinizde, farklı şekilde",
+        "conflictsHelp": "Dosyanın sürümüyle kendi sürümünüzü değiştirmelisiniz için onları işaretleyin.",
+        "useAllFile": "Tümünü dosyanın sürümüyle kullan",
+        "keepAllMine": "Hepsi benim kal",
+        "useFile": "Dosyanın:'",
+        "yours": "Senin için:",
+        "showInvalid": "İçe aktarılamayacak satırları göster",
+        "invalidRow": "Satır {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} giriş içeriğe aktarıldı",
+        "title_other": "{{count}} kayıt içeriği aktarıldı",
+        "added_one": "{{count}} eklendi",
+        "added_other": "{{count}} eklendi",
+        "replaced_one": "{{count}} dosyanın sürümüyle değiştirildi",
+        "replaced_other": "{{count}} dosyanın sürümüyle değiştirildi",
+        "skipped_one": "{{count}} zaten var, atlandı",
+        "skipped_other": "{{count}} zaten var, atlandı",
+        "kept_one": "{{count}} çakışma korundu",
+        "kept_other": "{{count}} çakışma korundu çünkü olduğu gibi",
+        "invalid_one": "{{count}} satır içeriye alınamadı",
+        "invalid_other": "{{count}} satır içeriye alınamadı",
+        "overLimit_one": "{{count}} yerlemedi (sözlük dolu)",
+        "overLimit_other": "{{count}} yerlemedi (sözlük dolu)"
+      }
+    },
+    "export": {
+      "open": "Dışa aktar",
+      "fileName": "{{appName}} sözlüğü.csv",
+      "done_one": "{{count}} giriş dışa aktarıldı.",
+      "done_other": "{{count}} kayıt dışa aktarıldı.",
+      "failed": "Sözlük dışa aktarılamadı. Lütfen tekrar dene."
     }
   },
   "overrides": {

@@ -200,6 +200,104 @@ async forkLlmRetry() : Promise<Result<ForkLlmStatus, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Every active and suggested entry. Takes over words added in Handy's own
+ * settings first, so the page shows them.
+ */
+async forkDictionaryList() : Promise<Result<DictionaryList, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_list") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Adds a word, or a replacement when `input.replacement` is set.
+ */
+async forkDictionaryAdd(input: EntryInput) : Promise<Result<SaveOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_add", { input }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Changes entry `id` (a word may become a replacement and back).
+ */
+async forkDictionaryUpdate(id: number, input: EntryInput) : Promise<Result<SaveOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_update", { id, input }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Deletes entries. Returns them, so the page can offer Undo
+ * ([`fork_dictionary_restore`]).
+ */
+async forkDictionaryDelete(ids: number[]) : Promise<Result<DictionaryEntry[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_delete", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Puts deleted entries back (Undo). Returns how many came back.
+ */
+async forkDictionaryRestore(entries: DictionaryEntry[]) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_restore", { entries }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Reads a `.csv` file (picked or dropped) for the import wizard.
+ */
+async forkDictionaryReadFile(path: string) : Promise<ImportFile> {
+    return await TAURI_INVOKE("fork_dictionary_read_file", { path });
+},
+/**
+ * The import wizard's review step.
+ */
+async forkDictionaryImportReview(rows: ImportRow[]) : Promise<Result<ImportReview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_import_review", { rows }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Imports the rows. Conflicts listed in `replace_rows` (row numbers) take
+ * the file's version.
+ */
+async forkDictionaryImport(rows: ImportRow[], replaceRows: number[]) : Promise<Result<ImportOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_import", { rows, replaceRows }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Writes the active entries to `path` (from the save panel) as CSV.
+ * Returns how many rows were written.
+ */
+async forkDictionaryExport(path: string) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_export", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -207,6 +305,7 @@ async forkLlmRetry() : Promise<Result<ForkLlmStatus, ForkError>> {
 
 
 export const events = __makeEvents__<{
+forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
@@ -214,6 +313,7 @@ forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged,
 forkStatsUpdated: ForkStatsUpdated
 }>({
+forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
@@ -241,6 +341,127 @@ export type BindingLabel = { action: string; chord: string; activation: HotkeyAc
  */
 export type CleanupLevel = "none" | "light" | "medium"
 /**
+ * Entry counts the page shows on its tabs.
+ */
+export type DictionaryCounts = { 
+/**
+ * Active words.
+ */
+words: number; 
+/**
+ * Active replacements.
+ */
+rules: number; 
+/**
+ * Waiting for approval (S-34).
+ */
+suggested: number }
+/**
+ * One entry as the Dictionary page shows it.
+ */
+export type DictionaryEntry = { id: number; kind: EntryKind; 
+/**
+ * The word, or the "from" of a replacement.
+ */
+phrase: string; 
+/**
+ * The "to" of a replacement; `None` for a word.
+ */
+replacement: string | null; source: EntrySource; status: EntryStatus; 
+/**
+ * Unix ms.
+ */
+created_at: number; 
+/**
+ * Unix ms of the last edit (the creation time if never edited).
+ */
+updated_at: number; 
+/**
+ * How often the replacement applied (S-11); 0 for words.
+ */
+hit_count: number; last_hit_at: number | null }
+/**
+ * The page's data.
+ */
+export type DictionaryList = { 
+/**
+ * Active and suggested entries, newest first.
+ */
+entries: DictionaryEntry[]; counts: DictionaryCounts }
+/**
+ * What the user typed (or a CSV row): a word, or a replacement when
+ * `replacement` is given.
+ */
+export type EntryInput = { phrase: string; replacement: string | null }
+/**
+ * What an entry is.
+ */
+export type EntryKind = 
+/**
+ * A word or name to spell right (vocabulary).
+ */
+"word" | 
+/**
+ * "from → to": a literal replacement.
+ */
+"rule"
+/**
+ * Why an input is not a valid entry.
+ */
+export type EntryProblem = 
+/**
+ * The word (or "from") is blank.
+ */
+"empty" | 
+/**
+ * The word (or "from") is longer than [`MAX_PHRASE_CHARS`].
+ */
+"too_long" | 
+/**
+ * The replacement is longer than [`MAX_REPLACEMENT_CHARS`].
+ */
+"replacement_too_long" | 
+/**
+ * The replacement is the same text as the word.
+ */
+"same_as_replacement" | 
+/**
+ * A line break, tab or other control character.
+ */
+"control_character" | 
+/**
+ * The dictionary already holds [`MAX_ENTRIES`] entries.
+ */
+"full"
+/**
+ * Where an entry came from (`dictionary_entries.source`).
+ */
+export type EntrySource = 
+/**
+ * Added on the Dictionary page.
+ */
+"user" | 
+/**
+ * From a CSV import.
+ */
+"import" | 
+/**
+ * From a flagged history entry (S-15b).
+ */
+"flag" | 
+/**
+ * Learned from a correction (S-34).
+ */
+"learn" | 
+/**
+ * Taken over from Handy's custom words.
+ */
+"migrated"
+/**
+ * `active` entries apply; `suggested` ones wait for approval (S-34).
+ */
+export type EntryStatus = "active" | "suggested"
+/**
  * Why a take went to the card (`fork.json` > `insert.cardReason.*`).
  */
 export type ForkCardReason = "sleep" | "screen_locked" | "session_inactive" | "paste_failed" | "disk_full"
@@ -256,6 +477,12 @@ path: string;
  * `"recording"` or `"fixture"`.
  */
 source: string }
+/**
+ * Emitted after the dictionary changed (page edits, imports, Handy's own
+ * custom-words list taken over), so every window's Dictionary page and
+ * counts refresh.
+ */
+export type ForkDictionaryChanged = { counts: DictionaryCounts }
 /**
  * What the fork knows about one history entry, beyond Handy's row.
  */
@@ -581,6 +808,72 @@ globe: string;
  */
 fn_blocked: boolean; issues: Issue[]; bindings: BindingLabel[] }
 /**
+ * A row whose word (or "from") is already in the dictionary with another
+ * spelling or replacement.
+ */
+export type ImportConflict = { incoming: ReviewRow; existing: DictionaryEntry }
+/**
+ * A row that already is in the dictionary, or repeats an earlier row.
+ */
+export type ImportDuplicate = { incoming: ReviewRow; 
+/**
+ * `true`: an earlier row of the same file; `false`: the dictionary.
+ */
+in_file: boolean }
+/**
+ * A file read for the wizard.
+ */
+export type ImportFile = { status: "read"; name: string; text: string } | 
+/**
+ * Not a `.csv` file.
+ */
+{ status: "not_csv" } | 
+/**
+ * Larger than [`MAX_FILE_BYTES`].
+ */
+{ status: "too_large"; bytes: number } | 
+/**
+ * Missing or unreadable.
+ */
+{ status: "unreadable" }
+/**
+ * What an import did.
+ */
+export type ImportOutcome = { added: number; 
+/**
+ * Conflicts the user chose to take from the file.
+ */
+replaced: number; 
+/**
+ * Duplicates skipped.
+ */
+skipped: number; 
+/**
+ * Conflicts kept as they were.
+ */
+kept: number; invalid: number; 
+/**
+ * New rows left out because the dictionary was full.
+ */
+over_limit: number }
+/**
+ * The review step.
+ */
+export type ImportReview = { new_entries: ReviewRow[]; duplicates: ImportDuplicate[]; conflicts: ImportConflict[]; invalid: InvalidRow[]; 
+/**
+ * How many more entries fit ([`super::MAX_ENTRIES`]).
+ */
+room: number }
+/**
+ * One mapped row of the file. `row` is its 1-based line in the file, for
+ * messages.
+ */
+export type ImportRow = { row: number; phrase: string; replacement: string | null }
+/**
+ * A row that is not a valid entry.
+ */
+export type InvalidRow = { row: number; phrase: string; problem: EntryProblem }
+/**
  * A problem with one binding. The binding is skipped; the rest still run.
  */
 export type Issue = 
@@ -658,6 +951,36 @@ completed_at_ms: number | null }
  * `fork/onboarding/state.rs` (S-29a) is only the logic over it.
  */
 export type OnboardingStatus = "not_started" | "in_progress" | "completed"
+/**
+ * A valid row as it would be saved.
+ */
+export type ReviewRow = { row: number; kind: EntryKind; phrase: string; replacement: string | null }
+/**
+ * Result of saving one entry.
+ */
+export type SaveOutcome = 
+/**
+ * Added or changed.
+ */
+{ status: "saved"; entry: DictionaryEntry } | 
+/**
+ * The same entry is already there; nothing changed.
+ */
+{ status: "duplicate"; existing: DictionaryEntry } | 
+/**
+ * An entry with the same word (or "from") but a different spelling or
+ * replacement is there; nothing changed. Saving over it is an edit of
+ * `existing`.
+ */
+{ status: "conflict"; existing: DictionaryEntry } | 
+/**
+ * Not a valid entry; nothing changed.
+ */
+{ status: "invalid"; problem: EntryProblem } | 
+/**
+ * The entry to edit no longer exists.
+ */
+{ status: "missing" }
 /**
  * Server phase for the status event.
  */

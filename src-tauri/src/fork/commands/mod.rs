@@ -9,6 +9,7 @@
 //! [`ForkError::NotReady`] when that state does not exist yet. It never panics.
 
 pub mod csp;
+pub mod dictionary;
 pub mod history;
 pub mod hotkeys;
 pub mod llm;

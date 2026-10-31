@@ -70,11 +70,24 @@ pub const BUSY_TIMEOUT_MS: u64 = 5000;
 const SIDECAR_SUFFIXES: [&str; 2] = ["-wal", "-shm"];
 
 /// The fork's migrations, in order. Append only; never edit a shipped entry.
-static MIGRATIONS: &[M<'static>] = &[
-    M::up(include_str!("migrations/0001_init.sql")),
-    M::up(include_str!("migrations/0002_history.sql")),
-    M::up(include_str!("migrations/0003_text.sql")),
-];
+static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::new(|| {
+    vec![
+        M::up(include_str!("migrations/0001_init.sql")),
+        M::up(include_str!("migrations/0002_history.sql")),
+        M::up(include_str!("migrations/0003_text.sql")),
+        // S-16: the dictionary keys are Unicode case folds, computed in Rust.
+        M::up_with_hook(
+            include_str!("migrations/0004_dictionary.sql"),
+            crate::fork::dictionary::store::migrate_v4,
+        ),
+    ]
+});
+
+/// The first `n` shipped migrations (tests build older databases with it).
+#[cfg(test)]
+pub(crate) fn test_migrations(n: usize) -> Vec<M<'static>> {
+    MIGRATIONS[..n].to_vec()
+}
 
 /// Schema version this build creates and understands.
 pub fn latest_version() -> usize {

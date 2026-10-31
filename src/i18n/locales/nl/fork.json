@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Stappen importeren",
+      "stepOf": "Stap {{step}} van {{total}}: {{title}}",
+      "steps": {
+        "choose": "Kies een bestand",
+        "columns": "Kolommen matchen",
+        "review": "Beoordeel",
+        "done": "Klaar"
+      },
+      "dropHint": "Vale een .csv bestand hier, of kies er een.",
+      "browse": "Kies een .csv bestand",
+      "limit": "Tot 3 MB.",
+      "formatLink": "Aanvaardbaar formaat",
+      "csvFilter": "CSV bestand",
+      "fileSummary_one": "{{name}}: {{count}} rij",
+      "fileSummary_other": "{{name}}: {{count}} rijen",
+      "hasHeader": "De eerste rij bevat kolomnamen",
+      "optional": "(optioneel)",
+      "noColumn": "Niet in deze bestand",
+      "column": "Kolom {{letter}}",
+      "columnNamed": "Kolom {{letter}}: {{name}}",
+      "mapRequired": "Kies een kolom voor elk veld dat niet optioneel is.",
+      "previewCaption_one": "Preview van de eerste rij",
+      "previewCaption_other": "Preview van de eerste {{count}} rijen",
+      "rowHeader": "Rij",
+      "cancel": "Annuleren",
+      "back": "Terug",
+      "next": "Volgende",
+      "import": "Import",
+      "done": "Klaar",
+      "close": "Sluiten",
+      "errors": {
+        "notCsv": "Dat is geen .csv bestand. Sla de bladwijzer op als CSV en probeer opnieuw.",
+        "tooLarge": "Die bestand is {{size}} MB. Bestanden mogen tot 3 MB zijn.",
+        "unreadable": "Die bestand kan niet worden gelezen. Controleer of het een CSV-bestand is en probeer opnieuw.",
+        "empty": "Die bestand bevat geen rijen om te importeren.",
+        "failed": "Iets is fout gegaan. Niets is geïmporteerd; probeer het opnieuw."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Je dictaties worden op deze Mac opgeslagen",
       "body": "Open Historie om te kopiëren, af te spelen of ze te zoeken.",
       "action": "Geschiedenis openen"
+    }
+  },
+  "dictionary": {
+    "add": "Woord toevoegen",
+    "added": "Gebaseerd op \"{{entry}}\".",
+    "search": "Zoek in je woordenboek",
+    "refresh": "Vernieuwen",
+    "shown_one": "{{count}} entry getoond",
+    "shown_other": "{{count}} entries getoond",
+    "deleted": "Geweest \"{{entry}}\" verwijderd.",
+    "deleteFailed": "Die entry kon niet worden verwijderd. Probeer het opnieuw.",
+    "undo": "Ongedaan maken",
+    "tabs": {
+      "label": "Woordenboekitems",
+      "all": "Alles ({{count}})",
+      "mine": "Toegevoegd door jou ({{count}})",
+      "suggested": "Aanbevolen ({{count}})"
+    },
+    "sort": {
+      "label": "Sorteren",
+      "newest": "Nieuwste eerst",
+      "oldest": "Oudste eerst",
+      "az": "A tot Z",
+      "za": "Z tot A",
+      "used": "Meest gebruikt"
+    },
+    "banner": {
+      "title": "Leer {{appName}} je woorden",
+      "body": "Voeg namen, producttermen en acronimmen toe zodat ze op uw manier worden gespeld, of vervang een woord dat u zegt met de tekst die u wilt.",
+      "examplesLabel": "Voorbeelden",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "ga → ga naar",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "wordt",
+      "used_one": "Gebruikt {{count}} keer",
+      "used_other": "Gebruikt {{count}} keer",
+      "edit": "Bewerk {{entry}}",
+      "delete": "Verwijder {{entry}}",
+      "accept": "Voeg {{entry}} toe aan je woordenboek"
+    },
+    "source": {
+      "import": "Geïmporteerd",
+      "migrated": "Uit je vroegere aangepaste woorden",
+      "learn": "Gehoord",
+      "flag": "Van een gesignaleerde dictatie"
+    },
+    "empty": {
+      "title": "Je woordenboek is leeg",
+      "body": "Voeg de namen, woorden en vervangingen toe die {{appName}} moet weten. Ze gelden voor je volgende dictatie."
+    },
+    "emptySuggested": {
+      "title": "Geen suggesties nog",
+      "body": "Wanneer {{appName}} kan leren van de woorden die je corrigeert, verschijnen ze hier voor je goedkeuring."
+    },
+    "noMatch": {
+      "title": "Niets komt overeen",
+      "body": "Geen entry bevat \"{{query}}\".",
+      "action": "Zoekterm wissen"
+    },
+    "unavailable": {
+      "title": "De woordenboek is nog niet beschikbaar",
+      "body": "Het wordt geopend zodra de app is gestart."
+    },
+    "problem": {
+      "empty": "Typ een woord eerst.",
+      "too_long": "Woorden kunnen tot {{max}} karakters lang zijn.",
+      "replacement_too_long": "Vervangingen kunnen tot {{maxReplacement}} tekens lang zijn.",
+      "same_as_replacement": "De vervanging is hetzelfde als het woord.",
+      "control_character": "Regels en tabs mogen hier niet gebruikt worden.",
+      "full": "Je woordenboek is vol. Verwijder eerst enkele items."
+    },
+    "dialog": {
+      "addTitle": "Toevoegen aan woordenboek",
+      "editTitle": "Woordboekentry bewerken",
+      "description": "Woorden worden zoals je ze hier schrijft gespeld.",
+      "replaceToggle": "Een woord vervangen",
+      "word": "Woord of naam",
+      "wordPlaceholder": "bijv. Siobhán",
+      "from": "Wanneer ik zeg",
+      "fromPlaceholder": "bijv. gaan",
+      "to": "Schrijf",
+      "toPlaceholder": "bijvoorbeeld ga naar",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Hulp de spraakmodel horen en schrijven.",
+      "ruleHint": "Voldoet aan het hele woord, ongeacht hoofdletter, en schrijft de vervanging precies zoals ingetikt.",
+      "cancel": "Annuleren",
+      "add": "Woord toevoegen",
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "duplicate": "“{{entry}}” staat al in je woordenboek.",
+      "conflictRule": "“{{from}}” wordt al “{{to}}”.",
+      "conflictWord": "“{{word}}” staat al in je woordenboek met een andere spelling.",
+      "replaceExisting": "Vervang het",
+      "missing": "Deze entry is tussendoor verwijderd.",
+      "failed": "Dat kon niet worden opgeslagen. Probeer het opnieuw."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Woordenboek importeren",
+      "description": "Woorden en vervangingen uit een spreadsheet importeren die opgeslagen is als CSV.",
+      "fieldPhrase": "Woord, of wat je zegt",
+      "fieldReplacement": "Vervang met",
+      "format": {
+        "intro": "Één entry per rij:",
+        "columns": "De eerste kolom is een woord of wat je zegt; de tweede, als gevuld, is de tekst om te schrijven in plaats daarvan.",
+        "header": "Een eerste rij met kolomnamen is in orde; je kiest de kolommen in de volgende stap.",
+        "limits": "Worden tot 60 tekens, vervangingen tot 200, bestanden tot 3 MB.",
+        "encoding": "Opslaan als CSV UTF-8 zodat accenten en andere scripts goed worden weergegeven."
+      },
+      "review": {
+        "new_one": "nieuwe entry",
+        "new_other": "nieuwe entries",
+        "duplicates_one": "algoritme algoritme",
+        "duplicates_other": "algoritme er al",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicten",
+        "invalid_one": "kan niet worden geïmporteerd",
+        "invalid_other": "kan niet worden geïmporteerd",
+        "overLimit_one": "Je woordenboek heeft ruimte voor {{room}} meer; {{count}} nieuwe entry past niet.",
+        "overLimit_other": "Je woordenboek heeft ruimte voor {{room}} meer; {{count}} nieuwe entries passen niet.",
+        "showNew": "Nieuwe entries weergeven",
+        "more_one": "en {{count}} meer",
+        "more_other": "en {{count}} meer",
+        "conflictsTitle": "Al in je woordenboek, anders",
+        "conflictsHelp": "Kies de paren waarin de versie van het bestand jouw versie moet vervangen.",
+        "useAllFile": "Gebruik de versie van het bestand voor alle",
+        "keepAllMine": "Alle mijne houden",
+        "useFile": "Gebruik de bestands:",
+        "yours": "Jares:",
+        "showInvalid": "Toon de rijen die niet kunnen worden geïmporteerd",
+        "invalidRow": "Rij {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} entry geïmporteerd",
+        "title_other": "{{count}} entries geïmporteerd",
+        "added_one": "{{count}} toegevoegd",
+        "added_other": "{{count}} toegevoegd",
+        "replaced_one": "{{count}} vervangen door de versie uit het bestand",
+        "replaced_other": "{{count}} vervangen door de versie uit het bestand",
+        "skipped_one": "{{count}} al aanwezig, overgeslagen",
+        "skipped_other": "{{count}} al aanwezig, overgeslagen",
+        "kept_one": "{{count}} conflict behouden zoals het was",
+        "kept_other": "{{count}} conflicten behouden zoals ze waren",
+        "invalid_one": "{{count}} rij kon niet worden geïmporteerd",
+        "invalid_other": "{{count}} rijen konden niet worden geïmporteerd",
+        "overLimit_one": "{{count}} pasten niet (de woordenboek is vol)",
+        "overLimit_other": "{{count}} pasten niet (de woordenboek is vol)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} woordenboek.csv",
+      "done_one": "Gewijzigd {{count}} entry.",
+      "done_other": "Gewijzigd {{count}} entries.",
+      "failed": "De woordenboek kan niet worden geëxporteerd. Probeer het opnieuw."
     }
   },
   "overrides": {

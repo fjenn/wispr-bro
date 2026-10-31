@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Langkah impor",
+      "stepOf": "Langkah {{step}} dari {{total}}: {{title}}",
+      "steps": {
+        "choose": "Pilih sebuah file",
+        "columns": "Sesuaikan kolom",
+        "review": "Ulasan",
+        "done": "Selesai"
+      },
+      "dropHint": "Taruh file .csv di sini, atau pilih satu.",
+      "browse": "Pilih file .csv",
+      "limit": "Sampai 3 MB.",
+      "formatLink": "Format yang diterima",
+      "csvFilter": "file CSV",
+      "fileSummary_one": "{{name}}: {{count}} baris",
+      "fileSummary_other": "{{name}}: {{count}} baris",
+      "hasHeader": "Baris pertama mengandung nama kolom",
+      "optional": "(opsional)",
+      "noColumn": "Tidak dalam file ini",
+      "column": "Kolom {{letter}}",
+      "columnNamed": "Kolom {{letter}}: {{name}}",
+      "mapRequired": "Pilih kolom untuk setiap field yang tidak wajib.",
+      "previewCaption_one": "Pratinjau baris pertama",
+      "previewCaption_other": "Pratinjau baris pertama {{count}}",
+      "rowHeader": "Bar",
+      "cancel": "Batal",
+      "back": "Kembali",
+      "next": "Berikutnya",
+      "import": "Impor",
+      "done": "Selesai",
+      "close": "Tutup",
+      "errors": {
+        "notCsv": "Yang itu bukan file .csv. Simpan sheet sebagai CSV dan coba lagi.",
+        "tooLarge": "File tersebut sebesar {{size}} MB. Ukuran file maksimal adalah 3 MB.",
+        "unreadable": "File tersebut tidak bisa dibaca. Periksa bahwa itu adalah file CSV dan coba lagi.",
+        "empty": "File tersebut tidak memiliki baris untuk diimpor.",
+        "failed": "Terjadi sesuatu yang salah. Tidak ada yang diimpor; mohon coba lagi."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Dictasan Anda disimpan di Mac ini",
       "body": "Buka Sejarah untuk menyalin, memutar atau mencari mereka.",
       "action": "Buka riwayat"
+    }
+  },
+  "dictionary": {
+    "add": "Tambah kata",
+    "added": "Ditambahkan “{{entry}}”.",
+    "search": "Cari dalam kamus Anda",
+    "refresh": "Segarkan",
+    "shown_one": "{{count}} entri ditampilkan",
+    "shown_other": "{{count}} entri ditampilkan",
+    "deleted": "Dihapus “{{entry}}”.",
+    "deleteFailed": "Entri tersebut tidak bisa dihapus. Silakan coba lagi.",
+    "undo": "Unduk",
+    "tabs": {
+      "label": "Entri kamus",
+      "all": "Semua ({{count}})",
+      "mine": "Ditambahkan oleh Anda ({{count}})",
+      "suggested": "Disarankan ({{count}})"
+    },
+    "sort": {
+      "label": "Urutkan",
+      "newest": "Paling baru terlebih dahulu",
+      "oldest": "Paling tua terlebih dahulu",
+      "az": "A hingga Z",
+      "za": "Z ke A",
+      "used": "Paling sering digunakan"
+    },
+    "banner": {
+      "title": "Ajarkan {{appName}} kata-kata Anda",
+      "body": "Tambahkan nama, istilah produk dan akronim agar ditulis sesuai cara Anda, atau ganti kata yang Anda ucapkan dengan teks yang diinginkan.",
+      "examplesLabel": "Contoh",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "akan → akan ke",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "menjadi",
+      "used_one": "Digunakan {{count}} kali",
+      "used_other": "Digunakan {{count}} kali",
+      "edit": "Sunting {{entry}}",
+      "delete": "Hapus {{entry}}",
+      "accept": "Tambahkan {{entry}} ke kamarmu"
+    },
+    "source": {
+      "import": "Diperimpitkan",
+      "migrated": "Dari kata-kata kustom Anda sebelumnya",
+      "learn": "Dipelajari",
+      "flag": "Dari dictasi yang ditandai"
+    },
+    "empty": {
+      "title": "Kamus Anda kosong",
+      "body": "Tambahkan nama, kata dan pengganti yang harus diketahui oleh {{appName}}. Mereka berlaku untuk dictasi berikutnya."
+    },
+    "emptySuggested": {
+      "title": "Belum ada saran",
+      "body": "Ketika {{appName}} dapat belajar dari kata-kata yang Anda koreksi, mereka akan muncul di sini untuk Anda setujui."
+    },
+    "noMatch": {
+      "title": "Tidak ada yang cocok",
+      "body": "Tidak ada entri yang mengandung “{{query}}”.",
+      "action": "Hapus pencarian"
+    },
+    "unavailable": {
+      "title": "Kamus belum tersedia",
+      "body": "Ini membuka segera setelah aplikasi selesai dimulai."
+    },
+    "problem": {
+      "empty": "Masukkan kata terlebih dahulu.",
+      "too_long": "Kata bisa mencapai {{max}} karakter.",
+      "replacement_too_long": "Pengganti dapat mencapai {{maxReplacement}} karakter.",
+      "same_as_replacement": "Pengganti sama dengan kata tersebut.",
+      "control_character": "Pemberhentian baris dan tab tidak bisa digunakan di sini.",
+      "full": "Kamus Anda penuh. Hapus beberapa entri terlebih dahulu."
+    },
+    "dialog": {
+      "addTitle": "Tambah ke kamus",
+      "editTitle": "Sunting entri kamus",
+      "description": "Kata-kata dijelaskan sesuai cara kamu menulis di sini.",
+      "replaceToggle": "Ganti kata",
+      "word": "Kata atau nama",
+      "wordPlaceholder": "misalnya Siobhán",
+      "from": "Ketika saya katakan",
+      "fromPlaceholder": "misalnya gonna",
+      "to": "Tulis",
+      "toPlaceholder": "misalnya pergi ke",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Membantu model suara mendengar dan mengetikkan dengan benar.",
+      "ruleHint": "Mencocokkan kata utuh, tidak peduli huruf besar atau kecil, dan menulis pengganti tepat seperti yang di ketik.",
+      "cancel": "Batal",
+      "add": "Tambahkan kata",
+      "save": "Simpan",
+      "close": "Tutup",
+      "duplicate": "“{{entry}}” sudah ada di kamarmu.",
+      "conflictRule": "“{{from}}” sudah menjadi “{{to}}”.",
+      "conflictWord": "“{{word}}” sudah ada di kamus Anda dengan penulisan lain.",
+      "replaceExisting": "Ganti saja",
+      "missing": "Entri ini dihapus dalam waktu yang bersamaan.",
+      "failed": "Itu tidak bisa disimpan. Silakan coba lagi."
+    },
+    "import": {
+      "open": "Impor",
+      "title": "Impor kamus",
+      "description": "Bawa kata-kata dan pengganti dari spreadsheet yang disimpan sebagai CSV.",
+      "fieldPhrase": "Kata, atau apa yang kamu katakan",
+      "fieldReplacement": "Ganti dengan",
+      "format": {
+        "intro": "Satu entri per baris:",
+        "columns": "Kolom pertama adalah kata atau yang Anda katakan; kolom kedua, jika diisi, adalah teks yang akan ditulis sebagai gantinya.",
+        "header": "Baris pertama dengan nama kolom bisa saja; Anda memilih kolom di langkah berikutnya.",
+        "limits": "Kata hingga 60 karakter, penggantian hingga 200, file hingga 3 MB.",
+        "encoding": "Simpan sebagai CSV UTF-8 agar akent dan skrip lainnya muncul."
+      },
+      "review": {
+        "new_one": "entry baru",
+        "new_other": "entri baru",
+        "duplicates_one": "sudah ada",
+        "duplicates_other": "sudah ada",
+        "conflicts_one": "konflik",
+        "conflicts_other": "konflik",
+        "invalid_one": "tidak bisa diimpor",
+        "invalid_other": "tidak bisa diimpor",
+        "overLimit_one": "Diksi Anda masih memiliki ruang untuk {{room}} lebih; {{count}} entri baru tidak akan masuk.",
+        "overLimit_other": "Diksi Anda masih memiliki ruang untuk {{room}} lebih; {{count}} entri baru tidak akan masuk.",
+        "showNew": "Tampilkan entri baru",
+        "more_one": "dan {{count}} lebih",
+        "more_other": "dan {{count}} lainnya",
+        "conflictsTitle": "Sudah ada di kamarmu, berbeda",
+        "conflictsHelp": "Centang yang mana saja di mana versi file harus menggantikan versi Anda.",
+        "useAllFile": "Gunakan versi file untuk semua",
+        "keepAllMine": "Tetapkan semua milik saya",
+        "useFile": "Gunakan file:",
+        "yours": "Pendapatmu:",
+        "showInvalid": "Tampilkan baris yang tidak bisa diimpor",
+        "invalidRow": "Baris {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} entri diimpor",
+        "title_other": "{{count}} entri diimpor",
+        "added_one": "{{count}} ditambahkan",
+        "added_other": "{{count}} ditambahkan",
+        "replaced_one": "{{count}} diganti dengan versi file",
+        "replaced_other": "{{count}} diganti dengan versi file",
+        "skipped_one": "{{count}} sudah ada, diabaikan",
+        "skipped_other": "{{count}} sudah ada, diabaikan",
+        "kept_one": "{{count}} konflik dipertahankan seperti semula",
+        "kept_other": "{{count}} konflik dipertahankan karena sebelumnya",
+        "invalid_one": "{{count}} baris tidak bisa diimpor",
+        "invalid_other": "{{count}} baris tidak bisa diimpor",
+        "overLimit_one": "{{count}} tidak masuk (diksi penuh)",
+        "overLimit_other": "{{count}} tidak masuk (diksi penuh)"
+      }
+    },
+    "export": {
+      "open": "Ekspor",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "Dieduksi {{count}} entri.",
+      "done_other": "Diekspor {{count}} entri.",
+      "failed": "Kamus tidak bisa diekspor. Silakan coba lagi."
     }
   },
   "overrides": {

@@ -173,6 +173,12 @@ export async function openHub(
   });
 
   ipc.handle("fork_stats_summary", () => hub.stats);
+  // S-16: an empty dictionary unless the spec installs its own backend
+  // (handlers registered later take precedence).
+  ipc.respond("fork_dictionary_list", {
+    entries: [],
+    counts: { words: 0, rules: 0, suggested: 0 },
+  });
   ipc.handle("fork_account_name", () => hub.accountName);
 
   await page.goto(`/${options.hash ?? ""}`);

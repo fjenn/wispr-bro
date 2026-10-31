@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Bước nhập",
+      "stepOf": "Bước {{step}} trong {{total}}: {{title}}",
+      "steps": {
+        "choose": "Chọn một tệp",
+        "columns": "Trùng khớp cột",
+        "review": "Xem lại",
+        "done": "Đã hoàn thành"
+      },
+      "dropHint": "Giảm một tệp .csv ở đây, hoặc chọn một tệp.",
+      "browse": "Chọn một tệp .csv",
+      "limit": "Tối đa 3 MB.",
+      "formatLink": "Định dạng được chấp nhận",
+      "csvFilter": "tệp CSV",
+      "fileSummary_one": "{{name}}: {{count}} dòng",
+      "fileSummary_other": "{{name}}: {{count}} dòng",
+      "hasHeader": "Hàng đầu chứa tên cột",
+      "optional": "(tùy chọn)",
+      "noColumn": "Không trong tệp này",
+      "column": "Cột {{letter}}",
+      "columnNamed": "Cột {{letter}}: {{name}}",
+      "mapRequired": "Chọn một cột cho mỗi trường không bắt buộc.",
+      "previewCaption_one": "Xem trước hàng đầu tiên",
+      "previewCaption_other": "Xem trước {{count}} hàng đầu tiên",
+      "rowHeader": "Hàng",
+      "cancel": "Hủy",
+      "back": "Quay lại",
+      "next": "Tiếp theo",
+      "import": "Import",
+      "done": "Xong",
+      "close": "Đóng",
+      "errors": {
+        "notCsv": "Đó không phải là một tập tin .csv. Lưu bảng thành định dạng CSV và thử lại.",
+        "tooLarge": "Tập tin đó là {{size}} MB. Các tập tin có thể lên đến 3 MB.",
+        "unreadable": "Tập tin này không thể được đọc. Hãy kiểm tra xem có phải là tập tin CSV không và thử lại.",
+        "empty": "Tập tin này không có dòng nào để nhập.",
+        "failed": "Đã xảy ra lỗi. Không có gì được nhập; vui lòng thử lại."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Các bản ghi giọng nói của bạn được lưu trên máy Mac này",
       "body": "Mở Lịch sử để sao chép, phát hoặc tìm kiếm chúng.",
       "action": "Mở lịch sử"
+    }
+  },
+  "dictionary": {
+    "add": "Thêm từ",
+    "added": "Đã thêm “{{entry}}”.",
+    "search": "Tìm trong từ điển của bạn",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} entry shown",
+    "shown_other": "{{count}} mục được hiển thị",
+    "deleted": "Đã xóa “{{entry}}”.",
+    "deleteFailed": "Không thể xóa mục này. Vui lòng thử lại.",
+    "undo": "Hoàn tác",
+    "tabs": {
+      "label": "Các mục từ điển",
+      "all": "Tất cả ({{count}})",
+      "mine": "Được bạn thêm ({{count}})",
+      "suggested": "Gợi ý ({{count}})"
+    },
+    "sort": {
+      "label": "Sắp xếp",
+      "newest": "Mới nhất trước",
+      "oldest": "Trước hết là cũ nhất",
+      "az": "A đến Z",
+      "za": "Z đến A",
+      "used": "Được sử dụng nhiều nhất"
+    },
+    "banner": {
+      "title": "Giáo dạy {{appName}} những từ của bạn",
+      "body": "Thêm tên, các thuật ngữ sản phẩm và các từ viết tắt để được đánh dấu theo cách bạn muốn, hoặc thay thế một từ bạn nói bằng văn bản bạn muốn.",
+      "examplesLabel": "Ví dụ",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "sẽ → đang sẽ",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "trở thành",
+      "used_one": "Đã sử dụng {{count}} lần",
+      "used_other": "Đã sử dụng {{count}} lần",
+      "edit": "Sửa {{entry}}",
+      "delete": "Xoá {{entry}}",
+      "accept": "Thêm {{entry}} vào từ điển của bạn"
+    },
+    "source": {
+      "import": "Đã nhập",
+      "migrated": "Từ các từ bạn đã thiết lập trước đây",
+      "learn": "Đã học",
+      "flag": "Từ một đoạn ghi âm được đánh dấu"
+    },
+    "empty": {
+      "title": "Từ điển của bạn là rỗng",
+      "body": "Thêm các tên, từ và thay thế mà {{appName}} cần biết. Chúng sẽ áp dụng cho bản ghi giọng nói tiếp theo của bạn."
+    },
+    "emptySuggested": {
+      "title": "Chưa có đề xuất nào",
+      "body": "Khi {{appName}} có thể học từ những từ bạn sửa, chúng sẽ xuất hiện ở đây để bạn xác nhận."
+    },
+    "noMatch": {
+      "title": "Không có gì khớp",
+      "body": "Không có mục nào chứa “{{query}}”.",
+      "action": "Xoá tìm kiếm"
+    },
+    "unavailable": {
+      "title": "Từ điển chưa được cung cấp",
+      "body": "Nó mở ngay khi ứng dụng đã hoàn thành khởi động."
+    },
+    "problem": {
+      "empty": "Nhập một từ trước.",
+      "too_long": "Các từ có thể dài tối đa {{max}} ký tự.",
+      "replacement_too_long": "Các thay thế có thể dài tối đa {{maxReplacement}} ký tự.",
+      "same_as_replacement": "Thay thế giống như từ đó.",
+      "control_character": "Các ký tự xuống dòng và tab không thể được sử dụng ở đây.",
+      "full": "Từ điển của bạn đã đầy. Xóa một số mục trước."
+    },
+    "dialog": {
+      "addTitle": "Thêm vào từ điển",
+      "editTitle": "Sửa mục từ điển",
+      "description": "Các từ được đánh dấu theo cách bạn viết ở đây.",
+      "replaceToggle": "Thay thế một từ",
+      "word": "Từ hoặc tên",
+      "wordPlaceholder": "ví dụ: Siobhán",
+      "from": "Khi tôi nói",
+      "fromPlaceholder": "ví dụ: sẽ đi",
+      "to": "Viết",
+      "toPlaceholder": "ví dụ: đang đi",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Giúp mô hình giọng nói nghe và viết đúng.",
+      "ruleHint": "Tìm kiếm toàn bộ từ, bất kể chữ hoa hay chữ thường, và ghi lại thay thế chính xác như đã nhập.",
+      "cancel": "Hủy",
+      "add": "Thêm từ",
+      "save": "Lưu",
+      "close": "Đóng",
+      "duplicate": "“{{entry}}” đã tồn tại trong từ điển của bạn.",
+      "conflictRule": "“{{from}}” đã trở thành “{{to}}”.",
+      "conflictWord": "“{{word}}” đã tồn tại trong từ điển của bạn với cách viết khác.",
+      "replaceExisting": "Thay thế nó",
+      "missing": "Điều này đã bị xóa trong thời gian qua.",
+      "failed": "Không thể lưu. Vui lòng thử lại."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Đưa vào từ điển",
+      "description": "Đưa vào các từ và thay thế từ một bảng tính được lưu dưới dạng CSV.",
+      "fieldPhrase": "Từ, hoặc điều bạn nói",
+      "fieldReplacement": "Thay thế bằng",
+      "format": {
+        "intro": "Một mục trên mỗi dòng:",
+        "columns": "Cột đầu tiên là một từ hoặc điều bạn nói; cột thứ hai, nếu được điền, là văn bản để ghi lại thay thế.",
+        "header": "Một hàng đầu với tên cột là được; bạn chọn các cột trong bước tiếp theo.",
+        "limits": "Các từ tối đa 60 ký tự, các thay thế tối đa 200, các file tối đa 3 MB.",
+        "encoding": "Lưu dưới dạng CSV UTF-8 để các dấu sắc và các bộ ký tự khác được hiển thị đúng."
+      },
+      "review": {
+        "new_one": "một mục mới",
+        "new_other": "các mục mới",
+        "duplicates_one": "đã có ở đó",
+        "duplicates_other": "đã có ở đó",
+        "conflicts_one": "mâu thuẫn",
+        "conflicts_other": "xung đột",
+        "invalid_one": "không thể nhập",
+        "invalid_other": "không thể nhập",
+        "overLimit_one": "Từ điển của bạn còn chỗ cho {{room}} thêm; {{count}} từ mới sẽ không phù hợp.",
+        "overLimit_other": "Từ điển của bạn còn chỗ cho {{room}} thêm; {{count}} từ mới sẽ không phù hợp.",
+        "showNew": "Hiện các mục mới",
+        "more_one": "và {{count}} thêm",
+        "more_other": "và {{count}} thêm",
+        "conflictsTitle": "Đã có trong từ điển của bạn, khác nhau",
+        "conflictsHelp": "Chọn những mục nơi phiên bản tệp nên thay thế phiên bản của bạn.",
+        "useAllFile": "Sử dụng phiên bản của tệp cho tất cả",
+        "keepAllMine": "Giữ tất cả của tôi",
+        "useFile": "Sử dụng tệp:",
+        "yours": "Của bạn:",
+        "showInvalid": "Hiện các hàng không thể nhập",
+        "invalidRow": "Hàng {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Đã nhập {{count}} mục",
+        "title_other": "Đã nhập {{count}} mục",
+        "added_one": "{{count}} đã được thêm",
+        "added_other": "Đã thêm {{count}}",
+        "replaced_one": "{{count}} đã được thay thế bằng phiên bản của tập tin",
+        "replaced_other": "{{count}} được thay thế bằng phiên bản của tập tin",
+        "skipped_one": "{{count}} đã có, đã bỏ qua",
+        "skipped_other": "{{count}} đã có, đã bỏ qua",
+        "kept_one": "{{count}} xung đột được giữ nguyên",
+        "kept_other": "Đã giữ {{count}} xung đột vì chúng vẫn như cũ",
+        "invalid_one": "{{count}} dòng không thể nhập",
+        "invalid_other": "{{count}} hàng không thể được nhập",
+        "overLimit_one": "{{count}} không phù hợp (từ điển đã đầy)",
+        "overLimit_other": "{{count}} không phù hợp (từ điển đã đầy)"
+      }
+    },
+    "export": {
+      "open": "Xuất",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "Đã xuất {{count}} mục.",
+      "done_other": "Đã xuất {{count}} mục.",
+      "failed": "Không thể xuất từ điển. Vui lòng thử lại."
     }
   },
   "overrides": {

@@ -23,6 +23,7 @@ specs; they pass under either config. It is not edited (R5 §4.2).
 | `brand-overrides.spec.ts` | Brand overrides (F-01), uses `installTauriMock` directly                          |
 | `hub-fixture.ts`          | `openHub` for a returning user, mocked settings, stats and account name (S-13)    |
 | `home.spec.ts`            | Dictation home (S-15a): greeting, stats rail, live refresh, voice profile         |
+| `dictionary.spec.ts`      | Dictionary (S-16): page, Add word dialog, import wizard, drops, export, axe       |
 
 ## Writing a spec
 

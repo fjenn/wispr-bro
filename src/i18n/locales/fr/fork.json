@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Étapes d'importation",
+      "stepOf": "Étape {{step}} sur {{total}} : {{title}}",
+      "steps": {
+        "choose": "Choisir un fichier",
+        "columns": "Correspondre les colonnes",
+        "review": "Vérifier",
+        "done": "Terminé"
+      },
+      "dropHint": "Déposez un fichier .csv ici, ou choisissez-en un.",
+      "browse": "Choisir un fichier .csv",
+      "limit": "Jusqu'à 3 Mo.",
+      "formatLink": "Format accepté",
+      "csvFilter": "fichier CSV",
+      "fileSummary_one": "{{name}} : {{count}} ligne",
+      "fileSummary_other": "{{name}}: {{count}} lignes",
+      "hasHeader": "La première ligne contient les noms de colonne",
+      "optional": "(facultatif)",
+      "noColumn": "Pas dans ce fichier",
+      "column": "Colonne {{letter}}",
+      "columnNamed": "Colonne {{letter}} : {{name}}",
+      "mapRequired": "Sélectionnez une colonne pour chaque champ non obligatoire.",
+      "previewCaption_one": "Aperçu de la première ligne",
+      "previewCaption_other": "Aperçu des premières {{count}} lignes",
+      "rowHeader": "Ligne",
+      "cancel": "Annuler",
+      "back": "Retour",
+      "next": "Suivant",
+      "import": "Importer",
+      "done": "Terminé",
+      "close": "Fermer",
+      "errors": {
+        "notCsv": "Ce n'est pas un fichier .csv. Enregistrez la feuille au format CSV et réessayez.",
+        "tooLarge": "Fichier de taille {{size}} Mo. Les fichiers peuvent ne pas dépasser 3 Mo.",
+        "unreadable": "Ce fichier ne peut pas être lu. Vérifiez qu'il s'agit d'un fichier CSV et réessayez.",
+        "empty": "Ce fichier ne contient pas de lignes à importer.",
+        "failed": "Quelque chose s'est mal passé. Rien n'a été importé ; veuillez réessayer."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Vos dictations sont enregistrées sur ce Mac",
       "body": "Ouvrir l'Historique pour le copier, le jouer ou le rechercher.",
       "action": "Ouvrir l'histoire"
+    }
+  },
+  "dictionary": {
+    "add": "Ajouter mot",
+    "added": "Ajouté «{{entry}}».",
+    "search": "Rechercher dans votre dictionnaire",
+    "refresh": "Actualiser",
+    "shown_one": "{{count}} entry shown",
+    "shown_other": "{{count}} entrées affichées",
+    "deleted": "Supprimé «{{entry}}».",
+    "deleteFailed": "Cette entrée ne peut pas être supprimée. Veuillez réessayer.",
+    "undo": "Annuler",
+    "tabs": {
+      "label": "Entrées du dictionnaire",
+      "all": "Tout ({{count}})",
+      "mine": "Ajouté par vous ({{count}})",
+      "suggested": "Suggéré ({{count}})"
+    },
+    "sort": {
+      "label": "Trier",
+      "newest": "Premier les plus récents",
+      "oldest": "Le plus ancien en premier",
+      "az": "A à Z",
+      "za": "Z à A",
+      "used": "Les plus utilisés"
+    },
+    "banner": {
+      "title": "Enseigne {{appName}} tes mots",
+      "body": "Ajoutez des noms, des termes de produits et des acronymes afin qu'ils soient orthographiés selon votre façon, ou remplacez un mot que vous dites par le texte que vous souhaitez.",
+      "examplesLabel": "Exemples",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "allé → allant à",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "devient",
+      "used_one": "Utilisé {{count}} fois",
+      "used_other": "Utilisé {{count}} fois",
+      "edit": "Modifier {{entry}}",
+      "delete": "Supprimer {{entry}}",
+      "accept": "Ajouter {{entry}} au dictionnaire"
+    },
+    "source": {
+      "import": "Importé",
+      "migrated": "À partir de vos mots personnalisés précédents",
+      "learn": "Appris",
+      "flag": "Du texte dicté marqué"
+    },
+    "empty": {
+      "title": "Votre dictionnaire est vide",
+      "body": "Ajoutez les noms, les mots et les remplacements que {{appName}} doit connaître. Ils s'appliquent à votre prochaine dictée."
+    },
+    "emptySuggested": {
+      "title": "Aucune suggestion encore",
+      "body": "Lorsque {{appName}} peut apprendre des mots que vous corrigez, ils apparaîtront ici pour que vous les approuviez."
+    },
+    "noMatch": {
+      "title": "Rien ne correspond",
+      "body": "Aucune entrée ne contient “{{query}}”.",
+      "action": "Effacer la recherche"
+    },
+    "unavailable": {
+      "title": "Le dictionnaire n'est pas encore disponible",
+      "body": "Cela s'ouvre dès que l'application a fini de s'initialiser."
+    },
+    "problem": {
+      "empty": "Écrivez d'abord un mot.",
+      "too_long": "Les mots peuvent atteindre {{max}} caractères.",
+      "replacement_too_long": "Les remplacements peuvent atteindre {{maxReplacement}} caractères.",
+      "same_as_replacement": "Le remplacement est identique au mot.",
+      "control_character": "Les sauts de ligne et les tabs ne peuvent pas être utilisés ici.",
+      "full": "Votre dictionnaire est plein. Supprimez d'abord quelques entrées."
+    },
+    "dialog": {
+      "addTitle": "Ajouter au dictionnaire",
+      "editTitle": "Éditer l'entrée du dictionnaire",
+      "description": "Les mots sont écrits comme vous les écrivez ici.",
+      "replaceToggle": "Remplacer un mot",
+      "word": "Mot ou nom",
+      "wordPlaceholder": "par ex. Siobhán",
+      "from": "Lorsque je dis",
+      "fromPlaceholder": "par ex. gonna",
+      "to": "Écrire",
+      "toPlaceholder": "par exemple allant à",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Aide le modèle de parole à l'entendre et à l'écriture correcte.",
+      "ruleHint": "Correspond à l'entier du mot, quel que soit le cas, et écrit la remplacement exactement comme sauvé.",
+      "cancel": "Annuler",
+      "add": "Ajouter mot",
+      "save": "Enregistrer",
+      "close": "Fermer",
+      "duplicate": "«{{entry}}» est déjà dans votre dictionnaire.",
+      "conflictRule": "« {{from}} » devient déjà « {{to}} ». ",
+      "conflictWord": "« {{word}} » est déjà dans votre dictionnaire avec une autre orthographe.",
+      "replaceExisting": "Le remplacer",
+      "missing": "Cette entrée a été supprimée en même temps.",
+      "failed": "Ce n'aurait pas pu être enregistré. Veuillez réessayer."
+    },
+    "import": {
+      "open": "Importer",
+      "title": "Importer le dictionnaire",
+      "description": "Apporter des mots et des remplacements depuis un fichier CSV enregistré dans un tableau de données.",
+      "fieldPhrase": "Mot, ou ce que tu dis",
+      "fieldReplacement": "Remplacer par",
+      "format": {
+        "intro": "Une entrée par ligne :",
+        "columns": "La première colonne est un mot ou ce que vous dites ; la deuxième, si elle est remplie, est le texte à écrire à la place.",
+        "header": "Une première ligne avec des noms de colonnes est acceptable ; vous choisissez les colonnes dans l'étape suivante.",
+        "limits": "Mots jusqu'à 60 caractères, remplacements jusqu'à 200, fichiers jusqu'à 3 Mo.",
+        "encoding": "Enregistrer sous CSV UTF-8 afin que les accents et autres scripts soient présents."
+      },
+      "review": {
+        "new_one": "nouvelle entrée",
+        "new_other": "nouvelles entrées",
+        "duplicates_one": "déjà là",
+        "duplicates_other": "déjà là",
+        "conflicts_one": "conflit",
+        "conflicts_other": "des conflits",
+        "invalid_one": "ne peut pas être importé",
+        "invalid_other": "ne peut pas être importé",
+        "overLimit_one": "Votre dictionnaire peut accueillir {{room}} de plus ; {{count}} nouvelle entrée ne pourra pas s'insérer.",
+        "overLimit_other": "Votre dictionnaire peut accueillir {{room}} de plus ; {{count}} nouveaux entrées ne vont pas s'insérer.",
+        "showNew": "Afficher les nouvelles entrées",
+        "more_one": "et {{count}} autres",
+        "more_other": "et {{count}} autres",
+        "conflictsTitle": "Déjà dans votre dictionnaire, différemment",
+        "conflictsHelp": "Cochez ceux où la version du fichier doit remplacer la vôtre.",
+        "useAllFile": "Utiliser la version du fichier pour tous",
+        "keepAllMine": "Gardez tout ce qui est mine",
+        "useFile": "Utiliser le fichier :",
+        "yours": "Les tiens :",
+        "showInvalid": "Afficher les lignes qui ne peuvent pas être importées",
+        "invalidRow": "Ligne {{row}} ({{phrase}}) : {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} entrée importée",
+        "title_other": "{{count}} entrées importées",
+        "added_one": "{{count}} ajouté",
+        "added_other": "{{count}} ajoutés",
+        "replaced_one": "{{count}} remplacé par la version du fichier",
+        "replaced_other": "{{count}} remplacé par la version du fichier",
+        "skipped_one": "{{count}} déjà présent, sauté",
+        "skipped_other": "{{count}} déjà présent, sauté",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflits conservés telles quelles",
+        "invalid_one": "{{count}} row couldn't be imported",
+        "invalid_other": "{{count}} lignes ne peuvent pas être importées",
+        "overLimit_one": "{{count}} n'a pas pu être importé (le dictionnaire est plein)",
+        "overLimit_other": "{{count}} n'a pas pu être importé (le dictionnaire est plein)"
+      }
+    },
+    "export": {
+      "open": "Exporter",
+      "fileName": "{{appName}} dictionnaire.csv",
+      "done_one": "Exporté {{count}} entrée.",
+      "done_other": "Exporté {{count}} entrées.",
+      "failed": "Le dictionnaire ne peut pas être exporté. Veuillez réessayer."
     }
   },
   "overrides": {

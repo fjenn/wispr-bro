@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "導入步驟",
+      "stepOf": "第 {{step}} 步，共 {{total}} 步：{{title}}",
+      "steps": {
+        "choose": "選擇一個檔案",
+        "columns": "對齊欄位",
+        "review": "檢視",
+        "done": "完成"
+      },
+      "dropHint": "將 .csv 檔案拖放到這裡，或選擇一個。",
+      "browse": "選擇一個 .csv 檔案",
+      "limit": "最多 3 MB。",
+      "formatLink": "接受的格式",
+      "csvFilter": "CSV 檔案",
+      "fileSummary_one": "{{name}}: {{count}} 行",
+      "fileSummary_other": "{{name}}: {{count}} 行",
+      "hasHeader": "第一行包含欄位名稱",
+      "optional": "(可選)",
+      "noColumn": "不在這個檔案中",
+      "column": "欄位 {{letter}}",
+      "columnNamed": "欄位 {{letter}}：{{name}}",
+      "mapRequired": "選擇每一項非必填欄位對應的欄位。",
+      "previewCaption_one": "第一行的預覽",
+      "previewCaption_other": "預覽前 {{count}} 行",
+      "rowHeader": "行",
+      "cancel": "取消",
+      "back": "返回",
+      "next": "下一步",
+      "import": "匯入",
+      "done": "完成",
+      "close": "關閉",
+      "errors": {
+        "notCsv": "那不是一個 .csv 檔案。請將表格儲存為 CSV，然後再試一次。",
+        "tooLarge": "這個檔案是 {{size}} MB。檔案最大可達 3 MB。",
+        "unreadable": "這個檔案無法讀取。請確認它是 CSV 檔案，然後再試一次。",
+        "empty": "這個檔案沒有資料可導入。",
+        "failed": "發生錯誤。沒有任何資料被匯入；請再試一次。"
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "你的語音輸入已儲存在這台 Mac 上",
       "body": "開啟歷史記錄以複製、播放或搜尋。",
       "action": "開啟歷史"
+    }
+  },
+  "dictionary": {
+    "add": "新增詞",
+    "added": "已新增 \"{{entry}}\"。",
+    "search": "在詞典中搜尋",
+    "refresh": "刷新",
+    "shown_one": "顯示 {{count}} 筆內容",
+    "shown_other": "顯示 {{count}} 筆資料",
+    "deleted": "已刪除「{{entry}}」。",
+    "deleteFailed": "這個項目無法刪除，請再試一次。",
+    "undo": "撤銷",
+    "tabs": {
+      "label": "詞典項目",
+      "all": "全部（{{count}}）",
+      "mine": "由您新增 ({{count}})",
+      "suggested": "建議（{{count}}）"
+    },
+    "sort": {
+      "label": "排序",
+      "newest": "最新先行",
+      "oldest": "最舊的在前",
+      "az": "A 到 Z",
+      "za": "Z 到 A",
+      "used": "最常使用的"
+    },
+    "banner": {
+      "title": "教 {{appName}} 你的詞語",
+      "body": "新增名稱、產品用語和縮寫，使其依照您的方式拼寫，或將您說出的詞替換為您想要的文字。",
+      "examplesLabel": "範例",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "gonna → going to",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "變成",
+      "used_one": "已使用 {{count}} 次",
+      "used_other": "已使用 {{count}} 次",
+      "edit": "編輯 {{entry}}",
+      "delete": "刪除 {{entry}}",
+      "accept": "將 {{entry}} 加入你的詞典"
+    },
+    "source": {
+      "import": "已匯入",
+      "migrated": "從你之前的自訂詞彙",
+      "learn": "已學習",
+      "flag": "來自已標記的語音輸入"
+    },
+    "empty": {
+      "title": "你的詞典是空的",
+      "body": "加入 {{appName}} 需要的名稱、詞語和替換項目。它們會適用於你的下一次語音輸入。"
+    },
+    "emptySuggested": {
+      "title": "尚未有建議",
+      "body": "當 {{appName}} 從你更正的詞語中學習時，這些詞語會在此出現，供你核准。"
+    },
+    "noMatch": {
+      "title": "沒有相符的項目",
+      "body": "沒有任何項目包含 \"{{query}}\"。",
+      "action": "清除搜尋"
+    },
+    "unavailable": {
+      "title": "詞典目前尚不可用",
+      "body": "它在應用程式完全啟動後立即開啟。"
+    },
+    "problem": {
+      "empty": "先輸入一個詞。",
+      "too_long": "字詞最多可達 {{max}} 個字元。",
+      "replacement_too_long": "替換內容最多可達 {{maxReplacement}} 個字元。",
+      "same_as_replacement": "替換詞與原詞相同。",
+      "control_character": "無法在此處使用換行與縮進。",
+      "full": "你的詞典已滿。請先刪除一些項目。"
+    },
+    "dialog": {
+      "addTitle": "加入詞典",
+      "editTitle": "編輯詞典項目",
+      "description": "字詞會依照你在此處的輸入方式來拼寫。",
+      "replaceToggle": "替換一個詞",
+      "word": "單字或名稱",
+      "wordPlaceholder": "例如：Siobhán",
+      "from": "當我說",
+      "fromPlaceholder": "例如：going to",
+      "to": "輸入",
+      "toPlaceholder": "例如：要去",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "幫助語音模型正確聽見並拼寫它。",
+      "ruleHint": "匹配整個詞，不區分大小寫，且完全依照輸入內容進行取代。",
+      "cancel": "取消",
+      "add": "新增詞",
+      "save": "儲存",
+      "close": "關閉",
+      "duplicate": "「{{entry}}」已經在你的詞典中了。",
+      "conflictRule": "「{{from}}」已經變為「{{to}}」。",
+      "conflictWord": "「{{word}}」已經在你的詞典中，有另一種拼寫。",
+      "replaceExisting": "替換它",
+      "missing": "這個項目已在此期間被刪除。",
+      "failed": "無法儲存。請再試一次。"
+    },
+    "import": {
+      "open": "匯入",
+      "title": "匯入詞典",
+      "description": "將儲存為 CSV 的電子表格中的詞彙和替換項目導入。",
+      "fieldPhrase": "字，或者你說的",
+      "fieldReplacement": "以取代",
+      "format": {
+        "intro": "每行一個項目：",
+        "columns": "第一列是單字或你說的話；第二列，若填寫，則是取代的文字。",
+        "header": "第一行包含欄位名稱沒問題；你可以在下一步選擇欄位。",
+        "limits": "字詞最多 60 個字元，替換內容最多 200 個，檔案大小最多 3 MB。",
+        "encoding": "儲存為 CSV UTF-8 以便正確顯示重音符號和其他文字。"
+      },
+      "review": {
+        "new_one": "新的項目",
+        "new_other": "新的項目",
+        "duplicates_one": "已經有了",
+        "duplicates_other": "已經有了",
+        "conflicts_one": "衝突",
+        "conflicts_other": "衝突",
+        "invalid_one": "無法匯入",
+        "invalid_other": "無法匯入",
+        "overLimit_one": "你的詞典還有 {{room}} 個空間；{{count}} 個新詞不會容納。",
+        "overLimit_other": "你的詞典還有 {{room}} 個空間；{{count}} 個新條目不會容納。",
+        "showNew": "顯示新的項目",
+        "more_one": "以及 {{count}} 更多",
+        "more_other": "以及 {{count}} 更多",
+        "conflictsTitle": "已經在你的詞典中，但不同",
+        "conflictsHelp": "勾選檔案版本應取代您目前版本的項目。",
+        "useAllFile": "使用該檔案的版本於全部",
+        "keepAllMine": "保留我所有的",
+        "useFile": "使用檔案的：",
+        "yours": "你的：",
+        "showInvalid": "顯示無法匯入的行",
+        "invalidRow": "第 {{row}} 行（{{phrase}}）：{{reason}}"
+      },
+      "done": {
+        "title_one": "已導入 {{count}} 筆資料",
+        "title_other": "已匯入 {{count}} 筆資料",
+        "added_one": "已新增 {{count}} 筆",
+        "added_other": "已新增 {{count}} 筆",
+        "replaced_one": "已將 {{count}} 個替換為檔案版本",
+        "replaced_other": "{{count}} 個已更換為檔案版本",
+        "skipped_one": "{{count}} 已經存在，已跳過",
+        "skipped_other": "{{count}} 已經存在，已跳過",
+        "kept_one": "{{count}} 個衝突已保留原樣",
+        "kept_other": "已保留 {{count}} 個衝突項目",
+        "invalid_one": "{{count}} 行無法匯入",
+        "invalid_other": "{{count}} 行無法匯入",
+        "overLimit_one": "{{count}} 沒有空間（詞典已滿）",
+        "overLimit_other": "{{count}} 沒有空間（詞典已滿）"
+      }
+    },
+    "export": {
+      "open": "導出",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "已導出 {{count}} 筆資料。",
+      "done_other": "已導出 {{count}} 筆資料。",
+      "failed": "無法匯出詞典。請再試一次。"
     }
   },
   "overrides": {

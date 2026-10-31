@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Schritte importieren",
+      "stepOf": "Schritt {{step}} von {{total}}: {{title}}",
+      "steps": {
+        "choose": "Eine Datei auswählen",
+        "columns": "Spalten übereinstimmen",
+        "review": "Überprüfen",
+        "done": "Fertig"
+      },
+      "dropHint": "Hier eine .csv-Datei ablegen, oder eine auswählen.",
+      "browse": "Eine .csv-Datei wählen",
+      "limit": "Bis zu 3 MB.",
+      "formatLink": "Akzeptierter Format",
+      "csvFilter": "CSV-Datei",
+      "fileSummary_one": "{{name}}: {{count}} Zeile",
+      "fileSummary_other": "{{name}}: {{count}} Zeilen",
+      "hasHeader": "Die erste Zeile enthält die Spaltennamen",
+      "optional": "(optional)",
+      "noColumn": "Nicht in dieser Datei",
+      "column": "Spalte {{letter}}",
+      "columnNamed": "Spalte {{letter}}: {{name}}",
+      "mapRequired": "Eine Spalte für jedes Feld auswählen, das nicht optional ist.",
+      "previewCaption_one": "Vorschau der ersten Zeile",
+      "previewCaption_other": "Vorschau der ersten {{count}} Zeilen",
+      "rowHeader": "Zeile",
+      "cancel": "Abbrechen",
+      "back": "Zurück",
+      "next": "Nächste",
+      "import": "Import",
+      "done": "Fertig",
+      "close": "Schließen",
+      "errors": {
+        "notCsv": "Das ist keine .csv-Datei. Speichern Sie die Tabelle als CSV und versuchen Sie es erneut.",
+        "tooLarge": "Diese Datei ist {{size}} MB. Dateien dürfen bis zu 3 MB groß sein.",
+        "unreadable": "Diese Datei konnte nicht geöffnet werden. Stellen Sie sicher, dass es eine CSV-Datei ist, und versuchen Sie es erneut.",
+        "empty": "Diese Datei enthält keine Zeilen zum Importieren.",
+        "failed": "Irgendetwas ist schiefgelaufen. Keine Daten wurden importiert; bitte versuchen Sie es erneut."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Deine Dictationen werden auf diesem Mac gespeichert",
       "body": "Historie öffnen, kopieren, abspielen oder suchen",
       "action": "Geschichte öffnen"
+    }
+  },
+  "dictionary": {
+    "add": "Wort hinzufügen",
+    "added": "Hinzugefügt: „{{entry}}“.",
+    "search": "Ihre Wörterbuch suchen",
+    "refresh": "Aktualisieren",
+    "shown_one": "{{count}} Eintrag angezeigt",
+    "shown_other": "{{count}} Einträge angezeigt",
+    "deleted": "Gelöscht „{{entry}}“.",
+    "deleteFailed": "Ein Eintrag konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+    "undo": "Rückgängig machen",
+    "tabs": {
+      "label": "Wörterbuch-Einträge",
+      "all": "Alle ({{count}})",
+      "mine": "Durch dich hinzugefügt ({{count}})",
+      "suggested": "Vorgeschlagen ({{count}})"
+    },
+    "sort": {
+      "label": "Sortieren",
+      "newest": "Neueste zuerst",
+      "oldest": "Älterer zuerst",
+      "az": "A bis Z",
+      "za": "Z bis A",
+      "used": "Am häufigsten verwendet"
+    },
+    "banner": {
+      "title": "Bring {{appName}} deine Wörter bei",
+      "body": "Fügen Sie Namen, Produktbezeichnungen und Abkürzungen hinzu, damit sie so geschrieben werden, wie Sie es wünschen, oder ersetzen Sie ein Wort, das Sie sagen, durch den Text, den Sie möchten.",
+      "examplesLabel": "Beispiele",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "gonna → going to",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "wird",
+      "used_one": "Gebraucht {{count}} Mal",
+      "used_other": "Gebraucht {{count}} Mal",
+      "edit": "Bearbeiten {{entry}}",
+      "delete": "Löschen {{entry}}",
+      "accept": "{{entry}} zu deinem Wörterbuch hinzufügen"
+    },
+    "source": {
+      "import": "Importiert",
+      "migrated": "Aus deinen früheren benutzerdefinierten Wörtern",
+      "learn": "Gelernt",
+      "flag": "Aus einer markierten Dictation"
+    },
+    "empty": {
+      "title": "Dein Wörterbuch ist leer",
+      "body": "Fügen Sie die Namen, Wörter und Ersetzungen hinzu, die {{appName}} kennen sollte. Sie gelten für Ihre nächste Dictation."
+    },
+    "emptySuggested": {
+      "title": "Keine Vorschläge bisher",
+      "body": "Wenn {{appName}} aus den Wörtern, die Sie korrigieren, lernen kann, werden sie hier für Sie angezeigt, um bestätigt zu werden."
+    },
+    "noMatch": {
+      "title": "Nichts passt",
+      "body": "Keine Einträge enthalten „{{query}}“.",
+      "action": "Suche löschen"
+    },
+    "unavailable": {
+      "title": "Das Wörterbuch ist noch nicht verfügbar",
+      "body": "Es öffnet, sobald die App fertig gestartet ist."
+    },
+    "problem": {
+      "empty": "Geben Sie zuerst ein Wort ein.",
+      "too_long": "Wörter können bis zu {{max}} Zeichen lang sein.",
+      "replacement_too_long": "Ersatzwerte können bis zu {{maxReplacement}} Zeichen lang sein.",
+      "same_as_replacement": "Der Ersatz ist gleich dem Wort.",
+      "control_character": "Zeilenumbrüche und Tabs können hier nicht verwendet werden.",
+      "full": "Dein Wörterbuch ist voll. Lösche zuerst einige Einträge."
+    },
+    "dialog": {
+      "addTitle": "Zu Wörterbuch hinzufügen",
+      "editTitle": "Dictionsbezeichnung bearbeiten",
+      "description": "Wörter werden so geschrieben, wie du sie hier schreibst.",
+      "replaceToggle": "Ein Wort ersetzen",
+      "word": "Wort oder Name",
+      "wordPlaceholder": "z. B. Siobhán",
+      "from": "Wenn ich sage",
+      "fromPlaceholder": "z. B. gonna",
+      "to": "Schreiben",
+      "toPlaceholder": "z. B. in die Richtung",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Hilft dem Sprachmodell, es richtig zu hören und zu schreiben.",
+      "ruleHint": "Passt genau das ganze Wort, unabhängig von Groß- oder Kleinschreibung, und schreibt die Ersetzung genauso wie eingegeben.",
+      "cancel": "Abbrechen",
+      "add": "Wort hinzufügen",
+      "save": "Speichern",
+      "close": "Schließen",
+      "duplicate": "„{{entry}}\" ist bereits in deinem Wörterbuch.",
+      "conflictRule": "„{{from}}\" wird bereits zu \"{{to}}\".“",
+      "conflictWord": "„{{word}}\" ist bereits in deinem Wörterbuch mit einer anderen Schreibweise enthalten.",
+      "replaceExisting": "Es ersetzen",
+      "missing": "Dieser Eintrag wurde zeitweise gelöscht.",
+      "failed": "Das konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Wörterbuch importieren",
+      "description": "Wörter und Ersetzungen aus einer als CSV gespeicherten Tabelle importieren.",
+      "fieldPhrase": "Wort, oder was du sagst",
+      "fieldReplacement": "Mit \"ersetzen\"",
+      "format": {
+        "intro": "Eine Eintrag pro Zeile:",
+        "columns": "Die erste Spalte ist ein Wort oder was du sagst; die zweite, wenn sie ausgefüllt ist, ist der Text, den du stattdessen schreiben sollst.",
+        "header": "Eine erste Zeile mit Spaltennamen ist in Ordnung; du wählst die Spalten im nächsten Schritt.",
+        "limits": "Wörter bis zu 60 Zeichen, Ersetzungen bis zu 200, Dateien bis zu 3 MB.",
+        "encoding": "Als CSV UTF-8 speichern, damit Akzente und andere Schriftarten korrekt angezeigt werden."
+      },
+      "review": {
+        "new_one": "neue Eintrag",
+        "new_other": "neue Einträge",
+        "duplicates_one": "bereits vorhanden",
+        "duplicates_other": "bereits vorhanden",
+        "conflicts_one": "Konflikt",
+        "conflicts_other": "Konflikte",
+        "invalid_one": "kann nicht importiert werden",
+        "invalid_other": "kann nicht importiert werden",
+        "overLimit_one": "Dein Wörterbuch hat noch Platz für {{room}} mehr; {{count}} neue Einträge passen nicht hinein.",
+        "overLimit_other": "Dein Wörterbuch hat noch Platz für {{room}} mehr; {{count}} neue Einträge passen nicht hinein.",
+        "showNew": "Neue Einträge anzeigen",
+        "more_one": "und {{count}} mehr",
+        "more_other": "und {{count}} weitere",
+        "conflictsTitle": "Bereits in deiner Wörterbuch, anders",
+        "conflictsHelp": "Machen Sie die Auswahl, bei denen die Dateiversion Ihre ersetzen soll.",
+        "useAllFile": "Alle mit der Dateiversion verwenden",
+        "keepAllMine": "Alle meine behalten",
+        "useFile": "Die Datei verwenden:",
+        "yours": "Ihre:",
+        "showInvalid": "Zeige die Zeilen an, die nicht importiert werden können",
+        "invalidRow": "Zeile {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} Eintrag importiert",
+        "title_other": "{{count}} Einträge importiert",
+        "added_one": "{{count}} hinzugefügt",
+        "added_other": "{{count}} hinzugefügt",
+        "replaced_one": "{{count}} durch die Version der Datei ersetzt",
+        "replaced_other": "{{count}} durch die Version der Datei ersetzt",
+        "skipped_one": "{{count}} bereits vorhanden, übersprungen",
+        "skipped_other": "{{count}} bereits vorhanden, übersprungen",
+        "kept_one": "{{count}} Konflikt wurde beibehalten",
+        "kept_other": "{{count}} Konflikte beibehalten, wie sie waren",
+        "invalid_one": "{{count}} Zeile konnte nicht importiert werden",
+        "invalid_other": "{{count}} Zeilen konnten nicht importiert werden",
+        "overLimit_one": "{{count}} passte nicht hin (das Wörterbuch ist voll)",
+        "overLimit_other": "{{count}} passt nicht hin (das Wörterbuch ist voll)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} Wörterbuch.csv",
+      "done_one": "Geklappt {{count}} Eintrag.",
+      "done_other": "Geklappt {{count}} Einträge.",
+      "failed": "Das Wörterbuch konnte nicht exportiert werden. Bitte versuchen Sie es erneut."
     }
   },
   "overrides": {

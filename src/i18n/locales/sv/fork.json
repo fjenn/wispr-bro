@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Importera steg",
+      "stepOf": "Steg {{step}} av {{total}}: {{title}}",
+      "steps": {
+        "choose": "Välj en fil",
+        "columns": "Matcha kolumner",
+        "review": "Revisa",
+        "done": "Färdigt"
+      },
+      "dropHint": "Släpp ett .csv-fil här, eller välj en.",
+      "browse": "Välj en .csv-fil",
+      "limit": "Max 3 MB.",
+      "formatLink": "Accepterad format",
+      "csvFilter": "CSV-fil",
+      "fileSummary_one": "{{name}}: {{count}} rad",
+      "fileSummary_other": "{{name}}: {{count}} rader",
+      "hasHeader": "Första raden innehåller kolumnnamn",
+      "optional": "(valfritt)",
+      "noColumn": "Inte i denna fil",
+      "column": "Kolumn {{letter}}",
+      "columnNamed": "Kolumn {{letter}}: {{name}}",
+      "mapRequired": "Välj en kolumn för varje fält som inte är valfritt.",
+      "previewCaption_one": "Förhandsvisning av den första raden",
+      "previewCaption_other": "Förhandsvisning av de första {{count}} raderna",
+      "rowHeader": "Rad",
+      "cancel": "Avbryt",
+      "back": "Tillbaka",
+      "next": "Nästa",
+      "import": "Importera",
+      "done": "Färdigt",
+      "close": "Stäng",
+      "errors": {
+        "notCsv": "Det är inte en .csv-fil. Spara arkivet som CSV och försök igen.",
+        "tooLarge": "Den här filen är {{size}} MB. Filer kan vara upp till 3 MB.",
+        "unreadable": "Den här filen kunde inte läsas. Kontrollera att den är en CSV-fil och försök igen.",
+        "empty": "Den här filen har inga rader att importera.",
+        "failed": "Något gick fel. Inget importerades; var vänlig och försök igen."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Dina dictationer sparas på denna Mac",
       "body": "Öppna Historik för att kopia, spela eller söka efter dem.",
       "action": "Öppna historia"
+    }
+  },
+  "dictionary": {
+    "add": "Lägg till ord",
+    "added": "Läggde till \"{{entry}}\".",
+    "search": "Sök i din ordbok",
+    "refresh": "Uppdatera",
+    "shown_one": "{{count}} entry visad",
+    "shown_other": "{{count}} poster visade",
+    "deleted": "Raderat “{{entry}}”.",
+    "deleteFailed": "Den här posten kunde inte tas bort. Försök igen.",
+    "undo": "Ångra",
+    "tabs": {
+      "label": "Ordboksinlägg",
+      "all": "All ({{count}})",
+      "mine": "Läggd av dig ({{count}})",
+      "suggested": "Förslag ({{count}})"
+    },
+    "sort": {
+      "label": "Sortera",
+      "newest": "Nyaste först",
+      "oldest": "Åldersförsta",
+      "az": "A till Z",
+      "za": "Z till A",
+      "used": "Mest använd"
+    },
+    "banner": {
+      "title": "Lär {{appName}} dina ord",
+      "body": "Lägg till namn, produkttermer och akronymer så att de skrivs enligt din vilja, eller ersätt ett ord du säger med texten du vill ha.",
+      "examplesLabel": "Exempel",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "skall → går till",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "blivs",
+      "used_one": "Används {{count}} gång",
+      "used_other": "Används {{count}} gånger",
+      "edit": "Redigera {{entry}}",
+      "delete": "Radera {{entry}}",
+      "accept": "Lägg till {{entry}} i din ordbok"
+    },
+    "source": {
+      "import": "Importad",
+      "migrated": "Från dina tidigare anpassade ord",
+      "learn": "Lärde sig",
+      "flag": "Från en flaggad dictation"
+    },
+    "empty": {
+      "title": "Din ordbok är tom",
+      "body": "Lägg till namn, ord och ersättningar {{appName}} ska känna till. De gäller din nästa dictation."
+    },
+    "emptySuggested": {
+      "title": "Inga förslag ännu",
+      "body": "När {{appName}} kan lära sig från orden du korrigerar, visas de här för dig att godkänna."
+    },
+    "noMatch": {
+      "title": "Inget matchar",
+      "body": "Ingen inlägg innehåller “{{query}}”.",
+      "action": "Radera sökningen"
+    },
+    "unavailable": {
+      "title": "Ordboken är inte tillgänglig ännu",
+      "body": "Det öppnas direkt när appen har färdigt startat."
+    },
+    "problem": {
+      "empty": "Skriv en ord först.",
+      "too_long": "Ord kan vara upp till {{max}} tecken.",
+      "replacement_too_long": "Ersättningar kan vara upp till {{maxReplacement}} tecken.",
+      "same_as_replacement": "Ersättningen är samma som ordet.",
+      "control_character": "Radavbrytningar och tabb kan inte användas här.",
+      "full": "Din ordbok är full. Radera några inlägg först."
+    },
+    "dialog": {
+      "addTitle": "Lägg till i ordbok",
+      "editTitle": "Redigera ordlistaentry",
+      "description": "Ord skrivs som du skriver dem här.",
+      "replaceToggle": "Ersätt ett ord",
+      "word": "Ord eller namn",
+      "wordPlaceholder": "t.ex. Siobhán",
+      "from": "När jag säger",
+      "fromPlaceholder": "t.ex. gonna",
+      "to": "Skriv",
+      "toPlaceholder": "t.ex. går till",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Hjälper talmodellen att höra och skriva det rätt.",
+      "ruleHint": "Matchar hela ordet, oavsett storlek, och skriver ersättningen exakt som skrivet.",
+      "cancel": "Avbryt",
+      "add": "Lägg till ord",
+      "save": "Spara",
+      "close": "Stäng",
+      "duplicate": "“{{entry}}” finns redan i din ordbok.",
+      "conflictRule": "“{{from}}” blir redan “{{to}}”.",
+      "conflictWord": "“{{word}}” finns redan i din ordbok med en annan stavning.",
+      "replaceExisting": "Ersätt det",
+      "missing": "Denna post togs bort under tiden.",
+      "failed": "Det kunde inte sparas. Försök igen."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importera ordbok",
+      "description": "Importera ord och ersättningar från en kalkylark som sparats som CSV.",
+      "fieldPhrase": "Ord, eller vad du säger",
+      "fieldReplacement": "Ersätt med",
+      "format": {
+        "intro": "En entry per rad:",
+        "columns": "Första kolumnen är ett ord eller vad du säger; andra kolumnen, om den fylls, är texten att skriva istället.",
+        "header": "En första rad med kolumnnamn är bra; du väljer kolumnerna i nästa steg.",
+        "limits": "Ord upp till 60 tecken, ersättningar upp till 200, filer upp till 3 MB.",
+        "encoding": "Spara som CSV UTF-8 så kommer akcenter och andra skrifter till."
+      },
+      "review": {
+        "new_one": "ny inlägg",
+        "new_other": "nyt inlägg",
+        "duplicates_one": "redan där",
+        "duplicates_other": "redan där",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikter",
+        "invalid_one": "kan inte importeras",
+        "invalid_other": "kan inte importeras",
+        "overLimit_one": "Din ordbok har plats för {{room}} mer; {{count}} nya inlägg går inte att lägga till.",
+        "overLimit_other": "Din ordbok har plats för {{room}} mer; {{count}} nya inlägg går inte att lägga till.",
+        "showNew": "Visa de nya intrycken",
+        "more_one": "och {{count}} mer",
+        "more_other": "och {{count}} mer",
+        "conflictsTitle": "Förstås redan i din ordbok, annorlunda",
+        "conflictsHelp": "Marka de där filversionen ska ersätta din.",
+        "useAllFile": "Använd filens version för allt",
+        "keepAllMine": "Behåll alla mina",
+        "useFile": "Använd filens:",
+        "yours": "Dina:",
+        "showInvalid": "Visa raderna som inte kan importeras",
+        "invalidRow": "Rad {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} entry importerad",
+        "title_other": "{{count}} poster importerade",
+        "added_one": "{{count}} tillagd",
+        "added_other": "{{count}} tillagd",
+        "replaced_one": "{{count}} ersatt med versionen från filen",
+        "replaced_other": "{{count}} ersatt med versionen från filen",
+        "skipped_one": "{{count}} finns redan där, hopplad",
+        "skipped_other": "{{count}} finns redan där, hopplade över",
+        "kept_one": "{{count}} konflikt behålls som det var",
+        "kept_other": "{{count}} konflikter behålls eftersom de var sådana",
+        "invalid_one": "{{count}} rad kunde inte importeras",
+        "invalid_other": "{{count}} rader kunde inte importeras",
+        "overLimit_one": "{{count}} gick inte in (lexikonet är fullt)",
+        "overLimit_other": "{{count}} gick inte in (lexikonet är fullt)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "Exportade {{count}} entry.",
+      "done_other": "Exportade {{count}} poster.",
+      "failed": "Ordboken kunde inte exporteras. Försök igen."
     }
   },
   "overrides": {

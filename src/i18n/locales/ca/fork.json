@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Pasos d'importació",
+      "stepOf": "Pas {{step}} de {{total}}: {{title}}",
+      "steps": {
+        "choose": "Selecciona un arxiu",
+        "columns": "Corresponen les columnes",
+        "review": "Revisar",
+        "done": "D'acord"
+      },
+      "dropHint": "Drogeu un arxiu .csv aquí, o trieu-ne un.",
+      "browse": "Selecciona un arxiu .csv",
+      "limit": " fins a 3 MB.",
+      "formatLink": "Format acceptat",
+      "csvFilter": "arxiu CSV",
+      "fileSummary_one": "{{name}}: {{count}} fila",
+      "fileSummary_other": "{{name}}: {{count}} files",
+      "hasHeader": "La primera fila conté els noms de columna",
+      "optional": "(opcional)",
+      "noColumn": "No a aquest arxiu",
+      "column": "Columna {{letter}}",
+      "columnNamed": "Columna {{letter}}: {{name}}",
+      "mapRequired": "Selecciona una columna per a cada camp que no sigui opcional.",
+      "previewCaption_one": "Previsualització de la primera fila",
+      "previewCaption_other": "Previsualització de les primeres {{count}} files",
+      "rowHeader": "Fila",
+      "cancel": "Cancel·lar",
+      "back": "Tornar",
+      "next": "Següent",
+      "import": "Importar",
+      "done": "D'acord",
+      "close": "Tancar",
+      "errors": {
+        "notCsv": "Això no és un arxiu .csv. Desa la fulla com a CSV i torna a provar.",
+        "tooLarge": "Aquest fitxer és de {{size}} MB. Els fitxers poden tenir fins a 3 MB.",
+        "unreadable": "Aquest fitxer no es pot llegir. Comprova que sigui un fitxer CSV i torna a intentar-ho.",
+        "empty": "Aquest fitxer no té files per importar.",
+        "failed": "Algo ha anat malament. Res no ha estat importat; si us plau, provi de nou."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Les teves dictacions estan guardades a aquest Mac",
       "body": "Obre l'Històric per copiar, reproduir o cercar-los.",
       "action": "Obre l'història"
+    }
+  },
+  "dictionary": {
+    "add": "Afegir paraula",
+    "added": "Afegit “{{entry}}”.",
+    "search": "Cerca el teu diccionari",
+    "refresh": "Refrescar",
+    "shown_one": "{{count}} entry shown",
+    "shown_other": "{{count}} entrades mostrades",
+    "deleted": "Esborrat “{{entry}}”.",
+    "deleteFailed": "Aquesta entrada no ha pogut ser eliminada. Si us plau, torni a intentar-ho.",
+    "undo": "Desfer",
+    "tabs": {
+      "label": "Entrades del diccionari",
+      "all": "Tots ({{count}})",
+      "mine": "Afegit per tu ({{count}})",
+      "suggested": "Suggerits ({{count}})"
+    },
+    "sort": {
+      "label": "Ordenar",
+      "newest": "Primera la més recent",
+      "oldest": "Primera l'antiga",
+      "az": "A a Z",
+      "za": "Z a A",
+      "used": "Més utilitzat"
+    },
+    "banner": {
+      "title": "Enseña {{appName}} les teves paraules",
+      "body": "Afegiu noms, termes de producte i acrònims perquè es diguin com voleu, o substituïu una paraula que digueu per al text que voleu.",
+      "examplesLabel": "Exemples",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "anar → anant a",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "devé",
+      "used_one": "Utilitzat {{count}} vegada",
+      "used_other": "Utilitzat {{count}} vegades",
+      "edit": "Edita {{entry}}",
+      "delete": "Esborrar {{entry}}",
+      "accept": "Afegir {{entry}} al teu diccionari"
+    },
+    "source": {
+      "import": "Importat",
+      "migrated": "Dels teus mots personalitzats anteriorment",
+      "learn": "Aprenut",
+      "flag": "De una dictació marcada"
+    },
+    "empty": {
+      "title": "El teu diccionari està buit",
+      "body": "Afegiu els noms, paraules i substitucions que ha de saber {{appName}}. S'apliquen a la vostra propera dictació."
+    },
+    "emptySuggested": {
+      "title": "Encara no hi ha suggeriments",
+      "body": "Quan {{appName}} pugui aprendre dels mots que corregiu, apareixeran aquí perquè els aproveu."
+    },
+    "noMatch": {
+      "title": "Res no coincideix",
+      "body": "Cap entrada conté “{{query}}”.",
+      "action": "Netejar la cerca"
+    },
+    "unavailable": {
+      "title": "El diccionari encara no està disponible",
+      "body": "Es obrirà tan aviat com la aplicació acabi d'iniciar-se."
+    },
+    "problem": {
+      "empty": "Escriu una paraula primer.",
+      "too_long": "Les paraules poden tenir fins a {{max}} caràcters.",
+      "replacement_too_long": "Els canvis poden tenir fins a {{maxReplacement}} caràcters.",
+      "same_as_replacement": "La substitució és la mateixa que la paraula.",
+      "control_character": "Els salts de línia i les tabulacions no es poden utilitzar aquí.",
+      "full": "El teu diccionari està complet. Suprimeix alguna entrada abans."
+    },
+    "dialog": {
+      "addTitle": "Afegir a el diccionari",
+      "editTitle": "Editar entrada del diccionari",
+      "description": "Les paraules es escriuen com les escrius aquí.",
+      "replaceToggle": "Substituir una paraula",
+      "word": "Paraula o nom",
+      "wordPlaceholder": "per exemple: Siobhán",
+      "from": "Quan digo",
+      "fromPlaceholder": "per exemple: aniré",
+      "to": "Escriu",
+      "toPlaceholder": "per exemple: anant a",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Ajuda el model de veu a entendre i escriure correctament.",
+      "ruleHint": "Coincideix amb la paraula completa, en qualsevol cas, i escriu la substitució exactament com es va teclar.",
+      "cancel": "Cancel·lar",
+      "add": "Afegir paraula",
+      "save": "Desa",
+      "close": "Tancar",
+      "duplicate": "“{{entry}}” ja està al teu diccionari.",
+      "conflictRule": "“{{from}}” ja es converteix en “{{to}}”.",
+      "conflictWord": "“{{word}}” ja està al teu diccionari amb una altra grafia.",
+      "replaceExisting": "Substituir-ho",
+      "missing": "Aquesta entrada ha estat eliminada en el moment.",
+      "failed": "No es pot guardar. Si us plau, torni a intentar-ho."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importar diccionari",
+      "description": "Introdueix paraules i substitucions d'un fitxer guardat com a CSV.",
+      "fieldPhrase": "Paraula, o el que diguis",
+      "fieldReplacement": "Substituir per",
+      "format": {
+        "intro": "Una entrada per fila:",
+        "columns": "La primera columna és una paraula o el que dius; la segona, si està omplida, és el text per escriure en lloc seu.",
+        "header": "És correcte una primera fila amb noms de columna; tu escolles les columnes en l'etapa següent.",
+        "limits": "Paraules fins a 60 caràcters, substitucions fins a 200, arxius fins a 3 MB.",
+        "encoding": "Desar com CSV UTF-8 per tal que els acentos i altres scripts es mostren."
+      },
+      "review": {
+        "new_one": "una nova entrada",
+        "new_other": "noves entrades",
+        "duplicates_one": "ja hi ha",
+        "duplicates_other": "ja hi ha",
+        "conflicts_one": "conflicte",
+        "conflicts_other": "conflictes",
+        "invalid_one": "no es pot importar",
+        "invalid_other": "no es pot importar",
+        "overLimit_one": "El teu diccionari té lloc per {{room}} més; {{count}} entrada nova no encauraria.",
+        "overLimit_other": "El teu diccionari té lloc per {{room}} més; {{count}} entrades noves no en cabran.",
+        "showNew": "Mostra les noves entrades",
+        "more_one": "i {{count}} més",
+        "more_other": "i {{count}} més",
+        "conflictsTitle": "Ja a la teva diccionari, diferent",
+        "conflictsHelp": "Marque les que la versió del fitxer hagi de substituir la teva.",
+        "useAllFile": "Utilitza la versió del fitxer per a tot",
+        "keepAllMine": "Té totes les meves",
+        "useFile": "Utilitza el fitxer's:",
+        "yours": "El teu:",
+        "showInvalid": "Mostra les files que no es poden importar",
+        "invalidRow": "Fila {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Es han importat {{count}} entrades",
+        "title_other": "S'han importat {{count}} entrades",
+        "added_one": "{{count}} afegit",
+        "added_other": "{{count}} afegit",
+        "replaced_one": "{{count}} substituït per la versió del fitxer",
+        "replaced_other": "{{count}} substituït per la versió del fitxer",
+        "skipped_one": "{{count}} ja hi està, saltat",
+        "skipped_other": "{{count}} ja hi està, es va saltar",
+        "kept_one": "Un conflicte {{count}} s'ha mantingut com estava",
+        "kept_other": "Es van mantenir {{count}} conflictes com eren",
+        "invalid_one": "{{count}} fila no ha pogut ser importada",
+        "invalid_other": "{{count}} files no es poden importar",
+        "overLimit_one": "{{count}} no va entrar (el diccionari està complet)",
+        "overLimit_other": "{{count}} no va entrar (el diccionari està complet)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} diccionari.csv",
+      "done_one": "Exportat {{count}} entrada.",
+      "done_other": "Exportat {{count}} entrades.",
+      "failed": "No s'ha pogut exportar el diccionari. Si us plau, torni a intentar-ho."
     }
   },
   "overrides": {

@@ -276,15 +276,19 @@ test.describe("hub shell", () => {
       "true",
     );
 
-    // An empty state's one action is a deep link.
-    await page.getByTestId("wb-nav-dictionary").click();
-    await page.getByRole("button", { name: "Open custom words" }).click();
-    await expect(main(page)).toHaveAttribute("data-page", "settings");
+    // An empty state's one action is a deep link (S-16 replaced the
+    // Dictionary placeholder, whose action opened Settings › Advanced).
+    await page.getByTestId("wb-nav-snippets").click();
+    await page.getByTestId("wb-empty-snippets").getByRole("button").click();
+    await expect(main(page)).toHaveAttribute("data-page", "dictation");
+    await expect(page).toHaveURL(/#\/hub\/dictation$/);
+    await page.evaluate(() => {
+      window.location.hash = "#/hub/settings/advanced";
+    });
     await expect(page.getByRole("tab", { name: "Advanced" })).toHaveAttribute(
       "aria-selected",
       "true",
     );
-    await expect(page).toHaveURL(/#\/hub\/settings\/advanced$/);
 
     // A link from outside (tray, menu, test) changes the hash.
     await page.evaluate(() => {

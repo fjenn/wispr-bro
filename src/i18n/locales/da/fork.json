@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Importér trin",
+      "stepOf": "Trin {{step}} af {{total}}: {{title}}",
+      "steps": {
+        "choose": "Vælg en fil",
+        "columns": "Match kolonner",
+        "review": "Gennemgå",
+        "done": "Færdig"
+      },
+      "dropHint": "Slip en .csv-fil her, eller vælg en.",
+      "browse": "Vælg en .csv-fil",
+      "limit": "Op til 3 MB.",
+      "formatLink": "Accepteret format",
+      "csvFilter": "CSV-fil",
+      "fileSummary_one": "{{name}}: {{count}} række",
+      "fileSummary_other": "{{name}}: {{count}} rader",
+      "hasHeader": "Første række indeholder kolonnens navne",
+      "optional": "(valgfrit)",
+      "noColumn": "Ikke i denne fil",
+      "column": "Kolonne {{letter}}",
+      "columnNamed": "Kolonne {{letter}}: {{name}}",
+      "mapRequired": "Vælg en kolonne for hvert felt, som ikke er valgfrit.",
+      "previewCaption_one": "Forhåndsvisning af den første række",
+      "previewCaption_other": "Forhåndsvisning af de første {{count}} rækker",
+      "rowHeader": "Række",
+      "cancel": "Annuller",
+      "back": "Tilbage",
+      "next": "Næste",
+      "import": "Import",
+      "done": "Færdig",
+      "close": "Luk",
+      "errors": {
+        "notCsv": "Det er ikke en .csv-fil. Gem ark som CSV og prøv igen.",
+        "tooLarge": "Denne fil er {{size}} MB. Filer kan være op til 3 MB.",
+        "unreadable": "Denne fil kunne ikke læses. Sørg for, at den er en CSV-fil og prøv igen.",
+        "empty": "Denne fil har ingen rækker at importere.",
+        "failed": "Noget gik galt. Ingen ting blev importeret; prøv venligst igen."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Dit dictation er beskrevet på denne Mac",
       "body": "Åbn Historik for at kopiere, spille eller søge i dem.",
       "action": "Åbn historik"
+    }
+  },
+  "dictionary": {
+    "add": "Tilføj ord",
+    "added": "Tilføjet “{{entry}}”.",
+    "search": "Søg i din ordbog",
+    "refresh": "Opdater",
+    "shown_one": "{{count}} indtastning vist",
+    "shown_other": "{{count}} indtastninger vist",
+    "deleted": "Slettet “{{entry}}”.",
+    "deleteFailed": "Denne indgang kunne ikke slettes. Prøv venligst igen.",
+    "undo": "Åbn",
+    "tabs": {
+      "label": "Ord i ordbogen",
+      "all": "Alle ({{count}})",
+      "mine": "Tilføjet af dig ({{count}})",
+      "suggested": "Anbefalet ({{count}})"
+    },
+    "sort": {
+      "label": "Sorter",
+      "newest": "Nyeste først",
+      "oldest": "Første i tid",
+      "az": "A til Z",
+      "za": "Z til A",
+      "used": "Mest brugt"
+    },
+    "banner": {
+      "title": "Lær {{appName}} dine ord",
+      "body": "Tilføj navne, produkttermer og akronymer, så de skrives efter din måde, eller erstatt et ord, du siger, med teksten, du vil have.",
+      "examplesLabel": "Eksempler",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "skal → går til",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "bliver",
+      "used_one": "Brugt {{count}} gang",
+      "used_other": "Brugt {{count}} gange",
+      "edit": "Rediger {{entry}}",
+      "delete": "Slet {{entry}}",
+      "accept": "Tilføj {{entry}} til din ordbog"
+    },
+    "source": {
+      "import": "Importert",
+      "migrated": "Fra dine tidligere personlige ord",
+      "learn": "Lært",
+      "flag": "Fra en flagget dictation"
+    },
+    "empty": {
+      "title": "Din ordbog er tom",
+      "body": "Tilføj navne, ord og erstatter {{appName}} bør vide. De gælder for din næste dictation."
+    },
+    "emptySuggested": {
+      "title": "Ingen forslag endnu",
+      "body": "Når {{appName}} kan lære fra ordene, du retter, vises de her for dig at godkende."
+    },
+    "noMatch": {
+      "title": "Ingen matcher",
+      "body": "Ingen indgang indeholder “{{query}}”.",
+      "action": "Fjern søgningen"
+    },
+    "unavailable": {
+      "title": "Ordbogen er endnu ikke tilgængelig",
+      "body": "Det åbner allerede så snart appen er færdig med at starte."
+    },
+    "problem": {
+      "empty": "Skriv et ord før.",
+      "too_long": "Ord kan være op til {{max}} tegn.",
+      "replacement_too_long": "Ersættelser kan være op til {{maxReplacement}} tegn.",
+      "same_as_replacement": "Ersatz er det samme som ordet.",
+      "control_character": "Rader og tab kan ikke bruges her.",
+      "full": "Din ordbog er fuld. Slet nogle indtager før."
+    },
+    "dialog": {
+      "addTitle": "Tilføj til ordbog",
+      "editTitle": "Rediger ordbogselement",
+      "description": "Ord skrives her som du skriver dem.",
+      "replaceToggle": "Erstat et ord",
+      "word": "Ord eller navn",
+      "wordPlaceholder": "f.eks. Siobhán",
+      "from": "Når jeg siger",
+      "fromPlaceholder": "f.eks. gå til",
+      "to": "Skriv",
+      "toPlaceholder": "f.eks. går til",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Hjælper talemodellen med at høre og skrive det korrekt.",
+      "ruleHint": "Matcher hele ordet, uanset skrifttype, og skriver erstattelsen nøyaktigt som den er tastet.",
+      "cancel": "Annuller",
+      "add": "Tilføj ord",
+      "save": "Gem",
+      "close": "Luk",
+      "duplicate": "“{{entry}}” er allerede i din ordbog.",
+      "conflictRule": "“{{from}}” bliver allerede „{{to}}“.",
+      "conflictWord": "“{{word}}” er allerede i din ordbog med en anden skrivning.",
+      "replaceExisting": "Erstat det",
+      "missing": "Denne indtastning er slettet i mellem.",
+      "failed": "Det kunne ikke beskæftiges. Prøv venligst igen."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importér ordbog",
+      "description": "Indsæt ord og erstatter fra en spreadsheet, gemt som CSV.",
+      "fieldPhrase": "Ord, eller hvad du siger",
+      "fieldReplacement": "Erstat med",
+      "format": {
+        "intro": "En indtastning pr. linje:",
+        "columns": "Første kolonne er et ord eller det du siger; anden, hvis udfyldt, er teksten du skal skrive i stedet.",
+        "header": "En første række med kolonnenummer er i orden; du vælger kolonnerne i næste trin.",
+        "limits": "Ord op til 60 tegn, erstatter op til 200, filer op til 3 MB.",
+        "encoding": "Gem som CSV UTF-8 så accent og andre skriftformer kommer igennem."
+      },
+      "review": {
+        "new_one": "ny indtastning",
+        "new_other": "nye indtager",
+        "duplicates_one": "er allerede der",
+        "duplicates_other": "er allerede der",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikter",
+        "invalid_one": "kan ikke importeres",
+        "invalid_other": "kan ikke importeres",
+        "overLimit_one": "Din ordbog har plads til {{room}} flere; {{count}} nye indgående passer ikke.",
+        "overLimit_other": "Din ordbog har plads til {{room}} flere; {{count}} nye indgående vil ikke passe.",
+        "showNew": "Vis de nye indtastninger",
+        "more_one": "og {{count}} flere",
+        "more_other": "og {{count}} flere",
+        "conflictsTitle": "Allerede i din ordbog, anderledes",
+        "conflictsHelp": "Mark de der filversion skal erstatte din.",
+        "useAllFile": "Brug filens version for alle",
+        "keepAllMine": "Hold alle mine",
+        "useFile": "Brug filens:",
+        "yours": "Dine:",
+        "showInvalid": "Vis rækkerne, der ikke kan importeres",
+        "invalidRow": "Række {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} indsat",
+        "title_other": "{{count}} indtastninger importeret",
+        "added_one": "{{count}} tilføjet",
+        "added_other": "{{count}} tilføjet",
+        "replaced_one": "{{count}} er erstattet med versionen fra filen",
+        "replaced_other": "{{count}} er erstattet med versionen fra filen",
+        "skipped_one": "{{count}} allerede der, springet over",
+        "skipped_other": "{{count}} allerede der, springet over",
+        "kept_one": "{{count}} konflikt blev bevaret som det var",
+        "kept_other": "{{count}} konflikter blev bevaret som de var",
+        "invalid_one": "{{count}} række kunne ikke importeres",
+        "invalid_other": "{{count}} rækker kunne ikke importeres",
+        "overLimit_one": "{{count}} passed ikke (ordbogen er fuld)",
+        "overLimit_other": "{{count}} passed ikke (ordbogen er fuld)"
+      }
+    },
+    "export": {
+      "open": "Eksport",
+      "fileName": "{{appName}} ordbog.csv",
+      "done_one": "Eksportered {{count}} indgang.",
+      "done_other": "Eksporteret {{count}} indtager.",
+      "failed": "Ordensfilen kunne ikke eksporteres. Prøv venligst igen."
     }
   },
   "overrides": {

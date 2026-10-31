@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "निर्यात कर्ने चरणहरू",
+      "stepOf": "{{step}} धनात्मक {{total}} मा: {{title}}",
+      "steps": {
+        "choose": "एक फाइल चयन गर्नुहोस",
+        "columns": "प्रतिसाद गर्नुहोस",
+        "review": "प्रस्ताव देख्नुहोस",
+        "done": "समाप्त"
+      },
+      "dropHint": "यहाँ .csv फाइल ड्राप गर्नुहोस वा एउटा छान्नुहोस।",
+      "browse": "।.csv फाइल चयन गर्नुहोस",
+      "limit": "3 MB भने अधिक",
+      "formatLink": "स्वीकृत फॉरमेट",
+      "csvFilter": "CSV file",
+      "fileSummary_one": "{{name}}: {{count}} फेर",
+      "fileSummary_other": "{{name}}: {{count}} टाइप",
+      "hasHeader": "पहिलो फेरी में स्तम्भ नामहरै छ",
+      "optional": "(विकल्पमा)",
+      "noColumn": "एहि फाइलमा नहोय",
+      "column": "स्तम्भ {{letter}}",
+      "columnNamed": "स्तम्भ {{letter}}: {{name}}",
+      "mapRequired": "प्रत्येक अनिवार्य खाली छैन भने एक स्तम्भ चयन गर्नुहोस।",
+      "previewCaption_one": "पहिलो टेबलको प्रस्तावना",
+      "previewCaption_other": "पहिलो {{count}} टेबलको प्रेव्यू",
+      "rowHeader": "पंक्ति",
+      "cancel": "बात छोड्नुहोस",
+      "back": "पछि",
+      "next": "पछि",
+      "import": "Import",
+      "done": "समाप्त",
+      "close": "बन्द गर्नुहोस",
+      "errors": {
+        "notCsv": "उहि .csv फाइल होइन। शीटलाई CSV मा सेभ गरी फेरि प्रयास गर्नुहोस।",
+        "tooLarge": "एहि फाइल लागि {{size}} MB हो। फाइल सभ केवल 3 MB सम्म छ।",
+        "unreadable": "एहि फाइल वाच्न सकिन्छ भने नभएको छ। यसलाई CSV फाइल भएको छ भने जाँच गर्नुहोस र फेरि प्रयास गर्नुहोस।",
+        "empty": "उहि फाइलमा एक वर्क नभएको छ।",
+        "failed": "केहि गलती भएको छ। कुनै पनि निर्यात भएको छैन; कृपया पुनः प्रयास गर्नुहोस।"
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "आपका दिलाइ गरिएको सभ यो मेकमा सेभ गरिएको छ",
       "body": "हिस्ट्री खोल्नुहोस, कपी गर्नुहोस, खेल्नुहोस वा तिनहरूलाई सर्च गर्नुहोस।",
       "action": "हिस्ट्री खोल्नुहोस"
+    }
+  },
+  "dictionary": {
+    "add": "शब्द थप गर्नुहोस",
+    "added": "“{{entry}}” थपिएको छ।",
+    "search": "आपको आफ्नो शब्दको खोज गर्नुहोस",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} एन्ट्री देखाइएको",
+    "shown_other": "{{count}} एन्ट्री सामना गरिएको",
+    "deleted": "“{{entry}}” अन्तिम गरिएको छ।",
+    "deleteFailed": "एहि एन्ट्री डिलीट गर्न सकिन्छ भने गर्नुहोस अगाडि गर्नुहोस।",
+    "undo": "उन्दो",
+    "tabs": {
+      "label": "दिशा अनुच्छेद",
+      "all": "सभ ({{count}})",
+      "mine": "तपाईंले थपेको ({{count}})",
+      "suggested": "सुझाव ({{count}})"
+    },
+    "sort": {
+      "label": "सोर्ट",
+      "newest": "पहिले नयाँ",
+      "oldest": "पहिले बाट अन्तिम तक",
+      "az": "A सम्म जे",
+      "za": "Z देखि A",
+      "used": "सबैभन्दा प्रयोग गरिएको"
+    },
+    "banner": {
+      "title": "{{appName}} को आपला शब्द बताउनुहोस",
+      "body": "नाम, उत्पाद शब्द र लघु संक्षेपहरू थप गर्नुहोस् जसलाई तपाईंको अनुसार लेख्नु पर्छ, वा तपाईंले भन्ने शब्दलाई तपाईंको चाहिने टेक्स्ट सँग बदल्नुहोस्।",
+      "examplesLabel": "विदलाहरू",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "गोना → गोइन्ग टू",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "बन्छ",
+      "used_one": "प्रयोग गरिएको छ {{count}} बार",
+      "used_other": "प्रयोग गरिएको छ {{count}} बार",
+      "edit": "सम्पादन गर्नुहोस {{entry}}",
+      "delete": "{{entry}} निकाल्नुहोस",
+      "accept": "आपको अपन शब्दकोशमा {{entry}} थप गर्नुहोस"
+    },
+    "source": {
+      "import": "import गएको",
+      "migrated": "आपला पहिलो स्वत: संशोधन शब्द",
+      "learn": "सीखिएको",
+      "flag": "अटक गए बोल्ड दिग्दर्शनबाट"
+    },
+    "empty": {
+      "title": "तपाईंको शब्दको खाली छ",
+      "body": "अतिरिक्त नाम, शब्द र बदलावहरू थप गर्नुहोस् जुन {{appName}} जान्छ। तिनीहरू तपाईंको अगाडि अनुमान गर्ने भन्दा अगाडि लगाउन्छ।"
+    },
+    "emptySuggested": {
+      "title": "अबसम्म सुझाव छैन",
+      "body": "जब {{appName}} तपाईंले सुधारेको शब्दहरूबाट सिक्न सक्छ, तिनीहरू यहाँ तपाईंलाई स्वीकृत गर्न दिन्छन।"
+    },
+    "noMatch": {
+      "title": "कुनै भने नमान",
+      "body": "कुनै प्रविष्टि “{{query}}” को साथ छैन।",
+      "action": "गोष्ठी सार्वजनिक गर्नुहोस"
+    },
+    "unavailable": {
+      "title": "अनुच्छेद अपूर्ण छला",
+      "body": "It opens as soon as the app has finished starting."
+    },
+    "problem": {
+      "empty": "पहिले एउटा शब्द लेख्नुहोस।",
+      "too_long": "अक्षर लेख लगभग {{max}} अक्षर सम्म छन्।",
+      "replacement_too_long": "प्रतिस्थापन संभव छन् जस्तै {{maxReplacement}} अक्षर सम्म।",
+      "same_as_replacement": "प्रतिस्थापन शब्द एउटै छ।",
+      "control_character": "रेखा ब्रेक र टैब को यहाँ प्रयोग गर्न सक्दैन।",
+      "full": "आपको शब्दकोश पूरा छ। पहिले केहि आइटी डिलिट गर्नुहोस।"
+    },
+    "dialog": {
+      "addTitle": "dictionary मा थप्नुहोस",
+      "editTitle": "प्रविष्टि सम्पादन गर्नुहोस",
+      "description": "अनुवाद यह तरीकाले लेख्नुहोस तरीकाले गरिन्छ।",
+      "replaceToggle": "एक शब्द बदल्नुहोस",
+      "word": "शब्द वा नाम",
+      "wordPlaceholder": "जस्तै जस्तै सियोभान",
+      "from": "जब म भन्छु",
+      "fromPlaceholder": "जस्तै गोना",
+      "to": "लेख्नुहोस",
+      "toPlaceholder": "जस्तै जाने लागि",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "स्पीच मोडललाई सुन्न र लेख्न मद्दत गर्छ।",
+      "ruleHint": "पूर्ण शब्दको मेल गर्छ, कुनै अक्षरको अनुसार र बदलाव एकदम टाइप गरिएको रूपमा लेख्छ।",
+      "cancel": "रद्द गर्नुहोस",
+      "add": "शब्द थप गर्नुहोस",
+      "save": "थाह गर्नुहोस",
+      "close": "बन्द गर्नुहोस",
+      "duplicate": "“{{entry}}” तपाईंको शब्दकोशमा पहिले छ।",
+      "conflictRule": "“{{from}}” अब “{{to}}” बन्छ।",
+      "conflictWord": "“{{word}}” तपाईंको शब्दकोशमा पहिले अन्य लेखन लगाएको छ।",
+      "replaceExisting": "प्रतिस्थापन गर्नुहोस",
+      "missing": "एहि एन्ट्री अन्तमें हटाइएल गए छल।",
+      "failed": "उहि सेभाउन सकिन्छ। कृपया पुनः प्रयास गर्नुहोस।"
+    },
+    "import": {
+      "open": "Import",
+      "title": "Dictionary import gareko",
+      "description": "CSV मा सेभ गरिएको एक टेबलबाट शब्दहरू र बदलावहरू ल्याउनुहोस",
+      "fieldPhrase": "शब्द, वा तपाईंको भनाइ",
+      "fieldReplacement": "प्रतिस्थापन गर्नुहोस",
+      "format": {
+        "intro": "एक एन्ट्री प्रति रोव:",
+        "columns": "पहिलो स्तम्भ एक शब्द वा तपाईंको भन्दा छ; दोस्रो, यदि भरिएको छ भने, लेख्न गर्ने टेक्स्ट हुन्छ।",
+        "header": "पहिलो फेरी स्तम्भ नामहरै अच्छो छ; तपाईं अगाडि चाहिने स्तम्भ सेलेक्ट गर्नेछन।",
+        "limits": "संग्रह अधिकतम 60 अक्षर, प्रतिस्थापन 200 तक, फाइल 3 MB तक।",
+        "encoding": "CSV UTF-8 मा सेभ गर्नु भने अक्षर र अन्य स्क्रिप्ट सँगै आउन्छ।"
+      },
+      "review": {
+        "new_one": "नया एन्ट्री",
+        "new_other": "नया प्रविष्टि",
+        "duplicates_one": "पहिले भनेको छ",
+        "duplicates_other": "पहिले भनेको छ",
+        "conflicts_one": "विरोध",
+        "conflicts_other": "संघर्ष",
+        "invalid_one": "import garna sakdina",
+        "invalid_other": "import garna sakdina",
+        "overLimit_one": "आपको शब्दकोशमा {{room}} अझ जगह छ; {{count}} नयाँ प्रविष्टि निस्नत हुनेछ।",
+        "overLimit_other": "आपको शब्दकोशमा {{room}} अझ जगह छ; {{count}} नयाँ प्रविष्टि निस्नत हुन्छ।",
+        "showNew": "नया प्रविष्टि देखाउनुहोस",
+        "more_one": "एउटा अगाडि {{count}} भने",
+        "more_other": "एउटा अर्को {{count}} भने",
+        "conflictsTitle": "अपन शब्दकोशमा पहिले छ, अलग गरी",
+        "conflictsHelp": "चेक गर्नुहोस जहाँ फाइलको वर्जन तपाईंको अनुसार बदल्नुपर्छ।",
+        "useAllFile": "सभ फाइलको वर्जन कार्य गर्नुहोस",
+        "keepAllMine": "सबै मेरो राख्नुहोस",
+        "useFile": "फाइलको उपयोग गर्ने:",
+        "yours": "तपाईंको:",
+        "showInvalid": "अन्तर्वर्ती रोलहरू देखाउनुहोस",
+        "invalidRow": "प्रतिलिपि {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} एन्ट्री इम्पोर्ट गरिएको",
+        "title_other": "{{count}} एन्ट्री स्थानान्तरित गरिएको",
+        "added_one": "{{count}} थपिएको",
+        "added_other": "{{count}} थपिएको",
+        "replaced_one": "{{count}} फाइलको संस्करण सँग बदलिएको छ",
+        "replaced_other": "{{count}} अन्यको संस्करण सँग बदलिएको छ",
+        "skipped_one": "{{count}} पहिले भने छ, छोड़िएको",
+        "skipped_other": "{{count}} पहिले भने छ, छोड़िएको",
+        "kept_one": "{{count}} लागि संघर्ष बचाइएको छ",
+        "kept_other": "{{count}} लागि अन्य राखिएको छ",
+        "invalid_one": "{{count}} फेर आयो नभएको",
+        "invalid_other": "{{count}} फेराहरू आयो नभएको छ",
+        "overLimit_one": "{{count}} म न बिचारिन (अनुच्छेद भरिएको छ)",
+        "overLimit_other": "{{count}} म न बिचारिन (अनुच्छेद भरिएको छ)"
+      }
+    },
+    "export": {
+      "open": "निर्यात",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "{{count}} एन्ट्री एक्सपोर्ट गरिएको छ।",
+      "done_other": "अन्तर्गत {{count}} एन्ट्री स्थानान्तरित गरिएको छ।",
+      "failed": "अनुच्छेद निर्यात गर्न सकिएको छ। कृपया पुनः प्रयास गर्नुहोस।"
     }
   },
   "overrides": {

@@ -32,6 +32,7 @@ pub mod commands;
 pub mod context;
 pub mod db;
 pub mod diagnostics;
+pub mod dictionary;
 pub mod events;
 pub mod hub;
 pub mod i18n;
@@ -365,6 +366,14 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     db::jobs::start(app);
     // S-11: the dictionary rules the text pipeline applies, read per take.
     install_rule_source(app);
+    // S-16: Handy's custom words and the dictionary's words (one-time
+    // migration, then the mirror), off the main thread.
+    {
+        let app = app.clone();
+        std::thread::spawn(move || {
+            dictionary::migrate::sync(&app);
+        });
+    }
 
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
@@ -430,6 +439,15 @@ macro_rules! fork_specta_builder {
                 commands::llm::fork_llm_status::<$runtime>,
                 commands::llm::fork_llm_try::<$runtime>,
                 commands::llm::fork_llm_retry::<$runtime>,
+                commands::dictionary::fork_dictionary_list::<$runtime>,
+                commands::dictionary::fork_dictionary_add::<$runtime>,
+                commands::dictionary::fork_dictionary_update::<$runtime>,
+                commands::dictionary::fork_dictionary_delete::<$runtime>,
+                commands::dictionary::fork_dictionary_restore::<$runtime>,
+                commands::dictionary::fork_dictionary_read_file,
+                commands::dictionary::fork_dictionary_import_review::<$runtime>,
+                commands::dictionary::fork_dictionary_import::<$runtime>,
+                commands::dictionary::fork_dictionary_export::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -437,7 +455,8 @@ macro_rules! fork_specta_builder {
                 events::ForkInsertOutcome,
                 shortcut::ForkHotkeyEvent,
                 events::ForkStatsUpdated,
-                llm::runtime::ForkLlmStatus
+                llm::runtime::ForkLlmStatus,
+                dictionary::ForkDictionaryChanged
             ])
     };
 }

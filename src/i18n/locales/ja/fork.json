@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "ステップをインポート",
+      "stepOf": "{{step}} / {{total}}: {{title}}",
+      "steps": {
+        "choose": "ファイルを選んでください",
+        "columns": "列を一致させる",
+        "review": "確認",
+        "done": "完了"
+      },
+      "dropHint": "ここに.csvファイルをドロップしてください、または選択してください。",
+      "browse": " .csv ファイルを選びます",
+      "limit": "3MBまで。",
+      "formatLink": "受け入れられる形式",
+      "csvFilter": "CSV ファイル",
+      "fileSummary_one": "{{name}}: {{count}} 行",
+      "fileSummary_other": "{{name}}: {{count}} 行",
+      "hasHeader": "最初の行には列名が含まれています",
+      "optional": "(任意)",
+      "noColumn": "このファイルにはありません",
+      "column": "列 {{letter}}",
+      "columnNamed": "列 {{letter}}: {{name}}",
+      "mapRequired": "すべての必須でないフィールドに、列を選んでください。",
+      "previewCaption_one": "1行のプレビュー",
+      "previewCaption_other": "最初の{{count}}行のプレビュー",
+      "rowHeader": "行",
+      "cancel": "キャンセル",
+      "back": "Back",
+      "next": "次",
+      "import": "インポート",
+      "done": "完了",
+      "close": "閉じる",
+      "errors": {
+        "notCsv": "それは.csvファイルではありません。シートをCSVとして保存して再度試してください。",
+        "tooLarge": "そのファイルは {{size}} MB です。ファイルは 3 MB までです。",
+        "unreadable": "そのファイルを読み込めません。CSVファイルであることを確認して再度試してください。",
+        "empty": "そのファイルにはインポートする行がありません。",
+        "failed": "何かが間違っています。何もインポートされませんでした。再度お試しください。"
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "あなたのディクテーションはこのMacに保存されています",
       "body": "履歴を開くことでコピー、再生、または検索できます。",
       "action": "履歴を開く"
+    }
+  },
+  "dictionary": {
+    "add": "単語を追加",
+    "added": "「{{entry}}」を追加しました。",
+    "search": "辞書を検索",
+    "refresh": "リフレッシュ",
+    "shown_one": "{{count}} 個の項目が表示されています",
+    "shown_other": "{{count}} 個の項目が表示されています",
+    "deleted": "「{{entry}}」を削除しました。",
+    "deleteFailed": "その項目を削除できませんでした。再度お試しください。",
+    "undo": "元に戻す",
+    "tabs": {
+      "label": "辞書の項目",
+      "all": "すべて ({{count}})",
+      "mine": "あなたが追加した ({{count}})",
+      "suggested": "推奨 ({{count}})"
+    },
+    "sort": {
+      "label": "並べ替え",
+      "newest": "新しいものから",
+      "oldest": "一番古いものから",
+      "az": "A から Z まで",
+      "za": "ZからA",
+      "used": "最も使われている"
+    },
+    "banner": {
+      "title": "{{appName}}にあなたの言葉を教える",
+      "body": "名前や商品用語、略語をあなたの書き方で登録するか、言いたい言葉をテキストに置き換えることができます。",
+      "examplesLabel": "例",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "gonna → going to",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "becomes",
+      "used_one": "{{count}}回使用しました",
+      "used_other": "{{count}}回使用されました",
+      "edit": "{{entry}} を編集",
+      "delete": "{{entry}} を削除",
+      "accept": "辞書に {{entry}} を追加"
+    },
+    "source": {
+      "import": "インポートされた",
+      "migrated": "以前のカスタム語から",
+      "learn": "学習済み",
+      "flag": "フラグ付きディクテーションから"
+    },
+    "empty": {
+      "title": "あなたの辞書は空です",
+      "body": "追加する名前、単語、置換を {{appName}} に教えてください。次に使うディクテーションに適用されます。"
+    },
+    "emptySuggested": {
+      "title": "まだ提案はありません",
+      "body": "{{appName}}があなたが訂正した言葉から学べるようになったとき、それらはここに表示され、承認できます。"
+    },
+    "noMatch": {
+      "title": "一致するものはありません",
+      "body": "「{{query}}」を含む項目は見つかりません。",
+      "action": "検索をクリアする"
+    },
+    "unavailable": {
+      "title": "辞書がまだ利用できません",
+      "body": "アプリが起動した直後に開きます。"
+    },
+    "problem": {
+      "empty": "まず単語をタイプしてください。",
+      "too_long": "単語は最大 {{max}} 文字までです。",
+      "replacement_too_long": "置換文字列は{{maxReplacement}}文字まで可能です。",
+      "same_as_replacement": "置換文字が単語と同じです。",
+      "control_character": "改行とタブはここでは使用できません。",
+      "full": "辞書がいっぱいです。まずいくつかの項目を削除してください。"
+    },
+    "dialog": {
+      "addTitle": "辞書に追加",
+      "editTitle": "辞書項目を編集",
+      "description": "語はここに書くように書かれる",
+      "replaceToggle": "単語を置き換える",
+      "word": "単語または名前",
+      "wordPlaceholder": "たとえば \"Siobhán\"",
+      "from": "「私が言うとき」",
+      "fromPlaceholder": "たとえば \"gonna\"",
+      "to": "書く",
+      "toPlaceholder": "たとえば \"行く予定\"",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "発話モデルが正しく聞かせ、正しいスペルを決めることを助けます。",
+      "ruleHint": "完全な単語に一致し、大小文字を問わず、入力された置換文字を正確に書きます。",
+      "cancel": "キャンセル",
+      "add": "単語を追加",
+      "save": "保存",
+      "close": "閉じる",
+      "duplicate": "“{{entry}}” はすでに辞書にあります。",
+      "conflictRule": "“{{from}}” すでに «{{to}}» に変換されます。",
+      "conflictWord": "「{{word}}」はすでに別のスペルで辞書にあります。",
+      "replaceExisting": "それを置き換える",
+      "missing": "この項目はその間削除されました。",
+      "failed": "そのデータは保存できません。再度お試しください。"
+    },
+    "import": {
+      "open": "インポート",
+      "title": "辞書をインポート",
+      "description": "CSV として保存されたスプレッドシートから単語と置換をインポートします。",
+      "fieldPhrase": "言葉、またはあなたが言うこと",
+      "fieldReplacement": "を置き換える",
+      "format": {
+        "intro": "1行に1項目:",
+        "columns": "最初の列は単語またはあなたが言う内容；2つ目の列は、埋め込まれている場合、その代わりに書くテキストです。",
+        "header": "最初の行に列名があるのは大丈夫です。次のステップで列を選んでください。",
+        "limits": "単語は60文字まで、置換は200まで、ファイルは3MBまで。",
+        "encoding": "CSV UTF-8 に保存して、アクセントや他の文字を使うようにする。"
+      },
+      "review": {
+        "new_one": "新しい項目",
+        "new_other": "新しい項目",
+        "duplicates_one": "すでにそこにある",
+        "duplicates_other": "すでにそこにある",
+        "conflicts_one": "衝突",
+        "conflicts_other": "衝突",
+        "invalid_one": "インポートできません",
+        "invalid_other": "インポートできません",
+        "overLimit_one": "あなたの辞書には{{room}}個の余裕があります；{{count}}個の新しい項目は収まりません。",
+        "overLimit_other": "あなたの辞書には{{room}}個の余裕があります；{{count}}個の新しい項目は収まりません。",
+        "showNew": "新しい項目を表示",
+        "more_one": "そして{{count}}つ以上",
+        "more_other": "そして{{count}}個以上",
+        "conflictsTitle": "すでに辞書にあります、違いがあります",
+        "conflictsHelp": "ファイルのバージョンが自分のものに置き換わるべき ones にチェックをつけてください。",
+        "useAllFile": "すべてのファイルのバージョンを使用",
+        "keepAllMine": "すべてを私のものにしたまえ",
+        "useFile": "ファイルの:",
+        "yours": "あなたのもの:",
+        "showInvalid": "インポートできない行を表示する",
+        "invalidRow": "行 {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} 件の項目がインポートされました",
+        "title_other": "{{count}} 個の項目がインポートされました",
+        "added_one": "{{count}} が追加されました",
+        "added_other": "{{count}} が追加されました",
+        "replaced_one": "{{count}} がファイルのバージョンに置き換えられました",
+        "replaced_other": "{{count}} がファイルのバージョンに置き換えられました",
+        "skipped_one": "{{count}} すでに存在するのでスキップ",
+        "skipped_other": "{{count}} すでに存在するのでスキップ",
+        "kept_one": "{{count}} の衝突はそのまま保持されました",
+        "kept_other": "{{count}} つの競合はそのまま保持されました",
+        "invalid_one": "{{count}} 行がインポートできません",
+        "invalid_other": "{{count}} 行がインポートできません",
+        "overLimit_one": "{{count}} は収まらない (辞書がいっぱいです)",
+        "overLimit_other": "{{count}} は収まらず（辞書がいっぱいです）"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "{{count}}件をエクスポートしました。",
+      "done_other": "{{count}}件をエクスポートしました。",
+      "failed": "辞書のエクスポートに失敗しました。再度お試しください。"
     }
   },
   "overrides": {

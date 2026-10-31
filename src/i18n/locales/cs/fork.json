@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Kroky importu",
+      "stepOf": "Krok {{step}} z {{total}}: {{title}}",
+      "steps": {
+        "choose": "Vyberte soubor",
+        "columns": "Spojit sloupce",
+        "review": "Prohlédnout",
+        "done": "Hotovo"
+      },
+      "dropHint": "Přesuď soubor .csv sem, nebo vyber jeden.",
+      "browse": "Vyberte soubor .csv",
+      "limit": "Až 3 MB.",
+      "formatLink": "Přijatý formát",
+      "csvFilter": "Soubor CSV",
+      "fileSummary_one": "{{name}}: {{count}} řádku",
+      "fileSummary_other": "{{name}}: {{count}} řádků",
+      "hasHeader": "První řádek obsahuje názvy sloupců",
+      "optional": "(volitelné)",
+      "noColumn": "Nejsou v tomto souboru",
+      "column": "Sloupec {{letter}}",
+      "columnNamed": "Sloupec {{letter}}: {{name}}",
+      "mapRequired": "Vyberte sloupec pro každé pole, které není volitelné.",
+      "previewCaption_one": "Náhled první řádky",
+      "previewCaption_other": "Náhled prvních {{count}} řádků",
+      "rowHeader": "Řádek",
+      "cancel": "Storno",
+      "back": "Zpět",
+      "next": "Další",
+      "import": "Import",
+      "done": "Hotovo",
+      "close": "Zavřít",
+      "errors": {
+        "notCsv": "To není soubor .csv. Uložte list jako CSV a zkuste to znovu.",
+        "tooLarge": "Soubor má velikost {{size}} MB. Soubory mohou být až 3 MB.",
+        "unreadable": "Soubor nemůže být načten. Ujisti se, že je to soubor CSV a zkus to znovu.",
+        "empty": "Tento soubor nemá žádné řádky k importu.",
+        "failed": "Něco se nepovedlo. Nic nebylo naimportováno; zkuste to prosím znovu."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "Vaše dictace jsou uložené na tomto Macu",
       "body": "Otevřít historii pro zkopírování, přehrání nebo hledání.",
       "action": "Otevřít historii"
+    }
+  },
+  "dictionary": {
+    "add": "Přidat slovo",
+    "added": "Přidáno „{{entry}}“.",
+    "search": "Hledání v slovníku",
+    "refresh": "Obnovit",
+    "shown_one": "{{count}} záznam zobrazen",
+    "shown_other": "{{count}} zázvuků zobrazeno",
+    "deleted": "Odstraněno „{{entry}}“.",
+    "deleteFailed": "Tento záznam nemohl být smazán. Zkuste to prosím znovu.",
+    "undo": "Zpět",
+    "tabs": {
+      "label": "Záznamy slovníku",
+      "all": "Vše ({{count}})",
+      "mine": "Přidáno vámi ({{count}})",
+      "suggested": "Navržené ({{count}})"
+    },
+    "sort": {
+      "label": "Třídit",
+      "newest": "Nejnovější nejprve",
+      "oldest": "Nejstarší nejprve",
+      "az": "A do Z",
+      "za": "Z na A",
+      "used": "Nejčastěji používané"
+    },
+    "banner": {
+      "title": "Uči {{appName}} své slova",
+      "body": "Přidejte názvy, výrobkové termíny a zkratky, aby byly psány podle vašeho zvyku, nebo nahraďte slovo, které říkáte, textem, který chcete.",
+      "examplesLabel": "Příklady",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "budeš → jdeš",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "stává se",
+      "used_one": "Použito {{count}} krát",
+      "used_other": "Použito {{count}} krát",
+      "edit": "Upravit {{entry}}",
+      "delete": "Odstranit {{entry}}",
+      "accept": "Přidej {{entry}} do svého slovníku"
+    },
+    "source": {
+      "import": "Importované",
+      "migrated": "Z vašich dřívějších vlastních slov",
+      "learn": "Získáno",
+      "flag": "Z označené dictace"
+    },
+    "empty": {
+      "title": "Vaše slovník je prázdný",
+      "body": "Přidejte názvy, slova a nahrazení, která by měla vědět {{appName}}. Platí pro vaši další dictaci."
+    },
+    "emptySuggested": {
+      "title": "Zatím žádné doporučení",
+      "body": "Když {{appName}} získá z výsledků, které opravíte, objeví se sem pro vaši schválení."
+    },
+    "noMatch": {
+      "title": "Nic neodpovídá",
+      "body": "Žádný výraz neobsahuje „{{query}}“.",
+      "action": "Zrušit hledání"
+    },
+    "unavailable": {
+      "title": "Slovník je ještě nepřístupný",
+      "body": "Otevře se, jakmile aplikace dokončí spuštění."
+    },
+    "problem": {
+      "empty": "Zadejte nejdřív slovo.",
+      "too_long": "Slova mohou být až {{max}} znaků.",
+      "replacement_too_long": "Nahrazení mohou být až {{maxReplacement}} znaků.",
+      "same_as_replacement": "Náhrada je stejná jako slovo.",
+      "control_character": "Znakové řádky a tabulátory nemohou být použity zde.",
+      "full": "Vaše slovník je plný. Smějte se nejprve vymazat některé položky."
+    },
+    "dialog": {
+      "addTitle": "Přidat do slovníku",
+      "editTitle": "Upravit vstup do slovníku",
+      "description": "Slova jsou psána tak, jak je zde psána.",
+      "replaceToggle": "Zaměnit slovo",
+      "word": "Slovo nebo jméno",
+      "wordPlaceholder": "např. Siobhán",
+      "from": "Když řeknu",
+      "fromPlaceholder": "např. bude",
+      "to": "Napiš",
+      "toPlaceholder": "např. jdu do",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Pomáhá mluvenému modelu poznat a správně psát.",
+      "ruleHint": "Shoduje celé slovo, bez ohledu na velikost písmen, a zapisuje nahrazovací text přesně tak, jak byl napsán.",
+      "cancel": "Storno",
+      "add": "Přidat slovo",
+      "save": "Uložit",
+      "close": "Zavřít",
+      "duplicate": "„{{entry}}\" je už v vašem slovníku.",
+      "conflictRule": "„{{from}}\" už se stává \"{{to}}\".“",
+      "conflictWord": "„{{word}}\" je už v vašem slovníku s jiným psaním.",
+      "replaceExisting": "Zaměnit to",
+      "missing": "Tento záznam byl vymazán v průběhu času.",
+      "failed": "To se nepovedlo uložit. Zkuste to prosím znovu."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Importovat slovník",
+      "description": "Přidat slova a nahrazení z tabulky uložené jako CSV.",
+      "fieldPhrase": "Slovo nebo to, co říkáš",
+      "fieldReplacement": "Nahradit s",
+      "format": {
+        "intro": "Jedna položka na řádek:",
+        "columns": "První sloupec je slovo nebo to, co říkáte; druhý, pokud je vyplněn, je text, který máte napsat namísto toho.",
+        "header": "První řádek s názvy sloupců je v pořádku; vybíráte sloupce v následujícím kroku.",
+        "limits": "Slova do 60 znaků, nahrazování do 200, soubory do 3 MB.",
+        "encoding": "Uložit jako CSV UTF-8, aby se diakritika a jiné psaní vyskytly."
+      },
+      "review": {
+        "new_one": "nový vstup",
+        "new_other": "nové položky",
+        "duplicates_one": "už je zde",
+        "duplicates_other": "už je zde",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikty",
+        "invalid_one": "nemůže být naimportováno",
+        "invalid_other": "nemůže být importováno",
+        "overLimit_one": "Vaše slovník má místo pro {{room}} více; {{count}} nového vstupu se neprovede.",
+        "overLimit_other": "Vaše slovník má místo pro {{room}} více; {{count}} nových vstupů se neprovede.",
+        "showNew": "Zobraz nové položky",
+        "more_one": "a {{count}} více",
+        "more_other": "a {{count}} více",
+        "conflictsTitle": "Už je v vašem slovníku, jinak",
+        "conflictsHelp": "Zaznačte ty, kde by měla nahradit verze souboru vaši.",
+        "useAllFile": "Použít verzi souboru pro vše",
+        "keepAllMine": "Zůstat všechno moje",
+        "useFile": "Použít soubor:",
+        "yours": "Tvoje:",
+        "showInvalid": "Zobrazit řádky, které se nepodařilo importovat",
+        "invalidRow": "Řádek {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "Zavedeno {{count}} položek",
+        "title_other": "Zavedeno {{count}} položek",
+        "added_one": "{{count}} přidáno",
+        "added_other": "{{count}} přidáno",
+        "replaced_one": "{{count}} nahrazeno verzi souboru",
+        "replaced_other": "{{count}} nahrazeno verzi souboru",
+        "skipped_one": "{{count}} už je zde, přeskočeno",
+        "skipped_other": "{{count}} už je zde, přeskočeno",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} konfliktů byl uchován, protože byl uveden",
+        "invalid_one": "Nelze naimportovat {{count}} řádek",
+        "invalid_other": "Nelze naimportovat {{count}} řádků",
+        "overLimit_one": "{{count}} se nepovedlo (slovník je plný)",
+        "overLimit_other": "{{count}} se nepovedlo (slovník je plný)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "Exportováno {{count}} záznamu.",
+      "done_other": "Exportováno {{count}} záznamů.",
+      "failed": "Slovník se nepodařilo exportovat. Zkuste to prosím znovu."
     }
   },
   "overrides": {

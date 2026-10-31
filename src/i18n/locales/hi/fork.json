@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "अपनाए बिंदुओं",
+      "stepOf": "चरण {{step}} ऑफ {{total}}: {{title}}",
+      "steps": {
+        "choose": "एक फ़ाइल चुनें",
+        "columns": "कॉलम में सुमेलित करें",
+        "review": "समीक्षा",
+        "done": "पूरा"
+      },
+      "dropHint": "यहां एक .csv फ़ाइल ड्रॉप करें, या एक चुनें।",
+      "browse": "एक .csv फ़ाइल चुनें",
+      "limit": "तक 3 MB तक।",
+      "formatLink": "स्वीकार्य फॉर्मेट",
+      "csvFilter": "CSV file",
+      "fileSummary_one": "{{name}}: {{count}} लाइन",
+      "fileSummary_other": "{{name}}: {{count}} शृंखलाएँ",
+      "hasHeader": "पहली लाइन कॉलम नामों को रखती है",
+      "optional": "(वैकल्पिक)",
+      "noColumn": "इस फ़ाइल में नहीं",
+      "column": "स्तंभ {{letter}}",
+      "columnNamed": "स्तंभ {{letter}}: {{name}}",
+      "mapRequired": "हर अनिश्चित फील्ड के लिए एक कॉलम चुनें।",
+      "previewCaption_one": "पहले दरجे का दृश्य",
+      "previewCaption_other": "पहले {{count}} शृंखलाओं का दृश्य",
+      "rowHeader": "पंक्ति",
+      "cancel": "रद्द करें",
+      "back": "पीछे",
+      "next": "अगला",
+      "import": "import",
+      "done": "काम पूरा",
+      "close": "बंद करें",
+      "errors": {
+        "notCsv": "वो .csv फ़ाइल नहीं है। शीट को CSV के रूप में सेव करें और फिर कोशिश करें।",
+        "tooLarge": "वह फ़ाइल {{size}} MB है। फ़ाइलें 3 MB तक हो सकती हैं।",
+        "unreadable": "वह फ़ाइल पढ़ी नहीं जा सकती है। इसे एक CSV फ़ाइल होना चाहिए और फिर आजमाएं।",
+        "empty": "वह फ़ाइल कोई डेटा नहीं रखती है।",
+        "failed": "कुछ गलती हुई। कुछ नहीं इम्पोर्ट हुआ; कृपया फिर से कोशिश करें।"
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "आपके डिक्टेशन इस मैक पर सेव रहते हैं",
       "body": "हिस्ट्री खोलें ताकि उन्हें कॉपी करें, खेलें या खोजें।",
       "action": "इतिहास खोलें"
+    }
+  },
+  "dictionary": {
+    "add": "शब्द जोड़ें",
+    "added": "“{{entry}}” जोड़ दिया गया है।",
+    "search": "अपने शब्दकोश में खोजें",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} एंट्री दिखाई गई",
+    "shown_other": "{{count}} एंट्रीज दिखाई गई",
+    "deleted": "“{{entry}}” को हटा दिया गया है।",
+    "deleteFailed": "वह एंट्री हटाई नहीं जा सकी। कृपया फिर से कोशिश करें।",
+    "undo": "विरोधाभास",
+    "tabs": {
+      "label": "शब्दकोश के प्रवेश",
+      "all": "सभ ({{count}})",
+      "mine": "अपने द्वारा जोड़ा गया ({{count}})",
+      "suggested": "प्रस्तावित ({{count}})"
+    },
+    "sort": {
+      "label": "सॉर्ट",
+      "newest": "नया पहले",
+      "oldest": "पहले से अधिक उम्र के के लिए",
+      "az": "A se Z",
+      "za": "Z से A तक",
+      "used": "सबसे ज्यादा उपयोग किया गया"
+    },
+    "banner": {
+      "title": "Apne shabd ko {{appName}} ko sikhaein",
+      "body": "नाम, उत्पाद शब्द और संक्षरण जोड़ें ताकि वे आपके तरीके से लिखे जाएं, या आप बोलते हुए एक शब्द को आपके चाहिए वाले टेक्स्ट से बदल सकें।",
+      "examplesLabel": "उदाहरण",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "gonna → going to",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "becomes",
+      "used_one": "प्रयोग किया गया {{count}} बार",
+      "used_other": "{{count}} बार उपयोग किया गया",
+      "edit": "{{entry}} के संपादन करें",
+      "delete": "{{entry}} हटाएं",
+      "accept": "{{entry}} को अपने शब्दकोश में जोड़ें"
+    },
+    "source": {
+      "import": "import kiya",
+      "migrated": "आपके पुराने स्वयं के शब्द से",
+      "learn": "सीखा गया",
+      "flag": "बताए गए दिक्कत के बाद से"
+    },
+    "empty": {
+      "title": "आपका शब्दकोश खाली है",
+      "body": "नाम, शब्द और बदलाव जो {{appName}} को जानने चाहिए, जो आपके अगले डिक्टेशन के लिए लागू होंगे।"
+    },
+    "emptySuggested": {
+      "title": "अभी तक कोई सुझाव नहीं",
+      "body": "जब {{appName}} आपके सही करने वाले शब्दों से सीख सके, तब वे यहाँ आपके अनुमोदन के लिए दिखाई देंगे।"
+    },
+    "noMatch": {
+      "title": "कुछ भी मेल नहीं करता",
+      "body": "कोई एंट्री “{{query}}” के साथ नहीं है।",
+      "action": "खोज को खाली करें"
+    },
+    "unavailable": {
+      "title": "शब्दकोश अभी उपलब्ध नहीं है",
+      "body": "यह ऐप शुरू होने के बाद तुरंत खुलता है।"
+    },
+    "problem": {
+      "empty": "पहले एक शब्द टाइप करें।",
+      "too_long": "शब्द लंबे तक {{max}} अक्षरों तक हो सकते हैं।",
+      "replacement_too_long": "प्रतिस्थापन अधिकतम {{maxReplacement}} अक्षर तक हो सकते हैं।",
+      "same_as_replacement": "प्रतिस्थापन शब्द के समान है।",
+      "control_character": "रेखांकन और टैब का इस जगह पर उपयोग नहीं किया जा सकता है।",
+      "full": "आपका शब्दकोश पूरा है। पहले कुछ एंट्री हटा दें।"
+    },
+    "dialog": {
+      "addTitle": "किसी शब्द को शब्दकोश में जोड़ें",
+      "editTitle": "दिशा निर्माण संपादित करें",
+      "description": "शब्द यहाँ लिखे गए तरीके से लिखे जाते हैं।",
+      "replaceToggle": "एक शब्द को बदलें",
+      "word": "शब्द या नाम",
+      "wordPlaceholder": "जैसे ही एसियोब्हान",
+      "from": "जब मैं कहूं",
+      "fromPlaceholder": "जैसे ही जा रहा",
+      "to": "लिखें",
+      "toPlaceholder": "जैसे कि जा रहा है",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "स्पीच मॉडल को इसका सुनना और सही लिखना में मदद करता है।",
+      "ruleHint": "पूरा शब्द में कोनो भी रूप में मेल लेता है और बदलाव को टाइप के अनुसार लिखता है।",
+      "cancel": "रद्द करें",
+      "add": "शब्द जोड़ें",
+      "save": "बचाएं",
+      "close": "बंद करें",
+      "duplicate": "“{{entry}}” आपके शब्दकोश में पहले से ही है।",
+      "conflictRule": "“{{from}}” पहले से ही “{{to}}” बन जाता है।",
+      "conflictWord": "“{{word}}” आपके शब्दकोश में दूसरे लिखावट से पहले ही है।",
+      "replaceExisting": "इसे बदल दें",
+      "missing": "इस एंट्री को इस बीच में हटा दिया गया था।",
+      "failed": "वह सेव नहीं किया जा सकता था। कृपया फिर से कोशिश करें।"
+    },
+    "import": {
+      "open": "import",
+      "title": "शब्दकोश इम्पोर्ट करें",
+      "description": "CSV में बचाए गए स्प्रेडशीट से शब्द और बदलाव लाएं।",
+      "fieldPhrase": "शब्द, या जो आप कहते हैं",
+      "fieldReplacement": "Replace with",
+      "format": {
+        "intro": "एक एंट्री प्रति पंक्ति:",
+        "columns": "पहले स्तंभ को एक शब्द या आप के बोले गए शब्द है; दूसरे, यदि भरा गया है, तो लिखने के लिए लिखा गया टेक्स्ट है।",
+        "header": "पहली पंक्ति में स्तंभ नाम हो सकते हैं; आप अगले चरण में स्तंभ चुनेंगे।",
+        "limits": "शब्दों तक 60 अक्षर, बदलावों तक 200, फ़ाइलों तक 3 MB।",
+        "encoding": "CSV UTF-8 में बचाएं ताकि अक्षर और अन्य लिपि सही से आएं।"
+      },
+      "review": {
+        "new_one": "नया एंट्री",
+        "new_other": "नए एंट्री",
+        "duplicates_one": "पहले से ही वहाँ है",
+        "duplicates_other": "पहले से ही वहाँ है",
+        "conflicts_one": "विरोध",
+        "conflicts_other": "विरोध",
+        "invalid_one": "import nahi kiya ja sakta hai",
+        "invalid_other": "import nahi kiya ja sakta hai",
+        "overLimit_one": "आपके शब्दकोश में {{room}} अधिक स्थान है; {{count}} नया प्रवेश नहीं फिट होगा।",
+        "overLimit_other": "आपके शब्दकोश में {{room}} अधिक स्थान है; {{count}} नए प्रवेश नहीं फिट होंगे।",
+        "showNew": "नए एंट्री को दिखाएं",
+        "more_one": "और {{count}} अधिक",
+        "more_other": "और {{count}} अधिक",
+        "conflictsTitle": "पहले ही आपके शब्दकोश में है, अलग-अलग",
+        "conflictsHelp": "वह चुनें जहां फ़ाइल के वर्जन के साथ आपका वर्जन बदल जाए।",
+        "useAllFile": "सभ के लिए फ़ाइल के वर्जन का उपयोग करें",
+        "keepAllMine": "सभ के मेरे रखें",
+        "useFile": "फ़ाइल के इसका उपयोग करें:",
+        "yours": "आपका:",
+        "showInvalid": "वह पंक्तियाँ दिखाएं जो इम्पोर्ट नहीं की जा सकती हैं",
+        "invalidRow": "पंक्ति {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} एंट्री इम्पोर्ट कर दी गई",
+        "title_other": "{{count}} एंट्रीज़ इम्पोर्ट कर दी गई",
+        "added_one": "{{count}} जोड़ दिया गया",
+        "added_other": "{{count}} जोड़ दिया गया",
+        "replaced_one": "{{count}} के स्थान पर फ़ाइल के अनुसार बदल दिया गया",
+        "replaced_other": "{{count}} दूसरे फ़ाइल के संस्करण से बदल दिया गया",
+        "skipped_one": "{{count}} पहले से है, छोड़ दिया गया",
+        "skipped_other": "{{count}} पहले से है, छोड़ दिया गया",
+        "kept_one": "{{count}} विवाद एक जैसे ही रखा गया",
+        "kept_other": "{{count}} विरोधाभास बनाए रखे गए हैं",
+        "invalid_one": "{{count}} दिए गए लाइन इम्पोर्ट नहीं हो सके",
+        "invalid_other": "{{count}} शृंखलाएँ इम्पोर्ट नहीं की जा सकी",
+        "overLimit_one": "{{count}} ने नहीं फिट किया (शब्दकोश पूरा है)",
+        "overLimit_other": "{{count}} ने नहीं फिट किया (शब्दकोश पूरा है)"
+      }
+    },
+    "export": {
+      "open": "बाहर निकालें",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "Exported {{count}} entry.",
+      "done_other": "अन्य {{count}} एंट्रीज़ एक्सपोर्ट कर दिए गए हैं।",
+      "failed": "शब्दकोश निर्यात नहीं किया जा सकता है। कृपया फिर से कोशिश करें।"
     }
   },
   "overrides": {

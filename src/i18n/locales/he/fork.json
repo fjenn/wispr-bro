@@ -114,12 +114,7 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
         "title": "Snippets",
@@ -173,6 +168,45 @@
     },
     "banner": {
       "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "העתקת שלבים",
+      "stepOf": "שלב {{step}} מתוך {{total}}: {{title}}",
+      "steps": {
+        "choose": "בחר קובץ",
+        "columns": "לשנות עמודים",
+        "review": "הצגת",
+        "done": "הושלם"
+      },
+      "dropHint": "העתק קובץ .csv כאן, או בחר אחד.",
+      "browse": "בחר קובץ .csv",
+      "limit": "עד 3 מבי.",
+      "formatLink": "פורמט מתקבל",
+      "csvFilter": "קובץ CSV",
+      "fileSummary_one": "{{name}}: {{count}} שורה",
+      "fileSummary_other": "{{name}}: {{count}} שורות",
+      "hasHeader": "השורה הראשונה מכילה שמות עמודים",
+      "optional": "(אופציונלי)",
+      "noColumn": "לא בקובץ זה",
+      "column": "עמוד {{letter}}",
+      "columnNamed": "עמוד {{letter}}: {{name}}",
+      "mapRequired": "בחר עמודה עבור כל שדה שאינו חובה.",
+      "previewCaption_one": "תצוגה מקדימה של השורה הראשונה",
+      "previewCaption_other": "תצוגה מקדימה של שורות הראשונות {{count}}",
+      "rowHeader": "שורה",
+      "cancel": "ביטול",
+      "back": "חזרה",
+      "next": "הבא",
+      "import": "העתק",
+      "done": "הושלם",
+      "close": "לסגור",
+      "errors": {
+        "notCsv": "הזה לא קובץ .csv. שמור את הטבלה כ-CVS ונסה שוב.",
+        "tooLarge": "הקובץ זה {{size}} מבי. הקבצים יכולים להכיל עד 3 מבי.",
+        "unreadable": "הקובץ לא ניתן לקרוא. בדוק שהוא קובץ CSV ונסה שוב.",
+        "empty": "הקובץ לא מכיל שורות לטעינתם.",
+        "failed": "היה שגיאה. לא נקליט שום דבר; אנא נסה שוב."
+      }
     }
   },
   "rust": {
@@ -290,6 +324,165 @@
       "title": "ההקלטות שלך נשמרות על זה המاك",
       "body": "הפתוח את ההיסטוריה כדי להעתק, להפוך למשחק או לחפש.",
       "action": "הפתוח את היסטוריה"
+    }
+  },
+  "dictionary": {
+    "add": "הוסף מילה",
+    "added": "הוספת \"{{entry}}\".",
+    "search": "חפש בדיקת המילה",
+    "refresh": "השדר",
+    "shown_one": "{{count}} נושא נציג",
+    "shown_other": "{{count}} ערכים מוצגים",
+    "deleted": "הוסר \"{{entry}}\".",
+    "deleteFailed": "ההכנסה לא נמחקה. אנא נסה שוב.",
+    "undo": "החזיר",
+    "tabs": {
+      "label": "ההכנסות של המילון",
+      "all": "הכול ({{count}})",
+      "mine": "הוספתי על ידיך ({{count}})",
+      "suggested": "מומלץ ({{count}})"
+    },
+    "sort": {
+      "label": "צִיר",
+      "newest": "החדש ביותר",
+      "oldest": "הראשון ביותר",
+      "az": "א ל ז",
+      "za": "Z ל-A",
+      "used": "הנפוצה ביותר"
+    },
+    "banner": {
+      "title": "הכין את {{appName}} למשהו שלך",
+      "body": "הוסיפו שמות, מונחים של מוצרים וסימנים כדי שיתנו את הכתיבה שלך, או החליפו מילה שמציעים בה עם הטקסט שתרצו.",
+      "examplesLabel": "הנושאים",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example3": "הולך → יושב",
+      "example4": "Anna-Lena"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "הופך",
+      "used_one": "השתמשתי ב-{{count}} פעם",
+      "used_other": "השתמשו ב{{count}} פעמים",
+      "edit": "עריכה {{entry}}",
+      "delete": "למחוק {{entry}}",
+      "accept": "הוסף {{entry}} לרשימת המילים שלך"
+    },
+    "source": {
+      "import": "הועלה",
+      "migrated": "מילים מהתנאים שלך לפני",
+      "learn": "הושג",
+      "flag": "ממקם דיקטציה מסומך"
+    },
+    "empty": {
+      "title": "המילון שלך ריק",
+      "body": "הוסיפו שמות, מילים והחלפות ש{{appName}} צריך לדעת. הן תחולו על הדיקטציה הבאה."
+    },
+    "emptySuggested": {
+      "title": "לא נמצאו הצעות עדיין",
+      "body": "כש{{appName}} יבין מהשורש שתקופתך מתקיים, הם יופיעו כאן כדי לאמת."
+    },
+    "noMatch": {
+      "title": "ללא התאמה",
+      "body": "אין רשומה שמכילה \"{{query}}\".",
+      "action": "למחוק את החיפוש"
+    },
+    "unavailable": {
+      "title": "הדיקטונר לא זמין עדיין",
+      "body": "המפתח נפתח מיד לאחר שהאפליקציה הסתיימה להתחיל."
+    },
+    "problem": {
+      "empty": "הקלד מילה ראשונה.",
+      "too_long": "המילים יכולות להכיל עד {{max}} תווים.",
+      "replacement_too_long": "ההחלפות יכולות להכיל עד {{maxReplacement}} תווים.",
+      "same_as_replacement": "ההחלפה זהה למילה.",
+      "control_character": "השורה נפתחת והטבים לא יכולים להימשך כאן.",
+      "full": "המילון שלך מלא. נמחק כמה מילים ראשית."
+    },
+    "dialog": {
+      "addTitle": "הוסף למילון",
+      "editTitle": "עריכה של מילה בדיקציה",
+      "description": "המילים מוקדשות כמו שכתבת כאן.",
+      "replaceToggle": "לחלופי מילה",
+      "word": "מילה או שם",
+      "wordPlaceholder": "לדוגמה Siobhán",
+      "from": "כשאני אומר",
+      "fromPlaceholder": "למשל gonna",
+      "to": "כתוב",
+      "toPlaceholder": "למשל: הולך ל",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "מסייע למודל הצלחה לשמוע ולכתוב נכון.",
+      "ruleHint": "מתקיים עבור מילה שלמה, בדפוס כלשהו, ועושה את ההחלפה בדיוק כפי שנכתב.",
+      "cancel": "ל hủy",
+      "add": "הוסף מילה",
+      "save": "שמור",
+      "close": "לסגור",
+      "duplicate": "ה\"{{entry}}\" כבר נמצא בדיקטונאריה שלך.",
+      "conflictRule": "„{{from}}\" כבר מتحول ל„{{to}}\".",
+      "conflictWord": "המילה \"{{word}}\" כבר קיימת בדיקטורים שלך עם כתיב אחר.",
+      "replaceExisting": "לחלופין",
+      "missing": "ההכנסה הזו נמחקה במקביל.",
+      "failed": "ההערכה לא נסגרה. אנא נסה שוב."
+    },
+    "import": {
+      "open": "העתק",
+      "title": "העתקת מילון",
+      "description": "הכניסה של מילים ומשתנים מטבלה שמוגדרת כ-CSV.",
+      "fieldPhrase": "מילה, או מה שאתה אומר",
+      "fieldReplacement": "לחלופין",
+      "format": {
+        "intro": "אחת מהתוכן בכל שורה:",
+        "columns": "העמוד הראשון הוא מילה או מה שאתה אומר; העמוד השני, אם מילא, הוא הטקסט להקלדה במקום.",
+        "header": "שורה ראשונה עם שמות עמודים מותרת; אתה מחליט על העמודים בשלב הבא.",
+        "limits": "מילים עד 60 תווים, שילובים עד 200, קבצים עד 3 מיליארד",
+        "encoding": "הציל כ-CSV UTF-8 כדי שנקודות מרכזיות וסקריפטים אחרים יופיעו."
+      },
+      "review": {
+        "new_one": "ההכנסה החדשה",
+        "new_other": "ההכנסות החדות",
+        "duplicates_one": "הذا כבר קיים",
+        "duplicates_other": "הذا כבר קיים",
+        "conflicts_one": "הסתברות",
+        "conflicts_other": "הפרעות",
+        "invalid_one": "לא ניתן להעניק",
+        "invalid_other": "לא ניתן להעניק",
+        "overLimit_one": "המילון שלך יש לו מקום ל{{room}} עוד; {{count}} מילים חדשות לא יתאימו.",
+        "overLimit_other": "המילון שלך יש לו מקום ל{{room}} עוד; {{count}} מילים חדשות לא יתאימו.",
+        "showNew": "הצגת הכניסות החדשות",
+        "more_one": "ו-{{count}} נוספים",
+        "more_other": "ו-{{count}} אחרים",
+        "conflictsTitle": "המופיע כבר בדיקטציה שלך, בצורה אחרת",
+        "conflictsHelp": "העתק את הלחיצות שבהן גרסה של הקובץ צריכה להחליף את שלך.",
+        "useAllFile": "למשתמש בגרסה של הקובץ",
+        "keepAllMine": "השאירתי את כל שלי",
+        "useFile": "לשימוש בקובץ:",
+        "yours": "שאתה:",
+        "showInvalid": "הצג את השורות שאלות להעתקה",
+        "invalidRow": "שורה {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "ההכנסה של {{count}} רשומה בוצעה",
+        "title_other": "ההכנסה של {{count}} רשויות הושלמה",
+        "added_one": "{{count}} הוספה",
+        "added_other": "{{count}} הוספה",
+        "replaced_one": "{{count}} נוצר עם גרסה של הקובץ",
+        "replaced_other": "{{count}} נוצר עם גרסה של הקובץ",
+        "skipped_one": "{{count}} already there, skipped",
+        "skipped_other": "הـ{{count}} כבר קיים, נדחה",
+        "kept_one": "ההפרות {{count}} נשמרו כפי שהיו",
+        "kept_other": "{{count}} נקודות התנגשות נשמרו כהן",
+        "invalid_one": "השורה {{count}} לא נקלטה",
+        "invalid_other": "השורות {{count}} לא יכולות להיבחן",
+        "overLimit_one": "{{count}} לא נכנס (הדיקטונר מלא)",
+        "overLimit_other": "ה-{{count}} לא נכנס (הדיקטונר מלא)"
+      }
+    },
+    "export": {
+      "open": "יצוא",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "הועלה {{count}} רשומה.",
+      "done_other": "הועלה {{count}} רשויות.",
+      "failed": "לא ניתן להפוך את המילון. אנא נסה שוב."
     }
   },
   "overrides": {
