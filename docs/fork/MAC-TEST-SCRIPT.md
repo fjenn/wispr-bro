@@ -1456,8 +1456,56 @@ ad-hoc build and S-18.3 pass; S-18.2 open).
 
 ### S-19a Styles: app groups and presets
 
-- [ ] S-19a.1 Slack → Work, Messages → Personal, Mail → Email.
-- Procedure: TODO (S-19a).
+- [ ] S-19a.1 Slack → Work, Messages → Personal, Mail → Email: the Style
+      page lists each installed one in its group (Slack only if installed);
+      a take into the app gets the group's preset (`style:` log line,
+      `entry_meta.style_group`).
+- [ ] S-19a.2 Each preset on a real take, through the whole chain (the app
+      in front → the user's rule → the preset → cleanup → stage 10 → the
+      field): Very relaxed (lower-case starts, no commas, no final period),
+      Upbeat (ends with "!"), Formal (as cleaned), Relaxed; a Dutch take in
+      a styled group comes out unstyled (English only).
+- [ ] S-19a.3 "Press Enter after dictating": after a confirmed paste the
+      app gets Return; the bar says "Sends automatically" at the take
+      start; with the cleanup forced to fail (`WB_DEBUG_CLEANUP_DEADLINE_MS=1`)
+      no Return.
+- [ ] S-19a.4 The page in the real app: move an app with its menu, Undo,
+      "+" lists the installed apps with their icons; the change is used by
+      the next take without a restart.
+- [ ] S-19a.5 RS-07 gates hold with every preset: the S-12a replay without
+      a style (`scripts/wb-s19a/replay.sh <dir> none`; on a quiet machine,
+      p50 near 300 ms), then each preset applied to that run
+      (`scripts/wb-s19a/restyle.sh <dir>/run-none.jsonl <dir2>`; no preset
+      changes the prompt, so this is exactly what a styled take inserts).
+
+**Profile: an isolated portable debug build** (own identifier
+`com.wisprbro.s19acheck`, which runs as a product build; never the owner's
+app or data). In the worktree, as S-12a:
+
+```sh
+ci/llama-server/build.sh --if-missing
+echo '{"identifier":"com.wisprbro.s19acheck","plugins":{"updater":{"active":false}}}' > /tmp/s19a.conf.json
+bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config /tmp/s19a.conf.json
+cd src-tauri/target/debug
+printf "Handy Portable Mode\n" > portable
+mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/
+./handy --start-hidden & sleep 20; kill %1      # creates Data/
+```
+
+**Procedure (unattended, ~8 min, needs the speakers and the mic).**
+`WB_S19A_MODEL_ID=parakeet-tdt-0.6b-v3 scripts/wb-s19a/run.sh personal work email other autosend fallback`:
+per phase it stops the app (main process only), writes the phase's styles
+and `app_rules` rows (`scripts/wb-s19a/setup.py`: TextEdit put in the
+group under test, auto-send on for the last two), starts the app again
+and dictates into new TextEdit documents through S-12a's `take.sh` (one
+warm-up take per phase, under `~/wb-bench/gui.lock`, one round of TTS at
+moderate volume). Check the printed document texts (a trailing `|` is the
+Return), the log's `style:` and `insert:` lines (`submitted`) and
+`fork.db` (`entry_meta.style_group`, `cleanup_outcome`). S-19a.1 and .4:
+start the app once more, open the Hub (second launch), Style, and take
+window screenshots (`scripts/wb-window-id.swift` + `screencapture -l`).
+TextEdit stands in for Slack, Messages and Mail in S-19a.2/.3: those hold
+the owner's real conversations and drafts and are never typed into.`
 
 ### S-19b Styles: web-app detection
 

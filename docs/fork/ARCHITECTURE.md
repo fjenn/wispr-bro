@@ -1478,6 +1478,73 @@ emits `ForkSnippetsChanged` (with the counts); the page also re-reads on
 **Logs.** One INFO line per delivery with counts only (`snippets=1`);
 neither triggers nor texts are logged.
 
+## Styles: app groups and presets (S-19a)
+
+Every dictation goes to one style group (Personal / Work / Email / Other)
+by the app it is inserted into, and the group's preset shapes the text.
+**No Handy file is touched**: everything runs in the S-12a cleanup step
+(`fork::llm::post_process`, the existing `actions.rs` hook) and S-04's
+delivery.
+
+```text
+post_process::plan   frontmost app → app_rules::resolve (site rule > the user's
+                     app rule > categories.json) → group → preset (fork setting
+                     `styles`) when the take is English and the app is not an
+                     AI chat; auto-send if the app has it on
+post_process::clean  the level's own prompt, whatever the preset
+                     (prompt::style_fragment is None for all four)
+post_process::run    stage 9 → stage 10 (text::style_rules) → History;
+                     auto-send armed for the final text unless the cleanup fell
+                     back ("Inserted without cleanup")
+insert::deliver      takes the arming → stage 9/12/11 → paste → Return only after
+                     a confirmed paste into the same app (submit_strict)
+```
+
+| File                                      | Role                                                                                                                                                                                                                                                                                                                                    |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/text/style_rules.rs`  | Stage 10 (Apache-2.0 BetterWispr `StyleFormatter` port): Formal unchanged, Relaxed drops commas (not in numbers or at a line end) and the final period, Very relaxed also lowers sentence starts (not "iPhone", "NASA" or dictionary words), Upbeat makes the final period "!". No `\n` and no word is removed. `is_english` (the gate) |
+| `src-tauri/src/fork/context/app_rules.rs` | `app_rules` store (migration 0007), `resolve` (BetterWispr `WritingMode` tiers and site match, GPL), the cached copy the take path reads (`current`, `reload`), auto-send arming per take (`arm_auto_send` / `take_armed`, keyed by the final text, bounded)                                                                            |
+| `src-tauri/src/fork/context/apps.rs`      | Installed apps (the usual folders + running apps, cached 60 s) and Finder icons as 64 px PNG `data:` URLs (NSWorkspace, NSBitmapImageRep; cached)                                                                                                                                                                                       |
+| `src-tauri/src/fork/commands/style.rs`    | `fork_style_{overview,installed_apps,app_icon,set_app_group,remove_app,set_auto_send}`, `ForkAppRulesChanged`; `on_ready` loads the cache                                                                                                                                                                                               |
+| `src/fork/style/`                         | `StylePage` (tabs; the tab is the hub section), `GroupTab` (app chips with a menu: move, remove, back to the usual group, Undo, "Press Enter after dictating"; presets), `PresetCard`, `AppPicker` ("+"), `AppIcon`, `CleanupTab` (S-12a's `CleanupLevelPicker`), `presets.ts` (examples), `useStyle`                                   |
+
+**Groups.** The built-in table is S-09's `categories.json`; the user's
+rules override it per app (`style_group` NULL = the built-in group, the row
+then only carries auto-send). "Remove from a group" puts the app in Other
+(or drops its rule when its built-in group is Other). The page lists the
+user's rules, the installed apps of the built-in table and the installed
+apps the user dictated into (`entry_meta`); Other also stands for every
+app in no group. `entry_meta.style_group` records the group with the
+user's rules applied (`TakeContext::new`). Site rules (`kind = 'host'`)
+are stored and matched already; S-19b supplies the page's host.
+
+**Presets.** Personal: Formal / Relaxed / Very relaxed; Work, Email,
+Other: Formal / Relaxed / Upbeat (validated by F-07's `check_styles`).
+Defaults are F-07's: Personal Relaxed, the others Formal. Every preset is
+deterministic, so the cleanup prompt stays byte for byte RS-07's for every
+style. An Upbeat prompt fragment (exclamation marks on friendly sentences)
+was built and measured on the S-12a eval: it caused guard fallbacks and
+the Light "language kept" gate fell below 99 %, so it is not shipped
+(`prompt::style_fragment` keeps the slot). Relaxed keeps commas inside
+brackets and backtick code (the eval's `code-009`). Styles also apply at
+level None (they change punctuation and case, never words) and after a
+cleanup fallback (on the deterministic text).
+
+**English only (R2 D-26).** The recognizer's language, else the guess from
+the user's spoken languages, else Handy's detector; a text too short to
+tell counts as English unless the user speaks only other languages.
+Cleanup itself works in every language.
+
+**Auto-send (R2 D-61, RV-48).** Off by default, per app. The bar shows
+"Sends automatically" in the label's place at the take start (`pill`
+`Input::SendsAutomatically`). Return is sent only when the cleanup did not
+fall back, the paste was `confirmed` (never `unverified`, never a card),
+and the app in front is still the one it was armed for. Handy's global
+`auto_submit` keeps its own rule.
+
+**Logs.** `style: <preset> for <group> (applied | no change)` and the
+auto-send decision; never the text.
+
 ## Accessibility layer and the card (S-05)
 
 R5 §4.6 (W-05) and S-05: where a take's text lands, and the card when it
