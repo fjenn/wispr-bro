@@ -394,6 +394,49 @@ stayed in `commands/history.rs`); the rail does no maths of its own, so it
 matches `daily_stats` by construction. `Popover` (`src/fork/ui/`) gained an
 optional controlled `open`/`onOpenChange` for the name editor.
 
+## Insights (S-25)
+
+`src/fork/insights/` fills the Hub's Insights slot. Tabs Usage and Voice
+(the tab is the Hub section: `#/hub/insights/voice`, `navigate("insights",
+"voice")` from the Home voice-profile button) and "Save as image". Every
+number is computed on this Mac from `fork.db`; no Handy file is touched and
+there is no migration (the tables are S-09's).
+
+| File                                                           | Role                                                                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/stats/insights.rs`                         | Pure: speed vs typing (`typing_wpm` from the typing test, else 40 wpm "average typist"; ratio to one decimal), the six categories with shares in a fixed order, the 365-day heatmap with bands 0 / 1-249 / 250-499 / 500-749 / 750+, streaks (S-09's `streak.rs`). No percentile anywhere (C-51)           |
+| `src-tauri/src/fork/stats/voice.rs`                            | Pure: the voice profile. Locked below 1,700 lifetime words (DEC-50). Phrase (3-5 words, within a clause, counted once per dictation, ≥ 3 dictations, score dictations × words), peak hour and app by words, most used word (stopwords-iso + S-12a's hesitations and fillers excluded), most corrected word |
+| `src-tauri/src/fork/stats/tables/stopwords-iso.json`           | stopwords-iso 1.1.0, unmodified (MIT data; `LICENSES/MIT-stopwords-iso.txt`, NOTICE, PORTS.md); the languages in the history plus English are used                                                                                                                                                         |
+| `src-tauri/src/fork/db/insights.rs`                            | Read side: `daily_stats` totals and days, `daily_app_stats` per category, the newest 10,000 counted live dictations (`entry_meta`), `corrections` rows of source `flag`/`learn`                                                                                                                            |
+| `src-tauri/src/fork/commands/insights.rs`                      | `fork_insights_usage`, `fork_insights_voice` (async; rows read under the lock, cards computed on a blocking thread), `fork_insights_save_image` (base64 PNG → the path from the save panel; `.png` name, PNG magic and ≤ 25 MB checked)                                                                    |
+| `src/fork/insights/InsightsPage.tsx`                           | Header with "Save as image", the tabs, a dated line; the export area is the dated line plus the visible tab                                                                                                                                                                                                |
+| `src/fork/insights/UsageTab.tsx`                               | Speed, total words, fixes (dictionary / AI cleanup), "Where you dictate", the streak card with figures, heatmap and a text legend                                                                                                                                                                          |
+| `src/fork/insights/CategoryChart.tsx` (lazy)                   | Recharts 3.10.1 horizontal bars, one series (`--wb-bar`), fixed order, share as direct labels, hover tooltip; `aria-hidden` with an `sr-only` list of the same numbers; RTL = reversed axis, labels on the right                                                                                           |
+| `src/fork/insights/Heatmap.tsx` (lazy)                         | react-activity-calendar 3.2.1, `--wb-heat-0..4`, `Intl` month and weekday names, locale week start, 8-14 px cells sized to the card (a narrow card shows the latest weeks that fit), `role="img"` with a summary, a `<title>` per cell, always left to right                                               |
+| `src/fork/insights/VoiceTab.tsx`                               | Locked: progress bar + four cards with blurred generic sample text (`aria-hidden`; nothing of the user's to uncover). Unlocked: the four cards and a footnote with the dictations read                                                                                                                     |
+| `src/fork/insights/saveImage.ts`                               | Save panel → html-to-image 1.11.13 (`toPng`, 2×, page background, 24 px margin, a warm-up pass for WebKit fonts; loaded on click) → `fork_insights_save_image`                                                                                                                                             |
+| `src/fork/insights/useInsights.ts`                             | Both reads on mount, every `ForkStatsUpdated`, focus/visibility and after midnight; `NotReady` retried at 1-16 s                                                                                                                                                                                           |
+| `src/fork/insights/insights.css`, `heatColors.ts`, `format.ts` | Heat and bar tokens (light/dark pairs, `data-theme` wins), the band colours, day formatting shared with the lazy chunks                                                                                                                                                                                    |
+
+**Most corrected word.** S-12a wrote no `corrections` rows for LLM edits
+("S-25 decides"). S-25 does not add any: the card diffs what was heard
+(`entry_meta.asr_text`, verbatim) against what was inserted (`final_text`)
+word by word (LCS, case and punctuation ignored) and counts substitutions of
+1-3 words on each side, so dictionary rules, Handy's word fixes and AI
+cleanup all count, and a removed filler is not a correction. Rows of source
+`rule` are skipped (already in the diff); `flag` and `learn` rows (S-15b,
+S-34) are added, since they do not change the stored text.
+
+**CSP.** "Save as image" needs nothing the §4.11 CSP does not already allow:
+html-to-image reads the page's own stylesheets and fonts from `'self'`,
+inlines them as `data:`, draws a `data:` SVG on a canvas and returns a
+`data:` PNG; the bytes go to Rust over IPC. Verified in a release build (see
+the S-25 run).
+
+**Fork npm packages.** `recharts` 3.10.1, `react-activity-calendar` 3.2.1 and
+`html-to-image` 1.11.13 (all MIT, runtime; R4 "Charts"). Rust: `base64` 0.22
+(already in the tree) in the `Cargo.toml` fork block.
+
 ## Notifications (S-18)
 
 A local inbox plus a few macOS notifications (DEC-21). No Tauri

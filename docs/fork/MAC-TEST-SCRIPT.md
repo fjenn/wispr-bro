@@ -1266,7 +1266,62 @@ ad-hoc build and S-18.3 pass; S-18.2 open).
 ### S-25 Insights
 
 - [ ] S-25.1 "Save as image" works in the release build under the CSP (§4.11).
-- Procedure: TODO (S-25).
+- [ ] S-25.2 The Usage tab matches numbers computed by hand from the
+      profile's tables; no percentile anywhere.
+- [ ] S-25.3 Voice is locked below 1,700 words (blurred cards) and shows the
+      four cards once the history crosses 1,700 words.
+
+**Profile: an isolated portable release build** with its own identity
+("Wispr Bro S25 Check", `com.wisprbro.s25check`), so the owner's app and
+data are never touched. Release, because S-25.1 is about the release CSP
+(a debug build uses `devCsp`). No audio is needed: the history is
+synthetic and seeded. In the worktree:
+
+```sh
+echo '{"identifier":"com.wisprbro.s25check","productName":"Wispr Bro S25 Check","plugins":{"updater":{"active":false}}}' > <scratch>/s25.conf.json
+bun run tauri build --bundles app --config src-tauri/tauri.fork.conf.json --config <scratch>/s25.conf.json
+# the updater-signature error at the end is expected (no F-02 key)
+swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # the terminal needs Accessibility
+swiftc -O scripts/wb-window-id.swift -o <scratch>/wbwin
+```
+
+Copy the `.app` from `target/release/bundle/macos/` to a scratch folder
+whose path contains `s25`, add `Contents/MacOS/portable` (`Handy Portable
+Mode`), re-sign ad hoc (`codesign --force --deep -s -`), run
+`Contents/MacOS/handy --start-hidden` once and quit. In
+`Contents/MacOS/Data/settings_store.json` › `settings` set
+`onboarding_completed: true` and `update_checks_enabled: false`. Seed:
+`python3 -I scripts/wb-s25/seed.py <…>/Data locked <scratch>/expected-locked.json`
+(1,6xx made-up words over 21 local days, five apps; it prints the numbers
+the page must show, computed in Python from the tables, not by the app).
+Run the bundle executable directly so it shares the terminal's grants.
+
+**Procedure (unattended, ~5 min; hold `~/wb-bench/gui.lock` for each GUI
+step; every event goes only to the test app's own window).**
+
+1. Launch, `wbui <pid> front`, click Insights. Screenshot the window
+   (`screencapture -l $(wbwin <pid>)`). Pass (S-25.2): speed = `wpm`,
+   "× the speed of an average typist (40 wpm)" = `times_typing_vs_40`,
+   total words, dictionary and AI cleanup fixes, the category shares, current
+   and longest streak and active days equal `expected-locked.json`; the
+   heatmap's last cells have the expected bands; the page has no
+   "percentile".
+2. Voice tab. Pass (S-25.3): "unlocks at 1,700 words", the progress text
+   equals total words, four blurred cards.
+3. Usage tab, "Save as image"; in the save panel `wbui <pid> 'key
+cmd-shift-g; key cmd-a; keys <scratch>/out/; key return; key return'`
+   (the panel runs out of process and takes only real key presses, so
+   `keys`, not `type`; never let it save into the user's Documents). Pass
+   (S-25.1): a PNG at the path (2× the export area plus a 24 px margin), the
+   log says `insights: saved an image`, no error in the log, the image shows
+   the page's own fonts, the chart and the heatmap.
+4. Quit, `seed.py <…>/Data unlock <scratch>/expected-unlock.json`, relaunch,
+   Insights › Voice. Pass (S-25.3): unlocked; phrase "Sounds good to me",
+   peak hour and app, most used word and most corrected word equal the
+   JSON; "Save as image" on the Voice tab also writes a PNG.
+5. Quit; delete the bundle copy and `~/Library/{WebKit,Caches}/com.wisprbro.s25check`.
+
+Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-26a App menus and tray
 
