@@ -18,6 +18,11 @@
 //!
 //! Esc with no take of ours while the coordinator is busy (a take started
 //! by the CLI, or one being transcribed) → `Cancel` (rule 7).
+//!
+//! The Flow Bar (S-03) arrives as [`PillAction`]s: a click on the resting
+//! bar starts a hands-free take through the grammar (so fn and Esc then
+//! behave as for any hands-free take); ✓ and ✕ on a take the grammar does
+//! not own (started by the CLI) go straight to the coordinator.
 
 use std::collections::HashSet;
 
@@ -27,7 +32,7 @@ use super::actions::{EscContext, Registry};
 use super::bindings::Profile;
 use super::blocking::{self, Extra};
 use super::decision::{key_name, Decision, StuckGuard, Translator};
-use super::processor::{Effect, Grammar, Input, Key, Ms, Timings, WarnKind};
+use super::processor::{Effect, Grammar, Input, Key, Ms, State, Timings, WarnKind};
 use crate::transcription_coordinator::ExternalCommand;
 
 /// The coordinator binding the fork drives.
@@ -39,6 +44,17 @@ pub const ORIGIN: &str = "fork:hotkey";
 /// How often the engine re-reads the coordinator while it is busy and the
 /// grammar is idle (to drop Esc from the blocking set when it finishes).
 pub const BUSY_POLL_MS: Ms = 50;
+
+/// What the Flow Bar asks for (S-03).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PillAction {
+    /// A click on the bar: start hands-free when idle, stop when hands-free.
+    Click,
+    /// ✓: stop and insert.
+    Stop,
+    /// ✕: cancel.
+    Cancel,
+}
 
 /// Everything the engine touches outside itself.
 pub trait Host {
@@ -185,6 +201,38 @@ impl Engine {
         self.at(now);
         let effects = self.grammar.step(now, &Input::Voice);
         self.apply(effects, host);
+        self.sync_blocking(host);
+    }
+
+    /// The Flow Bar was clicked (S-03).
+    pub fn pill(&mut self, now: Ms, action: PillAction, host: &mut dyn Host) {
+        self.at(now);
+        let effects = self.grammar.advance(now);
+        self.apply(effects, host);
+        let state = self.grammar.state();
+        let locked = matches!(state, State::Locked { .. });
+        let input = match action {
+            PillAction::Click if self.grammar.is_idle() || locked => Some(Input::PillPress),
+            PillAction::Stop if locked => Some(Input::PillPress),
+            PillAction::Cancel if self.grammar.take_active() => Some(Input::PillCancel),
+            _ => None,
+        };
+        match input {
+            Some(input) => {
+                let effects = self.grammar.step(now, &input);
+                self.apply(effects, host);
+            }
+            // A take the grammar does not own (CLI): ✓ / ✕ still work.
+            None if host.busy() && !self.grammar.take_active() => match action {
+                PillAction::Stop => host.command(ExternalCommand::Stop),
+                PillAction::Cancel => {
+                    host.command(ExternalCommand::Cancel);
+                    self.ours = false;
+                }
+                PillAction::Click => {}
+            },
+            None => {}
+        }
         self.sync_blocking(host);
     }
 

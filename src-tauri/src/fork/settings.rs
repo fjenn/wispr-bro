@@ -46,11 +46,13 @@ pub const CURRENT_SCHEMA_VERSION: u32 = 1;
 /// settings, so `apply_product_settings` is skipped there.
 pub const PRODUCT_IDENTIFIER: &str = "com.wisprbro.desktop";
 
-/// S-03 flips this to `true` when the fork pill replaces Handy's recording
-/// overlay. Until then the `overlay_style` entry of [`ENFORCED`] is inert:
-/// turning Handy's overlay off now would leave the app with no recording
-/// feedback at all.
-pub const HANDY_OVERLAY_REPLACED: bool = false;
+/// `true` since S-03: the fork's Flow Bar (`fork::pill`) replaces Handy's
+/// recording overlay, so [`ENFORCED`] turns Handy's `overlay_style` off (the
+/// bar takes its phases from the coordinator's events and the `overlay.rs`
+/// hooks, which run before Handy's `overlay_style` gate). Handy's own
+/// `recording_overlay` window is never built in product builds
+/// (`fork::pill::replaces_handy_overlay`).
+pub const HANDY_OVERLAY_REPLACED: bool = true;
 
 /// Provider ids and the loopback default of Handy's custom provider live with
 /// the provider list (F-08, `fork/llm/providers.rs`).
@@ -63,6 +65,8 @@ pub const MAX_ID_LEN: usize = 64;
 pub const MAX_GREETING_NAME_LEN: usize = 64;
 pub const MAX_RETENTION_DAYS: u32 = 3650;
 pub const MAX_TYPING_WPM: u32 = 300;
+/// Displays whose bar position is remembered (oldest keys are dropped).
+pub const MAX_BAR_DISPLAYS: usize = 32;
 
 // ---------------------------------------------------------------------------
 // Types
@@ -282,6 +286,13 @@ pub struct ForkSettings {
     pub bar_position: BarPosition,
     /// "Hide for an hour": hidden until this Unix time in ms.
     pub bar_hidden_until_ms: Option<i64>,
+    /// "Hide the bar in screen recordings" (S-03; RS-03: hidden from
+    /// `screencapture`, its video mode and ScreenCaptureKit streams).
+    pub bar_hide_in_recordings: bool,
+    /// Where the user dragged the bar on each display, as a fraction of the
+    /// display's visible width (0 = left end), by display key
+    /// (`fork::pill::placement::display_key`). No entry = centred.
+    pub bar_x_by_display: BTreeMap<String, f64>,
     /// DEC-30: Handy's live transcript in the pill, Advanced option (off).
     pub live_text_in_pill: bool,
     /// DEC-7: `None` keeps text forever.
@@ -326,6 +337,8 @@ impl Default for ForkSettings {
             bar_always_visible: true,
             bar_position: BarPosition::Bottom,
             bar_hidden_until_ms: None,
+            bar_hide_in_recordings: false,
+            bar_x_by_display: BTreeMap::new(),
             live_text_in_pill: false,
             text_retention_days: None,
             audio_retention_days: Some(14),
@@ -367,6 +380,8 @@ pub enum ForkSettingUpdate {
     BarAlwaysVisible(bool),
     BarPosition(BarPosition),
     BarHiddenUntilMs(Option<i64>),
+    BarHideInRecordings(bool),
+    BarXByDisplay(BTreeMap<String, f64>),
     LiveTextInPill(bool),
     TextRetentionDays(Option<u32>),
     AudioRetentionDays(Option<u32>),
@@ -489,6 +504,20 @@ pub fn validate(update: &ForkSettingUpdate) -> Result<(), String> {
         U::BarHiddenUntilMs(Some(ms)) if *ms < 0 => {
             Err("bar_hidden_until_ms: must not be negative".into())
         }
+        U::BarXByDisplay(map) => {
+            if map.len() > MAX_BAR_DISPLAYS {
+                return Err(format!(
+                    "bar_x_by_display: more than {MAX_BAR_DISPLAYS} displays"
+                ));
+            }
+            for (key, x) in map {
+                check_id("bar_x_by_display", key)?;
+                if !x.is_finite() || !(0.0..=1.0).contains(x) {
+                    return Err(format!("bar_x_by_display.{key}: must be between 0 and 1"));
+                }
+            }
+            Ok(())
+        }
         U::TextRetentionDays(days) => match days {
             Some(0) => Err("text_retention_days: 0 would delete every entry".into()),
             _ => check_days("text_retention_days", *days),
@@ -545,6 +574,8 @@ pub fn apply_update(settings: &mut ForkSettings, update: ForkSettingUpdate) -> R
         U::BarAlwaysVisible(v) => settings.bar_always_visible = v,
         U::BarPosition(v) => settings.bar_position = v,
         U::BarHiddenUntilMs(v) => settings.bar_hidden_until_ms = v,
+        U::BarHideInRecordings(v) => settings.bar_hide_in_recordings = v,
+        U::BarXByDisplay(v) => settings.bar_x_by_display = v,
         U::LiveTextInPill(v) => settings.live_text_in_pill = v,
         U::TextRetentionDays(v) => settings.text_retention_days = v,
         U::AudioRetentionDays(v) => settings.audio_retention_days = v,
@@ -594,6 +625,10 @@ fn sanitize(settings: &mut ForkSettings) -> Vec<String> {
         (
             "bar_hidden_until_ms",
             ForkSettingUpdate::BarHiddenUntilMs(settings.bar_hidden_until_ms),
+        ),
+        (
+            "bar_x_by_display",
+            ForkSettingUpdate::BarXByDisplay(settings.bar_x_by_display.clone()),
         ),
         (
             "text_retention_days",
@@ -651,6 +686,7 @@ fn reset_field(settings: &mut ForkSettings, defaults: &ForkSettings, field: &str
         "styles" => settings.styles = d.styles,
         "auto_apply_transform" => settings.auto_apply_transform = d.auto_apply_transform,
         "bar_hidden_until_ms" => settings.bar_hidden_until_ms = d.bar_hidden_until_ms,
+        "bar_x_by_display" => settings.bar_x_by_display = d.bar_x_by_display,
         "text_retention_days" => settings.text_retention_days = d.text_retention_days,
         "audio_retention_days" => settings.audio_retention_days = d.audio_retention_days,
         "dismissed_banners" => settings.dismissed_banners = d.dismissed_banners,

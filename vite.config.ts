@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
+import { forkInputs } from "./src/fork/vite-inputs";
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -23,6 +24,7 @@ export default defineConfig(async () => ({
       input: {
         main: resolve(__dirname, "index.html"),
         overlay: resolve(__dirname, "src/overlay/index.html"),
+        ...forkInputs(__dirname),
       },
     },
   },

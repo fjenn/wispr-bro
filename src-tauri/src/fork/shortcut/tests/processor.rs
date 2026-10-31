@@ -241,3 +241,117 @@ fn mic_is_open_exactly_while_a_take_is_active_under_random_input() {
         }
     }
 }
+
+// --- S-03: the Flow Bar ---
+
+#[test]
+fn pill_click_starts_hands_free_and_a_second_click_stops() {
+    let mut g = Grammar::default();
+    assert_eq!(
+        g.step(1_000, &Input::PillPress),
+        vec![Effect::MicOpen, Effect::Locked { via: LockVia::Pill }]
+    );
+    assert!(g.take_active());
+    // Esc is blocked while the bar's take runs (it cancels).
+    assert!(g.blocking().esc);
+    assert_eq!(
+        g.step(4_000, &Input::PillPress),
+        vec![Effect::Stopped { via: StopVia::Pill }, Effect::MicClose]
+    );
+    assert!(g.is_idle());
+}
+
+#[test]
+fn pill_cancel_cancels_any_active_take_and_nothing_else() {
+    let mut g = Grammar::default();
+    assert!(g.step(0, &Input::PillCancel).is_empty());
+    g.step(0, &Input::PillPress);
+    assert_eq!(
+        g.step(500, &Input::PillCancel),
+        vec![
+            Effect::Cancelled {
+                why: CancelWhy::Pill
+            },
+            Effect::MicClose
+        ]
+    );
+    // ✕ on a held push-to-talk take (fn still down) cancels; the release
+    // that follows does nothing.
+    let mut g = Grammar::default();
+    g.step(0, &Input::FnDown);
+    g.advance(200);
+    assert_eq!(
+        g.step(900, &Input::PillCancel),
+        vec![
+            Effect::Cancelled {
+                why: CancelWhy::Pill
+            },
+            Effect::MicClose
+        ]
+    );
+    assert!(g.step(1_200, &Input::FnUp).is_empty());
+    assert!(g.is_idle());
+}
+
+#[test]
+fn a_fn_press_stops_a_bar_take_at_once() {
+    // Rule 5's quick third press cancels only after a double-tap lock.
+    let mut g = Grammar::default();
+    g.step(0, &Input::PillPress);
+    assert_eq!(
+        g.step(100, &Input::FnDown),
+        vec![
+            Effect::Stopped {
+                via: StopVia::LockedPress
+            },
+            Effect::MicClose
+        ]
+    );
+    g.step(150, &Input::FnUp);
+    assert!(g.is_idle());
+}
+
+#[test]
+fn pill_clicks_while_fn_owns_the_take_are_ignored() {
+    let mut g = Grammar::default();
+    g.step(0, &Input::FnDown);
+    // Pending.
+    assert!(g.step(50, &Input::PillPress).is_empty());
+    // Holding.
+    g.advance(200);
+    assert!(g.step(300, &Input::PillPress).is_empty());
+    // Tap wait after a short take.
+    g.step(400, &Input::FnUp);
+    assert!(g.step(450, &Input::PillPress).is_empty());
+    // A locked take from a double-tap is stopped by the bar's ✓.
+    g.step(500, &Input::FnDown);
+    g.step(560, &Input::FnUp);
+    assert_eq!(
+        g.step(3_000, &Input::PillPress),
+        vec![Effect::Stopped { via: StopVia::Pill }, Effect::MicClose]
+    );
+}
+
+#[test]
+fn bar_takes_keep_the_hands_free_limits() {
+    let t = Timings::DEFAULT;
+    let mut g = Grammar::default();
+    g.step(0, &Input::PillPress);
+    let warn = g.advance(t.silence_warn_ms);
+    assert_eq!(
+        warn,
+        vec![Effect::Warning {
+            kind: WarnKind::Silence
+        }]
+    );
+    let stop = g.advance(t.silence_stop_ms);
+    assert_eq!(
+        stop,
+        vec![
+            Effect::Stopped {
+                via: StopVia::Silence
+            },
+            Effect::MicClose
+        ]
+    );
+}

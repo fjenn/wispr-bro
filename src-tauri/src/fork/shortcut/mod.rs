@@ -155,6 +155,7 @@ enum Msg {
     Tap(TapMsg),
     Voice(Instant),
     Profile(Box<Profile>),
+    Pill(engine::PillAction),
 }
 
 struct Live {
@@ -351,6 +352,15 @@ pub fn on_voice() {
     let _ = rt.tx.send(Msg::Voice(Instant::now()));
 }
 
+/// A Flow Bar click (S-03). Returns `false` when the engine is not
+/// running (plain Handy builds, or the tap failed to start).
+pub fn pill_action(action: engine::PillAction) -> bool {
+    let Some(rt) = RUNTIME.get() else {
+        return false;
+    };
+    rt.tx.send(Msg::Pill(action)).is_ok()
+}
+
 fn epoch() -> Instant {
     static EPOCH: OnceLock<Instant> = OnceLock::new();
     *EPOCH.get_or_init(Instant::now)
@@ -431,6 +441,8 @@ impl<R: Runtime> Host for AppHost<R> {
 
     fn prepare_mic(&mut self) {
         crate::fork::audio::ensure_prepared(&self.app);
+        // The take may start in `T_show`: load the bar's web view now.
+        crate::fork::pill::prewarm();
     }
 
     fn trigger_physically_down(&self) -> Option<bool> {
@@ -439,10 +451,14 @@ impl<R: Runtime> Host for AppHost<R> {
 
     fn warn(&mut self, kind: WarnKind) {
         log::info!("fork hotkeys: take warning {kind:?}");
+        crate::fork::pill::on_take_warning(kind);
     }
 
     fn observe(&mut self, event: &Observed) {
         log::debug!("fork hotkeys: {event:?}");
+        if let Observed::Effect(effect) = event {
+            crate::fork::pill::on_hotkey_effect(effect);
+        }
         if let Some(ev) = ForkHotkeyEvent::from_observed(event) {
             if let Err(e) = ev.emit(&self.app) {
                 log::warn!("fork hotkeys: cannot emit ForkHotkeyEvent: {e}");
@@ -457,9 +473,9 @@ fn physical_flags() -> Option<u64> {
     {
         #[link(name = "CoreGraphics", kind = "framework")]
         extern "C" {
-            fn CGEventSourceFlagsState(state_id: i32) -> u64;
+            fn CGEventSourceFlagsState(state_id: u32) -> u64;
         }
-        const HID_SYSTEM_STATE: i32 = 1;
+        const HID_SYSTEM_STATE: u32 = 1;
         // SAFETY: a pure query with a valid state id.
         Some(unsafe { CGEventSourceFlagsState(HID_SYSTEM_STATE) })
     }
@@ -528,6 +544,7 @@ fn run<R: Runtime>(app: AppHandle<R>, mut engine: Engine, tap: Tap, rx: mpsc::Re
                 break;
             }
             Msg::Voice(at) => engine.voice(epoch_ms(at), &mut host),
+            Msg::Pill(action) => engine.pill(epoch_ms(Instant::now()), action, &mut host),
             Msg::Profile(p) => {
                 host.trigger_mask = mask(&p);
                 engine.set_profile(epoch_ms(Instant::now()), *p, &mut host);

@@ -60,6 +60,21 @@
         "medium": "Medium"
       },
       "all": "All settings"
+    },
+    "bar": {
+      "title": "Dictation bar",
+      "alwaysShow": "Always show the bar",
+      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
+      "position": "Position",
+      "positions": {
+        "bottom": "Bottom of the screen",
+        "top": "Top of the screen"
+      },
+      "hideInRecordings": "Hide the bar in screen recordings",
+      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
+      "hiddenUntil": "Hidden until {{time}}",
+      "showNow": "Show it again",
+      "resetPositions": "Center the bar on every display"
     }
   },
   "hub": {
@@ -152,7 +167,12 @@
         }
       },
       "dictionary": {
-        "title": "Dictionary"
+        "title": "Dictionary",
+        "empty": {
+          "title": "Teach {{appName}} your words",
+          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
+          "action": "Open custom words"
+        }
       },
       "snippets": {
         "title": "Snippets",
@@ -351,6 +371,29 @@
         "copyLatest": "Copier le dernier",
         "open": "Ouvrir",
         "openAccessibility": "Ouvrir Paramètres"
+      }
+    },
+    "pill": {
+      "name": "Dictation bar",
+      "hint": "Hold fn to dictate, or click to start",
+      "hideForAnHour": "Hide for an hour",
+      "announce": {
+        "listening": "Listening",
+        "transcribing": "Transcribing",
+        "cleaningUp": "Cleaning up your text",
+        "cancelled": "Dictation cancelled",
+        "silenceWarning": "No speech for a while. Dictation stops soon.",
+        "lengthWarning": "Dictation stops at 30 minutes."
+      },
+      "message": {
+        "no_speech": "No speech heard",
+        "mic_muted": "Only silence came in. Is the mic muted?",
+        "inserted_without_cleanup": "Inserted without cleanup",
+        "not_pasted": "Not pasted. Your text is in History.",
+        "transcription_failed": "Couldn't transcribe that",
+        "mic_denied": "Microphone access is off",
+        "no_microphone": "No microphone found",
+        "mic_failed": "The microphone didn't start"
       }
     }
   },
@@ -595,6 +638,21 @@
       "done_one": "Exporté {{count}} entrée.",
       "done_other": "Exporté {{count}} entrées.",
       "failed": "Le dictionnaire ne peut pas être exporté. Veuillez réessayer."
+    }
+  },
+  "pill": {
+    "region": "Dictation bar",
+    "listening": "Listening",
+    "cancel": "Cancel dictation",
+    "finish": "Finish dictation",
+    "transcribing": "Transcribing…",
+    "cleaningUp": "Cleaning up…",
+    "mic": "Mic: {{name}}",
+    "fix": "Fix",
+    "dismiss": "Dismiss",
+    "warning": {
+      "silence": "No speech for a while, stopping soon",
+      "length": "Stops at 30 minutes"
     }
   },
   "overrides": {

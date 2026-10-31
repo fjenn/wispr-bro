@@ -12,6 +12,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
 import { AiEngine } from "../settings/advanced/AiEngine";
+import { BarSettings } from "../settings/BarSettings";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
 import { CspSmoke } from "./CspSmoke";
 import { NotificationsDebug } from "./NotificationsDebug";
@@ -30,6 +31,11 @@ registerForkDebugSection({
   id: "ai-engine",
   titleKey: "aiEngine.title",
   render: () => <AiEngine />,
+// S-03: the Flow Bar settings, until S-14's Settings modal.
+registerForkDebugSection({
+  id: "bar",
+  titleKey: "settings.bar.title",
+  render: () => <BarSettings />,
 });
 
 // S-18: macOS permission and a sample poster for the Mac test script.

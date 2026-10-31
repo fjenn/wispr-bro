@@ -122,11 +122,13 @@ pub fn ensure_prepared<R: Runtime>(app: &AppHandle<R>) {
 /// dictation to ~0.3-1 after its noise-floor subtraction.
 pub const VOICE_LEVEL: f32 = 0.2;
 
-/// Hook in Handy's `overlay::emit_levels`, before its overlay gate.
-pub fn on_levels<R: Runtime>(_app: &AppHandle<R>, levels: &[f32]) {
+/// Hook in Handy's `overlay::emit_levels`, before its overlay gate: the
+/// hands-free silence timer (S-01) and the Flow Bar's waveform (S-03).
+pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
     if is_voice(levels) {
         crate::fork::shortcut::on_voice();
     }
+    crate::fork::pill::on_levels(app, levels);
 }
 
 pub fn is_voice(levels: &[f32]) -> bool {

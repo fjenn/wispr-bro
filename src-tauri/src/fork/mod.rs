@@ -18,6 +18,7 @@
 //!   goes through it).
 //! - `llm_client.rs`: [`llm::client_builder`] (F-08); S-10 routes `local`
 //!   to the sidecar there, with no new upstream line.
+//! - `overlay.rs`: the Flow Bar's hooks ([`pill`], S-03).
 //!
 //! S-18's notifications ([`notify`]) need no upstream hook: they listen to
 //! Handy's `model-download-complete` event and install their macOS delegate
@@ -45,6 +46,7 @@ pub mod llm;
 pub mod models;
 pub mod net;
 pub mod notify;
+pub mod pill;
 pub mod settings;
 pub mod shortcut;
 pub mod stats;
@@ -408,6 +410,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     if is_product_build() {
         audio::enable_prepared(app);
         shortcut::start(app);
+        // S-03: the Flow Bar (macOS; replaces Handy's overlay).
+        R::pill_start(app);
     }
 
     state.mark_ready();
@@ -463,6 +467,9 @@ macro_rules! fork_specta_builder {
                 commands::notifications::fork_notifications_feature::<$runtime>,
                 commands::notifications::fork_notifications_permission::<$runtime>,
                 commands::notifications::fork_notifications_debug_post::<$runtime>,
+                commands::pill::fork_pill_snapshot::<$runtime>,
+                commands::pill::fork_pill_ready::<$runtime>,
+                commands::pill::fork_pill_action::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -474,7 +481,9 @@ macro_rules! fork_specta_builder {
                 dictionary::ForkDictionaryChanged,
                 notify::ForkNotificationsChanged,
                 notify::ForkNotificationOpened,
-                notify::ForkToastsDismiss
+                notify::ForkToastsDismiss,
+                pill::ForkPillState,
+                pill::ForkPillLevels
             ])
     };
 }
@@ -512,9 +521,18 @@ pub trait ForkRuntime: Runtime {
 
     /// Handy's history manager (S-09 jobs), `None` before it exists.
     fn handy_history(app: &AppHandle<Self>) -> Option<std::sync::Arc<dyn db::handy::HandyHistory>>;
+    /// Starts the Flow Bar (S-03; macOS product builds). No-op elsewhere.
+    fn pill_start(app: &AppHandle<Self>);
 }
 
 impl ForkRuntime for tauri::Wry {
+    fn pill_start(app: &AppHandle<Self>) {
+        #[cfg(target_os = "macos")]
+        pill::start(app);
+        #[cfg(not(target_os = "macos"))]
+        let _ = app;
+    }
+
     fn hub_title_bar_height(window: &tauri::WebviewWindow<Self>) -> f64 {
         hub::title_bar_height(window)
     }
@@ -557,6 +575,8 @@ impl ForkRuntime for tauri::Wry {
 
 #[cfg(test)]
 impl ForkRuntime for tauri::test::MockRuntime {
+    fn pill_start(_app: &AppHandle<Self>) {}
+
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {
         0.0
     }

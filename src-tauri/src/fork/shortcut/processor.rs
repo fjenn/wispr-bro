@@ -33,6 +33,10 @@
 //! - fn+Space while fn is held → lock, mic opens at once, Space swallowed
 //!   (rule 6).
 //! - Esc while a take is active → cancel, with or without fn (rule 7).
+//! - The Flow Bar (S-03): a click on the resting bar starts a hands-free
+//!   take; a click on ✓ (or the bar) while hands-free stops and inserts; ✕
+//!   cancels. A fn press stops a take the bar started, however soon (rule
+//!   5's third-press cancel belongs to the double-tap only).
 //! - Hands-free: 120 s of continuous silence stops the take (warning at
 //!   100 s); any take stops at 30 min (warning at 28 min). An auto-stopped
 //!   take is still transcribed (rule 8, DEC-32).
@@ -104,6 +108,10 @@ pub enum Input {
     /// The microphone heard speech-level sound now (resets the silence
     /// timer of a hands-free take; ignored otherwise).
     Voice,
+    /// The Flow Bar was clicked (or its ✓): start hands-free, or stop.
+    PillPress,
+    /// The Flow Bar's ✕.
+    PillCancel,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -111,6 +119,8 @@ pub enum Input {
 pub enum LockVia {
     DoubleTap,
     FnSpace,
+    /// A click on the Flow Bar (S-03).
+    Pill,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -124,6 +134,8 @@ pub enum StopVia {
     Silence,
     /// Take reached `length_stop_ms` (rule 8).
     MaxLength,
+    /// The Flow Bar's ✓ (S-03).
+    Pill,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -136,6 +148,8 @@ pub enum CancelWhy {
     TripleTap,
     /// The caller reset the machine (profile change, shutdown).
     Reset,
+    /// The Flow Bar's ✕ (S-03).
+    Pill,
 }
 
 /// What a take warning is about (rule 8).
@@ -217,10 +231,12 @@ pub enum State {
         up: Ms,
         take: bool,
     },
-    /// Hands-free take.
+    /// Hands-free take. `quick_cancel`: a fn press within `T` of `at`
+    /// cancels (rule 5); false for a take the Flow Bar started.
     Locked {
         at: Ms,
         fn_down: bool,
+        quick_cancel: bool,
     },
     /// fn still down after a chord, stop or cancel; nothing active. The
     /// release returns to idle.
@@ -461,8 +477,44 @@ impl Grammar {
                     c.silence_warned = false;
                 }
             }
+            Input::PillPress => self.pill_press(now, &mut out),
+            Input::PillCancel => {
+                if self.take_active() {
+                    out.push(Effect::Cancelled {
+                        why: CancelWhy::Pill,
+                    });
+                    self.close_mic(&mut out);
+                    self.after_stop();
+                }
+            }
         }
         out
+    }
+
+    /// A click on the Flow Bar: idle → a hands-free take; hands-free →
+    /// stop and insert. Ignored while fn is pending, held or being drained
+    /// (the key owns that take).
+    fn pill_press(&mut self, now: Ms, out: &mut Vec<Effect>) {
+        match self.state {
+            State::Idle => {
+                self.open_mic(now, out);
+                out.push(Effect::Locked { via: LockVia::Pill });
+                self.state = State::Locked {
+                    at: now,
+                    fn_down: false,
+                    quick_cancel: false,
+                };
+            }
+            State::Locked { .. } => {
+                out.push(Effect::Stopped { via: StopVia::Pill });
+                self.close_mic(out);
+                self.after_stop();
+            }
+            State::Pending { .. }
+            | State::Holding { .. }
+            | State::TapWait { .. }
+            | State::Draining => {}
+        }
     }
 
     /// Cancels whatever is active (profile change, shutdown).
@@ -496,10 +548,13 @@ impl Grammar {
                 self.state = State::Locked {
                     at: now,
                     fn_down: true,
+                    quick_cancel: true,
                 };
             }
-            State::Locked { at, .. } => {
-                if now.saturating_sub(at) < self.timings.tap_window_ms {
+            State::Locked {
+                at, quick_cancel, ..
+            } => {
+                if quick_cancel && now.saturating_sub(at) < self.timings.tap_window_ms {
                     out.push(Effect::Cancelled {
                         why: CancelWhy::TripleTap,
                     });
@@ -542,8 +597,14 @@ impl Grammar {
                     };
                 }
             }
-            State::Locked { at, .. } => {
-                self.state = State::Locked { at, fn_down: false };
+            State::Locked {
+                at, quick_cancel, ..
+            } => {
+                self.state = State::Locked {
+                    at,
+                    fn_down: false,
+                    quick_cancel,
+                };
             }
             State::Draining => self.state = State::Idle,
             State::Idle | State::TapWait { .. } => {}
@@ -568,6 +629,7 @@ impl Grammar {
                     self.state = State::Locked {
                         at: now,
                         fn_down: true,
+                        quick_cancel: true,
                     };
                 }
                 // Pending, or Draining after a chord/stop/cancel: rule 6 says
@@ -580,6 +642,7 @@ impl Grammar {
                     self.state = State::Locked {
                         at: now,
                         fn_down: true,
+                        quick_cancel: true,
                     };
                 }
             },

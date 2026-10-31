@@ -741,16 +741,45 @@ fn loopback_detection() {
 }
 
 #[test]
-fn handy_overlay_is_left_alone_until_s03_replaces_it() {
-    // S-03 flips the gate; update this test and the docs then.
-    const { assert!(!HANDY_OVERLAY_REPLACED) };
+fn handy_overlay_is_turned_off_now_that_the_bar_replaces_it() {
+    // S-03: the fork's Flow Bar replaces Handy's overlay.
+    const { assert!(HANDY_OVERLAY_REPLACED) };
     let mut handy = fresh_handy();
-    let style = handy.overlay_style;
+    handy.overlay_style = crate::settings::OverlayStyle::Minimal;
     let mut fork = ForkSettings::default();
     let report = apply_product_settings(&mut handy, &mut fork, &ctx());
-    assert_eq!(handy.overlay_style, style);
+    assert_eq!(handy.overlay_style, crate::settings::OverlayStyle::None);
+    assert!(report.enforced.contains(&"overlay_style"));
+    assert_eq!(enforced_snapshot(&handy)["overlay_enforced"], json!(true));
+    // Idempotent: the next start changes nothing.
+    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
     assert!(!report.enforced.contains(&"overlay_style"));
-    assert_eq!(enforced_snapshot(&handy)["overlay_enforced"], json!(false));
+}
+
+#[test]
+fn bar_positions_are_validated() {
+    use std::collections::BTreeMap;
+    let ok = BTreeMap::from([("built-in-retina-display-1512x982".to_string(), 0.25)]);
+    assert!(validate(&ForkSettingUpdate::BarXByDisplay(ok.clone())).is_ok());
+    for bad in [
+        BTreeMap::from([("Bad Key".to_string(), 0.5)]),
+        BTreeMap::from([("k".to_string(), 1.5)]),
+        BTreeMap::from([("k".to_string(), f64::NAN)]),
+        (0..=MAX_BAR_DISPLAYS)
+            .map(|i| (format!("d{i}"), 0.5))
+            .collect(),
+    ] {
+        assert!(validate(&ForkSettingUpdate::BarXByDisplay(bad)).is_err());
+    }
+    let mut s = ForkSettings::default();
+    apply_update(&mut s, ForkSettingUpdate::BarXByDisplay(ok.clone())).unwrap();
+    apply_update(&mut s, ForkSettingUpdate::BarHideInRecordings(true)).unwrap();
+    assert_eq!(s.bar_x_by_display, ok);
+    assert!(s.bar_hide_in_recordings);
+    // Defaults: centred everywhere, visible in recordings.
+    let d = ForkSettings::default();
+    assert!(d.bar_x_by_display.is_empty());
+    assert!(!d.bar_hide_in_recordings);
 }
 
 #[test]

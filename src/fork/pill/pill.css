@@ -1,0 +1,263 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * The active Flow Bar (S-03). A dark capsule in both themes (it floats over
+ * any app), matching the native resting bar (`native.rs`): in dark mode a
+ * lighter fill and a softer edge. Text pairs meet WCAG AA on the fill:
+ * white on #18181b ≈ 17:1, #ffb4ab on #18181b ≈ 10:1, #c4c6ff on #2c2c30
+ * ≈ 8.6:1. `data-theme` (Handy's theme setting) wins over the OS.
+ */
+
+:root {
+  --wb-pill-light-bg: rgba(24, 24, 27, 0.92);
+  --wb-pill-dark-bg: rgba(44, 44, 48, 0.96);
+  --wb-pill-light-edge: rgba(255, 255, 255, 0.55);
+  --wb-pill-dark-edge: rgba(255, 255, 255, 0.32);
+
+  --wb-pill-bg: var(--wb-pill-light-bg);
+  --wb-pill-edge: var(--wb-pill-light-edge);
+  --wb-pill-ink: #ffffff;
+  --wb-pill-ink-2: rgba(255, 255, 255, 0.82);
+  --wb-pill-error: #ffb4ab;
+  --wb-pill-accent: #c4c6ff;
+  --wb-pill-btn: rgba(255, 255, 255, 0.14);
+  --wb-pill-btn-hover: rgba(255, 255, 255, 0.24);
+  --wb-pill-finish: #5754e6;
+  --wb-pill-finish-hover: #6b68f0;
+  --wb-pill-focus: #c4c6ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wb-pill-bg: var(--wb-pill-dark-bg);
+    --wb-pill-edge: var(--wb-pill-dark-edge);
+  }
+}
+
+:root[data-theme="dark"] {
+  --wb-pill-bg: var(--wb-pill-dark-bg);
+  --wb-pill-edge: var(--wb-pill-dark-edge);
+}
+
+html,
+body {
+  background: transparent;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.wb-pill {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 4px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: var(--wb-pill-bg);
+  box-shadow: inset 0 0 0 1px var(--wb-pill-edge);
+  color: var(--wb-pill-ink);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.wb-pill[data-phase="message"] {
+  padding: 0 4px 0 12px;
+  justify-content: flex-start;
+}
+
+.wb-pill-middle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wb-pill-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Waveform: nine bars driven by the mic levels. */
+.wb-pill-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+}
+
+.wb-pill-wave i {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--wb-pill-ink);
+  transition: height 70ms linear;
+}
+
+.wb-pill-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 0 6px;
+  color: var(--wb-pill-ink-2);
+}
+
+.wb-pill-label svg,
+.wb-pill-message svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.wb-pill-warning {
+  color: var(--wb-pill-accent);
+}
+
+/* Buttons: ✕ and ✓ in hands-free, ✕ on messages. */
+.wb-pill-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--wb-pill-btn);
+  color: var(--wb-pill-ink);
+  cursor: default;
+}
+
+.wb-pill-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.wb-pill-btn:hover {
+  background: var(--wb-pill-btn-hover);
+}
+
+.wb-pill-finish {
+  background: var(--wb-pill-finish);
+}
+
+.wb-pill-finish:hover {
+  background: var(--wb-pill-finish-hover);
+}
+
+.wb-pill-btn:focus-visible,
+.wb-pill-fix:focus-visible {
+  outline: 2px solid var(--wb-pill-focus);
+  outline-offset: 1px;
+}
+
+/* Processing. */
+.wb-pill-working {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  min-width: 0;
+}
+
+.wb-pill-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.wb-pill-dots i {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--wb-pill-ink);
+  opacity: 0.4;
+  animation: wb-pill-dot 1s ease-in-out infinite;
+}
+
+.wb-pill-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.wb-pill-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes wb-pill-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Messages. */
+.wb-pill-message {
+  flex: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.wb-pill[data-tone="error"] .wb-pill-message {
+  color: var(--wb-pill-error);
+}
+
+.wb-pill-message .wb-pill-text {
+  color: var(--wb-pill-ink);
+}
+
+.wb-pill-fix {
+  flex: none;
+  height: 24px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--wb-pill-ink);
+  color: #18181b;
+  font: inherit;
+  font-weight: 600;
+  cursor: default;
+}
+
+.wb-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion: stills instead of animation. The waveform keeps
+   following the voice (it is information), without easing. */
+@media (prefers-reduced-motion: reduce) {
+  .wb-pill-wave i {
+    transition: none;
+  }
+  .wb-pill-dots i {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+[dir="rtl"] .wb-pill[data-phase="message"] {
+  padding: 0 12px 0 4px;
+}

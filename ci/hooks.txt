@@ -38,7 +38,7 @@ src-tauri/src/shortcut/handy_keys.rs 6      # S-01: `if crate::fork::shortcut::o
 src-tauri/src/shortcut/tauri_impl.rs 6      # S-01: the same `owns()` line first in register_shortcut and unregister_shortcut (Tauri backend, its startup and the secure-input Carbon shadows)
 src-tauri/src/transcription_coordinator.rs 237 # S-01 (separate MIT-clean commit): `ExternalCommand` + `external_command()` + `is_busy()` for the fork's own grammar, ~90 lines of code and 6 unit tests that need the private state machine
 src-tauri/src/managers/audio.rs 4           # S-01 / DEC-53: `microphone_config` result passes through `crate::fork::audio::recorder_config(…)` (prepared mic)
-src-tauri/src/overlay.rs 1                  # S-01: `crate::fork::audio::on_levels(app_handle, levels);` first in emit_levels, before the overlay gate (hands-free silence timer; S-03 extends it for the pill)
+src-tauri/src/overlay.rs 6                  # S-01: `crate::fork::audio::on_levels(app_handle, levels);` first in emit_levels, before the overlay gate (hands-free silence timer; S-03: it also feeds fork::pill::on_levels, no second line); S-03: `if crate::fork::pill::replaces_handy_overlay() { return; }` first in macOS create_recording_overlay (3 after rustfmt), `crate::fork::pill::on_overlay_state(app_handle, state);` first in show_overlay_state, `crate::fork::pill::on_overlay_hide(app_handle);` first in hide_recording_overlay
 
 # Manifests (DEC-48 version line; fork dependency blocks)
 src-tauri/Cargo.toml 19                     # F-01: `version = "1.0.0-alpha.1"` (2); F-05: `# fork: … (begin)/(end)` dev-dependency block (tauri `test`, 4); F-08: removed unused `rdev` (1); S-01: `[patch.crates-io] handy-recorder` → crates/wb-handy-recorder with its `# fork:` comment (2); S-09: `# fork: … (begin)/(end)` dependency block with `unicode-segmentation` (3); S-11: `aho-corasick` in the same block (1); S-16: `csv` and `encoding_rs` in the same block (2); S-18: `# fork: … macOS dependencies (begin)/(end)` block with `objc2-user-notifications` (no default features) and `block2`, both already in the tree (4)
@@ -52,6 +52,7 @@ bun.lock lock                               # F-08: `@tauri-apps/plugin-sql` rem
 
 # Frontend
 src/i18n/index.ts 2                         # F-05: `import { registerForkI18n } from "@/fork";` + `registerForkI18n(i18n);`
+vite.config.ts 2                            # S-03: `import { forkInputs } from "./src/fork/vite-inputs";` + `...forkInputs(__dirname),` in build.rollupOptions.input (the fork-pill page)
 src/App.tsx 42                              # S-13: `import { ForkApp } …` (1) and Handy's sidebar + section layout JSX swapped for `<ForkApp …/>` (5 added, 36 removed); the now-unused Handy helpers above it stay untouched so upstream edits still merge
 
 # Repo meta

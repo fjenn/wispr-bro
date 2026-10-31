@@ -693,3 +693,63 @@ fn cli_toggle_and_cancel_bypass_the_shortcut_registry() {
     // handy-keys' startup registers through HandyKeysState::register.
     assert!(keys.contains("if let Err(e) = state.register(&binding) {"));
 }
+
+// --- S-03: the Flow Bar ---
+
+#[test]
+fn bar_click_starts_a_locked_take_and_stop_inserts_it() {
+    let mut r = Rig::new();
+    r.at(1_000);
+    r.engine.pill(1_000, PillAction::Click, &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "lock"]);
+    assert_eq!(r.host.recordings, 1);
+    // Esc now cancels (blocked while the take runs).
+    assert!(r.host.blocking.iter().any(|h| h.key == Some(HkKey::Escape)));
+    r.at(3_000);
+    r.engine.pill(3_000, PillAction::Stop, &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "lock", "stop"]);
+    assert!(r
+        .host
+        .observed
+        .iter()
+        .any(|o| matches!(o, Observed::Effect(Effect::Locked { .. }))));
+}
+
+#[test]
+fn bar_click_on_a_running_bar_take_stops_it_and_cancel_cancels() {
+    let mut r = Rig::new();
+    r.engine.pill(10, PillAction::Click, &mut r.host);
+    r.engine.pill(2_000, PillAction::Click, &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "lock", "stop"]);
+    r.host.finish();
+    r.host.commands.clear();
+    r.engine.pill(3_000, PillAction::Click, &mut r.host);
+    r.engine.pill(3_500, PillAction::Cancel, &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "lock", "cancel"]);
+}
+
+#[test]
+fn fn_press_stops_a_bar_take() {
+    let mut r = Rig::new();
+    r.engine.pill(10, PillAction::Click, &mut r.host);
+    r.fn_down(200).fn_up(260);
+    assert_eq!(r.host.names(), vec!["start", "lock", "stop"]);
+}
+
+#[test]
+fn bar_buttons_reach_a_take_the_grammar_does_not_own() {
+    // A take started by the CLI (`--toggle-transcription`).
+    let mut r = Rig::new();
+    r.host.stage = Stage::Recording;
+    r.engine.pill(100, PillAction::Stop, &mut r.host);
+    assert_eq!(r.host.names(), vec!["stop"]);
+    r.host.stage = Stage::Recording;
+    r.engine.pill(200, PillAction::Cancel, &mut r.host);
+    assert_eq!(r.host.names(), vec!["stop", "cancel"]);
+    // A click while the pipeline is busy starts a take the coordinator
+    // remembers (Handy's queued start, A-206).
+    r.host.stage = Stage::Processing;
+    r.engine.pill(300, PillAction::Click, &mut r.host);
+    assert_eq!(r.host.names(), vec!["stop", "cancel", "start", "lock"]);
+    assert!(r.host.queued);
+}

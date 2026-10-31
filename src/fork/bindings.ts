@@ -380,6 +380,24 @@ async forkNotificationsDebugPost(kind: NotificationKind, delayMs: number | null)
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * The state the bar should show now (`None` at rest).
+ */
+async forkPillSnapshot() : Promise<ForkPillState | null> {
+    return await TAURI_INVOKE("fork_pill_snapshot");
+},
+/**
+ * The page painted `seq` (after two animation frames).
+ */
+async forkPillReady(seq: number) : Promise<void> {
+    await TAURI_INVOKE("fork_pill_ready", { seq });
+},
+/**
+ * A button on the bar.
+ */
+async forkPillAction(action: PillUiAction) : Promise<void> {
+    await TAURI_INVOKE("fork_pill_action", { action });
 }
 }
 
@@ -393,6 +411,8 @@ forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
 forkNotificationOpened: ForkNotificationOpened,
 forkNotificationsChanged: ForkNotificationsChanged,
+forkPillLevels: ForkPillLevels,
+forkPillState: ForkPillState,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged,
 forkStatsUpdated: ForkStatsUpdated,
@@ -404,6 +424,8 @@ forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
 forkNotificationOpened: "fork-notification-opened",
 forkNotificationsChanged: "fork-notifications-changed",
+forkPillLevels: "fork-pill-levels",
+forkPillState: "fork-pill-state",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed",
 forkStatsUpdated: "fork-stats-updated",
@@ -729,6 +751,23 @@ export type ForkNotificationsChanged = { unread: number; posted: NotificationIte
  */
 export type ForkPasteOutcome = "confirmed" | "unverified" | "card" | "refused" | "queued"
 /**
+ * One waveform frame (≤ 30 per second, only to `fork-pill`).
+ */
+export type ForkPillLevels = { bars: number[] }
+/**
+ * The active bar, sent to `fork-pill` (and returned by
+ * `fork_pill_snapshot` when the page loads).
+ */
+export type ForkPillState = { 
+/**
+ * Increases with every change; the page echoes it in `fork_pill_ready`.
+ */
+seq: number; phase: PillPhase; shape: Shape; 
+/**
+ * The microphone name (first 1.5 s of a take).
+ */
+mic: string | null; message: PillMessage | null; tone: PillTone | null; fix: PillFix | null; warning: PillWarning | null }
+/**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
  */
@@ -770,7 +809,7 @@ export type ForkSettingUpdate =
 /**
  * Replaces the bindings of one action. An empty list unsets it.
  */
-{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "live_text_in_pill"; value: boolean } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
+{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
 /**
  * All fork settings. Missing fields take their [`Default`] value
  * (container-level `serde(default)`), so a partial file never fails as a
@@ -805,6 +844,17 @@ bar_always_visible: boolean; bar_position: BarPosition;
  * "Hide for an hour": hidden until this Unix time in ms.
  */
 bar_hidden_until_ms: number | null; 
+/**
+ * "Hide the bar in screen recordings" (S-03; RS-03: hidden from
+ * `screencapture`, its video mode and ScreenCaptureKit streams).
+ */
+bar_hide_in_recordings: boolean; 
+/**
+ * Where the user dragged the bar on each display, as a fraction of the
+ * display's visible width (0 = left end), by display key
+ * (`fork::pill::placement::display_key`). No entry = centred.
+ */
+bar_x_by_display: Partial<{ [key in string]: number }>; 
 /**
  * DEC-30: Handy's live transcript in the pill, Advanced option (off).
  */
@@ -1193,6 +1243,103 @@ completed_at_ms: number | null }
  */
 export type OnboardingStatus = "not_started" | "in_progress" | "completed"
 /**
+ * What a message's Fix button does.
+ */
+export type PillFix = 
+/**
+ * Opens System Settings › Privacy & Security › Microphone.
+ */
+"microphone_privacy" | 
+/**
+ * Opens System Settings › Sound › Input.
+ */
+"sound_input"
+/**
+ * A message or an error after (or instead of) a take. The English copy is
+ * in `fork.json` > `pill.message.<kind>`.
+ */
+export type PillMessage = 
+/**
+ * Nothing was transcribed.
+ */
+"no_speech" | 
+/**
+ * The microphone sent only digital silence.
+ */
+"mic_muted" | 
+/**
+ * Cleanup failed or was too slow; the plain transcript went in (S-12a).
+ */
+"inserted_without_cleanup" | 
+/**
+ * The text was not pasted (sleep, lock, paste failed); it is in History.
+ */
+"not_pasted" | 
+/**
+ * Transcribing failed.
+ */
+"transcription_failed" | 
+/**
+ * Microphone access is off.
+ */
+"mic_denied" | 
+/**
+ * No microphone was found.
+ */
+"no_microphone" | 
+/**
+ * The microphone could not be opened.
+ */
+"mic_failed"
+/**
+ * What the active bar is doing (the web view's `state`).
+ */
+export type PillPhase = 
+/**
+ * Push to talk: the key is held.
+ */
+"held" | 
+/**
+ * Hands-free: ✕, waveform, ✓.
+ */
+"locked" | "transcribing" | "cleaning_up" | "message"
+/**
+ * Information or error (changes the colour and the VoiceOver priority).
+ */
+export type PillTone = "info" | "error"
+/**
+ * What the web view's buttons ask for (`fork_pill_action`).
+ */
+export type PillUiAction = 
+/**
+ * ✓: stop and insert.
+ */
+"stop" | 
+/**
+ * ✕ on a take: cancel.
+ */
+"cancel" | 
+/**
+ * ✕ on a message.
+ */
+"dismiss" | 
+/**
+ * The message's Fix button.
+ */
+"fix"
+/**
+ * A take is about to stop on its own (S-01 rule 8, DEC-32).
+ */
+export type PillWarning = 
+/**
+ * Hands-free and silent for 100 s: stops after 120 s of silence.
+ */
+"silence" | 
+/**
+ * The take stops at 30 minutes.
+ */
+"length"
+/**
  * A valid row as it would be saved.
  */
 export type ReviewRow = { row: number; kind: EntryKind; phrase: string; replacement: string | null }
@@ -1254,6 +1401,38 @@ restarts: number;
  * Last failure, for the debug panel and logs (no user text).
  */
 last_error: string | null }
+/**
+ * One shape of the bar, in points.
+ */
+export type Shape = 
+/**
+ * The thin resting bar (native).
+ */
+"rest" | 
+/**
+ * Held (push to talk): the waveform.
+ */
+"held" | 
+/**
+ * Held, with the microphone name for its first 1.5 s.
+ */
+"held_label" | 
+/**
+ * Hands-free: ✕, the waveform, ✓.
+ */
+"locked" | 
+/**
+ * Hands-free with a text in the middle (microphone name, warning).
+ */
+"locked_label" | 
+/**
+ * "Transcribing…" / "Cleaning up…".
+ */
+"status" | 
+/**
+ * A message or an error, with an optional Fix button.
+ */
+"message"
 /**
  * Lifetime and today's numbers for the Home rail (S-15a) and Insights
  * (S-25).

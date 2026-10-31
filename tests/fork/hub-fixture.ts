@@ -36,6 +36,8 @@ export function defaultForkSettings(): Record<string, unknown> {
     bar_always_visible: true,
     bar_position: "bottom",
     bar_hidden_until_ms: null,
+    bar_hide_in_recordings: false,
+    bar_x_by_display: {},
     live_text_in_pill: false,
     text_retention_days: null,
     audio_retention_days: 14,
