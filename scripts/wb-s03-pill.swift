@@ -445,6 +445,16 @@ for raw in script.split(whereSeparator: { $0 == ";" || $0 == "\n" }) {
     case "front": out(["front": frontName()])
     case "procs": procs()
     case "shot": shot(arg(1))
+    case "shotactive":
+        // Capture only the active bar's window (window id), at 2x.
+        if let w = activeBar() {
+            let task = Process()
+            task.executableURL = URL(fileURLWithPath: "/usr/sbin/screencapture")
+            task.arguments = ["-x", "-o", "-l\(w.number)", arg(1)]
+            try? task.run()
+            task.waitUntilExit()
+            out(["shot": arg(1), "window": describe(w)])
+        } else { out(["error": "no active bar"]) }
     case "mark": out(["mark": p.dropFirst().joined(separator: " ")])
     default: out(["error": "unknown command \(cmd)"])
     }

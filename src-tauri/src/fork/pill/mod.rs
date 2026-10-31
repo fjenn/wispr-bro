@@ -178,7 +178,29 @@ pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
     let frame = ForkPillLevels {
         bars: levels::bars(levels),
     };
+    if log::log_enabled!(log::Level::Debug) {
+        log_level_peak(&frame.bars);
+    }
     let _ = tauri_specta::Event::emit_to(&frame, app, panel_label());
+}
+
+/// Debug log, once a second while a take shows: the loudest bar sent and
+/// how many frames went out (the real-Mac waveform check).
+fn log_level_peak(bars: &[f32]) {
+    use std::sync::atomic::{AtomicU32, AtomicU64};
+    static PEAK: AtomicU32 = AtomicU32::new(0);
+    static FRAMES: AtomicU32 = AtomicU32::new(0);
+    static LAST: AtomicU64 = AtomicU64::new(0);
+    let peak = bars.iter().copied().fold(0.0f32, f32::max);
+    PEAK.fetch_max(peak.to_bits(), Ordering::Relaxed);
+    FRAMES.fetch_add(1, Ordering::Relaxed);
+    let now = monotonic_ms();
+    if now.saturating_sub(LAST.load(Ordering::Relaxed)) >= 1_000 {
+        LAST.store(now, Ordering::Relaxed);
+        let peak = f32::from_bits(PEAK.swap(0, Ordering::Relaxed));
+        let frames = FRAMES.swap(0, Ordering::Relaxed);
+        log::debug!("pill: level frames {frames}, loudest bar {peak:.3}");
+    }
 }
 
 /// A hotkey decision (`fork::shortcut` engine host).

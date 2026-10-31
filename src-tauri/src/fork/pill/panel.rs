@@ -8,7 +8,7 @@
 //!   `accept_first_mouse(true)`, all Spaces + full-screen auxiliary, no
 //!   `_setPreventsActivation:`, DEC-28). It exists only around a take: it
 //!   is built when fn goes down (or a take starts some other way), kept
-//!   ordered in at alpha 0 while it loads (so WebKit renders it), shown
+//!   ordered in behind the native bar while it loads (so WebKit renders it), shown
 //!   once the page has painted the current state, and destroyed
 //!   [`super::WEB_LINGER_MS`] after the take ends (its WebContent process
 //!   exits with it, which is what keeps idle memory flat; RS-03).
@@ -30,8 +30,8 @@ use objc2::rc::Retained;
 use objc2::runtime::AnyObject;
 use objc2::{define_class, msg_send, sel, AnyThread, MainThreadMarker};
 use objc2_app_kit::{
-    NSApplicationDidChangeScreenParametersNotification, NSWindow, NSWorkspace,
-    NSWorkspaceActiveSpaceDidChangeNotification,
+    NSApplicationDidChangeScreenParametersNotification, NSWindow, NSWindowOrderingMode,
+    NSWorkspace, NSWorkspaceActiveSpaceDidChangeNotification,
 };
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSObject, NSPoint, NSRect, NSSize};
 use tauri::{AppHandle, Manager, WebviewUrl, Wry};
@@ -90,7 +90,8 @@ pub enum NativeScene {
 pub enum WebScene {
     /// No web view (destroyed or never built).
     None,
-    /// Built (or being built), ordered in at alpha 0 so WebKit paints it.
+    /// Built (or being built), ordered in behind the native bar so WebKit
+    /// paints it.
     Loading,
     /// Built, off screen, after a take (destroyed after the linger time).
     Lingering,
@@ -208,6 +209,9 @@ impl Ui {
             WebScene::None => self.destroy_web(),
             WebScene::Loading => {
                 self.ensure_web(&scene);
+                if let NativeScene::Bridge(shape) = scene.native {
+                    self.frame_web(shape);
+                }
                 self.hide_web(false);
             }
             WebScene::Lingering => self.hide_web(true),
@@ -367,7 +371,6 @@ impl Ui {
                     let _ = w.set_content_protected(scene.protected);
                 }
                 if let Some(win) = self.web_window() {
-                    win.setAlphaValue(0.0);
                     win.setIgnoresMouseEvents(true);
                     // SAFETY: plain setter.
                     unsafe {
@@ -376,7 +379,8 @@ impl Ui {
                     prevent_activation(win);
                 }
                 self.frame_web(Shape::Held);
-                // Ordered in (invisible) so WebKit loads and paints it.
+                // Ordered in (behind the native bar, see `hide_web`) so
+                // WebKit loads and paints it.
                 panel.show();
                 log::info!("pill: web view built in {:?}", started.elapsed());
             }
@@ -414,17 +418,25 @@ impl Ui {
     }
 
     /// `order_out`: also take the window off screen (lingering after a
-    /// take); otherwise keep it ordered in at alpha 0 (loading).
+    /// take); otherwise keep it ordered in behind the native bar (loading).
     fn hide_web(&mut self, order_out: bool) {
         super::WEB_SHOWN.store(false, std::sync::atomic::Ordering::Release);
         self.web_shown = None;
+        let native = self.resting.window_number();
         if let Some(win) = self.web_window() {
-            win.setAlphaValue(0.0);
             win.setIgnoresMouseEvents(true);
-            if order_out && win.isVisible() {
-                win.orderOut(None);
-            } else if !order_out && !win.isVisible() {
-                win.orderFrontRegardless();
+            if order_out {
+                if win.isVisible() {
+                    win.orderOut(None);
+                }
+            } else {
+                // Ordered in at full alpha (WebKit sees a visible page and
+                // renders normally) but behind the native bar's bridge
+                // capsule of the same size: a fresh page is empty and
+                // transparent, a reused one is covered until it has painted
+                // the new state.
+                win.setAlphaValue(1.0);
+                win.orderWindow_relativeTo(NSWindowOrderingMode::Below, native);
             }
         }
     }
