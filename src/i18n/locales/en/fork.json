@@ -175,12 +175,7 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
         "title": "Style",
@@ -400,6 +395,107 @@
         "check_connection": "Check your internet connection",
         "no_space": "Not enough disk space to set up dictation"
       }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro now uses a newer kind of model. Download the new version to keep transcribing. Old versions will be removed."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "So Wispr Bro can hear you. Audio is turned into text on this computer and never uploaded."
+        },
+        "accessibility": {
+          "why": "So your shortcut works in every app, and Wispr Bro can type the text where your cursor is."
+        },
+        "turnOnMac": "Turn on Wispr Bro in System Settings, then come back here.",
+        "relaunch": "Shortcut not responding after this? <relaunch>Relaunch Wispr Bro</relaunch> and you'll land right back here."
+      },
+      "welcome": {
+        "noMatch": "No language matches “{{query}}”. Wispr Bro's models cover about 100 languages; more are in settings.",
+        "chinese": {
+          "question": "You speak {{languages}}. Which characters should Wispr Bro write?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro's in the corner to help walk you through it"
+      },
+      "done": {
+        "subMac": "Wispr Bro's in your menu bar now. Hold or tap <keys/> in any app to talk.",
+        "subTray": "Wispr Bro's in your system tray now. Hold or tap <keys/> in any app to talk.",
+        "atLogin": "Start Wispr Bro when I log in",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro Shortcuts"
+        },
+        "preferredLanguages": {
+          "description": "The languages you speak. Wispr Bro uses them to recommend models."
+        }
+      },
+      "models": {
+        "untestedNote": "Not tested with Wispr Bro. They may be slower or make more mistakes.",
+        "emptyYours": "No models yet. Pick one below: it downloads, then Wispr Bro uses it.",
+        "deleteAskActive": "Delete {{name}}? Wispr Bro can’t transcribe until you pick another.",
+        "retiredNotice": {
+          "title": "Old models no longer work with Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Rescan for models added to the models folder or Hugging Face cache outside Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Automatically start Wispr Bro when you log in to your computer."
+        },
+        "showTrayIcon": {
+          "description": "Display the Wispr Bro icon in the system tray."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Automatically check for new versions of Wispr Bro",
+          "lockedDescription": "Disabled by system configuration (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Checks whether keyboard events reach Wispr Bro. Only event counts are recorded — never which keys you press.",
+          "verdictOk": "Key events are reaching Wispr Bro normally."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Current version of Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Show release notes after Wispr Bro updates"
+        },
+        "appDataDirectory": {
+          "description": "Location where Wispr Bro stores its data"
+        },
+        "supportDevelopment": {
+          "description": "Help us continue building Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "New in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Change the language of the Wispr Bro interface"
+    },
+    "theme": {
+      "description": "Choose whether Wispr Bro follows your system theme or stays light or dark"
     }
   },
   "insert": {
@@ -872,107 +968,6 @@
       "done_one": "Exported {{count}} snippet.",
       "done_other": "Exported {{count}} snippets.",
       "failed": "The snippets couldn't be exported. Please try again."
-    }
-  },
-  "overrides": {
-    "onboarding": {
-      "migration": {
-        "description": "Wispr Bro now uses a newer kind of model. Download the new version to keep transcribing. Old versions will be removed."
-      },
-      "permissions": {
-        "microphone": {
-          "why": "So Wispr Bro can hear you. Audio is turned into text on this computer and never uploaded."
-        },
-        "accessibility": {
-          "why": "So your shortcut works in every app, and Wispr Bro can type the text where your cursor is."
-        },
-        "turnOnMac": "Turn on Wispr Bro in System Settings, then come back here.",
-        "relaunch": "Shortcut not responding after this? <relaunch>Relaunch Wispr Bro</relaunch> and you'll land right back here."
-      },
-      "welcome": {
-        "noMatch": "No language matches “{{query}}”. Wispr Bro's models cover about 100 languages; more are in settings.",
-        "chinese": {
-          "question": "You speak {{languages}}. Which characters should Wispr Bro write?"
-        }
-      },
-      "try": {
-        "subtitle": "Wispr Bro's in the corner to help walk you through it"
-      },
-      "done": {
-        "subMac": "Wispr Bro's in your menu bar now. Hold or tap <keys/> in any app to talk.",
-        "subTray": "Wispr Bro's in your system tray now. Hold or tap <keys/> in any app to talk.",
-        "atLogin": "Start Wispr Bro when I log in",
-        "panel": {
-          "name": "Wispr Bro"
-        }
-      }
-    },
-    "settings": {
-      "general": {
-        "shortcut": {
-          "title": "Wispr Bro Shortcuts"
-        },
-        "preferredLanguages": {
-          "description": "The languages you speak. Wispr Bro uses them to recommend models."
-        }
-      },
-      "models": {
-        "untestedNote": "Not tested with Wispr Bro. They may be slower or make more mistakes.",
-        "emptyYours": "No models yet. Pick one below: it downloads, then Wispr Bro uses it.",
-        "deleteAskActive": "Delete {{name}}? Wispr Bro can’t transcribe until you pick another.",
-        "retiredNotice": {
-          "title": "Old models no longer work with Wispr Bro"
-        },
-        "rescan": {
-          "tooltip": "Rescan for models added to the models folder or Hugging Face cache outside Wispr Bro"
-        }
-      },
-      "advanced": {
-        "autostart": {
-          "description": "Automatically start Wispr Bro when you log in to your computer."
-        },
-        "showTrayIcon": {
-          "description": "Display the Wispr Bro icon in the system tray."
-        }
-      },
-      "debug": {
-        "updateChecks": {
-          "description": "Automatically check for new versions of Wispr Bro",
-          "lockedDescription": "Disabled by system configuration (WISPRBRO_DISABLE_UPDATER)"
-        },
-        "keyboardDiagnostic": {
-          "description": "Checks whether keyboard events reach Wispr Bro. Only event counts are recorded — never which keys you press.",
-          "verdictOk": "Key events are reaching Wispr Bro normally."
-        }
-      },
-      "about": {
-        "version": {
-          "description": "Current version of Wispr Bro"
-        },
-        "whatsNewUpdates": {
-          "description": "Show release notes after Wispr Bro updates"
-        },
-        "appDataDirectory": {
-          "description": "Location where Wispr Bro stores its data"
-        },
-        "supportDevelopment": {
-          "description": "Help us continue building Wispr Bro"
-        },
-        "acknowledgments": {
-          "ggml": {
-            "details": "Wispr Bro's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
-          }
-        }
-      }
-    },
-    "whatsNew": {
-      "title": "New in Wispr Bro v{{version}}"
-    },
-    "appLanguage": {
-      "description": "Change the language of the Wispr Bro interface"
-    },
-    "theme": {
-      "description": "Choose whether Wispr Bro follows your system theme or stays light or dark"
     }
   }
 }

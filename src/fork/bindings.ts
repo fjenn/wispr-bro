@@ -496,6 +496,25 @@ async forkSnippetsExport(path: string) : Promise<Result<number, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Where the first-run speech setup is (also sent as `fork-speech-setup`).
+ */
+async forkSpeechSetupStatus() : Promise<ForkSpeechSetup> {
+    return await TAURI_INVOKE("fork_speech_setup_status");
+},
+/**
+ * Starts a stopped download again ("Couldn't download · Retry").
+ */
+async forkSpeechSetupRetry() : Promise<void> {
+    await TAURI_INVOKE("fork_speech_setup_retry");
+},
+/**
+ * The user's languages may have changed (onboarding Welcome): re-pick the
+ * first model if setup is still running.
+ */
+async forkSpeechSetupRefresh() : Promise<void> {
+    await TAURI_INVOKE("fork_speech_setup_refresh");
 }
 }
 
@@ -515,6 +534,7 @@ forkPillState: ForkPillState,
 forkPingEvent: ForkPingEvent,
 forkSettingsChanged: ForkSettingsChanged,
 forkSnippetsChanged: ForkSnippetsChanged,
+forkSpeechSetup: ForkSpeechSetup,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss
 }>({
@@ -530,6 +550,7 @@ forkPillState: "fork-pill-state",
 forkPingEvent: "fork-ping-event",
 forkSettingsChanged: "fork-settings-changed",
 forkSnippetsChanged: "fork-snippets-changed",
+forkSpeechSetup: "fork-speech-setup",
 forkStatsUpdated: "fork-stats-updated",
 forkToastsDismiss: "fork-toasts-dismiss"
 })
@@ -941,7 +962,23 @@ seq: number; phase: PillPhase; shape: Shape;
 /**
  * The microphone name (first 1.5 s of a take).
  */
-mic: string | null; message: PillMessage | null; tone: PillTone | null; fix: PillFix | null; warning: PillWarning | null }
+mic: string | null; message: PillMessage | null; tone: PillTone | null; fix: PillFix | null; warning: PillWarning | null; 
+/**
+ * Setting up: download progress, 0-99 (S-07a).
+ */
+progress: number | null; 
+/**
+ * The card's text (S-07a).
+ */
+text: string | null; 
+/**
+ * Takes that finished before the one on the card.
+ */
+more: number; 
+/**
+ * The card's text was just copied.
+ */
+copied: boolean }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
@@ -1088,6 +1125,23 @@ key: string; settings: ForkSettings }
  * one, so every window's Snippets page and counts refresh.
  */
 export type ForkSnippetsChanged = { counts: SnippetCounts }
+/**
+ * The `fork-speech-setup` event and `fork_speech_setup_status` reply.
+ */
+export type ForkSpeechSetup = { phase: SetupPhase; 
+/**
+ * 0-99 while a download runs (100 only once ready).
+ */
+percent: number | null; downloaded_bytes: number; total_bytes: number; problem: SetupProblem | null; 
+/**
+ * For `NoSpace`: how much free space the download needs, in MB.
+ */
+needed_mb: number | null; 
+/**
+ * Takes recorded this session that wait for a model or are being
+ * transcribed.
+ */
+queued_takes: number }
 /**
  * Emitted after a take changed the stats (`fork::db::stats`), so the Home
  * rail (S-15a) and Insights (S-25) refresh live.
@@ -1433,7 +1487,11 @@ export type PillFix =
 /**
  * Opens System Settings › Sound › Input.
  */
-"sound_input"
+"sound_input" | 
+/**
+ * Starts the speech model download again (S-07a).
+ */
+"retry_download"
 /**
  * A message or an error after (or instead of) a take. The English copy is
  * in `fork.json` > `pill.message.<kind>`.
@@ -1470,7 +1528,19 @@ export type PillMessage =
 /**
  * The microphone could not be opened.
  */
-"mic_failed"
+"mic_failed" | 
+/**
+ * The first speech model could not be downloaded (S-07a).
+ */
+"download_failed" | 
+/**
+ * A Wi-Fi login page or a proxy blocks the download (S-07a).
+ */
+"check_connection" | 
+/**
+ * Not enough free disk space for the speech model (S-07a).
+ */
+"no_space"
 /**
  * What the active bar is doing (the web view's `state`).
  */
@@ -1482,7 +1552,15 @@ export type PillPhase =
 /**
  * Hands-free: ✕, waveform, ✓.
  */
-"locked" | "transcribing" | "cleaning_up" | "message"
+"locked" | "transcribing" | "cleaning_up" | "message" | 
+/**
+ * A take is waiting for the first speech model (S-07a).
+ */
+"setting_up" | 
+/**
+ * A queued take's text, with Copy (S-07a).
+ */
+"card"
 /**
  * Information or error (changes the colour and the VoiceOver priority).
  */
@@ -1504,9 +1582,13 @@ export type PillUiAction =
  */
 "dismiss" | 
 /**
- * The message's Fix button.
+ * The message's Fix button (Retry for a setup problem).
  */
-"fix"
+"fix" | 
+/**
+ * The card's Copy button: the text replaces the clipboard (no restore).
+ */
+"copy"
 /**
  * A take is about to stop on its own (S-01 rule 8, DEC-32).
  */
@@ -1582,6 +1664,46 @@ restarts: number;
  */
 last_error: string | null }
 /**
+ * Where setup is.
+ */
+export type SetupPhase = 
+/**
+ * Not decided yet (before launch finished, or not a product build).
+ */
+"checking" | 
+/**
+ * A speech model is selected and on disk.
+ */
+"ready" | "downloading" | 
+/**
+ * Checking the downloaded file.
+ */
+"verifying" | 
+/**
+ * Between attempts; `problem` says why when the user can act.
+ */
+"waiting" | 
+/**
+ * Stopped: "Couldn't download · Retry".
+ */
+"failed"
+/**
+ * Why setup is waiting or stopped (shown to the user, no model names).
+ */
+export type SetupProblem = "offline" | 
+/**
+ * A Wi-Fi login page (captive portal) or a proxy is in the way.
+ */
+"check_connection" | 
+/**
+ * Hugging Face answered with an error or kept failing.
+ */
+"server" | "no_space" | 
+/**
+ * The file did not match its pinned checksum twice.
+ */
+"corrupt"
+/**
  * One shape of the bar, in points.
  */
 export type Shape = 
@@ -1612,7 +1734,15 @@ export type Shape =
 /**
  * A message or an error, with an optional Fix button.
  */
-"message"
+"message" | 
+/**
+ * "Setting up… 40%" while the first speech model downloads (S-07a).
+ */
+"setup" | 
+/**
+ * A finished take's text with Copy and ✕ (S-07a queued takes).
+ */
+"card"
 /**
  * The counts the page shows.
  */
