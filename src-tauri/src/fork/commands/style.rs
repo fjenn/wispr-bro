@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Style page commands (S-19a): the apps of each group (built-in table,
-//! the user's rules, apps dictated into), the "+" picker's list of
-//! installed apps, app icons, and the changes (move, remove, default group,
+//! Style page commands (S-19a/b): each group's apps and sites (built-ins,
+//! user rules and take metadata), the "+" picker's installed apps, app icons,
+//! and the changes (move, remove, default group,
 //! "Press Enter after dictating"). The presets per group are the fork
 //! setting `styles` (`fork_set_setting`).
 //!
@@ -42,11 +42,24 @@ pub struct StyleApp {
     pub ai_chat: bool,
 }
 
-/// The Style page's apps.
+/// One site on the Style page (S-19b).
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct StyleSite {
+    pub host: String,
+    pub name: String,
+    pub group: StyleGroup,
+    pub builtin_group: StyleGroup,
+    pub user_group: Option<StyleGroup>,
+    pub auto_send: bool,
+}
+
+/// The Style page's apps and sites.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
 pub struct StyleOverview {
     /// Every listed app, by name. The page groups them by `group`.
     pub apps: Vec<StyleApp>,
+    /// Built-in sites, the user's site rules and sites dictated into.
+    pub sites: Vec<StyleSite>,
 }
 
 /// One entry of the "+" picker.
@@ -88,12 +101,23 @@ fn dictated_apps(conn: &rusqlite::Connection) -> Result<Vec<(String, Option<Stri
     Ok(rows.collect::<Result<_, _>>()?)
 }
 
-/// Builds the page's list: the user's rules, the installed apps of the
-/// built-in table and the installed apps the user dictated into.
+/// Reduced hosts the user dictated into, most used first.
+fn dictated_sites(conn: &rusqlite::Connection) -> Result<Vec<String>, DbError> {
+    let mut stmt = conn.prepare(
+        "SELECT url_host FROM entry_meta
+         WHERE url_host IS NOT NULL AND url_host <> '' AND deleted_at IS NULL
+         GROUP BY lower(url_host) ORDER BY COUNT(*) DESC LIMIT 200",
+    )?;
+    let rows = stmt.query_map([], |r| r.get(0))?;
+    Ok(rows.collect::<Result<_, _>>()?)
+}
+
+/// Builds the page's lists from rules, installed apps and take metadata.
 pub fn overview(
     rules: &[AppRule],
     installed: &[InstalledApp],
     dictated: &[(String, Option<String>)],
+    dictated_sites: &[String],
 ) -> StyleOverview {
     let by_id: HashMap<String, &InstalledApp> = installed
         .iter()
@@ -148,14 +172,61 @@ pub fn overview(
             .cmp(&b.name.to_lowercase())
             .then_with(|| a.bundle_id.cmp(&b.bundle_id))
     });
-    StyleOverview { apps }
+    let mut hosts: Vec<String> = rules
+        .iter()
+        .filter(|r| r.kind == RuleKind::Host)
+        .map(|r| r.key.clone())
+        .collect();
+    hosts.extend(
+        categories::known_hosts()
+            .iter()
+            .map(|(host, _, _)| host.clone()),
+    );
+    hosts.extend(
+        dictated_sites
+            .iter()
+            .filter_map(|h| crate::fork::context::url::host(h)),
+    );
+    let mut seen = std::collections::HashSet::new();
+    let mut sites = Vec::new();
+    for host in hosts {
+        if !seen.insert(host.to_lowercase()) {
+            continue;
+        }
+        let builtin = categories::classify_host(&host);
+        let resolved = app_rules::resolve(rules, None, None, Some(&host));
+        let user_group = rules
+            .iter()
+            .find(|r| r.kind == RuleKind::Host && r.key.eq_ignore_ascii_case(&host))
+            .and_then(|r| r.style_group);
+        let name = categories::known_hosts()
+            .iter()
+            .find(|(h, _, _)| h.eq_ignore_ascii_case(&host))
+            .map(|(_, name, _)| name.clone())
+            .unwrap_or_else(|| host.clone());
+        sites.push(StyleSite {
+            host,
+            name,
+            group: resolved.group,
+            builtin_group: builtin.map_or(StyleGroup::Other, |c| c.style_group),
+            user_group,
+            auto_send: resolved.auto_send,
+        });
+    }
+    sites.sort_by(|a: &StyleSite, b: &StyleSite| {
+        a.name
+            .to_lowercase()
+            .cmp(&b.name.to_lowercase())
+            .then_with(|| a.host.cmp(&b.host))
+    });
+    StyleOverview { apps, sites }
 }
 
 fn current_overview<R: Runtime>(app: &AppHandle<R>) -> Result<StyleOverview, ForkError> {
-    let (rules, dictated) = db(app)?
-        .with_conn(|c| Ok((app_rules::list(c)?, dictated_apps(c)?)))
+    let (rules, dictated, sites) = db(app)?
+        .with_conn(|c| Ok((app_rules::list(c)?, dictated_apps(c)?, dictated_sites(c)?)))
         .map_err(internal)?;
-    Ok(overview(&rules, &apps::installed(), &dictated))
+    Ok(overview(&rules, &apps::installed(), &dictated, &sites))
 }
 
 /// After a change: the take path's cache, then the other windows.
@@ -187,6 +258,15 @@ fn checked_id(bundle_id: &str) -> Result<String, ForkError> {
     Ok(id.to_string())
 }
 
+/// Site commands accept a host only, never a URL or path.
+fn checked_host(input: &str) -> Result<String, ForkError> {
+    let input = input.trim();
+    let host = crate::fork::context::url::host(input)
+        .filter(|host| host.eq_ignore_ascii_case(input))
+        .ok_or_else(|| ForkError::InvalidSetting("not a site host".into()))?;
+    Ok(host)
+}
+
 /// The name to store: the installed app's, else what the page sent.
 fn name_for(bundle_id: &str, sent: Option<&str>) -> Option<String> {
     apps::locate(bundle_id)
@@ -194,7 +274,7 @@ fn name_for(bundle_id: &str, sent: Option<&str>) -> Option<String> {
         .or_else(|| sent.map(|s| s.trim().chars().take(120).collect()))
 }
 
-/// The Style page's apps.
+/// The Style page's apps and sites.
 #[tauri::command]
 #[specta::specta]
 pub fn fork_style_overview<R: ForkRuntime>(app: AppHandle<R>) -> Result<StyleOverview, ForkError> {
@@ -290,6 +370,59 @@ pub fn fork_style_set_auto_send<R: ForkRuntime>(
     changed(&app)
 }
 
+/// Puts a site in `group`; `None` returns it to its built-in group.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_style_set_site_group<R: ForkRuntime>(
+    app: AppHandle<R>,
+    host: String,
+    group: Option<StyleGroup>,
+) -> Result<StyleOverview, ForkError> {
+    let host = checked_host(&host)?;
+    let now = crate::fork::context::now_ms();
+    db(&app)?
+        .with_conn(|c| app_rules::set_site_group(c, &host, group, now))
+        .map_err(internal)?;
+    log::info!(
+        "style: site {host} → {}",
+        group.map_or("default", |g| g.as_str())
+    );
+    changed(&app)
+}
+
+/// Takes a site out of its group (it joins "all other sites").
+#[tauri::command]
+#[specta::specta]
+pub fn fork_style_remove_site<R: ForkRuntime>(
+    app: AppHandle<R>,
+    host: String,
+) -> Result<StyleOverview, ForkError> {
+    let host = checked_host(&host)?;
+    let now = crate::fork::context::now_ms();
+    db(&app)?
+        .with_conn(|c| app_rules::remove_site_from_group(c, &host, now))
+        .map_err(internal)?;
+    log::info!("style: site {host} removed from its group");
+    changed(&app)
+}
+
+/// "Press Enter after dictating" for one site.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_style_set_site_auto_send<R: ForkRuntime>(
+    app: AppHandle<R>,
+    host: String,
+    on: bool,
+) -> Result<StyleOverview, ForkError> {
+    let host = checked_host(&host)?;
+    let now = crate::fork::context::now_ms();
+    db(&app)?
+        .with_conn(|c| app_rules::set_site_auto_send(c, &host, on, now))
+        .map_err(internal)?;
+    log::info!("style: site {host} press Enter after dictating {on}");
+    changed(&app)
+}
+
 /// Loads the rules into the take path's cache (`fork::on_ready`).
 pub fn on_ready<R: Runtime>(app: &AppHandle<R>) {
     let Some(db) = app.try_state::<ForkDb>() else {
@@ -350,7 +483,8 @@ mod tests {
             ),
             ("com.wisprbro.desktop".to_string(), None),
         ];
-        let o = overview(&rules, &installed, &dictated);
+        let dictated_sites = vec!["example.com".to_string()];
+        let o = overview(&rules, &installed, &dictated, &dictated_sites);
         let find = |id: &str| o.apps.iter().find(|a| a.bundle_id == id);
         let slack = find("com.tinyspeck.slackmacgap").unwrap();
         assert_eq!((slack.group, slack.user_group), (StyleGroup::Work, None));
@@ -377,14 +511,24 @@ mod tests {
         let mut sorted = names.clone();
         sorted.sort_by_key(|n| n.to_lowercase());
         assert_eq!(names, sorted);
+        let site = |host: &str| o.sites.iter().find(|s| s.host == host).unwrap();
+        assert_eq!(site("mail.google.com").group, StyleGroup::Email);
+        assert_eq!(site("mail.google.com").name, "Gmail");
+        assert_eq!(site("app.slack.com").group, StyleGroup::Work);
+        assert_eq!(site("example.com").group, StyleGroup::Other);
+        assert_eq!(o.sites.len(), 3);
     }
 
     #[test]
-    fn bundle_ids_are_checked() {
+    fn bundle_ids_and_site_hosts_are_checked() {
         assert!(checked_id(" com.apple.mail ").is_ok());
         assert!(checked_id("").is_err());
         assert!(checked_id("a b").is_err());
         assert!(checked_id("x'); DROP TABLE app_rules; --").is_err());
         assert!(checked_id("com.wisprbro.desktop").is_err());
+        assert_eq!(checked_host(" Example.COM ").unwrap(), "example.com");
+        assert!(checked_host("https://example.com/private").is_err());
+        assert!(checked_host("example.com/private").is_err());
+        assert!(checked_host("").is_err());
     }
 }

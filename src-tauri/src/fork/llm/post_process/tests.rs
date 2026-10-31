@@ -657,6 +657,7 @@ mod styles {
     const MESSAGES: Target = (Some("com.apple.MobileSMS"), Some("Messages"));
     const MAIL: Target = (Some("com.apple.mail"), Some("Mail"));
     const CHATGPT: Target = (Some("com.openai.chat"), Some("ChatGPT"));
+    const CHROME: Target = (Some("com.google.Chrome"), Some("Google Chrome"));
 
     fn styles() -> StyleSettings {
         StyleSettings {
@@ -670,19 +671,25 @@ mod styles {
     #[test]
     fn the_target_apps_group_picks_the_preset() {
         let s = styles();
-        let d = decide_style(&[], Some(SLACK), &s, true);
+        let d = decide_style(&[], Some(SLACK), None, &s, true);
         assert_eq!(
             (d.group, d.preset),
             (Some(StyleGroup::Work), Some(StylePreset::Upbeat))
         );
-        let d = decide_style(&[], Some(MESSAGES), &s, true);
+        let d = decide_style(&[], Some(MESSAGES), None, &s, true);
         assert_eq!(d.preset, Some(StylePreset::VeryRelaxed));
-        let d = decide_style(&[], Some(MAIL), &s, true);
+        let d = decide_style(&[], Some(MAIL), None, &s, true);
         assert_eq!(
             (d.group, d.preset),
             (Some(StyleGroup::Email), Some(StylePreset::Formal))
         );
-        let d = decide_style(&[], Some((Some("com.apple.Terminal"), None)), &s, true);
+        let d = decide_style(
+            &[],
+            Some((Some("com.apple.Terminal"), None)),
+            None,
+            &s,
+            true,
+        );
         assert_eq!(d.preset, Some(StylePreset::Relaxed));
         // The user's rule wins over the built-in table.
         let rules = vec![AppRule {
@@ -693,19 +700,43 @@ mod styles {
             app_name: None,
             updated_at: 0,
         }];
-        let d = decide_style(&rules, Some(SLACK), &s, true);
+        let d = decide_style(&rules, Some(SLACK), None, &s, true);
         assert_eq!(d.preset, Some(StylePreset::VeryRelaxed));
         assert_eq!(d.auto_send.as_deref(), Some("com.tinyspeck.slackmacgap"));
-        assert_eq!(decide_style(&rules, Some(MAIL), &s, true).auto_send, None);
+        assert_eq!(
+            decide_style(&rules, Some(MAIL), None, &s, true).auto_send,
+            None
+        );
+    }
+
+    #[test]
+    fn browser_hosts_choose_email_and_work_before_the_browser_app() {
+        let s = styles();
+        let gmail = decide_style(&[], Some(CHROME), Some("mail.google.com"), &s, true);
+        assert_eq!(
+            (gmail.group, gmail.preset),
+            (Some(StyleGroup::Email), Some(StylePreset::Formal))
+        );
+        let slack = decide_style(&[], Some(CHROME), Some("app.slack.com"), &s, true);
+        assert_eq!(
+            (slack.group, slack.preset),
+            (Some(StyleGroup::Work), Some(StylePreset::Upbeat))
+        );
     }
 
     #[test]
     fn english_only_and_never_in_ai_chats_or_without_a_target() {
         let s = styles();
-        let d = decide_style(&[], Some(SLACK), &s, false);
+        let d = decide_style(&[], Some(SLACK), None, &s, false);
         assert_eq!((d.group, d.preset), (Some(StyleGroup::Work), None));
-        assert_eq!(decide_style(&[], Some(CHATGPT), &s, true).preset, None);
-        assert_eq!(decide_style(&[], None, &s, true), StyleDecision::default());
+        assert_eq!(
+            decide_style(&[], Some(CHATGPT), None, &s, true).preset,
+            None
+        );
+        assert_eq!(
+            decide_style(&[], None, None, &s, true),
+            StyleDecision::default()
+        );
     }
 
     #[test]

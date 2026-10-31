@@ -17,6 +17,7 @@ pub mod hints;
 #[cfg(test)]
 mod names_eval;
 pub mod take;
+pub mod url;
 
 use take::{ledger, TakeContext};
 
@@ -25,28 +26,33 @@ pub fn now_ms() -> i64 {
     chrono::Utc::now().timestamp_millis()
 }
 
-/// A take as of now: time, local day, frontmost app.
+/// A take as of now: time, local day, frontmost app and reduced browser host.
 pub fn current_context() -> TakeContext {
     let now = now_ms();
-    TakeContext::new(
-        now,
-        crate::fork::stats::local_day(now),
-        frontmost::frontmost(),
-    )
+    let app = frontmost::frontmost();
+    let host = app
+        .as_ref()
+        .and_then(|a| url::current_host(a.bundle_id.as_deref()));
+    let mut ctx = TakeContext::new(now, crate::fork::stats::local_day(now), app);
+    if let Some(host) = host {
+        ctx = ctx.with_url(&host);
+    }
+    ctx
 }
 
-/// Record start (from `fork::on_record_start`): note the app the user is
-/// dictating into. Cheap (one NSWorkspace call); runs on Handy's start path.
+/// Record start (from `fork::on_record_start`): note the app and, for a
+/// supported browser, the reduced host the user is dictating into.
 pub fn on_record_start() {
     let ctx = current_context();
     log::debug!(
-        "context: take started in {} ({}, {})",
+        "context: take started in {} ({}, {}, host {})",
         ctx.app
             .as_ref()
             .and_then(|a| a.bundle_id.as_deref())
             .unwrap_or("?"),
         ctx.class.style_group.as_str(),
-        ctx.class.usage_category.as_str()
+        ctx.class.usage_category.as_str(),
+        ctx.url_host.as_deref().unwrap_or("?")
     );
     ledger().record_started(ctx);
 }

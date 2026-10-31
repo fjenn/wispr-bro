@@ -6,8 +6,8 @@
 //! the app's name and bundle id, so "mail" matches "com.apple.mail" and
 //! "Mail" but not "Mailplane").
 //!
-//! An app has exactly one value of each. A host rule for browsers (S-19b)
-//! will override the app rule; until then a browser is `other`.
+//! An app has exactly one value of each. A host rule for a supported
+//! browser's page (S-19b) overrides the browser's app rule.
 
 use std::collections::HashMap;
 use std::sync::OnceLock;
@@ -124,8 +124,18 @@ struct AppRule {
 }
 
 #[derive(Debug, Deserialize)]
+struct HostRule {
+    name: String,
+    style_group: StyleGroup,
+    usage_category: UsageCategory,
+    #[serde(default)]
+    title_aliases: Vec<String>,
+}
+
+#[derive(Debug, Deserialize)]
 struct Data {
     apps: HashMap<String, AppRule>,
+    hosts: HashMap<String, HostRule>,
     signature_order: Vec<StyleGroup>,
     signatures: HashMap<StyleGroup, Vec<String>>,
     browsers: Vec<String>,
@@ -136,10 +146,14 @@ const DATA_JSON: &str = include_str!("categories.json");
 struct Table {
     /// Lower-cased bundle id → rule.
     apps: HashMap<String, AppRule>,
+    /// Lower-cased host → rule, sorted for deterministic title fallback.
+    hosts: Vec<(String, HostRule)>,
     signatures: Vec<(StyleGroup, Vec<String>)>,
     browsers: Vec<String>,
     /// Every bundle id of `apps` as written there, with its group, sorted.
     known: Vec<(String, StyleGroup)>,
+    /// Every built-in site's host, display name and group (the Style page).
+    known_hosts: Vec<(String, String, StyleGroup)>,
 }
 
 fn parse(json: &str) -> Result<Table, String> {
@@ -158,8 +172,20 @@ fn parse(json: &str) -> Result<Table, String> {
         .map(|(k, v)| (k.clone(), v.style_group))
         .collect();
     known.sort_by(|a, b| a.0.cmp(&b.0));
+    let mut hosts: Vec<(String, HostRule)> = data
+        .hosts
+        .into_iter()
+        .map(|(host, rule)| (host.to_lowercase(), rule))
+        .collect();
+    hosts.sort_by(|a, b| a.0.cmp(&b.0));
+    let known_hosts = hosts
+        .iter()
+        .map(|(host, rule)| (host.clone(), rule.name.clone(), rule.style_group))
+        .collect();
     Ok(Table {
         known,
+        known_hosts,
+        hosts,
         apps: data
             .apps
             .into_iter()
@@ -196,10 +222,40 @@ pub fn classify(bundle_id: Option<&str>, app_name: Option<&str>) -> AppClass {
     classify_in(table(), bundle_id, app_name)
 }
 
+/// The built-in group and usage category of a URL's host or parent domain.
+pub fn classify_host(url: &str) -> Option<AppClass> {
+    let host = super::url::host(url)?;
+    table().hosts.iter().find_map(|(pattern, rule)| {
+        (host == *pattern || host.ends_with(&format!(".{pattern}"))).then_some(AppClass {
+            style_group: rule.style_group,
+            usage_category: rule.usage_category,
+            is_ai_chat: false,
+            is_browser: true,
+            matched_by: MatchedBy::Browser,
+        })
+    })
+}
+
+/// A title fallback can name only a built-in host, never arbitrary title text.
+pub fn host_from_title(title: &str) -> Option<String> {
+    let title = title.to_lowercase();
+    table().hosts.iter().find_map(|(host, rule)| {
+        std::iter::once(host)
+            .chain(rule.title_aliases.iter())
+            .any(|alias| !alias.is_empty() && has_token(&title, &alias.to_lowercase()))
+            .then(|| host.clone())
+    })
+}
+
 /// The bundle ids of the built-in table (`apps`) with their style group
 /// (the Style page lists the installed ones, S-19a).
 pub fn known_apps() -> &'static [(String, StyleGroup)] {
     &table().known
+}
+
+/// Built-in sites with their display names and groups (S-19b).
+pub fn known_hosts() -> &'static [(String, String, StyleGroup)] {
+    &table().known_hosts
 }
 
 fn classify_in(t: &Table, bundle_id: Option<&str>, app_name: Option<&str>) -> AppClass {
@@ -394,6 +450,26 @@ mod tests {
         assert_eq!(term, AppClass::OTHER);
         assert_eq!(classify(None, None), AppClass::OTHER);
         assert_eq!(classify(Some(""), Some("  ")), AppClass::OTHER);
+    }
+
+    #[test]
+    fn builtin_hosts_and_title_aliases_are_host_only() {
+        let gmail = classify_host("mail.google.com/mail/u/0").unwrap();
+        assert_eq!(gmail.style_group, StyleGroup::Email);
+        assert_eq!(gmail.usage_category, UsageCategory::Email);
+        let slack = classify_host("app.slack.com/client/team").unwrap();
+        assert_eq!(slack.style_group, StyleGroup::Work);
+        assert_eq!(classify_host("example.com"), None);
+        assert_eq!(
+            host_from_title("Inbox - Gmail").as_deref(),
+            Some("mail.google.com")
+        );
+        assert_eq!(
+            host_from_title("Team | Slack").as_deref(),
+            Some("app.slack.com")
+        );
+        assert_eq!(host_from_title("A private title"), None);
+        assert_eq!(known_hosts().len(), 2);
     }
 
     #[test]

@@ -87,6 +87,8 @@ pub struct TakeContext {
     pub day: String,
     pub app: Option<FrontApp>,
     pub class: AppClass,
+    /// Only the reduced host of a supported browser's page (S-19b).
+    pub url_host: Option<String>,
     pub source: TakeSource,
 }
 
@@ -107,8 +109,29 @@ impl TakeContext {
             day,
             app,
             class,
+            url_host: None,
             source: TakeSource::Dictation,
         }
+    }
+
+    /// Adds a browser page, reducing it before it can reach the ledger or DB.
+    pub fn with_url(mut self, url: &str) -> Self {
+        self.url_host = super::url::host(url);
+        if let Some(host) = self.url_host.as_deref() {
+            if let Some(app) = self.app.as_ref() {
+                let resolved = super::app_rules::resolve(
+                    &super::app_rules::current(),
+                    app.bundle_id.as_deref(),
+                    app.name.as_deref(),
+                    Some(host),
+                );
+                self.class.style_group = resolved.group;
+            }
+            if let Some(class) = categories::classify_host(host) {
+                self.class.usage_category = class.usage_category;
+            }
+        }
+        self
     }
 }
 
@@ -346,6 +369,17 @@ mod tests {
         assert_eq!(c.class.style_group, categories::StyleGroup::Email);
         let none = TakeContext::new(1, "2026-10-30".into(), None);
         assert_eq!(none.class, AppClass::OTHER);
+    }
+
+    #[test]
+    fn browser_context_stores_only_the_host_and_uses_its_group() {
+        let c = ctx(1, "com.google.Chrome").with_url("mail.google.com/mail/u/0/#inbox");
+        assert_eq!(c.url_host.as_deref(), Some("mail.google.com"));
+        assert_eq!(c.class.style_group, categories::StyleGroup::Email);
+        assert_eq!(c.class.usage_category, categories::UsageCategory::Email);
+        let c = ctx(2, "com.apple.Safari").with_url("app.slack.com/client/team");
+        assert_eq!(c.url_host.as_deref(), Some("app.slack.com"));
+        assert_eq!(c.class.style_group, categories::StyleGroup::Work);
     }
 
     #[test]

@@ -712,7 +712,7 @@ async forkModelsHidden() : Promise<string[]> {
     return await TAURI_INVOKE("fork_models_hidden");
 },
 /**
- * The Style page's apps.
+ * The Style page's apps and sites.
  */
 async forkStyleOverview() : Promise<Result<StyleOverview, ForkError>> {
     try {
@@ -772,6 +772,39 @@ async forkStyleRemoveApp(bundleId: string, name: string | null) : Promise<Result
 async forkStyleSetAutoSend(bundleId: string, name: string | null, on: boolean) : Promise<Result<StyleOverview, ForkError>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("fork_style_set_auto_send", { bundleId, name, on }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Puts a site in `group`; `None` returns it to its built-in group.
+ */
+async forkStyleSetSiteGroup(host: string, group: StyleGroup | null) : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_set_site_group", { host, group }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Takes a site out of its group (it joins "all other sites").
+ */
+async forkStyleRemoveSite(host: string) : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_remove_site", { host }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * "Press Enter after dictating" for one site.
+ */
+async forkStyleSetSiteAutoSend(host: string, on: boolean) : Promise<Result<StyleOverview, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_style_set_site_auto_send", { host, on }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -2659,13 +2692,17 @@ ai_chat: boolean }
  */
 export type StyleGroup = "personal" | "work" | "email" | "other"
 /**
- * The Style page's apps.
+ * The Style page's apps and sites.
  */
 export type StyleOverview = { 
 /**
  * Every listed app, by name. The page groups them by `group`.
  */
-apps: StyleApp[] }
+apps: StyleApp[]; 
+/**
+ * Built-in sites, the user's site rules and sites dictated into.
+ */
+sites: StyleSite[] }
 /**
  * One entry of the "+" picker.
  */
@@ -2679,6 +2716,10 @@ export type StylePreset = "formal" | "relaxed" | "very_relaxed" | "upbeat"
  * Style per app group.
  */
 export type StyleSettings = { personal: StylePreset; work: StylePreset; email: StylePreset; other: StylePreset }
+/**
+ * One site on the Style page (S-19b).
+ */
+export type StyleSite = { host: string; name: string; group: StyleGroup; builtin_group: StyleGroup; user_group: StyleGroup | null; auto_send: boolean }
 /**
  * Apple Silicon tier from the brand string (`Apple M2 Pro`).
  */

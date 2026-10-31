@@ -20,10 +20,10 @@
 //!
 //! [`resolve`] decides, most specific first (BetterWispr's tiers):
 //!
-//! 1. a site rule whose pattern matches the page (S-19b supplies the page;
-//!    host, subdomain and path-prefix match);
-//! 2. the user's rule for the app (bundle id, case-insensitive);
-//! 3. the built-in table ([`super::categories::classify`]).
+//! 1. a user's site rule whose pattern matches the page;
+//! 2. a built-in host rule (S-19b supplies only the reduced host);
+//! 3. the user's rule for the app (bundle id, case-insensitive);
+//! 4. the built-in app table ([`super::categories::classify`]).
 //!
 //! A rule with no group only carries "Press Enter" and keeps the built-in
 //! group. Rules live in `fork.db` (`app_rules`, migration 0007); the take
@@ -162,8 +162,11 @@ pub fn resolve(
             .iter()
             .find(|r| r.kind == RuleKind::App && r.key.eq_ignore_ascii_case(b))
     });
-    let auto_send = app_rule.is_some_and(|r| r.auto_send);
+    let mut auto_send = app_rule.is_some_and(|r| r.auto_send);
     if let Some(url) = url.filter(|u| !u.trim().is_empty()) {
+        auto_send |= rules
+            .iter()
+            .any(|r| r.kind == RuleKind::Host && r.auto_send && site_matches(&r.key, url));
         if let Some(site) = rules.iter().find(|r| {
             r.kind == RuleKind::Host && r.style_group.is_some() && site_matches(&r.key, url)
         }) {
@@ -171,6 +174,14 @@ pub fn resolve(
                 group: site.style_group.unwrap_or(builtin),
                 builtin_group: builtin,
                 auto_send: site.auto_send || auto_send,
+                tier: RuleTier::Site,
+            };
+        }
+        if let Some(class) = categories::classify_host(url) {
+            return Resolved {
+                group: class.style_group,
+                builtin_group: builtin,
+                auto_send,
                 tier: RuleTier::Site,
             };
         }
@@ -286,13 +297,14 @@ fn put(conn: &Connection, rule: &AppRule) -> Result<(), DbError> {
 
 fn existing_or_new(
     conn: &Connection,
-    bundle_id: &str,
+    key: &str,
+    kind: RuleKind,
     app_name: Option<&str>,
     now: i64,
 ) -> Result<AppRule, DbError> {
-    let mut rule = get(conn, bundle_id, RuleKind::App)?.unwrap_or(AppRule {
-        key: bundle_id.to_string(),
-        kind: RuleKind::App,
+    let mut rule = get(conn, key, kind)?.unwrap_or(AppRule {
+        key: key.to_string(),
+        kind,
         style_group: None,
         auto_send: false,
         app_name: None,
@@ -305,6 +317,32 @@ fn existing_or_new(
     Ok(rule)
 }
 
+fn set_rule_group(
+    conn: &Connection,
+    key: &str,
+    kind: RuleKind,
+    app_name: Option<&str>,
+    group: Option<StyleGroup>,
+    now: i64,
+) -> Result<(), DbError> {
+    let mut rule = existing_or_new(conn, key, kind, app_name, now)?;
+    rule.style_group = group;
+    put(conn, &rule)
+}
+
+fn set_rule_auto_send(
+    conn: &Connection,
+    key: &str,
+    kind: RuleKind,
+    app_name: Option<&str>,
+    on: bool,
+    now: i64,
+) -> Result<(), DbError> {
+    let mut rule = existing_or_new(conn, key, kind, app_name, now)?;
+    rule.auto_send = on;
+    put(conn, &rule)
+}
+
 /// Puts an app in `group`; `None` returns it to its built-in group.
 pub fn set_group(
     conn: &Connection,
@@ -313,9 +351,17 @@ pub fn set_group(
     group: Option<StyleGroup>,
     now: i64,
 ) -> Result<(), DbError> {
-    let mut rule = existing_or_new(conn, bundle_id, app_name, now)?;
-    rule.style_group = group;
-    put(conn, &rule)
+    set_rule_group(conn, bundle_id, RuleKind::App, app_name, group, now)
+}
+
+/// Puts a site in `group`; `None` returns it to its built-in group.
+pub fn set_site_group(
+    conn: &Connection,
+    host: &str,
+    group: Option<StyleGroup>,
+    now: i64,
+) -> Result<(), DbError> {
+    set_rule_group(conn, host, RuleKind::Host, None, group, now)
 }
 
 /// Turns "Press Enter after dictating" on or off for an app.
@@ -326,9 +372,17 @@ pub fn set_auto_send(
     on: bool,
     now: i64,
 ) -> Result<(), DbError> {
-    let mut rule = existing_or_new(conn, bundle_id, app_name, now)?;
-    rule.auto_send = on;
-    put(conn, &rule)
+    set_rule_auto_send(conn, bundle_id, RuleKind::App, app_name, on, now)
+}
+
+/// Turns "Press Enter after dictating" on or off for a site.
+pub fn set_site_auto_send(
+    conn: &Connection,
+    host: &str,
+    on: bool,
+    now: i64,
+) -> Result<(), DbError> {
+    set_rule_auto_send(conn, host, RuleKind::Host, None, on, now)
 }
 
 /// Takes an app out of `from`: it goes to Other ("all other apps"). An app
@@ -342,6 +396,15 @@ pub fn remove_from_group(
     let builtin = categories::classify(Some(bundle_id), app_name).style_group;
     let group = (builtin != StyleGroup::Other).then_some(StyleGroup::Other);
     set_group(conn, bundle_id, app_name, group, now)
+}
+
+/// Takes a site out of its group, using the same Other rule as an app.
+pub fn remove_site_from_group(conn: &Connection, host: &str, now: i64) -> Result<(), DbError> {
+    let builtin = categories::classify_host(host)
+        .map(|c| c.style_group)
+        .unwrap_or(StyleGroup::Other);
+    let group = (builtin != StyleGroup::Other).then_some(StyleGroup::Other);
+    set_site_group(conn, host, group, now)
 }
 
 // ---------------------------------------------------------------------------
@@ -375,11 +438,18 @@ pub fn for_app(bundle_id: Option<&str>, app_name: Option<&str>) -> Resolved {
     resolve(&current(), bundle_id, app_name, None)
 }
 
-/// Whether the app in front now has "Press Enter after dictating" on (the
-/// bar's "Sends automatically" hint).
+/// Whether the app or site in front has "Press Enter after dictating" on.
 pub fn frontmost_auto_send() -> bool {
-    super::frontmost::frontmost()
-        .is_some_and(|a| for_app(a.bundle_id.as_deref(), a.name.as_deref()).auto_send)
+    super::frontmost::frontmost().is_some_and(|a| {
+        let host = super::url::current_host(a.bundle_id.as_deref());
+        resolve(
+            &current(),
+            a.bundle_id.as_deref(),
+            a.name.as_deref(),
+            host.as_deref(),
+        )
+        .auto_send
+    })
 }
 
 // ---------------------------------------------------------------------------
@@ -471,6 +541,37 @@ mod tests {
         // Bundle ids are case-insensitive.
         let r = resolve(&rules, Some("COM.TINYSPECK.SLACKMACGAP"), None, None);
         assert_eq!(r.group, StyleGroup::Personal);
+    }
+
+    #[test]
+    fn builtin_web_hosts_precede_the_browser_app() {
+        let rules = vec![rule(
+            "com.google.Chrome",
+            RuleKind::App,
+            Some(StyleGroup::Personal),
+            false,
+        )];
+        for (host, group) in [
+            ("mail.google.com/mail/u/0/#inbox", StyleGroup::Email),
+            ("app.slack.com/client/team", StyleGroup::Work),
+        ] {
+            let resolved = resolve(
+                &rules,
+                Some("com.google.Chrome"),
+                Some("Google Chrome"),
+                Some(host),
+            );
+            assert_eq!((resolved.group, resolved.tier), (group, RuleTier::Site));
+        }
+        let auto = vec![rule("mail.google.com", RuleKind::Host, None, true)];
+        let resolved = resolve(
+            &auto,
+            Some("com.google.Chrome"),
+            Some("Google Chrome"),
+            Some("mail.google.com"),
+        );
+        assert_eq!(resolved.group, StyleGroup::Email);
+        assert!(resolved.auto_send);
     }
 
     // `modeResolutionUsesListOrderWithinATier`.

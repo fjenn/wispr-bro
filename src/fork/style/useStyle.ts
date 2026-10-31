@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * The Style page's data (S-19a): `fork_style_overview`, kept live.
+ * The Style page's data (S-19a/b): `fork_style_overview`, kept live.
  *
  * Reads on mount, after every `ForkAppRulesChanged` (a change in any
- * window), after `fork-stats-updated` (a take in a new app lists it) and
+ * window), after `fork-stats-updated` (a take in a new app or site lists it) and
  * when the window comes back into view. A change made here applies the
  * overview the command returns at once. `NotReady` is retried at 1, 2, 4,
  * 8 and 16 s. App icons are fetched once per app (`fork_style_app_icon`).
@@ -31,6 +31,7 @@ export const STYLE_GROUPS: readonly StyleGroup[] = [
 
 interface StyleState {
   apps: StyleApp[];
+  sites: StyleOverview["sites"];
   status: StyleStatus;
   /** The last change failed (shown until the next success). */
   changeFailed: boolean;
@@ -59,6 +60,7 @@ export const useStyleStore = create<StyleState>()((set, get) => {
   };
   return {
     apps: [],
+    sites: [],
     status: "loading",
     changeFailed: false,
     reload: async () => {
@@ -72,7 +74,11 @@ export const useStyleStore = create<StyleState>()((set, get) => {
         if (result?.status === "ok" && result.data) {
           retries = 0;
           clearTimeout(retryTimer);
-          set({ apps: result.data.apps, status: "ready" });
+          set({
+            apps: result.data.apps,
+            sites: result.data.sites,
+            status: "ready",
+          });
         } else {
           failed();
         }
@@ -91,7 +97,12 @@ export const useStyleStore = create<StyleState>()((set, get) => {
       try {
         const result = await run();
         if (result.status === "ok") {
-          set({ apps: result.data.apps, status: "ready", changeFailed: false });
+          set({
+            apps: result.data.apps,
+            sites: result.data.sites,
+            status: "ready",
+            changeFailed: false,
+          });
           return true;
         }
         console.warn("fork: style change refused", result.error);
@@ -104,9 +115,10 @@ export const useStyleStore = create<StyleState>()((set, get) => {
   };
 });
 
-/** The page's apps, loaded and kept live while mounted. */
+/** The page's apps and sites, loaded and kept live while mounted. */
 export function useStyleApps() {
   const apps = useStyleStore((s) => s.apps);
+  const sites = useStyleStore((s) => s.sites);
   const status = useStyleStore((s) => s.status);
   const changeFailed = useStyleStore((s) => s.changeFailed);
   useEffect(() => {
@@ -125,7 +137,7 @@ export function useStyleApps() {
       for (const u of unlisteners) void u.then((f) => f()).catch(() => {});
     };
   }, []);
-  return { apps, status, changeFailed };
+  return { apps, sites, status, changeFailed };
 }
 
 const icons = new Map<string, Promise<string | null>>();

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The Style page (S-19a, R2 D-18): tabs Personal / Work / Email / Other /
- * Cleanup. Each group tab lists its apps and its three presets with
- * before/after examples; Cleanup holds the S-12a level picker. The tab is
+ * Cleanup. Each group tab lists its apps and sites and its three presets
+ * with before/after examples; Cleanup holds the S-12a level picker. The tab is
  * the page's hub section, so `navigate("style", "email")` opens a tab.
  */
 import { useTranslation } from "react-i18next";

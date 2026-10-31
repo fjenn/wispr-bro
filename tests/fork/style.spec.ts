@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// S-19a Style page: the five tabs (Personal / Work / Email / Other /
-// Cleanup) and their deep links, each group's apps (move, remove, back to
-// the usual group, Undo, "Press Enter after dictating"), the "+" picker
+// S-19a/b Style page: the five tabs (Personal / Work / Email / Other /
+// Cleanup) and their deep links, each group's apps and sites (move, remove,
+// back to the usual group, Undo, "Press Enter after dictating"), the "+" picker
 // (search, apps already in the group cannot be picked again), the presets
 // as before/after cards (Personal: Formal / Relaxed / Very relaxed; the
 // others: Formal / Relaxed / Upbeat) saved in the fork setting `styles`,
@@ -17,6 +17,7 @@ import type {
   StyleApp,
   StyleGroup,
   StylePickerApp,
+  StyleSite,
 } from "../../src/fork/bindings";
 import type { IpcMock } from "./fixtures";
 import {
@@ -51,6 +52,11 @@ const BUILTIN: Record<string, StyleGroup> = {
   "com.apple.Notes": "other",
 };
 
+const BUILTIN_SITES: Record<string, { name: string; group: StyleGroup }> = {
+  "app.slack.com": { name: "Slack", group: "work" },
+  "mail.google.com": { name: "Gmail", group: "email" },
+};
+
 /** A small stand-in for `fork::commands::style`. */
 class FakeStyle {
   installed: StylePickerApp[] = [
@@ -63,6 +69,7 @@ class FakeStyle {
   ];
   /** bundle id → { group, auto_send } (the user's rules). */
   rules = new Map<string, { group: StyleGroup | null; auto: boolean }>();
+  siteRules = new Map<string, { group: StyleGroup | null; auto: boolean }>();
 
   builtin(id: string): StyleGroup {
     return BUILTIN[id] ?? "other";
@@ -83,11 +90,31 @@ class FakeStyle {
     };
   }
 
+  site(host: string): StyleSite {
+    const rule = this.siteRules.get(host);
+    const builtin = BUILTIN_SITES[host] ?? { name: host, group: "other" };
+    return {
+      host,
+      name: builtin.name,
+      group: rule?.group ?? builtin.group,
+      builtin_group: builtin.group,
+      user_group: rule?.group ?? null,
+      auto_send: rule?.auto ?? false,
+    };
+  }
+
   overview() {
     const ids = new Set([...Object.keys(BUILTIN), ...this.rules.keys()]);
+    const hosts = new Set([
+      ...Object.keys(BUILTIN_SITES),
+      ...this.siteRules.keys(),
+    ]);
     return {
       apps: [...ids]
         .map((id) => this.app(id))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+      sites: [...hosts]
+        .map((host) => this.site(host))
         .sort((a, b) => a.name.localeCompare(b.name)),
     };
   }
@@ -96,6 +123,21 @@ class FakeStyle {
     const rule = { group: null, auto: false, ...this.rules.get(id), ...patch };
     if (rule.group === null && !rule.auto) this.rules.delete(id);
     else this.rules.set(id, rule);
+    return this.overview();
+  }
+
+  setSite(
+    host: string,
+    patch: Partial<{ group: StyleGroup | null; auto: boolean }>,
+  ) {
+    const rule = {
+      group: null,
+      auto: false,
+      ...this.siteRules.get(host),
+      ...patch,
+    };
+    if (rule.group === null && !rule.auto) this.siteRules.delete(host);
+    else this.siteRules.set(host, rule);
     return this.overview();
   }
 
@@ -118,6 +160,20 @@ class FakeStyle {
     });
     ipc.handle("fork_style_set_auto_send", (a) =>
       this.set(a.bundleId as string, { auto: a.on as boolean }),
+    );
+    ipc.handle("fork_style_set_site_group", (a) =>
+      this.setSite(a.host as string, {
+        group: (a.group as StyleGroup | null) ?? null,
+      }),
+    );
+    ipc.handle("fork_style_remove_site", (a) => {
+      const host = a.host as string;
+      return this.setSite(host, {
+        group: BUILTIN_SITES[host]?.group === "other" ? null : "other",
+      });
+    });
+    ipc.handle("fork_style_set_site_auto_send", (a) =>
+      this.setSite(a.host as string, { auto: a.on as boolean }),
     );
   }
 }
@@ -197,7 +253,9 @@ styleTest.describe("style page", () => {
     "a preset card saves the group's style",
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style);
-      await page.getByRole("radio", { name: "Very relaxed" }).check();
+      const veryRelaxed = page.getByRole("radio", { name: "Very relaxed" });
+      await veryRelaxed.click();
+      await expect(veryRelaxed).toBeChecked();
       await ipc.expectCalled("fork_set_setting", {
         update: {
           key: "styles",
@@ -219,7 +277,9 @@ styleTest.describe("style page", () => {
       await expect(
         page.getByTestId("wb-style-preset-very_relaxed"),
       ).toHaveCount(0);
-      await page.getByRole("radio", { name: "Upbeat" }).check();
+      const upbeat = page.getByRole("radio", { name: "Upbeat" });
+      await upbeat.click();
+      await expect(upbeat).toBeChecked();
       await expect
         .poll(() => hub.forkSettings.styles)
         .toMatchObject({
@@ -249,6 +309,55 @@ styleTest.describe("style page", () => {
         update: { key: "cleanup_level", value: "medium" },
       });
       await shot(page, "cleanup");
+    },
+  );
+
+  styleTest(
+    "sites appear alongside apps and use the same group controls",
+    async ({ page, ipc, hub, style }) => {
+      await openStyle(page, ipc, hub, style, { hash: "#/hub/style/email" });
+      await expect(chips(page)).toHaveText(["Mail"]);
+      const gmail = page.locator(
+        '[data-testid="wb-style-site"][data-host="mail.google.com"]',
+      );
+      await expect(gmail).toBeVisible();
+      await expect(gmail).toContainText("Gmail");
+      await expect(gmail).toContainText("mail.google.com");
+      await expect(gmail).toHaveAccessibleName(
+        "Gmail mail.google.com: options",
+      );
+      await gmail.click();
+      await expectNoSeriousAxeFindings(page);
+      await page
+        .getByRole("menu")
+        .getByRole("menuitem", { name: "Work messages" })
+        .click();
+      await ipc.expectCalled("fork_style_set_site_group", {
+        host: "mail.google.com",
+        group: "work",
+      });
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(0);
+      await page.getByRole("tab", { name: "Work messages" }).click();
+      await expect(chips(page)).toHaveText(["Slack"]);
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(2);
+      await expect(page.getByTestId("wb-style-sites")).toContainText(
+        "app.slack.com",
+      );
+      await expect(page.getByTestId("wb-style-sites")).toContainText(
+        "mail.google.com",
+      );
+      await gmail.click();
+      await page
+        .getByRole("menuitem", {
+          name: "Back to its usual group (Email)",
+        })
+        .click();
+      await ipc.expectCalled("fork_style_set_site_group", {
+        host: "mail.google.com",
+        group: null,
+      });
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(1);
+      await shot(page, "sites");
     },
   );
 
@@ -412,9 +521,15 @@ styleTest.describe("style page", () => {
       await expect(page.getByRole("menu")).toBeVisible();
       await page.keyboard.press("Escape");
       await expect(chip(page, "com.tinyspeck.slackmacgap")).toBeFocused();
-      // Add app, then the selected preset; arrows pick another.
+      // Add app, the site chip, then the selected preset.
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-style-add-app")).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(
+        page.locator(
+          '[data-testid="wb-style-site"][data-host="app.slack.com"]',
+        ),
+      ).toBeFocused();
       await page.keyboard.press("Tab");
       await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
       await page.keyboard.press("ArrowRight");
