@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "マイク",
+      "legend": "使用するマイク",
+      "loading": "マイクを検索中…",
+      "loadError": "マイクをリストアップできません: {{message}}",
+      "retry": "もう一度試す",
+      "recommended": "{{name}} (推奨)",
+      "auto": "自動検出 (システム設定)",
+      "autoNow": "今: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "有線または内蔵マイクが最適です。Bluetoothは途切れることがあります。",
+      "avoided": "Macのサウンド入力は{{name}}に設定されています。Bluetoothマイクは途切れることがあるため、音声入力には内蔵マイクを使います。",
+      "useAnyway": "{{name}} を使う",
+      "inUse": "ディクテーションは：{{name}}で聴いています",
+      "chooseError": "マイクの切り替えに失敗しました: {{message}}",
+      "meter": {
+        "start": "マイクをテスト",
+        "stop": "テストを止める",
+        "label": "マイクレベル",
+        "value": "{{percent}} パーセント",
+        "off": "テストしていません",
+        "hint": "何らかのことを言ってください。話している間、バーが動くはずです。",
+        "errors": {
+          "permission_denied": "マイクのアクセスがオフです。システム設定 › プライバシーとセキュリティ › マイクで有効にしてください。",
+          "no_input_device": "マイクが見つかりません。",
+          "failed": "マイクが開始できませんでした。別のマイクを試してください。"
+        }
+      }
+    },
+    "sound": {
+      "title": "音声",
+      "enabled": "ディクテーションが開始および終了したときに音を鳴らす",
+      "enabledHelp": "短い音がマイクがオンであることを、別の音がオフであることを知らせます。",
+      "theme": "音声",
+      "themes": {
+        "marimba": "マリマバ",
+        "pop": "ポップ",
+        "custom": "カスタム"
+      },
+      "volume": "ボリューム",
+      "volumeValue": "{{percent}}パーセント",
+      "preview": "再生",
+      "mute": "すべての音を発話中には無音に",
+      "muteHelp": "音楽や動画は話すときには静かになり、その後同じ音量に戻ります。"
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "最新をコピー",
         "open": "開く",
         "openAccessibility": "設定を開く"
+      },
+      "takeRecovered": {
+        "title_one": "アプリを終了したときに録音が保存されました",
+        "title_other": "アプリを終了したときに{{count}}録音が保存されました",
+        "body": "{{appName}}が閉じたとき、まだ記録されていた。履歴に保存されて、テキストに変換されています。"
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "音声入力を準備しています。話した内容は保存されています。",
-        "card": "音声入力の準備ができました。バーからコピーできます。"
+        "card": "音声入力の準備ができました。バーからコピーできます。",
+        "micLostWarning": "マイクが切断されました。これまで言ったことは保存されます。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "マイクが切断、話した内容は保持"
     },
     "settingUp": "準備中…",
     "settingUpPercent": "準備中… {{percent}}%",

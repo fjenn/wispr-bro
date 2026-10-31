@@ -252,6 +252,11 @@ pub fn on_take_warning(kind: crate::fork::shortcut::processor::WarnKind) {
     input(Input::Warning(w));
 }
 
+/// The take's microphone disappeared (`fork::audio::watch`, S-08).
+pub fn warn_mic_lost() {
+    input(Input::Warning(PillWarning::MicLost));
+}
+
 /// fn went down: a take may start in `T_show`, so build the web view now.
 pub fn prewarm() {
     send(Msg::Prewarm);
@@ -400,6 +405,7 @@ pub fn announcement(
             let key = match warned? {
                 PillWarning::Silence => "rust.pill.announce.silenceWarning",
                 PillWarning::Length => "rust.pill.announce.lengthWarning",
+                PillWarning::MicLost => "rust.pill.announce.micLostWarning",
             };
             return Some((key.into(), true));
         }
@@ -894,7 +900,9 @@ impl Controller {
         std::thread::Builder::new()
             .name("wb-pill-mic".into())
             .spawn(move || {
-                let name = selected.or_else(|| {
+                // S-08: the mic the take really opened (the wireless rule
+                // may have picked the built-in mic over the default).
+                let name = crate::fork::audio::opened_name().or(selected).or_else(|| {
                     handy_recorder::list_input_devices()
                         .ok()?
                         .into_iter()

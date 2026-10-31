@@ -335,9 +335,15 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
         })
         .on_event(|app, event| match event {
             RunEvent::Ready => on_ready(app),
+            // S-08 (DEC-55): a take still recording when the app is asked
+            // to quit (Quit & Reopen after a Microphone revoke) is saved.
+            RunEvent::ExitRequested { .. } => audio::permission::on_exit(app),
             // S-10: the sidecar never outlives the app (the watchdog covers
-            // a crash or SIGKILL).
+            // a crash or SIGKILL). S-08: the take is saved if the quit
+            // skipped `ExitRequested`, and the audio is never left muted.
             RunEvent::Exit => {
+                audio::permission::on_exit(app);
+                audio::mute::restore_on_exit();
                 llm::runtime::on_exit(app);
                 // S-05: apps whose accessibility tree we switched on get it
                 // switched back.
@@ -437,6 +443,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         // S-07a: the speech model check and the first-run download, before
         // the hotkeys, so the first press already knows.
         R::models_start(app);
+        // S-08: the wireless-default rule, the device watch, saved takes.
+        audio::on_ready(app);
         audio::enable_prepared(app);
         shortcut::start(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
@@ -511,6 +519,10 @@ macro_rules! fork_specta_builder {
                 commands::models::fork_speech_setup_status,
                 commands::models::fork_speech_setup_retry,
                 commands::models::fork_speech_setup_refresh,
+                commands::audio::fork_mic_list::<$runtime>,
+                commands::audio::fork_mic_choose::<$runtime>,
+                commands::audio::fork_mic_monitor_start::<$runtime>,
+                commands::audio::fork_mic_monitor_stop,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -527,7 +539,9 @@ macro_rules! fork_specta_builder {
                 pill::ForkPillLevels,
                 llm::post_process::ForkCleanupResult,
                 snippets::ForkSnippetsChanged,
-                models::setup::ForkSpeechSetup
+                models::setup::ForkSpeechSetup,
+                audio::watch::ForkMicDevicesChanged,
+                audio::monitor::ForkMicLevel
             ])
     };
 }

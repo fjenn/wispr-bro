@@ -13,6 +13,8 @@ import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
 import { AiEngine } from "../settings/advanced/AiEngine";
 import { BarSettings } from "../settings/BarSettings";
+import { MicrophonePicker } from "../settings/MicrophonePicker";
+import { SoundSettings } from "../settings/SoundSettings";
 import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
 import { CleanupLevelPicker } from "../style/CleanupLevelPicker";
 import { CspSmoke } from "./CspSmoke";
@@ -46,6 +48,18 @@ registerForkDebugSection({
   id: "bar",
   titleKey: "settings.bar.title",
   render: () => <BarSettings />,
+});
+
+// S-08: Settings › Sound (microphone, sounds, mute), until S-14's modal.
+registerForkDebugSection({
+  id: "microphone",
+  titleKey: "settings.mic.title",
+  render: () => <MicrophonePicker />,
+});
+registerForkDebugSection({
+  id: "sound",
+  titleKey: "settings.sound.title",
+  render: () => <SoundSettings />,
 });
 
 // S-18: macOS permission and a sample poster for the Mac test script.

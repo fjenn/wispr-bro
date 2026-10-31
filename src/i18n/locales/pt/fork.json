@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfone",
+      "legend": "Microfone a usar",
+      "loading": "Procurando microfones…",
+      "loadError": "Não foi possível listar os microfones: {{message}}",
+      "retry": "Tente novamente",
+      "recommended": "{{name}} (recomendado)",
+      "auto": "Detecção automática (configuração do sistema)",
+      "autoNow": "Agora: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Microfones com fio ou integrados funcionam melhor; o Bluetooth pode perder conexão.",
+      "avoided": "A entrada de som do seu Mac está definida para {{name}}. Micrófones Bluetooth podem interromper, por isso a dicção usa o microfone integrado.",
+      "useAnyway": "Usar {{name}} de qualquer forma",
+      "inUse": "A dictação ouve com: {{name}}",
+      "chooseError": "Não foi possível trocar os microfones: {{message}}",
+      "meter": {
+        "start": "Testar microfone",
+        "stop": "Parar teste",
+        "label": "Nível do microfone",
+        "value": "{{percent}} por cento",
+        "off": "Não está testando",
+        "hint": "Diga algo. Os barras devem se mover enquanto você falar.",
+        "errors": {
+          "permission_denied": "O acesso ao microfone está desativado. Ative-o em Configurações do Sistema › Privacidade & Segurança › Microfone.",
+          "no_input_device": "Nenhum microfone encontrado.",
+          "failed": "O microfone não iniciou. Tente outro."
+        }
+      }
+    },
+    "sound": {
+      "title": "Som",
+      "enabled": "Tocar um som quando a dicção começar e parar",
+      "enabledHelp": "Um som curto diz que o microfone está ligado, e outro que está desligado.",
+      "theme": "Som",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Personalizado"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} por cento",
+      "preview": "Tocar",
+      "mute": "Mute all audio while dictating",
+      "muteHelp": "Música e vídeos ficam em silêncio enquanto você fala e voltam ao mesmo volume depois."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Copiar último",
         "open": "Abrir",
         "openAccessibility": "Abrir Configurações"
+      },
+      "takeRecovered": {
+        "title_one": "Um gravamento foi salvo quando o app foi encerrado",
+        "title_other": "{{count}} gravações foram salvas quando o app foi encerrado",
+        "body": "Eles ainda estavam gravando quando o {{appName}} foi fechado. Estão na História, onde são transcritos."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Configurando o ditado. Suas palavras estão salvas.",
-        "card": "Seu ditado está pronto. Copie-o da barra."
+        "card": "Seu ditado está pronto. Copie-o da barra.",
+        "micLostWarning": "O microfone perdeu a conexão. O que você disse até agora será mantido."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Microfone perdido, mantendo o que você disse"
     },
     "settingUp": "Configurando…",
     "settingUpPercent": "Configurando… {{percent}}%",

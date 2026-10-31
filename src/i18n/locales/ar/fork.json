@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "الميكروفون",
+      "legend": "الميكروفون الذي يُستخدم",
+      "loading": "أنا أبحث عن ميكروفونات…",
+      "loadError": "لا يمكن عرض الميكروفونات: {{message}}",
+      "retry": "حاول مرة أخرى",
+      "recommended": "{{name}} (مُوصى به)",
+      "auto": "الكشف التلقائي (الإعداد النظامي)",
+      "autoNow": "الآن: {{name}}",
+      "wirelessTag": "بلوتوث",
+      "caution": "الميكروفونات المُوصلة أو المُدمجة تعمل بشكل أفضل؛ يمكن أن يفقد الاتصال عبر Bluetooth.",
+      "avoided": "مُدخل الصوت على جهاز Mac مُحدد كـ {{name}}. يمكن أن يُقطع ميكروفونات بلوتوث، لذا يستخدم ميكروفون مدمج بدلاً من ذلك.",
+      "useAnyway": "استخدم {{name}} على أي حال",
+      "inUse": "الإذاعة تُستمع باستخدام: {{name}}",
+      "chooseError": "لا يمكن تغيير الميكروفون: {{message}}",
+      "meter": {
+        "start": "اختبار الميكروفون",
+        "stop": "إيقاف الاختبار",
+        "label": "مستوى الميكروفون",
+        "value": "{{percent}} في المئة",
+        "off": "لا يُختبر",
+        "hint": "قل شيء. يجب أن تتحرك الأعمدة أثناء الحديث.",
+        "errors": {
+          "permission_denied": "مُدخل الميكروفون مُعطّل. افتح إعدادات النظام › الخصوصية والحماية › الميكروفون لتفعيله.",
+          "no_input_device": "لم يتم العثور على ميكروفون.",
+          "failed": "لم يبدأ الميكروفون. جرب واحدًا آخر."
+        }
+      }
+    },
+    "sound": {
+      "title": "الصوتيات",
+      "enabled": "يُؤخذ صوت عند بدء ونهاية التدوين",
+      "enabledHelp": "نُصْبَة قصيرة تُخبرك أن الميكروفون مُفعّل، ونُصْبَة أخرى تُخبرك أن الميكروفون تم إيقافه.",
+      "theme": "الصوت",
+      "themes": {
+        "marimba": "مريمبا",
+        "pop": "بوب",
+        "custom": "مخصص"
+      },
+      "volume": "الحجم",
+      "volumeValue": "{{percent}} في المئة",
+      "preview": "أعد التشغيل",
+      "mute": "إيقاف جميع الأصوات أثناء التدوين",
+      "muteHelp": "الموسيقى والفيديوهات تصبح هادئة أثناء الحديث وتُعاد إلى نفس مستوى الصوت بعد ذلك."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "النسخ الأخير",
         "open": "افتح",
         "openAccessibility": "افتح الإعدادات"
+      },
+      "takeRecovered": {
+        "title_one": "تم حفظ تسجيل عند إغلاق التطبيق",
+        "title_other": "تم حفظ {{count}} تسجيل عند إغلاق التطبيق",
+        "body": "كانون يُسجلون عندما أُغلق {{appName}}. موجودون في التاريخ، حيث تم ترجمتهم."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "جارٍ إعداد الإملاء. تم حفظ كلامك.",
-        "card": "إملاؤك جاهز. انسخه من الشريط."
+        "card": "إملاؤك جاهز. انسخه من الشريط.",
+        "micLostWarning": "تم فقد ميكروفون. ما قلتَه حتى الآن يُحتفظ به."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "الميكروفون مفقود، أبقى ما قلتَ"
     },
     "settingUp": "جارٍ الإعداد…",
     "settingUpPercent": "جارٍ الإعداد… {{percent}}%",

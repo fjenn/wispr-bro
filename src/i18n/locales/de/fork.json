@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfon",
+      "legend": "Microfon verwenden",
+      "loading": "Suche Mikrofone…",
+      "loadError": "Kann die Mikrofone nicht auflisten: {{message}}",
+      "retry": "Noch einmal versuchen",
+      "recommended": "{{name}} (empfohlen)",
+      "auto": "Automatisch erkennen (Systemeinstellung)",
+      "autoNow": "Jetzt: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Kabelgebundene oder integrierte Mikrofone funktionieren am besten; Bluetooth kann abbrechen.",
+      "avoided": "Der Toneingang deines Macs ist auf {{name}} eingestellt. Bluetooth-Mikrofone können aussetzen, daher nutzt das Diktieren stattdessen das integrierte Mikrofon.",
+      "useAnyway": "Den {{name}} dennoch verwenden",
+      "inUse": "Dictation hört mit: {{name}}",
+      "chooseError": "Kann Mikrofon nicht wechseln: {{message}}",
+      "meter": {
+        "start": "Mikrofon testen",
+        "stop": "Test beenden",
+        "label": "Microfonstufe",
+        "value": "{{percent}} Prozent",
+        "off": "Keine Prüfung",
+        "hint": "Sagen Sie etwas. Die Leisten sollten sich bewegen, während Sie sprechen.",
+        "errors": {
+          "permission_denied": "Microfonzugriff ist deaktiviert. Aktivieren Sie ihn in Systemeinstellungen › Privatsphäre & Sicherheit › Mikrofon.",
+          "no_input_device": "Kein Mikrofon gefunden.",
+          "failed": "Der Mikrofon hat nicht gestartet. Probier doch ein anderes aus."
+        }
+      }
+    },
+    "sound": {
+      "title": "Geräusche",
+      "enabled": "Ein Geräusch abspielen, wenn die Dictation startet und beendet wird",
+      "enabledHelp": "Ein kurzer Ton sagt dir, dass der Mikrofon eingeschaltet ist, und ein anderer, dass es ausgeschaltet ist.",
+      "theme": "Geräusch",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Custom"
+      },
+      "volume": "Lautstärke",
+      "volumeValue": "{{percent}} Prozent",
+      "preview": "Abspielen",
+      "mute": "Beim Diktieren alle Töne stummschalten",
+      "muteHelp": "Musik und Videos werden stumm, während du sprichst, und kommen danach wieder bei derselben Lautstärke zurück."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Letzten kopieren",
         "open": "Öffnen",
         "openAccessibility": "Einstellungen öffnen"
+      },
+      "takeRecovered": {
+        "title_one": "Eine Aufnahme wurde beim Beenden gespeichert",
+        "title_other": "Beim Beenden der App wurden {{count}} Aufnahmen gespeichert",
+        "body": "Sie lief noch, als {{appName}} beendet wurde. Sie ist jetzt im Verlauf und wird dort transkribiert."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Das Diktat wird eingerichtet. Deine Worte sind gespeichert.",
-        "card": "Dein Diktat ist bereit. Kopiere es aus der Leiste."
+        "card": "Dein Diktat ist bereit. Kopiere es aus der Leiste.",
+        "micLostWarning": "Der Mikrofon ist abgekoppelt. Das, was du bislang gesagt hast, wird gespeichert."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mikrofon weg, Gesagtes bleibt"
     },
     "settingUp": "Wird eingerichtet…",
     "settingUpPercent": "Wird eingerichtet… {{percent}} %",

@@ -39,6 +39,9 @@ pub enum NotificationKind {
     CrashReport,
     /// `fork.db` could not be read and was recreated.
     DataRecovered,
+    /// Takes that were recording when the app quit are in History (S-08,
+    /// DEC-55).
+    TakeRecovered,
     /// Word-count and streak milestones.
     Milestone,
     /// A usage tip (Suggestions toggle).
@@ -48,13 +51,14 @@ pub enum NotificationKind {
 }
 
 impl NotificationKind {
-    pub const ALL: [NotificationKind; 9] = [
+    pub const ALL: [NotificationKind; 10] = [
         NotificationKind::ModelReady,
         NotificationKind::UpdateReady,
         NotificationKind::QueuedTakesReady,
         NotificationKind::ShortcutProblem,
         NotificationKind::CrashReport,
         NotificationKind::DataRecovered,
+        NotificationKind::TakeRecovered,
         NotificationKind::Milestone,
         NotificationKind::Tip,
         NotificationKind::Announcement,
@@ -69,6 +73,7 @@ impl NotificationKind {
             NotificationKind::ShortcutProblem => "shortcut_problem",
             NotificationKind::CrashReport => "crash_report",
             NotificationKind::DataRecovered => "data_recovered",
+            NotificationKind::TakeRecovered => "take_recovered",
             NotificationKind::Milestone => "milestone",
             NotificationKind::Tip => "tip",
             NotificationKind::Announcement => "announcement",

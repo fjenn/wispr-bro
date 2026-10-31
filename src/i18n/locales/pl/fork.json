@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfon",
+      "legend": "Microfon do użycia",
+      "loading": "Szukam mikrofonów…",
+      "loadError": "Nie można wyświetlić mikrofonów: {{message}}",
+      "retry": "Spróbuj ponownie",
+      "recommended": "{{name}} (rekomendowane)",
+      "auto": "Automatyczne wykrywanie (ustawienie systemu)",
+      "autoNow": "Teraz: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Mikrofony kabelkowe lub wbudowane działają najlepiej; Bluetooth może się wyłączyc.",
+      "avoided": "Wejście dźwiękowe Twojego Maca jest ustawione na {{name}}. Mikrofony Bluetooth mogą się wyłączyc, dlatego dictation używa wewnętrznej karty mikrofonicznej.",
+      "useAnyway": "Użyj {{name}} na wszelki wypadek",
+      "inUse": "Dictacja słyszy z: {{name}}",
+      "chooseError": "Nie udało się przełączyć mikrofonów: {{message}}",
+      "meter": {
+        "start": "Przetestuj mikrofon",
+        "stop": "Zatrzymaj test",
+        "label": "Poziom mikrofonu",
+        "value": "{{percent}} procent",
+        "off": "Nie przeprowadzane testy",
+        "hint": "Mów coś. Pasek powinien się poruszać podczas mówienia.",
+        "errors": {
+          "permission_denied": "Dostęp do mikrofonu jest wyłączony. Włącz go w Ustawieniach systemu › Prywatność i bezpieczeństwo › Mikrofon.",
+          "no_input_device": "Brak mikrofonu.",
+          "failed": "Microfon nie zaczął działać. Spróbuj innego."
+        }
+      }
+    },
+    "sound": {
+      "title": "Dźwięki",
+      "enabled": "Dźwięk włączony przy rozpoczęciu i zakończeniu dictacji",
+      "enabledHelp": "Dźwiękowy sygnał oznacza, że mikrofon jest włączony, a drugi — że został wyłączony.",
+      "theme": "Dźwięk",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Wybierz własne"
+      },
+      "volume": "Głos",
+      "volumeValue": "{{percent}} procent",
+      "preview": "Odtwórz",
+      "mute": "Wyłącz wszystkie dźwięki podczas wpisywania",
+      "muteHelp": "Muzyka i filmy się cisną podczas mówienia i wracają do tego samego poziomu głośności po tym."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Skopiuj ostatni",
         "open": "Otwórz",
         "openAccessibility": "Otwórz Ustawienia"
+      },
+      "takeRecovered": {
+        "title_one": "Zapisano nagranie podczas zamknięcia aplikacji",
+        "title_other": "Zapisano {{count}} nagrania podczas zakończenia działania aplikacji",
+        "body": "Przestarzały nadal w trakcie nagrywania, gdy {{appName}} został zamknięty. Zostały w Historii, gdzie zostały przetłumaczone."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Konfigurowanie dyktowania. Twoje słowa są zapisane.",
-        "card": "Twoje dyktowanie jest gotowe. Skopiuj je z paska."
+        "card": "Twoje dyktowanie jest gotowe. Skopiuj je z paska.",
+        "micLostWarning": "Microfon został rozłączony. Co powiedziałeś dotychczas zostaje zachowane."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mikrofon utracony, zachowuję to, co powiedziałeś"
     },
     "settingUp": "Konfigurowanie…",
     "settingUpPercent": "Konfigurowanie… {{percent}}%",

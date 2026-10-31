@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "麥克風",
+      "legend": "使用之麥克風",
+      "loading": "正在尋找麥克風…",
+      "loadError": "無法列出麥克風：{{message}}",
+      "retry": "再試一次",
+      "recommended": "{{name}}（建議）",
+      "auto": "自動偵測（系統設定）",
+      "autoNow": "現在：{{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": " wired 或內建麥克風效果最佳；藍牙可能會斷線。",
+      "avoided": "您的 Mac 的聲音輸入已設定為 {{name}}。藍牙麥克風可能會斷線，因此語音輸入會使用內建麥克風。",
+      "useAnyway": "Use {{name}} anyway",
+      "inUse": "語音輸入正使用：{{name}}",
+      "chooseError": "無法切換麥克風：{{message}}",
+      "meter": {
+        "start": "測試麥克風",
+        "stop": "停止測試",
+        "label": "麥克風音量",
+        "value": "{{percent}} %",
+        "off": "未測試",
+        "hint": "說點什麼。說話時，條形圖應該會移動。",
+        "errors": {
+          "permission_denied": "微電音權限已關閉。請在系統設定 › 隱私與安全 › 微電音中開啟。",
+          "no_input_device": "未找到麥克風。",
+          "failed": "麥克風未啟動。請試用另一個。"
+        }
+      }
+    },
+    "sound": {
+      "title": "聲音",
+      "enabled": "在語音輸入開始和結束時播放聲音",
+      "enabledHelp": "一段短音表示麥克風已開啟，另一段則表示已關閉。",
+      "theme": "聲音",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "自訂"
+      },
+      "volume": "音量",
+      "volumeValue": "{{percent}} %",
+      "preview": "播放",
+      "mute": "關閉所有語音輸入時的聲音",
+      "muteHelp": "音樂和影片在你說話時會變靜音，之後會恢復原來的音量。"
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "複製最新",
         "open": "開啟",
         "openAccessibility": "開啟設定"
+      },
+      "takeRecovered": {
+        "title_one": "當應用程式退出時，已儲存一段錄音",
+        "title_other": "當應用程式退出時，已儲存 {{count}} 順序錄音",
+        "body": "他們在 {{appName}} 關閉時仍持續錄製。這些內容已存入歷史記錄中，並已轉譯。"
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "正在設定聽寫。你說的話已儲存。",
-        "card": "你的聽寫已就緒。可從列中拷貝。"
+        "card": "你的聽寫已就緒。可從列中拷貝。",
+        "micLostWarning": "麥克風已斷線。你之前說過的話會被保留。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "麥克風斷線，繼續播放你剛說的話"
     },
     "settingUp": "正在設定…",
     "settingUpPercent": "正在設定… {{percent}}%",

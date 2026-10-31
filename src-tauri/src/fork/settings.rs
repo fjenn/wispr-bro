@@ -319,6 +319,12 @@ pub struct ForkSettings {
     /// DEC-20: opt-in.
     pub auto_learn_enabled: bool,
     pub vibe_coding: VibeCodingSettings,
+    /// S-08: "Auto-detect (system setting)" was chosen in the microphone
+    /// list, so the system default is used even when it is a Bluetooth
+    /// headset. Off (never chosen): a wireless default is skipped for the
+    /// built-in mic. Written by `fork_mic_choose` with Handy's
+    /// `selected_microphone`; not settable on its own.
+    pub mic_follow_system: bool,
     /// Keys of [`FIRST_RUN_DEFAULTS`] already applied. Not settable.
     pub applied_first_run_defaults: Vec<String>,
 }
@@ -355,6 +361,7 @@ impl Default for ForkSettings {
             greeting_name: None,
             auto_learn_enabled: false,
             vibe_coding: VibeCodingSettings::default(),
+            mic_follow_system: false,
             applied_first_run_defaults: Vec::new(),
         }
     }

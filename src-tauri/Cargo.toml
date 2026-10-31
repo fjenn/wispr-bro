@@ -176,6 +176,7 @@ objc2-user-notifications = { version = "0.3.2", default-features = false, featur
 block2 = "0.6" # S-18 completion handlers; already in the tree
 objc2-application-services = { version = "=0.3.2", default-features = false, features = ["std", "libc", "HIServices", "AXUIElement", "AXValue", "AXError"] } # S-05 AX layer (W-05, R4: adopt; Zlib OR Apache-2.0 OR MIT)
 objc2-core-foundation = { version = "0.3.2", default-features = false, features = ["std", "CFBase", "CFString", "CFNumber", "CFArray", "CFCGTypes", "CFURL", "CFAttributedString"] } # S-05; already in the tree
+objc2-core-audio = { version = "0.3.2", default-features = false, features = ["std", "AudioHardware"] } # S-08 transport, mute, device watch; the features handy-recorder already uses
 # fork: Wispr Bro macOS dependencies (end)
 
 [target.'cfg(target_os = "linux")'.dependencies]

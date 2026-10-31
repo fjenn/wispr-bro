@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfoon",
+      "legend": "Microfoon om te gebruiken",
+      "loading": "Op zoek naar microfoons…",
+      "loadError": "Kan de microfoons niet opvragen: {{message}}",
+      "retry": "Probeer opnieuw",
+      "recommended": "{{name}} (aanbevolen)",
+      "auto": "Automatisch detecteren (systeeminstelling)",
+      "autoNow": "Nu: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Aanverbinding of ingebouwde microfoons werken het beste; Bluetooth kan verloren gaan.",
+      "avoided": "De geluidsinput van je Mac is ingesteld op {{name}}. Bluetooth microfoons kunnen uitvallen, dus gebruikt dictatie de ingebouwde microfoon.",
+      "useAnyway": "Gebruik {{name}} toch",
+      "inUse": "Dictatie luistert met: {{name}}",
+      "chooseError": "Kan microfoons niet wijzigen: {{message}}",
+      "meter": {
+        "start": "Microfoon testen",
+        "stop": "Test stoppen",
+        "label": "Niveau microfoon",
+        "value": "{{percent}} procent",
+        "off": "Geen test",
+        "hint": "Zeg iets. De balken moeten bewegen terwijl je praat.",
+        "errors": {
+          "permission_denied": "Toegang tot de microfoon is uitgeschakeld. Schakel het in in Systeeminstellingen › Privacy & Beveiliging › Microfoon.",
+          "no_input_device": "Geen microfoon gevonden.",
+          "failed": "De microfoon is niet gestart. Probeer een andere microfoon."
+        }
+      }
+    },
+    "sound": {
+      "title": "Geluiden",
+      "enabled": "Een geluid afspelen wanneer dictatie begint en eindigt",
+      "enabledHelp": "Een korte toon geeft aan dat de microfoon aan is, en een andere dat hij uit is.",
+      "theme": "Geluid",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Aangepast"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} procent",
+      "preview": "Spelen",
+      "mute": "Alle geluiden uitschakelen tijdens dictatie",
+      "muteHelp": "Muziek en video's worden stil tijdens het praten en komen weer terug op dezelfde volume."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Laatste kopiëren",
         "open": "Open",
         "openAccessibility": "Instellingen openen"
+      },
+      "takeRecovered": {
+        "title_one": "Een opname is opgeslagen bij afsluiten van de app",
+        "title_other": "{{count}} opnames werden opgeslagen bij het afsluiten van de app",
+        "body": "Ze werden nog opgenomen toen {{appName}} werd gesloten. Ze staan in Geschiedenis, waar ze worden overgezet."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Dicteren wordt ingesteld. Je woorden zijn bewaard.",
-        "card": "Je dictaat is klaar. Kopieer het vanuit de balk."
+        "card": "Je dictaat is klaar. Kopieer het vanuit de balk.",
+        "micLostWarning": "De microfoon is verloren. Wat je net zei wordt opgeslagen."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Microfoon verloren, houdt wat je zei"
     },
     "settingUp": "Instellen…",
     "settingUpPercent": "Instellen… {{percent}}%",

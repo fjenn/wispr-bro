@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "麦克风",
+      "legend": "使用的麦克风",
+      "loading": "正在查找麦克风…",
+      "loadError": "无法列出麦克风：{{message}}",
+      "retry": "再试一次",
+      "recommended": "{{name}} (推荐)",
+      "auto": "自动检测（系统设置）",
+      "autoNow": "现在：{{name}}",
+      "wirelessTag": "蓝牙",
+      "caution": "有线或内置麦克风效果最好；蓝牙可能会断连。",
+      "avoided": "你的 Mac 的音频输入已设置为 {{name}}。蓝牙麦克风可能会中断，因此语音输入会使用内置麦克风。",
+      "useAnyway": "无论如何都使用 {{name}}",
+      "inUse": "语音输入正在使用：{{name}}",
+      "chooseError": "无法切换麦克风：{{message}}",
+      "meter": {
+        "start": "测试麦克风",
+        "stop": "停止测试",
+        "label": "麦克风音量",
+        "value": "{{percent}} percent",
+        "off": "未测试",
+        "hint": "说点什么。说话时条形图应该会移动。",
+        "errors": {
+          "permission_denied": "麦克风访问已关闭。请在系统设置 › 隐私与安全 › 麦克风中开启。",
+          "no_input_device": "未找到麦克风。",
+          "failed": "麦克风未启动。请尝试另一个。"
+        }
+      }
+    },
+    "sound": {
+      "title": "声音",
+      "enabled": "在语音输入开始和结束时播放声音",
+      "enabledHelp": "一声短音表示麦克风已开启，另一声表示已关闭。",
+      "theme": "声音",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "自定义"
+      },
+      "volume": "音量",
+      "volumeValue": "{{percent}} percent",
+      "preview": "播放",
+      "mute": "关闭所有语音输入时的音频",
+      "muteHelp": "音乐和视频在你说话时会变静，之后会恢复原来的音量。"
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "复制最新",
         "open": "打开",
         "openAccessibility": "打开设置"
+      },
+      "takeRecovered": {
+        "title_one": "当应用程序退出时，已保存一段录音",
+        "title_other": "退出应用时保存了{{count}}条录音",
+        "body": "他们关闭 {{appName}} 时仍在录制。这些内容已保存在历史记录中，并已转录。"
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "正在设置听写。你说的话已保存。",
-        "card": "你的听写已就绪。可从栏中复制。"
+        "card": "你的听写已就绪。可从栏中复制。",
+        "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "麦克风丢失，保留你刚才说的话"
     },
     "settingUp": "正在设置…",
     "settingUpPercent": "正在设置… {{percent}}%",

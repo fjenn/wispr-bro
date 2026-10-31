@@ -290,6 +290,28 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026-10-30 (Swift to Rust; 60 s
   hold after the last reader; RS-04, shipped by S-05).
 
+- src-tauri/src/fork/audio/mute.rs, src-tauri/src/fork/audio/mute_tests.rs
+  Source: Tambourine, https://github.com/kstonekuan/tambourine-voice
+  Commit: c54b527d5920b821e1f0ff837457d69405696b6b
+  Files:  app/src-tauri/src/audio_mute/mod.rs, audio_mute/macos.rs,
+          src/tests/audio_mute_tests.rs
+  Copyright (c) the Tambourine authors
+  Licence: AGPL-3.0 (these files: AGPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026-10-31 (macOS controller only;
+  "already muted by the user" re-checked at the next mute; per-device
+  restore tests; Handy's set_mute/get_mute hooks and the exit restore,
+  S-08).
+
+- src-tauri/src/fork/audio/transport.rs (CoreAudio property readers)
+  Source: handy-recorder 0.1.0, https://github.com/handy-computer/handy-recorder
+  Commit: 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1
+  File:   crates/handy-recorder/src/backend/headset_macos.rs
+  Copyright (c) 2026 handy-computer
+  Licence: MIT (src-tauri/crates/wb-handy-recorder/LICENSE)
+  Modified by Wispr Bro contributors, 2026-10-31 (device list with name,
+  transport and input streams; the transport classification is ours,
+  S-08).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================
@@ -303,6 +325,8 @@ to its remote users.
 
 - src-tauri/src/fork/diagnostics/sanitizer.rs
 - src-tauri/src/fork/text/rules.rs
+- src-tauri/src/fork/audio/mute.rs
+- src-tauri/src/fork/audio/mute_tests.rs
 
 ======================================================================
 5. Apache-2.0 NOTICE files

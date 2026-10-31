@@ -142,6 +142,7 @@ pub fn sample_notice(kind: NotificationKind, seq: i64) -> Notice {
         NotificationKind::ShortcutProblem => Notice::shortcut_problem(true),
         NotificationKind::CrashReport => Notice::crash_report(&format!("crash-test-{seq}.txt")),
         NotificationKind::DataRecovered => Notice::data_recovered(seq),
+        NotificationKind::TakeRecovered => Notice::take_recovered(1),
         NotificationKind::Milestone => Notice::words_milestone(catalog::WORD_MILESTONES[0]),
         NotificationKind::Tip => Notice::tip(&catalog::TIPS[0]),
         NotificationKind::Announcement => Notice::announcement(&catalog::FEATURES[0]),

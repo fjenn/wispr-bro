@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Микрофон",
+      "legend": "Микрофон за използване",
+      "loading": "Търсене на микрофони…",
+      "loadError": "Не можах да изброим микрофоните: {{message}}",
+      "retry": "Попитай отново",
+      "recommended": "{{name}} (натоварено)",
+      "auto": "Автоматично определяне (настройка на системата)",
+      "autoNow": "Сега: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Със връзка или вградени микрофоны работят най-добре; Bluetooth може да се отключва.",
+      "avoided": "Звуковият въвеждащ сигнал на Мак е настроен до {{name}}. Блютуз микрофоните могат да изключат, затова диктовката използва вградения микрофон.",
+      "useAnyway": "Използвай {{name}} въпреки това",
+      "inUse": "Диктирането слуша с: {{name}}",
+      "chooseError": "Не можах да променя микрофона: {{message}}",
+      "meter": {
+        "start": "Тестване на микрофона",
+        "stop": "Стоп тест",
+        "label": "Нивото на микрофона",
+        "value": "{{percent}} процента",
+        "off": "Не се тества",
+        "hint": "Кажи нещо. Линиите трябва да се движат докато говориш.",
+        "errors": {
+          "permission_denied": "Достъп до микрофона е изключен. Включете го в Системни настройки › Приватност & Безопасност › Микрофон.",
+          "no_input_device": "Няма микрофон.",
+          "failed": "Микрофонът не е започнал. Попробайте друг."
+        }
+      }
+    },
+    "sound": {
+      "title": "Звук",
+      "enabled": "Приемай звук при начало и приключване на диктовката",
+      "enabledHelp": "Кратък звук ви казва, че микрофона е включен, а други – че е изключен.",
+      "theme": "Звук",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Поп",
+        "custom": "Приложено"
+      },
+      "volume": "Глас",
+      "volumeValue": "{{percent}} процента",
+      "preview": "Пусни",
+      "mute": "Затвори всички звуци докато пишеш",
+      "muteHelp": "Музиката и видеото се затихват, когато говориш, и възтанавят със същия глас след това."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Копирай последното",
         "open": "Отвори",
         "openAccessibility": "Отвори настройки"
+      },
+      "takeRecovered": {
+        "title_one": "Беше запазен запис когато приложението бе изляло",
+        "title_other": "{{count}} записа бяха запазени при излизане на приложението",
+        "body": "Още записваха, когато {{appName}} беше затворен. Са в Историята, където са преведени."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Диктовката се настройва. Думите ви са запазени.",
-        "card": "Диктовката ви е готова. Копирайте я от лентата."
+        "card": "Диктовката ви е готова. Копирайте я от лентата.",
+        "micLostWarning": "Микрофонът е отключен. Това, което каза, е запазено."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Микрофонът е изгубен, запазвам това, което каза"
     },
     "settingUp": "Настройване…",
     "settingUpPercent": "Настройване… {{percent}}%",

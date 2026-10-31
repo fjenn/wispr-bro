@@ -100,6 +100,16 @@ impl Notice {
             .dedupe(format!("recovered:{at_ms}"))
     }
 
+    /// `count` takes that were recording when the app quit (Quit & Reopen
+    /// after a Microphone revoke, DEC-55) are in History now (S-08).
+    pub fn take_recovered(count: u32) -> Notice {
+        let mut n = notice(NotificationKind::TakeRecovered, "takeRecovered")
+            .arg("count", count)
+            .action(NotificationAction::page("settings", Some("history")));
+        n.title_key = plural_key("rust.notify.takeRecovered.title", count);
+        n
+    }
+
     /// Total words passed `words` (one of [`WORD_MILESTONES`]).
     pub fn words_milestone(words: u64) -> Notice {
         notice(NotificationKind::Milestone, "milestoneWords")

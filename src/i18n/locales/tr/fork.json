@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Mikrofon",
+      "legend": "Kullanılacak mikrofon",
+      "loading": "Mikrofon aranıyor...",
+      "loadError": "Kulaklık listelenemedi: {{message}}",
+      "retry": "Yine dene",
+      "recommended": "{{name}} (önerilir)",
+      "auto": "Otomatik tespit (sistem ayarı)",
+      "autoNow": "Şimdi: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Kablolu veya yerleşik mikrofonlar en iyi çalışır; Bluetooth bağlantısı kopabilir.",
+      "avoided": "Mac'ınızın ses girişi {{name}} olarak ayarlanmıştır. Bluetooth mikrofonlar kesilebilir, bu yüzden metin yazma işlemi içeriye sahip mikrofona geçer.",
+      "useAnyway": "Use {{name}} anyway",
+      "inUse": "Dictasyon: {{name}} ile dinliyor",
+      "chooseError": "Kulaklık değiştirilemedi: {{message}}",
+      "meter": {
+        "start": "Mikrofonu test et",
+        "stop": "Testi durdur",
+        "label": "Microfon seviyesi",
+        "value": "{{percent}} yüzdesi",
+        "off": "Test edilmiyor",
+        "hint": "Bir şey söyle. Konuşurken çubuklar hareket etmeli.",
+        "errors": {
+          "permission_denied": "Mikrofon erişimi kapalı. Sistem Ayarları › Gizlilik & Güvenlik › Mikrofon'ta açın.",
+          "no_input_device": "Microfon bulunamadı.",
+          "failed": "Mikrofon başlamadı. Başka birini dene."
+        }
+      }
+    },
+    "sound": {
+      "title": "Sesler",
+      "enabled": "Dictiyon başladığında ve bitişinde bir ses oynat",
+      "enabledHelp": "Bir kısa ses mikrofon açık olduğunu, başka bir ses ise kapandığını söyler.",
+      "theme": "Ses",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Özel"
+      },
+      "volume": "Hız",
+      "volumeValue": "{{percent}} yüzdesi",
+      "preview": "Oynat",
+      "mute": "Dictiyerek tüm sesi kapalı yap",
+      "muteHelp": "Müzik ve videolar konuşurken sessiz olur ve sonra aynı hacimle döner."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "En sonu kopyala",
         "open": "Aç",
         "openAccessibility": "Ayarlar'a Aç"
+      },
+      "takeRecovered": {
+        "title_one": "Uygulama kapanırken bir kayıt kaydedildi",
+        "title_other": "{{count}} kaydedilen kayıt uygulama kapanırken kaydedildi",
+        "body": "Hâlâ kaydedildiğinde {{appName}} kapatıldı. Tarih içinde, onlar metin haline getirildi."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Dikte hazırlanıyor. Söyledikleriniz kaydedildi.",
-        "card": "Dikteniz hazır. Çubuktan kopyalayabilirsiniz."
+        "card": "Dikteniz hazır. Çubuktan kopyalayabilirsiniz.",
+        "micLostWarning": "Mikrofon bağlantısı kesildi. Daha önce söyledikleriniz korunuyor."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mikrofon kayboldu, dediğin şeyi koruyoruz"
     },
     "settingUp": "Hazırlanıyor…",
     "settingUpPercent": "Hazırlanıyor… %{{percent}}",

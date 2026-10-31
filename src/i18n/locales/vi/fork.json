@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microphone",
+      "legend": "Microphone để sử dụng",
+      "loading": "Đang tìm micro...",
+      "loadError": "Không thể liệt kê micro: {{message}}",
+      "retry": "Thử lại",
+      "recommended": "{{name}} (được khuyến nghị)",
+      "auto": "Tự phát hiện (cài đặt hệ thống)",
+      "autoNow": "Bây giờ: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Mic có dây hoặc mic tích hợp hoạt động tốt nhất; Bluetooth có thể mất kết nối.",
+      "avoided": "Đầu vào âm thanh của Mac bạn đang được thiết lập thành {{name}}. Các micro Bluetooth có thể ngắt kết nối, vì vậy chức năng ghi âm sẽ sử dụng micro nội bộ thay thế.",
+      "useAnyway": "Sử dụng {{name}} bất kể",
+      "inUse": "Dictation đang nghe bằng: {{name}}",
+      "chooseError": "Không thể đổi micro: {{message}}",
+      "meter": {
+        "start": "Kiểm tra micro",
+        "stop": "Dừng kiểm tra",
+        "label": "Mức loa mic",
+        "value": "{{percent}} phần trăm",
+        "off": "Không đang kiểm tra",
+        "hint": "Nói điều gì đó. Các thanh nên di chuyển khi bạn nói.",
+        "errors": {
+          "permission_denied": "Truy cập micro bị tắt. Bật nó trong Cài đặt hệ thống › Bảo mật & Ràng buộc › Microphone.",
+          "no_input_device": "Không tìm thấy micro.",
+          "failed": "Microphone không bắt đầu. Hãy thử một chiếc khác."
+        }
+      }
+    },
+    "sound": {
+      "title": "Âm thanh",
+      "enabled": "Chơi âm thanh khi bắt đầu và kết thúc ghi âm",
+      "enabledHelp": "Một tiếng ngắn báo bạn biết mic đang bật, và một tiếng khác báo biết nó đã tắt.",
+      "theme": "Âm thanh",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Tùy chỉnh"
+      },
+      "volume": "Âm lượng",
+      "volumeValue": "{{percent}} phần trăm",
+      "preview": "Chơi",
+      "mute": "Tắt âm thanh toàn bộ khi ghi âm",
+      "muteHelp": "Âm thanh nhạc và video sẽ giảm âm khi bạn nói và trở lại cùng mức âm lượng sau đó."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Sao chép bản mới nhất",
         "open": "Mở",
         "openAccessibility": "Mở Cài đặt"
+      },
+      "takeRecovered": {
+        "title_one": "Một bản ghi đã được lưu khi ứng dụng tắt",
+        "title_other": "Đã lưu {{count}} bản ghi khi ứng dụng tắt",
+        "body": "Chúng vẫn đang ghi lại khi {{appName}} được đóng. Chúng nằm trong Lịch sử, nơi được chuyển thành văn bản."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Đang thiết lập đọc chính tả. Lời bạn nói đã được lưu.",
-        "card": "Bản đọc chính tả của bạn đã sẵn sàng. Hãy sao chép từ thanh."
+        "card": "Bản đọc chính tả của bạn đã sẵn sàng. Hãy sao chép từ thanh.",
+        "micLostWarning": "Microphone đã bị mất kết nối. Những gì bạn đã nói trước đây vẫn được lưu giữ."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mic mất, giữ lại những gì bạn vừa nói"
     },
     "settingUp": "Đang thiết lập…",
     "settingUpPercent": "Đang thiết lập… {{percent}}%",

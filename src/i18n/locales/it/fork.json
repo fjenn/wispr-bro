@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfono",
+      "legend": "Microfono da utilizzare",
+      "loading": "Cerca microfoni…",
+      "loadError": "Impossibile elencare i microfoni: {{message}}",
+      "retry": "Prova di nuovo",
+      "recommended": "{{name}} (raccomandato)",
+      "auto": "Rileva automaticamente (impostazione sistema)",
+      "autoNow": "Ora: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "I microfoni collegati o integrati funzionano meglio; Bluetooth può interrompersi.",
+      "avoided": "L'input audio del tuo Mac è impostato su {{name}}. I microfoni Bluetooth possono interrompersi, quindi la dicazione utilizza il microfono integrato.",
+      "useAnyway": "Usare comunque {{name}}",
+      "inUse": "La dictazione ascolta con: {{name}}",
+      "chooseError": "Impossibile cambiare il microfono: {{message}}",
+      "meter": {
+        "start": "Prova il microfono",
+        "stop": "Ferma prova",
+        "label": "Livello del microfono",
+        "value": "{{percent}} percent",
+        "off": "Non in test",
+        "hint": "Dici qualcosa. I segmenti dovrebbero muoversi mentre parli.",
+        "errors": {
+          "permission_denied": "L'accesso al microfono è disattivato. Abilitalo in Impostazioni del sistema › Privacy e Sicurezza › Microfono.",
+          "no_input_device": "Nessun microfono trovato.",
+          "failed": "Il microfono non è stato avviato. Prova neanche uno."
+        }
+      }
+    },
+    "sound": {
+      "title": "Suoni",
+      "enabled": "Suonare un suono quando la diczione inizia e termina",
+      "enabledHelp": "Un suono breve ti dice che il microfono è acceso, un altro che è spento.",
+      "theme": "Suono",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Personalizzato"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} percent",
+      "preview": "Play",
+      "mute": "Mute tutti i suoni durante la dicazione",
+      "muteHelp": "Musica e video si spegnono quando parli e riapparono al medesimo volume dopo."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Copia l'ultimo",
         "open": "Apri",
         "openAccessibility": "Apri Impostazioni"
+      },
+      "takeRecovered": {
+        "title_one": "È stato salvato un'immagine quando è stato chiuso l'applicazione",
+        "title_other": "Sono stati salvati {{count}} registrazioni quando è stato chiuso l'app",
+        "body": "Stavano ancora registrando quando è stato chiuso {{appName}}. Sono nell'Historia, dove sono stati trascritti."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Configurazione della dettatura. Le tue parole sono salvate.",
-        "card": "La tua dettatura è pronta. Copiala dalla barra."
+        "card": "La tua dettatura è pronta. Copiala dalla barra.",
+        "micLostWarning": "Il microfono è disconnesso. Ciò che hai detto finora viene conservato."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Microfono perso, mantiene ciò che hai detto"
     },
     "settingUp": "Configurazione…",
     "settingUpPercent": "Configurazione… {{percent}}%",

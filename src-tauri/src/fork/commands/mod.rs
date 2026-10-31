@@ -8,6 +8,7 @@
 //! Rule: a fork command reads Handy state with `try_state` and returns
 //! [`ForkError::NotReady`] when that state does not exist yet. It never panics.
 
+pub mod audio;
 pub mod csp;
 pub mod dictionary;
 pub mod history;

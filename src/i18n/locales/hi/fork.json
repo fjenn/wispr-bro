@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "माइक्रोफोन",
+      "legend": "उपयोग करें वाला माइक्रोफोन",
+      "loading": "माइक्रोफोन खोज रहा हूं…",
+      "loadError": "माइक्रोफोन लिस्ट करने में विफलता: {{message}}",
+      "retry": "फिर से कोशिश करें",
+      "recommended": "{{name}} (सिफारिश के लिए)",
+      "auto": "अटॉ-डिटेक्ट (सिस्टम सेटिंग)",
+      "autoNow": "अब: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Wired या in-built mics सबसे अच्छा काम करते हैं; Bluetooth खत्म हो सकता है।",
+      "avoided": "आपके Mac के आवाज़ के इनपुट को {{name}} पर सेट किया गया है। ब्लूटूथ माइक बंद हो सकते हैं, इसलिए डिक्टेशन बिल्कुल इंटरनल माइक का उपयोग करता है।",
+      "useAnyway": "किसी भी तरीके से {{name}} का उपयोग करें",
+      "inUse": "दिटेक्शन {{name}} सुन रहा है",
+      "chooseError": "माइक्रोफोन बदलने में विफल रहा: {{message}}",
+      "meter": {
+        "start": "माइक्रोफोन का टेस्ट करें",
+        "stop": "टेस्ट स्टॉप करें",
+        "label": "माइक्रोफोन के स्तर",
+        "value": "{{percent}} प्रतिशत",
+        "off": "टेस्ट नहीं कर रहा",
+        "hint": "कुछ कहिए। आप बात करते हुए बार गति करेंगे।",
+        "errors": {
+          "permission_denied": "माइक्रोफोन का प्रवेश बंद है। सिस्टम सेटिंग्स › गोपनीयता और सुरक्षा › माइक्रोफोन में इसे खोलें।",
+          "no_input_device": "कोई माइक्रोफोन नहीं मिला।",
+          "failed": "माइक्रोफोन शुरू नहीं हुआ। एक और चुनें।"
+        }
+      }
+    },
+    "sound": {
+      "title": "आवाज़",
+      "enabled": "दिटेक्शन शुरू और बंद होने पर ध्वनि बजाए",
+      "enabledHelp": "एक छोटा सा ध्वनि आपको बताता है कि माइक्रोफोन चालू है, और एक और जब बंद हो जाता है।",
+      "theme": "आवाज",
+      "themes": {
+        "marimba": "मरिम्बा",
+        "pop": "पॉप",
+        "custom": "अपना"
+      },
+      "volume": "आवाज़",
+      "volumeValue": "{{percent}} प्रतिशत",
+      "preview": "बजाएँ",
+      "mute": "सभ आवाज़ को बंद करें जब आवाज़ देना शुरू करें",
+      "muteHelp": "म्यूजिक और वीडियो आप बात करते समय चुप रहते हैं और बाद में उसी स्तर पर वापस आते हैं।"
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "नवीनतम कॉपी करें",
         "open": "बोलो",
         "openAccessibility": "सेटिंग्स खोलें"
+      },
+      "takeRecovered": {
+        "title_one": "एक रिकॉर्डिंग बंद होने पर बचाई गई थी",
+        "title_other": "{{count}} रिकॉर्डिंग एप बंद होने पर बचाए गए",
+        "body": "They were still recording when {{appName}} closed. They are in History, where they are transcribed."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "डिक्टेशन सेट अप हो रहा है। आपके शब्द सहेज लिए गए हैं।",
-        "card": "आपका डिक्टेशन तैयार है। इसे बार से कॉपी करें।"
+        "card": "आपका डिक्टेशन तैयार है। इसे बार से कॉपी करें।",
+        "micLostWarning": "माइक्रोफोन से जुड़ाव खत्म हो गया है। आपने तक बोला है उसे बचाया जाएगा।"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "माइक खो गया, आपने क्या कहा उसे बनाए रखा जा रहा है"
     },
     "settingUp": "सेट अप हो रहा है…",
     "settingUpPercent": "सेट अप हो रहा है… {{percent}}%",

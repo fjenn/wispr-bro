@@ -194,6 +194,7 @@ fn every_pill_string_exists_in_english() {
         "rust.pill.announce.cancelled".into(),
         "rust.pill.announce.silenceWarning".into(),
         "rust.pill.announce.lengthWarning".into(),
+        "rust.pill.announce.micLostWarning".into(),
     ];
     use PillMessage::*;
     for m in [

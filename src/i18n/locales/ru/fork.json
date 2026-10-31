@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Микрофон",
+      "legend": "Использовать микрофон",
+      "loading": "Ищем микрофоны…",
+      "loadError": "Не удалось получить список микрофонов: {{message}}",
+      "retry": "Попробовать снова",
+      "recommended": "{{name}} (рекомендуется)",
+      "auto": "Автоопределение (настройка системы)",
+      "autoNow": "Сейчас: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Wired или встроенные микрофоны работают лучше; Bluetooth может потерять соединение.",
+      "avoided": "Звуковое вводимое устройство вашего Mac настроено на {{name}}. Микрофоны Bluetooth могут отключаться, поэтому диктовка использует встроенный микрофон.",
+      "useAnyway": "Использовать {{name}} anyway",
+      "inUse": "Диктовка слушает с: {{name}}",
+      "chooseError": "Не удалось переключить микрофон: {{message}}",
+      "meter": {
+        "start": "Тест микрофона",
+        "stop": "Остановить тест",
+        "label": "Уровень микрофона",
+        "value": "{{percent}} процент",
+        "off": "Не проверяется",
+        "hint": "Скажите что-нибудь. Строки должны двигаться, когда вы говорите.",
+        "errors": {
+          "permission_denied": "Доступ к микрофону отключен. Включите его в Настройках системы › Конфиденциальность и безопасность › Микрофон.",
+          "no_input_device": "Микрофон не найден.",
+          "failed": "Микрофон не запустился. Попробуйте другой."
+        }
+      }
+    },
+    "sound": {
+      "title": "Звуки",
+      "enabled": "Звук при начале и остановке диктовки",
+      "enabledHelp": "Краткий звук означает, что микрофон включен, другой — что он выключен.",
+      "theme": "Звук",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Поп",
+        "custom": "Пользовательский"
+      },
+      "volume": "Громкость",
+      "volumeValue": "{{percent}} процент",
+      "preview": "Повторить",
+      "mute": "Выключить все звуки при вводе текста",
+      "muteHelp": "Музыка и видео молчат, когда вы говорите, и возвращаются на прежний уровень громкости."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Скопировать последнее",
         "open": "Открыть",
         "openAccessibility": "Открыть настройки"
+      },
+      "takeRecovered": {
+        "title_one": "Запись была сохранена при завершении работы приложения",
+        "title_other": "Было сохранено {{count}} записей при выходе из приложения",
+        "body": "Они продолжали записывать, когда был закрыт {{appName}}. Они находятся в Истории, где они были переписаны."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Диктовка настраивается. Ваши слова сохранены.",
-        "card": "Ваша диктовка готова. Скопируйте её с панели."
+        "card": "Ваша диктовка готова. Скопируйте её с панели.",
+        "micLostWarning": "Микрофон отключился. То, что вы сказали, сохранено."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Микрофон потерялся, сохраняю то, что ты сказал"
     },
     "settingUp": "Настройка…",
     "settingUpPercent": "Настройка… {{percent}}%",

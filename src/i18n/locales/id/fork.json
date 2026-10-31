@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfon",
+      "legend": "Microfon yang digunakan",
+      "loading": "Mencari mikrofon...",
+      "loadError": "Tidak bisa daftar mikrofon: {{message}}",
+      "retry": "Coba lagi",
+      "recommended": "{{name}} (disarankan)",
+      "auto": "Deteksi otomatis (pengaturan sistem)",
+      "autoNow": "Sekarang: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Mic wired atau bawaan bekerja terbaik; Bluetooth bisa terputus.",
+      "avoided": "Input suara Mac Anda diatur ke {{name}}. Mikrofon Bluetooth bisa terputus, sehingga dictation menggunakan mikrofon bawaan.",
+      "useAnyway": "Gunakan {{name}} saja",
+      "inUse": "Dictation mendengarkan dengan: {{name}}",
+      "chooseError": "Tidak bisa mengganti mikrofon: {{message}}",
+      "meter": {
+        "start": "Uji mikrofon",
+        "stop": "Hentikan uji",
+        "label": "Tingkat mikrofon",
+        "value": "{{percent}} persen",
+        "off": "Tidak sedang diuji",
+        "hint": "Katakan sesuatu. Garis-garis tersebut harus bergerak saat kamu berbicara.",
+        "errors": {
+          "permission_denied": "Akses mikrofon dinonaktifkan. Aktifkan di Pengaturan Sistem › Privasi & Keamanan › Mikrofon.",
+          "no_input_device": "Tidak ditemukan mikrofon.",
+          "failed": "Microfon tidak mulai. Coba yang lain."
+        }
+      }
+    },
+    "sound": {
+      "title": "Suara",
+      "enabled": "Putar suara saat dictation dimulai dan dihentikan",
+      "enabledHelp": "Suara pendek memberi tahu Anda mikrofon sedang menyala, dan suara lainnya menunjukkan bahwa mikrofon berhenti.",
+      "theme": "Suara",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Kustom"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} persen",
+      "preview": "Putar",
+      "mute": "Matikan semua suara saat mengetik dengan suara",
+      "muteHelp": "Musik dan video menjadi diam saat kamu berbicara dan kembali ke volume sebelumnya setelahnya."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Salin terbaru",
         "open": "Buka",
         "openAccessibility": "Buka Pengaturan"
+      },
+      "takeRecovered": {
+        "title_one": "Sebuah rekaman disimpan saat aplikasi dimatikan",
+        "title_other": "{{count}} rekaman disimpan saat aplikasi dimatikan",
+        "body": "Mereka masih mencatat saat {{appName}} ditutup. Mereka ada di Sejarah, di mana mereka telah diterjemahkan."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Menyiapkan dikte. Kata-kata Anda sudah disimpan.",
-        "card": "Dikte Anda siap. Salin dari bilah."
+        "card": "Dikte Anda siap. Salin dari bilah.",
+        "micLostWarning": "Microfon terputus. Yang Anda katakan sampai sekarang tetap disimpan."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mic hilang, mempertahankan apa yang kamu katakan"
     },
     "settingUp": "Menyiapkan…",
     "settingUpPercent": "Menyiapkan… {{percent}}%",

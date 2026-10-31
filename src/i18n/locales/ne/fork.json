@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microphone",
+      "legend": "केन्द्रित फैलाइएको माइक्रोफोन",
+      "loading": "माइक्रोफोन खोज्दै छु…",
+      "loadError": "माइक्रोफोन लेख्न सक्दिन: {{message}}",
+      "retry": "पुनः प्रयास गर्नुहोस",
+      "recommended": "{{name}} (अनुशंसित)",
+      "auto": "स्वचालित ज्ञात (सिस्टम सेटिंग)",
+      "autoNow": "अहि: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "स्थानीय वा बिल्ट-इन माइक्रोफोन अत्यधिक काम कर्छन; ब्लूटूथ बिख्याउन सक्छ।",
+      "avoided": "आपको मेकको ध्वनि इनपुट बिल्कुल {{name}} मा सेट गरिएको छ। ब्ल्यूटूथ मिक्सको बाट बाहिर आउने गर्न सक्छ, त्यसैले डिटेक्शन बिल्कुल मिक्सको बाट उपयोग गर्छ।",
+      "useAnyway": "Use {{name}} anyway",
+      "inUse": "दिटेशन {{name}} मा सुन्छ",
+      "chooseError": "माइक्रोफोन बदल्न गाह्रो भयो: {{message}}",
+      "meter": {
+        "start": "माइक्रोफोन को जाँच गर्नुहोस",
+        "stop": "टेस्ट रोक्नुहोस",
+        "label": "माइक्रोफोन कें लेवल",
+        "value": "{{percent}} प्रतिशत",
+        "off": "अप्रयोग गर्दैन",
+        "hint": "केहि बाटो भएको भने बार गतिमान हुनुपर्छ।",
+        "errors": {
+          "permission_denied": "माइक्रोफोन को अनुमति बनाएर अनुमति नहि छ। सिस्टम सेटिंग्स › गुप्त र सुरक्षा › माइक्रोफोन में उत्तेजित गर्नुहोस।",
+          "no_input_device": "कोनो माइक्रोफोन खोजिए छैन।",
+          "failed": "माइक्रोफोन खुल्ला गर्न सफल भएन। अन्य एउटा प्रयोग गर्नुहोस।"
+        }
+      }
+    },
+    "sound": {
+      "title": "स्वर",
+      "enabled": "दिटेक्शन शुरू र बनाएर ध्वनि बजाउने",
+      "enabledHelp": "एक छोटो ध्वनि बताउँछ कि माइक्रोफोन चलिरहेको छ, र अर्को कि बन्द छ।",
+      "theme": "स्वर",
+      "themes": {
+        "marimba": "मरिम्बा",
+        "pop": "पॉप",
+        "custom": "अनुकूल"
+      },
+      "volume": "वोल्युम",
+      "volumeValue": "{{percent}} प्रतिशत",
+      "preview": "भन्नुहोस",
+      "mute": "Mute all audio while dictating",
+      "muteHelp": "म्युजिक र विडियो सुनाउँछ जब तपाईं बोल्नुहुन्छ र बाँचि एउटा वोल्युममा फर्किन्छ।"
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "सबै अन्तिम कपि गर्नुहोस",
         "open": "ओपन",
         "openAccessibility": "अपनाउने सेटिंग खोल्नुहोस"
+      },
+      "takeRecovered": {
+        "title_one": "एक रिकॉर्डिंग बचाइए गए जब एप्लिकेशन बन्द भएको",
+        "title_other": "{{count}} रेकर्डिंग सेव गरिएका छन् जब एप बन्द भयो",
+        "body": "They were still recording when {{appName}} closed. They are in History, where they are transcribed."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "डिक्टेसन सेटअप हुँदैछ। तपाईंका शब्दहरू सुरक्षित छन्।",
-        "card": "तपाईंको डिक्टेसन तयार छ। बारबाट प्रतिलिपि गर्नुहोस्।"
+        "card": "तपाईंको डिक्टेसन तयार छ। बारबाट प्रतिलिपि गर्नुहोस्।",
+        "micLostWarning": "माइक्रोफोन अनलाइन छैन। तपाईंको भन्दा अहिले सभ बचाइएको छ।"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "माइक खोएको, तपाईंले कहिल्यै भनेको राख्ने"
     },
     "settingUp": "सेटअप हुँदैछ…",
     "settingUpPercent": "सेटअप हुँदैछ… {{percent}}%",

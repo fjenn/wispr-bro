@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "מיקרופון",
+      "legend": "מיקרופון למשתמש",
+      "loading": "מחפש מיקרופונים…",
+      "loadError": "לא ניתן לרשום את המיקרופונים: {{message}}",
+      "retry": "נסה שוב",
+      "recommended": "{{name}} (מומלץ)",
+      "auto": "הפעלת אוטו-הערכה (הגדרה של המערכת)",
+      "autoNow": "הרגע: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "מיקרופונים מותאמים או מותאמים במכונה עובдают טוב; Bluetooth יכול להישר.",
+      "avoided": "הקלטเสียง של המاك שלך מוגדר ל{{name}}. מיקרופונים ביטוח יכולים להפסיק לפעול, לכן שימוש במיקרופון פנימי.",
+      "useAnyway": "למשתמש בקשת {{name}}",
+      "inUse": "ההערכה שומעת עם: {{name}}",
+      "chooseError": "לא ניתן להפוך את המיקרופון: {{message}}",
+      "meter": {
+        "start": "התחיל לtest מיקרופון",
+        "stop": "הפסיק את הבדיקה",
+        "label": "רמת המיקרופון",
+        "value": "{{percent}} אחוז",
+        "off": "לא בבדיקה",
+        "hint": "אמרו משהו. הפסים צריכים להזיז כשאתם מדברים.",
+        "errors": {
+          "permission_denied": "הגישה למיקרופון מושבת. הפעל אותה בהגדרות מערכת › פרטיות ובטיחות › מיקרופון.",
+          "no_input_device": "לא נמצאו מיקרופונים.",
+          "failed": "המיקרופון לא התחיל. נסה אחד אחר."
+        }
+      }
+    },
+    "sound": {
+      "title": "הצלילים",
+      "enabled": "לצאת שמע כאשר הכתיבה מתחילה ומסתיימת",
+      "enabledHelp": "הצליל הקצרצר מודיע לך שהמיקרופון מופעל, והצליל השני מודיע לך שהוא נעצר.",
+      "theme": "צליל",
+      "themes": {
+        "marimba": "מרימבה",
+        "pop": "Pop",
+        "custom": "מונח מותאם"
+      },
+      "volume": "הקול",
+      "volumeValue": "{{percent}} אחוז",
+      "preview": "לצאת",
+      "mute": "לכבות כל שמע במהלך כתיבה",
+      "muteHelp": "המוזיקה והסרטונים מפסיקים לצלול כשאתם מדברים ומחזירים את הדרמה לאחר מכן."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "העתק את האחרון",
         "open": "הפתוח",
         "openAccessibility": "הפתוח את ההגדרות"
+      },
+      "takeRecovered": {
+        "title_one": "ההקלדה נשמרה כשהאפליקציה נעצרה",
+        "title_other": "ההקלטות {{count}} נשמרו כשהאפליקציה נסגרה",
+        "body": "היהו מקלידים כש{{appName}} נסגר. הם בהיסטוריה, שם הם מתרגם."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "ההכתבה בהגדרה. המילים שלך נשמרו.",
-        "card": "ההכתבה שלך מוכנה. אפשר להעתיק אותה מהסרגל."
+        "card": "ההכתבה שלך מוכנה. אפשר להעתיק אותה מהסרגל.",
+        "micLostWarning": "המיקרופון נ desconנected. מה שדיברתם עד כה נשמר."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "המיקרופון נעלם, ממשיך להשמיע מה שכתבת"
     },
     "settingUp": "בהגדרה…",
     "settingUpPercent": "בהגדרה… {{percent}}%",

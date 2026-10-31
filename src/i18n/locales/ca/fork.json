@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfònim",
+      "legend": "Microfònim a utilitzar",
+      "loading": "Cercant microfons...",
+      "loadError": "No s'ha pogut listar els microfons: {{message}}",
+      "retry": "Torna a provar",
+      "recommended": "{{name}} (recomanat)",
+      "auto": "Detectar automàticament (ajust del sistema)",
+      "autoNow": "Avui: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Els mics amb cable o interns funcionen millor; el Bluetooth pot perdre-se.",
+      "avoided": "L'entrada sonora del teu Mac està configurada a {{name}}. Els mics Bluetooth poden interrompre's, per tant, la dictació utilitza el mic integrat.",
+      "useAnyway": "Utilitza {{name}} en tot cas",
+      "inUse": "La dictació escuta amb: {{name}}",
+      "chooseError": "No ha pogut canviar el microfònim: {{message}}",
+      "meter": {
+        "start": "Provar microfon",
+        "stop": "Atura prova",
+        "label": "Nivell del microfon",
+        "value": "{{percent}} per cent",
+        "off": "No està provant",
+        "hint": "Diga alguna cosa. Les barres han de moure's mentre parla.",
+        "errors": {
+          "permission_denied": "L'accés al microfònim està desactivat. Activa't a Configuració del sistema › Privacitat i seguretat › Microfònim.",
+          "no_input_device": "No s'ha trobat un microfon.",
+          "failed": "El microfònim no ha començat. Prova un altre."
+        }
+      }
+    },
+    "sound": {
+      "title": "Sonats",
+      "enabled": "Tanca un son quan comença i acaba la dictació",
+      "enabledHelp": "Un sonat llarg et diu que el microfònim està activat, i un altre que ha parat.",
+      "theme": "Son",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Personalitzat"
+      },
+      "volume": "Volum",
+      "volumeValue": "{{percent}} per cent",
+      "preview": "Tanca",
+      "mute": "Mutar tota la sona mentre dicta",
+      "muteHelp": "La música i els vídeos es silencien quan parles i tornen a la mateixa volum després."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Copiar d'últim",
         "open": "Obre",
         "openAccessibility": "Obre les opcions"
+      },
+      "takeRecovered": {
+        "title_one": "Es va guardar una gravació quan l'aplicació es va tancar",
+        "title_other": "Es van guardar {{count}} registres quan es tancà l'aplicació",
+        "body": "Encara estaven gravant quan es va tancar {{appName}}. Estan a la Historia, on s'han transcrits."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "S'està configurant el dictat. Les teves paraules estan desades.",
-        "card": "El teu dictat és a punt. Copia'l des de la barra."
+        "card": "El teu dictat és a punt. Copia'l des de la barra.",
+        "micLostWarning": "El microfònim s'ha desconnectat. El que has dit fins ara es manté."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mic perdut, mantenint el que has dit"
     },
     "settingUp": "S'està configurant…",
     "settingUpPercent": "S'està configurant… {{percent}}%",

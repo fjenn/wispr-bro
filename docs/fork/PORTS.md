@@ -33,6 +33,8 @@ AGPL-3.0-only` and never in a Handy file.
 | `src-tauri/src/fork/text/tables/commands.*.json` (data)                                   | [moona3k/macparakeet](https://github.com/moona3k/macparakeet)                                                                                                                                                                                                                                                                                                      | `3ec699152f78df8adccba0cbff5cb968c9790947`                                                                         | `Sources/MacParakeetCore/TextProcessing/SpokenPunctuation.swift` (phrases, literal prefixes); `SpokenPunctuationTests.swift` (cases)                                                                          | GPL-3.0 (© 2026 Daniel Moon)                                                 | S-11                         |
 | `src-tauri/src/fork/text/snippets.rs`                                                     | [OpenWhispr/openwhispr](https://github.com/OpenWhispr/openwhispr)                                                                                                                                                                                                                                                                                                  | `fc786f41c91de8177ce7d9333d2834d973cc3c19`                                                                         | `src/utils/snippets.ts` (`buildMatcher`, `expandSnippets`, `foldCapitalIDot`)                                                                                                                                 | MIT (© 2024 OpenWhispr Team)                                                 | S-17                         |
 | `src-tauri/src/fork/pill/panel.rs`                                                        | [kozliq/Tolkovo](https://github.com/kozliq/Tolkovo)                                                                                                                                                                                                                                                                                                                | `ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35`                                                                         | `src-tauri/src/tolkovo/pill.rs` (panel set-up, Space observer; via `crates/wb-spike-pill/src/pill.rs`)                                                                                                        | MIT (© 2025 CJ Pais; © 2026 kozliq)                                         | S-03                         |
+| `src-tauri/src/fork/audio/mute.rs`, `.../audio/mute_tests.rs`                             | [kstonekuan/tambourine-voice](https://github.com/kstonekuan/tambourine-voice)                                                                                                                                                                                                                                                                                      | `c54b527d5920b821e1f0ff837457d69405696b6b`                                                                         | `app/src-tauri/src/audio_mute/mod.rs`, `audio_mute/macos.rs`, `src/tests/audio_mute_tests.rs`                                        | AGPL-3.0 (© the Tambourine authors); files marked AGPL-3.0-only       | S-08                         |
+| `src-tauri/src/fork/audio/transport.rs` (CoreAudio readers)                               | [handy-computer/handy-recorder](https://github.com/handy-computer/handy-recorder)                                                                                                                                                                                                                                                                                  | `1d975fe8c10f9a69d778cf16955c7e0699b4b8e1`                                                                         | `crates/handy-recorder/src/backend/headset_macos.rs`                                                                                 | MIT (© 2026 handy-computer)                                           | S-08                         |
 
 ## Notes per port
 
@@ -263,3 +265,29 @@ AGPL-3.0-only` and never in a Handy file.
   pill and Voquill's `rust_macos_pill` (a native panel at rest, a web view
   only while active, the RS-03 fallback); neither project's code was read for
   it or copied, so neither is a port.
+
+### `fork/audio/mute.rs`, `mute_tests.rs` (S-08, W-29)
+
+- Kept: the `SystemAudioControl` trait and its sessions, the mute
+  manager's state machine (muted by us / already muted by the user /
+  recovery pending after a failed rollback, restore on drop), the CoreAudio
+  controller (device mute property, else every settable volume control at
+  zero with its scalar saved, rolled back on a partial failure), and all
+  their tests (8 manager tests, 5 strategy and fallback tests).
+- Changed: only the macOS controller (Handy keeps its Windows and Linux
+  code); a session left "already muted by the user" is re-checked at the
+  next mute, because Handy never calls unmute after a mute that found the
+  audio muted; log lines carry no device names.
+- Ours: Handy's `set_mute`/`get_mute` hooks, `restore_on_exit`, a
+  multi-device fake (the muted device is restored even after the default
+  output changed; a device without a mute flag gets its exact volume bits
+  back), and the source check that `managers/audio.rs` has no `osascript`.
+- Only these three files were read, through the GitHub API at the pinned
+  commit; nothing was built or run.
+
+### `fork/audio/transport.rs` (S-08)
+
+- From handy-recorder's `headset_macos.rs` (the crate is already vendored):
+  `address`, `ids`, `scalar` and the UID reader, generalised to any CFString
+  property. Ours: the device list with name and input streams, the default
+  input, `Transport`/`classify`, `is_wireless`, the cpal ID mapping.

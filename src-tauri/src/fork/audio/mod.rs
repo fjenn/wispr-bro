@@ -1,5 +1,19 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! The prepared microphone (DEC-53, S-01) and the mic-level tap.
+//! The microphone: the prepared mic (DEC-53, S-01), the mic-level tap, and
+//! S-08's microphone and sound polish:
+//!
+//! - [`transport`]: what kind of connection each device uses (HAL);
+//! - [`choice`]: the default-mic rule (a wireless default the user never
+//!   chose is skipped for the built-in mic) and the list order;
+//! - [`watch`]: device changes, a mic lost mid-take, re-preparing a stale mic;
+//! - [`monitor`]: the level meter for the mic test (not a take);
+//! - [`mute`]: "Mute all audio while dictating" on CoreAudio (AGPL port);
+//! - [`permission`]: DEC-55, the take running at quit is saved and offered.
+//!
+//! The wireless rule runs inside the existing [`recorder_config`] hook: when
+//! Handy asks for the system default (`device: None`), the hook may name the
+//! built-in mic instead, and it records which device the take opens
+//! ([`opened_uid`], [`opened_name`]) for the Flow Bar's label and the watch.
 //!
 //! While idle, the CoreAudio input unit is built and initialised but not
 //! started (handy-recorder's `RecorderConfig::pause_when_idle`, vendored in
@@ -24,8 +38,15 @@
 //! product builds, and rule 1's warm-stream pre-roll has nothing to read
 //! from (R5 S-01 note).
 
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Arc;
+pub mod choice;
+pub mod monitor;
+pub mod mute;
+pub mod permission;
+pub mod transport;
+pub mod watch;
+
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
+use std::sync::{Arc, Mutex};
 
 use handy_recorder::RecorderConfig;
 use tauri::{AppHandle, Manager, Runtime};
@@ -35,9 +56,106 @@ use crate::managers::audio::{AudioRecordingManager, MicrophoneMode};
 static PREPARED: AtomicBool = AtomicBool::new(false);
 static PREPARING: AtomicBool = AtomicBool::new(false);
 
+/// S-08's rules apply (product builds, from [`on_ready`]); off in tests and
+/// plain Handy builds, so Handy's own config tests see Handy's config.
+static RULES_ON: AtomicBool = AtomicBool::new(false);
+/// The fork setting `mic_follow_system` ("Auto-detect" was chosen).
+static FOLLOW_SYSTEM: AtomicBool = AtomicBool::new(false);
+/// The device the last open used: (UID, name).
+static OPENED: Mutex<Option<(String, String)>> = Mutex::new(None);
+/// Monotonic ms of the last trigger press.
+static LAST_PRESS_MS: AtomicU64 = AtomicU64::new(0);
+
 /// Hook in Handy's `microphone_config`.
 pub fn recorder_config(config: RecorderConfig) -> RecorderConfig {
-    with_prepared(config, PREPARED.load(Ordering::Acquire))
+    let config = with_prepared(config, PREPARED.load(Ordering::Acquire));
+    if !RULES_ON.load(Ordering::Acquire) {
+        return config;
+    }
+    let snapshot = transport::snapshot();
+    let config = with_wireless_rule(config, &snapshot, follows_system());
+    let opened = choice::device_for(&snapshot, config.device.as_deref(), follows_system())
+        .map(|d| (d.uid.clone(), d.name.clone()));
+    if let Some((_, name)) = &opened {
+        log::debug!("fork audio: the microphone opens on {name:?}");
+    }
+    *OPENED.lock().unwrap_or_else(|e| e.into_inner()) = opened;
+    config
+}
+
+/// The wireless rule on a config: `device: None` (system default) becomes
+/// the built-in mic when the default is wireless and the user never chose.
+fn with_wireless_rule(
+    mut config: RecorderConfig,
+    snapshot: &transport::Snapshot,
+    follow_system: bool,
+) -> RecorderConfig {
+    if config.device.is_none() {
+        if let Some(built_in) = choice::avoid_wireless_default(snapshot, follow_system) {
+            log::info!(
+                "fork audio: the system microphone is wireless and none was chosen; using the built-in mic"
+            );
+            config.device = Some(transport::recorder_id(&built_in.uid));
+        }
+    }
+    config
+}
+
+/// Whether "Auto-detect (system setting)" was chosen.
+pub fn follows_system() -> bool {
+    FOLLOW_SYSTEM.load(Ordering::Acquire)
+}
+
+/// Sets the "Auto-detect" flag (from the fork setting).
+pub fn set_follows_system(follow: bool) {
+    FOLLOW_SYSTEM.store(follow, Ordering::Release);
+}
+
+/// UID of the device the microphone last opened on.
+pub fn opened_uid() -> Option<String> {
+    OPENED
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .as_ref()
+        .map(|(uid, _)| uid.clone())
+}
+
+/// Name of the device the microphone last opened on (the Flow Bar label).
+pub fn opened_name() -> Option<String> {
+    OPENED
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .as_ref()
+        .map(|(_, name)| name.clone())
+        .filter(|n| !n.is_empty())
+}
+
+fn monotonic_ms() -> u64 {
+    static EPOCH: std::sync::OnceLock<std::time::Instant> = std::sync::OnceLock::new();
+    EPOCH
+        .get_or_init(std::time::Instant::now)
+        .elapsed()
+        .as_millis() as u64
+        + 1
+}
+
+/// Whether a trigger was pressed within the last `ms`.
+pub fn pressed_within(ms: u64) -> bool {
+    let last = LAST_PRESS_MS.load(Ordering::Acquire);
+    last != 0 && monotonic_ms().saturating_sub(last) < ms
+}
+
+/// From `fork::on_ready` (product builds), before [`enable_prepared`]: the
+/// rules, the device watch, and the takes saved at the last quit.
+pub fn on_ready<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
+    let follow = app
+        .try_state::<crate::fork::settings::ForkSettingsHandle>()
+        .and_then(|h| h.get(app).ok())
+        .is_some_and(|s| s.mic_follow_system);
+    set_follows_system(follow);
+    RULES_ON.store(true, Ordering::Release);
+    watch::start(app);
+    permission::on_ready(app);
 }
 
 fn with_prepared(mut config: RecorderConfig, prepared: bool) -> RecorderConfig {
@@ -95,6 +213,7 @@ pub fn enable_prepared<R: Runtime>(app: &AppHandle<R>) {
 /// (Handy's `start_microphone_stream` is a cheap no-op when the unit is
 /// healthy, and reopens it when it failed).
 pub fn ensure_prepared<R: Runtime>(app: &AppHandle<R>) {
+    LAST_PRESS_MS.store(monotonic_ms(), Ordering::Release);
     if !is_prepared() || PREPARING.swap(true, Ordering::AcqRel) {
         return;
     }
@@ -154,6 +273,62 @@ mod tests {
                 ..c
             },
             RecorderConfig::speech()
+        );
+    }
+
+    fn snapshot(default: &str) -> transport::Snapshot {
+        use transport::{CoreDevice, Transport};
+        transport::Snapshot {
+            devices: vec![
+                CoreDevice {
+                    uid: "BuiltInMicrophoneDevice".into(),
+                    name: "MacBook Pro Microphone".into(),
+                    transport: Transport::BuiltIn,
+                    has_input: true,
+                },
+                CoreDevice {
+                    uid: "AA:input".into(),
+                    name: "AirPods".into(),
+                    transport: Transport::Bluetooth,
+                    has_input: true,
+                },
+            ],
+            default_input: Some(default.into()),
+        }
+    }
+
+    #[test]
+    fn the_wireless_rule_names_the_built_in_mic_only_for_the_default() {
+        let s = snapshot("AA:input");
+        let c = with_wireless_rule(RecorderConfig::speech(), &s, false);
+        assert_eq!(
+            c.device.as_deref(),
+            Some("coreaudio:BuiltInMicrophoneDevice")
+        );
+        // Everything else is Handy's.
+        assert_eq!(
+            RecorderConfig { device: None, ..c },
+            RecorderConfig::speech()
+        );
+        // Auto-detect chosen: the headset.
+        assert_eq!(
+            with_wireless_rule(RecorderConfig::speech(), &s, true).device,
+            None
+        );
+        // A named device is never replaced.
+        let named = RecorderConfig {
+            device: Some("coreaudio:AA:input".into()),
+            ..RecorderConfig::speech()
+        };
+        assert_eq!(
+            with_wireless_rule(named.clone(), &s, false).device,
+            named.device
+        );
+        // A wired default is kept.
+        let s = snapshot("BuiltInMicrophoneDevice");
+        assert_eq!(
+            with_wireless_rule(RecorderConfig::speech(), &s, false).device,
+            None
         );
     }
 

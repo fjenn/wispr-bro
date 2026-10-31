@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microphone",
+      "legend": "Microphone to use",
+      "loading": "Looking for microphones…",
+      "loadError": "Couldn't list the microphones: {{message}}",
+      "retry": "Try again",
+      "recommended": "{{name}} (recommended)",
+      "auto": "Auto-detect (system setting)",
+      "autoNow": "Now: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Wired or built-in mics work best; Bluetooth can drop out.",
+      "avoided": "Your Mac's sound input is set to {{name}}. Bluetooth mics can cut out, so dictation uses the built-in mic instead.",
+      "useAnyway": "Use {{name}} anyway",
+      "inUse": "Dictation listens with: {{name}}",
+      "chooseError": "Couldn't switch microphones: {{message}}",
+      "meter": {
+        "start": "Test microphone",
+        "stop": "Stop test",
+        "label": "Microphone level",
+        "value": "{{percent}} percent",
+        "off": "Not testing",
+        "hint": "Say something. The bars should move while you talk.",
+        "errors": {
+          "permission_denied": "Microphone access is off. Turn it on in System Settings › Privacy & Security › Microphone.",
+          "no_input_device": "No microphone found.",
+          "failed": "The microphone didn't start. Try another one."
+        }
+      }
+    },
+    "sound": {
+      "title": "Sounds",
+      "enabled": "Play a sound when dictation starts and stops",
+      "enabledHelp": "A short tone tells you the mic is on, and another that it stopped.",
+      "theme": "Sound",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Custom"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} percent",
+      "preview": "Play",
+      "mute": "Mute all audio while dictating",
+      "muteHelp": "Music and videos go quiet while you talk and come back at the same volume afterwards."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Copy latest",
         "open": "Open",
         "openAccessibility": "Open Settings"
+      },
+      "takeRecovered": {
+        "title_one": "A recording was saved when the app quit",
+        "title_other": "{{count}} recordings were saved when the app quit",
+        "body": "They were still recording when {{appName}} closed. They are in History, where they are transcribed."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Setting up dictation. Your words are saved.",
-        "card": "Your dictation is ready. Copy it from the bar."
+        "card": "Your dictation is ready. Copy it from the bar.",
+        "micLostWarning": "The microphone disconnected. What you said so far is kept."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -754,7 +810,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mic lost, keeping what you said"
     },
     "settingUp": "Setting up…",
     "settingUpPercent": "Setting up… {{percent}}%",

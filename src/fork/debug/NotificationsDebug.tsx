@@ -21,6 +21,7 @@ const KINDS: NotificationKind[] = [
   "shortcut_problem",
   "crash_report",
   "data_recovered",
+  "take_recovered",
   "milestone",
   "tip",
   "announcement",

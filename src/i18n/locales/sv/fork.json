@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microfon",
+      "legend": "Microfon att använda",
+      "loading": "Söker mikrofoner…",
+      "loadError": "Kunde inte lista mikrofonerna: {{message}}",
+      "retry": "Försök igen",
+      "recommended": "{{name}} (rekomenderas)",
+      "auto": "Auto-detektera (systeminställning)",
+      "autoNow": "Nu: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Kopplade eller inbyggda mikrofoner fungerar bäst; Bluetooth kan avbrytas.",
+      "avoided": "Ljudinspelningen på din Mac är satt till {{name}}. Bluetooth-mikrofoner kan avbrytas, så använder dictation den inbyggda mikrofonen istället.",
+      "useAnyway": "Använd {{name}} ändå",
+      "inUse": "Dictation lyssnar med: {{name}}",
+      "chooseError": "Kunde inte byta mikrofon: {{message}}",
+      "meter": {
+        "start": "Test mikrofon",
+        "stop": "Stoppa test",
+        "label": "Microfonnivå",
+        "value": "{{percent}} procent",
+        "off": "Ingen test",
+        "hint": "Säg något. Stickorna ska röra sig när du pratar.",
+        "errors": {
+          "permission_denied": "Microfonåtkomst är av. Aktivera den i Systeminställningar › Privatliv & säkerhet › Mikrofon.",
+          "no_input_device": "Ingen mikrofon hittades.",
+          "failed": "Mikrofonn startade inte. Prova en annan."
+        }
+      }
+    },
+    "sound": {
+      "title": "Ljud",
+      "enabled": "Spela ett ljud när dictation startar och avslutas",
+      "enabledHelp": "En kort ton säger att mikrofonen är på, och en annan att den är av.",
+      "theme": "Ljud",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Anpassad"
+      },
+      "volume": "Ljudvolym",
+      "volumeValue": "{{percent}} procent",
+      "preview": "Spela",
+      "mute": "Stäng all ljud vid dictation",
+      "muteHelp": "Musik och videor blir tyst när du pratar och kommer tillbaka till samma volym efteråt."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Kopiera senaste",
         "open": "Öppna",
         "openAccessibility": "Öppna inställningar"
+      },
+      "takeRecovered": {
+        "title_one": "En inspelning sparas när appen stängs",
+        "title_other": "{{count}} inspelningar sparas när appen stängs",
+        "body": "De fortsatte att spela när {{appName}} stängdes. De finns i Historik, där de är översatta."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Diktering förbereds. Dina ord är sparade.",
-        "card": "Din diktering är klar. Kopiera den från fältet."
+        "card": "Din diktering är klar. Kopiera den från fältet.",
+        "micLostWarning": "Microfonen har avbrutits. Det du sa hittills sparas."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mikrofon förlorad, behåller vad du sa"
     },
     "settingUp": "Förbereder…",
     "settingUpPercent": "Förbereder… {{percent}} %",

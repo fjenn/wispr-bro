@@ -75,6 +75,51 @@
       "hiddenUntil": "Hidden until {{time}}",
       "showNow": "Show it again",
       "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Mikrofon",
+      "legend": "Použít mikrofon",
+      "loading": "Hledám mikrofony...",
+      "loadError": "Nelze se zobrazit mikrofony: {{message}}",
+      "retry": "Zkus to znovu",
+      "recommended": "{{name}} (doporučený)",
+      "auto": "Automatické detekce (nastavení systému)",
+      "autoNow": "Teď: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Spojné nebo vnitřní mikrofony pracují nejlepší; Bluetooth může ztratit spojení.",
+      "avoided": "Zvukový vstup na vašem Macu je nastavený na {{name}}. Bluetooth mikrofony mohou ztratit signál, protože dictace používá vnitřní mikrofon.",
+      "useAnyway": "Použít {{name}} všechno přesto",
+      "inUse": "Dictace poslouchá s: {{name}}",
+      "chooseError": "Nemohu přepnout mikrofon: {{message}}",
+      "meter": {
+        "start": "Testovat mikrofon",
+        "stop": "Zastavit test",
+        "label": "Úroveň mikrofonu",
+        "value": "{{percent}} procent",
+        "off": "Neověřuje",
+        "hint": "Řekni něco. Pokud mluvíš, má by se pohybovat škála.",
+        "errors": {
+          "permission_denied": "Přístup k mikrofonu je vypnutý. Zapněte jej v Nastavení systému › Soukromí a bezpečnost › Mikrofon.",
+          "no_input_device": "Nenalezen mikrofon.",
+          "failed": "Nepříkladlo mikrofon. Zkuste jiný."
+        }
+      }
+    },
+    "sound": {
+      "title": "Zvuky",
+      "enabled": "Zvuk zvuk při začátku a ukončení dictace",
+      "enabledHelp": "Zkratka zvuky informuje, že mikrofon je zapnutý, a jiný, že je vypnutý.",
+      "theme": "Zvuk",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Vlastní"
+      },
+      "volume": "Hlasitost",
+      "volumeValue": "{{percent}} procent",
+      "preview": "Zvuk zvuk",
+      "mute": "Vypnout všechny zvuky během psaní",
+      "muteHelp": "Hudební a videa zůstávají tiché během hovoru a vrátí se po něm do původní hlasitosti."
     }
   },
   "hub": {
@@ -175,7 +220,12 @@
         }
       },
       "snippets": {
-        "title": "Snippets"
+        "title": "Snippets",
+        "empty": {
+          "title": "Snippets are on the way",
+          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
+          "action": "Go to Dictation"
+        }
       },
       "style": {
         "title": "Style",
@@ -366,6 +416,11 @@
         "copyLatest": "Zkopírovat nejnovější",
         "open": "Otevřít",
         "openAccessibility": "Otevřít nastavení"
+      },
+      "takeRecovered": {
+        "title_one": "Během ukončení aplikace byl záznam uložen",
+        "title_other": "Během ukončení aplikace bylo uloženo {{count}} záznamů",
+        "body": "Stále se zaznamenávaly, když byl {{appName}} uzavřen. Jsou v historii, kde jsou převedeny na text."
       }
     },
     "pill": {
@@ -380,7 +435,8 @@
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Diktování se nastavuje. Vaše slova jsou uložena.",
-        "card": "Vaše diktování je připravené. Zkopírujte ho z lišty."
+        "card": "Vaše diktování je připravené. Zkopírujte ho z lišty.",
+        "micLostWarning": "Mikrofon se odpojil. Co jsi řekl, je uloženo."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -653,7 +709,8 @@
     "dismiss": "Dismiss",
     "warning": {
       "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes"
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Ztracen mikrofon, udržuji to, co jsi řekl"
     },
     "settingUp": "Nastavuje se…",
     "settingUpPercent": "Nastavuje se… {{percent}} %",

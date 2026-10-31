@@ -192,6 +192,9 @@ pub enum PillWarning {
     Silence,
     /// The take stops at 30 minutes.
     Length,
+    /// The take's microphone disappeared (unplugged, Bluetooth dropped);
+    /// what it heard before is kept (S-08). Stays until the take ends.
+    MicLost,
 }
 
 /// The speech model setup as the bar sees it (S-07a).
@@ -533,9 +536,11 @@ impl Model {
                 self.message = Some((kind, now.saturating_add(kind.duration())));
             }
             Input::Warning(kind) => {
-                if self.recording() {
+                // A lost mic outranks "stops soon": nothing else replaces it.
+                let mic_lost = matches!(self.warning, Some((PillWarning::MicLost, _)));
+                if self.recording() && (!mic_lost || kind == PillWarning::MicLost) {
                     let until = match kind {
-                        PillWarning::Silence => None,
+                        PillWarning::Silence | PillWarning::MicLost => None,
                         PillWarning::Length => Some(now + LENGTH_WARNING_MS),
                     };
                     self.warning = Some((kind, until));
