@@ -358,6 +358,31 @@ Details per port: docs/fork/PORTS.md.
   transport and input streams; the transport classification is ours,
   S-08).
 
+- src-tauri/src/fork/text/style_rules.rs (S-19a preset rules, stage 10)
+  Source: BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  File:   Sources/BetterWisprCore/Transcription/StyleFormatter.swift
+          (not one of BetterWispr's VoiceInk-derived files)
+  Copyright 2026 Kartik Labhshetwar
+  Licence: Apache-2.0 (LICENSES/Apache-2.0-BetterWispr.txt); BetterWispr
+  ships no NOTICE file.
+  Modified by Wispr Bro contributors, 2026-10-31 (Swift to Rust; the
+  greeting join is not ported, so no line break is removed; dictionary
+  words keep their case; the English gate is ours).
+
+- src-tauri/src/fork/context/app_rules.rs (S-19a rule precedence and
+  site patterns)
+  Source: BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  File:   Sources/BetterWisprCore/Domain/WritingMode.swift
+          (website(_:matches:), address, [WritingMode].match); adapted
+          there from VoiceInk, https://github.com/Beingpax/VoiceInk at
+          c09cc1f677f40f2ee665843a61f07670210f012e
+  Licence: GPL-3.0 (LICENSE)
+  Modified by Wispr Bro contributors, 2026-10-31 (Swift to Rust; one app
+  or site per rule with its style group; no modes or trigger words; the
+  built-in app table is the last tier).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

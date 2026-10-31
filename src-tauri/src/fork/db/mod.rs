@@ -88,6 +88,8 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::n
         M::up(include_str!("migrations/0006_snippets.sql")),
         // S-07b: the speech models the fork manages, measured speed.
         M::up(include_str!("migrations/0007_models.sql")),
+        // S-19a: the Style page's app rules (the empty v1 table rebuilt).
+        M::up(include_str!("migrations/0008_app_rules.sql")),
     ]
 });
 

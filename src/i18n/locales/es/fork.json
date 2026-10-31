@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Oculto, porque estaba destinado para un campo de contraseña"
     },
-    "undo": "Deshacer"
+    "undo": "Deshacer",
+    "sendsAutomatically": "Envía automáticamente"
   },
   "cleanup": {
     "title": "Limpiar",
@@ -1314,5 +1315,92 @@
       "intel": "Procesador Intel"
     },
     "list": "Todos los modelos"
+  },
+  "style": {
+    "tabsLabel": "Grupos de estilo",
+    "groups": {
+      "personal": {
+        "tab": "Mensajes personales",
+        "label": "Mensajes personales",
+        "description": "Chats con amigos y familia, como Mensajes, WhatsApp, Telegram, Signal y Discord."
+      },
+      "work": {
+        "tab": "Mensajes de trabajo",
+        "label": "Mensajes de trabajo",
+        "description": "Chats con colegas, como Slack, Microsoft Teams y Google Chat."
+      },
+      "email": {
+        "tab": "Correo",
+        "label": "Correo electrónico",
+        "description": "Aplicaciones de correo electrónico, como Mail, Outlook, Spark y Superhuman."
+      },
+      "other": {
+        "tab": "Otro",
+        "label": "Otros",
+        "description": "Cada aplicación alternativa: notas, documentos, editores de código y más."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formal",
+        "description": "Mayúsculas y puntuación completa."
+      },
+      "relaxed": {
+        "label": "Relajado",
+        "description": "Mayúsculas, puntuación más suave."
+      },
+      "very_relaxed": {
+        "label": "Muy relajado",
+        "description": "Maysúsculas al inicio de las oraciones, puntuación más ligera."
+      },
+      "upbeat": {
+        "label": "Enérgico",
+        "description": "Puntuación completa, con un poco más de energía."
+      }
+    },
+    "presetsHeading": "Estilo",
+    "presetsLegend": "Estilo para {{group}}",
+    "before": "Lo que dices",
+    "after": "¿Qué se escribe:",
+    "englishOnly": "Los estilos se aplican a las dictaciones en inglés. La limpieza funciona en todos los idiomas.",
+    "apps": {
+      "heading": "Usado en estas apps",
+      "listLabel": "Aplicaciones que usan el estilo {{group}}",
+      "addShort": "Agregar app",
+      "allOthers": "Cada aplicación que no esté en otro grupo utiliza este estilo también.",
+      "empty": "Aún no hay aplicaciones aquí. Añáde una con Añadir aplicación.",
+      "unavailable": "Las aplicaciones no se pudieron cargar. Aparecerán cuando la aplicación esté lista.",
+      "chipLabel": "{{app}}: opciones",
+      "menuLabel": "Opciones para {{app}}",
+      "moveTo": "Mover a",
+      "useDefault": "Volver a su grupo habitual ({{group}})",
+      "remove": "Eliminar de {{group}}",
+      "autoSend": "Presiona Enter después de dictar",
+      "autoSendOn": "presiona Enter después de dictar",
+      "notInstalled": "no instalado",
+      "aiChat": "Una conversación con IA: tus palabras entran limpias, sin estilo.",
+      "moved": "Ahora {{app}} utiliza el estilo {{group}}.",
+      "removed": "Ahora {{app}} utiliza el estilo Otro.",
+      "added": "Ahora {{app}} utiliza el estilo {{group}}.",
+      "undo": "Deshacer",
+      "changeFailed": "Esa modificación no se guardó. Por favor, inténtalo de nuevo."
+    },
+    "picker": {
+      "title": "Añadir una app a {{group}}",
+      "description": "Elige una app en este Mac. Sus dictados usarán el estilo {{group}}.",
+      "search": "Buscar aplicaciones",
+      "listLabel": "Apps en este Mac",
+      "loading": "Buscando aplicaciones…",
+      "failed": "Las aplicaciones de este Mac no se pudieron listar.",
+      "none": "Ninguna aplicación coincide.",
+      "inGroup": "En {{group}}",
+      "alreadyHere": "Ya aquí",
+      "cancel": "Cancelar",
+      "close": "Cerrar"
+    },
+    "cleanup": {
+      "tab": "Limpiar",
+      "description": "Cuánto se limpia tu texto en cada aplicación y cada idioma. El estilo de cada grupo se aplica encima."
+    }
   }
 }

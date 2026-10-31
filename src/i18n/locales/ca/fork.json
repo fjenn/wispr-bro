@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Ocult, perquè era destinat a un camp de contrasenya"
     },
-    "undo": "Desfés"
+    "undo": "Desfés",
+    "sendsAutomatically": "Envia automàticament"
   },
   "cleanup": {
     "title": "Neteja",
@@ -1314,5 +1315,92 @@
       "intel": "Intel processor"
     },
     "list": "Tots els models"
+  },
+  "style": {
+    "tabsLabel": "Grups de estil",
+    "groups": {
+      "personal": {
+        "tab": "Missatges personals",
+        "label": "Missatges personals",
+        "description": "Converses amb amics i familiars, com Messages, WhatsApp, Telegram, Signal i Discord."
+      },
+      "work": {
+        "tab": "Missatges de treball",
+        "label": "Missatges de treball",
+        "description": "Converses amb col·laboradors, com Slack, Microsoft Teams i Google Chat."
+      },
+      "email": {
+        "tab": "Correu",
+        "label": "Correu",
+        "description": "Aplicacions d'email, com Mail, Outlook, Spark i Superhuman."
+      },
+      "other": {
+        "tab": "Altres",
+        "label": "Altres",
+        "description": "Cada aplicació alternativa: notes, documents, editors de codi i més."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formal",
+        "description": "Lletres majúscules i puntuació completa."
+      },
+      "relaxed": {
+        "label": "Relaxat",
+        "description": "Lletres majúscules, puntuació més lleugera."
+      },
+      "very_relaxed": {
+        "label": "Molt relajat",
+        "description": "Més baix en majúscula al principi de les frases, puntuació més lleugera."
+      },
+      "upbeat": {
+        "label": "Amb un to positiu",
+        "description": "Puntuació completa, amb una mica més d'energia."
+      }
+    },
+    "presetsHeading": "Estil",
+    "presetsLegend": "Estil per {{group}}",
+    "before": "El que dius",
+    "after": "El que es escriu:",
+    "englishOnly": "Els estils es fan servir per a dictacions en anglès. La neteja funciona en totes les llengües.",
+    "apps": {
+      "heading": "Utilitzat en aquestes aplicacions",
+      "listLabel": "Apps que utilitzen el estil {{group}}",
+      "addShort": "Afegir app",
+      "allOthers": "Cada aplicació que no estigui a un altre grup utilitza aquest estil també.",
+      "empty": "No hi ha aplicacions aquí encara. Afegiu una amb Afegir aplicació.",
+      "unavailable": "Els aps no es poden carregar. Es mostraran quan l'aplicació estigui preparada.",
+      "chipLabel": "{{app}}: opcions",
+      "menuLabel": "Opcions per {{app}}",
+      "moveTo": "Moure a",
+      "useDefault": "Tornar a seu grup habitual ({{group}})",
+      "remove": "Eliminar de {{group}}",
+      "autoSend": "Prem Enter després d'indicar",
+      "autoSendOn": "preme Enter després d'escriturar",
+      "notInstalled": "no instal·lat",
+      "aiChat": "Un chat d'IA: les teves paraules entren netes, sense estil.",
+      "moved": "{{app}} ara utilitza el estil {{group}}.",
+      "removed": "{{app}} ara utilitza el estil Altres.",
+      "added": "Ahora {{app}} utilitza el estil {{group}}.",
+      "undo": "Desfer",
+      "changeFailed": "Aquest canvi no ha estat desat. Si us plau, torni a intentar-ho."
+    },
+    "picker": {
+      "title": "Afegir una app a {{group}}",
+      "description": "Selecciona una app d'aquest Mac. Les seves dictacions faran servir el estil {{group}}.",
+      "search": "Cercar aplicacions",
+      "listLabel": "Apps d'aquest Mac",
+      "loading": "Cercant aplicacions...",
+      "failed": "Les aplicacions d'aquest Mac no es poden listar.",
+      "none": "No hi ha cap aplicació que coincideixi.",
+      "inGroup": "Dins {{group}}",
+      "alreadyHere": "Ja aquí",
+      "cancel": "Cancel·lar",
+      "close": "Tancar"
+    },
+    "cleanup": {
+      "tab": "Neteja",
+      "description": "La quantitat amb què les teves paraules es netegen, a cada aplicació i cada llengua. Els estils de cada grup es fan aplicar sobre un altre."
+    }
   }
 }

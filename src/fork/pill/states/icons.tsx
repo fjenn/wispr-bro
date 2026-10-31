@@ -37,6 +37,15 @@ export function MicIcon() {
   );
 }
 
+/** Return key (S-19a "Sends automatically"). */
+export function ReturnIcon() {
+  return (
+    <svg {...common} strokeWidth={1.6}>
+      <path d="M12.5 3.5v4.75a1.75 1.75 0 01-1.75 1.75H3.75M6.5 7l-2.75 3 2.75 3" />
+    </svg>
+  );
+}
+
 export function AlertIcon() {
   return (
     <svg {...common} strokeWidth={1.6}>

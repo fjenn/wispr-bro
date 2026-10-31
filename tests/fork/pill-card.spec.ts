@@ -55,6 +55,7 @@ function cardState(
     card_reason: reason,
     more: 0,
     copied: false,
+    sends_automatically: false,
     ...partial,
   };
 }

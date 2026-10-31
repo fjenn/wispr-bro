@@ -272,6 +272,9 @@ pub enum Input {
     Voice,
     /// The microphone's name for the label.
     MicName(String),
+    /// The app in front has "Press Enter after dictating" on (S-19a): the
+    /// label says "Sends automatically" instead of the microphone.
+    SendsAutomatically(bool),
     /// The user dismissed a message (✕) or acted on it (Fix).
     Dismiss,
     Prefs(Prefs),
@@ -339,6 +342,8 @@ pub struct ActiveView {
     pub more: u32,
     /// "Copied" shows on the card.
     pub copied: bool,
+    /// Held/hands-free: the label says "Sends automatically" (S-19a).
+    pub sends_automatically: bool,
 }
 
 /// Everything on screen.
@@ -368,6 +373,8 @@ pub struct Model {
     /// End of the microphone label (set at the take start).
     label_until: Option<Ms>,
     mic: Option<String>,
+    /// S-19a: this take will press Return after its paste.
+    sends: bool,
     message: Option<(PillMessage, Ms)>,
     warning: Option<(PillWarning, Option<Ms>)>,
     /// Handy hid its overlay; back to rest at this time ([`HIDE_GRACE_MS`]).
@@ -423,6 +430,7 @@ impl Model {
         self.set(if locked { Phase::Locked } else { Phase::Held });
         self.label_until = Some(now + MIC_LABEL_MS);
         self.mic = None;
+        self.sends = false;
         self.message = None;
         self.warning = None;
         // The card's text is in History.
@@ -434,6 +442,7 @@ impl Model {
     fn go_idle(&mut self) {
         self.set(Phase::Idle);
         self.label_until = None;
+        self.sends = false;
         self.message = None;
         self.warning = None;
         self.card = None;
@@ -580,6 +589,11 @@ impl Model {
                     self.mic = (!name.is_empty()).then(|| name.to_string());
                 }
             }
+            Input::SendsAutomatically(on) => {
+                if self.recording() {
+                    self.sends = on;
+                }
+            }
             Input::Dismiss => {
                 if matches!(
                     self.phase(),
@@ -685,13 +699,15 @@ impl Model {
     /// What is on screen at `now` (call [`Model::expire`] first, or use
     /// [`Model::view_at`]).
     pub fn view(&self) -> View {
-        let label = self.label_until.is_some() && self.mic.is_some();
+        // S-19a: "Sends automatically" takes the microphone name's place.
+        let label = self.label_until.is_some() && (self.mic.is_some() || self.sends);
         let warning = self.warning.map(|(w, _)| w);
         let active = match self.phase() {
             Phase::Idle => None,
             Phase::Held | Phase::Locked => {
                 let locked = self.phase() == Phase::Locked;
                 let wide = label || warning.is_some();
+                let sends = label && self.sends && warning.is_none();
                 Some(ActiveView {
                     phase: if locked {
                         PillPhase::Locked
@@ -705,7 +721,7 @@ impl Model {
                         (true, true) => Shape::LockedLabel,
                     },
                     // A warning takes the label's place.
-                    mic: if label && warning.is_none() {
+                    mic: if label && warning.is_none() && !sends {
                         self.mic.clone()
                     } else {
                         None
@@ -717,6 +733,7 @@ impl Model {
                     card_reason: None,
                     more: 0,
                     copied: false,
+                    sends_automatically: sends,
                 })
             }
             Phase::Transcribing | Phase::CleaningUp => Some(ActiveView {
@@ -734,6 +751,7 @@ impl Model {
                 card_reason: None,
                 more: 0,
                 copied: false,
+                sends_automatically: false,
             }),
             Phase::Message => self.message.map(|(kind, _)| ActiveView {
                 phase: PillPhase::Message,
@@ -746,6 +764,7 @@ impl Model {
                 card_reason: None,
                 more: 0,
                 copied: false,
+                sends_automatically: false,
             }),
             Phase::SettingUp => Some(ActiveView {
                 phase: PillPhase::SettingUp,
@@ -758,6 +777,7 @@ impl Model {
                 card_reason: None,
                 more: 0,
                 copied: false,
+                sends_automatically: false,
             }),
             Phase::Card => self.card.as_ref().map(|card| ActiveView {
                 phase: PillPhase::Card,
@@ -770,6 +790,7 @@ impl Model {
                 card_reason: card.reason,
                 more: self.more,
                 copied: self.copied_until.is_some(),
+                sends_automatically: false,
             }),
         };
         let p = self.prefs;
@@ -1009,6 +1030,35 @@ mod tests {
         assert_eq!(shape(&mut m, 1), Some(Shape::Held));
         m.step(2, Input::MicName("   ".into()));
         assert_eq!(shape(&mut m, 2), Some(Shape::Held));
+    }
+
+    /// S-19a: "Sends automatically" takes the microphone label's place for
+    /// the label's time, never outranks a warning, and ends with the take.
+    #[test]
+    fn sends_automatically_replaces_the_mic_label() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::SendsAutomatically(true));
+        m.step(1, Input::TakeStarted { locked: false });
+        assert!(!m.view_at(1).active.unwrap().sends_automatically);
+        m.step(2, Input::SendsAutomatically(true));
+        m.step(3, Input::MicName("USB Mic".into()));
+        let v = m.view_at(3).active.unwrap();
+        assert!(v.sends_automatically);
+        assert_eq!((v.mic, v.shape), (None, Shape::HeldLabel));
+        let v = m.view_at(1 + MIC_LABEL_MS).active.unwrap();
+        assert!(!v.sends_automatically);
+        assert_eq!(v.shape, Shape::Held);
+        // A new take starts without it.
+        m.step(2_000, Input::Cancelled);
+        m.step(2_001, Input::TakeStarted { locked: true });
+        m.step(2_002, Input::MicName("USB Mic".into()));
+        let v = m.view_at(2_002).active.unwrap();
+        assert!(!v.sends_automatically);
+        assert_eq!(v.mic.as_deref(), Some("USB Mic"));
+        // A warning wins.
+        m.step(2_003, Input::SendsAutomatically(true));
+        m.step(2_004, Input::Warning(PillWarning::MicLost));
+        assert!(!m.view_at(2_004).active.unwrap().sends_automatically);
     }
 
     #[test]

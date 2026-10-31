@@ -888,7 +888,8 @@
     "card": {
       "hidden": "Verborgen, omdat het was bedoeld voor een wachtwoordveld"
     },
-    "undo": "Ongedaan maken"
+    "undo": "Ongedaan maken",
+    "sendsAutomatically": "Verstuurt automatisch"
   },
   "cleanup": {
     "title": "Opschonen",
@@ -1318,5 +1319,92 @@
       "intel": "Intel processor"
     },
     "list": "Alle modellen"
+  },
+  "style": {
+    "tabsLabel": "Stijlgroepen",
+    "groups": {
+      "personal": {
+        "tab": "Persoonlijke berichten",
+        "label": "Persoonlijke berichten",
+        "description": "Chatten met vrienden en familie, zoals Berichten, WhatsApp, Telegram, Signal en Discord."
+      },
+      "work": {
+        "tab": "Werkberichten",
+        "label": "Werkberichten",
+        "description": "Chats met collega's, zoals Slack, Microsoft Teams en Google Chat."
+      },
+      "email": {
+        "tab": "E-mail",
+        "label": "E-mail",
+        "description": "E-mailapps, zoals Mail, Outlook, Spark en Superhuman."
+      },
+      "other": {
+        "tab": "Anders",
+        "label": "Anders",
+        "description": "Elke andere app: notities, documenten, codeeditoren en meer."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formeel",
+        "description": "Hoofdletters en volledige interpunctie."
+      },
+      "relaxed": {
+        "label": "Ontspannen",
+        "description": "Hoofdletters, minder interpunctie."
+      },
+      "very_relaxed": {
+        "label": "Heel ontspannen",
+        "description": "Kleine letter aan het begin van een zin, minder interpunctie."
+      },
+      "upbeat": {
+        "label": "Enthousiast",
+        "description": "Volledige interpunctie, met wat meer energie."
+      }
+    },
+    "presetsHeading": "Stijl",
+    "presetsLegend": "Stijl voor {{group}}",
+    "before": "Wat je zegt",
+    "after": "Wat er wordt geschreven:",
+    "englishOnly": "Stijlen gelden voor dictaten in het Engels. Opschonen werkt in elke taal.",
+    "apps": {
+      "heading": "Gebruikt in deze apps",
+      "listLabel": "Apps met de stijl {{group}}",
+      "addShort": "App toevoegen",
+      "allOthers": "Elke app die niet in een andere groep staat, gebruikt deze stijl ook.",
+      "empty": "Hier staan nog geen apps. Voeg er een toe met App toevoegen.",
+      "unavailable": "De apps konden niet worden geladen. Ze verschijnen wanneer de app klaar is.",
+      "chipLabel": "{{app}}: opties",
+      "menuLabel": "Opties voor {{app}}",
+      "moveTo": "Verplaats naar",
+      "useDefault": "Terug naar de gewone groep ({{group}})",
+      "remove": "Verwijderen uit {{group}}",
+      "autoSend": "Op Enter drukken na het dicteren",
+      "autoSendOn": "drukt op Enter na het dicteren",
+      "notInstalled": "niet geïnstalleerd",
+      "aiChat": "Een AI-chat: je woorden komen er opgeschoond in, zonder stijl.",
+      "moved": "{{app}} gebruikt nu de stijl {{group}}.",
+      "removed": "{{app}} gebruikt nu de stijl Anders.",
+      "added": "{{app}} gebruikt nu de stijl {{group}}.",
+      "undo": "Ongedaan maken",
+      "changeFailed": "Die wijziging is niet opgeslagen. Probeer het opnieuw."
+    },
+    "picker": {
+      "title": "Een app toevoegen aan {{group}}",
+      "description": "Kies een app op deze Mac. Dictaten in die app gebruiken de stijl {{group}}.",
+      "search": "Apps zoeken",
+      "listLabel": "Apps op deze Mac",
+      "loading": "Apps zoeken…",
+      "failed": "De apps op deze Mac konden niet worden opgesomd.",
+      "none": "Geen app gevonden.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Al hier",
+      "cancel": "Annuleren",
+      "close": "Sluiten"
+    },
+    "cleanup": {
+      "tab": "Opschonen",
+      "description": "Hoeveel je woorden worden opgeschoond, in elke app en elke taal. De stijl van elke groep komt daar bovenop."
+    }
   }
 }

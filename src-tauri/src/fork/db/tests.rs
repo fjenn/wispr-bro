@@ -70,7 +70,7 @@ fn fresh_create_has_every_m1_table_and_the_pragmas() {
 
     db.with_conn(|conn| {
         assert_eq!(user_version(conn)?, latest_version());
-        assert_eq!(latest_version(), 7);
+        assert_eq!(latest_version(), 8);
         for table in M1_TABLES {
             assert!(table_exists(conn, table), "missing table {table}");
         }

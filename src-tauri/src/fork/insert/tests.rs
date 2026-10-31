@@ -555,6 +555,34 @@ fn auto_submit_only_after_the_text_arrived() {
     assert_eq!(f.returns.get(), 0);
 }
 
+/// S-19a "Press Enter after dictating" (RV-48): Return only after a
+/// `confirmed` paste; an `unverified` one (the app read the text but its
+/// field cannot be checked) gets none.
+#[test]
+fn strict_auto_send_needs_a_confirmed_paste() {
+    let guard = Mutex::new(Line::new());
+    let mut req = native("send me");
+    req.submit = Some(0);
+    req.submit_strict = true;
+    let f = Fake::new(user_items(), ELECTRON_NO_AX);
+    let (r, s) = one_take(&f, &guard, &req);
+    assert_eq!(
+        r.delivery,
+        Delivery::Pasted {
+            outcome: PasteOutcome::Unverified
+        }
+    );
+    // The app did read the text, later.
+    assert_eq!(s.reads_ms, vec![15.0]);
+    assert!(!r.submitted);
+    assert_eq!(f.returns.get(), 0);
+    // Confirmed: Return.
+    let f = Fake::new(user_items(), NATIVE);
+    let (r, _) = one_take(&f, &guard, &req);
+    assert!(r.submitted);
+    assert_eq!(f.returns.get(), 1);
+}
+
 #[test]
 fn copy_to_clipboard_setting_leaves_plain_text() {
     let f = Fake::new(user_items(), NATIVE);

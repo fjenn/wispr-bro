@@ -93,7 +93,13 @@ pub struct TakeContext {
 impl TakeContext {
     pub fn new(started_at_ms: i64, day: String, app: Option<FrontApp>) -> Self {
         let class = match &app {
-            Some(a) => categories::classify(a.bundle_id.as_deref(), a.name.as_deref()),
+            Some(a) => {
+                let mut class = categories::classify(a.bundle_id.as_deref(), a.name.as_deref());
+                // S-19a: the group the user arranged on the Style page.
+                class.style_group =
+                    super::app_rules::for_app(a.bundle_id.as_deref(), a.name.as_deref()).group;
+                class
+            }
             None => AppClass::OTHER,
         };
         Self {

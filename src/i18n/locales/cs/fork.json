@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Skryto, protože bylo určeno pro pole hesla"
     },
-    "undo": "Zpět"
+    "undo": "Zpět",
+    "sendsAutomatically": "Odesílá se automaticky"
   },
   "cleanup": {
     "title": "Omyvání",
@@ -1314,5 +1315,92 @@
       "intel": "Procesor Intel"
     },
     "list": "Všechny modely"
+  },
+  "style": {
+    "tabsLabel": "Skupiny stylů",
+    "groups": {
+      "personal": {
+        "tab": "Vlastní zprávy",
+        "label": "Osobní zprávy",
+        "description": "Chaty s přáteli a rodinou, jako jsou Zprávy, WhatsApp, Telegram, Signal a Discord."
+      },
+      "work": {
+        "tab": "Zprávy z práce",
+        "label": "Zprávy z práce",
+        "description": "Diskuze s kolegy, jako jsou Slack, Microsoft Teams a Google Chat."
+      },
+      "email": {
+        "tab": "E-mail",
+        "label": "E-mail",
+        "description": "Aplikace pro e-mail, jako je Mail, Outlook, Spark a Superhuman."
+      },
+      "other": {
+        "tab": "Ostatní",
+        "label": "Ostatní",
+        "description": "Každá jiná aplikace: poznámky, dokumenty, editory kódu a více."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formální",
+        "description": "Velká písmena a plné interpunkce."
+      },
+      "relaxed": {
+        "label": "Relaxované",
+        "description": "Velká písmena, světlejší interpunkce."
+      },
+      "very_relaxed": {
+        "label": "Mnoho volnější",
+        "description": "Malé písmo na začátku vět, lehčí interpunkce."
+      },
+      "upbeat": {
+        "label": "Výrazné",
+        "description": "Plná interpunkce, s trochu více energie."
+      }
+    },
+    "presetsHeading": "Styl",
+    "presetsLegend": "Styl pro {{group}}",
+    "before": "Co říkáš",
+    "after": "Co se psát:",
+    "englishOnly": "Stylizace platí pro dictace v angličtině. Očistění funguje v každé jazyce.",
+    "apps": {
+      "heading": "Použito v těchto aplikacích",
+      "listLabel": "Aplikace, které používají styl {{group}}",
+      "addShort": "Přidat aplikaci",
+      "allOthers": "Každá aplikace, která není v jiné skupině, používá tento styl také.",
+      "empty": "Zde je ještě žádné aplikace. Přidej jednu pomocí Přidat aplikaci.",
+      "unavailable": "Aplikace se nepodařilo načíst. Zobrazí se, až bude aplikace připravena.",
+      "chipLabel": "{{app}}: možnosti",
+      "menuLabel": "Možnosti pro {{app}}",
+      "moveTo": "Přesunout na",
+      "useDefault": "Zpět k výchozímu skupině ({{group}})",
+      "remove": "Odstranit z {{group}}",
+      "autoSend": "Stiskněte klávesu Enter po předání",
+      "autoSendOn": "stiskne Enter po dictaci",
+      "notInstalled": "neinstalováno",
+      "aiChat": "AI chat: Vaše slova se dostanou do čistého, bez stylu.",
+      "moved": "Nyní používá {{app}} styl {{group}}.",
+      "removed": "Nyní používá {{app}} jiný styl.",
+      "added": "Nyní používá {{app}} styl {{group}}.",
+      "undo": "Zpět",
+      "changeFailed": "Změna nebyla uložena. Zkuste to prosím znovu."
+    },
+    "picker": {
+      "title": "Přidej aplikaci do {{group}}",
+      "description": "Vyberte aplikaci na tomto Macu. Její dictace budou používat styl {{group}}.",
+      "search": "Hledat aplikace",
+      "listLabel": "Aplikace na tomto Macu",
+      "loading": "Hledám aplikace…",
+      "failed": "Aplikace na tomto Macu nemohou být vypsány.",
+      "none": "Žádná aplikace neodpovídá.",
+      "inGroup": "V {{group}}",
+      "alreadyHere": "Už je sem",
+      "cancel": "Storno",
+      "close": "Zavřít"
+    },
+    "cleanup": {
+      "tab": "Očistit",
+      "description": "O kolik jsou vaše slova zjednodušena v každém aplikaci a každém jazyce. Styl každé skupiny je aplikován na vrcholu."
+    }
   }
 }

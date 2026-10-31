@@ -26,7 +26,7 @@
 
 use serde_json::{json, Value};
 
-use crate::fork::settings::CleanupLevel;
+use crate::fork::settings::{CleanupLevel, StylePreset};
 
 /// The body of a prompt file: everything after the first `---` line.
 fn body(file: &'static str) -> &'static str {
@@ -58,6 +58,22 @@ fn language_fragment() -> &'static str {
     body(include_str!("prompts/language.txt"))
 }
 
+/// The style fragment for a preset (S-19a), if it has one. None has: every
+/// preset's rules are deterministic (stage 10, `fork::text::style_rules`),
+/// so the cleanup prompt stays exactly what RS-07 measured. An Upbeat
+/// fragment asking for exclamation marks was measured on the S-12a eval
+/// (shipped path, Light, owner languages): it added guard fallbacks and
+/// the Light "language kept" gate fell to 98.3 % (57/59 strict), so it is
+/// not shipped (`docs/fork/test-runs/1.0.0-alpha.1-M-26-S-19a.md`).
+pub fn style_fragment(style: Option<StylePreset>) -> Option<&'static str> {
+    match style? {
+        StylePreset::Formal
+        | StylePreset::Relaxed
+        | StylePreset::VeryRelaxed
+        | StylePreset::Upbeat => None,
+    }
+}
+
 /// Our line appended for the JSON reply (RS-07 `JSON_SUFFIX`).
 pub const JSON_SUFFIX: &str = "\n\nReply only with JSON: {\"text\": \"<the cleaned text>\"}.";
 
@@ -72,6 +88,9 @@ pub struct Spec<'a> {
     pub language: Option<&'a str>,
     /// The user's dictionary terms (spellings to keep).
     pub terms: &'a [String],
+    /// The take's style preset (S-19a): set only for English takes outside
+    /// AI chats.
+    pub style: Option<StylePreset>,
 }
 
 /// English name of a language for the prompt ("Dutch (nl)"), or the code.
@@ -174,6 +193,12 @@ pub fn system(spec: &Spec<'_>) -> String {
                 .replace("{{fillers}}", &filler_list(lang)),
         );
     }
+    // Last before the reply format: the style only changes punctuation of
+    // a text the rules above already cleaned.
+    if let Some(fragment) = style_fragment(spec.style) {
+        s.push_str("\n\n");
+        s.push_str(fragment);
+    }
     s.push_str(JSON_SUFFIX);
     s
 }
@@ -263,6 +288,7 @@ mod tests {
             level: CleanupLevel::Light,
             language: Some("nl"),
             terms: &terms,
+            style: None,
         });
         let tail = light.strip_prefix(*OPENWHISPR_CLEANUP).unwrap();
         assert_eq!(
@@ -278,6 +304,7 @@ mod tests {
             level: CleanupLevel::Light,
             language: Some("en-GB"),
             terms: &[],
+            style: None,
         });
         assert_eq!(en, cleanup_system());
         let medium = system(&Spec {
@@ -288,6 +315,50 @@ mod tests {
         assert!(tail.starts_with("\n\nLEVEL MEDIUM: besides the cleanup above"));
         assert!(tail.ends_with(JSON_SUFFIX));
         assert!(!tail.contains("VOCABULARY") && !tail.contains("LANGUAGE:"));
+    }
+
+    /// S-19a: level + style composition. Every preset leaves the prompt
+    /// exactly as the level (terms, language) makes it: the presets'
+    /// rules are deterministic (stage 10), so RS-07's prompt holds for
+    /// every style (an Upbeat fragment was measured and not shipped).
+    #[test]
+    fn level_and_style_snapshot() {
+        let terms = vec!["Wispr Bro".to_string()];
+        for level in [CleanupLevel::Light, CleanupLevel::Medium] {
+            for language in [None, Some("en"), Some("nl")] {
+                let base = system(&Spec {
+                    level,
+                    language,
+                    terms: &terms,
+                    style: None,
+                });
+                for style in [
+                    StylePreset::Formal,
+                    StylePreset::Relaxed,
+                    StylePreset::VeryRelaxed,
+                    StylePreset::Upbeat,
+                ] {
+                    assert_eq!(
+                        system(&Spec {
+                            level,
+                            language,
+                            terms: &terms,
+                            style: Some(style),
+                        }),
+                        base,
+                        "{level:?} {language:?} {style:?}"
+                    );
+                    assert_eq!(style_fragment(Some(style)), None);
+                }
+            }
+        }
+        assert_eq!(
+            system(&Spec {
+                style: Some(StylePreset::Upbeat),
+                ..Spec::default()
+            }),
+            cleanup_system()
+        );
     }
 
     #[test]

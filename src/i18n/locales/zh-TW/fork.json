@@ -884,7 +884,8 @@
     "card": {
       "hidden": "隱藏，因為原本是用來填寫密碼欄位"
     },
-    "undo": "復原"
+    "undo": "復原",
+    "sendsAutomatically": "自動發送"
   },
   "cleanup": {
     "title": "清理",
@@ -1314,5 +1315,92 @@
       "intel": "Intel processor"
     },
     "list": "所有模型"
+  },
+  "style": {
+    "tabsLabel": "風格組",
+    "groups": {
+      "personal": {
+        "tab": "個人訊息",
+        "label": "個人訊息",
+        "description": "與朋友和家人之間的對話，例如訊息、WhatsApp、Telegram、Signal 和 Discord。"
+      },
+      "work": {
+        "tab": "工作訊息",
+        "label": "工作訊息",
+        "description": "與同事的對話，例如 Slack、Microsoft Teams 和 Google Chat。"
+      },
+      "email": {
+        "tab": "電子郵件",
+        "label": "電子郵件",
+        "description": "電子郵件應用程式，例如 Mail、Outlook、Spark 與 Superhuman。"
+      },
+      "other": {
+        "tab": "其他",
+        "label": "其他",
+        "description": "每一個其他應用程式：筆記、文件、程式碼編輯器等等。"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "正式",
+        "description": "大寫字母與完整標點符號。"
+      },
+      "relaxed": {
+        "label": "放鬆",
+        "description": "大寫字母，較輕的標點符號。"
+      },
+      "very_relaxed": {
+        "label": "非常放鬆",
+        "description": "首字小寫，標點較輕。"
+      },
+      "upbeat": {
+        "label": "輕快",
+        "description": "完整標點符號，帶點更多活力。"
+      }
+    },
+    "presetsHeading": "風格",
+    "presetsLegend": "風格為 {{group}}",
+    "before": "你說的",
+    "after": "什麼會被寫下來：",
+    "englishOnly": "「樣式」適用於英文語音輸入。清理功能支援所有語言。",
+    "apps": {
+      "heading": "用於這些應用程式",
+      "listLabel": "使用 {{group}} 風格的應用程式",
+      "addShort": "新增應用",
+      "allOthers": "每一個未列入其他分組的應用程式也都使用這個樣式。",
+      "empty": "還沒有應用程式。請使用「新增應用程式」加入。",
+      "unavailable": "這些應用程式無法載入。當應用程式準備好時會出現。",
+      "chipLabel": "{{app}}：選項",
+      "menuLabel": "{{app}} 的設定",
+      "moveTo": "移至",
+      "useDefault": "回到其原本的群組（{{group}}）",
+      "remove": "從 {{group}} 移除",
+      "autoSend": "按下 Enter 之後",
+      "autoSendOn": "按下 Enter 之後",
+      "notInstalled": "未安裝",
+      "aiChat": "一個AI對話：你的文字會被清理，不會帶有任何風格。",
+      "moved": "現在 {{app}} 使用 {{group}} 的樣式。",
+      "removed": "現在 {{app}} 使用其他樣式。",
+      "added": "現在 {{app}} 使用 {{group}} 的樣式。",
+      "undo": "撤銷",
+      "changeFailed": "該變更未儲存。請再試一次。"
+    },
+    "picker": {
+      "title": "將一個應用程式加入 {{group}}",
+      "description": "選擇這台 Mac 上的應用程式。其語音輸入將使用 {{group}} 風格。",
+      "search": "搜尋應用程式",
+      "listLabel": "此 Mac 上的應用程式",
+      "loading": "正在尋找應用程式…",
+      "failed": "此 Mac 上的應用程式無法列出。",
+      "none": "沒有應用程式相符。",
+      "inGroup": "在 {{group}}",
+      "alreadyHere": "已經在這裡了",
+      "cancel": "取消",
+      "close": "關閉"
+    },
+    "cleanup": {
+      "tab": "清理",
+      "description": "你的文字在每一個應用程式和每一種語言中被整理的程度。每個組的樣式會疊加應用。"
+    }
   }
 }

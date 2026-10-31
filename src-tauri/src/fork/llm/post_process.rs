@@ -44,7 +44,8 @@ use super::guards::{self, Verdict};
 use super::markers::{self, TABLES};
 use super::supervisor::{RequestError, StartError, Supervisor};
 use super::{deadline, prompt};
-use crate::fork::settings::CleanupLevel;
+use crate::fork::context::categories::StyleGroup;
+use crate::fork::settings::{CleanupLevel, StylePreset, StyleSettings};
 
 /// Longest chunk sent in one request, in words (≈ 1-2 s on an M1).
 pub const CHUNK_WORDS: usize = 120;
@@ -285,6 +286,11 @@ pub struct Request<'a> {
     /// not here: stage 9 puts them back after the LLM instead of failing
     /// the whole cleanup.
     pub keep: &'a [String],
+    /// The take's style preset (S-19a; English takes outside AI chats):
+    /// no preset changes the prompt today (`prompt::style_fragment`). The
+    /// deterministic rules (stage 10)
+    /// run after [`clean`], in [`run`].
+    pub style: Option<StylePreset>,
 }
 
 impl Request<'_> {
@@ -666,6 +672,7 @@ pub fn system_prompt(req: &Request<'_>) -> String {
         level: req.level,
         language: req.prompt_language(),
         terms: req.terms,
+        style: req.style,
     })
 }
 
@@ -1062,12 +1069,64 @@ pub struct Plan {
     pub terms: Vec<String>,
     /// Decided before any LLM call.
     pub skip: Option<CleanupWhy>,
+    /// The style of this take (S-19a), see [`StyleDecision`].
+    pub style: StyleDecision,
+}
+
+/// Which style a take gets (S-19a), decided with the plan.
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct StyleDecision {
+    /// The target app's group.
+    pub group: Option<StyleGroup>,
+    /// The preset applied: `None` for a job, an AI chat or a take that is
+    /// not English (Wispr: styles apply in English only).
+    pub preset: Option<StylePreset>,
+    /// The target app's bundle id when "Press Enter after dictating" is on
+    /// for it (armed after the cleanup unless it fell back).
+    pub auto_send: Option<String>,
+}
+
+/// The preset of a group.
+pub fn preset_for(styles: &StyleSettings, group: StyleGroup) -> StylePreset {
+    match group {
+        StyleGroup::Personal => styles.personal,
+        StyleGroup::Work => styles.work,
+        StyleGroup::Email => styles.email,
+        StyleGroup::Other => styles.other,
+    }
+}
+
+/// The style decision for a dictation into `target` (bundle id, name):
+/// its group from the user's rules and the built-in table, the group's
+/// preset when the take is English and the app is not an AI chat, and
+/// auto-send when the app has it on.
+pub fn decide_style(
+    rules: &[crate::fork::context::app_rules::AppRule],
+    target: Option<(Option<&str>, Option<&str>)>,
+    styles: &StyleSettings,
+    english: bool,
+) -> StyleDecision {
+    let Some((bundle_id, name)) = target else {
+        return StyleDecision::default();
+    };
+    let resolved = crate::fork::context::app_rules::resolve(rules, bundle_id, name, None);
+    let ai_chat = crate::fork::context::categories::classify(bundle_id, name).is_ai_chat;
+    StyleDecision {
+        group: Some(resolved.group),
+        preset: (english && !ai_chat).then(|| preset_for(styles, resolved.group)),
+        auto_send: bundle_id.filter(|_| resolved.auto_send).map(str::to_owned),
+    }
+}
+
+/// The fork settings (`None` if they cannot be read).
+fn fork_settings<R: Runtime>(app: &AppHandle<R>) -> Option<crate::fork::settings::ForkSettings> {
+    app.try_state::<crate::fork::settings::ForkSettingsHandle>()
+        .and_then(|h| h.get(app).ok())
 }
 
 /// The cleanup level from the fork settings (Light if they cannot be read).
 fn level<R: Runtime>(app: &AppHandle<R>) -> CleanupLevel {
-    app.try_state::<crate::fork::settings::ForkSettingsHandle>()
-        .and_then(|h| h.get(app).ok())
+    fork_settings(app)
         .map(|s| s.cleanup_level)
         .unwrap_or_default()
 }
@@ -1114,11 +1173,35 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
     {
         return None;
     }
+    let settings = fork_settings(app).unwrap_or_default();
     let level = level_override.unwrap_or_else(|| level(app));
     let language = crate::fork::context::take::ledger().language_for(text);
     let hint = match language {
         Some(_) => None,
         None => hint_language(text, &spoken),
+    };
+    // S-19a: a dictation's style comes from the app it goes to (the
+    // frontmost app now, like the AI-chat skip). Retries and file
+    // transcriptions go to History, not to an app: no style.
+    let style = match source {
+        Source::Dictation => {
+            let front = crate::fork::context::frontmost::frontmost();
+            let english = crate::fork::text::style_rules::is_english(
+                language.as_deref(),
+                hint.as_deref(),
+                text,
+                &spoken,
+            );
+            decide_style(
+                &crate::fork::context::app_rules::current(),
+                front
+                    .as_ref()
+                    .map(|a| (a.bundle_id.as_deref(), a.name.as_deref())),
+                &settings.styles,
+                english,
+            )
+        }
+        Source::Job => StyleDecision::default(),
     };
     let mut plan = Plan {
         engine: CleanupEngine::None,
@@ -1128,6 +1211,7 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
         hint,
         terms,
         skip: None,
+        style,
     };
     if level == CleanupLevel::None || !text.chars().any(char::is_alphanumeric) {
         return Some(plan);
@@ -1207,6 +1291,7 @@ pub fn prewarm_apple<R: Runtime>(app: &AppHandle<R>) {
                 hint: None,
                 terms: &[],
                 keep: &[],
+                style: None,
             })
         });
     super::apple::prewarm(&system);
@@ -1239,6 +1324,38 @@ pub fn restore_spellings(input: &str, output: String) -> String {
     crate::fork::text::after_llm(output)
 }
 
+/// The app a take may press Return in after its paste (RV-48): only when
+/// the app has "Press Enter after dictating" on and the cleanup did not
+/// fall back ("Inserted without cleanup": a guard, a timeout, an error, no
+/// model, low memory). The paste then still sends it only once the text
+/// demonstrably arrived (`deliver::Request::submit_strict`).
+pub fn auto_send_target(style: &StyleDecision, why: Option<CleanupWhy>) -> Option<&str> {
+    if why.is_some_and(CleanupWhy::is_notice) {
+        return None;
+    }
+    style.auto_send.as_deref()
+}
+
+/// Stage 10 (R5 §4.10, S-19a): the take's preset, if it has one. Logs the
+/// preset and group, never the text.
+pub fn apply_style(style: &StyleDecision, text: String, keep: &[String]) -> String {
+    let Some(preset) = style.preset else {
+        return text;
+    };
+    let styled = crate::fork::text::style_rules::apply(preset, &text, keep);
+    log::info!(
+        "style: {:?} for {} ({})",
+        preset,
+        style.group.map_or("?", StyleGroup::as_str),
+        if styled == text {
+            "no change"
+        } else {
+            "applied"
+        }
+    );
+    styled
+}
+
 /// Word edits between the deterministic text and the cleaned one: runs of
 /// changed words, compared case- and punctuation-insensitively (a removed
 /// "um" is one fix, "2 actually 3" → "3" is one fix).
@@ -1262,6 +1379,7 @@ pub async fn run<R: Runtime>(
                 hint: plan.hint.as_deref(),
                 terms: &plan.terms,
                 keep: &plan.words,
+                style: plan.style.preset,
             };
             if plan.engine == CleanupEngine::Apple {
                 *LAST_SYSTEM.lock().unwrap_or_else(|p| p.into_inner()) =
@@ -1291,8 +1409,18 @@ pub async fn run<R: Runtime>(
     } else {
         CleanupEngine::Local
     };
-    let final_text = restore_spellings(text, cleaned.text.clone());
-    let fixes = fix_count(text, &final_text);
+    let restored = restore_spellings(text, cleaned.text.clone());
+    let fixes = fix_count(text, &restored);
+    // Stage 10 (S-19a): the preset's deterministic rules, on the cleaned
+    // text or, after a fallback, on the deterministic one.
+    let final_text = apply_style(&plan.style, restored, &plan.words);
+    match auto_send_target(&plan.style, cleaned.why) {
+        Some(bundle_id) => crate::fork::context::app_rules::arm_auto_send(&final_text, bundle_id),
+        None if plan.style.auto_send.is_some() => {
+            log::info!("style: no Return after this take (inserted without cleanup)");
+        }
+        None => {}
+    }
     let record = CleanupRecord {
         level: plan.level,
         engine,

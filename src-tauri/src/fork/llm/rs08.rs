@@ -62,6 +62,7 @@ fn req(text: &str) -> Request<'_> {
         hint: None,
         terms: &[],
         keep: &[],
+        style: None,
     }
 }
 

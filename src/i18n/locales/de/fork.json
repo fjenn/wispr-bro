@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Versteckt, da es für ein Passwortfeld bestimmt war"
     },
-    "undo": "Rückgängig"
+    "undo": "Rückgängig",
+    "sendsAutomatically": "Sendet automatisch"
   },
   "cleanup": {
     "title": "Aufräumen",
@@ -1314,5 +1315,92 @@
       "intel": "Intel-Prozessor"
     },
     "list": "Alle Modelle"
+  },
+  "style": {
+    "tabsLabel": "Stilgruppen",
+    "groups": {
+      "personal": {
+        "tab": "Persönliche Nachrichten",
+        "label": "Persönliche Nachrichten",
+        "description": "Chats mit Freunden und Familie, wie Nachrichten, WhatsApp, Telegram, Signal und Discord."
+      },
+      "work": {
+        "tab": "Arbeitsmeldungen",
+        "label": "Arbeitsmeldungen",
+        "description": "Chats mit Kollegen, wie Slack, Microsoft Teams und Google Chat."
+      },
+      "email": {
+        "tab": "E-Mail",
+        "label": "E-Mail",
+        "description": "E-Mail-Apps, wie Mail, Outlook, Spark und Superhuman."
+      },
+      "other": {
+        "tab": "Andere",
+        "label": "Andere",
+        "description": "Jede andere App: Notizen, Dokumente, Code-Editor und mehr."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formell",
+        "description": "Großbuchstaben und vollständige Punktation."
+      },
+      "relaxed": {
+        "label": "Relaxiert",
+        "description": "Großbuchstaben, leichtere Punktation."
+      },
+      "very_relaxed": {
+        "label": "Sehr entspannt",
+        "description": "Kleinschreibung am Anfang von Sätzen, leichtere Punktation."
+      },
+      "upbeat": {
+        "label": "Fröhlich",
+        "description": "Vollständige Satzzeichen, ein bisschen mehr Energie."
+      }
+    },
+    "presetsHeading": "Stil",
+    "presetsLegend": "Stil für {{group}}",
+    "before": "Was du sagst",
+    "after": "Was geschrieben wird:",
+    "englishOnly": "Stile gelten für Dictationen in Englisch. Cleanup funktioniert in jeder Sprache.",
+    "apps": {
+      "heading": "In diesen Apps verwendet",
+      "listLabel": "Anwendungen, die den {{group}}-Stil verwenden",
+      "addShort": "App hinzufügen",
+      "allOthers": "Jede App, die nicht in einer anderen Gruppe ist, verwendet diesen Stil ebenfalls.",
+      "empty": "Keine Apps hier noch. Füge eine mit \"App hinzufügen\" hinzu.",
+      "unavailable": "Die Apps konnten nicht geladen werden. Sie werden angezeigt, sobald die App bereit ist.",
+      "chipLabel": "{{app}}: Optionen",
+      "menuLabel": "Einstellungen für {{app}}",
+      "moveTo": "Zu",
+      "useDefault": "Zur üblichen Gruppe ({{group}})",
+      "remove": "Aus {{group}} entfernen",
+      "autoSend": "Drücke Enter nach der Dictation",
+      "autoSendOn": "Enter nach Dictation drücken",
+      "notInstalled": "nicht installiert",
+      "aiChat": "Ein KI-Chat: Deine Worte kommen sauber an, ohne Stil.",
+      "moved": "{{app}} verwendet nun den Stil von {{group}}.",
+      "removed": "{{app}} verwendet nun den anderen Stil.",
+      "added": "{{app}} verwendet nun den Stil von {{group}}.",
+      "undo": "Rückgängig",
+      "changeFailed": "Die Änderung wurde nicht gespeichert. Bitte versuchen Sie es erneut."
+    },
+    "picker": {
+      "title": "Eine App zu {{group}} hinzufügen",
+      "description": "Ein App auf diesem Mac auswählen. Die Dictationen verwenden dann den Stil {{group}}.",
+      "search": "Apps suchen",
+      "listLabel": "Apps auf diesem Mac",
+      "loading": "Suche nach Apps…",
+      "failed": "Die Apps auf diesem Mac konnten nicht aufgelistet werden.",
+      "none": "Keine App passt.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Bereits hier",
+      "cancel": "Abbrechen",
+      "close": "Schließen"
+    },
+    "cleanup": {
+      "tab": "Aufräumen",
+      "description": "Wie viel Ihre Wörter gereinigt werden, in jeder App und jeder Sprache. Der Stil jeder Gruppe wird darauf aufgebaut."
+    }
   }
 }

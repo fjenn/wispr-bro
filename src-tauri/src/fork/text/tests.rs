@@ -430,7 +430,7 @@ fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
     let first = hook
         .lines()
         .skip(1)
-        .find(|l| !l.trim().starts_with("//"))
+        .find(|l| !l.trim().starts_with("//") && !l.contains("app_rules::take_armed(&text)"))
         .unwrap();
     assert!(
         first.contains("deliver_as(text, app, Kind::Take)"),

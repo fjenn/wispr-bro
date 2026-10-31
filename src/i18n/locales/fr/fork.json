@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Caché, car il était destiné à un champ mot de passe"
     },
-    "undo": "Annuler"
+    "undo": "Annuler",
+    "sendsAutomatically": "Envoyé automatiquement"
   },
   "cleanup": {
     "title": "Nettoyage",
@@ -1314,5 +1315,92 @@
       "intel": "Processeur Intel"
     },
     "list": "Tous les modèles"
+  },
+  "style": {
+    "tabsLabel": "Groupes de style",
+    "groups": {
+      "personal": {
+        "tab": "Messages personnels",
+        "label": "Messages personnels",
+        "description": "Des échanges avec des amis et la famille, comme Messages, WhatsApp, Telegram, Signal et Discord."
+      },
+      "work": {
+        "tab": "Messages du travail",
+        "label": "Messages du travail",
+        "description": "Des échanges avec des collègues, comme Slack, Microsoft Teams et Google Chat."
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "description": "Applications e-mail, comme Mail, Outlook, Spark et Superhuman."
+      },
+      "other": {
+        "tab": "Autre",
+        "label": "Autre",
+        "description": "Toutes les autres applications : notes, documents, éditeurs de code et plus."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formel",
+        "description": "Lettres majuscules et ponctuation complète."
+      },
+      "relaxed": {
+        "label": "Relâché",
+        "description": "Lettres majuscules, ponctuation plus légère."
+      },
+      "very_relaxed": {
+        "label": "Très relâché",
+        "description": "Majuscule au début des phrases, ponctuation plus légère."
+      },
+      "upbeat": {
+        "label": "Enjoué",
+        "description": "Ponctuation complète, avec un peu plus d'énergie."
+      }
+    },
+    "presetsHeading": "Style",
+    "presetsLegend": "Style pour {{group}}",
+    "before": "Ce que vous dites",
+    "after": "Ce qui est écrit :",
+    "englishOnly": "Les styles s'appliquent aux dictées en anglais. Le nettoyage fonctionne dans toutes les langues.",
+    "apps": {
+      "heading": "Utilisé dans ces applications",
+      "listLabel": "Des applications utilisant le style {{group}}",
+      "addShort": "Ajouter une application",
+      "allOthers": "Toutes les applications qui ne sont pas dans un autre groupe utilisent ce style aussi.",
+      "empty": "Aucune application ici encore. Ajouter une application avec Ajouter application.",
+      "unavailable": "Les applications ne peuvent pas être chargées. Elles apparaîtront lorsque l'application sera prête.",
+      "chipLabel": "{{app}}: options",
+      "menuLabel": "Options pour {{app}}",
+      "moveTo": "Déplacer vers",
+      "useDefault": "Retour à son groupe habituel ({{group}})",
+      "remove": "Supprimer de {{group}}",
+      "autoSend": "Appuyez sur Entrée après avoir dicté",
+      "autoSendOn": "appuie sur Entrée après avoir dicté",
+      "notInstalled": "pas installé",
+      "aiChat": "Une conversation avec IA : vos mots sont nettoyés, sans style.",
+      "moved": "{{app}} utilise maintenant le style {{group}}.",
+      "removed": "{{app}} utilise maintenant le style Autre.",
+      "added": "{{app}} utilise maintenant le style {{group}}.",
+      "undo": "Annuler",
+      "changeFailed": "Cette modification n'a pas été enregistrée. Veuillez réessayer."
+    },
+    "picker": {
+      "title": "Ajouter une application à {{group}}",
+      "description": "Sélectionnez une application sur ce Mac. Ses dictées utiliseront le style {{group}}.",
+      "search": "Rechercher des applications",
+      "listLabel": "Applications sur ce Mac",
+      "loading": "Recherche d'applications…",
+      "failed": "Les applications de ce Mac ne peuvent pas être listées.",
+      "none": "Aucune application ne correspond.",
+      "inGroup": "Dans {{group}}",
+      "alreadyHere": "Déjà là",
+      "cancel": "Annuler",
+      "close": "Fermer"
+    },
+    "cleanup": {
+      "tab": "Nettoyage",
+      "description": "Dans quelle mesure vos mots sont-ils nettoyés, dans chaque application et chaque langue. Le style de chaque groupe est appliqué en supplément."
+    }
   }
 }

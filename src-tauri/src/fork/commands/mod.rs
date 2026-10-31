@@ -22,6 +22,7 @@ pub mod selfcheck;
 pub mod settings;
 pub mod snippets;
 pub mod stats;
+pub mod style;
 
 use std::sync::Arc;
 

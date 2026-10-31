@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Ẩn, vì nó được thiết kế cho trường nhập mật khẩu"
     },
-    "undo": "Hoàn tác"
+    "undo": "Hoàn tác",
+    "sendsAutomatically": "Gửi tự động"
   },
   "cleanup": {
     "title": "Xử lý",
@@ -1314,5 +1315,92 @@
       "intel": "vi xử lý intel"
     },
     "list": "Tất cả các mô hình"
+  },
+  "style": {
+    "tabsLabel": "Nhóm phong cách",
+    "groups": {
+      "personal": {
+        "tab": "Tin nhắn cá nhân",
+        "label": "Tin nhắn cá nhân",
+        "description": "Các cuộc trò chuyện với bạn bè và gia đình, như Messages, WhatsApp, Telegram, Signal và Discord."
+      },
+      "work": {
+        "tab": "Tin nhắn công việc",
+        "label": "Tin nhắn công việc",
+        "description": "Các cuộc trò chuyện với đồng nghiệp, như Slack, Microsoft Teams và Google Chat."
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "description": "Các ứng dụng email như Mail, Outlook, Spark và Superhuman."
+      },
+      "other": {
+        "tab": "Khác",
+        "label": "Khác",
+        "description": "Mỗi ứng dụng khác: ghi chú, tài liệu, trình soạn mã và nhiều hơn nữa."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Trang trọng",
+        "description": "Chữ in hoa và dấu câu đầy đủ."
+      },
+      "relaxed": {
+        "label": "Lỏng lẻo",
+        "description": "Chữ in hoa, dấu câu nhẹ hơn."
+      },
+      "very_relaxed": {
+        "label": "Rất lỏng lẻo",
+        "description": "Chữ thường ở đầu câu, dấu câu nhẹ hơn."
+      },
+      "upbeat": {
+        "label": "Sáng tinh tế",
+        "description": "Đầy dấu câu, với một chút năng lượng hơn."
+      }
+    },
+    "presetsHeading": "Phong cách",
+    "presetsLegend": "Phong cách cho {{group}}",
+    "before": "Điều bạn nói",
+    "after": "Điều được ghi lại:",
+    "englishOnly": "Các phong cách áp dụng cho các bản ghi bằng tiếng Anh. Việc làm sạch hoạt động trên mọi ngôn ngữ.",
+    "apps": {
+      "heading": "Dùng trong các ứng dụng này",
+      "listLabel": "Các ứng dụng sử dụng phong cách {{group}}",
+      "addShort": "Thêm ứng dụng",
+      "allOthers": "Mỗi ứng dụng không nằm trong nhóm khác đều sử dụng phong cách này nữa.",
+      "empty": "Chưa có ứng dụng nào ở đây. Thêm một ứng dụng với Thêm ứng dụng.",
+      "unavailable": "Các ứng dụng không thể được tải. Chúng sẽ xuất hiện khi ứng dụng sẵn sàng.",
+      "chipLabel": "{{app}}: các lựa chọn",
+      "menuLabel": "Các tùy chọn cho {{app}}",
+      "moveTo": "Chuyển đến",
+      "useDefault": "Quay về nhóm thông thường ({{group}})",
+      "remove": "Xóa khỏi {{group}}",
+      "autoSend": "Nhấn Enter sau khi ghi âm",
+      "autoSendOn": "ấn Enter sau khi ghi âm",
+      "notInstalled": "chưa được cài đặt",
+      "aiChat": "Một cuộc trò chuyện AI: những lời của bạn được lọc sạch, không có phong cách.",
+      "moved": "Ứng dụng {{app}} hiện đang sử dụng phong cách {{group}}.",
+      "removed": "{{app}} hiện đang sử dụng phong cách Khác.",
+      "added": "Ứng dụng {{app}} hiện đang sử dụng phong cách {{group}}.",
+      "undo": "Hoàn tác",
+      "changeFailed": "Thay đổi đó không được lưu. Vui lòng thử lại."
+    },
+    "picker": {
+      "title": "Thêm một ứng dụng vào {{group}}",
+      "description": "Chọn một ứng dụng trên máy Mac này. Các bản ghi giọng nói của nó sẽ sử dụng phong cách {{group}}.",
+      "search": "Tìm kiếm ứng dụng",
+      "listLabel": "Các ứng dụng trên máy Mac này",
+      "loading": "Đang tìm kiếm các ứng dụng…",
+      "failed": "Các ứng dụng trên máy Mac này không thể được liệt kê.",
+      "none": "Không có ứng dụng nào phù hợp.",
+      "inGroup": "Trong {{group}}",
+      "alreadyHere": "Đã ở đây",
+      "cancel": "Hủy",
+      "close": "Đóng"
+    },
+    "cleanup": {
+      "tab": "Rửa sạch",
+      "description": "Mức độ làm sạch lời nói của bạn trong mọi ứng dụng và mọi ngôn ngữ. Phong cách của từng nhóm được áp dụng trên top."
+    }
   }
 }

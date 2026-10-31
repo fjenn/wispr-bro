@@ -226,6 +226,10 @@ pub struct Request {
     pub method: Method,
     /// Press Return (with these modifier flags) once the text arrived.
     pub submit: Option<u64>,
+    /// Return only after a `confirmed` paste, never after a read receipt
+    /// alone (S-19a "Press Enter after dictating", RV-48). Handy's global
+    /// auto-submit keeps its own rule (confirmed or read).
+    pub submit_strict: bool,
     /// Leave the transcript on the clipboard as plain text instead of
     /// restoring (Handy's `ClipboardHandling::CopyToClipboard`).
     pub keep_transcript: bool,
@@ -247,6 +251,7 @@ impl Request {
             class,
             method: Method::for_target(class),
             submit: None,
+            submit_strict: false,
             keep_transcript: false,
             max_modifier_wait: Duration::from_millis(3000),
             verify_budget: verify::BUDGET,
@@ -574,7 +579,8 @@ pub fn paste<P: Platform>(
 }
 
 /// Records the verification and sends the auto-submit Return if the text
-/// demonstrably arrived (Handy's rule: never submit an unconfirmed paste).
+/// demonstrably arrived (Handy's rule: never submit an unconfirmed paste;
+/// with `submit_strict`, only a `confirmed` one).
 fn finish_paste<P: Platform>(p: &P, req: &Request, r: &mut Report, v: Verification, receipt: bool) {
     let outcome = if v.confirmed() {
         PasteOutcome::Confirmed
@@ -584,7 +590,7 @@ fn finish_paste<P: Platform>(p: &P, req: &Request, r: &mut Report, v: Verificati
     r.verification = Some(v);
     r.delivery = Delivery::Pasted { outcome };
     if let Some(flags) = req.submit {
-        if outcome == PasteOutcome::Confirmed || receipt {
+        if outcome == PasteOutcome::Confirmed || (receipt && !req.submit_strict) {
             match p.post_return(flags) {
                 Ok(()) => r.submitted = true,
                 Err(e) => r.error = Some(format!("auto-submit failed: {e}")),

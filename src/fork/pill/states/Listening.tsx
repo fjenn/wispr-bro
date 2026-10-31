@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { commands, type ForkPillState } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
 import { usePillLevels } from "../usePill";
-import { CheckIcon, CloseIcon, MicIcon } from "./icons";
+import { CheckIcon, CloseIcon, MicIcon, ReturnIcon } from "./icons";
 
 function Waveform({ bars }: { bars: number[] }) {
   return (
@@ -29,18 +29,28 @@ export function Listening({ state }: { state: ForkPillState }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const bars = usePillLevels(true);
   const locked = state.phase === "locked";
+  // S-19a: "Sends automatically" takes the microphone name's place.
   const label = state.warning
     ? t(`pill.warning.${state.warning}`)
-    : state.mic
-      ? t("pill.mic", { name: state.mic })
-      : null;
+    : state.sends_automatically
+      ? t("pill.sendsAutomatically")
+      : state.mic
+        ? t("pill.mic", { name: state.mic })
+        : null;
 
   const middle = label ? (
     <span
       className={`wb-pill-label${state.warning ? " wb-pill-warning" : ""}`}
-      data-testid={state.warning ? "wb-pill-warning" : "wb-pill-mic"}
+      data-testid={
+        state.warning
+          ? "wb-pill-warning"
+          : state.sends_automatically
+            ? "wb-pill-sends"
+            : "wb-pill-mic"
+      }
     >
-      {!state.warning && <MicIcon />}
+      {!state.warning &&
+        (state.sends_automatically ? <ReturnIcon /> : <MicIcon />)}
       <span className="wb-pill-text">{label}</span>
     </span>
   ) : (

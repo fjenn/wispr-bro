@@ -408,6 +408,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     install_rule_source(app);
     // S-17: the snippets stage 11 expands, read per delivery.
     snippets::install(app);
+    // S-19a: the Style page's app rules, cached for the take path.
+    commands::style::on_ready(app);
     // S-16: Handy's custom words and the dictionary's words (one-time
     // migration, then the mirror), off the main thread.
     {
@@ -549,6 +551,12 @@ macro_rules! fork_specta_builder {
                 commands::models::fork_model_policy_status,
                 commands::models::fork_model_policy_set_automatic,
                 commands::models::fork_models_hidden::<$runtime>,
+                commands::style::fork_style_overview::<$runtime>,
+                commands::style::fork_style_installed_apps::<$runtime>,
+                commands::style::fork_style_app_icon,
+                commands::style::fork_style_set_app_group::<$runtime>,
+                commands::style::fork_style_remove_app::<$runtime>,
+                commands::style::fork_style_set_auto_send::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -569,6 +577,7 @@ macro_rules! fork_specta_builder {
                 audio::watch::ForkMicDevicesChanged,
                 audio::monitor::ForkMicLevel,
                 models::upgrade::ForkModelPolicy
+                commands::style::ForkAppRulesChanged
             ])
     };
 }

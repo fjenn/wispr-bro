@@ -2,6 +2,8 @@
 //! What a take knows about where it is going (S-09: the frontmost app and its
 //! taxonomy; S-19b adds the browser host, S-20 the text near the caret).
 
+pub mod app_rules;
+pub mod apps;
 pub mod categories;
 pub mod frontmost;
 pub mod take;

@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Ukryte, ponieważ było przeznaczone dla pola hasła"
     },
-    "undo": "Cofnij"
+    "undo": "Cofnij",
+    "sendsAutomatically": "Wyśle automatycznie"
   },
   "cleanup": {
     "title": "Oczyszczanie",
@@ -1314,5 +1315,92 @@
       "intel": "Procesor Intel"
     },
     "list": "Wszystkie modele"
+  },
+  "style": {
+    "tabsLabel": "Grupy stylów",
+    "groups": {
+      "personal": {
+        "tab": "Wiadomości osobiste",
+        "label": "Wiadomości osobiste",
+        "description": "Chaty z przyjaciółmi i rodziną, takie jak Wiadomości, WhatsApp, Telegram, Signal i Discord."
+      },
+      "work": {
+        "tab": "Wiadomości z pracy",
+        "label": "Wiadomości z pracy",
+        "description": "Chaty z kolegami, np. Slack, Microsoft Teams i Google Chat."
+      },
+      "email": {
+        "tab": "E-mail",
+        "label": "E-mail",
+        "description": "Aplikacje e-mailowe, takie jak Mail, Outlook, Spark i Superhuman."
+      },
+      "other": {
+        "tab": "Inne",
+        "label": "Inne",
+        "description": "Wszystkie inne aplikacje: notatki, dokumenty, edytor kodu i inne."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formal",
+        "description": "Litera duża i pełna interpunkcji."
+      },
+      "relaxed": {
+        "label": "Relaksowany",
+        "description": "Litera wielka, znaki punctuacyjne cieńsze."
+      },
+      "very_relaxed": {
+        "label": "Za bardzo rozluźniony",
+        "description": "Małe litery na początku zdań, cieńsze znaki interpunkcyjne."
+      },
+      "upbeat": {
+        "label": "Dobrze",
+        "description": "Całkowita interpunkcja, z trochę więcej energii."
+      }
+    },
+    "presetsHeading": "Styl",
+    "presetsLegend": "Styl dla {{group}}",
+    "before": "Co powiesz",
+    "after": "Co zostaje napisane:",
+    "englishOnly": "Stylu stosuje się do dictacji w języku angielskim. Oczyszczanie działa w każdej języku.",
+    "apps": {
+      "heading": "Wykorzystywane w tych aplikacjach",
+      "listLabel": "Aplikacje, które używają stylu {{group}}",
+      "addShort": "Dodaj aplikację",
+      "allOthers": "Wszystkie aplikacje, które nie są w innej grupie, używają tego stylu również.",
+      "empty": "Tutaj jeszcze żadnych aplikacji. Dodaj jedną za pomocą Dodaj aplikację.",
+      "unavailable": "Aplikacje nie mogą zostać załadowane. Pokazane będą, gdy aplikacja będzie gotowa.",
+      "chipLabel": "{{app}}: opcje",
+      "menuLabel": "Opcje dla {{app}}",
+      "moveTo": "Przenieś do",
+      "useDefault": "Powrót do grupy domyślnej ({{group}})",
+      "remove": "Usunąć z {{group}}",
+      "autoSend": "Naciśnij Enter po wpisaniu tekstu",
+      "autoSendOn": "naciska Enter po wpisaniu tekstu",
+      "notInstalled": "nie zainstalowane",
+      "aiChat": "Chat AI: Twoje słowa idą w czystej formie, bez stylu.",
+      "moved": "Teraz {{app}} używa stylu {{group}}.",
+      "removed": "Teraz {{app}} używa stylu Inny.",
+      "added": "Teraz {{app}} używa stylu {{group}}.",
+      "undo": "Cofnij",
+      "changeFailed": "Zmiana nie została zapisana. Proszę spróbować ponownie."
+    },
+    "picker": {
+      "title": "Dodaj aplikację do {{group}}",
+      "description": "Wybierz aplikację na tym Macie. Jej dictacje będą używać stylu {{group}}.",
+      "search": "Szukaj aplikacji",
+      "listLabel": "Aplikacje na tym Macu",
+      "loading": "Szukam aplikacji...",
+      "failed": "Aplikacje na tym Macie nie mogły zostać wyświetlone.",
+      "none": "Brak aplikacji.",
+      "inGroup": "W {{group}}",
+      "alreadyHere": "Juz tu",
+      "cancel": "Anuluj",
+      "close": "Zamknij"
+    },
+    "cleanup": {
+      "tab": "Oczyszczenie",
+      "description": "O ile Twoje słowa są uproszczone w każdej aplikacji i każdej języku. Styl każdego grupy jest stosowany na szczeblu."
+    }
   }
 }

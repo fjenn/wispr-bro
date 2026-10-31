@@ -884,7 +884,8 @@
     "card": {
       "hidden": "非表示、パスワードフィールド用だったから"
     },
-    "undo": "取り消す"
+    "undo": "取り消す",
+    "sendsAutomatically": "自動で送信"
   },
   "cleanup": {
     "title": "クリーンアップ",
@@ -1314,5 +1315,92 @@
       "intel": "Intelプロセッサ"
     },
     "list": "すべてのモデル"
+  },
+  "style": {
+    "tabsLabel": "スタイルグループ",
+    "groups": {
+      "personal": {
+        "tab": "個人メッセージ",
+        "label": "個人のメッセージ",
+        "description": "友達や家族とのチャット、例えばメッセージ、WhatsApp、Telegram、Signal、Discord"
+      },
+      "work": {
+        "tab": "仕事のメッセージ",
+        "label": "仕事のメッセージ",
+        "description": "同僚とのチャット、例えばスラック、マイクロソフト・チーム、グーグル・チャット。"
+      },
+      "email": {
+        "tab": "メール",
+        "label": "メール",
+        "description": "メールアプリ、たとえばメール、Outlook、SparkおよびSuperhuman。"
+      },
+      "other": {
+        "tab": "その他",
+        "label": "その他",
+        "description": "他のアプリすべて：ノート、ドキュメント、コードエディタなど"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "フォーマル",
+        "description": "大文字と完全な記号。"
+      },
+      "relaxed": {
+        "label": "リラックス",
+        "description": "大文字、軽い記号。"
+      },
+      "very_relaxed": {
+        "label": "非常にリラックス",
+        "description": "文の始めは小文字、記号は軽く"
+      },
+      "upbeat": {
+        "label": "明るい",
+        "description": "ピリオドをすべて含み、少しエネルギーが強い"
+      }
+    },
+    "presetsHeading": "スタイル",
+    "presetsLegend": "スタイル：{{group}}",
+    "before": "あなたが言うこと",
+    "after": "何が書かれる:",
+    "englishOnly": "スタイルは英語のディクテーションに適用されます。クリーンアップはすべての言語で動作します。",
+    "apps": {
+      "heading": "これらのアプリで使用",
+      "listLabel": "{{group}} スタイルを使用するアプリ",
+      "addShort": "アプリを追加",
+      "allOthers": "他のグループにないすべてのアプリは、このスタイルを使用します。",
+      "empty": "まだアプリはここにありません。アプリを追加するには「アプリを追加」をクリックしてください。",
+      "unavailable": "アプリが読み込めませんでした。アプリが準備できたら表示されます。",
+      "chipLabel": "{{app}}: オプション",
+      "menuLabel": "{{app}} の設定",
+      "moveTo": "移動する",
+      "useDefault": "通常のグループに戻す（{{group}}）",
+      "remove": "{{group}}から削除",
+      "autoSend": "話すのを終えたらEnterを押してください",
+      "autoSendOn": "話すとEnterを押す",
+      "notInstalled": "インストールされていません",
+      "aiChat": "AIチャット：あなたの言葉は整理され、スタイルなしで入力されます。",
+      "moved": "{{app}} は now {{group}} のスタイルを使用しています。",
+      "removed": "{{app}} は now 他のスタイルを使用しています。",
+      "added": "{{app}} は now {{group}} のスタイルを使用しています。",
+      "undo": "元に戻す",
+      "changeFailed": "その変更が保存されませんでした。再度お試しください。"
+    },
+    "picker": {
+      "title": "アプリを{{group}}に追加",
+      "description": "このMac上のアプリを選択してください。そのアプリのディクテーションは{{group}}スタイルを使用します。",
+      "search": "アプリを検索",
+      "listLabel": "このMac上のアプリ",
+      "loading": "アプリを探しています…",
+      "failed": "このMac上のアプリは表示できません。",
+      "none": "アプリが見つかりません。",
+      "inGroup": "{{group}} に",
+      "alreadyHere": "すでにここに",
+      "cancel": "キャンセル",
+      "close": "閉じる"
+    },
+    "cleanup": {
+      "tab": "クリーンアップ",
+      "description": "どのくらいあなたの言葉が整えられるか、すべてのアプリとすべての言語で。各グループのスタイルが上書きされます。"
+    }
   }
 }

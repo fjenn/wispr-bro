@@ -724,6 +724,11 @@
       "locked": "Unlocks at {{goal}} words. Keep dictating to build it.",
       "unlocked": "Unlocked. See how you speak in Insights.",
       "open": "Open Insights"
+    },
+    "history": {
+      "title": "Your dictations are saved on this Mac",
+      "body": "Open History to copy, play or search them.",
+      "action": "Open history"
     }
   },
   "dictionary": {
@@ -912,7 +917,8 @@
     "card": {
       "hidden": "Hidden, because it was meant for a password field"
     },
-    "undo": "Undo"
+    "undo": "Undo",
+    "sendsAutomatically": "Sends automatically"
   },
   "cleanup": {
     "title": "Cleanup",
@@ -1308,6 +1314,93 @@
       "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
       "savedWord": "“{{word}}” is in your dictionary.",
       "openDictionary": "Open Dictionary"
+    }
+  },
+  "style": {
+    "tabsLabel": "Style groups",
+    "groups": {
+      "personal": {
+        "tab": "Personal messages",
+        "label": "Personal messages",
+        "description": "Chats with friends and family, such as Messages, WhatsApp, Telegram, Signal and Discord."
+      },
+      "work": {
+        "tab": "Work messages",
+        "label": "Work messages",
+        "description": "Chats with colleagues, such as Slack, Microsoft Teams and Google Chat."
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "description": "Email apps, such as Mail, Outlook, Spark and Superhuman."
+      },
+      "other": {
+        "tab": "Other",
+        "label": "Other",
+        "description": "Every other app: notes, documents, code editors and more."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formal",
+        "description": "Capital letters and full punctuation."
+      },
+      "relaxed": {
+        "label": "Relaxed",
+        "description": "Capital letters, lighter punctuation."
+      },
+      "very_relaxed": {
+        "label": "Very relaxed",
+        "description": "Lower case at the start of sentences, lighter punctuation."
+      },
+      "upbeat": {
+        "label": "Upbeat",
+        "description": "Full punctuation, with a little more energy."
+      }
+    },
+    "presetsHeading": "Style",
+    "presetsLegend": "Style for {{group}}",
+    "before": "What you say",
+    "after": "What gets written:",
+    "englishOnly": "Styles apply to dictations in English. Cleanup works in every language.",
+    "apps": {
+      "heading": "Used in these apps",
+      "listLabel": "Apps that use the {{group}} style",
+      "addShort": "Add app",
+      "allOthers": "Every app that is not in another group uses this style too.",
+      "empty": "No apps here yet. Add one with Add app.",
+      "unavailable": "The apps could not be loaded. They will appear when the app is ready.",
+      "chipLabel": "{{app}}: options",
+      "menuLabel": "Options for {{app}}",
+      "moveTo": "Move to",
+      "useDefault": "Back to its usual group ({{group}})",
+      "remove": "Remove from {{group}}",
+      "autoSend": "Press Enter after dictating",
+      "autoSendOn": "presses Enter after dictating",
+      "notInstalled": "not installed",
+      "aiChat": "An AI chat: your words go in cleaned, without a style.",
+      "moved": "{{app}} now uses the {{group}} style.",
+      "removed": "{{app}} now uses the Other style.",
+      "added": "{{app}} now uses the {{group}} style.",
+      "undo": "Undo",
+      "changeFailed": "That change was not saved. Please try again."
+    },
+    "picker": {
+      "title": "Add an app to {{group}}",
+      "description": "Pick an app on this Mac. Its dictations will use the {{group}} style.",
+      "search": "Search apps",
+      "listLabel": "Apps on this Mac",
+      "loading": "Looking for apps…",
+      "failed": "The apps on this Mac could not be listed.",
+      "none": "No app matches.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Already here",
+      "cancel": "Cancel",
+      "close": "Close"
+    },
+    "cleanup": {
+      "tab": "Cleanup",
+      "description": "How much your words are tidied up, in every app and every language. The style of each group is applied on top."
     }
   }
 }

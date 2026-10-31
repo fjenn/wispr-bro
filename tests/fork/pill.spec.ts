@@ -40,6 +40,7 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
     card_reason: null,
     more: 0,
     copied: false,
+    sends_automatically: false,
     ...partial,
   };
 }
@@ -48,6 +49,7 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
 const STATES: Record<string, ForkPillState> = {
   held: state({}),
   heldMic: state({ shape: "held_label", mic: "MacBook Pro Microphone" }),
+  heldSends: state({ shape: "held_label", sends_automatically: true }),
   locked: state({ phase: "locked", shape: "locked" }),
   lockedMic: state({
     phase: "locked",
@@ -208,6 +210,18 @@ test.describe("states", () => {
     await expect(page.getByTestId("wb-pill-wave")).toHaveCount(0);
     await ipc.emit("fork-pill-state", { ...STATES.lockedSilence, seq: 2 });
     await expect(page.getByTestId("wb-pill-warning")).toBeVisible();
+  });
+
+  test("S-19a: Sends automatically takes the mic label's place", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, STATES.heldSends);
+    await expect(page.getByTestId("wb-pill-sends")).toHaveText(
+      "Sends automatically",
+    );
+    await expect(page.getByTestId("wb-pill-mic")).toHaveCount(0);
+    await expect(page.getByRole("status")).toContainText("Sends automatically");
   });
 
   test("messages use the shared Rust strings", async ({ page, ipc }) => {

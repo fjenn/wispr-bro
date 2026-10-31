@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Cleanup level picker (S-12a): None / Light / Medium, saved in the fork
- * setting `cleanup_level`. Mounted on the fork debug panel until S-19a puts
- * the same component in Style › Cleanup.
+ * setting `cleanup_level`. Mounted in Style › Cleanup (S-19a, `CleanupTab`)
+ * and on the fork debug panel.
  *
  * Below it, the last dictation's cleanup result (`fork_llm_last_cleanup`,
  * then the `ForkCleanupResult` event), so a take that was inserted without

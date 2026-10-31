@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Döljda eftersom det var avseddt för ett lösenordsfält"
     },
-    "undo": "Ångra"
+    "undo": "Ångra",
+    "sendsAutomatically": "Skickar automatiskt"
   },
   "cleanup": {
     "title": "Rekommendation",
@@ -1314,5 +1315,92 @@
       "intel": "Intel-processor"
     },
     "list": "Alla modeller"
+  },
+  "style": {
+    "tabsLabel": "Stilgrupper",
+    "groups": {
+      "personal": {
+        "tab": "Personliga meddelanden",
+        "label": "Personliga meddelanden",
+        "description": "Konversationer med vänner och familj, t.ex. Meddelanden, WhatsApp, Telegram, Signal och Discord."
+      },
+      "work": {
+        "tab": "Arbetsmeddelanden",
+        "label": "Arbetsmeddelanden",
+        "description": "Konversationer med kollegor, t.ex. Slack, Microsoft Teams och Google Chat."
+      },
+      "email": {
+        "tab": "E-post",
+        "label": "E-post",
+        "description": "E-postapplikationer, som Mail, Outlook, Spark och Superhuman."
+      },
+      "other": {
+        "tab": "Andra",
+        "label": "Andra",
+        "description": "Varje andra app: anteckningar, dokument, kodredigerare och mer."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Förformell",
+        "description": "Stora bokstäver och fullständig punktation."
+      },
+      "relaxed": {
+        "label": "Låg tension",
+        "description": "Stora bokstäver, lättare punktuation."
+      },
+      "very_relaxed": {
+        "label": "Mässigt lättsam",
+        "description": "Låg stilett i början av meningar, lättare punktation."
+      },
+      "upbeat": {
+        "label": "Upbeat",
+        "description": "Full punkter, med lite mer energi."
+      }
+    },
+    "presetsHeading": "Stil",
+    "presetsLegend": "Stil för {{group}}",
+    "before": "Vad du säger",
+    "after": "Vad som skrivs:",
+    "englishOnly": "Stilar gäller för dictationer i engelska. Cleanup fungerar i alla språk.",
+    "apps": {
+      "heading": "Används i dessa appar",
+      "listLabel": "Appar som använder stil {{group}}",
+      "addShort": "Lägg till app",
+      "allOthers": "Varje app som inte finns i en annan grupp använder också denna stil.",
+      "empty": "Inga appar här än. Lägg till en med Lägg till app.",
+      "unavailable": "Apparna kunde inte laddas. De kommer att visas när appen är klar.",
+      "chipLabel": "{{app}}: inställningar",
+      "menuLabel": "Inställningar för {{app}}",
+      "moveTo": "Flytta till",
+      "useDefault": "Tillbaka till sin vanliga grupp ({{group}})",
+      "remove": "Ta bort från {{group}}",
+      "autoSend": "Tryck Enter efter att ha talat",
+      "autoSendOn": "trycker Enter efter att ha talat",
+      "notInstalled": "inte installerad",
+      "aiChat": "En AI-chat: dina ord går in rensade, utan stil.",
+      "moved": "{{app}} använder nu stilen {{group}}.",
+      "removed": "{{app}} använder nu andra stil.",
+      "added": "{{app}} använder nu stilen {{group}}.",
+      "undo": "Ångra",
+      "changeFailed": "Den här ändringen kunde inte sparas. Försök igen."
+    },
+    "picker": {
+      "title": "Lägg till ett program till {{group}}",
+      "description": "Välj ett program på denna Mac. Dina dictationer kommer att använda stil {{group}}.",
+      "search": "Sök appar",
+      "listLabel": "Appar på denna Mac",
+      "loading": "Söker efter appar…",
+      "failed": "Apparna på denna Mac kunde inte listas.",
+      "none": "Ingen app matchar.",
+      "inGroup": "I {{group}}",
+      "alreadyHere": "Redan här",
+      "cancel": "Avbryt",
+      "close": "Stäng"
+    },
+    "cleanup": {
+      "tab": "Rekommendation",
+      "description": "Hur mycket dina ord förenklas i varje app och varje språk. Stilen för varje grupp tillämpas på toppen."
+    }
   }
 }

@@ -15,7 +15,7 @@ use std::sync::OnceLock;
 use serde::{Deserialize, Serialize};
 
 /// Styles group (S-19a). Values match the `entry_meta.style_group` CHECK.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize, specta::Type)]
 #[serde(rename_all = "snake_case")]
 pub enum StyleGroup {
     Personal,
@@ -138,6 +138,8 @@ struct Table {
     apps: HashMap<String, AppRule>,
     signatures: Vec<(StyleGroup, Vec<String>)>,
     browsers: Vec<String>,
+    /// Every bundle id of `apps` as written there, with its group, sorted.
+    known: Vec<(String, StyleGroup)>,
 }
 
 fn parse(json: &str) -> Result<Table, String> {
@@ -150,7 +152,14 @@ fn parse(json: &str) -> Result<Table, String> {
             .ok_or_else(|| format!("signature_order names {group:?} with no signatures"))?;
         signatures.push((group, list.iter().map(|s| s.to_lowercase()).collect()));
     }
+    let mut known: Vec<(String, StyleGroup)> = data
+        .apps
+        .iter()
+        .map(|(k, v)| (k.clone(), v.style_group))
+        .collect();
+    known.sort_by(|a, b| a.0.cmp(&b.0));
     Ok(Table {
+        known,
         apps: data
             .apps
             .into_iter()
@@ -185,6 +194,12 @@ fn has_token(signature: &str, entry: &str) -> bool {
 /// missing; with neither the answer is [`AppClass::OTHER`].
 pub fn classify(bundle_id: Option<&str>, app_name: Option<&str>) -> AppClass {
     classify_in(table(), bundle_id, app_name)
+}
+
+/// The bundle ids of the built-in table (`apps`) with their style group
+/// (the Style page lists the installed ones, S-19a).
+pub fn known_apps() -> &'static [(String, StyleGroup)] {
+    &table().known
 }
 
 fn classify_in(t: &Table, bundle_id: Option<&str>, app_name: Option<&str>) -> AppClass {

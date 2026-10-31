@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Skjult, fordi det var ment til at bruges som adgangskodefelt"
     },
-    "undo": "Fortryd"
+    "undo": "Fortryd",
+    "sendsAutomatically": "Sendes automatisk"
   },
   "cleanup": {
     "title": "Fjern sletning",
@@ -1314,5 +1315,92 @@
       "intel": "Intel-procesor"
     },
     "list": "Alle modeller"
+  },
+  "style": {
+    "tabsLabel": "Stilgrupper",
+    "groups": {
+      "personal": {
+        "tab": "Personlige beskeder",
+        "label": "Personlige beskeder",
+        "description": "Chat med venner og familie, som f.eks. Messages, WhatsApp, Telegram, Signal og Discord."
+      },
+      "work": {
+        "tab": "Arbejdsbesked",
+        "label": "Arbejdsbesked",
+        "description": "Chat med kollegaer, som Slack, Microsoft Teams og Google Chat."
+      },
+      "email": {
+        "tab": "E-mail",
+        "label": "E-mail",
+        "description": "E-mail-apps, som Mail, Outlook, Spark og Superhuman."
+      },
+      "other": {
+        "tab": "Andre",
+        "label": "Andre",
+        "description": "Alle andre apps: noter, dokumenter, kodeeditorer og mere."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Forsigtig",
+        "description": "Store bokstaver og fuld punktuation."
+      },
+      "relaxed": {
+        "label": "Lad det være fri",
+        "description": "Store bokstaver, lettere punktuation."
+      },
+      "very_relaxed": {
+        "label": "Vælt meget relateret",
+        "description": "Lavere case i starten af sætninger, lettere punktuation."
+      },
+      "upbeat": {
+        "label": "Upbeat",
+        "description": "Fuld punktuation, med lidt mere energi."
+      }
+    },
+    "presetsHeading": "Stil",
+    "presetsLegend": "Stil for {{group}}",
+    "before": "Hvad du siger",
+    "after": "Hvad der skrives:",
+    "englishOnly": "Stilser til dictationer i engelsk. Cleanup fungerer i alle sprog.",
+    "apps": {
+      "heading": "Bruges i disse apps",
+      "listLabel": "App'er, der bruger stil {{group}}",
+      "addShort": "Tilføj app",
+      "allOthers": "Alle apps, der ikke er i en anden gruppe, bruger denne stil også.",
+      "empty": "Ingen apps her endnu. Tilføj en med Tilføj app.",
+      "unavailable": "Apperne kunne ikke indlæses. De vil vises, når appen er klar.",
+      "chipLabel": "{{app}}: indstillinger",
+      "menuLabel": "Indstillinger for {{app}}",
+      "moveTo": "Flyt til",
+      "useDefault": "Tilbage til sin normal gruppe ({{group}})",
+      "remove": "Fjern fra {{group}}",
+      "autoSend": "Tryk Enter efter at have talt",
+      "autoSendOn": "trykker Enter efter at have talt",
+      "notInstalled": "ikke installeret",
+      "aiChat": "En AI-chat: dine ord går ind rensede, uden stil.",
+      "moved": "{{app}} bruger nu stilken {{group}}.",
+      "removed": "{{app}} bruger nu anden stil.",
+      "added": "{{app}} bruger nu stilnen {{group}}.",
+      "undo": "Åbn",
+      "changeFailed": "Denne ændring blev ikke besat. Prøv venligst igen."
+    },
+    "picker": {
+      "title": "Tilføj en app til {{group}}",
+      "description": "Vælg en app på denne Mac. Dens dictationer vil bruge stil {{group}}.",
+      "search": "Søg apps",
+      "listLabel": "App'er på denne Mac",
+      "loading": "Ser efter apps…",
+      "failed": "Apperne på denne Mac kunne ikke vises.",
+      "none": "Ingen app matcher.",
+      "inGroup": "I {{group}}",
+      "alreadyHere": "Allerede her",
+      "cancel": "Annuller",
+      "close": "Luk"
+    },
+    "cleanup": {
+      "tab": "Fjern forurening",
+      "description": "Hvor meget dine ord er fjernt op, i hver app og hver sprog. Stilen for hvert gruppe tilføjes på top."
+    }
   }
 }

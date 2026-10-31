@@ -884,7 +884,8 @@
     "card": {
       "hidden": "隐藏，因为它本应用于密码字段"
     },
-    "undo": "撤销"
+    "undo": "撤销",
+    "sendsAutomatically": "自动发送"
   },
   "cleanup": {
     "title": "清理",
@@ -1314,5 +1315,92 @@
       "intel": "Intel 处理器"
     },
     "list": "所有模型"
+  },
+  "style": {
+    "tabsLabel": "样式组",
+    "groups": {
+      "personal": {
+        "tab": "个人消息",
+        "label": "个人消息",
+        "description": "与朋友和家人聊天，例如信息、WhatsApp、Telegram、Signal 和 Discord。"
+      },
+      "work": {
+        "tab": "工作消息",
+        "label": "工作消息",
+        "description": "与同事的聊天，例如 Slack、Microsoft Teams 和 Google Chat。"
+      },
+      "email": {
+        "tab": "邮件",
+        "label": "邮箱",
+        "description": "邮件应用，例如 Mail、Outlook、Spark 和 Superhuman。"
+      },
+      "other": {
+        "tab": "其他",
+        "label": "其他",
+        "description": "每其他一个应用：笔记、文档、代码编辑器等。"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "正式",
+        "description": "大写字母和完整标点。"
+      },
+      "relaxed": {
+        "label": "放松的",
+        "description": "大写字母，较轻的标点。"
+      },
+      "very_relaxed": {
+        "label": "非常放松",
+        "description": "句子开头使用小写，标点更轻。"
+      },
+      "upbeat": {
+        "label": "充满活力的",
+        "description": "完整标点，带一点更多活力。"
+      }
+    },
+    "presetsHeading": "风格",
+    "presetsLegend": "风格：{{group}}",
+    "before": "你说的",
+    "after": "写什么：",
+    "englishOnly": "样式适用于英文语音输入。清理功能适用于所有语言。",
+    "apps": {
+      "heading": "在这些应用中使用",
+      "listLabel": "使用 {{group}} 风格的应用",
+      "addShort": "添加应用",
+      "allOthers": "所有不属于其他组的应用程序也使用此样式。",
+      "empty": "这里还没有应用。点击\"添加应用\"来添加一个。",
+      "unavailable": "应用程序无法加载。它们将在应用程序准备就绪时出现。",
+      "chipLabel": "{{app}}：选项",
+      "menuLabel": "{{app}} 的选项",
+      "moveTo": "移动到",
+      "useDefault": "回到其默认组（{{group}}）",
+      "remove": "从 {{group}} 中移除",
+      "autoSend": "说完后按回车",
+      "autoSendOn": "dictation完成后按回车",
+      "notInstalled": "未安装",
+      "aiChat": "一个AI聊天：你的文字会被清理，不会带任何风格。",
+      "moved": "现在 {{app}} 使用 {{group}} 风格。",
+      "removed": "现在 {{app}} 使用了其他样式。",
+      "added": "现在，{{app}} 使用了 {{group}} 的样式。",
+      "undo": "撤销",
+      "changeFailed": "该更改未保存。请重新尝试。"
+    },
+    "picker": {
+      "title": "将一个应用添加到 {{group}}",
+      "description": "选择这个Mac上的一个应用。该应用的语音输入将使用{{group}}样式。",
+      "search": "搜索应用",
+      "listLabel": "此 Mac 上的 App",
+      "loading": "正在查找应用…",
+      "failed": "此Mac上的应用程序无法列出。",
+      "none": "没有应用程序匹配。",
+      "inGroup": "在 {{group}}",
+      "alreadyHere": "已经在这里",
+      "cancel": "取消",
+      "close": "关闭"
+    },
+    "cleanup": {
+      "tab": "清理",
+      "description": "你的文字在每个应用和每种语言中被整理的程度。每个组的风格会叠加应用。"
+    }
   }
 }

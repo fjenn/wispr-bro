@@ -276,10 +276,10 @@ test.describe("hub shell", () => {
       "true",
     );
 
-    // An empty state's one action is a deep link (S-16 and S-17 replaced
-    // the Dictionary and Snippets placeholders).
-    await page.getByTestId("wb-nav-style").click();
-    await page.getByTestId("wb-empty-style").getByRole("button").click();
+    // An empty state's one action is a deep link (S-16, S-17 and S-19a
+    // replaced the Dictionary, Snippets and Style placeholders).
+    await page.getByTestId("wb-nav-transforms").click();
+    await page.getByTestId("wb-empty-transforms").getByRole("button").click();
     await expect(main(page)).toHaveAttribute("data-page", "dictation");
     await expect(page).toHaveURL(/#\/hub\/dictation$/);
     await page.evaluate(() => {

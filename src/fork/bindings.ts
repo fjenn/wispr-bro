@@ -717,6 +717,7 @@ async forkModelsHidden() : Promise<string[]> {
 
 
 export const events = __makeEvents__<{
+forkAppRulesChanged: ForkAppRulesChanged,
 forkCleanupResult: ForkCleanupResult,
 forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
@@ -736,6 +737,7 @@ forkSpeechSetup: ForkSpeechSetup,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss
 }>({
+forkAppRulesChanged: "fork-app-rules-changed",
 forkCleanupResult: "fork-cleanup-result",
 forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
@@ -1399,7 +1401,12 @@ more: number;
 /**
  * The card's text was just copied.
  */
-copied: boolean }
+copied: boolean; 
+/**
+ * The take will press Return after its paste (S-19a; the label says
+ * "Sends automatically").
+ */
+sends_automatically: boolean }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
@@ -2538,6 +2545,51 @@ speech_ms: number;
  * Words per minute on speech time; `None` with under 3 s of speech.
  */
 words_per_minute: number | null; current_streak_days: number; longest_streak_days: number; active_days: number; fixes_dictionary: number; fixes_llm: number }
+/**
+ * One app on the Style page.
+ */
+export type StyleApp = { bundle_id: string; name: string; 
+/**
+ * Installed on this Mac (an uninstalled app shows only while a rule
+ * names it).
+ */
+installed: boolean; 
+/**
+ * The group it is in now.
+ */
+group: StyleGroup; 
+/**
+ * The group the built-in table gives it.
+ */
+builtin_group: StyleGroup; 
+/**
+ * The group the user chose, if any.
+ */
+user_group: StyleGroup | null; 
+/**
+ * "Press Enter after dictating".
+ */
+auto_send: boolean; 
+/**
+ * An AI chat: its text goes in as cleaned, without a style (S-12a).
+ */
+ai_chat: boolean }
+/**
+ * Styles group (S-19a). Values match the `entry_meta.style_group` CHECK.
+ */
+export type StyleGroup = "personal" | "work" | "email" | "other"
+/**
+ * The Style page's apps.
+ */
+export type StyleOverview = { 
+/**
+ * Every listed app, by name. The page groups them by `group`.
+ */
+apps: StyleApp[] }
+/**
+ * One entry of the "+" picker.
+ */
+export type StylePickerApp = { bundle_id: string; name: string; group: StyleGroup }
 /**
  * Style preset of an app group (S-19a). Personal offers Formal / Relaxed /
  * Very relaxed; Work, Email and Other offer Formal / Relaxed / Upbeat.

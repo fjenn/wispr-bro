@@ -24,8 +24,10 @@
 //! [`note_rewrite`]), stage 12 runs again, then stage 11 expands the
 //! snippets ([`snippets`], S-17) and nothing touches the text after it, so
 //! a saved text is inserted exactly as written and never reaches the LLM.
-//! Stage 10 (style rules) is S-19a; stage 13 (Shift+Return when typing) is
-//! S-04's typing path.
+//! Stage 10 (style rules, [`style_rules`], S-19a) runs in the LLM step
+//! (`fork::llm::post_process::run`, after stage 9) because it needs the
+//! take's app and language; stage 13 (Shift+Return when typing) is S-04's
+//! typing path.
 //!
 //! Every stage is fail-open: a panic in a fork stage falls back to Handy's
 //! own result for the whole text. Per take, the stage order and change
@@ -40,6 +42,7 @@ pub mod placeholders;
 pub mod rules;
 pub mod scratch;
 pub mod snippets;
+pub mod style_rules;
 pub mod whitespace;
 
 #[cfg(test)]

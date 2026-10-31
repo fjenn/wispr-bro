@@ -636,6 +636,7 @@ pub async fn try_cleanup<R: Runtime>(
         hint: None,
         terms: &[],
         keep: &[],
+        style: None,
     };
     let local_ready = rt.is_ready() && rt.supervisor.is_some();
     let memory_ok = local_ready && rt.memory_allows_start().await;

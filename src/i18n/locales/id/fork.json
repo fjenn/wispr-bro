@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Tersembunyi, karena dirancang untuk field kata sandi"
     },
-    "undo": "Urungkan"
+    "undo": "Urungkan",
+    "sendsAutomatically": "Kirim secara otomatis"
   },
   "cleanup": {
     "title": "Pembersihan",
@@ -1314,5 +1315,92 @@
       "intel": "Intel processor"
     },
     "list": "Semua model"
+  },
+  "style": {
+    "tabsLabel": "Kelompok Gaya",
+    "groups": {
+      "personal": {
+        "tab": "Pesan pribadi",
+        "label": "Pesan pribadi",
+        "description": "Chat dengan teman dan keluarga, seperti Messages, WhatsApp, Telegram, Signal dan Discord."
+      },
+      "work": {
+        "tab": "Pesan kerja",
+        "label": "Pesan kerja",
+        "description": "Chat dengan rekan kerja, seperti Slack, Microsoft Teams dan Google Chat."
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "description": "Aplikasi email, seperti Mail, Outlook, Spark dan Superhuman."
+      },
+      "other": {
+        "tab": "Lainnya",
+        "label": "Lainnya",
+        "description": "Aplikasi lainnya: catatan, dokumen, editor kode, dan lainnya."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Kasual",
+        "description": "Huruf kapital dan tanda baca lengkap."
+      },
+      "relaxed": {
+        "label": "Relaks",
+        "description": "Huruf kapital, tanda baca lebih ringan."
+      },
+      "very_relaxed": {
+        "label": "Sangat santai",
+        "description": "Huruf kecil di awal kalimat, tanda baca yang lebih ringan."
+      },
+      "upbeat": {
+        "label": "Semangat",
+        "description": "Penuh tanda baca, dengan sedikit lebih energi."
+      }
+    },
+    "presetsHeading": "Gaya",
+    "presetsLegend": "Gaya untuk {{group}}",
+    "before": "Apa yang kamu katakan",
+    "after": "Apa yang ditulis:",
+    "englishOnly": "Gaya berlaku untuk dictasi dalam bahasa Inggris. Pembersihan bekerja dalam setiap bahasa.",
+    "apps": {
+      "heading": "Digunakan di aplikasi ini",
+      "listLabel": "Aplikasi yang menggunakan gaya {{group}}",
+      "addShort": "Tambahkan aplikasi",
+      "allOthers": "Setiap aplikasi yang tidak termasuk dalam kelompok lain menggunakan gaya ini juga.",
+      "empty": "Tidak ada aplikasi di sini belum. Tambahkan satu dengan Tambah Aplikasi.",
+      "unavailable": "Aplikasi tidak dapat dimuat. Mereka akan muncul saat aplikasi siap.",
+      "chipLabel": "{{app}}: opsi",
+      "menuLabel": "Pilihan untuk {{app}}",
+      "moveTo": "Pindahkan ke",
+      "useDefault": "Kembali ke kelompok biasanya ({{group}})",
+      "remove": "Hapus dari {{group}}",
+      "autoSend": "Tekan Enter setelah mengucapkan",
+      "autoSendOn": "tekan Enter setelah mengucapkan",
+      "notInstalled": "tidak terinstal",
+      "aiChat": "Obrolan AI: kata-kata Anda masuk dalam bentuk yang dibersihkan, tanpa gaya.",
+      "moved": "Aplikasi {{app}} sekarang menggunakan gaya {{group}}.",
+      "removed": "{{app}} sekarang menggunakan gaya Lain.",
+      "added": "Aplikasi {{app}} sekarang menggunakan gaya {{group}}.",
+      "undo": "Unduk",
+      "changeFailed": "Perubahan tersebut tidak disimpan. Silakan coba lagi."
+    },
+    "picker": {
+      "title": "Tambahkan aplikasi ke {{group}}",
+      "description": "Pilih aplikasi di Mac ini. Dictasi dari aplikasi ini akan menggunakan gaya {{group}}.",
+      "search": "Cari aplikasi",
+      "listLabel": "Aplikasi di Mac ini",
+      "loading": "Mencari aplikasi...",
+      "failed": "Aplikasi pada Mac ini tidak dapat didaftarkan.",
+      "none": "Tidak ada aplikasi yang cocok.",
+      "inGroup": "Dalam {{group}}",
+      "alreadyHere": "Sudah di sini",
+      "cancel": "Batal",
+      "close": "Tutup"
+    },
+    "cleanup": {
+      "tab": "Pembersihan",
+      "description": "Seberapa banyak kata-kata Anda dirapikan, di setiap aplikasi dan setiap bahasa. Gaya dari setiap kelompok diterapkan secara bertingkat."
+    }
   }
 }

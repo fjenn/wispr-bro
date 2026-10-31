@@ -63,6 +63,7 @@ fn req(text: &str, level: CleanupLevel) -> Request<'_> {
         hint: None,
         terms: &[],
         keep: &[],
+        style: None,
     }
 }
 
@@ -330,6 +331,7 @@ async fn medium_and_terms_reach_the_prompt() {
             hint: None,
             terms: &terms,
             keep: &terms,
+            style: None,
         },
     )
     .await;
@@ -638,5 +640,154 @@ async fn apple_replies_go_through_the_same_guard_chain() {
             c.text
         );
         assert!(c.why.is_some_and(CleanupWhy::is_notice), "{code:?}");
+// ---------------------------------------------------------------------------
+// S-19a: styles
+
+mod styles {
+    use super::*;
+    use crate::fork::context::app_rules::{AppRule, RuleKind};
+
+    type Target = (Option<&'static str>, Option<&'static str>);
+    const SLACK: Target = (Some("com.tinyspeck.slackmacgap"), Some("Slack"));
+    const MESSAGES: Target = (Some("com.apple.MobileSMS"), Some("Messages"));
+    const MAIL: Target = (Some("com.apple.mail"), Some("Mail"));
+    const CHATGPT: Target = (Some("com.openai.chat"), Some("ChatGPT"));
+
+    fn styles() -> StyleSettings {
+        StyleSettings {
+            personal: StylePreset::VeryRelaxed,
+            work: StylePreset::Upbeat,
+            email: StylePreset::Formal,
+            other: StylePreset::Relaxed,
+        }
+    }
+
+    #[test]
+    fn the_target_apps_group_picks_the_preset() {
+        let s = styles();
+        let d = decide_style(&[], Some(SLACK), &s, true);
+        assert_eq!(
+            (d.group, d.preset),
+            (Some(StyleGroup::Work), Some(StylePreset::Upbeat))
+        );
+        let d = decide_style(&[], Some(MESSAGES), &s, true);
+        assert_eq!(d.preset, Some(StylePreset::VeryRelaxed));
+        let d = decide_style(&[], Some(MAIL), &s, true);
+        assert_eq!(
+            (d.group, d.preset),
+            (Some(StyleGroup::Email), Some(StylePreset::Formal))
+        );
+        let d = decide_style(&[], Some((Some("com.apple.Terminal"), None)), &s, true);
+        assert_eq!(d.preset, Some(StylePreset::Relaxed));
+        // The user's rule wins over the built-in table.
+        let rules = vec![AppRule {
+            key: "com.tinyspeck.slackmacgap".into(),
+            kind: RuleKind::App,
+            style_group: Some(StyleGroup::Personal),
+            auto_send: true,
+            app_name: None,
+            updated_at: 0,
+        }];
+        let d = decide_style(&rules, Some(SLACK), &s, true);
+        assert_eq!(d.preset, Some(StylePreset::VeryRelaxed));
+        assert_eq!(d.auto_send.as_deref(), Some("com.tinyspeck.slackmacgap"));
+        assert_eq!(decide_style(&rules, Some(MAIL), &s, true).auto_send, None);
+    }
+
+    #[test]
+    fn english_only_and_never_in_ai_chats_or_without_a_target() {
+        let s = styles();
+        let d = decide_style(&[], Some(SLACK), &s, false);
+        assert_eq!((d.group, d.preset), (Some(StyleGroup::Work), None));
+        assert_eq!(decide_style(&[], Some(CHATGPT), &s, true).preset, None);
+        assert_eq!(decide_style(&[], None, &s, true), StyleDecision::default());
+    }
+
+    #[test]
+    fn stage_10_runs_on_the_cleaned_text() {
+        let d = StyleDecision {
+            group: Some(StyleGroup::Personal),
+            preset: Some(StylePreset::VeryRelaxed),
+            auto_send: None,
+        };
+        let keep = vec!["Wispr Bro".to_string()];
+        assert_eq!(
+            apply_style(&d, "Hey, Wispr Bro is out. See you later.".into(), &keep),
+            "hey Wispr Bro is out. see you later"
+        );
+        assert_eq!(
+            apply_style(&StyleDecision::default(), "Hey, there.".into(), &keep),
+            "Hey, there."
+        );
+    }
+
+    /// RV-48: auto-send is armed only when the cleanup did not fall back.
+    #[test]
+    fn auto_send_never_after_a_fallback() {
+        let d = StyleDecision {
+            group: Some(StyleGroup::Work),
+            preset: Some(StylePreset::Formal),
+            auto_send: Some("com.tinyspeck.slackmacgap".into()),
+        };
+        assert_eq!(
+            auto_send_target(&d, None),
+            Some("com.tinyspeck.slackmacgap")
+        );
+        for ok in [
+            CleanupWhy::LevelNone,
+            CleanupWhy::AlreadyClean,
+            CleanupWhy::Empty,
+        ] {
+            assert!(auto_send_target(&d, Some(ok)).is_some(), "{ok:?}");
+        }
+        for fallback in [
+            CleanupWhy::Guard,
+            CleanupWhy::Timeout,
+            CleanupWhy::Error,
+            CleanupWhy::NotReady,
+            CleanupWhy::LowMemory,
+        ] {
+            assert_eq!(auto_send_target(&d, Some(fallback)), None, "{fallback:?}");
+        }
+        assert_eq!(auto_send_target(&StyleDecision::default(), None), None);
+    }
+
+    /// Every preset sends the level's own prompt (RS-07's for Light), and
+    /// a cleaned reply with the preset's punctuation still passes the
+    /// guards (an "!" is not new content).
+    #[tokio::test]
+    async fn styles_send_the_levels_prompt_and_pass_the_guards() {
+        struct Spy(StdMutex<String>);
+        impl Engine for Spy {
+            async fn complete(
+                &self,
+                request: ChatRequest,
+                _timeout: Duration,
+            ) -> Result<String, EngineError> {
+                *self.0.lock().unwrap() = request.system.clone();
+                reply("Great work on the launch today! Thanks for staying late!")
+            }
+        }
+        for style in [
+            StylePreset::Formal,
+            StylePreset::Relaxed,
+            StylePreset::VeryRelaxed,
+            StylePreset::Upbeat,
+        ] {
+            let spy = Spy(StdMutex::new(String::new()));
+            let mut r = req(
+                "um great work on the launch today thanks for staying late",
+                CleanupLevel::Light,
+            );
+            r.style = Some(style);
+            let c = clean(&spy, &r).await;
+            assert_eq!(
+                c.outcome,
+                CleanupOutcome::Applied,
+                "{style:?} {:?}",
+                c.guard_reasons()
+            );
+            assert_eq!(*spy.0.lock().unwrap(), prompt::cleanup_system());
+        }
     }
 }

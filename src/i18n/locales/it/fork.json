@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Nascosto, perché era destinato a un campo password"
     },
-    "undo": "Annulla"
+    "undo": "Annulla",
+    "sendsAutomatically": "Invia automaticamente"
   },
   "cleanup": {
     "title": "Pulizia",
@@ -1314,5 +1315,92 @@
       "intel": "Processore Intel"
     },
     "list": "Tutti i modelli"
+  },
+  "style": {
+    "tabsLabel": "Gruppi di stile",
+    "groups": {
+      "personal": {
+        "tab": "Messaggi personali",
+        "label": "Messaggi personali",
+        "description": "Chat con amici e famiglia, ad esempio Messaggi, WhatsApp, Telegram, Signal e Discord."
+      },
+      "work": {
+        "tab": "Messaggi lavoro",
+        "label": "Messaggi lavoro",
+        "description": "Chat con colleghi, ad esempio Slack, Microsoft Teams e Google Chat."
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "description": "App di posta elettronica, come Mail, Outlook, Spark e Superhuman."
+      },
+      "other": {
+        "tab": "Altro",
+        "label": "Altro",
+        "description": "Ogni altro app: appunti, documenti, editori di codice e altro."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formale",
+        "description": "Lettere maiuscole e punteggiatura completa."
+      },
+      "relaxed": {
+        "label": "Relaxato",
+        "description": "Lettere maiuscole, punteggiatura più leggera."
+      },
+      "very_relaxed": {
+        "label": "Molto rilassato",
+        "description": "Lettere minuscole all'inizio delle frasi, punteggiatura più leggera."
+      },
+      "upbeat": {
+        "label": "Energico",
+        "description": "Punti completi, con un po' più di energia."
+      }
+    },
+    "presetsHeading": "Stile",
+    "presetsLegend": "Stile per {{group}}",
+    "before": "Cosa dici",
+    "after": "Cosa viene scritto:",
+    "englishOnly": "I stili si applicano alle dictazioni in inglese. Il cleanup funziona in ogni lingua.",
+    "apps": {
+      "heading": "Utilizzato in questi app",
+      "listLabel": "Applicazioni che usano lo stile {{group}}",
+      "addShort": "Aggiungi app",
+      "allOthers": "Ogni app che non appartiene a un altro gruppo utilizza questo stile anche.",
+      "empty": "Ancora nessun'app qui. Aggiungine una con Aggiungi app.",
+      "unavailable": "Gli app non possono essere caricati. Appariranno quando l'app sarà pronta.",
+      "chipLabel": "{{app}}: opzioni",
+      "menuLabel": "Opzioni per {{app}}",
+      "moveTo": "Sposta a",
+      "useDefault": "Torna al suo gruppo di default ({{group}})",
+      "remove": "Rimuovi da {{group}}",
+      "autoSend": "Premi Invio dopo aver dictato",
+      "autoSendOn": "preme Invio dopo aver dictato",
+      "notInstalled": "non installato",
+      "aiChat": "Una chat con intelligenza artificiale: le tue parole vanno in chiaro, senza uno stile.",
+      "moved": "Ora {{app}} utilizza lo stile {{group}}.",
+      "removed": "Ora {{app}} utilizza lo stile Altro.",
+      "added": "Ora {{app}} utilizza lo stile {{group}}.",
+      "undo": "Annulla",
+      "changeFailed": "Quella modifica non è stata salvata. Riprova."
+    },
+    "picker": {
+      "title": "Aggiungi un'app a {{group}}",
+      "description": "Scegli un'app su questo Mac. Le sue dictazioni utilizzeranno lo stile {{group}}.",
+      "search": "Cerca app",
+      "listLabel": "Applicazioni su questo Mac",
+      "loading": "Cerca di app...",
+      "failed": "Le app di questo Mac non possono essere elencate.",
+      "none": "Nessuna app corrisponde.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Già qui",
+      "cancel": "Annulla",
+      "close": "Chiudi"
+    },
+    "cleanup": {
+      "tab": "Pulizia",
+      "description": "Quanto il tuo testo viene pulito, in ogni app e in ogni lingua. Lo stile di ogni gruppo viene applicato successivamente."
+    }
   }
 }

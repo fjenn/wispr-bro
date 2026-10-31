@@ -884,7 +884,8 @@
     "card": {
       "hidden": "Gizli, çünkü şifre alanına yönelik olarak oluşturuldu"
     },
-    "undo": "Geri al"
+    "undo": "Geri al",
+    "sendsAutomatically": "Otomatik gönderir"
   },
   "cleanup": {
     "title": "Temizle",
@@ -1314,5 +1315,92 @@
       "intel": "Intel işlemci"
     },
     "list": "Tüm modeller"
+  },
+  "style": {
+    "tabsLabel": "Stil grupları",
+    "groups": {
+      "personal": {
+        "tab": "Kişisel mesajlar",
+        "label": "Kişisel mesajlar",
+        "description": "Dostlar ve ailelerinizle yapılan konuşmalar, örneğin Mesajlar, WhatsApp, Telegram, Signal ve Discord."
+      },
+      "work": {
+        "tab": "İş mesajları",
+        "label": "İş mesajları",
+        "description": "Çalışma arkadaşlarıyla yapılan konuşmalar, örneğin Slack, Microsoft Teams ve Google Chat."
+      },
+      "email": {
+        "tab": "E-posta",
+        "label": "E-posta",
+        "description": "E-posta uygulamaları, örneğin Mail, Outlook, Spark ve Superhuman."
+      },
+      "other": {
+        "tab": "Diğer",
+        "label": "Diğer",
+        "description": "Her diğer uygulama: notlar, belgeler, kod düzenleyicileri ve daha fazlası."
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Resmi",
+        "description": "Büyük harfler ve tam noktalar."
+      },
+      "relaxed": {
+        "label": "Açık",
+        "description": "Büyük harfler, hafif noktalar."
+      },
+      "very_relaxed": {
+        "label": "Çok rahat",
+        "description": "Cümle başlarında küçük harf, hafif noktalar."
+      },
+      "upbeat": {
+        "label": "Canlı",
+        "description": "Tam noktalama, biraz daha enerjiyle."
+      }
+    },
+    "presetsHeading": "Stil",
+    "presetsLegend": "Stil için {{group}}",
+    "before": "Neler dediğin",
+    "after": "Nasıl yazılacak:",
+    "englishOnly": "Stiller İngilizce dictationlara uygulanır. Temizleme her dili kapsar.",
+    "apps": {
+      "heading": "Bu uygulamlarda kullanılır",
+      "listLabel": "{{group}} stilini kullanan uygulamalar",
+      "addShort": "Uygulamayı ekle",
+      "allOthers": "Her başka bir grupta olmayan uygulama bu stilini de kullanır.",
+      "empty": "Burada henüz uygulama yok. Uygulama ekle.",
+      "unavailable": "Uygulamalar yüklenemedi. Uygulama hazır olduğunda görünürler.",
+      "chipLabel": "{{app}}: seçenekler",
+      "menuLabel": "{{app}} için seçenekler",
+      "moveTo": "Taşıyın",
+      "useDefault": "Görev grubuna dönmek ({{group}})",
+      "remove": "{{group}}'den kaldır",
+      "autoSend": "Yazdıktan sonra Enter tuşuna bas",
+      "autoSendOn": "dictasyon yaptıktan sonra Enter'a basar",
+      "notInstalled": "yüklenmemiş",
+      "aiChat": "Bir AI sohbeti: kelimeleriniz temizlenir, tarz yok.",
+      "moved": "Şu anda {{app}} {{group}} stilini kullanıyor.",
+      "removed": "{{app}} şimdi Diğer stilini kullanıyor.",
+      "added": "Şu anda {{app}} {{group}} stilini kullanıyor.",
+      "undo": "Geri al",
+      "changeFailed": "O değişiklik kaydedilmedi. Lütfen tekrar dene."
+    },
+    "picker": {
+      "title": "Bir uygulama ekle {{group}}",
+      "description": "Bu Mac'te bir uygulama seçin. Dictasyonlar {{group}} stilini kullanacaktır.",
+      "search": "Uygulamaları arayın",
+      "listLabel": "Bu Mac'teki Uygulamalar",
+      "loading": "Uygulamalar aranıyor...",
+      "failed": "Bu Mac'te bulunan uygulamalar listelenemedi.",
+      "none": "Hiç bir uygulama eşleşmiyor.",
+      "inGroup": "Grup içinde {{group}}",
+      "alreadyHere": "Zaten buradayız",
+      "cancel": "İptal",
+      "close": "Kapat"
+    },
+    "cleanup": {
+      "tab": "Düzenle",
+      "description": "Her uygulamada ve her dili için kelimelerin ne kadar temizleştirildiğini belirtir. Her grubun tarzı üst üste uygulanır."
+    }
   }
 }

@@ -29,6 +29,7 @@ pub(super) fn deliver(
     app: AppHandle,
     settings: &AppSettings,
     kind: Kind,
+    auto_send: Option<crate::fork::context::app_rules::Armed>,
 ) -> (Result<(), String>, Option<deliver::PasteOutcome>) {
     let text = if settings.append_trailing_space {
         format!("{text} ")
@@ -64,6 +65,19 @@ pub(super) fn deliver(
     // Paste-last puts the text back; it never sends it (S-06).
     req.submit = (settings.auto_submit && kind != Kind::Again)
         .then(|| submit_flags(settings.auto_submit_key));
+    // S-19a "Press Enter after dictating": plain Return, only into the app
+    // it was armed for and only after a confirmed paste.
+    if let Some(armed) = auto_send {
+        if bundle
+            .as_deref()
+            .is_some_and(|b| b.eq_ignore_ascii_case(&armed.bundle_id))
+        {
+            req.submit = Some(0);
+            req.submit_strict = true;
+        } else {
+            log::info!("insert: take {take} no Return (the app in front changed)");
+        }
+    }
     req.keep_transcript = settings.clipboard_handling == ClipboardHandling::CopyToClipboard;
 
     let platform = AppPlatform { app: app.clone() };

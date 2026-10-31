@@ -108,6 +108,9 @@ pub struct ForkPillState {
     pub more: u32,
     /// The card's text was just copied.
     pub copied: bool,
+    /// The take will press Return after its paste (S-19a; the label says
+    /// "Sends automatically").
+    pub sends_automatically: bool,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -407,6 +410,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         card_reason: a.card_reason,
         more: a.more,
         copied: a.copied,
+        sends_automatically: a.sends_automatically,
     }
 }
 
@@ -717,6 +721,9 @@ impl Controller {
                 self.model.step(now, i);
                 if starting && self.model.recording() {
                     self.lookup_mic();
+                    // S-19a: "Press Enter after dictating" in the app in front.
+                    let sends = crate::fork::context::app_rules::frontmost_auto_send();
+                    self.model.step(now, Input::SendsAutomatically(sends));
                 }
             }
             Msg::Prewarm => {

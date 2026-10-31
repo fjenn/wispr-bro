@@ -3,7 +3,7 @@
  * The Hub's pages (S-13, C-01): sidebar order, icons, tags and the component
  * each page slot renders. A feature slice mounts its page by replacing the
  * `component` of its entry (S-15a Dictation: done, S-16 Dictionary: done,
- * S-17 Snippets: done, S-25 Insights: done, S-19a Style, S-22 Transforms, S-24 Scratchpad, S-26b Share,
+ * S-17 Snippets: done, S-25 Insights: done, S-19a Style: done, S-22 Transforms, S-24 Scratchpad, S-26b Share,
  * S-14 Settings). Until then the slot shows a placeholder page with an empty
  * state and one clear action.
  */
@@ -26,6 +26,7 @@ import { DictionaryPage } from "../dictionary/DictionaryPage";
 import { Home } from "../home/Home";
 import { InsightsPage } from "../insights/InsightsPage";
 import { SnippetsPage } from "../snippets/SnippetsPage";
+import { StylePage } from "../style/StylePage";
 import { EmptyState, type TagKind } from "../ui";
 import { HandySettingsPage } from "./HandySettingsPage";
 import { navigate, type HubPageId } from "./nav";
@@ -103,7 +104,7 @@ export const HUB_PAGES: HubPage[] = [
     id: "style",
     group: "main",
     icon: Palette,
-    component: placeholder("style", Palette, { page: "dictation" }),
+    component: StylePage,
   },
   {
     id: "transforms",
