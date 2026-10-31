@@ -499,12 +499,62 @@ pass; S-09.3 purge path only; S-09.4 not run).
 
 ### S-10 Local LLM runtime
 
-- [ ] S-10.1 RS-06 on the real slice: signed binary under Gatekeeper on macOS 13 and 26.
-- [ ] S-10.2 RSS and latency per tier, incl. the cold-cold row.
-- [ ] S-10.3 Esc abort ≤ 100 ms.
-- [ ] S-10.4 Kill the sidecar mid-take → the take fails open and the sidecar restarts.
-- [ ] S-10.5 Sleep mid-take → recovered on wake.
-- Procedure: TODO (S-10). Machines: M-13, M1-8, M-26.
+- [ ] S-10.1 RS-06 on the real slice: signed binary under Gatekeeper on
+      macOS 13 and 26: `spctl --assess --type execute -vv` on
+      `Contents/MacOS/llama-server` says `accepted` (source Notarized
+      Developer ID), and the app launches from a quarantined download.
+- [ ] S-10.2 RSS and latency per tier, incl. the cold-cold row: the RS-06
+      bench (below) on M1-8 and M-26; Light p95 ≤ 2.2 s end to end on M1-8,
+      combined peak (ASR + LLM) ≤ 3.2 GB, cold-cold extra ≤ +2.5 s p95.
+- [ ] S-10.3 Esc abort ≤ 100 ms: bench `abort.slot_free_extra_ms_p95` ≤ 100.
+- [ ] S-10.4 Kill the sidecar mid-take → the take fails open and the
+      sidecar restarts (`real_server_killed_mid_request_fails_open_and_restarts`,
+      then in the app: `pkill -9 llama-server` while a Try-it runs; the panel
+      shows the error, the next Try-it works).
+- [ ] S-10.5 Sleep mid-take → recovered on wake: close the lid (or Apple
+      menu › Sleep) for 1 min while the engine runs; after wake the log shows
+      `llm: server healthy after wake` (or a restart) and Try it works.
+- [ ] S-10.6 First run: on a fresh profile with a speech model, the cleanup
+      model downloads silently (Settings › Advanced › AI engine, on the fork
+      debug panel until S-14, shows the progress), then **Ready**; Try it
+      cleans the sample sentence.
+- [ ] S-10.7 No network from the sidecar: `lsof -a -i -p $(pgrep llama-server)`
+      prints nothing while it runs; `nettop -P -L 1 -p $(pgrep llama-server)`
+      shows 0 bytes; the `wb-egress` run passes.
+- [ ] S-10.8 Idle: 120 s after the last request `pgrep llama-server` finds
+      nothing; quitting the app (⌘Q, and `kill -9` of the app) leaves no
+      `llama-server` behind.
+
+**Procedure (S-10.2-S-10.4): unattended, about 3 minutes.** Build the sidecar
+and run the RS-06 bench against the real binary and model (any reference
+Mac; no window is opened):
+
+```sh
+ci/llama-server/build.sh                     # static, signed ad hoc; prints the path
+cd src-tauri
+export WB_LLAMA_SERVER=$PWD/target/wb-sidecar/llama-server-aarch64-apple-darwin
+export WB_LLM_MODEL=<HF cache>/qwen35-2b-muesli-v12-Q4_K_M.gguf
+export WB_ASR_MODEL=<a speech GGUF, e.g. parakeet-tdt-0.6b-v3-Q8_0.gguf>
+export WB_ASR_WAV=<a 16 kHz mono WAV of scripted speech>
+export WB_RS06_OUT=../docs/fork/test-runs/<version>-<machine-id>/rs06.json
+cargo test --lib fork::llm -- --ignored --nocapture --test-threads 1 rs06 real_
+```
+
+Record `cold_start_to_health`, `light_warm`, `contention`, `abort` and
+`wake` from the JSON. The model file is in the app's HF cache after S-10.6
+(`~/Library/Application Support/com.wisprbro.desktop/huggingface/hub/models--Muesli-HQ--qwen35-2b-muesli-cleanup-v12-gguf/snapshots/e35af097…/`).
+
+**Procedure (S-10.6, S-10.8): in the app.** Fresh profile, then launch with
+the AI-engine self-check:
+
+```sh
+WISPRBRO_SELFCHECK=1 WISPRBRO_SELFCHECK_LLM=1 "/Applications/Wispr Bro.app/Contents/MacOS/wispr-bro"
+```
+
+The log (`~/Library/Logs/com.wisprbro.desktop/wispr-bro.log`) must show
+`fork selfcheck: PASS … fork_llm_status state=…`, `llm: muesli-2b-v12-q4km
+ready`, then `fork llm selfcheck: PASS cold: …` and `PASS warm: …`. Machines:
+M-13, M1-8, M-26.
 
 ### S-11 Text pipeline v2
 
