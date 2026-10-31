@@ -427,9 +427,15 @@ test.describe("insights", () => {
     expect(png.subarray(0, 8)).toEqual(
       Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     );
-    // 2× render of the page area: wider than the window.
-    const width = png.readUInt32BE(16);
-    expect(width).toBeGreaterThan(1000);
+    // A 2× render of the export area plus a 24 px margin on each side.
+    const area = await page
+      .getByTestId("wb-insights-export")
+      .evaluate((e) => [
+        (e as HTMLElement).offsetWidth,
+        (e as HTMLElement).offsetHeight,
+      ]);
+    expect(png.readUInt32BE(16)).toBe(2 * (area[0] + 48));
+    expect(png.readUInt32BE(20)).toBe(2 * (area[1] + 48));
     await expect(page.getByText("Saved the image.")).toBeVisible();
   });
 

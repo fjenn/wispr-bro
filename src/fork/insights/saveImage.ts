@@ -27,9 +27,14 @@ function canvasColor(): string {
 /** `node` as a PNG, base64 without the `data:` prefix. */
 export async function renderPng(node: HTMLElement): Promise<string> {
   const { toPng } = await import("html-to-image");
+  // A margin round the picture: the cards otherwise touch its edges.
+  const margin = 24;
   const options = {
     pixelRatio: 2,
     backgroundColor: canvasColor(),
+    width: node.offsetWidth + 2 * margin,
+    height: node.offsetHeight + 2 * margin,
+    style: { padding: `${margin}px`, boxSizing: "border-box" },
     filter: (n: HTMLElement) =>
       !(n instanceof HTMLElement && n.dataset.exportSkip !== undefined),
   };
