@@ -37,6 +37,8 @@ fn the_default_bindings_compile_to_the_fn_grammar() {
         vec![
             no_handler("copy_last", "ctrl+command+c"),
             no_handler("paste_last", "ctrl+command+v"),
+            no_handler("transform.polish", "option+1"),
+            no_handler("transform.prompt_engineer", "option+2"),
         ]
     );
 }
@@ -44,7 +46,11 @@ fn the_default_bindings_compile_to_the_fn_grammar() {
 #[test]
 fn a_handled_keyed_action_is_registered() {
     let p = compile(&default_hotkeys(), |id| id == "paste_last");
-    assert_eq!(p.issues.len(), 1, "copy_last has no handler here");
+    assert_eq!(
+        p.issues.len(),
+        3,
+        "copy_last and disabled transforms have no handler here"
+    );
     assert_eq!(p.keyed.len(), 1);
     assert_eq!(p.keyed[0].action, "paste_last");
     assert_eq!(p.keyed[0].hotkey, "ctrl+command+v".parse().unwrap());
@@ -63,7 +69,15 @@ fn the_recovery_defaults_paste_and_copy_and_leave_the_rest_unset() {
     assert!(p.issues.is_empty(), "{:?}", p.issues);
     let mut actions: Vec<_> = p.keyed.iter().map(|k| k.action.as_str()).collect();
     actions.sort();
-    assert_eq!(actions, ["copy_last", "paste_last"]);
+    assert_eq!(
+        actions,
+        [
+            "copy_last",
+            "paste_last",
+            "transform.polish",
+            "transform.prompt_engineer"
+        ]
+    );
 }
 
 #[test]

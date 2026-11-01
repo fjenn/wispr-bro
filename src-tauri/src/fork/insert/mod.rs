@@ -146,6 +146,25 @@ pub fn deliver_as(
     (result, Some(outcome))
 }
 
+/// S-21: replaces a selection (or a whole field) with one clipboard paste.
+/// Shares the dictation line and slot, so a transform cannot interleave its
+/// transcript or restore with an ordinary take's.
+pub fn deliver_transform<R: Runtime>(
+    app: &AppHandle<R>,
+    text: String,
+    target: u64,
+    select_all: bool,
+    cancelled: &(dyn Fn() -> bool + Send + Sync),
+) -> Result<deliver::Report, String> {
+    #[cfg(target_os = "macos")]
+    return mac::deliver_transform(app.clone(), text, target, select_all, cancelled);
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = (app, text, target, select_all, cancelled);
+        Err("Transforms replacement is available on macOS".into())
+    }
+}
+
 /// The disk filled up during a recording (`fork::db::disk`): stop it like a
 /// sleep would, and send its text to the card.
 pub fn on_disk_full<R: Runtime>(app: &AppHandle<R>) {

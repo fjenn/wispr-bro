@@ -18,6 +18,21 @@ export function ForkSettingsDebug() {
   const contextId = useId();
   const contextHintId = useId();
   const levelId = useId();
+  const transformsId = useId();
+  const transformsHintId = useId();
+
+  const useSafeTransformShortcuts = async () => {
+    for (const [action, chord] of [
+      ["transform.polish", "ctrl+option+1"],
+      ["transform.prompt_engineer", "ctrl+option+2"],
+    ] as const) {
+      const result = await setSetting("hotkey", {
+        action,
+        bindings: [{ chord, activation: "press" }],
+      });
+      if (result.status === "error") break;
+    }
+  };
 
   if (!settings) {
     return (
@@ -51,6 +66,34 @@ export function ForkSettingsDebug() {
       <p id={contextHintId} className="-mt-1 ps-6 text-xs text-ink-3">
         {t("settings.debug.contextAwarenessHint")}
       </p>
+      <label htmlFor={transformsId} className="flex items-center gap-2">
+        <input
+          id={transformsId}
+          type="checkbox"
+          aria-describedby={transformsHintId}
+          data-testid="fork-settings-transforms"
+          checked={settings.transforms_enabled}
+          disabled={!!pending.transforms_enabled}
+          onChange={(e) =>
+            void setSetting("transforms_enabled", e.currentTarget.checked)
+          }
+        />
+        {t("settings.debug.transforms")}
+      </label>
+      <p id={transformsHintId} className="-mt-1 ps-6 text-xs text-ink-3">
+        {t("settings.debug.transformsHint")}
+      </p>
+      <div className="ps-6">
+        <button
+          type="button"
+          className="rounded border border-line-strong px-2 py-1 text-xs"
+          title={t("settings.debug.transformsSafeShortcutsHint")}
+          disabled={!!pending.hotkey}
+          onClick={() => void useSafeTransformShortcuts()}
+        >
+          {t("settings.debug.transformsSafeShortcuts")}
+        </button>
+      </div>
       <label htmlFor={levelId} className="flex items-center gap-2">
         {t("settings.debug.cleanupLevel")}
         <select

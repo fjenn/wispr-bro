@@ -41,7 +41,7 @@ pub const FORK_SETTINGS_FILE: &str = "fork-settings.json";
 /// Key of the settings object inside the store (same layout as Handy's store).
 pub const STORE_KEY: &str = "settings";
 /// Current [`ForkSettings::schema_version`].
-pub const CURRENT_SCHEMA_VERSION: u32 = 2;
+pub const CURRENT_SCHEMA_VERSION: u32 = 3;
 
 /// The only app identity whose Handy settings the fork may rewrite. A build
 /// without the identity overlay (`cargo build`, `bun run tauri dev`) runs as
@@ -153,6 +153,14 @@ pub fn default_hotkeys() -> BTreeMap<String, Vec<HotkeyBinding>> {
         (
             COPY_LAST.into(),
             vec![HotkeyBinding::new("ctrl+command+c", Press)],
+        ),
+        (
+            "transform.polish".into(),
+            vec![HotkeyBinding::new("option+1", Press)],
+        ),
+        (
+            "transform.prompt_engineer".into(),
+            vec![HotkeyBinding::new("option+2", Press)],
         ),
     ])
 }
@@ -770,6 +778,10 @@ pub const MIGRATIONS: &[Migration] = &[
         from: 1,
         apply: migrate_v1_to_v2,
     },
+    Migration {
+        from: 2,
+        apply: migrate_v2_to_v3,
+    },
 ];
 
 fn migrate_v0_to_v1(map: &mut Map<String, Value>) {
@@ -789,6 +801,22 @@ fn migrate_v1_to_v2(map: &mut Map<String, Value>) {
     if !hotkeys.contains_key(id) {
         if let Some(value) = defaults.get(id).and_then(|b| serde_json::to_value(b).ok()) {
             hotkeys.insert(id.to_string(), value);
+        }
+    }
+}
+
+/// v2 → v3 (S-21): add the built-in transform shortcuts. A user's existing
+/// entries, including deliberately unset transform bindings, are preserved.
+fn migrate_v2_to_v3(map: &mut Map<String, Value>) {
+    let Some(Value::Object(hotkeys)) = map.get_mut("hotkeys") else {
+        return;
+    };
+    let defaults = default_hotkeys();
+    for id in ["transform.polish", "transform.prompt_engineer"] {
+        if !hotkeys.contains_key(id) {
+            if let Some(value) = defaults.get(id).and_then(|b| serde_json::to_value(b).ok()) {
+                hotkeys.insert(id.to_string(), value);
+            }
         }
     }
 }

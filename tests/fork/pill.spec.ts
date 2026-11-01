@@ -151,6 +151,13 @@ const STATES: Record<string, ForkPillState> = {
     message: "copied_last",
     tone: "info",
   }),
+  transformDone: state({
+    phase: "message",
+    shape: "message",
+    message: "transform_done",
+    tone: "info",
+    fix: "view_changes",
+  }),
 };
 
 async function openPill(
@@ -303,6 +310,13 @@ test.describe("buttons", () => {
     await ipc.expectCalled("fork_pill_action", { action: "fix" });
     await page.getByRole("button", { name: "Dismiss" }).click();
     await ipc.expectCalled("fork_pill_action", { action: "dismiss" });
+  });
+
+  test("a finished transform offers View changes", async ({ page, ipc }) => {
+    await openPill(page, ipc, STATES.transformDone);
+    await expect(page.getByTestId("wb-pill-message")).toHaveText("Done");
+    await page.getByRole("button", { name: "View changes" }).click();
+    await ipc.expectCalled("fork_pill_action", { action: "fix" });
   });
 
   // The bar's panel never becomes key (it must not take focus from the

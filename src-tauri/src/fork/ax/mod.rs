@@ -32,7 +32,7 @@ pub mod lease;
 #[cfg(target_os = "macos")]
 pub mod element;
 #[cfg(target_os = "macos")]
-mod focus;
+pub(crate) mod focus;
 #[cfg(target_os = "macos")]
 pub mod markers;
 #[cfg(target_os = "macos")]

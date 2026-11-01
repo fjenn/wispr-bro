@@ -73,6 +73,46 @@ test.describe("useForkSettings", () => {
     });
   });
 
+  test("toggles Transforms and applies both safer Option shortcuts", async ({
+    page,
+  }) => {
+    const section = await openPanel(page, {
+      fork_get_settings: defaults,
+      fork_set_setting: { ...defaults, transforms_enabled: true },
+    });
+    const toggle = section.getByTestId("fork-settings-transforms");
+    await expect(toggle).not.toBeChecked();
+    await expect(section).toContainText("replace ¡ and ™");
+
+    await toggle.click();
+    await expect(toggle).toBeChecked();
+    await section
+      .getByRole("button", { name: "Use ⌃⌥1 and ⌃⌥2 instead" })
+      .click();
+    const sets = await calls(page, "fork_set_setting");
+    expect(sets.map((call) => call.args)).toEqual([
+      { update: { key: "transforms_enabled", value: true } },
+      {
+        update: {
+          key: "hotkey",
+          value: {
+            action: "transform.polish",
+            bindings: [{ chord: "ctrl+option+1", activation: "press" }],
+          },
+        },
+      },
+      {
+        update: {
+          key: "hotkey",
+          value: {
+            action: "transform.prompt_engineer",
+            bindings: [{ chord: "ctrl+option+2", activation: "press" }],
+          },
+        },
+      },
+    ]);
+  });
+
   test("follows ForkSettingsChanged from the backend", async ({ page }) => {
     const section = await openPanel(page, { fork_get_settings: defaults });
     const level = section.getByTestId("fork-settings-cleanup-level");

@@ -54,6 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "transforms": "Transforms",
+      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
+      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
+      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -629,7 +633,12 @@
         "no_space": "磁盘空间不足，无法设置听写",
         "cancelled": "已取消",
         "no_transcript": "还没有可粘贴的听写",
-        "copied_last": "已复制最近一次听写"
+        "copied_last": "已复制最近一次听写",
+        "transform_done": "Done",
+        "select_text_first": "Select text first",
+        "selection_too_long": "Select 6,000 characters or fewer",
+        "transform_focus_moved": "You moved on, so nothing changed",
+        "transform_failed": "Couldn't transform that text"
       },
       "card": {
         "no_text_field": "先点击文本框",
@@ -953,6 +962,7 @@
       "hidden": "隐藏，因为它本应用于密码字段"
     },
     "undo": "撤销",
+    "viewChanges": "View changes",
     "sendsAutomatically": "自动发送"
   },
   "cleanup": {
