@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Configurações",
+    "close": "Fechar configurações",
+    "navigation": "Seções de configuração",
+    "sections": {
+      "general": "Geral",
+      "system": "Sistema",
+      "privacy": "Dados e Privacidade",
+      "advanced": "Avançado",
+      "about": "Sobre",
+      "hotkeys": "Atalhos"
+    },
+    "general": {
+      "shortcuts": "Atalhos",
+      "shortcutTitle": "Atalho de dicção",
+      "shortcutHint": "Escolha como começa a dicção e gere todas as ações do teclado.",
+      "holdToTalk": "Segure {{shortcut}} para falar",
+      "change": "Mudar",
+      "microphone": "Microfone",
+      "languages": "Meus idiomas",
+      "appearance": "Idioma do app e tema"
+    },
+    "system": {
+      "app": "Comportamento do App",
+      "alwaysBar": "Sempre mostre a barra",
+      "showDock": "Mostrar app no Dock",
+      "showDockHint": "Manter o Wispr Bro no Dock após fechar a sua janela.",
+      "sounds": "Som",
+      "notifications": "Notificações",
+      "notificationKinds": {
+        "system": "Notificações do Mac",
+        "modelReady": "Modelo de fala pronto",
+        "updateReady": "Atualização pronta",
+        "queuedReady": "Dictações agendadas prontas",
+        "errors": "Problemas que precisam de atenção",
+        "suggestions": "Sugestões",
+        "announcements": "Anúncios de funcionalidade",
+        "milestones": "Marcos"
+      },
+      "scratchpad": "Painel de rascunho",
+      "scratchpadLabel": "Abrir o Scratchpad em",
+      "scratchpadHint": "Escolha onde o Scratchpad abre quando você usar seu atalho.",
+      "scratchpadOptions": {
+        "floating": "Uma janela flutuante",
+        "hub": "A janela principal"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Seus dados permanecem sob seu controle",
+      "placeholderBody": "A retenção e os controles de privacidade estarão disponíveis aqui em uma atualização futura. A dictação e a limpeza continuam a funcionar neste Mac."
+    },
+    "advanced": {
+      "output": "Saída de texto",
+      "transcription": "Transcrição",
+      "barAndOverlay": "Barra de dictação e sobreposição",
+      "liveText": "Mostrar o texto em tempo real na barra",
+      "liveTextHint": "Exibir as palavras reconhecidas enquanto você fala.",
+      "keyboard": "Backend do teclado",
+      "prompts": "Limpeza do provedor e editor de prompt",
+      "history": "Armazenamento de histórico",
+      "updates": "Atualizações",
+      "updateChannel": "Canal de atualização",
+      "updateChannelHint": "Builds Beta podem incluir mudanças não finalizadas.",
+      "updateChannels": {
+        "stable": "Estável",
+        "beta": "Beta"
+      },
+      "storage": "Locações de dados e logs",
+      "experimental": "Experimental e de depuração",
+      "debugMode": "Ferramentas de depuração",
+      "debugModeHint": "Mostrar controles diagnósticos e opções de logging detalhadas.",
+      "forkDiagnostics": "Fork settings diagnósticos"
+    },
+    "about": {
+      "tagline": "Dictação local, sem conta e sem processamento na nuvem.",
+      "version": "Versão {{version}}",
+      "source": "Ver código fonte",
+      "updates": "Observações da atualização"
+    },
+    "hotkeys": {
+      "open": "Atalhos",
+      "loading": "Carregando atalhos...",
+      "description": "Adicione até {{max}} atalhos para cada ação. As alterações são salvas enquanto você as faz.",
+      "secureInputHelp": "O macOS Secure Input protege a digitação de senhas ocultando os teclados de outras aplicações. A captura de atalhos pausa enquanto estiver ativa.",
+      "count": "{{count}} de {{max}} definidos",
+      "notSet": "Não definido",
+      "current": "Atalho: {{shortcut}}",
+      "activationLabel": "Ativação de atalho",
+      "activations": {
+        "hold": "Segure",
+        "double_tap": "Dobrar toque",
+        "press": "Press",
+        "toggle": "Alternar"
+      },
+      "add": "Adicionar atalho",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "reset": "Resetar para padrões",
+      "resetting": "Resetando...",
+      "resetFailed": "Não foi possível resetar todos os atalhos. Tente novamente.",
+      "done": "Pronto",
+      "saveFailed": "Não foi possível salvar esse atalho.",
+      "conflict": "Também usado por {{action}}. Escolha um atalho diferente.",
+      "invalid": "Este atalho não é reconhecido.",
+      "unsupported": "O motor de atalhos não pode usar esta combinação para a ação.",
+      "capture": {
+        "starting": "Capturando atalho de início...",
+        "listening": "Pressa uma combinação de teclas...",
+        "listeningHelp": "Pressa a combinação de teclas ou botão do mouse para usar. Escape cancela.",
+        "cancel": "Cancelar",
+        "close": "Volta",
+        "secure": "A captura de atalhos está indisponível enquanto o Entrada Segura estiver ativo. Saia do campo de senha ou desative a Entrada de Teclado Segura, depois tente novamente.",
+        "failed": "Não foi possível iniciar a captura de atalhos. Verifique a permissão de Acessibilidade e tente novamente."
+      },
+      "actions": {
+        "dictate": "Aperte para falar",
+        "hands_free": "Dictação sem mãos",
+        "cancel": "Cancelar dicção",
+        "paste_last": "Colar a última dictação",
+        "copy_last": "Copiar última dictação",
+        "press_enter": "Aperte Enter",
+        "undo_cancel": "Desfazer um cancelar"
+      },
+      "help": {
+        "dictate": "Mantenha a combinação enquanto falar; solte para finalizar.",
+        "hands_free": "Inicie e pare a dicção sem segurar uma tecla.",
+        "cancel": "Pare a dictação atual sem inseri-la.",
+        "paste_last": "Cole sua última dictação novamente.",
+        "copy_last": "Copiar sua última dictação para a área de transferência.",
+        "press_enter": "Aperte Return no aplicativo onde você está digitando. Um botão lateral do mouse funciona bem aqui.",
+        "undo_cancel": "Restaurar uma dictação imediatamente após cancelá-la."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

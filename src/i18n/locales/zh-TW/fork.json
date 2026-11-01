@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "設定",
+    "close": "關閉設定",
+    "navigation": "設定區段",
+    "sections": {
+      "general": "一般",
+      "system": "系統",
+      "privacy": "資料與隱私",
+      "advanced": "進階",
+      "about": "關於",
+      "hotkeys": "快捷鍵"
+    },
+    "general": {
+      "shortcuts": "快捷鍵",
+      "shortcutTitle": "dictation shortcut",
+      "shortcutHint": "選擇您如何開始語音輸入，並管理所有鍵盤操作。",
+      "holdToTalk": "按住 {{shortcut}} 開始說話",
+      "change": "變更",
+      "microphone": "麥克風",
+      "languages": "我的語言",
+      "appearance": "應用語言與主題"
+    },
+    "system": {
+      "app": "應用行為",
+      "alwaysBar": " always show the bar ",
+      "showDock": "在 Dock 中顯示應用程式",
+      "showDockHint": "在 Wispr Bro 窗口關閉後，仍保留在 Dock 中。",
+      "sounds": "聲音",
+      "notifications": "通知",
+      "notificationKinds": {
+        "system": "Mac 通知",
+        "modelReady": "語音模型準備就緒",
+        "updateReady": "更新準備就緒",
+        "queuedReady": "已排隊的語音輸入準備好",
+        "errors": "需要留意的問題",
+        "suggestions": "建議",
+        "announcements": "功能公告",
+        "milestones": "里程碑"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Open Scratchpad in",
+      "scratchpadHint": "選擇使用快捷方式時，Scratchpad 開啟的位置。",
+      "scratchpadOptions": {
+        "floating": "一個浮動視窗",
+        "hub": "主要視窗"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "您的資料永遠在您掌握之中",
+      "placeholderBody": "保留與隱私控制將在未來的更新中提供。語音輸入與後處理仍會在這台 Mac 上運行。"
+    },
+    "advanced": {
+      "output": "文字輸出",
+      "transcription": "轉錄",
+      "barAndOverlay": "dictation bar 和 overlay",
+      "liveText": "在欄位中顯示即時文字",
+      "liveTextHint": "顯示您說話時辨識到的字詞。",
+      "keyboard": "Keyboard backend",
+      "prompts": "清理提供者和提示編輯器",
+      "history": "歷史儲存",
+      "updates": "更新",
+      "updateChannel": "更新頻道",
+      "updateChannelHint": "Beta 版本可能包含未完成的變更。",
+      "updateChannels": {
+        "stable": "穩定",
+        "beta": "Beta"
+      },
+      "storage": "資料與日誌位置",
+      "experimental": "實驗性與除錯",
+      "debugMode": "調試工具",
+      "debugModeHint": "顯示診斷控制與詳細日誌選項。",
+      "forkDiagnostics": "Fork 設定診斷"
+    },
+    "about": {
+      "tagline": "本地語音輸入，無帳號，無雲端處理。",
+      "version": "版本 {{version}}",
+      "source": "查看原始程式碼",
+      "updates": "更新說明"
+    },
+    "hotkeys": {
+      "open": "快捷鍵",
+      "loading": "載入快捷鍵…",
+      "description": "為每個動作新增最多 {{max}} 個快捷鍵。您在設定時會即時儲存變更。",
+      "secureInputHelp": "macOS Secure Input 會保護密碼輸入，將鍵盤輸入隱藏於其他應用程式之外。快捷鍵捕捉在啟用時會暫停。",
+      "count": "{{count}} 件中 {{max}} 件已設定",
+      "notSet": "未設定",
+      "current": "快捷鍵：{{shortcut}}",
+      "activationLabel": "啟動快捷鍵",
+      "activations": {
+        "hold": "按住",
+        "double_tap": "雙擊",
+        "press": "按下",
+        "toggle": "切換"
+      },
+      "add": "新增快捷鍵",
+      "edit": "編輯",
+      "delete": "刪除",
+      "reset": "恢復為預設值",
+      "resetting": "正在重設…",
+      "resetFailed": "無法重設所有快捷鍵。請再試一次。",
+      "done": "完成",
+      "saveFailed": "無法儲存這個快捷鍵。",
+      "conflict": "也用於 {{action}}。請選擇另一個快捷鍵。",
+      "invalid": "這個快捷鍵不被識別。",
+      "unsupported": "熱鍵引擎無法為此操作使用此組合。",
+      "capture": {
+        "starting": "開始捕捉快捷鍵…",
+        "listening": "按下快捷鍵…",
+        "listeningHelp": "按下鍵組合或滑鼠按鈕來使用。Escape 取消。",
+        "cancel": "取消",
+        "close": "返回",
+        "secure": "快捷鍵捕獲在啟用安全輸入時不可用。請離開密碼欄位或關閉安全鍵盤輸入，然後再試一次。",
+        "failed": "無法開始快捷鍵捕捉。請檢查存取權限並重新嘗試。"
+      },
+      "actions": {
+        "dictate": "推到說話",
+        "hands_free": "語音輸入（無手操作）",
+        "cancel": "取消語音輸入",
+        "paste_last": "貼上上次語音輸入",
+        "copy_last": "複製上次語音輸入",
+        "press_enter": "按下 Enter",
+        "undo_cancel": "撤銷一個取消"
+      },
+      "help": {
+        "dictate": "按住快捷鍵 whilst 說話；釋放以完成。",
+        "hands_free": "開始與停止語音輸入，無需按鍵。",
+        "cancel": "中斷當前語音輸入而不將其插入。",
+        "paste_last": "貼上您最近一次的語音輸入。",
+        "copy_last": "將您最近的語音輸入複製到剪貼簿。",
+        "press_enter": "在您輸入的應用程式中按下 Enter。使用滑鼠側鍵效果良好。",
+        "undo_cancel": "恢復一段剛取消的語音輸入。"
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

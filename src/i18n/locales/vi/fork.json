@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Cài đặt",
+    "close": "Đóng cài đặt",
+    "navigation": "Các phần cài đặt",
+    "sections": {
+      "general": "Tổng quát",
+      "system": "Hệ thống",
+      "privacy": "Dữ liệu và Bảo mật",
+      "advanced": "Nâng cao",
+      "about": "Về",
+      "hotkeys": "Tắt phím"
+    },
+    "general": {
+      "shortcuts": "Các phím tắt",
+      "shortcutTitle": "Tắt nhanh ghi âm",
+      "shortcutHint": "Chọn cách bạn bắt đầu gõ văn bản và quản lý mọi thao tác bàn phím.",
+      "holdToTalk": "Giữ {{shortcut}} để nói",
+      "change": "Thay đổi",
+      "microphone": "Microphone",
+      "languages": "Ngôn ngữ của tôi",
+      "appearance": "Ngôn ngữ và chủ đề ứng dụng"
+    },
+    "system": {
+      "app": "Hành vi ứng dụng",
+      "alwaysBar": "Luôn hiển thị thanh",
+      "showDock": "Hiện ứng dụng trong Dock",
+      "showDockHint": "Giữ Wispr Bro trong thanh Dock sau khi cửa sổ của nó đóng.",
+      "sounds": "Âm thanh",
+      "notifications": "Thông báo",
+      "notificationKinds": {
+        "system": "Thông báo Mac",
+        "modelReady": "Mô hình giọng nói đã sẵn sàng",
+        "updateReady": "Cập nhật sẵn sàng",
+        "queuedReady": "Các bản ghi đang chờ sẵn sàng",
+        "errors": "Các vấn đề cần chú ý",
+        "suggestions": "Gợi ý",
+        "announcements": "Các thông báo về tính năng",
+        "milestones": "Các mốc"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Mở Scratchpad trong",
+      "scratchpadHint": "Chọn vị trí để Scratchpad mở khi bạn sử dụng phím tắt của nó.",
+      "scratchpadOptions": {
+        "floating": "Một cửa sổ nổi",
+        "hub": "Cửa sổ chính"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Dữ liệu của bạn luôn được kiểm soát bởi bạn",
+      "placeholderBody": "Các thiết lập về bảo mật và lưu trữ sẽ được cung cấp tại đây trong bản cập nhật sau. Chức năng ghi âm và xử lý tiếp tục hoạt động trên máy Mac này."
+    },
+    "advanced": {
+      "output": "Đầu ra văn bản",
+      "transcription": "Biến đổi giọng nói",
+      "barAndOverlay": "Thanh dictation và lớp phủ",
+      "liveText": "Hiện văn bản thực thời trong thanh",
+      "liveTextHint": "Hiển thị các từ được nhận diện khi bạn nói.",
+      "keyboard": "Kết nối bàn phím",
+      "prompts": "Xóa sạch nhà cung cấp và trình chỉnh sửa prompt",
+      "history": "Lưu trữ lịch sử",
+      "updates": "Cập nhật",
+      "updateChannel": "Kênh cập nhật",
+      "updateChannelHint": "Các bản cập nhật Beta có thể bao gồm những thay đổi chưa hoàn thành.",
+      "updateChannels": {
+        "stable": "Ổn định",
+        "beta": "Beta"
+      },
+      "storage": "Vị trí dữ liệu và log",
+      "experimental": "Thử nghiệm và kiểm tra",
+      "debugMode": "Các công cụ kiểm tra lỗi",
+      "debugModeHint": "Hiện các tùy chọn kiểm tra và ghi log chi tiết.",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "Định dạng địa phương, không cần tài khoản và không xử lý trên đám mây.",
+      "version": "Phiên bản {{version}}",
+      "source": "Xem mã nguồn",
+      "updates": "Ghi chú cập nhật"
+    },
+    "hotkeys": {
+      "open": "Các phím tắt",
+      "loading": "Đang tải các phím tắt…",
+      "description": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi sẽ được lưu khi bạn thực hiện.",
+      "secureInputHelp": "macOS Secure Input bảo vệ việc nhập mật khẩu bằng cách ẩn các phím được nhấn khỏi các ứng dụng khác. Chức năng bắt nhanh phím tạm dừng khi đang hoạt động.",
+      "count": "{{count}} trong {{max}} đã thiết lập",
+      "notSet": "Chưa thiết lập",
+      "current": "Phím tắt: {{shortcut}}",
+      "activationLabel": "Khởi động phím tắt",
+      "activations": {
+        "hold": "Giữ",
+        "double_tap": "Nhấn hai lần",
+        "press": "Nhấn",
+        "toggle": "Chuyển đổi"
+      },
+      "add": "Thêm phím tắt",
+      "edit": "Sửa",
+      "delete": "Xoá",
+      "reset": "Đặt lại về mặc định",
+      "resetting": "Đang đặt lại...",
+      "resetFailed": "Không thể đặt lại tất cả các phím tắt. Hãy thử lại.",
+      "done": "Xong",
+      "saveFailed": "Không thể lưu tổ hợp phím đó.",
+      "conflict": "Cũng được sử dụng bởi {{action}}. Chọn một phím tắt khác.",
+      "invalid": "Tắt này không được nhận diện.",
+      "unsupported": "Engine phím tắt không thể sử dụng tổ hợp này cho thao tác này.",
+      "capture": {
+        "starting": "Đang bắt đầu ghi nhận phím tắt…",
+        "listening": "Nhấn một phím tắt…",
+        "listeningHelp": "Nhấn tổ hợp phím hoặc nút chuột để sử dụng. Phím Escape hủy.",
+        "cancel": "Hủy",
+        "close": "Quay lại",
+        "secure": "Chức năng ghi ngắn giao thức không khả dụng khi Secure Input đang hoạt động. Hãy rời khỏi trường nhập mật khẩu hoặc tắt Secure Keyboard Entry, rồi thử lại.",
+        "failed": "Không thể bắt đầu việc ghi ngắn gọn. Kiểm tra quyền truy cập và thử lại."
+      },
+      "actions": {
+        "dictate": "Nhấn để nói",
+        "hands_free": "Điều khiển giọng tay tự do",
+        "cancel": "Hủy ghi âm",
+        "paste_last": "Dán lời nói trước",
+        "copy_last": "Sao chép dictation gần nhất",
+        "press_enter": "Nhấn Enter",
+        "undo_cancel": "Hoàn tác một hành động hủy"
+      },
+      "help": {
+        "dictate": "Giữ phím tắt khi bạn nói; thả phím để kết thúc.",
+        "hands_free": "Bắt đầu và dừng ghi âm mà không cần giữ phím.",
+        "cancel": "Dừng ghi âm hiện tại mà không chèn vào.",
+        "paste_last": "Dán lại bản ghi dictation gần nhất của bạn.",
+        "copy_last": "Sao chép bản dictation gần nhất của bạn vào bộ nhớ tạm.",
+        "press_enter": "Nhấn Return trong ứng dụng mà bạn đang nhập văn bản. Một nút bên của chuột sẽ hoạt động tốt ở đây.",
+        "undo_cancel": "Khôi phục một bản ghi giọng nói chỉ sau khi bạn hủy bỏ nó."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

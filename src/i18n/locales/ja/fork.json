@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "設定",
+    "close": "設定を閉じる",
+    "navigation": "設定セクション",
+    "sections": {
+      "general": "一般",
+      "system": "システム",
+      "privacy": "データとプライバシー",
+      "advanced": "高度",
+      "about": "About",
+      "hotkeys": "ショートカット"
+    },
+    "general": {
+      "shortcuts": "ショートカット",
+      "shortcutTitle": "Dictation shortcut",
+      "shortcutHint": "dictationを開始する方法と、すべてのキーボード操作を管理します。",
+      "holdToTalk": "{{shortcut}}を押しながら話す",
+      "change": "変更",
+      "microphone": "マイクロフォン",
+      "languages": "私の言語",
+      "appearance": "アプリの言語とテーマ"
+    },
+    "system": {
+      "app": "アプリの動作",
+      "alwaysBar": "バーを常に表示",
+      "showDock": "ドックにアプリを表示",
+      "showDockHint": "ウィスプリ・ブロがウィンドウを閉じてもドックに残す",
+      "sounds": "音声",
+      "notifications": "通知",
+      "notificationKinds": {
+        "system": "Mac の通知",
+        "modelReady": "スピーチモデル準備完了",
+        "updateReady": "更新が準備完了",
+        "queuedReady": "並び順の辞書が準備完了",
+        "errors": "注意が必要な問題",
+        "suggestions": "提案",
+        "announcements": "機能の発表",
+        "milestones": "マイルストーン"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "「スクラッチパッドを開く」",
+      "scratchpadHint": "Scratchpadがショートカットを使用したときにどこに開くかを選択します。",
+      "scratchpadOptions": {
+        "floating": "フローティングウィンドウ",
+        "hub": "メインウィンドウ"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "あなたのデータはあなたの制御の下にあります",
+      "placeholderBody": "保存期間およびプライバシー設定は、後のアップデートでこちらに表示されます。ディクテーションとクリーンアップは、このMac上で継続します。"
+    },
+    "advanced": {
+      "output": "テキスト出力",
+      "transcription": "トランスクリプション",
+      "barAndOverlay": "Dictation bar and overlay",
+      "liveText": "バーにリアルタイムテキストを表示",
+      "liveTextHint": "話すとき、認識された文字を表示します。",
+      "keyboard": "キーボードバックエンド",
+      "prompts": "プロバイダーとプロンプトエディタのクリーンアップ",
+      "history": "履歴の保存",
+      "updates": "アップデート",
+      "updateChannel": "アップデートチャンネル",
+      "updateChannelHint": "ベータ版には未完成の変更が含まれる可能性があります。",
+      "updateChannels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
+      "storage": "データとログの場所",
+      "experimental": "実験的・デバッグ",
+      "debugMode": "デバッグツール",
+      "debugModeHint": "診断用のコントロールと詳細なログ表示のオプションを表示",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "ローカルディクテーション。アカウントもクラウド処理もありません。",
+      "version": "バージョン {{version}}",
+      "source": "ソースコードを表示",
+      "updates": "更新ノート"
+    },
+    "hotkeys": {
+      "open": "ショートカット",
+      "loading": "ショートカットを読み込み中…",
+      "description": "各操作に対して最大{{max}}個のショートカットを追加できます。変更は実行しながら保存されます。",
+      "secureInputHelp": "macOS Secure Input はパスワード入力時に他のアプリからキーボード入力が隠されるように保護します。ショートカットキャプチャは有効な間、一時的に停止します。",
+      "count": "{{count}} / {{max}} が設定されています",
+      "notSet": "設定されていません",
+      "current": "ショートカット: {{shortcut}}",
+      "activationLabel": "ショートカットのアクティベーション",
+      "activations": {
+        "hold": "ホールド",
+        "double_tap": "ダブルタップ",
+        "press": "押す",
+        "toggle": "トグル"
+      },
+      "add": "ショートカットを追加",
+      "edit": "編集",
+      "delete": "削除",
+      "reset": "デフォルトにリセット",
+      "resetting": "リセット中…",
+      "resetFailed": "すべてのショートカットをリセットできませんでした。再度試してください。",
+      "done": "完了",
+      "saveFailed": "そのショートカットを保存できませんでした。",
+      "conflict": "{{action}} でも使われています。別のショートカットを選んでください。",
+      "invalid": "このショートカットは認識できません。",
+      "unsupported": "このショートカット組み合わせは、動作に対して使用できません。",
+      "capture": {
+        "starting": "ショートカットのキャプチャを開始中…",
+        "listening": "ショートカットを押してください…",
+        "listeningHelp": "キーの組み合わせやマウスのボタンを押すと使用できます。Escapeでキャンセルします。",
+        "cancel": "キャンセル",
+        "close": "バック",
+        "secure": "ショートカットのキャプチャは、セキュア入力が有効のときには利用できません。パスワードフィールドを離すか、セキュアキーボード入力をオフにし、再度試してください。",
+        "failed": "ショートカットのキャプチャを開始できませんでした。アクセシビリティの許可を確認して再度試してください。"
+      },
+      "actions": {
+        "dictate": "Push to talk",
+        "hands_free": "手を自由に使えるディクテーション",
+        "cancel": "dictation をキャンセル",
+        "paste_last": "最後のディクテーションを貼り付け",
+        "copy_last": "最後のディクテーションをコピー",
+        "press_enter": "Enterキーを押してください",
+        "undo_cancel": "取り消しをキャンセル"
+      },
+      "help": {
+        "dictate": "話すときにはショートカットを押しながら、話し終わるときはそれを離す",
+        "hands_free": "キーを押さなくても、辞書を開始および停止できます。",
+        "cancel": "現在の辞書入力を取りやめる",
+        "paste_last": "最後に言ったことを再度貼り付けます。",
+        "copy_last": "最近のディクテーションをクリップボードにコピーします。",
+        "press_enter": "アプリ内でEnterキーを押してください。マウスのサイドボタンがおすすめです。",
+        "undo_cancel": "dictation をキャンセルした直後に元に戻す"
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

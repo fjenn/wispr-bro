@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Instellingen",
+    "close": "Instellingen sluiten",
+    "navigation": "Instellingen secties",
+    "sections": {
+      "general": "Algemene",
+      "system": "Systeem",
+      "privacy": "Gegevens en Privacy",
+      "advanced": "Geavanceerd",
+      "about": "Over",
+      "hotkeys": "Sneltoetsen"
+    },
+    "general": {
+      "shortcuts": "Sneltoetsen",
+      "shortcutTitle": "Sneltoets dictatie",
+      "shortcutHint": "Kies hoe je dictatie start en beheer elke toetscombinatie.",
+      "holdToTalk": "Houd {{shortcut}} vast om te spreken",
+      "change": "Wijzigen",
+      "microphone": "Microfoon",
+      "languages": "Mijn talen",
+      "appearance": "Taal en thema van de app"
+    },
+    "system": {
+      "app": "Gedrag van de app",
+      "alwaysBar": "Toon de balk altijd",
+      "showDock": "Toon app in Dock",
+      "showDockHint": "Wispr Bro in de Dock houden na sluiting van het venster.",
+      "sounds": "Geluiden",
+      "notifications": "Notificaties",
+      "notificationKinds": {
+        "system": "Macs notificaties",
+        "modelReady": "Model gesprek klaar",
+        "updateReady": "Update klaar",
+        "queuedReady": "Dictaten in wachtrij klaar",
+        "errors": "Problemen die aandacht vereisen",
+        "suggestions": "Aanbevelingen",
+        "announcements": "Aankondigingen over functies",
+        "milestones": "Milesten"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Schrappenbord openen in",
+      "scratchpadHint": "Kies waar de Scratchpad opent wanneer je zijn sneltoets gebruikt.",
+      "scratchpadOptions": {
+        "floating": "Een vloeiend venster",
+        "hub": "het hoofdvenster"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Je gegevens blijven onder je controle",
+      "placeholderBody": "Beveiliging en privacyinstellingen zijn hier binnen een later update beschikbaar. Dictatie en opschonen blijven draaien op dit Mac."
+    },
+    "advanced": {
+      "output": "Tekstuitvoer",
+      "transcription": "Transcriptie",
+      "barAndOverlay": "Dictatiebalk en overlay",
+      "liveText": "Live tekst weergeven in de balk",
+      "liveTextHint": "Toon de herkende woorden terwijl je praat.",
+      "keyboard": "Toetsenbord backend",
+      "prompts": "Provider en prompteditor wissen",
+      "history": "Opslag van geschiedenis",
+      "updates": "Updates",
+      "updateChannel": "Kanaal voor updates",
+      "updateChannelHint": "Betalen builds kunnen onvoltooide wijzigingen bevatten.",
+      "updateChannels": {
+        "stable": "Stabiel",
+        "beta": "Beta"
+      },
+      "storage": "Locaties van data en logbestanden",
+      "experimental": "Experimenteel en debug",
+      "debugMode": "Debug tools",
+      "debugModeHint": "Diagnostische controles en gedetailleerde logopties weergeven.",
+      "forkDiagnostics": "Fork instellingen diagnostiek"
+    },
+    "about": {
+      "tagline": "Locale dictie, zonder account en zonder cloudverwerking.",
+      "version": "Versie {{version}}",
+      "source": "Broncode weergeven",
+      "updates": "Update notities"
+    },
+    "hotkeys": {
+      "open": "Sneltoetsen",
+      "loading": "Inladen van sneltoetsen…",
+      "description": "Maximaal {{max}} sneltoetsen toevoegen per actie. Veranderingen worden opgeslagen terwijl je ze maakt.",
+      "secureInputHelp": "macOS Secure Input beschermt het invoeren van wachtwoorden door toetseninvoer van andere apps te verbergen. Shortcut capture pauzeert wanneer het actief is.",
+      "count": "{{count}} van {{max}} ingesteld",
+      "notSet": "Niet ingesteld",
+      "current": "Sneltoets: {{shortcut}}",
+      "activationLabel": "Aanvulling van sneltoets",
+      "activations": {
+        "hold": "Houd",
+        "double_tap": "Dubbelklik",
+        "press": "Druk",
+        "toggle": "Schakel aan/uit"
+      },
+      "add": "Sneltoets toevoegen",
+      "edit": "Bewerken",
+      "delete": "Verwijder",
+      "reset": "Stel terug naar standaardwaarden",
+      "resetting": "Resetting…",
+      "resetFailed": "Elke sneltoets kan niet worden hersteld. Probeer opnieuw.",
+      "done": "Klaar",
+      "saveFailed": "Kan dat sneltoetsen niet opslaan.",
+      "conflict": "Ook gebruikt door {{action}}. Kies een andere sneltoets.",
+      "invalid": "Deze sneltoets wordt niet herkend.",
+      "unsupported": "De hotkey-engine kan deze combinatie niet gebruiken voor de actie.",
+      "capture": {
+        "starting": "Starten van het korte toetsencombinatie opnemen…",
+        "listening": "Druk op een sneltoets…",
+        "listeningHelp": "Druk op de toetscombinatie of muisknop om te gebruiken. Escape annuleert.",
+        "cancel": "Annuleren",
+        "close": "Terug",
+        "secure": "Sneltoetsen opnemen is niet beschikbaar wanneer Beveiligde Invoer actief is. Ga buiten het wachtwoordveld of schakel Beveiligde Toetseninvoer uit, dan proberen we het opnieuw.",
+        "failed": "Kan korte toetsencombinatie niet starten. Controleer de toegang tot Accessibility en probeer opnieuw."
+      },
+      "actions": {
+        "dictate": "Druk om te spreken",
+        "hands_free": "Dictatie zonder handen",
+        "cancel": "Dictatie annuleren",
+        "paste_last": "Laatste dictatie plakken",
+        "copy_last": "Laatste dictatie kopiëren",
+        "press_enter": "Druk Enter",
+        "undo_cancel": "Ongedaan maken van annuleren"
+      },
+      "help": {
+        "dictate": "Houd de sneltoets ingedrukt terwijl je spreekt; los hem los om te eindigen.",
+        "hands_free": "Starten en stoppen van dictatie zonder een toets te houden.",
+        "cancel": "Stop de huidige dictie zonder het in te voegen.",
+        "paste_last": "Plak je laatste dictatie opnieuw.",
+        "copy_last": "Uw laatste dictatie kopiëren naar de klembord.",
+        "press_enter": "Druk op Return in de app waarin je typpt. Een muisknop werkt hier goed.",
+        "undo_cancel": "Een dictatie herstellen net nadat u deze hebt geannuleerd."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

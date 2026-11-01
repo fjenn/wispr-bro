@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Indstillinger",
+    "close": "Luk indstillinger",
+    "navigation": "Indstillingersektioner",
+    "sections": {
+      "general": "Almen",
+      "system": "System",
+      "privacy": "Data og Privatliv",
+      "advanced": "Avanceret",
+      "about": "Om",
+      "hotkeys": "Genvejstaster"
+    },
+    "general": {
+      "shortcuts": "Genvejstaster",
+      "shortcutTitle": "Dictation shortcut",
+      "shortcutHint": "Vælg, hvordan du starter dictation, og styrelse alle tastaturaktioner.",
+      "holdToTalk": "Hold {{shortcut}} for at tale",
+      "change": "Ændre",
+      "microphone": "Microfon",
+      "languages": "Mine sprog",
+      "appearance": "Programsprog og tema"
+    },
+    "system": {
+      "app": "Betegnelse af app",
+      "alwaysBar": "Vis altid baren",
+      "showDock": "Vis app i Dock",
+      "showDockHint": "Behold Wispr Bro i Dock efter vinduet lukkes.",
+      "sounds": "Lægge",
+      "notifications": "Notifikationer",
+      "notificationKinds": {
+        "system": "Notifikationer fra Mac",
+        "modelReady": "Talmodel klar",
+        "updateReady": "Opdatering klar",
+        "queuedReady": "Dictaterne i kø er klar",
+        "errors": "Problemer, der kræver opmærksomhed",
+        "suggestions": "Forslag",
+        "announcements": "Funktioner annoncer",
+        "milestones": "Milestones"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Åbne Scratchpad i",
+      "scratchpadHint": "Vælg hvor Scratchpad åbner, når du bruger dens hurtigefunktion.",
+      "scratchpadOptions": {
+        "floating": "Et flyvende vindue",
+        "hub": "Hovedvinduet"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Dine data bliver under din kontrol",
+      "placeholderBody": "Opbevaring og privatlivskontroller vil være tilgængelige her i en senere opdatering. Dictation og rengøring fortsætter på denne Mac."
+    },
+    "advanced": {
+      "output": "Tekstudgang",
+      "transcription": "Oversættelse",
+      "barAndOverlay": "Dictation bar og overlay",
+      "liveText": "Vis live tekst i baren",
+      "liveTextHint": "Vis de erkendte ord, mens du taler.",
+      "keyboard": "Tastaturbackend",
+      "prompts": "Fjern leverandør og prompt-editor",
+      "history": "Lager af historik",
+      "updates": "Opdateringer",
+      "updateChannel": "Opdateringskanal",
+      "updateChannelHint": "Beta-udgivelsesversioner kan indeholde ufuldførte ændringer.",
+      "updateChannels": {
+        "stable": "Stabil",
+        "beta": "Beta"
+      },
+      "storage": "Data og logpladser",
+      "experimental": "Experimentel og fejlsøgning",
+      "debugMode": "Debug værktøjer",
+      "debugModeHint": "Vis diagnoskontroller og detaljeret loggering.",
+      "forkDiagnostics": "Fork indikatorer for indstillinger"
+    },
+    "about": {
+      "tagline": "Lokal dictation, uden konto og uden cloud-behandling.",
+      "version": "Version {{version}}",
+      "source": "Vis kildekoden",
+      "updates": "Opdateringsnoter"
+    },
+    "hotkeys": {
+      "open": "Genvejstillinger",
+      "loading": "Indlæser genveje…",
+      "description": "Tilføj op til {{max}} genvej til hvert handling. Endringerne opdateres som du gør dem.",
+      "secureInputHelp": "macOS Secure Input beskytter adgangskodeindtastning ved at skjule tastetryk fra andre programmer. Shortcut capture stopper, når det er aktiveret.",
+      "count": "{{count}} af {{max}} sat",
+      "notSet": "Ikke sat",
+      "current": "Genvej: {{shortcut}}",
+      "activationLabel": "Aktivering af genvej",
+      "activations": {
+        "hold": "Hold",
+        "double_tap": "Dobbelttryk",
+        "press": "Tryk",
+        "toggle": "Vekslen"
+      },
+      "add": "Tilføj genvej",
+      "edit": "Rediger",
+      "delete": "Slet",
+      "reset": "Tilbage til standardværdier",
+      "resetting": "Genindstiller...",
+      "resetFailed": "Kunne ikke nulstille alle genveje. Prøv igen.",
+      "done": "Færdig",
+      "saveFailed": "Kunne ikke gemme den hurtigefunktion.",
+      "conflict": "Bruges også af {{action}}. Vælg et andet genvej.",
+      "invalid": "Denne genvej er ikke anerkendt.",
+      "unsupported": "Hotkey-engine kan ikke bruge denne kombination til handlingen.",
+      "capture": {
+        "starting": "Starte at capture af genvej...",
+        "listening": "Tryk på en genvej…",
+        "listeningHelp": "Tryk på tastekombinationen eller musknappen for at bruge den. Escape annullerer.",
+        "cancel": "Annuller",
+        "close": "Tilbage",
+        "secure": "Korttryk for tager ikke effekt med Sikker Indtastning aktiveret. Afslut feltet med adgangskode eller slå Sikker Keyboard Entry fra, så prøv igen.",
+        "failed": "Kunne ikke starte at fange genvej. Tjek adgang til Accessibility og prøv igen."
+      },
+      "actions": {
+        "dictate": "Tryk til at tale",
+        "hands_free": "Håndfri dictation",
+        "cancel": "Annuller dictation",
+        "paste_last": "Indsæt sidste dictation",
+        "copy_last": "Kopier sidste dictation",
+        "press_enter": "Tryk Enter",
+        "undo_cancel": "Annuller en afbrydning"
+      },
+      "help": {
+        "dictate": "Hold den hurtigefunktion mens du taler; slå den løs for at afslutte.",
+        "hands_free": "Start og stop dictation uden at holde en tast.",
+        "cancel": "Stop den aktuelle dictation uden at indsætte den.",
+        "paste_last": "Indsæt din seneste dictation igen.",
+        "copy_last": "Kopier din seneste dictation til clipboardet.",
+        "press_enter": "Tryk Retur i appen, hvor du skriver. En sideknapp på musen fungerer godt her.",
+        "undo_cancel": "Gør en dictation tilbage efter du annullerer den."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

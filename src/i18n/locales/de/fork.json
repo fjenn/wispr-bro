@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Einstellungen",
+    "close": "Einstellungen schließen",
+    "navigation": "Einstellungsabschnitte",
+    "sections": {
+      "general": "Allgemein",
+      "system": "System",
+      "privacy": "Daten und Privatsphäre",
+      "advanced": "Erweitert",
+      "about": "Über",
+      "hotkeys": "Tastenkombinationen"
+    },
+    "general": {
+      "shortcuts": "Tastenkombinationen",
+      "shortcutTitle": "Dictation Shortcut",
+      "shortcutHint": "Wählen Sie, wie Sie die Dictation starten und alle Tastaturaktionen verwalten.",
+      "holdToTalk": "Halt {{shortcut}}, um zu sprechen",
+      "change": "Ändern",
+      "microphone": "Microfon",
+      "languages": "Meine Sprachen",
+      "appearance": "Anwendungssprache und Thema"
+    },
+    "system": {
+      "app": "Verhalten der App",
+      "alwaysBar": "Die Leiste immer anzeigen",
+      "showDock": "App im Dock anzeigen",
+      "showDockHint": "Wispr Bro im Dock beibehalten, nachdem das Fenster geschlossen ist.",
+      "sounds": "Töne",
+      "notifications": "Benachrichtigungen",
+      "notificationKinds": {
+        "system": "Mac-Benachrichtigungen",
+        "modelReady": "Sprachmodell bereit",
+        "updateReady": "Aktualisierung bereit",
+        "queuedReady": "Dictaturen im Warteschlangen bereit",
+        "errors": "Probleme, die Beachtung erfordern",
+        "suggestions": "Vorschläge",
+        "announcements": "Featurenanzeigen",
+        "milestones": "Meilensteine"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Scratchpad in öffnen",
+      "scratchpadHint": "Wähle, wo der Scratchpad öffnet, wenn du die Tastenkombination verwendest.",
+      "scratchpadOptions": {
+        "floating": "Ein schwebender Fenster",
+        "hub": "Das Hauptfenster"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Ihre Daten bleiben unter Ihrer Kontrolle",
+      "placeholderBody": "Die Speicherung und Datenschutz-Einstellungen werden hier in einer späteren Version verfügbar sein. Dictation und Cleanup laufen weiterhin auf diesem Mac."
+    },
+    "advanced": {
+      "output": "Textausgabe",
+      "transcription": "Transkription",
+      "barAndOverlay": "Dictation bar und Overlay",
+      "liveText": "Lebendigen Text in der Leiste anzeigen",
+      "liveTextHint": "Die erkannten Wörter während der Sprachaufnahme anzeigen.",
+      "keyboard": "Tastatur-Backend",
+      "prompts": "Provider und Prompt-Editor bereinigen",
+      "history": "Geschichte speichern",
+      "updates": "Aktualisierungen",
+      "updateChannel": "Aktualisierungschannel",
+      "updateChannelHint": "Beta-Versionen können unvollständige Änderungen enthalten.",
+      "updateChannels": {
+        "stable": "Stabil",
+        "beta": "Beta"
+      },
+      "storage": "Daten- und Protokollstandorte",
+      "experimental": "Experimentell und Debug",
+      "debugMode": "Debug-Tools",
+      "debugModeHint": "Diagnose-Steuerungen und detaillierte Protokolloptionen anzeigen.",
+      "forkDiagnostics": "Fork-Einstellungen-Diagnose"
+    },
+    "about": {
+      "tagline": "Lokale Dictation, ohne Konto und ohne Cloud-Verarbeitung.",
+      "version": "Version {{version}}",
+      "source": "Quellcode ansehen",
+      "updates": "Aktualisierungsnotizen"
+    },
+    "hotkeys": {
+      "open": "Tastenkombinationen",
+      "loading": "Shortcuts werden geladen…",
+      "description": "Bis zu {{max}} Tastenkombinationen pro Aktion hinzufügen. Änderungen werden im Laufe der Zeit gespeichert.",
+      "secureInputHelp": "macOS Secure Input schützt die Eingabe von Passwörtern, indem es Tasteneingaben von anderen Apps verbirgt. Die Tastenkombination wird während der Aktivität pausiert.",
+      "count": "{{count}} von {{max}} festgelegt",
+      "notSet": "Nicht festgelegt",
+      "current": "Tastenkombination: {{shortcut}}",
+      "activationLabel": "Shortcuts aktivieren",
+      "activations": {
+        "hold": "Halt",
+        "double_tap": "Doppeltippen",
+        "press": "Drücken",
+        "toggle": "Umschalten"
+      },
+      "add": "Shortcut hinzufügen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "reset": "Auf Standardwerte zurücksetzen",
+      "resetting": "Wird zurückgesetzt…",
+      "resetFailed": "Keine Shortcut-Zuweisung zurücksetzen. Noch einmal versuchen.",
+      "done": "Fertig",
+      "saveFailed": "Kann diesen Shortcut nicht speichern.",
+      "conflict": "Auch von {{action}} verwendet. Wählen Sie eine andere Tastenkombination.",
+      "invalid": "Dieser Tastenkombination wird nicht erkannt.",
+      "unsupported": "Die Hotkey-Engine kann diese Kombination für die Aktion nicht verwenden.",
+      "capture": {
+        "starting": "Shortcut-Aufnahme starten…",
+        "listening": "Drücke eine Tastenkombination…",
+        "listeningHelp": "Drücken Sie die Tastenkombination oder die Maustaste, um sie zu verwenden. Escape stört.",
+        "cancel": "Abbrechen",
+        "close": "Zurück",
+        "secure": "Die Tastenkombination kann nicht erfasst werden, solange sich der sichere Eingabe-Modus befindet. Verlassen Sie das Passwortfeld oder deaktivieren Sie die sichere Tastatur-Eingabe, dann versuchen Sie es erneut.",
+        "failed": "Kurzschluss-Aufnahme konnte nicht gestartet werden. Prüfe die Berechtigung für Accessibility und versuche es erneut."
+      },
+      "actions": {
+        "dictate": "Push to talk",
+        "hands_free": "Handfreie Dictation",
+        "cancel": "Dictation abbrechen",
+        "paste_last": "Letzte Dictation einfügen",
+        "copy_last": "Zuletzt gesprochene Textabschrift kopieren",
+        "press_enter": "Enter drücken",
+        "undo_cancel": "Rückgängig machen eine Stornierung"
+      },
+      "help": {
+        "dictate": "Halten Sie die Tastenkombination bei der Spracheingabe fest; lösen Sie sie, um zu beenden.",
+        "hands_free": "Dictation starten und beenden, ohne eine Taste zu halten.",
+        "cancel": "Die aktuelle Dictation beenden, ohne sie einzufügen.",
+        "paste_last": "Ihre letzte Dictation wieder einfügen.",
+        "copy_last": "Ihre letzte Dictation kopieren.",
+        "press_enter": "Drücken Sie Return in der Anwendung, in der Sie schreiben. Eine Maustaste funktioniert hier gut.",
+        "undo_cancel": "Eine Dictation wiederherstellen, nachdem sie abgebrochen wurde."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

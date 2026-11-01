@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "설정",
+    "close": "설정 닫기",
+    "navigation": "설정 섹션",
+    "sections": {
+      "general": "일반",
+      "system": "시스템",
+      "privacy": "데이터 및 개인 정보",
+      "advanced": "고급",
+      "about": "정보",
+      "hotkeys": "단축키"
+    },
+    "general": {
+      "shortcuts": "단축키",
+      "shortcutTitle": "Dictation shortcut",
+      "shortcutHint": "dictation을 시작하고 키보드 작동을 관리하는 방법을 선택하세요.",
+      "holdToTalk": "{{shortcut}}을 누르고 말하기",
+      "change": "변경",
+      "microphone": "마이크",
+      "languages": "내 언어들",
+      "appearance": "앱 언어 및 테마"
+    },
+    "system": {
+      "app": "앱 행동",
+      "alwaysBar": "바를 항상 보이게",
+      "showDock": "도크에 앱 표시",
+      "showDockHint": "Wispr Bro를 창이 닫히더라도 도크에 남기기",
+      "sounds": "소리",
+      "notifications": "알림",
+      "notificationKinds": {
+        "system": "Mac 알림",
+        "modelReady": "스피치 모델 준비됨",
+        "updateReady": "업데이트 준비됨",
+        "queuedReady": "대기 중인 디테이션 준비됨",
+        "errors": "주의가 필요한 문제",
+        "suggestions": "제안",
+        "announcements": "기능 알림",
+        "milestones": "마일스톤"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Open Scratchpad in",
+      "scratchpadHint": "Scratchpad가 단축키를 사용할 때 어디에 열리는지 선택하세요.",
+      "scratchpadOptions": {
+        "floating": "플로팅 윈도우",
+        "hub": "주 창"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "당신의 데이터는 당신의 통제 아래에 남아요",
+      "placeholderBody": "보존 및 개인정보 설정은 이후 업데이트에서 여기에 제공될 예정이며, 딕테이션 및 정리 기능은 이 Mac에서 계속 실행됩니다."
+    },
+    "advanced": {
+      "output": "문자 출력",
+      "transcription": "기록",
+      "barAndOverlay": "Dictation bar 및 오버레이",
+      "liveText": "바에 실시간 텍스트 표시",
+      "liveTextHint": "말하면서 인식된 단어를 표시합니다.",
+      "keyboard": "키보드 백엔드",
+      "prompts": "제공자 및 프롬프트 편집기 정리",
+      "history": "역사 저장",
+      "updates": "업데이트",
+      "updateChannel": "업데이트 채널",
+      "updateChannelHint": "베타 버전에는 아직 완성되지 않은 변경 사항이 포함될 수 있습니다.",
+      "updateChannels": {
+        "stable": "안정",
+        "beta": "베타"
+      },
+      "storage": "데이터 및 로그 위치",
+      "experimental": "실험적 및 디버그",
+      "debugMode": "디버그 도구",
+      "debugModeHint": "진단 컨트롤과 상세 로그 옵션을 표시합니다.",
+      "forkDiagnostics": "Fork 설정 진단"
+    },
+    "about": {
+      "tagline": "로컬 디타이션, 계정 없이 클라우드 처리 없이",
+      "version": "버전 {{version}}",
+      "source": "소스 코드 보기",
+      "updates": "업데이트 노트"
+    },
+    "hotkeys": {
+      "open": "단축키",
+      "loading": "단축키를 로딩 중입니다…",
+      "description": "각 작업에 최대 {{max}}개의 단축키를 추가할 수 있습니다. 변경 사항은 실시간으로 저장됩니다.",
+      "secureInputHelp": "macOS Secure Input은 비밀번호 입력을 보호하기 위해 다른 앱에서 키 입력을 숨깁니다. 단축키 캡처는 활성화된 동안 일시 중단됩니다.",
+      "count": "{{count}}개 중 {{max}}개 설정",
+      "notSet": "설정되지 않음",
+      "current": "단축키: {{shortcut}}",
+      "activationLabel": "단축키 활성화",
+      "activations": {
+        "hold": "Hold",
+        "double_tap": "두 번 터치",
+        "press": "압력",
+        "toggle": "토글"
+      },
+      "add": "단축키 추가",
+      "edit": "편집",
+      "delete": "삭제",
+      "reset": "기본값으로 초기화",
+      "resetting": "초기화 중...",
+      "resetFailed": "모든 단축키를 초기화할 수 없습니다. 다시 시도하세요.",
+      "done": "완료",
+      "saveFailed": "그 단축키를 저장할 수 없습니다.",
+      "conflict": "또한 {{action}}에 의해 사용됩니다. 다른 단축키를 선택하세요.",
+      "invalid": "이 단축키는 인식되지 않습니다.",
+      "unsupported": "이 조합을 이 작업에 사용할 수 없습니다.",
+      "capture": {
+        "starting": "단축키 캡처 중입니다…",
+        "listening": "단축키를 누르세요…",
+        "listeningHelp": "키 조합이나 마우스 버튼을 누르면 사용 가능합니다. ESC는 취소합니다.",
+        "cancel": "취소",
+        "close": "뒤로",
+        "secure": "단축키 캡처는 보안 입력이 활성화된 상태에서는 사용할 수 없습니다. 비밀번호 입력란을 떠나거나 보안 키보드 입력을 끄고 다시 시도하세요.",
+        "failed": "단축키를 시작할 수 없습니다. 접근성 허용을 확인하고 다시 시도하세요."
+      },
+      "actions": {
+        "dictate": "Push to talk",
+        "hands_free": "손이 없는 디타이션",
+        "cancel": "dictation 취소",
+        "paste_last": "최근 dictation 붙여넣기",
+        "copy_last": "최근 dictation 복사",
+        "press_enter": "엔터를 누르세요",
+        "undo_cancel": "취소를 되돌리기"
+      },
+      "help": {
+        "dictate": "말할 때 단축키를 누르고, 말을 끝내려면 단축키를 놓으세요.",
+        "hands_free": "키를 누르지 않고 녹음과 중단을 시작 및 종료합니다.",
+        "cancel": "현재 딕테이션을 중단하고 삽입하지 않기",
+        "paste_last": "최근 dictation을 다시 붙여넣기 합니다.",
+        "copy_last": "최근 dictation을 클립보드에 복사합니다.",
+        "press_enter": "앱에서 입력 중인 곳에서 Enter를 누르세요. 마우스 측면 버튼이 좋습니다.",
+        "undo_cancel": "dictation을 취소한 후에 복구합니다."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

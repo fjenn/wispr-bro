@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "सेटिंग्स",
+    "close": "सेटिंग्स को बंद करें",
+    "navigation": "सेटिंग्स सेक्शन",
+    "sections": {
+      "general": "सामान्य",
+      "system": "सिस्टम",
+      "privacy": "डेटा और गोपनीयता",
+      "advanced": "अग्रगामी",
+      "about": "बारे में",
+      "hotkeys": "कुछ छोटे शॉर्टकट"
+    },
+    "general": {
+      "shortcuts": "संक्षिप्त चिह्न",
+      "shortcutTitle": "Dictation shortcut",
+      "shortcutHint": "दिक्कत के तरीके चुनें और हर कीबोर्ड क्रिया को प्रबंध करें।",
+      "holdToTalk": "{{shortcut}} पर धरें ताकत बोलें",
+      "change": "बदलें",
+      "microphone": "माइक्रोफोन",
+      "languages": "मेरे भाषाएँ",
+      "appearance": "ऐप के भाषा और टॉपिक"
+    },
+    "system": {
+      "app": "App behavior",
+      "alwaysBar": "बार हमेशा दिखाएं",
+      "showDock": "Dock में ऐप दिखाएं",
+      "showDockHint": "Wispr Bro Dock mein baad mein bhi rakhne ke liye",
+      "sounds": "आवाज़",
+      "notifications": "संदेश",
+      "notificationKinds": {
+        "system": "Mac notifications",
+        "modelReady": "भाषण मॉडल तैयार है",
+        "updateReady": "अपडेट तैयार है",
+        "queuedReady": "क्वीड़ डिक्टेशन तैयार हैं",
+        "errors": "उन समस्याओं का ध्यान देना चाहिए जो चिंता के अनुसार हों",
+        "suggestions": "सुझाव",
+        "announcements": "फीचर अनाउन्समेंट्स",
+        "milestones": "मार्गदर्शिकाएं"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "स्क्रैचपैड खोलें",
+      "scratchpadHint": "Choose where Scratchpad opens when you use its shortcut.",
+      "scratchpadOptions": {
+        "floating": "एक तैरता हुआ फ़ाइल",
+        "hub": "मुख्य फाइल"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "आपके डेटा आपके नियंत्रण में रहता है",
+      "placeholderBody": "रखरखाव और गोपनीयता नियंत्रण बाद के अपडेट में यहां उपलब्ध होंगे। डिक्टेशन और स्वच्छता इस Mac पर आगे भी चल रही है।"
+    },
+    "advanced": {
+      "output": "टेक्स्ट आउटपुट",
+      "transcription": "प्रतिलिपि",
+      "barAndOverlay": "Dictation bar aur overlay",
+      "liveText": "बार में लाइव टेक्स्ट दिखाएं",
+      "liveTextHint": "बात करते समय मान्यता प्राप्त शब्द दिखाएं।",
+      "keyboard": "कीबोर्ड बैकएंड",
+      "prompts": "प्रोवाइडर और प्रॉम्प्ट एडिटर को साफ करें",
+      "history": "इतिहास संग्रह",
+      "updates": "अपडेट",
+      "updateChannel": "अपडेट चैनल",
+      "updateChannelHint": "बीटा बिल्ड में अनपूर्ण बदलाव शामिल हो सकते हैं।",
+      "updateChannels": {
+        "stable": "स्थायी",
+        "beta": "बीटा"
+      },
+      "storage": "डेटा और लॉग के स्थान",
+      "experimental": "अनुभवात्मक और डेबग",
+      "debugMode": "देब टूल्स",
+      "debugModeHint": "दृश्य निरीक्षण नियंत्रण और विस्तृत लॉगिंग विकल्प दिखाएं।",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "स्थानीय बयान, अकाउंट या क्लाउड प्रोसेसिंग के बिना।",
+      "version": "वर्जन {{version}}",
+      "source": "स्रोत कोड देखें",
+      "updates": "अपडेट नोट्स"
+    },
+    "hotkeys": {
+      "open": "कुंजी चाल",
+      "loading": "शॉर्टकट लोड हो रहे हैं…",
+      "description": "प्रत्येक क्रिया के लिए अधिकतम {{max}} शॉर्टकट जोड़ें। आप इनमें से कोई भी बदलाव करते ही उन्हें सेव कर दिया जाता है।",
+      "secureInputHelp": "macOS Secure Input पासवर्ड एंट्री को अन्य एप्स से छुपाता है। शॉर्टकट केप्टर एक्टिव होने के दौरान रुकता है।",
+      "count": "{{count}} {{max}} में सेट",
+      "notSet": "निर्धारित नहीं",
+      "current": "संकेत: {{shortcut}}",
+      "activationLabel": "कीबोर्ड शॉर्टकट के उत्तेजना",
+      "activations": {
+        "hold": "रखें",
+        "double_tap": "दो बार टाइप करें",
+        "press": "दबाएँ",
+        "toggle": "बदलें"
+      },
+      "add": "शॉर्टकट जोड़ें",
+      "edit": "संपादित करें",
+      "delete": "हटाएं",
+      "reset": "हाइ डिफॉल्ट पर रीसेट करें",
+      "resetting": "रीसेट कर रहा है...",
+      "resetFailed": "सभ शॉर्टकट रीसेट करने में विफल रहा। फिर से कोशिश करें।",
+      "done": "काम कर चुका",
+      "saveFailed": "उस शॉर्टकट को सेव नहीं किया जा सकता था।",
+      "conflict": "भी {{action}} के लिए उपयोग किया जा रहा है। एक अलग शॉर्टकट चुनें।",
+      "invalid": "यह शॉर्टकट पहचाना नहीं जा सकता है।",
+      "unsupported": "हॉटकी इंजीन इस कॉम्बिनेशन का उपयोग इस क्रिया के लिए नहीं कर सकता है।",
+      "capture": {
+        "starting": "शुरू कर रहा हूँ शॉर्टकट के उठाने के लिए …",
+        "listening": "एक शॉर्टकट दबाएं…",
+        "listeningHelp": "{{key combination}} दबाएं या माउस बटन को दबाएं ताकि इसका उपयोग किया जा सके। Escape बंद कर देता है।",
+        "cancel": "रद्द करें",
+        "close": "पीछे",
+        "secure": "सुरक्षित इनपुट के सक्रिय होने के दौरान शॉर्टकट कैप्चर उपलब्ध नहीं है। पासवर्ड फील्ड छोड़ें या सुरक्षित कीबोर्ड एंट्री बंद करें, फिर दोबारा कोशिश करें।",
+        "failed": "शॉर्टकट के रिकॉर्डिंग के लिए सक्षम नहीं है। अनुपलब्धता की अनुमति जांचें और फिर कोशिश करें।"
+      },
+      "actions": {
+        "dictate": "Push to talk",
+        "hands_free": "हैंड्स फ्री डिक्टेशन",
+        "cancel": "दिटेक्शन रद्द करें",
+        "paste_last": "पिछले डिक्टेशन को पेस्ट करें",
+        "copy_last": "पिछले डिक्टेशन को कॉपी करें",
+        "press_enter": "Enter के ऊपर दबाएं",
+        "undo_cancel": "कैंसल करें उन्नत करें"
+      },
+      "help": {
+        "dictate": "अपने बोले जा रहे हों तो शॉर्टकट को दबाए रखें; बोलने के बाद उसे छोड़ दें।",
+        "hands_free": "हांड्स फ्री में डिक्टेशन शुरू और बंद करें बिना किसी की के होने के।",
+        "cancel": "वर्तमान डिक्टेशन को बंद करें बिना इसे डाले।",
+        "paste_last": "पिछली बार आपकी बार बार बोली फिर से लगाएं।",
+        "copy_last": "आपकी अंतिम बार बोली गई बात क्लिपबोर्ड पर कॉपी करें।",
+        "press_enter": "अपने टाइप कर रहे ऐप में Return दबाएं। एक माउस के तरफ बटन यहां अच्छा काम करता है।",
+        "undo_cancel": "एक डिक्टेशन कें रद्द करने के बाद उसे वापस करें।"
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

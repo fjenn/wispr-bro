@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Inställningar",
+    "close": "Stäng inställningar",
+    "navigation": "Inställningar avsnitt",
+    "sections": {
+      "general": "Allmänt",
+      "system": "System",
+      "privacy": "Data och integritet",
+      "advanced": "Avancerade",
+      "about": "Om",
+      "hotkeys": "Snabbknappar"
+    },
+    "general": {
+      "shortcuts": "Snabbknappar",
+      "shortcutTitle": "Dictation kortkommando",
+      "shortcutHint": "Välj hur du startar dictation och hanterar varje tangentbordsaktion.",
+      "holdToTalk": "Håll {{shortcut}} för att prata",
+      "change": "Ändra",
+      "microphone": "Microfon",
+      "languages": "Mina språk",
+      "appearance": "Programspråk och tema"
+    },
+    "system": {
+      "app": "App beteende",
+      "alwaysBar": "Visa varan alltid",
+      "showDock": "Visa app i Dock",
+      "showDockHint": "Behåll Wispr Bro i Docken efter att dess fönster stängs.",
+      "sounds": "Ljud",
+      "notifications": "Notifikationer",
+      "notificationKinds": {
+        "system": "Mac-meddelanden",
+        "modelReady": "Talmodellen är klar",
+        "updateReady": "Uppdatering klar",
+        "queuedReady": "Dictationer som har satts i kö är redo",
+        "errors": "Problem som kräver uppmärksamning",
+        "suggestions": "Förslag",
+        "announcements": "Funktion annonser",
+        "milestones": "Målposten"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Öppna Scratchpad i",
+      "scratchpadHint": "Välj där Scratchpad öppnas när du använder dess snabbkommando.",
+      "scratchpadOptions": {
+        "floating": "En flik som hänger i luften",
+        "hub": "Huvudfönstret"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Din data finns under din kontroll",
+      "placeholderBody": "Behållning och integritetsinställningar kommer att vara tillgängliga här i en senare version. Dictation och rensning fortsätter på denna Mac."
+    },
+    "advanced": {
+      "output": "Textutgång",
+      "transcription": "Översättning",
+      "barAndOverlay": "Dictation bar och overlay",
+      "liveText": "Visa live text i raden",
+      "liveTextHint": "Visa de igenkända orden när du pratar.",
+      "keyboard": "Tangentbordsbackend",
+      "prompts": "Rensa leverantör och promptredigerare",
+      "history": "Sparar historia",
+      "updates": "Uppdateringar",
+      "updateChannel": "Uppdateringskanal",
+      "updateChannelHint": "Beta-versioner kan innehålla ofärdiga ändringar.",
+      "updateChannels": {
+        "stable": "Stabilt",
+        "beta": "Beta"
+      },
+      "storage": "Plats för data och loggar",
+      "experimental": "Förväntade och felhävning",
+      "debugMode": "Felsökningstillbehör",
+      "debugModeHint": "Visa diagnostiska kontroller och detaljerade loggningsalternativ.",
+      "forkDiagnostics": "Fork inställningar för diagnostik"
+    },
+    "about": {
+      "tagline": "Lokal dictation utan konto och utan molnbehandling.",
+      "version": "Version {{version}}",
+      "source": "Visa källkod",
+      "updates": "Uppdateringsnotiser"
+    },
+    "hotkeys": {
+      "open": "Snabbknappar",
+      "loading": "Laddar kortkommandon…",
+      "description": "Lägg till upp till {{max}} kortkommandon för varje åtgärd. Ändringar sparas som du gör dem.",
+      "secureInputHelp": "macOS Secure Input skyddar lösenordens inmatning genom att dölja tangenttryck från andra appar. Snabbkommandosnabbkoppling pausar när den är aktiverad.",
+      "count": "{{count}} av {{max}} satta",
+      "notSet": "Inte satt",
+      "current": "Snabbkommando: {{shortcut}}",
+      "activationLabel": "Aktivering av snabbkommando",
+      "activations": {
+        "hold": "Håll",
+        "double_tap": "Dubbleklick",
+        "press": "Tryck",
+        "toggle": "Växla"
+      },
+      "add": "Lägg till snabbknapp",
+      "edit": "Redigera",
+      "delete": "Radera",
+      "reset": "Återställ till standardvärden",
+      "resetting": "Återställer...",
+      "resetFailed": "Kunde inte återställa alla snabbknappar. Försök igen.",
+      "done": "Färdig",
+      "saveFailed": "Kunde inte spara den kortkommandon.",
+      "conflict": "Används också av {{action}}. Välj en annan kortkommando.",
+      "invalid": "Den här kortkommandon är inte känd.",
+      "unsupported": "Hotkey-engine kan inte använda denna kombination för åtgärden.",
+      "capture": {
+        "starting": "Startar kortkommando-kapning...",
+        "listening": "Tryck en snabbkommando…",
+        "listeningHelp": "Tryck nyckelkombinationen eller musknapp för att använda. Escape avbryter.",
+        "cancel": "Avbryt",
+        "close": "Tillbaka",
+        "secure": "Snabbkommando för taggning är inte tillgängligt när säker inmatning är aktiverad. Avsluta lösenordsfältet eller inaktivera säker tangentmatning, sedan försök igen.",
+        "failed": "Kunde inte starta kortkommandosammanfattning. Kontrollera tillgång till Accessibility och försök igen."
+      },
+      "actions": {
+        "dictate": "Tryck för att tala",
+        "hands_free": "Handfritt dictation",
+        "cancel": "Avbryt dictation",
+        "paste_last": "Klistra in senaste dictation",
+        "copy_last": "Kopiera senaste dictation",
+        "press_enter": "Tryck Enter",
+        "undo_cancel": "Ångra en avbrott"
+      },
+      "help": {
+        "dictate": "Håll kortkommandot medan du pratar; släp det för att avsluta.",
+        "hands_free": "Starta och stoppa dictation utan att hålla en tangent.",
+        "cancel": "Avbryt aktuell dictation utan att infoga den.",
+        "paste_last": "Klistra in din senaste dictation igen.",
+        "copy_last": "Kopiera din senaste dictation till klippbordet.",
+        "press_enter": "Tryck Retur i appen där du skriver. En sidknapp på musar fungerar bra här.",
+        "undo_cancel": "Återställ en dictation direkt efter att du avbryter den."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

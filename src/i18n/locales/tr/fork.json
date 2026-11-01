@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Ayarlar",
+    "close": "Ayarları kapat",
+    "navigation": "Ayar bölümleri",
+    "sections": {
+      "general": "Genel",
+      "system": "Sistem",
+      "privacy": "Veri ve Gizlilik",
+      "advanced": "Ileri",
+      "about": "Hakkında",
+      "hotkeys": "Kısayollar"
+    },
+    "general": {
+      "shortcuts": "Kısayollar",
+      "shortcutTitle": "Dictation kısa yolu",
+      "shortcutHint": "Dictasyonu nasıl başlatacağınızı ve her klavye eylemini nasıl yöneteceğinizi seçin.",
+      "holdToTalk": "{{shortcut}} tutun ve konuşun",
+      "change": "Değiştir",
+      "microphone": "Mikrofon",
+      "languages": "Dillerim",
+      "appearance": "Uygulama dili ve tema"
+    },
+    "system": {
+      "app": "Uygulama davranışları",
+      "alwaysBar": "Her zaman çubuğu göster",
+      "showDock": "Uygulamayı Dock'ta göster",
+      "showDockHint": "Wispr Bro'nun penceresi kapan以后 Dock'ta kalmasını",
+      "sounds": "Sesler",
+      "notifications": "Bildirimler",
+      "notificationKinds": {
+        "system": "Mac bildirimleri",
+        "modelReady": "Ses modeli hazır",
+        "updateReady": "Güncelleme hazır",
+        "queuedReady": "Sıraya alındı dictationlar hazır",
+        "errors": "Dikkat edilmesi gereken sorunlar",
+        "suggestions": "Öneriler",
+        "announcements": "Özellik duyuruları",
+        "milestones": "Milestones"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Önünde Scratchpad'i aç",
+      "scratchpadHint": "Scratchpad kısa yoluyla kullanıldığında nerede açılıp açılmayacağını seçin.",
+      "scratchpadOptions": {
+        "floating": "Yüzeyde bir pencere",
+        "hub": "Ana pencere"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Verilerinizin kontrolünüzde kalması",
+      "placeholderBody": "İleri bir güncellemede saklama ve gizlilik ayarları burada kullanılabilir. Dictation ve temizleme hâlâ bu Mac'te devam ediyor."
+    },
+    "advanced": {
+      "output": "Metin çıkışı",
+      "transcription": "Metin dönüştürme",
+      "barAndOverlay": "Dictation bar ve overlay",
+      "liveText": "Çubukta canlı metni göster",
+      "liveTextHint": "Söyleyken tanılanan kelimeleri göster.",
+      "keyboard": "Tuş seti arka planı",
+      "prompts": "Provider ve prompt düzenleyiciyi temizle",
+      "history": "Geçmişi depolama",
+      "updates": "Güncellemeler",
+      "updateChannel": "Güncelleme kanalı",
+      "updateChannelHint": "Beta versiyonları tamamlanmamış değişiklikler içerebilir.",
+      "updateChannels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
+      "storage": "Veri ve log konumları",
+      "experimental": "Deneyimli ve hata ayıklama",
+      "debugMode": "Hata ayıklama araçları",
+      "debugModeHint": "Diagnostik denetimler ve detaylı log seçeneklerini göster",
+      "forkDiagnostics": "Fork ayarları diagnostiği"
+    },
+    "about": {
+      "tagline": "Yerel dictasyon, hesap ve bulut işleme olmadan.",
+      "version": "Sürüm {{version}}",
+      "source": "Kaynak kodu görüntüle",
+      "updates": "Güncelleme notları"
+    },
+    "hotkeys": {
+      "open": "Kısa yollar",
+      "loading": "Kısayollar yükleniyor...",
+      "description": "Her eyleme en fazla {{max}} kısayol ekle. Değişiklikler yaparken kaydedilir.",
+      "secureInputHelp": "macOS Güvenli Giriş, şifre girişi sırasında diğer uygulamalardan tuş girişlerini gizler. Kısa yolu almak, aktif olduğunda durdurur.",
+      "count": "{{count}} of {{max}} ayarlanmıştır",
+      "notSet": "Belirtilmemiş",
+      "current": "Kısayol: {{shortcut}}",
+      "activationLabel": "Kısayol aktive etme",
+      "activations": {
+        "hold": "Süre",
+        "double_tap": "İki defa bas",
+        "press": "Bas",
+        "toggle": "Toggle"
+      },
+      "add": "Yeni kısayol ekle",
+      "edit": "Düzenle",
+      "delete": "Sil",
+      "reset": "Varsayılanlara döndür",
+      "resetting": "Sıfırlanıyor...",
+      "resetFailed": "Her kısa yolu sıfırlamak başarısız oldu. Yeniden dene.",
+      "done": "Bitti",
+      "saveFailed": "O kısayol kaydedilemedi.",
+      "conflict": "Ayrıca {{action}} tarafından kullanılıyor. Farklı bir kısayol seçin.",
+      "invalid": "Bu kısayol tanınmamaktadır.",
+      "unsupported": "Bu kombinasyon, eylem için hızlı tuş motoru tarafından kullanılamaz.",
+      "capture": {
+        "starting": "Kısayol kaydı başlatılıyor...",
+        "listening": "Bir kısayol tuşu basın…",
+        "listeningHelp": "Anahtar kombinasyonunu veya fare düğmesini basarak kullanın. Escape tuşu işlemi iptal eder.",
+        "cancel": "İptal",
+        "close": "Geri",
+        "secure": "Kısayol kaydı Güvenli Giriş aktif iken kullanılamaz. Şifre alanından çıkın veya Güvenli Klavye Girişi'ni kapatın, sonra tekrar dene.",
+        "failed": "Kısa yolu altyapı alınamadı. Erişilebilirlik izni kontrol edin ve tekrar dene."
+      },
+      "actions": {
+        "dictate": "Basınca konuş",
+        "hands_free": "El ile değil, el ile değil dictasyon",
+        "cancel": "Dictasyonu iptal et",
+        "paste_last": "Son dictasyonu yapıştır",
+        "copy_last": "Son dictasyonu kopyala",
+        "press_enter": "Enter tuşuna bas",
+        "undo_cancel": "İptal et"
+      },
+      "help": {
+        "dictate": "Söyleyken kısayolunu tutun; bitirmek için bırakın.",
+        "hands_free": "Anahtar olmadan dictasyonu başlatın ve durdurun.",
+        "cancel": "Mevcut dictation'ı koymadan durdur.",
+        "paste_last": "En son dictasyonunu tekrar yapıştır.",
+        "copy_last": "En son dictasyonunu panoya kopyala.",
+        "press_enter": "Uygulamada yazıyorsanız Enter tuşuna basın. Fare yan düğmesi burada iyi çalışır.",
+        "undo_cancel": "İptal edilen bir dictation'ı geri al."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

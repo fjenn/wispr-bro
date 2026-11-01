@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Ajustes",
+    "close": "Cerrar ajustes",
+    "navigation": "Secciones de configuración",
+    "sections": {
+      "general": "General",
+      "system": "Sistema",
+      "privacy": "Datos y Privacidad",
+      "advanced": "Avanzado",
+      "about": "Acerca de",
+      "hotkeys": "Atajos"
+    },
+    "general": {
+      "shortcuts": "Atajos",
+      "shortcutTitle": "Atajo de dictado",
+      "shortcutHint": "Elige cómo inicias la dictado y gestionas todas las acciones del teclado.",
+      "holdToTalk": "Mantén {{shortcut}} para hablar",
+      "change": "Cambiar",
+      "microphone": "Microfono",
+      "languages": "Mis idiomas",
+      "appearance": "Idioma de la app y tema"
+    },
+    "system": {
+      "app": "Comportamiento de la app",
+      "alwaysBar": "Siempre muestra la barra",
+      "showDock": "Mostrar la app en el Dock",
+      "showDockHint": "Mantén a Wispr Bro en el Dock después de que se cierre su ventana.",
+      "sounds": "Sonidos",
+      "notifications": "Notificaciones",
+      "notificationKinds": {
+        "system": "Notificaciones de Mac",
+        "modelReady": "Modelo de voz listo",
+        "updateReady": "Actualización lista",
+        "queuedReady": "Dictaciones en cola listas",
+        "errors": "Problemas que requieren atención",
+        "suggestions": "Sugerencias",
+        "announcements": "Anuncios de características",
+        "milestones": "Marcadores"
+      },
+      "scratchpad": "Pizarrón",
+      "scratchpadLabel": "Abrir el cuaderno en",
+      "scratchpadHint": "Elige dónde se abre el Scratchpad cuando uses su atajo.",
+      "scratchpadOptions": {
+        "floating": "Una ventana flotante",
+        "hub": "La ventana principal"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Tus datos permanecen bajo tu control",
+      "placeholderBody": "La conservación y los controles de privacidad estarán disponibles aquí en una actualización futura. La dictado y el procesamiento continúan funcionando en este Mac."
+    },
+    "advanced": {
+      "output": "Salida de texto",
+      "transcription": "Transcripción",
+      "barAndOverlay": "Barra de dictado y superposición",
+      "liveText": "Mostrar texto en tiempo real en la barra",
+      "liveTextHint": "Mostrar las palabras reconocidas mientras hablas.",
+      "keyboard": "Backend del teclado",
+      "prompts": "Limpiar proveedor y editor de prompts",
+      "history": "Almacenamiento de historial",
+      "updates": "Actualizaciones",
+      "updateChannel": "Canal de actualización",
+      "updateChannelHint": "Las versiones beta pueden incluir cambios no completos.",
+      "updateChannels": {
+        "stable": "Estable",
+        "beta": "Beta"
+      },
+      "storage": "Ubicaciones de datos y registros",
+      "experimental": "Experimental y de depuración",
+      "debugMode": "Herramientas de depuración",
+      "debugModeHint": "Mostrar controles diagnósticos y opciones de registro detalladas.",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "Dictado local, sin cuenta y sin procesamiento en la nube.",
+      "version": "Versión {{version}}",
+      "source": "Ver código fuente",
+      "updates": "Notas de actualización"
+    },
+    "hotkeys": {
+      "open": "Atajos",
+      "loading": "Cargando atajos...",
+      "description": "Agrega hasta {{max}} atajos para cada acción. Los cambios se guardan mientras los introduces.",
+      "secureInputHelp": "macOS Secure Input protege la entrada de contraseñas ocultando las teclas de otros aplicativos. La captura de atajos se pausa mientras esté activa.",
+      "count": "{{count}} de {{max}} configurados",
+      "notSet": "No establecido",
+      "current": "Atajo: {{shortcut}}",
+      "activationLabel": "Activación de atajo",
+      "activations": {
+        "hold": "Mantener",
+        "double_tap": "Doble toque",
+        "press": "Presiona",
+        "toggle": "Alternar"
+      },
+      "add": "Agregar atajo",
+      "edit": "Editar",
+      "delete": "Borrar",
+      "reset": "Restablecer a valores predeterminados",
+      "resetting": "Reiniciando…",
+      "resetFailed": "No se pudo restablecer todos los atajos. Inténtalo de nuevo.",
+      "done": "Listo",
+      "saveFailed": "No se pudo guardar ese atajo.",
+      "conflict": "También utilizado por {{action}}. Elige un atajo diferente.",
+      "invalid": "Este atajo no es reconocido.",
+      "unsupported": "El motor de atajos no puede usar esta combinación para la acción.",
+      "capture": {
+        "starting": "Capturando el atajo de inicio...",
+        "listening": "Presiona una combinación de teclas…",
+        "listeningHelp": "Presiona la combinación de teclas o el botón del ratón para usarlo. Escape cancela.",
+        "cancel": "Cancelar",
+        "close": "Atrás",
+        "secure": "La captura de atajos no está disponible mientras esté activa la Entrada Segura. Deja el campo de contraseña o desactiva la entrada segura del teclado, luego vuelve a intentarlo.",
+        "failed": "No se pudo iniciar la captura de atajos. Verifica el permiso de Accesibilidad y vuelve a intentarlo."
+      },
+      "actions": {
+        "dictate": "Pulsar para hablar",
+        "hands_free": "Dictado sin manos",
+        "cancel": "Cancelar dictado",
+        "paste_last": "Pegar la última dictación",
+        "copy_last": "Copiar última dictación",
+        "press_enter": "Presiona Enter",
+        "undo_cancel": "Deshacer una cancelación"
+      },
+      "help": {
+        "dictate": "Mantén la combinación mientras hablas; suéltala para finalizar.",
+        "hands_free": "Iniciar y detener la dictado sin mantener una tecla.",
+        "cancel": "Detén la dictado actual sin insertarla.",
+        "paste_last": "Pega nuevamente tu última dictado.",
+        "copy_last": "Copiar tu última dictación al portapapeles.",
+        "press_enter": "Presione Enter en la aplicación donde está escribiendo. Un botón lateral del ratón funciona bien aquí.",
+        "undo_cancel": "Restaurar una dictación justo después de cancelarla."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"
