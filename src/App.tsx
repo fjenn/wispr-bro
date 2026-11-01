@@ -39,6 +39,7 @@ import { commands } from "@/bindings";
 import { deleteRetiredModel } from "@/lib/models/retired";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 import { ForkApp } from "@/fork/hub/ForkApp";
+import { useNotificationPageOpen } from "@/fork/hub/NotificationsPanel";
 
 // flow is first-run onboarding; the rest are single screens for returning users.
 type OnboardingStep =
@@ -77,6 +78,7 @@ const renderSettingsContent = (
 
 function App() {
   const { t, i18n } = useTranslation();
+  const notificationPageOpen = useNotificationPageOpen();
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep | null>(
     null,
   );
@@ -393,7 +395,7 @@ function App() {
         </button>
       </>
     );
-  } else if (onboardingStep === "flow") {
+  } else if (onboardingStep === "flow" && !notificationPageOpen) {
     content = <OnboardingFlow onComplete={() => setOnboardingStep("done")} />;
   } else if (onboardingStep === "permissions") {
     content = (

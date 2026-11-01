@@ -14,9 +14,10 @@
  * on an entry marks it read and runs its action (`activateNotification`).
  * Toggles write the fork setting `notifications` and filter new entries at
  * creation (Rust). `useNotificationsLive` (mounted once by `ForkApp`) keeps
- * the store live, shows each new entry as a toast while the window has focus,
- * follows macOS clicks (`ForkNotificationOpened`) and closes toasts on Esc,
- * from this window or from the hotkey tap (observed, never blocked).
+ * the store live, shows each new entry as a toast while the window has focus
+ * and closes toasts on Esc, from this window or from the hotkey tap (observed,
+ * never blocked). `useNotificationPageOpen` handles macOS clicks even before
+ * the Hub mounts.
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -333,10 +334,33 @@ function showToast(
   });
 }
 
+/** Handles native Open before onboarding's render gate can mount the Hub. */
+export function useNotificationPageOpen(): boolean {
+  const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    const stop = events.forkNotificationOpened.listen((event) => {
+      const action = event.payload.action;
+      toast.dismiss();
+      runHubAction(action);
+      if (action?.type === "open_page") setOpened(true);
+    });
+    return () => {
+      void stop
+        .then((unlisten) => unlisten?.())
+        .catch(() => {
+          // Listening failed (logged by the event plugin); nothing to stop.
+        });
+    };
+  }, []);
+
+  return opened;
+}
+
 /**
  * Keeps the inbox live for the Hub (mount once): loads it, refreshes it on
- * `ForkNotificationsChanged`, toasts new entries while this window has
- * focus, follows macOS clicks and closes toasts on Esc.
+ * `ForkNotificationsChanged`, toasts new entries while this window has focus
+ * and closes toasts on Esc.
  */
 export function useNotificationsLive(): void {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
@@ -352,10 +376,6 @@ export function useNotificationsLive(): void {
         useInbox.getState().setUnread(unread);
         void useInbox.getState().refresh();
         if (posted && document.hasFocus()) showToast(posted, t, i18n.language);
-      }),
-      events.forkNotificationOpened.listen((event) => {
-        toast.dismiss();
-        runHubAction(event.payload.action);
       }),
       events.forkToastsDismiss.listen(() => toast.dismiss()),
     ];
