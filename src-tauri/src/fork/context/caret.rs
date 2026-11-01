@@ -21,8 +21,8 @@
 // `testPasswordManagerDropsCursorAndScreenContext` and
 // `testCursorContextIsBounded` are re-expressed below. Changed: Rust on the
 // fork's one AX thread (`fork/ax/thread.rs`) instead of a detached Task; the
-// walk starts at the focused field and widens through its ancestors (text
-// nearest the caret first) instead of reading the window top-down; R5's
+// walk starts at a focused text field and widens through its ancestors (text
+// nearest the caret first), or walks the whole window for generic focus; R5's
 // budget (≤ 1,500 characters before, selected and after the caret plus
 // nearby lines; ≤ 100 ms or nothing); the caret window before, selected and
 // after (SpeakoFlow's ranged `AXStringForRange` read, as in the RS-04 spike)
@@ -800,6 +800,10 @@ pub mod mac {
         Read { ms: took, ..read }
     }
 
+    pub(super) fn narrows_walk_to_focused_field(role: &str) -> bool {
+        TEXT_ENTRY_ROLES.contains(&role) || role == "AXSearchField"
+    }
+
     fn read_app(
         ctx: &mut Ctx,
         pid: i32,
@@ -811,6 +815,7 @@ pub mod mac {
         el::set_timeout(&app, CALL_TIMEOUT_S);
         let window = el::attr_element(&app, "AXFocusedWindow");
         let field = el::attr_element(&app, "AXFocusedUIElement");
+        let mut walk_field = None;
         let mut caret = CaretWindow::default();
         let browser = matches!(family, Family::Chromium | Family::Webkit | Family::Gecko);
         if let Some(f) = field.as_deref() {
@@ -863,6 +868,9 @@ pub mod mac {
                     }
                 }
             }
+            if narrows_walk_to_focused_field(&role) {
+                walk_field = Some(f);
+            }
             if TEXT_ENTRY_ROLES.contains(&role.as_str())
                 || role == "AXWebArea"
                 || role == "AXSearchField"
@@ -873,7 +881,7 @@ pub mod mac {
         let left = MAX_CHARS.saturating_sub(caret.chars());
         let walk = match window.as_deref() {
             Some(w) if left > 0 && start.elapsed() < WALK_BUDGET => {
-                lines_around(w, field.as_deref(), left, start + WALK_BUDGET)
+                lines_around(w, walk_field, left, start + WALK_BUDGET)
             }
             _ => Ok(LineCollector::new(left)),
         };
@@ -1012,6 +1020,17 @@ mod tests {
             Ok(lines)
         })();
         read_from_walk(CaretWindow::default(), walk, &[])
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn generic_focus_uses_the_whole_window_walk() {
+        for role in ["AXWebArea", "AXWindow", "AXGroup"] {
+            assert!(!mac::narrows_walk_to_focused_field(role), "{role}");
+        }
+        for role in ["AXTextField", "AXTextArea", "AXComboBox", "AXSearchField"] {
+            assert!(mac::narrows_walk_to_focused_field(role), "{role}");
+        }
     }
 
     #[test]
