@@ -57,6 +57,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def handle_get(self, head):
         path = self.path.split("?")[0]
+        sys.stderr.write("%.3f range=%s path=%s\n" % (time.time(), self.headers.get("Range"), path))
+        sys.stderr.flush()
         if path.startswith("/_rate/"):
             self.server.rate = int(path.split("/")[2])
             self.reply(200, b"ok\n", "text/plain")
