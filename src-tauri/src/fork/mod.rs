@@ -569,6 +569,9 @@ macro_rules! fork_specta_builder {
                 commands::style::fork_style_set_app_group::<$runtime>,
                 commands::style::fork_style_remove_app::<$runtime>,
                 commands::style::fork_style_set_auto_send::<$runtime>,
+                commands::style::fork_style_set_site_group::<$runtime>,
+                commands::style::fork_style_remove_site::<$runtime>,
+                commands::style::fork_style_set_site_auto_send::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,

@@ -115,6 +115,31 @@ fn a_dictation_row_knows_its_app_verbatim_text_and_counts() {
 }
 
 #[test]
+fn browser_history_persists_only_the_reduced_host() {
+    let (_d, db) = db();
+    let mut l = Ledger::new();
+    db.with_conn(|conn| {
+        l.record_started(
+            ctx("com.google.Chrome", "Google Chrome")
+                .with_url("user:secret@example.com:443/private/path?query=secret#fragment"),
+        );
+        l.bind("browser-host.wav", 100, || unreachable!());
+        let e = entry(91, 1_793_400_000, "Hello.");
+        let w = EntryWrite::for_saved(&e, l.take_bound("browser-host.wav"), None, day);
+        assert_eq!(w.url_host.as_deref(), Some("example.com"));
+        write(conn, &w, false)?;
+        let stored: Option<String> = conn.query_row(
+            "SELECT url_host FROM entry_meta WHERE entry_id = 91",
+            [],
+            |r| r.get(0),
+        )?;
+        assert_eq!(stored.as_deref(), Some("example.com"));
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
 fn saving_twice_counts_once() {
     let (_d, db) = db();
     let mut l = Ledger::new();

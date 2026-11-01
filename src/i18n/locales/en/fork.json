@@ -1387,6 +1387,10 @@
       "undo": "Undo",
       "changeFailed": "That change was not saved. Please try again."
     },
+    "sites": {
+      "heading": "Used on these sites",
+      "listLabel": "Sites that use the {{group}} style"
+    },
     "picker": {
       "title": "Add an app to {{group}}",
       "description": "Pick an app on this Mac. Its dictations will use the {{group}} style.",

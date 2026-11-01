@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * One style group's tab (S-19a, R2 D-18 .. D-25, D-207, D-61): the apps
- * that use it (icons; "+" adds one; each app's menu moves it to another
- * group, takes it out, returns it to its default group and turns "Press
- * Enter after dictating" on or off), then the group's three presets as
+ * One style group's tab (S-19a/b): the apps and sites that use it (icons;
+ * "+" adds an app; each chip's menu moves it to another group, takes it out,
+ * returns it to its default group and turns "Press Enter after dictating"
+ * on or off), then the group's three presets as
  * before/after cards. Other also covers every app not in a group.
  */
 import { useId, useState } from "react";
@@ -23,6 +23,7 @@ import { Button, FOCUS_RING, Menu, type MenuGroup } from "../ui";
 import { AppIcon } from "./AppIcon";
 import { AppPicker } from "./AppPicker";
 import { PresetCard } from "./PresetCard";
+import { SiteChip } from "./SiteChip";
 import { EXAMPLES, PRESETS } from "./presets";
 import { STYLE_GROUPS, useStyleStore } from "./useStyle";
 
@@ -177,15 +178,18 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
 export function GroupTab({ group }: { group: StyleGroup }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const apps = useStyleStore((s) => s.apps);
+  const sites = useStyleStore((s) => s.sites);
   const status = useStyleStore((s) => s.status);
   const change = useStyleStore((s) => s.change);
   const { settings, pending, setSetting } = useForkSettings();
   const [picking, setPicking] = useState(false);
   const name = useId();
   const appsHeading = useId();
+  const sitesHeading = useId();
   const presetsHeading = useId();
 
   const members = apps.filter((a) => a.group === group);
+  const siteMembers = sites.filter((s) => s.group === group);
   const groupName = t(`style.groups.${group}.label`);
   const current = settings?.styles[group];
   const example = EXAMPLES[group];
@@ -261,6 +265,30 @@ export function GroupTab({ group }: { group: StyleGroup }) {
           </p>
         )}
       </section>
+
+      {siteMembers.length > 0 && (
+        <section
+          aria-labelledby={sitesHeading}
+          className="flex flex-col gap-2.5"
+          data-testid="wb-style-sites-section"
+        >
+          <h2
+            id={sitesHeading}
+            className="text-[13px] font-semibold text-(--wb-ink)"
+          >
+            {t("style.sites.heading")}
+          </h2>
+          <ul
+            className="flex flex-wrap items-center gap-2"
+            aria-label={t("style.sites.listLabel", { group: groupName })}
+            data-testid="wb-style-sites"
+          >
+            {siteMembers.map((site) => (
+              <SiteChip key={site.host} site={site} group={group} />
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section aria-labelledby={presetsHeading} className="flex flex-col gap-3">
         <h2

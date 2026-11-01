@@ -1,6 +1,6 @@
 {
-  "_about": "App taxonomies (R5 §4.3, defined by S-09): style_group drives Styles (S-19a), usage_category drives Insights (S-25), is_ai_chat drives the cleanup skip (S-12a). Lookup order: an exact bundle id in `apps`; else a whole-token match of `signatures` against the app's name and bundle id (first group in `signature_order` wins); else a browser stays `other` (host rules arrive with S-19b); else other/other/false. Loaded by fork/context/categories.rs; tested there.",
-  "_sources": "`signatures` and `browsers` are the macOS-relevant app signatures of OpenWhispr src/helpers/toneAppCategories.js (OpenWhispr/openwhispr, commit b9e9ebefac4b961456c269164a93ddfdd53438b9, MIT, Copyright (c) 2024 OpenWhispr Team; LICENSES/MIT-OpenWhispr.txt). Several `apps` bundle ids come from AudioWhisper Sources/Managers/AppCategoryManager.swift (mazdak/AudioWhisper, commit 71fed3683d6e62f631c606003e57430622be0b2b, MIT, Copyright (c) 2024 AudioWhisper Contributors; LICENSES/MIT-AudioWhisper.txt). Modified by Wispr Bro contributors, 2026-10-30: mapped to Wispr Bro's groups and usage categories, documents and AI apps added. See docs/fork/PORTS.md.",
+  "_about": "App and site taxonomies (R5 §4.3): style_group drives Styles, usage_category drives Insights, is_ai_chat drives the cleanup skip. A host rule overrides the browser app. Apps use an exact bundle id, then whole-token signatures, then the browser/other default. Hosts match themselves and subdomains; title_aliases may only reduce a window title to one of these known hosts. Loaded and tested by fork/context/categories.rs.",
+  "_sources": "`signatures` and `browsers` are the macOS-relevant app signatures of OpenWhispr src/helpers/toneAppCategories.js (OpenWhispr/openwhispr, commit b9e9ebefac4b961456c269164a93ddfdd53438b9, MIT, Copyright (c) 2024 OpenWhispr Team; LICENSES/MIT-OpenWhispr.txt). Several `apps` bundle ids come from AudioWhisper Sources/Managers/AppCategoryManager.swift (mazdak/AudioWhisper, commit 71fed3683d6e62f631c606003e57430622be0b2b, MIT, Copyright (c) 2024 AudioWhisper Contributors; LICENSES/MIT-AudioWhisper.txt). Host matching follows BetterWispr WritingMode.swift (commit 304335a073a98f7439e5f7b4fbc2c31b810b807e, VoiceInk-derived, GPL-3.0; Copyright (c) the VoiceInk authors). Modified by Wispr Bro contributors, 2026-10-31: mapped apps and sites to Wispr Bro's groups and usage categories. See docs/fork/PORTS.md.",
   "apps": {
     "com.apple.mail": { "style_group": "email", "usage_category": "email" },
     "com.microsoft.Outlook": {
@@ -221,6 +221,20 @@
       "shortwave",
       "tutanota"
     ]
+  },
+  "hosts": {
+    "app.slack.com": {
+      "name": "Slack",
+      "style_group": "work",
+      "usage_category": "work",
+      "title_aliases": ["slack"]
+    },
+    "mail.google.com": {
+      "name": "Gmail",
+      "style_group": "email",
+      "usage_category": "email",
+      "title_aliases": ["gmail"]
+    }
   },
   "browsers": [
     "chrome",

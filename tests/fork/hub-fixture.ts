@@ -184,8 +184,8 @@ export async function openHub(
     counts: { words: 0, rules: 0, suggested: 0 },
   });
   ipc.handle("fork_account_name", () => hub.accountName);
-  // S-19a: no apps on the Style page unless the spec installs its own.
-  ipc.respond("fork_style_overview", { apps: [] });
+  // S-19a/b: no apps or sites unless the spec installs its own backend.
+  ipc.respond("fork_style_overview", { apps: [], sites: [] });
   // S-15b: an empty history unless the spec installs its own backend.
   ipc.respond("fork_history_page", { rows: [], next: null });
   ipc.respond("fork_history_find", { rows: [], next: null });

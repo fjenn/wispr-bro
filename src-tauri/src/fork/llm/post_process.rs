@@ -1103,20 +1103,20 @@ pub fn preset_for(styles: &StyleSettings, group: StyleGroup) -> StylePreset {
     }
 }
 
-/// The style decision for a dictation into `target` (bundle id, name):
-/// its group from the user's rules and the built-in table, the group's
-/// preset when the take is English and the app is not an AI chat, and
-/// auto-send when the app has it on.
+/// The style decision for a dictation into `target` (bundle id, name) and
+/// its reduced browser `url_host`: the site's group precedes the app's, then
+/// the group's preset applies when the take is English and not an AI chat.
 pub fn decide_style(
     rules: &[crate::fork::context::app_rules::AppRule],
     target: Option<(Option<&str>, Option<&str>)>,
+    url_host: Option<&str>,
     styles: &StyleSettings,
     english: bool,
 ) -> StyleDecision {
     let Some((bundle_id, name)) = target else {
         return StyleDecision::default();
     };
-    let resolved = crate::fork::context::app_rules::resolve(rules, bundle_id, name, None);
+    let resolved = crate::fork::context::app_rules::resolve(rules, bundle_id, name, url_host);
     let ai_chat = crate::fork::context::categories::classify(bundle_id, name).is_ai_chat;
     StyleDecision {
         group: Some(resolved.group),
@@ -1187,12 +1187,14 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
         Some(_) => None,
         None => hint_language(text, &spoken),
     };
-    // S-19a: a dictation's style comes from the app it goes to (the
-    // frontmost app now, like the AI-chat skip). Retries and file
-    // transcriptions go to History, not to an app: no style.
+    // A dictation's style comes from where it goes (the frontmost app now,
+    // like the AI-chat skip); a browser page's host precedes that app.
     let style = match source {
         Source::Dictation => {
             let front = crate::fork::context::frontmost::frontmost();
+            let url_host = front
+                .as_ref()
+                .and_then(|a| crate::fork::context::url::current_host(a.bundle_id.as_deref()));
             let english = crate::fork::text::style_rules::is_english(
                 language.as_deref(),
                 hint.as_deref(),
@@ -1204,6 +1206,7 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
                 front
                     .as_ref()
                     .map(|a| (a.bundle_id.as_deref(), a.name.as_deref())),
+                url_host.as_deref(),
                 &settings.styles,
                 english,
             )

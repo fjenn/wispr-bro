@@ -60,6 +60,8 @@ pub struct EntryWrite {
     pub language: Option<String>,
     pub app: Option<FrontApp>,
     pub class: AppClass,
+    /// A supported browser page's reduced host; never its URL or title.
+    pub url_host: Option<String>,
     /// Rebuilt by the launch reconcile from Handy's row.
     pub backfilled: bool,
     /// What the text pipeline did (S-11), when the fork saw the
@@ -97,6 +99,7 @@ impl EntryWrite {
                     day: local_day(saved_ms),
                     app: None,
                     class: AppClass::OTHER,
+                    url_host: None,
                     source: TakeSource::Dictation,
                 },
                 0,
@@ -121,6 +124,7 @@ impl EntryWrite {
             language: entry.language.clone(),
             app: ctx.app,
             class: ctx.class,
+            url_host: ctx.url_host,
             backfilled: false,
             text: None,
             cleanup: None,
@@ -271,6 +275,7 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
                     ("language", &w.language),
                     ("app_bundle_id", &bundle),
                     ("app_name", &name),
+                    ("url_host", &w.url_host),
                     ("style_group", &w.class.style_group.as_str()),
                     ("usage_category", &w.class.usage_category.as_str()),
                     ("backfilled", &i64::from(w.backfilled)),
