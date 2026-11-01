@@ -375,11 +375,52 @@ test.describe("notifications", () => {
       action: { type: "open_page", page: "settings", section: "history" },
     });
     await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
+    await expect(page.getByRole("tab", { name: "History" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
     await ipc.emit("fork-notification-opened", {
       id: null,
       action: { type: "open_notifications" },
     });
     await expect(panel(page)).toBeVisible();
+  });
+
+  test("macOS Open reveals History without completing unfinished onboarding", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const hubOpened = openInbox(
+      page,
+      ipc,
+      hub,
+      {},
+      { handy: { onboarding_completed: false } },
+    );
+    await expect(
+      page.getByRole("heading", {
+        name: "Speak instead of typing, in any app",
+      }),
+    ).toBeVisible();
+    await ipc.waitForListener("fork-notification-opened");
+    await ipc.emit("fork-notification-opened", {
+      id: 3,
+      action: { type: "open_page", page: "settings", section: "history" },
+    });
+    await hubOpened;
+
+    await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
+    await expect(page.getByTestId("wb-main")).toHaveAttribute(
+      "data-page",
+      "settings",
+    );
+    await expect(page.getByRole("tab", { name: "History" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    expect(hub.handy.onboarding_completed).toBe(false);
+    expect(await ipc.calls("complete_onboarding")).toHaveLength(0);
   });
 
   test.describe("feature popup", () => {
