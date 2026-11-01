@@ -10,8 +10,8 @@
 // subroles), the skipped and labelled role sets, `textEntryValue` (a text
 // field contributes only its visible range, UTF-16 offsets, never the full
 // value when the range is missing and the value is long), the window-frame
-// visibility test, the visited-element and time budgets, one
-// `AXUIElementCopyMultipleAttributeValues` per element, and `LineCollector`
+// visibility test, the visited-element and time budgets, a batched attribute
+// fetch with an individual-attribute fallback, and `LineCollector`
 // (trimmed lines with a letter, no repeats, a per-line cap). Its tests
 // `testShortScrolledFieldIncludesOnlyVisibleWords`,
 // `testLongScrolledFieldIncludesOnlyVisibleWords`,
@@ -38,7 +38,7 @@
 //! rule that says "do not read" is checked before any text is read.
 
 use std::sync::OnceLock;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use serde::Deserialize;
 
@@ -308,6 +308,10 @@ pub const LABELLED_ROLES: &[&str] = &[
 /// FluidVoice `textEntryRoles`.
 pub const TEXT_ENTRY_ROLES: &[&str] = &["AXTextArea", "AXTextField", "AXComboBox"];
 
+fn accepts_walk_value(role: &str) -> bool {
+    role != "AXWebArea"
+}
+
 // ---------------------------------------------------------------------------
 // The caret window and the lines around it (pure)
 
@@ -434,6 +438,52 @@ impl LineCollector {
     }
 }
 
+struct WalkItem<T> {
+    role: String,
+    exclusion: Option<Skip>,
+    texts: Vec<String>,
+    visible: bool,
+    children: Vec<T>,
+}
+
+fn walk_roots<T: PartialEq>(
+    roots: Vec<(T, Option<T>)>,
+    include_root_text: bool,
+    lines: &mut LineCollector,
+    deadline: Instant,
+    mut inspect: impl FnMut(&T) -> WalkItem<T>,
+) -> Result<(), Skip> {
+    let mut visited = 0usize;
+    'roots: for (root, skip) in roots {
+        let mut stack = vec![root];
+        let mut first = true;
+        while let Some(e) = stack.pop() {
+            if visited >= MAX_VISITED || lines.is_full() || Instant::now() > deadline {
+                break 'roots;
+            }
+            visited += 1;
+            let item = inspect(&e);
+            if let Some(skip) = item.exclusion {
+                return Err(skip);
+            }
+            let skip_text = SKIPPED_ROLES.contains(&item.role.as_str()) || !item.visible;
+            if (!first || include_root_text) && !skip_text {
+                for text in &item.texts {
+                    lines.add(text);
+                }
+            }
+            first = false;
+            for child in item.children.into_iter().rev() {
+                if skip.as_ref().is_some_and(|s| s == &child) {
+                    continue;
+                }
+                stack.push(child);
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Hints from a caret window and the lines around it, nearest the caret
 /// first. The text goes no further than this call.
 pub fn hints_of(window: &CaretWindow, lines: &[String], languages: &[String]) -> Vec<String> {
@@ -531,15 +581,6 @@ pub mod mac {
             && b.origin.y < a.origin.y + a.size.height
     }
 
-    /// One element's texts and children (FluidVoice `elementText`).
-    struct ElementText {
-        role: String,
-        exclusion: Option<Skip>,
-        texts: Vec<String>,
-        frame: Option<CGRect>,
-        children: Vec<CFRetained<AXUIElement>>,
-    }
-
     const FETCHED: [&str; 14] = [
         "AXRole",
         "AXSubrole",
@@ -557,7 +598,11 @@ pub mod mac {
         "AXProtectedContent",
     ];
 
-    fn element_text(e: &AXUIElement, names: &CFArray) -> Option<ElementText> {
+    fn element_text(
+        e: &AXUIElement,
+        names: &CFArray,
+        window_frame: Option<&CGRect>,
+    ) -> WalkItem<CFRetained<AXUIElement>> {
         let mut out: *const CFArray = std::ptr::null();
         // SAFETY: valid out-pointer; +1 reference on success.
         let err = unsafe {
@@ -567,17 +612,30 @@ pub mod mac {
                 NonNull::from(&mut out),
             )
         };
-        if err != objc2_application_services::AXError::Success {
-            return None;
-        }
-        // SAFETY: copy rule.
-        let values = unsafe { CFRetained::from_raw(NonNull::new(out as *mut CFArray)?) };
-        // SAFETY: an array of CFTypes; every entry is checked by downcast.
-        let values: &CFArray<CFType> = unsafe { values.cast_unchecked() };
-        if values.len() != FETCHED.len() {
-            return None;
-        }
-        let get = |i: usize| values.get(i);
+        let multiple = if err == objc2_application_services::AXError::Success {
+            NonNull::new(out as *mut CFArray).map(|ptr| unsafe { CFRetained::from_raw(ptr) })
+        } else {
+            None
+        };
+        let values = multiple.and_then(|values| {
+            if values.len() != FETCHED.len() {
+                return None;
+            }
+            // SAFETY: an array of CFTypes; every entry is checked by downcast.
+            let values: &CFArray<CFType> = unsafe { values.cast_unchecked() };
+            Some(
+                (0..FETCHED.len())
+                    .map(|i| values.get(i))
+                    .collect::<Vec<_>>(),
+            )
+        });
+        let values = values.unwrap_or_else(|| {
+            FETCHED
+                .iter()
+                .map(|name| el::attr(e, name).ok())
+                .collect::<Vec<_>>()
+        });
+        let get = |i: usize| values.get(i).and_then(|v| v.as_deref());
         let text =
             |i: usize| get(i).and_then(|v| v.downcast_ref::<CFString>().map(|s| s.to_string()));
         let role = text(0).unwrap_or_default();
@@ -591,14 +649,16 @@ pub mod mac {
             get(13).is_some_and(|v| v.downcast_ref::<CFBoolean>().is_some_and(|b| b.as_bool()));
         let exclusion = field_exclusion(&role, &subrole, protected, &labels);
         let mut texts = Vec::new();
-        if let Some(value) = text(2) {
-            if TEXT_ENTRY_ROLES.contains(&role.as_str()) {
-                let visible = get(8)
-                    .and_then(|v| el::value_range(&v))
-                    .map(|r| (r.location, r.length));
-                texts.push(text_entry_value(&value, visible));
-            } else {
-                texts.push(value);
+        if accepts_walk_value(&role) {
+            if let Some(value) = text(2) {
+                if TEXT_ENTRY_ROLES.contains(&role.as_str()) {
+                    let visible = get(8)
+                        .and_then(el::value_range)
+                        .map(|r| (r.location, r.length));
+                    texts.push(text_entry_value(&value, visible));
+                } else {
+                    texts.push(value);
+                }
             }
         }
         if let Some(title) = text(3) {
@@ -609,15 +669,18 @@ pub mod mac {
                 texts.push(d);
             }
         }
-        let frame = match (
-            get(5).as_deref().and_then(point),
-            get(6).as_deref().and_then(size),
-        ) {
+        let frame = match (get(5).and_then(point), get(6).and_then(size)) {
             (Some(origin), Some(size)) => Some(CGRect { origin, size }),
             _ => None,
         };
+        let visible = match (window_frame, frame.as_ref()) {
+            (Some(window), Some(frame)) if frame.size.width > 0.0 && frame.size.height > 0.0 => {
+                intersects(window, frame)
+            }
+            _ => true,
+        };
         let children = get(7)
-            .and_then(|v| v.downcast::<CFArray>().ok())
+            .and_then(|v| v.downcast_ref::<CFArray>())
             .map(|a| {
                 // SAFETY: AXChildren is an array of AXUIElements; checked.
                 let a: &CFArray<CFType> = unsafe { a.cast_unchecked() };
@@ -627,13 +690,13 @@ pub mod mac {
                     .collect()
             })
             .unwrap_or_default();
-        Some(ElementText {
+        WalkItem {
             exclusion,
             role,
             texts,
-            frame,
+            visible,
             children,
-        })
+        }
     }
 
     /// The parents of `e`, nearest first, up to (not including) its window.
@@ -723,47 +786,10 @@ pub mod mac {
             }
             None => roots.push((window.retain(), None)),
         }
-        let mut visited = 0usize;
-        'roots: for (root, skip) in roots {
-            let mut stack: Vec<CFRetained<AXUIElement>> = vec![root];
-            let mut first = true;
-            while let Some(e) = stack.pop() {
-                if visited >= MAX_VISITED || lines.is_full() || Instant::now() > deadline {
-                    break 'roots;
-                }
-                visited += 1;
-                el::set_timeout(&e, CALL_TIMEOUT_S);
-                let Some(item) = element_text(&e, names) else {
-                    continue;
-                };
-                if let Some(skip) = item.exclusion {
-                    return Err(skip);
-                }
-                if SKIPPED_ROLES.contains(&item.role.as_str()) {
-                    continue;
-                }
-                // Scrolled-out content lies outside the window.
-                if let (Some(w), Some(f)) = (window_frame.as_ref(), item.frame.as_ref()) {
-                    if f.size.width > 0.0 && f.size.height > 0.0 && !intersects(w, f) {
-                        continue;
-                    }
-                }
-                // A root's own texts are the container's (a group title);
-                // its children are what is around the field.
-                if !first || field.is_none() {
-                    for t in &item.texts {
-                        lines.add(t);
-                    }
-                }
-                first = false;
-                for child in item.children.into_iter().rev() {
-                    if skip.as_deref().is_some_and(|s| *s == *child) {
-                        continue;
-                    }
-                    stack.push(child);
-                }
-            }
-        }
+        walk_roots(roots, field.is_none(), &mut lines, deadline, |e| {
+            el::set_timeout(e, CALL_TIMEOUT_S);
+            element_text(e, names, window_frame.as_ref())
+        })?;
         Ok(lines)
     }
 
@@ -1023,6 +1049,95 @@ mod tests {
             Ok(lines)
         })();
         read_from_walk(CaretWindow::default(), walk, &[])
+    }
+
+    #[derive(Clone, PartialEq)]
+    struct TestElement {
+        role: &'static str,
+        labels: &'static str,
+        value: Option<&'static str>,
+        visible: bool,
+        children: Vec<TestElement>,
+    }
+
+    impl Default for TestElement {
+        fn default() -> Self {
+            TestElement {
+                role: "AXGroup",
+                labels: "",
+                value: None,
+                visible: true,
+                children: Vec::new(),
+            }
+        }
+    }
+
+    fn tree_read(root: TestElement) -> Read {
+        let mut lines = LineCollector::new(MAX_CHARS);
+        let walk = walk_roots(
+            vec![(root, None)],
+            true,
+            &mut lines,
+            Instant::now() + WALK_BUDGET,
+            |e| {
+                let texts = e
+                    .value
+                    .filter(|_| accepts_walk_value(e.role))
+                    .map(str::to_owned)
+                    .into_iter()
+                    .collect();
+                WalkItem {
+                    role: e.role.to_owned(),
+                    exclusion: field_exclusion(e.role, "", false, e.labels),
+                    texts,
+                    visible: e.visible,
+                    children: e.children.clone(),
+                }
+            },
+        );
+        read_from_walk(CaretWindow::default(), walk.map(|()| lines), &[])
+    }
+
+    #[test]
+    fn web_area_text_cannot_bypass_sensitive_children_in_unreadable_containers() {
+        for (role, visible) in [("AXGroup", false), ("AXScrollBar", true)] {
+            let read = tree_read(TestElement {
+                role: "AXWebArea",
+                value: Some("Zebulonix Quarterbridge"),
+                children: vec![TestElement {
+                    role,
+                    visible,
+                    children: vec![TestElement {
+                        role: "AXTextField",
+                        labels: "Card number Card number",
+                        value: Some("4111 1111 1111 1111"),
+                        ..TestElement::default()
+                    }],
+                    ..TestElement::default()
+                }],
+                ..TestElement::default()
+            });
+            assert_eq!(read.skip, Some(Skip::Sensitive), "{role}");
+            assert_eq!(read.chars, 0, "{role}");
+            assert!(read.hints.is_empty(), "{role}");
+        }
+    }
+
+    #[test]
+    fn web_area_walk_reads_leaf_text_instead_of_its_aggregate_value() {
+        let read = tree_read(TestElement {
+            role: "AXWebArea",
+            value: Some("Aggregate page text"),
+            children: vec![TestElement {
+                role: "AXStaticText",
+                value: Some("Ines Nowak"),
+                ..TestElement::default()
+            }],
+            ..TestElement::default()
+        });
+        assert_eq!(read.skip, None);
+        assert_eq!(read.chars, "Ines Nowak".chars().count());
+        assert_eq!(read.hints, ["Ines", "Nowak"]);
     }
 
     #[cfg(target_os = "macos")]
