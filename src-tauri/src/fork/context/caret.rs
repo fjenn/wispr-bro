@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) FluidVoice contributors (FluidVoice; GPL-3.0)
-// Modified by Wispr Bro contributors, 2026-10-31.
+// Modified by Wispr Bro contributors, 2026-10-31 and 2026-11-01.
 //
 // The budgeted read of the window around the dictation is ported from
 // FluidVoice `Sources/Fluid/Services/DictationContextCapture.swift`
@@ -268,6 +268,19 @@ pub fn is_secure_role(role: &str, subrole: &str) -> bool {
         || subrole.to_lowercase().contains("secure")
 }
 
+fn field_exclusion(role: &str, subrole: &str, protected: bool, labels: &str) -> Option<Skip> {
+    if is_secure_role(role, subrole) || protected {
+        return Some(Skip::SecureField);
+    }
+    if is_numeric_role(role, subrole) {
+        return Some(Skip::Numeric);
+    }
+    if exclusions().sensitive_label(labels) {
+        return Some(Skip::Sensitive);
+    }
+    None
+}
+
 /// FluidVoice `skippedRoles`.
 pub const SKIPPED_ROLES: &[&str] = &[
     "AXSecureTextField",
@@ -435,6 +448,26 @@ pub fn hints_of(window: &CaretWindow, lines: &[String], languages: &[String]) ->
     super::hints::extract(&sections, languages)
 }
 
+fn read_from_walk(
+    caret: CaretWindow,
+    walk: Result<LineCollector, Skip>,
+    languages: &[String],
+) -> Read {
+    let lines = match walk {
+        Ok(lines) => lines.into_lines(),
+        Err(skip) => return Read::skipped(skip, 0.0),
+    };
+    let chars = caret.chars() + lines.iter().map(|l| l.chars().count()).sum::<usize>();
+    let hints = hints_of(&caret, &lines, languages);
+    // `caret` and `lines` (the text) are dropped here.
+    Read {
+        hints,
+        chars,
+        ms: 0.0,
+        skip: None,
+    }
+}
+
 // ---------------------------------------------------------------------------
 // The read (macOS, on the AX thread)
 
@@ -450,7 +483,7 @@ pub mod mac {
     };
     use objc2_core_foundation::Type;
     use objc2_core_foundation::{
-        CFArray, CFRange, CFRetained, CFString, CFType, CGPoint, CGRect, CGSize,
+        CFArray, CFBoolean, CFRange, CFRetained, CFString, CFType, CGPoint, CGRect, CGSize,
     };
 
     use super::*;
@@ -501,13 +534,13 @@ pub mod mac {
     /// One element's texts and children (FluidVoice `elementText`).
     struct ElementText {
         role: String,
-        secure: bool,
+        exclusion: Option<Skip>,
         texts: Vec<String>,
         frame: Option<CGRect>,
         children: Vec<CFRetained<AXUIElement>>,
     }
 
-    const FETCHED: [&str; 9] = [
+    const FETCHED: [&str; 14] = [
         "AXRole",
         "AXSubrole",
         "AXValue",
@@ -517,6 +550,11 @@ pub mod mac {
         "AXSize",
         "AXChildren",
         "AXVisibleCharacterRange",
+        "AXPlaceholderValue",
+        "AXIdentifier",
+        "AXDOMIdentifier",
+        "AXHelp",
+        "AXProtectedContent",
     ];
 
     fn element_text(e: &AXUIElement, names: &CFArray) -> Option<ElementText> {
@@ -544,6 +582,14 @@ pub mod mac {
             |i: usize| get(i).and_then(|v| v.downcast_ref::<CFString>().map(|s| s.to_string()));
         let role = text(0).unwrap_or_default();
         let subrole = text(1).unwrap_or_default();
+        let labels = [3, 4, 9, 10, 11, 12]
+            .into_iter()
+            .filter_map(text)
+            .collect::<Vec<_>>()
+            .join(" ");
+        let protected =
+            get(13).is_some_and(|v| v.downcast_ref::<CFBoolean>().is_some_and(|b| b.as_bool()));
+        let exclusion = field_exclusion(&role, &subrole, protected, &labels);
         let mut texts = Vec::new();
         if let Some(value) = text(2) {
             if TEXT_ENTRY_ROLES.contains(&role.as_str()) {
@@ -582,7 +628,7 @@ pub mod mac {
             })
             .unwrap_or_default();
         Some(ElementText {
-            secure: is_secure_role(&role, &subrole),
+            exclusion,
             role,
             texts,
             frame,
@@ -654,7 +700,7 @@ pub mod mac {
         field: Option<&AXUIElement>,
         budget: usize,
         deadline: Instant,
-    ) -> LineCollector {
+    ) -> Result<LineCollector, Skip> {
         let names: Vec<CFRetained<CFString>> =
             FETCHED.iter().map(|n| CFString::from_str(n)).collect();
         let names = CFArray::from_retained_objects(&names);
@@ -690,7 +736,10 @@ pub mod mac {
                 let Some(item) = element_text(&e, names) else {
                     continue;
                 };
-                if item.secure || SKIPPED_ROLES.contains(&item.role.as_str()) {
+                if let Some(skip) = item.exclusion {
+                    return Err(skip);
+                }
+                if SKIPPED_ROLES.contains(&item.role.as_str()) {
                     continue;
                 }
                 // Scrolled-out content lies outside the window.
@@ -715,7 +764,7 @@ pub mod mac {
                 }
             }
         }
-        lines
+        Ok(lines)
     }
 
     /// One read, on the AX thread. `languages`: the user's spoken languages
@@ -768,14 +817,6 @@ pub mod mac {
             el::set_timeout(f, CALL_TIMEOUT_S);
             let role = string(f, "AXRole");
             let subrole = string(f, "AXSubrole");
-            if is_secure_role(&role, &subrole)
-                || el::attr_bool(f, "AXProtectedContent") == Some(true)
-            {
-                return Read::skipped(Skip::SecureField, 0.0);
-            }
-            if is_numeric_role(&role, &subrole) {
-                return Read::skipped(Skip::Numeric, 0.0);
-            }
             let labels = [
                 "AXDescription",
                 "AXTitle",
@@ -788,8 +829,13 @@ pub mod mac {
             .map(|a| string(f, a))
             .collect::<Vec<_>>()
             .join(" ");
-            if exclusions().sensitive_label(&labels) {
-                return Read::skipped(Skip::Sensitive, 0.0);
+            if let Some(skip) = field_exclusion(
+                &role,
+                &subrole,
+                el::attr_bool(f, "AXProtectedContent") == Some(true),
+                &labels,
+            ) {
+                return Read::skipped(skip, 0.0);
             }
             if browser {
                 // A text field outside any page is the address or search
@@ -824,23 +870,14 @@ pub mod mac {
                 caret = caret_window(f);
             }
         }
-        let mut lines = Vec::new();
         let left = MAX_CHARS.saturating_sub(caret.chars());
-        if let Some(w) = window.as_deref() {
-            if left > 0 && start.elapsed() < WALK_BUDGET {
-                let collector = lines_around(w, field.as_deref(), left, start + WALK_BUDGET);
-                lines = collector.into_lines();
+        let walk = match window.as_deref() {
+            Some(w) if left > 0 && start.elapsed() < WALK_BUDGET => {
+                lines_around(w, field.as_deref(), left, start + WALK_BUDGET)
             }
-        }
-        let chars = caret.chars() + lines.iter().map(|l| l.chars().count()).sum::<usize>();
-        let hints = hints_of(&caret, &lines, languages);
-        // `caret` and `lines` (the text) are dropped here.
-        Read {
-            hints,
-            chars,
-            ms: 0.0,
-            skip: None,
-        }
+            _ => Ok(LineCollector::new(left)),
+        };
+        read_from_walk(caret, walk, languages)
     }
 }
 
@@ -961,6 +998,60 @@ mod tests {
         assert!(is_secure_role("AXTextField", "AXSecureTextField"));
         assert!(is_secure_role("AXSecureTextField", ""));
         assert!(!is_secure_role("AXTextArea", ""));
+    }
+
+    fn no_focus_read(elements: &[(&str, &str, bool, &str, &str)]) -> Read {
+        let mut lines = LineCollector::new(MAX_CHARS);
+        let walk = (|| {
+            for &(role, subrole, protected, labels, text) in elements {
+                if let Some(skip) = field_exclusion(role, subrole, protected, labels) {
+                    return Err(skip);
+                }
+                lines.add(text);
+            }
+            Ok(lines)
+        })();
+        read_from_walk(CaretWindow::default(), walk, &[])
+    }
+
+    #[test]
+    fn no_focus_card_number_markup_discards_the_whole_walk() {
+        let read = no_focus_read(&[
+            ("AXStaticText", "", false, "", "Zebulonix Quarterbridge"),
+            (
+                "AXTextField",
+                "",
+                false,
+                "Card number Card number",
+                "4111 1111 1111 1111",
+            ),
+        ]);
+        assert_eq!(read.skip, Some(Skip::Sensitive));
+        assert_eq!(read.chars, 0);
+        assert!(read.hints.is_empty());
+    }
+
+    #[test]
+    fn no_focus_numeric_and_secure_markup_discards_the_whole_walk() {
+        for (role, subrole, protected, expected) in [
+            ("AXIncrementor", "", false, Skip::Numeric),
+            ("AXTextField", "AXSecureTextField", false, Skip::SecureField),
+            ("AXTextField", "", true, Skip::SecureField),
+        ] {
+            let read = no_focus_read(&[(role, subrole, protected, "", "Private nearby text")]);
+            assert_eq!(read.skip, Some(expected));
+            assert_eq!(read.chars, 0);
+            assert!(read.hints.is_empty());
+        }
+    }
+
+    #[test]
+    fn no_focus_non_sensitive_walk_still_reads_context() {
+        let text = "Ines Nowak";
+        let read = no_focus_read(&[("AXStaticText", "", false, "Message", text)]);
+        assert_eq!(read.skip, None);
+        assert_eq!(read.chars, text.chars().count());
+        assert_eq!(read.hints, ["Ines", "Nowak"]);
     }
 
     #[test]
