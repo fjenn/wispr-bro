@@ -1286,6 +1286,10 @@
       "undo": "Annuler",
       "changeFailed": "Cette modification n'a pas été enregistrée. Veuillez réessayer."
     },
+    "sites": {
+      "heading": "Utilisé sur ces sites",
+      "listLabel": "Les sites utilisant le style {{group}}"
+    },
     "picker": {
       "title": "Ajouter une application à {{group}}",
       "description": "Sélectionnez une application sur ce Mac. Ses dictées utiliseront le style {{group}}.",

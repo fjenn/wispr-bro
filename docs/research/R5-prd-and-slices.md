@@ -1105,6 +1105,7 @@ Order: core loop (S-01..S-08, with S-07a and S-07b), data and text intelligence 
 - **Real-Mac acceptance:** RS-04 URL rows on the real slice; Gmail in Chrome/Arc/Safari → Email.
 - **Exit criteria:** host detected in the five browsers or the title fallback used; only the host is stored.
 - **Effort / depends on:** M / S-19a, RS-04.
+- **As built (2026-10-31):** `fork/context/url.rs` uses the existing AX thread for local Chrome, Arc, Brave, Edge and Safari detection, with mado document/address-bar extraction (MIT) and BetterWispr web-area fallbacks (GPL), retaining their copyright and modification notices. URLs are reduced immediately to a host; paths, queries, fragments, userinfo, ports, page text and window titles are never persisted. Focused or indeterminate address bars are rejected, and title fallback returns only a known Gmail/Slack host. Built-in host rules map Gmail to Email and Slack web to Work and take precedence over browser app rules; `entry_meta.url_host` records only the reduced host. The Style page lists sites beside apps with the existing move/remove/reset/undo and auto-send controls. Full `cargo test` (1,320 passed, 30 ignored), lint, build, format, guards and Playwright (270 passed, 10 skipped) passed on the slice branch. **Not run:** the real-Mac RS-04/Gmail acceptance in Chrome/Arc/Safari and real Brave/Edge extraction; scheduled for a batched backend browser/AX run.
 
 ### S-20 Context awareness
 

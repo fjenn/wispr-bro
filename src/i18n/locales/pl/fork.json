@@ -1286,6 +1286,10 @@
       "undo": "Cofnij",
       "changeFailed": "Zmiana nie została zapisana. Proszę spróbować ponownie."
     },
+    "sites": {
+      "heading": "Wykorzystywane na tych stronach",
+      "listLabel": "Strony, które używają stylu {{group}}"
+    },
     "picker": {
       "title": "Dodaj aplikację do {{group}}",
       "description": "Wybierz aplikację na tym Macie. Jej dictacje będą używać stylu {{group}}.",

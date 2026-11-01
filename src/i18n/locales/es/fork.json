@@ -1286,6 +1286,10 @@
       "undo": "Deshacer",
       "changeFailed": "Esa modificación no se guardó. Por favor, inténtalo de nuevo."
     },
+    "sites": {
+      "heading": "Usado en estos sitios",
+      "listLabel": "Sitios que usan el estilo {{group}}"
+    },
     "picker": {
       "title": "Añadir una app a {{group}}",
       "description": "Elige una app en este Mac. Sus dictados usarán el estilo {{group}}.",

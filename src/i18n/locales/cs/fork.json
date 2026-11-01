@@ -1286,6 +1286,10 @@
       "undo": "Zpět",
       "changeFailed": "Změna nebyla uložena. Zkuste to prosím znovu."
     },
+    "sites": {
+      "heading": "Použito na těchto stránkách",
+      "listLabel": "Weby, které používají styl {{group}}"
+    },
     "picker": {
       "title": "Přidej aplikaci do {{group}}",
       "description": "Vyberte aplikaci na tomto Macu. Její dictace budou používat styl {{group}}.",

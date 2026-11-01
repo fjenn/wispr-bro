@@ -1286,6 +1286,10 @@
       "undo": "Desfer",
       "changeFailed": "Aquest canvi no ha estat desat. Si us plau, torni a intentar-ho."
     },
+    "sites": {
+      "heading": "Utilitzat en aquests llocs",
+      "listLabel": "Llocs que utilitzen el estil {{group}}"
+    },
     "picker": {
       "title": "Afegir una app a {{group}}",
       "description": "Selecciona una app d'aquest Mac. Les seves dictacions faran servir el estil {{group}}.",

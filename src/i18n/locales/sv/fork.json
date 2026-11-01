@@ -1286,6 +1286,10 @@
       "undo": "Ångra",
       "changeFailed": "Den här ändringen kunde inte sparas. Försök igen."
     },
+    "sites": {
+      "heading": "Används på dessa sidor",
+      "listLabel": "Platser som använder stil {{group}}"
+    },
     "picker": {
       "title": "Lägg till ett program till {{group}}",
       "description": "Välj ett program på denna Mac. Dina dictationer kommer att använda stil {{group}}.",

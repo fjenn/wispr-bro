@@ -1286,6 +1286,10 @@
       "undo": "Rückgängig",
       "changeFailed": "Die Änderung wurde nicht gespeichert. Bitte versuchen Sie es erneut."
     },
+    "sites": {
+      "heading": "Verwendet auf diesen Seiten",
+      "listLabel": "Orte, die den Stil {{group}} verwenden"
+    },
     "picker": {
       "title": "Eine App zu {{group}} hinzufügen",
       "description": "Ein App auf diesem Mac auswählen. Die Dictationen verwenden dann den Stil {{group}}.",

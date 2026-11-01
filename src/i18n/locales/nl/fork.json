@@ -1286,6 +1286,10 @@
       "undo": "Ongedaan maken",
       "changeFailed": "Die wijziging is niet opgeslagen. Probeer het opnieuw."
     },
+    "sites": {
+      "heading": "Gebruikt op deze sites",
+      "listLabel": "Locaties die de {{group}} stijl gebruiken"
+    },
     "picker": {
       "title": "Een app toevoegen aan {{group}}",
       "description": "Kies een app op deze Mac. Dictaten in die app gebruiken de stijl {{group}}.",

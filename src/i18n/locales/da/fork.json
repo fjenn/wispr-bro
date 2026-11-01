@@ -1286,6 +1286,10 @@
       "undo": "Åbn",
       "changeFailed": "Denne ændring blev ikke besat. Prøv venligst igen."
     },
+    "sites": {
+      "heading": "Bruges på disse sider",
+      "listLabel": "Steder, der bruger stil {{group}}"
+    },
     "picker": {
       "title": "Tilføj en app til {{group}}",
       "description": "Vælg en app på denne Mac. Dens dictationer vil bruge stil {{group}}.",

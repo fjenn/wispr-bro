@@ -1286,6 +1286,10 @@
       "undo": "Hoàn tác",
       "changeFailed": "Thay đổi đó không được lưu. Vui lòng thử lại."
     },
+    "sites": {
+      "heading": "Được sử dụng trên các trang này",
+      "listLabel": "Các trang web sử dụng phong cách {{group}}"
+    },
     "picker": {
       "title": "Thêm một ứng dụng vào {{group}}",
       "description": "Chọn một ứng dụng trên máy Mac này. Các bản ghi giọng nói của nó sẽ sử dụng phong cách {{group}}.",

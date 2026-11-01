@@ -879,6 +879,8 @@
   "style.apps.added": "machine",
   "style.apps.undo": "machine",
   "style.apps.changeFailed": "machine",
+  "style.sites.heading": "machine",
+  "style.sites.listLabel": "machine",
   "style.picker.title": "machine",
   "style.picker.description": "machine",
   "style.picker.search": "machine",

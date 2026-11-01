@@ -1286,6 +1286,10 @@
       "undo": "撤销",
       "changeFailed": "该更改未保存。请重新尝试。"
     },
+    "sites": {
+      "heading": "在这些网站上使用",
+      "listLabel": "使用 {{group}} 风格的网站"
+    },
     "picker": {
       "title": "将一个应用添加到 {{group}}",
       "description": "选择这个Mac上的一个应用。该应用的语音输入将使用{{group}}样式。",

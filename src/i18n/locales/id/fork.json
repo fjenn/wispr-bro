@@ -1286,6 +1286,10 @@
       "undo": "Unduk",
       "changeFailed": "Perubahan tersebut tidak disimpan. Silakan coba lagi."
     },
+    "sites": {
+      "heading": "Digunakan di situs-situs ini",
+      "listLabel": "Situs yang menggunakan gaya {{group}}"
+    },
     "picker": {
       "title": "Tambahkan aplikasi ke {{group}}",
       "description": "Pilih aplikasi di Mac ini. Dictasi dari aplikasi ini akan menggunakan gaya {{group}}.",

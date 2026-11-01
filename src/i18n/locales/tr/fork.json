@@ -1286,6 +1286,10 @@
       "undo": "Geri al",
       "changeFailed": "O değişiklik kaydedilmedi. Lütfen tekrar dene."
     },
+    "sites": {
+      "heading": "Bu sitelerde kullanılır",
+      "listLabel": "{{group}} stilini kullanan siteler"
+    },
     "picker": {
       "title": "Bir uygulama ekle {{group}}",
       "description": "Bu Mac'te bir uygulama seçin. Dictasyonlar {{group}} stilini kullanacaktır.",

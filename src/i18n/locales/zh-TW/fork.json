@@ -1286,6 +1286,10 @@
       "undo": "撤銷",
       "changeFailed": "該變更未儲存。請再試一次。"
     },
+    "sites": {
+      "heading": "用於這些網站",
+      "listLabel": "使用 {{group}} 風格的網站"
+    },
     "picker": {
       "title": "將一個應用程式加入 {{group}}",
       "description": "選擇這台 Mac 上的應用程式。其語音輸入將使用 {{group}} 風格。",
