@@ -82,6 +82,8 @@ pub struct HistoryRow {
     pub flagged: bool,
     /// The cleanup level the text was made at, when the LLM step ran.
     pub cleanup_level: Option<String>,
+    /// A take recorded without a usable speech model (S-07c).
+    pub queue_status: Option<crate::fork::models::queue::QueueStatus>,
 }
 
 /// A page of rows and the cursor for the next one.
@@ -105,13 +107,16 @@ struct Meta {
     flagged: bool,
     deleted: bool,
     cleanup_level: Option<String>,
+    queue_status: Option<String>,
 }
 
 fn read_meta(conn: &Connection, id: i64) -> Result<Option<Meta>, DbError> {
     Ok(conn
         .prepare_cached(
             "SELECT created_at, final_text, inserted_text, shown_variant, source, app_name,
-                    audio_deleted_at, flagged, deleted_at IS NOT NULL, cleanup_level
+                    audio_deleted_at, flagged, deleted_at IS NOT NULL, cleanup_level,
+                    (SELECT status FROM queued_takes WHERE entry_id = entry_meta.entry_id
+                     ORDER BY id DESC LIMIT 1)
              FROM entry_meta WHERE entry_id = ?1",
         )?
         .query_row([id], |r| {
@@ -126,6 +131,7 @@ fn read_meta(conn: &Connection, id: i64) -> Result<Option<Meta>, DbError> {
                 flagged: r.get::<_, i64>(7)? == 1,
                 deleted: r.get(8)?,
                 cleanup_level: r.get(9)?,
+                queue_status: r.get(10)?,
             })
         })
         .optional()?)
@@ -194,6 +200,10 @@ fn row(entry: &HistoryEntry, meta: Option<Meta>, audio_on_disk: bool) -> Option<
         audio,
         flagged: meta.flagged,
         cleanup_level: meta.cleanup_level,
+        queue_status: meta
+            .queue_status
+            .as_deref()
+            .and_then(crate::fork::models::queue::QueueStatus::parse),
     })
 }
 

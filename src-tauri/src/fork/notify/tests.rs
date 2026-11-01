@@ -804,10 +804,12 @@ mod app {
         let (app, h) = build(true);
         h.history.add(entry(1, 100, "older dictation"), None);
         h.history.add(entry(2, 200, "the latest dictation"), None);
-        *TEST_CLIPBOARD.lock().unwrap() = None;
-        let (click, copy, accessibility, missing, page) = run(app, move |handle, w| {
+        *TEST_CLIPBOARD.lock().unwrap() = Some("the user's clipboard".into());
+        let (unchanged, click, copy, accessibility, missing, page) = run(app, move |handle, w| {
             let queued = post(handle, Notice::queued_takes_ready(3)).unwrap();
             let problem = post(handle, Notice::shortcut_problem(true)).unwrap();
+            let unchanged =
+                TEST_CLIPBOARD.lock().unwrap().as_deref() == Some("the user's clipboard");
             let activate = |id: i64, button: Value| {
                 invoke(
                     w,
@@ -820,8 +822,9 @@ mod app {
             let copy = activate(queued.id, json!("copy_latest"));
             let accessibility = activate(problem.id, json!("open_accessibility"));
             let missing = activate(99_999, Value::Null);
-            (click, copy, accessibility, missing, list(w))
+            (unchanged, click, copy, accessibility, missing, list(w))
         });
+        assert!(unchanged, "posting a batch never writes the clipboard");
         assert_eq!(
             click,
             json!({ "type": "open_page", "page": "settings", "section": "history" })
