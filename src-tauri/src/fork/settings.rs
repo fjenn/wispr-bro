@@ -18,7 +18,10 @@
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
-use std::sync::Mutex;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Mutex,
+};
 
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
@@ -67,6 +70,13 @@ pub const MAX_RETENTION_DAYS: u32 = 3650;
 pub const MAX_TYPING_WPM: u32 = 300;
 /// Displays whose bar position is remembered (oldest keys are dropped).
 pub const MAX_BAR_DISPLAYS: usize = 32;
+
+static SHOW_IN_DOCK: AtomicBool = AtomicBool::new(true);
+
+/// The `lib.rs` close-window hook reads this before hiding the Dock icon.
+pub fn show_in_dock() -> bool {
+    SHOW_IN_DOCK.load(Ordering::Acquire)
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -198,6 +208,15 @@ pub enum BarPosition {
     Top,
 }
 
+/// Where S-24 opens Scratchpad (S-14 persists the choice).
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum ScratchpadOpenBehavior {
+    #[default]
+    Floating,
+    Hub,
+}
+
 /// Update channel (DEC-33).
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
 #[serde(rename_all = "snake_case")]
@@ -308,6 +327,8 @@ pub struct ForkSettings {
     pub bar_x_by_display: BTreeMap<String, f64>,
     /// DEC-30: Handy's live transcript in the pill, Advanced option (off).
     pub live_text_in_pill: bool,
+    /// S-14: where Scratchpad opens (used by S-24).
+    pub scratchpad_open_behavior: ScratchpadOpenBehavior,
     /// DEC-7: `None` keeps text forever.
     pub text_retention_days: Option<u32>,
     /// DEC-7: audio 14 days; `None` keeps audio forever, `0` keeps none.
@@ -359,6 +380,7 @@ impl Default for ForkSettings {
             bar_hide_in_recordings: false,
             bar_x_by_display: BTreeMap::new(),
             live_text_in_pill: false,
+            scratchpad_open_behavior: ScratchpadOpenBehavior::Floating,
             text_retention_days: None,
             audio_retention_days: Some(14),
             notifications: NotificationSettings::default(),
@@ -403,6 +425,7 @@ pub enum ForkSettingUpdate {
     BarHideInRecordings(bool),
     BarXByDisplay(BTreeMap<String, f64>),
     LiveTextInPill(bool),
+    ScratchpadOpenBehavior(ScratchpadOpenBehavior),
     TextRetentionDays(Option<u32>),
     AudioRetentionDays(Option<u32>),
     Notifications(NotificationSettings),
@@ -597,6 +620,7 @@ pub fn apply_update(settings: &mut ForkSettings, update: ForkSettingUpdate) -> R
         U::BarHideInRecordings(v) => settings.bar_hide_in_recordings = v,
         U::BarXByDisplay(v) => settings.bar_x_by_display = v,
         U::LiveTextInPill(v) => settings.live_text_in_pill = v,
+        U::ScratchpadOpenBehavior(v) => settings.scratchpad_open_behavior = v,
         U::TextRetentionDays(v) => settings.text_retention_days = v,
         U::AudioRetentionDays(v) => settings.audio_retention_days = v,
         U::Notifications(v) => settings.notifications = v,
@@ -1401,7 +1425,11 @@ impl ForkSettingsHandle {
             write_store(&store, s)
         };
         let settings = cache.as_mut().expect("loaded above");
-        f(settings, &save)
+        let result = f(settings, &save);
+        if result.is_ok() {
+            SHOW_IN_DOCK.store(settings.show_in_dock, Ordering::Release);
+        }
+        result
     }
 
     /// Current settings (loads the file on first use).

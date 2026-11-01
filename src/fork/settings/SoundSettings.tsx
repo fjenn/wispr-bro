@@ -4,8 +4,7 @@
  * Handy's Marimba and Pop themes), their volume and a preview, and "Mute all
  * audio while dictating" (off by default; CoreAudio, no AppleScript). These
  * are Handy's settings, written through Handy's settings store and commands;
- * the sounds are Handy's own files. Mounted on the fork debug panel until
- * S-14's Settings modal.
+ * the sounds are Handy's own files. S-14 mounts them in Settings › System.
  */
 import { useEffect, useId } from "react";
 import { useTranslation } from "react-i18next";

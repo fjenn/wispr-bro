@@ -28,7 +28,7 @@ import { InsightsPage } from "../insights/InsightsPage";
 import { SnippetsPage } from "../snippets/SnippetsPage";
 import { StylePage } from "../style/StylePage";
 import { EmptyState, type TagKind } from "../ui";
-import { HandySettingsPage } from "./HandySettingsPage";
+import { SettingsModal } from "../settings/SettingsModal";
 import { navigate, type HubPageId } from "./nav";
 import { PageHeader } from "./PageHeader";
 
@@ -130,7 +130,7 @@ export const HUB_PAGES: HubPage[] = [
     id: "settings",
     group: "bottom",
     icon: Settings,
-    component: HandySettingsPage,
+    component: SettingsModal,
   },
 ];
 

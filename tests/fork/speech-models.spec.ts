@@ -6,6 +6,7 @@
 import type { Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { test, expect, type IpcMock } from "./fixtures";
+import { openSettingsModal } from "./settings-modal-fixture";
 
 const pingReply = {
   message: "pong",
@@ -31,20 +32,18 @@ const policy = (over: Record<string, unknown> = {}) => ({
   ...over,
 });
 
-const SECTION = "fork-debug-section-speech-models";
+const SECTION = "wb-advanced-models";
 
 async function openPanel(
   page: Page,
   ipc: IpcMock,
   responses: Record<string, unknown> = {},
 ) {
-  ipc.respond({
-    fork_ping: pingReply,
+  await openSettingsModal(page, ipc, "advanced", {
     fork_model_policy_status: policy(),
     fork_models_hidden: [],
     ...responses,
   });
-  await page.goto("/#/fork/debug");
   const section = page.getByTestId(SECTION);
   await expect(section).toBeVisible({ timeout: 15_000 });
   return section;
@@ -222,6 +221,9 @@ test.describe("Speech models", () => {
     const section = await openPanel(page, ipc);
     await page.evaluate(() => {
       document.documentElement.dir = "rtl";
+      document
+        .querySelector("[data-testid=wb-settings-modal]")
+        ?.setAttribute("dir", "rtl");
     });
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     const box = await section

@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Ustawienia",
+    "close": "Zamknij ustawienia",
+    "navigation": "Sekcje ustawień",
+    "sections": {
+      "general": "Ogólne",
+      "system": "System",
+      "privacy": "Dane i prywatność",
+      "advanced": "Zaawansowane",
+      "about": "O",
+      "hotkeys": "Skróty"
+    },
+    "general": {
+      "shortcuts": "Skróty",
+      "shortcutTitle": "Skrót dictacji",
+      "shortcutHint": "Wybierz sposób rozpoczęcia dictacji i zarządzaj wszystkimi działaniami klawiatury.",
+      "holdToTalk": "Trzymaj {{shortcut}} aby mówić",
+      "change": "Zmień",
+      "microphone": "Microfon",
+      "languages": "Moje języki",
+      "appearance": "Język i tema aplikacji"
+    },
+    "system": {
+      "app": "Powiedzmy o zachowaniu aplikacji",
+      "alwaysBar": "Zawsze pokazuj pasek",
+      "showDock": "Pokaż aplikację w Docku",
+      "showDockHint": "Zachowuj Wispr Bro w pasku po zamknięciu jego okna.",
+      "sounds": "Dźwięki",
+      "notifications": "Powiadomienia",
+      "notificationKinds": {
+        "system": "Powiadomienia Mac",
+        "modelReady": "Model mowy gotowy",
+        "updateReady": "Aktualizacja gotowa",
+        "queuedReady": "Dictacje w kolejce gotowe",
+        "errors": "Problemy wymagające uwagi",
+        "suggestions": "Sugestie",
+        "announcements": "Ogłoszenia funkcji",
+        "milestones": "Markowanie punktów"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Otwórz Pasek w",
+      "scratchpadHint": "Wybierz, gdzie otwiera się Scratchpad, gdy używasz jego skrótu.",
+      "scratchpadOptions": {
+        "floating": "Okno pływające",
+        "hub": "Okno główne"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Twoje dane pozostają pod Twoim kontrolą",
+      "placeholderBody": "Utrzymanie i kontrola prywatności będą dostępne tutaj w kolejnym aktualizacji. Dictation i czyszczenie nadal działają na tym Macie."
+    },
+    "advanced": {
+      "output": "Wyjście tekstu",
+      "transcription": "Transkrypcja",
+      "barAndOverlay": "Pasek i przeładowanie dictacji",
+      "liveText": "Pokaż tekst w czasie w pasku",
+      "liveTextHint": "Wyświetl wykryte słowa podczas mówienia.",
+      "keyboard": "Tło klawiatury",
+      "prompts": "Oczyszczenie dostawcy i edytora promptu",
+      "history": "Przechowywanie historii",
+      "updates": "Aktualizacje",
+      "updateChannel": "Kanał aktualizacji",
+      "updateChannelHint": "Wersje beta mogą zawierać nieukończone zmiany.",
+      "updateChannels": {
+        "stable": "Stabilny",
+        "beta": "Beta"
+      },
+      "storage": "Lokalizacje danych i logów",
+      "experimental": "Eksperymentalne i debugowanie",
+      "debugMode": "Narzędzia do debugowania",
+      "debugModeHint": "Pokaż kontrolki diagnostyczne i opcje szczegółowego logowania.",
+      "forkDiagnostics": "Ustawienia diagnostyki forków"
+    },
+    "about": {
+      "tagline": "Dictacja lokalna, bez konta i bez przetwarzania w chmurze.",
+      "version": "Wersja {{version}}",
+      "source": "Pokaż kod źródłowy",
+      "updates": "Uwagi do aktualizacji"
+    },
+    "hotkeys": {
+      "open": "Skróty",
+      "loading": "Ładowanie skrótów…",
+      "description": "Dodaj aż {{max}} skróty dla każdej akcji. Zmiany są zapisywane w trakcie ich wprowadzania.",
+      "secureInputHelp": "macOS Secure Input chroni kontynuację wpisywania haseł, ukrywając klawisze od innych aplikacji. Zatrzymanie skrótu działa podczas aktywności.",
+      "count": "{{count}} z {{max}} ustawionych",
+      "notSet": "Nie ustawione",
+      "current": "Skrót: {{shortcut}}",
+      "activationLabel": "Aktywacja skrótu",
+      "activations": {
+        "hold": "Trzymaj",
+        "double_tap": "Dwa kroki",
+        "press": "Kliknij",
+        "toggle": "Przełącz"
+      },
+      "add": "Dodaj skróty",
+      "edit": "Edytuj",
+      "delete": "Usuń",
+      "reset": "Resetować do domyślnych",
+      "resetting": "Odbieranie...",
+      "resetFailed": "Nie udało się przywrócić wszystkich skrótów. Spróbuj ponownie.",
+      "done": "Gotowe",
+      "saveFailed": "Nie udało się zapisać tego skrótu.",
+      "conflict": "Również używane przez {{action}}. Wybierz inny skrót.",
+      "invalid": "Ten skrót nie jest rozpoznany.",
+      "unsupported": "Engine sterujący klawiszy nie może użyć tej kombinacji dla działania.",
+      "capture": {
+        "starting": "Początek przechwytywania skrótu…",
+        "listening": "Naciśnij skróty…",
+        "listeningHelp": "Naciśnij kombinację klawiszy lub przycisk myszy, aby użyć. Escape anuluje.",
+        "cancel": "Anuluj",
+        "close": "Czytaj",
+        "secure": "Zapis szyfrowany nie jest dostępny podczas aktywności Bezpiecznego Wejścia. Wyjdź z pola hasła lub wyłącz Bezpieczne Wprowadzanie, potem spróbuj ponownie.",
+        "failed": "Nie udało się zacząć pobierania skrótu. Sprawdź uprawnienia do dostępności i spróbuj ponownie."
+      },
+      "actions": {
+        "dictate": "Wciśnij i mów",
+        "hands_free": "Dictacja bez rąk",
+        "cancel": "Anuluj dictację",
+        "paste_last": "Wklej ostatnią dictację",
+        "copy_last": "Kopiuj ostatnią dictację",
+        "press_enter": "Naciśnij Enter",
+        "undo_cancel": "Anuluj anulowanie"
+      },
+      "help": {
+        "dictate": "Trzymaj skróty podczas mówienia; wydaj je, aby zakończyć.",
+        "hands_free": "Rozpocznij i zakończ dictację beztrzymały.",
+        "cancel": "Przerwij aktualną dictację bez wprowadzania jej.",
+        "paste_last": "Wklej ponownie Twoją ostatnią dictację.",
+        "copy_last": "Skopiuj ostatnią dictację do schowka.",
+        "press_enter": "Naciśnij Return w aplikacji, w której piszesz. Przydatne jest naciśnięcie przycisku bocznej strony myszy.",
+        "undo_cancel": "Przywróć dictację po jej anulowaniu."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

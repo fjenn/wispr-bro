@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Pengaturan",
+    "close": "Tutup pengaturan",
+    "navigation": "Bagian pengaturan",
+    "sections": {
+      "general": "Umum",
+      "system": "Sistem",
+      "privacy": "Data dan Privasi",
+      "advanced": "Lanjutan",
+      "about": "Tentang",
+      "hotkeys": "Pintasan"
+    },
+    "general": {
+      "shortcuts": "Pintasan",
+      "shortcutTitle": "Singkatan dictation",
+      "shortcutHint": "Pilih cara Anda memulai dictation dan mengelola setiap tindakan keyboard.",
+      "holdToTalk": "Tahan {{shortcut}} untuk berbicara",
+      "change": "Ubah",
+      "microphone": "Microfon",
+      "languages": "Bahasa saya",
+      "appearance": "Bahasa aplikasi dan tema"
+    },
+    "system": {
+      "app": "Perilaku Aplikasi",
+      "alwaysBar": "Selalu tampilkan bar",
+      "showDock": "Tampilkan aplikasi di Dock",
+      "showDockHint": "Tetapkan Wispr Bro di Dock setelah jendela nya ditutup.",
+      "sounds": "Suara",
+      "notifications": "Notifikasi",
+      "notificationKinds": {
+        "system": "Notifikasi Mac",
+        "modelReady": "Model suara siap",
+        "updateReady": "Perbaruan siap",
+        "queuedReady": "Dictasi yang ditunda siap",
+        "errors": "Masalah yang perlu diperhatikan",
+        "suggestions": "Pertimbangan",
+        "announcements": "Pemberitahuan fitur",
+        "milestones": "Tanda-tanda penting"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Buka Scratchpad di",
+      "scratchpadHint": "Pilih tempat Scratchpad terbuka saat Anda menggunakan pintasnya.",
+      "scratchpadOptions": {
+        "floating": "Jendela yang mengapung",
+        "hub": "Jendela utama"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Data Anda tetap di bawah kendali Anda",
+      "placeholderBody": "Pengaturan penyimpanan dan privasi akan tersedia di sini dalam pembaruan nanti. Dictation dan pemrosesan lanjutan tetap berjalan di Mac ini."
+    },
+    "advanced": {
+      "output": "Keluaran teks",
+      "transcription": "Transkripsi",
+      "barAndOverlay": "Bar dictasi dan overlay",
+      "liveText": "Tampilkan teks live di bar",
+      "liveTextHint": "Tampilkan kata-kata yang diakui saat Anda berbicara.",
+      "keyboard": "Backend keyboard",
+      "prompts": "Pembersihan penyedia dan editor prompt",
+      "history": "Penghematan sejarah",
+      "updates": "Pembaruan",
+      "updateChannel": "Saluran pembaruan",
+      "updateChannelHint": "Bentuk beta mungkin mencakup perubahan yang belum selesai.",
+      "updateChannels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
+      "storage": "Lokasi data dan log",
+      "experimental": "Eksperimental dan debug",
+      "debugMode": "Alat debug",
+      "debugModeHint": "Tampilkan kontrol diagnosa dan opsi logging rinci.",
+      "forkDiagnostics": "Fork pengaturan diagnosa"
+    },
+    "about": {
+      "tagline": "Dictasi lokal, tanpa akun dan tanpa pemrosesan di cloud.",
+      "version": "Versi {{version}}",
+      "source": "Lihat kode sumber",
+      "updates": "Catatan pembaruan"
+    },
+    "hotkeys": {
+      "open": "Pintasan",
+      "loading": "Memuat pintasan...",
+      "description": "Tambahkan hingga {{max}} pintasan untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya.",
+      "secureInputHelp": "macOS Secure Input melindungi entri kata sandi dengan menyembunyikan ketikan dari aplikasi lain. Pengaturan pintas ketik menghentikan saat aktif.",
+      "count": "{{count}} dari {{max}} diatur",
+      "notSet": "Tidak diatur",
+      "current": "Pembatasan: {{shortcut}}",
+      "activationLabel": "Pengaktifan pintasan",
+      "activations": {
+        "hold": "Tahan",
+        "double_tap": "Dua kali ketuk",
+        "press": "Tekan",
+        "toggle": "Toggle"
+      },
+      "add": "Tambahkan pintasan",
+      "edit": "Sunting",
+      "delete": "Hapus",
+      "reset": "Ulangi ke default",
+      "resetting": "Memulai reset...",
+      "resetFailed": "Tidak bisa mereset semua pintasan. Coba lagi.",
+      "done": "Selesai",
+      "saveFailed": "Tidak bisa menyimpan pintasan tersebut.",
+      "conflict": "Juga digunakan oleh {{action}}. Pilih kombinasi pintas yang berbeda.",
+      "invalid": "Shortcut ini tidak dikenali.",
+      "unsupported": "Engine tombol cepat tidak dapat menggunakan kombinasi ini untuk tindakan tersebut.",
+      "capture": {
+        "starting": "Mengambil shortcut capture...",
+        "listening": "Tekan pintasan…",
+        "listeningHelp": "Tekan kombinasi tombol atau tombol mouse untuk digunakan. Escape membatalkan.",
+        "cancel": "Batal",
+        "close": "Kembali",
+        "secure": "Pengambilan pintasan tidak tersedia saat Secure Input aktif. Keluar dari field kata sandi atau matikan Secure Keyboard Entry, lalu coba lagi.",
+        "failed": "Tidak bisa memulai penangkapan pintasan. Periksa izin Accessibility dan coba lagi."
+      },
+      "actions": {
+        "dictate": "Tekan untuk berbicara",
+        "hands_free": "Dictasi tanpa tangan",
+        "cancel": "Batal dictasi",
+        "paste_last": "Tempel dictasi terakhir",
+        "copy_last": "Salin dictasi terakhir",
+        "press_enter": "Tekan Enter",
+        "undo_cancel": "Unduh batalkan"
+      },
+      "help": {
+        "dictate": "Tahan pintasan saat berbicara; lepaskan untuk selesai.",
+        "hands_free": "Mulai dan hentikan dictasi tanpa menekan tombol.",
+        "cancel": "Hentikan dictasi saat ini tanpa memasukkannya.",
+        "paste_last": "Tempel kembali dictasi terbaru Anda.",
+        "copy_last": "Salin dictasi terbaru Anda ke clipboard.",
+        "press_enter": "Tekan Return di aplikasi di mana Anda sedang mengetik. Tombol samping mouse bekerja dengan baik di sini.",
+        "undo_cancel": "Memulai kembali sebuah dictation setelah Anda membatalkannya."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

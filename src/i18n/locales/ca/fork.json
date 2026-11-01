@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Opcions",
+    "close": "Tancar les opcions",
+    "navigation": "Seccions de configuració",
+    "sections": {
+      "general": "General",
+      "system": "Sistema",
+      "privacy": "Dades i Privacitat",
+      "advanced": "Avançat",
+      "about": "Sobre",
+      "hotkeys": "Dreceres"
+    },
+    "general": {
+      "shortcuts": "Dreceres",
+      "shortcutTitle": "Drecera de dictació",
+      "shortcutHint": "Selecciona com comences la dictació i gestionar totes les accions del teclat.",
+      "holdToTalk": "Tingui {{shortcut}} per parlar",
+      "change": "Canviar",
+      "microphone": "Microfònim",
+      "languages": "Les meves llengües",
+      "appearance": "Llengua i tema de l'aplicació"
+    },
+    "system": {
+      "app": "Comportament de l'app",
+      "alwaysBar": "Sempre mostrar la barra",
+      "showDock": "Mostrar l'aplicació al Dock",
+      "showDockHint": "Maintenir Wispr Bro al Dock després que se tanqui la seva finestra.",
+      "sounds": "Sonats",
+      "notifications": "Notificacions",
+      "notificationKinds": {
+        "system": "Notificacions de Mac",
+        "modelReady": "El model de parla està preparat",
+        "updateReady": "Actualització preparada",
+        "queuedReady": "Dictacions programades preparades",
+        "errors": "Problemes que necessiten atenció",
+        "suggestions": "D'ajuda",
+        "announcements": "Anuncis de funció",
+        "milestones": "Marcadors"
+      },
+      "scratchpad": "Pàgina de borrador",
+      "scratchpadLabel": "Obre el Scratchpad a",
+      "scratchpadHint": "Selecciona on s'obre el Scratchpad quan utilitzes el seu atal.",
+      "scratchpadOptions": {
+        "floating": "Una finestra flotant",
+        "hub": "La finestra principal"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Els teus dades es queden sota el teu control",
+      "placeholderBody": "La conservació i els controls de privacitat es trobaran aquí en una actualització futura. La dictació i el neteja continuen funcionant en aquest Mac."
+    },
+    "advanced": {
+      "output": "Sortida de text",
+      "transcription": "Transcripció",
+      "barAndOverlay": "Barra i sobreposició de dictació",
+      "liveText": "Mostrar el text en temps real a la barra",
+      "liveTextHint": "Mostra les paraules reconegudes mentre parles.",
+      "keyboard": "Backend del teclat",
+      "prompts": "Neteja el proveïdor i l'editor de prompts",
+      "history": "Guardat de l'històric",
+      "updates": "Actualitzacions",
+      "updateChannel": "Canal d'actualització",
+      "updateChannelHint": "Els builds Beta poden incloure canvis no completats.",
+      "updateChannels": {
+        "stable": "Estable",
+        "beta": "Beta"
+      },
+      "storage": "Llocs de dades i logs",
+      "experimental": "Experimental i de depuració",
+      "debugMode": "Eines de depuració",
+      "debugModeHint": "Mostra els controls diagnòstics i les opcions de registre detallades.",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "Dictació local, sense compte i sense processament en nuvol.",
+      "version": "Versió {{version}}",
+      "source": "Veure el codi font",
+      "updates": "Notes d'actualització"
+    },
+    "hotkeys": {
+      "open": "Darreres",
+      "loading": "Carregant d'atals...",
+      "description": "Afegiu fins a {{max}} d'acceleradors per a cada acció. Es guarden els canvis mentre els feu.",
+      "secureInputHelp": "L'entrada segura de macOS protegeix l'entrada de contrasenyes ocultant les tecles dels altres aplicacions. La captura de dades pausa quan està activa.",
+      "count": "{{count}} de {{max}} establert",
+      "notSet": "No establert",
+      "current": "Darrer: {{shortcut}}",
+      "activationLabel": "Activació de l'accelerador",
+      "activations": {
+        "hold": "Tingui",
+        "double_tap": "Doble toc",
+        "press": "Prem",
+        "toggle": "Toggle"
+      },
+      "add": "Afegir darrer",
+      "edit": "Editar",
+      "delete": "Esborrar",
+      "reset": "Resetar a predeterminats",
+      "resetting": "Estan reiniciant...",
+      "resetFailed": "No ha pogut resetear tots els darrers. Torna a intentar-ho.",
+      "done": "D'acord",
+      "saveFailed": "No ha pogut desar aquest atal.",
+      "conflict": "També utilitzat per {{action}}. Triar un altre atal.",
+      "invalid": "Aquesta combinació de teclat no és reconeguda.",
+      "unsupported": "L'enginy de claus ràpides no pot utilitzar aquesta combinació per a l'acció.",
+      "capture": {
+        "starting": "Capturant el shortcut...",
+        "listening": "Prem un atal...",
+        "listeningHelp": "Premi la combinació de tecles o el botó del ratolí per utilitzar-lo. Escape cancel·la.",
+        "cancel": "Cancel·lar",
+        "close": "Tornar",
+        "secure": "La captura de darrers no està disponible quan està activat l'Entrada Segura. Sortiu del camp de contrasenya o desactivi la entrada de teclat segura, aleshores provi de nou.",
+        "failed": "No ha pogut començar la captura de darrers. Comprova la permisió d'Accesibilitat i torna a intentar-ho."
+      },
+      "actions": {
+        "dictate": "Prem per parlar",
+        "hands_free": "Dictació sense mans",
+        "cancel": "Cancel·la la dictació",
+        "paste_last": "Enganxar la dita anterior",
+        "copy_last": "Copiar la darrera dictació",
+        "press_enter": "Prem Enter",
+        "undo_cancel": "Desfer una cancel·lació"
+      },
+      "help": {
+        "dictate": "Tingui el darrer mentre parles; sol·licita't per acabar.",
+        "hands_free": "Comença i tanquen la dictació sense mantenir una tecla.",
+        "cancel": "Fer acabar la dictació actual sense introduir-la.",
+        "paste_last": "Enganxar la teva dictació més recent una altra vegada.",
+        "copy_last": "Copiar la teva darrera dictació al portapapers.",
+        "press_enter": "Prem Retorn a l'aplicació on estàs escribint. Un botó lateral del ratolí funciona bé aquí.",
+        "undo_cancel": "Restaura una dictació just després que la cancelles."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

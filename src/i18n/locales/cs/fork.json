@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Nastavení",
+    "close": "Zavřít nastavení",
+    "navigation": "Oddíly nastavení",
+    "sections": {
+      "general": "Obecné",
+      "system": "Systém",
+      "privacy": "Data a soukromí",
+      "advanced": "Pokročilé",
+      "about": "O",
+      "hotkeys": "Zkratky"
+    },
+    "general": {
+      "shortcuts": "Zkratky",
+      "shortcutTitle": "Zkratka pro dictaci",
+      "shortcutHint": "Vyberte, jak začnete dictaci a spravujte každé klávesové akce.",
+      "holdToTalk": "Držte {{shortcut}} pro hovor",
+      "change": "Změnit",
+      "microphone": "Mikrofon",
+      "languages": "Moje jazyky",
+      "appearance": "Jazyk a téma aplikace"
+    },
+    "system": {
+      "app": "Chování aplikace",
+      "alwaysBar": "Vždy zobrazovat lištu",
+      "showDock": "Zobrazit aplikaci v Docku",
+      "showDockHint": "Zůstaňte Wispr Bro v Docku i po zavření jeho okna.",
+      "sounds": "Zvuky",
+      "notifications": "Oznámení",
+      "notificationKinds": {
+        "system": "Oznámení Mac",
+        "modelReady": "Model mluvení je připraven",
+        "updateReady": "Aktualizace je připravena",
+        "queuedReady": "Připravené dictace v řadě",
+        "errors": "Problémy, které potřebují pozornost",
+        "suggestions": "Doporučení",
+        "announcements": "Oznámení funkcí",
+        "milestones": "Body"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Otevřít Příkazový panel v",
+      "scratchpadHint": "Vyberte, kde se otevře Scratchpad při použití jeho zkratky.",
+      "scratchpadOptions": {
+        "floating": "Plovoucí okno",
+        "hub": "Hlavní okno"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Vaše data zůstávají pod vámi kontrolou",
+      "placeholderBody": "Uchování a nastavení soukromí bude k dispozici zde v následujícím aktualizaci. Dictace a oprava pokračují na tomto Macu."
+    },
+    "advanced": {
+      "output": "Výstup textu",
+      "transcription": "Transkripce",
+      "barAndOverlay": "Řádek dictace a překryv",
+      "liveText": "Zobrazit text v reálném čase v lište",
+      "liveTextHint": "Zobrazuje poznávaná slova během hlasového vstupu.",
+      "keyboard": "Základní klávesnice",
+      "prompts": "Očistit poskytovatele a editor promptu",
+      "history": "Ukládání historie",
+      "updates": "Aktualizace",
+      "updateChannel": "Canál aktualizací",
+      "updateChannelHint": "Beta verze mohou obsahovat nevypracované změny.",
+      "updateChannels": {
+        "stable": "Stabilní",
+        "beta": "Beta"
+      },
+      "storage": "Místa uložení dat a logů",
+      "experimental": "Experimentální a pro debagování",
+      "debugMode": "Nástroje pro ladění",
+      "debugModeHint": "Zobrazit diagnózové ovládání a podrobné logovací možnosti.",
+      "forkDiagnostics": "Nastavení diagnostiky rozvětvení"
+    },
+    "about": {
+      "tagline": "Místní dictace bez účtu a bez cloudového zpracování.",
+      "version": "Verze {{version}}",
+      "source": "Zobrazit zdrojový kód",
+      "updates": "Poznámky k aktualizaci"
+    },
+    "hotkeys": {
+      "open": "Zkratky",
+      "loading": "Načítání klávesových zkratok…",
+      "description": "Přidej až {{max}} klávesových zkratok pro každé akce. Změny se ukládají ihned po jejich provedení.",
+      "secureInputHelp": "macOS Secure Input ochrání zápis hesla skrýváním klávesních stisků od jiných aplikací. Zastavení zkratky proběhne během činnosti.",
+      "count": "{{count}} z {{max}} nastavených",
+      "notSet": "Není nastaveno",
+      "current": "Zkratka: {{shortcut}}",
+      "activationLabel": "Aktivace zkratky",
+      "activations": {
+        "hold": "Držet",
+        "double_tap": "Dvojité stisknutí",
+        "press": "Stiskněte",
+        "toggle": "Přepnout"
+      },
+      "add": "Přidat zkratku",
+      "edit": "Upravit",
+      "delete": "Smazat",
+      "reset": "Nastavit na výchozí hodnoty",
+      "resetting": "Obnovení...",
+      "resetFailed": "Nemohu obnovit všechny klávesy. Zkuste to znovu.",
+      "done": "Hotovo",
+      "saveFailed": "Nelze uložit tuto zkratku.",
+      "conflict": "Také používá {{action}}. Vyberte jiný zkratka.",
+      "invalid": "Tento zkratka není přijatelný.",
+      "unsupported": "Motivace klávesy nemůže použít tuto kombinaci pro akci.",
+      "capture": {
+        "starting": "Zahájení zachycování klávesového zkratky…",
+        "listening": "Stiskněte klávesové zkratky…",
+        "listeningHelp": "Stiskněte kombinaci kláves nebo tlačítka pro použití. Esc zruší.",
+        "cancel": "Storno",
+        "close": "Zpět",
+        "secure": "Zachycení klávesové zkratky je nepřístupné během činnosti bezpečného vstupu. Odejďte z pole hesla nebo vypněte bezpečný vstup klávesnice, pak zkuste to znovu.",
+        "failed": "Nelze spustit zachytávání klávesového zkratky. Zkontrolujte oprávnění pro Přístupnost a zkuste to znovu."
+      },
+      "actions": {
+        "dictate": "Stisknout pro řečení",
+        "hands_free": "Dictace bez rukou",
+        "cancel": "Zrušit dictaci",
+        "paste_last": "Vložit poslední dictaci",
+        "copy_last": "Zkopírovat poslední dictaci",
+        "press_enter": "Stiskněte Enter",
+        "undo_cancel": "Zpět zrušit"
+      },
+      "help": {
+        "dictate": "Držte klávesový zkrat při mluvení; uvolněte jej, abyste dokončili.",
+        "hands_free": "Spustit a vypnout dictaci bez držení klávesy.",
+        "cancel": "Zastavte aktuální dictaci bez jejího vložení.",
+        "paste_last": "Vložte opět vaši nejnovější dictaci.",
+        "copy_last": "Kopírovat vaši nejnovější dictaci do schránky.",
+        "press_enter": "Stiskněte klávesu Return v aplikaci, kde psát. Stisknutí strany myši je zde vhodné.",
+        "undo_cancel": "Obnovit dictaci, kterou jsi zrušil."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

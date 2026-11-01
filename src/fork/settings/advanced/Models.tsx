@@ -7,8 +7,7 @@
  * edited) for people who want to pick. Picking there pins the model.
  * Retired and licence-restricted models are hidden from Handy's list.
  *
- * Lives on the fork debug panel until S-14 builds the Settings modal, which
- * mounts this same component.
+ * S-14 mounts this component in the Settings modal's Advanced section.
  */
 import { useCallback, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -2,9 +2,9 @@
 /**
  * Settings › Advanced › "AI engine" (S-10). Shows whether the local cleanup
  * model is ready and lets the user try it on a sample sentence, cleaned the
- * way a dictation would be (S-12a: level, gate, guards). Lives on the
- * fork debug panel until S-14 builds the Settings modal, which mounts this
- * same component. S-12b: the Apple Intelligence row below it, and Try it
+ * way a dictation would be (S-12a: level, gate, guards). S-14 mounts this
+ * component in the Settings modal's Advanced section. S-12b: the Apple
+ * Intelligence row below it, and Try it
  * also runs on Apple's model while it stands in for the cleanup model.
  */
 import { useCallback, useEffect, useId, useState } from "react";

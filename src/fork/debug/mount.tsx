@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Hidden host for the fork debug panel.
+ * Hidden host for the fork debug panel and onboarding's Shortcuts dialog.
  *
- * Opens with the same chord as Handy's debug-mode toggle (⌘⇧D on macOS,
+ * The debug panel opens with the same chord as Handy's debug-mode toggle (⌘⇧D on macOS,
  * Ctrl+Shift+D elsewhere; see `App.tsx`) or the route `#/fork/debug`, but only
  * when the backend reports a debug build or a `--debug` launch (`fork_ping`).
  * In a release build without `--debug` the chord keeps toggling Handy's debug
@@ -11,72 +11,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
-import { AiEngine } from "../settings/advanced/AiEngine";
-import { SpeechModels } from "../settings/advanced/Models";
-import { BarSettings } from "../settings/BarSettings";
-import { MicrophonePicker } from "../settings/MicrophonePicker";
-import { SoundSettings } from "../settings/SoundSettings";
-import { ForkSettingsDebug } from "../settings/ForkSettingsDebug";
-import { RecoveryShortcuts } from "../settings/RecoveryShortcuts";
-import { CleanupLevelPicker } from "../style/CleanupLevelPicker";
+import { OnboardingHotkeysLink } from "../onboarding/HotkeysLink";
 import { CspSmoke } from "./CspSmoke";
 import { NotificationsDebug } from "./NotificationsDebug";
 import { runCspSmoke } from "./cspSmokeChecks";
 import { DebugPanel, registerForkDebugSection } from "./DebugPanel";
 
-// F-07: the fork settings section, until S-14's Settings modal.
-registerForkDebugSection({
-  id: "settings",
-  titleKey: "settings.debug.title",
-  render: () => <ForkSettingsDebug />,
-});
-
-// S-12a: the cleanup level picker, until S-19a's Style › Cleanup.
-registerForkDebugSection({
-  id: "cleanup",
-  titleKey: "cleanup.title",
-  render: () => <CleanupLevelPicker />,
-});
-
-// S-10: Settings › Advanced › AI engine, until S-14's Settings modal.
-registerForkDebugSection({
-  id: "ai-engine",
-  titleKey: "aiEngine.title",
-  render: () => <AiEngine />,
-});
-
-// S-07b: Settings › Advanced › Speech models, until S-14's Settings modal.
-registerForkDebugSection({
-  id: "speech-models",
-  titleKey: "speechModels.title",
-  render: () => <SpeechModels />,
-});
-
-// S-03: the Flow Bar settings, until S-14's Settings modal.
-registerForkDebugSection({
-  id: "bar",
-  titleKey: "settings.bar.title",
-  render: () => <BarSettings />,
-});
-
-// S-08: Settings › Sound (microphone, sounds, mute), until S-14's modal.
-registerForkDebugSection({
-  id: "microphone",
-  titleKey: "settings.mic.title",
-  render: () => <MicrophonePicker />,
-});
-registerForkDebugSection({
-  id: "sound",
-  titleKey: "settings.sound.title",
-  render: () => <SoundSettings />,
-});
-
-// S-06: the recovery shortcuts, until S-14's Settings modal (Shortcuts).
-registerForkDebugSection({
-  id: "recovery",
-  titleKey: "settings.recovery.title",
-  render: () => <RecoveryShortcuts />,
-});
+// Product settings live in S-14's Settings and Shortcuts dialogs. Only
+// diagnostics remain on this panel.
 
 // S-18: macOS permission and a sample poster for the Mac test script.
 registerForkDebugSection({
@@ -159,7 +101,12 @@ function ForkDebugHost() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, close, openIfAllowed]);
 
-  return open ? <DebugPanel onClose={close} /> : null;
+  return (
+    <>
+      <OnboardingHotkeysLink />
+      {open && <DebugPanel onClose={close} />}
+    </>
+  );
 }
 
 export function mountForkDebugHost(): void {

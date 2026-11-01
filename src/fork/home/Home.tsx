@@ -17,6 +17,7 @@
  */
 import { useTranslation } from "react-i18next";
 import { HistoryList } from "../history/HistoryList";
+import { HistoryDropZone } from "../hub/HistoryDropZone";
 import { FORK_NAMESPACE } from "../i18n";
 import { Greeting } from "./Greeting";
 import { PromoBanner } from "./PromoBanner";
@@ -43,7 +44,9 @@ export function Home() {
         </aside>
         <div className="flex min-w-0 flex-col gap-6 [grid-area:main]">
           <PromoBanner />
-          <HistoryList />
+          <HistoryDropZone>
+            <HistoryList />
+          </HistoryDropZone>
         </div>
       </div>
     </div>

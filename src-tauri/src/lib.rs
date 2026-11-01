@@ -1109,6 +1109,9 @@ pub fn run(cli_args: CliArgs) {
 
                 #[cfg(target_os = "macos")]
                 {
+                    if crate::fork::settings::show_in_dock() {
+                        return;
+                    }
                     let settings = get_settings(window.app_handle());
                     let tray_visible =
                         settings.show_tray_icon && !window.app_handle().state::<CliArgs>().no_tray;

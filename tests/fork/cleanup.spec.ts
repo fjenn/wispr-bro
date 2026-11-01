@@ -6,6 +6,7 @@ import type { Page } from "@playwright/test";
 import { test, expect, ipcError, type IpcMock } from "./fixtures";
 import { expectNoSeriousAxeFindings } from "./hub-fixture";
 import { forkSettingsDefaults } from "./settings-fixture";
+import { openSettingsModal } from "./settings-modal-fixture";
 
 const pingReply = {
   message: "pong",
@@ -40,14 +41,12 @@ async function openPicker(
   ipc: IpcMock,
   responses: Record<string, unknown>,
 ) {
-  ipc.respond({
-    fork_ping: pingReply,
+  await openSettingsModal(page, ipc, "advanced", {
     fork_get_settings: settings("light"),
     fork_llm_last_cleanup: null,
     ...responses,
   });
-  await page.goto("/#/fork/debug");
-  const section = page.getByTestId("fork-debug-section-cleanup");
+  const section = page.getByTestId("wb-advanced-cleanup");
   await expect(section).toBeVisible({ timeout: 15_000 });
   await expect(section.getByTestId("fork-cleanup")).toBeVisible();
   return section;
@@ -58,11 +57,11 @@ test.describe("Cleanup level picker", () => {
     page,
     ipc,
   }) => {
+    const section = await openPicker(page, ipc, {});
     ipc.handle("fork_set_setting", (args) => {
       const update = args.update as { key: string; value: string };
       return settings(update.value as "none" | "light" | "medium");
     });
-    const section = await openPicker(page, ipc, {});
     const radios = section.getByRole("radio");
     await expect(radios).toHaveCount(3);
     await expect(section.getByRole("radio", { name: /^Light/ })).toBeChecked();
@@ -151,10 +150,10 @@ test.describe("Cleanup level picker", () => {
     page,
     ipc,
   }) => {
+    const section = await openPicker(page, ipc, {});
     ipc.handle("fork_set_setting", () =>
       ipcError({ kind: "Internal", message: "disk full" }),
     );
-    const section = await openPicker(page, ipc, {});
     await expect(section.getByTestId("fork-cleanup-last")).toContainText(
       "No dictation since the app started.",
     );

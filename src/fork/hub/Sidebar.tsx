@@ -136,7 +136,7 @@ function HelpMenu({ collapsed }: { collapsed: boolean }) {
               id: "shortcuts",
               label: t("hub.help.shortcuts"),
               icon: Keyboard,
-              onSelect: go("settings", "general"),
+              onSelect: go("settings", "hotkeys"),
             },
             {
               id: "models",
@@ -148,7 +148,7 @@ function HelpMenu({ collapsed }: { collapsed: boolean }) {
               id: "history",
               label: t("hub.help.history"),
               icon: History,
-              onSelect: go("settings", "history"),
+              onSelect: go("dictation", "history"),
             },
           ],
         },

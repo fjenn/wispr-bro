@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "设置",
+    "close": "关闭设置",
+    "navigation": "设置部分",
+    "sections": {
+      "general": "通用",
+      "system": "系统",
+      "privacy": "数据与隐私",
+      "advanced": "高级",
+      "about": "关于",
+      "hotkeys": "快捷键"
+    },
+    "general": {
+      "shortcuts": "快捷键",
+      "shortcutTitle": "语音输入快捷方式",
+      "shortcutHint": "选择您如何开始语音输入，并管理所有键盘操作。",
+      "holdToTalk": "长按 {{shortcut}} 开始说话",
+      "change": "更改",
+      "microphone": "麦克风",
+      "languages": "我的语言",
+      "appearance": "应用语言和主题"
+    },
+    "system": {
+      "app": "应用行为",
+      "alwaysBar": "始终显示栏",
+      "showDock": "在Dock中显示应用",
+      "showDockHint": "在 Wispr Bro 窗口关闭后，将其保留在 Dock 中。",
+      "sounds": "声音",
+      "notifications": "通知",
+      "notificationKinds": {
+        "system": "Mac 通知",
+        "modelReady": "语音模型准备就绪",
+        "updateReady": "更新就绪",
+        "queuedReady": "已排队的语音输入准备就绪",
+        "errors": "需要关注的问题",
+        "suggestions": "建议",
+        "announcements": "功能公告",
+        "milestones": "里程碑"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Open Scratchpad in",
+      "scratchpadHint": "选择使用快捷方式时Scratchpad打开的位置。",
+      "scratchpadOptions": {
+        "floating": "一个浮动窗口",
+        "hub": "主窗口"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "你的数据始终在你手中控制",
+      "placeholderBody": "保留和隐私控制将在后续更新中在此处提供。语音识别和清理功能仍会在此 Mac 上运行。"
+    },
+    "advanced": {
+      "output": "文本输出",
+      "transcription": "转录",
+      "barAndOverlay": "语音输入栏和覆盖层",
+      "liveText": "在条状区域显示实时文本",
+      "liveTextHint": "在说话时显示识别的词语。",
+      "keyboard": "键盘后端",
+      "prompts": "清理提供商和提示编辑器",
+      "history": "历史存储",
+      "updates": "更新",
+      "updateChannel": "更新频道",
+      "updateChannelHint": "Beta版本可能包含未完成的更新。",
+      "updateChannels": {
+        "stable": "稳定",
+        "beta": "Beta"
+      },
+      "storage": "数据和日志位置",
+      "experimental": "实验性与调试",
+      "debugMode": "调试工具",
+      "debugModeHint": "显示诊断控制和详细日志选项。",
+      "forkDiagnostics": "Fork 设置诊断"
+    },
+    "about": {
+      "tagline": "本地语音输入，无需账号，无需云端处理。",
+      "version": "版本 {{version}}",
+      "source": "查看源代码",
+      "updates": "更新说明"
+    },
+    "hotkeys": {
+      "open": "快捷键",
+      "loading": "正在加载快捷键…",
+      "description": "为每个操作添加最多 {{max}} 个快捷方式。每次修改都会即时保存。",
+      "secureInputHelp": "macOS Secure Input 通过隐藏按键输入来保护密码输入，快捷键捕获在激活时会暂停。",
+      "count": "已设置 {{count}} 个，共 {{max}} 个",
+      "notSet": "未设置",
+      "current": "快捷键：{{shortcut}}",
+      "activationLabel": "快捷键激活",
+      "activations": {
+        "hold": "保持",
+        "double_tap": "双击",
+        "press": "按下",
+        "toggle": "切换"
+      },
+      "add": "添加快捷键",
+      "edit": "编辑",
+      "delete": "删除",
+      "reset": "恢复为默认值",
+      "resetting": "正在重置…",
+      "resetFailed": "无法重置所有快捷键。请重试。",
+      "done": "完成",
+      "saveFailed": "无法保存该快捷键。",
+      "conflict": "也用于 {{action}}。请选择另一个快捷键。",
+      "invalid": "这个快捷键不被识别。",
+      "unsupported": "快捷键引擎无法为该操作使用此组合。",
+      "capture": {
+        "starting": "正在捕获启动快捷键…",
+        "listening": "按下快捷键…",
+        "listeningHelp": "按键组合或鼠标按钮使用。Escape 取消。",
+        "cancel": "取消",
+        "close": "后退",
+        "secure": "快捷键捕获在启用安全输入时不可用。请离开密码字段或关闭安全键盘输入，然后重试。",
+        "failed": "无法开始快捷键捕获。请检查无障碍权限并重试。"
+      },
+      "actions": {
+        "dictate": "按下说话",
+        "hands_free": "语音输入（无需动手）",
+        "cancel": "取消语音输入",
+        "paste_last": "粘贴上一次语音输入",
+        "copy_last": "复制上一次的语音输入",
+        "press_enter": "按回车",
+        "undo_cancel": "撤销取消"
+      },
+      "help": {
+        "dictate": "说话时按住快捷键；松开以结束。",
+        "hands_free": "无需按键即可开始和停止语音输入。",
+        "cancel": "取消当前语音输入而不将其插入。",
+        "paste_last": "再次粘贴你最近的语音输入。",
+        "copy_last": "将您最近的语音输入复制到剪贴板。",
+        "press_enter": "在您正在输入的应用程序中按回车键。使用鼠标侧键效果更佳。",
+        "undo_cancel": "撤销并取消语音输入"
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Paramètres",
+    "close": "Fermer les paramètres",
+    "navigation": "Sections de paramètres",
+    "sections": {
+      "general": "Général",
+      "system": "Système",
+      "privacy": "Données et Confidentialité",
+      "advanced": "Avancé",
+      "about": "À propos",
+      "hotkeys": "Raccourcis"
+    },
+    "general": {
+      "shortcuts": "Raccourcis",
+      "shortcutTitle": "Raccourci de dictée",
+      "shortcutHint": "Choisissez la manière dont vous commencez la dictée et gérez toutes les actions du clavier.",
+      "holdToTalk": "Tenez {{shortcut}} pour parler",
+      "change": "Changer",
+      "microphone": "Microphone",
+      "languages": "Mes langues",
+      "appearance": "Langue de l'application et thème"
+    },
+    "system": {
+      "app": "Comportement de l'application",
+      "alwaysBar": "Toujours afficher la barre",
+      "showDock": "Afficher l'application dans le Dock",
+      "showDockHint": "Gardez Wispr Bro dans le Dock après que sa fenêtre soit fermée.",
+      "sounds": "Son",
+      "notifications": "Notifications",
+      "notificationKinds": {
+        "system": "Notifications Mac",
+        "modelReady": "Modèle de parole prêt",
+        "updateReady": "Mise à jour prête",
+        "queuedReady": "Dictatures en file prêtes",
+        "errors": "Problèmes nécessitant une attention",
+        "suggestions": "Suggestions",
+        "announcements": "Annonces de fonctionnalité",
+        "milestones": "Les jalons"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Ouvrir le Scratchpad dans",
+      "scratchpadHint": "Choisissez où ouvre le Scratchpad lorsque vous utilisez son raccourci.",
+      "scratchpadOptions": {
+        "floating": "Une fenêtre flottante",
+        "hub": "La fenêtre principale"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Vos données restent entre vos mains",
+      "placeholderBody": "La conservation et les paramètres de confidentialité seront disponibles ici dans une mise à jour ultérieure. La dictation et le nettoyage continueront d'être exécutés sur ce Mac."
+    },
+    "advanced": {
+      "output": "Sortie de texte",
+      "transcription": "Transcription",
+      "barAndOverlay": "Barre de dictation et surcoeur",
+      "liveText": "Afficher le texte en direct dans la barre",
+      "liveTextHint": "Afficher les mots reconnus pendant que vous parlez.",
+      "keyboard": "Backend clavier",
+      "prompts": "Nettoyage du fournisseur et du éditeur de prompt",
+      "history": "Stockage de l'histoire",
+      "updates": "Mises à jour",
+      "updateChannel": "Canal de mise à jour",
+      "updateChannelHint": "Les versions beta peuvent inclure des modifications non terminées.",
+      "updateChannels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
+      "storage": "Emplacement des données et des journaux",
+      "experimental": "Expérimental et débogage",
+      "debugMode": "Outils de débogage",
+      "debugModeHint": "Afficher les options de contrôle diagnostiques et les paramètres de journalisation détaillés.",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "Dictation locale, sans compte et sans traitement dans le cloud.",
+      "version": "Version {{version}}",
+      "source": "Voir le code source",
+      "updates": "Notes des mises à jour"
+    },
+    "hotkeys": {
+      "open": "Raccourcis",
+      "loading": "Chargement des raccourcis…",
+      "description": "Ajouter jusqu'à {{max}} raccourcis par action. Les modifications sont enregistrées en temps réel.",
+      "secureInputHelp": "macOS Secure Input protège l'entrée de mots de passe en cachant les touches saisies des autres applications. La capture des raccourcis est suspendue pendant qu'elle est active.",
+      "count": "{{count}} sur {{max}} configurés",
+      "notSet": "Pas défini",
+      "current": "Raccourci : {{shortcut}}",
+      "activationLabel": "Activation du raccourci",
+      "activations": {
+        "hold": "Tenu",
+        "double_tap": "Double-clique",
+        "press": "Appuyez",
+        "toggle": "Basculer"
+      },
+      "add": "Ajouter un raccourci",
+      "edit": "Éditer",
+      "delete": "Supprimer",
+      "reset": "Réinitialiser aux valeurs par défaut",
+      "resetting": "En cours de réinitialisation…",
+      "resetFailed": "Impossible de réinitialiser tous les raccourcis. Réessayez.",
+      "done": "Terminé",
+      "saveFailed": "Impossible de sauvegarder ce raccourci.",
+      "conflict": "Également utilisé par {{action}}. Choisissez un raccourci différent.",
+      "invalid": "Ce raccourci n'est pas reconnu.",
+      "unsupported": "L'engine des raccourcis ne peut pas utiliser cette combinaison pour cette action.",
+      "capture": {
+        "starting": "Capture du raccourci en cours…",
+        "listening": "Appuyez sur un raccourci…",
+        "listeningHelp": "Appuyez sur la combinaison de touches ou le bouton de la souris pour l'utiliser. Échappement annule.",
+        "cancel": "Annuler",
+        "close": "Retour",
+        "secure": "La capture des raccourcis n'est pas disponible lorsque l'entrée sécurisée est active. Quittez le champ mot de passe ou désactivez l'entrée clavier sécurisée, puis réessayez.",
+        "failed": "Impossible de commencer la capture du raccourci. Vérifiez les permissions d'Accessibilité et réessayez."
+      },
+      "actions": {
+        "dictate": "Appuyer pour parler",
+        "hands_free": "Dictature sans mains",
+        "cancel": "Annuler la dictée",
+        "paste_last": "Coller la dernière dictation",
+        "copy_last": "Copier la dernière dictation",
+        "press_enter": "Appuyez sur Entrée",
+        "undo_cancel": "Annuler une annulation"
+      },
+      "help": {
+        "dictate": "Tenez le raccourci en parlant ; relâchez-le pour terminer.",
+        "hands_free": "Démarrer et arrêter la dictation sans maintenir une touche.",
+        "cancel": "Arrêtez la dictée en cours sans l'insérer.",
+        "paste_last": "Coller à nouveau votre dernière dictation.",
+        "copy_last": "Copier votre dernière dictation dans le presse-papier.",
+        "press_enter": "Appuyez sur Retour dans l'application où vous tapez. Un bouton latéral de la souris fonctionne bien ici.",
+        "undo_cancel": "Annuler une dictation pour la restaurer juste après."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

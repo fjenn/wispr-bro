@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Impostazioni",
+    "close": "Chiudi le impostazioni",
+    "navigation": "Sezioni Impostazioni",
+    "sections": {
+      "general": "Generale",
+      "system": "Sistema",
+      "privacy": "Dati e Privacy",
+      "advanced": "Avanzato",
+      "about": "Informazioni",
+      "hotkeys": "Shortcuts"
+    },
+    "general": {
+      "shortcuts": "Shortcuts",
+      "shortcutTitle": "Shortcuts per la dicazione",
+      "shortcutHint": "Scegli come iniziare la diczione e gestisci tutte le azioni del tastierino.",
+      "holdToTalk": "Tieni premuto {{shortcut}} per parlare",
+      "change": "Cambia",
+      "microphone": "Microfono",
+      "languages": "Le mie lingue",
+      "appearance": "Lingua e tema dell'app"
+    },
+    "system": {
+      "app": "Comportamento dell'app",
+      "alwaysBar": "Mostra sempre la barra",
+      "showDock": "Mostra l'app nel Dock",
+      "showDockHint": "Mantenere Wispr Bro nel Dock dopo che la sua finestra è chiusa.",
+      "sounds": "Suoni",
+      "notifications": "Notifiche",
+      "notificationKinds": {
+        "system": "Notifiche Mac",
+        "modelReady": "Modello di riconoscimento pronto",
+        "updateReady": "Aggiornamento pronto",
+        "queuedReady": "Dictature in coda pronte",
+        "errors": "Problemi da attenzione",
+        "suggestions": "Suggerimenti",
+        "announcements": "Annunci di funzionalità",
+        "milestones": "Punti di riferimento"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Apri il Scratchpad in",
+      "scratchpadHint": "Scegli dove si apre il Scratchpad quando usi il suo breve.",
+      "scratchpadOptions": {
+        "floating": "Una finestra fluttuante",
+        "hub": "La finestra principale"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "I tuoi dati rimangono sotto il tuo controllo",
+      "placeholderBody": "La conservazione e i controlli sulla privacy saranno disponibili qui in un aggiornamento successivo. La dictazione e il processo di pulizia proseguiranno su questo Mac."
+    },
+    "advanced": {
+      "output": "Output testuale",
+      "transcription": "Trascrizione",
+      "barAndOverlay": "Barra e sovrapposizione della dicazione",
+      "liveText": "Mostra il testo in tempo reale nella barra",
+      "liveTextHint": "Mostra le parole riconosciute mentre parli.",
+      "keyboard": "Backend del tasto",
+      "prompts": "Pulisci provider e editor prompt",
+      "history": "Archiviazione storia",
+      "updates": "Aggiornamenti",
+      "updateChannel": "Canale di aggiornamento",
+      "updateChannelHint": "I build beta potrebbero includere modifiche non complete.",
+      "updateChannels": {
+        "stable": "Stabile",
+        "beta": "Beta"
+      },
+      "storage": "Posizioni dei dati e dei log",
+      "experimental": "Sperimentale e debug",
+      "debugMode": "Strumenti di debug",
+      "debugModeHint": "Mostra i controlli diagnostici e le opzioni di logging dettagliate.",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "Dictazione locale, senza account e senza elaborazione in nuvola.",
+      "version": "Versione {{version}}",
+      "source": "Visualizza il codice sorgente",
+      "updates": "Note sulle aggiornamenti"
+    },
+    "hotkeys": {
+      "open": "Shortcuts",
+      "loading": "Caricamento dei tasti rapidi…",
+      "description": "Aggiungi fino a {{max}} scorciatielli per ogni azione. Le modifiche vengono salvate mentre le apporti.",
+      "secureInputHelp": "L'input sicuro di macOS protegge l'inserimento delle password nascondendo le pressioni dai altri applicativi. La registrazione dei tasti viene interrotta mentre è attiva.",
+      "count": "{{count}} su {{max}} impostati",
+      "notSet": "Non impostato",
+      "current": "Shortcuts: {{shortcut}}",
+      "activationLabel": "Attivazione breve",
+      "activations": {
+        "hold": "Tieni premuto",
+        "double_tap": "Doppio tocco",
+        "press": "Premi",
+        "toggle": "Toggle"
+      },
+      "add": "Aggiungi breve tasto",
+      "edit": "Modifica",
+      "delete": "Cancella",
+      "reset": "Reimposta ai valori predefiniti",
+      "resetting": "Resetto...",
+      "resetFailed": "Impossibile ripristinare tutti i tasti rapidi. Riprova.",
+      "done": "Fatto",
+      "saveFailed": "Impossibile salvare quel tasto di scelta.",
+      "conflict": "Anche utilizzato da {{action}}. Scegli un altro breve.",
+      "invalid": "Questo breve tastiera non è riconosciuto.",
+      "unsupported": "L'engine dei tasti rapidi non può utilizzare questa combinazione per l'azione.",
+      "capture": {
+        "starting": "Rilevamento del tasto breve iniziato…",
+        "listening": "Premi un breve…",
+        "listeningHelp": "Premi la combinazione di tasti o il tasto del mouse per usarlo. Escape annulla.",
+        "cancel": "Annulla",
+        "close": "Indietro",
+        "secure": "La registrazione dei tasti non è disponibile quando è attivo l'Input Sicuro. Abbandona il campo password o disattiva l'Entrata del Tastierino Sicuro, poi riprova.",
+        "failed": "Impossibile avviare la cattura del tasto breve. Verifica le autorizzazioni di Accessibilità e riprova."
+      },
+      "actions": {
+        "dictate": "Premi per parlare",
+        "hands_free": "Dictazione senza mani",
+        "cancel": "Annulla la diczione",
+        "paste_last": "Incolla l'ultima dictazione",
+        "copy_last": "Copia l'ultima dictazione",
+        "press_enter": "Premi Invio",
+        "undo_cancel": "Annulla un annulla"
+      },
+      "help": {
+        "dictate": "Tieni premuto il tasto mentre parli; rilascialo per terminare.",
+        "hands_free": "Avvia e ferma la diczione senza tenere premuto un tasto.",
+        "cancel": "Ferma la dictazione corrente senza inserirla.",
+        "paste_last": "Incolla nuovamente la tua ultima dictazione.",
+        "copy_last": "Copia la tua ultima dictazione nel clipboard.",
+        "press_enter": "Premi Ritorno nell'app in cui stai digitando. Un tasto laterale del mouse funziona bene qui.",
+        "undo_cancel": "Annulla una dictazione appena dopo averla annullata."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"

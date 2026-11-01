@@ -34,6 +34,7 @@ export const forkSettingsDefaults = {
   bar_hide_in_recordings: false,
   bar_x_by_display: {},
   live_text_in_pill: false,
+  scratchpad_open_behavior: "floating",
   text_retention_days: null,
   audio_retention_days: 14,
   notifications: {

@@ -264,7 +264,7 @@ test.describe("notifications", () => {
       id: 3,
       button: "open",
     });
-    await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
+    await expect(page).toHaveURL(/#\/hub\/dictation\/history$/);
   });
 
   test("a failed action says so", async ({ page, ipc, hub }) => {
@@ -374,11 +374,8 @@ test.describe("notifications", () => {
       id: 3,
       action: { type: "open_page", page: "settings", section: "history" },
     });
-    await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
-    await expect(page.getByRole("tab", { name: "History" })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    await expect(page).toHaveURL(/#\/hub\/dictation\/history$/);
+    await expect(page.getByTestId("wb-drop-zone-history")).toBeVisible();
     await ipc.emit("fork-notification-opened", {
       id: null,
       action: { type: "open_notifications" },
@@ -410,15 +407,12 @@ test.describe("notifications", () => {
     });
     await hubOpened;
 
-    await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
+    await expect(page).toHaveURL(/#\/hub\/dictation\/history$/);
     await expect(page.getByTestId("wb-main")).toHaveAttribute(
       "data-page",
-      "settings",
+      "dictation",
     );
-    await expect(page.getByRole("tab", { name: "History" })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    await expect(page.getByTestId("wb-drop-zone-history")).toBeVisible();
     expect(hub.handy.onboarding_completed).toBe(false);
     expect(await ipc.calls("complete_onboarding")).toHaveLength(0);
   });
