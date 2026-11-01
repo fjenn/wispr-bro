@@ -50,6 +50,24 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key == "hotkey" {
         crate::fork::shortcut::reload(&app);
     }
+    #[cfg(target_os = "macos")]
+    if key == "show_in_dock" {
+        let tray_visible = R::handy_settings(&app)
+            .map(|settings::HandySettings(settings)| settings.show_tray_icon)
+            .unwrap_or(true)
+            && !app
+                .try_state::<crate::CliArgs>()
+                .map(|args| args.no_tray)
+                .unwrap_or(false);
+        let policy = if next.show_in_dock || !tray_visible {
+            tauri::ActivationPolicy::Regular
+        } else {
+            tauri::ActivationPolicy::Accessory
+        };
+        if let Err(error) = app.set_activation_policy(policy) {
+            log::error!("fork: could not change the Dock activation policy: {error}");
+        }
+    }
     if key == "text_retention_days" || key == "audio_retention_days" {
         crate::fork::db::jobs::wake();
     }

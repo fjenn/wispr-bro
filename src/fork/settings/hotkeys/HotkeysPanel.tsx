@@ -1,0 +1,243 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type {
+  HotkeyActivation,
+  HotkeyBinding,
+  HotkeyStatus,
+} from "../../bindings";
+import { commands } from "../../bindings";
+import { FORK_NAMESPACE } from "../../i18n";
+import { Button } from "../../ui";
+import { useForkSettings } from "../useForkSettings";
+import { BindingRow } from "./BindingRow";
+import {
+  actionDefinition,
+  actionIds,
+  canAddBinding,
+  defaultHotkeys,
+  MAX_BINDINGS,
+  nextBindingActivation,
+} from "./model";
+
+interface CaptureTarget {
+  action: string;
+  index: number;
+}
+
+export function HotkeysPanel({ onDone }: { onDone: () => void }) {
+  const { t } = useTranslation(FORK_NAMESPACE);
+  const { settings, setSetting } = useForkSettings();
+  const [status, setStatus] = useState<HotkeyStatus | null>(null);
+  const [capture, setCapture] = useState<CaptureTarget | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const refresh = useCallback(async () => {
+    try {
+      const result = await commands.forkHotkeyStatus();
+      if (result.status === "ok") setStatus(result.data);
+    } catch (cause) {
+      console.warn("fork: hotkey status failed", cause);
+    }
+  }, []);
+
+  useEffect(() => {
+    void refresh();
+  }, [refresh, settings?.hotkeys]);
+
+  const save = useCallback(
+    async (action: string, bindings: HotkeyBinding[]) => {
+      setError(null);
+      const result = await setSetting("hotkey", { action, bindings });
+      if (result.status === "error") {
+        setError(t("settingsModal.hotkeys.saveFailed"));
+        return false;
+      }
+      return true;
+    },
+    [setSetting, t],
+  );
+
+  if (!settings) {
+    return (
+      <p className="text-sm text-(--wb-ink-2)" data-testid="wb-hotkeys-loading">
+        {t("settingsModal.hotkeys.loading")}
+      </p>
+    );
+  }
+
+  const ids = actionIds(settings.hotkeys);
+  const reset = async () => {
+    setBusy(true);
+    setError(null);
+    const defaults = defaultHotkeys();
+    for (const id of ids) {
+      const result = await setSetting("hotkey", {
+        action: id,
+        bindings: defaults[id] ?? [],
+      });
+      if (result.status === "error") {
+        setError(t("settingsModal.hotkeys.resetFailed"));
+        break;
+      }
+    }
+    setBusy(false);
+  };
+
+  return (
+    <div className="flex flex-col gap-5" data-testid="wb-hotkeys-panel">
+      <div className="flex flex-col gap-1">
+        <p className="text-sm text-(--wb-ink-2)">
+          {t("settingsModal.hotkeys.description", { max: MAX_BINDINGS })}
+        </p>
+        <p className="text-xs text-(--wb-ink-3)">
+          {t("settingsModal.hotkeys.secureInputHelp")}
+        </p>
+      </div>
+      <div className="flex flex-col gap-4">
+        {ids.map((id) => {
+          const definition = actionDefinition(id);
+          const bindings = settings.hotkeys[id] ?? [];
+          const activations: HotkeyActivation[] =
+            id === "hands_free"
+              ? ["double_tap", "press"]
+              : [definition.activation];
+          return (
+            <section
+              key={id}
+              aria-labelledby={`wb-hotkey-title-${id}`}
+              className="flex flex-col gap-2"
+              data-testid={`wb-hotkey-action-${id}`}
+            >
+              <div className="flex items-center gap-2">
+                <h3
+                  id={`wb-hotkey-title-${id}`}
+                  className="text-sm font-semibold"
+                >
+                  {t(`settingsModal.hotkeys.actions.${id}`, {
+                    defaultValue: id,
+                  })}
+                </h3>
+                <span className="text-xs text-(--wb-ink-3)">
+                  {t("settingsModal.hotkeys.count", {
+                    count: bindings.length,
+                    max: MAX_BINDINGS,
+                  })}
+                </span>
+              </div>
+              <p className="text-xs text-(--wb-ink-2)">
+                {t(`settingsModal.hotkeys.help.${id}`, { defaultValue: "" })}
+              </p>
+              {bindings.length === 0 && (
+                <p className="text-sm text-(--wb-ink-3)">
+                  {t("settingsModal.hotkeys.notSet")}
+                </p>
+              )}
+              {bindings.map((binding, index) => (
+                <BindingRow
+                  key={`${index}-${binding.chord}-${binding.activation}`}
+                  actionId={id}
+                  binding={binding}
+                  index={index}
+                  activations={activations}
+                  status={status}
+                  capturing={capture?.action === id && capture.index === index}
+                  captureBusy={capture !== null || busy}
+                  onCapture={() => setCapture({ action: id, index })}
+                  onCaptured={(chord) => {
+                    setCapture(null);
+                    if (!chord) return;
+                    const next = bindings.map((current, candidate) =>
+                      candidate === index ? { ...current, chord } : current,
+                    );
+                    void save(id, next);
+                  }}
+                  onActivation={(activation) => {
+                    const next = bindings.map((current, candidate) =>
+                      candidate === index
+                        ? { ...current, activation }
+                        : current,
+                    );
+                    void save(id, next);
+                  }}
+                  onDelete={() => {
+                    void save(
+                      id,
+                      bindings.filter((_, candidate) => candidate !== index),
+                    );
+                  }}
+                />
+              ))}
+              {capture?.action === id && capture.index === bindings.length && (
+                <BindingRow
+                  actionId={id}
+                  binding={{
+                    chord: "",
+                    activation: nextBindingActivation(id, bindings),
+                  }}
+                  index={bindings.length}
+                  activations={activations}
+                  status={status}
+                  capturing
+                  captureBusy={busy}
+                  onCapture={() => undefined}
+                  onCaptured={(chord) => {
+                    setCapture(null);
+                    if (!chord) return;
+                    void save(id, [
+                      ...bindings,
+                      {
+                        chord,
+                        activation: nextBindingActivation(id, bindings),
+                      },
+                    ]);
+                  }}
+                  onActivation={() => undefined}
+                />
+              )}
+              <div>
+                <Button
+                  className="px-2.5 py-1"
+                  disabled={
+                    capture !== null || busy || !canAddBinding(bindings)
+                  }
+                  onClick={() =>
+                    setCapture({ action: id, index: bindings.length })
+                  }
+                  data-testid={`wb-hotkey-${id}-add`}
+                >
+                  {t("settingsModal.hotkeys.add")}
+                </Button>
+              </div>
+            </section>
+          );
+        })}
+      </div>
+      {error && (
+        <p role="alert" className="text-sm text-red-700 dark:text-red-300">
+          {error}
+        </p>
+      )}
+      <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-(--wb-line) bg-(--wb-canvas) py-3">
+        <Button
+          disabled={capture !== null || busy}
+          onClick={() => void reset()}
+          data-testid="wb-hotkeys-reset"
+        >
+          {busy
+            ? t("settingsModal.hotkeys.resetting")
+            : t("settingsModal.hotkeys.reset")}
+        </Button>
+        <Button
+          variant="primary"
+          disabled={capture !== null || busy}
+          onClick={onDone}
+          data-testid="wb-hotkeys-done"
+        >
+          {t("settingsModal.hotkeys.done")}
+        </Button>
+      </div>
+    </div>
+  );
+}

@@ -24,7 +24,7 @@ const shotsDir = process.env.WB_SHOTS_DIR;
 async function shot(page: Page, name: string) {
   if (!shotsDir) return;
   await page
-    .locator('[data-testid="fork-debug-panel"] > div')
+    .locator('[data-testid="wb-settings-modal"]')
     .screenshot({
       path: path.join(shotsDir, `s08-${name}.png`),
       animations: "disabled",
@@ -98,6 +98,7 @@ async function openSound(
   handy: Record<string, unknown> = {},
 ) {
   await openHub(page, ipc, hub, {
+    hash: "#/hub/settings/general",
     handy: {
       audio_feedback: true,
       sound_theme: "marimba",
@@ -106,25 +107,13 @@ async function openSound(
       ...handy,
     },
   });
-  ipc.respond({
-    fork_ping: {
-      message: "pong",
-      seq: 0,
-      ready: true,
-      debug_build: true,
-      cli_debug: false,
-    },
-  });
-  await page.evaluate(() => {
-    window.location.hash = "#/fork/debug";
-  });
-  const mic = page.getByTestId("fork-debug-section-microphone");
+  const mic = page.getByTestId("wb-settings-general");
   await expect(mic.getByTestId("wb-mic-picker")).toBeVisible({
     timeout: 15_000,
   });
   return {
     mic,
-    sound: page.getByTestId("fork-debug-section-sound"),
+    sound: page.getByTestId("wb-system-sounds"),
   };
 }
 
@@ -239,20 +228,8 @@ test.describe("Microphone", () => {
         ? ipcError({ kind: "Internal", message: "HAL busy" })
         : airpodsList(),
     );
-    await openHub(page, ipc, hub);
-    ipc.respond({
-      fork_ping: {
-        message: "pong",
-        seq: 0,
-        ready: true,
-        debug_build: true,
-        cli_debug: false,
-      },
-    });
-    await page.evaluate(() => {
-      window.location.hash = "#/fork/debug";
-    });
-    const mic = page.getByTestId("fork-debug-section-microphone");
+    await openHub(page, ipc, hub, { hash: "#/hub/settings/general" });
+    const mic = page.getByTestId("wb-settings-general");
     await expect(mic.getByRole("alert")).toContainText("HAL busy");
     fail = false;
     await mic.getByRole("button", { name: "Try again" }).click();
@@ -329,7 +306,7 @@ test.describe("Mic test", () => {
     await expect(button).toHaveText("Stop test");
     const before = (await ipc.calls("fork_mic_monitor_stop")).length;
     await page.keyboard.press("Escape");
-    await expect(page.getByTestId("fork-debug-panel")).toHaveCount(0);
+    await expect(page.getByTestId("wb-settings-modal")).toHaveCount(0);
     await expect
       .poll(async () => (await ipc.calls("fork_mic_monitor_stop")).length)
       .toBe(before + 1);
@@ -367,6 +344,7 @@ test.describe("Sounds", () => {
       play_test_sound: null,
     });
     const { sound } = await openSound(page, ipc, hub);
+    await page.getByTestId("wb-settings-nav-system").click();
     const enabled = sound.getByRole("checkbox", {
       name: "Play a sound when dictation starts and stops",
     });

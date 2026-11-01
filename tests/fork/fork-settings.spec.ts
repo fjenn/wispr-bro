@@ -5,6 +5,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import { installTauriMock, type MockResponses } from "./ipc-mock";
 import { forkSettingsDefaults } from "./settings-fixture";
+import { handySettings } from "./hub-fixture";
 
 const pingReply = {
   message: "pong",
@@ -32,13 +33,19 @@ async function calls(page: Page, cmd: string): Promise<Call[]> {
 
 async function openPanel(page: Page, responses: MockResponses) {
   await page.addInitScript(installTauriMock, {
+    get_app_settings: handySettings(),
+    get_default_settings: handySettings(),
+    get_retired_models: [],
+    "plugin:macos-permissions|check_accessibility_permission": true,
+    "plugin:macos-permissions|check_microphone_permission": true,
     fork_ping: pingReply,
     fork_model_status: { known_models: 0, downloaded_model_ids: [] },
     ...responses,
   });
-  await page.goto("/#/fork/debug");
-  const section = page.getByTestId("fork-debug-section-settings");
+  await page.goto("/#/hub/settings/advanced");
+  const section = page.getByTestId("wb-advanced-fork-diagnostics");
   await expect(section).toBeVisible();
+  await section.locator("summary").first().click();
   return section;
 }
 

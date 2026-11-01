@@ -4,8 +4,8 @@
  * order (built-in mic "(recommended)", "Auto-detect (system setting)", then
  * the others, wired before wireless), a caution on wireless mics, a note
  * when a Bluetooth default is being skipped, and a live level meter
- * ("Test microphone"). Mounted on the fork debug panel until S-14's
- * Settings modal; S-29a's mic test reuses `MicLevelMeter`.
+ * ("Test microphone"). S-14 mounts it in Settings › General; S-29a's mic
+ * test reuses `MicLevelMeter`.
  */
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

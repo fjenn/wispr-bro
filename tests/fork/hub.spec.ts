@@ -59,6 +59,7 @@ test.describe("hub shell", () => {
       await expect(current).toHaveCount(1);
       await expect(current).toHaveAttribute("data-testid", `wb-nav-${id}`);
       await expect(page).toHaveURL(new RegExp(`#/hub/${id}$`));
+      if (id === "settings") await page.keyboard.press("Escape");
     }
   });
 
@@ -116,6 +117,7 @@ test.describe("hub shell", () => {
       await page.getByTestId(`wb-nav-${id}`).focus();
       await page.keyboard.press("Enter");
       await expect(main(page)).toHaveAttribute("data-page", id);
+      if (id === "settings") await page.keyboard.press("Escape");
     }
     await page.getByTestId("wb-nav-scratchpad").focus();
     await page.keyboard.press("Space");
@@ -131,11 +133,12 @@ test.describe("hub shell", () => {
     await page.keyboard.press("Enter");
     await expect(menu).toBeHidden();
     await expect(main(page)).toHaveAttribute("data-page", "settings");
-    await expect(page.getByRole("tab", { name: "Models" })).toHaveAttribute(
-      "aria-selected",
-      "true",
+    await expect(page.getByTestId("wb-settings-nav-advanced")).toHaveAttribute(
+      "aria-current",
+      "location",
     );
-    await expect(page.getByTestId("wb-nav-help")).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(page.getByTestId("wb-nav-settings")).toBeFocused();
 
     // The notifications panel opens with Enter and closes with Esc.
     await page.getByTestId("wb-notifications-bell").focus();
@@ -148,15 +151,20 @@ test.describe("hub shell", () => {
     await expect(page.getByTestId("wb-notifications-bell")).toBeFocused();
   });
 
-  test("settings tabs move with the arrow keys", async ({ page, ipc, hub }) => {
+  test("settings sections open from the keyboard", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
     await openHub(page, ipc, hub, { hash: "#/hub/settings" });
-    const general = page.getByRole("tab", { name: "General" });
+    const general = page.getByTestId("wb-settings-nav-general");
     await general.focus();
-    await page.keyboard.press("ArrowRight");
-    const history = page.getByRole("tab", { name: "History" });
-    await expect(history).toBeFocused();
-    await expect(history).toHaveAttribute("aria-selected", "true");
-    await expect(page).toHaveURL(/#\/hub\/settings\/history$/);
+    await page.keyboard.press("Tab");
+    const system = page.getByTestId("wb-settings-nav-system");
+    await expect(system).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(system).toHaveAttribute("aria-current", "location");
+    await expect(page).toHaveURL(/#\/hub\/settings\/system$/);
   });
 
   test("banner dismissal persists across a reload", async ({
@@ -270,11 +278,8 @@ test.describe("hub shell", () => {
     hub,
   }) => {
     await openHub(page, ipc, hub, { hash: "#/hub/settings/history" });
-    await expect(main(page)).toHaveAttribute("data-page", "settings");
-    await expect(page.getByRole("tab", { name: "History" })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    await expect(main(page)).toHaveAttribute("data-page", "dictation");
+    await expect(page.getByTestId("wb-drop-zone-history")).toBeVisible();
 
     // An empty state's one action is a deep link (S-16, S-17 and S-19a
     // replaced the Dictionary, Snippets and Style placeholders).
@@ -285,9 +290,9 @@ test.describe("hub shell", () => {
     await page.evaluate(() => {
       window.location.hash = "#/hub/settings/advanced";
     });
-    await expect(page.getByRole("tab", { name: "Advanced" })).toHaveAttribute(
-      "aria-selected",
-      "true",
+    await expect(page.getByTestId("wb-settings-nav-advanced")).toHaveAttribute(
+      "aria-current",
+      "location",
     );
 
     // A link from outside (tray, menu, test) changes the hash.
@@ -304,9 +309,9 @@ test.describe("hub shell", () => {
     await page.evaluate(() => {
       window.location.hash = "#/hub/settings/toString";
     });
-    await expect(page.getByRole("tab", { name: "General" })).toHaveAttribute(
-      "aria-selected",
-      "true",
+    await expect(page.getByTestId("wb-settings-nav-general")).toHaveAttribute(
+      "aria-current",
+      "location",
     );
   });
 
@@ -320,8 +325,8 @@ test.describe("hub shell", () => {
     await ipc.waitForListener("tauri://drag-drop");
     const files = ["/Users/test/notes.csv"];
 
-    // Dictation has no drop zone: the drop is ignored.
-    const where = await centerOf(page, "wb-main");
+    // Outside every drop zone (the sidebar): the drop is ignored.
+    const where = await centerOf(page, "wb-sidebar");
     await ipc.emit("tauri://drag-enter", { paths: files, position: where });
     await ipc.emit("tauri://drag-drop", { paths: files, position: where });
     await page.waitForTimeout(200);
@@ -414,11 +419,8 @@ test.describe("hub shell", () => {
       .getByRole("button", { name: /40/ });
     await expect(status).toBeVisible();
     await status.click();
-    await expect(main(page)).toHaveAttribute("data-page", "settings");
-    await expect(page.getByRole("tab", { name: "History" })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    await expect(main(page)).toHaveAttribute("data-page", "dictation");
+    await expect(page.getByTestId("wb-drop-zone-history")).toBeVisible();
   });
 
   test("the model selector is not in the footer (B-207)", async ({
@@ -477,6 +479,7 @@ test.describe("hub shell", () => {
         await page.getByTestId(`wb-nav-${id}`).click();
         await expect(main(page)).toHaveAttribute("data-page", id);
         await expectNoSeriousAxeFindings(page);
+        if (id === "settings") await page.keyboard.press("Escape");
       }
       await page.getByTestId("wb-notifications-bell").click();
       await expect(page.getByTestId("wb-notifications-panel")).toBeVisible();

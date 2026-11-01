@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Fork settings section of the debug panel (F-07). Shows the effective fork
- * settings and two live controls, so the store and `useForkSettings()` can be
- * exercised before the Settings modal exists (S-14 mounts the real controls).
+ * Fork settings diagnostics in Settings › Advanced (F-07, S-14). Shows the
+ * effective fork settings and two live controls, so the store and
+ * `useForkSettings()` remain directly inspectable.
  */
 import { useId } from "react";
 import { useTranslation } from "react-i18next";

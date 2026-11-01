@@ -56,6 +56,7 @@ fn defaults_match_the_product_decisions() {
     assert_eq!(s.bar_position, BarPosition::Bottom);
     assert_eq!(s.bar_hidden_until_ms, None);
     assert!(!s.live_text_in_pill); // DEC-30
+    assert_eq!(s.scratchpad_open_behavior, ScratchpadOpenBehavior::Floating);
     assert_eq!(s.text_retention_days, None); // DEC-07: text forever
     assert_eq!(s.audio_retention_days, Some(14)); // DEC-07: audio 14 days
     assert!(s.update_checks_enabled); // DEC-14

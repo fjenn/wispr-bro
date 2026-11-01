@@ -1562,7 +1562,7 @@ export type ForkSettingUpdate =
 /**
  * Replaces the bindings of one action. An empty list unsets it.
  */
-{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
+{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "scratchpad_open_behavior"; value: ScratchpadOpenBehavior } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
 /**
  * All fork settings. Missing fields take their [`Default`] value
  * (container-level `serde(default)`), so a partial file never fails as a
@@ -1612,6 +1612,10 @@ bar_x_by_display: Partial<{ [key in string]: number }>;
  * DEC-30: Handy's live transcript in the pill, Advanced option (off).
  */
 live_text_in_pill: boolean; 
+/**
+ * S-14: where Scratchpad opens (used by S-24).
+ */
+scratchpad_open_behavior: ScratchpadOpenBehavior; 
 /**
  * DEC-7: `None` keeps text forever.
  */
@@ -2338,6 +2342,10 @@ export type SaveOutcome =
  * The entry to edit no longer exists.
  */
 { status: "missing" }
+/**
+ * Where S-24 opens Scratchpad (S-14 persists the choice).
+ */
+export type ScratchpadOpenBehavior = "floating" | "hub"
 /**
  * Server phase for the status event.
  */

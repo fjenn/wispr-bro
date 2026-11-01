@@ -33,7 +33,7 @@ export function Footer() {
     >
       <div data-testid="wb-footer-jobs" className="flex items-center gap-3">
         <TranscriptionStatus
-          onShowHistory={() => navigate("settings", "history")}
+          onShowHistory={() => navigate("dictation", "history")}
         />
       </div>
       <div className="flex items-center gap-1.5">

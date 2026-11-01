@@ -155,6 +155,140 @@
       }
     }
   },
+  "settingsModal": {
+    "title": "Settings",
+    "close": "Close settings",
+    "navigation": "Settings sections",
+    "sections": {
+      "general": "General",
+      "system": "System",
+      "privacy": "Data and Privacy",
+      "advanced": "Advanced",
+      "about": "About",
+      "hotkeys": "Shortcuts"
+    },
+    "general": {
+      "shortcuts": "Shortcuts",
+      "shortcutTitle": "Dictation shortcut",
+      "shortcutHint": "Choose how you start dictation and manage every keyboard action.",
+      "holdToTalk": "Hold {{shortcut}} to talk",
+      "change": "Change",
+      "microphone": "Microphone",
+      "languages": "My languages",
+      "appearance": "App language and theme"
+    },
+    "system": {
+      "app": "App behavior",
+      "alwaysBar": "Always show the bar",
+      "showDock": "Show app in Dock",
+      "showDockHint": "Keep Wispr Bro in the Dock after its window closes.",
+      "sounds": "Sounds",
+      "notifications": "Notifications",
+      "notificationKinds": {
+        "system": "Mac notifications",
+        "modelReady": "Speech model ready",
+        "updateReady": "Update ready",
+        "queuedReady": "Queued dictations ready",
+        "errors": "Problems that need attention",
+        "suggestions": "Suggestions",
+        "announcements": "Feature announcements",
+        "milestones": "Milestones"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "Open Scratchpad in",
+      "scratchpadHint": "Choose where Scratchpad opens when you use its shortcut.",
+      "scratchpadOptions": {
+        "floating": "A floating window",
+        "hub": "The main window"
+      }
+    },
+    "privacy": {
+      "placeholderTitle": "Your data stays under your control",
+      "placeholderBody": "Retention and privacy controls will be available here in a later update. Dictation and cleanup continue to run on this Mac."
+    },
+    "advanced": {
+      "output": "Text output",
+      "transcription": "Transcription",
+      "barAndOverlay": "Dictation bar and overlay",
+      "liveText": "Show live text in the bar",
+      "liveTextHint": "Display the recognized words while you speak.",
+      "keyboard": "Keyboard backend",
+      "prompts": "Cleanup provider and prompt editor",
+      "history": "History storage",
+      "updates": "Updates",
+      "updateChannel": "Update channel",
+      "updateChannelHint": "Beta builds may include unfinished changes.",
+      "updateChannels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
+      "storage": "Data and log locations",
+      "experimental": "Experimental and debug",
+      "debugMode": "Debug tools",
+      "debugModeHint": "Show diagnostic controls and verbose logging options.",
+      "forkDiagnostics": "Fork settings diagnostics"
+    },
+    "about": {
+      "tagline": "Local dictation, with no account and no cloud processing.",
+      "version": "Version {{version}}",
+      "source": "View source code",
+      "updates": "Update notes"
+    },
+    "hotkeys": {
+      "open": "Shortcuts",
+      "loading": "Loading shortcuts…",
+      "description": "Add up to {{max}} shortcuts for each action. Changes are saved as you make them.",
+      "secureInputHelp": "macOS Secure Input protects password entry by hiding keystrokes from other apps. Shortcut capture pauses while it is active.",
+      "count": "{{count}} of {{max}} set",
+      "notSet": "Not set",
+      "current": "Shortcut: {{shortcut}}",
+      "activationLabel": "Shortcut activation",
+      "activations": {
+        "hold": "Hold",
+        "double_tap": "Double-tap",
+        "press": "Press",
+        "toggle": "Toggle"
+      },
+      "add": "Add shortcut",
+      "edit": "Edit",
+      "delete": "Delete",
+      "reset": "Reset to defaults",
+      "resetting": "Resetting…",
+      "resetFailed": "Could not reset every shortcut. Try again.",
+      "done": "Done",
+      "saveFailed": "Could not save that shortcut.",
+      "conflict": "Also used by {{action}}. Choose a different shortcut.",
+      "invalid": "This shortcut is not recognized.",
+      "unsupported": "The hotkey engine cannot use this combination for the action.",
+      "capture": {
+        "starting": "Starting shortcut capture…",
+        "listening": "Press a shortcut…",
+        "listeningHelp": "Press the key combination or mouse button to use. Escape cancels.",
+        "cancel": "Cancel",
+        "close": "Back",
+        "secure": "Shortcut capture is unavailable while Secure Input is active. Leave the password field or turn off Secure Keyboard Entry, then try again.",
+        "failed": "Could not start shortcut capture. Check Accessibility permission and try again."
+      },
+      "actions": {
+        "dictate": "Push to talk",
+        "hands_free": "Hands-free dictation",
+        "cancel": "Cancel dictation",
+        "paste_last": "Paste last dictation",
+        "copy_last": "Copy last dictation",
+        "press_enter": "Press Enter",
+        "undo_cancel": "Undo a cancel"
+      },
+      "help": {
+        "dictate": "Hold the shortcut while you speak; release it to finish.",
+        "hands_free": "Start and stop dictation without holding a key.",
+        "cancel": "Stop the current dictation without inserting it.",
+        "paste_last": "Paste your most recent dictation again.",
+        "copy_last": "Copy your most recent dictation to the clipboard.",
+        "press_enter": "Press Return in the app where you are typing. A mouse side button works well here.",
+        "undo_cancel": "Restore a dictation just after you cancel it."
+      }
+    }
+  },
   "hub": {
     "nav": {
       "label": "Main"
@@ -207,7 +341,7 @@
     "help": {
       "title": "Help",
       "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
+      "shortcuts": "Shortcuts",
       "models": "Speech models and languages",
       "history": "History"
     },

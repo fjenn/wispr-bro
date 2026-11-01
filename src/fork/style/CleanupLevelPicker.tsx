@@ -2,7 +2,7 @@
 /**
  * Cleanup level picker (S-12a): None / Light / Medium, saved in the fork
  * setting `cleanup_level`. Mounted in Style › Cleanup (S-19a, `CleanupTab`)
- * and on the fork debug panel.
+ * and Settings › Advanced (S-14).
  *
  * Below it, the last dictation's cleanup result (`fork_llm_last_cleanup`,
  * then the `ForkCleanupResult` event), so a take that was inserted without

@@ -2,9 +2,8 @@
 /**
  * Flow Bar settings (S-03): "Always show the bar", position, "Hide the bar
  * in screen recordings", a way back from "Hide for an hour", and forgetting
- * dragged positions. Mounted on the fork debug panel until S-14's Settings
- * modal (System › Always show the bar, Advanced › bar position) takes it
- * over unchanged.
+ * dragged positions. S-14 mounts the controls in Settings › Advanced;
+ * System also exposes "Always show the bar" through the same fork setting.
  */
 import { useId } from "react";
 import { useTranslation } from "react-i18next";

@@ -3,6 +3,7 @@
 // over mocked IPC: states, the status event, Try it, errors and Retry.
 import type { Page } from "@playwright/test";
 import { test, expect, ipcError, type IpcMock } from "./fixtures";
+import { openSettingsModal } from "./settings-modal-fixture";
 
 const pingReply = {
   message: "pong",
@@ -36,9 +37,8 @@ async function openPanel(
   ipc: IpcMock,
   responses: Record<string, unknown>,
 ) {
-  ipc.respond({ fork_ping: pingReply, ...responses });
-  await page.goto("/#/fork/debug");
-  const section = page.getByTestId("fork-debug-section-ai-engine");
+  await openSettingsModal(page, ipc, "advanced", responses);
+  const section = page.getByTestId("wb-advanced-ai");
   await expect(section).toBeVisible({ timeout: 15_000 });
   return section;
 }
