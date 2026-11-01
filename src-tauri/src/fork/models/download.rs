@@ -504,12 +504,22 @@ mod tests {
 
     struct Mirror {
         stop: std::sync::Arc<std::sync::atomic::AtomicBool>,
+        resume: std::sync::Arc<(Mutex<bool>, std::sync::Condvar)>,
         thread: Option<std::thread::JoinHandle<()>>,
+    }
+
+    impl Mirror {
+        fn resume(&self) {
+            let (resume, wake) = &*self.resume;
+            *resume.lock().unwrap() = true;
+            wake.notify_all();
+        }
     }
 
     impl Drop for Mirror {
         fn drop(&mut self) {
             self.stop.store(true, Ordering::Release);
+            self.resume();
             if let Some(thread) = self.thread.take() {
                 let _ = thread.join();
             }
@@ -525,9 +535,12 @@ mod tests {
         let address = listener.local_addr().unwrap();
         listener.set_nonblocking(true).unwrap();
         let stop = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+        let resume = std::sync::Arc::new((Mutex::new(false), std::sync::Condvar::new()));
         let thread = std::thread::spawn({
             let stop = stop.clone();
+            let resume = resume.clone();
             move || {
+                let mut connections = Vec::new();
                 while !stop.load(Ordering::Acquire) {
                     let (mut stream, _) = match listener.accept() {
                         Ok(connection) => connection,
@@ -535,53 +548,72 @@ mod tests {
                             std::thread::sleep(Duration::from_millis(2));
                             continue;
                         }
-                        Err(_) => return,
+                        Err(_) => break,
                     };
-                    let mut request = [0u8; 8192];
-                    let Ok(n) = stream.read(&mut request) else {
-                        continue;
-                    };
-                    let request = String::from_utf8_lossy(&request[..n]);
-                    let range = request.lines().find_map(|line| {
-                        let (name, value) = line.split_once(':')?;
-                        if name.eq_ignore_ascii_case("range") {
-                            value.trim().strip_prefix("bytes=").map(str::to_string)
-                        } else {
-                            None
+                    stream.set_nonblocking(false).unwrap();
+                    connections.push(std::thread::spawn({
+                        let bytes = bytes.clone();
+                        let stop = stop.clone();
+                        let resume = resume.clone();
+                        move || {
+                            let mut request = [0u8; 8192];
+                            let Ok(n) = stream.read(&mut request) else {
+                                return;
+                            };
+                            let request = String::from_utf8_lossy(&request[..n]);
+                            let range = request.lines().find_map(|line| {
+                                let (name, value) = line.split_once(':')?;
+                                if name.eq_ignore_ascii_case("range") {
+                                    value.trim().strip_prefix("bytes=").map(str::to_string)
+                                } else {
+                                    None
+                                }
+                            });
+                            let (start, stop_at) =
+                                range.as_deref().map_or((0, bytes.len() - 1), |r| {
+                                    let (a, b) = r.split_once('-').unwrap();
+                                    let start = a.parse::<usize>().unwrap_or(0);
+                                    let stop = b.parse::<usize>().unwrap_or(bytes.len() - 1);
+                                    (start, stop.min(bytes.len() - 1))
+                                });
+                            if start > 0 {
+                                let (resume, wake) = &*resume;
+                                let mut resume = resume.lock().unwrap();
+                                while !*resume && !stop.load(Ordering::Acquire) {
+                                    resume = wake.wait(resume).unwrap();
+                                }
+                            }
+                            let body = &bytes[start..=stop_at];
+                            let headers = format!(
+                                "HTTP/1.1 {}\r\nContent-Type: application/octet-stream\r\nContent-Length: {}\r\nContent-Range: bytes {}-{}/{}\r\nx-repo-commit: pinned\r\netag: \"local\"\r\nx-linked-size: {}\r\nAccept-Ranges: bytes\r\nConnection: close\r\n\r\n",
+                                if range.is_some() {
+                                    "206 Partial Content"
+                                } else {
+                                    "200 OK"
+                                },
+                                body.len(),
+                                start,
+                                stop_at,
+                                bytes.len(),
+                                bytes.len()
+                            );
+                            if stream.write_all(headers.as_bytes()).is_err() {
+                                return;
+                            }
+                            if request.starts_with("HEAD") {
+                                return;
+                            }
+                            for chunk in body.chunks(16 * 1024) {
+                                if stream.write_all(chunk).is_err() {
+                                    break;
+                                }
+                                std::thread::sleep(Duration::from_millis(10));
+                            }
                         }
-                    });
-                    let (start, stop_at) = range.as_deref().map_or((0, bytes.len() - 1), |r| {
-                        let (a, b) = r.split_once('-').unwrap();
-                        let start = a.parse::<usize>().unwrap_or(0);
-                        let stop = b.parse::<usize>().unwrap_or(bytes.len() - 1);
-                        (start, stop.min(bytes.len() - 1))
-                    });
-                    let body = &bytes[start..=stop_at];
-                    let headers = format!(
-                        "HTTP/1.1 {}\r\nContent-Type: application/octet-stream\r\nContent-Length: {}\r\nContent-Range: bytes {}-{}/{}\r\nx-repo-commit: pinned\r\netag: \"local\"\r\nx-linked-size: {}\r\nAccept-Ranges: bytes\r\nConnection: close\r\n\r\n",
-                        if range.is_some() {
-                            "206 Partial Content"
-                        } else {
-                            "200 OK"
-                        },
-                        body.len(),
-                        start,
-                        stop_at,
-                        bytes.len(),
-                        bytes.len()
-                    );
-                    if stream.write_all(headers.as_bytes()).is_err() {
-                        continue;
-                    }
-                    if request.starts_with("HEAD") {
-                        continue;
-                    }
-                    for chunk in body.chunks(16 * 1024) {
-                        if stream.write_all(chunk).is_err() {
-                            break;
-                        }
-                        std::thread::sleep(Duration::from_millis(10));
-                    }
+                    }));
+                }
+                for connection in connections {
+                    let _ = connection.join();
                 }
             }
         });
@@ -589,6 +621,7 @@ mod tests {
             format!("http://{address}"),
             Mirror {
                 stop,
+                resume,
                 thread: Some(thread),
             },
         )
@@ -624,7 +657,7 @@ mod tests {
         let source = dir.path().join("speech.gguf");
         let bytes: Vec<u8> = (0..512 * 1024).map(|n| (n % 251) as u8).collect();
         std::fs::write(&source, &bytes).unwrap();
-        let (endpoint, _mirror) = mirror(std::sync::Arc::new(bytes));
+        let (endpoint, mirror) = mirror(std::sync::Arc::new(bytes));
         let cache_dir = dir.path().join("hub");
         let make_repo = || {
             let api = ApiBuilder::from_cache(Cache::new(cache_dir.clone()))
@@ -632,7 +665,7 @@ mod tests {
                 .with_token(None)
                 .with_progress(false)
                 .with_chunk_size(Some(64 * 1024))
-                .with_max_files(1)
+                .with_max_files(8)
                 .build()
                 .unwrap();
             api.repo(Repo::with_revision(
@@ -655,6 +688,12 @@ mod tests {
         });
         let mut committed = 0;
         for _ in 0..200 {
+            if first.is_finished() {
+                panic!(
+                    "first download ended before cancellation: {:?}",
+                    first.await.unwrap()
+                );
+            }
             committed = committed_offset(&cache_dir, 512 * 1024);
             if committed > 0 {
                 break;
@@ -662,6 +701,7 @@ mod tests {
             tokio::time::sleep(Duration::from_millis(25)).await;
         }
         assert!(committed > 0, "hf-hub never committed a partial range");
+        assert!(committed < 512 * 1024, "first download was not partial");
         cancel.cancel();
         let first = tokio::time::timeout(Duration::from_secs(5), first)
             .await
@@ -673,17 +713,39 @@ mod tests {
         ));
 
         let second_progress = RecordProgress::default();
-        let downloaded = make_repo()
-            .download_with_progress_cancellable(
-                "speech.gguf",
-                second_progress.clone(),
-                CancellationToken::new(),
-            )
-            .await
-            .unwrap();
+        let mut second = tokio::spawn({
+            let repo = make_repo();
+            let progress = second_progress.clone();
+            async move {
+                repo.download_with_progress_cancellable(
+                    "speech.gguf",
+                    progress,
+                    CancellationToken::new(),
+                )
+                .await
+            }
+        });
+        tokio::time::timeout(Duration::from_secs(5), async {
+            while second_progress.updates().is_empty() {
+                if second.is_finished() {
+                    panic!(
+                        "second download ended before resume: {:?}",
+                        (&mut second).await.unwrap()
+                    );
+                }
+                tokio::time::sleep(Duration::from_millis(10)).await;
+            }
+        })
+        .await
+        .expect("second download did not start");
         let updates = second_progress.updates();
-        assert!(updates[0] > 0, "relaunch restarted at byte zero");
-        assert!(updates[0] < 512 * 1024);
+        assert_eq!(updates[0], committed, "relaunch used the wrong range");
+        mirror.resume();
+        let downloaded = tokio::time::timeout(Duration::from_secs(5), second)
+            .await
+            .unwrap()
+            .unwrap()
+            .unwrap();
         let cancel = CancellationToken::new();
         let expected = crate::fork::llm::download::sha256_file(&source, &cancel).unwrap();
         let actual = crate::fork::llm::download::sha256_file(&downloaded, &cancel).unwrap();
