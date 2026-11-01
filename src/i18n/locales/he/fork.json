@@ -1145,6 +1145,7 @@
     "showMore": "הצג יותר",
     "showLess": "הצג פחות",
     "failed": "התרגום נכשל. נסה ללחוץ על \"Retry transcript\" בתפריט ⋮.",
+    "waitingForModel": "מתאריך למודל של שיחה",
     "notTranscribed": "לא נרשם עדיין.",
     "job": {
       "waiting": "מתאריך לתרגום...",

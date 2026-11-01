@@ -1145,6 +1145,7 @@
     "showMore": "Pokaż więcej",
     "showLess": "Pokaż mniej",
     "failed": "Transkrypcja nie powiodła się. Spróbuj ponownie w menu ⋮.",
+    "waitingForModel": "Czekam na model mowy",
     "notTranscribed": "Nie przekazano jeszcze.",
     "job": {
       "waiting": "Czekam na transkrypcję...",

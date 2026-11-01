@@ -1145,6 +1145,7 @@
     "showMore": "더 보기",
     "showLess": "less 보이기",
     "failed": "번역이 실패했습니다. ⋮ 메뉴에서 다시 번역을 시도해 보세요.",
+    "waitingForModel": "스피치 모델을 기다리고 있습니다",
     "notTranscribed": "아직 기록되지 않았습니다.",
     "job": {
       "waiting": "기록 중 대기 중…",

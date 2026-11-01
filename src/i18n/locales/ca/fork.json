@@ -1145,6 +1145,7 @@
     "showMore": "Mostrar més",
     "showLess": "Mostrar menys",
     "failed": "La transcripció ha fallat. Prova amb Retry transcript al menú ⋮.",
+    "waitingForModel": "Esperant el model de parla",
     "notTranscribed": "Encara no s'ha transcrit.",
     "job": {
       "waiting": "Esperant transcriure...",

@@ -1145,6 +1145,7 @@
     "showMore": "Tampilkan lebih banyak",
     "showLess": "Tampilkan sedikit",
     "failed": "Transkripsi gagal. Coba Retry transkripsi di menu ⋮.",
+    "waitingForModel": "Menunggu model suara",
     "notTranscribed": "Belum ditranskripsi.",
     "job": {
       "waiting": "Menunggu transkripsi...",

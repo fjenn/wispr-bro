@@ -1145,6 +1145,7 @@
     "showMore": "Zobrazit více",
     "showLess": "Zobrazit méně",
     "failed": "Překlad se nepovedl. Zkuste opakovat překlad v menu ⋮.",
+    "waitingForModel": "Čekám na model mluveného textu",
     "notTranscribed": "Yetu nebylo převedeno.",
     "job": {
       "waiting": "Čekám na překlad...",

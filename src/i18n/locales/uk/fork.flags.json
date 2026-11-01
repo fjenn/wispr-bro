@@ -776,6 +776,7 @@
   "history.showMore": "machine",
   "history.showLess": "machine",
   "history.failed": "machine",
+  "history.waitingForModel": "machine",
   "history.notTranscribed": "machine",
   "history.job.waiting": "machine",
   "history.job.transcribing": "machine",

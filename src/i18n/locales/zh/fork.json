@@ -1145,6 +1145,7 @@
     "showMore": "显示更多",
     "showLess": "显示更少",
     "failed": "转录失败。请尝试在 ⋮ 菜单中点击重试转录。",
+    "waitingForModel": "正在等待语音模型",
     "notTranscribed": "尚未转录。",
     "job": {
       "waiting": "正在转录中…",

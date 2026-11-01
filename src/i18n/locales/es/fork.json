@@ -1145,6 +1145,7 @@
     "showMore": "Mostrar más",
     "showLess": "Mostrar menos",
     "failed": "La transcripción falló. Inténtalo de nuevo en el menú ⋮.",
+    "waitingForModel": "Esperando al modelo de voz",
     "notTranscribed": "Aún no se ha transcrita.",
     "job": {
       "waiting": "Esperando a transcribir...",

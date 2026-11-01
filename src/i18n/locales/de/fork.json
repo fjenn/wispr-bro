@@ -1145,6 +1145,7 @@
     "showMore": "Mehr anzeigen",
     "showLess": "Weniger anzeigen",
     "failed": "Transkription fehlgeschlagen. Versuchen Sie erneut Transkription im ⋮-Menü.",
+    "waitingForModel": "Warte auf Sprachmodell",
     "notTranscribed": "Noch nicht transkribiert.",
     "job": {
       "waiting": "Wartet auf Transkription…",

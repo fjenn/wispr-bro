@@ -1145,6 +1145,7 @@
     "showMore": "顯示更多",
     "showLess": "顯示較少",
     "failed": "轉錄失敗。請嘗試在 ⋮ 菜單中點選重新轉錄。",
+    "waitingForModel": "正在等待語音模型",
     "notTranscribed": "尚未轉錄。",
     "job": {
       "waiting": "正在轉譯中…",

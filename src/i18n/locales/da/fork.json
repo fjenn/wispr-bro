@@ -1145,6 +1145,7 @@
     "showMore": "Vis mere",
     "showLess": "Vis mindre",
     "failed": "Oprettelse mislykkedes. Prøv igen med \"Retry transcript\" i menuen ⋮.",
+    "waitingForModel": "Venter på talemodel",
     "notTranscribed": "Ikke transkribert endnu.",
     "job": {
       "waiting": "Venter på at oversætte...",

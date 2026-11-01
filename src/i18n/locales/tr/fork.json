@@ -1145,6 +1145,7 @@
     "showMore": "Daha fazla göster",
     "showLess": "Daha az göster",
     "failed": "Metin dönüştürme başarısız oldu. ⋮ menüsünden Tekrar metin dönüştür düğmesini deneyin.",
+    "waitingForModel": "Ses modeli bekleniyor",
     "notTranscribed": "Hâlâ transkribe edilmemiş.",
     "job": {
       "waiting": "Dönüştürülmede bekleniyor...",

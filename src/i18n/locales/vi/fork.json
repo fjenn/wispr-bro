@@ -1145,6 +1145,7 @@
     "showMore": "Xem thêm",
     "showLess": "Hiện ít hơn",
     "failed": "Đã thất bại khi ghi âm. Hãy thử nhấn nút \"Thử lại\" trong menu ⋮.",
+    "waitingForModel": "Đang chờ mô hình giọng nói",
     "notTranscribed": "Chưa được ghi lại",
     "job": {
       "waiting": "Đang chờ chuyển đổi...",

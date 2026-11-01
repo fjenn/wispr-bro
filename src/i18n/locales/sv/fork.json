@@ -1145,6 +1145,7 @@
     "showMore": "Visa mer",
     "showLess": "Visa mindre",
     "failed": "Översättning misslyckades. Försök Retry transcript i menyn ⋮.",
+    "waitingForModel": "Väntar på talmodell",
     "notTranscribed": "Översatt inte ännu.",
     "job": {
       "waiting": "Väntar på transkription...",

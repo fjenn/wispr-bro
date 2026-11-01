@@ -1145,6 +1145,7 @@
     "showMore": "Mostra di più",
     "showLess": "Mostra meno",
     "failed": "Trasmissione fallita. Prova a ripetere la trasmissione nel menu ⋮.",
+    "waitingForModel": "In attesa del modello di riconoscimento vocale",
     "notTranscribed": "Ancora non trascritto.",
     "job": {
       "waiting": "In attesa di trascrivere...",

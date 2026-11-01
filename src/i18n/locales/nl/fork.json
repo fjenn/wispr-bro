@@ -1145,6 +1145,7 @@
     "showMore": "Toon meer",
     "showLess": "Weergeven minder",
     "failed": "Transcriptie is mislukt. Probeer opnieuw in het ⋮ menu.",
+    "waitingForModel": "Wacht op spraakmodel",
     "notTranscribed": "Nog niet overgezet.",
     "job": {
       "waiting": "Wacht op transscriptie...",
