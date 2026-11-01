@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <!--
   Mac test S-20: a chat thread stand-in (Slack is not installed on the test
-  Mac). Made-up people only. The composer has focus at load; with #card the
-  focused field is a "Card number" input instead (a sensitive field: the
-  read must skip it). The page title mirrors the composer's text, so the
-  driver reads it through the window title (no JavaScript from Apple Events).
+  Mac). Made-up people only. The composer has focus at load; only #card adds
+  and focuses a "Card number" input instead (a sensitive field: the read must
+  skip it). The page title mirrors the focused field's text, so the driver
+  reads it through the window title (no JavaScript from Apple Events).
 -->
 <html lang="en">
   <head>
@@ -72,10 +72,17 @@
         <div>Great, thanks. Can someone confirm the venue by Friday?</div>
       </div>
       <textarea id="composer" aria-label="Reply in thread"></textarea>
-      <input id="card" aria-label="Card number" placeholder="Card number" />
     </main>
     <script>
-      const target = location.hash === "#card" ? "card" : "composer";
+      const isCard = location.hash === "#card";
+      if (isCard) {
+        const input = document.createElement("input");
+        input.id = "card";
+        input.setAttribute("aria-label", "Card number");
+        input.placeholder = "Card number";
+        document.querySelector("main").appendChild(input);
+      }
+      const target = isCard ? "card" : "composer";
       const el = document.getElementById(target);
       el.focus();
       const mirror = () =>

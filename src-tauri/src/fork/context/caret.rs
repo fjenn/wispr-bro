@@ -312,6 +312,10 @@ fn accepts_walk_value(role: &str) -> bool {
     role != "AXWebArea"
 }
 
+fn browser_context_skip(browser: bool, inspectable_page: bool) -> Option<Skip> {
+    (browser && !inspectable_page).then_some(Skip::NoAccess)
+}
+
 // ---------------------------------------------------------------------------
 // The caret window and the lines around it (pure)
 
@@ -852,6 +856,11 @@ pub mod mac {
         let mut walk_field = None;
         let mut caret = CaretWindow::default();
         let browser = matches!(family, Family::Chromium | Family::Webkit | Family::Gecko);
+        if field.is_none() {
+            if let Some(skip) = browser_context_skip(browser, false) {
+                return Read::skipped(skip, 0.0);
+            }
+        }
         if let Some(f) = field.as_deref() {
             el::set_timeout(f, CALL_TIMEOUT_S);
             let role = string(f, "AXRole");
@@ -877,8 +886,9 @@ pub mod mac {
                 return Read::skipped(skip, 0.0);
             }
             if browser {
-                // A text field outside any page is the address or search
-                // bar; a page on a banking site is not read.
+                // Browser chrome is not page context. A text field outside
+                // any page is the address or search bar; a banking site is
+                // not read.
                 let up = ancestors(f);
                 let web = if role == "AXWebArea" {
                     Some(f.retain())
@@ -893,7 +903,11 @@ pub mod mac {
                     {
                         return Read::skipped(Skip::UrlBar, 0.0);
                     }
-                    None => {}
+                    None => {
+                        if let Some(skip) = browser_context_skip(browser, false) {
+                            return Read::skipped(skip, 0.0);
+                        }
+                    }
                     Some(w) => {
                         let host = el::attr_url(&w, "AXURL").and_then(|u| url_host(&u));
                         if host.is_some_and(|h| exclusions().host(&h)) {
@@ -1138,6 +1152,13 @@ mod tests {
         assert_eq!(read.skip, None);
         assert_eq!(read.chars, "Ines Nowak".chars().count());
         assert_eq!(read.hints, ["Ines", "Nowak"]);
+    }
+
+    #[test]
+    fn browser_window_text_requires_an_inspectable_page() {
+        assert_eq!(browser_context_skip(true, false), Some(Skip::NoAccess));
+        assert_eq!(browser_context_skip(true, true), None);
+        assert_eq!(browser_context_skip(false, false), None);
     }
 
     #[cfg(target_os = "macos")]

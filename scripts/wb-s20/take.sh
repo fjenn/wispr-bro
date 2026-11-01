@@ -60,7 +60,7 @@ case "$CASE" in
   chrome|card)
     hash=""; [ "$CASE" = card ] && hash="#card"
     open -na "Google Chrome" --args --user-data-dir="$PROFILE" --no-first-run \
-      --no-default-browser-check --new-window "$PAGE$hash"
+      --no-default-browser-check --force-renderer-accessibility --new-window "$PAGE$hash"
     opened=chrome; expect=com.google.Chrome
     ;;
   terminal)
