@@ -269,6 +269,9 @@ pub fn fork_history_retry<R: ForkRuntime>(
     let jobs = app
         .try_state::<std::sync::Arc<TranscriptionJobManager>>()
         .ok_or(ForkError::NotReady)?;
+    db(&app)?
+        .with_conn(|c| crate::fork::models::queue::retry(c, id))
+        .map_err(internal)?;
     crate::fork::llm::post_process::set_retry_level(id, level);
     jobs.retry(id);
     log::info!(

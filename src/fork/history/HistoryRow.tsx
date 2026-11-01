@@ -28,6 +28,7 @@ import type { CleanupLevel, HistoryRow as Row } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { timeLabel } from "./dates";
 import { ACTION_BUTTON, RowMenu, audioReason } from "./RowMenu";
+import { WaitingRow } from "./WaitingRow";
 
 /** Long text folds to this many lines until "Show more". */
 export const FOLDED_LINES = 4;
@@ -71,7 +72,9 @@ export function HistoryRow({
   const [expanded, setExpanded] = useState(false);
   const [overflows, setOverflows] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
-  const busy = job !== undefined;
+  const waiting = row.queue_status === "waiting";
+  const transcribing = row.queue_status === "transcribing";
+  const busy = job !== undefined || transcribing;
   const hasText = row.text.trim().length > 0;
   const folded = hasText && !busy && !expanded;
   const noAudio = audioReason(row, audioDays, t);
@@ -108,16 +111,20 @@ export function HistoryRow({
     }
   };
 
-  let body: string;
-  if (busy) {
+  let body: React.ReactNode;
+  if (job) {
     body =
       job.state === "running" && job.percent > 0
         ? t("history.job.percent", { percent: job.percent })
         : job.state === "queued"
           ? t("history.job.waiting")
           : t("history.job.transcribing");
+  } else if (transcribing) {
+    body = t("history.job.waiting");
   } else if (hasText) {
     body = row.text;
+  } else if (waiting) {
+    body = <WaitingRow />;
   } else if (row.source === "file") {
     body = t("history.notTranscribed");
   } else {
@@ -292,7 +299,7 @@ export function HistoryRow({
           row={row}
           level={level}
           audioDays={audioDays}
-          busy={busy}
+          busy={busy || waiting}
           onToggleVariant={() => onToggleVariant(row)}
           onRetry={(l) => onRetry(row, l)}
           onSaveAudio={() => onSaveAudio(row)}

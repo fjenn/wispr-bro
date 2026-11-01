@@ -350,13 +350,17 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
         })
         .on_event(|app, event| match event {
             RunEvent::Ready => on_ready(app),
-            // S-08 (DEC-55): a take still recording when the app is asked
-            // to quit (Quit & Reopen after a Microphone revoke) is saved.
-            RunEvent::ExitRequested { .. } => audio::permission::on_exit(app),
+            // S-07c: commit the model download's resume offset. S-08 (DEC-55):
+            // a take still recording when quit is requested is saved.
+            RunEvent::ExitRequested { .. } => {
+                models::setup::on_exit(app);
+                audio::permission::on_exit(app);
+            }
             // S-10: the sidecar never outlives the app (the watchdog covers
             // a crash or SIGKILL). S-08: the take is saved if the quit
             // skipped `ExitRequested`, and the audio is never left muted.
             RunEvent::Exit => {
+                models::setup::on_exit(app);
                 audio::permission::on_exit(app);
                 audio::mute::restore_on_exit();
                 llm::runtime::on_exit(app);

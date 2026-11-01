@@ -566,7 +566,12 @@ pub fn on_retried<R: Runtime>(app: &AppHandle<R>, entry: &HistoryEntry) {
 
 /// `HistoryManager::delete_entry` removed row `id`. The stats keep it.
 pub fn on_deleted<R: Runtime>(app: &AppHandle<R>, id: i64) {
-    if with_db(app, "delete", |conn| super::delete_entry_meta(conn, id)).is_some() {
+    if with_db(app, "delete", |conn| {
+        super::delete_entry_meta(conn, id)?;
+        crate::fork::models::queue::on_entry_deleted(conn, id)
+    })
+    .is_some()
+    {
         log::info!("history: entry {id} deleted");
     }
 }

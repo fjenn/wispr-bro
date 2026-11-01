@@ -3,9 +3,9 @@
 //! `HF_HOME` location (DEC-39) and the proof that no download path builds a
 //! `blob.handy.computer` URL (DEC-16). S-07a: the first speech model and
 //! the mic gate ([`setup`], [`starter`], [`readiness`], [`download`],
-//! [`probe`], [`queue_session`]). S-07b: the silent model policy
-//! ([`policy`], [`machine`], [`speed`]), upgrades ([`upgrade`]) and the
-//! deletion of superseded models ([`cleanup`]).
+//! [`probe`]). S-07c: the durable offline queue ([`queue`]). S-07b: the
+//! silent model policy ([`policy`], [`machine`], [`speed`]), upgrades
+//! ([`upgrade`]) and the deletion of superseded models ([`cleanup`]).
 //!
 //! Neither slice needs a catalog overlay or a `managers/model.rs` hook:
 //! every model the fork picks is a default file of Handy's catalog, and
@@ -18,7 +18,7 @@ pub mod license_filter;
 pub mod machine;
 pub mod policy;
 pub mod probe;
-pub mod queue_session;
+pub mod queue;
 pub mod readiness;
 pub mod setup;
 pub mod speed;

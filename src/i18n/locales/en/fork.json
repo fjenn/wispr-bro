@@ -1246,6 +1246,7 @@
     "showMore": "Show more",
     "showLess": "Show less",
     "failed": "Transcription failed. Try Retry transcript in the ⋮ menu.",
+    "waitingForModel": "Waiting for speech model",
     "notTranscribed": "Not transcribed yet.",
     "job": {
       "waiting": "Waiting to transcribe…",

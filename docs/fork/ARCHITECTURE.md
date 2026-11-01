@@ -540,8 +540,9 @@ false); the newest crash file under 7 days in the log dir → crash report
 (reveals the file); a recreated `fork.db` (`report_db_recovered`, queued per
 database path) → data recovered; each `ForkStatsUpdated` → the highest word
 milestone and streak milestone not posted yet, and at most one tip a day; the
-current version's feature → an announcement at Ready plus the popup. S-07c
-posts queued takes ready and S-28 update ready through `notify::post`.
+current version's feature → an announcement at Ready plus the popup.
+`models::setup` posts one queued-takes-ready batch (S-07c), and S-28 posts
+update ready through `notify::post`.
 
 **Toasts and Esc.** New entries toast while the window has focus. Esc closes
 toasts from the window (a `keydown` listener that never stops the event) and
@@ -606,12 +607,13 @@ spike) the frontmost app 5/5, and the paste then went to Wispr Bro. The
 native panel never activates the app. `WISPRBRO_PILL_ALLOW_ACTIVATION=1`
 leaves the flag off, to re-run that check on a new macOS.
 
-## First speech model and the mic gate (S-07a)
+## First speech model, mic gate and offline queue (S-07a, S-07c)
 
 A new install downloads a small speech model at launch (at Welcome), and a
-press before it is ready still records. Nothing is pasted late: the take's
-text comes to the bar's card with Copy, and the clipboard is written only
-by Copy.
+press before it is ready still records. Its WAV and queue row are durable
+across relaunch. Late transcription updates History and posts one batch
+notification; it never pastes, shows a card or writes the clipboard. Only
+Copy latest, History Copy or ⌃⌘V writes it.
 
 | File                                                        | Role                                                                                                                                                                                                                                                                                                   |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -619,22 +621,24 @@ by Copy.
 | `src-tauri/src/fork/models/readiness.rs`                    | SpeakoFlow `speech_readiness.rs` port (MIT): Ready / UseOther / Downloading / Missing from Handy's model list and `selected_model`                                                                                                                                                                     |
 | `src-tauri/src/fork/models/download.rs`                     | Pure download state machine around Handy's downloader: disk check (size + 256 MB), backoff 5/15/30/60/120 s, `Retry-After` (≤ 600 s), captive portal (every 30 s), sha256 against the pin (one extra download on a mismatch), 6 transfers, then "Couldn't download · Retry"                            |
 | `src-tauri/src/fork/models/probe.rs`                        | After a failed transfer: one `Range: bytes=0-0` GET of the pinned resolve URL, redirects only to allowed hosts → offline / captive portal / rate limited / server error / reachable                                                                                                                    |
-| `src-tauri/src/fork/models/setup.rs`                        | The loop (kicks: start, Retry, wake, languages, a Handy download ending), `ForkSpeechSetup` (`fork-speech-setup`, no model name), the three `actions.rs` hooks, selecting the model only when no take runs (`switch_active_model`), draining the queue                                                 |
-| `src-tauri/src/fork/models/queue_session.rs`                | In-session queue + `fork.db` › `queued_takes` rows (`waiting` → `transcribing` → `ready`/`failed`)                                                                                                                                                                                                     |
+| `src-tauri/src/fork/models/setup.rs`                        | The setup loop and three `actions.rs` hooks; model selection at idle, launch recovery and ordered drain; quit cancels the active transfer and waits for hf-hub's committed resume offset                                                                                                               |
+| `src-tauri/src/fork/models/queue.rs`                        | Durable `fork.db` › `queued_takes` (`waiting` → `transcribing` → `ready`/`failed`), idempotent enqueue/bind, relaunch recovery, ordered starts, one batch counter; failed rows rejoin only through explicit History Retry                                                                              |
 | `src-tauri/src/fork/commands/models.rs`                     | `fork_speech_setup_status`, `fork_speech_setup_retry`, `fork_speech_setup_refresh`                                                                                                                                                                                                                     |
 | `src/fork/pill/states/SettingUp.tsx`, `Card.tsx`            | "Setting up… 40%" (ring, ✕) and the card (two lines, Copy, ✕); setup problems are bar messages with Retry                                                                                                                                                                                              |
+| `src/fork/history/WaitingRow.tsx`                           | "Waiting for speech model" in the saved row; Play/Delete stay available, Copy/Flag/Retry wait                                                                                                                                                                                                          |
 | `src/fork/onboarding/firstRun.ts`                           | Inside Handy's onboarding (until S-29a): skips the Model screen when the fork manages the model, counts Demo/Try it as ready when the fork says so, re-picks after Welcome                                                                                                                             |
 
 A queued take, end to end: the mic gate lets the take record; at stop
-`transcribe_take` returns an empty transcription and queues the WAV name;
-Handy saves the WAV and an empty History row (`entry_meta::on_saved` binds
-it); the bar swallows the empty outcome and shows "Setting up". When the
-model is verified and selected, each waiting row goes through Handy's
-`TranscriptionJobManager::retry` (which updates the History row), and the
-`transcription-job` `finished` event puts the text on the card
-(`paste_outcome = queued`). Copy uses `nspb::write_plain_text` (no restore,
-R5 §4.7). Esc, ✕ or the next take dismiss the card; the text stays in
-History.
+`transcribe_take` durably queues the WAV name and returns an empty
+transcription. Handy then saves the WAV and an empty History row
+(`entry_meta::on_saved` binds it), and the bar shows "Setting up". Launch
+recovery resets interrupted jobs, rebinds rows and, if necessary, creates a
+History row from a surviving queued WAV before any transcription starts.
+Once a model is selected, rows enter Handy's `TranscriptionJobManager` in
+recording order. Completion sets `paste_outcome = queued` and posts one
+"N dictations ready" inbox/macOS notification for the batch. Copy latest
+uses S-18's explicit clipboard action; Open goes to History. A failed job
+keeps its audio and History row with Retry.
 
 Test identities: `fork::is_product_build()` is also true for
 `com.wisprbro.<slice>check` identifiers (`is_test_identity`), so a real-Mac
@@ -1579,8 +1583,8 @@ verification. The decision table:
 | control (button, list, table, link, …), no window, Finder without a text field                                           | card `no_text_field`                              | `card`          |
 | text field, terminal, web area, container, empty Electron tree, Gecko                                                    | paste                                             | as S-04         |
 
-**Card behaviour.** One card for S-07a's queued takes and S-05's takes
-that were not pasted; the reason is its label. It stays until ✕, Esc
+**Card behaviour.** One card for S-05's takes that were not pasted (S-07c's
+late queue results go only to History and the batch notification); the reason is its label. It stays until ✕, Esc
 (observed from the hotkey tap through the Esc registry, never blocked),
 Copy ("Copied", then gone) or the next take (the text is in History). A whitespace-only text shows "No speech heard"
 instead and copies nothing. Copy replaces the clipboard with plain text and

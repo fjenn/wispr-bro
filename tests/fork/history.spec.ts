@@ -41,6 +41,7 @@ function row(over: Partial<HistoryRow> & { created_at: number }): HistoryRow {
     audio: "available",
     flagged: false,
     cleanup_level: "light",
+    queue_status: null,
     ...over,
   };
 }
@@ -266,6 +267,52 @@ test.describe("history", () => {
     await expect(
       rowById(page, 4).getByTestId("wb-history-flag"),
     ).toBeDisabled();
+  });
+
+  test("waiting rows keep their audio; failed queued rows offer Retry", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const h = new FakeHistory();
+    h.add(
+      row({
+        created_at: local("2026-10-31T09:00:00+01:00"),
+        text: "",
+        copy_text: "",
+        queue_status: "waiting",
+      }),
+    );
+    h.add(
+      row({
+        created_at: local("2026-10-31T09:01:00+01:00"),
+        text: "",
+        copy_text: "",
+        queue_status: "failed",
+      }),
+    );
+    await open(page, ipc, hub, h);
+    const waiting = rowById(page, 1);
+    await expect(waiting.getByTestId("wb-history-waiting")).toHaveText(
+      "Waiting for speech model",
+    );
+    await expect(waiting.getByTestId("wb-history-play")).toBeEnabled();
+    await expect(waiting.getByTestId("wb-history-copy")).toBeDisabled();
+    await waiting.getByTestId("wb-history-more").click();
+    await expect(page.getByTestId("wb-menu-item-retry")).toHaveAttribute(
+      "data-disabled",
+      "",
+    );
+    await page.keyboard.press("Escape");
+
+    const failed = rowById(page, 2);
+    await expect(failed.getByTestId("wb-history-text")).toContainText(
+      "Transcription failed",
+    );
+    await failed.getByTestId("wb-history-more").click();
+    await page.getByTestId("wb-menu-item-retry").click();
+    await ipc.expectCalled("fork_history_retry", { id: 2, level: null });
+    await expectNoSeriousAxeFindings(page);
   });
 
   test("copy uses the shown variant; Undo and Redo AI edit never paste", async ({
@@ -828,6 +875,14 @@ test.describe("history", () => {
           created_at: local("2026-10-31T09:30:00+01:00"),
           ai_edited: true,
           variant: "raw",
+        }),
+      );
+      h.add(
+        row({
+          created_at: local("2026-10-31T09:45:00+01:00"),
+          text: "",
+          copy_text: "",
+          queue_status: "waiting",
         }),
       );
       await page.emulateMedia({ colorScheme: theme });

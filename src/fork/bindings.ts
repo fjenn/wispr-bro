@@ -1654,8 +1654,7 @@ percent: number | null; downloaded_bytes: number; total_bytes: number; problem: 
  */
 needed_mb: number | null; 
 /**
- * Takes recorded this session that wait for a model or are being
- * transcribed.
+ * Durable takes that wait for a model or are being transcribed.
  */
 queued_takes: number }
 /**
@@ -1732,7 +1731,11 @@ file_name: string; audio: AudioState; flagged: boolean;
 /**
  * The cleanup level the text was made at, when the LLM step ran.
  */
-cleanup_level: string | null }
+cleanup_level: string | null; 
+/**
+ * A take recorded without a usable speech model (S-07c).
+ */
+queue_status: QueueStatus | null }
 /**
  * How a hotkey binding drives its action.
  */
@@ -2256,6 +2259,10 @@ export type PolicyPhase =
  * The download stopped; tried again at the next launch or change.
  */
 "paused"
+/**
+ * Where a queued take is (`queued_takes.status`).
+ */
+export type QueueStatus = "waiting" | "transcribing" | "ready" | "failed"
 /**
  * A valid row as it would be saved.
  */

@@ -9,7 +9,7 @@
 //! captive-portal detection, sha256 against the catalog pin. When the file
 //! is verified and no take runs, it is selected (Handy's
 //! `switch_active_model`) and the takes queued meanwhile are transcribed
-//! ([`super::queue_session`]).
+//! ([`super::queue`]).
 //!
 //! Until then a press still records. Handy's files reach this module through
 //! three `actions.rs` hooks (R5 §4.2):
@@ -24,12 +24,12 @@
 //! Progress goes out as `fork-speech-setup` ([`ForkSpeechSetup`]) and to the
 //! bar. No model name is in it (R5 S-07a exit criterion); the log has it.
 
-use std::sync::atomic::{AtomicU32, AtomicU8, Ordering};
-use std::sync::{Mutex, OnceLock};
+use std::sync::atomic::{AtomicBool, AtomicU32, AtomicU8, Ordering};
+use std::sync::{Condvar, Mutex, OnceLock};
 
 use serde::{Deserialize, Serialize};
 use specta::Type;
-use tauri::{AppHandle, Runtime};
+use tauri::{AppHandle, Manager, Runtime};
 
 use super::download::SetupProblem;
 
@@ -61,8 +61,7 @@ pub struct ForkSpeechSetup {
     pub problem: Option<SetupProblem>,
     /// For `NoSpace`: how much free space the download needs, in MB.
     pub needed_mb: Option<u64>,
-    /// Takes recorded this session that wait for a model or are being
-    /// transcribed.
+    /// Durable takes that wait for a model or are being transcribed.
     pub queued_takes: u32,
 }
 
@@ -123,7 +122,11 @@ pub(super) fn kick(k: Kick) {
 /// `fork_speech_setup_status`.
 pub fn status() -> ForkSpeechSetup {
     let mut s = lock_status().clone();
-    s.queued_takes = super::queue_session::session().pending();
+    s.queued_takes = WRY_APP
+        .get()
+        .and_then(|app| app.try_state::<crate::fork::db::ForkDb>())
+        .and_then(|db| db.with_conn(|c| super::queue::pending(c)).ok())
+        .unwrap_or(0);
     s
 }
 
@@ -239,14 +242,11 @@ pub fn take_queued_outcome() -> bool {
 }
 
 fn queue_take<R: Runtime>(app: &AppHandle<R>, file_name: &str) {
-    use tauri::Manager;
-    super::queue_session::session().queue(file_name);
     QUEUED_OUTCOMES.fetch_add(1, Ordering::AcqRel);
     if let Some(db) = app.try_state::<crate::fork::db::ForkDb>() {
         let now = chrono::Utc::now().timestamp_millis();
-        match db.with_conn(|c| super::queue_session::insert_row(c, file_name, now)) {
-            Ok(id) => super::queue_session::session().set_row(file_name, id),
-            Err(e) => log::warn!("models: could not record a queued take: {e}"),
+        if let Err(e) = db.with_conn(|c| super::queue::enqueue(c, file_name, now)) {
+            log::warn!("models: could not record a queued take: {e}");
         }
     }
     log::info!("models: take queued until a speech model is ready ({file_name})");
@@ -254,15 +254,17 @@ fn queue_take<R: Runtime>(app: &AppHandle<R>, file_name: &str) {
     emit(app);
 }
 
-/// `fork::db::entry_meta::on_saved`: Handy saved a History row.
+/// `fork::db::entry_meta::on_saved`: Handy saved a History row after its WAV.
 pub fn on_entry_saved<R: Runtime>(app: &AppHandle<R>, file_name: &str, entry_id: i64) {
-    use tauri::Manager;
-    let Some(take) = super::queue_session::session().bind_entry(file_name, entry_id) else {
+    let Some(db) = app.try_state::<crate::fork::db::ForkDb>() else {
         return;
     };
-    if let (Some(row), Some(db)) = (take.row_id, app.try_state::<crate::fork::db::ForkDb>()) {
-        if let Err(e) = db.with_conn(|c| super::queue_session::set_entry(c, row, entry_id)) {
+    match db.with_conn(|c| super::queue::bind_entry(c, file_name, entry_id)) {
+        Ok(Some(_)) => {}
+        Ok(None) => return,
+        Err(e) => {
             log::warn!("models: could not bind a queued take: {e}");
+            return;
         }
     }
     if READY.load(Ordering::Acquire) == YES {
@@ -306,6 +308,7 @@ pub fn start(app: &AppHandle) {
     if WRY_APP.set(app.clone()).is_err() {
         return;
     }
+    EXITING.store(false, Ordering::Release);
     let Some(mm) = app.try_state::<std::sync::Arc<crate::managers::model::ModelManager>>() else {
         log::warn!("models: no model manager; speech setup off");
         return;
@@ -322,12 +325,21 @@ pub fn start(app: &AppHandle) {
         };
     });
     log::info!("models: speech setup at launch: {initial:?}");
+    super::queue::reset_batch();
+    RECOVERING.store(false, Ordering::Release);
     if let Some(db) = app.try_state::<crate::fork::db::ForkDb>() {
-        if let Ok(n) = db.with_conn(|c| super::queue_session::leftover_count(c)) {
+        if let Ok(n) = db.with_conn(|c| super::queue::pending(c)) {
             if n > 0 {
-                log::info!(
-                    "models: {n} queued take(s) from an earlier session are in History (S-07c)"
-                );
+                log::info!("models: recovering {n} queued take(s) from an earlier session");
+                RECOVERING.store(true, Ordering::Release);
+                let app = app.clone();
+                let spawned = std::thread::Builder::new()
+                    .name("wb-queued-takes".into())
+                    .spawn(move || recover_interrupted(&app));
+                if let Err(e) = spawned {
+                    RECOVERING.store(false, Ordering::Release);
+                    log::warn!("models: could not start queued-take recovery: {e}");
+                }
             }
         }
     }
@@ -414,6 +426,67 @@ static FOLLOWED: Mutex<Option<String>> = Mutex::new(None);
 /// the Models panel, not to the bar.
 static BACKGROUND: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
 
+/// The alternate transfer's token; Handy's own token is reached through its
+/// ModelManager. Both are cancelled at quit so hf-hub can flush its offset.
+static DOWNLOAD_CANCEL: Mutex<Option<hf_hub::api::tokio::CancellationToken>> = Mutex::new(None);
+static TRANSFER_ACTIVE: Mutex<bool> = Mutex::new(false);
+static TRANSFER_DONE: Condvar = Condvar::new();
+static EXITING: AtomicBool = AtomicBool::new(false);
+
+struct ActiveTransfer;
+
+impl ActiveTransfer {
+    fn new() -> Self {
+        *TRANSFER_ACTIVE.lock().unwrap_or_else(|e| e.into_inner()) = true;
+        ActiveTransfer
+    }
+}
+
+impl Drop for ActiveTransfer {
+    fn drop(&mut self) {
+        *TRANSFER_ACTIVE.lock().unwrap_or_else(|e| e.into_inner()) = false;
+        TRANSFER_DONE.notify_all();
+    }
+}
+
+/// Gives an in-flight hf-hub download a clean cancellation unwind before the
+/// process exits. Without it the preallocated `.sync.part` has no committed
+/// offset and the next launch starts at byte zero (S-07a's open item).
+pub fn on_exit<R: Runtime>(app: &AppHandle<R>) {
+    if EXITING.swap(true, Ordering::AcqRel) {
+        return;
+    }
+    if let Some(token) = DOWNLOAD_CANCEL
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .as_ref()
+    {
+        token.cancel();
+    }
+    let id = FOLLOWED.lock().unwrap_or_else(|e| e.into_inner()).clone();
+    if let (Some(mm), Some(id)) = (
+        app.try_state::<std::sync::Arc<crate::managers::model::ModelManager>>(),
+        id,
+    ) {
+        if let Err(e) = mm.cancel_download(&id) {
+            log::debug!("models: could not cancel {id} at quit: {e}");
+        }
+    }
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(6);
+    let mut active = TRANSFER_ACTIVE.lock().unwrap_or_else(|e| e.into_inner());
+    while *active {
+        let now = std::time::Instant::now();
+        if now >= deadline {
+            log::warn!("models: download cancellation did not finish before quit");
+            break;
+        }
+        let (next, _) = TRANSFER_DONE
+            .wait_timeout(active, deadline - now)
+            .unwrap_or_else(|e| e.into_inner());
+        active = next;
+    }
+}
+
 fn follow(id: Option<&str>) {
     *FOLLOWED.lock().unwrap_or_else(|e| e.into_inner()) = id.map(str::to_owned);
 }
@@ -483,6 +556,9 @@ async fn run(
 ) {
     use super::readiness::SpeechReadiness;
     while rx.recv().await.is_some() {
+        if EXITING.load(Ordering::Acquire) {
+            return;
+        }
         // Coalesce a burst of kicks: each round looks at the state afresh.
         while rx.try_recv().is_ok() {}
         match snapshot(&app, &mm) {
@@ -726,6 +802,8 @@ async fn download(
                 // fork fetches it with the same hf-hub cache and pin.
                 let alternate = mm.get_model_info(&id).is_none();
                 let cancel = hf_hub::api::tokio::CancellationToken::new();
+                *DOWNLOAD_CANCEL.lock().unwrap_or_else(|e| e.into_inner()) = Some(cancel.clone());
+                let active = ActiveTransfer::new();
                 let result = {
                     let fut = async {
                         if alternate {
@@ -751,6 +829,8 @@ async fn download(
                         }
                     }
                 };
+                drop(active);
+                *DOWNLOAD_CANCEL.lock().unwrap_or_else(|e| e.into_inner()) = None;
                 let on_disk = mm.get_model_info(&id).is_some_and(|i| i.is_downloaded);
                 match result {
                     Ok(()) if on_disk => m.on(Event::TransferDone),
@@ -994,13 +1074,70 @@ async fn verify(
 }
 
 // ---------------------------------------------------------------------------
-// Queued takes → Handy's job queue → the card
+// Durable queued takes → Handy's ordered job queue → one batch notification
 
-/// Transcribes every waiting take whose History row exists.
+static RECOVERING: AtomicBool = AtomicBool::new(false);
+
+/// Rebinds saved rows and reconstructs a History row when quit happened after
+/// the WAV write but before Handy saved it. Recovery is serialized before the
+/// batch starts, so its notification cannot split into one notice per take.
+fn recover_interrupted(app: &AppHandle) {
+    let result = (|| -> Result<(), String> {
+        let db = app
+            .try_state::<crate::fork::db::ForkDb>()
+            .ok_or("fork.db is not ready")?;
+        let hm = app
+            .try_state::<std::sync::Arc<crate::managers::history::HistoryManager>>()
+            .ok_or("History is not ready")?;
+        let entries = tauri::async_runtime::block_on(hm.get_history_entries(None, None))
+            .map_err(|e| e.to_string())?
+            .entries;
+        let rows = db
+            .with_conn(|c| super::queue::recover(c, &entries))
+            .map_err(|e| e.to_string())?;
+        for take in rows.into_iter().filter(|t| t.entry_id.is_none()) {
+            if !hm.get_audio_file_path(&take.file_name).is_file() {
+                log::warn!("models: queued WAV is missing ({})", take.file_name);
+                continue;
+            }
+            let entry = hm
+                .save_entry(
+                    take.file_name.clone(),
+                    String::new(),
+                    false,
+                    None,
+                    None,
+                    None,
+                )
+                .map_err(|e| e.to_string())?;
+            let day = crate::fork::stats::local_day(take.created_at);
+            db.with_conn(|c| {
+                c.execute(
+                    "UPDATE entry_meta SET created_at = ?2, day = ?3 WHERE entry_id = ?1",
+                    rusqlite::params![entry.id, take.created_at, day],
+                )?;
+                Ok(())
+            })
+            .map_err(|e| e.to_string())?;
+            log::info!(
+                "models: recovered queued take into History (entry {})",
+                entry.id
+            );
+        }
+        Ok(())
+    })();
+    if let Err(e) = result {
+        log::warn!("models: queued-take recovery failed: {e}");
+    }
+    RECOVERING.store(false, Ordering::Release);
+    if READY.load(Ordering::Acquire) == YES {
+        drain(app);
+    }
+}
+
+/// Transcribes every waiting take whose saved audio and History row exist.
 fn drain(app: &AppHandle) {
-    use tauri::Manager;
-    let started = super::queue_session::session().start_ready();
-    if started.is_empty() {
+    if RECOVERING.load(Ordering::Acquire) {
         return;
     }
     let Some(jobs) = app
@@ -1009,14 +1146,22 @@ fn drain(app: &AppHandle) {
     else {
         return;
     };
-    let db = app.try_state::<crate::fork::db::ForkDb>();
-    for t in &started {
-        let Some(entry) = t.entry_id else { continue };
-        if let (Some(row), Some(db)) = (t.row_id, db.as_ref()) {
-            let _ = db.with_conn(|c| {
-                super::queue_session::set_status(c, row, super::queue_session::Status::Transcribing)
-            });
+    let Some(db) = app.try_state::<crate::fork::db::ForkDb>() else {
+        return;
+    };
+    let started = match db.with_conn(super::queue::start_ready) {
+        Ok(started) => started,
+        Err(e) => {
+            log::warn!("models: could not start queued takes: {e}");
+            return;
         }
+    };
+    if started.is_empty() {
+        return;
+    }
+    super::queue::begin_batch(&started);
+    for take in &started {
+        let Some(entry) = take.entry_id else { continue };
         log::info!("models: transcribing queued take (entry {entry})");
         jobs.retry(entry);
     }
@@ -1025,57 +1170,49 @@ fn drain(app: &AppHandle) {
 }
 
 fn on_job_finished(app: &AppHandle, entry_id: i64, ok: bool, error: &str) {
-    use tauri::Manager;
-    let Some(take) = super::queue_session::session().finish(entry_id, ok) else {
+    let Some(db) = app.try_state::<crate::fork::db::ForkDb>() else {
         return;
     };
-    let db = app.try_state::<crate::fork::db::ForkDb>();
-    if let (Some(row), Some(db)) = (take.row_id, db.as_ref()) {
-        let _ = db.with_conn(|c| super::queue_session::set_status(c, row, take.status));
+    let finished = db.with_conn(|c| {
+        let take = super::queue::finish(c, entry_id, ok)?;
+        if ok && take.is_some() {
+            crate::fork::db::entry_meta::set_paste_outcome(
+                c,
+                entry_id,
+                crate::fork::insert::deliver::PasteOutcome::Queued,
+            )?;
+        }
+        Ok(take)
+    });
+    match finished {
+        Ok(Some(_)) => {}
+        Ok(None) => {
+            // A deleted take's queue row is already gone; it must not hold
+            // the rest of its batch open forever.
+            notify_batch(app, super::queue::finish_batch(entry_id, false));
+            return;
+        }
+        Err(e) => {
+            log::warn!("models: could not finish queued take {entry_id}: {e}");
+            return;
+        }
     }
     emit(app);
-    if !ok {
-        log::info!("models: queued take {entry_id} could not be transcribed");
-        crate::fork::pill::show_message(if error.contains("no speech") {
-            crate::fork::pill::model::PillMessage::NoSpeech
-        } else {
-            crate::fork::pill::model::PillMessage::TranscriptionFailed
-        });
-        return;
+    if ok {
+        log::info!("models: queued take {entry_id} ready in History");
+    } else {
+        log::info!("models: queued take {entry_id} stays in History for Retry: {error}");
     }
-    let app = app.clone();
-    tauri::async_runtime::spawn(async move {
-        let Some(hm) = app.try_state::<std::sync::Arc<crate::managers::history::HistoryManager>>()
-        else {
-            return;
-        };
-        let entry = match hm.get_entry_by_id(entry_id).await {
-            Ok(Some(e)) => e,
-            _ => return,
-        };
-        let text = entry
-            .post_processed_text
-            .filter(|t| !t.trim().is_empty())
-            .unwrap_or(entry.transcription_text);
-        if text.trim().is_empty() {
-            crate::fork::pill::show_message(crate::fork::pill::model::PillMessage::NoSpeech);
-            return;
-        }
-        if let Some(db) = app.try_state::<crate::fork::db::ForkDb>() {
-            let _ = db.with_conn(|c| {
-                crate::fork::db::entry_meta::set_paste_outcome(
-                    c,
-                    entry_id,
-                    crate::fork::insert::deliver::PasteOutcome::Queued,
-                )
-            });
-        }
-        log::info!(
-            "models: queued take {entry_id} ready ({} chars) on the card",
-            text.chars().count()
-        );
-        crate::fork::pill::show_card(text);
-    });
+    notify_batch(app, super::queue::finish_batch(entry_id, ok));
+}
+
+fn notify_batch(app: &AppHandle, count: Option<u32>) {
+    let Some(count) = count else { return };
+    log::info!("models: {count} queued dictation(s) ready");
+    crate::fork::notify::post(
+        app,
+        crate::fork::notify::catalog::Notice::queued_takes_ready(count),
+    );
 }
 
 #[cfg(test)]
@@ -1133,5 +1270,7 @@ mod tests {
             "crate::fork::models::setup::transcribe_take(&ah, &tm, &file_name, samples);"
         ));
         assert!(!actions.contains("tm.transcribe_recording(samples)"));
+        let plugin = include_str!("../../fork/mod.rs");
+        assert_eq!(plugin.matches("models::setup::on_exit(app);").count(), 2);
     }
 }

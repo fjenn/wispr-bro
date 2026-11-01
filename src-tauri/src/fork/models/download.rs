@@ -243,6 +243,8 @@ pub fn parse_retry_after(value: &str, now_unix: i64) -> Option<Duration> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::Ordering;
+    use std::sync::Mutex;
 
     const MB: u64 = 1024 * 1024;
 
@@ -473,5 +475,218 @@ mod tests {
         );
         assert_eq!(parse_retry_after("soon", 0), None);
         assert_eq!(parse_retry_after("-3", 0), None);
+    }
+
+    #[derive(Clone, Default)]
+    struct RecordProgress {
+        done: std::sync::Arc<std::sync::atomic::AtomicU64>,
+        updates: std::sync::Arc<Mutex<Vec<u64>>>,
+    }
+
+    impl RecordProgress {
+        fn updates(&self) -> Vec<u64> {
+            self.updates.lock().unwrap().clone()
+        }
+    }
+
+    impl hf_hub::api::tokio::Progress for RecordProgress {
+        async fn init(&mut self, _size: usize, _filename: &str) {
+            self.done.store(0, Ordering::Relaxed);
+        }
+
+        async fn update(&mut self, size: usize) {
+            let done = self.done.fetch_add(size as u64, Ordering::Relaxed) + size as u64;
+            self.updates.lock().unwrap().push(done);
+        }
+
+        async fn finish(&mut self) {}
+    }
+
+    struct Mirror {
+        stop: std::sync::Arc<std::sync::atomic::AtomicBool>,
+        thread: Option<std::thread::JoinHandle<()>>,
+    }
+
+    impl Drop for Mirror {
+        fn drop(&mut self) {
+            self.stop.store(true, Ordering::Release);
+            if let Some(thread) = self.thread.take() {
+                let _ = thread.join();
+            }
+        }
+    }
+
+    /// The existing HF mirror's protocol, in process so a loaded test runner
+    /// cannot starve a Python child before it binds its socket.
+    fn mirror(bytes: std::sync::Arc<Vec<u8>>) -> (String, Mirror) {
+        use std::io::{Read, Write};
+
+        let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+        let address = listener.local_addr().unwrap();
+        listener.set_nonblocking(true).unwrap();
+        let stop = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+        let thread = std::thread::spawn({
+            let stop = stop.clone();
+            move || {
+                while !stop.load(Ordering::Acquire) {
+                    let (mut stream, _) = match listener.accept() {
+                        Ok(connection) => connection,
+                        Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                            std::thread::sleep(Duration::from_millis(2));
+                            continue;
+                        }
+                        Err(_) => return,
+                    };
+                    let mut request = [0u8; 8192];
+                    let Ok(n) = stream.read(&mut request) else {
+                        continue;
+                    };
+                    let request = String::from_utf8_lossy(&request[..n]);
+                    let range = request.lines().find_map(|line| {
+                        let (name, value) = line.split_once(':')?;
+                        if name.eq_ignore_ascii_case("range") {
+                            value.trim().strip_prefix("bytes=").map(str::to_string)
+                        } else {
+                            None
+                        }
+                    });
+                    let (start, stop_at) = range.as_deref().map_or((0, bytes.len() - 1), |r| {
+                        let (a, b) = r.split_once('-').unwrap();
+                        let start = a.parse::<usize>().unwrap_or(0);
+                        let stop = b.parse::<usize>().unwrap_or(bytes.len() - 1);
+                        (start, stop.min(bytes.len() - 1))
+                    });
+                    let body = &bytes[start..=stop_at];
+                    let headers = format!(
+                        "HTTP/1.1 {}\r\nContent-Type: application/octet-stream\r\nContent-Length: {}\r\nContent-Range: bytes {}-{}/{}\r\nx-repo-commit: pinned\r\netag: \"local\"\r\nx-linked-size: {}\r\nAccept-Ranges: bytes\r\nConnection: close\r\n\r\n",
+                        if range.is_some() {
+                            "206 Partial Content"
+                        } else {
+                            "200 OK"
+                        },
+                        body.len(),
+                        start,
+                        stop_at,
+                        bytes.len(),
+                        bytes.len()
+                    );
+                    if stream.write_all(headers.as_bytes()).is_err() {
+                        continue;
+                    }
+                    if request.starts_with("HEAD") {
+                        continue;
+                    }
+                    for chunk in body.chunks(16 * 1024) {
+                        if stream.write_all(chunk).is_err() {
+                            break;
+                        }
+                        std::thread::sleep(Duration::from_millis(10));
+                    }
+                }
+            }
+        });
+        (
+            format!("http://{address}"),
+            Mirror {
+                stop,
+                thread: Some(thread),
+            },
+        )
+    }
+
+    fn committed_offset(cache: &std::path::Path, size: usize) -> u64 {
+        let blobs = cache.join("models--local--speech/blobs");
+        let Ok(files) = std::fs::read_dir(blobs) else {
+            return 0;
+        };
+        for file in files.flatten() {
+            if !file.file_name().to_string_lossy().ends_with(".sync.part") {
+                continue;
+            }
+            let Ok(bytes) = std::fs::read(file.path()) else {
+                continue;
+            };
+            if bytes.len() == size + size_of::<u64>() {
+                return u64::from_le_bytes(bytes[size..].try_into().unwrap());
+            }
+        }
+        0
+    }
+
+    /// Two independent API sessions over one cache reproduce quit/relaunch.
+    /// The second must use the committed range offset, not restart at zero.
+    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+    async fn relaunch_resumes_partial_hf_download_and_preserves_checksum() {
+        use hf_hub::api::tokio::{ApiBuilder, CancellationToken};
+        use hf_hub::{Cache, Repo, RepoType};
+
+        let dir = tempfile::tempdir().unwrap();
+        let source = dir.path().join("speech.gguf");
+        let bytes: Vec<u8> = (0..512 * 1024).map(|n| (n % 251) as u8).collect();
+        std::fs::write(&source, &bytes).unwrap();
+        let (endpoint, _mirror) = mirror(std::sync::Arc::new(bytes));
+        let cache_dir = dir.path().join("hub");
+        let make_repo = || {
+            let api = ApiBuilder::from_cache(Cache::new(cache_dir.clone()))
+                .with_endpoint(endpoint.clone())
+                .with_token(None)
+                .with_progress(false)
+                .with_chunk_size(Some(64 * 1024))
+                .with_max_files(1)
+                .build()
+                .unwrap();
+            api.repo(Repo::with_revision(
+                "local/speech".into(),
+                RepoType::Model,
+                "pinned".into(),
+            ))
+        };
+
+        let cancel = CancellationToken::new();
+        let first_progress = RecordProgress::default();
+        let first = tokio::spawn({
+            let repo = make_repo();
+            let progress = first_progress.clone();
+            let cancel = cancel.clone();
+            async move {
+                repo.download_with_progress_cancellable("speech.gguf", progress, cancel)
+                    .await
+            }
+        });
+        let mut committed = 0;
+        for _ in 0..200 {
+            committed = committed_offset(&cache_dir, 512 * 1024);
+            if committed > 0 {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        }
+        assert!(committed > 0, "hf-hub never committed a partial range");
+        cancel.cancel();
+        let first = tokio::time::timeout(Duration::from_secs(5), first)
+            .await
+            .unwrap()
+            .unwrap();
+        assert!(matches!(
+            first,
+            Err(hf_hub::api::tokio::ApiError::Cancelled)
+        ));
+
+        let second_progress = RecordProgress::default();
+        let downloaded = make_repo()
+            .download_with_progress_cancellable(
+                "speech.gguf",
+                second_progress.clone(),
+                CancellationToken::new(),
+            )
+            .await
+            .unwrap();
+        let updates = second_progress.updates();
+        assert!(updates[0] > 0, "relaunch restarted at byte zero");
+        assert!(updates[0] < 512 * 1024);
+        let cancel = CancellationToken::new();
+        let expected = crate::fork::llm::download::sha256_file(&source, &cancel).unwrap();
+        let actual = crate::fork::llm::download::sha256_file(&downloaded, &cancel).unwrap();
+        assert_eq!(actual, expected);
     }
 }

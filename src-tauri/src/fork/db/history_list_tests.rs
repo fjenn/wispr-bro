@@ -236,6 +236,34 @@ fn file_transcriptions_are_tagged_and_rows_without_meta_still_show() {
 }
 
 #[test]
+fn queued_takes_expose_waiting_and_failed_states_in_history() {
+    let _batch = crate::fork::models::queue::TEST_BATCH_LOCK
+        .lock()
+        .unwrap_or_else(|e| e.into_inner());
+    let (_d, db, handy) = setup();
+    add(&db, &handy, dictation(1, "", None), true);
+    db.with_conn(|c| {
+        crate::fork::models::queue::enqueue(c, "wispr-bro-1.wav", 1)?;
+        crate::fork::models::queue::bind_entry(c, "wispr-bro-1.wav", 1)
+    })
+    .unwrap();
+    assert_eq!(
+        rows(&db, &handy, &[1]).unwrap()[0].queue_status,
+        Some(crate::fork::models::queue::QueueStatus::Waiting)
+    );
+    db.with_conn(|c| {
+        let started = crate::fork::models::queue::start_ready(c)?;
+        crate::fork::models::queue::begin_batch(&started);
+        crate::fork::models::queue::finish(c, 1, false)
+    })
+    .unwrap();
+    assert_eq!(
+        rows(&db, &handy, &[1]).unwrap()[0].queue_status,
+        Some(crate::fork::models::queue::QueueStatus::Failed)
+    );
+}
+
+#[test]
 fn search_pages_by_offset_newest_first() {
     let (_d, db, handy) = setup();
     for id in 1..=130 {
