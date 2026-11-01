@@ -804,6 +804,14 @@ pub mod mac {
         TEXT_ENTRY_ROLES.contains(&role) || role == "AXSearchField"
     }
 
+    pub(super) fn focused_caret(role: &str, read: impl FnOnce() -> CaretWindow) -> CaretWindow {
+        if narrows_walk_to_focused_field(role) {
+            read()
+        } else {
+            CaretWindow::default()
+        }
+    }
+
     fn read_app(
         ctx: &mut Ctx,
         pid: i32,
@@ -871,12 +879,7 @@ pub mod mac {
             if narrows_walk_to_focused_field(&role) {
                 walk_field = Some(f);
             }
-            if TEXT_ENTRY_ROLES.contains(&role.as_str())
-                || role == "AXWebArea"
-                || role == "AXSearchField"
-            {
-                caret = caret_window(f);
-            }
+            caret = focused_caret(&role, || caret_window(f));
         }
         let left = MAX_CHARS.saturating_sub(caret.chars());
         let walk = match window.as_deref() {
@@ -1031,6 +1034,25 @@ mod tests {
         for role in ["AXTextField", "AXTextArea", "AXComboBox", "AXSearchField"] {
             assert!(mac::narrows_walk_to_focused_field(role), "{role}");
         }
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn generic_focus_does_not_preread_caret_before_the_privacy_walk() {
+        for role in ["AXWebArea", "AXWindow", "AXGroup"] {
+            let called = std::cell::Cell::new(false);
+            let caret = mac::focused_caret(role, || {
+                called.set(true);
+                CaretWindow::new("Zebulonix Quarterbridge", "", "")
+            });
+            assert!(!called.get(), "{role}");
+            let read = read_from_walk(caret, Ok(LineCollector::new(MAX_CHARS)), &[]);
+            assert_eq!(read.chars, 0, "{role}");
+            assert!(read.hints.is_empty(), "{role}");
+        }
+
+        let caret = mac::focused_caret("AXTextArea", || CaretWindow::new("Ines Nowak", "", ""));
+        assert_eq!(caret.before, "Ines Nowak");
     }
 
     #[test]
