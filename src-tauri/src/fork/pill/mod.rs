@@ -293,6 +293,11 @@ pub fn show_message(message: PillMessage) {
     input(Input::Message(message));
 }
 
+/// Esc ended a transform before it produced a message.
+pub fn transform_finished_without_message() {
+    input(Input::Hide);
+}
+
 /// S-07a: a take stopped before any speech model was ready.
 pub fn on_take_queued() {
     input(Input::Queued);
@@ -789,6 +794,11 @@ impl Controller {
                     }
                     return;
                 }
+                if fix == Some(PillFix::ViewChanges) {
+                    crate::fork::transforms::record::view_changes(&self.app);
+                    self.model.step(now, Input::Dismiss);
+                    return;
+                }
                 if fix == Some(PillFix::RetryDownload) {
                     // Back to the progress while the download starts again.
                     log::info!("pill: Retry (speech model download)");
@@ -1164,6 +1174,7 @@ fn open_fix(fix: PillFix) {
             crate::fork::recovery::undo("bar");
             return;
         }
+        PillFix::ViewChanges => return,
     };
     if let Err(e) = std::process::Command::new("/usr/bin/open").arg(url).spawn() {
         log::warn!("pill: cannot open System Settings: {e}");

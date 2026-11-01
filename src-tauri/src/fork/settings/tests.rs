@@ -109,7 +109,7 @@ fn v1_hotkeys_gain_copy_last_and_keep_what_the_user_set() {
     });
     let (s, status) = decode_stored(Some(&stored));
     assert_eq!(status, LoadStatus::Migrated { from: 1 });
-    assert_eq!(s.hotkeys.len(), 3);
+    assert_eq!(s.hotkeys.len(), 5);
     assert!(s.hotkeys["paste_last"].is_empty());
     assert_eq!(
         s.hotkeys["copy_last"],
@@ -125,6 +125,24 @@ fn v1_hotkeys_gain_copy_last_and_keep_what_the_user_set() {
     });
     let (s, _) = decode_stored(Some(&stored));
     assert!(s.hotkeys["copy_last"].is_empty());
+}
+
+#[test]
+fn v2_hotkeys_gain_transform_defaults_but_keep_user_choices() {
+    let stored = json!({
+        "schema_version": 2,
+        "hotkeys": {
+            "dictate": [{ "chord": "fn", "activation": "hold" }],
+            "transform.polish": [],
+        },
+    });
+    let (s, status) = decode_stored(Some(&stored));
+    assert_eq!(status, LoadStatus::Migrated { from: 2 });
+    assert!(s.hotkeys["transform.polish"].is_empty());
+    assert_eq!(
+        s.hotkeys["transform.prompt_engineer"],
+        vec![HotkeyBinding::new("option+2", HotkeyActivation::Press)]
+    );
 }
 
 #[test]

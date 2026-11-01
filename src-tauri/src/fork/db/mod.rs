@@ -90,6 +90,8 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::n
         M::up(include_str!("migrations/0007_models.sql")),
         // S-19a: the Style page's app rules (the empty v1 table rebuilt).
         M::up(include_str!("migrations/0008_app_rules.sql")),
+        // S-21: Polish and Prompt Engineer (the tables date from 0001).
+        M::up(include_str!("migrations/0009_transforms.sql")),
     ]
 });
 

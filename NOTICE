@@ -274,6 +274,28 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026-10-31 (ported to one Rust
   chain; multilingual word tables; filler- and repair-aware word band;
   our own entity, formatting, content-word and language checks).
+- src-tauri/src/fork/transforms/run.rs (command-mode system prompt)
+  Source: FreeFlow, https://github.com/zachlatta/freeflow
+  Commit: 4ebd9366e9e2920928c65c879185e5f98af38806
+  File:   Sources/PostProcessingService.swift (commandModeSystemPrompt)
+  Copyright (c) 2026 Zach Latta
+  Licence: MIT (LICENSES/MIT-FreeFlow.txt)
+  Modified by Wispr Bro contributors, 2026-11-01 (JSON response framing
+  and built-in editing instructions).
+- src-tauri/src/fork/transforms/selection.rs (selection freshness and menu fallback)
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/selection.rs (sentinel freshness rule)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  and SelectedTextKit, https://github.com/tisfeng/SelectedTextKit
+  Commit: 93dc960a5ef8d52de98af41d4abd7a89576d091c
+  File:   Sources/SelectedTextKit/Accessibility/AXManager+Menu.swift
+          (enabled Copy menu item found by its command shortcut)
+  Copyright (c) 2024 tisfeng
+  Licence: MIT (LICENSES/MIT-SelectedTextKit.txt)
+  Modified by Wispr Bro contributors, 2026-11-01 (own sentinel, snapshot
+  and bounded polling; AXPress through the existing AX thread).
 - src-tauri/src/fork/llm/post_process.rs (the clean-text gate)
   Source: open-flow, https://github.com/Robj1925/open-flow
   Commit: 7055c59014ffaac3785e25532ee07ce39093490e

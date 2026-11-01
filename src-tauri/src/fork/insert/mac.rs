@@ -122,6 +122,87 @@ pub(super) fn deliver(
     )
 }
 
+/// S-21: one ⌘V into the element captured when the transform was invoked.
+/// Focus is checked before Select All, again before the paste, and by the
+/// delivery gate while it waits. There is no typing fallback and no retry.
+pub(super) fn deliver_transform<R: tauri::Runtime>(
+    app: AppHandle<R>,
+    text: String,
+    target: u64,
+    select_all: bool,
+    cancelled: &(dyn Fn() -> bool + Send + Sync),
+) -> Result<deliver::Report, String> {
+    let _slot = lock(&SLOT);
+    let focus_problem = || {
+        let focus = crate::fork::ax::focus_now(Some(target), crate::fork::ax::READ_BUDGET);
+        match crate::fork::insert::target::plan(true, focus.as_ref()) {
+            crate::fork::insert::target::Route::Card(reason) => Some(reason),
+            crate::fork::insert::target::Route::Paste { .. } => None,
+        }
+    };
+    if let Some(reason) = focus_problem() {
+        return Ok(empty_transform_report(deliver::Delivery::Card { reason }));
+    }
+    if select_all {
+        let platform = AppPlatform { app: app.clone() };
+        platform.on_main(|| keys::post_command_letter(b'a'))?;
+        if let Some(reason) = focus_problem() {
+            return Ok(empty_transform_report(deliver::Delivery::Card { reason }));
+        }
+    }
+
+    let (_, class) = frontmost_class();
+    let mut req = Request::new(&text, class);
+    req.method = deliver::Method::CommandV;
+    let platform = AppPlatform { app: app.clone() };
+    let focus_cancelled = || cancelled() || focus_problem().is_some();
+    let no_interruption = || None;
+    let gate = Gate {
+        cancelled: &focus_cancelled,
+        interrupted: &no_interruption,
+    };
+    let (mut report, pending) = deliver::paste(&platform, &LINE, &req, &gate);
+    if report.delivery == deliver::Delivery::Cancelled && !cancelled() {
+        report.delivery = deliver::Delivery::Card {
+            reason: deliver::CardReason::FocusMoved,
+        };
+    }
+    if let Some(pending) = pending {
+        let spawned = std::thread::Builder::new()
+            .name("fork-transform-clipboard-restore".into())
+            .spawn(move || {
+                let settled = deliver::settle(&platform, &LINE, pending, &Timing::R5);
+                log::info!("transforms: clipboard {} (restore)", settled.decision);
+            });
+        if let Err(error) = spawned {
+            // The paste already landed; the concealed transcript remains for
+            // the next delivery's snapshot guard, exactly as for a take.
+            log::error!("transforms: could not start the clipboard restore: {error}");
+        }
+    }
+    Ok(report)
+}
+
+fn empty_transform_report(delivery: deliver::Delivery) -> deliver::Report {
+    deliver::Report {
+        delivery,
+        method: deliver::Method::CommandV,
+        class: TargetClass::Native,
+        modifier_wait_ms: None,
+        modifier_wait_timed_out: false,
+        previous_read_wait_ms: None,
+        snapshot_ms: None,
+        snapshot_bytes: 0,
+        skipped_types: 0,
+        unreadable_types: 0,
+        to_paste_ms: None,
+        receipt_ms: None,
+        verification: None,
+        submitted: false,
+        error: None,
+    }
+}
+
 fn submit_flags(key: AutoSubmitKey) -> u64 {
     match key {
         AutoSubmitKey::Enter => 0,
@@ -169,11 +250,11 @@ fn frontmost_class() -> (Option<String>, TargetClass) {
 // Platform
 
 #[derive(Clone)]
-struct AppPlatform {
-    app: AppHandle,
+struct AppPlatform<R: tauri::Runtime> {
+    app: AppHandle<R>,
 }
 
-impl AppPlatform {
+impl<R: tauri::Runtime> AppPlatform<R> {
     /// Runs `f` on the main thread and waits for it (AppKit pasteboard
     /// writes with a data provider, and TIS for the ⌘V key code).
     fn on_main<T: Send + 'static>(
@@ -200,7 +281,7 @@ impl PublishedText for nspb::Published {
     }
 }
 
-impl Platform for AppPlatform {
+impl<R: tauri::Runtime> Platform for AppPlatform<R> {
     type Published = nspb::Published;
 
     fn now(&self) -> Instant {

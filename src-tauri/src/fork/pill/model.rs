@@ -96,6 +96,12 @@ pub enum PillMessage {
     NoTranscript,
     /// Copy-last put the last transcript on the clipboard (S-06).
     CopiedLast,
+    /// A transform finished; S-22 will present its before/after record.
+    TransformDone,
+    SelectTextFirst,
+    SelectionTooLong,
+    TransformFocusMoved,
+    TransformFailed,
 }
 
 /// Information or error (changes the colour and the VoiceOver priority).
@@ -118,6 +124,8 @@ pub enum PillFix {
     RetryDownload,
     /// Brings the cancelled take back (S-06).
     Undo,
+    /// Sends the latest transform run to S-22's future changes view.
+    ViewChanges,
 }
 
 impl PillMessage {
@@ -128,7 +136,11 @@ impl PillMessage {
             | PillMessage::NotPasted
             | PillMessage::Cancelled
             | PillMessage::NoTranscript
-            | PillMessage::CopiedLast => PillTone::Info,
+            | PillMessage::CopiedLast
+            | PillMessage::TransformDone
+            | PillMessage::SelectTextFirst
+            | PillMessage::SelectionTooLong
+            | PillMessage::TransformFocusMoved => PillTone::Info,
             PillMessage::MicMuted
             | PillMessage::TranscriptionFailed
             | PillMessage::MicDenied
@@ -136,7 +148,8 @@ impl PillMessage {
             | PillMessage::MicFailed
             | PillMessage::DownloadFailed
             | PillMessage::CheckConnection
-            | PillMessage::NoSpace => PillTone::Error,
+            | PillMessage::NoSpace
+            | PillMessage::TransformFailed => PillTone::Error,
         }
     }
 
@@ -150,6 +163,7 @@ impl PillMessage {
                 Some(PillFix::RetryDownload)
             }
             PillMessage::Cancelled => Some(PillFix::Undo),
+            PillMessage::TransformDone => Some(PillFix::ViewChanges),
             _ => None,
         }
     }
@@ -200,6 +214,11 @@ impl PillMessage {
             PillMessage::Cancelled => "cancelled",
             PillMessage::NoTranscript => "no_transcript",
             PillMessage::CopiedLast => "copied_last",
+            PillMessage::TransformDone => "transform_done",
+            PillMessage::SelectTextFirst => "select_text_first",
+            PillMessage::SelectionTooLong => "selection_too_long",
+            PillMessage::TransformFocusMoved => "transform_focus_moved",
+            PillMessage::TransformFailed => "transform_failed",
         }
     }
 }
@@ -1126,6 +1145,11 @@ mod tests {
             Cancelled,
             NoTranscript,
             CopiedLast,
+            TransformDone,
+            SelectTextFirst,
+            SelectionTooLong,
+            TransformFocusMoved,
+            TransformFailed,
         ] {
             assert!(!k.key().is_empty());
             assert!(k.duration() >= INFO_MS);

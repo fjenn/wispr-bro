@@ -834,7 +834,8 @@ forkSettingsChanged: ForkSettingsChanged,
 forkSnippetsChanged: ForkSnippetsChanged,
 forkSpeechSetup: ForkSpeechSetup,
 forkStatsUpdated: ForkStatsUpdated,
-forkToastsDismiss: ForkToastsDismiss
+forkToastsDismiss: ForkToastsDismiss,
+forkTransformViewChanges: ForkTransformViewChanges
 }>({
 forkAppRulesChanged: "fork-app-rules-changed",
 forkCleanupResult: "fork-cleanup-result",
@@ -854,7 +855,8 @@ forkSettingsChanged: "fork-settings-changed",
 forkSnippetsChanged: "fork-snippets-changed",
 forkSpeechSetup: "fork-speech-setup",
 forkStatsUpdated: "fork-stats-updated",
-forkToastsDismiss: "fork-toasts-dismiss"
+forkToastsDismiss: "fork-toasts-dismiss",
+forkTransformViewChanges: "fork-transform-view-changes"
 })
 
 /** user-defined constants **/
@@ -1708,6 +1710,7 @@ export type ForkToastsDismiss = {
  * Whether the same Esc cancelled a take.
  */
 cancelled_take: boolean }
+export type ForkTransformViewChanges = { run_id: number; transform_id: number; app_bundle_id: string | null; source_text: string; result_text: string; created_at_ms: number }
 /**
  * One heatmap cell.
  */
@@ -2144,7 +2147,11 @@ export type PillFix =
 /**
  * Brings the cancelled take back (S-06).
  */
-"undo"
+"undo" | 
+/**
+ * Sends the latest transform run to S-22's future changes view.
+ */
+"view_changes"
 /**
  * A message or an error after (or instead of) a take. The English copy is
  * in `fork.json` > `pill.message.<kind>`.
@@ -2206,7 +2213,11 @@ export type PillMessage =
 /**
  * Copy-last put the last transcript on the clipboard (S-06).
  */
-"copied_last"
+"copied_last" | 
+/**
+ * A transform finished; S-22 will present its before/after record.
+ */
+"transform_done" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed"
 /**
  * What the active bar is doing (the web view's `state`).
  */

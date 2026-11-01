@@ -18,6 +18,8 @@ function fixLabel(fix: PillFix, t: (key: string) => string): string {
       return t("pill.retry");
     case "undo":
       return t("pill.undo");
+    case "view_changes":
+      return t("pill.viewChanges");
     default:
       return t("pill.fix");
   }

@@ -47,6 +47,10 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key == "cleanup_level" {
         mirror_to_handy(&app, &next, "filler_word_removal_enabled");
     }
+    if key == "transforms_enabled" {
+        crate::fork::transforms::sync_registration(&app, next.transforms_enabled);
+        crate::fork::shortcut::reload(&app);
+    }
     if key == "hotkey" {
         crate::fork::shortcut::reload(&app);
     }

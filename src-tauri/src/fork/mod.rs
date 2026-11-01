@@ -56,6 +56,7 @@ pub mod stats;
 #[cfg(test)]
 mod testutil;
 pub mod text;
+pub mod transforms;
 pub mod tray;
 
 pub use settings::PRODUCT_IDENTIFIER;
@@ -474,8 +475,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         audio::on_ready(app);
         audio::enable_prepared(app);
         // S-06: Undo and the recovery actions, registered before the
-        // engine compiles the bindings.
+        // engine compiles the bindings. S-21's handlers follow the same rule.
         R::recovery_start(app);
+        transforms::on_ready(app);
         shortcut::start(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
         R::pill_start(app);
@@ -596,7 +598,8 @@ macro_rules! fork_specta_builder {
                 audio::watch::ForkMicDevicesChanged,
                 audio::monitor::ForkMicLevel,
                 models::upgrade::ForkModelPolicy,
-                commands::style::ForkAppRulesChanged
+                commands::style::ForkAppRulesChanged,
+                transforms::record::ForkTransformViewChanges
             ])
     };
 }

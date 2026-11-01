@@ -70,7 +70,7 @@ fn fresh_create_has_every_m1_table_and_the_pragmas() {
 
     db.with_conn(|conn| {
         assert_eq!(user_version(conn)?, latest_version());
-        assert_eq!(latest_version(), 8);
+        assert_eq!(latest_version(), 9);
         for table in M1_TABLES {
             assert!(table_exists(conn, table), "missing table {table}");
         }
@@ -519,15 +519,16 @@ fn transform_runs_keep_only_the_last_20() {
     let dir = tempfile::tempdir().unwrap();
     let db = ForkDb::in_dir(dir.path());
     db.with_conn(|conn| {
-        conn.execute(
-            "INSERT INTO transforms (id, name, updated_at) VALUES (1, 'Polish', 0)",
+        let transform_id: i64 = conn.query_row(
+            "SELECT id FROM transforms WHERE builtin_key = 'polish'",
             [],
+            |row| row.get(0),
         )?;
         for i in 0..25_i64 {
             conn.execute(
                 "INSERT INTO transform_runs (transform_id, source_text, created_at) \
-                 VALUES (1, 'x', ?1)",
-                [i],
+                 VALUES (?1, 'x', ?2)",
+                [transform_id, i],
             )?;
         }
         let (n, oldest): (i64, i64) = conn.query_row(

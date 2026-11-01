@@ -6,7 +6,7 @@
  * that reads it).
  */
 export const forkSettingsDefaults = {
-  schema_version: 2,
+  schema_version: 3,
   hotkeys: {
     cancel: [{ chord: "escape", activation: "press" }],
     dictate: [{ chord: "fn", activation: "hold" }],
@@ -16,6 +16,8 @@ export const forkSettingsDefaults = {
     ],
     paste_last: [{ chord: "ctrl+command+v", activation: "press" }],
     copy_last: [{ chord: "ctrl+command+c", activation: "press" }],
+    "transform.polish": [{ chord: "option+1", activation: "press" }],
+    "transform.prompt_engineer": [{ chord: "option+2", activation: "press" }],
   },
   cleanup_level: "light",
   styles: {

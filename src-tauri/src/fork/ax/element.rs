@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (c) 2026 Abhishek Barali (SpeakoFlow; MIT, notice below)
-// Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31.
+// Modified by Wispr Bro contributors, 2026-10-30, 2026-10-31 and 2026-11-01.
 //
 // Ported from SpeakoFlow `src-tauri/src/smart_spacing/macos.rs`
 // (https://github.com/AbhishekBarali/SpeakoFlow, commit
@@ -13,7 +13,8 @@
 // parameter (RS-04 measures 0.1 s and 0.25 s); `set_manual_accessibility`
 // returns the AXError. Added: `attr_raw` keeping the AXError, `attr_url`,
 // `attr_rect`/`bounds_for_range` (CGRect), `is_settable`, `set_string`,
-// `set_range`, `children`, `copy_names`, `parameterized`, `error_name`.
+// `set_range`, `children`, `copy_names`, `parameterized`, `error_name`;
+// S-21 added `press` for the Edit › Copy menu fallback.
 // SpeakoFlow's read logic (caret window, Chromium quirks) is in the RS-04
 // spike's probe.rs. S-05 (2026-10-31) moved this file from the spike into
 // the product (`fork/ax/`; the spike compiles it through `#[path]`) and added
@@ -287,6 +288,13 @@ pub fn set_string(element: &AXUIElement, name: &str, text: &str) -> AXError {
     let value = CFString::from_str(text);
     // SAFETY: CFString is a valid CFType value.
     unsafe { element.set_attribute_value(&name, value.as_ref()) }
+}
+
+/// Performs an AX action such as `AXPress` (S-21's Edit › Copy fallback).
+pub fn press(element: &AXUIElement, action: &str) -> AXError {
+    let action = CFString::from_str(action);
+    // SAFETY: the element and action name are valid for the duration of the call.
+    unsafe { element.perform_action(&action) }
 }
 
 pub fn set_range(element: &AXUIElement, name: &str, range: CFRange) -> AXError {
