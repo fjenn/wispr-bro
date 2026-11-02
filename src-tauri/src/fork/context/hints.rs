@@ -121,12 +121,10 @@ fn words(text: &str) -> Vec<Word> {
         let mut j = i;
         while j < chars.len() {
             let c = chars[j].1;
-            if is_word_char(c) {
-                j += 1;
-            } else if is_inner_joiner(c)
+            let joins = is_inner_joiner(c)
                 && chars.get(j + 1).is_some_and(|(_, n)| is_word_char(*n))
-                && j > i
-            {
+                && j > i;
+            if is_word_char(c) || joins {
                 j += 1;
             } else {
                 break;

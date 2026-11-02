@@ -201,7 +201,7 @@ impl Exclusions {
         {
             return Some(Skip::PasswordManager);
         }
-        if self.bundle_ids.iter().any(|b| *b == id) {
+        if self.bundle_ids.contains(&id) {
             return Some(Skip::Finance);
         }
         let segments: Vec<&str> = id.split(['.', '-', '_']).collect();
