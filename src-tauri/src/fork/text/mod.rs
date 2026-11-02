@@ -37,6 +37,7 @@
 pub mod commands;
 pub mod counts;
 pub mod diff;
+pub mod file_tags;
 pub mod fold;
 pub mod lines;
 pub mod placeholders;
@@ -145,10 +146,21 @@ pub fn process(
     // S-20: the armed take's context hints, if any (never for a file or a
     // retry outside a dictation).
     let hints = crate::fork::context::awareness::hints();
+    // S-36: the code and file names a set-up editor showed, if any.
+    let identifiers = crate::fork::context::awareness::identifiers();
+    let file_names = crate::fork::context::awareness::file_names();
     let outcome = catch_unwind(AssertUnwindSafe(|| {
         let (text, mut record) = run(&raw, lang, &rules, &mut handy);
+        let text = match identifiers.as_deref() {
+            Some(ids) => identifier_stage(text, ids, &mut record),
+            None => text,
+        };
         let text = match hints.as_deref() {
             Some(h) => context_stage(text, h, &mut record),
+            None => text,
+        };
+        let text = match file_names.as_deref() {
+            Some(names) => file_tag_stage(text, names, &mut record),
             None => text,
         };
         (text, record)
@@ -172,10 +184,12 @@ pub fn process(
     if std::env::var_os(TRACE_ENV).is_some() {
         log::info!("text trace: {raw:?} -> {kept:?}");
     }
-    let context_fixed = record
-        .stages
-        .iter()
-        .any(|s| s.stage == Stage::Context && s.changes > 0);
+    let context_fixed = record.stages.iter().any(|s| {
+        matches!(
+            s.stage,
+            Stage::Context | Stage::Identifiers | Stage::FileTags
+        ) && s.changes > 0
+    });
     ledger().note_processed(raw, &kept, record);
     if hints.is_some() && (context_fixed || crate::fork::context::awareness::vocabulary_sent()) {
         crate::fork::context::awareness::note_used();
@@ -189,16 +203,44 @@ pub fn process(
 /// The dictionary rules' outputs are never touched, and stay findable for
 /// stage 9 (their offsets follow the edits).
 pub fn context_stage(text: String, hints: &[String], record: &mut TextRecord) -> String {
-    let protected: Vec<(usize, usize)> = record
-        .provenance
-        .iter()
-        .map(|p| (p.target_start, p.target_start + p.target_text.len()))
-        .collect();
-    let c = crate::fork::context::hints::correct_outside(&text, hints, &protected);
+    let c = crate::fork::context::hints::correct_outside(&text, hints, &protected_spans(record));
     for p in &mut record.provenance {
         p.target_start = c.map_offset(p.target_start);
     }
     record.push(Stage::Context, c.fixes);
+    c.text
+}
+
+fn protected_spans(record: &TextRecord) -> Vec<(usize, usize)> {
+    record
+        .provenance
+        .iter()
+        .map(|p| (p.target_start, p.target_start + p.target_text.len()))
+        .collect()
+}
+
+/// S-36's code-name stage: the exact spoken form of an identifier the
+/// editor shows becomes its spelling
+/// ([`crate::fork::context::ide::correct`]). Dictionary rule outputs are
+/// never touched and stay findable for stage 9.
+pub fn identifier_stage(text: String, identifiers: &[String], record: &mut TextRecord) -> String {
+    let c = crate::fork::context::ide::correct(&text, identifiers, &protected_spans(record));
+    for p in &mut record.provenance {
+        p.target_start = c.map_offset(p.target_start);
+    }
+    record.push(Stage::Identifiers, c.fixes);
+    c.text
+}
+
+/// S-36's file-tag stage: a spoken or written file name the editor shows
+/// becomes `@name` ([`file_tags::rewrite`]), outside dictionary rule
+/// outputs.
+pub fn file_tag_stage(text: String, names: &[String], record: &mut TextRecord) -> String {
+    let c = file_tags::rewrite_outside(&text, names, &protected_spans(record));
+    for p in &mut record.provenance {
+        p.target_start = c.map_offset(p.target_start);
+    }
+    record.push(Stage::FileTags, c.fixes);
     c.text
 }
 
@@ -413,6 +455,26 @@ fn finish_stages(text: String, expand_snippets: bool) -> String {
         (Arc::new(SnippetSet::empty()), None)
     };
     let (out, done) = finish_with(&text, provenance.as_deref(), &snippets);
+    // S-36: after the LLM step (not in `deliver`, where snippet text must
+    // stay as saved), tag again the file names the rewrite may have
+    // written out ("index.ts") or untagged. Idempotent on tagged text.
+    let out = match (!expand_snippets)
+        .then(crate::fork::context::awareness::file_names)
+        .flatten()
+    {
+        Some(names) => {
+            let tagged = file_tags::rewrite(&out, &names);
+            if tagged.fixes > 0 {
+                log::info!(
+                    "text: after the LLM {}={}",
+                    Stage::FileTags.as_str(),
+                    tagged.fixes
+                );
+            }
+            tagged.text
+        }
+        None => out,
+    };
     if provenance.is_some() || done.whitespace > 0 || !done.snippet_hits.is_empty() {
         log::info!(
             "text: after the LLM {}={} {}={} {}={}",

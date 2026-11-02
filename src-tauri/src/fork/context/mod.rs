@@ -14,6 +14,7 @@ pub mod caret;
 pub mod categories;
 pub mod frontmost;
 pub mod hints;
+pub mod ide;
 #[cfg(test)]
 mod names_eval;
 pub mod take;

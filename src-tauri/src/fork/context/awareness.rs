@@ -34,6 +34,8 @@ struct Slot {
     generation: u64,
     /// `None` while the read runs (or when it found nothing).
     hints: Option<Vec<String>>,
+    identifiers: Option<Vec<String>>,
+    file_names: Option<Vec<String>>,
     armed_at: Option<Instant>,
     used: bool,
     vocabulary_sent: bool,
@@ -65,15 +67,28 @@ pub fn land(generation: u64, read: Read) {
     log::info!("{}", log_line(&read));
     let mut s = slot();
     if let Some(s) = s.as_mut().filter(|s| s.generation == generation) {
+        s.identifiers = (!read.identifiers.is_empty()).then_some(read.identifiers);
+        s.file_names = (!read.file_names.is_empty()).then_some(read.file_names);
         s.hints = (!read.hints.is_empty()).then_some(read.hints);
     }
 }
 
-/// The one log line of a read: the outcome, counts and time, never a hint
-/// or any of the text.
+/// The one log line of a read: the outcome, counts and time, never a hint,
+/// code name, file name or any of the text. An editor read (S-36) adds the
+/// editor's id, whether its chat input had focus, and its two counts.
 pub fn log_line(read: &Read) -> String {
+    let ide = match read.ide {
+        Some((editor, chat)) => format!(
+            ", {}{}: {} code name(s), {} file name(s)",
+            editor.id(),
+            if chat { " chat" } else { "" },
+            read.identifiers.len(),
+            read.file_names.len()
+        ),
+        None => String::new(),
+    };
     format!(
-        "context: read {} ({} char(s), {} hint(s), {:.1} ms)",
+        "context: read {} ({} char(s), {} hint(s){ide}, {:.1} ms)",
         read.skip.map(Skip::as_str).unwrap_or("ok"),
         read.chars,
         read.hints.len(),
@@ -93,8 +108,7 @@ pub fn on_take_over() {
     *slot() = None;
 }
 
-/// The armed take's hints (a copy), if any.
-pub fn hints() -> Option<Vec<String>> {
+fn armed_value(select: impl FnOnce(&Slot) -> Option<Vec<String>>) -> Option<Vec<String>> {
     let mut guard = slot();
     let s = guard.as_ref()?;
     let armed = s.armed_at?;
@@ -102,7 +116,34 @@ pub fn hints() -> Option<Vec<String>> {
         *guard = None;
         return None;
     }
-    s.hints.clone()
+    select(s)
+}
+
+/// The armed take's identifiers (a copy), if any.
+pub fn identifiers() -> Option<Vec<String>> {
+    armed_value(|s| s.identifiers.clone())
+}
+
+/// The armed chat take's visible file names (a copy), if any.
+pub fn file_names() -> Option<Vec<String>> {
+    armed_value(|s| s.file_names.clone())
+}
+
+/// The armed take's hints (a copy), if any. IDE identifiers lead, followed by
+/// S-20's names, within the same per-take cap.
+pub fn hints() -> Option<Vec<String>> {
+    armed_value(|s| {
+        let mut out = s.identifiers.clone().unwrap_or_default();
+        for hint in s.hints.clone().unwrap_or_default() {
+            if out.len() == super::hints::MAX_HINTS {
+                break;
+            }
+            if !out.contains(&hint) {
+                out.push(hint);
+            }
+        }
+        (!out.is_empty()).then_some(out)
+    })
 }
 
 /// The armed take used its hints: the pill shows the glyph (once).
@@ -154,8 +195,14 @@ pub fn vocabulary(supports: bool, custom_words: Vec<String>) -> Vec<String> {
 }
 
 /// Record start (`fork::on_record_start`): queues the read when context
-/// awareness is on (`enabled`). `languages`: the user's spoken languages.
-pub fn on_record_start(enabled: bool, languages: Vec<String>) {
+/// awareness is on (`enabled`). `languages`: the user's spoken languages;
+/// `vibe`: the vibe-coding settings (S-36), which only add to a read context
+/// awareness allows.
+pub fn on_record_start(
+    enabled: bool,
+    vibe: crate::fork::settings::VibeCodingSettings,
+    languages: Vec<String>,
+) {
     let generation = begin();
     if !enabled {
         land(generation, Read::skipped(Skip::Off, 0.0));
@@ -168,13 +215,13 @@ pub fn on_record_start(enabled: bool, languages: Vec<String>) {
             return;
         }
         crate::fork::ax::thread::post(move |ctx| {
-            let read = super::caret::mac::read(ctx, &languages);
+            let read = super::caret::mac::read(ctx, &languages, &vibe);
             land(generation, read);
         });
     }
     #[cfg(not(target_os = "macos"))]
     {
-        let _ = languages;
+        let _ = (languages, vibe);
         land(generation, Read::skipped(Skip::NoAccess, 0.0));
     }
 }
@@ -195,7 +242,7 @@ pub(crate) mod tests {
             hints: hints.iter().map(|h| h.to_string()).collect(),
             chars: 120,
             ms: 3.0,
-            skip: None,
+            ..Read::default()
         }
     }
 
@@ -203,6 +250,17 @@ pub(crate) mod tests {
     pub(crate) fn armed_take(hints: &[&str]) {
         let g = begin();
         land(g, read(hints));
+        on_stopped();
+    }
+
+    /// An editor take (S-36) whose read found `identifiers` and the
+    /// visible `file_names`, stopped.
+    pub(crate) fn armed_editor_take(identifiers: &[&str], file_names: &[&str]) {
+        let g = begin();
+        let mut r = read(&[]);
+        r.identifiers = identifiers.iter().map(|s| s.to_string()).collect();
+        r.file_names = file_names.iter().map(|s| s.to_string()).collect();
+        land(g, r);
         on_stopped();
     }
 
@@ -237,7 +295,7 @@ pub(crate) mod tests {
     #[test]
     fn a_skipped_or_disabled_read_gives_nothing() {
         let _l = lock();
-        on_record_start(false, Vec::new());
+        on_record_start(false, Default::default(), Vec::new());
         on_stopped();
         assert_eq!(hints(), None);
         let g = begin();
@@ -269,6 +327,41 @@ pub(crate) mod tests {
             log_line(&Read::skipped(Skip::PasswordManager, 0.4)),
             "context: read password_manager (0 char(s), 0 hint(s), 0.4 ms)"
         );
+    }
+
+    #[test]
+    fn an_editor_read_logs_its_editor_and_counts_never_names() {
+        let mut r = read(&["Siobhán"]);
+        r.identifiers = vec!["getUserById".into()];
+        r.file_names = vec!["index.ts".into(), "app.tsx".into()];
+        r.ide = Some((super::super::ide::Editor::Cursor, true));
+        let line = log_line(&r);
+        assert_eq!(
+            line,
+            "context: read ok (120 char(s), 1 hint(s), cursor chat: 1 code name(s), 2 file name(s), 3.0 ms)"
+        );
+        assert!(!line.contains("getUserById") && !line.contains("index.ts"));
+    }
+
+    #[test]
+    fn code_names_lead_the_hints_and_file_names_stay_apart() {
+        let _l = lock();
+        let g = begin();
+        let mut r = read(&["Priya", "getUserById"]);
+        r.identifiers = vec!["getUserById".into(), "user_id".into()];
+        r.file_names = vec!["index.ts".into()];
+        land(g, r);
+        assert_eq!(identifiers(), None, "not armed yet");
+        assert_eq!(file_names(), None, "not armed yet");
+        on_stopped();
+        assert_eq!(
+            hints(),
+            Some(vec!["getUserById".into(), "user_id".into(), "Priya".into()])
+        );
+        assert_eq!(file_names(), Some(vec!["index.ts".to_string()]));
+        on_take_over();
+        assert_eq!(identifiers(), None);
+        assert_eq!(file_names(), None);
     }
 
     #[test]

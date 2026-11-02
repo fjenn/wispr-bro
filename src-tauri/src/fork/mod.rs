@@ -155,15 +155,17 @@ fn install_rule_source<R: Runtime>(app: &AppHandle<R>) {
 pub fn on_record_start<R: ForkRuntime>(app: &AppHandle<R>) {
     context::on_record_start();
     // S-20: the text near the caret, read once on the AX thread (never
-    // waits; DEC-24: on unless the user switched it off).
-    let enabled = app
+    // waits; DEC-24: on unless the user switched it off). S-36: in a listed
+    // editor the same read also collects code and file names.
+    let settings = app
         .try_state::<settings::ForkSettingsHandle>()
-        .and_then(|h| h.get(app).ok())
-        .is_none_or(|s| s.context_awareness);
+        .and_then(|h| h.get(app).ok());
+    let enabled = settings.as_ref().is_none_or(|s| s.context_awareness);
+    let vibe = settings.map(|s| s.vibe_coding).unwrap_or_default();
     let languages = R::handy_settings(app)
         .map(|settings::HandySettings(s)| s.spoken_languages)
         .unwrap_or_default();
-    context::awareness::on_record_start(enabled, languages);
+    context::awareness::on_record_start(enabled, vibe, languages);
     match crate::portable::data_dir()
         .cloned()
         .map(Ok)

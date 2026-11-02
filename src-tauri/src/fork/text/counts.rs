@@ -30,6 +30,12 @@ pub enum Stage {
     /// S-20: names near the caret spelled as written there (after 12;
     /// letters only, so stage 12's result holds).
     Context,
+    /// S-36: spoken code names ("get user by id") spelled as the editor
+    /// shows them (`getUserById`); runs just before [`Stage::Context`].
+    Identifiers,
+    /// S-36: spoken file names in an editor's chat input tagged
+    /// (`@index.ts`); runs last, and again after the LLM.
+    FileTags,
 }
 
 impl Stage {
@@ -43,6 +49,8 @@ impl Stage {
             Stage::Whitespace => "whitespace",
             Stage::Snippets => "snippets",
             Stage::Context => "context",
+            Stage::Identifiers => "identifiers",
+            Stage::FileTags => "file_tags",
         }
     }
 }
