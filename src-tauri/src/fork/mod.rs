@@ -578,6 +578,17 @@ macro_rules! fork_specta_builder {
                 commands::style::fork_style_set_site_group::<$runtime>,
                 commands::style::fork_style_remove_site::<$runtime>,
                 commands::style::fork_style_set_site_auto_send::<$runtime>,
+                commands::transforms::fork_transforms_list::<$runtime>,
+                commands::transforms::fork_transform_create::<$runtime>,
+                commands::transforms::fork_transform_update::<$runtime>,
+                commands::transforms::fork_transform_delete::<$runtime>,
+                commands::transforms::fork_transforms_reset::<$runtime>,
+                commands::transforms::fork_transform_preview::<$runtime>,
+                commands::transforms::fork_transform_latest::<$runtime>,
+                commands::transforms::fork_transform_diff,
+                commands::transforms::fork_transform_rate::<$runtime>,
+                commands::transforms::fork_transform_retry::<$runtime>,
+                commands::transforms::fork_transform_read_example,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -599,7 +610,8 @@ macro_rules! fork_specta_builder {
                 audio::monitor::ForkMicLevel,
                 models::upgrade::ForkModelPolicy,
                 commands::style::ForkAppRulesChanged,
-                transforms::record::ForkTransformViewChanges
+                transforms::record::ForkTransformViewChanges,
+                commands::transforms::ForkTransformsChanged
             ])
     };
 }

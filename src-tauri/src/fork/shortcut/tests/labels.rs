@@ -165,7 +165,7 @@ fn status_lists_every_binding_with_its_label_and_the_skipped_ones() {
     assert!(!s.fn_blocked);
     assert_eq!(
         s.issues.len(),
-        4,
+        5,
         "recovery and disabled transform actions have no handler here"
     );
     let texts: Vec<_> = s

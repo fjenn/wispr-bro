@@ -326,6 +326,91 @@ body {
   -webkit-user-select: text;
 }
 
+/* S-22: transform changes, with a bounded scroll area and explicit actions. */
+.wb-pill[data-phase="diff"] {
+  border-radius: 18px;
+  padding: 0;
+  white-space: normal;
+}
+
+.wb-pill-diff {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  gap: 9px;
+}
+
+.wb-pill-diff-header,
+.wb-pill-diff-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.wb-pill-diff-header strong {
+  flex: 1;
+  text-align: start;
+}
+
+.wb-pill-diff-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.wb-pill-diff-body p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.wb-pill-diff-body del {
+  color: #ffb4ab;
+}
+
+.wb-pill-diff-body ins {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.18);
+}
+
+.wb-pill-diff-link,
+.wb-pill-diff-actions .wb-pill-fix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 0;
+  font: inherit;
+  cursor: default;
+}
+
+.wb-pill-diff-link {
+  padding: 4px;
+  background: transparent;
+  color: var(--wb-pill-accent);
+}
+
+.wb-pill-diff-actions .wb-pill-fix {
+  padding: 0 10px;
+}
+
+.wb-pill-diff-spacer {
+  flex: 1;
+}
+
+.wb-pill-diff button:focus-visible {
+  outline: 2px solid var(--wb-pill-focus);
+  outline-offset: 1px;
+}
+
 /* S-05: a password field's text is never shown. */
 .wb-pill-card-text[data-hidden] {
   color: var(--wb-pill-ink-2);

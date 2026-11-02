@@ -39,6 +39,7 @@ fn the_default_bindings_compile_to_the_fn_grammar() {
             no_handler("paste_last", "ctrl+command+v"),
             no_handler("transform.polish", "option+1"),
             no_handler("transform.prompt_engineer", "option+2"),
+            no_handler("transform.view_changes", "option+o"),
         ]
     );
 }
@@ -48,7 +49,7 @@ fn a_handled_keyed_action_is_registered() {
     let p = compile(&default_hotkeys(), |id| id == "paste_last");
     assert_eq!(
         p.issues.len(),
-        3,
+        4,
         "copy_last and disabled transforms have no handler here"
     );
     assert_eq!(p.keyed.len(), 1);
@@ -75,7 +76,8 @@ fn the_recovery_defaults_paste_and_copy_and_leave_the_rest_unset() {
             "copy_last",
             "paste_last",
             "transform.polish",
-            "transform.prompt_engineer"
+            "transform.prompt_engineer",
+            "transform.view_changes"
         ]
     );
 }

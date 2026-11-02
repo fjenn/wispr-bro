@@ -110,7 +110,7 @@ fn v1_hotkeys_gain_copy_last_and_keep_what_the_user_set() {
     });
     let (s, status) = decode_stored(Some(&stored));
     assert_eq!(status, LoadStatus::Migrated { from: 1 });
-    assert_eq!(s.hotkeys.len(), 5);
+    assert_eq!(s.hotkeys.len(), 6);
     assert!(s.hotkeys["paste_last"].is_empty());
     assert_eq!(
         s.hotkeys["copy_last"],
@@ -144,6 +144,20 @@ fn v2_hotkeys_gain_transform_defaults_but_keep_user_choices() {
         s.hotkeys["transform.prompt_engineer"],
         vec![HotkeyBinding::new("option+2", HotkeyActivation::Press)]
     );
+}
+
+#[test]
+fn v3_hotkeys_gain_view_changes_without_overwriting_an_unset_entry() {
+    let (s, status) = decode_stored(Some(&json!({
+        "schema_version": 3,
+        "hotkeys": { "transform.polish": [] },
+    })));
+    assert_eq!(status, LoadStatus::Migrated { from: 3 });
+    assert_eq!(
+        s.hotkeys[crate::fork::transforms::VIEW_CHANGES_ACTION],
+        vec![HotkeyBinding::new("option+o", HotkeyActivation::Press)]
+    );
+    assert!(s.hotkeys["transform.polish"].is_empty());
 }
 
 #[test]

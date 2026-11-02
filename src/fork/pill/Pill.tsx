@@ -16,6 +16,7 @@ import { FORK_NAMESPACE } from "../i18n";
 import { shapeSize } from "./geometry";
 import { Listening } from "./states/Listening";
 import { Card } from "./states/Card";
+import { DiffCard } from "./states/DiffCard";
 import { Message } from "./states/Message";
 import { SettingUp } from "./states/SettingUp";
 import { Working } from "./states/Working";
@@ -51,6 +52,9 @@ export function Pill() {
       break;
     case "card":
       body = <Card state={state} />;
+      break;
+    case "diff":
+      body = <DiffCard state={state} />;
       break;
   }
 

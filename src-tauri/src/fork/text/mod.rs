@@ -36,6 +36,7 @@
 
 pub mod commands;
 pub mod counts;
+pub mod diff;
 pub mod fold;
 pub mod lines;
 pub mod placeholders;

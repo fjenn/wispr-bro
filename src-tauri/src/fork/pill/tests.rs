@@ -73,6 +73,7 @@ fn view(phase: PillPhase, message: Option<PillMessage>) -> ActiveView {
         copied: false,
         sends_automatically: false,
         context: false,
+        diff: None,
     }
 }
 

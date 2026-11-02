@@ -1078,6 +1078,8 @@ pub struct Plan {
     pub skip: Option<CleanupWhy>,
     /// The style of this take (S-19a), see [`StyleDecision`].
     pub style: StyleDecision,
+    /// S-22: the opt-in transform applied after cleanup, fail-open.
+    pub auto_apply: Option<crate::fork::transforms::record::Definition>,
 }
 
 /// Which style a take gets (S-19a), decided with the plan.
@@ -1213,6 +1215,20 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
         }
         Source::Job => StyleDecision::default(),
     };
+    let auto_apply = if source == Source::Dictation && settings.transforms_enabled {
+        settings.auto_apply_transform.as_deref().and_then(|key| {
+            app.try_state::<crate::fork::db::ForkDb>()
+                .and_then(|db| {
+                    db.with_conn(|conn| {
+                        crate::fork::transforms::record::definition_by_key(conn, key)
+                    })
+                    .ok()
+                })
+                .flatten()
+        })
+    } else {
+        None
+    };
     let mut plan = Plan {
         engine: CleanupEngine::None,
         level,
@@ -1228,6 +1244,7 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
         },
         skip: None,
         style,
+        auto_apply,
     };
     if level == CleanupLevel::None || !text.chars().any(char::is_alphanumeric) {
         return Some(plan);
@@ -1456,9 +1473,19 @@ pub async fn run<R: Runtime>(
     }
     let restored = restore_spellings(text, cleaned.text.clone());
     let fixes = fix_count(text, &restored);
+    // S-22: after cleanup and restored spellings, before deterministic style.
+    // Every failure returns `restored`, so the ordinary paste still proceeds.
+    let transformed = match &plan.auto_apply {
+        Some(definition) => {
+            crate::fork::transforms::auto::apply(app, definition, &restored)
+                .await
+                .text
+        }
+        None => restored,
+    };
     // Stage 10 (S-19a): the preset's deterministic rules, on the cleaned
     // text or, after a fallback, on the deterministic one.
-    let final_text = apply_style(&plan.style, restored, &plan.words);
+    let final_text = apply_style(&plan.style, transformed, &plan.words);
     match auto_send_target(&plan.style, cleaned.why) {
         Some(bundle_id) => crate::fork::context::app_rules::arm_auto_send(&final_text, bundle_id),
         None if plan.style.auto_send.is_some() => {

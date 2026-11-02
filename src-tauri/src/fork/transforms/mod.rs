@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! S-21 Transforms core: two built-in rewrites on the fork hotkey tap.
+//! Transforms: built-in and custom rewrites, auto-apply and the run handoff.
 
+pub mod auto;
 pub mod record;
 pub mod replace;
 pub mod run;
 pub mod selection;
+pub mod store;
 
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 
 use tauri::{AppHandle, Manager, Runtime};
 
 use crate::fork::settings::ForkSettingsHandle;
 use crate::fork::shortcut::actions::{Handler, Registry};
+
+pub const VIEW_CHANGES_ACTION: &str = "transform.view_changes";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TransformKind {
@@ -54,6 +58,49 @@ fn sync_actions(registry: &Registry, enabled: bool, handler: impl Fn(TransformKi
     }
 }
 
+static CUSTOM_ACTIONS: Mutex<Vec<(String, i64)>> = Mutex::new(Vec::new());
+
+fn sync_custom_actions<R: Runtime + 'static>(app: &AppHandle<R>, enabled: bool) {
+    let next = if enabled {
+        app.try_state::<crate::fork::db::ForkDb>()
+            .and_then(|db| db.with_conn(|conn| store::list(conn)).ok())
+            .unwrap_or_default()
+            .into_iter()
+            .filter(|entry| entry.builtin_key.is_none())
+            .map(|entry| (entry.action_id, entry.id))
+            .collect::<Vec<_>>()
+    } else {
+        Vec::new()
+    };
+    let registry = crate::fork::shortcut::registry();
+    let mut previous = CUSTOM_ACTIONS.lock().unwrap_or_else(|e| e.into_inner());
+    for (action, _) in previous.iter() {
+        registry.unregister(action);
+    }
+    if enabled {
+        for (action, id) in &next {
+            let app = app.clone();
+            let id = *id;
+            if let Err(error) =
+                registry.register(action, Arc::new(move || run::spawn_custom(&app, id)))
+            {
+                log::warn!("transforms: could not register {action}: {error}");
+            }
+        }
+    }
+    registry.unregister(VIEW_CHANGES_ACTION);
+    if enabled {
+        let app = app.clone();
+        if let Err(error) = registry.register(
+            VIEW_CHANGES_ACTION,
+            Arc::new(move || record::view_changes(&app)),
+        ) {
+            log::warn!("transforms: could not register View changes: {error}");
+        }
+    }
+    *previous = next;
+}
+
 /// Called before the fork tap compiles its profile. With Transforms off the
 /// actions have no handlers, so their chords are neither caught nor swallowed.
 pub fn on_ready<R: Runtime + 'static>(app: &AppHandle<R>) {
@@ -77,6 +124,7 @@ pub fn sync_registration<R: Runtime + 'static>(app: &AppHandle<R>, enabled: bool
         let app = app.clone();
         Arc::new(move || run::spawn(&app, kind))
     });
+    sync_custom_actions(app, enabled);
     run::settings_changed(enabled);
 }
 

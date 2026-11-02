@@ -42,6 +42,7 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
     copied: false,
     sends_automatically: false,
     context: false,
+    diff: null,
     ...partial,
   };
 }
@@ -157,6 +158,33 @@ const STATES: Record<string, ForkPillState> = {
     message: "transform_done",
     tone: "info",
     fix: "view_changes",
+  }),
+  transformDiff: state({
+    phase: "diff",
+    shape: "diff",
+    diff: {
+      run: {
+        run_id: 9,
+        transform_id: 1,
+        app_bundle_id: "com.tinyspeck.slackmacgap",
+        source_text: "um we could perhaps meet Tuesday",
+        result_text: "We could meet on Tuesday.",
+        rating: null,
+        created_at_ms: 1,
+      },
+      diff: {
+        ops: [
+          { kind: "delete", text: "um we could perhaps" },
+          { kind: "insert", text: "We could" },
+          { kind: "equal", text: " meet" },
+          { kind: "insert", text: " on" },
+          { kind: "equal", text: " Tuesday" },
+          { kind: "insert", text: "." },
+        ],
+        changes: 3,
+        degraded: false,
+      },
+    },
   }),
 };
 
@@ -317,6 +345,30 @@ test.describe("buttons", () => {
     await expect(page.getByTestId("wb-pill-message")).toHaveText("Done");
     await page.getByRole("button", { name: "View changes" }).click();
     await ipc.expectCalled("fork_pill_action", { action: "fix" });
+  });
+
+  test("S-22 diff: words, Configure, Copy, feedback, Retry and Dismiss", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, STATES.transformDiff);
+    await expect(page.getByTestId("wb-pill-diff")).toContainText("3 changes");
+    await expect(page.locator('[data-diff="delete"]')).toContainText("um we");
+    await expect(page.locator('[data-diff="insert"]').first()).toContainText(
+      "We could",
+    );
+    await page.getByTestId("wb-pill-diff-configure").click();
+    await ipc.expectCalled("fork_pill_action", { action: "configure_diff" });
+    await page.getByTestId("wb-pill-diff-copy").click();
+    await ipc.expectCalled("fork_pill_action", { action: "copy_diff" });
+    await page.getByTestId("wb-pill-diff-good").click();
+    await ipc.expectCalled("fork_pill_action", {
+      action: { rate_diff: { rating: 1 } },
+    });
+    await page.getByTestId("wb-pill-diff-retry").click();
+    await ipc.expectCalled("fork_pill_action", { action: "retry_diff" });
+    await page.getByTestId("wb-pill-dismiss").click();
+    await ipc.expectCalled("fork_pill_action", { action: "dismiss" });
   });
 
   // The bar's panel never becomes key (it must not take focus from the

@@ -15,22 +15,23 @@ pub const KEEP_RUNS: usize = 20;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Definition {
     pub id: i64,
+    pub key: String,
+    pub name: String,
     pub instruction: String,
+    /// Prompt Engineer and custom rewrites may change length and structure.
+    pub flexible: bool,
 }
 
 pub fn definition(conn: &Connection, kind: TransformKind) -> Result<Option<Definition>, DbError> {
-    conn.query_row(
-        "SELECT id, prompt FROM transforms WHERE builtin_key = ?1",
-        [kind.builtin_key()],
-        |row| {
-            Ok(Definition {
-                id: row.get(0)?,
-                instruction: row.get::<_, Option<String>>(1)?.unwrap_or_default(),
-            })
-        },
-    )
-    .optional()
-    .map_err(Into::into)
+    super::store::definition(conn, kind)
+}
+
+pub fn definition_by_id(conn: &Connection, id: i64) -> Result<Option<Definition>, DbError> {
+    super::store::definition_by_id(conn, id)
+}
+
+pub fn definition_by_key(conn: &Connection, key: &str) -> Result<Option<Definition>, DbError> {
+    super::store::definition_by_key(conn, key)
 }
 
 /// The newest dictation no older than 60 seconds, using the same shown text
@@ -79,6 +80,8 @@ pub struct ForkTransformViewChanges {
     pub app_bundle_id: Option<String>,
     pub source_text: String,
     pub result_text: String,
+    /// -1 thumbs down, 1 thumbs up, null unrated; local to `fork.db`.
+    pub rating: Option<i64>,
     pub created_at_ms: i64,
 }
 
@@ -110,7 +113,7 @@ pub fn insert(conn: &mut Connection, run: &NewRun<'_>) -> Result<i64, DbError> {
 
 pub fn latest(conn: &Connection) -> Result<Option<ForkTransformViewChanges>, DbError> {
     conn.query_row(
-        "SELECT id, transform_id, app_bundle_id, source_text, result_text, created_at
+        "SELECT id, transform_id, app_bundle_id, source_text, result_text, rating, created_at
          FROM transform_runs ORDER BY id DESC LIMIT 1",
         [],
         |row| {
@@ -120,12 +123,44 @@ pub fn latest(conn: &Connection) -> Result<Option<ForkTransformViewChanges>, DbE
                 app_bundle_id: row.get(2)?,
                 source_text: row.get(3)?,
                 result_text: row.get::<_, Option<String>>(4)?.unwrap_or_default(),
-                created_at_ms: row.get(5)?,
+                rating: row.get(5)?,
+                created_at_ms: row.get(6)?,
             })
         },
     )
     .optional()
     .map_err(Into::into)
+}
+
+pub fn get(conn: &Connection, run_id: i64) -> Result<Option<ForkTransformViewChanges>, DbError> {
+    conn.query_row(
+        "SELECT id, transform_id, app_bundle_id, source_text, result_text, rating, created_at
+         FROM transform_runs WHERE id = ?1",
+        [run_id],
+        |row| {
+            Ok(ForkTransformViewChanges {
+                run_id: row.get(0)?,
+                transform_id: row.get(1)?,
+                app_bundle_id: row.get(2)?,
+                source_text: row.get(3)?,
+                result_text: row.get::<_, Option<String>>(4)?.unwrap_or_default(),
+                rating: row.get(5)?,
+                created_at_ms: row.get(6)?,
+            })
+        },
+    )
+    .optional()
+    .map_err(Into::into)
+}
+
+pub fn rate(conn: &Connection, run_id: i64, rating: Option<i64>) -> Result<bool, DbError> {
+    if rating.is_some_and(|rating| rating != -1 && rating != 1) {
+        return Ok(false);
+    }
+    Ok(conn.execute(
+        "UPDATE transform_runs SET rating = ?2 WHERE id = ?1",
+        params![run_id, rating],
+    )? > 0)
 }
 
 pub fn record<R: Runtime>(app: &AppHandle<R>, run: &NewRun<'_>) -> Result<i64, String> {
@@ -136,20 +171,25 @@ pub fn record<R: Runtime>(app: &AppHandle<R>, run: &NewRun<'_>) -> Result<i64, S
         .map_err(|e| e.to_string())
 }
 
-/// S-22 listens for this event and presents the before/after view. S-21 only
-/// supplies the pill action and its payload; it does not build that page.
+/// Presents a run in both S-22 views: the main window and the pill's diff card.
+pub fn present<R: Runtime>(app: &AppHandle<R>, run: ForkTransformViewChanges) {
+    let id = run.run_id;
+    crate::fork::pill::show_transform_diff(run.clone());
+    if let Some(window) = app.get_webview_window("main") {
+        let _ = window.show();
+        let _ = window.set_focus();
+    }
+    if let Err(e) = tauri_specta::Event::emit_to(&run, app, "main") {
+        log::warn!("transforms: could not send run {id} to the main window: {e}");
+    }
+}
+
 pub fn view_changes<R: Runtime>(app: &AppHandle<R>) {
     let Some(db) = app.try_state::<ForkDb>() else {
         return;
     };
-    let run = db.with_conn(|conn| latest(conn));
-    match run {
-        Ok(Some(run)) => {
-            let id = run.run_id;
-            if let Err(e) = tauri_specta::Event::emit_to(&run, app, "main") {
-                log::warn!("transforms: could not send run {id} to the main window: {e}");
-            }
-        }
+    match db.with_conn(|conn| latest(conn)) {
+        Ok(Some(run)) => present(app, run),
         Ok(None) => log::debug!("transforms: View changes with no recorded run"),
         Err(e) => log::warn!("transforms: could not read the latest run: {e}"),
     }
@@ -186,7 +226,11 @@ mod tests {
                 |row| Ok((row.get(0)?, row.get(1)?)),
             )?;
             assert_eq!((count, oldest), (KEEP_RUNS as i64, 5));
-            assert_eq!(latest(conn)?.unwrap().created_at_ms, 24);
+            let latest = latest(conn)?.unwrap();
+            assert_eq!(latest.created_at_ms, 24);
+            assert!(rate(conn, latest.run_id, Some(-1))?);
+            assert_eq!(get(conn, latest.run_id)?.unwrap().rating, Some(-1));
+            assert!(!rate(conn, latest.run_id, Some(0))?);
             Ok(())
         })
         .unwrap();

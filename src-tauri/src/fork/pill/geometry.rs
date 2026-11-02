@@ -33,10 +33,12 @@ pub enum Shape {
     Setup,
     /// A finished take's text with Copy and ✕ (S-07a queued takes).
     Card,
+    /// A transform's word diff and actions (S-22).
+    Diff,
 }
 
 impl Shape {
-    pub const ALL: [Shape; 9] = [
+    pub const ALL: [Shape; 10] = [
         Shape::Rest,
         Shape::Held,
         Shape::HeldLabel,
@@ -46,6 +48,7 @@ impl Shape {
         Shape::Message,
         Shape::Setup,
         Shape::Card,
+        Shape::Diff,
     ];
 
     /// Width and height in points.
@@ -60,6 +63,7 @@ impl Shape {
             Shape::Message => (360.0, ACTIVE_H),
             Shape::Setup => (248.0, ACTIVE_H),
             Shape::Card => (400.0, CARD_H),
+            Shape::Diff => (560.0, DIFF_H),
         }
     }
 
@@ -75,6 +79,7 @@ impl Shape {
             Shape::Message => "message",
             Shape::Setup => "setup",
             Shape::Card => "card",
+            Shape::Diff => "diff",
         }
     }
 }
@@ -87,6 +92,8 @@ pub const REST_H: f64 = 12.0;
 pub const ACTIVE_H: f64 = 34.0;
 /// The card: two lines of text beside Copy and ✕.
 pub const CARD_H: f64 = 58.0;
+/// The transform diff card: header, scrollable changes and two action rows.
+pub const DIFF_H: f64 = 250.0;
 
 /// The hover bubble of the resting bar: height, horizontal padding around
 /// its text, and its width limits (the text is measured, localized).
