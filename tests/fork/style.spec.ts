@@ -304,10 +304,14 @@ styleTest.describe("style page", () => {
       await expect(chips(page)).toHaveText(["Mail"]);
       await page.getByRole("tab", { name: "Cleanup" }).click();
       await expect(page.getByTestId("wb-style-cleanup")).toBeVisible();
-      await page.getByRole("radio", { name: /Medium/ }).check();
+      // The radio is controlled: it turns checked only after the settings
+      // round trip, which `check()` does not wait for under load.
+      const medium = page.getByRole("radio", { name: /Medium/ });
+      await medium.click();
       await ipc.expectCalled("fork_set_setting", {
         update: { key: "cleanup_level", value: "medium" },
       });
+      await expect(medium).toBeChecked();
       await shot(page, "cleanup");
     },
   );
