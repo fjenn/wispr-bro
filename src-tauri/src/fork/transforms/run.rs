@@ -79,7 +79,7 @@ fn request_for(instruction: &str, text: &str) -> (String, ChatRequest) {
 
 fn guarded_reply(
     raw: &str,
-    kind: TransformKind,
+    flexible: bool,
     source: &str,
     system: &str,
 ) -> Result<String, GenerateError> {
@@ -93,7 +93,7 @@ fn guarded_reply(
             terms: &[],
         },
     );
-    let reasons = if kind == TransformKind::PromptEngineer {
+    let reasons = if flexible {
         verdict
             .reasons
             .into_iter()
@@ -128,12 +128,37 @@ pub async fn generate<E: Engine>(
     source: &str,
     cancel: &CancellationToken,
 ) -> Result<Generated, GenerateError> {
-    generate_within(engine, kind, instruction, source, cancel, LLM_BUDGET).await
+    generate_within(
+        engine,
+        kind == TransformKind::PromptEngineer,
+        instruction,
+        source,
+        cancel,
+        LLM_BUDGET,
+    )
+    .await
+}
+
+pub async fn generate_definition<E: Engine>(
+    engine: &E,
+    definition: &record::Definition,
+    source: &str,
+    cancel: &CancellationToken,
+) -> Result<Generated, GenerateError> {
+    generate_within(
+        engine,
+        definition.flexible,
+        &definition.instruction,
+        source,
+        cancel,
+        LLM_BUDGET,
+    )
+    .await
 }
 
 async fn generate_within<E: Engine>(
     engine: &E,
-    kind: TransformKind,
+    flexible: bool,
     instruction: &str,
     source: &str,
     cancel: &CancellationToken,
@@ -153,7 +178,7 @@ async fn generate_within<E: Engine>(
         Err(EngineError::Timeout) => return Err(GenerateError::Timeout),
         Err(EngineError::Failed(error)) => return Err(GenerateError::Failed(error)),
     };
-    let text = guarded_reply(&raw, kind, source, &system)?;
+    let text = guarded_reply(&raw, flexible, source, &system)?;
     Ok(Generated {
         text,
         llm_ms: started.elapsed().as_millis() as u64,
@@ -258,7 +283,7 @@ fn definition<R: Runtime>(
         .ok_or_else(|| format!("missing built-in transform {}", kind.builtin_key()))
 }
 
-enum AppEngine {
+pub(crate) enum AppEngine {
     Local(Arc<crate::fork::llm::supervisor::Supervisor>),
     Apple,
 }
@@ -290,7 +315,7 @@ impl Engine for AppEngine {
     }
 }
 
-async fn app_engine<R: Runtime>(app: &AppHandle<R>) -> Option<AppEngine> {
+pub(crate) async fn app_engine<R: Runtime>(app: &AppHandle<R>) -> Option<AppEngine> {
     let rt = runtime::runtime(app)?;
     let ready = rt.is_ready() && rt.supervisor().is_some();
     let memory_ok = !ready || rt.memory_allows_start().await;
@@ -303,10 +328,24 @@ async fn app_engine<R: Runtime>(app: &AppHandle<R>) -> Option<AppEngine> {
     }
 }
 
+#[derive(Clone, Copy)]
+enum Target {
+    Builtin(TransformKind),
+    Custom(i64),
+}
+
 /// Starts one transform and returns immediately. Esc cancels the watch token;
 /// dropping a local request closes its socket and dropping Apple's future
 /// cancels its Swift task through the existing engine implementations.
 pub fn spawn<R: Runtime + 'static>(app: &AppHandle<R>, kind: TransformKind) {
+    spawn_target(app, Target::Builtin(kind));
+}
+
+pub fn spawn_custom<R: Runtime + 'static>(app: &AppHandle<R>, transform_id: i64) {
+    spawn_target(app, Target::Custom(transform_id));
+}
+
+fn spawn_target<R: Runtime + 'static>(app: &AppHandle<R>, target: Target) {
     let id = NEXT_RUN.fetch_add(1, Ordering::Relaxed);
     let cancel = CancellationToken::new();
     if let Some(previous) = lock_active().replace(Active {
@@ -317,7 +356,7 @@ pub fn spawn<R: Runtime + 'static>(app: &AppHandle<R>, kind: TransformKind) {
     }
     let app = app.clone();
     tauri::async_runtime::spawn(async move {
-        let outcome = run(app.clone(), id, kind, cancel).await;
+        let outcome = run(app.clone(), id, target, cancel).await;
         if let Some(message) = outcome {
             crate::fork::pill::show_message(message);
         } else {
@@ -326,10 +365,28 @@ pub fn spawn<R: Runtime + 'static>(app: &AppHandle<R>, kind: TransformKind) {
     });
 }
 
+fn target_definition<R: Runtime>(
+    app: &AppHandle<R>,
+    target: Target,
+) -> Result<record::Definition, String> {
+    match target {
+        Target::Builtin(kind) => definition(app, kind),
+        Target::Custom(id) => {
+            let db = app
+                .try_state::<crate::fork::db::ForkDb>()
+                .ok_or_else(|| "fork.db is not managed".to_string())?;
+            db.with_conn(|conn| record::definition_by_id(conn, id))
+                .map_err(|e| e.to_string())?
+                .filter(|definition| definition.key.starts_with("custom-"))
+                .ok_or_else(|| format!("missing custom transform {id}"))
+        }
+    }
+}
+
 async fn run<R: Runtime>(
     app: AppHandle<R>,
     id: u64,
-    kind: TransformKind,
+    target: Target,
     cancel: CancellationToken,
 ) -> Option<PillMessage> {
     let _clear = ClearOnDrop(id);
@@ -349,7 +406,7 @@ async fn run<R: Runtime>(
         Ok(input) => input,
         Err(issue) => return Some(issue_message(issue)),
     };
-    let definition = match definition(&app, kind) {
+    let definition = match target_definition(&app, target) {
         Ok(definition) => definition,
         Err(error) => {
             log::warn!("transforms: {error}");
@@ -359,14 +416,13 @@ async fn run<R: Runtime>(
     let Some(engine) = app_engine(&app).await else {
         return Some(PillMessage::TransformFailed);
     };
-    let generated =
-        match generate(&engine, kind, &definition.instruction, &input.text, &cancel).await {
-            Ok(generated) => generated,
-            Err(error) => {
-                log::info!("transforms: generation ended without a replacement: {error:?}");
-                return generate_message(&error);
-            }
-        };
+    let generated = match generate_definition(&engine, &definition, &input.text, &cancel).await {
+        Ok(generated) => generated,
+        Err(error) => {
+            log::info!("transforms: generation ended without a replacement: {error:?}");
+            return generate_message(&error);
+        }
+    };
     let replace_started = Instant::now();
     let app_for_replace = app.clone();
     let text = generated.text.clone();
@@ -390,7 +446,7 @@ async fn run<R: Runtime>(
             };
             log::info!(
                 "transforms: run {id} {} pasted in {} ms (capture {}, llm {}, replace {}); {:?}",
-                kind.builtin_key(),
+                definition.key,
                 latency.total_ms,
                 latency.capture_ms,
                 latency.llm_ms,
@@ -414,6 +470,66 @@ async fn run<R: Runtime>(
         log::warn!("transforms: could not record run {id}: {error}");
     }
     Some(PillMessage::TransformDone)
+}
+
+pub async fn preview<R: Runtime>(
+    app: &AppHandle<R>,
+    definition: record::Definition,
+    source: &str,
+) -> Result<String, String> {
+    let engine = app_engine(app)
+        .await
+        .ok_or_else(|| "no local transform engine is ready".to_string())?;
+    generate_definition(&engine, &definition, source, &CancellationToken::new())
+        .await
+        .map(|generated| generated.text)
+        .map_err(|error| format!("{error:?}"))
+}
+
+/// Regenerates a recorded source without pasting into a changed focus target.
+/// The new run appears in both diff views, where Copy is an explicit action.
+pub async fn retry<R: Runtime>(
+    app: &AppHandle<R>,
+    run_id: i64,
+) -> Result<record::ForkTransformViewChanges, String> {
+    let previous = app
+        .try_state::<crate::fork::db::ForkDb>()
+        .ok_or_else(|| "fork.db is not managed".to_string())?
+        .with_conn(|conn| record::get(conn, run_id))
+        .map_err(|e| e.to_string())?
+        .ok_or_else(|| "transform run not found".to_string())?;
+    let definition = app
+        .try_state::<crate::fork::db::ForkDb>()
+        .ok_or_else(|| "fork.db is not managed".to_string())?
+        .with_conn(|conn| record::definition_by_id(conn, previous.transform_id))
+        .map_err(|e| e.to_string())?
+        .ok_or_else(|| "transform not found".to_string())?;
+    let engine = app_engine(app)
+        .await
+        .ok_or_else(|| "no local transform engine is ready".to_string())?;
+    let generated = generate_definition(
+        &engine,
+        &definition,
+        &previous.source_text,
+        &CancellationToken::new(),
+    )
+    .await
+    .map_err(|error| format!("{error:?}"))?;
+    record::record(
+        app,
+        &NewRun {
+            transform_id: definition.id,
+            app_bundle_id: previous.app_bundle_id.as_deref(),
+            source_text: &previous.source_text,
+            result_text: &generated.text,
+            created_at_ms: crate::fork::context::now_ms(),
+        },
+    )?;
+    app.try_state::<crate::fork::db::ForkDb>()
+        .ok_or_else(|| "fork.db is not managed".to_string())?
+        .with_conn(|conn| record::latest(conn))
+        .map_err(|e| e.to_string())?
+        .ok_or_else(|| "recorded transform run not found".to_string())
 }
 
 struct ClearOnDrop(u64);
@@ -488,18 +604,10 @@ mod tests {
             "text": "Create a launch prompt for 12 people. Include goals, owners, timing and output format."
         })
         .to_string();
-        assert!(
-            guarded_reply(&restructured, TransformKind::PromptEngineer, source, system).is_ok()
-        );
+        assert!(guarded_reply(&restructured, true, source, system).is_ok());
         let dropped_number =
             serde_json::json!({ "text": "Create a launch prompt for the team." }).to_string();
-        assert!(guarded_reply(
-            &dropped_number,
-            TransformKind::PromptEngineer,
-            source,
-            system
-        )
-        .is_err());
+        assert!(guarded_reply(&dropped_number, true, source, system).is_err());
     }
 
     #[tokio::test]
@@ -545,7 +653,7 @@ mod tests {
         };
         let error = generate_within(
             &engine,
-            TransformKind::Polish,
+            false,
             "Polish",
             "hello",
             &CancellationToken::new(),

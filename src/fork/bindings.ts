@@ -809,6 +809,89 @@ async forkStyleSetSiteAutoSend(host: string, on: boolean) : Promise<Result<Style
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async forkTransformsList() : Promise<Result<TransformEntry[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transforms_list") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformCreate(input: TransformInput) : Promise<Result<TransformEntry, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_create", { input }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformUpdate(id: number, input: TransformInput) : Promise<Result<TransformEntry, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_update", { id, input }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformDelete(id: number) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_delete", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformsReset() : Promise<Result<TransformEntry[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transforms_reset") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformPreview(id: number, input: TransformInput, source: string) : Promise<Result<string, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_preview", { id, input, source }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformLatest() : Promise<Result<ForkTransformViewChanges | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_latest") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformDiff(source: string, result: string) : Promise<WordDiff> {
+    return await TAURI_INVOKE("fork_transform_diff", { source, result });
+},
+async forkTransformRate(runId: number, rating: number | null) : Promise<Result<ForkTransformViewChanges, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_rate", { runId, rating }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformRetry(runId: number) : Promise<Result<ForkTransformViewChanges, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_retry", { runId }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkTransformReadExample(path: string) : Promise<Result<string, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_transform_read_example", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -835,7 +918,8 @@ forkSnippetsChanged: ForkSnippetsChanged,
 forkSpeechSetup: ForkSpeechSetup,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss,
-forkTransformViewChanges: ForkTransformViewChanges
+forkTransformViewChanges: ForkTransformViewChanges,
+forkTransformsChanged: ForkTransformsChanged
 }>({
 forkAppRulesChanged: "fork-app-rules-changed",
 forkCleanupResult: "fork-cleanup-result",
@@ -856,7 +940,8 @@ forkSnippetsChanged: "fork-snippets-changed",
 forkSpeechSetup: "fork-speech-setup",
 forkStatsUpdated: "fork-stats-updated",
 forkToastsDismiss: "fork-toasts-dismiss",
-forkTransformViewChanges: "fork-transform-view-changes"
+forkTransformViewChanges: "fork-transform-view-changes",
+forkTransformsChanged: "fork-transforms-changed"
 })
 
 /** user-defined constants **/
@@ -1042,6 +1127,8 @@ export type DictionaryList = {
  * Active and suggested entries, newest first.
  */
 entries: DictionaryEntry[]; counts: DictionaryCounts }
+export type DiffOp = { kind: DiffOpKind; text: string }
+export type DiffOpKind = "equal" | "delete" | "insert"
 /**
  * What the user typed (or a CSV row): a word, or a replacement when
  * `replacement` is given.
@@ -1521,7 +1608,11 @@ sends_automatically: boolean;
  * S-20: this take used text near the caret (the context glyph while
  * it is processed).
  */
-context: boolean }
+context: boolean; 
+/**
+ * S-22: the transform run and word diff on the Diff phase.
+ */
+diff: ForkTransformDiff | null }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
@@ -1714,7 +1805,13 @@ export type ForkToastsDismiss = {
  * Whether the same Esc cancelled a take.
  */
 cancelled_take: boolean }
-export type ForkTransformViewChanges = { run_id: number; transform_id: number; app_bundle_id: string | null; source_text: string; result_text: string; created_at_ms: number }
+export type ForkTransformDiff = { run: ForkTransformViewChanges; diff: WordDiff }
+export type ForkTransformViewChanges = { run_id: number; transform_id: number; app_bundle_id: string | null; source_text: string; result_text: string; 
+/**
+ * -1 thumbs down, 1 thumbs up, null unrated; local to `fork.db`.
+ */
+rating: number | null; created_at_ms: number }
+export type ForkTransformsChanged = { revision: number }
 /**
  * One heatmap cell.
  */
@@ -2241,7 +2338,11 @@ export type PillPhase =
 /**
  * A queued take's text, with Copy (S-07a).
  */
-"card"
+"card" | 
+/**
+ * A transform's word-level before/after view (S-22).
+ */
+"diff"
 /**
  * Information or error (changes the colour and the VoiceOver priority).
  */
@@ -2269,7 +2370,11 @@ export type PillUiAction =
 /**
  * The card's Copy button: the text replaces the clipboard (no restore).
  */
-"copy"
+"copy" | 
+/**
+ * S-22 diff actions.
+ */
+"copy_diff" | "configure_diff" | "retry_diff" | { rate_diff: { rating: number } }
 /**
  * A take is about to stop on its own (S-01 rule 8, DEC-32).
  */
@@ -2468,7 +2573,11 @@ export type Shape =
 /**
  * A finished take's text with Copy and ✕ (S-07a queued takes).
  */
-"card"
+"card" | 
+/**
+ * A transform's word diff and actions (S-22).
+ */
+"diff"
 /**
  * Which text a row shows and copies (`entry_meta.shown_variant`).
  */
@@ -2750,6 +2859,13 @@ export type StyleSite = { host: string; name: string; group: StyleGroup; builtin
  * Apple Silicon tier from the brand string (`Apple M2 Pro`).
  */
 export type Tier = "base" | "pro" | "max" | "ultra"
+export type TransformEntry = { id: number; 
+/**
+ * Fork settings id and hotkey action suffix (`polish`, `custom-3`).
+ */
+key: string; action_id: string; builtin_key: string | null; name: string; description: string; rules: TransformRules; prompt: string; examples: string[]; updated_at: number }
+export type TransformInput = { name: string; description: string; rules: TransformRules; prompt: string; examples: string[] }
+export type TransformRules = { shorter: boolean; clearer: boolean; better_order: boolean; headings_lists: boolean; keep_tone: boolean }
 /**
  * How a device is connected (CoreAudio `kAudioDevicePropertyTransportType`).
  */
@@ -2839,6 +2955,15 @@ goal: number;
  */
 dictations_read: number; phrase: PhraseCard | null; peak: PeakCard | null; word: WordCard | null; corrected: CorrectedCard | null }
 export type WordCard = { word: string; uses: number }
+export type WordDiff = { ops: DiffOp[]; 
+/**
+ * Maximal removed/added regions between unchanged words.
+ */
+changes: number; 
+/**
+ * The full comparison exceeded its token or time budget.
+ */
+degraded: boolean }
 
 /** tauri-specta globals **/
 

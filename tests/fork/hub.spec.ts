@@ -272,7 +272,7 @@ test.describe("hub shell", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   });
 
-  test("deep links: URL hash, empty-state actions and hashchange", async ({
+  test("deep links: URL hash, page navigation and hashchange", async ({
     page,
     ipc,
     hub,
@@ -281,12 +281,12 @@ test.describe("hub shell", () => {
     await expect(main(page)).toHaveAttribute("data-page", "dictation");
     await expect(page.getByTestId("wb-drop-zone-history")).toBeVisible();
 
-    // An empty state's one action is a deep link (S-16, S-17 and S-19a
-    // replaced the Dictionary, Snippets and Style placeholders).
+    // S-22 mounts the real Transforms page in its Hub slot.
     await page.getByTestId("wb-nav-transforms").click();
-    await page.getByTestId("wb-empty-transforms").getByRole("button").click();
+    await expect(page.getByTestId("wb-transforms")).toBeVisible();
+    await expect(page).toHaveURL(/#\/hub\/transforms$/);
+    await page.getByTestId("wb-nav-dictation").click();
     await expect(main(page)).toHaveAttribute("data-page", "dictation");
-    await expect(page).toHaveURL(/#\/hub\/dictation$/);
     await page.evaluate(() => {
       window.location.hash = "#/hub/settings/advanced";
     });

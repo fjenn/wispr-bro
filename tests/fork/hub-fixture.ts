@@ -196,6 +196,8 @@ export async function openHub(
   ipc.handle("fork_account_name", () => hub.accountName);
   // S-19a/b: no apps or sites unless the spec installs its own backend.
   ipc.respond("fork_style_overview", { apps: [], sites: [] });
+  // S-22: no custom transforms unless the spec installs its own backend.
+  ipc.respond("fork_transforms_list", []);
   // S-15b: an empty history unless the spec installs its own backend.
   ipc.respond("fork_history_page", { rows: [], next: null });
   ipc.respond("fork_history_find", { rows: [], next: null });

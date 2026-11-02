@@ -280,7 +280,12 @@
         "paste_last": "Indsæt sidste dictation",
         "copy_last": "Kopier sidste dictation",
         "press_enter": "Tryk Enter",
-        "undo_cancel": "Annuller en afbrydning"
+        "undo_cancel": "Annuller en afbrydning",
+        "transform": {
+          "polish": "Polish selected text",
+          "prompt_engineer": "Turn selected text into an AI prompt",
+          "view_changes": "View transform changes"
+        }
       },
       "help": {
         "dictate": "Hold den hurtigefunktion mens du taler; slå den løs for at afslutte.",
@@ -289,7 +294,12 @@
         "paste_last": "Indsæt din seneste dictation igen.",
         "copy_last": "Kopier din seneste dictation til clipboardet.",
         "press_enter": "Tryk Retur i appen, hvor du skriver. En sideknapp på musen fungerer godt her.",
-        "undo_cancel": "Gør en dictation tilbage efter du annullerer den."
+        "undo_cancel": "Gør en dictation tilbage efter du annullerer den.",
+        "transform": {
+          "polish": "Rewrite the selected text with Polish.",
+          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
+          "view_changes": "Review the latest transform before and after."
+        }
       }
     }
   },
@@ -617,7 +627,8 @@
         "settingUp": "Diktering gøres klar. Dine ord er gemt.",
         "card": "Din diktering er klar. Kopiér den fra bjælken.",
         "micLostWarning": "Mikrofonen er blevet afbrudt. Det, du har sagt, bliver bevaret.",
-        "undo": "Fortryd er på dikteringslinjen i 4 sekunder."
+        "undo": "Fortryd er på dikteringslinjen i 4 sekunder.",
+        "diff": "Transform changes are ready to review."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -964,6 +975,122 @@
     "undo": "Fortryd",
     "viewChanges": "View changes",
     "sendsAutomatically": "Sendes automatisk"
+  },
+  "transforms": {
+    "banner": {
+      "title": "Rewrite selected text in any app",
+      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+    },
+    "enable": {
+      "title": "Enable Transforms",
+      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "auto": {
+      "title": "Apply after every dictation",
+      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
+      "choice": "Transform to apply",
+      "none": "Choose a transform"
+    },
+    "shortcuts": {
+      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
+      "safe": "Use ⌃⌥ instead"
+    },
+    "myTransforms": "My Transforms",
+    "reset": "Reset to defaults",
+    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
+    "createNew": "Create new",
+    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
+    "loading": "Loading your transforms…",
+    "empty": "No transforms yet. Create one to get started.",
+    "error": "That transform change could not be saved. Try again.",
+    "card": {
+      "createOwn": "Create your own",
+      "createOwnHint": "Choose rules, instructions and writing examples.",
+      "delete": "Delete {{name}}"
+    },
+    "builtin": {
+      "polish": {
+        "description": "Clear up grammar and wording while keeping your voice."
+      },
+      "prompt_engineer": {
+        "description": "Turn rough notes into a clear, complete AI prompt."
+      }
+    },
+    "new": {
+      "name": "My transform",
+      "description": "Rewrite text the way I want.",
+      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+    },
+    "editor": {
+      "title": "Edit {{name}}",
+      "name": "Name",
+      "description": "Description",
+      "hotkey": "Hotkey",
+      "addHotkey": "Add hotkey",
+      "example": "Example",
+      "exampleInput": "Text to transform",
+      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
+      "preview": "Preview",
+      "previewing": "Previewing…",
+      "customPrompt": "Custom prompt",
+      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
+      "rules": "Editing rules",
+      "autosave": {
+        "saved": "Autosave · All changes saved",
+        "saving": "Autosave · Saving…",
+        "error": "Autosave · Couldn't save the latest change"
+      },
+      "reset": "Reset",
+      "done": "Done",
+      "close": "Close editor"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Shorter",
+        "help": "Remove repetition and extra words."
+      },
+      "clearer": {
+        "title": "Clearer wording",
+        "help": "Use direct, precise language."
+      },
+      "better_order": {
+        "title": "Better order",
+        "help": "Put ideas in a logical sequence."
+      },
+      "headings_lists": {
+        "title": "Add headings and lists",
+        "help": "Make longer text easier to scan."
+      },
+      "keep_tone": {
+        "title": "Keep my tone",
+        "help": "Preserve your voice and formality."
+      }
+    },
+    "examples": {
+      "title": "Writing examples",
+      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
+      "fileType": "Text or Markdown",
+      "label": "Writing example {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Paste an example",
+      "load": "Load .txt or .md",
+      "remove": "Remove example {{number}}",
+      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+    },
+    "diff": {
+      "changes_one": "{{count}} change",
+      "changes_other": "{{count}} changes",
+      "configure": "Configure",
+      "copy": "Copy",
+      "copied": "Copied",
+      "retry": "Retry",
+      "retrying": "Retrying…",
+      "feedback": "Rate this transform",
+      "good": "Good result",
+      "bad": "Poor result",
+      "simpleView": "Showing one replacement for this large or complex change.",
+      "actionFailed": "That action didn't work. Your text is still here; try again."
+    }
   },
   "cleanup": {
     "title": "Fjern sletning",

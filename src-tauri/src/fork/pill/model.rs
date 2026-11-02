@@ -60,6 +60,8 @@ pub enum PillPhase {
     SettingUp,
     /// A queued take's text, with Copy (S-07a).
     Card,
+    /// A transform's word-level before/after view (S-22).
+    Diff,
 }
 
 /// A message or an error after (or instead of) a take. The English copy is
@@ -313,6 +315,22 @@ pub enum Input {
     Undoing,
     /// S-20: the take used text near the caret (spelling hints).
     ContextUsed,
+    /// S-22: show or replace the transform diff.
+    Diff(crate::fork::transforms::record::ForkTransformViewChanges),
+    DiffRating(Option<i64>),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct ForkTransformDiff {
+    pub run: crate::fork::transforms::record::ForkTransformViewChanges,
+    pub diff: crate::fork::text::diff::WordDiff,
+}
+
+impl ForkTransformDiff {
+    pub fn new(run: crate::fork::transforms::record::ForkTransformViewChanges) -> Self {
+        let diff = crate::fork::text::diff::diff(&run.source_text, &run.result_text);
+        Self { run, diff }
+    }
 }
 
 /// What the card shows (one card for S-07a's queued takes and S-05's
@@ -367,6 +385,8 @@ pub struct ActiveView {
     pub sends_automatically: bool,
     /// S-20: the context glyph (processing states only).
     pub context: bool,
+    /// S-22: the transform run and its bounded word diff.
+    pub diff: Option<ForkTransformDiff>,
 }
 
 /// Everything on screen.
@@ -387,6 +407,7 @@ enum Phase {
     Message,
     SettingUp,
     Card,
+    Diff,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -413,6 +434,7 @@ pub struct Model {
     pending_card: Option<CardContent>,
     /// S-20: the take in progress used text near the caret.
     context: bool,
+    diff: Option<ForkTransformDiff>,
 }
 
 impl Model {
@@ -463,6 +485,7 @@ impl Model {
         self.more = 0;
         self.copied_until = None;
         self.context = false;
+        self.diff = None;
     }
 
     fn go_idle(&mut self) {
@@ -474,6 +497,7 @@ impl Model {
         self.card = None;
         self.more = 0;
         self.copied_until = None;
+        self.diff = None;
         if let Some(text) = self.pending_card.take() {
             self.show_card(text);
         }
@@ -483,6 +507,13 @@ impl Model {
     pub fn card(&self) -> Option<&CardContent> {
         match self.phase() {
             Phase::Card => self.card.as_ref(),
+            _ => None,
+        }
+    }
+
+    pub fn diff(&self) -> Option<&ForkTransformDiff> {
+        match self.phase() {
+            Phase::Diff => self.diff.as_ref(),
             _ => None,
         }
     }
@@ -527,7 +558,7 @@ impl Model {
     fn lingers(&self) -> bool {
         matches!(
             self.phase(),
-            Phase::Message | Phase::Idle | Phase::SettingUp | Phase::Card
+            Phase::Message | Phase::Idle | Phase::SettingUp | Phase::Card | Phase::Diff
         )
     }
 
@@ -555,7 +586,11 @@ impl Model {
                 }
             }
             Input::Transcribing => match self.phase() {
-                Phase::Message | Phase::CleaningUp | Phase::SettingUp | Phase::Card => {}
+                Phase::Message
+                | Phase::CleaningUp
+                | Phase::SettingUp
+                | Phase::Card
+                | Phase::Diff => {}
                 _ => {
                     self.set(Phase::Transcribing);
                     self.label_until = None;
@@ -633,7 +668,7 @@ impl Model {
             Input::Dismiss => {
                 if matches!(
                     self.phase(),
-                    Phase::Message | Phase::SettingUp | Phase::Card
+                    Phase::Message | Phase::SettingUp | Phase::Card | Phase::Diff
                 ) {
                     self.go_idle();
                 }
@@ -673,8 +708,21 @@ impl Model {
                 }
             }
             Input::Copied => {
-                if self.phase() == Phase::Card {
+                if matches!(self.phase(), Phase::Card | Phase::Diff) {
                     self.copied_until = Some(now + COPIED_MS);
+                }
+            }
+            Input::Diff(run) => {
+                self.set(Phase::Diff);
+                self.diff = Some(ForkTransformDiff::new(run));
+                self.card = None;
+                self.message = None;
+                self.warning = None;
+                self.copied_until = None;
+            }
+            Input::DiffRating(rating) => {
+                if let Some(diff) = self.diff.as_mut() {
+                    diff.run.rating = rating;
                 }
             }
             Input::Undoing => {
@@ -771,6 +819,7 @@ impl Model {
                     copied: false,
                     sends_automatically: sends,
                     context: false,
+                    diff: None,
                 })
             }
             Phase::Transcribing | Phase::CleaningUp => Some(ActiveView {
@@ -790,6 +839,7 @@ impl Model {
                 copied: false,
                 sends_automatically: false,
                 context: self.context,
+                diff: None,
             }),
             Phase::Message => self.message.map(|(kind, _)| ActiveView {
                 phase: PillPhase::Message,
@@ -804,6 +854,7 @@ impl Model {
                 copied: false,
                 sends_automatically: false,
                 context: false,
+                diff: None,
             }),
             Phase::SettingUp => Some(ActiveView {
                 phase: PillPhase::SettingUp,
@@ -818,6 +869,7 @@ impl Model {
                 copied: false,
                 sends_automatically: false,
                 context: false,
+                diff: None,
             }),
             Phase::Card => self.card.as_ref().map(|card| ActiveView {
                 phase: PillPhase::Card,
@@ -832,6 +884,22 @@ impl Model {
                 copied: self.copied_until.is_some(),
                 sends_automatically: false,
                 context: false,
+                diff: None,
+            }),
+            Phase::Diff => self.diff.as_ref().map(|diff| ActiveView {
+                phase: PillPhase::Diff,
+                shape: Shape::Diff,
+                mic: None,
+                message: None,
+                warning: None,
+                progress: None,
+                text: None,
+                card_reason: None,
+                more: 0,
+                copied: self.copied_until.is_some(),
+                sends_automatically: false,
+                context: false,
+                diff: Some(diff.clone()),
             }),
         };
         let p = self.prefs;

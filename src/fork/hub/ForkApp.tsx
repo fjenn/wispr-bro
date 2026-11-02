@@ -30,6 +30,7 @@ import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
 import { FOCUS_RING, markNewTagSeen } from "../ui";
+import { listenForTransformChanges } from "../transforms/store";
 import { useDropRouter } from "./dropRouter";
 import { Footer } from "./Footer";
 import {
@@ -105,6 +106,9 @@ export function ForkApp(props: ForkAppProps) {
   useOverlayTitleBar();
   useDropRouter();
   useNotificationsLive();
+  useEffect(() => {
+    void listenForTransformChanges();
+  }, []);
   useEffect(() => syncHubWithHash(), []);
 
   // Each navigation starts at the top of the page.

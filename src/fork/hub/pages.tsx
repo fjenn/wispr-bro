@@ -27,6 +27,7 @@ import { Home } from "../home/Home";
 import { InsightsPage } from "../insights/InsightsPage";
 import { SnippetsPage } from "../snippets/SnippetsPage";
 import { StylePage } from "../style/StylePage";
+import { TransformsPage } from "../transforms/TransformsPage";
 import { EmptyState, type TagKind } from "../ui";
 import { SettingsModal } from "../settings/SettingsModal";
 import { navigate, type HubPageId } from "./nav";
@@ -111,7 +112,7 @@ export const HUB_PAGES: HubPage[] = [
     group: "main",
     icon: WandSparkles,
     tag: "beta",
-    component: placeholder("transforms", WandSparkles, { page: "dictation" }),
+    component: TransformsPage,
   },
   {
     id: "scratchpad",

@@ -46,7 +46,7 @@ use std::time::{Duration, Instant};
 
 use serde::{Deserialize, Serialize};
 use specta::Type;
-use tauri::{AppHandle, Runtime};
+use tauri::{AppHandle, Manager, Runtime};
 
 use self::geometry::Shape;
 use self::model::{
@@ -114,6 +114,8 @@ pub struct ForkPillState {
     /// S-20: this take used text near the caret (the context glyph while
     /// it is processed).
     pub context: bool,
+    /// S-22: the transform run and word diff on the Diff phase.
+    pub diff: Option<model::ForkTransformDiff>,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -136,6 +138,13 @@ pub enum PillUiAction {
     Fix,
     /// The card's Copy button: the text replaces the clipboard (no restore).
     Copy,
+    /// S-22 diff actions.
+    CopyDiff,
+    ConfigureDiff,
+    RetryDiff,
+    RateDiff {
+        rating: i64,
+    },
 }
 
 #[derive(Debug)]
@@ -318,6 +327,11 @@ pub fn show_card(text: String) {
     input(Input::Card(text.into()));
 }
 
+/// S-22: ⌥O or View changes opens the transform's diff card.
+pub fn show_transform_diff(run: crate::fork::transforms::record::ForkTransformViewChanges) {
+    input(Input::Diff(run));
+}
+
 /// S-06: a take was cancelled and can be brought back: "Cancelled · Undo"
 /// (the cancel itself returns the bar to rest first, so a cancel the engine
 /// did not see, such as `--cancel`, ends the take on screen too).
@@ -428,6 +442,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         copied: a.copied,
         sends_automatically: a.sends_automatically,
         context: a.context,
+        diff: a.diff.clone(),
     }
 }
 
@@ -470,6 +485,9 @@ pub fn announcement(
                 .map_or_else(|| "rust.pill.announce.card".into(), card_key),
             true,
         )),
+        (_, Some(a)) if a.phase == PillPhase::Diff => {
+            Some(("rust.pill.announce.diff".into(), false))
+        }
         (_, Some(a)) if a.phase == PillPhase::Message => a.message.map(|m| {
             let key = match m {
                 // "Cancelled" was just announced by the take's end.
@@ -796,7 +814,6 @@ impl Controller {
                 }
                 if fix == Some(PillFix::ViewChanges) {
                     crate::fork::transforms::record::view_changes(&self.app);
-                    self.model.step(now, Input::Dismiss);
                     return;
                 }
                 if fix == Some(PillFix::RetryDownload) {
@@ -830,6 +847,44 @@ impl Controller {
                             self.model.step(now, Input::Copied);
                         }
                         Err(e) => log::warn!("pill: could not copy the card text: {e}"),
+                    }
+                }
+            }
+            PillUiAction::CopyDiff => {
+                if let Some(diff) = self.model.diff() {
+                    match crate::fork::clipboard::nspb::write_text(&diff.run.result_text, false) {
+                        Ok(_) => self.model.step(now, Input::Copied),
+                        Err(e) => log::warn!("pill: could not copy the transform result: {e}"),
+                    }
+                }
+            }
+            PillUiAction::ConfigureDiff => {
+                crate::fork::transforms::record::view_changes(&self.app);
+            }
+            PillUiAction::RetryDiff => {
+                if let Some(run_id) = self.model.diff().map(|diff| diff.run.run_id) {
+                    let app = self.app.clone();
+                    tauri::async_runtime::spawn(async move {
+                        match crate::fork::transforms::run::retry(&app, run_id).await {
+                            Ok(run) => crate::fork::transforms::record::present(&app, run),
+                            Err(error) => {
+                                log::info!("transforms: Retry failed open: {error}");
+                                crate::fork::pill::show_message(PillMessage::TransformFailed);
+                            }
+                        }
+                    });
+                }
+            }
+            PillUiAction::RateDiff { rating } => {
+                if let Some(run_id) = self.model.diff().map(|diff| diff.run.run_id) {
+                    let rating = (rating == 1).then_some(1).or(Some(-1));
+                    let rated = self.app.try_state::<crate::fork::db::ForkDb>().map(|db| {
+                        db.with_conn(|conn| {
+                            crate::fork::transforms::record::rate(conn, run_id, rating)
+                        })
+                    });
+                    if rated.is_some_and(|result| result.is_ok_and(|changed| changed)) {
+                        self.model.step(now, Input::DiffRating(rating));
                     }
                 }
             }
