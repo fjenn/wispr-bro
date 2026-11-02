@@ -171,7 +171,7 @@ Slices: S-13 … S-18, S-24, S-25, S-26a, S-26b.
 Slices: F-02, S-28, RS-12.
 
 - [ ] A9.1 Update installs only when idle (never while recording, processing or within 20 min of a take). TODO (S-28)
-- [ ] A9.2 Beta channel; a stable install ignores beta. TODO (F-02, S-28)
+- [ ] A9.2 Beta channel; a stable install ignores beta. Automated in F-02 (`fork::update::tests`), loopback run F-02.3a; real feeds F-02.4.
 - [ ] A9.3 Microphone and Accessibility permissions survive the update. TODO (RS-12)
 
 ### A10. Privacy
@@ -216,8 +216,38 @@ filled by the slice; "Machines" defaults to M1-8 and M-26 unless stated.
 
 ### F-02 Signing, notarization, updater, release workflows
 
-- [ ] F-02.1 RS-12: DMG stapled; `1.0.0-alpha.1 → alpha.2` update keeps permissions.
-- Procedure: see `docs/fork/spikes/RS-12.md`. Machines: M-13, M-26.
+- [ ] F-02.1 Release pipeline on this Mac (queued for the Mac wave; the one
+      release-build run): first let codesign use the Developer ID key without
+      a dialog (RELEASING.md "Locally"), then
+      `WB_NOTARY_PROFILE=wispr-bro-notary scripts/wb-release/macos.sh --out ~/wb-release/1.0.0-alpha.1`.
+      Expect: nested code check passes (Team ID, runtime, timestamp),
+      notarization `Accepted` for the app and the DMG, both stapled, the
+      updater archive verified against key `89E085217ACC46CF`, and
+      `verify.sh: all checks passed` (codesign deep/strict, `spctl -t exec`
+      Notarized Developer ID, `spctl -t open` on the DMG, `stapler validate`
+      ×2, entitlements, `--list-devices`). If notarization fails, fix and
+      resume with `--reuse-app` (no rebuild). Keep `release.log` and the
+      notary logs as evidence.
+- [ ] F-02.2 Clean-Mac install from the DMG (queued for the Mac wave, then
+      every release): download the DMG through a browser (quarantine set),
+      open it, drag to Applications, first launch shows no Gatekeeper warning
+      beyond "downloaded from the Internet"; macOS 26 (M-26) and 13 (M-13).
+- [ ] F-02.3 Update end to end over a loopback GitHub stand-in, no clicks
+      (queued for the Mac wave): `scripts/wb-f02/update-e2e.sh <out>` builds
+      A (overlay version) and B (one prerelease step up) as Developer-ID
+      signed debug bundles (`com.wisprbro.f02check`), signs B's archive with
+      the real updater key, serves a GitHub-shaped tree on 127.0.0.1:18092 and
+      runs A with a throwaway HOME. Expect PASS for F-02.3a (stable install
+      ignores a newer beta), .3b (A installs B), .3c (relaunched as B), .3d
+      (B up to date), .3e (bundle on disk is B), .3f (codesign deep/strict),
+      .3g (designated requirement unchanged, so privacy grants carry over).
+      Stop: the script stops the app and the server itself; delete `<out>`.
+- [ ] F-02.4 RS-12 on real GitHub releases (release wave, needs the push):
+      install alpha.N from the DMG, grant Microphone + Accessibility, publish
+      alpha.N+1, update from the debug panel (Updates › Check now / Install),
+      permissions still granted; publish a `-beta.N` and confirm a stable
+      install reports "Up to date" while a beta-channel install updates.
+      Procedure: `docs/fork/spikes/RS-12.md` once written. Machines: M-13, M-26.
 
 ### F-03 CI guards
 
