@@ -304,7 +304,9 @@ styleTest.describe("style page", () => {
       await expect(chips(page)).toHaveText(["Mail"]);
       await page.getByRole("tab", { name: "Cleanup" }).click();
       await expect(page.getByTestId("wb-style-cleanup")).toBeVisible();
-      await page.getByRole("radio", { name: /Medium/ }).check();
+      // Controlled radio: it changes after the backend answers, so click
+      // (check() fails if the state has not flipped yet under load).
+      await page.getByRole("radio", { name: /Medium/ }).click();
       await ipc.expectCalled("fork_set_setting", {
         update: { key: "cleanup_level", value: "medium" },
       });

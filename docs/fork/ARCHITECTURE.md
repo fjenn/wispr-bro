@@ -986,7 +986,8 @@ no settings dump, nothing contacts `blob.handy.computer`, a strict CSP.
   log dir, keeps the newest 10, never panics, then calls the previous hook.
   The dir is `~/Library/Logs/com.wisprbro.desktop` (or portable `Data/logs`)
   from `early_init`, replaced in the plugin `setup` by Tauri's resolved log
-  dir. Nothing is uploaded; S-27 reads the files.
+  dir. Nothing is uploaded; S-27 reads the files (and picks up macOS `.ips`
+  reports, see "Data and Privacy (S-27)").
 
 ### `early_init` and identity
 
@@ -1785,6 +1786,64 @@ gains `file_tags_enabled` (serde default, schema stays v6).
 files, so the user confirms it (the read then simply finds more text); file
 tags also need the setup (DEC-41) although tabs are in the AX tree without
 screen-reader mode. A chat input is recognized by its labels only.
+
+## Data and Privacy (S-27)
+
+Settings › Data and Privacy (`src/fork/settings/DataPrivacy.tsx`) states the
+privacy facts and makes them controllable. Commands live in
+`fork/commands/privacy.rs`; all are fork-namespace (`fork_data_locations`,
+`fork_show_data_location`, `fork_export_data`, `fork_copy_diagnostics`,
+`fork_save_diagnostics`, `fork_erase_all_data`). No Handy file, no
+migration, no new setting: retention, context awareness and update checks
+bind the existing F-07 fork settings.
+
+- **Page statements are tested.** `privacy::tests::page_statements_match_the_code`
+  reads the English strings and checks them against the code: every host in
+  `fork::net::ALLOWED_HOSTS`/`_SUFFIXES` is GitHub or Hugging Face, the
+  retention defaults (text forever, audio 14 days), update checks default on,
+  and the export/delete wording. The rest is covered by the `export`, `erase`
+  and `diagnostics::bundle` tests and the egress guard (F-03).
+- **Locations.** Data = portable `Data/` or Tauri's app data dir; models =
+  `HF_HOME` (DEC-39, under app data) else `<data>/huggingface`; recordings =
+  `<data>/recordings`; logs = `fork::app_log_dir` (portable `Data/logs`). In
+  portable mode all four sit under `Data/` (E-88, unit-tested). "Show in
+  Finder" creates a missing folder, then reveals it (opener plugin).
+- **Export (`fork/export.rs`).** A zip written to a sibling temp file, then
+  renamed: `manifest.json` (`schema_version` 1, product, app version, time),
+  `history.csv` + `history.json` (rows read through `fork::db::handy`, R5
+  §4.3: the fork never runs SQL on Handy's `history.db`), a `VACUUM INTO`
+  snapshot of `fork.db` (consistent while the app runs), both settings
+  stores, and `recordings/` (streamed, symlinks skipped). Models and logs are
+  excluded. The file is revealed in Finder.
+- **Delete all (`fork/erase.rs`).** Only in a ready product/test identity and
+  only with the exact word `DELETE` (not translated: the backend checks the
+  same word and it is typeable on every layout). Order, enforced by
+  `erase_in_order` (a failed phase stops the list; no relaunch after a
+  partial erase): stop recording, transcription jobs (every History id
+  cancelled) and model downloads → unload the speech model and stop the
+  cleanup sidecar → close both settings stores and clear WebKit storage →
+  delete everything in the data dir and the log dir (symlinks unlinked, never
+  followed; `$HOME`, relative and symlinked roots refused) except, when models
+  are kept, `models/`, `huggingface/` and `llm/verified/` → wait 500 ms for
+  WebKit, `app.restart()`. Fresh `fork-settings.json` means onboarding
+  `not_started`, so the relaunch shows onboarding. TCC grants and the login
+  item are system state and stay (the login item follows the default setting
+  at the next launch).
+- **Diagnostics (`fork/diagnostics/bundle.rs`).** Reads only `.log`, `.txt`
+  and `.ips` files in the log dir (newest 20), each passed through the F-08
+  sanitizer. Copy: newest 4 files, last 48 KB each, onto the pasteboard.
+  Save: a zip with `diagnostics.txt` plus `logs/<name>` (last 2 MB each).
+  Databases, settings, History and recordings are never read. Nothing is
+  uploaded.
+- **macOS crash reports (`crash.rs`).** At launch (product/test identity
+  only; `fork::notify`'s crash producer) `.ips` files under
+  `~/Library/Logs/DiagnosticReports` younger than 7 days whose JSON header
+  names our bundle id are copied, sanitized, as
+  `crash-<time>-ips-<name>.txt` into the log dir (mtime kept, existing copies
+  skipped, then pruned to 10). Other apps' reports are never read past the
+  header line. The existing next-launch inbox notice then shows them once.
+- **Scripted Mac checks:** `scripts/wb-s27/{seed.py,verify.py,zap-paths.sh}`
+  with S-25's `ui.swift` driver (MAC-TEST-SCRIPT S-27).
 
 ## Tests
 

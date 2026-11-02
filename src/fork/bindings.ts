@@ -1021,6 +1021,58 @@ async forkUpdateInstall() : Promise<Result<string | null, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async forkDataLocations() : Promise<Result<ForkDataLocations, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_data_locations") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkShowDataLocation(kind: ForkDataLocationKind) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_show_data_location", { kind }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkExportData(path: string) : Promise<Result<ForkExportResult, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_export_data", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Puts the sanitized diagnostics text on the clipboard (native pasteboard,
+ * like Scratchpad's copy); returns its length in bytes.
+ */
+async forkCopyDiagnostics() : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_copy_diagnostics") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkSaveDiagnostics(path: string) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_save_diagnostics", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkEraseAllData(confirmation: string, deleteModels: boolean) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_erase_all_data", { confirmation, deleteModels }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -1444,6 +1496,8 @@ path: string;
  * `"recording"` or `"fixture"`.
  */
 source: string }
+export type ForkDataLocationKind = "data" | "models" | "recordings" | "logs"
+export type ForkDataLocations = { data: string; models: string; recordings: string; logs: string; portable: boolean }
 /**
  * Emitted after the dictionary changed (page edits, imports, Handy's own
  * custom-words list taken over), so every window's Dictionary page and
@@ -1500,6 +1554,7 @@ export type ForkError =
  * Unexpected failure; the message is for logs and the debug panel only.
  */
 { kind: "Internal"; message: string }
+export type ForkExportResult = { path: string; files: number; bytes: number }
 /**
  * A hotkey decision, for listeners (the pill from S-03, the debug panel).
  */

@@ -40,6 +40,18 @@ export async function openSettingsModal(
     "plugin:app|version": "1.0.0-alpha.1",
     fork_get_settings: forkSettingsDefaults,
     fork_set_setting: forkSettingsDefaults,
+    fork_data_locations: {
+      data: "/test/Data",
+      models: "/test/Data/huggingface",
+      recordings: "/test/Data/recordings",
+      logs: "/test/Data/logs",
+      portable: true,
+    },
+    fork_show_data_location: null,
+    fork_export_data: { path: "/test/export.zip", files: 7, bytes: 100 },
+    fork_copy_diagnostics: 1234,
+    fork_save_diagnostics: 100,
+    fork_erase_all_data: null,
     fork_hotkey_status: {
       running: true,
       error: null,
