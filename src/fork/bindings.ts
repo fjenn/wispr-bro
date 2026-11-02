@@ -992,6 +992,35 @@ async forkScratchpadPolish(source: string) : Promise<Result<string, ForkError>> 
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Version, channel, endpoints and whether checks are on.
+ */
+async forkUpdateStatus() : Promise<ForkUpdateStatus> {
+    return await TAURI_INVOKE("fork_update_status");
+},
+/**
+ * Checks the user's channel now.
+ */
+async forkUpdateCheck() : Promise<Result<ForkUpdateCheck, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_update_check") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Downloads, verifies and installs the newest update, then relaunches.
+ * Returns `null` when already up to date.
+ */
+async forkUpdateInstall() : Promise<Result<string | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_update_install") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -1362,6 +1391,22 @@ refusals: number;
  * Of those, throttled by the system (`rateLimited`).
  */
 rate_limited: number }
+/**
+ * A release newer than the running app.
+ */
+export type ForkAvailableUpdate = { version: string; 
+/**
+ * `pub_date` from `latest.json` (RFC 3339), when present.
+ */
+date: string | null; 
+/**
+ * Release notes from `latest.json`.
+ */
+notes: string | null; 
+/**
+ * The `latest.json` it came from.
+ */
+endpoint: string }
 /**
  * Why a take went to the card (`fork.json` > `rust.pill.card.*`, shared by
  * the card and its VoiceOver announcement).
@@ -1922,6 +1967,27 @@ export type ForkTransformViewChanges = { run_id: number; transform_id: number; a
  */
 rating: number | null; created_at_ms: number }
 export type ForkTransformsChanged = { revision: number }
+/**
+ * Result of one check.
+ */
+export type ForkUpdateCheck = { current_version: string; channel: UpdateChannel; 
+/**
+ * `None`: up to date.
+ */
+available: ForkAvailableUpdate | null }
+/**
+ * What the debug panel shows before a check.
+ */
+export type ForkUpdateStatus = { current_version: string; channel: UpdateChannel; endpoints: string[]; 
+/**
+ * Handy's effective setting (`update_checks_enabled` and the
+ * `HANDY_DISABLE_UPDATER` / `WISPRBRO_DISABLE_UPDATER` kill switches).
+ */
+checks_enabled: boolean; 
+/**
+ * minisign key id downloads are verified against.
+ */
+pubkey_id: string }
 /**
  * One heatmap cell.
  */

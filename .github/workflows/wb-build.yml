@@ -1,0 +1,190 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro macOS build (F-02, R5 §6 F-02): build, sign with the Developer ID,
+# notarize, staple, updater archive + signature, DMG, latest.json, then
+# wb-verify on a fresh runner. Called by wb-release.yml; run by hand
+# (workflow_dispatch) for a dry run.
+#
+# One path for CI and the owner's Mac: every step is
+# scripts/wb-release/macos.sh (and verify.sh), which F-02 ran end to end on
+# this Mac with the real identity. tauri-action is not used: it can neither
+# staple the DMG (RS-12) nor fill the rolling beta release, and the Tauri CLI
+# it wraps is what macos.sh calls.
+#
+# Matrix: macos-26 aarch64 only (DEC-29: Apple Silicon first; an x86_64
+# entry comes back with Intel, its smoke test under Rosetta 2 or skipped with
+# a recorded reason).
+#
+# Signing never runs on sync or feature branches: a signed build needs the
+# `wispr-bro` branch or a `v*` tag; any other ref only gets the unsigned dry
+# run (`signed: false`, no secrets used).
+#
+# Secrets (docs/fork/RELEASING.md "Secrets"): APPLE_CERTIFICATE,
+# APPLE_CERTIFICATE_PASSWORD, APPLE_API_KEY_ID, APPLE_API_ISSUER,
+# APPLE_API_KEY_P8, TAURI_SIGNING_PRIVATE_KEY,
+# TAURI_SIGNING_PRIVATE_KEY_PASSWORD.
+
+name: "wb-build"
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "release tag (vX.Y.Z[-alpha|beta|rc.N]); default v<overlay version>"
+        type: string
+        required: false
+        default: ""
+      signed:
+        type: boolean
+        required: false
+        default: true
+    secrets:
+      APPLE_CERTIFICATE:
+        required: false
+      APPLE_CERTIFICATE_PASSWORD:
+        required: false
+      APPLE_API_KEY_ID:
+        required: false
+      APPLE_API_ISSUER:
+        required: false
+      APPLE_API_KEY_P8:
+        required: false
+      TAURI_SIGNING_PRIVATE_KEY:
+        required: false
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD:
+        required: false
+  workflow_dispatch:
+    inputs:
+      signed:
+        description: "sign + notarize (wispr-bro branch or a v* tag only)"
+        type: boolean
+        default: false
+      tag:
+        description: "release tag; default v<overlay version>"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build macOS aarch64
+    if: ${{ !inputs.signed || github.ref == 'refs/heads/wispr-bro' || startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: macos-26
+    timeout-minutes: 120
+    env:
+      SIGNED: ${{ inputs.signed && '1' || '0' }}
+      TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+          key: wb-build-release
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Import the Developer ID certificate (temporary keychain)
+        if: ${{ inputs.signed }}
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$APPLE_CERTIFICATE" || { echo "::error::secret APPLE_CERTIFICATE is not set"; exit 1; }
+          kc="$RUNNER_TEMP/wb-signing.keychain-db"
+          kp="$(openssl rand -hex 24)"
+          security create-keychain -p "$kp" "$kc"
+          security set-keychain-settings -lut 21600 "$kc"
+          security unlock-keychain -p "$kp" "$kc"
+          printf '%s' "$APPLE_CERTIFICATE" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$kc" -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          rm -f "$RUNNER_TEMP/cert.p12"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$kp" "$kc" > /dev/null
+          # shellcheck disable=SC2046 # one existing keychain path per word
+          security list-keychains -d user -s "$kc" $(security list-keychains -d user | tr -d '"')
+          security find-identity -v -p codesigning "$kc" | grep -q "Developer ID Application: Finn Jennen (446XT9839S)" \
+            || { echo "::error::the certificate is not our Developer ID Application identity"; exit 1; }
+          echo "WB_KEYCHAIN=$kc" >> "$GITHUB_ENV"
+
+      - name: Notary API key
+        if: ${{ inputs.signed }}
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+        run: |
+          set -euo pipefail
+          test -n "$APPLE_API_KEY_P8" || { echo "::error::secret APPLE_API_KEY_P8 is not set"; exit 1; }
+          key="$RUNNER_TEMP/AuthKey.p8"
+          printf '%s\n' "$APPLE_API_KEY_P8" > "$key"
+          chmod 600 "$key"
+          {
+            echo "WB_NOTARY_KEY_PATH=$key"
+            echo "WB_NOTARY_KEY_ID=$APPLE_API_KEY_ID"
+            echo "WB_NOTARY_ISSUER=$APPLE_API_ISSUER"
+          } >> "$GITHUB_ENV"
+
+      - name: Build, sign, notarize, staple (scripts/wb-release/macos.sh)
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ inputs.signed && secrets.TAURI_SIGNING_PRIVATE_KEY || '' }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ inputs.signed && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
+        run: |
+          set -euo pipefail
+          args=(--out release-out)
+          [ -n "$TAG" ] && args+=(--tag "$TAG")
+          [ "$SIGNED" = 1 ] || args+=(--unsigned)
+          scripts/wb-release/macos.sh "${args[@]}"
+
+      - name: Upload release artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: wb-release-macos-aarch64
+          path: release-out/
+          retention-days: 14
+
+      - name: Remove the keychain and API key
+        if: ${{ always() }}
+        run: |
+          [ -n "${WB_KEYCHAIN:-}" ] && security delete-keychain "$WB_KEYCHAIN" || true
+          rm -f "$RUNNER_TEMP/AuthKey.p8"
+
+  verify:
+    name: wb-verify (fresh runner)
+    needs: build
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wb-release-macos-aarch64
+          path: release-out
+
+      - name: codesign, Gatekeeper, stapler, updater signature, --list-devices
+        env:
+          SIGNED: ${{ inputs.signed && '1' || '0' }}
+        run: |
+          set -euo pipefail
+          dmg="$(ls release-out/*.dmg)"
+          if [ "$SIGNED" = 1 ]; then
+            scripts/wb-release/verify.sh --dmg "$dmg" --updater "$(ls release-out/*.app.tar.gz)"
+            (cd release-out && shasum -a 256 -c SHA256SUMS)
+          else
+            scripts/wb-release/verify.sh --dmg "$dmg" --unsigned
+          fi

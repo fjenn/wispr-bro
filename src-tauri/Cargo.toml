@@ -103,6 +103,7 @@ icu_normalizer = { version = "2.1", default-features = false, features = ["compi
 base64 = "0.22" # S-25 "Save as image": the PNG the page rendered; already in the tree
 wb-apple-fm = { path = "crates/wb-apple-fm" } # S-12b Apple Foundation Models bridge (own Swift build; a Rust stub elsewhere)
 sysinfo = { version = "0.39", default-features = false, features = ["system", "disk"] } # S-07b machine probe (R4: chip, RAM, purgeable-aware free disk)
+semver = "1" # F-02 update channel: picks the newer of the beta and stable releases; already in the tree
 # fork: Wispr Bro dependencies (end)
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]

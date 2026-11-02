@@ -44,6 +44,22 @@
       "delay": "Ritardo (s)",
       "post": "Esempio di post",
       "posted": "In corso di invio in {{seconds}} s. Passa a un'altra app per vedere una notifica macOS."
+    },
+    "update": {
+      "title": "Updates",
+      "version": "Version",
+      "channel": "Channel",
+      "key": "Signing key",
+      "endpoints": "Feeds",
+      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
+      "check": "Check now",
+      "checking": "Checking…",
+      "install": "Install {{version}} and relaunch",
+      "installing": "Downloading and verifying…",
+      "installed": "{{version}} installed. Relaunching…",
+      "available": "{{version}} is available.",
+      "upToDate": "Up to date.",
+      "failed": "Couldn't check: {{message}}"
     }
   },
   "settings": {

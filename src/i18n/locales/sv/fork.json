@@ -44,6 +44,22 @@
       "delay": "Fördröjning (s)",
       "post": "Skicka exempel",
       "posted": "Plockar upp efter {{seconds}} s. Byt till en annan app för att se en macOS-notifikation."
+    },
+    "update": {
+      "title": "Updates",
+      "version": "Version",
+      "channel": "Channel",
+      "key": "Signing key",
+      "endpoints": "Feeds",
+      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
+      "check": "Check now",
+      "checking": "Checking…",
+      "install": "Install {{version}} and relaunch",
+      "installing": "Downloading and verifying…",
+      "installed": "{{version}} installed. Relaunching…",
+      "available": "{{version}} is available.",
+      "upToDate": "Up to date.",
+      "failed": "Couldn't check: {{message}}"
     }
   },
   "settings": {

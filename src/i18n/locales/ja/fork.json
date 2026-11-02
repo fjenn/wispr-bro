@@ -44,6 +44,22 @@
       "delay": "遅延 (s)",
       "post": "サンプルを投稿",
       "posted": "{{seconds}}秒後に投稿します。macOSの通知を確認するため、別のアプリに切り替えましょう。"
+    },
+    "update": {
+      "title": "Updates",
+      "version": "Version",
+      "channel": "Channel",
+      "key": "Signing key",
+      "endpoints": "Feeds",
+      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
+      "check": "Check now",
+      "checking": "Checking…",
+      "install": "Install {{version}} and relaunch",
+      "installing": "Downloading and verifying…",
+      "installed": "{{version}} installed. Relaunching…",
+      "available": "{{version}} is available.",
+      "upToDate": "Up to date.",
+      "failed": "Couldn't check: {{message}}"
     }
   },
   "settings": {

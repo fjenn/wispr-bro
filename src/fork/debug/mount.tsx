@@ -14,6 +14,7 @@ import { commands } from "../bindings";
 import { OnboardingHotkeysLink } from "../onboarding/HotkeysLink";
 import { CspSmoke } from "./CspSmoke";
 import { NotificationsDebug } from "./NotificationsDebug";
+import { UpdateDebug } from "./UpdateDebug";
 import { runCspSmoke } from "./cspSmokeChecks";
 import { DebugPanel, registerForkDebugSection } from "./DebugPanel";
 
@@ -25,6 +26,13 @@ registerForkDebugSection({
   id: "notifications",
   titleKey: "debug.notifications.title",
   render: () => <NotificationsDebug />,
+});
+
+// F-02: update channel, Check now and Install (S-28 adds the product UI).
+registerForkDebugSection({
+  id: "update",
+  titleKey: "debug.update.title",
+  render: () => <UpdateDebug />,
 });
 
 // F-08: CSP smoke check. Also exposed to the WISPRBRO_SELFCHECK script

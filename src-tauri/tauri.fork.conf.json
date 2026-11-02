@@ -26,13 +26,16 @@
     "externalBin": ["target/wb-sidecar/llama-server"],
     "macOS": {
       "minimumSystemVersion": "13.0"
+    },
+    "windows": {
+      "signCommand": null
     }
   },
   "plugins": {
     "updater": {
-      "pubkey": "TODO-F02-<owner>-updater-pubkey",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg5RTA4NTIxN0FDQzQ2Q0YKUldUUFJzeDZJWVhnaWVxSmEwdkcvWTJ2b1RDMlU5NWRWM3lOTVZ6UTZmNkVuZ0w5YjJGYzNJLzUK",
       "endpoints": [
-        "https://github.com/<owner>/wispr-bro/releases/latest/download/latest.json"
+        "https://github.com/fjenn/wispr-bro/releases/latest/download/latest.json"
       ]
     }
   }

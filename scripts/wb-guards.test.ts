@@ -29,7 +29,12 @@ import {
   rustCfgTestMods,
   type GuardResult,
 } from "./wb-guard-lib";
-import { mergePatch, runIdentity } from "./wb-guard-identity";
+import {
+  mergePatch,
+  pubkeyId,
+  runIdentity,
+  UPDATER_PUBKEY_ID,
+} from "./wb-guard-identity";
 import { runPlumbing } from "./wb-guard-plumbing";
 import { runHooks } from "./wb-guard-hooks";
 import {
@@ -595,21 +600,60 @@ describe("identity guard", () => {
   test("F-02 placeholders pass on PRs and fail in release mode", () => {
     const root = identityFixture();
     expectPass(runIdentity({ root }));
+    expectPass(runIdentity({ root, release: true }));
+
+    let saved: unknown;
+    editOverlay(root, (o) => {
+      saved = o.plugins;
+      o.plugins = {
+        updater: {
+          pubkey: "TODO-F02-<owner>-updater-pubkey",
+          endpoints: [
+            "https://github.com/<owner>/wispr-bro/releases/latest/download/latest.json",
+          ],
+        },
+      };
+    });
+    expectPass(runIdentity({ root }));
     const rel = runIdentity({ root, release: true });
     expect(rel.violations.length).toBeGreaterThan(0);
     expect(new Set(rules(rel))).toEqual(new Set(["identity/placeholder"]));
 
+    editOverlay(root, (o) => (o.plugins = saved));
+    expectPass(runIdentity({ root, release: true }));
+  });
+
+  test("another updater key or feed fails (F-02 pins ours)", () => {
+    const root = identityFixture();
+    // A valid minisign key that is not ours (the update tests' throwaway key).
+    const other = readFileSync(
+      join(
+        REPO_ROOT,
+        "src-tauri/src/fork/update/testdata/test-updater.key.pub",
+      ),
+      "utf8",
+    ).trim();
+    expect(pubkeyId(other).id).toMatch(/^[0-9A-F]{16}$/);
+    expect(pubkeyId(other).id).not.toBe(UPDATER_PUBKEY_ID);
     editOverlay(root, (o) => {
       o.plugins = {
         updater: {
-          pubkey: "RWQexample-real-key",
+          pubkey: other,
           endpoints: [
             "https://github.com/someone/wispr-bro/releases/latest/download/latest.json",
           ],
         },
       };
     });
-    expectPass(runIdentity({ root, release: true }));
+    expect(rules(runIdentity({ root })).sort()).toEqual([
+      "identity/endpoint",
+      "identity/pubkey",
+    ]);
+    editOverlay(root, (o) => {
+      (o.plugins as { updater: { pubkey: string } }).updater.pubkey =
+        "RWQnotakey";
+    });
+    expect(rules(runIdentity({ root }))).toContain("identity/pubkey");
   });
 });
 
@@ -929,15 +973,15 @@ describe("the current tree", () => {
       });
   });
 
-  test("fails in release mode only on the F-02 placeholders", () => {
+  test("passes every guard in release mode (F-02 filled the placeholders)", () => {
     const results = runAll({
       release: true,
       base: process.env.WB_UPSTREAM_REF ?? "upstream/main",
     });
-    const bad = results.filter(failed);
-    expect(bad.map((r) => r.guard)).toEqual(["identity (release)"]);
-    expect(new Set(bad[0].violations.map((v) => v.rule))).toEqual(
-      new Set(["identity/placeholder"]),
-    );
+    for (const r of results)
+      expect({ guard: r.guard, violations: r.violations }).toEqual({
+        guard: r.guard,
+        violations: [],
+      });
   });
 });

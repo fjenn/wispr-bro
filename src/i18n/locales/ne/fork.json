@@ -44,6 +44,22 @@
       "delay": "अवधि (सेकेन्ड)",
       "post": "पोस्ट सैम्पल",
       "posted": "{{seconds}} सेकेंडमा पोस्ट गरिरहन्छ। एउटा अन्य एप्लिकेशनमा स्विच गर्नुहोस् जब एउटा macOS नोटिफिकेशन देखाउने छ।"
+    },
+    "update": {
+      "title": "Updates",
+      "version": "Version",
+      "channel": "Channel",
+      "key": "Signing key",
+      "endpoints": "Feeds",
+      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
+      "check": "Check now",
+      "checking": "Checking…",
+      "install": "Install {{version}} and relaunch",
+      "installing": "Downloading and verifying…",
+      "installed": "{{version}} installed. Relaunching…",
+      "available": "{{version}} is available.",
+      "upToDate": "Up to date.",
+      "failed": "Couldn't check: {{message}}"
     }
   },
   "settings": {

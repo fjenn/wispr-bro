@@ -59,6 +59,7 @@ mod testutil;
 pub mod text;
 pub mod transforms;
 pub mod tray;
+pub mod update;
 
 pub use settings::PRODUCT_IDENTIFIER;
 
@@ -492,6 +493,7 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         env!("CARGO_PKG_VERSION")
     );
     commands::selfcheck::start(app);
+    update::start_selftest(app);
 }
 
 /// Builds the fork's tauri-specta builder for one concrete runtime.
@@ -603,6 +605,9 @@ macro_rules! fork_specta_builder {
                 commands::scratchpad::fork_scratchpad_expand::<$runtime>,
                 commands::scratchpad::fork_scratchpad_copy::<$runtime>,
                 commands::scratchpad::fork_scratchpad_polish::<$runtime>,
+                commands::update::fork_update_status::<$runtime>,
+                commands::update::fork_update_check::<$runtime>,
+                commands::update::fork_update_install::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,

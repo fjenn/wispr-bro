@@ -6,8 +6,11 @@
 //   - the effective config contains `com.pais.handy`, `cjpais/Handy` or the
 //     upstream updater pubkey prefix;
 //   - `productName` is not "Wispr Bro" or `identifier` is not ours;
-//   - the updater pubkey or endpoint is missing, or an endpoint is not on
-//     `github.com/<owner>/wispr-bro`;
+//   - the updater pubkey is not ours (minisign key id `UPDATER_PUBKEY_ID`,
+//     F-02; it must never change after the first public build) or the
+//     endpoints are not exactly our stable `latest.json` on
+//     `github.com/fjenn/wispr-bro` (the beta endpoint is chosen at runtime by
+//     `fork/update/channel.rs`);
 //   - `Cargo.toml`, `package.json` and the overlay versions disagree, or the
 //     git tag (on tag builds) is not `v<version>`;
 //   - `--release` only: F-02 placeholders (`<owner>`, `<hf-org>`, `TODO-F02`)
@@ -44,6 +47,34 @@ export const FORBIDDEN_IDENTITY: { needle: string; why: string }[] = [
     why: "Handy's updater public key",
   },
 ];
+
+/** GitHub owner of our releases (F-02, R5 §1 row 1). */
+export const OWNER = "fjenn";
+/** Our only updater endpoint in the config: the stable channel. */
+export const STABLE_ENDPOINT = `https://github.com/${OWNER}/wispr-bro/releases/latest/download/latest.json`;
+/** minisign key id of our updater public key (F-02, docs/fork/RELEASING.md). */
+export const UPDATER_PUBKEY_ID = "89E085217ACC46CF";
+
+/** The minisign key id of a Tauri `pubkey` value (base64 of the .pub file), or
+ * why it is not one. */
+export function pubkeyId(pubkey: string): { id?: string; error?: string } {
+  const text = Buffer.from(pubkey, "base64").toString("utf8");
+  const [comment, keyLine] = text.split("\n");
+  const m = comment?.match(
+    /^untrusted comment: minisign public key: ([0-9A-F]{16})$/,
+  );
+  if (!m || !keyLine) return { error: "not a minisign public key" };
+  const raw = Buffer.from(keyLine.trim(), "base64");
+  if (raw.length !== 42 || raw.subarray(0, 2).toString("latin1") !== "Ed") {
+    return { error: "not an Ed25519 minisign key" };
+  }
+  const id = Buffer.from(raw.subarray(2, 10))
+    .reverse()
+    .toString("hex")
+    .toUpperCase();
+  if (id !== m[1]) return { error: `key id ${id} ≠ comment ${m[1]}` };
+  return { id };
+}
 
 /** F-02 owner-input placeholders: allowed on PRs, fatal in release mode. */
 export const PLACEHOLDERS = ["<owner>", "<hf-org>", "TODO-F02"];
@@ -132,6 +163,15 @@ export function runIdentity(opts: IdentityOptions = {}): GuardResult {
     ?.updater ?? {}) as { pubkey?: Json; endpoints?: Json };
   if (typeof updater.pubkey !== "string" || updater.pubkey.trim() === "") {
     v(OVERLAY, "identity/pubkey", "plugins.updater.pubkey is missing");
+  } else if (!PLACEHOLDERS.some((ph) => String(updater.pubkey).includes(ph))) {
+    const { id, error } = pubkeyId(updater.pubkey.trim());
+    if (id !== UPDATER_PUBKEY_ID) {
+      v(
+        OVERLAY,
+        "identity/pubkey",
+        `plugins.updater.pubkey is ${error ?? `key ${id}`}, expected our key ${UPDATER_PUBKEY_ID} (never change it after the first public build)`,
+      );
+    }
   }
   const endpoints = Array.isArray(updater.endpoints) ? updater.endpoints : [];
   if (endpoints.length === 0) {
@@ -146,6 +186,15 @@ export function runIdentity(opts: IdentityOptions = {}): GuardResult {
         OVERLAY,
         "identity/endpoint",
         `updater endpoint ${JSON.stringify(ep)} is not https://github.com/<owner>/wispr-bro/releases/…`,
+      );
+    } else if (
+      ep !== STABLE_ENDPOINT &&
+      !PLACEHOLDERS.some((ph) => ep.includes(ph))
+    ) {
+      v(
+        OVERLAY,
+        "identity/endpoint",
+        `updater endpoint ${JSON.stringify(ep)} is not our stable feed ${STABLE_ENDPOINT}`,
       );
     }
   }

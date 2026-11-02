@@ -25,6 +25,7 @@ pub mod snippets;
 pub mod stats;
 pub mod style;
 pub mod transforms;
+pub mod update;
 
 use std::sync::Arc;
 
