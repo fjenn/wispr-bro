@@ -60,7 +60,7 @@ export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
           <MicrophonePicker />
         </div>
       </section>
-      <div data-handy-content>
+      <div id="wb-general-languages" data-handy-content>
         <SettingsGroup title={t("settingsModal.general.languages")}>
           <PreferredLanguages descriptionMode="tooltip" grouped />
           {speaksChinese && (

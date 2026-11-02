@@ -291,7 +291,7 @@ pub fn post<R: ForkRuntime>(app: &AppHandle<R>, notice: Notice) -> Option<Notifi
 }
 
 /// Shows the Hub (main window).
-fn show_hub<R: Runtime>(app: &AppHandle<R>) {
+pub(crate) fn show_hub<R: Runtime>(app: &AppHandle<R>) {
     let Some(window) = app.get_webview_window("main") else {
         log::warn!("notify: no main window to show");
         return;

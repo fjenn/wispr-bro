@@ -14,7 +14,7 @@
  * auto-learn; until then it explains where suggestions come from. Counts
  * follow every change live (`useDictionaryLive`). Deleting offers Undo.
  */
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { save as saveFileDialog } from "@tauri-apps/plugin-dialog";
 import { toast } from "sonner";
@@ -34,6 +34,7 @@ import {
 import { commands, type DictionaryEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
+import { navigate, useHubNav } from "../hub/nav";
 import { Banner, Button, EmptyState, FOCUS_RING, TabPanel, Tabs } from "../ui";
 import { AddWordDialog, INPUT_CLASS } from "./AddWordDialog";
 import { DictionaryImportWizard } from "./ImportWizard";
@@ -170,6 +171,8 @@ export function DictionaryPage() {
   const entries = useDictionaryStore((s) => s.entries);
   const counts = useDictionaryStore((s) => s.counts);
   const status = useDictionaryStore((s) => s.status);
+  const section = useHubNav((s) => s.section);
+  const navSeq = useHubNav((s) => s.seq);
   const [tab, setTab] = useState<TabId>("all");
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -180,6 +183,10 @@ export function DictionaryPage() {
   const [importOpen, setImportOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const appName = t("rust.appName");
+
+  useEffect(() => {
+    if (section === "add") setDialog({ entry: null });
+  }, [section, navSeq]);
 
   const tabCounts: Record<TabId, number> = useMemo(
     () => ({
@@ -447,7 +454,12 @@ export function DictionaryPage() {
       <AddWordDialog
         open={dialog !== null}
         entry={dialog?.entry ?? null}
-        onOpenChange={(o) => !o && setDialog(null)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDialog(null);
+            if (section === "add") navigate("dictionary");
+          }
+        }}
         onSaved={(entry, added) => {
           if (added) {
             toast.success(

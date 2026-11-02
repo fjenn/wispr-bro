@@ -1086,6 +1086,7 @@ forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
+forkMenuAction: ForkMenuAction,
 forkMicDevicesChanged: ForkMicDevicesChanged,
 forkMicLevel: ForkMicLevel,
 forkModelPolicy: ForkModelPolicy,
@@ -1110,6 +1111,7 @@ forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
+forkMenuAction: "fork-menu-action",
 forkMicDevicesChanged: "fork-mic-devices-changed",
 forkMicLevel: "fork-mic-level",
 forkModelPolicy: "fork-model-policy",
@@ -1647,6 +1649,10 @@ guard_reasons: string[];
  * for the local one; `none` when no request was made).
  */
 engine: CleanupEngine }
+/**
+ * A Hub deep link requested by a native menu: `navigate(page, section)`.
+ */
+export type ForkMenuAction = { page: string; section: string | null }
 /**
  * The microphones changed (plugged, unplugged, default changed). Payload:
  * how many inputs there are now.
