@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 neteja el text seleccionat i ⌥2 el converteix en un prompt d'IA més clar. Si està activat, aquestes teclatges substitueixen ¡ i ™.",
+      "transformsSafeShortcuts": "Utilitza ⌃⌥1 i ⌃⌥2 en lloc",
+      "transformsSafeShortcutsHint": "Manté ¡ i ™ disponibles amb ⌥1 i ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Prem per parlar",
         "hands_free": "Dictació sense mans",
         "cancel": "Cancel·la la dictació",
-        "command_mode": "Command Mode",
+        "command_mode": "Mode d'ordre",
         "paste_last": "Enganxar la dita anterior",
         "copy_last": "Copiar la darrera dictació",
         "press_enter": "Prem Enter",
         "undo_cancel": "Desfer una cancel·lació",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Polir el text seleccionat",
+          "prompt_engineer": "Transforma el text seleccionat en un prompt d'IA",
+          "view_changes": "Veure canvis de transformació"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Tingui el darrer mentre parles; sol·licita't per acabar.",
         "hands_free": "Comença i tanquen la dictació sense mantenir una tecla.",
         "cancel": "Fer acabar la dictació actual sense introduir-la.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Tingui fn i Ctrl mentre diguis com editar o escriure text.",
         "paste_last": "Enganxar la teva dictació més recent una altra vegada.",
         "copy_last": "Copiar la teva darrera dictació al portapapers.",
         "press_enter": "Prem Retorn a l'aplicació on estàs escribint. Un botó lateral del ratolí funciona bé aquí.",
         "undo_cancel": "Restaura una dictació just després que la cancelles.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Reescriu el text seleccionat amb polonès.",
+          "prompt_engineer": "Reescriu el text seleccionat com una pregunta clara per a IA.",
+          "view_changes": "Revisa les darreres transformacions abans i després."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "El teu dictat és a punt. Copia'l des de la barra.",
         "micLostWarning": "El microfònim s'ha desconnectat. El que has dit fins ara es manté.",
         "undo": "Desfés és a la barra de dictat durant 4 segons.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Els canvis de transformació estan preparats per revisar."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Cancel·lat",
         "no_transcript": "Encara no hi ha cap dictat per enganxar",
         "copied_last": "Últim dictat copiat",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Dit",
+        "command_done": "Dit",
+        "command_needs_text": "El mode d'ordre edita i escriu text. Seleciona text o fes clic a un camp.",
+        "select_text_first": "Selecciona text primer",
+        "selection_too_long": "Selecciona 6.000 caràcters o menys",
+        "transform_focus_moved": "Has passat a l'altre, per tant res no ha canviat",
+        "transform_failed": "No ha pogut transformar aquest text"
       },
       "card": {
         "no_text_field": "Clica dins un camp de text abans",
@@ -996,130 +996,130 @@
       "hidden": "Ocult, perquè era destinat a un camp de contrasenya"
     },
     "undo": "Desfés",
-    "viewChanges": "View changes",
+    "viewChanges": "Veure canvis",
     "sendsAutomatically": "Envia automàticament"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Reescriu el text seleccionat a qualsevol app",
+      "body": "Selecciona una transformació, selecciona text i utilitza el seu atal. El teu escrit quedarà dins d'aquest Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Activar Transforms",
+      "help": "Activa els atals de reescritura i la vista dels canvis. Les transforms estan desactivades fins que les seleccionis."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Mode d'ordre",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "En",
+      "off": "Apagat",
+      "help": "Tingui fn i Ctrl, a dir com canviar la selecció o què escriure. Sense selecció, el camp dona context i el resultat es posa al cursor. Tot es queda dins d'aquest Mac; el Mode Command mai no consulta res. Quan està desactivat, fn i Ctrl funcionen normalment."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Aplica després de cada dictació",
+      "help": "Executa la transformació seleccionada després de netejar. Si no pot finalitzar, la dictació netejada es copia sense canvis. Es salten les execucions que es realitzen menys de 5 segons després.",
+      "choice": "Transformació a aplicar",
+      "none": "Selecciona una transformació"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 i ⌥O substitueixen els caràcters ¡, ™ i ø mentre estan activats els Transforms.",
+      "safe": "Utilitza ⌃⌥ enlloc"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Mes transforms",
+    "reset": "Resetar a predeterminats",
+    "resetConfirm": "Resetar el Polonès i l'Enginyer de Prompt i eliminar cada transform personalitzat?",
+    "createNew": "Crear nou",
+    "deleteConfirm": "Esborrar {{name}}? Això no es pot desfer.",
+    "loading": "Carregant els teus transforms...",
+    "empty": "Encara no hi ha transformacions. Crea una per començar.",
+    "error": "Aquest canvi de transformació no es pot guardar. Torna a intentar-ho.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Crea el teu propi",
+      "createOwnHint": "Selecciona regles, instruccions i exemples de escritura.",
+      "delete": "Esborrar {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Neteja la gramàtica i el vocabulari mantenint la vostra veu."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Transforma notes amb pocs detalls en un prompt clar i complet per a IA."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "La meva transformació",
+      "description": "Reescriu el text com vull jo.",
+      "prompt": "Reescriu el text seleccionat mantenant el seu significat, fets i llengua."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Edita {{name}}",
+      "name": "Nom",
+      "description": "Descripció",
+      "hotkey": "Clau tèrmica",
+      "addHotkey": "Afegir clau ràpida",
+      "example": "Exemple",
+      "exampleInput": "Text per transformar",
+      "exampleText": "um podries enviar-me el informe demà, potser podem parlar d'ell després",
+      "preview": "Previsualització",
+      "previewing": "Previsualitzant…",
+      "customPrompt": "Prompt personalitzat",
+      "customPromptHelp": "Afegir instruccions específiques. El text seleccionat es transforma, mai es respon.",
+      "rules": "Regles d'edició",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Guardat automàticament · Totes les modificacions guardades",
+        "saving": "Guardant automàticament · Guardant...",
+        "error": "Guarda automàtica · No ha pogut guardar la darrera modificació"
       },
       "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "done": "D'acord",
+      "close": "Tancar editor"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Més curt",
+        "help": "Elimina les repeticions i les paraules extras."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Paraules més clares",
+        "help": "Utilitza un llenguatge directe i precís."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Ordre millor",
+        "help": "Col·loca les idees en una seqüència lògica."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Afegir capçaleres i llistes",
+        "help": "Fes el text més llarg més fàcil de recórrer."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Maintenir el meu ton",
+        "help": "Preserva la teva veu i la formalitat."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Exemples de escritura",
+      "help": "Enganxar o carregar fins a {{max}} exemples, {{chars}} caràcters cada un. Les guien el estil sense convertir-se en part del resultat.",
+      "fileType": "Text o Markdown",
+      "label": "Exemple de escritura {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Enganxar un exemple",
+      "load": "Carregar .txt o .md",
+      "remove": "Eliminar exemple {{number}}",
+      "readError": "Selecciona un fitxer .txt o .md sense més de 1.500 caràcters."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} canvi",
+      "changes_other": "{{count}} canvis",
+      "configure": "Configurar",
+      "copy": "Copiar",
+      "copied": "Copiat",
+      "retry": "Reintentar",
+      "retrying": "Reintentant...",
+      "feedback": "Evaluació d'aquesta transformació",
+      "good": "Resultat bon",
+      "bad": "Resultat malament",
+      "simpleView": "Mostrant una substitució per a aquest canvi gran o complex.",
+      "actionFailed": "Aquesta acció no ha funcionat. El teu text està encara aquí; prova de nou."
     }
   },
   "cleanup": {

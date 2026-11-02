@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "Перетворення",
+      "transformsHint": "⌥1 виправляє вибраний текст і ⌥2 перетворює його на чітший AI-запит. Під час увімкнення ці клавіші замінюють ¡ і ™.",
+      "transformsSafeShortcuts": "Використовуйте ⌃⌥1 і ⌃⌥2 зразу",
+      "transformsSafeShortcutsHint": "Залишає ¡ і ™ доступними з ⌥1 і ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Тиск для розмови",
         "hands_free": "Дикція без рук",
         "cancel": "Відмінити дикцію",
-        "command_mode": "Command Mode",
+        "command_mode": "Режим команд",
         "paste_last": "Вставити останню дикцію",
         "copy_last": "Скопіювати останню дикцію",
         "press_enter": "Натисніть Enter",
         "undo_cancel": "Назад до скасування",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Полішити вибраний текст",
+          "prompt_engineer": "Перетворити вибраний текст на AI-промпт",
+          "view_changes": "Перегляд змін трансформації"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Підтримуйте швидкодійний комбінацію під час мовлення; відпустіть її, щоб завершити.",
         "hands_free": "Почати та зупинити диктовку без тиску на клавішу.",
         "cancel": "Зупинити поточну дикцію без вставки.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Підтримуйте Fn і Ctrl, коли ви кажете, як редагувати або створювати текст.",
         "paste_last": "Вставте вашу останню дикцію ще раз.",
         "copy_last": "Скопіювати вашу останню дикцію в буфер обміну.",
         "press_enter": "Натисніть Return у додатку, де ви пишете. Хорошим буде використання бокового кнопки миші.",
         "undo_cancel": "Відновити дикцію після того, як ви її скасували.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Переписати вибраний текст на польській мові.",
+          "prompt_engineer": "Переформулюйте вибраний текст як чіткий промпт для інтелектуальної системи.",
+          "view_changes": "Перегляньте останні перетворення до та після."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Ваше диктування готове. Скопіюйте його з панелі.",
         "micLostWarning": "Мікрофон відключився. Той, що ви сказали, збережено.",
         "undo": "Кнопка «Скасувати дію» видна на панелі диктування 4 секунди.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Зміни трансформації готові до перевірки."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Скасовано",
         "no_transcript": "Поки що нічого вставити",
         "copied_last": "Останнє диктування скопійовано",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Готово",
+        "command_done": "Готово",
+        "command_needs_text": "Режим команди редагує та пише текст. Виберіть текст або натисніть у поле.",
+        "select_text_first": "Виберіть текст спочатку",
+        "selection_too_long": "Виберіть 6000 символів або менше",
+        "transform_focus_moved": "Ви перейшли далі, тому нічого не змінилося",
+        "transform_failed": "Не вдалося перетворити цей текст"
       },
       "card": {
         "no_text_field": "Натисніть у поле тексту спочатку",
@@ -996,130 +996,130 @@
       "hidden": "Схований, оскільки був призначений для поля паролю"
     },
     "undo": "Скасувати дію",
-    "viewChanges": "View changes",
+    "viewChanges": "Перегляд змін",
     "sendsAutomatically": "Відправляє автоматично"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Переписати вибраний текст у будь-якому додатку",
+      "body": "Виберіть трансформацію, виберіть текст і використайте її швидкодійний виклик. Ваше написання залишиться на цьому Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Увімкнути перетворення",
+      "help": "Увімкніть швидкодії перетворення та перегляд змін. Перетворення вимкнені, поки ви не виберете їх."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Режим команд",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Увімкнено",
+      "off": "Вимкнено",
+      "help": "Підтримуйте Fn і Ctrl, потім сказати, як змінити вибір або що написати. Якщо немає вибору, поле надає контекст і результат розміщується на місці курсору. Всі дані залишаються на цьому Mac; режим команди нічого не шукає. Коли вимкнено, Fn і Ctrl працюють звичайно."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Використовувати після кожного диктовання",
+      "help": "Виконує вибраний перетворення після очищення. Якщо він не може завершитися, очищена дикція вставляється без змін. Виконання, яке відбувається менше ніж на 5 секунд, пропускається.",
+      "choice": "Перетворення для застосування",
+      "none": "Виберіть перетворення"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 і ⌥O замінюють символи ¡, ™ і ø під час дії з трансформаціями.",
+      "safe": "Використовуйте ⌃⌥ замість"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Мій перетворення",
+    "reset": "Відновити до замовлених",
+    "resetConfirm": "Відновити польську та інженерську підказку та видалити кожну власну трансформацію?",
+    "createNew": "Створити новий",
+    "deleteConfirm": "Видалити {{name}}? Це не можна скасувати.",
+    "loading": "Завантаження ваших перетворень…",
+    "empty": "Ще немає перетворень. Створіть один, щоб розпочати.",
+    "error": "Той перетворення зміни не можна зберегти. Спробуйте ще раз.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Створи свій власний",
+      "createOwnHint": "Виберіть правила, інструкції та приклади стилю.",
+      "delete": "Видалити {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Очищати граматику та формулювання, зберігаючи ваш голос."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Перетвори розмовні нотатки на чіткий, повний AI-підказку."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Мій трансформатор",
+      "description": "Переформулювати текст так, як я хочу.",
+      "prompt": "Переформулюйте вибраний текст, зберігши його зміст, факти та мову."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Редагувати {{name}}",
+      "name": "Назва",
+      "description": "Опис",
+      "hotkey": "Швидкодій",
+      "addHotkey": "Додати швидку клавішу",
+      "example": "Приклад",
+      "exampleInput": "Текст для перетворення",
+      "exampleText": "ум, ти можеш відправити мені звіт завтра, можливо, тоді ми можемо розмовляти про це",
+      "preview": "Попередній перегляд",
+      "previewing": "Предпогляд…",
+      "customPrompt": "Власний промпт",
+      "customPromptHelp": "Додайте конкретні інструкції. Вибрана текст перетворюється, ніколи не відповідає.",
+      "rules": "Правила редагування",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Автосбереження · Усі зміни збережено",
+        "saving": "Автосбереження · Збереження...",
+        "error": "Автосбереження · Неможливо зберегти останні зміни"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Новий",
+      "done": "Готово",
+      "close": "Закрити редактор"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Більш коротке",
+        "help": "Видалити повторення та зайві слова."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Ясніше",
+        "help": "Використовуйте пряме, точне мовлення."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Кращий поряд",
+        "help": "Розмістіть ідеї в логічному порядку."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Додати шапки та списки",
+        "help": "Зроби довгий текст легшим для перегляду."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Зберегти мій тон",
+        "help": "Зберігайте ваш голос і формальність."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Приклади стилю",
+      "help": "Вставте або завантажте до {{max}} прикладів, {{chars}} символів кожен. Вони керують стилем, але не стають частиною результату.",
+      "fileType": "Текст або Markdown",
+      "label": "Приклад створення {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Вставити приклад",
+      "load": "Завантажити .txt або .md",
+      "remove": "Видалити приклад {{number}}",
+      "readError": "Виберіть файл .txt або .md без більше 1500 символів."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} зміна",
+      "changes_other": "{{count}} змін",
+      "configure": "Налаштувати",
+      "copy": "Копіювати",
+      "copied": "Skopiовано",
+      "retry": "Повторити",
+      "retrying": "Перезапускається…",
+      "feedback": "Оцініть цей перетворення",
+      "good": "Добрий результат",
+      "bad": "Погана результат",
+      "simpleView": "Показує один змінний для цього великого або складного змінення.",
+      "actionFailed": "Та дія не відбувся. Твій текст все ще тут; спробуй ще раз."
     }
   },
   "cleanup": {

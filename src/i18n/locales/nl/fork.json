@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 verbetert de geselecteerde tekst en ⌥2 zet het om in een duidelijker AI-prompt. Wanneer ingeschakeld, vervangen die toetsen ¡ en ™.",
+      "transformsSafeShortcuts": "Gebruik ⌃⌥1 en ⌃⌥2 in plaats daarvan",
+      "transformsSafeShortcutsHint": "Houdt ¡ en ™ beschikbaar met ⌥1 en ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Druk om te spreken",
         "hands_free": "Dictatie zonder handen",
         "cancel": "Dictatie annuleren",
-        "command_mode": "Command Mode",
+        "command_mode": "Command Modus",
         "paste_last": "Laatste dictatie plakken",
         "copy_last": "Laatste dictatie kopiëren",
         "press_enter": "Druk Enter",
         "undo_cancel": "Ongedaan maken van annuleren",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Gebalanceerd geselecteerd tekst",
+          "prompt_engineer": "Kies de geselecteerde tekst en zet die om in een AI-prompt",
+          "view_changes": "Bekijk transformatie wijzigingen"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Houd de sneltoets ingedrukt terwijl je spreekt; los hem los om te eindigen.",
         "hands_free": "Starten en stoppen van dictatie zonder een toets te houden.",
         "cancel": "Stop de huidige dictie zonder het in te voegen.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Houd fn en Ctrl ingedrukt terwijl je zegt hoe je tekst bewerkt of schrijft.",
         "paste_last": "Plak je laatste dictatie opnieuw.",
         "copy_last": "Uw laatste dictatie kopiëren naar de klembord.",
         "press_enter": "Druk op Return in de app waarin je typpt. Een muisknop werkt hier goed.",
         "undo_cancel": "Een dictatie herstellen net nadat u deze hebt geannuleerd.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Schrijf de geselecteerde tekst op Polen.",
+          "prompt_engineer": "Schrijf de geselecteerde tekst op een duidelijke AI-prompt.",
+          "view_changes": "Bekijk de laatste transformatie voor en na."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Je dictaat is klaar. Kopieer het vanuit de balk.",
         "micLostWarning": "De microfoon is verloren. Wat je net zei wordt opgeslagen.",
         "undo": "Ongedaan maken staat 4 seconden op de dicteerbalk.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Wijzigingen zijn klaar om te bekijken."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Geannuleerd",
         "no_transcript": "Nog geen dictaat om te plakken",
         "copied_last": "Laatste dictaat gekopieerd",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Klaar",
+        "command_done": "Gedaan",
+        "command_needs_text": "Command Modus bewerkt en schrijft tekst. Kies tekst of klik in een veld.",
+        "select_text_first": "Kies eerst tekst",
+        "selection_too_long": "Kies 6.000 tekens of minder",
+        "transform_focus_moved": "Je bent verder gegaan, dus niets is veranderd",
+        "transform_failed": "Kan die tekst niet omzetten"
       },
       "card": {
         "no_text_field": "Klik eerst in een tekstveld",
@@ -996,130 +996,130 @@
       "hidden": "Verborgen, omdat het was bedoeld voor een wachtwoordveld"
     },
     "undo": "Ongedaan maken",
-    "viewChanges": "View changes",
+    "viewChanges": "Wijzigingen weergeven",
     "sendsAutomatically": "Verstuurt automatisch"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Gewijzigde geselecteerde tekst in elke app",
+      "body": "Kies een transform, selecteer tekst en gebruik de sneltoets. Je schrijven blijft op deze Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Transforms inschakelen",
+      "help": "Schakel herschrijf sneltoetsen en de wijzigingsweergave in. Transformaties zijn uit totdat u ze kiest."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Command Modus",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Aan",
+      "off": "Uit",
+      "help": "Houd fn en Ctrl ingedrukt, dan zeg hoe je de selectie wilt veranderen of wat je wilt schrijven. Als er geen selectie is, geeft het veld context en het resultaat komt op de cursor. Alles blijft op deze Mac; Command Mode zoekt nooit iets op. Wanneer het uit is, bepalen fn en Ctrl normaal."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Toepassen na elke dictatie",
+      "help": "Voert de geselecteerde transformatie uit na opruimen. Als het niet kan afmaken, wordt je geopend dictatie onveranderd geplakt. Onderlinge uitvoeringen binnen minder dan 5 seconden worden overgeslagen.",
+      "choice": "Transformatie toepassen",
+      "none": "Kies een transform"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 en ⌥O vervangen de tekens ¡, ™ en ø terwijl Transforms zijn ingeschakeld.",
+      "safe": "Gebruik ⌃⌥ in plaats van"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Mijn Transforms",
+    "reset": "Terugzetten naar standaardwaarden",
+    "resetConfirm": "Herstel Polen en Prompt Engineer en verwijder elke aangepaste transformatie?",
+    "createNew": "Nieuw maken",
+    "deleteConfirm": "Wissen {{name}}? Dit kan niet ongedaan gemaakt worden.",
+    "loading": "Je transforms worden geladen...",
+    "empty": "Geen transformaties nog. Maak er een aan om te beginnen.",
+    "error": "Die transformatiewijziging kon niet worden opgeslagen. Probeer het opnieuw.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Maak jouw eigen",
+      "createOwnHint": "Kies regels, instructies en schrijfvoorbeelden.",
+      "delete": "Verwijder {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Zorg dat de grammatica en woordkeuze beter zijn, terwijl je stem blijft."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Zet onvolledige notities om in een duidelijke, volledige AI-prompt."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Mijn transform",
+      "description": "Tekst opnieuw schrijven zoals ik wil.",
+      "prompt": "Schrijf het geselecteerde tekst opnieuw terwijl je de betekenis, feiten en taal behoudt."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
+      "title": "Bewerk {{name}}",
+      "name": "Naam",
+      "description": "Omschrijving",
       "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "addHotkey": "Hotkey toevoegen",
+      "example": "Voorbeeld",
+      "exampleInput": "Tekst om te transformeren",
+      "exampleText": "um kun je me het verslag morgen sturen, misschien kunnen we daarna erover praten",
+      "preview": "Voorbeeld",
+      "previewing": "Beeld voorbeeld…",
+      "customPrompt": "Aanpassingsprompt",
+      "customPromptHelp": "Voeg specifieke instructies toe. De geselecteerde tekst wordt geëxporteerd, nooit beantwoord.",
+      "rules": "Wijzigingsregels",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Autosave · Alle wijzigingen opgeslagen",
+        "saving": "Automatisch opslaan · Opslaan...",
+        "error": "Autosave · Kon de laatste wijziging niet opslaan"
       },
       "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "done": "Klaar",
+      "close": "Editor sluiten"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Kortere",
+        "help": "Herhalingen en extra woorden verwijderen."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Zekerder woordkeuze",
+        "help": "Gebruik directe, precieze taal."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Beter ordening",
+        "help": "Zet ideeën in een logische volgorde."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Headings en lijsten toevoegen",
+        "help": "Langere tekst makkelijker te scannen."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Mijn toon behouden",
+        "help": "Bewaar je stem en formaliteit."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Voorbeelden van schrijven",
+      "help": "Plak of laad totaal {{max}} voorbeelden, {{chars}} tekens elk. Ze begeleiden de stijl zonder deel te nemen van het resultaat.",
+      "fileType": "Tekst of Markdown",
+      "label": "Schrijf voorbeeld {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Een voorbeeld plakken",
+      "load": "Laad .txt of .md",
+      "remove": "Voorbeeld {{number}} verwijderen",
+      "readError": "Kies een .txt of .md bestand met niet meer dan 1.500 tekens."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
+      "changes_one": "{{count}} verandering",
+      "changes_other": "{{count}} wijzigingen",
       "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "copy": "Kopieer",
+      "copied": "Gecopieerd",
+      "retry": "Herhalen",
+      "retrying": "Opnieuw proberen…",
+      "feedback": "Beoordeel deze transformatie",
+      "good": "Goede resultaat",
+      "bad": "Slechte resultaat",
+      "simpleView": "Een enkele vervanging weergeven voor deze grote of complexe wijziging.",
+      "actionFailed": "Die actie is niet gelukt. Je tekst staat nog hier; probeer het opnieuw."
     }
   },
   "cleanup": {

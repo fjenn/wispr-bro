@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "トランスフォーム",
+      "transformsHint": "⌥1 で選択したテキストを磨き、⌥2 でより明確なAIプロンプトに変換します。有効状态下、これらのキーは ¡ と ™ を置き換えます。",
+      "transformsSafeShortcuts": "⌃⌥1 と ⌃⌥2 を使う",
+      "transformsSafeShortcutsHint": "¡ と ™ を ⌥1 と ⌥2 で使えるように保持",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -283,9 +283,9 @@
         "press_enter": "Enterキーを押してください",
         "undo_cancel": "取り消しをキャンセル",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "選択したテキストを整える",
+          "prompt_engineer": "選択したテキストをAIプロンプトに変換",
+          "view_changes": "ビューの変換変更"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "話すときにはショートカットを押しながら、話し終わるときはそれを離す",
         "hands_free": "キーを押さなくても、辞書を開始および停止できます。",
         "cancel": "現在の辞書入力を取りやめる",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "fn と Ctrl を押しながら、テキストを編集または書く方法を言う",
         "paste_last": "最後に言ったことを再度貼り付けます。",
         "copy_last": "最近のディクテーションをクリップボードにコピーします。",
         "press_enter": "アプリ内でEnterキーを押してください。マウスのサイドボタンがおすすめです。",
         "undo_cancel": "dictation をキャンセルした直後に元に戻す",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "選択したテキストをポーランド語で再構成します。",
+          "prompt_engineer": "選択したテキストを明確なAIプロンプトに書き換える",
+          "view_changes": "変換の前後を確認する"
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "音声入力の準備ができました。バーからコピーできます。",
         "micLostWarning": "マイクが切断されました。これまで言ったことは保存されます。",
         "undo": "「取り消す」は音声入力バーに4秒間表示されます。",
-        "diff": "Transform changes are ready to review."
+        "diff": "変更のトランスフォームは確認に準備されています。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "キャンセルしました",
         "no_transcript": "貼り付ける音声入力はまだありません",
         "copied_last": "最後の音声入力をコピーしました",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "完了",
+        "command_done": "完了",
+        "command_needs_text": "Command Mode ではテキストを編集および入力します。テキストを選択またはフィールドにカーソルを合わせてください。",
+        "select_text_first": "まずテキストを選択してください",
+        "selection_too_long": "6,000文字以内を選択してください",
+        "transform_focus_moved": "進んだので、何も変わりませんでした",
+        "transform_failed": "そのテキストを変換できませんでした"
       },
       "card": {
         "no_text_field": "まずテキストフィールドにカーソルを合わせてください",
@@ -996,130 +996,130 @@
       "hidden": "非表示、パスワードフィールド用だったから"
     },
     "undo": "取り消す",
-    "viewChanges": "View changes",
+    "viewChanges": "変更を表示",
     "sendsAutomatically": "自動で送信"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "選択したテキストを任意のアプリで再構成",
+      "body": "変換を選び、テキストを選択し、ショートカットを使用してください。あなたの文章はこのMac上で残ります。"
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Transformsを有効にする",
+      "help": "リライトショートカットと変更ビューを有効にします。変換は選択するまで無効です。"
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "コマンドモード",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "オン",
+      "off": "オフ",
+      "help": "fn と Ctrl を押しながら、選択を変更する方法や書く内容を言うだけでいいです。選択がなければ、フィールドがコンテキストを提供し、結果はカーソルの場所に表示されます。すべてがこの Mac で処理され、Command Mode はどこにも調べません。オフのときには、fn と Ctrl は通常の動作になります。"
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "毎回発話後に適用",
+      "help": "クリーンアップ後、選択された変換を実行します。完了できない場合、クリーンアップされたディタクションは変更なしで貼り付けられます。5秒未満の間隔で実行される場合はスキップされます。",
+      "choice": "変換を適用",
+      "none": "変換を選択"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1、⌥2 および ⌥O は、変換が有効なとき、¡、™ および ø を置き換える",
+      "safe": "⌃⌥を使う"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "私のトランスフォーム",
+    "reset": "デフォルトにリセット",
+    "resetConfirm": "PolishとPrompt Engineerをリセットし、すべてのカスタムトランスフォームを削除しますか？",
+    "createNew": "新しいを作成",
+    "deleteConfirm": "{{name}}を削除しますか？これは取り消せません。",
+    "loading": "トランスフォームを読み込み中…",
+    "empty": "変換がまだありません。ひとつ作って開始しましょう。",
+    "error": "その変換の変更を保存できませんでした。再度試してください。",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "あなたのオリジナルを作成",
+      "createOwnHint": "ルール、指示、文章の例を選んでください。",
+      "delete": "削除 {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "文法や表現を整えながら、あなたの声を残す。"
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "ざっくりとしたノートを明確で完璧なAIプロンプトに変換します。"
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "私のトランスフォーム",
+      "description": "テキストを私が望むように書き直す",
+      "prompt": "選択したテキストを再構成し、その意味、事実、言語を保持します。"
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "{{name}}を編集",
+      "name": "名前",
+      "description": "説明",
+      "hotkey": "ホットキー",
+      "addHotkey": "ホットキーを追加",
+      "example": "例",
+      "exampleInput": "変換するテキスト",
+      "exampleText": "うん、明日報告を送ってもらえますか。それならそのあと話すことができますか",
+      "preview": "プレビュー",
+      "previewing": "プレビュー中…",
+      "customPrompt": "カスタムプロンプト",
+      "customPromptHelp": "特定の指示を追加してください。選択したテキストは変換されます。回答は一切出ません。",
+      "rules": "編集ルール",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "自動保存 · すべての変更が保存されました",
+        "saving": "自動保存 · 保存中…",
+        "error": "自動保存 · 最新の変更を保存できませんでした"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "リセット",
+      "done": "完了",
+      "close": "エディタを閉じる"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "短い",
+        "help": "繰り返しや不要な言葉を削除する"
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "より明確な表現",
+        "help": "直接で正確な言葉を使う"
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "より良い順序",
+        "help": "考えを論理的な順序で並べてください。"
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "ヘッダーとリストを追加",
+        "help": "長いテキストをスキャンしやすくする。"
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "私のトーンを保つ",
+        "help": "あなたの声と丁寧さを保つ"
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "書く例",
+      "help": "{{max}}個まで貼り付けまたは読み込み、それぞれ{{chars}}文字。結果に含まれないままスタイルをガイドします。",
+      "fileType": "テキストまたはマーカード",
+      "label": "書く例 {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "例を貼り付けます",
+      "load": "読み込む .txt または .md",
+      "remove": "例を削除 {{number}}",
+      "readError": "拡張子が.txtまたは.mdのファイルを選択してください。1,500文字以内のファイルです。"
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
+      "changes_one": "{{count}} 変更",
+      "changes_other": "{{count}} の変更",
+      "configure": "設定",
+      "copy": "コピー",
+      "copied": "コピーしました",
       "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "retrying": "再試行中…",
+      "feedback": "この変換を評価してください",
+      "good": "良い結果",
+      "bad": "悪い結果",
+      "simpleView": "この大きなまたは複雑な変更に対して1つの置換を表示しています。",
+      "actionFailed": "その操作がうまくいきませんでした。テキストはまだここにあります。もう一度試してください。"
     }
   },
   "cleanup": {

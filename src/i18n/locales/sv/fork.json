@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "Transformar",
+      "transformsHint": "⌥1 färdigställer vald text och ⌥2 gör den till en tydligare AI-prompt. Under aktivering ersätter de ¡ och ™.",
+      "transformsSafeShortcuts": "Använd ⌃⌥1 och ⌃⌥2 istället",
+      "transformsSafeShortcutsHint": "Förvarar ¡ och ™ tillgängliga med ⌥1 och ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Tryck för att tala",
         "hands_free": "Handfritt dictation",
         "cancel": "Avbryt dictation",
-        "command_mode": "Command Mode",
+        "command_mode": "Kommandomodus",
         "paste_last": "Klistra in senaste dictation",
         "copy_last": "Kopiera senaste dictation",
         "press_enter": "Tryck Enter",
         "undo_cancel": "Ångra en avbrott",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Polishera vald text",
+          "prompt_engineer": "Överför vald text till en AI-prompt",
+          "view_changes": "Visa transformation förändringar"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Håll kortkommandot medan du pratar; släp det för att avsluta.",
         "hands_free": "Starta och stoppa dictation utan att hålla en tangent.",
         "cancel": "Avbryt aktuell dictation utan att infoga den.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Håll fn och Ctrl medan du säger hur du ska redigera eller skriva text.",
         "paste_last": "Klistra in din senaste dictation igen.",
         "copy_last": "Kopiera din senaste dictation till klippbordet.",
         "press_enter": "Tryck Retur i appen där du skriver. En sidknapp på musar fungerar bra här.",
         "undo_cancel": "Återställ en dictation direkt efter att du avbryter den.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Återkommer texten med polskt.",
+          "prompt_engineer": "Återkommer texten som en tydlig AI-prompt.",
+          "view_changes": "Granska den senaste transformationen före och efter."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Din diktering är klar. Kopiera den från fältet.",
         "micLostWarning": "Microfonen har avbrutits. Det du sa hittills sparas.",
         "undo": "Ångra finns på dikteringsfältet i 4 sekunder.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Förändringar är redo att granska."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Avbruten",
         "no_transcript": "Ingen diktering att klistra in än",
         "copied_last": "Senaste dikteringen kopierad",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Färdigt",
+        "command_done": "Färdig",
+        "command_needs_text": "Kommandomodus redigerar och skriver text. Välj text eller klicka i ett fält.",
+        "select_text_first": "Välj text först",
+        "selection_too_long": "Välj 6 000 tecken eller färre",
+        "transform_focus_moved": "Du flyttade dig, så förändrades inget",
+        "transform_failed": "Kunde inte omvandla det texten"
       },
       "card": {
         "no_text_field": "Klicka in i ett textfält först",
@@ -996,130 +996,130 @@
       "hidden": "Döljda eftersom det var avseddt för ett lösenordsfält"
     },
     "undo": "Ångra",
-    "viewChanges": "View changes",
+    "viewChanges": "Visa ändringar",
     "sendsAutomatically": "Skickar automatiskt"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Återskapa vald text i vilken som helst app",
+      "body": "Välj en transform, markera text och använd den snabbknappen. Ditt skrivande finns kvar på denna Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Aktivera Transforms",
+      "help": "Aktivera omformning av snabbknappar och ändringsvisning. Omformningar är inaktiverade tills du väljer dem."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Kommandomodus",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Återaktiverad",
+      "off": "Av",
+      "help": "Håll fn och Ctrl, sedan säg hur du ska ändra val eller vad du ska skriva. Om inget val är valt ger fältet kontext och resultatet går till markören. Allt förblir på denna Mac; Command Mode letar aldrig upp något. När det är avstängt bestämmer fn och Ctrl normalt."
     },
     "auto": {
       "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "help": "Körs den valda transformationen efter rensning. Om den inte kan avslutas kopieras din rensad dictation utanförändring. Transformationer som körs mindre än 5 sekunder efter varandra hoppar över.",
+      "choice": "Transform att tillämpa",
+      "none": "Välj en transform"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 och ⌥O byter ut tecknen ¡, ™ och ø när Transformeringar är aktiverade.",
+      "safe": "Använd ⌃⌥ istället"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Mina transformationer",
+    "reset": "Återställ till standardvärden",
+    "resetConfirm": "Återställ Polsk och Prompt Engineer och ta bort varje anpassad transform?",
+    "createNew": "Skapa ny",
+    "deleteConfirm": "Radera {{name}}? Det här kan inte återställas.",
+    "loading": "Laddar dina transformeringar…",
+    "empty": "Inga transformationer ännu. Skapa en för att börja.",
+    "error": "Den transformationsändringen kunde inte sparas. Försök igen.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Skapa ditt eget",
+      "createOwnHint": "Välj regler, instruktioner och skrivningsexempel.",
+      "delete": "Radera {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Förbättra grammatik och uttryck samtidigt som du håller din röst."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Konvertera grova anteckningar till en tydlig och komplett AI-prompt."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Min transform",
+      "description": "Skapa text enligt hur jag vill.",
+      "prompt": "Omformulera den valda texten samtidigt som man bevarar dess betydelse, fakta och språk."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Redigera {{name}}",
+      "name": "Namn",
+      "description": "Beskrivning",
+      "hotkey": "Hettangent",
+      "addHotkey": "Lägg till snabbknapp",
+      "example": "Exempel",
+      "exampleInput": "Text att transformera",
+      "exampleText": "um kan du skicka mig rapporten imorgon kanske kan vi prata om det då",
+      "preview": "Förhandsvisa",
+      "previewing": "Visar förhandsvisning…",
+      "customPrompt": "Anpassad prompt",
+      "customPromptHelp": "Lägg till specifika instruktioner. Den valda texten förändras, svaras aldrig.",
+      "rules": "Redigeringsregler",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Automatisk spårning · Alla ändringar sparade",
+        "saving": "Automatisk spårning · Spara...",
+        "error": "Autospar · Kunde inte spara den senaste ändringen"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Återställ",
+      "done": "Färdig",
+      "close": "Stäng editor"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Kortare",
+        "help": "Ta bort upprepningar och extra ord."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Tydligare formulering",
+        "help": "Använd direkt och noggrann språk."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Bättre ordning",
+        "help": "Placera idéer i en logisk ordning."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Lägg till rubriker och listor",
+        "help": "Gör längre text enklare att skanna."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Behåll min ton",
+        "help": "Behåll din röst och formell ton."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Exempel på skrivning",
+      "help": "Klistra in eller ladda upp till {{max}} exempel, {{chars}} tecken varje. De leder stil utan att bli del av resultatet.",
+      "fileType": "Text eller Markdown",
+      "label": "Exempel på skrivning {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Klista in ett exempel",
+      "load": "Ladda .txt eller .md",
+      "remove": "Ta bort exempel {{number}}",
+      "readError": "Välj en .txt eller .md-fil med inte mer än 1 500 tecken."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} ändring",
+      "changes_other": "{{count}} ändringar",
+      "configure": "Konfigurera",
+      "copy": "Kopiera",
+      "copied": "Kopierat",
+      "retry": "Försök igen",
+      "retrying": "Försöker igen…",
+      "feedback": "Betyg på detta omvandling",
+      "good": "God resultat",
+      "bad": "Svag resultat",
+      "simpleView": "Visar en ersättning för detta stora eller komplicerade ändring.",
+      "actionFailed": "Den här åtgärden gick inte. Ditt text är fortfarande här; försök igen."
     }
   },
   "cleanup": {

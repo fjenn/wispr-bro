@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "השינויים",
+      "transformsHint": "⌥1 מטיל את הטקסט שנבחר ו⌥2 מפצל אותו למשהו יותר ברור. במהלך הפעלה, מקשים אלה מחליפים את ¡ ו™.",
+      "transformsSafeShortcuts": "השתמש ב- ⌃⌥1 ו- ⌃⌥2",
+      "transformsSafeShortcutsHint": "מימין ל-¡ ו-™ זמינים עם ⌥1 ו-⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "הלחיצה על הלחצן",
         "hands_free": "הדיקציה ללא יד",
         "cancel": "ל hủy את הכתיבה",
-        "command_mode": "Command Mode",
+        "command_mode": "מצב פירוט",
         "paste_last": "העתקה של הכתיבה האחרונה",
         "copy_last": "העתק את הdictation האחרון",
         "press_enter": "לחץ על Enter",
         "undo_cancel": "ליפתת ביטול",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "לטפל בטקסט שנבחר",
+          "prompt_engineer": "הפוך את הטקסט שנבחר למשהו שמתאים למודל אינטיליגנציה מלאכותית",
+          "view_changes": "הצגת שינויים במעבר"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "החזיקו בקיצור בזמן שמתפללים; שחררו כדי לסיים.",
         "hands_free": "התחיל ועצר דיקטציה בלי ללחוץ על מקש.",
         "cancel": "הפסיק את הכתיבה הקיימת בלי להכניס אותה.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "החזיקו Fn ו-Ctrl כשאתם מדברים על איך לערוך או לכתוב טקסט.",
         "paste_last": "העתק את התרגיל האחרון שלך שוב.",
         "copy_last": "העתק את התרגיל האחרון שלך ללוח העריכה.",
         "press_enter": "הקליד Enter במערכת שבה אתה מקליד. כפתור צד של מקלדת עובד כאן.",
         "undo_cancel": "לשחזר דיקטציה לאחר שבטלتها",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "הכין מחדש את הטקסט שנבחר בפולנית.",
+          "prompt_engineer": "הכין מחדש את הטקסט שנבחר כהטיפת אינטראקציה של אינטיליגנציה מלאכותית.",
+          "view_changes": "הצג את ההגדרות האחרונות לפני והאחרי."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "ההכתבה שלך מוכנה. אפשר להעתיק אותה מהסרגל.",
         "micLostWarning": "המיקרופון נ desconנected. מה שדיברתם עד כה נשמר.",
         "undo": "״ביטול פעולה״ מופיע בסרגל ההכתבה למשך 4 שניות.",
-        "diff": "Transform changes are ready to review."
+        "diff": "השינויים בדוקים והם מוכנים להצגה."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "בוטל",
         "no_transcript": "עדיין אין הכתבה להדבקה",
         "copied_last": "ההכתבה האחרונה הועתקה",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "הושלם",
+        "command_done": "הושלם",
+        "command_needs_text": "המצב של פירוט מתעד ועורך טקסט. בחר טקסט או לחץ על שדה.",
+        "select_text_first": "בחר טקסט קודם",
+        "selection_too_long": "בחר 6,000 תווים או פחות",
+        "transform_focus_moved": "האם עברת, אז לא השתנה",
+        "transform_failed": "לא ניתן להמיר את הטקסט הזה"
       },
       "card": {
         "no_text_field": "העתק לשדה טקסט קודם",
@@ -996,130 +996,130 @@
       "hidden": "המוסר, כי היה מכוון לשדה סיסמה"
     },
     "undo": "ביטול פעולה",
-    "viewChanges": "View changes",
+    "viewChanges": "לצפות שינויים",
     "sendsAutomatically": "שולח אוטומטי"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "הכין מחדש טקסט שנבחר בכל אפליקציה",
+      "body": "בחר טרנספורם, שלח טקסט ומשתמש בקיצור. כתיבתך נשארת על זה המاك."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "הפעלת טרנספורמציות",
+      "help": "הפעלת שורת הכתיבה והתצוגה של השינויים. שיקולים מושלבים עד שתרצה."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "מצב פירוט",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "הפעלה",
+      "off": "אפל",
+      "help": "החזיק fn ו-Ctrl, ואז קח את ההוראות לעריכה או מה להקליד. ללא בחירה, השדה נותן סקירה והתוצאה מופיעה בנקודה. כל דבר נשאר על המחשב הזה; מצב הפקודה לא מחפש דברי. כשנעלם, fn ו-Ctrl מציינים כמו תמיד."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "להפעיל לאחר כל דיקטציה",
+      "help": "מפעיל את המעבר שנבחר לאחר הסרת החומרים. אם לא יכול להשלים, הdictation המנקה יישר למקטע ללא שינוי. מתקיים מתקיים פחות מ-5 שניות apart יושב.",
+      "choice": "השינוי להפעיל",
+      "none": "בחר תרגום"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 ו-⌥O מחליפים את התווים ¡, ™ ו-ø בזמן שמשתנים פעילים.",
+      "safe": "השתמש ב-⌃⌥"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "השינויים שלי",
+    "reset": "איפוס לברירת מחדל",
+    "resetConfirm": "לאתחל את הפוליש והמפתח של ההוראות וללמוד את כל המעברים המותאמים?",
+    "createNew": "ליצור חדש",
+    "deleteConfirm": "למחוק {{name}}? זה לא ניתן לבטל.",
+    "loading": "הטמעת המעבר שלך…",
+    "empty": "ללא טרנספורמציות עדיין. יוצר אחד כדי להתחיל.",
+    "error": "השינוי בפונקציה לא נשמש. נסה שוב.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "צור שלך",
+      "createOwnHint": "בחר חוקים, תובנות ודוגמאות כתיבה.",
+      "delete": "למחוק {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "לתקן את הגרם והביטויים תוך שמירה על קולך."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "הפוך שיעורים לאטומים למשהו ברור ושלם."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "השינוי שלי",
+      "description": "לכתוב את הטקסט כפי שאני רוצה.",
+      "prompt": "הכין את הטקסט שנבחר תוך שמירה על המשמעות, עובדות ושפה."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "עריכה {{name}}",
+      "name": "שם",
+      "description": "תיאור",
+      "hotkey": "המפתח החם",
+      "addHotkey": "הוסף מקש",
+      "example": "דוגמה",
+      "exampleInput": "טקסט להפוך",
+      "exampleText": "אומרים, תוכל לשלוח לי את הדיווח מחר, אולי נדבר עליו אז",
+      "preview": "תצוגה מקדימה",
+      "previewing": "הצגת תצוגה…",
+      "customPrompt": "ההערה המותאמת",
+      "customPromptHelp": "הוספת הוראות מיוחדות. הטקסט שנבחר מודד, לא מוספת תשובה.",
+      "rules": "העתקת חוקים",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "שמירה אוטומטית · כל השינויים נשמרו",
+        "saving": "שמירה אוטומטית · שמירה...",
+        "error": "שמירה אוטומטית · לא ניתן לשמור את השינוי האחרון"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "איפוס",
+      "done": "הושלם",
+      "close": "לסגור את המحرר"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "קצר",
+        "help": "הסר חזרות וקונספטים נוספים."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "הביטויים מדויקים",
+        "help": "השתמש בשפה ישירה ומדויקة."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "סדר טוב",
+        "help": "הכניס את המושגים בסדרตรיגי."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "הוספת כותרות ורשימות",
+        "help": "הופך טקסט ארוך לקל להצגת עיניים."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "לשמור על טון שלי",
+        "help": "השאירו את קולכם ואת הסגנון."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "מבחנים של כתיבה",
+      "help": "העתק או yüחץ עד {{max}} דוגמאות, {{chars}} תווים כל אחת. הן מובילות את הסגנון ללא הופעתן בنتיול.",
+      "fileType": "טקסט או מארקדownt",
+      "label": "דוגמה לכתיבה {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "העתק דוגמה",
+      "load": "טען .txt או .md",
+      "remove": "למחוק דוגמה {{number}}",
+      "readError": "בחר קובץ .txt או .md שמכיל לא יותר מ-1,500 תווים."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} שינוי",
+      "changes_other": "{{count}} שינויים",
+      "configure": "הצג",
+      "copy": "העתק",
+      "copied": "הועלה",
+      "retry": "לנסות שוב",
+      "retrying": "מנסה שוב...",
+      "feedback": "הערכה של這次 המעבר",
+      "good": "תוצאה טובה",
+      "bad": "תוצאה רעה",
+      "simpleView": "הצגת שילוב אחד לשינוי גדול או מורכב.",
+      "actionFailed": "הפעולה לא הצליחה. הטקסט שלך עדיין כאן; נסה שוב."
     }
   },
   "cleanup": {

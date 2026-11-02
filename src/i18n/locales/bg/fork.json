@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "Преобразувания",
+      "transformsHint": "⌥1 премаства избраното текст и ⌥2 го превръща в поясно AI изказване. Докато е включено, тези клавиши заместват ¡ и ™.",
+      "transformsSafeShortcuts": "Използвайте ⌃⌥1 и ⌃⌥2 вместо",
+      "transformsSafeShortcutsHint": "Оставя ¡ и ™ достъпни с ⌥1 и ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Да се премести",
         "hands_free": "Безруково диктоване",
         "cancel": "Отказ от диктирането",
-        "command_mode": "Command Mode",
+        "command_mode": "Режим на команди",
         "paste_last": "Постави последната диктирана",
         "copy_last": "Копирай последната диктирана",
         "press_enter": "Да притиснете Enter",
         "undo_cancel": "Отмени отмяна",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Полиши избран текст",
+          "prompt_engineer": "Преобрази избраното текст в AI промт",
+          "view_changes": "Види промените на превод"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Държете късмета докато говорите; освободете го, за да приключи.",
         "hands_free": "Почни и спре диктирането без да държиш клавиша.",
         "cancel": "Прекъсни текущата диктовка без да я въвежда.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Държете Fn и Ctrl докато кажете как да редактирате или пишете текст.",
         "paste_last": "Постави отново последната твоя диктирана информация.",
         "copy_last": "Копирайте последната ви диктирана възможност в клипборда.",
         "press_enter": "Натиснете Return в приложението, където пишете. Със странен бутон на мишка работи добре тук.",
         "undo_cancel": "Възстанови диктовката след премахване.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Преобрази избраното текст с полски.",
+          "prompt_engineer": "Преобрази избраното текст като ясно AI изказване.",
+          "view_changes": "Прегледайте последните промени преди и след това."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Диктовката ви е готова. Копирайте я от лентата.",
         "micLostWarning": "Микрофонът е отключен. Това, което каза, е запазено.",
         "undo": "„Отмяна“ е на лентата за диктовка 4 секунди.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Промените за трансформиране са готови за преглед."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Отказано",
         "no_transcript": "Все още няма диктовка за поставяне",
         "copied_last": "Последната диктовка е копирана",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Готово",
+        "command_done": "Готово",
+        "command_needs_text": "Режим на команда редактира и пише текст. Изберете текст или кликнете в поле.",
+        "select_text_first": "Изберете текст първо",
+        "selection_too_long": "Изберете 6 000 символа или по-малко",
+        "transform_focus_moved": "Сменяш фокуса, затова нищо не се промени",
+        "transform_failed": "Не можах да преобразувам това текст"
       },
       "card": {
         "no_text_field": "Първо кликнете в текстово поле",
@@ -996,130 +996,130 @@
       "hidden": "Скрито, защото беше предназначено за поле за парола"
     },
     "undo": "Отмяна",
-    "viewChanges": "View changes",
+    "viewChanges": "Вижте промените",
     "sendsAutomatically": "Изпраща автоматично"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Преобрази избран текст в всяко приложение",
+      "body": "Изберете превод, изберете текст и използвайте бързото клавиатурно комбинация. Писането ви остава върху този Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Потвърдете преводи",
+      "help": "Включете скратки за промяна и прегледа на промените. Промените са изключени, докато не ги изберете."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Режим на команди",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Включено",
+      "off": "Изключено",
+      "help": "Държете fn и Ctrl, след това кажете как да промените избора или какво да пишете. Без избор, полето дава контекст и резултатът се поставя в местото на курсора. Всичко остава върху този Mac; Command Mode никога не изпраща нищо за изследване. Когато е изключено, fn и Ctrl функционират нормално."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Применяй след всяка диктовка",
+      "help": "Провежда избраното превръщане след премахване. Ако не може да завърши, премахнатата диктирана текст е поставена без промени. Превръщанията, които се изпълняват по-малко от 5 секунди, се пропускат.",
+      "choice": "Преобразуване за прилагане",
+      "none": "Изберете превод"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 и ⌥O заменят символите ¡, ™ и ø докато са включени преводи.",
+      "safe": "Използвайте ⌃⌥ вместо"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Моите преводи",
+    "reset": "Първоначални стойности",
+    "resetConfirm": "Първоначално изпълнение на Польска и Помощен инженер и премахване на всички променливи трансформации?",
+    "createNew": "Създай нов",
+    "deleteConfirm": "Изтриване на {{name}}? Това не може да бъде отменено.",
+    "loading": "Зареждане на промените ви...",
+    "empty": "Няма преводи още. Създай един, за да започнеш.",
+    "error": "Това промяна на превод не може да бъде запазена. Попитайте отново.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Създай собствен",
+      "createOwnHint": "Изберете правила, инструкции и примери за писане.",
+      "delete": "Изтрий {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Приеми граматиката и изразите, докато запазваш гласа си."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Преобразувайте нещо несъвършено в ясно и полное AI изказване."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Моят превод",
+      "description": "Преобразувай текст така, както искаш.",
+      "prompt": "Преформулирай избраното текст, докато се запазва смисъл, факти и езикът му."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Редактиране на {{name}}",
+      "name": "Име",
+      "description": "Описание",
+      "hotkey": "Бърз клавиша",
+      "addHotkey": "Добави бърз клавиатурен комбинация",
+      "example": "Пример",
+      "exampleInput": "Текст за промяна",
+      "exampleText": "ум мога ли да ти изпратя отчета утре, може би тогава можем да разговаряме за него",
+      "preview": "Предварителен преглед",
+      "previewing": "Предварително изображение…",
+      "customPrompt": "Потребителска промяна",
+      "customPromptHelp": "Добави специфични инструкции. Избраното текстово се променя, никога не се отговаря.",
+      "rules": "Правила за редактиране",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Автосъхранение · Всички промени са запазени",
+        "saving": "Автосъхранение · Съхраняне...",
+        "error": "Автосъхранение · Не може да се запази последното променяне"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Първоначално",
+      "done": "Готово",
+      "close": "Затвори редактор"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Приемай по-късни",
+        "help": "Премахни повторенията и допълнителните думи."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "По-ясно изречение",
+        "help": "Използвайте директно и точно език."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Приемащ по-добър ред",
+        "help": "Постави идеите в логична последователност."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Добави заглавия и списъци",
+        "help": "Прави дългите текстове по-лесни за преглед."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Пази моята интонация",
+        "help": "Пазете гласа и формалността си."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Примери за пишане",
+      "help": "Поставете или заредете до {{max}} примера, по {{chars}} символа на всеки. Те насочват стилът, без да се включват в резултата.",
+      "fileType": "Текст или Markdown",
+      "label": "Пример за редактиране {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Постави пример",
+      "load": "Зареждане на .txt или .md",
+      "remove": "Премахни пример {{number}}",
+      "readError": "Изберете .txt или .md файл с не повече от 1500 символа."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} промяна",
+      "changes_other": "{{count}} промени",
+      "configure": "Настрой",
+      "copy": "Копирай",
+      "copied": "Копирано",
+      "retry": "Повтори",
+      "retrying": "Повторен опит...",
+      "feedback": "Оценете това превръщане",
+      "good": "Добър резултат",
+      "bad": "Слаб резултат",
+      "simpleView": "Показва едно заместване за това голямо или сложно промяна.",
+      "actionFailed": "Това действие не е успяло. Текстът ви е все още тук; опитайте отново."
     }
   },
   "cleanup": {

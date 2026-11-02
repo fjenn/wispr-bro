@@ -1178,6 +1178,7 @@ Order: core loop (S-01..S-08, with S-07a and S-07b), data and text intelligence 
 - **Real-Mac acceptance:** dictate into the note window; open via ⌥S after binding; note survives force-quit.
 - **Exit criteria:** R1 §10 Scratchpad behaviours present.
 - **Effort / depends on:** L / S-03, S-13, S-21, F-06.
+- **As built (2026-11-02):** `fork/scratchpad/{mod,store,window}.rs` and `fork/commands/scratchpad.rs` implement transactional notes/contentless trigram FTS, CRUD/search, resume/new-note behavior, the open shortcut and singleton floating window; Polish reuses S-21 without AX/paste side effects. `src/fork/scratchpad/` provides the Hub Recents page, unset Ctrl+Option+S proposal, tabs, rail tools, 500 ms autosave, text size, Copy and expand/close. `fork/pill/{slots,native,panel}.rs` adds independent native Dictate/Scratchpad buttons with accessible names and tooltips. The existing `0001` notes/FTS tables suffice, so there is no DB migration; fork settings v6 migrates the earlier location choice to resume-last and defaults the bar slot off. The standalone window has an explicit fork capability. Integrated gates: 1,367 Rust tests/31 ignored and 312 Playwright/10 skipped passed, plus build, guards, ESLint, translation parity and formatting. The 57 new strings are copy-English/`untranslated` pending the next wave. **Not run:** native note dictation, bound-shortcut opening, force-quit recovery, and grouped-bar visuals/tooltips/VoiceOver; queued for the UI Mac wave.
 
 ### S-25 Insights
 

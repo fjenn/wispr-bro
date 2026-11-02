@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 memperindah teks yang dipilih dan ⌥2 mengubahnya menjadi prompt AI yang lebih jelas. Saat diaktifkan, tombol-tombol tersebut menggantikan ¡ dan ™.",
+      "transformsSafeShortcuts": "Gunakan ⌃⌥1 dan ⌃⌥2 sebagai ganti",
+      "transformsSafeShortcutsHint": "Mengawetkan ¡ dan ™ tersedia dengan ⌥1 dan ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Tekan untuk berbicara",
         "hands_free": "Dictasi tanpa tangan",
         "cancel": "Batal dictasi",
-        "command_mode": "Command Mode",
+        "command_mode": "Mode Perintah",
         "paste_last": "Tempel dictasi terakhir",
         "copy_last": "Salin dictasi terakhir",
         "press_enter": "Tekan Enter",
         "undo_cancel": "Unduh batalkan",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Perbaiki teks yang dipilih",
+          "prompt_engineer": "Ubah teks terpilih menjadi prompt AI",
+          "view_changes": "Lihat perubahan transformasi"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Tahan pintasan saat berbicara; lepaskan untuk selesai.",
         "hands_free": "Mulai dan hentikan dictasi tanpa menekan tombol.",
         "cancel": "Hentikan dictasi saat ini tanpa memasukkannya.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Tahan fn dan Ctrl saat Anda bilang cara mengedit atau menulis teks.",
         "paste_last": "Tempel kembali dictasi terbaru Anda.",
         "copy_last": "Salin dictasi terbaru Anda ke clipboard.",
         "press_enter": "Tekan Return di aplikasi di mana Anda sedang mengetik. Tombol samping mouse bekerja dengan baik di sini.",
         "undo_cancel": "Memulai kembali sebuah dictation setelah Anda membatalkannya.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Ubah teks yang dipilih dengan bahasa Polandia.",
+          "prompt_engineer": "Ubah teks yang dipilih menjadi prompt AI yang jelas.",
+          "view_changes": "Uji transformasi terbaru sebelum dan sesudah."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Dikte Anda siap. Salin dari bilah.",
         "micLostWarning": "Microfon terputus. Yang Anda katakan sampai sekarang tetap disimpan.",
         "undo": "Urungkan ada di bilah dikte selama 4 detik.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Perubahan transformasi siap untuk diperiksa."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Dibatalkan",
         "no_transcript": "Belum ada dikte untuk ditempel",
         "copied_last": "Dikte terakhir disalin",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Selesai",
+        "command_done": "Selesai",
+        "command_needs_text": "Mode perintah mengedit dan menulis teks. Pilih teks atau klik ke dalam field.",
+        "select_text_first": "Pilih teks terlebih dahulu",
+        "selection_too_long": "Pilih 6.000 karakter atau kurang",
+        "transform_focus_moved": "Kamu berpindah, jadi tidak ada yang berubah",
+        "transform_failed": "Tidak bisa mengubah teks tersebut"
       },
       "card": {
         "no_text_field": "Klik ke dalam bidang teks terlebih dahulu",
@@ -996,130 +996,130 @@
       "hidden": "Tersembunyi, karena dirancang untuk field kata sandi"
     },
     "undo": "Urungkan",
-    "viewChanges": "View changes",
+    "viewChanges": "Lihat perubahan",
     "sendsAutomatically": "Kirim secara otomatis"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Ubah teks yang dipilih di aplikasi apa pun",
+      "body": "Pilih transformasi, pilih teks, dan gunakan pintasnya. Tulisan Anda tetap di Mac ini."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Aktifkan Transforms",
+      "help": "Nyalakan singkatan penyuntingan dan tampilan perubahan. Transformasi dinonaktifkan sampai Anda memilihnya."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Mode Perintah",
       "shortcut": "fn ⌃",
       "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "off": "Mati",
+      "help": "Tahan fn dan Ctrl, lalu katakan bagaimana mengubah pemilihan atau apa yang ingin ditulis. Jika tidak ada pemilihan, bidang memberikan konteks dan hasilnya muncul di posisi kursor. Semua data tetap di Mac ini; Mode Command tidak pernah mencari sesuatu di luar sana. Saat mati, fn dan Ctrl bekerja secara normal."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Terapkan setelah setiap dictasi",
+      "help": "Menjalankan transform yang dipilih setelah penyelesaian. Jika tidak bisa selesai, dictasi yang telah dibersihkan tetap dipaste tanpa perubahan. Pengulangan yang berlangsung kurang dari 5 detik diabaikan.",
+      "choice": "Transformasi untuk diterapkan",
+      "none": "Pilih transformasi"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 dan ⌥O mengganti karakter ¡, ™ dan ø saat Transforms diaktifkan.",
+      "safe": "Gunakan ⌃⌥ saja"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Transform Saya",
+    "reset": "Ulangi ke nilai default",
+    "resetConfirm": "Ulangi Polish dan Prompt Engineer dan hapus setiap transformasi custom?",
+    "createNew": "Buat yang baru",
+    "deleteConfirm": "Hapus {{name}}? Ini tidak bisa dikembalikan.",
+    "loading": "Memuat transformasi Anda…",
+    "empty": "Tidak ada transformasi saat ini. Buat satu untuk memulai.",
+    "error": "Perubahan transformasi tersebut tidak dapat disimpan. Coba lagi.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Buat sendiri",
+      "createOwnHint": "Pilih aturan, petunjuk, dan contoh penulisan.",
+      "delete": "Hapus {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Perbaiki tata bahasa dan penggunaan kata sambil mempertahankan suara Anda."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Ubah catatan kasar menjadi prompt AI yang jelas dan lengkap."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Transform saya",
+      "description": "Ubah teks sesuai keinginan saya.",
+      "prompt": "Ubah teks yang dipilih sambil mempertahankan maknanya, fakta, dan bahasanya."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
+      "title": "Sunting {{name}}",
+      "name": "Nama",
+      "description": "Deskripsi",
       "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "addHotkey": "Tambahkan hotkey",
+      "example": "Contoh",
+      "exampleInput": "Teks untuk diubah",
+      "exampleText": "um bisa kamu kirimkan laporan itu besok mungkin kita bisa membahasnya kemudian",
+      "preview": "Pratinjau",
+      "previewing": "Memperlihatkan...",
+      "customPrompt": "Prompt kustom",
+      "customPromptHelp": "Tambahkan instruksi khusus. Teks yang dipilih diubah, tidak dijawab.",
+      "rules": "Aturan pengeditan",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Simpan otomatis · Semua perubahan telah disimpan",
+        "saving": "Simpan otomatis · Sedang disimpan...",
+        "error": "Simpan otomatis · Gagal menyimpan perubahan terbaru"
       },
       "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "done": "Selesai",
+      "close": "Tutup editor"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Lebih pendek",
+        "help": "Hapus pengulangan dan kata-kata tambahan."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Kata yang lebih jelas",
+        "help": "Gunakan bahasa yang langsung dan tepat."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Urutan yang lebih baik",
+        "help": "Susun ide dalam urutan yang logis."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Tambahkan judul dan daftar",
+        "help": "Buat teks yang lebih panjang lebih mudah diperiksa."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Pertahankan nada saya",
+        "help": "Simpan suara dan keformalan Anda."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Contoh penulisan",
+      "help": "Tempel atau muat hingga {{max}} contoh, masing-masing {{chars}} karakter. Mereka membimbing gaya tanpa menjadi bagian dari hasil.",
+      "fileType": "Teks atau Markdown",
+      "label": "Contoh menulis {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Tempel contoh",
+      "load": "Muat .txt atau .md",
+      "remove": "Hapus contoh {{number}}",
+      "readError": "Pilih file .txt atau .md dengan tidak lebih dari 1.500 karakter."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} perubahan",
+      "changes_other": "{{count}} perubahan",
+      "configure": "Konfigurasi",
+      "copy": "Salin",
+      "copied": "Dikopi",
+      "retry": "Coba lagi",
+      "retrying": "Mencoba lagi…",
+      "feedback": "Tinjau transformasi ini",
+      "good": "Hasil yang bagus",
+      "bad": "Hasil yang buruk",
+      "simpleView": "Menampilkan satu penggantian untuk perubahan besar atau kompleks ini.",
+      "actionFailed": "Aksi tersebut gagal. Teks Anda masih di sini; coba lagi."
     }
   },
   "cleanup": {

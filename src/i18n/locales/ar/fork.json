@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "التحويلات",
+      "transformsHint": "⌥1 تحسين النص المختار و⌥2 يحوّله إلى مُدخل ذكي للذكاء الاصطناعي. أثناء التفعيل، تُستبدل هذه المفاتيح ب¡ و™.",
+      "transformsSafeShortcuts": "استخدم ⌃⌥1 و ⌃⌥2 بدلًا من ذلك",
+      "transformsSafeShortcutsHint": "يُحتفظ بـ ¡ و ™ باستخدام ⌥1 و ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "الضغط لبدء التحدث",
         "hands_free": "الإذاعة بدون يد",
         "cancel": "إلغاء التدوين",
-        "command_mode": "Command Mode",
+        "command_mode": "وضع الأمر",
         "paste_last": "اللصق آخر تدوين",
         "copy_last": "النسخ الأخير من التدوين",
         "press_enter": "أضغط على Enter",
         "undo_cancel": "إلغاء تغيير الإلغاء",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "يُحسّن النص المُختَرَع",
+          "prompt_engineer": "تَحَوُّل النص المُختَرَّ إلى مُحفِّز للذكاء الاصطناعي",
+          "view_changes": "تغيير عرض التحولات"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "أبقِ الـshortcut مُضغوطًا أثناء التحدث؛ ارفعه لكي تُنهي.",
         "hands_free": "ابدأ وانهِ التدوين دون تثبيت زر.",
         "cancel": "إيقاف التدوين الحالي دون إدخاله.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "أضغط على fn و Ctrl عند قولك كيفية تعديل أو كتابة النص.",
         "paste_last": "أدخل تدوينك الأخير مرة أخرى.",
         "copy_last": "تَعَمُّدَ تَحَدِّدَ الْمُتَوَسِّطَ الْمُتَّسِقَ لِلْمُتَوَسِّطَ الْمُتَوَسِّطَ لِلْمُتَوَسِّطَ الْمُتَوَسِّطَ",
         "press_enter": "انقر على المفتاح العلوي في التطبيق الذي تكتب فيه. يعمل زر جانب من الماوس بشكل جيد هنا.",
         "undo_cancel": "استعادة تدوين بعد إلغائه.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "أعد صياغة النص المختار باللغة البولندية.",
+          "prompt_engineer": "أعد صياغة النص المختار كمُدخل واضح لذكاء اصطناعي.",
+          "view_changes": "انظر إلى التحول الأخير قبل وبعد."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "إملاؤك جاهز. انسخه من الشريط.",
         "micLostWarning": "تم فقد ميكروفون. ما قلتَه حتى الآن يُحتفظ به.",
         "undo": "يبقى «تراجع» على شريط الإملاء لمدة 4 ثوانٍ.",
-        "diff": "Transform changes are ready to review."
+        "diff": "تم تغيير التحولات وستكون جاهزة للتدقيق."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "أُلغي",
         "no_transcript": "لا يوجد إملاء للصقه بعد",
         "copied_last": "نُسخ آخر إملاء",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "تم",
+        "command_done": "تم",
+        "command_needs_text": "وضع الأمر يُعدّ ويدوّر النص. اختر نصًا أو اضغط داخل حقل.",
+        "select_text_first": "اختر النص أولاً",
+        "selection_too_long": "اختر 6000 حرف أو أقل",
+        "transform_focus_moved": "لقد انتقلت، لذا لم يتغير شيء",
+        "transform_failed": "لا يمكن تحويل هذا النص"
       },
       "card": {
         "no_text_field": "انقر أولاً في حقل نص",
@@ -996,130 +996,130 @@
       "hidden": "مُخفي، لأنه كان مُخصصًا لحقل كلمة المرور"
     },
     "undo": "تراجع",
-    "viewChanges": "View changes",
+    "viewChanges": "عرض التغييرات",
     "sendsAutomatically": "يُرسل تلقائيًا"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "إعادة كتابة النص المختار في أي تطبيق",
+      "body": "اختر تحويلًا، اختر النص، واستخدم اختصاره. يبقى كتابتك على هذا Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "تفعيل التحولات",
+      "help": "أعد تفعيل اختصارات إعادة الصياغة وعرض التغييرات. يتم إيقاف التحولات حتى تختارها."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "وضع الأمر",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "مُفعَّل",
+      "off": "مُعطّل",
+      "help": "أضغط على fn و Ctrl، ثم قل كيف تُغيّر التحديد أو ما تُكتب. إذا لم يكن هناك تحديد، يُقدّم الحقل سياقًا، ويُوضع الناتج في مكان المفتاح. كل شيء يبقى على هذا Mac؛ لا يُستفسر Command Mode بأي شيء. عند الإيقاف، يُحدد fn و Ctrl بشكل طبيعي."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "يُطبّق بعد كل تدوين",
+      "help": "يُنفذ التحويل المختار بعد التنظيف. إذا لم يُكمل، يُصَلَّح النص المُنظف دون تغيير. يُؤخَّر التحويلات التي تُنفذ أقل من 5 ثوانٍ من بعضها.",
+      "choice": "التحويل المطبوب",
+      "none": "اختر تحويلًا"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1، ⌥2 و ⌥O يُستبدلون بالحروف ¡، ™ و ø أثناء تفعيل التحولات.",
+      "safe": "استخدم ⌃⌥ بدلًا"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "أحولياتي",
+    "reset": "إعادة إلى القيم الافتراضية",
+    "resetConfirm": "هل ترغب في إعادة تعيين بوليش ومهندس الـ Prompt وحذف كل تحوّل مخصص؟",
+    "createNew": "إنشاء جديد",
+    "deleteConfirm": "هل ترغب في حذف {{name}}؟ لا يمكن التراجع عن هذا.",
+    "loading": "جارٍ تحميل تحوّلاتك...",
+    "empty": "لا تحوّلات بعد. أنشئ واحدة للبدء.",
+    "error": "لا يمكن حفظ تغيير التحويل. جرّب مرة أخرى.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "أنشئ الخاص بك",
+      "createOwnHint": "اختر القواعد، والتعليمات، ونماذج الكتابة.",
+      "delete": "حذف {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "توضيح النحو والتعبير مع الحفاظ على صوتك."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "تُحوّل الملاحظات البدائية إلى نص واضح وكامل لنموذج الذكاء الاصطناعي."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "مُحَوَّلِي",
+      "description": "أعد كتابة النص كما أريد.",
+      "prompt": "أعد صياغة النص المختار مع الحفاظ على معناه، والحقائق، ولغته."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "تعديل {{name}}",
+      "name": "الاسم",
+      "description": "الوصف",
+      "hotkey": "مفتاح ساخن",
+      "addHotkey": "إضافة مفتاح سريع",
+      "example": "مثال",
+      "exampleInput": "نص لتحويله",
+      "exampleText": "أو هل يمكنك إرسال التقرير غدًا ربما نتحدث عنه بعد ذلك",
+      "preview": "معاينة",
+      "previewing": "العرض التجريبي…",
+      "customPrompt": "مُدخل مخصص",
+      "customPromptHelp": "أضف تعليمات محددة. يتم تحوّل النص المختار، وليس الإجابة عنه.",
+      "rules": "قواعد التعديل",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "الحفظ التلقائي · تم حفظ جميع التغييرات",
+        "saving": "الحفظ التلقائي · يُحفظ...",
+        "error": "الحفظ التلقائي · لم يتم حفظ التغيير الأخير"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "إعادة التعيين",
+      "done": "تم",
+      "close": "إغلاق المحرر"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "أقصر",
+        "help": "أزل التكرار والكلمات الزائدة."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "عبارات أكثر وضوحًا",
+        "help": "استخدم لغة مباشرة ودقيقة."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "ترتيب أفضل",
+        "help": "أدخل الأفكار في تسلسل منطقي."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "إضافة عناوين وقائمة",
+        "help": "تُسهل قراءة النص الطويل."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "أبقِ نمطِي",
+        "help": "احتفظ بصوتك ومستوى الاحترام."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "أمثلة على الكتابة",
+      "help": "اللصق أو التحميل حتى {{max}} مثال، كل مثال يحتوي على {{chars}} حرف. يُستخدم المثال لتحديد الأسلوب دون أن يصبح جزءًا من النتيجة.",
+      "fileType": "نص أو مارك داون",
+      "label": "مثال على الكتابة {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "اللصق مثالًا",
+      "load": "تحميل .txt أو .md",
+      "remove": "إزالة المثال {{number}}",
+      "readError": "اختر ملفًا من نوع .txt أو .md لا يحتوي على أكثر من 1500 حرفًا."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} تغيير",
+      "changes_other": "{{count}} تغيير",
+      "configure": "تخصيص",
+      "copy": "نسخ",
+      "copied": "تم النسخ",
+      "retry": "إعادة المحاولة",
+      "retrying": "أعيد المحاولة…",
+      "feedback": "أعطِ تقييمًا لهذا التحويل",
+      "good": "نتيجة جيدة",
+      "bad": "نتيجة سيئة",
+      "simpleView": "يُعرض استبدال واحد لهذه تغييرات كبيرة أو معقدة.",
+      "actionFailed": "لم ينجح هذا الإجراء. نصك ما زال هنا؛ جرّب مجددًا."
     }
   },
   "cleanup": {

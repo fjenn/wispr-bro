@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 làm sạch văn bản được chọn và ⌥2 chuyển nó thành một câu hỏi AI rõ ràng. Khi bật, các phím này thay thế ¡ và ™.",
+      "transformsSafeShortcuts": "Sử dụng ⌃⌥1 và ⌃⌥2 thay vì",
+      "transformsSafeShortcutsHint": "Giữ ¡ và ™ sẵn sàng với ⌥1 và ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Nhấn để nói",
         "hands_free": "Điều khiển giọng tay tự do",
         "cancel": "Hủy ghi âm",
-        "command_mode": "Command Mode",
+        "command_mode": "Chế độ lệnh",
         "paste_last": "Dán lời nói trước",
         "copy_last": "Sao chép dictation gần nhất",
         "press_enter": "Nhấn Enter",
         "undo_cancel": "Hoàn tác một hành động hủy",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Chỉnh sửa văn bản đã chọn",
+          "prompt_engineer": "Chuyển văn bản được chọn thành một gợi ý AI",
+          "view_changes": "Xem thay đổi biến đổi nhìn"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Giữ phím tắt khi bạn nói; thả phím để kết thúc.",
         "hands_free": "Bắt đầu và dừng ghi âm mà không cần giữ phím.",
         "cancel": "Dừng ghi âm hiện tại mà không chèn vào.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Giữ phím fn và Ctrl khi bạn nói cách chỉnh sửa hoặc viết văn bản.",
         "paste_last": "Dán lại bản ghi dictation gần nhất của bạn.",
         "copy_last": "Sao chép bản dictation gần nhất của bạn vào bộ nhớ tạm.",
         "press_enter": "Nhấn Return trong ứng dụng mà bạn đang nhập văn bản. Một nút bên của chuột sẽ hoạt động tốt ở đây.",
         "undo_cancel": "Khôi phục một bản ghi giọng nói chỉ sau khi bạn hủy bỏ nó.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Viết lại văn bản đã chọn bằng tiếng Ba Lan.",
+          "prompt_engineer": "Chuyển đổi văn bản được chọn thành một câu hỏi AI rõ ràng.",
+          "view_changes": "Xem lại sự thay đổi mới nhất trước và sau khi chuyển đổi."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Bản đọc chính tả của bạn đã sẵn sàng. Hãy sao chép từ thanh.",
         "micLostWarning": "Microphone đã bị mất kết nối. Những gì bạn đã nói trước đây vẫn được lưu giữ.",
         "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Các thay đổi chuyển đổi đã sẵn sàng để xem xét."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Đã hủy",
         "no_transcript": "Chưa có nội dung đọc để dán",
         "copied_last": "Đã sao chép lần đọc gần nhất",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Xong",
+        "command_done": "Xong",
+        "command_needs_text": "Chế độ lệnh chỉnh sửa và ghi văn bản. Chọn văn bản hoặc nhấp vào một ô nhập.",
+        "select_text_first": "Chọn văn bản trước",
+        "selection_too_long": "Chọn 6.000 ký tự hoặc ít hơn",
+        "transform_focus_moved": "Bạn đã chuyển sang, nên không có gì thay đổi",
+        "transform_failed": "Không thể chuyển đổi văn bản đó"
       },
       "card": {
         "no_text_field": "Nhấn vào một ô nhập văn bản trước",
@@ -996,130 +996,130 @@
       "hidden": "Ẩn, vì nó được thiết kế cho trường nhập mật khẩu"
     },
     "undo": "Hoàn tác",
-    "viewChanges": "View changes",
+    "viewChanges": "Xem thay đổi",
     "sendsAutomatically": "Gửi tự động"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Viết lại văn bản đã chọn trong bất kỳ ứng dụng nào",
+      "body": "Chọn một biến đổi, chọn văn bản và sử dụng phím tắt. Văn bản của bạn sẽ luôn ở trên máy Mac này."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Bật Transforms",
+      "help": "Bật các phím tắt chỉnh sửa và chế độ xem thay đổi. Chế độ chuyển đổi sẽ bị tắt cho đến khi bạn chọn chúng."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Chế độ lệnh",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Bật",
+      "off": "Tắt",
+      "help": "Nhấn và giữ Fn và Ctrl, sau đó nói cách thay đổi lựa chọn hoặc nội dung cần nhập. Khi không có lựa chọn, ô sẽ cung cấp ngữ cảnh và kết quả sẽ được đặt tại vị trí con trỏ. Tất cả dữ liệu đều được lưu trên máy Mac này; chế độ Command không bao giờ tra cứu gì. Khi tắt, Fn và Ctrl hoạt động bình thường."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Áp dụng sau mỗi đoạn ghi âm",
+      "help": "Chạy biến đổi đã chọn sau khi làm sạch. Nếu không thể hoàn thành, nội dung dictation đã làm sạch sẽ được dán nguyên bản. Các lần chạy cách nhau ít hơn 5 giây sẽ bị bỏ qua.",
+      "choice": "Chuyển đổi để áp dụng",
+      "none": "Chọn một biến đổi"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 và ⌥O thay thế các ký tự ¡, ™ và ø khi đang bật Transforms.",
+      "safe": "Sử dụng ⌃⌥ thay vì"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Các Biến đổi của tôi",
+    "reset": "Đặt lại về mặc định",
+    "resetConfirm": "Xác nhận xóa Polish và Prompt Engineer và loại bỏ mọi biến đổi tùy chỉnh?",
+    "createNew": "Tạo mới",
+    "deleteConfirm": "Xoá {{name}}? Không thể hoàn tác.",
+    "loading": "Đang tải các biến đổi của bạn…",
+    "empty": "Chưa có biến đổi nào. Tạo một biến đổi để bắt đầu.",
+    "error": "Thay đổi biến đổi đó không thể được lưu. Hãy thử lại.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Tạo riêng của bạn",
+      "createOwnHint": "Chọn các quy tắc, hướng dẫn và ví dụ viết.",
+      "delete": "Xoá {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Rút gọn ngữ pháp và cách diễn đạt mientras giữ giọng nói của bạn."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Chuyển những ghi chú thô sơ thành một câu hỏi AI rõ ràng và đầy đủ."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Biến đổi của tôi",
+      "description": "Viết lại văn bản theo cách tôi muốn.",
+      "prompt": "Viết lại văn bản đã chọn mà giữ nguyên ý nghĩa, thông tin và ngôn ngữ."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Chỉnh sửa {{name}}",
+      "name": "Tên",
+      "description": "Mô tả",
+      "hotkey": "Phím tắt",
+      "addHotkey": "Thêm phím tắt",
+      "example": "Ví dụ",
+      "exampleInput": "Đoạn văn để chuyển đổi",
+      "exampleText": "um có thể bạn gửi cho tôi báo cáo ngày mai được không, có lẽ chúng ta có thể nói về nó sau đó",
+      "preview": "Xem trước",
+      "previewing": "Đang xem trước…",
+      "customPrompt": "Prompt tùy chỉnh",
+      "customPromptHelp": "Thêm các chỉ dẫn cụ thể. Phần văn bản được chọn sẽ được chuyển đổi, không bao giờ được trả lời.",
+      "rules": "Quy tắc chỉnh sửa",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Lưu tự động · Tất cả các thay đổi đã được lưu",
+        "saving": "Lưu tự động · Đang lưu…",
+        "error": "Lưu tự động · Không thể lưu thay đổi mới nhất"
       },
       "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "done": "Xong",
+      "close": "Đóng trình soạn"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Ngắn hơn",
+        "help": "Loại bỏ lặp lại và các từ thừa."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Ngôn ngữ rõ ràng hơn",
+        "help": "Sử dụng ngôn ngữ trực tiếp và chính xác."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Thứ tự tốt hơn",
+        "help": "Sắp xếp các ý theo trình tự hợp lý."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Thêm tiêu đề và danh sách",
+        "help": "Giúp văn bản dài dễ dàng được duyệt."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Giữ giọng điệu của tôi",
+        "help": "Giữ giọng nói và mức độ trang trọng của bạn."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Ví dụ về việc viết",
+      "help": "Dán hoặc tải lên đến {{max}} ví dụ, mỗi ví dụ {{chars}} ký tự. Chúng hướng dẫn phong cách mà không trở thành phần của kết quả.",
+      "fileType": "Text hoặc Markdown",
+      "label": "Ví dụ về việc viết {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Dán một ví dụ",
+      "load": "Tải .txt hoặc .md",
+      "remove": "Xóa ví dụ {{number}}",
+      "readError": "Chọn một tệp .txt hoặc .md với không quá 1.500 ký tự."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} thay đổi",
+      "changes_other": "{{count}} thay đổi",
+      "configure": "Cấu hình",
+      "copy": "Sao chép",
+      "copied": "Đã sao chép",
+      "retry": "Thử lại",
+      "retrying": "Đang thử lại...",
+      "feedback": "Đánh giá biến đổi này",
+      "good": "Kết quả tốt",
+      "bad": "Kết quả kém",
+      "simpleView": "Hiện thị một thay thế cho thay đổi lớn hoặc phức tạp này.",
+      "actionFailed": "Hành động đó không thành công. Văn bản của bạn vẫn ở đây; hãy thử lại."
     }
   },
   "cleanup": {

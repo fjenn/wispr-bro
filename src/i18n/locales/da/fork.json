@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "Transformations",
+      "transformsHint": "⌥1 forbedrer valgt tekst og ⌥2 omdanner den til en tydeligere AI-prompt. Under aktivering erstatter de taste ¡ og ™.",
+      "transformsSafeShortcuts": "Brug ⌃⌥1 og ⌃⌥2 i stedet",
+      "transformsSafeShortcutsHint": "Beholder ¡ og ™ med ⌥1 og ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,15 +277,15 @@
         "dictate": "Tryk til at tale",
         "hands_free": "Håndfri dictation",
         "cancel": "Annuller dictation",
-        "command_mode": "Command Mode",
+        "command_mode": "Kommando-mode",
         "paste_last": "Indsæt sidste dictation",
         "copy_last": "Kopier sidste dictation",
         "press_enter": "Tryk Enter",
         "undo_cancel": "Annuller en afbrydning",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Polish valgt tekst",
+          "prompt_engineer": "Omform det valgte tekst til en AI-prompt",
+          "view_changes": "Vis transformationændringer"
         },
         "scratchpad": {
           "open": "Open Scratchpad"
@@ -295,15 +295,15 @@
         "dictate": "Hold den hurtigefunktion mens du taler; slå den løs for at afslutte.",
         "hands_free": "Start og stop dictation uden at holde en tast.",
         "cancel": "Stop den aktuelle dictation uden at indsætte den.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Hold fn og Ctrl mens du siger, hvordan du redigerer eller skriver tekst.",
         "paste_last": "Indsæt din seneste dictation igen.",
         "copy_last": "Kopier din seneste dictation til clipboardet.",
         "press_enter": "Tryk Retur i appen, hvor du skriver. En sideknapp på musen fungerer godt her.",
         "undo_cancel": "Gør en dictation tilbage efter du annullerer den.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Omdrej den valgte tekst med polsk.",
+          "prompt_engineer": "Omdiskuter den valgte tekst som en tydelig AI-prompt.",
+          "view_changes": "Tjek den nyeste transformation før og efter."
         },
         "scratchpad": {
           "open": "Resume your last note or start a new one, according to your Scratchpad setting."
@@ -649,7 +649,7 @@
         "card": "Din diktering er klar. Kopiér den fra bjælken.",
         "micLostWarning": "Mikrofonen er blevet afbrudt. Det, du har sagt, bliver bevaret.",
         "undo": "Fortryd er på dikteringslinjen i 4 sekunder.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Ogskiftninger er klar til at overvåge."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -666,13 +666,13 @@
         "cancelled": "Annulleret",
         "no_transcript": "Ingen diktering at indsætte endnu",
         "copied_last": "Seneste diktering kopieret",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Færdig",
+        "command_done": "Færdig",
+        "command_needs_text": "Kommandomodus redigerer og skriver tekst. Vælg tekst eller klik i et felt.",
+        "select_text_first": "Vælg tekst først",
+        "selection_too_long": "Vælg 6.000 tegn eller færre",
+        "transform_focus_moved": "Du flyttede til næste, så blev ingenting ændret",
+        "transform_failed": "Kunne ikke omformere det tekst"
       },
       "card": {
         "no_text_field": "Klik først i et tekstfelt",
@@ -996,130 +996,130 @@
       "hidden": "Skjult, fordi det var ment til at bruges som adgangskodefelt"
     },
     "undo": "Fortryd",
-    "viewChanges": "View changes",
+    "viewChanges": "Vis ændringer",
     "sendsAutomatically": "Sendes automatisk"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Omdøb valgt tekst i enhver app",
+      "body": "Vælg en transformation, vælg tekst, og brug dens genvej. Din skrivning bliver fortsat på denne Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Aktivér Transforms",
+      "help": "Slå på omdrejningsgenvejene og ændringsvisningen. Omdrejninger er deaktiveret indtil du vælger dem."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Kommandomodus",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Slå på",
+      "off": "Af",
+      "help": "Hold fn og Ctrl, så siger du, hvordan du skal ændre valg eller hvad du skal skrive. Hvis der ikke er valg, giver feltet kontekst og resultatet går til markøren. Alt bliver fortsat på denne Mac; Command Mode ser aldrig op. Når det er slukket, bestemmer fn og Ctrl normalt."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Apply efter hver dictation",
+      "help": "Kører den valgte transformation efter rengøring. Hvis det ikke kan afsluttes, kopieres din rengørt dictation uden ændringer. Transformationer, der kører mindre end 5 sekunder fra hinanden, bliver springet over.",
+      "choice": "Omdann til at anvende",
+      "none": "Vælg en transform"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 og ⌥O erstatter tegnene ¡, ™ og ø mens Transforms er aktiveret.",
+      "safe": "Brug ⌃⌥ i stedet"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Mine Transformationer",
+    "reset": "Tilbage til standardværdier",
+    "resetConfirm": "Tilbagestill Polsk og Prompt Engineer og fjern alle tilpassede transformationer?",
+    "createNew": "Opret ny",
+    "deleteConfirm": "Slet {{name}}? Det kan ikke angres.",
+    "loading": "Indlæser dine transformeringer…",
+    "empty": "Ingen omformer endnu. Opret en for at starte.",
+    "error": "Den transformering kunne ikke beskyttes. Prøv igen.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Opret dit eget",
+      "createOwnHint": "Vælg regler, instruktioner og skrivningseksempler.",
+      "delete": "Slet {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Fjern grammatik og formulering mens du holder din stemme."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Omformer urolige noter til en tydelig og fuld AI-prompt."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Min transform",
+      "description": "Omskriv teksten sådan, som jeg vil.",
+      "prompt": "Omskriv den valgte tekst med henblik på at bevare betydningen, fakta og sproget."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Rediger {{name}}",
+      "name": "Navn",
+      "description": "Beskrivelse",
+      "hotkey": "Varmeknap",
+      "addHotkey": "Tilføj hurtigtast",
+      "example": "Eksempel",
+      "exampleInput": "Tekst til at omdanne",
+      "exampleText": "um kan du sende mig rapporten i morgen måske kan vi tale om det da",
+      "preview": "Forhåndsvisning",
+      "previewing": "Viser...",
+      "customPrompt": "Personlig prompt",
+      "customPromptHelp": "Tilføj specifikke instruktioner. Den valgte tekst bliver omdannet, aldrig besvaret.",
+      "rules": "Redigeringsregler",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Autosave · Alle ændringer blev beskrevet",
+        "saving": "Autosave · Opbevare...",
+        "error": "Autosave · Kunde ikke gemme den seneste ændring"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Nulstil",
+      "done": "Færdig",
+      "close": "Luk redaktør"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Kortere",
+        "help": "Fjern gentagelser og ekstra ord."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Tydeligere formulering",
+        "help": "Brug direkte og præcis sprog."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Bedre rækkefølge",
+        "help": "Sæt ideer i en logisk rækkefølge."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Tilføj overskrifter og lister",
+        "help": "Gør det lettere at skanne længere tekst."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Behold min ton",
+        "help": "Behold din stemme og formel."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Skrivnings eksempler",
+      "help": "Indsæt eller indlæs op til {{max}} eksempler, {{chars}} tegn hvert. De vejleder stil uden at blive en del af resultatet.",
+      "fileType": "Tekst eller Markdown",
+      "label": "Skriv eksempel {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Indsæt et eksempel",
+      "load": "Indlæs .txt eller .md",
+      "remove": "Fjern eksempel {{number}}",
+      "readError": "Vælg en .txt eller .md-fil med ikke mere end 1.500 tegn."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} ændring",
+      "changes_other": "{{count}} ændringer",
+      "configure": "Konfigurer",
+      "copy": "Kopier",
+      "copied": "Kopieret",
+      "retry": "Prøv igen",
+      "retrying": "Prøver igen…",
+      "feedback": "Vurder denne transformation",
+      "good": "God resultat",
+      "bad": "Svag resultat",
+      "simpleView": "Viser én erstatning for denne store eller komplekse ændring.",
+      "actionFailed": "Denne handling fungerede ikke. Din tekst er stadig her; prøv igen."
     }
   },
   "cleanup": {
