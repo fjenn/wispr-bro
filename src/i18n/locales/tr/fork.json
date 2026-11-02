@@ -277,6 +277,7 @@
         "dictate": "Basınca konuş",
         "hands_free": "El ile değil, el ile değil dictasyon",
         "cancel": "Dictasyonu iptal et",
+        "command_mode": "Command Mode",
         "paste_last": "Son dictasyonu yapıştır",
         "copy_last": "Son dictasyonu kopyala",
         "press_enter": "Enter tuşuna bas",
@@ -291,6 +292,7 @@
         "dictate": "Söyleyken kısayolunu tutun; bitirmek için bırakın.",
         "hands_free": "Anahtar olmadan dictasyonu başlatın ve durdurun.",
         "cancel": "Mevcut dictation'ı koymadan durdur.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "En son dictasyonunu tekrar yapıştır.",
         "copy_last": "En son dictasyonunu panoya kopyala.",
         "press_enter": "Uygulamada yazıyorsanız Enter tuşuna basın. Fare yan düğmesi burada iyi çalışır.",
@@ -646,6 +648,8 @@
         "no_transcript": "Henüz yapıştırılacak dikte yok",
         "copied_last": "Son dikte kopyalandı",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

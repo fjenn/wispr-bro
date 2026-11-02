@@ -277,6 +277,7 @@
         "dictate": "Push to talk",
         "hands_free": "手を自由に使えるディクテーション",
         "cancel": "dictation をキャンセル",
+        "command_mode": "Command Mode",
         "paste_last": "最後のディクテーションを貼り付け",
         "copy_last": "最後のディクテーションをコピー",
         "press_enter": "Enterキーを押してください",
@@ -291,6 +292,7 @@
         "dictate": "話すときにはショートカットを押しながら、話し終わるときはそれを離す",
         "hands_free": "キーを押さなくても、辞書を開始および停止できます。",
         "cancel": "現在の辞書入力を取りやめる",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "最後に言ったことを再度貼り付けます。",
         "copy_last": "最近のディクテーションをクリップボードにコピーします。",
         "press_enter": "アプリ内でEnterキーを押してください。マウスのサイドボタンがおすすめです。",
@@ -646,6 +648,8 @@
         "no_transcript": "貼り付ける音声入力はまだありません",
         "copied_last": "最後の音声入力をコピーしました",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

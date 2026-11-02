@@ -277,6 +277,7 @@
         "dictate": "推到說話",
         "hands_free": "語音輸入（無手操作）",
         "cancel": "取消語音輸入",
+        "command_mode": "Command Mode",
         "paste_last": "貼上上次語音輸入",
         "copy_last": "複製上次語音輸入",
         "press_enter": "按下 Enter",
@@ -291,6 +292,7 @@
         "dictate": "按住快捷鍵 whilst 說話；釋放以完成。",
         "hands_free": "開始與停止語音輸入，無需按鍵。",
         "cancel": "中斷當前語音輸入而不將其插入。",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "貼上您最近一次的語音輸入。",
         "copy_last": "將您最近的語音輸入複製到剪貼簿。",
         "press_enter": "在您輸入的應用程式中按下 Enter。使用滑鼠側鍵效果良好。",
@@ -646,6 +648,8 @@
         "no_transcript": "還沒有可貼上的聽寫",
         "copied_last": "已拷貝最近一次聽寫",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

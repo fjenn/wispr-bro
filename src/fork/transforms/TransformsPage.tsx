@@ -15,6 +15,7 @@ import { PageHeader } from "../hub/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
 import { Banner, Button } from "../ui";
+import { CommandModeCard } from "./CommandModeCard";
 import { DiffCard } from "./DiffCard";
 import { useTransformViewStore } from "./store";
 import { TransformCard, CreateTransformCard } from "./TransformCard";
@@ -285,6 +286,11 @@ export function TransformsPage() {
           </Button>
         </div>
       </section>
+      <CommandModeCard
+        checked={settings?.command_mode_enabled ?? false}
+        disabled={!settings || !!pending.command_mode_enabled}
+        onChange={(checked) => void setSetting("command_mode_enabled", checked)}
+      />
       {error && (
         <p role="alert" className="text-sm text-red-700 dark:text-red-300">
           {t("transforms.error")}

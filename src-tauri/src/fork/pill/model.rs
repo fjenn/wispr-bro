@@ -100,6 +100,8 @@ pub enum PillMessage {
     CopiedLast,
     /// A transform finished; S-22 will present its before/after record.
     TransformDone,
+    CommandDone,
+    CommandNeedsText,
     SelectTextFirst,
     SelectionTooLong,
     TransformFocusMoved,
@@ -140,6 +142,8 @@ impl PillMessage {
             | PillMessage::NoTranscript
             | PillMessage::CopiedLast
             | PillMessage::TransformDone
+            | PillMessage::CommandDone
+            | PillMessage::CommandNeedsText
             | PillMessage::SelectTextFirst
             | PillMessage::SelectionTooLong
             | PillMessage::TransformFocusMoved => PillTone::Info,
@@ -217,6 +221,8 @@ impl PillMessage {
             PillMessage::NoTranscript => "no_transcript",
             PillMessage::CopiedLast => "copied_last",
             PillMessage::TransformDone => "transform_done",
+            PillMessage::CommandDone => "command_done",
+            PillMessage::CommandNeedsText => "command_needs_text",
             PillMessage::SelectTextFirst => "select_text_first",
             PillMessage::SelectionTooLong => "selection_too_long",
             PillMessage::TransformFocusMoved => "transform_focus_moved",
@@ -631,6 +637,18 @@ impl Model {
                 if self.phase() == Phase::Card && !kind.at_start() {
                     // S-05: Handy reports a take that went to the card as
                     // failed (its paste contract); the card already says why.
+                    return;
+                }
+                if kind == PillMessage::NoSpeech
+                    && self.phase() == Phase::Message
+                    && self.message.is_some_and(|(current, _)| {
+                        matches!(
+                            current,
+                            PillMessage::CommandDone | PillMessage::CommandNeedsText
+                        )
+                    })
+                {
+                    // S-23 deliberately returns no ordinary dictation to paste.
                     return;
                 }
                 self.set(Phase::Message);
@@ -1064,6 +1082,26 @@ mod tests {
     }
 
     #[test]
+    fn command_guidance_outlives_the_deliberate_empty_delivery() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: false });
+        m.step(600, Input::Stopped);
+        m.step(900, Input::Message(PillMessage::CommandNeedsText));
+        m.step(1_000, Input::Hide);
+        m.step(1_001, Input::Message(PillMessage::NoSpeech));
+        assert_eq!(
+            view_of(&mut m, 1_001).message,
+            Some(PillMessage::CommandNeedsText)
+        );
+        m.step(1_100, Input::Message(PillMessage::CommandDone));
+        m.step(1_101, Input::Message(PillMessage::NoSpeech));
+        assert_eq!(
+            view_of(&mut m, 1_101).message,
+            Some(PillMessage::CommandDone)
+        );
+    }
+
+    #[test]
     fn errors_with_fix_stay_longer_and_can_be_dismissed() {
         let mut m = Model::new(ready());
         m.step(0, Input::Message(PillMessage::MicDenied));
@@ -1214,6 +1252,8 @@ mod tests {
             NoTranscript,
             CopiedLast,
             TransformDone,
+            CommandDone,
+            CommandNeedsText,
             SelectTextFirst,
             SelectionTooLong,
             TransformFocusMoved,

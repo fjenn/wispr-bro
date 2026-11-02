@@ -41,7 +41,7 @@ pub const FORK_SETTINGS_FILE: &str = "fork-settings.json";
 /// Key of the settings object inside the store (same layout as Handy's store).
 pub const STORE_KEY: &str = "settings";
 /// Current [`ForkSettings::schema_version`].
-pub const CURRENT_SCHEMA_VERSION: u32 = 4;
+pub const CURRENT_SCHEMA_VERSION: u32 = 5;
 
 /// The only app identity whose Handy settings the fork may rewrite. A build
 /// without the identity overlay (`cargo build`, `bun run tauri dev`) runs as
@@ -119,6 +119,8 @@ pub mod hotkey_actions {
     pub const DICTATE: &str = "dictate";
     pub const HANDS_FREE: &str = "hands_free";
     pub const CANCEL: &str = "cancel";
+    /// S-23: hold fn+Ctrl to speak an editing or writing instruction.
+    pub const COMMAND_MODE: &str = "command_mode";
     pub const PASTE_LAST: &str = "paste_last";
     /// S-06: copy the last transcript (⌃⌘C).
     pub const COPY_LAST: &str = "copy_last";
@@ -146,6 +148,10 @@ pub fn default_hotkeys() -> BTreeMap<String, Vec<HotkeyBinding>> {
             ],
         ),
         (CANCEL.into(), vec![HotkeyBinding::new("escape", Press)]),
+        (
+            COMMAND_MODE.into(),
+            vec![HotkeyBinding::new("fn+ctrl", Hold)],
+        ),
         (
             PASTE_LAST.into(),
             vec![HotkeyBinding::new("ctrl+command+v", Press)],
@@ -790,6 +796,10 @@ pub const MIGRATIONS: &[Migration] = &[
         from: 3,
         apply: migrate_v3_to_v4,
     },
+    Migration {
+        from: 4,
+        apply: migrate_v4_to_v5,
+    },
 ];
 
 fn migrate_v0_to_v1(map: &mut Map<String, Value>) {
@@ -836,6 +846,23 @@ fn migrate_v3_to_v4(map: &mut Map<String, Value>) {
         return;
     };
     let id = crate::fork::transforms::VIEW_CHANGES_ACTION;
+    if !hotkeys.contains_key(id) {
+        if let Some(value) = default_hotkeys()
+            .get(id)
+            .and_then(|bindings| serde_json::to_value(bindings).ok())
+        {
+            hotkeys.insert(id.to_string(), value);
+        }
+    }
+}
+
+/// v4 → v5 (S-23): add Command Mode's fn+Ctrl hold without changing an
+/// existing entry, including one the user deliberately unset.
+fn migrate_v4_to_v5(map: &mut Map<String, Value>) {
+    let Some(Value::Object(hotkeys)) = map.get_mut("hotkeys") else {
+        return;
+    };
+    let id = hotkey_actions::COMMAND_MODE;
     if !hotkeys.contains_key(id) {
         if let Some(value) = default_hotkeys()
             .get(id)

@@ -2318,7 +2318,7 @@ export type PillMessage =
 /**
  * A transform finished; S-22 will present its before/after record.
  */
-"transform_done" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed"
+"transform_done" | "command_done" | "command_needs_text" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed"
 /**
  * What the active bar is doing (the web view's `state`).
  */

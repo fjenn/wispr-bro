@@ -277,6 +277,7 @@
         "dictate": "Тиск для розмови",
         "hands_free": "Дикція без рук",
         "cancel": "Відмінити дикцію",
+        "command_mode": "Command Mode",
         "paste_last": "Вставити останню дикцію",
         "copy_last": "Скопіювати останню дикцію",
         "press_enter": "Натисніть Enter",
@@ -291,6 +292,7 @@
         "dictate": "Підтримуйте швидкодійний комбінацію під час мовлення; відпустіть її, щоб завершити.",
         "hands_free": "Почати та зупинити диктовку без тиску на клавішу.",
         "cancel": "Зупинити поточну дикцію без вставки.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Вставте вашу останню дикцію ще раз.",
         "copy_last": "Скопіювати вашу останню дикцію в буфер обміну.",
         "press_enter": "Натисніть Return у додатку, де ви пишете. Хорошим буде використання бокового кнопки миші.",
@@ -646,6 +648,8 @@
         "no_transcript": "Поки що нічого вставити",
         "copied_last": "Останнє диктування скопійовано",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

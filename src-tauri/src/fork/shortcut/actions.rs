@@ -42,10 +42,11 @@ pub struct EscContext {
 }
 
 /// The ids the grammar runs (never in the handler table).
-pub const GRAMMAR_ACTIONS: [&str; 3] = [
+pub const GRAMMAR_ACTIONS: [&str; 4] = [
     hotkey_actions::DICTATE,
     hotkey_actions::HANDS_FREE,
     hotkey_actions::CANCEL,
+    hotkey_actions::COMMAND_MODE,
 ];
 
 /// Prefixes of runtime ids.
@@ -59,6 +60,7 @@ pub fn is_action_id(id: &str) -> bool {
         DICTATE,
         HANDS_FREE,
         CANCEL,
+        COMMAND_MODE,
         PASTE_LAST,
         COPY_LAST,
         PRESS_ENTER,

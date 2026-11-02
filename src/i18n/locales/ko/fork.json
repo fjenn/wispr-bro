@@ -277,6 +277,7 @@
         "dictate": "Push to talk",
         "hands_free": "손이 없는 디타이션",
         "cancel": "dictation 취소",
+        "command_mode": "Command Mode",
         "paste_last": "최근 dictation 붙여넣기",
         "copy_last": "최근 dictation 복사",
         "press_enter": "엔터를 누르세요",
@@ -291,6 +292,7 @@
         "dictate": "말할 때 단축키를 누르고, 말을 끝내려면 단축키를 놓으세요.",
         "hands_free": "키를 누르지 않고 녹음과 중단을 시작 및 종료합니다.",
         "cancel": "현재 딕테이션을 중단하고 삽입하지 않기",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "최근 dictation을 다시 붙여넣기 합니다.",
         "copy_last": "최근 dictation을 클립보드에 복사합니다.",
         "press_enter": "앱에서 입력 중인 곳에서 Enter를 누르세요. 마우스 측면 버튼이 좋습니다.",
@@ -646,6 +648,8 @@
         "no_transcript": "아직 붙여넣을 받아쓰기가 없습니다",
         "copied_last": "마지막 받아쓰기를 복사했습니다",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

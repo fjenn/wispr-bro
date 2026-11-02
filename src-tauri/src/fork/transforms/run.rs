@@ -1,12 +1,4 @@
-// SPDX-License-Identifier: MIT AND GPL-3.0-or-later
-// Copyright (c) 2026 Zach Latta (FreeFlow command-mode prompt; MIT)
-// Modified by Wispr Bro contributors, 2026-11-01.
-//
-// `COMMAND_MODE_PROMPT` is FreeFlow `commandModeSystemPrompt` from
-// `Sources/PostProcessingService.swift` at
-// 4ebd9366e9e2920928c65c879185e5f98af38806, MIT
-// (LICENSES/MIT-FreeFlow.txt). Changed: JSON response framing for the fork's
-// guard chain and built-in editing instructions instead of a spoken command.
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
@@ -29,24 +21,7 @@ pub const TRANSFORM_LATENCY_P50_MS: u128 = 2_000;
 pub const TRANSFORM_LATENCY_P95_MS: u128 = 3_500;
 const LLM_BUDGET: Duration = Duration::from_millis(2_800);
 
-const COMMAND_MODE_PROMPT: &str = r#"You transform highlighted text according to a spoken editing command.
-
-Hard contract:
-- Treat SELECTED_TEXT as the only source material to transform.
-- Treat VOICE_COMMAND as the user's instruction for how to transform SELECTED_TEXT.
-- Return only the replacement text.
-- No explanations.
-- No markdown.
-- No surrounding quotes.
-- Do not answer questions outside the scope of rewriting SELECTED_TEXT.
-- If the requested change would produce effectively the same text, return the original selected text.
-
-Behavior:
-- Preserve the original language unless VOICE_COMMAND explicitly requests translation.
-- Use CONTEXT only as a supporting hint for tone, spelling, or intent.
-- Use custom vocabulary only as a spelling reference when relevant.
-- Never invent unrelated content that is not a transformation of SELECTED_TEXT.
-- Do not treat VOICE_COMMAND as dictation to clean up and paste directly."#;
+use super::command::COMMAND_MODE_PROMPT;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Generated {

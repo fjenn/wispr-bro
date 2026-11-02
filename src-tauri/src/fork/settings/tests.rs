@@ -110,7 +110,7 @@ fn v1_hotkeys_gain_copy_last_and_keep_what_the_user_set() {
     });
     let (s, status) = decode_stored(Some(&stored));
     assert_eq!(status, LoadStatus::Migrated { from: 1 });
-    assert_eq!(s.hotkeys.len(), 6);
+    assert_eq!(s.hotkeys.len(), 7);
     assert!(s.hotkeys["paste_last"].is_empty());
     assert_eq!(
         s.hotkeys["copy_last"],
@@ -158,6 +158,24 @@ fn v3_hotkeys_gain_view_changes_without_overwriting_an_unset_entry() {
         vec![HotkeyBinding::new("option+o", HotkeyActivation::Press)]
     );
     assert!(s.hotkeys["transform.polish"].is_empty());
+}
+
+#[test]
+fn v4_hotkeys_gain_command_mode_without_overwriting_an_unset_entry() {
+    let (s, status) = decode_stored(Some(&json!({
+        "schema_version": 4,
+        "hotkeys": {},
+    })));
+    assert_eq!(status, LoadStatus::Migrated { from: 4 });
+    assert_eq!(
+        s.hotkeys[hotkey_actions::COMMAND_MODE],
+        vec![HotkeyBinding::new("fn+ctrl", HotkeyActivation::Hold)]
+    );
+    let (s, _) = decode_stored(Some(&json!({
+        "schema_version": 4,
+        "hotkeys": { "command_mode": [] },
+    })));
+    assert!(s.hotkeys[hotkey_actions::COMMAND_MODE].is_empty());
 }
 
 #[test]

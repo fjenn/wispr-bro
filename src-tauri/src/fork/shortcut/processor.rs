@@ -43,11 +43,12 @@
 //!
 //! Not modelled here: the warm-stream pre-roll of rule 1 (DEC-53 removed the
 //! warm stream: the mic is a prepared unit that never runs while idle),
-//! Esc during processing (the engine asks the coordinator), Command Mode on
-//! Ctrl (S-23; with it off Ctrl is a modifier and not an input, DEC-31) and
-//! stuck-fn recovery (rule 9, `decision::StuckGuard`). Modifier keys other
-//! than the trigger are not inputs at all: the caller drops them, so
-//! Ctrl/Shift/Cmd/Opt with fn neither interrupt nor stop a take.
+//! Esc during processing (the engine asks the coordinator) and stuck-fn
+//! recovery (rule 9, `decision::StuckGuard`). Modifier keys other than the
+//! trigger are not grammar inputs: the caller drops them, so Ctrl/Shift/Cmd/Opt
+//! with fn neither interrupt nor stop a take. S-23's engine watches fn+Ctrl
+//! before this grammar to choose the instruction binding; with Command Mode
+//! off, Ctrl leaves ordinary dictation unchanged (DEC-31).
 
 use serde::Serialize;
 

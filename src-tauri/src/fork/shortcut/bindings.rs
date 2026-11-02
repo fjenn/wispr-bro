@@ -84,6 +84,8 @@ pub struct Profile {
     pub trigger_space: bool,
     /// `cancel` is Esc.
     pub esc_cancels: bool,
+    /// S-23: fn+Ctrl selects instruction mode for the take that starts.
+    pub command_mode: bool,
     pub keyed: Vec<KeyedBinding>,
     pub issues: Vec<Issue>,
 }
@@ -182,6 +184,13 @@ pub fn compile(
             (HANDS_FREE, DoubleTap) if is_trigger => p.double_tap = true,
             (HANDS_FREE, Press) if is_trigger_space => p.trigger_space = true,
             (CANCEL, Press) if *chord == "escape" => p.esc_cancels = true,
+            (COMMAND_MODE, Hold) if *chord == "fn+ctrl" && handled(action) => p.command_mode = true,
+            (COMMAND_MODE, _) => unsupported(
+                &mut p,
+                action,
+                chord,
+                "Command Mode uses fn+ctrl as a hold binding while enabled",
+            ),
             (DICTATE, Hold) | (HANDS_FREE, DoubleTap) if as_trigger.is_some() => unsupported(
                 &mut p,
                 action,

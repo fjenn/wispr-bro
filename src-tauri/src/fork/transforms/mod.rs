@@ -2,6 +2,7 @@
 //! Transforms: built-in and custom rewrites, auto-apply and the run handoff.
 
 pub mod auto;
+pub mod command;
 pub mod record;
 pub mod replace;
 pub mod run;

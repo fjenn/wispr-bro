@@ -207,7 +207,11 @@ fn load_profile<R: Runtime>(
         }
     };
     let reg = registry();
-    let profile = bindings::compile(&settings.hotkeys, |id| reg.handles(id));
+    let command_mode = settings.command_mode_enabled;
+    let profile = bindings::compile(&settings.hotkeys, |id| {
+        reg.handles(id)
+            || (command_mode && id == crate::fork::settings::hotkey_actions::COMMAND_MODE)
+    });
     let mut flat = Vec::new();
     let mut actions = Vec::new();
     for (action, list) in &settings.hotkeys {
@@ -422,6 +426,13 @@ impl<R: Runtime> Host for AppHost<R> {
             .map(|d| d.as_micros())
             .unwrap_or(0);
         log::debug!("fork hotkeys: command {command:?} (unix_us {unix_us})");
+        match &command {
+            ExternalCommand::Start { binding_id } => {
+                crate::fork::transforms::command::route_start(binding_id)
+            }
+            ExternalCommand::Cancel => crate::fork::transforms::command::cancel(),
+            _ => {}
+        }
         match self.app.try_state::<TranscriptionCoordinator>() {
             Some(c) => c.external_command(command, engine::ORIGIN),
             None => log::warn!("fork hotkeys: coordinator not ready; dropped {command:?}"),

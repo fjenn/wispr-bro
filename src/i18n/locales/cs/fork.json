@@ -277,6 +277,7 @@
         "dictate": "Stisknout pro řečení",
         "hands_free": "Dictace bez rukou",
         "cancel": "Zrušit dictaci",
+        "command_mode": "Command Mode",
         "paste_last": "Vložit poslední dictaci",
         "copy_last": "Zkopírovat poslední dictaci",
         "press_enter": "Stiskněte Enter",
@@ -291,6 +292,7 @@
         "dictate": "Držte klávesový zkrat při mluvení; uvolněte jej, abyste dokončili.",
         "hands_free": "Spustit a vypnout dictaci bez držení klávesy.",
         "cancel": "Zastavte aktuální dictaci bez jejího vložení.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Vložte opět vaši nejnovější dictaci.",
         "copy_last": "Kopírovat vaši nejnovější dictaci do schránky.",
         "press_enter": "Stiskněte klávesu Return v aplikaci, kde psát. Stisknutí strany myši je zde vhodné.",
@@ -646,6 +648,8 @@
         "no_transcript": "Zatím není co vložit",
         "copied_last": "Poslední diktát zkopírován",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

@@ -134,6 +134,30 @@ async function openTransforms(
   await expect(page.getByTestId("wb-transforms")).toBeVisible();
 }
 
+test("Command Mode card is independently opt-in and keyboard accessible", async ({
+  page,
+  ipc,
+  hub,
+}) => {
+  const fake = new FakeTransforms();
+  await openTransforms(page, ipc, hub, fake);
+  const card = page.getByTestId("wb-command-mode-card");
+  const toggle = page.getByTestId("wb-command-mode-enabled");
+  await expect(card).toHaveAttribute("data-enabled", "false");
+  await expect(toggle).not.toBeChecked();
+  await expect(toggle).toHaveAccessibleName(/Command Mode/);
+  await expect(card).toContainText("never looks anything up");
+  await toggle.focus();
+  await page.keyboard.press("Space");
+  await expect(toggle).toBeChecked();
+  await expect(card).toHaveAttribute("data-enabled", "true");
+  await expect.poll(() => hub.forkSettings.command_mode_enabled).toBe(true);
+  await expect.poll(() => hub.forkSettings.transforms_enabled).toBe(false);
+  await toggle.click();
+  await expect(toggle).not.toBeChecked();
+  await expect.poll(() => hub.forkSettings.command_mode_enabled).toBe(false);
+});
+
 test("opt-in, banner, auto-apply choice and safe shortcuts", async ({
   page,
   ipc,

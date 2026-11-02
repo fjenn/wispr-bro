@@ -277,6 +277,7 @@
         "dictate": "Да се премести",
         "hands_free": "Безруково диктоване",
         "cancel": "Отказ от диктирането",
+        "command_mode": "Command Mode",
         "paste_last": "Постави последната диктирана",
         "copy_last": "Копирай последната диктирана",
         "press_enter": "Да притиснете Enter",
@@ -291,6 +292,7 @@
         "dictate": "Държете късмета докато говорите; освободете го, за да приключи.",
         "hands_free": "Почни и спре диктирането без да държиш клавиша.",
         "cancel": "Прекъсни текущата диктовка без да я въвежда.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Постави отново последната твоя диктирана информация.",
         "copy_last": "Копирайте последната ви диктирана възможност в клипборда.",
         "press_enter": "Натиснете Return в приложението, където пишете. Със странен бутон на мишка работи добре тук.",
@@ -646,6 +648,8 @@
         "no_transcript": "Все още няма диктовка за поставяне",
         "copied_last": "Последната диктовка е копирана",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",
