@@ -11,5 +11,7 @@ export function forkInputs(root: string): Record<string, string> {
   return {
     // S-03: the `fork-pill` web view (src-tauri/src/fork/pill/panel.rs).
     "fork-pill": resolve(root, "src/fork/pill/index.html"),
+    // S-24: the singleton floating note window.
+    "fork-scratchpad": resolve(root, "src/fork/scratchpad/index.html"),
   };
 }

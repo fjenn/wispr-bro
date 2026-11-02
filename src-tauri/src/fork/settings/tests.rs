@@ -56,7 +56,12 @@ fn defaults_match_the_product_decisions() {
     assert_eq!(s.bar_position, BarPosition::Bottom);
     assert_eq!(s.bar_hidden_until_ms, None);
     assert!(!s.live_text_in_pill); // DEC-30
-    assert_eq!(s.scratchpad_open_behavior, ScratchpadOpenBehavior::Floating);
+    assert_eq!(
+        s.scratchpad_open_behavior,
+        ScratchpadOpenBehavior::ResumeLast
+    );
+    assert!(!s.scratchpad_on_bar);
+    assert!(!s.hotkeys.contains_key("scratchpad.open"));
     assert_eq!(s.text_retention_days, None); // DEC-07: text forever
     assert_eq!(s.audio_retention_days, Some(14)); // DEC-07: audio 14 days
     assert!(s.update_checks_enabled); // DEC-14
@@ -176,6 +181,24 @@ fn v4_hotkeys_gain_command_mode_without_overwriting_an_unset_entry() {
         "hotkeys": { "command_mode": [] },
     })));
     assert!(s.hotkeys[hotkey_actions::COMMAND_MODE].is_empty());
+}
+
+#[test]
+fn v5_scratchpad_location_becomes_resume_without_adding_a_shortcut() {
+    for previous in ["floating", "hub"] {
+        let (s, status) = decode_stored(Some(&json!({
+            "schema_version": 5,
+            "scratchpad_open_behavior": previous,
+            "hotkeys": { "scratchpad.open": [] },
+        })));
+        assert_eq!(status, LoadStatus::Migrated { from: 5 });
+        assert_eq!(
+            s.scratchpad_open_behavior,
+            ScratchpadOpenBehavior::ResumeLast
+        );
+        assert!(s.hotkeys["scratchpad.open"].is_empty());
+        assert!(!s.scratchpad_on_bar);
+    }
 }
 
 #[test]

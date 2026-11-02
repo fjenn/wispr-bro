@@ -49,6 +49,7 @@ export const HOTKEY_ACTIONS: readonly HotkeyAction[] = [
   },
   { id: "press_enter", activation: "press", defaults: [] },
   { id: "undo_cancel", activation: "press", defaults: [] },
+  { id: "scratchpad.open", activation: "press", defaults: [] },
 ];
 
 export function actionDefinition(id: string): HotkeyAction {

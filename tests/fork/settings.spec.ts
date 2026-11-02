@@ -114,7 +114,7 @@ test("System, Data and Privacy, collapsed Advanced, and About deep-link", async 
   await expect(page.getByTestId("wb-system-show-dock")).toBeChecked();
   await expect(page.getByTestId("wb-system-notifications")).toBeVisible();
   await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveValue(
-    "floating",
+    "resume_last",
   );
   await page.getByTestId("wb-settings-nav-privacy").click();
   await expect(page.getByTestId("wb-settings-privacy")).toContainText(
@@ -152,19 +152,21 @@ test("Dock and Scratchpad choices survive modal close and relaunch", async ({
   await openSection(page, ipc, "system");
   installPersistentSettings(ipc);
   await page.getByTestId("wb-system-show-dock").uncheck();
-  await page.getByTestId("wb-scratchpad-open-behavior").selectOption("hub");
+  await page
+    .getByTestId("wb-scratchpad-open-behavior")
+    .selectOption("new_note");
   await page.getByTestId("wb-settings-close").click();
   await expect(page.getByTestId("wb-settings-modal")).toHaveCount(0);
   await page.getByTestId("wb-nav-settings").click();
   await page.getByTestId("wb-settings-nav-system").click();
   await expect(page.getByTestId("wb-system-show-dock")).not.toBeChecked();
   await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveValue(
-    "hub",
+    "new_note",
   );
   await page.reload();
   await expect(page.getByTestId("wb-system-show-dock")).not.toBeChecked();
   await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveValue(
-    "hub",
+    "new_note",
   );
 });
 

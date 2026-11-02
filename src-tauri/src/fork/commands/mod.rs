@@ -18,6 +18,7 @@ pub mod llm;
 pub mod models;
 pub mod notifications;
 pub mod pill;
+pub mod scratchpad;
 pub mod selfcheck;
 pub mod settings;
 pub mod snippets;

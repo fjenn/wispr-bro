@@ -892,6 +892,106 @@ async forkTransformReadExample(path: string) : Promise<Result<string, ForkError>
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async forkScratchpadList(query: string | null) : Promise<Result<Note[], ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_list", { query }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadGet(id: number) : Promise<Result<Note | null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_get", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadSave(id: number, body: string) : Promise<Result<Note, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_save", { id, body }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadSetPinned(id: number, pinned: boolean) : Promise<Result<Note, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_set_pinned", { id, pinned }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadDelete(id: number) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_delete", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadOpen() : Promise<Result<Note, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_open") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadNew() : Promise<Result<Note, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_new") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadShowNote(id: number) : Promise<Result<Note, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_show_note", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadClose() : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_close") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadExpand() : Promise<Result<boolean, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_expand") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkScratchpadCopy(text: string) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_copy", { text }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Polish is the merged S-21 engine and built-in definition, with no AX
+ * selection, paste, clipboard write, or transform-run side effects.
+ */
+async forkScratchpadPolish(source: string) : Promise<Result<string, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_polish", { source }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -913,6 +1013,8 @@ forkNotificationsChanged: ForkNotificationsChanged,
 forkPillLevels: ForkPillLevels,
 forkPillState: ForkPillState,
 forkPingEvent: ForkPingEvent,
+forkScratchpadChanged: ForkScratchpadChanged,
+forkScratchpadOpen: ForkScratchpadOpen,
 forkSettingsChanged: ForkSettingsChanged,
 forkSnippetsChanged: ForkSnippetsChanged,
 forkSpeechSetup: ForkSpeechSetup,
@@ -935,6 +1037,8 @@ forkNotificationsChanged: "fork-notifications-changed",
 forkPillLevels: "fork-pill-levels",
 forkPillState: "fork-pill-state",
 forkPingEvent: "fork-ping-event",
+forkScratchpadChanged: "fork-scratchpad-changed",
+forkScratchpadOpen: "fork-scratchpad-open",
 forkSettingsChanged: "fork-settings-changed",
 forkSnippetsChanged: "fork-snippets-changed",
 forkSpeechSetup: "fork-speech-setup",
@@ -1646,6 +1750,8 @@ debug_build: boolean;
  * `true` when the app was launched with `--debug`.
  */
 cli_debug: boolean }
+export type ForkScratchpadChanged = { revision: number }
+export type ForkScratchpadOpen = { note_id: number }
 /**
  * One change sent by `fork_set_setting`, typed per field:
  * `{ "key": "cleanup_level", "value": "medium" }`. The internal fields
@@ -1655,7 +1761,7 @@ export type ForkSettingUpdate =
 /**
  * Replaces the bindings of one action. An empty list unsets it.
  */
-{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "scratchpad_open_behavior"; value: ScratchpadOpenBehavior } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
+{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "scratchpad_open_behavior"; value: ScratchpadOpenBehavior } | { key: "scratchpad_on_bar"; value: boolean } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
 /**
  * All fork settings. Missing fields take their [`Default`] value
  * (container-level `serde(default)`), so a partial file never fails as a
@@ -1706,9 +1812,13 @@ bar_x_by_display: Partial<{ [key in string]: number }>;
  */
 live_text_in_pill: boolean; 
 /**
- * S-14: where Scratchpad opens (used by S-24).
+ * S-14/S-24: whether the shortcut resumes the last note or creates one.
  */
 scratchpad_open_behavior: ScratchpadOpenBehavior; 
+/**
+ * S-24: add the Scratchpad slot to the resting Flow Bar.
+ */
+scratchpad_on_bar: boolean; 
 /**
  * DEC-7: `None` keeps text forever.
  */
@@ -2053,6 +2163,7 @@ export type MicEntryKind =
  * "Auto-detect (system setting)".
  */
 "auto" | "device"
+export type Note = { id: number; title: string; body: string; pinned: boolean; created_at: number; updated_at: number }
 /**
  * What activating a notification does.
  */
@@ -2459,9 +2570,9 @@ export type SaveOutcome =
  */
 { status: "missing" }
 /**
- * Where S-24 opens Scratchpad (S-14 persists the choice).
+ * What S-24 opens when the Scratchpad shortcut or bar slot is used.
  */
-export type ScratchpadOpenBehavior = "floating" | "hub"
+export type ScratchpadOpenBehavior = "resume_last" | "new_note"
 /**
  * Server phase for the status event.
  */

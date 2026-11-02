@@ -38,6 +38,7 @@ mod native;
 #[cfg(target_os = "macos")]
 mod panel;
 pub mod placement;
+pub mod slots;
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
@@ -939,6 +940,11 @@ impl Controller {
                 send(Msg::Prewarm);
                 self.pill_action(PillAction::Click);
             }
+            native::NativeEvent::Scratchpad => {
+                if let Err(error) = crate::fork::scratchpad::window::open_shortcut(&self.app) {
+                    log::warn!("pill: could not open Scratchpad: {error}");
+                }
+            }
             native::NativeEvent::HideForAnHour => {
                 let until = unix_ms() + HIDE_FOR_MS;
                 self.update_settings(move |s| s.bar_hidden_until_ms = Some(until));
@@ -1045,6 +1051,10 @@ impl Controller {
             hint: t("rust.pill.hint"),
             name: t("rust.pill.name"),
             hide_for_an_hour: t("rust.pill.hideForAnHour"),
+            dictate: t(slots::DICTATE.label_key),
+            dictate_hint: t(slots::DICTATE.tooltip_key),
+            scratchpad: t(slots::SCRATCHPAD.label_key),
+            scratchpad_hint: t(slots::SCRATCHPAD.tooltip_key),
         }
     }
 
@@ -1201,6 +1211,7 @@ impl Controller {
             x_by_display: self.settings.bar_x_by_display.clone(),
             protected: self.settings.bar_hide_in_recordings,
             dark: self.dark,
+            scratchpad_enabled: self.settings.scratchpad_on_bar,
             texts: self.texts(),
         }
     }

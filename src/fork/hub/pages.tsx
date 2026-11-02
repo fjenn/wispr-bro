@@ -27,6 +27,7 @@ import { Home } from "../home/Home";
 import { InsightsPage } from "../insights/InsightsPage";
 import { SnippetsPage } from "../snippets/SnippetsPage";
 import { StylePage } from "../style/StylePage";
+import { ScratchpadPage } from "../scratchpad/ScratchpadPage";
 import { TransformsPage } from "../transforms/TransformsPage";
 import { EmptyState, type TagKind } from "../ui";
 import { SettingsModal } from "../settings/SettingsModal";
@@ -119,7 +120,7 @@ export const HUB_PAGES: HubPage[] = [
     group: "main",
     icon: NotebookPen,
     tag: "beta",
-    component: placeholder("scratchpad", NotebookPen, { page: "dictation" }),
+    component: ScratchpadPage,
   },
   {
     id: "share",

@@ -104,7 +104,7 @@ export function System() {
           hint={t("settingsModal.system.scratchpadHint")}
           value={settings.scratchpad_open_behavior}
           disabled={!!pending.scratchpad_open_behavior}
-          options={["floating", "hub"].map((value) => ({
+          options={["resume_last", "new_note"].map((value) => ({
             value,
             label: t(`settingsModal.system.scratchpadOptions.${value}`),
           }))}
@@ -115,6 +115,14 @@ export function System() {
             )
           }
           testId="wb-scratchpad-open-behavior"
+        />
+        <ForkToggle
+          label={t("scratchpad.addToBar")}
+          hint={t("scratchpad.addToBarHelp")}
+          checked={settings.scratchpad_on_bar}
+          disabled={!!pending.scratchpad_on_bar}
+          onChange={(checked) => void setSetting("scratchpad_on_bar", checked)}
+          testId="wb-system-scratchpad-on-bar"
         />
       </Panel>
     </div>
