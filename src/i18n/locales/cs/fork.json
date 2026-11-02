@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "Transformace",
+      "transformsHint": "⌥1 zjasňuje vybraný text a ⌥2 jej převede na jasnější AI prompt. Během povolení tyto klávesy nahrazují ¡ a ™.",
+      "transformsSafeShortcuts": "Použít ⌃⌥1 a ⌃⌥2 náhradně",
+      "transformsSafeShortcutsHint": "Udržuje ¡ a ™ k dispozici pomocí ⌥1 a ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,30 +277,30 @@
         "dictate": "Stisknout pro řečení",
         "hands_free": "Dictace bez rukou",
         "cancel": "Zrušit dictaci",
-        "command_mode": "Command Mode",
+        "command_mode": "Režim příkazů",
         "paste_last": "Vložit poslední dictaci",
         "copy_last": "Zkopírovat poslední dictaci",
         "press_enter": "Stiskněte Enter",
         "undo_cancel": "Zpět zrušit",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Upravit vybraný text",
+          "prompt_engineer": "Převést vybraný text na AI prompt",
+          "view_changes": "Zobrazit změny převodu"
         }
       },
       "help": {
         "dictate": "Držte klávesový zkrat při mluvení; uvolněte jej, abyste dokončili.",
         "hands_free": "Spustit a vypnout dictaci bez držení klávesy.",
         "cancel": "Zastavte aktuální dictaci bez jejího vložení.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Držte klávesy fn a Ctrl, zatímco říkáte, jak upravit nebo napsat text.",
         "paste_last": "Vložte opět vaši nejnovější dictaci.",
         "copy_last": "Kopírovat vaši nejnovější dictaci do schránky.",
         "press_enter": "Stiskněte klávesu Return v aplikaci, kde psát. Stisknutí strany myši je zde vhodné.",
         "undo_cancel": "Obnovit dictaci, kterou jsi zrušil.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Přepiš vybraný text do polského jazyka.",
+          "prompt_engineer": "Přeformulujte vybraný text jako jasný AI prompt.",
+          "view_changes": "Prohlédněte si nejnovější transformaci před a po."
         }
       }
     }
@@ -630,7 +630,7 @@
         "card": "Vaše diktování je připravené. Zkopírujte ho z lišty.",
         "micLostWarning": "Mikrofon se odpojil. Co jsi řekl, je uloženo.",
         "undo": "Zpět je na diktovací liště 4 sekundy.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Změny pro transformaci jsou připraveny k prohlídce."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -647,13 +647,13 @@
         "cancelled": "Zrušeno",
         "no_transcript": "Zatím není co vložit",
         "copied_last": "Poslední diktát zkopírován",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Hotovo",
+        "command_done": "Hotovo",
+        "command_needs_text": "Režim příkazu úpravuje a psaní textu. Vyberte text nebo klikněte do pole.",
+        "select_text_first": "Vyberte text nejdřív",
+        "selection_too_long": "Vyberte 6 000 znaků nebo méně",
+        "transform_focus_moved": "Přesunul jsi, takže se nic nezměnilo",
+        "transform_failed": "Nemohu převést tento text"
       },
       "card": {
         "no_text_field": "Nejprve klikněte do položky textu",
@@ -977,130 +977,130 @@
       "hidden": "Skryto, protože bylo určeno pro pole hesla"
     },
     "undo": "Zpět",
-    "viewChanges": "View changes",
+    "viewChanges": "Zobrazit změny",
     "sendsAutomatically": "Odesílá se automaticky"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Přepiš vybraný text v jakékoliv aplikaci",
+      "body": "Vyberte transformaci, zvolte text a použijte jeho klávesové zkratky. Vaše psaní zůstává na tomto Macu."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Zapnout Transformedy",
+      "help": "Zapněte přepínací klávesy pro úpravy a zobrazení změn. Úpravy jsou vypnuty, dokud nevyberete."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Režim příkazů",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Zapnuto",
+      "off": "Vypnuto",
+      "help": "Držte fn a Ctrl, pak řekněte, jak změnit výběr nebo co napsat. Pokud není žádný výběr, pole poskytuje kontext a výsledek se vloží na kurzor. Vše zůstává na tomto Macu; Režim příkazů nikdy nic nehledá. Při vypnutí určuje fn a Ctrl normálně."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Použít po každé dictaci",
+      "help": "Spustí vybranou transformaci po odstranění. Pokud se nepovede, zůstane vaše vyčištěná dictace nezměněná. Spuštění méně než 5 sekund od sebe se přeskočí.",
+      "choice": "Převést na aplikování",
+      "none": "Vyberte transformaci"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 a ⌥O nahrazují znaky ¡, ™ a ø během činnosti Transform.",
+      "safe": "Použijte ⌃⌥ nástroj"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Moje transformace",
+    "reset": "Nastavit na výchozí hodnoty",
+    "resetConfirm": "Obnovit polský a Prompt Engineer a odstranit každou vlastní transformaci?",
+    "createNew": "Vytvořit nový",
+    "deleteConfirm": "Odstranit {{name}}? To nelze vrátit zpět.",
+    "loading": "Načítání vašich transformací…",
+    "empty": "Žádné transformace ještě. Vytvořte jednu, abyste začali.",
+    "error": "Změna transformace se nepodařilo uložit. Zkuste to znovu.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Vytvořit vlastní",
+      "createOwnHint": "Vyberte pravidla, pokyny a příklady psaní.",
+      "delete": "Odstranit {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Ujasnění gramatiky a výslovnosti zároveň s udržením vašeho hlasu."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Převést nejisté poznámky na jasný a kompletní AI prompt."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Můj transform",
+      "description": "Přepiš text tak, jak chci.",
+      "prompt": "Přepiš zvolený text a zachovej jeho význam, fakta a jazyk."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Upravit {{name}}",
+      "name": "Jméno",
+      "description": "Popis",
+      "hotkey": "Zkratka",
+      "addHotkey": "Přidat klávesovou zkratku",
+      "example": "Příklad",
+      "exampleInput": "Text k převodu",
+      "exampleText": "um mohla bys mi pošle report dneska možná můžeme o tom mluvit pak",
+      "preview": "Náhled",
+      "previewing": "Představují…",
+      "customPrompt": "Vlastní prompt",
+      "customPromptHelp": "Přidej konkrétní pokyny. Vybraný text je převeden, nikdy není odpověď.",
+      "rules": "Pravidla úpravy",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Automatické ukládání · Uloženo všechno",
+        "saving": "Automatické ukládání · Ukládám...",
+        "error": "Automatické ukládání · Není možné uložit nejnovější změnu"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Obnovit",
+      "done": "Hotovo",
+      "close": "Zavřít editor"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Zkrácené",
+        "help": "Odstraňte opakování a nepotřebné slova."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Jednodušší formulace",
+        "help": "Používej přímé a přesné výrazy."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Lepší pořadí",
+        "help": "Umístění myšlenek v logické posloupnosti."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Přidat záhlaví a seznamy",
+        "help": "Upravte delší text pro snazší prohlížení."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Zůstat v mém tónu",
+        "help": "Udržet váš hlas a formálnost."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Příklady psaní",
+      "help": "Vložte nebo načtěte až {{max}} příkladů, každý délky {{chars}} znaků. Představují styl bez toho, aby se stali součástí výsledku.",
+      "fileType": "Text nebo Markdown",
+      "label": "Příklad psaní {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Vložit příklad",
+      "load": "Načíst .txt nebo .md",
+      "remove": "Odstranit příklad {{number}}",
+      "readError": "Vyberte soubor .txt nebo .md s nejvíce 1 500 znaků."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} změna",
+      "changes_other": "{{count}} změn",
+      "configure": "Nastavit",
+      "copy": "Zkopírovat",
+      "copied": "Zkopírováno",
+      "retry": "Zopakovat",
+      "retrying": "Znovu se pokouším...",
+      "feedback": "Hodnotit tento transform",
+      "good": "Dobrý výsledek",
+      "bad": "Slabý výsledek",
+      "simpleView": "Zobrazuje jednu výměnu pro tento velký nebo složitý změnu.",
+      "actionFailed": "Tato operace se nepovedla. Text zůstává tu; zkuste to znovu."
     }
   },
   "cleanup": {

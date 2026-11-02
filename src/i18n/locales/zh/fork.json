@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "变换",
+      "transformsHint": "⌥1 对选中的文本进行优化，⌥2 将其转换为更清晰的 AI 提示。启用时，这些按键会替代 ¡ 和 ™。",
+      "transformsSafeShortcuts": "使用 ⌃⌥1 和 ⌃⌥2 替代",
+      "transformsSafeShortcutsHint": "保持 ¡ 和 ™ 在 ⌥1 和 ⌥2 上可用。",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,30 +277,30 @@
         "dictate": "按下说话",
         "hands_free": "语音输入（无需动手）",
         "cancel": "取消语音输入",
-        "command_mode": "Command Mode",
+        "command_mode": "命令模式",
         "paste_last": "粘贴上一次语音输入",
         "copy_last": "复制上一次的语音输入",
         "press_enter": "按回车",
         "undo_cancel": "撤销取消",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "修饰选中的文本",
+          "prompt_engineer": "将选中的文本转换为AI提示",
+          "view_changes": "查看变换更改"
         }
       },
       "help": {
         "dictate": "说话时按住快捷键；松开以结束。",
         "hands_free": "无需按键即可开始和停止语音输入。",
         "cancel": "取消当前语音输入而不将其插入。",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "同时按住 fn 和 Ctrl，然后说出如何编辑或输入文字。",
         "paste_last": "再次粘贴你最近的语音输入。",
         "copy_last": "将您最近的语音输入复制到剪贴板。",
         "press_enter": "在您正在输入的应用程序中按回车键。使用鼠标侧键效果更佳。",
         "undo_cancel": "撤销并取消语音输入",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "使用波兰语重写选中的文本。",
+          "prompt_engineer": "将选中的文本重写为一个清晰的AI提示。",
+          "view_changes": "查看变换前后的最新内容。"
         }
       }
     }
@@ -630,7 +630,7 @@
         "card": "你的听写已就绪。可从栏中复制。",
         "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。",
         "undo": "“撤销”会在听写栏上显示 4 秒。",
-        "diff": "Transform changes are ready to review."
+        "diff": "变换更改已准备就绪，可供审核。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -647,13 +647,13 @@
         "cancelled": "已取消",
         "no_transcript": "还没有可粘贴的听写",
         "copied_last": "已复制最近一次听写",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "完成",
+        "command_done": "好了",
+        "command_needs_text": "命令模式下可编辑和输入文本。请选择文本或点击输入框。",
+        "select_text_first": "先选择文本",
+        "selection_too_long": "选择 6,000 个字符或更少",
+        "transform_focus_moved": "你已经移动过去，所以没有变化",
+        "transform_failed": "无法转换该文本"
       },
       "card": {
         "no_text_field": "先点击文本框",
@@ -977,130 +977,130 @@
       "hidden": "隐藏，因为它本应用于密码字段"
     },
     "undo": "撤销",
-    "viewChanges": "View changes",
+    "viewChanges": "查看更改",
     "sendsAutomatically": "自动发送"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "在任何应用中重写选中的文本",
+      "body": "选择一个转换，选中文本，使用其快捷方式。你的书写将保留在这台 Mac 上。"
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "启用 Transforms",
+      "help": "开启改写快捷键和修改查看功能。改写功能将在您选择后才启用。"
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "命令模式",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "开启",
+      "off": "关闭",
+      "help": "按住 fn 和 Ctrl，然后说出如何修改选择或要输入的内容。如果没有选中内容，该字段会提供上下文，结果会出现在光标位置。所有内容都保留在这台 Mac 上；命令模式不会进行任何查询。关闭时，fn 和 Ctrl 按照正常方式工作。"
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "每次语音输入后应用",
+      "help": "清理后运行选定的转换。如果无法完成，您的清理语音将原样粘贴。每隔少于5秒的运行将被跳过。",
+      "choice": "转换应用",
+      "none": "选择一个转换"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1、⌥2 和 ⌥O 在启用变换时会替换字符 ¡、™ 和 ø。",
+      "safe": "使用 ⌃⌥ 代替"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "我的变换",
+    "reset": "重置为默认值",
+    "resetConfirm": "重置波兰语和提示工程师并移除所有自定义转换？",
+    "createNew": "创建新",
+    "deleteConfirm": "删除 {{name}}？无法撤销。",
+    "loading": "正在加载您的转换……",
+    "empty": "还没有转换。创建一个以开始。",
+    "error": "该变换更改无法保存，请重试。",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "创建你的专属",
+      "createOwnHint": "选择规则、说明和写作示例。",
+      "delete": "删除 {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "在保持你声音的基础上，修正语法和用词。"
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "将粗糙的笔记转化为清晰完整的AI提示。"
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "我的变换",
+      "description": "以我想要的方式重写文本。",
+      "prompt": "重写选中的文本，同时保持其含义、事实和语言。"
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "编辑 {{name}}",
+      "name": "名称",
+      "description": "描述",
+      "hotkey": "热键",
+      "addHotkey": "添加快捷键",
+      "example": "示例",
+      "exampleInput": "要转换的文本",
+      "exampleText": "嗯 你能把报告发给我明天吗 也许那时我们可以聊聊",
+      "preview": "预览",
+      "previewing": "预览中…",
+      "customPrompt": "自定义提示",
+      "customPromptHelp": "添加特定指令。所选文本会被转换，不会被回答。",
+      "rules": "编辑规则",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "自动保存 · 所有更改已保存",
+        "saving": "自动保存 · 保存中…",
+        "error": "自动保存 · 无法保存最新更改"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "重置",
+      "done": "好了",
+      "close": "关闭编辑器"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "更短",
+        "help": "去除重复和多余词语。"
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "更清晰的表达",
+        "help": "使用直接、准确的语言。"
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "更好的排序",
+        "help": "将想法按逻辑顺序排列。"
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "添加标题和列表",
+        "help": "让较长的文本更易于浏览。"
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "保持我的语气",
+        "help": "保留你的声音和正式程度。"
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "写作示例",
+      "help": "粘贴或加载最多 {{max}} 个示例，每个 {{chars}} 个字符。它们指导风格，但不会成为结果的一部分。",
+      "fileType": "文本或 Markdown",
+      "label": "写作示例 {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "粘贴一个示例",
+      "load": "加载 .txt 或 .md",
+      "remove": "删除示例 {{number}}",
+      "readError": "选择一个 .txt 或 .md 文件，字符数不超过 1500。"
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} 修改",
+      "changes_other": "{{count}} 个更改",
+      "configure": "配置",
+      "copy": "复制",
+      "copied": "已复制",
+      "retry": "重试",
+      "retrying": "重试中…",
+      "feedback": "评价这个转换",
+      "good": "好的结果",
+      "bad": "差的结果",
+      "simpleView": "显示此大型或复杂变更的一个替换项。",
+      "actionFailed": "该操作未成功。你的文本仍然在这里；请再试一次。"
     }
   },
   "cleanup": {

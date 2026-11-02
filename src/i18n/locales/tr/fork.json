@@ -54,10 +54,10 @@
       "setError": "That change was not saved: {{message}}",
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transforms": "Dönüşümler",
+      "transformsHint": "⌥1 seçili metni temizler ve ⌥2 daha net bir AI komutu oluşturur. Etkin durumda, bu tuşlar ¡ ve ™'yi değiştirir.",
+      "transformsSafeShortcuts": "✅⌥1 ve ✅⌥2 yerine kullan",
+      "transformsSafeShortcutsHint": "¡ ve ™ kısayol ile ⌥1 ve ⌥2 ile kullanılabilir.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,30 +277,30 @@
         "dictate": "Basınca konuş",
         "hands_free": "El ile değil, el ile değil dictasyon",
         "cancel": "Dictasyonu iptal et",
-        "command_mode": "Command Mode",
+        "command_mode": "Komut Modu",
         "paste_last": "Son dictasyonu yapıştır",
         "copy_last": "Son dictasyonu kopyala",
         "press_enter": "Enter tuşuna bas",
         "undo_cancel": "İptal et",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Seçilen metni düzelt",
+          "prompt_engineer": "Seçilen metni bir AI komutuna dönüştür",
+          "view_changes": "Görünüm dönüşüm değişiklikleri"
         }
       },
       "help": {
         "dictate": "Söyleyken kısayolunu tutun; bitirmek için bırakın.",
         "hands_free": "Anahtar olmadan dictasyonu başlatın ve durdurun.",
         "cancel": "Mevcut dictation'ı koymadan durdur.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Fn ve Ctrl'yi tutup metin düzenlemek veya yazmak için ne demek istediğini söyleyin.",
         "paste_last": "En son dictasyonunu tekrar yapıştır.",
         "copy_last": "En son dictasyonunu panoya kopyala.",
         "press_enter": "Uygulamada yazıyorsanız Enter tuşuna basın. Fare yan düğmesi burada iyi çalışır.",
         "undo_cancel": "İptal edilen bir dictation'ı geri al.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Seçilen metni Polonya diliyle yeniden yaz.",
+          "prompt_engineer": "Seçilen metni bir açık AI komutu olarak yeniden yaz.",
+          "view_changes": "En son dönüşümü önce ve sonra inceleyin."
         }
       }
     }
@@ -630,7 +630,7 @@
         "card": "Dikteniz hazır. Çubuktan kopyalayabilirsiniz.",
         "micLostWarning": "Mikrofon bağlantısı kesildi. Daha önce söyledikleriniz korunuyor.",
         "undo": "Geri al, dikte çubuğunda 4 saniye kalır.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Değişikliklerin dönüşümü onaylamaya hazır."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -647,13 +647,13 @@
         "cancelled": "İptal edildi",
         "no_transcript": "Henüz yapıştırılacak dikte yok",
         "copied_last": "Son dikte kopyalandı",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Bitti",
+        "command_done": "Bitti",
+        "command_needs_text": "Komut Modu metin düzenler ve yazar. Metin seçin veya bir alan içine tıklayın.",
+        "select_text_first": "Önce metin seçin",
+        "selection_too_long": "6.000 karakterden az seçin",
+        "transform_focus_moved": "Yerini değiştirdiniz, bu yüzden hiçbir şey değişmedi",
+        "transform_failed": "O metni dönüştürme başarısız oldu"
       },
       "card": {
         "no_text_field": "Önce bir metin alanı içine tıklayın",
@@ -977,130 +977,130 @@
       "hidden": "Gizli, çünkü şifre alanına yönelik olarak oluşturuldu"
     },
     "undo": "Geri al",
-    "viewChanges": "View changes",
+    "viewChanges": "Değişiklikleri görüntüle",
     "sendsAutomatically": "Otomatik gönderir"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Seçilen metni her uygulamada yeniden yaz",
+      "body": "Bir dönüştürme seçin, metin seçin ve kısa yolu kullanın. Yazınız bu Mac'te kalır."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Dönüşümleri Etkinleştir",
+      "help": "Yeniden yazma kısayollarını ve değişiklik görünümünü açın. Dönüştürme özelliklerini seçmeden önce kapalı."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Komut Modu",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Açık",
+      "off": "Kapalı",
+      "help": "Fn ve Ctrl'yi tutun, seçimi değiştirmek veya ne yazacağını söyleyin. Seçim yoksa, alan bağlam verir ve sonuç imleçte olur. Tüm şey bu Mac'te kalır; Komut Modu hiçbir şeyi araştırmaz. Devre dışı olduğunda Fn ve Ctrl normal şekilde işler."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Her dictation sonrası uygula",
+      "help": "Temizleme sonrası seçilen dönüştürme çalıştırılır. Bittiğinde değilse, temizlenmiş dictation değişmeden yapıştırılır. 5 saniyeden az süre aralıklar atlanır.",
+      "choice": "Dönüştürme uygulamak",
+      "none": "Bir dönüştürme seçin"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 ve ⌥O, Transforms açıldığında ¡, ™ ve ø karakterlerini değiştirir.",
+      "safe": "✅⌥ yerine kullan"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Benim Dönüşümlerim",
+    "reset": "Varsayılanlara dön",
+    "resetConfirm": "Polish ve Prompt Mühendisini sıfırlayın ve her özel dönüştürmeyi kaldırın mı?",
+    "createNew": "Yeni oluştur",
+    "deleteConfirm": "{{name}}'i silmek istiyor musun? Bu geri alınamaz.",
+    "loading": "Dönüştürmeleriniz yükleniyor...",
+    "empty": "Hâlâ dönüşüm yok. Bir tanesini oluşturun.",
+    "error": "O dönüşüm değişikliği kaydedilemedi. Lütfen tekrar dene.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Kendi oluştur",
+      "createOwnHint": "Kurallar, talimatlar ve yazım örneklerini seçin.",
+      "delete": "Sil {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Dilbilgisi ve ifadeyi düzeltirken sesinizi korur."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Kısa notları net ve tam bir AI komutuna dönüştür."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Benim dönüşümüm",
+      "description": "Metni istedim gibi yeniden yaz.",
+      "prompt": "Seçilen metni anlamı, bilgileri ve dili koruyarak yeniden yaz."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "Düzenle {{name}}",
+      "name": "Ad",
+      "description": "Açıklama",
+      "hotkey": "Hızlı tuş",
+      "addHotkey": "Yeni hızlı tuş ekle",
+      "example": "Örnek",
+      "exampleInput": "Metin dönüşümü",
+      "exampleText": "um belki sen bana raporunu bir sonraki gün gönderirsin, sonra onu konuşabiliriz",
+      "preview": "Önizleme",
+      "previewing": "Önizleme...",
+      "customPrompt": "Özel komut",
+      "customPromptHelp": "Özel talimatlar ekleyin. Seçilen metin dönüştürülür, cevap verilmez.",
+      "rules": "Düzenleme kuralları",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Otomatik kaydet · Tüm değişiklikler kaydedildi",
+        "saving": "Otomatik kaydet · Kaydediliyor…",
+        "error": "Otomatik kaydet · En son değişikliği kaydetmek için başarısız oldu"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Sıfırla",
+      "done": "Bitti",
+      "close": "Düzenleyiciyi kapat"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Daha kısa",
+        "help": "Yinelenmeleri ve ek sözcükleri kaldır."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Daha net ifade",
+        "help": "Doğrudan ve net dille kullanın."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Daha iyi sıralama",
+        "help": "Fikirleri mantıksal bir sıraya koyun."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Başlıklar ve listeler ekleyin",
+        "help": "Daha uzun metni daha kolay tarayabilmesi için."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Tonalımla kal",
+        "help": "Sesin ve resmi tonunu koru."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Yazım örnekleri",
+      "help": "İşaretleyin veya yükleyin en fazla {{max}} örnek, her biri {{chars}} karakter. Şekil oluştururken, sonuçta bir parçası olmaz.",
+      "fileType": "Metin ya da Markdown",
+      "label": "Yazım örneği {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Örnek yapıştır",
+      "load": "Yükleyin .txt ya da .md",
+      "remove": "Örnekleri kaldır {{number}}",
+      "readError": "Bir .txt veya .md dosyası seçin ve 1.500 karakterden fazla olmamalı."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} değişiklik",
+      "changes_other": "{{count}} değişiklik",
+      "configure": "Konfigüre",
+      "copy": "Kopyala",
+      "copied": "Kopyalandı",
+      "retry": "Tekrar deneyin",
+      "retrying": "Yeniden deneiyor...",
+      "feedback": "Bu dönüşümü değerlendirin",
+      "good": "İyi sonuç",
+      "bad": "Yetersiz sonuç",
+      "simpleView": "Büyük veya karmaşık bir değişiklik için bir değiştirme gösteriliyor.",
+      "actionFailed": "O işlem başarılı değil. Metin hâlâ burada; tekrar dene."
     }
   },
   "cleanup": {

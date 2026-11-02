@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 선택된 텍스트를 다듬고 ⌥2는 더 명확한 AI 프롬프트로 변환합니다. 활성화 상태에서는 그 키들이 ¡와 ™을 대체합니다.",
+      "transformsSafeShortcuts": "⌃⌥1 및 ⌃⌥2를 사용하세요",
+      "transformsSafeShortcutsHint": "¡ 및 ™를 ⌥1과 ⌥2로 유지합니다.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,30 +277,30 @@
         "dictate": "Push to talk",
         "hands_free": "손이 없는 디타이션",
         "cancel": "dictation 취소",
-        "command_mode": "Command Mode",
+        "command_mode": "명령 모드",
         "paste_last": "최근 dictation 붙여넣기",
         "copy_last": "최근 dictation 복사",
         "press_enter": "엔터를 누르세요",
         "undo_cancel": "취소를 되돌리기",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "선택한 텍스트를 다듬기",
+          "prompt_engineer": "선택한 텍스트를 AI 프롬프트로 변환",
+          "view_changes": "뷰 변환 변경 사항"
         }
       },
       "help": {
         "dictate": "말할 때 단축키를 누르고, 말을 끝내려면 단축키를 놓으세요.",
         "hands_free": "키를 누르지 않고 녹음과 중단을 시작 및 종료합니다.",
         "cancel": "현재 딕테이션을 중단하고 삽입하지 않기",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "fn과 Ctrl을 누르며 텍스트를 편집하거나 작성하는 방법을 말하세요.",
         "paste_last": "최근 dictation을 다시 붙여넣기 합니다.",
         "copy_last": "최근 dictation을 클립보드에 복사합니다.",
         "press_enter": "앱에서 입력 중인 곳에서 Enter를 누르세요. 마우스 측면 버튼이 좋습니다.",
         "undo_cancel": "dictation을 취소한 후에 복구합니다.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "선택한 텍스트를 폴란드어로 재작성합니다.",
+          "prompt_engineer": "선택한 텍스트를 명확한 AI 프롬프트로 재작성합니다.",
+          "view_changes": "변환 전후를 확인하세요."
         }
       }
     }
@@ -630,7 +630,7 @@
         "card": "받아쓰기가 준비되었습니다. 막대에서 복사하세요.",
         "micLostWarning": "마이크가 연결이 끊겼습니다. 지금까지 말씀하신 내용은 저장됩니다.",
         "undo": "실행 취소는 받아쓰기 막대에 4초 동안 표시됩니다.",
-        "diff": "Transform changes are ready to review."
+        "diff": "변경 사항 변환은 검토할 준비가 되었습니다."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -647,13 +647,13 @@
         "cancelled": "취소됨",
         "no_transcript": "아직 붙여넣을 받아쓰기가 없습니다",
         "copied_last": "마지막 받아쓰기를 복사했습니다",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "완료",
+        "command_done": "완료",
+        "command_needs_text": "Command Mode에서는 텍스트를 편집하고 작성합니다. 텍스트를 선택하거나 입력란에 클릭하세요.",
+        "select_text_first": "먼저 텍스트를 선택하세요",
+        "selection_too_long": "6,000자 이하를 선택하세요",
+        "transform_focus_moved": "다음으로 넘어갔으므로 아무 변화도 없었습니다",
+        "transform_failed": "그 텍스트를 변환할 수 없었습니다"
       },
       "card": {
         "no_text_field": "먼저 텍스트 필드에 클릭하세요",
@@ -977,130 +977,130 @@
       "hidden": "숨겨져 있음, 비밀번호 입력란을 위해 만들어졌기 때문입니다"
     },
     "undo": "실행 취소",
-    "viewChanges": "View changes",
+    "viewChanges": "변경 사항 보기",
     "sendsAutomatically": "자동으로 보냄"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "선택한 텍스트를 어떤 앱에서도 재작성",
+      "body": "변환을 선택하고 텍스트를 선택한 후 단축키를 사용하세요. 작성한 내용은 이 Mac에서만 유지됩니다."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Transforms를 활성화",
+      "help": "리워터링 단축키와 변경 사항 보기를 켜세요. 변환 기능은 선택하지 않으면 꺼져 있습니다."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "명령 모드",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "온",
+      "off": "끄기",
+      "help": "fn과 Ctrl을 누르고, 선택을 변경하거나 작성할 내용을 말하세요. 선택이 없으면 필드가 맥락을 제공하고 결과는 커서 위치에 나타납니다. 모든 내용은 이 맥에서만 유지되며, 명령 모드는 어떤 것도 검색하지 않습니다. 꺼진 상태에서는 fn과 Ctrl이 정상적으로 작동합니다."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "dictation 후마다 적용",
+      "help": "정리 후 선택한 변환을 실행합니다. 완료되지 않으면 정리된 디타이션을 그대로 붙입니다. 5초 이내에 반복 실행은 건너뜁니다.",
+      "choice": "변환 적용",
+      "none": "변환을 선택"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 및 ⌥O는 변환 기능이 켜져 있을 때 ¡, ™ 및 ø를 대체합니다.",
+      "safe": "⌃⌥ 사용"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "내 변환",
+    "reset": "기본값으로 초기화",
+    "resetConfirm": "Polish 및 Prompt Engineer를 초기화하고 모든 맞춤형 변환을 제거하시겠습니까?",
+    "createNew": "새로 만들기",
+    "deleteConfirm": "{{name}}을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "loading": "변환을 로딩 중입니다…",
+    "empty": "변환 없음. 하나를 만들면 시작할 수 있어요.",
+    "error": "그 변환 변경사항을 저장할 수 없습니다. 다시 시도해 보세요.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "자신만의 것을 만들기",
+      "createOwnHint": "규칙, 지침 및 글 작성 예시를 선택하세요.",
+      "delete": "삭제 {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "문장과 표현을 정리하면서도 목소리를 유지합니다."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "rough notes를 명확하고 완전한 AI 프롬프트로 변환합니다."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "내 변환",
+      "description": "텍스트를 내가 원하는 방식으로 다시 작성합니다.",
+      "prompt": "선택한 텍스트를 의미, 사실, 언어를 유지하면서 재작성합니다."
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "title": "편집 {{name}}",
+      "name": "이름",
+      "description": "설명",
+      "hotkey": "핫키",
+      "addHotkey": "핫키 추가",
+      "example": "예제",
+      "exampleInput": "변환할 텍스트",
+      "exampleText": "아, 혹시 내일 보고서를 보내줄 수 있나요. 그때 이야기할 수 있을까요",
+      "preview": "미리보기",
+      "previewing": "미리보기 중...",
+      "customPrompt": "맞춤형 프롬프트",
+      "customPromptHelp": "특정 지침을 추가하세요. 선택한 텍스트는 변환되며, 답변되지 않습니다.",
+      "rules": "편집 규칙",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "자동 저장 · 모든 변경 사항 저장",
+        "saving": "자동 저장 · 저장 중…",
+        "error": "자동 저장 · 최신 변경 사항 저장 실패"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "초기화",
+      "done": "완료",
+      "close": "편집기 닫기"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "짧음",
+        "help": "반복과 불필요한 단어 제거"
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "더 명확한 표현",
+        "help": "직접적이고 정확한 언어를 사용하세요."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "더 나은 순서",
+        "help": "논리적인 순서로 아이디어를 정리하세요."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "헤딩과 목록 추가",
+        "help": "긴 텍스트를 더 쉽게 스캔할 수 있도록 합니다."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "내 톤을 유지",
+        "help": "귀하의 목소리와 공식성을 유지하세요."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "글쓰기 예제",
+      "help": "{{max}}개까지 예제를 붙여넣거나 로드하세요. 각 예제는 {{chars}}자입니다. 이 예제들은 스타일을 안내하지만 결과에 포함되지 않습니다.",
+      "fileType": "텍스트 또는 마크다운",
+      "label": "글쓰기 예제 {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "예제를 붙여넣기",
+      "load": "로드 .txt 또는 .md",
+      "remove": "예제를 제거 {{number}}",
+      "readError": "확장명이 .txt 또는 .md인 파일을 선택하고 1,500자 이하여야 합니다."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} 개의 변경",
+      "changes_other": "{{count}} 개의 변경 사항",
+      "configure": "설정",
+      "copy": "복사",
+      "copied": "복사됨",
+      "retry": "재시도",
+      "retrying": "재시도 중…",
+      "feedback": "이 변환을 평가하세요",
+      "good": "좋은 결과",
+      "bad": "나쁜 결과",
+      "simpleView": "이 큰 또는 복잡한 변경에 대한 하나의 수정을 표시합니다.",
+      "actionFailed": "그 작업이 실패했어요. 텍스트는 여전히 여기에 있어요; 다시 시도해 보세요."
     }
   },
   "cleanup": {

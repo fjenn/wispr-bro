@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 चयनित टेक्स्ट को सुधार्छ र ⌥2 त्यसलाई स्पष्ट AI प्रमुख बनाउँछ। सक्रिय अवस्था में, यी कुञ्जी स्वरूप र लागि बदल्छ।",
+      "transformsSafeShortcuts": "✅⌥1 र ✅⌥2 को बाटो बनाउनुहोस",
+      "transformsSafeShortcutsHint": "⌥1 र ⌥2 मा ¡ र ™ उपलब्ध राख्छ।",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,30 +277,30 @@
         "dictate": "Push to talk",
         "hands_free": "हांड्स फ्री डिक्टेशन",
         "cancel": "दिटेक्शन रद्द गर्नुहोस",
-        "command_mode": "Command Mode",
+        "command_mode": "कमान मोड",
         "paste_last": "पिछलो दिग्दार लगाउनुहोस",
         "copy_last": "पिछलो दिलाल निकाल्नुहोस",
         "press_enter": "Enter को दबाए राख्नुहोस",
         "undo_cancel": "उन्दो र रद्द गर्नुहोस",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "चयन गरिएको टेक्स्टलाई शुद्ध गर्नुहोस",
+          "prompt_engineer": "चयन गरिएको टेक्स्टलाई AI प्रमोट बनाउन",
+          "view_changes": "व्यवहार बदलाएको देखाउनुहोस"
         }
       },
       "help": {
         "dictate": "गर्ने अगाडि शॉर्टकट धर्नुहोस, बोल्ने अगाडि छोड्नुहोस जब तपाईं बोल्नुभएको छ।",
         "hands_free": "हांड्स फ्री में डिक्टेशन सुरु गर्नु र बन्द गर्नु बिना कुनै की दबाउँदै छ।",
         "cancel": "Stop the current dictation without inserting it.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "fn र Ctrl को साथ राख्नुहोस जब तपाईंले लेख्न वा संपादन गर्न भन्छन",
         "paste_last": "पिछलो अपनाउने अनुरोध फेरि लगाउनुहोस।",
         "copy_last": "आपको सबैभन्दा नयाँ बोल्ने गर्नुहोस् क्लिपबोर्डमा लगाउनुहोस्।",
         "press_enter": "Press Return in the app where you are typing. A mouse side button works well here.",
         "undo_cancel": "प्रतिक्रिया बनाएर बाहिर निकाल्ने गर्नुहोस",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "पॉलिश भाषा सँ चयनित टेक्स्ट कें पुनर्लेख गर्नुहोस।",
+          "prompt_engineer": "प्रतिक्रिया चयन गरिएको टेक्स्टलाई स्पष्ट AI प्रमुख रूपमा लेख्नुहोस।",
+          "view_changes": "पहिले र बादको अनुवाद लागि नयाँ अनुवाद चेक गर्नुहोस।"
         }
       }
     }
@@ -630,7 +630,7 @@
         "card": "तपाईंको डिक्टेसन तयार छ। बारबाट प्रतिलिपि गर्नुहोस्।",
         "micLostWarning": "माइक्रोफोन अनलाइन छैन। तपाईंको भन्दा अहिले सभ बचाइएको छ।",
         "undo": "“पूर्ववत् गर्नुहोस्” डिक्टेसन बारमा ४ सेकेन्डसम्म रहन्छ।",
-        "diff": "Transform changes are ready to review."
+        "diff": "रुट बदलहरू समीक्षा गर्न तयार छन।"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -647,13 +647,13 @@
         "cancelled": "रद्द गरियो",
         "no_transcript": "अहिलेसम्म टाँस्न कुनै डिक्टेसन छैन",
         "copied_last": "पछिल्लो डिक्टेसन प्रतिलिपि भयो",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "समाप्त",
+        "command_done": "समाप्त",
+        "command_needs_text": "कमान मोड टेक्स्ट संपादन र लेख्नुहोस्। टेक्स्ट चयन गर्नुहोस् वा एउटा फिल्डमा क्लिक गर्नुहोस्।",
+        "select_text_first": "पहिले टेक्स्ट चयन गर्नुहोस",
+        "selection_too_long": "6,000 अक्षर वा तिनै अगाडि छान्नुहोस",
+        "transform_focus_moved": "तपाईं बिचार गर्नुभएको छ, त्यसैले कुनै पनि परिवर्तन भएको छैन",
+        "transform_failed": "उहि टेक्स्ट बदल्न सकिन्छ भने"
       },
       "card": {
         "no_text_field": "पहिले एक टेक्स्ट फील्ड में क्लिक गर्नुहोस",
@@ -977,130 +977,130 @@
       "hidden": "निहित, किनभने गुप्त फील्डका लेल थियो"
     },
     "undo": "पूर्ववत् गर्नुहोस्",
-    "viewChanges": "View changes",
+    "viewChanges": "परिवर्तन देख्नुहोस",
     "sendsAutomatically": "अटाउट भएको छ"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "कुनै पनि एपमा चयन गरिएको टेक्स्ट बदल्नुहोस",
+      "body": "एक ट्रान्सफॉर्म चयन गर्नुहोस, टेक्स्ट चयन गर्नुहोस र त्यसको शॉर्टकट प्रयोग गर्नुहोस। तपाईंको लेखन यो Mac मा बस्छ।"
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Transforms को सक्रिय कर्नुहोस",
+      "help": "रिवाइटिंग शॉर्टकटहरू अउ परिवर्तन देखाउने विकल्प सँग चलाउनुहोस्। अनुवाद अनुमति दिइएत छैन जसलाई तपाईं चयन गर्नुभएको छ।"
     },
     "commandMode": {
       "title": "Command Mode",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "पर चलाउन",
+      "off": "अपूर्ण",
+      "help": "fn र Ctrl को साथ राख्नुहोस र चयन बदल्ने वा के लेख्ने भन्नुहोस। चयन छैन भने, फील्ड गतिविधि देखाउँछ र परिणाम कर्टर पर्छ। सबै यहाँको Mac मा रहन्छ; Command Mode कुनै पनि चीज खोज्दैन। अक्षम भएको छ भने fn र Ctrl सामान्य भावना देखाउँछ।"
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "प्रति बोल्ने क्रममा लगाउनुहोस",
+      "help": "चयान गरिएको ट्रान्सफॉर्म काम गर्ने अगाडि सफा गर्ने। यदि यसलाई पूरा गर्न सक्दैन भने, तपाईंको सफा डिटेक्शन बिना परिवर्तन लगाइन्छ। 5 सेकेन्ड भितर अगाडि चलाइएको गर्ने छैन।",
+      "choice": "Transform ko apply gareko",
+      "none": "एक ट्रान्सफॉर्म चयन गर्नुहोस"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 र ⌥O ¡, ™ र ø को स्थानमा बदल्छ जब ट्रान्सफॉर्म्स चल्छन।",
+      "safe": "✅⌥ बाट उपयोग गर्नुहोस"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "मेरा ट्रान्सफॉर्म",
+    "reset": "प्रारम्भिक मानहरूमा बदल्नुहोस",
+    "resetConfirm": "पॉलिश र प्रॉम्प्ट इन्जीनियर रिसेट गर्नु भने तपाईंको हरेक कस्टम ट्रान्सफॉर्म अन्त्य गर्ने छ कि?",
+    "createNew": "नयाँ बनाएको",
+    "deleteConfirm": "क्यान डिलिट गर्नुहोस् {{name}}? यसलाई फिर्ता ल्याउन सकिन्छ भने नहोस्।",
+    "loading": "आपका ट्रान्सफॉर्म लोड गर्दै छ...",
+    "empty": "अब ट्रान्सफॉर्म छैन। एक बनाउनुहोस् ताकि शुरू गर्न सकौन।",
+    "error": "एहि ट्रान्सफॉर्म बदल बचाउँ भने पाउन सकिन्छ। पुनः प्रयास गर्नुहोस।",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "अपना बनाउनुहोस",
+      "createOwnHint": "निर्देश, नियम र लेखन उदाहरण चयन गर्नुहोस।",
+      "delete": "{{name}} निकाल्नुहोस"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "ग्राम्य र शब्दको रूप निर्माण गर्नु पर्छ जब तपाईंको आवाज बचाउने छ।"
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "अनुच्छेदक नोटहरूलाई स्पष्ट र पूर्ण AI प्रमुख बनाउने।"
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "मेरो ट्रान्सफॉर्म",
+      "description": "प्रतिस्थापन गर्नुहोस जसरी म चाहन्छु।",
+      "prompt": "चयन गरिएको टेक्स्टलाई अनुवाद गर्नुहोस् जबसम्म त्यसको अर्थ, तथ्य र भाषा संरक्षित रहेको छ।"
     },
     "editor": {
-      "title": "Edit {{name}}",
-      "name": "Name",
-      "description": "Description",
+      "title": "{{name}} बिस्तर गर्नुहोस",
+      "name": "नाम",
+      "description": "विवरण",
       "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "addHotkey": "अतिरिक्त गतिशीलता थप गर्नुहोस",
+      "example": "विदलान",
+      "exampleInput": "संशोधन गर्ने टेक्स्ट",
+      "exampleText": "उम, तपाईं मुख्य रिपोर्ट भेट्न सक्नुहुन्छ आज भने तपाईं त्यसपछि बाट बात गर्न सक्नुहुन्छ",
+      "preview": "प्रीव्यू",
+      "previewing": "प्रेव्यू गर्दै छ…",
+      "customPrompt": "अनुकूल प्रतिक्रिया",
+      "customPromptHelp": "विशिष्ट निर्देश थप गर्नुहोस। चयन गरिएको टेक्स्ट परिवर्तित गरिन्छ, जवाफ दिन छैन।",
+      "rules": "संपादन नियम",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "अटोसेव · सभ बदल बचाइएको छ",
+        "saving": "अटोसेव · बचाउँ भने",
+        "error": "अटोसेव · अनुमानलाई सेवा गर्न सकिएन"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "पुनर्निर्माण गर्नुहोस",
+      "done": "समाप्त",
+      "close": "समाप्त कर्नुहोस"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "निकाल्ने",
+        "help": "पुनरावृत्ति र अतिरिक्त शब्दहरू लागि हटाउनुहोस।"
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "स्पष्ट भाषा",
+        "help": "सीधा र निश्चित भाषा काम गर्नुहोस।"
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "सुन्दर क्रम",
+        "help": "संरचना में सोच अगाडि लगाउनुहोस।"
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "हेडिंग र लिस्ट थप्नुहोस",
+        "help": "लम्बा टेक्स्ट ओ बारे बेहतर देखे जा सक्छ।"
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "मेरो भावना बचाउनुहोस",
+        "help": "आपको आवाज र गुणस्तर बचाउने"
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "लेखनका उदाहरणहरू",
+      "help": "पेस्ट गर्नु वा लोड गर्नु अधिकतम {{max}} उदाहरण, प्रति {{chars}} अक्षर सम्म। यी उदाहरण स्टाइल देखाउँछन् तर परिणाममा भाग नपाउन्छन्।",
+      "fileType": "संग्रह वा मार्कडाउन",
+      "label": "लेखनको उदाहरण {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "प्रयोगको लगाउनुहोस",
+      "load": "लोड गर्नुहोस् .txt वा .md",
+      "remove": "प्रदर्शन उदाहरण लागू गर्नुहोस् {{number}}",
+      "readError": "सेलेक्ट गर्नुहोस् .txt वा .md फाइल जसमा 1,500 अक्षर सँग बढी हुन नपर्छ।"
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} बदल",
+      "changes_other": "{{count}} बदलाव",
+      "configure": "सेट गर्नुहोस",
+      "copy": "प्रतिलिपि गर्नुहोस",
+      "copied": "गर्भग्रहण गरिएको",
+      "retry": "पुनरागच्छ",
+      "retrying": "पुनरावृत्ति गर्दै छ…",
+      "feedback": "एहि ट्रान्सफॉर्मलाई रेट गर्नुहोस",
+      "good": "सुन्दर परिणाम",
+      "bad": "गम्भीर परिणाम",
+      "simpleView": "एक प्रतिस्थापन देखाउँछ जसले यस बडा वा जटिल परिवर्तनलाई देखाउँछ।",
+      "actionFailed": "एहि क्रिया सफल भएन। तपाईंको टेक्स्ट यहाँ अझै छ; पुनः प्रयास गर्नुहोस।"
     }
   },
   "cleanup": {

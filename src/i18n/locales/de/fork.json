@@ -55,9 +55,9 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
-      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
-      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "transformsHint": "⌥1 poliert den ausgewählten Text und ⌥2 verwandelt ihn in einen klareren AI-Prompt. Solange aktiv, ersetzen diese Tasten ¡ und ™.",
+      "transformsSafeShortcuts": "Statt ⌃⌥1 und ⌃⌥2 verwenden",
+      "transformsSafeShortcutsHint": "Behält ¡ und ™ bei ⌥1 und ⌥2.",
       "cleanupLevel": "Cleanup level",
       "levels": {
         "none": "None",
@@ -277,30 +277,30 @@
         "dictate": "Push to talk",
         "hands_free": "Handfreie Dictation",
         "cancel": "Dictation abbrechen",
-        "command_mode": "Command Mode",
+        "command_mode": "Befehlsmodus",
         "paste_last": "Letzte Dictation einfügen",
         "copy_last": "Zuletzt gesprochene Textabschrift kopieren",
         "press_enter": "Enter drücken",
         "undo_cancel": "Rückgängig machen eine Stornierung",
         "transform": {
-          "polish": "Polish selected text",
-          "prompt_engineer": "Turn selected text into an AI prompt",
-          "view_changes": "View transform changes"
+          "polish": "Ausgewählten Text verfeinern",
+          "prompt_engineer": "Aus dem ausgewählten Text einen AI-Prompt erstellen",
+          "view_changes": "Ansichts-Transformationsänderungen"
         }
       },
       "help": {
         "dictate": "Halten Sie die Tastenkombination bei der Spracheingabe fest; lösen Sie sie, um zu beenden.",
         "hands_free": "Dictation starten und beenden, ohne eine Taste zu halten.",
         "cancel": "Die aktuelle Dictation beenden, ohne sie einzufügen.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Halten Sie Fn und Ctrl bei der Angabe, wie Sie Text bearbeiten oder schreiben.",
         "paste_last": "Ihre letzte Dictation wieder einfügen.",
         "copy_last": "Ihre letzte Dictation kopieren.",
         "press_enter": "Drücken Sie Return in der Anwendung, in der Sie schreiben. Eine Maustaste funktioniert hier gut.",
         "undo_cancel": "Eine Dictation wiederherstellen, nachdem sie abgebrochen wurde.",
         "transform": {
-          "polish": "Rewrite the selected text with Polish.",
-          "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
-          "view_changes": "Review the latest transform before and after."
+          "polish": "Das ausgewählte Text mit polnisch neu schreiben.",
+          "prompt_engineer": "Das ausgewählte Textabschnitt als klares AI-Prompt neu schreiben.",
+          "view_changes": "Die neueste Transformation vor und nach der Änderung überprüfen."
         }
       }
     }
@@ -630,7 +630,7 @@
         "card": "Dein Diktat ist bereit. Kopiere es aus der Leiste.",
         "micLostWarning": "Der Mikrofon ist abgekoppelt. Das, was du bislang gesagt hast, wird gespeichert.",
         "undo": "Rückgängig ist 4 Sekunden lang in der Diktierleiste verfügbar.",
-        "diff": "Transform changes are ready to review."
+        "diff": "Änderungen wurden bereitgestellt, um sie zu überprüfen."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -647,13 +647,13 @@
         "cancelled": "Abgebrochen",
         "no_transcript": "Noch kein Diktat zum Einfügen",
         "copied_last": "Letztes Diktat kopiert",
-        "transform_done": "Done",
-        "command_done": "Done",
-        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
-        "select_text_first": "Select text first",
-        "selection_too_long": "Select 6,000 characters or fewer",
-        "transform_focus_moved": "You moved on, so nothing changed",
-        "transform_failed": "Couldn't transform that text"
+        "transform_done": "Fertig",
+        "command_done": "Fertig",
+        "command_needs_text": "Befehlsmodus bearbeitet und schreibt Text. Wählen Sie Text oder klicken Sie in ein Feld.",
+        "select_text_first": "Text zuerst auswählen",
+        "selection_too_long": "Wählen Sie 6.000 Zeichen oder weniger",
+        "transform_focus_moved": "Sie sind weitergegangen, also ist nichts verändert",
+        "transform_failed": "Kann den Text nicht umwandeln"
       },
       "card": {
         "no_text_field": "Klicken Sie zunächst in ein Textfeld",
@@ -977,130 +977,130 @@
       "hidden": "Versteckt, da es für ein Passwortfeld bestimmt war"
     },
     "undo": "Rückgängig",
-    "viewChanges": "View changes",
+    "viewChanges": "Änderungen ansehen",
     "sendsAutomatically": "Sendet automatisch"
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac."
+      "title": "Ausgewählten Text in jeder App neu schreiben",
+      "body": "Ein Transformieren auswählen, Text auswählen und die Tastenkombination verwenden. Dein Schreiben bleibt auf diesem Mac."
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Transforms aktivieren",
+      "help": "Schalte Umformungs-Schnelltipps und den Änderungsansicht ein. Umformungen sind deaktiviert, bis du sie auswählst."
     },
     "commandMode": {
-      "title": "Command Mode",
+      "title": "Befehlsmodus",
       "shortcut": "fn ⌃",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "on": "Ein",
+      "off": "Aus",
+      "help": "Fn und Ctrl halten, dann sagen Sie, wie die Auswahl geändert oder was geschrieben werden soll. Ohne Auswahl gibt das Feld Kontext und das Ergebnis erscheint an der Tastaturposition. Alles bleibt auf diesem Mac; Command Mode sucht nie etwas auf. Wenn es deaktiviert ist, bestimmen Fn und Ctrl normal."
     },
     "auto": {
-      "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
-      "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "title": "Nach jeder Dictation anwenden",
+      "help": "Führt die gewählte Transformation nach der Reinigung aus. Falls sie nicht abgeschlossen werden kann, wird deine gereinigte Dictation unverändert eingefügt. Transformationen, die weniger als 5 Sekunden auseinander liegen, werden übersprungen.",
+      "choice": "Transformierung zum Anwenden",
+      "none": "Eine Transformation auswählen"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
-      "safe": "Use ⌃⌥ instead"
+      "warning": "⌥1, ⌥2 und ⌥O ersetzen die Zeichen ¡, ™ und ø, solange Transforms aktiv sind.",
+      "safe": "Verwende ⌃⌥ statt"
     },
-    "myTransforms": "My Transforms",
-    "reset": "Reset to defaults",
-    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
-    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
-    "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
-    "error": "That transform change could not be saved. Try again.",
+    "myTransforms": "Meine Transformationen",
+    "reset": "Zu Standardwerten zurücksetzen",
+    "resetConfirm": "Polnisch und Prompt-Engineer zurücksetzen und jede benutzerdefinierte Transformation entfernen?",
+    "createNew": "Neu erstellen",
+    "deleteConfirm": "Löschen Sie {{name}}? Das kann nicht rückgängig gemacht werden.",
+    "loading": "Ihre Transformierungen werden geladen…",
+    "empty": "Noch keine Transformationen. Erstelle eine, um zu beginnen.",
+    "error": "Diese Transformationsänderung konnte nicht gespeichert werden. Versuchen Sie es erneut.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
-      "delete": "Delete {{name}}"
+      "createOwn": "Deine eigene erstellen",
+      "createOwnHint": "Regeln, Anweisungen und Schreibbeispiele auswählen.",
+      "delete": "Löschen {{name}}"
     },
     "builtin": {
       "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
+        "description": "Grammatik und Formulierungen verbessern, während Ihre Stimme erhalten bleibt."
       },
       "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
+        "description": "Aus unvollständigen Notizen einen klaren, vollständigen AI-Prompt erstellen."
       }
     },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "Mein Transform",
+      "description": "Text neu formulieren, wie ich es möchte.",
+      "prompt": "Das ausgewählte Textabschnitt neu formulieren, während Bedeutung, Fakten und Sprache erhalten bleiben."
     },
     "editor": {
-      "title": "Edit {{name}}",
+      "title": "Bearbeite {{name}}",
       "name": "Name",
-      "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
-      "example": "Example",
-      "exampleInput": "Text to transform",
-      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
-      "preview": "Preview",
-      "previewing": "Previewing…",
+      "description": "Beschreibung",
+      "hotkey": "Taste",
+      "addHotkey": "Hotkey hinzufügen",
+      "example": "Beispiel",
+      "exampleInput": "Text zum Transformieren",
+      "exampleText": "um könnte du mir den Bericht morgen schicken, vielleicht können wir dann darüber sprechen",
+      "preview": "Vorschau",
+      "previewing": "Vorschau…",
       "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
-      "rules": "Editing rules",
+      "customPromptHelp": "Spezifische Anweisungen hinzufügen. Der ausgewählte Text wird umgewandelt, nie beantwortet.",
+      "rules": "Bearbeitungsregeln",
       "autosave": {
-        "saved": "Autosave · All changes saved",
-        "saving": "Autosave · Saving…",
-        "error": "Autosave · Couldn't save the latest change"
+        "saved": "Automatischer Speicher · Alle Änderungen gespeichert",
+        "saving": "Automatischer Speicher · Speichere…",
+        "error": "Automatischer Speicher · Konnte die letzte Änderung nicht speichern"
       },
-      "reset": "Reset",
-      "done": "Done",
-      "close": "Close editor"
+      "reset": "Zurücksetzen",
+      "done": "Fertig",
+      "close": "Editor schließen"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Kürzer",
+        "help": "Wiederholungen und zusätzliche Wörter entfernen."
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Klare Formulierung",
+        "help": "Verwende direkte, präzise Sprache."
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Bessere Reihenfolge",
+        "help": "Setze Ideen in einer logischen Reihenfolge."
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Kopfzeilen und Listen hinzufügen",
+        "help": "Langere Texte einfacher scannen."
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Mein Ton beibehalten",
+        "help": "Ihre Stimme und die Formalität beibehalten."
       }
     },
     "examples": {
-      "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
-      "fileType": "Text or Markdown",
-      "label": "Writing example {{number}}",
+      "title": "Schreibbeispiele",
+      "help": "Fügen Sie oder laden Sie bis zu {{max}} Beispiele hoch, jeweils {{chars}} Zeichen lang. Sie leiten die Stilrichtung ohne sich in das Ergebnis einzubetten.",
+      "fileType": "Text oder Markdown",
+      "label": "Schreibbeispiel {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "Paste an example",
-      "load": "Load .txt or .md",
-      "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "paste": "Beispiel einfügen",
+      "load": "Laden von .txt oder .md",
+      "remove": "Beispiel entfernen {{number}}",
+      "readError": "Eine .txt- oder .md-Datei mit nicht mehr als 1.500 Zeichen auswählen."
     },
     "diff": {
-      "changes_one": "{{count}} change",
-      "changes_other": "{{count}} changes",
-      "configure": "Configure",
-      "copy": "Copy",
-      "copied": "Copied",
-      "retry": "Retry",
-      "retrying": "Retrying…",
-      "feedback": "Rate this transform",
-      "good": "Good result",
-      "bad": "Poor result",
-      "simpleView": "Showing one replacement for this large or complex change.",
-      "actionFailed": "That action didn't work. Your text is still here; try again."
+      "changes_one": "{{count}} Änderung",
+      "changes_other": "{{count}} Änderungen",
+      "configure": "Konfigurieren",
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "retry": "Wiederholen",
+      "retrying": "Wiederholen…",
+      "feedback": "Diese Transformation bewerten",
+      "good": "Gutes Ergebnis",
+      "bad": "Schlechte Leistung",
+      "simpleView": "Ein Ersatz für diese große oder komplexe Änderung wird angezeigt.",
+      "actionFailed": "Die Aktion ist fehlgeschlagen. Dein Text ist noch hier; versuche es erneut."
     }
   },
   "cleanup": {
