@@ -1,0 +1,3 @@
+# Wispr Bro: shared compile cache across worktrees (scripts/wb-rustc-wrapper.sh).
+[build]
+rustc-wrapper = "../scripts/wb-rustc-wrapper.sh"

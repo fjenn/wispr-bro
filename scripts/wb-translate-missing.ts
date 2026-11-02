@@ -142,6 +142,48 @@ function readJson<T>(file: string, fallback: T): T {
   return JSON.parse(fs.readFileSync(file, "utf8")) as T;
 }
 
+/**
+ * Keys that appear twice in one JSON object. `JSON.parse` silently keeps the
+ * last one, so a bad merge that duplicates a block (and drops keys) passes
+ * every other check; this scans the raw text instead.
+ */
+export function duplicateKeys(text: string): string[] {
+  const dups: string[] = [];
+  const stack: { keys: Set<string>; isObj: boolean }[] = [];
+  const path: string[] = [];
+  let i = 0;
+  let expectKey = false;
+  while (i < text.length) {
+    const c = text[i];
+    if (c === '"') {
+      let j = i + 1;
+      while (text[j] !== '"') j += text[j] === "\\" ? 2 : 1;
+      const s = JSON.parse(text.slice(i, j + 1)) as string;
+      i = j + 1;
+      const top = stack[stack.length - 1];
+      if (top?.isObj && expectKey) {
+        if (top.keys.has(s))
+          dups.push([...path.slice(0, stack.length - 1), s].join("."));
+        top.keys.add(s);
+        path[stack.length - 1] = s;
+        expectKey = false;
+      }
+      continue;
+    }
+    if (c === "{" || c === "[") {
+      stack.push({ keys: new Set(), isObj: c === "{" });
+      expectKey = c === "{";
+    } else if (c === "}" || c === "]") {
+      stack.pop();
+      path.length = stack.length;
+    } else if (c === ",") {
+      expectKey = stack[stack.length - 1]?.isObj ?? false;
+    }
+    i++;
+  }
+  return dups;
+}
+
 function writeJson(file: string, data: unknown): void {
   fs.writeFileSync(file, JSON.stringify(data, null, 2) + "\n");
 }
@@ -265,6 +307,17 @@ async function main(): Promise<void> {
     .sort();
 
   let drift = false;
+  for (const lang of [SOURCE_LANG, ...langs]) {
+    for (const name of [NAMESPACE_FILE, "fork.flags.json"]) {
+      const file = path.join(LOCALES_DIR, lang, name);
+      if (!fs.existsSync(file)) continue;
+      const dups = duplicateKeys(fs.readFileSync(file, "utf8"));
+      if (dups.length) {
+        drift = true;
+        console.log(`✗ ${lang}/${name}: duplicate keys ${dups.join(", ")}`);
+      }
+    }
+  }
   for (const lang of langs) {
     const r = await processLocale(lang, source, backend, !check);
     const problems =
