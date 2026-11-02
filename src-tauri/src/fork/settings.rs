@@ -310,6 +310,8 @@ pub struct VibeCodingSettings {
     pub setup_completed: bool,
     /// Editors whose screen-reader mode the setup has confirmed.
     pub editors: Vec<String>,
+    /// Independent Cursor/Windsurf chat toggle (S-36).
+    pub file_tags_enabled: bool,
 }
 
 /// All fork settings. Missing fields take their [`Default`] value
@@ -558,6 +560,32 @@ fn check_days(field: &str, days: Option<u32>) -> Result<(), String> {
     }
 }
 
+fn check_vibe_coding(settings: &VibeCodingSettings) -> Result<(), String> {
+    check_ids("vibe_coding.editors", &settings.editors)?;
+    if settings
+        .editors
+        .iter()
+        .any(|id| !matches!(id.as_str(), "vscode" | "cursor" | "windsurf"))
+    {
+        return Err("vibe_coding.editors: unknown editor".into());
+    }
+    let mut unique = settings.editors.clone();
+    unique.sort();
+    unique.dedup();
+    if unique.len() != settings.editors.len() {
+        return Err("vibe_coding.editors: duplicate editor".into());
+    }
+    if !settings.setup_completed
+        && (settings.enabled || settings.file_tags_enabled || !settings.editors.is_empty())
+    {
+        return Err("vibe_coding: setup must be completed before enabling it".into());
+    }
+    if settings.setup_completed && settings.editors.is_empty() {
+        return Err("vibe_coding: setup needs at least one editor".into());
+    }
+    Ok(())
+}
+
 /// Semantic checks of one update (types are already checked by serde).
 pub fn validate(update: &ForkSettingUpdate) -> Result<(), String> {
     use ForkSettingUpdate as U;
@@ -617,7 +645,7 @@ pub fn validate(update: &ForkSettingUpdate) -> Result<(), String> {
             check_ids("onboarding.completed_steps", &state.completed_steps)?;
             check_ids("onboarding.checklist_done", &state.checklist_done)
         }
-        U::VibeCoding(v) => check_ids("vibe_coding.editors", &v.editors),
+        U::VibeCoding(v) => check_vibe_coding(v),
         _ => Ok(()),
     }
 }

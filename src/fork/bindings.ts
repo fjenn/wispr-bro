@@ -3114,7 +3114,11 @@ export type VibeCodingSettings = { enabled: boolean; setup_completed: boolean;
 /**
  * Editors whose screen-reader mode the setup has confirmed.
  */
-editors: string[] }
+editors: string[]; 
+/**
+ * Independent Cursor/Windsurf chat toggle (S-36).
+ */
+file_tags_enabled: boolean }
 /**
  * Everything on the Voice tab.
  */

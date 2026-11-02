@@ -1746,8 +1746,43 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-36 Vibe coding
 
-- [ ] S-36.1 Dictate "rename get user by id" in Cursor with the identifier visible.
-- Procedure: TODO (S-36).
+Queued for the Mac wave (the S-19b + S-36 browser/AX run); not run by the
+slice (2026-11-02).
+
+- [ ] S-36.1 (Exit criterion) Dictate "rename get user by id" in Cursor with `getUserById` visible (screen-reader mode on): the buffer gets `getUserById`; the log shows `context: read ok (…, cursor: N code name(s), 0 file name(s), …)` with N ≥ 1 and `text: … identifiers=1`.
+- [ ] S-36.2 In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets `@index.ts`; the log shows `cursor chat: … M file name(s)` with M ≥ 1 and `file_tags=1`.
+- [ ] S-36.3 The same chat take with "Tag files in chat" off (`setup.sh … off`): the text keeps "index dot ts" (or `index.ts`), no `@`.
+- [ ] S-36.4 Not set up (`setup.sh … unset`): the editor take keeps "get user by id" and the log line has no `cursor:` part (DEC-41: off until set up).
+- [ ] S-36.5 TextEdit (not a listed editor) with `index.ts` in the document: "open index dot ts" is not tagged.
+- [ ] S-36.6 No filesystem scanning (exit criterion): `sudo fs_usage -w -f filesys <app pid>` during S-36.1/.2 shows no open or stat of the workspace folder (`$TMPDIR/wb-s36-workspace`); the names come from AX only. Read p95 of the editor takes stays within S-20's 100 ms.
+- [ ] S-36.7 Clipboard byte-identical after the `editor` and `textedit` takes (the `chat` case reads its text back with ⌘A ⌘C, so its own check reports "changed (restored)" by design).
+- [ ] S-36.8 (person, UI wave) Settings › Vibe coding: Set up, the three steps, Finish, Change editors, Tag files in chat enabled only with Cursor or Windsurf; light and dark.
+- Not covered on this Mac: VS Code and Windsurf (not installed); their bundle ids and chat detection are unit-tested only.
+
+**Profile:** the S-20 portable debug build (`com.wisprbro.s20check` or a
+`s36check` identity, never the owner's app, data or clipboard), set up as
+under S-20 with context awareness on, then with the app stopped:
+
+```sh
+scripts/wb-s36/setup.sh "$PWD/src-tauri/target/debug/Data" on
+say -v Samantha -o $SCRATCH/s36-rename.aiff "rename get user by id"
+say -v Samantha -o $SCRATCH/s36-tag.aiff "open index dot ts"
+for f in rename tag; do afconvert -f WAVE -d LEI16@16000 -c 1 $SCRATCH/s36-$f.aiff $SCRATCH/s36-$f.wav; done
+scripts/wb-s05/app.sh start
+```
+
+**Procedure (unattended):** `WB_S36_BIN=$BIN scripts/wb-s36/take.sh <case>
+<wav> <out dir>`: `editor s36-rename.wav` (S-36.1), `chat s36-tag.wav`
+(S-36.2), `textedit s36-tag.wav` (S-36.5); then `setup.sh … off`, restart,
+`chat s36-tag.wav` (S-36.3); `setup.sh … unset`, restart, `editor
+s36-rename.wav` (S-36.4). Each case holds `~/wb-bench/gui.lock`, opens
+Cursor in a throwaway profile (`$TMPDIR/wb-s36-cursor-profile`,
+`editor.accessibilitySupport: on`) on a throwaway workspace, records only
+while Cursor (or TextEdit) is in front, plays the WAV once through the
+speakers, reads the result back (saved file, chat text, document), and
+closes what it opened. If Cursor's chat input needs a sign-in in a fresh
+profile, S-36.2/.3 are recorded as not verified (the owner's Cursor
+profile is never used).
 
 ### S-37 Accessibility, localization, copy pass
 

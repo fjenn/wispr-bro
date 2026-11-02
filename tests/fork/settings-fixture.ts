@@ -64,6 +64,11 @@ export const forkSettingsDefaults = {
   typing_hours_per_day: 2,
   greeting_name: null,
   auto_learn_enabled: false,
-  vibe_coding: { enabled: false, setup_completed: false, editors: [] },
+  vibe_coding: {
+    enabled: false,
+    setup_completed: false,
+    editors: [],
+    file_tags_enabled: false,
+  },
   applied_first_run_defaults: [],
 };

@@ -232,7 +232,14 @@ test("RTL mirrors the two-column modal in every section", async ({
   ipc,
 }) => {
   await openSection(page, ipc);
-  for (const section of ["general", "system", "privacy", "advanced", "about"]) {
+  for (const section of [
+    "general",
+    "system",
+    "vibe",
+    "privacy",
+    "advanced",
+    "about",
+  ]) {
     if (section !== "general") {
       await page.getByTestId(`wb-settings-nav-${section}`).click();
     }
@@ -255,6 +262,7 @@ test("RTL mirrors the two-column modal in every section", async ({
 for (const section of [
   "general",
   "system",
+  "vibe",
   "privacy",
   "advanced",
   "about",

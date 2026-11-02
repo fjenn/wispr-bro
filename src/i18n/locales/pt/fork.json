@@ -182,6 +182,7 @@
     "sections": {
       "general": "Geral",
       "system": "Sistema",
+      "vibe": "Vibe coding",
       "privacy": "Dados e Privacidade",
       "advanced": "Avançado",
       "about": "Sobre",
@@ -220,6 +221,31 @@
       "scratchpadOptions": {
         "resume_last": "Resume my last note",
         "new_note": "Start a new note"
+      }
+    },
+    "vibe": {
+      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
+      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
+      "recognize": "Recognize code names",
+      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
+      "setUp": "Set up",
+      "change": "Change editors",
+      "setUpFor": "Set up for {{editors}}",
+      "fileTags": "Tag files in chat",
+      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
+      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
+      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "setup": {
+        "title": "Set up code name recognition",
+        "stepEditors": "1. Choose the editors you use",
+        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
+        "openSettings": "Open the editor's settings with ⌘ comma.",
+        "search": "Search for \"accessibility support\".",
+        "setOn": "Set Editor: Accessibility Support to \"on\".",
+        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
+        "confirm": "I turned on screen reader mode in these editors",
+        "cancel": "Cancel",
+        "finish": "Finish setup"
       }
     },
     "privacy": {

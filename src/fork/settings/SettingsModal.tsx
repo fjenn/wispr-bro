@@ -12,9 +12,17 @@ import { Advanced } from "./Advanced";
 import { DataPrivacy } from "./DataPrivacy";
 import { General } from "./General";
 import { System } from "./System";
+import { VibeCoding } from "./VibeCoding";
 import { HotkeysPanel } from "./hotkeys/HotkeysPanel";
 
-const SECTIONS = ["general", "system", "privacy", "advanced", "about"] as const;
+const SECTIONS = [
+  "general",
+  "system",
+  "vibe",
+  "privacy",
+  "advanced",
+  "about",
+] as const;
 type Section = (typeof SECTIONS)[number] | "hotkeys";
 
 function sectionFromHash(value: string | null): Section {
@@ -135,6 +143,7 @@ export function SettingsModal() {
                 <General onChangeHotkeys={() => select("hotkeys")} />
               )}
               {section === "system" && <System />}
+              {section === "vibe" && <VibeCoding />}
               {section === "privacy" && <DataPrivacy />}
               {section === "advanced" && <Advanced />}
               {section === "about" && <About />}

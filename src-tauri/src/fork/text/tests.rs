@@ -287,6 +287,8 @@ fn property_no_stage_removes_a_newline() {
 
 #[test]
 fn a_panicking_stage_fails_open_to_handy() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     let mut calls = 0;
     let flaky = |t: String| {
         calls += 1;
@@ -308,6 +310,8 @@ fn a_panicking_stage_fails_open_to_handy() {
 
 #[test]
 fn process_notes_the_record_for_the_history_row() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     let out = process(
         "  Note e1b2. New line. Done  ".into(),
         &OutputLanguageEvidence::UserSelected("en".into()),
@@ -330,6 +334,8 @@ fn process_notes_the_record_for_the_history_row() {
 
 #[test]
 fn finish_restores_rules_after_an_llm_rewrite_and_rekeys_the_outcome() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     let rules = RuleSet::new(vec![rule(1, "voice typer", "Voicetypr")]);
     let (kept, record) = en("voice typer is fast c4d1", &rules, &[]);
     assert_eq!(kept, "Voicetypr is fast c4d1");
@@ -376,6 +382,8 @@ fn probe_set() -> SnippetSet {
 
 #[test]
 fn snippet_bodies_never_pass_through_the_llm() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     // Before the LLM (`process`, from `finish_text`) no stage expands a
     // snippet, whatever is installed.
     install_probe_snippets();
@@ -409,6 +417,8 @@ fn snippet_bodies_never_pass_through_the_llm() {
 
 #[test]
 fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     // The order lives in Handy's `actions.rs`: the LLM step (S-12a's
     // `fork::llm::post_process` hook) and the history save run before
     // `insert::deliver`, whose first line is `text::finish`; the LLM step's
@@ -449,6 +459,8 @@ fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
 
 #[test]
 fn the_llm_steps_stage_9_expands_no_snippet() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     // S-12a restores dictionary spellings right after the LLM, before
     // History saves the take: snippets must wait for `deliver`.
     install_probe_snippets();
@@ -475,6 +487,8 @@ static PROBE_USES: std::sync::Mutex<Vec<SnippetUse>> = std::sync::Mutex::new(Vec
 
 #[test]
 fn finish_expands_installed_snippets_and_records_the_take() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
     install_probe_snippets();
     let text = "Ship it to zq   probe address please e5c2";
     ledger().await_outcome(991_017, text);
@@ -542,4 +556,40 @@ fn the_fork_stages_stay_far_inside_the_latency_budget() {
         per_take < std::time::Duration::from_millis(50),
         "{per_take:?}"
     );
+}
+
+/// S-36: in a set-up editor, a spoken code name takes the editor's
+/// spelling and a spoken visible file name becomes a tag, through the real
+/// pipeline; a dictionary rule's output is never rewritten; the names go
+/// with the take.
+#[test]
+fn editor_names_spell_code_and_tag_files() {
+    use crate::fork::context::awareness;
+    let _l = awareness::tests::lock();
+    awareness::tests::armed_editor_take(&["getUserById", "user_id"], &["index.ts", "app.tsx"]);
+    let kept = process(
+        "rename get user by id in index dot ts and app dot tsx".into(),
+        &OutputLanguageEvidence::Unknown,
+        |t| t,
+    );
+    assert_eq!(kept, "rename getUserById in @index.ts and @app.tsx");
+    let p = ledger().take_processed(&kept).expect("processed");
+    assert!(p.context_used);
+    let described = p.record.describe();
+    assert!(described.contains("identifiers=1"), "{described}");
+    assert!(described.contains("file_tags=2"), "{described}");
+    // After an LLM rewrite that wrote the name out, the tag comes back.
+    assert_eq!(
+        after_llm("Rename getUserById in index.ts.".into()),
+        "Rename getUserById in @index.ts."
+    );
+    awareness::on_take_over();
+    assert_eq!(after_llm("Fix index.ts.".into()), "Fix index.ts.");
+    // No editor take: nothing changes.
+    let plain = process(
+        "rename get user by id in index dot ts".into(),
+        &OutputLanguageEvidence::Unknown,
+        |t| t,
+    );
+    assert_eq!(plain, "rename get user by id in index dot ts");
 }
