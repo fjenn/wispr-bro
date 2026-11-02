@@ -43,7 +43,8 @@ pub fn current_context() -> TakeContext {
 /// Record start (from `fork::on_record_start`): note the app and, for a
 /// supported browser, the reduced host the user is dictating into.
 pub fn on_record_start() {
-    let ctx = current_context();
+    let mut ctx = current_context();
+    ctx.source = crate::fork::transforms::command::source();
     log::debug!(
         "context: take started in {} ({}, {}, host {})",
         ctx.app

@@ -277,6 +277,7 @@
         "dictate": "Push to talk",
         "hands_free": "हांड्स फ्री डिक्टेशन",
         "cancel": "दिटेक्शन रद्द गर्नुहोस",
+        "command_mode": "Command Mode",
         "paste_last": "पिछलो दिग्दार लगाउनुहोस",
         "copy_last": "पिछलो दिलाल निकाल्नुहोस",
         "press_enter": "Enter को दबाए राख्नुहोस",
@@ -291,6 +292,7 @@
         "dictate": "गर्ने अगाडि शॉर्टकट धर्नुहोस, बोल्ने अगाडि छोड्नुहोस जब तपाईं बोल्नुभएको छ।",
         "hands_free": "हांड्स फ्री में डिक्टेशन सुरु गर्नु र बन्द गर्नु बिना कुनै की दबाउँदै छ।",
         "cancel": "Stop the current dictation without inserting it.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "पिछलो अपनाउने अनुरोध फेरि लगाउनुहोस।",
         "copy_last": "आपको सबैभन्दा नयाँ बोल्ने गर्नुहोस् क्लिपबोर्डमा लगाउनुहोस्।",
         "press_enter": "Press Return in the app where you are typing. A mouse side button works well here.",
@@ -646,6 +648,8 @@
         "no_transcript": "अहिलेसम्म टाँस्न कुनै डिक्टेसन छैन",
         "copied_last": "पछिल्लो डिक्टेसन प्रतिलिपि भयो",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

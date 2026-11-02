@@ -277,6 +277,7 @@
         "dictate": "Tryk til at tale",
         "hands_free": "Håndfri dictation",
         "cancel": "Annuller dictation",
+        "command_mode": "Command Mode",
         "paste_last": "Indsæt sidste dictation",
         "copy_last": "Kopier sidste dictation",
         "press_enter": "Tryk Enter",
@@ -291,6 +292,7 @@
         "dictate": "Hold den hurtigefunktion mens du taler; slå den løs for at afslutte.",
         "hands_free": "Start og stop dictation uden at holde en tast.",
         "cancel": "Stop den aktuelle dictation uden at indsætte den.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Indsæt din seneste dictation igen.",
         "copy_last": "Kopier din seneste dictation til clipboardet.",
         "press_enter": "Tryk Retur i appen, hvor du skriver. En sideknapp på musen fungerer godt her.",
@@ -646,6 +648,8 @@
         "no_transcript": "Ingen diktering at indsætte endnu",
         "copied_last": "Seneste diktering kopieret",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

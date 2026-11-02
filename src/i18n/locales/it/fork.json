@@ -277,6 +277,7 @@
         "dictate": "Premi per parlare",
         "hands_free": "Dictazione senza mani",
         "cancel": "Annulla la diczione",
+        "command_mode": "Command Mode",
         "paste_last": "Incolla l'ultima dictazione",
         "copy_last": "Copia l'ultima dictazione",
         "press_enter": "Premi Invio",
@@ -291,6 +292,7 @@
         "dictate": "Tieni premuto il tasto mentre parli; rilascialo per terminare.",
         "hands_free": "Avvia e ferma la diczione senza tenere premuto un tasto.",
         "cancel": "Ferma la dictazione corrente senza inserirla.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Incolla nuovamente la tua ultima dictazione.",
         "copy_last": "Copia la tua ultima dictazione nel clipboard.",
         "press_enter": "Premi Ritorno nell'app in cui stai digitando. Un tasto laterale del mouse funziona bene qui.",
@@ -646,6 +648,8 @@
         "no_transcript": "Ancora nessuna dettatura da incollare",
         "copied_last": "Ultima dettatura copiata",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

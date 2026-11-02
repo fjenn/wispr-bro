@@ -35,6 +35,11 @@ fn the_default_bindings_compile_to_the_fn_grammar() {
     assert_eq!(
         p.issues,
         vec![
+            Issue::Unsupported {
+                action: "command_mode".into(),
+                chord: "fn+ctrl".into(),
+                reason: "Command Mode uses fn+ctrl as a hold binding while enabled".into(),
+            },
             no_handler("copy_last", "ctrl+command+c"),
             no_handler("paste_last", "ctrl+command+v"),
             no_handler("transform.polish", "option+1"),
@@ -49,8 +54,8 @@ fn a_handled_keyed_action_is_registered() {
     let p = compile(&default_hotkeys(), |id| id == "paste_last");
     assert_eq!(
         p.issues.len(),
-        4,
-        "copy_last and disabled transforms have no handler here"
+        5,
+        "Command Mode, copy_last and disabled transforms have no handler here"
     );
     assert_eq!(p.keyed.len(), 1);
     assert_eq!(p.keyed[0].action, "paste_last");

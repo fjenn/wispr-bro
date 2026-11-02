@@ -277,6 +277,7 @@
         "dictate": "الضغط لبدء التحدث",
         "hands_free": "الإذاعة بدون يد",
         "cancel": "إلغاء التدوين",
+        "command_mode": "Command Mode",
         "paste_last": "اللصق آخر تدوين",
         "copy_last": "النسخ الأخير من التدوين",
         "press_enter": "أضغط على Enter",
@@ -291,6 +292,7 @@
         "dictate": "أبقِ الـshortcut مُضغوطًا أثناء التحدث؛ ارفعه لكي تُنهي.",
         "hands_free": "ابدأ وانهِ التدوين دون تثبيت زر.",
         "cancel": "إيقاف التدوين الحالي دون إدخاله.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "أدخل تدوينك الأخير مرة أخرى.",
         "copy_last": "تَعَمُّدَ تَحَدِّدَ الْمُتَوَسِّطَ الْمُتَّسِقَ لِلْمُتَوَسِّطَ الْمُتَوَسِّطَ لِلْمُتَوَسِّطَ الْمُتَوَسِّطَ",
         "press_enter": "انقر على المفتاح العلوي في التطبيق الذي تكتب فيه. يعمل زر جانب من الماوس بشكل جيد هنا.",
@@ -646,6 +648,8 @@
         "no_transcript": "لا يوجد إملاء للصقه بعد",
         "copied_last": "نُسخ آخر إملاء",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

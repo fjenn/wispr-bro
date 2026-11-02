@@ -80,7 +80,7 @@ impl Host for Fake {
     fn command(&mut self, command: ExternalCommand) {
         match &command {
             ExternalCommand::Start { binding_id } => {
-                assert_eq!(binding_id, BINDING);
+                assert!(binding_id == BINDING || binding_id == COMMAND_BINDING);
                 match self.stage {
                     Stage::Idle => {
                         self.stage = Stage::Recording;
@@ -217,6 +217,42 @@ fn push_to_talk_starts_at_t_show_and_stops_on_release() {
     r.fn_up(2000);
     assert_eq!(r.host.names(), vec!["start", "stop"]);
     assert_eq!(r.host.prepared, 1);
+}
+
+#[test]
+fn fn_ctrl_routes_a_command_only_when_enabled_and_latches_the_take() {
+    use crate::fork::settings::hotkey_actions::COMMAND_MODE;
+    let on = compile(&default_hotkeys(), |id| id == COMMAND_MODE);
+    assert!(on.command_mode);
+    let mut r = Rig::with(on, Registry::default());
+    r.ev(0, flags(Modifiers::CTRL_LEFT, true, Modifiers::CTRL_LEFT));
+    r.ev(
+        20,
+        flags(Modifiers::FN | Modifiers::CTRL_LEFT, true, Modifiers::FN),
+    );
+    r.at(170);
+    assert!(matches!(
+        r.host.commands.first(),
+        Some(ExternalCommand::Start { binding_id }) if binding_id == COMMAND_BINDING
+    ));
+    // Releasing Ctrl during the instruction does not change its mode.
+    r.ev(500, flags(Modifiers::FN, false, Modifiers::CTRL_LEFT));
+    r.fn_up(900);
+    assert_eq!(r.host.names(), vec!["start", "stop"]);
+
+    let off = compile(&default_hotkeys(), |_| false);
+    assert!(!off.command_mode);
+    let mut r = Rig::with(off, Registry::default());
+    r.ev(0, flags(Modifiers::CTRL_LEFT, true, Modifiers::CTRL_LEFT));
+    r.ev(
+        20,
+        flags(Modifiers::FN | Modifiers::CTRL_LEFT, true, Modifiers::FN),
+    );
+    r.at(170);
+    assert!(matches!(
+        r.host.commands.first(),
+        Some(ExternalCommand::Start { binding_id }) if binding_id == BINDING
+    ));
 }
 
 #[test]

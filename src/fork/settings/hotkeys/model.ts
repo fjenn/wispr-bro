@@ -33,6 +33,11 @@ export const HOTKEY_ACTIONS: readonly HotkeyAction[] = [
     defaults: [{ chord: "escape", activation: "press" }],
   },
   {
+    id: "command_mode",
+    activation: "hold",
+    defaults: [{ chord: "fn+ctrl", activation: "hold" }],
+  },
+  {
     id: "paste_last",
     activation: "press",
     defaults: [{ chord: "ctrl+command+v", activation: "press" }],

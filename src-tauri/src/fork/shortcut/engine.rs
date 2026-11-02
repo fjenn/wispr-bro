@@ -31,12 +31,14 @@ use handy_keys::{Hotkey, KeyEvent, Modifiers};
 use super::actions::{EscContext, Registry};
 use super::bindings::Profile;
 use super::blocking::{self, Extra};
-use super::decision::{key_name, Decision, StuckGuard, Translator};
+use super::decision::{compound, key_name, Decision, StuckGuard, Translator};
 use super::processor::{Effect, Grammar, Input, Key, Ms, State, Timings, WarnKind};
 use crate::transcription_coordinator::ExternalCommand;
 
 /// The coordinator binding the fork drives.
 pub const BINDING: &str = "transcribe";
+/// The existing post-processing action carries an S-23 instruction take.
+pub const COMMAND_BINDING: &str = "transcribe_with_post_process";
 
 /// Origin tag for the coordinator's log.
 pub const ORIGIN: &str = "fork:hotkey";
@@ -95,6 +97,8 @@ pub struct Engine {
     applied: Option<HashSet<Hotkey>>,
     /// The coordinator has a take we started (between Start and its end).
     ours: bool,
+    /// Whether fn+Ctrl is held now; latched into the next take's binding.
+    command_chord: bool,
     last_busy: bool,
     /// Absolute time of the next stuck-guard / busy poll, so a stream of
     /// events never postpones it.
@@ -113,6 +117,7 @@ impl Engine {
             stuck: StuckGuard::default(),
             applied: None,
             ours: false,
+            command_chord: false,
             last_busy: false,
             poll_at: None,
             clock: 0,
@@ -134,6 +139,7 @@ impl Engine {
         self.apply(effects, host);
         self.translator = profile.trigger.map(Translator::new);
         self.profile = profile;
+        self.command_chord = false;
         self.stuck = StuckGuard::default();
         self.sync_blocking(host);
     }
@@ -239,6 +245,10 @@ impl Engine {
     /// One raw event from the fork tap.
     pub fn event(&mut self, now: Ms, ev: &KeyEvent, host: &mut dyn Host) {
         self.at(now);
+        if ev.key.is_none() {
+            self.command_chord = self.profile.command_mode
+                && compound(ev.modifiers) == Modifiers::FN.union(Modifiers::CTRL);
+        }
         let effects = self.grammar.advance(now);
         self.apply(effects, host);
 
@@ -361,8 +371,13 @@ impl Engine {
     }
 
     fn start(&mut self, host: &mut dyn Host) {
+        let binding_id = if self.profile.command_mode && self.command_chord {
+            COMMAND_BINDING
+        } else {
+            BINDING
+        };
         host.command(ExternalCommand::Start {
-            binding_id: BINDING.to_string(),
+            binding_id: binding_id.to_string(),
         });
         self.ours = true;
     }

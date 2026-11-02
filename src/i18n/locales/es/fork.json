@@ -277,6 +277,7 @@
         "dictate": "Pulsar para hablar",
         "hands_free": "Dictado sin manos",
         "cancel": "Cancelar dictado",
+        "command_mode": "Command Mode",
         "paste_last": "Pegar la última dictación",
         "copy_last": "Copiar última dictación",
         "press_enter": "Presiona Enter",
@@ -291,6 +292,7 @@
         "dictate": "Mantén la combinación mientras hablas; suéltala para finalizar.",
         "hands_free": "Iniciar y detener la dictado sin mantener una tecla.",
         "cancel": "Detén la dictado actual sin insertarla.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Pega nuevamente tu última dictado.",
         "copy_last": "Copiar tu última dictación al portapapeles.",
         "press_enter": "Presione Enter en la aplicación donde está escribiendo. Un botón lateral del ratón funciona bien aquí.",
@@ -646,6 +648,8 @@
         "no_transcript": "Aún no hay ningún dictado para pegar",
         "copied_last": "Último dictado copiado",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

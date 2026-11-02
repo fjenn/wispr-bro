@@ -277,6 +277,7 @@
         "dictate": "הלחיצה על הלחצן",
         "hands_free": "הדיקציה ללא יד",
         "cancel": "ל hủy את הכתיבה",
+        "command_mode": "Command Mode",
         "paste_last": "העתקה של הכתיבה האחרונה",
         "copy_last": "העתק את הdictation האחרון",
         "press_enter": "לחץ על Enter",
@@ -291,6 +292,7 @@
         "dictate": "החזיקו בקיצור בזמן שמתפללים; שחררו כדי לסיים.",
         "hands_free": "התחיל ועצר דיקטציה בלי ללחוץ על מקש.",
         "cancel": "הפסיק את הכתיבה הקיימת בלי להכניס אותה.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "העתק את התרגיל האחרון שלך שוב.",
         "copy_last": "העתק את התרגיל האחרון שלך ללוח העריכה.",
         "press_enter": "הקליד Enter במערכת שבה אתה מקליד. כפתור צד של מקלדת עובד כאן.",
@@ -646,6 +648,8 @@
         "no_transcript": "עדיין אין הכתבה להדבקה",
         "copied_last": "ההכתבה האחרונה הועתקה",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",

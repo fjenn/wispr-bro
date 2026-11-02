@@ -1607,6 +1607,10 @@ async fn processed(
     source: Source,
     level: Option<CleanupLevel>,
 ) -> crate::actions::ProcessedTranscription {
+    if source == Source::Dictation && crate::fork::transforms::command::take_requested(post_process)
+    {
+        return crate::fork::transforms::command::process(app, transcription).await;
+    }
     let settings = crate::settings::get_settings(app);
     let Some(plan) = plan(
         app,

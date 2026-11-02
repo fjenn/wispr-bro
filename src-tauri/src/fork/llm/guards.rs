@@ -122,6 +122,14 @@ pub struct Context<'a> {
     pub terms: &'a [String],
 }
 
+/// How strictly a rewrite must resemble its source.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Profile {
+    Cleanup,
+    /// An explicit instruction may restructure, shorten or write new text.
+    Instruction,
+}
+
 /// The chain's answer.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Verdict {
@@ -155,6 +163,31 @@ pub fn check(raw: &str, ctx: &Context<'_>) -> Verdict {
         text: Some(text),
         reasons,
     }
+}
+
+/// Applies the cleanup checks, then removes the similarity, entity and
+/// language rules that would reject an instruction's intended new content,
+/// numbering, entity changes or translation. JSON, assistant, framing and
+/// output-bound checks remain enforced.
+pub fn check_with_profile(raw: &str, ctx: &Context<'_>, profile: Profile) -> Verdict {
+    let mut verdict = check(raw, ctx);
+    if profile == Profile::Instruction {
+        verdict.reasons.retain(|reason| {
+            !matches!(
+                reason,
+                Reason::WordBand
+                    | Reason::QuestionMark
+                    | Reason::NewTokens
+                    | Reason::ExecutedInstruction
+                    | Reason::Entity
+                    | Reason::LineCount
+                    | Reason::Formatting
+                    | Reason::ContentWords
+                    | Reason::Language
+            )
+        });
+    }
+    verdict
 }
 
 /// The input language: the take's, else a confident detection.

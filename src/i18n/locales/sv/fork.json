@@ -277,6 +277,7 @@
         "dictate": "Tryck för att tala",
         "hands_free": "Handfritt dictation",
         "cancel": "Avbryt dictation",
+        "command_mode": "Command Mode",
         "paste_last": "Klistra in senaste dictation",
         "copy_last": "Kopiera senaste dictation",
         "press_enter": "Tryck Enter",
@@ -291,6 +292,7 @@
         "dictate": "Håll kortkommandot medan du pratar; släp det för att avsluta.",
         "hands_free": "Starta och stoppa dictation utan att hålla en tangent.",
         "cancel": "Avbryt aktuell dictation utan att infoga den.",
+        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
         "paste_last": "Klistra in din senaste dictation igen.",
         "copy_last": "Kopiera din senaste dictation till klippbordet.",
         "press_enter": "Tryck Retur i appen där du skriver. En sidknapp på musar fungerar bra här.",
@@ -646,6 +648,8 @@
         "no_transcript": "Ingen diktering att klistra in än",
         "copied_last": "Senaste dikteringen kopierad",
         "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
         "select_text_first": "Select text first",
         "selection_too_long": "Select 6,000 characters or fewer",
         "transform_focus_moved": "You moved on, so nothing changed",
@@ -984,6 +988,13 @@
     "enable": {
       "title": "Enable Transforms",
       "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "shortcut": "fn ⌃",
+      "on": "On",
+      "off": "Off",
+      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
     },
     "auto": {
       "title": "Apply after every dictation",
