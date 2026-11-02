@@ -7,6 +7,8 @@
 //!   stuck-trigger guard (rule 9).
 //! - `processor.rs`: the grammar (rules 1-8), pure.
 //! - `blocking.rs`: the dynamic blocking set; the Globe setting.
+//! - `globe.rs`: DEC-44, the consented Globe → Do Nothing change and its
+//!   crash-safe restore (OpenWhispr port).
 //! - `bindings.rs`: fork settings → profile; conflicts; the Ctrl+Opt
 //!   fallback.
 //! - `actions.rs`: action registry and Esc registry.
@@ -25,6 +27,7 @@ pub mod bindings;
 pub mod blocking;
 pub mod decision;
 pub mod engine;
+pub mod globe;
 pub mod labels;
 pub mod listener;
 pub mod processor;
@@ -33,7 +36,7 @@ pub mod processor;
 mod tests;
 
 use std::collections::HashSet;
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::mpsc::{self, RecvTimeoutError, Sender};
 use std::sync::{Mutex, OnceLock};
 use std::time::{Duration, Instant};
@@ -73,7 +76,8 @@ pub fn owns_in(product_build: bool, binding_id: &str) -> bool {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type, tauri_specta::Event)]
 pub struct ForkHotkeyEvent {
     /// `take_started`, `locked`, `stopped`, `cancelled`, `chord`, `warning`,
-    /// `action`, `stuck_released`.
+    /// `action`, `stuck_released`; `key_test` (detail `down`/`up`) while
+    /// onboarding's shortcut test runs ([`set_key_test`]).
     pub kind: String,
     /// The detail: how it locked/stopped, why it cancelled, the warning
     /// kind, the action id.
@@ -156,6 +160,7 @@ enum Msg {
     Voice(Instant),
     Profile(Box<Profile>),
     Pill(engine::PillAction),
+    Globe,
 }
 
 struct Live {
@@ -301,11 +306,25 @@ pub fn start<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
                 app,
                 !crate::fork::notify::accessibility_trusted(),
             );
+            // S-29a: kept for `retry_tap` (a first run starts before the
+            // user grants Accessibility in onboarding).
+            *DOWN.lock().unwrap_or_else(|e| e.into_inner()) = Some((engine, rx));
             return;
         }
     };
+    spawn_engine(app, engine, tap, rx);
+}
+
+/// The engine and its queue while the tap could not start (no
+/// Accessibility yet). Messages sent meanwhile wait in the queue.
+type Down = (Engine, mpsc::Receiver<Msg>);
+static DOWN: Mutex<Option<Down>> = Mutex::new(None);
+
+fn spawn_engine<R: Runtime>(app: &AppHandle<R>, engine: Engine, tap: Tap, rx: mpsc::Receiver<Msg>) {
+    let globe = blocking::read_globe_usage();
     set_status(|s| {
         s.running = true;
+        s.error = None;
         s.fn_blocked = engine.grammar().blocks_fn() && s.trigger.as_deref() == Some("fn");
     });
     log::info!(
@@ -320,6 +339,101 @@ pub fn start<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
         .spawn(move || run(app, engine, tap, rx))
         .map(|_| ())
         .unwrap_or_else(|e| log::error!("fork hotkeys: cannot spawn the engine thread: {e}"));
+}
+
+/// Starts the tap again if it could not start at launch (S-29a: after the
+/// user granted Accessibility in onboarding, no relaunch needed). Returns
+/// whether the tap is running now.
+pub fn retry_tap<R: Runtime>(app: &AppHandle<R>) -> bool {
+    let Some(rt) = RUNTIME.get() else {
+        return false;
+    };
+    let mut down = DOWN.lock().unwrap_or_else(|e| e.into_inner());
+    let Some((engine, rx)) = down.take() else {
+        return rt.status.lock().unwrap_or_else(|e| e.into_inner()).running;
+    };
+    let set = blocking::hotkeys(
+        engine.profile(),
+        engine.grammar().blocking(),
+        Default::default(),
+    );
+    let tap_tx = rt.tx.clone();
+    match listener::start(set, move |m| {
+        let _ = tap_tx.send(Msg::Tap(m));
+    }) {
+        Ok(tap) => {
+            drop(down);
+            log::info!("fork hotkeys: tap started on retry");
+            spawn_engine(app, engine, tap, rx);
+            true
+        }
+        Err(e) => {
+            log::warn!("fork hotkeys: tap retry failed: {e}");
+            set_status(|s| s.error = Some(e));
+            *down = Some((engine, rx));
+            false
+        }
+    }
+}
+
+/// Onboarding's shortcut test (S-29a): while on, trigger presses light the
+/// on-screen key (`key_test` events) and start no take. Expires on its own
+/// so a closed window never leaves dictation off; the test renews it.
+static KEY_TEST_UNTIL_MS: AtomicU64 = AtomicU64::new(0);
+pub const KEY_TEST_TTL_MS: u64 = 120_000;
+
+fn now_unix_ms() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis() as u64)
+        .unwrap_or(0)
+}
+
+pub fn set_key_test(on: bool) {
+    let until = if on {
+        now_unix_ms() + KEY_TEST_TTL_MS
+    } else {
+        0
+    };
+    KEY_TEST_UNTIL_MS.store(until, Ordering::Relaxed);
+}
+
+fn key_test_on() -> bool {
+    key_test_active(KEY_TEST_UNTIL_MS.load(Ordering::Relaxed), now_unix_ms())
+}
+
+fn key_test_active(until_ms: u64, now_ms: u64) -> bool {
+    now_ms < until_ms
+}
+
+/// Every modifier group of the trigger is held (either side counts).
+pub(crate) fn trigger_held(trigger: decision::Trigger, held: handy_keys::Modifiers) -> bool {
+    use handy_keys::Modifiers as M;
+    let want = trigger.modifiers();
+    [M::SHIFT, M::CTRL, M::OPT, M::CMD, M::FN]
+        .into_iter()
+        .filter(|group| want.intersects(*group))
+        .all(|group| held.intersects(group))
+}
+
+static KEY_TEST_DOWN: AtomicBool = AtomicBool::new(false);
+
+fn emit_key_test<R: Runtime>(app: &AppHandle<R>, down: bool) {
+    if KEY_TEST_DOWN.swap(down, Ordering::Relaxed) == down {
+        return;
+    }
+    log::info!(
+        "fork hotkeys: key test {}",
+        if down { "down" } else { "up" }
+    );
+    let ev = ForkHotkeyEvent {
+        kind: "key_test".into(),
+        detail: Some(if down { "down" } else { "up" }.into()),
+        keep: false,
+    };
+    if let Err(e) = ev.emit(app) {
+        log::warn!("fork hotkeys: cannot emit the key test: {e}");
+    }
 }
 
 fn set_status(f: impl FnOnce(&mut HotkeyStatus)) {
@@ -337,7 +451,29 @@ pub fn reload<R: Runtime>(app: &AppHandle<R>) {
             s.trigger = trigger_name(&profile);
             s.issues = profile.issues.clone();
         });
+        // DEC-44: fn stopped being the trigger → the Globe setting we
+        // changed goes back to the user's.
+        globe::reconcile(app, fn_is_trigger(&profile));
         let _ = rt.tx.send(Msg::Profile(Box::new(profile)));
+    }
+}
+
+fn fn_is_trigger(profile: &Profile) -> bool {
+    profile.trigger == Some(decision::Trigger::Fn)
+}
+
+/// DEC-44 at launch and quit: restore the Globe setting if fn is no longer
+/// the trigger (a crash, or bindings edited while the app was not running).
+pub fn reconcile_globe<R: Runtime>(app: &AppHandle<R>) {
+    if let Some((profile, _, _)) = load_profile(app) {
+        globe::reconcile(app, fn_is_trigger(&profile));
+    }
+}
+
+/// Re-reads the Globe preference (after the DEC-44 change or its restore).
+pub fn refresh_globe() {
+    if let Some(rt) = RUNTIME.get() {
+        let _ = rt.tx.send(Msg::Globe);
     }
 }
 
@@ -549,6 +685,13 @@ fn run<R: Runtime>(app: AppHandle<R>, mut engine: Engine, tap: Tap, rx: mpsc::Re
             },
         };
         match msg {
+            Msg::Tap(TapMsg::Event { ev, .. }) if key_test_on() && engine.grammar().is_idle() => {
+                let down = engine
+                    .profile()
+                    .trigger
+                    .is_some_and(|t| trigger_held(t, ev.modifiers));
+                emit_key_test(&host.app, down);
+            }
             Msg::Tap(TapMsg::Event { at, ev }) => {
                 log_event(&ev, engine.grammar().fn_is_down());
                 if ev.key.is_none() {
@@ -585,6 +728,14 @@ fn run<R: Runtime>(app: AppHandle<R>, mut engine: Engine, tap: Tap, rx: mpsc::Re
                     "fork hotkeys: bindings reloaded (trigger {:?})",
                     trigger_name(engine.profile())
                 );
+            }
+            Msg::Globe => {
+                let globe = blocking::read_globe_usage();
+                engine.set_fn_block(globe.blocks_fn(), &mut host);
+                set_status(|s| {
+                    s.globe = globe_name(globe).into();
+                    s.fn_blocked = globe.blocks_fn() && s.trigger.as_deref() == Some("fn");
+                });
             }
         }
         // Re-read the Globe setting once per take, when the grammar goes idle

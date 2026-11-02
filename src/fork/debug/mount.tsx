@@ -11,7 +11,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
-import { OnboardingHotkeysLink } from "../onboarding/HotkeysLink";
 import { CspSmoke } from "./CspSmoke";
 import { NotificationsDebug } from "./NotificationsDebug";
 import { UpdateDebug } from "./UpdateDebug";
@@ -109,12 +108,7 @@ function ForkDebugHost() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, close, openIfAllowed]);
 
-  return (
-    <>
-      <OnboardingHotkeysLink />
-      {open && <DebugPanel onClose={close} />}
-    </>
-  );
+  return open ? <DebugPanel onClose={close} /> : null;
 }
 
 export function mountForkDebugHost(): void {

@@ -47,6 +47,7 @@ pub mod llm;
 pub mod models;
 pub mod net;
 pub mod notify;
+pub mod onboarding;
 pub mod pill;
 pub mod recovery;
 pub mod scratchpad;
@@ -482,6 +483,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         transforms::on_ready(app);
         scratchpad::on_ready(app);
         shortcut::start(app);
+        // S-29a (DEC-44): a Globe change of ours is undone when fn is no
+        // longer the trigger (bindings edited while the app was closed).
+        shortcut::reconcile_globe(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
         R::pill_start(app);
     }
@@ -515,6 +519,13 @@ macro_rules! fork_specta_builder {
                 commands::csp::fork_csp_smoke_media::<$runtime>,
                 commands::hotkeys::fork_hotkey_status::<$runtime>,
                 commands::hotkeys::fork_use_hotkey_profile::<$runtime>,
+                commands::onboarding::fork_onboarding_go_to::<$runtime>,
+                commands::onboarding::fork_onboarding_complete::<$runtime>,
+                commands::onboarding::fork_onboarding_app_location,
+                commands::onboarding::fork_onboarding_move_to_applications::<$runtime>,
+                commands::onboarding::fork_onboarding_key_test::<$runtime>,
+                commands::onboarding::fork_onboarding_globe_do_nothing::<$runtime>,
+                commands::onboarding::fork_onboarding_open_pane::<$runtime>,
                 commands::history::fork_stats_summary::<$runtime>,
                 commands::history::fork_history_search::<$runtime>,
                 commands::history::fork_history_meta::<$runtime>,

@@ -18,7 +18,7 @@ import { ModelStateEvent, RecordingErrorEvent } from "./lib/types/events";
 import "./App.css";
 import SecureInputWarning from "./components/SecureInputWarning";
 import Footer from "./components/footer";
-import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
+import { OnboardingFlow } from "@/fork/onboarding/OnboardingFlow";
 import ModelMigration from "./components/onboarding/ModelMigration";
 import {
   ReplaceModel,

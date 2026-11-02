@@ -9,6 +9,7 @@ mod bindings;
 mod blocking;
 mod decision;
 mod engine;
+mod key_test;
 mod labels;
 mod limits;
 mod ported;

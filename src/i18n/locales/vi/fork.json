@@ -1678,6 +1678,138 @@
       "description": "Mức độ làm sạch lời nói của bạn trong mọi ứng dụng và mọi ngôn ngữ. Phong cách của từng nhóm được áp dụng trên top."
     }
   },
+  "onboardingFlow": {
+    "loading": "Getting things ready…",
+    "back": "Back",
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
+    "navigationFailed": "That step could not be saved. Try again.",
+    "stepper": {
+      "label": "Setup progress",
+      "welcome": "Welcome",
+      "permissions": "Permissions",
+      "setup": "Setup",
+      "practice": "Practice",
+      "done": "(done)"
+    },
+    "help": {
+      "chip": "Help",
+      "title": "Help with setup",
+      "close": "Close help",
+      "done": "Got it",
+      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
+      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+    },
+    "welcome": {
+      "title": "Talk, and your words appear",
+      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
+      "privacyTitle": "Everything stays on this Mac",
+      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
+      "download": "Speech setup starts now and runs in the background.",
+      "start": "Get started"
+    },
+    "move": {
+      "title": "Move Wispr Bro to Applications",
+      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
+      "note": "Wispr Bro reopens by itself after the move and continues setup.",
+      "action": "Move to Applications",
+      "moving": "Moving…",
+      "skip": "Not now",
+      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+    },
+    "languages": {
+      "title": "Which languages do you speak?",
+      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
+      "listLabel": "Languages",
+      "noMatch": "No language matches “{{query}}”.",
+      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
+      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
+      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
+      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+    },
+    "permissions": {
+      "title": "Two permissions",
+      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
+      "allowed": "Allowed",
+      "waiting": "Waiting for macOS…",
+      "openSettings": "Open System Settings",
+      "prompt": "The macOS prompt",
+      "pane": "In System Settings",
+      "microphone": {
+        "title": "Microphone",
+        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
+        "action": "Allow microphone",
+        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
+        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
+        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
+        "action": "Allow Accessibility",
+        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
+        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
+        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+      }
+    },
+    "mic": {
+      "title": "Test your microphone",
+      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
+      "question": "Do the bars move when you talk?",
+      "noHelp": "Choose another microphone below, then talk again.",
+      "change": "Change microphone",
+      "previewList": "Your microphones appear here."
+    },
+    "shortcut": {
+      "title": "Test your shortcut",
+      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
+      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
+      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
+      "keyLabel": "The fn key",
+      "fallbackKeyLabel": "Control and Option",
+      "pressed": "Key held",
+      "notPressed": "Waiting for the key…",
+      "worked": "It works. The key lit up.",
+      "question": "Did the key light up?",
+      "edit": "Edit shortcut",
+      "finish": "Finish setup",
+      "tryAgain": "Try again",
+      "otherCauses": "Not it? Other possible causes:",
+      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro cannot see key presses",
+          "title": "Wispr Bro cannot see key presses yet",
+          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
+          "action": "Open Accessibility settings"
+        },
+        "secure_input": {
+          "choice": "A password field or another app is blocking keys",
+          "title": "Another app is blocking key presses",
+          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
+          "active": "Right now, another app is blocking key presses.",
+          "inactive": "Nothing is blocking key presses right now."
+        },
+        "globe": {
+          "choice": "The 🌐 key opens emoji or switches the keyboard",
+          "title": "macOS gives the 🌐 key its own job",
+          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
+          "consent": "Set 🌐 to Do Nothing",
+          "changed": "🌐 now does nothing on its own",
+          "open": "Open Keyboard settings"
+        },
+        "no_fn": {
+          "choice": "My keyboard has no fn key",
+          "title": "Use Control and Option instead",
+          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
+          "action": "Use Control + Option",
+          "changed": "Control + Option is your shortcut"
+        }
+      }
+    }
+  },
   "overrides": {
     "onboarding": {
       "migration": {

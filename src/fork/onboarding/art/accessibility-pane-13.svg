@@ -1,0 +1,20 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 480 300">
+  <rect width="480" height="300" rx="12" class="wbart-bg"/>
+  <rect x="35" y="25" width="410" height="250" rx="12" class="wbart-panel"/>
+  <path d="M47 25h126v250H47a12 12 0 0 1-12-12V37a12 12 0 0 1 12-12" class="wbart-side"/>
+  <circle cx="57" cy="46" r="5" fill="#ed6a5e"/><circle cx="73" cy="46" r="5" fill="#f4bf4f"/><circle cx="89" cy="46" r="5" fill="#61c454"/>
+  <rect x="57" y="75" width="92" height="10" rx="5" class="wbart-muted" opacity=".55"/>
+  <rect x="57" y="104" width="76" height="8" rx="4" class="wbart-muted" opacity=".4"/>
+  <rect x="57" y="126" width="88" height="8" rx="4" class="wbart-muted" opacity=".4"/>
+  <rect x="199" y="56" width="138" height="12" rx="6" class="wbart-ink"/>
+  <rect x="199" y="91" width="206" height="52" rx="7" class="wbart-side"/>
+  <circle cx="221" cy="117" r="11" class="wbart-accent"/>
+  <path d="M216 115h10m-5-4v12m0-6-5 8m5-8 5 8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="243" y="112" width="91" height="9" rx="4.5" class="wbart-ink"/>
+  <rect x="350" y="104" width="48" height="27" rx="13.5" class="wbart-accent"/>
+  <circle cx="384" cy="117.5" r="10" fill="#fff"/>
+  <rect x="199" y="157" width="206" height="1" class="wbart-line"/>
+  <rect x="204" y="180" width="144" height="9" rx="4.5" class="wbart-muted"/>
+  <rect x="204" y="215" width="124" height="9" rx="4.5" class="wbart-muted" opacity=".6"/>
+</svg>
