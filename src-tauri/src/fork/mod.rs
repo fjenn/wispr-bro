@@ -49,6 +49,7 @@ pub mod net;
 pub mod notify;
 pub mod pill;
 pub mod recovery;
+pub mod scratchpad;
 pub mod settings;
 pub mod shortcut;
 pub mod snippets;
@@ -478,6 +479,7 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         // engine compiles the bindings. S-21's handlers follow the same rule.
         R::recovery_start(app);
         transforms::on_ready(app);
+        scratchpad::on_ready(app);
         shortcut::start(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
         R::pill_start(app);
@@ -589,6 +591,18 @@ macro_rules! fork_specta_builder {
                 commands::transforms::fork_transform_rate::<$runtime>,
                 commands::transforms::fork_transform_retry::<$runtime>,
                 commands::transforms::fork_transform_read_example,
+                commands::scratchpad::fork_scratchpad_list::<$runtime>,
+                commands::scratchpad::fork_scratchpad_get::<$runtime>,
+                commands::scratchpad::fork_scratchpad_save::<$runtime>,
+                commands::scratchpad::fork_scratchpad_set_pinned::<$runtime>,
+                commands::scratchpad::fork_scratchpad_delete::<$runtime>,
+                commands::scratchpad::fork_scratchpad_open::<$runtime>,
+                commands::scratchpad::fork_scratchpad_new::<$runtime>,
+                commands::scratchpad::fork_scratchpad_show_note::<$runtime>,
+                commands::scratchpad::fork_scratchpad_close::<$runtime>,
+                commands::scratchpad::fork_scratchpad_expand::<$runtime>,
+                commands::scratchpad::fork_scratchpad_copy::<$runtime>,
+                commands::scratchpad::fork_scratchpad_polish::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -611,7 +625,9 @@ macro_rules! fork_specta_builder {
                 models::upgrade::ForkModelPolicy,
                 commands::style::ForkAppRulesChanged,
                 transforms::record::ForkTransformViewChanges,
-                commands::transforms::ForkTransformsChanged
+                commands::transforms::ForkTransformsChanged,
+                scratchpad::ForkScratchpadChanged,
+                scratchpad::ForkScratchpadOpen
             ])
     };
 }

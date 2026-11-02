@@ -13,7 +13,8 @@
 //! full-screen apps, `hidesOnDeactivate` off (R5 §4.9; no private API,
 //! DEC-28). Its one view draws a thin capsule; on hover (a native tracking
 //! area, which fires while another app is active: RS-03) it grows into a
-//! bubble with the localized hint. A click starts hands-free dictation
+//! bubble with the localized hint. A Dictate click starts hands-free
+//! dictation; the optional S-24 group adds a Scratchpad button beside it,
 //! without taking focus from the frontmost app (`acceptsFirstMouse`, the
 //! panel never activates the app); right-click offers "Hide for an hour";
 //! a horizontal drag moves the bar along its edge and the position is
@@ -21,9 +22,10 @@
 //! same view shows a "bridge" capsule of the active size, so the bar
 //! reacts at once.
 //!
-//! VoiceOver: the view is a button named "Dictation bar" with the hint as
-//! its help text; AXPress starts dictation. Announcements for takes come
-//! from `panel::announce`.
+//! VoiceOver: the single-slot view is a button named "Dictation bar" with
+//! the hint as its help text. With S-24 enabled, two native NSButtons expose
+//! independent Dictate and Scratchpad names, actions and tooltips instead.
+//! Announcements for takes come from `panel::announce`.
 
 use std::cell::{Cell, RefCell};
 
@@ -34,7 +36,7 @@ use objc2::{
 };
 use objc2_app_kit::{
     NSAppearance, NSAppearanceCustomization, NSAppearanceNameAqua, NSAppearanceNameDarkAqua,
-    NSBackingStoreType, NSBezierPath, NSColor, NSEvent, NSFont, NSFontAttributeName,
+    NSBackingStoreType, NSBezierPath, NSButton, NSColor, NSEvent, NSFont, NSFontAttributeName,
     NSFontWeightMedium, NSForegroundColorAttributeName, NSMenu, NSMenuItem, NSPanel, NSResponder,
     NSScreen, NSStatusWindowLevel, NSTrackingArea, NSTrackingAreaOptions, NSView,
     NSWindowAnimationBehavior, NSWindowCollectionBehavior, NSWindowSharingType, NSWindowStyleMask,
@@ -43,6 +45,7 @@ use objc2_foundation::{NSArray, NSDictionary, NSObject, NSPoint, NSRect, NSSize,
 
 use super::geometry::{self, Shape};
 use super::placement::{self, Anchor, Rect, Screen};
+use super::slots::{self, Slot};
 
 /// What the native view shows.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -57,6 +60,7 @@ pub enum Mode {
 #[derive(Clone, Debug, PartialEq)]
 pub enum NativeEvent {
     Click,
+    Scratchpad,
     HideForAnHour,
     /// A drag ended on display `key`; `x_frac` `None` = back at the centre.
     Dragged {
@@ -76,6 +80,11 @@ pub struct Texts {
     pub name: String,
     /// The context menu item.
     pub hide_for_an_hour: String,
+    /// S-24 grouped bar labels and per-slot hover/VoiceOver help.
+    pub dictate: String,
+    pub dictate_hint: String,
+    pub scratchpad: String,
+    pub scratchpad_hint: String,
 }
 
 struct Drag {
@@ -87,7 +96,10 @@ struct Drag {
 pub struct ViewIvars {
     mode: Cell<Mode>,
     hover: Cell<bool>,
+    hover_slot: Cell<Slot>,
+    scratchpad_enabled: Cell<bool>,
     texts: RefCell<Texts>,
+    slot_buttons: RefCell<Option<(Retained<NSButton>, Retained<NSButton>)>>,
     anchor: Cell<Option<Anchor>>,
     screen: RefCell<Option<Screen>>,
     drag: RefCell<Option<Drag>>,
@@ -151,9 +163,22 @@ define_class!(
 
         #[unsafe(method(mouseEntered:))]
         fn mouse_entered(&self, _event: &NSEvent) {
-            if self.ivars().mode.get() == Mode::Rest && !self.ivars().hover.get() {
-                self.ivars().hover.set(true);
-                self.relayout();
+            if self.ivars().mode.get() == Mode::Rest && !self.ivars().scratchpad_enabled.get() {
+                self.update_hover_slot();
+                if !self.ivars().hover.get() {
+                    self.ivars().hover.set(true);
+                    self.relayout();
+                }
+            }
+        }
+
+        #[unsafe(method(mouseMoved:))]
+        fn mouse_moved(&self, _event: &NSEvent) {
+            if self.ivars().mode.get() == Mode::Rest
+                && self.ivars().hover.get()
+                && !self.ivars().scratchpad_enabled.get()
+            {
+                self.update_hover_slot();
             }
         }
 
@@ -218,7 +243,15 @@ define_class!(
                 return;
             };
             if !drag.moved {
-                (self.ivars().on_event)(NativeEvent::Click);
+                self.update_hover_slot();
+                let event = if self.ivars().scratchpad_enabled.get()
+                    && self.ivars().hover_slot.get() == Slot::Scratchpad
+                {
+                    NativeEvent::Scratchpad
+                } else {
+                    NativeEvent::Click
+                };
+                (self.ivars().on_event)(event);
                 return;
             }
             let screen = self.ivars().screen.borrow().clone();
@@ -273,11 +306,21 @@ define_class!(
             (self.ivars().on_event)(NativeEvent::HideForAnHour);
         }
 
+        #[unsafe(method(dictateSlot:))]
+        fn dictate_slot(&self, _sender: Option<&AnyObject>) {
+            (self.ivars().on_event)(NativeEvent::Click);
+        }
+
+        #[unsafe(method(scratchpadSlot:))]
+        fn scratchpad_slot(&self, _sender: Option<&AnyObject>) {
+            (self.ivars().on_event)(NativeEvent::Scratchpad);
+        }
+
         // --- Accessibility (VoiceOver) ---
 
         #[unsafe(method(isAccessibilityElement))]
         fn ax_is_element(&self) -> bool {
-            true
+            !self.ivars().scratchpad_enabled.get()
         }
 
         #[unsafe(method_id(accessibilityRole))]
@@ -287,17 +330,44 @@ define_class!(
 
         #[unsafe(method_id(accessibilityLabel))]
         fn ax_label(&self) -> Option<Retained<NSString>> {
-            Some(NSString::from_str(&self.ivars().texts.borrow().name))
+            let texts = self.ivars().texts.borrow();
+            let label = if self.ivars().scratchpad_enabled.get()
+                && self.ivars().hover_slot.get() == Slot::Scratchpad
+            {
+                &texts.scratchpad
+            } else if self.ivars().scratchpad_enabled.get() {
+                &texts.dictate
+            } else {
+                &texts.name
+            };
+            Some(NSString::from_str(label))
         }
 
         #[unsafe(method_id(accessibilityHelp))]
         fn ax_help(&self) -> Option<Retained<NSString>> {
-            Some(NSString::from_str(&self.ivars().texts.borrow().hint))
+            let texts = self.ivars().texts.borrow();
+            let help = if self.ivars().scratchpad_enabled.get()
+                && self.ivars().hover_slot.get() == Slot::Scratchpad
+            {
+                &texts.scratchpad_hint
+            } else if self.ivars().scratchpad_enabled.get() {
+                &texts.dictate_hint
+            } else {
+                &texts.hint
+            };
+            Some(NSString::from_str(help))
         }
 
         #[unsafe(method(accessibilityPerformPress))]
         fn ax_press(&self) -> bool {
-            (self.ivars().on_event)(NativeEvent::Click);
+            let event = if self.ivars().scratchpad_enabled.get()
+                && self.ivars().hover_slot.get() == Slot::Scratchpad
+            {
+                NativeEvent::Scratchpad
+            } else {
+                NativeEvent::Click
+            };
+            (self.ivars().on_event)(event);
             true
         }
     }
@@ -308,7 +378,10 @@ impl RestingView {
         let this = Self::alloc(mtm).set_ivars(ViewIvars {
             mode: Cell::new(Mode::Rest),
             hover: Cell::new(false),
+            hover_slot: Cell::new(Slot::Dictate),
+            scratchpad_enabled: Cell::new(false),
             texts: RefCell::new(Texts::default()),
+            slot_buttons: RefCell::new(None),
             anchor: Cell::new(None),
             screen: RefCell::new(None),
             drag: RefCell::new(None),
@@ -318,6 +391,7 @@ impl RestingView {
         let view: Retained<Self> = unsafe { msg_send![super(this), initWithFrame: frame] };
         // Hover works while another app is active (RS-03: 20/20).
         let options = NSTrackingAreaOptions::MouseEnteredAndExited
+            | NSTrackingAreaOptions::MouseMoved
             | NSTrackingAreaOptions::ActiveAlways
             | NSTrackingAreaOptions::InVisibleRect;
         // SAFETY: the owner is the view itself, which keeps the area.
@@ -331,7 +405,29 @@ impl RestingView {
             )
         };
         view.addTrackingArea(&area);
+        let dictate = slot_button(mtm, &view, sel!(dictateSlot:));
+        let scratchpad = slot_button(mtm, &view, sel!(scratchpadSlot:));
+        view.addSubview(&dictate);
+        view.addSubview(&scratchpad);
+        *view.ivars().slot_buttons.borrow_mut() = Some((dictate, scratchpad));
+        view.layout_slot_buttons();
         view
+    }
+
+    fn layout_slot_buttons(&self) {
+        let slot_buttons = self.ivars().slot_buttons.borrow();
+        let Some(buttons) = slot_buttons.as_ref() else {
+            return;
+        };
+        let enabled = self.ivars().scratchpad_enabled.get();
+        let half = slots::GROUP_WIDTH / 2.0;
+        for (button, x) in [(&buttons.0, 0.0), (&buttons.1, half)] {
+            button.setFrame(NSRect::new(
+                NSPoint::new(x, 0.0),
+                NSSize::new(half, slots::GROUP_HEIGHT),
+            ));
+            button.setHidden(!enabled);
+        }
     }
 
     fn mouse_inside(&self) -> bool {
@@ -343,13 +439,41 @@ impl RestingView {
         Rect::new(f.origin.x, f.origin.y, f.size.width, f.size.height).contains(p.x, p.y)
     }
 
+    fn update_hover_slot(&self) {
+        let Some(window) = self.window() else {
+            return;
+        };
+        let x = NSEvent::mouseLocation().x - window.frame().origin.x;
+        let next = slots::hit_test(
+            self.ivars().scratchpad_enabled.get(),
+            x,
+            window.frame().size.width,
+        );
+        if self.ivars().hover_slot.replace(next) != next {
+            self.relayout();
+        }
+    }
+
+    fn hover_text(&self) -> String {
+        let texts = self.ivars().texts.borrow();
+        if !self.ivars().scratchpad_enabled.get() {
+            return texts.hint.clone();
+        }
+        match self.ivars().hover_slot.get() {
+            Slot::Dictate => texts.dictate_hint.clone(),
+            Slot::Scratchpad => texts.scratchpad_hint.clone(),
+        }
+    }
+
     /// The size this view wants now (points).
     fn current_size(&self) -> (f64, f64) {
         match self.ivars().mode.get() {
             Mode::Bridge(shape) => shape.size(),
+            Mode::Rest if self.ivars().scratchpad_enabled.get() => {
+                (slots::GROUP_WIDTH, slots::GROUP_HEIGHT)
+            }
             Mode::Rest if self.ivars().hover.get() => {
-                let w = text_size(&self.ivars().texts.borrow().hint).width
-                    + 2.0 * geometry::HOVER_PAD_X;
+                let w = text_size(&self.hover_text()).width + 2.0 * geometry::HOVER_PAD_X;
                 (
                     w.clamp(geometry::HOVER_MIN_W, geometry::HOVER_MAX_W).ceil(),
                     geometry::HOVER_H,
@@ -413,11 +537,19 @@ impl RestingView {
 
         match self.ivars().mode.get() {
             Mode::Rest if self.ivars().hover.get() => {
-                let hint = self.ivars().texts.borrow().hint.clone();
+                let hint = self.hover_text();
                 let size = text_size(&hint);
                 let x = bounds.origin.x + (bounds.size.width - size.width) / 2.0;
                 let y = bounds.origin.y + (bounds.size.height - size.height) / 2.0;
                 draw_text(&hint, NSPoint::new(x.max(geometry::HOVER_PAD_X / 2.0), y));
+            }
+            Mode::Rest if self.ivars().scratchpad_enabled.get() => {
+                rgba(255.0, 255.0, 255.0, 0.24).setFill();
+                NSBezierPath::bezierPathWithRect(NSRect::new(
+                    NSPoint::new(bounds.size.width / 2.0, 7.0),
+                    NSSize::new(1.0, bounds.size.height - 14.0),
+                ))
+                .fill();
             }
             Mode::Bridge(_) => {
                 // Three quiet dots: the take has started, the waveform loads.
@@ -436,6 +568,30 @@ impl RestingView {
             Mode::Rest => {}
         }
     }
+}
+
+fn slot_button(
+    mtm: MainThreadMarker,
+    target: &RestingView,
+    action: objc2::runtime::Sel,
+) -> Retained<NSButton> {
+    // SAFETY: NSButton's frame initializer and ordinary control setters.
+    let button: Retained<NSButton> =
+        unsafe { msg_send![NSButton::alloc(mtm), initWithFrame: NSRect::ZERO] };
+    button.setBordered(false);
+    // SAFETY: medium system font and a light title over the dark capsule.
+    button.setFont(Some(unsafe {
+        &NSFont::systemFontOfSize_weight(geometry::HOVER_FONT, NSFontWeightMedium)
+    }));
+    // SAFETY: target and action use the RestingView methods defined above;
+    // the view owns these buttons and outlives their callbacks.
+    unsafe {
+        button.setTarget(Some(target));
+        button.setAction(Some(action));
+        button.setContentTintColor(Some(&NSColor::whiteColor()));
+    }
+    button.setHidden(true);
+    button
 }
 
 fn rgba(r: f64, g: f64, b: f64, a: f64) -> Retained<NSColor> {
@@ -509,8 +665,27 @@ impl Resting {
     }
 
     pub fn set_texts(&self, texts: &Texts) {
+        if let Some(buttons) = self.view.ivars().slot_buttons.borrow().as_ref() {
+            for (button, title, help) in [
+                (&buttons.0, &texts.dictate, &texts.dictate_hint),
+                (&buttons.1, &texts.scratchpad, &texts.scratchpad_hint),
+            ] {
+                button.setTitle(&NSString::from_str(title));
+                // Native tooltips also become each button's accessibility help.
+                button.setToolTip(Some(&NSString::from_str(help)));
+            }
+        }
         if *self.view.ivars().texts.borrow() != *texts {
             *self.view.ivars().texts.borrow_mut() = texts.clone();
+            self.view.relayout();
+        }
+    }
+
+    pub fn set_scratchpad_enabled(&self, enabled: bool) {
+        if self.view.ivars().scratchpad_enabled.replace(enabled) != enabled {
+            self.view.ivars().hover_slot.set(Slot::Dictate);
+            self.view.ivars().hover.set(false);
+            self.view.layout_slot_buttons();
             self.view.relayout();
         }
     }

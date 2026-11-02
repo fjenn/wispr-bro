@@ -41,7 +41,7 @@ pub const FORK_SETTINGS_FILE: &str = "fork-settings.json";
 /// Key of the settings object inside the store (same layout as Handy's store).
 pub const STORE_KEY: &str = "settings";
 /// Current [`ForkSettings::schema_version`].
-pub const CURRENT_SCHEMA_VERSION: u32 = 5;
+pub const CURRENT_SCHEMA_VERSION: u32 = 6;
 
 /// The only app identity whose Handy settings the fork may rewrite. A build
 /// without the identity overlay (`cargo build`, `bun run tauri dev`) runs as
@@ -226,13 +226,13 @@ pub enum BarPosition {
     Top,
 }
 
-/// Where S-24 opens Scratchpad (S-14 persists the choice).
+/// What S-24 opens when the Scratchpad shortcut or bar slot is used.
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum ScratchpadOpenBehavior {
     #[default]
-    Floating,
-    Hub,
+    ResumeLast,
+    NewNote,
 }
 
 /// Update channel (DEC-33).
@@ -345,8 +345,10 @@ pub struct ForkSettings {
     pub bar_x_by_display: BTreeMap<String, f64>,
     /// DEC-30: Handy's live transcript in the pill, Advanced option (off).
     pub live_text_in_pill: bool,
-    /// S-14: where Scratchpad opens (used by S-24).
+    /// S-14/S-24: whether the shortcut resumes the last note or creates one.
     pub scratchpad_open_behavior: ScratchpadOpenBehavior,
+    /// S-24: add the Scratchpad slot to the resting Flow Bar.
+    pub scratchpad_on_bar: bool,
     /// DEC-7: `None` keeps text forever.
     pub text_retention_days: Option<u32>,
     /// DEC-7: audio 14 days; `None` keeps audio forever, `0` keeps none.
@@ -398,7 +400,8 @@ impl Default for ForkSettings {
             bar_hide_in_recordings: false,
             bar_x_by_display: BTreeMap::new(),
             live_text_in_pill: false,
-            scratchpad_open_behavior: ScratchpadOpenBehavior::Floating,
+            scratchpad_open_behavior: ScratchpadOpenBehavior::ResumeLast,
+            scratchpad_on_bar: false,
             text_retention_days: None,
             audio_retention_days: Some(14),
             notifications: NotificationSettings::default(),
@@ -444,6 +447,7 @@ pub enum ForkSettingUpdate {
     BarXByDisplay(BTreeMap<String, f64>),
     LiveTextInPill(bool),
     ScratchpadOpenBehavior(ScratchpadOpenBehavior),
+    ScratchpadOnBar(bool),
     TextRetentionDays(Option<u32>),
     AudioRetentionDays(Option<u32>),
     Notifications(NotificationSettings),
@@ -639,6 +643,7 @@ pub fn apply_update(settings: &mut ForkSettings, update: ForkSettingUpdate) -> R
         U::BarXByDisplay(v) => settings.bar_x_by_display = v,
         U::LiveTextInPill(v) => settings.live_text_in_pill = v,
         U::ScratchpadOpenBehavior(v) => settings.scratchpad_open_behavior = v,
+        U::ScratchpadOnBar(v) => settings.scratchpad_on_bar = v,
         U::TextRetentionDays(v) => settings.text_retention_days = v,
         U::AudioRetentionDays(v) => settings.audio_retention_days = v,
         U::Notifications(v) => settings.notifications = v,
@@ -800,6 +805,10 @@ pub const MIGRATIONS: &[Migration] = &[
         from: 4,
         apply: migrate_v4_to_v5,
     },
+    Migration {
+        from: 5,
+        apply: migrate_v5_to_v6,
+    },
 ];
 
 fn migrate_v0_to_v1(map: &mut Map<String, Value>) {
@@ -870,6 +879,18 @@ fn migrate_v4_to_v5(map: &mut Map<String, Value>) {
         {
             hotkeys.insert(id.to_string(), value);
         }
+    }
+}
+
+/// v5 → v6 (S-24): the S-14 Scratchpad location choice becomes the open
+/// behavior. Both former choices resume the last note; a missing value uses
+/// the same default. Existing hotkeys and every other setting stay untouched.
+fn migrate_v5_to_v6(map: &mut Map<String, Value>) {
+    if map.contains_key("scratchpad_open_behavior") {
+        map.insert(
+            "scratchpad_open_behavior".into(),
+            Value::String("resume_last".into()),
+        );
     }
 }
 

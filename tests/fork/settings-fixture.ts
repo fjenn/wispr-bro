@@ -6,7 +6,7 @@
  * that reads it).
  */
 export const forkSettingsDefaults = {
-  schema_version: 3,
+  schema_version: 6,
   hotkeys: {
     cancel: [{ chord: "escape", activation: "press" }],
     dictate: [{ chord: "fn", activation: "hold" }],
@@ -36,7 +36,8 @@ export const forkSettingsDefaults = {
   bar_hide_in_recordings: false,
   bar_x_by_display: {},
   live_text_in_pill: false,
-  scratchpad_open_behavior: "floating",
+  scratchpad_open_behavior: "resume_last",
+  scratchpad_on_bar: false,
   text_retention_days: null,
   audio_retention_days: 14,
   notifications: {

@@ -78,7 +78,7 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key == "text_retention_days" || key == "audio_retention_days" {
         crate::fork::db::jobs::wake();
     }
-    if key.starts_with("bar_") {
+    if key.starts_with("bar_") || key == "scratchpad_on_bar" {
         crate::fork::pill::settings_changed(&next);
     }
 

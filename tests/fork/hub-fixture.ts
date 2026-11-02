@@ -20,7 +20,7 @@ export { expect };
 /** Fork settings as `fork_get_settings` returns them (Rust defaults). */
 export function defaultForkSettings(): Record<string, unknown> {
   return {
-    schema_version: 1,
+    schema_version: 6,
     hotkeys: {},
     cleanup_level: "light",
     styles: {
@@ -39,7 +39,8 @@ export function defaultForkSettings(): Record<string, unknown> {
     bar_hide_in_recordings: false,
     bar_x_by_display: {},
     live_text_in_pill: false,
-    scratchpad_open_behavior: "floating",
+    scratchpad_open_behavior: "resume_last",
+    scratchpad_on_bar: false,
     text_retention_days: null,
     audio_retention_days: 14,
     notifications: {
@@ -183,6 +184,11 @@ export async function openHub(
   ipc.handle("fork_set_setting", (args) => {
     const update = args.update as { key: string; value: unknown };
     hub.forkSettings[update.key] = update.value;
+    if (update.key === "hotkey") {
+      const change = update.value as { action: string; bindings: unknown[] };
+      const hotkeys = hub.forkSettings.hotkeys as Record<string, unknown[]>;
+      hotkeys[change.action] = change.bindings;
+    }
     return hub.forkSettings;
   });
 
@@ -198,6 +204,8 @@ export async function openHub(
   ipc.respond("fork_style_overview", { apps: [], sites: [] });
   // S-22: no custom transforms unless the spec installs its own backend.
   ipc.respond("fork_transforms_list", []);
+  // S-24: an empty Scratchpad unless the spec installs its own backend.
+  ipc.respond("fork_scratchpad_list", []);
   // S-15b: an empty history unless the spec installs its own backend.
   ipc.respond("fork_history_page", { rows: [], next: null });
   ipc.respond("fork_history_find", { rows: [], next: null });

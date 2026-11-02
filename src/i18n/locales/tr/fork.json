@@ -202,8 +202,8 @@
       "scratchpadLabel": "Önünde Scratchpad'i aç",
       "scratchpadHint": "Scratchpad kısa yoluyla kullanıldığında nerede açılıp açılmayacağını seçin.",
       "scratchpadOptions": {
-        "floating": "Yüzeyde bir pencere",
-        "hub": "Ana pencere"
+        "resume_last": "Resume my last note",
+        "new_note": "Start a new note"
       }
     },
     "privacy": {
@@ -286,6 +286,9 @@
           "polish": "Polish selected text",
           "prompt_engineer": "Turn selected text into an AI prompt",
           "view_changes": "View transform changes"
+        },
+        "scratchpad": {
+          "open": "Open Scratchpad"
         }
       },
       "help": {
@@ -301,6 +304,9 @@
           "polish": "Rewrite the selected text with Polish.",
           "prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
           "view_changes": "Review the latest transform before and after."
+        },
+        "scratchpad": {
+          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
         }
       }
     }
@@ -615,10 +621,23 @@
         "body": "Hâlâ kaydedildiğinde {{appName}} kapatıldı. Tarih içinde, onlar metin haline getirildi."
       }
     },
+    "scratchpad": {
+      "windowTitle": "Scratchpad"
+    },
     "pill": {
       "name": "Dictation bar",
       "hint": "Hold fn to dictate, or click to start",
       "hideForAnHour": "Hide for an hour",
+      "slots": {
+        "dictate": {
+          "label": "Dictate",
+          "tooltip": "Hold fn to dictate"
+        },
+        "scratchpad": {
+          "label": "Scratchpad",
+          "tooltip": "Scratchpad"
+        }
+      },
       "announce": {
         "listening": "Listening",
         "transcribing": "Transcribing",
@@ -1499,6 +1518,58 @@
       "savedWord": "“{{word}}” sözlüğinizde.",
       "openDictionary": "Sözlüğü Aç"
     }
+  },
+  "scratchpad": {
+    "newNote": "New note",
+    "preferences": "Scratchpad preferences",
+    "addToBar": "Add to the bar",
+    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
+    "recents": "Recents",
+    "searchLabel": "Search notes",
+    "searchPlaceholder": "Search your notes",
+    "loading": "Loading notes…",
+    "empty": "No notes yet",
+    "emptyHelp": "Start a note, then type or dictate into its floating window.",
+    "emptyNote": "Empty note",
+    "noResults": "No notes match your search.",
+    "untitled": "Untitled note",
+    "pinned": "Pinned",
+    "pin": "Pin note",
+    "unpin": "Unpin note",
+    "editAction": "Edit note",
+    "edit": "Edit {{name}}",
+    "delete": "Delete note",
+    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
+    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "shortcut": {
+      "label": "Open shortcut",
+      "change": "Set shortcut",
+      "title": "Scratchpad shortcut",
+      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
+      "close": "Close shortcut dialog",
+      "proposed": "Suggested combination",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Use Control + Option + S",
+      "chooseAnother": "Choose a different shortcut",
+      "error": "That shortcut could not be saved. Try another combination."
+    },
+    "tabs": "Open notes",
+    "tools": "Note tools",
+    "sidebar": "Show note list",
+    "polish": "Polish note",
+    "polishing": "Polishing…",
+    "textSize": "Change text size (currently {{size}} points)",
+    "expand": "Expand note window",
+    "shrink": "Restore note window size",
+    "close": "Close Scratchpad",
+    "noteBody": "Note text",
+    "notePlaceholder": "Write or dictate a note…",
+    "saved": "Saved",
+    "saving": "Saving…",
+    "saveError": "Not saved yet",
+    "autosaveHelp": "Saves automatically",
+    "copy": "Copy",
+    "copied": "Copied"
   },
   "style": {
     "tabsLabel": "Stil grupları",

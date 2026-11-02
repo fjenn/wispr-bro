@@ -76,6 +76,8 @@ pub struct Scene {
     pub protected: bool,
     /// `Some(true)` dark, `Some(false)` light, `None` the system's.
     pub dark: Option<bool>,
+    /// S-24: Dictate and Scratchpad share the resting bar.
+    pub scratchpad_enabled: bool,
     pub texts: Texts,
 }
 
@@ -182,10 +184,13 @@ impl Ui {
                 || o.x_by_display != scene.x_by_display
                 || o.protected != scene.protected
                 || o.dark != scene.dark
+                || o.scratchpad_enabled != scene.scratchpad_enabled
                 || o.texts != scene.texts
         });
         if prefs_changed {
             self.resting.set_texts(&scene.texts);
+            self.resting
+                .set_scratchpad_enabled(scene.scratchpad_enabled);
             self.resting.set_protected(scene.protected);
             self.resting.set_appearance(scene.dark);
         }
