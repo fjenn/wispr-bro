@@ -118,7 +118,7 @@ test("System, Data and Privacy, collapsed Advanced, and About deep-link", async 
   );
   await page.getByTestId("wb-settings-nav-privacy").click();
   await expect(page.getByTestId("wb-settings-privacy")).toContainText(
-    "Retention and privacy controls",
+    "Your dictation and data stay on this Mac.",
   );
   await page.getByTestId("wb-settings-nav-advanced").click();
   await expect(page.getByTestId("wb-settings-nav-advanced")).toHaveAttribute(

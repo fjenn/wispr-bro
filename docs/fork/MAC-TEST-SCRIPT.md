@@ -1692,10 +1692,76 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-27 Data and Privacy, export, delete all, diagnostics
 
-- [ ] S-27.1 Export opens in Finder.
-- [ ] S-27.2 Erase, then relaunch shows onboarding.
-- [ ] S-27.3 `brew uninstall --zap` paths match (S-39).
-- Procedure: TODO (S-27).
+- [ ] S-27.1 Export opens in Finder. _(queued for the Mac wave)_
+- [ ] S-27.2 Erase, then relaunch shows onboarding. _(queued for the Mac wave)_
+- [ ] S-27.3 `brew uninstall --zap` paths match (S-39). _(queued for the Mac
+      wave: this slice records the path list; S-39 compares it with the
+      cask's `zap` stanza)_
+- [ ] S-27.4 Copy and Save diagnostics are sanitized (seeded marker phrase,
+      home path) and hold no databases, audio or settings. _(queued)_
+- [ ] S-27.5 Every "Show in Finder" opens its folder; a recent macOS `.ips`
+      for the test identity is picked up as a crash file and shown once in
+      the inbox. _(queued)_
+
+**Profile: an isolated debug build** with its own identity ("Wispr Bro S27
+Check", `com.wisprbro.s27check`; the product runtime, its own app data,
+WebKit storage and TCC rows), so the owner's app and data are never
+touched. Debug is enough (no CSP-sensitive check). No audio: History is
+seeded. Two layouts, both under the test identity:
+
+- **Portable** (S-27.1, .2, .4, .5): copy the `.app` to a scratch folder
+  whose path contains `s27`, add `Contents/MacOS/portable`, re-sign ad hoc,
+  as in S-25. `Data` = `Contents/MacOS/Data`.
+- **Installed** (S-27.3): the same `.app` without the `portable` marker, so
+  it uses `~/Library/Application Support/com.wisprbro.s27check` and
+  `~/Library/Logs/com.wisprbro.s27check`.
+
+```sh
+echo '{"identifier":"com.wisprbro.s27check","productName":"Wispr Bro S27 Check","plugins":{"updater":{"active":false}}}' > <scratch>/s27.conf.json
+bun run tauri build --debug --bundles app --config src-tauri/tauri.fork.conf.json --config <scratch>/s27.conf.json
+swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # S-25's driver; the terminal needs Accessibility
+swiftc -O scripts/wb-window-id.swift -o <scratch>/wbwin
+```
+
+Run `Contents/MacOS/handy --start-hidden` once and quit, set
+`onboarding_completed: true` and `update_checks_enabled: false` as in S-25,
+then `python3 -I scripts/wb-s27/seed.py <…>/Data <scratch>/s27-seed.json`
+(three neutral rows with silent WAVs, two fake model files, a log line and a
+crash file carrying the marker phrase).
+
+**Procedure (unattended, ~5 min; hold `~/wb-bench/gui.lock` for each GUI
+step; events go only to the test app's window via `wbui`).**
+
+1. Launch, open Settings › Data and Privacy, screenshot. Pass: the page
+   names huggingface.co and github.com, the four paths are inside `Data/`
+   (portable), each "Show in Finder" opens a Finder window on that folder
+   (S-27.5; close them).
+2. "Export my data"; in the save panel `wbui <pid> 'key cmd-shift-g; key
+cmd-a; keys <scratch>/out/; key return; key return'`. Pass (S-27.1): a
+   Finder window selects the zip; `python3 -I scripts/wb-s27/verify.py
+export <zip> <scratch>/s27-seed.json` passes.
+3. "Save diagnostics…" into `<scratch>/out/`, then "Copy diagnostics" and
+   `pbpaste > <scratch>/out/copy.txt`. Pass (S-27.4): `verify.py
+diagnostics <zip> <seed>` passes; `copy.txt` contains neither the marker
+   nor `$HOME/`.
+4. Quit. Copy a real `.ips` header for the identity into
+   `~/Library/Logs/DiagnosticReports/Wispr Bro S27 Check-s27.ips`
+   (`{"bundleID":"com.wisprbro.s27check"}` then any body line containing the
+   marker); relaunch. Pass (S-27.5): the inbox shows one crash notice; the
+   log folder has a `crash-…-ips-…txt` without the marker. Delete the `.ips`.
+5. "Delete all my data", leave "Also delete downloaded models" off, type
+   `DELETE`, confirm. Pass (S-27.2): the app quits and relaunches into
+   onboarding (screenshot); then `verify.py erased <Data> <seed> kept` (seeded
+   rows, WAVs, log and crash marker gone, fake models kept) and `verify.py
+onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
+   unit test; the relaunched app recreates empty stores at once.)
+6. Repeat step 5 with the models box checked: `verify.py erased <Data>
+<seed> deleted` passes (re-seed first).
+7. Installed layout: launch once without `portable`, quit, then
+   `sh scripts/wb-s27/zap-paths.sh com.wisprbro.s27check` and paste the list
+   into the run report (S-27.3 input for S-39).
+8. Clean up: delete the bundle copy, `~/Library/{Application Support,Logs,WebKit,Caches}/com.wisprbro.s27check`
+   and any `~/Library/Preferences/com.wisprbro.s27check.plist`.
 
 ### S-28 Updates that never interrupt
 

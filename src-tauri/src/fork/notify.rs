@@ -570,6 +570,22 @@ fn post_recent_crash<R: ForkRuntime>(app: &AppHandle<R>) {
     let Some(dir) = crash_dir(app) else {
         return;
     };
+    // Never scan the owner's DiagnosticReports in a plain Handy build or in
+    // unit tests. Product/test identities pick up only their own bundle id.
+    if crate::fork::is_product_build() {
+        if let Some(reports) = std::env::var_os("HOME")
+            .map(PathBuf::from)
+            .map(|home| home.join("Library/Logs/DiagnosticReports"))
+        {
+            if let Err(error) = crate::fork::diagnostics::crash::pickup_ips_reports(
+                &reports,
+                &dir,
+                &crate::fork::compiled_identifier(),
+            ) {
+                log::debug!("diagnostics: .ips pickup failed: {error}");
+            }
+        }
+    }
     if let Some(name) = recent_crash_file(&dir, now_ms()) {
         post(app, Notice::crash_report(&name));
     }

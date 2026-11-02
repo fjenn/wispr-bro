@@ -11,8 +11,10 @@
 //! - [`sanitizer`]: redaction (Voquill port, AGPL-3.0-only).
 //! - [`crash`]: the panic hook installed by `fork::early_init`.
 //!
-//! S-27 adds `bundle.rs` (diagnostics export).
+//! S-27: `bundle.rs` creates the Copy/Save diagnostics payload from sanitized
+//! logs and crash reports only.
 
+pub mod bundle;
 pub mod crash;
 pub mod sanitizer;
 

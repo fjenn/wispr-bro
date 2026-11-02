@@ -140,6 +140,107 @@ fn prune(dir: &Path) {
     }
 }
 
+/// An `.ips` belongs to this app only when its JSON metadata names our bundle
+/// identifier. A report for another app is neither read into logs nor copied.
+pub fn ips_matches(metadata: &str, identifier: &str) -> bool {
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(metadata) else {
+        return false;
+    };
+    value.get("bundleID").and_then(|v| v.as_str()) == Some(identifier)
+}
+
+/// Only `.ips` reports younger than this are picked up (the inbox notice
+/// window), so a copy that [`prune`] removed is never brought back.
+pub const IPS_MAX_AGE: std::time::Duration = std::time::Duration::from_secs(7 * 24 * 60 * 60);
+
+/// The `.ips` header line (JSON metadata) of `path`, read without loading the
+/// whole report; `None` for an unreadable or oversized header.
+fn ips_header(path: &Path) -> Option<String> {
+    use std::io::{BufRead, Read};
+    let file = std::fs::File::open(path).ok()?;
+    let mut line = String::new();
+    std::io::BufReader::new(file.take(64 * 1024))
+        .read_line(&mut line)
+        .ok()?;
+    line.ends_with('\n').then_some(line)
+}
+
+/// Copies this app's recent macOS `.ips` reports (from
+/// `~/Library/Logs/DiagnosticReports`) into the log folder as sanitized
+/// `crash-<time>-ips-<name>.txt` files, keeping the report's time, so the
+/// next-launch inbox producer and Copy/Save diagnostics see them. Reports of
+/// other apps are never read past their header line. Existing copies are left
+/// alone (deduplication).
+pub fn pickup_ips_reports(
+    reports_dir: &Path,
+    log_dir: &Path,
+    identifier: &str,
+) -> std::io::Result<Vec<PathBuf>> {
+    let mut copied = Vec::new();
+    let Ok(entries) = std::fs::read_dir(reports_dir) else {
+        return Ok(copied);
+    };
+    let now = std::time::SystemTime::now();
+    for entry in entries.flatten() {
+        if !entry
+            .file_type()
+            .is_ok_and(|t| t.is_file() && !t.is_symlink())
+        {
+            continue;
+        }
+        let source = entry.path();
+        if source.extension().and_then(|e| e.to_str()) != Some("ips") {
+            continue;
+        }
+        let Ok(modified) = entry.metadata().and_then(|m| m.modified()) else {
+            continue;
+        };
+        if now.duration_since(modified).unwrap_or_default() > IPS_MAX_AGE {
+            continue;
+        }
+        if !ips_header(&source).is_some_and(|h| ips_matches(&h, identifier)) {
+            continue;
+        }
+        let stem = source
+            .file_stem()
+            .and_then(|n| n.to_str())
+            .unwrap_or("report")
+            .chars()
+            .map(|c| {
+                if c.is_ascii_alphanumeric() || c == '-' || c == '_' {
+                    c
+                } else {
+                    '-'
+                }
+            })
+            .take(120)
+            .collect::<String>();
+        let stamp = chrono::DateTime::<chrono::Local>::from(modified).format("%Y%m%d-%H%M%S%.3f");
+        let destination = log_dir.join(format!("{CRASH_FILE_PREFIX}{stamp}-ips-{stem}.txt"));
+        if destination.exists() {
+            continue;
+        }
+        let Ok(raw) = std::fs::read_to_string(&source) else {
+            continue;
+        };
+        std::fs::create_dir_all(log_dir)?;
+        let text = super::sanitizer::sanitize_log_content(&format!(
+            "Wispr Bro macOS crash report (local only, never uploaded)\nsource: {stem}.ips\n{raw}"
+        ));
+        std::fs::write(&destination, text)?;
+        if let Ok(file) = std::fs::File::options().write(true).open(&destination) {
+            let _ = file.set_modified(modified);
+        }
+        copied.push(destination);
+    }
+    if !copied.is_empty() {
+        prune(log_dir);
+        copied.retain(|p| p.exists());
+    }
+    copied.sort();
+    Ok(copied)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -227,5 +328,60 @@ mod tests {
             .count();
         assert_eq!(count, MAX_CRASH_FILES);
         assert!(tmp.path().join("wispr-bro.log").exists());
+    }
+
+    #[test]
+    fn ips_pickup_copies_only_our_sanitized_reports_for_the_inbox() {
+        let temp = tempfile::tempdir().unwrap();
+        let reports = temp.path().join("DiagnosticReports");
+        let logs = temp.path().join("logs");
+        std::fs::create_dir(&reports).unwrap();
+        let id = "com.wisprbro.s27check";
+        std::fs::write(
+            reports.join("Wispr Bro-2026-11-02.ips"),
+            format!("{{\"bundleID\":\"{id}\"}}\nTranscript: private words\nmail a@example.com"),
+        )
+        .unwrap();
+        std::fs::write(
+            reports.join("Other.ips"),
+            "{\"bundleID\":\"com.example.other\"}\nprivate other app",
+        )
+        .unwrap();
+        // Ours, but older than the inbox window: never copied.
+        let old = reports.join("Wispr Bro-2026-01-01.ips");
+        std::fs::write(&old, format!("{{\"bundleID\":\"{id}\"}}\nold")).unwrap();
+        std::fs::File::options()
+            .write(true)
+            .open(&old)
+            .unwrap()
+            .set_modified(std::time::SystemTime::now() - IPS_MAX_AGE * 2)
+            .unwrap();
+
+        let copied = pickup_ips_reports(&reports, &logs, id).unwrap();
+        assert_eq!(copied.len(), 1);
+        let name = copied[0].file_name().unwrap().to_str().unwrap();
+        assert!(crate::fork::notify::is_crash_file_name(name));
+        let text = std::fs::read_to_string(&copied[0]).unwrap();
+        assert!(!text.contains("private words"), "{text}");
+        assert!(!text.contains("a@example.com"), "{text}");
+        assert_eq!(std::fs::read_dir(&logs).unwrap().count(), 1);
+        assert!(pickup_ips_reports(&reports, &logs, id).unwrap().is_empty());
+        let now = copied[0]
+            .metadata()
+            .unwrap()
+            .modified()
+            .unwrap()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_millis() as i64;
+        assert_eq!(
+            crate::fork::notify::recent_crash_file(&logs, now).as_deref(),
+            Some(name)
+        );
+        let notice = crate::fork::notify::Notice::crash_report(name);
+        assert_eq!(
+            notice.dedupe_key.as_deref(),
+            Some(format!("crash:{name}").as_str())
+        );
     }
 }

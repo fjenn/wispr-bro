@@ -39,7 +39,9 @@ pub mod context;
 pub mod db;
 pub mod diagnostics;
 pub mod dictionary;
+pub mod erase;
 pub mod events;
+pub mod export;
 pub mod hub;
 pub mod i18n;
 pub mod insert;
@@ -608,6 +610,12 @@ macro_rules! fork_specta_builder {
                 commands::update::fork_update_status::<$runtime>,
                 commands::update::fork_update_check::<$runtime>,
                 commands::update::fork_update_install::<$runtime>,
+                commands::privacy::fork_data_locations::<$runtime>,
+                commands::privacy::fork_show_data_location::<$runtime>,
+                commands::privacy::fork_export_data::<$runtime>,
+                commands::privacy::fork_copy_diagnostics::<$runtime>,
+                commands::privacy::fork_save_diagnostics::<$runtime>,
+                commands::privacy::fork_erase_all_data::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -678,6 +686,13 @@ pub trait ForkRuntime: Runtime {
     /// Starts Undo and registers the recovery actions (S-06; product
     /// builds). No-op on runtimes without Handy's managers.
     fn recovery_start(app: &AppHandle<Self>);
+    /// S-27 delete-all phase 1: stop recording, jobs and downloads.
+    fn stop_jobs_for_erase(app: &AppHandle<Self>) -> Result<(), String>;
+    /// S-27 delete-all phase 2: unload speech models and stop the sidecar.
+    fn unload_models_for_erase(app: &AppHandle<Self>) -> Result<(), String>;
+    /// S-27 delete-all phase 3 (before files go): close the settings stores
+    /// and clear webview storage.
+    fn release_for_erase(app: &AppHandle<Self>);
 }
 
 impl ForkRuntime for tauri::Wry {
@@ -687,6 +702,18 @@ impl ForkRuntime for tauri::Wry {
 
     fn recovery_start(app: &AppHandle<Self>) {
         recovery::on_ready(app);
+    }
+
+    fn stop_jobs_for_erase(app: &AppHandle<Self>) -> Result<(), String> {
+        erase::stop_jobs(app)
+    }
+
+    fn unload_models_for_erase(app: &AppHandle<Self>) -> Result<(), String> {
+        erase::unload_models(app)
+    }
+
+    fn release_for_erase(app: &AppHandle<Self>) {
+        erase::release_for_erase(app);
     }
 
     fn pill_start(app: &AppHandle<Self>) {
@@ -743,6 +770,16 @@ impl ForkRuntime for tauri::test::MockRuntime {
     fn models_start(_app: &AppHandle<Self>) {}
 
     fn recovery_start(_app: &AppHandle<Self>) {}
+
+    fn stop_jobs_for_erase(_app: &AppHandle<Self>) -> Result<(), String> {
+        Ok(())
+    }
+
+    fn unload_models_for_erase(_app: &AppHandle<Self>) -> Result<(), String> {
+        Ok(())
+    }
+
+    fn release_for_erase(_app: &AppHandle<Self>) {}
 
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {
         0.0
