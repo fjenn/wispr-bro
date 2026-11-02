@@ -1682,7 +1682,49 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 - [ ] S-26a.1 ⌘C / ⌘V / ⌘Z in Hub text fields.
 - [ ] S-26a.2 The Help search box finds menu items.
 - [ ] S-26a.3 The tray icon comes back after the menu bar process (ControlCenter) restarts (A-69).
-- Procedure: TODO (S-26a).
+- [ ] S-26a.0 The menu bar has Dictation, Vocabulary and Help with their items; Edit keeps ⌘Z ⌘X ⌘C ⌘V ⌘A.
+- [ ] S-26a.4 Vocabulary's dictionary count follows a word added from Vocabulary › Add word… without reopening the app.
+
+**Status: queued for the Mac wave** (UI wave; not run by the slice agent).
+
+**Profile:** a portable debug build with the slice identity
+(`com.wisprbro.s26acheck`, product runtime), `onboarding_completed: true`,
+`update_checks_enabled: false`. Build as in S-25 with that identifier
+(debug is enough: nothing here is CSP-sensitive), then:
+
+```sh
+swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # Accessibility for the terminal
+swiftc -O scripts/wb-s26a/menus.swift -o <scratch>/wbmenus
+export WBUI=<scratch>/wbui WBMENUS=<scratch>/wbmenus
+```
+
+**Procedure (unattended, ~3 min; each step holds `~/wb-bench/gui.lock`;
+keys go only to the test app while it is in front; the clipboard is saved
+and restored around S-26a.1).** Launch the bundle executable, note its pid.
+
+1. `scripts/wb-s26a/run.sh menubar <pid> <out>`. Pass (S-26a.0): every
+   line PASS; `menubar.txt` shows Dictation ("N words dictated", Copy last
+   transcript, Microphone ▸, Languages ▸), Vocabulary (two counts, Add word…,
+   New snippet…), Help (Documentation, Shortcuts, Microphone, Languages).
+2. Open the Hub's Dictionary page and the search field's window point
+   (`wbui <pid> front`; screenshot), then
+   `scripts/wb-s26a/run.sh edit <pid> <x> <y> <out>`. Pass (S-26a.1): ⌘X,
+   ⌘V twice, ⌘Z (one paste undone) and ⌘C all PASS; the user's clipboard is
+   restored.
+3. `scripts/wb-s26a/run.sh help <pid> snippet <out>`. Pass (S-26a.2): the
+   Help menu opens with its search box, `help-results.txt` lists more than
+   the search field, and `help-search.png` shows "New snippet…" found
+   (Vocabulary highlighted).
+4. `scripts/wb-s26a/run.sh counts <pid> <out>`. Pass (S-26a.4): the
+   dictionary count is one higher right after Save.
+5. `scripts/wb-s26a/run.sh tray <pid> <out>` (restarts ControlCenter: the
+   menu bar blinks for a second). Pass (S-26a.3): the status item is back
+   within 30 s, `menu-bar.png` shows the glyph.
+6. By eye in the same run: click the tray glyph: Open Wispr Bro, Check for
+   updates…, Paste last transcript (greyed on an empty profile), Shortcuts,
+   Microphone ▸, Languages ▸, Documentation, Quit; no Model ▸ or Unload.
+7. Quit; delete the bundle copy and
+   `~/Library/{WebKit,Caches}/com.wisprbro.s26acheck`.
 
 ### S-26b Help popover, support, Share, About
 

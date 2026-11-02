@@ -40,6 +40,7 @@ import {
 import { FeaturePopup } from "./FeaturePopup";
 import { Header } from "./Header";
 import { syncHubWithHash, useHubNav } from "./nav";
+import { useMenuActions } from "./menuActions";
 import { useNotificationsLive } from "./NotificationsPanel";
 import { hubPage, newTagId } from "./pages";
 import { Sidebar } from "./Sidebar";
@@ -105,6 +106,7 @@ export function ForkApp(props: ForkAppProps) {
 
   useOverlayTitleBar();
   useDropRouter();
+  useMenuActions();
   useNotificationsLive();
   useEffect(() => {
     void listenForTransformChanges();

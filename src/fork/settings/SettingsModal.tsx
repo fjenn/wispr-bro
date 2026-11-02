@@ -20,6 +20,7 @@ type Section = (typeof SECTIONS)[number] | "hotkeys";
 function sectionFromHash(value: string | null): Section {
   if (value === "hotkeys" || value === "shortcuts") return "hotkeys";
   if (value === "models") return "advanced";
+  if (value === "microphone" || value === "languages") return "general";
   return SECTIONS.includes(value as (typeof SECTIONS)[number])
     ? (value as (typeof SECTIONS)[number])
     : "general";
@@ -51,6 +52,13 @@ export function SettingsModal() {
 
   useEffect(() => {
     if (requested === "history") navigate("dictation", "history");
+    if (requested === "microphone" || requested === "languages") {
+      document
+        .getElementById(
+          `wb-general-${requested === "microphone" ? "mic" : "languages"}`,
+        )
+        ?.scrollIntoView({ block: "start" });
+    }
   }, [requested]);
 
   const close = () => navigate("dictation");

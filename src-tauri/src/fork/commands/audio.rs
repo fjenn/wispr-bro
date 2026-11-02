@@ -60,7 +60,7 @@ impl From<MicEntry> for ForkMicEntry {
     }
 }
 
-fn recorder_devices() -> Result<Vec<RecorderDevice>, ForkError> {
+pub(crate) fn recorder_devices() -> Result<Vec<RecorderDevice>, ForkError> {
     handy_recorder::list_input_devices()
         .map_err(|e| ForkError::Internal(format!("cannot list the microphones: {e}")))
         .map(|list| {
@@ -127,27 +127,20 @@ pub async fn fork_mic_list<R: ForkRuntime>(app: AppHandle<R>) -> Result<ForkMicL
     .map_err(|e| ForkError::Internal(format!("audio task: {e}")))?
 }
 
-/// Chooses a microphone: `"auto"` (Auto-detect, the system setting) or a
-/// device name from [`fork_mic_list`]. Writes Handy's `selected_microphone`
-/// and the fork's `mic_follow_system`, then re-prepares the microphone on
-/// the new device (never during a take: Handy reopens at the next take).
-#[tauri::command]
-#[specta::specta]
-pub async fn fork_mic_choose<R: ForkRuntime>(
-    app: AppHandle<R>,
-    value: String,
-) -> Result<ForkMicList, ForkError> {
+/// Chooses a microphone on a worker thread. Shared by the command and S-26a's
+/// native menus; never call this on the main thread.
+pub fn choose<R: ForkRuntime>(app: &AppHandle<R>, value: String) -> Result<ForkMicList, ForkError> {
     let value = value.trim().to_string();
     if value.is_empty() || value.len() > 512 {
         return Err(ForkError::InvalidSetting("microphone".into()));
     }
     let auto = value == choice::AUTO;
-    let HandySettings(before) = R::handy_settings(&app).ok_or(ForkError::NotReady)?;
+    let HandySettings(before) = R::handy_settings(app).ok_or(ForkError::NotReady)?;
     let mut after = before.clone();
     after.selected_microphone = (!auto).then(|| value.clone());
     if after.selected_microphone != before.selected_microphone {
         R::write_handy_settings(
-            &app,
+            app,
             &HandySettings(before),
             HandySettings(after),
             &settings::ProductReport {
@@ -158,7 +151,7 @@ pub async fn fork_mic_choose<R: ForkRuntime>(
     }
     if let Some(handle) = app.try_state::<ForkSettingsHandle>() {
         handle
-            .update(&app, |s| {
+            .update(app, |s| {
                 s.mic_follow_system = auto;
                 Ok(())
             })
@@ -173,20 +166,39 @@ pub async fn fork_mic_choose<R: ForkRuntime>(
         .try_state::<Arc<AudioRecordingManager>>()
         .map(|m| Arc::clone(&m))
     {
-        let reopened = tokio::task::spawn_blocking(move || {
-            if rm.is_recording() {
-                return Ok(());
+        if !rm.is_recording() {
+            if let Err(error) = rm.update_selected_device() {
+                log::warn!("fork audio: re-preparing after the choice failed: {error}");
             }
-            rm.update_selected_device()
-        })
-        .await;
-        match reopened {
-            Ok(Err(e)) => log::warn!("fork audio: re-preparing after the choice failed: {e}"),
-            Err(e) => log::warn!("fork audio: re-prepare task: {e}"),
-            Ok(Ok(())) => {}
         }
     }
-    fork_mic_list(app).await
+    let handy = R::handy_settings(app).ok_or(ForkError::NotReady)?.0;
+    let devices = recorder_devices()?;
+    Ok(build_list(
+        &devices,
+        &transport::snapshot(),
+        handy.selected_microphone.as_deref(),
+        follow_setting(app),
+    ))
+}
+
+/// Chooses a microphone: `"auto"` (Auto-detect, the system setting) or a
+/// device name from [`fork_mic_list`]. Writes Handy's `selected_microphone`
+/// and the fork's `mic_follow_system`, then re-prepares the microphone on
+/// the new device (never during a take: Handy reopens at the next take).
+#[tauri::command]
+#[specta::specta]
+pub async fn fork_mic_choose<R: ForkRuntime>(
+    app: AppHandle<R>,
+    value: String,
+) -> Result<ForkMicList, ForkError> {
+    let handle = app.clone();
+    let list = tokio::task::spawn_blocking(move || choose(&handle, value))
+        .await
+        .map_err(|e| ForkError::Internal(format!("audio task: {e}")))?;
+    // S-26a: the menus' Microphone ▸ shows the new choice.
+    crate::fork::app_menu::refresh(&app, crate::fork::app_menu::Refresh::Devices);
+    list
 }
 
 /// Starts the mic test's level meter on the microphone takes use now and
