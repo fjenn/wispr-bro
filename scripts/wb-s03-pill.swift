@@ -37,6 +37,8 @@
 //   shot <path>             capture a 640 × 120 pt strip around the bar
 //   mark <text>
 //
+// WB_FRONT_PID=<pid> does the same by process id (one instance of an app
+// the owner may run too).
 // WB_FRONT=<app name>: every fn-down, key-down and click is posted only
 // while that app is frontmost; otherwise the run aborts (exit 3) after
 // releasing fn. Hold `/usr/bin/lockf -k ~/wb-bench/gui.lock` around GUI
@@ -66,6 +68,9 @@ guard let pidText = env["WB_PID"], let appPid = Int32(pidText) else {
     exit(2)
 }
 let requiredFront = env["WB_FRONT"]
+// WB_FRONT_PID=<pid>: the same guard by process, for an app the owner may
+// also run (a second TextEdit instance has the same name as theirs).
+let requiredFrontPid = env["WB_FRONT_PID"].flatMap { Int32($0) }
 let source = CGEventSource(stateID: .hidSystemState)
 var fnHeld = false
 
@@ -90,6 +95,15 @@ func frontName() -> String {
 }
 
 func checkFront() {
+    if let wantPid = requiredFrontPid {
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.002))
+        let front = NSWorkspace.shared.frontmostApplication?.processIdentifier ?? -1
+        if front != wantPid {
+            out(["abort": "frontmost pid is \(front), not \(wantPid)"])
+            releaseFn()
+            exit(3)
+        }
+    }
     guard let want = requiredFront else { return }
     let front = frontName()
     if front != want {

@@ -43,7 +43,14 @@ mkdir -p "$T"
 pid=$(/bin/bash "$HERE/../wb-s05/app.sh" pid) || { echo "NO APP" | tee "$T/result"; exit 3; }
 log_from=$(wc -l <"$LOG")
 front() { lsappinfo info -only bundleid "$(lsappinfo front)" | sed -E 's/.*="?([^"]*)"?/\1/'; }
-keys() { osascript -e "tell application \"System Events\" to $1"; }
+front_pid() { lsappinfo info -only pid "$(lsappinfo front)" | sed -E 's/[^0-9]//g'; }
+# The owner's own Chrome has the same bundle id: only the instance this
+# take opened (its pid) counts as "Chrome in front".
+ours() { [ -n "$(chrome_pid)" ] && [ "$(front_pid)" = "$(chrome_pid)" ]; }
+keys() {
+  if ! ours; then echo "SKIP keys ($1): front=$(front) pid $(front_pid)" >&2; return 1; fi
+  osascript -e "tell application \"System Events\" to $1"
+}
 "$BIN/clip" save "$T/clip.saved" >/dev/null
 clip_before=$("$BIN/clip" digest)
 
@@ -56,11 +63,11 @@ title() {
   osascript -e "tell application \"System Events\" to get name of front window of (first process whose unix id is $(chrome_pid))" 2>/dev/null
 }
 
-if [ "$(front)" != com.google.Chrome ]; then
-  echo "SKIP front=$(front)" | tee "$T/result"
+if ! ours; then
+  echo "SKIP front=$(front) pid $(front_pid)" | tee "$T/result"
 else
   kill -USR2 "$pid"; sleep 0.8; afplay "$WAV"; sleep 0.6
-  if [ "$(front)" = com.google.Chrome ]; then kill -USR2 "$pid"; else
+  if ours; then kill -USR2 "$pid"; else
     wb_cancel "$APP_DIR" >/dev/null 2>&1; echo "focus moved; cancelled" >"$T/skip"; fi
   sleep 8
   pasted=$(title | sed 's/^S34://')

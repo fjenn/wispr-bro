@@ -28,10 +28,12 @@
 #              exists (Handy's autostart), and is gone after unchecking it in
 #              Settings › System
 #   APP=<bundle> OUT=<dir> KEYS=<compiled wb-s01-keys> WAV=<say -o file>
+#   [TAKE=signal: SIGUSR2 instead of fn, see hands_free_take]
 set -u
 : "${APP:?}" "${OUT:?}"
 LOCK="$HOME/wb-bench/gui.lock"
 HERE="$(cd "$(dirname "$0")" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")"
 DATA="$APP/Contents/MacOS/Data"
 LOGS="$DATA/logs"
@@ -50,6 +52,10 @@ launch() {
   sleep "${1:-6}"
   open -a "$APP"  # bring the onboarding window to the front
   sleep 1
+  # `open -a` does not always activate an app started from its executable;
+  # WBUI (compiled scripts/wb-s25/ui.swift) activates it by pid.
+  [ -n "${WBUI:-}" ] && "$WBUI" "$(pid)" front >/dev/null 2>&1
+  sleep 0.5
   log "launched pid $(pid)"
 }
 quit_app() {
@@ -64,8 +70,25 @@ newest_source() {
   sqlite3 "$DATA/fork.db" "SELECT source FROM entry_meta ORDER BY entry_id DESC LIMIT 1" 2>/dev/null
 }
 # fn+Space locks hands-free (S-01 rule 6); the WAV plays once; fn stops.
+# TAKE=signal starts and stops the take with SIGUSR2 (Handy's toggle, the
+# same record path) instead: a synthetic fn also reaches any other Wispr Bro
+# that holds fn (the owner's own instance), and the practice routing depends
+# only on which app is in front when the take starts.
+front_pid() { lsappinfo info -only pid "$(lsappinfo front)" | sed -E 's/[^0-9]//g'; }
+# $1 = the pid that must be in front when the take starts (the take pastes
+# wherever focus is; never start one with someone else's window in front).
 hands_free_take() {
-  : "${KEYS:?}" "${WAV:?}"
+  : "${WAV:?}"
+  if [ -n "${1:-}" ] && [ "$(front_pid)" != "$1" ]; then
+    log "SKIP take: pid $(front_pid) is in front, not $1"; return 1
+  fi
+  if [ "${TAKE:-}" = signal ]; then
+    kill -USR2 "$(pid)"; sleep 0.8
+    afplay "$WAV"; sleep 0.6
+    kill -USR2 "$(pid)"
+    return
+  fi
+  : "${KEYS:?}"
   "$KEYS" -e 'fn down; wait 250; space down; wait 60; space up; wait 120; fn up; wait 300' >>"$OUT/keys.jsonl"
   afplay "$WAV"; sleep 0.6
   "$KEYS" -e 'fn down; wait 120; fn up' >>"$OUT/keys.jsonl"
@@ -77,7 +100,7 @@ practice)
   python3 -I "$HERE/profile.py" "$DATA" practice
   launch 10
   cb0=$(clip); mark=$(applog | wc -l)
-  hands_free_take
+  hands_free_take "$(pid)" || { quit_app; exit 1; }
   sleep 8
   later=$(applog | tail -n +"$((mark + 1))")
   echo "$later" | grep -q "practice take Text" && log "PASS composer filled" || log "FAIL no practice text"
@@ -94,7 +117,7 @@ queued)
   rm -rf "$DATA/models"
   launch 6
   mark=$(applog | wc -l)
-  hands_free_take
+  hands_free_take "$(pid)" || { quit_app; exit 1; }
   sleep 3
   screencapture -x "$OUT/queued.png"
   for _ in $(seq 1 120); do
@@ -117,10 +140,17 @@ outside)
   quit_app
   python3 -I "$HERE/profile.py" "$DATA" practice
   launch 10
-  open -a TextEdit; sleep 2
+  # A TextEdit instance of our own: the take must paste into a document
+  # this script made, never into a TextEdit window the owner has open.
+  printf '' >"$OUT/outside.txt"
+  te=$(wb_textedit_open "$OUT/outside.txt") || { log "FAIL no TextEdit"; exit 1; }
+  sleep 2
+  fp=$(lsappinfo info -only pid "$(lsappinfo front)" | sed -E 's/[^0-9]//g')
+  [ "$fp" = "$te" ] || { log "SKIP outside: our TextEdit is not in front ($fp)"; wb_textedit_close "$te"; quit_app; exit 1; }
   mark=$(applog | wc -l)
-  hands_free_take
+  hands_free_take "$te"
   sleep 8
+  wb_textedit_close "$te"
   later=$(applog | tail -n +"$((mark + 1))")
   echo "$later" | grep -q "practice take" && log "FAIL a practice event" || log "PASS no practice event"
   [ "$(newest_source)" = dictation ] && log "PASS source dictation" || log "FAIL source $(newest_source)"
@@ -148,8 +178,12 @@ if start and done:
 PY
   ;;
 login)
-  ls "$HOME/Library/LaunchAgents" | grep -i "s29b\|wisprbro\|wispr" | tee -a "$OUT/run.log" \
-    || log "no launch agent for the test identity"
+  # Handy's autostart registers an SMAppService login item on macOS 13+
+  # (not a ~/Library/LaunchAgents plist; Mac wave 2): read the app's log.
+  applog | grep -E "(Registered|Unregistered) login item" | tail -2 | tee -a "$OUT/run.log"
+  applog | grep -E "login item" | tail -1 | grep -q "Registered login item" \
+    && log "login item registered (uncheck Settings › System › Launch on Startup to remove it)" \
+    || log "no login item registered (or it was removed)"
   ;;
 *)
   sed -n '2,37p' "$0"; exit 2 ;;

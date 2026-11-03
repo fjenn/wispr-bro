@@ -89,3 +89,31 @@ wb_cancel() {
   fi
   wb_cli "$dir" --cancel
 }
+
+# A TextEdit instance of the driver's own (`open -n`, no restored windows),
+# so keys and pastes can be guarded by its pid: the owner's TextEdit, if it
+# runs, has the same name and bundle id and may hold their documents.
+#   wb_textedit_open <file>   opens <file> in a new instance; prints its pid
+#   wb_textedit_close <pid>   quits that instance without saving
+wb_textedit_open() {
+  local file="${1:?file}" before p i
+  before=" $(pgrep -x TextEdit | tr '\n' ' ') "
+  open -n -a TextEdit "$file" --args -ApplePersistenceIgnoreState YES
+  for ((i = 0; i < 50; i++)); do
+    for p in $(pgrep -x TextEdit); do
+      case "$before" in *" $p "*) ;; *) echo "$p"; return 0 ;; esac
+    done
+    sleep 0.2
+  done
+  echo "wb_textedit_open: no new TextEdit instance" >&2
+  return 1
+}
+
+wb_textedit_close() {
+  local p="${1:?pid}"
+  ps -o comm= -p "$p" 2>/dev/null | /usr/bin/grep -q TextEdit || return 0
+  kill "$p" 2>/dev/null
+  sleep 1
+  kill -9 "$p" 2>/dev/null
+  return 0
+}

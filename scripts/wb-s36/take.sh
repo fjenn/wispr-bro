@@ -45,8 +45,23 @@ log_from=$(wc -l <"$LOG")
 front() { lsappinfo info -only bundleid "$(lsappinfo front)" | sed -E 's/.*="?([^"]*)"?/\1/'; }
 # Keystrokes go to the frontmost app: only ever into the window this take
 # opened (the user may have switched apps during the wait).
+front_pid() { lsappinfo info -only pid "$(lsappinfo front)" | sed -E 's/[^0-9]//g'; }
+# The owner's own Cursor has the same bundle id: for Cursor only the
+# instance this take opened (its main pid) counts as in front.
+cursor_pid() {
+  local p
+  for p in $(pgrep -x Cursor); do
+    ps -o command= -p "$p" | /usr/bin/grep -qF -- "--user-data-dir=$PROFILE" && { echo "$p"; return 0; }
+  done
+  return 1
+}
+in_front() {
+  [ "$(front)" = "$expect" ] || return 1
+  [ "$opened" != cursor ] && return 0
+  [ "$(front_pid)" = "$(cursor_pid)" ]
+}
 keys() {
-  if [ "$(front)" != "$expect" ]; then echo "SKIP keys ($1): front=$(front)" >&2; return 1; fi
+  if ! in_front; then echo "SKIP keys ($1): front=$(front) pid $(front_pid)" >&2; return 1; fi
   osascript -e "tell application \"System Events\" to $1"
 }
 "$BIN/clip" save "$T/clip.saved" >/dev/null
@@ -115,14 +130,14 @@ case "$CASE" in
 esac
 
 f=$(front)
-if [ "$f" != "$expect" ]; then
-  echo "SKIP front=$f" | tee "$T/result"
+if ! in_front; then
+  echo "SKIP front=$f pid $(front_pid)" | tee "$T/result"
 else
   kill -USR2 "$pid"
   sleep 0.8
   afplay "$WAV"
   sleep 0.6
-  if [ "$(front)" = "$expect" ]; then
+  if in_front; then
     kill -USR2 "$pid"
   else
     wb_cancel "$APP_DIR" >/dev/null 2>&1

@@ -122,13 +122,28 @@ move)
   ditto "$APP" "$dir/$name"
   "$dir/$name/Contents/MacOS/$(basename "$EXE")" >/dev/null 2>&1 &
   log "launched from $dir; press Get started, then Move to Applications"
+  # LESSON (compiled scripts/wb-s31/lesson.swift) presses both buttons
+  # through Accessibility; without it a person presses them.
+  if [ -n "${LESSON:-}" ]; then
+    sleep 8
+    dp=$(pgrep -f "$dir/$name/Contents/MacOS/" | head -1)
+    "$LESSON" "$dp" "press Get started; wait 1500; press Move to Applications" | tee -a "$OUT/run.log"
+  fi
   for _ in $(seq 1 120); do
     p=$(pgrep -f "Applications/$name/Contents/MacOS/$(basename "$EXE")" | head -1)
     [ -n "$p" ] && break; sleep 1
   done
   [ -n "${p:-}" ] && log "PASS relaunched from $(ps -o command= -p "$p")" || log "FAIL no relaunch from Applications in 120 s"
+  if [ -n "${p:-}" ] && [ -n "${LESSON:-}" ]; then
+    sleep 6
+    "$LESSON" "$p" "wait-text Languages" | tee -a "$OUT/run.log"
+    grep -h "onboarding: step" "/Applications/$name/Contents/MacOS/Data/logs/"*.log 2>/dev/null | tail -2 | tee -a "$OUT/run.log"
+  fi
   # Same volume: renamed (nothing left behind); another volume: copied.
-  [ -e "$dir/$name" ] && log "original still in $dir (copied)" || log "original moved (renamed)"
+  # A portable test bundle's old process writes its log into
+  # Contents/MacOS/Data until it exits, which recreates that folder after a
+  # rename: judge by the executable, not the folder.
+  [ -e "$dir/$name/Contents/MacOS/$(basename "$EXE")" ] && log "original still in $dir (copied)" || log "original moved (renamed)"
   ;;
 *)
   sed -n '2,25p' "$0"; exit 2 ;;

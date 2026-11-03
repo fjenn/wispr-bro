@@ -22,10 +22,11 @@
 #   outside  practice step open, then TextEdit in front with a selected
 #            sentence: ⌥1 runs a real Polish in TextEdit (log "transforms:
 #            run … pasted"), no "went to the practice step" line
-#   APP=<bundle> OUT=<dir> LESSON=<compiled lesson.swift>
+#   APP=<bundle> OUT=<dir> LESSON=<compiled lesson.swift> [WBUI=<compiled wb-s25/ui.swift>]
 set -u
 : "${APP:?}" "${OUT:?}" "${LESSON:?}"
 LOCK="$HOME/wb-bench/gui.lock"
+. "$(cd "$(dirname "$0")" && pwd)/../wb-lib/app.sh"
 EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")"
 DATA="$APP/Contents/MacOS/Data"
 LOGS="$DATA/logs"
@@ -48,7 +49,7 @@ launch() {
 }
 clip_hash() { pbpaste | shasum | cut -c1-12; }
 practice() {
-  drive "front; press Transforms; press Start tutorial; wait-text Make your writing; press Try it out; wait-text Select the text" || return 1
+  drive "front; press-if Got it; press Transforms; press Start tutorial; wait-text Make your writing; press Try it out; wait-text Select the text" || return 1
   drive "select-all; key ${KEY:-opt-1}; wait-text Text rewritten; field" || return 1
 }
 
@@ -79,12 +80,18 @@ case "${1:-}" in
     ;;
   outside)
     launch
-    drive "front; press Transforms; press Start tutorial; press Try it out; wait-text Select the text" || exit 1
+    drive "front; press-if Got it; press Transforms; press Start tutorial; press Try it out; wait-text Select the text" || exit 1
     handed=$(applog | grep -c "went to the practice step")
-    printf 'so basically the review moves to thursday i think\n' > "$OUT/outside.txt"
-    open -a TextEdit "$OUT/outside.txt"; sleep 2
-    swift "$(dirname "$0")/../wb-s25/ui.swift" "$(pgrep -x TextEdit | head -1)" "front; key cmd-a" | tee -a "$OUT/run.log"
-    "$LESSON" "$(pgrep -x TextEdit | head -1)" "key opt-1; wait 4000" | tee -a "$OUT/run.log"
+    # No trailing newline: Polish's line-count guard refuses a selection
+    # that ends in an empty line.
+    printf 'so basically the review moves to thursday i think' > "$OUT/outside.txt"
+    # A TextEdit instance of our own (the owner's TextEdit, if it runs, has
+    # the same name; keys are guarded by this instance's pid).
+    te=$(wb_textedit_open "$OUT/outside.txt") || { log "FAIL no TextEdit"; exit 1; }
+    sleep 2
+    "${WBUI:-swift $(dirname "$0")/../wb-s25/ui.swift}" "$te" "front; key cmd-a" | tee -a "$OUT/run.log"
+    "$LESSON" "$te" "key opt-1; wait 4000" | tee -a "$OUT/run.log"
+    wb_textedit_close "$te"
     applog | grep -q "transforms: run .* pasted" && log "PASS a real Polish in TextEdit" || log "FAIL no real run in TextEdit"
     [ "$(applog | grep -c "went to the practice step")" = "$handed" ] && log "PASS not handed to the lesson" || log "FAIL handed to the lesson"
     ;;

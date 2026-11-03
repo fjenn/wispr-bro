@@ -196,6 +196,11 @@ no_hub_window() { ! "$WINDOW_ID" "$(app_pid)" >/dev/null 2>&1; }
 restore_a
 launch_s28 "first=3,quiet=40,tick=1,retry=5"
 check "S-28.1a $B downloads and verifies in the background" run_until "update: $B ready" 120
+# The throwaway HOME starts without a speech model: the first one downloads
+# from Hugging Face, and a take that ends before it is ready keeps the
+# transcription coordinator busy until it loads (Mac wave 2: 1c timed out
+# that way). Wait for the model before the take.
+run_until "models: selected\|speech setup at launch: Ready" 900 || echo "NOTE no speech model ready after 900 s"
 osascript -e "tell application \"System Events\" to set visible of (first process whose unix id is $(app_pid)) to false" >/dev/null 2>&1 || true
 kill -USR2 "$(app_pid)" # hands-free take starts
 sleep 55
@@ -240,7 +245,9 @@ launch_s28 "first=2,quiet=1,tick=1"
 check "S-28.4a $B ready" run_until "update: $B ready" 120
 check "S-28.4b waits for Restart now instead of asking for a password" run_until "waiting for Restart now" 30
 sleep 10
-check "S-28.4c nothing installed" not_in_log "update: installing"
+# "update: installing needs an administrator password" is the expected
+# line above; an install logs "update: installing <version>".
+check "S-28.4c nothing installed" not_in_log "update: installing $B"
 stop_app
 chmod u+w "$OUT/a"
 cp "$LOG" "$OUT/s28-4.log" 2>/dev/null || true

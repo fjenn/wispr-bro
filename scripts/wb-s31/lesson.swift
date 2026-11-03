@@ -12,13 +12,21 @@
 // Commands:
 //   front                 bring the app to the front
 //   press <title>         AXPress the first button whose title or
-//                         description is <title> (exit 4 if none in 10 s)
+//                         description is <title>, or whose title is <title>
+//                         plus a badge (exit 4 if none in 10 s)
+//   press-if <title>      the same, if it shows within 2 s (else go on): a
+//                         first-run popup such as "Got it"
 //   wait-text <text>      wait up to 60 s for a static text / heading
 //                         containing <text> (exit 5 on timeout)
 //   field                 print the practice field's value ("field: …")
 //   select-all            select all of the practice field's text
 //   key <name>            opt-1 | opt-o | ctrl-opt-1 | cmd-z | escape
 //   wait <ms>             sleep
+//   pressany <title>      AXPress the first element of any role (tab, link,
+//                         row) whose title or description is <title>
+//   close                 press the close button of the app's first window
+//                         that has one
+//   windows               print each window's title, position and size
 import AppKit
 import ApplicationServices
 import Foundation
@@ -67,12 +75,28 @@ func post(_ code: CGKeyCode, _ flags: CGEventFlags) {
         exit(3)
     }
     let src = CGEventSource(stateID: .hidSystemState)
+    // Modifier presses as real flagsChanged events around the key: the fork's
+    // event tap follows the modifier state from them, so a key event that
+    // only carries the flags reaches the web view (in-app) but not the tap's
+    // chord matcher in another app (Mac wave 2, S-31.3).
+    let mods: [(CGEventFlags, CGKeyCode)] = [(.maskCommand, 55), (.maskControl, 59), (.maskAlternate, 58)]
+        .filter { flags.contains($0.0) }
+    var held: CGEventFlags = []
+    func modifier(_ key: CGKeyCode, _ state: CGEventFlags) {
+        let e = CGEvent(keyboardEventSource: src, virtualKey: key, keyDown: true)
+        e?.type = .flagsChanged
+        e?.flags = state
+        e?.post(tap: .cghidEventTap)
+        usleep(30_000)
+    }
+    for (flag, key) in mods { held.insert(flag); modifier(key, held) }
     for down in [true, false] {
         let e = CGEvent(keyboardEventSource: src, virtualKey: code, keyDown: down)
         e?.flags = flags
         e?.post(tap: .cghidEventTap)
         usleep(30_000)
     }
+    for (flag, key) in mods.reversed() { held.remove(flag); modifier(key, held) }
 }
 
 for raw in args[2].split(separator: ";") {
@@ -85,11 +109,18 @@ for raw in args[2].split(separator: ";") {
         NSRunningApplication(processIdentifier: pid)?.activate()
         usleep(500_000)
         print("front: \(frontmost())")
-    case "press":
-        guard let b = poll(10, {
-            str($0, kAXRoleAttribute) == kAXButtonRole as String
-                && (str($0, kAXTitleAttribute) == rest || str($0, kAXDescriptionAttribute) == rest)
-        }) else { print("press \(rest): not found"); exit(4) }
+    case "press", "press-if":
+        // A sidebar button's title carries its badge ("Transforms Beta"), so
+        // a title that starts with <title> and a space also matches.
+        let found = poll(name == "press" ? 10 : 2, {
+            let t = str($0, kAXTitleAttribute)
+            return str($0, kAXRoleAttribute) == kAXButtonRole as String
+                && (t == rest || t.hasPrefix(rest + " ") || str($0, kAXDescriptionAttribute) == rest)
+        })
+        guard let b = found else {
+            print("\(name) \(rest): not found")
+            if name == "press" { exit(4) } else { continue }
+        }
         let r = AXUIElementPerformAction(b, kAXPressAction as CFString)
         print("press \(rest): \(r.rawValue)")
     case "wait-text":
@@ -119,6 +150,26 @@ for raw in args[2].split(separator: ";") {
         print("key \(rest)")
     case "wait":
         usleep(UInt32((Int(rest) ?? 0) * 1000))
+    case "pressany":
+        guard let b = poll(10, {
+            str($0, kAXTitleAttribute) == rest || str($0, kAXDescriptionAttribute) == rest
+        }) else { print("pressany \(rest): not found"); exit(4) }
+        let r = AXUIElementPerformAction(b, kAXPressAction as CFString)
+        print("pressany \(rest): \(r.rawValue) (\(str(b, kAXRoleAttribute)))")
+    case "close":
+        // The first window that has a close button (the bar has none).
+        guard let w = ((attr(app, kAXWindowsAttribute) as? [AXUIElement]) ?? [])
+                .first(where: { attr($0, kAXCloseButtonAttribute) != nil }),
+              let c = attr(w, kAXCloseButtonAttribute) else { print("close: no window"); exit(4) }
+        let r = AXUIElementPerformAction(c as! AXUIElement, kAXPressAction as CFString)
+        print("close \(str(w, kAXTitleAttribute)): \(r.rawValue)")
+    case "windows":
+        for w in (attr(app, kAXWindowsAttribute) as? [AXUIElement]) ?? [] {
+            var p = CGPoint.zero, sz = CGSize.zero
+            if let v = attr(w, kAXPositionAttribute) { AXValueGetValue(v as! AXValue, .cgPoint, &p) }
+            if let v = attr(w, kAXSizeAttribute) { AXValueGetValue(v as! AXValue, .cgSize, &sz) }
+            print("window '\(str(w, kAXTitleAttribute))' \(Int(p.x)),\(Int(p.y)) \(Int(sz.width))x\(Int(sz.height))")
+        }
     default:
         print("unknown command \(name)")
         exit(2)
