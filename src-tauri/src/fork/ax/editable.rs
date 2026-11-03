@@ -119,6 +119,9 @@ pub enum Reason {
     GeckoNotTrusted,
     /// Finder with no text field focused (desktop, file list, sidebar).
     FinderNoTextField,
+    /// Wispr Bro's own window (the Scratchpad note, the Hub): never read
+    /// over AX from the AX thread ([`super::is_own_pid`]), so paste.
+    OwnApp,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]

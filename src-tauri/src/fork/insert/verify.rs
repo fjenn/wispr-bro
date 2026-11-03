@@ -227,7 +227,9 @@ mod mac {
         if unsafe { AXIsProcessTrusted() } == 0 {
             return None;
         }
-        let pid = frontmost_pid()?;
+        // Our own window (the Scratchpad note): no AX call into this
+        // process (`fork::ax::is_own_pid`); the paste is `unverified`.
+        let pid = frontmost_pid().filter(|p| !crate::fork::ax::is_own_pid(*p))?;
         // SAFETY: Create rule; released by `Cf`.
         let app = Cf(unsafe { AXUIElementCreateApplication(pid) });
         if app.0.is_null() {

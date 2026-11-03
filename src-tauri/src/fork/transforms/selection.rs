@@ -191,6 +191,10 @@ mod mac {
         let Some(pid) = ctx.target(target_id).and_then(|target| target.pid) else {
             return false;
         };
+        // Our own window: no AX call into this process (`fork::ax::is_own_pid`).
+        if crate::fork::ax::is_own_pid(pid) {
+            return false;
+        }
         let app = ctx.app(pid);
         let Some(bar) = el::attr_element(&app, "AXMenuBar") else {
             return false;

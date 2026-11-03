@@ -364,7 +364,15 @@ impl Ui {
             .level(PanelLevel::Status)
             .has_shadow(false)
             .transparent(true)
-            .no_activate(true)
+            // Never `.no_activate(true)`: tauri-nspanel implements it by
+            // switching the whole app to the Prohibited activation policy
+            // while it builds the window, which deactivates Wispr Bro when
+            // one of its own windows is in front (S-24.1: a take started in
+            // the Scratchpad note handed focus back to the previous app
+            // within 0.2 s). The window is built hidden and unfocused
+            // (`visible(false)`, `focused(false)`), so tao never activates
+            // the app for it, and the non-activating style mask plus
+            // `prevent_activation` cover clicks.
             .hides_on_deactivate(false)
             .corner_radius(0.0)
             .style_mask(StyleMask::empty().borderless().nonactivating_panel())

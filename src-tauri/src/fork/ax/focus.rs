@@ -58,10 +58,11 @@ fn focused_element(app: &AXUIElement) -> Option<CFRetained<AXUIElement>> {
     el::attr_element(app, "AXFocusedUIElement")
 }
 
-/// Captures the focused element of the frontmost app as target `id`.
+/// Captures the focused element of the frontmost app as target `id`. Our
+/// own window is captured by its pid only (no AX call into this process).
 pub fn capture(ctx: &mut Ctx, id: u64) -> (Option<i32>, bool) {
     let pid = frontmost_pid();
-    let element = pid.and_then(|p| {
+    let element = pid.filter(|p| !super::is_own_pid(*p)).and_then(|p| {
         let app = ctx.app(p);
         focused_element(&app)
     });
@@ -91,6 +92,11 @@ pub fn builds_tree_on_request(pid: i32) -> bool {
 pub fn read(ctx: &mut Ctx, captured: Option<u64>) -> Focus {
     let start = std::time::Instant::now();
     let pid = frontmost_pid();
+    if let Some(own) = pid.filter(|p| super::is_own_pid(*p)) {
+        let mut focus = own_app(own, captured.and_then(|id| ctx.target(id)));
+        focus.ms = start.elapsed().as_micros() as f64 / 1000.0;
+        return focus;
+    }
     let bundle = pid.and_then(el::app_bundle_path).unwrap_or_default();
     let family = el::family_of(&bundle);
     let app_name = el::bundle_name(&bundle);
@@ -150,6 +156,24 @@ pub fn read(ctx: &mut Ctx, captured: Option<u64>) -> Focus {
     }
 }
 
+/// Our own window in front: nothing is read (see [`super::is_own_pid`]).
+/// The verdict is "cannot tell" (paste, fail-open, as for an app that does
+/// not answer); the capture still decides `focus_moved` by pid: a take
+/// started in another app and delivered with our window in front goes to
+/// the card.
+pub(crate) fn own_app(pid: i32, captured: Option<&Captured>) -> Focus {
+    let facts = Facts::default();
+    Focus {
+        pid: Some(pid),
+        app: "wispr bro".into(),
+        family: super::Family::Native,
+        same_as_captured: compare(captured, Some(pid), None, &facts),
+        verdict: super::Verdict::Unknown(editable::Reason::OwnApp),
+        facts,
+        ms: 0.0,
+    }
+}
+
 /// The same element as the capture: `CFEqual`, or (when an app hands out a
 /// new object for the same field) the same role at the same place.
 fn compare(
@@ -171,4 +195,45 @@ fn compare(
     let same_place =
         c.role.is_some() && c.role == facts.role && c.frame.is_some() && c.frame == frame(now);
     Some(same_place)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::fork::insert::target::{plan, Route};
+
+    fn captured(pid: i32) -> Captured {
+        Captured {
+            id: 1,
+            pid: Some(pid),
+            element: None,
+            role: None,
+            frame: None,
+        }
+    }
+
+    /// S-24.1: a take started and delivered with our own window in front
+    /// (the Scratchpad note) pastes there, without one AX call into this
+    /// process; one started elsewhere still goes to the card.
+    #[test]
+    fn our_own_window_pastes_fail_open_and_still_detects_focus_moved() {
+        let own = std::process::id() as i32;
+        assert!(super::super::is_own_pid(own));
+        assert!(!super::super::is_own_pid(1));
+
+        let focus = own_app(own, Some(&captured(own)));
+        assert_eq!(
+            focus.verdict,
+            super::super::Verdict::Unknown(editable::Reason::OwnApp)
+        );
+        assert_eq!(focus.same_as_captured, None);
+        assert_eq!(plan(true, Some(&focus)), Route::Paste { fail_open: true });
+
+        let moved = own_app(own, Some(&captured(own + 1)));
+        assert_eq!(moved.same_as_captured, Some(false));
+        assert_eq!(
+            plan(true, Some(&moved)),
+            Route::Card(crate::fork::insert::deliver::CardReason::FocusMoved)
+        );
+    }
 }

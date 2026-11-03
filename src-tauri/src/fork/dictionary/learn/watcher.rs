@@ -301,6 +301,10 @@ pub mod mac {
         if pid <= 0 {
             return Err("no_access");
         }
+        // Our own window: no AX call into this process (`fork::ax::is_own_pid`).
+        if crate::fork::ax::is_own_pid(pid) {
+            return Err("own_app");
+        }
         let bundle_id = front.bundleIdentifier().map(|s| s.to_string());
         let name = front.localizedName().map(|s| s.to_string());
         let family = el::family_of(&el::app_bundle_path(pid).unwrap_or_default());

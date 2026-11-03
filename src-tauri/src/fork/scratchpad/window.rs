@@ -54,8 +54,7 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
         ForkScratchpadOpen { note_id: note.id }
             .emit_to(app, WINDOW_LABEL)
             .map_err(|error| error.to_string())?;
-        window.show().map_err(|error| error.to_string())?;
-        window.set_focus().map_err(|error| error.to_string())?;
+        present(&window)?;
         return Ok(note);
     }
     let locale = crate::fork::i18n::current_locale(R::handy_app_language(app).as_deref());
@@ -74,7 +73,20 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     .map_err(|error| error.to_string())?;
     // Closing hides it (Handy's `CloseRequested`); hidden, it is parked.
     crate::fork::hub::park::watch(app, &window);
+    present(&window)?;
     Ok(note)
+}
+
+/// Shows the note and gives it keyboard focus, on the first open too
+/// (Mac wave 1, Finding 3: a freshly built window was made key but the
+/// app stayed in the background, so typing went to the previous app).
+/// `set_focus` makes the window key and activates the app (tao:
+/// `makeKeyAndOrderFront` + `activateIgnoringOtherApps`), which an
+/// accessory app (no Dock icon) needs when a shortcut opens the note.
+fn present<R: ForkRuntime>(window: &tauri::WebviewWindow<R>) -> Result<(), String> {
+    window.unminimize().map_err(|error| error.to_string())?;
+    window.show().map_err(|error| error.to_string())?;
+    window.set_focus().map_err(|error| error.to_string())
 }
 
 pub fn open_shortcut<R: ForkRuntime>(app: &AppHandle<R>) -> Result<Note, String> {
@@ -118,6 +130,18 @@ mod tests {
             super::behavior_choice(crate::fork::settings::ScratchpadOpenBehavior::NewNote),
             super::Open::New
         );
+    }
+
+    /// Finding 3 regression: both ways of opening the note (an existing
+    /// window, a new one) end in `present`, which focuses it.
+    #[test]
+    fn every_open_path_focuses_the_note() {
+        let source = include_str!("window.rs");
+        let open =
+            &source[source.find("pub fn open<").unwrap()..source.find("fn present<").unwrap()];
+        assert_eq!(open.matches("present(&window)?").count(), 2, "{open}");
+        let present = &source[source.find("fn present<").unwrap()..];
+        assert!(present[..present.find("\n}").unwrap()].contains("set_focus()"));
     }
 
     #[test]

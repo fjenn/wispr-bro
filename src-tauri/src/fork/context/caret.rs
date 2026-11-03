@@ -182,7 +182,7 @@ pub fn exclusions() -> &'static Exclusions {
 
 /// `pid` is this process (Wispr Bro itself, bundled or not).
 pub(crate) fn is_own_pid(pid: i32) -> bool {
-    i64::from(pid) == i64::from(std::process::id())
+    crate::fork::ax::is_own_pid(pid)
 }
 
 fn words_of(s: &str) -> Vec<String> {

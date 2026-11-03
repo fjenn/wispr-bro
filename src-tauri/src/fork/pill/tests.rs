@@ -268,3 +268,35 @@ fn hooks_before_start_are_harmless() {
     show_message(PillMessage::NoSpeech);
     assert_eq!(snapshot(), None);
 }
+
+/// S-24.1 regression: tauri-nspanel's `no_activate(true)` flips the whole
+/// app to the Prohibited activation policy while it builds a panel, which
+/// deactivates Wispr Bro when its own window (the Scratchpad note) is in
+/// front, so a take started there lost its target. No fork window may use
+/// it; the bar's web view is built hidden and unfocused instead.
+#[test]
+fn no_fork_panel_switches_the_app_activation_policy() {
+    fn visit(dir: &std::path::Path, hits: &mut Vec<String>) {
+        for entry in std::fs::read_dir(dir).unwrap() {
+            let path = entry.unwrap().path();
+            if path.is_dir() {
+                visit(&path, hits);
+            } else if path.extension().is_some_and(|e| e == "rs") {
+                let source = std::fs::read_to_string(&path).unwrap();
+                for (n, line) in source.lines().enumerate() {
+                    let code = line.trim_start();
+                    if code.starts_with(".no_activate(") && !code.starts_with(".no_activate(false)")
+                    {
+                        hits.push(format!("{}:{}", path.display(), n + 1));
+                    }
+                }
+            }
+        }
+    }
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/fork");
+    let mut hits = Vec::new();
+    visit(&root, &mut hits);
+    assert!(hits.is_empty(), "no_activate in fork code: {hits:?}");
+    let panel = std::fs::read_to_string(root.join("pill/panel.rs")).unwrap();
+    assert!(panel.contains(".focused(false)") && panel.contains(".visible(false)"));
+}

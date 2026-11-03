@@ -47,6 +47,19 @@ pub use editable::{Facts, Family, Verdict};
 /// by the 0.2 s call timeout.
 pub const READ_BUDGET: Duration = Duration::from_millis(300);
 
+/// `pid` is this process (Wispr Bro itself, bundled or not: `tauri dev` and
+/// `--no-bundle` builds have no `com.wisprbro.` bundle id).
+///
+/// No AX call may go to our own process from the AX thread: AppKit answers
+/// it in-process on the calling thread, and WebKit aborts the app for a
+/// main-thread-only call from a background thread (Mac wave 1, Finding 2).
+/// Every read of "the frontmost app" checks this first; with our own window
+/// in front (the Scratchpad note, the Hub) the read says "cannot tell",
+/// which pastes (fail-open).
+pub fn is_own_pid(pid: i32) -> bool {
+    i64::from(pid) == i64::from(std::process::id())
+}
+
 /// The focused element as the delivery sees it (no text).
 #[derive(Clone, Debug, PartialEq)]
 pub struct Focus {
