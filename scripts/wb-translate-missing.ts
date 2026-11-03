@@ -442,6 +442,17 @@ export function hasWords(text: string): boolean {
   );
 }
 
+/**
+ * True when `value` is the English text itself and that text has words
+ * beyond the names that stay English everywhere (`KEPT_NAMES`).
+ */
+export function isEnglishCopy(value: string, english: string): boolean {
+  if (value !== english) return false;
+  let rest = english;
+  for (const name of KEPT_NAMES) rest = rest.split(name).join("");
+  return hasWords(rest);
+}
+
 // ---------------------------------------------------------------------------
 // Changed English sources
 
@@ -636,6 +647,12 @@ export async function syncLocale(
       report.retranslated.push(key);
       await fill(key, src);
       continue;
+    }
+    // An unflagged copy of the English text is not a reviewed translation
+    // (keys added before flags existed slipped through): flag it so
+    // `--review` lists it and strict mode fails on it.
+    if (!nextFlags[key] && isEnglishCopy(existing, src.english)) {
+      nextFlags[key] = "untranslated";
     }
     next.set(key, existing);
   }

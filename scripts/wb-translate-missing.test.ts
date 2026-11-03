@@ -18,6 +18,7 @@ import {
   samePlaceholders,
   STRICT_SWITCH_FILE,
   strictFailures,
+  isEnglishCopy,
   strictSwitchOn,
   syncLocale,
   type TranslationBackend,
@@ -232,6 +233,15 @@ describe("syncLocale", () => {
     ]);
     expect(hasWords("{{from}} → {{to}}")).toBe(false);
     expect(hasWords("v{{version}}")).toBe(true);
+  });
+});
+
+describe("isEnglishCopy", () => {
+  test("an English copy with words counts, names and symbols do not", () => {
+    expect(isEnglishCopy("Hide for an hour", "Hide for an hour")).toBe(true);
+    expect(isEnglishCopy("Masquer", "Hide for an hour")).toBe(false);
+    expect(isEnglishCopy("Wispr Bro", "Wispr Bro")).toBe(false);
+    expect(isEnglishCopy("{{count}}/{{max}}", "{{count}}/{{max}}")).toBe(false);
   });
 });
 
