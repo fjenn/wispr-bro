@@ -23,7 +23,10 @@
  *     { "debug.title": "untranslated", "debug.close": "machine" }
  *   Keys are dotted paths into `fork.json`; values are
  *     - "untranslated": the value is a copy of the English string,
- *     - "machine": the value was machine-translated and awaits review.
+ *     - "machine": the value was machine-translated and awaits review,
+ *     - "ai-reviewed": a strong model reviewed and corrected the value
+ *       against the glossary (docs/fork/TRANSLATION-REVIEW.md); it passes
+ *       strict mode but is not a native speaker's review.
  *   A key that a person has reviewed has no flag. `fork.json` itself stays a
  *   plain i18next resource file (the same shape as English), so i18next,
  *   Handy's `check-translations.ts` (which reads only `translation.json`) and
@@ -83,7 +86,7 @@ const FLAGS_FILE = "fork.flags.json";
 export const OVERRIDES_KEY = "overrides";
 
 type Json = { [key: string]: string | Json };
-type Flag = "untranslated" | "machine";
+type Flag = "untranslated" | "machine" | "ai-reviewed";
 type Flags = Record<string, Flag>;
 
 /** A translation backend: returns a translated string, or null to fall back. */
@@ -494,6 +497,7 @@ export interface LocaleReport {
   placeholderMismatch: string[];
   untranslated: number;
   machine: number;
+  aiReviewed: number;
   overrideFlags: number;
 }
 
@@ -520,6 +524,7 @@ export async function syncLocale(
     placeholderMismatch: [],
     untranslated: 0,
     machine: 0,
+    aiReviewed: 0,
     overrideFlags: 0,
   };
   const nextFlags: Flags = { ...flags };
@@ -601,7 +606,10 @@ export async function syncLocale(
     if (!samePlaceholders(existing, src.english)) {
       // A never-reviewed entry is simply translated again; a reviewed one
       // needs a person.
-      if (translate && nextFlags[key]) {
+      if (
+        translate &&
+        (nextFlags[key] === "untranslated" || nextFlags[key] === "machine")
+      ) {
         report.retranslated.push(key);
         await fill(key, src);
       } else {
@@ -640,12 +648,13 @@ export async function syncLocale(
     if (!flag) continue;
     sorted[key] = flag;
     if (flag === "machine") report.machine++;
+    else if (flag === "ai-reviewed") report.aiReviewed++;
     else report.untranslated++;
   }
   for (const key of Object.keys(nextFlags).sort()) {
     if (isOverrideFlag(key)) {
       sorted[key] = nextFlags[key];
-      report.overrideFlags++;
+      if (nextFlags[key] !== "ai-reviewed") report.overrideFlags++;
     }
   }
   return { next, flags: sorted, report };
@@ -849,7 +858,7 @@ async function main(): Promise<void> {
       r.retranslated.length && `re-translated ${r.retranslated.length}`,
       r.placeholderMismatch.length &&
         `placeholder mismatch: ${r.placeholderMismatch.join(", ")}`,
-      `${r.untranslated} untranslated, ${r.machine} machine`,
+      `${r.untranslated} untranslated, ${r.machine} machine, ${r.aiReviewed} ai-reviewed`,
     ].filter(Boolean);
     console.log(`${unresolved ? "✗" : "✓"} ${lang}: ${parts.join(", ")}`);
   }

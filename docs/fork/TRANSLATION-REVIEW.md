@@ -67,7 +67,10 @@ src-tauri/src/fork`) or open the screen.
 3. Edit the value in `src/i18n/locales/<lang>/fork.json` if needed, then
    delete the key's line from `src/i18n/locales/<lang>/fork.flags.json`.
    Deleting the flag is what "reviewed" means; never delete it without
-   having read the string. An `untranslated` string whose English is also
+   having read the string. **An AI reviewer** (an agent, not a person)
+   sets the flag to `"ai-reviewed"` instead of deleting it: it passes
+   strict mode, stays visible, and a person later deletes it after their
+   own read. An `untranslated` string whose English is also
    right in the language (rare: "OK", "Mac") may be kept and cleared.
 4. Look at the screens you touched when you can: `bun run dev`, set the
    app language in Settings › General, or run the Playwright fork suite

@@ -236,7 +236,13 @@ describe("syncLocale", () => {
 });
 
 describe("strict mode", () => {
-  const report = (lang: string, u: number, m: number, o = 0): LocaleReport => ({
+  const report = (
+    lang: string,
+    u: number,
+    m: number,
+    o = 0,
+    a = 0,
+  ): LocaleReport => ({
     lang,
     added: [],
     removed: [],
@@ -245,7 +251,11 @@ describe("strict mode", () => {
     placeholderMismatch: [],
     untranslated: u,
     machine: m,
+    aiReviewed: a,
     overrideFlags: o,
+  });
+  test("ai-reviewed strings pass strict mode", () => {
+    expect(strictFailures([report("de", 0, 0, 0, 1800)])).toEqual([]);
   });
   test("fails on any untranslated, machine or brand-override flag", () => {
     expect(
