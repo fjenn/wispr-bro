@@ -644,8 +644,16 @@ for (const theme of ["light", "dark"] as const) {
       await shot(page, `list-${theme}`);
 
       await page.getByTestId("wb-snippets-add").click();
-      await page.getByTestId("wb-snippet-trigger").fill("my email");
-      await page.getByTestId("wb-snippet-body").fill("other@example.com");
+      // The dialog clears its fields when it opens; under the full parallel
+      // suite that effect could land after the fills, leaving Save disabled.
+      // Fill until the values stick.
+      await expect(async () => {
+        await page.getByTestId("wb-snippet-trigger").fill("my email");
+        await page.getByTestId("wb-snippet-body").fill("other@example.com");
+        await expect(page.getByTestId("wb-snippet-save")).toBeEnabled({
+          timeout: 1_000,
+        });
+      }).toPass({ timeout: 15_000 });
       await page.getByTestId("wb-snippet-save").click();
       await expect(page.getByTestId("wb-snippet-feedback")).toBeVisible();
       await expectNoSeriousAxeFindings(page);

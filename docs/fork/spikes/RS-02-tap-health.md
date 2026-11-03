@@ -30,12 +30,12 @@ built the code it exercises). Not run: (a) sleep ×10, (b) revoke/re-add,
 
 ## Run 2026-11-02 (scripted, no GUI)
 
-| Check | Result |
-| --- | --- |
-| Does a privacy-record edit post `com.apple.tcc.access.changed` (the Darwin notification axwatch observes, which macOS 15+ does not withhold from unsigned builds)? `scripts/wb-s02/rs02-notify.sh 10` resets Chess's Accessibility record (never granted, so nothing changes) under `notifyutil -1` | **10/10**, notification seen ≤ 64–106 ms after `tccutil` returned (50 ms polling resolution) |
-| The probe tap returns and leaves nothing behind | `fork::shortcut::tests::health::the_probe_tap_answers_without_side_effects` passes in `cargo test` |
-| No polling of the tap-enabled query anywhere in `src-tauri/src/fork/` | enforced by a test (`the_probe_is_a_create_and_destroy_never_a_poll_of_an_existing_tap`) |
-| Health state machine per tap (Healthy → Lost → Recovering → Healthy), re-check burst, rebuild retries, relaunch after 3 failures, silent wake refresh | 12 unit tests (`fork/shortcut/tests/health.rs`) |
+| Check                                                                                                                                                                                                                                                                                               | Result                                                                                             |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Does a privacy-record edit post `com.apple.tcc.access.changed` (the Darwin notification axwatch observes, which macOS 15+ does not withhold from unsigned builds)? `scripts/wb-s02/rs02-notify.sh 10` resets Chess's Accessibility record (never granted, so nothing changes) under `notifyutil -1` | **10/10**, notification seen ≤ 64–106 ms after `tccutil` returned (50 ms polling resolution)       |
+| The probe tap returns and leaves nothing behind                                                                                                                                                                                                                                                     | `fork::shortcut::tests::health::the_probe_tap_answers_without_side_effects` passes in `cargo test` |
+| No polling of the tap-enabled query anywhere in `src-tauri/src/fork/`                                                                                                                                                                                                                               | enforced by a test (`the_probe_is_a_create_and_destroy_never_a_poll_of_an_existing_tap`)           |
+| Health state machine per tap (Healthy → Lost → Recovering → Healthy), re-check burst, rebuild retries, relaunch after 3 failures, silent wake refresh                                                                                                                                               | 12 unit tests (`fork/shortcut/tests/health.rs`)                                                    |
 
 Interpretation: the Darwin notification is posted for a reset and arrives
 fast, so (b) "loss detected within 2 s" should hold in any build; whether the

@@ -55,14 +55,14 @@ window, a listen-only session tap and Carbon `RegisterEventHotKey` hotkeys,
 the same API Handy's Carbon shadow reaches through tauri-plugin-global-shortcut.
 10 presses per row; machine as round 1.
 
-| Phase | Secure Input | Registered | Tap key-downs | Carbon fired | Window got Esc | Tap fn flags |
-| --- | --- | --- | --- | --- | --- | --- |
-| A | off | Esc | 10/10 | 10/10 | 0/10 (Carbon consumed it) | – |
-| A2 | off | nothing | 10/10 | – | 10/10 | – |
-| B | **on** | Esc | **0/10** | **10/10** | 0/10 | – |
-| C | **on** | nothing (idle) | 0/10 | – | **10/10** | – |
-| D | **on** | ⌃⌘V | 0 | **10/10** | – | – |
-| E | **on** | – | – | – | – | **10/10** |
+| Phase | Secure Input | Registered     | Tap key-downs | Carbon fired | Window got Esc            | Tap fn flags |
+| ----- | ------------ | -------------- | ------------- | ------------ | ------------------------- | ------------ |
+| A     | off          | Esc            | 10/10         | 10/10        | 0/10 (Carbon consumed it) | –            |
+| A2    | off          | nothing        | 10/10         | –            | 10/10                     | –            |
+| B     | **on**       | Esc            | **0/10**      | **10/10**    | 0/10                      | –            |
+| C     | **on**       | nothing (idle) | 0/10          | –            | **10/10**                 | –            |
+| D     | **on**       | ⌃⌘V            | 0             | **10/10**    | –                         | –            |
+| E     | **on**       | –              | –             | –            | –                         | **10/10**    |
 
 **Findings**
 
