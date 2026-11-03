@@ -167,7 +167,7 @@ if [[ $UNSIGNED == 0 ]]; then
   done < <(find "$APP/Contents" -type f -print0)
   codesign --force --options runtime --timestamp ${KEYCHAIN_ARGS[@]+"${KEYCHAIN_ARGS[@]}"} \
     --entitlements "$ENTITLEMENTS" --sign "$IDENTITY" "$APP"
-  echo "  signed ${PRODUCT}.app (entitlements: $(plutil -extract com.apple.security.device.audio-input raw "$ENTITLEMENTS" >/dev/null && echo microphone))" | tee -a "$LOG"
+  echo "  signed ${PRODUCT}.app (entitlements: $(grep -q 'com.apple.security.device.audio-input' "$ENTITLEMENTS" && echo microphone))" | tee -a "$LOG"
 fi
 
 if [[ $UNSIGNED == 1 ]]; then
