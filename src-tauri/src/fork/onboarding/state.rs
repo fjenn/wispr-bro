@@ -7,7 +7,8 @@
 //! Order (stage in the stepper): `welcome`, `move_to_applications` (only
 //! when the app runs outside an Applications folder) and `languages`
 //! (Welcome); `permissions` (Permissions); `mic_test` and `shortcut_test`
-//! (Setup). S-29b appends its Practice steps to [`ORDER`].
+//! (Setup); `practice`, `first_dictation`, `time_saved`, `typing_test` and
+//! `summary` (Practice, S-29b).
 
 use crate::fork::settings::{OnboardingState, OnboardingStatus};
 
@@ -17,6 +18,11 @@ pub const LANGUAGES: &str = "languages";
 pub const PERMISSIONS: &str = "permissions";
 pub const MIC_TEST: &str = "mic_test";
 pub const SHORTCUT_TEST: &str = "shortcut_test";
+pub const PRACTICE: &str = "practice";
+pub const FIRST_DICTATION: &str = "first_dictation";
+pub const TIME_SAVED: &str = "time_saved";
+pub const TYPING_TEST: &str = "typing_test";
+pub const SUMMARY: &str = "summary";
 
 pub const ORDER: &[&str] = &[
     WELCOME,
@@ -25,6 +31,11 @@ pub const ORDER: &[&str] = &[
     PERMISSIONS,
     MIC_TEST,
     SHORTCUT_TEST,
+    PRACTICE,
+    FIRST_DICTATION,
+    TIME_SAVED,
+    TYPING_TEST,
+    SUMMARY,
 ];
 
 /// Steps that only some Macs see; they never count as completed.
@@ -101,7 +112,17 @@ mod tests {
         }
         assert_eq!(
             state.completed_steps,
-            [WELCOME, LANGUAGES, PERMISSIONS, MIC_TEST]
+            [
+                WELCOME,
+                LANGUAGES,
+                PERMISSIONS,
+                MIC_TEST,
+                SHORTCUT_TEST,
+                PRACTICE,
+                FIRST_DICTATION,
+                TIME_SAVED,
+                TYPING_TEST
+            ]
         );
         go_to(&mut state, PERMISSIONS).unwrap();
         assert_eq!(state.completed_steps, [WELCOME, LANGUAGES]);

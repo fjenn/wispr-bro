@@ -46,6 +46,15 @@ pub fn current_context() -> TakeContext {
 pub fn on_record_start() {
     let mut ctx = current_context();
     ctx.source = crate::fork::transforms::command::source();
+    // S-29b: a take on the open practice screen is a practice take (DEC-11).
+    let practice = crate::fork::onboarding::practice::self_in_front;
+    if ctx.source == take::TakeSource::Dictation
+        && crate::fork::onboarding::practice::on_record_start(practice(), std::time::Instant::now())
+    {
+        ctx.source = take::TakeSource::Practice;
+    } else if ctx.source != take::TakeSource::Dictation {
+        crate::fork::onboarding::practice::clear_take();
+    }
     log::debug!(
         "context: take started in {} ({}, {}, host {})",
         ctx.app

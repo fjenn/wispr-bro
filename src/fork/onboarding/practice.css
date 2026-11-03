@@ -1,0 +1,28 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * The celebration (S-29b, B-27) is dark in either theme: the active Hub
+ * tokens are pointed at their dark values for the onboarding window while
+ * it shows, so every child (stepper, buttons, footer) follows.
+ */
+.wb-stage-dark {
+  color-scheme: dark;
+  --wb-canvas: var(--wb-dark-canvas);
+  --wb-sidebar: var(--wb-dark-sidebar);
+  --wb-card: var(--wb-dark-card);
+  --wb-banner: var(--wb-dark-banner);
+  --wb-ink: var(--wb-dark-ink);
+  --wb-ink-2: var(--wb-dark-ink-2);
+  --wb-ink-3: var(--wb-dark-ink-3);
+  --wb-line: var(--wb-dark-line);
+  --wb-line-strong: var(--wb-dark-line-strong);
+  --wb-hover: var(--wb-dark-hover);
+  --wb-selected: var(--wb-dark-selected);
+  --wb-accent: var(--wb-dark-accent);
+  --wb-accent-fill: var(--wb-dark-accent-fill);
+  --wb-on-accent: var(--wb-dark-on-accent);
+  --wb-tag-new-bg: var(--wb-dark-tag-new-bg);
+  --wb-tag-new-ink: var(--wb-dark-tag-new-ink);
+  --wb-tag-beta-bg: var(--wb-dark-tag-beta-bg);
+  --wb-tag-beta-ink: var(--wb-dark-tag-beta-ink);
+  --wb-shadow: var(--wb-dark-shadow);
+}

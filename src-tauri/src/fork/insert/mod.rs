@@ -117,6 +117,10 @@ pub fn deliver_as(
         Kind::Again => text,
         Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text),
     };
+    // S-29b: the practice screen's take fills its composer, never a paste.
+    if kind.is_take() && crate::fork::onboarding::practice::take_delivering(Instant::now()) {
+        return deliver_practice(&app, text);
+    }
     #[cfg(target_os = "macos")]
     {
         let settings = crate::settings::get_settings(&app);
@@ -144,6 +148,25 @@ pub fn deliver_as(
         crate::fork::recovery::on_take_delivered();
     }
     (result, Some(outcome))
+}
+
+/// A practice take (S-29b): the text goes to the onboarding composer. It is
+/// in History (source `practice`) and counts as arrived.
+fn deliver_practice(app: &AppHandle, text: String) -> (Result<(), String>, Option<PasteOutcome>) {
+    let take = next_take();
+    discard_target();
+    crate::fork::db::entry_meta::on_paste_outcome(app, &text, Some(PasteOutcome::Confirmed));
+    crate::fork::recovery::on_take_delivered();
+    log::info!("insert: take {take} went to the practice screen");
+    crate::fork::onboarding::practice::emit(
+        app,
+        crate::fork::onboarding::practice::ForkPracticeTake {
+            kind: crate::fork::onboarding::practice::ForkPracticeTakeKind::Text,
+            text: Some(text),
+            late: false,
+        },
+    );
+    (Ok(()), Some(PasteOutcome::Confirmed))
 }
 
 /// S-21: replaces a selection (or a whole field) with one clipboard paste.
@@ -264,7 +287,6 @@ fn route(take: u32, kind: Kind) -> Option<CardReason> {
 
 /// A take that will not be pasted for another reason (cancelled, session
 /// interrupted) still releases its target.
-#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 fn discard_target() {
     if let Some((_, start)) = target::take_pending() {
         target::done(start);

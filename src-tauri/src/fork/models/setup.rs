@@ -250,6 +250,7 @@ fn queue_take<R: Runtime>(app: &AppHandle<R>, file_name: &str) {
         }
     }
     log::info!("models: take queued until a speech model is ready ({file_name})");
+    crate::fork::onboarding::practice::on_queued(app, file_name);
     crate::fork::pill::on_take_queued();
     emit(app);
 }
@@ -1185,7 +1186,16 @@ fn on_job_finished(app: &AppHandle, entry_id: i64, ok: bool, error: &str) {
         Ok(take)
     });
     match finished {
-        Ok(Some(_)) => {}
+        Ok(Some(take)) => {
+            if ok {
+                // S-29b: the practice screen may still wait for this take.
+                crate::fork::onboarding::practice::on_queued_take_done(
+                    app,
+                    &take.file_name,
+                    entry_id,
+                );
+            }
+        }
         Ok(None) => {
             // A deleted take's queue row is already gone; it must not hold
             // the rest of its batch open forever.
