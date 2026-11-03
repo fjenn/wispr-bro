@@ -324,6 +324,9 @@ test.describe("backend handshake", () => {
 
 test.describe("buttons", () => {
   test("hands-free ✕ cancels and ✓ finishes", async ({ page, ipc }) => {
+    // Like "Fix and Dismiss": under the full parallel suite at load ~60 the
+    // page itself took past the 30 s default to open (fix/wave1-a run).
+    test.setTimeout(180_000);
     await openPill(page, ipc, STATES.locked);
     const cancel = page.getByRole("button", { name: "Cancel dictation" });
     const finish = page.getByRole("button", { name: "Finish dictation" });
@@ -428,6 +431,8 @@ test.describe("reduced motion", () => {
         page,
         ipc,
       }) => {
+        // A load-only timeout: at load ~60 `newPage` alone passed 30 s.
+        test.setTimeout(180_000);
         await page.emulateMedia({
           colorScheme: theme,
           reducedMotion: "reduce",
