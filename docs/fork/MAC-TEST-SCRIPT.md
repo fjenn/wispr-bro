@@ -1310,6 +1310,26 @@ Design Phase 0, by eye.
 - [ ] DP0b.4 In the gallery's dark board under a light window, a menu,
       select and popover open dark.
 
+### Design W7 (art) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w7-assets` (SYSTEM-PLAN §6, W7). A debug build
+with an empty profile is enough (`bun run wb:dev`); one pass, by eye.
+
+- [ ] W7.1 Banner photos in WebKit: Home, Dictionary, Snippets and Transforms
+      show their photo under the dark grade (mic, thesaurus spines, card
+      catalogue drawers, typewriter keys); the headline and body stay
+      readable; no banding or visible JPEG blocks at 2x on the built-in
+      display; light and dark use the same photo.
+- [ ] W7.2 Empty-state characters: an empty History, Dictionary (All and
+      Suggested), Snippets, a search with no match and the notifications
+      panel each show their character; the ink is near-black in light and
+      near-white in dark, and switches with the title-strip theme toggle
+      without a reload.
+- [ ] W7.3 Web Inspector › Network: every picture loads from the app
+      (`tauri://`/`asset`), none from the network; no CSP error in the
+      console (the characters are inlined SVGs with a `<style>` element;
+      `style-src 'unsafe-inline'` allows it).
+
 ### S-14 Settings modal and hotkeys panel
 
 - [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).
