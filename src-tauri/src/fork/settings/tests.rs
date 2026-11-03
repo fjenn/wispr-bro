@@ -865,6 +865,59 @@ fn handy_overlay_is_turned_off_now_that_the_bar_replaces_it() {
     assert!(!report.enforced.contains(&"overlay_style"));
 }
 
+/// S-36 / DEC-41: nothing turns on before the setup; the setup names known
+/// editors, each once; an older file without `file_tags_enabled` reads it
+/// as off.
+#[test]
+fn vibe_coding_is_validated() {
+    let ok = |v: VibeCodingSettings| validate(&ForkSettingUpdate::VibeCoding(v)).is_ok();
+    let set_up = VibeCodingSettings {
+        enabled: true,
+        setup_completed: true,
+        editors: vec!["vscode".into(), "cursor".into()],
+        file_tags_enabled: true,
+    };
+    assert!(ok(VibeCodingSettings::default()));
+    assert!(ok(set_up.clone()));
+    assert!(ok(VibeCodingSettings {
+        enabled: false,
+        file_tags_enabled: false,
+        ..set_up.clone()
+    }));
+    for bad in [
+        VibeCodingSettings {
+            setup_completed: false,
+            editors: vec![],
+            ..set_up.clone()
+        },
+        VibeCodingSettings {
+            enabled: false,
+            setup_completed: false,
+            editors: vec![],
+            ..set_up.clone()
+        },
+        VibeCodingSettings {
+            editors: vec![],
+            ..set_up.clone()
+        },
+        VibeCodingSettings {
+            editors: vec!["zed".into()],
+            ..set_up.clone()
+        },
+        VibeCodingSettings {
+            editors: vec!["cursor".into(), "cursor".into()],
+            ..set_up.clone()
+        },
+    ] {
+        assert!(!ok(bad.clone()), "{bad:?}");
+    }
+    let old: VibeCodingSettings = serde_json::from_value(
+        json!({"enabled": true, "setup_completed": true, "editors": ["vscode"]}),
+    )
+    .unwrap();
+    assert!(!old.file_tags_enabled);
+}
+
 #[test]
 fn bar_positions_are_validated() {
     use std::collections::BTreeMap;

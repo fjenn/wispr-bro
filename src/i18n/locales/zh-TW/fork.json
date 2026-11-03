@@ -182,6 +182,7 @@
     "sections": {
       "general": "一般",
       "system": "系統",
+      "vibe": "Vibe coding",
       "privacy": "資料與隱私",
       "advanced": "進階",
       "about": "關於",
@@ -222,9 +223,107 @@
         "new_note": "Start a new note"
       }
     },
+    "vibe": {
+      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
+      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
+      "recognize": "Recognize code names",
+      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
+      "setUp": "Set up",
+      "change": "Change editors",
+      "setUpFor": "Set up for {{editors}}",
+      "fileTags": "Tag files in chat",
+      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
+      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
+      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "setup": {
+        "title": "Set up code name recognition",
+        "stepEditors": "1. Choose the editors you use",
+        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
+        "openSettings": "Open the editor's settings with ⌘ comma.",
+        "search": "Search for \"accessibility support\".",
+        "setOn": "Set Editor: Accessibility Support to \"on\".",
+        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
+        "confirm": "I turned on screen reader mode in these editors",
+        "cancel": "Cancel",
+        "finish": "Finish setup"
+      }
+    },
     "privacy": {
-      "placeholderTitle": "您的資料永遠在您掌握之中",
-      "placeholderBody": "保留與隱私控制將在未來的更新中提供。語音輸入與後處理仍會在這台 Mac 上運行。"
+      "promise": {
+        "title": "Private by design",
+        "local": "Your dictation and data stay on this Mac.",
+        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
+        "networkIntro": "Wispr Bro uses the network only for these two things:",
+        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
+        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+      },
+      "locations": {
+        "title": "Where your data lives",
+        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
+        "data": "App data and settings",
+        "models": "Downloaded models",
+        "recordings": "Recordings",
+        "logs": "Logs and crash reports",
+        "show": "Show in Finder",
+        "loading": "Locating…",
+        "failed": "Could not open that folder. Try again."
+      },
+      "retention": {
+        "title": "How long to keep History",
+        "textLabel": "Keep dictated text",
+        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
+        "audioLabel": "Keep recordings",
+        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "options": {
+          "0": "Never keep audio",
+          "1": "1 day",
+          "7": "7 days",
+          "14": "14 days",
+          "30": "30 days",
+          "90": "90 days",
+          "365": "1 year",
+          "forever": "Forever"
+        }
+      },
+      "choices": {
+        "title": "Privacy choices",
+        "context": "Use context awareness",
+        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
+        "updates": "Check for app updates",
+        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent."
+      },
+      "export": {
+        "title": "Your data",
+        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
+        "button": "Export my data",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Zip archive",
+        "done": "Export saved and shown in Finder.",
+        "failed": "Could not export your data. Nothing was deleted."
+      },
+      "delete": {
+        "button": "Delete all my data",
+        "title": "Delete all your data?",
+        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
+        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
+        "models": "Also delete downloaded models",
+        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
+        "confirmLabel": "Type {{word}} to confirm",
+        "cancel": "Cancel",
+        "confirm": "Delete everything",
+        "failed": "Delete all did not finish. Check the remaining data before trying again."
+      },
+      "diagnostics": {
+        "title": "Crash reports and diagnostics",
+        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
+        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
+        "copy": "Copy diagnostics",
+        "save": "Save diagnostics…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Sanitized diagnostics copied.",
+        "saved": "Sanitized diagnostics saved.",
+        "failed": "Could not prepare diagnostics. Try again."
+      }
     },
     "advanced": {
       "output": "文字輸出",
@@ -524,6 +623,54 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Dictation",
+      "vocabulary": "Vocabulary",
+      "help": "Help",
+      "file": "File",
+      "edit": "Edit",
+      "view": "View",
+      "window": "Window",
+      "wordsDictated_one": "{{count}} word dictated",
+      "wordsDictated_other": "{{count}} words dictated",
+      "copyLast": "Copy last transcript",
+      "copyLastPreview": "Copy last transcript: “{{preview}}”",
+      "copyLastConcealed": "Copy last transcript (text hidden)",
+      "microphone": "Microphone",
+      "languages": "Languages",
+      "moreLanguages": "Add or remove languages…",
+      "automaticMicrophone": "Auto-detect (system setting)",
+      "noMicrophones": "No microphones found",
+      "dictionaryWords_one": "{{count}} dictionary word",
+      "dictionaryWords_other": "{{count}} dictionary words",
+      "snippetCount_one": "{{count}} snippet",
+      "snippetCount_other": "{{count}} snippets",
+      "addWord": "Add word…",
+      "newSnippet": "New snippet…",
+      "documentation": "Documentation",
+      "shortcuts": "Shortcuts",
+      "openApp": "Open {{appName}}",
+      "checkUpdates": "Check for updates…",
+      "pasteLast": "Paste last transcript",
+      "cancelDictation": "Cancel dictation",
+      "shortcutsBlocked": "Shortcuts blocked — open Settings",
+      "undo": "Undo",
+      "redo": "Redo",
+      "cut": "Cut",
+      "copy": "Copy",
+      "paste": "Paste",
+      "selectAll": "Select All",
+      "minimize": "Minimize",
+      "zoom": "Zoom",
+      "closeWindow": "Close Window",
+      "fullScreen": "Enter Full Screen",
+      "services": "Services",
+      "hideOthers": "Hide Others",
+      "showAll": "Show All",
+      "about": "About {{appName}}",
+      "hide": "Hide {{appName}}",
+      "quitApp": "Quit {{appName}}"
+    },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)"
@@ -1676,6 +1823,138 @@
     "cleanup": {
       "tab": "清理",
       "description": "你的文字在每一個應用程式和每一種語言中被整理的程度。每個組的樣式會疊加應用。"
+    }
+  },
+  "onboardingFlow": {
+    "loading": "Getting things ready…",
+    "back": "Back",
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
+    "navigationFailed": "That step could not be saved. Try again.",
+    "stepper": {
+      "label": "Setup progress",
+      "welcome": "Welcome",
+      "permissions": "Permissions",
+      "setup": "Setup",
+      "practice": "Practice",
+      "done": "(done)"
+    },
+    "help": {
+      "chip": "Help",
+      "title": "Help with setup",
+      "close": "Close help",
+      "done": "Got it",
+      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
+      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+    },
+    "welcome": {
+      "title": "Talk, and your words appear",
+      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
+      "privacyTitle": "Everything stays on this Mac",
+      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
+      "download": "Speech setup starts now and runs in the background.",
+      "start": "Get started"
+    },
+    "move": {
+      "title": "Move Wispr Bro to Applications",
+      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
+      "note": "Wispr Bro reopens by itself after the move and continues setup.",
+      "action": "Move to Applications",
+      "moving": "Moving…",
+      "skip": "Not now",
+      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+    },
+    "languages": {
+      "title": "Which languages do you speak?",
+      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
+      "listLabel": "Languages",
+      "noMatch": "No language matches “{{query}}”.",
+      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
+      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
+      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
+      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+    },
+    "permissions": {
+      "title": "Two permissions",
+      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
+      "allowed": "Allowed",
+      "waiting": "Waiting for macOS…",
+      "openSettings": "Open System Settings",
+      "prompt": "The macOS prompt",
+      "pane": "In System Settings",
+      "microphone": {
+        "title": "Microphone",
+        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
+        "action": "Allow microphone",
+        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
+        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
+        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
+        "action": "Allow Accessibility",
+        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
+        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
+        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+      }
+    },
+    "mic": {
+      "title": "Test your microphone",
+      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
+      "question": "Do the bars move when you talk?",
+      "noHelp": "Choose another microphone below, then talk again.",
+      "change": "Change microphone",
+      "previewList": "Your microphones appear here."
+    },
+    "shortcut": {
+      "title": "Test your shortcut",
+      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
+      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
+      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
+      "keyLabel": "The fn key",
+      "fallbackKeyLabel": "Control and Option",
+      "pressed": "Key held",
+      "notPressed": "Waiting for the key…",
+      "worked": "It works. The key lit up.",
+      "question": "Did the key light up?",
+      "edit": "Edit shortcut",
+      "finish": "Finish setup",
+      "tryAgain": "Try again",
+      "otherCauses": "Not it? Other possible causes:",
+      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro cannot see key presses",
+          "title": "Wispr Bro cannot see key presses yet",
+          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
+          "action": "Open Accessibility settings"
+        },
+        "secure_input": {
+          "choice": "A password field or another app is blocking keys",
+          "title": "Another app is blocking key presses",
+          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
+          "active": "Right now, another app is blocking key presses.",
+          "inactive": "Nothing is blocking key presses right now."
+        },
+        "globe": {
+          "choice": "The 🌐 key opens emoji or switches the keyboard",
+          "title": "macOS gives the 🌐 key its own job",
+          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
+          "consent": "Set 🌐 to Do Nothing",
+          "changed": "🌐 now does nothing on its own",
+          "open": "Open Keyboard settings"
+        },
+        "no_fn": {
+          "choice": "My keyboard has no fn key",
+          "title": "Use Control and Option instead",
+          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
+          "action": "Use Control + Option",
+          "changed": "Control + Option is your shortcut"
+        }
+      }
     }
   },
   "overrides": {

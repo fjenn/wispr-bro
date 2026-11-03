@@ -1682,7 +1682,49 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 - [ ] S-26a.1 ⌘C / ⌘V / ⌘Z in Hub text fields.
 - [ ] S-26a.2 The Help search box finds menu items.
 - [ ] S-26a.3 The tray icon comes back after the menu bar process (ControlCenter) restarts (A-69).
-- Procedure: TODO (S-26a).
+- [ ] S-26a.0 The menu bar has Dictation, Vocabulary and Help with their items; Edit keeps ⌘Z ⌘X ⌘C ⌘V ⌘A.
+- [ ] S-26a.4 Vocabulary's dictionary count follows a word added from Vocabulary › Add word… without reopening the app.
+
+**Status: queued for the Mac wave** (UI wave; not run by the slice agent).
+
+**Profile:** a portable debug build with the slice identity
+(`com.wisprbro.s26acheck`, product runtime), `onboarding_completed: true`,
+`update_checks_enabled: false`. Build as in S-25 with that identifier
+(debug is enough: nothing here is CSP-sensitive), then:
+
+```sh
+swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # Accessibility for the terminal
+swiftc -O scripts/wb-s26a/menus.swift -o <scratch>/wbmenus
+export WBUI=<scratch>/wbui WBMENUS=<scratch>/wbmenus
+```
+
+**Procedure (unattended, ~3 min; each step holds `~/wb-bench/gui.lock`;
+keys go only to the test app while it is in front; the clipboard is saved
+and restored around S-26a.1).** Launch the bundle executable, note its pid.
+
+1. `scripts/wb-s26a/run.sh menubar <pid> <out>`. Pass (S-26a.0): every
+   line PASS; `menubar.txt` shows Dictation ("N words dictated", Copy last
+   transcript, Microphone ▸, Languages ▸), Vocabulary (two counts, Add word…,
+   New snippet…), Help (Documentation, Shortcuts, Microphone, Languages).
+2. Open the Hub's Dictionary page and the search field's window point
+   (`wbui <pid> front`; screenshot), then
+   `scripts/wb-s26a/run.sh edit <pid> <x> <y> <out>`. Pass (S-26a.1): ⌘X,
+   ⌘V twice, ⌘Z (one paste undone) and ⌘C all PASS; the user's clipboard is
+   restored.
+3. `scripts/wb-s26a/run.sh help <pid> snippet <out>`. Pass (S-26a.2): the
+   Help menu opens with its search box, `help-results.txt` lists more than
+   the search field, and `help-search.png` shows "New snippet…" found
+   (Vocabulary highlighted).
+4. `scripts/wb-s26a/run.sh counts <pid> <out>`. Pass (S-26a.4): the
+   dictionary count is one higher right after Save.
+5. `scripts/wb-s26a/run.sh tray <pid> <out>` (restarts ControlCenter: the
+   menu bar blinks for a second). Pass (S-26a.3): the status item is back
+   within 30 s, `menu-bar.png` shows the glyph.
+6. By eye in the same run: click the tray glyph: Open Wispr Bro, Check for
+   updates…, Paste last transcript (greyed on an empty profile), Shortcuts,
+   Microphone ▸, Languages ▸, Documentation, Quit; no Model ▸ or Unload.
+7. Quit; delete the bundle copy and
+   `~/Library/{WebKit,Caches}/com.wisprbro.s26acheck`.
 
 ### S-26b Help popover, support, Share, About
 
@@ -1692,10 +1734,76 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-27 Data and Privacy, export, delete all, diagnostics
 
-- [ ] S-27.1 Export opens in Finder.
-- [ ] S-27.2 Erase, then relaunch shows onboarding.
-- [ ] S-27.3 `brew uninstall --zap` paths match (S-39).
-- Procedure: TODO (S-27).
+- [ ] S-27.1 Export opens in Finder. _(queued for the Mac wave)_
+- [ ] S-27.2 Erase, then relaunch shows onboarding. _(queued for the Mac wave)_
+- [ ] S-27.3 `brew uninstall --zap` paths match (S-39). _(queued for the Mac
+      wave: this slice records the path list; S-39 compares it with the
+      cask's `zap` stanza)_
+- [ ] S-27.4 Copy and Save diagnostics are sanitized (seeded marker phrase,
+      home path) and hold no databases, audio or settings. _(queued)_
+- [ ] S-27.5 Every "Show in Finder" opens its folder; a recent macOS `.ips`
+      for the test identity is picked up as a crash file and shown once in
+      the inbox. _(queued)_
+
+**Profile: an isolated debug build** with its own identity ("Wispr Bro S27
+Check", `com.wisprbro.s27check`; the product runtime, its own app data,
+WebKit storage and TCC rows), so the owner's app and data are never
+touched. Debug is enough (no CSP-sensitive check). No audio: History is
+seeded. Two layouts, both under the test identity:
+
+- **Portable** (S-27.1, .2, .4, .5): copy the `.app` to a scratch folder
+  whose path contains `s27`, add `Contents/MacOS/portable`, re-sign ad hoc,
+  as in S-25. `Data` = `Contents/MacOS/Data`.
+- **Installed** (S-27.3): the same `.app` without the `portable` marker, so
+  it uses `~/Library/Application Support/com.wisprbro.s27check` and
+  `~/Library/Logs/com.wisprbro.s27check`.
+
+```sh
+echo '{"identifier":"com.wisprbro.s27check","productName":"Wispr Bro S27 Check","plugins":{"updater":{"active":false}}}' > <scratch>/s27.conf.json
+bun run tauri build --debug --bundles app --config src-tauri/tauri.fork.conf.json --config <scratch>/s27.conf.json
+swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # S-25's driver; the terminal needs Accessibility
+swiftc -O scripts/wb-window-id.swift -o <scratch>/wbwin
+```
+
+Run `Contents/MacOS/handy --start-hidden` once and quit, set
+`onboarding_completed: true` and `update_checks_enabled: false` as in S-25,
+then `python3 -I scripts/wb-s27/seed.py <…>/Data <scratch>/s27-seed.json`
+(three neutral rows with silent WAVs, two fake model files, a log line and a
+crash file carrying the marker phrase).
+
+**Procedure (unattended, ~5 min; hold `~/wb-bench/gui.lock` for each GUI
+step; events go only to the test app's window via `wbui`).**
+
+1. Launch, open Settings › Data and Privacy, screenshot. Pass: the page
+   names huggingface.co and github.com, the four paths are inside `Data/`
+   (portable), each "Show in Finder" opens a Finder window on that folder
+   (S-27.5; close them).
+2. "Export my data"; in the save panel `wbui <pid> 'key cmd-shift-g; key
+cmd-a; keys <scratch>/out/; key return; key return'`. Pass (S-27.1): a
+   Finder window selects the zip; `python3 -I scripts/wb-s27/verify.py
+export <zip> <scratch>/s27-seed.json` passes.
+3. "Save diagnostics…" into `<scratch>/out/`, then "Copy diagnostics" and
+   `pbpaste > <scratch>/out/copy.txt`. Pass (S-27.4): `verify.py
+diagnostics <zip> <seed>` passes; `copy.txt` contains neither the marker
+   nor `$HOME/`.
+4. Quit. Copy a real `.ips` header for the identity into
+   `~/Library/Logs/DiagnosticReports/Wispr Bro S27 Check-s27.ips`
+   (`{"bundleID":"com.wisprbro.s27check"}` then any body line containing the
+   marker); relaunch. Pass (S-27.5): the inbox shows one crash notice; the
+   log folder has a `crash-…-ips-…txt` without the marker. Delete the `.ips`.
+5. "Delete all my data", leave "Also delete downloaded models" off, type
+   `DELETE`, confirm. Pass (S-27.2): the app quits and relaunches into
+   onboarding (screenshot); then `verify.py erased <Data> <seed> kept` (seeded
+   rows, WAVs, log and crash marker gone, fake models kept) and `verify.py
+onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
+   unit test; the relaunched app recreates empty stores at once.)
+6. Repeat step 5 with the models box checked: `verify.py erased <Data>
+<seed> deleted` passes (re-seed first).
+7. Installed layout: launch once without `portable`, quit, then
+   `sh scripts/wb-s27/zap-paths.sh com.wisprbro.s27check` and paste the list
+   into the run report (S-27.3 input for S-39).
+8. Clean up: delete the bundle copy, `~/Library/{Application Support,Logs,WebKit,Caches}/com.wisprbro.s27check`
+   and any `~/Library/Preferences/com.wisprbro.s27check.plist`.
 
 ### S-28 Updates that never interrupt
 
@@ -1705,9 +1813,33 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-29a Onboarding: welcome, permissions, the two tests
 
-- [ ] S-29a.1 Clean Mac: permissions to shortcut test in ≤ 2 min.
-- [ ] S-29a.2 Each diagnosis branch reachable.
-- Procedure: TODO (S-29a).
+All items **queued for the Mac wave** (consolidated UI run; nothing here has
+run on the Mac yet). Playwright covers every screen, branch, resume, preview,
+axe light/dark, RTL and keyboard-only (`tests/fork/onboarding.spec.ts`).
+
+- [ ] S-29a.1 Clean account (no TCC rows for the test identity): permissions to shortcut test in ≤ 2 min (`run.sh timing` from the log's `onboarding: step` lines).
+- [ ] S-29a.2 Each diagnosis branch reachable on the real Mac: tap not live (launch before granting Accessibility; after the grant, Try again lights the key **without a relaunch**), Secure Input (a password field in Safari focused), no fn key (switch → ⌃⌥ lights), Globe on Emoji (consent → `AppleFnUsageType` 0 and the marker written; switching to ⌃⌥ restores the old value and drops the marker).
+- [ ] S-29a.3 Shortcut test: a synthetic fn press lights the key and records no take (`run.sh keytest`).
+- [ ] S-29a.4 Resume after relaunch at each step (`run.sh resume`), no step written on resume.
+- [ ] S-29a.5 Move to Applications from `~/Downloads` (rename) and from a mounted disk image (copy): the app reopens from Applications and continues at Languages; a name clash shows the Finder message.
+- [ ] S-29a.6 By eye: the permission pictures match macOS 26 (and 15 if a second Mac is available), light and dark; no screen names a model; the speech download never blocks a step.
+
+**Setup.** Debug build with the test identity (CONTEXT, execution
+protocol): `echo '{"identifier":"com.wisprbro.s29acheck","productName":"Wispr Bro S29a Check","plugins":{"updater":{"active":false}}}' > <scratch>/s29a.conf.json`,
+`bun run tauri build --debug --bundles app --config src-tauri/tauri.fork.conf.json --config <scratch>/s29a.conf.json`;
+copy the `.app` to a scratch folder whose path contains `s29a`, add
+`Contents/MacOS/portable`, sign ad hoc, launch once and quit.
+`swiftc -O scripts/wb-s01-keys.swift -o <scratch>/wbkeys` (the terminal
+needs Accessibility for posting events). Record `run.sh globe-state` first
+and put the owner's Globe setting back at the end if any case changed it.
+
+**Procedure** (`APP=<bundle> OUT=<dir> KEYS=<scratch>/wbkeys scripts/wb-s29a/run.sh <case>`; holds `~/wb-bench/gui.lock`; no audio):
+
+1. `resume` (S-29a.4), `keytest` (S-29a.3).
+2. `python3 -I scripts/wb-s29a/profile.py <…>/Data fresh`, `tccutil reset All com.wisprbro.s29acheck`, launch, go through Welcome → Languages → Permissions (grant both in the real prompts) → mic test → shortcut test → Finish; then `timing` (S-29a.1).
+3. Diagnoses (S-29a.2): `profile.py … shortcut_test`, `tccutil reset Accessibility com.wisprbro.s29acheck`, launch, No → "cannot see key presses", grant, Try again, press fn. Then Globe: set "Press 🌐 key to" Show Emoji, `globe-state`, No → Globe → Set to Do Nothing, `globe-state`; Edit shortcut → Ctrl+Option (or the no-fn branch), `globe-state` (restored). Secure Input with a focused password field.
+4. `move` (S-29a.5) twice: from `~/Downloads`, and from a `hdiutil create`/`attach` image holding the bundle; clean up `/Applications/Wispr Bro S29a Check.app`.
+5. Quit; delete the bundle copies and `~/Library/{WebKit,Caches}/com.wisprbro.s29acheck`.
 
 ### S-29b Onboarding: languages, practice, celebration, typing test, summary
 
@@ -1746,8 +1878,43 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-36 Vibe coding
 
-- [ ] S-36.1 Dictate "rename get user by id" in Cursor with the identifier visible.
-- Procedure: TODO (S-36).
+Queued for the Mac wave (the S-19b + S-36 browser/AX run); not run by the
+slice (2026-11-02).
+
+- [ ] S-36.1 (Exit criterion) Dictate "rename get user by id" in Cursor with `getUserById` visible (screen-reader mode on): the buffer gets `getUserById`; the log shows `context: read ok (…, cursor: N code name(s), 0 file name(s), …)` with N ≥ 1 and `text: … identifiers=1`.
+- [ ] S-36.2 In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets `@index.ts`; the log shows `cursor chat: … M file name(s)` with M ≥ 1 and `file_tags=1`.
+- [ ] S-36.3 The same chat take with "Tag files in chat" off (`setup.sh … off`): the text keeps "index dot ts" (or `index.ts`), no `@`.
+- [ ] S-36.4 Not set up (`setup.sh … unset`): the editor take keeps "get user by id" and the log line has no `cursor:` part (DEC-41: off until set up).
+- [ ] S-36.5 TextEdit (not a listed editor) with `index.ts` in the document: "open index dot ts" is not tagged.
+- [ ] S-36.6 No filesystem scanning (exit criterion): `sudo fs_usage -w -f filesys <app pid>` during S-36.1/.2 shows no open or stat of the workspace folder (`$TMPDIR/wb-s36-workspace`); the names come from AX only. Read p95 of the editor takes stays within S-20's 100 ms.
+- [ ] S-36.7 Clipboard byte-identical after the `editor` and `textedit` takes (the `chat` case reads its text back with ⌘A ⌘C, so its own check reports "changed (restored)" by design).
+- [ ] S-36.8 (person, UI wave) Settings › Vibe coding: Set up, the three steps, Finish, Change editors, Tag files in chat enabled only with Cursor or Windsurf; light and dark.
+- Not covered on this Mac: VS Code and Windsurf (not installed); their bundle ids and chat detection are unit-tested only.
+
+**Profile:** the S-20 portable debug build (`com.wisprbro.s20check` or a
+`s36check` identity, never the owner's app, data or clipboard), set up as
+under S-20 with context awareness on, then with the app stopped:
+
+```sh
+scripts/wb-s36/setup.sh "$PWD/src-tauri/target/debug/Data" on
+say -v Samantha -o $SCRATCH/s36-rename.aiff "rename get user by id"
+say -v Samantha -o $SCRATCH/s36-tag.aiff "open index dot ts"
+for f in rename tag; do afconvert -f WAVE -d LEI16@16000 -c 1 $SCRATCH/s36-$f.aiff $SCRATCH/s36-$f.wav; done
+scripts/wb-s05/app.sh start
+```
+
+**Procedure (unattended):** `WB_S36_BIN=$BIN scripts/wb-s36/take.sh <case>
+<wav> <out dir>`: `editor s36-rename.wav` (S-36.1), `chat s36-tag.wav`
+(S-36.2), `textedit s36-tag.wav` (S-36.5); then `setup.sh … off`, restart,
+`chat s36-tag.wav` (S-36.3); `setup.sh … unset`, restart, `editor
+s36-rename.wav` (S-36.4). Each case holds `~/wb-bench/gui.lock`, opens
+Cursor in a throwaway profile (`$TMPDIR/wb-s36-cursor-profile`,
+`editor.accessibilitySupport: on`) on a throwaway workspace, records only
+while Cursor (or TextEdit) is in front, plays the WAV once through the
+speakers, reads the result back (saved file, chat text, document), and
+closes what it opened. If Cursor's chat input needs a sign-in in a fresh
+profile, S-36.2/.3 are recorded as not verified (the owner's Cursor
+profile is never used).
 
 ### S-37 Accessibility, localization, copy pass
 

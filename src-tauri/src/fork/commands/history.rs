@@ -167,6 +167,7 @@ pub fn fork_history_delete<R: ForkRuntime>(
     }
     if n > 0 {
         crate::fork::db::jobs::schedule_purge(&app);
+        crate::fork::app_menu::refresh(&app, crate::fork::app_menu::Refresh::Data);
     }
     Ok(u32::try_from(n).unwrap_or(u32::MAX))
 }
@@ -181,6 +182,9 @@ pub fn fork_history_undo_delete<R: ForkRuntime>(
     let n = db(&app)?
         .with_conn(|c| entry_meta::undo_delete(c, &ids))
         .map_err(internal)?;
+    if n > 0 {
+        crate::fork::app_menu::refresh(&app, crate::fork::app_menu::Refresh::Data);
+    }
     Ok(u32::try_from(n).unwrap_or(u32::MAX))
 }
 
@@ -253,6 +257,7 @@ pub fn fork_history_set_variant<R: ForkRuntime>(
         .with_conn(|c| history_list::set_variant(c, id, variant))
         .map_err(internal)?;
     log::info!("history: entry {id} shows the {} text", variant.as_str());
+    crate::fork::app_menu::refresh(&app, crate::fork::app_menu::Refresh::Data);
     one_row(&app, id)
 }
 

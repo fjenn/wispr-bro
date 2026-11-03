@@ -12,7 +12,7 @@
  * instead (stage 11, after the LLM). Counts follow every change and every
  * take live (`useSnippetsLive`). Deleting offers Undo.
  */
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { save as saveFileDialog } from "@tauri-apps/plugin-dialog";
 import { toast } from "sonner";
@@ -29,6 +29,7 @@ import {
 import { commands, type SnippetEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
+import { navigate, useHubNav } from "../hub/nav";
 import { INPUT_CLASS } from "../dictionary/AddWordDialog";
 import { Banner, Button, EmptyState, FOCUS_RING } from "../ui";
 import { SnippetDialog } from "./SnippetDialog";
@@ -121,6 +122,8 @@ export function SnippetsPage() {
   const snippets = useSnippetsStore((s) => s.snippets);
   const counts = useSnippetsStore((s) => s.counts);
   const status = useSnippetsStore((s) => s.status);
+  const section = useHubNav((s) => s.section);
+  const navSeq = useHubNav((s) => s.seq);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [order, setOrder] = useState<SortOrder>("newest");
@@ -130,6 +133,10 @@ export function SnippetsPage() {
   const [importOpen, setImportOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const appName = t("rust.appName");
+
+  useEffect(() => {
+    if (section === "add") setDialog({ snippet: null });
+  }, [section, navSeq]);
 
   const visible = useMemo(() => {
     const key = searchKey(deferredQuery.trim());
@@ -367,7 +374,12 @@ export function SnippetsPage() {
       <SnippetDialog
         open={dialog !== null}
         snippet={dialog?.snippet ?? null}
-        onOpenChange={(o) => !o && setDialog(null)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDialog(null);
+            if (section === "add") navigate("snippets");
+          }
+        }}
         onSaved={(snippet, added) => {
           if (added) {
             toast.success(t("snippets.added", { trigger: snippet.trigger }));

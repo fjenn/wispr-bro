@@ -31,6 +31,7 @@
 //! right after Handy's closure returns, so [`on_ready`] can rely on Handy's
 //! managers being in state.
 
+pub mod app_menu;
 pub mod audio;
 pub mod ax;
 pub mod clipboard;
@@ -39,7 +40,9 @@ pub mod context;
 pub mod db;
 pub mod diagnostics;
 pub mod dictionary;
+pub mod erase;
 pub mod events;
+pub mod export;
 pub mod hub;
 pub mod i18n;
 pub mod insert;
@@ -47,6 +50,7 @@ pub mod llm;
 pub mod models;
 pub mod net;
 pub mod notify;
+pub mod onboarding;
 pub mod pill;
 pub mod recovery;
 pub mod scratchpad;
@@ -155,15 +159,17 @@ fn install_rule_source<R: Runtime>(app: &AppHandle<R>) {
 pub fn on_record_start<R: ForkRuntime>(app: &AppHandle<R>) {
     context::on_record_start();
     // S-20: the text near the caret, read once on the AX thread (never
-    // waits; DEC-24: on unless the user switched it off).
-    let enabled = app
+    // waits; DEC-24: on unless the user switched it off). S-36: in a listed
+    // editor the same read also collects code and file names.
+    let settings = app
         .try_state::<settings::ForkSettingsHandle>()
-        .and_then(|h| h.get(app).ok())
-        .is_none_or(|s| s.context_awareness);
+        .and_then(|h| h.get(app).ok());
+    let enabled = settings.as_ref().is_none_or(|s| s.context_awareness);
+    let vibe = settings.map(|s| s.vibe_coding).unwrap_or_default();
     let languages = R::handy_settings(app)
         .map(|settings::HandySettings(s)| s.spoken_languages)
         .unwrap_or_default();
-    context::awareness::on_record_start(enabled, languages);
+    context::awareness::on_record_start(enabled, vibe, languages);
     match crate::portable::data_dir()
         .cloned()
         .map(Ok)
@@ -440,6 +446,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // S-13: Hub window size and title bar.
     hub::on_ready(app);
+    // S-26a: localized app menus, tray contents and live menu counts.
+    app_menu::on_ready(app);
     // S-15b: History plays recordings through the asset protocol; the
     // static scope covers `$APPDATA/**`, portable mode's `Data/` is added
     // here (only Handy's recordings dir).
@@ -482,6 +490,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         transforms::on_ready(app);
         scratchpad::on_ready(app);
         shortcut::start(app);
+        // S-29a (DEC-44): a Globe change of ours is undone when fn is no
+        // longer the trigger (bindings edited while the app was closed).
+        shortcut::reconcile_globe(app);
         // S-03: the Flow Bar (macOS; replaces Handy's overlay).
         R::pill_start(app);
     }
@@ -515,6 +526,13 @@ macro_rules! fork_specta_builder {
                 commands::csp::fork_csp_smoke_media::<$runtime>,
                 commands::hotkeys::fork_hotkey_status::<$runtime>,
                 commands::hotkeys::fork_use_hotkey_profile::<$runtime>,
+                commands::onboarding::fork_onboarding_go_to::<$runtime>,
+                commands::onboarding::fork_onboarding_complete::<$runtime>,
+                commands::onboarding::fork_onboarding_app_location,
+                commands::onboarding::fork_onboarding_move_to_applications::<$runtime>,
+                commands::onboarding::fork_onboarding_key_test::<$runtime>,
+                commands::onboarding::fork_onboarding_globe_do_nothing::<$runtime>,
+                commands::onboarding::fork_onboarding_open_pane::<$runtime>,
                 commands::history::fork_stats_summary::<$runtime>,
                 commands::history::fork_history_search::<$runtime>,
                 commands::history::fork_history_meta::<$runtime>,
@@ -608,6 +626,12 @@ macro_rules! fork_specta_builder {
                 commands::update::fork_update_status::<$runtime>,
                 commands::update::fork_update_check::<$runtime>,
                 commands::update::fork_update_install::<$runtime>,
+                commands::privacy::fork_data_locations::<$runtime>,
+                commands::privacy::fork_show_data_location::<$runtime>,
+                commands::privacy::fork_export_data::<$runtime>,
+                commands::privacy::fork_copy_diagnostics::<$runtime>,
+                commands::privacy::fork_save_diagnostics::<$runtime>,
+                commands::privacy::fork_erase_all_data::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -632,7 +656,8 @@ macro_rules! fork_specta_builder {
                 transforms::record::ForkTransformViewChanges,
                 commands::transforms::ForkTransformsChanged,
                 scratchpad::ForkScratchpadChanged,
-                scratchpad::ForkScratchpadOpen
+                scratchpad::ForkScratchpadOpen,
+                app_menu::ForkMenuAction
             ])
     };
 }
@@ -678,6 +703,26 @@ pub trait ForkRuntime: Runtime {
     /// Starts Undo and registers the recovery actions (S-06; product
     /// builds). No-op on runtimes without Handy's managers.
     fn recovery_start(app: &AppHandle<Self>);
+    /// S-27 delete-all phase 1: stop recording, jobs and downloads.
+    fn stop_jobs_for_erase(app: &AppHandle<Self>) -> Result<(), String>;
+    /// S-27 delete-all phase 2: unload speech models and stop the sidecar.
+    fn unload_models_for_erase(app: &AppHandle<Self>) -> Result<(), String>;
+    /// S-27 delete-all phase 3 (before files go): close the settings stores
+    /// and clear webview storage.
+    fn release_for_erase(app: &AppHandle<Self>);
+    /// S-26a: whether this runtime has native menus. `MockRuntime` has
+    /// none (its main-thread calls run inline on the caller and AppKit menus
+    /// must not be built off the main thread), so tests never build menus or
+    /// list the Mac's microphones for them.
+    fn native_menus() -> bool;
+    /// S-26a menus: Copy last transcript (Dictation menu), as ⌃⌘C does.
+    fn menu_copy_last(app: &AppHandle<Self>);
+    /// S-26a menus: Paste last transcript (tray), as ⌃⌘V does.
+    fn menu_paste_last(app: &AppHandle<Self>);
+    /// S-26a tray: a take is in progress (Handy's tray state; Cancel shows).
+    fn menu_dictation_in_progress(app: &AppHandle<Self>) -> bool;
+    /// S-26a tray: Secure Input blocks the shortcuts (Handy's warning item).
+    fn menu_shortcuts_blocked(app: &AppHandle<Self>) -> bool;
 }
 
 impl ForkRuntime for tauri::Wry {
@@ -687,6 +732,38 @@ impl ForkRuntime for tauri::Wry {
 
     fn recovery_start(app: &AppHandle<Self>) {
         recovery::on_ready(app);
+    }
+
+    fn stop_jobs_for_erase(app: &AppHandle<Self>) -> Result<(), String> {
+        erase::stop_jobs(app)
+    }
+
+    fn unload_models_for_erase(app: &AppHandle<Self>) -> Result<(), String> {
+        erase::unload_models(app)
+    }
+
+    fn release_for_erase(app: &AppHandle<Self>) {
+        erase::release_for_erase(app);
+    }
+
+    fn native_menus() -> bool {
+        true
+    }
+
+    fn menu_copy_last(app: &AppHandle<Self>) {
+        shortcut::actions::copy_last::run(app);
+    }
+
+    fn menu_paste_last(app: &AppHandle<Self>) {
+        shortcut::actions::paste_last::run(app);
+    }
+
+    fn menu_dictation_in_progress(app: &AppHandle<Self>) -> bool {
+        crate::tray::dictation_in_progress(app)
+    }
+
+    fn menu_shortcuts_blocked(app: &AppHandle<Self>) -> bool {
+        crate::secure_input::tray_warning_active(app)
     }
 
     fn pill_start(app: &AppHandle<Self>) {
@@ -743,6 +820,32 @@ impl ForkRuntime for tauri::test::MockRuntime {
     fn models_start(_app: &AppHandle<Self>) {}
 
     fn recovery_start(_app: &AppHandle<Self>) {}
+
+    fn stop_jobs_for_erase(_app: &AppHandle<Self>) -> Result<(), String> {
+        Ok(())
+    }
+
+    fn unload_models_for_erase(_app: &AppHandle<Self>) -> Result<(), String> {
+        Ok(())
+    }
+
+    fn release_for_erase(_app: &AppHandle<Self>) {}
+
+    fn native_menus() -> bool {
+        false
+    }
+
+    fn menu_copy_last(_app: &AppHandle<Self>) {}
+
+    fn menu_paste_last(_app: &AppHandle<Self>) {}
+
+    fn menu_dictation_in_progress(_app: &AppHandle<Self>) -> bool {
+        false
+    }
+
+    fn menu_shortcuts_blocked(_app: &AppHandle<Self>) -> bool {
+        false
+    }
 
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {
         0.0
@@ -840,6 +943,15 @@ pub fn observe_handy_command(command: &str) -> Option<fn()> {
                 // give the store a moment anyway.
                 std::thread::sleep(std::time::Duration::from_millis(300));
                 models::setup::refresh();
+                // S-26a: the menus' Languages ▸.
+                app_menu::request_refresh(app_menu::Refresh::Force);
+            });
+        }),
+        // S-26a: the menus' Microphone ▸ follows Handy's own picker too.
+        "set_selected_microphone" => Some(|| {
+            std::thread::spawn(|| {
+                std::thread::sleep(std::time::Duration::from_millis(300));
+                app_menu::request_refresh(app_menu::Refresh::Devices);
             });
         }),
         _ => None,

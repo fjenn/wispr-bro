@@ -12,14 +12,23 @@ import { Advanced } from "./Advanced";
 import { DataPrivacy } from "./DataPrivacy";
 import { General } from "./General";
 import { System } from "./System";
+import { VibeCoding } from "./VibeCoding";
 import { HotkeysPanel } from "./hotkeys/HotkeysPanel";
 
-const SECTIONS = ["general", "system", "privacy", "advanced", "about"] as const;
+const SECTIONS = [
+  "general",
+  "system",
+  "vibe",
+  "privacy",
+  "advanced",
+  "about",
+] as const;
 type Section = (typeof SECTIONS)[number] | "hotkeys";
 
 function sectionFromHash(value: string | null): Section {
   if (value === "hotkeys" || value === "shortcuts") return "hotkeys";
   if (value === "models") return "advanced";
+  if (value === "microphone" || value === "languages") return "general";
   return SECTIONS.includes(value as (typeof SECTIONS)[number])
     ? (value as (typeof SECTIONS)[number])
     : "general";
@@ -51,6 +60,13 @@ export function SettingsModal() {
 
   useEffect(() => {
     if (requested === "history") navigate("dictation", "history");
+    if (requested === "microphone" || requested === "languages") {
+      document
+        .getElementById(
+          `wb-general-${requested === "microphone" ? "mic" : "languages"}`,
+        )
+        ?.scrollIntoView({ block: "start" });
+    }
   }, [requested]);
 
   const close = () => navigate("dictation");
@@ -135,6 +151,7 @@ export function SettingsModal() {
                 <General onChangeHotkeys={() => select("hotkeys")} />
               )}
               {section === "system" && <System />}
+              {section === "vibe" && <VibeCoding />}
               {section === "privacy" && <DataPrivacy />}
               {section === "advanced" && <Advanced />}
               {section === "about" && <About />}

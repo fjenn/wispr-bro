@@ -200,6 +200,18 @@ Details per port: docs/fork/PORTS.md.
   4 s window on a caller clock; audio in memory, Handy's WAV or a saved
   row; Handy's short-take padding).
 
+- src-tauri/src/fork/shortcut/globe.rs
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   resources/macos-globe-listener.swift (GlobeSystemAction,
+          GlobePreferenceState: the Globe key's Do Nothing setting through
+          TISUpdateFnUsageType and its crash-safe restore marker)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026-11-02 (Rust; marker in the
+  app's data folder; applied only after consent in onboarding, held while
+  fn is the dictation trigger and restored when it stops being one).
+
 - src-tauri/src/fork/context/categories.json (data)
   Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
   Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9

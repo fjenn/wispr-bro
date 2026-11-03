@@ -17,7 +17,7 @@
 use std::sync::Mutex;
 
 use tauri::menu::Menu;
-use tauri::{AppHandle, Runtime};
+use tauri::AppHandle;
 
 use super::i18n;
 use crate::tray::{AppTheme, TrayIconState};
@@ -71,9 +71,10 @@ pub(crate) fn rewrite_tooltip(tooltip: &str, fork_label: &str) -> String {
 }
 
 /// The `tray.rs` `build_menu` hook. Relabels the `version` item and rewrites
-/// the tooltip.
-pub fn extend<R: Runtime>(
-    _app: &AppHandle<R>,
+/// the tooltip; in product builds the menu's items are then replaced by
+/// S-26a's tray menu (`fork::app_menu::fill_tray`: no Model ▸ or Unload).
+pub fn extend<R: super::ForkRuntime>(
+    app: &AppHandle<R>,
     menu: &Menu<R>,
     tooltip: &mut String,
     locale: &str,
@@ -88,59 +89,10 @@ pub fn extend<R: Runtime>(
     }
     *tooltip = rewrite_tooltip(tooltip, &label);
     if crate::fork::is_product_build() {
-        remove_model_items(menu)?;
+        crate::fork::app_menu::fill_tray(app, menu, locale)?;
     }
     if let Ok(mut last) = LAST_TOOLTIP.lock() {
         *last = Some(tooltip.clone());
-    }
-    Ok(())
-}
-
-/// Handy's tray items that name or manage the speech model (S-07b, B-207:
-/// the user never picks a model; models live in Settings › Advanced).
-pub const MODEL_ITEM_IDS: [&str; 2] = ["model_submenu", "unload_model"];
-
-/// Which positions to remove from a menu whose item ids are `ids` (`None`
-/// for a separator): the model items, and the separator after them when it
-/// would leave two separators in a row.
-pub fn model_item_positions(ids: &[Option<&str>]) -> Vec<usize> {
-    let mut out: Vec<usize> = ids
-        .iter()
-        .enumerate()
-        .filter(|(_, id)| id.is_some_and(|id| MODEL_ITEM_IDS.contains(&id)))
-        .map(|(i, _)| i)
-        .collect();
-    if let Some(&last) = out.last() {
-        let before_is_sep = out
-            .first()
-            .and_then(|&f| f.checked_sub(1))
-            .is_some_and(|b| ids[b].is_none());
-        if before_is_sep && ids.get(last + 1).is_some_and(|n| n.is_none()) {
-            out.push(last + 1);
-        }
-    }
-    out
-}
-
-/// Removes Handy's Model ▸ submenu and Unload item (and a doubled
-/// separator). Absent items (the busy layout) are a no-op.
-fn remove_model_items<R: Runtime>(menu: &Menu<R>) -> tauri::Result<()> {
-    use tauri::menu::MenuItemKind;
-    let items = menu.items()?;
-    let ids: Vec<Option<String>> = items
-        .iter()
-        .map(|i| match i {
-            MenuItemKind::Predefined(_) => None,
-            other => Some(other.id().0.clone()),
-        })
-        .collect();
-    let refs: Vec<Option<&str>> = ids.iter().map(|i| i.as_deref()).collect();
-    let positions = model_item_positions(&refs);
-    for pos in positions.iter().rev() {
-        menu.remove_at(*pos)?;
-    }
-    if !positions.is_empty() {
-        log::debug!("fork tray: model items removed ({})", positions.len());
     }
     Ok(())
 }
@@ -175,36 +127,8 @@ mod tests {
     use super::*;
 
     // `extend` itself needs a native menu; muda builds menus only on the
-    // macOS main thread, which `cargo test` does not own. Its logic is the
-    // two pure functions tested here; the wiring is checked by
-    // `fork::identity_tests::file_prefix_hooks_are_in_place` and by running
-    // the app (tray label in the log of `bun run wb:dev`).
-    #[test]
-    fn the_model_items_and_their_separator_go() {
-        // Handy's idle layout (tray.rs build_menu).
-        let idle = [
-            Some("version"),
-            None,
-            Some("copy_last_transcript"),
-            None,
-            Some("model_submenu"),
-            Some("unload_model"),
-            None,
-            Some("settings"),
-            Some("check_updates"),
-            None,
-            Some("quit"),
-        ];
-        assert_eq!(model_item_positions(&idle), vec![4, 5, 6]);
-        // The busy layout has no model items.
-        let busy = [Some("version"), None, Some("cancel"), None, Some("quit")];
-        assert!(model_item_positions(&busy).is_empty());
-        // Handy's tray.rs still builds these ids.
-        let tray = include_str!("../tray.rs");
-        for id in MODEL_ITEM_IDS {
-            assert!(tray.contains(&format!("\"{id}\"")), "{id}");
-        }
-    }
+    // macOS main thread, which `cargo test` does not own. The pure tray specs
+    // are tested in `fork::app_menu::tests`.
 
     #[test]
     fn version_label_is_ours_in_every_locale() {

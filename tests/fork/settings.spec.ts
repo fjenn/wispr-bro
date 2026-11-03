@@ -118,7 +118,7 @@ test("System, Data and Privacy, collapsed Advanced, and About deep-link", async 
   );
   await page.getByTestId("wb-settings-nav-privacy").click();
   await expect(page.getByTestId("wb-settings-privacy")).toContainText(
-    "Retention and privacy controls",
+    "Your dictation and data stay on this Mac.",
   );
   await page.getByTestId("wb-settings-nav-advanced").click();
   await expect(page.getByTestId("wb-settings-nav-advanced")).toHaveAttribute(
@@ -182,34 +182,6 @@ test("Advanced choices persist across relaunch", async ({ page, ipc }) => {
   );
 });
 
-test("onboarding opens the same hotkeys panel", async ({ page, ipc }) => {
-  const handy = handySettings({ onboarding_completed: false });
-  ipc.respond({
-    get_app_settings: handy,
-    get_default_settings: handy,
-    get_retired_models: [],
-    "plugin:macos-permissions|check_accessibility_permission": true,
-    "plugin:macos-permissions|check_microphone_permission": true,
-    fork_get_settings: forkSettingsDefaults,
-    fork_set_setting: forkSettingsDefaults,
-    fork_hotkey_status: {
-      running: true,
-      error: null,
-      trigger: "fn",
-      globe: "do_nothing",
-      fn_blocked: false,
-      issues: [],
-      bindings: [],
-    },
-  });
-  await page.goto("/");
-  await page.getByTestId("wb-onboarding-shortcuts").click();
-  await expect(page.getByTestId("wb-onboarding-hotkeys-modal")).toBeVisible();
-  await expect(page.getByTestId("wb-hotkeys-panel")).toBeVisible();
-  await page.getByTestId("wb-hotkeys-done").click();
-  await expect(page.getByTestId("wb-onboarding-hotkeys-modal")).toHaveCount(0);
-});
-
 test("keyboard-only navigation stays in the modal and Escape closes it", async ({
   page,
   ipc,
@@ -232,7 +204,14 @@ test("RTL mirrors the two-column modal in every section", async ({
   ipc,
 }) => {
   await openSection(page, ipc);
-  for (const section of ["general", "system", "privacy", "advanced", "about"]) {
+  for (const section of [
+    "general",
+    "system",
+    "vibe",
+    "privacy",
+    "advanced",
+    "about",
+  ]) {
     if (section !== "general") {
       await page.getByTestId(`wb-settings-nav-${section}`).click();
     }
@@ -255,6 +234,7 @@ test("RTL mirrors the two-column modal in every section", async ({
 for (const section of [
   "general",
   "system",
+  "vibe",
   "privacy",
   "advanced",
   "about",

@@ -102,6 +102,77 @@ async forkUseHotkeyProfile(fallback: boolean) : Promise<Result<HotkeyStatus, For
     else return { status: "error", error: e  as any };
 }
 },
+async forkOnboardingGoTo(step: string) : Promise<Result<OnboardingState, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_go_to", { step }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkOnboardingComplete() : Promise<Result<OnboardingState, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_complete") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkOnboardingAppLocation() : Promise<Result<ForkOnboardingLocation, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_app_location") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Moves only when the user pressed the button. Never overwrites another
+ * app. On success the app reopens from the new place and this one quits.
+ */
+async forkOnboardingMoveToApplications() : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_move_to_applications") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * The shortcut test (S-29a). `on`: trigger presses light the on-screen key
+ * (`fork-hotkey-event` `key_test`) and start no take, for two minutes unless
+ * renewed; the tap is started first if it could not start at launch (the
+ * user granted Accessibility a moment ago). `off` ends the test at once.
+ */
+async forkOnboardingKeyTest(on: boolean) : Promise<Result<HotkeyStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_key_test", { on }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * DEC-44: called only after the screen explained the change and the user
+ * pressed the button. The user's own value is kept for the restore
+ * (`shortcut::globe`), which runs when fn stops being the trigger.
+ */
+async forkOnboardingGlobeDoNothing() : Promise<Result<HotkeyStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_globe_do_nothing") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkOnboardingOpenPane(pane: ForkSettingsPane) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_open_pane", { pane }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 /**
  * Lifetime and today's stats (survive retention and deletes).
  */
@@ -1021,6 +1092,58 @@ async forkUpdateInstall() : Promise<Result<string | null, ForkError>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async forkDataLocations() : Promise<Result<ForkDataLocations, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_data_locations") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkShowDataLocation(kind: ForkDataLocationKind) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_show_data_location", { kind }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkExportData(path: string) : Promise<Result<ForkExportResult, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_export_data", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Puts the sanitized diagnostics text on the clipboard (native pasteboard,
+ * like Scratchpad's copy); returns its length in bytes.
+ */
+async forkCopyDiagnostics() : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_copy_diagnostics") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkSaveDiagnostics(path: string) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_save_diagnostics", { path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkEraseAllData(confirmation: string, deleteModels: boolean) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_erase_all_data", { confirmation, deleteModels }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -1034,6 +1157,7 @@ forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
 forkLlmStatus: ForkLlmStatus,
+forkMenuAction: ForkMenuAction,
 forkMicDevicesChanged: ForkMicDevicesChanged,
 forkMicLevel: ForkMicLevel,
 forkModelPolicy: ForkModelPolicy,
@@ -1058,6 +1182,7 @@ forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
 forkLlmStatus: "fork-llm-status",
+forkMenuAction: "fork-menu-action",
 forkMicDevicesChanged: "fork-mic-devices-changed",
 forkMicLevel: "fork-mic-level",
 forkModelPolicy: "fork-model-policy",
@@ -1444,6 +1569,8 @@ path: string;
  * `"recording"` or `"fixture"`.
  */
 source: string }
+export type ForkDataLocationKind = "data" | "models" | "recordings" | "logs"
+export type ForkDataLocations = { data: string; models: string; recordings: string; logs: string; portable: boolean }
 /**
  * Emitted after the dictionary changed (page edits, imports, Handy's own
  * custom-words list taken over), so every window's Dictionary page and
@@ -1500,13 +1627,15 @@ export type ForkError =
  * Unexpected failure; the message is for logs and the debug panel only.
  */
 { kind: "Internal"; message: string }
+export type ForkExportResult = { path: string; files: number; bytes: number }
 /**
  * A hotkey decision, for listeners (the pill from S-03, the debug panel).
  */
 export type ForkHotkeyEvent = { 
 /**
  * `take_started`, `locked`, `stopped`, `cancelled`, `chord`, `warning`,
- * `action`, `stuck_released`.
+ * `action`, `stuck_released`; `key_test` (detail `down`/`up`) while
+ * onboarding's shortcut test runs ([`set_key_test`]).
  */
 kind: string; 
 /**
@@ -1592,6 +1721,10 @@ guard_reasons: string[];
  * for the local one; `none` when no request was made).
  */
 engine: CleanupEngine }
+/**
+ * A Hub deep link requested by a native menu: `navigate(page, section)`.
+ */
+export type ForkMenuAction = { page: string; section: string | null }
 /**
  * The microphones changed (plugged, unplugged, default changed). Payload:
  * how many inputs there are now.
@@ -1703,6 +1836,7 @@ export type ForkNotificationOpened = { id: number | null; action: NotificationAc
  * Hub shows it as a toast); `None` after reads and clears.
  */
 export type ForkNotificationsChanged = { unread: number; posted: NotificationItem | null }
+export type ForkOnboardingLocation = "already_in_applications" | "move_needed" | "not_bundled"
 /**
  * What one take's delivery ended in (`fork::insert`, S-04): the take's
  * `paste_outcome` (R5 §4.3). `outcome` is `None` for a take cancelled
@@ -1921,6 +2055,18 @@ export type ForkSettingsChanged = {
  * The `key` of the update that caused the change.
  */
 key: string; settings: ForkSettings }
+/**
+ * System Settings panes the diagnoses open (local URL scheme; no host).
+ */
+export type ForkSettingsPane = 
+/**
+ * Privacy & Security › Accessibility (the tap is not live).
+ */
+"accessibility" | 
+/**
+ * Keyboard (the "Press 🌐 key to" setting).
+ */
+"keyboard"
 /**
  * Emitted after the snippets changed (page edits, imports) or a take used
  * one, so every window's Snippets page and counts refresh.
@@ -3114,7 +3260,11 @@ export type VibeCodingSettings = { enabled: boolean; setup_completed: boolean;
 /**
  * Editors whose screen-reader mode the setup has confirmed.
  */
-editors: string[] }
+editors: string[]; 
+/**
+ * Independent Cursor/Windsurf chat toggle (S-36).
+ */
+file_tags_enabled: boolean }
 /**
  * Everything on the Voice tab.
  */

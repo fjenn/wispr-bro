@@ -397,7 +397,7 @@ test.describe("notifications", () => {
     );
     await expect(
       page.getByRole("heading", {
-        name: "Speak instead of typing, in any app",
+        name: "Talk, and your words appear",
       }),
     ).toBeVisible();
     await ipc.waitForListener("fork-notification-opened");

@@ -448,7 +448,10 @@ test("dark mode lightens the capsule", async ({ page, ipc }) => {
       .evaluate((el) => getComputedStyle(el).backgroundColor);
   await page.emulateMedia({ colorScheme: "light" });
   await openPill(page, ipc, STATES.held);
-  const light = await bg();
+  // Under load the pill stylesheet can land after the first paint: wait for
+  // the light token (pill.css `--wb-pill-light-bg`) before comparing.
+  const light = "rgba(24, 24, 27, 0.92)";
+  await expect.poll(bg).toBe(light);
   await page.emulateMedia({ colorScheme: "dark" });
   await expect.poll(bg).not.toBe(light);
 });

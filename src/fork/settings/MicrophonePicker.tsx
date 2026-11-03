@@ -86,7 +86,11 @@ function EntryLabel({
   );
 }
 
-export function MicrophonePicker() {
+export function MicrophonePicker({
+  showMeter = true,
+}: {
+  showMeter?: boolean;
+}) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const [state, setState] = useState<LoadState>({ kind: "loading" });
   const [busy, setBusy] = useState(false);
@@ -238,7 +242,9 @@ export function MicrophonePicker() {
           {t("settings.mic.chooseError", { message: chooseError })}
         </p>
       )}
-      <MicLevelMeter describedBy={list.in_use ? inUseId : undefined} />
+      {showMeter && (
+        <MicLevelMeter describedBy={list.in_use ? inUseId : undefined} />
+      )}
     </div>
   );
 }
@@ -248,15 +254,32 @@ export function MicrophonePicker() {
  * runs. Starting does not record a take; the session ends on Stop, after a
  * minute, when a take starts, or when this unmounts.
  */
-export function MicLevelMeter({ describedBy }: { describedBy?: string }) {
+export function MicLevelMeter({
+  describedBy,
+  autoStart = false,
+  inert = false,
+}: {
+  describedBy?: string;
+  /** S-29a starts the test as soon as its screen appears. */
+  autoStart?: boolean;
+  /** Preview mode uses a still level and never opens the microphone. */
+  inert?: boolean;
+}) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const [running, setRunning] = useState(false);
   const [level, setLevel] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const session = useRef<number | null>(null);
   const runningRef = useRef(false);
+  const active = useRef(false);
 
   useEffect(() => {
+    active.current = true;
+    if (inert) {
+      return () => {
+        active.current = false;
+      };
+    }
     let disposed = false;
     const unlisten = events.forkMicLevel.listen((e) => {
       if (disposed) return;
@@ -273,13 +296,23 @@ export function MicLevelMeter({ describedBy }: { describedBy?: string }) {
       }
     });
     return () => {
+      active.current = false;
       disposed = true;
       void unlisten.then((f) => f()).catch(() => undefined);
       if (runningRef.current) void commands.forkMicMonitorStop();
+      runningRef.current = false;
+      session.current = null;
     };
-  }, []);
+  }, [inert]);
 
   const toggle = useCallback(async () => {
+    if (inert) {
+      const next = !runningRef.current;
+      runningRef.current = next;
+      setRunning(next);
+      setLevel(next ? 0.45 : 0);
+      return;
+    }
     if (runningRef.current) {
       runningRef.current = false;
       setRunning(false);
@@ -292,6 +325,10 @@ export function MicLevelMeter({ describedBy }: { describedBy?: string }) {
     setRunning(true);
     try {
       const r = await commands.forkMicMonitorStart();
+      if (!active.current || !runningRef.current) {
+        if (r.status === "ok") await commands.forkMicMonitorStop();
+        return;
+      }
       if (r.status === "ok" && typeof r.data === "number") {
         session.current = r.data;
       } else {
@@ -304,7 +341,11 @@ export function MicLevelMeter({ describedBy }: { describedBy?: string }) {
       setRunning(false);
       setError(errorText(e));
     }
-  }, []);
+  }, [inert]);
+
+  useEffect(() => {
+    if (autoStart && !inert && !runningRef.current) void toggle();
+  }, [autoStart, inert, toggle]);
 
   const lit = litBars(level);
   const percent = Math.round(level * 100);
