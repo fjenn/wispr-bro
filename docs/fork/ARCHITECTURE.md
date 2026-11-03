@@ -896,6 +896,13 @@ take starts continues (network only).
   (`{{from}} → {{to}}`) are copied and never flagged. A translating backend
   also replaces every `untranslated` English copy; a reply with wrong
   placeholders gets one retry that names them, then falls back to English.
+- **Changed English.** `en/fork.source-hashes.json` records a 12-hex
+  sha256 of every English string at the last full, clean write run. A key
+  whose English text no longer matches is stale in every locale (all forms
+  of a plural group): write mode translates it again, reviewed or not
+  (copy-english: an English copy, `untranslated`); `--check` fails on stale
+  keys and on an out-of-date hash file. `--locale` runs never write it. The
+  file uses the same three-way JSON merge driver as the locale files.
 - **Strict mode (S-37).** `--strict` is `--check` plus a failure for any
   `untranslated`/`machine` flag, brand `overrides.*` flags included. CI runs
   `bun run wb:check:translations:strict` (`--strict-switch`), which is strict

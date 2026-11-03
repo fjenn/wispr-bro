@@ -87,9 +87,11 @@ Rules for reviewers:
   machine-translated after the S-37 pass; the release notes list them.
 - Never edit English in a review commit. A wrong or unclear English string
   is a separate fix (and S-37a's copy check).
-- When English changes, the scripts drop the old translation only if the
-  key changes. A slice that rewrites English text must rename the key (or
-  remove the old translations) so the flag comes back.
+- When an English string changes, `en/fork.source-hashes.json` (a short
+  hash of each English string at the last full run) notices it: the next
+  `bun run wb:translate` replaces the translation in every locale (with the
+  default backend an English copy flagged `untranslated`, with the model a
+  new `machine` string), reviewed or not, and `--check` fails until then.
 - New strings arrive copy-English (`untranslated`) from slices and are
   machine-translated once per merge wave (`--backend llama-server`); they
   then need review like everything else.
