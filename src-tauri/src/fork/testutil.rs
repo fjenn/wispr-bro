@@ -1189,6 +1189,9 @@ mod tests {
         assert!(!build.contains("AppManifest"));
     }
 
+    // Bindings export is debug-only (`fork::bindings_language`); skipped in a
+    // `cargo test --release` build (the S-38.6b bench).
+    #[cfg(debug_assertions)]
     #[test]
     fn fork_bindings_are_current_and_handy_bindings_untouched() {
         let handy_before = repo_file("../src/bindings.ts");

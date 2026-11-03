@@ -153,6 +153,9 @@ mod tests {
         assert!(line.contains("\"microphone_selected\":true"), "{line}");
     }
 
+    // TRACE_ENV exists only in debug builds; `cargo test --release` (the
+    // S-38.6b bench) must still compile the test target.
+    #[cfg(debug_assertions)]
     #[test]
     fn transcripts_are_redacted_to_their_length() {
         // The env switch exists only in debug builds and is off in tests.
