@@ -1406,6 +1406,45 @@ under "Accepted format" (shown in place: the app opens no web page).
 `@types/papaparse` 5.5.2 (dev). Rust: `csv` 1.4 and `encoding_rs` 0.8 (the
 latter already compiled) in the `# fork:` dependency block.
 
+## Dictionary auto-learn (S-34)
+
+Opt-in, off by default (DEC-20, `ForkSettings::auto_learn_enabled`, toggled
+on Dictionary › Suggested and on Settings › Data and Privacy). No Handy
+file, no migration (the S-16 schema already had `status` `suggested` /
+`rejected`, source `learn` and `corrections` source `learn`).
+
+```
+fork::insert::mac::deliver ── pasted, kind Take, no auto Return ──▶ learn::on_pasted
+   (setting on, AX trusted, text ≤ 12,000 chars)            │ thread "wb-learn"
+                                                            ▼
+AX thread: watcher::mac::arm ── S-20 exclusions ──▶ ctx.watched (+ S-05 lease)
+fork tap (engine.event): Return / keypad Enter / Tab ──▶ Registry::notify_commit_key ──▶ channel
+every 250 ms: watcher::mac::poll ──▶ Session::observe ──▶ commit (key, focus moved, field emptied)
+                                                        or nothing (30 s, not found, secure input…)
+diff::edit_of (16-char anchors) ──▶ diff::corrections ──▶ review::suggest ──▶ ForkDictionaryChanged
+```
+
+| File                                              | Role                                                                                                                                                                                                                    |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/dictionary/learn/mod.rs`      | Orchestration: setting check, one watch at a time (a newer paste or `stop()` ends the older), commit-key channel, saving, the log (outcome, counts, ms; never text)                                                     |
+| `src-tauri/src/fork/dictionary/learn/watcher.rs`  | `Session` (pure): baseline = first read containing the paste, last non-empty value, commit rules, 30 s window, 3 s to find the paste, 100,000-character cap; `is_commit_key`; `mac::{arm,poll,disarm}` on the AX thread |
+| `src-tauri/src/fork/dictionary/learn/diff.rs`     | `comparable`, `edit_of`, `corrections` (word LCS, 1-3 words a side, any number of hunks, rewrite cutoff, everyday words, edit-distance ratio, VoiceInk's candidate checks)                                              |
+| `src-tauri/src/fork/dictionary/learn/review.rs`   | Correction → suggestion (ASCII → word, else replacement; everyday words dropped), known/rejected check, caps (5 per edit, 100 waiting), `accept`, `reject`                                                              |
+| `src-tauri/src/fork/ax/thread.rs`                 | `Ctx::watched` (the watched element, its pid, role, frame and lease)                                                                                                                                                    |
+| `src-tauri/src/fork/shortcut/{actions,engine}.rs` | Commit-key observers on the action registry; the engine tells them on every qualifying key-down (never blocks the key)                                                                                                  |
+| `src-tauri/src/fork/commands/dictionary.rs`       | `fork_dictionary_accept`, `fork_dictionary_reject`                                                                                                                                                                      |
+| `src/fork/dictionary/DictionaryPage.tsx`          | Suggested tab: the toggle, Accept ✓ / Reject ✕ rows (no edit/delete)                                                                                                                                                    |
+| `src/fork/settings/DataPrivacy.tsx`               | "Learn from my corrections" row                                                                                                                                                                                         |
+
+**Rules.** Not watched: Secure Input on, password managers, banking apps
+and sites, terminals, Wispr Bro, secure / numeric / sensitive fields,
+browser address bars (S-20's `exclusions.json` and `field_exclusion`), a
+field over 100,000 characters, a take sent by an automatic Return. The
+same element is followed by `CFEqual`, or the same role, x and width (a
+chat composer grows in height). A deleted learned entry and a rejected
+suggestion stay as `rejected` rows, so they never return; adding the word
+by hand makes it active. Erase (S-27) calls `learn::stop()` first.
+
 ## Cleanup levels (S-12a)
 
 R5 §4.10 stage 8 on the local LLM: every dictation is cleaned at the

@@ -1868,8 +1868,39 @@ and put the owner's Globe setting back at the end if any case changed it.
 
 ### S-34 Dictionary auto-learn
 
-- [ ] S-34.1 Correct "Kubernetees" → "Kubernetes" in Slack; the suggestion appears.
-- Procedure: TODO (S-34).
+Queued for the Mac wave (the S-19b + S-36 browser/AX run); not run by the
+slice (2026-11-02). Slack is not installed on the test Mac: a local chat
+composer (`scripts/wb-s34/composer.html`, Return sends and empties as in
+Slack) in a separate Chrome profile stands in, as S-20's thread page does.
+
+- [ ] S-34.1 (R5 acceptance) `fix`: the take pastes "… Kubernetees …"; the driver retypes it as "Kubernetes" and presses Return; within a second Dictionary › Suggested holds the word "Kubernetes" (`learned`: `word|Kubernetes|||suggested`), `corrections` holds `Kubernetees|Kubernetes`, and the log has `learn: watching the field` then `learn: committed (key|emptied) … 1 correction(s), 1 suggestion(s)`.
+- [ ] S-34.2 (exit criterion) After S-34.1: no field text persisted: `leaks none` (the composer's "door code 4471" is in neither `fork.db`, its WAL nor `wispr-bro.log`); the `learn:` log lines carry no text.
+- [ ] S-34.3 `tab`: the same fix committed by Tab gives the same suggestion (run after rejecting S-34.1's in the app, or after `setup.sh … on`, which clears learned rows).
+- [ ] S-34.4 Rejected never returns: in the app, Dictionary › Suggested › ✕ on "Kubernetes"; then `fix` again: `learned` shows it `rejected`, no new suggestion, the log says `0 suggestion(s)`.
+- [ ] S-34.5 `wait`: the fix without a commit: `learn: nothing learned (no_commit) after ~30000 ms`, no row.
+- [ ] S-34.6 `card`: the "Card number" field: `learn: not watched (sensitive)`; `setup.sh … off` then `fix`: no `learn:` line at all.
+- [ ] S-34.7 Clipboard byte-identical after every case (`clip same`; the driver types, never pastes).
+- [ ] S-34.8 (person, UI wave) Dictionary › Suggested: the toggle, Accept/Reject, the row leaves the tab; Settings › Data and Privacy › "Learn from my corrections" follows the same setting; light and dark.
+- Not covered on this Mac: Slack itself (not installed); Electron apps are covered by the S-05 lease path only.
+
+**Profile:** the S-20 portable debug build (`com.wisprbro.s20check` or an
+`s34check` identity, never the owner's app, data or clipboard), set up as
+under S-20, then with the app stopped:
+
+```sh
+scripts/wb-s34/setup.sh "$PWD/src-tauri/target/debug/Data" on
+say -v Samantha -o $SCRATCH/s34-deploy.aiff "Deploy it to zebra today."
+afconvert -f WAVE -d LEI16@16000 -c 1 $SCRATCH/s34-deploy.aiff $SCRATCH/s34-deploy.wav
+scripts/wb-s05/app.sh start
+```
+
+**Procedure (unattended):** `WB_S34_BIN=$BIN scripts/wb-s34/take.sh <case>
+$SCRATCH/s34-deploy.wav <out dir>` for `fix` (S-34.1/.2/.7), `card`,
+`wait`, then reject in the app and `fix` again (S-34.4), `setup.sh … on`
+(restart) and `tab` (S-34.3), `setup.sh … off` (restart) and `fix`
+(S-34.6). Each case holds `~/wb-bench/gui.lock`, records only while Chrome
+is in front, plays the WAV once through the speakers, and prints the
+learned rows, the last `learn:` line and the leak check.
 
 ### S-35 Vocabulary importers
 
