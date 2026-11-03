@@ -232,6 +232,7 @@ Exit: gallery reviewed by the owner; `hub.spec.ts` AA pairs pass with the new pa
 - Changed values: `--wb-ink-3` `#666666` / `#9C9A94` (AA on the secondary fill); `--wb-line-strong` stays a 3:1 control edge (`#8F8B82` / `#7D786E`) and the plan's `#D9D7D0` is `--wb-line-2`. New roles: `--wb-sheet`, `--wb-secondary-hover`, `--wb-ink-hover`, `--wb-ink-disabled`, `--wb-danger-soft`, `--wb-hero`, `--wb-on-hero(-2)`, `--wb-hero-grade`, `--wb-on-hud(-2)`.
 - Springs as tuned (no overshoot on large surfaces): `snappy` 520/42, `soft` 380/38, `gentle` 300/34, `bar` 600/38/0.8, `pop` 460/22 (stickers only).
 - Primitives not built in Phase 0: `Chip`, `Radio`, `Toast` (sonner stays), `SettingRow` and `Popover`-based `Menu` variants beyond the existing ones; `Tabs`, `Menu`, `Popover` were restyled, not rebuilt. W3 builds `SettingRow` from `Card tone="tint"` + `Switch`/`Select`; a shared `Chip` goes to the foundations owner when W1/W5 need it.
+- **Phase 0b (2026-11-03, `design/foundations-2`)** added the missing pieces: `Chip`/`ChipGroup`, `RadioGroup`/`Radio`/`OptionCard`, `SettingRow`/`SettingGroup`, `ToastView` (sonner kept and restyled through the tokens), `Wordmark`/`BrandGlyph` (in the sidebar), and `ThemeScope` (portalled popups keep a pinned theme). The v1 aliases are gone and `scripts/wb-guard-tokens.ts` fails on them.
 - Onboarding keeps the overlay title bar (the traffic-light inset applies to the whole window).
 - Gallery route: `#/fork/gallery`.
 

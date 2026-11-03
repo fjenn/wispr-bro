@@ -1291,6 +1291,25 @@ mocked or empty profile only.
 - [ ] DP0.7 `#/fork/gallery` opens in the debug build (⌘⇧D panel works as
       before) and not in a release build.
 
+### Design Phase 0b (shared pieces) — queued for the Mac wave
+
+Built 2026-11-03 on `design/foundations-2`. Same debug build and pass as
+Design Phase 0, by eye.
+
+- [ ] DP0b.1 Sidebar: the wordmark (bars + "Wispr Bro") heads the sidebar,
+      about 28 pt below the title strip; collapsed, the bars alone, centred;
+      the strip above and the wordmark row still drag the window.
+- [ ] DP0b.2 `#/fork/gallery` in WebKit: chips, radios, option cards (lilac
+      fill + purple edge + tick when chosen), setting rows and toast cards
+      look as in the Playwright shots in light and dark; Tab/arrows/Space
+      work on chips and radios; VoiceOver reads "toggle button, selected"
+      on a chip and "radio button, 1 of 3" on an option card.
+- [ ] DP0b.3 A real toast (Dictionary › Export, or Show a toast on the
+      gallery) is the dark card with a cream action, bottom right, and
+      fades in and out (plain fade with Reduce Motion).
+- [ ] DP0b.4 In the gallery's dark board under a light window, a menu,
+      select and popover open dark.
+
 ### S-14 Settings modal and hotkeys panel
 
 - [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).
