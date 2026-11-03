@@ -24,6 +24,9 @@
 #           take's cleanup (the warm-up kept its server for the take)
 #   S-10.9c at most one "llama-server ready" before the take's cleanup
 #           (no second cold start)
+#   S-10.9d the take was pasted into our TextEdit (the insert line names
+#           com.apple.TextEdit; the app starts hidden and the take starts
+#           only with our TextEdit in front)
 set -u
 : "${APP:?}" "${OUT:?}"
 LOCK="$HOME/wb-bench/gui.lock"
@@ -75,18 +78,37 @@ cleanup() {
 }
 trap cleanup EXIT
 
-"$EXE" >"$OUT/app-stdout.log" 2>&1 &
+# A debug build writes `../src/bindings.ts` relative to its working
+# directory at start: run it from a folder of ours, never the checkout's
+# parent (Mac wave 4).
+mkdir -p "$OUT/cwd/run"
+# Hidden: a launch with the Hub shown takes the front from TextEdit and the
+# take pastes into the app itself (Mac wave 4, first run of this driver).
+(cd "$OUT/cwd/run" && exec "$EXE" --start-hidden) >"$OUT/app-stdout.log" 2>&1 &
 log "launched; waiting for the cleanup model"
+front_te() { # our TextEdit in front, checked by pid
+  osascript -e "tell application \"System Events\" to set frontmost of (first process whose unix id is $TE) to true" >/dev/null 2>&1
+  sleep 0.3
+  [ "$(osascript -e 'tell application "System Events" to get unix id of first process whose frontmost is true' 2>/dev/null)" = "$TE" ]
+}
+until_log "startup: ready" 120
+front_te || { log "FAIL our TextEdit ($TE) is not in front; no take"; exit 1; }
+# A warm-up with the GPU shaders already compiled takes ~0.4 s, less than
+# two osascript calls: everything slow happens before the model is ready,
+# and the take starts at once. (A bundle copied to a new path compiles its
+# Metal shaders again, as after an install: a several-second warm-up.)
 until_log "llm: .* ready (" 600 || { log "FAIL the cleanup model never became ready"; exit 1; }
-log "model ready; the warm-up starts now; take 1 starts"
-osascript -e "tell application \"System Events\" to set frontmost of (first process whose unix id is $TE) to true" >/dev/null 2>&1
 kill -USR2 "$(pid)"
+log "model ready; the warm-up starts now; take 1 started"
 sleep 0.8
 wb_mic_play "$WAV"
 sleep 0.4
+front_te || { kill "$(pid)"; log "FAIL our TextEdit lost the front during the take; app quit before the stop, nothing pasted"; exit 1; }
 kill -USR2 "$(pid)"
 STOP=$(now)
-if until_log "insert: take 1" 60; then
+# The delivery line ("insert: take 1 (Take) pasted via … into <bundle>"),
+# not the earlier "insert: take 1 target …" decision line.
+if until_log "insert: take 1 (Take) " 60; then
   WAITED=$(perl -e "printf '%.1f', $(now) - $STOP")
 else
   WAITED=60
@@ -101,5 +123,7 @@ check "S-10.9b the warm-up did not stop the take's server" \
   bash -c '! grep -q "llama-server stopped" <<<"$1"' _ "$WINDOW"
 check "S-10.9c no second cold start before the take's cleanup" \
   bash -c '[ "$(grep -c "llama-server ready in" <<<"$1")" -le 1 ]' _ "$WINDOW"
-grep -E "warm-up|llama-server (ready|stopped)|cleanup: |insert: take 1" "$OUT/app.log" | tee -a "$OUT/run.log"
+check "S-10.9d the text went to our TextEdit" \
+  bash -c 'grep "insert: take 1 (Take) " <<<"$1" | grep -q "into com.apple.TextEdit "' _ "$(applog)"
+grep -E "warm-up|llama-server (ready|stopped)|cleanup: |insert: take 1" "$OUT/app.log" | cut -c1-220 | tee -a "$OUT/run.log"
 exit "$FAILED"

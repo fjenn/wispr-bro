@@ -226,7 +226,7 @@ filled by the slice; "Machines" defaults to M1-8 and M-26 unless stated.
 
 ### F-02 Signing, notarization, updater, release workflows
 
-- [ ] F-02.1 Release pipeline on this Mac (queued for the Mac wave; the one
+- [x] F-02.1 **Mac wave 4: PASS (rc1: app `4c58627d-0d93-4415-ac5e-45abfd0fa630` and DMG `39caa9cd-24be-41fa-ab8e-05b10e99ebea` Accepted, both stapled, updater archive signed by `89E085217ACC46CF`, `verify.sh: all checks passed` in the script and again standalone; no dialog, no prompt)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) Release pipeline on this Mac (queued for the Mac wave; the one
       release-build run): first let codesign use the Developer ID key without
       a dialog (RELEASING.md "Locally"), then
       `WB_NOTARY_PROFILE=wispr-bro-notary scripts/wb-release/macos.sh --out ~/wb-release/1.0.0-alpha.1`.
@@ -1007,7 +1007,7 @@ pass; S-09.3 purge path only; S-09.4 not run).
 - [ ] S-10.8 Idle: 120 s after the last request `pgrep llama-server` finds
       nothing; quitting the app (⌘Q, and `kill -9` of the app) leaves no
       `llama-server` behind.
-- [ ] S-10.9 **Queued for the Mac wave** (Mac wave 3 fixes, finding 3:
+- [x] S-10.9 **Mac wave 4: PASS (fresh copy: warm-up 7.7 s kept its server for the take, "a take wants the server, it stays up"; text in our TextEdit 0.9 s after the stop; no second cold start); the driver needed four fixes on its first run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 3 fixes, finding 3:
       the first take after a fresh start took 19 s). The first take after a
       fresh start, during the launch warm-up: run
       `scripts/wb-s10/first-take.sh` with `APP` = a debug test bundle
@@ -2026,7 +2026,7 @@ needed first).
       Privacy: the footer reads "Update checks off · Turn on" and the tray
       "Update checks are off…" (opens Data and Privacy).
 - [ ] S-28.7 **Mac wave 3: FAIL S-28.1d-f again (14/17); cause found: the take itself unhides the hidden app and shows its Hub, so the relaunch is correctly "shown"; without a take the relaunch is hidden (PASS)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-3.md)) **Queued for the Mac wave** (Mac wave 2 fixes, finding 2): re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The relaunch decision now reads AppKit (`NSApp.isHidden`, the Hub's occlusion state) as well as Tauri's window state and the parked Hub (`fork::update::scheduler::relaunch_hidden`). Expect S-28.1d-.1f PASS: `update: relaunching (hidden)`, `relaunched after an update (hidden)`, no Hub window. The profile now starts with every shortcut unbound and a cloned model cache (no download), and the take plays a silent WAV through the test microphone (no Microphone grant needed). Extra by hand if time allows: the Hub minimised (⌘M) or behind another app's window when B installs → also relaunches hidden; the Hub in front → relaunches shown.
-- [ ] S-28.8 **Queued for the Mac wave** (Mac wave 3 fixes, finding 1):
+- [ ] S-28.8 **Mac wave 4: FAIL 14/19 (1d-1i): the take still unhides the hidden app; isolated: a take while the per-take web view already exists stays hidden (the `canHide` fix works), the unhide comes with building the `fork-pill` web view at take start** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 3 fixes, finding 1):
       re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The bar's
       panels (resting bar, `fork-pill` web view, spotlight) now have
       `canHide` off, so ordering them in during a take no longer unhides the
@@ -2035,7 +2035,7 @@ needed first).
       window during the take), then .1d-.1f (`relaunching (hidden)`, no Hub
       window). By hand if time allows: ⌘H the app, dictate into TextEdit:
       the bar shows and pastes, the Hub stays hidden.
-- [ ] S-28.9 **Queued for the Mac wave** (Mac wave 3 fixes, finding 4):
+- [ ] S-28.9 **Mac wave 4: PASS fresh install (chooser alone, no What's New, also after Maybe later; key = running version, also from an empty key) and updated profile (once, then never again); FAIL edge: the Hub opened within ~10 s of a take's start shows What's New during the take (the gate's `busy` is sampled every 10 s); "panel open first" not verified (the driver could not open the panel)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 3 fixes, finding 4):
       What's New on a fresh install. A fresh test profile (debug bundle,
       `wb_unbind_keys` + `wb_clone_models`), onboarding finished: on the
       first Hub open the first-use chooser shows alone (no "What's new in
@@ -2335,7 +2335,7 @@ table and texts (`fork/pill/tests.rs`); `bun run wb:copy-check` the copy.
       PASS = every screen's line in `run.log` is `PASS` (0 unnamed controls
       in `axtree.tsv`); `placeholder-only` rows are listed for review, not
       failures.
-- [ ] S-37.4 **Queued for the Mac wave** (Mac wave 3 fixes, finding 2):
+- [x] S-37.4 **Mac wave 4: PASS (18/18 screens 0 unnamed, no `AXIncrementor`, `AXTextField "History Limit"` kept; ↑ on the focused field 5 → 6)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 3 fixes, finding 2):
       `run.sh hub` again. The fork's Handy a11y layer marks Handy's number
       fields and hides WebKit's spin buttons (`settings/handyA11y.ts`,
       `tokens.css`). PASS = `settings Advanced` has 0 unnamed (no
@@ -2412,7 +2412,7 @@ and `_many`.
       Mac that has one). Pass: 0 lost, 0 duplicate, 0 wrong_target;
       clipboard_restored true on every take. **Queued for the Mac wave**
       (Slack and Notion are not installed on the builder Mac).
-- [ ] S-38.5 **Mac wave 1: ps and crash report name wispr-bro (PASS); grants from a handy-named build: owner** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1).
+- [ ] S-38.5 **Mac wave 1: ps and crash report name wispr-bro (PASS); grants from a handy-named build: owner** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1). **Mac wave 4:** rc1's bundle executable is `Contents/MacOS/wispr-bro` (notary ticket and `verify.sh`); rc1 itself was not launched (it carries the shipping identity, whose single instance and data are the owner's running app), so `ps`/`.ips` stay as Mac wave 1 found them; grants: owner.
 - [ ] S-38.6 **Mac wave 2 (M5 Max, load 7.4-7.8): 6/7 rows PASS, LLM cold start 5,447 ms FAIL (one sample)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) §5.1 latency on each reference machine (part 2; headless, no
       GUI, nothing played): `scripts/wb-perf/latency.sh` (TTS takes written to
       files, `fork::perf_bench` on the shipped recognizer, pipeline, cleanup

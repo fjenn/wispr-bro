@@ -37,18 +37,41 @@ FAILED=0
 pid() { pgrep -f "$EXE" | head -1; }
 log() { echo "$(date +%H:%M:%S) $*" | tee -a "$OUT/run.log"; }
 drive() { "$LESSON" "$(pid)" "$1" >>"$OUT/run.log" 2>&1; }
+# A debug build writes `../src/bindings.ts` relative to its working
+# directory at every start (Handy's specta export): started from the repo it
+# wrote next to the checkout, and started by LaunchServices (`open -a`, cwd
+# /) it panics on the read-only disk before it forwards anything (Mac wave
+# 4). So the app runs from a folder of ours, and the Hub is opened by a
+# second launch of the same executable (the single-instance plugin forwards
+# it to the running app, which shows the Hub), retried while the first
+# instance is not yet listening.
+RUN_CWD="$OUT/cwd/run"
+mkdir -p "$RUN_CWD"
+# No take runs here, but the app prepares the microphone at launch: give it
+# the test microphone (a second of silence) so the real one is never opened.
+if [ -z "${WISPRBRO_TEST_MIC_WAV:-}" ]; then
+  export WISPRBRO_TEST_MIC_WAV="$OUT/cwd/silence.wav"
+  [ -s "$WISPRBRO_TEST_MIC_WAV" ] || python3 -I -c 'import sys,wave; w=wave.open(sys.argv[1],"wb"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000); w.writeframes(b"\0\0"*16000); w.close()' "$WISPRBRO_TEST_MIC_WAV"
+fi
 launch() {
-  [ -n "$(pid)" ] || { "$EXE" >/dev/null 2>&1 & }
+  [ -n "$(pid)" ] || { (cd "$RUN_CWD" && exec "$EXE") >/dev/null 2>&1 & }
   for _ in $(seq 1 60); do [ -n "$(pid)" ] && break; sleep 0.5; done
-  sleep 6
-  open -a "$APP"
+  sleep 8
   # The Hub's window (built on demand, S-38 parking) can take several
-  # seconds to appear and load after `open`; reading it earlier finds
-  # nothing to press (Mac wave 3).
-  for _ in $(seq 1 60); do "$LESSON" "$(pid)" windows 2>/dev/null | grep -q "window 'Wispr Bro'" && break; sleep 0.5; done
-  sleep 3
+  # seconds to appear and load; reading it earlier finds nothing to press
+  # (Mac wave 3).
+  for _ in 1 2 3; do
+    (cd "$RUN_CWD" && exec "$EXE") >/dev/null 2>&1 &
+    for _ in $(seq 1 40); do "$LESSON" "$(pid)" windows 2>/dev/null | grep -q "window 'Wispr Bro'" && break 2; sleep 0.5; done
+  done
+  sleep 5
   log "launched pid $(pid)"
 }
+# First-run modals hide the page from AX: the first-use chooser on a
+# profile's first Hub open ("Maybe later"; Mac wave 4: the wave 3 profile had
+# answered it), then the one-time notifications popup; What's New no longer
+# opens on a new install (S-28.9), its `Got it` stays harmless.
+dismiss() { drive "front; press-if Maybe later; wait 1500; press-if Got it; wait 1500; press-if Got it"; }
 check() {
   # $1 = screen label. Reads the whole app (every window and panel).
   sleep 0.8
@@ -64,9 +87,7 @@ check() {
 case "${1:-}" in
   hub)
     launch
-    # What's New first, then (deferred while it was open) the one-time
-    # notifications popup: both are modal and hide the page from AX.
-    drive "front; press-if Got it; wait 1500; press-if Got it"
+    dismiss
     for page in "Dictation" "Insights" "Dictionary" "Snippets" "Style" "Transforms" "Scratchpad" "Share with a friend"; do
       drive "press $page" || { log "FAIL cannot open $page"; FAILED=1; continue; }
       check "hub $page"
@@ -88,14 +109,14 @@ case "${1:-}" in
     ;;
   onboarding)
     launch
-    drive "front; press-if Got it; wait 1500; press-if Got it"
+    dismiss
     check "onboarding welcome"
     # Welcome's button is "Get started"; later screens say Continue.
     drive "press-if Continue; press-if Get started" && check "onboarding second screen"
     ;;
   lessons)
     launch
-    drive "front; press-if Got it; wait 1500; press-if Got it"
+    dismiss
     for lesson in "Learn Transforms" "Learn to dictate quietly"; do
       # Help › Essentials items are Radix menu items: `item` focuses one
       # and posts Return (AXPress does not select it).

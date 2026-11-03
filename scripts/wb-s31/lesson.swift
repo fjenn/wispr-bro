@@ -20,7 +20,11 @@
 //                         containing <text> (exit 5 on timeout)
 //   field                 print the practice field's value ("field: …")
 //   select-all            select all of the practice field's text
-//   key <name>            opt-1 | opt-o | ctrl-opt-1 | cmd-z | escape
+//   key <name>            opt-1 | opt-o | ctrl-opt-1 | cmd-z | escape | up
+//   focus <title>         focus the first element whose title or description
+//                         is <title> and print its value ("focus …: <value>")
+//   value <title>         print that element's value (S-37.4: the History
+//                         Limit field after ↑)
 //   wait <ms>             sleep
 //   pressany <title>      AXPress the first element of any role (tab, link,
 //                         row) whose title or description is <title>
@@ -153,9 +157,22 @@ for raw in args[2].split(separator: ";") {
         case "opt-o": post(31, .maskAlternate)
         case "cmd-z": post(6, .maskCommand)
         case "escape": post(53, [])
+        case "up": post(126, [])
         default: print("key \(rest): unknown"); exit(2)
         }
         print("key \(rest)")
+    case "focus", "value":
+        // A labelled row and its field share the name: the text field first.
+        let named: (AXUIElement) -> Bool = {
+            str($0, kAXTitleAttribute) == rest || str($0, kAXDescriptionAttribute) == rest
+        }
+        guard let e = poll(3, { named($0) && str($0, kAXRoleAttribute) == kAXTextFieldRole as String })
+            ?? poll(10, named) else { print("\(name) \(rest): not found"); exit(4) }
+        if name == "focus" {
+            AXUIElementSetAttributeValue(e, kAXFocusedAttribute as CFString, kCFBooleanTrue)
+            usleep(300_000)
+        }
+        print("\(name) \(rest): \(str(e, kAXValueAttribute))")
     case "wait":
         usleep(UInt32((Int(rest) ?? 0) * 1000))
     case "open":

@@ -137,9 +137,14 @@ run_until() { # <pattern> <timeout s>
   done
   return 1
 }
+# A debug build writes `../src/bindings.ts` relative to its working
+# directory at every start; from the checkout that is a stray file next to
+# it (Mac wave 4). The app runs from a folder of ours.
+RUN_CWD="$OUT/cwd/run"
+mkdir -p "$RUN_CWD"
 launch() {
-  HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_SELFTEST=1 \
-    WISPRBRO_TEST_MIC_WAV="$SILENCE" nohup "$APP/Contents/MacOS/$EXE" --start-hidden > "$OUT/app-stdout.log" 2>&1 &
+  (cd "$RUN_CWD" && HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_SELFTEST=1 \
+    WISPRBRO_TEST_MIC_WAV="$SILENCE" exec nohup "$APP/Contents/MacOS/$EXE" --start-hidden) > "$OUT/app-stdout.log" 2>&1 &
 }
 stop_app() {
   pkill -f "$APP/Contents/MacOS/" 2>/dev/null || true
@@ -192,8 +197,8 @@ restore_a() {
   : > "$LOG" 2>/dev/null || true
 }
 launch_s28() { # <WISPRBRO_UPDATE_TIMING>
-  HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_TIMING="$1" \
-    WISPRBRO_TEST_MIC_WAV="$SILENCE" nohup "$APP/Contents/MacOS/$EXE" > "$OUT/app-stdout.log" 2>&1 &
+  (cd "$RUN_CWD" && HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_TIMING="$1" \
+    WISPRBRO_TEST_MIC_WAV="$SILENCE" exec nohup "$APP/Contents/MacOS/$EXE") > "$OUT/app-stdout.log" 2>&1 &
 }
 app_pid() { pgrep -f "$APP/Contents/MacOS/$EXE" | head -1; }
 bundle_version() { /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist"; }
