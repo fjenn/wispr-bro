@@ -98,6 +98,7 @@ Verification is batched by risk, not by slice. None of this weakens R5's exit cr
 - **Clean up on merge, every time.** After a slice merges: remove its worktree and branch (`git worktree remove -f -f`, `git branch -D`), stop every server/app it started (dev servers, `llama-server`, test apps), and delete its test bundle and `~/Library/{WebKit,Caches}/com.wisprbro.<slice>check`. Worktree targets are 10-14 GB each.
 - **Pre-recorded audio first.** Real-Mac takes use WAVs (make once with `say -o`, feed through file/injection paths); play through the speakers only when a check truly needs the live mic, once, at moderate volume. The owner works at this Mac.
 - **Flaky tests get fixed, not re-run.** A test that fails under load and passes alone is a bug in the test (missing wait, too-tight timeout, shared state): fix it in the same wave.
+- **Locale merge driver.** Run `scripts/wb-setup-git.sh` once per clone: `.gitattributes` routes `fork.json`/`fork.flags.json` through `scripts/wb-merge-json.py`, a three-way JSON merge, so parallel slices adding strings no longer conflict. It only fails when both sides changed the same key differently.
 - **Translation merges.** `bun run wb:check:translations` now also fails on duplicate keys in `fork.json`/`fork.flags.json` (a bad merge can duplicate a block and silently drop keys). On a locale conflict, rebuild the file from the base branch plus your slice's keys rather than hand-merging.
 
 ## Do not
