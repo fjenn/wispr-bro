@@ -18,5 +18,9 @@ export const HANDY_URL = "https://github.com/cjpais/Handy";
 /** Share with a friend: the same link for everyone (no referral code). */
 export const DOWNLOAD_URL =
   "https://github.com/fjenn/wispr-bro/releases/latest";
-/** Share with a friend: Homebrew (S-39 publishes the `fjenn/tap` cask). */
+/**
+ * Share with a friend: Homebrew. Hidden until S-39 publishes the
+ * `fjenn/tap` cask: turn `BREW_CASK_PUBLISHED` on in the same change.
+ */
+export const BREW_CASK_PUBLISHED = false;
 export const BREW_COMMAND = "brew install --cask fjenn/tap/wispr-bro";

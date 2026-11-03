@@ -64,3 +64,5 @@ LICENSE sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986 
 README.md 2                                 # F-04: licence paragraph says the fork is GPL-3.0 and Handy's code stays MIT (1 line replaced)
 .gitignore 4                                # research packet: ignore docs/research/evidence/ (local-only captures); F-04 follow-up: ignore *.tsbuildinfo (tsc build cache)
 CLAUDE.md 4                                 # research packet: point agents at CONTEXT.md first
+.github/ISSUE_TEMPLATE/bug_report.md 37     # S-26b: Handy's bug template removed (it pointed at Handy's issues); Wispr Bro's is `wb-bug-report.md`
+.github/ISSUE_TEMPLATE/config.yml 19        # S-26b: blank issues on (Help's prefilled issue URL needs them), Handy's Discussions links replaced by our docs link

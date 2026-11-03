@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Share with a friend (S-26b; replaces Wispr's referral and "free month",
- * R2 B-30, C-11). Copy the download link or the Homebrew line, or open the
- * macOS share sheet (`fork_share_sheet`, `NSSharingServicePicker`).
+ * R2 B-30, C-11). Copy the download link (and the Homebrew line once S-39
+ * publishes the cask, `BREW_CASK_PUBLISHED`), or open the macOS share sheet (`fork_share_sheet`, `NSSharingServicePicker`).
  *
  * No tracking: the link is the same for everyone, there is no referral code
  * and the app counts nothing. Copy uses the web clipboard API (a user
@@ -12,7 +12,11 @@ import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Check, Copy, Heart, Share } from "lucide-react";
 import { commands } from "../bindings";
-import { BREW_COMMAND, DOWNLOAD_URL } from "../hub/links";
+import {
+  BREW_CASK_PUBLISHED,
+  BREW_COMMAND,
+  DOWNLOAD_URL,
+} from "../hub/links";
 import { PageHeader } from "../hub/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
@@ -142,13 +146,15 @@ export function SharePage() {
           value={DOWNLOAD_URL}
           copyLabel={t("share.copyLink")}
         />
-        <CopyRow
-          id="brew"
-          label={t("share.brewLabel")}
-          value={BREW_COMMAND}
-          copyLabel={t("share.copyBrew")}
-          mono
-        />
+        {BREW_CASK_PUBLISHED && (
+          <CopyRow
+            id="brew"
+            label={t("share.brewLabel")}
+            value={BREW_COMMAND}
+            copyLabel={t("share.copyBrew")}
+            mono
+          />
+        )}
       </section>
       <section className="flex flex-wrap items-center justify-between gap-4 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-6">
         <div className="flex flex-col gap-1">

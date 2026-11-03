@@ -14,7 +14,8 @@ use specta::Type;
 pub const DOWNLOAD_URL: &str = "https://github.com/fjenn/wispr-bro/releases/latest";
 /// Release notes ("What's New" in Help).
 pub const RELEASES_URL: &str = "https://github.com/fjenn/wispr-bro/releases";
-/// The Homebrew line (S-39 publishes the cask in the `fjenn/tap` tap).
+/// The Homebrew line. The Share page hides it until S-39 publishes the cask
+/// in the `fjenn/tap` tap (`BREW_CASK_PUBLISHED` in `src/fork/hub/links.ts`).
 pub const BREW_COMMAND: &str = "brew install --cask fjenn/tap/wispr-bro";
 
 /// Where the Share button is, in the web view's CSS pixels (top-left
@@ -148,6 +149,8 @@ mod tests {
         assert!(BREW_COMMAND.starts_with("brew install --cask "));
         // The Hub shows and copies the same strings (`src/fork/hub/links.ts`).
         let links = include_str!("../../../src/fork/hub/links.ts");
+        // No tap exists yet (S-39): the line stays hidden until then.
+        assert!(links.contains("export const BREW_CASK_PUBLISHED = false;"));
         for value in [DOWNLOAD_URL, RELEASES_URL, BREW_COMMAND] {
             assert!(
                 links.contains(&format!("\"{value}\"")),

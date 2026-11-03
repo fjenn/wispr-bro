@@ -236,6 +236,7 @@ export const FORK_PATHS: string[] = [
   "tests/fork/**",
   "playwright.fork.config.ts",
   ".github/workflows/wb-*",
+  ".github/ISSUE_TEMPLATE/wb-*",
   "ci/**",
   "docs/fork/**",
   "docs/research/**",

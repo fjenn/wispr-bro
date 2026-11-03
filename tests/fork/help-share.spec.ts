@@ -12,7 +12,6 @@ import {
 const RELEASES = "https://github.com/fjenn/wispr-bro/releases";
 const DOCS = "https://github.com/fjenn/wispr-bro/tree/wispr-bro/docs/fork/user";
 const DOWNLOAD = "https://github.com/fjenn/wispr-bro/releases/latest";
-const BREW = "brew install --cask fjenn/tap/wispr-bro";
 
 const HELP_ITEMS = [
   "whats-new",
@@ -166,7 +165,7 @@ test.describe("help popover", () => {
 });
 
 test.describe("share with a friend", () => {
-  test("copies the link and the Homebrew line, no tracking", async ({
+  test("copies the link, no tracking; no Homebrew line before a tap exists", async ({
     page,
     ipc,
     hub,
@@ -176,7 +175,9 @@ test.describe("share with a friend", () => {
     await openHub(page, ipc, hub, { hash: "#/hub/share" });
     await expect(page.getByTestId("wb-share")).toBeVisible();
     await expect(page.getByTestId("wb-share-link")).toHaveValue(DOWNLOAD);
-    await expect(page.getByTestId("wb-share-brew")).toHaveValue(BREW);
+    // S-39 publishes the cask; until then the line is not shown at all.
+    await expect(page.getByTestId("wb-share-brew")).toHaveCount(0);
+    await expect(page.getByText("brew install")).toHaveCount(0);
     expect(new URL(DOWNLOAD).search).toBe("");
 
     await page.getByRole("button", { name: "Copy download link" }).click();
@@ -184,11 +185,6 @@ test.describe("share with a friend", () => {
       DOWNLOAD,
     );
     await expect(page.getByTestId("wb-share-status-link")).toHaveText("Copied");
-    await page.getByRole("button", { name: "Copy Homebrew command" }).click();
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      BREW,
-    );
-    await expect(page.getByTestId("wb-share-status-brew")).toHaveText("Copied");
     // Copying never talks to the backend or opens anything.
     const names = await ipc.commandNames();
     expect(names.filter((n) => n.includes("opener"))).toEqual([]);
@@ -270,7 +266,7 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", dir);
       await expect(page.getByTestId("wb-share")).toBeVisible();
       // Links and commands stay left-to-right inside a mirrored page.
-      await expect(page.getByTestId("wb-share-brew")).toHaveAttribute(
+      await expect(page.getByTestId("wb-share-link")).toHaveAttribute(
         "dir",
         "ltr",
       );
