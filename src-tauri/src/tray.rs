@@ -325,7 +325,8 @@ fn sync_tray_with(app: &AppHandle, update: impl FnOnce(&mut TrayInner)) {
 fn compute_desired(app: &AppHandle, icon_state: TrayIconState) -> TrayDesired {
     let settings = settings::get_settings(app);
     let theme = get_current_theme(app);
-    let warning = crate::secure_input::tray_warning_active(app);
+    let warning = crate::secure_input::tray_warning_active(app)
+        || crate::fork::shortcut::health::tray_warning();
     let tm = app.state::<Arc<TranscriptionManager>>();
     let model_loaded = tm.is_model_loaded();
     let models_locked = tm.job_active();

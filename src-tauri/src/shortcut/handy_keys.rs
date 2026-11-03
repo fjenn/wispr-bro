@@ -53,6 +53,12 @@ enum ManagerCommand {
         binding_id: String,
         response: Sender<Result<(), String>>,
     },
+    /// Replace the manager (and its event tap) with a fresh one and
+    /// re-register every hotkey, e.g. after the Accessibility permission was
+    /// revoked and granted again (a tap created before the revoke stays dead).
+    Rebuild {
+        response: Sender<Result<(), String>>,
+    },
     Shutdown,
 }
 
@@ -89,12 +95,19 @@ impl HandyKeysState {
     /// Create a new HandyKeysState
     pub fn new(app: AppHandle) -> Result<Self, String> {
         let (cmd_tx, cmd_rx) = mpsc::channel::<ManagerCommand>();
+        let (ready_tx, ready_rx) = mpsc::channel::<Result<(), String>>();
 
-        // Start the manager thread
+        // Start the manager thread. The manager is created inside it; its
+        // result comes back here, so a failure (no Accessibility permission,
+        // the event tap could not be created) reaches `init_shortcuts` and the
+        // caller's fallback runs instead of hotkeys dying silently.
         let app_clone = app.clone();
         let thread_handle = thread::spawn(move || {
-            Self::manager_thread(cmd_rx, app_clone);
+            Self::manager_thread(cmd_rx, app_clone, ready_tx);
         });
+        ready_rx
+            .recv()
+            .map_err(|_| "handy-keys manager thread exited during startup".to_string())??;
 
         Ok(Self {
             command_sender: Mutex::new(cmd_tx),
@@ -107,14 +120,22 @@ impl HandyKeysState {
     }
 
     /// The main manager thread - owns the HotkeyManager and processes commands
-    fn manager_thread(cmd_rx: Receiver<ManagerCommand>, app: AppHandle) {
+    fn manager_thread(
+        cmd_rx: Receiver<ManagerCommand>,
+        app: AppHandle,
+        ready: Sender<Result<(), String>>,
+    ) {
         info!("handy-keys manager thread started");
 
         // Create the HotkeyManager in this thread
-        let manager = match HotkeyManager::new_with_blocking() {
-            Ok(m) => m,
+        let mut manager = match HotkeyManager::new_with_blocking() {
+            Ok(m) => {
+                let _ = ready.send(Ok(()));
+                m
+            }
             Err(e) => {
                 error!("Failed to create HotkeyManager: {}", e);
+                let _ = ready.send(Err(format!("Failed to create HotkeyManager: {}", e)));
                 return;
             }
         };
@@ -162,6 +183,14 @@ impl HandyKeysState {
                             &mut binding_to_hotkey,
                             &mut hotkey_to_binding,
                             &binding_id,
+                        );
+                        let _ = response.send(result);
+                    }
+                    ManagerCommand::Rebuild { response } => {
+                        let result = Self::do_rebuild(
+                            &mut manager,
+                            &mut binding_to_hotkey,
+                            &mut hotkey_to_binding,
                         );
                         let _ = response.send(result);
                     }
@@ -224,6 +253,46 @@ impl HandyKeysState {
             debug!("Unregistered handy-keys shortcut: {}", binding_id);
         }
         Ok(())
+    }
+
+    /// Replace the manager with a fresh one holding the same hotkeys. The old
+    /// manager (and its tap) is kept if the new one cannot be built.
+    fn do_rebuild(
+        manager: &mut HotkeyManager,
+        binding_to_hotkey: &mut HashMap<String, HotkeyId>,
+        hotkey_to_binding: &mut HashMap<HotkeyId, (String, String)>,
+    ) -> Result<(), String> {
+        let fresh = HotkeyManager::new_with_blocking()
+            .map_err(|e| format!("Failed to rebuild HotkeyManager: {}", e))?;
+        let bindings: Vec<(String, String)> = hotkey_to_binding.values().cloned().collect();
+        let mut fresh_b2h = HashMap::new();
+        let mut fresh_h2b = HashMap::new();
+        for (binding_id, hotkey_string) in &bindings {
+            Self::do_register(
+                &fresh,
+                &mut fresh_b2h,
+                &mut fresh_h2b,
+                binding_id,
+                hotkey_string,
+            )?;
+        }
+        *manager = fresh;
+        *binding_to_hotkey = fresh_b2h;
+        *hotkey_to_binding = fresh_h2b;
+        info!("handy-keys manager rebuilt ({} hotkeys)", bindings.len());
+        Ok(())
+    }
+
+    /// Rebuild the manager's event tap, keeping the registered hotkeys
+    pub fn rebuild(&self) -> Result<(), String> {
+        let (tx, rx) = mpsc::channel();
+        self.command_sender
+            .lock()
+            .map_err(|_| "Failed to lock command_sender")?
+            .send(ManagerCommand::Rebuild { response: tx })
+            .map_err(|_| "Failed to send rebuild command")?;
+        rx.recv()
+            .map_err(|_| "Failed to receive rebuild response")?
     }
 
     /// Register a shortcut binding
@@ -461,6 +530,14 @@ pub fn init_shortcuts(app: &AppHandle) -> Result<(), String> {
     app.manage(state);
     info!("handy-keys shortcuts initialized");
     Ok(())
+}
+
+/// Rebuild the handy-keys event tap (no-op when handy-keys is not running)
+pub fn rebuild_shortcuts(app: &AppHandle) -> Result<(), String> {
+    match app.try_state::<HandyKeysState>() {
+        Some(state) => state.rebuild(),
+        None => Ok(()),
+    }
 }
 
 /// Register a shortcut

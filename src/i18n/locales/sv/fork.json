@@ -725,7 +725,8 @@
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
-      "versionDev": "Wispr Bro v{{version}} (Dev)"
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Shortcut stopped working"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -864,7 +865,8 @@
         "card": "Din diktering är klar. Kopiera den från fältet.",
         "micLostWarning": "Microfonen har avbrutits. Det du sa hittills sparas.",
         "undo": "Ångra finns på dikteringsfältet i 4 sekunder.",
-        "diff": "Förändringar är redo att granska."
+        "diff": "Förändringar är redo att granska.",
+        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -887,7 +889,10 @@
         "select_text_first": "Välj text först",
         "selection_too_long": "Välj 6 000 tecken eller färre",
         "transform_focus_moved": "Du flyttade dig, så förändrades inget",
-        "transform_failed": "Kunde inte omvandla det texten"
+        "transform_failed": "Kunde inte omvandla det texten",
+        "shortcut_lost": "Your shortcut stopped working",
+        "shortcut_stopped": "Your shortcut stopped responding",
+        "shortcut_back": "Your shortcut works again"
       },
       "card": {
         "no_text_field": "Klicka in i ett textfält först",
@@ -1207,7 +1212,9 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
-      "mic_lost": "Mikrofon förlorad, behåller vad du sa"
+      "mic_lost": "Mikrofon förlorad, behåller vad du sa",
+      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
+      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
     },
     "settingUp": "Förbereder…",
     "settingUpPercent": "Förbereder… {{percent}} %",
@@ -1223,7 +1230,11 @@
     },
     "undo": "Ångra",
     "viewChanges": "Visa ändringar",
-    "sendsAutomatically": "Skickar automatiskt"
+    "sendsAutomatically": "Skickar automatiskt",
+    "shortcutDetail": {
+      "permission": "Accessibility access is off",
+      "stopped": "The keyboard listener stopped"
+    }
   },
   "transforms": {
     "banner": {
@@ -2218,6 +2229,41 @@
     },
     "theme": {
       "description": "Välj om Wispr Bro ska följa systemets tema eller förbli ljust eller mörkt"
+    }
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
+      "stopped": "Your dictation shortcut stopped responding.",
+      "fix": "Fix"
+    },
+    "sheet": {
+      "title": "Fix your shortcut",
+      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
+      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
+      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
+      "pictureTitle": "Accessibility",
+      "pictureBack": "Privacy & Security",
+      "stepsTitle": "Turn it back on",
+      "step1": "Open System Settings › Privacy & Security › Accessibility.",
+      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
+      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
+      "resetTitle": "Still not working?",
+      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
+      "resetStep1": "Choose Reset and re-grant.",
+      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
+      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
+      "openSettings": "Open Accessibility Settings",
+      "reset": "Reset and re-grant",
+      "checkAgain": "Check again",
+      "relaunch": "Relaunch to finish",
+      "close": "Close",
+      "status": {
+        "healthy": "Your shortcut works.",
+        "lost": "Not working yet",
+        "recovering": "Reconnecting…",
+        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
+      }
     }
   }
 }

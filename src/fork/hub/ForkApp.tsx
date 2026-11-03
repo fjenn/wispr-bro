@@ -31,6 +31,12 @@ import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
 import { FOCUS_RING, markNewTagSeen } from "../ui";
 import { listenForTransformChanges } from "../transforms/store";
+import { FixShortcutSheet } from "../settings/FixShortcutSheet";
+import {
+  FIX_SHORTCUT_SECTION,
+  listenForShortcutHealth,
+  useShortcutHealth,
+} from "../settings/shortcutHealth";
 import { useDropRouter } from "./dropRouter";
 import { Footer } from "./Footer";
 import {
@@ -43,6 +49,7 @@ import { syncHubWithHash, useHubNav } from "./nav";
 import { useMenuActions } from "./menuActions";
 import { useNotificationsLive } from "./NotificationsPanel";
 import { hubPage, newTagId } from "./pages";
+import { ShortcutHealthBanner } from "./ShortcutHealthBanner";
 import { Sidebar } from "./Sidebar";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
@@ -112,6 +119,15 @@ export function ForkApp(props: ForkAppProps) {
     void listenForTransformChanges();
   }, []);
   useEffect(() => syncHubWithHash(), []);
+  // S-02: shortcut health (banner, Fix sheet, the bar's and tray's Fix).
+  useEffect(() => listenForShortcutHealth(), []);
+  // The shortcut-problem notification opens the Fix sheet.
+  const section = useHubNav((s) => s.section);
+  useEffect(() => {
+    if (section === FIX_SHORTCUT_SECTION) {
+      useShortcutHealth.getState().openSheet();
+    }
+  }, [section, seq]);
 
   // Each navigation starts at the top of the page.
   useLayoutEffect(() => {
@@ -164,6 +180,9 @@ export function ForkApp(props: ForkAppProps) {
         <ErrorBoundary context="Feature popup">
           <FeaturePopup />
         </ErrorBoundary>
+        <ErrorBoundary context="Fix shortcut">
+          <FixShortcutSheet />
+        </ErrorBoundary>
         <Sidebar collapsed={collapsed} />
         <div className="flex min-w-0 flex-1 flex-col">
           {/* The traffic lights stay top-left in every language; in RTL the
@@ -176,6 +195,7 @@ export function ForkApp(props: ForkAppProps) {
             className="min-h-0 flex-1 overflow-y-auto"
           >
             <div className="mx-auto flex w-full max-w-[880px] flex-col gap-6 px-8 pt-6 pb-10">
+              <ShortcutHealthBanner />
               <SecureInputWarning />
               <ErrorBoundary key={page.id} context={page.id}>
                 <Page />

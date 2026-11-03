@@ -9,6 +9,7 @@ import { commands, type ForkPillState } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
 import { usePillLevels } from "../usePill";
 import { CheckIcon, CloseIcon, MicIcon, ReturnIcon } from "./icons";
+import { SecureInputNotice, secureInputText } from "./SecureInput";
 
 function Waveform({ bars }: { bars: number[] }) {
   return (
@@ -30,15 +31,20 @@ export function Listening({ state }: { state: ForkPillState }) {
   const bars = usePillLevels(true);
   const locked = state.phase === "locked";
   // S-19a: "Sends automatically" takes the microphone name's place.
-  const label = state.warning
-    ? t(`pill.warning.${state.warning}`)
-    : state.sends_automatically
-      ? t("pill.sendsAutomatically")
-      : state.mic
-        ? t("pill.mic", { name: state.mic })
-        : null;
+  const secure = state.warning === "secure_input";
+  const label = secure
+    ? secureInputText(state, t)
+    : state.warning
+      ? t(`pill.warning.${state.warning}`)
+      : state.sends_automatically
+        ? t("pill.sendsAutomatically")
+        : state.mic
+          ? t("pill.mic", { name: state.mic })
+          : null;
 
-  const middle = label ? (
+  const middle = secure ? (
+    <SecureInputNotice state={state} />
+  ) : label ? (
     <span
       className={`wb-pill-label${state.warning ? " wb-pill-warning" : ""}`}
       data-testid={

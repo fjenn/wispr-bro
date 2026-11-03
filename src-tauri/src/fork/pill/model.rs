@@ -36,6 +36,8 @@ pub const ERROR_MS: Ms = 6_000;
 pub const ERROR_WITH_FIX_MS: Ms = 9_000;
 /// How long the "stops at 30 minutes" warning stays.
 pub const LENGTH_WARNING_MS: Ms = 10_000;
+/// How long the Secure Input notice stays at the start of a take (S-02).
+pub const SECURE_INPUT_MS: Ms = 5_000;
 /// After Handy hides its overlay, the bar keeps its last state this long:
 /// Handy hides first and reports an empty or failed take right after, so
 /// the message replaces the bar without a resting frame in between.
@@ -106,6 +108,15 @@ pub enum PillMessage {
     SelectionTooLong,
     TransformFocusMoved,
     TransformFailed,
+    /// S-02: the shortcut stopped working: Accessibility is off (or the
+    /// app's grant no longer matches it). Fix opens the Fix sheet. Stays
+    /// until the shortcut works again, ✕ or the next take.
+    ShortcutLost,
+    /// S-02: the keyboard listener stopped although the permission is
+    /// there (it is being rebuilt, or needs a relaunch).
+    ShortcutStopped,
+    /// S-02: the shortcut works again (after a loss was shown).
+    ShortcutBack,
 }
 
 /// Information or error (changes the colour and the VoiceOver priority).
@@ -130,6 +141,8 @@ pub enum PillFix {
     Undo,
     /// Sends the latest transform run to S-22's future changes view.
     ViewChanges,
+    /// S-02: opens the Fix sheet in the Hub.
+    FixShortcut,
 }
 
 impl PillMessage {
@@ -146,7 +159,8 @@ impl PillMessage {
             | PillMessage::CommandNeedsText
             | PillMessage::SelectTextFirst
             | PillMessage::SelectionTooLong
-            | PillMessage::TransformFocusMoved => PillTone::Info,
+            | PillMessage::TransformFocusMoved
+            | PillMessage::ShortcutBack => PillTone::Info,
             PillMessage::MicMuted
             | PillMessage::TranscriptionFailed
             | PillMessage::MicDenied
@@ -155,7 +169,9 @@ impl PillMessage {
             | PillMessage::DownloadFailed
             | PillMessage::CheckConnection
             | PillMessage::NoSpace
-            | PillMessage::TransformFailed => PillTone::Error,
+            | PillMessage::TransformFailed
+            | PillMessage::ShortcutLost
+            | PillMessage::ShortcutStopped => PillTone::Error,
         }
     }
 
@@ -170,6 +186,7 @@ impl PillMessage {
             }
             PillMessage::Cancelled => Some(PillFix::Undo),
             PillMessage::TransformDone => Some(PillFix::ViewChanges),
+            PillMessage::ShortcutLost | PillMessage::ShortcutStopped => Some(PillFix::FixShortcut),
             _ => None,
         }
     }
@@ -188,8 +205,16 @@ impl PillMessage {
         self.fix() == Some(PillFix::RetryDownload)
     }
 
+    /// S-02: a lost shortcut stays until it works again (or ✕).
+    pub fn until_resolved(self) -> bool {
+        matches!(
+            self,
+            PillMessage::ShortcutLost | PillMessage::ShortcutStopped
+        )
+    }
+
     pub fn duration(self) -> Ms {
-        if self.sticky() {
+        if self.sticky() || self.until_resolved() {
             return STICKY;
         }
         if self == PillMessage::Cancelled {
@@ -227,6 +252,9 @@ impl PillMessage {
             PillMessage::SelectionTooLong => "selection_too_long",
             PillMessage::TransformFocusMoved => "transform_focus_moved",
             PillMessage::TransformFailed => "transform_failed",
+            PillMessage::ShortcutLost => "shortcut_lost",
+            PillMessage::ShortcutStopped => "shortcut_stopped",
+            PillMessage::ShortcutBack => "shortcut_back",
         }
     }
 }
@@ -242,6 +270,10 @@ pub enum PillWarning {
     /// The take's microphone disappeared (unplugged, Bluetooth dropped);
     /// what it heard before is kept (S-08). Stays until the take ends.
     MicLost,
+    /// S-02: the take started while an app holds Secure Input: fn+Space
+    /// cannot lock; Esc (through the Carbon shadow) or ✕ cancels. Names the
+    /// holder when known. Shown for [`SECURE_INPUT_MS`].
+    SecureInput,
 }
 
 /// The speech model setup as the bar sees it (S-07a).
@@ -324,6 +356,8 @@ pub enum Input {
     /// S-22: show or replace the transform diff.
     Diff(crate::fork::transforms::record::ForkTransformViewChanges),
     DiffRating(Option<i64>),
+    /// S-02: the take runs under Secure Input; the holder's app name.
+    SecureInput(Option<String>),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -393,6 +427,9 @@ pub struct ActiveView {
     pub context: bool,
     /// S-22: the transform run and its bounded word diff.
     pub diff: Option<ForkTransformDiff>,
+    /// S-02: the app holding Secure Input (with the `secure_input`
+    /// warning).
+    pub holder: Option<String>,
 }
 
 /// Everything on screen.
@@ -441,6 +478,8 @@ pub struct Model {
     /// S-20: the take in progress used text near the caret.
     context: bool,
     diff: Option<ForkTransformDiff>,
+    /// S-02: the Secure Input holder for the take's notice.
+    holder: Option<String>,
 }
 
 impl Model {
@@ -492,6 +531,7 @@ impl Model {
         self.copied_until = None;
         self.context = false;
         self.diff = None;
+        self.holder = None;
     }
 
     fn go_idle(&mut self) {
@@ -639,6 +679,15 @@ impl Model {
                     // failed (its paste contract); the card already says why.
                     return;
                 }
+                if kind == PillMessage::ShortcutBack
+                    && !(self.phase() == Phase::Message
+                        && self
+                            .message
+                            .is_some_and(|(current, _)| current.until_resolved()))
+                {
+                    // S-02: "works again" only answers a loss on screen.
+                    return;
+                }
                 if kind == PillMessage::NoSpeech
                     && self.phase() == Phase::Message
                     && self.message.is_some_and(|(current, _)| {
@@ -663,8 +712,18 @@ impl Model {
                     let until = match kind {
                         PillWarning::Silence | PillWarning::MicLost => None,
                         PillWarning::Length => Some(now + LENGTH_WARNING_MS),
+                        PillWarning::SecureInput => Some(now + SECURE_INPUT_MS),
                     };
                     self.warning = Some((kind, until));
+                }
+            }
+            Input::SecureInput(holder) => {
+                // Only at the start of a take, never over a real warning.
+                if self.recording() && self.warning.is_none() {
+                    self.warning = Some((PillWarning::SecureInput, Some(now + SECURE_INPUT_MS)));
+                    self.holder = holder;
+                    // The notice takes the microphone label's place.
+                    self.label_until = None;
                 }
             }
             Input::Voice => {
@@ -768,6 +827,7 @@ impl Model {
         if let Some((_, Some(t))) = self.warning {
             if now >= t {
                 self.warning = None;
+                self.holder = None;
             }
         }
         if self.copied_until.is_some_and(|t| now >= t) {
@@ -809,6 +869,7 @@ impl Model {
             Phase::Held | Phase::Locked => {
                 let locked = self.phase() == Phase::Locked;
                 let wide = label || warning.is_some();
+                let notice = warning == Some(PillWarning::SecureInput);
                 let sends = label && self.sends && warning.is_none();
                 Some(ActiveView {
                     phase: if locked {
@@ -816,11 +877,13 @@ impl Model {
                     } else {
                         PillPhase::Held
                     },
-                    shape: match (locked, wide) {
-                        (false, false) => Shape::Held,
-                        (false, true) => Shape::HeldLabel,
-                        (true, false) => Shape::Locked,
-                        (true, true) => Shape::LockedLabel,
+                    shape: match (locked, wide, notice) {
+                        (false, _, true) => Shape::HeldNotice,
+                        (true, _, true) => Shape::LockedNotice,
+                        (false, false, _) => Shape::Held,
+                        (false, true, _) => Shape::HeldLabel,
+                        (true, false, _) => Shape::Locked,
+                        (true, true, _) => Shape::LockedLabel,
                     },
                     // A warning takes the label's place.
                     mic: if label && warning.is_none() && !sends {
@@ -838,6 +901,7 @@ impl Model {
                     sends_automatically: sends,
                     context: false,
                     diff: None,
+                    holder: if notice { self.holder.clone() } else { None },
                 })
             }
             Phase::Transcribing | Phase::CleaningUp => Some(ActiveView {
@@ -858,6 +922,7 @@ impl Model {
                 sends_automatically: false,
                 context: self.context,
                 diff: None,
+                holder: None,
             }),
             Phase::Message => self.message.map(|(kind, _)| ActiveView {
                 phase: PillPhase::Message,
@@ -873,6 +938,7 @@ impl Model {
                 sends_automatically: false,
                 context: false,
                 diff: None,
+                holder: None,
             }),
             Phase::SettingUp => Some(ActiveView {
                 phase: PillPhase::SettingUp,
@@ -888,6 +954,7 @@ impl Model {
                 sends_automatically: false,
                 context: false,
                 diff: None,
+                holder: None,
             }),
             Phase::Card => self.card.as_ref().map(|card| ActiveView {
                 phase: PillPhase::Card,
@@ -903,6 +970,7 @@ impl Model {
                 sends_automatically: false,
                 context: false,
                 diff: None,
+                holder: None,
             }),
             Phase::Diff => self.diff.as_ref().map(|diff| ActiveView {
                 phase: PillPhase::Diff,
@@ -918,6 +986,7 @@ impl Model {
                 sends_automatically: false,
                 context: false,
                 diff: Some(diff.clone()),
+                holder: None,
             }),
         };
         let p = self.prefs;
@@ -1505,5 +1574,83 @@ mod tests {
                 (PillTone::Info, None, INFO_MS)
             );
         }
+    }
+
+    // S-02 -------------------------------------------------------------
+
+    #[test]
+    fn a_lost_shortcut_stays_with_fix_until_it_works_again() {
+        let mut m = Model::new(ready());
+        m.step(1_000, Input::Message(PillMessage::ShortcutLost));
+        let a = m.view_at(1_000).active.unwrap();
+        assert_eq!(a.phase, PillPhase::Message);
+        assert_eq!(a.message, Some(PillMessage::ShortcutLost));
+        assert_eq!(PillMessage::ShortcutLost.fix(), Some(PillFix::FixShortcut));
+        assert_eq!(PillMessage::ShortcutLost.tone(), PillTone::Error);
+        // Not a setup screen: a ready speech model does not replace it.
+        m.step(
+            2_000,
+            Input::Setup(SetupView {
+                ready: true,
+                ..SetupView::default()
+            }),
+        );
+        // Hours later it is still there.
+        assert_eq!(
+            m.view_at(3_600_000).active.unwrap().message,
+            Some(PillMessage::ShortcutLost)
+        );
+        m.step(3_600_100, Input::Message(PillMessage::ShortcutBack));
+        let a = m.view_at(3_600_100).active.unwrap();
+        assert_eq!(a.message, Some(PillMessage::ShortcutBack));
+        assert_eq!(a.message.unwrap().tone(), PillTone::Info);
+        assert!(m.view_at(3_600_100 + INFO_MS).active.is_none());
+    }
+
+    #[test]
+    fn works_again_only_answers_a_loss_on_screen() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::Message(PillMessage::ShortcutBack));
+        assert!(m.view_at(0).active.is_none());
+        // Dismissed loss: recovery stays silent too.
+        m.step(10, Input::Message(PillMessage::ShortcutStopped));
+        m.step(20, Input::Dismiss);
+        m.step(30, Input::Message(PillMessage::ShortcutBack));
+        assert!(m.view_at(30).active.is_none());
+    }
+
+    #[test]
+    fn a_take_under_secure_input_shows_the_notice_with_the_holder() {
+        let mut m = Model::new(ready());
+        m.step(1_000, Input::TakeStarted { locked: false });
+        m.step(1_010, Input::MicName("MacBook Pro Microphone".into()));
+        m.step(1_020, Input::SecureInput(Some("Terminal".into())));
+        let a = m.view_at(1_020).active.unwrap();
+        assert_eq!(a.warning, Some(PillWarning::SecureInput));
+        assert_eq!(a.holder.as_deref(), Some("Terminal"));
+        assert_eq!(a.shape, Shape::HeldNotice);
+        assert_eq!(a.mic, None, "the notice takes the label's place");
+        // Hands-free: the wide locked shape.
+        m.step(1_100, Input::Locked);
+        assert_eq!(m.view_at(1_100).active.unwrap().shape, Shape::LockedNotice);
+        // Gone after SECURE_INPUT_MS.
+        let a = m.view_at(1_020 + SECURE_INPUT_MS).active.unwrap();
+        assert_eq!(a.warning, None);
+        assert_eq!(a.holder, None);
+        assert_eq!(a.shape, Shape::Locked);
+    }
+
+    #[test]
+    fn the_secure_input_notice_never_hides_a_real_warning_or_shows_at_rest() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::SecureInput(None));
+        assert!(m.view_at(0).active.is_none());
+        m.step(100, Input::TakeStarted { locked: true });
+        m.step(200, Input::Warning(PillWarning::MicLost));
+        m.step(300, Input::SecureInput(None));
+        assert_eq!(
+            m.view_at(300).active.unwrap().warning,
+            Some(PillWarning::MicLost)
+        );
     }
 }

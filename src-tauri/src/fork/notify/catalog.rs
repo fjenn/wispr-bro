@@ -33,6 +33,9 @@ fn notice(kind: NotificationKind, key: &str) -> Notice {
     }
 }
 
+/// S-02: the Hub section that opens the Fix sheet.
+pub const FIX_SHORTCUT_SECTION: &str = "fix-shortcut";
+
 impl Notice {
     fn arg(mut self, name: &str, value: impl ToString) -> Notice {
         self.args.insert(name.into(), value.to_string());
@@ -81,8 +84,10 @@ impl Notice {
     /// The hotkey tap could not start. `permission`: the Accessibility
     /// permission is missing (the entry then offers the Settings pane).
     pub fn shortcut_problem(permission: bool) -> Notice {
-        let mut n = notice(NotificationKind::ShortcutProblem, "shortcutProblem")
-            .action(NotificationAction::page("settings", Some("general")));
+        // S-02: the Hub opens the Fix sheet for this section.
+        let mut n = notice(NotificationKind::ShortcutProblem, "shortcutProblem").action(
+            NotificationAction::page("dictation", Some(FIX_SHORTCUT_SECTION)),
+        );
         if permission {
             n = n.arg("reason", REASON_PERMISSION);
             n.body_key = Some("rust.notify.shortcutProblem.bodyPermission".into());

@@ -205,6 +205,10 @@ fn notices_point_at_the_right_pages() {
     );
     assert!(Notice::shortcut_problem(false).args.is_empty());
     assert_eq!(
+        Notice::shortcut_problem(false).action,
+        Some(A::page("dictation", Some("fix-shortcut")))
+    );
+    assert_eq!(
         Notice::crash_report("crash-1.txt").action,
         Some(A::RevealCrashReport {
             file_name: "crash-1.txt".into()

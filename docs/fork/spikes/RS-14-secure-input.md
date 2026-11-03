@@ -1,4 +1,4 @@
-# RS-14: Secure Event Input, results (partial, dev build)
+# RS-14: Secure Event Input, results (partial: round 1 dev build, round 2 scripted)
 
 **Status:** partly run 2026-10-30 by the S-01 agent on an unsigned release
 build of S-01 (Terminal as the responsible process for Accessibility and
@@ -44,3 +44,51 @@ The full RS-14 table on the signed build: Safari password field, Terminal,
 iTerm2; fn+Space and Esc (tap and Carbon shadow); Ctrl with fn (Command
 Mode on/off); ⌃⌘V; Globe suppression with real keys; pill message; idle
 Esc in the password field never swallowed.
+
+## Round 2 (2026-11-02, S-02 agent, scripted)
+
+**Driver:** `scripts/wb-s02/rs14-carbon.swift` (own window only, synthetic
+`CGEventPost` at the HID level under `~/wb-bench/gui.lock`). A child copy of
+the driver holds Secure Input with `EnableSecureEventInput`
+(`IsSecureEventInputEnabled` true within 0.2 s); the parent owns a key
+window, a listen-only session tap and Carbon `RegisterEventHotKey` hotkeys,
+the same API Handy's Carbon shadow reaches through tauri-plugin-global-shortcut.
+10 presses per row; machine as round 1.
+
+| Phase | Secure Input | Registered     | Tap key-downs | Carbon fired | Window got Esc            | Tap fn flags |
+| ----- | ------------ | -------------- | ------------- | ------------ | ------------------------- | ------------ |
+| A     | off          | Esc            | 10/10         | 10/10        | 0/10 (Carbon consumed it) | –            |
+| A2    | off          | nothing        | 10/10         | –            | 10/10                     | –            |
+| B     | **on**       | Esc            | **0/10**      | **10/10**    | 0/10                      | –            |
+| C     | **on**       | nothing (idle) | 0/10          | –            | **10/10**                 | –            |
+| D     | **on**       | ⌃⌘V            | 0             | **10/10**    | –                         | –            |
+| E     | **on**       | –              | –             | –            | –                         | **10/10**    |
+
+**Findings**
+
+- The Carbon shadow works under Secure Input: Esc and ⌃⌘V fire 10/10 while
+  the tap sees no key-down (B, D). R5's fallback (✕ as the only cancel) is
+  not needed; §9's Esc criterion holds through the shadow.
+- An unregistered Esc reaches the focused window under Secure Input (C): as
+  long as S-02 registers Esc only during a take, an idle Esc in a password
+  field is never swallowed. While registered, Carbon consumes the key (A, B),
+  so the take-only window matters.
+- Without Secure Input both the tap and Carbon report a registered key (A):
+  at the edges of an episode (Handy shadows only after 3 s sustained and
+  drops them within a 1 s poll) one press can arrive twice. S-02's engine
+  drops the second report within 300 ms (`SHADOW_DEDUPE_MS`, tested).
+- fn flag changes keep reaching the tap (E), as in round 1.
+
+**S-02 as built on this:** `fork::shortcut::secure_input_bindings` (the hook
+in Handy's `reconcile_fallback`) shadows the fork's keyed bindings as
+`fork:<action>` and Esc as `fork:cancel` only while a take records or is
+processed; `on_shadow_event` (hook in `handle_shortcut_event`) routes them to
+the engine. The bar names the holder ("Terminal has Secure Input on ·
+fn+Space can't lock · Esc or ✕ cancels") for 5 s at the start of a take.
+
+**Still queued for the Mac wave (signed build, real keys):** Safari password
+field, Terminal Secure Keyboard Entry and iTerm2 as holders with the real app:
+fn hold and double-tap, fn+Space ignored with the notice shown, Esc cancels
+(tap and shadow), Ctrl with fn (Command Mode on/off), ⌃⌘V, Globe still
+suppressed (real fn key), idle Esc in the password field not swallowed. See
+`MAC-TEST-SCRIPT.md` S-02.

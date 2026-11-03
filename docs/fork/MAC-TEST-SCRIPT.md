@@ -347,9 +347,48 @@ Machines: M1-8, M-15, M-26. Results of the first run (M5 Max, macOS
 
 ### S-02 Hotkey self-healing, permission health, Secure Input
 
-- [ ] S-02.1 RS-02 procedure on the signed build passes.
-- [ ] S-02.2 RS-14 procedure on the signed build passes.
-- Procedure: TODO (S-02).
+**Queued for the Mac wave** (signed build; the backend run that shares the
+hotkey harness). Done already, scripted, without a person (2026-11-02):
+`scripts/wb-s02/rs02-notify.sh` (privacy-record edits post
+`com.apple.tcc.access.changed` 10/10, ≤ ~100 ms) and
+`scripts/wb-s02/rs14-carbon.swift` (Carbon Esc/⌃⌘V fire 10/10 under Secure
+Input while the tap sees no key-down; an unregistered Esc reaches the
+window). Reports: `docs/fork/spikes/RS-02-tap-health.md`,
+`RS-14-secure-input.md` round 2. Log lines are at debug level
+(`--debug`), prefix `fork hotkeys health:`.
+
+- [ ] S-02.1 RS-02 (a): sleep 10 min, wake, press fn within 2 s → a take
+      starts; ×10. Log: `Wake`/`ScreensWake` probe ok, `tap rebuilt`, Handy's
+      `handy-keys manager rebuilt`.
+- [ ] S-02.2 RS-02 (b): System Settings › Privacy & Security ›
+      Accessibility, switch Wispr Bro **off** while it runs: within 2 s the
+      bar shows "Your shortcut stopped working" with Fix, the tray shows the
+      badge and "Shortcut stopped working", the Hub banner appears; a
+      notification only if the app is not in front. Switch **on**: within
+      5 s "Your shortcut works again", fn starts a take, no relaunch. Repeat
+      by **removing** the row (−) and adding it back (+).
+- [ ] S-02.3 RS-02 (c): install a re-signed build over the running app;
+      loss within 2 s; Fix sheet › Reset and re-grant → the macOS prompt →
+      allow → recovery within 5 s, or "Relaunch to finish" works in one click.
+- [ ] S-02.4 RS-02 (d): lid closed on an external display, wake, fn works.
+- [ ] S-02.5 RS-02: both notifications (`AccessibilityChanged`,
+      `PrivacyChanged`) appear in the signed build's debug log on a switch.
+- [ ] S-02.6 RS-14 for each holder — Safari password field, Terminal Secure
+      Keyboard Entry, iTerm2 secure input (if installed): fn hold → take;
+      double-tap fn → hands-free; fn+Space does not lock and the bar shows
+      "<App> has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      for 5 s; Esc cancels a held take, a hands-free take and a
+      transcription (log `Secure Input shadow fired (cancel)` once Secure
+      Input has lasted 3 s); ⌃⌘V pastes the last dictation; Ctrl with fn held
+      starts a Command Mode take when it is on and plain dictation when off;
+      the Globe action stays suppressed (real fn key); **idle** Esc in the
+      password field reaches the field (not swallowed).
+- [ ] S-02.7 A-205: Settings › Debug › Secure Input status while Terminal
+      holds it lists `fork:paste_last`, `fork:copy_last` (covered) and any
+      fn+key fork binding (uncovered); Handy's banner and tray describe them.
+- [ ] S-02.8 First launch without Accessibility, onboarding grants it: the
+      shortcut works right after the grant without a relaunch, and nothing
+      warned before onboarding finished.
 
 ### S-03 Flow Bar
 

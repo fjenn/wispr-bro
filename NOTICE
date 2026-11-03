@@ -465,6 +465,22 @@ Details per port: docs/fork/PORTS.md.
   skip background checks, no install mid-take, relaunch veto; Wispr's
   20-minute quiet window and the Hub-focus rule added, S-28).
 
+- src-tauri/src/fork/vendor/axwatch/ (vendored module)
+  Source: axwatch 0.1.0, https://github.com/AprilNEA/axwatch
+  Commit: 89f73ea349c21de6ee38b1c4089b3e4441d32723 (src/lib.rs, macos.rs,
+          fallback.rs)
+  Copyright (c) 2026 AprilNEA
+  Licence: MIT OR Apache-2.0 (LICENSE-MIT and LICENSE-APACHE beside it)
+  Modified by Wispr Bro contributors, 2026-11-02 (built as a module of the
+  app crate: `super::` paths, lint attributes, an ignored example, a
+  heartbeat test that waits instead of sleeping a fixed time).
+
+- src-tauri/src/fork/shortcut/health.rs (recovery triggers only)
+  The list of events after which the hotkey is re-checked follows VoiceInk,
+  https://github.com/Beingpax/VoiceInk,
+  VoiceInk/Features/Shortcuts/Coordination/ShortcutMonitor.swift
+  (GPL-3.0); no code is copied.
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

@@ -404,9 +404,16 @@ pub fn tray_specs(snapshot: &MenuSnapshot, busy: bool, warning: bool) -> Vec<Men
     let locale = snapshot.locale.as_str();
     let mut items = Vec::new();
     if warning {
+        // S-02: the same item says so when the shortcut is lost (the
+        // health check), not blocked by Secure Input.
+        let key = if crate::fork::shortcut::health::tray_warning() {
+            "rust.tray.shortcutLost"
+        } else {
+            "rust.menu.shortcutsBlocked"
+        };
         items.push(MenuSpec::item(
             TRAY_SECURE_INPUT_ID,
-            text(locale, "rust.menu.shortcutsBlocked"),
+            text(locale, key),
             true,
         ));
         items.push(MenuSpec::Separator);
@@ -1206,6 +1213,11 @@ fn on_menu<R: ForkRuntime>(app: &AppHandle<R>, id: &str) {
             app,
             super::diagnostics::issue_url::IssueKind::Feedback,
         ),
+        // S-02: Handy shows the Hub for this id; when the shortcut is lost
+        // the Fix sheet opens on top.
+        TRAY_SECURE_INPUT_ID if crate::fork::shortcut::health::tray_warning() => {
+            crate::fork::shortcut::health::open_fix_sheet(app, "tray")
+        }
         ADD_WORD_ID => open_hub(app, "dictionary", Some("add")),
         NEW_SNIPPET_ID => open_hub(app, "snippets", Some("add")),
         HELP_MICROPHONE_ID => open_hub(app, "settings", Some("microphone")),

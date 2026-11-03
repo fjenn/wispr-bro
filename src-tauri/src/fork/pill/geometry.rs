@@ -25,6 +25,10 @@ pub enum Shape {
     Locked,
     /// Hands-free with a text in the middle (microphone name, warning).
     LockedLabel,
+    /// S-02: held, with the Secure Input notice (a longer text).
+    HeldNotice,
+    /// S-02: hands-free, with the Secure Input notice.
+    LockedNotice,
     /// "Transcribing…" / "Cleaning up…".
     Status,
     /// A message or an error, with an optional Fix button.
@@ -38,12 +42,14 @@ pub enum Shape {
 }
 
 impl Shape {
-    pub const ALL: [Shape; 10] = [
+    pub const ALL: [Shape; 12] = [
         Shape::Rest,
         Shape::Held,
         Shape::HeldLabel,
         Shape::Locked,
         Shape::LockedLabel,
+        Shape::HeldNotice,
+        Shape::LockedNotice,
         Shape::Status,
         Shape::Message,
         Shape::Setup,
@@ -59,6 +65,8 @@ impl Shape {
             Shape::HeldLabel => (272.0, ACTIVE_H),
             Shape::Locked => (168.0, ACTIVE_H),
             Shape::LockedLabel => (328.0, ACTIVE_H),
+            Shape::HeldNotice => (440.0, ACTIVE_H),
+            Shape::LockedNotice => (496.0, ACTIVE_H),
             Shape::Status => (208.0, ACTIVE_H),
             Shape::Message => (360.0, ACTIVE_H),
             Shape::Setup => (248.0, ACTIVE_H),
@@ -75,6 +83,8 @@ impl Shape {
             Shape::HeldLabel => "held_label",
             Shape::Locked => "locked",
             Shape::LockedLabel => "locked_label",
+            Shape::HeldNotice => "held_notice",
+            Shape::LockedNotice => "locked_notice",
             Shape::Status => "status",
             Shape::Message => "message",
             Shape::Setup => "setup",

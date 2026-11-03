@@ -399,7 +399,10 @@ test.describe("notifications", () => {
       page.getByRole("heading", {
         name: "Talk, and your words appear",
       }),
-    ).toBeVisible();
+      // The onboarding screens are the only spec here that loads Handy's
+      // onboarding modules; on a cold dev server under the full parallel
+      // suite their first compile took longer than the 5 s default.
+    ).toBeVisible({ timeout: 20_000 });
     await ipc.waitForListener("fork-notification-opened");
     await ipc.emit("fork-notification-opened", {
       id: 3,

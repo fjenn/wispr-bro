@@ -827,3 +827,100 @@ fn bar_buttons_reach_a_take_the_grammar_does_not_own() {
     assert_eq!(r.host.names(), vec!["stop", "cancel", "start", "lock"]);
     assert!(r.host.queued);
 }
+
+// ---------------------------------------------------------------------------
+// S-02: Secure Input shadows (Carbon presses routed into the engine)
+
+fn paste_last_rig() -> (Rig, Arc<AtomicUsize>) {
+    let reg = Registry::default();
+    let hits = Arc::new(AtomicUsize::new(0));
+    let h = hits.clone();
+    reg.register(
+        "paste_last",
+        Arc::new(move || {
+            h.fetch_add(1, Ordering::SeqCst);
+        }),
+    )
+    .unwrap();
+    let profile = compile(&default_hotkeys(), |id| reg.handles(id));
+    (Rig::with(profile, reg), hits)
+}
+
+#[test]
+fn a_shadow_press_fires_the_keyed_action_under_secure_input() {
+    let (mut r, hits) = paste_last_rig();
+    r.at(10);
+    r.engine.shadow(10, "paste_last", &mut r.host);
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
+    assert!(r
+        .host
+        .observed
+        .contains(&Observed::Action("paste_last".into())));
+    // An unbound action is ignored.
+    r.engine.shadow(20, "transform.unknown", &mut r.host);
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
+}
+
+#[test]
+fn tap_and_shadow_reporting_one_press_fire_once() {
+    let (mut r, hits) = paste_last_rig();
+    // The tap saw it first: the shadow is dropped.
+    r.key(10, Modifiers::CTRL_LEFT | Modifiers::CMD_LEFT, HkKey::V);
+    r.engine.shadow(60, "paste_last", &mut r.host);
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
+    // The shadow came first: the tap's report is dropped.
+    r.at(2_000);
+    r.engine.shadow(2_000, "paste_last", &mut r.host);
+    r.key(2_040, Modifiers::CTRL_LEFT | Modifiers::CMD_LEFT, HkKey::V);
+    assert_eq!(hits.load(Ordering::SeqCst), 2);
+    // Two presses far apart are two presses.
+    r.at(4_000);
+    r.engine.shadow(4_000, "paste_last", &mut r.host);
+    assert_eq!(hits.load(Ordering::SeqCst), 3);
+}
+
+#[test]
+fn shadowed_esc_cancels_a_held_take() {
+    let mut r = Rig::new();
+    r.fn_down(0).at(800);
+    assert_eq!(r.host.stage, Stage::Recording);
+    r.engine.shadow(800, "cancel", &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "cancel"]);
+    r.fn_up(1_000);
+    assert_eq!(r.host.names().len(), 2, "the release does nothing");
+}
+
+#[test]
+fn shadowed_esc_cancels_processing_and_a_hands_free_take() {
+    let mut r = Rig::new();
+    r.fn_down(0).fn_up(900);
+    assert_eq!(r.host.stage, Stage::Processing);
+    r.at(950);
+    r.engine.shadow(950, "cancel", &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "stop", "cancel"]);
+    assert!(r.host.observed.contains(&Observed::EscCancelledBusy));
+
+    let mut r = Rig::new();
+    r.fn_down(0).fn_up(90).fn_down(200).fn_up(260);
+    r.at(3_000);
+    r.engine.shadow(3_000, "cancel", &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "lock", "cancel"]);
+}
+
+#[test]
+fn a_tap_esc_and_its_shadow_cancel_once() {
+    let mut r = Rig::new();
+    r.fn_down(0).fn_up(90).fn_down(200).fn_up(260);
+    r.key(3_000, Modifiers::empty(), HkKey::Escape);
+    r.engine.shadow(3_050, "cancel", &mut r.host);
+    assert_eq!(r.host.names(), vec!["start", "lock", "cancel"]);
+    assert!(!r.host.observed.contains(&Observed::EscCancelledBusy));
+}
+
+#[test]
+fn an_idle_shadowed_esc_sends_nothing() {
+    let mut r = Rig::new();
+    r.at(10);
+    r.engine.shadow(10, "cancel", &mut r.host);
+    assert!(r.host.commands.is_empty());
+}
