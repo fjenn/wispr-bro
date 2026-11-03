@@ -266,3 +266,14 @@
 [data-handy-content] :is(h3, p, span).opacity-50 {
   opacity: 0.75;
 }
+/* Handy's number fields: no spin buttons, an unnamed stepper to VoiceOver
+ * (S-37.3; marked by `settings/handyA11y.ts`). Arrow keys still step. */
+[data-handy-content] input[data-wb-no-spinner] {
+  appearance: textfield;
+}
+[data-handy-content] input[data-wb-no-spinner]::-webkit-inner-spin-button,
+[data-handy-content] input[data-wb-no-spinner]::-webkit-outer-spin-button {
+  display: none;
+  appearance: none;
+  margin: 0;
+}

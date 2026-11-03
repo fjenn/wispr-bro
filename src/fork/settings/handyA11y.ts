@@ -8,7 +8,12 @@
  * - an icon-only button (Handy's `ResetButton`) → "Reset <row title>";
  * - a text, number or react-select field with no label → the row's title;
  * - a text field that reports `aria-expanded` without a role (the language
- *   search over its drawer) → `role="combobox"`, which that state needs.
+ *   search over its drawer) → `role="combobox"`, which that state needs;
+ * - a number field (Handy's History Limit) → `data-wb-no-spinner`, which
+ *   hides WebKit's spin buttons (`tokens.css`): WebKit exposes them as a
+ *   separate stepper (`AXIncrementor`) that no attribute on the input can
+ *   name (Mac wave 3, S-37.3). The field itself stays named by its row and
+ *   still steps with the arrow keys and VoiceOver's increment action.
  *
  * A row is the nearest ancestor with an `h3` title (Handy's
  * `SettingContainer`). Only `[data-handy-content]` subtrees are touched,
@@ -57,6 +62,10 @@ export function repairHandyControls(
       const type = field.getAttribute("type");
       if (type === "checkbox" || type === "radio" || type === "hidden") {
         continue;
+      }
+      if (type === "number" && !field.hasAttribute("data-wb-no-spinner")) {
+        field.setAttribute("data-wb-no-spinner", "");
+        changed++;
       }
       if (field.hasAttribute("aria-expanded") && !field.hasAttribute("role")) {
         field.setAttribute("role", "combobox");
