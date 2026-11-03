@@ -43,6 +43,8 @@ fn choose<R: ForkRuntime>(app: &AppHandle<R>, open: Open) -> Result<Note, String
 pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, String> {
     let note = choose(app, choice)?;
     super::changed(app);
+    // S-38: a park scheduled when it was last closed no longer applies.
+    crate::fork::hub::park::shown(app, WINDOW_LABEL);
     if let Some(window) = app.get_webview_window(WINDOW_LABEL) {
         ForkScratchpadOpen { note_id: note.id }
             .emit_to(app, WINDOW_LABEL)
@@ -53,7 +55,7 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     }
     let locale = crate::fork::i18n::current_locale(R::handy_app_language(app).as_deref());
     let title = crate::fork::i18n::t(locale, "rust.scratchpad.windowTitle", &[]);
-    WebviewWindowBuilder::new(
+    let window = WebviewWindowBuilder::new(
         app,
         WINDOW_LABEL,
         WebviewUrl::App(format!("fork-scratchpad.html?note={}", note.id).into()),
@@ -65,6 +67,8 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     .always_on_top(true)
     .build()
     .map_err(|error| error.to_string())?;
+    // Closing hides it (Handy's `CloseRequested`); hidden, it is parked.
+    crate::fork::hub::park::watch(app, &window);
     Ok(note)
 }
 

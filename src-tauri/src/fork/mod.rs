@@ -350,6 +350,8 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
             }
             db::register(app);
             settings::register(app);
+            // S-38: hidden Hub / Scratchpad windows are parked.
+            hub::park::register(app);
             // S-10: LLM runtime state (nothing starts before on_ready).
             llm::runtime::register(app);
             // Merges into the same registry Handy's builder mounts into later
@@ -361,7 +363,14 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
             RunEvent::Ready => on_ready(app),
             // S-07c: commit the model download's resume offset. S-08 (DEC-55):
             // a take still recording when quit is requested is saved.
-            RunEvent::ExitRequested { .. } => {
+            // S-38: not when the only windows left were parked (no code:
+            // every Tauri window is gone, but nobody asked to quit).
+            RunEvent::ExitRequested { code, api, .. } => {
+                if hub::park::keeps_running(app, *code) {
+                    api.prevent_exit();
+                    log::debug!("fork: exit request without windows, Hub parked: kept running");
+                    return;
+                }
                 models::setup::on_exit(app);
                 audio::permission::on_exit(app);
             }
@@ -567,6 +576,7 @@ macro_rules! fork_specta_builder {
                 commands::notifications::fork_notifications_debug_post::<$runtime>,
                 commands::pill::fork_pill_snapshot::<$runtime>,
                 commands::pill::fork_pill_ready::<$runtime>,
+                commands::hub::fork_hub_ready::<$runtime>,
                 commands::pill::fork_pill_action::<$runtime>,
                 commands::llm::fork_llm_last_cleanup,
                 commands::snippets::fork_snippets_list::<$runtime>,
@@ -693,6 +703,11 @@ pub trait ForkRuntime: Runtime {
     /// Hides a window's title text (macOS, S-13). No-op elsewhere.
     fn hub_hide_title_text(window: &tauri::WebviewWindow<Self>);
 
+    /// Applies Handy's appearance setting to the main window, as Handy's
+    /// `.setup()` does after building it (S-38: a rebuilt Hub). No-op on
+    /// runtimes without Handy's settings.
+    fn hub_apply_theme(app: &AppHandle<Self>);
+
     /// Handy's history manager (S-09 jobs), `None` before it exists.
     fn handy_history(app: &AppHandle<Self>) -> Option<std::sync::Arc<dyn db::handy::HandyHistory>>;
     /// Starts the Flow Bar (S-03; macOS product builds). No-op elsewhere.
@@ -784,6 +799,13 @@ impl ForkRuntime for tauri::Wry {
         let _ = window;
     }
 
+    fn hub_apply_theme(app: &AppHandle<Self>) {
+        #[cfg(any(target_os = "windows", target_os = "macos"))]
+        crate::shortcut::apply_window_theme(app, crate::settings::get_settings(app).theme);
+        #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+        let _ = app;
+    }
+
     fn fork_specta_builder() -> Builder<Self> {
         fork_specta_builder!(tauri::Wry)
     }
@@ -852,6 +874,8 @@ impl ForkRuntime for tauri::test::MockRuntime {
     }
 
     fn hub_hide_title_text(_window: &tauri::WebviewWindow<Self>) {}
+
+    fn hub_apply_theme(_app: &AppHandle<Self>) {}
 
     fn fork_specta_builder() -> Builder<Self> {
         fork_specta_builder!(tauri::test::MockRuntime)

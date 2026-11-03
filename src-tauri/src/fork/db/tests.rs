@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Tests for `fork.db` (F-06).
 
-use std::sync::Arc;
+use std::sync::{Arc, Barrier};
 use std::thread;
 
 use super::*;
@@ -275,9 +275,13 @@ fn wal_allows_a_writer_and_two_readers_without_busy_errors() {
     db.open_now().unwrap();
     const WRITES: i64 = 300;
 
+    // Writer, two readers and the shared-handle reader start together.
+    let start = Arc::new(Barrier::new(4));
     let writer = {
         let db = Arc::clone(&db);
+        let start = Arc::clone(&start);
         thread::spawn(move || {
+            start.wait();
             for i in 1..=WRITES {
                 db.with_conn(|conn| {
                     let tx = conn.transaction()?;
@@ -296,12 +300,29 @@ fn wal_allows_a_writer_and_two_readers_without_busy_errors() {
     };
 
     // Readers use their own connections (same pragmas), so they really read
-    // concurrently with the writer instead of queueing on the mutex.
-    let readers: Vec<_> = (0..2)
-        .map(|r| {
-            let path = db.path().to_path_buf();
+    // concurrently with the writer instead of queueing on the mutex. They
+    // are opened, and have read the WAL index once, before the writer
+    // starts (S-38): a connection's first look at the index may rebuild it
+    // under the WAL write lock, which made the writer's busy wait run out
+    // when the whole suite loaded the Mac (seen once in ~20 loaded runs).
+    // The app opens one connection per process at start, so that is the
+    // case worth testing, not a reader appearing mid-burst.
+    let reader_conns: Vec<Connection> = (0..2)
+        .map(|_| {
+            let conn = open_connection(db.path()).unwrap();
+            let _: i64 = conn
+                .query_row("SELECT COUNT(*) FROM entry_meta", [], |row| row.get(0))
+                .unwrap();
+            conn
+        })
+        .collect();
+    let readers: Vec<_> = reader_conns
+        .into_iter()
+        .enumerate()
+        .map(|(r, conn)| {
+            let start = Arc::clone(&start);
             thread::spawn(move || {
-                let conn = open_connection(&path).unwrap();
+                start.wait();
                 let mut last = 0_i64;
                 for n in 0..300 {
                     let count: i64 = conn
@@ -319,7 +340,9 @@ fn wal_allows_a_writer_and_two_readers_without_busy_errors() {
     // Shared-handle readers queue on the mutex alongside the writer.
     let shared = {
         let db = Arc::clone(&db);
+        let start = Arc::clone(&start);
         thread::spawn(move || {
+            start.wait();
             for _ in 0..300 {
                 db.with_conn(|conn| entry_meta_exists(conn, 1)).unwrap();
             }

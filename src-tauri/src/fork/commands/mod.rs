@@ -12,6 +12,7 @@ pub mod audio;
 pub mod csp;
 pub mod dictionary;
 pub mod history;
+pub mod hub;
 pub mod hotkeys;
 pub mod insights;
 pub mod llm;

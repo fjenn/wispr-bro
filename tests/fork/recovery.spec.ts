@@ -9,6 +9,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import type { ForkPillState } from "../../src/fork/bindings";
 import { test, expect, type IpcMock } from "./fixtures";
+import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
 const geometry = JSON.parse(
   readFileSync(
@@ -37,12 +38,22 @@ const cancelled: ForkPillState = {
 test.describe("Cancelled · Undo on the bar", () => {
   test.use({ ipcSetup: { windowLabel: "fork-pill" } });
 
-  async function openBar(page: Page, ipc: IpcMock) {
-    ipc.respond({ fork_pill_snapshot: cancelled, get_app_settings: null });
+  async function openBar(
+    page: Page,
+    ipc: IpcMock,
+    appSettings: unknown = null,
+  ) {
+    ipc.respond({
+      fork_pill_snapshot: cancelled,
+      get_app_settings: appSettings,
+    });
     const size = geometry.shapes.message;
     await page.setViewportSize({ width: size.w, height: size.h });
     await page.goto("/src/fork/pill/index.html");
-    await expect(page.getByTestId("wb-pill-message")).toHaveText("Cancelled");
+    await expect(page.getByTestId("wb-pill-message")).toBeVisible();
+    if (!appSettings) {
+      await expect(page.getByTestId("wb-pill-message")).toHaveText("Cancelled");
+    }
   }
 
   test("Undo and ✕ act, and the message is a polite status", async ({
@@ -85,12 +96,10 @@ test.describe("Cancelled · Undo on the bar", () => {
     page,
     ipc,
   }) => {
-    await openBar(page, ipc);
-    await page.evaluate(() => {
-      document.documentElement.dir = "rtl";
-    });
+    await openBar(page, ipc, RTL_APP_SETTINGS);
+    await expectRtl(page);
     const pill = await page.getByTestId("wb-pill").boundingBox();
-    const undo = await page.getByRole("button", { name: "Undo" }).boundingBox();
+    const undo = await page.getByTestId("wb-pill-fix").boundingBox();
     const text = await page.getByTestId("wb-pill-message").boundingBox();
     expect(pill && undo && text).toBeTruthy();
     expect(undo!.x + undo!.width).toBeLessThanOrEqual(text!.x + 1);

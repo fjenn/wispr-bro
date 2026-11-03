@@ -30,6 +30,9 @@ import {
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
+import { listenForTransformChanges } from "../transforms/store";
+import { listenForMenuActions } from "./menuActions";
+import { reportHubReady } from "./ready";
 import { EmptyState, FOCUS_RING, Menu, Popover } from "../ui";
 import {
   activateNotification,
@@ -345,6 +348,12 @@ export function useNotificationPageOpen(): boolean {
       runHubAction(action);
       if (action?.type === "open_page") setOpened(true);
     });
+    // S-38: events for a rebuilt Hub wait until these listeners are up.
+    void reportHubReady([
+      stop,
+      listenForTransformChanges(),
+      listenForMenuActions(),
+    ]);
     return () => {
       void stop
         .then((unlisten) => unlisten?.())

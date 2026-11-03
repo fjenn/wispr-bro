@@ -863,6 +863,50 @@ pub fn header<'a>(headers: &'a [(String, String)], name: &str) -> Option<&'a str
         .map(|(_, v)| v.as_str())
 }
 
+/// CPU time spent by the calling thread (S-38).
+///
+/// Speed assertions in unit tests measure this instead of wall time: on a
+/// loaded machine (`cargo test` runs ~1,400 tests in parallel, often beside
+/// other builds) a thread can wait seconds for a core, and a wall-clock bound
+/// then fails although the code is as fast as ever. Thread CPU time counts
+/// only the work itself. Falls back to wall time where the clock is missing.
+pub struct CpuTimer {
+    started: Duration,
+    wall: std::time::Instant,
+}
+
+impl CpuTimer {
+    pub fn start() -> Self {
+        Self {
+            started: thread_cpu_time().unwrap_or_default(),
+            wall: std::time::Instant::now(),
+        }
+    }
+
+    pub fn elapsed(&self) -> Duration {
+        match thread_cpu_time() {
+            Some(now) => now.saturating_sub(self.started),
+            None => self.wall.elapsed(),
+        }
+    }
+}
+
+#[cfg(unix)]
+fn thread_cpu_time() -> Option<Duration> {
+    let mut ts = libc::timespec {
+        tv_sec: 0,
+        tv_nsec: 0,
+    };
+    // SAFETY: `ts` is a valid, writable timespec.
+    let rc = unsafe { libc::clock_gettime(libc::CLOCK_THREAD_CPUTIME_ID, &mut ts) };
+    (rc == 0).then(|| Duration::new(ts.tv_sec as u64, ts.tv_nsec as u32))
+}
+
+#[cfg(not(unix))]
+fn thread_cpu_time() -> Option<Duration> {
+    None
+}
+
 /// Stand-in for Handy's `ModelManager` (same `Arc<…>` state shape).
 #[derive(Debug, Clone, Default)]
 pub struct FakeModelManager {

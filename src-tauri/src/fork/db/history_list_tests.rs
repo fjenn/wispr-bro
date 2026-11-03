@@ -2,7 +2,6 @@
 //! Tests for the History list (S-15b): paging, search, variants, audio
 //! states, flags and retries.
 
-use std::time::Instant;
 
 use super::*;
 use crate::fork::commands::history::{copy_atomically, save_flag, FlagKind};
@@ -417,7 +416,7 @@ fn ten_thousand_rows_page_quickly() {
     for id in 1..=10_000 {
         handy.add(dictation(id, &format!("take number {id}"), None), None);
     }
-    let start = Instant::now();
+    let start = crate::fork::testutil::CpuTimer::start();
     let mut cursor = None;
     let mut seen = 0;
     loop {

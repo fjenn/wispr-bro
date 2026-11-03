@@ -290,20 +290,6 @@ pub fn post<R: ForkRuntime>(app: &AppHandle<R>, notice: Notice) -> Option<Notifi
     Some(item)
 }
 
-/// Shows the Hub (main window).
-pub(crate) fn show_hub<R: Runtime>(app: &AppHandle<R>) {
-    let Some(window) = app.get_webview_window("main") else {
-        log::warn!("notify: no main window to show");
-        return;
-    };
-    let _ = window.unminimize();
-    let _ = window.show();
-    let _ = window.set_focus();
-    #[cfg(target_os = "macos")]
-    if let Err(e) = app.set_activation_policy(tauri::ActivationPolicy::Regular) {
-        log::debug!("notify: activation policy: {e}");
-    }
-}
 
 /// Text of the newest dictation (Handy's history; post-processed text when
 /// there is one).
@@ -467,11 +453,15 @@ pub fn activate<R: ForkRuntime>(
     Ok(action)
 }
 
-fn open_in_hub<R: Runtime>(app: &AppHandle<R>, id: Option<i64>, action: NotificationAction) {
-    show_hub(app);
-    if let Err(e) = (ForkNotificationOpened { id, action }).emit(app) {
-        log::debug!("notify: could not emit fork-notification-opened: {e}");
-    }
+/// Shows the Hub (rebuilt if S-38 parked it) and tells its page where to
+/// go once the page listens.
+fn open_in_hub<R: ForkRuntime>(app: &AppHandle<R>, id: Option<i64>, action: NotificationAction) {
+    let handle = app.clone();
+    crate::fork::hub::park::show_main_then(app, move || {
+        if let Err(e) = (ForkNotificationOpened { id, action }).emit(&handle) {
+            log::debug!("notify: could not emit fork-notification-opened: {e}");
+        }
+    });
 }
 
 /// A response from the macOS delegate.

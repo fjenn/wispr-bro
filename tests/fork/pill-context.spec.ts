@@ -9,6 +9,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import type { ForkPillState } from "../../src/fork/bindings";
 import { test, expect, type IpcMock } from "./fixtures";
+import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
 const PAGE = "/src/fork/pill/index.html";
 type Size = { w: number; h: number };
@@ -46,8 +47,13 @@ const WITH = {
   cleaningUp: state({ phase: "cleaning_up", context: true }),
 };
 
-async function openPill(page: Page, ipc: IpcMock, s: ForkPillState) {
-  ipc.respond({ fork_pill_snapshot: s, get_app_settings: null });
+async function openPill(
+  page: Page,
+  ipc: IpcMock,
+  s: ForkPillState,
+  appSettings: unknown = null,
+) {
+  ipc.respond({ fork_pill_snapshot: s, get_app_settings: appSettings });
   const size = geometry.shapes[s.shape];
   await page.setViewportSize({ width: size.w, height: size.h });
   await page.goto(PAGE);
@@ -125,9 +131,8 @@ test("RTL puts the glyph at the reading end", async ({ page, ipc }) => {
   const ltrText = await page.locator(".wb-pill-text").boundingBox();
   const ltrGlyph = await page.getByTestId("wb-pill-context").boundingBox();
   expect(ltrGlyph!.x).toBeGreaterThan(ltrText!.x);
-  await page.evaluate(() => {
-    document.documentElement.dir = "rtl";
-  });
+  await openPill(page, ipc, WITH.cleaningUp, RTL_APP_SETTINGS);
+  await expectRtl(page);
   await expect
     .poll(async () => {
       const text = await page.locator(".wb-pill-text").boundingBox();

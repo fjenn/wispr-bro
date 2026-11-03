@@ -1044,16 +1044,19 @@ pub struct ForkMenuAction {
     pub section: Option<String>,
 }
 
-/// Shows the Hub and asks it to open `page`/`section`.
-fn open_hub<R: Runtime>(app: &AppHandle<R>, page: &str, section: Option<&str>) {
-    super::notify::show_hub(app);
+/// Shows the Hub (rebuilt if S-38 parked it) and asks it to open
+/// `page`/`section` once its page listens.
+fn open_hub<R: ForkRuntime>(app: &AppHandle<R>, page: &str, section: Option<&str>) {
     let event = ForkMenuAction {
         page: page.to_string(),
         section: section.map(str::to_string),
     };
-    if let Err(error) = event.emit(app) {
-        log::warn!("app menu: could not send the Hub action: {error}");
-    }
+    let handle = app.clone();
+    super::hub::park::show_main_then(app, move || {
+        if let Err(error) = event.emit(&handle) {
+            log::warn!("app menu: could not send the Hub action: {error}");
+        }
+    });
 }
 
 /// What a click on a language does: the new list, or `None` to keep it.

@@ -861,6 +861,9 @@ mod app {
         ForkNotificationOpened::listen(&app, move |e| seen.lock().unwrap().push(e.payload));
         *TEST_CLIPBOARD.lock().unwrap() = None;
         run(app, move |handle, _w| {
+            // The Hub page is loaded and listening (S-38: until then the
+            // event waits; `fork::hub::park` tests cover that).
+            crate::fork::hub::park::hub_ready(handle);
             let model = post(handle, Notice::model_ready()).unwrap();
             let queued = post(handle, Notice::queued_takes_ready(1)).unwrap();
             on_system_response(

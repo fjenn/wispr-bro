@@ -12,7 +12,7 @@ pub mod store;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
-use tauri::{AppHandle, Manager, Runtime};
+use tauri::{AppHandle, Manager};
 
 use crate::fork::settings::ForkSettingsHandle;
 use crate::fork::shortcut::actions::{Handler, Registry};
@@ -61,7 +61,7 @@ fn sync_actions(registry: &Registry, enabled: bool, handler: impl Fn(TransformKi
 
 static CUSTOM_ACTIONS: Mutex<Vec<(String, i64)>> = Mutex::new(Vec::new());
 
-fn sync_custom_actions<R: Runtime + 'static>(app: &AppHandle<R>, enabled: bool) {
+fn sync_custom_actions<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, enabled: bool) {
     let next = if enabled {
         app.try_state::<crate::fork::db::ForkDb>()
             .and_then(|db| db.with_conn(|conn| store::list(conn)).ok())
@@ -104,7 +104,7 @@ fn sync_custom_actions<R: Runtime + 'static>(app: &AppHandle<R>, enabled: bool) 
 
 /// Called before the fork tap compiles its profile. With Transforms off the
 /// actions have no handlers, so their chords are neither caught nor swallowed.
-pub fn on_ready<R: Runtime + 'static>(app: &AppHandle<R>) {
+pub fn on_ready<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
     static OBSERVE_ESC: AtomicBool = AtomicBool::new(false);
     if !OBSERVE_ESC.swap(true, Ordering::AcqRel) {
         crate::fork::shortcut::registry().observe_esc(Arc::new(|context| {
@@ -120,7 +120,7 @@ pub fn on_ready<R: Runtime + 'static>(app: &AppHandle<R>) {
     sync_registration(app, enabled);
 }
 
-pub fn sync_registration<R: Runtime + 'static>(app: &AppHandle<R>, enabled: bool) {
+pub fn sync_registration<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, enabled: bool) {
     sync_actions(&crate::fork::shortcut::registry(), enabled, |kind| {
         let app = app.clone();
         Arc::new(move || run::spawn(&app, kind))

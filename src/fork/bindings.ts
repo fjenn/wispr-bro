@@ -553,6 +553,12 @@ async forkPillReady(seq: number) : Promise<void> {
     await TAURI_INVOKE("fork_pill_ready", { seq });
 },
 /**
+ * The main window's page is listening.
+ */
+async forkHubReady() : Promise<void> {
+    await TAURI_INVOKE("fork_hub_ready");
+},
+/**
  * A button on the bar.
  */
 async forkPillAction(action: PillUiAction) : Promise<void> {

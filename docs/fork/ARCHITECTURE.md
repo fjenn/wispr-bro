@@ -1906,6 +1906,83 @@ download) stay in Settings' searchable picker. Help › Documentation opens
 Help › Shortcuts / Microphone / Languages and Vocabulary › Add word… / New
 snippet… are Hub deep links. The menu preview never shows a concealed take.
 
+## Performance and reliability hardening, part 1 (S-38)
+
+Part 1 covers the slices merged up to S-24 and F-02; part 2 covers the later
+slices and the full §5 runs on the reference machines. Measurements are in
+`docs/fork/PERF.md`.
+
+**Hidden windows are parked** (`fork/hub/park.rs`, §5.2). Handy closes the
+main window by hiding it, a login-item start builds it hidden, and the
+Scratchpad window is hidden the same way, so each kept a WebContent process
+for the whole session (the Hub's ≈ 106 MB RSS was most of S-03's 287-293 MB
+against the 250 MB ceiling). A parkable window (`main`, `fork-scratchpad`)
+that stays hidden for `PARK_AFTER` (60 s) is destroyed:
+
+```
+CloseRequested (Handy hides) ─► schedule(label): generation += 1, timer 60 s
+                                   │
+    shown / ensure_main ─► generation += 1 (the timer's park is stale)
+                                   ▼
+park(label, generation) on the main thread: same generation, window exists,
+not visible, not minimized, and for `main` its page reported ready
+  ─► main: keep frame (logical), main_parked = true, tray theme override
+  ─► window.destroy()  (its WebContent process exits)
+```
+
+- **Rebuild.** `ensure_main` is the first line of Handy's `show_main_window`
+  (the one `lib.rs` hook; tray Settings, Dock click, second launch, the
+  command) and of the fork's show paths (`show_main_then`: notification Open,
+  View changes, the S-26a menu deep links). It replays Handy's builder (label `main`, `/`, Handy's
+  size and minimum, resizable, hidden, portable `data_directory`), then
+  `R::hub_apply_theme` (Handy's `apply_window_theme`), `hub::style_main`
+  (the S-13 chrome) and the parked frame. The Scratchpad's own `open` already
+  builds its window when there is none; it now calls `park::shown` and
+  `park::watch`.
+- **Events for a new page.** `fork_hub_ready` (from
+  `useNotificationPageOpen`, after its listener, the View-changes and the
+  menu-action listeners are registered: `src/fork/hub/ready.ts`) marks the page ready and
+  runs what `show_main_then` queued. A notification click or ⌥O therefore
+  reaches a freshly built Hub; before S-38 an event sent while the page was
+  still loading was lost.
+- **Start-up work.** Handy's `App.tsx` initializes Enigo and the shortcuts
+  from the page, so `main` is parked only after its page reported ready; a
+  Hub that started hidden is scheduled from `fork_hub_ready`.
+- **Exit.** With every Tauri window destroyed, Tauri sends `ExitRequested`
+  without a code. The fork plugin prevents it while the Hub is parked and
+  skips its quit-time work; a real quit (tray, ⌘Q, updater restart) always
+  has a code.
+- **Tray glyph.** Handy's `get_current_theme` reads the main window's theme
+  and falls back to dark without one. While parked, `fork::tray::icon_path`
+  uses Handy's appearance setting, or the macOS appearance
+  (`AppleInterfaceStyle`) for "System".
+- macOS only; `WB_DEBUG_PARK_AFTER_S` (debug builds) sets the delay or `off`.
+  Not covered: Handy's own update checker in the page (S-28 moves update
+  checks to Rust); a system appearance change while parked updates the tray
+  glyph only on the next tray refresh.
+
+**Flaky tests fixed** (CONTEXT execution protocol: fix, don't re-run):
+
+| Test                                                                                                           | Cause                                                                                                                                                                                                                                                       | Fix                                                                                                               |
+| -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `fork::db::tests::wal_allows_a_writer_and_two_readers_without_busy_errors`                                     | Readers opened their connections while the writer was mid-burst; a fresh connection's first read of the WAL index can rebuild it under the WAL write lock, and on a loaded Mac the writer's 5 s busy wait ran out (1 failure in ~20 loaded full-suite runs) | Readers open and read once before a barrier releases all four threads; the app opens its connection at start too  |
+| Handy `clipboard::tests::external_script_does_not_wait_for_inherited_stdio`                                    | 1 s wait for a script whose background child lived 3 s; starting `sh` alone took longer under load                                                                                                                                                          | Child lives 60 s, wait 20 s, child killed after (`ci/hooks.txt` entry)                                            |
+| `fork::stats::voice` full profile, `fork::text::snippets` 1,000 snippets, `fork::db::history_list` 10,000 rows | Wall-clock speed bounds fail when the thread waits for a core                                                                                                                                                                                               | `testutil::CpuTimer` (thread CPU time)                                                                            |
+| `tests/fork/{pill,pill-card,pill-context,recovery}.spec.ts` RTL                                                | The test wrote `dir="rtl"`; the page's own language effect could run later and put `ltr` back                                                                                                                                                               | Ask for an RTL app language (`get_app_settings`) and wait for the page's `dir`/`lang` (`tests/fork/pill-page.ts`) |
+| `pill.spec.ts` axe in every state                                                                              | One test looped over 48 page loads, past its 120 s budget when busy                                                                                                                                                                                         | One test per state and theme                                                                                      |
+
+**Manifest.** The fork dependency block had landed under
+`[target.'cfg(unix)'.dependencies]` (after `signal-hook`); it is now part of
+`[dependencies]`, so the fork compiles for every target.
+
+**Harness** (`scripts/wb-soak/`, R5 S-38): `idle.py` samples the app's and
+its WebKit processes' RSS and the app's CPU (the S-03 `procs` method) and
+prints a §5.2 verdict; `soak.py` is the exactly-once soak (CLI
+`--toggle-transcription`, WAVs into a loopback input with `play.swift`, AX
+read-back with `axread.swift`, clipboard digest from `wb-s05/clip.swift`,
+card from `wb-s03-pill.swift`; outcome per take: confirmed / duplicate /
+card / wrong_target / lost).
+
 ## Tests
 
 | What                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Where                                                                                                                                                                                                                                                                                               |
@@ -1931,6 +2008,7 @@ snippet… are Hub deep links. The menu preview never shows a concealed take.
 | S-15a home: greeting sources and name editor, rail against a fixture, live refresh, event bursts, `NotReady` retry, voice profile, banner, layout, RTL, axe light/dark; account-name parsing                                                                                                                                                                                                                                                                                                                          | `tests/fork/home.spec.ts`; `fork::commands::stats::tests`                                                                                                                                                                                                                                           |
 | S-05 AX layer and card: decision table with a fake AX provider (editable, secure, no window, desktop/Finder, terminal, Electron empty tree → fail-open, Gecko, focus moved before key-up → paste there, after → card), capture bookkeeping incl. DEC-32 auto-stop, lease timing, verdict, card model (stays, Copy → Copied, Esc and ✕, never during a take), state event hides a password field's text, refused outcome never broadcasts text; UI every reason, hidden text, Copy, ✕, keyboard, RTL, axe light/dark   | `fork::insert::target::tests`, `fork::ax::{editable,lease,element}::tests`, `fork::pill::model::tests`, `fork::pill::tests`, `fork::insert::tests`; `tests/fork/pill-card.spec.ts`; real Mac `scripts/wb-s05/` (MAC-TEST-SCRIPT S-05)                                                               |
 | S-06 recovery: the undo window (exactly 4 s, taken once, newer replaces, leftovers), the 0.5 s minimum, padding; silent-cancel notes; the take in flight; job events; the last-transcript query (dictation only, failed/empty/deleted skipped, shown variant, inserted text, concealed); bindings (defaults, Press Enter never Return, mouse buttons, conflicts); a mouse-button binding fires in the engine; labels; settings migration v1 → v2; pill offer, Undoing, messages; the take's `finish` still runs first | `fork::recovery::{tests,undo::tests,last::tests}`, `fork::shortcut::tests::{bindings,engine,labels,actions}`, `fork::settings::tests`, `fork::pill::model::tests`, `fork::text::tests`; `tests/fork/recovery.spec.ts`, `tests/fork/pill.spec.ts`; real Mac `scripts/wb-s06/` (MAC-TEST-SCRIPT S-06) |
+| S-38 parking: generations, visible/minimized/not-ready windows kept, rebuild with frame, deliveries wait for the page, codeless exit refused only while parked, `lib.rs` hook; tray glyph while parked                                                                                                                                                                                                                                                                                                                | `fork::hub::park::tests`, `fork::tray::tests`                                                                                                                                                                                                                                                       |
 | S-18 notifications: macOS only for the four kinds and only while away, no permission request before the first real need, toggles filter creation, inbox CRUD and dedupe, milestones/tips, clicks and buttons routed (Hub and macOS), Esc closes toasts; UI list/filter/menu/toggles/toasts/popup/keyboard/axe                                                                                                                                                                                                         | `fork::notify::tests`, `fork::notify::macos::tests`; `tests/fork/notifications.spec.ts`                                                                                                                                                                                                             |
 
 **Test limits.** Handy's real commands and managers are typed to `tauri::Wry`

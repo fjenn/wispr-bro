@@ -4,14 +4,29 @@ import { useEffect } from "react";
 import { events } from "../bindings";
 import { isHubPageId, navigate } from "./nav";
 
-export function useMenuActions(): void {
-  useEffect(() => {
-    const listening = events.forkMenuAction.listen((event) => {
+let listening: Promise<void> | null = null;
+
+/**
+ * Listens once per page load. S-38: started before the Hub mounts (with the
+ * other listeners `reportHubReady` waits for), so an action that rebuilt a
+ * parked Hub reaches it; `navigate` only sets the nav store.
+ */
+export function listenForMenuActions(): Promise<void> {
+  listening ??= events.forkMenuAction
+    .listen((event) => {
       const { page, section } = event.payload;
       if (isHubPageId(page)) navigate(page, section);
+    })
+    .then(() => undefined)
+    .catch((error) => {
+      listening = null;
+      console.warn("hub: listening for menu actions failed", error);
     });
-    return () => {
-      void listening.then((stop) => stop());
-    };
+  return listening;
+}
+
+export function useMenuActions(): void {
+  useEffect(() => {
+    void listenForMenuActions();
   }, []);
 }

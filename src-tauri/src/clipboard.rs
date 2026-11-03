@@ -1025,7 +1025,14 @@ e.g. 28:1 28:0 means pressing on the Enter button on a standard US keyboard.
                 .expect("system clock should be after UNIX_EPOCH")
                 .as_nanos()
         ));
-        fs::write(&script_path, "#!/bin/sh\nsleep 3 &\nexit 0\n").expect("write external script");
+        // The background child outlives the generous timeout below by far,
+        // so a slow `sh` start on a loaded machine cannot pass for waiting.
+        let child_pid_path = script_path.with_extension("pid");
+        let script = format!(
+            "#!/bin/sh\nsleep 60 &\necho $! > '{}'\nexit 0\n",
+            child_pid_path.display()
+        );
+        fs::write(&script_path, script).expect("write external script");
         let mut permissions = fs::metadata(&script_path)
             .expect("read external script metadata")
             .permissions();
@@ -1041,9 +1048,13 @@ e.g. 28:1 28:0 means pressing on the Enter button on a standard US keyboard.
         });
 
         let result = receiver
-            .recv_timeout(Duration::from_secs(1))
+            .recv_timeout(Duration::from_secs(20))
             .expect("external script should return without waiting for its child");
         fs::remove_file(script_path).expect("remove external script");
+        if let Ok(pid) = fs::read_to_string(&child_pid_path) {
+            let _ = std::process::Command::new("kill").arg(pid.trim()).status();
+            let _ = fs::remove_file(child_pid_path);
+        }
         assert!(result.is_ok());
     }
 }

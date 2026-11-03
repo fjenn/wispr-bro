@@ -1924,8 +1924,29 @@ profile is never used).
 
 ### S-38 Performance and reliability hardening
 
-- [ ] S-38.1 (Exit criterion) Every §5 number met on each reference machine, or the model tier changed to meet it (recorded): latency benches p50/p95 per §5.1, 8 h idle run, 500-take soak, 50-take hardware run, memory-pressure test on 8 GB, startup timing.
-- Procedure: TODO (S-38). Machines: all.
+- [ ] S-38.1 (Exit criterion) Every §5 number met on each reference machine, or the model tier changed to meet it (recorded): latency benches p50/p95 per §5.1, 8 h idle run, 500-take soak, 50-take hardware run, memory-pressure test on 8 GB, startup timing. Part 2 (after S-25..S-37).
+- [ ] S-38.2 Idle memory and CPU (§5.2) on the release build, models unloaded, bar visible, Hub closed for > 60 s: total RSS (app + its WebKit processes) ≤ 250 MB and app CPU ≤ 0.5 % over 10 min (`python3 -I scripts/wb-soak/idle.py --pid <pid> --minutes 10 --footprint`). Part 1 measured on a debug build (PERF.md). **Queued for the Mac wave** on the release build.
+- [ ] S-38.3 Parked Hub by hand (queued for the Mac wave, one pass, debug
+      build with `WB_DEBUG_PARK_AFTER_S=10`): close the Hub, wait 15 s, the
+      log says `hub park: main hidden, web view released` and `idle.py`
+      shows one WebContent process fewer; then reopen it from (a) the tray's
+      Settings, (b) the Dock icon with "Show in Dock" on, (c) a second launch
+      of the app, (d) a macOS notification's Open (S-18 queued-takes
+      notification: lands on History), (e) ⌥O after a transform (S-22 View
+      changes page). Each opens the Hub at its previous position and size,
+      in the chosen appearance, on the right page; hotkeys keep working
+      while it is parked; the tray glyph matches the menu bar in light and
+      dark while parked; ⌘Q / tray Quit still quit at once. Close the
+      Scratchpad window, wait 15 s, open it from the bar: the last note is
+      there. Minimize the Hub, wait 15 s: it stays in the Dock.
+- [ ] S-38.4 Exactly-once soak (§5.4, 100 takes for A12.1, 500 before 1.0):
+      `scripts/wb-soak/soak.py` (header lists the setup: BlackHole 2ch as
+      the app's microphone, an empty field focused in each app, helpers
+      compiled into `--bin`). Pass: 0 lost, 0 duplicate, 0 wrong_target;
+      clipboard_restored true on every take. **Queued for the Mac wave**
+      (needs BlackHole installed by the owner; Slack and Notion are not
+      installed on the builder Mac).
+- Procedure: S-38.2-S-38.4 above. Machines: all for S-38.1.
 
 ### S-39 1.0 release
 

@@ -14,6 +14,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import type { ForkCardReason, ForkPillState } from "../../src/fork/bindings";
 import { test, expect, type IpcMock } from "./fixtures";
+import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
 const PAGE = "/src/fork/pill/index.html";
 type Size = { w: number; h: number };
@@ -65,8 +66,9 @@ async function openCard(
   page: Page,
   ipc: IpcMock,
   state: ForkPillState,
+  appSettings: unknown = null,
 ): Promise<void> {
-  ipc.respond({ fork_pill_snapshot: state, get_app_settings: null });
+  ipc.respond({ fork_pill_snapshot: state, get_app_settings: appSettings });
   const size = geometry.shapes.card;
   await page.setViewportSize({ width: size.w, height: size.h });
   await page.goto(PAGE);
@@ -155,10 +157,8 @@ test("keyboard only: Copy and Dismiss act on Enter and Space", async ({
 });
 
 test("RTL mirrors the card", async ({ page, ipc }) => {
-  await openCard(page, ipc, cardState("no_text_field"));
-  await page.evaluate(() => {
-    document.documentElement.dir = "rtl";
-  });
+  await openCard(page, ipc, cardState("no_text_field"), RTL_APP_SETTINGS);
+  await expectRtl(page);
   await expect
     .poll(async () => {
       const text = (await page.getByTestId("wb-pill-card").boundingBox())!;

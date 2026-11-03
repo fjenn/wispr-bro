@@ -12,6 +12,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import type { ForkPillState } from "../../src/fork/bindings";
 import { test, expect, type IpcMock } from "./fixtures";
+import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
 const PAGE = "/src/fork/pill/index.html";
 type Size = { w: number; h: number };
@@ -192,16 +193,16 @@ async function openPill(
   page: Page,
   ipc: IpcMock,
   snapshot: ForkPillState | null,
+  appSettings: unknown = null,
 ): Promise<void> {
-  ipc.respond({ fork_pill_snapshot: snapshot, get_app_settings: null });
+  ipc.respond({ fork_pill_snapshot: snapshot, get_app_settings: appSettings });
   const size = snapshot
     ? geometry.shapes[snapshot.shape]
     : geometry.shapes.held;
   await page.setViewportSize({ width: size.w, height: size.h });
   await page.goto(PAGE);
-  // The page sets `dir` once it has mounted with the app language; tests
-  // that change `dir` themselves must come after that (a slow load reset
-  // their RTL setting otherwise).
+  // The page sets `dir` from the app language; RTL tests pass an RTL
+  // language and wait for it (pill-page.ts).
   if (snapshot) {
     await expect(page.getByTestId("wb-pill")).toHaveAttribute(
       "data-phase",
@@ -415,16 +416,19 @@ test.describe("reduced motion", () => {
     await expect(bar).toHaveCSS("transition-duration", "0s");
   });
 
-  test("no serious or critical axe findings in any state", async ({
-    page,
-    ipc,
-  }) => {
-    // Every state twice (S-06 added three): more than the default 30 s
-    // when the Mac is busy.
-    test.setTimeout(120_000);
-    for (const theme of ["light", "dark"] as const) {
-      await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
-      for (const s of Object.values(STATES)) {
+  // One test per state and theme (S-38): the single loop over all 48 page
+  // loads ran past its 120 s budget when the Mac was busy. Separate tests
+  // run in parallel and each stays far inside the default timeout.
+  for (const theme of ["light", "dark"] as const) {
+    for (const [name, s] of Object.entries(STATES)) {
+      test(`no serious or critical axe findings: ${name}, ${theme}`, async ({
+        page,
+        ipc,
+      }) => {
+        await page.emulateMedia({
+          colorScheme: theme,
+          reducedMotion: "reduce",
+        });
         await openPill(page, ipc, s);
         await expect(page.getByTestId("wb-pill")).toBeVisible();
         const results = await new AxeBuilder({ page })
@@ -435,10 +439,10 @@ test.describe("reduced motion", () => {
         const serious = results.violations.filter(
           (v) => v.impact === "serious" || v.impact === "critical",
         );
-        expect(serious.map((v) => `${theme} ${s.phase}: ${v.id}`)).toEqual([]);
-      }
+        expect(serious.map((v) => `${theme} ${name}: ${v.id}`)).toEqual([]);
+      });
     }
-  });
+  }
 });
 
 test("dark mode lightens the capsule", async ({ page, ipc }) => {
@@ -457,11 +461,9 @@ test("dark mode lightens the capsule", async ({ page, ipc }) => {
 });
 
 test("RTL locales mirror the hands-free buttons", async ({ page, ipc }) => {
-  await openPill(page, ipc, STATES.locked);
+  await openPill(page, ipc, STATES.locked, RTL_APP_SETTINGS);
   // The page sets `dir` from the app language (`getLanguageDirection`).
-  await page.evaluate(() => {
-    document.documentElement.dir = "rtl";
-  });
+  await expectRtl(page);
   const cancel = await page.getByTestId("wb-pill-cancel").boundingBox();
   const finish = await page.getByTestId("wb-pill-finish").boundingBox();
   expect(cancel!.x).toBeGreaterThan(finish!.x);
@@ -547,17 +549,13 @@ test.describe("S-07a: setting up and the card", () => {
   });
 
   test("RTL mirrors the card and setting up", async ({ page, ipc }) => {
-    await openPill(page, ipc, STATES.card);
-    await page.evaluate(() => {
-      document.documentElement.dir = "rtl";
-    });
+    await openPill(page, ipc, STATES.card, RTL_APP_SETTINGS);
+    await expectRtl(page);
     const text = await page.getByTestId("wb-pill-card").boundingBox();
     const close = await page.getByTestId("wb-pill-dismiss").boundingBox();
     expect(text!.x).toBeGreaterThan(close!.x);
-    await openPill(page, ipc, STATES.settingUp);
-    await page.evaluate(() => {
-      document.documentElement.dir = "rtl";
-    });
+    await openPill(page, ipc, STATES.settingUp, RTL_APP_SETTINGS);
+    await expectRtl(page);
     const setup = await page.getByTestId("wb-pill-setup").boundingBox();
     const dismiss = await page.getByTestId("wb-pill-dismiss").boundingBox();
     expect(setup!.x).toBeGreaterThan(dismiss!.x);

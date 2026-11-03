@@ -172,19 +172,19 @@ pub fn record<R: Runtime>(app: &AppHandle<R>, run: &NewRun<'_>) -> Result<i64, S
 }
 
 /// Presents a run in both S-22 views: the main window and the pill's diff card.
-pub fn present<R: Runtime>(app: &AppHandle<R>, run: ForkTransformViewChanges) {
+pub fn present<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, run: ForkTransformViewChanges) {
     let id = run.run_id;
     crate::fork::pill::show_transform_diff(run.clone());
-    if let Some(window) = app.get_webview_window("main") {
-        let _ = window.show();
-        let _ = window.set_focus();
-    }
-    if let Err(e) = tauri_specta::Event::emit_to(&run, app, "main") {
-        log::warn!("transforms: could not send run {id} to the main window: {e}");
-    }
+    // S-38: a parked Hub is rebuilt and gets the run once its page listens.
+    let handle = app.clone();
+    crate::fork::hub::park::show_main_then(app, move || {
+        if let Err(e) = tauri_specta::Event::emit_to(&run, &handle, "main") {
+            log::warn!("transforms: could not send run {id} to the main window: {e}");
+        }
+    });
 }
 
-pub fn view_changes<R: Runtime>(app: &AppHandle<R>) {
+pub fn view_changes<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
     let Some(db) = app.try_state::<ForkDb>() else {
         return;
     };

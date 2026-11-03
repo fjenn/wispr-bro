@@ -14,6 +14,7 @@
 //! Handy's; Handy's first `update_tray_menu` during setup replaces it before
 //! the event loop shows anything.
 
+use std::sync::atomic::{AtomicU8, Ordering};
 use std::sync::Mutex;
 
 use tauri::menu::Menu;
@@ -97,11 +98,66 @@ pub fn extend<R: super::ForkRuntime>(
     Ok(())
 }
 
+/// Handy's appearance setting while the Hub is parked (S-38,
+/// `fork::hub::park`): 0 = not parked, 1 = follow macOS, 2 = light, 3 = dark.
+static PARKED_APPEARANCE: AtomicU8 = AtomicU8::new(0);
+
+/// Called by `fork::hub::park` when it destroys or rebuilds the main window.
+/// Handy's `get_current_theme` reads the theme from the main window and falls
+/// back to dark without it, which would put the white glyph on a light menu
+/// bar while the Hub is parked; [`icon_path`] answers from this instead.
+pub(crate) fn set_parked_appearance(appearance: Option<crate::settings::Theme>) {
+    let code = match appearance {
+        None => 0,
+        Some(crate::settings::Theme::System) => 1,
+        Some(crate::settings::Theme::Light) => 2,
+        Some(crate::settings::Theme::Dark) => 3,
+    };
+    PARKED_APPEARANCE.store(code, Ordering::Relaxed);
+}
+
+/// `theme` as Handy computed it, or, while the Hub is parked, the theme the
+/// main window would have had: Handy's setting, else the macOS appearance.
+fn parked_theme(theme: &AppTheme) -> AppTheme {
+    resolve_parked(PARKED_APPEARANCE.load(Ordering::Relaxed), theme, system_is_dark)
+}
+
+fn resolve_parked(code: u8, theme: &AppTheme, system_dark: impl Fn() -> bool) -> AppTheme {
+    if *theme == AppTheme::Colored {
+        return AppTheme::Colored;
+    }
+    match code {
+        2 => AppTheme::Light,
+        3 => AppTheme::Dark,
+        1 if system_dark() => AppTheme::Dark,
+        1 => AppTheme::Light,
+        _ => theme.clone(),
+    }
+}
+
+/// macOS dark appearance (`AppleInterfaceStyle` is `Dark` only then).
+/// `NSUserDefaults` is thread-safe, and the tray refresh runs off the main
+/// thread too.
+#[cfg(target_os = "macos")]
+fn system_is_dark() -> bool {
+    use objc2_foundation::{ns_string, NSUserDefaults};
+    let defaults = NSUserDefaults::standardUserDefaults();
+    defaults
+        .stringForKey(ns_string!("AppleInterfaceStyle"))
+        .is_some_and(|style| style.to_string().eq_ignore_ascii_case("dark"))
+}
+
+#[cfg(not(target_os = "macos"))]
+fn system_is_dark() -> bool {
+    true
+}
+
 /// The `tray.rs` `get_icon_path` hook: the fork's tray glyph for a theme and
 /// state, or `None` to keep Handy's (Linux "Colored" theme, until Linux
 /// ships). Paths are resources bundled by Handy's `resources/**/*` glob.
 pub fn icon_path(theme: &AppTheme, state: TrayIconState, warning: bool) -> Option<&'static str> {
     let warning = warning && state == TrayIconState::Idle;
+    let theme = &parked_theme(theme);
     Some(match (theme, state, warning) {
         (AppTheme::Colored, _, _) => return None,
         (AppTheme::Dark, _, true) => "resources/fork/tray/tray_idle_warning.png",
@@ -129,6 +185,19 @@ mod tests {
     // `extend` itself needs a native menu; muda builds menus only on the
     // macOS main thread, which `cargo test` does not own. The pure tray specs
     // are tested in `fork::app_menu::tests`.
+
+    #[test]
+    fn a_parked_hub_takes_the_glyph_theme_from_the_setting_or_macos() {
+        // Not parked: Handy's theme (from the main window) stands.
+        assert_eq!(resolve_parked(0, &AppTheme::Light, || true), AppTheme::Light);
+        // Parked: Handy's fallback (dark, no main window) is replaced.
+        assert_eq!(resolve_parked(2, &AppTheme::Dark, || true), AppTheme::Light);
+        assert_eq!(resolve_parked(3, &AppTheme::Dark, || false), AppTheme::Dark);
+        assert_eq!(resolve_parked(1, &AppTheme::Dark, || false), AppTheme::Light);
+        assert_eq!(resolve_parked(1, &AppTheme::Dark, || true), AppTheme::Dark);
+        // Linux keeps Handy's coloured icons.
+        assert_eq!(resolve_parked(3, &AppTheme::Colored, || true), AppTheme::Colored);
+    }
 
     #[test]
     fn version_label_is_ours_in_every_locale() {

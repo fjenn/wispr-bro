@@ -282,7 +282,7 @@ fn the_matcher_is_fast_with_a_thousand_snippets() {
     );
     let sentence = "so I said snippet number 512 to them, and we agreed on it. ";
     let text = sentence.repeat(20);
-    let started = std::time::Instant::now();
+    let started = crate::fork::testutil::CpuTimer::start();
     let (out, hits) = expand(&set, &text);
     let took = started.elapsed();
     assert_eq!(hits.len(), 20);

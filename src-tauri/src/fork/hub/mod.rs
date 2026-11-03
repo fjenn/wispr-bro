@@ -93,14 +93,23 @@ fn work_area<R: Runtime>(window: &WebviewWindow<R>) -> Option<(f64, f64)> {
     ))
 }
 
-/// Applies the Hub's window chrome to `main`. Called once from `on_ready`.
+pub mod park;
+
+/// Applies the Hub's window chrome to `main` and starts parking it while it
+/// is hidden (S-38, [`park`]). Called once from `on_ready`.
 pub fn on_ready<R: super::ForkRuntime>(app: &AppHandle<R>) {
     let Some(window) = app.get_webview_window("main") else {
         log::warn!("fork hub: no main window at Ready");
         return;
     };
+    style_main(app, &window);
+    park::watch(app, &window);
+}
 
-    let sizes = hub_window_size(R::hub_title_bar_height(&window), work_area(&window));
+/// The Hub's size, minimum size and title bar on `window` (Handy's `main`,
+/// or the one [`park::ensure_main`] rebuilds).
+pub(crate) fn style_main<R: super::ForkRuntime>(app: &AppHandle<R>, window: &WebviewWindow<R>) {
+    let sizes = hub_window_size(R::hub_title_bar_height(window), work_area(window));
     let min = LogicalSize::new(sizes.min.0, sizes.min.1);
     let size = LogicalSize::new(sizes.size.0, sizes.size.1);
     if let Err(e) = window
@@ -119,7 +128,7 @@ pub fn on_ready<R: super::ForkRuntime>(app: &AppHandle<R>) {
                 log::warn!("fork hub: overlay title bar failed: {e}");
             }
         }
-        R::hub_hide_title_text(&window);
+        R::hub_hide_title_text(window);
     }
     log::info!(
         "fork hub: main window {}×{} (min {}×{})",
@@ -139,8 +148,9 @@ pub(crate) fn hide_title_text(window: &WebviewWindow<tauri::Wry>) {
     let ptr = ptr as usize;
     let result = window.run_on_main_thread(move || {
         // SAFETY: `ptr` is the live NSWindow behind the main window (Tauri
-        // keeps it for the app's lifetime) and this closure runs on the main
-        // thread, as AppKit requires.
+        // keeps it until the window is destroyed, which S-38's parking does
+        // on this same main thread, never in between) and this closure runs
+        // on the main thread, as AppKit requires.
         let ns_window = unsafe { &*(ptr as *const objc2_app_kit::NSWindow) };
         ns_window.setTitleVisibility(objc2_app_kit::NSWindowTitleVisibility::Hidden);
     });
