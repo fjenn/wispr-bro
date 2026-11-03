@@ -358,6 +358,21 @@ fn candidates<'t>(text: &'t str, ws: &[Word], i: usize) -> Vec<Candidate<'t>> {
     out
 }
 
+/// The spelling `hint` takes in place of candidate `c`: as written, except
+/// that an all-lowercase hint (`café`, a dictionary word, S-38) starts with
+/// a capital where the transcript capitalized it (a sentence's first word).
+/// A hint with any capital (`Siobhán`, `iPhone`) is kept exactly.
+fn cased_like(c: &Candidate<'_>, hint: &str) -> String {
+    if !c.cased || hint.chars().any(char::is_uppercase) {
+        return hint.to_owned();
+    }
+    let mut chars = hint.chars();
+    match chars.next() {
+        Some(first) => first.to_uppercase().chain(chars).collect(),
+        None => String::new(),
+    }
+}
+
 /// Stage "context" (R5 §4.10, after Handy's stages): transcript words that
 /// are a hint misspelled get the hint's spelling.
 pub fn correct(text: &str, hints: &[String]) -> Corrected {
@@ -408,10 +423,14 @@ pub fn correct_outside(text: &str, hints: &[String], protected: &[(usize, usize)
                 }
             }
         }
+        let chosen = chosen.and_then(|(c, hint, score)| {
+            let spelled = cased_like(&c, hint);
+            (spelled != c.text).then_some((c, spelled, score))
+        });
         match chosen {
             Some((c, hint, _)) => {
                 out.push_str(&text[copied..c.start]);
-                out.push_str(hint);
+                out.push_str(&hint);
                 edits.push((c.start, c.end, hint.len()));
                 copied = c.end;
                 fixes += 1;

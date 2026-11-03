@@ -593,3 +593,95 @@ fn editor_names_spell_code_and_tag_files() {
     );
     assert_eq!(plain, "rename get user by id in index dot ts");
 }
+
+// ------------------------------------------------------------ S-38
+
+fn words(list: &[&str]) -> Vec<String> {
+    list.iter().map(|w| w.to_string()).collect()
+}
+
+#[test]
+fn accent_words_are_the_non_ascii_words_with_an_ascii_key() {
+    let all = words(&[
+        "Siobhán",
+        "ChargeBee",
+        "Zoë",
+        "東京",
+        "Москва",
+        "Æ",
+        "José María",
+    ]);
+    assert_eq!(accent_words(&all), words(&["Siobhán", "Zoë", "José María"]));
+}
+
+/// The S-16 finding: Parakeet writes "Siobhan", Handy's fuzzy fix skips the
+/// word (ASCII only), and the accent stage spells it as the dictionary does.
+#[test]
+fn a_dictionary_word_with_accents_fixes_its_plain_spelling() {
+    let dictionary = words(&["Siobhán", "café", "José María"]);
+    let raw = "Siobhan said siobhan's cafe is better.\nCafe with Jose Maria, not jose.";
+    // Handy's stage gets the dictionary too (as `custom_words`), and leaves
+    // the accented words alone.
+    let (text, mut record) = en(
+        raw,
+        &RuleSet::new(vec![]),
+        &["Siobhán", "café", "José María"],
+    );
+    assert_eq!(text, raw);
+    let out = dictionary_accent_stage(text, &accent_words(&dictionary), &mut record);
+    assert_eq!(
+        out,
+        "Siobhán said Siobhán's café is better.\nCafé with José María, not jose."
+    );
+    let stage = record
+        .stages
+        .iter()
+        .find(|s| s.stage == Stage::DictionaryAccents)
+        .expect("stage recorded");
+    assert_eq!(stage.changes, 5);
+    assert!(record.describe().contains("dictionary_accents=5"));
+}
+
+#[test]
+fn the_accent_stage_never_turns_ordinary_words_into_dictionary_words() {
+    let dictionary = accent_words(&words(&["Renée", "Ångström", "naïve"]));
+    let mut record = counts::TextRecord::default();
+    // Different letters stay, a right spelling stays, and only letters
+    // change: punctuation, digits and line breaks are byte for byte.
+    let raw = "Renata and renew, Renée, naive!\n\n3 angstrom";
+    let out = dictionary_accent_stage(raw.into(), &dictionary, &mut record);
+    // A word spelled with a capital in the dictionary keeps it.
+    assert_eq!(out, "Renata and renew, Renée, naïve!\n\n3 Ångström");
+}
+
+#[test]
+fn rule_outputs_stay_untouched_by_the_accent_stage() {
+    let rules = RuleSet::new(vec![Rule {
+        id: 7,
+        from: "shiv on".into(),
+        to: "Siobhan".into(),
+    }]);
+    let (text, mut record) = en("shiv on met Siobhan", &rules, &[]);
+    assert_eq!(text, "Siobhan met Siobhan");
+    let out = dictionary_accent_stage(text, &words(&["Siobhán"]), &mut record);
+    // The user's rule asked for "Siobhan": it stays, the recognizer's word
+    // is spelled as the dictionary has it, and stage 9 still finds the rule
+    // output where it is.
+    assert_eq!(out, "Siobhan met Siobhán");
+    assert_eq!(record.provenance[0].target_start, 0);
+}
+
+#[test]
+fn the_accent_stage_reads_the_installed_word_source() {
+    let _l = crate::fork::context::awareness::tests::lock();
+    // Only this test installs a word source; the nonsense word reaches no
+    // other test's text.
+    install_word_source(|| vec!["Zqobhán".into(), "Plainword".into()]);
+    let kept = process(
+        "zqobhan here".into(),
+        &OutputLanguageEvidence::UserSelected("en".into()),
+        handy(&[]),
+    );
+    assert_eq!(kept, "Zqobhán here");
+    let _ = ledger().take_processed(&kept);
+}

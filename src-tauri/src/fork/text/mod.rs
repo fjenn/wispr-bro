@@ -64,7 +64,10 @@ type RuleSource = Arc<dyn Fn() -> Vec<Rule> + Send + Sync>;
 type SnippetSource = Arc<dyn Fn() -> Vec<Snippet> + Send + Sync>;
 type SnippetSink = Arc<dyn Fn(SnippetUse) + Send + Sync>;
 
+type WordSource = Arc<dyn Fn() -> Vec<String> + Send + Sync>;
+
 static SOURCE: RwLock<Option<RuleSource>> = RwLock::new(None);
+static WORD_SOURCE: RwLock<Option<WordSource>> = RwLock::new(None);
 static COMPILED: Mutex<Option<(Vec<Rule>, Arc<RuleSet>)>> = Mutex::new(None);
 static SNIPPET_SOURCE: RwLock<Option<(SnippetSource, SnippetSink)>> = RwLock::new(None);
 static SNIPPETS_COMPILED: Mutex<Option<(Vec<Snippet>, Arc<SnippetSet>)>> = Mutex::new(None);
@@ -117,6 +120,39 @@ pub fn install_rule_source(source: impl Fn() -> Vec<Rule> + Send + Sync + 'stati
     *SOURCE.write().unwrap_or_else(|e| e.into_inner()) = Some(Arc::new(source));
 }
 
+/// Where the dictionary's active words come from (`fork.db`, set by
+/// `fork::on_ready`), for [`dictionary_accent_stage`]. Without a source no
+/// word applies (headless CLI).
+pub fn install_word_source(source: impl Fn() -> Vec<String> + Send + Sync + 'static) {
+    *WORD_SOURCE.write().unwrap_or_else(|e| e.into_inner()) = Some(Arc::new(source));
+}
+
+/// The dictionary words [`dictionary_accent_stage`] handles: the active
+/// words with a letter outside ASCII whose accent-free key is plain ASCII
+/// (`Siobhán` → `siobhan`, `Zoë`, `Ægir`). Handy's fuzzy fix already covers
+/// ASCII words, and scripts without an ASCII key (CJK, Cyrillic) are left
+/// to the recognizer's vocabulary, as Handy leaves them.
+pub fn accent_words(words: &[String]) -> Vec<String> {
+    words
+        .iter()
+        .filter(|w| !w.is_ascii())
+        .filter(|w| {
+            let k = crate::fork::context::hints::key(w);
+            k.chars().count() >= crate::fork::context::hints::MIN_HINT_CHARS
+                && k.chars().all(|c| c.is_ascii_alphanumeric())
+        })
+        .cloned()
+        .collect()
+}
+
+fn active_accent_words() -> Vec<String> {
+    let source = WORD_SOURCE
+        .read()
+        .unwrap_or_else(|e| e.into_inner())
+        .clone();
+    source.map(|s| accent_words(&s())).unwrap_or_default()
+}
+
 /// The active rules, compiled; recompiled only when they changed.
 pub fn active_rules() -> Arc<RuleSet> {
     let source = SOURCE.read().unwrap_or_else(|e| e.into_inner()).clone();
@@ -149,8 +185,14 @@ pub fn process(
     // S-36: the code and file names a set-up editor showed, if any.
     let identifiers = crate::fork::context::awareness::identifiers();
     let file_names = crate::fork::context::awareness::file_names();
+    let accent_words = active_accent_words();
     let outcome = catch_unwind(AssertUnwindSafe(|| {
         let (text, mut record) = run(&raw, lang, &rules, &mut handy);
+        let text = if accent_words.is_empty() {
+            text
+        } else {
+            dictionary_accent_stage(text, &accent_words, &mut record)
+        };
         let text = match identifiers.as_deref() {
             Some(ids) => identifier_stage(text, ids, &mut record),
             None => text,
@@ -196,6 +238,24 @@ pub fn process(
         ledger().note_context_used(&kept);
     }
     kept
+}
+
+/// S-38's stage (S-16 finding): a dictionary word with accents
+/// ([`accent_words`]) that the transcript has without them, or with other
+/// ones, takes the dictionary's spelling: `Siobhan` and `siobhan` →
+/// `Siobhán`. It is S-20's spelling pass ([`crate::fork::context::hints`])
+/// with the dictionary's words as hints, so its safety rules hold: a
+/// lowercase word changes only when its letters are the same apart from
+/// accents, a capitalized one also by Handy's fuzzy score and threshold,
+/// and only letters change. Dictionary rule outputs are never touched and
+/// stay findable for stage 9.
+pub fn dictionary_accent_stage(text: String, words: &[String], record: &mut TextRecord) -> String {
+    let c = crate::fork::context::hints::correct_outside(&text, words, &protected_spans(record));
+    for p in &mut record.provenance {
+        p.target_start = c.map_offset(p.target_start);
+    }
+    record.push(Stage::DictionaryAccents, c.fixes);
+    c.text
 }
 
 /// S-20's stage: transcript words that are a near-caret name misspelled

@@ -37,6 +37,21 @@ helpers: `axread` and `play` (this folder), `clip` (scripts/wb-s05) and
 
 Never plays through the speakers: `--device` must be a loopback driver, and
 the run stops if `play` reports another device.
+
+**Hardware run** (`--hardware`, R5 S-38: 50 takes with a real fn key on a
+real keyboard): the same apps, field clearing, read-back, card and
+clipboard checks, but no CLI toggle and no WAV. Per take the driver
+focuses the target, prints the sentence (`expect`), and the tester holds
+fn, reads it aloud and releases; the driver waits up to `--hardware-wait`
+seconds for the field to change. A person's words differ from the script,
+so the outcome compares words, not the exact text: `confirmed` when the
+field changed and holds the take once (≥ 50 % of the script's words, not
+twice their number), `duplicate` when the field holds it twice, then card /
+wrong_target / lost as above. No GUI lock is taken (the tester is at the
+Mac), and `--pid`, `--device`, `play` are not used.
+
+  python3 -I scripts/wb-soak/soak.py --hardware --plan plan.json --takes 50
+          --app unused --pid 0 --bin <helpers dir> --out <dir>
 """
 import argparse
 import fcntl
@@ -98,6 +113,73 @@ def toggle(app_bin):
 
 def activate(bundle):
     subprocess.run(["/usr/bin/open", "-b", bundle], capture_output=True, timeout=30)
+
+
+def words(text):
+    return [w.strip(".,!?;:\"'()") for w in norm(text).split() if w.strip(".,!?;:\"'()")]
+
+
+def spoken_outcome(value, expect):
+    """Hardware run: how many times a person's take of `expect` is in
+    `value` (0, 1 or 2), comparing words rather than the exact text."""
+    got, want = words(value), words(expect)
+    if not got or not want:
+        return 0
+    if len(got) >= 1.6 * len(want):
+        half = len(got) // 2
+        first, second = set(got[:half]), set(got[half:])
+        if first and len(first & second) >= 0.5 * len(first):
+            return 2
+    hits = sum(1 for w in set(want) if w in set(got))
+    return 1 if hits >= 0.5 * len(set(want)) else 0
+
+
+def hardware_take(h, a, n, target, take):
+    rec = {"n": n, "app": target["name"], "mode": "hardware"}
+    activate(target["bundle"])
+    time.sleep(1.0)
+    front = h.ax("front").get("front")
+    if front != target["bundle"]:
+        rec.update(outcome="skipped", reason=f"front={front}")
+        return rec
+    h.ax("clear")
+    before = h.ax("value").get("value", "")
+    clip_before = h.clip_digest()
+    print(f"\n[{n}] {target['name']}: hold fn, read aloud, release:\n    {take['expect']}", flush=True)
+    t0 = time.monotonic()
+    value, changed, card = before, False, False
+    while time.monotonic() - t0 < a.hardware_wait:
+        value = h.ax("value").get("value", "")
+        if norm(value) != norm(before):
+            changed = True
+            time.sleep(1.5)  # a duplicate paste would follow within this
+            value = h.ax("value").get("value", "")
+            break
+        bar = h.active_bar_height()
+        if CARD_MIN_H <= bar < 80:
+            card = True
+        time.sleep(0.2)
+    rec["front_at_end"] = h.ax("front").get("front")
+    rec["front_at_stop"] = rec["front_at_end"]
+    clip_after = h.clip_digest()
+    count = spoken_outcome(value, take["expect"]) if changed else 0
+    if count == 1:
+        outcome = "confirmed"
+    elif count > 1:
+        outcome = "duplicate"
+    elif not changed and card:
+        outcome = "card"
+    elif not changed and rec["front_at_end"] != target["bundle"]:
+        outcome = "wrong_target"
+    else:
+        outcome = "lost"
+    rec.update(
+        outcome=outcome,
+        latency_ms=None,
+        clipboard_restored=clip_before.get("digest") == clip_after.get("digest"),
+        field_chars=len(value),
+    )
+    return rec
 
 
 def one_take(h, a, n, target, take):
@@ -169,6 +251,8 @@ def main():
     ap.add_argument("--bin", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--gap", type=float, default=2.0, help="seconds between takes")
+    ap.add_argument("--hardware", action="store_true", help="a person takes each sentence with fn")
+    ap.add_argument("--hardware-wait", type=float, default=60.0)
     a = ap.parse_args()
 
     plan = json.load(open(a.plan))
@@ -181,11 +265,14 @@ def main():
         for n in range(1, a.takes + 1):
             target = apps[(n - 1) % len(apps)]
             take = takes[(n - 1) % len(takes)]
-            fcntl.flock(lock, fcntl.LOCK_EX)
-            try:
-                rec = one_take(h, a, n, target, take)
-            finally:
-                fcntl.flock(lock, fcntl.LOCK_UN)
+            if a.hardware:
+                rec = hardware_take(h, a, n, target, take)
+            else:
+                fcntl.flock(lock, fcntl.LOCK_EX)
+                try:
+                    rec = one_take(h, a, n, target, take)
+                finally:
+                    fcntl.flock(lock, fcntl.LOCK_UN)
             sink.write(json.dumps(rec) + "\n")
             sink.flush()
             tally[rec["outcome"]] = tally.get(rec["outcome"], 0) + 1

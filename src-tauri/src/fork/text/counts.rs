@@ -17,6 +17,11 @@ pub enum Stage {
     /// 2, 4, 5: Handy's script conversion, custom words, fillers and
     /// stutters, run per line.
     Handy,
+    /// S-38: dictionary words with letters outside ASCII (`Siobhán`)
+    /// spelled as the dictionary has them when the transcript has them
+    /// without the accents (`Siobhan`); after Handy's stages, whose fuzzy
+    /// word fix is ASCII-only.
+    DictionaryAccents,
     /// 7: line breaks, spoken punctuation, literal escapes.
     Commands,
     /// 7: "scratch that".
@@ -43,6 +48,7 @@ impl Stage {
         match self {
             Stage::Rules => "rules",
             Stage::Handy => "handy",
+            Stage::DictionaryAccents => "dictionary_accents",
             Stage::Commands => "commands",
             Stage::Scratch => "scratch",
             Stage::RulesRestored => "rules_restored",

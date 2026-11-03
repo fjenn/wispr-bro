@@ -724,6 +724,7 @@ impl Resting {
     pub fn show(&self) {
         if !self.panel.isVisible() {
             self.panel.orderFrontRegardless();
+            crate::fork::startup::mark(crate::fork::startup::Milestone::Bar);
         }
     }
 

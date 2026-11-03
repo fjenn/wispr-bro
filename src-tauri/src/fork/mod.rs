@@ -51,6 +51,8 @@ pub mod models;
 pub mod net;
 pub mod notify;
 pub mod onboarding;
+#[cfg(test)]
+mod perf_bench;
 pub mod pill;
 pub mod recovery;
 pub mod scratchpad;
@@ -58,6 +60,7 @@ pub mod settings;
 pub mod share;
 pub mod shortcut;
 pub mod snippets;
+pub mod startup;
 pub mod stats;
 #[cfg(test)]
 mod testutil;
@@ -151,6 +154,23 @@ fn install_rule_source<R: Runtime>(app: &AppHandle<R>) {
             .with_conn(|conn| db::rules::active_rules(conn))
             .unwrap_or_else(|e| {
                 log::warn!("text: could not read the dictionary rules: {e}");
+                Vec::new()
+            })
+    });
+}
+
+/// Points the text pipeline's accent stage (S-38) at the dictionary's
+/// active words in `fork.db`, read once per take like the rules.
+fn install_word_source<R: Runtime>(app: &AppHandle<R>) {
+    let app = app.clone();
+    text::install_word_source(move || {
+        let Some(fork_db) = app.try_state::<db::ForkDb>() else {
+            return Vec::new();
+        };
+        fork_db
+            .with_conn(|conn| dictionary::store::active_words(conn))
+            .unwrap_or_else(|e| {
+                log::warn!("text: could not read the dictionary words: {e}");
                 Vec::new()
             })
     });
@@ -465,7 +485,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     insert::on_ready(app);
     db::jobs::start(app);
     // S-11: the dictionary rules the text pipeline applies, read per take.
+    startup::init();
     install_rule_source(app);
+    install_word_source(app);
     // S-17: the snippets stage 11 expands, read per delivery.
     snippets::install(app);
     // S-19a: the Style page's app rules, cached for the take path.

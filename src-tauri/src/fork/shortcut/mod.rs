@@ -334,6 +334,8 @@ pub fn start<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
                 s.error = None;
                 s.fn_blocked = engine.grammar().blocks_fn() && s.trigger.as_deref() == Some("fn");
             });
+            // S-38: launch → hotkey ready (§5.3).
+            crate::fork::startup::mark(crate::fork::startup::Milestone::Hotkeys);
             log::info!(
                 "fork hotkeys: tap running (trigger {:?}, Globe {}, fn blocked {})",
                 trigger_name(engine.profile()),
