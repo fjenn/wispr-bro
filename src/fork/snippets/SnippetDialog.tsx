@@ -18,8 +18,8 @@ import {
   type KeyboardEvent,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Loader2 } from "lucide-react";
-import { Dialog } from "@/components/ui/Dialog";
+import { Loader2 } from "../ui/icons";
+import { Dialog } from "../ui/Dialog";
 import {
   commands,
   type SnippetEntry,
@@ -191,7 +191,7 @@ export function SnippetDialog({
       description={t("snippets.dialog.description")}
       closeLabel={t("snippets.dialog.close")}
       initialFocusRef={firstRef as React.RefObject<HTMLElement>}
-      className="max-w-xl! bg-(--wb-canvas)! text-(--wb-ink)"
+      className="max-w-xl!"
       contentFades={false}
       footer={
         <>

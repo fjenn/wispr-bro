@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useTranslation } from "react-i18next";
-import { Plus, Trash2, WandSparkles } from "lucide-react";
+import { Plus, Trash2, WandSparkles } from "../ui/icons";
 import type { TransformEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { chordLabel } from "../settings/hotkeys/model";
@@ -36,7 +36,7 @@ export function TransformCard({
       >
         <span className="flex w-full items-center gap-2">
           <WandSparkles
-            size={17}
+            size={18}
             aria-hidden="true"
             className="text-(--wb-accent)"
           />

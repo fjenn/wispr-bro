@@ -975,6 +975,7 @@ pub fn run(cli_args: CliArgs) {
                     .resizable(true)
                     .maximizable(true)
                     .visible(false);
+            win_builder = crate::fork::hub::window_builder(win_builder);
 
             if let Some(data_dir) = portable::data_dir() {
                 win_builder = win_builder.data_directory(data_dir.join("webview"));

@@ -8,7 +8,7 @@
  */
 import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CornerDownLeft, Plus } from "lucide-react";
+import { CornerDownLeft, Plus } from "../ui/icons";
 import { toast } from "sonner";
 import {
   commands,
@@ -163,7 +163,7 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
             <span className="max-w-40 truncate">{app.name}</span>
             {app.auto_send && (
               <CornerDownLeft
-                size={13}
+                size={14}
                 aria-hidden="true"
                 className="text-(--wb-ink-2)"
               />
@@ -241,7 +241,7 @@ export function GroupTab({ group }: { group: StyleGroup }) {
               data-testid="wb-style-add-app"
               className="rounded-full! px-2.5! py-1.5!"
             >
-              <Plus size={15} aria-hidden="true" />
+              <Plus size={16} aria-hidden="true" />
               <span>{t("style.apps.addShort")}</span>
             </Button>
           </li>

@@ -1,27 +1,30 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * wb-fonts (S-13): vendor the Hub's display serif into
- * `src/assets/fonts/fork/` (R4 "Fonts", C-21). Fonts are never fetched at
- * runtime; the app ships these files.
+ * wb-fonts (S-13, Design Phase 0): vendor the Hub's fonts into
+ * `src/assets/fonts/fork/` (R4 "Fonts", C-21, SYSTEM-PLAN §2). Fonts are
+ * never fetched at runtime; the app ships these files.
  *
  *   bun scripts/wb-fonts.ts           # copy from node_modules, write OFL texts
  *   bun scripts/wb-fonts.ts --check   # verify the vendored files (CI)
  *
  * Sources are the Fontsource packages pinned in package.json devDependencies
- * (`@fontsource-variable/newsreader` 5.3.0, `@fontsource-variable/
- * source-serif-4` 5.3.1, both OFL-1.1). Fontsource already splits each family
- * into per-script woff2 subsets with a matching `unicode-range`, so this
- * script copies the subsets we need instead of re-subsetting:
+ * (`@fontsource-variable/{figtree,inter,eb-garamond,jetbrains-mono}` 5.3.0,
+ * all OFL-1.1). Fontsource already splits each family into per-script woff2
+ * subsets with a matching `unicode-range`, so this script copies the subsets
+ * we need instead of re-subsetting (`src/fork/styles/fonts.css` declares
+ * them):
  *
- * - Newsreader (variable weight, upright): latin, latin-ext, vietnamese. The
- *   display face for headings and banners.
- * - Source Serif 4 (variable weight, upright): cyrillic, cyrillic-ext, greek.
- *   Newsreader has no Cyrillic or Greek, so these scripts fall back to it
- *   (R4: "Cyrillic/Greek fallback").
+ * - Figtree (variable weight, upright): latin, latin-ext. UI text.
+ * - Inter (variable weight, upright): cyrillic(-ext), greek(-ext),
+ *   vietnamese. The UI fallback for scripts Figtree lacks.
+ * - EB Garamond (variable weight, upright and italic): latin(-ext),
+ *   cyrillic(-ext), greek, vietnamese. Display moments only.
+ * - JetBrains Mono (variable weight, upright): latin(-ext), cyrillic, greek.
+ *   The typing test.
  *
- * Every other script falls back to the system serif (`src/fork/styles/
- * fonts.css`). Each file is pinned by sha256: a package bump that changes a
- * file fails `--check` until this table is updated on purpose.
+ * Every other script falls back to the system fonts. Each file is pinned by
+ * sha256: a package bump that changes a file fails `--check` until this
+ * table is updated on purpose.
  */
 import { createHash } from "node:crypto";
 import fs from "node:fs";
@@ -37,34 +40,119 @@ type FontFile = { pkg: string; file: string; sha256: string };
 
 export const FONT_FILES: FontFile[] = [
   {
-    pkg: "@fontsource-variable/newsreader",
-    file: "newsreader-latin-wght-normal.woff2",
-    sha256: "62981321d9a3cc7a61a73792729043703fd6112da86e8ec848bb57f088578757",
+    pkg: "@fontsource-variable/figtree",
+    file: "figtree-latin-wght-normal.woff2",
+    sha256: "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
   },
   {
-    pkg: "@fontsource-variable/newsreader",
-    file: "newsreader-latin-ext-wght-normal.woff2",
-    sha256: "ac6fa9ed533278f4c8fd3ae44a1fc78c7df736040237ab86fc1160d020af0af2",
+    pkg: "@fontsource-variable/figtree",
+    file: "figtree-latin-ext-wght-normal.woff2",
+    sha256: "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
   },
   {
-    pkg: "@fontsource-variable/newsreader",
-    file: "newsreader-vietnamese-wght-normal.woff2",
-    sha256: "f0dcc9795666850cc4cd8d50d55c44d48d9103cc86f552b4a12f0793eb915840",
+    pkg: "@fontsource-variable/inter",
+    file: "inter-cyrillic-wght-normal.woff2",
+    sha256: "71d5ee93cc1e9f1d520a3a8b66456de18c7879d8df09d57fcd2eaff75fef0075",
   },
   {
-    pkg: "@fontsource-variable/source-serif-4",
-    file: "source-serif-4-cyrillic-wght-normal.woff2",
-    sha256: "a81082707b85203d7f2ae33833f7ae0bf832db167c8710f92f805a9808fb051a",
+    pkg: "@fontsource-variable/inter",
+    file: "inter-cyrillic-ext-wght-normal.woff2",
+    sha256: "ca157063339ac4ad418f214f3abfed119b0798ab4d377386ce5c9e5a7a435ebd",
   },
   {
-    pkg: "@fontsource-variable/source-serif-4",
-    file: "source-serif-4-cyrillic-ext-wght-normal.woff2",
-    sha256: "da49e14ae1d459f3d04cf4555fb954f6e54b247b708f8cfe2d8e7e4ee3c6829b",
+    pkg: "@fontsource-variable/inter",
+    file: "inter-greek-wght-normal.woff2",
+    sha256: "1be3448e292fbf05ffe176fe1e43f135013d50b1e7d324ad1a558f623d3bb6f6",
   },
   {
-    pkg: "@fontsource-variable/source-serif-4",
-    file: "source-serif-4-greek-wght-normal.woff2",
-    sha256: "54c4728aa0fd97d59b89b6d89b230065794b4c088c55efe71abc9ce882cfa853",
+    pkg: "@fontsource-variable/inter",
+    file: "inter-greek-ext-wght-normal.woff2",
+    sha256: "6e9e020a25f9b56d418f2c085b1d3c09725a4da23fe693a5b463064606732190",
+  },
+  {
+    pkg: "@fontsource-variable/inter",
+    file: "inter-vietnamese-wght-normal.woff2",
+    sha256: "5c66f9e07e90c6d4ac4922cc68d60de26c17b1858e677fb5e603fce3952b3ff2",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-latin-wght-normal.woff2",
+    sha256: "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-latin-ext-wght-normal.woff2",
+    sha256: "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-cyrillic-wght-normal.woff2",
+    sha256: "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-cyrillic-ext-wght-normal.woff2",
+    sha256: "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-greek-wght-normal.woff2",
+    sha256: "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-vietnamese-wght-normal.woff2",
+    sha256: "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-latin-wght-italic.woff2",
+    sha256: "c664773f7e1d42d36326aa457becf7674236168c74cf7d74e87e5778ef7640f9",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-latin-ext-wght-italic.woff2",
+    sha256: "fa866520f8b7fb646ebc730fd0d3cbf8945db74d92f25fdd6fee486808652fdf",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-cyrillic-wght-italic.woff2",
+    sha256: "640020b01622b1c76c8f4137a3f39608fa22d718e17cb3e1d972e69c755ff6e0",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-cyrillic-ext-wght-italic.woff2",
+    sha256: "5a7499fae103446ed709a2aaab7dbabb13ad1841a5258c0dd5b56750067ac2f1",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-greek-wght-italic.woff2",
+    sha256: "288deb73f6a27a306138997d310e4efbfba9bb623eca0829be0e4475ff164b71",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    file: "eb-garamond-vietnamese-wght-italic.woff2",
+    sha256: "b086ea6d8bc9bc670c11015f13df0776c430b6c26a78a73b4dce9ddb423623c1",
+  },
+  {
+    pkg: "@fontsource-variable/jetbrains-mono",
+    file: "jetbrains-mono-latin-wght-normal.woff2",
+    sha256: "18be452724bfdc236c074ca94a249a7f41a86752c7d04ab258ce9ed5651f6a7e",
+  },
+  {
+    pkg: "@fontsource-variable/jetbrains-mono",
+    file: "jetbrains-mono-latin-ext-wght-normal.woff2",
+    sha256: "79bfdab9ba467e26eea4122e6f2567e188dd8a09a8c730d501fc487c4ab99c6e",
+  },
+  {
+    pkg: "@fontsource-variable/jetbrains-mono",
+    file: "jetbrains-mono-cyrillic-wght-normal.woff2",
+    sha256: "d274604c40757f98f07df623a8b8fb5194508a6fa4f5413a7a107f09e3b7452a",
+  },
+  {
+    pkg: "@fontsource-variable/jetbrains-mono",
+    file: "jetbrains-mono-greek-wght-normal.woff2",
+    sha256: "ee863198077f3093ffa81c072581cc4bd608a04e60a8a9c0b846396ce4f14109",
   },
 ];
 
@@ -73,8 +161,8 @@ export const FONT_FILES: FontFile[] = [
  * `LICENSES/OFL-1.1-NotoSansCJK.txt`: what is shipped, the copyright line from
  * the font's name table (ID 0), where the text comes from, then the package's
  * licence file unchanged. The copyright line is read from the vendored font
- * (`woff2Copyright`) because the Source Serif 4 package's LICENSE names only
- * "Google Inc." (Fontsource's packaging), while the font itself credits Adobe.
+ * (`woff2Copyright`): Fontsource's packaged LICENSE files do not always name
+ * the font's own copyright holder.
  */
 export const LICENSE_FILES: {
   pkg: string;
@@ -85,20 +173,36 @@ export const LICENSE_FILES: {
   font: string;
 }[] = [
   {
-    pkg: "@fontsource-variable/newsreader",
+    pkg: "@fontsource-variable/figtree",
     version: "5.3.0",
-    out: "OFL-1.1-Newsreader.txt",
+    out: "OFL-1.1-Figtree.txt",
     title:
-      "Newsreader (variable weight, upright; latin, latin-ext and vietnamese subsets shipped in src/assets/fonts/fork/)",
-    font: "newsreader-latin-wght-normal.woff2",
+      "Figtree (variable weight, upright; latin and latin-ext subsets shipped in src/assets/fonts/fork/)",
+    font: "figtree-latin-wght-normal.woff2",
   },
   {
-    pkg: "@fontsource-variable/source-serif-4",
-    version: "5.3.1",
-    out: "OFL-1.1-SourceSerif4.txt",
+    pkg: "@fontsource-variable/inter",
+    version: "5.3.0",
+    out: "OFL-1.1-Inter.txt",
     title:
-      "Source Serif 4 (variable weight, upright; cyrillic, cyrillic-ext and greek subsets shipped in src/assets/fonts/fork/)",
-    font: "source-serif-4-greek-wght-normal.woff2",
+      "Inter (variable weight, upright; cyrillic, cyrillic-ext, greek, greek-ext and vietnamese subsets shipped in src/assets/fonts/fork/)",
+    font: "inter-greek-wght-normal.woff2",
+  },
+  {
+    pkg: "@fontsource-variable/eb-garamond",
+    version: "5.3.0",
+    out: "OFL-1.1-EBGaramond.txt",
+    title:
+      "EB Garamond (variable weight, upright and italic; latin, latin-ext, cyrillic, cyrillic-ext, greek and vietnamese subsets shipped in src/assets/fonts/fork/)",
+    font: "eb-garamond-latin-wght-normal.woff2",
+  },
+  {
+    pkg: "@fontsource-variable/jetbrains-mono",
+    version: "5.3.0",
+    out: "OFL-1.1-JetBrainsMono.txt",
+    title:
+      "JetBrains Mono (variable weight, upright; latin, latin-ext, cyrillic and greek subsets shipped in src/assets/fonts/fork/)",
+    font: "jetbrains-mono-latin-wght-normal.woff2",
   },
 ];
 

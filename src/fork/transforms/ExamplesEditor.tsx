@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { open } from "@tauri-apps/plugin-dialog";
-import { Plus, Upload, X } from "lucide-react";
+import { Plus, Upload, X } from "../ui/icons";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";
@@ -93,7 +93,7 @@ export function ExamplesEditor({
             title={t("transforms.examples.remove", { number: index + 1 })}
             className={`absolute end-2 top-2 grid size-6 cursor-pointer place-items-center rounded-md bg-(--wb-card) text-(--wb-ink-2) ${FOCUS_RING}`}
           >
-            <X size={13} aria-hidden="true" />
+            <X size={14} aria-hidden="true" />
           </button>
         </div>
       ))}

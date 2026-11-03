@@ -4,23 +4,25 @@
  *
  * `App.tsx` renders this in place of Handy's sidebar and section layout (the
  * one React hook of R5 §4.2); Handy's onboarding switch around it is
- * unchanged until S-29a. Layout:
+ * unchanged until S-29a. Layout (Design Phase 0, SYSTEM-PLAN §7):
  *
- *   ┌ sidebar ───────┬ header (drag strip, theme, bell) ───────┐
- *   │ (traffic       ├──────────────────────────────────────────┤
- *   │  lights, ⧉)    │ page slot (scrolls)                      │
- *   │ pages…         │                                          │
- *   │ share/settings ├──────────────────────────────────────────┤
- *   │ help           │ footer (jobs · update · version)         │
- *   └────────────────┴──────────────────────────────────────────┘
+ *   ┌ ● ● ●  ⧉ ─────────────── title strip (46 pt) ─ jobs · update ☾ 🔔 ┐
+ *   │ sidebar         ╭──────────────────────────────────────────────╮  │
+ *   │ (chrome)        │ inset content panel, 22 pt radius            │  │
+ *   │ pages…          │ page slot (scrolls inside the panel)         │  │
+ *   │ checklist card  │                                              │  │
+ *   │ share/settings  │                                              │  │
+ *   │ help            ╰──────────────────────────────────────────────╯  │
+ *   └───────────────────────────────────────────────────────── 10 pt ──┘
  *
  * On macOS the window uses an overlay title bar while the Hub shows, so the
- * sidebar runs under the traffic lights (C-25); the strip at the top is a
- * drag region. Onboarding screens get the standard title bar back.
+ * strip runs under the traffic lights (C-25) and drags the window; the
+ * onboarding screens use the same overlay strip. There is no footer:
+ * the version and the update panel live in Settings › About; background
+ * jobs and an update that needs attention show in the title strip.
  */
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { platform } from "@tauri-apps/plugin-os";
 import SecureInputWarning from "@/components/SecureInputWarning";
@@ -29,7 +31,10 @@ import { WhatsNewGate } from "../whats-new/WhatsNewGate";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { FOCUS_RING, markNewTagSeen } from "../ui";
+import { motion } from "motion/react";
+import { IconButton, markNewTagSeen, TooltipProvider } from "../ui";
+import { PanelLeft } from "../ui/icons";
+import { MotionRoot, useMotionPresets } from "../ui/motion";
 import { listenForTransformChanges } from "../transforms/store";
 import { FixShortcutSheet } from "../settings/FixShortcutSheet";
 import {
@@ -38,13 +43,12 @@ import {
   useShortcutHealth,
 } from "../settings/shortcutHealth";
 import { useDropRouter } from "./dropRouter";
-import { Footer } from "./Footer";
 import {
   HandyAppHandlersContext,
   type HandyAppHandlers,
 } from "./HandySettingsPage";
 import { FeaturePopup } from "./FeaturePopup";
-import { Header } from "./Header";
+import { TitleStrip } from "./Header";
 import { syncHubWithHash, useHubNav } from "./nav";
 import { useMenuActions } from "./menuActions";
 import { useNotificationsLive } from "./NotificationsPanel";
@@ -87,20 +91,20 @@ function isMac(): boolean {
   }
 }
 
-/** Overlay title bar while the Hub is mounted (macOS only). */
+/**
+ * Overlay title bar (macOS only). The window is built with it (Design
+ * Phase 0, `fork/hub/mod.rs`) and onboarding keeps it too, so this only
+ * re-asserts it for a window built before that change.
+ */
 function useOverlayTitleBar(): void {
   useEffect(() => {
     if (!isMac()) return;
-    const window = getCurrentWindow();
-    void window
+    void getCurrentWindow()
       .setTitleBarStyle("overlay")
       .catch((e) => console.warn("fork: overlay title bar failed", e));
     document.documentElement.dataset.forkHub = "";
     return () => {
       delete document.documentElement.dataset.forkHub;
-      void window
-        .setTitleBarStyle("visible")
-        .catch((e) => console.warn("fork: title bar restore failed", e));
     };
   }, []);
 }
@@ -158,67 +162,72 @@ export function ForkApp(props: ForkAppProps) {
   const collapseLabel = collapsed
     ? t("hub.sidebar.expand")
     : t("hub.sidebar.collapse");
-  const CollapseIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
+  const m = useMotionPresets();
+
+  const toggle = (
+    <IconButton
+      data-testid="wb-sidebar-toggle"
+      aria-label={collapseLabel}
+      title={collapseLabel}
+      aria-expanded={!collapsed}
+      aria-controls="wb-sidebar"
+      onClick={toggleCollapsed}
+    >
+      <PanelLeft size={20} />
+    </IconButton>
+  );
 
   return (
     <HandyAppHandlersContext.Provider value={props}>
-      <div
-        data-testid="wb-hub"
-        dir={direction}
-        className="relative flex h-screen cursor-default overflow-hidden bg-(--wb-canvas) text-(--wb-ink) select-none"
-      >
-        {/* In the title strip, right of the traffic lights (C-14). Physical
-            `left`: macOS keeps the traffic lights on the left in RTL too. First in
-            the DOM so it is the first stop when tabbing. */}
-        <button
-          type="button"
-          data-testid="wb-sidebar-toggle"
-          aria-label={collapseLabel}
-          title={collapseLabel}
-          aria-expanded={!collapsed}
-          aria-controls="wb-sidebar"
-          onClick={toggleCollapsed}
-          className={`absolute top-(--wb-traffic-top) left-[76px] z-20 grid size-6 cursor-pointer place-items-center rounded-[7px] text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
-        >
-          <CollapseIcon size={16} aria-hidden="true" />
-        </button>
-        <ErrorBoundary context="What's New">
-          <WhatsNewGate />
-        </ErrorBoundary>
-        <ErrorBoundary context="Feature popup">
-          <FeaturePopup />
-        </ErrorBoundary>
-        <ErrorBoundary context="Fix shortcut">
-          <FixShortcutSheet />
-        </ErrorBoundary>
-        <ErrorBoundary context="First use">
-          <FirstUseChooser />
-        </ErrorBoundary>
-        <ErrorBoundary context="Lesson">
-          <LessonHost />
-        </ErrorBoundary>
-        <Sidebar collapsed={collapsed} />
-        <div className="flex min-w-0 flex-1 flex-col">
-          {/* The traffic lights stay top-left in every language; in RTL the
-              sidebar is on the right, so the header always clears them. */}
-          <Header inset={collapsed || direction === "rtl"} />
-          <main
-            ref={mainRef}
-            data-testid="wb-main"
-            data-page={page.id}
-            className="min-h-0 flex-1 overflow-y-auto"
+      <MotionRoot>
+        <TooltipProvider>
+          <div
+            data-testid="wb-hub"
+            dir={direction}
+            className="relative flex h-screen cursor-default flex-col overflow-hidden bg-(--wb-chrome) text-(--wb-ink) select-none"
           >
-            <div className="mx-auto flex w-full max-w-[880px] flex-col gap-6 px-8 pt-6 pb-10">
-              <ShortcutHealthBanner />
-              <SecureInputWarning />
-              <ErrorBoundary key={page.id} context={page.id}>
-                <Page />
-              </ErrorBoundary>
+            {/* First in the DOM so the sidebar toggle is the first tab stop. */}
+            <TitleStrip start={toggle} />
+            <ErrorBoundary context="What's New">
+              <WhatsNewGate />
+            </ErrorBoundary>
+            <ErrorBoundary context="Feature popup">
+              <FeaturePopup />
+            </ErrorBoundary>
+            <ErrorBoundary context="Fix shortcut">
+              <FixShortcutSheet />
+            </ErrorBoundary>
+            <ErrorBoundary context="First use">
+              <FirstUseChooser />
+            </ErrorBoundary>
+            <ErrorBoundary context="Lesson">
+              <LessonHost />
+            </ErrorBoundary>
+            <div className="flex min-h-0 flex-1">
+              <Sidebar collapsed={collapsed} />
+              <main
+                ref={mainRef}
+                data-testid="wb-main"
+                data-page={page.id}
+                className="mb-(--wb-panel-inset-bottom) me-(--wb-panel-inset-end) min-h-0 min-w-0 flex-1 overflow-y-auto rounded-(--wb-radius-xl) border border-(--wb-line) bg-(--wb-panel)"
+              >
+                <motion.div
+                  key={page.id}
+                  initial={m.page.initial}
+                  animate={m.page.animate}
+                  className="mx-auto flex w-full max-w-[1000px] flex-col gap-6 px-(--wb-page-pad-x) pt-(--wb-page-pad-top) pb-10 max-[860px]:px-8"
+                >
+                  <ShortcutHealthBanner />
+                  <SecureInputWarning />
+                  <ErrorBoundary key={page.id} context={page.id}>
+                    <Page />
+                  </ErrorBoundary>
+                </motion.div>
+              </main>
             </div>
-          </main>
-          <Footer />
-        </div>
-      </div>
+          </div>
+        </TooltipProvider>
+      </MotionRoot>
     </HandyAppHandlersContext.Provider>
   );
 }

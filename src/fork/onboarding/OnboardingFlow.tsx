@@ -278,7 +278,12 @@ export function OnboardingFlow({
       data-testid="wb-onboarding"
       data-step={step ?? "loading"}
     >
-      <header className="flex shrink-0 items-center gap-3 px-4 py-4 sm:px-6">
+      {/* The window's title strip (overlay title bar, Design Phase 0): it
+          drags the window and leaves room for the traffic lights. */}
+      <header
+        data-tauri-drag-region
+        className="flex h-(--wb-titlebar-height) shrink-0 items-center gap-3 pr-4 pl-[84px] sm:pr-6"
+      >
         {step ? <Stepper current={step} /> : <span className="flex-1" />}
         <HelpChip
           open={helpOpen}

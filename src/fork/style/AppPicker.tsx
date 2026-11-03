@@ -7,8 +7,8 @@
  */
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Loader2 } from "lucide-react";
-import { Dialog } from "@/components/ui/Dialog";
+import { Loader2 } from "../ui/icons";
+import { Dialog } from "../ui/Dialog";
 import { commands, type StyleGroup, type StylePickerApp } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { INPUT_CLASS } from "../dictionary/AddWordDialog";
@@ -88,7 +88,7 @@ export function AppPicker({
       description={t("style.picker.description", { group: groupName })}
       closeLabel={t("style.picker.close")}
       initialFocusRef={searchRef as React.RefObject<HTMLElement>}
-      className="max-w-lg! bg-(--wb-canvas)! text-(--wb-ink)"
+      className="max-w-lg!"
       contentFades={false}
       footer={
         <Button onClick={() => onOpenChange(false)} disabled={!!busy}>

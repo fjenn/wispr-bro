@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight, X } from "../ui/icons";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FORK_NAMESPACE } from "../i18n";
@@ -105,7 +105,7 @@ export function SettingsModal() {
               className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
               data-testid="wb-settings-close"
             >
-              <X size={17} aria-hidden="true" />
+              <X size={18} aria-hidden="true" />
             </button>
           </div>
           <nav aria-label={t("settingsModal.navigation")} className="mt-5">

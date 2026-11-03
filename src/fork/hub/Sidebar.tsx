@@ -7,15 +7,16 @@
  * `aria-current="page"`. Collapsed, the sidebar shows icons only, each with
  * its name as the accessible label and a tooltip.
  *
- * The top strip is empty on purpose: the macOS traffic lights and the
- * collapse button (rendered by `ForkApp`) sit there, and it drags the window.
+ * Design Phase 0: flush with the window chrome (no divider), 216 pt wide,
+ * 15 px medium labels in ink with 18 pt icons on a 40 pt pitch; the current
+ * page gets a barely-there warm fill, never a colour or a bolder label.
+ * The traffic lights and the collapse toggle live in the title strip above.
  */
 import { forwardRef, type ReactNode } from "react";
-import { CircleHelp } from "lucide-react";
+import { CircleHelp } from "../ui/icons";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "@/components/ui/Tooltip";
 import { FORK_NAMESPACE } from "../i18n";
-import { FOCUS_RING, Tag } from "../ui";
+import { FOCUS_RING, Tag, Tooltip } from "../ui";
 import { HelpPopover } from "./HelpPopover";
 import { navigate, useHubNav } from "./nav";
 import { HUB_PAGES, newTagId, pageLabelKey, type HubPage } from "./pages";
@@ -29,12 +30,12 @@ export function setSidebarCard(render: (() => ReactNode) | null): void {
 }
 
 const itemClass = (active: boolean, collapsed: boolean) =>
-  `group flex cursor-pointer items-center gap-2.5 rounded-(--wb-radius-control) text-[13.5px] transition-colors ${
-    collapsed ? "mx-auto size-10 justify-center" : "w-full px-2.5 py-[7px]"
+  `group flex cursor-pointer items-center gap-3 rounded-(--wb-radius-sm) text-[15px] font-medium text-(--wb-ink) transition-colors duration-(--wb-dur-fast) ${
+    collapsed ? "mx-auto size-10 justify-center" : "h-9 w-full px-2.5"
   } ${
     active
-      ? "bg-(--wb-selected) font-semibold text-(--wb-ink)"
-      : "font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink)"
+      ? "bg-(--wb-fill-active)"
+      : "hover:bg-(--wb-fill-hover) active:bg-(--wb-fill-press)"
   } ${FOCUS_RING}`;
 
 interface NavButtonProps {
@@ -63,12 +64,7 @@ const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(
         className={itemClass(active, collapsed)}
         {...rest}
       >
-        <Icon
-          size={18}
-          strokeWidth={active ? 2.1 : 1.8}
-          aria-hidden="true"
-          className="shrink-0"
-        />
+        <Icon size={18} className="shrink-0" />
         {!collapsed && (
           <>
             <span className="min-w-0 flex-1 truncate text-start">{label}</span>
@@ -110,7 +106,7 @@ function PageButton({
     />
   );
   return collapsed ? (
-    <Tooltip text={label} placement="below" className="w-full justify-center">
+    <Tooltip text={label} side="right">
       {button}
     </Tooltip>
   ) : (
@@ -145,21 +141,18 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
       id="wb-sidebar"
       data-testid="wb-sidebar"
       data-collapsed={collapsed || undefined}
-      className={`flex h-full shrink-0 flex-col bg-(--wb-sidebar) transition-[width] duration-200 motion-reduce:transition-none ${
+      className={`flex h-full shrink-0 flex-col bg-(--wb-chrome) transition-[width] duration-(--wb-dur-base) ease-(--wb-ease-out) motion-reduce:transition-none ${
         collapsed
           ? "w-(--wb-sidebar-collapsed-width)"
           : "w-(--wb-sidebar-width)"
       }`}
     >
-      <div
-        data-tauri-drag-region
-        className="h-[calc(var(--wb-titlebar-height)+12px)] shrink-0"
-      />
+      <div data-tauri-drag-region className="h-3 shrink-0" />
       <nav
         aria-label={t("hub.nav.label")}
-        className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 pb-3"
+        className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 pb-2.5"
       >
-        <ul className="flex flex-col gap-0.5">
+        <ul className="flex flex-col gap-1">
           {main.map((page) => (
             <li key={page.id}>
               <PageButton page={page} collapsed={collapsed} />
@@ -168,7 +161,7 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
         </ul>
         <div className="flex-1" />
         {card && !collapsed && <div data-testid="wb-sidebar-card">{card}</div>}
-        <ul className="flex flex-col gap-0.5">
+        <ul className="flex flex-col gap-1 border-t border-(--wb-line) pt-3">
           {bottom.map((page) => (
             <li key={page.id}>
               <PageButton page={page} collapsed={collapsed} />

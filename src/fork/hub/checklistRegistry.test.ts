@@ -3,7 +3,7 @@
 // S-30: later slices add checklist items without changes to the card or
 // the registry; order, replacement, removal, progress and the next item.
 import assert from "node:assert/strict";
-import { Circle } from "lucide-react";
+import { Circle } from "../ui/icons";
 import {
   checklistItems,
   checklistProgress,

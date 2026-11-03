@@ -12,14 +12,49 @@
 //! - **Title text hidden** (macOS): the Hub draws its own header under the
 //!   title bar; the window keeps its title for the Window menu, Mission
 //!   Control and VoiceOver.
-//! - **Overlay title bar** (macOS) when onboarding is already done, so a
-//!   returning user's window opens with the Hub's chrome. The frontend owns
-//!   the style afterwards: `ForkApp` sets the overlay while the Hub shows and
-//!   restores the standard title bar when it unmounts (onboarding screens).
-//!   The drag strip needs `core:window:allow-start-dragging` and the switch
+//! - **Overlay title bar** (macOS) on every screen, Hub and onboarding
+//!   (Design Phase 0): the page draws a 46 pt title strip
+//!   (`--wb-titlebar-height`) and the traffic lights are centred in it
+//!   ([`TRAFFIC_LIGHTS`], set on the window builder by [`window_builder`],
+//!   which tao re-applies on every redraw). The frontend also asks for the
+//!   overlay when it mounts. The drag strip needs
+//!   `core:window:allow-start-dragging` and the switch
 //!   `core:window:allow-set-title-bar-style` (`capabilities/fork.json`).
 
-use tauri::{AppHandle, LogicalSize, Manager, Runtime, WebviewWindow};
+use tauri::{AppHandle, LogicalSize, Manager, Runtime, WebviewWindow, WebviewWindowBuilder};
+
+/// Where the traffic lights go, in logical points from the window's top-left
+/// (tao's inset: `x` is the close button's left edge, `y` its distance below
+/// the top, which centres the 14 pt buttons in the 46 pt strip; REFERENCE-SPEC
+/// §1 measures the close button's centre at 21 / 23 pt).
+pub const TRAFFIC_LIGHTS: (f64, f64) = (14.0, 23.0);
+
+/// Height of the Hub's title strip; keep in step with
+/// `--wb-titlebar-height` in `src/fork/styles/tokens.css`.
+pub const TITLE_STRIP_HEIGHT: f64 = 46.0;
+
+/// The main window's builder with the Hub's title bar (macOS: overlay,
+/// hidden title text, traffic lights at [`TRAFFIC_LIGHTS`]):
+/// called on Handy's builder in `lib.rs` (one hook line) and on the rebuilt
+/// window in [`park`]. A no-op elsewhere.
+pub fn window_builder<'a, R: Runtime, M: Manager<R>>(
+    builder: WebviewWindowBuilder<'a, R, M>,
+) -> WebviewWindowBuilder<'a, R, M> {
+    #[cfg(target_os = "macos")]
+    {
+        builder
+            .title_bar_style(tauri::TitleBarStyle::Overlay)
+            .hidden_title(true)
+            .traffic_light_position(tauri::LogicalPosition::new(
+                TRAFFIC_LIGHTS.0,
+                TRAFFIC_LIGHTS.1,
+            ))
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        builder
+    }
+}
 
 /// Default size of the Hub's page area in logical pixels (width × height,
 /// title bar excluded).
@@ -108,7 +143,7 @@ pub fn on_ready<R: super::ForkRuntime>(app: &AppHandle<R>) {
 
 /// The Hub's size, minimum size and title bar on `window` (Handy's `main`,
 /// or the one [`park::ensure_main`] rebuilds).
-pub(crate) fn style_main<R: super::ForkRuntime>(app: &AppHandle<R>, window: &WebviewWindow<R>) {
+pub(crate) fn style_main<R: super::ForkRuntime>(_app: &AppHandle<R>, window: &WebviewWindow<R>) {
     let sizes = hub_window_size(R::hub_title_bar_height(window), work_area(window));
     let min = LogicalSize::new(sizes.min.0, sizes.min.1);
     let size = LogicalSize::new(sizes.size.0, sizes.size.1);
@@ -122,11 +157,8 @@ pub(crate) fn style_main<R: super::ForkRuntime>(app: &AppHandle<R>, window: &Web
 
     #[cfg(target_os = "macos")]
     {
-        let onboarded = R::handy_settings(app).is_some_and(|s| s.0.onboarding_completed);
-        if onboarded {
-            if let Err(e) = window.set_title_bar_style(tauri::TitleBarStyle::Overlay) {
-                log::warn!("fork hub: overlay title bar failed: {e}");
-            }
+        if let Err(e) = window.set_title_bar_style(tauri::TitleBarStyle::Overlay) {
+            log::warn!("fork hub: overlay title bar failed: {e}");
         }
         R::hub_hide_title_text(window);
     }
@@ -187,6 +219,14 @@ mod tests {
         assert_eq!(s.size, (976.0, 628.0));
         let tiny = hub_window_size(BAR, Some((600.0, 400.0)));
         assert_eq!(tiny.size, tiny.min);
+    }
+
+    #[test]
+    fn traffic_lights_sit_in_the_title_strip() {
+        let (x, y) = TRAFFIC_LIGHTS;
+        assert!(x > 0.0 && x < 24.0);
+        // tao's y is the buttons' centre line for the default 14 pt buttons.
+        assert!((y - TITLE_STRIP_HEIGHT / 2.0).abs() < 1.0);
     }
 
     #[test]

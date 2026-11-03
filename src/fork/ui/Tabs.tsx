@@ -2,7 +2,8 @@
 /**
  * Tabs on Radix Tabs (R4 "UI primitives", MIT): arrow keys move between
  * tabs, Home/End jump, and the panel is labelled by its tab. Styled with the
- * Hub tokens; the selected tab is underlined in ink.
+ * Hub tokens (Design Phase 0): 15 px medium labels, the selected one in ink
+ * over a 2 pt ink underline, the rest in ink-3.
  *
  * ```tsx
  * <Tabs value={tab} onValueChange={setTab} label={t("...")}
@@ -52,13 +53,13 @@ export function Tabs({
     >
       <RadixTabs.List
         aria-label={label}
-        className="flex flex-wrap gap-1 border-b border-(--wb-line)"
+        className="flex flex-wrap gap-5 border-b border-(--wb-line)"
       >
         {tabs.map((tab) => (
           <RadixTabs.Trigger
             key={tab.value}
             value={tab.value}
-            className={`-mb-px cursor-pointer rounded-t-(--wb-radius-control) border-b-2 border-transparent px-3 py-2 text-[13px] font-medium text-(--wb-ink-2) hover:text-(--wb-ink) data-[state=active]:border-(--wb-ink) data-[state=active]:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`-mb-px inline-flex cursor-pointer items-center gap-1.5 rounded-t-[4px] border-b-2 border-transparent pt-1 pb-2.5 text-[15px] font-medium text-(--wb-ink-3) transition-colors duration-(--wb-dur-fast) hover:text-(--wb-ink) data-[state=active]:border-(--wb-ink) data-[state=active]:text-(--wb-ink) ${FOCUS_RING}`}
           >
             {tab.label}
           </RadixTabs.Trigger>

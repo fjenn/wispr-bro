@@ -9,7 +9,7 @@
  * Words per minute needs 3 s of timed speech (S-09); until then, and while
  * the stats cannot be read, a dash is shown with the reason as text.
  */
-import { Flame, Gauge, Type, type LucideIcon } from "lucide-react";
+import { Flame, Gauge, Type, type Glyph } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import type { StatsSummary } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -39,7 +39,7 @@ function Stat({
   missing,
 }: {
   testId: string;
-  icon: LucideIcon;
+  icon: Glyph;
   label: string;
   value: string | null;
   /** Read instead of the dash when `value` is null. */

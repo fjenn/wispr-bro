@@ -10,9 +10,9 @@
  */
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Loader2 } from "lucide-react";
-import { Dialog } from "@/components/ui/Dialog";
-import { Switch } from "@/components/ui/Switch";
+import { Loader2 } from "../ui/icons";
+import { Dialog } from "../ui/Dialog";
+import { Switch } from "../ui/Switch";
 import {
   commands,
   type DictionaryEntry,
@@ -218,7 +218,6 @@ export function AddWordDialog({
       description={t("dictionary.dialog.description")}
       closeLabel={t("dictionary.dialog.close")}
       initialFocusRef={firstRef as React.RefObject<HTMLElement>}
-      className="bg-(--wb-canvas)! text-(--wb-ink)"
       contentFades={false}
       footer={
         <>

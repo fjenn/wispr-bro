@@ -12,7 +12,7 @@ import {
   Type,
   WandSparkles,
   X,
-} from "lucide-react";
+} from "../ui/icons";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { commands, events, type Note } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -421,9 +421,9 @@ export function NoteWindow() {
                 data-testid="wb-note-copy"
               >
                 {copied ? (
-                  <Check size={15} aria-hidden="true" />
+                  <Check size={16} aria-hidden="true" />
                 ) : (
-                  <Copy size={15} aria-hidden="true" />
+                  <Copy size={16} aria-hidden="true" />
                 )}
                 {copied ? t("scratchpad.copied") : t("scratchpad.copy")}
               </button>

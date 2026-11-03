@@ -5,7 +5,7 @@
  * index: substrings, any case); Esc clears and closes, and focus goes back
  * to the button.
  */
-import { Search as SearchIcon, X } from "lucide-react";
+import { Search as SearchIcon, X } from "../ui/icons";
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
@@ -66,7 +66,7 @@ export function Search({ query, onQuery }: SearchProps) {
       className="flex min-w-0 items-center gap-1 rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) ps-2.5 pe-1 focus-within:ring-2 focus-within:ring-(--wb-accent)"
     >
       <SearchIcon
-        size={15}
+        size={16}
         aria-hidden="true"
         className="shrink-0 text-(--wb-ink-3)"
       />

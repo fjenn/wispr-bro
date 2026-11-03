@@ -5,7 +5,7 @@
  */
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { X } from "lucide-react";
+import { X } from "../ui/icons";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FORK_NAMESPACE } from "../i18n";
 import { HotkeysPanel } from "../settings/hotkeys/HotkeysPanel";

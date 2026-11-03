@@ -23,7 +23,7 @@
  * a side effect (Open at login's turns autostart on; S-32 decision).
  */
 import { useSyncExternalStore } from "react";
-import type { LucideIcon } from "lucide-react";
+import { type Glyph } from "../ui/icons";
 
 /** What an item's `run` can use. */
 export interface ChecklistRunContext {
@@ -45,7 +45,7 @@ export interface ChecklistItem {
    * S-31's Try a Transform 35, S-32's Try whispering 37).
    */
   order: number;
-  icon: LucideIcon;
+  icon: Glyph;
   /** `fork` namespace keys. */
   titleKey: string;
   actionKey: string;

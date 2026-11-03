@@ -21,7 +21,7 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Bell, BellOff, CheckCheck, MoreHorizontal } from "lucide-react";
+import { Bell, BellOff, CheckCheck, MoreHorizontal } from "../ui/icons";
 import { toast } from "sonner";
 import {
   events,
@@ -44,7 +44,7 @@ import {
   useInbox,
 } from "./notifications";
 
-const iconButton = `relative grid size-7 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) transition-colors hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`;
+const iconButton = `relative grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`;
 
 type ToggleKey = "suggestions" | "announcements" | "milestones" | "system";
 
@@ -92,7 +92,7 @@ function MoreMenu() {
           title={label}
           className={iconButton}
         >
-          <MoreHorizontal size={17} aria-hidden="true" />
+          <MoreHorizontal size={18} aria-hidden="true" />
         </button>
       }
       groups={[
@@ -296,12 +296,12 @@ export function NotificationsBell() {
           title={bellLabel}
           className={iconButton}
         >
-          <Bell size={17} aria-hidden="true" />
+          <Bell size={20} />
           {unread > 0 && (
             <span
               aria-hidden="true"
               data-testid="wb-notifications-badge"
-              className="absolute end-1 top-1 size-2 rounded-full bg-(--wb-accent) ring-2 ring-(--wb-canvas)"
+              className="absolute end-1 top-1 size-2 rounded-full bg-(--wb-accent) ring-2 ring-(--wb-chrome)"
             />
           )}
         </button>

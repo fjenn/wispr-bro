@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { ArrowRight, LockKeyhole, AudioLines } from "lucide-react";
+import { ArrowRight, LockKeyhole, AudioLines } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
@@ -12,7 +12,7 @@ export function Welcome({ onContinue }: { onContinue: () => void }) {
         className="grid size-20 place-items-center rounded-[24px] bg-(--wb-banner) text-(--wb-accent)"
         aria-hidden="true"
       >
-        <AudioLines size={42} strokeWidth={1.6} />
+        <AudioLines size={40} strokeWidth={1.6} />
       </div>
       <div className="flex flex-col gap-3">
         <h1 className="m-0 font-(--wb-font-display) text-[38px] leading-[1.08] font-semibold tracking-[-0.02em] text-balance">
@@ -24,7 +24,7 @@ export function Welcome({ onContinue }: { onContinue: () => void }) {
       </div>
       <div className="flex w-full items-start gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4 text-start shadow-(--wb-shadow)">
         <LockKeyhole
-          size={21}
+          size={20}
           aria-hidden="true"
           className="mt-0.5 shrink-0 text-(--wb-accent)"
         />

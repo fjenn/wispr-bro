@@ -9,7 +9,7 @@
  * The chart and the heatmap are lazy chunks (Recharts and
  * react-activity-calendar); the figures around them are plain text.
  */
-import { Flame, Gauge, Sparkles, Type, type LucideIcon } from "lucide-react";
+import { Flame, Gauge, Sparkles, Type, type Glyph } from "../ui/icons";
 import { lazy, Suspense, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { UsageInsights } from "../bindings";
@@ -31,7 +31,7 @@ export function Card({
   className = "",
 }: {
   testId: string;
-  icon?: LucideIcon;
+  icon?: Glyph;
   title: string;
   children: ReactNode;
   className?: string;

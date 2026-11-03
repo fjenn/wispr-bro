@@ -8,8 +8,8 @@
  */
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ClipboardCopy, ExternalLink, Loader2 } from "lucide-react";
-import { Dialog } from "@/components/ui/Dialog";
+import { ClipboardCopy, ExternalLink, Loader2 } from "../ui/icons";
+import { Dialog } from "../ui/Dialog";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
@@ -60,7 +60,6 @@ export function ReportProblemDialog({
       description={t("hub.help.report.body")}
       closeLabel={t("hub.help.report.close")}
       initialFocusRef={openRef as React.RefObject<HTMLElement>}
-      className="bg-(--wb-canvas)! text-(--wb-ink)"
       contentFades={false}
       footer={
         <>

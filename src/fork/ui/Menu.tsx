@@ -11,13 +11,13 @@
  * ```
  */
 import * as RadixMenu from "@radix-ui/react-dropdown-menu";
-import { Check, type LucideIcon } from "lucide-react";
+import { Check, type Glyph } from "./icons";
 import type { ReactElement } from "react";
 
 export interface MenuItem {
   id: string;
   label: string;
-  icon?: LucideIcon;
+  icon?: Glyph;
   onSelect: () => void;
   disabled?: boolean;
   /** Makes the item a checkbox (`menuitemcheckbox`) in this state (S-18). */
@@ -70,7 +70,7 @@ export function Menu({
           aria-label={label}
           data-testid={testId}
           onCloseAutoFocus={onCloseAutoFocus}
-          className="z-50 min-w-52 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-1.5 text-(--wb-ink) shadow-(--wb-shadow) motion-safe:animate-drop"
+          className="wb-pop z-50 min-w-52 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-1 text-(--wb-ink) shadow-(--wb-elev-1)"
         >
           {groups.map((group, index) => (
             <RadixMenu.Group key={group.label ?? index}>
@@ -78,14 +78,14 @@ export function Menu({
                 <RadixMenu.Separator className="my-1 h-px bg-(--wb-line)" />
               )}
               {group.label && (
-                <RadixMenu.Label className="px-2.5 pt-1.5 pb-1 text-[11.5px] font-semibold text-(--wb-ink-3)">
+                <RadixMenu.Label className="type-micro px-2.5 pt-2 pb-1 text-(--wb-ink-3)">
                   {group.label}
                 </RadixMenu.Label>
               )}
               {group.items.map((item) => {
                 const Icon = item.icon;
                 const itemClass =
-                  "flex cursor-pointer items-center gap-2.5 rounded-[8px] px-2.5 py-1.5 text-[13px] outline-none select-none data-[disabled]:cursor-default data-[disabled]:opacity-50 data-[highlighted]:bg-(--wb-hover)";
+                  "flex min-h-8 cursor-pointer items-center gap-2.5 rounded-(--wb-radius-sm) px-2.5 py-1.5 text-[14px] outline-none select-none data-[disabled]:cursor-default data-[disabled]:opacity-50 data-[highlighted]:bg-(--wb-fill-hover)";
                 if (item.checked !== undefined) {
                   return (
                     <RadixMenu.CheckboxItem
@@ -102,10 +102,10 @@ export function Menu({
                     >
                       <span
                         aria-hidden="true"
-                        className="grid size-[15px] place-items-center text-(--wb-accent)"
+                        className="grid size-4 place-items-center text-(--wb-ink)"
                       >
                         <RadixMenu.ItemIndicator>
-                          <Check size={15} />
+                          <Check size={16} />
                         </RadixMenu.ItemIndicator>
                       </span>
                       {item.label}
@@ -120,13 +120,7 @@ export function Menu({
                     data-testid={`wb-menu-item-${item.id}`}
                     className={itemClass}
                   >
-                    {Icon && (
-                      <Icon
-                        size={15}
-                        aria-hidden="true"
-                        className="text-(--wb-ink-2)"
-                      />
-                    )}
+                    {Icon && <Icon size={16} className="text-(--wb-ink-2)" />}
                     {item.label}
                   </RadixMenu.Item>
                 );

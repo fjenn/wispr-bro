@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { FileAudio } from "lucide-react";
+import { FileAudio } from "../ui/icons";
 import { transcribeFiles } from "@/components/settings/history/transcribeFiles";
 import { useDropZone } from "./dropRouter";
 
@@ -24,7 +24,7 @@ export function HistoryDropZone({ children }: { children: React.ReactNode }) {
       {active && (
         <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-(--wb-radius-card) border-2 border-dashed border-(--wb-accent) bg-(--wb-canvas)/90 text-center">
           <FileAudio
-            size={36}
+            size={32}
             aria-hidden="true"
             className="text-(--wb-ink-2)"
           />

@@ -393,9 +393,10 @@ fn tray_update_clicks_are_routed_to_fork_update() {
     assert!(
         on_menu.contains("TRAY_UPDATES_OFF_ID => open_hub(app, \"settings\", Some(\"privacy\"))")
     );
-    let footer = include_str!("../../../../src/fork/hub/Footer.tsx");
-    assert!(!footer.contains("<UpdateChecker"));
-    assert!(footer.contains("<UpdateStatus />"));
+    // Design Phase 0: the status moved from the footer to the title strip.
+    let strip = include_str!("../../../../src/fork/hub/Header.tsx");
+    assert!(!strip.contains("<UpdateChecker"));
+    assert!(strip.contains("<UpdateStatus quiet />"));
 }
 
 #[test]

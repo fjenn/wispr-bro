@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Play, RotateCcw, X } from "lucide-react";
+import { Play, RotateCcw, X } from "../ui/icons";
 import {
   commands,
   type HotkeyBinding,
@@ -157,7 +157,7 @@ export function TransformModal({
             className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
             data-testid="wb-transform-close"
           >
-            <X size={17} aria-hidden="true" />
+            <X size={18} aria-hidden="true" />
           </button>
         </header>
         <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto p-6">

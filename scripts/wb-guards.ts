@@ -22,6 +22,7 @@ import { runHosts } from "./wb-guard-hosts";
 import { runBundleHosts } from "./wb-guard-bundle-hosts";
 import { runTelemetry } from "./wb-guard-telemetry";
 import { runSpdx } from "./wb-guard-spdx";
+import { runIcons } from "./wb-guard-icons";
 
 export interface AllOptions {
   root?: string;
@@ -40,6 +41,7 @@ export function runAll(opts: AllOptions = {}): GuardResult[] {
     ["bundle-hosts", () => runBundleHosts({ root, binaries: opts.binaries })],
     ["telemetry", () => runTelemetry({ root })],
     ["spdx", () => runSpdx({ root })],
+    ["icons", () => runIcons({ root })],
   ];
   return guards.map(([name, run]) => {
     try {

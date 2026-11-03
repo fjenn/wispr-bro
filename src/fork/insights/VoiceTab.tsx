@@ -17,8 +17,8 @@ import {
   MessageSquareQuote,
   SpellCheck,
   Star,
-  type LucideIcon,
-} from "lucide-react";
+  type Glyph,
+} from "../ui/icons";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { ProgressLine } from "@/components/shared/ProgressLine";
@@ -29,7 +29,7 @@ import { Card } from "./UsageTab";
 
 type CardId = "phrase" | "peak" | "word" | "corrected";
 
-const ICONS: Record<CardId, LucideIcon> = {
+const ICONS: Record<CardId, Glyph> = {
   phrase: MessageSquareQuote,
   peak: Clock,
   word: Star,
@@ -72,7 +72,7 @@ function VoiceCard({
       {locked ? (
         <>
           <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-(--wb-ink-2)">
-            <Lock size={13} aria-hidden="true" />
+            <Lock size={14} aria-hidden="true" />
             {t("insights.voice.locked")}
           </span>
           <p

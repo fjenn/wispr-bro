@@ -23,7 +23,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getVersion } from "@tauri-apps/api/app";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "@/components/ui";
+import { Dialog } from "../ui/Dialog";
 import { MarkdownContent } from "@/components/whats-new/MarkdownContent";
 import { useSettings } from "@/hooks/useSettings";
 import { useOtherDialogOpen, useTakeRunning } from "../hub/featurePopupGate";

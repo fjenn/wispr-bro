@@ -25,7 +25,7 @@
  * after the practice passed or showed the example).
  */
 import { useEffect, useRef, useState } from "react";
-import { Ear, Mail, Mic, Pause, Play } from "lucide-react";
+import { Ear, Mail, Mic, Pause, Play } from "../../ui/icons";
 import { useTranslation } from "react-i18next";
 import { events as handyEvents } from "@/bindings";
 import { commands, events } from "../../bindings";
@@ -88,7 +88,7 @@ function SoftScene() {
               <i />
               <i />
             </span>
-            <Mail size={13} aria-hidden="true" />
+            <Mail size={14} aria-hidden="true" />
             <span>{t("lessons.whisper.soft.app")}</span>
           </div>
           <div className="wb-practice-body">
@@ -114,9 +114,9 @@ function SoftScene() {
           data-testid="wb-lesson-scene-pause"
         >
           {paused ? (
-            <Play size={13} aria-hidden="true" />
+            <Play size={14} aria-hidden="true" />
           ) : (
-            <Pause size={13} aria-hidden="true" />
+            <Pause size={14} aria-hidden="true" />
           )}
           {paused ? t("lessons.common.play") : t("lessons.common.pause")}
         </button>
@@ -322,7 +322,7 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
         data-testid="wb-whisper-status"
       >
         <Mic
-          size={15}
+          size={16}
           aria-hidden="true"
           className={
             phase === "listening"
@@ -350,7 +350,7 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
             id="wb-whisper-tips-title"
             className="m-0 flex items-center gap-2 text-[14px] font-semibold"
           >
-            <Ear size={15} aria-hidden="true" />
+            <Ear size={16} aria-hidden="true" />
             {t("lessons.whisper.practice.tips.title")}
           </h4>
           <ul className="m-0 flex list-disc flex-col gap-1 ps-5 text-[13px] leading-5">

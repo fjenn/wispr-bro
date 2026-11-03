@@ -8,7 +8,7 @@
  * dictating; the flow then completes and the resting bar appears (DEC-38).
  */
 import { useEffect, useState } from "react";
-import { Check } from "lucide-react";
+import { Check } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "@/hooks/useSettings";
 import { languageList } from "@/lib/constants/languages";

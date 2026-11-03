@@ -8,7 +8,7 @@
  * saves the result (`typing_wpm`) and returns to the time-saved estimate.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard } from "lucide-react";
+import { Keyboard } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "@/hooks/useSettings";
 import { FORK_NAMESPACE } from "../i18n";

@@ -87,9 +87,14 @@ test.describe("hub shell", () => {
     await openHub(page, ipc, hub);
     await page.locator("body").focus();
 
-    // First stop is the collapse button, then the pages in sidebar order.
+    // The title strip comes first (Design Phase 0): the collapse button, the
+    // theme toggle and the bell; then the pages in sidebar order.
     await page.keyboard.press("Tab");
     await expect(page.getByTestId("wb-sidebar-toggle")).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(page.getByTestId("wb-theme-toggle")).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(page.getByTestId("wb-notifications-bell")).toBeFocused();
     const order = [
       "dictation",
       "insights",
@@ -106,11 +111,6 @@ test.describe("hub shell", () => {
       await page.keyboard.press("Tab");
       await expect(page.getByTestId(`wb-nav-${id}`)).toBeFocused();
     }
-    // Then the header controls.
-    await page.keyboard.press("Tab");
-    await expect(page.getByTestId("wb-theme-toggle")).toBeFocused();
-    await page.keyboard.press("Tab");
-    await expect(page.getByTestId("wb-notifications-bell")).toBeFocused();
 
     // Every page opens from the keyboard.
     for (const id of HUB_PAGE_IDS) {
@@ -401,22 +401,21 @@ test.describe("hub shell", () => {
     );
   });
 
-  test("footer shows background jobs and opens History", async ({
+  test("the title strip shows background jobs and opens History; no footer", async ({
     page,
     ipc,
     hub,
   }) => {
     await openHub(page, ipc, hub);
-    await expect(page.getByTestId("wb-footer-version")).toHaveText(
-      "v1.0.0-alpha.1",
-    );
+    // Design Phase 0: no footer bar; the version lives in Settings › About.
+    await expect(page.getByTestId("wb-footer")).toHaveCount(0);
     await ipc.waitForListener("transcription-job");
     await ipc.emit("transcription-job", {
       entry_id: 7,
       status: { state: "running", percent: 40 },
     });
     const status = page
-      .getByTestId("wb-footer-jobs")
+      .getByTestId("wb-titlebar-jobs")
       .getByRole("button", { name: /40/ });
     await expect(status).toBeVisible();
     await status.click();
@@ -424,16 +423,16 @@ test.describe("hub shell", () => {
     await expect(page.getByTestId("wb-drop-zone-history")).toBeVisible();
   });
 
-  test("the model selector is not in the footer (B-207)", async ({
+  test("the model selector is not in the title strip (B-207)", async ({
     page,
     ipc,
     hub,
   }) => {
     await openHub(page, ipc, hub);
     await expect(
-      page.getByTestId("wb-footer").getByRole("combobox"),
+      page.getByTestId("wb-header").getByRole("combobox"),
     ).toHaveCount(0);
-    await expect(page.getByTestId("wb-footer").locator("select")).toHaveCount(
+    await expect(page.getByTestId("wb-header").locator("select")).toHaveCount(
       0,
     );
   });
@@ -525,6 +524,28 @@ test.describe("hub shell", () => {
       ["--wb-tag-beta-ink", "--wb-tag-beta-bg", 4.5],
       ["--wb-line-strong", "--wb-card", 3],
       ["--wb-accent", "--wb-sidebar", 3],
+      // Design Phase 0 (v2 roles)
+      ["--wb-ink", "--wb-surface-tint", 4.5],
+      ["--wb-ink", "--wb-secondary", 4.5],
+      ["--wb-ink", "--wb-fill-active", 4.5],
+      ["--wb-ink-2", "--wb-surface-tint", 4.5],
+      ["--wb-ink-2", "--wb-secondary", 4.5],
+      ["--wb-ink-3", "--wb-surface-tint", 4.5],
+      ["--wb-ink-3", "--wb-secondary", 4.5],
+      ["--wb-ink-3", "--wb-fill-active", 4.5],
+      ["--wb-ink-3", "--wb-sheet", 4.5],
+      ["--wb-on-ink", "--wb-ink", 4.5],
+      ["--wb-accent", "--wb-accent-soft", 4.5],
+      ["--wb-accent", "--wb-surface", 4.5],
+      ["--wb-danger", "--wb-surface", 4.5],
+      ["--wb-danger", "--wb-secondary", 4.5],
+      ["--wb-danger", "--wb-danger-soft", 4.5],
+      ["--wb-warning-ink", "--wb-warning-bg", 4.5],
+      ["--wb-on-cream", "--wb-cream", 4.5],
+      ["--wb-on-hero", "--wb-hero", 4.5],
+      ["--wb-on-hud", "--wb-hud-2", 4.5],
+      ["--wb-line-strong", "--wb-panel", 3],
+      ["--wb-success", "--wb-surface", 3],
       // Handy's hint grey, retuned (C-19)
       ["--color-ink-3", "--color-background", 4.5],
     ];

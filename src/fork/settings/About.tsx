@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getVersion } from "@tauri-apps/api/app";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { Bug, ExternalLink, MessageSquareText } from "lucide-react";
+import { Bug, ExternalLink, MessageSquareText } from "../ui/icons";
 import { ShowWhatsNewOnUpdate } from "@/components/settings/ShowWhatsNewOnUpdate";
 import { SettingsGroup } from "@/components/ui/SettingsGroup";
 import { commands } from "../bindings";

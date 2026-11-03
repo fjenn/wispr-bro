@@ -10,7 +10,7 @@
  */
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Code2 } from "lucide-react";
+import { Code2 } from "../ui/icons";
 import type { VibeCodingSettings } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";

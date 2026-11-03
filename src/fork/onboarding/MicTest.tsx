@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Mic } from "lucide-react";
+import { ChevronDown, ChevronUp, Mic } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { MicLevelMeter, MicrophonePicker } from "../settings/MicrophonePicker";

@@ -277,7 +277,7 @@ dictTest.describe("dictionary page", () => {
       await openDictionary(page, ipc, hub, dict);
       await page.getByTestId("wb-dictionary-add").click();
       await page
-        .getByRole("checkbox", { name: "Replace a word" })
+        .getByRole("switch", { name: "Replace a word" })
         .check({ force: true });
       const save = page.getByTestId("wb-dictionary-save");
       await page.getByLabel("When I say").fill("gonna");
@@ -338,7 +338,7 @@ dictTest.describe("dictionary page", () => {
       );
 
       await page
-        .getByRole("checkbox", { name: "Replace a word" })
+        .getByRole("switch", { name: "Replace a word" })
         .check({ force: true });
       await page.getByLabel("When I say").fill("Gonna");
       await page.getByLabel("Write", { exact: true }).fill("going to be");
@@ -1013,7 +1013,7 @@ for (const theme of ["light", "dark"] as const) {
 
       await page.getByTestId("wb-dictionary-add").click();
       await page
-        .getByRole("checkbox", { name: "Replace a word" })
+        .getByRole("switch", { name: "Replace a word" })
         .check({ force: true });
       await expectNoSeriousAxeFindings(page);
       await shot(page, `dialog-${theme}`);

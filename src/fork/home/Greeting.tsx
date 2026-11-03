@@ -11,7 +11,7 @@
  * the fallback to the real one.
  */
 import { useEffect, useId, useState, type FormEvent } from "react";
-import { Pencil } from "lucide-react";
+import { Pencil } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -85,7 +85,7 @@ export function Greeting() {
             disabled={!settled}
             className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) disabled:invisible ${FOCUS_RING}`}
           >
-            <Pencil size={15} aria-hidden="true" />
+            <Pencil size={16} aria-hidden="true" />
           </button>
         }
       >

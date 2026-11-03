@@ -405,6 +405,7 @@ fn build_main<R: ForkRuntime>(
         .resizable(true)
         .maximizable(true)
         .visible(false);
+    builder = super::window_builder(builder);
     if let Some(data_dir) = crate::portable::data_dir() {
         builder = builder.data_directory(data_dir.join("webview"));
     }

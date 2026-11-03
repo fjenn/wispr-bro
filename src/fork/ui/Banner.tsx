@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Dismissible example banner (S-13, C-23): a serif heading, one line of
- * text, optional example chips and an optional action. Each feature page
- * brings its own content (C-29, C-61, C-73, D-206).
+ * Hero banner (S-13, C-23; Design Phase 0): the dark, warm banner at the top
+ * of a feature page. A serif headline in white, one sentence at 82 % white,
+ * optional example chips, a cream primary button and a quiet text button.
+ * `image` puts a photo under a left-to-right dark grade (W7 sources the
+ * photos; without one the banner is a warm near-black with a soft glow).
+ * Each feature page brings its own content (C-29, C-61, C-73, D-206).
  *
  * Dismissal persists in the fork setting `dismissed_banners` under `id`, so a
  * dismissed banner stays gone across windows and relaunches. While the
@@ -10,11 +13,11 @@
  * they cannot be read it is shown and still dismisses for this session.
  */
 import { useState, type ReactNode } from "react";
-import { X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
-import { Button } from "./Button";
+import { Button, IconButton } from "./Button";
+import { X } from "./icons";
 
 export interface BannerProps {
   /** Stable id stored in `dismissed_banners` (lowercase, `a-z0-9_.-`). */
@@ -32,6 +35,8 @@ export interface BannerProps {
   live?: boolean;
   /** Decorative art on the right (hidden from screen readers). */
   art?: ReactNode;
+  /** Background photo URL (bundled asset); graded dark on the left. */
+  image?: string;
 }
 
 export function Banner({
@@ -44,6 +49,7 @@ export function Banner({
   secondaryAction,
   live = false,
   art,
+  image,
 }: BannerProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const status = useForkSettingsStore((s) => s.status);
@@ -62,22 +68,79 @@ export function Banner({
     void setSetting("dismissed_banners", [...settings.dismissed_banners, id]);
   };
 
+  return (
+    <Hero
+      id={id}
+      title={title}
+      body={body}
+      examples={examples}
+      examplesLabel={examplesLabel}
+      action={action}
+      secondaryAction={secondaryAction}
+      live={live}
+      art={art}
+      image={image}
+      onDismiss={dismiss}
+      dismissLabel={t("ui.banner.dismiss")}
+    />
+  );
+}
+
+export interface HeroProps extends Omit<BannerProps, "id"> {
+  /** Used for the test id and the heading's id. */
+  id: string;
+  /** Shows a dismiss button (Banner wires it to `dismissed_banners`). */
+  onDismiss?: () => void;
+  dismissLabel?: string;
+}
+
+/** The hero banner's look without the dismissal store (pages, gallery). */
+export function Hero({
+  id,
+  title,
+  body,
+  examples,
+  examplesLabel,
+  action,
+  secondaryAction,
+  live = false,
+  art,
+  image,
+  onDismiss,
+  dismissLabel,
+}: HeroProps) {
   const titleId = `wb-banner-${id}-title`;
   return (
     <section
       aria-labelledby={titleId}
       data-testid={`wb-banner-${id}`}
-      className="relative flex items-center gap-6 overflow-hidden rounded-(--wb-radius-card) bg-(--wb-banner) px-6 py-5 text-(--wb-ink)"
+      className="relative isolate flex min-h-[180px] items-center gap-6 overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-hero) px-8 py-7 text-(--wb-on-hero)"
     >
+      {image ? (
+        <>
+          <img
+            src={image}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 -z-20 size-full object-cover"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-(image:--wb-hero-grade) rtl:-scale-x-100"
+          />
+        </>
+      ) : (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(120%_140%_at_100%_0%,rgba(154,114,186,0.28)_0%,rgba(154,114,186,0)_55%),radial-gradient(90%_120%_at_85%_120%,rgba(196,140,90,0.22)_0%,rgba(196,140,90,0)_60%)] rtl:-scale-x-100"
+        />
+      )}
       <div className="flex min-w-0 flex-1 flex-col gap-2">
-        <h2
-          id={titleId}
-          className="pe-8 font-(family-name:--wb-font-display) text-[22px] leading-tight font-medium"
-        >
+        <h2 id={titleId} className="type-serif-title pe-8 text-(--wb-on-hero)">
           {title}
         </h2>
         <p
-          className="text-[13.5px] leading-5 text-(--wb-ink-2)"
+          className="max-w-[60ch] text-[15px] leading-[22px] text-(--wb-on-hero-2)"
           aria-live={live ? "polite" : undefined}
         >
           {body}
@@ -87,7 +150,7 @@ export function Banner({
             {examples.map((example) => (
               <li
                 key={example}
-                className="rounded-full border border-(--wb-line) bg-(--wb-card) px-3 py-1 text-[12.5px] text-(--wb-ink)"
+                className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[13px] text-(--wb-on-hero)"
               >
                 {example}
               </li>
@@ -95,10 +158,10 @@ export function Banner({
           </ul>
         )}
         {(action || secondaryAction) && (
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             {action && (
               <Button
-                variant="primary"
+                variant="cream"
                 onClick={action.onClick}
                 data-testid={action.testId}
               >
@@ -107,6 +170,8 @@ export function Banner({
             )}
             {secondaryAction && (
               <Button
+                variant="ghost"
+                className="text-(--wb-on-hero)! hover:bg-white/10!"
                 onClick={secondaryAction.onClick}
                 data-testid={secondaryAction.testId}
               >
@@ -121,14 +186,17 @@ export function Banner({
           {art}
         </div>
       )}
-      <button
-        type="button"
-        onClick={dismiss}
-        aria-label={t("ui.banner.dismiss")}
-        className="absolute end-3 top-3 grid size-7 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-(--wb-accent)"
-      >
-        <X size={16} aria-hidden="true" />
-      </button>
+      {onDismiss && dismissLabel && (
+        <IconButton
+          aria-label={dismissLabel}
+          round
+          size="sm"
+          onClick={onDismiss}
+          className="absolute end-3 top-3 text-(--wb-on-hero-2)! hover:bg-white/10! hover:text-(--wb-on-hero)!"
+        >
+          <X size={16} />
+        </IconButton>
+      )}
     </section>
   );
 }

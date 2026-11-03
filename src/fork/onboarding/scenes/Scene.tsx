@@ -10,7 +10,7 @@
  * finished frame only.
  */
 import { useState } from "react";
-import { Pause, Play } from "lucide-react";
+import { Pause, Play } from "../../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../../i18n";
 import { CHOICE_ICONS, type FirstUseChoice } from "../firstUse";
@@ -51,7 +51,7 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
               <i />
               <i />
             </span>
-            <Icon size={13} aria-hidden="true" />
+            <Icon size={14} aria-hidden="true" />
             <span>{t(`firstUse.scenes.${choice}.app`)}</span>
           </div>
           <div className="wb-scene-body">
@@ -104,9 +104,9 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
           data-testid="wb-scene-pause"
         >
           {paused ? (
-            <Play size={13} aria-hidden="true" />
+            <Play size={14} aria-hidden="true" />
           ) : (
-            <Pause size={13} aria-hidden="true" />
+            <Pause size={14} aria-hidden="true" />
           )}
           {paused ? t("firstUse.scene.play") : t("firstUse.scene.pause")}
         </button>

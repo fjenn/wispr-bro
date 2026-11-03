@@ -45,7 +45,7 @@ export function Popover({
           collisionPadding={8}
           aria-label={label}
           data-testid={testId}
-          className={`z-50 w-80 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) text-(--wb-ink) shadow-(--wb-shadow) outline-none motion-safe:animate-drop ${className}`}
+          className={`wb-pop z-50 w-80 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) text-(--wb-ink) shadow-(--wb-elev-1) outline-none ${className}`}
         >
           {children}
         </RadixPopover.Content>
