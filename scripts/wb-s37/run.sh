@@ -59,7 +59,7 @@ check() {
 case "${1:-}" in
   hub)
     launch
-    drive "front"
+    drive "front; press-if Got it"
     for page in "Dictation" "Insights" "Dictionary" "Snippets" "Style" "Transforms" "Scratchpad" "Share with a friend"; do
       drive "press $page" || { log "FAIL cannot open $page"; FAILED=1; continue; }
       check "hub $page"
@@ -79,13 +79,13 @@ case "${1:-}" in
     ;;
   onboarding)
     launch
-    drive "front"
+    drive "front; press-if Got it"
     check "onboarding welcome"
     drive "press Continue" && check "onboarding second screen"
     ;;
   lessons)
     launch
-    drive "front; press Help"
+    drive "front; press-if Got it; press Help"
     for lesson in "Learn Transforms" "Learn to dictate quietly"; do
       drive "press $lesson" || { log "FAIL cannot open $lesson"; FAILED=1; continue; }
       check "lesson $lesson"
