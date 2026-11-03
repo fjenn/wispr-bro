@@ -1,0 +1,80 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* The bar spotlight (S-30): dim, cut-out ring, hint card. */
+.wb-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  animation: wb-spotlight-in 280ms ease-out;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+.wb-spotlight-dim {
+  position: absolute;
+  inset: 0;
+}
+.wb-spotlight-shade {
+  fill: rgb(10 10 14 / 0.55);
+}
+.wb-spotlight-ring {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.85);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgb(255 255 255 / 0.55));
+  animation: wb-spotlight-pulse 1.8s ease-in-out infinite;
+}
+.wb-spotlight-hint {
+  position: absolute;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 14px 18px 12px;
+  border-radius: 16px;
+  background: var(--wb-card);
+  color: var(--wb-ink);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.35);
+  text-align: center;
+}
+.wb-spotlight-hint p {
+  margin: 0;
+}
+.wb-spotlight-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--wb-accent);
+}
+.wb-spotlight-title {
+  margin-top: 3px !important;
+  font-family: var(--wb-font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.wb-spotlight-how {
+  margin-top: 6px !important;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--wb-ink-2);
+}
+.wb-spotlight-esc {
+  margin-top: 8px !important;
+  font-size: 12px;
+  color: var(--wb-ink-2);
+}
+@keyframes wb-spotlight-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wb-spotlight-pulse {
+  50% {
+    stroke-opacity: 0.45;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-spotlight,
+  .wb-spotlight-ring {
+    animation: none;
+  }
+}

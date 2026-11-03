@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { HistoryList } from "../history/HistoryList";
 import { HistoryDropZone } from "../hub/HistoryDropZone";
 import { FORK_NAMESPACE } from "../i18n";
+import { FirstUseBanner } from "./FirstUseBanner";
 import { Greeting } from "./Greeting";
 import { PromoBanner } from "./PromoBanner";
 import { StatsRail } from "./StatsRail";
@@ -43,7 +44,7 @@ export function Home() {
           <VoiceProfileBar totalWords={summary?.total_words ?? null} />
         </aside>
         <div className="flex min-w-0 flex-col gap-6 [grid-area:main]">
-          <PromoBanner />
+          <FirstUseBanner fallback={<PromoBanner />} />
           <HistoryDropZone>
             <HistoryList />
           </HistoryDropZone>

@@ -1,0 +1,205 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* First-use scenes (S-30): a drawn app, the spoken caption, the bar. */
+.wb-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.wb-scene-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-height: 300px;
+  padding: 22px 20px 16px;
+  border-radius: var(--wb-radius-card);
+  background: var(--wb-banner);
+  overflow: hidden;
+}
+.wb-scene-window {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 12px;
+  background: var(--wb-card);
+  border: 1px solid var(--wb-line);
+  box-shadow: var(--wb-shadow);
+  overflow: hidden;
+  text-align: start;
+}
+.wb-scene-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--wb-line);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wb-ink-2);
+}
+.wb-scene-dots {
+  display: inline-flex;
+  gap: 4px;
+  margin-inline-end: 4px;
+}
+.wb-scene-dots i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wb-line-strong);
+}
+.wb-scene-body {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.wb-scene-context {
+  margin: 0;
+  font-size: 13px;
+  color: var(--wb-ink-2);
+}
+.wb-scene-field {
+  min-height: 64px;
+  padding: 9px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--wb-line-strong);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--wb-ink);
+}
+.wb-scene-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin-inline-start: 1px;
+  vertical-align: -0.18em;
+  background: var(--wb-ink);
+  animation: wb-scene-blink 1s steps(1) infinite;
+}
+.wb-scene-landed {
+  animation: wb-scene-land 380ms ease-out;
+}
+.wb-scene-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: 420px;
+  min-height: 60px;
+  text-align: center;
+}
+.wb-scene-caption-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--wb-ink-2);
+}
+.wb-scene-caption-words {
+  font-family: var(--wb-font-display);
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--wb-ink);
+}
+.wb-scene-caption-words > span {
+  opacity: 0.18;
+  transition: opacity 120ms linear;
+}
+.wb-scene-caption-words > span.is-on {
+  opacity: 1;
+}
+.wb-scene-pill {
+  display: grid;
+  place-items: center;
+  height: 26px;
+  min-width: 46px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #17171c;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  transition:
+    min-width 160ms ease,
+    opacity 160ms ease;
+}
+.wb-scene-pill[data-state="hidden"] {
+  min-width: 34px;
+  height: 8px;
+  opacity: 0.7;
+}
+.wb-scene-bars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+}
+.wb-scene-bars i {
+  display: block;
+  width: 3px;
+  height: 4px;
+  border-radius: 2px;
+  background: #fff;
+  animation: wb-scene-bar 520ms ease-in-out infinite alternate;
+}
+.wb-scene-spin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 0.3);
+  border-top-color: #fff;
+  animation: wb-scene-rot 800ms linear infinite;
+}
+.wb-scene-pause {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--wb-radius-control);
+  font-size: 12px;
+  color: var(--wb-ink-2);
+  cursor: pointer;
+}
+.wb-scene-pause:hover {
+  background: var(--wb-hover);
+  color: var(--wb-ink);
+}
+.wb-scene-pause:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 2px;
+}
+@keyframes wb-scene-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes wb-scene-land {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes wb-scene-bar {
+  to {
+    height: 13px;
+  }
+}
+@keyframes wb-scene-rot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-scene-caret,
+  .wb-scene-bars i,
+  .wb-scene-spin,
+  .wb-scene-landed {
+    animation: none;
+  }
+  .wb-scene-caption-words > span,
+  .wb-scene-pill {
+    transition: none;
+  }
+}

@@ -606,6 +606,10 @@ macro_rules! fork_specta_builder {
                 commands::hotkeys::fork_shortcut_open_accessibility,
                 commands::hotkeys::fork_shortcut_reset_permission::<$runtime>,
                 commands::hotkeys::fork_shortcut_relaunch::<$runtime>,
+                commands::onboarding::fork_checklist_mark::<$runtime>,
+                commands::onboarding::fork_spotlight_start,
+                commands::onboarding::fork_spotlight_stop,
+                commands::onboarding::fork_spotlight_state,
                 commands::history::fork_stats_summary::<$runtime>,
                 commands::history::fork_history_search::<$runtime>,
                 commands::history::fork_history_meta::<$runtime>,
@@ -742,7 +746,8 @@ macro_rules! fork_specta_builder {
                 update::scheduler::ForkUpdateState,
                 onboarding::practice::ForkPracticeTake,
                 shortcut::health::ForkShortcutHealthChanged,
-                shortcut::health::ForkShortcutFixRequested
+                shortcut::health::ForkShortcutFixRequested,
+                pill::spotlight::ForkSpotlightState
             ])
     };
 }

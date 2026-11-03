@@ -132,6 +132,40 @@ pub fn fork_onboarding_globe_do_nothing<R: ForkRuntime>(
     super::hotkeys::fork_hotkey_status(app)
 }
 
+/// S-30: ticks a setup-checklist item (an item id from the Hub's registry,
+/// `src/fork/hub/checklistRegistry.tsx`). Idempotent.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_checklist_mark<R: ForkRuntime>(
+    app: AppHandle<R>,
+    id: String,
+) -> Result<OnboardingState, ForkError> {
+    crate::fork::onboarding::checklist::mark_done(&app, &id).map_err(ForkError::InvalidSetting)
+}
+
+/// S-30 "Try it now": dims the screen around the Flow Bar with the choice's
+/// hint. `false` when there is no bar to point at (the Hub then shows its
+/// banner only).
+#[tauri::command]
+#[specta::specta]
+pub fn fork_spotlight_start(choice: String) -> Result<bool, ForkError> {
+    crate::fork::pill::spotlight::start(&choice).map_err(ForkError::InvalidSetting)
+}
+
+/// S-30: ends the spotlight (the Hub's Stop button).
+#[tauri::command]
+#[specta::specta]
+pub fn fork_spotlight_stop() {
+    crate::fork::pill::spotlight::stop();
+}
+
+/// S-30: what the `fork-spotlight` page shows now (also read by the Hub).
+#[tauri::command]
+#[specta::specta]
+pub fn fork_spotlight_state() -> crate::fork::pill::spotlight::ForkSpotlightState {
+    crate::fork::pill::spotlight::state()
+}
+
 /// System Settings panes the diagnoses open (local URL scheme; no host).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]

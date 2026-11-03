@@ -50,9 +50,15 @@ import { useMenuActions } from "./menuActions";
 import { useNotificationsLive } from "./NotificationsPanel";
 import { hubPage, newTagId } from "./pages";
 import { ShortcutHealthBanner } from "./ShortcutHealthBanner";
-import { Sidebar } from "./Sidebar";
+import { setSidebarCard, Sidebar } from "./Sidebar";
+import { renderSetupChecklist } from "./SetupChecklist";
+import { FirstUseChooser } from "../onboarding/FirstUseChooser";
+import { useFirstUseLive } from "../onboarding/firstUseStore";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
+
+// S-30: the setup checklist fills S-13's sidebar slot.
+setSidebarCard(renderSetupChecklist);
 
 export const SIDEBAR_COLLAPSED_KEY = "wb.hub.sidebarCollapsed";
 
@@ -115,6 +121,7 @@ export function ForkApp(props: ForkAppProps) {
   useDropRouter();
   useMenuActions();
   useNotificationsLive();
+  useFirstUseLive();
   useEffect(() => {
     void listenForTransformChanges();
   }, []);
@@ -182,6 +189,9 @@ export function ForkApp(props: ForkAppProps) {
         </ErrorBoundary>
         <ErrorBoundary context="Fix shortcut">
           <FixShortcutSheet />
+        </ErrorBoundary>
+        <ErrorBoundary context="First use">
+          <FirstUseChooser />
         </ErrorBoundary>
         <Sidebar collapsed={collapsed} />
         <div className="flex min-w-0 flex-1 flex-col">

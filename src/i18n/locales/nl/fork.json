@@ -907,6 +907,21 @@
     },
     "share": {
       "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+    },
+    "spotlight": {
+      "label": "Next step",
+      "hint": {
+        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
+        "note": "Open your notes app",
+        "message": "Open a chat, like Messages or Slack",
+        "email": "Open your email",
+        "comment": "Open a post you want to comment on",
+        "document": "Open a document you are writing",
+        "coding": "Open Cursor, VS Code or another code editor"
+      },
+      "how": "Click where you want to write, then hold fn and speak.",
+      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
+      "escape": "Press Esc to close this hint."
     }
   },
   "speechModels": {
@@ -2268,6 +2283,119 @@
         "recovering": "Reconnecting…",
         "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
       }
+    }
+  },
+  "firstUse": {
+    "title": "What do you want to try first?",
+    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
+    "choicesLabel": "Ways to start",
+    "choices": {
+      "ai_chat": "Ask an AI assistant",
+      "note": "Jot a note",
+      "message": "Reply to a message",
+      "email": "Write an email",
+      "comment": "Post a comment",
+      "document": "Draft a document",
+      "coding": "Prompt a coding tool"
+    },
+    "scene": {
+      "label": "Example: {{choice}}",
+      "said": "You say",
+      "written": "{{appName}} writes",
+      "pause": "Pause the example",
+      "play": "Play the example"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI chat",
+        "context": "What can I help with?",
+        "said": "um so can you explain how compound interest works like I'm new to this",
+        "text": "Can you explain how compound interest works, like I'm new to this?"
+      },
+      "note": {
+        "app": "Notes",
+        "context": "Monday",
+        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
+        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
+      },
+      "message": {
+        "app": "Messages",
+        "context": "Are we still on for lunch?",
+        "said": "yes for sure is twelve thirty okay for you",
+        "text": "Yes, for sure! Is 12:30 okay for you?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "To: Priya · Subject: Thursday",
+        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
+        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
+      },
+      "comment": {
+        "app": "Social",
+        "context": "Our new office opens next week!",
+        "said": "congrats to the whole team this looks amazing",
+        "text": "Congrats to the whole team, this looks amazing!"
+      },
+      "document": {
+        "app": "Docs",
+        "context": "Project plan",
+        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
+        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
+      },
+      "coding": {
+        "app": "Code editor",
+        "context": "Ask the agent",
+        "said": "the login button doesn't work on mobile can you find out why and fix it",
+        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
+      }
+    },
+    "tryNow": "Try it now",
+    "later": "Maybe later",
+    "close": "Close",
+    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
+    "banner": {
+      "title": "Use it in your own apps",
+      "body": "{{hint}}. {{how}}",
+      "again": "Show the hint again",
+      "stop": "Hide the hint",
+      "other": "Try something else",
+      "active": "The hint is on your screen. Press Esc to close it."
+    }
+  },
+  "checklist": {
+    "title": "Get started",
+    "label": "Setup checklist",
+    "progress": "{{done}} of {{total}} done",
+    "hide": "Hide the checklist",
+    "done": "Done",
+    "next": "Next",
+    "allDone": "All set. You know the basics.",
+    "items": {
+      "try_in_app": {
+        "title": "Try it in another app",
+        "action": "Show me"
+      },
+      "add_word": {
+        "title": "Add a word",
+        "action": "Add a word",
+        "coachTitle": "Add your first word",
+        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
+      },
+      "create_snippet": {
+        "title": "Create a snippet",
+        "action": "New snippet",
+        "coachTitle": "Create your first snippet",
+        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
+      },
+      "launch_at_login": {
+        "title": "Open at login",
+        "action": "Turn on",
+        "body": "{{appName}} starts with your Mac, so your shortcut always works."
+      }
+    },
+    "coach": {
+      "close": "Close",
+      "done": "Got it"
     }
   }
 }

@@ -146,8 +146,19 @@ pub fn deliver_as(
     if kind.is_take() {
         crate::fork::db::entry_meta::on_paste_outcome(&app, &text, Some(outcome));
         crate::fork::recovery::on_take_delivered();
+        if pasted(Some(outcome)) {
+            crate::fork::onboarding::checklist::on_take_pasted(&app);
+        }
     }
     (result, Some(outcome))
+}
+
+/// The text reached a field (S-30 counts it as a real use).
+fn pasted(outcome: Option<PasteOutcome>) -> bool {
+    matches!(
+        outcome,
+        Some(PasteOutcome::Confirmed | PasteOutcome::Unverified)
+    )
 }
 
 /// A practice take (S-29b): the text goes to the onboarding composer. It is
@@ -378,6 +389,10 @@ fn publish_outcome<R: Runtime>(
         if delivery != Delivery::Cancelled {
             // S-06: a take that reached its delivery is no longer undoable.
             crate::fork::recovery::on_take_delivered();
+        }
+        if pasted(delivery.paste_outcome()) {
+            // S-30: a real use ends the spotlight and ticks the checklist.
+            crate::fork::onboarding::checklist::on_take_pasted(app);
         }
     }
     let event = outcome_event(take, delivery, text);

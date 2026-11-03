@@ -1161,6 +1161,10 @@
     url = "https://registry.npmjs.org/dom-helpers/-/dom-helpers-5.2.1.tgz";
     hash = "sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==";
   };
+  "driver.js@1.10.2" = fetchurl {
+    url = "https://registry.npmjs.org/driver.js/-/driver.js-1.10.2.tgz";
+    hash = "sha512-L/EMTriJPAmg+5kIFmrjzt3TI+1NblhHOV/UZkfpgU/uxhSflGheynMBxk5oImDSy6seAEkIl6MzNOc0zdoKtg==";
+  };
   "electron-to-chromium@1.5.240" = fetchurl {
     url = "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.240.tgz";
     hash = "sha512-OBwbZjWgrCOH+g6uJsA2/7Twpas2OlepS9uvByJjR2datRDuKGYeD+nP8lBBks2qnB7bGJNHDUx7c/YLaT3QMQ==";

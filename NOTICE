@@ -139,6 +139,13 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026 (own crate and symbols, no stub
   Swift file).
 
+- src/fork/onboarding/scenes/engine.ts
+  Source: Handy, src/components/onboarding/screens/Demo.tsx (scene engine)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (one generic hook over any
+  script, word-by-word caption, pause/play).
+
 - src-tauri/crates/wb-handy-recorder/ (vendored crate)
   Source: handy-recorder 0.1.0, https://github.com/handy-computer/handy-recorder
   Commit: 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1 (crates/handy-recorder)

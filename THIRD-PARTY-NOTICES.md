@@ -34,7 +34,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | CC0-1.0 OR MIT-0 OR Apache-2.0 | 1 | 0 |
 | CDLA-Permissive-2.0 | 2 | 0 |
 | ISC | 2 | 16 |
-| MIT | 96 | 235 |
+| MIT | 96 | 236 |
 | MIT AND ISC AND BSD-3-Clause | 0 | 1 |
 | MIT OR Apache-2.0 | 214 | 10 |
 | MIT OR Apache-2.0 OR Zlib | 3 | 0 |
@@ -47,7 +47,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | Zlib OR Apache-2.0 OR MIT | 24 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 472 Rust crates, 271 npm packages.
+Total: 472 Rust crates, 272 npm packages.
 
 ## Speech models
 
@@ -11338,6 +11338,7 @@ freely, subject to the following restrictions:
 | detect-node-es | 1.1.0 | MIT | https://github.com/thekashey/detect-node |
 | devlop | 1.1.0 | MIT | wooorm/devlop |
 | dom-helpers | 5.2.1 | MIT | https://github.com/react-bootstrap/dom-helpers |
+| driver.js | 1.10.2 | MIT | https://github.com/nilbuild/driver.js |
 | error-ex | 1.3.4 | MIT | qix-/node-error-ex |
 | es-toolkit | 1.53.1 | MIT | https://github.com/toss/es-toolkit |
 | escape-string-regexp | 4.0.0 | MIT | sindresorhus/escape-string-regexp |
@@ -12593,6 +12594,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
+
+Used by: driver.js 1.10.2
+
+```text
+The MIT License
+
+Copyright (c) Kamran Ahmed
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 ```
 
 Used by: error-ex 1.3.4, is-arrayish 0.2.1

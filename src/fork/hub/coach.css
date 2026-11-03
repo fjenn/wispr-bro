@@ -1,0 +1,58 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* driver.js coach marks in the Hub palette (S-30), light and dark. */
+.driver-popover.wb-coach {
+  background: var(--wb-card);
+  color: var(--wb-ink);
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-card);
+  box-shadow: var(--wb-shadow);
+  padding: 16px 18px 14px;
+  max-width: 300px;
+  font-family: inherit;
+}
+.driver-popover.wb-coach .driver-popover-title {
+  font-family: var(--wb-font-display);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  padding-inline-end: 20px;
+}
+.driver-popover.wb-coach .driver-popover-description {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--wb-ink-2);
+}
+.driver-popover.wb-coach .driver-popover-footer {
+  margin-top: 12px;
+}
+.driver-popover.wb-coach .driver-popover-footer button {
+  background: var(--wb-accent-fill);
+  color: var(--wb-on-accent);
+  border: none;
+  border-radius: var(--wb-radius-control);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: none;
+  cursor: pointer;
+}
+.driver-popover.wb-coach .driver-popover-close-btn {
+  color: var(--wb-ink-2);
+}
+.driver-popover.wb-coach button:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 2px;
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-bottom {
+  border-bottom-color: var(--wb-card);
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-top {
+  border-top-color: var(--wb-card);
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-left {
+  border-left-color: var(--wb-card);
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-right {
+  border-right-color: var(--wb-card);
+}

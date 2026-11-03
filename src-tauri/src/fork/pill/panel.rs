@@ -159,6 +159,23 @@ pub fn follow_cursor() {
     });
 }
 
+/// Where the bar is: the anchor of its last placement and its display, or,
+/// before the first one, where it would rest on the display under the
+/// cursor (S-30 spotlight). Main thread only.
+pub fn bar_placement() -> Option<(Anchor, Screen)> {
+    if let Some(Some(placed)) = with_ui(|ui| ui.take_anchor.clone().or_else(|| ui.anchor.clone())) {
+        return Some(placed);
+    }
+    let mtm = MainThreadMarker::new()?;
+    let screens = native::screens(mtm);
+    let i = placement::screen_under(&screens, native::cursor())?;
+    let screen = screens[i].clone();
+    Some((
+        placement::anchor(&screen, Edge::Bottom, None, false),
+        screen,
+    ))
+}
+
 /// VoiceOver announcement. Main thread only.
 pub fn announce(text: &str, high: bool) {
     // Posted from the application element: the resting bar may be hidden

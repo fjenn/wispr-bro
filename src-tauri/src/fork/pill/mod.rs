@@ -39,6 +39,7 @@ mod native;
 mod panel;
 pub mod placement;
 pub mod slots;
+pub mod spotlight;
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
@@ -161,6 +162,8 @@ enum Msg {
     Native(native::NativeEvent),
     Settings(Box<crate::fork::settings::ForkSettings>),
     Theme(Option<bool>),
+    /// S-30: the spotlight started or ended (re-read the preferences).
+    Refresh,
 }
 
 fn send(msg: Msg) {
@@ -428,6 +431,26 @@ pub fn ui_action(action: PillUiAction) {
     send(Msg::Ui(action));
 }
 
+/// S-30: the spotlight started or ended; the resting bar re-reads whether
+/// it may show.
+pub fn refresh() {
+    send(Msg::Refresh);
+}
+
+/// S-30: where the bar is (its anchor and display), for the spotlight's
+/// cut-out. Main thread only.
+#[cfg(target_os = "macos")]
+pub fn bar_placement() -> Option<(placement::Anchor, placement::Screen)> {
+    panel::bar_placement()
+}
+
+/// S-30: a VoiceOver announcement from the application element. Main
+/// thread only.
+#[cfg(target_os = "macos")]
+pub fn announce_main(text: &str) {
+    panel::announce(text, false);
+}
+
 /// Whether the bar runs (product builds on macOS, after [`start`]).
 pub fn is_running() -> bool {
     RUNNING.load(Ordering::Acquire)
@@ -550,6 +573,8 @@ pub fn start(app: &AppHandle<tauri::Wry>) {
     panel::init(app, move |e| {
         let _ = native_tx.send(Msg::Native(e));
     });
+    // S-30: the spotlight points at this bar.
+    spotlight::init(app);
 
     app.listen_any("recording-state-event", |event| {
         let phase = serde_json::from_str::<serde_json::Value>(event.payload())
@@ -817,6 +842,7 @@ impl Controller {
                 self.refresh_prefs();
             }
             Msg::Theme(dark) => self.dark = dark,
+            Msg::Refresh => self.refresh_prefs(),
         }
     }
 
@@ -1028,7 +1054,13 @@ impl Controller {
     }
 
     fn refresh_prefs(&mut self) {
-        let prefs = prefs_for(&self.settings, self.handy_onboarding, unix_ms());
+        let mut prefs = prefs_for(&self.settings, self.handy_onboarding, unix_ms());
+        // S-30: the spotlight points at the resting bar, so it shows for the
+        // spotlight's length whatever "Always show" and "Hide for an hour" say.
+        if spotlight::is_active() {
+            prefs.always_visible = true;
+            prefs.hidden_for_now = false;
+        }
         if prefs != self.model.prefs() {
             self.model.step(monotonic_ms(), Input::Prefs(prefs));
         }

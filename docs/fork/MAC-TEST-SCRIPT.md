@@ -1992,9 +1992,37 @@ with `HF_ENDPOINT=http://127.0.0.1:18077` exported for the app.
 
 ### S-30 First-use chooser, pill spotlight, setup checklist
 
-- [ ] S-30.1 The spotlight panel is click-through and sits above full-screen apps.
-- [ ] S-30.2 It dismisses on the first dictation in Mail.
-- Procedure: TODO (S-30).
+Items S-30.1-.6 are **queued for the Mac wave** (consolidated UI run;
+nothing here has run on the Mac yet). Playwright covers the chooser (seven
+options, a scene and a hint each, keyboard-only, Esc/Maybe later, reduced
+motion, RTL), the own-apps banner (spotlight on/off, again, other, no bar,
+fallback wording), the checklist (state and event ticks, the backend's
+`try_in_app`, coach marks, chaining, Open at login, hide, all done) and the
+`fork-spotlight` page (hint above/below the cut-out, every choice, inactive,
+RTL), with axe light/dark (`tests/fork/first-use.spec.ts`); Rust covers the
+dismissal rules and the cut-out layout (`fork::pill::spotlight`).
+
+- [ ] S-30.1 The spotlight is one window of ours at layer 24 covering the bar's display, with the resting bar (layer 25) lit in its cut-out (`run.sh panel`).
+- [ ] S-30.2 Click-through: with the dim on, a click and typed keys reach TextEdit; Wispr Bro never becomes frontmost (`run.sh through`, check `through.png`).
+- [ ] S-30.3 Over a full-screen app: the dim stays on screen over TextEdit in full screen (`run.sh fullscreen`).
+- [ ] S-30.4 Esc ends it and destroys the window (`run.sh esc`); a take into our own Scratchpad does not (`run.sh own`).
+- [ ] S-30.5 The first dictation in Mail ends it and ticks "Try it in another app" (`run.sh mail`; a new message, never sent, no screenshot of Mail).
+- [ ] S-30.6 By eye, from a fresh `profile.py` without a choice: the chooser opens with the Hub, the scenes play (and stand still with Reduce motion), Try it now dims the screen with the matching hint, the checklist card ticks Add a word after adding one on the Dictionary page, its coach mark points at the button, and the next step opens by itself.
+
+**Setup.** As S-29a with `s30` in place of `s29a` (identifier
+`com.wisprbro.s30check`, product name "Wispr Bro S30 Check", a scratch path
+containing `s30`), launched once so the profile exists; `swiftc -O
+scripts/wb-s03-pill.swift -o <scratch>/wbpill`, `swiftc -O
+scripts/wb-s01-keys.swift -o <scratch>/wbkeys`, and `say -o
+<scratch>/s30.wav --data-format=LEI16@16000 "Hi Priya, thanks for the
+notes."`.
+
+**Procedure** (`APP=<bundle> OUT=<dir> PILL=<scratch>/wbpill KEYS=<scratch>/wbkeys WAV=<scratch>/s30.wav scripts/wb-s30/run.sh <case>`; holds `~/wb-bench/gui.lock`; each case relaunches with `WISPRBRO_S30_SPOTLIGHT`, which only test identities honour):
+
+1. `panel`, `through`, `fullscreen`, `esc` (S-30.1-.4).
+2. `own` (open the Scratchpad from the bar first), then `mail` (S-30.4-.5; the WAV plays once each at moderate volume).
+3. `python3 -I scripts/wb-s30/profile.py <…>/Data`, launch normally, S-30.6 by eye.
+4. Quit; delete the bundle copies and `~/Library/{WebKit,Caches}/com.wisprbro.s30check`.
 
 ### S-31 Lesson engine and Transforms tutorial
 

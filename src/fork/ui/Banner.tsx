@@ -25,7 +25,11 @@ export interface BannerProps {
   examples?: string[];
   /** Label of the examples list, read by screen readers. */
   examplesLabel?: string;
-  action?: { label: string; onClick: () => void };
+  action?: { label: string; onClick: () => void; testId?: string };
+  /** A second, quieter action beside `action` (S-30). */
+  secondaryAction?: { label: string; onClick: () => void; testId?: string };
+  /** Polite live region for `body` (it changes while shown, S-30). */
+  live?: boolean;
   /** Decorative art on the right (hidden from screen readers). */
   art?: ReactNode;
 }
@@ -37,6 +41,8 @@ export function Banner({
   examples,
   examplesLabel,
   action,
+  secondaryAction,
+  live = false,
   art,
 }: BannerProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -70,7 +76,12 @@ export function Banner({
         >
           {title}
         </h2>
-        <p className="text-[13.5px] leading-5 text-(--wb-ink-2)">{body}</p>
+        <p
+          className="text-[13.5px] leading-5 text-(--wb-ink-2)"
+          aria-live={live ? "polite" : undefined}
+        >
+          {body}
+        </p>
         {examples && examples.length > 0 && (
           <ul aria-label={examplesLabel} className="mt-1 flex flex-wrap gap-2">
             {examples.map((example) => (
@@ -83,11 +94,25 @@ export function Banner({
             ))}
           </ul>
         )}
-        {action && (
-          <div className="mt-2">
-            <Button variant="primary" onClick={action.onClick}>
-              {action.label}
-            </Button>
+        {(action || secondaryAction) && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {action && (
+              <Button
+                variant="primary"
+                onClick={action.onClick}
+                data-testid={action.testId}
+              >
+                {action.label}
+              </Button>
+            )}
+            {secondaryAction && (
+              <Button
+                onClick={secondaryAction.onClick}
+                data-testid={secondaryAction.testId}
+              >
+                {secondaryAction.label}
+              </Button>
+            )}
           </div>
         )}
       </div>
