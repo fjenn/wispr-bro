@@ -85,19 +85,19 @@
       "all": "Všechna nastavení"
     },
     "bar": {
-      "title": "Dictation bar",
-      "alwaysShow": "Always show the bar",
-      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
-      "position": "Position",
+      "title": "Lišta diktování",
+      "alwaysShow": "Vždy zobrazovat lištu",
+      "alwaysShowHelp": "Když je vypnuto, lišta se zobrazí jen během diktování.",
+      "position": "Umístění",
       "positions": {
-        "bottom": "Bottom of the screen",
-        "top": "Top of the screen"
+        "bottom": "Dole na obrazovce",
+        "top": "Nahoře na obrazovce"
       },
-      "hideInRecordings": "Hide the bar in screen recordings",
-      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
-      "hiddenUntil": "Hidden until {{time}}",
-      "showNow": "Show it again",
-      "resetPositions": "Center the bar on every display"
+      "hideInRecordings": "Skrýt lištu v záznamech obrazovky",
+      "hideInRecordingsHelp": "Snímky obrazovky, záznamy obrazovky a sdílení obrazovky lištu nezachytí.",
+      "hiddenUntil": "Skrytá do {{time}}",
+      "showNow": "Znovu zobrazit",
+      "resetPositions": "Vystředit lištu na všech displejích"
     },
     "mic": {
       "title": "Mikrofon",
@@ -554,9 +554,9 @@
       "dictionary": {
         "title": "Slovník",
         "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
+          "title": "Naučte {{appName}} svá slova",
+          "body": "Jména, názvy produktů a zkratky, které přidáte, budou pokaždé napsané správně. Než bude tato stránka hotová, najdete svá slova v Nastavení.",
+          "action": "Otevřít vlastní slova"
         }
       },
       "snippets": {
@@ -876,9 +876,9 @@
       "windowTitle": "Poznámkový blok"
     },
     "pill": {
-      "name": "Dictation bar",
-      "hint": "Hold fn to dictate, or click to start",
-      "hideForAnHour": "Hide for an hour",
+      "name": "Lišta diktování",
+      "hint": "Podržte fn a diktujte, nebo klikněte a začněte",
+      "hideForAnHour": "Skrýt na hodinu",
       "slots": {
         "dictate": {
           "label": "Diktovat",
@@ -890,12 +890,12 @@
         }
       },
       "announce": {
-        "listening": "Listening",
-        "transcribing": "Transcribing",
-        "cleaningUp": "Cleaning up your text",
-        "cancelled": "Dictation cancelled",
-        "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes.",
+        "listening": "Poslouchám",
+        "transcribing": "Přepisuje se",
+        "cleaningUp": "Váš text se čistí",
+        "cancelled": "Diktování zrušeno",
+        "silenceWarning": "Chvíli nezazněla žádná řeč. Diktování brzy skončí.",
+        "lengthWarning": "Diktování skončí po 30 minutách.",
         "settingUp": "Nastavuje se diktování. Vaše slova jsou uložená.",
         "card": "Diktát je připravený. Zkopírujte ho z lišty.",
         "micLostWarning": "Mikrofon se odpojil. Co jste dosud řekli, zůstává uložené.",
@@ -905,14 +905,14 @@
         "inserted": "Text vložen"
       },
       "message": {
-        "no_speech": "No speech heard",
-        "mic_muted": "Only silence came in. Is the mic muted?",
-        "inserted_without_cleanup": "Inserted without cleanup",
-        "not_pasted": "Not pasted. Your text is in History.",
-        "transcription_failed": "Couldn't transcribe that",
-        "mic_denied": "Microphone access is off",
-        "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start",
+        "no_speech": "Nezazněla žádná řeč",
+        "mic_muted": "Přicházelo jen ticho. Nemáte ztlumený mikrofon?",
+        "inserted_without_cleanup": "Vloženo bez vyčištění",
+        "not_pasted": "Nevloženo. Text najdete v Historii.",
+        "transcription_failed": "Nepodařilo se to přepsat",
+        "mic_denied": "Přístup k mikrofonu je vypnutý",
+        "no_microphone": "Nenalezen žádný mikrofon",
+        "mic_failed": "Mikrofon se nespustil",
         "download_failed": "Stahování se nezdařilo",
         "check_connection": "Zkontrolujte připojení k internetu",
         "no_space": "Na disku není dost místa pro nastavení diktování",
@@ -1294,19 +1294,19 @@
     }
   },
   "pill": {
-    "region": "Dictation bar",
-    "listening": "Listening",
-    "cancel": "Cancel dictation",
-    "finish": "Finish dictation",
-    "transcribing": "Transcribing…",
-    "cleaningUp": "Cleaning up…",
+    "region": "Lišta diktování",
+    "listening": "Poslouchám",
+    "cancel": "Zrušit diktování",
+    "finish": "Dokončit diktování",
+    "transcribing": "Přepisuje se…",
+    "cleaningUp": "Čistí se…",
     "contextUsed": "Okolní text pomohl s pravopisem",
-    "mic": "Mic: {{name}}",
-    "fix": "Fix",
-    "dismiss": "Dismiss",
+    "mic": "Mikrofon: {{name}}",
+    "fix": "Opravit",
+    "dismiss": "Zavřít",
     "warning": {
-      "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes",
+      "silence": "Žádná řeč, brzy konec",
+      "length": "Konec po 30 minutách",
       "mic_lost": "Mikrofon odpojen, řečené zůstává",
       "secure_input": "Zabezpečený vstup je zapnutý · fn+Space nezamkne · Esc nebo ✕ zruší",
       "secure_input_app": "{{app}} má zapnutý zabezpečený vstup · fn+Space nezamkne · Esc nebo ✕ zruší"

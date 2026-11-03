@@ -85,19 +85,19 @@
       "all": "Wszystkie ustawienia"
     },
     "bar": {
-      "title": "Dictation bar",
-      "alwaysShow": "Always show the bar",
-      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
-      "position": "Position",
+      "title": "Pasek dyktowania",
+      "alwaysShow": "Zawsze pokazuj pasek",
+      "alwaysShowHelp": "Gdy wyłączone, pasek pojawia się tylko podczas dyktowania.",
+      "position": "Położenie",
       "positions": {
-        "bottom": "Bottom of the screen",
-        "top": "Top of the screen"
+        "bottom": "Dół ekranu",
+        "top": "Góra ekranu"
       },
-      "hideInRecordings": "Hide the bar in screen recordings",
-      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
-      "hiddenUntil": "Hidden until {{time}}",
-      "showNow": "Show it again",
-      "resetPositions": "Center the bar on every display"
+      "hideInRecordings": "Ukrywaj pasek w nagraniach ekranu",
+      "hideInRecordingsHelp": "Zrzuty ekranu, nagrania ekranu i udostępnianie ekranu pomijają pasek.",
+      "hiddenUntil": "Ukryty do {{time}}",
+      "showNow": "Pokaż ponownie",
+      "resetPositions": "Wyśrodkuj pasek na każdym ekranie"
     },
     "mic": {
       "title": "Mikrofon",
@@ -554,9 +554,9 @@
       "dictionary": {
         "title": "Słownik",
         "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
+          "title": "Naucz {{appName}} swoich słów",
+          "body": "Dodane nazwy, terminy produktowe i skróty są zawsze pisane poprawnie. Dopóki ta strona nie jest gotowa, Twoje słowa są w Ustawieniach.",
+          "action": "Otwórz własne słowa"
         }
       },
       "snippets": {
@@ -876,9 +876,9 @@
       "windowTitle": "Brudnopis"
     },
     "pill": {
-      "name": "Dictation bar",
-      "hint": "Hold fn to dictate, or click to start",
-      "hideForAnHour": "Hide for an hour",
+      "name": "Pasek dyktowania",
+      "hint": "Przytrzymaj fn, aby dyktować, lub kliknij, aby zacząć",
+      "hideForAnHour": "Ukryj na godzinę",
       "slots": {
         "dictate": {
           "label": "Dyktuj",
@@ -890,12 +890,12 @@
         }
       },
       "announce": {
-        "listening": "Listening",
-        "transcribing": "Transcribing",
-        "cleaningUp": "Cleaning up your text",
-        "cancelled": "Dictation cancelled",
-        "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes.",
+        "listening": "Słucham",
+        "transcribing": "Transkrybowanie",
+        "cleaningUp": "Porządkowanie tekstu",
+        "cancelled": "Anulowano dyktowanie",
+        "silenceWarning": "Od dłuższej chwili brak mowy. Dyktowanie wkrótce się zatrzyma.",
+        "lengthWarning": "Dyktowanie zatrzymuje się po 30 minutach.",
         "settingUp": "Konfigurowanie dyktowania. Twoje słowa są zapisywane.",
         "card": "Dyktowanie jest gotowe. Skopiuj je z paska.",
         "micLostWarning": "Mikrofon został odłączony. To, co już powiedziałeś, zostało zachowane.",
@@ -905,14 +905,14 @@
         "inserted": "Wstawiono tekst"
       },
       "message": {
-        "no_speech": "No speech heard",
-        "mic_muted": "Only silence came in. Is the mic muted?",
-        "inserted_without_cleanup": "Inserted without cleanup",
-        "not_pasted": "Not pasted. Your text is in History.",
-        "transcription_failed": "Couldn't transcribe that",
-        "mic_denied": "Microphone access is off",
-        "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start",
+        "no_speech": "Nie usłyszano mowy",
+        "mic_muted": "Docierała tylko cisza. Czy mikrofon jest wyciszony?",
+        "inserted_without_cleanup": "Wstawiono bez porządkowania",
+        "not_pasted": "Nie wklejono. Tekst jest w Historii.",
+        "transcription_failed": "Nie udało się tego przetranskrybować",
+        "mic_denied": "Dostęp do mikrofonu jest wyłączony",
+        "no_microphone": "Nie znaleziono mikrofonu",
+        "mic_failed": "Mikrofon się nie uruchomił",
         "download_failed": "Nie udało się pobrać",
         "check_connection": "Sprawdź połączenie z internetem",
         "no_space": "Za mało miejsca na dysku, aby skonfigurować dyktowanie",
@@ -1294,19 +1294,19 @@
     }
   },
   "pill": {
-    "region": "Dictation bar",
-    "listening": "Listening",
-    "cancel": "Cancel dictation",
-    "finish": "Finish dictation",
-    "transcribing": "Transcribing…",
-    "cleaningUp": "Cleaning up…",
+    "region": "Pasek dyktowania",
+    "listening": "Słucham",
+    "cancel": "Anuluj dyktowanie",
+    "finish": "Zakończ dyktowanie",
+    "transcribing": "Transkrybowanie…",
+    "cleaningUp": "Porządkowanie…",
     "contextUsed": "Pobliski tekst pomógł w pisowni",
-    "mic": "Mic: {{name}}",
-    "fix": "Fix",
-    "dismiss": "Dismiss",
+    "mic": "Mikrofon: {{name}}",
+    "fix": "Napraw",
+    "dismiss": "Zamknij",
     "warning": {
-      "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes",
+      "silence": "Brak mowy, wkrótce koniec",
+      "length": "Koniec po 30 minutach",
       "mic_lost": "Utracono mikrofon, powiedziany tekst zostaje",
       "secure_input": "Bezpieczne wprowadzanie włączone · fn+Spacja nie blokuje · Esc lub ✕ anuluje",
       "secure_input_app": "{{app}} ma włączone Bezpieczne wprowadzanie · fn+Spacja nie blokuje · Esc lub ✕ anuluje"

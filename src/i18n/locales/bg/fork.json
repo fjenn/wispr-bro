@@ -83,19 +83,19 @@
       "all": "Всички настройки"
     },
     "bar": {
-      "title": "Dictation bar",
-      "alwaysShow": "Always show the bar",
-      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
-      "position": "Position",
+      "title": "Лента за диктовка",
+      "alwaysShow": "Винаги показвай лентата",
+      "alwaysShowHelp": "Когато е изключено, лентата се показва само докато диктувате.",
+      "position": "Позиция",
       "positions": {
-        "bottom": "Bottom of the screen",
-        "top": "Top of the screen"
+        "bottom": "Долу на екрана",
+        "top": "Горе на екрана"
       },
-      "hideInRecordings": "Hide the bar in screen recordings",
-      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
-      "hiddenUntil": "Hidden until {{time}}",
-      "showNow": "Show it again",
-      "resetPositions": "Center the bar on every display"
+      "hideInRecordings": "Скривай лентата в записите на екрана",
+      "hideInRecordingsHelp": "Лентата не се вижда в екранни снимки, записи на екрана и при споделяне на екрана.",
+      "hiddenUntil": "Скрита до {{time}}",
+      "showNow": "Покажи отново",
+      "resetPositions": "Центрирай лентата на всеки дисплей"
     },
     "mic": {
       "title": "Микрофон",
@@ -548,9 +548,9 @@
       "dictionary": {
         "title": "Речник",
         "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
+          "title": "Научете {{appName}} на Вашите думи",
+          "body": "Имената, продуктовите термини и съкращенията, които добавите, се изписват правилно всеки път. Докато тази страница не е готова, думите Ви са в Настройки.",
+          "action": "Отвори персонализираните думи"
         }
       },
       "snippets": {
@@ -848,9 +848,9 @@
       "windowTitle": "Чернова"
     },
     "pill": {
-      "name": "Dictation bar",
-      "hint": "Hold fn to dictate, or click to start",
-      "hideForAnHour": "Hide for an hour",
+      "name": "Лента за диктовка",
+      "hint": "Задръжте fn, за да диктувате, или щракнете, за да започнете",
+      "hideForAnHour": "Скрий за един час",
       "slots": {
         "dictate": {
           "label": "Диктовка",
@@ -862,12 +862,12 @@
         }
       },
       "announce": {
-        "listening": "Listening",
-        "transcribing": "Transcribing",
-        "cleaningUp": "Cleaning up your text",
-        "cancelled": "Dictation cancelled",
-        "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes.",
+        "listening": "Слушане",
+        "transcribing": "Транскрибиране",
+        "cleaningUp": "Почистване на текста Ви",
+        "cancelled": "Диктовката е отменена",
+        "silenceWarning": "Известно време няма реч. Диктовката скоро ще спре.",
+        "lengthWarning": "Диктовката спира след 30 минути.",
         "settingUp": "Диктовката се настройва. Думите Ви са запазени.",
         "card": "Диктовката Ви е готова. Копирайте я от лентата.",
         "micLostWarning": "Микрофонът е изключен. Казаното досега е запазено.",
@@ -877,14 +877,14 @@
         "inserted": "Текстът е въведен"
       },
       "message": {
-        "no_speech": "No speech heard",
-        "mic_muted": "Only silence came in. Is the mic muted?",
-        "inserted_without_cleanup": "Inserted without cleanup",
-        "not_pasted": "Not pasted. Your text is in History.",
-        "transcription_failed": "Couldn't transcribe that",
-        "mic_denied": "Microphone access is off",
-        "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start",
+        "no_speech": "Не беше чута реч",
+        "mic_muted": "Получена е само тишина. Микрофонът заглушен ли е?",
+        "inserted_without_cleanup": "Въведено без почистване",
+        "not_pasted": "Не е поставено. Текстът Ви е в История.",
+        "transcription_failed": "Това не можа да бъде транскрибирано",
+        "mic_denied": "Достъпът до микрофона е изключен",
+        "no_microphone": "Не е намерен микрофон",
+        "mic_failed": "Микрофонът не стартира",
         "download_failed": "Изтеглянето не успя",
         "check_connection": "Проверете интернет връзката си",
         "no_space": "Няма достатъчно място на диска за настройване на диктовката",
@@ -1226,19 +1226,19 @@
     }
   },
   "pill": {
-    "region": "Dictation bar",
-    "listening": "Listening",
-    "cancel": "Cancel dictation",
-    "finish": "Finish dictation",
-    "transcribing": "Transcribing…",
-    "cleaningUp": "Cleaning up…",
+    "region": "Лента за диктовка",
+    "listening": "Слушане",
+    "cancel": "Отмени диктовката",
+    "finish": "Завърши диктовката",
+    "transcribing": "Транскрибиране…",
+    "cleaningUp": "Почистване…",
     "contextUsed": "Околният текст помогна с правописа",
-    "mic": "Mic: {{name}}",
-    "fix": "Fix",
-    "dismiss": "Dismiss",
+    "mic": "Микрофон: {{name}}",
+    "fix": "Поправи",
+    "dismiss": "Затвори",
     "warning": {
-      "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes",
+      "silence": "Няма реч, скоро спира",
+      "length": "Спира след 30 минути",
       "mic_lost": "Микрофонът изчезна, казаното е запазено",
       "secure_input": "Защитеното въвеждане е включено · fn+Space не заключва · Esc или ✕ отменя",
       "secure_input_app": "{{app}} има включено защитено въвеждане · fn+Space не заключва · Esc или ✕ отменя"
