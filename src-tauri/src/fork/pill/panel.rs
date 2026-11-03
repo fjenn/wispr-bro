@@ -395,6 +395,7 @@ impl Ui {
                         let _: () = msg_send![win, setAnimationBehavior: 2isize /* None */];
                     }
                     prevent_activation(win);
+                    native::stay_when_app_hidden(win);
                 }
                 self.frame_web(Shape::Held);
                 // Ordered in (behind the native bar, see `hide_web`) so

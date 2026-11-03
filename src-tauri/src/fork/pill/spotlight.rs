@@ -521,6 +521,7 @@ mod mac {
                     unsafe {
                         let _: () = msg_send![win, setAnimationBehavior: 2isize];
                     }
+                    super::super::native::stay_when_app_hidden(win);
                 }
                 panel.show();
                 log::info!("spotlight: panel built");

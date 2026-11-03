@@ -27,8 +27,9 @@
 # debug-only WISPRBRO_UPDATE_TIMING):
 #   S-28.1 B downloads in the background; a hands-free take (SIGUSR2; the
 #          test microphone plays a silent WAV, WISPRBRO_TEST_MIC_WAV, so no
-#          real mic, no speakers and nothing to paste) runs past the quiet window
-#          and nothing installs; after the take and the quiet window B
+#          real mic, no speakers and nothing to paste) runs past the quiet window,
+#          the app stays hidden with no Hub window during it (1h/1i), and
+#          nothing installs; after the take and the quiet window B
 #          installs and the app relaunches hidden (the Hub had been hidden),
 #          with no layer-0 window afterwards.
 #   S-28.2 B ready, the app is quit: B installs at quit, no relaunch.
@@ -198,6 +199,9 @@ app_pid() { pgrep -f "$APP/Contents/MacOS/$EXE" | head -1; }
 bundle_version() { /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist"; }
 not_in_log() { ! grep -q "$1" "$LOG"; }
 no_hub_window() { ! "$WINDOW_ID" "$(app_pid)" >/dev/null 2>&1; }
+app_hidden() {
+  [[ "$(osascript -e "tell application \"System Events\" to get visible of (first process whose unix id is $(app_pid))" 2>/dev/null)" == false ]]
+}
 
 # S-28.1: a take outlasting the quiet window defers the install; then a
 # quiet relaunch.
@@ -211,7 +215,13 @@ check "S-28.1a $B downloads and verifies in the background" run_until "update: $
 run_until "models: selected\|speech setup at launch: Ready" 900 || echo "NOTE no speech model ready after 900 s"
 osascript -e "tell application \"System Events\" to set visible of (first process whose unix id is $(app_pid)) to false" >/dev/null 2>&1 || true
 kill -USR2 "$(app_pid)" # hands-free take starts
-sleep 55
+# Mac wave 3: the take's bar panels unhid the app (an NSPanel ordered front
+# in a hidden app unhides it unless its canHide is off) and the Hub came
+# back 2 s into the take.
+sleep 5
+check "S-28.1h the take leaves the app hidden" app_hidden
+check "S-28.1i no Hub window during the take" no_hub_window
+sleep 50
 check "S-28.1b nothing installs during a 55 s take (past the 40 s quiet window)" not_in_log "update: installing"
 kill -USR2 "$(app_pid)" # take ends
 check "S-28.1c $B installs after the take and the quiet window" run_until "update: installed $B" 120

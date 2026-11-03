@@ -623,6 +623,20 @@ fn draw_text(text: &str, at: NSPoint) {
     }
 }
 
+/// Keeps one of the bar's panels out of the app's hide (⌘H, `NSApp.hide`).
+///
+/// AppKit unhides a hidden app when one of its windows that can hide is
+/// ordered in, `orderFrontRegardless` on a non-activating panel included,
+/// and the unhide brings every window back, the Hub too (Mac wave 3,
+/// S-28.1d-f: a take started while the app was hidden showed the Hub 2 s
+/// in). A panel with `canHide` off stays on screen while the app is hidden
+/// and ordering it front leaves the app hidden. Call it on every panel the
+/// take path orders in (the resting bar, the `fork-pill` web view, the
+/// tutorial spotlight), before its first order-in.
+pub(super) fn stay_when_app_hidden(window: &objc2_app_kit::NSWindow) {
+    window.setCanHide(false);
+}
+
 /// The resting panel and its view.
 pub struct Resting {
     panel: Retained<RestingPanel>,
@@ -647,6 +661,7 @@ impl Resting {
         panel.setFloatingPanel(true);
         panel.setBecomesKeyOnlyIfNeeded(true);
         panel.setHidesOnDeactivate(false);
+        stay_when_app_hidden(&panel);
         panel.setLevel(NSStatusWindowLevel);
         panel.setCollectionBehavior(
             NSWindowCollectionBehavior::CanJoinAllSpaces

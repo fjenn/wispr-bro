@@ -326,3 +326,56 @@ fn voiceover_reads_the_cards_text_but_never_a_password_fields() {
     let (de, _) = spoken("de", None, Some(&view(PillPhase::Held, None))).unwrap();
     assert!(!de.is_empty());
 }
+
+/// Mac wave 3, S-28.1d-f: a take started while the app was hidden (⌘H)
+/// unhid it, Hub included, because the bar's panels could hide with the
+/// app and AppKit unhides a hidden app when such a window is ordered in.
+/// Every panel the take path orders in turns `canHide` off before its first
+/// order-in, and nothing on the bar's path unhides or activates the app.
+#[test]
+fn bar_panels_never_unhide_a_hidden_app() {
+    let native = include_str!("native.rs");
+    let panel = include_str!("panel.rs");
+    let spotlight = include_str!("spotlight.rs");
+    assert!(native.contains("window.setCanHide(false);"));
+    // The resting bar: before `Resting::new` returns (it is ordered in later).
+    let new = &native[native.find("pub fn new(mtm: MainThreadMarker").unwrap()..];
+    let new = &new[..new.find("Resting { panel, view }").unwrap()];
+    assert!(new.contains("stay_when_app_hidden(&panel);"), "resting bar");
+    // The web view and the spotlight: before their first `panel.show()`.
+    for (name, src, call) in [
+        ("fork-pill", panel, "native::stay_when_app_hidden(win);"),
+        (
+            "spotlight",
+            spotlight,
+            "super::super::native::stay_when_app_hidden(win);",
+        ),
+    ] {
+        let at = src
+            .find(call)
+            .unwrap_or_else(|| panic!("{name}: no canHide"));
+        let show = src.find("panel.show();").unwrap();
+        assert!(at < show, "{name}: canHide is set after the first order-in");
+        assert_eq!(src.matches("panel.show();").count(), 1, "{name}");
+    }
+    for (name, src) in [
+        ("native", native),
+        ("panel", panel),
+        ("spotlight", spotlight),
+    ] {
+        let code: String = src
+            .lines()
+            .filter(|l| !l.trim_start().starts_with("//"))
+            .collect::<Vec<_>>()
+            .join("\n");
+        for banned in [
+            "unhide",
+            "activateIgnoringOtherApps",
+            "makeKeyAndOrderFront",
+            "set_focus(",
+            "show_main_window",
+        ] {
+            assert!(!code.contains(banned), "{name} calls {banned}");
+        }
+    }
+}
