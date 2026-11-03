@@ -2,16 +2,20 @@
 import { MessageSquareText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
+import { chordLabel } from "../settings/hotkeys/model";
 import { FOCUS_RING } from "../ui";
 
 export function CommandModeCard({
   checked,
   disabled,
   onChange,
+  shortcut,
 }: {
   checked: boolean;
   disabled: boolean;
   onChange: (checked: boolean) => void;
+  /** The Command Mode binding's chord (`fn+ctrl` by default), if one is set. */
+  shortcut?: string;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
@@ -43,7 +47,9 @@ export function CommandModeCard({
               {t("transforms.commandMode.title")}
             </span>
             <kbd className="rounded border border-(--wb-line) px-1.5 py-0.5 text-xs text-(--wb-ink-2)">
-              {t("transforms.commandMode.shortcut")}
+              {shortcut
+                ? chordLabel(shortcut)
+                : t("settingsModal.hotkeys.notSet")}
             </kbd>
             <span className="text-xs text-(--wb-ink-2)">
               {checked

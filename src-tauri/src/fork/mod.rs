@@ -824,9 +824,9 @@ pub trait ForkRuntime: Runtime {
     /// must not be built off the main thread), so tests never build menus or
     /// list the Mac's microphones for them.
     fn native_menus() -> bool;
-    /// S-26a menus: Copy last transcript (Dictation menu), as ⌃⌘C does.
+    /// S-26a menus: Copy last dictation (Dictation menu), as ⌃⌘C does.
     fn menu_copy_last(app: &AppHandle<Self>);
-    /// S-26a menus: Paste last transcript (tray), as ⌃⌘V does.
+    /// S-26a menus: Paste last dictation (tray), as ⌃⌘V does.
     fn menu_paste_last(app: &AppHandle<Self>);
     /// S-26a tray: a take is in progress (Handy's tray state; Cancel shows).
     fn menu_dictation_in_progress(app: &AppHandle<Self>) -> bool;

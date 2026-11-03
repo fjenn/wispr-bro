@@ -12,7 +12,7 @@
 //   wbmenus <pid> wait-tray <s>      polls until the status item exists again
 //                                    (exit 1 after <s> seconds)
 //   wbmenus <pid> press <A>/<B>[/<C>] AXPress a menu item by titles, e.g.
-//                                    'Vocabulary/Add word…'
+//                                    'Dictionary/Add word…'
 //   wbmenus <pid> focused            the focused element's role and value
 //   wbmenus <pid> help-results       titles of the rows macOS's Help search
 //                                    shows (after `ui.swift … key

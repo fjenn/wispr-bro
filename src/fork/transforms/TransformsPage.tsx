@@ -321,6 +321,9 @@ export function TransformsPage() {
         checked={settings?.command_mode_enabled ?? false}
         disabled={!settings || !!pending.command_mode_enabled}
         onChange={(checked) => void setSetting("command_mode_enabled", checked)}
+        shortcut={
+          settings ? settings.hotkeys["command_mode"]?.[0]?.chord : "fn+ctrl"
+        }
       />
       {error && (
         <p role="alert" className="text-sm text-red-700 dark:text-red-300">

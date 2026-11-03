@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // S-26a: native-menu events follow the Hub's real deep links, including Help
-// targets and the Vocabulary Add/New dialogs.
+// targets and the Dictionary menu's Add/New dialogs.
 import {
   test,
   expect,
@@ -68,7 +68,7 @@ for (const section of ["microphone", "languages"] as const) {
   });
 }
 
-test("Vocabulary Add word opens, closes and repeats its dialog deep link", async ({
+test("Dictionary menu Add word opens, closes and repeats its dialog deep link", async ({
   page,
   ipc,
   hub,
@@ -90,7 +90,7 @@ test("Vocabulary Add word opens, closes and repeats its dialog deep link", async
   ).toBeVisible();
 });
 
-test("Vocabulary New snippet opens, closes and repeats its dialog deep link", async ({
+test("Dictionary menu New snippet opens, closes and repeats its dialog deep link", async ({
   page,
   ipc,
   hub,

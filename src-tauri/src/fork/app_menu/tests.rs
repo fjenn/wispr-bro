@@ -187,7 +187,7 @@ fn preview_is_one_line_short_and_never_reveals_a_concealed_take() {
         concealed: true,
     });
     let rendered = format!("{:?}", dictation_spec(&snapshot));
-    assert!(rendered.contains("Copy last transcript (text hidden)"));
+    assert!(rendered.contains("Copy last dictation (text hidden)"));
     assert!(!rendered.contains("A short dictation"));
 }
 

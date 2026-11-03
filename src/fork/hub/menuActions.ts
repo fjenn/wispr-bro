@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-/** Native Dictation, Vocabulary, Help and tray actions (S-26a). */
+/** Native Dictation, Dictionary, Help and tray actions (S-26a). */
 import { useEffect } from "react";
 import { events } from "../bindings";
 import { isHubPageId, navigate } from "./nav";

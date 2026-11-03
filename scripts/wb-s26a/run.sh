@@ -12,7 +12,7 @@
 #   edit <pid> <x> <y> <out dir>        S-26a.1: ⌘X/⌘V/⌘Z/⌘C in the Hub text
 #                                       field at window point (x, y)
 #   help <pid> <query> <out dir>        S-26a.2: ⌘? + query; lists the rows
-#   counts <pid> <out dir>              S-26a.4: Vocabulary › Add word… adds a
+#   counts <pid> <out dir>              S-26a.4: Dictionary › Add word… adds a
 #                                       word; the count item follows live
 #   tray <pid> <out dir>                S-26a.3: restart ControlCenter, the
 #                                       status item must come back (A-69)
@@ -39,11 +39,11 @@ case "$STEP" in
     for k in "Undo [⌘z]" "Cut [⌘x]" "Copy [⌘c]" "Paste [⌘v]" "Select All [⌘a]"; do
       grep -qiF "$k" "$OUT/menubar.txt"; check "Edit has $k" $?  # AX prints ⌘Z
     done
-    for m in Dictation Vocabulary Help; do
+    for m in Dictation Dictionary Help; do
       grep -qx "$m" "$OUT/menubar.txt"; check "menu $m" $?
     done
     grep -q "words\? dictated" "$OUT/menubar.txt"; check "Dictation shows the word count" $?
-    grep -q "Copy last transcript" "$OUT/menubar.txt"; check "Copy last transcript" $?
+    grep -q "Copy last dictation" "$OUT/menubar.txt"; check "Copy last dictation" $?
     for i in Documentation Shortcuts Microphone Languages "Add word…" "New snippet…"; do
       grep -qF "$i" "$OUT/menubar.txt"; check "item $i" $?
     done
@@ -76,7 +76,7 @@ case "$STEP" in
   counts)
     PID="$1"; OUT="$2"; mkdir -p "$OUT"
     before=$("$MENUS" "$PID" menubar | grep -o "[0-9,]* dictionary words\?" | head -1)
-    "$MENUS" "$PID" press "Vocabulary/Add word…"
+    "$MENUS" "$PID" press "Dictionary/Add word…"
     sleep 1
     "$UI" "$PID" "front; type S26a$RANDOM; key return; wait 1200; key escape" || exit 1
     after=$("$MENUS" "$PID" menubar | grep -o "[0-9,]* dictionary words\?" | head -1)

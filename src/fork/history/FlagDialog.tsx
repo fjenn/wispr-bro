@@ -207,6 +207,11 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
         return t(`dictionary.problem.${f.problem}`, {
           max: MAX_PHRASE_CHARS,
           maxReplacement: MAX_REPLACEMENT_CHARS,
+          // The limit the message names picks the plural form.
+          count:
+            f.problem === "replacement_too_long"
+              ? MAX_REPLACEMENT_CHARS
+              : MAX_PHRASE_CHARS,
         });
       case "duplicate":
         return t("history.flag.duplicate");

@@ -118,6 +118,7 @@ impl Notice {
             .arg("count", count)
             .action(NotificationAction::page("settings", Some("history")));
         n.title_key = plural_key("rust.notify.takeRecovered.title", count);
+        n.body_key = Some(plural_key("rust.notify.takeRecovered.body", count));
         n
     }
 

@@ -1,6 +1,6 @@
 {
   "overrides.onboarding.migration.description": "machine",
-  "overrides.onboarding.permissions.microphone.why": "machine",
+  "overrides.onboarding.permissions.microphone.why": "ai-reviewed",
   "overrides.onboarding.permissions.accessibility.why": "machine",
   "overrides.onboarding.permissions.turnOnMac": "machine",
   "overrides.onboarding.permissions.relaunch": "machine",
@@ -18,8 +18,8 @@
   "overrides.settings.models.deleteAskActive": "machine",
   "overrides.settings.models.retiredNotice.title": "machine",
   "overrides.settings.models.rescan.tooltip": "machine",
-  "overrides.settings.advanced.autostart.description": "machine",
-  "overrides.settings.advanced.showTrayIcon.description": "machine",
+  "overrides.settings.advanced.autostart.description": "ai-reviewed",
+  "overrides.settings.advanced.showTrayIcon.description": "ai-reviewed",
   "overrides.settings.debug.updateChecks.description": "machine",
   "overrides.settings.debug.updateChecks.lockedDescription": "machine",
   "overrides.settings.debug.keyboardDiagnostic.description": "machine",

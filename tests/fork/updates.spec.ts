@@ -238,7 +238,7 @@ test.describe("About: updates", () => {
     await expect(panel).toContainText("Up to date");
     await expect(panel).toContainText("Last checked");
     await expect(panel).toContainText(
-      "Updates download in the background and install only while you're not dictating, or when you quit.",
+      "Updates download in the background and install once you haven't dictated for 20 minutes, or when you quit.",
     );
     await panel.getByRole("button", { name: "Check again" }).click();
     await ipc.expectCalled("fork_update_check_now");

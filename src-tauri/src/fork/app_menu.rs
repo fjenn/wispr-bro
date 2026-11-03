@@ -9,7 +9,7 @@
 //!
 //! - **App menu:** Tauri's `Menu::default` (so Edit keeps ⌘C/⌘V/⌘Z/⌘A and
 //!   Window keeps ⌘M), labels localized from `fork/i18n.rs`, plus Dictation and
-//!   Vocabulary after Edit and our Help items in Tauri's Help submenu, which
+//!   Dictionary after Edit and our Help items in Tauri's Help submenu, which
 //!   is registered with `set_as_help_menu_for_nsapp()` so macOS adds its
 //!   search box.
 //! - **Tray:** Handy's `tray.rs` `build_menu` hook ([`super::tray::extend`])
@@ -209,7 +209,7 @@ fn count_text(locale: &str, key: &str, count: u64) -> String {
     i18n::t_plural(locale, key, count, &[])
 }
 
-/// Longest preview in "Copy last transcript: “…”".
+/// Longest preview in "Copy last dictation: “…”".
 pub const PREVIEW_CHARS: usize = 40;
 
 /// A one-line, shortened preview of a transcript; `None` for blank text.
@@ -296,7 +296,7 @@ fn copy_last_label(snapshot: &MenuSnapshot) -> String {
     }
 }
 
-/// Dictation: "N words dictated", Copy last transcript (with preview),
+/// Dictation: "N words dictated", Copy last dictation (with preview),
 /// Microphone ▸, Languages ▸.
 pub fn dictation_spec(snapshot: &MenuSnapshot) -> MenuSpec {
     let locale = snapshot.locale.as_str();
@@ -321,7 +321,7 @@ pub fn dictation_spec(snapshot: &MenuSnapshot) -> MenuSpec {
     )
 }
 
-/// Vocabulary: dictionary and snippet counts, Add word…, New snippet….
+/// Dictionary: dictionary and snippet counts, Add word…, New snippet….
 pub fn vocabulary_spec(snapshot: &MenuSnapshot) -> MenuSpec {
     let locale = snapshot.locale.as_str();
     MenuSpec::submenu(
@@ -780,7 +780,7 @@ fn install_app_menu<R: Runtime>(app: &AppHandle<R>, snapshot: &MenuSnapshot) -> 
     let menu = Menu::default(app)?;
     localize_defaults(app, &menu, &snapshot.locale)?;
 
-    // Dictation and Vocabulary go right after Edit.
+    // Dictation and Dictionary go right after Edit.
     let items = menu.items()?;
     let edit_label = text(&snapshot.locale, "rust.menu.edit");
     let after_edit = items

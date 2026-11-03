@@ -82,7 +82,7 @@ test.describe("useForkSettings", () => {
     });
     const toggle = section.getByTestId("fork-settings-transforms");
     await expect(toggle).not.toBeChecked();
-    await expect(section).toContainText("replace ¡ and ™");
+    await expect(section).toContainText("no longer type ¡, ™ and ø");
 
     await toggle.click();
     await expect(toggle).toBeChecked();

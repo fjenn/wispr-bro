@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // S-19a/b Style page: the five tabs (Personal / Work / Email / Other /
 // Cleanup) and their deep links, each group's apps and sites (move, remove,
-// back to the usual group, Undo, "Press Enter after dictating"), the "+" picker
+// back to the usual group, Undo, "Press Return after dictating"), the "+" picker
 // (search, apps already in the group cannot be picked again), the presets
 // as before/after cards (Personal: Formal / Relaxed / Very relaxed; the
 // others: Formal / Relaxed / Upbeat) saved in the fork setting `styles`,
@@ -431,14 +431,14 @@ styleTest.describe("style page", () => {
   );
 
   styleTest(
-    "Press Enter after dictating is off by default and set per app",
+    "Press Return after dictating is off by default and set per app",
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style, { hash: "#/hub/style/work" });
       const slack = chip(page, "com.tinyspeck.slackmacgap");
       await expect(slack).toHaveAttribute("data-auto-send", "false");
       await slack.click();
       const toggle = page.getByRole("menuitemcheckbox", {
-        name: "Press Enter after dictating",
+        name: "Press Return after dictating",
       });
       await expect(toggle).toHaveAttribute("aria-checked", "false");
       await toggle.click();
@@ -450,7 +450,7 @@ styleTest.describe("style page", () => {
       await page.keyboard.press("Escape");
       await expect(slack).toHaveAttribute("data-auto-send", "true");
       await expect(slack).toHaveAccessibleName(
-        "Slack, presses Enter after dictating: options",
+        "Slack, presses Return after dictating: options",
       );
       await shot(page, "auto-send");
     },

@@ -52,7 +52,7 @@ test.describe("Cancelled · Undo on the bar", () => {
     await page.goto("/src/fork/pill/index.html");
     await expect(page.getByTestId("wb-pill-message")).toBeVisible();
     if (!appSettings) {
-      await expect(page.getByTestId("wb-pill-message")).toHaveText("Cancelled");
+      await expect(page.getByTestId("wb-pill-message")).toHaveText("Canceled");
     }
   }
 

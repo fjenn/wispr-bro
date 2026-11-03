@@ -17,8 +17,9 @@ export function ExamplesEditor({
   value: string[];
   onChange: (examples: string[]) => void;
 }) {
-  const { t } = useTranslation(FORK_NAMESPACE);
+  const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const [error, setError] = useState(false);
+  const chars = new Intl.NumberFormat(i18n.language).format(MAX_EXAMPLE_CHARS);
 
   const load = async () => {
     setError(false);
@@ -53,7 +54,7 @@ export function ExamplesEditor({
         {t("transforms.examples.help", {
           count: MAX_EXAMPLES,
           max: MAX_EXAMPLES,
-          chars: MAX_EXAMPLE_CHARS,
+          chars,
         })}
       </p>
       {value.map((example, index) => (
@@ -98,7 +99,7 @@ export function ExamplesEditor({
       ))}
       {error && (
         <p role="alert" className="text-sm text-red-700 dark:text-red-300">
-          {t("transforms.examples.readError")}
+          {t("transforms.examples.readError", { chars })}
         </p>
       )}
       {value.length < MAX_EXAMPLES && (

@@ -50,7 +50,7 @@
       "version": "Version",
       "channel": "Channel",
       "key": "Signing key",
-      "endpoints": "Feeds",
+      "endpoints": "Update feeds",
       "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
       "check": "Check now",
       "checking": "Checking…",
@@ -71,7 +71,7 @@
       "contextAwareness": "Context awareness",
       "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
       "transforms": "Transforms",
-      "transformsHint": "⌥1 polishes selected text and ⌥2 turns it into a clearer AI prompt. While enabled, those keys replace ¡ and ™.",
+      "transformsHint": "⌥1 polishes selected text, ⌥2 turns it into a clearer AI prompt and ⌥O shows what the last transform changed. While enabled, those keys no longer type ¡, ™ and ø.",
       "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
       "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
       "cleanupLevel": "Cleanup level",
@@ -148,7 +148,7 @@
       "notSet": "Not set",
       "current": "Shortcut: {{shortcut}}",
       "listening": "Press a shortcut…",
-      "listeningHelp": "Press the keys or the mouse button you want. Escape cancels.",
+      "listeningHelp": "Press the keys or the mouse button you want. Esc cancels.",
       "record": "Record",
       "cancel": "Cancel",
       "clear": "Clear",
@@ -165,13 +165,13 @@
         "help": "Puts your last dictation on the clipboard."
       },
       "pressEnter": {
-        "title": "Press Enter",
+        "title": "Press Return",
         "help": "Presses Return for you, for example to send a message you just dictated.",
         "mouse": "A mouse button still does its usual click in the app under the pointer, so a side button (back or forward) works best."
       },
       "undoCancel": {
         "title": "Undo a cancel",
-        "help": "Brings back a dictation you just cancelled, while the bar shows Undo."
+        "help": "Brings back a dictation you just canceled, while the bar shows Undo."
       }
     }
   },
@@ -275,14 +275,14 @@
         "audioLabel": "Keep recordings",
         "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
         "options": {
-          "forever": "Forever",
-          "365": "1 year",
-          "90": "90 days",
-          "30": "30 days",
-          "14": "14 days",
-          "7": "7 days",
+          "0": "Never keep audio",
           "1": "1 day",
-          "0": "Never keep audio"
+          "7": "7 days",
+          "14": "14 days",
+          "30": "30 days",
+          "90": "90 days",
+          "365": "1 year",
+          "forever": "Forever"
         }
       },
       "choices": {
@@ -386,24 +386,24 @@
       "saveFailed": "Could not save that shortcut.",
       "conflict": "Also used by {{action}}. Choose a different shortcut.",
       "invalid": "This shortcut is not recognized.",
-      "unsupported": "The hotkey engine cannot use this combination for the action.",
+      "unsupported": "This combination can't be used as a shortcut for this action.",
       "capture": {
         "starting": "Starting shortcut capture…",
         "listening": "Press a shortcut…",
-        "listeningHelp": "Press the key combination or mouse button to use. Escape cancels.",
+        "listeningHelp": "Press the key combination or mouse button to use. Esc cancels.",
         "cancel": "Cancel",
         "close": "Back",
         "secure": "Shortcut capture is unavailable while Secure Input is active. Leave the password field or turn off Secure Keyboard Entry, then try again.",
         "failed": "Could not start shortcut capture. Check Accessibility permission and try again."
       },
       "actions": {
-        "dictate": "Push to talk",
+        "dictate": "Hold to talk",
         "hands_free": "Hands-free dictation",
         "cancel": "Cancel dictation",
         "command_mode": "Command Mode",
         "paste_last": "Paste last dictation",
         "copy_last": "Copy last dictation",
-        "press_enter": "Press Enter",
+        "press_enter": "Press Return",
         "undo_cancel": "Undo a cancel",
         "transform.polish": "Polish selected text",
         "transform.prompt_engineer": "Turn selected text into an AI prompt",
@@ -414,7 +414,7 @@
         "dictate": "Hold the shortcut while you speak; release it to finish.",
         "hands_free": "Start and stop dictation without holding a key.",
         "cancel": "Stop the current dictation without inserting it.",
-        "command_mode": "Hold fn and Ctrl while you say how to edit or write text.",
+        "command_mode": "Hold the shortcut while you say how to edit or write text.",
         "paste_last": "Paste your most recent dictation again.",
         "copy_last": "Copy your most recent dictation to the clipboard.",
         "press_enter": "Press Return in the app where you are typing. A mouse side button works well here.",
@@ -524,58 +524,30 @@
           "quiet": "Dictate quietly: show me how"
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Your dictations will show up here"
         }
       },
       "insights": {
         "title": "Insights",
         "empty": {
           "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
           "action": "Go to Dictation"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
-        "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
-        }
+        "title": "Dictionary"
       },
       "snippets": {
-        "title": "Snippets",
-        "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Snippets"
       },
       "style": {
-        "title": "Style",
-        "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Style"
       },
       "transforms": {
-        "title": "Transforms",
-        "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Transforms"
       },
       "scratchpad": {
-        "title": "Scratchpad",
-        "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Scratchpad"
       },
       "share": {
         "title": "Share with a friend"
@@ -612,7 +584,7 @@
       "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
       "manualOnly": "This is a development build: updates are checked only when you ask.",
       "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
+      "policy": "Updates download in the background and install once you haven't dictated for 20 minutes, or when you quit.",
       "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
     }
   },
@@ -645,7 +617,7 @@
       "noColumn": "Not in this file",
       "column": "Column {{letter}}",
       "columnNamed": "Column {{letter}}: {{name}}",
-      "mapRequired": "Choose a column for every field that is not optional.",
+      "mapRequired": "Choose a column for each required field.",
       "previewCaption_one": "Preview of the first row",
       "previewCaption_other": "Preview of the first {{count}} rows",
       "rowHeader": "Row",
@@ -668,7 +640,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
+      "vocabulary": "Dictionary",
       "help": "Help",
       "file": "File",
       "edit": "Edit",
@@ -676,9 +648,9 @@
       "window": "Window",
       "wordsDictated_one": "{{count}} word dictated",
       "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
+      "copyLast": "Copy last dictation",
+      "copyLastPreview": "Copy last dictation: “{{preview}}”",
+      "copyLastConcealed": "Copy last dictation (text hidden)",
       "microphone": "Microphone",
       "languages": "Languages",
       "moreLanguages": "Add or remove languages…",
@@ -696,7 +668,7 @@
       "sendFeedback": "Send feedback…",
       "openApp": "Open {{appName}}",
       "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
+      "pasteLast": "Paste last dictation",
       "cancelDictation": "Cancel dictation",
       "shortcutsBlocked": "Shortcuts blocked — open Settings",
       "undo": "Undo",
@@ -833,7 +805,8 @@
       "takeRecovered": {
         "title_one": "A recording was saved when the app quit",
         "title_other": "{{count}} recordings were saved when the app quit",
-        "body": "They were still recording when {{appName}} closed. They are in History, where they are transcribed."
+        "body_one": "You were still dictating when {{appName}} closed. The recording is being transcribed and will appear in History.",
+        "body_other": "You were still dictating when {{appName}} closed. The recordings are being transcribed and will appear in History."
       }
     },
     "scratchpad": {
@@ -857,7 +830,7 @@
         "listening": "Listening",
         "transcribing": "Transcribing",
         "cleaningUp": "Cleaning up your text",
-        "cancelled": "Dictation cancelled",
+        "cancelled": "Dictation canceled",
         "silenceWarning": "No speech for a while. Dictation stops soon.",
         "lengthWarning": "Dictation stops at 30 minutes.",
         "settingUp": "Setting up dictation. Your words are saved.",
@@ -865,7 +838,7 @@
         "micLostWarning": "The microphone disconnected. What you said so far is kept.",
         "undo": "Undo is on the dictation bar for 4 seconds.",
         "diff": "Transform changes are ready to review.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels.",
+        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Esc or the close button still cancels.",
         "inserted": "Text inserted"
       },
       "message": {
@@ -880,7 +853,7 @@
         "download_failed": "Couldn't download",
         "check_connection": "Check your internet connection",
         "no_space": "Not enough disk space to set up dictation",
-        "cancelled": "Cancelled",
+        "cancelled": "Canceled",
         "no_transcript": "No dictation to paste yet",
         "copied_last": "Last dictation copied",
         "transform_done": "Done",
@@ -931,7 +904,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "So Wispr Bro can hear you. Audio is turned into text on this computer and never uploaded."
+          "why": "So Wispr Bro can hear you. Audio is turned into text on this Mac and never uploaded."
         },
         "accessibility": {
           "why": "So your shortcut works in every app, and Wispr Bro can type the text where your cursor is."
@@ -979,10 +952,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Automatically start Wispr Bro when you log in to your computer."
+          "description": "Automatically start Wispr Bro when you log in to your Mac."
         },
         "showTrayIcon": {
-          "description": "Display the Wispr Bro icon in the system tray."
+          "description": "Show the Wispr Bro icon in the menu bar."
         }
       },
       "debug": {
@@ -1239,7 +1212,7 @@
       "toPlaceholder": "e.g. going to",
       "counter": "{{count}}/{{max}}",
       "wordHint": "Helps the speech model hear and spell it right.",
-      "ruleHint": "Matches the whole word, in any case, and writes the replacement exactly as typed.",
+      "ruleHint": "Matches the whole word, whatever the capitalization, and writes the replacement exactly as typed.",
       "cancel": "Cancel",
       "add": "Add word",
       "save": "Save",
@@ -1273,8 +1246,8 @@
         "conflicts_other": "conflicts",
         "invalid_one": "can't be imported",
         "invalid_other": "can't be imported",
-        "overLimit_one": "Your dictionary has room for {{room}} more; {{count}} new entry won't fit.",
-        "overLimit_other": "Your dictionary has room for {{room}} more; {{count}} new entries won't fit.",
+        "overLimit_one": "{{count}} new entry won't fit (room left in your dictionary: {{room}}).",
+        "overLimit_other": "{{count}} new entries won't fit (room left in your dictionary: {{room}}).",
         "showNew": "Show the new entries",
         "more_one": "and {{count}} more",
         "more_other": "and {{count}} more",
@@ -1369,10 +1342,9 @@
     },
     "commandMode": {
       "title": "Command Mode",
-      "shortcut": "fn ⌃",
       "on": "On",
       "off": "Off",
-      "help": "Hold fn and Ctrl, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, fn and Ctrl dictate normally."
+      "help": "Hold the Command Mode shortcut, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, the shortcut dictates normally."
     },
     "auto": {
       "title": "Apply after every dictation",
@@ -1414,8 +1386,8 @@
       "title": "Edit {{name}}",
       "name": "Name",
       "description": "Description",
-      "hotkey": "Hotkey",
-      "addHotkey": "Add hotkey",
+      "hotkey": "Shortcut",
+      "addHotkey": "Add shortcut",
       "example": "Example",
       "exampleInput": "Text to transform",
       "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
@@ -1463,7 +1435,7 @@
       "paste": "Paste an example",
       "load": "Load .txt or .md",
       "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters.",
+      "readError": "Choose a .txt or .md file with no more than {{chars}} characters.",
       "help_one": "Paste or load up to {{max}} example, {{chars}} characters each. They guide style without becoming part of the result.",
       "help_other": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result."
     },
@@ -1602,7 +1574,7 @@
       "trigger_control_character": "What you say has to fit on one line.",
       "empty_body": "Type the text to write.",
       "body_control_character": "The text contains a character that can't be written. Remove it and try again.",
-      "full": "You have the most snippets the app can hold. Delete some first.",
+      "full": "Your snippet list is full. Delete some snippets first.",
       "trigger_too_long_one": "What you say can be up to {{max}} character.",
       "trigger_too_long_other": "What you say can be up to {{max}} characters.",
       "body_too_long_one": "The text can be up to {{maxBody}} character.",
@@ -1617,7 +1589,7 @@
       "body": "Write",
       "bodyPlaceholder": "The text to write. Line breaks are kept.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Works on its own or inside a sentence, in any case. Inside a sentence, punctuation in the cue must be said the same way. The text is written exactly as saved.",
+      "hint": "Works on its own or inside a sentence, whatever the capitalization. Inside a sentence, any punctuation in what you say must match the dictated text exactly. The text is written exactly as saved.",
       "cancel": "Cancel",
       "add": "Add snippet",
       "save": "Save",
@@ -1639,8 +1611,8 @@
         "columns": "The first column is what you say; the second is the text to write.",
         "lines": "A text with line breaks goes in quotes, as spreadsheet apps save it.",
         "encoding": "Save as CSV UTF-8 so accents and other scripts come through.",
-        "limits_one": "What you say up to {{max}} character, texts up to {{maxBody}}, at most 1,000 rows and 3 MB per file.",
-        "limits_other": "What you say up to {{max}} characters, texts up to {{maxBody}}, at most 1,000 rows and 3 MB per file."
+        "limits_one": "Up to {{max}} character for what you say and {{maxBody}} for the text; at most 1,000 rows and 3 MB per file.",
+        "limits_other": "Up to {{max}} characters for what you say and {{maxBody}} for the text; at most 1,000 rows and 3 MB per file."
       },
       "review": {
         "new_one": "new snippet",
@@ -1651,8 +1623,8 @@
         "conflicts_other": "conflicts",
         "invalid_one": "can't be imported",
         "invalid_other": "can't be imported",
-        "overLimit_one": "There is room for {{room}} more; {{count}} new snippet won't fit.",
-        "overLimit_other": "There is room for {{room}} more; {{count}} new snippets won't fit.",
+        "overLimit_one": "{{count}} new snippet won't fit (room left: {{room}}).",
+        "overLimit_other": "{{count}} new snippets won't fit (room left: {{room}}).",
         "ignoredRows_one": "Only the first 1,000 rows are read; {{count}} more row is left out.",
         "ignoredRows_other": "Only the first 1,000 rows are read; {{count}} more rows are left out.",
         "showNew": "Show the new snippets",
@@ -1680,8 +1652,8 @@
         "kept_other": "{{count}} conflicts kept as they were",
         "invalid_one": "{{count}} row couldn't be imported",
         "invalid_other": "{{count}} rows couldn't be imported",
-        "overLimit_one": "{{count}} didn't fit",
-        "overLimit_other": "{{count}} didn't fit"
+        "overLimit_one": "{{count}} didn't fit (your snippet list is full)",
+        "overLimit_other": "{{count}} didn't fit (your snippet list is full)"
       }
     },
     "export": {
@@ -1774,7 +1746,7 @@
       "sample": {
         "phrase": "a phrase you say often",
         "peak": "a time of day",
-        "word": "a favourite word",
+        "word": "a favorite word",
         "corrected": "a word that gets fixed"
       },
       "lockedTitle_one": "Your voice profile unlocks at {{goal}} word",
@@ -1800,8 +1772,8 @@
     },
     "results_one": "{{count}} dictation found",
     "results_other": "{{count}} dictations found",
-    "resultsMore_one": "The {{count}} most recent match. Scroll for more.",
-    "resultsMore_other": "The {{count}} most recent matches. Scroll for more.",
+    "resultsMore_one": "Showing {{count}} recent match. Scroll for more.",
+    "resultsMore_other": "Showing the {{count}} most recent matches. Scroll for more.",
     "search": {
       "open": "Search history",
       "label": "Search your dictations",
@@ -1812,7 +1784,7 @@
     "transcribeFailed": "That file could not be opened. Please try again.",
     "showMore": "Show more",
     "showLess": "Show less",
-    "failed": "Transcription failed. Try Retry transcript in the ⋮ menu.",
+    "failed": "Transcription failed. Choose Retry transcription in the ⋮ menu.",
     "waitingForModel": "Waiting for speech model",
     "notTranscribed": "Not transcribed yet.",
     "job": {
@@ -1838,7 +1810,7 @@
       "label": "Dictation actions",
       "undoAi": "Undo AI edit",
       "redoAi": "Redo AI edit",
-      "retry": "Retry transcript",
+      "retry": "Retry transcription",
       "retryAt": {
         "none": "Retry without cleanup",
         "light": "Retry with Light cleanup",
@@ -1997,8 +1969,8 @@
       "moveTo": "Move to",
       "useDefault": "Back to its usual group ({{group}})",
       "remove": "Remove from {{group}}",
-      "autoSend": "Press Enter after dictating",
-      "autoSendOn": "presses Enter after dictating",
+      "autoSend": "Press Return after dictating",
+      "autoSendOn": "presses Return after dictating",
       "notInstalled": "not installed",
       "aiChat": "An AI chat: your words go in cleaned, without a style.",
       "moved": "{{app}} now uses the {{group}} style.",
@@ -2057,7 +2029,7 @@
       "title": "Talk, and your words appear",
       "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
       "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
+      "privacy": "Your voice and your text never leave your Mac. No account, no cloud, no tracking.",
       "download": "Speech setup starts now and runs in the background.",
       "start": "Get started"
     },
@@ -2077,8 +2049,8 @@
       "noMatch": "No language matches “{{query}}”.",
       "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
       "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "weak_one": "Recognition is less accurate in {{languages}}. Dictating in it still works, but expect more mistakes.",
+      "weak_other": "Recognition is less accurate in {{languages}}. Dictating in them still works, but expect more mistakes."
     },
     "permissions": {
       "title": "Two permissions",
@@ -2198,10 +2170,10 @@
       "hoursPerDay_one": "{{hours}} hour a day",
       "hoursPerDay_other": "{{hours}} hours a day",
       "takeTest": "Take the typing test",
-      "basisMeasured_one": "Based on your {{wpm}} word a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisMeasured_other": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage_one": "Based on an average typing speed of {{wpm}} word a minute, and speaking at about {{speaking}} words a minute.",
-      "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute."
+      "basisMeasured_one": "Based on your typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
+      "basisMeasured_other": "Based on your typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
+      "basisAverage_one": "Based on an average typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
+      "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute."
     },
     "typing": {
       "title": "How fast do you type?",
@@ -2532,7 +2504,7 @@
       "how": {
         "title": "How to whisper to your Mac",
         "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
-        "distance": "About 30 cm, roughly a forearm, from the microphone",
+        "distance": "About 30 cm (a forearm's length) from the microphone",
         "tips": {
           "distance": {
             "title": "Sit close.",
@@ -2554,7 +2526,7 @@
       },
       "practice": {
         "title": "Whisper this email",
-        "body": "A real take: it lands in the drawn message below and nowhere else.",
+        "body": "This is a real dictation. The text goes only into the message below, nowhere else.",
         "doneTitle": "Heard you, even in a whisper",
         "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
         "instruction": "Hold {{key}}, whisper the email below, then let go.",
@@ -2593,7 +2565,7 @@
         },
         "wired_headset": {
           "name": "Wired headset",
-          "hint": "A mic on a short arm or cable, close to your mouth",
+          "hint": "Headphones with a cable and a mic close to your mouth",
           "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
         },
         "wireless_earbuds": {

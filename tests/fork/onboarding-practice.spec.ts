@@ -162,7 +162,7 @@ test.describe("S-29b practice", () => {
       `Dictating could save you about ${hours} hours a week`,
     );
     await expect(page.getByTestId("wb-time-saved-basis")).toContainText(
-      `your ${final} words a minute`,
+      `your typing speed of ${final} words a minute`,
     );
     // Measured: no "Take the typing test" link.
     await expect(page.getByTestId("wb-time-saved-take-test")).toHaveCount(0);
