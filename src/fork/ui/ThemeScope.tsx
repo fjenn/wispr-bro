@@ -15,6 +15,8 @@ import {
   createContext,
   forwardRef,
   useContext,
+  useEffect,
+  useState,
   type HTMLAttributes,
 } from "react";
 
@@ -52,4 +54,40 @@ export function usePinnedTheme(): PinnedTheme | undefined {
 export function usePinnedThemeProps(): { "data-wb-theme"?: PinnedTheme } {
   const theme = usePinnedTheme();
   return theme ? { "data-wb-theme": theme } : {};
+}
+
+function readWindowTheme(): PinnedTheme {
+  const set = document.documentElement.dataset.theme;
+  if (set === "dark" || set === "light") return set;
+  return typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
+/**
+ * The window's own theme (the user's Light/Dark/System choice, i.e.
+ * `data-theme` on `<html>` or else the OS), live. For a pinned subtree that
+ * should hand one part back to the window's theme: a card on an always-dark
+ * stage (Design W1, the typing test) re-pins it with `ThemeScope`.
+ */
+export function useWindowTheme(): PinnedTheme {
+  const [theme, setTheme] = useState<PinnedTheme>(readWindowTheme);
+  useEffect(() => {
+    const update = () => setTheme(readWindowTheme());
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, {
+      attributeFilter: ["data-theme"],
+    });
+    const query =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-color-scheme: dark)")
+        : null;
+    query?.addEventListener("change", update);
+    return () => {
+      observer.disconnect();
+      query?.removeEventListener("change", update);
+    };
+  }, []);
+  return theme;
 }

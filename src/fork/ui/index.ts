@@ -96,6 +96,7 @@ export {
   ThemeScope,
   usePinnedTheme,
   usePinnedThemeProps,
+  useWindowTheme,
   type PinnedTheme,
   type ThemeScopeProps,
 } from "./ThemeScope";

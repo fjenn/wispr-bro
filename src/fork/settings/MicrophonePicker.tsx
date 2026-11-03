@@ -18,7 +18,7 @@ import {
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 
-import { barHeights, litBars, METER_BARS } from "./meterBars";
+import { barHeights, baseHeight, litBars, METER_BARS } from "./meterBars";
 
 export { litBars, METER_BARS };
 
@@ -260,8 +260,16 @@ export function MicLevelMeter({
   describedBy,
   autoStart = false,
   inert = false,
+  variant = "inline",
 }: {
   describedBy?: string;
+  /**
+   * `inline`: Stop/Start button beside small rising bars (Settings).
+   * `well`: the onboarding test card's look (Design W1): large even bars on
+   * a tinted well, lilac at rest and purple when lit; the button only
+   * shows once the session has ended. Same levels, same mapping.
+   */
+  variant?: "inline" | "well";
   /** S-29a starts the test as soon as its screen appears. */
   autoStart?: boolean;
   /** Preview mode uses a still level and never opens the microphone. */
@@ -359,6 +367,70 @@ export function MicLevelMeter({
     error === "permission_denied" || error === "no_input_device"
       ? `settings.mic.meter.errors.${error}`
       : "settings.mic.meter.errors.failed";
+
+  const meter = (
+    <div
+      role="meter"
+      aria-label={t("settings.mic.meter.label")}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={percent}
+      aria-valuetext={
+        running
+          ? t("settings.mic.meter.value", { percent })
+          : t("settings.mic.meter.off")
+      }
+      className="flex h-[46px] w-full items-center justify-between gap-1.5"
+      data-testid="wb-mic-bars"
+      data-lit={lit}
+    >
+      {Array.from({ length: METER_BARS }, (_, i) => (
+        <span
+          key={i}
+          aria-hidden="true"
+          className={`w-3.5 rounded-full motion-safe:transition-[height,background-color] motion-safe:duration-75 ${
+            i < lit ? "bg-(--wb-accent-meter)" : "bg-(--wb-accent-meter-idle)"
+          }`}
+          style={{
+            height: `${((heights[i] / baseHeight(i)) * 100).toFixed(1)}%`,
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  if (variant === "well") {
+    return (
+      <div className="flex flex-col gap-2" data-testid="wb-mic-meter">
+        <div className="rounded-(--wb-radius-sm) bg-(--wb-surface-tint) px-5 py-4">
+          {meter}
+        </div>
+        {!running && (
+          <div className="flex justify-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => void toggle()}
+              aria-pressed={running}
+              data-testid="wb-mic-test"
+              aria-describedby={describedBy}
+            >
+              {t("settings.mic.meter.start")}
+            </Button>
+          </div>
+        )}
+        {error && (
+          <p
+            role="alert"
+            className="m-0 text-center text-xs font-medium text-(--wb-ink)"
+            data-testid="wb-mic-meter-error"
+          >
+            {t(errorKey)}
+          </p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2" data-testid="wb-mic-meter">

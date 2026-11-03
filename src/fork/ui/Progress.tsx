@@ -7,7 +7,9 @@
  * - `ProgressLine`: a thin bar (2 pt purple under the onboarding header,
  *   4 pt ink in the setup checklist).
  * - `Stepper`: the onboarding's uppercase stage labels with chevrons;
- *   current and past stages in ink, future in ink-3.
+ *   current and past stages in ink, future in ink-3. `doneLabel` adds a
+ *   screen-reader-only word ("done") after each past stage, which the
+ *   colour alone does not convey.
  */
 import { Fragment } from "react";
 import { motion } from "motion/react";
@@ -95,6 +97,7 @@ export function Stepper({
   stages,
   current,
   label,
+  doneLabel,
   className = "",
 }: {
   stages: StepperStage[];
@@ -102,6 +105,8 @@ export function Stepper({
   current: string;
   /** Accessible name of the list. */
   label: string;
+  /** Spoken after each past stage ("(done)"); visually hidden. */
+  doneLabel?: string;
   className?: string;
 }) {
   const index = stages.findIndex((s) => s.id === current);
@@ -120,9 +125,12 @@ export function Stepper({
           )}
           <li
             aria-current={i === index ? "step" : undefined}
-            className={`type-micro ${i <= index ? "text-(--wb-ink)" : "text-(--wb-ink-3)"}`}
+            className={`type-micro min-w-0 truncate ${i <= index ? "text-(--wb-ink)" : "text-(--wb-ink-3)"}`}
           >
             {stage.label}
+            {doneLabel && i < index && (
+              <span className="sr-only"> {doneLabel}</span>
+            )}
           </li>
         </Fragment>
       ))}
