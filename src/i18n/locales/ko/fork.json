@@ -1,7 +1,7 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Wispr Bro 레이어의 내부 검사. 디버그 빌드에서만 표시되거나 앱을 --debug 옵션으로 시작했을 때만 표시됨.",
+    "title": "Fork 디버그 패널",
+    "description": "Wispr Bro 레이어의 내부 검사입니다. 디버그 빌드이거나 앱을 --debug로 시작한 경우에만 표시됩니다.",
     "close": "닫기",
     "runAgain": "다시 실행",
     "ping": {
@@ -9,137 +9,137 @@
     },
     "modelStatus": {
       "title": "모델 상태",
-      "notReady": "아직 준비되지 않음: 앱이 시작을 완료하지 않았습니다."
+      "notReady": "아직 준비되지 않음: 앱 시작이 완료되지 않았습니다."
     },
     "lastEvent": {
-      "title": "최근 피드백 이벤트",
-      "none": "아직 이벤트를 받지 않았습니다."
+      "title": "마지막 Ping 이벤트",
+      "none": "아직 받은 이벤트가 없습니다."
     },
-    "pending": "기다리는 중...",
+    "pending": "대기 중…",
     "error": "오류: {{message}}",
     "csp": {
       "title": "콘텐츠 보안 정책",
-      "description": "아스셋 프로토콜을 통해 오디오 파일을 재생하고, 데이터: 및 blob: 이미지를 로드하며, 분기 명령을 호출하고 허용되지 않은 이미지가 차단되는지 확인합니다.",
+      "description": "asset 프로토콜로 오디오 파일을 재생하고, data: 및 blob: 이미지를 불러오고, Fork 명령을 호출하고, 허용되지 않은 이미지가 차단되는지 확인합니다.",
       "run": "CSP 검사 실행",
       "running": "실행 중…",
-      "pass": "통과: 예상치 못한 CSP 위반 없음.",
-      "fail": "실패: 아래 확인 사항을 확인하세요.",
-      "ok": "좋아 ({{detail}})",
-      "failed": "실패 ({{detail}})",
-      "noViolations": "CSP 위반 사항 없음.",
-      "violations_other": "{{count}} CSP 위반 사항이 기록되었습니다.",
+      "pass": "통과: 예기치 않은 CSP 위반이 없습니다.",
+      "fail": "실패: 아래 검사 항목을 확인하세요.",
+      "ok": "정상({{detail}})",
+      "failed": "실패({{detail}})",
+      "noViolations": "기록된 CSP 위반이 없습니다.",
+      "violations_other": "CSP 위반 {{count}}건이 기록되었습니다.",
       "checks": {
-        "media": "오디오 (자산 프로토콜)",
+        "media": "오디오(asset 프로토콜)",
         "dataImage": "data: 이미지",
         "blobImage": "blob: 이미지",
         "forkCommand": "Fork 명령",
-        "probe": "차단된 출처"
+        "probe": "차단된 소스"
       }
     },
     "notifications": {
       "title": "알림",
-      "permission": "macOS 허용: {{state}}",
+      "permission": "macOS 권한: {{state}}",
       "kind": "종류",
-      "delay": "지연 (초)",
-      "post": "포스트 샘플",
-      "posted": "{{seconds}}초 후에 게시됩니다. macOS 알림을 보려면 다른 앱으로 전환하세요."
+      "delay": "지연(초)",
+      "post": "샘플 보내기",
+      "posted": "{{seconds}}초 후에 보냅니다. macOS 알림을 보려면 다른 앱으로 전환하세요."
     },
     "update": {
       "title": "업데이트",
       "version": "버전",
       "channel": "채널",
       "key": "서명 키",
-      "endpoints": "feeds",
-      "checksOff": "업데이트 확인이 끄려 있습니다 (설정 › 고급, 또는 종료 스위치가 설정되어 있습니다.)",
+      "endpoints": "피드",
+      "checksOff": "업데이트 확인이 꺼져 있습니다(설정 › 고급 또는 차단 스위치가 설정됨).",
       "check": "지금 확인",
       "checking": "확인 중…",
-      "install": "{{version}} 설치 후 재시작",
-      "installing": "다운로드하고 검증 중…",
-      "installed": "버전 {{version}} 설치 완료. 재시작 중...",
-      "available": "{{version}}이 사용 가능합니다.",
-      "upToDate": "최신 상태입니다.",
-      "failed": "업데이트 확인 실패: {{message}}"
+      "install": "{{version}} 설치 후 다시 시작",
+      "installing": "다운로드 및 확인 중…",
+      "installed": "{{version}} 설치됨. 다시 시작하는 중…",
+      "available": "{{version}}을(를) 사용할 수 있습니다.",
+      "upToDate": "최신 버전입니다.",
+      "failed": "확인할 수 없음: {{message}}"
     }
   },
   "settings": {
     "debug": {
       "title": "Fork 설정",
-      "loading": "설정을 로딩 중입니다…",
+      "loading": "설정을 불러오는 중…",
       "loadError": "설정을 읽을 수 없습니다: {{message}}",
-      "setError": "그 변경이 저장되지 않았습니다: {{message}}",
-      "contextAwareness": "맥락 인식",
-      "contextAwarenessHint": "커서 근처 텍스트의 이름을 정확히 입력하도록 사용합니다. 그 텍스트는 이 맥 컴퓨터에만 저장되며 저장되지 않습니다.",
-      "transforms": "Transforms",
-      "transformsHint": "⌥1 선택된 텍스트를 다듬고 ⌥2는 더 명확한 AI 프롬프트로 변환합니다. 활성화 상태에서는 그 키들이 ¡와 ™을 대체합니다.",
-      "transformsSafeShortcuts": "⌃⌥1 및 ⌃⌥2를 사용하세요",
-      "transformsSafeShortcutsHint": "¡ 및 ™를 ⌥1과 ⌥2로 유지합니다.",
+      "setError": "변경 사항이 저장되지 않았습니다: {{message}}",
+      "contextAwareness": "문맥 인식",
+      "contextAwarenessHint": "커서 근처 텍스트에 있는 이름을 참고해 철자를 정확히 씁니다. 해당 텍스트는 이 Mac에만 남으며 저장되지 않습니다.",
+      "transforms": "변환",
+      "transformsHint": "⌥1은 선택한 텍스트를 다듬고, ⌥2는 더 명확한 AI 프롬프트로 바꿉니다. 활성화된 동안에는 이 키로 ¡ 및 ™를 입력할 수 없습니다.",
+      "transformsSafeShortcuts": "대신 ⌃⌥1 및 ⌃⌥2 사용",
+      "transformsSafeShortcutsHint": "⌥1 및 ⌥2로 ¡ 및 ™를 계속 입력할 수 있습니다.",
       "cleanupLevel": "정리 수준",
       "levels": {
         "none": "없음",
-        "light": "라이트",
-        "medium": "중간"
+        "light": "가볍게",
+        "medium": "보통"
       },
       "all": "모든 설정"
     },
     "bar": {
-      "title": "Dictation bar",
-      "alwaysShow": "Always show the bar",
-      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
-      "position": "Position",
+      "title": "받아쓰기 바",
+      "alwaysShow": "항상 바 표시",
+      "alwaysShowHelp": "끄면 받아쓰기 중에만 바가 표시됩니다.",
+      "position": "위치",
       "positions": {
-        "bottom": "Bottom of the screen",
-        "top": "Top of the screen"
+        "bottom": "화면 하단",
+        "top": "화면 상단"
       },
-      "hideInRecordings": "Hide the bar in screen recordings",
-      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
-      "hiddenUntil": "Hidden until {{time}}",
-      "showNow": "Show it again",
-      "resetPositions": "Center the bar on every display"
+      "hideInRecordings": "화면 기록에서 바 가리기",
+      "hideInRecordingsHelp": "스크린샷, 화면 기록 및 화면 공유에 바가 포함되지 않습니다.",
+      "hiddenUntil": "{{time}}까지 숨김",
+      "showNow": "다시 표시",
+      "resetPositions": "모든 디스플레이에서 바를 가운데로"
     },
     "mic": {
       "title": "마이크",
       "legend": "사용할 마이크",
-      "loading": "마이크를 찾고 있어요…",
-      "loadError": "마이크를 목록화할 수 없습니다: {{message}}",
+      "loading": "마이크를 찾는 중…",
+      "loadError": "마이크 목록을 가져올 수 없습니다: {{message}}",
       "retry": "다시 시도",
-      "recommended": "{{name}} (권장)",
-      "auto": "자동 감지 (시스템 설정)",
-      "autoNow": "지금: {{name}}",
-      "wirelessTag": "블루투스",
-      "caution": "유선 또는 내장 마이크가 가장 잘 작동합니다. 블루투스는 연결이 끊길 수 있습니다.",
-      "avoided": "Mac의 소리 입력이 {{name}}으로 설정되어 있습니다. 블루투스 마이크가 끊길 수 있기 때문에, 텍스트 입력은 내장 마이크를 사용합니다.",
-      "useAnyway": "아무리 하더라도 {{name}}을 사용",
-      "inUse": "디타이션은: {{name}}으로 듣고 있습니다",
+      "recommended": "{{name}}(권장)",
+      "auto": "자동 감지(시스템 설정)",
+      "autoNow": "현재: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "유선 또는 내장 마이크가 가장 좋습니다. Bluetooth는 연결이 끊길 수 있습니다.",
+      "avoided": "Mac의 사운드 입력이 {{name}}(으)로 설정되어 있습니다. Bluetooth 마이크는 끊길 수 있으므로 받아쓰기에는 내장 마이크를 대신 사용합니다.",
+      "useAnyway": "그래도 {{name}} 사용",
+      "inUse": "받아쓰기에 사용 중인 마이크: {{name}}",
       "chooseError": "마이크를 전환할 수 없습니다: {{message}}",
       "meter": {
         "start": "마이크 테스트",
-        "stop": "테스트 중지",
+        "stop": "테스트 중단",
         "label": "마이크 레벨",
-        "value": "{{percent}} percent",
-        "off": "테스트 안 함",
-        "hint": "언제든지 말해보세요. 말할 때 막대기가 움직이도록 해요.",
+        "value": "{{percent}}%",
+        "off": "테스트 중이 아님",
+        "hint": "아무 말이나 해 보세요. 말하는 동안 막대가 움직여야 합니다.",
         "errors": {
-          "permission_denied": "마이크 접근이 꺼져 있습니다. 시스템 설정 › 프라이버시 및 보안 › 마이크에서 켜주세요.",
-          "no_input_device": "마이크가 없습니다.",
+          "permission_denied": "마이크 접근이 꺼져 있습니다. 시스템 설정 › 개인정보 보호 및 보안 › 마이크에서 켜세요.",
+          "no_input_device": "마이크를 찾을 수 없습니다.",
           "failed": "마이크가 시작되지 않았습니다. 다른 마이크를 사용해 보세요."
         }
       }
     },
     "sound": {
-      "title": "소리",
-      "enabled": "dictation가 시작되고 끝날 때 소리 재생",
-      "enabledHelp": "짧은 소리가 마이크가 켜졌음을 알려주고, 또 다른 소리가 끊겼음을 알려줍니다.",
-      "theme": "소리",
+      "title": "사운드",
+      "enabled": "받아쓰기 시작 및 중단 시 사운드 재생",
+      "enabledHelp": "짧은 신호음으로 마이크가 켜졌음을, 또 다른 신호음으로 중단되었음을 알려줍니다.",
+      "theme": "사운드",
       "themes": {
-        "marimba": "마리마바",
-        "pop": "팝",
-        "custom": "사용자 정의"
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "사용자 설정"
       },
-      "volume": "볼륨",
-      "volumeValue": "{{percent}}퍼센트",
+      "volume": "음량",
+      "volumeValue": "{{percent}}%",
       "preview": "재생",
-      "mute": "dictation 시 모든 음성 무효화",
-      "muteHelp": "음악과 동영상은 말할 때 잠깐 멈추고, 그 후 다시 같은 볼륨으로 돌아갑니다."
+      "mute": "받아쓰는 동안 모든 오디오 음소거",
+      "muteHelp": "말하는 동안 음악과 비디오가 조용해지고, 끝나면 원래 음량으로 돌아옵니다."
     },
     "recovery": {
       "title": "복구 단축키",
@@ -147,30 +147,30 @@
       "notSet": "설정 안 됨",
       "current": "단축키: {{shortcut}}",
       "listening": "단축키를 누르세요…",
-      "listeningHelp": "원하는 키나 마우스 버튼을 누르세요. Escape를 누르면 취소됩니다.",
+      "listeningHelp": "사용할 키나 마우스 버튼을 누르세요. Esc를 누르면 취소됩니다.",
       "record": "기록",
       "cancel": "취소",
       "clear": "지우기",
       "useDefault": "기본값 사용",
-      "unusable": "이 단축키는 사용할 수 없습니다. 다른 단축키를 고르세요.",
-      "saveFailed": "단축키를 저장하지 못했습니다.",
-      "recordFailed": "단축키를 기록하지 못했습니다. 앱이 손쉬운 사용 권한을 가지고 있는지 확인하세요.",
+      "unusable": "이 단축키는 사용할 수 없습니다. 다른 단축키를 선택하세요.",
+      "saveFailed": "단축키를 저장할 수 없습니다.",
+      "recordFailed": "단축키를 기록할 수 없습니다. 앱에 손쉬운 사용 권한이 있는지 확인하세요.",
       "pasteLast": {
         "title": "마지막 받아쓰기 붙여넣기",
-        "help": "입력 중인 곳에 마지막 받아쓰기를 다시 붙여넣습니다."
+        "help": "입력 중인 위치에 마지막 받아쓰기를 다시 붙여넣습니다."
       },
       "copyLast": {
         "title": "마지막 받아쓰기 복사",
-        "help": "마지막 받아쓰기를 클립보드에 넣습니다."
+        "help": "마지막 받아쓰기를 클립보드에 복사합니다."
       },
       "pressEnter": {
-        "title": "Enter 누르기",
-        "help": "대신 Return을 누릅니다. 예를 들어 방금 받아쓴 메시지를 보낼 때 씁니다.",
-        "mouse": "마우스 버튼은 포인터 아래 앱에서도 평소처럼 클릭되므로 측면 버튼(뒤로 또는 앞으로)이 가장 좋습니다."
+        "title": "Return 키 누르기",
+        "help": "Return 키를 대신 누릅니다. 예를 들어 방금 받아쓴 메시지를 보낼 때 사용합니다.",
+        "mouse": "마우스 버튼은 포인터 아래에 있는 앱에서도 평소처럼 클릭되므로 측면 버튼(뒤로 또는 앞으로)이 가장 적합합니다."
       },
       "undoCancel": {
-        "title": "취소 되돌리기",
-        "help": "막대에 실행 취소가 보이는 동안 방금 취소한 받아쓰기를 되돌립니다."
+        "title": "취소 실행 취소",
+        "help": "바에 실행 취소가 표시되는 동안 방금 취소한 받아쓰기를 되돌립니다."
       }
     }
   },
@@ -181,327 +181,327 @@
     "sections": {
       "general": "일반",
       "system": "시스템",
-      "vibe": "Vibe 코딩",
-      "privacy": "데이터 및 개인 정보",
+      "vibe": "바이브 코딩",
+      "privacy": "데이터 및 개인정보 보호",
       "advanced": "고급",
       "about": "정보",
       "hotkeys": "단축키"
     },
     "general": {
       "shortcuts": "단축키",
-      "shortcutTitle": "Dictation shortcut",
-      "shortcutHint": "dictation을 시작하고 키보드 작동을 관리하는 방법을 선택하세요.",
-      "holdToTalk": "{{shortcut}}을 누르고 말하기",
+      "shortcutTitle": "받아쓰기 단축키",
+      "shortcutHint": "받아쓰기를 시작하는 방법을 선택하고 모든 키보드 동작을 관리합니다.",
+      "holdToTalk": "{{shortcut}} 키를 누른 채 말하기",
       "change": "변경",
       "microphone": "마이크",
-      "languages": "내 언어들",
+      "languages": "내 언어",
       "appearance": "앱 언어 및 테마"
     },
     "system": {
-      "app": "앱 행동",
-      "alwaysBar": "바를 항상 보이게",
-      "showDock": "도크에 앱 표시",
-      "showDockHint": "Wispr Bro를 창이 닫히더라도 도크에 남기기",
-      "sounds": "소리",
+      "app": "앱 동작",
+      "alwaysBar": "바 항상 표시",
+      "showDock": "Dock에 앱 표시",
+      "showDockHint": "윈도우를 닫은 후에도 Wispr Bro를 Dock에 유지합니다.",
+      "sounds": "사운드",
       "notifications": "알림",
       "notificationKinds": {
         "system": "Mac 알림",
-        "modelReady": "스피치 모델 준비됨",
+        "modelReady": "음성 모델 준비됨",
         "updateReady": "업데이트 준비됨",
-        "queuedReady": "대기 중인 디테이션 준비됨",
-        "errors": "주의가 필요한 문제",
+        "queuedReady": "대기 중이던 받아쓰기 준비됨",
+        "errors": "확인이 필요한 문제",
         "suggestions": "제안",
-        "announcements": "기능 알림",
-        "milestones": "마일스톤"
+        "announcements": "기능 공지",
+        "milestones": "기록 달성"
       },
-      "scratchpad": "Scratchpad",
-      "scratchpadLabel": "스크래치패드가 열릴 때",
-      "scratchpadHint": "Scratchpad가 단축키를 사용할 때 어디에 열리는지 선택하세요.",
+      "scratchpad": "스크래치패드",
+      "scratchpadLabel": "스크래치패드를 열 때",
+      "scratchpadHint": "단축키와 바 버튼으로 무엇을 열지 선택합니다.",
       "scratchpadOptions": {
-        "resume_last": "지난 노트를 계속하기",
-        "new_note": "새로운 노트 시작"
+        "resume_last": "마지막 메모 이어서 쓰기",
+        "new_note": "새 메모 시작"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro는 VS Code, Cursor 및 Windsurf가 화면에 보여주는 코드 이름과 파일 이름을 접근성 기능을 통해 읽을 수 있습니다. 프로젝트 폴더나 파일을 열지 않습니다.",
-      "contextOff": "컨텍스트 인식이 끄여 있어 이 기능들은 읽을 내용이 없습니다. 켜주세요.",
+      "intro": "Wispr Bro는 손쉬운 사용을 통해 VS Code, Cursor 및 Windsurf가 화면에 표시하는 코드 이름과 파일 이름을 읽을 수 있습니다. 프로젝트 폴더나 파일은 절대 열지 않습니다.",
+      "contextOff": "문맥 인식이 꺼져 있어 이 기능들이 읽을 내용이 없습니다. 사용하려면 켜세요.",
       "recognize": "코드 이름 인식",
-      "recognizeHint": "변수나 함수 이름을 에디터에 보이게 하면 코드에서 어떻게 쓰는지 그대로 입력됩니다. 예를 들어 getUserById 또는 user_id처럼요.",
-      "setUp": "설정하기",
+      "recognizeHint": "편집기에 보이는 변수나 함수 이름을 말하면 getUserById 또는 user_id처럼 코드의 철자 그대로 입력됩니다.",
+      "setUp": "설정",
       "change": "편집기 변경",
-      "setUpFor": "설정하기 {{editors}}",
+      "setUpFor": "{{editors}} 설정",
       "fileTags": "채팅에서 파일 태그",
-      "fileTagsHint": "커서나 윌스러프 채팅에서 \"index.dot.ts\"라고 말하면, 해당 파일이 탭에 열려 있거나 파일 목록에 표시될 때 @index.ts가 입력됩니다.",
-      "fileTagsNeedsChat": "커서 또는 윌스러프를 편집기로 추가한 후에 사용 가능합니다.",
-      "fileTagsNeedsSetup": "코드 이름 인식을 설정한 후에 사용 가능합니다.",
+      "fileTagsHint": "Cursor 또는 Windsurf 채팅에서 \"index dot ts\"라고 말하면, 해당 파일이 탭에 열려 있거나 파일 목록에 표시될 때 @index.ts가 입력됩니다.",
+      "fileTagsNeedsChat": "편집기에 Cursor 또는 Windsurf를 추가하면 사용할 수 있습니다.",
+      "fileTagsNeedsSetup": "코드 이름 인식을 설정하면 사용할 수 있습니다.",
       "setup": {
         "title": "코드 이름 인식 설정",
-        "stepEditors": "1. 사용하는 편집기를 선택하세요",
-        "stepScreenReader": "2. 각각에서 스크린 리더 모드를 켜고, Wispr Bro와 그들의 텍스트를 공유하세요",
-        "openSettings": "⌘ 쉼표로 편집기 설정 열기",
-        "search": "\"접근성 지원\"를 검색합니다.",
-        "setOn": "편집기: 접근성 지원을 \"on\"으로 설정",
-        "palette": "또는 명령 패널 (⇧⌘P)에서 \"화면 독서 접근성 모드 전환\"을 실행할 수 있습니다.",
-        "confirm": "이 편집기에서 화면 독서 모드를 켰습니다",
+        "stepEditors": "1. 사용하는 편집기 선택",
+        "stepScreenReader": "2. 각 편집기에서 화면 읽기 모드를 켜서 Wispr Bro와 텍스트를 공유하도록 하기",
+        "openSettings": "⌘ 쉼표로 편집기 설정을 엽니다.",
+        "search": "\"accessibility support\"를 검색합니다.",
+        "setOn": "Editor: Accessibility Support를 \"on\"으로 설정합니다.",
+        "palette": "명령 팔레트(⇧⌘P)에서 \"Toggle Screen Reader Accessibility Mode\"를 실행해도 됩니다.",
+        "confirm": "이 편집기들에서 화면 읽기 모드를 켰습니다",
         "cancel": "취소",
         "finish": "설정 완료"
       }
     },
     "privacy": {
       "promise": {
-        "title": "개인 정보를 최우선으로 설계",
-        "local": "당신의 디타이션과 데이터는 이 맥 컴퓨터에서만 저장됩니다.",
-        "noCloud": "스피치 인식, 정리, 및 역사가 로컬에서 실행됩니다. 계정, 테레메트리, 클라우드 디타이션, 또는 클라우드 정리가 없습니다.",
-        "networkIntro": "Wispr Bro는 이 두 가지를 위해 네트워크만 사용합니다:",
-        "models": "스피치 및 클리닝 모델을 Hugging Face (huggingface.co)에서 다운로드합니다.",
-        "updates": "업데이트 확인이 켜져 있을 때는 GitHub에서 앱 업데이트를 확인합니다 (github.com)."
+        "title": "설계부터 개인정보 보호",
+        "local": "받아쓰기와 데이터는 이 Mac에만 남습니다.",
+        "noCloud": "음성 인식, 정리 및 기록은 모두 로컬에서 실행됩니다. 계정, 원격 측정, 클라우드 받아쓰기, 클라우드 정리가 없습니다.",
+        "networkIntro": "Wispr Bro는 다음 두 가지에만 네트워크를 사용합니다.",
+        "models": "Hugging Face(huggingface.co)에서 음성 및 정리 모델 다운로드",
+        "updates": "업데이트 확인이 켜져 있을 때 GitHub(github.com)에서 앱 업데이트 확인"
       },
       "locations": {
-        "title": "당신의 데이터가 어디에 있는지",
-        "hint": "이 폴더들은 Wispr Bro에 속합니다. 이동 가능한 설치판은 모두 앱의 Data 폴더 안에 유지합니다.",
+        "title": "데이터 저장 위치",
+        "hint": "이 폴더들은 Wispr Bro 전용입니다. 포터블 설치는 모든 폴더를 앱의 Data 폴더에 보관합니다.",
         "data": "앱 데이터 및 설정",
-        "models": "다운로드된 모델",
-        "recordings": "녹화",
-        "logs": "로그 및 크래시 보고서",
-        "show": "Finder에 표시",
-        "loading": "위치를 찾고 있습니다…",
-        "failed": "그 폴더를 열 수 없습니다. 다시 시도해 보세요."
+        "models": "다운로드한 모델",
+        "recordings": "녹음",
+        "logs": "로그 및 충돌 보고서",
+        "show": "Finder에서 보기",
+        "loading": "찾는 중…",
+        "failed": "해당 폴더를 열 수 없습니다. 다시 시도하세요."
       },
       "retention": {
-        "title": "이력 유지 기간",
-        "textLabel": "기록된 텍스트를 유지",
-        "textHint": "더 오래된 항목들은 자동으로 삭제됩니다. 텍스트는 기본적으로 영원히 보존됩니다.",
-        "audioLabel": "기록 유지",
-        "audioHint": "오디오는 기본적으로 14일 후에 만료됩니다. 오디오를 제거하면 기록된 텍스트는 텍스트 제한까지 유지됩니다.",
+        "title": "기록 보관 기간",
+        "textLabel": "받아쓴 텍스트 보관",
+        "textHint": "오래된 항목은 자동으로 제거됩니다. 기본적으로 텍스트는 계속 보관됩니다.",
+        "audioLabel": "녹음 보관",
+        "audioHint": "기본적으로 오디오는 14일 후에 만료됩니다. 오디오를 제거해도 받아쓴 텍스트는 텍스트 보관 기간까지 유지됩니다.",
         "options": {
-          "0": "오디오를 절대 저장하지 않기",
+          "0": "오디오 보관 안 함",
           "1": "1일",
           "7": "7일",
           "14": "14일",
           "30": "30일",
           "90": "90일",
           "365": "1년",
-          "forever": "항상"
+          "forever": "계속"
         }
       },
       "choices": {
-        "title": "개인정보 선택",
-        "context": "컨텍스트 인식 사용",
-        "contextHint": "dictation 시 근처 텍스트만 읽어 이름과 맞춤법을 인식합니다. 맥스는 저장되거나 로그되지 않습니다.",
+        "title": "개인정보 보호 선택 사항",
+        "context": "문맥 인식 사용",
+        "contextHint": "받아쓰는 동안에만 주변 텍스트를 읽어 이름과 철자를 인식합니다. 문맥은 저장되거나 기록되지 않습니다.",
         "updates": "앱 업데이트 확인",
-        "updatesHint": "GitHub에 문의하여 새 버전을 확인하세요. 디타이션이나 개인 데이터는 전송되지 않습니다.",
-        "learn": "내 수정사항에서 배우기",
-        "learnHint": "dictation이 붙이기 후, 그 텍스트 상에서 수정한 단어를 주의하고 사전에 제안하세요. 수정된 단어만 저장되며, 나머지 텍스트는 저장되거나 로그에 기록되지 않습니다."
+        "updatesHint": "GitHub에 연결해 새 버전을 확인합니다. 받아쓰기나 개인 데이터는 전송되지 않습니다.",
+        "learn": "내 수정 사항에서 학습",
+        "learnHint": "받아쓰기가 붙여넣어진 후 해당 텍스트 상자에서 고친 단어를 감지해 사전에 제안합니다. 수정한 단어만 보관되며 나머지 텍스트는 저장되거나 기록되지 않습니다."
       },
       "export": {
-        "title": "당신의 데이터",
-        "hint": "히스토리, 설정, 녹화를 포함한 zip 파일을 내보내세요. 모델과 로그는 포함되지 않습니다.",
-        "button": "내 데이터를 내보내기",
+        "title": "내 데이터",
+        "hint": "기록, 설정 및 녹음이 포함된 zip 파일을 내보냅니다. 모델과 로그는 포함되지 않습니다.",
+        "button": "내 데이터 내보내기",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "ZIP 아카이브",
-        "done": "저장된 내용이 Finder에 성공적으로 내보내 되었습니다.",
-        "failed": "데이터를 내보내지 못했습니다. 아무것도 삭제되지 않았습니다."
+        "filter": "Zip 아카이브",
+        "done": "내보낸 파일을 저장하고 Finder에서 표시했습니다.",
+        "failed": "데이터를 내보낼 수 없습니다. 아무것도 삭제되지 않았습니다."
       },
       "delete": {
-        "button": "모든 내 데이터 삭제",
-        "title": "모든 데이터를 삭제하시겠습니까?",
-        "warning": "이 작업은 역사, 녹화, 설정, 로그, 및 크래시 보고서를 영구적으로 삭제합니다. 되돌릴 수 없습니다.",
-        "relaunch": "Wispr Bro는 작업을 중단하고 데이터를 삭제한 후 온보딩으로 재시작합니다.",
-        "models": "다운로드된 모델도 삭제합니다",
-        "modelsHint": "이 옵션을 끄면 음성과 정리 모델을 다시 다운로드하지 않도록 합니다.",
-        "confirmLabel": "{{word}}을 입력하여 확인",
+        "button": "내 데이터 모두 삭제",
+        "title": "모든 데이터를 삭제하겠습니까?",
+        "warning": "기록, 녹음, 설정, 로그 및 충돌 보고서가 영구적으로 삭제됩니다. 이 작업은 실행 취소할 수 없습니다.",
+        "relaunch": "Wispr Bro가 작업을 중단하고 데이터를 지운 다음, 다시 시작하여 초기 설정으로 돌아갑니다.",
+        "models": "다운로드한 모델도 삭제",
+        "modelsHint": "음성 및 정리 모델을 다시 다운로드하지 않으려면 끈 상태로 두세요.",
+        "confirmLabel": "확인하려면 {{word}} 입력",
         "cancel": "취소",
-        "confirm": "모든 것을 삭제",
-        "failed": "모든 데이터 삭제가 완료되지 않았습니다. 다시 시도하기 전에 남은 데이터를 확인하세요."
+        "confirm": "모두 삭제",
+        "failed": "모두 삭제가 완료되지 않았습니다. 남은 데이터를 확인한 후 다시 시도하세요."
       },
       "diagnostics": {
-        "title": "에러 보고서 및 진단",
-        "hint": "크래시 보고서는 이 맥에서만 저장되며 올라가지 않습니다. 공유하고 싶을 때만 진단 정보를 복사하거나 저장하세요.",
-        "sanitized": "디버이에이스는 말로 입력한 텍스트, 프롬프트, 사전 단어, 이메일 주소, 키, 그리고 홈 폴더 경로를 제거합니다.",
+        "title": "충돌 보고서 및 진단",
+        "hint": "충돌 보고서는 이 Mac에만 남으며 업로드되지 않습니다. 공유하려는 경우에만 진단 정보를 복사하거나 저장하세요.",
+        "sanitized": "진단 정보에서는 받아쓴 텍스트, 프롬프트, 사전 단어, 이메일 주소, 키 및 홈 폴더 경로가 제거됩니다.",
         "copy": "진단 정보 복사",
         "save": "진단 정보 저장…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "정제된 진단 정보가 복사되었습니다.",
-        "saved": "정제된 진단 정보가 저장되었습니다.",
-        "failed": "진단을 준비할 수 없습니다. 다시 시도하세요."
+        "copied": "민감 정보를 제거한 진단 정보를 복사했습니다.",
+        "saved": "민감 정보를 제거한 진단 정보를 저장했습니다.",
+        "failed": "진단 정보를 준비할 수 없습니다. 다시 시도하세요."
       }
     },
     "advanced": {
-      "output": "문자 출력",
-      "transcription": "기록",
-      "barAndOverlay": "Dictation bar 및 오버레이",
+      "output": "텍스트 출력",
+      "transcription": "전사",
+      "barAndOverlay": "받아쓰기 바 및 오버레이",
       "liveText": "바에 실시간 텍스트 표시",
-      "liveTextHint": "말하면서 인식된 단어를 표시합니다.",
+      "liveTextHint": "말하는 동안 인식된 단어를 표시합니다.",
       "keyboard": "키보드 백엔드",
-      "prompts": "제공자 및 프롬프트 편집기 정리",
-      "history": "역사 저장",
+      "prompts": "정리 제공자 및 프롬프트 편집기",
+      "history": "기록 저장소",
       "updates": "업데이트",
       "updateChannel": "업데이트 채널",
-      "updateChannelHint": "베타 버전에는 아직 완성되지 않은 변경 사항이 포함될 수 있습니다.",
+      "updateChannelHint": "베타 빌드에는 완성되지 않은 변경 사항이 포함될 수 있습니다.",
       "updateChannels": {
-        "stable": "안정",
+        "stable": "안정 버전",
         "beta": "베타"
       },
       "storage": "데이터 및 로그 위치",
-      "experimental": "실험적 및 디버그",
+      "experimental": "실험 및 디버그",
       "debugMode": "디버그 도구",
-      "debugModeHint": "진단 컨트롤과 상세 로그 옵션을 표시합니다.",
+      "debugModeHint": "진단 제어 및 상세 로깅 옵션을 표시합니다.",
       "forkDiagnostics": "Fork 설정 진단"
     },
     "about": {
-      "tagline": "로컬 디타이션, 계정 없이 클라우드 처리 없이",
+      "tagline": "계정도 클라우드 처리도 없는 로컬 받아쓰기.",
       "version": "버전 {{version}}",
       "source": "소스 코드 보기",
       "updates": "업데이트 노트",
       "updatesTitle": "업데이트",
-      "license": "GNU 일반 공공 라이선스, 버전 3 (GPL-3.0) 하에 무료 소프트웨어입니다.",
+      "license": "GNU 일반 공중 사용 허가서 버전 3(GPL-3.0)에 따른 자유 소프트웨어입니다.",
       "licenseLink": "라이선스 보기",
-      "credit": "Handy에 의해 개발되었으며, MIT 라이선스 하에 사용됩니다. 개발에 참여해주신 모든 분들께 감사드립니다.",
-      "creditLink": "Handy on GitHub",
+      "credit": "CJ Pais의 Handy를 기반으로 하며 MIT 라이선스에 따라 사용합니다. 참여해 주신 모든 분께 감사드립니다.",
+      "creditLink": "GitHub의 Handy",
       "supportTitle": "개발 지원",
-      "supportBody": "{{appName}}에는 유료 플랜이 없습니다. 가장 좋은 지원은 버그 보고서, 아이디어 또는 GitHub에서의 기여입니다."
+      "supportBody": "{{appName}}에는 유료 요금제가 없습니다. 가장 좋은 지원은 GitHub에서의 버그 보고, 아이디어 제안 또는 기여입니다."
     },
     "hotkeys": {
       "open": "단축키",
-      "loading": "단축키를 로딩 중입니다…",
-      "secureInputHelp": "macOS Secure Input은 비밀번호 입력을 보호하기 위해 다른 앱에서 키 입력을 숨깁니다. 단축키 캡처는 활성화된 동안 일시 중단됩니다.",
-      "count": "{{count}}개 중 {{max}}개 설정",
-      "notSet": "설정되지 않음",
+      "loading": "단축키를 불러오는 중…",
+      "secureInputHelp": "macOS 보안 입력은 다른 앱에 키 입력을 숨겨 암호 입력을 보호합니다. 보안 입력이 활성화된 동안에는 단축키 기록이 일시 정지됩니다.",
+      "count": "{{max}}개 중 {{count}}개 설정됨",
+      "notSet": "설정 안 됨",
       "current": "단축키: {{shortcut}}",
-      "activationLabel": "단축키 활성화",
+      "activationLabel": "단축키 작동 방식",
       "activations": {
-        "hold": "Hold",
-        "double_tap": "두 번 터치",
-        "press": "압력",
-        "toggle": "토글"
+        "hold": "길게 누르기",
+        "double_tap": "두 번 누르기",
+        "press": "누르기",
+        "toggle": "켜기/끄기"
       },
       "add": "단축키 추가",
       "edit": "편집",
       "delete": "삭제",
-      "reset": "기본값으로 초기화",
-      "resetting": "초기화 중...",
-      "resetFailed": "모든 단축키를 초기화할 수 없습니다. 다시 시도하세요.",
+      "reset": "기본값으로 재설정",
+      "resetting": "재설정하는 중…",
+      "resetFailed": "일부 단축키를 재설정할 수 없습니다. 다시 시도하세요.",
       "done": "완료",
-      "saveFailed": "그 단축키를 저장할 수 없습니다.",
-      "conflict": "또한 {{action}}에 의해 사용됩니다. 다른 단축키를 선택하세요.",
-      "invalid": "이 단축키는 인식되지 않습니다.",
-      "unsupported": "이 조합을 이 작업에 사용할 수 없습니다.",
+      "saveFailed": "해당 단축키를 저장할 수 없습니다.",
+      "conflict": "‘{{action}}’에서도 사용 중입니다. 다른 단축키를 선택하세요.",
+      "invalid": "인식할 수 없는 단축키입니다.",
+      "unsupported": "단축키 엔진에서 이 동작에 이 조합을 사용할 수 없습니다.",
       "capture": {
-        "starting": "단축키 캡처 중입니다…",
+        "starting": "단축키 기록을 시작하는 중…",
         "listening": "단축키를 누르세요…",
-        "listeningHelp": "키 조합이나 마우스 버튼을 누르면 사용 가능합니다. ESC는 취소합니다.",
+        "listeningHelp": "사용할 키 조합이나 마우스 버튼을 누르세요. Esc를 누르면 취소됩니다.",
         "cancel": "취소",
         "close": "뒤로",
-        "secure": "단축키 캡처는 보안 입력이 활성화된 상태에서는 사용할 수 없습니다. 비밀번호 입력란을 떠나거나 보안 키보드 입력을 끄고 다시 시도하세요.",
-        "failed": "단축키를 시작할 수 없습니다. 접근성 허용을 확인하고 다시 시도하세요."
+        "secure": "보안 입력이 활성화된 동안에는 단축키를 기록할 수 없습니다. 암호 필드에서 벗어나거나 보안 키보드 입력을 끈 다음 다시 시도하세요.",
+        "failed": "단축키 기록을 시작할 수 없습니다. 손쉬운 사용 권한을 확인한 후 다시 시도하세요."
       },
       "actions": {
-        "dictate": "Push to talk",
-        "hands_free": "손이 없는 디타이션",
-        "cancel": "dictation 취소",
+        "dictate": "눌러서 말하기",
+        "hands_free": "핸즈프리 받아쓰기",
+        "cancel": "받아쓰기 취소",
         "command_mode": "명령 모드",
-        "paste_last": "최근 dictation 붙여넣기",
-        "copy_last": "최근 dictation 복사",
-        "press_enter": "엔터를 누르세요",
-        "undo_cancel": "취소를 되돌리기",
+        "paste_last": "마지막 받아쓰기 붙여넣기",
+        "copy_last": "마지막 받아쓰기 복사",
+        "press_enter": "Return 키 누르기",
+        "undo_cancel": "취소 실행 취소",
         "transform": {
-          "polish": "Polish 선택한 텍스트",
-          "prompt_engineer": "선택한 텍스트를 AI 프롬프트로 변환",
-          "view_changes": "뷰 변환 변경 사항"
+          "polish": "선택한 텍스트를 Polish로 다듬기",
+          "prompt_engineer": "선택한 텍스트를 AI 프롬프트로 바꾸기",
+          "view_changes": "변환 변경 사항 보기"
         },
         "scratchpad": {
           "open": "스크래치패드 열기"
         }
       },
       "help": {
-        "dictate": "말할 때 단축키를 누르고, 말을 끝내려면 단축키를 놓으세요.",
-        "hands_free": "키를 누르지 않고 녹음과 중단을 시작 및 종료합니다.",
-        "cancel": "현재 딕테이션을 중단하고 삽입하지 않기",
-        "command_mode": "fn과 Ctrl을 누르며 텍스트를 편집하거나 작성하는 방법을 말하세요.",
-        "paste_last": "최근 dictation을 다시 붙여넣기 합니다.",
-        "copy_last": "최근 dictation을 클립보드에 복사합니다.",
-        "press_enter": "앱에서 입력 중인 곳에서 Enter를 누르세요. 마우스 측면 버튼이 좋습니다.",
-        "undo_cancel": "dictation을 취소한 후에 복구합니다.",
+        "dictate": "말하는 동안 단축키를 누르고 있다가 놓으면 끝납니다.",
+        "hands_free": "키를 누르고 있지 않아도 받아쓰기를 시작하고 중단합니다.",
+        "cancel": "현재 받아쓰기를 입력하지 않고 중단합니다.",
+        "command_mode": "fn과 Ctrl을 누른 채 텍스트를 어떻게 편집하거나 작성할지 말하세요.",
+        "paste_last": "가장 최근의 받아쓰기를 다시 붙여넣습니다.",
+        "copy_last": "가장 최근의 받아쓰기를 클립보드에 복사합니다.",
+        "press_enter": "입력 중인 앱에서 Return 키를 누릅니다. 마우스 측면 버튼에 잘 맞습니다.",
+        "undo_cancel": "받아쓰기를 취소한 직후 다시 복원합니다.",
         "transform": {
-          "polish": "선택한 텍스트를 Polish로 재작성합니다.",
-          "prompt_engineer": "선택한 텍스트를 명확한 AI 프롬프트로 재작성합니다.",
-          "view_changes": "변환 전후를 확인하세요."
+          "polish": "선택한 텍스트를 Polish로 다시 씁니다.",
+          "prompt_engineer": "선택한 텍스트를 명확한 AI 프롬프트로 다시 씁니다.",
+          "view_changes": "최근 변환의 전후를 비교합니다."
         },
         "scratchpad": {
-          "open": "이전 노트를 계속하거나, 스크래치패드 설정에 따라 새 노트를 시작하세요."
+          "open": "스크래치패드 설정에 따라 마지막 메모를 이어서 쓰거나 새 메모를 시작합니다."
         }
       },
-      "description_other": "각 작업에 최대 {{max}}개의 키보드 단축키를 추가합니다. 변경 내용을 실시간으로 저장합니다."
+      "description_other": "동작마다 단축키를 최대 {{max}}개까지 추가할 수 있습니다. 변경 사항은 바로 저장됩니다."
     },
-    "resetSetting": "설정을 초기화 {{setting}}"
+    "resetSetting": "{{setting}} 재설정"
   },
   "hub": {
     "nav": {
-      "label": "주요"
+      "label": "기본"
     },
     "sidebar": {
-      "collapse": "사이드바 축소",
-      "expand": "왼쪽 메뉴바 확장"
+      "collapse": "사이드바 접기",
+      "expand": "사이드바 펼치기"
     },
     "header": {
       "toDark": "다크 모드로 전환",
-      "toLight": "밝은 모드로 전환"
+      "toLight": "라이트 모드로 전환"
     },
     "notifications": {
       "title": "알림",
       "empty": {
-        "title": "새로운 내용 없음",
-        "body": "업데이트와 팁이 여기에 나타납니다."
+        "title": "새로운 항목 없음",
+        "body": "업데이트와 팁이 여기에 표시됩니다."
       },
-      "bellUnread_other": "알림, {{count}}개 읽지 않음",
+      "bellUnread_other": "알림, 읽지 않음 {{count}}개",
       "filter": {
-        "label": "표시",
-        "all": "모든",
+        "label": "보기",
+        "all": "모두",
         "unread": "읽지 않음"
       },
-      "more": "더 많은 알림 옵션",
-      "markAllRead": "모든 항목을 읽음으로 표시",
+      "more": "추가 알림 옵션",
+      "markAllRead": "모두 읽음으로 표시",
       "groups": {
         "show": "이 목록에 표시",
-        "mac": "이 맥에서"
+        "mac": "이 Mac에서"
       },
       "toggles": {
         "suggestions": "제안",
-        "announcements": "공지사항",
-        "milestones": "마일스톤",
+        "announcements": "공지",
+        "milestones": "기록 달성",
         "system": "Mac 알림"
       },
       "list": "알림",
       "unreadDot": "읽지 않음",
       "emptyUnread": {
-        "title": "새로운 내용 없음",
-        "body": "모든 내용을 읽었습니다."
+        "title": "새로운 항목 없음",
+        "body": "모두 읽었습니다."
       },
-      "loadFailed": "알림을 로드할 수 없습니다.",
-      "actionFailed": "그것은 실패했어요. 다시 시도해 보세요.",
-      "copied": "최근 디타이션을 복사했습니다",
-      "nothingToCopy": "복사할 수 있는 디타이션 없음",
-      "justNow": "지금"
+      "loadFailed": "알림을 불러올 수 없습니다.",
+      "actionFailed": "작업을 완료하지 못했습니다. 다시 시도하세요.",
+      "copied": "최근 받아쓰기를 복사했습니다",
+      "nothingToCopy": "아직 복사할 받아쓰기가 없습니다",
+      "justNow": "방금"
     },
     "help": {
-      "title": "도움",
+      "title": "도움말",
       "updates": "업데이트",
       "whatsNew": "새로운 기능",
-      "essentials": "기본",
+      "essentials": "기본 사항",
       "shortcuts": "단축키",
       "microphone": "마이크",
       "languages": "언어",
       "documentation": "문서",
-      "getInTouch": "연락해 주세요",
-      "reportProblem": "문제를 보고하기...",
+      "getInTouch": "문의하기",
+      "reportProblem": "문제 보고…",
       "sendFeedback": "피드백 보내기",
       "report": {
-        "title": "문제를 보고하기",
-        "body": "이것은 당신의 브라우저에서 GitHub에 새 이슈를 열고, 앱 버전과 Mac 모델을 자동으로 입력합니다. 어떤 것도 당신이 말로 입력한 내용을 포함하지 않으며, 보내기 전에 읽고 수정할 수 있습니다.",
-        "diagnosticsTitle": "진단 (선택 사항)",
-        "diagnosticsBody": "정화된 로그는 원인을 찾는 데 도움이 됩니다. 이 로그에는 당신의 디타이션 내용이 포함되지 않습니다. 여기에 복사 후 문제 제기 시 붙여넣으세요.",
+        "title": "문제 보고",
+        "body": "브라우저에서 GitHub에 새 이슈가 열리며, 앱 버전과 Mac 모델이 자동으로 입력됩니다. 받아쓴 내용은 절대 포함되지 않으며, 보내기 전에 모든 내용을 확인하고 수정할 수 있습니다.",
+        "diagnosticsTitle": "진단 정보(선택 사항)",
+        "diagnosticsBody": "민감 정보를 제거한 로그는 원인을 찾는 데 도움이 됩니다. 받아쓰기 내용은 절대 포함되지 않습니다. 여기에서 복사한 다음 이슈에 붙여넣으세요.",
         "copy": "진단 정보 복사",
-        "copied": "진단 정보가 복사되었습니다. 문제를 제기할 때 붙여넣으세요.",
+        "copied": "진단 정보를 복사했습니다. 이슈에 붙여넣으세요.",
         "copyFailed": "진단 정보를 복사할 수 없습니다.",
         "open": "GitHub 열기",
         "cancel": "취소",
@@ -516,70 +516,70 @@
     },
     "pages": {
       "dictation": {
-        "title": "디타이션",
+        "title": "받아쓰기",
         "banner": {
-          "title": "말로 입력하세요",
-          "body": "어떤 앱에서든 fn을 누르고, 쓰고 싶은 내용을 말하고 놓으세요. {{appName}}은 커서 위치에 깨끗한 텍스트를 넣습니다.",
-          "examplesLabel": "시도할 수 있는 것들",
+          "title": "타이핑 대신 말하기",
+          "body": "아무 앱에서나 fn을 누른 채 쓰고 싶은 내용을 말한 다음 손을 떼세요. {{appName}}이(가) 커서 위치에 깔끔한 텍스트를 입력합니다.",
+          "examplesLabel": "이렇게 사용해 보세요",
           "examples": {
-            "reply": "메시지에 빠르게 답하기",
-            "notes": "전화 후 바로 메모",
+            "reply": "메시지에 빠르게 답장하기",
+            "notes": "통화 직후 메모하기",
             "prompt": "AI 채팅용 긴 프롬프트"
           },
-          "quiet": "거의 조용히 받아쓰기하세요: 어떻게 해야 할지 보여주세요"
+          "quiet": "조용히 받아쓰기: 방법 보기"
         },
         "empty": {
-          "title": "당신의 디타이션은 여기에 나타날 거예요",
-          "body": "각각은 이 맥에서 저장되며 오디오와 함께 저장되어 나중에 복사하거나 확인할 수 있습니다.",
-          "action": "히스토리 열기"
+          "title": "받아쓰기 내용이 여기에 표시됩니다",
+          "body": "모든 받아쓰기는 오디오와 함께 이 Mac에 저장되므로 나중에 복사하거나 확인할 수 있습니다.",
+          "action": "기록 열기"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "통계",
         "empty": {
-          "title": "인사이트는 몇 개의 딕테이션을 필요로 합니다",
-          "body": "당신의 말하기 속도, 연속 기록 및 절약된 시간은 오랫동안 녹음한 후에 나타납니다.",
-          "action": "Dictation으로 가기"
+          "title": "통계를 보려면 받아쓰기가 조금 더 필요합니다",
+          "body": "한동안 받아쓰기를 사용하면 말하는 속도, 연속 사용 기록, 절약한 시간이 표시됩니다.",
+          "action": "받아쓰기로 이동"
         }
       },
       "dictionary": {
         "title": "사전",
         "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
+          "title": "{{appName}}에 단어 알려주기",
+          "body": "추가한 이름, 제품 용어, 약어는 매번 올바르게 표기됩니다. 이 페이지가 준비될 때까지 단어는 설정에 저장됩니다.",
+          "action": "사용자 지정 단어 열기"
         }
       },
       "snippets": {
         "title": "스니펫",
         "empty": {
-          "title": "스니펫이 곧 도착합니다",
-          "body": "짧은 힌트를 말해 보세요. 예를 들어 \"내 주소\"라고 말하고 전체 텍스트를 얻으세요. 이 페이지는 이후 업데이트에서 나타납니다.",
-          "action": "Dictation으로 가기"
+          "title": "스니펫 준비 중",
+          "body": "‘내 주소’ 같은 짧은 신호어를 말하면 전체 텍스트가 입력됩니다. 이 페이지는 이후 업데이트에서 제공됩니다.",
+          "action": "받아쓰기로 이동"
         }
       },
       "style": {
         "title": "스타일",
         "empty": {
-          "title": "스타일이 도착 중입니다",
-          "body": "각 앱에서 텍스트의 정제 정도를 선택하세요. 공식 이메일에서 편안한 대화까지. 이 페이지는 이후 업데이트에서 제공됩니다.",
-          "action": "Dictation으로 가기"
+          "title": "스타일 준비 중",
+          "body": "격식 있는 이메일부터 편안한 채팅까지, 앱 종류별로 텍스트를 얼마나 다듬을지 선택합니다. 이 페이지는 이후 업데이트에서 제공됩니다.",
+          "action": "받아쓰기로 이동"
         }
       },
       "transforms": {
         "title": "변환",
         "empty": {
-          "title": "변환 기능이 곧 도착합니다",
-          "body": "텍스트를 선택하고 한 번의 단축키로 더 짧게, 더 명확하게 또는 더 잘 정리할 수 있습니다. 이 페이지는 이후 업데이트에서 제공됩니다.",
-          "action": "Dictation으로 가기"
+          "title": "변환 준비 중",
+          "body": "텍스트를 선택하고 단축키 하나로 더 짧게, 더 명확하게, 더 체계적으로 다시 씁니다. 이 페이지는 이후 업데이트에서 제공됩니다.",
+          "action": "받아쓰기로 이동"
         }
       },
       "scratchpad": {
         "title": "스크래치패드",
         "empty": {
-          "title": "스크래치패드가 준비 중입니다",
-          "body": "노트를 다른 곳으로 보내기 전에 빠르게 기록할 수 있는 곳입니다. 이 페이지는 이후 업데이트에서 나타납니다.",
-          "action": "Dictation으로 가기"
+          "title": "스크래치패드 준비 중",
+          "body": "다른 곳에 옮기기 전에 메모를 빠르게 받아쓰는 공간입니다. 이 페이지는 이후 업데이트에서 제공됩니다.",
+          "action": "받아쓰기로 이동"
         }
       },
       "share": {
@@ -590,138 +590,138 @@
       }
     },
     "featurePopup": {
-      "label": "이 버전에서 새롭게 추가된 기능",
-      "dismiss": "알겠습니다",
-      "open": "내게 보여줘"
+      "label": "이 버전의 새로운 기능",
+      "dismiss": "확인",
+      "open": "보기"
     },
     "update": {
-      "off": "업데이트 확인 끄기",
+      "off": "업데이트 확인 꺼짐",
       "turnOn": "켜기",
-      "notChecked": "아직 확인되지 않음",
+      "notChecked": "아직 확인하지 않음",
       "check": "업데이트 확인",
       "checking": "업데이트 확인 중…",
-      "upToDate": "최신 상태",
+      "upToDate": "최신 버전",
       "checkAgain": "다시 확인",
       "checkFailed": "확인할 수 없음",
-      "retry": "재시도",
-      "downloading": "다운로드 중 {{version}}…",
+      "retry": "다시 시도",
+      "downloading": "{{version}} 다운로드 중…",
       "ready": "업데이트 준비됨",
-      "restartNow": "지금 재시작",
-      "installing": "설치 중 {{version}}…",
-      "installedWaiting": "{{version}} 설치 완료 · 이 디타이션 이후 재시작",
-      "restarting": "재시작 중…",
-      "installFailed": "업데이트가 설치되지 않았습니다",
-      "busy": "먼저 글을 입력해 주세요.",
-      "actionFailed": "그것은 실패했어요. 나중에 다시 시도해 보세요.",
-      "lastChecked": "최근 확인 시간: {{time}}.",
-      "paused": "3번 실패 후 자동 업데이트는 {{time}}까지 일시 중단됩니다.",
-      "manualOnly": "이것은 개발 버전입니다: 업데이트는 요청할 때만 확인됩니다.",
-      "readyHint": "20분 이상 말하지 않거나 종료했을 때 자동으로 설치됩니다.",
-      "policy": "업데이트는 배경에서 다운로드되며, 명령어를 입력할 때나 종료할 때만 설치됩니다.",
-      "needsPassword": "이 앱의 버전은 수정을 위해 관리자 비밀번호가 필요한 폴더에 있습니다. 따라서 업데이트는 지금 재시작을 선택할 때만 설치됩니다."
+      "restartNow": "지금 다시 시작",
+      "installing": "{{version}} 설치 중…",
+      "installedWaiting": "{{version}} 설치됨 · 이번 받아쓰기 후 다시 시작",
+      "restarting": "다시 시작하는 중…",
+      "installFailed": "업데이트가 설치되지 않음",
+      "busy": "먼저 받아쓰기를 끝내세요.",
+      "actionFailed": "작업을 완료하지 못했습니다. 나중에 다시 시도하세요.",
+      "lastChecked": "마지막 확인: {{time}}.",
+      "paused": "세 번 실패하여 {{time}}까지 자동 업데이트가 일시 정지되었습니다.",
+      "manualOnly": "개발 빌드입니다. 요청할 때만 업데이트를 확인합니다.",
+      "readyHint": "20분 동안 받아쓰기를 하지 않거나 앱을 종료하면 자동으로 설치됩니다.",
+      "policy": "업데이트는 백그라운드에서 다운로드되며, 받아쓰기 중이 아닐 때나 앱을 종료할 때만 설치됩니다.",
+      "needsPassword": "이 앱은 변경하려면 관리자 암호가 필요한 폴더에 있으므로, ‘지금 다시 시작’을 선택할 때만 업데이트가 설치됩니다."
     }
   },
   "ui": {
     "tag": {
-      "new": "새로!",
+      "new": "신규",
       "beta": "베타"
     },
     "banner": {
-      "dismiss": "-dismiss"
+      "dismiss": "닫기"
     },
     "importWizard": {
-      "stepsLabel": "단계 가져오기",
-      "stepOf": "스텝 {{step}} of {{total}}: {{title}}",
+      "stepsLabel": "가져오기 단계",
+      "stepOf": "{{total}}단계 중 {{step}}단계: {{title}}",
       "steps": {
-        "choose": "파일을 선택하세요",
-        "columns": "열 매칭",
+        "choose": "파일 선택",
+        "columns": "열 맞추기",
         "review": "검토",
         "done": "완료"
       },
-      "dropHint": "여기 .csv 파일을 놓으세요, 또는 선택하세요.",
-      "browse": " .csv 파일을 선택하세요",
-      "limit": "최대 3MB입니다.",
-      "formatLink": "허용되는 형식",
+      "dropHint": ".csv 파일을 여기에 놓거나 선택하세요.",
+      "browse": ".csv 파일 선택",
+      "limit": "최대 3MB.",
+      "formatLink": "지원되는 형식",
       "csvFilter": "CSV 파일",
-      "fileSummary_other": "{{name}}: {{count}} 행",
-      "hasHeader": "첫 번째 행에는 열 이름이 들어 있습니다",
+      "fileSummary_other": "{{name}}: {{count}}행",
+      "hasHeader": "첫 번째 행에 열 이름이 있음",
       "optional": "(선택 사항)",
       "noColumn": "이 파일에 없음",
-      "column": "열 {{letter}}",
-      "columnNamed": "열 {{letter}}: {{name}}",
-      "mapRequired": "필수 아님인 모든 필드에 컬럼을 선택하세요.",
-      "previewCaption_other": "첫 {{count}} 행의 미리보기",
+      "column": "{{letter}}열",
+      "columnNamed": "{{letter}}열: {{name}}",
+      "mapRequired": "필수 필드마다 열을 하나씩 선택하세요.",
+      "previewCaption_other": "처음 {{count}}개 행 미리보기",
       "rowHeader": "행",
       "cancel": "취소",
       "back": "뒤로",
       "next": "다음",
-      "import": "내보내기",
+      "import": "가져오기",
       "done": "완료",
       "close": "닫기",
       "errors": {
-        "notCsv": "그건 .csv 파일이 아닙니다. 시트를 CSV로 저장한 후 다시 시도하세요.",
-        "tooLarge": "그 파일은 {{size}} MB입니다. 파일은 최대 3 MB까지 가능합니다.",
-        "unreadable": "그 파일을 읽을 수 없습니다. CSV 파일인지 확인하고 다시 시도하세요.",
-        "empty": "그 파일에는 임포트할 행이 없습니다.",
-        "failed": "어떤 문제가 발생했습니다. 아무것도 가져오지 않았습니다; 다시 시도해 주세요."
+        "notCsv": ".csv 파일이 아닙니다. 시트를 CSV로 저장한 후 다시 시도하세요.",
+        "tooLarge": "이 파일의 크기는 {{size}}MB입니다. 파일은 최대 3MB까지 가능합니다.",
+        "unreadable": "파일을 읽을 수 없습니다. CSV 파일인지 확인한 후 다시 시도하세요.",
+        "empty": "이 파일에는 가져올 행이 없습니다.",
+        "failed": "문제가 발생했습니다. 아무것도 가져오지 않았습니다. 다시 시도하세요."
       }
     }
   },
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "dictation",
-      "vocabulary": "용어",
-      "help": "도움",
+      "dictation": "받아쓰기",
+      "vocabulary": "어휘",
+      "help": "도움말",
       "file": "파일",
       "edit": "편집",
       "view": "보기",
-      "window": "창",
-      "wordsDictated_other": "{{count}} 개의 단어를 말로 입력",
-      "copyLast": "최근 녹화 내용 복사",
-      "copyLastPreview": "최근 녹화 내용 복사: \"{{preview}}\"",
-      "copyLastConcealed": "최근 녹화된 텍스트(숨겨진 텍스트) 복사",
+      "window": "윈도우",
+      "wordsDictated_other": "받아쓴 단어 {{count}}개",
+      "copyLast": "마지막 전사본 복사",
+      "copyLastPreview": "마지막 전사본 복사: “{{preview}}”",
+      "copyLastConcealed": "마지막 전사본 복사(텍스트 가려짐)",
       "microphone": "마이크",
       "languages": "언어",
-      "moreLanguages": "다른 언어 추가 또는 제거…",
-      "automaticMicrophone": "자동 감지 (시스템 설정)",
-      "noMicrophones": "마이크가 없습니다",
-      "dictionaryWords_other": "{{count}} 사전 단어",
-      "snippetCount_other": "{{count}} 개의 스니프트",
+      "moreLanguages": "언어 추가 또는 제거…",
+      "automaticMicrophone": "자동 감지(시스템 설정)",
+      "noMicrophones": "마이크를 찾을 수 없음",
+      "dictionaryWords_other": "사전 단어 {{count}}개",
+      "snippetCount_other": "스니펫 {{count}}개",
       "addWord": "단어 추가…",
-      "newSnippet": "새로운 스티프트…",
-      "documentation": "문서화",
+      "newSnippet": "새로운 스니펫…",
+      "documentation": "문서",
       "shortcuts": "단축키",
-      "reportProblem": "문제를 보고하기...",
+      "reportProblem": "문제 보고…",
       "sendFeedback": "피드백 보내기…",
       "openApp": "{{appName}} 열기",
       "checkUpdates": "업데이트 확인…",
-      "pasteLast": "최근 녹화 내용 붙여넣기",
-      "cancelDictation": "dictation 취소",
+      "pasteLast": "마지막 전사본 붙여넣기",
+      "cancelDictation": "받아쓰기 취소",
       "shortcutsBlocked": "단축키 차단됨 — 설정 열기",
-      "undo": "되돌리기",
-      "redo": "다시하기",
-      "cut": "잘라내기",
-      "copy": "복사",
-      "paste": "붙이기",
-      "selectAll": "모든 항목 선택",
+      "undo": "실행 취소",
+      "redo": "실행 복귀",
+      "cut": "오려두기",
+      "copy": "복사하기",
+      "paste": "붙여넣기",
+      "selectAll": "전체 선택",
       "minimize": "최소화",
-      "zoom": "확대",
-      "closeWindow": "창 닫기",
-      "fullScreen": "전체 화면으로 진입",
+      "zoom": "확대/축소",
+      "closeWindow": "윈도우 닫기",
+      "fullScreen": "전체 화면 시작",
       "services": "서비스",
-      "hideOthers": "다른 것 숨기기",
-      "showAll": "모든 항목 표시",
-      "about": "About {{appName}}",
-      "hide": "표시 안 함 {{appName}}",
-      "quitApp": "앱 종료 {{appName}}",
-      "restartToUpdate": "재시작하여 {{version}}으로 업데이트",
-      "updatesOff": "업데이트 확인은 끄기..."
+      "hideOthers": "기타 가리기",
+      "showAll": "모두 보기",
+      "about": "{{appName}}에 관하여",
+      "hide": "{{appName}} 가리기",
+      "quitApp": "{{appName}} 종료",
+      "restartToUpdate": "다시 시작하여 {{version}}(으)로 업데이트",
+      "updatesOff": "업데이트 확인 꺼짐…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
-      "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "단축키가 더 이상 작동하지 않음"
+      "versionDev": "Wispr Bro v{{version}}(개발용)",
+      "shortcutLost": "단축키가 작동을 멈춤"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -729,22 +729,22 @@
     "hotkeys": {
       "keys": {
         "fn": "fn",
-        "control": "컨트롤",
-        "option": "옵션",
+        "control": "Control",
+        "option": "Option",
         "shift": "Shift",
         "command": "Command",
-        "space": "스페이스",
-        "escape": "Escape",
+        "space": "스페이스 바",
+        "escape": "Esc",
         "return": "Return",
-        "tab": "탭",
-        "delete": "삭제",
+        "tab": "Tab",
+        "delete": "Delete",
         "forwardDelete": "앞으로 삭제",
         "left": "왼쪽 화살표",
         "right": "오른쪽 화살표",
-        "up": "위 방향 화살표",
-        "down": "내려가기",
-        "home": "홈",
-        "end": "끝",
+        "up": "위쪽 화살표",
+        "down": "아래쪽 화살표",
+        "home": "Home",
+        "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
         "mouseLeft": "마우스 왼쪽 버튼",
@@ -756,905 +756,905 @@
     },
     "notify": {
       "modelReady": {
-        "title": "디타이션은 준비되었습니다",
-        "body": "말하기 모델 다운로드가 완료되었습니다. 어떤 앱에서든 fn을 누르고 말하기 시작하세요."
+        "title": "받아쓰기 준비 완료",
+        "body": "음성 모델 다운로드가 완료되었습니다. 아무 앱에서나 fn을 누른 채 말하세요."
       },
       "updateReady": {
         "title": "업데이트 준비됨",
-        "body": "{{appName}} {{version}}는 앱이 다시 시작될 때 설치됩니다."
+        "body": "{{appName}} {{version}}은(는) 다음에 앱을 다시 시작할 때 설치됩니다."
       },
       "queuedTakesReady": {
-        "title_other": "받아쓰기 {{count}}개 준비 완료",
-        "body": "스피치 모델이 없을 때 말씀하신 내용이 기록되었습니다."
+        "title_other": "받아쓰기 {{count}}개 준비됨",
+        "body": "음성 모델이 없는 동안 말한 내용이 전사되었습니다."
       },
       "shortcutProblem": {
-        "title": "당신의 단축키가 작동하지 않습니다",
-        "body": "{{appName}}이 fn을 듣기 위해 시작할 수 없습니다. 키보드 단축키를 확인하려면 설정을 열어주세요.",
-        "bodyPermission": "{{appName}}은 fn을 들으려고 접근 권한이 필요합니다. 시스템 설정에서 켜주세요."
+        "title": "단축키가 작동하지 않음",
+        "body": "{{appName}}이(가) fn 입력을 감지하기 시작할 수 없습니다. 설정을 열어 단축키를 확인하세요.",
+        "bodyPermission": "{{appName}}이(가) fn 입력을 감지하려면 손쉬운 사용 권한이 필요합니다. 시스템 설정에서 켜세요."
       },
       "crashReport": {
-        "title": "{{appName}}이 예기치 않게 종료되었습니다",
-        "body": "이 맥에서 크래시 보고서가 저장되었습니다. 아무것도 어디에도 보내지 않았습니다."
+        "title": "{{appName}}이(가) 예기치 않게 종료됨",
+        "body": "충돌 보고서가 이 Mac에 저장되었습니다. 어디에도 전송되지 않았습니다."
       },
       "dataRecovered": {
-        "title": "이전 기록 파일이 복구되었습니다",
-        "body": "읽지 못했기 때문에 새 파일이 시작되었습니다. 손상된 파일은 그 옆에 보관되었습니다."
+        "title": "기록 파일이 복구됨",
+        "body": "파일을 읽을 수 없어 새 파일을 만들었습니다. 손상된 파일은 그 옆에 보관되어 있습니다."
       },
       "milestoneWords": {
-        "title_other": "{{count}} 개의 받아쓰기 단어",
-        "body_other": "그것은 {{count}}개의 글자를 입력하지 않아도 되는 것이에요. 잘 했어요."
+        "title_other": "받아쓴 단어 {{count}}개",
+        "body_other": "직접 타이핑하지 않아도 된 단어가 {{count}}개입니다. 잘하고 있어요."
       },
       "milestoneStreak": {
         "title_other": "{{count}}일 연속",
-        "body_other": "당신은 {{count}}일 연속 받아쓰기했습니다."
+        "body_other": "{{count}}일 연속으로 받아쓰기를 사용했습니다."
       },
       "tips": {
         "handsFree": {
           "title": "키를 누르지 않고 말하기",
-          "body": "fn을 두 번 터치하거나, fn과 Space를 동시에 누르면 손이 없는 모드로 전환합니다. 작업을 마치면 다시 fn을 누르세요."
+          "body": "fn을 두 번 누르거나 fn과 스페이스 바를 누르면 핸즈프리 모드가 됩니다. 다 말했으면 fn을 다시 누르세요."
         },
         "cancel": {
-          "title": "다른 생각을 하셨나요?",
-          "body": "말할 때 Esc를 누르면 녹음이 취소되고 아무것도 붙이지 않습니다."
+          "title": "마음이 바뀌었나요?",
+          "body": "말하는 동안 Esc를 누르면 받아쓰기가 취소되고 아무것도 붙여넣지 않습니다."
         },
         "history": {
-          "title": "모든 디타이션은 저장됩니다",
-          "body": "당신의 디타이션은 이 맥에서 남아 있습니다. 역사를 열어 다시 한 번 복사할 수 있습니다."
+          "title": "모든 받아쓰기가 보관됩니다",
+          "body": "받아쓰기는 이 Mac에 보관됩니다. 기록을 열어 다시 복사할 수 있습니다."
         },
         "darkMode": {
-          "title": "밝은색 또는 어두운색",
-          "body": "이 창 상단의 달 버튼은 외관을 전환합니다."
+          "title": "라이트 또는 다크",
+          "body": "이 윈도우 상단의 달 버튼으로 화면 모드를 전환합니다."
         },
         "customWords": {
-          "title": "당신의 말을 가르쳐 주세요",
-          "body": "자주 사용하는 이름과 용어를 추가하면 항상 올바르게 입력됩니다."
+          "title": "자주 쓰는 단어 알려주기",
+          "body": "자주 사용하는 이름과 용어를 추가하면 매번 철자가 정확하게 입력됩니다."
         }
       },
       "slowerMac": {
-        "title": "이 맥에서 디타이션은 더 느릴 수 있습니다",
-        "body": "이 맥에서 당신의 언어에 적합한 음성 모델이 없기 때문에 가장 빠른 모델이 사용됩니다. 텍스트가 나타나기까지 약간 더 걸릴 수 있습니다."
+        "title": "이 Mac에서는 받아쓰기가 느릴 수 있음",
+        "body": "이 Mac에서 사용하는 언어에 충분히 빠른 음성 모델이 없어 가장 빠른 모델을 사용합니다. 텍스트가 표시되기까지 조금 더 걸릴 수 있습니다."
       },
       "features": {
         "inbox": {
-          "title": "당신의 알림은 여기에 있습니다",
-          "body": "다운로드, 마일스톤 및 팁이 이제 빨대 뒤에 모이게 됩니다. 메뉴에서 받고자 하는 내용을 선택하세요."
+          "title": "알림은 여기에서 확인하세요",
+          "body": "이제 다운로드, 기록 달성 및 팁이 종 아이콘에 모입니다. 해당 메뉴에서 받을 항목을 선택하세요."
         }
       },
       "buttons": {
-        "copyLatest": "최신 내용 복사",
+        "copyLatest": "최근 항목 복사",
         "open": "열기",
         "openAccessibility": "설정 열기"
       },
       "takeRecovered": {
-        "title_other": "앱이 종료될 때 {{count}}개의 녹음이 저장되었습니다",
-        "body": "그들이 {{appName}}이 닫힐 때까지 계속 녹화되고 있었어요. 역사에 저장되어 있어요. 그 내용이 텍스트로 변환되어 있습니다."
+        "title_other": "앱이 종료될 때 녹음 {{count}}개가 저장됨",
+        "body": "{{appName}}이(가) 닫힐 때 녹음이 진행 중이었습니다. 녹음은 기록에 있으며 그곳에서 전사됩니다."
       }
     },
     "scratchpad": {
-      "windowTitle": "Scratchpad"
+      "windowTitle": "스크래치패드"
     },
     "pill": {
-      "name": "Dictation bar",
-      "hint": "Hold fn to dictate, or click to start",
-      "hideForAnHour": "Hide for an hour",
+      "name": "받아쓰기 바",
+      "hint": "fn을 길게 눌러 받아쓰기하거나 클릭하여 시작",
+      "hideForAnHour": "1시간 동안 숨기기",
       "slots": {
         "dictate": {
-          "label": "기록",
-          "tooltip": "fn을 누르고 받아쓰기하다"
+          "label": "받아쓰기",
+          "tooltip": "fn을 누른 채 받아쓰기"
         },
         "scratchpad": {
-          "label": "Scratchpad",
-          "tooltip": "스캐치패드"
+          "label": "스크래치패드",
+          "tooltip": "스크래치패드"
         }
       },
       "announce": {
-        "listening": "Listening",
-        "transcribing": "Transcribing",
-        "cleaningUp": "Cleaning up your text",
-        "cancelled": "Dictation cancelled",
-        "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes.",
-        "settingUp": "받아쓰기를 설정하는 중입니다. 말씀하신 내용이 저장되었습니다.",
-        "card": "받아쓰기가 준비되었습니다. 막대에서 복사하세요.",
-        "micLostWarning": "마이크가 연결이 끊겼습니다. 지금까지 말씀하신 내용은 저장됩니다.",
-        "undo": "실행 취소는 받아쓰기 막대에 4초 동안 표시됩니다.",
-        "diff": "변경 사항 변환은 검토할 준비가 되었습니다.",
-        "secureInputWarning": "Secure Input는 켜져 있습니다. fn 및 Space는 딕테이션을 잠글 수 없습니다. Esc 또는 닫기 버튼은 여전히 취소됩니다.",
-        "inserted": "텍스트가 삽입되었습니다"
+        "listening": "듣는 중",
+        "transcribing": "전사 중",
+        "cleaningUp": "텍스트 정리 중",
+        "cancelled": "받아쓰기 취소됨",
+        "silenceWarning": "한동안 음성이 없습니다. 곧 받아쓰기가 중지됩니다.",
+        "lengthWarning": "받아쓰기는 30분이 되면 중지됩니다.",
+        "settingUp": "받아쓰기를 설정하는 중입니다. 말한 내용은 저장되었습니다.",
+        "card": "받아쓰기가 준비되었습니다. 바에서 복사하세요.",
+        "micLostWarning": "마이크 연결이 끊겼습니다. 지금까지 말한 내용은 보관됩니다.",
+        "undo": "받아쓰기 바에 실행 취소가 4초 동안 표시됩니다.",
+        "diff": "변환 변경 사항을 검토할 수 있습니다.",
+        "secureInputWarning": "보안 입력이 켜져 있습니다. fn과 스페이스 바로 받아쓰기를 고정할 수 없습니다. Esc 또는 닫기 버튼으로 계속 취소할 수 있습니다.",
+        "inserted": "텍스트가 입력됨"
       },
       "message": {
-        "no_speech": "No speech heard",
-        "mic_muted": "Only silence came in. Is the mic muted?",
-        "inserted_without_cleanup": "Inserted without cleanup",
-        "not_pasted": "Not pasted. Your text is in History.",
-        "transcription_failed": "Couldn't transcribe that",
-        "mic_denied": "Microphone access is off",
-        "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start",
+        "no_speech": "음성이 들리지 않음",
+        "mic_muted": "무음만 입력되었습니다. 마이크가 음소거되어 있나요?",
+        "inserted_without_cleanup": "정리 없이 입력됨",
+        "not_pasted": "붙여넣지 않았습니다. 텍스트는 기록에 있습니다.",
+        "transcription_failed": "전사할 수 없음",
+        "mic_denied": "마이크 접근이 꺼져 있음",
+        "no_microphone": "마이크를 찾을 수 없음",
+        "mic_failed": "마이크가 시작되지 않음",
         "download_failed": "다운로드할 수 없음",
         "check_connection": "인터넷 연결을 확인하세요",
-        "no_space": "받아쓰기를 설정할 디스크 공간이 부족합니다",
+        "no_space": "받아쓰기를 설정할 디스크 공간이 부족함",
         "cancelled": "취소됨",
-        "no_transcript": "아직 붙여넣을 받아쓰기가 없습니다",
-        "copied_last": "마지막 받아쓰기를 복사했습니다",
+        "no_transcript": "아직 붙여넣을 받아쓰기가 없음",
+        "copied_last": "마지막 받아쓰기 복사됨",
         "transform_done": "완료",
         "command_done": "완료",
-        "command_needs_text": "Command Mode에서는 텍스트를 편집하고 작성합니다. 텍스트를 선택하거나 입력란에 클릭하세요.",
+        "command_needs_text": "명령 모드는 텍스트를 편집하고 작성합니다. 텍스트를 선택하거나 입력란을 클릭하세요.",
         "select_text_first": "먼저 텍스트를 선택하세요",
-        "selection_too_long": "6,000자 이하를 선택하세요",
-        "transform_focus_moved": "다음으로 넘어갔으므로 아무 변화도 없었습니다",
-        "transform_failed": "그 텍스트를 변환할 수 없었습니다",
-        "shortcut_lost": "당신의 단축키가 더 이상 작동하지 않습니다",
-        "shortcut_stopped": "당신의 단축키가 응답을 멈췄습니다",
-        "shortcut_back": "당신의 단축키가 다시 작동합니다"
+        "selection_too_long": "6,000자 이하로 선택하세요",
+        "transform_focus_moved": "다른 곳으로 이동하여 아무것도 변경되지 않음",
+        "transform_failed": "텍스트를 변환할 수 없음",
+        "shortcut_lost": "단축키가 작동을 멈춤",
+        "shortcut_stopped": "단축키가 응답하지 않음",
+        "shortcut_back": "단축키가 다시 작동함"
       },
       "card": {
-        "no_text_field": "먼저 텍스트 필드에 클릭하세요",
-        "focus_moved": "다음으로 넘어갔으므로 아무것도 붙이지 않았습니다",
-        "secure_field": "비밀번호 입력란에 타이핑되지 않음",
-        "sleep": "붙이지 않음: Mac이 잠에 들어갔습니다",
-        "screen_locked": "붙이지 않음: 화면이 잠겼습니다",
-        "session_inactive": "붙이지 않음: 다른 사용자로 전환했습니다",
-        "paste_failed": "이 텍스트를 붙일 수 없습니다",
-        "disk_full": "디스크가 가득 차 있음: 녹화 중지"
+        "no_text_field": "먼저 텍스트 필드를 클릭하세요",
+        "focus_moved": "다른 곳으로 이동하여 아무것도 붙여넣지 않음",
+        "secure_field": "암호 필드에는 입력하지 않음",
+        "sleep": "붙여넣지 않음: Mac이 잠자기 상태로 전환됨",
+        "screen_locked": "붙여넣지 않음: 화면이 잠김",
+        "session_inactive": "붙여넣지 않음: 사용자가 전환됨",
+        "paste_failed": "이 텍스트를 붙여넣을 수 없음",
+        "disk_full": "디스크 꽉 참: 녹음 중단됨"
       }
     },
     "share": {
-      "message": "{{appName}}은 당신의 Mac에서 완전히 작동하는 무료 디타이션입니다. 여기에서 얻으세요:"
+      "message": "{{appName}}은(는) Mac에서만 실행되는 무료 받아쓰기 앱입니다. 여기에서 받으세요:"
     },
     "spotlight": {
       "label": "다음 단계",
       "hint": {
-        "ai_chat": "AI 채팅 열기, 예: ChatGPT 또는 Claude",
-        "note": "노트 앱 열기",
-        "message": "채팅 열기, 예: 메시지 또는 슬랙",
+        "ai_chat": "ChatGPT나 Claude 같은 AI 채팅 열기",
+        "note": "메모 앱 열기",
+        "message": "메시지나 Slack 같은 채팅 열기",
         "email": "이메일 열기",
-        "comment": "댓글을 달고 싶은 포스트를 열기",
-        "document": "문서를 열어 쓰고 있는 문서",
-        "coding": "커서를 열거나 VS 코드 또는 다른 코드 편집기"
+        "comment": "댓글을 달고 싶은 게시물 열기",
+        "document": "작성 중인 문서 열기",
+        "coding": "Cursor, VS Code 또는 다른 코드 편집기 열기"
       },
-      "how": "작성하고자 하는 위치를 클릭한 후 fn을 누르고 말하세요.",
-      "howFallback": "작성하고자 하는 위치를 클릭한 후, 제어와 옵션을 누르고 말하세요.",
-      "escape": "Esc 키를 누르면 이 팁이 닫힙니다."
+      "how": "입력할 위치를 클릭한 다음 fn을 누른 채 말하세요.",
+      "howFallback": "입력할 위치를 클릭한 다음 Control과 Option을 누른 채 말하세요.",
+      "escape": "이 힌트를 닫으려면 Esc를 누르세요."
     }
   },
   "speechModels": {
-    "title": "스피치 모델",
-    "intro": "{{appName}}는 당신의 언어와 이 맥 컴퓨터에 맞는 음성 모델을 선택하고, 개선된 모델로 교체할 수 있습니다. 선택할 필요가 없습니다.",
-    "loading": "스피치 모델을 확인 중입니다…",
-    "current": "현재 사용 중: {{name}}",
-    "none": "스피치 모델이 아직 없습니다",
+    "title": "음성 모델",
+    "intro": "{{appName}}이(가) 사용하는 언어와 이 Mac에 맞는 음성 모델을 고르고, 가능하면 더 나은 모델로 교체합니다. 직접 선택할 필요가 없습니다.",
+    "loading": "음성 모델 확인 중…",
+    "current": "사용 중: {{name}}",
+    "none": "아직 음성 모델 없음",
     "phase": {
-      "checking": "Mac에 맞는 모델을 확인 중입니다…",
-      "settled": "이 Mac에서 당신의 언어에 가장 적합한 모델입니다.",
-      "downloading": "배경에서 더 좋은 모델을 다운로드 중입니다… {{percent}}%",
-      "downloadingNoPercent": "배경에서 더 좋은 모델을 다운로드 중입니다…",
-      "waiting_to_swap": "더 좋은 모델이 준비되었습니다. 말씀을 입력하지 않을 때 교체됩니다.",
-      "paused": "더 좋은 모델을 다운로드할 수 없습니다. 나중에 다시 시도합니다."
+      "checking": "이 Mac에 맞는 모델을 확인하는 중…",
+      "settled": "이 Mac에서 사용하는 언어에 가장 적합한 모델입니다.",
+      "downloading": "백그라운드에서 더 나은 모델을 다운로드하는 중… {{percent}}%",
+      "downloadingNoPercent": "백그라운드에서 더 나은 모델을 다운로드하는 중…",
+      "waiting_to_swap": "더 나은 모델이 준비되었습니다. 받아쓰기 중이 아닐 때 교체됩니다.",
+      "paused": "더 나은 모델을 다운로드할 수 없습니다. 나중에 다시 시도합니다."
     },
     "next": "다음: {{name}}",
     "progressLabel": "더 나은 음성 모델 다운로드",
-    "slower": "이 맥에서 명령어 입력이 느릴 수 있습니다: 여기 언어에 적합한 모델이 없기 때문에 가장 빠른 모델이 사용됩니다.",
-    "pinned": "이 모델을 직접 선택하셨으므로 {{appName}}은 그걸 두고 있습니다.",
-    "automatic": "모델을 자동으로 선택",
-    "automaticHint": "아래 목록에서 모델을 선택할 때 끄입니다.",
-    "languages": "언어: {{languages}}",
-    "machine": "이 맥: {{chip}}, {{ram}} GB 메모리",
-    "freeDisk": "{{gb}} GB 무료로 모델 사용",
+    "slower": "이 Mac에서는 받아쓰기가 느릴 수 있습니다. 사용하는 언어에 충분히 빠른 모델이 없어 가장 빠른 모델을 사용합니다.",
+    "pinned": "직접 선택한 모델이므로 {{appName}}이(가) 변경하지 않습니다.",
+    "automatic": "모델 자동 선택",
+    "automaticHint": "아래 목록에서 모델을 선택하면 꺼집니다.",
+    "languages": "대상 언어: {{languages}}",
+    "machine": "이 Mac: {{chip}}, {{ram}}GB 메모리",
+    "freeDisk": "모델용 여유 공간 {{gb}}GB",
     "chip": {
       "apple": "Apple M{{generation}}",
       "apple_pro": "Apple M{{generation}} Pro",
       "apple_max": "Apple M{{generation}} Max",
       "apple_ultra": "Apple M{{generation}} Ultra",
-      "unknown": "Apple 스퀘어",
+      "unknown": "Apple 실리콘",
       "intel": "Intel 프로세서"
     },
     "list": "모든 모델"
   },
   "aiEngine": {
     "title": "AI 엔진",
-    "loading": "AI 엔진을 확인 중입니다…",
+    "loading": "AI 엔진 확인 중…",
     "loadError": "AI 엔진 상태를 읽을 수 없습니다: {{message}}",
     "state": {
-      "unsupported": "로컬 AI 엔진을 사용한 텍스트 정리 기능은 이 Mac에서는 지원되지 않습니다.",
-      "missing_runtime": "AI 엔진이 이 빌드에 없습니다.",
-      "waiting_for_speech_model": "정리 모델은 음성 모델 이후에 다운로드됩니다.",
-      "downloading": "청소 모델을 다운로드 중입니다… {{percent}}%",
-      "verifying": "청소 모델을 확인 중입니다…",
+      "unsupported": "이 Mac에서는 로컬 AI 엔진으로 텍스트를 정리할 수 없습니다.",
+      "missing_runtime": "이 빌드에 AI 엔진이 없습니다.",
+      "waiting_for_speech_model": "정리 모델은 음성 모델 다음에 다운로드됩니다.",
+      "downloading": "정리 모델 다운로드 중… {{percent}}%",
+      "verifying": "정리 모델 확인 중…",
       "ready": "준비됨",
-      "download_failed": "클리닝 모델을 다운로드할 수 없습니다."
+      "download_failed": "정리 모델을 다운로드할 수 없습니다."
     },
-    "progressLabel": "모델 다운로드 정리 중",
+    "progressLabel": "정리 모델 다운로드",
     "model": "모델: {{name}}",
     "server": {
-      "stopped": "엔진 비활성 상태: 말로 입력할 때 시작됩니다.",
+      "stopped": "엔진 대기 중: 받아쓰기를 하면 시작됩니다.",
       "starting": "엔진 시작 중…",
       "ready": "엔진 실행 중",
-      "failed": "엔진이 시작되지 않았습니다. 다시 시도합니다."
+      "failed": "엔진을 시작하지 못했습니다. 다시 시도합니다."
     },
     "cpuOnly": "CPU에서 실행 중",
     "downloadError": "오류: {{message}}",
-    "retry": "재시도",
+    "retry": "다시 시도",
     "try": {
-      "label": "문장에 적용해 보세요",
-      "sample": "아, 그러니까 저는 금요일에 만나는 걸 생각했어요. 아니, 목요일이었어요. 예산을 논해보는 거죠.",
-      "button": "시도",
-      "running": "정리 중...",
-      "notReady": "클린업 모델이 준비되면 사용 가능합니다.",
+      "label": "문장으로 시험해 보기",
+      "sample": "음 그러니까 우리 어 금요일에 아니 목요일에 만나서 그 그 예산 얘기를 하면 좋을 것 같은데",
+      "button": "시험해 보기",
+      "running": "정리하는 중…",
+      "notReady": "정리 모델이 준비되면 사용할 수 있습니다.",
       "result": "정리된 텍스트",
-      "empty": "(청소 후 아무것도 남지 않음)",
-      "timing": "{{ms}}ms에 정리되었습니다.",
-      "timingCold": "{{ms}}ms 안에 정리됨, 엔진 시작까지 {{start}}ms 후에",
-      "lowMemory": "지금 AI 엔진을 시작하기 위해 충분한 자유 메모리가 없습니다. 일부 앱을 닫고 다시 시도하세요.",
-      "badReply": "모델의 응답을 사용할 수 없습니다. 텍스트는 정리 없이 삽입될 것입니다.",
+      "empty": "(정리 후 남은 내용 없음)",
+      "timing": "{{ms}}ms 만에 정리했습니다.",
+      "timingCold": "엔진 시작에 {{start}}ms가 걸린 후 {{ms}}ms 만에 정리했습니다.",
+      "lowMemory": "지금은 AI 엔진을 시작할 여유 메모리가 부족합니다. 일부 앱을 닫고 다시 시도하세요.",
+      "badReply": "모델의 응답을 사용할 수 없습니다. 텍스트는 정리 없이 입력됩니다.",
       "failed": "정리 실패: {{message}}",
-      "ranOnApple": "Apple Intelligence에서 실행되었습니다."
+      "ranOnApple": "Apple Intelligence에서 실행했습니다."
     },
     "apple": {
       "title": "Apple Intelligence",
       "state": {
-        "available_fallback": "이 맥에서 준비됨. Wispr Bro가 자체 정리 모델을 실행할 수 없을 때(예: 다운로드 중일 때) 이를 사용합니다.",
-        "available_default": "이 맥에서 준비되었습니다. Wispr Bro가 이 dictations을 정리합니다.",
-        "device_not_eligible": "이 맥은 Apple Intelligence를 실행할 수 없습니다. Wispr Bro는 자체 정리 모델을 사용합니다.",
-        "not_enabled": "Apple Intelligence는 시스템 설정에서 꺼져 있습니다. Wispr Bro는 자체 정리 모델을 사용합니다.",
-        "model_not_ready": "Apple Intelligence는 아직 모델을 준비 중입니다.",
-        "unsupported": "Apple Intelligence는 macOS 26 이상이 필요합니다. Wispr Bro는 자체 정리 모델을 사용합니다.",
-        "unknown": "Apple Intelligence는 현재 사용할 수 없습니다."
+        "available_fallback": "이 Mac에서 사용할 수 있습니다. 다운로드 중일 때처럼 Wispr Bro 자체 정리 모델을 아직 실행할 수 없을 때 사용합니다.",
+        "available_default": "이 Mac에서 사용할 수 있습니다. Wispr Bro가 이 기능으로 받아쓰기를 정리합니다.",
+        "device_not_eligible": "이 Mac에서는 Apple Intelligence를 실행할 수 없습니다. Wispr Bro 자체 정리 모델을 사용합니다.",
+        "not_enabled": "시스템 설정에서 Apple Intelligence가 꺼져 있습니다. Wispr Bro 자체 정리 모델을 사용합니다.",
+        "model_not_ready": "Apple Intelligence가 아직 모델을 준비하는 중입니다.",
+        "unsupported": "Apple Intelligence를 사용하려면 macOS 26 이상이 필요합니다. Wispr Bro 자체 정리 모델을 사용합니다.",
+        "unknown": "지금은 Apple Intelligence를 사용할 수 없습니다."
       },
-      "counts": "앱이 시작된 이후: 요청 수 {{requests}}, 거절 수 {{refusals}}, 속도 제한 수 {{rateLimited}}."
+      "counts": "앱 시작 이후: 요청 {{requests}}회, 거부 {{refusals}}회, 속도 제한 {{rateLimited}}회."
     }
   },
   "home": {
     "greeting": {
-      "named": "안녕하세요, {{name}}",
+      "named": "안녕하세요, {{name}} 님",
       "anonymous": "안녕하세요",
-      "edit": "인사말의 이름 변경"
+      "edit": "인사말 이름 변경"
     },
     "nameEditor": {
-      "label": "인사할 때 이름",
-      "field": "당신의 이름",
-      "hint": "이 맥에서만 표시됩니다.",
+      "label": "인사말에 표시할 이름",
+      "field": "이름",
+      "hint": "이 Mac에서만 표시됩니다.",
       "save": "저장",
-      "useAccountName": "내 Mac 계정 이름 사용",
+      "useAccountName": "Mac 계정 이름 사용",
       "clear": "이름 제거",
       "saveFailed": "이름을 저장할 수 없습니다. 다시 시도하세요."
     },
     "stats": {
-      "label": "당신의 통계",
-      "totalWords": "전체 단어",
+      "label": "내 통계",
+      "totalWords": "전체 단어 수",
       "wordsPerMinute": "분당 단어 수",
-      "streak": "연속 일수",
-      "notEnoughSpeech": "아직 충분한 말이 없음",
-      "unavailable": "아직 제공되지 않음"
+      "streak": "연속 사용일",
+      "notEnoughSpeech": "아직 음성이 충분하지 않음",
+      "unavailable": "아직 사용할 수 없음"
     },
     "voiceProfile": {
-      "title": "당신의 음성 프로필",
-      "unlocked": "잠금 해제됨. 인사이트에서 어떻게 말하는지 확인하세요.",
-      "open": "인사이트 열기",
-      "progress_other": "{{current}} 개 중 {{goal}} 개의 단어",
-      "locked_other": "{{goal}} 단어에 도달하면 풀림. 받아쓰기하여 완성하세요."
+      "title": "음성 프로필",
+      "unlocked": "잠금 해제되었습니다. 통계에서 말하는 방식을 확인하세요.",
+      "open": "통계 열기",
+      "progress_other": "{{goal}}단어 중 {{current}}단어",
+      "locked_other": "{{goal}}단어에서 잠금 해제됩니다. 계속 받아쓰기를 사용해 프로필을 만드세요."
     },
     "history": {
-      "title": "당신의 디타이션은 이 맥 컴퓨터에 저장됩니다",
-      "body": "히스토리 열기로 복사, 재생 또는 검색할 수 있습니다.",
-      "action": "히스토리 열기"
+      "title": "받아쓰기는 이 Mac에 저장됩니다",
+      "body": "기록을 열어 복사, 재생 또는 검색하세요.",
+      "action": "기록 열기"
     }
   },
   "dictionary": {
     "add": "단어 추가",
-    "added": "“{{entry}}”을 추가했습니다.",
-    "search": "사전을 검색하세요",
-    "refresh": "새로고침",
-    "shown_other": "{{count}} 개 표시",
-    "deleted": "“{{entry}}”을 삭제했습니다.",
-    "deleteFailed": "그 항목을 삭제할 수 없습니다. 다시 시도해 주세요.",
-    "undo": "되돌리기",
+    "added": "‘{{entry}}’을(를) 추가했습니다.",
+    "search": "사전 검색",
+    "refresh": "새로 고침",
+    "shown_other": "항목 {{count}}개 표시됨",
+    "deleted": "‘{{entry}}’을(를) 삭제했습니다.",
+    "deleteFailed": "항목을 삭제할 수 없습니다. 다시 시도하세요.",
+    "undo": "실행 취소",
     "tabs": {
       "label": "사전 항목",
-      "all": "모든 항목 ({{count}})",
-      "mine": "당신이 추가한 것 ({{count}})",
-      "suggested": "추천 ({{count}})"
+      "all": "모두({{count}})",
+      "mine": "직접 추가({{count}})",
+      "suggested": "제안됨({{count}})"
     },
     "sort": {
       "label": "정렬",
-      "newest": "가장 최신 순",
-      "oldest": "가장 오래된 것부터",
-      "az": "A에서 Z까지",
-      "za": "Z에서 A로",
-      "used": "가장 자주 사용"
+      "newest": "최신순",
+      "oldest": "오래된 순",
+      "az": "A–Z 순",
+      "za": "Z–A 순",
+      "used": "많이 사용한 순"
     },
     "banner": {
-      "title": "내 말을 {{appName}}에 알려주기",
-      "body": "이름, 제품 용어 및 약어를 당신의 방식으로 입력하여 추가하거나, 말하는 단어를 원하는 텍스트로 대체하세요.",
-      "examplesLabel": "예제",
+      "title": "{{appName}}에 자주 쓰는 단어 알려주기",
+      "body": "이름, 제품 용어, 약어를 추가해 원하는 철자로 입력되게 하거나, 말한 단어를 원하는 텍스트로 바꾸세요.",
+      "examplesLabel": "예시",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "gonna → going to",
+      "example3": "카톡 → 카카오톡",
       "example4": "Anna-Lena"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
-      "becomes": "가 된다",
-      "used_other": "다른 곳에서 {{count}}번 사용",
-      "edit": "편집 {{entry}}",
-      "delete": "삭제 {{entry}}",
-      "accept": "사전에 {{entry}} 추가",
-      "reject": "{{entry}}을 배우지 마"
+      "becomes": "다음으로 바뀜:",
+      "used_other": "{{count}}회 사용됨",
+      "edit": "‘{{entry}}’ 편집",
+      "delete": "‘{{entry}}’ 삭제",
+      "accept": "‘{{entry}}’을(를) 사전에 추가",
+      "reject": "‘{{entry}}’ 학습 안 함"
     },
     "source": {
-      "import": "이미지",
-      "migrated": "이전에 사용자 정의한 단어에서",
+      "import": "가져옴",
+      "migrated": "이전 사용자 단어에서",
       "learn": "학습됨",
-      "flag": "표시된 딕테이션에서"
+      "flag": "표시한 받아쓰기에서"
     },
     "empty": {
-      "title": "사전이 비어 있습니다",
-      "body": "추가할 이름, 단어 및 대체값 {{appName}}이 알아야 할 내용을 입력하세요. 이 설정은 다음 딕테이션에 적용됩니다."
+      "title": "사전이 비어 있음",
+      "body": "{{appName}}이(가) 알아야 할 이름, 단어, 대치어를 추가하세요. 다음 받아쓰기부터 적용됩니다."
     },
     "emptySuggested": {
-      "title": "추천 사항이 아직 없습니다",
-      "body": "{{appName}}이 당신이 수정한 단어를 배우면, 여기에 나타나서 승인할 수 있습니다.",
-      "bodyOn": "dictation box에서 오타가 있는 이름이나 용어를 고치고 Return, Tab을 누르거나 이동한 후, 고친 단어가 여기에 나타나서 승인할 수 있습니다."
+      "title": "아직 제안 없음",
+      "body": "{{appName}}이(가) 수정한 단어에서 학습할 수 있게 되면, 해당 단어가 여기에 표시되어 승인할 수 있습니다.",
+      "bodyOn": "받아쓰기 직후 텍스트 상자에서 잘못된 이름이나 용어를 고친 다음 Return이나 Tab을 누르거나 다른 곳으로 이동하세요. 고친 단어가 여기에 표시되어 승인할 수 있습니다."
     },
     "noMatch": {
-      "title": "아무것도 일치하지 않음",
-      "body": "“{{query}}”을 포함하는 항목이 없습니다.",
-      "action": "검색을 초기화"
+      "title": "일치하는 항목 없음",
+      "body": "‘{{query}}’이(가) 포함된 항목이 없습니다.",
+      "action": "검색 지우기"
     },
     "unavailable": {
-      "title": "사전이 아직 사용할 수 없습니다",
-      "body": "앱이 시작을 끝내고 바로 열립니다."
+      "title": "아직 사전을 사용할 수 없음",
+      "body": "앱 시작이 완료되면 바로 열립니다."
     },
     "problem": {
       "empty": "먼저 단어를 입력하세요.",
-      "same_as_replacement": "대체 단어가 단어와 같습니다.",
-      "control_character": "줄 바꿈과 탭은 여기서 사용할 수 없습니다.",
-      "full": "사전이 꽉 찼습니다. 먼저 몇 개 항목을 삭제하세요.",
-      "too_long_other": "단어는 최대 {{max}}자까지 가능합니다.",
-      "replacement_too_long_other": "대체 가능 문자는 최대 {{maxReplacement}}자까지 가능합니다."
+      "same_as_replacement": "대치어가 원래 단어와 같습니다.",
+      "control_character": "여기에는 줄바꿈과 탭을 사용할 수 없습니다.",
+      "full": "사전이 가득 찼습니다. 먼저 일부 항목을 삭제하세요.",
+      "too_long_other": "단어는 최대 {{max}}자까지 입력할 수 있습니다.",
+      "replacement_too_long_other": "대치어는 최대 {{maxReplacement}}자까지 입력할 수 있습니다."
     },
     "dialog": {
       "addTitle": "사전에 추가",
       "editTitle": "사전 항목 편집",
-      "description": "단어는 여기서 어떻게 쓰는지 그대로 쓰입니다.",
-      "replaceToggle": "단어를 대체",
+      "description": "단어는 여기에 입력한 철자 그대로 입력됩니다.",
+      "replaceToggle": "단어 대치",
       "word": "단어 또는 이름",
       "wordPlaceholder": "예: Siobhán",
-      "from": "when I say",
-      "fromPlaceholder": "예: gonna",
-      "to": "쓰기",
-      "toPlaceholder": "예: 가는 중",
+      "from": "이렇게 말하면",
+      "fromPlaceholder": "예: 카톡",
+      "to": "이렇게 입력",
+      "toPlaceholder": "예: 카카오톡",
       "counter": "{{count}}/{{max}}",
-      "wordHint": "말하기 모델이 그것을 정확히 듣고 맞게 쓰도록 도와줍니다.",
-      "ruleHint": "전체 단어를 대응하고, 대소문자에 관계없이 정확히 입력한 내용으로 대체합니다.",
+      "wordHint": "음성 모델이 정확히 알아듣고 올바른 철자로 입력하도록 돕습니다.",
+      "ruleHint": "대소문자와 관계없이 단어 전체가 일치할 때, 입력한 대치어를 그대로 씁니다.",
       "cancel": "취소",
       "add": "단어 추가",
       "save": "저장",
       "close": "닫기",
-      "duplicate": "“{{entry}}”는 이미 당신의 사전에 있습니다.",
-      "conflictRule": "“{{from}}”이 이미 “{{to}}”가 됩니다.",
-      "conflictWord": "“{{word}}”는 이미 다른 발음으로 딕셔너리에 있습니다.",
-      "replaceExisting": "그걸 대체",
-      "missing": "이 항목은 그 사이에 삭제되었습니다.",
-      "failed": "그게 저장되지 않았습니다. 다시 시도해 주세요."
+      "duplicate": "‘{{entry}}’은(는) 이미 사전에 있습니다.",
+      "conflictRule": "‘{{from}}’은(는) 이미 ‘{{to}}’(으)로 바뀝니다.",
+      "conflictWord": "‘{{word}}’은(는) 이미 다른 철자로 사전에 있습니다.",
+      "replaceExisting": "대치",
+      "missing": "그 사이에 이 항목이 삭제되었습니다.",
+      "failed": "저장할 수 없습니다. 다시 시도하세요."
     },
     "import": {
-      "open": "Import",
+      "open": "가져오기",
       "title": "사전 가져오기",
-      "description": "CSV로 저장된 스프레드시트에서 단어와 대체값을 가져옵니다.",
-      "fieldPhrase": "단어, 또는 당신이 말한 것",
-      "fieldReplacement": "다음으로 대체",
+      "description": "CSV로 저장한 스프레드시트에서 단어와 대치어를 가져옵니다.",
+      "fieldPhrase": "단어 또는 말하는 내용",
+      "fieldReplacement": "대치어",
       "format": {
-        "intro": "한 줄에 하나씩:",
-        "columns": "첫 번째 열은 단어나 말하는 내용이고, 두 번째 열은 채워져 있으면 그 대신 쓸 텍스트입니다.",
-        "header": "첫 번째 행에 컬럼 이름이 있는 것은 괜찮아요; 다음 단계에서 컬럼을 선택하세요.",
-        "limits": "단어는 60자까지, 대체는 200개까지, 파일은 3MB까지입니다.",
-        "encoding": "CSV UTF-8로 저장하여 어코스와 기타 문자가 올 수 있도록 합니다."
+        "intro": "한 행에 항목 하나:",
+        "columns": "첫 번째 열은 단어 또는 말하는 내용이고, 두 번째 열(입력한 경우)은 대신 입력할 텍스트입니다.",
+        "header": "첫 번째 행에 열 이름이 있어도 됩니다. 다음 단계에서 열을 선택합니다.",
+        "limits": "단어는 최대 60자, 대치어는 최대 200자, 파일은 최대 3MB입니다.",
+        "encoding": "악센트 부호와 다른 문자가 올바르게 표시되도록 CSV UTF-8로 저장하세요."
       },
       "review": {
-        "new_other": "새 항목들",
+        "new_other": "새 항목",
         "duplicates_other": "이미 있음",
         "conflicts_other": "충돌",
-        "invalid_other": "불가능",
-        "overLimit_other": "사전에는 {{room}} 더 들어갈 공간이 있습니다; {{count}} 개의 새 항목이 들어가지 않습니다.",
-        "showNew": "새 항목을 표시",
-        "more_other": "그리고 {{count}}개 더",
-        "conflictsTitle": "이미 사전에 존재하며, 다름",
-        "conflictsHelp": "파일의 버전이 당신의 버전을 대체해야 할 경우 체크하세요.",
-        "useAllFile": "모든 파일의 버전을 사용",
-        "keepAllMine": "모든 것을 내 것이 되게 하기",
-        "useFile": "파일의:",
-        "yours": "당신의:",
-        "showInvalid": "입력이 불가능한 행을 표시",
-        "invalidRow": "행 {{row}} ({{phrase}}): {{reason}}"
+        "invalid_other": "가져올 수 없음",
+        "overLimit_other": "사전에 {{room}}개를 더 추가할 수 있어 새 항목 {{count}}개는 들어가지 않습니다.",
+        "showNew": "새 항목 보기",
+        "more_other": "외 {{count}}개",
+        "conflictsTitle": "사전에 다른 내용으로 이미 있음",
+        "conflictsHelp": "파일의 내용으로 대치할 항목을 선택하세요.",
+        "useAllFile": "모두 파일 내용 사용",
+        "keepAllMine": "모두 내 내용 유지",
+        "useFile": "파일 내용 사용:",
+        "yours": "내 내용:",
+        "showInvalid": "가져올 수 없는 행 보기",
+        "invalidRow": "{{row}}행({{phrase}}): {{reason}}"
       },
       "done": {
-        "title_other": "{{count}} 개의 항목이 가져왔습니다",
-        "added_other": "{{count}} 추가됨",
-        "replaced_other": "{{count}} 개가 파일의 버전으로 대체되었습니다",
-        "skipped_other": "{{count}} 이미 있음, 건너뜀",
-        "kept_other": "{{count}} 충돌이 그대로 유지되었습니다",
-        "invalid_other": "{{count}} 행이 임포트되지 않았습니다",
-        "overLimit_other": "{{count}}은 들어가지 못했습니다 (사전이 가득 차 있습니다)"
+        "title_other": "항목 {{count}}개를 가져옴",
+        "added_other": "{{count}}개 추가됨",
+        "replaced_other": "{{count}}개를 파일 내용으로 대치함",
+        "skipped_other": "{{count}}개는 이미 있어 건너뜀",
+        "kept_other": "충돌 {{count}}개는 그대로 유지함",
+        "invalid_other": "{{count}}개 행을 가져올 수 없음",
+        "overLimit_other": "{{count}}개는 들어가지 않음(사전이 가득 참)"
       }
     },
     "export": {
       "open": "내보내기",
-      "fileName": "{{appName}} dictionary.csv",
-      "done_other": "다른 항목 {{count}}개를 내보냈습니다.",
-      "failed": "사전을 내보내지 못했습니다. 다시 시도해 주세요."
+      "fileName": "{{appName}} 사전.csv",
+      "done_other": "항목 {{count}}개를 내보냈습니다.",
+      "failed": "사전을 내보낼 수 없습니다. 다시 시도하세요."
     },
-    "rejected": "“{{entry}}”은 더 이상 추천되지 않습니다.",
-    "actionFailed": "그것이 안 됐어요. 다시 시도해 주세요.",
+    "rejected": "‘{{entry}}’은(는) 다시 제안되지 않습니다.",
+    "actionFailed": "작업을 완료하지 못했습니다. 다시 시도하세요.",
     "learn": {
-      "toggle": "내 수정에서 배우기",
-      "hint": "dictation이 붙인 후 30초 동안 {{appName}}은 그 텍스트 상자에서 수정한 단어를 인식하고 여기에서 제안합니다. 수정한 단어만 저장되며, 나머지 텍스트는 저장되지 않습니다. 비밀번호 입력란, 비밀번호 관리 프로그램, 은행 앱 및 터미널은 결코 읽히지 않습니다."
+      "toggle": "내 수정 사항에서 학습",
+      "hint": "받아쓰기가 붙여넣어진 후 30초 동안 {{appName}}이(가) 해당 텍스트 상자에서 고친 단어를 감지해 여기에 제안합니다. 고친 단어만 보관되며 나머지 텍스트는 절대 보관되지 않습니다. 암호 필드, 암호 관리자, 은행 앱 및 터미널은 절대 읽지 않습니다."
     }
   },
   "pill": {
-    "region": "Dictation bar",
-    "listening": "Listening",
-    "cancel": "Cancel dictation",
-    "finish": "Finish dictation",
-    "transcribing": "Transcribing…",
-    "cleaningUp": "Cleaning up…",
-    "contextUsed": "가까이 있는 텍스트가 맞춤법 도움이 되었어요",
-    "mic": "Mic: {{name}}",
-    "fix": "Fix",
-    "dismiss": "Dismiss",
+    "region": "받아쓰기 바",
+    "listening": "듣는 중",
+    "cancel": "받아쓰기 취소",
+    "finish": "받아쓰기 완료",
+    "transcribing": "전사 중…",
+    "cleaningUp": "정리 중…",
+    "contextUsed": "주변 텍스트를 참고해 철자를 맞춤",
+    "mic": "마이크: {{name}}",
+    "fix": "해결",
+    "dismiss": "닫기",
     "warning": {
-      "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes",
-      "mic_lost": "마이크가 연결되지 않았습니다. 말씀하신 내용을 유지합니다",
-      "secure_input": "안전한 입력이 켜져 있습니다 · fn+스페이스로 잠금이 안 됩니다 · Esc 또는 ✕로 취소",
-      "secure_input_app": "{{app}}에 안전한 입력이 켜져 있습니다. · fn+스페이스로 잠금이 안 됩니다. Esc 또는 ✕로 취소"
+      "silence": "한동안 음성이 없어 곧 중지됨",
+      "length": "30분이 되면 중지됨",
+      "mic_lost": "마이크 연결 끊김, 말한 내용은 유지됨",
+      "secure_input": "보안 입력 켜짐 · fn+스페이스 바로 고정 불가 · Esc 또는 ✕로 취소",
+      "secure_input_app": "{{app}}에서 보안 입력 켜짐 · fn+스페이스 바로 고정 불가 · Esc 또는 ✕로 취소"
     },
     "settingUp": "설정 중…",
     "settingUpPercent": "설정 중… {{percent}}%",
-    "settingUpHint": "말씀하신 내용이 저장되었습니다. 받아쓰기가 준비되면 텍스트가 여기에 표시됩니다.",
+    "settingUpHint": "말한 내용은 저장되었습니다. 받아쓰기가 준비되면 텍스트가 여기에 표시됩니다.",
     "cardReady": "받아쓰기 결과",
     "cardMore_other": "받아쓰기 결과 · 기록에 {{count}}개 더 있음",
     "copy": "복사",
     "copied": "복사됨",
     "retry": "다시 시도",
     "card": {
-      "hidden": "숨겨져 있음, 비밀번호 입력란을 위해 만들어졌기 때문입니다"
+      "hidden": "암호 필드에 입력하려던 내용이라 가려짐"
     },
     "undo": "실행 취소",
     "viewChanges": "변경 사항 보기",
     "sendsAutomatically": "자동으로 보냄",
     "shortcutDetail": {
-      "permission": "접근성 접근이 꺼져 있습니다",
-      "stopped": "키보드 리스너가 멈췄습니다"
+      "permission": "손쉬운 사용 권한이 꺼져 있음",
+      "stopped": "키보드 감지가 중단됨"
     }
   },
   "transforms": {
     "banner": {
-      "title": "선택한 텍스트를 어떤 앱에서도 재작성",
-      "body": "변환을 선택하고 텍스트를 선택한 후 단축키를 사용하세요. 작성한 내용은 이 Mac에서만 유지됩니다.",
-      "tryIt": "시도하기",
+      "title": "모든 앱에서 선택한 텍스트 다시 쓰기",
+      "body": "변환을 고르고 텍스트를 선택한 다음 해당 단축키를 사용하세요. 작성한 내용은 이 Mac에만 남습니다.",
+      "tryIt": "시험해 보기",
       "howItWorks": "작동 방식"
     },
     "enable": {
-      "title": "Transforms를 활성화",
-      "help": "리워터링 단축키와 변경 사항 보기를 켜세요. 변환 기능은 선택하지 않으면 꺼져 있습니다."
+      "title": "변환 활성화",
+      "help": "다시 쓰기 단축키와 변경 사항 보기를 켭니다. 직접 선택하기 전까지 변환은 꺼져 있습니다."
     },
     "commandMode": {
       "title": "명령 모드",
       "shortcut": "fn ⌃",
-      "on": "온",
-      "off": "끄기",
-      "help": "fn과 Ctrl을 누르고, 선택을 변경하거나 작성할 내용을 말하세요. 선택이 없으면 필드가 맥락을 제공하고 결과는 커서 위치에 나타납니다. 모든 내용은 이 맥북에서만 저장되며, 명령 모드는 어떤 것도 검색하지 않습니다. 꺼진 상태에서는 fn과 Ctrl을 통해 일반적으로 받아쓰기합니다."
+      "on": "켬",
+      "off": "끔",
+      "help": "fn과 Ctrl을 누른 채 선택한 내용을 어떻게 바꿀지 또는 무엇을 쓸지 말하세요. 선택한 내용이 없으면 입력란의 내용을 문맥으로 삼아 삽입 지점에 결과를 넣습니다. 모든 내용은 이 Mac에 남으며 명령 모드는 아무것도 검색하지 않습니다. 끄면 fn과 Ctrl로 평소처럼 받아쓰기합니다."
     },
     "auto": {
-      "title": "dictation 후마다 적용",
-      "help": "정리 후 선택한 변환을 실행합니다. 완료되지 않으면 정리된 디타이션을 그대로 붙입니다. 5초 이내에 반복 실행은 건너뜁니다.",
-      "choice": "변환 적용",
-      "none": "변환을 선택"
+      "title": "받아쓰기할 때마다 적용",
+      "help": "정리 후 선택한 변환을 실행합니다. 완료할 수 없으면 정리된 받아쓰기를 그대로 붙여넣습니다. 5초 이내에 다시 실행되면 건너뜁니다.",
+      "choice": "적용할 변환",
+      "none": "변환 선택"
     },
     "shortcuts": {
-      "warning": "⌥1, ⌥2 및 ⌥O는 변환 기능이 켜져 있을 때 ¡, ™ 및 ø를 대체합니다.",
-      "safe": "⌃⌥ 사용"
+      "warning": "변환이 켜져 있는 동안 ⌥1, ⌥2, ⌥O로는 ¡, ™, ø를 입력할 수 없습니다.",
+      "safe": "대신 ⌃⌥ 사용"
     },
     "myTransforms": "내 변환",
-    "reset": "기본값으로 초기화",
-    "resetConfirm": "Polish 및 Prompt Engineer를 초기화하고 모든 맞춤형 변환을 제거하시겠습니까?",
+    "reset": "기본값으로 재설정",
+    "resetConfirm": "Polish와 Prompt Engineer를 재설정하고 모든 사용자 변환을 제거하겠습니까?",
     "createNew": "새로 만들기",
-    "deleteConfirm": "{{name}}을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
-    "loading": "변환을 로딩 중입니다…",
-    "empty": "변환 없음. 하나를 만들면 시작할 수 있어요.",
-    "error": "그 변환 변경사항을 저장할 수 없습니다. 다시 시도해 보세요.",
+    "deleteConfirm": "‘{{name}}’을(를) 삭제하겠습니까? 이 작업은 실행 취소할 수 없습니다.",
+    "loading": "변환을 불러오는 중…",
+    "empty": "아직 변환이 없습니다. 하나 만들어 시작하세요.",
+    "error": "변환 변경 사항을 저장할 수 없습니다. 다시 시도하세요.",
     "card": {
-      "createOwn": "자신만의 것을 만들기",
-      "createOwnHint": "규칙, 지침 및 글 작성 예시를 선택하세요.",
-      "delete": "삭제 {{name}}"
+      "createOwn": "직접 만들기",
+      "createOwnHint": "규칙, 지시 사항, 글쓰기 예시를 선택합니다.",
+      "delete": "‘{{name}}’ 삭제"
     },
     "builtin": {
       "polish": {
-        "description": "문장과 표현을 정리하면서도 목소리를 유지합니다."
+        "description": "말투는 살리면서 문법과 표현을 다듬습니다."
       },
       "prompt_engineer": {
-        "description": "rough notes를 명확하고 완전한 AI 프롬프트로 변환합니다."
+        "description": "대략적인 메모를 명확하고 완전한 AI 프롬프트로 바꿉니다."
       }
     },
     "new": {
       "name": "내 변환",
-      "description": "텍스트를 내가 원하는 방식으로 다시 작성합니다.",
-      "prompt": "선택한 텍스트를 의미, 사실, 언어를 유지하면서 재작성합니다."
+      "description": "원하는 방식으로 텍스트를 다시 씁니다.",
+      "prompt": "선택한 텍스트의 의미, 사실, 언어를 유지하면서 다시 쓰세요."
     },
     "editor": {
-      "title": "편집 {{name}}",
+      "title": "‘{{name}}’ 편집",
       "name": "이름",
       "description": "설명",
-      "hotkey": "핫키",
-      "addHotkey": "핫키 추가",
-      "example": "예제",
+      "hotkey": "단축키",
+      "addHotkey": "단축키 추가",
+      "example": "예시",
       "exampleInput": "변환할 텍스트",
-      "exampleText": "아, 혹시 내일 보고서를 보내줄 수 있나요. 그때 이야기할 수 있을까요",
-      "preview": "미리보기",
-      "previewing": "미리보기 중...",
-      "customPrompt": "맞춤형 프롬프트",
-      "customPromptHelp": "특정 지침을 추가하세요. 선택한 텍스트는 변환되며, 답변되지 않습니다.",
+      "exampleText": "음 내일 보고서 좀 보내 줄 수 있어요 그때 아마 그거 얘기하면 될 것 같은데",
+      "preview": "미리 보기",
+      "previewing": "미리 보는 중…",
+      "customPrompt": "사용자 프롬프트",
+      "customPromptHelp": "구체적인 지시 사항을 추가하세요. 선택한 텍스트는 변환될 뿐 답변 대상이 되지 않습니다.",
       "rules": "편집 규칙",
       "autosave": {
-        "saved": "자동 저장 · 모든 변경 사항 저장",
+        "saved": "자동 저장 · 모든 변경 사항이 저장됨",
         "saving": "자동 저장 · 저장 중…",
-        "error": "자동 저장 · 최신 변경 사항 저장 실패"
+        "error": "자동 저장 · 최근 변경 사항을 저장할 수 없음"
       },
-      "reset": "초기화",
+      "reset": "재설정",
       "done": "완료",
       "close": "편집기 닫기"
     },
     "rules": {
       "shorter": {
-        "title": "짧음",
-        "help": "반복과 불필요한 단어 제거"
+        "title": "더 짧게",
+        "help": "반복되거나 불필요한 단어를 제거합니다."
       },
       "clearer": {
         "title": "더 명확한 표현",
-        "help": "직접적이고 정확한 언어를 사용하세요."
+        "help": "직접적이고 정확한 표현을 사용합니다."
       },
       "better_order": {
         "title": "더 나은 순서",
-        "help": "논리적인 순서로 아이디어를 정리하세요."
+        "help": "생각을 논리적인 순서로 배열합니다."
       },
       "headings_lists": {
-        "title": "헤딩과 목록 추가",
-        "help": "긴 텍스트를 더 쉽게 스캔할 수 있도록 합니다."
+        "title": "제목 및 목록 추가",
+        "help": "긴 텍스트를 훑어보기 쉽게 만듭니다."
       },
       "keep_tone": {
-        "title": "내 톤을 유지",
-        "help": "귀하의 목소리와 공식성을 유지하세요."
+        "title": "내 어조 유지",
+        "help": "말투와 격식 수준을 그대로 유지합니다."
       }
     },
     "examples": {
-      "title": "글쓰기 예제",
-      "fileType": "텍스트 또는 마크다운",
-      "label": "글쓰기 예제 {{number}}",
+      "title": "작성 예시",
+      "fileType": "텍스트 또는 Markdown",
+      "label": "작성 예시 {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "예제를 붙여넣기",
-      "load": "로드 .txt 또는 .md",
-      "remove": "예제를 제거 {{number}}",
-      "readError": "확장명이 .txt 또는 .md인 파일을 선택하고 1,500자 이하여야 합니다.",
-      "help_other": "바로 붙여넣거나 최대 {{max}}개의 예제를 로드하세요. 각 예제는 {{chars}}자입니다. 이 예제들은 스타일을 안내하지만 결과에 포함되지 않습니다."
+      "paste": "예시 붙여넣기",
+      "load": ".txt 또는 .md 불러오기",
+      "remove": "예시 {{number}} 제거",
+      "readError": "1,500자 이하의 .txt 또는 .md 파일을 선택하세요.",
+      "help_other": "예시를 최대 {{max}}개까지 붙여넣거나 불러올 수 있으며, 각 예시는 {{chars}}자까지 가능합니다. 예시는 스타일을 안내할 뿐 결과에 포함되지 않습니다."
     },
     "diff": {
-      "changes_other": "{{count}} 개의 변경 사항",
-      "configure": "설정",
+      "changes_other": "{{count}}개 변경 사항",
+      "configure": "구성",
       "copy": "복사",
       "copied": "복사됨",
-      "retry": "재시도",
-      "retrying": "재시도 중…",
-      "feedback": "이 변환을 평가하세요",
+      "retry": "다시 시도",
+      "retrying": "다시 시도하는 중…",
+      "feedback": "이 변환 평가하기",
       "good": "좋은 결과",
-      "bad": "나쁜 결과",
-      "simpleView": "이 큰 또는 복잡한 변경에 대한 하나의 수정을 표시합니다.",
-      "actionFailed": "그 작업이 실패했어요. 텍스트는 여전히 여기에 있어요; 다시 시도해 보세요."
+      "bad": "좋지 않은 결과",
+      "simpleView": "변경 사항이 크거나 복잡하여 하나의 대체 항목으로 표시합니다.",
+      "actionFailed": "작업을 수행하지 못했습니다. 텍스트는 그대로 있으니 다시 시도하세요."
     },
     "startTutorial": "튜토리얼 시작"
   },
   "cleanup": {
     "title": "정리",
-    "loading": "청소 레벨을 로딩 중입니다…",
-    "loadError": "정리 수준을 읽을 수 없습니다: {{message}}",
-    "setError": "그 변경사항이 저장되지 않았습니다: {{message}}",
-    "notice": "삭제 없이 삽입",
+    "loading": "정리 수준을 불러오는 중…",
+    "loadError": "정리 수준을 읽을 수 없음: {{message}}",
+    "setError": "변경 사항이 저장되지 않음: {{message}}",
+    "notice": "정리하지 않고 삽입됨",
     "picker": {
-      "legend": "귀하의 말이 얼마나 정리되어야 하나요?",
+      "legend": "말한 내용을 얼마나 정리할까요?",
       "recommended": "권장",
-      "aiChat": "AI 채팅 앱에서 당신이 말한 내용을 그대로 입력하고, AI가 정리하지 않습니다."
+      "aiChat": "AI 채팅 앱에서는 AI 정리 없이 말한 그대로 삽입됩니다."
     },
     "levels": {
       "none": {
         "label": "없음",
-        "description": "정확히 당신이 말한 내용으로, 단 띄어쓰기와 음성 명령만 적용됨"
+        "description": "말한 그대로 입력하며, 띄어쓰기와 음성 명령만 적용합니다."
       },
       "light": {
-        "label": "轻",
-        "description": "\"um\", \"you know\"와 같은 채워넣기 단어를 제거하고 문장 부호와 대문자도 정리하여 당신의 수정사항을 유지합니다: \"at 2, actually 3\"는 \"at 3\"이 됩니다.\""
+        "label": "가볍게",
+        "description": "‘음’, ‘그러니까’ 같은 군말을 없애고, 문장 부호와 대소문자를 고치며, 정정한 내용을 반영합니다. ‘2시, 아니 3시에’는 ‘3시에’가 됩니다."
       },
       "medium": {
-        "label": "중간",
-        "description": "라이트에 있는 모든 내용을 포함하고, 문법과 표현이 더 부드러워집니다. 당신의 사실과 의미는 그대로 유지됩니다."
+        "label": "보통",
+        "description": "‘가볍게’의 모든 기능에 더해 문법과 표현을 더 매끄럽게 다듬습니다. 사실과 의미는 그대로 유지됩니다."
       }
     },
     "last": {
-      "title": "최근 녹음",
-      "none": "앱이 시작된 이후로 디타이션 없음.",
-      "applied_other": "정리 완료. {{ms}}ms, {{count}}개 변경.",
-      "checks": "안전 점검이 중단된 이유: {{checks}}",
-      "partial_other": "부분적으로 정리됨 ({{applied}}개 중 {{total}}개 문장); 나머지는 말로 입력된 내용과 같습니다: {{reason}}"
+      "title": "마지막 받아쓰기",
+      "none": "앱이 시작된 후 받아쓰기가 없습니다.",
+      "applied_other": "{{ms}}ms 만에 정리됨, {{count}}개 변경.",
+      "checks": "정리를 중단시킨 안전 검사: {{checks}}",
+      "partial_other": "일부만 정리됨({{total}}개 문단 중 {{applied}}개). 나머지는 말한 그대로입니다: {{reason}}"
     },
     "why": {
-      "level_none": "정리 기능이 꺼져 있습니다.",
-      "empty": "정리할 것이 없습니다.",
-      "already_clean": "이미 깨끗하므로 AI 엔진이 필요하지 않았습니다.",
-      "ai_chat": "AI 채팅 앱: 당신이 말한 것처럼 입력되었습니다.",
-      "not_ready": "정리되지 않은 상태로 삽입: 정리 모델이 아직 준비되지 않았습니다.",
-      "low_memory": "정리 없이 삽입: 현재 자유 메모리가 부족합니다.",
-      "guard": "정리되지 않은 상태로 삽입됨: 정리된 텍스트가 안전 검사를 통과하지 않았습니다.",
-      "timeout": "정리되지 않은 삽입: 정리가 너무 오래 걸렸습니다.",
-      "error": "정리 없이 삽입됨: AI 엔진에 문제가 있었습니다."
+      "level_none": "정리가 꺼져 있습니다.",
+      "empty": "정리할 내용이 없습니다.",
+      "already_clean": "이미 깔끔하여 AI 엔진이 필요하지 않았습니다.",
+      "ai_chat": "AI 채팅 앱: 말한 그대로 삽입되었습니다.",
+      "not_ready": "정리하지 않고 삽입됨: 정리 모델이 아직 준비되지 않았습니다.",
+      "low_memory": "정리하지 않고 삽입됨: 현재 사용 가능한 메모리가 부족합니다.",
+      "guard": "정리하지 않고 삽입됨: 정리된 텍스트가 안전 검사를 통과하지 못했습니다.",
+      "timeout": "정리하지 않고 삽입됨: 정리 시간이 너무 오래 걸렸습니다.",
+      "error": "정리하지 않고 삽입됨: AI 엔진에 문제가 발생했습니다."
     },
     "reason": {
-      "level_none": "정리 기능이 꺼져 있습니다",
-      "empty": "청소할 것이 없습니다",
-      "already_clean": "이미 깨끗함",
+      "level_none": "정리가 꺼져 있음",
+      "empty": "정리할 내용이 없음",
+      "already_clean": "이미 깔끔함",
       "ai_chat": "AI 채팅 앱",
-      "not_ready": "정리 모델이 아직 준비되지 않았습니다",
-      "low_memory": "자유 메모리가 부족합니다",
-      "guard": "안전 검사를 통과하지 못했습니다",
-      "timeout": "정리 작업이 너무 오래 걸렸습니다",
-      "error": "AI 엔진에 문제가 있었습니다"
+      "not_ready": "정리 모델이 아직 준비되지 않음",
+      "low_memory": "사용 가능한 메모리 부족",
+      "guard": "안전 검사를 통과하지 못함",
+      "timeout": "정리 시간이 너무 오래 걸림",
+      "error": "AI 엔진 문제 발생"
     }
   },
   "snippets": {
-    "add": "단편 추가",
-    "added": "“{{trigger}}”을 추가했습니다.",
-    "search": "검색할 수 있는 스니프트",
-    "refresh": "새로고침",
-    "shown_other": "{{count}} 개의 스니프트가 표시됨",
-    "deleted": "삭제했습니다. \"{{trigger}}\"",
-    "deleteFailed": "그 스니펫을 삭제할 수 없습니다. 다시 시도해 주세요.",
-    "undo": "되돌리기",
+    "add": "스니펫 추가",
+    "added": "‘{{trigger}}’ 추가됨.",
+    "search": "스니펫 검색",
+    "refresh": "새로 고침",
+    "shown_other": "스니펫 {{count}}개 표시됨",
+    "deleted": "‘{{trigger}}’ 삭제됨.",
+    "deleteFailed": "스니펫을 삭제할 수 없습니다. 다시 시도하세요.",
+    "undo": "실행 취소",
     "counts": {
-      "snippets_other": "{{count}} 개의 스니프트",
-      "uses_other": "{{count}}번 사용"
+      "snippets_other": "스니펫 {{count}}개",
+      "uses_other": "{{count}}회 사용됨"
     },
     "sort": {
       "label": "정렬",
-      "newest": "가장 최신 순",
-      "oldest": "가장 오래된 것부터",
-      "az": "A에서 Z까지",
-      "za": "Z에서 A로",
-      "used": "가장 자주 사용"
+      "newest": "최신 항목 먼저",
+      "oldest": "오래된 항목 먼저",
+      "az": "A–Z",
+      "za": "Z–A",
+      "used": "가장 많이 사용"
     },
     "banner": {
-      "title": "몇 개의 단어를 말하면 전체 텍스트를 얻으세요",
-      "body": "다시 and again 쓰는 텍스트를 저장하세요. 어떤 앱에서든 그 텍스트의 쿼리를 단독으로 또는 문장 중간에 말하면, {{appName}}은 저장된 텍스트와 줄 바꿈을 모두 작성합니다.",
-      "examplesLabel": "예제",
-      "example1": "“내 주소” → 당신의 전체 우편 주소",
-      "example2": "“내 서명” → 최선의 기원과 당신의 이름",
-      "example3": "“내 예약 링크” → 사람들이 전화 예약할 때 사용하는 링크"
+      "title": "몇 마디로 전체 텍스트를 입력하기",
+      "body": "반복해서 쓰는 텍스트를 저장하세요. 어떤 앱에서든 신호어를 단독으로 또는 문장 중간에 말하면 {{appName}}이(가) 줄 바꿈까지 포함하여 저장된 텍스트를 입력합니다.",
+      "examplesLabel": "예시",
+      "example1": "‘내 주소’ → 전체 우편 주소",
+      "example2": "‘내 맺음말’ → ‘감사합니다’와 이름",
+      "example3": "‘내 예약 링크’ → 통화 예약에 쓰는 링크"
     },
     "entry": {
-      "becomes": "은 다음과 같이 쓰입니다",
+      "becomes": "입력 내용",
       "pair": "{{trigger}} → {{text}}",
-      "lines_other": "{{count}} 줄",
-      "imported": "이미지로 가져온",
-      "used_other": "사용한 횟수: {{count}}회",
-      "edit": "편집 {{trigger}}",
+      "lines_other": "{{count}}줄",
+      "imported": "가져옴",
+      "used_other": "{{count}}회 사용됨",
+      "edit": "{{trigger}} 편집",
       "delete": "{{trigger}} 삭제"
     },
     "empty": {
-      "title": "아직 스니프트가 없습니다",
-      "body": "주소, 서명, 링크를 한 번만 저장하세요. 그 쿼를 말하면 {{appName}}이 자동으로 입력합니다."
+      "title": "아직 스니펫 없음",
+      "body": "주소, 맺음말 또는 링크를 한 번만 저장하세요. 신호어를 말하면 {{appName}}이(가) 대신 입력합니다."
     },
     "noMatch": {
-      "title": "아무것도 일치하지 않음",
-      "body": "스니프트에 \"{{query}}\"가 포함되어 있지 않습니다.",
-      "action": "검색을 초기화"
+      "title": "일치하는 항목 없음",
+      "body": "‘{{query}}’이(가) 포함된 스니펫이 없습니다.",
+      "action": "검색 지우기"
     },
     "unavailable": {
-      "title": "스니펫은 아직 사용할 수 없습니다",
-      "body": "앱이 시작을 끝내면 즉시 열립니다."
+      "title": "스니펫을 아직 사용할 수 없음",
+      "body": "앱 시작이 완료되면 바로 열립니다."
     },
     "problem": {
       "empty_trigger": "먼저 말할 내용을 입력하세요.",
-      "trigger_not_spoken": "말한 내용에는 최소한 한 개의 글자 또는 숫자가 필요합니다.",
-      "trigger_control_character": "말한 내용은 한 줄에 맞춰야 해.",
-      "empty_body": "텍스트를 입력하세요.",
-      "body_control_character": "텍스트에는 작성할 수 없는 문자가 포함되어 있습니다. 그것을 제거하고 다시 시도하세요.",
-      "full": "앱이 저장할 수 있는 최대 스티커 수를 초과했습니다. 먼저 몇 개를 삭제하세요.",
-      "trigger_too_long_other": "말하는 내용은 최대 {{max}}자까지 가능합니다.",
+      "trigger_not_spoken": "말할 내용에는 문자나 숫자가 하나 이상 있어야 합니다.",
+      "trigger_control_character": "말할 내용은 한 줄이어야 합니다.",
+      "empty_body": "입력할 텍스트를 작성하세요.",
+      "body_control_character": "텍스트에 입력할 수 없는 문자가 있습니다. 해당 문자를 제거하고 다시 시도하세요.",
+      "full": "저장할 수 있는 최대 스니펫 수에 도달했습니다. 먼저 일부를 삭제하세요.",
+      "trigger_too_long_other": "말할 내용은 최대 {{max}}자까지 가능합니다.",
       "body_too_long_other": "텍스트는 최대 {{maxBody}}자까지 가능합니다."
     },
     "dialog": {
-      "addTitle": "단편 추가",
-      "editTitle": "단편 편집",
-      "description": "cue를 말하고 저장된 텍스트가 입력됩니다.",
-      "trigger": "내가 말할 때",
+      "addTitle": "스니펫 추가",
+      "editTitle": "스니펫 편집",
+      "description": "신호어를 말하면 저장된 텍스트가 대신 입력됩니다.",
+      "trigger": "이렇게 말하면",
       "triggerPlaceholder": "예: 내 주소",
-      "body": "쓰기",
-      "bodyPlaceholder": "작성할 텍스트입니다. 줄 바꿈은 유지됩니다.",
+      "body": "입력할 내용",
+      "bodyPlaceholder": "입력할 텍스트입니다. 줄 바꿈이 유지됩니다.",
       "counter": "{{count}}/{{max}}",
-      "hint": "자체적으로 작동하거나 문장 안에서 사용할 수 있으며, 어떤 경우든 동일합니다. 문장 내에서 쿼리에 들어가는 문장 부호는 동일하게 말해야 합니다. 텍스트는 저장된 그대로입니다.",
+      "hint": "단독으로 말하거나 문장 안에서 말해도 되며, 대소문자는 구분하지 않습니다. 문장 안에서는 신호어의 문장 부호도 똑같이 말해야 합니다. 텍스트는 저장된 그대로 입력됩니다.",
       "cancel": "취소",
-      "add": "단편 추가",
+      "add": "스니펫 추가",
       "save": "저장",
       "close": "닫기",
-      "duplicate": "“{{trigger}}”는 이미 이 텍스트와 함께 저장되어 있습니다.",
-      "conflict": "“{{trigger}}”는 이미 다른 텍스트와 함께 스티프트입니다.",
-      "replaceExisting": "그걸 대체",
-      "missing": "이 스니프트는 그 사이에 삭제되었습니다.",
-      "failed": "그게 저장되지 않았습니다. 다시 시도해 주세요."
+      "duplicate": "‘{{trigger}}’은(는) 이미 이 텍스트로 저장되어 있습니다.",
+      "conflict": "‘{{trigger}}’은(는) 이미 다른 텍스트의 스니펫입니다.",
+      "replaceExisting": "대치",
+      "missing": "그 사이에 이 스니펫이 삭제되었습니다.",
+      "failed": "저장할 수 없습니다. 다시 시도하세요."
     },
     "import": {
-      "open": "导入",
-      "title": "단편을 가져오기",
-      "description": "스프레드시트를 CSV로 저장하여 스니펫을 가져옵니다.",
-      "fieldTrigger": "당신이 말하는 것",
-      "fieldBody": "작성할 텍스트",
+      "open": "가져오기",
+      "title": "스니펫 가져오기",
+      "description": "CSV로 저장한 스프레드시트에서 스니펫을 가져옵니다.",
+      "fieldTrigger": "말할 내용",
+      "fieldBody": "입력할 텍스트",
       "format": {
-        "intro": "하나의 스티커를 한 줄에:",
-        "columns": "첫 번째 열은 당신이 말하는 내용이고, 두 번째 열은 쓸 내용입니다.",
-        "lines": "줄바꿈이 포함된 텍스트는 따옴표 안에 입력되며, 스프레드시트 앱이 저장할 때 그럴 때가 있습니다.",
-        "encoding": "CSV UTF-8로 저장하여 어코스와 기타 문자가 올 수 있도록 합니다.",
-        "limits_other": "당신이 말하는 내용은 {{max}}자까지, 텍스트는 {{maxBody}}까지이며, 파일당 최대 1,000행과 3MB입니다."
+        "intro": "한 행에 스니펫 하나:",
+        "columns": "첫 번째 열은 말할 내용이고, 두 번째 열은 입력할 텍스트입니다.",
+        "lines": "줄 바꿈이 있는 텍스트는 스프레드시트 앱이 저장하는 방식대로 따옴표로 묶입니다.",
+        "encoding": "악센트 부호와 다른 문자가 올바르게 유지되도록 CSV UTF-8로 저장하세요.",
+        "limits_other": "말할 내용은 최대 {{max}}자, 텍스트는 최대 {{maxBody}}자, 파일당 최대 1,000행 및 3MB까지 가능합니다."
       },
       "review": {
-        "new_other": "새로운 스니프트",
+        "new_other": "새 스니펫",
         "duplicates_other": "이미 있음",
         "conflicts_other": "충돌",
         "invalid_other": "가져올 수 없음",
-        "overLimit_other": "더 {{room}} 개의 공간이 있습니다; {{count}} 개의 새 스니프트가 들어가지 않습니다.",
-        "ignoredRows_other": "첫 1,000개 행만 읽힘; {{count}}개 더 생략됨.",
-        "showNew": "새로운 스니프트를 표시",
-        "more_other": "그리고 {{count}}개 더",
-        "conflictsTitle": "이미 다른 텍스트와 함께 저장됨",
-        "conflictsHelp": "파일의 텍스트가 당신의 텍스트를 대체해야 할 경우 체크하세요.",
-        "useAllFile": "모든 파일의 텍스트를 사용합니다",
-        "keepAllMine": "모든 것을 내 것이 되게 하기",
-        "useFile": "파일의:",
-        "yours": "당신의:",
-        "showInvalid": "입력이 불가능한 행을 표시",
-        "invalidRow": "행 {{row}} ({{trigger}}): {{reason}}"
+        "overLimit_other": "{{room}}개를 더 저장할 수 있습니다. 새 스니펫 {{count}}개는 들어가지 않습니다.",
+        "ignoredRows_other": "처음 1,000행만 읽습니다. 나머지 {{count}}행은 제외됩니다.",
+        "showNew": "새 스니펫 보기",
+        "more_other": "외 {{count}}개",
+        "conflictsTitle": "이미 다른 텍스트로 저장됨",
+        "conflictsHelp": "파일의 텍스트로 대치할 항목을 선택하세요.",
+        "useAllFile": "모두 파일의 텍스트 사용",
+        "keepAllMine": "모두 내 것으로 유지",
+        "useFile": "파일의 텍스트:",
+        "yours": "내 텍스트:",
+        "showInvalid": "가져올 수 없는 행 보기",
+        "invalidRow": "{{row}}행({{trigger}}): {{reason}}"
       },
       "done": {
-        "title_other": "{{count}} 스니프트가 임포트되었습니다",
-        "added_other": "{{count}} 추가됨",
-        "replaced_other": "{{count}} 개가 파일의 텍스트로 대체되었습니다",
-        "skipped_other": "{{count}} 이미 있음, 건너뜀",
-        "kept_other": "{{count}} 충돌이 그대로 유지되었습니다",
-        "invalid_other": "{{count}} 행이 임포트되지 않았습니다",
-        "overLimit_other": "{{count}}이 들어가지 않았습니다"
+        "title_other": "스니펫 {{count}}개를 가져옴",
+        "added_other": "{{count}}개 추가됨",
+        "replaced_other": "{{count}}개를 파일의 텍스트로 대치함",
+        "skipped_other": "{{count}}개는 이미 있어 건너뜀",
+        "kept_other": "충돌 {{count}}개를 그대로 유지함",
+        "invalid_other": "{{count}}개 행을 가져올 수 없음",
+        "overLimit_other": "{{count}}개는 공간이 부족해 추가되지 않음"
       }
     },
     "export": {
       "open": "내보내기",
-      "fileName": "{{appName}} snippets.csv",
-      "done_other": "{{count}}개의 스니프트를 내보냈습니다.",
-      "failed": "스니펫을 내보내지 못했습니다. 다시 시도해 보세요."
+      "fileName": "{{appName}} 스니펫.csv",
+      "done_other": "스니펫 {{count}}개를 내보냈습니다.",
+      "failed": "스니펫을 내보낼 수 없습니다. 다시 시도하세요."
     }
   },
   "insights": {
     "tabs": {
-      "label": "인사이트",
+      "label": "통계",
       "usage": "사용량",
       "voice": "음성"
     },
-    "asOf": "당신의 숫자는 {{date}} 기준입니다",
-    "unavailable": "지금 인사이트를 읽을 수 없습니다. 잠시 후에 나타날 것입니다.",
+    "asOf": "{{date}} 기준 통계",
+    "unavailable": "지금은 통계를 읽을 수 없습니다. 잠시 후에 표시됩니다.",
     "save": {
       "button": "이미지로 저장",
-      "fileName": "{{appName}} insights {{date}}.png",
+      "fileName": "{{appName}} 통계 {{date}}.png",
       "filter": "PNG 이미지",
       "done": "이미지를 저장했습니다.",
       "failed": "이미지를 저장할 수 없습니다. 다시 시도하세요."
     },
     "speed": {
       "title": "말하기 속도",
-      "value": "{{wpm}} wpm",
-      "notEnough": "약간 더 말해 보세요. 속도를 확인하세요.",
-      "measured": "타이핑 속도 {{typing}} wpm의 {{ratio}}×",
-      "average": "평균 타이핑 속도의 {{ratio}}× ({{typing}} wpm)"
+      "value": "분당 {{wpm}}단어",
+      "notEnough": "조금 더 받아쓰기하면 속도를 확인할 수 있습니다.",
+      "measured": "타이핑 속도(분당 {{typing}}단어)의 {{ratio}}배",
+      "average": "평균 타이핑 속도(분당 {{typing}}단어)의 {{ratio}}배"
     },
     "words": {
-      "title": "전체 단어",
-      "dictations_other": "in {{count, number}} dictations"
+      "title": "총 단어 수",
+      "dictations_other": "받아쓰기 {{count, number}}회"
     },
     "fixes": {
-      "title": "수정된 내용",
+      "title": "수정 횟수",
       "dictionary": "사전 수정",
-      "ai": "AI 정리 수정 사항"
+      "ai": "AI 정리 수정"
     },
     "categories": {
-      "title": "어디에서 디테이트하는가",
-      "empty": "몇 가지 앱에서 말로 입력해보세요. 당신의 말이 어디로 가는지 확인하세요.",
-      "words_other": "{{count, number}} 단어",
+      "title": "받아쓰기한 곳",
+      "empty": "몇몇 앱에서 받아쓰기하면 어디에 입력했는지 확인할 수 있습니다.",
+      "words_other": "{{count, number}}단어",
       "documents": "문서",
       "ai_prompts": "AI 프롬프트",
       "email": "이메일",
-      "work": "직장 메시지",
+      "work": "업무 메시지",
       "personal": "개인 메시지",
-      "other": "다른 모든 것"
+      "other": "기타"
     },
     "heatmap": {
-      "title": "당신의 연속 기록",
-      "current": "현재 스티커",
-      "longest": "가장 긴 연속",
+      "title": "연속 기록",
+      "current": "현재 연속 기록",
+      "longest": "최장 연속 기록",
       "days_other": "{{count, number}}일",
-      "active_other": "지난 1년 동안 dictation을 {{count, number}}일 동안 사용했습니다",
-      "day_other": "{{date}}: {{count, number}} 단어",
-      "less": "덜",
-      "more": "더 보기",
+      "active_other": "지난 1년 동안 {{count, number}}일 받아쓰기함",
+      "day_other": "{{date}}: {{count, number}}단어",
+      "less": "적음",
+      "more": "많음",
       "band0": "단어 없음",
-      "band1": "1에서 249단어",
-      "band2": "250에서 499단어",
-      "band3": "500에서 749단어",
-      "band4": "750자 이상"
+      "band1": "1~249단어",
+      "band2": "250~499단어",
+      "band3": "500~749단어",
+      "band4": "750단어 이상"
     },
     "voice": {
-      "locked": "잠겨 있음",
-      "phrase": "당신의 문장",
-      "phraseIn_other": "다른 {{count, number}}개의 디타이션에서",
-      "peak": "피크 시간 및 앱",
-      "peakApp": "가장 많은 단어: {{app}}",
-      "word": "가장 자주 사용되는 단어",
-      "uses_other": "{{count, number}}회 사용",
-      "corrected": "가장 수정된 단어",
+      "locked": "잠김",
+      "phrase": "자주 쓰는 문구",
+      "phraseIn_other": "받아쓰기 {{count, number}}회에서 사용",
+      "peak": "가장 활발한 시간과 앱",
+      "peakApp": "{{app}}에서 가장 많이 입력",
+      "word": "가장 많이 쓴 단어",
+      "uses_other": "{{count, number}}회 사용됨",
+      "corrected": "가장 많이 수정된 단어",
       "pair": "{{heard}} → {{written}}",
-      "fixed_other": "수정한 횟수: {{count, number}}회",
-      "notEnough": "아직 충분한 음성 입력이 없습니다.",
-      "footnote_other": "이 Mac에서 최근 {{count, number}}개의 디타이션을 처리했습니다. 아무것도 Mac에서 나가지 않습니다.",
+      "fixed_other": "{{count, number}}회 수정됨",
+      "notEnough": "아직 받아쓰기가 충분하지 않습니다.",
+      "footnote_other": "최근 받아쓰기 {{count, number}}회를 바탕으로 이 Mac에서 계산했습니다. 어떤 데이터도 Mac 밖으로 나가지 않습니다.",
       "sample": {
-        "phrase": "자주 말하는 문장",
-        "peak": "하루 중의 시간",
-        "word": "좋아하는 단어",
-        "corrected": "정해진 단어"
+        "phrase": "자주 말하는 문구",
+        "peak": "하루 중 특정 시간",
+        "word": "즐겨 쓰는 단어",
+        "corrected": "자주 수정되는 단어"
       },
-      "lockedTitle_other": "당신의 음성 프로필은 {{goal}} 단어를 입력할 때 풀립니다",
-      "lockedBody_other": "계속 받아쓰기: 지금까지 {{current}}개의 {{goal}}개 단어를 받아쓰기했습니다. 그런 다음 가장 자주 사용하는 문장, 받아쓰기할 때의 시간과 장소, 그리고 {{appName}}이 자동으로 고치는 단어를 확인할 수 있습니다."
+      "lockedTitle_other": "{{goal}}단어가 되면 음성 프로필이 잠금 해제됩니다",
+      "lockedBody_other": "계속 받아쓰기하세요. 지금까지 {{goal}}단어 중 {{current}}단어를 입력했습니다. 잠금이 해제되면 가장 많이 쓰는 문구, 받아쓰기하는 시간과 장소, {{appName}}이(가) 수정해 주는 단어를 볼 수 있습니다."
     }
   },
   "history": {
-    "title": "이력",
+    "title": "기록",
     "today": "오늘",
     "yesterday": "어제",
-    "rowLabel": "dictation at {{time}}",
-    "loading": "dictation을 로딩 중입니다…",
-    "loadingMore": "더 로딩 중...",
-    "unavailable": "이력은 아직 사용할 수 없습니다. 앱이 시작을 완료하면 나타납니다.",
+    "rowLabel": "{{time}} 받아쓰기",
+    "loading": "받아쓰기를 불러오는 중…",
+    "loadingMore": "더 불러오는 중…",
+    "unavailable": "기록을 아직 사용할 수 없습니다. 앱 시작이 완료되면 바로 표시됩니다.",
     "empty": {
-      "body": "어떤 앱에서든 fn을 누르고 말하기 시작하세요. 모든 받아쓰기는 여기, 이 맥에서 저장됩니다."
+      "body": "아무 앱에서나 fn을 누른 채로 말하세요. 모든 받아쓰기는 이 Mac의 여기에 보관됩니다."
     },
     "noResults": {
-      "title": "아무것도 찾지 못함",
-      "body": "디타이션에 \"{{query}}\"가 없습니다."
+      "title": "찾은 항목 없음",
+      "body": "‘{{query}}’이(가) 포함된 받아쓰기가 없습니다."
     },
-    "results_other": "{{count}} 개의 디타이션을 찾았습니다",
-    "resultsMore_other": "가장 최근의 {{count}}개 결과. 더 보기 위해 스크롤하세요.",
+    "results_other": "받아쓰기 {{count}}개 찾음",
+    "resultsMore_other": "가장 최근에 일치하는 {{count}}개 항목입니다. 더 보려면 스크롤하세요.",
     "search": {
-      "open": "검색 기록",
-      "label": "당신의 디타이션을 검색",
-      "placeholder": "dictation을 검색",
-      "close": "검색 종료"
+      "open": "기록 검색",
+      "label": "받아쓰기 검색",
+      "placeholder": "받아쓰기 검색",
+      "close": "검색 닫기"
     },
-    "transcribeFile": "파일을 텍스트로 변환합니다…",
-    "transcribeFailed": "그 파일을 열 수 없습니다. 다시 시도해 주세요.",
+    "transcribeFile": "파일 전사…",
+    "transcribeFailed": "파일을 열 수 없습니다. 다시 시도하세요.",
     "showMore": "더 보기",
-    "showLess": "less 보이기",
-    "failed": "번역이 실패했습니다. ⋮ 메뉴에서 다시 번역을 시도해 보세요.",
-    "waitingForModel": "스피치 모델을 기다리고 있습니다",
-    "notTranscribed": "아직 기록되지 않았습니다.",
+    "showLess": "간략히 보기",
+    "failed": "전사하지 못했습니다. ⋮ 메뉴에서 ‘전사 다시 시도’를 사용해 보세요.",
+    "waitingForModel": "음성 모델 대기 중",
+    "notTranscribed": "아직 전사되지 않았습니다.",
     "job": {
-      "waiting": "기록 중 대기 중…",
-      "transcribing": "번역 중...",
-      "percent": "번역 중… {{percent}}%"
+      "waiting": "전사 대기 중…",
+      "transcribing": "전사 중…",
+      "percent": "전사 중… {{percent}}%"
     },
     "tag": {
       "file": "파일",
-      "practice": "실습",
+      "practice": "연습",
       "raw": "AI 정리 전",
       "flagged": "표시됨"
     },
@@ -1663,109 +1663,109 @@
       "hidePlayer": "플레이어 숨기기",
       "copy": "텍스트 복사",
       "copied": "복사됨",
-      "flag": "틀린 단어? 고치기",
-      "more": "더 많은 작업"
+      "flag": "틀린 단어가 있나요? 수정하기",
+      "more": "기타 동작"
     },
     "menu": {
-      "label": "Dictation actions",
-      "undoAi": "AI 편집 취소",
-      "redoAi": "AI 편집 다시하기",
-      "retry": "변경 내용 다시 시도",
+      "label": "받아쓰기 동작",
+      "undoAi": "AI 편집 실행 취소",
+      "redoAi": "AI 편집 실행 복귀",
+      "retry": "전사 다시 시도",
       "retryAt": {
-        "none": "재시도 없이 정리하지 않기",
-        "light": "light cleanup으로 다시 시도",
-        "medium": "중간 정리로 재시도"
+        "none": "정리 없이 다시 시도",
+        "light": "가볍게 정리하여 다시 시도",
+        "medium": "보통으로 정리하여 다시 시도"
       },
-      "saveAudio": "오디오를 저장하기",
-      "delete": "기록 삭제"
+      "saveAudio": "오디오를 다른 이름으로 저장…",
+      "delete": "전사본 삭제"
     },
     "audio": {
-      "expired_other": "오디오가 {{count}}일 후 제거됨",
-      "removed": "오디오 삭제됨",
-      "missing": "이 디타이션에 녹음이 없습니다",
+      "expired_other": "{{count}}일이 지나 오디오가 제거됨",
+      "removed": "오디오가 제거됨",
+      "missing": "이 받아쓰기에 대한 녹음 없음",
       "filter": "WAV 오디오",
-      "saved": "녹음이 저장되었습니다.",
-      "saveFailed": "녹음이 저장되지 않았습니다. 다시 시도해 주세요."
+      "saved": "녹음을 저장했습니다.",
+      "saveFailed": "녹음을 저장할 수 없습니다. 다시 시도하세요."
     },
-    "copyFailed": "텍스트를 복사할 수 없습니다. 다시 시도해 주세요.",
-    "actionFailed": "그것은 실패했습니다. 다시 시도해 주세요.",
+    "copyFailed": "텍스트를 복사할 수 없습니다. 다시 시도하세요.",
+    "actionFailed": "작업을 수행하지 못했습니다. 다시 시도하세요.",
     "deleted": "삭제됨",
-    "undo": "되돌리기",
-    "deleteFailed": "그 디타이션을 삭제할 수 없습니다. 다시 시도해 주세요.",
-    "undoFailed": "그 딕테이션을 되돌릴 수 없습니다.",
+    "undo": "실행 취소",
+    "deleteFailed": "받아쓰기를 삭제할 수 없습니다. 다시 시도하세요.",
+    "undoFailed": "너무 늦어서 받아쓰기를 되살릴 수 없습니다.",
     "flag": {
-      "title": "틀린 단어인가요?",
-      "description": "틀린 단어를 선택하고 올바른 방식으로 입력하세요. 이제 사전이 그 오류를 수정합니다.",
+      "title": "틀린 단어가 있나요?",
+      "description": "잘못 입력된 단어를 선택하고 올바르게 입력하세요. 이제부터 사전이 자동으로 수정합니다.",
       "close": "닫기",
       "cancel": "취소",
       "save": "사전에 추가",
-      "pick": "틀린 단어를 선택하세요 (몇 개의 단어에는 다음 단어도 선택하세요)",
-      "noWords": "이 딕테이션에는 선택할 수 있는 단어가 없습니다.",
-      "correction": "맞춤",
-      "correctionFor": "“{{word}}”의 맞춤법을 고치기",
-      "correctionPlaceholder": "그렇게 입력하세요",
-      "kindLabel": "추가할 내용",
-      "rule": "매번 바꾸기",
-      "ruleHint": "대체 항목을 추가하여 같은 실수를 모든 디타이션에서 수정합니다.",
-      "ruleHintFilled": "“{{from}}”은 모든 디타이션에서 “{{to}}”가 됩니다.",
-      "word": "스파이닝을 가르치기",
-      "wordHint": "단어를 추가하면 앱이 그 단어를 말할 때 인식할 수 있습니다.",
-      "duplicate": "그것은 이미 당신의 사전에 있습니다.",
-      "failed": "그것을 저장할 수 없습니다. 다시 시도해 주세요.",
-      "savedRule": "이제부터 \"{{from}}\"은 \"{{to}}\"가 됩니다.",
-      "savedWord": "“{{word}}”은 당신의 사전에 있습니다.",
+      "pick": "틀린 단어 선택(여러 단어인 경우 다음 단어도 선택)",
+      "noWords": "이 받아쓰기에는 선택할 단어가 없습니다.",
+      "correction": "올바른 철자",
+      "correctionFor": "‘{{word}}’의 올바른 철자",
+      "correctionPlaceholder": "올바른 표기를 입력하세요",
+      "kindLabel": "추가할 항목",
+      "rule": "항상 대치",
+      "ruleHint": "대치 규칙을 추가하여 모든 받아쓰기에서 같은 실수를 수정합니다.",
+      "ruleHintFilled": "모든 받아쓰기에서 ‘{{from}}’이(가) ‘{{to}}’(으)로 바뀝니다.",
+      "word": "철자 알려주기",
+      "wordHint": "단어를 추가하여 말할 때 앱이 알아들을 수 있게 합니다.",
+      "duplicate": "이미 사전에 있습니다.",
+      "failed": "저장할 수 없습니다. 다시 시도하세요.",
+      "savedRule": "이제부터 ‘{{from}}’이(가) ‘{{to}}’(으)로 바뀝니다.",
+      "savedWord": "‘{{word}}’이(가) 사전에 추가되었습니다.",
       "openDictionary": "사전 열기"
     }
   },
   "scratchpad": {
-    "newNote": "새 노트",
-    "preferences": "스크래치패드 선호도",
+    "newNote": "새로운 메모",
+    "preferences": "스크래치패드 설정",
     "addToBar": "바에 추가",
-    "addToBarHelp": "Dictate 바로 옆에 Scratchpad 버튼을 유지하세요.",
-    "recents": "최근",
-    "searchLabel": "노트 검색",
-    "searchPlaceholder": "노트 검색",
-    "loading": "노트를 로딩 중입니다…",
-    "empty": "아직 노트가 없습니다",
-    "emptyHelp": "노트를 시작한 후, 떠 있는 창에 입력하거나 음성으로 입력하세요.",
-    "emptyNote": "빈 노트",
-    "noResults": "검색 결과가 없습니다.",
-    "untitled": "제목 없음",
-    "pinned": "고정된",
-    "pin": "노트 고정",
-    "unpin": "노트 해제",
-    "editAction": "노트 편집",
+    "addToBarHelp": "대기 중인 바의 받아쓰기 버튼 옆에 스크래치패드 버튼을 표시합니다.",
+    "recents": "최근 항목",
+    "searchLabel": "메모 검색",
+    "searchPlaceholder": "메모 검색",
+    "loading": "메모를 불러오는 중…",
+    "empty": "아직 메모 없음",
+    "emptyHelp": "메모를 시작한 다음, 떠 있는 윈도우에 입력하거나 받아쓰기하세요.",
+    "emptyNote": "빈 메모",
+    "noResults": "검색과 일치하는 메모가 없습니다.",
+    "untitled": "제목 없는 메모",
+    "pinned": "고정됨",
+    "pin": "메모 고정",
+    "unpin": "메모 고정 해제",
+    "editAction": "메모 편집",
     "edit": "{{name}} 편집",
-    "delete": "노트 삭제",
-    "deleteConfirm": "“{{name}}”를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
-    "error": "스크래치패드가 그 작업을 완료하지 못했습니다. 현재 텍스트는 여전히 여기에 있습니다; 다시 시도해 보세요.",
+    "delete": "메모 삭제",
+    "deleteConfirm": "‘{{name}}’을(를) 삭제하겠습니까? 이 작업은 실행 취소할 수 없습니다.",
+    "error": "스크래치패드에서 작업을 완료할 수 없습니다. 현재 텍스트는 그대로 있으니 다시 시도하세요.",
     "shortcut": {
-      "label": "단축키 열기",
+      "label": "열기 단축키",
       "change": "단축키 설정",
-      "title": "Scratchpad 단축키",
-      "help": "어디서든 스캐치패드를 열 수 있습니다. 처음에는 설정이 없으므로 키를 잡는 것은 선택한 후부터 시작됩니다.",
-      "close": "닫기 단축키 대화상자",
+      "title": "스크래치패드 단축키",
+      "help": "어디서든 스크래치패드를 엽니다. 처음에는 설정되어 있지 않으므로 직접 선택하기 전까지는 어떤 키도 가로채지 않습니다.",
+      "close": "단축키 대화상자 닫기",
       "proposed": "제안된 조합",
-      "ctrlOptionS": "컨트롤 + 옵션 + S",
-      "use": "컨트롤 + 옵션 + S 사용",
-      "chooseAnother": "다른 단축키를 선택하세요",
-      "error": "그 단축키를 저장할 수 없습니다. 다른 조합을 시도해 보세요."
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Control + Option + S 사용",
+      "chooseAnother": "다른 단축키 선택",
+      "error": "단축키를 저장할 수 없습니다. 다른 조합을 사용해 보세요."
     },
-    "tabs": "노트 열기",
-    "tools": "노트 도구",
-    "sidebar": "노트 목록 표시",
-    "polish": "노트에 Polish 적용",
-    "polishing": "스크래치패드. Polish…",
-    "textSize": "글자 크기 변경 (현재 {{size}} 포인트)",
-    "expand": "노트 창 확장",
-    "shrink": "노트 창 크기 복원",
-    "close": "스캐치패드 닫기",
-    "noteBody": "노트 텍스트",
-    "notePlaceholder": "노트를 작성하거나 음성으로 입력하세요…",
+    "tabs": "열린 메모",
+    "tools": "메모 도구",
+    "sidebar": "메모 목록 보기",
+    "polish": "메모에 Polish 적용",
+    "polishing": "Polish 적용 중…",
+    "textSize": "텍스트 크기 변경(현재 {{size}}포인트)",
+    "expand": "메모 윈도우 확장",
+    "shrink": "메모 윈도우 크기 복원",
+    "close": "스크래치패드 닫기",
+    "noteBody": "메모 텍스트",
+    "notePlaceholder": "메모를 작성하거나 받아쓰기하세요…",
     "saved": "저장됨",
-    "saving": "저장 중...",
-    "saveError": "아직 저장되지 않았음",
-    "autosaveHelp": "자동으로 저장합니다",
+    "saving": "저장 중…",
+    "saveError": "아직 저장되지 않음",
+    "autosaveHelp": "자동으로 저장됨",
     "copy": "복사",
     "copied": "복사됨"
   },
@@ -1775,450 +1775,450 @@
       "personal": {
         "tab": "개인 메시지",
         "label": "개인 메시지",
-        "description": "친구와 가족과의 대화, 예: 메시지, 와이파이, 텔레그램, 시그널, 디스코드"
+        "description": "메시지, WhatsApp, Telegram, Signal, Discord 등 친구 및 가족과의 채팅."
       },
       "work": {
-        "tab": "직장 메시지",
-        "label": "근무 메시지",
-        "description": "동료들과의 대화, 예: 슬랙, 마이크로소프트 팀스, 구글 채팅"
+        "tab": "업무 메시지",
+        "label": "업무 메시지",
+        "description": "Slack, Microsoft Teams, Google Chat 등 동료와의 채팅."
       },
       "email": {
         "tab": "이메일",
         "label": "이메일",
-        "description": "이메일 앱들, 예: 마일, 옵타이트, 스파크 및 슈퍼하이먼"
+        "description": "Mail, Outlook, Spark, Superhuman 등 이메일 앱."
       },
       "other": {
-        "tab": "다른",
-        "label": "다른",
-        "description": "다른 모든 앱: 노트, 문서, 코드 편집기 등"
+        "tab": "기타",
+        "label": "기타",
+        "description": "메모, 문서, 코드 편집기 등 그 밖의 모든 앱."
       }
     },
     "presets": {
       "formal": {
-        "label": "공식",
-        "description": "대문자와 완전한 문장 부호."
+        "label": "격식 있게",
+        "description": "대문자와 모든 문장 부호를 사용합니다."
       },
       "relaxed": {
-        "label": "편안한",
-        "description": "대문자, 더 얇은 문장 부호."
+        "label": "편안하게",
+        "description": "대문자를 사용하고 문장 부호는 가볍게 씁니다."
       },
       "very_relaxed": {
-        "label": "매우 느린",
-        "description": "문장 시작 부분에 소문자, 문장 끝에 가볍게 문장 부호"
+        "label": "아주 편안하게",
+        "description": "문장을 소문자로 시작하고 문장 부호는 가볍게 씁니다."
       },
       "upbeat": {
-        "label": "기분 좋은",
-        "description": "완전한 문장 부호를 포함하고, 약간 더 에너지 있게."
+        "label": "활기차게",
+        "description": "모든 문장 부호를 사용하고 조금 더 활기차게 씁니다."
       }
     },
     "presetsHeading": "스타일",
-    "presetsLegend": "스타일: {{group}}",
-    "before": "당신이 말하는 것",
-    "after": "작성되는 내용은:",
-    "englishOnly": "스타일은 영어 디타이션에 적용됩니다. 정리 작업은 모든 언어에서 작동합니다.",
+    "presetsLegend": "{{group}} 스타일",
+    "before": "말한 내용",
+    "after": "입력되는 내용:",
+    "englishOnly": "스타일은 영어 받아쓰기에만 적용됩니다. 정리는 모든 언어에서 작동합니다.",
     "apps": {
       "heading": "이 앱에서 사용",
-      "listLabel": "{{group}} 스타일을 사용하는 앱들",
+      "listLabel": "{{group}} 스타일을 사용하는 앱",
       "addShort": "앱 추가",
-      "allOthers": "다른 그룹에 속하지 않는 모든 앱은 이 스타일을 사용합니다.",
-      "empty": "여기 아직 앱이 없어요. 앱을 추가하려면 '앱 추가'를 클릭하세요.",
-      "unavailable": "앱들이 로드되지 않았습니다. 앱이 준비되면 나타날 것입니다.",
+      "allOthers": "다른 그룹에 없는 모든 앱도 이 스타일을 사용합니다.",
+      "empty": "아직 앱이 없습니다. ‘앱 추가’로 추가하세요.",
+      "unavailable": "앱을 불러올 수 없습니다. 앱이 준비되면 표시됩니다.",
       "chipLabel": "{{app}}: 옵션",
-      "menuLabel": "{{app}}의 옵션",
-      "moveTo": "이동",
-      "useDefault": "기본 그룹으로 돌아가기 ({{group}})",
+      "menuLabel": "{{app}} 옵션",
+      "moveTo": "이동할 위치",
+      "useDefault": "기본 그룹({{group}})으로 되돌리기",
       "remove": "{{group}}에서 제거",
-      "autoSend": "dictation 후 Enter를 누르세요",
-      "autoSendOn": "dictation 후 Enter를 누름",
+      "autoSend": "받아쓰기 후 Return 키 누르기",
+      "autoSendOn": "받아쓰기 후 Return 키를 누름",
       "notInstalled": "설치되지 않음",
-      "aiChat": "AI 채팅: 당신의 말은 정리되어 들어가며 스타일이 없음",
-      "moved": "이제 {{app}}은 {{group}} 스타일을 사용합니다.",
-      "removed": "{{app}} 이제는 Other 스타일을 사용합니다.",
-      "added": "이제 {{app}}은 {{group}} 스타일을 사용합니다.",
-      "undo": "되돌리기",
-      "changeFailed": "그 변경이 저장되지 않았습니다. 다시 시도해 주세요."
+      "aiChat": "AI 채팅: 스타일 없이 정리된 내용만 입력됩니다.",
+      "moved": "이제 {{app}}에서 {{group}} 스타일을 사용합니다.",
+      "removed": "이제 {{app}}에서 기타 스타일을 사용합니다.",
+      "added": "이제 {{app}}에서 {{group}} 스타일을 사용합니다.",
+      "undo": "실행 취소",
+      "changeFailed": "변경 사항이 저장되지 않았습니다. 다시 시도하세요."
     },
     "sites": {
       "heading": "이 사이트에서 사용",
-      "listLabel": "{{group}} 스타일을 사용하는 사이트들"
+      "listLabel": "{{group}} 스타일을 사용하는 사이트"
     },
     "picker": {
-      "title": "앱을 {{group}}에 추가",
-      "description": "이 맥의 앱을 선택하세요. 그 앱의 디타이션은 {{group}} 스타일을 사용합니다.",
+      "title": "{{group}}에 앱 추가",
+      "description": "이 Mac에 있는 앱을 선택하세요. 해당 앱의 받아쓰기에 {{group}} 스타일이 적용됩니다.",
       "search": "앱 검색",
-      "listLabel": "이 맥에 설치된 앱",
-      "loading": "앱을 찾고 있어요…",
-      "failed": "이 맥의 앱을 목록으로 표시할 수 없습니다.",
-      "none": "어떤 앱도 일치하지 않습니다.",
-      "inGroup": "그룹 내에서 {{group}}",
-      "alreadyHere": "이미 여기에",
+      "listLabel": "이 Mac의 앱",
+      "loading": "앱을 찾는 중…",
+      "failed": "이 Mac의 앱 목록을 가져올 수 없습니다.",
+      "none": "일치하는 앱이 없습니다.",
+      "inGroup": "{{group}}에 있음",
+      "alreadyHere": "이미 추가됨",
       "cancel": "취소",
       "close": "닫기"
     },
     "cleanup": {
       "tab": "정리",
-      "description": "각 앱과 언어에서 문장이 정리되는 정도. 각 그룹의 스타일이 위에 적용됩니다."
+      "description": "모든 앱과 언어에서 말한 내용을 얼마나 다듬을지 정합니다. 각 그룹의 스타일은 그 위에 적용됩니다."
     }
   },
   "onboardingFlow": {
-    "loading": "준비 중…",
+    "loading": "준비하는 중…",
     "back": "뒤로",
     "continue": "계속",
-    "yes": "네",
+    "yes": "예",
     "no": "아니요",
-    "downloadHint": "스피치 설정은 배경에서 계속 진행됩니다. 여기서 기다려야 할 필요가 없습니다.",
-    "navigationFailed": "그 단계를 저장할 수 없습니다. 다시 시도하세요.",
+    "downloadHint": "음성 설정은 백그라운드에서 계속 진행됩니다. 여기서 기다릴 필요가 없습니다.",
+    "navigationFailed": "이 단계를 저장할 수 없습니다. 다시 시도하세요.",
     "stepper": {
       "label": "설정 진행 상황",
       "welcome": "환영합니다",
       "permissions": "권한",
-      "setup": "설치",
-      "practice": "실습",
+      "setup": "설정",
+      "practice": "연습",
       "done": "(완료)"
     },
     "help": {
-      "chip": "도움",
-      "title": "설치를 위한 도움",
+      "chip": "도움말",
+      "title": "설정 도움말",
       "close": "도움말 닫기",
-      "done": "알겠습니다",
-      "body": "각 단계는 몇 초만 걸립니다. 언제든지 되돌릴 수 있고, 중단하면 설정은 끝나기 전까지의 위치에서 다시 시작됩니다.",
-      "download": "Wispr Bro는 이 맥에서 음성 인식을 설정하면서 이 단계들을 진행합니다. 준비되기 전에 말씀하신 내용은 저장되며 준비되면 자동으로 입력됩니다."
+      "done": "확인",
+      "body": "각 단계는 몇 초면 끝납니다. 언제든지 뒤로 갈 수 있으며, 종료하더라도 중단한 곳에서 설정이 이어집니다.",
+      "download": "이 단계를 진행하는 동안 Wispr Bro가 이 Mac에 음성 인식을 설정합니다. 준비되기 전에 받아쓰기한 내용은 보관되었다가 준비가 끝나면 입력됩니다."
     },
     "welcome": {
-      "title": "말해보세요, 그리고 당신의 말이 나타납니다",
-      "subtitle": "하나의 키를 누르고 말해 보세요, 손을 떼면 깨끗한 텍스트가 입력 중인 곳에 나타납니다.",
-      "privacyTitle": "모든 것이 이 맥에서만 남아요",
-      "privacy": "당신의 목소리와 텍스트는 이 컴퓨터에서만 남습니다. 계정 없이, 클라우드 없이, 추적 없이.",
-      "download": "스피치 설정이 지금 시작되며 배경에서 실행됩니다.",
+      "title": "말하면 글이 됩니다",
+      "subtitle": "키 하나를 누른 채로 말하고 떼세요. 입력 중인 곳에 깔끔한 텍스트가 나타납니다.",
+      "privacyTitle": "모든 것이 이 Mac에 머무릅니다",
+      "privacy": "음성과 텍스트는 절대 이 컴퓨터를 벗어나지 않습니다. 계정도, 클라우드도, 추적도 없습니다.",
+      "download": "음성 설정이 지금 시작되어 백그라운드에서 실행됩니다.",
       "start": "시작하기"
     },
     "move": {
-      "title": "Wispr Bro를 애플리케이션으로 이동",
-      "body": "Wispr Bro는 앱스 폴더 외부에서 실행되고 있습니다. 그걸 앱스 폴더 안으로 이동하면 업데이트와 권한이 정상적으로 작동합니다.",
-      "note": "Wispr Bro는 이동 후 스스로 다시 열리며 설정을 계속합니다.",
-      "action": "애플리케이션으로 이동",
-      "moving": "이동 중...",
-      "skip": "지금 안 해도 돼",
-      "error": "Wispr Bro를 이동할 수 없습니다. Finder의 앱 폴더에 드래그하여 넣고 다시 열어주세요."
+      "title": "Wispr Bro를 응용 프로그램으로 이동",
+      "body": "Wispr Bro가 응용 프로그램 폴더 밖에서 실행되고 있습니다. 응용 프로그램 폴더로 옮기면 업데이트와 권한이 계속 제대로 작동합니다.",
+      "note": "이동 후 Wispr Bro가 자동으로 다시 열리고 설정을 계속합니다.",
+      "action": "응용 프로그램으로 이동",
+      "moving": "이동 중…",
+      "skip": "나중에",
+      "error": "Wispr Bro가 스스로 이동할 수 없습니다. Finder에서 응용 프로그램 폴더로 드래그한 다음 다시 여세요."
     },
     "languages": {
-      "title": "어떤 언어를 말하나요?",
-      "subtitle": "dictate할 언어를 모두 선택하세요. Wispr Bro가 그 언어를 알고 있을 때 문장을 더 잘 정리해 줍니다.",
+      "title": "어떤 언어를 사용하나요?",
+      "subtitle": "받아쓰기할 모든 언어를 선택하세요. 언어를 알면 Wispr Bro가 말한 내용을 훨씬 더 잘 다듬습니다.",
       "listLabel": "언어",
-      "noMatch": "매칭되는 언어가 없습니다 \"{{query}}\".",
-      "count_other": "디타이션은 {{count}}개의 언어에서 작동합니다. 이후 설정에서 변경할 수 있습니다.",
-      "weak_other": "{{languages}}에서 인식 정확도가 낮습니다. 여전히 작동하지만, 더 많은 오류를 기대하세요."
+      "noMatch": "‘{{query}}’과(와) 일치하는 언어가 없습니다.",
+      "count_other": "받아쓰기는 {{count}}개 언어를 지원합니다. 언어는 나중에 설정에서 변경할 수 있습니다.",
+      "weak_other": "{{languages}}의 인식 정확도는 다소 낮습니다. 사용할 수는 있지만 오류가 더 많을 수 있습니다."
     },
     "permissions": {
-      "title": "두 개의 권한",
-      "subtitle": "macOS는 이 설정을 한 번만 허용하도록 요청합니다. 각 행이 켜지면 바로 체크됩니다.",
-      "allowed": "허용",
-      "waiting": "macOS를 기다리는 중...",
+      "title": "두 가지 권한",
+      "subtitle": "macOS에서 이 권한을 한 번만 허용하면 됩니다. 권한이 켜지면 각 행에 바로 체크 표시가 나타납니다.",
+      "allowed": "허용됨",
+      "waiting": "macOS 대기 중…",
       "openSettings": "시스템 설정 열기",
-      "prompt": "macOS 프롬프트",
+      "prompt": "macOS 알림",
       "pane": "시스템 설정에서",
       "microphone": {
         "title": "마이크",
-        "why": "그래서 Wispr Bro가 키를 누를 때 당신의 말을 들을 수 있습니다. 오디오는 이 Mac에서만 처리됩니다.",
+        "why": "키를 누르고 있는 동안 Wispr Bro가 음성을 들을 수 있도록 합니다. 오디오는 이 Mac에서만 처리됩니다.",
         "action": "마이크 허용",
-        "promptAlt": "macOS 마이크로프롬프트 이미지, 허용 버튼이 강조됨",
-        "paneAlt": "시스템 설정, 개인정보 및 보안, 마이크, Wispr Bro 스위치가 켜진 상태의 이미지",
-        "waitingHelp": "macOS 팝업에서 \"허용\"을 클릭하세요. 보이지 않는 경우 시스템 설정을 열고 마이크 아래에 Wispr Bro를 켜주세요."
+        "promptAlt": "‘허용’ 버튼이 강조된 macOS 마이크 알림 이미지",
+        "paneAlt": "Wispr Bro 스위치가 켜진 시스템 설정 > 개인정보 보호 및 보안 > 마이크 화면 이미지",
+        "waitingHelp": "macOS 알림에서 ‘허용’을 클릭하세요. 알림이 보이지 않으면 시스템 설정을 열고 마이크에서 Wispr Bro를 켜세요."
       },
       "accessibility": {
-        "title": "접근성",
-        "why": "그래서 Wispr Bro가 당신의 단축키를 알아보고 사용 중인 앱에 텍스트를 입력할 수 있습니다.",
-        "action": "접근성 허용",
-        "promptAlt": "macOS 접근성 알림의 사진, 시스템 설정 열기 버튼이 강조됨",
-        "paneAlt": "시스템 설정, 개인정보 및 보안, 접근성 화면. Wispr Bro 스위치가 켜져 있는 상태",
-        "waitingHelp": "시스템 설정에서 Wispr Bro 옆의 스위치를 켜주세요. 비밀번호로 잠금을 해제해야 할 수도 있습니다."
+        "title": "손쉬운 사용",
+        "why": "Wispr Bro가 단축키를 인식하고 사용 중인 앱에 텍스트를 입력할 수 있도록 합니다.",
+        "action": "손쉬운 사용 허용",
+        "promptAlt": "‘시스템 설정 열기’ 버튼이 강조된 macOS 손쉬운 사용 알림 이미지",
+        "paneAlt": "Wispr Bro 스위치가 켜진 시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용 화면 이미지",
+        "waitingHelp": "시스템 설정에서 Wispr Bro 옆의 스위치를 켜세요. 암호를 입력하여 잠금을 해제해야 할 수도 있습니다."
       }
     },
     "mic": {
-      "title": "마이크를 테스트합니다",
-      "guidance": "유선 및 내장 마이크가 가장 잘 작동합니다. 블루투스 헤드셋은 연결이 끊기거나 소리가 모호해질 수 있습니다.",
-      "question": "말할 때 막대기가 움직이나요?",
-      "noHelp": "아래에서 다른 마이크를 선택한 후 다시 말해 주세요.",
+      "title": "마이크 테스트",
+      "guidance": "유선 마이크와 내장 마이크가 가장 잘 작동합니다. Bluetooth 헤드셋은 연결이 끊기거나 소리가 뭉개질 수 있습니다.",
+      "question": "말할 때 막대가 움직이나요?",
+      "noHelp": "아래에서 다른 마이크를 선택한 다음 다시 말해 보세요.",
       "change": "마이크 변경",
-      "previewList": "여기에는 귀 기기들이 나타납니다."
+      "previewList": "여기에 마이크가 표시됩니다."
     },
     "shortcut": {
-      "title": "단축키를 테스트해 보세요",
-      "instruction": "키보드上的 fn 키(🌐)를 누르고 들이마세요. 그 키 아래의 키가 눈에 띄게 켜집니다.",
-      "fallbackInstruction": "컨트롤과 옵션을 동시에 누르세요. 두 키를 누를 때 아래의 키들이 밝아집니다.",
-      "unboundInstruction": "디타이션 단축키가 설정되지 않았습니다. 단축키 편집을 사용하여 하나를 선택하세요.",
+      "title": "단축키 테스트",
+      "instruction": "키보드의 fn 키(🌐)를 길게 누르세요. 누르고 있는 동안 아래의 키에 불이 들어옵니다.",
+      "fallbackInstruction": "Control 키와 Option 키를 함께 길게 누르세요. 누르고 있는 동안 아래의 키에 불이 들어옵니다.",
+      "unboundInstruction": "받아쓰기 단축키가 설정되어 있지 않습니다. ‘단축키 편집’에서 단축키를 선택하세요.",
       "keyLabel": "fn 키",
-      "fallbackKeyLabel": "제어 및 옵션",
-      "pressed": "키 누름",
-      "notPressed": "키를 기다리는 중…",
-      "worked": "작동합니다. 키가 켜졌어요.",
-      "question": "키가 깜빡였나요?",
+      "fallbackKeyLabel": "Control 및 Option",
+      "pressed": "키를 누르고 있음",
+      "notPressed": "키 입력 대기 중…",
+      "worked": "작동합니다. 키에 불이 들어왔습니다.",
+      "question": "키에 불이 들어왔나요?",
       "edit": "단축키 편집",
       "tryAgain": "다시 시도",
-      "otherCauses": "아니요? 다른 가능 원인:",
-      "changeFailed": "그 변경이 성공하지 않았습니다. 다시 시도하거나 시스템 설정을 사용하세요.",
+      "otherCauses": "해당되지 않나요? 다른 가능한 원인:",
+      "changeFailed": "변경하지 못했습니다. 다시 시도하거나 시스템 설정을 사용하세요.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro는 키 입력을 보지 못합니다",
-          "title": "Wispr Bro 아직 키 입력을 보지 못합니다",
-          "body": "이것은 일반적으로 Wispr Bro의 접근성 설정이 켜져 있지 않다는 뜻입니다. 시스템 설정에서 접근성을 켜고, 다시 돌아와 \"다시 시도\"를 누르세요.",
-          "action": "접근성 설정 열기"
+          "choice": "Wispr Bro가 키 입력을 감지하지 못함",
+          "title": "Wispr Bro가 아직 키 입력을 감지하지 못합니다",
+          "body": "대개 Wispr Bro에 대해 손쉬운 사용이 꺼져 있다는 뜻입니다. 시스템 설정에서 켠 다음 돌아와서 ‘다시 시도’를 누르세요.",
+          "action": "손쉬운 사용 설정 열기"
         },
         "secure_input": {
-          "choice": "비밀번호 입력란 또는 다른 앱이 키를 차단하고 있습니다",
+          "choice": "암호 필드나 다른 앱이 키 입력을 차단함",
           "title": "다른 앱이 키 입력을 차단하고 있습니다",
-          "body": "비밀번호 입력란이나 일부 앱(비밀번호 관리 프로그램, 터미널의 보안 키보드 입력)이 초점이 있을 때, macOS는 다른 앱에서 키 입력을 숨깁니다. 그 창을 닫거나 클릭하여 초점에서 벗어내고 다시 시도해 보세요.",
-          "active": "지금은 다른 앱이 키 입력을 차단하고 있습니다.",
-          "inactive": "지금은 아무것도 키 입력을 막고 있지 않습니다."
+          "body": "암호 필드나 일부 앱(암호 관리자, 터미널의 보안 키보드 입력)이 활성 상태인 동안에는 macOS가 다른 모든 앱에서 키 입력을 숨깁니다. 해당 창을 닫거나 다른 곳을 클릭한 다음 다시 시도하세요.",
+          "active": "현재 다른 앱이 키 입력을 차단하고 있습니다.",
+          "inactive": "현재 키 입력을 차단하는 것이 없습니다."
         },
         "globe": {
-          "choice": "🌐 키는 이모지를 열거나 키보드를 전환합니다",
-          "title": "macOS는 🌐 키에 자신의 역할을 줍니다",
-          "body": "당신의 Mac은 🌐을 누르면 이모지가 열리거나 입력 소스가 변경되거나 Apple 받아쓰기 기능이 시작됩니다. Wispr Bro는 \"🌐 키를 누르면\"을 \"무작위로 처리\"로 설정할 수 있습니다. fn을 받아쓰기용으로 사용하지 않을 경우 선택은 되돌립니다.",
-          "consent": "🌐를 '무작동'으로 설정",
-          "changed": "🌐 이제 자체적으로 아무것도 하지 않음",
+          "choice": "🌐 키를 누르면 이모티콘이 열리거나 키보드가 전환됨",
+          "title": "macOS가 🌐 키에 다른 기능을 지정했습니다",
+          "body": "🌐 키를 누르면 Mac에서 이모티콘이 열리거나, 입력 소스가 전환되거나, Apple 받아쓰기가 시작됩니다. Wispr Bro에서 ‘🌐 키를 눌러 다음 수행’을 ‘아무 작업 안 함’으로 설정할 수 있습니다. 받아쓰기에 fn을 더 이상 사용하지 않으면 원래 설정으로 되돌립니다.",
+          "consent": "🌐 키를 ‘아무 작업 안 함’으로 설정",
+          "changed": "이제 🌐 키 단독으로는 아무 작업도 하지 않음",
           "open": "키보드 설정 열기"
         },
         "no_fn": {
-          "choice": "내 키보드에는 fn 키가 없습니다",
-          "title": "컨트롤과 옵션을 사용하세요",
-          "body": "일부 키보드에는 fn 또는 🌐 키가 없습니다. 대신 제어(Ctrl)와 옵션(Option)을 동시에 누르세요. 이 설정은 언제든지 설정에서 변경할 수 있습니다.",
-          "action": "컨트롤 + 옵션을 사용하세요",
-          "changed": "컨트롤 + 옵션은 당신의 단축키입니다"
+          "choice": "키보드에 fn 키가 없음",
+          "title": "대신 Control 및 Option 사용",
+          "body": "일부 키보드에는 fn 키나 🌐 키가 없습니다. 대신 Control 키와 Option 키를 함께 누른 채로 받아쓰기하세요. 이 설정은 언제든지 설정에서 변경할 수 있습니다.",
+          "action": "Control + Option 사용",
+          "changed": "단축키가 Control + Option으로 설정됨"
         }
       }
     },
     "practice": {
-      "title": "연습: 전체 이메일, 손이 아닌 상태로",
-      "instruction": "fn과 Space를 동시에 누르고, 말해보세요. 무엇을 누르고 있는지 걱정할 필요가 없습니다. 말을 끝내면 fn을 다시 누르세요. 예: \"안녕, 샘. 메모 감사합니다. 목요일 오후 10시에 만나실 수 있나요?\"",
-      "instructionFallback": "컨트롤, 옵션 및 스페이스를 동시에 누르고 말해보세요. 아무것도 누르지 않아도 됩니다. 말을 끝내면 컨트롤과 옵션을 다시 누르세요. 시도해보세요: \"안녕, 샘, 메모 감사합니다. 목요일 오후 10시에 만나볼 수 있나요?\"",
-      "instructionUnbound": "디타이션 단축키가 설정되지 않았기 때문에 이 연습을 시작할 수 없습니다. 지금은 건너뛰고 설정에서 단축키를 설정하세요.",
+      "title": "연습: 핸즈프리로 이메일 한 통 쓰기",
+      "instruction": "fn 키와 스페이스 바를 함께 누른 다음 말하세요. 키를 계속 누르고 있을 필요는 없습니다. 다 말했으면 fn 키를 다시 누르세요. 이렇게 말해 보세요: “안녕하세요 샘 님, 메모 고마워요. 목요일 10시에 만날 수 있을까요?”",
+      "instructionFallback": "Control, Option, 스페이스 바를 함께 누른 다음 말하세요. 키를 계속 누르고 있을 필요는 없습니다. 다 말했으면 Control과 Option을 다시 누르세요. 이렇게 말해 보세요: “안녕하세요 샘 님, 메모 고마워요. 목요일 10시에 만날 수 있을까요?”",
+      "instructionUnbound": "받아쓰기 단축키가 설정되어 있지 않아 연습을 시작할 수 없습니다. 지금은 건너뛰고 설정에서 단축키를 지정하세요.",
       "skip": "건너뛰기",
-      "waiting": "말을 시작할 때 기다리고 있습니다…",
-      "listening": "청취 중… 완료되면 fn을 누르세요.",
-      "listening_fallback": "청취 중… 완료되면 제어와 옵션을 누르세요.",
-      "working": "글을 쓰는 중...",
+      "waiting": "말하기를 기다리는 중…",
+      "listening": "듣는 중… 다 말했으면 fn 키를 누르세요.",
+      "listening_fallback": "듣는 중… 다 말했으면 Control과 Option을 누르세요.",
+      "working": "받아 적는 중…",
       "settingUp": "설정 중…",
       "settingUpPercent": "설정 중… {{percent}}%",
-      "queuedNote": "당신의 말이 저장되었습니다. 설정이 완료되면 여기에 나타나며, 어떤 경우든 역사에 기록됩니다. 잠시 후 자동으로 진행됩니다.",
-      "nothing": "아무것도 들어오지 않았습니다. 마이크가 켜져 있는지 확인하고 다시 시도해 보세요.",
-      "filled": "그것이 이메일입니다. 더 추가하거나 계속하세요.",
+      "queuedNote": "말한 내용이 저장되었습니다. 설정이 끝나는 대로 여기에 표시되며, 어떤 경우든 기록에 남습니다. 잠시 후 자동으로 다음 단계로 넘어갑니다.",
+      "nothing": "입력된 내용이 없습니다. 마이크가 켜져 있는지 확인하고 다시 시도하세요.",
+      "filled": "이메일이 완성되었습니다. 내용을 더 추가하거나 계속하세요.",
       "composer": {
-        "title": "새 메시지",
-        "to": "to",
-        "recipient": "사마",
+        "title": "새로운 메시지",
+        "to": "받는 사람",
+        "recipient": "샘",
         "subject": "제목",
         "subjectText": "목요일",
         "body": "메시지",
-        "placeholder": "당신의 말이 여기에 나타납니다."
+        "placeholder": "말한 내용이 여기에 표시됩니다."
       }
     },
     "firstDictation": {
-      "title": "그것이 전부야. 당신이 첫 번째 텍스트를 말로 입력했어요.",
-      "subtitle": "어디서든 타이핑할 수 있는 곳에서는 이제 말로 대체할 수 있습니다."
+      "title": "완료되었습니다. 첫 텍스트를 받아쓰기했습니다.",
+      "subtitle": "이제 타이핑할 수 있는 곳이라면 어디서든 말로 입력할 수 있습니다."
     },
     "timeSaved": {
-      "headline_other": "디타이팅을 하면 주당 약 {{hours}} 시간을 절약할 수 있어요",
-      "intro": "말하기는 대부분의 사람에게 타이핑보다 빠릅니다. 30초 타이핑 테스트를 해보세요. 얼마나 많은 시간을 절약할 수 있는지 확인하세요.",
-      "howFast": "얼마나 빨리 타입하나요?",
+      "headline_other": "받아쓰기로 일주일에 약 {{hours}}시간을 절약할 수 있습니다",
+      "intro": "대부분의 사람은 타이핑보다 말하는 것이 더 빠릅니다. 30초 타이핑 테스트로 얼마나 시간을 절약할 수 있는지 확인해 보세요.",
+      "howFast": "타이핑 속도는 어느 정도인가요?",
       "skipTest": "테스트 건너뛰기",
-      "sliderLabel": "하루에 얼마나 많이 타이핑합니까?",
-      "hoursPerDay_other": "하루에 {{hours}} 시간",
-      "takeTest": "타이핑 테스트를 시작하세요",
-      "basisMeasured_other": "당신의 {{wpm}} 단어 분당 입력 속도와 약 {{speaking}} 단어 분당 말하는 속도를 기준으로 합니다.",
-      "basisAverage_other": "분당 평균 {{wpm}} 단어 속도와 말하는 속도가 약 {{speaking}} 단어 분당일 때 기준으로 합니다."
+      "sliderLabel": "하루에 타이핑하는 시간은 얼마나 되나요?",
+      "hoursPerDay_other": "하루 {{hours}}시간",
+      "takeTest": "타이핑 테스트 하기",
+      "basisMeasured_other": "분당 {{wpm}}단어의 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
+      "basisAverage_other": "분당 {{wpm}}단어의 평균 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다."
     },
     "typing": {
-      "title": "얼마나 빨리 타입하나요?",
+      "title": "타이핑 속도는 어느 정도인가요?",
       "skip": "건너뛰기",
       "language": "언어",
-      "wpmPending": "— 글자 분",
-      "wpm_other": "{{count}} 글자 분",
-      "secondsLeft_other": "남은 시간 {{count}}초",
-      "inputLabel": "여기서 문장을 입력하세요",
-      "placeholder": "여기부터 입력 시작하세요…",
-      "nothing": "없는 것이 문장과 일치하지 않았습니다. 다시 시도해 보세요.",
-      "result_other": "당신은 약 {{count}}단어 분에 입력합니다.",
+      "wpmPending": "분당 — 단어",
+      "wpm_other": "분당 {{count}}단어",
+      "secondsLeft_other": "{{count}}초 남음",
+      "inputLabel": "여기에 문단을 입력하세요",
+      "placeholder": "여기에 입력을 시작하세요…",
+      "nothing": "문단과 일치하는 입력이 없습니다. 다시 시도하세요.",
+      "result_other": "분당 약 {{count}}단어를 입력합니다.",
       "tryAgain": "다시 시도",
-      "recalculate": "재계산",
-      "instruction_other": "아래 문장을 보통처럼 입력해 보세요. 첫 번째 키를 누르면 타이머가 시작되고 {{seconds}}초 동안 작동합니다."
+      "recalculate": "다시 계산",
+      "instruction_other": "아래 문단을 평소처럼 입력하세요. 첫 번째 키를 누르면 타이머가 시작되어 {{seconds}}초 동안 진행됩니다."
     },
     "summary": {
-      "title": "모든 설정이 완료되었습니다",
-      "subtitle": "Wispr Bro가 어떻게 설정되었는지 여기에 나와 있습니다. 어떤 앱에서든 단축키를 누르면 말로 입력할 수 있습니다.",
+      "title": "모든 준비가 끝났습니다",
+      "subtitle": "Wispr Bro의 설정 내용입니다. 아무 앱에서나 단축키를 누른 채로 받아쓰기하세요.",
       "languages": "언어",
       "shortcut": "단축키",
-      "shortcutFn": "fn을 누르세요 (🌐)",
-      "shortcutFallback": "컨트롤과 옵션을 누르세요",
+      "shortcutFn": "fn(🌐) 길게 누르기",
+      "shortcutFallback": "Control 및 Option 길게 누르기",
       "microphone": "마이크",
-      "micDefault": "맥의 기본 마이크",
+      "micDefault": "Mac의 기본 마이크",
       "typing": "타이핑 속도",
-      "typingWpm_other": "{{count}} 글로 분당",
-      "typingSkipped": "측정되지 않음",
+      "typingWpm_other": "분당 {{count}}단어",
+      "typingSkipped": "측정하지 않음",
       "notSet": "설정되지 않음",
-      "launchAtLogin": "로그인할 때 Wispr Bro 열기",
-      "launchAtLoginHint": "그래서 필요할 때마다 디테이션은 준비되어 있습니다.",
-      "later": "이 내용은 나중에 설정에서 변경할 수 있습니다.",
-      "finish": "dictating을 시작하세요"
+      "launchAtLogin": "로그인 시 Wispr Bro 열기",
+      "launchAtLoginHint": "필요할 때 언제든지 받아쓰기를 사용할 수 있습니다.",
+      "later": "이 설정은 모두 나중에 설정에서 변경할 수 있습니다.",
+      "finish": "받아쓰기 시작"
     }
   },
   "whatsNew": {
-    "title": "최신 버전의 {{version}}에서 새로 추가된 내용",
-    "label": "이 버전의 업데이트 내용",
+    "title": "{{version}}의 새로운 기능",
+    "label": "이 버전의 릴리스 노트",
     "close": "닫기",
-    "done": "알겠습니다"
+    "done": "확인"
   },
   "share": {
-    "heading": "공유 {{appName}} on",
-    "body": "{{appName}}은 무료이며 오픈소스로, 맥에서 완전히 실행됩니다. 추천 코드가 없고 어떤 것도 추적되지 않습니다: 링크는 모두에게 동일합니다.",
+    "heading": "{{appName}} 알리기",
+    "body": "{{appName}}은(는) 무료 오픈 소스 앱이며 Mac에서만 실행됩니다. 추천 코드도 없고 아무것도 추적하지 않습니다. 링크는 누구에게나 동일합니다.",
     "downloadLabel": "다운로드 링크",
-    "brewLabel": "홈브rew으로 설치",
-    "copyLink": "링크 복사",
-    "copyBrew": "홈브루 명령어 복사",
+    "brewLabel": "Homebrew로 설치",
+    "copyLink": "다운로드 링크 복사",
+    "copyBrew": "Homebrew 명령어 복사",
     "copy": "복사",
     "copied": "복사됨",
-    "copyFailed": "복사 실패했습니다. 텍스트를 선택하고 복사하세요.",
-    "shareTitle": "누군가에게 보내기",
-    "shareBody": "메시지, 메일, 에어드롭 및 맥이 공유할 수 있는 다른 모든 방법",
+    "copyFailed": "복사할 수 없습니다. 텍스트를 선택하여 직접 복사하세요.",
+    "shareTitle": "다른 사람에게 보내기",
+    "shareBody": "메시지, Mail, AirDrop 등 Mac에서 공유할 수 있는 모든 방법을 사용할 수 있습니다.",
     "shareButton": "공유…",
     "shareFailed": "공유 시트를 열 수 없습니다."
   },
   "shortcutHealth": {
     "banner": {
-      "lost": "디타이션 단축키가 더 이상 작동하지 않습니다. Wispr Bro는 다시 접근성 권한이 필요합니다.",
-      "stopped": "디타이션 단축키가 응답하지 않고 있습니다.",
-      "fix": "수정"
+      "lost": "받아쓰기 단축키가 작동하지 않습니다. Wispr Bro에 손쉬운 사용 권한이 다시 필요합니다.",
+      "stopped": "받아쓰기 단축키가 응답하지 않습니다.",
+      "fix": "해결"
     },
     "sheet": {
-      "title": "단축키를 고치기",
-      "introPermission": "macOS가 Wispr Bro의 접근성 권한을 끄었기 때문에 단축키를 인식하지 못합니다. 이 현상은 업데이트 후 또는 시스템 설정에서 항목이 변경되었을 때 발생할 수 있습니다.",
-      "introStopped": "Wispr Bro의 키보드 리스너가 중단되었습니다. macOS가 허용할 때 자동으로 다시 시작됩니다.",
-      "pictureLabel": "시스템 설정, 개인정보 및 보안, 접근성: Wispr Bro 행에 스위치가 켜져 있는 상태",
-      "pictureTitle": "접근성",
-      "pictureBack": "개인정보 및 보안",
+      "title": "단축키 문제 해결",
+      "introPermission": "macOS에서 Wispr Bro의 손쉬운 사용 권한을 꺼서 단축키를 인식할 수 없습니다. 업데이트 후 또는 시스템 설정에서 항목이 변경되었을 때 이런 일이 발생할 수 있습니다.",
+      "introStopped": "Wispr Bro의 키보드 감지가 중단되었습니다. macOS가 허용하는 즉시 자동으로 다시 시작됩니다.",
+      "pictureLabel": "시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용: 스위치가 켜진 Wispr Bro 행",
+      "pictureTitle": "손쉬운 사용",
+      "pictureBack": "개인정보 보호 및 보안",
       "stepsTitle": "다시 켜기",
-      "step1": "시스템 설정을 열고 › 개인정보 및 보안 › 접근 가능성",
-      "step2": "Wispr Bro를 켜세요. 이미 켜져 있다면 끄고 다시 켜주세요.",
-      "step3": "여기로 돌아오세요. 몇 초 안에 단축키가 다시 작동합니다. 재시작 없이요.",
-      "resetTitle": "아직 안 되나요?",
-      "resetBody": "업데이트 후 macOS는 더 이상 맞지 않는 앱에 대한 이전 항목을 유지할 수 있습니다. 리셋은 Wispr Bro의 항목을 제거하여 다시 허용할 수 있도록 합니다.",
-      "resetStep1": "Reset을 선택하고 다시 허용하기",
-      "resetStep2": "macOS가 요청할 때 Wispr Bro를 허용하거나, 열리는 목록에서 켜세요.",
-      "resetFailed": "입력 항목을 초기화할 수 없습니다. 목록에서 Wispr Bro를 선택하고 마이너스 버튼으로 제거한 후, 플러스 버튼으로 다시 추가하세요.",
-      "openSettings": "접근성 설정 열기",
-      "reset": "초기화 및 재허가",
+      "step1": "시스템 설정 › 개인정보 보호 및 보안 › 손쉬운 사용을 여세요.",
+      "step2": "Wispr Bro를 켜세요. 이미 켜져 있다면 껐다가 다시 켜세요.",
+      "step3": "여기로 돌아오세요. 재시작하지 않아도 몇 초 안에 단축키가 다시 작동합니다.",
+      "resetTitle": "여전히 작동하지 않나요?",
+      "resetBody": "업데이트 후 macOS에 앱과 더 이상 일치하지 않는 이전 항목이 남아 있을 수 있습니다. 재설정하면 Wispr Bro의 항목이 제거되어 다시 허용할 수 있습니다.",
+      "resetStep1": "‘재설정 후 다시 허용’을 선택하세요.",
+      "resetStep2": "macOS가 요청하면 Wispr Bro를 허용하거나, 열리는 목록에서 켜세요.",
+      "resetFailed": "항목을 재설정할 수 없습니다. 목록에서 Wispr Bro를 선택하고 빼기 버튼으로 제거한 다음, 더하기 버튼으로 다시 추가하세요.",
+      "openSettings": "손쉬운 사용 설정 열기",
+      "reset": "재설정 후 다시 허용",
       "checkAgain": "다시 확인",
-      "relaunch": "재시작하여 완료",
+      "relaunch": "재실행하여 완료",
       "close": "닫기",
       "status": {
-        "healthy": "당신의 단축키가 잘 작동합니다.",
-        "lost": "아직 작동 안 함",
-        "recovering": "재연결 중…",
-        "needsRelaunch": "접근이 되었습니다. Wispr Bro를 재시작하여 완료하세요."
+        "healthy": "단축키가 작동합니다.",
+        "lost": "아직 작동하지 않음",
+        "recovering": "다시 연결하는 중…",
+        "needsRelaunch": "권한이 복구되었습니다. 완료하려면 Wispr Bro를 재실행하세요."
       }
     }
   },
   "firstUse": {
-    "title": "먼저 무엇을 시도하고 싶나요?",
-    "subtitle": "하나를 선택해 보세요. 그 후 자신의 앱에서 사용해 보세요.",
-    "choicesLabel": "시작 방법",
+    "title": "무엇을 먼저 해 볼까요?",
+    "subtitle": "하나를 골라 어떻게 작동하는지 확인한 다음, 사용하는 앱에서 직접 해 보세요.",
+    "choicesLabel": "시작하는 방법",
     "choices": {
       "ai_chat": "AI 어시스턴트에게 질문하기",
-      "note": "노트를 남기기",
-      "message": "메시지에 답하기",
-      "email": "이메일 작성",
-      "comment": "댓글 작성",
-      "document": "문서를 작성하세요",
-      "coding": "코드 툴을 요청"
+      "note": "메모 남기기",
+      "message": "메시지에 답장하기",
+      "email": "이메일 쓰기",
+      "comment": "댓글 달기",
+      "document": "문서 초안 작성하기",
+      "coding": "코딩 도구에 요청하기"
     },
     "scene": {
       "label": "예시: {{choice}}",
-      "said": "당신이 말한 것",
-      "written": "{{appName}}이 글을 쓴다",
-      "pause": "예제를 일시 중지",
-      "play": "예제를 재생하세요"
+      "said": "말한 내용",
+      "written": "{{appName}}이(가) 입력한 내용",
+      "pause": "예시 일시 정지",
+      "play": "예시 재생"
     },
     "scenes": {
       "ai_chat": {
         "app": "AI 채팅",
         "context": "무엇을 도와드릴까요?",
-        "said": "아, 그러니까 복리가 어떻게 작동하는지 설명해 줄 수 있나요? 이거 처음 알게 되었어요",
-        "text": "복리란 무엇인지 설명해 줄 수 있나요? 이걸 처음 알게 된 사람처럼요?"
+        "said": "음 그러니까 복리가 어떻게 되는 건지 처음 듣는 사람한테 하듯이 설명해 줄 수 있어",
+        "text": "복리가 어떻게 작동하는지 처음 듣는 사람에게 하듯이 설명해 줄 수 있어?"
       },
       "note": {
-        "app": "노트",
+        "app": "메모",
         "context": "월요일",
-        "said": "자기에게 메모: 치과 방문하고, 6시 전에 건조 세탁을 받으세요",
-        "text": "자기에게 메모: 치과를 전화하고 6시 전에 건조 세탁을 받으세요."
+        "said": "나한테 메모 치과에 전화하고 어 6시 전에 세탁소에서 옷 찾아오기",
+        "text": "나에게 메모: 치과에 전화하고 6시 전에 세탁소에서 옷 찾아오기."
       },
       "message": {
         "app": "메시지",
-        "context": "점심은 아직 약속되어 있나요?",
-        "said": "네 물론 12시 30분이에요 어때요",
-        "text": "네, 확실해요! 오후 12시 30분이 괜찮으신가요?"
+        "context": "우리 점심 약속 그대로지?",
+        "said": "응 당연하지 12시 반 괜찮아",
+        "text": "응, 당연하지! 12시 30분 괜찮아?"
       },
       "email": {
-        "app": "메일",
-        "context": "To: Priya · 주제: 목요일",
-        "said": "안녕 Priya, 메모 감사합니다. 목요일 아침에 초안을 보내겠습니다",
-        "text": "안녕 Priya, 메모 감사합니다. 목요일 아침에 초안을 보내겠습니다."
+        "app": "Mail",
+        "context": "받는 사람: Priya · 제목: 목요일",
+        "said": "안녕하세요 Priya 님 메모 감사합니다 목요일 오전까지 초안 보내 드릴게요",
+        "text": "안녕하세요 Priya 님, 메모 감사합니다. 목요일 오전까지 초안 보내 드릴게요."
       },
       "comment": {
-        "app": "사회",
-        "context": "우리 새로운 사무실은 다음 주에 열립니다!",
-        "said": "전체 팀에게 축하합니다. 정말 멋지네요",
-        "text": "전체 팀에게 축하합니다, 정말 멋지네요!"
+        "app": "소셜",
+        "context": "다음 주에 새 사무실을 엽니다!",
+        "said": "팀 모두 축하해요 정말 멋지네요",
+        "text": "팀 모두 축하해요, 정말 멋지네요!"
       },
       "document": {
         "app": "문서",
         "context": "프로젝트 계획",
-        "said": "이 단계의 목표는 이번 달 말까지 50명의 테스터에게 베타 버전을 배포하는 것",
-        "text": "이 단계의 목표는 이번 달 말까지 50명의 테스터에게 베타 버전을 배포하는 것입니다."
+        "said": "이번 단계의 목표는 음 이달 말까지 테스터 50명에게 베타를 배포하는 것입니다",
+        "text": "이번 단계의 목표는 이달 말까지 테스터 50명에게 베타를 배포하는 것입니다."
       },
       "coding": {
         "app": "코드 편집기",
-        "context": "아이전트에게 질문하기",
-        "said": "모바일에서 로그인 버튼이 안 작동해요. 왜 그런지 찾아서 고치세요",
-        "text": "모바일에서 로그인 버튼이 안 작동합니다. 왜 그런지 찾아서 고치실 수 있나요?"
+        "context": "에이전트에게 요청하기",
+        "said": "모바일에서 로그인 버튼이 안 되는데 원인 찾아서 고쳐 줄 수 있어",
+        "text": "모바일에서 로그인 버튼이 작동하지 않아. 원인을 찾아서 고쳐 줄 수 있어?"
       }
     },
-    "tryNow": "지금 바로 사용해보기",
-    "later": "아마도 나중에",
+    "tryNow": "지금 해 보기",
+    "later": "나중에",
     "close": "닫기",
-    "noBar": "dictation 바는 실행되지 않아서 힌트를 표시하지 않습니다. 여전히 시도할 수 있습니다: 앱을 열고 단축키를 누르세요.",
+    "noBar": "받아쓰기 바가 실행 중이 아니어서 힌트를 표시할 수 없습니다. 그래도 직접 해 볼 수 있습니다. 앱을 열고 단축키를 누른 채로 말하세요.",
     "banner": {
-      "title": "자신의 앱에서 사용하세요",
+      "title": "사용하는 앱에서 써 보기",
       "body": "{{hint}}. {{how}}",
-      "again": "힌트를 다시 보여주세요",
+      "again": "힌트 다시 보기",
       "stop": "힌트 숨기기",
-      "other": "다른 것을 시도해 보세요",
-      "active": "힌트는 화면에 있습니다. Esc를 누르면 닫힙니다."
+      "other": "다른 것 해 보기",
+      "active": "화면에 힌트가 표시되어 있습니다. 닫으려면 Esc 키를 누르세요."
     }
   },
   "checklist": {
     "title": "시작하기",
-    "label": "설치 체크리스트",
-    "progress": "{{done}} of {{total}} 완료",
+    "label": "설정 체크리스트",
+    "progress": "{{total}}개 중 {{done}}개 완료",
     "hide": "체크리스트 숨기기",
     "done": "완료",
     "next": "다음",
-    "allDone": "모든 것이 준비됐어요. 기본적인 내용은 알고 있어요.",
+    "allDone": "모두 끝났습니다. 기본 사용법을 익혔습니다.",
     "items": {
       "try_in_app": {
-        "title": "다른 앱에서 시도하기",
-        "action": "내 앱에서 시도해보세요"
+        "title": "다른 앱에서 해 보기",
+        "action": "보기"
       },
       "add_word": {
-        "title": "단어 추가",
+        "title": "단어 추가하기",
         "action": "단어 추가",
-        "coachTitle": "첫 번째 단어를 추가하세요",
-        "coachBody": "자주 말하는 이름, 제품 용어 및 전문 용어. 당신이 어떻게 쓰는지 그대로 나타납니다."
+        "coachTitle": "첫 단어 추가하기",
+        "coachBody": "자주 말하는 이름, 제품 용어, 전문 용어를 추가하세요. 입력한 철자 그대로 받아쓰기됩니다."
       },
       "create_snippet": {
-        "title": "스니프를 만들기",
-        "action": "새로운 스티프",
-        "coachTitle": "첫 번째 스티커를 만들기",
-        "coachBody": "짧은 문장을 말하고, 더 긴 텍스트를 얻으세요: 주소, 링크, 서명"
+        "title": "스니펫 만들기",
+        "action": "새로운 스니펫",
+        "coachTitle": "첫 스니펫 만들기",
+        "coachBody": "짧은 문구를 말하면 주소, 링크, 맺음말 같은 긴 텍스트가 입력됩니다."
       },
       "launch_at_login": {
         "title": "로그인 시 열기",
@@ -2226,281 +2226,281 @@
         "body": "{{appName}}이(가) Mac과 함께 시작되므로 단축키가 항상 작동합니다."
       },
       "try_transform": {
-        "title": "변환 시도",
-        "action": "내가 보여줘",
+        "title": "변환 사용해 보기",
+        "action": "보기",
         "body": "텍스트를 선택하고 단축키를 누르면 그 자리에서 다시 작성됩니다."
       },
       "try_whisper": {
-        "title": "whispering을 시도해 보세요",
-        "action": "내가 보여줘",
-        "body": "다른 사람들이 주변에 있을 때 조용히 받아쓰기하고, 적절한 마이크를 찾으세요."
+        "title": "속삭이기 해 보기",
+        "action": "보기",
+        "body": "주변에 사람이 있을 때 조용히 받아쓰기하고 알맞은 마이크를 찾아보세요."
       }
     },
     "coach": {
       "close": "닫기",
-      "done": "알겠어요"
+      "done": "확인"
     }
   },
   "lessons": {
     "common": {
-      "close": "강의를 닫기",
+      "close": "레슨 닫기",
       "back": "뒤로",
       "continue": "계속",
       "skip": "건너뛰기",
-      "tryIt": "자신으로 시도해 보세요",
-      "tryItOut": "실제로 시도해 보세요",
-      "howItWorks": "어떻게 작동하는가",
-      "progress": "단계 {{step}} of {{total}}",
-      "pause": "애니메이션 일시 중지",
+      "tryIt": "직접 해 보기",
+      "tryItOut": "사용해 보기",
+      "howItWorks": "작동 방식",
+      "progress": "{{total}}단계 중 {{step}}단계",
+      "pause": "애니메이션 일시 정지",
       "play": "애니메이션 재생",
-      "turnOnFailed": "그것이 켜지 않았습니다. 다시 시도하거나 페이지에서 스위치를 사용하세요."
+      "turnOnFailed": "켜지지 않았습니다. 다시 시도하거나 해당 페이지의 스위치를 사용하세요."
     },
     "transforms": {
       "title": "변환",
-      "help": "변환을 배우기",
+      "help": "변환 알아보기",
       "intro": {
-        "title": "글을 원하는 뜻대로 표현하게 만드세요",
-        "body": "어떤 앱에서 텍스트를 선택하고 키보드 단축키를 누르면, 변환은 이 Mac에서 바로 그 자리에 텍스트를 재작성합니다.",
-        "continue": "시도해 보세요"
+        "title": "의도한 그대로 전달되는 글쓰기",
+        "body": "아무 앱에서나 텍스트를 선택하고 단축키를 누르세요. 변환이 이 Mac에서 바로 그 자리에 텍스트를 다시 작성합니다.",
+        "continue": "사용해 보기"
       },
       "cards": {
-        "label": "같은 텍스트, 세 가지 방식으로",
+        "label": "같은 텍스트, 세 가지 방식",
         "original": {
           "name": "원본",
-          "text": "그래서 기본적으로 저는 리뷰를 목요일로 조정할 수 있는지 확인하고 싶었어요. 숫자가 준비되지 않았고, 샘도 퇴근 중이기 때문이에요"
+          "text": "그러니까 기본적으로 검토를 목요일로 미룰 수 있을지 확인하고 싶었는데 수치가 아직 준비 안 됐고 샘도 자리에 없어서요"
         },
         "polish": {
           "name": "Polish",
-          "text": "리뷰를 목요일로 옮기면 안 되나요? 숫자들이 아직 준비되지 않았고, 샘은 여행 중이에요."
+          "text": "검토를 목요일로 옮길 수 있을까요? 수치가 아직 준비되지 않았고 샘도 자리에 없습니다."
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "짧고 친근한 메시지를 작성하여 리뷰를 목요일로 이동해 주세요. 이유는 숫자가 준비되지 않았고, 샘이 휴가 중이기 때문입니다. 두 문장으로 유지하세요."
+          "text": "검토를 목요일로 옮기자고 요청하는 짧고 친근한 메모를 작성해 줘. 이유: 수치가 준비되지 않았고 샘이 자리에 없음. 두 문장으로 써 줘."
         }
       },
       "benefits": {
-        "label": "변환의 장점",
-        "shorter": "덜 많은 단어로 말함",
-        "clearer": "명확함을 위한 재구성",
-        "order": "점들을 더 좋은 순서로 정렬합니다",
-        "structure": "헤딩과 목록을 추가합니다",
-        "tone": "톤을 유지합니다",
-        "anywhere": "어떤 앱에서든 받아쓰기 가능"
+        "label": "변환으로 할 수 있는 일",
+        "shorter": "더 적은 단어로 표현",
+        "clearer": "더 명확하게 다시 표현",
+        "order": "요점을 더 나은 순서로 정리",
+        "structure": "제목과 목록 추가",
+        "tone": "어조 유지",
+        "anywhere": "글을 쓰는 모든 앱에서 작동"
       },
       "practice": {
-        "title": "텍스트를 선택한 후 {{shortcut}}을 누르세요",
-        "body": "아래 메시지를 선택하세요 (⌘A는 전체를 선택합니다), 이후 Polish 단축키를 누르세요.",
-        "doneTitle": "텍스트 재작성 완료",
-        "doneBody": "{{view}}을 누르면 변경 사항을 확인할 수 있습니다. {{undo}}는 이를 취소합니다.",
-        "app": "조던과 대화하기",
-        "context": "내일 리뷰는 여전히 진행되나요?",
-        "fieldLabel": "조던에게 보내는 답변",
-        "draft": "아, 그러니까 우리가 리뷰를 목요일로 옮기면 좋을 것 같아요. 그게 괜찮을까요? 숫자들이 아직 완성되지 않았고, 절반 정도 완성된 내용을 보여주고 싶지 않아요",
+        "title": "텍스트를 선택한 다음 {{shortcut}} 누르기",
+        "body": "아래 메시지를 선택한 다음(⌘A를 누르면 전체 선택) Polish 단축키를 누르세요.",
+        "doneTitle": "텍스트를 다시 작성함",
+        "doneBody": "{{view}} 키를 누르면 변경 사항을 볼 수 있습니다. {{undo}} 키를 누르면 실행 취소됩니다.",
+        "app": "Jordan과 채팅",
+        "context": "내일 검토 그대로 진행하나요?",
+        "fieldLabel": "Jordan에게 보낼 답장",
+        "draft": "아 그 검토 말인데 괜찮으면 목요일로 옮기는 게 좋을 것 같아요 수치가 아직 제대로 준비가 안 돼서 반쯤 된 걸 보여 주고 싶지 않거든요",
         "example": {
-          "polish": "리뷰를 목요일로 옮기면 안 되나요? 숫자들이 아직 준비되지 않았고, 아직 완성되지 않은 작업을 보여주고 싶지 않습니다.",
-          "prompt": "오늘의 리뷰를 목요일로 이동해 주세요. 숫자가 준비되지 않았기 때문입니다. 친절하게 말씀드리고 싶습니다."
+          "polish": "검토를 목요일로 옮길 수 있을까요? 수치가 아직 준비되지 않아서 완성되지 않은 자료는 보여 드리고 싶지 않습니다.",
+          "prompt": "수치가 준비되지 않았으니 내일 검토를 목요일로 옮기자고 요청하는 짧고 정중한 답장을 작성해 줘. 친근한 어조로 세 문장 이내로 써 줘."
         },
-        "exampleNote": "리라이팅 기능은 아직 이 맥에서 사용할 수 없기 때문에 예시를 보여줍니다. 준비되면 단축키를 통해 자신의 텍스트를 동일하게 리라이팅합니다.",
-        "selectFirst": "먼저 메시지 중 일부를 선택한 후에 {{shortcut}}을 다시 누르세요.",
-        "working": "재작성 중…",
-        "spotlight": "매 변환 후 화면 하단의 바는 변경 사항을 보여줍니다. 클릭하거나 {{view}}을 누르세요.",
+        "exampleNote": "이 Mac에서는 아직 다시 작성하기를 사용할 수 없어 예시를 보여 드립니다. 준비되면 단축키로 직접 작성한 텍스트도 같은 방식으로 다시 작성됩니다.",
+        "selectFirst": "먼저 메시지의 일부를 선택한 다음 {{shortcut}} 키를 다시 누르세요.",
+        "working": "다시 작성하는 중…",
+        "spotlight": "변환할 때마다 화면 하단의 바에 ‘변경 사항 보기’가 나타납니다. 클릭하거나 {{view}} 키를 누르세요.",
         "barLabel": "바",
         "bar": {
           "done": "완료",
-          "view": "변경 보기"
+          "view": "변경 사항 보기"
         },
         "hideChanges": "변경 사항 숨기기"
       },
       "how": {
         "select": {
-          "title": "어떤 앱에서든 텍스트를 선택하세요",
-          "body": "보통처럼 작성하거나 받아쓰기 하세요: 이메일, 채팅, 문서 등. 원하는 내용을 선택하여 다시 작성하세요.",
-          "scene": "애니메이션: 초안 이메일이 선택됨"
+          "title": "아무 앱에서나 텍스트 선택하기",
+          "body": "이메일, 채팅, 문서 등에서 평소처럼 쓰거나 받아쓰기하세요. 그런 다음 다시 작성할 부분을 선택하세요.",
+          "scene": "애니메이션: 이메일 초안이 선택됩니다."
         },
         "press": {
-          "title": "{{shortcut}}을 누르세요",
-          "body": "Polish는 선택한 내용을 자리에서 재작성합니다. Prompt Engineer ({{prompt}})은 AI 어시스턴트용 명확한 프롬프트로 변환합니다.",
-          "scene": "애니메이션: {{shortcut}}이 눌리고 초안이 더 명확한 버전으로 대체됩니다."
+          "title": "{{shortcut}} 누르기",
+          "body": "Polish는 선택한 텍스트를 그 자리에서 다시 작성합니다. Prompt Engineer({{prompt}})는 AI 어시스턴트를 위한 명확한 프롬프트로 바꿉니다.",
+          "scene": "애니메이션: {{shortcut}} 키를 누르면 초안이 더 명확한 버전으로 바뀝니다."
         },
         "changes": {
-          "title": "변경 사항을 확인하세요",
-          "body": "{{view}}을 누르거나 바 위의 '변경 보기'를 클릭하세요: 삭제된 단어는 취소 표시되고, 새 단어는 강조됩니다. {{undo}}는 원래 내용을 다시 복원합니다.",
-          "scene": "애니메이션: 카드는 변화를 목록으로 표시하며, 삭제된 단어는 취소선을, 새 단어는 강조 표시합니다."
+          "title": "변경 사항 확인하기",
+          "body": "{{view}} 키를 누르거나 바에서 ‘변경 사항 보기’를 클릭하세요. 삭제된 단어에는 취소선이, 새 단어에는 강조 표시가 됩니다. {{undo}} 키를 누르면 원본으로 되돌아갑니다.",
+          "scene": "애니메이션: 카드에 변경 사항이 나열되며, 삭제된 단어에는 취소선이, 새 단어에는 강조 표시가 됩니다."
         }
       },
       "scene": {
-        "app": "이메일: 새 메시지",
-        "draft": "안녕하세요, 모두에게 간단한 안내입니다. 결제 흐름에서 버그를 발견했기 때문에 릴리스 일정을 다음 주로 조정했습니다.",
-        "polished": "안녕하세요, 출시 일정이 내일로 변경되었습니다. 결제 흐름에서 버그를 발견했고, 먼저 이를 수정하고자 합니다."
+        "app": "Mail: 새로운 메시지",
+        "draft": "안녕하세요 여러분 간단히 알려 드리면 결제 과정에서 버그를 발견해서 먼저 고치려고 출시를 다음 주로 미룹니다",
+        "polished": "안녕하세요 여러분, 출시가 다음 주로 연기됩니다. 결제 과정에서 버그를 발견하여 먼저 수정하려고 합니다."
       },
       "finish": {
-        "turnOn": "변환을 켜기",
+        "turnOn": "변환 켜기",
         "done": "완료"
       }
     },
     "whisper": {
-      "title": "받아쓰기 Quietly",
-      "help": "조용히 받아쓰기하는 법을 배우세요",
+      "title": "조용히 받아쓰기",
+      "help": "조용히 받아쓰기하는 방법 알아보기",
       "soft": {
-        "title": "부드러운 목소리만으로도 충분해요",
-        "body": "말할 필요는 없습니다. 조용히 말하시고, 그 말도 깨끗한 텍스트로 변환되므로, 열린 사무실, 기차, 또는 가까이에 누군가가 잠들 때도 받아쓰기할 수 있습니다.",
-        "app": "노트",
-        "spoken": "슬라이드를 점심 전에 보내고 금요일에 방을 예약해 주기 위해 나중에 기억해 주세요",
-        "text": "점심 전 슬라이드를 보내야 한다고 기억해 주고, 금요일에 방을 예약해야 한다고 알려줘.",
-        "scene": "애니메이션: 조용히 말한 문장이 입력된 텍스트로 나타남: \"{{text}}\""
+        "title": "작은 목소리로도 충분합니다",
+        "body": "크게 말할 필요가 없습니다. 속삭여도 깔끔한 텍스트로 바뀌므로 개방형 사무실이나 기차 안, 옆에서 누군가 자고 있을 때도 받아쓰기할 수 있습니다.",
+        "app": "메모",
+        "spoken": "“점심 전에 슬라이드 보내고 금요일에 회의실 예약하라고 알려 줘”",
+        "text": "점심 전에 슬라이드 보내고 금요일에 회의실 예약하라고 알려 줘.",
+        "scene": "애니메이션: 속삭인 문장이 입력된 텍스트로 나타납니다: “{{text}}”"
       },
       "how": {
-        "title": "맥에 미소를 지으며 말하는 방법",
-        "body": "맥에 내장된 마이크를 사용하면, 네 가지 습관으로 조용한 목소리가 쉽게 들릴 수 있습니다.",
-        "distance": "마이크에서 약 30cm, 손목 정도의 거리",
+        "title": "Mac에 속삭이는 방법",
+        "body": "Mac의 내장 마이크를 사용할 때 네 가지 습관을 지키면 작은 목소리도 잘 들립니다.",
+        "distance": "마이크에서 약 30cm, 대략 팔뚝 길이",
         "tips": {
           "distance": {
             "title": "가까이 앉으세요.",
-            "body": "맥을 약간의 팔목 길이 정도 떨어진 거리에서 보세요. 약간 기울이면 더 좋습니다."
+            "body": "팔뚝 길이 정도 떨어져 Mac을 마주 보세요. 크게 말하는 것보다 조금 몸을 기울이는 것이 더 효과적입니다."
           },
           "breath": {
-            "title": "소리 내며 숨을 쉬세요.",
-            "body": "최소한의 조용한 말이 아니에요: 조금 더 강하게, 작은 테이블을 사이에 두고 누군가에게 말하고 있는 듯이요."
+            "title": "숨을 실어 속삭이세요.",
+            "body": "아주 희미한 속삭임이 아니라, 작은 테이블 건너편 사람에게 말하듯 조금 더 또렷하게 속삭이세요."
           },
           "pace": {
-            "title": "정확한 속도를 유지하세요.",
-            "body": "각 단어를 완전히 말하고 문장의 끝이 사라지지 않도록 하세요."
+            "title": "일정한 속도를 유지하세요.",
+            "body": "각 단어를 끝까지 말하고 문장 끝이 흐려지지 않게 하세요."
           },
           "release": {
-            "title": "마지막에 놓아주세요.",
-            "body": "마지막 단어 후에만 키를 놓으세요. 그 상태를 유지하세요."
+            "title": "키는 마지막에 떼세요.",
+            "body": "마지막 단어까지 말한 후에 키를 떼야 끝부분이 저장됩니다."
           }
         }
       },
       "practice": {
-        "title": "이 이메일을 외쳐보세요",
-        "body": "실제로 나타나는 내용: 아래에 표시된 메시지에만 도달합니다.",
-        "doneTitle": "소리가 약해도 들었어",
-        "doneBody": "그것이 전부입니다. 자신에게 맞는 마이크를 계속 찾아보세요.",
-        "instruction": "{{key}}을 누르고 아래 이메일을 조용히 말해 보세요, 그런 후에 놓으세요.",
-        "unbound": "받아쓰기 단축키가 설정되어 있지 않아서, 여기서는 받아쓰기 시작이 불가능합니다. 지금은 이 단계를 건너뛰고 설정에서 단축키를 설정하세요.",
+        "title": "이 이메일을 속삭여 보세요",
+        "body": "실제 받아쓰기입니다. 결과는 아래 그려진 메시지에만 입력되고 다른 곳에는 입력되지 않습니다.",
+        "doneTitle": "속삭여도 잘 들었습니다",
+        "doneBody": "이게 전부입니다. 계속해서 나에게 맞는 마이크를 찾아보세요.",
+        "instruction": "{{key}} 키를 누른 채로 아래 이메일을 속삭인 다음 키를 떼세요.",
+        "unbound": "받아쓰기 단축키가 설정되어 있지 않아 여기서 받아쓰기를 시작할 수 없습니다. 지금은 이 단계를 건너뛰고 설정에서 단축키를 지정하세요.",
         "key": "fn",
-        "keyFallback": "제어 및 옵션",
-        "sentenceLabel": "Whisper:",
-        "sentence": "안녕 Sam, 나는 조용한 방에서 있어요. 이 이메일을 조용히 말해요. 우리 회의를 오후로 이동할 수 있을까요? 정말 감사합니다.",
-        "app": "새 메시지",
-        "context": "사마에게, 오늘 오후에 대해",
-        "fieldLabel": "당신의 조용한 이메일",
-        "placeholder": "당신의 조용한 말이 여기에 나타납니다.",
+        "keyFallback": "Control 및 Option",
+        "sentenceLabel": "속삭일 문장:",
+        "sentence": "안녕하세요 샘 님, 조용한 방에 있어서 이 이메일을 속삭이고 있어요. 통화를 오후로 옮길 수 있을까요? 정말 고마워요.",
+        "app": "새로운 메시지",
+        "context": "샘에게, 오늘 오후 건",
+        "fieldLabel": "속삭여 쓴 이메일",
+        "placeholder": "속삭인 내용이 여기에 표시됩니다.",
         "status": {
-          "idle": "{{key}}을 누르고 조용히 말하게 기다리고 있습니다…",
-          "listening": "청취 중… 완료되면 {{key}}을 놓아주세요.",
-          "working": "글을 적고 있네요…",
-          "nothing": "무엇도 들어오지 않았습니다. 마이크가 켜져 있는지 확인 후 다시 시도하세요.",
-          "low": "{{percent}}%의 단어가 정확히 받아쓰기되었습니다. 한 번 더 시도하세요:",
-          "passed": "{{percent}}%의 단어가 정확히 받아쓰기되었습니다.",
-          "example": "이것은 조용히 말한 예시입니다."
+          "idle": "{{key}} 키를 누르고 속삭이기를 기다리는 중…",
+          "listening": "듣는 중… 다 말했으면 {{key}} 키를 떼세요.",
+          "working": "받아 적는 중…",
+          "nothing": "입력된 내용이 없습니다. 마이크가 켜져 있는지 확인한 다음 다시 시도하세요.",
+          "low": "단어의 {{percent}}%가 인식되었습니다. 한 번 더 해 보세요:",
+          "passed": "단어의 {{percent}}%가 인식되었습니다.",
+          "example": "속삭여서 받아쓰기한 예시입니다."
         },
-        "exampleNote": "이 맥에서 음성 인식이 아직 설정 중이므로, 이는 예시입니다. 당신의 실제 입력은 기록에 저장되며, 설정이 완료되면 즉시 기록됩니다.",
+        "exampleNote": "이 Mac에서 아직 음성 인식을 설정하는 중이라 예시를 보여 드립니다. 직접 받아쓰기한 내용은 기록에 저장되며 설정이 끝나는 즉시 텍스트로 변환됩니다.",
         "tips": {
-          "title": "몇 가지 사항이 도움이 됩니다",
-          "closer": "맥을 조금 더 가까이 가져오세요, 약 30cm 거리에서.",
-          "firmer": "Whisper를 조금 더 단단하게 하며, 단어 뒤에 더 많은 숨을 넣으세요.",
-          "volume": "시스템 설정 › 소리 › 입력 볼륨을 높입니다.",
-          "openSound": "소리 설정 열기"
+          "title": "이렇게 하면 도움이 됩니다",
+          "closer": "Mac에 조금 더 가까이, 약 30cm 거리로 다가가세요.",
+          "firmer": "숨을 더 실어 조금 더 또렷하게 속삭이세요.",
+          "volume": "시스템 설정 › 사운드 › 입력에서 입력 음량을 높이세요.",
+          "openSound": "사운드 설정 열기"
         }
       },
       "mics": {
         "built_in": {
           "name": "내장 마이크",
-          "hint": "이미 당신의 랩톱 또는 iMac에 설치되어 있습니다",
-          "why": "이미 포함되어 있습니다; 가까이 앉아서 집에서 잘 작동합니다."
+          "hint": "노트북이나 iMac에 이미 내장됨",
+          "why": "이미 갖추고 있습니다. 집에서는 가까이 앉기만 하면 충분합니다."
         },
         "wired_headset": {
           "name": "유선 헤드셋",
-          "hint": "입 근처에 있는 짧은 링크나 케이블에 연결된 마이크",
-          "why": "마이크는 입 근처에 위치해 있어서, 어디서든 약한 조용한 말도 잘 들려옵니다."
+          "hint": "입 가까이에 있는 짧은 암이나 케이블에 달린 마이크",
+          "why": "마이크가 입 바로 옆에 있어서 어디서든 작은 속삭임도 잘 전달됩니다."
         },
         "wireless_earbuds": {
           "name": "무선 이어폰",
-          "hint": "마이크가 있는 이어버드, 케이블 없음",
-          "why": "플러그를 꽂을 필요 없고, 어디서나 함께 갈 수 있어요."
+          "hint": "마이크가 있는 무선 이어폰",
+          "why": "연결할 필요가 없고 어디든 가지고 다닐 수 있습니다."
         },
         "desk_usb": {
-          "name": "책상 또는 USB 마이크",
-          "hint": "데스크 위에 서 있는 마이크",
-          "why": "하나의 책상에서 일할 때 가장 선명한 소리입니다."
+          "name": "데스크 또는 USB 마이크",
+          "hint": "책상 위에 세워 두는 마이크",
+          "why": "한 책상에서 가까이 앉아 일할 때 가장 선명한 소리를 냅니다."
         }
       },
       "quiz": {
-        "more": "마이크에 대한 더 많은 정보",
+        "more": "마이크 더 알아보기",
         "comfortable": {
-          "title": "편안하게 사용할 수 있는 마이크를 선택하세요",
-          "body": "모두 잘 작동합니다. 편하게 입을 수 있거나 책상 위에 두고 싶은 것을 선택하세요."
+          "title": "편하게 쓸 수 있는 마이크를 고르세요",
+          "body": "모두 잘 작동합니다. 기꺼이 착용하거나 책상에 둘 만한 것을 고르세요."
         },
         "workplace": {
-          "title": "보통 어디에서 일하나요?",
-          "body": "가까이 있는 사람들의 둘 사이에서 조용히 말하는 것이 가장 중요합니다.",
+          "title": "주로 어디에서 일하나요?",
+          "body": "속삭이기는 주변에 사람이 있을 때 가장 중요합니다.",
           "private": {
-            "label": "개인적인 곳",
-            "hint": "집에서의 사무실이나 혼자 있는 방"
+            "label": "혼자 있는 공간",
+            "hint": "홈 오피스나 혼자 쓰는 방"
           },
           "mixed": {
-            "label": "둘 다 포함",
-            "hint": "어떤 경우는 혼자, 어떤 경우는 사람과 함께"
+            "label": "둘 다 조금씩",
+            "hint": "혼자일 때도 있고 주변에 사람이 있을 때도 있음"
           },
           "shared": {
-            "label": "다른 사람들과 함께 있을 때",
-            "hint": "개방형 사무실, 카페, 공유 공간"
+            "label": "다른 사람들 곁",
+            "hint": "개방형 사무실, 카페, 공용 공간"
           }
         },
         "moves": {
-          "title": "장소를 이동하시나요?",
-          "body": "따라서 당신이 할 때 도움이 되는 미니멀 마이크입니다.",
+          "title": "여러 장소를 오가나요?",
+          "body": "그렇다면 가지고 다닐 수 있는 마이크가 도움이 됩니다.",
           "one_desk": {
-            "label": "나는 하나의 책상에서 머무릅니다",
-            "hint": "매일 같은 설정"
+            "label": "한 책상에서만 일함",
+            "hint": "매일 같은 환경"
           },
           "different_places": {
-            "label": "다른 곳에서 일합니다",
+            "label": "여러 곳에서 일함",
             "hint": "집, 사무실, 기차, 카페"
           }
         },
         "owned": {
           "title": "어떤 마이크를 가지고 있나요?",
-          "body": "모든 것을 선택하세요. Mac mini 또는 Mac Studio는 자체 마이크를 가지고 있지 않습니다.",
-          "continue": "내 매치를 보세요"
+          "body": "가지고 있는 것을 모두 선택하세요. Mac mini와 Mac Studio에는 자체 마이크가 없습니다.",
+          "continue": "추천 결과 보기"
         }
       },
       "results": {
-        "title": "귀하의 마이크 일치",
-        "body": "당신의 답변을 기반으로 합니다. 아무것도 저장되거나 전송되지 않습니다.",
-        "bestLine": "가장 좋은 일치: {{mic}}.",
-        "caption": "각 종류의 마이크가 어떻게 작동하는지",
+        "title": "추천 마이크",
+        "body": "답변을 바탕으로 한 결과입니다. 아무것도 저장되거나 전송되지 않습니다.",
+        "bestLine": "가장 잘 맞는 마이크: {{mic}}.",
+        "caption": "마이크 종류별 비교",
         "columns": {
           "mic": "마이크",
           "quality": "마이크 품질",
-          "others": "다른 사람 주변에서 외치는 것",
-          "home": "집에서 받아쓰기",
+          "others": "사람들 곁에서 속삭이기",
+          "home": "집에서 속삭이기",
           "price": "가격",
-          "best": "가장 좋은 일치"
+          "best": "가장 잘 맞음"
         },
-        "notBest": "가장 좋은 일치가 아님",
+        "notBest": "가장 잘 맞지는 않음",
         "rating": {
           "fair": "보통",
           "good": "좋음",
-          "great": "매우 좋음"
+          "great": "아주 좋음"
         },
         "price": {
-          "included": "가장 많은 랩톱에 포함됨",
-          "low": "낮음",
-          "medium": "중간",
-          "owned": "당신은 하나를 가지고 있습니다"
+          "included": "대부분의 노트북에 포함",
+          "low": "저렴함",
+          "medium": "보통",
+          "owned": "보유 중"
         },
         "copy": {
           "label": "결과 복사",
-          "heading": "{{appName}}: 내 마이크 매치",
-          "best": "가장 좋은 일치: {{mic}}",
-          "unanswered": "답하지 않음",
+          "heading": "{{appName}}: 나에게 맞는 마이크",
+          "best": "가장 잘 맞는 마이크: {{mic}}",
+          "unanswered": "응답 안 함",
           "noneOwned": "없음"
         },
         "copied": "복사됨",
-        "copyFailed": "복사 실패했습니다. 표를 선택하고 복사하세요.",
+        "copyFailed": "복사할 수 없습니다. 표를 선택하여 직접 복사하세요.",
         "done": "완료"
       }
     }
@@ -2508,30 +2508,30 @@
   "overrides": {
     "onboarding": {
       "migration": {
-        "description": "Wispr Bro가 이제 새로운 종류의 모델을 사용합니다. 계속 음성 인식을 사용하려면 새 버전을 다운로드하세요. 이전 버전은 삭제됩니다."
+        "description": "이제 Wispr Bro는 새로운 종류의 모델을 사용합니다. 계속 전사하려면 새 버전을 다운로드하세요. 이전 버전은 제거됩니다."
       },
       "permissions": {
         "microphone": {
-          "why": "Wispr Bro가 목소리를 들을 수 있도록 하기 위한 권한입니다. 오디오는 이 컴퓨터에서 텍스트로 변환되며 업로드되지 않습니다."
+          "why": "Wispr Bro가 음성을 들을 수 있도록 합니다. 오디오는 이 컴퓨터에서 텍스트로 변환되며 절대 업로드되지 않습니다."
         },
         "accessibility": {
-          "why": "어떤 앱에서든 단축키가 작동하고, Wispr Bro가 커서 위치에 텍스트를 입력할 수 있도록 하기 위한 권한입니다."
+          "why": "모든 앱에서 단축키가 작동하고 Wispr Bro가 커서 위치에 텍스트를 입력할 수 있도록 합니다."
         },
         "turnOnMac": "시스템 설정에서 Wispr Bro를 켠 다음 여기로 돌아오세요.",
-        "relaunch": "이후에도 단축키가 반응하지 않나요? <relaunch>Wispr Bro를 다시 실행</relaunch>하면 바로 이 화면으로 돌아옵니다."
+        "relaunch": "이후에도 단축키가 반응하지 않나요? <relaunch>Wispr Bro를 재실행</relaunch>하면 바로 이 화면으로 돌아옵니다."
       },
       "welcome": {
-        "noMatch": "「{{query}}」와(과) 일치하는 언어가 없습니다. Wispr Bro의 모델은 약 100개 언어를 지원하며, 더 많은 언어는 설정에서 볼 수 있습니다.",
+        "noMatch": "‘{{query}}’과(와) 일치하는 언어가 없습니다. Wispr Bro의 모델은 약 100개 언어를 지원하며, 더 많은 언어는 설정에서 확인할 수 있습니다.",
         "chinese": {
-          "question": "{{languages}}을(를) 사용하시네요. Wispr Bro가 어떤 글자로 쓸까요?"
+          "question": "{{languages}}을(를) 사용합니다. Wispr Bro가 어떤 문자로 입력할까요?"
         }
       },
       "try": {
-        "subtitle": "Wispr Bro가 구석에서 차근차근 도와드릴게요"
+        "subtitle": "화면 구석의 Wispr Bro가 차근차근 안내합니다"
       },
       "done": {
-        "subMac": "이제 Wispr Bro가 메뉴 막대에 있습니다. 어떤 앱에서든 <keys/>를 누르거나 탭해서 말하세요.",
-        "subTray": "이제 Wispr Bro가 시스템 트레이에 있습니다. 어떤 앱에서든 <keys/>를 누르거나 탭해서 말하세요.",
+        "subMac": "이제 메뉴 막대에 Wispr Bro가 있습니다. 아무 앱에서나 <keys/>를 길게 누르거나 탭하여 말하세요.",
+        "subTray": "이제 시스템 트레이에 Wispr Bro가 있습니다. 아무 앱에서나 <keys/>를 길게 누르거나 탭하여 말하세요.",
         "atLogin": "로그인할 때 Wispr Bro 시작",
         "panel": {
           "name": "Wispr Bro"
@@ -2544,23 +2544,23 @@
           "title": "Wispr Bro 단축키"
         },
         "preferredLanguages": {
-          "description": "내가 사용하는 언어입니다. Wispr Bro가 모델을 추천하는 데 사용합니다."
+          "description": "사용하는 언어입니다. Wispr Bro가 이를 바탕으로 모델을 추천합니다."
         }
       },
       "models": {
-        "untestedNote": "Wispr Bro에서 테스트하지 않았습니다. 더 느리거나 오류가 더 많을 수 있습니다.",
-        "emptyYours": "아직 모델이 없습니다. 아래에서 하나를 고르면 다운로드된 후 Wispr Bro가 사용합니다.",
-        "deleteAskActive": "{{name}}을(를) 삭제할까요? 다른 모델을 선택하기 전에는 Wispr Bro가 전사할 수 없습니다.",
+        "untestedNote": "Wispr Bro에서 테스트되지 않았습니다. 더 느리거나 오류가 더 많을 수 있습니다.",
+        "emptyYours": "아직 모델이 없습니다. 아래에서 하나를 선택하면 다운로드된 후 Wispr Bro가 사용합니다.",
+        "deleteAskActive": "{{name}}을(를) 삭제하겠습니까? 다른 모델을 선택할 때까지 Wispr Bro가 전사할 수 없습니다.",
         "retiredNotice": {
           "title": "이전 모델은 더 이상 Wispr Bro에서 작동하지 않습니다"
         },
         "rescan": {
-          "tooltip": "Wispr Bro 외부에서 모델 폴더 또는 Hugging Face 캐시에 추가된 모델을 다시 스캔합니다"
+          "tooltip": "Wispr Bro 외부에서 모델 폴더나 Hugging Face 캐시에 추가된 모델을 다시 검색합니다"
         }
       },
       "advanced": {
         "autostart": {
-          "description": "컴퓨터 로그인 시 Wispr Bro를 자동으로 시작합니다."
+          "description": "컴퓨터에 로그인할 때 Wispr Bro를 자동으로 시작합니다."
         },
         "showTrayIcon": {
           "description": "시스템 트레이에 Wispr Bro 아이콘을 표시합니다."
@@ -2569,11 +2569,11 @@
       "debug": {
         "updateChecks": {
           "description": "Wispr Bro의 새 버전을 자동으로 확인합니다",
-          "lockedDescription": "시스템 구성에 의해 비활성화됨 (WISPRBRO_DISABLE_UPDATER)"
+          "lockedDescription": "시스템 구성에 의해 비활성화됨(WISPRBRO_DISABLE_UPDATER)"
         },
         "keyboardDiagnostic": {
-          "description": "키보드 이벤트가 Wispr Bro에 도달하는지 확인합니다. 이벤트 개수만 기록되며, 어떤 키를 눌렀는지는 절대 기록되지 않습니다.",
-          "verdictOk": "키 이벤트가 Wispr Bro에 정상적으로 도달하고 있습니다."
+          "description": "키보드 이벤트가 Wispr Bro에 전달되는지 확인합니다. 이벤트 개수만 기록되며, 어떤 키를 눌렀는지는 절대 기록되지 않습니다.",
+          "verdictOk": "키 이벤트가 Wispr Bro에 정상적으로 전달되고 있습니다."
         }
       },
       "about": {
@@ -2591,19 +2591,19 @@
         },
         "acknowledgments": {
           "ggml": {
-            "details": "Wispr Bro는 빠르고 로컬 음성-텍스트 처리를 위해 ggml를 사용합니다. Georgi Gerganov와 기여자들의 놀라운 작업에 감사드립니다."
+            "details": "Wispr Bro의 로컬 음성 텍스트 변환은 transcribe.cpp와 ggml을 기반으로 합니다. Georgi Gerganov와 기여자들의 훌륭한 작업에 감사드립니다."
           }
         }
       }
     },
     "whatsNew": {
-      "title": "Wispr Bro v{{version}}의 새 소식"
+      "title": "Wispr Bro v{{version}}의 새로운 기능"
     },
     "appLanguage": {
-      "description": "Wispr Bro 인터페이스의 언어를 변경하세요"
+      "description": "Wispr Bro 인터페이스의 언어를 변경합니다"
     },
     "theme": {
-      "description": "Wispr Bro가 시스템 테마를 따를지, 밝게 또는 어둡게 유지할지 선택하세요"
+      "description": "Wispr Bro가 시스템 테마를 따를지, 항상 라이트 또는 다크로 표시할지 선택합니다"
     }
   }
 }
