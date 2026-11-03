@@ -54,7 +54,7 @@ case "$CASE" in
       -e 'set d to make new document' \
       -e 'set text of d to "From Siobhán Kowalczyk: the launch checklist is ready. Thibault Moreau and Zebulonix Quarterbridge review it next." & return & return' \
       -e 'return name of d' -e 'end tell')
-    osascript -e 'tell application "System Events" to key code 119' # End: caret after the text
+    osascript -e 'tell application "System Events" to key code 125 using command down' # ⌘↓: caret after the text (a synthetic End leaves the fn flag set)
     opened=textedit; expect=com.apple.TextEdit
     ;;
   chrome|card)

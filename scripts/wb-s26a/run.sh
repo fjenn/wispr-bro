@@ -37,7 +37,7 @@ case "$STEP" in
     "$MENUS" "$PID" menubar > "$OUT/menubar.txt" || exit 1
     cat "$OUT/menubar.txt"
     for k in "Undo [⌘z]" "Cut [⌘x]" "Copy [⌘c]" "Paste [⌘v]" "Select All [⌘a]"; do
-      grep -qF "$k" "$OUT/menubar.txt"; check "Edit has $k" $?
+      grep -qiF "$k" "$OUT/menubar.txt"; check "Edit has $k" $?  # AX prints ⌘Z
     done
     for m in Dictation Vocabulary Help; do
       grep -qx "$m" "$OUT/menubar.txt"; check "menu $m" $?

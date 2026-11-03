@@ -12,6 +12,9 @@
 //   front                  bring the PID's app to the front (NSRunningApplication)
 //   click <x> <y>          left click at a point in the app's largest window,
 //                          in points from its top-left corner
+//   clickown <x> <y>       click without `front`, only if this PID's window is on
+//                          top there (a floating window of an accessory app)
+//   scroll <x> <y> <n>     n wheel steps over a window point (negative = down)
 //   type <text>            the text as Unicode key events (any script)
 //   keys <text>            a path as US-layout key presses (the save panel)
 //   key <name>             return | escape | tab | space | down | up | cmd-a | cmd-shift-g | cmd-d
@@ -33,8 +36,10 @@ func windowOrigin() -> CGPoint? {
     let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]] ?? []
     var best: CGRect?
     for w in list {
+        // Normal and floating windows (the Scratchpad note floats at
+        // layer 3-8); the largest one wins, so the Flow Bar never does.
         guard (w[kCGWindowOwnerPID as String] as? Int32) == pid,
-              (w[kCGWindowLayer as String] as? Int) == 0,
+              let layer = w[kCGWindowLayer as String] as? Int, (0...8).contains(layer),
               let b = w[kCGWindowBounds as String] as? [String: CGFloat] else { continue }
         let r = CGRect(x: b["X"]!, y: b["Y"]!, width: b["Width"]!, height: b["Height"]!)
         if best == nil || r.width * r.height > best!.width * best!.height { best = r }
@@ -46,7 +51,7 @@ func windowOrigin() -> CGPoint? {
 func topWindowOwner(at p: CGPoint) -> Int32? {
     let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]] ?? []
     for w in list {  // front to back
-        guard (w[kCGWindowLayer as String] as? Int) == 0,
+        guard let layer = w[kCGWindowLayer as String] as? Int, (0...8).contains(layer),
               let b = w[kCGWindowBounds as String] as? [String: CGFloat] else { continue }
         let r = CGRect(x: b["X"]!, y: b["Y"]!, width: b["Width"]!, height: b["Height"]!)
         if r.contains(p) { return w[kCGWindowOwnerPID as String] as? Int32 }
@@ -90,6 +95,10 @@ func typeText(_ text: String) {
         let units = Array(String(ch).utf16)
         for down in [true, false] {
             let e = CGEvent(keyboardEventSource: source, virtualKey: 0, keyDown: down)
+            // Explicit flags, as in typeKeys: a modifier left in the
+            // `.hidSystemState` source (e.g. a stuck fn) makes WebKit drop
+            // every Unicode-string key event.
+            e?.flags = []
             e?.keyboardSetUnicodeString(stringLength: units.count, unicodeString: units)
             post(e)
         }
@@ -169,6 +178,27 @@ for raw in args[2].split(separator: ";") {
     case "click":
         let xy = parts[1].split(separator: " ").compactMap { Double($0) }
         click(CGFloat(xy[0]), CGFloat(xy[1]))
+    case "clickown":
+        // clickown <x> <y>: a click that activates the app, for a window that
+        // cannot be brought forward first (a floating note of an accessory
+        // app). Posted only if this PID's window is on top at that point.
+        let xy = parts[1].split(separator: " ").compactMap { Double($0) }
+        guard let o = windowOrigin() else { print("ABORT: no window"); exit(3) }
+        let p = CGPoint(x: o.x + CGFloat(xy[0]), y: o.y + CGFloat(xy[1]))
+        guard topWindowOwner(at: p) == pid else { print("ABORT: another window is on top at \(p)"); exit(3) }
+        for t in [CGEventType.mouseMoved, .leftMouseDown, .leftMouseUp] {
+            post(CGEvent(mouseEventSource: source, mouseType: t, mouseCursorPosition: p, mouseButton: .left))
+        }
+    case "scroll":
+        // scroll <x> <y> <lines>: wheel over a window point (negative = down)
+        let v = parts[1].split(separator: " ").compactMap { Double($0) }
+        guard let o = windowOrigin() else { print("ABORT: no window"); exit(3) }
+        requireFront()
+        let p = CGPoint(x: o.x + CGFloat(v[0]), y: o.y + CGFloat(v[1]))
+        post(CGEvent(mouseEventSource: source, mouseType: .mouseMoved, mouseCursorPosition: p, mouseButton: .left))
+        for _ in 0..<Int(abs(v[2])) {
+            post(CGEvent(scrollWheelEvent2Source: source, units: .line, wheelCount: 1, wheel1: v[2] < 0 ? -3 : 3, wheel2: 0, wheel3: 0))
+        }
     case "type":
         typeText(parts.count > 1 ? parts[1] : "")
     case "keys":

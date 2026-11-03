@@ -42,7 +42,12 @@ mkdir -p "$T"
 pid=$(/bin/bash "$HERE/../wb-s05/app.sh" pid) || { echo "NO APP" | tee "$T/result"; exit 3; }
 log_from=$(wc -l <"$LOG")
 front() { lsappinfo info -only bundleid "$(lsappinfo front)" | sed -E 's/.*="?([^"]*)"?/\1/'; }
-keys() { osascript -e "tell application \"System Events\" to $1"; }
+# Keystrokes go to the frontmost app: only ever into the window this take
+# opened (the user may have switched apps during the wait).
+keys() {
+  if [ "$(front)" != "$expect" ]; then echo "SKIP keys ($1): front=$(front)" >&2; return 1; fi
+  osascript -e "tell application \"System Events\" to $1"
+}
 "$BIN/clip" save "$T/clip.saved" >/dev/null
 clip_before=$("$BIN/clip" digest)
 
@@ -86,8 +91,11 @@ case "$CASE" in
       -e 'set d to make new document' \
       -e 'set text of d to "Files: index.ts and user_service.ts" & return & return' \
       -e 'return name of d' -e 'end tell')
-    keys 'key code 119'
     opened=textedit; expect=com.apple.TextEdit
+    # ⌘↓, not End: a synthetic End (key code 119) carries the fn flag and
+    # leaves it set in the session's modifier state, so the app then waits
+    # for "held modifiers" and shows a card instead of pasting.
+    keys 'key code 125 using command down'
     sleep 2
     ;;
   *) echo "unknown case $CASE" >&2; exit 2 ;;
@@ -108,6 +116,13 @@ else
     echo "focus moved; cancelled" >"$T/skip"
   fi
   sleep 9
+  # Evidence: the window the take went into, before it is read back.
+  if [ -x "$BIN/wbwin" ]; then
+    for wp in $(pgrep -f "user-data-dir=$PROFILE") $(pgrep -x TextEdit); do
+      w=$("$BIN/wbwin" "$wp" 2>/dev/null | cut -d' ' -f1)
+      [ -n "$w" ] && { screencapture -x -o -l "$w" "$T/window.png"; break; }
+    done
+  fi
   case "$CASE" in
     editor) keys 'keystroke "s" using command down'; sleep 1; tail -n 2 "$WS/user_service.ts" >"$T/text" ;;
     chat) keys 'keystroke "a" using command down'; keys 'keystroke "c" using command down'; sleep 0.5
