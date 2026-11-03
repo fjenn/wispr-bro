@@ -25,7 +25,7 @@
 //! VoiceOver: the single-slot view is a button named "Dictation bar" with
 //! the hint as its help text. With S-24 enabled, two native NSButtons expose
 //! independent Dictate and Scratchpad names, actions and tooltips instead.
-//! Announcements for takes come from `panel::announce`.
+//! Announcements come from `accessibility::announce`.
 
 use std::cell::{Cell, RefCell};
 
@@ -798,32 +798,4 @@ pub fn screens(mtm: MainThreadMarker) -> Vec<Screen> {
 pub fn cursor() -> (f64, f64) {
     let p = NSEvent::mouseLocation();
     (p.x, p.y)
-}
-
-/// Posts a VoiceOver announcement (`NSAccessibilityAnnouncementRequested`).
-pub fn announce(element: &AnyObject, text: &str, high: bool) {
-    use objc2_app_kit::{
-        NSAccessibilityAnnouncementKey, NSAccessibilityAnnouncementRequestedNotification,
-        NSAccessibilityPostNotificationWithUserInfo, NSAccessibilityPriorityKey,
-        NSAccessibilityPriorityLevel,
-    };
-    use objc2_foundation::NSNumber;
-    let message = NSString::from_str(text);
-    let priority = NSNumber::new_isize(if high {
-        NSAccessibilityPriorityLevel::High.0
-    } else {
-        NSAccessibilityPriorityLevel::Medium.0
-    });
-    // SAFETY: framework constants; the dictionary holds an NSString and an
-    // NSNumber as AppKit documents for these keys.
-    unsafe {
-        let keys: [&NSString; 2] = [NSAccessibilityAnnouncementKey, NSAccessibilityPriorityKey];
-        let values: [&AnyObject; 2] = [&message, &priority];
-        let info = NSDictionary::from_slices(&keys, &values);
-        NSAccessibilityPostNotificationWithUserInfo(
-            element,
-            NSAccessibilityAnnouncementRequestedNotification,
-            Some(&info),
-        );
-    }
 }

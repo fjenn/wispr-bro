@@ -199,6 +199,12 @@ fn every_pill_string_exists_in_english() {
         "rust.pill.announce.silenceWarning".into(),
         "rust.pill.announce.lengthWarning".into(),
         "rust.pill.announce.micLostWarning".into(),
+        "rust.pill.announce.inserted".into(),
+        "rust.pill.announce.settingUp".into(),
+        "rust.pill.announce.card".into(),
+        "rust.pill.announce.undo".into(),
+        "rust.pill.announce.diff".into(),
+        "rust.pill.announce.secureInputWarning".into(),
     ];
     use PillMessage::*;
     for m in [
@@ -299,4 +305,24 @@ fn no_fork_panel_switches_the_app_activation_policy() {
     assert!(hits.is_empty(), "no_activate in fork code: {hits:?}");
     let panel = std::fs::read_to_string(root.join("pill/panel.rs")).unwrap();
     assert!(panel.contains(".focused(false)") && panel.contains(".visible(false)"));
+}
+
+#[test]
+fn voiceover_reads_the_cards_text_but_never_a_password_fields() {
+    use crate::fork::pill::accessibility::spoken;
+    let tr = view(PillPhase::Transcribing, None);
+    let moved = card_view(Some(ForkCardReason::FocusMoved), Some(" Meet at noon. "));
+    let (text, high) = spoken("en", Some(&tr), Some(&moved)).unwrap();
+    assert!(high);
+    assert_eq!(text, "You moved on, so nothing was pasted. Meet at noon.");
+    // S-05: a password field's card has no text in the view.
+    let secret = card_view(Some(ForkCardReason::SecureField), None);
+    let (text, _) = spoken("en", Some(&tr), Some(&secret)).unwrap();
+    assert_eq!(text, "Not typed into a password field");
+    // Other states speak only their key.
+    let (text, high) = spoken("en", None, Some(&view(PillPhase::Held, None))).unwrap();
+    assert_eq!((text.as_str(), high), ("Listening", false));
+    // Localized through fork/i18n.rs.
+    let (de, _) = spoken("de", None, Some(&view(PillPhase::Held, None))).unwrap();
+    assert!(!de.is_empty());
 }

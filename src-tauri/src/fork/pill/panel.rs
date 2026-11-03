@@ -176,18 +176,6 @@ pub fn bar_placement() -> Option<(Anchor, Screen)> {
     ))
 }
 
-/// VoiceOver announcement. Main thread only.
-pub fn announce(text: &str, high: bool) {
-    // Posted from the application element: the resting bar may be hidden
-    // while a take shows, and VoiceOver drops announcements from hidden
-    // elements.
-    let Some(mtm) = MainThreadMarker::new() else {
-        return;
-    };
-    let app = objc2_app_kit::NSApplication::sharedApplication(mtm);
-    native::announce(&app, text, high);
-}
-
 impl Ui {
     fn apply(&mut self, scene: Scene) {
         let before = (

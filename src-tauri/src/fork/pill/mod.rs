@@ -30,6 +30,7 @@
 //! engine's effects, so `actions.rs` needs no hook for S-03 (the planned
 //! `on_record_start` hook is not needed; R5 S-03 as built).
 
+pub mod accessibility;
 pub mod geometry;
 pub mod levels;
 pub mod model;
@@ -164,6 +165,8 @@ enum Msg {
     Theme(Option<bool>),
     /// S-30: the spotlight started or ended (re-read the preferences).
     Refresh,
+    /// S-37: a `rust.*` VoiceOver announcement in the bar's language.
+    Announce(&'static str, bool),
 }
 
 fn send(msg: Msg) {
@@ -431,6 +434,12 @@ pub fn ui_action(action: PillUiAction) {
     send(Msg::Ui(action));
 }
 
+/// S-37: VoiceOver says the `rust.*` string `key` in the bar's language
+/// (dropped while the bar does not run).
+pub(crate) fn announce_key(key: &'static str, high: bool) {
+    send(Msg::Announce(key, high));
+}
+
 /// S-30: the spotlight started or ended; the resting bar re-reads whether
 /// it may show.
 pub fn refresh() {
@@ -442,13 +451,6 @@ pub fn refresh() {
 #[cfg(target_os = "macos")]
 pub fn bar_placement() -> Option<(placement::Anchor, placement::Screen)> {
     panel::bar_placement()
-}
-
-/// S-30: a VoiceOver announcement from the application element. Main
-/// thread only.
-#[cfg(target_os = "macos")]
-pub fn announce_main(text: &str) {
-    panel::announce(text, false);
 }
 
 /// Whether the bar runs (product builds on macOS, after [`start`]).
@@ -495,63 +497,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
     }
 }
 
-/// The VoiceOver announcement for a change of the bar, if any (`rust.pill.*`
-/// keys), and whether it is high priority.
-pub fn announcement(
-    before: Option<&ActiveView>,
-    after: Option<&ActiveView>,
-) -> Option<(String, bool)> {
-    let phase = |v: Option<&ActiveView>| v.map(|a| a.phase);
-    if phase(before) == phase(after) && before.map(|a| a.message) == after.map(|a| a.message) {
-        let warned = after.and_then(|a| a.warning);
-        if warned.is_some() && before.and_then(|a| a.warning) != warned {
-            let key = match warned? {
-                PillWarning::Silence => "rust.pill.announce.silenceWarning",
-                PillWarning::Length => "rust.pill.announce.lengthWarning",
-                PillWarning::MicLost => "rust.pill.announce.micLostWarning",
-                PillWarning::SecureInput => "rust.pill.announce.secureInputWarning",
-            };
-            return Some((key.into(), true));
-        }
-        return None;
-    }
-    match (phase(before), after) {
-        (None | Some(PillPhase::Message), Some(a))
-            if matches!(a.phase, PillPhase::Held | PillPhase::Locked) =>
-        {
-            Some(("rust.pill.announce.listening".into(), false))
-        }
-        (_, Some(a)) if a.phase == PillPhase::Transcribing => {
-            Some(("rust.pill.announce.transcribing".into(), false))
-        }
-        (_, Some(a)) if a.phase == PillPhase::CleaningUp => {
-            Some(("rust.pill.announce.cleaningUp".into(), false))
-        }
-        (_, Some(a)) if a.phase == PillPhase::SettingUp => {
-            Some(("rust.pill.announce.settingUp".into(), false))
-        }
-        (_, Some(a)) if a.phase == PillPhase::Card => Some((
-            a.card_reason
-                .map_or_else(|| "rust.pill.announce.card".into(), card_key),
-            true,
-        )),
-        (_, Some(a)) if a.phase == PillPhase::Diff => {
-            Some(("rust.pill.announce.diff".into(), false))
-        }
-        (_, Some(a)) if a.phase == PillPhase::Message => a.message.map(|m| {
-            let key = match m {
-                // "Cancelled" was just announced by the take's end.
-                PillMessage::Cancelled => "rust.pill.announce.undo".to_string(),
-                _ => format!("rust.pill.message.{}", m.key()),
-            };
-            (key, m.tone() == PillTone::Error)
-        }),
-        (Some(PillPhase::Held | PillPhase::Locked), None) => {
-            Some(("rust.pill.announce.cancelled".into(), false))
-        }
-        _ => None,
-    }
-}
+pub use accessibility::announcement;
 
 // ---------------------------------------------------------------------------
 // Start (macOS product builds)
@@ -843,6 +789,10 @@ impl Controller {
             }
             Msg::Theme(dark) => self.dark = dark,
             Msg::Refresh => self.refresh_prefs(),
+            Msg::Announce(key, high) => {
+                let text = crate::fork::i18n::t(self.locale, key, &[]);
+                accessibility::announce_text(&self.app, text, high);
+            }
         }
     }
 
@@ -1128,11 +1078,10 @@ impl Controller {
             self.mic_lookup = false;
         }
         // VoiceOver.
-        if let Some((key, high)) = announcement(self.sent.as_ref(), view.active.as_ref()) {
-            let text = crate::fork::i18n::t(self.locale, &key, &[]);
-            let _ = self
-                .app
-                .run_on_main_thread(move || panel::announce(&text, high));
+        if let Some((text, high)) =
+            accessibility::spoken(self.locale, self.sent.as_ref(), view.active.as_ref())
+        {
+            accessibility::announce_text(&self.app, text, high);
         }
 
         let (native, web) = match &view.active {

@@ -584,7 +584,7 @@ mod mac {
             crate::fork::i18n::t(locale, &super::hint_key(choice), &[]),
             crate::fork::i18n::t(locale, "rust.spotlight.escape", &[])
         );
-        crate::fork::pill::announce_main(&text);
+        crate::fork::pill::accessibility::announce_main(&text);
     }
 }
 

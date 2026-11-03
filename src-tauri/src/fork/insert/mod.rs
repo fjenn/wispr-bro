@@ -393,6 +393,8 @@ fn publish_outcome<R: Runtime>(
         if pasted(delivery.paste_outcome()) {
             // S-30: a real use ends the spotlight and ticks the checklist.
             crate::fork::onboarding::checklist::on_take_pasted(app);
+            // S-37: VoiceOver hears that the text landed.
+            crate::fork::pill::accessibility::on_inserted();
         }
     }
     let event = outcome_event(take, delivery, text);
