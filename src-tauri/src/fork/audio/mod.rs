@@ -39,6 +39,7 @@
 //! from (R5 S-01 note).
 
 pub mod choice;
+pub mod dynamics;
 pub mod monitor;
 pub mod mute;
 pub mod permission;

@@ -18,13 +18,15 @@ import {
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 
-/** Number of bars in the meter. */
-export const METER_BARS = 12;
+import { barHeights, litBars, METER_BARS } from "./meterBars";
 
-/** How many bars a 0..1 level lights. */
-export function litBars(level: number, bars = METER_BARS): number {
-  if (!Number.isFinite(level) || level <= 0) return 0;
-  return Math.min(bars, Math.ceil(level * bars));
+export { litBars, METER_BARS };
+
+function reducedMotion(): boolean {
+  return (
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 }
 
 type LoadState =
@@ -268,6 +270,8 @@ export function MicLevelMeter({
   const { t } = useTranslation(FORK_NAMESPACE);
   const [running, setRunning] = useState(false);
   const [level, setLevel] = useState(0);
+  // Advances with every reading: the lit bars' small per-bar variation.
+  const [frame, setFrame] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const session = useRef<number | null>(null);
   const runningRef = useRef(false);
@@ -287,6 +291,7 @@ export function MicLevelMeter({
       if (session.current !== null && p.session !== session.current) return;
       if (p.running) {
         setLevel(p.level);
+        setFrame((f) => (f + 1) % 1_000_000);
       } else {
         session.current = null;
         runningRef.current = false;
@@ -348,6 +353,7 @@ export function MicLevelMeter({
   }, [autoStart, inert, toggle]);
 
   const lit = litBars(level);
+  const heights = barHeights(level, frame, reducedMotion());
   const percent = Math.round(level * 100);
   const errorKey =
     error === "permission_denied" || error === "no_input_device"
@@ -389,7 +395,7 @@ export function MicLevelMeter({
               className={`w-1.5 rounded-sm motion-safe:transition-[height,background-color] motion-safe:duration-75 ${
                 i < lit ? "bg-(--wb-accent)" : "bg-(--wb-line-strong)"
               }`}
-              style={{ height: `${30 + (i * 70) / (METER_BARS - 1)}%` }}
+              style={{ height: `${heights[i].toFixed(1)}%` }}
             />
           ))}
         </div>

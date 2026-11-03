@@ -21,12 +21,15 @@ use specta::Type;
 use tauri::{AppHandle, Runtime};
 use tauri_specta::Event;
 
+use super::dynamics::{rms_db, Dynamics};
+
+/// The meter reads the RMS of this much recent audio.
+const RMS_WINDOW_MS: usize = 30;
+
 /// Level events per second.
-pub const EMIT_HZ: u32 = 20;
+pub const EMIT_HZ: u32 = 30;
 /// A session stops by itself after this long.
 pub const MAX_SESSION: Duration = Duration::from_secs(60);
-/// The meter's floor: quieter than this shows as 0.
-pub const FLOOR_DB: f32 = -60.0;
 
 /// A level reading of the monitored mic, or the end of a session.
 #[derive(Clone, Debug, Serialize, Deserialize, Type, Event, PartialEq)]
@@ -35,60 +38,74 @@ pub struct ForkMicLevel {
     pub session: u32,
     /// `false` once: the session ended.
     pub running: bool,
-    /// 0..1 on a dB scale from [`FLOOR_DB`] to 0 dBFS, lightly smoothed.
+    /// 0..1: the level above the room's noise floor, on a dB scale, with a
+    /// fast attack and a smooth release ([`super::dynamics`]). Steady room
+    /// noise reads near 0; ordinary speech fills most of the meter.
     pub level: f32,
     /// Why the session could not start or ended early (`permission_denied`,
     /// `no_input_device`, `device_lost`, `failed`).
     pub error: Option<String>,
 }
 
-/// RMS of `samples` on the meter's scale: `FLOOR_DB`..0 dBFS → 0..1.
-pub fn level_of(samples: &[f32]) -> f32 {
-    if samples.is_empty() {
-        return 0.0;
-    }
-    let mean_square = samples.iter().map(|s| s * s).sum::<f32>() / samples.len() as f32;
-    let rms = mean_square.sqrt();
-    if rms <= 0.0 {
-        return 0.0;
-    }
-    let db = 20.0 * rms.log10();
-    ((db - FLOOR_DB) / -FLOOR_DB).clamp(0.0, 1.0)
-}
-
-/// Fast attack, slower release, so speech reads as bars that move, not
-/// flicker.
-#[derive(Clone, Debug, Default)]
-pub struct Meter {
-    level: f32,
-}
-
-impl Meter {
-    pub fn push(&mut self, instant: f32) -> f32 {
-        let k = if instant > self.level { 0.6 } else { 0.25 };
-        self.level += (instant - self.level) * k;
-        self.level
-    }
-}
-
-/// The sink: folds chunks into the meter and emits at most `EMIT_HZ`.
+/// The sink: folds every chunk into the meter's [`Dynamics`] (timed by the
+/// audio itself) and emits the highest level since the last event, at most
+/// `EMIT_HZ` times a second.
 struct LevelSink<F: FnMut(f32) + Send + 'static> {
-    meter: Meter,
+    dynamics: Dynamics,
+    /// `(frames, sum of squares)` of the last chunks, about [`RMS_WINDOW_MS`].
+    recent: std::collections::VecDeque<(usize, f32)>,
     loudest: f32,
     last_emit: Option<Instant>,
     emit: F,
 }
 
+impl<F: FnMut(f32) + Send + 'static> LevelSink<F> {
+    fn new(emit: F) -> Self {
+        Self {
+            dynamics: Dynamics::meter(),
+            recent: std::collections::VecDeque::new(),
+            loudest: 0.0,
+            last_emit: None,
+            emit,
+        }
+    }
+}
+
 impl<F: FnMut(f32) + Send + 'static> Sink for LevelSink<F> {
     fn process_chunk(&mut self, chunk: AudioChunk<'_>) {
         let real = chunk.valid_frames * chunk.channels as usize;
-        let level = level_of(&chunk.samples[..real]);
+        let samples = &chunk.samples[..real];
+        // RMS over the last ~30 ms: steadier on noise than one 10 ms chunk.
+        self.recent
+            .push_back((samples.len(), samples.iter().map(|s| s * s).sum()));
+        let window = (chunk.sample_rate as usize * chunk.channels as usize) * RMS_WINDOW_MS / 1000;
+        while self.recent.len() > 1
+            && self.recent.iter().map(|(n, _)| n).sum::<usize>() - self.recent[0].0 >= window
+        {
+            self.recent.pop_front();
+        }
+        let (n, sum) = self
+            .recent
+            .iter()
+            .fold((0usize, 0.0f32), |(n, s), (m, t)| (n + m, s + t));
+        let db = if n == 0 || sum <= 0.0 {
+            rms_db(&[])
+        } else {
+            (10.0 * (sum / n as f32).log10()).max(rms_db(&[]))
+        };
+        let dt_ms = chunk.valid_frames as f32 * 1000.0 / chunk.sample_rate.max(1) as f32;
+        let level = self.dynamics.push(db, dt_ms);
         self.loudest = self.loudest.max(level);
         let due = self
             .last_emit
             .is_none_or(|t| t.elapsed() >= Duration::from_millis(1000 / EMIT_HZ as u64));
         if due {
-            let shown = self.meter.push(self.loudest);
+            let shown = self.loudest;
+            log::trace!(
+                "fork audio: meter at {:.2} s: {db:.1} dB, floor {:.1} dB, level {shown:.2}",
+                self.dynamics.elapsed_ms() / 1000.0,
+                self.dynamics.floor()
+            );
             self.loudest = 0.0;
             self.last_emit = Some(Instant::now());
             (self.emit)(shown);
@@ -195,22 +212,17 @@ fn run<R: Runtime>(
     };
     log::info!("fork audio: mic test started (session {id})");
     let emitter = app.clone();
-    let sink = LevelSink {
-        meter: Meter::default(),
-        loudest: 0.0,
-        last_emit: None,
-        emit: move |level| {
-            send(
-                &emitter,
-                ForkMicLevel {
-                    session: id,
-                    running: true,
-                    level,
-                    error: None,
-                },
-            )
-        },
-    };
+    let sink = LevelSink::new(move |level| {
+        send(
+            &emitter,
+            ForkMicLevel {
+                session: id,
+                running: true,
+                level,
+                error: None,
+            },
+        )
+    });
     if let Err(e) = recorder.start(sink) {
         let _ = recorder.close();
         return Some(error_name(&e.error));
@@ -251,33 +263,6 @@ pub fn stop_for_take() {
 mod tests {
     use super::*;
 
-    #[test]
-    fn levels_map_dbfs_onto_zero_to_one() {
-        assert_eq!(level_of(&[]), 0.0);
-        assert_eq!(level_of(&[0.0; 160]), 0.0);
-        assert!((level_of(&[1.0; 160]) - 1.0).abs() < 1e-6);
-        // -20 dBFS → 2/3 of the way up a 60 dB scale.
-        let l = level_of(&[0.1; 160]);
-        assert!((l - 2.0 / 3.0).abs() < 1e-3, "{l}");
-        // Below the floor is silence on the meter.
-        assert_eq!(level_of(&[0.0001; 160]), 0.0);
-        // A sine at amplitude 0.5 has RMS 0.354 (-9 dBFS).
-        let sine: Vec<f32> = (0..1600)
-            .map(|i| 0.5 * (i as f32 * std::f32::consts::TAU / 32.0).sin())
-            .collect();
-        let l = level_of(&sine);
-        assert!((l - (60.0 - 9.03) / 60.0).abs() < 0.01, "{l}");
-    }
-
-    #[test]
-    fn the_meter_rises_fast_and_falls_slowly() {
-        let mut m = Meter::default();
-        let up = m.push(1.0);
-        assert!(up > 0.5);
-        let down = m.push(0.0);
-        assert!(down > up * 0.7, "{up} → {down}");
-    }
-
     fn chunk(samples: &[f32]) -> AudioChunk<'_> {
         AudioChunk {
             samples,
@@ -287,52 +272,127 @@ mod tests {
         }
     }
 
+    fn sink(out: &Arc<Mutex<Vec<f32>>>) -> LevelSink<impl FnMut(f32) + Send + 'static> {
+        let o = Arc::clone(out);
+        LevelSink::new(move |l| o.lock().unwrap().push(l))
+    }
+
+    /// 10 ms of noise at about `db` dBFS (RMS).
+    fn noise(db: f32, seed: &mut u32) -> Vec<f32> {
+        let amp = 10f32.powf(db / 20.0) * 3f32.sqrt();
+        (0..160)
+            .map(|_| {
+                *seed ^= *seed << 13;
+                *seed ^= *seed >> 17;
+                *seed ^= *seed << 5;
+                amp * ((*seed as f32 / u32::MAX as f32) * 2.0 - 1.0)
+            })
+            .collect()
+    }
+
     #[test]
-    fn the_sink_emits_at_most_the_rate_and_keeps_the_loudest_chunk() {
+    fn the_sink_emits_at_most_the_rate_and_keeps_the_loudest_level() {
         let out = Arc::new(Mutex::new(Vec::new()));
-        let o = Arc::clone(&out);
-        let mut sink = LevelSink {
-            meter: Meter::default(),
-            loudest: 0.0,
-            last_emit: None,
-            emit: move |l| o.lock().unwrap().push(l),
-        };
-        let loud = [0.5f32; 160];
+        let mut sink = sink(&out);
+        let loud = [0.3f32; 160];
         let quiet = [0.0f32; 160];
-        // 100 chunks of 10 ms in well under 50 ms: one emit (the first).
+        // 100 chunks of 10 ms in well under 33 ms: one emit (the first),
+        // and the loud one among them is kept for the next.
         for i in 0..100 {
-            sink.process_chunk(chunk(if i == 0 { &loud } else { &quiet }));
+            sink.process_chunk(chunk(if i == 1 { &loud } else { &quiet }));
         }
         assert_eq!(out.lock().unwrap().len(), 1);
-        assert!(out.lock().unwrap()[0] > 0.4);
+        assert_eq!(out.lock().unwrap()[0], 0.0);
+        std::thread::sleep(Duration::from_millis(40));
+        sink.process_chunk(chunk(&quiet));
+        assert_eq!(out.lock().unwrap().len(), 2);
+        assert!(out.lock().unwrap()[1] > 0.1, "{:?}", out.lock().unwrap());
         // A loud chunk between emits is not lost: it shows in the next one.
         sink.process_chunk(chunk(&loud));
-        std::thread::sleep(Duration::from_millis(60));
+        std::thread::sleep(Duration::from_millis(40));
         sink.process_chunk(chunk(&quiet));
         let got = out.lock().unwrap().clone();
-        assert_eq!(got.len(), 2);
-        assert!(got[1] > 0.4, "{got:?}");
+        assert_eq!(got.len(), 3);
+        assert!(got[2] > 0.1, "{got:?}");
+    }
+
+    #[test]
+    fn steady_room_noise_reads_near_zero_and_speech_fills_the_meter() {
+        let out = Arc::new(Mutex::new(Vec::new()));
+        let mut sink = sink(&out);
+        let mut seed = 9;
+        let mut levels = Vec::new();
+        // The levels as the audio produces them (emits are wall-clock).
+        let run = |sink: &mut LevelSink<_>, db: f32, ms: u32, seed: &mut u32| {
+            let mut v = Vec::new();
+            for _ in 0..ms / 10 {
+                sink.process_chunk(chunk(&noise(db, seed)));
+                v.push(sink.loudest);
+                sink.loudest = 0.0;
+            }
+            v
+        };
+        levels.extend(run(&mut sink, -30.0, 3000, &mut seed));
+        let hum = &levels[150..];
+        assert!(hum.iter().all(|l| *l < 0.2), "café hum: {hum:?}");
+        let talk = run(&mut sink, -12.0, 400, &mut seed);
+        assert!(talk.iter().copied().fold(0.0, f32::max) > 0.85, "{talk:?}");
     }
 
     #[test]
     fn the_sink_ignores_the_padding_of_the_last_chunk() {
         let out = Arc::new(Mutex::new(Vec::new()));
-        let o = Arc::clone(&out);
-        let mut sink = LevelSink {
-            meter: Meter::default(),
-            loudest: 0.0,
-            last_emit: None,
-            emit: move |l| o.lock().unwrap().push(l),
-        };
-        let mut s = vec![0.0f32; 160];
-        s[..10].fill(0.5);
+        let mut sink = sink(&out);
+        // Silence in the real frames, loud padding after them: silence.
+        let mut s = vec![1.0f32; 160];
+        s[..10].fill(0.0);
         sink.process_chunk(AudioChunk {
             samples: &s,
             sample_rate: 16_000,
             channels: 1,
             valid_frames: 10,
         });
-        assert!(out.lock().unwrap()[0] > 0.4);
+        assert_eq!(out.lock().unwrap()[0], 0.0);
+    }
+
+    /// `WB_METER_WAV=<16-bit mono WAV>`: plays the file through the meter's
+    /// sink in 10 ms chunks and prints the level every 33 ms (what the meter
+    /// shows), with the floor. Run by hand for the café check.
+    #[test]
+    #[ignore = "needs WB_METER_WAV"]
+    fn meter_sequence_of_a_wav() {
+        let Some(path) = std::env::var_os("WB_METER_WAV") else {
+            return;
+        };
+        let source = crate::fork::audio::test_mic::load(std::path::Path::new(&path)).unwrap();
+        let rate = source.sample_rate as usize;
+        let step = rate / 100;
+        let mut sink = LevelSink::new(|_| {});
+        let mut shown = 0.0f32;
+        for (i, c) in source.samples.chunks(step).enumerate() {
+            sink.process_chunk(AudioChunk {
+                samples: c,
+                sample_rate: source.sample_rate,
+                channels: 1,
+                valid_frames: c.len(),
+            });
+            shown = shown.max(sink.loudest);
+            sink.loudest = 0.0;
+            if i % 3 == 2 {
+                let t = (i + 1) as f32 / 100.0;
+                let lit = if shown < 0.04 {
+                    0
+                } else {
+                    (shown * 12.0).ceil() as u32
+                };
+                println!(
+                    "{t:6.2}s level {shown:.2} lit {lit:2} floor {:.1} {}",
+                    sink.dynamics.floor(),
+                    "#".repeat(lit as usize)
+                );
+                shown = 0.0;
+            }
+        }
     }
 
     #[test]

@@ -86,9 +86,11 @@ export function usePillLevels(active: boolean): number[] {
     let off: UnlistenFn | null = null;
     void events.forkPillLevels
       .listen((event) => {
+        // The backend already shapes the bars (noise floor, attack and
+        // release: `fork::pill::levels::Waveform`); only a light blend here.
         const next = smoothed.current.map((prev, i) => {
           const target = event.payload.bars[i] ?? 0;
-          return prev * 0.6 + target * 0.4;
+          return prev * 0.2 + target * 0.8;
         });
         smoothed.current = next;
         setBars(next);

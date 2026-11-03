@@ -1963,7 +1963,9 @@ session: number;
  */
 running: boolean; 
 /**
- * 0..1 on a dB scale from [`FLOOR_DB`] to 0 dBFS, lightly smoothed.
+ * 0..1: the level above the room's noise floor, on a dB scale, with a
+ * fast attack and a smooth release ([`super::dynamics`]). Steady room
+ * noise reads near 0; ordinary speech fills most of the meter.
  */
 level: number; 
 /**

@@ -290,6 +290,92 @@ test.describe("Mic test", () => {
     );
   });
 
+  // Owner test 1: the backend sends levels above the room's noise floor;
+  // a steady room lights nothing, speech most of the meter, and the lit
+  // bars vary per bar (still under Reduce Motion).
+  for (const theme of ["light", "dark"] as const) {
+    test(`noise, then speech, then silence (${theme})`, async ({
+      page,
+      ipc,
+      hub,
+    }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      installMics(ipc);
+      const { mic } = await openSound(page, ipc, hub);
+      const bars = mic.getByTestId("wb-mic-bars");
+      await mic.getByTestId("wb-mic-test").click();
+      await ipc.expectCalled("fork_mic_monitor_start");
+      await ipc.waitForListener("fork-mic-level");
+      const send = (level: number) =>
+        ipc.emit("fork-mic-level", {
+          session: 7,
+          running: true,
+          level,
+          error: null,
+        });
+      for (const level of [0.01, 0.03, 0.02]) await send(level);
+      await expect(bars).toHaveAttribute("data-lit", "0");
+      await shot(page, `meter-noise-${theme}`);
+
+      const heights = async () =>
+        bars
+          .locator("span")
+          .evaluateAll((els) =>
+            els.map((e) => (e as HTMLElement).style.height),
+          );
+      await send(0.9);
+      await expect(bars).toHaveAttribute("data-lit", "11");
+      const first = await heights();
+      await send(0.92);
+      await expect(bars).toHaveAttribute("data-lit", "12");
+      const second = await heights();
+      expect(second).not.toEqual(first);
+      await shot(page, `meter-speech-${theme}`);
+      await expectNoSeriousAxeFindings(page);
+
+      for (const level of [0.4, 0.1, 0.02, 0]) await send(level);
+      await expect(bars).toHaveAttribute("data-lit", "0");
+      await expect(mic.getByRole("meter")).toHaveAttribute(
+        "aria-valuenow",
+        "0",
+      );
+    });
+  }
+
+  test("Reduce Motion keeps the bars at rest heights", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    installMics(ipc);
+    const { mic } = await openSound(page, ipc, hub);
+    const bars = mic.getByTestId("wb-mic-bars");
+    await mic.getByTestId("wb-mic-test").click();
+    await ipc.waitForListener("fork-mic-level");
+    const heights = () =>
+      bars
+        .locator("span")
+        .evaluateAll((els) => els.map((e) => (e as HTMLElement).style.height));
+    await ipc.emit("fork-mic-level", {
+      session: 7,
+      running: true,
+      level: 0.9,
+      error: null,
+    });
+    await expect(bars).toHaveAttribute("data-lit", "11");
+    const first = await heights();
+    await ipc.emit("fork-mic-level", {
+      session: 7,
+      running: true,
+      level: 0.88,
+      error: null,
+    });
+    await expect(bars).toHaveAttribute("data-lit", "11");
+    expect(await heights()).toEqual(first);
+    expect(first[0]).toBe("30%");
+  });
+
   test("Stop ends the session; closing the panel stops a running test", async ({
     page,
     ipc,

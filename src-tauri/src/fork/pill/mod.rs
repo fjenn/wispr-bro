@@ -84,6 +84,9 @@ static RUNNING: AtomicBool = AtomicBool::new(false);
 static SILENCE_WARNED: AtomicBool = AtomicBool::new(false);
 static TX: OnceLock<Sender<Msg>> = OnceLock::new();
 static THROTTLE: levels::Throttle = levels::Throttle::new();
+/// The waveform's dynamics; a gap between frames starts a new take.
+static WAVEFORM: std::sync::LazyLock<std::sync::Mutex<levels::Waveform>> =
+    std::sync::LazyLock::new(Default::default);
 /// The state the web view should show, for `fork_pill_snapshot`.
 static SNAPSHOT: Mutex<Option<ForkPillState>> = Mutex::new(None);
 
@@ -223,12 +226,15 @@ pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
         SILENCE_WARNED.store(false, Ordering::Relaxed);
         input(Input::Voice);
     }
-    if !THROTTLE.admit(monotonic_ms()) {
+    let now = monotonic_ms();
+    let shaped = WAVEFORM
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .push(levels, now);
+    if !THROTTLE.admit(now) {
         return;
     }
-    let frame = ForkPillLevels {
-        bars: levels::bars(levels),
-    };
+    let frame = ForkPillLevels { bars: shaped };
     if log::log_enabled!(log::Level::Debug) {
         log_level_peak(&frame.bars);
     }
