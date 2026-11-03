@@ -2551,3 +2551,68 @@ Note: Handy's `playwright.config.ts` (`testDir: ./tests`) also discovers
   event that arrives first wins). The gate waits on it as on any other
   blocker, and on `update.busy` while the text is delivered. The feature
   popup gets the same mount query.
+
+## Owner test 1 fixes (`fix/owner-test-1`)
+
+- **Schema-aware `fork.db` migrations** (`fork/db/migrate.rs`, replacing
+  `rusqlite_migration` for the fork; Handy's `history.db` keeps it). Slices
+  were renumbered at rebase time during development (S-18's notifications
+  shipped as v3, v4 and v5 on different branches, S-17's snippets as v5
+  and v6, S-19a's app rules as v7 and v8), so an alpha tester's file can be
+  at a `user_version` whose schema it does not have. The owner's rc2 file:
+  `user_version` 5 with v6's three columns and without v3's
+  `entry_meta.text_stages` (an S-18 branch build, then an S-17 branch
+  build); 0006 failed with `duplicate column name` on every open, so every
+  fork.db feature failed. The runner:
+  - builds the expected schema after every version in memory
+    (`expected_schemas`: `pragma_table_info` of every table, plus index,
+    trigger and view names) and compares the file with the schema at its
+    version; missing pieces replay every migration from the start, extra
+    (later) pieces are kept; both cases log an INFO `fork.db repair:` line
+    naming tables and columns, never data;
+  - per migration (one `BEGIN IMMEDIATE` transaction with its
+    `user_version` bump, never lowered): skips it when its changes (the
+    delta between consecutive expected schemas) are all present, so a
+    rebuild such as 0008's `DROP`+`CREATE` never runs over its own result;
+    otherwise runs it statement by statement (`sqlite3_complete` splitting,
+    triggers stay whole), skipping `ADD COLUMN` of a present column,
+    `CREATE` of a present object and `DROP` of an absent one; hooks are
+    idempotent (0004's `CREATE UNIQUE INDEX IF NOT EXISTS`);
+  - ends with a check against the latest expected schema (WARN with what
+    still differs).
+    Rules for new migrations: one change per statement, idempotent data
+    statements and hooks.
+- **Backups and concurrent opens** (`fork/db/mod.rs`): a pre-migration
+  backup is skipped when a `fork.backup-v<N>-*.db` at least as new as the
+  file exists (copies carry the source's modification time; a `-wal` with
+  frames counts as a change), so retries after a failure make no new copies
+  (rc2 made one per failed open, several per millisecond). The newest
+  `BACKUPS_KEPT` (3) are kept. `fork.migrate.lock` (std `File::lock`) is held
+  around check, backup and migration, so a second process waits and then
+  finds the work done; in one process the `ForkDb` mutex already serializes.
+- **Tests never open a real app data dir** (`db::register`, `cfg(test)`):
+  the settings tests build a mock app with the product identifier and run
+  `on_ready`, whose jobs opened `~/Library/Application Support/
+com.wisprbro.desktop/fork.db` on the developer's Mac. Under test, a
+  data dir outside the temp dir becomes a per-process temp dir.
+- **Dictionary save failures say why** (`AddWordDialog.tsx`
+  `saveFailure`/`SAVE_FAILURE_KEY`, used by the History flag dialog too):
+  `Internal` (the data file cannot be opened) and `NotReady` (still
+  starting) get their own message in the dialog's alert, the dialog stays
+  open with the text; the page shows "Your dictionary can't be opened"
+  (`status: "broken"`) instead of "isn't available yet" when the list read
+  fails with `Internal`.
+- **Meter and waveform dynamics** (`fork/audio/dynamics.rs`): a level in dB
+  minus a noise floor (the 15th percentile of the last 1.5 s; 4 dB lower
+  during the first 0.6 s), a dead band (4.5 dB for the meter), a span with an
+  ease-out curve (20 dB for the meter), and an envelope with 40 ms attack
+  and 200 ms release computed from real time. The mic test
+  (`fork/audio/monitor.rs`) feeds it the RMS of the last 30 ms in dBFS and
+  emits the highest level of each 33 ms (30 Hz); the frontend
+  (`settings/meterBars.ts`) lights no bar below 0.04 and varies the lit
+  bars' heights per reading (none with Reduce Motion). The Flow Bar
+  (`fork/pill/levels.rs` `Waveform`) undoes Handy's bucket mapping back to
+  its dB, then gives each bar its own dynamics (span 9 dB, knee 1.5 dB:
+  Handy's mapping saturates at about -38.8 on its scale, so speech has
+  only 5-10 dB over a room to show in); a 400 ms gap starts a new take.
+  `is_voice` and the silence warning still read Handy's raw levels.

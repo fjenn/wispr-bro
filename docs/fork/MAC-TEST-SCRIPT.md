@@ -2475,6 +2475,40 @@ unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
 - [x] S-38.6b **Mac wave 3: PASS on a release bench (load 4.1-6.7): LLM cold start 421 / 403 ms (two samples, sidecar started once before); first start of a fresh sidecar copy 4,607 ms (the one-time Metal compile, its own row); every other row PASS except sample 1's first ASR load (4.6 s, the new bench binary's own Metal compile; sample 2: 285 ms p95)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-3.md)) **Queued for the Mac wave** (Mac wave 2 finding 4, see `PERF.md` "LLM cold start"): `latency.sh` on a **release** build, two samples, with the sidecar already started once on this Mac, then one deliberate first start of a freshly built sidecar recorded on its own row (the one-time Metal library compile). The spawn line now has `--fit off` (no dry-run second model load).
 - Procedure: S-38.2-S-38.10 above. Machines: all for S-38.1.
 
+### Owner test 1 fixes (`fix/owner-test-1`)
+
+Test identity `com.wisprbro.metercheck` (portable debug build in the
+worktree's `src-tauri/target/debug`, started from that folder; shortcuts
+unbound, models cloned, update checks off). Never the owner's app or data,
+never the speakers or the real microphone.
+
+- [x] OT1.1 **Builder run (2026-11-03): PASS.** Mic meter with café noise:
+      `EXE=<…/target/debug/wispr-bro> OUT=<scratch> scripts/wb-meter/run.sh`
+      (the WAV comes from `scripts/wb-meter/make-wav.py`: 4 s of pink noise +
+      120 Hz hum at -30 dBFS, `say` speech mixed over the noise, 3 s of noise,
+      2 s of silence; onboarding resumed at the mic test, the meter starts by
+      itself; the levels come from the `fork audio: meter at …` trace lines).
+      318 readings: noise mean 0.00 (max 1 bar), speech mean 0.43 / max 0.80
+      (up to 10 of 12 bars, moving), noise after mean 0.01, silence 0. The
+      old fixed -60..0 dBFS mapping on the same readings: 6-7 bars on the
+      noise, 6-10 during speech (the owner's report).
+- [ ] OT1.2 **Queued for the Mac wave.** The Flow Bar's waveform, by eye:
+      same build and WAV (`WISPRBRO_TEST_MIC_WAV`), a take by SIGUSR2 with
+      the café WAV: the bars lie flat on the noise and move with the words.
+- [ ] OT1.3 **Queued for the Mac wave.** A stuck alpha profile repairs itself
+      on the release build: a portable release test bundle whose
+      `Contents/MacOS/Data/fork.db` is a v5 file with v6's columns (make it
+      with `ForkDb::with_migrations(test_migrations(5))` + 0006's SQL, as
+      `migrate_tests.rs` does; never the owner's file), first launch: the log
+      has `fork.db repair:` and `fork.db migrated from version 5 to 9`, one
+      `fork.backup-v5-*.db`; Dictionary › Add word saves "Siobhán" and it
+      survives a relaunch.
+- [ ] OT1.4 **Queued for the Mac wave.** A failed save is explained: with
+      the same bundle's `fork.db` replaced by a file that cannot migrate
+      (`user_version` 99 makes it "too new"), Dictionary › Add word shows
+      "Not saved: Wispr Bro can't open its data file. …" in the dialog and
+      the page shows "Your dictionary can't be opened".
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.
