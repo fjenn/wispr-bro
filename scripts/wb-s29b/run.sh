@@ -38,6 +38,10 @@ EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable
 DATA="$APP/Contents/MacOS/Data"
 LOGS="$DATA/logs"
 mkdir -p "$OUT"
+# Pre-recorded audio through the app's test microphone (never the speakers).
+[ -n "${WAV:-}" ] && wb_test_mic "$OUT" "$WAV"
+# Shortcuts unbound next to the owner's app; fn takes keep fn.
+keys_needed() { [ "${TAKE:-}" = signal ] || echo dictate,hands_free; }
 
 if [ "${WB_S29B_LOCKED:-}" != 1 ]; then
   WB_S29B_LOCKED=1 exec /usr/bin/lockf -k -t 1800 "$LOCK" /bin/bash "$0" "$@"
@@ -47,6 +51,7 @@ pid() { pgrep -f "$EXE" | head -1; }
 log() { echo "$(date +%H:%M:%S) $*" | tee -a "$OUT/run.log"; }
 applog() { cat "$LOGS"/*.log 2>/dev/null; }
 launch() {
+  wb_unbind_keys "$DATA" "$(keys_needed)" >>"$OUT/run.log"
   "$EXE" >/dev/null 2>&1 &
   for _ in $(seq 1 60); do [ -n "$(pid)" ] && break; sleep 0.5; done
   sleep "${1:-6}"
@@ -82,15 +87,16 @@ hands_free_take() {
   if [ -n "${1:-}" ] && [ "$(front_pid)" != "$1" ]; then
     log "SKIP take: pid $(front_pid) is in front, not $1"; return 1
   fi
+  wb_mic_load "$WAV" || return 1
   if [ "${TAKE:-}" = signal ]; then
     kill -USR2 "$(pid)"; sleep 0.8
-    afplay "$WAV"; sleep 0.6
+    wb_mic_play "$WAV"; sleep 0.6
     kill -USR2 "$(pid)"
     return
   fi
   : "${KEYS:?}"
   "$KEYS" -e 'fn down; wait 250; space down; wait 60; space up; wait 120; fn up; wait 300' >>"$OUT/keys.jsonl"
-  afplay "$WAV"; sleep 0.6
+  wb_mic_play "$WAV"; sleep 0.6
   "$KEYS" -e 'fn down; wait 120; fn up' >>"$OUT/keys.jsonl"
 }
 

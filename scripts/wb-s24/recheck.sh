@@ -69,9 +69,10 @@ screencapture -x "$OUT/step1.png"
 # Step 2: a take from the note.
 m=$(mark); before=$(notes)
 if [ "$(front_pid)" != "$pid" ]; then log "SKIP step 2: the test app is not in front"; else
+  wb_mic_load "$WAV" || exit 1
   kill -USR2 "$pid"; t0=$(date +%s)
   sleep 0.2; f02=$(front_pid)
-  sleep 0.6; afplay "$WAV" & ap=$!
+  sleep 0.6; wb_mic_play "$WAV" & ap=$!
   sleep 0.2; f1=$(front_pid)
   sleep 2; f3=$(front_pid)
   wait "$ap"; sleep 0.6
@@ -95,8 +96,9 @@ pid=$(app_pid)
 sleep 1
 if [ "$(front_pid)" != "$te" ]; then log "SKIP step 3: TextEdit not in front ($(front_pid))"; else
   m=$(mark); before=$(notes)
+  wb_mic_load "$WAV" || exit 1
   kill -USR2 "$pid"; sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   "$WBUI" "$pid" "front; wait 300" >>"$OUT/run.log" 2>&1
   sleep 0.5
   fstop=$(front_pid)

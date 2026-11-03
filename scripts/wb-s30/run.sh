@@ -45,6 +45,12 @@ EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable
 DATA="$APP/Contents/MacOS/Data"
 LOGS="$DATA/logs"
 mkdir -p "$OUT"
+# Pre-recorded audio through the app's test microphone (never the speakers).
+[ -n "${WAV:-}" ] && wb_test_mic "$OUT" "$WAV"
+# Shortcuts unbound next to the owner's app; fn takes keep fn, the `own`
+# case binds ⌥S (pressed only with our TextEdit in front).
+keys_needed() { [ "${TAKE:-}" = signal ] || echo dictate,hands_free; }
+S30_SET=()
 
 if [ "${WB_S30_LOCKED:-}" != 1 ]; then
   WB_S30_LOCKED=1 exec /usr/bin/lockf -k -t 1800 "$LOCK" /bin/bash "$0" "$@"
@@ -62,10 +68,11 @@ te_open() { printf '' >"$OUT/$1.txt"; TE=$(wb_textedit_open "$OUT/$1.txt") || { 
 te_close() { wb_textedit_close "${TE:-}"; }
 # One take: fn (default) or SIGUSR2 (TAKE=signal); the WAV plays once.
 take() {
+  wb_mic_load "$WAV" || return 1
   if [ "${TAKE:-}" = signal ]; then
-    kill -USR2 "$(pid)"; sleep 0.8; afplay "$WAV"; sleep 0.4; kill -USR2 "$(pid)"
+    kill -USR2 "$(pid)"; sleep 0.8; wb_mic_play "$WAV"; sleep 0.4; kill -USR2 "$(pid)"
   else
-    "$KEYS" -e "fn down; wait 600" && afplay "$WAV" && "$KEYS" -e "wait 400; fn up"
+    "$KEYS" -e "fn down; wait 600" && wb_mic_play "$WAV" && "$KEYS" -e "wait 400; fn up"
   fi
 }
 quit_app() {
@@ -78,6 +85,7 @@ quit_app() {
 launch_spotlight() {
   quit_app
   python3 -I "$HERE/profile.py" "$DATA" email | tee -a "$OUT/run.log"
+  wb_unbind_keys "$DATA" "$(keys_needed)" ${S30_SET[@]+"${S30_SET[@]}"} | tee -a "$OUT/run.log"
   MARK=$(cat "$LOGS"/*.log 2>/dev/null | wc -l | tr -d ' ')
   WISPRBRO_S30_SPOTLIGHT="${1:-email}" "$EXE" --start-hidden >/dev/null 2>&1 &
   for _ in $(seq 1 60); do applog | grep -q "spotlight: on" && break; sleep 0.5; done
@@ -132,6 +140,7 @@ case "${1:-}" in
     ;;
   own)
     : "${WAV:?}"
+    S30_SET=(scratchpad.open=option+s)
     launch_spotlight message
     # The Scratchpad opens by its shortcut (the profile binds
     # scratchpad.open to option+s), pressed only while our TextEdit is in
@@ -148,7 +157,7 @@ case "${1:-}" in
     launch_spotlight email
     open -a Mail; sleep 3
     WB_FRONT=Mail pill "cmd n; wait 1500" >/dev/null
-    "$KEYS" -e "fn down; wait 600" && afplay "$WAV" && "$KEYS" -e "wait 400; fn up"
+    wb_mic_load "$WAV" && "$KEYS" -e "fn down; wait 600" && wb_mic_play "$WAV" && "$KEYS" -e "wait 400; fn up"
     expect_log "spotlight: off (Dictated)" 60
     expect_log "checklist: try_in_app done"
     log "Close the unsent Mail message without saving."

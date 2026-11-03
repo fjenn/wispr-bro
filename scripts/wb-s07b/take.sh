@@ -3,13 +3,16 @@
 #
 # Mac test S-07b.2 (docs/fork/MAC-TEST-SCRIPT.md): one take through the
 # running test app's record path (SIGUSR2 = Handy's toggle, no key events)
-# with a `say` file played through the speakers, pasted into a TextEdit
+# with a `say` file played by the app's test microphone (the app runs with
+# WISPRBRO_TEST_MIC_WAV; scripts/wb-lib/app.sh wb_mic_load/wb_mic_play;
+# never the speakers), pasted into a TextEdit
 # document this script opens (so the text can only land in our window).
 # Saves and restores the clipboard (text); holds ~/wb-bench/gui.lock for
 # the take only; refuses to start a take unless TextEdit is in front.
 #
 # Usage: scripts/wb-s07b/take.sh <app pid> <aiff> <scratch dir>
 set -u
+. "$(cd "$(dirname "$0")" && pwd)/../wb-lib/app.sh"
 PID="$1"; AUDIO="$2"; DIR="$3"
 if [ "${S07B_LOCKED:-}" != 1 ]; then
   S07B_LOCKED=1 exec /usr/bin/lockf -k -t 600 "$HOME/wb-bench/gui.lock" "$0" "$@"
@@ -27,8 +30,9 @@ if [ "$FRONT" != "TextEdit" ]; then
   exit 1
 fi
 T0=$(date +%s)
+wb_mic_load "$AUDIO" || exit 1
 kill -USR2 "$PID"; sleep 0.8
-afplay "$AUDIO"; sleep 0.5
+wb_mic_play "$AUDIO" || { kill -USR2 "$PID"; exit 1; }; sleep 0.5
 kill -USR2 "$PID"
 echo "take ended $(date +%s) (started $T0)"
 sleep 6

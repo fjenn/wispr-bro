@@ -66,7 +66,8 @@ title() {
 if ! ours; then
   echo "SKIP front=$(front) pid $(front_pid)" | tee "$T/result"
 else
-  kill -USR2 "$pid"; sleep 0.8; afplay "$WAV"; sleep 0.6
+  wb_mic_load "$WAV" || exit 1
+  kill -USR2 "$pid"; sleep 0.8; wb_mic_play "$WAV"; sleep 0.6
   if ours; then kill -USR2 "$pid"; else
     wb_cancel "$APP_DIR" >/dev/null 2>&1; echo "focus moved; cancelled" >"$T/skip"; fi
   sleep 8

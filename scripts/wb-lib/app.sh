@@ -20,6 +20,25 @@
 #                                  on a timeout
 #   wb_cancel <dir>                `--cancel` to the running instance; does
 #                                  nothing when no instance runs from <dir>
+#   wb_unbind_keys <data> [ids] [id=chord...]
+#                                  every global shortcut of the test profile
+#                                  unbound except the comma list <ids>; each
+#                                  id=chord binds one for a check that needs it
+#                                  (profile.py unbind; Mac wave 2 finding 7)
+#   wb_clone_models <data> [src]   model cache cloned into the test profile
+#                                  (profile.py models; no 1.6 GB download)
+#   wb_test_mic_wav <text> <wav>   a 16 kHz WAV of <text> (`say`), for
+#                                  WISPRBRO_TEST_MIC_WAV (never the speakers)
+#   wb_test_mic <dir> <wav>        a driver that launches the app: exports
+#                                  WISPRBRO_TEST_MIC_WAV (default <dir>/
+#                                  test-mic.wav) and loads <wav> into it
+#   wb_mic_load <wav>              before a take: the test microphone's file
+#                                  becomes <wav> (WISPRBRO_TEST_MIC_WAV); fails
+#                                  without it unless WB_ALLOW_SPEAKERS=1
+#   wb_mic_play <wav>              during a take: waits while the app's test
+#                                  microphone plays <wav>; without
+#                                  WISPRBRO_TEST_MIC_WAV it refuses unless
+#                                  WB_ALLOW_SPEAKERS=1 (then `afplay`)
 
 WB_BIN_RE='(handy|wispr-bro)'
 
@@ -116,4 +135,84 @@ wb_textedit_close() {
   sleep 1
   kill -9 "$p" 2>/dev/null
   return 0
+}
+
+WB_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Mac wave 2 finding 7: a test app started with its default shortcuts
+# answers fn, fn+Space, ⌃⌘V… next to the owner's own Wispr Bro. Every
+# driver seeds its test profile with them unbound (takes go by SIGUSR2) and
+# keeps only what a check needs.
+wb_unbind_keys() {
+  local data="${1:?data dir}" keep="${2:-}" args=() b
+  shift; shift 2>/dev/null || true
+  [ -n "$keep" ] && args+=(--keep "$keep")
+  for b in "$@"; do args+=(--set "$b"); done
+  python3 -I "$WB_LIB_DIR/profile.py" unbind "$data" ${args[@]+"${args[@]}"}
+}
+
+wb_clone_models() {
+  local data="${1:?data dir}" src="${2:-}"
+  if [ -n "$src" ]; then
+    python3 -I "$WB_LIB_DIR/profile.py" models "$data" --from "$src"
+  else
+    python3 -I "$WB_LIB_DIR/profile.py" models "$data"
+  fi
+}
+
+# The app's microphone plays this file (test identities and debug builds
+# only, `fork/audio/test_mic.rs`): export WISPRBRO_TEST_MIC_WAV=<wav> before
+# launching. 16 kHz mono 16-bit, the recorder's own rate.
+wb_test_mic_wav() {
+  local text="${1:?text}" wav="${2:?wav}"
+  [ -s "$wav" ] && return 0
+  mkdir -p "$(dirname "$wav")"
+  say -o "$wav" --file-format=WAVE --data-format=LEI16@16000 "$text"
+}
+
+# Pre-recorded audio, never the speakers (the owner's rule): the app,
+# started with WISPRBRO_TEST_MIC_WAV=<path> (test identities and debug
+# builds only), reads <path> at the start of every take and plays it as its
+# microphone. A driver exports the same variable, calls wb_mic_load before
+# starting a take and wb_mic_play where it used to call afplay.
+wb_mic_load() {
+  local wav="${1:?wav}"
+  if [ -z "${WISPRBRO_TEST_MIC_WAV:-}" ]; then
+    [ "${WB_ALLOW_SPEAKERS:-}" = 1 ] && return 0
+    echo "wb_mic_load: no WISPRBRO_TEST_MIC_WAV (start the app with it); no take through the speakers (set WB_ALLOW_SPEAKERS=1 to force)" >&2
+    return 1
+  fi
+  [ "$(cd "$(dirname "$wav")" && pwd)/$(basename "$wav")" = "$WISPRBRO_TEST_MIC_WAV" ] && return 0
+  # Any `say -o` / afplay format (AIFF, WAV) → 16 kHz mono WAV, swapped in
+  # atomically (the app reads it when the take starts).
+  mkdir -p "$(dirname "$WISPRBRO_TEST_MIC_WAV")"
+  afconvert -f WAVE -d LEI16@16000 -c 1 "$wav" "$WISPRBRO_TEST_MIC_WAV.tmp.wav" \
+    && mv -f "$WISPRBRO_TEST_MIC_WAV.tmp.wav" "$WISPRBRO_TEST_MIC_WAV"
+}
+
+wb_test_mic() {
+  local dir="${1:?dir}" wav="${2:?wav}"
+  mkdir -p "$dir"
+  export WISPRBRO_TEST_MIC_WAV="${WISPRBRO_TEST_MIC_WAV:-$(cd "$dir" && pwd)/test-mic.wav}"
+  wb_mic_load "$wav"
+}
+
+wb_wav_seconds() {
+  python3 -I -c 'import sys,wave; w=wave.open(sys.argv[1]); print(w.getnframes()/w.getframerate())' "${1:?wav}" 2>/dev/null \
+    || afinfo "$1" 2>/dev/null | sed -n 's/^estimated duration: \([0-9.]*\).*/\1/p'
+}
+
+wb_mic_play() {
+  local wav="${1:?wav}" secs
+  if [ -n "${WISPRBRO_TEST_MIC_WAV:-}" ]; then
+    secs="$(wb_wav_seconds "$wav")"
+    sleep "${secs:-3}"
+    return 0
+  fi
+  if [ "${WB_ALLOW_SPEAKERS:-}" = 1 ]; then
+    afplay "$wav"
+    return $?
+  fi
+  echo "wb_mic_play: no WISPRBRO_TEST_MIC_WAV (start the app with it); not playing through the speakers (set WB_ALLOW_SPEAKERS=1 to force)" >&2
+  return 1
 }

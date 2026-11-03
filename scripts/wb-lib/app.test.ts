@@ -127,3 +127,147 @@ test("no driver hard-codes ./handy any more", () => {
   }
   expect(offenders).toEqual([]);
 });
+
+// Mac wave 2 finding 7: test profiles start with every global shortcut
+// unbound; the model cache is cloned, not downloaded again.
+describe("profile.py", () => {
+  const PROFILE = join(HERE, "profile.py");
+  function py(...args: string[]) {
+    const r = spawnSync("python3", ["-I", PROFILE, ...args], {
+      encoding: "utf8",
+      env: { ...process.env, HOME: tmp },
+    });
+    return { code: r.status, out: r.stdout.trim(), err: r.stderr.trim() };
+  }
+  const data = join(tmp, "Check.app", "Contents", "MacOS", "Data");
+  const hotkeys = () =>
+    JSON.parse(readFileSync(join(data, "fork-settings.json"), "utf8")).settings
+      .hotkeys as Record<string, { chord: string }[]>;
+
+  test("covers every default shortcut in settings.rs", () => {
+    const src = readFileSync(
+      join(SCRIPTS, "..", "src-tauri/src/fork/settings.rs"),
+      "utf8",
+    );
+    const body = src.split("pub fn default_hotkeys()")[1].split("\n}\n")[0];
+    const ids = new Set<string>();
+    for (const m of body.matchAll(/\(\s*(?:"([a-z_.]+)"|([A-Z_]+))\.into\(\)/g))
+      ids.add(m[1] ?? m[2].toLowerCase());
+    const listed = readFileSync(PROFILE, "utf8");
+    for (const id of ids)
+      if (id !== "cancel") expect(listed).toContain(`"${id}":`);
+    expect(ids.size).toBeGreaterThan(8);
+  });
+
+  test("unbinds everything but Esc before the first launch", () => {
+    rmSync(data, { recursive: true, force: true });
+    expect(py("unbind", data).code).toBe(0);
+    const h = hotkeys();
+    for (const [id, b] of Object.entries(h))
+      expect([id, b.length]).toEqual([id, id === "cancel" ? 1 : 0]);
+    const s = JSON.parse(
+      readFileSync(join(data, "fork-settings.json"), "utf8"),
+    ).settings;
+    expect(s.schema_version).toBeGreaterThan(0);
+  });
+
+  test("keeps or sets what a check needs and keeps other settings", () => {
+    writeFileSync(
+      join(data, "fork-settings.json"),
+      JSON.stringify({
+        settings: {
+          schema_version: 6,
+          typing_wpm: 55,
+          hotkeys: { dictate: [{ chord: "fn", activation: "hold" }] },
+        },
+      }),
+    );
+    expect(
+      py(
+        "unbind",
+        data,
+        "--keep",
+        "dictate",
+        "--set",
+        "scratchpad.open=option+s",
+      ).code,
+    ).toBe(0);
+    const h = hotkeys();
+    expect(h.dictate[0].chord).toBe("fn");
+    expect(h["scratchpad.open"][0].chord).toBe("option+s");
+    expect(h.paste_last).toEqual([]);
+    expect(h["transform.polish"]).toEqual([]);
+    const s = JSON.parse(
+      readFileSync(join(data, "fork-settings.json"), "utf8"),
+    ).settings;
+    expect(s.typing_wpm).toBe(55);
+  });
+
+  test("never touches a folder that is not a test identity's", () => {
+    const owner = join(
+      tmp,
+      "Library",
+      "Application Support",
+      "com.wisprbro.desktop",
+    );
+    mkdirSync(owner, { recursive: true });
+    expect(py("unbind", owner).code).not.toBe(0);
+    expect(() => statSync(join(owner, "fork-settings.json"))).toThrow();
+    expect(py("models", owner).code).not.toBe(0);
+  });
+
+  test("clones the newest test identity's model cache", () => {
+    const src = join(
+      tmp,
+      "Library",
+      "Application Support",
+      "com.wisprbro.s07bcheck",
+      "huggingface",
+    );
+    mkdirSync(join(src, "hub", "models--x"), { recursive: true });
+    writeFileSync(join(src, "hub", "models--x", "model.gguf"), "weights");
+    const r = py("models", data);
+    expect(r.code).toBe(0);
+    expect(
+      readFileSync(
+        join(data, "huggingface", "hub", "models--x", "model.gguf"),
+        "utf8",
+      ),
+    ).toBe("weights");
+  });
+});
+
+describe("test microphone helpers", () => {
+  test("refuse the speakers without WISPRBRO_TEST_MIC_WAV", () => {
+    const wav = join(tmp, "t.wav");
+    writeFileSync(wav, "");
+    const r = sh(`wb_mic_load "${wav}"`, {
+      WISPRBRO_TEST_MIC_WAV: "",
+      WB_ALLOW_SPEAKERS: "",
+    });
+    expect(r.code).toBe(1);
+    expect(
+      sh(`wb_mic_play "${wav}"`, {
+        WISPRBRO_TEST_MIC_WAV: "",
+        WB_ALLOW_SPEAKERS: "",
+      }).code,
+    ).toBe(1);
+  });
+
+  test("no Mac-wave driver plays audio through the speakers", () => {
+    // The drivers Mac wave 2 used with the live mic.
+    for (const f of [
+      "wb-s07a/take.sh",
+      "wb-s07b/take.sh",
+      "wb-s24/recheck.sh",
+      "wb-s29b/run.sh",
+      "wb-s30/run.sh",
+      "wb-s34/take.sh",
+      "wb-s36/take.sh",
+    ]) {
+      const text = readFileSync(join(SCRIPTS, f), "utf8");
+      expect([f, /^\s*[^#\n]*\bafplay\b/m.test(text)]).toEqual([f, false]);
+      expect([f, text.includes("wb_mic_play")]).toEqual([f, true]);
+    }
+  });
+});

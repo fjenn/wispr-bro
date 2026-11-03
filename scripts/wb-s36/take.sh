@@ -133,9 +133,10 @@ f=$(front)
 if ! in_front; then
   echo "SKIP front=$f pid $(front_pid)" | tee "$T/result"
 else
+  wb_mic_load "$WAV" || exit 1
   kill -USR2 "$pid"
   sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   sleep 0.6
   if in_front; then
     kill -USR2 "$pid"

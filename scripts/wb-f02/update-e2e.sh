@@ -25,8 +25,9 @@
 # S-28 phases (the same two builds, A restored from a pristine copy each
 # time; the background scheduler, no selftest; shorter timings through the
 # debug-only WISPRBRO_UPDATE_TIMING):
-#   S-28.1 B downloads in the background; a hands-free take (SIGUSR2, the
-#          microphone records silence; no speakers) runs past the quiet window
+#   S-28.1 B downloads in the background; a hands-free take (SIGUSR2; the
+#          test microphone plays a silent WAV, WISPRBRO_TEST_MIC_WAV, so no
+#          real mic, no speakers and nothing to paste) runs past the quiet window
 #          and nothing installs; after the take and the quiet window B
 #          installs and the app relaunches hidden (the Hub had been hidden),
 #          with no layer-0 window afterwards.
@@ -35,14 +36,17 @@
 #          24-hour pause (update-state.json).
 #   S-28.4 A's folder is read-only: no background install, no password
 #          prompt, the "waiting for Restart now" line instead.
-# S-28.1 needs Microphone access granted to com.wisprbro.f02check once
-# (System Settings › Privacy & Security › Microphone), and Automation for
-# the terminal → System Events (hides the app).
+# S-28.1 needs Automation for the terminal → System Events (hides the app).
+# The throwaway profile starts with every global shortcut unbound (Mac wave
+# 2 finding 7: fn and ⌃⌘V were live next to the owner's app) and a cloned
+# model cache (no 1.6 GB download; `WB_MODEL_CACHE` or the newest test
+# identity's), both through scripts/wb-lib/profile.py.
 #
 # Real permission survival and the footer/tray paths stay RS-12 person checks.
 #
 # Usage: scripts/wb-f02/update-e2e.sh <out dir>   (F02_ONLY_S28=1 skips F-02.3)
 set -euo pipefail
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../wb-lib/app.sh"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT="$1"
@@ -116,6 +120,11 @@ cleanup() {
 trap cleanup EXIT
 rm -rf "$APP_HOME"
 mkdir -p "$APP_HOME"
+DATA="$APP_HOME/Library/Application Support/$ID"
+wb_unbind_keys "$DATA"
+wb_clone_models "$DATA" "${WB_MODEL_CACHE:-}"
+SILENCE="$OUT/silence.wav"
+python3 -I -c 'import sys,wave; w=wave.open(sys.argv[1],"wb"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000); w.writeframes(b"\0\0"*16000); w.close()' "$SILENCE"
 DR_A="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^designated => //p')"
 EXE="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Contents/Info.plist")"
 
@@ -129,7 +138,7 @@ run_until() { # <pattern> <timeout s>
 }
 launch() {
   HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_SELFTEST=1 \
-    nohup "$APP/Contents/MacOS/$EXE" --start-hidden > "$OUT/app-stdout.log" 2>&1 &
+    WISPRBRO_TEST_MIC_WAV="$SILENCE" nohup "$APP/Contents/MacOS/$EXE" --start-hidden > "$OUT/app-stdout.log" 2>&1 &
 }
 stop_app() {
   pkill -f "$APP/Contents/MacOS/" 2>/dev/null || true
@@ -171,7 +180,6 @@ fi
 
 # ------------------------------------------------------------ S-28 -------
 STABLE_B
-DATA="$APP_HOME/Library/Application Support/$ID"
 WINDOW_ID="$OUT/wb-window-id"
 swiftc -O -o "$WINDOW_ID" "$ROOT/scripts/wb-window-id.swift" >/dev/null
 restore_a() {
@@ -184,7 +192,7 @@ restore_a() {
 }
 launch_s28() { # <WISPRBRO_UPDATE_TIMING>
   HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_TIMING="$1" \
-    nohup "$APP/Contents/MacOS/$EXE" > "$OUT/app-stdout.log" 2>&1 &
+    WISPRBRO_TEST_MIC_WAV="$SILENCE" nohup "$APP/Contents/MacOS/$EXE" > "$OUT/app-stdout.log" 2>&1 &
 }
 app_pid() { pgrep -f "$APP/Contents/MacOS/$EXE" | head -1; }
 bundle_version() { /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist"; }
