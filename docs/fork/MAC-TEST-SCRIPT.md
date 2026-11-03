@@ -1728,9 +1728,50 @@ and restored around S-26a.1).** Launch the bundle executable, note its pid.
 
 ### S-26b Help popover, support, Share, About
 
+- [ ] S-26b.0 Help has Report a problem… [⌘/] and Send feedback…; the tray
+      has both after Documentation.
 - [ ] S-26b.1 ⌘/ opens a prefilled issue in the browser.
 - [ ] S-26b.2 The share sheet shows.
-- Procedure: TODO (S-26b).
+
+**Status: queued for the Mac wave** (UI wave, with S-26a's run; not run by
+the slice agent).
+
+**Profile:** as S-26a, with the slice identity `com.wisprbro.s26bcheck`
+(debug build, product runtime, `onboarding_completed: true`,
+`update_checks_enabled: false`). Nothing is sent to GitHub: the issue form
+is only opened, never submitted. Compile the drivers once:
+
+```sh
+swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # Accessibility for the terminal
+swiftc -O scripts/wb-s26a/menus.swift -o <scratch>/wbmenus
+swiftc -O scripts/wb-s26b/share.swift -o <scratch>/wbshare
+export WBUI=<scratch>/wbui WBMENUS=<scratch>/wbmenus WBSHARE=<scratch>/wbshare
+```
+
+**Procedure (unattended, ~1 min; each step holds `~/wb-bench/gui.lock`;
+keys go only to the test app while it is in front).** Launch the bundle
+executable, note its pid and its log file
+(`<portable Data>/logs/*.log` or `~/Library/Logs/com.wisprbro.s26bcheck/`).
+
+1. `scripts/wb-s26b/run.sh menus <pid> <out>`. Pass (S-26b.0): both lines
+   PASS. By eye: the tray shows Documentation, Report a problem… (⌘/),
+   Send feedback…, then Quit.
+2. `scripts/wb-s26b/run.sh issue <pid> <log> <out>`. Pass (S-26b.1): a
+   browser comes to the front, the log has "help: opened the Problem form
+   on GitHub", and the page (URL in `browser.txt` for Safari, else
+   `issue.png`) is `github.com/fjenn/wispr-bro/issues/new` with the title
+   "Problem: " and an "About this Mac" block of versions only (no
+   dictation, no path). Close the tab without submitting. While the repo is
+   still empty (CONTEXT "GitHub"), GitHub shows its sign-in or empty-repo
+   page instead: then only the URL in the address bar is checked.
+3. Open the Hub's Share with a friend page, note the Share… button's window
+   point (`wbui <pid> front`; screenshot), then
+   `scripts/wb-s26b/run.sh share <pid> <x> <y> <out>`. Pass (S-26b.2): the
+   picker lists services (e.g. Mail, Messages, AirDrop) in `picker.txt` and
+   `share-sheet.png` shows it next to the button; Escape closes it and
+   nothing is sent.
+4. Quit; delete the bundle copy and
+   `~/Library/{WebKit,Caches}/com.wisprbro.s26bcheck`.
 
 ### S-27 Data and Privacy, export, delete all, diagnostics
 
