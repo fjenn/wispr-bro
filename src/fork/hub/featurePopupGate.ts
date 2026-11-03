@@ -28,11 +28,17 @@ export const AFTER_TAKE_MS = 1500;
 /** The popup's own content marker (its dialog is not "another" dialog). */
 export const POPUP_MARKER = '[data-testid="wb-feature-popup"]';
 
-/** Whether a dialog other than the popup is open in `root`. */
-export function otherDialogOpen(root: ParentNode = document): boolean {
+/**
+ * Whether a dialog other than the one holding `own` (the popup's marker by
+ * default) is open in `root`.
+ */
+export function otherDialogOpen(
+  root: ParentNode = document,
+  own: string = POPUP_MARKER,
+): boolean {
   return Array.from(
     root.querySelectorAll('[role="dialog"], [role="alertdialog"]'),
-  ).some((dialog) => !dialog.querySelector(POPUP_MARKER));
+  ).some((dialog) => !dialog.querySelector(own));
 }
 
 function useTakeRunning(): boolean {
@@ -66,15 +72,16 @@ function useTakeRunning(): boolean {
   return running;
 }
 
-function useOtherDialogOpen(): boolean {
-  const [open, setOpen] = useState(() => otherDialogOpen());
+/** `true` while a dialog other than the one holding `own` is open. */
+export function useOtherDialogOpen(own: string = POPUP_MARKER): boolean {
+  const [open, setOpen] = useState(() => otherDialogOpen(document, own));
   useEffect(() => {
-    const check = () => setOpen(otherDialogOpen());
+    const check = () => setOpen(otherDialogOpen(document, own));
     const observer = new MutationObserver(check);
     observer.observe(document.body, { childList: true, subtree: true });
     check();
     return () => observer.disconnect();
-  }, []);
+  }, [own]);
   return open;
 }
 

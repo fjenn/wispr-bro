@@ -362,6 +362,71 @@ test.describe("What's New", () => {
     await expect(whatsNew(page)).toHaveCount(0);
   });
 
+  // Mac wave 3, finding 4: What's New opened on top of the first-use
+  // chooser on a profile's first Hub open. A new user (setup just done, the
+  // chooser due) gets the installed version marked seen and no note, also
+  // after the chooser closes.
+  test("a new user: no note for the installed version, never over the chooser", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const marked: string[] = [];
+    ipc.handle("change_whats_new_last_seen_version_setting", (args) => {
+      hub.handy.whats_new_last_seen_version = args.version;
+      marked.push(String(args.version));
+      return null;
+    });
+    hub.forkSettings.onboarding = {
+      status: "completed",
+      current_step: null,
+      completed_steps: [],
+      checklist_done: [],
+      completed_at_ms: 1,
+    };
+    // A profile whose Handy store predates the setting (blank): the case
+    // that showed the note.
+    await hubWith(page, ipc, hub, updateState("up_to_date"), {
+      ...seen,
+      whats_new_last_seen_version: "",
+    });
+    await expect(page.getByTestId("wb-first-use")).toBeVisible();
+    await expect.poll(() => marked).toEqual(["1.0.0-alpha.1"]);
+    await expect(whatsNew(page)).toHaveCount(0);
+    await expect(page.getByRole("dialog")).toHaveCount(1);
+    await page.getByTestId("wb-first-use-later").click();
+    await expect(page.getByTestId("wb-first-use")).toHaveCount(0);
+    await page.waitForTimeout(500);
+    await expect(whatsNew(page)).toHaveCount(0);
+    await page.reload();
+    await expect(page.getByTestId("wb-sidebar")).toBeVisible();
+    await page.waitForTimeout(500);
+    await expect(whatsNew(page)).toHaveCount(0);
+  });
+
+  test("after an update: it waits while another dialog is open", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await hubWith(page, ipc, hub, updateState("up_to_date", { busy: true }), {
+      ...seen,
+      whats_new_last_seen_version: "0.9.7",
+    });
+    await ipc.waitForListener("fork-update-state");
+    await page.getByTestId("wb-notifications-bell").click();
+    const panel = page.getByRole("dialog", { name: "Notifications" });
+    await expect(panel).toBeVisible();
+    // The take ends while the panel is open: still one dialog at a time.
+    await ipc.emit("fork-update-state", updateState("up_to_date"));
+    await page.waitForTimeout(400);
+    await expect(whatsNew(page)).toHaveCount(0);
+    await page.keyboard.press("Escape");
+    await expect(panel).toHaveCount(0);
+    await expect(whatsNew(page)).toBeVisible();
+    await expect(page.getByRole("dialog")).toHaveCount(1);
+  });
+
   for (const theme of ["light", "dark"] as const) {
     test(`axe and RTL: the What's New dialog (${theme})`, async ({
       page,
