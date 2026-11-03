@@ -151,7 +151,8 @@ test("Dock and Scratchpad choices survive modal close and relaunch", async ({
 }) => {
   await openSection(page, ipc, "system");
   installPersistentSettings(ipc);
-  await page.getByTestId("wb-system-show-dock").uncheck();
+  await page.getByTestId("wb-system-show-dock").click();
+  await expect(page.getByTestId("wb-system-show-dock")).not.toBeChecked();
   await page
     .getByTestId("wb-scratchpad-open-behavior")
     .selectOption("new_note");
@@ -173,8 +174,15 @@ test("Dock and Scratchpad choices survive modal close and relaunch", async ({
 test("Advanced choices persist across relaunch", async ({ page, ipc }) => {
   await openSection(page, ipc, "advanced");
   installPersistentSettings(ipc);
-  await page.getByTestId("wb-advanced-live-text").check();
+  // A controlled toggle: it flips when the setting call resolves, so click
+  // and wait (`check()` asserts the state right after the click and raced
+  // the mock IPC under the full parallel suite).
+  await page.getByTestId("wb-advanced-live-text").click();
+  await expect(page.getByTestId("wb-advanced-live-text")).toBeChecked();
   await page.getByTestId("wb-advanced-update-channel").selectOption("beta");
+  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveValue(
+    "beta",
+  );
   await page.reload();
   await expect(page.getByTestId("wb-advanced-live-text")).toBeChecked();
   await expect(page.getByTestId("wb-advanced-update-channel")).toHaveValue(
