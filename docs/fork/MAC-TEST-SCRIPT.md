@@ -1330,6 +1330,62 @@ with an empty profile is enough (`bun run wb:dev`); one pass, by eye.
       console (the characters are inlined SVGs with a `<style>` element;
       `style-src 'unsafe-inline'` allows it).
 
+### Design W4 (the bar and the spotlight) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w4-bar` (docs/fork/design/SYSTEM-PLAN.md §7,
+W4). Test identity `com.wisprbro.w4check`, debug build, shortcuts unbound,
+takes by SIGUSR2 through the WAV microphone (`WISPRBRO_TEST_MIC_WAV`, WAVs
+from `scripts/wb-meter/make-wav.py`); never the owner's app, speakers or
+real microphone. Window sizes and timings through
+`swift scripts/wb-s03-pill.swift` (`WB_PID=<pid>`); stills with its `shot`.
+Reference: Wispr Flow's bar crops (local evidence `02-bar-click-*`,
+`03-bar-hover-*`; by eye only). Before/after renders of every web state:
+the builder's scratch folder (not in the repo).
+
+- [ ] W4.1 Sizes. `-e 'rest'`: the resting window is 54 × 18 pt (the 38 × 6
+      line plus its hit area), the line's bottom 8 pt above the Dock. A held
+      take (`appear 1 1500`, or SIGUSR2 + `windows` mid-take): the active
+      window is 72 × 30 (push to talk) or 100 × 30 (hands-free: `clickbar`),
+      300 × 72 while the mic label shows (label 34 tall, 8 pt above the
+      capsule), back to 72/100 × 30 after about 2 s. Bar at the top of the
+      display (Settings › bar position): the label hangs below the capsule.
+- [ ] W4.2 Look, by eye beside the reference crops: an opaque black capsule
+      with no white edge on a light window; in dark mode a faint hairline
+      only. Hands-free: ✕ in a dark 18 pt disc on the left, ✓ in a white disc
+      with a black check on the right (mirrored in Arabic). Text on every
+      state is 15 px. The resting line is the same black, a little
+      translucent, with no edge.
+- [ ] W4.3 Morphs (Web Inspector › Timelines on the `fork-pill` page for
+      frame drops; M-26, 60 Hz and 120 Hz): fn down grows the resting line
+      into the capsule in one spring with no jump at the hand-over from the
+      native bridge to the web view; the mic label blurs in, holds, leaves;
+      Transcribing grows out of the take's capsule; the take's end shrinks
+      the capsule back into the resting line. A click on the bar and a hover
+      grow on the same spring. With Reduce Motion on: sizes change at once,
+      the label only fades, the spinner is still.
+- [ ] W4.4 Waveform: a dotted line from fn down until the first audio frame,
+      then bars, tallest in the middle, moving with the words. Café WAV
+      (`make-wav.py`): flat on the noise, lively on the speech (OT1.2). Peaks:
+      two takes, `SPEECH_PEAK=0.15` and `SPEECH_PEAK=0.9`, with `--debug`:
+      the `pill: level frames …, loudest bar …` lines of the loud take reach
+      higher (≥ 0.95) than the ordinary one (≤ 0.9), and the ordinary take's
+      bars no longer all sit at the top.
+- [ ] W4.5 Clicks: during the ~2 s label the window is wider than the
+      capsule; a click beside the capsule (inside that window, outside the
+      capsule) is absorbed by the bar's panel, as designed (not passed to the
+      app below), and the frontmost app keeps focus (DEC-28); ✕ and ✓ still cancel and finish without activating
+      Wispr Bro (S-03's `watchfront` check). A take with the app hidden (⌘H)
+      leaves it hidden (S-28.8 re-check).
+- [ ] W4.6 Card and diff: a card (take into the desktop) and the View
+      changes diff (⌥O after a Polish) look like the renders: dark card,
+      15 px text, teal inserted chips, struck grey deleted chips, four
+      outline actions.
+- [ ] W4.7 Spotlight (S-30 chooser › any card › Try it): the screen dims with
+      a round cut-out of about 224 pt centred on the bar, the hint in a black
+      card above it; dictating there keeps the label inside the circle.
+- [ ] W4.8 Scratchpad group on the bar (S-24 on): the two buttons sit on the
+      black capsule (not 6 pt below it), hover help still per button.
+
 ### S-14 Settings modal and hotkeys panel
 
 - [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).
