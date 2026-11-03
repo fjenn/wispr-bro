@@ -97,7 +97,7 @@ test.describe("AI engine: Apple Intelligence", () => {
     ).toBeVisible();
     await expect(row).toContainText("can't run yet");
     await expect(row.getByTestId("fork-ai-engine-apple-counts")).toHaveText(
-      "Since the app started: 12 requests, 1 declined, 0 throttled.",
+      "Since the app started: requests 12, declined 1, throttled 0.",
     );
   });
 

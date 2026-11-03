@@ -134,10 +134,12 @@ export function TimeSaved({
           >
             {measured != null
               ? t("onboardingFlow.timeSaved.basisMeasured", {
+                  count: measured,
                   wpm: measured,
                   speaking: SPEAKING_WPM,
                 })
               : t("onboardingFlow.timeSaved.basisAverage", {
+                  count: DEFAULT_TYPING_WPM,
                   wpm: DEFAULT_TYPING_WPM,
                   speaking: SPEAKING_WPM,
                 })}

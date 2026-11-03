@@ -218,7 +218,13 @@ pub fn render(locale: &str, key: &str, args: &policy::Args) -> String {
     let app_name = crate::fork::i18n::t(locale, "rust.appName", &[]);
     let mut vars: Vec<(&str, &str)> = args.iter().map(|(k, v)| (k.as_str(), v.as_str())).collect();
     vars.push(("appName", app_name.as_str()));
-    crate::fork::i18n::t(locale, key, &vars)
+    // A plural key the catalog picked with English rules (`_one`/`_other`)
+    // is resolved again with the locale's CLDR rules, as the inbox does.
+    let count = args.get("count").and_then(|c| c.parse::<u64>().ok());
+    match (crate::fork::i18n::plural_base(key), count) {
+        (Some(base), Some(count)) => crate::fork::i18n::t_plural(locale, base, count, &vars),
+        _ => crate::fork::i18n::t(locale, key, &vars),
+    }
 }
 
 fn system_notification(locale: &str, item: &NotificationItem) -> SystemNotification {

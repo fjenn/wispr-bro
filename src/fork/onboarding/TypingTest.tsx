@@ -129,6 +129,7 @@ export function TypingTest({
           </h1>
           <p className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
             {t("onboardingFlow.typing.instruction", {
+              count: TEST_SECONDS,
               seconds: TEST_SECONDS,
             })}
           </p>

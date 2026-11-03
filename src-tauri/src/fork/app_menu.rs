@@ -203,15 +203,10 @@ fn app_text(locale: &str, key: &str) -> String {
     i18n::t(locale, key, &[("appName", &app_name)])
 }
 
-/// `{{count}}` strings with `_one`/`_other` forms (the same rule as the
-/// frontend's English plurals; other plural forms fall back as in `fork.json`).
+/// A `{{count}}` plural group (`<key>_one`, `<key>_few`, …), resolved with
+/// the locale's CLDR plural rules (`i18n::t_plural`).
 fn count_text(locale: &str, key: &str, count: u64) -> String {
-    let suffix = if count == 1 { "one" } else { "other" };
-    i18n::t(
-        locale,
-        &format!("{key}_{suffix}"),
-        &[("count", &count.to_string())],
-    )
+    i18n::t_plural(locale, key, count, &[])
 }
 
 /// Longest preview in "Copy last transcript: “…”".

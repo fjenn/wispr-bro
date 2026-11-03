@@ -41,13 +41,13 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | MIT OR BSD-3-Clause | 1 | 0 |
 | MIT OR Zlib OR Apache-2.0 | 1 | 0 |
 | MPL-2.0 | 20 | 0 |
-| Unicode-3.0 | 18 | 0 |
+| Unicode-3.0 | 23 | 0 |
 | Unlicense OR MIT | 9 | 0 |
 | Zlib | 3 | 0 |
 | Zlib OR Apache-2.0 OR MIT | 24 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 472 Rust crates, 272 npm packages.
+Total: 477 Rust crates, 272 npm packages.
 
 ## Speech models
 
@@ -1166,6 +1166,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | ferrous-opencc | 0.2.3 | Apache-2.0 | https://github.com/apoint123/ferrous-opencc |
 | ferrous-opencc-compiler | 0.1.0 | Apache-2.0 |  |
 | filetime | 0.2.27 | MIT OR Apache-2.0 | https://github.com/alexcrichton/filetime |
+| fixed_decimal | 0.7.3 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | flate2 | 1.1.9 | MIT OR Apache-2.0 | https://github.com/rust-lang/flate2-rs |
 | fnv | 1.0.7 | Apache-2.0 OR MIT | https://github.com/servo/rust-fnv |
 | foldhash | 0.1.5 | Zlib | https://github.com/orlp/foldhash |
@@ -1217,9 +1218,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | iana-time-zone | 0.1.65 | MIT OR Apache-2.0 | https://github.com/strawlab/iana-time-zone |
 | ico | 0.5.0 | MIT | https://github.com/mdsteele/rust-ico |
 | icu_collections | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
+| icu_locale | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | icu_locale_core | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
+| icu_locale_data | 2.1.2 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | icu_normalizer | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | icu_normalizer_data | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
+| icu_plurals | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
+| icu_plurals_data | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | icu_properties | 2.1.2 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | icu_properties_data | 2.1.2 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | icu_provider | 2.1.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
@@ -1507,7 +1512,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | window-vibrancy | 0.6.0 | Apache-2.0 OR MIT | https://github.com/tauri-apps/tauri-plugin-vibrancy |
 | windowfunctions | 0.1.1 | MIT | https://github.com/HEnquist/windowfunctions-rs |
 | winnow | 0.7.14 | MIT | https://github.com/winnow-rs/winnow |
-| writeable | 0.6.2 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
+| writeable | 0.6.4 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
 | wry | 0.55.1 | Apache-2.0 OR MIT | https://github.com/tauri-apps/wry |
 | xattr | 1.6.1 | MIT OR Apache-2.0 | https://github.com/Stebalien/xattr |
 | yoke | 0.8.1 | Unicode-3.0 | https://github.com/unicode-org/icu4x |
@@ -11074,7 +11079,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 #### Unicode License v3 (Unicode-3.0)
 
-Used by: icu_collections 2.1.1, icu_locale_core 2.1.1, icu_normalizer 2.1.1, icu_normalizer_data 2.1.1, icu_properties 2.1.2, icu_properties_data 2.1.2, icu_provider 2.1.1, litemap 0.8.1, potential_utf 0.1.4, tinystr 0.8.2, writeable 0.6.2, yoke 0.8.1, yoke-derive 0.8.1, zerofrom 0.1.6, zerofrom-derive 0.1.6, zerotrie 0.2.3, zerovec 0.11.5, zerovec-derive 0.11.2
+Used by: fixed_decimal 0.7.3, icu_collections 2.1.1, icu_locale 2.1.1, icu_locale_core 2.1.1, icu_locale_data 2.1.2, icu_normalizer 2.1.1, icu_normalizer_data 2.1.1, icu_plurals 2.1.1, icu_plurals_data 2.1.1, icu_properties 2.1.2, icu_properties_data 2.1.2, icu_provider 2.1.1, litemap 0.8.1, potential_utf 0.1.4, tinystr 0.8.2, writeable 0.6.4, yoke 0.8.1, yoke-derive 0.8.1, zerofrom 0.1.6, zerofrom-derive 0.1.6, zerotrie 0.2.3, zerovec 0.11.5, zerovec-derive 0.11.2
 
 ```text
 UNICODE LICENSE V3

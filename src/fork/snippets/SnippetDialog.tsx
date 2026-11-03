@@ -157,6 +157,9 @@ export function SnippetDialog({
         return t(`snippets.problem.${f.problem}`, {
           max: MAX_TRIGGER_CHARS,
           maxBody: MAX_BODY_CHARS,
+          // The limit the message names picks the plural form.
+          count:
+            f.problem === "body_too_long" ? MAX_BODY_CHARS : MAX_TRIGGER_CHARS,
         });
       case "duplicate":
         return t("snippets.dialog.duplicate", { trigger: f.existing.trigger });

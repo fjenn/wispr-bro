@@ -27,6 +27,7 @@ export function VoiceProfileBar({ totalWords }: { totalWords: number | null }) {
   const progressText = t("home.voiceProfile.progress", {
     current: formatCount(current, i18n.language),
     goal,
+    count: VOICE_PROFILE_GOAL,
   });
 
   return (
@@ -67,7 +68,10 @@ export function VoiceProfileBar({ totalWords }: { totalWords: number | null }) {
       <p className="text-[12.5px] leading-5 text-(--wb-ink-2)">
         {unlocked
           ? t("home.voiceProfile.unlocked")
-          : t("home.voiceProfile.locked", { goal })}
+          : t("home.voiceProfile.locked", {
+              goal,
+              count: VOICE_PROFILE_GOAL,
+            })}
       </p>
       {unlocked && (
         <div>

@@ -102,6 +102,8 @@ wb-apple-fm = { path = "crates/wb-apple-fm" } # S-12b Apple Foundation Models br
 sysinfo = { version = "0.39", default-features = false, features = ["system", "disk"] } # S-07b machine probe (R4: chip, RAM, purgeable-aware free disk)
 semver = "1" # F-02 update channel: picks the newer of the beta and stable releases; already in the tree
 zip = { version = "4", default-features = false, features = ["deflate"] } # S-27 user-data and sanitized diagnostics exports (R4; already in the tree)
+icu_locale_core = "2.1" # S-37b parses the locale code for icu_plurals; already in the tree
+icu_plurals = "~2.1" # S-37b CLDR plural forms for the Rust-side `rust.*` count strings (tray, app menu, notifications); same ICU4X family as icu_normalizer
 # fork: Wispr Bro dependencies (end)
 
 [target.'cfg(unix)'.dependencies]

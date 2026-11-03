@@ -238,6 +238,7 @@ function Review({
                   reason: t(`dictionary.problem.${r.problem}`, {
                     max: 60,
                     maxReplacement: 200,
+                    count: r.problem === "replacement_too_long" ? 200 : 60,
                   }),
                 })}
               </li>

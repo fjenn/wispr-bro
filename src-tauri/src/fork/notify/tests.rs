@@ -428,7 +428,7 @@ fn inbox_insert_list_read_and_dedupe() {
     let milestone = &page.items[1];
     assert_eq!(milestone.kind, NotificationKind::Milestone);
     assert_eq!(
-        milestone.args.get("words").map(String::as_str),
+        milestone.args.get("count").map(String::as_str),
         Some("1000")
     );
     assert_eq!(
@@ -943,7 +943,7 @@ mod app {
             .collect();
         assert_eq!(
             milestones,
-            vec![json!({ "days": "7" }), json!({ "words": "10000" })]
+            vec![json!({ "count": "7" }), json!({ "count": "10000" })]
         );
         let tips: Vec<_> = items.iter().filter(|i| i["kind"] == json!("tip")).collect();
         assert_eq!(tips.len(), 1, "one tip a day");
@@ -1090,4 +1090,30 @@ mod app {
         let got = rx.recv_timeout(Duration::from_secs(2)).unwrap();
         assert!(!got.cancelled_take);
     }
+}
+
+/// A macOS notification resolves the stored English-rule plural key again
+/// with the locale's CLDR rules, as the inbox does (S-37b).
+#[test]
+fn notification_plurals_follow_the_locale() {
+    let n = Notice::queued_takes_ready(5);
+    assert_eq!(n.title_key, "rust.notify.queuedTakesReady.title_other");
+    let en = render("en", &n.title_key, &n.args);
+    assert_eq!(en, "5 dictations ready");
+    let ru = render("ru", &n.title_key, &n.args);
+    let many = crate::fork::i18n::t(
+        "ru",
+        "rust.notify.queuedTakesReady.title_many",
+        &[("count", "5")],
+    );
+    assert_eq!(ru, many);
+    let milestone = Notice::words_milestone(1000);
+    assert_eq!(
+        render(
+            "en",
+            milestone.body_key.as_deref().unwrap(),
+            &milestone.args
+        ),
+        "That is 1000 words you did not have to type. Nice going."
+    );
 }

@@ -10,9 +10,17 @@
 //! itself defaults to the OS locale), then the OS locale, then English. A key
 //! missing from a locale falls back to English (`wb-translate-missing.ts`
 //! keeps the files in parity, so that only happens mid-edit).
+//!
+//! Plurals (S-37b): a string that shows a count is a group of keys with
+//! i18next's suffixes, `<base>_one`/`<base>_other` in English and each
+//! locale's CLDR cardinal categories elsewhere (`_zero`, `_two`, `_few`,
+//! `_many` too). [`t_plural`] picks the form with ICU4X's CLDR rules, the
+//! same data the frontend gets from `Intl.PluralRules`.
 
 use std::collections::HashMap;
 
+use icu_locale_core::Locale;
+use icu_plurals::{PluralCategory, PluralRules};
 use once_cell::sync::Lazy;
 use serde_json::Value;
 
@@ -150,6 +158,64 @@ pub fn interpolate(template: &str, vars: &[(&str, &str)]) -> String {
     out
 }
 
+/// i18next's plural suffixes, in CLDR order.
+pub const PLURAL_SUFFIXES: [&str; 6] = ["zero", "one", "two", "few", "many", "other"];
+
+/// Cardinal plural rules for a supported locale code (CLDR data compiled
+/// into ICU4X; building them is a cheap lookup in static data, and the
+/// type is not `Sync`, so they are not cached in a static).
+fn plural_rules(code: &str) -> Option<PluralRules> {
+    let locale = Locale::try_from_str(code).ok()?;
+    PluralRules::try_new_cardinal((&locale).into()).ok()
+}
+
+fn category_suffix(category: PluralCategory) -> &'static str {
+    match category {
+        PluralCategory::Zero => "zero",
+        PluralCategory::One => "one",
+        PluralCategory::Two => "two",
+        PluralCategory::Few => "few",
+        PluralCategory::Many => "many",
+        PluralCategory::Other => "other",
+    }
+}
+
+/// The CLDR cardinal category (`"one"`, `"few"`, …) of `count` in `locale`;
+/// `"other"` for a locale without rules.
+pub fn plural_category(locale: &str, count: u64) -> &'static str {
+    let code = supported_locale(locale).unwrap_or(SOURCE_LOCALE);
+    plural_rules(code)
+        .map(|rules| category_suffix(rules.category_for(count)))
+        .unwrap_or("other")
+}
+
+/// `key` without its plural suffix (`"a.b_few"` → `Some("a.b")`).
+pub fn plural_base(key: &str) -> Option<&str> {
+    let (base, suffix) = key.rsplit_once('_')?;
+    PLURAL_SUFFIXES.contains(&suffix).then_some(base)
+}
+
+/// Translates the plural group `base` for `count`: the locale's own form
+/// for its CLDR category, else English's form for English's category (a
+/// locale mid-edit), with `{{count}}` and `vars` filled.
+pub fn t_plural(locale: &str, base: &str, count: u64, vars: &[(&str, &str)]) -> String {
+    let code = supported_locale(locale).unwrap_or(SOURCE_LOCALE);
+    let local = STRINGS
+        .get(code)
+        .and_then(|root| lookup(root, &format!("{base}_{}", plural_category(code, count))));
+    let count_text = count.to_string();
+    let mut all: Vec<(&str, &str)> = vec![("count", count_text.as_str())];
+    all.extend_from_slice(vars);
+    match local {
+        Some(template) => interpolate(template, &all),
+        None => t(
+            SOURCE_LOCALE,
+            &format!("{base}_{}", plural_category(SOURCE_LOCALE, count)),
+            &all,
+        ),
+    }
+}
+
 /// Every `rust.*` key of the English source, dotted (`rust.tray.version`).
 pub fn english_keys() -> Vec<String> {
     fn walk(prefix: &str, v: &Value, out: &mut Vec<String>) {
@@ -210,7 +276,8 @@ mod tests {
         for code in locales() {
             let root = STRINGS.get(code).unwrap();
             assert!(!root.is_null(), "{code}: no rust object");
-            for key in &keys {
+            // Plural forms differ per language; the plural test covers them.
+            for key in keys.iter().filter(|k| plural_base(k).is_none()) {
                 let local =
                     lookup(root, key).unwrap_or_else(|| panic!("{code}: {key} missing or empty"));
                 let english = get(SOURCE_LOCALE, key).unwrap();
@@ -224,10 +291,137 @@ mod tests {
     }
 
     #[test]
+    fn plural_categories_follow_cldr() {
+        let cases: &[(&str, &[(u64, &str)])] = &[
+            (
+                "en",
+                &[(0, "other"), (1, "one"), (2, "other"), (21, "other")],
+            ),
+            ("de", &[(1, "one"), (5, "other")]),
+            ("fr", &[(0, "one"), (1, "one"), (2, "other")]),
+            ("ja", &[(1, "other"), (5, "other")]),
+            ("zh-TW", &[(1, "other")]),
+            (
+                "ru",
+                &[
+                    (1, "one"),
+                    (2, "few"),
+                    (5, "many"),
+                    (11, "many"),
+                    (21, "one"),
+                    (22, "few"),
+                ],
+            ),
+            ("uk", &[(1, "one"), (3, "few"), (12, "many")]),
+            (
+                "pl",
+                &[
+                    (1, "one"),
+                    (2, "few"),
+                    (5, "many"),
+                    (21, "many"),
+                    (22, "few"),
+                ],
+            ),
+            ("cs", &[(1, "one"), (3, "few"), (5, "other")]),
+            ("he", &[(1, "one"), (2, "two"), (3, "other")]),
+            (
+                "ar",
+                &[
+                    (0, "zero"),
+                    (1, "one"),
+                    (2, "two"),
+                    (3, "few"),
+                    (11, "many"),
+                    (100, "other"),
+                ],
+            ),
+            ("pt-BR", &[(0, "one"), (2, "other")]),
+        ];
+        for (locale, expected) in cases {
+            for (n, category) in *expected {
+                assert_eq!(plural_category(locale, *n), *category, "{locale} {n}");
+            }
+        }
+    }
+
+    #[test]
+    fn plural_base_strips_only_plural_suffixes() {
+        assert_eq!(plural_base("rust.a.title_few"), Some("rust.a.title"));
+        assert_eq!(plural_base("rust.a.title_other"), Some("rust.a.title"));
+        assert_eq!(plural_base("rust.a.title"), None);
+        assert_eq!(plural_base("rust.a.read_only"), None);
+    }
+
+    /// Every `rust.*` plural group has, in every locale, exactly the forms
+    /// ICU4X's CLDR data names for that language, so `t_plural` never falls
+    /// back. `wb-translate-missing.ts` writes them from the browser's
+    /// `Intl.PluralRules`; this also catches the two CLDR copies disagreeing.
+    #[test]
+    fn every_rust_plural_group_has_the_locale_forms() {
+        let bases: std::collections::BTreeSet<String> = english_keys()
+            .iter()
+            .filter_map(|k| plural_base(k).map(String::from))
+            .collect();
+        assert!(bases.contains("rust.menu.wordsDictated"));
+        for code in locales() {
+            let root = STRINGS.get(code).unwrap();
+            let wanted: Vec<&str> = if code == SOURCE_LOCALE {
+                vec!["one", "other"]
+            } else {
+                let rules = plural_rules(code).expect("plural rules");
+                PLURAL_SUFFIXES
+                    .iter()
+                    .copied()
+                    .filter(|s| rules.categories().any(|c| category_suffix(c) == *s))
+                    .collect()
+            };
+            for base in &bases {
+                for suffix in PLURAL_SUFFIXES {
+                    let key = format!("{base}_{suffix}");
+                    let has = lookup(root, &key).is_some();
+                    assert_eq!(
+                        has,
+                        wanted.contains(&suffix),
+                        "{code}: {key} {}",
+                        if has { "is extra" } else { "is missing" }
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn t_plural_picks_the_locale_form_and_fills_count() {
+        assert_eq!(
+            t_plural("en", "rust.menu.wordsDictated", 1, &[]),
+            "1 word dictated"
+        );
+        assert_eq!(
+            t_plural("en", "rust.menu.wordsDictated", 1234, &[]),
+            "1234 words dictated"
+        );
+        for n in [1, 2, 5, 21] {
+            let ru = t_plural("ru", "rust.menu.wordsDictated", n, &[]);
+            let form = get(
+                "ru",
+                &format!("rust.menu.wordsDictated_{}", plural_category("ru", n)),
+            )
+            .unwrap();
+            assert_eq!(ru, interpolate(form, &[("count", &n.to_string())]));
+        }
+        // Unknown locale → English rules and strings.
+        assert_eq!(
+            t_plural("xx", "rust.menu.snippetCount", 2, &[]),
+            "2 snippets"
+        );
+    }
+
+    #[test]
     fn no_rust_string_names_handy() {
         for code in locales() {
             for key in english_keys() {
-                let s = get(code, &key).unwrap();
+                let Some(s) = get(code, &key) else { continue };
                 assert!(!s.contains("Handy"), "{code}: {key} = {s:?}");
             }
         }

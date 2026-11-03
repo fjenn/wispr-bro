@@ -43,6 +43,7 @@ export function resultLine(r: ForkCleanupResult): {
       values: {
         applied: r.chunks_applied,
         total: r.chunks_total,
+        count: r.chunks_total,
         reason: r.why,
       },
     };

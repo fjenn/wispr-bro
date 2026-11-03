@@ -55,9 +55,9 @@ function fixtureInbox(): NotificationItem[] {
     entry({
       id: 2,
       kind: "milestone",
-      title_key: "rust.notify.milestoneWords.title",
-      body_key: "rust.notify.milestoneWords.body",
-      args: { words: "10000" },
+      title_key: "rust.notify.milestoneWords.title_other",
+      body_key: "rust.notify.milestoneWords.body_other",
+      args: { count: "10000" },
       action: { type: "open_page", page: "insights", section: null },
       created_at: NOW - 3 * 3_600_000,
     }),

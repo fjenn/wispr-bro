@@ -51,6 +51,7 @@ export function ExamplesEditor({
       </legend>
       <p className="text-xs leading-5 text-(--wb-ink-2)">
         {t("transforms.examples.help", {
+          count: MAX_EXAMPLES,
           max: MAX_EXAMPLES,
           chars: MAX_EXAMPLE_CHARS,
         })}

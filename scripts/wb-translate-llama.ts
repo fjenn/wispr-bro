@@ -23,6 +23,7 @@ import { mkdtempSync, rmSync } from "fs";
 import { tmpdir } from "os";
 import path from "path";
 import { LANGUAGE_METADATA } from "../src/i18n/languages";
+import { glossaryPrompt } from "./wb-translate-glossary";
 
 export type Flag = "untranslated" | "machine";
 
@@ -33,6 +34,7 @@ export interface TranslationBackendLike {
     text: string,
     targetLang: string,
     key: string,
+    hint?: string,
   ): Promise<string | null>;
   close?(): Promise<void>;
 }
@@ -67,8 +69,10 @@ export function systemPrompt(code: string): string {
     "Rules:",
     "- Translate the meaning naturally for a settings screen; keep it short.",
     "- Keep every {{placeholder}} exactly as written, untranslated, including the braces.",
-    "- Keep product and model names (Wispr Bro, Muesli, Qwen, Hugging Face, macOS, Mac) unchanged.",
-    "- Keep symbols such as %, …, ·, and keyboard names unchanged.",
+    "- Keep product and model names (Wispr Bro, Muesli, Qwen, Parakeet, Hugging Face, Apple Intelligence, macOS, Mac) and the transform names Polish and Prompt Engineer unchanged.",
+    "- Keep symbols such as %, …, ·, →, and keyboard names and symbols (fn, ⌥, ⌘, ⌃, ⇧, Esc, Space, Tab, Return) unchanged.",
+    "- When a plural form is requested, write that grammatical form for the counts given (the English text shows the meaning, not the form).",
+    ...glossaryPrompt(code),
     "- If the string is a deliberately messy spoken sample (fillers, repeats, no punctuation), translate it as an equally messy spoken sample in the target language.",
     'Reply only with JSON: {"text": "<the translation>"}.',
   ].join("\n");
@@ -78,6 +82,7 @@ export function requestBody(
   text: string,
   code: string,
   key: string,
+  hint?: string,
 ): Record<string, unknown> {
   return {
     model: "local",
@@ -91,7 +96,7 @@ export function requestBody(
       { role: "system", content: systemPrompt(code) },
       {
         role: "user",
-        content: `String id: ${key}\nEnglish: ${JSON.stringify(text)}`,
+        content: `String id: ${key}\n${hint ? `${hint}\n` : ""}English: ${JSON.stringify(text)}`,
       },
     ],
   };
@@ -116,10 +121,10 @@ export function backendFrom(
   return {
     name: "llama-server",
     flag: "machine",
-    async translate(text, targetLang, key) {
+    async translate(text, targetLang, key, hint) {
       try {
         return parseTranslation(
-          await complete(requestBody(text, targetLang, key)),
+          await complete(requestBody(text, targetLang, key, hint)),
         );
       } catch {
         return null;

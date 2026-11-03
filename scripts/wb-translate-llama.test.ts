@@ -27,6 +27,26 @@ describe("wb-translate-llama", () => {
     expect(systemPrompt("ja")).toContain("Japanese");
   });
 
+  test("glossary, tone, kept names and the plural hint reach the model", () => {
+    const de = systemPrompt("de");
+    expect(de).toContain("Tone: Informal „du“");
+    expect(de).toContain("Dictation → Diktat");
+    expect(de).toContain("Polish and Prompt Engineer unchanged");
+    expect(de).toContain("⌥");
+    const body = requestBody(
+      "{{count}} words",
+      "ru",
+      "a_few",
+      'Plural form "few" of this message, used when the count is 2, 3, 4.',
+    );
+    const user = (body.messages as { content: string }[])[1].content;
+    expect(user).toContain('Plural form "few"');
+    expect(
+      (requestBody("x", "ru", "k").messages as { content: string }[])[1]
+        .content,
+    ).not.toContain("Plural form");
+  });
+
   test("replies must be JSON with a non-empty text", () => {
     expect(parseTranslation('{"text":"Bereit"}')).toBe("Bereit");
     expect(parseTranslation("Bereit")).toBeNull();

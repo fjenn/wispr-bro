@@ -90,6 +90,7 @@ function FormatHelp() {
         <li>{t("snippets.import.format.lines")}</li>
         <li>
           {t("snippets.import.format.limits", {
+            count: MAX_TRIGGER_CHARS,
             max: MAX_TRIGGER_CHARS,
             maxBody: MAX_BODY_CHARS,
           })}
@@ -245,6 +246,10 @@ function Review({
                   reason: t(`snippets.problem.${r.problem}`, {
                     max: MAX_TRIGGER_CHARS,
                     maxBody: MAX_BODY_CHARS,
+                    count:
+                      r.problem === "body_too_long"
+                        ? MAX_BODY_CHARS
+                        : MAX_TRIGGER_CHARS,
                   }),
                 })}
               </li>

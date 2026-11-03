@@ -89,7 +89,10 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
     <div className="flex flex-col gap-5" data-testid="wb-hotkeys-panel">
       <div className="flex flex-col gap-1">
         <p className="text-sm text-(--wb-ink-2)">
-          {t("settingsModal.hotkeys.description", { max: MAX_BINDINGS })}
+          {t("settingsModal.hotkeys.description", {
+            count: MAX_BINDINGS,
+            max: MAX_BINDINGS,
+          })}
         </p>
         <p className="text-xs text-(--wb-ink-3)">
           {t("settingsModal.hotkeys.secureInputHelp")}

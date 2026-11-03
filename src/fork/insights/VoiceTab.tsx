@@ -103,6 +103,7 @@ function LockedHeader({ voice }: { voice: VoiceProfile }) {
   const progress = t("home.voiceProfile.progress", {
     current: formatCount(current, language),
     goal,
+    count: voice.goal,
   });
   return (
     <section
@@ -114,12 +115,13 @@ function LockedHeader({ voice }: { voice: VoiceProfile }) {
         id="wb-voice-locked-title"
         className="font-(family-name:--wb-font-display) text-[19px] leading-tight font-medium text-(--wb-ink)"
       >
-        {t("insights.voice.lockedTitle", { goal })}
+        {t("insights.voice.lockedTitle", { goal, count: voice.goal })}
       </h2>
       <p className={NOTE}>
         {t("insights.voice.lockedBody", {
           current: formatCount(current, language),
           goal,
+          count: voice.goal,
           appName: t("rust.appName"),
         })}
       </p>

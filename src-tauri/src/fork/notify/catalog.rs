@@ -123,19 +123,25 @@ impl Notice {
 
     /// Total words passed `words` (one of [`WORD_MILESTONES`]).
     pub fn words_milestone(words: u64) -> Notice {
-        notice(NotificationKind::Milestone, "milestoneWords")
-            .arg("words", words)
+        let mut n = notice(NotificationKind::Milestone, "milestoneWords")
+            .arg("count", words)
             .action(NotificationAction::page("insights", None))
-            .dedupe(format!("milestone:words:{words}"))
+            .dedupe(format!("milestone:words:{words}"));
+        n.title_key = plural_key("rust.notify.milestoneWords.title", words);
+        n.body_key = Some(plural_key("rust.notify.milestoneWords.body", words));
+        n
     }
 
     /// A streak of `days` (one of [`STREAK_MILESTONES`]) that began on
     /// `start_day` (`YYYY-MM-DD`): each streak celebrates each length once.
     pub fn streak_milestone(days: u32, start_day: &str) -> Notice {
-        notice(NotificationKind::Milestone, "milestoneStreak")
-            .arg("days", days)
+        let mut n = notice(NotificationKind::Milestone, "milestoneStreak")
+            .arg("count", days)
             .action(NotificationAction::page("insights", None))
-            .dedupe(format!("milestone:streak:{days}:{start_day}"))
+            .dedupe(format!("milestone:streak:{days}:{start_day}"));
+        n.title_key = plural_key("rust.notify.milestoneStreak.title", days);
+        n.body_key = Some(plural_key("rust.notify.milestoneStreak.body", days));
+        n
     }
 
     /// One of [`TIPS`].
@@ -159,10 +165,12 @@ impl Notice {
     }
 }
 
-/// `<base>_one` for 1, else `<base>_other` (i18next's plural suffixes; the
-/// inbox re-resolves plurals per language with i18next's own rules).
-pub fn plural_key(base: &str, count: u32) -> String {
-    if count == 1 {
+/// `<base>_one` for 1, else `<base>_other` (i18next's plural suffixes with
+/// English rules; the stored key only names the group: the inbox and the
+/// macOS notification resolve it again with the locale's CLDR rules, see
+/// `notify::render` and `i18n::t_plural`).
+pub fn plural_key(base: &str, count: impl Into<u64>) -> String {
+    if count.into() == 1 {
         format!("{base}_one")
     } else {
         format!("{base}_other")

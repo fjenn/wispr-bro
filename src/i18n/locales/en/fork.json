@@ -365,7 +365,6 @@
     "hotkeys": {
       "open": "Shortcuts",
       "loading": "Loading shortcuts…",
-      "description": "Add up to {{max}} shortcuts for each action. Changes are saved as you make them.",
       "secureInputHelp": "macOS Secure Input protects password entry by hiding keystrokes from other apps. Shortcut capture pauses while it is active.",
       "count": "{{count}} of {{max}} set",
       "notSet": "Not set",
@@ -424,7 +423,9 @@
         "transform.prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
         "transform.view_changes": "Review the latest transform before and after.",
         "scratchpad.open": "Resume your last note or start a new one, according to your Scratchpad setting."
-      }
+      },
+      "description_one": "Add up to {{max}} shortcut for each action. Changes are saved as you make them.",
+      "description_other": "Add up to {{max}} shortcuts for each action. Changes are saved as you make them."
     },
     "resetSetting": "Reset {{setting}}"
   },
@@ -781,12 +782,16 @@
         "body": "It could not be read, so a new one was started. The damaged file was kept next to it."
       },
       "milestoneWords": {
-        "title": "{{words}} words dictated",
-        "body": "That is {{words}} words you did not have to type. Nice going."
+        "title_one": "{{count}} word dictated",
+        "title_other": "{{count}} words dictated",
+        "body_one": "That is {{count}} word you did not have to type. Nice going.",
+        "body_other": "That is {{count}} words you did not have to type. Nice going."
       },
       "milestoneStreak": {
-        "title": "{{days}}-day streak",
-        "body": "You have dictated on {{days}} days in a row."
+        "title_one": "{{count}}-day streak",
+        "title_other": "{{count}}-day streak",
+        "body_one": "You have dictated on {{count}} day in a row.",
+        "body_other": "You have dictated on {{count}} days in a row."
       },
       "tips": {
         "handsFree": {
@@ -1103,7 +1108,7 @@
         "unsupported": "Apple Intelligence needs macOS 26 or later. Wispr Bro uses its own cleanup model.",
         "unknown": "Apple Intelligence isn't available right now."
       },
-      "counts": "Since the app started: {{requests}} requests, {{refusals}} declined, {{rateLimited}} throttled."
+      "counts": "Since the app started: requests {{requests}}, declined {{refusals}}, throttled {{rateLimited}}."
     }
   },
   "home": {
@@ -1131,10 +1136,12 @@
     },
     "voiceProfile": {
       "title": "Your voice profile",
-      "progress": "{{current}} of {{goal}} words",
-      "locked": "Unlocks at {{goal}} words. Keep dictating to build it.",
       "unlocked": "Unlocked. See how you speak in Insights.",
-      "open": "Open Insights"
+      "open": "Open Insights",
+      "progress_one": "{{current}} of {{goal}} word",
+      "progress_other": "{{current}} of {{goal}} words",
+      "locked_one": "Unlocks at {{goal}} word. Keep dictating to build it.",
+      "locked_other": "Unlocks at {{goal}} words. Keep dictating to build it."
     },
     "history": {
       "title": "Your dictations are saved on this Mac",
@@ -1211,11 +1218,13 @@
     },
     "problem": {
       "empty": "Type a word first.",
-      "too_long": "Words can be up to {{max}} characters.",
-      "replacement_too_long": "Replacements can be up to {{maxReplacement}} characters.",
       "same_as_replacement": "The replacement is the same as the word.",
       "control_character": "Line breaks and tabs can't be used here.",
-      "full": "Your dictionary is full. Delete some entries first."
+      "full": "Your dictionary is full. Delete some entries first.",
+      "too_long_one": "Words can be up to {{max}} character.",
+      "too_long_other": "Words can be up to {{max}} characters.",
+      "replacement_too_long_one": "Replacements can be up to {{maxReplacement}} character.",
+      "replacement_too_long_other": "Replacements can be up to {{maxReplacement}} characters."
     },
     "dialog": {
       "addTitle": "Add to dictionary",
@@ -1448,14 +1457,15 @@
     },
     "examples": {
       "title": "Writing examples",
-      "help": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result.",
       "fileType": "Text or Markdown",
       "label": "Writing example {{number}}",
       "count": "{{count}} / {{max}}",
       "paste": "Paste an example",
       "load": "Load .txt or .md",
       "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than 1,500 characters."
+      "readError": "Choose a .txt or .md file with no more than 1,500 characters.",
+      "help_one": "Paste or load up to {{max}} example, {{chars}} characters each. They guide style without becoming part of the result.",
+      "help_other": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result."
     },
     "diff": {
       "changes_one": "{{count}} change",
@@ -1503,8 +1513,9 @@
       "none": "No dictation since the app started.",
       "applied_one": "Cleaned in {{ms}} ms, {{count}} change.",
       "applied_other": "Cleaned in {{ms}} ms, {{count}} changes.",
-      "partial": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}",
-      "checks": "Safety checks that stopped it: {{checks}}"
+      "checks": "Safety checks that stopped it: {{checks}}",
+      "partial_one": "Cleaned in part ({{applied}} of {{total}} paragraph); the rest is as spoken: {{reason}}",
+      "partial_other": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}"
     },
     "why": {
       "level_none": "Cleanup is off.",
@@ -1587,13 +1598,15 @@
     },
     "problem": {
       "empty_trigger": "Type what you will say first.",
-      "trigger_too_long": "What you say can be up to {{max}} characters.",
       "trigger_not_spoken": "What you say needs at least one letter or number.",
       "trigger_control_character": "What you say has to fit on one line.",
       "empty_body": "Type the text to write.",
-      "body_too_long": "The text can be up to {{maxBody}} characters.",
       "body_control_character": "The text contains a character that can't be written. Remove it and try again.",
-      "full": "You have the most snippets the app can hold. Delete some first."
+      "full": "You have the most snippets the app can hold. Delete some first.",
+      "trigger_too_long_one": "What you say can be up to {{max}} character.",
+      "trigger_too_long_other": "What you say can be up to {{max}} characters.",
+      "body_too_long_one": "The text can be up to {{maxBody}} character.",
+      "body_too_long_other": "The text can be up to {{maxBody}} characters."
     },
     "dialog": {
       "addTitle": "Add snippet",
@@ -1625,8 +1638,9 @@
         "intro": "One snippet per row:",
         "columns": "The first column is what you say; the second is the text to write.",
         "lines": "A text with line breaks goes in quotes, as spreadsheet apps save it.",
-        "limits": "What you say up to {{max}} characters, texts up to {{maxBody}}, at most 1,000 rows and 3 MB per file.",
-        "encoding": "Save as CSV UTF-8 so accents and other scripts come through."
+        "encoding": "Save as CSV UTF-8 so accents and other scripts come through.",
+        "limits_one": "What you say up to {{max}} character, texts up to {{maxBody}}, at most 1,000 rows and 3 MB per file.",
+        "limits_other": "What you say up to {{max}} characters, texts up to {{maxBody}}, at most 1,000 rows and 3 MB per file."
       },
       "review": {
         "new_one": "new snippet",
@@ -1741,8 +1755,6 @@
       "band4": "750 words or more"
     },
     "voice": {
-      "lockedTitle": "Your voice profile unlocks at {{goal}} words",
-      "lockedBody": "Keep dictating: {{current}} of {{goal}} words so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you.",
       "locked": "Locked",
       "phrase": "Your phrase",
       "phraseIn_one": "In {{count, number}} dictation",
@@ -1764,7 +1776,11 @@
         "peak": "a time of day",
         "word": "a favourite word",
         "corrected": "a word that gets fixed"
-      }
+      },
+      "lockedTitle_one": "Your voice profile unlocks at {{goal}} word",
+      "lockedTitle_other": "Your voice profile unlocks at {{goal}} words",
+      "lockedBody_one": "Keep dictating: {{current}} of {{goal}} word so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you.",
+      "lockedBody_other": "Keep dictating: {{current}} of {{goal}} words so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you."
     }
   },
   "history": {
@@ -2178,16 +2194,17 @@
       "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
       "howFast": "How fast do you type?",
       "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
       "sliderLabel": "How long do you type each day?",
       "hoursPerDay_one": "{{hours}} hour a day",
       "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "takeTest": "Take the typing test",
+      "basisMeasured_one": "Based on your {{wpm}} word a minute typing, and speaking at about {{speaking}} words a minute.",
+      "basisMeasured_other": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
+      "basisAverage_one": "Based on an average typing speed of {{wpm}} word a minute, and speaking at about {{speaking}} words a minute.",
+      "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute."
     },
     "typing": {
       "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
       "skip": "Skip",
       "language": "Language",
       "wpmPending": "— words a minute",
@@ -2201,7 +2218,9 @@
       "result_one": "You type about {{count}} word a minute.",
       "result_other": "You type about {{count}} words a minute.",
       "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "recalculate": "Recalculate",
+      "instruction_one": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} second.",
+      "instruction_other": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds."
     },
     "summary": {
       "title": "You're all set",
