@@ -473,6 +473,9 @@ test.describe("hub shell", () => {
       ipc,
       hub,
     }) => {
+      // One axe pass per Hub page: load-only time, so the parallel-builder
+      // load (~60) needs more than the 30 s default.
+      test.setTimeout(180_000);
       await page.emulateMedia({ colorScheme: theme });
       await openHub(page, ipc, hub, { handy: { theme } });
       for (const id of HUB_PAGE_IDS) {
