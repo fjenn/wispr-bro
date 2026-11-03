@@ -34,7 +34,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | CC0-1.0 OR MIT-0 OR Apache-2.0 | 1 | 0 |
 | CDLA-Permissive-2.0 | 2 | 0 |
 | ISC | 2 | 16 |
-| MIT | 96 | 236 |
+| MIT | 96 | 247 |
 | MIT AND ISC AND BSD-3-Clause | 0 | 1 |
 | MIT OR Apache-2.0 | 214 | 10 |
 | MIT OR Apache-2.0 OR Zlib | 3 | 0 |
@@ -47,7 +47,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | Zlib OR Apache-2.0 OR MIT | 24 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 477 Rust crates, 272 npm packages.
+Total: 477 Rust crates, 283 npm packages.
 
 ## Speech models
 
@@ -240,21 +240,35 @@ From `NOTICE` §7.
   Licence: SIL Open Font License 1.1; text in
   LICENSES/OFL-1.1-NotoSansCJK.txt.
 
-- Newsreader (latin, latin-ext and vietnamese subsets,
-  src/assets/fonts/fork/newsreader-*.woff2, from the Fontsource package
-  @fontsource-variable/newsreader 5.3.0; S-13)
-  Copyright 2020 The Newsreader Project Authors
-  (http://github.com/productiontype/Newsreader).
-  Licence: SIL Open Font License 1.1; text in
-  LICENSES/OFL-1.1-Newsreader.txt.
+- Figtree (latin and latin-ext subsets,
+  src/assets/fonts/fork/figtree-*.woff2, from the Fontsource package
+  @fontsource-variable/figtree 5.3.0; Design Phase 0)
+  Copyright 2022 The Figtree Project Authors
+  (https://github.com/erikdkennedy/figtree).
+  Licence: SIL Open Font License 1.1; text in LICENSES/OFL-1.1-Figtree.txt.
 
-- Source Serif 4 (cyrillic, cyrillic-ext and greek subsets,
-  src/assets/fonts/fork/source-serif-4-*.woff2, from the Fontsource package
-  @fontsource-variable/source-serif-4 5.3.1; S-13)
-  © 2014 - 2021 Adobe Systems Incorporated (http://www.adobe.com/), with
-  Reserved Font Name 'Source'.
+- Inter (cyrillic, cyrillic-ext, greek, greek-ext and vietnamese subsets,
+  src/assets/fonts/fork/inter-*.woff2, from the Fontsource package
+  @fontsource-variable/inter 5.3.0; Design Phase 0)
+  Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter).
+  Licence: SIL Open Font License 1.1; text in LICENSES/OFL-1.1-Inter.txt.
+
+- EB Garamond (roman and italic; latin, latin-ext, cyrillic, cyrillic-ext,
+  greek and vietnamese subsets, src/assets/fonts/fork/eb-garamond-*.woff2,
+  from the Fontsource package @fontsource-variable/eb-garamond 5.3.0;
+  Design Phase 0)
+  Copyright 2017 The EB Garamond Project Authors
+  (https://github.com/octaviopardo/EBGaramond12).
   Licence: SIL Open Font License 1.1; text in
-  LICENSES/OFL-1.1-SourceSerif4.txt.
+  LICENSES/OFL-1.1-EBGaramond.txt.
+
+- JetBrains Mono (latin, latin-ext, cyrillic and greek subsets,
+  src/assets/fonts/fork/jetbrains-mono-*.woff2, from the Fontsource package
+  @fontsource-variable/jetbrains-mono 5.3.0; Design Phase 0)
+  Copyright 2020 The JetBrains Mono Project Authors
+  (https://github.com/JetBrains/JetBrainsMono).
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-JetBrainsMono.txt.
 
 Fonts added by later slices are listed here, with their OFL text in
 LICENSES/, when they are added.
@@ -11267,6 +11281,8 @@ freely, subject to the following restrictions:
 | @jridgewell/resolve-uri | 3.1.2 | MIT | https://github.com/jridgewell/resolve-uri |
 | @jridgewell/sourcemap-codec | 1.5.5 | MIT | https://github.com/jridgewell/sourcemaps |
 | @jridgewell/trace-mapping | 0.3.31 | MIT | https://github.com/jridgewell/sourcemaps |
+| @number-flow/react | 0.6.2 | MIT | https://github.com/barvian/number-flow |
+| @radix-ui/number | 1.1.3 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/primitive | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-arrow | 1.1.17 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-collection | 1.2.0 | MIT | https://github.com/radix-ui/primitives |
@@ -11285,8 +11301,10 @@ freely, subject to the following restrictions:
 | @radix-ui/react-presence | 1.1.11 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-primitive | 2.2.0 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-roving-focus | 1.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-select | 2.4.1 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-slot | 1.5.0 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-tabs | 1.2.1 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-tooltip | 1.4.1 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-use-callback-ref | 1.1.5 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-use-controllable-state | 1.3.0 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-use-effect-event | 0.0.5 | MIT | https://github.com/radix-ui/primitives |
@@ -11294,6 +11312,7 @@ freely, subject to the following restrictions:
 | @radix-ui/react-use-layout-effect | 1.1.4 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-use-rect | 1.1.4 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/react-use-size | 1.1.5 | MIT | https://github.com/radix-ui/primitives |
+| @radix-ui/react-visually-hidden | 1.2.13 | MIT | https://github.com/radix-ui/primitives |
 | @radix-ui/rect | 1.1.3 | MIT | https://github.com/radix-ui/primitives |
 | @reduxjs/toolkit | 2.13.0 | MIT | https://github.com/reduxjs/redux-toolkit |
 | @standard-schema/spec | 1.1.0 | MIT | https://github.com/standard-schema/standard-schema |
@@ -11375,10 +11394,12 @@ freely, subject to the following restrictions:
 | error-ex | 1.3.4 | MIT | qix-/node-error-ex |
 | es-toolkit | 1.53.1 | MIT | https://github.com/toss/es-toolkit |
 | escape-string-regexp | 4.0.0 | MIT | sindresorhus/escape-string-regexp |
+| esm-env | 1.2.2 | MIT | https://github.com/benmccann/esm-env |
 | estree-util-is-identifier-name | 3.0.0 | MIT | syntax-tree/estree-util-is-identifier-name |
 | eventemitter3 | 5.0.4 | MIT | git://github.com/primus/eventemitter3 |
 | extend | 3.0.2 | MIT | https://github.com/justmoon/node-extend |
 | find-root | 1.1.0 | MIT | git@github.com:js-n/find-root |
+| framer-motion | 14.2.0 | MIT | https://github.com/motiondivision/motion/ |
 | function-bind | 1.1.2 | MIT | https://github.com/Raynos/function-bind |
 | get-nonce | 1.0.1 | MIT | git@github.com:theKashey/get-nonce |
 | hasown | 2.0.2 | MIT | https://github.com/inspect-js/hasOwn |
@@ -11438,7 +11459,11 @@ freely, subject to the following restrictions:
 | micromark-util-subtokenize | 2.1.0 | MIT | https://github.com/micromark/micromark/tree/main/packages/micromark-util-subtokenize |
 | micromark-util-symbol | 2.0.1 | MIT | https://github.com/micromark/micromark/tree/main/packages/micromark-util-symbol |
 | micromark-util-types | 2.0.2 | MIT | https://github.com/micromark/micromark/tree/main/packages/micromark-util-types |
+| motion | 14.2.0 | MIT | https://github.com/motiondivision/motion |
+| motion-dom | 14.2.0 | MIT | https://github.com/motiondivision/motion |
+| motion-utils | 14.1.1 | MIT | https://github.com/motiondivision/motion |
 | ms | 2.1.3 | MIT | vercel/ms |
+| number-flow | 0.6.2 | MIT | https://github.com/barvian/number-flow |
 | object-assign | 4.1.1 | MIT | sindresorhus/object-assign |
 | papaparse | 5.7.0 | MIT | https://github.com/mholt/PapaParse |
 | parent-module | 1.0.1 | MIT | sindresorhus/parent-module |
@@ -11657,7 +11682,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-Used by: @radix-ui/primitive 1.2.0, @radix-ui/react-arrow 1.1.17, @radix-ui/react-collection 1.2.0, @radix-ui/react-compose-refs 1.1.5, @radix-ui/react-context 1.3.0, @radix-ui/react-direction 1.2.0, @radix-ui/react-dismissable-layer 1.2.1, @radix-ui/react-dropdown-menu 2.2.1, @radix-ui/react-focus-guards 1.2.0, @radix-ui/react-focus-scope 1.3.1, @radix-ui/react-id 1.1.4, @radix-ui/react-menu 2.2.1, @radix-ui/react-popover 1.3.1, @radix-ui/react-popper 1.4.0, @radix-ui/react-portal 1.2.0, @radix-ui/react-presence 1.1.11, @radix-ui/react-primitive 2.2.0, @radix-ui/react-roving-focus 1.2.1, @radix-ui/react-slot 1.5.0, @radix-ui/react-tabs 1.2.1, @radix-ui/react-use-callback-ref 1.1.5, @radix-ui/react-use-controllable-state 1.3.0, @radix-ui/react-use-effect-event 0.0.5, @radix-ui/react-use-is-hydrated 0.1.3, @radix-ui/react-use-layout-effect 1.1.4, @radix-ui/react-use-rect 1.1.4, @radix-ui/react-use-size 1.1.5, @radix-ui/rect 1.1.3
+Used by: @number-flow/react 0.6.2, number-flow 0.6.2
+
+```text
+MIT License
+
+Copyright (c) 2024 Maxwell Barvian
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Used by: @radix-ui/number 1.1.3, @radix-ui/primitive 1.2.0, @radix-ui/react-arrow 1.1.17, @radix-ui/react-collection 1.2.0, @radix-ui/react-compose-refs 1.1.5, @radix-ui/react-context 1.3.0, @radix-ui/react-direction 1.2.0, @radix-ui/react-dismissable-layer 1.2.1, @radix-ui/react-dropdown-menu 2.2.1, @radix-ui/react-focus-guards 1.2.0, @radix-ui/react-focus-scope 1.3.1, @radix-ui/react-id 1.1.4, @radix-ui/react-menu 2.2.1, @radix-ui/react-popover 1.3.1, @radix-ui/react-popper 1.4.0, @radix-ui/react-portal 1.2.0, @radix-ui/react-presence 1.1.11, @radix-ui/react-primitive 2.2.0, @radix-ui/react-roving-focus 1.2.1, @radix-ui/react-select 2.4.1, @radix-ui/react-slot 1.5.0, @radix-ui/react-tabs 1.2.1, @radix-ui/react-tooltip 1.4.1, @radix-ui/react-use-callback-ref 1.1.5, @radix-ui/react-use-controllable-state 1.3.0, @radix-ui/react-use-effect-event 0.0.5, @radix-ui/react-use-is-hydrated 0.1.3, @radix-ui/react-use-layout-effect 1.1.4, @radix-ui/react-use-rect 1.1.4, @radix-ui/react-use-size 1.1.5, @radix-ui/react-visually-hidden 1.2.13, @radix-ui/rect 1.1.3
 
 ```text
 MIT License
@@ -12721,6 +12772,18 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
+Used by: esm-env 1.2.2
+
+```text
+Copyright 2022 Benjamin McCann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
 Used by: estree-util-is-identifier-name 3.0.0, mdast-util-mdx-expression 2.0.1, mdast-util-mdx-jsx 3.2.0, mdast-util-mdxjs-esm 2.0.1
 
 ```text
@@ -12811,6 +12874,32 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+Used by: framer-motion 14.2.0
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2018 Framer B.V.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 Used by: function-bind 1.1.2
@@ -13322,6 +13411,32 @@ Used by: memoize-one 6.0.0, tiny-invariant 1.3.3
 MIT License
 
 Copyright (c) 2019 Alexander Reardon
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Used by: motion 14.2.0, motion-dom 14.2.0, motion-utils 14.1.1
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2024 [Motion](https://motion.dev) B.V.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
