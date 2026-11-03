@@ -359,7 +359,7 @@ mod mac {
     use std::sync::OnceLock;
     use std::time::Duration;
 
-    use objc2::msg_send;
+    use objc2::{msg_send, MainThreadMarker};
     use objc2_app_kit::NSWindow;
     use objc2_foundation::{NSPoint, NSRect, NSSize};
     use tauri::{AppHandle, Manager, WebviewUrl, Wry};
@@ -476,42 +476,49 @@ mod mac {
             return;
         }
         PLACED.with(|p| *p.borrow_mut() = None);
-        let built = PanelBuilder::<_, ForkSpotlightPanel>::new(app, LABEL)
-            .url(WebviewUrl::App(URL.into()))
-            .title("Wispr Bro")
-            .size(tauri::Size::Logical(tauri::LogicalSize {
-                width: 800.0,
-                height: 600.0,
-            }))
-            // One below the bar (status level, 25), above every app window,
-            // full-screen ones included.
-            .level(PanelLevel::MainMenu)
-            .has_shadow(false)
-            .transparent(true)
-            // No `.no_activate(true)`: tauri-nspanel flips the whole app to
-            // the Prohibited activation policy while it builds, which
-            // deactivates the Hub the chooser's "Try it now" was clicked in
-            // (see `panel.rs`, S-24.1). Built hidden and unfocused with the
-            // non-activating mask, the panel never activates the app.
-            .hides_on_deactivate(false)
-            .corner_radius(0.0)
-            .style_mask(StyleMask::empty().borderless().nonactivating_panel())
-            .with_window(|w| {
-                w.decorations(false)
-                    .transparent(true)
-                    .focusable(false)
-                    .focused(false)
-                    .skip_taskbar(true)
-                    .visible(false)
-            })
-            .collection_behavior(
-                CollectionBehavior::new()
-                    .can_join_all_spaces()
-                    .full_screen_auxiliary()
-                    .stationary()
-                    .ignores_cycle(),
-            )
-            .build();
+        let Some(mtm) = MainThreadMarker::new() else {
+            return;
+        };
+        // S-28.8: wry activates the app at the end of every web view build,
+        // which unhides a hidden app (and its Hub); see `activation.rs`.
+        let built = super::super::activation::without_app_activation(mtm, || {
+            PanelBuilder::<_, ForkSpotlightPanel>::new(app, LABEL)
+                .url(WebviewUrl::App(URL.into()))
+                .title("Wispr Bro")
+                .size(tauri::Size::Logical(tauri::LogicalSize {
+                    width: 800.0,
+                    height: 600.0,
+                }))
+                // One below the bar (status level, 25), above every app window,
+                // full-screen ones included.
+                .level(PanelLevel::MainMenu)
+                .has_shadow(false)
+                .transparent(true)
+                // No `.no_activate(true)`: tauri-nspanel flips the whole app to
+                // the Prohibited activation policy while it builds, which
+                // deactivates the Hub the chooser's "Try it now" was clicked in
+                // (see `panel.rs`, S-24.1). Built hidden and unfocused with the
+                // non-activating mask, the panel never activates the app.
+                .hides_on_deactivate(false)
+                .corner_radius(0.0)
+                .style_mask(StyleMask::empty().borderless().nonactivating_panel())
+                .with_window(|w| {
+                    w.decorations(false)
+                        .transparent(true)
+                        .focusable(false)
+                        .focused(false)
+                        .skip_taskbar(true)
+                        .visible(false)
+                })
+                .collection_behavior(
+                    CollectionBehavior::new()
+                        .can_join_all_spaces()
+                        .full_screen_auxiliary()
+                        .stationary()
+                        .ignores_cycle(),
+                )
+                .build()
+        });
         match built {
             Ok(panel) => {
                 if let Some(win) = window(app) {

@@ -342,45 +342,52 @@ impl Ui {
         }
         let started = std::time::Instant::now();
         let (w, h) = Shape::Held.size();
-        let built = PanelBuilder::<_, ForkPillWebPanel>::new(&self.app, LABEL)
-            .url(WebviewUrl::App(URL.into()))
-            .title("Wispr Bro")
-            .size(tauri::Size::Logical(tauri::LogicalSize {
-                width: w,
-                height: h,
-            }))
-            .level(PanelLevel::Status)
-            .has_shadow(false)
-            .transparent(true)
-            // Never `.no_activate(true)`: tauri-nspanel implements it by
-            // switching the whole app to the Prohibited activation policy
-            // while it builds the window, which deactivates Wispr Bro when
-            // one of its own windows is in front (S-24.1: a take started in
-            // the Scratchpad note handed focus back to the previous app
-            // within 0.2 s). The window is built hidden and unfocused
-            // (`visible(false)`, `focused(false)`), so tao never activates
-            // the app for it, and the non-activating style mask plus
-            // `prevent_activation` cover clicks.
-            .hides_on_deactivate(false)
-            .corner_radius(0.0)
-            .style_mask(StyleMask::empty().borderless().nonactivating_panel())
-            .with_window(|w| {
-                w.decorations(false)
-                    .transparent(true)
-                    .focusable(false)
-                    .focused(false)
-                    .accept_first_mouse(true)
-                    .skip_taskbar(true)
-                    .visible(false)
-            })
-            .collection_behavior(
-                CollectionBehavior::new()
-                    .can_join_all_spaces()
-                    .full_screen_auxiliary()
-                    .stationary()
-                    .ignores_cycle(),
-            )
-            .build();
+        let Some(mtm) = MainThreadMarker::new() else {
+            return;
+        };
+        // S-28.8: wry activates the app at the end of every web view build,
+        // which unhides a hidden app (and its Hub); see `activation.rs`.
+        let built = super::activation::without_app_activation(mtm, || {
+            PanelBuilder::<_, ForkPillWebPanel>::new(&self.app, LABEL)
+                .url(WebviewUrl::App(URL.into()))
+                .title("Wispr Bro")
+                .size(tauri::Size::Logical(tauri::LogicalSize {
+                    width: w,
+                    height: h,
+                }))
+                .level(PanelLevel::Status)
+                .has_shadow(false)
+                .transparent(true)
+                // Never `.no_activate(true)`: tauri-nspanel implements it by
+                // switching the whole app to the Prohibited activation policy
+                // while it builds the window, which deactivates Wispr Bro when
+                // one of its own windows is in front (S-24.1: a take started in
+                // the Scratchpad note handed focus back to the previous app
+                // within 0.2 s). The window is built hidden and unfocused
+                // (`visible(false)`, `focused(false)`), so tao never activates
+                // the app for it, and the non-activating style mask plus
+                // `prevent_activation` cover clicks.
+                .hides_on_deactivate(false)
+                .corner_radius(0.0)
+                .style_mask(StyleMask::empty().borderless().nonactivating_panel())
+                .with_window(|w| {
+                    w.decorations(false)
+                        .transparent(true)
+                        .focusable(false)
+                        .focused(false)
+                        .accept_first_mouse(true)
+                        .skip_taskbar(true)
+                        .visible(false)
+                })
+                .collection_behavior(
+                    CollectionBehavior::new()
+                        .can_join_all_spaces()
+                        .full_screen_auxiliary()
+                        .stationary()
+                        .ignores_cycle(),
+                )
+                .build()
+        });
         match built {
             Ok(panel) => {
                 self.web_built = true;

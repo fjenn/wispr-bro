@@ -31,6 +31,8 @@
 //! `on_record_start` hook is not needed; R5 S-03 as built).
 
 pub mod accessibility;
+#[cfg(target_os = "macos")]
+mod activation;
 pub mod geometry;
 pub mod levels;
 pub mod model;

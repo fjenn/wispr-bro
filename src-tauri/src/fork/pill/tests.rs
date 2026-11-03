@@ -332,6 +332,9 @@ fn voiceover_reads_the_cards_text_but_never_a_password_fields() {
 /// app and AppKit unhides a hidden app when such a window is ordered in.
 /// Every panel the take path orders in turns `canHide` off before its first
 /// order-in, and nothing on the bar's path unhides or activates the app.
+/// Mac wave 4 (S-28.8): the panels holding a web view are built hidden and
+/// inside `activation::without_app_activation`, since wry activates the
+/// app after each web view build and that unhides it.
 #[test]
 fn bar_panels_never_unhide_a_hidden_app() {
     let native = include_str!("native.rs");
@@ -357,7 +360,34 @@ fn bar_panels_never_unhide_a_hidden_app() {
         let show = src.find("panel.show();").unwrap();
         assert!(at < show, "{name}: canHide is set after the first order-in");
         assert_eq!(src.matches("panel.show();").count(), 1, "{name}");
+        // Mac wave 4, S-28.8: the build itself must not order the window in
+        // (tao orders a `visible` window front during the build, before
+        // canHide can be set) and must not let wry activate the app (its
+        // `NSApp.activate()` after every web view build unhides a hidden
+        // app; `activation.rs`).
+        let builder = &src[src.find("PanelBuilder::<_,").unwrap()..];
+        let build = builder.find(".build()").unwrap();
+        let builder = &builder[..build];
+        assert!(builder.contains(".visible(false)"), "{name}: built visible");
+        let guard = src
+            .find("activation::without_app_activation(mtm, || {")
+            .unwrap_or_else(|| panic!("{name}: built without the activation guard"));
+        let at_builder = src.find("PanelBuilder::<_,").unwrap();
+        let built = at_builder + build;
+        assert!(
+            guard < at_builder,
+            "{name}: the guard opens after the builder"
+        );
+        assert!(
+            !src[guard..built].contains("});"),
+            "{name}: the guard closes before .build()"
+        );
+        assert!(built < at, "{name}: canHide is set before the panel exists");
+        assert_eq!(src.matches("PanelBuilder::<_,").count(), 1, "{name}");
     }
+    let activation = include_str!("activation.rs");
+    assert!(activation.contains("(sel!(activate), "));
+    assert!(activation.contains("(sel!(activateIgnoringOtherApps:), "));
     for (name, src) in [
         ("native", native),
         ("panel", panel),
