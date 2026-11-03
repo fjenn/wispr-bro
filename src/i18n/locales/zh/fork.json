@@ -433,7 +433,7 @@
       },
       "description_other": "为每个操作添加最多 {{max}} 个键盘快捷键。修改时会实时保存。"
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "重置 {{setting}}"
   },
   "hub": {
     "nav": {
@@ -860,7 +860,7 @@
         "undo": "“撤销”会在听写栏上显示 4 秒。",
         "diff": "变换更改已准备就绪，可供审核。",
         "secureInputWarning": "Secure Input 已开启。fn 和 空格键 无法锁定语音输入。Escape 或 关闭按钮 仍可取消。",
-        "inserted": "Text inserted"
+        "inserted": "文本已插入"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1989,7 +1989,7 @@
       }
     },
     "practice": {
-      "title": "练习：手写一封邮件",
+      "title": "练习：完整邮件，无需动手",
       "instruction": "同时按住 fn 和 空格键，然后开始说话。你不需要按住任何按键。说完后再次按 fn。试试看：\"嗨，萨姆，谢谢你的笔记，周四上午十点能见面吗？\"",
       "instructionFallback": "同时按住控制键、选项键和空格键，然后开始说话。你不需要一直按住任何按键。说完后，再次按住控制键和选项键。试试看：\"嗨，萨姆，谢谢你的笔记，周四上午十点能见面吗？\"",
       "instructionUnbound": "没有设置语音输入快捷键，因此无法开始练习。现在跳过，并在设置中设置快捷键。",

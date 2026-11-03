@@ -435,7 +435,7 @@
       "description_one": "Lägg till upp till {{max}} kortkommando för varje åtgärd. Ändringar sparas som du gör dem.",
       "description_other": "Lägg till upp till {{max}} kortkommandon för varje åtgärd. Ändringar sparas som du gör dem."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Återställ {{setting}}"
   },
   "hub": {
     "nav": {
@@ -874,7 +874,7 @@
         "undo": "Ångra finns på dikteringsfältet i 4 sekunder.",
         "diff": "Förändringar är redo att granska.",
         "secureInputWarning": "Säker inmatning är aktiverad. fn och Space kan inte låsa dictation. Escape eller stängknappen avbryter fortfarande.",
-        "inserted": "Text inserted"
+        "inserted": "Text infogad"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -2067,7 +2067,7 @@
       }
     },
     "practice": {
-      "title": "Öva: skriv en e-post utan händer",
+      "title": "Öva: hela en e-post, utan händer",
       "instruction": "Tryck fn och mellanrum samtidigt, sedan prata. Du behöver inte hålla något. Tryck på fn igen när du är färdig. Försök: \"Hej Sam, tack för noterna. Kan vi mötas på torsdag kl 10?\"",
       "instructionFallback": "Tryck Control, Alternativ och Space samtidigt, sedan prata. Du behöver inte hålla något. Tryck igen Control och Alternativ när du är färdig. Försök: \"Hej Sam, tack för noterna. Kan vi mötas på torsdag kl 10?\"",
       "instructionUnbound": "Inget dictationskort är satt, så kan denna övning inte startas. Hoppa över den för nu och sätt ett kort i Inställningar.",
@@ -2532,7 +2532,7 @@
             "hint": "Någon gång ensam, någon gång med människor runt"
           },
           "shared": {
-            "label": "Around other people",
+            "label": "Bland andra människor",
             "hint": "En öppen kontor, en kafé, en delad rum"
           }
         },

@@ -433,7 +433,7 @@
       },
       "description_other": "Tambahkan hingga {{max}} pintasan papan ketik untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Ulangi {{setting}}"
   },
   "hub": {
     "nav": {
@@ -860,7 +860,7 @@
         "undo": "Urungkan ada di bilah dikte selama 4 detik.",
         "diff": "Perubahan transformasi siap untuk diperiksa.",
         "secureInputWarning": "Secure Input diaktifkan. fn dan Space tidak bisa mematikan dictation. Escape atau tombol tutup masih bisa membatalkan.",
-        "inserted": "Text inserted"
+        "inserted": "Teks disisipkan"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1989,7 +1989,7 @@
       }
     },
     "practice": {
-      "title": "Latihan: tulis email tanpa menggunakan tangan",
+      "title": "Latihan: satu email, tanpa tangan",
       "instruction": "Tekan fn dan Spasi bersamaan, lalu bicarakan. Anda tidak perlu menahan apa-apa. Tekan fn lagi saat selesai. Coba: \"Hai Sam, terima kasih atas catatan. Bisa kita bertemu pada hari Kamis pukul sepuluh?\"",
       "instructionFallback": "Tekan Control, Option dan Spasi bersamaan, lalu bicara. Anda tidak perlu menahan apa-apa. Tekan lagi Control dan Option saat selesai. Coba: \"Hai Sam, terima kasih atas catatan. Bisa kita bertemu pada hari Kamis pukul sepuluh?\"",
       "instructionUnbound": "Tidak ada singkatan dictation yang diatur, jadi latihan ini tidak bisa dimulai. Langsung lewatinya dan atur singkatan di Pengaturan.",

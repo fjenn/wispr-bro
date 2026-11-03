@@ -28,6 +28,7 @@
       "failed": "fallito ({{detail}})",
       "noViolations": "Nessun violazione CSP registrata.",
       "violations_one": "{{count}} violazione CSP registrata.",
+      "violations_many": "{{count}} violazioni CSP registrate.",
       "violations_other": "{{count}} violazioni CSP registrate.",
       "checks": {
         "media": "Audio (asset protocol)",
@@ -35,8 +36,7 @@
         "blobImage": "blob: immagine",
         "forkCommand": "Fork command",
         "probe": "Fonte bloccata"
-      },
-      "violations_many": "{{count}} violazioni CSP registrate."
+      }
     },
     "notifications": {
       "title": "Notifiche",
@@ -437,7 +437,7 @@
       "description_many": "Aggiungi fino a {{max}} abbreviazioni per azione. Le modifiche vengono salvate mentre le apporti.",
       "description_other": "Aggiungi fino a {{max}} abbreviazioni per ogni azione. Le modifiche vengono salvate mentre le apporti."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Reimposta {{setting}}"
   },
   "hub": {
     "nav": {
@@ -458,6 +458,7 @@
         "body": "Aggiornamenti e suggerimenti appariranno qui."
       },
       "bellUnread_one": "Notifiche, {{count}} non lette",
+      "bellUnread_many": "Notifiche, {{count}} non lette",
       "bellUnread_other": "Notifiche, {{count}} non lette",
       "filter": {
         "label": "Mostra",
@@ -486,8 +487,7 @@
       "actionFailed": "Non è riuscito. Riprova.",
       "copied": "Ultima dictazione copiata",
       "nothingToCopy": "Niente da copiare ancora",
-      "justNow": "Appena ora",
-      "bellUnread_many": "Notifiche, {{count}} non lette"
+      "justNow": "Appena ora"
     },
     "help": {
       "title": "Aiuto",
@@ -650,6 +650,7 @@
       "formatLink": "Formato accettato",
       "csvFilter": "file CSV",
       "fileSummary_one": "{{name}}: {{count}} riga",
+      "fileSummary_many": "{{name}}: {{count}} righe",
       "fileSummary_other": "{{name}}: {{count}} righe",
       "hasHeader": "La prima riga contiene i nomi delle colonne",
       "optional": "(opzionale)",
@@ -658,6 +659,7 @@
       "columnNamed": "Colonna {{letter}}: {{name}}",
       "mapRequired": "Scegli una colonna per ogni campo non opzionale.",
       "previewCaption_one": "Anteprima della prima riga",
+      "previewCaption_many": "Anteprima delle prime {{count}} righe",
       "previewCaption_other": "Anteprima delle prime {{count}} righe",
       "rowHeader": "Riga",
       "cancel": "Annulla",
@@ -672,9 +674,7 @@
         "unreadable": "Quel file non può essere letto. Verifica che sia un file CSV e riprova.",
         "empty": "Quel file non ha righe da importare.",
         "failed": "Qualcosa è andato storto. Niente è stato importato; riprova."
-      },
-      "fileSummary_many": "{{name}}: {{count}} righe",
-      "previewCaption_many": "Anteprima delle prime {{count}} righe"
+      }
     }
   },
   "rust": {
@@ -688,6 +688,7 @@
       "view": "Vedi",
       "window": "Finestra",
       "wordsDictated_one": "{{count}} parola dictata",
+      "wordsDictated_many": "{{count}} parole dettate",
       "wordsDictated_other": "{{count}} parole dictate",
       "copyLast": "Copia il testo precedente",
       "copyLastPreview": "Copia il testo precedente: “{{preview}}”",
@@ -698,8 +699,10 @@
       "automaticMicrophone": "Rileva automaticamente (impostazione sistema)",
       "noMicrophones": "Nessun microfono trovato",
       "dictionaryWords_one": "{{count}} parola del dizionario",
+      "dictionaryWords_many": "{{count}} parole del dizionario",
       "dictionaryWords_other": "{{count}} parole del dizionario",
       "snippetCount_one": "{{count}} snippet",
+      "snippetCount_many": "{{count}} frammenti",
       "snippetCount_other": "{{count}} frammenti",
       "addWord": "Aggiungi parola…",
       "newSnippet": "Nuovo snippet…",
@@ -729,10 +732,7 @@
       "hide": "Nascondi {{appName}}",
       "quitApp": "Esci {{appName}}",
       "restartToUpdate": "Riavvia per aggiornare a {{version}}",
-      "updatesOff": "Verifica aggiornamenti disattivata…",
-      "wordsDictated_many": "{{count}} parole dettate",
-      "dictionaryWords_many": "{{count}} parole del dizionario",
-      "snippetCount_many": "{{count}} frammenti"
+      "updatesOff": "Verifica aggiornamenti disattivata…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
@@ -781,9 +781,9 @@
       },
       "queuedTakesReady": {
         "title_one": "{{count}} dictazione pronta",
+        "title_many": "{{count}} dettature pronte",
         "title_other": "{{count}} dictazioni pronte",
-        "body": "Cio' che hai detto mentre il modello di riconoscimento vocale era assente è stato trascritto.",
-        "title_many": "{{count}} dettature pronte"
+        "body": "Cio' che hai detto mentre il modello di riconoscimento vocale era assente è stato trascritto."
       },
       "shortcutProblem": {
         "title": "Il tuo shortcut non sta funziona",
@@ -853,9 +853,9 @@
       },
       "takeRecovered": {
         "title_one": "È stato salvato un'immagine quando è stato chiuso l'applicazione",
+        "title_many": "I {{count}} registrazioni sono state salvate quando l'app è uscita",
         "title_other": "Sono stati salvati {{count}} registrazioni quando è stato chiuso l'app",
-        "body": "Stavano ancora registrando quando è stato chiuso {{appName}}. Sono nell'Historia, dove sono stati trascritti.",
-        "title_many": "I {{count}} registrazioni sono state salvate quando l'app è uscita"
+        "body": "Stavano ancora registrando quando è stato chiuso {{appName}}. Sono nell'Historia, dove sono stati trascritti."
       }
     },
     "scratchpad": {
@@ -888,7 +888,7 @@
         "undo": "Annulla resta sulla barra di dettatura per 4 secondi.",
         "diff": "I cambiamenti di trasformazione sono pronti per la revisione.",
         "secureInputWarning": "L'Input Sicuro è attivo. fn e Spazio non possono bloccare la diczione. Escape o il tasto chiudi annullano comunque.",
-        "inserted": "Text inserted"
+        "inserted": "Testo inserito"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1078,6 +1078,7 @@
     "search": "Cerca il tuo dizionario",
     "refresh": "Aggiorna",
     "shown_one": "Visualizzato {{count}} elemento",
+    "shown_many": "Visualizzati {{count}} elementi",
     "shown_other": "Visualizzati {{count}} elementi",
     "deleted": "Eliminato \"{{entry}}\".",
     "deleteFailed": "Quella voce non può essere cancellata. Riprova.",
@@ -1109,12 +1110,12 @@
       "rule": "{{from}} → {{to}}",
       "becomes": "diventa",
       "used_one": "Usato {{count}} volta",
+      "used_many": "Usato {{count}} volte",
       "used_other": "Usato {{count}} volte",
       "edit": "Modifica {{entry}}",
       "delete": "Cancella {{entry}}",
       "accept": "Aggiungi {{entry}} al tuo dizionario",
-      "reject": "Non impara {{entry}}",
-      "used_many": "Usato {{count}} volte"
+      "reject": "Non impara {{entry}}"
     },
     "source": {
       "import": "Importato",
@@ -1192,17 +1193,23 @@
       },
       "review": {
         "new_one": "nuova entrata",
+        "new_many": "nuovi elementi",
         "new_other": "nuovi elementi",
         "duplicates_one": "già presente",
+        "duplicates_many": "già presente",
         "duplicates_other": "già presente",
         "conflicts_one": "conflitto",
+        "conflicts_many": "conflitti",
         "conflicts_other": "conflitti",
         "invalid_one": "non può essere importato",
+        "invalid_many": "non può essere importato",
         "invalid_other": "non può essere importato",
         "overLimit_one": "Il tuo dizionario ha spazio per {{room}} di più; {{count}} nuova entrata non ci sta.",
+        "overLimit_many": "Il tuo dizionario ha spazio per {{room}} di più; {{count}} nuovi elementi non entreranno.",
         "overLimit_other": "Il tuo dizionario ha spazio per {{room}} altri; {{count}} nuove voci non entreranno.",
         "showNew": "Mostra le nuove voci",
         "more_one": "e {{count}} altri",
+        "more_many": "e {{count}} altri",
         "more_other": "e {{count}} altri",
         "conflictsTitle": "Già presente nel tuo dizionario, in modo diverso",
         "conflictsHelp": "Seleziona quelli in cui la versione del file deve sostituire la tua.",
@@ -1211,53 +1218,46 @@
         "useFile": "Usa il file:",
         "yours": "A te:",
         "showInvalid": "Mostra le righe che non possono essere importate",
-        "invalidRow": "Riga {{row}} ({{phrase}}): {{reason}}",
-        "new_many": "nuovi elementi",
-        "duplicates_many": "già presente",
-        "conflicts_many": "conflitti",
-        "invalid_many": "non può essere importato",
-        "overLimit_many": "Il tuo dizionario ha spazio per {{room}} di più; {{count}} nuovi elementi non entreranno.",
-        "more_many": "e {{count}} altri"
+        "invalidRow": "Riga {{row}} ({{phrase}}): {{reason}}"
       },
       "done": {
         "title_one": "È stato importato {{count}} elemento",
+        "title_many": "Importati {{count}} elementi",
         "title_other": "{{count}} voci importate",
         "added_one": "{{count}} aggiunti",
+        "added_many": "Aggiunto {{count}}",
         "added_other": "Aggiunto {{count}}",
         "replaced_one": "{{count}} sostituito con la versione del file",
+        "replaced_many": "{{count}} sostituiti con la versione del file",
         "replaced_other": "{{count}} sostituito con la versione del file",
         "skipped_one": "{{count}} già presente, saltato",
+        "skipped_many": "{{count}} già presente, saltato",
         "skipped_other": "{{count}} già presente, saltato",
         "kept_one": "{{count}} conflitto lasciato com’era",
+        "kept_many": "I {{count}} conflitti conservati come sono",
         "kept_other": "{{count}} conflitti conservati come erano",
         "invalid_one": "{{count}} riga non può essere importata",
+        "invalid_many": "Non è stato possibile importare {{count}} righe",
         "invalid_other": "{{count}} righe non possono essere importate",
         "overLimit_one": "{{count}} non è riuscito (il dizionario è pieno)",
-        "overLimit_other": "{{count}} non è riuscito (il dizionario è pieno)",
-        "title_many": "Importati {{count}} elementi",
-        "added_many": "Aggiunto {{count}}",
-        "replaced_many": "{{count}} sostituiti con la versione del file",
-        "skipped_many": "{{count}} già presente, saltato",
-        "kept_many": "I {{count}} conflitti conservati come sono",
-        "invalid_many": "Non è stato possibile importare {{count}} righe",
-        "overLimit_many": "{{count}} non è riuscito (il dizionario è pieno)"
+        "overLimit_many": "{{count}} non è riuscito (il dizionario è pieno)",
+        "overLimit_other": "{{count}} non è riuscito (il dizionario è pieno)"
       }
     },
     "export": {
       "open": "Esporta",
       "fileName": "{{appName}} dizionario.csv",
       "done_one": "Esportato {{count}} entry.",
+      "done_many": "Esportato {{count}} elementi.",
       "done_other": "Esportato {{count}} voci.",
-      "failed": "Impossibile esportare il dizionario. Riprova.",
-      "done_many": "Esportato {{count}} elementi."
+      "failed": "Impossibile esportare il dizionario. Riprova."
     },
     "rejected": "“{{entry}}” non sarà suggerito di nuovo.",
     "actionFailed": "Non è riuscito. Riprova.",
     "learn": {
       "toggle": "Apprendi dalle mie correzioni",
       "hint": "Per 30 secondi dopo che una dictazione è incollata, {{appName}} rileva le parole che correggi nel campo testo e le suggerisce qui. Viene conservata solo la parola corretta, mai il resto del testo. I campi password, i gestori password, le app bancarie e i terminali non vengono letti."
-    },
-    "shown_many": "Visualizzati {{count}} elementi"
+    }
   },
   "pill": {
     "region": "Dictation bar",
@@ -1282,6 +1282,7 @@
     "settingUpHint": "Le tue parole sono salvate. Il testo apparirà qui quando la dettatura sarà pronta.",
     "cardReady": "La tua dettatura",
     "cardMore_one": "La tua dettatura · {{count}} altra nella cronologia",
+    "cardMore_many": "La tua dettatura · {{count}} altri in Cronologia",
     "cardMore_other": "La tua dettatura · altre {{count}} nella cronologia",
     "copy": "Copia",
     "copied": "Copiato",
@@ -1295,8 +1296,7 @@
     "shortcutDetail": {
       "permission": "L'accesso alla compatibilità è disattivato",
       "stopped": "Il rilevatore del tasto è stato fermato"
-    },
-    "cardMore_many": "La tua dettatura · {{count}} altri in Cronologia"
+    }
   },
   "transforms": {
     "banner": {
@@ -1412,6 +1412,7 @@
     },
     "diff": {
       "changes_one": "{{count}} modifica",
+      "changes_many": "{{count}} modifiche",
       "changes_other": "{{count}} modifiche",
       "configure": "Configura",
       "copy": "Copia",
@@ -1422,8 +1423,7 @@
       "good": "Buon risultato",
       "bad": "Risultato scadente",
       "simpleView": "Mostrando una sola sostituzione per questo grande o complesso cambiamento.",
-      "actionFailed": "Quella azione non è riuscita. Il tuo testo è ancora qui; prova di nuovo.",
-      "changes_many": "{{count}} modifiche"
+      "actionFailed": "Quella azione non è riuscita. Il tuo testo è ancora qui; prova di nuovo."
     },
     "startTutorial": "Inizia il tutorial"
   },
@@ -1456,9 +1456,9 @@
       "title": "Ultima dictazione",
       "none": "Nessuna dictazione dal momento in cui è stato avviato l'app.",
       "applied_one": "Pulito in {{ms}} ms, {{count}} modifica.",
+      "applied_many": "Pulita in {{ms}} ms, {{count}} modifiche.",
       "applied_other": "Pulito in {{ms}} ms, {{count}} modifiche.",
       "checks": "Verifiche di sicurezza che l'hanno fermato: {{checks}}",
-      "applied_many": "Pulita in {{ms}} ms, {{count}} modifiche.",
       "partial_one": "Pulito in parte ({{applied}} di {{total}} paragrafo); il resto è come detto: {{reason}}",
       "partial_many": "Pulito in parte ({{applied}} di {{total}} paragrafi); il resto è come dettato: {{reason}}",
       "partial_other": "Pulito in parte ({{applied}} di {{total}} paragrafi); il resto è come detto: {{reason}}"
@@ -1492,17 +1492,18 @@
     "search": "Cerca i tuoi snippet",
     "refresh": "Aggiorna",
     "shown_one": "{{count}} snippet mostrato",
+    "shown_many": "Visualizzati {{count}} frammenti",
     "shown_other": "{{count}} frammenti visualizzati",
     "deleted": "Cancellato \"{{trigger}}\".",
     "deleteFailed": "Quel frammento non può essere eliminato. Riprova.",
     "undo": "Annulla",
     "counts": {
       "snippets_one": "{{count}} snippet",
+      "snippets_many": "{{count}} frammenti",
       "snippets_other": "{{count}} frammenti",
       "uses_one": "usato {{count}} volta",
-      "uses_other": "usato {{count}} volte",
-      "snippets_many": "{{count}} frammenti",
-      "uses_many": "usato {{count}} volte"
+      "uses_many": "usato {{count}} volte",
+      "uses_other": "usato {{count}} volte"
     },
     "sort": {
       "label": "Ordina",
@@ -1524,14 +1525,14 @@
       "becomes": "è scritto come",
       "pair": "{{trigger}} → {{text}}",
       "lines_one": "{{count}} linea",
+      "lines_many": "{{count}} righe",
       "lines_other": "{{count}} righe",
       "imported": "Importato",
       "used_one": "Usato {{count}} volta",
+      "used_many": "Usato {{count}} volte",
       "used_other": "Usato {{count}} volte",
       "edit": "Modifica {{trigger}}",
-      "delete": "Cancella {{trigger}}",
-      "lines_many": "{{count}} righe",
-      "used_many": "Usato {{count}} volte"
+      "delete": "Cancella {{trigger}}"
     },
     "empty": {
       "title": "Ancora nessun frammento",
@@ -1597,19 +1598,26 @@
       },
       "review": {
         "new_one": "nuovo snippet",
+        "new_many": "nuovi frammenti",
         "new_other": "nuovi snippet",
         "duplicates_one": "già presente",
+        "duplicates_many": "già presente",
         "duplicates_other": "già presente",
         "conflicts_one": "conflitto",
+        "conflicts_many": "conflitti",
         "conflicts_other": "conflitti",
         "invalid_one": "non può essere importato",
+        "invalid_many": "non possono essere importati",
         "invalid_other": "non può essere importato",
         "overLimit_one": "Ci sono ancora spazio per {{room}} altri; {{count}} nuovo snippet non entrerà.",
+        "overLimit_many": "Ci sono ancora {{room}} di spazio; {{count}} nuovi frammenti non entreranno.",
         "overLimit_other": "Ci sono ancora spazio per {{room}} altri; {{count}} nuovi snippet non entreranno.",
         "ignoredRows_one": "Solo le prime 1.000 righe vengono lette; {{count}} altre righe vengono ignorate.",
+        "ignoredRows_many": "Solo le prime 1.000 righe vengono lette; {{count}} righe in più vengono ignorate.",
         "ignoredRows_other": "Solo le prime 1.000 righe vengono lette; {{count}} righe in più vengono ignorate.",
         "showNew": "Mostra i nuovi snippet",
         "more_one": "e {{count}} altri",
+        "more_many": "e {{count}} altri",
         "more_other": "e {{count}} altri",
         "conflictsTitle": "Già salvato con un altro testo",
         "conflictsHelp": "Seleziona quelli in cui il testo del file deve sostituire il tuo.",
@@ -1618,48 +1626,40 @@
         "useFile": "Usa il file:",
         "yours": "Tuo:",
         "showInvalid": "Mostra le righe che non possono essere importate",
-        "invalidRow": "Riga {{row}} ({{trigger}}): {{reason}}",
-        "new_many": "nuovi frammenti",
-        "duplicates_many": "già presente",
-        "conflicts_many": "conflitti",
-        "invalid_many": "non possono essere importati",
-        "overLimit_many": "Ci sono ancora {{room}} di spazio; {{count}} nuovi frammenti non entreranno.",
-        "ignoredRows_many": "Solo le prime 1.000 righe vengono lette; {{count}} righe in più vengono ignorate.",
-        "more_many": "e {{count}} altri"
+        "invalidRow": "Riga {{row}} ({{trigger}}): {{reason}}"
       },
       "done": {
         "title_one": "È stato importato {{count}} snippet",
+        "title_many": "Importati {{count}} frammenti",
         "title_other": "{{count}} frammenti importati",
         "added_one": "{{count}} aggiunti",
+        "added_many": "Aggiunti {{count}}",
         "added_other": "{{count}} aggiunti",
         "replaced_one": "{{count}} sostituito con il testo del file",
+        "replaced_many": "{{count}} sostituiti con il testo del file",
         "replaced_other": "{{count}} sostituiti con il testo del file",
         "skipped_one": "{{count}} già presente, saltato",
+        "skipped_many": "{{count}} già presente, saltato",
         "skipped_other": "{{count}} già presente, saltato",
         "kept_one": "{{count}} conflitto lasciato com’era",
+        "kept_many": "I {{count}} conflitti conservati come erano",
         "kept_other": "{{count}} conflitti conservati come erano",
         "invalid_one": "Non è possibile importare {{count}} riga",
+        "invalid_many": "Non è stato possibile importare {{count}} righe",
         "invalid_other": "{{count}} righe non possono essere importate",
         "overLimit_one": "{{count}} non è riuscito a inserirsi",
-        "overLimit_other": "{{count}} non è riuscito a inserirsi",
-        "title_many": "Importati {{count}} frammenti",
-        "added_many": "Aggiunti {{count}}",
-        "replaced_many": "{{count}} sostituiti con il testo del file",
-        "skipped_many": "{{count}} già presente, saltato",
-        "kept_many": "I {{count}} conflitti conservati come erano",
-        "invalid_many": "Non è stato possibile importare {{count}} righe",
-        "overLimit_many": "{{count}} non è riuscito a entrare"
+        "overLimit_many": "{{count}} non è riuscito a entrare",
+        "overLimit_other": "{{count}} non è riuscito a inserirsi"
       }
     },
     "export": {
       "open": "Esporta",
       "fileName": "{{appName}} snippets.csv",
       "done_one": "Esportato {{count}} snippet.",
+      "done_many": "Esportati {{count}} frammenti.",
       "done_other": "Esportato {{count}} snippeti.",
-      "failed": "I snippeti non possono essere esportati. Riprova.",
-      "done_many": "Esportati {{count}} frammenti."
-    },
-    "shown_many": "Visualizzati {{count}} frammenti"
+      "failed": "I snippeti non possono essere esportati. Riprova."
+    }
   },
   "insights": {
     "tabs": {
@@ -1686,8 +1686,8 @@
     "words": {
       "title": "Parole totali",
       "dictations_one": "in {{count, number}} dictazioni",
-      "dictations_other": "in {{count, number}} dictazioni",
-      "dictations_many": "in {{count, number}} dettature"
+      "dictations_many": "in {{count, number}} dettature",
+      "dictations_other": "in {{count, number}} dictazioni"
     },
     "fixes": {
       "title": "Correzioni apportate",
@@ -1698,24 +1698,27 @@
       "title": "Dove dicti",
       "empty": "Dicci in pochi app per capire dove vanno le tue parole.",
       "words_one": "{{count, number}} parola",
+      "words_many": "{{count, number}} parole",
       "words_other": "{{count, number}} parole",
       "documents": "Documenti",
       "ai_prompts": "Prompt AI",
       "email": "Email",
       "work": "Messaggi lavoro",
       "personal": "Messaggi personali",
-      "other": "Tutto il resto",
-      "words_many": "{{count, number}} parole"
+      "other": "Tutto il resto"
     },
     "heatmap": {
       "title": "La tua serie",
       "current": "Streak attuale",
       "longest": "Fase più lunga",
       "days_one": "{{count, number}} giorno",
+      "days_many": "{{count, number}} giorni",
       "days_other": "{{count, number}} giorni",
       "active_one": "Un giorno di dettatura negli ultimi {{count, number}} giorni",
+      "active_many": "{{count, number}} giorni di dettatura negli ultimi anni",
       "active_other": "{{count, number}} giorni con dictazione negli ultimi anni",
       "day_one": "{{date}}: {{count, number}} parola",
+      "day_many": "{{date}}: {{count, number}} parole",
       "day_other": "{{date}}: {{count, number}} parole",
       "less": "Poco",
       "more": "Di più",
@@ -1723,27 +1726,28 @@
       "band1": "da 1 a 249 parole",
       "band2": "250 a 499 parole",
       "band3": "500 a 749 parole",
-      "band4": "750 parole o più",
-      "days_many": "{{count, number}} giorni",
-      "active_many": "{{count, number}} giorni di dettatura negli ultimi anni",
-      "day_many": "{{date}}: {{count, number}} parole"
+      "band4": "750 parole o più"
     },
     "voice": {
       "locked": "Bloccato",
       "phrase": "La tua frase",
       "phraseIn_one": "In {{count, number}} dictazione",
+      "phraseIn_many": "In {{count, number}} dettazioni",
       "phraseIn_other": "In {{count, number}} dictazioni",
       "peak": "Ora di punta e app",
       "peakApp": "La maggior parte delle parole in {{app}}",
       "word": "Parola più usata",
       "uses_one": "Usato {{count, number}} volta",
+      "uses_many": "Usato {{count, number}} volte",
       "uses_other": "Usato {{count, number}} volte",
       "corrected": "Parola corretta più frequente",
       "pair": "{{heard}} → {{written}}",
       "fixed_one": "Corretto {{count, number}} volta",
+      "fixed_many": "Corretto {{count, number}} volte",
       "fixed_other": "Corretto {{count, number}} volte",
       "notEnough": "Ancora troppe dictazioni.",
       "footnote_one": "Elaborato su questo Mac dalla tua ultima dictazione. Niente lascia il tuo Mac.",
+      "footnote_many": "Calcolato su questo Mac dalle tue ultime {{count, number}} dettature. Niente lascia il tuo Mac.",
       "footnote_other": "Calcolato su questo Mac dalle tue ultime {{count, number}} dictazioni. Niente lascia il tuo Mac.",
       "sample": {
         "phrase": "una frase che dici spesso",
@@ -1756,11 +1760,7 @@
       "lockedTitle_other": "Il tuo profilo vocale si sblocca a {{goal}} parole",
       "lockedBody_one": "Continua a dettare: {{current}} di {{goal}} parola finora. Poi vedrai la frase che usi di più, quando e dove la detti, e le parole che {{appName}} corregge per te.",
       "lockedBody_many": "Continua a dettare: {{current}} di {{goal}} parole finora. Poi vedrai la frase che usi di più, quando e dove la detti, e le parole che {{appName}} corregge per te.",
-      "lockedBody_other": "Continua a dettare: {{current}} di {{goal}} parole finora. Poi vedrai la frase che usi di più, quando e dove la detti, e le parole che {{appName}} corregge per te.",
-      "phraseIn_many": "In {{count, number}} dettazioni",
-      "uses_many": "Usato {{count, number}} volte",
-      "fixed_many": "Corretto {{count, number}} volte",
-      "footnote_many": "Calcolato su questo Mac dalle tue ultime {{count, number}} dettature. Niente lascia il tuo Mac."
+      "lockedBody_other": "Continua a dettare: {{current}} di {{goal}} parole finora. Poi vedrai la frase che usi di più, quando e dove la detti, e le parole che {{appName}} corregge per te."
     }
   },
   "history": {
@@ -1779,8 +1779,10 @@
       "body": "Nessuna dictazione contiene “{{query}}”."
     },
     "results_one": "{{count}} dictazione trovata",
+    "results_many": "Trovati {{count}} dettature",
     "results_other": "{{count}} dictazioni trovate",
     "resultsMore_one": "I {{count}} risultati più recenti. Scorri per vedere di più.",
+    "resultsMore_many": "I {{count}} risultati più recenti. Scorri per vedere di più.",
     "resultsMore_other": "I {{count}} risultati più recenti. Scorri per vedere di più.",
     "search": {
       "open": "Cerca storia",
@@ -1829,13 +1831,13 @@
     },
     "audio": {
       "expired_one": "Audio rimosso dopo {{count}} giorno",
+      "expired_many": "Audio rimosso dopo {{count}} giorni",
       "expired_other": "Audio rimosso dopo {{count}} giorni",
       "removed": "Audio rimosso",
       "missing": "Nessun audio registrato per questa dictazione",
       "filter": "WAV audio",
       "saved": "Ricordato salvato.",
-      "saveFailed": "L'audio non può essere salvato. Riprova.",
-      "expired_many": "Audio rimosso dopo {{count}} giorni"
+      "saveFailed": "L'audio non può essere salvato. Riprova."
     },
     "copyFailed": "Il testo non può essere copiato. Riprova.",
     "actionFailed": "Non è riuscito. Riprova.",
@@ -1865,9 +1867,7 @@
       "savedRule": "Da ora \"{{from}}\" diventa \"{{to}}\".",
       "savedWord": "“{{word}}” è nel tuo dizionario.",
       "openDictionary": "Apri il Dizionario"
-    },
-    "results_many": "Trovati {{count}} dettature",
-    "resultsMore_many": "I {{count}} risultati più recenti. Scorri per vedere di più."
+    }
   },
   "scratchpad": {
     "newNote": "Nuova nota",
@@ -2059,11 +2059,11 @@
       "listLabel": "Lingue",
       "noMatch": "Nessuna lingua corrisponde a “{{query}}”.",
       "count_one": "La diczione funziona in {{count}} lingua. Puoi cambiarla in seguito nelle Impostazioni.",
+      "count_many": "La dettatura funziona in {{count}} lingue. Puoi cambiarla più tardi nelle Impostazioni.",
       "count_other": "La diczione funziona in {{count}} lingue. Puoi modificarla in seguito nelle Impostazioni.",
       "weak_one": "Il riconoscimento è meno preciso in {{languages}}. Funziona comunque, ma aspetta più errori.",
-      "weak_other": "Il riconoscimento è meno accurato in {{languages}}. Funzionano ancora, ma aspetta più errori.",
-      "count_many": "La dettatura funziona in {{count}} lingue. Puoi cambiarla più tardi nelle Impostazioni.",
-      "weak_many": "La riconoscimento è meno accurato in {{languages}}. Funzionano ancora, ma aspetta più errori."
+      "weak_many": "La riconoscimento è meno accurato in {{languages}}. Funzionano ancora, ma aspetta più errori.",
+      "weak_other": "Il riconoscimento è meno accurato in {{languages}}. Funzionano ancora, ma aspetta più errori."
     },
     "permissions": {
       "title": "Due permessi",
@@ -2145,7 +2145,7 @@
       }
     },
     "practice": {
-      "title": "Pratica: scrivi un'email senza mano",
+      "title": "Pratica: un'email completa, senza mano",
       "instruction": "Premi fn e Spazio insieme, poi parla. Non è necessario tenere premuto nulla. Premi nuovamente fn quando sei finito. Prova: \"Ciao Sam, grazie per i notes. Possiamo incontrarci il giovedì alle dieci?\"",
       "instructionFallback": "Premi Controllo, Opzione e Spazio contemporaneamente, poi parla. Non è necessario tenere premuti nessun tasto. Premi nuovamente Controllo e Opzione quando sei finito. Prova: \"Ciao Sam, grazie per i notes. Possiamo incontrarci il giovedì alle dieci?\"",
       "instructionUnbound": "Nessun breve per la dicta è impostato, quindi questa pratica non può avviarsi. Salta per ora e imposta un breve nelle Impostazioni.",
@@ -2175,22 +2175,22 @@
     },
     "timeSaved": {
       "headline_one": "Il riconoscimento vocale potrebbe risparmiarti circa {{hours}} ora a settimana",
+      "headline_many": "Dettare potrebbe risparmiarti circa {{hours}} ore a settimana",
       "headline_other": "Il riconoscimento vocale potrebbe risparmiarti circa {{hours}} ore a settimana",
       "intro": "Parlare è più veloce della digitazione per la maggior parte delle persone. Fai un test di digitazione di 30 secondi per vedere quanto tempo potresti risparmiare.",
       "howFast": "Quanto velocemente ti esprimi?",
       "skipTest": "Salta il test",
       "sliderLabel": "Quanto tempo digiti ogni giorno?",
       "hoursPerDay_one": "{{hours}} ora al giorno",
+      "hoursPerDay_many": "{{hours}} ore al giorno",
       "hoursPerDay_other": "{{hours}} ore al giorno",
       "takeTest": "Fai il test di digitazione",
-      "headline_many": "Dettare potrebbe risparmiarti circa {{hours}} ore a settimana",
       "basisMeasured_one": "Basato sul tuo {{wpm}} parola al minuto di digitazione e sullo speaking di circa {{speaking}} parole al minuto.",
       "basisMeasured_many": "Basato sul tuo {{wpm}} parole al minuto digitate e sullo speaking di circa {{speaking}} parole al minuto.",
       "basisMeasured_other": "Basato sul tuo {{wpm}} parole al minuto digitate e sullo speaking di circa {{speaking}} parole al minuto.",
       "basisAverage_one": "Basato su una velocità di digitazione media di {{wpm}} parole al minuto, e parlando a circa {{speaking}} parole al minuto.",
       "basisAverage_many": "Basato su una velocità media di battitura di {{wpm}} parole al minuto e su una parlata di circa {{speaking}} parole al minuto.",
-      "basisAverage_other": "Basato su una velocità di digitazione media di {{wpm}} parole al minuto, e parlando a circa {{speaking}} parole al minuto.",
-      "hoursPerDay_many": "{{hours}} ore al giorno"
+      "basisAverage_other": "Basato su una velocità di digitazione media di {{wpm}} parole al minuto, e parlando a circa {{speaking}} parole al minuto."
     },
     "typing": {
       "title": "Quanto sei veloce a scrivere?",
@@ -2198,22 +2198,22 @@
       "language": "Lingua",
       "wpmPending": "— parole al minuto",
       "wpm_one": "{{count}} parola al minuto",
+      "wpm_many": "{{count}} parole al minuto",
       "wpm_other": "{{count}} parole al minuto",
       "secondsLeft_one": "{{count}} secondo rimasto",
+      "secondsLeft_many": "{{count}} secondi rimasti",
       "secondsLeft_other": "rimangono {{count}} secondi",
       "inputLabel": "Inserisci il paragrafo qui",
       "placeholder": "Inizia a digitare qui…",
       "nothing": "Niente ha corrisposto il paragrafo. Riprova.",
       "result_one": "Tu scrivi circa {{count}} parola al minuto.",
+      "result_many": "Detti circa {{count}} parole al minuto.",
       "result_other": "Tu scrivi circa {{count}} parole al minuto.",
       "tryAgain": "Prova ancora",
       "recalculate": "Ricalcola",
       "instruction_one": "Inserisci il paragrafo sotto come normalmente faresti. Il cronometro inizia con la prima pressione del tasto e va avanti per {{seconds}} secondo.",
       "instruction_many": "Inserisci il paragrafo sottostante come farebbe normalmente. Il cronometro inizia con la prima pressione del tasto e va avanti per {{seconds}} secondi.",
-      "instruction_other": "Inserisci il paragrafo sottostante come farebbe normalmente. Il cronometro inizia con la prima pressione del tasto e scorre per {{seconds}} secondi.",
-      "wpm_many": "{{count}} parole al minuto",
-      "secondsLeft_many": "{{count}} secondi rimasti",
-      "result_many": "Detti circa {{count}} parole al minuto."
+      "instruction_other": "Inserisci il paragrafo sottostante come farebbe normalmente. Il cronometro inizia con la prima pressione del tasto e scorre per {{seconds}} secondi."
     },
     "summary": {
       "title": "Sei tutto pronto",
@@ -2226,14 +2226,14 @@
       "micDefault": "Il microfono predefinito del Mac",
       "typing": "Velocità di digitazione",
       "typingWpm_one": "{{count}} parola al minuto",
+      "typingWpm_many": "{{count}} parole al minuto",
       "typingWpm_other": "{{count}} parole al minuto",
       "typingSkipped": "Non misurato",
       "notSet": "Non impostato",
       "launchAtLogin": "Apri Wispr Bro quando ti connetti",
       "launchAtLoginHint": "Quindi la dictazione è pronta ogni volta che la necessiti.",
       "later": "Puoi modificare tutto questo in seguito nelle Impostazioni.",
-      "finish": "Inizia a digitare",
-      "typingWpm_many": "{{count}} parole al minuto"
+      "finish": "Inizia a digitare"
     }
   },
   "whatsNew": {

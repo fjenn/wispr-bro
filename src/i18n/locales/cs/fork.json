@@ -28,6 +28,8 @@
       "failed": "neúspěšné ({{detail}})",
       "noViolations": "Žádné porušení CSP nebylo zaznamenáno.",
       "violations_one": "{{count}} zaznamenáno porušení CSP.",
+      "violations_few": "Zaznamenáno {{count}} porušení CSP.",
+      "violations_many": "Zaznamenáno {{count}} porušení CSP.",
       "violations_other": "{{count}} zaznamenáno porušení CSP.",
       "checks": {
         "media": "Zvuk (protokol zdroje)",
@@ -35,9 +37,7 @@
         "blobImage": "blob: obrázek",
         "forkCommand": "Příkaz rozdělení",
         "probe": "Zablokováný zdroj"
-      },
-      "violations_few": "Zaznamenáno {{count}} porušení CSP.",
-      "violations_many": "Zaznamenáno {{count}} porušení CSP."
+      }
     },
     "notifications": {
       "title": "Oznámení",
@@ -439,7 +439,7 @@
       "description_many": "Přidej až {{max}} klávesových zkratek na každé akce. Změny jsou uloženy hned po jejich vytvoření.",
       "description_other": "Přidej až {{max}} klávesových zkratek pro každé akce. Změny jsou uloženy hned po jejich vytvoření."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Obnovit {{setting}}"
   },
   "hub": {
     "nav": {
@@ -460,6 +460,8 @@
         "body": "Zde se objeví aktualizace a tipy."
       },
       "bellUnread_one": "Upozornění, {{count}} nečtená",
+      "bellUnread_few": "Oznámení, {{count}} nepřečtená",
+      "bellUnread_many": "Oznámení, {{count}} nepřečtená",
       "bellUnread_other": "Upozornění, {{count}} nečtená",
       "filter": {
         "label": "Zobraz",
@@ -488,9 +490,7 @@
       "actionFailed": "To nevyšlo. Zkuste to znovu.",
       "copied": "Nejnovější dictace byla zkopírována",
       "nothingToCopy": "Žádná dictace k zkopírování ještě",
-      "justNow": "Před chvílí",
-      "bellUnread_few": "Oznámení, {{count}} nepřečtená",
-      "bellUnread_many": "Oznámení, {{count}} nepřečtená"
+      "justNow": "Před chvílí"
     },
     "help": {
       "title": "Podpora",
@@ -653,6 +653,8 @@
       "formatLink": "Přijatý formát",
       "csvFilter": "Soubor CSV",
       "fileSummary_one": "{{name}}: {{count}} řádku",
+      "fileSummary_few": "{{name}}: {{count}} řádků",
+      "fileSummary_many": "{{name}}: {{count}} řádků",
       "fileSummary_other": "{{name}}: {{count}} řádků",
       "hasHeader": "První řádek obsahuje názvy sloupců",
       "optional": "(volitelné)",
@@ -661,6 +663,8 @@
       "columnNamed": "Sloupec {{letter}}: {{name}}",
       "mapRequired": "Vyberte sloupec pro každé pole, které není volitelné.",
       "previewCaption_one": "Náhled první řádky",
+      "previewCaption_few": "Náhled prvních {{count}} řádků",
+      "previewCaption_many": "Náhled prvních {{count}} řádků",
       "previewCaption_other": "Náhled prvních {{count}} řádků",
       "rowHeader": "Řádek",
       "cancel": "Storno",
@@ -675,11 +679,7 @@
         "unreadable": "Soubor nemůže být načten. Ujisti se, že je to soubor CSV a zkus to znovu.",
         "empty": "Tento soubor nemá žádné řádky k importu.",
         "failed": "Něco se nepovedlo. Nic nebylo naimportováno; zkuste to prosím znovu."
-      },
-      "fileSummary_few": "{{name}}: {{count}} řádků",
-      "fileSummary_many": "{{name}}: {{count}} řádků",
-      "previewCaption_few": "Náhled prvních {{count}} řádků",
-      "previewCaption_many": "Náhled prvních {{count}} řádků"
+      }
     }
   },
   "rust": {
@@ -693,6 +693,8 @@
       "view": "Zobrazit",
       "window": "Okno",
       "wordsDictated_one": "{{count}} nadiktované slovo",
+      "wordsDictated_few": "{{count}} nadiktovaná slova",
+      "wordsDictated_many": "{{count}} nadiktovaného slova",
       "wordsDictated_other": "{{count}} nadiktovaných slov",
       "copyLast": "Zkopírovat poslední transkript",
       "copyLastPreview": "Zkopírovat poslední transkript: \"{{preview}}\"",
@@ -703,8 +705,12 @@
       "automaticMicrophone": "Automatické detekce (nastavení systému)",
       "noMicrophones": "Nenalezeny žádné mikrofony",
       "dictionaryWords_one": "{{count}} slovo ve slovníku",
+      "dictionaryWords_few": "{{count}} slova ve slovníku",
+      "dictionaryWords_many": "{{count}} slova ve slovníku",
       "dictionaryWords_other": "{{count}} slov ve slovníku",
       "snippetCount_one": "{{count}} úryvek",
+      "snippetCount_few": "{{count}} úryvky",
+      "snippetCount_many": "{{count}} úryvku",
       "snippetCount_other": "{{count}} úryvků",
       "addWord": "Přidat slovo…",
       "newSnippet": "Nový snippet…",
@@ -734,13 +740,7 @@
       "hide": "Skryj {{appName}}",
       "quitApp": "Ukončit {{appName}}",
       "restartToUpdate": "Začít znovu pro aktualizaci na {{version}}",
-      "updatesOff": "Ověření aktualizací je vypnuto…",
-      "wordsDictated_few": "{{count}} nadiktovaná slova",
-      "wordsDictated_many": "{{count}} nadiktovaného slova",
-      "dictionaryWords_few": "{{count}} slova ve slovníku",
-      "dictionaryWords_many": "{{count}} slova ve slovníku",
-      "snippetCount_few": "{{count}} úryvky",
-      "snippetCount_many": "{{count}} úryvku"
+      "updatesOff": "Ověření aktualizací je vypnuto…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
@@ -789,10 +789,10 @@
       },
       "queuedTakesReady": {
         "title_one": "{{count}} diktát je připraven",
-        "title_other": "{{count}} diktátů je připraveno",
-        "body": "Co jsi řekl, když byl model hlasu nepřítomný, bylo převedeno na text.",
         "title_few": "{{count}} diktáty jsou připraveny",
-        "title_many": "{{count}} diktátu je připraveno"
+        "title_many": "{{count}} diktátu je připraveno",
+        "title_other": "{{count}} diktátů je připraveno",
+        "body": "Co jsi řekl, když byl model hlasu nepřítomný, bylo převedeno na text."
       },
       "shortcutProblem": {
         "title": "Váš klávesový zkrat nefunguje",
@@ -866,10 +866,10 @@
       },
       "takeRecovered": {
         "title_one": "Při ukončení aplikace byla uložena nahrávka",
-        "title_other": "{{count}} nahrávek bylo uloženo při ukončení aplikace",
-        "body": "Stále se zaznamenávaly, když byl {{appName}} uzavřen. Jsou v historii, kde jsou převedeny na text.",
         "title_few": "{{count}} nahrávky byly uloženy při ukončení aplikace",
-        "title_many": "{{count}} nahrávky bylo uloženo při ukončení aplikace"
+        "title_many": "{{count}} nahrávky bylo uloženo při ukončení aplikace",
+        "title_other": "{{count}} nahrávek bylo uloženo při ukončení aplikace",
+        "body": "Stále se zaznamenávaly, když byl {{appName}} uzavřen. Jsou v historii, kde jsou převedeny na text."
       }
     },
     "scratchpad": {
@@ -902,7 +902,7 @@
         "undo": "Zpět je na diktovací liště 4 sekundy.",
         "diff": "Změny pro transformaci jsou připraveny k prohlídce.",
         "secureInputWarning": "Bezpečné vstupní data jsou zapnuty. fn a Space nemohou uzamknout dictaci. Escape nebo tlačítko ukončení stále zruší.",
-        "inserted": "Text inserted"
+        "inserted": "Text vložen"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1094,6 +1094,8 @@
     "search": "Hledání v slovníku",
     "refresh": "Obnovit",
     "shown_one": "{{count}} záznam zobrazen",
+    "shown_few": "Zobrazeno {{count}} záznamů",
+    "shown_many": "Zobrazeno {{count}} záznamů",
     "shown_other": "{{count}} zázvuků zobrazeno",
     "deleted": "Odstraněno „{{entry}}“.",
     "deleteFailed": "Tento záznam nemohl být smazán. Zkuste to prosím znovu.",
@@ -1125,13 +1127,13 @@
       "rule": "{{from}} → {{to}}",
       "becomes": "stává se",
       "used_one": "Použito {{count}} krát",
+      "used_few": "Použito {{count}} krát",
+      "used_many": "Použito {{count}} krát",
       "used_other": "Použito {{count}} krát",
       "edit": "Upravit {{entry}}",
       "delete": "Odstranit {{entry}}",
       "accept": "Přidej {{entry}} do svého slovníku",
-      "reject": "Nepřijmout {{entry}}",
-      "used_few": "Použito {{count}} krát",
-      "used_many": "Použito {{count}} krát"
+      "reject": "Nepřijmout {{entry}}"
     },
     "source": {
       "import": "Importované",
@@ -1211,17 +1213,29 @@
       },
       "review": {
         "new_one": "nový vstup",
+        "new_few": "nové vstupy",
+        "new_many": "nové záznamy",
         "new_other": "nové položky",
         "duplicates_one": "už je zde",
+        "duplicates_few": "už je zde",
+        "duplicates_many": "už je zde",
         "duplicates_other": "už je zde",
         "conflicts_one": "konflikt",
+        "conflicts_few": "konflikty",
+        "conflicts_many": "konflikty",
         "conflicts_other": "konflikty",
         "invalid_one": "nemůže být naimportováno",
+        "invalid_few": "nemůže být importováno",
+        "invalid_many": "není možné importovat",
         "invalid_other": "nemůže být importováno",
         "overLimit_one": "Vaše slovník má místo pro {{room}} více; {{count}} nového vstupu se neprovede.",
+        "overLimit_few": "Váš slovník má místo pro {{room}} více; {{count}} nových vstupů nezajímá.",
+        "overLimit_many": "Váš slovník má místo pro {{room}} více; {{count}} nových vstupů se neprovede.",
         "overLimit_other": "Vaše slovník má místo pro {{room}} více; {{count}} nových vstupů se neprovede.",
         "showNew": "Zobraz nové položky",
         "more_one": "a {{count}} více",
+        "more_few": "a {{count}} více",
+        "more_many": "a {{count}} více",
         "more_other": "a {{count}} více",
         "conflictsTitle": "Už je v vašem slovníku, jinak",
         "conflictsHelp": "Zaznačte ty, kde by měla nahradit verze souboru vaši.",
@@ -1230,68 +1244,54 @@
         "useFile": "Použít soubor:",
         "yours": "Tvoje:",
         "showInvalid": "Zobrazit řádky, které se nepodařilo importovat",
-        "invalidRow": "Řádek {{row}} ({{phrase}}): {{reason}}",
-        "new_few": "nové vstupy",
-        "new_many": "nové záznamy",
-        "duplicates_few": "už je zde",
-        "duplicates_many": "už je zde",
-        "conflicts_few": "konflikty",
-        "conflicts_many": "konflikty",
-        "invalid_few": "nemůže být importováno",
-        "invalid_many": "není možné importovat",
-        "overLimit_few": "Váš slovník má místo pro {{room}} více; {{count}} nových vstupů nezajímá.",
-        "overLimit_many": "Váš slovník má místo pro {{room}} více; {{count}} nových vstupů se neprovede.",
-        "more_few": "a {{count}} více",
-        "more_many": "a {{count}} více"
+        "invalidRow": "Řádek {{row}} ({{phrase}}): {{reason}}"
       },
       "done": {
         "title_one": "Zavedeno {{count}} položek",
-        "title_other": "Zavedeno {{count}} položek",
-        "added_one": "{{count}} přidáno",
-        "added_other": "{{count}} přidáno",
-        "replaced_one": "{{count}} nahrazeno verzi souboru",
-        "replaced_other": "{{count}} nahrazeno verzi souboru",
-        "skipped_one": "{{count}} už je zde, přeskočeno",
-        "skipped_other": "{{count}} už je zde, přeskočeno",
-        "kept_one": "{{count}} konflikt ponechán beze změny",
-        "kept_other": "{{count}} konfliktů byl uchován, protože byl uveden",
-        "invalid_one": "Nelze naimportovat {{count}} řádek",
-        "invalid_other": "Nelze naimportovat {{count}} řádků",
-        "overLimit_one": "{{count}} se nepovedlo (slovník je plný)",
-        "overLimit_other": "{{count}} se nepovedlo (slovník je plný)",
         "title_few": "Importováno {{count}} záznamů",
         "title_many": "{{count}} záznamů bylo naimportováno",
+        "title_other": "Zavedeno {{count}} položek",
+        "added_one": "{{count}} přidáno",
         "added_few": "Přidáno {{count}}",
         "added_many": "Přidáno {{count}}",
+        "added_other": "{{count}} přidáno",
+        "replaced_one": "{{count}} nahrazeno verzi souboru",
         "replaced_few": "{{count}} nahrazeno verzi souboru",
         "replaced_many": "{{count}} nahrazeno verzi souboru",
+        "replaced_other": "{{count}} nahrazeno verzi souboru",
+        "skipped_one": "{{count}} už je zde, přeskočeno",
         "skipped_few": "{{count}} už je zde, přeskočeno",
         "skipped_many": "{{count}} už je zde, přeskočeno",
+        "skipped_other": "{{count}} už je zde, přeskočeno",
+        "kept_one": "{{count}} konflikt ponechán beze změny",
         "kept_few": "{{count}} sporů uchováno jako bylo",
         "kept_many": "{{count}} kolizí zachována jako byly",
+        "kept_other": "{{count}} konfliktů byl uchován, protože byl uveden",
+        "invalid_one": "Nelze naimportovat {{count}} řádek",
         "invalid_few": "{{count}} řádků nemohlo být naimportováno",
         "invalid_many": "Nepodařilo se naimportovat {{count}} řádků",
+        "invalid_other": "Nelze naimportovat {{count}} řádků",
+        "overLimit_one": "{{count}} se nepovedlo (slovník je plný)",
         "overLimit_few": "{{count}} se nepovedlo (slovník je plný)",
-        "overLimit_many": "{{count}} se nepovedlo (slovník je plný)"
+        "overLimit_many": "{{count}} se nepovedlo (slovník je plný)",
+        "overLimit_other": "{{count}} se nepovedlo (slovník je plný)"
       }
     },
     "export": {
       "open": "Export",
       "fileName": "{{appName}} dictionary.csv",
       "done_one": "Exportováno {{count}} záznamu.",
-      "done_other": "Exportováno {{count}} záznamů.",
-      "failed": "Slovník se nepodařilo exportovat. Zkuste to prosím znovu.",
       "done_few": "Exportováno {{count}} záznamů.",
-      "done_many": "Exportováno {{count}} záznamů."
+      "done_many": "Exportováno {{count}} záznamů.",
+      "done_other": "Exportováno {{count}} záznamů.",
+      "failed": "Slovník se nepodařilo exportovat. Zkuste to prosím znovu."
     },
     "rejected": "„{{entry}}“ už nebude navržen.",
     "actionFailed": "To nevyšlo. Zkuste to prosím znovu.",
     "learn": {
       "toggle": "Učit se z mého opravení",
       "hint": "Po 30 sekundách po vložení dictace si {{appName}} všimne slov, která jste tam opravili, a navrhuje je sem. Uchovává se pouze slovo, které jste opravili, nikoli zbytek textu. Pole pro hesla, správce hesel, bankovní aplikace a terminály se nikdy nepřečtou."
-    },
-    "shown_few": "Zobrazeno {{count}} záznamů",
-    "shown_many": "Zobrazeno {{count}} záznamů"
+    }
   },
   "pill": {
     "region": "Dictation bar",
@@ -1316,6 +1316,8 @@
     "settingUpHint": "Vaše slova jsou uložena. Text se zobrazí tady, až bude diktování připravené.",
     "cardReady": "Vaše diktování",
     "cardMore_one": "Vaše diktování · {{count}} další v historii",
+    "cardMore_few": "Vaše diktování · {{count}} více v Historii",
+    "cardMore_many": "Vaše diktování · {{count}} více v Historii",
     "cardMore_other": "Vaše diktování · {{count}} dalších v historii",
     "copy": "Kopírovat",
     "copied": "Zkopírováno",
@@ -1329,9 +1331,7 @@
     "shortcutDetail": {
       "permission": "Přístup k přístupnosti je vypnutý",
       "stopped": "Naslouchací klávesnice byla zastavena"
-    },
-    "cardMore_few": "Vaše diktování · {{count}} více v Historii",
-    "cardMore_many": "Vaše diktování · {{count}} více v Historii"
+    }
   },
   "transforms": {
     "banner": {
@@ -1448,6 +1448,8 @@
     },
     "diff": {
       "changes_one": "{{count}} změna",
+      "changes_few": "{{count}} změn",
+      "changes_many": "{{count}} změn",
       "changes_other": "{{count}} změn",
       "configure": "Nastavit",
       "copy": "Zkopírovat",
@@ -1458,9 +1460,7 @@
       "good": "Dobrý výsledek",
       "bad": "Slabý výsledek",
       "simpleView": "Zobrazuje jednu výměnu pro tento velký nebo složitý změnu.",
-      "actionFailed": "Tato operace se nepovedla. Text zůstává tu; zkuste to znovu.",
-      "changes_few": "{{count}} změn",
-      "changes_many": "{{count}} změn"
+      "actionFailed": "Tato operace se nepovedla. Text zůstává tu; zkuste to znovu."
     },
     "startTutorial": "Začít kurz"
   },
@@ -1493,10 +1493,10 @@
       "title": "Poslední dictace",
       "none": "Žádná dictace od spuštění aplikace.",
       "applied_one": "Očistěno za {{ms}} ms, {{count}} změna.",
-      "applied_other": "Očistěno za {{ms}} ms, {{count}} změn.",
-      "checks": "Záruka kontrol, která jí zastavila: {{checks}}",
       "applied_few": "Vyčištěno za {{ms}} ms, {{count}} změn.",
       "applied_many": "Vyčištěno za {{ms}} ms, {{count}} změn.",
+      "applied_other": "Očistěno za {{ms}} ms, {{count}} změn.",
+      "checks": "Záruka kontrol, která jí zastavila: {{checks}}",
       "partial_one": "Vyčištěno částečně ({{applied}} z {{total}} odstavce); zbytek je jako řečeno: {{reason}}",
       "partial_few": "Vyčištěno částečně ({{applied}} z {{total}} odstavců); zbytek je jako řečeno: {{reason}}",
       "partial_many": "Vyčištěno částečně ({{applied}} z {{total}} odstavců); zbytek je jako řečeno: {{reason}}",
@@ -1531,19 +1531,21 @@
     "search": "Hledání vašich snippetů",
     "refresh": "Obnovit",
     "shown_one": "{{count}} příkladu zobrazen",
+    "shown_few": "{{count}} úryvků zobrazeno",
+    "shown_many": "Zobrazeno {{count}} úryvků",
     "shown_other": "{{count}} příkladů zobrazeno",
     "deleted": "Odstraněno „{{trigger}}“.",
     "deleteFailed": "Tento snippet se nepodařilo smazat. Zkuste to prosím znovu.",
     "undo": "Zpět",
     "counts": {
       "snippets_one": "{{count}} snippet",
-      "snippets_other": "{{count}} příkladů",
-      "uses_one": "použito {{count}} krát",
-      "uses_other": "použito {{count}} krát",
       "snippets_few": "{{count}} úryvků",
       "snippets_many": "{{count}} úryvků",
+      "snippets_other": "{{count}} příkladů",
+      "uses_one": "použito {{count}} krát",
       "uses_few": "použito {{count}} krát",
-      "uses_many": "použito {{count}} krát"
+      "uses_many": "použito {{count}} krát",
+      "uses_other": "použito {{count}} krát"
     },
     "sort": {
       "label": "Třídit",
@@ -1565,16 +1567,16 @@
       "becomes": "je zapsáno jako",
       "pair": "{{trigger}} → {{text}}",
       "lines_one": "{{count}} řádek",
+      "lines_few": "{{count}} řádků",
+      "lines_many": "{{count}} řádků",
       "lines_other": "{{count}} řádků",
       "imported": "Importované",
       "used_one": "Použito {{count}} krát",
+      "used_few": "Použito {{count}} krát",
+      "used_many": "Použito {{count}} krát",
       "used_other": "Použito {{count}} krát",
       "edit": "Upravit {{trigger}}",
-      "delete": "Odstranit {{trigger}}",
-      "lines_few": "{{count}} řádků",
-      "lines_many": "{{count}} řádků",
-      "used_few": "Použito {{count}} krát",
-      "used_many": "Použito {{count}} krát"
+      "delete": "Odstranit {{trigger}}"
     },
     "empty": {
       "title": "Žádné snippety ještě",
@@ -1643,19 +1645,33 @@
       },
       "review": {
         "new_one": "nový snippet",
+        "new_few": "nové úryvky",
+        "new_many": "nové úryvky",
         "new_other": "nové snižování",
         "duplicates_one": "už je zde",
+        "duplicates_few": "už je zde",
+        "duplicates_many": "už je zde",
         "duplicates_other": "už je zde",
         "conflicts_one": "konflikt",
+        "conflicts_few": "konflikty",
+        "conflicts_many": "konflikty",
         "conflicts_other": "konflikty",
         "invalid_one": "nemůže být importováno",
+        "invalid_few": "nemůže být importováno",
+        "invalid_many": "není možné importovat",
         "invalid_other": "nemůže být importováno",
         "overLimit_one": "Je místo pro {{room}} více; {{count}} nového snippetu se nevejde.",
+        "overLimit_few": "Je místo pro {{room}} více; {{count}} nových úryvků se neprovede.",
+        "overLimit_many": "Je místo pro {{room}} více; {{count}} nových úryvků se neprovede.",
         "overLimit_other": "Je místo pro {{room}} více; {{count}} nových úseček se nevejde.",
         "ignoredRows_one": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
+        "ignoredRows_few": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
+        "ignoredRows_many": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
         "ignoredRows_other": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
         "showNew": "Zobraz nové ukázky",
         "more_one": "a {{count}} více",
+        "more_few": "a {{count}} více",
+        "more_many": "a {{count}} více",
         "more_other": "a {{count}} více",
         "conflictsTitle": "Už uloženo s jiným textem",
         "conflictsHelp": "Zaznačte ty, kde text souboru by měl nahradit váš.",
@@ -1664,64 +1680,48 @@
         "useFile": "Použít soubor:",
         "yours": "Tvoje:",
         "showInvalid": "Zobrazit řádky, které se nepodařilo importovat",
-        "invalidRow": "Řádek {{row}} ({{trigger}}): {{reason}}",
-        "new_few": "nové úryvky",
-        "new_many": "nové úryvky",
-        "duplicates_few": "už je zde",
-        "duplicates_many": "už je zde",
-        "conflicts_few": "konflikty",
-        "conflicts_many": "konflikty",
-        "invalid_few": "nemůže být importováno",
-        "invalid_many": "není možné importovat",
-        "overLimit_few": "Je místo pro {{room}} více; {{count}} nových úryvků se neprovede.",
-        "overLimit_many": "Je místo pro {{room}} více; {{count}} nových úryvků se neprovede.",
-        "ignoredRows_few": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
-        "ignoredRows_many": "Přečteny jsou pouze první 1 000 řádků; {{count}} dalších řádků je zanedbáno.",
-        "more_few": "a {{count}} více",
-        "more_many": "a {{count}} více"
+        "invalidRow": "Řádek {{row}} ({{trigger}}): {{reason}}"
       },
       "done": {
         "title_one": "Zavedeno {{count}} snippetu",
-        "title_other": "Importováno {{count}} ukázek",
-        "added_one": "{{count}} přidáno",
-        "added_other": "{{count}} přidáno",
-        "replaced_one": "{{count}} nahrazeno textem souboru",
-        "replaced_other": "{{count}} nahrazeno textem souboru",
-        "skipped_one": "{{count}} už je zde, přeskočeno",
-        "skipped_other": "{{count}} je už zde, přeskočeno",
-        "kept_one": "Zachováno {{count}} konfliktu jako bylo",
-        "kept_other": "{{count}} konfliktů byl uchován, jak byl",
-        "invalid_one": "Nelze naimportovat {{count}} řádek",
-        "invalid_other": "Nelze naimportovat {{count}} řádků",
-        "overLimit_one": "{{count}} se nepovedlo",
-        "overLimit_other": "{{count}} se nepovedlo",
         "title_few": "{{count}} úryvků bylo naimportováno",
         "title_many": "{{count}} úryvků bylo naimportováno",
+        "title_other": "Importováno {{count}} ukázek",
+        "added_one": "{{count}} přidáno",
         "added_few": "{{count}} přidáno",
         "added_many": "{{count}} přidáno",
+        "added_other": "{{count}} přidáno",
+        "replaced_one": "{{count}} nahrazeno textem souboru",
         "replaced_few": "{{count}} nahrazena textem souboru",
         "replaced_many": "{{count}} nahrazena textem souboru",
+        "replaced_other": "{{count}} nahrazeno textem souboru",
+        "skipped_one": "{{count}} už je zde, přeskočeno",
         "skipped_few": "{{count}} už je zde, přeskočeno",
         "skipped_many": "{{count}} už je zde, přeskočeno",
+        "skipped_other": "{{count}} je už zde, přeskočeno",
+        "kept_one": "Zachováno {{count}} konfliktu jako bylo",
         "kept_few": "{{count}} kolizí zachována jako byly",
         "kept_many": "{{count}} kolizí zachována jako byly",
+        "kept_other": "{{count}} konfliktů byl uchován, jak byl",
+        "invalid_one": "Nelze naimportovat {{count}} řádek",
         "invalid_few": "{{count}} řádků nemohlo být naimportováno",
         "invalid_many": "Nepodařilo se importovat {{count}} řádků",
+        "invalid_other": "Nelze naimportovat {{count}} řádků",
+        "overLimit_one": "{{count}} se nepovedlo",
         "overLimit_few": "{{count}} se nepovedlo",
-        "overLimit_many": "{{count}} se nepovedlo"
+        "overLimit_many": "{{count}} se nepovedlo",
+        "overLimit_other": "{{count}} se nepovedlo"
       }
     },
     "export": {
       "open": "Export",
       "fileName": "{{appName}} snippets.csv",
       "done_one": "Exportováno {{count}} snippetu.",
-      "done_other": "Exportováno {{count}} základních úseček.",
-      "failed": "Snípky se nepodařilo exportovat. Zkuste to prosím znovu.",
       "done_few": "Exportováno {{count}} úryvků.",
-      "done_many": "Exportováno {{count}} úryvků."
-    },
-    "shown_few": "{{count}} úryvků zobrazeno",
-    "shown_many": "Zobrazeno {{count}} úryvků"
+      "done_many": "Exportováno {{count}} úryvků.",
+      "done_other": "Exportováno {{count}} základních úseček.",
+      "failed": "Snípky se nepodařilo exportovat. Zkuste to prosím znovu."
+    }
   },
   "insights": {
     "tabs": {
@@ -1748,9 +1748,9 @@
     "words": {
       "title": "Celkový počet slov",
       "dictations_one": "v {{count, number}} dictaci",
-      "dictations_other": "v {{count, number}} dictacích",
       "dictations_few": "v {{count, number}} diktacích",
-      "dictations_many": "v {{count, number}} diktacích"
+      "dictations_many": "v {{count, number}} diktacích",
+      "dictations_other": "v {{count, number}} dictacích"
     },
     "fixes": {
       "title": "Vyřešené opravy",
@@ -1761,25 +1761,31 @@
       "title": "Kde dictujete",
       "empty": "Dictujte v několika aplikacích, abyste viděli, kam jde vaše řeč.",
       "words_one": "{{count, number}} slovo",
+      "words_few": "{{count, number}} slov",
+      "words_many": "{{count, number}} slov",
       "words_other": "{{count, number}} slov",
       "documents": "Dokumenty",
       "ai_prompts": "AI prompty",
       "email": "E-mail",
       "work": "Zprávy z práce",
       "personal": "Osobní zprávy",
-      "other": "Všechno jiné",
-      "words_few": "{{count, number}} slov",
-      "words_many": "{{count, number}} slov"
+      "other": "Všechno jiné"
     },
     "heatmap": {
       "title": "Tvoje sériové",
       "current": "Současná řada",
       "longest": "Nejdelší řada",
       "days_one": "{{count, number}} den",
+      "days_few": "{{count, number}} dní",
+      "days_many": "{{count, number}} dní",
       "days_other": "{{count, number}} dní",
       "active_one": "{{count, number}} den s diktováním posledních let",
+      "active_few": "{{count, number}} dní s diktováním za poslední rok",
+      "active_many": "{{count, number}} dní s diktováním za poslední rok",
       "active_other": "{{count, number}} dní s dictací za poslední rok",
       "day_one": "{{date}}: {{count, number}} slovo",
+      "day_few": "{{date}}: {{count, number}} slov",
+      "day_many": "{{date}}: {{count, number}} slov",
       "day_other": "{{date}}: {{count, number}} slov",
       "less": "Méně",
       "more": "Víc",
@@ -1787,30 +1793,32 @@
       "band1": "1 až 249 slov",
       "band2": "250 až 499 slov",
       "band3": "500 až 749 slov",
-      "band4": "750 slov nebo více",
-      "days_few": "{{count, number}} dní",
-      "days_many": "{{count, number}} dní",
-      "active_few": "{{count, number}} dní s diktováním za poslední rok",
-      "active_many": "{{count, number}} dní s diktováním za poslední rok",
-      "day_few": "{{date}}: {{count, number}} slov",
-      "day_many": "{{date}}: {{count, number}} slov"
+      "band4": "750 slov nebo více"
     },
     "voice": {
       "locked": "Zamknuto",
       "phrase": "Vaše věta",
       "phraseIn_one": "V {{count, number}} dictaci",
+      "phraseIn_few": "V {{count, number}} diktacích",
+      "phraseIn_many": "V {{count, number}} diktacích",
       "phraseIn_other": "V {{count, number}} dictacích",
       "peak": "Horní čas a aplikace",
       "peakApp": "Nejvíce slov v {{app}}",
       "word": "Nejčastější slovo",
       "uses_one": "Použito {{count, number}} krát",
+      "uses_few": "Použito {{count, number}}krát",
+      "uses_many": "Použito {{count, number}} krát",
       "uses_other": "Použito {{count, number}} krát",
       "corrected": "Nejčastěji opravené slovo",
       "pair": "{{heard}} → {{written}}",
       "fixed_one": "Upraveno {{count, number}}krát",
+      "fixed_few": "Upraveno {{count, number}}krát",
+      "fixed_many": "Upraveno {{count, number}}krát",
       "fixed_other": "Upraveno {{count, number}}krát",
       "notEnough": "Ještě není dostatek dictací.",
       "footnote_one": "Vypracováno na tomto Macu z vaší poslední dictace. Nic neopouští váš Mac.",
+      "footnote_few": "Vypracováno na tomto Macu z vašich posledních {{count, number}} diktací. Nic neopouští váš Mac.",
+      "footnote_many": "Vypočítáno na tomto Macu z vašich posledních {{count, number}} diktací. Nic neopouští váš Mac.",
       "footnote_other": "Vyřešeno na tomto Macu z vašich posledních {{count, number}} dictací. Nic neopouští váš Mac.",
       "sample": {
         "phrase": "fráze, kterou říkáte často",
@@ -1825,15 +1833,7 @@
       "lockedBody_one": "Pokračujte v diktování: {{current}} z {{goal}} slov doposud. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde diktujete, a slova, která {{appName}} pro vás opravuje.",
       "lockedBody_few": "Pokračujte v diktování: {{current}} z {{goal}} slov doposud. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde diktujete, a slova, která {{appName}} pro vás opravuje.",
       "lockedBody_many": "Pokračujte v diktování: {{current}} z {{goal}} slov doposud. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde diktujete, a slova, která {{appName}} pro vás opravuje.",
-      "lockedBody_other": "Pokračujte v diktování: {{current}} z {{goal}} slov doposud. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde diktujete, a slova, která {{appName}} pro vás opravuje.",
-      "phraseIn_few": "V {{count, number}} diktacích",
-      "phraseIn_many": "V {{count, number}} diktacích",
-      "uses_few": "Použito {{count, number}}krát",
-      "uses_many": "Použito {{count, number}} krát",
-      "fixed_few": "Upraveno {{count, number}}krát",
-      "fixed_many": "Upraveno {{count, number}}krát",
-      "footnote_few": "Vypracováno na tomto Macu z vašich posledních {{count, number}} diktací. Nic neopouští váš Mac.",
-      "footnote_many": "Vypočítáno na tomto Macu z vašich posledních {{count, number}} diktací. Nic neopouští váš Mac."
+      "lockedBody_other": "Pokračujte v diktování: {{current}} z {{goal}} slov doposud. Potom zjistíte, který výraz používáte nejčastěji, kdy a kde diktujete, a slova, která {{appName}} pro vás opravuje."
     }
   },
   "history": {
@@ -1852,8 +1852,12 @@
       "body": "Žádná dictace neobsahuje „{{query}}“."
     },
     "results_one": "{{count}} nalezeno dictací",
+    "results_few": "Nalezeny {{count}} diktací",
+    "results_many": "{{count}} diktací nalezeno",
     "results_other": "{{count}} nalezených dictací",
     "resultsMore_one": "Nejnovější {{count}} shoda. Prostředním posunutím získáte další.",
+    "resultsMore_few": "Nejnovější {{count}} výsledků. Pro více otočte dolů.",
+    "resultsMore_many": "Nejnovější {{count}} výsledků. Pro více otočte se.",
     "resultsMore_other": "Nejnovější {{count}} výsledků. Pro více otočte kolem.",
     "search": {
       "open": "Hledání historie",
@@ -1902,14 +1906,14 @@
     },
     "audio": {
       "expired_one": "Zvuk odstraněn po {{count}} dne",
+      "expired_few": "Zvuk byl odstraněn po {{count}} dnech",
+      "expired_many": "Zvuk byl odstraněn po {{count}} dní",
       "expired_other": "Zvuk odstraněn po {{count}} dnech",
       "removed": "Zvuk odstraněn",
       "missing": "Žádný záznam pro tuto dictaci",
       "filter": "WAV zvuk",
       "saved": "Záznam byl uložen.",
-      "saveFailed": "Záznam se nepodařilo uložit. Zkuste to prosím znovu.",
-      "expired_few": "Zvuk byl odstraněn po {{count}} dnech",
-      "expired_many": "Zvuk byl odstraněn po {{count}} dní"
+      "saveFailed": "Záznam se nepodařilo uložit. Zkuste to prosím znovu."
     },
     "copyFailed": "Text nemohl být zkopírován. Zkuste to prosím znovu.",
     "actionFailed": "To nevyšlo. Zkuste to prosím znovu.",
@@ -1939,11 +1943,7 @@
       "savedRule": "Od nynějším \"{{from}}\" bude \"{{to}}\".",
       "savedWord": "„{{word}}\" je v tvé slovníku.",
       "openDictionary": "Otevřít slovník"
-    },
-    "results_few": "Nalezeny {{count}} diktací",
-    "results_many": "{{count}} diktací nalezeno",
-    "resultsMore_few": "Nejnovější {{count}} výsledků. Pro více otočte dolů.",
-    "resultsMore_many": "Nejnovější {{count}} výsledků. Pro více otočte se."
+    }
   },
   "scratchpad": {
     "newNote": "Nový poznámka",
@@ -2135,13 +2135,13 @@
       "listLabel": "Jazyky",
       "noMatch": "Žádný jazyk neodpovídá „{{query}}“.",
       "count_one": "Dictace funguje v {{count}} jazyce. Můžete změnit ji později v Nastavení.",
-      "count_other": "Dictace funguje v {{count}} jazycích. Můžete změnit jazyk později v Nastavení.",
-      "weak_one": "Závislost na přesnosti je nižší v {{languages}}. Funkce stále funguje, ale očekávejte více chyb.",
-      "weak_other": "Závislost na rozpoznávání je méně přesná v {{languages}}. Stále fungují, ale očekávejte více chyb.",
       "count_few": "Diktování funguje v {{count}} jazycích. Můžete změnit jazyk později v Nastavení.",
       "count_many": "Diktování funguje v {{count}} jazycích. Můžete změnit jazyk později v Nastavení.",
+      "count_other": "Dictace funguje v {{count}} jazycích. Můžete změnit jazyk později v Nastavení.",
+      "weak_one": "Závislost na přesnosti je nižší v {{languages}}. Funkce stále funguje, ale očekávejte více chyb.",
       "weak_few": "Zápis je méně přesný v {{languages}}. Stále fungují, ale očekávejte více chyb.",
-      "weak_many": "Zpracování je méně přesné v {{languages}}. Stále fungují, ale očekávejte více chyb."
+      "weak_many": "Zpracování je méně přesné v {{languages}}. Stále fungují, ale očekávejte více chyb.",
+      "weak_other": "Závislost na rozpoznávání je méně přesná v {{languages}}. Stále fungují, ale očekávejte více chyb."
     },
     "permissions": {
       "title": "Dva oprávnění",
@@ -2223,7 +2223,7 @@
       }
     },
     "practice": {
-      "title": "Procvičení: napiš e-mail bez ruky",
+      "title": "Příprava: celé e-maily, bez rukou",
       "instruction": "Stiskněte fn a prostor, pak řekněte. Není třeba nic držet. Stiskněte fn znovu, když budete hotovi. Zkusit: \"Ahoj Sam, děkuji za poznámky. Můžeme se setkat na středu v deset?\"",
       "instructionFallback": "Stiskněte Control, Option a Prostor, pak řekněte. Není třeba držet žádný tlačítko. Stiskněte opět Control a Option, když budete hotovi. Zkusit: \"Ahoj Sam, děkuji za poznámky. Můžeme se setkat na středu v deset?\"",
       "instructionUnbound": "Žádný zkratka pro dictaci není nastaven, protože tento cvičení nemůže začít. Přeskočit ho na chvíli a nastavit zkratku v Nastavení.",
@@ -2253,16 +2253,18 @@
     },
     "timeSaved": {
       "headline_one": "Dictace může ušetřit přibližně {{hours}} hodiny týdně",
+      "headline_few": "Diktování by vás mohlo ušetřit přibližně {{hours}} hodin týdně",
+      "headline_many": "Diktování by vás mohlo ušetřit přibližně {{hours}} hodin týdně",
       "headline_other": "Dictace by mohla ušetřit uživatelského přibližně {{hours}} hodin týdně",
       "intro": "Hovor je rychlejší než psaní pro většinu lidí. Zkuste si 30-secondní test psaní, abyste viděli, kolik času by vám to mohlo ušetřit.",
       "howFast": "Jak rychle psát?",
       "skipTest": "Test přeskočit",
       "sliderLabel": "Jak dlouho psíš každý den?",
       "hoursPerDay_one": "{{hours}} hodiny denně",
+      "hoursPerDay_few": "{{hours}} hodin denně",
+      "hoursPerDay_many": "{{hours}} hodin denně",
       "hoursPerDay_other": "{{hours}} hodin denně",
       "takeTest": "Zapiš si test",
-      "headline_few": "Diktování by vás mohlo ušetřit přibližně {{hours}} hodin týdně",
-      "headline_many": "Diktování by vás mohlo ušetřit přibližně {{hours}} hodin týdně",
       "basisMeasured_one": "Založeno na vašem {{wpm}} slovách za minutu při psaní a mluvení přibližně {{speaking}} slov za minutu.",
       "basisMeasured_few": "Založeno na vašem {{wpm}} slovách za minutu psaní a mluvení přibližně {{speaking}} slov za minutu.",
       "basisMeasured_many": "Založeno na vašem {{wpm}} slovách za minutu psaní a mluvení přibližně {{speaking}} slov za minutu.",
@@ -2270,9 +2272,7 @@
       "basisAverage_one": "Na základě průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení přibližně {{speaking}} slov za minutu.",
       "basisAverage_few": "Na základě průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení přibližně {{speaking}} slov za minutu.",
       "basisAverage_many": "Na základě průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení přibližně {{speaking}} slov za minutu.",
-      "basisAverage_other": "Na základě průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení přibližně {{speaking}} slov za minutu.",
-      "hoursPerDay_few": "{{hours}} hodin denně",
-      "hoursPerDay_many": "{{hours}} hodin denně"
+      "basisAverage_other": "Na základě průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení přibližně {{speaking}} slov za minutu."
     },
     "typing": {
       "title": "Jak rychle psát?",
@@ -2280,26 +2280,26 @@
       "language": "Jazyk",
       "wpmPending": "— slova za minutu",
       "wpm_one": "{{count}} slova za minutu",
+      "wpm_few": "{{count}} slov za minutu",
+      "wpm_many": "{{count}} slov za minutu",
       "wpm_other": "{{count}} slov za minutu",
       "secondsLeft_one": "Zbylý {{count}} sekund",
+      "secondsLeft_few": "Zbylé {{count}} sekund",
+      "secondsLeft_many": "{{count}} sekund zbylo",
       "secondsLeft_other": "Zbývá {{count}} sekund",
       "inputLabel": "Zadejte paragraf zde",
       "placeholder": "Začněte psát zde…",
       "nothing": "Nic neodpovídá paragrafu. Zkuste to znovu.",
       "result_one": "Typujete přibližně {{count}} slov za minutu.",
+      "result_few": "Diktujete přibližně {{count}} slov za minutu.",
+      "result_many": "Diktujete přibližně {{count}} slov za minutu.",
       "result_other": "Typujete přibližně {{count}} slov za minutu.",
       "tryAgain": "Zkuste to znovu",
       "recalculate": "Znovu vypočítej",
       "instruction_one": "Tipněte níže uvedený text tak, jak byste to dělali běžně. Hodinky začnou běžet po vašem prvním klávesním stisku a běží po {{seconds}} sekundách.",
       "instruction_few": "Napište níže uvedený odstavec tak, jak byste to dělali běžně. Hodinky začnou po vašem prvním klávesovém stisku a běží po {{seconds}} sekundách.",
       "instruction_many": "Diktujte níže uvedený text tak, jak byste to dělali běžně. Hodinky začnou po vašem prvním klávesovém stisku a běží po {{seconds}} sekundách.",
-      "instruction_other": "Tipněte níže uvedený text tak, jak byste to dělali běžně. Hodinky začnou běžet po vašem prvním klávesním stisku a běží po {{seconds}} sekundách.",
-      "wpm_few": "{{count}} slov za minutu",
-      "wpm_many": "{{count}} slov za minutu",
-      "secondsLeft_few": "Zbylé {{count}} sekund",
-      "secondsLeft_many": "{{count}} sekund zbylo",
-      "result_few": "Diktujete přibližně {{count}} slov za minutu.",
-      "result_many": "Diktujete přibližně {{count}} slov za minutu."
+      "instruction_other": "Tipněte níže uvedený text tak, jak byste to dělali běžně. Hodinky začnou běžet po vašem prvním klávesním stisku a běží po {{seconds}} sekundách."
     },
     "summary": {
       "title": "Je vše hotové",
@@ -2312,15 +2312,15 @@
       "micDefault": "Výchozí mikrofon Maca",
       "typing": "Rychlost psaní",
       "typingWpm_one": "{{count}} slova za minutu",
+      "typingWpm_few": "{{count}} slov za minutu",
+      "typingWpm_many": "{{count}} slov za minutu",
       "typingWpm_other": "{{count}} slov za minutu",
       "typingSkipped": "Neměřeno",
       "notSet": "Není nastaveno",
       "launchAtLogin": "Otevřít Wispr Bro při přihlášení",
       "launchAtLoginHint": "Takže dictace je připravena vždy, když to potřebuješ.",
       "later": "Můžete to všechno později upravit v Nastavení.",
-      "finish": "Začít psát",
-      "typingWpm_few": "{{count}} slov za minutu",
-      "typingWpm_many": "{{count}} slov za minutu"
+      "finish": "Začít psát"
     }
   },
   "whatsNew": {
@@ -2675,7 +2675,7 @@
         "wired_headset": {
           "name": "Závislé headset",
           "hint": "Mikrofon na krátké ruky nebo kabel, blízko k vašemu ústům",
-          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+          "why": "Mikrofon je přímo u úst, takže projde i tichý šepot, ať jste kdekoli."
         },
         "wireless_earbuds": {
           "name": "Bezdrátové náušnice",

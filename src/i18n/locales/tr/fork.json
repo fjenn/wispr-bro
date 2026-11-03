@@ -435,7 +435,7 @@
       "description_one": "Her eyleme en fazla {{max}} klavye kestirmesi ekleyin. Değişiklikler yaparken kaydedilir.",
       "description_other": "Her eyleme en fazla {{max}} klavye kestirmesi ekleyin. Değişiklikler yaparken kaydedilir."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Ayarı sıfırla {{setting}}"
   },
   "hub": {
     "nav": {
@@ -874,7 +874,7 @@
         "undo": "Geri al, dikte çubuğunda 4 saniye kalır.",
         "diff": "Değişikliklerin dönüşümü onaylamaya hazır.",
         "secureInputWarning": "Güvenli Giriş etkin. fn ve Boşluk tuşları dictation'ı kapatamaz. Escape ya da kapama düğmesi hâlâ dictation'ı iptal eder.",
-        "inserted": "Text inserted"
+        "inserted": "Metin eklendi"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -2067,7 +2067,7 @@
       }
     },
     "practice": {
-      "title": "Uygulama: Bir e-posta yazmak için elinizden kaçın",
+      "title": "Uygulama: bir e-posta, elinizden bağımsız",
       "instruction": "fn ve boşluk tuşlarını aynı anda basın, sonra konuşun. Herhangi bir şey tutmaya gerek yok. Bittiğinde yeniden fn'ı basın. Deneyin: \"Merhaba Sam, notlarınız için teşekkür ederim. Çarşamba günü saat onda buluşabilir miyiz?\"",
       "instructionFallback": "Control, Seçenek ve Boşluk tuşlarını aynı anda basın, sonra konuşun. Herhangi bir tuşa basman gerekmez. konuşmadan sonra tekrar Control ve Seçenek tuşlarına basın. Deneyin: \"Merhaba Sam, notlarınız için teşekkür ederim. Çarşamba günü saat onda buluşabilir miyiz?\"",
       "instructionUnbound": "Dictasyon kısayolu ayarlanmamış, bu uygulama başlatılamaz. Şimdi atla ve Ayarlar'da bir kısayolu ayarla.",

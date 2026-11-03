@@ -424,7 +424,7 @@
         "press_enter": "Druk op Return in de app waarin je typpt. Een muisknop werkt hier goed.",
         "undo_cancel": "Een dictatie herstellen net nadat u deze hebt geannuleerd.",
         "transform": {
-          "polish": "Schrijf het geselecteerde tekstfragment op Polense manier op.",
+          "polish": "Herschrijf de geselecteerde tekst met Polish.",
           "prompt_engineer": "Schrijf de geselecteerde tekst op een duidelijke AI-prompt.",
           "view_changes": "Bekijk de laatste transformatie voor en na."
         },
@@ -435,7 +435,7 @@
       "description_one": "Voeg tot {{max}} toetscombinatie toe per actie. Veranderingen worden opgeslagen terwijl je ze maakt.",
       "description_other": "Voeg tot {{max}} toetscombinaties toe per actie. Veranderingen worden opgeslagen terwijl je ze maakt."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Instelling resetten {{setting}}"
   },
   "hub": {
     "nav": {
@@ -874,7 +874,7 @@
         "undo": "Ongedaan maken staat 4 seconden op de dicteerbalk.",
         "diff": "Wijzigingen zijn klaar om te bekijken.",
         "secureInputWarning": "Beveiligde invoer is ingeschakeld. fn en Space kunnen dictatie niet verbinden. Escape of het sluiten knoppen annuleert nog steeds.",
-        "inserted": "Text inserted"
+        "inserted": "Tekst ingevoegd"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1524,7 +1524,7 @@
       "body": "Schrijf",
       "bodyPlaceholder": "De tekst om te schrijven. Regelopbouw wordt behouden.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Works on its own or inside a sentence, in any case. Inside a sentence, punctuation in the cue must be said the same way. The text is written exactly as saved.",
+      "hint": "Werkt zelfstandig of in een zin, in elk geval. In een zin moet de uitspraak van de puntvermelding precies hetzelfde zijn. De tekst is precies zoals opgeslagen.",
       "cancel": "Annuleren",
       "add": "Snippet toevoegen",
       "save": "Opslaan",
@@ -1649,7 +1649,7 @@
       "longest": "Langste reeks",
       "days_one": "{{count, number}} dag",
       "days_other": "{{count, number}} dagen",
-      "active_one": "{{count, number}} day with dictation in the last year",
+      "active_one": "{{count, number}} dag met dicteren in het afgelopen jaar",
       "active_other": "{{count, number}} dagen met dictatie in de afgelopen jaar",
       "day_one": "{{date}}: {{count, number}} woord",
       "day_other": "{{date}}: {{count, number}} woorden",
@@ -2067,7 +2067,7 @@
       }
     },
     "practice": {
-      "title": "Oefenen: een e-mail schrijven zonder handen",
+      "title": "Oefenen: een hele e-mail, zonder handen",
       "instruction": "Druk op fn en ruimte tegelijk, dan praten. Je hoeft niets te houden. Druk op fn opnieuw wanneer je klaar bent. Probeer: \"Hoi Sam, bedankt voor de notities. Kunnen we op donderdag om tien ontmoeten?\"",
       "instructionFallback": "Druk op Control, Option en Space tegelijk, dan praten. Je hoeft niets te houden. Druk op Control en Option opnieuw wanneer je klaar bent. Probeer: \"Hoi Sam, bedankt voor de notities. Kunnen we op donderdag om tien ontmoeten?\"",
       "instructionUnbound": "Geen dictatie-sneltoets is ingesteld, dus deze oefening kan niet beginnen. Overslaan voor nu en een sneltoets instellen in Instellingen.",

@@ -28,6 +28,7 @@
       "failed": "fallit ({{detail}})",
       "noViolations": "No violacions de CSP registrades.",
       "violations_one": "{{count}} violació CSP registrada.",
+      "violations_many": "Es han registrat {{count}} violacions de CSP.",
       "violations_other": "Es han registrat {{count}} violacions de CSP.",
       "checks": {
         "media": "Audio (protocol d'actiu)",
@@ -35,8 +36,7 @@
         "blobImage": "blob: imatge",
         "forkCommand": "Ordre de fork",
         "probe": "Font bloquejada"
-      },
-      "violations_many": "Es han registrat {{count}} violacions de CSP."
+      }
     },
     "notifications": {
       "title": "Notificacions",
@@ -458,6 +458,7 @@
         "body": "Els actualitzacions i consells es mostraran aquí."
       },
       "bellUnread_one": "Notificacions, {{count}} no llegides",
+      "bellUnread_many": "Notificacions, {{count}} no llegides",
       "bellUnread_other": "Notificacions, {{count}} no llegides",
       "filter": {
         "label": "Mostrar",
@@ -486,8 +487,7 @@
       "actionFailed": "No va funcionar. Prova de nou.",
       "copied": "La darrera dictació ha estat copiada",
       "nothingToCopy": "No dictació per copiar encara",
-      "justNow": "Just ara",
-      "bellUnread_many": "Notificacions, {{count}} no llegides"
+      "justNow": "Just ara"
     },
     "help": {
       "title": "Ajuda",
@@ -650,6 +650,7 @@
       "formatLink": "Format acceptat",
       "csvFilter": "arxiu CSV",
       "fileSummary_one": "{{name}}: {{count}} fila",
+      "fileSummary_many": "{{name}}: {{count}} fileres",
       "fileSummary_other": "{{name}}: {{count}} files",
       "hasHeader": "La primera fila conté els noms de columna",
       "optional": "(opcional)",
@@ -658,6 +659,7 @@
       "columnNamed": "Columna {{letter}}: {{name}}",
       "mapRequired": "Selecciona una columna per a cada camp que no sigui opcional.",
       "previewCaption_one": "Previsualització de la primera fila",
+      "previewCaption_many": "Previsualització de les primeres {{count}} files",
       "previewCaption_other": "Previsualització de les primeres {{count}} files",
       "rowHeader": "Fila",
       "cancel": "Cancel·lar",
@@ -672,9 +674,7 @@
         "unreadable": "Aquest fitxer no es pot llegir. Comprova que sigui un fitxer CSV i torna a intentar-ho.",
         "empty": "Aquest fitxer no té files per importar.",
         "failed": "Algo ha anat malament. Res no ha estat importat; si us plau, provi de nou."
-      },
-      "fileSummary_many": "{{name}}: {{count}} fileres",
-      "previewCaption_many": "Previsualització de les primeres {{count}} files"
+      }
     }
   },
   "rust": {
@@ -688,6 +688,7 @@
       "view": "Veure",
       "window": "Finestra",
       "wordsDictated_one": "Un mot dictat {{count}}",
+      "wordsDictated_many": "{{count}} paraules dictades",
       "wordsDictated_other": "{{count}} paraules dictades",
       "copyLast": "Copiar el transcript anterior",
       "copyLastPreview": "Copiar la transcripció anterior: “{{preview}}”",
@@ -698,8 +699,10 @@
       "automaticMicrophone": "Detecta automàticament (ajust de sistema)",
       "noMicrophones": "No microfons trobats",
       "dictionaryWords_one": "{{count}} paraula del diccionari",
+      "dictionaryWords_many": "{{count}} paraules del diccionari",
       "dictionaryWords_other": "{{count}} paraules del diccionari",
       "snippetCount_one": "{{count}} fragment",
+      "snippetCount_many": "{{count}} fragments",
       "snippetCount_other": "{{count}} fragments",
       "addWord": "Afegir paraula…",
       "newSnippet": "Fragment nou…",
@@ -729,10 +732,7 @@
       "hide": "Ocultar {{appName}}",
       "quitApp": "Sortir {{appName}}",
       "restartToUpdate": "Reinicia per actualitzar a {{version}}",
-      "updatesOff": "Les comprovacions d'actualitzacions estan desactivades…",
-      "wordsDictated_many": "{{count}} paraules dictades",
-      "dictionaryWords_many": "{{count}} paraules del diccionari",
-      "snippetCount_many": "{{count}} fragments"
+      "updatesOff": "Les comprovacions d'actualitzacions estan desactivades…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
@@ -781,9 +781,9 @@
       },
       "queuedTakesReady": {
         "title_one": "{{count}} dictació preparada",
+        "title_many": "{{count}} dictats preparats",
         "title_other": "{{count}} dictacions preparades",
-        "body": "El que has dit mentre el model de parla era absent ha estat transcrit.",
-        "title_many": "{{count}} dictats preparats"
+        "body": "El que has dit mentre el model de parla era absent ha estat transcrit."
       },
       "shortcutProblem": {
         "title": "El teu atal no està funcionant",
@@ -853,9 +853,9 @@
       },
       "takeRecovered": {
         "title_one": "Es va guardar una gravació quan l'aplicació es va tancar",
+        "title_many": "Es van guardar {{count}} registres quan es tancà l'aplicació",
         "title_other": "Es van guardar {{count}} registres quan es tancà l'aplicació",
-        "body": "Encara estaven gravant quan es va tancar {{appName}}. Estan a la Historia, on s'han transcrits.",
-        "title_many": "Es van guardar {{count}} registres quan es tancà l'aplicació"
+        "body": "Encara estaven gravant quan es va tancar {{appName}}. Estan a la Historia, on s'han transcrits."
       }
     },
     "scratchpad": {
@@ -888,7 +888,7 @@
         "undo": "Desfés és a la barra de dictat durant 4 segons.",
         "diff": "Els canvis de transformació estan preparats per revisar.",
         "secureInputWarning": "L'entrada segura està activada. fn i Espai no poden bloquejar la dictació. Escape o el botó de tancar encara cancel·len.",
-        "inserted": "Text inserted"
+        "inserted": "Text inserit"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1078,6 +1078,7 @@
     "search": "Cerca el teu diccionari",
     "refresh": "Refrescar",
     "shown_one": "{{count}} entrada mostrada",
+    "shown_many": "S'han mostrat {{count}} entrades",
     "shown_other": "{{count}} entrades mostrades",
     "deleted": "Esborrat “{{entry}}”.",
     "deleteFailed": "Aquesta entrada no ha pogut ser eliminada. Si us plau, torni a intentar-ho.",
@@ -1109,12 +1110,12 @@
       "rule": "{{from}} → {{to}}",
       "becomes": "devé",
       "used_one": "Utilitzat {{count}} vegada",
+      "used_many": "Utilitzat {{count}} vegades",
       "used_other": "Utilitzat {{count}} vegades",
       "edit": "Edita {{entry}}",
       "delete": "Esborrar {{entry}}",
       "accept": "Afegir {{entry}} al teu diccionari",
-      "reject": "No aprendeix {{entry}}",
-      "used_many": "Utilitzat {{count}} vegades"
+      "reject": "No aprendeix {{entry}}"
     },
     "source": {
       "import": "Importat",
@@ -1192,17 +1193,23 @@
       },
       "review": {
         "new_one": "una nova entrada",
+        "new_many": "nou elements",
         "new_other": "noves entrades",
         "duplicates_one": "ja hi ha",
+        "duplicates_many": "ja hi està",
         "duplicates_other": "ja hi ha",
         "conflicts_one": "conflicte",
+        "conflicts_many": "conflictes",
         "conflicts_other": "conflictes",
         "invalid_one": "no es pot importar",
+        "invalid_many": "no es pot importar",
         "invalid_other": "no es pot importar",
         "overLimit_one": "El teu diccionari té lloc per {{room}} més; {{count}} entrada nova no encauraria.",
+        "overLimit_many": "El teu diccionari té lloc per {{room}} més; {{count}} entrades noves no en cabran.",
         "overLimit_other": "El teu diccionari té lloc per {{room}} més; {{count}} entrades noves no en cabran.",
         "showNew": "Mostra les noves entrades",
         "more_one": "i {{count}} més",
+        "more_many": "i {{count}} més",
         "more_other": "i {{count}} més",
         "conflictsTitle": "Ja a la teva diccionari, diferent",
         "conflictsHelp": "Marque les que la versió del fitxer hagi de substituir la teva.",
@@ -1211,53 +1218,46 @@
         "useFile": "Utilitza el fitxer's:",
         "yours": "El teu:",
         "showInvalid": "Mostra les files que no es poden importar",
-        "invalidRow": "Fila {{row}} ({{phrase}}): {{reason}}",
-        "new_many": "nou elements",
-        "duplicates_many": "ja hi està",
-        "conflicts_many": "conflictes",
-        "invalid_many": "no es pot importar",
-        "overLimit_many": "El teu diccionari té lloc per {{room}} més; {{count}} entrades noves no en cabran.",
-        "more_many": "i {{count}} més"
+        "invalidRow": "Fila {{row}} ({{phrase}}): {{reason}}"
       },
       "done": {
         "title_one": "Es han importat {{count}} entrades",
+        "title_many": "S'han importat {{count}} entrades",
         "title_other": "S'han importat {{count}} entrades",
         "added_one": "{{count}} afegit",
+        "added_many": "S'han afegit {{count}}",
         "added_other": "{{count}} afegit",
         "replaced_one": "{{count}} substituït per la versió del fitxer",
+        "replaced_many": "{{count}} substituït per la versió del fitxer",
         "replaced_other": "{{count}} substituït per la versió del fitxer",
         "skipped_one": "{{count}} ja hi està, saltat",
+        "skipped_many": "{{count}} ja hi està, es va saltar",
         "skipped_other": "{{count}} ja hi està, es va saltar",
         "kept_one": "Un conflicte {{count}} s'ha mantingut com estava",
+        "kept_many": "Es van mantenir {{count}} conflictes com eren",
         "kept_other": "Es van mantenir {{count}} conflictes com eren",
         "invalid_one": "{{count}} fila no ha pogut ser importada",
+        "invalid_many": "{{count}} files no es poden importar",
         "invalid_other": "{{count}} files no es poden importar",
         "overLimit_one": "{{count}} no va entrar (el diccionari està complet)",
-        "overLimit_other": "{{count}} no va entrar (el diccionari està complet)",
-        "title_many": "S'han importat {{count}} entrades",
-        "added_many": "S'han afegit {{count}}",
-        "replaced_many": "{{count}} substituït per la versió del fitxer",
-        "skipped_many": "{{count}} ja hi està, es va saltar",
-        "kept_many": "Es van mantenir {{count}} conflictes com eren",
-        "invalid_many": "{{count}} files no es poden importar",
-        "overLimit_many": "{{count}} no ha entrat (el diccionari està complet)"
+        "overLimit_many": "{{count}} no ha entrat (el diccionari està complet)",
+        "overLimit_other": "{{count}} no va entrar (el diccionari està complet)"
       }
     },
     "export": {
       "open": "Export",
       "fileName": "{{appName}} diccionari.csv",
       "done_one": "Exportat {{count}} entrada.",
+      "done_many": "Exportat {{count}} entrades.",
       "done_other": "Exportat {{count}} entrades.",
-      "failed": "No s'ha pogut exportar el diccionari. Si us plau, torni a intentar-ho.",
-      "done_many": "Exportat {{count}} entrades."
+      "failed": "No s'ha pogut exportar el diccionari. Si us plau, torni a intentar-ho."
     },
     "rejected": "“{{entry}}” no serà suggerit de nou.",
     "actionFailed": "No ha funcionat. Si us plau, torni a intentar-ho.",
     "learn": {
       "toggle": "Aprenre de les meves correccions",
       "hint": "Durant 30 segons després d'enganxar una dictació, {{appName}} detecta les paraules que corregiu a aquesta caixa i les proposa aquí. Només es conserva la paraula que heu corregit, mai el restant del text. Les zones de contrasenya, els gestors de contrasenyes, les aplicacions bancàries i els terminals mai són llegits."
-    },
-    "shown_many": "S'han mostrat {{count}} entrades"
+    }
   },
   "pill": {
     "region": "Dictation bar",
@@ -1282,6 +1282,7 @@
     "settingUpHint": "Les teves paraules estan desades. El text apareixerà aquí quan el dictat estigui a punt.",
     "cardReady": "El teu dictat",
     "cardMore_one": "El teu dictat · {{count}} més a l'historial",
+    "cardMore_many": "La teva dictat · {{count}} més a l'Historial",
     "cardMore_other": "El teu dictat · {{count}} més a l'historial",
     "copy": "Copia",
     "copied": "Copiat",
@@ -1295,8 +1296,7 @@
     "shortcutDetail": {
       "permission": "L'accés a Accessibility està desactivat",
       "stopped": "El detectador de teclat s'ha aturat"
-    },
-    "cardMore_many": "La teva dictat · {{count}} més a l'Historial"
+    }
   },
   "transforms": {
     "banner": {
@@ -1412,6 +1412,7 @@
     },
     "diff": {
       "changes_one": "{{count}} canvi",
+      "changes_many": "{{count}} canvis",
       "changes_other": "{{count}} canvis",
       "configure": "Configurar",
       "copy": "Copiar",
@@ -1422,8 +1423,7 @@
       "good": "Resultat bon",
       "bad": "Resultat malament",
       "simpleView": "Mostrant una substitució per a aquest canvi gran o complex.",
-      "actionFailed": "Aquesta acció no ha funcionat. El teu text està encara aquí; prova de nou.",
-      "changes_many": "{{count}} canvis"
+      "actionFailed": "Aquesta acció no ha funcionat. El teu text està encara aquí; prova de nou."
     },
     "startTutorial": "Començar tutoriul"
   },
@@ -1456,9 +1456,9 @@
       "title": "La dita d'ahir",
       "none": "No dictació des que va començar l'aplicació.",
       "applied_one": "Neteja en {{ms}} ms, {{count}} canvi.",
+      "applied_many": "Neteja en {{ms}} ms, {{count}} canvis.",
       "applied_other": "Neteja en {{ms}} ms, {{count}} canvis.",
       "checks": "Comprovacions de seguretat que l'han parat: {{checks}}",
-      "applied_many": "Neteja en {{ms}} ms, {{count}} canvis.",
       "partial_one": "Neteja en part ({{applied}} de {{total}} paràgraf); el restant és com va dir: {{reason}}",
       "partial_many": "Neteja en part ({{applied}} de {{total}} paràgrafs); el restant és com va dir: {{reason}}",
       "partial_other": "Netejada en part ({{applied}} de {{total}} paràgrafs); el restant és com va ser dit: {{reason}}"
@@ -1492,17 +1492,18 @@
     "search": "Cerca els teus snippets",
     "refresh": "Refresca",
     "shown_one": "{{count}} fragment mostrat",
+    "shown_many": "S'han mostrat {{count}} fragments",
     "shown_other": "{{count}} fragments mostrats",
     "deleted": "Esborrat “{{trigger}}”.",
     "deleteFailed": "Aquesta fragment no es pot eliminar. Si us plau, torni a intentar-ho.",
     "undo": "Desfer",
     "counts": {
       "snippets_one": "{{count}} fragment",
+      "snippets_many": "{{count}} fragments",
       "snippets_other": "{{count}} fragments",
       "uses_one": "utilitzat {{count}} vegada",
-      "uses_other": "utilitzat {{count}} vegades",
-      "snippets_many": "{{count}} fragments",
-      "uses_many": "utilitzat {{count}} vegades"
+      "uses_many": "utilitzat {{count}} vegades",
+      "uses_other": "utilitzat {{count}} vegades"
     },
     "sort": {
       "label": "Ordenar",
@@ -1524,14 +1525,14 @@
       "becomes": "es escriu com",
       "pair": "{{trigger}} → {{text}}",
       "lines_one": "{{count}} línia",
+      "lines_many": "{{count}} línies",
       "lines_other": "{{count}} línies",
       "imported": "Importat",
       "used_one": "Utilitzat {{count}} vegada",
+      "used_many": "Utilitzat {{count}} vegades",
       "used_other": "Utilitzat {{count}} vegades",
       "edit": "Edita {{trigger}}",
-      "delete": "Esborrar {{trigger}}",
-      "lines_many": "{{count}} línies",
-      "used_many": "Utilitzat {{count}} vegades"
+      "delete": "Esborrar {{trigger}}"
     },
     "empty": {
       "title": "Encara no hi ha snippets",
@@ -1597,19 +1598,26 @@
       },
       "review": {
         "new_one": "un nou fragment",
+        "new_many": "nou fragments",
         "new_other": "nou snippets",
         "duplicates_one": "ja hi ha",
+        "duplicates_many": "ja hi ha",
         "duplicates_other": "ja hi ha",
         "conflicts_one": "conflicte",
+        "conflicts_many": "conflictes",
         "conflicts_other": "conflictes",
         "invalid_one": "no es pot importar",
+        "invalid_many": "no es pot importar",
         "invalid_other": "no es pot importar",
         "overLimit_one": "Hi ha lloc per {{room}} més; {{count}} snippet nou no encau.",
+        "overLimit_many": "Hi ha lloc per {{room}} més; {{count}} fragments nous no en cabran.",
         "overLimit_other": "Hi ha lloc per {{room}} més; {{count}} snippets novels no en cabran.",
         "ignoredRows_one": "Només es llegen les primeres 1.000 files; {{count}} més fila es desprendeix.",
+        "ignoredRows_many": "Només es llegen les primeres 1.000 files; {{count}} files més s'han ignorat.",
         "ignoredRows_other": "Només es llegen les primeres 1.000 files; {{count}} files més s'omplen.",
         "showNew": "Mostra els nous snippets",
         "more_one": "i {{count}} més",
+        "more_many": "i {{count}} més",
         "more_other": "i {{count}} més",
         "conflictsTitle": "Ja guardat amb un altre text",
         "conflictsHelp": "Marca les que el text del fitxer ha de substituir el teu.",
@@ -1618,48 +1626,40 @@
         "useFile": "Utilitza el fitxer's:",
         "yours": "Ets:",
         "showInvalid": "Mostra les files que no es poden importar",
-        "invalidRow": "Fila {{row}} ({{trigger}}): {{reason}}",
-        "new_many": "nou fragments",
-        "duplicates_many": "ja hi ha",
-        "conflicts_many": "conflictes",
-        "invalid_many": "no es pot importar",
-        "overLimit_many": "Hi ha lloc per {{room}} més; {{count}} fragments nous no en cabran.",
-        "ignoredRows_many": "Només es llegen les primeres 1.000 files; {{count}} files més s'han ignorat.",
-        "more_many": "i {{count}} més"
+        "invalidRow": "Fila {{row}} ({{trigger}}): {{reason}}"
       },
       "done": {
         "title_one": "Es ha importat {{count}} snippet",
+        "title_many": "S'han importat {{count}} fragments",
         "title_other": "Es han importat {{count}} snippets",
         "added_one": "{{count}} afegit",
+        "added_many": "S'han afegit {{count}}",
         "added_other": "{{count}} afegit",
         "replaced_one": "{{count}} substituït per el text del fitxer",
+        "replaced_many": "{{count}} substituït amb el text del fitxer",
         "replaced_other": "{{count}} substituït amb el text del fitxer",
         "skipped_one": "{{count}} ja hi ha, saltat",
+        "skipped_many": "{{count}} ja hi està, es va saltar",
         "skipped_other": "{{count}} ja hi està, es va saltar",
         "kept_one": "Un conflicte {{count}} s'ha mantingut com estava",
+        "kept_many": "Es van mantenir {{count}} conflictes com eren",
         "kept_other": "{{count}} conflictes conservats com estaven",
         "invalid_one": "{{count}} fila no ha pogut ser importada",
+        "invalid_many": "{{count}} files no es poden importar",
         "invalid_other": "{{count}} files no es poden importar",
         "overLimit_one": "{{count}} no va entrar",
-        "overLimit_other": "{{count}} no va entrar",
-        "title_many": "S'han importat {{count}} fragments",
-        "added_many": "S'han afegit {{count}}",
-        "replaced_many": "{{count}} substituït amb el text del fitxer",
-        "skipped_many": "{{count}} ja hi està, es va saltar",
-        "kept_many": "Es van mantenir {{count}} conflictes com eren",
-        "invalid_many": "{{count}} files no es poden importar",
-        "overLimit_many": "{{count}} no va entrar"
+        "overLimit_many": "{{count}} no va entrar",
+        "overLimit_other": "{{count}} no va entrar"
       }
     },
     "export": {
       "open": "Export",
       "fileName": "{{appName}} snippets.csv",
       "done_one": "Exportat {{count}} fragment.",
+      "done_many": "Exportats {{count}} fragments.",
       "done_other": "Exportat {{count}} fragments.",
-      "failed": "Els snippets no es poden exportar. Si us plau, torni a intentar-ho.",
-      "done_many": "Exportats {{count}} fragments."
-    },
-    "shown_many": "S'han mostrat {{count}} fragments"
+      "failed": "Els snippets no es poden exportar. Si us plau, torni a intentar-ho."
+    }
   },
   "insights": {
     "tabs": {
@@ -1686,8 +1686,8 @@
     "words": {
       "title": "Paraules totals",
       "dictations_one": "a {{count, number}} dictació",
-      "dictations_other": "a {{count, number}} dictacions",
-      "dictations_many": "a {{count, number}} dictats"
+      "dictations_many": "a {{count, number}} dictats",
+      "dictations_other": "a {{count, number}} dictacions"
     },
     "fixes": {
       "title": "Correccions realitzades",
@@ -1698,24 +1698,27 @@
       "title": "On dictes",
       "empty": "Dicta a unes quantes aplicacions per veure on anen les teves paraules.",
       "words_one": "{{count, number}} paraula",
+      "words_many": "{{count, number}} paraules",
       "words_other": "{{count, number}} paraules",
       "documents": "Documents",
       "ai_prompts": "prompts d'IA",
       "email": "Correu",
       "work": "Missatges de treball",
       "personal": "Missatges personals",
-      "other": "Tots els altres",
-      "words_many": "{{count, number}} paraules"
+      "other": "Tots els altres"
     },
     "heatmap": {
       "title": "La teva cadena",
       "current": "Rècord actual",
       "longest": "Més llarg",
       "days_one": "{{count, number}} dia",
+      "days_many": "{{count, number}} dies",
       "days_other": "{{count, number}} dies",
-      "active_one": "{{count, number}} day with dictation in the last year",
+      "active_one": "{{count, number}} dia amb dictat l’últim any",
+      "active_many": "{{count, number}} dies de dictat en les darreres anys",
       "active_other": "{{count, number}} dies amb dictació durant les darreres anys",
       "day_one": "{{date}}: {{count, number}} paraula",
+      "day_many": "{{date}}: {{count, number}} paraules",
       "day_other": "{{date}}: {{count, number}} paraules",
       "less": "Menys",
       "more": "Més",
@@ -1723,27 +1726,28 @@
       "band1": "1 a 249 paraules",
       "band2": "250 a 499 paraules",
       "band3": "de 500 a 749 paraules",
-      "band4": "750 paraules o més",
-      "days_many": "{{count, number}} dies",
-      "active_many": "{{count, number}} dies de dictat en les darreres anys",
-      "day_many": "{{date}}: {{count, number}} paraules"
+      "band4": "750 paraules o més"
     },
     "voice": {
       "locked": "Bloquejat",
       "phrase": "La teva frase",
       "phraseIn_one": "En {{count, number}} dictació",
+      "phraseIn_many": "A {{count, number}} dictats",
       "phraseIn_other": "A {{count, number}} dictacions",
       "peak": "El moment de punta i l'aplicació",
       "peakApp": "La majoria de paraules a {{app}}",
       "word": "Paraula més utilitzada",
       "uses_one": "Utilitzat {{count, number}} vegada",
+      "uses_many": "Utilitzat {{count, number}} vegades",
       "uses_other": "Utilitzat {{count, number}} vegades",
       "corrected": "Paraula corregida més freqüent",
       "pair": "{{heard}} → {{written}}",
       "fixed_one": "Corregit {{count, number}} vegada",
+      "fixed_many": "Corregit {{count, number}} vegades",
       "fixed_other": "Corregit {{count, number}} vegades",
       "notEnough": "Encara no has fet pràcticament cap dictada.",
       "footnote_one": "És un treball realitzat en aquest Mac des de la teva darrera dictació. Res es trenca del teu Mac.",
+      "footnote_many": "És un resultat d'aquest Mac des de les teves darreres {{count, number}} dictacions. Res no es queda fora del teu Mac.",
       "footnote_other": "És un Mac de aquesta Mac des de les teves darreres {{count, number}} dictacions. Res es queda fora del teu Mac.",
       "sample": {
         "phrase": "una frase que dius sovint",
@@ -1756,11 +1760,7 @@
       "lockedTitle_other": "El teu perfil de veu es desbloqueja a {{goal}} paraules",
       "lockedBody_one": "Continua dictant: {{current}} de {{goal}} paraula fins ara. Aleshores veuràs la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà.",
       "lockedBody_many": "Continua dictant: {{current}} de {{goal}} paraules fins ara. Aleshores veuràs la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà.",
-      "lockedBody_other": "Continua dictant: {{current}} de {{goal}} paraules fins ara. Aleshores veuràs la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà.",
-      "phraseIn_many": "A {{count, number}} dictats",
-      "uses_many": "Utilitzat {{count, number}} vegades",
-      "fixed_many": "Corregit {{count, number}} vegades",
-      "footnote_many": "És un resultat d'aquest Mac des de les teves darreres {{count, number}} dictacions. Res no es queda fora del teu Mac."
+      "lockedBody_other": "Continua dictant: {{current}} de {{goal}} paraules fins ara. Aleshores veuràs la frase que utilitzes més, quan i on la dictes, i les paraules que {{appName}} te corregirà."
     }
   },
   "history": {
@@ -1779,8 +1779,10 @@
       "body": "No conté dictacions amb \"{{query}}\"."
     },
     "results_one": "{{count}} dictació trobada",
+    "results_many": "S'han trobat {{count}} dictats",
     "results_other": "{{count}} dictacions trobades",
     "resultsMore_one": "Les {{count}} matches més recents. Fes scroll per obtenir més.",
+    "resultsMore_many": "Els {{count}} resultats més recents. Fes scroll per obtenir més.",
     "resultsMore_other": "Els {{count}} resultats més recents. Fes scroll per obtenir-ne més.",
     "search": {
       "open": "Historial de cerca",
@@ -1829,13 +1831,13 @@
     },
     "audio": {
       "expired_one": "L'audio eliminat després de {{count}} dia",
+      "expired_many": "L'audio ha estat eliminat després de {{count}} dies",
       "expired_other": "L'audio ha estat eliminat després de {{count}} dies",
       "removed": "Audio eliminat",
       "missing": "No registre per a aquesta dictació",
       "filter": "WAV audio",
       "saved": "L'registrat ha estat guardat.",
-      "saveFailed": "L'registració no ha pogut ser desat. Si us plau, torni a intentar-ho.",
-      "expired_many": "L'audio ha estat eliminat després de {{count}} dies"
+      "saveFailed": "L'registració no ha pogut ser desat. Si us plau, torni a intentar-ho."
     },
     "copyFailed": "El text no ha pogut copiar-se. Si us plau, torni a intentar-ho.",
     "actionFailed": "No va funcionar. Si us plau, torni a intentar-ho.",
@@ -1865,9 +1867,7 @@
       "savedRule": "Des d'ara \"{{from}}\" esdevé \"{{to}}\".",
       "savedWord": "“{{word}}” està al teu diccionari.",
       "openDictionary": "Obre el diccionari"
-    },
-    "results_many": "S'han trobat {{count}} dictats",
-    "resultsMore_many": "Els {{count}} resultats més recents. Fes scroll per obtenir més."
+    }
   },
   "scratchpad": {
     "newNote": "Nota nova",
@@ -1906,7 +1906,7 @@
     "tabs": "Obre notes",
     "tools": "Eines de nota",
     "sidebar": "Mostrar llista de notes",
-    "polish": "Nota en polonès",
+    "polish": "Aplica Polish a la nota",
     "polishing": "Polishing…",
     "textSize": "Canvia la mida del text (actualment {{size}} punts)",
     "expand": "Expandar la finestra de nota",
@@ -2059,11 +2059,11 @@
       "listLabel": "Idiomes",
       "noMatch": "No hi ha un idioma que coincideixi amb “{{query}}”.",
       "count_one": "La dictació funciona en {{count}} llengua. Pots canviar-la més tard a les Opcions.",
+      "count_many": "La dictat funciona en {{count}} llengües. Pots canviar-la més tard a la Configuració.",
       "count_other": "La dictació funciona en {{count}} llengües. Pots canviar-la més tard a les opcions.",
       "weak_one": "La reconeixement és menys exacte en {{languages}}. Encara funciona, però esperi més errors.",
-      "weak_other": "La reconeixement és menys exacte en {{languages}}. Encara funcionen, però esperi més errors.",
-      "count_many": "La dictat funciona en {{count}} llengües. Pots canviar-la més tard a la Configuració.",
-      "weak_many": "La reconeixement és menys exacte en {{languages}}. Encara funcionen, però esperi més errors."
+      "weak_many": "La reconeixement és menys exacte en {{languages}}. Encara funcionen, però esperi més errors.",
+      "weak_other": "La reconeixement és menys exacte en {{languages}}. Encara funcionen, però esperi més errors."
     },
     "permissions": {
       "title": "Dos permisos",
@@ -2145,7 +2145,7 @@
       }
     },
     "practice": {
-      "title": "Pràctica: escriu un correu sense manes",
+      "title": "Pràctica: un correu complet, sense mans",
       "instruction": "Prem fn i l espai alhora, aleshores parla. No necessites tenir res. Prem fn una altra vegada quan hagis acabat. Prova: \"Hola Sam, gràcies per les notes. Potem trobar-nos el dimecres a les deu?\"",
       "instructionFallback": "Prem Control, Opció i Espai alhora, aleshores parla. No necessites mantenir res. Prem Control i Opció de nou quan hagis acabat. Prova: \"Hola Sam, gràcies per les notes. Potem trobar-nos el dimecres a les deu?\"",
       "instructionUnbound": "No hi ha un creuat de dictació establert, per tant aquesta pràctica no pot començar. Pots saltar-ho per ara i establir un creuat a les Preferències.",
@@ -2175,22 +2175,22 @@
     },
     "timeSaved": {
       "headline_one": "Dirigir amb dictadura pot emprar-te uns {{hours}} hores per setmana",
+      "headline_many": "Dictar pot emprar-te uns {{hours}} hores setmanals",
       "headline_other": "Dirigir amb dictadura t'ajudaria a fer servir uns {{hours}} hores per setmana",
       "intro": "Parlar és més ràpid que escriure per a la majoria de persones. Fes un test d'escrit de 30 segons per veure quant de temps pot economitzar-te.",
       "howFast": "Com de ràpid types?",
       "skipTest": "Saltar la prova",
       "sliderLabel": "Quanta estona typed cada dia?",
       "hoursPerDay_one": "{{hours}} hora al dia",
+      "hoursPerDay_many": "{{hours}} hores al dia",
       "hoursPerDay_other": "{{hours}} hores al dia",
       "takeTest": "Fes el test de tipografia",
-      "headline_many": "Dictar pot emprar-te uns {{hours}} hores setmanals",
       "basisMeasured_one": "D'acord amb el teu {{wpm}} de paraules per minut de tipus i parlant a uns {{speaking}} de paraules per minut.",
       "basisMeasured_many": "D'acord amb els {{wpm}} paraules al minut que escrius i parlant a uns {{speaking}} paraules al minut.",
       "basisMeasured_other": "D'acord amb les teves {{wpm}} paraules al minut escribint i parlant a uns {{speaking}} paraules al minut.",
       "basisAverage_one": "D'acord amb una velocitat mitjana de tipus de {{wpm}} paraules al minut, i parlant a uns {{speaking}} paraules al minut.",
       "basisAverage_many": "D'acord amb una velocitat mitjana de {{wpm}} paraules al minut, i parlant a uns {{speaking}} paraules al minut.",
-      "basisAverage_other": "D'acord amb una velocitat mitjana de {{wpm}} paraules al minut, i parlant a uns {{speaking}} paraules al minut.",
-      "hoursPerDay_many": "{{hours}} hores al dia"
+      "basisAverage_other": "D'acord amb una velocitat mitjana de {{wpm}} paraules al minut, i parlant a uns {{speaking}} paraules al minut."
     },
     "typing": {
       "title": "Com de ràpid types?",
@@ -2198,22 +2198,22 @@
       "language": "Idioma",
       "wpmPending": "— paraules per minut",
       "wpm_one": "{{count}} paraula al minut",
+      "wpm_many": "{{count}} paraules al minut",
       "wpm_other": "{{count}} paraules al minut",
       "secondsLeft_one": "{{count}} segon restant",
+      "secondsLeft_many": "{{count}} segons restants",
       "secondsLeft_other": "encara {{count}} segons",
       "inputLabel": "Escriu el paràgraf aquí",
       "placeholder": "Comença a escriure aquí…",
       "nothing": "Res no ha coincidit amb el paràgraf. Prova de nou.",
       "result_one": "Tingues aproximadament {{count}} paraules per minut.",
+      "result_many": "T'escrites uns {{count}} paraules per minut.",
       "result_other": "T'escris aproximadament {{count}} paraules per minut.",
       "tryAgain": "Intenta de nou",
       "recalculate": "Recalcula",
       "instruction_one": "Escriu el paràgraf que estàs a sota com normalment faries. El rellotge comença amb la teva primera tecla i dura {{seconds}} segon.",
       "instruction_many": "Escriu el paràgraf que estàs a sota com normalment faries. L'horari comença amb la teva primera tecla i dura {{seconds}} segons.",
-      "instruction_other": "Escriu el paràgraf que estàs a sota com normalment faries. El rellotge comença amb la teva primera tecla i dura {{seconds}} segons.",
-      "wpm_many": "{{count}} paraules al minut",
-      "secondsLeft_many": "{{count}} segons restants",
-      "result_many": "T'escrites uns {{count}} paraules per minut."
+      "instruction_other": "Escriu el paràgraf que estàs a sota com normalment faries. El rellotge comença amb la teva primera tecla i dura {{seconds}} segons."
     },
     "summary": {
       "title": "Estàs tot preparat",
@@ -2226,14 +2226,14 @@
       "micDefault": "El microfònim per defecte del Mac",
       "typing": "Velocitat de tipus",
       "typingWpm_one": "{{count}} paraula al minut",
+      "typingWpm_many": "{{count}} paraules al minut",
       "typingWpm_other": "{{count}} paraules al minut",
       "typingSkipped": "No mesurat",
       "notSet": "No establert",
       "launchAtLogin": "Obre Wispr Bro quan t'accesseges",
       "launchAtLoginHint": "Així doncs, la dictació està preparada quan necessites.",
       "later": "Pots canviar tot això més tard a Configuració.",
-      "finish": "Comença a dictar",
-      "typingWpm_many": "{{count}} paraules al minut"
+      "finish": "Comença a dictar"
     }
   },
   "whatsNew": {

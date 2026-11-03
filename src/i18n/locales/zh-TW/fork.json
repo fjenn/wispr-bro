@@ -405,7 +405,7 @@
         "press_enter": "按下 Enter",
         "undo_cancel": "撤銷一個取消",
         "transform": {
-          "polish": "轉換所選文字",
+          "polish": "以 Polish 改寫所選文字",
           "prompt_engineer": "將選取的文字轉為 AI 提示",
           "view_changes": "觀看變形變更"
         },
@@ -433,7 +433,7 @@
       },
       "description_other": "為每項操作新增最多 {{max}} 個鍵盤快速鍵。您在設定時會即時儲存變更。"
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "重設 {{setting}}"
   },
   "hub": {
     "nav": {
@@ -860,7 +860,7 @@
         "undo": "「復原」會在聽寫列上顯示 4 秒。",
         "diff": "變更已準備好供審查。",
         "secureInputWarning": "Secure Input 是開啟狀態。fn 和 空格鍵 無法鎖定語音輸入。Escape 鍵 或 關閉按鈕 仍可取消。",
-        "inserted": "Text inserted"
+        "inserted": "文字已插入"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1989,7 +1989,7 @@
       }
     },
     "practice": {
-      "title": "練習：無需手動輸入寫一封電子郵件",
+      "title": "練習：完整郵件，無需手動操作",
       "instruction": "同時按 Fn 和空格鍵，然後開始說話。你不需要按住任何鍵。說完後再次按 Fn。試試看：「嗨，Sam，謝謝你記錄的筆記，我們四號下午十點見嗎？」",
       "instructionFallback": "同時按住 Control、Option 與 Space，然後開始說話。你不需要一直按住任何鍵。說完後，再按一次 Control 與 Option。試試看：「嗨，Sam，謝謝你提供筆記，我們四號下午十點見嗎？」",
       "instructionUnbound": "尚未設定語音輸入快捷鍵，因此無法開始練習。現在跳過，並在設定中設定快捷鍵。",

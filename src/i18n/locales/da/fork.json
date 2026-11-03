@@ -435,7 +435,7 @@
       "description_one": "Tilføj op til {{max}} tastaturgenvej for hver handling. Endringerne spares som du gør dem.",
       "description_other": "Tilføj op til {{max}} genveje til hvert handling. Endringerne spares som du gør dem."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Nulstil {{setting}}"
   },
   "hub": {
     "nav": {
@@ -874,7 +874,7 @@
         "undo": "Fortryd er på dikteringslinjen i 4 sekunder.",
         "diff": "Ogskiftninger er klar til at overvåge.",
         "secureInputWarning": "Secure Input er slået til. fn og Space kan ikke låse dictation. Escape eller lukke-knap kan stadig annullere.",
-        "inserted": "Text inserted"
+        "inserted": "Tekst indsat"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -2067,7 +2067,7 @@
       }
     },
     "practice": {
-      "title": "Øv: skriv en e-mail uden hånd",
+      "title": "Øv: hele en e-mail, uden hånd",
       "instruction": "Tryk fn og mellemrum samtidigt, så siger du. Du skal ikke holde noget. Tryk igen på fn, når du er færdig. Prøv: \"Hej Sam, tak for notaterne. Kan vi mødes på torsdag kl. ti?\"",
       "instructionFallback": "Tryk Control, Option og Rumme samtidigt, så siger du. Du skal ikke holde nogen knap. Tryk igen på Control og Option, når du er færdig. Prøv: \"Hej Sam, tak for notaterne. Kan vi mødes på torsdag kl. ti?\"",
       "instructionUnbound": "Ingen dictations-kort er sat, så kan denne øvelse ikke starte. Spring over den for nu og indstil et kort i Indstillinger.",
@@ -2556,7 +2556,7 @@
       },
       "results": {
         "title": "Din mikrofonmatch",
-        "body": "Based on your answers. Nothing is saved or sent anywhere.",
+        "body": "Basert på dine svar. Ingen ting bliver lagret eller sendt nenhvor.",
         "bestLine": "Bedste match: {{mic}}.",
         "caption": "Hvordan hver type mikrofon gør det",
         "columns": {

@@ -433,7 +433,7 @@
       },
       "description_other": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi được lưu khi bạn thực hiện."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Đặt lại {{setting}}"
   },
   "hub": {
     "nav": {
@@ -860,7 +860,7 @@
         "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
         "diff": "Các thay đổi chuyển đổi đã sẵn sàng để xem xét.",
         "secureInputWarning": "Secure Input đang được bật. fn và Space không thể khóa dictation. Escape hoặc nút đóng vẫn có thể hủy.",
-        "inserted": "Text inserted"
+        "inserted": "Đoạn văn bản đã được chèn"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1754,7 +1754,7 @@
     "tabs": "Mở ghi chú",
     "tools": "Các công cụ ghi chú",
     "sidebar": "Hiện danh sách ghi chú",
-    "polish": "Chỉnh sửa đoạn văn bản",
+    "polish": "Áp dụng Polish cho ghi chú",
     "polishing": "Đang làm sạch...",
     "textSize": "Thay đổi kích thước chữ (hiện tại {{size}} điểm)",
     "expand": "Mở rộng cửa sổ ghi chú",
@@ -1989,7 +1989,7 @@
       }
     },
     "practice": {
-      "title": "Thực hành: viết một email mà không cần dùng tay",
+      "title": "Thực hành: một email hoàn chỉnh, không cần tay",
       "instruction": "Nhấn cùng fn và phím không gian, rồi nói. Bạn không cần giữ bất cứ thứ gì. Nhấn fn lại khi xong. Thử: \"Xin chào Sam, cảm ơn vì ghi chú. Chúng ta có thể gặp vào thứ Ba lúc mười giờ không?\"",
       "instructionFallback": "Nhấn cùng lúc Control, Option và Không gian, rồi nói. Bạn không cần giữ bất kỳ phím nào. Nhấn lại Control và Option khi xong. Thử: \"Xin chào Sam, cảm ơn vì ghi chú. Chúng ta có thể gặp vào thứ Ba lúc mười giờ không?\"",
       "instructionUnbound": "Không có phím tắt ghi âm được thiết lập, vì vậy không thể bắt đầu bài luyện tập này. Bỏ qua tạm thời và thiết lập phím tắt trong Cài đặt.",

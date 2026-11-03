@@ -406,7 +406,7 @@
         "press_enter": "Enter drücken",
         "undo_cancel": "Rückgängig machen eine Stornierung",
         "transform": {
-          "polish": "Ausgewählten Text polisch machen",
+          "polish": "Ausgewählten Text mit Polish überarbeiten",
           "prompt_engineer": "Aus dem ausgewählten Text einen AI-Prompt erstellen",
           "view_changes": "Ansichts-Transformationsänderungen"
         },
@@ -435,7 +435,7 @@
       "description_one": "Füge pro Aktion bis zu {{max}} Tastaturkurzbefehl hinzu. Änderungen werden sofort gesichert.",
       "description_other": "Füge pro Aktion bis zu {{max}} Tastaturkurzbefehle hinzu. Änderungen werden sofort gesichert."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Einstellung zurücksetzen {{setting}}"
   },
   "hub": {
     "nav": {
@@ -874,7 +874,7 @@
         "undo": "Rückgängig ist 4 Sekunden lang in der Diktierleiste verfügbar.",
         "diff": "Änderungen wurden bereitgestellt, um sie zu überprüfen.",
         "secureInputWarning": "Sicheres Eingeben ist aktiv. fn und Space können Diktat nicht sperren. Escape oder die Schließen-Taste beenden es noch.",
-        "inserted": "Text inserted"
+        "inserted": "Text eingefügt"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -2067,7 +2067,7 @@
       }
     },
     "practice": {
-      "title": "Übung: Einen E-Mail handsfree schreiben",
+      "title": "Übung: eine ganze E-Mail, ohne Hände",
       "instruction": "Drücke fn und Leerzeichen gleichzeitig, dann sprich. Du musst nichts halten. Drücke fn erneut, wenn du fertig bist. Versuch: „Hallo Sam, danke für die Notizen. Können wir am Donnerstag um zehn treffen?“",
       "instructionFallback": "Drücke gleichzeitig Control, Option und Leertaste, dann sprich. Du musst nichts länger halten. Drücke wieder Control und Option, wenn du fertig bist. Versuch: „Hallo Sam, danke für die Notizen. Können wir am Donnerstag um zehn treffen?“",
       "instructionUnbound": "Kein Diktatshortcut eingestellt, daher kann diese Übung nicht gestartet werden. Überspringen Sie sie für jetzt und stellen Sie einen Shortcut in den Einstellungen ein.",

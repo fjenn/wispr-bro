@@ -433,7 +433,7 @@
       },
       "description_other": "각 작업에 최대 {{max}}개의 키보드 단축키를 추가합니다. 변경 내용을 실시간으로 저장합니다."
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "설정을 초기화 {{setting}}"
   },
   "hub": {
     "nav": {
@@ -860,7 +860,7 @@
         "undo": "실행 취소는 받아쓰기 막대에 4초 동안 표시됩니다.",
         "diff": "변경 사항 변환은 검토할 준비가 되었습니다.",
         "secureInputWarning": "Secure Input는 켜져 있습니다. fn 및 Space는 딕테이션을 잠글 수 없습니다. Esc 또는 닫기 버튼은 여전히 취소됩니다.",
-        "inserted": "Text inserted"
+        "inserted": "텍스트가 삽입되었습니다"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -1082,7 +1082,7 @@
       "reject": "{{entry}}을 배우지 마"
     },
     "source": {
-      "import": "Imported",
+      "import": "이미지",
       "migrated": "이전에 사용자 정의한 단어에서",
       "learn": "학습됨",
       "flag": "표시된 딕테이션에서"
@@ -1490,7 +1490,7 @@
       "failed": "그게 저장되지 않았습니다. 다시 시도해 주세요."
     },
     "import": {
-      "open": "Import",
+      "open": "导入",
       "title": "단편을 가져오기",
       "description": "스프레드시트를 CSV로 저장하여 스니펫을 가져옵니다.",
       "fieldTrigger": "당신이 말하는 것",
@@ -1506,7 +1506,7 @@
         "new_other": "새로운 스니프트",
         "duplicates_other": "이미 있음",
         "conflicts_other": "충돌",
-        "invalid_other": "can't be imported",
+        "invalid_other": "가져올 수 없음",
         "overLimit_other": "더 {{room}} 개의 공간이 있습니다; {{count}} 개의 새 스니프트가 들어가지 않습니다.",
         "ignoredRows_other": "첫 1,000개 행만 읽힘; {{count}}개 더 생략됨.",
         "showNew": "새로운 스니프트를 표시",
@@ -1754,7 +1754,7 @@
     "tabs": "노트 열기",
     "tools": "노트 도구",
     "sidebar": "노트 목록 표시",
-    "polish": "노트 정리",
+    "polish": "노트에 Polish 적용",
     "polishing": "스크래치패드. Polish…",
     "textSize": "글자 크기 변경 (현재 {{size}} 포인트)",
     "expand": "노트 창 확장",
@@ -1989,7 +1989,7 @@
       }
     },
     "practice": {
-      "title": "연습: 손이 아닌 방식으로 이메일 작성",
+      "title": "연습: 전체 이메일, 손이 아닌 상태로",
       "instruction": "fn과 Space를 동시에 누르고, 말해보세요. 무엇을 누르고 있는지 걱정할 필요가 없습니다. 말을 끝내면 fn을 다시 누르세요. 예: \"안녕, 샘. 메모 감사합니다. 목요일 오후 10시에 만나실 수 있나요?\"",
       "instructionFallback": "컨트롤, 옵션 및 스페이스를 동시에 누르고 말해보세요. 아무것도 누르지 않아도 됩니다. 말을 끝내면 컨트롤과 옵션을 다시 누르세요. 시도해보세요: \"안녕, 샘, 메모 감사합니다. 목요일 오후 10시에 만나볼 수 있나요?\"",
       "instructionUnbound": "디타이션 단축키가 설정되지 않았기 때문에 이 연습을 시작할 수 없습니다. 지금은 건너뛰고 설정에서 단축키를 설정하세요.",
@@ -2289,7 +2289,7 @@
       },
       "practice": {
         "title": "텍스트를 선택한 후 {{shortcut}}을 누르세요",
-        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
+        "body": "아래 메시지를 선택하세요 (⌘A는 전체를 선택합니다), 이후 Polish 단축키를 누르세요.",
         "doneTitle": "텍스트 재작성 완료",
         "doneBody": "{{view}}을 누르면 변경 사항을 확인할 수 있습니다. {{undo}}는 이를 취소합니다.",
         "app": "조던과 대화하기",
