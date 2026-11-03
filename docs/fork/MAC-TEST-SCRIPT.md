@@ -1007,6 +1007,20 @@ pass; S-09.3 purge path only; S-09.4 not run).
 - [ ] S-10.8 Idle: 120 s after the last request `pgrep llama-server` finds
       nothing; quitting the app (⌘Q, and `kill -9` of the app) leaves no
       `llama-server` behind.
+- [ ] S-10.9 **Queued for the Mac wave** (Mac wave 3 fixes, finding 3:
+      the first take after a fresh start took 19 s). The first take after a
+      fresh start, during the launch warm-up: run
+      `scripts/wb-s10/first-take.sh` with `APP` = a debug test bundle
+      (onboarded, models in place) and `OUT` = a folder. It removes
+      `Data/llm/warm-*` so the warm-up runs, and starts one SIGUSR2 take of
+      a `say` WAV through the test microphone the moment the cleanup model
+      is ready, into its own TextEdit; no speakers. PASS = S-10.9a text
+      inserted ≤ 8 s after the take stops; .9b no `llama-server stopped`
+      between the warm-up's start and the take's cleanup (the log may say
+      "warm-up done; a take wants the server, it stays up"); .9c no second
+      `llama-server ready in` before the take's cleanup. A start still cold
+      at cleanup time pastes the raw text within the 2.5 s start budget
+      (`cleanup: timeout`), never waits longer.
 
 **Procedure (S-10.2-S-10.4): unattended, about 3 minutes.** Build the sidecar
 and run the RS-06 bench against the real binary and model (any reference
@@ -2012,6 +2026,26 @@ needed first).
       Privacy: the footer reads "Update checks off · Turn on" and the tray
       "Update checks are off…" (opens Data and Privacy).
 - [ ] S-28.7 **Mac wave 3: FAIL S-28.1d-f again (14/17); cause found: the take itself unhides the hidden app and shows its Hub, so the relaunch is correctly "shown"; without a take the relaunch is hidden (PASS)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-3.md)) **Queued for the Mac wave** (Mac wave 2 fixes, finding 2): re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The relaunch decision now reads AppKit (`NSApp.isHidden`, the Hub's occlusion state) as well as Tauri's window state and the parked Hub (`fork::update::scheduler::relaunch_hidden`). Expect S-28.1d-.1f PASS: `update: relaunching (hidden)`, `relaunched after an update (hidden)`, no Hub window. The profile now starts with every shortcut unbound and a cloned model cache (no download), and the take plays a silent WAV through the test microphone (no Microphone grant needed). Extra by hand if time allows: the Hub minimised (⌘M) or behind another app's window when B installs → also relaunches hidden; the Hub in front → relaunches shown.
+- [ ] S-28.8 **Queued for the Mac wave** (Mac wave 3 fixes, finding 1):
+      re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The bar's
+      panels (resting bar, `fork-pill` web view, spotlight) now have
+      `canHide` off, so ordering them in during a take no longer unhides the
+      hidden app. Expect 19/19 PASS, including the new S-28.1h (5 s into the
+      take System Events still reports the app not visible) and .1i (no Hub
+      window during the take), then .1d-.1f (`relaunching (hidden)`, no Hub
+      window). By hand if time allows: ⌘H the app, dictate into TextEdit:
+      the bar shows and pastes, the Hub stays hidden.
+- [ ] S-28.9 **Queued for the Mac wave** (Mac wave 3 fixes, finding 4):
+      What's New on a fresh install. A fresh test profile (debug bundle,
+      `wb_unbind_keys` + `wb_clone_models`), onboarding finished: on the
+      first Hub open the first-use chooser shows alone (no "What's new in
+      …" dialog over or after it, also after "Maybe later"), and Handy's
+      `settings_store.json` then has `whats_new_last_seen_version` = the
+      running version. Then an updated profile (that key set to `0.9.7`, the
+      chooser already answered): the Hub opens with What's New once; with
+      the notifications panel open first it waits until the panel closes.
+      `scripts/wb-s37/run.sh hub` needs no `press-if Got it` for What's New
+      on a fresh copy any more (it stays harmless).
 - [ ] S-28.6 RS-12 on real GitHub releases (release wave, with F-02.4):
       alpha.N → alpha.N+1 installs by itself after 20 idle minutes, the app
       comes back to the bar without a window, Microphone and Accessibility
@@ -2301,6 +2335,13 @@ table and texts (`fork/pill/tests.rs`); `bun run wb:copy-check` the copy.
       PASS = every screen's line in `run.log` is `PASS` (0 unnamed controls
       in `axtree.tsv`); `placeholder-only` rows are listed for review, not
       failures.
+- [ ] S-37.4 **Queued for the Mac wave** (Mac wave 3 fixes, finding 2):
+      `run.sh hub` again. The fork's Handy a11y layer marks Handy's number
+      fields and hides WebKit's spin buttons (`settings/handyA11y.ts`,
+      `tokens.css`). PASS = `settings Advanced` has 0 unnamed (no
+      `AXIncrementor` row; the `AXTextField "History Limit"` stays), every
+      other screen as in wave 3; by hand: focus History Limit and press ↑:
+      the value goes up by one.
 
 **Setup.** As S-29a with `s37` in place of `s29a` (identifier
 `com.wisprbro.s37check`, product name "Wispr Bro S37 Check", portable,

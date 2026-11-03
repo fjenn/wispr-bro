@@ -2487,3 +2487,42 @@ Note: Handy's `playwright.config.ts` (`testDir: ./tests`) also discovers
   load per start (PERF.md "LLM cold start").
 - `fork/models/queue.rs` `bind_entry` returns `None` for a take that was
   never queued (no WARN on every take).
+
+## Mac wave 3 fixes (`fix/wave3`)
+
+- **The bar never unhides a hidden app** (`fork/pill/native.rs`
+  `stay_when_app_hidden`): AppKit unhides a hidden app (and with it every
+  window, the Hub included) when one of its windows that can hide is
+  ordered in, `orderFrontRegardless` on a non-activating panel too
+  (checked with a throwaway AppKit program: `canHide` on → `isHidden`
+  false after the order-in; off → the app stays hidden, the panel shows).
+  The resting bar, the `fork-pill` web view and the tutorial spotlight turn
+  `canHide` off before their first order-in, so they stay on screen while
+  the app is hidden (as a dictation bar should) and a take after ⌘H leaves
+  the Hub hidden. Guard test: `fork/pill/tests.rs`
+  `bar_panels_never_unhide_a_hidden_app`; S-28 driver checks 1h/1i.
+- **LLM sidecar and takes** (`fork/llm/supervisor.rs`): a start runs as its
+  own task (`start_detached`), so a caller that gives up at its deadline
+  (`deadline::START_BUDGET` 2.5 s for cleanup, S-21's 2.8 s) only stops
+  waiting; the start completes and no half-started `llama-server` is left.
+  `is_running` uses `try_lock` and answers "starting counts" from the
+  published phase, so the memory check in `post_process::plan` and
+  `transforms::run` never waits behind a start (the 9 s of finding 3).
+  `warm_up` (the RS-06 first-launch warm-up) stops its server only if
+  nothing asked for it meanwhile: a demand counter bumped by every
+  `ensure_ready` and by `take_started`, callers waiting, requests in
+  flight, a take recording. `take_started`/`take_ended` come from Handy's
+  `recording-state-event` (`runtime.rs`); `idle_tick` skips while any of
+  them holds the server (a take stops holding after 30 min,
+  `TAKE_HOLD_MAX`). A CPU fallback caused only by `/health` timeouts
+  retries the GPU once per launch; a warm-up that ended on the CPU writes no
+  warm marker.
+- **History Limit's stepper** (`src/fork/settings/handyA11y.ts`,
+  `tokens.css`): Handy's number fields get `data-wb-no-spinner` and lose
+  WebKit's spin buttons (an `AXIncrementor` no ARIA attribute can name);
+  arrow keys still step.
+- **What's New** (`src/fork/whats-new/WhatsNewGate.tsx`): decides once the
+  fork settings are loaded; a new user (the first-use chooser due to open
+  by itself) gets the running version marked seen without a note; otherwise
+  it waits while the chooser, a lesson, the spotlight or another dialog is
+  open, plus 400 ms after (`useOtherDialogOpen` from `featurePopupGate.ts`).
