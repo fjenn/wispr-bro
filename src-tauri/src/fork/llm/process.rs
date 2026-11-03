@@ -9,7 +9,7 @@
 //!
 //! Spawn line (RS-06, b11624):
 //! `-m <gguf> --host <sock> -c 4096 -np 1 --cache-ram 256 --reasoning off
-//!  --jinja --no-ui --no-slots --offline [-ngl 0]`
+//!  --jinja --no-ui --no-slots --offline --fit off [-ngl 0]`
 //! (`--no-ui` replaces the deprecated `--no-webui`; `--no-slots` hides the
 //! slot monitor, which would expose the prompt being processed).
 //! with `LLAMA_API_KEY` in an environment that holds nothing else from ours
@@ -88,6 +88,14 @@ impl SpawnSpec {
             "--no-ui",
             "--no-slots",
             "--offline",
+            // Mac wave 2 (§5.1 LLM cold start): llama.cpp's default
+            // `--fit on` loads the model a second time as a dry run to
+            // size layers and context for device memory, ~0.8 s of every
+            // start. The context is fixed above and `memory::allows`
+            // already decides whether the model fits (all 25 layers of
+            // Muesli 2B are offloaded either way), so the dry run is off.
+            "--fit",
+            "off",
         ] {
             args.push(a.into());
         }
@@ -426,7 +434,9 @@ mod tests {
                 "--jinja",
                 "--no-ui",
                 "--no-slots",
-                "--offline"
+                "--offline",
+                "--fit",
+                "off"
             ]
         );
         let cpu = strs(spec(Device::Cpu).args());

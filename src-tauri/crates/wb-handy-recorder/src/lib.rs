@@ -60,8 +60,58 @@ pub use types::{Channels, EndReason, Format, RecorderConfig, RecorderInfo};
 
 use std::fmt;
 
+use std::sync::{Arc, Mutex};
+
+use backend::Backend;
 use backend::cpal::CpalBackend;
+use backend::file::FileBackend;
 use capture::engine::{Engine, Timeouts};
+
+/// Mono samples a test microphone plays instead of the device
+/// ([`set_file_source`]). Added by Wispr Bro (test only).
+#[derive(Debug, Clone, PartialEq)]
+pub struct FileSource {
+    /// Mono samples in -1.0..=1.0.
+    pub samples: Vec<f32>,
+    pub sample_rate: u32,
+    /// Shown as the device name ("Test microphone (<label>)").
+    pub label: String,
+}
+
+/// Returns the source for the next recording: called when a recorder opens
+/// and again each time its stream starts, so the application may change
+/// the file between recordings. `None` at open fails it like a missing
+/// device; `None` later plays silence.
+pub type FileSourceLoader = dyn Fn() -> Option<FileSource> + Send + Sync;
+
+static FILE_SOURCE: Mutex<Option<Arc<FileSourceLoader>>> = Mutex::new(None);
+
+/// Makes every recorder opened from now on play the loader's samples in
+/// real time, then silence, instead of opening a microphone; `None` goes
+/// back to the real device. For test builds of an application: the caller
+/// decides when that is allowed. Recorders already open keep their device.
+pub fn set_file_source(loader: Option<Arc<FileSourceLoader>>) {
+    *FILE_SOURCE.lock().unwrap_or_else(|e| e.into_inner()) = loader;
+}
+
+/// Whether a file source is set.
+pub fn file_source_active() -> bool {
+    FILE_SOURCE
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .is_some()
+}
+
+fn selected_backend() -> Arc<dyn Backend> {
+    match FILE_SOURCE
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .clone()
+    {
+        Some(loader) => Arc::new(FileBackend::new(loader)),
+        None => CpalBackend::shared(),
+    }
+}
 
 /// An open microphone, recording into sinks of type `S`. Owned, `Send`,
 /// `Sync`, lifetime-free: store it in a struct, or share it with an `Arc`.
@@ -83,7 +133,7 @@ impl<S: Sink> Recorder<S> {
     /// `stop`; prefer [`open_with_failure_handler`](Self::open_with_failure_handler).
     pub fn open(config: RecorderConfig) -> Result<Self, Error> {
         Ok(Self {
-            engine: Engine::open(CpalBackend::shared(), config, None, Timeouts::default())?,
+            engine: Engine::open(selected_backend(), config, None, Timeouts::default())?,
         })
     }
 
@@ -94,7 +144,7 @@ impl<S: Sink> Recorder<S> {
     ) -> Result<Self, Error> {
         Ok(Self {
             engine: Engine::open(
-                CpalBackend::shared(),
+                selected_backend(),
                 config,
                 Some(Box::new(handler)),
                 Timeouts::default(),

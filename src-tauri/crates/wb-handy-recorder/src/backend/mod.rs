@@ -7,6 +7,7 @@ pub(crate) mod cpal;
 #[cfg(any(test, feature = "test-backend"))]
 #[cfg_attr(not(test), allow(dead_code))]
 pub(crate) mod fake;
+pub(crate) mod file;
 #[cfg(target_os = "macos")]
 mod headset_macos;
 pub(crate) mod permission;

@@ -609,6 +609,108 @@ mod s28 {
         assert_eq!(m.phase, ForkUpdatePhase::Idle);
     }
 
+    // ----------------------------------------- relaunch shown/hidden -----
+
+    fn seen() -> HubView {
+        HubView {
+            app_hidden: false,
+            parked: false,
+            main_exists: true,
+            main_visible: true,
+            main_minimized: false,
+            main_on_screen: Some(true),
+        }
+    }
+
+    #[test]
+    fn only_a_hub_the_user_could_see_relaunches_shown() {
+        assert!(!relaunch_hidden(&seen()));
+        // Occlusion unknown (AppKit busy, not macOS): Tauri's answer stands.
+        assert!(!relaunch_hidden(&HubView {
+            main_on_screen: None,
+            ..seen()
+        }));
+        // Mac wave 2 finding 2 (S-28.1d-f): System Events / ⌘H hid the
+        // app, its window still said "visible".
+        let cases = [
+            HubView {
+                app_hidden: true,
+                ..seen()
+            },
+            HubView {
+                parked: true,
+                main_exists: false,
+                main_visible: false,
+                ..seen()
+            },
+            HubView {
+                main_exists: false,
+                main_visible: false,
+                main_on_screen: None,
+                ..seen()
+            },
+            HubView {
+                main_visible: false,
+                ..seen()
+            },
+            HubView {
+                main_minimized: true,
+                ..seen()
+            },
+            HubView {
+                main_on_screen: Some(false),
+                ..seen()
+            },
+        ];
+        for view in cases {
+            assert!(relaunch_hidden(&view), "{view:?}");
+        }
+    }
+
+    #[test]
+    fn the_relaunch_decision_reads_appkit_and_the_parked_hub() {
+        let app = app(TEST_PUBKEY, true);
+        let handle = app.handle();
+        // No window at all: hidden.
+        assert!(relaunch_hidden(&hub_view(handle)));
+        let _main = tauri::WebviewWindowBuilder::new(&app, "main", Default::default())
+            .build()
+            .unwrap();
+        app.manage(FakeAppKit::default());
+        let fake = |v: HubView| *app.state::<FakeAppKit>().0.lock().unwrap() = v;
+        fake(HubView {
+            main_on_screen: Some(true),
+            ..HubView::default()
+        });
+        let view = hub_view(handle);
+        assert!(view.main_exists && !view.app_hidden, "{view:?}");
+        assert_eq!(
+            relaunch_hidden(&view),
+            !view.main_visible || view.main_minimized
+        );
+        fake(HubView {
+            app_hidden: true,
+            main_on_screen: Some(true),
+            ..HubView::default()
+        });
+        assert!(relaunch_hidden(&hub_view(handle)), "the app was hidden");
+        fake(HubView {
+            main_on_screen: Some(false),
+            ..HubView::default()
+        });
+        assert!(relaunch_hidden(&hub_view(handle)), "not on screen");
+        // S-38 parked the Hub: hidden whatever else says.
+        let parking = crate::fork::hub::park::Parking::with_delay(None);
+        parking.mark_main_parked(None);
+        app.manage(parking);
+        fake(HubView {
+            main_on_screen: Some(true),
+            ..HubView::default()
+        });
+        assert!(hub_view(handle).parked);
+        assert!(relaunch_hidden(&hub_view(handle)));
+    }
+
     // ---------------------------------------------------- executor -------
 
     static INSTALLS: AtomicU32 = AtomicU32::new(0);

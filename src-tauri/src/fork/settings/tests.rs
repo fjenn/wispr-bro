@@ -9,12 +9,6 @@ use serde_json::{json, Value};
 use super::*;
 use crate::settings::{get_default_settings, PostProcessApiFormat, PostProcessProvider};
 
-fn ctx() -> ProductContext {
-    ProductContext {
-        autostart_allowed: true,
-    }
-}
-
 /// A fresh Handy settings object as Handy would create it on first launch.
 fn fresh_handy() -> AppSettings {
     get_default_settings()
@@ -546,7 +540,7 @@ fn set_setting_applies_valid_values() {
 fn apply_product_settings_sets_both_lists_on_first_run() {
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
 
     // FIRST_RUN_DEFAULTS
     assert!(handy.reliable_paste);
@@ -558,7 +552,7 @@ fn apply_product_settings_sets_both_lists_on_first_run() {
         KeyboardImplementation::HandyKeys
     );
     assert_eq!(handy.theme, Theme::System);
-    assert!(handy.autostart_enabled);
+    assert!(!handy.autostart_enabled, "no login item before onboarding");
     let mut recorded = fork.applied_first_run_defaults.clone();
     recorded.sort();
     let mut all: Vec<String> = FIRST_RUN_DEFAULTS
@@ -586,10 +580,10 @@ fn apply_product_settings_sets_both_lists_on_first_run() {
 fn apply_product_settings_is_idempotent() {
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     let (handy_after, fork_after) = (serde_json::to_value(&handy).unwrap(), fork.clone());
 
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert_eq!(report, ProductReport::default());
     assert!(!report.handy_changed());
     assert_eq!(serde_json::to_value(&handy).unwrap(), handy_after);
@@ -598,7 +592,7 @@ fn apply_product_settings_is_idempotent() {
     // And after a relaunch.
     let (mut handy, mut fork) = relaunch(&handy, &fork);
     assert_eq!(
-        apply_product_settings(&mut handy, &mut fork, &ctx()),
+        apply_product_settings(&mut handy, &mut fork),
         ProductReport::default()
     );
 }
@@ -607,7 +601,7 @@ fn apply_product_settings_is_idempotent() {
 fn enforced_values_are_reapplied_after_a_manual_change() {
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
 
     // The user (or Handy's own UI) changes every enforced value.
     handy.recording_retention_period = RecordingRetentionPeriod::Days3;
@@ -617,7 +611,7 @@ fn enforced_values_are_reapplied_after_a_manual_change() {
     handy.update_checks_enabled = false;
     let (mut handy, mut fork) = relaunch(&handy, &fork);
 
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     let mut enforced = report.enforced.clone();
     enforced.sort();
     assert_eq!(
@@ -644,9 +638,9 @@ fn enforced_values_are_reapplied_after_a_manual_change() {
 fn update_checks_follow_the_fork_setting() {
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     apply_update(&mut fork, ForkSettingUpdate::UpdateChecksEnabled(false)).unwrap();
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert_eq!(report.enforced, vec!["update_checks_enabled"]);
     assert!(!handy.update_checks_enabled);
 }
@@ -655,7 +649,7 @@ fn update_checks_follow_the_fork_setting() {
 fn each_first_run_default_changed_by_the_user_persists_across_relaunch() {
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
 
     // The user changes every first-run value in Advanced.
     handy.reliable_paste = false;
@@ -664,15 +658,14 @@ fn each_first_run_default_changed_by_the_user_persists_across_relaunch() {
     handy.paste_method = PasteMethod::Direct;
     handy.keyboard_implementation = KeyboardImplementation::Tauri;
     handy.theme = Theme::Dark;
-    handy.autostart_enabled = false;
     // Every first-run key is covered by this test.
-    assert_eq!(FIRST_RUN_DEFAULTS.len(), 7);
+    assert_eq!(FIRST_RUN_DEFAULTS.len(), 6);
 
     for _ in 0..3 {
         let (h, f) = relaunch(&handy, &fork);
         handy = h;
         fork = f;
-        let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+        let report = apply_product_settings(&mut handy, &mut fork);
         assert!(report.first_run.is_empty(), "{report:?}");
     }
     assert!(!handy.reliable_paste);
@@ -681,26 +674,32 @@ fn each_first_run_default_changed_by_the_user_persists_across_relaunch() {
     assert_eq!(handy.paste_method, PasteMethod::Direct);
     assert_eq!(handy.keyboard_implementation, KeyboardImplementation::Tauri);
     assert_eq!(handy.theme, Theme::Dark);
-    assert!(!handy.autostart_enabled);
 }
 
 #[test]
-fn autostart_waits_for_a_build_that_may_set_it() {
+fn a_first_run_never_registers_a_login_item_and_an_existing_one_stays() {
+    // Mac wave 2 finding 3: the first bundled launch registered a login
+    // item before Welcome. Only onboarding's summary sets it now.
+    assert!(!FIRST_RUN_DEFAULTS
+        .iter()
+        .any(|d| d.key == "autostart_enabled"));
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    let dev = ProductContext {
-        autostart_allowed: false,
-    };
-    let report = apply_product_settings(&mut handy, &mut fork, &dev);
-    assert!(!report.first_run.contains(&"autostart_enabled"));
-    assert!(!handy.autostart_enabled);
-    assert!(!fork
-        .applied_first_run_defaults
-        .iter()
-        .any(|k| k == "autostart_enabled"));
-    // The first run of a build that may set it applies it once.
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
-    assert_eq!(report.first_run, vec!["autostart_enabled"]);
+    for _ in 0..2 {
+        let report = apply_product_settings(&mut handy, &mut fork);
+        assert!(!report.first_run.contains(&"autostart_enabled"));
+        assert!(!report.enforced.contains(&"autostart_enabled"));
+        assert!(!handy.autostart_enabled);
+    }
+    // An install from before this change: the old default was recorded and
+    // the user still has launch at login on. Nothing turns it off.
+    let mut handy = fresh_handy();
+    handy.autostart_enabled = true;
+    let mut fork = ForkSettings::default();
+    fork.applied_first_run_defaults
+        .push("autostart_enabled".to_owned());
+    let (mut handy, mut fork) = relaunch(&handy, &fork);
+    apply_product_settings(&mut handy, &mut fork);
     assert!(handy.autostart_enabled);
 }
 
@@ -708,12 +707,12 @@ fn autostart_waits_for_a_build_that_may_set_it() {
 fn a_new_first_run_key_is_applied_once_to_an_existing_install() {
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     // An install from before "audio_feedback" existed in the list.
     fork.applied_first_run_defaults
         .retain(|k| k != "audio_feedback");
     handy.audio_feedback = false;
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert_eq!(report.first_run, vec!["audio_feedback"]);
     assert!(handy.audio_feedback);
 }
@@ -733,7 +732,7 @@ fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
         let mut handy = fresh_handy();
         handy.post_process_provider_id = cloud.into();
         let mut fork = ForkSettings::default();
-        apply_product_settings(&mut handy, &mut fork, &ctx());
+        apply_product_settings(&mut handy, &mut fork);
         assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID, "{cloud}");
     }
 
@@ -745,7 +744,7 @@ fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
         .retain(|p| p.id != LOCAL_PROVIDER_ID);
     handy.post_process_provider_id = "openai".into();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID);
 
     // `local` and a loopback custom provider stay.
@@ -768,7 +767,7 @@ fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
         }
         handy.post_process_provider_id = id.into();
         let mut fork = ForkSettings::default();
-        let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+        let report = apply_product_settings(&mut handy, &mut fork);
         assert_eq!(handy.post_process_provider_id, id, "{url}");
         assert!(
             !report.enforced.contains(&"post_process_provider_id"),
@@ -793,7 +792,7 @@ fn a_cloud_provider_becomes_local_and_a_loopback_custom_provider_stays() {
     ));
     handy.post_process_provider_id = crate::settings::APPLE_INTELLIGENCE_PROVIDER_ID.into();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     assert_eq!(
         handy.post_process_provider_id,
         crate::settings::APPLE_INTELLIGENCE_PROVIDER_ID
@@ -811,7 +810,7 @@ fn a_custom_provider_pointing_at_the_network_is_reset_to_loopback() {
     custom.base_url = "https://my-llm.example.com/v1".into();
     handy.post_process_provider_id = CUSTOM_PROVIDER_ID.into();
     let mut fork = ForkSettings::default();
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert!(report.enforced.contains(&"post_process_provider_id"));
     let custom = handy
         .post_process_providers
@@ -856,12 +855,12 @@ fn handy_overlay_is_turned_off_now_that_the_bar_replaces_it() {
     let mut handy = fresh_handy();
     handy.overlay_style = crate::settings::OverlayStyle::Minimal;
     let mut fork = ForkSettings::default();
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert_eq!(handy.overlay_style, crate::settings::OverlayStyle::None);
     assert!(report.enforced.contains(&"overlay_style"));
     assert_eq!(enforced_snapshot(&handy)["overlay_enforced"], json!(true));
     // Idempotent: the next start changes nothing.
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert!(!report.enforced.contains(&"overlay_style"));
 }
 
@@ -992,7 +991,7 @@ fn a_stored_openai_provider_is_migrated_to_local() {
     stored["post_process_provider_id"] = json!("openai");
     let mut handy: AppSettings = serde_json::from_value(stored).unwrap();
     let mut fork = ForkSettings::default();
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
 
     assert!(report.enforced.contains(&"post_process_providers"));
     assert_eq!(handy.post_process_provider_id, LOCAL_PROVIDER_ID);
@@ -1036,7 +1035,7 @@ fn a_stored_openai_provider_is_migrated_to_local() {
     }
     // Idempotent.
     assert_eq!(
-        apply_product_settings(&mut handy, &mut fork, &ctx()),
+        apply_product_settings(&mut handy, &mut fork),
         ProductReport::default()
     );
 }
@@ -1052,7 +1051,7 @@ fn the_custom_provider_keeps_the_users_loopback_url_and_format() {
     custom.base_url = "http://127.0.0.1:8080/v1".into();
     custom.api_format = PostProcessApiFormat::Anthropic;
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     let custom = handy
         .post_process_providers
         .iter()
@@ -1293,13 +1292,13 @@ fn filler_removal_follows_the_cleanup_level() {
     // R5 §4.10 stage 5: off at level None (S-12a).
     let mut handy = fresh_handy();
     let mut fork = ForkSettings::default();
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     assert!(handy.filler_word_removal_enabled);
     fork.cleanup_level = CleanupLevel::None;
-    let report = apply_product_settings(&mut handy, &mut fork, &ctx());
+    let report = apply_product_settings(&mut handy, &mut fork);
     assert!(!handy.filler_word_removal_enabled);
     assert!(report.enforced.contains(&"filler_word_removal_enabled"));
     fork.cleanup_level = CleanupLevel::Medium;
-    apply_product_settings(&mut handy, &mut fork, &ctx());
+    apply_product_settings(&mut handy, &mut fork);
     assert!(handy.filler_word_removal_enabled);
 }

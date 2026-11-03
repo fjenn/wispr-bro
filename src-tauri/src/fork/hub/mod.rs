@@ -153,6 +153,8 @@ pub(crate) fn hide_title_text(window: &WebviewWindow<tauri::Wry>) {
         // on the main thread, as AppKit requires.
         let ns_window = unsafe { &*(ptr as *const objc2_app_kit::NSWindow) };
         ns_window.setTitleVisibility(objc2_app_kit::NSWindowTitleVisibility::Hidden);
+        // Mac wave 2 finding 1: AppKit never saves or restores the Hub.
+        crate::fork::restore::not_restorable(ns_window);
     });
     if let Err(e) = result {
         log::warn!("fork hub: could not hide the title text: {e}");

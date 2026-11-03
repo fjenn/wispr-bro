@@ -85,7 +85,8 @@ pub fn enqueue(conn: &Connection, file_name: &str, created_ms: i64) -> Result<i6
     )?)
 }
 
-/// Binds the History row Handy saved after the WAV.
+/// Binds the History row Handy saved after the WAV. `None` when the take
+/// was never queued (every ordinary take; Mac wave 2 finding 6).
 pub fn bind_entry(
     conn: &Connection,
     file_name: &str,
@@ -95,11 +96,13 @@ pub fn bind_entry(
         "UPDATE queued_takes SET entry_id = ?2 WHERE wav_path = ?1",
         params![file_name, entry_id],
     )?;
-    Ok(conn.query_row(
-        "SELECT id FROM queued_takes WHERE wav_path = ?1",
-        [file_name],
-        |r| r.get(0),
-    )?)
+    Ok(conn
+        .query_row(
+            "SELECT id FROM queued_takes WHERE wav_path = ?1",
+            [file_name],
+            |r| r.get(0),
+        )
+        .optional()?)
 }
 
 pub fn pending(conn: &Connection) -> Result<u32, DbError> {
@@ -320,6 +323,21 @@ mod tests {
                 None,
                 "explicit Retry is not a batch"
             );
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[test]
+    fn binding_a_take_that_was_never_queued_is_not_an_error() {
+        // Mac wave 2 finding 6: every ordinary take logged
+        // "could not bind a queued take: … no rows".
+        let dir = tempfile::tempdir().unwrap();
+        let db = ForkDb::in_dir(dir.path());
+        db.with_conn(|c| {
+            assert_eq!(bind_entry(c, "wispr-bro-ordinary.wav", 7)?, None);
+            let id = enqueue(c, "wispr-bro-queued.wav", 1)?;
+            assert_eq!(bind_entry(c, "wispr-bro-queued.wav", 8)?, Some(id));
             Ok(())
         })
         .unwrap();

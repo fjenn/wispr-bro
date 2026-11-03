@@ -490,9 +490,123 @@ fn any_window_focused<R: Runtime>(app: &AppHandle<R>) -> bool {
         .any(|w| w.is_focused().unwrap_or(false))
 }
 
-fn hub_hidden<R: Runtime>(app: &AppHandle<R>) -> bool {
-    app.get_webview_window("main")
-        .is_none_or(|w| !w.is_visible().unwrap_or(false))
+/// What the relaunch decision looks at, sampled just before it.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct HubView {
+    /// `NSApplication.isHidden`: ⌘H, Hide in the app menu, System Events
+    /// `visible` false. The windows of a hidden app keep reporting
+    /// `isVisible`, so Tauri's `is_visible` alone is not enough (Mac wave 2
+    /// finding 2).
+    pub app_hidden: bool,
+    /// S-38 parked the main window (destroyed until it is shown again).
+    pub parked: bool,
+    /// A `main` window exists.
+    pub main_exists: bool,
+    /// Tauri's `is_visible` (ordered in).
+    pub main_visible: bool,
+    pub main_minimized: bool,
+    /// AppKit's occlusion state says some of the window is on screen
+    /// (`None` where it cannot be read). `false` for a window on another
+    /// Space or behind other windows: nobody was looking at it.
+    pub main_on_screen: Option<bool>,
+}
+
+/// `true` when the relaunch after an update should start hidden: the app
+/// was hidden, the Hub parked, gone, ordered out, minimized or not on
+/// screen. Only a Hub the user could see comes back shown.
+pub fn relaunch_hidden(view: &HubView) -> bool {
+    view.app_hidden
+        || view.parked
+        || !view.main_exists
+        || !view.main_visible
+        || view.main_minimized
+        || view.main_on_screen == Some(false)
+}
+
+/// Samples [`HubView`] (Tauri's window state plus AppKit's, through
+/// [`ForkRuntime::update_appkit_view`]).
+pub fn hub_view<R: ForkRuntime>(app: &AppHandle<R>) -> HubView {
+    let parked = app
+        .try_state::<crate::fork::hub::park::Parking>()
+        .is_some_and(|p| p.main_parked());
+    let main = app.get_webview_window("main");
+    let mut view = HubView {
+        app_hidden: false,
+        parked,
+        main_exists: main.is_some(),
+        main_visible: main
+            .as_ref()
+            .is_some_and(|w| w.is_visible().unwrap_or(false)),
+        main_minimized: main
+            .as_ref()
+            .is_some_and(|w| w.is_minimized().unwrap_or(false)),
+        main_on_screen: None,
+    };
+    R::update_appkit_view(app, &mut view);
+    view
+}
+
+fn hub_hidden<R: ForkRuntime>(app: &AppHandle<R>) -> bool {
+    let view = hub_view(app);
+    let hidden = relaunch_hidden(&view);
+    log::debug!("update: hub view {view:?} → hidden {hidden}");
+    hidden
+}
+
+/// The AppKit half of [`HubView`] for the real runtime: `isHidden` and the
+/// main window's occlusion state, read on the main thread (inline when
+/// already there, else dispatched and awaited for up to a second; a busy
+/// main thread leaves both unknown, which keeps Tauri's answer).
+pub(crate) fn appkit_view(app: &AppHandle<tauri::Wry>, view: &mut HubView) {
+    #[cfg(target_os = "macos")]
+    {
+        let ptr = app
+            .get_webview_window("main")
+            .and_then(|w| w.ns_window().ok())
+            .map(|p| p as usize);
+        let read = move || -> (bool, Option<bool>) {
+            let Some(mtm) = objc2::MainThreadMarker::new() else {
+                return (false, None);
+            };
+            let hidden = objc2_app_kit::NSApplication::sharedApplication(mtm).isHidden();
+            let on_screen = ptr.map(|ptr| {
+                // SAFETY: `ptr` is the live NSWindow behind `main`, read on
+                // the main thread, where S-38's parking (the only thing that
+                // destroys it) also runs, so it cannot go away in between.
+                let window = unsafe { &*(ptr as *const objc2_app_kit::NSWindow) };
+                window
+                    .occlusionState()
+                    .contains(objc2_app_kit::NSWindowOcclusionState::Visible)
+            });
+            (hidden, on_screen)
+        };
+        let result = if objc2::MainThreadMarker::new().is_some() {
+            Some(read())
+        } else {
+            let (tx, rx) = std::sync::mpsc::channel();
+            if app
+                .run_on_main_thread(move || {
+                    let _ = tx.send(read());
+                })
+                .is_err()
+            {
+                None
+            } else {
+                rx.recv_timeout(Duration::from_secs(1)).ok()
+            }
+        };
+        match result {
+            Some((hidden, on_screen)) => {
+                view.app_hidden = hidden;
+                view.main_on_screen = on_screen;
+            }
+            None => log::debug!("update: AppKit window state unavailable"),
+        }
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = (app, view);
+    }
 }
 
 /// The `.app` bundle this process runs from (what the plugin replaces).
@@ -930,6 +1044,12 @@ pub fn start<R: ForkRuntime>(app: &AppHandle<R>) {
         }
     });
 }
+
+/// Test stand-in for [`ForkRuntime::update_appkit_view`] on the mock
+/// runtime.
+#[cfg(test)]
+#[derive(Default)]
+pub struct FakeAppKit(pub Mutex<HubView>);
 
 /// Test stand-in for [`ForkRuntime::update_busy`] on the mock runtime.
 #[cfg(test)]

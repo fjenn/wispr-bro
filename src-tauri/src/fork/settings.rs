@@ -1142,59 +1142,6 @@ pub fn load_from_path(path: &Path) -> (ForkSettings, LoadStatus) {
 // Product settings (ENFORCED, FIRST_RUN_DEFAULTS)
 // ---------------------------------------------------------------------------
 
-/// Inputs of [`apply_product_settings`] that do not live in either store.
-#[derive(Debug, Clone, Copy)]
-pub struct ProductContext {
-    /// Launch at login may be turned on. `false` in debug builds and for any
-    /// binary that is not inside an `.app` bundle, so dev and `--no-bundle`
-    /// release runs never register a `target/` binary as a login item; the
-    /// key then stays unrecorded and the first bundled run applies it.
-    pub autostart_allowed: bool,
-}
-
-impl Default for ProductContext {
-    fn default() -> Self {
-        Self {
-            autostart_allowed: !cfg!(debug_assertions)
-                && std::env::current_exe()
-                    .map(|exe| is_inside_app_bundle(&exe))
-                    .unwrap_or(false),
-        }
-    }
-}
-
-/// True when `exe` lives at `<Name>.app/Contents/MacOS/<binary>`.
-fn is_inside_app_bundle(exe: &std::path::Path) -> bool {
-    let mut parts = exe.ancestors().skip(1);
-    let macos = parts.next();
-    let contents = parts.next();
-    let bundle = parts.next();
-    matches!(
-        (macos, contents, bundle),
-        (Some(m), Some(c), Some(b))
-            if m.file_name().is_some_and(|n| n == "MacOS")
-                && c.file_name().is_some_and(|n| n == "Contents")
-                && b.extension().is_some_and(|e| e == "app")
-    )
-}
-
-#[cfg(test)]
-mod bundle_tests {
-    use super::is_inside_app_bundle;
-    use std::path::Path;
-
-    #[test]
-    fn only_binaries_inside_an_app_bundle_may_register_a_login_item() {
-        assert!(is_inside_app_bundle(Path::new(
-            "/Applications/Wispr Bro.app/Contents/MacOS/wispr-bro"
-        )));
-        assert!(!is_inside_app_bundle(Path::new(
-            "/Users/me/wispr-bro/src-tauri/target/release/handy"
-        )));
-        assert!(!is_inside_app_bundle(Path::new("/usr/local/bin/handy")));
-    }
-}
-
 /// An `ENFORCED` rule: sets the value and returns `true` if it changed.
 pub(crate) struct EnforcedRule {
     pub key: &'static str,
@@ -1384,16 +1331,17 @@ fn enforce_local_provider(handy: &mut AppSettings, _: &ForkSettings) -> bool {
 pub(crate) struct FirstRunDefault {
     pub key: &'static str,
     pub apply: fn(&mut AppSettings),
-    pub allowed: fn(&ProductContext) -> bool,
-}
-
-fn always(_: &ProductContext) -> bool {
-    true
 }
 
 /// Applied once and recorded in `applied_first_run_defaults`, so a later
 /// choice the user makes in Advanced persists across launches (R5 §4.4,
 /// DEC-14).
+///
+/// Launch at login is not here (Mac wave 2 finding 3): a first run never
+/// registers a login item before the user chooses. Onboarding's summary
+/// offers it, checked, and writes Handy's `autostart_enabled` when setup
+/// finishes (S-29b, DEC-38). An install that already recorded the old
+/// default keeps whatever value the user has now.
 pub(crate) const FIRST_RUN_DEFAULTS: &[FirstRunDefault] = &[
     // Concealed paste: Handy's receipt-sequenced paste (`reliable_paste`)
     // declares the nspasteboard concealed/transient types so clipboard
@@ -1401,37 +1349,26 @@ pub(crate) const FIRST_RUN_DEFAULTS: &[FirstRunDefault] = &[
     FirstRunDefault {
         key: "reliable_paste",
         apply: |h| h.reliable_paste = true,
-        allowed: always,
     },
     FirstRunDefault {
         key: "audio_feedback",
         apply: |h| h.audio_feedback = true,
-        allowed: always,
     },
     FirstRunDefault {
         key: "log_level",
         apply: |h| h.log_level = LogLevel::Info,
-        allowed: always,
     },
     FirstRunDefault {
         key: "paste_method",
         apply: |h| h.paste_method = PasteMethod::CtrlV,
-        allowed: always,
     },
     FirstRunDefault {
         key: "keyboard_implementation",
         apply: |h| h.keyboard_implementation = KeyboardImplementation::HandyKeys,
-        allowed: always,
     },
     FirstRunDefault {
         key: "theme",
         apply: |h| h.theme = Theme::System,
-        allowed: always,
-    },
-    FirstRunDefault {
-        key: "autostart_enabled",
-        apply: |h| h.autostart_enabled = true,
-        allowed: |ctx| ctx.autostart_allowed,
     },
 ];
 
@@ -1455,7 +1392,6 @@ impl ProductReport {
 pub(crate) fn apply_product_settings(
     handy: &mut AppSettings,
     fork: &mut ForkSettings,
-    ctx: &ProductContext,
 ) -> ProductReport {
     let mut report = ProductReport::default();
     for entry in FIRST_RUN_DEFAULTS {
@@ -1463,7 +1399,6 @@ pub(crate) fn apply_product_settings(
             .applied_first_run_defaults
             .iter()
             .any(|k| k == entry.key)
-            || !(entry.allowed)(ctx)
         {
             continue;
         }
@@ -1624,10 +1559,7 @@ pub fn on_ready<R: super::ForkRuntime>(app: &tauri::AppHandle<R>) -> Option<Prod
         return None;
     }
     let before = handy.clone();
-    let ctx = ProductContext::default();
-    let result = handle.update(app, |fork| {
-        Ok(apply_product_settings(&mut handy, fork, &ctx))
-    });
+    let result = handle.update(app, |fork| Ok(apply_product_settings(&mut handy, fork)));
     match result {
         Ok((_, report)) => {
             if report.handy_changed() {

@@ -9,6 +9,9 @@
 # (DEC-53, S-01): the input unit is built and initialised at open but only
 # runs between `start` and `stop`, so an idle open recorder does not light the
 # macOS microphone indicator. Upstream-bound; MIT like the rest of the crate.
+# Modified by Wispr Bro contributors, 2026-11-03: `set_file_source` and
+# `backend/file.rs`, a test microphone that plays prepared samples in real
+# time (Mac waves never play audio through the speakers). Fork-only.
 
 [package]
 name = "handy-recorder"

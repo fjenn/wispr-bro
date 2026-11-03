@@ -42,6 +42,7 @@ pub mod choice;
 pub mod monitor;
 pub mod mute;
 pub mod permission;
+pub mod test_mic;
 pub mod transport;
 pub mod watch;
 

@@ -55,6 +55,7 @@ pub mod onboarding;
 mod perf_bench;
 pub mod pill;
 pub mod recovery;
+pub mod restore;
 pub mod scratchpad;
 pub mod settings;
 pub mod share;
@@ -282,11 +283,17 @@ pub fn early_init() {
     if let Some((key, value)) = updater_env_to_set(|k| std::env::var(k).ok()) {
         std::env::set_var(key, value);
     }
+    // Test builds only: a WAV file as the microphone (Mac waves never use
+    // the speakers). Before any recorder opens.
+    audio::test_mic::init(&compiled_identifier());
     // Plain Handy builds (`cargo build`, `bun run tauri dev`) keep Handy's
     // behaviour: no crash files, no HF_HOME change.
     if !is_product_build() {
         return;
     }
+    // Mac wave 2 finding 1: no "reopen windows?" alert after a crash
+    // (before Tauri creates NSApplication).
+    restore::opt_out();
     // Idempotent (`OnceLock`); `run()` calls it again. Run first so portable
     // mode sets its own HF_HOME and records the user's previous one.
     crate::portable::init();
@@ -564,6 +571,10 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         env!("CARGO_PKG_VERSION")
     );
     commands::selfcheck::start(app);
+    audio::test_mic::log_status();
+    if is_product_build() && !restore::opted_out() {
+        log::warn!("startup: window restoration is still on (crash prompt possible)");
+    }
     // S-28: background update checks, idle installs, quiet relaunch.
     if let Some(hidden) = update::relaunch::relaunched() {
         log::info!(
@@ -824,6 +835,11 @@ pub trait ForkRuntime: Runtime {
     /// S-28: a take records, transcribes, cleans up or is delivered, or a
     /// transform runs (updates never install or relaunch then).
     fn update_busy(app: &AppHandle<Self>) -> bool;
+    /// S-28: what AppKit says about the app and the main window, which
+    /// Tauri's `is_visible` does not see (Mac wave 2 finding 2). Fills
+    /// `app_hidden` and `main_on_screen`; `MockRuntime` reads
+    /// `update::scheduler::FakeAppKit`.
+    fn update_appkit_view(app: &AppHandle<Self>, view: &mut update::scheduler::HubView);
     /// S-26b: shows the macOS share sheet in the main window. `MockRuntime`
     /// records the request instead (`share::recorded`).
     fn show_share_sheet(app: &AppHandle<Self>, request: share::ShareRequest) -> Result<(), String>;
@@ -915,6 +931,10 @@ impl ForkRuntime for tauri::Wry {
 
     fn menu_shortcuts_blocked(app: &AppHandle<Self>) -> bool {
         crate::secure_input::tray_warning_active(app) || shortcut::health::tray_warning()
+    }
+
+    fn update_appkit_view(app: &AppHandle<Self>, view: &mut update::scheduler::HubView) {
+        update::scheduler::appkit_view(app, view);
     }
 
     fn update_busy(app: &AppHandle<Self>) -> bool {
@@ -1038,6 +1058,15 @@ impl ForkRuntime for tauri::test::MockRuntime {
 
     fn menu_shortcuts_blocked(_app: &AppHandle<Self>) -> bool {
         false
+    }
+
+    /// Tests set it with `update::scheduler::FakeAppKit`.
+    fn update_appkit_view(app: &AppHandle<Self>, view: &mut update::scheduler::HubView) {
+        if let Some(fake) = app.try_state::<update::scheduler::FakeAppKit>() {
+            let fake = *fake.0.lock().unwrap_or_else(|e| e.into_inner());
+            view.app_hidden = fake.app_hidden;
+            view.main_on_screen = fake.main_on_screen;
+        }
     }
 
     /// Tests set it with `update::scheduler::FakeBusy`.
