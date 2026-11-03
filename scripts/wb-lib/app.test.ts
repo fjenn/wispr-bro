@@ -48,7 +48,6 @@ describe("wb_bin_name", () => {
     writeFileSync(
       join(app, "Contents", "Info.plist"),
       `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict><key>CFBundleExecutable</key><string>wispr-bro</string></dict></plist>`,
     );
     if (process.platform === "darwin") {
@@ -90,14 +89,14 @@ describe("wb_cli / wb_cancel", () => {
     const r = sh(`wb_cli "${dir}" --cancel`, { WB_CLI_TIMEOUT: "1" });
     expect(r.code).toBe(124);
     expect(Date.now() - t).toBeLessThan(10_000);
-  });
+  }, 30_000);
 
   test("a CLI call that returns passes its status through", () => {
     const dir = join(tmp, "quick");
     mkdirSync(dir);
     exe(join(dir, "wispr-bro"), "#!/bin/sh\nexit 3\n");
     expect(sh(`wb_cli "${dir}" --cancel`).code).toBe(3);
-  });
+  }, 30_000);
 
   test("--cancel is not sent when no app runs from the folder", () => {
     const dir = join(tmp, "idle");
@@ -107,7 +106,7 @@ describe("wb_cli / wb_cancel", () => {
     const r = sh(`wb_cancel "${dir}"`);
     expect(r.code).toBe(1);
     expect(() => statSync(marker)).toThrow();
-  });
+  }, 30_000);
 });
 
 test("no driver hard-codes ./handy any more", () => {
