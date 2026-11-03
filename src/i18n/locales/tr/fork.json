@@ -1922,7 +1922,6 @@
     "continue": "Devam",
     "yes": "Evet",
     "no": "Hayır",
-    "downloadHint": "Konuşma kurulumu arka planda devam eder. Burada onu beklemeniz hiç gerekmez.",
     "navigationFailed": "Bu adım kaydedilemedi. Yeniden deneyin.",
     "stepper": {
       "label": "Kurulum ilerlemesi",
@@ -1930,7 +1929,8 @@
       "permissions": "İzinler",
       "setup": "Kurulum",
       "practice": "Alıştırma",
-      "done": "(tamamlandı)"
+      "done": "(tamamlandı)",
+      "finish": "Bitiş"
     },
     "help": {
       "chip": "Yardım",
@@ -1944,14 +1944,13 @@
       "title": "Konuşun, sözleriniz yazıya dönüşsün",
       "subtitle": "Bir tuşu basılı tutun, konuşun, bırakın. Temiz metin, yazdığınız yere eklenir.",
       "privacyTitle": "Her şey bu Mac’te kalır",
-      "privacy": "Sesiniz ve metniniz Mac’inizden hiç çıkmaz. Hesap yok, bulut yok, izleme yok.",
-      "download": "Konuşma kurulumu şimdi başlıyor ve arka planda çalışıyor.",
-      "start": "Başlayın"
+      "privacy": "Hesap yok, bulut yok, izleme yok.",
+      "start": "Başlayın",
+      "demoLabel": "Wispr Bro iş başında"
     },
     "move": {
       "title": "Wispr Bro’yu Uygulamalar’a taşıyın",
-      "body": "Wispr Bro, Uygulamalar klasörünüzün dışından çalışıyor. Oraya taşırsanız güncellemeler ve izinler sorunsuz çalışır.",
-      "note": "Wispr Bro taşındıktan sonra kendiliğinden yeniden açılır ve kuruluma devam eder.",
+      "body": "Güncellemeler ve izinler en iyi orada çalışır. Wispr Bro kendiliğinden yeniden açılır ve kaldığı yerden devam eder.",
       "action": "Uygulamalar’a Taşı",
       "moving": "Taşınıyor…",
       "skip": "Şimdi Değil",
@@ -1959,7 +1958,7 @@
     },
     "languages": {
       "title": "Hangi dilleri konuşuyorsunuz?",
-      "subtitle": "Dikte ettiğiniz tüm dilleri seçin. Wispr Bro dilleri bildiğinde kelimelerinizi çok daha iyi düzenler.",
+      "subtitle": "Dikte ettiğiniz her dili seçin.",
       "listLabel": "Diller",
       "noMatch": "“{{query}}” ile eşleşen dil yok.",
       "count_one": "Dikte {{count}} dilde çalışır. Dilinizi daha sonra Ayarlar’da değiştirebilirsiniz.",
@@ -1977,7 +1976,7 @@
       "pane": "Sistem Ayarları’nda",
       "microphone": {
         "title": "Mikrofon",
-        "why": "Böylece Wispr Bro, tuşu basılı tuttuğunuz sürece sizi duyabilir. Ses yalnızca bu Mac’te işlenir.",
+        "why": "Wispr Bro’nun dikte ederken sizi duyabilmesi için.",
         "action": "Mikrofona İzin Ver",
         "promptAlt": "macOS mikrofon isteğinin resmi; İzin Ver düğmesi vurgulanmış",
         "paneAlt": "Sistem Ayarları › Gizlilik ve Güvenlik › Mikrofon resmi; Wispr Bro anahtarı açık",
@@ -1985,7 +1984,7 @@
       },
       "accessibility": {
         "title": "Erişilebilirlik",
-        "why": "Böylece Wispr Bro kestirmenizi algılayabilir ve metni kullandığınız uygulamaya yazabilir.",
+        "why": "Wispr Bro’nun kestirmenizi görüp sizin yerinize yazabilmesi için.",
         "action": "Erişilebilirliğe İzin Ver",
         "promptAlt": "macOS Erişilebilirlik isteğinin resmi; Sistem Ayarları’nı Aç düğmesi vurgulanmış",
         "paneAlt": "Sistem Ayarları › Gizlilik ve Güvenlik › Erişilebilirlik resmi; Wispr Bro anahtarı açık",
@@ -2047,9 +2046,9 @@
       }
     },
     "practice": {
-      "title": "Alıştırma: eller serbest, koca bir e-posta",
-      "instruction": "fn ve Boşluk tuşlarına birlikte basın, sonra konuşun. Hiçbir tuşu basılı tutmanız gerekmez. Bitirince fn’ye yeniden basın. Şunu deneyin: “Merhaba Sam, notlar için teşekkürler. Perşembe saat onda buluşabilir miyiz?”",
-      "instructionFallback": "Control, Option ve Boşluk tuşlarına birlikte basın, sonra konuşun. Hiçbir tuşu basılı tutmanız gerekmez. Bitirince Control ve Option’a yeniden basın. Şunu deneyin: “Merhaba Sam, notlar için teşekkürler. Perşembe saat onda buluşabilir miyiz?”",
+      "title": "Alıştırma: koca bir e-posta, <em>eller serbest</em>",
+      "instruction": "fn ve Space’e birlikte basın, ardından konuşun. Bitirince fn’ye yeniden basın.",
+      "instructionFallback": "Control, Option ve Space’e birlikte basın, ardından konuşun. Bitirince Control ve Option’a yeniden basın.",
       "instructionUnbound": "Dikte kestirmesi ayarlanmadığı için bu alıştırma başlatılamıyor. Şimdilik atlayın ve Ayarlar’da bir kestirme belirleyin.",
       "skip": "Atla",
       "waiting": "Konuşmaya başlamanız bekleniyor…",
@@ -2068,12 +2067,16 @@
         "subject": "Konu",
         "subjectText": "Perşembe",
         "body": "İleti",
-        "placeholder": "Sözcükleriniz burada görünür."
+        "placeholder": "Şunu söylemeyi deneyin: “Merhaba Sam, notlar için teşekkürler. Perşembe saat onda görüşebilir miyiz?”"
       }
     },
     "firstDictation": {
-      "title": "İşte bu kadar. İlk metninizi dikte ettiniz.",
-      "subtitle": "Artık yazabildiğiniz her yerde konuşabilirsiniz."
+      "title": "İşte bu kadar!",
+      "subtitle": "Artık yazabildiğiniz her yerde konuşabilirsiniz.",
+      "lead": "İlk metninizi dikte ettiniz.",
+      "typingLabel": "Yazma, ortalama",
+      "speakingLabel": "Konuşma, ortalama",
+      "faster": "<n/>× <em>daha hızlı</em>"
     },
     "timeSaved": {
       "headline_one": "Dikte, haftada yaklaşık {{hours}} saat kazandırabilir",
@@ -2088,30 +2091,33 @@
       "basisMeasured_one": "Dakikada {{wpm}} kelimelik yazma hızınıza ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
       "basisMeasured_other": "Dakikada {{wpm}} kelimelik yazma hızınıza ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
       "basisAverage_one": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
-      "basisAverage_other": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre."
+      "basisAverage_other": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
+      "lead": "Dikte ile kazanabileceğiniz süre yaklaşık",
+      "perWeek_one": "<em>haftada</em> <n/> saat",
+      "perWeek_other": "<em>haftada</em> <n/> saat"
     },
     "typing": {
-      "title": "Ne kadar hızlı yazıyorsunuz?",
+      "title": "Ne kadar hızlı <em>yazıyorsunuz</em>?",
       "skip": "Atla",
       "language": "Dil",
-      "wpmPending": "Dakikada — kelime",
       "wpm_one": "Dakikada {{count}} kelime",
       "wpm_other": "Dakikada {{count}} kelime",
-      "secondsLeft_one": "{{count}} saniye kaldı",
-      "secondsLeft_other": "{{count}} saniye kaldı",
       "inputLabel": "Paragrafı buraya yazın",
-      "placeholder": "Yazmaya buradan başlayın…",
       "nothing": "Yazdıklarınız paragrafla eşleşmedi. Yeniden deneyin.",
       "result_one": "Dakikada yaklaşık {{count}} kelime yazıyorsunuz.",
       "result_other": "Dakikada yaklaşık {{count}} kelime yazıyorsunuz.",
       "tryAgain": "Yeniden Dene",
       "recalculate": "Yeniden Hesapla",
       "instruction_one": "Aşağıdaki paragrafı her zamanki gibi yazın. Süre ilk tuşunuzla başlar ve {{seconds}} saniye sürer.",
-      "instruction_other": "Aşağıdaki paragrafı her zamanki gibi yazın. Süre ilk tuşunuzla başlar ve {{seconds}} saniye sürer."
+      "instruction_other": "Aşağıdaki paragrafı her zamanki gibi yazın. Süre ilk tuşunuzla başlar ve {{seconds}} saniye sürer.",
+      "wpmUnit_one": "dakikada kelime",
+      "wpmUnit_other": "dakikada kelime",
+      "secondsUnit_one": "saniye kaldı",
+      "secondsUnit_other": "saniye kaldı"
     },
     "summary": {
       "title": "Her şey hazır",
-      "subtitle": "Wispr Bro şu şekilde ayarlandı. Dikte etmek için herhangi bir uygulamada kestirmenizi basılı tutun.",
+      "subtitle": "Dikte etmek için herhangi bir uygulamada kestirmenizi basılı tutun.",
       "languages": "Diller",
       "shortcut": "Kestirme",
       "shortcutFn": "fn’yi (🌐) basılı tutun",
@@ -2125,7 +2131,6 @@
       "notSet": "Ayarlanmadı",
       "launchAtLogin": "Giriş yaptığınızda Wispr Bro’yu aç",
       "launchAtLoginHint": "Böylece dikte, ihtiyaç duyduğunuz her an hazır olur.",
-      "later": "Bunların hepsini daha sonra Ayarlar’da değiştirebilirsiniz.",
       "finish": "Dikte Etmeye Başla"
     }
   },

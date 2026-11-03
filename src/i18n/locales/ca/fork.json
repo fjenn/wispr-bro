@@ -1999,7 +1999,6 @@
     "continue": "Continuar",
     "yes": "Sí",
     "no": "No",
-    "downloadHint": "La configuració de la veu continua en segon pla. No cal que l'esperis aquí.",
     "navigationFailed": "No s'ha pogut desar aquest pas. Torna-ho a provar.",
     "stepper": {
       "label": "Progrés de la configuració",
@@ -2007,7 +2006,8 @@
       "permissions": "Permisos",
       "setup": "Configuració",
       "practice": "Pràctica",
-      "done": "(fet)"
+      "done": "(fet)",
+      "finish": "Final"
     },
     "help": {
       "chip": "Ajuda",
@@ -2021,14 +2021,13 @@
       "title": "Parla i apareixeran les teves paraules",
       "subtitle": "Mantén premuda una tecla, parla i deixa-la anar. El text net apareix allà on estiguis escrivint.",
       "privacyTitle": "Tot es queda en aquest Mac",
-      "privacy": "La teva veu i el teu text no surten mai del teu Mac. Sense compte, sense núvol, sense seguiment.",
-      "download": "La configuració de la veu comença ara i es fa en segon pla.",
-      "start": "Començar"
+      "privacy": "Sense compte, sense núvol, sense rastreig.",
+      "start": "Començar",
+      "demoLabel": "Wispr Bro en acció"
     },
     "move": {
       "title": "Moure Wispr Bro a Aplicacions",
-      "body": "Wispr Bro s'està executant fora de la carpeta Aplicacions. Si el mous allà, les actualitzacions i els permisos continuaran funcionant.",
-      "note": "Wispr Bro es torna a obrir sol després de moure'l i continua la configuració.",
+      "body": "Les actualitzacions i els permisos funcionen millor des d'allà. Wispr Bro es torna a obrir sol i continua.",
       "action": "Moure a Aplicacions",
       "moving": "Movent…",
       "skip": "Ara no",
@@ -2036,7 +2035,7 @@
     },
     "languages": {
       "title": "Quins idiomes parles?",
-      "subtitle": "Tria tots els idiomes en què dictes. Wispr Bro endreça molt millor les teves paraules quan els coneix.",
+      "subtitle": "Tria tots els idiomes en què dictes.",
       "listLabel": "Idiomes",
       "noMatch": "Cap idioma no coincideix amb “{{query}}”.",
       "count_one": "El dictat funciona en {{count}} idioma. Pots canviar els teus més endavant a Configuració.",
@@ -2056,7 +2055,7 @@
       "pane": "A Configuració del Sistema",
       "microphone": {
         "title": "Micròfon",
-        "why": "Perquè Wispr Bro et pugui sentir mentre mantens premuda la tecla. L'àudio només es processa en aquest Mac.",
+        "why": "Perquè Wispr Bro et pugui sentir mentre dictes.",
         "action": "Permetre el micròfon",
         "promptAlt": "Imatge de l'avís del micròfon de macOS, amb el botó Permetre destacat",
         "paneAlt": "Imatge de Configuració del Sistema, Privacitat i seguretat, Micròfon, amb l'interruptor de Wispr Bro activat",
@@ -2064,7 +2063,7 @@
       },
       "accessibility": {
         "title": "Accessibilitat",
-        "why": "Perquè Wispr Bro pugui detectar la drecera i escriure el text a l'app que estàs fent servir.",
+        "why": "Perquè Wispr Bro pugui detectar la teva drecera i escriure per tu.",
         "action": "Permetre l'Accessibilitat",
         "promptAlt": "Imatge de l'avís d'Accessibilitat de macOS, amb el botó Obrir Configuració del Sistema destacat",
         "paneAlt": "Imatge de Configuració del Sistema, Privacitat i seguretat, Accessibilitat, amb l'interruptor de Wispr Bro activat",
@@ -2126,9 +2125,9 @@
       }
     },
     "practice": {
-      "title": "Pràctica: un correu sencer, sense mans",
-      "instruction": "Prem fn i Espai alhora i parla. No cal que mantinguis res premut. Torna a prémer fn quan acabis. Prova: “Hola, Sam, gràcies per les notes. Podem quedar dijous a les deu?”",
-      "instructionFallback": "Prem Control, Opció i Espai alhora i parla. No cal que mantinguis res premut. Torna a prémer Control i Opció quan acabis. Prova: “Hola, Sam, gràcies per les notes. Podem quedar dijous a les deu?”",
+      "title": "Pràctica: un correu sencer, <em>sense mans</em>",
+      "instruction": "Prem fn i Espai alhora i parla. Torna a prémer fn quan acabis.",
+      "instructionFallback": "Prem Control, Opció i Espai alhora i parla. Torna a prémer Control i Opció quan acabis.",
       "instructionUnbound": "No hi ha cap drecera de dictat definida, així que aquesta pràctica no pot començar. Omet-la de moment i defineix una drecera a Configuració.",
       "skip": "Ometre",
       "waiting": "Esperant que comencis a parlar…",
@@ -2147,12 +2146,16 @@
         "subject": "Assumpte",
         "subjectText": "Dijous",
         "body": "Missatge",
-        "placeholder": "Les teves paraules apareixen aquí."
+        "placeholder": "Prova de dir: «Hola, Sam, gràcies per les notes. Podem quedar dijous a les deu?»"
       }
     },
     "firstDictation": {
-      "title": "Ja està. Has dictat el teu primer text.",
-      "subtitle": "Ara pots parlar a qualsevol lloc on puguis escriure."
+      "title": "Ja està!",
+      "subtitle": "Ara pots parlar a qualsevol lloc on puguis escriure.",
+      "lead": "Acabes de dictar el teu primer text.",
+      "typingLabel": "Escrivint, de mitjana",
+      "speakingLabel": "Parlant, de mitjana",
+      "faster": "<n/>× <em>més ràpid</em>"
     },
     "timeSaved": {
       "headline_one": "Dictar et podria estalviar al voltant d'{{hours}} hora a la setmana",
@@ -2171,21 +2174,20 @@
       "basisMeasured_other": "Segons la teva velocitat d'escriptura de {{wpm}} paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
       "basisAverage_one": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraula per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
       "basisAverage_many": "Segons una velocitat d'escriptura mitjana de {{wpm}} de paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
-      "basisAverage_other": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut."
+      "basisAverage_other": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
+      "lead": "Dictar et podria estalviar prop de",
+      "perWeek_one": "<n/> hora <em>a la setmana</em>",
+      "perWeek_many": "<n/> d'hores <em>a la setmana</em>",
+      "perWeek_other": "<n/> hores <em>a la setmana</em>"
     },
     "typing": {
-      "title": "A quina velocitat escrius?",
+      "title": "A quina velocitat <em>escrius</em>?",
       "skip": "Ometre",
       "language": "Idioma",
-      "wpmPending": "— paraules per minut",
       "wpm_one": "{{count}} paraula per minut",
       "wpm_many": "{{count}} de paraules per minut",
       "wpm_other": "{{count}} paraules per minut",
-      "secondsLeft_one": "Queda {{count}} segon",
-      "secondsLeft_many": "Queden {{count}} de segons",
-      "secondsLeft_other": "Queden {{count}} segons",
       "inputLabel": "Escriu el paràgraf aquí",
-      "placeholder": "Comença a escriure aquí…",
       "nothing": "No hi ha res que coincideixi amb el paràgraf. Torna-ho a provar.",
       "result_one": "Escrius aproximadament {{count}} paraula per minut.",
       "result_many": "Escrius unes {{count}} de paraules per minut.",
@@ -2194,11 +2196,17 @@
       "recalculate": "Tornar a calcular",
       "instruction_one": "Escriu el paràgraf de sota com ho faries normalment. El rellotge comença amb la primera tecla i dura {{seconds}} segon.",
       "instruction_many": "Escriu el paràgraf de sota com ho faries normalment. El rellotge comença amb la primera tecla i dura {{seconds}} de segons.",
-      "instruction_other": "Escriu el paràgraf de sota com ho faries normalment. El rellotge comença amb la primera tecla i dura {{seconds}} segons."
+      "instruction_other": "Escriu el paràgraf de sota com ho faries normalment. El rellotge comença amb la primera tecla i dura {{seconds}} segons.",
+      "wpmUnit_one": "paraula per minut",
+      "wpmUnit_many": "de paraules per minut",
+      "wpmUnit_other": "paraules per minut",
+      "secondsUnit_one": "segon restant",
+      "secondsUnit_many": "de segons restants",
+      "secondsUnit_other": "segons restants"
     },
     "summary": {
       "title": "Ja ho tens tot a punt",
-      "subtitle": "Així és com està configurat Wispr Bro. Mantén premuda la drecera en qualsevol app per dictar.",
+      "subtitle": "Mantén premuda la drecera en qualsevol aplicació per dictar.",
       "languages": "Idiomes",
       "shortcut": "Drecera",
       "shortcutFn": "Mantenir premuda fn (🌐)",
@@ -2213,7 +2221,6 @@
       "notSet": "No definit",
       "launchAtLogin": "Obrir Wispr Bro en iniciar la sessió",
       "launchAtLoginHint": "Així el dictat està a punt sempre que el necessitis.",
-      "later": "Pots canviar tot això més endavant a Configuració.",
       "finish": "Començar a dictar"
     }
   },

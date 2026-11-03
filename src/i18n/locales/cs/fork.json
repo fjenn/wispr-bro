@@ -2076,7 +2076,6 @@
     "continue": "Pokračovat",
     "yes": "Ano",
     "no": "Ne",
-    "downloadHint": "Příprava rozpoznávání řeči probíhá na pozadí. Nemusíte na ni čekat.",
     "navigationFailed": "Tento krok se nepodařilo uložit. Zkuste to znovu.",
     "stepper": {
       "label": "Průběh nastavení",
@@ -2084,7 +2083,8 @@
       "permissions": "Oprávnění",
       "setup": "Nastavení",
       "practice": "Vyzkoušení",
-      "done": "(hotovo)"
+      "done": "(hotovo)",
+      "finish": "Dokončení"
     },
     "help": {
       "chip": "Nápověda",
@@ -2098,14 +2098,13 @@
       "title": "Mluvte a vaše slova se objeví",
       "subtitle": "Podržte klávesu, mluvte, pusťte. Čistý text se objeví tam, kde právě píšete.",
       "privacyTitle": "Vše zůstává na tomto Macu",
-      "privacy": "Váš hlas ani text nikdy neopustí váš Mac. Žádný účet, žádný cloud, žádné sledování.",
-      "download": "Příprava rozpoznávání řeči začíná a poběží na pozadí.",
-      "start": "Začít"
+      "privacy": "Žádný účet, žádný cloud, žádné sledování.",
+      "start": "Začít",
+      "demoLabel": "Wispr Bro v akci"
     },
     "move": {
       "title": "Přesuňte Wispr Bro do Aplikací",
-      "body": "Wispr Bro běží mimo složku Aplikace. Po přesunutí do ní budou aktualizace i oprávnění fungovat správně.",
-      "note": "Po přesunutí se Wispr Bro sám znovu otevře a bude pokračovat v nastavení.",
+      "body": "Odtud aktualizace a oprávnění fungují nejlépe. Wispr Bro se sám znovu otevře a bude pokračovat.",
       "action": "Přesunout do Aplikací",
       "moving": "Přesouvání…",
       "skip": "Teď ne",
@@ -2113,7 +2112,7 @@
     },
     "languages": {
       "title": "Jakými jazyky mluvíte?",
-      "subtitle": "Vyberte všechny jazyky, ve kterých diktujete. Když je Wispr Bro zná, upraví váš text mnohem lépe.",
+      "subtitle": "Vyberte všechny jazyky, ve kterých diktujete.",
       "listLabel": "Jazyky",
       "noMatch": "Žádný jazyk neodpovídá „{{query}}“.",
       "count_one": "Diktování funguje v {{count}} jazyce. Výběr můžete později změnit v Nastavení.",
@@ -2135,7 +2134,7 @@
       "pane": "V Nastavení systému",
       "microphone": {
         "title": "Mikrofon",
-        "why": "Aby vás Wispr Bro slyšel, když držíte klávesu. Zvuk se zpracovává pouze na tomto Macu.",
+        "why": "Aby vás Wispr Bro při diktování slyšel.",
         "action": "Povolit mikrofon",
         "promptAlt": "Obrázek dotazu macOS na přístup k mikrofonu se zvýrazněným tlačítkem Povolit",
         "paneAlt": "Obrázek Nastavení systému › Soukromí a zabezpečení › Mikrofon se zapnutým přepínačem u Wispr Bro",
@@ -2143,7 +2142,7 @@
       },
       "accessibility": {
         "title": "Zpřístupnění",
-        "why": "Aby Wispr Bro poznal vaši zkratku a mohl psát text do aplikace, kterou používáte.",
+        "why": "Aby Wispr Bro poznal vaši zkratku a mohl za vás psát.",
         "action": "Povolit zpřístupnění",
         "promptAlt": "Obrázek dotazu macOS na zpřístupnění se zvýrazněným tlačítkem Otevřít Nastavení systému",
         "paneAlt": "Obrázek Nastavení systému › Soukromí a zabezpečení › Zpřístupnění se zapnutým přepínačem u Wispr Bro",
@@ -2205,9 +2204,9 @@
       }
     },
     "practice": {
-      "title": "Vyzkoušejte si: celý e-mail bez rukou",
-      "instruction": "Stiskněte současně fn a Space a mluvte. Nic nemusíte držet. Až budete hotovi, stiskněte znovu fn. Zkuste: „Ahoj Same, díky za poznámky. Můžeme se sejít ve čtvrtek v deset?“",
-      "instructionFallback": "Stiskněte současně Control, Option a Space a mluvte. Nic nemusíte držet. Až budete hotovi, stiskněte znovu Control a Option. Zkuste: „Ahoj Same, díky za poznámky. Můžeme se sejít ve čtvrtek v deset?“",
+      "title": "Vyzkoušení: celý e-mail <em>bez rukou</em>",
+      "instruction": "Stiskněte současně fn a Space a mluvte. Až budete hotovi, stiskněte znovu fn.",
+      "instructionFallback": "Stiskněte současně Control, Option a Space a mluvte. Až budete hotovi, stiskněte znovu Control a Option.",
       "instructionUnbound": "Není nastavená žádná zkratka pro diktování, takže cvičení nejde spustit. Zatím ho přeskočte a zkratku nastavte v Nastavení.",
       "skip": "Přeskočit",
       "waiting": "Čekání, až začnete mluvit…",
@@ -2226,12 +2225,16 @@
         "subject": "Předmět",
         "subjectText": "Čtvrtek",
         "body": "Zpráva",
-        "placeholder": "Zde se objeví vaše slova."
+        "placeholder": "Zkuste říct: „Ahoj Same, díky za poznámky. Můžeme se sejít ve čtvrtek v deset?“"
       }
     },
     "firstDictation": {
-      "title": "A je to. Nadiktovali jste svůj první text.",
-      "subtitle": "Kdekoli můžete psát, můžete teď místo toho mluvit."
+      "title": "A je to!",
+      "subtitle": "Kdekoli můžete psát, můžete teď místo toho mluvit.",
+      "lead": "Právě jste nadiktovali svůj první text.",
+      "typingLabel": "Psaní, v průměru",
+      "speakingLabel": "Mluvení, v průměru",
+      "faster": "<n/>× <em>rychlejší</em>"
     },
     "timeSaved": {
       "headline_one": "Diktování vám může ušetřit asi {{hours}} hodinu týdně",
@@ -2254,23 +2257,22 @@
       "basisAverage_one": "Vychází z průměrné rychlosti psaní {{wpm}} slovo za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
       "basisAverage_few": "Vychází z průměrné rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
       "basisAverage_many": "Vychází z průměrné rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
-      "basisAverage_other": "Vychází z průměrné rychlosti psaní {{wpm}} slov za minutu a rychlosti mluvení asi {{speaking}} slov za minutu."
+      "basisAverage_other": "Vychází z průměrné rychlosti psaní {{wpm}} slov za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "lead": "Diktování vám může ušetřit asi",
+      "perWeek_one": "<n/> hodinu <em>týdně</em>",
+      "perWeek_few": "<n/> hodiny <em>týdně</em>",
+      "perWeek_many": "<n/> hodiny <em>týdně</em>",
+      "perWeek_other": "<n/> hodin <em>týdně</em>"
     },
     "typing": {
-      "title": "Jak rychle píšete?",
+      "title": "Jak rychle <em>píšete</em>?",
       "skip": "Přeskočit",
       "language": "Jazyk",
-      "wpmPending": "— slov za minutu",
       "wpm_one": "{{count}} slovo za minutu",
       "wpm_few": "{{count}} slova za minutu",
       "wpm_many": "{{count}} slova za minutu",
       "wpm_other": "{{count}} slov za minutu",
-      "secondsLeft_one": "Zbývá {{count}} sekunda",
-      "secondsLeft_few": "Zbývají {{count}} sekundy",
-      "secondsLeft_many": "Zbývá {{count}} sekundy",
-      "secondsLeft_other": "Zbývá {{count}} sekund",
       "inputLabel": "Sem napište odstavec",
-      "placeholder": "Začněte psát sem…",
       "nothing": "Text neodpovídá odstavci. Zkuste to znovu.",
       "result_one": "Píšete rychlostí asi {{count}} slovo za minutu.",
       "result_few": "Píšete rychlostí asi {{count}} slova za minutu.",
@@ -2281,11 +2283,19 @@
       "instruction_one": "Opište odstavec níže tak, jak běžně píšete. Časomíra se spustí prvním stiskem klávesy a poběží {{seconds}} sekundu.",
       "instruction_few": "Opište odstavec níže tak, jak běžně píšete. Časomíra se spustí prvním stiskem klávesy a poběží {{seconds}} sekundy.",
       "instruction_many": "Opište odstavec níže tak, jak běžně píšete. Časomíra se spustí prvním stiskem klávesy a poběží {{seconds}} sekundy.",
-      "instruction_other": "Opište odstavec níže tak, jak běžně píšete. Časomíra se spustí prvním stiskem klávesy a poběží {{seconds}} sekund."
+      "instruction_other": "Opište odstavec níže tak, jak běžně píšete. Časomíra se spustí prvním stiskem klávesy a poběží {{seconds}} sekund.",
+      "wpmUnit_one": "slovo za minutu",
+      "wpmUnit_few": "slova za minutu",
+      "wpmUnit_many": "slova za minutu",
+      "wpmUnit_other": "slov za minutu",
+      "secondsUnit_one": "sekunda zbývá",
+      "secondsUnit_few": "sekundy zbývají",
+      "secondsUnit_many": "sekundy zbývá",
+      "secondsUnit_other": "sekund zbývá"
     },
     "summary": {
       "title": "Vše je připraveno",
-      "subtitle": "Takto je Wispr Bro nastavený. K diktování podržte zkratku v libovolné aplikaci.",
+      "subtitle": "Pro diktování podržte svou zkratku v libovolné aplikaci.",
       "languages": "Jazyky",
       "shortcut": "Zkratka",
       "shortcutFn": "Podržet fn (🌐)",
@@ -2301,7 +2311,6 @@
       "notSet": "Nenastaveno",
       "launchAtLogin": "Otevírat Wispr Bro po přihlášení",
       "launchAtLoginHint": "Diktování tak bude připravené, kdykoli ho budete potřebovat.",
-      "later": "Vše můžete později změnit v Nastavení.",
       "finish": "Začít diktovat"
     }
   },

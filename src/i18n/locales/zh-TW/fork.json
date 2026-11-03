@@ -1845,7 +1845,6 @@
     "continue": "繼續",
     "yes": "是",
     "no": "否",
-    "downloadHint": "語音設定會在背景繼續進行。你不需要在這裡等待。",
     "navigationFailed": "無法儲存這個步驟。請再試一次。",
     "stepper": {
       "label": "設定進度",
@@ -1853,7 +1852,8 @@
       "permissions": "權限",
       "setup": "設定",
       "practice": "練習",
-      "done": "（已完成）"
+      "done": "（已完成）",
+      "finish": "完成"
     },
     "help": {
       "chip": "說明",
@@ -1867,14 +1867,13 @@
       "title": "開口說話，文字隨即出現",
       "subtitle": "按住一個鍵，說話，放開。整理好的文字會出現在你正在輸入的地方。",
       "privacyTitle": "一切都保留在這部 Mac 上",
-      "privacy": "你的聲音和文字從不離開你的 Mac。不需要帳號，不用雲端，沒有追蹤。",
-      "download": "語音設定現在開始，並在背景執行。",
-      "start": "開始使用"
+      "privacy": "無需帳號，不上雲端，不追蹤。",
+      "start": "開始使用",
+      "demoLabel": "Wispr Bro 示範"
     },
     "move": {
       "title": "將 Wispr Bro 移到「應用程式」",
-      "body": "Wispr Bro 正在「應用程式」檔案夾以外的位置執行。將它移到該檔案夾可確保更新和權限正常運作。",
-      "note": "移動後，Wispr Bro 會自動重新打開並繼續設定。",
+      "body": "放在那裡，更新和權限最穩定。Wispr Bro 會自動重新打開並繼續。",
       "action": "移到「應用程式」",
       "moving": "正在移動…",
       "skip": "稍後再說",
@@ -1882,7 +1881,7 @@
     },
     "languages": {
       "title": "你會說哪些語言？",
-      "subtitle": "選擇你聽寫時使用的所有語言。Wispr Bro 認識這些語言後，能更好地整理你的話。",
+      "subtitle": "選擇你用來聽寫的所有語言。",
       "listLabel": "語言",
       "noMatch": "沒有符合「{{query}}」的語言。",
       "count_other": "聽寫支援 {{count}} 種語言。你之後可以在設定中更改。",
@@ -1898,7 +1897,7 @@
       "pane": "在「系統設定」中",
       "microphone": {
         "title": "麥克風",
-        "why": "讓 Wispr Bro 在你按住按鍵時能聽到你說話。音訊只在這部 Mac 上處理。",
+        "why": "這樣 Wispr Bro 才能在你聽寫時聽到你的聲音。",
         "action": "允許使用麥克風",
         "promptAlt": "macOS 麥克風提示的圖片，「允許」按鈕已醒目標示",
         "paneAlt": "「系統設定」›「隱私權與安全性」›「麥克風」的圖片，Wispr Bro 的開關已開啟",
@@ -1906,7 +1905,7 @@
       },
       "accessibility": {
         "title": "輔助使用",
-        "why": "讓 Wispr Bro 能察覺你的快速鍵，並將文字輸入到你正在使用的 App 中。",
+        "why": "這樣 Wispr Bro 才能偵測你的快速鍵並替你輸入。",
         "action": "允許輔助使用",
         "promptAlt": "macOS 輔助使用提示的圖片，「打開系統設定」按鈕已醒目標示",
         "paneAlt": "「系統設定」›「隱私權與安全性」›「輔助使用」的圖片，Wispr Bro 的開關已開啟",
@@ -1968,9 +1967,9 @@
       }
     },
     "practice": {
-      "title": "練習：免持寫完一封郵件",
-      "instruction": "同時按下 fn 和空白鍵，然後開始說話，不需要一直按住。說完後再按一次 fn。試著說：「嗨 Sam，謝謝你的筆記。我們星期四十點見面可以嗎？」",
-      "instructionFallback": "同時按下 Control、Option 和空白鍵，然後開始說話，不需要一直按住。說完後再按一次 Control 和 Option。試著說：「嗨 Sam，謝謝你的筆記。我們星期四十點見面可以嗎？」",
+      "title": "練習：<em>免持</em>寫完整封郵件",
+      "instruction": "同時按下 fn 和空白鍵，然後說話。說完後再按一次 fn。",
+      "instructionFallback": "同時按下 Control、Option 和空白鍵，然後說話。說完後再按一次 Control 和 Option。",
       "instructionUnbound": "尚未設定聽寫快速鍵，因此無法開始練習。請先略過，再到設定中設定快速鍵。",
       "skip": "略過",
       "waiting": "正在等你開始說話…",
@@ -1989,12 +1988,16 @@
         "subject": "主旨",
         "subjectText": "星期四",
         "body": "內文",
-        "placeholder": "你說的話會顯示在這裡。"
+        "placeholder": "試著說：「Sam 你好，謝謝你的筆記。我們星期四十點見面可以嗎？」"
       }
     },
     "firstDictation": {
-      "title": "完成了。你聽寫了第一段文字。",
-      "subtitle": "現在，凡是能打字的地方，都可以改用說的。"
+      "title": "就這麼簡單！",
+      "subtitle": "現在，凡是能打字的地方，都可以改用說的。",
+      "lead": "你剛剛聽寫了第一段文字。",
+      "typingLabel": "平均打字速度",
+      "speakingLabel": "平均說話速度",
+      "faster": "<em>快</em> <n/> 倍"
     },
     "timeSaved": {
       "headline_other": "聽寫每週可為你節省約 {{hours}} 小時",
@@ -2005,26 +2008,27 @@
       "hoursPerDay_other": "每天 {{hours}} 小時",
       "takeTest": "進行打字測驗",
       "basisMeasured_other": "根據你每分鐘 {{wpm}} 字的打字速度，以及每分鐘約 {{speaking}} 字的語速估算。",
-      "basisAverage_other": "根據每分鐘 {{wpm}} 字的平均打字速度，以及每分鐘約 {{speaking}} 字的語速估算。"
+      "basisAverage_other": "根據每分鐘 {{wpm}} 字的平均打字速度，以及每分鐘約 {{speaking}} 字的語速估算。",
+      "lead": "聽寫可為你節省約",
+      "perWeek_other": "<em>每週</em> <n/> 小時"
     },
     "typing": {
-      "title": "你打字有多快？",
+      "title": "你<em>打字</em>有多快？",
       "skip": "略過",
       "language": "語言",
-      "wpmPending": "每分鐘 — 字",
       "wpm_other": "每分鐘 {{count}} 字",
-      "secondsLeft_other": "還剩 {{count}} 秒",
       "inputLabel": "在此輸入段落",
-      "placeholder": "從這裡開始輸入…",
       "nothing": "輸入的內容與段落不符。請再試一次。",
       "result_other": "你每分鐘大約能打 {{count}} 個字。",
       "tryAgain": "再試一次",
       "recalculate": "重新計算",
-      "instruction_other": "像平常一樣輸入下方的段落。從你按下第一個鍵開始計時，持續 {{seconds}} 秒。"
+      "instruction_other": "像平常一樣輸入下方的段落。從你按下第一個鍵開始計時，持續 {{seconds}} 秒。",
+      "wpmUnit_other": "每分鐘字數",
+      "secondsUnit_other": "剩餘秒數"
     },
     "summary": {
       "title": "一切就緒",
-      "subtitle": "以下是 Wispr Bro 的設定。在任何 App 中按住快速鍵就能聽寫。",
+      "subtitle": "在任何 App 中按住快速鍵即可聽寫。",
       "languages": "語言",
       "shortcut": "快速鍵",
       "shortcutFn": "按住 fn（🌐）",
@@ -2037,7 +2041,6 @@
       "notSet": "未設定",
       "launchAtLogin": "登入時打開 Wispr Bro",
       "launchAtLoginHint": "這樣隨時需要都能聽寫。",
-      "later": "你之後可以在設定中更改這些項目。",
       "finish": "開始聽寫"
     }
   },

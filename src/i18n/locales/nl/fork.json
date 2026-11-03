@@ -1922,7 +1922,6 @@
     "continue": "Ga door",
     "yes": "Ja",
     "no": "Nee",
-    "downloadHint": "Het instellen van spraak gaat op de achtergrond door. Je hoeft er hier nooit op te wachten.",
     "navigationFailed": "Die stap kon niet worden bewaard. Probeer het opnieuw.",
     "stepper": {
       "label": "Voortgang van configuratie",
@@ -1930,7 +1929,8 @@
       "permissions": "Toestemmingen",
       "setup": "Configuratie",
       "practice": "Oefenen",
-      "done": "(gereed)"
+      "done": "(gereed)",
+      "finish": "Afronden"
     },
     "help": {
       "chip": "Help",
@@ -1944,14 +1944,13 @@
       "title": "Praat, en je woorden verschijnen",
       "subtitle": "Houd één toets ingedrukt, praat en laat los. Nette tekst verschijnt waar je aan het typen bent.",
       "privacyTitle": "Alles blijft op deze Mac",
-      "privacy": "Je stem en je tekst verlaten nooit je Mac. Geen account, geen cloud, geen tracking.",
-      "download": "Het instellen van spraak begint nu en loopt op de achtergrond.",
-      "start": "Begin"
+      "privacy": "Geen account, geen cloud, geen tracking.",
+      "start": "Begin",
+      "demoLabel": "Wispr Bro in actie"
     },
     "move": {
       "title": "Verplaats Wispr Bro naar Apps",
-      "body": "Wispr Bro draait buiten je map Apps. Als je het daarheen verplaatst, blijven updates en toestemmingen werken.",
-      "note": "Wispr Bro opent zichzelf opnieuw na het verplaatsen en gaat verder met de configuratie.",
+      "body": "Updates en toestemmingen werken daar het best. Wispr Bro opent vanzelf opnieuw en gaat verder.",
       "action": "Verplaats naar Apps",
       "moving": "Verplaatsen…",
       "skip": "Niet nu",
@@ -1959,7 +1958,7 @@
     },
     "languages": {
       "title": "Welke talen spreek je?",
-      "subtitle": "Kies elke taal waarin je dicteert. Wispr Bro schoont je woorden veel beter op als het die talen kent.",
+      "subtitle": "Kies elke taal waarin je dicteert.",
       "listLabel": "Talen",
       "noMatch": "Geen taal komt overeen met “{{query}}”.",
       "count_one": "Dicteren werkt in {{count}} taal. Je kunt je talen later wijzigen in Instellingen.",
@@ -1977,7 +1976,7 @@
       "pane": "In Systeeminstellingen",
       "microphone": {
         "title": "Microfoon",
-        "why": "Zodat Wispr Bro je kan horen terwijl je de toets ingedrukt houdt. Audio wordt alleen op deze Mac verwerkt.",
+        "why": "Zodat Wispr Bro je kan horen terwijl je dicteert.",
         "action": "Sta microfoon toe",
         "promptAlt": "Afbeelding van de microfoonmelding van macOS, met de knop “Sta toe” gemarkeerd",
         "paneAlt": "Afbeelding van Systeeminstellingen, Privacy en beveiliging, Microfoon, met de schakelaar voor Wispr Bro aan",
@@ -1985,7 +1984,7 @@
       },
       "accessibility": {
         "title": "Toegankelijkheid",
-        "why": "Zodat Wispr Bro je toetscombinatie opmerkt en de tekst typt in de app die je gebruikt.",
+        "why": "Zodat Wispr Bro je toetscombinatie ziet en voor je kan typen.",
         "action": "Sta Toegankelijkheid toe",
         "promptAlt": "Afbeelding van de Toegankelijkheidsmelding van macOS, met de knop “Open Systeeminstellingen” gemarkeerd",
         "paneAlt": "Afbeelding van Systeeminstellingen, Privacy en beveiliging, Toegankelijkheid, met de schakelaar voor Wispr Bro aan",
@@ -2047,9 +2046,9 @@
       }
     },
     "practice": {
-      "title": "Oefening: een hele e-mail, handsfree",
-      "instruction": "Druk tegelijk op fn en Space en praat. Je hoeft niets ingedrukt te houden. Druk nog een keer op fn als je klaar bent. Probeer: “Hoi Sam, bedankt voor de aantekeningen. Kunnen we donderdag om tien uur afspreken?”",
-      "instructionFallback": "Druk tegelijk op Control, Option en Space en praat. Je hoeft niets ingedrukt te houden. Druk nog een keer op Control en Option als je klaar bent. Probeer: “Hoi Sam, bedankt voor de aantekeningen. Kunnen we donderdag om tien uur afspreken?”",
+      "title": "Oefenen: een hele e-mail, <em>handsfree</em>",
+      "instruction": "Druk tegelijk op fn en Space en praat. Druk nog een keer op fn als je klaar bent.",
+      "instructionFallback": "Druk tegelijk op Control, Option en Space en praat. Druk nog een keer op Control en Option als je klaar bent.",
       "instructionUnbound": "Er is geen toetscombinatie voor dicteren ingesteld, dus deze oefening kan niet starten. Sla haar nu over en stel een toetscombinatie in bij Instellingen.",
       "skip": "Sla over",
       "waiting": "Wachten tot je begint te praten…",
@@ -2068,12 +2067,16 @@
         "subject": "Onderwerp",
         "subjectText": "Donderdag",
         "body": "Bericht",
-        "placeholder": "Je woorden verschijnen hier."
+        "placeholder": "Zeg bijvoorbeeld: “Hoi Sam, bedankt voor de aantekeningen. Kunnen we donderdag om tien uur afspreken?”"
       }
     },
     "firstDictation": {
-      "title": "Dat was het. Je hebt je eerste tekst gedicteerd.",
-      "subtitle": "Overal waar je kunt typen, kun je nu ook praten."
+      "title": "Zo simpel is het!",
+      "subtitle": "Overal waar je kunt typen, kun je nu ook praten.",
+      "lead": "Je hebt net je eerste tekst gedicteerd.",
+      "typingLabel": "Typen, gemiddeld",
+      "speakingLabel": "Praten, gemiddeld",
+      "faster": "<n/>× <em>sneller</em>"
     },
     "timeSaved": {
       "headline_one": "Dicteren kan je ongeveer {{hours}} uur per week besparen",
@@ -2088,30 +2091,33 @@
       "basisMeasured_one": "Op basis van je typsnelheid van {{wpm}} woord per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
       "basisMeasured_other": "Op basis van je typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
       "basisAverage_one": "Op basis van een gemiddelde typsnelheid van {{wpm}} woord per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
-      "basisAverage_other": "Op basis van een gemiddelde typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut."
+      "basisAverage_other": "Op basis van een gemiddelde typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
+      "lead": "Met dicteren bespaar je ongeveer",
+      "perWeek_one": "<n/> uur <em>per week</em>",
+      "perWeek_other": "<n/> uur <em>per week</em>"
     },
     "typing": {
-      "title": "Hoe snel typ je?",
+      "title": "Hoe snel <em>typ</em> je?",
       "skip": "Sla over",
       "language": "Taal",
-      "wpmPending": "— woorden per minuut",
       "wpm_one": "{{count}} woord per minuut",
       "wpm_other": "{{count}} woorden per minuut",
-      "secondsLeft_one": "{{count}} seconde over",
-      "secondsLeft_other": "{{count}} seconden over",
       "inputLabel": "Typ de alinea hier",
-      "placeholder": "Begin hier te typen…",
       "nothing": "Niets kwam overeen met de alinea. Probeer het opnieuw.",
       "result_one": "Je typt ongeveer {{count}} woord per minuut.",
       "result_other": "Je typt ongeveer {{count}} woorden per minuut.",
       "tryAgain": "Probeer opnieuw",
       "recalculate": "Bereken opnieuw",
       "instruction_one": "Typ de alinea hieronder zoals je normaal doet. De klok start bij je eerste toetsaanslag en loopt {{seconds}} seconde.",
-      "instruction_other": "Typ de alinea hieronder zoals je normaal doet. De klok start bij je eerste toetsaanslag en loopt {{seconds}} seconden."
+      "instruction_other": "Typ de alinea hieronder zoals je normaal doet. De klok start bij je eerste toetsaanslag en loopt {{seconds}} seconden.",
+      "wpmUnit_one": "woord per minuut",
+      "wpmUnit_other": "woorden per minuut",
+      "secondsUnit_one": "seconde over",
+      "secondsUnit_other": "seconden over"
     },
     "summary": {
       "title": "Je bent er klaar voor",
-      "subtitle": "Zo is Wispr Bro ingesteld. Houd in een willekeurige app je toetscombinatie ingedrukt om te dicteren.",
+      "subtitle": "Houd je toetscombinatie ingedrukt in een willekeurige app om te dicteren.",
       "languages": "Talen",
       "shortcut": "Toetscombinatie",
       "shortcutFn": "Houd fn (🌐) ingedrukt",
@@ -2125,7 +2131,6 @@
       "notSet": "Niet ingesteld",
       "launchAtLogin": "Open Wispr Bro als je inlogt",
       "launchAtLoginHint": "Zo is dicteren klaar wanneer je het nodig hebt.",
-      "later": "Je kunt dit allemaal later wijzigen in Instellingen.",
       "finish": "Begin met dicteren"
     }
   },

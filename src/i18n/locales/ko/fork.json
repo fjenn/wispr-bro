@@ -1845,7 +1845,6 @@
     "continue": "계속",
     "yes": "예",
     "no": "아니요",
-    "downloadHint": "음성 설정은 백그라운드에서 계속 진행됩니다. 여기서 기다릴 필요가 없습니다.",
     "navigationFailed": "이 단계를 저장할 수 없습니다. 다시 시도하세요.",
     "stepper": {
       "label": "설정 진행 상황",
@@ -1853,7 +1852,8 @@
       "permissions": "권한",
       "setup": "설정",
       "practice": "연습",
-      "done": "(완료)"
+      "done": "(완료)",
+      "finish": "완료"
     },
     "help": {
       "chip": "도움말",
@@ -1867,14 +1867,13 @@
       "title": "말하면 글이 됩니다",
       "subtitle": "키 하나를 누른 채로 말하고 떼세요. 입력 중인 곳에 깔끔한 텍스트가 나타납니다.",
       "privacyTitle": "모든 것이 이 Mac에 머무릅니다",
-      "privacy": "음성과 텍스트는 절대 Mac을 벗어나지 않습니다. 계정도, 클라우드도, 추적도 없습니다.",
-      "download": "음성 설정이 지금 시작되어 백그라운드에서 실행됩니다.",
-      "start": "시작하기"
+      "privacy": "계정도, 클라우드도, 추적도 없습니다.",
+      "start": "시작하기",
+      "demoLabel": "Wispr Bro 사용 모습"
     },
     "move": {
       "title": "Wispr Bro를 응용 프로그램으로 이동",
-      "body": "Wispr Bro가 응용 프로그램 폴더 밖에서 실행되고 있습니다. 응용 프로그램 폴더로 옮기면 업데이트와 권한이 계속 제대로 작동합니다.",
-      "note": "이동 후 Wispr Bro가 자동으로 다시 열리고 설정을 계속합니다.",
+      "body": "업데이트와 권한은 그곳에서 가장 잘 작동합니다. Wispr Bro가 스스로 다시 열리고 이어서 진행합니다.",
       "action": "응용 프로그램으로 이동",
       "moving": "이동 중…",
       "skip": "나중에",
@@ -1882,7 +1881,7 @@
     },
     "languages": {
       "title": "어떤 언어를 사용하나요?",
-      "subtitle": "받아쓰기할 모든 언어를 선택하세요. 언어를 알면 Wispr Bro가 말한 내용을 훨씬 더 잘 다듬습니다.",
+      "subtitle": "받아쓰기에 사용하는 언어를 모두 선택하세요.",
       "listLabel": "언어",
       "noMatch": "‘{{query}}’과(와) 일치하는 언어가 없습니다.",
       "count_other": "받아쓰기는 {{count}}개 언어를 지원합니다. 언어는 나중에 설정에서 변경할 수 있습니다.",
@@ -1898,7 +1897,7 @@
       "pane": "시스템 설정에서",
       "microphone": {
         "title": "마이크",
-        "why": "키를 누르고 있는 동안 Wispr Bro가 음성을 들을 수 있도록 합니다. 오디오는 이 Mac에서만 처리됩니다.",
+        "why": "받아쓰기하는 동안 Wispr Bro가 음성을 들을 수 있도록 합니다.",
         "action": "마이크 허용",
         "promptAlt": "‘허용’ 버튼이 강조된 macOS 마이크 알림 이미지",
         "paneAlt": "Wispr Bro 스위치가 켜진 시스템 설정 > 개인정보 보호 및 보안 > 마이크 화면 이미지",
@@ -1906,7 +1905,7 @@
       },
       "accessibility": {
         "title": "손쉬운 사용",
-        "why": "Wispr Bro가 단축키를 인식하고 사용 중인 앱에 텍스트를 입력할 수 있도록 합니다.",
+        "why": "Wispr Bro가 단축키를 감지하고 대신 입력할 수 있도록 합니다.",
         "action": "손쉬운 사용 허용",
         "promptAlt": "‘시스템 설정 열기’ 버튼이 강조된 macOS 손쉬운 사용 알림 이미지",
         "paneAlt": "Wispr Bro 스위치가 켜진 시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용 화면 이미지",
@@ -1968,9 +1967,9 @@
       }
     },
     "practice": {
-      "title": "연습: 핸즈프리로 이메일 한 통 쓰기",
-      "instruction": "fn 키와 스페이스 바를 함께 누른 다음 말하세요. 키를 계속 누르고 있을 필요는 없습니다. 다 말했으면 fn 키를 다시 누르세요. 이렇게 말해 보세요: “안녕하세요 샘 님, 메모 고마워요. 목요일 10시에 만날 수 있을까요?”",
-      "instructionFallback": "Control, Option, 스페이스 바를 함께 누른 다음 말하세요. 키를 계속 누르고 있을 필요는 없습니다. 다 말했으면 Control과 Option을 다시 누르세요. 이렇게 말해 보세요: “안녕하세요 샘 님, 메모 고마워요. 목요일 10시에 만날 수 있을까요?”",
+      "title": "연습: 이메일 한 통을 <em>핸즈프리</em>로",
+      "instruction": "fn과 스페이스 바를 함께 누른 다음 말하세요. 다 말했으면 fn을 다시 누르세요.",
+      "instructionFallback": "Control, Option, 스페이스 바를 함께 누른 다음 말하세요. 다 말했으면 Control과 Option을 다시 누르세요.",
       "instructionUnbound": "받아쓰기 단축키가 설정되어 있지 않아 연습을 시작할 수 없습니다. 지금은 건너뛰고 설정에서 단축키를 지정하세요.",
       "skip": "건너뛰기",
       "waiting": "말하기를 기다리는 중…",
@@ -1989,12 +1988,16 @@
         "subject": "제목",
         "subjectText": "목요일",
         "body": "메시지",
-        "placeholder": "말한 내용이 여기에 표시됩니다."
+        "placeholder": "이렇게 말해 보세요: “샘, 안녕하세요. 메모 고마워요. 목요일 10시에 만날 수 있을까요?”"
       }
     },
     "firstDictation": {
-      "title": "완료되었습니다. 첫 텍스트를 받아쓰기했습니다.",
-      "subtitle": "이제 타이핑할 수 있는 곳이라면 어디서든 말로 입력할 수 있습니다."
+      "title": "이게 전부입니다!",
+      "subtitle": "이제 타이핑할 수 있는 곳이라면 어디서든 말로 입력할 수 있습니다.",
+      "lead": "첫 번째 텍스트를 받아쓰기했습니다.",
+      "typingLabel": "타이핑, 평균",
+      "speakingLabel": "말하기, 평균",
+      "faster": "<n/>배 <em>더 빠름</em>"
     },
     "timeSaved": {
       "headline_other": "받아쓰기로 일주일에 약 {{hours}}시간을 절약할 수 있습니다",
@@ -2005,26 +2008,27 @@
       "hoursPerDay_other": "하루 {{hours}}시간",
       "takeTest": "타이핑 테스트 하기",
       "basisMeasured_other": "분당 {{wpm}}단어의 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
-      "basisAverage_other": "분당 {{wpm}}단어의 평균 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다."
+      "basisAverage_other": "분당 {{wpm}}단어의 평균 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
+      "lead": "받아쓰기로 절약할 수 있는 시간",
+      "perWeek_other": "<em>주당</em> 약 <n/>시간"
     },
     "typing": {
-      "title": "타이핑 속도는 어느 정도인가요?",
+      "title": "<em>타이핑</em> 속도는 어느 정도인가요?",
       "skip": "건너뛰기",
       "language": "언어",
-      "wpmPending": "분당 — 단어",
       "wpm_other": "분당 {{count}}단어",
-      "secondsLeft_other": "{{count}}초 남음",
       "inputLabel": "여기에 문단을 입력하세요",
-      "placeholder": "여기에 입력을 시작하세요…",
       "nothing": "문단과 일치하는 입력이 없습니다. 다시 시도하세요.",
       "result_other": "분당 약 {{count}}단어를 입력합니다.",
       "tryAgain": "다시 시도",
       "recalculate": "다시 계산",
-      "instruction_other": "아래 문단을 평소처럼 입력하세요. 첫 번째 키를 누르면 타이머가 시작되어 {{seconds}}초 동안 진행됩니다."
+      "instruction_other": "아래 문단을 평소처럼 입력하세요. 첫 번째 키를 누르면 타이머가 시작되어 {{seconds}}초 동안 진행됩니다.",
+      "wpmUnit_other": "분당 단어 수",
+      "secondsUnit_other": "초 남음"
     },
     "summary": {
       "title": "모든 준비가 끝났습니다",
-      "subtitle": "Wispr Bro의 설정 내용입니다. 아무 앱에서나 단축키를 누른 채로 받아쓰기하세요.",
+      "subtitle": "아무 앱에서나 단축키를 길게 눌러 받아쓰기하세요.",
       "languages": "언어",
       "shortcut": "단축키",
       "shortcutFn": "fn(🌐) 길게 누르기",
@@ -2037,7 +2041,6 @@
       "notSet": "설정되지 않음",
       "launchAtLogin": "로그인 시 Wispr Bro 열기",
       "launchAtLoginHint": "필요할 때 언제든지 받아쓰기를 사용할 수 있습니다.",
-      "later": "이 설정은 모두 나중에 설정에서 변경할 수 있습니다.",
       "finish": "받아쓰기 시작"
     }
   },

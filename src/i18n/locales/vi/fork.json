@@ -1845,7 +1845,6 @@
     "continue": "Tiếp tục",
     "yes": "Có",
     "no": "Không",
-    "downloadHint": "Thiết lập giọng nói tiếp tục chạy trong nền. Bạn không bao giờ phải chờ ở đây.",
     "navigationFailed": "Không thể lưu bước đó. Hãy thử lại.",
     "stepper": {
       "label": "Tiến trình thiết lập",
@@ -1853,7 +1852,8 @@
       "permissions": "Quyền",
       "setup": "Thiết lập",
       "practice": "Luyện tập",
-      "done": "(xong)"
+      "done": "(xong)",
+      "finish": "Hoàn tất"
     },
     "help": {
       "chip": "Trợ giúp",
@@ -1867,14 +1867,13 @@
       "title": "Hãy nói, và lời của bạn hiện ra",
       "subtitle": "Giữ một phím, nói, rồi thả ra. Văn bản gọn gàng xuất hiện ở bất cứ đâu bạn đang gõ.",
       "privacyTitle": "Mọi thứ ở lại trên máy Mac này",
-      "privacy": "Giọng nói và văn bản của bạn không bao giờ rời khỏi máy Mac của bạn. Không tài khoản, không đám mây, không theo dõi.",
-      "download": "Thiết lập giọng nói bắt đầu ngay và chạy trong nền.",
-      "start": "Bắt đầu"
+      "privacy": "Không tài khoản, không đám mây, không theo dõi.",
+      "start": "Bắt đầu",
+      "demoLabel": "Wispr Bro khi hoạt động"
     },
     "move": {
       "title": "Chuyển Wispr Bro vào thư mục Ứng dụng",
-      "body": "Wispr Bro đang chạy từ bên ngoài thư mục Ứng dụng. Chuyển vào đó giúp cập nhật và quyền truy cập hoạt động bình thường.",
-      "note": "Wispr Bro tự mở lại sau khi di chuyển và tiếp tục quá trình thiết lập.",
+      "body": "Cập nhật và quyền hoạt động tốt nhất từ đó. Wispr Bro sẽ tự mở lại và tiếp tục.",
       "action": "Chuyển vào Ứng dụng",
       "moving": "Đang di chuyển…",
       "skip": "Để sau",
@@ -1882,7 +1881,7 @@
     },
     "languages": {
       "title": "Bạn nói những ngôn ngữ nào?",
-      "subtitle": "Chọn mọi ngôn ngữ bạn dùng để đọc chính tả. Wispr Bro dọn dẹp lời của bạn tốt hơn nhiều khi biết các ngôn ngữ đó.",
+      "subtitle": "Chọn mọi ngôn ngữ bạn đọc chính tả.",
       "listLabel": "Ngôn ngữ",
       "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”.",
       "count_other": "Đọc chính tả hỗ trợ {{count}} ngôn ngữ. Bạn có thể thay đổi ngôn ngữ của mình sau trong Cài đặt.",
@@ -1898,7 +1897,7 @@
       "pane": "Trong Cài đặt hệ thống",
       "microphone": {
         "title": "Micrô",
-        "why": "Để Wispr Bro nghe bạn khi bạn giữ phím. Âm thanh chỉ được xử lý trên máy Mac này.",
+        "why": "Để Wispr Bro có thể nghe bạn khi bạn đọc chính tả.",
         "action": "Cho phép micrô",
         "promptAlt": "Ảnh hộp thoại micrô của macOS, với nút Cho phép được làm nổi bật",
         "paneAlt": "Ảnh Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Micrô, với công tắc của Wispr Bro đã bật",
@@ -1906,7 +1905,7 @@
       },
       "accessibility": {
         "title": "Trợ năng",
-        "why": "Để Wispr Bro nhận ra phím tắt của bạn và gõ văn bản vào ứng dụng bạn đang dùng.",
+        "why": "Để Wispr Bro có thể nhận phím tắt của bạn và gõ thay bạn.",
         "action": "Cho phép Trợ năng",
         "promptAlt": "Ảnh hộp thoại Trợ năng của macOS, với nút Mở Cài đặt hệ thống được làm nổi bật",
         "paneAlt": "Ảnh Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Trợ năng, với công tắc của Wispr Bro đã bật",
@@ -1968,9 +1967,9 @@
       }
     },
     "practice": {
-      "title": "Luyện tập: cả một email, rảnh tay",
-      "instruction": "Nhấn đồng thời fn và Space, rồi nói. Bạn không cần giữ phím nào. Nhấn fn lần nữa khi xong. Hãy thử: “Chào Sam, cảm ơn bạn về ghi chú. Mình gặp nhau vào thứ Năm lúc mười giờ được không?”",
-      "instructionFallback": "Nhấn đồng thời Control, Option và Space, rồi nói. Bạn không cần giữ phím nào. Nhấn Control và Option lần nữa khi xong. Hãy thử: “Chào Sam, cảm ơn bạn về ghi chú. Mình gặp nhau vào thứ Năm lúc mười giờ được không?”",
+      "title": "Luyện tập: cả một email, <em>rảnh tay</em>",
+      "instruction": "Nhấn đồng thời fn và Space, rồi nói. Nhấn fn lần nữa khi bạn xong.",
+      "instructionFallback": "Nhấn đồng thời Control, Option và Space, rồi nói. Nhấn Control và Option lần nữa khi bạn xong.",
       "instructionUnbound": "Chưa đặt phím tắt đọc chính tả nên không thể bắt đầu bài luyện tập. Hãy bỏ qua lúc này và đặt phím tắt trong Cài đặt.",
       "skip": "Bỏ qua",
       "waiting": "Đang chờ bạn bắt đầu nói…",
@@ -1989,12 +1988,16 @@
         "subject": "Chủ đề",
         "subjectText": "Thứ Năm",
         "body": "Nội dung",
-        "placeholder": "Lời của bạn sẽ hiện ở đây."
+        "placeholder": "Hãy thử nói: “Chào Sam, cảm ơn bạn về ghi chú. Mình gặp nhau lúc mười giờ thứ Năm được không?”"
       }
     },
     "firstDictation": {
-      "title": "Xong rồi. Bạn vừa đọc chính tả văn bản đầu tiên.",
-      "subtitle": "Ở bất cứ đâu bạn có thể gõ, giờ bạn có thể nói."
+      "title": "Xong rồi!",
+      "subtitle": "Ở bất cứ đâu bạn có thể gõ, giờ bạn có thể nói.",
+      "lead": "Bạn vừa đọc chính tả văn bản đầu tiên.",
+      "typingLabel": "Gõ phím, trung bình",
+      "speakingLabel": "Nói, trung bình",
+      "faster": "<em>nhanh hơn</em> <n/> lần"
     },
     "timeSaved": {
       "headline_other": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
@@ -2005,26 +2008,27 @@
       "hoursPerDay_other": "{{hours}} giờ mỗi ngày",
       "takeTest": "Làm bài kiểm tra gõ",
       "basisMeasured_other": "Dựa trên tốc độ gõ {{wpm}} từ/phút của bạn và tốc độ nói khoảng {{speaking}} từ/phút.",
-      "basisAverage_other": "Dựa trên tốc độ gõ trung bình {{wpm}} từ/phút và tốc độ nói khoảng {{speaking}} từ/phút."
+      "basisAverage_other": "Dựa trên tốc độ gõ trung bình {{wpm}} từ/phút và tốc độ nói khoảng {{speaking}} từ/phút.",
+      "lead": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng",
+      "perWeek_other": "<n/> giờ <em>mỗi tuần</em>"
     },
     "typing": {
-      "title": "Bạn gõ nhanh đến mức nào?",
+      "title": "Bạn <em>gõ</em> nhanh đến mức nào?",
       "skip": "Bỏ qua",
       "language": "Ngôn ngữ",
-      "wpmPending": "— từ/phút",
       "wpm_other": "{{count}} từ/phút",
-      "secondsLeft_other": "Còn {{count}} giây",
       "inputLabel": "Nhập đoạn văn ở đây",
-      "placeholder": "Bắt đầu gõ ở đây…",
       "nothing": "Không có gì khớp với đoạn văn. Hãy thử lại.",
       "result_other": "Bạn gõ khoảng {{count}} từ mỗi phút.",
       "tryAgain": "Thử lại",
       "recalculate": "Tính lại",
-      "instruction_other": "Gõ đoạn văn bên dưới như bạn vẫn thường gõ. Đồng hồ bắt đầu từ phím đầu tiên và chạy trong {{seconds}} giây."
+      "instruction_other": "Gõ đoạn văn bên dưới như bạn vẫn thường gõ. Đồng hồ bắt đầu từ phím đầu tiên và chạy trong {{seconds}} giây.",
+      "wpmUnit_other": "từ mỗi phút",
+      "secondsUnit_other": "giây còn lại"
     },
     "summary": {
       "title": "Mọi thứ đã sẵn sàng",
-      "subtitle": "Đây là cách Wispr Bro đã được thiết lập. Giữ phím tắt trong bất kỳ ứng dụng nào để đọc chính tả.",
+      "subtitle": "Giữ phím tắt trong bất kỳ ứng dụng nào để đọc chính tả.",
       "languages": "Ngôn ngữ",
       "shortcut": "Phím tắt",
       "shortcutFn": "Giữ fn (🌐)",
@@ -2037,7 +2041,6 @@
       "notSet": "Chưa đặt",
       "launchAtLogin": "Mở Wispr Bro khi bạn đăng nhập",
       "launchAtLoginHint": "Để Đọc chính tả luôn sẵn sàng khi bạn cần.",
-      "later": "Bạn có thể thay đổi tất cả những điều này sau trong Cài đặt.",
       "finish": "Bắt đầu đọc chính tả"
     }
   },

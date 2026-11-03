@@ -2076,7 +2076,6 @@
     "continue": "Dalej",
     "yes": "Tak",
     "no": "Nie",
-    "downloadHint": "Konfiguracja mowy trwa w tle. Nie musisz tu na nią czekać.",
     "navigationFailed": "Nie udało się zapisać tego kroku. Spróbuj ponownie.",
     "stepper": {
       "label": "Postęp konfiguracji",
@@ -2084,7 +2083,8 @@
       "permissions": "Uprawnienia",
       "setup": "Konfiguracja",
       "practice": "Ćwiczenie",
-      "done": "(gotowe)"
+      "done": "(gotowe)",
+      "finish": "Koniec"
     },
     "help": {
       "chip": "Pomoc",
@@ -2098,14 +2098,13 @@
       "title": "Mów, a słowa pojawią się same",
       "subtitle": "Przytrzymaj jeden klawisz, mów, puść. Czysty tekst trafi tam, gdzie piszesz.",
       "privacyTitle": "Wszystko zostaje na tym Macu",
-      "privacy": "Twój głos i Twój tekst nigdy nie opuszczają Twojego Maca. Bez konta, bez chmury, bez śledzenia.",
-      "download": "Konfiguracja mowy zaczyna się teraz i działa w tle.",
-      "start": "Zaczynamy"
+      "privacy": "Bez konta, bez chmury, bez śledzenia.",
+      "start": "Zaczynamy",
+      "demoLabel": "Wispr Bro w akcji"
     },
     "move": {
       "title": "Przenieś Wispr Bro do Aplikacji",
-      "body": "Wispr Bro działa spoza folderu Aplikacje. Po przeniesieniu go tam aktualizacje i uprawnienia będą działać poprawnie.",
-      "note": "Po przeniesieniu Wispr Bro otworzy się ponownie i będzie kontynuować konfigurację.",
+      "body": "Stamtąd uaktualnienia i uprawnienia działają najlepiej. Wispr Bro sam otworzy się ponownie i będzie kontynuować.",
       "action": "Przenieś do Aplikacji",
       "moving": "Przenoszenie…",
       "skip": "Nie teraz",
@@ -2113,7 +2112,7 @@
     },
     "languages": {
       "title": "W jakich językach mówisz?",
-      "subtitle": "Wybierz wszystkie języki, w których dyktujesz. Wispr Bro znacznie lepiej porządkuje Twoje słowa, gdy je zna.",
+      "subtitle": "Wybierz wszystkie języki, w których dyktujesz.",
       "listLabel": "Języki",
       "noMatch": "Żaden język nie pasuje do „{{query}}”.",
       "count_one": "Dyktowanie działa w {{count}} języku. Możesz to później zmienić w Ustawieniach.",
@@ -2135,7 +2134,7 @@
       "pane": "W Ustawieniach systemowych",
       "microphone": {
         "title": "Mikrofon",
-        "why": "Aby Wispr Bro słyszał Cię, gdy przytrzymujesz klawisz. Dźwięk jest przetwarzany wyłącznie na tym Macu.",
+        "why": "Aby Wispr Bro słyszał Cię podczas dyktowania.",
         "action": "Zezwól na mikrofon",
         "promptAlt": "Obraz monitu macOS o dostęp do mikrofonu z wyróżnionym przyciskiem Pozwól",
         "paneAlt": "Obraz Ustawień systemowych: Prywatność i ochrona › Mikrofon, z włączonym przełącznikiem Wispr Bro",
@@ -2143,7 +2142,7 @@
       },
       "accessibility": {
         "title": "Dostępność",
-        "why": "Aby Wispr Bro rozpoznawał Twój skrót i wpisywał tekst w aplikacji, której używasz.",
+        "why": "Aby Wispr Bro widział Twój skrót i pisał za Ciebie.",
         "action": "Zezwól na Dostępność",
         "promptAlt": "Obraz monitu macOS o Dostępność z wyróżnionym przyciskiem Otwórz Ustawienia systemowe",
         "paneAlt": "Obraz Ustawień systemowych: Prywatność i ochrona › Dostępność, z włączonym przełącznikiem Wispr Bro",
@@ -2205,9 +2204,9 @@
       }
     },
     "practice": {
-      "title": "Ćwiczenie: cały e‑mail bez użycia rąk",
-      "instruction": "Naciśnij jednocześnie fn i Space, a potem mów. Nie musisz niczego przytrzymywać. Gdy skończysz, naciśnij ponownie fn. Spróbuj: „Cześć Sam, dzięki za notatki. Możemy się spotkać w czwartek o dziesiątej?”",
-      "instructionFallback": "Naciśnij jednocześnie Control, Option i Space, a potem mów. Nie musisz niczego przytrzymywać. Gdy skończysz, naciśnij ponownie Control i Option. Spróbuj: „Cześć Sam, dzięki za notatki. Możemy się spotkać w czwartek o dziesiątej?”",
+      "title": "Ćwiczenie: cały e-mail <em>bez użycia rąk</em>",
+      "instruction": "Naciśnij jednocześnie fn i Spację, a potem mów. Gdy skończysz, naciśnij ponownie fn.",
+      "instructionFallback": "Naciśnij jednocześnie Control, Option i Spację, a potem mów. Gdy skończysz, naciśnij ponownie Control i Option.",
       "instructionUnbound": "Nie ustawiono skrótu dyktowania, więc nie można rozpocząć ćwiczenia. Pomiń je na razie i ustaw skrót w Ustawieniach.",
       "skip": "Pomiń",
       "waiting": "Czekam, aż zaczniesz mówić…",
@@ -2226,12 +2225,16 @@
         "subject": "Temat",
         "subjectText": "Czwartek",
         "body": "Wiadomość",
-        "placeholder": "Tutaj pojawią się Twoje słowa."
+        "placeholder": "Spróbuj powiedzieć: „Cześć Sam, dzięki za notatki. Możemy się spotkać w czwartek o dziesiątej?”"
       }
     },
     "firstDictation": {
-      "title": "Gotowe. Oto Twój pierwszy podyktowany tekst.",
-      "subtitle": "Wszędzie, gdzie możesz pisać, możesz teraz mówić."
+      "title": "To wszystko!",
+      "subtitle": "Wszędzie, gdzie możesz pisać, możesz teraz mówić.",
+      "lead": "Twój pierwszy tekst jest już podyktowany.",
+      "typingLabel": "Pisanie, średnio",
+      "speakingLabel": "Mówienie, średnio",
+      "faster": "<n/>× <em>szybciej</em>"
     },
     "timeSaved": {
       "headline_one": "Dyktowanie może Ci oszczędzić około {{hours}} godziny tygodniowo",
@@ -2254,23 +2257,22 @@
       "basisAverage_one": "Na podstawie średniego tempa pisania ({{wpm}} słowo na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
       "basisAverage_few": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
       "basisAverage_many": "Na podstawie średniego tempa pisania ({{wpm}} słów na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
-      "basisAverage_other": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę."
+      "basisAverage_other": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "lead": "Dyktowanie może Ci oszczędzić około",
+      "perWeek_one": "<n/> godziny <em>tygodniowo</em>",
+      "perWeek_few": "<n/> godzin <em>tygodniowo</em>",
+      "perWeek_many": "<n/> godzin <em>tygodniowo</em>",
+      "perWeek_other": "<n/> godziny <em>tygodniowo</em>"
     },
     "typing": {
-      "title": "Jak szybko piszesz?",
+      "title": "Jak szybko <em>piszesz</em>?",
       "skip": "Pomiń",
       "language": "Język",
-      "wpmPending": "— słów na minutę",
       "wpm_one": "{{count}} słowo na minutę",
       "wpm_few": "{{count}} słowa na minutę",
       "wpm_many": "{{count}} słów na minutę",
       "wpm_other": "{{count}} słowa na minutę",
-      "secondsLeft_one": "Pozostała {{count}} sekunda",
-      "secondsLeft_few": "Pozostały {{count}} sekundy",
-      "secondsLeft_many": "Pozostało {{count}} sekund",
-      "secondsLeft_other": "Pozostało {{count}} sekundy",
       "inputLabel": "Tutaj przepisz akapit",
-      "placeholder": "Zacznij pisać tutaj…",
       "nothing": "Nic nie pasuje do akapitu. Spróbuj ponownie.",
       "result_one": "Piszesz z prędkością około {{count}} słowa na minutę.",
       "result_few": "Piszesz z prędkością około {{count}} słów na minutę.",
@@ -2281,11 +2283,19 @@
       "instruction_one": "Przepisz poniższy akapit tak, jak zwykle piszesz. Zegar rusza z pierwszym naciśnięciem klawisza i odmierza {{seconds}} sekundę.",
       "instruction_few": "Przepisz poniższy akapit tak, jak zwykle piszesz. Zegar rusza z pierwszym naciśnięciem klawisza i odmierza {{seconds}} sekundy.",
       "instruction_many": "Przepisz poniższy akapit tak, jak zwykle piszesz. Zegar rusza z pierwszym naciśnięciem klawisza i odmierza {{seconds}} sekund.",
-      "instruction_other": "Przepisz poniższy akapit tak, jak zwykle piszesz. Zegar rusza z pierwszym naciśnięciem klawisza i odmierza {{seconds}} sekundy."
+      "instruction_other": "Przepisz poniższy akapit tak, jak zwykle piszesz. Zegar rusza z pierwszym naciśnięciem klawisza i odmierza {{seconds}} sekundy.",
+      "wpmUnit_one": "słowo na minutę",
+      "wpmUnit_few": "słowa na minutę",
+      "wpmUnit_many": "słów na minutę",
+      "wpmUnit_other": "słowa na minutę",
+      "secondsUnit_one": "sekunda została",
+      "secondsUnit_few": "sekundy zostały",
+      "secondsUnit_many": "sekund zostało",
+      "secondsUnit_other": "sekundy zostało"
     },
     "summary": {
       "title": "Wszystko gotowe",
-      "subtitle": "Tak wygląda konfiguracja Wispr Bro. Aby dyktować, przytrzymaj skrót w dowolnej aplikacji.",
+      "subtitle": "Przytrzymaj skrót w dowolnej aplikacji, aby dyktować.",
       "languages": "Języki",
       "shortcut": "Skrót",
       "shortcutFn": "Przytrzymaj fn (🌐)",
@@ -2301,7 +2311,6 @@
       "notSet": "Nie ustawiono",
       "launchAtLogin": "Otwieraj Wispr Bro po zalogowaniu",
       "launchAtLoginHint": "Aby dyktowanie było gotowe, kiedy tylko go potrzebujesz.",
-      "later": "Wszystko to możesz później zmienić w Ustawieniach.",
       "finish": "Zacznij dyktować"
     }
   },

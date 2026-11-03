@@ -1922,7 +1922,6 @@
     "continue": "Weiter",
     "yes": "Ja",
     "no": "Nein",
-    "downloadHint": "Die Spracheinrichtung läuft im Hintergrund weiter. Du musst hier nie darauf warten.",
     "navigationFailed": "Dieser Schritt konnte nicht gespeichert werden. Versuch es noch einmal.",
     "stepper": {
       "label": "Fortschritt der Einrichtung",
@@ -1930,7 +1929,8 @@
       "permissions": "Berechtigungen",
       "setup": "Einrichten",
       "practice": "Üben",
-      "done": "(fertig)"
+      "done": "(fertig)",
+      "finish": "Abschluss"
     },
     "help": {
       "chip": "Hilfe",
@@ -1944,14 +1944,13 @@
       "title": "Sprich, und deine Worte erscheinen",
       "subtitle": "Eine Taste halten, sprechen, loslassen. Sauberer Text landet dort, wo du gerade schreibst.",
       "privacyTitle": "Alles bleibt auf diesem Mac",
-      "privacy": "Deine Stimme und dein Text verlassen nie deinen Mac. Kein Konto, keine Cloud, kein Tracking.",
-      "download": "Die Spracheinrichtung beginnt jetzt und läuft im Hintergrund.",
-      "start": "Loslegen"
+      "privacy": "Kein Konto, keine Cloud, kein Tracking.",
+      "start": "Loslegen",
+      "demoLabel": "Wispr Bro in Aktion"
     },
     "move": {
       "title": "Wispr Bro in den Ordner „Programme“ bewegen",
-      "body": "Wispr Bro läuft außerhalb deines Ordners „Programme“. Liegt es dort, funktionieren Updates und Berechtigungen zuverlässig.",
-      "note": "Wispr Bro öffnet sich nach dem Bewegen von selbst und setzt die Einrichtung fort.",
+      "body": "Updates und Berechtigungen funktionieren dort am besten. Wispr Bro öffnet sich von selbst neu und macht weiter.",
       "action": "In „Programme“ bewegen",
       "moving": "Wird bewegt …",
       "skip": "Nicht jetzt",
@@ -1959,7 +1958,7 @@
     },
     "languages": {
       "title": "Welche Sprachen sprichst du?",
-      "subtitle": "Wähle jede Sprache, in der du diktierst. Wispr Bro bereinigt deine Worte viel besser, wenn es sie kennt.",
+      "subtitle": "Wähle jede Sprache, in der du diktierst.",
       "listLabel": "Sprachen",
       "noMatch": "Keine Sprache passt zu „{{query}}“.",
       "count_one": "Diktieren funktioniert in {{count}} Sprache. Du kannst deine später in den Einstellungen ändern.",
@@ -1977,7 +1976,7 @@
       "pane": "In den Systemeinstellungen",
       "microphone": {
         "title": "Mikrofon",
-        "why": "Damit Wispr Bro dich hört, während du die Taste hältst. Audio wird nur auf diesem Mac verarbeitet.",
+        "why": "Damit Wispr Bro dich hört, während du diktierst.",
         "action": "Mikrofon erlauben",
         "promptAlt": "Bild der Mikrofonabfrage von macOS, die Taste „Erlauben“ ist hervorgehoben",
         "paneAlt": "Bild der Systemeinstellungen unter „Datenschutz & Sicherheit“ > „Mikrofon“, der Schalter für Wispr Bro ist eingeschaltet",
@@ -1985,7 +1984,7 @@
       },
       "accessibility": {
         "title": "Bedienungshilfen",
-        "why": "Damit Wispr Bro deinen Kurzbefehl erkennt und den Text in die App schreibt, die du gerade nutzt.",
+        "why": "Damit Wispr Bro deinen Kurzbefehl erkennt und für dich tippt.",
         "action": "Bedienungshilfen erlauben",
         "promptAlt": "Bild der Bedienungshilfen-Abfrage von macOS, die Taste „Systemeinstellungen öffnen“ ist hervorgehoben",
         "paneAlt": "Bild der Systemeinstellungen unter „Datenschutz & Sicherheit“ > „Bedienungshilfen“, der Schalter für Wispr Bro ist eingeschaltet",
@@ -2047,9 +2046,9 @@
       }
     },
     "practice": {
-      "title": "Übung: eine ganze E-Mail, freihändig",
-      "instruction": "Drück fn und Space gleichzeitig und sprich. Du musst nichts gedrückt halten. Drück fn erneut, wenn du fertig bist. Probier: „Hallo Sam, danke für die Notizen. Können wir uns am Donnerstag um zehn treffen?“",
-      "instructionFallback": "Drück Control, Option und Space gleichzeitig und sprich. Du musst nichts gedrückt halten. Drück Control und Option erneut, wenn du fertig bist. Probier: „Hallo Sam, danke für die Notizen. Können wir uns am Donnerstag um zehn treffen?“",
+      "title": "Üben: eine ganze E-Mail, <em>freihändig</em>",
+      "instruction": "Drück fn und Space gleichzeitig und sprich. Drück erneut fn, wenn du fertig bist.",
+      "instructionFallback": "Drück Control, Option und Space gleichzeitig und sprich. Drück erneut Control und Option, wenn du fertig bist.",
       "instructionUnbound": "Es ist kein Kurzbefehl fürs Diktat festgelegt, daher kann die Übung nicht starten. Überspring sie vorerst und leg in den Einstellungen einen Kurzbefehl fest.",
       "skip": "Überspringen",
       "waiting": "Warten, bis du sprichst …",
@@ -2068,12 +2067,16 @@
         "subject": "Betreff",
         "subjectText": "Donnerstag",
         "body": "Nachricht",
-        "placeholder": "Deine Worte erscheinen hier."
+        "placeholder": "Sag zum Beispiel: „Hallo Sam, danke für die Notizen. Können wir uns am Donnerstag um zehn treffen?“"
       }
     },
     "firstDictation": {
-      "title": "Geschafft. Du hast deinen ersten Text diktiert.",
-      "subtitle": "Überall, wo du tippen kannst, kannst du jetzt auch sprechen."
+      "title": "Das war’s!",
+      "subtitle": "Überall, wo du tippen kannst, kannst du jetzt auch sprechen.",
+      "lead": "Du hast gerade deinen ersten Text diktiert.",
+      "typingLabel": "Tippen, im Schnitt",
+      "speakingLabel": "Sprechen, im Schnitt",
+      "faster": "<n/>× <em>schneller</em>"
     },
     "timeSaved": {
       "headline_one": "Diktieren könnte dir etwa {{hours}} Stunde pro Woche sparen",
@@ -2088,30 +2091,33 @@
       "basisMeasured_one": "Ausgehend von deinem Tipptempo von {{wpm}} Wort pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
       "basisMeasured_other": "Ausgehend von deinem Tipptempo von {{wpm}} Wörtern pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
       "basisAverage_one": "Ausgehend von einem durchschnittlichen Tipptempo von {{wpm}} Wort pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
-      "basisAverage_other": "Ausgehend von einem durchschnittlichen Tipptempo von {{wpm}} Wörtern pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute."
+      "basisAverage_other": "Ausgehend von einem durchschnittlichen Tipptempo von {{wpm}} Wörtern pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
+      "lead": "Mit Diktieren sparst du etwa",
+      "perWeek_one": "<n/> Stunde <em>pro Woche</em>",
+      "perWeek_other": "<n/> Stunden <em>pro Woche</em>"
     },
     "typing": {
-      "title": "Wie schnell tippst du?",
+      "title": "Wie schnell <em>tippst</em> du?",
       "skip": "Überspringen",
       "language": "Sprache",
-      "wpmPending": "— Wörter pro Minute",
       "wpm_one": "{{count}} Wort pro Minute",
       "wpm_other": "{{count}} Wörter pro Minute",
-      "secondsLeft_one": "Noch {{count}} Sekunde",
-      "secondsLeft_other": "Noch {{count}} Sekunden",
       "inputLabel": "Tippe den Absatz hier",
-      "placeholder": "Hier lostippen …",
       "nothing": "Nichts stimmte mit dem Absatz überein. Versuch es noch einmal.",
       "result_one": "Du tippst etwa {{count}} Wort pro Minute.",
       "result_other": "Du tippst etwa {{count}} Wörter pro Minute.",
       "tryAgain": "Erneut versuchen",
       "recalculate": "Neu berechnen",
       "instruction_one": "Tippe den Absatz unten wie gewohnt ab. Die Zeit läuft ab deinem ersten Tastendruck {{seconds}} Sekunde lang.",
-      "instruction_other": "Tippe den Absatz unten wie gewohnt ab. Die Zeit läuft ab deinem ersten Tastendruck {{seconds}} Sekunden lang."
+      "instruction_other": "Tippe den Absatz unten wie gewohnt ab. Die Zeit läuft ab deinem ersten Tastendruck {{seconds}} Sekunden lang.",
+      "wpmUnit_one": "Wort pro Minute",
+      "wpmUnit_other": "Wörter pro Minute",
+      "secondsUnit_one": "Sekunde übrig",
+      "secondsUnit_other": "Sekunden übrig"
     },
     "summary": {
       "title": "Alles bereit",
-      "subtitle": "So ist Wispr Bro eingerichtet. Halte in einer beliebigen App deinen Kurzbefehl gedrückt, um zu diktieren.",
+      "subtitle": "Halte deinen Kurzbefehl in einer beliebigen App gedrückt, um zu diktieren.",
       "languages": "Sprachen",
       "shortcut": "Kurzbefehl",
       "shortcutFn": "fn (🌐) halten",
@@ -2125,7 +2131,6 @@
       "notSet": "Nicht festgelegt",
       "launchAtLogin": "Wispr Bro beim Anmelden öffnen",
       "launchAtLoginHint": "Damit das Diktat immer bereit ist, wenn du es brauchst.",
-      "later": "Du kannst all das später in den Einstellungen ändern.",
       "finish": "Mit dem Diktieren beginnen"
     }
   },
