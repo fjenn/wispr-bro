@@ -300,6 +300,20 @@ export function DictionaryPage() {
 
   const empty = () => {
     if (status === "loading") return null;
+    if (status === "broken" && entries.length === 0) {
+      return (
+        <EmptyState
+          testId="wb-dictionary-broken"
+          icon={BookA}
+          title={t("dictionary.unavailable.brokenTitle")}
+          body={t("dictionary.unavailable.brokenBody", { appName })}
+          action={{
+            label: t("dictionary.refresh"),
+            onClick: () => void refresh(),
+          }}
+        />
+      );
+    }
     if (status === "unavailable" && entries.length === 0) {
       return (
         <EmptyState

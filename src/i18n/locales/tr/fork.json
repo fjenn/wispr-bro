@@ -1094,7 +1094,9 @@
     },
     "unavailable": {
       "title": "Sözlük henüz kullanılamıyor",
-      "body": "Uygulama açılmayı bitirir bitirmez kullanılabilir."
+      "body": "Uygulama açılmayı bitirir bitirmez kullanılabilir.",
+      "brokenTitle": "Sözlük açılamıyor",
+      "brokenBody": "{{appName}} şu anda veri dosyasını okuyamıyor. Uygulamadan çıkıp yeniden açın. Sorun sürerse Yardım › Sorun bildir'i seçin."
     },
     "problem": {
       "empty": "Önce bir kelime yazın.",
@@ -1129,7 +1131,9 @@
       "conflictWord": "“{{word}}” sözlüğünüzde başka bir yazımla zaten var.",
       "replaceExisting": "Değiştir",
       "missing": "Bu giriş bu arada silinmiş.",
-      "failed": "Kaydedilemedi. Lütfen yeniden deneyin."
+      "failed": "Kaydedilemedi. Lütfen yeniden deneyin.",
+      "failedStorage": "Kaydedilmedi: {{appName}} veri dosyasını açamıyor. Uygulamadan çıkıp yeniden açın, sonra tekrar deneyin. Sorun sürerse Yardım › Sorun bildir'i seçin.",
+      "failedStarting": "Henüz kaydedilmedi: {{appName}} hâlâ başlatılıyor. Biraz sonra tekrar deneyin."
     },
     "import": {
       "open": "İçe Aktar",

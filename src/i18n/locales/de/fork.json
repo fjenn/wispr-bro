@@ -1094,7 +1094,9 @@
     },
     "unavailable": {
       "title": "Das Wörterbuch ist noch nicht verfügbar",
-      "body": "Es öffnet sich, sobald die App fertig gestartet ist."
+      "body": "Es öffnet sich, sobald die App fertig gestartet ist.",
+      "brokenTitle": "Das Wörterbuch kann nicht geöffnet werden",
+      "brokenBody": "{{appName}} kann seine Datendatei gerade nicht lesen. Beende die App und öffne sie erneut. Wenn das weiter passiert, wähle Hilfe › Problem melden."
     },
     "problem": {
       "empty": "Gib zuerst ein Wort ein.",
@@ -1129,7 +1131,9 @@
       "conflictWord": "„{{word}}“ ist schon mit einer anderen Schreibweise in deinem Wörterbuch.",
       "replaceExisting": "Ersetzen",
       "missing": "Dieser Eintrag wurde inzwischen gelöscht.",
-      "failed": "Das konnte nicht gespeichert werden. Versuch es noch einmal."
+      "failed": "Das konnte nicht gespeichert werden. Versuch es noch einmal.",
+      "failedStorage": "Nicht gespeichert: {{appName}} kann seine Datendatei nicht öffnen. Beende die App, öffne sie erneut und versuch es noch einmal. Wenn das weiter passiert, wähle Hilfe › Problem melden.",
+      "failedStarting": "Noch nicht gespeichert: {{appName}} startet noch. Versuch es gleich noch einmal."
     },
     "import": {
       "open": "Importieren",

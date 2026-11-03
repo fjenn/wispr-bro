@@ -18,7 +18,7 @@ import type {
   ImportRow,
   SaveOutcome,
 } from "../../src/fork/bindings";
-import type { IpcMock } from "./fixtures";
+import { ipcError, type IpcMock } from "./fixtures";
 import {
   test,
   expect,
@@ -761,6 +761,72 @@ dictTest.describe("import wizard", () => {
         { row: 1, phrase: "Straße", replacement: "Strasse" },
         { row: 2, phrase: "Müller", replacement: null },
       ]);
+    },
+  );
+});
+
+// Owner test 1: a save that fails says why and keeps the dialog open;
+// a dictionary whose data file cannot be opened says so on the page.
+dictTest.describe("dictionary failures", () => {
+  dictTest(
+    "a save that cannot reach the data file shows a clear message",
+    async ({ page, ipc, hub, dict }) => {
+      await openDictionary(page, ipc, hub, dict);
+      ipc.handle("fork_dictionary_add", () =>
+        ipcError({
+          kind: "Internal",
+          message: "fork.db migration to version 6 failed",
+        }),
+      );
+      await page.getByTestId("wb-dictionary-add").click();
+      await page.getByTestId("wb-dictionary-phrase").fill("Siobhán");
+      await page.getByTestId("wb-dictionary-save").click();
+      const feedback = page.getByTestId("wb-dictionary-feedback");
+      await expect(feedback).toHaveAttribute("data-kind", "failed");
+      await expect(feedback).toHaveAttribute("role", "alert");
+      await expect(feedback).toHaveText(
+        "Not saved: Wispr Bro can't open its data file. Quit and reopen the app, then try again. If it keeps happening, choose Help › Report a problem.",
+      );
+      // The dialog stays open with the word, so nothing typed is lost.
+      await expect(page.getByTestId("wb-dictionary-phrase")).toHaveValue(
+        "Siobhán",
+      );
+      await expect(page.getByTestId("wb-dictionary-save")).toBeEnabled();
+      await shot(page, "save-failed");
+
+      ipc.handle("fork_dictionary_add", () => ipcError({ kind: "NotReady" }));
+      await page.getByTestId("wb-dictionary-save").click();
+      await expect(feedback).toHaveText(
+        "Not saved yet: Wispr Bro is still starting. Try again in a moment.",
+      );
+
+      ipc.handle("fork_dictionary_add", (a) => dict.add(a.input as EntryInput));
+      await page.getByTestId("wb-dictionary-save").click();
+      await expect(page.getByTestId("wb-dictionary-dialog")).toBeHidden();
+      await expect(rows(page)).toHaveCount(1);
+    },
+  );
+
+  dictTest(
+    "a dictionary that cannot be opened says so instead of 'not available yet'",
+    async ({ page, ipc, hub, dict }) => {
+      await openHub(page, ipc, hub, { hash: "#/hub/dictionary" });
+      dict.install(ipc);
+      ipc.handle("fork_dictionary_list", () =>
+        ipcError({ kind: "Internal", message: "fork.db migration failed" }),
+      );
+      await page.reload();
+      const broken = page.getByTestId("wb-dictionary-broken");
+      await expect(broken).toBeVisible();
+      await expect(broken).toContainText("Your dictionary can't be opened");
+      await expect(broken).toContainText(
+        "Wispr Bro can't read its data file right now.",
+      );
+      await expect(page.getByTestId("wb-dictionary-unavailable")).toHaveCount(
+        0,
+      );
+      await shot(page, "broken");
+      await expectNoSeriousAxeFindings(page);
     },
   );
 });

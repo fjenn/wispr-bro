@@ -1094,7 +1094,9 @@
     },
     "unavailable": {
       "title": "Het woordenboek is nog niet beschikbaar",
-      "body": "Het opent zodra de app volledig is gestart."
+      "body": "Het opent zodra de app volledig is gestart.",
+      "brokenTitle": "Je woordenboek kan niet worden geopend",
+      "brokenBody": "{{appName}} kan zijn gegevensbestand nu niet lezen. Stop de app en open hem opnieuw. Blijft het gebeuren, kies dan Help › Meld een probleem."
     },
     "problem": {
       "empty": "Typ eerst een woord.",
@@ -1129,7 +1131,9 @@
       "conflictWord": "“{{word}}” staat al in je woordenboek met een andere spelling.",
       "replaceExisting": "Vervang het",
       "missing": "Dit item is intussen verwijderd.",
-      "failed": "Dat kon niet worden bewaard. Probeer het opnieuw."
+      "failed": "Dat kon niet worden bewaard. Probeer het opnieuw.",
+      "failedStorage": "Niet bewaard: {{appName}} kan zijn gegevensbestand niet openen. Stop de app, open hem opnieuw en probeer het dan nog eens. Blijft het gebeuren, kies dan Help › Meld een probleem.",
+      "failedStarting": "Nog niet bewaard: {{appName}} is nog aan het opstarten. Probeer het zo opnieuw."
     },
     "import": {
       "open": "Importeer",

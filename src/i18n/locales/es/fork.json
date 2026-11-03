@@ -1113,7 +1113,9 @@
     },
     "unavailable": {
       "title": "El diccionario aún no está disponible",
-      "body": "Se abrirá en cuanto la app termine de iniciarse."
+      "body": "Se abrirá en cuanto la app termine de iniciarse.",
+      "brokenTitle": "No se puede abrir el diccionario",
+      "brokenBody": "{{appName}} no puede leer su archivo de datos ahora mismo. Cierra la app y vuelve a abrirla. Si sigue pasando, elige Ayuda › Informar de un problema."
     },
     "problem": {
       "empty": "Primero escribe una palabra.",
@@ -1150,7 +1152,9 @@
       "conflictWord": "“{{word}}” ya está en tu diccionario con otra grafía.",
       "replaceExisting": "Sustituirla",
       "missing": "Esta entrada se ha eliminado mientras tanto.",
-      "failed": "No se ha podido guardar. Inténtalo de nuevo."
+      "failed": "No se ha podido guardar. Inténtalo de nuevo.",
+      "failedStorage": "No se ha guardado: {{appName}} no puede abrir su archivo de datos. Cierra la app, vuelve a abrirla e inténtalo de nuevo. Si sigue pasando, elige Ayuda › Informar de un problema.",
+      "failedStarting": "Aún no se ha guardado: {{appName}} todavía se está iniciando. Inténtalo de nuevo en un momento."
     },
     "import": {
       "open": "Importar",

@@ -19,7 +19,12 @@ import {
   type DictionaryEntry,
 } from "../bindings";
 
-export type DictionaryStatus = "loading" | "ready" | "unavailable";
+/**
+ * `unavailable`: the app is still starting (`NotReady`, retried);
+ * `broken`: the dictionary's data file cannot be opened (`Internal`, e.g.
+ * `fork.db` failed to migrate), so adding a word would fail too.
+ */
+export type DictionaryStatus = "loading" | "ready" | "unavailable" | "broken";
 
 interface DictionaryState {
   entries: DictionaryEntry[];
@@ -36,8 +41,14 @@ let retries = 0;
 let retryTimer: ReturnType<typeof setTimeout> | undefined;
 
 export const useDictionaryStore = create<DictionaryState>()((set, get) => {
-  const failed = () => {
-    if (get().status !== "ready") set({ status: "unavailable" });
+  const failed = (error?: unknown) => {
+    const broken =
+      typeof error === "object" &&
+      error !== null &&
+      (error as { kind?: unknown }).kind === "Internal";
+    if (get().status !== "ready") {
+      set({ status: broken ? "broken" : "unavailable" });
+    }
     if (retries < MAX_RETRIES) {
       const delay = 1_000 * 2 ** retries;
       retries += 1;
@@ -66,7 +77,10 @@ export const useDictionaryStore = create<DictionaryState>()((set, get) => {
             status: "ready",
           });
         } else {
-          failed();
+          if (result?.status === "error") {
+            console.warn("fork: reading the dictionary failed", result.error);
+          }
+          failed(result?.status === "error" ? result.error : undefined);
         }
       } catch (e) {
         console.warn("fork: reading the dictionary failed", e);

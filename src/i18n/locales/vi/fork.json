@@ -1075,7 +1075,9 @@
     },
     "unavailable": {
       "title": "Từ điển chưa sẵn sàng",
-      "body": "Từ điển sẽ mở ngay khi ứng dụng khởi động xong."
+      "body": "Từ điển sẽ mở ngay khi ứng dụng khởi động xong.",
+      "brokenTitle": "Không mở được từ điển",
+      "brokenBody": "Hiện {{appName}} không đọc được tệp dữ liệu của mình. Hãy thoát và mở lại ứng dụng. Nếu vẫn tiếp tục xảy ra, hãy chọn Trợ giúp › Báo cáo vấn đề."
     },
     "problem": {
       "empty": "Hãy nhập một từ trước.",
@@ -1108,7 +1110,9 @@
       "conflictWord": "“{{word}}” đã có trong từ điển của bạn với cách viết khác.",
       "replaceExisting": "Thay thế",
       "missing": "Mục này đã bị xóa trong lúc đó.",
-      "failed": "Không thể lưu. Vui lòng thử lại."
+      "failed": "Không thể lưu. Vui lòng thử lại.",
+      "failedStorage": "Chưa lưu: {{appName}} không mở được tệp dữ liệu của mình. Hãy thoát và mở lại ứng dụng, rồi thử lại. Nếu vẫn tiếp tục xảy ra, hãy chọn Trợ giúp › Báo cáo vấn đề.",
+      "failedStarting": "Chưa lưu: {{appName}} vẫn đang khởi động. Hãy thử lại sau giây lát."
     },
     "import": {
       "open": "Nhập",

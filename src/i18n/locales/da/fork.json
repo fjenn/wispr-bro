@@ -1094,7 +1094,9 @@
     },
     "unavailable": {
       "title": "Ordbogen er endnu ikke tilgængelig",
-      "body": "Den åbner, så snart appen er færdig med at starte."
+      "body": "Den åbner, så snart appen er færdig med at starte.",
+      "brokenTitle": "Ordbogen kan ikke åbnes",
+      "brokenBody": "{{appName}} kan ikke læse sin datafil lige nu. Afslut og åbn appen igen. Hvis det bliver ved, så vælg Hjælp › Rapportér et problem."
     },
     "problem": {
       "empty": "Skriv et ord først.",
@@ -1129,7 +1131,9 @@
       "conflictWord": "”{{word}}” findes allerede i din ordbog med en anden stavemåde.",
       "replaceExisting": "Erstat det",
       "missing": "Denne post er blevet slettet i mellemtiden.",
-      "failed": "Det kunne ikke gemmes. Prøv igen."
+      "failed": "Det kunne ikke gemmes. Prøv igen.",
+      "failedStorage": "Ikke gemt: {{appName}} kan ikke åbne sin datafil. Afslut og åbn appen igen, og prøv så igen. Hvis det bliver ved, så vælg Hjælp › Rapportér et problem.",
+      "failedStarting": "Ikke gemt endnu: {{appName}} starter stadig. Prøv igen om et øjeblik."
     },
     "import": {
       "open": "Importér",

@@ -1094,7 +1094,9 @@
     },
     "unavailable": {
       "title": "Ordlistan är inte tillgänglig än",
-      "body": "Den öppnas så fort appen har startat färdigt."
+      "body": "Den öppnas så fort appen har startat färdigt.",
+      "brokenTitle": "Ordlistan kan inte öppnas",
+      "brokenBody": "{{appName}} kan inte läsa sin datafil just nu. Avsluta och öppna appen igen. Om det fortsätter, välj Hjälp › Rapportera ett problem."
     },
     "problem": {
       "empty": "Skriv ett ord först.",
@@ -1129,7 +1131,9 @@
       "conflictWord": "”{{word}}” finns redan i din ordlista med en annan stavning.",
       "replaceExisting": "Ersätt",
       "missing": "Posten har raderats under tiden.",
-      "failed": "Det gick inte att spara. Försök igen."
+      "failed": "Det gick inte att spara. Försök igen.",
+      "failedStorage": "Inte sparat: {{appName}} kan inte öppna sin datafil. Avsluta och öppna appen igen och försök sedan på nytt. Om det fortsätter, välj Hjälp › Rapportera ett problem.",
+      "failedStarting": "Inte sparat än: {{appName}} startar fortfarande. Försök igen om en stund."
     },
     "import": {
       "open": "Importera",

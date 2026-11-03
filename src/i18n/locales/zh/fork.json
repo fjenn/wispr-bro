@@ -1075,7 +1075,9 @@
     },
     "unavailable": {
       "title": "词典暂不可用",
-      "body": "App 完成启动后即可打开。"
+      "body": "App 完成启动后即可打开。",
+      "brokenTitle": "无法打开词典",
+      "brokenBody": "{{appName}} 目前无法读取其数据文件。请退出并重新打开应用。如果问题持续，请选择“帮助 › 报告问题”。"
     },
     "problem": {
       "empty": "请先输入一个词。",
@@ -1108,7 +1110,9 @@
       "conflictWord": "“{{word}}”已以另一种拼写存在于你的词典中。",
       "replaceExisting": "替换",
       "missing": "此条目在此期间已被删除。",
-      "failed": "无法存储。请重试。"
+      "failed": "无法存储。请重试。",
+      "failedStorage": "未存储：{{appName}} 无法打开其数据文件。请退出并重新打开应用，然后重试。如果问题持续，请选择“帮助 › 报告问题”。",
+      "failedStarting": "尚未存储：{{appName}} 仍在启动。请稍后重试。"
     },
     "import": {
       "open": "导入",

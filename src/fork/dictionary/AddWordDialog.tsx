@@ -43,7 +43,31 @@ type Feedback =
   | { kind: "duplicate"; existing: DictionaryEntry }
   | { kind: "conflict"; existing: DictionaryEntry }
   | { kind: "missing" }
-  | { kind: "failed" };
+  | { kind: "failed"; reason: SaveFailure };
+
+/**
+ * Why a save did not reach the dictionary: the app is still starting
+ * (`NotReady`), its data file cannot be opened (`Internal`, e.g. `fork.db`
+ * failed to migrate), or something else (the call itself threw).
+ */
+export type SaveFailure = "starting" | "storage" | "unknown";
+
+export function saveFailure(error: unknown): SaveFailure {
+  const kind =
+    typeof error === "object" && error !== null && "kind" in error
+      ? (error as { kind: unknown }).kind
+      : undefined;
+  if (kind === "NotReady") return "starting";
+  if (kind === "Internal") return "storage";
+  return "unknown";
+}
+
+/** The message for a failed save (shared with the History flag dialog). */
+export const SAVE_FAILURE_KEY: Record<SaveFailure, string> = {
+  starting: "dictionary.dialog.failedStarting",
+  storage: "dictionary.dialog.failedStorage",
+  unknown: "dictionary.dialog.failed",
+};
 
 export const INPUT_CLASS = `w-full rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-[14px] text-(--wb-ink) placeholder:text-(--wb-ink-3) ${FOCUS_RING}`;
 
@@ -120,10 +144,13 @@ export function AddWordDialog({
           ? await commands.forkDictionaryUpdate(id, input())
           : await commands.forkDictionaryAdd(input());
       if (result.status === "ok") handle(result.data);
-      else setFeedback({ kind: "failed" });
+      else {
+        console.warn("fork: saving the dictionary entry failed", result.error);
+        setFeedback({ kind: "failed", reason: saveFailure(result.error) });
+      }
     } catch (e) {
       console.warn("fork: saving the dictionary entry failed", e);
-      setFeedback({ kind: "failed" });
+      setFeedback({ kind: "failed", reason: "unknown" });
     } finally {
       setBusy(false);
     }
@@ -168,7 +195,7 @@ export function AddWordDialog({
       case "missing":
         return t("dictionary.dialog.missing");
       case "failed":
-        return t("dictionary.dialog.failed");
+        return t(SAVE_FAILURE_KEY[f.reason], { appName: t("rust.appName") });
     }
   };
 

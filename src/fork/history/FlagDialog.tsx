@@ -30,6 +30,9 @@ import {
   INPUT_CLASS,
   MAX_PHRASE_CHARS,
   MAX_REPLACEMENT_CHARS,
+  SAVE_FAILURE_KEY,
+  saveFailure,
+  type SaveFailure,
 } from "../dictionary/AddWordDialog";
 import { useDictionaryStore } from "../dictionary/useDictionary";
 import { FORK_NAMESPACE } from "../i18n";
@@ -92,7 +95,7 @@ type Feedback =
   | { kind: "problem"; problem: EntryProblem }
   | { kind: "duplicate"; existing: DictionaryEntry }
   | { kind: "conflict"; existing: DictionaryEntry }
-  | { kind: "failed" };
+  | { kind: "failed"; reason: SaveFailure };
 
 export interface FlagDialogProps {
   row: HistoryRow | null;
@@ -174,7 +177,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
         setFeedback({ kind: "problem", problem: outcome.problem });
         return;
       case "missing":
-        setFeedback({ kind: "failed" });
+        setFeedback({ kind: "failed", reason: "unknown" });
         return;
     }
   };
@@ -192,10 +195,13 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
         replace,
       );
       if (result.status === "ok") handle(result.data);
-      else setFeedback({ kind: "failed" });
+      else {
+        console.warn("fork: flagging the dictation failed", result.error);
+        setFeedback({ kind: "failed", reason: saveFailure(result.error) });
+      }
     } catch (e) {
       console.warn("fork: flagging the dictation failed", e);
-      setFeedback({ kind: "failed" });
+      setFeedback({ kind: "failed", reason: "unknown" });
     } finally {
       setBusy(false);
     }
@@ -223,7 +229,9 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
             })
           : t("dictionary.dialog.conflictWord", { word: f.existing.phrase });
       case "failed":
-        return t("history.flag.failed");
+        return f.reason === "unknown"
+          ? t("history.flag.failed")
+          : t(SAVE_FAILURE_KEY[f.reason], { appName: t("rust.appName") });
     }
   };
 

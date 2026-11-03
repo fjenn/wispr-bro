@@ -1075,7 +1075,9 @@
     },
     "unavailable": {
       "title": "Kamus belum tersedia",
-      "body": "Kamus terbuka segera setelah app selesai dimulai."
+      "body": "Kamus terbuka segera setelah app selesai dimulai.",
+      "brokenTitle": "Kamus tidak dapat dibuka",
+      "brokenBody": "{{appName}} tidak dapat membaca file datanya saat ini. Keluar dan buka kembali aplikasi. Jika terus terjadi, pilih Bantuan › Laporkan masalah."
     },
     "problem": {
       "empty": "Ketik kata terlebih dahulu.",
@@ -1108,7 +1110,9 @@
       "conflictWord": "“{{word}}” sudah ada di kamus Anda dengan ejaan lain.",
       "replaceExisting": "Ganti",
       "missing": "Entri ini telah dihapus sementara itu.",
-      "failed": "Tidak dapat disimpan. Coba lagi."
+      "failed": "Tidak dapat disimpan. Coba lagi.",
+      "failedStorage": "Tidak tersimpan: {{appName}} tidak dapat membuka file datanya. Keluar dan buka kembali aplikasi, lalu coba lagi. Jika terus terjadi, pilih Bantuan › Laporkan masalah.",
+      "failedStarting": "Belum tersimpan: {{appName}} masih dimulai. Coba lagi sebentar lagi."
     },
     "import": {
       "open": "Impor",

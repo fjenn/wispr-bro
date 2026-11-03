@@ -1187,7 +1187,9 @@
     },
     "unavailable": {
       "title": "The dictionary isn't available yet",
-      "body": "It opens as soon as the app has finished starting."
+      "body": "It opens as soon as the app has finished starting.",
+      "brokenTitle": "Your dictionary can't be opened",
+      "brokenBody": "{{appName}} can't read its data file right now. Quit and reopen the app. If it keeps happening, choose Help › Report a problem."
     },
     "problem": {
       "empty": "Type a word first.",
@@ -1222,7 +1224,9 @@
       "conflictWord": "“{{word}}” is already in your dictionary with another spelling.",
       "replaceExisting": "Replace it",
       "missing": "This entry was deleted in the meantime.",
-      "failed": "That couldn't be saved. Please try again."
+      "failed": "That couldn't be saved. Please try again.",
+      "failedStorage": "Not saved: {{appName}} can't open its data file. Quit and reopen the app, then try again. If it keeps happening, choose Help › Report a problem.",
+      "failedStarting": "Not saved yet: {{appName}} is still starting. Try again in a moment."
     },
     "import": {
       "open": "Import",

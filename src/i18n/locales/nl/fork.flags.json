@@ -796,6 +796,8 @@
   "dictionary.noMatch.action": "ai-reviewed",
   "dictionary.unavailable.title": "ai-reviewed",
   "dictionary.unavailable.body": "ai-reviewed",
+  "dictionary.unavailable.brokenTitle": "ai-reviewed",
+  "dictionary.unavailable.brokenBody": "ai-reviewed",
   "dictionary.problem.empty": "ai-reviewed",
   "dictionary.problem.same_as_replacement": "ai-reviewed",
   "dictionary.problem.control_character": "ai-reviewed",
@@ -826,6 +828,8 @@
   "dictionary.dialog.replaceExisting": "ai-reviewed",
   "dictionary.dialog.missing": "ai-reviewed",
   "dictionary.dialog.failed": "ai-reviewed",
+  "dictionary.dialog.failedStorage": "ai-reviewed",
+  "dictionary.dialog.failedStarting": "ai-reviewed",
   "dictionary.import.open": "ai-reviewed",
   "dictionary.import.title": "ai-reviewed",
   "dictionary.import.description": "ai-reviewed",
@@ -1897,6 +1901,7 @@
   "overrides.settings.debug.updateChecks.description": "ai-reviewed",
   "overrides.settings.debug.updateChecks.lockedDescription": "ai-reviewed",
   "overrides.settings.general.preferredLanguages.description": "ai-reviewed",
+  "overrides.settings.general.shortcut.title": "ai-reviewed",
   "overrides.settings.models.deleteAskActive": "ai-reviewed",
   "overrides.settings.models.emptyYours": "ai-reviewed",
   "overrides.settings.models.rescan.tooltip": "ai-reviewed",
@@ -1904,6 +1909,5 @@
   "overrides.settings.models.untestedNote": "ai-reviewed",
   "overrides.sidebar.about": "ai-reviewed",
   "overrides.theme.description": "ai-reviewed",
-  "overrides.whatsNew.title": "ai-reviewed",
-  "overrides.settings.general.shortcut.title": "ai-reviewed"
+  "overrides.whatsNew.title": "ai-reviewed"
 }

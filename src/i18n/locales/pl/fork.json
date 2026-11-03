@@ -1132,7 +1132,9 @@
     },
     "unavailable": {
       "title": "Słownik nie jest jeszcze dostępny",
-      "body": "Otworzy się, gdy tylko aplikacja zakończy uruchamianie."
+      "body": "Otworzy się, gdy tylko aplikacja zakończy uruchamianie.",
+      "brokenTitle": "Nie można otworzyć słownika",
+      "brokenBody": "{{appName}} nie może teraz odczytać swojego pliku danych. Zamknij aplikację i otwórz ją ponownie. Jeśli to się powtarza, wybierz Pomoc › Zgłoś problem."
     },
     "problem": {
       "empty": "Najpierw wpisz słowo.",
@@ -1171,7 +1173,9 @@
       "conflictWord": "„{{word}}” jest już w słowniku w innej pisowni.",
       "replaceExisting": "Zastąp",
       "missing": "Ten wpis został w międzyczasie usunięty.",
-      "failed": "Nie udało się zachować. Spróbuj ponownie."
+      "failed": "Nie udało się zachować. Spróbuj ponownie.",
+      "failedStorage": "Nie zachowano: {{appName}} nie może otworzyć swojego pliku danych. Zamknij aplikację, otwórz ją ponownie i spróbuj jeszcze raz. Jeśli to się powtarza, wybierz Pomoc › Zgłoś problem.",
+      "failedStarting": "Jeszcze nie zachowano: {{appName}} wciąż się uruchamia. Spróbuj ponownie za chwilę."
     },
     "import": {
       "open": "Importuj",

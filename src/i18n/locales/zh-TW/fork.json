@@ -1075,7 +1075,9 @@
     },
     "unavailable": {
       "title": "字典暫時無法使用",
-      "body": "App 完成啟動後即可打開。"
+      "body": "App 完成啟動後即可打開。",
+      "brokenTitle": "無法開啟字典",
+      "brokenBody": "{{appName}} 目前無法讀取其資料檔案。請結束並重新打開 App。如果問題持續發生，請選擇「輔助說明 › 回報問題」。"
     },
     "problem": {
       "empty": "請先輸入一個字詞。",
@@ -1108,7 +1110,9 @@
       "conflictWord": "「{{word}}」已以另一種拼法存在於你的字典中。",
       "replaceExisting": "取代",
       "missing": "此項目在這段期間已被刪除。",
-      "failed": "無法儲存。請再試一次。"
+      "failed": "無法儲存。請再試一次。",
+      "failedStorage": "未儲存：{{appName}} 無法開啟其資料檔案。請結束並重新打開 App，然後再試一次。如果問題持續發生，請選擇「輔助說明 › 回報問題」。",
+      "failedStarting": "尚未儲存：{{appName}} 仍在啟動中。請稍後再試一次。"
     },
     "import": {
       "open": "匯入",

@@ -1132,7 +1132,9 @@
     },
     "unavailable": {
       "title": "Slovník zatím není k dispozici",
-      "body": "Otevře se, jakmile se aplikace dokončí spouštění."
+      "body": "Otevře se, jakmile se aplikace dokončí spouštění.",
+      "brokenTitle": "Slovník nelze otevřít",
+      "brokenBody": "{{appName}} teď nemůže přečíst svůj datový soubor. Ukončete aplikaci a znovu ji otevřete. Pokud se to opakuje, zvolte Nápověda › Nahlásit problém."
     },
     "problem": {
       "empty": "Nejdřív zadejte slovo.",
@@ -1171,7 +1173,9 @@
       "conflictWord": "„{{word}}“ už ve slovníku je, ale s jiným pravopisem.",
       "replaceExisting": "Nahradit",
       "missing": "Tento záznam byl mezitím smazán.",
-      "failed": "Nepodařilo se to uložit. Zkuste to znovu."
+      "failed": "Nepodařilo se to uložit. Zkuste to znovu.",
+      "failedStorage": "Neuloženo: {{appName}} nemůže otevřít svůj datový soubor. Ukončete aplikaci, znovu ji otevřete a zkuste to znovu. Pokud se to opakuje, zvolte Nápověda › Nahlásit problém.",
+      "failedStarting": "Zatím neuloženo: {{appName}} se ještě spouští. Zkuste to za chvíli znovu."
     },
     "import": {
       "open": "Importovat",

@@ -1113,7 +1113,9 @@
     },
     "unavailable": {
       "title": "Le dictionnaire n’est pas encore disponible",
-      "body": "Il s’ouvre dès que l’app a fini de démarrer."
+      "body": "Il s’ouvre dès que l’app a fini de démarrer.",
+      "brokenTitle": "Impossible d’ouvrir le dictionnaire",
+      "brokenBody": "{{appName}} ne peut pas lire son fichier de données pour le moment. Quittez et rouvrez l’app. Si le problème persiste, choisissez Aide › Signaler un problème."
     },
     "problem": {
       "empty": "Écrivez d’abord un mot.",
@@ -1150,7 +1152,9 @@
       "conflictWord": "« {{word}} » figure déjà dans votre dictionnaire avec une autre orthographe.",
       "replaceExisting": "Le remplacer",
       "missing": "Cette entrée a été supprimée entre-temps.",
-      "failed": "Impossible d’enregistrer. Réessayez."
+      "failed": "Impossible d’enregistrer. Réessayez.",
+      "failedStorage": "Non enregistré : {{appName}} ne peut pas ouvrir son fichier de données. Quittez et rouvrez l’app, puis réessayez. Si le problème persiste, choisissez Aide › Signaler un problème.",
+      "failedStarting": "Pas encore enregistré : {{appName}} est encore en train de démarrer. Réessayez dans un instant."
     },
     "import": {
       "open": "Importer",

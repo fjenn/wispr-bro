@@ -1113,7 +1113,9 @@
     },
     "unavailable": {
       "title": "El diccionari encara no està disponible",
-      "body": "S'obrirà tan aviat com l'app hagi acabat d'iniciar-se."
+      "body": "S'obrirà tan aviat com l'app hagi acabat d'iniciar-se.",
+      "brokenTitle": "No es pot obrir el diccionari",
+      "brokenBody": "{{appName}} no pot llegir el seu fitxer de dades ara mateix. Surt de l'aplicació i torna-la a obrir. Si continua passant, tria Ajuda › Informar d'un problema."
     },
     "problem": {
       "empty": "Primer escriu una paraula.",
@@ -1150,7 +1152,9 @@
       "conflictWord": "“{{word}}” ja està al teu diccionari amb una altra grafia.",
       "replaceExisting": "Substituir-la",
       "missing": "Mentrestant, aquesta entrada s'ha eliminat.",
-      "failed": "No s'ha pogut desar. Torna-ho a provar."
+      "failed": "No s'ha pogut desar. Torna-ho a provar.",
+      "failedStorage": "No s'ha desat: {{appName}} no pot obrir el seu fitxer de dades. Surt de l'aplicació, torna-la a obrir i torna-ho a provar. Si continua passant, tria Ajuda › Informar d'un problema.",
+      "failedStarting": "Encara no s'ha desat: {{appName}} s'està iniciant. Torna-ho a provar d'aquí a un moment."
     },
     "import": {
       "open": "Importar",
