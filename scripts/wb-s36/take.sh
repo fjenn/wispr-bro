@@ -52,7 +52,18 @@ keys() {
 "$BIN/clip" save "$T/clip.saved" >/dev/null
 clip_before=$("$BIN/clip" digest)
 
-# A fresh workspace and Cursor profile for every take.
+# A fresh workspace and Cursor profile for every take. The profile must be
+# removed, not only rewritten: Cursor restores the last session's windows
+# and tabs from it, and Mac wave 1's editor take then went into a restored
+# index.ts (34 chars, 1 code name, `identifiers=0`) instead of
+# user_service.ts. WB_S36_PROFILE keeps a prepared profile (signed out but
+# past the welcome / Log In screens) when set; it is never the owner's.
+if [ -n "${WB_S36_PROFILE:-}" ]; then
+  rm -rf "$PROFILE"; cp -R "$WB_S36_PROFILE" "$PROFILE"
+  rm -rf "$PROFILE/User/workspaceStorage" "$PROFILE/Backups"
+else
+  rm -rf "$PROFILE"
+fi
 rm -rf "$WS"; mkdir -p "$WS" "$PROFILE/User"
 cat >"$WS/user_service.ts" <<'TS'
 export interface User {
@@ -69,6 +80,7 @@ printf 'export * from "./user_service";\n' >"$WS/index.ts"
 cat >"$PROFILE/User/settings.json" <<'JSON'
 {
   "editor.accessibilitySupport": "on",
+  "window.restoreWindows": "none",
   "security.workspace.trust.enabled": false,
   "workbench.startupEditor": "none",
   "files.autoSave": "off",
