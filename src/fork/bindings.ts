@@ -227,6 +227,43 @@ async forkShortcutRelaunch() : Promise<void> {
     await TAURI_INVOKE("fork_shortcut_relaunch");
 },
 /**
+ * S-30: ticks a setup-checklist item (an item id from the Hub's registry,
+ * `src/fork/hub/checklistRegistry.tsx`). Idempotent.
+ */
+async forkChecklistMark(id: string) : Promise<Result<OnboardingState, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_checklist_mark", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * S-30 "Try it now": dims the screen around the Flow Bar with the choice's
+ * hint. `false` when there is no bar to point at (the Hub then shows its
+ * banner only).
+ */
+async forkSpotlightStart(choice: string) : Promise<Result<boolean, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_spotlight_start", { choice }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * S-30: ends the spotlight (the Hub's Stop button).
+ */
+async forkSpotlightStop() : Promise<void> {
+    await TAURI_INVOKE("fork_spotlight_stop");
+},
+/**
+ * S-30: what the `fork-spotlight` page shows now (also read by the Hub).
+ */
+async forkSpotlightState() : Promise<ForkSpotlightState> {
+    return await TAURI_INVOKE("fork_spotlight_state");
+},
+/**
  * Lifetime and today's stats (survive retention and deletes).
  */
 async forkStatsSummary() : Promise<Result<StatsSummary, ForkError>> {
@@ -1311,6 +1348,7 @@ forkShortcutFixRequested: ForkShortcutFixRequested,
 forkShortcutHealthChanged: ForkShortcutHealthChanged,
 forkSnippetsChanged: ForkSnippetsChanged,
 forkSpeechSetup: ForkSpeechSetup,
+forkSpotlightState: ForkSpotlightState,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss,
 forkTransformViewChanges: ForkTransformViewChanges,
@@ -1340,6 +1378,7 @@ forkShortcutFixRequested: "fork-shortcut-fix-requested",
 forkShortcutHealthChanged: "fork-shortcut-health-changed",
 forkSnippetsChanged: "fork-snippets-changed",
 forkSpeechSetup: "fork-speech-setup",
+forkSpotlightState: "fork-spotlight-state",
 forkStatsUpdated: "fork-stats-updated",
 forkToastsDismiss: "fork-toasts-dismiss",
 forkTransformViewChanges: "fork-transform-view-changes",
@@ -2280,6 +2319,29 @@ needed_mb: number | null;
  * Durable takes that wait for a model or are being transcribed.
  */
 queued_takes: number }
+/**
+ * What the `fork-spotlight` page shows (event, and `fork_spotlight_state`
+ * when the page loads). Also sent to the Hub, which shows "the hint is on
+ * screen" with a Stop button.
+ */
+export type ForkSpotlightState = { 
+/**
+ * Increases with every change; a lower one never replaces a higher one.
+ */
+seq: number; active: boolean; 
+/**
+ * The chooser option (one of [`CHOICES`]).
+ */
+choice: string | null; 
+/**
+ * The cut-out around the bar, `None` until the bar is placed.
+ */
+hole: SpotlightRect | null; 
+/**
+ * Which display edge the bar rests on (the hint goes on the other side
+ * of the cut-out).
+ */
+edge: SpotlightEdge }
 /**
  * Emitted after a take changed the stats (`fork::db::stats`), so the Home
  * rail (S-15a) and Insights (S-25) refresh live.
@@ -3436,6 +3498,12 @@ words_per_minute: number | null; typing_wpm: number; typing_source: TypingSource
  * `words_per_minute / typing_wpm`, rounded to one decimal.
  */
 times_typing: number | null }
+export type SpotlightEdge = "bottom" | "top"
+/**
+ * A rectangle in the page's coordinates: CSS pixels (= points) from the
+ * top-left corner of the display.
+ */
+export type SpotlightRect = { x: number; y: number; w: number; h: number }
 /**
  * Lifetime and today's numbers for the Home rail (S-15a) and Insights
  * (S-25).
