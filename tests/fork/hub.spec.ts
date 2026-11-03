@@ -175,9 +175,12 @@ test.describe("hub shell", () => {
     await openHub(page, ipc, hub);
     const banner = page.getByTestId("wb-banner-hub.dictation.start");
     await expect(banner).toBeVisible();
-    await expect(
-      banner.getByRole("list", { name: "Things to try" }).getByRole("listitem"),
-    ).toHaveCount(3);
+    // W2: the reference's banner is headline, one sentence and a button;
+    // the example chips are gone from the home banner.
+    await expect(banner.getByRole("heading")).toHaveText(
+      "Talk instead of typing",
+    );
+    await expect(banner.getByRole("list")).toHaveCount(0);
     await banner.getByRole("button", { name: "Dismiss" }).click();
     await expect(banner).toBeHidden();
     await ipc.expectCalled("fork_set_setting", {
