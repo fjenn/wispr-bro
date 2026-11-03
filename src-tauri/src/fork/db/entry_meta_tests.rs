@@ -563,6 +563,7 @@ fn fifty_takes_in_five_apps_give_correct_per_app_rows() {
 
 #[test]
 fn ten_thousand_rows_search_within_100_ms() {
+    let _bulk = crate::fork::testutil::db_bulk_lock();
     let (_d, db) = db();
     let words = [
         "meeting",

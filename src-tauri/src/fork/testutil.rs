@@ -862,6 +862,16 @@ pub fn header<'a>(headers: &'a [(String, String)], name: &str) -> Option<&'a str
         .find(|(k, _)| k.eq_ignore_ascii_case(name))
         .map(|(_, v)| v.as_str())
 }
+/// Held by tests that time SQLite work in thread CPU time and by tests
+/// that build hundreds of databases (`fork::db::migrate_tests`): run side by
+/// side, the latter's allocations slowed a 10,000-row search from ~5 ms to
+/// ~180 ms of CPU (shared allocator locks), failing its 100 ms budget.
+pub static DB_BULK_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+/// Takes [`DB_BULK_LOCK`] (a panicked holder does not poison it for others).
+pub fn db_bulk_lock() -> std::sync::MutexGuard<'static, ()> {
+    DB_BULK_LOCK.lock().unwrap_or_else(|e| e.into_inner())
+}
 
 /// CPU time spent by the calling thread (S-38).
 ///

@@ -234,14 +234,23 @@ fn exercise_every_table(conn: &Connection) -> Result<(), DbError> {
     Ok(())
 }
 
+/// The shipped schema after the last migration (built once per test run).
+static LATEST: std::sync::LazyLock<Schema> =
+    std::sync::LazyLock::new(|| expected_schemas(&MIGRATIONS).unwrap()[latest_version()].clone());
+
 /// Opens `path` with this build and checks the result: latest version, the
 /// expected schema, the seeded rows kept, every table usable.
 fn assert_repaired(path: &Path, label: &str) {
+    assert_repaired_with(path, label, true);
+}
+
+/// `full: false` checks version, schema and rows only (the 169 pairs; the
+/// full use of every table runs once per chain).
+fn assert_repaired_with(path: &Path, label: &str, full: bool) {
     let db = ForkDb::new(path);
     db.with_conn(|conn| {
         assert_eq!(user_version(conn)?, latest_version(), "{label}");
-        let expected = expected_schemas(&MIGRATIONS).unwrap();
-        let missing = expected[latest_version()].missing_in(&Schema::read(conn)?);
+        let missing = LATEST.missing_in(&Schema::read(conn)?);
         assert!(missing.is_empty(), "{label}: still missing {missing:?}");
         let kept: String = conn.query_row(
             "SELECT final_text FROM entry_meta WHERE entry_id = 42",
@@ -251,13 +260,17 @@ fn assert_repaired(path: &Path, label: &str) {
         assert_eq!(kept, "kept", "{label}");
         let note: String = conn.query_row("SELECT body FROM notes", [], |r| r.get(0))?;
         assert_eq!(note, "note kept", "{label}");
-        exercise_every_table(conn)
+        if full {
+            exercise_every_table(conn)?;
+        }
+        Ok(())
     })
     .unwrap_or_else(|e| panic!("{label}: {e}"));
     db.close();
-    // A second open has nothing left to do.
-    let again = ForkDb::new(path);
-    again.open_now().unwrap();
+    if full {
+        // A second open has nothing left to do.
+        ForkDb::new(path).open_now().unwrap();
+    }
 }
 
 #[test]
@@ -368,6 +381,7 @@ fn a_v5_database_with_the_v6_columns_already_present_is_repaired() {
 /// snippets). It has v6's columns and lacks v3's `entry_meta.text_stages`.
 #[test]
 fn the_owners_mixed_dev_history_is_repaired() {
+    let _bulk = crate::fork::testutil::db_bulk_lock();
     let chains = historical_chains();
     let chain = |id: &str| {
         chains
@@ -400,6 +414,7 @@ fn the_owners_mixed_dev_history_is_repaired() {
 
 #[test]
 fn every_historical_numbering_is_repaired_forward() {
+    let _bulk = crate::fork::testutil::db_bulk_lock();
     let chains = historical_chains();
     for (label, chain) in &chains {
         let dir = tempfile::tempdir().unwrap();
@@ -414,6 +429,7 @@ fn every_historical_numbering_is_repaired_forward() {
 /// testers' case), for every ordered pair of chains.
 #[test]
 fn every_pair_of_historical_builds_is_repaired_forward() {
+    let _bulk = crate::fork::testutil::db_bulk_lock();
     let chains = historical_chains();
     for (a, first) in &chains {
         for (b, second) in &chains {
@@ -422,7 +438,7 @@ fn every_pair_of_historical_builds_is_repaired_forward() {
             old_runner(&path, first);
             seed(&path);
             old_runner(&path, second);
-            assert_repaired(&path, &format!("{a} then {b}"));
+            assert_repaired_with(&path, &format!("{a} then {b}"), false);
         }
     }
 }
@@ -431,6 +447,7 @@ fn every_pair_of_historical_builds_is_repaired_forward() {
 /// transaction per migration): only its first statement is in the file.
 #[test]
 fn a_half_applied_migration_is_completed() {
+    let _bulk = crate::fork::testutil::db_bulk_lock();
     for (version, first_statement) in [
         (6, "ALTER TABLE snippets ADD COLUMN last_hit_at INTEGER;"),
         (4, "ALTER TABLE dictionary_entries ADD COLUMN norm TEXT;"),
@@ -520,6 +537,7 @@ fn repeated_failed_attempts_make_one_backup() {
 /// done.
 #[test]
 fn concurrent_first_opens_wait_on_one_migration() {
+    let _bulk = crate::fork::testutil::db_bulk_lock();
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join(DB_FILE_NAME);
     let old = ForkDb::with_migrations(&path, test_migrations(5));
