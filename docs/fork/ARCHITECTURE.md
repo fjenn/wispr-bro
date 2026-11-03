@@ -997,9 +997,12 @@ personal), then browsers (`other` until S-19b's host rules), else `other`.
   replaces the overlay; S-03 flips it)**. `FIRST_RUN_DEFAULTS` (once each, keys
   recorded in `applied_first_run_defaults`): `reliable_paste` (Handy's
   concealed-type paste), `audio_feedback`, `log_level = info`, `paste_method =
-ctrl_v`, `keyboard_implementation = handy_keys`, `theme = system`,
-  `autostart_enabled` (release builds only, so a dev run never registers
-  `target/debug` as a login item).
+ctrl_v`, `keyboard_implementation = handy_keys`, `theme = system`.
+  Launch at login is **not** a first-run default (Mac wave 2 finding 3: the
+  first bundled launch registered a login item before Welcome): only
+  onboarding's Summary writes `autostart_enabled`, when setup finishes
+  (checked by default). An install that recorded the old default keeps the
+  user's current value.
 - **Writes to Handy** go through `ForkRuntime::{handy_settings,
 write_handy_settings}` (opaque `HandySettings` newtype so `AppSettings` stays
   crate-private): Wry uses Handy's `get_settings`/`write_settings`, then the
@@ -2384,3 +2387,47 @@ Handy's handler), the source checks above, and running the app.
 
 Note: Handy's `playwright.config.ts` (`testDir: ./tests`) also discovers
 `tests/fork/`; those specs pass under either config.
+
+## Mac wave 2 fixes (`fix/wave2`)
+
+- **Quiet relaunch reads AppKit** (`fork/update/scheduler.rs`): the relaunch
+  after an update starts hidden unless the user could see the Hub.
+  `HubView` samples Tauri's window state (exists, visible, minimised), the
+  S-38 parked flag and, through `ForkRuntime::update_appkit_view` on the
+  main thread (inline there, else dispatched with a 1 s wait),
+  `NSApplication.isHidden` and the Hub's `NSWindowOcclusionStateVisible`.
+  `relaunch_hidden` is a pure function over it (tests in
+  `fork/update/tests.rs`). The windows of a hidden app keep reporting
+  `isVisible`, which is why S-28.1d-f relaunched shown. The flag still
+  reaches the new process through the relaunch marker → `--start-hidden`
+  (`fork/update/relaunch.rs`, `main.rs` hook); Handy's setup then shows no
+  window unless there is no tray icon.
+- **No window restoration** (`fork/restore.rs`): `early_init` registers
+  `ApplePersistenceIgnoreState = YES` and `NSQuitAlwaysKeepsWindows = NO`
+  in the registration domain before Tauri creates `NSApplication`, so a
+  launch after a crash never stops in AppKit's "reopen windows?" alert; the
+  Hub's `NSWindow` is also `setRestorable(false)` (in the existing
+  title-text call). A test checks the defaults read back and that
+  `early_init` keeps the call; `on_ready` warns if they do not. No Handy
+  file, no Info.plist key (there is none for this).
+- **Test microphone** (`fork/audio/test_mic.rs`,
+  `crates/wb-handy-recorder/src/backend/file.rs`): with
+  `WISPRBRO_TEST_MIC_WAV=<path>`, a test identity or a debug build (never
+  `com.wisprbro.desktop`, tested) calls the vendored recorder's
+  `set_file_source` from `early_init`; every recorder opened afterwards
+  uses a file backend that plays the WAV at each stream start in 10 ms
+  real-time blocks, then silence, re-reading the file each take. The
+  resampler, Handy's VAD and levels, the bar, transcription and delivery
+  run unchanged; no real microphone is opened (no indicator, no prompt).
+  Drivers use `wb_test_mic`/`wb_mic_load`/`wb_mic_play`
+  (`scripts/wb-lib/app.sh`), which refuse the speakers unless
+  `WB_ALLOW_SPEAKERS=1`.
+- **Test profiles** (`scripts/wb-lib/profile.py`, `wb_unbind_keys`,
+  `wb_clone_models`): every global shortcut unbound except Esc unless a
+  check keeps or sets one, and the model cache cloned (APFS `cp -c`) from
+  the newest test identity, refusing any folder that is not a test
+  identity's.
+- **Sidecar `--fit off`** (`fork/llm/process.rs`): no dry-run second model
+  load per start (PERF.md "LLM cold start").
+- `fork/models/queue.rs` `bind_entry` returns `None` for a take that was
+  never queued (no WARN on every take).

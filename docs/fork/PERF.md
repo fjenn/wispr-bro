@@ -66,6 +66,44 @@ first call with lazy tables), under the same load.
 S-38.6). Settled evidence until then: S-12a's real-app key-up → text p50
 230 ms on the M5 Max; RS-06 Light p95 306 ms; RS-09's recognizer latencies.
 
+### LLM cold start (Mac wave 2 finding 4)
+
+Mac wave 2's quiet bench (load < 8, `latency.sh`) passed every row except
+"LLM cold start": **5,447 ms**, one sample, against 1,500/2,500 ms. What
+that row is and what it measured (2026-11-03, M5 Max, headless: the pinned
+b11624 sidecar started with the shipped spawn line on loopback and timed
+from spawn to `/health` 200; load average 13-27 from other agents, so the
+absolute numbers are high):
+
+- **Not a Rust debug/release question.** The bench's `llm_start_ms` is
+  `Supervisor::ensure_ready` on the bundled sidecar, which is the same
+  release binary in both builds.
+- **A first launch of a sidecar binary new to the Mac compiles the
+  embedded Metal library**: 9,592 ms to `/health`, 6.4 s of it in
+  `ggml_metal_library_compile_all`; every later start of that binary
+  1.2-2.1 s. Wave 2 copied the sidecar into a fresh worktree before the
+  bench, so its one sample most likely included this compile. Users pay it
+  once per installed sidecar (first cleanup after install or update), and
+  the app starts the sidecar at key-down (`memory::LoadPlanner`), so it
+  overlaps the take; a take that still waits fails open to the
+  deterministic text (§5.1 row "both cold").
+- **Every start loaded the model twice.** llama.cpp's default `--fit on`
+  runs a dry-run load to size layers and context for device memory before
+  the real one (~0.8-0.9 s here). The spawn line fixes `-c 4096`, the
+  memory rule (`memory::allows`) decides whether the model fits, and all 25
+  layers of Muesli 2B are offloaded either way, so the sidecar now starts
+  with **`--fit off`** (`fork/llm/process.rs`). Same machine, same minute,
+  4 alternating pairs: default 2,013-2,427 ms, `--fit off` 1,212-1,822 ms.
+- `--no-warmup` saved ≤ 0.1 s after the first run (not adopted: the warm-up
+  decode makes the first real request faster).
+
+Not adopted: a launch-time prewarm of the sidecar. Keeping the model
+resident idle is what S-38's memory rule avoids, and the key-down start
+already covers the per-start cost. **Queued for the Mac wave** (S-38.6):
+`latency.sh` on a release build with the sidecar already run once, two
+samples, and one deliberate first start of a freshly installed sidecar to
+record the one-time Metal compile on its own row.
+
 ## §5.2 Memory pressure (part 2)
 
 `fork::llm::memory::allows` (tests `eight_gb_memory_rule`,

@@ -1951,6 +1951,10 @@ onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
 8. Clean up: delete the bundle copy, `~/Library/{Application Support,Logs,WebKit,Caches}/com.wisprbro.s27check`
    and any `~/Library/Preferences/com.wisprbro.s27check.plist`.
 
+#### Mac wave 2 fixes (`fix/wave2`): crash relaunch
+
+- [ ] S-27.6 **Queued for the Mac wave** (finding 1: a relaunch after a crash hung behind AppKit's "reopen windows?" alert). Debug test bundle (any `com.wisprbro.<x>check`, keys unbound with `wb_unbind_keys`): launch with `--start-hidden`, wait for `fork ready`, `kill -ABRT` it ≈ 15 s after launch (as S-27.5 did), then launch it again with `--start-hidden` three times in a row. Pass: each launch logs `fork ready` and `startup: ready` within 20 s, no window of the app is on screen (`scripts/wb-window-id.swift <pid>` finds none), `sample <pid> 1` never shows `NSPersistentUIRestorer`/`NSAlert runModal`, and the log has no `window restoration is still on`. Also: no `~/Library/Saved Application State/<id>.savedState` is written while the Hub is open (the Hub is not restorable). Clean up the `.ips` reports as S-27.5 does.
+
 ### S-28 Updates that never interrupt
 
 - [ ] S-28.1 RS-12 on the real slice.
@@ -1988,6 +1992,7 @@ needed first).
       "Restart to update to B"; turn update checks off in Settings › Data and
       Privacy: the footer reads "Update checks off · Turn on" and the tray
       "Update checks are off…" (opens Data and Privacy).
+- [ ] S-28.7 **Queued for the Mac wave** (Mac wave 2 fixes, finding 2): re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The relaunch decision now reads AppKit (`NSApp.isHidden`, the Hub's occlusion state) as well as Tauri's window state and the parked Hub (`fork::update::scheduler::relaunch_hidden`). Expect S-28.1d-.1f PASS: `update: relaunching (hidden)`, `relaunched after an update (hidden)`, no Hub window. The profile now starts with every shortcut unbound and a cloned model cache (no download), and the take plays a silent WAV through the test microphone (no Microphone grant needed). Extra by hand if time allows: the Hub minimised (⌘M) or behind another app's window when B installs → also relaunches hidden; the Hub in front → relaunches shown.
 - [ ] S-28.6 RS-12 on real GitHub releases (release wave, with F-02.4):
       alpha.N → alpha.N+1 installs by itself after 20 idle minutes, the app
       comes back to the bar without a window, Microphone and Accessibility
@@ -2007,6 +2012,7 @@ axe light/dark, RTL and keyboard-only (`tests/fork/onboarding.spec.ts`).
 - [x] S-29a.4 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Resume after relaunch at each step (`run.sh resume`), no step written on resume.
 - [x] S-29a.5 **Mac wave 2: PASS on release (rename from ~/Downloads, copy from a disk image, both continue at Languages); name clash not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) **Mac wave 1: BLOCKED on a debug build (relaunch panics in the debug bindings export); rerun on release** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Move to Applications from `~/Downloads` (rename) and from a mounted disk image (copy): the app reopens from Applications and continues at Languages; a name clash shows the Finder message.
 - [ ] S-29a.6 **Mac wave 1: partial; by eye: owner** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) By eye: the permission pictures match macOS 26 (and 15 if a second Mac is available), light and dark; no screen names a model; the speech download never blocks a step.
+- [ ] S-29a.7 **Queued for the Mac wave** (Mac wave 2 fixes, finding 3): a fresh, non-portable **release** install (as S-29a.5: from a disk image to `/Applications`, empty `~/Library/Application Support/<id>`). Pass: no `Registered login item` line and no "Login Item Added" notification during the first launch and the whole of onboarding up to the Summary; quitting at Welcome leaves no login item (System Settings › General › Login Items); finishing with "Open Wispr Bro when you log in" checked logs `Registered login item via SMAppService` right after `onboarding: completed`; unchecked, none. Remove the item through Settings › System afterwards.
 
 **Setup.** Debug build with the test identity (CONTEXT, execution
 protocol): `echo '{"identifier":"com.wisprbro.s29acheck","productName":"Wispr Bro S29a Check","plugins":{"updater":{"active":false}}}' > <scratch>/s29a.conf.json`,
@@ -2050,7 +2056,7 @@ path containing `s29b`), plus `say -o <scratch>/practice.wav --data-format=LEI16
 and, for `queued`, `python3 -I scripts/wb-s07a/hf-mirror.py --root ~/wb-bench/asr --port 18077 --rate 125000`
 with `HF_ENDPOINT=http://127.0.0.1:18077` exported for the app.
 
-**Procedure** (`APP=<bundle> OUT=<dir> KEYS=<scratch>/wbkeys WAV=<scratch>/practice.wav scripts/wb-s29b/run.sh <case>`; holds `~/wb-bench/gui.lock`; the WAV plays once per case at moderate volume):
+**Procedure** (`APP=<bundle> OUT=<dir> KEYS=<scratch>/wbkeys WAV=<scratch>/practice.wav scripts/wb-s29b/run.sh <case>`; holds `~/wb-bench/gui.lock`; since the Mac wave 2 fixes the app plays the WAV as its test microphone (`WISPRBRO_TEST_MIC_WAV`, set by the script), never through the speakers, and the profile's shortcuts are unbound unless a fn take needs them):
 
 1. `practice` (S-29b.2), `outside` (S-29b.4), then `queued` (S-29b.3).
 2. `python3 -I scripts/wb-s29b/profile.py <…>/Data fresh`, launch, go through every screen to Start dictating (S-29b.5-.7), then `timing` and `login` (the login item is an SMAppService item, read from the app log's `Registered login item`, not a `~/Library/LaunchAgents` plist). With another Wispr Bro running that holds fn, set `TAKE=signal` and `WBUI=<compiled scripts/wb-s25/ui.swift>` (activates the app before a practice take; takes start only with the expected app in front).
@@ -2086,7 +2092,7 @@ notes."`.
 **Procedure** (`APP=<bundle> OUT=<dir> PILL=<scratch>/wbpill KEYS=<scratch>/wbkeys WAV=<scratch>/s30.wav scripts/wb-s30/run.sh <case>`; holds `~/wb-bench/gui.lock`; each case relaunches with `WISPRBRO_S30_SPOTLIGHT`, which only test identities honour):
 
 1. `panel`, `through`, `fullscreen`, `esc` (S-30.1-.4).
-2. `own` (the profile binds `scratchpad.open` to ⌥S; the driver opens the note from its own TextEdit), then `mail` (S-30.4-.5; the WAV plays once each at moderate volume). `textedit` is the same check in a TextEdit document of the driver's own instance, for a Mac whose Mail holds a real account. With another Wispr Bro running that holds fn (the owner's), set `TAKE=signal` (SIGUSR2 takes) and `WBWIN=<compiled scripts/wb-window-id.swift>` (for `through`).
+2. `own` (the driver binds `scratchpad.open` to ⌥S for this case only, every other shortcut unbound; it opens the note from its own TextEdit), then `mail` (S-30.4-.5; the app plays the WAV as its test microphone, `WISPRBRO_TEST_MIC_WAV`, never the speakers). `textedit` is the same check in a TextEdit document of the driver's own instance, for a Mac whose Mail holds a real account. With another Wispr Bro running that holds fn (the owner's), set `TAKE=signal` (SIGUSR2 takes) and `WBWIN=<compiled scripts/wb-window-id.swift>` (for `through`).
 3. `python3 -I scripts/wb-s30/profile.py <…>/Data`, launch normally, S-30.6 by eye.
 4. Quit; delete the bundle copies and `~/Library/{WebKit,Caches}/com.wisprbro.s30check`.
 
@@ -2359,6 +2365,8 @@ unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
 --minutes 480 --every 60 --footprint`: idle RSS ≤ 250 MB and CPU ≤ 0.5 %
       at the end, the pill's web view growth ≤ 50 MB, no crash. **Queued for
       the Mac wave** (overnight; the takes need BlackHole).
+- [ ] S-38.11 **Queued for the Mac wave** (Mac wave 2 fixes: takes without speakers). A debug test bundle started with `WISPRBRO_TEST_MIC_WAV=<scratch>/test-mic.wav` and keys unbound (`. scripts/wb-lib/app.sh; wb_unbind_keys <Data>; wb_test_mic <scratch> <say WAV>`), our own TextEdit in front (`wb_textedit_open`), one SIGUSR2 take of the WAV's length (`wb_mic_play`). Pass: the log says `test microphone plays …`; the bar shows levels while the WAV plays; the TextEdit file gets the sentence; the orange microphone indicator never lights and no Microphone prompt appears (no real device is opened); the output volume is untouched. Then a second take after `wb_mic_load <another WAV>` transcribes the new sentence (the file is re-read per take). Drivers switched to it: `wb-s07a/take.sh`, `wb-s07b/take.sh`, `wb-s24/recheck.sh`, `wb-s29b/run.sh`, `wb-s30/run.sh`, `wb-s34/take.sh`, `wb-s36/take.sh` (`wb_mic_load`/`wb_mic_play`; they refuse to play through the speakers unless `WB_ALLOW_SPEAKERS=1`).
+- [ ] S-38.6b **Queued for the Mac wave** (Mac wave 2 finding 4, see `PERF.md` "LLM cold start"): `latency.sh` on a **release** build, two samples, with the sidecar already started once on this Mac, then one deliberate first start of a freshly built sidecar recorded on its own row (the one-time Metal library compile). The spawn line now has `--fit off` (no dry-run second model load).
 - Procedure: S-38.2-S-38.10 above. Machines: all for S-38.1.
 
 ### S-39 1.0 release
