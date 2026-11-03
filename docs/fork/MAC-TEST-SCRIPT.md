@@ -2068,7 +2068,7 @@ dismissal rules and the cut-out layout (`fork::pill::spotlight`).
 - [ ] S-30.3 Over a full-screen app: the dim stays on screen over TextEdit in full screen (`run.sh fullscreen`).
 - [ ] S-30.4 Esc ends it and destroys the window (`run.sh esc`); a take into our own Scratchpad does not (`run.sh own`).
 - [ ] S-30.5 The first dictation in Mail ends it and ticks "Try it in another app" (`run.sh mail`; a new message, never sent, no screenshot of Mail).
-- [ ] S-30.6 By eye, from a fresh `profile.py` without a choice: the chooser opens with the Hub, the scenes play (and stand still with Reduce motion), Try it now dims the screen with the matching hint, the checklist card ticks Add a word after adding one on the Dictionary page, its coach mark points at the button, and the next step opens by itself.
+- [ ] S-30.6 By eye, from a fresh `profile.py` without a choice: the chooser opens with the Hub, the scenes play (and stand still with Reduce motion), Try it now dims the screen with the matching hint, the checklist card ticks Add a word after adding one on the Dictionary page, its coach mark points at the button, and the next step is shown by itself (Snippets with its coach mark; since S-32 chaining only shows the next item and never runs it).
 
 **Setup.** As S-29a with `s30` in place of `s29a` (identifier
 `com.wisprbro.s30check`, product name "Wispr Bro S30 Check", a scratch path
@@ -2111,8 +2111,52 @@ practice step`), no real run; the last button says Done.
 
 ### S-32 Whisper tutorial and microphone quiz
 
-- [ ] S-32.1 Whispered take on the starter and the full model at 30 cm.
-- Procedure: TODO (S-32).
+Items S-32.1-.4 are **queued for the Mac wave** (nothing here has run on
+the Mac yet). Playwright covers the whole lesson in a browser
+(`tests/fork/whisper.spec.ts`: banner, Help and checklist entries, the
+scene, the practice take passing at ≥ 70 % and the tips below it, the
+queued take's example, the four questions and the table, Copy results,
+keyboard-only, RTL, reduced motion, axe light/dark), the S-30 chaining
+change (`tests/fork/first-use.spec.ts`); bun covers the threshold
+(`whisperMatch.test.ts`) and every quiz combination (`micTable.test.ts`).
+
+- [ ] S-32.1 (R5 real-Mac acceptance) A whispered take at 30 cm passes the
+      lesson's own rule (≥ 70 % of the sentence's words) on the **starter**
+      and on the **full model**: `run.sh all` (no microphone, no speakers:
+      a synthetic whisper made with `say -o`, the Whisper voice when installed,
+      scaled to −24 dB with a faint noise floor by `quiet_wav.py`, fed through
+      the app's own `--transcribe-file` path). PASS = four `PASS` lines (the
+      loud reference and the 30 cm whisper on both models). If the whisper
+      FAILs while the reference passes, rerun with `GAIN_DB=-18` and record
+      both numbers; the file path skips Silero VAD, so S-32.2 confirms it on a
+      live take.
+- [ ] S-32.2 By a person (needs the live mic, so the owner, not the driver):
+      Help › Essentials › Learn to dictate quietly › the practice step, whisper
+      the email at about 30 cm from the built-in mic on the starter and again
+      after the full model is in. PASS = the composer fills and Continue
+      enables; the newest `entry_meta` row has source `practice`; the
+      clipboard is unchanged and nothing was pasted; "Try it in another app"
+      does not tick.
+- [ ] S-32.3 By a person, the same with the Hub moved behind TextEdit: the
+      take pastes into TextEdit as an ordinary dictation (practice takes only
+      start with Wispr Bro in front).
+- [ ] S-32.4 By eye: the home banner's "Dictate quietly: show me how", the
+      scene and the drawings in light and dark, "Open Sound settings" opens
+      Sound › Input, "More about microphones" opens the GitHub page in the
+      browser, and finishing an item from the checklist card only points at the
+      next one (Open at login is never turned on by itself).
+
+**Setup.** As S-29a with `s32` in place of `s29a` (identifier
+`com.wisprbro.s32check`, product name "Wispr Bro S32 Check", portable),
+with the English starter and the full English model installed in its
+`Data/models` (let the app fetch them once from Hugging Face; never copy
+anything from `~/wb-bench`). `APP=<bundle> OUT=<dir> scripts/wb-s32/run.sh
+models` lists the ids; pass others with `STARTER=` / `FULL=`.
+
+**Procedure.** `APP=<bundle> OUT=<dir> scripts/wb-s32/run.sh all` (headless,
+opens no window, no gui.lock); keep `run.log` and `results.jsonl`. Then
+S-32.2-.4 by hand on the same bundle. Quit; delete the bundle copies and
+`~/Library/{WebKit,Caches}/com.wisprbro.s32check`.
 
 ### S-33 ITN (gated by RS-13)
 
