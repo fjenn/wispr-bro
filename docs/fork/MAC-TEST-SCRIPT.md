@@ -1811,6 +1811,44 @@ onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
 - [ ] S-28.2 An update during a long hands-free take waits.
 - Procedure: TODO (S-28).
 
+### S-28 Updates that never interrupt
+
+All queued for the Mac wave (backend, update harness; runs right after
+F-02.3 on the same two builds, so F-02.1's one-time codesign Always Allow is
+needed first).
+
+- [ ] S-28.0 Once: grant Microphone to "Wispr Bro F02 Check"
+      (`com.wisprbro.f02check`) and Automation for the terminal → System
+      Events (the script hides the app). No speakers: the take records
+      silence.
+- [ ] S-28.1-.4 `scripts/wb-f02/update-e2e.sh <out>` (or
+      `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>` to skip F-02.3).
+      Expect PASS for:
+      S-28.1a B downloads and verifies in the background (no selftest);
+      .1b nothing installs during a 55 s hands-free take that outlasts the
+      40 s quiet window ("update during a long hands-free take waits");
+      .1c B installs after the take and the quiet window; .1d/.1e the app
+      relaunches hidden because the Hub was hidden, and the new process logs
+      it; .1f no Hub window after the relaunch; .1g the bundle is B.
+      S-28.2a-.2d B ready, quit: installs at quit, no relaunch.
+      S-28.3a-.3c a tampered archive fails three times, `update-state.json`
+      records the 24 h pause, the bundle stays A.
+      S-28.4a-.4c with A's folder read-only nothing installs and no password
+      prompt appears ("waiting for Restart now" in the log).
+      Evidence: `<out>/s28-*.log`, `<out>/update-lines.log`.
+- [ ] S-28.5 Footer and tray by eye in the same run (consolidated UI wave):
+      while S-28.2's app has B ready, open the Hub: the footer reads
+      "Update ready · Restart now" next to the version; the tray item reads
+      "Restart to update to B"; turn update checks off in Settings › Data and
+      Privacy: the footer reads "Update checks off · Turn on" and the tray
+      "Update checks are off…" (opens Data and Privacy).
+- [ ] S-28.6 RS-12 on real GitHub releases (release wave, with F-02.4):
+      alpha.N → alpha.N+1 installs by itself after 20 idle minutes, the app
+      comes back to the bar without a window, Microphone and Accessibility
+      still granted; What's New for N+1 shows once when the Hub is next
+      opened and not while dictating. Exit criterion (R5): no install
+      mid-take during the 2-day beta test.
+
 ### S-29a Onboarding: welcome, permissions, the two tests
 
 All items **queued for the Mac wave** (consolidated UI run; nothing here has

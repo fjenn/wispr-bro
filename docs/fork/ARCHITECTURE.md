@@ -1121,7 +1121,7 @@ Owner-facing steps, secrets and key custody: `docs/fork/RELEASING.md`.
 | `scripts/wb-release/{tag,manifest,minisign}.ts` | Tag format/order/channel; `latest.json` writer (signature checked first, asset names GitHub will not rewrite); minisign verifier (same check as the plugin: Ed25519 over BLAKE2b-512 + the trusted-comment signature). Tests: `release.test.ts`.                                                                                                                                                                                                                                                                                                                                              |
 | `.github/workflows/wb-build.yml`                | macos-26 aarch64 build through `macos.sh` (temporary keychain, notary API key), then `verify` on a fresh runner. Signing only on `wispr-bro` or a `v*` tag.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `.github/workflows/wb-release.yml`              | On `v*` tags on `wispr-bro`: preflight (tag, branch, all guards `--release`), notices, egress, build, publish (draft for stable/alpha/rc; rolling `beta` prerelease for `-beta.N`) with the GPL assets.                                                                                                                                                                                                                                                                                                                                                                                       |
-| `scripts/wb-f02/update-e2e.sh`                  | Mac test F-02.3: A → B over a loopback GitHub stand-in, stable ignores beta, designated requirement unchanged.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `scripts/wb-f02/update-e2e.sh`                  | Mac test F-02.3: A → B over a loopback GitHub stand-in, stable ignores beta, designated requirement unchanged. S-28.1-.4: background download, install deferred by a take past the quiet window, quiet hidden relaunch, install at quit, three-failure pause, no password prompt. |
 
 ### Decisions
 
@@ -1136,6 +1136,43 @@ sign`; an update therefore installs an app that passes Gatekeeper offline.
   stuck behind a stable release (`1.0.0-beta.3 < 1.0.0`).
 - **Identity guard pins the key id and the exact stable feed**, not just "a
   key on some owner's repo".
+
+## Updates that never interrupt (S-28)
+
+Built on F-02's `fork/update` (check, verified download) and the
+tauri-plugin-updater 2.10.1 `download()` / `install()` split.
+
+| File | Role |
+| ---- | ---- |
+| `src-tauri/src/fork/update/scheduler.rs` | `Machine` (pure decisions) + executor. First check 60 s after launch, then every 6 h; a failed check retries after 30 min. A newer release downloads and is verified in the background and stays in memory (`Held`). Installs when `idle_gate::may_install` passes (or on Restart now, or at quit), then relaunches through `relaunch.rs` once no take runs. `ForkUpdateState` (command `fork_update_state`, event `fork-update-state`) feeds the footer, About and the tray. Commands `fork_update_check_now` (manual, any build, also during a pause) and `fork_update_restart_now` (refused mid-take). Debug-only `WISPRBRO_UPDATE_TIMING` shortens the timings for `scripts/wb-f02/update-e2e.sh`. |
+| `src-tauri/src/fork/update/idle_gate.rs` | MacParakeet `SparkleUpdateGuard` cases as behaviour + tests (no code): dev versions and debug builds (without the loopback feed) never check on their own; no install while busy; a relaunch is vetoed mid-take; Wispr's 20-minute quiet window after the last take (and after launch); no background install while one of our windows has focus. `note_activity()` is called at record start (`fork::on_record_start`), at take end (`models::upgrade::on_take_ended`) and whenever a tick sees `ForkRuntime::update_busy` (tray recording/transcribing, coordinator busy, a transform running). |
+| `src-tauri/src/fork/update/failures.rs` | A failed signature check or install counts; 3 in a row pause background updates for 24 h (`update-state.json` in the app data dir; cleared once the running version reaches the failed one). |
+| `src-tauri/src/fork/update/relaunch.rs` | Quiet relaunch: a marker in the log dir, written before `request_restart()` (Tauri runs the exit events, so the single-instance socket is gone before the new process starts), read and deleted by `fork::cli_args` (the `main.rs` hook) which sets `start_hidden` when the Hub was hidden. |
+| `src/fork/hub/UpdateStatus.tsx` | `UpdateStatus` (footer: "Up to date", "Update ready · Restart now", "Couldn't check · Retry", progress, off → Turn on) and `UpdatePanel` (About: status, last check, pause, dev-build and password notes, Check again / Restart now). Replaces Handy's `UpdateChecker`, which is no longer mounted. |
+| `src/fork/whats-new/` | Our release notes (`<version>.md`), `releaseNotes.ts` (semver with prerelease, so each alpha has its own note), `WhatsNewGate.tsx` (Handy's `MarkdownContent`, `show_whats_new_on_update` and `whats_new_last_seen_version`; never opens while `busy`). Handy's `src/content/release-notes/` are never shown. |
+
+Decisions:
+
+- **No password prompt in the background.** The plugin asks for an
+  administrator password (AppleScript `with administrator privileges`) when
+  it cannot move the running bundle aside. When the bundle's folder is not
+  writable, background and quit installs are skipped (logged once) and only
+  Restart now installs; About says why.
+- **Download failures count as failed installs** (a bad signature would
+  otherwise retry forever); failed checks do not (they show "Couldn't check").
+- **Checks off means off:** a downloaded update is dropped, the tray item
+  reads "Update checks are off…" and opens Data and Privacy. Advanced now
+  binds the fork's `update_checks_enabled` (mirrored into Handy's at once);
+  Handy's own toggle there wrote only Handy's value, which the next start
+  overwrote.
+- **Tray:** Check for updates… runs `scheduler::check_now` (Handy's handler
+  for the same id only shows the Hub); once an update is ready the item reads
+  "Restart to update to X" (`fork.restart_update`).
+- **Channel change drops a ready release** of the other channel and checks
+  the new one at once.
+- **What's New** shows the newest note newer than the last seen and not newer
+  than the running version; a fresh install stamps its version (Handy's
+  default), so new users see nothing.
 
 ## CI guards (F-03)
 

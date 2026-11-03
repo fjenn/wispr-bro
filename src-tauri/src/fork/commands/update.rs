@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Update commands for the fork debug panel (F-02). S-28 builds the product
-//! UI (Hub footer, tray) on the same `fork::update` calls.
+//! Update commands: the fork debug panel's (F-02) and S-28's state, Check
+//! for updates and Restart now for the Hub footer and About page.
 
 use tauri::AppHandle;
 
 use super::ForkError;
+use crate::fork::update::scheduler::{self, ForkUpdatePhase, ForkUpdateState, RestartRefused};
 use crate::fork::update::{self, ForkUpdateCheck, ForkUpdateStatus, UpdateError};
 use crate::fork::ForkRuntime;
 
@@ -40,4 +41,36 @@ pub async fn fork_update_install<R: ForkRuntime>(
         app.restart();
     }
     Ok(installed)
+}
+
+/// S-28: the update state the footer, About page and tray show.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_update_state<R: ForkRuntime>(app: AppHandle<R>) -> ForkUpdateState {
+    scheduler::state(&app)
+}
+
+/// S-28: "Check for updates" / "Retry". Returns at once; progress arrives
+/// as `fork-update-state`. Refused while update checks are off.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_update_check_now<R: ForkRuntime>(
+    app: AppHandle<R>,
+) -> Result<ForkUpdateState, ForkError> {
+    let state = scheduler::check_now(&app);
+    if state.phase == ForkUpdatePhase::Off {
+        return Err(to_fork(UpdateError::Disabled));
+    }
+    Ok(state)
+}
+
+/// S-28: "Restart now": installs the downloaded update and relaunches.
+/// Refused mid-take (the relaunch veto) or when nothing is downloaded.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_update_restart_now<R: ForkRuntime>(app: AppHandle<R>) -> Result<(), ForkError> {
+    scheduler::restart_now(&app).map_err(|refused| match refused {
+        RestartRefused::Busy => ForkError::Internal("a dictation is in progress".into()),
+        RestartRefused::NothingReady => ForkError::Internal("no update is downloaded".into()),
+    })
 }

@@ -158,6 +158,8 @@ fn install_rule_source<R: Runtime>(app: &AppHandle<R>) {
 /// S-05 and S-10 add the pill state, the AX target and the LLM prewarm.
 pub fn on_record_start<R: ForkRuntime>(app: &AppHandle<R>) {
     context::on_record_start();
+    // S-28: a take is activity; updates wait 20 minutes after it.
+    update::idle_gate::note_activity();
     // S-20: the text near the caret, read once on the AX thread (never
     // waits; DEC-24: on unless the user switched it off). S-36: in a listed
     // editor the same read also collects code and file names.
@@ -285,6 +287,20 @@ pub fn early_init() {
     }
 }
 
+/// The `main.rs` CLI hook (S-28): the relaunch after an update starts
+/// hidden when the Hub was hidden ([`update::relaunch`]). Runs after
+/// [`early_init`], before Tauri; plain Handy builds are untouched.
+pub fn cli_args(mut args: CliArgs) -> CliArgs {
+    if is_product_build() {
+        let home = std::env::var_os("HOME").map(std::path::PathBuf::from);
+        let dir = crate::portable::data_dir()
+            .map(|d| d.join("logs"))
+            .or_else(|| early_log_dir(home.as_deref()));
+        update::relaunch::apply_at_start(dir, &mut args.start_hidden);
+    }
+    args
+}
+
 /// Identifier the binary was built with, from the env vars tauri-build emits
 /// for every target (`TAURI_ANDROID_PACKAGE_NAME_PREFIX` / `_APP_NAME`, the
 /// identifier split at its last dot with `_` for `.`; `tauri-build`
@@ -373,6 +389,11 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
                 }
                 models::setup::on_exit(app);
                 audio::permission::on_exit(app);
+                // S-28: a downloaded update installs at quit (not when the
+                // exit is our own restart).
+                if *code != Some(tauri::RESTART_EXIT_CODE) {
+                    update::scheduler::on_exit(app);
+                }
             }
             // S-10: the sidecar never outlives the app (the watchdog covers
             // a crash or SIGKILL). S-08: the take is saved if the quit
@@ -382,6 +403,8 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
                 audio::permission::on_exit(app);
                 audio::mute::restore_on_exit();
                 llm::runtime::on_exit(app);
+                // S-28: a quit that skipped `ExitRequested` (installs once).
+                update::scheduler::on_exit(app);
                 // S-05: apps whose accessibility tree we switched on get it
                 // switched back.
                 ax::on_exit();
@@ -513,6 +536,14 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         env!("CARGO_PKG_VERSION")
     );
     commands::selfcheck::start(app);
+    // S-28: background update checks, idle installs, quiet relaunch.
+    if let Some(hidden) = update::relaunch::relaunched() {
+        log::info!(
+            "update: relaunched after an update ({})",
+            if hidden { "hidden" } else { "shown" }
+        );
+    }
+    update::scheduler::start(app);
     update::start_selftest(app);
 }
 
@@ -636,6 +667,9 @@ macro_rules! fork_specta_builder {
                 commands::update::fork_update_status::<$runtime>,
                 commands::update::fork_update_check::<$runtime>,
                 commands::update::fork_update_install::<$runtime>,
+                commands::update::fork_update_state::<$runtime>,
+                commands::update::fork_update_check_now::<$runtime>,
+                commands::update::fork_update_restart_now::<$runtime>,
                 commands::privacy::fork_data_locations::<$runtime>,
                 commands::privacy::fork_show_data_location::<$runtime>,
                 commands::privacy::fork_export_data::<$runtime>,
@@ -667,7 +701,8 @@ macro_rules! fork_specta_builder {
                 commands::transforms::ForkTransformsChanged,
                 scratchpad::ForkScratchpadChanged,
                 scratchpad::ForkScratchpadOpen,
-                app_menu::ForkMenuAction
+                app_menu::ForkMenuAction,
+                update::scheduler::ForkUpdateState
             ])
     };
 }
@@ -738,6 +773,9 @@ pub trait ForkRuntime: Runtime {
     fn menu_dictation_in_progress(app: &AppHandle<Self>) -> bool;
     /// S-26a tray: Secure Input blocks the shortcuts (Handy's warning item).
     fn menu_shortcuts_blocked(app: &AppHandle<Self>) -> bool;
+    /// S-28: a take records, transcribes, cleans up or is delivered, or a
+    /// transform runs (updates never install or relaunch then).
+    fn update_busy(app: &AppHandle<Self>) -> bool;
 }
 
 impl ForkRuntime for tauri::Wry {
@@ -779,6 +817,14 @@ impl ForkRuntime for tauri::Wry {
 
     fn menu_shortcuts_blocked(app: &AppHandle<Self>) -> bool {
         crate::secure_input::tray_warning_active(app)
+    }
+
+    fn update_busy(app: &AppHandle<Self>) -> bool {
+        crate::tray::dictation_in_progress(app)
+            || app
+                .try_state::<crate::TranscriptionCoordinator>()
+                .is_some_and(|c| c.is_busy())
+            || transforms::run::is_active()
     }
 
     fn pill_start(app: &AppHandle<Self>) {
@@ -867,6 +913,12 @@ impl ForkRuntime for tauri::test::MockRuntime {
 
     fn menu_shortcuts_blocked(_app: &AppHandle<Self>) -> bool {
         false
+    }
+
+    /// Tests set it with `update::scheduler::FakeBusy`.
+    fn update_busy(app: &AppHandle<Self>) -> bool {
+        app.try_state::<update::scheduler::FakeBusy>()
+            .is_some_and(|b| b.0.load(std::sync::atomic::Ordering::Acquire))
     }
 
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {

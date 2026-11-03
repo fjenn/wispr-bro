@@ -351,7 +351,8 @@
       "tagline": "Local dictation, with no account and no cloud processing.",
       "version": "Version {{version}}",
       "source": "View source code",
-      "updates": "Update notes"
+      "updates": "Update notes",
+      "updatesTitle": "Updates"
     },
     "hotkeys": {
       "open": "Shortcuts",
@@ -563,6 +564,32 @@
       "label": "New in this version",
       "dismiss": "Got it",
       "open": "Show me"
+    },
+    "update": {
+      "off": "Update checks off",
+      "turnOn": "Turn on",
+      "notChecked": "Not checked yet",
+      "check": "Check for updates",
+      "checking": "Checking for updates…",
+      "upToDate": "Up to date",
+      "checkAgain": "Check again",
+      "checkFailed": "Couldn't check",
+      "retry": "Retry",
+      "downloading": "Downloading {{version}}…",
+      "ready": "Update ready",
+      "restartNow": "Restart now",
+      "installing": "Installing {{version}}…",
+      "installedWaiting": "{{version}} installed · restarts after this dictation",
+      "restarting": "Restarting…",
+      "installFailed": "Update didn't install",
+      "busy": "Finish dictating first.",
+      "actionFailed": "That didn't work. Try again later.",
+      "lastChecked": "Last checked {{time}}.",
+      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
+      "manualOnly": "This is a development build: updates are checked only when you ask.",
+      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
+      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
+      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
     }
   },
   "ui": {
@@ -661,7 +688,9 @@
       "showAll": "Show All",
       "about": "About {{appName}}",
       "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}"
+      "quitApp": "Quit {{appName}}",
+      "restartToUpdate": "Restart to update to {{version}}",
+      "updatesOff": "Update checks are off…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
@@ -2049,5 +2078,11 @@
         }
       }
     }
+  },
+  "whatsNew": {
+    "title": "What's new in {{version}}",
+    "label": "Release notes for this version",
+    "close": "Close",
+    "done": "Got it"
   }
 }

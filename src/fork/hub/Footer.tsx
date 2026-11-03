@@ -4,17 +4,16 @@
  * `TranscriptionStatus`, which opens History). Handy's model selector is not
  * shown (B-207: the user never picks a model; models stay in Settings).
  *
- * The right side keeps Handy's update checker and version until S-28 puts
- * its own update status (`UpdateStatus`) in the same place, so update
- * notices never disappear in between.
+ * The right side shows the update status (S-28, `UpdateStatus`; Handy's
+ * `UpdateChecker` is no longer mounted) next to the version.
  */
 import { useEffect, useState } from "react";
 import { getVersion } from "@tauri-apps/api/app";
 import { useTranslation } from "react-i18next";
 import TranscriptionStatus from "@/components/footer/TranscriptionStatus";
-import UpdateChecker from "@/components/update-checker";
 import { FORK_NAMESPACE } from "../i18n";
 import { navigate } from "./nav";
+import { UpdateStatus } from "./UpdateStatus";
 
 export function Footer() {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -37,7 +36,7 @@ export function Footer() {
         />
       </div>
       <div className="flex items-center gap-1.5">
-        <UpdateChecker />
+        <UpdateStatus />
         {version && (
           <span data-testid="wb-footer-version">
             {t("hub.footer.version", { version })}
