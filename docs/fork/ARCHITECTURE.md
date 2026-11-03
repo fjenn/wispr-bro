@@ -2324,6 +2324,26 @@ dependency.
 `placeholder`. S-30's checklist chaining now calls `reveal` or points at
 the next row instead of running it (see S-30 above).
 
+## Accessibility and copy pass (S-37a)
+
+R5 S-37 (R2 E-81, C-210; regressions B-68, E-80), §5.5. The localization
+half (strict i18n, translation review, plurals) is S-37b. No Handy file, no
+migration, no command, no dependency; `package.json` +1 script line.
+
+| File                                       | What                                                                                                                                                                                                                                                                                                                               |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/pill/accessibility.rs` | Every VoiceOver announcement: `announcement` (bar change → `rust.pill.*` key, priority), `spoken` (localized; a card adds its text, cut at 280 chars; a password field's card has none), `on_inserted` ("Text inserted", via the pill controller's `Msg::Announce`), `announce`/`announce_text` (application element, main thread) |
+| `src/fork/settings/handyA11y.ts`           | `useHandyA11y` in `SettingsModal`: names Handy's unnamed controls inside `[data-handy-content]` from their row's `h3` (icon button → "Reset <row>", unlabelled field → the row title), `role="combobox"` on a field with `aria-expanded`; a MutationObserver repeats it when Handy re-renders                                      |
+| `src/fork/styles/tokens.css` (end)         | `prefers-contrast: more` palette for both themes and 3 px rings; the global Reduce Motion rule (animations and transitions end at once); focus rings and 75 % disabled text for Handy's hosted rows                                                                                                                                |
+| `tests/fork/a11y-sweep.spec.ts`            | The inventory: axe on every Hub page, Settings section (Handy rows included), Hub dialog/popover and onboarding step × light/dark × normal/more contrast, with Reduce Motion and a "nothing still animating" check; keyboard-only Tab walks (named stops, visible rings)                                                           |
+| `scripts/wb-copy-check.ts`                 | DEC-45 copy check: English fork strings vs R1's quotes and RV-24, fails on a shared run of ≥ 5 words (brand, case, punctuation, ⌥/Opt folded); `bun run wb:copy-check`, a `wb-ci.yml` step, `wb-copy-check.test.ts`; exceptions in `wb-copy-check.allow.json` (none)                                                               |
+| `docs/fork/VOICEOVER-CHECKLIST.md`         | The by-ear pass per screen (focus order, names and states, announcements)                                                                                                                                                                                                                                                          |
+| `scripts/wb-s37/{axtree.swift,run.sh}`     | Mac AX-tree check: every control's AXRole/AXTitle/AXDescription in the running app, fails on unnamed ones; `run.sh` cases hub, onboarding, lessons and prefs open the screens with `wb-s31/lesson.swift`                                                                                                                           |
+
+The shared `expectNoSeriousAxeFindings` (hub-fixture) no longer excludes
+Handy's hosted rows. `TabPanel` lost an `outline-none` that cancelled its
+focus ring under Tailwind 4.
+
 ## Tests
 
 | What                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Where                                                                                                                                                                                                                                                                                               |

@@ -2251,9 +2251,44 @@ profile is never used).
 
 ### S-37 Accessibility, localization, copy pass
 
-- [ ] S-37.1 The VoiceOver checklist passes for onboarding, the Hub, settings and one dictation.
-- [ ] S-37.2 Increase Contrast and Reduce Motion on.
-- Procedure: TODO (S-37).
+Items S-37.1-.3 are **queued for the Mac wave** (S-37a built 2026-11-03;
+nothing here has run on the Mac). Playwright covers axe on every Hub page,
+Settings section, Hub dialog and onboarding step in light, dark and
+`prefers-contrast: more`, Reduce Motion stills and keyboard-only Tab walks
+(`tests/fork/a11y-sweep.spec.ts`); `cargo test` covers the announcement
+table and texts (`fork/pill/tests.rs`); `bun run wb:copy-check` the copy.
+
+- [ ] S-37.1 (R5 real-Mac acceptance) By a person, by ear:
+      `docs/fork/VOICEOVER-CHECKLIST.md` sections 1-6 (onboarding on a fresh
+      profile, every Hub page, Settings, the Scratchpad, lessons, the bar and
+      one dictation into TextEdit: "Listening", "Transcribing", "Text
+      inserted"; a card reads its reason and text; a password field's card
+      never reads the text). PASS = every line ticked; record the words heard
+      for any FAIL.
+- [ ] S-37.2 By a person: the ★ lines of the same checklist again with
+      **Increase Contrast** and **Reduce Motion** on (System Settings ›
+      Accessibility › Display; `run.sh prefs` prints both). PASS = rings,
+      lines and selected rows clearly visible in light and dark, no sliding,
+      spinning or confetti, the take and its announcements unchanged.
+- [ ] S-37.3 Scripted AX-tree check, no audio: `run.sh hub`, then
+      `run.sh lessons`, then `run.sh onboarding` on a fresh-profile copy.
+      PASS = every screen's line in `run.log` is `PASS` (0 unnamed controls
+      in `axtree.tsv`); `placeholder-only` rows are listed for review, not
+      failures.
+
+**Setup.** As S-29a with `s37` in place of `s29a` (identifier
+`com.wisprbro.s37check`, product name "Wispr Bro S37 Check", portable,
+English). For `hub`/`lessons` a finished onboarding (as S-31's bundle); for
+`onboarding` a second copy with a fresh profile. The terminal needs
+Accessibility. Compile the drivers once:
+`swiftc -O scripts/wb-s31/lesson.swift -o $T/wblesson` and
+`swiftc -O scripts/wb-s37/axtree.swift -o $T/wbaxtree`.
+
+**Procedure.** `APP=<bundle> OUT=<dir> LESSON=$T/wblesson AXTREE=$T/wbaxtree
+scripts/wb-s37/run.sh hub` (then `lessons`; `onboarding` with the fresh
+bundle); keep `run.log`, `axtree.tsv` and `unnamed.txt`. Then S-37.1/.2 by a
+person with VoiceOver on the same bundle. Quit; delete the bundle copies and
+`~/Library/{WebKit,Caches}/com.wisprbro.s37check`.
 
 ### S-38 Performance and reliability hardening
 
