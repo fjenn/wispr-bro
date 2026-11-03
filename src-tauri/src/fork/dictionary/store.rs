@@ -311,13 +311,22 @@ pub fn update(
     saved(conn, id)
 }
 
-/// Deletes entries; returns what was deleted (for undo).
+/// Deletes entries; returns what was deleted (for undo). A learned entry
+/// (S-34) stays behind as a `rejected` row, so auto-learn never suggests
+/// it again.
 pub fn delete(conn: &mut Connection, ids: &[i64]) -> Result<Vec<DictionaryEntry>, DbError> {
     let tx = conn.transaction()?;
     let mut gone = Vec::with_capacity(ids.len());
     for &id in ids {
         if let Some(entry) = get(&tx, id)? {
-            tx.execute("DELETE FROM dictionary_entries WHERE id = ?1", [id])?;
+            if entry.source == EntrySource::Learn {
+                tx.execute(
+                    "UPDATE dictionary_entries SET status = 'rejected' WHERE id = ?1",
+                    [id],
+                )?;
+            } else {
+                tx.execute("DELETE FROM dictionary_entries WHERE id = ?1", [id])?;
+            }
             gone.push(entry);
         }
     }
@@ -337,8 +346,13 @@ pub fn restore(conn: &mut Connection, entries: &[DictionaryEntry]) -> Result<u32
         }) else {
             continue;
         };
-        if find(&tx, clean.kind, &clean.norm)?.is_some() {
-            continue;
+        match find(&tx, clean.kind, &clean.norm)? {
+            // The row a learned entry left behind when it was deleted.
+            Some(s) if s.rejected && s.entry.id == e.id => {
+                tx.execute("DELETE FROM dictionary_entries WHERE id = ?1", [e.id])?;
+            }
+            Some(_) => continue,
+            None => {}
         }
         let status = match e.status {
             EntryStatus::Active => "active",

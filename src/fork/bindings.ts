@@ -459,6 +459,31 @@ async forkDictionaryExport(path: string) : Promise<Result<number, ForkError>> {
 }
 },
 /**
+ * Accepts auto-learn suggestions (S-34): they become active words or
+ * replacements (source `learn`). Suggestions the full dictionary has no
+ * room for stay waiting.
+ */
+async forkDictionaryAccept(ids: number[]) : Promise<Result<AcceptOutcome, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_accept", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Rejects auto-learn suggestions (S-34): they are never shown or
+ * suggested again. Returns how many were rejected.
+ */
+async forkDictionaryReject(ids: number[]) : Promise<Result<number, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_dictionary_reject", { ids }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
  * Inbox entries, newest first (`limit` ≤ 200), with the unread count.
  */
 async forkNotificationsList(filter: NotificationFilter, limit: number | null) : Promise<Result<NotificationsPage, ForkError>> {
@@ -1214,6 +1239,18 @@ forkTransformsChanged: "fork-transforms-changed"
 
 /** user-defined types **/
 
+/**
+ * What accepting suggestions did.
+ */
+export type AcceptOutcome = { 
+/**
+ * Now active.
+ */
+accepted: number; 
+/**
+ * Left waiting because the dictionary is full.
+ */
+full: number }
 /**
  * `SystemLanguageModel.default.availability` for the UI.
  */

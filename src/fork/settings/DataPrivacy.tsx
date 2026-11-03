@@ -304,6 +304,14 @@ export function DataPrivacy() {
           testId="wb-privacy-context"
         />
         <ForkToggle
+          label={t("settingsModal.privacy.choices.learn")}
+          hint={t("settingsModal.privacy.choices.learnHint")}
+          checked={settings.auto_learn_enabled}
+          disabled={!!pending.auto_learn_enabled}
+          onChange={(checked) => void setSetting("auto_learn_enabled", checked)}
+          testId="wb-privacy-learn"
+        />
+        <ForkToggle
           label={t("settingsModal.privacy.choices.updates")}
           hint={t("settingsModal.privacy.choices.updatesHint")}
           checked={settings.update_checks_enabled}

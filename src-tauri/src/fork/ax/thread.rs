@@ -46,6 +46,18 @@ pub struct Captured {
     pub frame: Option<[f64; 4]>,
 }
 
+/// The field auto-learn watches after a paste (S-34,
+/// `fork::dictionary::learn`).
+pub struct Watched {
+    pub id: u64,
+    pub pid: i32,
+    pub element: CFRetained<AXUIElement>,
+    pub role: String,
+    pub frame: Option<[f64; 4]>,
+    /// The watch holds a lease on `pid`.
+    pub lease: bool,
+}
+
 /// State that lives on the AX thread only.
 pub struct Ctx {
     apps: HashMap<i32, CFRetained<AXUIElement>>,
@@ -53,6 +65,8 @@ pub struct Ctx {
     targets: VecDeque<Captured>,
     /// The app whose lease a take holds, by the take's start capture id.
     pub lease_by_take: HashMap<u64, i32>,
+    /// S-34: the field watched for corrections, if any.
+    pub watched: Option<Watched>,
 }
 
 impl Ctx {
@@ -62,6 +76,7 @@ impl Ctx {
             leases: LeaseTable::new(HOLD),
             targets: VecDeque::new(),
             lease_by_take: HashMap::new(),
+            watched: None,
         }
     }
 
@@ -135,6 +150,7 @@ impl Ctx {
         }
         self.targets.clear();
         self.lease_by_take.clear();
+        self.watched = None;
     }
 }
 

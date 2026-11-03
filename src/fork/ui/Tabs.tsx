@@ -13,6 +13,8 @@
  */
 import * as RadixTabs from "@radix-ui/react-tabs";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FOCUS_RING } from "./Button";
 
 export interface TabItem {
@@ -38,8 +40,12 @@ export function Tabs({
   children,
   className = "",
 }: TabsProps) {
+  // Radix sets `dir="ltr"` on the root unless told otherwise, which undid
+  // the Hub's right-to-left layout inside every tab set (found in S-34).
+  const { i18n } = useTranslation();
   return (
     <RadixTabs.Root
+      dir={getLanguageDirection(i18n.language)}
       value={value}
       onValueChange={onValueChange}
       className={`flex flex-col ${className}`}

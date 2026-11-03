@@ -2,7 +2,6 @@
 //! Tests for the history hooks, the stats invariants and search (S-09).
 
 use std::path::Path;
-use std::time::Instant;
 
 use super::*;
 use crate::fork::context::categories::{self, StyleGroup};
@@ -619,7 +618,8 @@ fn ten_thousand_rows_search_within_100_ms() {
             let mut took = std::time::Duration::MAX;
             let mut hits = Vec::new();
             for _ in 0..5 {
-                let t = Instant::now();
+                // Thread CPU time (S-38): wall time measures the machine's load.
+                let t = crate::fork::testutil::CpuTimer::start();
                 hits = fts::search_history(conn, q, 50)?;
                 took = took.min(t.elapsed());
             }

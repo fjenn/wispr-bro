@@ -416,6 +416,31 @@ Details per port: docs/fork/PORTS.md.
   Modified by Wispr Bro contributors, 2026-10-31 (Swift to Rust; one app
   or site per rule with its style group; no modes or trigger words; the
   built-in app table is the last tier).
+- src-tauri/src/fork/dictionary/learn/diff.rs,
+  src-tauri/src/fork/dictionary/learn/watcher.rs,
+  src-tauri/src/fork/dictionary/learn/review.rs,
+  src-tauri/src/fork/dictionary/learn/tests.rs (S-34 auto-learn)
+  Source: BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  Files:  Sources/BetterWisprCore/Transcription/CorrectionLearner.swift
+          (Copyright 2026 Kartik Labhshetwar, Apache-2.0,
+          LICENSES/Apache-2.0-BetterWispr.txt; it ports OpenWhispr
+          src/utils/correctionLearner.js at
+          4881a74d7273e3d12ca91a0b46204ad80ea03e9a, Copyright (c) 2024
+          OpenWhispr Team, MIT, LICENSES/MIT-OpenWhispr.txt),
+          Sources/BetterWisprCore/Integrations/CorrectionWatcher.swift and
+          Sources/BetterWisprCore/Transcription/CorrectionReviewer.swift
+          (GPL-3.0; adapted there from VoiceInk at
+          c09cc1f677f40f2ee665843a61f07670210f012e), and their tests
+  and VoiceInk, https://github.com/Beingpax/VoiceInk
+  Commit: c09cc1f677f40f2ee665843a61f07670210f012e
+  File:   VoiceInk/Features/Dictionary/AutoLearn/CorrectionDiffEngine.swift
+          (candidate checks)
+  Licence: GPL-3.0 (LICENSE)
+  Modified by Wispr Bro contributors, 2026-11-02 (Swift to Rust; learns
+  only after Return, Tab or a focus change within 30 s on the AX thread
+  and lease; S-20 exclusions; suggestions wait for the user's approval
+  instead of a model review; rejected entries never return).
 - src-tauri/src/fork/context/caret.rs,
   src-tauri/src/fork/context/exclusions.json (password_manager_markers)
   Source: FluidVoice, https://github.com/altic-dev/FluidVoice

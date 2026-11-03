@@ -217,6 +217,8 @@ pub fn fork_erase_all_data<R: ForkRuntime>(
     }
     let data = data_dir(&app)?;
     let logs = diagnostics_dir(&app)?;
+    // S-34: a correction watch in progress must not write after the erase.
+    crate::fork::dictionary::learn::stop();
     erase::erase_in_order(
         || R::stop_jobs_for_erase(&app).map_err(ForkError::Internal),
         || R::unload_models_for_erase(&app).map_err(ForkError::Internal),
