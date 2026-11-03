@@ -118,7 +118,11 @@ impl Parking {
     }
 
     fn current(&self, label: &'static str) -> u64 {
-        self.lock().generation.get(label).copied().unwrap_or_default()
+        self.lock()
+            .generation
+            .get(label)
+            .copied()
+            .unwrap_or_default()
     }
 
     /// `true` while the main window is parked.

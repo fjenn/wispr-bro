@@ -1186,7 +1186,7 @@ mod bundle_tests {
     #[test]
     fn only_binaries_inside_an_app_bundle_may_register_a_login_item() {
         assert!(is_inside_app_bundle(Path::new(
-            "/Applications/Wispr Bro.app/Contents/MacOS/handy"
+            "/Applications/Wispr Bro.app/Contents/MacOS/wispr-bro"
         )));
         assert!(!is_inside_app_bundle(Path::new(
             "/Users/me/wispr-bro/src-tauri/target/release/handy"

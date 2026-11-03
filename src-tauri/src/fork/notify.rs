@@ -290,7 +290,6 @@ pub fn post<R: ForkRuntime>(app: &AppHandle<R>, notice: Notice) -> Option<Notifi
     Some(item)
 }
 
-
 /// Text of the newest dictation (Handy's history; post-processed text when
 /// there is one).
 fn latest_dictation<R: ForkRuntime>(app: &AppHandle<R>) -> Option<String> {

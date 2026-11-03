@@ -24,7 +24,7 @@ set -u
 : "${APP:?}" "${OUT:?}"
 LOCK="$HOME/wb-bench/gui.lock"
 HERE="$(cd "$(dirname "$0")" && pwd)"
-EXE="$APP/Contents/MacOS/handy"
+EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")"
 DATA="$APP/Contents/MacOS/Data"
 LOGS="$DATA/logs"
 mkdir -p "$OUT"
@@ -114,10 +114,10 @@ move)
   [ -e "/Applications/$name" ] || [ -e "$HOME/Applications/$name" ] \
     && { log "SKIP: $name already in an Applications folder; remove it first"; exit 1; }
   ditto "$APP" "$dir/$name"
-  "$dir/$name/Contents/MacOS/handy" >/dev/null 2>&1 &
+  "$dir/$name/Contents/MacOS/$(basename "$EXE")" >/dev/null 2>&1 &
   log "launched from $dir; press Get started, then Move to Applications"
   for _ in $(seq 1 120); do
-    p=$(pgrep -f "Applications/$name/Contents/MacOS/handy" | head -1)
+    p=$(pgrep -f "Applications/$name/Contents/MacOS/$(basename "$EXE")" | head -1)
     [ -n "$p" ] && break; sleep 1
   done
   [ -n "${p:-}" ] && log "PASS relaunched from $(ps -o command= -p "$p")" || log "FAIL no relaunch from Applications in 120 s"

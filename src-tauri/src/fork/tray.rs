@@ -119,7 +119,11 @@ pub(crate) fn set_parked_appearance(appearance: Option<crate::settings::Theme>) 
 /// `theme` as Handy computed it, or, while the Hub is parked, the theme the
 /// main window would have had: Handy's setting, else the macOS appearance.
 fn parked_theme(theme: &AppTheme) -> AppTheme {
-    resolve_parked(PARKED_APPEARANCE.load(Ordering::Relaxed), theme, system_is_dark)
+    resolve_parked(
+        PARKED_APPEARANCE.load(Ordering::Relaxed),
+        theme,
+        system_is_dark,
+    )
 }
 
 fn resolve_parked(code: u8, theme: &AppTheme, system_dark: impl Fn() -> bool) -> AppTheme {
@@ -189,14 +193,23 @@ mod tests {
     #[test]
     fn a_parked_hub_takes_the_glyph_theme_from_the_setting_or_macos() {
         // Not parked: Handy's theme (from the main window) stands.
-        assert_eq!(resolve_parked(0, &AppTheme::Light, || true), AppTheme::Light);
+        assert_eq!(
+            resolve_parked(0, &AppTheme::Light, || true),
+            AppTheme::Light
+        );
         // Parked: Handy's fallback (dark, no main window) is replaced.
         assert_eq!(resolve_parked(2, &AppTheme::Dark, || true), AppTheme::Light);
         assert_eq!(resolve_parked(3, &AppTheme::Dark, || false), AppTheme::Dark);
-        assert_eq!(resolve_parked(1, &AppTheme::Dark, || false), AppTheme::Light);
+        assert_eq!(
+            resolve_parked(1, &AppTheme::Dark, || false),
+            AppTheme::Light
+        );
         assert_eq!(resolve_parked(1, &AppTheme::Dark, || true), AppTheme::Dark);
         // Linux keeps Handy's coloured icons.
-        assert_eq!(resolve_parked(3, &AppTheme::Colored, || true), AppTheme::Colored);
+        assert_eq!(
+            resolve_parked(3, &AppTheme::Colored, || true),
+            AppTheme::Colored
+        );
     }
 
     #[test]

@@ -2,7 +2,6 @@
 //! Tests for the History list (S-15b): paging, search, variants, audio
 //! states, flags and retries.
 
-
 use super::*;
 use crate::fork::commands::history::{copy_atomically, save_flag, FlagKind};
 use crate::fork::db::entry_meta::{self, EntryWrite};

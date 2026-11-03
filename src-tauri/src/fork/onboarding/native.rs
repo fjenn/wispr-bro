@@ -179,7 +179,7 @@ mod tests {
 
     #[test]
     fn finds_the_bundle_and_recognizes_both_applications_folders() {
-        let exe = Path::new("/Users/me/Downloads/Wispr Bro.app/Contents/MacOS/handy");
+        let exe = Path::new("/Users/me/Downloads/Wispr Bro.app/Contents/MacOS/wispr-bro");
         let bundle = bundle_of_executable(exe);
         assert_eq!(
             bundle.as_deref(),
@@ -221,7 +221,7 @@ mod tests {
     #[test]
     fn translocated_and_disk_image_launches_need_a_copy() {
         let translocated = Path::new(
-            "/private/var/folders/x/AppTranslocation/ABC/d/Wispr Bro.app/Contents/MacOS/handy",
+            "/private/var/folders/x/AppTranslocation/ABC/d/Wispr Bro.app/Contents/MacOS/wispr-bro",
         );
         let bundle = bundle_of_executable(translocated).unwrap();
         assert_eq!(

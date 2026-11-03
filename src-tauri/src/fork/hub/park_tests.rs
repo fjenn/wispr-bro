@@ -52,8 +52,14 @@ fn visible_minimized_and_missing_windows_are_kept() {
         visible: false,
         minimized: true,
     };
-    assert_eq!(parking.decide(scratch, g, Some(visible)), Err(Kept::Visible));
-    assert_eq!(parking.decide(scratch, g, Some(minimized)), Err(Kept::Minimized));
+    assert_eq!(
+        parking.decide(scratch, g, Some(visible)),
+        Err(Kept::Visible)
+    );
+    assert_eq!(
+        parking.decide(scratch, g, Some(minimized)),
+        Err(Kept::Minimized)
+    );
     assert_eq!(parking.decide(scratch, g, None), Err(Kept::Gone));
 }
 

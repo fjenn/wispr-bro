@@ -23,7 +23,7 @@ the end. One JSON object per take goes to `<out>/takes.jsonl`; a summary
 line is printed at the end. Every take holds ~/wb-bench/gui.lock.
 
   python3 -I scripts/wb-soak/soak.py --plan plan.json --takes 500
-          --app '<…>/Wispr Bro.app/Contents/MacOS/handy' --pid <app pid>
+          --app '<…>/Wispr Bro.app/Contents/MacOS/wispr-bro' --pid <app pid>
           --device 'BlackHole 2ch' --bin <helpers dir> --out <dir>
 
 `plan.json`: {"apps": [{"name": "TextEdit", "bundle": "com.apple.TextEdit"},

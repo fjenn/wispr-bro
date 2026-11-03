@@ -13,7 +13,7 @@
 set -u
 : "${HAL:?}" "${APP:?}" "${OUT:?}"
 LOCK="$HOME/wb-bench/gui.lock"
-EXE="$APP/Contents/MacOS/handy"
+EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")"
 DATA="$APP/Contents/MacOS/Data"
 mkdir -p "$OUT"
 

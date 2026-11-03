@@ -300,7 +300,7 @@ S-01.7 with real keys on each reference Mac):
 
 1. Build the product app (`bun run wb:build -- --bundles app`) and start
    its binary from a Terminal that has Accessibility and Microphone access
-   (`"…/Wispr Bro.app/Contents/MacOS/handy" --debug`), so the log has the
+   (`"…/Wispr Bro.app/Contents/MacOS/wispr-bro" --debug`), so the log has the
    trace lines. The log says `fork hotkeys: tap running (trigger Some("fn"),
 Globe …, fn blocked …)` and `fork audio: microphone prepared`.
 2. Driver: `swiftc -O scripts/wb-s01-keys.swift -o /tmp/wbkeys`. It posts
@@ -390,7 +390,7 @@ VoiceOver for S-03.10, and S-03.11):
    `Contents/MacOS/Data/models/` (e.g. `parakeet-tdt-0.6b-v3-Q8_0.gguf`), so
    the run never touches the owner's data. Launch once, quit, set
    `onboarding_completed: true` and `selected_model` in
-   `Data/settings_store.json`. Start `…/Contents/MacOS/handy --start-hidden
+   `Data/settings_store.json`. Start `…/Contents/MacOS/wispr-bro --start-hidden
 --debug` from a terminal with Accessibility, Microphone and Screen
    Recording access. The log says `pill: Flow Bar started` and
    `pill: on screen native=Some(Rest)`.
@@ -1238,7 +1238,7 @@ swiftc -O scripts/wb-s17/clip.swift -o $S/wbclip    # clipboard snapshot/restore
 
 Copy the `.app` from `target/release/bundle/macos/` to `$S/app/`, add
 `Contents/MacOS/portable` (`Handy Portable Mode`), re-sign ad hoc
-(`codesign --force --deep -s -`), run `Contents/MacOS/handy --start-hidden`
+(`codesign --force --deep -s -`), run `Contents/MacOS/wispr-bro --start-hidden`
 once and quit. Then (app closed):
 
 ```sh
@@ -1433,7 +1433,7 @@ swiftc -O -o /tmp/wbnotif scripts/wb-s18-notifications.swift   # the terminal ne
 Copy the `.app` from `target/release/bundle/macos/` to `~/Applications/`, add
 `Contents/MacOS/portable` (`Handy Portable Mode`), re-sign
 (`codesign --force --deep --options runtime --entitlements src-tauri/Entitlements.plist -s -`),
-`lsregister -f` it, run `Contents/MacOS/handy --start-hidden` once and quit,
+`lsregister -f` it, run `Contents/MacOS/wispr-bro --start-hidden` once and quit,
 then set `onboarding_completed: true`, `paste_method: "none"` and
 `update_checks_enabled: false` in `Data/settings_store.json` and add one row
 to `Data/history.db` › `transcription_history` (the text "Copy latest" must
@@ -1449,7 +1449,7 @@ macOS asks an app only once: a second Allow run needs another identifier
 1. Start with the Hub in front: the feature popup shows; Got it; the bell's
    panel lists the announcement. Pass: no `asking macOS` line in the log.
 2. `open -a Finder`, then start the demo (samples through the real path):
-   `WISPRBRO_NOTIFY_DEMO="8000:model_ready,queued_takes_ready,queued_takes_ready,shortcut_problem,update_ready" <app>/Contents/MacOS/handy --debug --start-hidden`.
+   `WISPRBRO_NOTIFY_DEMO="8000:model_ready,queued_takes_ready,queued_takes_ready,shortcut_problem,update_ready" <app>/Contents/MacOS/wispr-bro --debug --start-hidden`.
    Pass: the first post logs `asking macOS for notification permission
 (first real need: model_ready)` and macOS asks;
    `wbnotif action "S18 Check" Allow`; every later post logs `delivered to
@@ -1642,7 +1642,7 @@ swiftc -O scripts/wb-window-id.swift -o <scratch>/wbwin
 Copy the `.app` from `target/release/bundle/macos/` to a scratch folder
 whose path contains `s25`, add `Contents/MacOS/portable` (`Handy Portable
 Mode`), re-sign ad hoc (`codesign --force --deep -s -`), run
-`Contents/MacOS/handy --start-hidden` once and quit. In
+`Contents/MacOS/wispr-bro --start-hidden` once and quit. In
 `Contents/MacOS/Data/settings_store.json` › `settings` set
 `onboarding_completed: true` and `update_checks_enabled: false`. Seed:
 `python3 -I scripts/wb-s25/seed.py <…>/Data locked <scratch>/expected-locked.json`
@@ -1765,7 +1765,7 @@ swiftc -O scripts/wb-s25/ui.swift -o <scratch>/wbui        # S-25's driver; the 
 swiftc -O scripts/wb-window-id.swift -o <scratch>/wbwin
 ```
 
-Run `Contents/MacOS/handy --start-hidden` once and quit, set
+Run `Contents/MacOS/wispr-bro --start-hidden` once and quit, set
 `onboarding_completed: true` and `update_checks_enabled: false` as in S-25,
 then `python3 -I scripts/wb-s27/seed.py <…>/Data <scratch>/s27-seed.json`
 (three neutral rows with silent WAVs, two fake model files, a log line and a
@@ -1946,7 +1946,8 @@ profile is never used).
       clipboard_restored true on every take. **Queued for the Mac wave**
       (needs BlackHole installed by the owner; Slack and Notion are not
       installed on the builder Mac).
-- Procedure: S-38.2-S-38.4 above. Machines: all for S-38.1.
+- [ ] S-38.5 The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1).
+- Procedure: S-38.2-S-38.5 above. Machines: all for S-38.1.
 
 ### S-39 1.0 release
 

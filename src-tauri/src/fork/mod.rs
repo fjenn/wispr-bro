@@ -1062,6 +1062,9 @@ mod identity_tests {
         let (raw, config) = effective_config();
         assert_eq!(config.product_name.as_deref(), Some("Wispr Bro"));
         assert_eq!(config.identifier, "com.wisprbro.desktop");
+        // S-38: crash reports, `ps`, Console and permission prompts show the
+        // executable's name, not Handy's crate name.
+        assert_eq!(config.main_binary_name.as_deref(), Some("wispr-bro"));
         assert_eq!(config.version.as_deref(), Some(overlay_version().as_str()));
         assert_eq!(
             config.bundle.macos.minimum_system_version.as_deref(),
