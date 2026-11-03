@@ -117,6 +117,9 @@ pub struct ForkPillState {
     pub context: bool,
     /// S-22: the transform run and word diff on the Diff phase.
     pub diff: Option<model::ForkTransformDiff>,
+    /// S-02: the app holding Secure Input (with the `secure_input`
+    /// warning), when known.
+    pub holder: Option<String>,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -197,6 +200,8 @@ pub fn on_overlay_state<R: Runtime>(_app: &AppHandle<R>, state: &str) {
 /// `overlay.rs` `hide_recording_overlay` hook.
 pub fn on_overlay_hide<R: Runtime>(_app: &AppHandle<R>) {
     input(Input::Hide);
+    // S-02: the take is over; Esc is no longer shadowed under Secure Input.
+    crate::fork::shortcut::take_finished();
     // S-20: the take is over; its context hints go.
     crate::fork::context::awareness::on_take_over();
 }
@@ -296,6 +301,25 @@ pub fn cleaning_up() {
 /// it is processed.
 pub fn context_used() {
     input(Input::ContextUsed);
+}
+
+/// S-02: the shortcut stopped working (the health check).
+pub fn shortcut_lost(reason: Option<crate::fork::shortcut::health::LostReason>) {
+    use crate::fork::shortcut::health::LostReason;
+    input(Input::Message(match reason {
+        Some(LostReason::TapStopped) => PillMessage::ShortcutStopped,
+        _ => PillMessage::ShortcutLost,
+    }));
+}
+
+/// S-02: the shortcut works again; replaces a loss on screen.
+pub fn shortcut_back() {
+    input(Input::Message(PillMessage::ShortcutBack));
+}
+
+/// S-02: the take started under Secure Input.
+pub fn secure_input_notice(holder: Option<String>) {
+    input(Input::SecureInput(holder));
 }
 
 /// A later slice reports a message (S-12a: "Inserted without cleanup").
@@ -444,6 +468,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         sends_automatically: a.sends_automatically,
         context: a.context,
         diff: a.diff.clone(),
+        holder: a.holder.clone(),
     }
 }
 
@@ -461,6 +486,7 @@ pub fn announcement(
                 PillWarning::Silence => "rust.pill.announce.silenceWarning",
                 PillWarning::Length => "rust.pill.announce.lengthWarning",
                 PillWarning::MicLost => "rust.pill.announce.micLostWarning",
+                PillWarning::SecureInput => "rust.pill.announce.secureInputWarning",
             };
             return Some((key.into(), true));
         }
@@ -815,6 +841,12 @@ impl Controller {
                 }
                 if fix == Some(PillFix::ViewChanges) {
                     crate::fork::transforms::record::view_changes(&self.app);
+                    return;
+                }
+                if fix == Some(PillFix::FixShortcut) {
+                    // S-02: the Fix sheet in the Hub; the message stays
+                    // until the shortcut works again.
+                    crate::fork::shortcut::health::open_fix_sheet(&self.app, "pill");
                     return;
                 }
                 if fix == Some(PillFix::RetryDownload) {
@@ -1240,7 +1272,7 @@ fn open_fix(fix: PillFix) {
             crate::fork::recovery::undo("bar");
             return;
         }
-        PillFix::ViewChanges => return,
+        PillFix::ViewChanges | PillFix::FixShortcut => return,
     };
     if let Err(e) = std::process::Command::new("/usr/bin/open").arg(url).spawn() {
         log::warn!("pill: cannot open System Settings: {e}");

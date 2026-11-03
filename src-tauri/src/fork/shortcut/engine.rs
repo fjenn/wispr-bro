@@ -47,6 +47,10 @@ pub const ORIGIN: &str = "fork:hotkey";
 /// grammar is idle (to drop Esc from the blocking set when it finishes).
 pub const BUSY_POLL_MS: Ms = 50;
 
+/// A key the tap and a Secure Input shadow (S-02) both report within this
+/// window is one press: the second report is dropped.
+pub const SHADOW_DEDUPE_MS: Ms = 300;
+
 /// What the Flow Bar asks for (S-03).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PillAction {
@@ -105,6 +109,11 @@ pub struct Engine {
     poll_at: Option<Ms>,
     /// The latest time the engine was given.
     clock: Ms,
+    /// S-02: when the tap last delivered a key-down for a key, and when a
+    /// Secure Input shadow last fired for an action (dedupe at the edges of
+    /// a Secure Input episode, when both paths may see one press).
+    tap_keys: Vec<(handy_keys::Key, Ms)>,
+    shadow_fired: Vec<(String, Ms)>,
 }
 
 impl Engine {
@@ -121,6 +130,8 @@ impl Engine {
             last_busy: false,
             poll_at: None,
             clock: 0,
+            tap_keys: Vec::new(),
+            shadow_fired: Vec::new(),
         }
     }
 
@@ -242,9 +253,92 @@ impl Engine {
         self.sync_blocking(host);
     }
 
+    /// S-02: a Carbon shadow of a fork binding fired under Secure Input
+    /// (`action` is the fork action id; `cancel` is Esc). Dropped when the
+    /// tap delivered the same key within [`SHADOW_DEDUPE_MS`].
+    pub fn shadow(&mut self, now: Ms, action: &str, host: &mut dyn Host) {
+        self.at(now);
+        let key = if action == crate::fork::settings::hotkey_actions::CANCEL {
+            Some(handy_keys::Key::Escape)
+        } else {
+            self.profile
+                .keyed
+                .iter()
+                .find(|b| b.action == action)
+                .and_then(|b| b.hotkey.key)
+        };
+        let Some(key) = key else {
+            log::debug!("fork hotkeys: shadow for an unbound action ignored");
+            return;
+        };
+        if self.recent_tap_key(key, now) {
+            log::debug!("fork hotkeys: shadow dropped, the tap saw the key");
+            return;
+        }
+        self.shadow_fired
+            .retain(|(a, t)| a != action && now.saturating_sub(*t) <= SHADOW_DEDUPE_MS);
+        self.shadow_fired.push((action.to_string(), now));
+        let effects = self.grammar.advance(now);
+        self.apply(effects, host);
+        if key == handy_keys::Key::Escape {
+            let take_was_active = self.grammar.take_active();
+            if take_was_active && self.profile.esc_cancels {
+                let effects = self.grammar.step(now, &Input::KeyDown(Key::Escape));
+                self.apply(effects, host);
+            }
+            self.esc_side_effects(take_was_active, host);
+        } else if self.registry.fire(action) {
+            host.observe(&Observed::Action(action.to_string()));
+        }
+        self.sync_blocking(host);
+    }
+
+    fn recent_tap_key(&self, key: handy_keys::Key, now: Ms) -> bool {
+        self.tap_keys
+            .iter()
+            .any(|(k, t)| *k == key && now.saturating_sub(*t) <= SHADOW_DEDUPE_MS)
+    }
+
+    fn recent_shadow(&self, action: &str, now: Ms) -> bool {
+        self.shadow_fired
+            .iter()
+            .any(|(a, t)| a == action && now.saturating_sub(*t) <= SHADOW_DEDUPE_MS)
+    }
+
+    fn note_tap_key(&mut self, key: handy_keys::Key, now: Ms) {
+        self.tap_keys
+            .retain(|(k, t)| *k != key && now.saturating_sub(*t) <= SHADOW_DEDUPE_MS);
+        self.tap_keys.push((key, now));
+    }
+
     /// One raw event from the fork tap.
     pub fn event(&mut self, now: Ms, ev: &KeyEvent, host: &mut dyn Host) {
         self.at(now);
+        if ev.is_key_down {
+            if let Some(key) = ev.key {
+                let cancel = crate::fork::settings::hotkey_actions::CANCEL;
+                let shadowed = if key == handy_keys::Key::Escape {
+                    self.recent_shadow(cancel, now)
+                } else {
+                    self.profile
+                        .keyed
+                        .iter()
+                        .find(|b| {
+                            b.hotkey.key == Some(key) && b.hotkey.modifiers.matches(ev.modifiers)
+                        })
+                        .is_some_and(|b| self.recent_shadow(&b.action, now))
+                };
+                if shadowed {
+                    log::debug!("fork hotkeys: key dropped, its Secure Input shadow fired");
+                    return;
+                }
+                if key == handy_keys::Key::Escape
+                    || self.profile.keyed.iter().any(|b| b.hotkey.key == Some(key))
+                {
+                    self.note_tap_key(key, now);
+                }
+            }
+        }
         if ev.key.is_none() {
             self.command_chord = self.profile.command_mode
                 && compound(ev.modifiers) == Modifiers::FN.union(Modifiers::CTRL);

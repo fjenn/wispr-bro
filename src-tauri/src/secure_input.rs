@@ -470,13 +470,14 @@ mod imp {
             && app
                 .try_state::<crate::commands::ShortcutsInitialized>()
                 .is_some()
-            && settings.keyboard_implementation == KeyboardImplementation::HandyKeys;
+            && (settings.keyboard_implementation == KeyboardImplementation::HandyKeys
+                || crate::fork::shortcut::owns("cancel"));
 
         let mut next = FallbackState::default();
         let mut immune = 0usize;
         let mut wanted: Vec<(String, ShortcutBinding, bool)> = Vec::new();
         if eligible {
-            for (id, binding) in &settings.bindings {
+            for (id, binding) in &crate::fork::shortcut::secure_input_bindings(&settings.bindings) {
                 if id == "cancel" && !state.cancel_requested.load(Ordering::SeqCst) {
                     continue;
                 }

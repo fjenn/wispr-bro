@@ -64,6 +64,8 @@ pub mod text;
 pub mod transforms;
 pub mod tray;
 pub mod update;
+/// Third-party code kept as received (see each file's header).
+pub mod vendor;
 
 pub use settings::PRODUCT_IDENTIFIER;
 
@@ -576,6 +578,11 @@ macro_rules! fork_specta_builder {
                 commands::onboarding::fork_onboarding_practice,
                 commands::onboarding::fork_onboarding_globe_do_nothing::<$runtime>,
                 commands::onboarding::fork_onboarding_open_pane::<$runtime>,
+                commands::hotkeys::fork_shortcut_health,
+                commands::hotkeys::fork_shortcut_recheck,
+                commands::hotkeys::fork_shortcut_open_accessibility,
+                commands::hotkeys::fork_shortcut_reset_permission::<$runtime>,
+                commands::hotkeys::fork_shortcut_relaunch::<$runtime>,
                 commands::history::fork_stats_summary::<$runtime>,
                 commands::history::fork_history_search::<$runtime>,
                 commands::history::fork_history_meta::<$runtime>,
@@ -708,7 +715,9 @@ macro_rules! fork_specta_builder {
                 scratchpad::ForkScratchpadOpen,
                 app_menu::ForkMenuAction,
                 update::scheduler::ForkUpdateState,
-                onboarding::practice::ForkPracticeTake
+                onboarding::practice::ForkPracticeTake,
+                shortcut::health::ForkShortcutHealthChanged,
+                shortcut::health::ForkShortcutFixRequested
             ])
     };
 }
@@ -782,11 +791,58 @@ pub trait ForkRuntime: Runtime {
     /// S-28: a take records, transcribes, cleans up or is delivered, or a
     /// transform runs (updates never install or relaunch then).
     fn update_busy(app: &AppHandle<Self>) -> bool;
+    /// S-02: rebuilds Handy's handy-keys tap (`shortcut::handy_keys`).
+    fn handy_keys_rebuild(app: &AppHandle<Self>) -> Result<(), String>;
+    /// S-02: Handy's Secure Input monitor, `None` without it.
+    fn secure_input_info(app: &AppHandle<Self>) -> Option<SecureInputInfo>;
+    /// S-02: re-runs Handy's Carbon fallback (off the calling thread).
+    fn secure_input_reconcile(app: &AppHandle<Self>);
+    /// S-02: re-syncs Handy's tray (the warning badge).
+    fn tray_refresh(app: &AppHandle<Self>);
+}
+
+/// What Handy's Secure Input monitor knows (S-02).
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct SecureInputInfo {
+    /// Secure Input is on right now (live check).
+    pub enabled: bool,
+    /// On for ≥ 3 s: Handy's Carbon shadows are registered.
+    pub sustained: bool,
+    /// The holder from the IORegistry, when known.
+    pub pid: Option<i32>,
+    /// Its process name (`ps`).
+    pub process: Option<String>,
 }
 
 impl ForkRuntime for tauri::Wry {
     fn models_start(app: &AppHandle<Self>) {
         models::setup::start(app);
+    }
+
+    fn handy_keys_rebuild(app: &AppHandle<Self>) -> Result<(), String> {
+        crate::shortcut::handy_keys::rebuild_shortcuts(app)
+    }
+
+    fn secure_input_info(app: &AppHandle<Self>) -> Option<SecureInputInfo> {
+        app.try_state::<crate::commands::ShortcutsInitialized>()?;
+        let s = crate::secure_input::get_secure_input_status(app.clone());
+        Some(SecureInputInfo {
+            enabled: s.enabled,
+            sustained: s.sustained,
+            pid: s.culprit_pid,
+            process: s.culprit_name,
+        })
+    }
+
+    fn secure_input_reconcile(app: &AppHandle<Self>) {
+        let app = app.clone();
+        tauri::async_runtime::spawn(async move {
+            crate::secure_input::reconcile_fallback(&app);
+        });
+    }
+
+    fn tray_refresh(app: &AppHandle<Self>) {
+        crate::tray::refresh_tray_icon(app);
     }
 
     fn recovery_start(app: &AppHandle<Self>) {
@@ -822,7 +878,7 @@ impl ForkRuntime for tauri::Wry {
     }
 
     fn menu_shortcuts_blocked(app: &AppHandle<Self>) -> bool {
-        crate::secure_input::tray_warning_active(app)
+        crate::secure_input::tray_warning_active(app) || shortcut::health::tray_warning()
     }
 
     fn update_busy(app: &AppHandle<Self>) -> bool {
@@ -890,6 +946,18 @@ impl ForkRuntime for tauri::Wry {
 #[cfg(test)]
 impl ForkRuntime for tauri::test::MockRuntime {
     fn pill_start(_app: &AppHandle<Self>) {}
+
+    fn handy_keys_rebuild(_app: &AppHandle<Self>) -> Result<(), String> {
+        Ok(())
+    }
+
+    fn secure_input_info(_app: &AppHandle<Self>) -> Option<SecureInputInfo> {
+        None
+    }
+
+    fn secure_input_reconcile(_app: &AppHandle<Self>) {}
+
+    fn tray_refresh(_app: &AppHandle<Self>) {}
 
     fn models_start(_app: &AppHandle<Self>) {}
 

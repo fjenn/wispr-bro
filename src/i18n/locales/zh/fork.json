@@ -704,7 +704,8 @@
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
-      "versionDev": "Wispr Bro v{{version}} (Dev)"
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Shortcut stopped working"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -843,7 +844,8 @@
         "card": "你的听写已就绪。可从栏中复制。",
         "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。",
         "undo": "“撤销”会在听写栏上显示 4 秒。",
-        "diff": "变换更改已准备就绪，可供审核。"
+        "diff": "变换更改已准备就绪，可供审核。",
+        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -866,7 +868,10 @@
         "select_text_first": "先选择文本",
         "selection_too_long": "选择 6,000 个字符或更少",
         "transform_focus_moved": "你已经移动过去，所以没有变化",
-        "transform_failed": "无法转换该文本"
+        "transform_failed": "无法转换该文本",
+        "shortcut_lost": "Your shortcut stopped working",
+        "shortcut_stopped": "Your shortcut stopped responding",
+        "shortcut_back": "Your shortcut works again"
       },
       "card": {
         "no_text_field": "先点击文本框",
@@ -1183,7 +1188,9 @@
     "warning": {
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
-      "mic_lost": "麦克风丢失，保留你刚才说的话"
+      "mic_lost": "麦克风丢失，保留你刚才说的话",
+      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
+      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
     },
     "settingUp": "正在设置…",
     "settingUpPercent": "正在设置… {{percent}}%",
@@ -1199,7 +1206,11 @@
     },
     "undo": "撤销",
     "viewChanges": "查看更改",
-    "sendsAutomatically": "自动发送"
+    "sendsAutomatically": "自动发送",
+    "shortcutDetail": {
+      "permission": "Accessibility access is off",
+      "stopped": "The keyboard listener stopped"
+    }
   },
   "transforms": {
     "banner": {
@@ -2179,6 +2190,41 @@
     },
     "theme": {
       "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
+    }
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
+      "stopped": "Your dictation shortcut stopped responding.",
+      "fix": "Fix"
+    },
+    "sheet": {
+      "title": "Fix your shortcut",
+      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
+      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
+      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
+      "pictureTitle": "Accessibility",
+      "pictureBack": "Privacy & Security",
+      "stepsTitle": "Turn it back on",
+      "step1": "Open System Settings › Privacy & Security › Accessibility.",
+      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
+      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
+      "resetTitle": "Still not working?",
+      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
+      "resetStep1": "Choose Reset and re-grant.",
+      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
+      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
+      "openSettings": "Open Accessibility Settings",
+      "reset": "Reset and re-grant",
+      "checkAgain": "Check again",
+      "relaunch": "Relaunch to finish",
+      "close": "Close",
+      "status": {
+        "healthy": "Your shortcut works.",
+        "lost": "Not working yet",
+        "recovering": "Reconnecting…",
+        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
+      }
     }
   }
 }

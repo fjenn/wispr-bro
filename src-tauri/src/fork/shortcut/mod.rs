@@ -14,6 +14,9 @@
 //! - `actions.rs`: action registry and Esc registry.
 //! - `labels.rs`: layout-aware chord labels.
 //! - `engine.rs`: the loop that ties them together, behind a `Host`.
+//! - `health.rs` (S-02): watches both taps, rebuilds them, tells the user.
+//! - `secure.rs` (S-02): the fork's bindings under Secure Input (Carbon
+//!   shadows through Handy's `secure_input.rs`).
 //!
 //! Handy's own hotkey manager keeps running for everything else: the
 //! `owns()` hook in `shortcut/mod.rs` stops it registering `transcribe`,
@@ -28,9 +31,14 @@ pub mod blocking;
 pub mod decision;
 pub mod engine;
 pub mod globe;
+pub mod health;
 pub mod labels;
 pub mod listener;
 pub mod processor;
+pub mod secure;
+
+/// The `secure_input.rs` hook (S-02): see [`secure::secure_input_bindings`].
+pub use secure::secure_input_bindings;
 
 #[cfg(test)]
 mod tests;
@@ -161,6 +169,15 @@ enum Msg {
     Profile(Box<Profile>),
     Pill(engine::PillAction),
     Globe,
+    /// S-02: build a new tap (`refresh`: the old one is healthy; skipped
+    /// during a take).
+    Rebuild {
+        refresh: bool,
+    },
+    /// S-02 / S-29a: a tap built outside the engine thread (`retry_tap`).
+    InstallTap(Tap),
+    /// S-02: a Secure Input shadow fired for this fork action.
+    Shadow(String),
 }
 
 struct Live {
@@ -287,90 +304,138 @@ pub fn start<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
     for issue in &profile.issues {
         log::warn!("fork hotkeys: binding skipped: {issue:?}");
     }
+    {
+        // S-02: Handy's Carbon fallback re-reads the fork's bindings
+        // (only while Secure Input is sustained; otherwise nothing is
+        // shadowed and there is nothing to redo).
+        let app = app.clone();
+        secure::set_reconciler(move || {
+            if R::secure_input_info(&app).is_some_and(|i| i.sustained) {
+                R::secure_input_reconcile(&app);
+            }
+        });
+    }
     let engine = Engine::new(profile, registry(), Timings::DEFAULT, globe.blocks_fn());
+    secure::set_spec(secure::ShadowSpec::from_profile(engine.profile()));
     let initial = blocking::hotkeys(
         engine.profile(),
         engine.grammar().blocking(),
         Default::default(),
     );
-    let tap_tx = tx.clone();
-    let tap = match listener::start(initial, move |m| {
-        let _ = tap_tx.send(Msg::Tap(m));
-    }) {
-        Ok(t) => t,
+    remember_blocking(&initial);
+    // S-02: without the tap the engine still runs (the bar's clicks work);
+    // the health check builds the tap once the permission is there (S-29a's
+    // onboarding grant included) and tells the user meanwhile (it also
+    // posts the S-18 notification).
+    let tap = match listener::start(initial.clone(), tap_forwarder(tx.clone())) {
+        Ok(t) => {
+            set_status(|s| {
+                s.running = true;
+                s.error = None;
+                s.fn_blocked = engine.grammar().blocks_fn() && s.trigger.as_deref() == Some("fn");
+            });
+            log::info!(
+                "fork hotkeys: tap running (trigger {:?}, Globe {}, fn blocked {})",
+                trigger_name(engine.profile()),
+                globe_name(globe),
+                engine.grammar().blocks_fn()
+            );
+            Some(t)
+        }
         Err(e) => {
             log::error!("fork hotkeys: {e}");
             set_status(|s| s.error = Some(e.clone()));
-            // S-18: an error needing action (inbox, and macOS when away).
-            crate::fork::notify::shortcut_problem(
-                app,
-                !crate::fork::notify::accessibility_trusted(),
-            );
-            // S-29a: kept for `retry_tap` (a first run starts before the
-            // user grants Accessibility in onboarding).
-            *DOWN.lock().unwrap_or_else(|e| e.into_inner()) = Some((engine, rx));
-            return;
+            None
         }
     };
-    spawn_engine(app, engine, tap, rx);
+    let tap_ok = tap.is_some();
+    let engine_app = app.clone();
+    match std::thread::Builder::new()
+        .name("wb-hotkey-engine".into())
+        .spawn(move || run(engine_app, engine, tap, initial, tx, rx))
+    {
+        Ok(_) => health::start(app, tap_ok),
+        Err(e) => log::error!("fork hotkeys: cannot spawn the engine thread: {e}"),
+    }
 }
 
-/// The engine and its queue while the tap could not start (no
-/// Accessibility yet). Messages sent meanwhile wait in the queue.
-type Down = (Engine, mpsc::Receiver<Msg>);
-static DOWN: Mutex<Option<Down>> = Mutex::new(None);
+/// The blocking set the engine last applied (a tap built outside the
+/// engine thread starts with it).
+static LAST_BLOCKING: Mutex<Option<HashSet<Hotkey>>> = Mutex::new(None);
 
-fn spawn_engine<R: Runtime>(app: &AppHandle<R>, engine: Engine, tap: Tap, rx: mpsc::Receiver<Msg>) {
-    let globe = blocking::read_globe_usage();
-    set_status(|s| {
-        s.running = true;
-        s.error = None;
-        s.fn_blocked = engine.grammar().blocks_fn() && s.trigger.as_deref() == Some("fn");
+fn remember_blocking(set: &HashSet<Hotkey>) {
+    *LAST_BLOCKING.lock().unwrap_or_else(|e| e.into_inner()) = Some(set.clone());
+}
+
+fn tap_forwarder(tx: Sender<Msg>) -> impl Fn(TapMsg) + Send + 'static {
+    move |m| {
+        let _ = tx.send(Msg::Tap(m));
+    }
+}
+
+/// S-02: asks the engine for a new tap. `false` when the engine is not
+/// running.
+pub fn rebuild_tap(refresh: bool) -> bool {
+    let Some(rt) = RUNTIME.get() else {
+        return false;
+    };
+    rt.tx.send(Msg::Rebuild { refresh }).is_ok()
+}
+
+/// S-02: a Secure Input shadow fired (`secure::on_shadow_event`).
+pub fn shadow_fired(action: &str) {
+    if let Some(rt) = RUNTIME.get() {
+        let _ = rt.tx.send(Msg::Shadow(action.to_string()));
+    }
+}
+
+/// S-02: the health check's verdict, for `fork_hotkey_status`.
+pub fn health_changed(status: &health::HealthStatus) {
+    set_status(|s| match status.fork_tap {
+        health::TapHealth::Healthy => {
+            s.running = true;
+            s.error = None;
+        }
+        health::TapHealth::Lost | health::TapHealth::Recovering => {
+            s.running = false;
+            s.error = Some(match status.reason {
+                Some(health::LostReason::Permission) => "no Accessibility permission".into(),
+                _ => "the keyboard tap stopped".into(),
+            });
+        }
     });
-    log::info!(
-        "fork hotkeys: tap running (trigger {:?}, Globe {}, fn blocked {})",
-        trigger_name(engine.profile()),
-        globe_name(globe),
-        engine.grammar().blocks_fn()
-    );
-    let app = app.clone();
-    std::thread::Builder::new()
-        .name("wb-hotkey-engine".into())
-        .spawn(move || run(app, engine, tap, rx))
-        .map(|_| ())
-        .unwrap_or_else(|e| log::error!("fork hotkeys: cannot spawn the engine thread: {e}"));
 }
 
 /// Starts the tap again if it could not start at launch (S-29a: after the
 /// user granted Accessibility in onboarding, no relaunch needed). Returns
 /// whether the tap is running now.
-pub fn retry_tap<R: Runtime>(app: &AppHandle<R>) -> bool {
+pub fn retry_tap<R: Runtime>(_app: &AppHandle<R>) -> bool {
     let Some(rt) = RUNTIME.get() else {
         return false;
     };
-    let mut down = DOWN.lock().unwrap_or_else(|e| e.into_inner());
-    let Some((engine, rx)) = down.take() else {
-        return rt.status.lock().unwrap_or_else(|e| e.into_inner()).running;
-    };
-    let set = blocking::hotkeys(
-        engine.profile(),
-        engine.grammar().blocking(),
-        Default::default(),
-    );
-    let tap_tx = rt.tx.clone();
-    match listener::start(set, move |m| {
-        let _ = tap_tx.send(Msg::Tap(m));
-    }) {
+    if rt.status.lock().unwrap_or_else(|e| e.into_inner()).running {
+        return true;
+    }
+    let set = LAST_BLOCKING
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .clone()
+        .unwrap_or_default();
+    match listener::start(set, tap_forwarder(rt.tx.clone())) {
         Ok(tap) => {
-            drop(down);
             log::info!("fork hotkeys: tap started on retry");
-            spawn_engine(app, engine, tap, rx);
+            let _ = rt.tx.send(Msg::InstallTap(tap));
+            set_status(|s| {
+                s.running = true;
+                s.error = None;
+            });
+            // S-02: the health check confirms the grant and Handy's tap.
+            health::request_check(health::Trigger::User);
             true
         }
         Err(e) => {
             log::warn!("fork hotkeys: tap retry failed: {e}");
             set_status(|s| s.error = Some(e));
-            *down = Some((engine, rx));
             false
         }
     }
@@ -454,6 +519,7 @@ pub fn reload<R: Runtime>(app: &AppHandle<R>) {
         // DEC-44: fn stopped being the trigger → the Globe setting we
         // changed goes back to the user's.
         globe::reconcile(app, fn_is_trigger(&profile));
+        secure::set_spec(secure::ShadowSpec::from_profile(&profile));
         let _ = rt.tx.send(Msg::Profile(Box::new(profile)));
     }
 }
@@ -549,13 +615,16 @@ pub fn status<R: Runtime>(app: &AppHandle<R>, locale: &str) -> HotkeyStatus {
 }
 
 /// The Host the live engine runs on.
-struct AppHost<R: Runtime> {
+struct AppHost<R: crate::fork::ForkRuntime> {
     app: AppHandle<R>,
-    tap: Tap,
+    /// `None` while the health check has no working tap to give us.
+    tap: Option<Tap>,
+    /// The blocking set last applied (a rebuilt tap starts with it).
+    blocking: HashSet<Hotkey>,
     trigger_mask: u64,
 }
 
-impl<R: Runtime> Host for AppHost<R> {
+impl<R: crate::fork::ForkRuntime> Host for AppHost<R> {
     fn command(&mut self, command: ExternalCommand) {
         let unix_us = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
@@ -583,7 +652,11 @@ impl<R: Runtime> Host for AppHost<R> {
 
     fn set_blocking(&mut self, set: HashSet<Hotkey>) {
         log::trace!("fork hotkeys: blocking {set:?}");
-        self.tap.set_blocking(set);
+        if let Some(tap) = &self.tap {
+            tap.set_blocking(set.clone());
+        }
+        remember_blocking(&set);
+        self.blocking = set;
     }
 
     fn prepare_mic(&mut self) {
@@ -603,8 +676,10 @@ impl<R: Runtime> Host for AppHost<R> {
 
     fn observe(&mut self, event: &Observed) {
         log::debug!("fork hotkeys: {event:?}");
+        health::on_engine_effect(event);
         if let Observed::Effect(effect) = event {
             crate::fork::pill::on_hotkey_effect(effect);
+            secure_take_effect(&self.app, effect);
             // S-05 / DEC-32: an auto-stopped take keeps its start target.
             if let Effect::Stopped {
                 via: processor::StopVia::Silence | processor::StopVia::MaxLength,
@@ -652,7 +727,48 @@ fn physical_flags() -> Option<u64> {
     None
 }
 
-fn run<R: Runtime>(app: AppHandle<R>, mut engine: Engine, tap: Tap, rx: mpsc::Receiver<Msg>) {
+/// S-02: a take's start or end, for the Esc shadow and the bar's Secure
+/// Input notice.
+fn secure_take_effect<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, effect: &Effect) {
+    match effect {
+        Effect::TakeStarted | Effect::Locked { .. } => {
+            let was_active = secure::is_active();
+            secure::set_active(true);
+            if !was_active {
+                if let Some(info) = R::secure_input_info(app) {
+                    if info.enabled {
+                        let holder = secure::holder_name(info.pid, info.process.as_deref());
+                        log::info!(
+                            "fork hotkeys: take under Secure Input (holder known: {})",
+                            holder.is_some()
+                        );
+                        crate::fork::pill::secure_input_notice(holder);
+                    }
+                }
+            }
+        }
+        Effect::Cancelled { .. }
+        | Effect::ChordIgnored {
+            mic_was_open: true, ..
+        } => secure::set_active(false),
+        _ => {}
+    }
+}
+
+/// S-02: the take is over (Handy hid its overlay after processing): Esc is
+/// no longer shadowed. Called from `fork::pill::on_overlay_hide`.
+pub fn take_finished() {
+    secure::set_active(false);
+}
+
+fn run<R: crate::fork::ForkRuntime>(
+    app: AppHandle<R>,
+    mut engine: Engine,
+    tap: Option<Tap>,
+    blocking: HashSet<Hotkey>,
+    tx: Sender<Msg>,
+    rx: mpsc::Receiver<Msg>,
+) {
     let mask = |p: &Profile| {
         p.trigger
             .map(|t| engine::trigger_flag_mask(t.modifiers()))
@@ -661,6 +777,7 @@ fn run<R: Runtime>(app: AppHandle<R>, mut engine: Engine, tap: Tap, rx: mpsc::Re
     let mut host = AppHost {
         app,
         tap,
+        blocking,
         trigger_mask: mask(engine.profile()),
     };
     let mut was_idle = true;
@@ -713,12 +830,45 @@ fn run<R: Runtime>(app: AppHandle<R>, mut engine: Engine, tap: Tap, rx: mpsc::Re
             Msg::Tap(TapMsg::Ended) => {
                 log::error!("fork hotkeys: the keyboard tap stopped");
                 engine.reset(epoch_ms(Instant::now()), &mut host);
+                host.tap = None;
                 set_status(|s| {
                     s.running = false;
                     s.error = Some("the keyboard tap stopped".into());
                 });
-                break;
+                // S-02: the health check probes and rebuilds it.
+                health::tap_stopped(health::TapId::Fork);
             }
+            Msg::Rebuild { refresh } => {
+                if refresh && host.tap.is_some() && !engine.grammar().is_idle() {
+                    // A take is running on this tap: it works.
+                    health::tap_rebuilt(health::TapId::Fork, true);
+                    continue;
+                }
+                if !refresh && !engine.grammar().is_idle() {
+                    engine.reset(epoch_ms(Instant::now()), &mut host);
+                }
+                match listener::start(host.blocking.clone(), tap_forwarder(tx.clone())) {
+                    Ok(t) => {
+                        // The old tap (if any) stops when dropped here.
+                        host.tap = Some(t);
+                        set_status(|s| {
+                            s.running = true;
+                            s.error = None;
+                        });
+                        log::info!("fork hotkeys: tap rebuilt");
+                        health::tap_rebuilt(health::TapId::Fork, true);
+                    }
+                    Err(e) => {
+                        log::warn!("fork hotkeys: tap rebuild failed: {e}");
+                        health::tap_rebuilt(health::TapId::Fork, false);
+                    }
+                }
+            }
+            Msg::InstallTap(t) => {
+                t.set_blocking(host.blocking.clone());
+                host.tap = Some(t);
+            }
+            Msg::Shadow(action) => engine.shadow(epoch_ms(Instant::now()), &action, &mut host),
             Msg::Voice(at) => engine.voice(epoch_ms(at), &mut host),
             Msg::Pill(action) => engine.pill(epoch_ms(Instant::now()), action, &mut host),
             Msg::Profile(p) => {

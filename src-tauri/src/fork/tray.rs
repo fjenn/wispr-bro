@@ -89,6 +89,16 @@ pub fn extend<R: super::ForkRuntime>(
         None => log::warn!("fork tray: Handy's `version` menu item not found"),
     }
     *tooltip = rewrite_tooltip(tooltip, &label);
+    // S-02: a lost shortcut uses Handy's Secure Input warning item (the
+    // `tray.rs` hook ORs it into `warning`; S-26a's tray relabels it).
+    if crate::fork::shortcut::health::tray_warning() {
+        let text = i18n::t(
+            i18n::current_locale(Some(locale)),
+            "rust.tray.shortcutLost",
+            &[],
+        );
+        *tooltip = format!("{label} — {text}");
+    }
     if crate::fork::is_product_build() {
         crate::fork::app_menu::fill_tray(app, menu, locale)?;
     }

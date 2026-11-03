@@ -19,6 +19,7 @@ import { Card } from "./states/Card";
 import { DiffCard } from "./states/DiffCard";
 import { Message } from "./states/Message";
 import { SettingUp } from "./states/SettingUp";
+import { isShortcutLost, ShortcutLost } from "./states/ShortcutLost";
 import { Working } from "./states/Working";
 import { usePillState } from "./usePill";
 
@@ -45,7 +46,11 @@ export function Pill() {
       body = <Working state={state} />;
       break;
     case "message":
-      body = <Message state={state} />;
+      body = isShortcutLost(state) ? (
+        <ShortcutLost state={state} />
+      ) : (
+        <Message state={state} />
+      );
       break;
     case "setting_up":
       body = <SettingUp state={state} />;
