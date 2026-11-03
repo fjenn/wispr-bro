@@ -101,7 +101,7 @@ Slices: F-01, F-02, S-29a, S-29b, S-39.
 - [ ] A1.1 Clean install from the DMG on a Mac that never had Wispr Bro (fresh macOS user): Gatekeeper opens it without a warning. TODO (F-02)
 - [ ] A1.2 Clean install with Homebrew (`brew install --cask …`). TODO (S-39)
 - [ ] A1.3 Microphone and Accessibility prompts name "Wispr Bro"; Handy, if installed, keeps its own settings and TCC entries (F-01).
-- [ ] A1.4 Onboarding timing: first dictation ≤ 2 min after install and ≤ 60 s after permissions (§5.3). TODO (S-29a, S-29b)
+- [ ] A1.4 Onboarding timing: first dictation ≤ 2 min after install and ≤ 60 s after permissions (§5.3). Procedure: S-29a.1 and S-29b.1 (`scripts/wb-s29b/run.sh timing`).
 
 ### A2. Hotkeys
 
@@ -1881,8 +1881,34 @@ and put the owner's Globe setting back at the end if any case changed it.
 
 ### S-29b Onboarding: languages, practice, celebration, typing test, summary
 
-- [ ] S-29b.1 10 people on clean Macs (8 GB and 16 GB): median ≤ 5 min, first dictation within 2 min of install (§5.3). (R5's "one Intel" is skipped under DEC-29.)
-- Procedure: TODO (S-29b). Evidence: one row per tester, no names (tester ids only).
+Items S-29b.2-.7 are **queued for the Mac wave** (consolidated UI run;
+nothing here has run on the Mac yet). Playwright covers every screen and
+branch: practice text, a slow starter (records, progress, fills late,
+moves on at 90 s), nothing heard, cancel, the ⌃⌥ copy, the celebration with
+and without reduced motion, the counter from 0, wpm math, early finish,
+paste blocked, languages, Try again, Recalculate, the slider, every skip,
+the summary and launch at login, Back, no model names, keyboard-only, RTL,
+axe light/dark (`tests/fork/onboarding-practice.spec.ts`).
+
+- [ ] S-29b.1 10 people on clean Macs (8 GB and 16 GB): median ≤ 5 min, first dictation within 2 min of install (§5.3), 0 testers stuck (> 15 min or outside help). (R5's "one Intel" is skipped under DEC-29.) Evidence: one row per tester, no names (tester ids only); `run.sh timing` per tester.
+- [ ] S-29b.2 Practice with a ready model: fn+Space, the WAV, fn → the composer fills, nothing is pasted, the clipboard is unchanged, History has the take with source `practice` and the Home stats do not count it (`run.sh practice`).
+- [ ] S-29b.3 Practice during the first download (stand-in at 1 Mbit/s): "Setting up… N%" climbs, then the composer fills or the screen moves on after 90 s; the take is in History either way (`run.sh queued`).
+- [ ] S-29b.4 A take with another app in front during Practice is an ordinary dictation (`run.sh outside`).
+- [ ] S-29b.5 By eye: the celebration is dark in light mode, confetti once (none with Reduce motion on in System Settings › Accessibility › Display); the counter counts up from 0.
+- [ ] S-29b.6 Typing test by hand in WebKit: typing works (the window is `select-none`; the fields opt back in), paste is ignored, the number is plausible against a known typist, Recalculate updates the estimate; the slider by keyboard.
+- [ ] S-29b.7 Start dictating with "Open Wispr Bro when you log in" checked → the login item exists (`run.sh login`), the resting bar appears (DEC-38); unchecked → none.
+
+**Setup.** As S-29a with `s29b` in place of `s29a` (identifier
+`com.wisprbro.s29bcheck`, product name "Wispr Bro S29b Check", a scratch
+path containing `s29b`), plus `say -o <scratch>/practice.wav --data-format=LEI16@16000 "Hi Sam, thanks for the notes. Can we meet on Thursday at ten?"`
+and, for `queued`, `python3 -I scripts/wb-s07a/hf-mirror.py --root ~/wb-bench/asr --port 18077 --rate 125000`
+with `HF_ENDPOINT=http://127.0.0.1:18077` exported for the app.
+
+**Procedure** (`APP=<bundle> OUT=<dir> KEYS=<scratch>/wbkeys WAV=<scratch>/practice.wav scripts/wb-s29b/run.sh <case>`; holds `~/wb-bench/gui.lock`; the WAV plays once per case at moderate volume):
+
+1. `practice` (S-29b.2), `outside` (S-29b.4), then `queued` (S-29b.3).
+2. `python3 -I scripts/wb-s29b/profile.py <…>/Data fresh`, launch, go through every screen to Start dictating (S-29b.5-.7), then `timing` and `login`.
+3. Quit; remove the login item if it was left on; delete the bundle copies and `~/Library/{WebKit,Caches}/com.wisprbro.s29bcheck`.
 
 ### S-30 First-use chooser, pill spotlight, setup checklist
 

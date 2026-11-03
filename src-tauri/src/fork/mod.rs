@@ -573,6 +573,7 @@ macro_rules! fork_specta_builder {
                 commands::onboarding::fork_onboarding_app_location,
                 commands::onboarding::fork_onboarding_move_to_applications::<$runtime>,
                 commands::onboarding::fork_onboarding_key_test::<$runtime>,
+                commands::onboarding::fork_onboarding_practice,
                 commands::onboarding::fork_onboarding_globe_do_nothing::<$runtime>,
                 commands::onboarding::fork_onboarding_open_pane::<$runtime>,
                 commands::history::fork_stats_summary::<$runtime>,
@@ -706,7 +707,8 @@ macro_rules! fork_specta_builder {
                 scratchpad::ForkScratchpadChanged,
                 scratchpad::ForkScratchpadOpen,
                 app_menu::ForkMenuAction,
-                update::scheduler::ForkUpdateState
+                update::scheduler::ForkUpdateState,
+                onboarding::practice::ForkPracticeTake
             ])
     };
 }

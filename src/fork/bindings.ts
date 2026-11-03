@@ -153,6 +153,14 @@ async forkOnboardingKeyTest(on: boolean) : Promise<Result<HotkeyStatus, ForkErro
 }
 },
 /**
+ * The practice screen (S-29b). `on`: a take started with Wispr Bro in
+ * front is a practice take (its text comes back as `fork-practice-take`,
+ * never pasted) for two minutes unless renewed; `off` ends it at once.
+ */
+async forkOnboardingPractice(on: boolean) : Promise<void> {
+    await TAURI_INVOKE("fork_onboarding_practice", { on });
+},
+/**
  * DEC-44: called only after the screen explained the change and the user
  * pressed the button. The user's own value is kept for the restore
  * (`shortcut::globe`), which runs when fn stops being the trigger.
@@ -1227,6 +1235,7 @@ forkNotificationsChanged: ForkNotificationsChanged,
 forkPillLevels: ForkPillLevels,
 forkPillState: ForkPillState,
 forkPingEvent: ForkPingEvent,
+forkPracticeTake: ForkPracticeTake,
 forkScratchpadChanged: ForkScratchpadChanged,
 forkScratchpadOpen: ForkScratchpadOpen,
 forkSettingsChanged: ForkSettingsChanged,
@@ -1253,6 +1262,7 @@ forkNotificationsChanged: "fork-notifications-changed",
 forkPillLevels: "fork-pill-levels",
 forkPillState: "fork-pill-state",
 forkPingEvent: "fork-ping-event",
+forkPracticeTake: "fork-practice-take",
 forkScratchpadChanged: "fork-scratchpad-changed",
 forkScratchpadOpen: "fork-scratchpad-open",
 forkSettingsChanged: "fork-settings-changed",
@@ -2004,6 +2014,24 @@ debug_build: boolean;
  * `true` when the app was launched with `--debug`.
  */
 cli_debug: boolean }
+/**
+ * A practice take reached the practice screen. Only the onboarding window
+ * listens; the text is the user's own take, shown where they dictated it.
+ */
+export type ForkPracticeTake = { kind: ForkPracticeTakeKind; text: string | null; 
+/**
+ * The text arrived after the take had waited for the speech model.
+ */
+late: boolean }
+export type ForkPracticeTakeKind = 
+/**
+ * The take's final text, for the composer.
+ */
+"text" | 
+/**
+ * No speech model is ready yet: the take waits in the queue.
+ */
+"queued"
 export type ForkScratchpadChanged = { revision: number }
 export type ForkScratchpadOpen = { note_id: number }
 /**

@@ -389,7 +389,7 @@ export function ShortcutTest({
         onClick={onContinue}
         data-testid="wb-shortcut-finish"
       >
-        {t("onboardingFlow.shortcut.finish")}
+        {t("onboardingFlow.continue")}
       </Button>
 
       {editorOpen && (

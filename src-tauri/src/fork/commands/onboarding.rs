@@ -109,6 +109,15 @@ pub fn fork_onboarding_key_test<R: ForkRuntime>(
     super::hotkeys::fork_hotkey_status(app)
 }
 
+/// The practice screen (S-29b). `on`: a take started with Wispr Bro in
+/// front is a practice take (its text comes back as `fork-practice-take`,
+/// never pasted) for two minutes unless renewed; `off` ends it at once.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_onboarding_practice(on: bool) {
+    crate::fork::onboarding::practice::set(on, std::time::Instant::now());
+}
+
 /// DEC-44: called only after the screen explained the change and the user
 /// pressed the button. The user's own value is kept for the restore
 /// (`shortcut::globe`), which runs when fn stops being the trigger.

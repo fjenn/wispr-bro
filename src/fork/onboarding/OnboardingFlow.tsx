@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * First-run onboarding (S-29a): Welcome › Permissions › Setup › Practice,
+ * First-run onboarding (S-29a, S-29b): Welcome › Permissions › Setup ›
+ * Practice,
  * with a Back link and a Help chip. Replaces Handy's flow through the one
  * `App.tsx` import (ci/hooks.txt); Handy's onboarding files are untouched.
  *
@@ -11,9 +12,12 @@
  *   No screen names a model (B-207).
  * - Preview (debug panel) is inert: no prompts, monitoring, moves or
  *   setting writes.
- * - S-29b appends Practice; until then the shortcut test finishes setup.
+ * - Practice (S-29b): hands-free practice (Skip → time saved), the dark
+ *   celebration, time saved ⇄ the typing test, then the summary, whose
+ *   button writes the launch-at-login choice and completes setup.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSettings } from "@/hooks/useSettings";
 import { useTranslation } from "react-i18next";
 import type { OnboardingStep as HandyPreviewStep } from "@/components/onboarding/onboardingStore";
 import { usePermissions } from "@/components/onboarding/usePermissions";
@@ -23,6 +27,8 @@ import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
 import { FOCUS_RING } from "../ui";
+import { FirstDictation } from "./FirstDictation";
+import { HandsFreePractice } from "./HandsFreePractice";
 import { HelpChip } from "./Help";
 import { Languages } from "./Languages";
 import { MicTest } from "./MicTest";
@@ -31,7 +37,11 @@ import { Permissions } from "./Permissions";
 import { ShortcutTest } from "./ShortcutTest";
 import { Stepper } from "./Stepper";
 import { BACK, isOnboardingStep, type OnboardingStep } from "./steps";
+import { Summary } from "./Summary";
+import { TimeSaved } from "./TimeSaved";
+import { TypingTest } from "./TypingTest";
 import { Welcome } from "./Welcome";
+import "./practice.css";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
 
@@ -41,8 +51,8 @@ const PREVIEW_STEPS: Record<HandyPreviewStep, OnboardingStep> = {
   permissions: "permissions",
   model: "languages",
   demo: "mic_test",
-  try: "shortcut_test",
-  done: "shortcut_test",
+  try: "practice",
+  done: "summary",
 };
 
 export interface OnboardingFlowProps {
@@ -59,6 +69,7 @@ export function OnboardingFlow({
 }: OnboardingFlowProps) {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const { settings } = useForkSettings();
+  const { updateSetting } = useSettings();
   const permissions = usePermissions(preview);
   const [step, setStep] = useState<OnboardingStep | null>(
     preview ? PREVIEW_STEPS[previewStep] : null,
@@ -138,7 +149,7 @@ export function OnboardingFlow({
 
   const toLanguages = useCallback(() => void go("languages"), [go]);
 
-  const finish = async () => {
+  const finish = async (launchAtLogin: boolean) => {
     if (preview) {
       onComplete();
       return;
@@ -146,6 +157,13 @@ export function OnboardingFlow({
     if (finished.current) return;
     setNavBusy(true);
     setNavigationFailed(false);
+    // The summary's choice; a failure here does not block finishing (it
+    // stays changeable in Settings › System).
+    try {
+      await updateSetting("autostart_enabled", launchAtLogin);
+    } catch (e) {
+      console.warn("onboarding: cannot set launch at login", e);
+    }
     const forkResult = await commands.forkOnboardingComplete();
     const handyResult =
       forkResult.status === "ok"
@@ -196,7 +214,54 @@ export function OnboardingFlow({
         break;
       case "shortcut_test":
         content = (
-          <ShortcutTest preview={preview} onContinue={() => void finish()} />
+          <ShortcutTest
+            preview={preview}
+            onContinue={() => void go("practice")}
+          />
+        );
+        break;
+      case "practice":
+        content = (
+          <HandsFreePractice
+            preview={preview}
+            onDone={() => void go("first_dictation")}
+            onSkip={() => void go("time_saved")}
+          />
+        );
+        break;
+      case "first_dictation":
+        content = (
+          <FirstDictation
+            preview={preview}
+            onContinue={() => void go("time_saved")}
+          />
+        );
+        break;
+      case "time_saved":
+        content = (
+          <TimeSaved
+            preview={preview}
+            onTakeTest={() => void go("typing_test")}
+            onContinue={() => void go("summary")}
+          />
+        );
+        break;
+      case "typing_test":
+        content = (
+          <TypingTest
+            preview={preview}
+            onDone={() => void go("time_saved")}
+            onSkip={() => void go("time_saved")}
+          />
+        );
+        break;
+      case "summary":
+        content = (
+          <Summary
+            preview={preview}
+            busy={navBusy}
+            onFinish={(launch) => void finish(launch)}
+          />
         );
         break;
     }
@@ -207,7 +272,9 @@ export function OnboardingFlow({
   return (
     <div
       dir={getLanguageDirection(i18n.language)}
-      className="flex h-screen w-full cursor-default flex-col overflow-hidden bg-(--wb-canvas) text-(--wb-ink) select-none"
+      className={`flex h-screen w-full cursor-default flex-col overflow-hidden bg-(--wb-canvas) text-(--wb-ink) select-none ${
+        step === "first_dictation" ? "wb-stage-dark" : ""
+      }`}
       data-testid="wb-onboarding"
       data-step={step ?? "loading"}
     >
