@@ -52,7 +52,7 @@
       "version": "Wersja",
       "channel": "Kanał",
       "key": "Klucz podpisu",
-      "endpoints": "Źródła",
+      "endpoints": "Źródła aktualizacji",
       "checksOff": "Sprawdzanie aktualizacji jest wyłączone (Ustawienia › Zaawansowane lub ustawiony wyłącznik awaryjny).",
       "check": "Sprawdź teraz",
       "checking": "Sprawdzanie…",
@@ -73,7 +73,7 @@
       "contextAwareness": "Świadomość kontekstu",
       "contextAwarenessHint": "Wykorzystuje nazwy z tekstu w pobliżu kursora, aby je poprawnie zapisać. Ten tekst pozostaje na tym Macu i nigdy nie jest zachowywany.",
       "transforms": "Przekształcenia",
-      "transformsHint": "⌥1 poprawia zaznaczony tekst, a ⌥2 zamienia go w czytelniejszy prompt AI. Gdy ta opcja jest włączona, te klawisze zastępują ¡ i ™.",
+      "transformsHint": "⌥1 poprawia zaznaczony tekst, ⌥2 zamienia go w czytelniejszy prompt AI, a ⌥O pokazuje, co zmieniło ostatnie przekształcenie. Gdy ta opcja jest włączona, te klawisze nie wpisują już ¡, ™ ani ø.",
       "transformsSafeShortcuts": "Używaj zamiast tego ⌃⌥1 i ⌃⌥2",
       "transformsSafeShortcutsHint": "Pozostawia ¡ i ™ pod ⌥1 i ⌥2.",
       "cleanupLevel": "Poziom porządkowania",
@@ -167,7 +167,7 @@
         "help": "Kopiuje ostatnie dyktowanie do schowka."
       },
       "pressEnter": {
-        "title": "Naciśnij Enter",
+        "title": "Naciśnij Return",
         "help": "Naciska za Ciebie Return, na przykład aby wysłać właśnie podyktowaną wiadomość.",
         "mouse": "Przycisk myszy nadal klika jak zwykle w aplikacji pod wskaźnikiem, więc najlepiej sprawdza się przycisk boczny (Wstecz lub Dalej)."
       },
@@ -388,7 +388,7 @@
       "saveFailed": "Nie można zapisać tego skrótu.",
       "conflict": "Używany też przez: {{action}}. Wybierz inny skrót.",
       "invalid": "Ten skrót nie jest rozpoznawany.",
-      "unsupported": "Mechanizm skrótów nie może użyć tej kombinacji dla tej akcji.",
+      "unsupported": "Tej kombinacji nie można użyć jako skrótu dla tej akcji.",
       "capture": {
         "starting": "Rozpoczynanie nagrywania skrótu…",
         "listening": "Naciśnij skrót…",
@@ -399,13 +399,13 @@
         "failed": "Nie można rozpocząć nagrywania skrótu. Sprawdź uprawnienie Dostępność i spróbuj ponownie."
       },
       "actions": {
-        "dictate": "Naciśnij i mów",
+        "dictate": "Przytrzymaj i mów",
         "hands_free": "Dyktowanie bez trzymania",
         "cancel": "Anuluj dyktowanie",
         "command_mode": "Tryb poleceń",
         "paste_last": "Wklej ostatnie dyktowanie",
         "copy_last": "Kopiuj ostatnie dyktowanie",
-        "press_enter": "Naciśnij Enter",
+        "press_enter": "Naciśnij Return",
         "undo_cancel": "Cofnij anulowanie",
         "transform": {
           "polish": "Polish dla zaznaczonego tekstu",
@@ -420,7 +420,7 @@
         "dictate": "Przytrzymaj skrót podczas mówienia; puść go, aby zakończyć.",
         "hands_free": "Rozpoczynaj i kończ dyktowanie bez przytrzymywania klawisza.",
         "cancel": "Zatrzymuje bieżące dyktowanie bez wstawiania tekstu.",
-        "command_mode": "Przytrzymaj fn i Control, mówiąc, jak edytować lub napisać tekst.",
+        "command_mode": "Przytrzymaj skrót, mówiąc, jak edytować lub napisać tekst.",
         "paste_last": "Ponownie wkleja ostatnie dyktowanie.",
         "copy_last": "Kopiuje ostatnie dyktowanie do schowka.",
         "press_enter": "Naciska Return w aplikacji, w której piszesz. Dobrze sprawdza się tu boczny przycisk myszy.",
@@ -538,58 +538,30 @@
           "quiet": "Dyktuj po cichu: pokaż mi, jak"
         },
         "empty": {
-          "title": "Tutaj pojawią się Twoje dyktowania",
-          "body": "Każde z nich jest zapisywane na tym Macu razem z nagraniem, więc możesz je później skopiować lub sprawdzić.",
-          "action": "Otwórz Historię"
+          "title": "Tutaj pojawią się Twoje dyktowania"
         }
       },
       "insights": {
         "title": "Statystyki",
         "empty": {
           "title": "Statystyki potrzebują kilku dyktowań",
-          "body": "Tempo mówienia, serie i zaoszczędzony czas pojawią się, gdy podyktujesz już trochę tekstu.",
           "action": "Przejdź do Dyktowania"
         }
       },
       "dictionary": {
-        "title": "Słownik",
-        "empty": {
-          "title": "Naucz {{appName}} swoich słów",
-          "body": "Dodane nazwy, terminy produktowe i skróty są zawsze pisane poprawnie. Dopóki ta strona nie jest gotowa, Twoje słowa są w Ustawieniach.",
-          "action": "Otwórz własne słowa"
-        }
+        "title": "Słownik"
       },
       "snippets": {
-        "title": "Fragmenty tekstu",
-        "empty": {
-          "title": "Fragmenty tekstu już wkrótce",
-          "body": "Powiedz krótką frazę, np. „mój adres”, a otrzymasz pełny tekst. Ta strona pojawi się w jednej z kolejnych aktualizacji.",
-          "action": "Przejdź do Dyktowania"
-        }
+        "title": "Fragmenty tekstu"
       },
       "style": {
-        "title": "Styl",
-        "empty": {
-          "title": "Style już wkrótce",
-          "body": "Wybierz, jak dopracowany ma być tekst w każdym rodzaju aplikacji, od oficjalnego e-maila po swobodny czat. Ta strona pojawi się w jednej z kolejnych aktualizacji.",
-          "action": "Przejdź do Dyktowania"
-        }
+        "title": "Styl"
       },
       "transforms": {
-        "title": "Przekształcenia",
-        "empty": {
-          "title": "Przekształcenia już wkrótce",
-          "body": "Zaznacz tekst i przepisz go jednym skrótem: krócej, jaśniej lub w lepszym porządku. Ta strona pojawi się w jednej z kolejnych aktualizacji.",
-          "action": "Przejdź do Dyktowania"
-        }
+        "title": "Przekształcenia"
       },
       "scratchpad": {
-        "title": "Brudnopis",
-        "empty": {
-          "title": "Brudnopis już wkrótce",
-          "body": "Miejsce do szybkiego dyktowania notatek, zanim trafią gdziekolwiek indziej. Ta strona pojawi się w jednej z kolejnych aktualizacji.",
-          "action": "Przejdź do Dyktowania"
-        }
+        "title": "Brudnopis"
       },
       "share": {
         "title": "Poleć znajomemu"
@@ -626,7 +598,7 @@
       "paused": "Po trzech nieudanych próbach automatyczne aktualizacje są wstrzymane do {{time}}.",
       "manualOnly": "To wersja deweloperska: aktualizacje są sprawdzane tylko na Twoje żądanie.",
       "readyHint": "Zainstaluje się sama po 20 minutach bez dyktowania lub po zamknięciu aplikacji.",
-      "policy": "Aktualizacje są pobierane w tle i instalowane tylko wtedy, gdy nie dyktujesz, lub po zamknięciu aplikacji.",
+      "policy": "Aktualizacje są pobierane w tle i instalowane, gdy przez 20 minut nie dyktujesz, lub po zamknięciu aplikacji.",
       "needsPassword": "Ta kopia aplikacji jest w folderze, którego zmiana wymaga hasła administratora, więc aktualizacje instalują się tylko po wybraniu „Uruchom ponownie”."
     }
   },
@@ -661,7 +633,7 @@
       "noColumn": "Brak w tym pliku",
       "column": "Kolumna {{letter}}",
       "columnNamed": "Kolumna {{letter}}: {{name}}",
-      "mapRequired": "Wybierz kolumnę dla każdego pola, które nie jest opcjonalne.",
+      "mapRequired": "Wybierz kolumnę dla każdego wymaganego pola.",
       "previewCaption_one": "Podgląd pierwszego wiersza",
       "previewCaption_few": "Podgląd pierwszych {{count}} wierszy",
       "previewCaption_many": "Podgląd pierwszych {{count}} wierszy",
@@ -686,7 +658,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dyktowanie",
-      "vocabulary": "Słownictwo",
+      "vocabulary": "Słownik",
       "help": "Pomoc",
       "file": "Plik",
       "edit": "Edycja",
@@ -696,9 +668,9 @@
       "wordsDictated_few": "{{count}} podyktowane słowa",
       "wordsDictated_many": "{{count}} podyktowanych słów",
       "wordsDictated_other": "{{count}} podyktowanego słowa",
-      "copyLast": "Kopiuj ostatnią transkrypcję",
-      "copyLastPreview": "Kopiuj ostatnią transkrypcję: „{{preview}}”",
-      "copyLastConcealed": "Kopiuj ostatnią transkrypcję (tekst ukryty)",
+      "copyLast": "Kopiuj ostatnie dyktowanie",
+      "copyLastPreview": "Kopiuj ostatnie dyktowanie: „{{preview}}”",
+      "copyLastConcealed": "Kopiuj ostatnie dyktowanie (tekst ukryty)",
       "microphone": "Mikrofon",
       "languages": "Języki",
       "moreLanguages": "Dodaj lub usuń języki…",
@@ -720,7 +692,7 @@
       "sendFeedback": "Wyślij opinię…",
       "openApp": "Otwórz {{appName}}",
       "checkUpdates": "Sprawdź dostępność aktualizacji…",
-      "pasteLast": "Wklej ostatnią transkrypcję",
+      "pasteLast": "Wklej ostatnie dyktowanie",
       "cancelDictation": "Anuluj dyktowanie",
       "shortcutsBlocked": "Skróty zablokowane – otwórz Ustawienia",
       "undo": "Cofnij",
@@ -869,7 +841,10 @@
         "title_few": "Przy zamykaniu aplikacji zapisano {{count}} nagrania",
         "title_many": "Przy zamykaniu aplikacji zapisano {{count}} nagrań",
         "title_other": "Przy zamykaniu aplikacji zapisano {{count}} nagrania",
-        "body": "Nagrywanie wciąż trwało, gdy {{appName}} zostało zamknięte. Nagrania są w Historii, gdzie zostaną przetranskrybowane."
+        "body_one": "Wciąż dyktowałeś, gdy {{appName}} zostało zamknięte. Nagranie jest transkrybowane i pojawi się w Historii.",
+        "body_few": "Wciąż dyktowałeś, gdy {{appName}} zostało zamknięte. Nagrania są transkrybowane i pojawią się w Historii.",
+        "body_many": "Wciąż dyktowałeś, gdy {{appName}} zostało zamknięte. Nagrania są transkrybowane i pojawią się w Historii.",
+        "body_other": "Wciąż dyktowałeś, gdy {{appName}} zostało zamknięte. Nagrania są transkrybowane i pojawią się w Historii."
       }
     },
     "scratchpad": {
@@ -901,7 +876,7 @@
         "micLostWarning": "Mikrofon został odłączony. To, co już powiedziałeś, zostało zachowane.",
         "undo": "Przycisk Cofnij jest na pasku dyktowania przez 4 sekundy.",
         "diff": "Zmiany przekształcenia są gotowe do przejrzenia.",
-        "secureInputWarning": "Bezpieczne wprowadzanie jest włączone. fn i Spacja nie mogą zablokować dyktowania. Escape lub przycisk zamykania nadal je anulują.",
+        "secureInputWarning": "Bezpieczne wprowadzanie jest włączone. fn i Spacja nie mogą zablokować dyktowania. Esc lub przycisk zamykania nadal je anulują.",
         "inserted": "Wstawiono tekst"
       },
       "message": {
@@ -1228,10 +1203,10 @@
         "invalid_few": "nie do zaimportowania",
         "invalid_many": "nie do zaimportowania",
         "invalid_other": "nie do zaimportowania",
-        "overLimit_one": "W słowniku jest miejsce jeszcze na {{room}}; {{count}} nowy wpis się nie zmieści.",
-        "overLimit_few": "W słowniku jest miejsce jeszcze na {{room}}; {{count}} nowe wpisy się nie zmieszczą.",
-        "overLimit_many": "W słowniku jest miejsce jeszcze na {{room}}; {{count}} nowych wpisów się nie zmieści.",
-        "overLimit_other": "W słowniku jest miejsce jeszcze na {{room}}; {{count}} nowego wpisu się nie zmieści.",
+        "overLimit_one": "{{count}} nowy wpis się nie zmieści (wolne miejsce w słowniku: {{room}}).",
+        "overLimit_few": "{{count}} nowe wpisy się nie zmieszczą (wolne miejsce w słowniku: {{room}}).",
+        "overLimit_many": "{{count}} nowych wpisów się nie zmieści (wolne miejsce w słowniku: {{room}}).",
+        "overLimit_other": "{{count}} nowego wpisu się nie zmieści (wolne miejsce w słowniku: {{room}}).",
         "showNew": "Pokaż nowe wpisy",
         "more_one": "i jeszcze {{count}}",
         "more_few": "i jeszcze {{count}}",
@@ -1346,10 +1321,9 @@
     },
     "commandMode": {
       "title": "Tryb poleceń",
-      "shortcut": "fn ⌃",
       "on": "Włączony",
       "off": "Wyłączony",
-      "help": "Przytrzymaj fn i Control, a potem powiedz, jak zmienić zaznaczenie lub co napisać. Bez zaznaczenia pole daje kontekst, a wynik trafia w miejsce kursora. Wszystko zostaje na tym Macu; Tryb poleceń niczego nie wyszukuje. Gdy jest wyłączony, fn i Control dyktują normalnie."
+      "help": "Przytrzymaj skrót Trybu poleceń, a potem powiedz, jak zmienić zaznaczenie lub co napisać. Bez zaznaczenia pole daje kontekst, a wynik trafia w miejsce kursora. Wszystko zostaje na tym Macu; Tryb poleceń niczego nie wyszukuje. Gdy jest wyłączony, skrót dyktuje normalnie."
     },
     "auto": {
       "title": "Stosuj po każdym dyktowaniu",
@@ -1440,7 +1414,7 @@
       "paste": "Wklej przykład",
       "load": "Wczytaj .txt lub .md",
       "remove": "Usuń przykład {{number}}",
-      "readError": "Wybierz plik .txt lub .md mający najwyżej 1500 znaków.",
+      "readError": "Wybierz plik .txt lub .md mający najwyżej {{chars}} znaków.",
       "help_one": "Wklej lub wczytaj do {{max}} przykładu, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku.",
       "help_few": "Wklej lub wczytaj do {{max}} przykładów, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku.",
       "help_many": "Wklej lub wczytaj do {{max}} przykładów, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku.",
@@ -1597,7 +1571,7 @@
       "trigger_control_character": "Hasło musi mieścić się w jednym wierszu.",
       "empty_body": "Wpisz tekst do wstawienia.",
       "body_control_character": "Tekst zawiera znak, którego nie można wpisać. Usuń go i spróbuj ponownie.",
-      "full": "Masz już maksymalną liczbę fragmentów tekstu. Najpierw usuń kilka.",
+      "full": "Lista fragmentów tekstu jest pełna. Najpierw usuń kilka fragmentów tekstu.",
       "trigger_too_long_one": "Hasło może mieć maksymalnie {{max}} znak.",
       "trigger_too_long_few": "Hasło może mieć maksymalnie {{max}} znaki.",
       "trigger_too_long_many": "Hasło może mieć maksymalnie {{max}} znaków.",
@@ -1616,7 +1590,7 @@
       "body": "Wpisz",
       "bodyPlaceholder": "Tekst do wpisania. Podziały wierszy zostaną zachowane.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Działa osobno lub w środku zdania, bez względu na wielkość liter. W środku zdania znaki interpunkcyjne w haśle trzeba wypowiedzieć tak samo. Tekst jest wpisywany dokładnie tak, jak go zachowano.",
+      "hint": "Działa osobno lub w środku zdania, bez względu na wielkość liter. W środku zdania znaki interpunkcyjne w haśle muszą dokładnie odpowiadać podyktowanemu tekstowi. Tekst jest wpisywany dokładnie tak, jak go zachowano.",
       "cancel": "Anuluj",
       "add": "Dodaj fragment tekstu",
       "save": "Zachowaj",
@@ -1638,10 +1612,10 @@
         "columns": "W pierwszej kolumnie jest to, co mówisz, a w drugiej tekst do wpisania.",
         "lines": "Tekst z podziałami wierszy musi być w cudzysłowie, tak jak zapisują go arkusze kalkulacyjne.",
         "encoding": "Zapisz jako CSV UTF-8, aby znaki diakrytyczne i inne alfabety zostały zachowane.",
-        "limits_one": "Hasło: maksymalnie {{max}} znak, tekst: maksymalnie {{maxBody}}, najwyżej 1000 wierszy i 3 MB na plik.",
-        "limits_few": "Hasło: maksymalnie {{max}} znaki, tekst: maksymalnie {{maxBody}}, najwyżej 1000 wierszy i 3 MB na plik.",
-        "limits_many": "Hasło: maksymalnie {{max}} znaków, tekst: maksymalnie {{maxBody}}, najwyżej 1000 wierszy i 3 MB na plik.",
-        "limits_other": "Hasło: maksymalnie {{max}} znaku, tekst: maksymalnie {{maxBody}}, najwyżej 1000 wierszy i 3 MB na plik."
+        "limits_one": "Hasło: maksymalnie {{max}} znak, tekst: maksymalnie {{maxBody}}; najwyżej 1000 wierszy i 3 MB na plik.",
+        "limits_few": "Hasło: maksymalnie {{max}} znaki, tekst: maksymalnie {{maxBody}}; najwyżej 1000 wierszy i 3 MB na plik.",
+        "limits_many": "Hasło: maksymalnie {{max}} znaków, tekst: maksymalnie {{maxBody}}; najwyżej 1000 wierszy i 3 MB na plik.",
+        "limits_other": "Hasło: maksymalnie {{max}} znaku, tekst: maksymalnie {{maxBody}}; najwyżej 1000 wierszy i 3 MB na plik."
       },
       "review": {
         "new_one": "nowy fragment tekstu",
@@ -1660,10 +1634,10 @@
         "invalid_few": "nie do zaimportowania",
         "invalid_many": "nie do zaimportowania",
         "invalid_other": "nie do zaimportowania",
-        "overLimit_one": "Zmieści się jeszcze {{room}}; {{count}} nowy fragment tekstu się nie zmieści.",
-        "overLimit_few": "Zmieści się jeszcze {{room}}; {{count}} nowe fragmenty tekstu się nie zmieszczą.",
-        "overLimit_many": "Zmieści się jeszcze {{room}}; {{count}} nowych fragmentów tekstu się nie zmieści.",
-        "overLimit_other": "Zmieści się jeszcze {{room}}; {{count}} nowego fragmentu tekstu się nie zmieści.",
+        "overLimit_one": "{{count}} nowy fragment tekstu się nie zmieści (wolne miejsce: {{room}}).",
+        "overLimit_few": "{{count}} nowe fragmenty tekstu się nie zmieszczą (wolne miejsce: {{room}}).",
+        "overLimit_many": "{{count}} nowych fragmentów tekstu się nie zmieści (wolne miejsce: {{room}}).",
+        "overLimit_other": "{{count}} nowego fragmentu tekstu się nie zmieści (wolne miejsce: {{room}}).",
         "ignoredRows_one": "Wczytywane jest tylko pierwsze 1000 wierszy; pominięto jeszcze {{count}} wiersz.",
         "ignoredRows_few": "Wczytywane jest tylko pierwsze 1000 wierszy; pominięto jeszcze {{count}} wiersze.",
         "ignoredRows_many": "Wczytywane jest tylko pierwsze 1000 wierszy; pominięto jeszcze {{count}} wierszy.",
@@ -1707,10 +1681,10 @@
         "invalid_few": "Nie można zaimportować {{count}} wierszy",
         "invalid_many": "Nie można zaimportować {{count}} wierszy",
         "invalid_other": "Nie można zaimportować {{count}} wiersza",
-        "overLimit_one": "Nie zmieściło się: {{count}}",
-        "overLimit_few": "Nie zmieściło się: {{count}}",
-        "overLimit_many": "Nie zmieściło się: {{count}}",
-        "overLimit_other": "Nie zmieściło się: {{count}}"
+        "overLimit_one": "Nie zmieściło się: {{count}} (lista fragmentów tekstu jest pełna)",
+        "overLimit_few": "Nie zmieściło się: {{count}} (lista fragmentów tekstu jest pełna)",
+        "overLimit_many": "Nie zmieściło się: {{count}} (lista fragmentów tekstu jest pełna)",
+        "overLimit_other": "Nie zmieściło się: {{count}} (lista fragmentów tekstu jest pełna)"
       }
     },
     "export": {
@@ -1855,10 +1829,10 @@
     "results_few": "Znaleziono {{count}} dyktowania",
     "results_many": "Znaleziono {{count}} dyktowań",
     "results_other": "Znaleziono {{count}} dyktowania",
-    "resultsMore_one": "Ostatnie {{count}} dopasowanie. Przewiń, aby zobaczyć więcej.",
-    "resultsMore_few": "Ostatnie {{count}} dopasowania. Przewiń, aby zobaczyć więcej.",
-    "resultsMore_many": "Ostatnich {{count}} dopasowań. Przewiń, aby zobaczyć więcej.",
-    "resultsMore_other": "Ostatnie {{count}} dopasowania. Przewiń, aby zobaczyć więcej.",
+    "resultsMore_one": "Pokazano {{count}} ostatnie dopasowanie. Przewiń, aby zobaczyć więcej.",
+    "resultsMore_few": "Pokazano {{count}} ostatnie dopasowania. Przewiń, aby zobaczyć więcej.",
+    "resultsMore_many": "Pokazano {{count}} ostatnich dopasowań. Przewiń, aby zobaczyć więcej.",
+    "resultsMore_other": "Pokazano {{count}} ostatniego dopasowania. Przewiń, aby zobaczyć więcej.",
     "search": {
       "open": "Szukaj w historii",
       "label": "Szukaj w dyktowaniach",
@@ -2056,8 +2030,8 @@
       "moveTo": "Przenieś do",
       "useDefault": "Wróć do zwykłej grupy ({{group}})",
       "remove": "Usuń z grupy {{group}}",
-      "autoSend": "Naciskaj Enter po dyktowaniu",
-      "autoSendOn": "naciska Enter po dyktowaniu",
+      "autoSend": "Naciskaj Return po dyktowaniu",
+      "autoSendOn": "naciska Return po dyktowaniu",
       "notInstalled": "niezainstalowana",
       "aiChat": "Czat AI: Twoje słowa są wstawiane uporządkowane, bez stylu.",
       "moved": "{{app}} używa teraz stylu {{group}}.",
@@ -2116,7 +2090,7 @@
       "title": "Mów, a słowa pojawią się same",
       "subtitle": "Przytrzymaj jeden klawisz, mów, puść. Czysty tekst trafi tam, gdzie piszesz.",
       "privacyTitle": "Wszystko zostaje na tym Macu",
-      "privacy": "Twój głos i Twój tekst nigdy nie opuszczają tego komputera. Bez konta, bez chmury, bez śledzenia.",
+      "privacy": "Twój głos i Twój tekst nigdy nie opuszczają Twojego Maca. Bez konta, bez chmury, bez śledzenia.",
       "download": "Konfiguracja mowy zaczyna się teraz i działa w tle.",
       "start": "Zaczynamy"
     },
@@ -2138,10 +2112,10 @@
       "count_few": "Dyktowanie działa w {{count}} językach. Możesz to później zmienić w Ustawieniach.",
       "count_many": "Dyktowanie działa w {{count}} językach. Możesz to później zmienić w Ustawieniach.",
       "count_other": "Dyktowanie działa w {{count}} języka. Możesz to później zmienić w Ustawieniach.",
-      "weak_one": "Rozpoznawanie jest mniej dokładne w języku: {{languages}}. Nadal działa, ale licz się z większą liczbą błędów.",
-      "weak_few": "Rozpoznawanie jest mniej dokładne w językach: {{languages}}. Nadal działają, ale licz się z większą liczbą błędów.",
-      "weak_many": "Rozpoznawanie jest mniej dokładne w językach: {{languages}}. Nadal działają, ale licz się z większą liczbą błędów.",
-      "weak_other": "Rozpoznawanie jest mniej dokładne w językach: {{languages}}. Nadal działają, ale licz się z większą liczbą błędów."
+      "weak_one": "Rozpoznawanie jest mniej dokładne w języku: {{languages}}. Dyktowanie w nim nadal działa, ale licz się z większą liczbą błędów.",
+      "weak_few": "Rozpoznawanie jest mniej dokładne w językach: {{languages}}. Dyktowanie w nich nadal działa, ale licz się z większą liczbą błędów.",
+      "weak_many": "Rozpoznawanie jest mniej dokładne w językach: {{languages}}. Dyktowanie w nich nadal działa, ale licz się z większą liczbą błędów.",
+      "weak_other": "Rozpoznawanie jest mniej dokładne w językach: {{languages}}. Dyktowanie w nich nadal działa, ale licz się z większą liczbą błędów."
     },
     "permissions": {
       "title": "Dwa uprawnienia",
@@ -2265,14 +2239,14 @@
       "hoursPerDay_many": "{{hours}} godzin dziennie",
       "hoursPerDay_other": "{{hours}} godziny dziennie",
       "takeTest": "Zrób test pisania",
-      "basisMeasured_one": "Na podstawie Twojego tempa pisania ({{wpm}} słowo na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisMeasured_few": "Na podstawie Twojego tempa pisania ({{wpm}} słowa na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisMeasured_many": "Na podstawie Twojego tempa pisania ({{wpm}} słów na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisMeasured_other": "Na podstawie Twojego tempa pisania ({{wpm}} słowa na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisAverage_one": "Na podstawie średniego tempa pisania ({{wpm}} słowo na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisAverage_few": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisAverage_many": "Na podstawie średniego tempa pisania ({{wpm}} słów na minutę) i mówienia z prędkością około {{speaking}} słów na minutę.",
-      "basisAverage_other": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i mówienia z prędkością około {{speaking}} słów na minutę."
+      "basisMeasured_one": "Na podstawie Twojego tempa pisania ({{wpm}} słowo na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisMeasured_few": "Na podstawie Twojego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisMeasured_many": "Na podstawie Twojego tempa pisania ({{wpm}} słów na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisMeasured_other": "Na podstawie Twojego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisAverage_one": "Na podstawie średniego tempa pisania ({{wpm}} słowo na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisAverage_few": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisAverage_many": "Na podstawie średniego tempa pisania ({{wpm}} słów na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
+      "basisAverage_other": "Na podstawie średniego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę."
     },
     "typing": {
       "title": "Jak szybko piszesz?",
@@ -2613,7 +2587,7 @@
       "how": {
         "title": "Jak szeptać do Maca",
         "body": "Przy wbudowanym mikrofonie Maca cztery nawyki sprawiają, że cichy głos jest dobrze słyszalny.",
-        "distance": "Około 30 cm od mikrofonu, mniej więcej długość przedramienia",
+        "distance": "Około 30 cm (długość przedramienia) od mikrofonu",
         "tips": {
           "distance": {
             "title": "Usiądź blisko.",
@@ -2635,7 +2609,7 @@
       },
       "practice": {
         "title": "Wyszepcz ten e‑mail",
-        "body": "Prawdziwe nagranie: trafi do narysowanej poniżej wiadomości i nigdzie indziej.",
+        "body": "To prawdziwe dyktowanie. Tekst trafi tylko do wiadomości poniżej i nigdzie indziej.",
         "doneTitle": "Słychać Cię, nawet szeptem",
         "doneBody": "Tylko tyle trzeba. Przejdź dalej, aby znaleźć odpowiedni dla siebie mikrofon.",
         "instruction": "Przytrzymaj {{key}}, wyszepcz poniższy e‑mail, a potem puść.",
@@ -2674,7 +2648,7 @@
         },
         "wired_headset": {
           "name": "Przewodowy zestaw słuchawkowy",
-          "hint": "Mikrofon na krótkim pałąku lub kablu, blisko ust",
+          "hint": "Słuchawki z kablem i mikrofonem blisko ust",
           "why": "Mikrofon jest tuż przy ustach, więc nawet cichy szept zostanie usłyszany, gdziekolwiek jesteś."
         },
         "wireless_earbuds": {
@@ -2773,7 +2747,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Aby Wispr Bro mógł Cię słyszeć. Dźwięk jest zamieniany na tekst na tym komputerze i nigdy nie jest wysyłany."
+          "why": "Aby Wispr Bro mógł Cię słyszeć. Dźwięk jest zamieniany na tekst na tym Macu i nigdy nie jest wysyłany."
         },
         "accessibility": {
           "why": "Aby skrót działał w każdej aplikacji, a Wispr Bro mógł wpisywać tekst tam, gdzie jest kursor."
@@ -2821,10 +2795,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Automatycznie uruchamiaj Wispr Bro po zalogowaniu się na komputerze."
+          "description": "Automatycznie uruchamiaj Wispr Bro po zalogowaniu się na Macu."
         },
         "showTrayIcon": {
-          "description": "Pokazuj ikonę Wispr Bro w zasobniku systemowym."
+          "description": "Pokazuj ikonę Wispr Bro na pasku menu."
         }
       },
       "debug": {

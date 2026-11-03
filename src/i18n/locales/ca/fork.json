@@ -51,7 +51,7 @@
       "version": "Versió",
       "channel": "Canal",
       "key": "Clau de signatura",
-      "endpoints": "Fonts",
+      "endpoints": "Fonts d'actualització",
       "checksOff": "La comprovació d'actualitzacions està desactivada (Configuració › Avançat, o hi ha un interruptor de desactivació activat).",
       "check": "Comprovar ara",
       "checking": "Comprovant…",
@@ -72,7 +72,7 @@
       "contextAwareness": "Context",
       "contextAwarenessHint": "Fa servir els noms del text proper al cursor per escriure'ls bé. Aquest text no surt d'aquest Mac i no es desa mai.",
       "transforms": "Transformacions",
-      "transformsHint": "⌥1 aplica Polish al text seleccionat i ⌥2 el converteix en una instrucció d'IA més clara. Mentre estigui activat, aquestes tecles substitueixen ¡ i ™.",
+      "transformsHint": "⌥1 aplica Polish al text seleccionat, ⌥2 el converteix en una instrucció d'IA més clara i ⌥O mostra què ha canviat l'última transformació. Mentre estigui activat, aquestes tecles ja no escriuen ¡, ™ ni ø.",
       "transformsSafeShortcuts": "Fer servir ⌃⌥1 i ⌃⌥2",
       "transformsSafeShortcutsHint": "Manté ¡ i ™ disponibles amb ⌥1 i ⌥2.",
       "cleanupLevel": "Nivell de neteja",
@@ -387,7 +387,7 @@
       "saveFailed": "No s'ha pogut desar la drecera.",
       "conflict": "{{action}} ja la fa servir. Tria una altra drecera.",
       "invalid": "No es reconeix aquesta drecera.",
-      "unsupported": "El motor de dreceres no pot fer servir aquesta combinació per a aquesta acció.",
+      "unsupported": "Aquesta combinació no es pot fer servir com a drecera per a aquesta acció.",
       "capture": {
         "starting": "Iniciant la captura de la drecera…",
         "listening": "Prem una drecera…",
@@ -398,7 +398,7 @@
         "failed": "No s'ha pogut iniciar la captura de dreceres. Comprova el permís d'Accessibilitat i torna-ho a provar."
       },
       "actions": {
-        "dictate": "Prémer per parlar",
+        "dictate": "Mantenir premut per parlar",
         "hands_free": "Dictat sense mans",
         "cancel": "Cancel·lar el dictat",
         "command_mode": "Mode d'ordres",
@@ -419,7 +419,7 @@
         "dictate": "Mantén premuda la drecera mentre parles; deixa-la anar per acabar.",
         "hands_free": "Inicia i atura el dictat sense mantenir cap tecla premuda.",
         "cancel": "Atura el dictat actual sense inserir-lo.",
-        "command_mode": "Mantén premudes fn i Ctrl mentre dius com vols editar o escriure el text.",
+        "command_mode": "Mantén premuda la drecera mentre dius com vols editar o escriure el text.",
         "paste_last": "Torna a enganxar el teu dictat més recent.",
         "copy_last": "Copia el teu dictat més recent al porta-retalls.",
         "press_enter": "Prem Retorn a l'app on estàs escrivint. Un botó lateral del ratolí hi funciona bé.",
@@ -535,58 +535,30 @@
           "quiet": "Dictar en veu baixa: mostra-m'ho"
         },
         "empty": {
-          "title": "Els teus dictats apareixeran aquí",
-          "body": "Cadascun es desa en aquest Mac, amb el seu àudio, perquè el puguis copiar o revisar més tard.",
-          "action": "Obrir l'Historial"
+          "title": "Els teus dictats apareixeran aquí"
         }
       },
       "insights": {
         "title": "Estadístiques",
         "empty": {
           "title": "Les estadístiques necessiten uns quants dictats",
-          "body": "La teva velocitat de parla, les ratxes i el temps que estalvies apareixeran quan hagis dictat una estona.",
           "action": "Anar a Dictat"
         }
       },
       "dictionary": {
-        "title": "Diccionari",
-        "empty": {
-          "title": "Ensenya les teves paraules a {{appName}}",
-          "body": "Els noms, termes de productes i sigles que afegeixis s'escriuran bé cada vegada. Fins que aquesta pàgina estigui a punt, les teves paraules són a Configuració.",
-          "action": "Obrir les paraules personalitzades"
-        }
+        "title": "Diccionari"
       },
       "snippets": {
-        "title": "Fragments",
-        "empty": {
-          "title": "Els fragments arribaran aviat",
-          "body": "Digues una indicació curta com ara “la meva adreça” i obtindràs el text complet. Aquesta pàgina arribarà en una actualització posterior.",
-          "action": "Anar a Dictat"
-        }
+        "title": "Fragments"
       },
       "style": {
-        "title": "Estil",
-        "empty": {
-          "title": "Els estils arribaran aviat",
-          "body": "Tria com de polit vols el text a cada tipus d'app, des d'un correu formal fins a un xat informal. Aquesta pàgina arribarà en una actualització posterior.",
-          "action": "Anar a Dictat"
-        }
+        "title": "Estil"
       },
       "transforms": {
-        "title": "Transformacions",
-        "empty": {
-          "title": "Les transformacions arribaran aviat",
-          "body": "Selecciona text i reescriu-lo amb una drecera: més curt, més clar o més ben organitzat. Aquesta pàgina arribarà en una actualització posterior.",
-          "action": "Anar a Dictat"
-        }
+        "title": "Transformacions"
       },
       "scratchpad": {
-        "title": "Esborrany",
-        "empty": {
-          "title": "L'Esborrany arribarà aviat",
-          "body": "Un lloc ràpid per dictar notes abans de portar-les a qualsevol altre lloc. Aquesta pàgina arribarà en una actualització posterior.",
-          "action": "Anar a Dictat"
-        }
+        "title": "Esborrany"
       },
       "share": {
         "title": "Compartir amb un amic"
@@ -623,7 +595,7 @@
       "paused": "Després de tres intents fallits, les actualitzacions automàtiques estan en pausa fins a les {{time}}.",
       "manualOnly": "Aquesta és una versió de desenvolupament: les actualitzacions només es comproven quan ho demanes.",
       "readyHint": "S'instal·la sola quan portes 20 minuts sense dictar, o quan surts de l'app.",
-      "policy": "Les actualitzacions es baixen en segon pla i només s'instal·len quan no estàs dictant, o quan surts de l'app.",
+      "policy": "Les actualitzacions es baixen en segon pla i s'instal·len quan fa 20 minuts que no dictes, o quan surts de l'app.",
       "needsPassword": "Aquesta còpia de l'app és en una carpeta que necessita una contrasenya d'administrador per fer-hi canvis, així que les actualitzacions només s'instal·len quan tries Reiniciar ara."
     }
   },
@@ -657,7 +629,7 @@
       "noColumn": "No és en aquest fitxer",
       "column": "Columna {{letter}}",
       "columnNamed": "Columna {{letter}}: {{name}}",
-      "mapRequired": "Tria una columna per a cada camp que no sigui opcional.",
+      "mapRequired": "Tria una columna per a cada camp obligatori.",
       "previewCaption_one": "Previsualització de la primera fila",
       "previewCaption_many": "Previsualització de les primeres {{count}} de files",
       "previewCaption_other": "Previsualització de les primeres {{count}} files",
@@ -681,7 +653,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictat",
-      "vocabulary": "Vocabulari",
+      "vocabulary": "Diccionari",
       "help": "Ajuda",
       "file": "Arxiu",
       "edit": "Edició",
@@ -690,9 +662,9 @@
       "wordsDictated_one": "{{count}} paraula dictada",
       "wordsDictated_many": "{{count}} de paraules dictades",
       "wordsDictated_other": "{{count}} paraules dictades",
-      "copyLast": "Copiar l'última transcripció",
-      "copyLastPreview": "Copiar l'última transcripció: “{{preview}}”",
-      "copyLastConcealed": "Copiar l'última transcripció (text ocult)",
+      "copyLast": "Copiar l'últim dictat",
+      "copyLastPreview": "Copiar l'últim dictat: “{{preview}}”",
+      "copyLastConcealed": "Copiar l'últim dictat (text ocult)",
       "microphone": "Micròfon",
       "languages": "Idiomes",
       "moreLanguages": "Afegir o eliminar idiomes…",
@@ -712,7 +684,7 @@
       "sendFeedback": "Enviar comentaris…",
       "openApp": "Obrir {{appName}}",
       "checkUpdates": "Comprovar si hi ha actualitzacions…",
-      "pasteLast": "Enganxar l'última transcripció",
+      "pasteLast": "Enganxar l'últim dictat",
       "cancelDictation": "Cancel·lar el dictat",
       "shortcutsBlocked": "Dreceres bloquejades: obre la configuració",
       "undo": "Desfer",
@@ -855,7 +827,9 @@
         "title_one": "S'ha desat un enregistrament quan l'app s'ha tancat",
         "title_many": "S'han desat {{count}} d'enregistraments quan l'app s'ha tancat",
         "title_other": "S'han desat {{count}} enregistraments quan l'app s'ha tancat",
-        "body": "Encara s'estaven enregistrant quan {{appName}} es va tancar. Són a l'Historial, on es transcriuen."
+        "body_one": "Encara estaves dictant quan {{appName}} es va tancar. L'enregistrament s'està transcrivint i apareixerà a l'Historial.",
+        "body_many": "Encara estaves dictant quan {{appName}} es va tancar. Els enregistraments s'estan transcrivint i apareixeran a l'Historial.",
+        "body_other": "Encara estaves dictant quan {{appName}} es va tancar. Els enregistraments s'estan transcrivint i apareixeran a l'Historial."
       }
     },
     "scratchpad": {
@@ -1204,9 +1178,9 @@
         "invalid_one": "no es pot importar",
         "invalid_many": "no es poden importar",
         "invalid_other": "no es poden importar",
-        "overLimit_one": "Al diccionari hi caben {{room}} entrades més; {{count}} entrada nova no hi cabrà.",
-        "overLimit_many": "Al diccionari hi caben {{room}} entrades més; {{count}} d'entrades noves no hi cabran.",
-        "overLimit_other": "Al diccionari hi caben {{room}} entrades més; {{count}} entrades noves no hi cabran.",
+        "overLimit_one": "{{count}} entrada nova no hi cabrà (espai lliure al diccionari: {{room}}).",
+        "overLimit_many": "{{count}} d'entrades noves no hi cabran (espai lliure al diccionari: {{room}}).",
+        "overLimit_other": "{{count}} entrades noves no hi cabran (espai lliure al diccionari: {{room}}).",
         "showNew": "Mostrar les entrades noves",
         "more_one": "i {{count}} més",
         "more_many": "i {{count}} més",
@@ -1311,10 +1285,9 @@
     },
     "commandMode": {
       "title": "Mode d'ordres",
-      "shortcut": "fn ⌃",
       "on": "Activat",
       "off": "Desactivat",
-      "help": "Mantén premudes fn i Ctrl i digues com vols canviar la selecció o què vols escriure. Sense selecció, el camp dona context i el resultat s'insereix al cursor. Tot es queda en aquest Mac; el mode d'ordres no cerca mai res. Quan està desactivat, fn i Ctrl dicten amb normalitat."
+      "help": "Mantén premuda la drecera del mode d'ordres i digues com vols canviar la selecció o què vols escriure. Sense selecció, el camp dona context i el resultat s'insereix al cursor. Tot es queda en aquest Mac; el mode d'ordres no cerca mai res. Quan està desactivat, la drecera dicta amb normalitat."
     },
     "auto": {
       "title": "Aplicar després de cada dictat",
@@ -1405,7 +1378,7 @@
       "paste": "Enganxar un exemple",
       "load": "Carregar .txt o .md",
       "remove": "Eliminar l'exemple {{number}}",
-      "readError": "Tria un fitxer .txt o .md de 1.500 caràcters com a màxim.",
+      "readError": "Tria un fitxer .txt o .md de {{chars}} caràcters com a màxim.",
       "help_one": "Enganxa o carrega fins a {{max}} exemple, de {{chars}} caràcters com a màxim. Orienta l'estil sense formar part del resultat.",
       "help_many": "Enganxa o carrega fins a {{max}} d'exemples, de {{chars}} caràcters cadascun. Orienten l'estil sense formar part del resultat.",
       "help_other": "Enganxa o carrega fins a {{max}} exemples, de {{chars}} caràcters cadascun. Orienten l'estil sense formar part del resultat."
@@ -1553,7 +1526,7 @@
       "trigger_control_character": "El que dius ha de cabre en una línia.",
       "empty_body": "Escriu el text que s'ha d'escriure.",
       "body_control_character": "El text conté un caràcter que no es pot escriure. Elimina'l i torna-ho a provar.",
-      "full": "Ja tens el màxim de fragments que admet l'app. Primer elimina'n alguns.",
+      "full": "La teva llista de fragments és plena. Primer elimina'n alguns.",
       "trigger_too_long_one": "El que dius pot tenir {{max}} caràcter com a màxim.",
       "trigger_too_long_many": "El que dius pot tenir {{max}} de caràcters com a màxim.",
       "trigger_too_long_other": "El que dius pot tenir {{max}} caràcters com a màxim.",
@@ -1570,7 +1543,7 @@
       "body": "Escriure",
       "bodyPlaceholder": "El text que s'escriurà. Es conserven els salts de línia.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Funciona sola o dins d'una frase, en majúscules o minúscules. Dins d'una frase, la puntuació de la frase clau s'ha de dir igual. El text s'escriu exactament com està desat.",
+      "hint": "Funciona sola o dins d'una frase, en majúscules o minúscules. Dins d'una frase, la puntuació del que dius ha de coincidir exactament amb el text dictat. El text s'escriu exactament com està desat.",
       "cancel": "Cancel·lar",
       "add": "Afegir el fragment",
       "save": "Desar",
@@ -1592,9 +1565,9 @@
         "columns": "La primera columna és el que dius; la segona és el text que s'escriurà.",
         "lines": "Un text amb salts de línia va entre cometes, tal com el desen les apps de full de càlcul.",
         "encoding": "Desa'l com a CSV UTF-8 perquè els accents i altres alfabets es conservin.",
-        "limits_one": "El que dius, fins a {{max}} caràcter; els textos, fins a {{maxBody}}; com a màxim 1.000 files i 3 MB per fitxer.",
-        "limits_many": "El que dius, fins a {{max}} de caràcters; els textos, fins a {{maxBody}}; com a màxim 1.000 files i 3 MB per fitxer.",
-        "limits_other": "El que dius, fins a {{max}} caràcters; els textos, fins a {{maxBody}}; com a màxim 1.000 files i 3 MB per fitxer."
+        "limits_one": "Fins a {{max}} caràcter per al que dius i {{maxBody}} per al text; com a màxim 1.000 files i 3 MB per fitxer.",
+        "limits_many": "Fins a {{max}} de caràcters per al que dius i {{maxBody}} per al text; com a màxim 1.000 files i 3 MB per fitxer.",
+        "limits_other": "Fins a {{max}} caràcters per al que dius i {{maxBody}} per al text; com a màxim 1.000 files i 3 MB per fitxer."
       },
       "review": {
         "new_one": "fragment nou",
@@ -1609,9 +1582,9 @@
         "invalid_one": "no es pot importar",
         "invalid_many": "no es poden importar",
         "invalid_other": "no es poden importar",
-        "overLimit_one": "Hi caben {{room}} fragments més; {{count}} fragment nou no hi cabrà.",
-        "overLimit_many": "Hi caben {{room}} fragments més; {{count}} de fragments nous no hi cabran.",
-        "overLimit_other": "Hi caben {{room}} fragments més; {{count}} fragments nous no hi cabran.",
+        "overLimit_one": "{{count}} fragment nou no hi cabrà (espai lliure: {{room}}).",
+        "overLimit_many": "{{count}} de fragments nous no hi cabran (espai lliure: {{room}}).",
+        "overLimit_other": "{{count}} fragments nous no hi cabran (espai lliure: {{room}}).",
         "ignoredRows_one": "Només es llegeixen les primeres 1.000 files; {{count}} fila més queda fora.",
         "ignoredRows_many": "Només es llegeixen les primeres 1.000 files; {{count}} de files més queden fora.",
         "ignoredRows_other": "Només es llegeixen les primeres 1.000 files; {{count}} files més queden fora.",
@@ -1647,9 +1620,9 @@
         "invalid_one": "{{count}} fila no s'ha pogut importar",
         "invalid_many": "{{count}} de files no s'han pogut importar",
         "invalid_other": "{{count}} files no s'han pogut importar",
-        "overLimit_one": "{{count}} no hi ha cabut",
-        "overLimit_many": "{{count}} no hi han cabut",
-        "overLimit_other": "{{count}} no hi han cabut"
+        "overLimit_one": "{{count}} no hi ha cabut (la llista de fragments és plena)",
+        "overLimit_many": "{{count}} no hi han cabut (la llista de fragments és plena)",
+        "overLimit_other": "{{count}} no hi han cabut (la llista de fragments és plena)"
       }
     },
     "export": {
@@ -1781,9 +1754,9 @@
     "results_one": "S'ha trobat {{count}} dictat",
     "results_many": "S'han trobat {{count}} de dictats",
     "results_other": "S'han trobat {{count}} dictats",
-    "resultsMore_one": "La {{count}} coincidència més recent. Desplaça't per veure'n més.",
-    "resultsMore_many": "Les {{count}} de coincidències més recents. Desplaça't per veure'n més.",
-    "resultsMore_other": "Les {{count}} coincidències més recents. Desplaça't per veure'n més.",
+    "resultsMore_one": "Es mostra {{count}} coincidència recent. Desplaça't per veure'n més.",
+    "resultsMore_many": "Es mostren les {{count}} de coincidències més recents. Desplaça't per veure'n més.",
+    "resultsMore_other": "Es mostren les {{count}} coincidències més recents. Desplaça't per veure'n més.",
     "search": {
       "open": "Cercar a l'Historial",
       "label": "Cercar als teus dictats",
@@ -1794,7 +1767,7 @@
     "transcribeFailed": "No s'ha pogut obrir el fitxer. Torna-ho a provar.",
     "showMore": "Mostrar més",
     "showLess": "Mostrar menys",
-    "failed": "La transcripció ha fallat. Prova Tornar a transcriure al menú ⋮.",
+    "failed": "La transcripció ha fallat. Tria Tornar a transcriure al menú ⋮.",
     "waitingForModel": "Esperant el model de veu",
     "notTranscribed": "Encara no s'ha transcrit.",
     "job": {
@@ -2040,7 +2013,7 @@
       "title": "Parla i apareixeran les teves paraules",
       "subtitle": "Mantén premuda una tecla, parla i deixa-la anar. El text net apareix allà on estiguis escrivint.",
       "privacyTitle": "Tot es queda en aquest Mac",
-      "privacy": "La teva veu i el teu text no surten mai d'aquest ordinador. Sense compte, sense núvol, sense seguiment.",
+      "privacy": "La teva veu i el teu text no surten mai del teu Mac. Sense compte, sense núvol, sense seguiment.",
       "download": "La configuració de la veu comença ara i es fa en segon pla.",
       "start": "Començar"
     },
@@ -2061,9 +2034,9 @@
       "count_one": "El dictat funciona en {{count}} idioma. Pots canviar els teus més endavant a Configuració.",
       "count_many": "El dictat funciona en {{count}} d'idiomes. Pots canviar els teus més endavant a Configuració.",
       "count_other": "El dictat funciona en {{count}} idiomes. Pots canviar els teus més endavant a Configuració.",
-      "weak_one": "El reconeixement és menys precís en {{languages}}. Funciona igualment, però hi haurà més errors.",
-      "weak_many": "El reconeixement és menys precís en {{languages}}. Funcionen igualment, però hi haurà més errors.",
-      "weak_other": "El reconeixement és menys precís en {{languages}}. Funcionen igualment, però hi haurà més errors."
+      "weak_one": "El reconeixement és menys precís en {{languages}}. Dictar en aquesta llengua funciona igualment, però hi haurà més errors.",
+      "weak_many": "El reconeixement és menys precís en {{languages}}. Dictar en aquestes llengües funciona igualment, però hi haurà més errors.",
+      "weak_other": "El reconeixement és menys precís en {{languages}}. Dictar en aquestes llengües funciona igualment, però hi haurà més errors."
     },
     "permissions": {
       "title": "Dos permisos",
@@ -2185,12 +2158,12 @@
       "hoursPerDay_many": "{{hours}} d'hores al dia",
       "hoursPerDay_other": "{{hours}} hores al dia",
       "takeTest": "Fer la prova d'escriptura",
-      "basisMeasured_one": "Segons la teva velocitat d'escriptura de {{wpm}} paraula per minut, i parlant a unes {{speaking}} paraules per minut.",
-      "basisMeasured_many": "Segons la teva velocitat d'escriptura de {{wpm}} de paraules per minut, i parlant a unes {{speaking}} paraules per minut.",
-      "basisMeasured_other": "Segons la teva velocitat d'escriptura de {{wpm}} paraules per minut, i parlant a unes {{speaking}} paraules per minut.",
-      "basisAverage_one": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraula per minut, i parlant a unes {{speaking}} paraules per minut.",
-      "basisAverage_many": "Segons una velocitat d'escriptura mitjana de {{wpm}} de paraules per minut, i parlant a unes {{speaking}} paraules per minut.",
-      "basisAverage_other": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraules per minut, i parlant a unes {{speaking}} paraules per minut."
+      "basisMeasured_one": "Segons la teva velocitat d'escriptura de {{wpm}} paraula per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
+      "basisMeasured_many": "Segons la teva velocitat d'escriptura de {{wpm}} de paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
+      "basisMeasured_other": "Segons la teva velocitat d'escriptura de {{wpm}} paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
+      "basisAverage_one": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraula per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
+      "basisAverage_many": "Segons una velocitat d'escriptura mitjana de {{wpm}} de paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
+      "basisAverage_other": "Segons una velocitat d'escriptura mitjana de {{wpm}} paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut."
     },
     "typing": {
       "title": "A quina velocitat escrius?",
@@ -2526,7 +2499,7 @@
       "how": {
         "title": "Com xiuxiuejar al Mac",
         "body": "Amb el micròfon integrat del Mac, quatre hàbits fan que una veu baixa se senti bé.",
-        "distance": "Uns 30 cm, aproximadament un avantbraç, del micròfon",
+        "distance": "Uns 30 cm (la llargada d'un avantbraç) del micròfon",
         "tips": {
           "distance": {
             "title": "Seu a prop.",
@@ -2548,7 +2521,7 @@
       },
       "practice": {
         "title": "Xiuxiueja aquest correu",
-        "body": "Un dictat real: va a parar al missatge dibuixat a sota i enlloc més.",
+        "body": "És un dictat real. El text va només al missatge de sota, i enlloc més.",
         "doneTitle": "T'hem sentit, fins i tot xiuxiuejant",
         "doneBody": "Això és tot. Continua per trobar el micròfon que et va millor.",
         "instruction": "Mantén premuda {{key}}, xiuxiueja el correu de sota i deixa-la anar.",
@@ -2587,7 +2560,7 @@
         },
         "wired_headset": {
           "name": "Auriculars amb cable",
-          "hint": "Un micròfon en un braç curt o al cable, a prop de la boca",
+          "hint": "Auriculars amb cable i un micròfon a prop de la boca",
           "why": "El micròfon queda just al costat de la boca, així que fins i tot un xiuxiueig fluix se sent, siguis on siguis."
         },
         "wireless_earbuds": {
@@ -2686,7 +2659,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Perquè el Wispr Bro us pugui sentir. L'àudio es converteix en text en aquest ordinador i no es puja mai enlloc."
+          "why": "Perquè el Wispr Bro us pugui sentir. L'àudio es converteix en text en aquest Mac i no es puja mai enlloc."
         },
         "accessibility": {
           "why": "Perquè la drecera funcioni a totes les aplicacions i el Wispr Bro pugui escriure el text on tingueu el cursor."
@@ -2734,10 +2707,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Inicia automàticament el Wispr Bro quan entreu a la sessió de l'ordinador."
+          "description": "Inicia automàticament el Wispr Bro quan entreu a la sessió del Mac."
         },
         "showTrayIcon": {
-          "description": "Mostra la icona del Wispr Bro a la safata del sistema."
+          "description": "Mostra la icona del Wispr Bro a la barra de menús."
         }
       },
       "debug": {

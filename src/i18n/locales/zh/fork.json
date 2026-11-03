@@ -49,7 +49,7 @@
       "version": "版本",
       "channel": "頻道",
       "key": "簽署密鑰",
-      "endpoints": "更新來源",
+      "endpoints": "更新源",
       "checksOff": "更新檢查已關閉（設定 › 進階，或已設定停用開關）。",
       "check": "立即檢查",
       "checking": "正在檢查⋯",
@@ -70,7 +70,7 @@
       "contextAwareness": "情境感知",
       "contextAwarenessHint": "參考游標附近文字中的名稱來正確拼寫。這些文字只會留在這台 Mac 上，且從不儲存。",
       "transforms": "轉換",
-      "transformsHint": "⌥1 會潤飾所選文字，⌥2 會將其轉換為更清楚的 AI 提示詞。啟用後，這兩個按鍵將不再輸入 ¡ 和 ™。",
+      "transformsHint": "⌥1 会润色所选文本，⌥2 会将其转换为更清晰的 AI 提示词，⌥O 会显示上一次转换的改动。启用后，这些按键将不再输入 ¡、™ 和 ø。",
       "transformsSafeShortcuts": "改用 ⌃⌥1 和 ⌃⌥2",
       "transformsSafeShortcutsHint": "保留 ⌥1 和 ⌥2 輸入 ¡ 和 ™ 的功能。",
       "cleanupLevel": "清理程度",
@@ -147,7 +147,7 @@
       "notSet": "未設定",
       "current": "快速鍵：{{shortcut}}",
       "listening": "請按下快速鍵⋯",
-      "listeningHelp": "按下要使用的按鍵或滑鼠按鈕。按 Esc 取消。",
+      "listeningHelp": "按下要使用的按键或鼠标按钮。按 Esc 取消。",
       "record": "錄製",
       "cancel": "取消",
       "clear": "清除",
@@ -170,7 +170,7 @@
       },
       "undoCancel": {
         "title": "還原取消",
-        "help": "在浮動列顯示「還原」時，找回剛剛取消的聽寫。"
+        "help": "在浮动栏显示“撤销”时，找回刚刚取消的听写。"
       }
     }
   },
@@ -385,18 +385,18 @@
       "saveFailed": "無法儲存該快速鍵。",
       "conflict": "「{{action}}」也在使用此快速鍵。請選擇其他快速鍵。",
       "invalid": "無法辨識此快速鍵。",
-      "unsupported": "快速鍵引擎無法將此組合用於該動作。",
+      "unsupported": "此组合无法用作该操作的快捷键。",
       "capture": {
         "starting": "正在開始錄製快速鍵⋯",
         "listening": "請按下快速鍵⋯",
-        "listeningHelp": "按下要使用的組合鍵或滑鼠按鈕。按 Esc 取消。",
+        "listeningHelp": "按下要使用的组合键或鼠标按钮。按 Esc 取消。",
         "cancel": "取消",
         "close": "返回",
         "secure": "安全輸入啟用期間無法錄製快速鍵。請離開密碼欄位或關閉「安全鍵盤輸入」，然後再試一次。",
         "failed": "無法開始錄製快速鍵。請檢查輔助使用權限，然後再試一次。"
       },
       "actions": {
-        "dictate": "按住說話",
+        "dictate": "按住说话",
         "hands_free": "免持聽寫",
         "cancel": "取消聽寫",
         "command_mode": "指令模式",
@@ -417,7 +417,7 @@
         "dictate": "說話時按住快速鍵；放開即結束。",
         "hands_free": "不必按住按鍵即可開始和停止聽寫。",
         "cancel": "停止目前的聽寫，不插入文字。",
-        "command_mode": "按住 fn 和 Ctrl，同時說出要如何編輯或撰寫文字。",
+        "command_mode": "按住快捷键，同时说出要如何编辑或撰写文本。",
         "paste_last": "再次貼上最近一次的聽寫。",
         "copy_last": "將最近一次的聽寫拷貝到剪貼板。",
         "press_enter": "在你正在輸入的 App 中按下 Return 鍵。滑鼠側鍵很適合這個動作。",
@@ -529,58 +529,30 @@
           "quiet": "輕聲聽寫：教我怎麼做"
         },
         "empty": {
-          "title": "你的聽寫內容會顯示在這裡",
-          "body": "每一則都會連同音訊儲存在這台 Mac 上，方便你之後拷貝或查看。",
-          "action": "打開歷史記錄"
+          "title": "你的聽寫內容會顯示在這裡"
         }
       },
       "insights": {
         "title": "統計",
         "empty": {
           "title": "統計需要一些聽寫資料",
-          "body": "聽寫一段時間後，這裡會顯示你的語速、連續天數和節省的時間。",
           "action": "前往聽寫"
         }
       },
       "dictionary": {
-        "title": "字典",
-        "empty": {
-          "title": "教 {{appName}} 认识你的用词",
-          "body": "你添加的名称、产品术语和缩写词每次都会拼写正确。在此页面就绪前，你的词语保存在设置中。",
-          "action": "打开自定义词语"
-        }
+        "title": "字典"
       },
       "snippets": {
-        "title": "文字片段",
-        "empty": {
-          "title": "文字片段即將推出",
-          "body": "說出「我的地址」這類簡短提示語，即可得到完整文字。此頁面將在之後的更新中推出。",
-          "action": "前往聽寫"
-        }
+        "title": "文字片段"
       },
       "style": {
-        "title": "風格",
-        "empty": {
-          "title": "風格即將推出",
-          "body": "為每類 App 選擇文字的正式程度，從正式郵件到輕鬆聊天。此頁面將在之後的更新中推出。",
-          "action": "前往聽寫"
-        }
+        "title": "風格"
       },
       "transforms": {
-        "title": "轉換",
-        "empty": {
-          "title": "轉換即將推出",
-          "body": "選取文字，用一個快速鍵改寫：更簡短、更清楚或更有條理。此頁面將在之後的更新中推出。",
-          "action": "前往聽寫"
-        }
+        "title": "轉換"
       },
       "scratchpad": {
-        "title": "草稿板",
-        "empty": {
-          "title": "草稿板即將推出",
-          "body": "快速聽寫筆記的地方，之後再把它們放到別處。此頁面將在之後的更新中推出。",
-          "action": "前往聽寫"
-        }
+        "title": "草稿板"
       },
       "share": {
         "title": "與朋友分享"
@@ -617,7 +589,7 @@
       "paused": "連續三次嘗試失敗，自動更新已暫停至 {{time}}。",
       "manualOnly": "這是開發版本：只有在你要求時才會檢查更新。",
       "readyHint": "你 20 分鐘沒有聽寫或結束 App 時，更新會自動安裝。",
-      "policy": "更新會在背景下載，只會在你沒有聽寫或結束 App 時安裝。",
+      "policy": "更新会在后台下载，并在你 20 分钟没有听写时或退出 App 时安装。",
       "needsPassword": "此 App 所在的檔案夾需要管理者密碼才能更改，因此只有在你選擇「立即重新啟動」時才會安裝更新。"
     }
   },
@@ -649,7 +621,7 @@
       "noColumn": "不在此檔案中",
       "column": "{{letter}} 欄",
       "columnNamed": "{{letter}} 欄：{{name}}",
-      "mapRequired": "請為每個必填欄位選擇一欄。",
+      "mapRequired": "请为每个必填字段选择一列。",
       "previewCaption_other": "前 {{count}} 列預覽",
       "rowHeader": "列",
       "cancel": "取消",
@@ -671,16 +643,16 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "聽寫",
-      "vocabulary": "詞彙",
+      "vocabulary": "词典",
       "help": "輔助說明",
       "file": "檔案",
       "edit": "編輯",
       "view": "顯示方式",
       "window": "視窗",
       "wordsDictated_other": "已聽寫 {{count}} 個字詞",
-      "copyLast": "拷貝上一則轉錄文字",
-      "copyLastPreview": "拷貝上一則轉錄文字：「{{preview}}」",
-      "copyLastConcealed": "拷貝上一則轉錄文字（文字已隱藏）",
+      "copyLast": "拷贝上一次听写",
+      "copyLastPreview": "拷贝上一次听写：“{{preview}}”",
+      "copyLastConcealed": "拷贝上一次听写（文本已隐藏）",
       "microphone": "麥克風",
       "languages": "語言",
       "moreLanguages": "加入或移除語言⋯",
@@ -696,7 +668,7 @@
       "sendFeedback": "傳送意見回饋⋯",
       "openApp": "打開 {{appName}}",
       "checkUpdates": "檢查更新⋯",
-      "pasteLast": "貼上上一則轉錄文字",
+      "pasteLast": "粘贴上一次听写",
       "cancelDictation": "取消聽寫",
       "shortcutsBlocked": "快速鍵遭到阻擋 — 打開設定",
       "undo": "還原",
@@ -827,7 +799,7 @@
       },
       "takeRecovered": {
         "title_other": "App 結束時已儲存 {{count}} 段錄音",
-        "body": "{{appName}} 關閉時這些錄音仍在進行中。它們已在歷史記錄中，並會在那裡轉錄。"
+        "body_other": "{{appName}} 关闭时你仍在听写。这些录音正在转写，完成后会显示在历史记录中。"
       }
     },
     "scratchpad": {
@@ -859,7 +831,7 @@
         "micLostWarning": "麥克風已中斷連線。到目前為止你說的內容都已保留。",
         "undo": "「還原」會在聽寫浮動列上顯示 4 秒。",
         "diff": "轉換變更已可供檢視。",
-        "secureInputWarning": "安全輸入已開啟。fn 和空白鍵無法鎖定聽寫。按 Esc 或關閉按鈕仍可取消。",
+        "secureInputWarning": "安全输入已开启。fn 和空格键无法锁定听写。按 Esc 或关闭按钮仍可取消。",
         "inserted": "已插入文字"
       },
       "message": {
@@ -1156,7 +1128,7 @@
         "duplicates_other": "已存在",
         "conflicts_other": "冲突",
         "invalid_other": "无法导入",
-        "overLimit_other": "你的词典还能容纳 {{room}} 个条目；有 {{count}} 个新条目放不下。",
+        "overLimit_other": "有 {{count}} 个新条目放不下（词典剩余空间：{{room}}）。",
         "showNew": "显示新条目",
         "more_other": "以及另外 {{count}} 个",
         "conflictsTitle": "已在你的词典中，但内容不同",
@@ -1241,10 +1213,9 @@
     },
     "commandMode": {
       "title": "命令模式",
-      "shortcut": "fn ⌃",
       "on": "开",
       "off": "关",
-      "help": "按住 fn 和 Ctrl，然后说出要如何更改所选内容或要写什么。如果没有选中内容，会以输入栏中的文本作为上下文，结果插入到插入点处。所有内容都保留在这台 Mac 上；命令模式从不联网查找任何内容。关闭时，fn 和 Ctrl 照常用于听写。"
+      "help": "按住命令模式快捷键，然后说出要如何更改所选内容或要写什么。如果没有选中内容，会以输入栏中的文本作为上下文，结果插入到插入点处。所有内容都保留在这台 Mac 上；命令模式从不联网查找任何内容。关闭时，该快捷键照常用于听写。"
     },
     "auto": {
       "title": "每次听写后应用",
@@ -1335,7 +1306,7 @@
       "paste": "粘贴示例",
       "load": "载入 .txt 或 .md",
       "remove": "移除示例 {{number}}",
-      "readError": "请选择不超过 1,500 个字符的 .txt 或 .md 文件。",
+      "readError": "请选择不超过 {{chars}} 个字符的 .txt 或 .md 文件。",
       "help_other": "粘贴或载入最多 {{max}} 个示例，每个最多 {{chars}} 个字符。它们用于引导风格，不会成为结果的一部分。"
     },
     "diff": {
@@ -1465,7 +1436,7 @@
       "trigger_control_character": "你要说的话必须在一行之内。",
       "empty_body": "请输入要写出的文本。",
       "body_control_character": "文本中包含无法写出的字符。请移除后重试。",
-      "full": "文本片段数量已达上限。请先删除一些。",
+      "full": "你的文本片段已满。请先删除一些文本片段。",
       "trigger_too_long_other": "你要说的话最多 {{max}} 个字符。",
       "body_too_long_other": "文本最多 {{maxBody}} 个字符。"
     },
@@ -1478,7 +1449,7 @@
       "body": "写成",
       "bodyPlaceholder": "要写出的文本。换行会保留。",
       "counter": "{{count}}/{{max}}",
-      "hint": "可以单独说，也可以在句子中说，不区分大小写。在句子中时，提示语中的标点也必须照样说出。文本会完全按存储的内容写出。",
+      "hint": "可以单独说，也可以在句子中说，不区分大小写。在句子中时，你说的话里的标点必须与听写出的文本完全一致。文本会完全按存储的内容写出。",
       "cancel": "取消",
       "add": "添加文本片段",
       "save": "存储",
@@ -1500,14 +1471,14 @@
         "columns": "第一列是你说的话；第二列是要写出的文本。",
         "lines": "包含换行的文本放在引号中，电子表格 App 存储时会自动这样处理。",
         "encoding": "请存储为 CSV UTF-8 格式，以便正确保留重音符号和其他文字。",
-        "limits_other": "你说的话最多 {{max}} 个字符，文本最多 {{maxBody}} 个字符，每个文件最多 1,000 行、3 MB。"
+        "limits_other": "你说的话最多 {{max}} 个字符，文本最多 {{maxBody}} 个字符；每个文件最多 1,000 行、3 MB。"
       },
       "review": {
         "new_other": "新文本片段",
         "duplicates_other": "已存在",
         "conflicts_other": "冲突",
         "invalid_other": "无法导入",
-        "overLimit_other": "还能容纳 {{room}} 个；有 {{count}} 个新文本片段放不下。",
+        "overLimit_other": "有 {{count}} 个新文本片段放不下（剩余空间：{{room}}）。",
         "ignoredRows_other": "只读取前 1,000 行；另有 {{count}} 行未读取。",
         "showNew": "显示新文本片段",
         "more_other": "以及另外 {{count}} 个",
@@ -1527,7 +1498,7 @@
         "skipped_other": "{{count}} 个已存在，已跳过",
         "kept_other": "{{count}} 个冲突项保持不变",
         "invalid_other": "{{count}} 行无法导入",
-        "overLimit_other": "{{count}} 个放不下"
+        "overLimit_other": "{{count}} 个放不下（文本片段已满）"
       }
     },
     "export": {
@@ -1633,7 +1604,7 @@
       "body": "没有包含“{{query}}”的听写。"
     },
     "results_other": "找到 {{count}} 条听写",
-    "resultsMore_other": "最近的 {{count}} 个匹配项。滚动以查看更多。",
+    "resultsMore_other": "显示最近的 {{count}} 个匹配项。滚动以查看更多。",
     "search": {
       "open": "搜索历史记录",
       "label": "搜索你的听写",
@@ -1644,7 +1615,7 @@
     "transcribeFailed": "无法打开该文件。请重试。",
     "showMore": "显示更多",
     "showLess": "显示更少",
-    "failed": "转写失败。请试试 ⋮ 菜单中的“重新转写”。",
+    "failed": "转写失败。请选择 ⋮ 菜单中的“重新转写”。",
     "waitingForModel": "正在等待语音模型",
     "notTranscribed": "尚未转写。",
     "job": {
@@ -1828,8 +1799,8 @@
       "moveTo": "移到",
       "useDefault": "恢复到默认分组（{{group}}）",
       "remove": "从“{{group}}”中移除",
-      "autoSend": "听写后按下回车",
-      "autoSendOn": "听写后按下回车",
+      "autoSend": "听写后按下 Return",
+      "autoSendOn": "听写后按下 Return",
       "notInstalled": "未安装",
       "aiChat": "AI 聊天：你的话会经清理后插入，不应用风格。",
       "moved": "“{{app}}”现在使用“{{group}}”风格。",
@@ -1888,7 +1859,7 @@
       "title": "开口说话，文字随即出现",
       "subtitle": "按住一个键，说话，松开。整理好的文本会出现在你正在输入的地方。",
       "privacyTitle": "一切都保留在这台 Mac 上",
-      "privacy": "你的声音和文本从不离开这台电脑。无需账户，不用云端，没有跟踪。",
+      "privacy": "你的声音和文本从不离开你的 Mac。无需账户，不用云端，没有跟踪。",
       "download": "语音设置现在开始，并在后台运行。",
       "start": "开始使用"
     },
@@ -1907,7 +1878,7 @@
       "listLabel": "语言",
       "noMatch": "没有与“{{query}}”匹配的语言。",
       "count_other": "听写支持 {{count}} 种语言。你之后可以在设置中更改。",
-      "weak_other": "{{languages}}的识别准确度较低。仍然可以使用，但错误可能会更多。"
+      "weak_other": "{{languages}}的识别准确度较低。仍然可以用这些语言听写，但错误可能会更多。"
     },
     "permissions": {
       "title": "两项权限",
@@ -2352,7 +2323,7 @@
       "how": {
         "title": "如何对着 Mac 轻声说话",
         "body": "使用 Mac 的内建麦克风时，四个习惯能让轻声也容易被听清。",
-        "distance": "距离麦克风约 30 厘米，大概一个前臂的长度",
+        "distance": "距离麦克风约 30 厘米（大约一个前臂的长度）",
         "tips": {
           "distance": {
             "title": "坐近一些。",
@@ -2374,7 +2345,7 @@
       },
       "practice": {
         "title": "轻声说出这封邮件",
-        "body": "这是一次真实的听写：文字只会出现在下方绘制的邮件中，不会出现在其他地方。",
+        "body": "这是一次真实的听写。文字只会出现在下方的邮件中，不会出现在其他地方。",
         "doneTitle": "即使轻声，也听清了",
         "doneBody": "就这么简单。继续下一步，找到适合你的麦克风。",
         "instruction": "按住 {{key}}，轻声说出下面的邮件，然后松开。",
@@ -2413,7 +2384,7 @@
         },
         "wired_headset": {
           "name": "有线耳麦",
-          "hint": "麦克风在短杆或线上，靠近嘴边",
+          "hint": "带线缆、麦克风靠近嘴边的耳机",
           "why": "麦克风就在嘴边，无论你在哪里，再轻的声音也能听清。"
         },
         "wireless_earbuds": {
@@ -2512,7 +2483,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "这样 Wispr Bro 才能听到你说话。音频在这台电脑上转为文本，从不上传。"
+          "why": "这样 Wispr Bro 才能听到你说话。音频在这台 Mac 上转为文本，从不上传。"
         },
         "accessibility": {
           "why": "这样你的快捷键在所有 App 中都能使用，Wispr Bro 也能将文本输入到光标所在位置。"
@@ -2560,10 +2531,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "登录电脑时自动启动 Wispr Bro。"
+          "description": "登录 Mac 时自动启动 Wispr Bro。"
         },
         "showTrayIcon": {
-          "description": "在系统托盘中显示 Wispr Bro 图标。"
+          "description": "在菜单栏中显示 Wispr Bro 图标。"
         }
       },
       "debug": {

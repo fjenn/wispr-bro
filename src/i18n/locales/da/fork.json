@@ -50,7 +50,7 @@
       "version": "Version",
       "channel": "Kanal",
       "key": "Signeringsnøgle",
-      "endpoints": "Feeds",
+      "endpoints": "Opdateringsfeeds",
       "checksOff": "Søgning efter opdateringer er slået fra (Indstillinger › Avanceret, eller en nødafbryder er sat).",
       "check": "Tjek nu",
       "checking": "Tjekker…",
@@ -71,7 +71,7 @@
       "contextAwareness": "Kontekstbevidsthed",
       "contextAwarenessHint": "Bruger navne i teksten omkring din markør til at stave dem rigtigt. Teksten bliver på denne Mac og gemmes aldrig.",
       "transforms": "Transformationer",
-      "transformsHint": "⌥1 finpudser den valgte tekst, og ⌥2 gør den til en tydeligere AI-prompt. Når det er slået til, erstatter de taster ¡ og ™.",
+      "transformsHint": "⌥1 finpudser den valgte tekst, ⌥2 gør den til en tydeligere AI-prompt, og ⌥O viser, hvad den seneste transformation ændrede. Når det er slået til, skriver de taster ikke længere ¡, ™ og ø.",
       "transformsSafeShortcuts": "Brug ⌃⌥1 og ⌃⌥2 i stedet",
       "transformsSafeShortcutsHint": "Så er ¡ og ™ stadig tilgængelige med ⌥1 og ⌥2.",
       "cleanupLevel": "Oprydningsniveau",
@@ -148,7 +148,7 @@
       "notSet": "Ikke angivet",
       "current": "Genvej: {{shortcut}}",
       "listening": "Tryk på en genvej…",
-      "listeningHelp": "Tryk på de taster eller den museknap, du vil bruge. Escape annullerer.",
+      "listeningHelp": "Tryk på de taster eller den museknap, du vil bruge. Esc annullerer.",
       "record": "Optag",
       "cancel": "Annuller",
       "clear": "Ryd",
@@ -386,18 +386,18 @@
       "saveFailed": "Kunne ikke gemme genvejen.",
       "conflict": "Bruges også af {{action}}. Vælg en anden genvej.",
       "invalid": "Denne genvej genkendes ikke.",
-      "unsupported": "Denne kombination kan ikke bruges til handlingen.",
+      "unsupported": "Denne kombination kan ikke bruges som genvej til handlingen.",
       "capture": {
         "starting": "Starter optagelse af genvej…",
         "listening": "Tryk på en genvej…",
-        "listeningHelp": "Tryk på den tastekombination eller museknap, du vil bruge. Escape annullerer.",
+        "listeningHelp": "Tryk på den tastekombination eller museknap, du vil bruge. Esc annullerer.",
         "cancel": "Annuller",
         "close": "Tilbage",
         "secure": "Genveje kan ikke optages, mens sikker indtastning er aktiv. Forlad adgangskodefeltet, eller slå ”Sikker tastaturindtastning” fra, og prøv igen.",
         "failed": "Kunne ikke starte optagelse af genvej. Tjek tilladelsen til Tilgængelighed, og prøv igen."
       },
       "actions": {
-        "dictate": "Hold nede",
+        "dictate": "Hold nede for at tale",
         "hands_free": "Håndfri diktering",
         "cancel": "Annuller diktering",
         "command_mode": "Kommandotilstand",
@@ -418,7 +418,7 @@
         "dictate": "Hold genvejen nede, mens du taler, og slip den for at afslutte.",
         "hands_free": "Start og stop diktering uden at holde en tast nede.",
         "cancel": "Stop den aktuelle diktering uden at indsætte den.",
-        "command_mode": "Hold fn og Ctrl nede, mens du siger, hvordan tekst skal redigeres eller skrives.",
+        "command_mode": "Hold genvejen nede, mens du siger, hvordan tekst skal redigeres eller skrives.",
         "paste_last": "Indsæt din seneste diktering igen.",
         "copy_last": "Kopiér din seneste diktering til udklipsholderen.",
         "press_enter": "Tryk på Retur i den app, hvor du skriver. En sideknap på musen er god til dette.",
@@ -532,58 +532,30 @@
           "quiet": "Diktér stille: Vis mig hvordan"
         },
         "empty": {
-          "title": "Dine dikteringer vises her",
-          "body": "Hver diktering gemmes på denne Mac sammen med lyden, så du kan kopiere eller tjekke den senere.",
-          "action": "Åbn Historik"
+          "title": "Dine dikteringer vises her"
         }
       },
       "insights": {
         "title": "Statistik",
         "empty": {
           "title": "Statistik kræver et par dikteringer",
-          "body": "Dit taletempo, dine stimer og den tid, du sparer, vises, når du har dikteret et stykke tid.",
           "action": "Gå til Diktering"
         }
       },
       "dictionary": {
-        "title": "Ordbog",
-        "empty": {
-          "title": "Lær {{appName}} dine ord",
-          "body": "Navne, produktnavne og forkortelser, du tilføjer, staves rigtigt hver gang. Indtil denne side er klar, ligger dine ord i Indstillinger.",
-          "action": "Åbn egne ord"
-        }
+        "title": "Ordbog"
       },
       "snippets": {
-        "title": "Tekststykker",
-        "empty": {
-          "title": "Tekststykker er på vej",
-          "body": "Sig et kort stikord som ”min adresse”, og få hele teksten. Denne side kommer i en senere opdatering.",
-          "action": "Gå til Diktering"
-        }
+        "title": "Tekststykker"
       },
       "style": {
-        "title": "Stil",
-        "empty": {
-          "title": "Stilarter er på vej",
-          "body": "Vælg, hvor finpudset din tekst skal være i hver type app, fra formel e-mail til afslappet chat. Denne side kommer i en senere opdatering.",
-          "action": "Gå til Diktering"
-        }
+        "title": "Stil"
       },
       "transforms": {
-        "title": "Transformationer",
-        "empty": {
-          "title": "Transformationer er på vej",
-          "body": "Vælg tekst og skriv den om med én genvej: kortere, tydeligere eller bedre organiseret. Denne side kommer i en senere opdatering.",
-          "action": "Gå til Diktering"
-        }
+        "title": "Transformationer"
       },
       "scratchpad": {
-        "title": "Kladdeblok",
-        "empty": {
-          "title": "Kladdeblok er på vej",
-          "body": "Et hurtigt sted at diktere noter, før de skal videre. Denne side kommer i en senere opdatering.",
-          "action": "Gå til Diktering"
-        }
+        "title": "Kladdeblok"
       },
       "share": {
         "title": "Del med en ven"
@@ -620,7 +592,7 @@
       "paused": "Efter tre mislykkede forsøg er automatiske opdateringer sat på pause indtil {{time}}.",
       "manualOnly": "Dette er en udviklingsversion: Der søges kun efter opdateringer, når du beder om det.",
       "readyHint": "Den installerer sig selv, når du ikke har dikteret i 20 minutter, eller når du afslutter.",
-      "policy": "Opdateringer hentes i baggrunden og installeres kun, når du ikke dikterer, eller når du afslutter.",
+      "policy": "Opdateringer hentes i baggrunden og installeres, når du ikke har dikteret i 20 minutter, eller når du afslutter.",
       "needsPassword": "Denne kopi af appen ligger i en mappe, der kræver en administratoradgangskode for at blive ændret, så opdateringer installeres kun, når du vælger Genstart nu."
     }
   },
@@ -653,7 +625,7 @@
       "noColumn": "Ikke i denne fil",
       "column": "Kolonne {{letter}}",
       "columnNamed": "Kolonne {{letter}}: {{name}}",
-      "mapRequired": "Vælg en kolonne til hvert felt, der ikke er valgfrit.",
+      "mapRequired": "Vælg en kolonne til hvert obligatorisk felt.",
       "previewCaption_one": "Forhåndsvisning af den første række",
       "previewCaption_other": "Forhåndsvisning af de første {{count}} rækker",
       "rowHeader": "Række",
@@ -676,7 +648,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Diktering",
-      "vocabulary": "Ordforråd",
+      "vocabulary": "Ordbog",
       "help": "Hjælp",
       "file": "Fil",
       "edit": "Rediger",
@@ -684,9 +656,9 @@
       "window": "Vindue",
       "wordsDictated_one": "{{count}} ord dikteret",
       "wordsDictated_other": "{{count}} ord dikteret",
-      "copyLast": "Kopiér seneste transskription",
-      "copyLastPreview": "Kopiér seneste transskription: ”{{preview}}”",
-      "copyLastConcealed": "Kopiér seneste transskription (tekst skjult)",
+      "copyLast": "Kopiér seneste diktering",
+      "copyLastPreview": "Kopiér seneste diktering: ”{{preview}}”",
+      "copyLastConcealed": "Kopiér seneste diktering (tekst skjult)",
       "microphone": "Mikrofon",
       "languages": "Sprog",
       "moreLanguages": "Tilføj eller fjern sprog…",
@@ -704,7 +676,7 @@
       "sendFeedback": "Send feedback…",
       "openApp": "Åbn {{appName}}",
       "checkUpdates": "Søg efter opdateringer…",
-      "pasteLast": "Indsæt seneste transskription",
+      "pasteLast": "Indsæt seneste diktering",
       "cancelDictation": "Annuller diktering",
       "shortcutsBlocked": "Genveje blokeret – åbn Indstillinger",
       "undo": "Fortryd",
@@ -841,7 +813,8 @@
       "takeRecovered": {
         "title_one": "En optagelse blev gemt, da appen sluttede",
         "title_other": "{{count}} optagelser blev gemt, da appen sluttede",
-        "body": "De var stadig i gang, da {{appName}} lukkede. De ligger i Historik, hvor de bliver transskriberet."
+        "body_one": "Du dikterede stadig, da {{appName}} lukkede. Optagelsen bliver transskriberet og vises i Historik.",
+        "body_other": "Du dikterede stadig, da {{appName}} lukkede. Optagelserne bliver transskriberet og vises i Historik."
       }
     },
     "scratchpad": {
@@ -873,7 +846,7 @@
         "micLostWarning": "Mikrofonen blev afbrudt. Det, du har sagt indtil nu, er gemt.",
         "undo": "Fortryd er på dikteringsbjælken i 4 sekunder.",
         "diff": "Ændringerne fra transformationen er klar til gennemsyn.",
-        "secureInputWarning": "Sikker indtastning er slået til. fn og Space kan ikke låse dikteringen. Escape eller lukkeknappen annullerer stadig.",
+        "secureInputWarning": "Sikker indtastning er slået til. fn og Space kan ikke låse dikteringen. Esc eller lukkeknappen annullerer stadig.",
         "inserted": "Tekst indsat"
       },
       "message": {
@@ -1180,8 +1153,8 @@
         "conflicts_other": "konflikter",
         "invalid_one": "kan ikke importeres",
         "invalid_other": "kan ikke importeres",
-        "overLimit_one": "Der er plads til {{room}} mere i din ordbog. {{count}} ny post kan ikke være der.",
-        "overLimit_other": "Der er plads til {{room}} mere i din ordbog. {{count}} nye poster kan ikke være der.",
+        "overLimit_one": "{{count}} ny post kan ikke være der (plads tilbage i din ordbog: {{room}}).",
+        "overLimit_other": "{{count}} nye poster kan ikke være der (plads tilbage i din ordbog: {{room}}).",
         "showNew": "Vis de nye poster",
         "more_one": "og {{count}} mere",
         "more_other": "og {{count}} mere",
@@ -1276,10 +1249,9 @@
     },
     "commandMode": {
       "title": "Kommandotilstand",
-      "shortcut": "fn ⌃",
       "on": "Til",
       "off": "Fra",
-      "help": "Hold fn og Ctrl nede, og sig, hvordan det valgte skal ændres, eller hvad der skal skrives. Uden valg giver feltet kontekst, og resultatet sættes ind ved indsætningsmærket. Alt bliver på denne Mac; Kommandotilstand slår aldrig noget op. Når den er slået fra, dikterer fn og Ctrl som normalt."
+      "help": "Hold genvejen til Kommandotilstand nede, og sig, hvordan det valgte skal ændres, eller hvad der skal skrives. Uden valg giver feltet kontekst, og resultatet sættes ind ved indsætningsmærket. Alt bliver på denne Mac; Kommandotilstand slår aldrig noget op. Når den er slået fra, dikterer genvejen som normalt."
     },
     "auto": {
       "title": "Anvend efter hver diktering",
@@ -1370,7 +1342,7 @@
       "paste": "Indsæt et eksempel",
       "load": "Indlæs .txt eller .md",
       "remove": "Fjern eksempel {{number}}",
-      "readError": "Vælg en .txt- eller .md-fil med højst 1.500 tegn.",
+      "readError": "Vælg en .txt- eller .md-fil med højst {{chars}} tegn.",
       "help_one": "Indsæt eller indlæs op til {{max}} eksempel på {{chars}} tegn. Det styrer stilen uden at blive en del af resultatet.",
       "help_other": "Indsæt eller indlæs op til {{max}} eksempler på hver {{chars}} tegn. De styrer stilen uden at blive en del af resultatet."
     },
@@ -1509,7 +1481,7 @@
       "trigger_control_character": "Det, du siger, skal kunne være på én linje.",
       "empty_body": "Skriv den tekst, der skal skrives.",
       "body_control_character": "Teksten indeholder et tegn, der ikke kan skrives. Fjern det, og prøv igen.",
-      "full": "Du har nået det maksimale antal tekststykker. Slet nogle først.",
+      "full": "Din liste over tekststykker er fuld. Slet nogle tekststykker først.",
       "trigger_too_long_one": "Det, du siger, må højst være på {{max}} tegn.",
       "trigger_too_long_other": "Det, du siger, må højst være på {{max}} tegn.",
       "body_too_long_one": "Teksten må højst være på {{maxBody}} tegn.",
@@ -1524,7 +1496,7 @@
       "body": "Skriv",
       "bodyPlaceholder": "Den tekst, der skal skrives. Linjeskift bevares.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Virker alene eller midt i en sætning, uanset store og små bogstaver. Midt i en sætning skal tegnsætning i stikordet siges på samme måde. Teksten skrives præcis, som den er gemt.",
+      "hint": "Virker alene eller midt i en sætning, uanset store og små bogstaver. Midt i en sætning skal tegnsætning i det, du siger, passe præcis til den dikterede tekst. Teksten skrives præcis, som den er gemt.",
       "cancel": "Annuller",
       "add": "Tilføj tekststykke",
       "save": "Gem",
@@ -1546,8 +1518,8 @@
         "columns": "Første kolonne er det, du siger. Anden kolonne er den tekst, der skal skrives.",
         "lines": "En tekst med linjeskift står i anførselstegn, sådan som regnearksapps gemmer den.",
         "encoding": "Gem som CSV UTF-8, så accenter og andre skriftsystemer kommer korrekt med.",
-        "limits_one": "Det, du siger, op til {{max}} tegn, tekster op til {{maxBody}}, højst 1.000 rækker og 3 MB pr. fil.",
-        "limits_other": "Det du siger op til {{max}} tegn, tekst op til {{maxBody}}, højst 1.000 rækker og 3 MB pr. fil."
+        "limits_one": "Op til {{max}} tegn for det, du siger, og {{maxBody}} for teksten; højst 1.000 rækker og 3 MB pr. fil.",
+        "limits_other": "Op til {{max}} tegn for det, du siger, og {{maxBody}} for teksten; højst 1.000 rækker og 3 MB pr. fil."
       },
       "review": {
         "new_one": "nyt tekststykke",
@@ -1558,8 +1530,8 @@
         "conflicts_other": "konflikter",
         "invalid_one": "kan ikke importeres",
         "invalid_other": "kan ikke importeres",
-        "overLimit_one": "Der er plads til {{room}} mere. {{count}} nyt tekststykke kan ikke være der.",
-        "overLimit_other": "Der er plads til {{room}} mere. {{count}} nye tekststykker kan ikke være der.",
+        "overLimit_one": "{{count}} nyt tekststykke kan ikke være der (plads tilbage: {{room}}).",
+        "overLimit_other": "{{count}} nye tekststykker kan ikke være der (plads tilbage: {{room}}).",
         "ignoredRows_one": "Kun de første 1.000 rækker læses. {{count}} række mere er udeladt.",
         "ignoredRows_other": "Kun de første 1.000 rækker læses. {{count}} rækker mere er udeladt.",
         "showNew": "Vis de nye tekststykker",
@@ -1587,8 +1559,8 @@
         "kept_other": "{{count}} konflikter beholdt uændret",
         "invalid_one": "{{count}} række kunne ikke importeres",
         "invalid_other": "{{count}} rækker kunne ikke importeres",
-        "overLimit_one": "{{count}} kunne ikke være der",
-        "overLimit_other": "{{count}} kunne ikke være der"
+        "overLimit_one": "{{count}} kunne ikke være der (din liste over tekststykker er fuld)",
+        "overLimit_other": "{{count}} kunne ikke være der (din liste over tekststykker er fuld)"
       }
     },
     "export": {
@@ -1707,8 +1679,8 @@
     },
     "results_one": "{{count}} diktering fundet",
     "results_other": "{{count}} dikteringer fundet",
-    "resultsMore_one": "{{count}} seneste match. Rul for at se flere.",
-    "resultsMore_other": "De {{count}} seneste match. Rul for at se flere.",
+    "resultsMore_one": "Viser {{count}} seneste match. Rul for at se flere.",
+    "resultsMore_other": "Viser de {{count}} seneste match. Rul for at se flere.",
     "search": {
       "open": "Søg i Historik",
       "label": "Søg i dine dikteringer",
@@ -1719,7 +1691,7 @@
     "transcribeFailed": "Filen kunne ikke åbnes. Prøv igen.",
     "showMore": "Vis mere",
     "showLess": "Vis mindre",
-    "failed": "Transskriptionen mislykkedes. Prøv ”Prøv transskription igen” i menuen ⋮.",
+    "failed": "Transskriptionen mislykkedes. Vælg ”Prøv transskription igen” i menuen ⋮.",
     "waitingForModel": "Venter på talemodel",
     "notTranscribed": "Ikke transskriberet endnu.",
     "job": {
@@ -1964,7 +1936,7 @@
       "title": "Tal, og dine ord vises",
       "subtitle": "Hold én tast nede, tal, og slip. Ren tekst havner, hvor du skriver.",
       "privacyTitle": "Alt bliver på denne Mac",
-      "privacy": "Din stemme og din tekst forlader aldrig denne computer. Ingen konto, ingen sky, ingen sporing.",
+      "privacy": "Din stemme og din tekst forlader aldrig din Mac. Ingen konto, ingen sky, ingen sporing.",
       "download": "Opsætningen af tale starter nu og kører i baggrunden.",
       "start": "Kom i gang"
     },
@@ -1984,8 +1956,8 @@
       "noMatch": "Ingen sprog matcher ”{{query}}”.",
       "count_one": "Diktering virker på {{count}} sprog. Du kan ændre dine senere i Indstillinger.",
       "count_other": "Diktering virker på {{count}} sprog. Du kan ændre dine senere i Indstillinger.",
-      "weak_one": "Genkendelsen er mindre præcis på {{languages}}. Det virker stadig, men regn med flere fejl.",
-      "weak_other": "Genkendelsen er mindre præcis på {{languages}}. De virker stadig, men regn med flere fejl."
+      "weak_one": "Genkendelsen er mindre præcis på {{languages}}. Det virker stadig at diktere på det sprog, men regn med flere fejl.",
+      "weak_other": "Genkendelsen er mindre præcis på {{languages}}. Det virker stadig at diktere på de sprog, men regn med flere fejl."
     },
     "permissions": {
       "title": "To tilladelser",
@@ -2439,7 +2411,7 @@
       "how": {
         "title": "Sådan hvisker du til din Mac",
         "body": "Med den indbyggede mikrofon i din Mac gør fire vaner en stille stemme let at høre.",
-        "distance": "Omkring 30 cm, cirka en underarms længde, fra mikrofonen",
+        "distance": "Omkring 30 cm (en underarms længde) fra mikrofonen",
         "tips": {
           "distance": {
             "title": "Sid tæt på.",
@@ -2461,7 +2433,7 @@
       },
       "practice": {
         "title": "Hvisk denne e-mail",
-        "body": "En rigtig optagelse: Den havner i den tegnede besked nedenfor og ingen andre steder.",
+        "body": "Det her er en rigtig diktering. Teksten havner kun i beskeden nedenfor og ingen andre steder.",
         "doneTitle": "Hørt, selv når du hvisker",
         "doneBody": "Mere skal der ikke til. Fortsæt for at finde den mikrofon, der passer dig.",
         "instruction": "Hold {{key}} nede, hvisk e-mailen nedenfor, og slip så.",
@@ -2500,7 +2472,7 @@
         },
         "wired_headset": {
           "name": "Headset med kabel",
-          "hint": "En mikrofon på en kort arm eller et kabel tæt ved munden",
+          "hint": "Hovedtelefoner med kabel og en mikrofon tæt ved munden",
           "why": "Mikrofonen sidder lige ved munden, så selv en svag hvisken kommer igennem, uanset hvor du er."
         },
         "wireless_earbuds": {
@@ -2599,7 +2571,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Så Wispr Bro kan høre dig. Lyd bliver omdannet til tekst på denne computer og uploades aldrig."
+          "why": "Så Wispr Bro kan høre dig. Lyd bliver omdannet til tekst på denne Mac og uploades aldrig."
         },
         "accessibility": {
           "why": "Så din genvej virker i alle apps, og Wispr Bro kan skrive teksten dér, hvor din markør er."
@@ -2647,10 +2619,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Start Wispr Bro automatisk, når du logger ind på din computer."
+          "description": "Start Wispr Bro automatisk, når du logger ind på din Mac."
         },
         "showTrayIcon": {
-          "description": "Vis Wispr Bro-ikonet i meddelelsesområdet."
+          "description": "Vis Wispr Bro-ikonet i menulinjen."
         }
       },
       "debug": {

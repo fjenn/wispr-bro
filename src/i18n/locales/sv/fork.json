@@ -50,7 +50,7 @@
       "version": "Version",
       "channel": "Kanal",
       "key": "Signeringsnyckel",
-      "endpoints": "Flöden",
+      "endpoints": "Uppdateringsflöden",
       "checksOff": "Uppdateringskontroller är avstängda (Inställningar › Avancerat, eller så är en nödbrytare satt).",
       "check": "Kontrollera nu",
       "checking": "Kontrollerar…",
@@ -71,7 +71,7 @@
       "contextAwareness": "Kontextmedvetenhet",
       "contextAwarenessHint": "Använder namn i texten runt markören för att stava dem rätt. Texten stannar på den här datorn och sparas aldrig.",
       "transforms": "Omvandlingar",
-      "transformsHint": "⌥1 putsar markerad text och ⌥2 gör om den till en tydligare AI-prompt. När funktionen är på ersätter tangenterna ¡ och ™.",
+      "transformsHint": "⌥1 putsar markerad text, ⌥2 gör om den till en tydligare AI-prompt och ⌥O visar vad den senaste omvandlingen ändrade. När funktionen är på skriver tangenterna inte längre ¡, ™ och ø.",
       "transformsSafeShortcuts": "Använd ⌃⌥1 och ⌃⌥2 i stället",
       "transformsSafeShortcutsHint": "Då går ¡ och ™ fortfarande att skriva med ⌥1 och ⌥2.",
       "cleanupLevel": "Rensningsnivå",
@@ -148,7 +148,7 @@
       "notSet": "Inte inställt",
       "current": "Kortkommando: {{shortcut}}",
       "listening": "Tryck på ett kortkommando…",
-      "listeningHelp": "Tryck på tangenterna eller musknappen du vill använda. Escape avbryter.",
+      "listeningHelp": "Tryck på tangenterna eller musknappen du vill använda. Esc avbryter.",
       "record": "Spela in",
       "cancel": "Avbryt",
       "clear": "Rensa",
@@ -386,18 +386,18 @@
       "saveFailed": "Det gick inte att spara kortkommandot.",
       "conflict": "Används redan av {{action}}. Välj ett annat kortkommando.",
       "invalid": "Kortkommandot känns inte igen.",
-      "unsupported": "Kombinationen kan inte användas för den här åtgärden.",
+      "unsupported": "Kombinationen kan inte användas som kortkommando för den här åtgärden.",
       "capture": {
         "starting": "Startar inspelning av kortkommando…",
         "listening": "Tryck på ett kortkommando…",
-        "listeningHelp": "Tryck på tangentkombinationen eller musknappen du vill använda. Escape avbryter.",
+        "listeningHelp": "Tryck på tangentkombinationen eller musknappen du vill använda. Esc avbryter.",
         "cancel": "Avbryt",
         "close": "Tillbaka",
         "secure": "Kortkommandon kan inte spelas in medan säker inmatning är aktiv. Lämna lösenordsfältet eller stäng av Säker tangentbordsinmatning och försök sedan igen.",
         "failed": "Det gick inte att starta inspelningen av kortkommandot. Kontrollera behörigheten för Hjälpmedel och försök igen."
       },
       "actions": {
-        "dictate": "Håll ned",
+        "dictate": "Håll ned för att prata",
         "hands_free": "Handsfree-diktering",
         "cancel": "Avbryt diktering",
         "command_mode": "Kommandoläge",
@@ -418,7 +418,7 @@
         "dictate": "Håll ned kortkommandot medan du pratar och släpp för att avsluta.",
         "hands_free": "Starta och stoppa diktering utan att hålla ned en tangent.",
         "cancel": "Avbryt den pågående dikteringen utan att infoga den.",
-        "command_mode": "Håll ned fn och Ctrl medan du säger hur texten ska redigeras eller skrivas.",
+        "command_mode": "Håll ned kortkommandot medan du säger hur texten ska redigeras eller skrivas.",
         "paste_last": "Klistra in din senaste diktering igen.",
         "copy_last": "Kopiera din senaste diktering till urklipp.",
         "press_enter": "Tryck på Retur i appen där du skriver. En sidoknapp på musen passar bra till detta.",
@@ -532,58 +532,30 @@
           "quiet": "Diktera tyst: visa hur"
         },
         "empty": {
-          "title": "Dina dikteringar visas här",
-          "body": "Varje diktering sparas på den här datorn tillsammans med ljudet, så att du kan kopiera eller kontrollera den senare.",
-          "action": "Öppna Historik"
+          "title": "Dina dikteringar visas här"
         }
       },
       "insights": {
         "title": "Statistik",
         "empty": {
           "title": "Statistik kräver några dikteringar",
-          "body": "Din talhastighet, dina sviter och tiden du sparar visas när du har dikterat ett tag.",
           "action": "Gå till Diktering"
         }
       },
       "dictionary": {
-        "title": "Ordlista",
-        "empty": {
-          "title": "Lär {{appName}} dina ord",
-          "body": "Namn, produkttermer och förkortningar som du lägger till stavas rätt varje gång. Tills den här sidan är klar finns dina ord i Inställningar.",
-          "action": "Öppna egna ord"
-        }
+        "title": "Ordlista"
       },
       "snippets": {
-        "title": "Textstycken",
-        "empty": {
-          "title": "Textstycken är på väg",
-          "body": "Säg en kort fras som ”min adress” och få hela texten. Den här sidan kommer i en senare uppdatering.",
-          "action": "Gå till Diktering"
-        }
+        "title": "Textstycken"
       },
       "style": {
-        "title": "Stil",
-        "empty": {
-          "title": "Stilar är på väg",
-          "body": "Välj hur putsad din text ska vara i olika typer av appar, från formell e-post till avslappnad chatt. Den här sidan kommer i en senare uppdatering.",
-          "action": "Gå till Diktering"
-        }
+        "title": "Stil"
       },
       "transforms": {
-        "title": "Omvandlingar",
-        "empty": {
-          "title": "Omvandlingar är på väg",
-          "body": "Markera text och skriv om den med ett kortkommando: kortare, tydligare eller bättre strukturerad. Den här sidan kommer i en senare uppdatering.",
-          "action": "Gå till Diktering"
-        }
+        "title": "Omvandlingar"
       },
       "scratchpad": {
-        "title": "Kladdblock",
-        "empty": {
-          "title": "Kladdblock är på väg",
-          "body": "En snabb plats att diktera anteckningar innan de hamnar någon annanstans. Den här sidan kommer i en senare uppdatering.",
-          "action": "Gå till Diktering"
-        }
+        "title": "Kladdblock"
       },
       "share": {
         "title": "Dela med en vän"
@@ -620,7 +592,7 @@
       "paused": "Efter tre misslyckade försök är automatiska uppdateringar pausade till {{time}}.",
       "manualOnly": "Det här är ett utvecklingsbygge: uppdateringar söks bara när du ber om det.",
       "readyHint": "Den installeras automatiskt när du inte har dikterat på 20 minuter, eller när du avslutar.",
-      "policy": "Uppdateringar hämtas i bakgrunden och installeras bara när du inte dikterar, eller när du avslutar.",
+      "policy": "Uppdateringar hämtas i bakgrunden och installeras när du inte har dikterat på 20 minuter, eller när du avslutar.",
       "needsPassword": "Den här kopian av appen ligger i en mapp där ändringar kräver ett administratörslösenord, så uppdateringar installeras bara när du väljer Starta om nu."
     }
   },
@@ -653,7 +625,7 @@
       "noColumn": "Finns inte i filen",
       "column": "Kolumn {{letter}}",
       "columnNamed": "Kolumn {{letter}}: {{name}}",
-      "mapRequired": "Välj en kolumn för varje fält som inte är valfritt.",
+      "mapRequired": "Välj en kolumn för varje obligatoriskt fält.",
       "previewCaption_one": "Förhandsvisning av första raden",
       "previewCaption_other": "Förhandsvisning av de första {{count}} raderna",
       "rowHeader": "Rad",
@@ -676,7 +648,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Diktering",
-      "vocabulary": "Ordförråd",
+      "vocabulary": "Ordlista",
       "help": "Hjälp",
       "file": "Fil",
       "edit": "Redigera",
@@ -684,9 +656,9 @@
       "window": "Fönster",
       "wordsDictated_one": "{{count}} ord dikterat",
       "wordsDictated_other": "{{count}} ord dikterade",
-      "copyLast": "Kopiera senaste transkriberingen",
-      "copyLastPreview": "Kopiera senaste transkriberingen: ”{{preview}}”",
-      "copyLastConcealed": "Kopiera senaste transkriberingen (text dold)",
+      "copyLast": "Kopiera senaste dikteringen",
+      "copyLastPreview": "Kopiera senaste dikteringen: ”{{preview}}”",
+      "copyLastConcealed": "Kopiera senaste dikteringen (text dold)",
       "microphone": "Mikrofon",
       "languages": "Språk",
       "moreLanguages": "Lägg till eller ta bort språk…",
@@ -704,7 +676,7 @@
       "sendFeedback": "Skicka feedback…",
       "openApp": "Öppna {{appName}}",
       "checkUpdates": "Sök efter uppdateringar…",
-      "pasteLast": "Klistra in senaste transkriberingen",
+      "pasteLast": "Klistra in senaste dikteringen",
       "cancelDictation": "Avbryt diktering",
       "shortcutsBlocked": "Kortkommandon blockerade – öppna Inställningar",
       "undo": "Ångra",
@@ -841,7 +813,8 @@
       "takeRecovered": {
         "title_one": "En inspelning sparades när appen avslutades",
         "title_other": "{{count}} inspelningar sparades när appen avslutades",
-        "body": "De spelades fortfarande in när {{appName}} stängdes. De finns i Historik, där de transkriberas."
+        "body_one": "Du dikterade fortfarande när {{appName}} stängdes. Inspelningen transkriberas och visas i Historik.",
+        "body_other": "Du dikterade fortfarande när {{appName}} stängdes. Inspelningarna transkriberas och visas i Historik."
       }
     },
     "scratchpad": {
@@ -873,7 +846,7 @@
         "micLostWarning": "Mikrofonen kopplades från. Det du har sagt hittills finns kvar.",
         "undo": "Ångra finns i dikteringslisten i 4 sekunder.",
         "diff": "Ändringarna från omvandlingen är klara att granska.",
-        "secureInputWarning": "Säker inmatning är på. fn och Space kan inte låsa dikteringen. Escape eller stängningsknappen avbryter fortfarande.",
+        "secureInputWarning": "Säker inmatning är på. fn och Space kan inte låsa dikteringen. Esc eller stängningsknappen avbryter fortfarande.",
         "inserted": "Text infogad"
       },
       "message": {
@@ -1180,8 +1153,8 @@
         "conflicts_other": "konflikter",
         "invalid_one": "kan inte importeras",
         "invalid_other": "kan inte importeras",
-        "overLimit_one": "Din ordlista har plats för {{room}} till. {{count}} ny post får inte plats.",
-        "overLimit_other": "Din ordlista har plats för {{room}} till. {{count}} nya poster får inte plats.",
+        "overLimit_one": "{{count}} ny post får inte plats (plats kvar i din ordlista: {{room}}).",
+        "overLimit_other": "{{count}} nya poster får inte plats (plats kvar i din ordlista: {{room}}).",
         "showNew": "Visa de nya posterna",
         "more_one": "och {{count}} till",
         "more_other": "och {{count}} till",
@@ -1276,10 +1249,9 @@
     },
     "commandMode": {
       "title": "Kommandoläge",
-      "shortcut": "fn ⌃",
       "on": "På",
       "off": "Av",
-      "help": "Håll ned fn och Ctrl och säg hur markeringen ska ändras eller vad som ska skrivas. Utan markering ger fältet kontext och resultatet hamnar vid insättningspunkten. Allt stannar på den här datorn; Kommandoläget slår aldrig upp något. När det är av dikterar fn och Ctrl som vanligt."
+      "help": "Håll ned kortkommandot för Kommandoläge och säg hur markeringen ska ändras eller vad som ska skrivas. Utan markering ger fältet kontext och resultatet hamnar vid insättningspunkten. Allt stannar på din Mac; Kommandoläget slår aldrig upp något. När det är av dikterar kortkommandot som vanligt."
     },
     "auto": {
       "title": "Använd efter varje diktering",
@@ -1370,7 +1342,7 @@
       "paste": "Klistra in ett exempel",
       "load": "Läs in .txt eller .md",
       "remove": "Ta bort exempel {{number}}",
-      "readError": "Välj en .txt- eller .md-fil med högst 1 500 tecken.",
+      "readError": "Välj en .txt- eller .md-fil med högst {{chars}} tecken.",
       "help_one": "Klistra in eller läs in upp till {{max}} exempel på {{chars}} tecken. Det styr stilen utan att bli en del av resultatet.",
       "help_other": "Klistra in eller läs in upp till {{max}} exempel på {{chars}} tecken vardera. De styr stilen utan att bli en del av resultatet."
     },
@@ -1509,7 +1481,7 @@
       "trigger_control_character": "Det du säger måste rymmas på en rad.",
       "empty_body": "Skriv texten som ska skrivas.",
       "body_control_character": "Texten innehåller ett tecken som inte kan skrivas. Ta bort det och försök igen.",
-      "full": "Du har nått maxantalet textstycken. Radera några först.",
+      "full": "Din lista med textstycken är full. Radera några textstycken först.",
       "trigger_too_long_one": "Det du säger får vara högst {{max}} tecken.",
       "trigger_too_long_other": "Det du säger får vara högst {{max}} tecken.",
       "body_too_long_one": "Texten får vara högst {{maxBody}} tecken.",
@@ -1524,7 +1496,7 @@
       "body": "Skriv",
       "bodyPlaceholder": "Texten som ska skrivas. Radbrytningar behålls.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Fungerar för sig eller mitt i en mening, oavsett versaler och gemener. Mitt i en mening måste skiljetecken i frasen sägas på samma sätt. Texten skrivs exakt som den sparades.",
+      "hint": "Fungerar för sig eller mitt i en mening, oavsett versaler och gemener. Mitt i en mening måste skiljetecken i det du säger stämma exakt med den dikterade texten. Texten skrivs exakt som den sparades.",
       "cancel": "Avbryt",
       "add": "Lägg till textstycke",
       "save": "Spara",
@@ -1546,8 +1518,8 @@
         "columns": "Första kolumnen är det du säger. Den andra är texten som ska skrivas.",
         "lines": "En text med radbrytningar står inom citattecken, så som kalkylprogram sparar den.",
         "encoding": "Spara som CSV UTF-8 så att accenter och andra skriftsystem kommer med.",
-        "limits_one": "Det du säger upp till {{max}} tecken, texter upp till {{maxBody}}, högst 1 000 rader och 3 MB per fil.",
-        "limits_other": "Det du säger upp till {{max}} tecken, texter upp till {{maxBody}}, högst 1 000 rader och 3 MB per fil."
+        "limits_one": "Upp till {{max}} tecken för det du säger och {{maxBody}} för texten; högst 1 000 rader och 3 MB per fil.",
+        "limits_other": "Upp till {{max}} tecken för det du säger och {{maxBody}} för texten; högst 1 000 rader och 3 MB per fil."
       },
       "review": {
         "new_one": "nytt textstycke",
@@ -1558,8 +1530,8 @@
         "conflicts_other": "konflikter",
         "invalid_one": "kan inte importeras",
         "invalid_other": "kan inte importeras",
-        "overLimit_one": "Det finns plats för {{room}} till. {{count}} nytt textstycke får inte plats.",
-        "overLimit_other": "Det finns plats för {{room}} till. {{count}} nya textstycken får inte plats.",
+        "overLimit_one": "{{count}} nytt textstycke får inte plats (plats kvar: {{room}}).",
+        "overLimit_other": "{{count}} nya textstycken får inte plats (plats kvar: {{room}}).",
         "ignoredRows_one": "Bara de första 1 000 raderna läses. {{count}} rad till utelämnas.",
         "ignoredRows_other": "Bara de första 1 000 raderna läses. {{count}} rader till utelämnas.",
         "showNew": "Visa de nya textstyckena",
@@ -1587,8 +1559,8 @@
         "kept_other": "{{count}} konflikter lämnades oförändrade",
         "invalid_one": "{{count}} rad kunde inte importeras",
         "invalid_other": "{{count}} rader kunde inte importeras",
-        "overLimit_one": "{{count}} fick inte plats",
-        "overLimit_other": "{{count}} fick inte plats"
+        "overLimit_one": "{{count}} fick inte plats (din lista med textstycken är full)",
+        "overLimit_other": "{{count}} fick inte plats (din lista med textstycken är full)"
       }
     },
     "export": {
@@ -1707,8 +1679,8 @@
     },
     "results_one": "{{count}} diktering hittades",
     "results_other": "{{count}} dikteringar hittades",
-    "resultsMore_one": "{{count}} senaste träff. Rulla för fler.",
-    "resultsMore_other": "De {{count}} senaste träffarna. Rulla för fler.",
+    "resultsMore_one": "Visar {{count}} senaste träff. Rulla för fler.",
+    "resultsMore_other": "Visar de {{count}} senaste träffarna. Rulla för fler.",
     "search": {
       "open": "Sök i Historik",
       "label": "Sök i dina dikteringar",
@@ -1719,7 +1691,7 @@
     "transcribeFailed": "Det gick inte att öppna filen. Försök igen.",
     "showMore": "Visa mer",
     "showLess": "Visa mindre",
-    "failed": "Transkriberingen misslyckades. Prova ”Transkribera igen” i menyn ⋮.",
+    "failed": "Transkriberingen misslyckades. Välj ”Transkribera igen” i menyn ⋮.",
     "waitingForModel": "Väntar på talmodell",
     "notTranscribed": "Inte transkriberad än.",
     "job": {
@@ -1964,7 +1936,7 @@
       "title": "Prata, så visas dina ord",
       "subtitle": "Håll ned en tangent, prata och släpp. Ren text hamnar där du skriver.",
       "privacyTitle": "Allt stannar på den här datorn",
-      "privacy": "Din röst och din text lämnar aldrig den här datorn. Inget konto, inget moln, ingen spårning.",
+      "privacy": "Din röst och din text lämnar aldrig din Mac. Inget konto, inget moln, ingen spårning.",
       "download": "Konfigureringen av tal startar nu och körs i bakgrunden.",
       "start": "Kom igång"
     },
@@ -1984,8 +1956,8 @@
       "noMatch": "Inget språk matchar ”{{query}}”.",
       "count_one": "Diktering fungerar på {{count}} språk. Du kan ändra dina senare i Inställningar.",
       "count_other": "Diktering fungerar på {{count}} språk. Du kan ändra dina senare i Inställningar.",
-      "weak_one": "Igenkänningen är mindre exakt på {{languages}}. Det fungerar ändå, men räkna med fler fel.",
-      "weak_other": "Igenkänningen är mindre exakt på {{languages}}. De fungerar ändå, men räkna med fler fel."
+      "weak_one": "Igenkänningen är mindre exakt på {{languages}}. Att diktera på det språket fungerar ändå, men räkna med fler fel.",
+      "weak_other": "Igenkänningen är mindre exakt på {{languages}}. Att diktera på de språken fungerar ändå, men räkna med fler fel."
     },
     "permissions": {
       "title": "Två behörigheter",
@@ -2439,7 +2411,7 @@
       "how": {
         "title": "Så viskar du till din Mac",
         "body": "Med den inbyggda mikrofonen i din Mac gör fyra vanor en tyst röst lätt att höra.",
-        "distance": "Omkring 30 cm, ungefär en underarms längd, från mikrofonen",
+        "distance": "Omkring 30 cm (en underarms längd) från mikrofonen",
         "tips": {
           "distance": {
             "title": "Sitt nära.",
@@ -2461,7 +2433,7 @@
       },
       "practice": {
         "title": "Viska det här mejlet",
-        "body": "En riktig inspelning: den hamnar i det ritade meddelandet nedan och ingen annanstans.",
+        "body": "Det här är en riktig diktering. Texten hamnar bara i meddelandet nedan och ingen annanstans.",
         "doneTitle": "Hörde dig, även när du viskade",
         "doneBody": "Mer krävs inte. Fortsätt för att hitta mikrofonen som passar dig.",
         "instruction": "Håll ned {{key}}, viska mejlet nedan och släpp sedan.",
@@ -2500,7 +2472,7 @@
         },
         "wired_headset": {
           "name": "Headset med sladd",
-          "hint": "En mikrofon på en kort arm eller sladd, nära munnen",
+          "hint": "Hörlurar med sladd och en mikrofon nära munnen",
           "why": "Mikrofonen sitter precis vid munnen, så även en svag viskning går fram, var du än är."
         },
         "wireless_earbuds": {
@@ -2599,7 +2571,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Så att Wispr Bro kan höra dig. Ljudet omvandlas till text på den här datorn och laddas aldrig upp."
+          "why": "Så att Wispr Bro kan höra dig. Ljudet omvandlas till text på din Mac och laddas aldrig upp."
         },
         "accessibility": {
           "why": "Så att ditt kortkommando fungerar i alla appar och Wispr Bro kan skriva texten där markören står."
@@ -2647,10 +2619,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Starta Wispr Bro automatiskt när du loggar in på din dator."
+          "description": "Starta Wispr Bro automatiskt när du loggar in på din Mac."
         },
         "showTrayIcon": {
-          "description": "Visa Wispr Bro-ikonen i systemfältet."
+          "description": "Visa Wispr Bro-ikonen i menyraden."
         }
       },
       "debug": {

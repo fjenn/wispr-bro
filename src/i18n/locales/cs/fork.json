@@ -52,7 +52,7 @@
       "version": "Verze",
       "channel": "Kanál",
       "key": "Podpisový klíč",
-      "endpoints": "Zdroje",
+      "endpoints": "Zdroje aktualizací",
       "checksOff": "Kontrola aktualizací je vypnutá (Nastavení › Pokročilé, nebo je nastaven nouzový vypínač).",
       "check": "Zkontrolovat",
       "checking": "Kontroluje se…",
@@ -73,7 +73,7 @@
       "contextAwareness": "Povědomí o kontextu",
       "contextAwarenessHint": "Podle jmen v textu u kurzoru je napíše správně. Tento text zůstává na tomto Macu a nikdy se neukládá.",
       "transforms": "Transformace",
-      "transformsHint": "⌥1 vylepší vybraný text a ⌥2 z něj udělá srozumitelnější AI prompt. Když je to zapnuté, tyto klávesy nahrazují ¡ a ™.",
+      "transformsHint": "⌥1 vylepší vybraný text, ⌥2 z něj udělá srozumitelnější AI prompt a ⌥O ukáže, co změnila poslední transformace. Když je to zapnuté, tyto klávesy už nepíší ¡, ™ ani ø.",
       "transformsSafeShortcuts": "Použít místo toho ⌃⌥1 a ⌃⌥2",
       "transformsSafeShortcutsHint": "Ponechá ¡ a ™ dostupné pod ⌥1 a ⌥2.",
       "cleanupLevel": "Úroveň vyčištění",
@@ -150,7 +150,7 @@
       "notSet": "Nenastaveno",
       "current": "Zkratka: {{shortcut}}",
       "listening": "Stiskněte zkratku…",
-      "listeningHelp": "Stiskněte požadované klávesy nebo tlačítko myši. Escape zruší.",
+      "listeningHelp": "Stiskněte požadované klávesy nebo tlačítko myši. Esc zruší.",
       "record": "Nahrát",
       "cancel": "Zrušit",
       "clear": "Vymazat",
@@ -167,7 +167,7 @@
         "help": "Zkopíruje poslední diktát do schránky."
       },
       "pressEnter": {
-        "title": "Stisknout Enter",
+        "title": "Stisknout Return",
         "help": "Stiskne za vás Return, například k odeslání právě nadiktované zprávy.",
         "mouse": "Tlačítko myši v aplikaci pod ukazatelem dál kliká jako obvykle, proto se nejlépe hodí boční tlačítko (zpět nebo vpřed)."
       },
@@ -388,11 +388,11 @@
       "saveFailed": "Zkratku nelze uložit.",
       "conflict": "Používá ji také akce {{action}}. Vyberte jinou zkratku.",
       "invalid": "Tato zkratka není rozpoznána.",
-      "unsupported": "Modul klávesových zkratek nemůže tuto kombinaci pro danou akci použít.",
+      "unsupported": "Tuto kombinaci nelze pro tuto akci použít jako zkratku.",
       "capture": {
         "starting": "Spouští se zachytávání zkratky…",
         "listening": "Stiskněte zkratku…",
-        "listeningHelp": "Stiskněte kombinaci kláves nebo tlačítko myši, které chcete použít. Escape zruší.",
+        "listeningHelp": "Stiskněte kombinaci kláves nebo tlačítko myši, které chcete použít. Esc zruší.",
         "cancel": "Zrušit",
         "close": "Zpět",
         "secure": "Když je aktivní zabezpečené zadávání, nelze zkratky zachytávat. Opusťte pole pro heslo nebo vypněte Zabezpečené zadávání z klávesnice a zkuste to znovu.",
@@ -405,7 +405,7 @@
         "command_mode": "Režim příkazů",
         "paste_last": "Vložit poslední diktát",
         "copy_last": "Zkopírovat poslední diktát",
-        "press_enter": "Stisknout Enter",
+        "press_enter": "Stisknout Return",
         "undo_cancel": "Vrátit zrušení",
         "transform": {
           "polish": "Použít Polish na výběr",
@@ -420,7 +420,7 @@
         "dictate": "Během mluvení držte zkratku; uvolněním diktování dokončíte.",
         "hands_free": "Spouštějte a zastavujte diktování bez držení klávesy.",
         "cancel": "Zastaví aktuální diktování bez vložení textu.",
-        "command_mode": "Podržte fn a Control a řekněte, jak text upravit nebo napsat.",
+        "command_mode": "Podržte zkratku a řekněte, jak text upravit nebo napsat.",
         "paste_last": "Znovu vloží váš nejnovější diktát.",
         "copy_last": "Zkopíruje váš nejnovější diktát do schránky.",
         "press_enter": "Stiskne Return v aplikaci, kde píšete. Hodí se k tomu boční tlačítko myši.",
@@ -538,58 +538,30 @@
           "quiet": "Diktovat potichu: ukázat jak"
         },
         "empty": {
-          "title": "Zde se zobrazí vaše diktáty",
-          "body": "Každý se ukládá na tomto Macu i se zvukem, takže ho můžete později zkopírovat nebo zkontrolovat.",
-          "action": "Otevřít Historii"
+          "title": "Zde se zobrazí vaše diktáty"
         }
       },
       "insights": {
         "title": "Statistiky",
         "empty": {
           "title": "Statistiky potřebují pár diktátů",
-          "body": "Rychlost mluvení, série a ušetřený čas se zobrazí, až budete chvíli diktovat.",
           "action": "Přejít na Diktování"
         }
       },
       "dictionary": {
-        "title": "Slovník",
-        "empty": {
-          "title": "Naučte {{appName}} svá slova",
-          "body": "Jména, názvy produktů a zkratky, které přidáte, budou pokaždé napsané správně. Než bude tato stránka hotová, najdete svá slova v Nastavení.",
-          "action": "Otevřít vlastní slova"
-        }
+        "title": "Slovník"
       },
       "snippets": {
-        "title": "Úryvky",
-        "empty": {
-          "title": "Úryvky jsou na cestě",
-          "body": "Řekněte krátký pokyn, třeba „moje adresa“, a získejte celý text. Tato stránka přijde v některé z dalších aktualizací.",
-          "action": "Přejít na Diktování"
-        }
+        "title": "Úryvky"
       },
       "style": {
-        "title": "Styl",
-        "empty": {
-          "title": "Styly jsou na cestě",
-          "body": "Zvolte, jak uhlazený má být text v jednotlivých druzích aplikací, od formálního e-mailu po uvolněný chat. Tato stránka přijde v některé z dalších aktualizací.",
-          "action": "Přejít na Diktování"
-        }
+        "title": "Styl"
       },
       "transforms": {
-        "title": "Transformace",
-        "empty": {
-          "title": "Transformace jsou na cestě",
-          "body": "Vyberte text a jednou zkratkou ho přepište: kratší, srozumitelnější nebo lépe uspořádaný. Tato stránka přijde v některé z dalších aktualizací.",
-          "action": "Přejít na Diktování"
-        }
+        "title": "Transformace"
       },
       "scratchpad": {
-        "title": "Poznámkový blok",
-        "empty": {
-          "title": "Poznámkový blok je na cestě",
-          "body": "Rychlé místo pro diktování poznámek, než je pošlete jinam. Tato stránka přijde v některé z dalších aktualizací.",
-          "action": "Přejít na Diktování"
-        }
+        "title": "Poznámkový blok"
       },
       "share": {
         "title": "Sdílet s přítelem"
@@ -626,7 +598,7 @@
       "paused": "Po třech neúspěšných pokusech jsou automatické aktualizace pozastaveny do {{time}}.",
       "manualOnly": "Toto je vývojové sestavení: aktualizace se kontrolují, jen když o to požádáte.",
       "readyHint": "Nainstaluje se sama, jakmile 20 minut nebudete diktovat, nebo při ukončení aplikace.",
-      "policy": "Aktualizace se stahují na pozadí a instalují se, jen když nediktujete, nebo při ukončení aplikace.",
+      "policy": "Aktualizace se stahují na pozadí a instalují se, když 20 minut nediktujete, nebo při ukončení aplikace.",
       "needsPassword": "Tato kopie aplikace je ve složce, jejíž změna vyžaduje heslo správce, takže se aktualizace nainstalují, jen když zvolíte Restartovat."
     }
   },
@@ -696,9 +668,9 @@
       "wordsDictated_few": "{{count}} nadiktovaná slova",
       "wordsDictated_many": "{{count}} nadiktovaného slova",
       "wordsDictated_other": "{{count}} nadiktovaných slov",
-      "copyLast": "Zkopírovat poslední přepis",
-      "copyLastPreview": "Zkopírovat poslední přepis: „{{preview}}“",
-      "copyLastConcealed": "Zkopírovat poslední přepis (text skrytý)",
+      "copyLast": "Zkopírovat poslední diktát",
+      "copyLastPreview": "Zkopírovat poslední diktát: „{{preview}}“",
+      "copyLastConcealed": "Zkopírovat poslední diktát (text skrytý)",
       "microphone": "Mikrofon",
       "languages": "Jazyky",
       "moreLanguages": "Přidat nebo odstranit jazyky…",
@@ -720,7 +692,7 @@
       "sendFeedback": "Odeslat zpětnou vazbu…",
       "openApp": "Otevřít {{appName}}",
       "checkUpdates": "Vyhledat aktualizace…",
-      "pasteLast": "Vložit poslední přepis",
+      "pasteLast": "Vložit poslední diktát",
       "cancelDictation": "Zrušit diktování",
       "shortcutsBlocked": "Zkratky jsou blokované – otevřít Nastavení",
       "undo": "Odvolat",
@@ -869,7 +841,10 @@
         "title_few": "Při ukončení aplikace se uložily {{count}} nahrávky",
         "title_many": "Při ukončení aplikace se uložilo {{count}} nahrávky",
         "title_other": "Při ukončení aplikace se uložilo {{count}} nahrávek",
-        "body": "Nahrávání ještě běželo, když se {{appName}} zavřel. Najdete je v Historii, kde se přepíší."
+        "body_one": "Když se {{appName}} zavřel, ještě jste diktovali. Nahrávka se přepisuje a objeví se v Historii.",
+        "body_few": "Když se {{appName}} zavřel, ještě jste diktovali. Nahrávky se přepisují a objeví se v Historii.",
+        "body_many": "Když se {{appName}} zavřel, ještě jste diktovali. Nahrávky se přepisují a objeví se v Historii.",
+        "body_other": "Když se {{appName}} zavřel, ještě jste diktovali. Nahrávky se přepisují a objeví se v Historii."
       }
     },
     "scratchpad": {
@@ -901,7 +876,7 @@
         "micLostWarning": "Mikrofon se odpojil. Co jste dosud řekli, zůstává uložené.",
         "undo": "Odvolání je na liště diktování k dispozici 4 sekundy.",
         "diff": "Změny z transformace jsou připravené ke kontrole.",
-        "secureInputWarning": "Je zapnutý zabezpečený vstup. Klávesy fn a Space nemohou zamknout diktování. Escape nebo tlačítko zavření ho stále zruší.",
+        "secureInputWarning": "Je zapnutý zabezpečený vstup. Klávesy fn a Space nemohou zamknout diktování. Esc nebo tlačítko zavření ho stále zruší.",
         "inserted": "Text vložen"
       },
       "message": {
@@ -1228,10 +1203,10 @@
         "invalid_few": "nelze importovat",
         "invalid_many": "nelze importovat",
         "invalid_other": "nelze importovat",
-        "overLimit_one": "Ve slovníku je místo ještě pro {{room}}; {{count}} nový záznam se nevejde.",
-        "overLimit_few": "Ve slovníku je místo ještě pro {{room}}; {{count}} nové záznamy se nevejdou.",
-        "overLimit_many": "Ve slovníku je místo ještě pro {{room}}; {{count}} nového záznamu se nevejde.",
-        "overLimit_other": "Ve slovníku je místo ještě pro {{room}}; {{count}} nových záznamů se nevejde.",
+        "overLimit_one": "{{count}} nový záznam se nevejde (volné místo ve slovníku: {{room}}).",
+        "overLimit_few": "{{count}} nové záznamy se nevejdou (volné místo ve slovníku: {{room}}).",
+        "overLimit_many": "{{count}} nového záznamu se nevejde (volné místo ve slovníku: {{room}}).",
+        "overLimit_other": "{{count}} nových záznamů se nevejde (volné místo ve slovníku: {{room}}).",
         "showNew": "Zobrazit nové záznamy",
         "more_one": "a {{count}} další",
         "more_few": "a {{count}} další",
@@ -1346,10 +1321,9 @@
     },
     "commandMode": {
       "title": "Příkazový režim",
-      "shortcut": "fn ⌃",
       "on": "Zapnuto",
       "off": "Vypnuto",
-      "help": "Podržte fn a Control a řekněte, jak změnit výběr nebo co napsat. Bez výběru poslouží pole jako kontext a výsledek se vloží na místo kurzoru. Vše zůstává na tomto Macu; příkazový režim nikdy nic nevyhledává. Když je vypnutý, fn a Control diktují normálně."
+      "help": "Podržte zkratku Režimu příkazů a řekněte, jak změnit výběr nebo co napsat. Bez výběru poslouží pole jako kontext a výsledek se vloží na místo kurzoru. Vše zůstává na tomto Macu; Režim příkazů nikdy nic nevyhledává. Když je vypnutý, zkratka diktuje normálně."
     },
     "auto": {
       "title": "Použít po každém diktování",
@@ -1440,7 +1414,7 @@
       "paste": "Vložit ukázku",
       "load": "Načíst .txt nebo .md",
       "remove": "Odstranit ukázku {{number}}",
-      "readError": "Vyberte soubor .txt nebo .md, který má nejvýše 1 500 znaků.",
+      "readError": "Vyberte soubor .txt nebo .md, který má nejvýše {{chars}} znaků.",
       "help_one": "Vložte nebo načtěte až {{max}} ukázku, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou.",
       "help_few": "Vložte nebo načtěte až {{max}} ukázky, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou.",
       "help_many": "Vložte nebo načtěte až {{max}} ukázky, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou.",
@@ -1597,7 +1571,7 @@
       "trigger_control_character": "Povel se musí vejít na jeden řádek.",
       "empty_body": "Napište text, který se má vložit.",
       "body_control_character": "Text obsahuje znak, který nelze napsat. Odstraňte ho a zkuste to znovu.",
-      "full": "Dosáhli jste maximálního počtu úryvků. Nejdřív některé smažte.",
+      "full": "Seznam úryvků je plný. Nejdřív některé úryvky smažte.",
       "trigger_too_long_one": "Povel může mít nejvýše {{max}} znak.",
       "trigger_too_long_few": "Povel může mít nejvýše {{max}} znaky.",
       "trigger_too_long_many": "Povel může mít nejvýše {{max}} znaku.",
@@ -1616,7 +1590,7 @@
       "body": "Napsat",
       "bodyPlaceholder": "Text, který se má napsat. Zalomení řádků se zachovají.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Funguje samostatně i uprostřed věty, bez ohledu na velikost písmen. Uprostřed věty musíte interpunkci v povelu vyslovit stejně. Text se napíše přesně tak, jak je uložený.",
+      "hint": "Funguje samostatně i uprostřed věty, bez ohledu na velikost písmen. Uprostřed věty musí interpunkce v povelu přesně odpovídat nadiktovanému textu. Text se napíše přesně tak, jak je uložený.",
       "cancel": "Zrušit",
       "add": "Přidat úryvek",
       "save": "Uložit",
@@ -1638,10 +1612,10 @@
         "columns": "V prvním sloupci je to, co řeknete, ve druhém text, který se má napsat.",
         "lines": "Text se zalomením řádků patří do uvozovek, tak jak ho tabulkové aplikace ukládají.",
         "encoding": "Uložte soubor jako CSV UTF-8, aby se zachovala diakritika a jiná písma.",
-        "limits_one": "Povel nejvýše {{max}} znak, text nejvýše {{maxBody}}, maximálně 1 000 řádků a 3 MB na soubor.",
-        "limits_few": "Povel nejvýše {{max}} znaky, text nejvýše {{maxBody}}, maximálně 1 000 řádků a 3 MB na soubor.",
-        "limits_many": "Povel nejvýše {{max}} znaku, text nejvýše {{maxBody}}, maximálně 1 000 řádků a 3 MB na soubor.",
-        "limits_other": "Povel nejvýše {{max}} znaků, text nejvýše {{maxBody}}, maximálně 1 000 řádků a 3 MB na soubor."
+        "limits_one": "Povel nejvýše {{max}} znak a text nejvýše {{maxBody}}; maximálně 1 000 řádků a 3 MB na soubor.",
+        "limits_few": "Povel nejvýše {{max}} znaky a text nejvýše {{maxBody}}; maximálně 1 000 řádků a 3 MB na soubor.",
+        "limits_many": "Povel nejvýše {{max}} znaku a text nejvýše {{maxBody}}; maximálně 1 000 řádků a 3 MB na soubor.",
+        "limits_other": "Povel nejvýše {{max}} znaků a text nejvýše {{maxBody}}; maximálně 1 000 řádků a 3 MB na soubor."
       },
       "review": {
         "new_one": "nový úryvek",
@@ -1660,10 +1634,10 @@
         "invalid_few": "nelze importovat",
         "invalid_many": "nelze importovat",
         "invalid_other": "nelze importovat",
-        "overLimit_one": "Místo zbývá ještě pro {{room}}, {{count}} nový úryvek se nevejde.",
-        "overLimit_few": "Místo zbývá ještě pro {{room}}, {{count}} nové úryvky se nevejdou.",
-        "overLimit_many": "Místo zbývá ještě pro {{room}}, {{count}} nového úryvku se nevejde.",
-        "overLimit_other": "Místo zbývá ještě pro {{room}}, {{count}} nových úryvků se nevejde.",
+        "overLimit_one": "{{count}} nový úryvek se nevejde (volné místo: {{room}}).",
+        "overLimit_few": "{{count}} nové úryvky se nevejdou (volné místo: {{room}}).",
+        "overLimit_many": "{{count}} nového úryvku se nevejde (volné místo: {{room}}).",
+        "overLimit_other": "{{count}} nových úryvků se nevejde (volné místo: {{room}}).",
         "ignoredRows_one": "Načte se jen prvních 1 000 řádků, {{count}} další řádek se vynechá.",
         "ignoredRows_few": "Načte se jen prvních 1 000 řádků, {{count}} další řádky se vynechají.",
         "ignoredRows_many": "Načte se jen prvních 1 000 řádků, {{count}} dalšího řádku se vynechá.",
@@ -1707,10 +1681,10 @@
         "invalid_few": "{{count}} řádky nelze importovat",
         "invalid_many": "{{count}} řádku nelze importovat",
         "invalid_other": "{{count}} řádků nelze importovat",
-        "overLimit_one": "{{count}} se nevešel",
-        "overLimit_few": "{{count}} se nevešly",
-        "overLimit_many": "{{count}} se nevešlo",
-        "overLimit_other": "{{count}} se nevešlo"
+        "overLimit_one": "{{count}} se nevešel (seznam úryvků je plný)",
+        "overLimit_few": "{{count}} se nevešly (seznam úryvků je plný)",
+        "overLimit_many": "{{count}} se nevešlo (seznam úryvků je plný)",
+        "overLimit_other": "{{count}} se nevešlo (seznam úryvků je plný)"
       }
     },
     "export": {
@@ -1855,10 +1829,10 @@
     "results_few": "Nalezena {{count}} diktování",
     "results_many": "Nalezeno {{count}} diktování",
     "results_other": "Nalezeno {{count}} diktování",
-    "resultsMore_one": "{{count}} nejnovější shoda. Další zobrazíte posunutím.",
-    "resultsMore_few": "{{count}} nejnovější shody. Další zobrazíte posunutím.",
-    "resultsMore_many": "{{count}} nejnovější shody. Další zobrazíte posunutím.",
-    "resultsMore_other": "{{count}} nejnovějších shod. Další zobrazíte posunutím.",
+    "resultsMore_one": "Zobrazuje se {{count}} nejnovější shoda. Další zobrazíte posunutím.",
+    "resultsMore_few": "Zobrazují se {{count}} nejnovější shody. Další zobrazíte posunutím.",
+    "resultsMore_many": "Zobrazuje se {{count}} nejnovější shody. Další zobrazíte posunutím.",
+    "resultsMore_other": "Zobrazuje se {{count}} nejnovějších shod. Další zobrazíte posunutím.",
     "search": {
       "open": "Hledat v historii",
       "label": "Hledat v diktováních",
@@ -2056,8 +2030,8 @@
       "moveTo": "Přesunout do",
       "useDefault": "Zpět do výchozí skupiny ({{group}})",
       "remove": "Odstranit ze skupiny {{group}}",
-      "autoSend": "Po diktování stisknout Enter",
-      "autoSendOn": "po diktování stiskne Enter",
+      "autoSend": "Po diktování stisknout Return",
+      "autoSendOn": "po diktování stiskne Return",
       "notInstalled": "není nainstalováno",
       "aiChat": "Chat s AI: slova se vkládají vyčištěná, bez stylu.",
       "moved": "{{app}} teď používá styl {{group}}.",
@@ -2116,7 +2090,7 @@
       "title": "Mluvte a vaše slova se objeví",
       "subtitle": "Podržte klávesu, mluvte, pusťte. Čistý text se objeví tam, kde právě píšete.",
       "privacyTitle": "Vše zůstává na tomto Macu",
-      "privacy": "Váš hlas ani text nikdy neopustí tento počítač. Žádný účet, žádný cloud, žádné sledování.",
+      "privacy": "Váš hlas ani text nikdy neopustí váš Mac. Žádný účet, žádný cloud, žádné sledování.",
       "download": "Příprava rozpoznávání řeči začíná a poběží na pozadí.",
       "start": "Začít"
     },
@@ -2138,10 +2112,10 @@
       "count_few": "Diktování funguje v {{count}} jazycích. Výběr můžete později změnit v Nastavení.",
       "count_many": "Diktování funguje v {{count}} jazyka. Výběr můžete později změnit v Nastavení.",
       "count_other": "Diktování funguje v {{count}} jazycích. Výběr můžete později změnit v Nastavení.",
-      "weak_one": "Rozpoznávání je méně přesné pro jazyk {{languages}}. Funguje, ale počítejte s více chybami.",
-      "weak_few": "Rozpoznávání je méně přesné pro jazyky {{languages}}. Fungují, ale počítejte s více chybami.",
-      "weak_many": "Rozpoznávání je méně přesné pro jazyky {{languages}}. Fungují, ale počítejte s více chybami.",
-      "weak_other": "Rozpoznávání je méně přesné pro jazyky {{languages}}. Fungují, ale počítejte s více chybami."
+      "weak_one": "Rozpoznávání je méně přesné pro jazyk {{languages}}. Diktování v něm funguje, ale počítejte s více chybami.",
+      "weak_few": "Rozpoznávání je méně přesné pro jazyky {{languages}}. Diktování v nich funguje, ale počítejte s více chybami.",
+      "weak_many": "Rozpoznávání je méně přesné pro jazyky {{languages}}. Diktování v nich funguje, ale počítejte s více chybami.",
+      "weak_other": "Rozpoznávání je méně přesné pro jazyky {{languages}}. Diktování v nich funguje, ale počítejte s více chybami."
     },
     "permissions": {
       "title": "Dvě oprávnění",
@@ -2265,14 +2239,14 @@
       "hoursPerDay_many": "{{hours}} hodiny denně",
       "hoursPerDay_other": "{{hours}} hodin denně",
       "takeTest": "Udělat test psaní",
-      "basisMeasured_one": "Vychází z vaší rychlosti psaní {{wpm}} slovo za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisMeasured_few": "Vychází z vaší rychlosti psaní {{wpm}} slova za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisMeasured_many": "Vychází z vaší rychlosti psaní {{wpm}} slova za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisMeasured_other": "Vychází z vaší rychlosti psaní {{wpm}} slov za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisAverage_one": "Vychází z průměrné rychlosti psaní {{wpm}} slovo za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisAverage_few": "Vychází z průměrné rychlosti psaní {{wpm}} slova za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisAverage_many": "Vychází z průměrné rychlosti psaní {{wpm}} slova za minutu a mluvení rychlostí asi {{speaking}} slov za minutu.",
-      "basisAverage_other": "Vychází z průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení rychlostí asi {{speaking}} slov za minutu."
+      "basisMeasured_one": "Vychází z vaší rychlosti psaní {{wpm}} slovo za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisMeasured_few": "Vychází z vaší rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisMeasured_many": "Vychází z vaší rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisMeasured_other": "Vychází z vaší rychlosti psaní {{wpm}} slov za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisAverage_one": "Vychází z průměrné rychlosti psaní {{wpm}} slovo za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisAverage_few": "Vychází z průměrné rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisAverage_many": "Vychází z průměrné rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
+      "basisAverage_other": "Vychází z průměrné rychlosti psaní {{wpm}} slov za minutu a rychlosti mluvení asi {{speaking}} slov za minutu."
     },
     "typing": {
       "title": "Jak rychle píšete?",
@@ -2613,7 +2587,7 @@
       "how": {
         "title": "Jak šeptat svému Macu",
         "body": "S vestavěným mikrofonem Macu vám čtyři zvyky pomohou, aby byl tichý hlas dobře slyšet.",
-        "distance": "Asi 30 cm od mikrofonu, zhruba délka předloktí",
+        "distance": "Asi 30 cm (délka předloktí) od mikrofonu",
         "tips": {
           "distance": {
             "title": "Seďte blízko.",
@@ -2635,7 +2609,7 @@
       },
       "practice": {
         "title": "Zašeptejte tento e-mail",
-        "body": "Skutečný záznam: text se objeví jen v zobrazené zprávě níže a nikde jinde.",
+        "body": "Toto je skutečné diktování. Text se objeví jen ve zprávě níže a nikde jinde.",
         "doneTitle": "Slyšeli jsme vás, i když šeptáte",
         "doneBody": "Nic víc není potřeba. Pokračujte a najděte mikrofon, který vám vyhovuje.",
         "instruction": "Podržte {{key}}, zašeptejte e-mail níže a pak pusťte.",
@@ -2674,7 +2648,7 @@
         },
         "wired_headset": {
           "name": "Kabelová náhlavní souprava",
-          "hint": "Mikrofon na krátkém raménku nebo kabelu, blízko úst",
+          "hint": "Sluchátka s kabelem a mikrofonem blízko úst",
           "why": "Mikrofon je přímo u úst, takže projde i tichý šepot, ať jste kdekoli."
         },
         "wireless_earbuds": {
@@ -2773,7 +2747,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Aby vás Wispr Bro slyšel. Zvuk se převádí na text v tomto počítači a nikam se neodesílá."
+          "why": "Aby vás Wispr Bro slyšel. Zvuk se převádí na text na tomto Macu a nikam se neodesílá."
         },
         "accessibility": {
           "why": "Aby zkratka fungovala v každé aplikaci a Wispr Bro mohl psát text tam, kde je kurzor."
@@ -2821,7 +2795,7 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Automaticky spouštět Wispr Bro po přihlášení k počítači."
+          "description": "Automaticky spouštět Wispr Bro po přihlášení k Macu."
         },
         "showTrayIcon": {
           "description": "Zobrazovat ikonu Wispr Bro na řádku nabídek."

@@ -51,7 +51,7 @@
       "version": "Versión",
       "channel": "Canal",
       "key": "Clave de firma",
-      "endpoints": "Fuentes",
+      "endpoints": "Fuentes de actualización",
       "checksOff": "La búsqueda de actualizaciones está desactivada (Ajustes › Avanzado, o hay un interruptor de emergencia activo).",
       "check": "Comprobar ahora",
       "checking": "Comprobando…",
@@ -72,7 +72,7 @@
       "contextAwareness": "Reconocimiento del contexto",
       "contextAwarenessHint": "Usa los nombres del texto cercano al cursor para escribirlos bien. Ese texto se queda en este Mac y nunca se guarda.",
       "transforms": "Transformaciones",
-      "transformsHint": "⌥1 pule el texto seleccionado y ⌥2 lo convierte en un prompt de IA más claro. Mientras esté activado, esas teclas sustituyen a ¡ y ™.",
+      "transformsHint": "⌥1 pule el texto seleccionado, ⌥2 lo convierte en un prompt de IA más claro y ⌥O muestra qué cambió la última transformación. Mientras esté activado, esas teclas ya no escriben ¡, ™ ni ø.",
       "transformsSafeShortcuts": "Usar ⌃⌥1 y ⌃⌥2",
       "transformsSafeShortcutsHint": "Mantiene ¡ y ™ disponibles con ⌥1 y ⌥2.",
       "cleanupLevel": "Nivel de limpieza",
@@ -387,7 +387,7 @@
       "saveFailed": "No se ha podido guardar esa función rápida.",
       "conflict": "Ya la usa {{action}}. Elige otra función rápida.",
       "invalid": "No se reconoce esta función rápida.",
-      "unsupported": "El motor de funciones rápidas no puede usar esta combinación para esta acción.",
+      "unsupported": "Esta combinación no se puede usar como función rápida para esta acción.",
       "capture": {
         "starting": "Iniciando la captura de la función rápida…",
         "listening": "Pulsa una función rápida…",
@@ -419,7 +419,7 @@
         "dictate": "Mantén pulsada la función rápida mientras hablas y suéltala para terminar.",
         "hands_free": "Inicia y detén el dictado sin mantener pulsada ninguna tecla.",
         "cancel": "Detiene el dictado actual sin insertarlo.",
-        "command_mode": "Mantén pulsadas fn y Ctrl mientras dices cómo editar o escribir el texto.",
+        "command_mode": "Mantén pulsada la función rápida mientras dices cómo editar o escribir el texto.",
         "paste_last": "Vuelve a pegar tu dictado más reciente.",
         "copy_last": "Copia tu dictado más reciente en el portapapeles.",
         "press_enter": "Pulsa Retorno en la app en la que escribes. Un botón lateral del ratón va bien para esto.",
@@ -535,58 +535,30 @@
           "quiet": "Dictar en voz baja: muéstrame cómo"
         },
         "empty": {
-          "title": "Tus dictados aparecerán aquí",
-          "body": "Cada uno se guarda en este Mac con su audio, para que puedas copiarlo o revisarlo más tarde.",
-          "action": "Abrir Historial"
+          "title": "Tus dictados aparecerán aquí"
         }
       },
       "insights": {
         "title": "Estadísticas",
         "empty": {
           "title": "Las estadísticas necesitan unos cuantos dictados",
-          "body": "Tu velocidad al hablar, tus rachas y el tiempo que ahorras aparecerán cuando lleves un tiempo dictando.",
           "action": "Ir a Dictado"
         }
       },
       "dictionary": {
-        "title": "Diccionario",
-        "empty": {
-          "title": "Enseña tus palabras a {{appName}}",
-          "body": "Los nombres, términos de producto y siglas que añadas se escriben bien siempre. Hasta que esta página esté lista, tus palabras están en Ajustes.",
-          "action": "Abrir palabras personalizadas"
-        }
+        "title": "Diccionario"
       },
       "snippets": {
-        "title": "Fragmentos",
-        "empty": {
-          "title": "Los fragmentos llegarán pronto",
-          "body": "Di una frase corta como “mi dirección” y obtén el texto completo. Esta página llegará en una próxima actualización.",
-          "action": "Ir a Dictado"
-        }
+        "title": "Fragmentos"
       },
       "style": {
-        "title": "Estilo",
-        "empty": {
-          "title": "Los estilos llegarán pronto",
-          "body": "Elige lo pulido que quieres el texto en cada tipo de app, desde el correo formal hasta el chat informal. Esta página llegará en una próxima actualización.",
-          "action": "Ir a Dictado"
-        }
+        "title": "Estilo"
       },
       "transforms": {
-        "title": "Transformaciones",
-        "empty": {
-          "title": "Las transformaciones llegarán pronto",
-          "body": "Selecciona texto y reescríbelo con una función rápida: más corto, más claro o mejor organizado. Esta página llegará en una próxima actualización.",
-          "action": "Ir a Dictado"
-        }
+        "title": "Transformaciones"
       },
       "scratchpad": {
-        "title": "Bloc de notas",
-        "empty": {
-          "title": "El Bloc de notas llegará pronto",
-          "body": "Un sitio rápido para dictar notas antes de llevarlas a otra parte. Esta página llegará en una próxima actualización.",
-          "action": "Ir a Dictado"
-        }
+        "title": "Bloc de notas"
       },
       "share": {
         "title": "Compartir con un amigo"
@@ -623,7 +595,7 @@
       "paused": "Tras tres intentos fallidos, las actualizaciones automáticas están en pausa hasta {{time}}.",
       "manualOnly": "Esta es una versión de desarrollo: solo se buscan actualizaciones cuando lo pides.",
       "readyHint": "Se instala sola cuando llevas 20 minutos sin dictar o cuando sales de la app.",
-      "policy": "Las actualizaciones se descargan en segundo plano y solo se instalan cuando no estás dictando o cuando sales de la app.",
+      "policy": "Las actualizaciones se descargan en segundo plano y se instalan cuando llevas 20 minutos sin dictar o cuando sales de la app.",
       "needsPassword": "Esta copia de la app está en una carpeta que requiere una contraseña de administrador para modificarla, así que las actualizaciones solo se instalan cuando eliges “Reiniciar ahora”."
     }
   },
@@ -657,7 +629,7 @@
       "noColumn": "No está en este archivo",
       "column": "Columna {{letter}}",
       "columnNamed": "Columna {{letter}}: {{name}}",
-      "mapRequired": "Elige una columna para cada campo que no sea opcional.",
+      "mapRequired": "Elige una columna para cada campo obligatorio.",
       "previewCaption_one": "Vista previa de la primera fila",
       "previewCaption_many": "Vista previa de las primeras {{count}} de filas",
       "previewCaption_other": "Vista previa de las primeras {{count}} filas",
@@ -681,7 +653,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictado",
-      "vocabulary": "Vocabulario",
+      "vocabulary": "Diccionario",
       "help": "Ayuda",
       "file": "Archivo",
       "edit": "Editar",
@@ -690,9 +662,9 @@
       "wordsDictated_one": "{{count}} palabra dictada",
       "wordsDictated_many": "{{count}} de palabras dictadas",
       "wordsDictated_other": "{{count}} palabras dictadas",
-      "copyLast": "Copiar la última transcripción",
-      "copyLastPreview": "Copiar la última transcripción: “{{preview}}”",
-      "copyLastConcealed": "Copiar la última transcripción (texto oculto)",
+      "copyLast": "Copiar el último dictado",
+      "copyLastPreview": "Copiar el último dictado: “{{preview}}”",
+      "copyLastConcealed": "Copiar el último dictado (texto oculto)",
       "microphone": "Micrófono",
       "languages": "Idiomas",
       "moreLanguages": "Añadir o quitar idiomas…",
@@ -712,7 +684,7 @@
       "sendFeedback": "Enviar comentarios…",
       "openApp": "Abrir {{appName}}",
       "checkUpdates": "Buscar actualizaciones…",
-      "pasteLast": "Pegar la última transcripción",
+      "pasteLast": "Pegar el último dictado",
       "cancelDictation": "Cancelar dictado",
       "shortcutsBlocked": "Funciones rápidas bloqueadas: abre Ajustes",
       "undo": "Deshacer",
@@ -855,7 +827,9 @@
         "title_one": "Se guardó una grabación al cerrarse la app",
         "title_many": "Se guardaron {{count}} de grabaciones al cerrarse la app",
         "title_other": "Se guardaron {{count}} grabaciones al cerrarse la app",
-        "body": "Seguían grabando cuando {{appName}} se cerró. Están en Historial, donde se transcriben."
+        "body_one": "Seguías dictando cuando {{appName}} se cerró. La grabación se está transcribiendo y aparecerá en Historial.",
+        "body_many": "Seguías dictando cuando {{appName}} se cerró. Las grabaciones se están transcribiendo y aparecerán en Historial.",
+        "body_other": "Seguías dictando cuando {{appName}} se cerró. Las grabaciones se están transcribiendo y aparecerán en Historial."
       }
     },
     "scratchpad": {
@@ -1204,9 +1178,9 @@
         "invalid_one": "no se puede importar",
         "invalid_many": "no se pueden importar",
         "invalid_other": "no se pueden importar",
-        "overLimit_one": "Tu diccionario tiene espacio para {{room}} más; {{count}} entrada nueva no cabe.",
-        "overLimit_many": "Tu diccionario tiene espacio para {{room}} más; {{count}} de entradas nuevas no caben.",
-        "overLimit_other": "Tu diccionario tiene espacio para {{room}} más; {{count}} entradas nuevas no caben.",
+        "overLimit_one": "{{count}} entrada nueva no cabe (espacio libre en tu diccionario: {{room}}).",
+        "overLimit_many": "{{count}} de entradas nuevas no caben (espacio libre en tu diccionario: {{room}}).",
+        "overLimit_other": "{{count}} entradas nuevas no caben (espacio libre en tu diccionario: {{room}}).",
         "showNew": "Mostrar las nuevas entradas",
         "more_one": "y {{count}} más",
         "more_many": "y {{count}} más",
@@ -1311,10 +1285,9 @@
     },
     "commandMode": {
       "title": "Modo de comandos",
-      "shortcut": "fn ⌃",
       "on": "Activado",
       "off": "Desactivado",
-      "help": "Mantén pulsadas fn y Ctrl y di cómo cambiar la selección o qué escribir. Sin selección, el campo aporta contexto y el resultado se inserta en el cursor. Todo se queda en este Mac; el modo de comandos nunca busca nada en internet. Si está desactivado, fn y Ctrl dictan con normalidad."
+      "help": "Mantén pulsada la función rápida del modo de comandos y di cómo cambiar la selección o qué escribir. Sin selección, el campo aporta contexto y el resultado se inserta en el cursor. Todo se queda en este Mac; el modo de comandos nunca busca nada en internet. Si está desactivado, esa función rápida dicta con normalidad."
     },
     "auto": {
       "title": "Aplicar después de cada dictado",
@@ -1405,7 +1378,7 @@
       "paste": "Pegar un ejemplo",
       "load": "Cargar .txt o .md",
       "remove": "Eliminar ejemplo {{number}}",
-      "readError": "Elige un archivo .txt o .md de 1500 caracteres como máximo.",
+      "readError": "Elige un archivo .txt o .md de {{chars}} caracteres como máximo.",
       "help_one": "Pega o carga hasta {{max}} ejemplo de {{chars}} caracteres como máximo. Orienta el estilo sin formar parte del resultado.",
       "help_many": "Pega o carga hasta {{max}} de ejemplos de {{chars}} caracteres como máximo cada uno. Orientan el estilo sin formar parte del resultado.",
       "help_other": "Pega o carga hasta {{max}} ejemplos de {{chars}} caracteres como máximo cada uno. Orientan el estilo sin formar parte del resultado."
@@ -1553,7 +1526,7 @@
       "trigger_control_character": "Lo que dices tiene que caber en una línea.",
       "empty_body": "Escribe el texto que se escribirá.",
       "body_control_character": "El texto contiene un carácter que no se puede escribir. Elimínalo y vuelve a intentarlo.",
-      "full": "Has alcanzado el máximo de fragmentos que admite la app. Primero elimina algunos.",
+      "full": "Tu lista de fragmentos está llena. Primero elimina algunos fragmentos.",
       "trigger_too_long_one": "Lo que dices puede tener hasta {{max}} carácter.",
       "trigger_too_long_many": "Lo que dices puede tener hasta {{max}} de caracteres.",
       "trigger_too_long_other": "Lo que dices puede tener hasta {{max}} caracteres.",
@@ -1570,7 +1543,7 @@
       "body": "Escribir",
       "bodyPlaceholder": "El texto que se escribirá. Se conservan los saltos de línea.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Funciona sola o dentro de una oración, sin distinguir mayúsculas. Dentro de una oración, la puntuación de la frase clave debe decirse igual. El texto se escribe tal como se guardó.",
+      "hint": "Funciona sola o dentro de una oración, sin distinguir mayúsculas. Dentro de una oración, la puntuación de lo que dices debe coincidir exactamente con el texto dictado. El texto se escribe tal como se guardó.",
       "cancel": "Cancelar",
       "add": "Añadir fragmento",
       "save": "Guardar",
@@ -1592,9 +1565,9 @@
         "columns": "La primera columna es lo que dices; la segunda, el texto que se escribirá.",
         "lines": "Un texto con saltos de línea va entre comillas, tal como lo guardan las apps de hojas de cálculo.",
         "encoding": "Guárdala como CSV UTF-8 para que se conserven los acentos y otros alfabetos.",
-        "limits_one": "Lo que dices, hasta {{max}} carácter; los textos, hasta {{maxBody}}; como máximo 1000 filas y 3 MB por archivo.",
-        "limits_many": "Lo que dices, hasta {{max}} de caracteres; los textos, hasta {{maxBody}}; como máximo 1000 filas y 3 MB por archivo.",
-        "limits_other": "Lo que dices, hasta {{max}} caracteres; los textos, hasta {{maxBody}}; como máximo 1000 filas y 3 MB por archivo."
+        "limits_one": "Hasta {{max}} carácter para lo que dices y {{maxBody}} para el texto; como máximo 1000 filas y 3 MB por archivo.",
+        "limits_many": "Hasta {{max}} de caracteres para lo que dices y {{maxBody}} para el texto; como máximo 1000 filas y 3 MB por archivo.",
+        "limits_other": "Hasta {{max}} caracteres para lo que dices y {{maxBody}} para el texto; como máximo 1000 filas y 3 MB por archivo."
       },
       "review": {
         "new_one": "fragmento nuevo",
@@ -1609,9 +1582,9 @@
         "invalid_one": "no se puede importar",
         "invalid_many": "no se pueden importar",
         "invalid_other": "no se pueden importar",
-        "overLimit_one": "Hay espacio para {{room}} más; {{count}} fragmento nuevo no cabe.",
-        "overLimit_many": "Hay espacio para {{room}} más; {{count}} de fragmentos nuevos no caben.",
-        "overLimit_other": "Hay espacio para {{room}} más; {{count}} fragmentos nuevos no caben.",
+        "overLimit_one": "{{count}} fragmento nuevo no cabe (espacio libre: {{room}}).",
+        "overLimit_many": "{{count}} de fragmentos nuevos no caben (espacio libre: {{room}}).",
+        "overLimit_other": "{{count}} fragmentos nuevos no caben (espacio libre: {{room}}).",
         "ignoredRows_one": "Solo se leen las primeras 1000 filas; se omite {{count}} fila más.",
         "ignoredRows_many": "Solo se leen las primeras 1000 filas; se omiten {{count}} de filas más.",
         "ignoredRows_other": "Solo se leen las primeras 1000 filas; se omiten {{count}} filas más.",
@@ -1647,9 +1620,9 @@
         "invalid_one": "No se ha podido importar {{count}} fila",
         "invalid_many": "No se han podido importar {{count}} de filas",
         "invalid_other": "No se han podido importar {{count}} filas",
-        "overLimit_one": "{{count}} no cabía",
-        "overLimit_many": "{{count}} no cabían",
-        "overLimit_other": "{{count}} no cabían"
+        "overLimit_one": "{{count}} no cabía (tu lista de fragmentos está llena)",
+        "overLimit_many": "{{count}} no cabían (tu lista de fragmentos está llena)",
+        "overLimit_other": "{{count}} no cabían (tu lista de fragmentos está llena)"
       }
     },
     "export": {
@@ -1781,9 +1754,9 @@
     "results_one": "{{count}} dictado encontrado",
     "results_many": "{{count}} de dictados encontrados",
     "results_other": "{{count}} dictados encontrados",
-    "resultsMore_one": "{{count}} resultado más reciente. Desplázate para ver más.",
-    "resultsMore_many": "Los {{count}} de resultados más recientes. Desplázate para ver más.",
-    "resultsMore_other": "Los {{count}} resultados más recientes. Desplázate para ver más.",
+    "resultsMore_one": "Se muestra {{count}} resultado reciente. Desplázate para ver más.",
+    "resultsMore_many": "Se muestran los {{count}} de resultados más recientes. Desplázate para ver más.",
+    "resultsMore_other": "Se muestran los {{count}} resultados más recientes. Desplázate para ver más.",
     "search": {
       "open": "Buscar en el Historial",
       "label": "Buscar tus dictados",
@@ -1794,7 +1767,7 @@
     "transcribeFailed": "No se ha podido abrir ese archivo. Inténtalo de nuevo.",
     "showMore": "Mostrar más",
     "showLess": "Mostrar menos",
-    "failed": "Error en la transcripción. Prueba “Reintentar transcripción” en el menú ⋮.",
+    "failed": "Error en la transcripción. Elige “Reintentar transcripción” en el menú ⋮.",
     "waitingForModel": "Esperando al modelo de voz",
     "notTranscribed": "Aún no se ha transcrito.",
     "job": {
@@ -2040,7 +2013,7 @@
       "title": "Habla y tus palabras aparecerán",
       "subtitle": "Mantén pulsada una tecla, habla y suéltala. El texto limpio aparece donde estés escribiendo.",
       "privacyTitle": "Todo se queda en este Mac",
-      "privacy": "Tu voz y tu texto nunca salen de este ordenador. Sin cuenta, sin nube, sin rastreo.",
+      "privacy": "Tu voz y tu texto nunca salen de tu Mac. Sin cuenta, sin nube, sin rastreo.",
       "download": "La configuración de voz comienza ahora y se ejecuta en segundo plano.",
       "start": "Empezar"
     },
@@ -2061,9 +2034,9 @@
       "count_one": "El dictado funciona en {{count}} idioma. Puedes cambiar los tuyos más adelante en Ajustes.",
       "count_many": "El dictado funciona en {{count}} de idiomas. Puedes cambiar los tuyos más adelante en Ajustes.",
       "count_other": "El dictado funciona en {{count}} idiomas. Puedes cambiar los tuyos más adelante en Ajustes.",
-      "weak_one": "El reconocimiento es menos preciso en {{languages}}. Funciona igualmente, pero habrá más errores.",
-      "weak_many": "El reconocimiento es menos preciso en {{languages}}. Funcionan igualmente, pero habrá más errores.",
-      "weak_other": "El reconocimiento es menos preciso en {{languages}}. Funcionan igualmente, pero habrá más errores."
+      "weak_one": "El reconocimiento es menos preciso en {{languages}}. Dictar en ese idioma funciona igualmente, pero habrá más errores.",
+      "weak_many": "El reconocimiento es menos preciso en {{languages}}. Dictar en esos idiomas funciona igualmente, pero habrá más errores.",
+      "weak_other": "El reconocimiento es menos preciso en {{languages}}. Dictar en esos idiomas funciona igualmente, pero habrá más errores."
     },
     "permissions": {
       "title": "Dos permisos",
@@ -2526,7 +2499,7 @@
       "how": {
         "title": "Cómo susurrar a tu Mac",
         "body": "Con el micrófono integrado de tu Mac, cuatro hábitos hacen que una voz baja se oiga bien.",
-        "distance": "Unos 30 cm del micrófono, más o menos un antebrazo",
+        "distance": "Unos 30 cm (lo que mide un antebrazo) del micrófono",
         "tips": {
           "distance": {
             "title": "Siéntate cerca.",
@@ -2548,7 +2521,7 @@
       },
       "practice": {
         "title": "Susurra este correo",
-        "body": "Una toma real: el texto va al mensaje de abajo y a ningún otro sitio.",
+        "body": "Es un dictado real. El texto va solo al mensaje de abajo y a ningún otro sitio.",
         "doneTitle": "Te he oído, incluso susurrando",
         "doneBody": "No hace falta más. Continúa para encontrar el micrófono que más te conviene.",
         "instruction": "Mantén pulsada {{key}}, susurra el correo de abajo y suelta.",
@@ -2587,7 +2560,7 @@
         },
         "wired_headset": {
           "name": "Auriculares con cable",
-          "hint": "Un micrófono en una varilla corta o en el cable, cerca de la boca",
+          "hint": "Auriculares con cable y un micrófono cerca de la boca",
           "why": "El micrófono está junto a tu boca, así que hasta un susurro suave se oye, estés donde estés."
         },
         "wireless_earbuds": {
@@ -2686,7 +2659,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Para que Wispr Bro pueda escucharte. El audio se convierte en texto en este equipo y nunca se sube a ninguna parte."
+          "why": "Para que Wispr Bro pueda escucharte. El audio se convierte en texto en este Mac y nunca se sube a ninguna parte."
         },
         "accessibility": {
           "why": "Para que tu atajo funcione en cualquier app y Wispr Bro pueda escribir el texto donde está tu cursor."
@@ -2734,10 +2707,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Abrir Wispr Bro automáticamente al iniciar sesión en el ordenador."
+          "description": "Abrir Wispr Bro automáticamente al iniciar sesión en el Mac."
         },
         "showTrayIcon": {
-          "description": "Mostrar el icono de Wispr Bro en la bandeja del sistema."
+          "description": "Mostrar el icono de Wispr Bro en la barra de menús."
         }
       },
       "debug": {

@@ -49,7 +49,7 @@
       "version": "Phiên bản",
       "channel": "Kênh",
       "key": "Khóa ký",
-      "endpoints": "Nguồn cấp",
+      "endpoints": "Nguồn cập nhật",
       "checksOff": "Kiểm tra cập nhật đang tắt (Cài đặt › Nâng cao, hoặc kill switch đã được đặt).",
       "check": "Kiểm tra ngay",
       "checking": "Đang kiểm tra…",
@@ -70,7 +70,7 @@
       "contextAwareness": "Nhận biết ngữ cảnh",
       "contextAwarenessHint": "Dùng tên trong văn bản gần con trỏ để viết đúng chính tả. Văn bản đó ở lại trên máy Mac này và không bao giờ được lưu.",
       "transforms": "Chuyển đổi",
-      "transformsHint": "⌥1 trau chuốt văn bản được chọn và ⌥2 biến nó thành lời nhắc AI rõ ràng hơn. Khi bật, các phím này thay thế ¡ và ™.",
+      "transformsHint": "⌥1 trau chuốt văn bản được chọn, ⌥2 biến nó thành lời nhắc AI rõ ràng hơn và ⌥O hiện những gì lần chuyển đổi gần nhất đã thay đổi. Khi bật, các phím này không còn gõ ¡, ™ và ø.",
       "transformsSafeShortcuts": "Dùng ⌃⌥1 và ⌃⌥2 thay thế",
       "transformsSafeShortcutsHint": "Giữ ¡ và ™ dùng được với ⌥1 và ⌥2.",
       "cleanupLevel": "Mức dọn dẹp",
@@ -147,7 +147,7 @@
       "notSet": "Chưa đặt",
       "current": "Phím tắt: {{shortcut}}",
       "listening": "Nhấn một phím tắt…",
-      "listeningHelp": "Nhấn các phím hoặc nút chuột bạn muốn. Escape để hủy.",
+      "listeningHelp": "Nhấn các phím hoặc nút chuột bạn muốn. Esc để hủy.",
       "record": "Ghi",
       "cancel": "Hủy",
       "clear": "Xóa",
@@ -164,7 +164,7 @@
         "help": "Đưa bản đọc chính tả gần nhất vào bảng nhớ tạm."
       },
       "pressEnter": {
-        "title": "Nhấn Enter",
+        "title": "Nhấn Return",
         "help": "Nhấn Return thay bạn, ví dụ để gửi tin nhắn vừa đọc chính tả.",
         "mouse": "Nút chuột vẫn nhấp như bình thường trong ứng dụng dưới con trỏ, nên nút bên (lùi hoặc tiến) là tốt nhất."
       },
@@ -385,24 +385,24 @@
       "saveFailed": "Không thể lưu phím tắt đó.",
       "conflict": "Cũng được dùng cho {{action}}. Hãy chọn phím tắt khác.",
       "invalid": "Không nhận dạng được phím tắt này.",
-      "unsupported": "Bộ xử lý phím tắt không thể dùng tổ hợp này cho thao tác đó.",
+      "unsupported": "Không thể dùng tổ hợp này làm phím tắt cho thao tác này.",
       "capture": {
         "starting": "Đang bắt đầu ghi phím tắt…",
         "listening": "Nhấn một phím tắt…",
-        "listeningHelp": "Nhấn tổ hợp phím hoặc nút chuột muốn dùng. Escape để hủy.",
+        "listeningHelp": "Nhấn tổ hợp phím hoặc nút chuột muốn dùng. Esc để hủy.",
         "cancel": "Hủy",
         "close": "Quay lại",
         "secure": "Không thể ghi phím tắt khi Secure Input đang bật. Hãy rời khỏi trường mật khẩu hoặc tắt Secure Keyboard Entry, rồi thử lại.",
         "failed": "Không thể bắt đầu ghi phím tắt. Hãy kiểm tra quyền Trợ năng và thử lại."
       },
       "actions": {
-        "dictate": "Nhấn để nói",
+        "dictate": "Giữ để nói",
         "hands_free": "Đọc chính tả rảnh tay",
         "cancel": "Hủy đọc chính tả",
         "command_mode": "Command Mode",
         "paste_last": "Dán bản đọc chính tả gần nhất",
         "copy_last": "Sao chép bản đọc chính tả gần nhất",
-        "press_enter": "Nhấn Enter",
+        "press_enter": "Nhấn Return",
         "undo_cancel": "Hoàn tác việc hủy",
         "transform": {
           "polish": "Polish văn bản đã chọn",
@@ -417,7 +417,7 @@
         "dictate": "Giữ phím tắt khi bạn nói; thả phím để kết thúc.",
         "hands_free": "Bắt đầu và dừng đọc chính tả mà không cần giữ phím.",
         "cancel": "Dừng bản đọc chính tả hiện tại mà không chèn vào.",
-        "command_mode": "Giữ fn và Ctrl trong khi nói cách sửa hoặc viết văn bản.",
+        "command_mode": "Giữ phím tắt trong khi nói cách sửa hoặc viết văn bản.",
         "paste_last": "Dán lại bản đọc chính tả gần nhất.",
         "copy_last": "Sao chép bản đọc chính tả gần nhất vào bảng nhớ tạm.",
         "press_enter": "Nhấn Return trong ứng dụng bạn đang gõ. Nút bên của chuột rất hợp cho việc này.",
@@ -529,58 +529,30 @@
           "quiet": "Đọc chính tả khẽ: chỉ cho tôi cách làm"
         },
         "empty": {
-          "title": "Các bản đọc chính tả của bạn sẽ hiện ở đây",
-          "body": "Mỗi bản được lưu trên máy Mac này, kèm âm thanh, để bạn có thể sao chép hoặc kiểm tra sau.",
-          "action": "Mở Lịch sử"
+          "title": "Các bản đọc chính tả của bạn sẽ hiện ở đây"
         }
       },
       "insights": {
         "title": "Thống kê",
         "empty": {
           "title": "Thống kê cần vài bản đọc chính tả",
-          "body": "Tốc độ nói, chuỗi ngày liên tiếp và thời gian bạn tiết kiệm sẽ hiện sau khi bạn đọc chính tả một thời gian.",
           "action": "Đi tới Đọc chính tả"
         }
       },
       "dictionary": {
-        "title": "Từ điển",
-        "empty": {
-          "title": "Dạy {{appName}} các từ của bạn",
-          "body": "Tên, thuật ngữ sản phẩm và từ viết tắt bạn thêm vào luôn được viết đúng. Cho đến khi trang này sẵn sàng, các từ của bạn nằm trong Cài đặt.",
-          "action": "Mở từ tùy chỉnh"
-        }
+        "title": "Từ điển"
       },
       "snippets": {
-        "title": "Đoạn văn bản",
-        "empty": {
-          "title": "Đoạn văn bản sắp ra mắt",
-          "body": "Nói một câu gợi ngắn như “địa chỉ của tôi” để nhận toàn bộ văn bản. Trang này sẽ có trong bản cập nhật sau.",
-          "action": "Đi tới Đọc chính tả"
-        }
+        "title": "Đoạn văn bản"
       },
       "style": {
-        "title": "Kiểu",
-        "empty": {
-          "title": "Kiểu sắp ra mắt",
-          "body": "Chọn mức trau chuốt của văn bản trong từng loại ứng dụng, từ email trang trọng đến chat thoải mái. Trang này sẽ có trong bản cập nhật sau.",
-          "action": "Đi tới Đọc chính tả"
-        }
+        "title": "Kiểu"
       },
       "transforms": {
-        "title": "Chuyển đổi",
-        "empty": {
-          "title": "Chuyển đổi sắp ra mắt",
-          "body": "Chọn văn bản và viết lại bằng một phím tắt: ngắn hơn, rõ hơn hoặc mạch lạc hơn. Trang này sẽ có trong bản cập nhật sau.",
-          "action": "Đi tới Đọc chính tả"
-        }
+        "title": "Chuyển đổi"
       },
       "scratchpad": {
-        "title": "Bản nháp",
-        "empty": {
-          "title": "Bản nháp sắp ra mắt",
-          "body": "Nơi nhanh gọn để đọc chính tả ghi chú trước khi dùng ở chỗ khác. Trang này sẽ có trong bản cập nhật sau.",
-          "action": "Đi tới Đọc chính tả"
-        }
+        "title": "Bản nháp"
       },
       "share": {
         "title": "Chia sẻ với bạn bè"
@@ -617,7 +589,7 @@
       "paused": "Sau ba lần thất bại, cập nhật tự động tạm dừng đến {{time}}.",
       "manualOnly": "Đây là bản build phát triển: chỉ kiểm tra cập nhật khi bạn yêu cầu.",
       "readyHint": "Bản cập nhật tự cài đặt khi bạn không đọc chính tả trong 20 phút, hoặc khi bạn thoát.",
-      "policy": "Bản cập nhật được tải về trong nền và chỉ cài đặt khi bạn không đọc chính tả, hoặc khi bạn thoát.",
+      "policy": "Bản cập nhật được tải về trong nền và được cài đặt khi bạn không đọc chính tả trong 20 phút, hoặc khi bạn thoát.",
       "needsPassword": "Bản sao ứng dụng này nằm trong thư mục cần mật khẩu quản trị viên để thay đổi, vì vậy bản cập nhật chỉ được cài khi bạn chọn Khởi động lại ngay."
     }
   },
@@ -671,16 +643,16 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Đọc chính tả",
-      "vocabulary": "Từ vựng",
+      "vocabulary": "Từ điển",
       "help": "Trợ giúp",
       "file": "Tệp",
       "edit": "Sửa",
       "view": "Xem",
       "window": "Cửa sổ",
       "wordsDictated_other": "Đã đọc chính tả {{count}} từ",
-      "copyLast": "Sao chép bản chép lời gần nhất",
-      "copyLastPreview": "Sao chép bản chép lời gần nhất: “{{preview}}”",
-      "copyLastConcealed": "Sao chép bản chép lời gần nhất (ẩn văn bản)",
+      "copyLast": "Sao chép bản đọc chính tả gần nhất",
+      "copyLastPreview": "Sao chép bản đọc chính tả gần nhất: “{{preview}}”",
+      "copyLastConcealed": "Sao chép bản đọc chính tả gần nhất (ẩn văn bản)",
       "microphone": "Micrô",
       "languages": "Ngôn ngữ",
       "moreLanguages": "Thêm hoặc xóa ngôn ngữ…",
@@ -696,7 +668,7 @@
       "sendFeedback": "Gửi phản hồi…",
       "openApp": "Mở {{appName}}",
       "checkUpdates": "Kiểm tra cập nhật…",
-      "pasteLast": "Dán bản chép lời gần nhất",
+      "pasteLast": "Dán bản đọc chính tả gần nhất",
       "cancelDictation": "Hủy đọc chính tả",
       "shortcutsBlocked": "Phím tắt bị chặn — mở Cài đặt",
       "undo": "Hoàn tác",
@@ -827,7 +799,7 @@
       },
       "takeRecovered": {
         "title_other": "Đã lưu {{count}} bản ghi âm khi ứng dụng thoát",
-        "body": "Các bản ghi này vẫn đang ghi khi {{appName}} đóng. Chúng nằm trong Lịch sử, nơi chúng được chép lời."
+        "body_other": "Bạn vẫn đang đọc chính tả khi {{appName}} đóng. Các bản ghi đang được chép lời và sẽ xuất hiện trong Lịch sử."
       }
     },
     "scratchpad": {
@@ -859,7 +831,7 @@
         "micLostWarning": "Micrô đã ngắt kết nối. Những gì bạn đã nói vẫn được giữ lại.",
         "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
         "diff": "Các thay đổi của chuyển đổi đã sẵn sàng để xem lại.",
-        "secureInputWarning": "Secure Input đang bật. fn và Space không thể khóa đọc chính tả. Escape hoặc nút đóng vẫn có thể hủy.",
+        "secureInputWarning": "Secure Input đang bật. fn và Space không thể khóa đọc chính tả. Esc hoặc nút đóng vẫn có thể hủy.",
         "inserted": "Đã chèn văn bản"
       },
       "message": {
@@ -1126,7 +1098,7 @@
       "toPlaceholder": "ví dụ: không",
       "counter": "{{count}}/{{max}}",
       "wordHint": "Giúp mô hình giọng nói nghe và viết đúng.",
-      "ruleHint": "Khớp toàn bộ từ, không phân biệt chữ hoa chữ thường, và viết mục thay thế đúng như đã nhập.",
+      "ruleHint": "Khớp toàn bộ từ, dù viết hoa hay viết thường, và viết mục thay thế đúng như đã nhập.",
       "cancel": "Hủy",
       "add": "Thêm từ",
       "save": "Lưu",
@@ -1156,7 +1128,7 @@
         "duplicates_other": "đã có",
         "conflicts_other": "xung đột",
         "invalid_other": "không thể nhập",
-        "overLimit_other": "Từ điển còn chỗ cho {{room}} mục nữa; {{count}} mục mới sẽ không vừa.",
+        "overLimit_other": "{{count}} mục mới sẽ không vừa (chỗ còn lại trong từ điển: {{room}}).",
         "showNew": "Hiện các mục mới",
         "more_other": "và {{count}} mục khác",
         "conflictsTitle": "Đã có trong từ điển của bạn, nhưng khác",
@@ -1241,10 +1213,9 @@
     },
     "commandMode": {
       "title": "Command Mode",
-      "shortcut": "fn ⌃",
       "on": "Bật",
       "off": "Tắt",
-      "help": "Giữ fn và Ctrl, rồi nói cách thay đổi phần đã chọn hoặc nội dung cần viết. Khi không chọn gì, trường văn bản cung cấp ngữ cảnh và kết quả được chèn tại con trỏ. Mọi thứ ở lại trên máy Mac này; Command Mode không bao giờ tra cứu gì. Khi tắt, fn và Ctrl đọc chính tả như bình thường."
+      "help": "Giữ phím tắt Command Mode, rồi nói cách thay đổi phần đã chọn hoặc nội dung cần viết. Khi không chọn gì, trường văn bản cung cấp ngữ cảnh và kết quả được chèn tại con trỏ. Mọi thứ ở lại trên máy Mac này; Command Mode không bao giờ tra cứu gì. Khi tắt, phím tắt này đọc chính tả như bình thường."
     },
     "auto": {
       "title": "Áp dụng sau mỗi lần đọc chính tả",
@@ -1335,7 +1306,7 @@
       "paste": "Dán một ví dụ",
       "load": "Tải .txt hoặc .md",
       "remove": "Xóa ví dụ {{number}}",
-      "readError": "Chọn tệp .txt hoặc .md không quá 1.500 ký tự.",
+      "readError": "Chọn tệp .txt hoặc .md không quá {{chars}} ký tự.",
       "help_other": "Dán hoặc tải tối đa {{max}} ví dụ, mỗi ví dụ {{chars}} ký tự. Chúng định hướng văn phong mà không trở thành một phần của kết quả."
     },
     "diff": {
@@ -1465,7 +1436,7 @@
       "trigger_control_character": "Điều bạn nói phải nằm gọn trên một dòng.",
       "empty_body": "Nhập văn bản cần viết.",
       "body_control_character": "Văn bản chứa ký tự không thể viết. Hãy xóa ký tự đó và thử lại.",
-      "full": "Bạn đã đạt số đoạn văn bản tối đa mà ứng dụng chứa được. Hãy xóa bớt trước.",
+      "full": "Danh sách đoạn văn bản của bạn đã đầy. Hãy xóa bớt một số đoạn văn bản trước.",
       "trigger_too_long_other": "Điều bạn nói có thể dài tối đa {{max}} ký tự.",
       "body_too_long_other": "Văn bản có thể dài tối đa {{maxBody}} ký tự."
     },
@@ -1478,7 +1449,7 @@
       "body": "Viết",
       "bodyPlaceholder": "Văn bản cần viết. Dấu xuống dòng được giữ nguyên.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Dùng được riêng lẻ hoặc trong câu, không phân biệt chữ hoa chữ thường. Trong câu, dấu câu trong câu gợi phải được nói giống vậy. Văn bản được viết đúng như đã lưu.",
+      "hint": "Dùng được riêng lẻ hoặc trong câu, dù viết hoa hay viết thường. Trong câu, dấu câu trong điều bạn nói phải khớp chính xác với văn bản được đọc chính tả. Văn bản được viết đúng như đã lưu.",
       "cancel": "Hủy",
       "add": "Thêm đoạn văn bản",
       "save": "Lưu",
@@ -1500,14 +1471,14 @@
         "columns": "Cột đầu là điều bạn nói; cột thứ hai là văn bản cần viết.",
         "lines": "Văn bản có dấu xuống dòng được đặt trong dấu ngoặc kép, như cách các ứng dụng bảng tính lưu.",
         "encoding": "Lưu dưới dạng CSV UTF-8 để dấu và các hệ chữ khác hiển thị đúng.",
-        "limits_other": "Điều bạn nói tối đa {{max}} ký tự, văn bản tối đa {{maxBody}}, tối đa 1.000 hàng và 3 MB mỗi tệp."
+        "limits_other": "Tối đa {{max}} ký tự cho điều bạn nói và {{maxBody}} cho văn bản; tối đa 1.000 hàng và 3 MB mỗi tệp."
       },
       "review": {
         "new_other": "đoạn văn bản mới",
         "duplicates_other": "đã có",
         "conflicts_other": "xung đột",
         "invalid_other": "không thể nhập",
-        "overLimit_other": "Còn chỗ cho {{room}} đoạn nữa; {{count}} đoạn văn bản mới sẽ không vừa.",
+        "overLimit_other": "{{count}} đoạn văn bản mới sẽ không vừa (chỗ còn lại: {{room}}).",
         "ignoredRows_other": "Chỉ đọc 1.000 hàng đầu tiên; {{count}} hàng còn lại bị bỏ qua.",
         "showNew": "Hiện các đoạn văn bản mới",
         "more_other": "và {{count}} mục khác",
@@ -1527,7 +1498,7 @@
         "skipped_other": "{{count}} mục đã có, đã bỏ qua",
         "kept_other": "{{count}} xung đột được giữ nguyên",
         "invalid_other": "{{count}} hàng không thể nhập",
-        "overLimit_other": "{{count}} mục không vừa"
+        "overLimit_other": "{{count}} mục không vừa (danh sách đoạn văn bản đã đầy)"
       }
     },
     "export": {
@@ -1633,7 +1604,7 @@
       "body": "Không có bản đọc chính tả nào chứa “{{query}}”."
     },
     "results_other": "Tìm thấy {{count}} bản đọc chính tả",
-    "resultsMore_other": "{{count}} kết quả khớp gần nhất. Cuộn để xem thêm.",
+    "resultsMore_other": "Đang hiện {{count}} kết quả khớp gần nhất. Cuộn để xem thêm.",
     "search": {
       "open": "Tìm trong Lịch sử",
       "label": "Tìm bản đọc chính tả của bạn",
@@ -1644,7 +1615,7 @@
     "transcribeFailed": "Không thể mở tệp đó. Vui lòng thử lại.",
     "showMore": "Xem thêm",
     "showLess": "Hiện ít hơn",
-    "failed": "Chép lời thất bại. Hãy thử Chép lời lại trong menu ⋮.",
+    "failed": "Chép lời thất bại. Hãy chọn Chép lời lại trong menu ⋮.",
     "waitingForModel": "Đang chờ mô hình giọng nói",
     "notTranscribed": "Chưa được chép lời.",
     "job": {
@@ -1828,8 +1799,8 @@
       "moveTo": "Chuyển tới",
       "useDefault": "Quay về nhóm thông thường ({{group}})",
       "remove": "Xóa khỏi {{group}}",
-      "autoSend": "Nhấn Enter sau khi đọc chính tả",
-      "autoSendOn": "nhấn Enter sau khi đọc chính tả",
+      "autoSend": "Nhấn Return sau khi đọc chính tả",
+      "autoSendOn": "nhấn Return sau khi đọc chính tả",
       "notInstalled": "chưa được cài đặt",
       "aiChat": "Một ứng dụng chat AI: lời của bạn được dọn dẹp, không áp dụng kiểu.",
       "moved": "{{app}} giờ dùng kiểu {{group}}.",
@@ -1888,7 +1859,7 @@
       "title": "Hãy nói, và lời của bạn hiện ra",
       "subtitle": "Giữ một phím, nói, rồi thả ra. Văn bản gọn gàng xuất hiện ở bất cứ đâu bạn đang gõ.",
       "privacyTitle": "Mọi thứ ở lại trên máy Mac này",
-      "privacy": "Giọng nói và văn bản của bạn không bao giờ rời khỏi máy tính này. Không tài khoản, không đám mây, không theo dõi.",
+      "privacy": "Giọng nói và văn bản của bạn không bao giờ rời khỏi máy Mac của bạn. Không tài khoản, không đám mây, không theo dõi.",
       "download": "Thiết lập giọng nói bắt đầu ngay và chạy trong nền.",
       "start": "Bắt đầu"
     },
@@ -1907,7 +1878,7 @@
       "listLabel": "Ngôn ngữ",
       "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”.",
       "count_other": "Đọc chính tả hỗ trợ {{count}} ngôn ngữ. Bạn có thể thay đổi ngôn ngữ của mình sau trong Cài đặt.",
-      "weak_other": "Nhận dạng kém chính xác hơn với {{languages}}. Các ngôn ngữ này vẫn dùng được, nhưng sẽ có nhiều lỗi hơn."
+      "weak_other": "Nhận dạng kém chính xác hơn với {{languages}}. Đọc chính tả bằng các ngôn ngữ này vẫn được, nhưng sẽ có nhiều lỗi hơn."
     },
     "permissions": {
       "title": "Hai quyền",
@@ -2352,7 +2323,7 @@
       "how": {
         "title": "Cách nói thầm với máy Mac",
         "body": "Với micrô tích hợp trên máy Mac, bốn thói quen giúp giọng nhỏ dễ nghe hơn.",
-        "distance": "Khoảng 30 cm, chừng một cẳng tay, tính từ micrô",
+        "distance": "Khoảng 30 cm (chừng một cẳng tay) tính từ micrô",
         "tips": {
           "distance": {
             "title": "Ngồi gần.",
@@ -2374,7 +2345,7 @@
       },
       "practice": {
         "title": "Thì thầm email này",
-        "body": "Ghi thật: nội dung chỉ vào tin nhắn minh họa bên dưới, không đi đâu khác.",
+        "body": "Đây là lần đọc chính tả thật. Văn bản chỉ đi vào tin nhắn bên dưới, không đi đâu khác.",
         "doneTitle": "Đã nghe thấy, kể cả khi bạn thì thầm",
         "doneBody": "Chỉ cần vậy thôi. Tiếp tục để tìm micrô phù hợp với bạn.",
         "instruction": "Giữ {{key}}, thì thầm email bên dưới, rồi thả ra.",
@@ -2413,7 +2384,7 @@
         },
         "wired_headset": {
           "name": "Tai nghe có dây",
-          "hint": "Micrô trên cần ngắn hoặc dây, gần miệng bạn",
+          "hint": "Tai nghe có dây với micrô gần miệng bạn",
           "why": "Micrô nằm ngay cạnh miệng, nên dù thì thầm nhỏ cũng nghe được, ở bất cứ đâu."
         },
         "wireless_earbuds": {
@@ -2512,7 +2483,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Để Wispr Bro nghe được bạn. Âm thanh được chuyển thành văn bản ngay trên máy tính này và không bao giờ được tải lên."
+          "why": "Để Wispr Bro nghe được bạn. Âm thanh được chuyển thành văn bản ngay trên máy Mac này và không bao giờ được tải lên."
         },
         "accessibility": {
           "why": "Để phím tắt của bạn hoạt động trong mọi ứng dụng, và Wispr Bro có thể gõ văn bản vào nơi con trỏ của bạn đang đứng."
@@ -2560,10 +2531,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Tự động khởi động Wispr Bro khi bạn đăng nhập vào máy tính."
+          "description": "Tự động khởi động Wispr Bro khi bạn đăng nhập vào máy Mac."
         },
         "showTrayIcon": {
-          "description": "Hiển thị biểu tượng Wispr Bro trong khay hệ thống."
+          "description": "Hiển thị biểu tượng Wispr Bro trên thanh menu."
         }
       },
       "debug": {

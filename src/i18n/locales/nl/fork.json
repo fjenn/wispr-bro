@@ -50,7 +50,7 @@
       "version": "Versie",
       "channel": "Kanaal",
       "key": "Ondertekeningssleutel",
-      "endpoints": "Feeds",
+      "endpoints": "Updatefeeds",
       "checksOff": "Controle op updates staat uit (Instellingen › Geavanceerd, of er is een noodschakelaar ingesteld).",
       "check": "Controleer nu",
       "checking": "Controleren…",
@@ -71,7 +71,7 @@
       "contextAwareness": "Contextbewustzijn",
       "contextAwarenessHint": "Gebruikt namen in de tekst rond je cursor om ze goed te spellen. Die tekst blijft op deze Mac en wordt nooit bewaard.",
       "transforms": "Transformaties",
-      "transformsHint": "⌥1 schaaft geselecteerde tekst bij en ⌥2 maakt er een duidelijkere AI-prompt van. Zolang dit aanstaat, vervangen die toetsen ¡ en ™.",
+      "transformsHint": "⌥1 schaaft geselecteerde tekst bij, ⌥2 maakt er een duidelijkere AI-prompt van en ⌥O toont wat de laatste transformatie heeft veranderd. Zolang dit aanstaat, typen die toetsen geen ¡, ™ en ø meer.",
       "transformsSafeShortcuts": "Gebruik in plaats daarvan ⌃⌥1 en ⌃⌥2",
       "transformsSafeShortcutsHint": "Houdt ¡ en ™ beschikbaar met ⌥1 en ⌥2.",
       "cleanupLevel": "Opschoonniveau",
@@ -148,7 +148,7 @@
       "notSet": "Niet ingesteld",
       "current": "Toetscombinatie: {{shortcut}}",
       "listening": "Druk op een toetscombinatie…",
-      "listeningHelp": "Druk op de toetsen of de muisknop die je wilt. Escape annuleert.",
+      "listeningHelp": "Druk op de toetsen of de muisknop die je wilt. Esc annuleert.",
       "record": "Neem op",
       "cancel": "Annuleer",
       "clear": "Wis",
@@ -386,18 +386,18 @@
       "saveFailed": "Kan die toetscombinatie niet bewaren.",
       "conflict": "Wordt al gebruikt door {{action}}. Kies een andere toetscombinatie.",
       "invalid": "Deze toetscombinatie wordt niet herkend.",
-      "unsupported": "Deze combinatie kan niet voor deze actie worden gebruikt.",
+      "unsupported": "Deze combinatie kan niet als toetscombinatie voor deze actie worden gebruikt.",
       "capture": {
         "starting": "Opnemen van toetscombinatie starten…",
         "listening": "Druk op een toetscombinatie…",
-        "listeningHelp": "Druk op de toetscombinatie of muisknop die je wilt gebruiken. Escape annuleert.",
+        "listeningHelp": "Druk op de toetscombinatie of muisknop die je wilt gebruiken. Esc annuleert.",
         "cancel": "Annuleer",
         "close": "Terug",
         "secure": "Toetscombinaties opnemen kan niet zolang beveiligde invoer actief is. Verlaat het wachtwoordveld of zet “Beveiligde toetsenbordinvoer” uit en probeer het opnieuw.",
         "failed": "Kan het opnemen van toetscombinaties niet starten. Controleer de toestemming voor Toegankelijkheid en probeer het opnieuw."
       },
       "actions": {
-        "dictate": "Ingedrukt houden",
+        "dictate": "Ingedrukt houden om te praten",
         "hands_free": "Handsfree dicteren",
         "cancel": "Annuleer dicteren",
         "command_mode": "Opdrachtmodus",
@@ -418,7 +418,7 @@
         "dictate": "Houd de toetscombinatie ingedrukt terwijl je praat en laat los om te stoppen.",
         "hands_free": "Start en stop het dicteren zonder een toets ingedrukt te houden.",
         "cancel": "Stop het huidige dictee zonder het in te voegen.",
-        "command_mode": "Houd fn en Ctrl ingedrukt terwijl je zegt hoe tekst moet worden bewerkt of geschreven.",
+        "command_mode": "Houd de toetscombinatie ingedrukt terwijl je zegt hoe tekst moet worden bewerkt of geschreven.",
         "paste_last": "Plak je meest recente dictee opnieuw.",
         "copy_last": "Kopieer je meest recente dictee naar het klembord.",
         "press_enter": "Druk op Return in de app waarin je typt. Een zijknop van de muis werkt hier goed.",
@@ -532,58 +532,30 @@
           "quiet": "Zacht dicteren: laat zien hoe"
         },
         "empty": {
-          "title": "Je dictees verschijnen hier",
-          "body": "Elk dictee wordt met de audio op deze Mac bewaard, zodat je het later kunt kopiëren of nakijken.",
-          "action": "Open Geschiedenis"
+          "title": "Je dictees verschijnen hier"
         }
       },
       "insights": {
         "title": "Statistieken",
         "empty": {
           "title": "Statistieken hebben een paar dictees nodig",
-          "body": "Je spreeksnelheid, reeksen en de tijd die je bespaart verschijnen zodra je een tijdje hebt gedicteerd.",
           "action": "Ga naar Dicteren"
         }
       },
       "dictionary": {
-        "title": "Woordenboek",
-        "empty": {
-          "title": "Leer {{appName}} je woorden",
-          "body": "Namen, producttermen en afkortingen die je toevoegt, worden elke keer goed gespeld. Tot deze pagina klaar is, staan je woorden in Instellingen.",
-          "action": "Open eigen woorden"
-        }
+        "title": "Woordenboek"
       },
       "snippets": {
-        "title": "Tekstfragmenten",
-        "empty": {
-          "title": "Tekstfragmenten komen eraan",
-          "body": "Zeg een kort trefwoord zoals “mijn adres” en krijg de volledige tekst. Deze pagina komt in een latere update.",
-          "action": "Ga naar Dicteren"
-        }
+        "title": "Tekstfragmenten"
       },
       "style": {
-        "title": "Stijl",
-        "empty": {
-          "title": "Stijlen komen eraan",
-          "body": "Kies hoe verzorgd je tekst is in elk soort app, van formele e-mail tot losse chat. Deze pagina komt in een latere update.",
-          "action": "Ga naar Dicteren"
-        }
+        "title": "Stijl"
       },
       "transforms": {
-        "title": "Transformaties",
-        "empty": {
-          "title": "Transformaties komen eraan",
-          "body": "Selecteer tekst en herschrijf die met één toetscombinatie: korter, duidelijker of beter geordend. Deze pagina komt in een latere update.",
-          "action": "Ga naar Dicteren"
-        }
+        "title": "Transformaties"
       },
       "scratchpad": {
-        "title": "Kladblok",
-        "empty": {
-          "title": "Kladblok komt eraan",
-          "body": "Een snelle plek om notities te dicteren voordat ze ergens anders heen gaan. Deze pagina komt in een latere update.",
-          "action": "Ga naar Dicteren"
-        }
+        "title": "Kladblok"
       },
       "share": {
         "title": "Deel met een vriend"
@@ -620,7 +592,7 @@
       "paused": "Na drie mislukte pogingen zijn automatische updates gepauzeerd tot {{time}}.",
       "manualOnly": "Dit is een ontwikkelversie: er wordt alleen op updates gecontroleerd als je daarom vraagt.",
       "readyHint": "De update installeert zichzelf zodra je 20 minuten niet hebt gedicteerd, of als je stopt.",
-      "policy": "Updates worden op de achtergrond gedownload en alleen geïnstalleerd als je niet aan het dicteren bent, of als je stopt.",
+      "policy": "Updates worden op de achtergrond gedownload en geïnstalleerd zodra je 20 minuten niet hebt gedicteerd, of als je stopt.",
       "needsPassword": "Deze kopie van de app staat in een map waarvoor een beheerderswachtwoord nodig is, dus updates worden alleen geïnstalleerd als je “Start nu opnieuw” kiest."
     }
   },
@@ -653,7 +625,7 @@
       "noColumn": "Niet in dit bestand",
       "column": "Kolom {{letter}}",
       "columnNamed": "Kolom {{letter}}: {{name}}",
-      "mapRequired": "Kies een kolom voor elk veld dat niet optioneel is.",
+      "mapRequired": "Kies een kolom voor elk verplicht veld.",
       "previewCaption_one": "Voorvertoning van de eerste rij",
       "previewCaption_other": "Voorvertoning van de eerste {{count}} rijen",
       "rowHeader": "Rij",
@@ -676,7 +648,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dicteren",
-      "vocabulary": "Woordenschat",
+      "vocabulary": "Woordenboek",
       "help": "Help",
       "file": "Bestand",
       "edit": "Wijzig",
@@ -684,9 +656,9 @@
       "window": "Venster",
       "wordsDictated_one": "{{count}} woord gedicteerd",
       "wordsDictated_other": "{{count}} woorden gedicteerd",
-      "copyLast": "Kopieer laatste transcript",
-      "copyLastPreview": "Kopieer laatste transcript: “{{preview}}”",
-      "copyLastConcealed": "Kopieer laatste transcript (tekst verborgen)",
+      "copyLast": "Kopieer laatste dictee",
+      "copyLastPreview": "Kopieer laatste dictee: “{{preview}}”",
+      "copyLastConcealed": "Kopieer laatste dictee (tekst verborgen)",
       "microphone": "Microfoon",
       "languages": "Talen",
       "moreLanguages": "Voeg talen toe of verwijder ze…",
@@ -704,7 +676,7 @@
       "sendFeedback": "Stuur feedback…",
       "openApp": "Open {{appName}}",
       "checkUpdates": "Zoek naar updates…",
-      "pasteLast": "Plak laatste transcript",
+      "pasteLast": "Plak laatste dictee",
       "cancelDictation": "Annuleer dicteren",
       "shortcutsBlocked": "Toetscombinaties geblokkeerd – open Instellingen",
       "undo": "Herstel",
@@ -841,7 +813,8 @@
       "takeRecovered": {
         "title_one": "Er is een opname bewaard toen de app stopte",
         "title_other": "Er zijn {{count}} opnames bewaard toen de app stopte",
-        "body": "Ze waren nog bezig toen {{appName}} werd gesloten. Ze staan in Geschiedenis, waar ze worden uitgeschreven."
+        "body_one": "Je was nog aan het dicteren toen {{appName}} werd gesloten. De opname wordt uitgeschreven en verschijnt in Geschiedenis.",
+        "body_other": "Je was nog aan het dicteren toen {{appName}} werd gesloten. De opnamen worden uitgeschreven en verschijnen in Geschiedenis."
       }
     },
     "scratchpad": {
@@ -873,7 +846,7 @@
         "micLostWarning": "De microfoon is losgekoppeld. Wat je tot nu toe zei, blijft bewaard.",
         "undo": "“Herstel” staat 4 seconden op de dicteerbalk.",
         "diff": "De wijzigingen van de transformatie zijn klaar om te bekijken.",
-        "secureInputWarning": "Beveiligde invoer staat aan. fn en Space kunnen het dicteren niet vastzetten. Escape of de sluitknop annuleert nog steeds.",
+        "secureInputWarning": "Beveiligde invoer staat aan. fn en Space kunnen het dicteren niet vastzetten. Esc of de sluitknop annuleert nog steeds.",
         "inserted": "Tekst ingevoegd"
       },
       "message": {
@@ -1180,8 +1153,8 @@
         "conflicts_other": "conflicten",
         "invalid_one": "kan niet worden geïmporteerd",
         "invalid_other": "kan niet worden geïmporteerd",
-        "overLimit_one": "Je woordenboek heeft nog ruimte voor {{room}}; {{count}} nieuw item past niet.",
-        "overLimit_other": "Je woordenboek heeft nog ruimte voor {{room}}; {{count}} nieuwe items passen niet.",
+        "overLimit_one": "{{count}} nieuw item past niet (ruimte over in je woordenboek: {{room}}).",
+        "overLimit_other": "{{count}} nieuwe items passen niet (ruimte over in je woordenboek: {{room}}).",
         "showNew": "Toon de nieuwe items",
         "more_one": "en nog {{count}}",
         "more_other": "en nog {{count}}",
@@ -1276,10 +1249,9 @@
     },
     "commandMode": {
       "title": "Opdrachtmodus",
-      "shortcut": "fn ⌃",
       "on": "Aan",
       "off": "Uit",
-      "help": "Houd fn en Ctrl ingedrukt en zeg hoe de selectie moet veranderen of wat er geschreven moet worden. Zonder selectie geeft het veld context en komt het resultaat bij de invoegpositie. Alles blijft op deze Mac; Opdrachtmodus zoekt nooit iets op. Als deze uitstaat, dicteren fn en Ctrl gewoon."
+      "help": "Houd de toetscombinatie van Opdrachtmodus ingedrukt en zeg hoe de selectie moet veranderen of wat er geschreven moet worden. Zonder selectie geeft het veld context en komt het resultaat bij de invoegpositie. Alles blijft op deze Mac; Opdrachtmodus zoekt nooit iets op. Als deze uitstaat, dicteert de toetscombinatie gewoon."
     },
     "auto": {
       "title": "Pas toe na elk dictee",
@@ -1370,7 +1342,7 @@
       "paste": "Plak een voorbeeld",
       "load": "Laad .txt of .md",
       "remove": "Verwijder voorbeeld {{number}}",
-      "readError": "Kies een .txt- of .md-bestand met maximaal 1500 tekens.",
+      "readError": "Kies een .txt- of .md-bestand met maximaal {{chars}} tekens.",
       "help_one": "Plak of laad maximaal {{max}} voorbeeld van {{chars}} tekens. Het stuurt de stijl zonder deel van het resultaat te worden.",
       "help_other": "Plak of laad maximaal {{max}} voorbeelden van elk {{chars}} tekens. Ze sturen de stijl zonder deel van het resultaat te worden."
     },
@@ -1509,7 +1481,7 @@
       "trigger_control_character": "Wat je zegt moet op één regel passen.",
       "empty_body": "Typ de tekst die geschreven moet worden.",
       "body_control_character": "De tekst bevat een teken dat niet kan worden geschreven. Verwijder het en probeer het opnieuw.",
-      "full": "Je hebt het maximumaantal tekstfragmenten bereikt. Verwijder er eerst een paar.",
+      "full": "Je lijst met tekstfragmenten is vol. Verwijder eerst een paar tekstfragmenten.",
       "trigger_too_long_one": "Wat je zegt mag maximaal {{max}} teken lang zijn.",
       "trigger_too_long_other": "Wat je zegt mag maximaal {{max}} tekens lang zijn.",
       "body_too_long_one": "De tekst mag maximaal {{maxBody}} teken lang zijn.",
@@ -1524,7 +1496,7 @@
       "body": "Schrijf",
       "bodyPlaceholder": "De tekst die geschreven wordt. Regeleinden blijven behouden.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Werkt los of midden in een zin, ongeacht hoofdletters. Midden in een zin moet je leestekens in het trefwoord ook uitspreken. De tekst wordt precies zo geschreven als hij is bewaard.",
+      "hint": "Werkt los of midden in een zin, ongeacht hoofdletters. Midden in een zin moeten leestekens in wat je zegt precies overeenkomen met de gedicteerde tekst. De tekst wordt precies zo geschreven als hij is bewaard.",
       "cancel": "Annuleer",
       "add": "Voeg tekstfragment toe",
       "save": "Bewaar",
@@ -1546,8 +1518,8 @@
         "columns": "De eerste kolom is wat je zegt; de tweede is de tekst die geschreven wordt.",
         "lines": "Tekst met regeleinden staat tussen aanhalingstekens, zoals spreadsheetapps hem bewaren.",
         "encoding": "Bewaar als “CSV UTF-8” zodat accenten en andere schriften goed overkomen.",
-        "limits_one": "Wat je zegt tot {{max}} teken, teksten tot {{maxBody}}, maximaal 1000 rijen en 3 MB per bestand.",
-        "limits_other": "Wat je zegt tot {{max}} tekens, teksten tot {{maxBody}}, maximaal 1000 rijen en 3 MB per bestand."
+        "limits_one": "Tot {{max}} teken voor wat je zegt en {{maxBody}} voor de tekst; maximaal 1000 rijen en 3 MB per bestand.",
+        "limits_other": "Tot {{max}} tekens voor wat je zegt en {{maxBody}} voor de tekst; maximaal 1000 rijen en 3 MB per bestand."
       },
       "review": {
         "new_one": "nieuw tekstfragment",
@@ -1558,8 +1530,8 @@
         "conflicts_other": "conflicten",
         "invalid_one": "kan niet worden geïmporteerd",
         "invalid_other": "kan niet worden geïmporteerd",
-        "overLimit_one": "Er is nog ruimte voor {{room}}; {{count}} nieuw tekstfragment past niet.",
-        "overLimit_other": "Er is nog ruimte voor {{room}}; {{count}} nieuwe tekstfragmenten passen niet.",
+        "overLimit_one": "{{count}} nieuw tekstfragment past niet (ruimte over: {{room}}).",
+        "overLimit_other": "{{count}} nieuwe tekstfragmenten passen niet (ruimte over: {{room}}).",
         "ignoredRows_one": "Alleen de eerste 1000 rijen worden gelezen; nog {{count}} rij wordt overgeslagen.",
         "ignoredRows_other": "Alleen de eerste 1000 rijen worden gelezen; nog {{count}} rijen worden overgeslagen.",
         "showNew": "Toon de nieuwe tekstfragmenten",
@@ -1587,8 +1559,8 @@
         "kept_other": "{{count}} conflicten ongewijzigd gelaten",
         "invalid_one": "{{count}} rij kon niet worden geïmporteerd",
         "invalid_other": "{{count}} rijen konden niet worden geïmporteerd",
-        "overLimit_one": "{{count}} paste niet",
-        "overLimit_other": "{{count}} pasten niet"
+        "overLimit_one": "{{count}} paste niet (je lijst met tekstfragmenten is vol)",
+        "overLimit_other": "{{count}} pasten niet (je lijst met tekstfragmenten is vol)"
       }
     },
     "export": {
@@ -1707,8 +1679,8 @@
     },
     "results_one": "{{count}} dictee gevonden",
     "results_other": "{{count}} dictees gevonden",
-    "resultsMore_one": "{{count}} meest recente overeenkomst. Scrol voor meer.",
-    "resultsMore_other": "De {{count}} meest recente overeenkomsten. Scrol voor meer.",
+    "resultsMore_one": "{{count}} recente overeenkomst wordt getoond. Scrol voor meer.",
+    "resultsMore_other": "De {{count}} meest recente overeenkomsten worden getoond. Scrol voor meer.",
     "search": {
       "open": "Doorzoek Geschiedenis",
       "label": "Doorzoek je dictees",
@@ -1719,7 +1691,7 @@
     "transcribeFailed": "Dat bestand kon niet worden geopend. Probeer het opnieuw.",
     "showMore": "Toon meer",
     "showLess": "Weergeven minder",
-    "failed": "Transcriptie mislukt. Probeer “Herhaal transcriptie” in het menu ⋮.",
+    "failed": "Transcriptie mislukt. Kies “Herhaal transcriptie” in het menu ⋮.",
     "waitingForModel": "Wacht op spraakmodel",
     "notTranscribed": "Nog niet uitgeschreven.",
     "job": {
@@ -1964,7 +1936,7 @@
       "title": "Praat, en je woorden verschijnen",
       "subtitle": "Houd één toets ingedrukt, praat en laat los. Nette tekst verschijnt waar je aan het typen bent.",
       "privacyTitle": "Alles blijft op deze Mac",
-      "privacy": "Je stem en je tekst verlaten nooit deze computer. Geen account, geen cloud, geen tracking.",
+      "privacy": "Je stem en je tekst verlaten nooit je Mac. Geen account, geen cloud, geen tracking.",
       "download": "Het instellen van spraak begint nu en loopt op de achtergrond.",
       "start": "Begin"
     },
@@ -1984,8 +1956,8 @@
       "noMatch": "Geen taal komt overeen met “{{query}}”.",
       "count_one": "Dicteren werkt in {{count}} taal. Je kunt je talen later wijzigen in Instellingen.",
       "count_other": "Dicteren werkt in {{count}} talen. Je kunt je talen later wijzigen in Instellingen.",
-      "weak_one": "Herkenning is minder nauwkeurig in {{languages}}. Het werkt nog, maar verwacht meer fouten.",
-      "weak_other": "Herkenning is minder nauwkeurig in {{languages}}. Ze werken nog, maar verwacht meer fouten."
+      "weak_one": "Herkenning is minder nauwkeurig in {{languages}}. Dicteren in die taal werkt nog, maar verwacht meer fouten.",
+      "weak_other": "Herkenning is minder nauwkeurig in {{languages}}. Dicteren in die talen werkt nog, maar verwacht meer fouten."
     },
     "permissions": {
       "title": "Twee toestemmingen",
@@ -2439,7 +2411,7 @@
       "how": {
         "title": "Zo fluister je tegen je Mac",
         "body": "Met de ingebouwde microfoon van je Mac maken vier gewoontes een zachte stem goed verstaanbaar.",
-        "distance": "Ongeveer 30 cm, zo’n onderarmlengte, van de microfoon",
+        "distance": "Ongeveer 30 cm (een onderarmlengte) van de microfoon",
         "tips": {
           "distance": {
             "title": "Zit dichtbij.",
@@ -2461,7 +2433,7 @@
       },
       "practice": {
         "title": "Fluister deze e-mail",
-        "body": "Een echte opname: die komt in het getekende bericht hieronder terecht en nergens anders.",
+        "body": "Dit is een echt dictee. De tekst komt alleen in het bericht hieronder terecht, nergens anders.",
         "doneTitle": "Gehoord, zelfs gefluisterd",
         "doneBody": "Meer is er niet nodig. Ga verder om de microfoon te vinden die bij je past.",
         "instruction": "Houd {{key}} ingedrukt, fluister de e-mail hieronder en laat dan los.",
@@ -2500,7 +2472,7 @@
         },
         "wired_headset": {
           "name": "Bekabelde headset",
-          "hint": "Een microfoon op een korte arm of kabel, dicht bij je mond",
+          "hint": "Koptelefoon met kabel en een microfoon dicht bij je mond",
           "why": "De microfoon zit direct bij je mond, dus zelfs een zachte fluistering komt door, waar je ook bent."
         },
         "wireless_earbuds": {
@@ -2599,7 +2571,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Zodat Wispr Bro je kan horen. Audio wordt op deze computer omgezet in tekst en nooit geüpload."
+          "why": "Zodat Wispr Bro je kan horen. Audio wordt op deze Mac omgezet in tekst en nooit geüpload."
         },
         "accessibility": {
           "why": "Zodat je toetscombinatie in elke app werkt en Wispr Bro de tekst kan typen waar je cursor staat."
@@ -2628,7 +2600,7 @@
     "settings": {
       "general": {
         "shortcut": {
-          "title": "Sneltoetsen"
+          "title": "Toetscombinaties"
         },
         "preferredLanguages": {
           "description": "De talen die je spreekt. Wispr Bro gebruikt ze om modellen aan te bevelen."
@@ -2647,10 +2619,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Wispr Bro automatisch starten zodra je inlogt op je computer."
+          "description": "Wispr Bro automatisch starten zodra je inlogt op je Mac."
         },
         "showTrayIcon": {
-          "description": "Toon het Wispr Bro-pictogram in het systeemvak."
+          "description": "Toon het Wispr Bro-pictogram in de menubalk."
         }
       },
       "debug": {

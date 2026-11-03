@@ -50,7 +50,7 @@
       "version": "Sürüm",
       "channel": "Kanal",
       "key": "İmzalama anahtarı",
-      "endpoints": "Kaynaklar",
+      "endpoints": "Güncelleme kaynakları",
       "checksOff": "Güncelleme denetimleri kapalı (Ayarlar › Gelişmiş veya bir devre dışı bırakma anahtarı ayarlı).",
       "check": "Şimdi Denetle",
       "checking": "Denetleniyor…",
@@ -71,7 +71,7 @@
       "contextAwareness": "Bağlam farkındalığı",
       "contextAwarenessHint": "İmlecin yakınındaki metinde geçen adları doğru yazmak için kullanır. Bu metin bu Mac’te kalır ve hiçbir zaman kaydedilmez.",
       "transforms": "Dönüştürmeler",
-      "transformsHint": "⌥1 seçili metne Polish uygular, ⌥2 ise onu daha net bir yapay zekâ istemine dönüştürür. Açıkken bu tuşlar ¡ ve ™ yerine geçer.",
+      "transformsHint": "⌥1 seçili metne Polish uygular, ⌥2 onu daha net bir yapay zekâ istemine dönüştürür ve ⌥O son dönüştürmenin neyi değiştirdiğini gösterir. Açıkken bu tuşlar artık ¡, ™ ve ø yazmaz.",
       "transformsSafeShortcuts": "Bunun yerine ⌃⌥1 ve ⌃⌥2’yi kullan",
       "transformsSafeShortcutsHint": "¡ ve ™, ⌥1 ve ⌥2 ile kullanılabilir kalır.",
       "cleanupLevel": "Temizleme düzeyi",
@@ -386,7 +386,7 @@
       "saveFailed": "Bu kestirme kaydedilemedi.",
       "conflict": "Bu kestirme şu eylem tarafından da kullanılıyor: {{action}}. Başka bir kestirme seçin.",
       "invalid": "Bu kestirme tanınmıyor.",
-      "unsupported": "Kestirme motoru bu eylem için bu bileşimi kullanamıyor.",
+      "unsupported": "Bu bileşim, bu eylem için kestirme olarak kullanılamaz.",
       "capture": {
         "starting": "Kestirme yakalama başlatılıyor…",
         "listening": "Bir kestirmeye basın…",
@@ -397,7 +397,7 @@
         "failed": "Kestirme yakalama başlatılamadı. Erişilebilirlik iznini denetleyip yeniden deneyin."
       },
       "actions": {
-        "dictate": "Bas-konuş",
+        "dictate": "Basılı tut ve konuş",
         "hands_free": "Eller serbest dikte",
         "cancel": "Dikteyi iptal et",
         "command_mode": "Komut Modu",
@@ -418,7 +418,7 @@
         "dictate": "Konuşurken kestirmeyi basılı tutun; bitirmek için bırakın.",
         "hands_free": "Tuşu basılı tutmadan dikteyi başlatın ve durdurun.",
         "cancel": "Geçerli dikteyi eklemeden durdurur.",
-        "command_mode": "Metnin nasıl düzenleneceğini veya yazılacağını söylerken fn ve Control tuşlarını basılı tutun.",
+        "command_mode": "Metnin nasıl düzenleneceğini veya yazılacağını söylerken kestirmeyi basılı tutun.",
         "paste_last": "En son dikteyi yeniden yapıştırır.",
         "copy_last": "En son dikteyi panoya kopyalar.",
         "press_enter": "Yazdığınız uygulamada Return’e basar. Bunun için farenin yan düğmesi iyi bir seçimdir.",
@@ -532,58 +532,30 @@
           "quiet": "Sessizce dikte edin: Nasıl yapılacağını göster"
         },
         "empty": {
-          "title": "Dikteleriniz burada görünecek",
-          "body": "Her biri sesiyle birlikte bu Mac’e kaydedilir; böylece daha sonra kopyalayabilir veya kontrol edebilirsiniz.",
-          "action": "Geçmiş’i aç"
+          "title": "Dikteleriniz burada görünecek"
         }
       },
       "insights": {
         "title": "İstatistikler",
         "empty": {
           "title": "İstatistikler için birkaç dikte gerekli",
-          "body": "Konuşma hızınız, seri günleriniz ve kazandığınız zaman, bir süre dikte ettikten sonra burada görünür.",
           "action": "Dikte’ye git"
         }
       },
       "dictionary": {
-        "title": "Sözlük",
-        "empty": {
-          "title": "{{appName}} uygulamasına kelimelerinizi öğretin",
-          "body": "Eklediğiniz adlar, ürün terimleri ve kısaltmalar her seferinde doğru yazılır. Bu sayfa hazır olana kadar kelimeleriniz Ayarlar’da.",
-          "action": "Özel kelimeleri aç"
-        }
+        "title": "Sözlük"
       },
       "snippets": {
-        "title": "Metin parçaları",
-        "empty": {
-          "title": "Metin parçaları yolda",
-          "body": "“Adresim” gibi kısa bir ifade söyleyin, metnin tamamı yazılsın. Bu sayfa sonraki bir güncellemeyle gelecek.",
-          "action": "Dikte’ye git"
-        }
+        "title": "Metin parçaları"
       },
       "style": {
-        "title": "Stil",
-        "empty": {
-          "title": "Stiller yolda",
-          "body": "Resmî e-postadan rahat sohbete kadar her tür uygulamada metninizin ne kadar özenli olacağını seçin. Bu sayfa sonraki bir güncellemeyle gelecek.",
-          "action": "Dikte’ye git"
-        }
+        "title": "Stil"
       },
       "transforms": {
-        "title": "Dönüştürmeler",
-        "empty": {
-          "title": "Dönüştürmeler yolda",
-          "body": "Metni seçin ve tek bir kestirmeyle yeniden yazın: daha kısa, daha net veya daha iyi düzenlenmiş. Bu sayfa sonraki bir güncellemeyle gelecek.",
-          "action": "Dikte’ye git"
-        }
+        "title": "Dönüştürmeler"
       },
       "scratchpad": {
-        "title": "Karalama",
-        "empty": {
-          "title": "Karalama yolda",
-          "body": "Notları başka bir yere göndermeden önce hızlıca dikte edebileceğiniz bir yer. Bu sayfa sonraki bir güncellemeyle gelecek.",
-          "action": "Dikte’ye git"
-        }
+        "title": "Karalama"
       },
       "share": {
         "title": "Bir arkadaşınızla paylaşın"
@@ -620,7 +592,7 @@
       "paused": "Üç başarısız denemeden sonra otomatik güncellemeler duraklatıldı. Yeniden başlama zamanı: {{time}}.",
       "manualOnly": "Bu bir geliştirme derlemesi: Güncellemeler yalnızca siz istediğinizde denetlenir.",
       "readyHint": "20 dakika boyunca dikte etmediğinizde veya uygulamadan çıktığınızda kendiliğinden yüklenir.",
-      "policy": "Güncellemeler arka planda indirilir ve yalnızca siz dikte etmiyorken veya uygulamadan çıktığınızda yüklenir.",
+      "policy": "Güncellemeler arka planda indirilir ve 20 dakika boyunca dikte etmediğinizde veya uygulamadan çıktığınızda yüklenir.",
       "needsPassword": "Uygulamanın bu kopyası, değiştirilmesi için yönetici parolası gereken bir klasörde. Bu yüzden güncellemeler yalnızca Şimdi yeniden başlat’ı seçtiğinizde yüklenir."
     }
   },
@@ -653,7 +625,7 @@
       "noColumn": "Bu dosyada yok",
       "column": "{{letter}} sütunu",
       "columnNamed": "{{letter}} sütunu: {{name}}",
-      "mapRequired": "İsteğe bağlı olmayan her alan için bir sütun seçin.",
+      "mapRequired": "Her zorunlu alan için bir sütun seçin.",
       "previewCaption_one": "İlk satırın önizlemesi",
       "previewCaption_other": "İlk {{count}} satırın önizlemesi",
       "rowHeader": "Satır",
@@ -676,7 +648,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dikte",
-      "vocabulary": "Kelimeler",
+      "vocabulary": "Sözlük",
       "help": "Yardım",
       "file": "Dosya",
       "edit": "Düzen",
@@ -684,9 +656,9 @@
       "window": "Pencere",
       "wordsDictated_one": "{{count}} kelime dikte edildi",
       "wordsDictated_other": "{{count}} kelime dikte edildi",
-      "copyLast": "Son dökümü kopyala",
-      "copyLastPreview": "Son dökümü kopyala: “{{preview}}”",
-      "copyLastConcealed": "Son dökümü kopyala (metin gizli)",
+      "copyLast": "Son dikteyi kopyala",
+      "copyLastPreview": "Son dikteyi kopyala: “{{preview}}”",
+      "copyLastConcealed": "Son dikteyi kopyala (metin gizli)",
       "microphone": "Mikrofon",
       "languages": "Diller",
       "moreLanguages": "Dil ekle veya kaldır…",
@@ -704,7 +676,7 @@
       "sendFeedback": "Geri bildirim gönder…",
       "openApp": "{{appName}} uygulamasını aç",
       "checkUpdates": "Güncellemeleri denetle…",
-      "pasteLast": "Son dökümü yapıştır",
+      "pasteLast": "Son dikteyi yapıştır",
       "cancelDictation": "Dikteyi iptal et",
       "shortcutsBlocked": "Kestirmeler engellendi — Ayarlar’ı açın",
       "undo": "Geri Al",
@@ -841,7 +813,8 @@
       "takeRecovered": {
         "title_one": "Uygulama kapanırken bir kayıt kurtarıldı",
         "title_other": "Uygulama kapanırken {{count}} kayıt kurtarıldı",
-        "body": "{{appName}} kapandığında bu kayıtlar hâlâ sürüyordu. Geçmiş’te bulunuyorlar ve orada metne dönüştürülüyorlar."
+        "body_one": "{{appName}} kapandığında hâlâ dikte ediyordunuz. Kayıt metne dönüştürülüyor ve Geçmiş’te görünecek.",
+        "body_other": "{{appName}} kapandığında hâlâ dikte ediyordunuz. Kayıtlar metne dönüştürülüyor ve Geçmiş’te görünecek."
       }
     },
     "scratchpad": {
@@ -1180,8 +1153,8 @@
         "conflicts_other": "çakışma",
         "invalid_one": "içe aktarılamaz",
         "invalid_other": "içe aktarılamaz",
-        "overLimit_one": "Sözlüğünüzde {{room}} girişlik yer kaldı; {{count}} yeni giriş sığmayacak.",
-        "overLimit_other": "Sözlüğünüzde {{room}} girişlik yer kaldı; {{count}} yeni giriş sığmayacak.",
+        "overLimit_one": "{{count}} yeni giriş sığmayacak (sözlüğünüzde kalan yer: {{room}}).",
+        "overLimit_other": "{{count}} yeni giriş sığmayacak (sözlüğünüzde kalan yer: {{room}}).",
         "showNew": "Yeni girişleri göster",
         "more_one": "ve {{count}} tane daha",
         "more_other": "ve {{count}} tane daha",
@@ -1276,10 +1249,9 @@
     },
     "commandMode": {
       "title": "Komut Modu",
-      "shortcut": "fn ⌃",
       "on": "Açık",
       "off": "Kapalı",
-      "help": "fn ve Control tuşlarını basılı tutun, sonra seçimin nasıl değişeceğini veya ne yazılacağını söyleyin. Seçim yoksa alandaki metin bağlam olarak kullanılır ve sonuç imlecin olduğu yere yazılır. Her şey bu Mac’te kalır; Komut Modu hiçbir şeyi internette aramaz. Kapalıyken fn ve Control normal dikte eder."
+      "help": "Komut Modu kestirmesini basılı tutun, sonra seçimin nasıl değişeceğini veya ne yazılacağını söyleyin. Seçim yoksa alandaki metin bağlam olarak kullanılır ve sonuç imlecin olduğu yere yazılır. Her şey bu Mac’te kalır; Komut Modu hiçbir şeyi internette aramaz. Kapalıyken bu kestirme normal dikte eder."
     },
     "auto": {
       "title": "Her dikteden sonra uygula",
@@ -1370,7 +1342,7 @@
       "paste": "Örnek yapıştır",
       "load": ".txt veya .md yükle",
       "remove": "{{number}}. örneği kaldır",
-      "readError": "En fazla 1.500 karakterlik bir .txt veya .md dosyası seçin.",
+      "readError": "En fazla {{chars}} karakterlik bir .txt veya .md dosyası seçin.",
       "help_one": "En fazla {{max}} örnek yapıştırın veya yükleyin; her biri {{chars}} karakter olabilir. Örnekler stile yön verir ama sonuca eklenmez.",
       "help_other": "En fazla {{max}} örnek yapıştırın veya yükleyin; her biri {{chars}} karakter olabilir. Örnekler stile yön verir ama sonuca eklenmez."
     },
@@ -1509,7 +1481,7 @@
       "trigger_control_character": "Söyleyeceğiniz ifade tek satıra sığmalı.",
       "empty_body": "Yazılacak metni girin.",
       "body_control_character": "Metinde yazılamayan bir karakter var. Bu karakteri kaldırıp yeniden deneyin.",
-      "full": "Uygulamanın tutabileceği en fazla metin parçası sayısına ulaştınız. Önce bazılarını silin.",
+      "full": "Metin parçası listeniz dolu. Önce bazı metin parçalarını silin.",
       "trigger_too_long_one": "Söyleyeceğiniz ifade en fazla {{max}} karakter olabilir.",
       "trigger_too_long_other": "Söyleyeceğiniz ifade en fazla {{max}} karakter olabilir.",
       "body_too_long_one": "Metin en fazla {{maxBody}} karakter olabilir.",
@@ -1524,7 +1496,7 @@
       "body": "Şunu yaz",
       "bodyPlaceholder": "Yazılacak metin. Satır sonları korunur.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Tek başına veya cümle içinde, büyük/küçük harf fark etmeksizin çalışır. Cümle içinde, işaret ifadesindeki noktalama da aynı şekilde söylenmelidir. Metin tam olarak kaydedildiği gibi yazılır.",
+      "hint": "Tek başına veya cümle içinde, büyük/küçük harf fark etmeksizin çalışır. Cümle içinde, söyleyeceğiniz ifadedeki noktalama dikte edilen metinle tam olarak eşleşmelidir. Metin tam olarak kaydedildiği gibi yazılır.",
       "cancel": "Vazgeç",
       "add": "Metin parçası ekle",
       "save": "Kaydet",
@@ -1546,8 +1518,8 @@
         "columns": "İlk sütun söyleyeceğiniz ifade, ikinci sütun yazılacak metindir.",
         "lines": "Satır sonu içeren metinler, tablo uygulamalarının kaydettiği gibi tırnak içinde olur.",
         "encoding": "Aksanlı harflerin ve diğer alfabelerin doğru gelmesi için CSV UTF-8 olarak kaydedin.",
-        "limits_one": "Söyleyeceğiniz ifade en fazla {{max}} karakter, metinler en fazla {{maxBody}} karakter; dosya başına en fazla 1.000 satır ve 3 MB.",
-        "limits_other": "Söyleyeceğiniz ifade en fazla {{max}} karakter, metinler en fazla {{maxBody}} karakter; dosya başına en fazla 1.000 satır ve 3 MB."
+        "limits_one": "Söyleyeceğiniz ifade için en fazla {{max}} karakter, metin için {{maxBody}}; dosya başına en fazla 1.000 satır ve 3 MB.",
+        "limits_other": "Söyleyeceğiniz ifade için en fazla {{max}} karakter, metin için {{maxBody}}; dosya başına en fazla 1.000 satır ve 3 MB."
       },
       "review": {
         "new_one": "yeni metin parçası",
@@ -1558,8 +1530,8 @@
         "conflicts_other": "çakışma",
         "invalid_one": "içe aktarılamıyor",
         "invalid_other": "içe aktarılamıyor",
-        "overLimit_one": "Yalnızca {{room}} metin parçası için yer var; {{count}} yeni metin parçası sığmayacak.",
-        "overLimit_other": "Yalnızca {{room}} metin parçası için yer var; {{count}} yeni metin parçası sığmayacak.",
+        "overLimit_one": "{{count}} yeni metin parçası sığmayacak (kalan yer: {{room}}).",
+        "overLimit_other": "{{count}} yeni metin parçası sığmayacak (kalan yer: {{room}}).",
         "ignoredRows_one": "Yalnızca ilk 1.000 satır okunur; {{count}} satır daha dışarıda kalıyor.",
         "ignoredRows_other": "Yalnızca ilk 1.000 satır okunur; {{count}} satır daha dışarıda kalıyor.",
         "showNew": "Yeni metin parçalarını göster",
@@ -1587,8 +1559,8 @@
         "kept_other": "{{count}} çakışma olduğu gibi bırakıldı",
         "invalid_one": "{{count}} satır içe aktarılamadı",
         "invalid_other": "{{count}} satır içe aktarılamadı",
-        "overLimit_one": "{{count}} tanesi sığmadı",
-        "overLimit_other": "{{count}} tanesi sığmadı"
+        "overLimit_one": "{{count}} tanesi sığmadı (metin parçası listeniz dolu)",
+        "overLimit_other": "{{count}} tanesi sığmadı (metin parçası listeniz dolu)"
       }
     },
     "export": {
@@ -1707,8 +1679,8 @@
     },
     "results_one": "{{count}} dikte bulundu",
     "results_other": "{{count}} dikte bulundu",
-    "resultsMore_one": "En son {{count}} eşleşme. Daha fazlası için kaydırın.",
-    "resultsMore_other": "En son {{count}} eşleşme. Daha fazlası için kaydırın.",
+    "resultsMore_one": "En son {{count}} eşleşme gösteriliyor. Daha fazlası için kaydırın.",
+    "resultsMore_other": "En son {{count}} eşleşme gösteriliyor. Daha fazlası için kaydırın.",
     "search": {
       "open": "Geçmişte ara",
       "label": "Diktelerinizde arayın",
@@ -1719,7 +1691,7 @@
     "transcribeFailed": "Dosya açılamadı. Yeniden deneyin.",
     "showMore": "Daha fazla göster",
     "showLess": "Daha az göster",
-    "failed": "Metne dönüştürme başarısız oldu. ⋮ menüsündeki “Yeniden metne dönüştür” seçeneğini deneyin.",
+    "failed": "Metne dönüştürme başarısız oldu. ⋮ menüsünden “Yeniden metne dönüştür”ü seçin.",
     "waitingForModel": "Konuşma modeli bekleniyor",
     "notTranscribed": "Henüz metne dönüştürülmedi.",
     "job": {
@@ -1904,8 +1876,8 @@
       "moveTo": "Şuraya taşı",
       "useDefault": "Her zamanki grubuna dön ({{group}})",
       "remove": "{{group}} grubundan kaldır",
-      "autoSend": "Dikteden sonra Enter’a bas",
-      "autoSendOn": "dikteden sonra Enter’a basar",
+      "autoSend": "Dikteden sonra Return’e bas",
+      "autoSendOn": "dikteden sonra Return’e basar",
       "notInstalled": "yüklü değil",
       "aiChat": "Yapay zekâ sohbeti: sözleriniz stil uygulanmadan, temizlenmiş olarak eklenir.",
       "moved": "{{app}} artık {{group}} stilini kullanıyor.",
@@ -1964,7 +1936,7 @@
       "title": "Konuşun, sözleriniz yazıya dönüşsün",
       "subtitle": "Bir tuşu basılı tutun, konuşun, bırakın. Temiz metin, yazdığınız yere eklenir.",
       "privacyTitle": "Her şey bu Mac’te kalır",
-      "privacy": "Sesiniz ve metniniz bu bilgisayardan hiç çıkmaz. Hesap yok, bulut yok, izleme yok.",
+      "privacy": "Sesiniz ve metniniz Mac’inizden hiç çıkmaz. Hesap yok, bulut yok, izleme yok.",
       "download": "Konuşma kurulumu şimdi başlıyor ve arka planda çalışıyor.",
       "start": "Başlayın"
     },
@@ -1984,8 +1956,8 @@
       "noMatch": "“{{query}}” ile eşleşen dil yok.",
       "count_one": "Dikte {{count}} dilde çalışır. Dilinizi daha sonra Ayarlar’da değiştirebilirsiniz.",
       "count_other": "Dikte {{count}} dilde çalışır. Dillerinizi daha sonra Ayarlar’da değiştirebilirsiniz.",
-      "weak_one": "Şu dilde tanıma daha az doğrudur: {{languages}}. Yine de çalışır, ancak daha fazla hata olabilir.",
-      "weak_other": "Şu dillerde tanıma daha az doğrudur: {{languages}}. Yine de çalışırlar, ancak daha fazla hata olabilir."
+      "weak_one": "Şu dilde tanıma daha az doğrudur: {{languages}}. Bu dilde dikte yine de çalışır, ancak daha fazla hata olabilir.",
+      "weak_other": "Şu dillerde tanıma daha az doğrudur: {{languages}}. Bu dillerde dikte yine de çalışır, ancak daha fazla hata olabilir."
     },
     "permissions": {
       "title": "İki izin",
@@ -2105,10 +2077,10 @@
       "hoursPerDay_one": "Günde {{hours}} saat",
       "hoursPerDay_other": "Günde {{hours}} saat",
       "takeTest": "Yazma Testini Yap",
-      "basisMeasured_one": "Dakikada {{wpm}} kelime olan yazma hızınıza ve dakikada yaklaşık {{speaking}} kelime konuşma hızına göre.",
-      "basisMeasured_other": "Dakikada {{wpm}} kelime olan yazma hızınıza ve dakikada yaklaşık {{speaking}} kelime konuşma hızına göre.",
-      "basisAverage_one": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelime konuşma hızına göre.",
-      "basisAverage_other": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelime konuşma hızına göre."
+      "basisMeasured_one": "Dakikada {{wpm}} kelimelik yazma hızınıza ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
+      "basisMeasured_other": "Dakikada {{wpm}} kelimelik yazma hızınıza ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
+      "basisAverage_one": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
+      "basisAverage_other": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre."
     },
     "typing": {
       "title": "Ne kadar hızlı yazıyorsunuz?",
@@ -2439,7 +2411,7 @@
       "how": {
         "title": "Mac’inize nasıl fısıldanır",
         "body": "Mac’inizin yerleşik mikrofonuyla dört alışkanlık, alçak bir sesin kolayca duyulmasını sağlar.",
-        "distance": "Mikrofondan yaklaşık 30 cm, yani kabaca bir önkol uzunluğu",
+        "distance": "Mikrofondan yaklaşık 30 cm (bir önkol boyu)",
         "tips": {
           "distance": {
             "title": "Yakın oturun.",
@@ -2461,7 +2433,7 @@
       },
       "practice": {
         "title": "Bu e-postayı fısıldayın",
-        "body": "Gerçek bir kayıt: metin yalnızca aşağıdaki örnek iletiye yazılır, başka hiçbir yere değil.",
+        "body": "Bu gerçek bir dikte. Metin yalnızca aşağıdaki iletiye yazılır, başka hiçbir yere değil.",
         "doneTitle": "Fısıltınız bile duyuldu",
         "doneBody": "Hepsi bu kadar. Size uygun mikrofonu bulmak için devam edin.",
         "instruction": "{{key}} kestirmesini basılı tutun, aşağıdaki e-postayı fısıldayın, sonra bırakın.",
@@ -2500,7 +2472,7 @@
         },
         "wired_headset": {
           "name": "Kablolu kulaklık",
-          "hint": "Ağzınıza yakın, kısa bir kol veya kablo üzerinde mikrofon",
+          "hint": "Mikrofonu ağzınıza yakın duran kablolu kulaklık",
           "why": "Mikrofon tam ağzınızın yanında durur; bu yüzden nerede olursanız olun hafif bir fısıltı bile algılanır."
         },
         "wireless_earbuds": {
@@ -2599,7 +2571,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Böylece Wispr Bro sizi duyabilir. Ses bu bilgisayarda metne dönüştürülür ve hiçbir yere yüklenmez."
+          "why": "Böylece Wispr Bro sizi duyabilir. Ses bu Mac’te metne dönüştürülür ve hiçbir yere yüklenmez."
         },
         "accessibility": {
           "why": "Böylece kestirmeniz her uygulamada çalışır ve Wispr Bro metni imlecinizin bulunduğu yere yazabilir."
@@ -2647,10 +2619,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Bilgisayarınızda oturum açtığınızda Wispr Bro’yu otomatik olarak başlatın."
+          "description": "Mac’inizde oturum açtığınızda Wispr Bro’yu otomatik olarak başlatın."
         },
         "showTrayIcon": {
-          "description": "Wispr Bro simgesini sistem tepsisinde gösterin."
+          "description": "Wispr Bro simgesini menü çubuğunda gösterin."
         }
       },
       "debug": {

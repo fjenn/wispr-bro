@@ -50,7 +50,7 @@
       "version": "Version",
       "channel": "Kanal",
       "key": "Signaturschlüssel",
-      "endpoints": "Feeds",
+      "endpoints": "Update-Feeds",
       "checksOff": "Updateprüfungen sind aus (Einstellungen › Erweitert, oder ein Notschalter ist gesetzt).",
       "check": "Jetzt prüfen",
       "checking": "Wird geprüft …",
@@ -71,7 +71,7 @@
       "contextAwareness": "Kontextbezug",
       "contextAwarenessHint": "Nutzt Namen im Text rund um deinen Cursor, um sie richtig zu schreiben. Dieser Text bleibt auf diesem Mac und wird nie gespeichert.",
       "transforms": "Transformationen",
-      "transformsHint": "⌥1 poliert den ausgewählten Text, ⌥2 macht daraus einen klareren KI-Prompt. Solange das aktiv ist, ersetzen diese Tasten ¡ und ™.",
+      "transformsHint": "⌥1 poliert den ausgewählten Text, ⌥2 macht daraus einen klareren KI-Prompt und ⌥O zeigt, was die letzte Transformation geändert hat. Solange das aktiv ist, tippen diese Tasten kein ¡, ™ und ø mehr.",
       "transformsSafeShortcuts": "Stattdessen ⌃⌥1 und ⌃⌥2 verwenden",
       "transformsSafeShortcutsHint": "So bleiben ¡ und ™ mit ⌥1 und ⌥2 verfügbar.",
       "cleanupLevel": "Bereinigungsstufe",
@@ -148,7 +148,7 @@
       "notSet": "Nicht festgelegt",
       "current": "Kurzbefehl: {{shortcut}}",
       "listening": "Kurzbefehl drücken …",
-      "listeningHelp": "Drücke die gewünschten Tasten oder die Maustaste. Escape bricht ab.",
+      "listeningHelp": "Drücke die gewünschten Tasten oder die Maustaste. Esc bricht ab.",
       "record": "Aufnehmen",
       "cancel": "Abbrechen",
       "clear": "Entfernen",
@@ -386,18 +386,18 @@
       "saveFailed": "Dieser Kurzbefehl konnte nicht gespeichert werden.",
       "conflict": "Wird schon für „{{action}}“ verwendet. Wähle einen anderen Kurzbefehl.",
       "invalid": "Dieser Kurzbefehl wird nicht erkannt.",
-      "unsupported": "Diese Kombination kann für diese Aktion nicht verwendet werden.",
+      "unsupported": "Diese Kombination kann für diese Aktion nicht als Kurzbefehl verwendet werden.",
       "capture": {
         "starting": "Aufnahme wird gestartet …",
         "listening": "Kurzbefehl drücken …",
-        "listeningHelp": "Drücke die gewünschte Tastenkombination oder Maustaste. Escape bricht ab.",
+        "listeningHelp": "Drücke die gewünschte Tastenkombination oder Maustaste. Esc bricht ab.",
         "cancel": "Abbrechen",
         "close": "Zurück",
         "secure": "Solange die sichere Eingabe aktiv ist, können keine Kurzbefehle aufgenommen werden. Verlass das Passwortfeld oder deaktiviere „Sichere Tastatureingabe“ und versuch es dann noch einmal.",
         "failed": "Die Aufnahme konnte nicht gestartet werden. Prüfe die Berechtigung für Bedienungshilfen und versuch es noch einmal."
       },
       "actions": {
-        "dictate": "Gedrückt halten",
+        "dictate": "Halten und sprechen",
         "hands_free": "Freihändiges Diktat",
         "cancel": "Diktat abbrechen",
         "command_mode": "Befehlsmodus",
@@ -418,7 +418,7 @@
         "dictate": "Halte den Kurzbefehl, während du sprichst, und lass ihn los, um fertig zu werden.",
         "hands_free": "Diktat starten und beenden, ohne eine Taste zu halten.",
         "cancel": "Das laufende Diktat beenden, ohne es einzufügen.",
-        "command_mode": "Halte fn und Ctrl gedrückt und sag, wie Text bearbeitet oder geschrieben werden soll.",
+        "command_mode": "Halte den Kurzbefehl gedrückt und sag, wie Text bearbeitet oder geschrieben werden soll.",
         "paste_last": "Dein letztes Diktat noch einmal einfügen.",
         "copy_last": "Dein letztes Diktat in die Zwischenablage kopieren.",
         "press_enter": "Drückt Return in der App, in der du schreibst. Dafür eignet sich eine Seitentaste der Maus.",
@@ -532,58 +532,30 @@
           "quiet": "Leise diktieren: So geht’s"
         },
         "empty": {
-          "title": "Hier erscheinen deine Diktate",
-          "body": "Jedes wird mit seiner Aufnahme auf diesem Mac gespeichert, damit du es später kopieren oder prüfen kannst.",
-          "action": "Verlauf öffnen"
+          "title": "Hier erscheinen deine Diktate"
         }
       },
       "insights": {
         "title": "Statistik",
         "empty": {
           "title": "Für die Statistik brauchst du ein paar Diktate",
-          "body": "Dein Sprechtempo, deine Serien und die gesparte Zeit erscheinen, sobald du eine Weile diktiert hast.",
           "action": "Zum Diktat"
         }
       },
       "dictionary": {
-        "title": "Wörterbuch",
-        "empty": {
-          "title": "Bring {{appName}} deine Wörter bei",
-          "body": "Namen, Produktbegriffe und Abkürzungen, die du hinzufügst, werden jedes Mal richtig geschrieben. Bis diese Seite fertig ist, findest du deine Wörter in den Einstellungen.",
-          "action": "Eigene Wörter öffnen"
-        }
+        "title": "Wörterbuch"
       },
       "snippets": {
-        "title": "Textbausteine",
-        "empty": {
-          "title": "Textbausteine kommen bald",
-          "body": "Sag ein kurzes Stichwort wie „meine Adresse“ und erhalte den vollständigen Text. Diese Seite kommt mit einem späteren Update.",
-          "action": "Zum Diktat"
-        }
+        "title": "Textbausteine"
       },
       "style": {
-        "title": "Stil",
-        "empty": {
-          "title": "Stile kommen bald",
-          "body": "Leg fest, wie ausgefeilt dein Text in jeder Art von App ist, von förmlicher E-Mail bis lockerem Chat. Diese Seite kommt mit einem späteren Update.",
-          "action": "Zum Diktat"
-        }
+        "title": "Stil"
       },
       "transforms": {
-        "title": "Transformationen",
-        "empty": {
-          "title": "Transformationen kommen bald",
-          "body": "Text auswählen und mit einem Kurzbefehl umschreiben: kürzer, klarer oder besser gegliedert. Diese Seite kommt mit einem späteren Update.",
-          "action": "Zum Diktat"
-        }
+        "title": "Transformationen"
       },
       "scratchpad": {
-        "title": "Notizblock",
-        "empty": {
-          "title": "Der Notizblock kommt bald",
-          "body": "Ein schneller Ort, um Notizen zu diktieren, bevor sie woandershin wandern. Diese Seite kommt mit einem späteren Update.",
-          "action": "Zum Diktat"
-        }
+        "title": "Notizblock"
       },
       "share": {
         "title": "Mit Freunden teilen"
@@ -620,7 +592,7 @@
       "paused": "Nach drei Fehlversuchen sind automatische Updates bis {{time}} pausiert.",
       "manualOnly": "Dies ist ein Entwickler-Build: Updates werden nur auf deinen Wunsch geprüft.",
       "readyHint": "Es installiert sich selbst, wenn du 20 Minuten nicht diktiert hast oder die App beendest.",
-      "policy": "Updates werden im Hintergrund geladen und nur installiert, wenn du gerade nicht diktierst oder die App beendest.",
+      "policy": "Updates werden im Hintergrund geladen und installiert, sobald du 20 Minuten lang nicht diktiert hast oder die App beendest.",
       "needsPassword": "Diese App liegt in einem Ordner, für dessen Änderung ein Administratorpasswort nötig ist. Updates werden daher nur installiert, wenn du „Jetzt neu starten“ wählst."
     }
   },
@@ -676,7 +648,7 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Diktat",
-      "vocabulary": "Wortschatz",
+      "vocabulary": "Wörterbuch",
       "help": "Hilfe",
       "file": "Datei",
       "edit": "Bearbeiten",
@@ -684,9 +656,9 @@
       "window": "Fenster",
       "wordsDictated_one": "{{count}} Wort diktiert",
       "wordsDictated_other": "{{count}} Wörter diktiert",
-      "copyLast": "Letztes Transkript kopieren",
-      "copyLastPreview": "Letztes Transkript kopieren: „{{preview}}“",
-      "copyLastConcealed": "Letztes Transkript kopieren (Text verborgen)",
+      "copyLast": "Letztes Diktat kopieren",
+      "copyLastPreview": "Letztes Diktat kopieren: „{{preview}}“",
+      "copyLastConcealed": "Letztes Diktat kopieren (Text verborgen)",
       "microphone": "Mikrofon",
       "languages": "Sprachen",
       "moreLanguages": "Sprachen hinzufügen oder entfernen …",
@@ -704,7 +676,7 @@
       "sendFeedback": "Feedback senden …",
       "openApp": "{{appName}} öffnen",
       "checkUpdates": "Nach Updates suchen …",
-      "pasteLast": "Letztes Transkript einfügen",
+      "pasteLast": "Letztes Diktat einfügen",
       "cancelDictation": "Diktat abbrechen",
       "shortcutsBlocked": "Kurzbefehle blockiert – Einstellungen öffnen",
       "undo": "Widerrufen",
@@ -841,7 +813,8 @@
       "takeRecovered": {
         "title_one": "Beim Beenden der App wurde eine Aufnahme gespeichert",
         "title_other": "Beim Beenden der App wurden {{count}} Aufnahmen gespeichert",
-        "body": "Sie liefen noch, als {{appName}} beendet wurde. Du findest sie im Verlauf, wo sie transkribiert werden."
+        "body_one": "Du hast noch diktiert, als {{appName}} beendet wurde. Die Aufnahme wird transkribiert und erscheint im Verlauf.",
+        "body_other": "Du hast noch diktiert, als {{appName}} beendet wurde. Die Aufnahmen werden transkribiert und erscheinen im Verlauf."
       }
     },
     "scratchpad": {
@@ -873,7 +846,7 @@
         "micLostWarning": "Das Mikrofon wurde getrennt. Was du bisher gesagt hast, bleibt erhalten.",
         "undo": "„Rückgängig“ ist 4 Sekunden lang in der Diktatleiste verfügbar.",
         "diff": "Die Änderungen der Transformation können geprüft werden.",
-        "secureInputWarning": "Sichere Eingabe ist aktiv. fn und Space können das Diktat nicht fixieren. Escape oder die Schließen-Taste brechen weiterhin ab.",
+        "secureInputWarning": "Sichere Eingabe ist aktiv. fn und Space können das Diktat nicht fixieren. Esc oder die Schließen-Taste brechen weiterhin ab.",
         "inserted": "Text eingefügt"
       },
       "message": {
@@ -1180,8 +1153,8 @@
         "conflicts_other": "Konflikte",
         "invalid_one": "kann nicht importiert werden",
         "invalid_other": "kann nicht importiert werden",
-        "overLimit_one": "In deinem Wörterbuch ist noch Platz für {{room}} weitere. {{count}} neuer Eintrag passt nicht mehr hinein.",
-        "overLimit_other": "In deinem Wörterbuch ist noch Platz für {{room}} weitere. {{count}} neue Einträge passen nicht mehr hinein.",
+        "overLimit_one": "{{count}} neuer Eintrag passt nicht mehr hinein (freier Platz im Wörterbuch: {{room}}).",
+        "overLimit_other": "{{count}} neue Einträge passen nicht mehr hinein (freier Platz im Wörterbuch: {{room}}).",
         "showNew": "Neue Einträge anzeigen",
         "more_one": "und {{count}} weiterer",
         "more_other": "und {{count}} weitere",
@@ -1276,10 +1249,9 @@
     },
     "commandMode": {
       "title": "Befehlsmodus",
-      "shortcut": "fn ⌃",
       "on": "Ein",
       "off": "Aus",
-      "help": "Halte fn und Ctrl gedrückt und sag, wie die Auswahl geändert oder was geschrieben werden soll. Ohne Auswahl dient das Feld als Kontext und das Ergebnis landet an der Einfügemarke. Alles bleibt auf diesem Mac, der Befehlsmodus schlägt nie etwas nach. Ist er aus, diktieren fn und Ctrl ganz normal."
+      "help": "Halte den Kurzbefehl für den Befehlsmodus gedrückt und sag, wie die Auswahl geändert oder was geschrieben werden soll. Ohne Auswahl dient das Feld als Kontext und das Ergebnis landet an der Einfügemarke. Alles bleibt auf diesem Mac, der Befehlsmodus schlägt nie etwas nach. Ist er aus, diktiert der Kurzbefehl ganz normal."
     },
     "auto": {
       "title": "Nach jedem Diktat anwenden",
@@ -1370,7 +1342,7 @@
       "paste": "Beispiel einfügen",
       "load": ".txt oder .md laden",
       "remove": "Beispiel {{number}} entfernen",
-      "readError": "Wähle eine .txt- oder .md-Datei mit höchstens 1.500 Zeichen.",
+      "readError": "Wähle eine .txt- oder .md-Datei mit höchstens {{chars}} Zeichen.",
       "help_one": "Füge bis zu {{max}} Beispiel mit je {{chars}} Zeichen ein oder lade es. Beispiele geben den Stil vor, werden aber nicht Teil des Ergebnisses.",
       "help_other": "Füge bis zu {{max}} Beispiele mit je {{chars}} Zeichen ein oder lade sie. Beispiele geben den Stil vor, werden aber nicht Teil des Ergebnisses."
     },
@@ -1509,7 +1481,7 @@
       "trigger_control_character": "Das Gesprochene muss in eine Zeile passen.",
       "empty_body": "Gib den Text ein, der geschrieben werden soll.",
       "body_control_character": "Der Text enthält ein Zeichen, das nicht geschrieben werden kann. Entferne es und versuch es noch einmal.",
-      "full": "Du hast die maximale Anzahl an Textbausteinen erreicht. Lösche zuerst ein paar.",
+      "full": "Deine Liste der Textbausteine ist voll. Lösche zuerst einige Textbausteine.",
       "trigger_too_long_one": "Das Gesprochene darf höchstens {{max}} Zeichen lang sein.",
       "trigger_too_long_other": "Das Gesprochene darf höchstens {{max}} Zeichen lang sein.",
       "body_too_long_one": "Der Text darf höchstens {{maxBody}} Zeichen lang sein.",
@@ -1524,7 +1496,7 @@
       "body": "Schreiben",
       "bodyPlaceholder": "Der Text, der geschrieben wird. Zeilenumbrüche bleiben erhalten.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Funktioniert allein oder mitten im Satz, unabhängig von Groß- und Kleinschreibung. Im Satz muss Zeichensetzung im Stichwort genauso gesprochen werden. Der Text wird genau so geschrieben, wie er gespeichert ist.",
+      "hint": "Funktioniert allein oder mitten im Satz, unabhängig von Groß- und Kleinschreibung. Im Satz muss die Zeichensetzung im Gesprochenen genau zum diktierten Text passen. Der Text wird genau so geschrieben, wie er gespeichert ist.",
       "cancel": "Abbrechen",
       "add": "Textbaustein hinzufügen",
       "save": "Speichern",
@@ -1546,8 +1518,8 @@
         "columns": "Die erste Spalte enthält das Gesprochene, die zweite den Text, der geschrieben wird.",
         "lines": "Text mit Zeilenumbrüchen steht in Anführungszeichen, so wie Tabellen-Apps ihn sichern.",
         "encoding": "Als „CSV UTF-8“ sichern, damit Akzente und andere Schriften erhalten bleiben.",
-        "limits_one": "Gesprochenes bis {{max}} Zeichen, Texte bis {{maxBody}}, höchstens 1.000 Zeilen und 3 MB pro Datei.",
-        "limits_other": "Gesprochenes bis {{max}} Zeichen, Texte bis {{maxBody}}, höchstens 1.000 Zeilen und 3 MB pro Datei."
+        "limits_one": "Bis zu {{max}} Zeichen für das Gesprochene und {{maxBody}} für den Text; höchstens 1.000 Zeilen und 3 MB pro Datei.",
+        "limits_other": "Bis zu {{max}} Zeichen für das Gesprochene und {{maxBody}} für den Text; höchstens 1.000 Zeilen und 3 MB pro Datei."
       },
       "review": {
         "new_one": "neuer Textbaustein",
@@ -1558,8 +1530,8 @@
         "conflicts_other": "Konflikte",
         "invalid_one": "kann nicht importiert werden",
         "invalid_other": "kann nicht importiert werden",
-        "overLimit_one": "Es ist noch Platz für {{room}} weitere. {{count}} neuer Textbaustein passt nicht mehr hinein.",
-        "overLimit_other": "Es ist noch Platz für {{room}} weitere. {{count}} neue Textbausteine passen nicht mehr hinein.",
+        "overLimit_one": "{{count}} neuer Textbaustein passt nicht mehr hinein (freier Platz: {{room}}).",
+        "overLimit_other": "{{count}} neue Textbausteine passen nicht mehr hinein (freier Platz: {{room}}).",
         "ignoredRows_one": "Nur die ersten 1.000 Zeilen werden gelesen. {{count}} weitere Zeile wird ausgelassen.",
         "ignoredRows_other": "Nur die ersten 1.000 Zeilen werden gelesen. {{count}} weitere Zeilen werden ausgelassen.",
         "showNew": "Neue Textbausteine anzeigen",
@@ -1587,8 +1559,8 @@
         "kept_other": "{{count}} Konflikte unverändert gelassen",
         "invalid_one": "{{count}} Zeile konnte nicht importiert werden",
         "invalid_other": "{{count}} Zeilen konnten nicht importiert werden",
-        "overLimit_one": "{{count}} passte nicht mehr hinein",
-        "overLimit_other": "{{count}} passten nicht mehr hinein"
+        "overLimit_one": "{{count}} passte nicht mehr hinein (deine Liste der Textbausteine ist voll)",
+        "overLimit_other": "{{count}} passten nicht mehr hinein (deine Liste der Textbausteine ist voll)"
       }
     },
     "export": {
@@ -1707,8 +1679,8 @@
     },
     "results_one": "{{count}} Diktat gefunden",
     "results_other": "{{count}} Diktate gefunden",
-    "resultsMore_one": "{{count}} neuester Treffer. Scrolle für mehr.",
-    "resultsMore_other": "Die {{count}} letzten Treffer. Scrolle für mehr.",
+    "resultsMore_one": "{{count}} neuester Treffer wird angezeigt. Scrolle für mehr.",
+    "resultsMore_other": "Die {{count}} neuesten Treffer werden angezeigt. Scrolle für mehr.",
     "search": {
       "open": "Verlauf durchsuchen",
       "label": "Deine Diktate durchsuchen",
@@ -1719,7 +1691,7 @@
     "transcribeFailed": "Die Datei konnte nicht geöffnet werden. Versuch es noch einmal.",
     "showMore": "Mehr anzeigen",
     "showLess": "Weniger anzeigen",
-    "failed": "Transkription fehlgeschlagen. Probier „Transkript wiederholen“ im Menü ⋮.",
+    "failed": "Transkription fehlgeschlagen. Wähle „Transkription wiederholen“ im Menü ⋮.",
     "waitingForModel": "Warten auf Sprachmodell",
     "notTranscribed": "Noch nicht transkribiert.",
     "job": {
@@ -1745,7 +1717,7 @@
       "label": "Aktionen für das Diktat",
       "undoAi": "KI-Bearbeitung widerrufen",
       "redoAi": "KI-Bearbeitung wiederholen",
-      "retry": "Transkript wiederholen",
+      "retry": "Transkription wiederholen",
       "retryAt": {
         "none": "Ohne Bereinigung wiederholen",
         "light": "Mit leichter Bereinigung wiederholen",
@@ -1964,7 +1936,7 @@
       "title": "Sprich, und deine Worte erscheinen",
       "subtitle": "Eine Taste halten, sprechen, loslassen. Sauberer Text landet dort, wo du gerade schreibst.",
       "privacyTitle": "Alles bleibt auf diesem Mac",
-      "privacy": "Deine Stimme und dein Text verlassen nie diesen Computer. Kein Konto, keine Cloud, kein Tracking.",
+      "privacy": "Deine Stimme und dein Text verlassen nie deinen Mac. Kein Konto, keine Cloud, kein Tracking.",
       "download": "Die Spracheinrichtung beginnt jetzt und läuft im Hintergrund.",
       "start": "Loslegen"
     },
@@ -1984,8 +1956,8 @@
       "noMatch": "Keine Sprache passt zu „{{query}}“.",
       "count_one": "Diktieren funktioniert in {{count}} Sprache. Du kannst deine später in den Einstellungen ändern.",
       "count_other": "Diktieren funktioniert in {{count}} Sprachen. Du kannst deine später in den Einstellungen ändern.",
-      "weak_one": "Die Erkennung ist für {{languages}} weniger genau. Sie funktioniert trotzdem, rechne aber mit mehr Fehlern.",
-      "weak_other": "Die Erkennung ist für {{languages}} weniger genau. Sie funktionieren trotzdem, rechne aber mit mehr Fehlern."
+      "weak_one": "Die Erkennung ist für {{languages}} weniger genau. Diktieren in dieser Sprache funktioniert trotzdem, rechne aber mit mehr Fehlern.",
+      "weak_other": "Die Erkennung ist für {{languages}} weniger genau. Diktieren in diesen Sprachen funktioniert trotzdem, rechne aber mit mehr Fehlern."
     },
     "permissions": {
       "title": "Zwei Berechtigungen",
@@ -2439,7 +2411,7 @@
       "how": {
         "title": "So flüsterst du mit deinem Mac",
         "body": "Mit dem integrierten Mikrofon deines Mac sorgen vier Gewohnheiten dafür, dass eine leise Stimme gut verstanden wird.",
-        "distance": "Etwa 30 cm, ungefähr eine Unterarmlänge, vom Mikrofon entfernt",
+        "distance": "Etwa 30 cm (eine Unterarmlänge) vom Mikrofon entfernt",
         "tips": {
           "distance": {
             "title": "Setz dich nah heran.",
@@ -2461,7 +2433,7 @@
       },
       "practice": {
         "title": "Flüstere diese E-Mail",
-        "body": "Eine echte Aufnahme: Sie landet in der abgebildeten Nachricht unten und nirgendwo sonst.",
+        "body": "Das ist ein echtes Diktat. Der Text landet nur in der Nachricht unten und nirgendwo sonst.",
         "doneTitle": "Verstanden, sogar geflüstert",
         "doneBody": "Mehr braucht es nicht. Mach weiter, um das passende Mikrofon für dich zu finden.",
         "instruction": "Halte {{key}} gedrückt, flüstere die E-Mail unten und lass dann los.",
@@ -2500,7 +2472,7 @@
         },
         "wired_headset": {
           "name": "Kabel-Headset",
-          "hint": "Ein Mikrofon an einem kurzen Bügel oder Kabel, nah am Mund",
+          "hint": "Kopfhörer mit Kabel und einem Mikrofon nah am Mund",
           "why": "Das Mikrofon sitzt direkt am Mund, daher kommt auch leises Flüstern überall an."
         },
         "wireless_earbuds": {
@@ -2599,7 +2571,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Damit Wispr Bro dich hören kann. Audio wird auf diesem Computer in Text umgewandelt und nie hochgeladen."
+          "why": "Damit Wispr Bro dich hören kann. Audio wird auf diesem Mac in Text umgewandelt und nie hochgeladen."
         },
         "accessibility": {
           "why": "Damit dein Kurzbefehl in jeder App funktioniert und Wispr Bro den Text dort eintippen kann, wo dein Cursor steht."
@@ -2647,10 +2619,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Wispr Bro automatisch starten, wenn du dich an deinem Computer anmeldest."
+          "description": "Wispr Bro automatisch starten, wenn du dich an deinem Mac anmeldest."
         },
         "showTrayIcon": {
-          "description": "Das Wispr Bro-Symbol im Infobereich anzeigen."
+          "description": "Das Wispr Bro-Symbol in der Menüleiste anzeigen."
         }
       },
       "debug": {

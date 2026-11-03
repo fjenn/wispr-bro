@@ -49,7 +49,7 @@
       "version": "Versi",
       "channel": "Saluran",
       "key": "Kunci penandatanganan",
-      "endpoints": "Feed",
+      "endpoints": "Feed pembaruan",
       "checksOff": "Pemeriksaan pembaruan nonaktif (Pengaturan › Lanjutan, atau kill switch diatur).",
       "check": "Periksa sekarang",
       "checking": "Memeriksa…",
@@ -70,7 +70,7 @@
       "contextAwareness": "Kesadaran konteks",
       "contextAwarenessHint": "Menggunakan nama dalam teks di dekat kursor Anda untuk mengejanya dengan benar. Teks tersebut tetap di Mac ini dan tidak pernah disimpan.",
       "transforms": "Transformasi",
-      "transformsHint": "⌥1 merapikan teks yang dipilih dan ⌥2 mengubahnya menjadi prompt AI yang lebih jelas. Saat diaktifkan, tombol tersebut menggantikan ¡ dan ™.",
+      "transformsHint": "⌥1 merapikan teks yang dipilih, ⌥2 mengubahnya menjadi prompt AI yang lebih jelas, dan ⌥O menampilkan perubahan dari transformasi terakhir. Saat diaktifkan, tombol tersebut tidak lagi mengetik ¡, ™, dan ø.",
       "transformsSafeShortcuts": "Gunakan ⌃⌥1 dan ⌃⌥2 sebagai gantinya",
       "transformsSafeShortcutsHint": "Membuat ¡ dan ™ tetap tersedia dengan ⌥1 dan ⌥2.",
       "cleanupLevel": "Tingkat pembersihan",
@@ -147,7 +147,7 @@
       "notSet": "Belum diatur",
       "current": "Pintasan: {{shortcut}}",
       "listening": "Tekan pintasan…",
-      "listeningHelp": "Tekan tombol atau tombol mouse yang Anda inginkan. Escape membatalkan.",
+      "listeningHelp": "Tekan tombol atau tombol mouse yang Anda inginkan. Esc membatalkan.",
       "record": "Rekam",
       "cancel": "Batalkan",
       "clear": "Hapus",
@@ -164,7 +164,7 @@
         "help": "Menaruh dikte terakhir Anda di papan klip."
       },
       "pressEnter": {
-        "title": "Tekan Enter",
+        "title": "Tekan Return",
         "help": "Menekan Return untuk Anda, misalnya untuk mengirim pesan yang baru saja Anda diktekan.",
         "mouse": "Tombol mouse tetap mengeklik seperti biasa di app di bawah penunjuk, jadi tombol samping (kembali atau maju) paling cocok."
       },
@@ -385,24 +385,24 @@
       "saveFailed": "Tidak dapat menyimpan pintasan itu.",
       "conflict": "Juga digunakan oleh {{action}}. Pilih pintasan lain.",
       "invalid": "Pintasan ini tidak dikenali.",
-      "unsupported": "Mesin pintasan tidak dapat menggunakan kombinasi ini untuk tindakan tersebut.",
+      "unsupported": "Kombinasi ini tidak dapat digunakan sebagai pintasan untuk tindakan ini.",
       "capture": {
         "starting": "Memulai perekaman pintasan…",
         "listening": "Tekan pintasan…",
-        "listeningHelp": "Tekan kombinasi tombol atau tombol mouse yang ingin digunakan. Escape membatalkan.",
+        "listeningHelp": "Tekan kombinasi tombol atau tombol mouse yang ingin digunakan. Esc membatalkan.",
         "cancel": "Batalkan",
         "close": "Kembali",
         "secure": "Perekaman pintasan tidak tersedia saat Secure Input aktif. Tinggalkan bidang kata sandi atau matikan Secure Keyboard Entry, lalu coba lagi.",
         "failed": "Tidak dapat memulai perekaman pintasan. Periksa izin Aksesibilitas dan coba lagi."
       },
       "actions": {
-        "dictate": "Tekan untuk berbicara",
+        "dictate": "Tahan untuk berbicara",
         "hands_free": "Dikte bebas genggam",
         "cancel": "Batalkan dikte",
         "command_mode": "Command Mode",
         "paste_last": "Tempel dikte terakhir",
         "copy_last": "Salin dikte terakhir",
-        "press_enter": "Tekan Enter",
+        "press_enter": "Tekan Return",
         "undo_cancel": "Urungkan pembatalan",
         "transform": {
           "polish": "Polish teks yang dipilih",
@@ -417,7 +417,7 @@
         "dictate": "Tahan pintasan saat berbicara; lepaskan untuk selesai.",
         "hands_free": "Mulai dan hentikan dikte tanpa menahan tombol.",
         "cancel": "Hentikan dikte saat ini tanpa menyisipkannya.",
-        "command_mode": "Tahan fn dan Ctrl sambil mengucapkan cara mengedit atau menulis teks.",
+        "command_mode": "Tahan pintasan sambil mengucapkan cara mengedit atau menulis teks.",
         "paste_last": "Tempel lagi dikte terbaru Anda.",
         "copy_last": "Salin dikte terbaru Anda ke papan klip.",
         "press_enter": "Tekan Return di app tempat Anda mengetik. Tombol samping mouse cocok untuk ini.",
@@ -529,58 +529,30 @@
           "quiet": "Dikte dengan suara pelan: tunjukkan caranya"
         },
         "empty": {
-          "title": "Dikte Anda akan muncul di sini",
-          "body": "Setiap dikte disimpan di Mac ini beserta audionya, jadi Anda bisa menyalin atau memeriksanya nanti.",
-          "action": "Buka Riwayat"
+          "title": "Dikte Anda akan muncul di sini"
         }
       },
       "insights": {
         "title": "Statistik",
         "empty": {
           "title": "Statistik memerlukan beberapa dikte",
-          "body": "Kecepatan bicara, rentetan hari, dan waktu yang Anda hemat akan muncul setelah Anda mendikte beberapa lama.",
           "action": "Buka Dikte"
         }
       },
       "dictionary": {
-        "title": "Kamus",
-        "empty": {
-          "title": "Ajarkan kata-kata Anda ke {{appName}}",
-          "body": "Nama, istilah produk, dan akronim yang Anda tambahkan selalu dieja dengan benar. Hingga halaman ini siap, kata-kata Anda ada di Pengaturan.",
-          "action": "Buka kata khusus"
-        }
+        "title": "Kamus"
       },
       "snippets": {
-        "title": "Cuplikan",
-        "empty": {
-          "title": "Cuplikan segera hadir",
-          "body": "Ucapkan isyarat singkat seperti “alamat saya” dan dapatkan teks lengkapnya. Halaman ini hadir di pembaruan berikutnya.",
-          "action": "Buka Dikte"
-        }
+        "title": "Cuplikan"
       },
       "style": {
-        "title": "Gaya",
-        "empty": {
-          "title": "Gaya segera hadir",
-          "body": "Pilih seberapa rapi teks Anda di setiap jenis app, dari email formal hingga chat santai. Halaman ini hadir di pembaruan berikutnya.",
-          "action": "Buka Dikte"
-        }
+        "title": "Gaya"
       },
       "transforms": {
-        "title": "Transformasi",
-        "empty": {
-          "title": "Transformasi segera hadir",
-          "body": "Pilih teks dan tulis ulang dengan satu pintasan: lebih singkat, lebih jelas, atau lebih tertata. Halaman ini hadir di pembaruan berikutnya.",
-          "action": "Buka Dikte"
-        }
+        "title": "Transformasi"
       },
       "scratchpad": {
-        "title": "Coretan",
-        "empty": {
-          "title": "Coretan segera hadir",
-          "body": "Tempat cepat untuk mendikte catatan sebelum dipakai di tempat lain. Halaman ini hadir di pembaruan berikutnya.",
-          "action": "Buka Dikte"
-        }
+        "title": "Coretan"
       },
       "share": {
         "title": "Bagikan dengan teman"
@@ -617,7 +589,7 @@
       "paused": "Setelah tiga kali gagal, pembaruan otomatis dijeda hingga {{time}}.",
       "manualOnly": "Ini build pengembangan: pembaruan hanya diperiksa saat Anda memintanya.",
       "readyHint": "Pembaruan terinstal sendiri setelah Anda tidak mendikte selama 20 menit, atau saat Anda keluar.",
-      "policy": "Pembaruan diunduh di latar belakang dan hanya diinstal saat Anda tidak sedang mendikte, atau saat Anda keluar.",
+      "policy": "Pembaruan diunduh di latar belakang dan diinstal setelah Anda tidak mendikte selama 20 menit, atau saat Anda keluar.",
       "needsPassword": "Salinan app ini berada di folder yang memerlukan kata sandi administrator untuk diubah, jadi pembaruan hanya terinstal saat Anda memilih Mulai ulang sekarang."
     }
   },
@@ -671,16 +643,16 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dikte",
-      "vocabulary": "Kosakata",
+      "vocabulary": "Kamus",
       "help": "Bantuan",
       "file": "File",
       "edit": "Edit",
       "view": "Tampilan",
       "window": "Jendela",
       "wordsDictated_other": "{{count}} kata didiktekan",
-      "copyLast": "Salin transkrip terakhir",
-      "copyLastPreview": "Salin transkrip terakhir: “{{preview}}”",
-      "copyLastConcealed": "Salin transkrip terakhir (teks disembunyikan)",
+      "copyLast": "Salin dikte terakhir",
+      "copyLastPreview": "Salin dikte terakhir: “{{preview}}”",
+      "copyLastConcealed": "Salin dikte terakhir (teks disembunyikan)",
       "microphone": "Mikrofon",
       "languages": "Bahasa",
       "moreLanguages": "Tambah atau hapus bahasa…",
@@ -696,7 +668,7 @@
       "sendFeedback": "Kirim umpan balik…",
       "openApp": "Buka {{appName}}",
       "checkUpdates": "Periksa pembaruan…",
-      "pasteLast": "Tempel transkrip terakhir",
+      "pasteLast": "Tempel dikte terakhir",
       "cancelDictation": "Batalkan dikte",
       "shortcutsBlocked": "Pintasan diblokir — buka Pengaturan",
       "undo": "Urungkan",
@@ -827,7 +799,7 @@
       },
       "takeRecovered": {
         "title_other": "{{count}} rekaman disimpan saat app ditutup",
-        "body": "Rekaman ini masih berjalan saat {{appName}} ditutup. Rekaman ada di Riwayat, tempat rekaman ditranskripsi."
+        "body_other": "Anda masih mendikte saat {{appName}} ditutup. Rekaman sedang ditranskripsi dan akan muncul di Riwayat."
       }
     },
     "scratchpad": {
@@ -859,7 +831,7 @@
         "micLostWarning": "Mikrofon terputus. Yang sudah Anda ucapkan tetap disimpan.",
         "undo": "Urungkan ada di bilah dikte selama 4 detik.",
         "diff": "Perubahan transformasi siap ditinjau.",
-        "secureInputWarning": "Secure Input aktif. fn dan Space tidak dapat mengunci dikte. Escape atau tombol tutup tetap membatalkan.",
+        "secureInputWarning": "Secure Input aktif. fn dan Space tidak dapat mengunci dikte. Esc atau tombol tutup tetap membatalkan.",
         "inserted": "Teks disisipkan"
       },
       "message": {
@@ -1126,7 +1098,7 @@
       "toPlaceholder": "mis. tidak",
       "counter": "{{count}}/{{max}}",
       "wordHint": "Membantu model ucapan mendengar dan mengejanya dengan benar.",
-      "ruleHint": "Mencocokkan kata utuh, tanpa memedulikan huruf besar/kecil, dan menulis pengganti persis seperti yang diketik.",
+      "ruleHint": "Mencocokkan kata utuh, apa pun huruf besar/kecilnya, dan menulis pengganti persis seperti yang diketik.",
       "cancel": "Batalkan",
       "add": "Tambah kata",
       "save": "Simpan",
@@ -1156,7 +1128,7 @@
         "duplicates_other": "sudah ada",
         "conflicts_other": "konflik",
         "invalid_other": "tidak dapat diimpor",
-        "overLimit_other": "Kamus Anda masih muat {{room}} entri lagi; {{count}} entri baru tidak akan muat.",
+        "overLimit_other": "{{count}} entri baru tidak akan muat (sisa ruang di kamus Anda: {{room}}).",
         "showNew": "Tampilkan entri baru",
         "more_other": "dan {{count}} lainnya",
         "conflictsTitle": "Sudah ada di kamus Anda, dengan isi berbeda",
@@ -1241,10 +1213,9 @@
     },
     "commandMode": {
       "title": "Command Mode",
-      "shortcut": "fn ⌃",
       "on": "Aktif",
       "off": "Nonaktif",
-      "help": "Tahan fn dan Ctrl, lalu ucapkan cara mengubah pilihan atau apa yang ingin ditulis. Jika tidak ada yang dipilih, bidang teks memberi konteks dan hasilnya disisipkan di posisi kursor. Semuanya tetap di Mac ini; Command Mode tidak pernah mencari apa pun. Saat nonaktif, fn dan Ctrl mendikte seperti biasa."
+      "help": "Tahan pintasan Command Mode, lalu ucapkan cara mengubah pilihan atau apa yang ingin ditulis. Jika tidak ada yang dipilih, bidang teks memberi konteks dan hasilnya disisipkan di posisi kursor. Semuanya tetap di Mac ini; Command Mode tidak pernah mencari apa pun. Saat nonaktif, pintasan tersebut mendikte seperti biasa."
     },
     "auto": {
       "title": "Terapkan setelah setiap dikte",
@@ -1335,7 +1306,7 @@
       "paste": "Tempel contoh",
       "load": "Muat .txt atau .md",
       "remove": "Hapus contoh {{number}}",
-      "readError": "Pilih file .txt atau .md yang tidak lebih dari 1.500 karakter.",
+      "readError": "Pilih file .txt atau .md yang tidak lebih dari {{chars}} karakter.",
       "help_other": "Tempel atau muat hingga {{max}} contoh, masing-masing {{chars}} karakter. Contoh mengarahkan gaya tanpa menjadi bagian dari hasil."
     },
     "diff": {
@@ -1465,7 +1436,7 @@
       "trigger_control_character": "Yang Anda ucapkan harus muat dalam satu baris.",
       "empty_body": "Ketik teks yang akan ditulis.",
       "body_control_character": "Teks berisi karakter yang tidak dapat ditulis. Hapus karakter itu dan coba lagi.",
-      "full": "Jumlah cuplikan Anda sudah mencapai batas yang dapat ditampung app. Hapus beberapa dulu.",
+      "full": "Daftar cuplikan Anda penuh. Hapus beberapa cuplikan terlebih dahulu.",
       "trigger_too_long_other": "Yang Anda ucapkan maksimal {{max}} karakter.",
       "body_too_long_other": "Teks maksimal {{maxBody}} karakter."
     },
@@ -1478,7 +1449,7 @@
       "body": "Tulis",
       "bodyPlaceholder": "Teks yang akan ditulis. Jeda baris dipertahankan.",
       "counter": "{{count}}/{{max}}",
-      "hint": "Berfungsi secara terpisah atau di dalam kalimat, tanpa memedulikan huruf besar/kecil. Di dalam kalimat, tanda baca dalam isyarat harus diucapkan dengan cara yang sama. Teks ditulis persis seperti yang disimpan.",
+      "hint": "Berfungsi secara terpisah atau di dalam kalimat, apa pun huruf besar/kecilnya. Di dalam kalimat, tanda baca dalam ucapan Anda harus sama persis dengan teks hasil dikte. Teks ditulis persis seperti yang disimpan.",
       "cancel": "Batalkan",
       "add": "Tambah cuplikan",
       "save": "Simpan",
@@ -1500,14 +1471,14 @@
         "columns": "Kolom pertama berisi yang Anda ucapkan; kolom kedua berisi teks yang ditulis.",
         "lines": "Teks dengan jeda baris diapit tanda kutip, seperti yang disimpan app spreadsheet.",
         "encoding": "Simpan sebagai CSV UTF-8 agar aksen dan aksara lain terbaca dengan benar.",
-        "limits_other": "Ucapan hingga {{max}} karakter, teks hingga {{maxBody}}, maksimal 1.000 baris dan 3 MB per file."
+        "limits_other": "Hingga {{max}} karakter untuk ucapan dan {{maxBody}} untuk teks; maksimal 1.000 baris dan 3 MB per file."
       },
       "review": {
         "new_other": "cuplikan baru",
         "duplicates_other": "sudah ada",
         "conflicts_other": "konflik",
         "invalid_other": "tidak dapat diimpor",
-        "overLimit_other": "Masih muat {{room}} lagi; {{count}} cuplikan baru tidak akan muat.",
+        "overLimit_other": "{{count}} cuplikan baru tidak akan muat (sisa ruang: {{room}}).",
         "ignoredRows_other": "Hanya 1.000 baris pertama yang dibaca; {{count}} baris lainnya dilewati.",
         "showNew": "Tampilkan cuplikan baru",
         "more_other": "dan {{count}} lainnya",
@@ -1527,7 +1498,7 @@
         "skipped_other": "{{count}} sudah ada, dilewati",
         "kept_other": "{{count}} konflik dibiarkan seperti semula",
         "invalid_other": "{{count}} baris tidak dapat diimpor",
-        "overLimit_other": "{{count}} tidak muat"
+        "overLimit_other": "{{count}} tidak muat (daftar cuplikan Anda penuh)"
       }
     },
     "export": {
@@ -1633,7 +1604,7 @@
       "body": "Tidak ada dikte yang berisi “{{query}}”."
     },
     "results_other": "{{count}} dikte ditemukan",
-    "resultsMore_other": "{{count}} hasil terbaru. Gulir untuk melihat lainnya.",
+    "resultsMore_other": "Menampilkan {{count}} hasil terbaru. Gulir untuk melihat lainnya.",
     "search": {
       "open": "Cari di riwayat",
       "label": "Cari dikte Anda",
@@ -1644,7 +1615,7 @@
     "transcribeFailed": "File itu tidak dapat dibuka. Coba lagi.",
     "showMore": "Tampilkan lebih banyak",
     "showLess": "Tampilkan lebih sedikit",
-    "failed": "Transkripsi gagal. Coba Ulangi transkrip di menu ⋮.",
+    "failed": "Transkripsi gagal. Pilih Ulangi transkripsi di menu ⋮.",
     "waitingForModel": "Menunggu model ucapan",
     "notTranscribed": "Belum ditranskripsi.",
     "job": {
@@ -1670,7 +1641,7 @@
       "label": "Tindakan dikte",
       "undoAi": "Urungkan edit AI",
       "redoAi": "Ulangi edit AI",
-      "retry": "Ulangi transkrip",
+      "retry": "Ulangi transkripsi",
       "retryAt": {
         "none": "Ulangi tanpa pembersihan",
         "light": "Ulangi dengan pembersihan Ringan",
@@ -1828,8 +1799,8 @@
       "moveTo": "Pindahkan ke",
       "useDefault": "Kembali ke kelompok biasanya ({{group}})",
       "remove": "Hapus dari {{group}}",
-      "autoSend": "Tekan Enter setelah mendikte",
-      "autoSendOn": "menekan Enter setelah mendikte",
+      "autoSend": "Tekan Return setelah mendikte",
+      "autoSendOn": "menekan Return setelah mendikte",
       "notInstalled": "tidak terinstal",
       "aiChat": "Chat AI: kata-kata Anda masuk sudah dibersihkan, tanpa gaya.",
       "moved": "{{app}} kini menggunakan gaya {{group}}.",
@@ -1888,7 +1859,7 @@
       "title": "Bicara, dan kata-kata Anda muncul",
       "subtitle": "Tahan satu tombol, bicara, lepaskan. Teks yang rapi muncul di mana pun Anda mengetik.",
       "privacyTitle": "Semuanya tetap di Mac ini",
-      "privacy": "Suara dan teks Anda tidak pernah meninggalkan komputer ini. Tanpa akun, tanpa cloud, tanpa pelacakan.",
+      "privacy": "Suara dan teks Anda tidak pernah meninggalkan Mac Anda. Tanpa akun, tanpa cloud, tanpa pelacakan.",
       "download": "Penyiapan ucapan dimulai sekarang dan berjalan di latar belakang.",
       "start": "Mulai"
     },
@@ -1907,7 +1878,7 @@
       "listLabel": "Bahasa",
       "noMatch": "Tidak ada bahasa yang cocok dengan “{{query}}”.",
       "count_other": "Dikte bekerja dalam {{count}} bahasa. Anda dapat mengubah bahasa Anda nanti di Pengaturan.",
-      "weak_other": "Pengenalan kurang akurat untuk {{languages}}. Bahasa tersebut tetap berfungsi, tetapi kesalahan akan lebih sering terjadi."
+      "weak_other": "Pengenalan kurang akurat untuk {{languages}}. Mendikte dalam bahasa tersebut tetap berfungsi, tetapi kesalahan akan lebih sering terjadi."
     },
     "permissions": {
       "title": "Dua izin",
@@ -2025,8 +1996,8 @@
       "sliderLabel": "Berapa lama Anda mengetik setiap hari?",
       "hoursPerDay_other": "{{hours}} jam per hari",
       "takeTest": "Ikuti tes mengetik",
-      "basisMeasured_other": "Berdasarkan kecepatan mengetik Anda {{wpm}} kata per menit, dan kecepatan bicara sekitar {{speaking}} kata per menit.",
-      "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit, dan kecepatan bicara sekitar {{speaking}} kata per menit."
+      "basisMeasured_other": "Berdasarkan kecepatan mengetik Anda {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
+      "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit."
     },
     "typing": {
       "title": "Seberapa cepat Anda mengetik?",
@@ -2352,7 +2323,7 @@
       "how": {
         "title": "Cara berbisik ke Mac Anda",
         "body": "Dengan mikrofon bawaan Mac, empat kebiasaan ini membuat suara pelan mudah didengar.",
-        "distance": "Sekitar 30 cm, kira-kira sepanjang lengan bawah, dari mikrofon",
+        "distance": "Sekitar 30 cm (sepanjang lengan bawah) dari mikrofon",
         "tips": {
           "distance": {
             "title": "Duduk dekat.",
@@ -2374,7 +2345,7 @@
       },
       "practice": {
         "title": "Bisikkan email ini",
-        "body": "Rekaman sungguhan: hasilnya masuk ke pesan di bawah ini, tidak ke tempat lain.",
+        "body": "Ini dikte sungguhan. Teksnya hanya masuk ke pesan di bawah ini, tidak ke tempat lain.",
         "doneTitle": "Terdengar, bahkan saat berbisik",
         "doneBody": "Hanya itu yang diperlukan. Lanjutkan untuk menemukan mikrofon yang cocok untuk Anda.",
         "instruction": "Tahan {{key}}, bisikkan email di bawah ini, lalu lepaskan.",
@@ -2413,7 +2384,7 @@
         },
         "wired_headset": {
           "name": "Headset berkabel",
-          "hint": "Mikrofon pada tangkai pendek atau kabel, dekat mulut Anda",
+          "hint": "Headphone berkabel dengan mikrofon di dekat mulut Anda",
           "why": "Mikrofon berada tepat di dekat mulut, jadi bisikan pelan pun tertangkap, di mana pun Anda berada."
         },
         "wireless_earbuds": {
@@ -2512,7 +2483,7 @@
       },
       "permissions": {
         "microphone": {
-          "why": "Agar Wispr Bro dapat mendengar Anda. Audio diubah menjadi teks di komputer ini dan tidak pernah diunggah."
+          "why": "Agar Wispr Bro dapat mendengar Anda. Audio diubah menjadi teks di Mac ini dan tidak pernah diunggah."
         },
         "accessibility": {
           "why": "Agar pintasan Anda berfungsi di semua app, dan Wispr Bro dapat mengetik teks di posisi kursor Anda."
@@ -2560,10 +2531,10 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Mulai Wispr Bro secara otomatis saat Anda masuk ke komputer."
+          "description": "Mulai Wispr Bro secara otomatis saat Anda masuk ke Mac."
         },
         "showTrayIcon": {
-          "description": "Tampilkan ikon Wispr Bro di baki sistem."
+          "description": "Tampilkan ikon Wispr Bro di bar menu."
         }
       },
       "debug": {
