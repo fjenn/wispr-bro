@@ -1,85 +1,85 @@
 {
   "debug": {
-    "title": "Fork 除錯面板",
-    "description": "Wispr Bro 層的內部檢查。僅在除錯版本中，或以 --debug 啟動 App 時顯示。",
-    "close": "關閉",
-    "runAgain": "再次執行",
+    "title": "Fork 调试面板",
+    "description": "Wispr Bro 层的内部检查。仅在调试版本中，或以 --debug 启动 App 时显示。",
+    "close": "关闭",
+    "runAgain": "再次运行",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "模型狀態",
-      "notReady": "尚未就緒：App 還沒完成啟動。"
+      "title": "模型状态",
+      "notReady": "尚未就绪：App 还没完成启动。"
     },
     "lastEvent": {
-      "title": "上一個 Ping 事件",
+      "title": "上一个 Ping 事件",
       "none": "尚未收到任何事件。"
     },
     "pending": "正在等待⋯",
-    "error": "錯誤：{{message}}",
+    "error": "错误：{{message}}",
     "csp": {
-      "title": "內容安全政策",
-      "description": "透過 asset 協定播放音訊檔案、載入 data: 和 blob: 影像、呼叫 Fork 指令，並檢查不允許的影像是否遭到阻擋。",
-      "run": "執行 CSP 檢查",
-      "running": "正在執行⋯",
-      "pass": "通過：沒有非預期的 CSP 違規。",
-      "fail": "失敗：請查看下方的檢查項目。",
+      "title": "内容安全策略",
+      "description": "通过 asset 协议播放音频文件、加载 data: 和 blob: 图像、调用 Fork 命令，并检查不允许的图像是否被阻止。",
+      "run": "运行 CSP 检查",
+      "running": "正在运行⋯",
+      "pass": "通过：没有非预期的 CSP 违规。",
+      "fail": "失败：请查看下方的检查项目。",
       "ok": "正常（{{detail}}）",
-      "failed": "失敗（{{detail}}）",
-      "noViolations": "未記錄到 CSP 違規。",
-      "violations_other": "記錄到 {{count}} 個 CSP 違規。",
+      "failed": "失败（{{detail}}）",
+      "noViolations": "未记录到 CSP 违规。",
+      "violations_other": "记录到 {{count}} 个 CSP 违规。",
       "checks": {
-        "media": "音訊（asset 協定）",
+        "media": "音频（asset 协议）",
         "dataImage": "data: 影像",
         "blobImage": "blob: 影像",
         "forkCommand": "Fork 指令",
-        "probe": "已阻擋的來源"
+        "probe": "已阻止的来源"
       }
     },
     "notifications": {
       "title": "通知",
-      "permission": "macOS 權限：{{state}}",
-      "kind": "類型",
-      "delay": "延遲（秒）",
-      "post": "傳送範例",
-      "posted": "將在 {{seconds}} 秒後傳送。切換到其他 App 以查看 macOS 通知。"
+      "permission": "macOS 权限：{{state}}",
+      "kind": "类型",
+      "delay": "延迟（秒）",
+      "post": "发送示例",
+      "posted": "将在 {{seconds}} 秒后发送。切换到其他 App 以查看 macOS 通知。"
     },
     "update": {
       "title": "更新",
       "version": "版本",
-      "channel": "頻道",
-      "key": "簽署密鑰",
+      "channel": "通道",
+      "key": "签名密钥",
       "endpoints": "更新源",
-      "checksOff": "更新檢查已關閉（設定 › 進階，或已設定停用開關）。",
-      "check": "立即檢查",
-      "checking": "正在檢查⋯",
-      "install": "安裝 {{version}} 並重新啟動",
-      "installing": "正在下載並驗證⋯",
-      "installed": "已安裝 {{version}}。正在重新啟動⋯",
+      "checksOff": "更新检查已关闭（设置 › 高级，或已设置禁用开关）。",
+      "check": "立即检查",
+      "checking": "正在检查⋯",
+      "install": "安装 {{version}} 并重新启动",
+      "installing": "正在下载并验证⋯",
+      "installed": "已安装 {{version}}。正在重新启动⋯",
       "available": "已推出 {{version}}。",
       "upToDate": "已是最新版本。",
-      "failed": "無法檢查：{{message}}"
+      "failed": "无法检查：{{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork 設定",
-      "loading": "正在載入設定⋯",
-      "loadError": "無法讀取設定：{{message}}",
-      "setError": "無法儲存該變更：{{message}}",
+      "title": "Fork 设置",
+      "loading": "正在加载设置⋯",
+      "loadError": "无法读取设置：{{message}}",
+      "setError": "无法保存该更改：{{message}}",
       "contextAwareness": "情境感知",
-      "contextAwarenessHint": "參考游標附近文字中的名稱來正確拼寫。這些文字只會留在這台 Mac 上，且從不儲存。",
-      "transforms": "轉換",
+      "contextAwarenessHint": "参考光标附近文本中的名称来正确拼写。这些文本只会留在这台 Mac 上，且从不保存。",
+      "transforms": "转换",
       "transformsHint": "⌥1 会润色所选文本，⌥2 会将其转换为更清晰的 AI 提示词，⌥O 会显示上一次转换的改动。启用后，这些按键将不再输入 ¡、™ 和 ø。",
       "transformsSafeShortcuts": "改用 ⌃⌥1 和 ⌃⌥2",
-      "transformsSafeShortcutsHint": "保留 ⌥1 和 ⌥2 輸入 ¡ 和 ™ 的功能。",
+      "transformsSafeShortcutsHint": "保留 ⌥1 和 ⌥2 输入 ¡ 和 ™ 的功能。",
       "cleanupLevel": "清理程度",
       "levels": {
-        "none": "無",
-        "light": "輕度",
+        "none": "无",
+        "light": "轻度",
         "medium": "中度"
       },
-      "all": "所有設定"
+      "all": "所有设置"
     },
     "bar": {
       "title": "听写浮动栏",
@@ -97,184 +97,184 @@
       "resetPositions": "在所有显示器上将浮动栏居中"
     },
     "mic": {
-      "title": "麥克風",
-      "legend": "要使用的麥克風",
-      "loading": "正在尋找麥克風⋯",
-      "loadError": "無法列出麥克風：{{message}}",
-      "retry": "再試一次",
-      "recommended": "{{name}}（建議）",
-      "auto": "自動偵測（系統設定）",
+      "title": "麦克风",
+      "legend": "要使用的麦克风",
+      "loading": "正在查找麦克风⋯",
+      "loadError": "无法列出麦克风：{{message}}",
+      "retry": "再试一次",
+      "recommended": "{{name}}（推荐）",
+      "auto": "自动检测（系统设置）",
       "autoNow": "目前：{{name}}",
-      "wirelessTag": "藍牙",
-      "caution": "有線或內建麥克風效果最好；藍牙麥克風可能會斷線。",
-      "avoided": "你的 Mac 聲音輸入設為 {{name}}。藍牙麥克風可能會斷線，因此聽寫會改用內建麥克風。",
+      "wirelessTag": "蓝牙",
+      "caution": "有线或内置麦克风效果最好；蓝牙麦克风可能会断线。",
+      "avoided": "你的 Mac 声音输入设为 {{name}}。蓝牙麦克风可能会断线，因此听写会改用内置麦克风。",
       "useAnyway": "仍要使用 {{name}}",
-      "inUse": "聽寫正在使用：{{name}}",
-      "chooseError": "無法切換麥克風：{{message}}",
+      "inUse": "听写正在使用：{{name}}",
+      "chooseError": "无法切换麦克风：{{message}}",
       "meter": {
-        "start": "測試麥克風",
-        "stop": "停止測試",
-        "label": "麥克風音量",
+        "start": "测试麦克风",
+        "stop": "停止测试",
+        "label": "麦克风音量",
         "value": "{{percent}}%",
-        "off": "未在測試",
-        "hint": "說些話。說話時音量列應該會跳動。",
+        "off": "未在测试",
+        "hint": "说些话。说话时音量条应该会跳动。",
         "errors": {
-          "permission_denied": "麥克風取用權限已關閉。請在「系統設定」›「隱私權與安全性」›「麥克風」中開啟。",
-          "no_input_device": "找不到麥克風。",
-          "failed": "麥克風無法啟動。請換一個試試。"
+          "permission_denied": "麦克风访问权限已关闭。请在「系统设置」›「隐私与安全性」›「麦克风」中打开。",
+          "no_input_device": "找不到麦克风。",
+          "failed": "麦克风无法启动。请换一个试试。"
         }
       }
     },
     "sound": {
-      "title": "聲音",
-      "enabled": "聽寫開始和停止時播放聲音",
-      "enabledHelp": "一聲短音提示麥克風已開啟，另一聲提示已停止。",
-      "theme": "聲音",
+      "title": "声音",
+      "enabled": "听写开始和停止时播放声音",
+      "enabledHelp": "一声短音提示麦克风已打开，另一声提示已停止。",
+      "theme": "声音",
       "themes": {
         "marimba": "Marimba",
         "pop": "Pop",
-        "custom": "自訂"
+        "custom": "自定义"
       },
       "volume": "音量",
       "volumeValue": "{{percent}}%",
       "preview": "播放",
-      "mute": "聽寫時將所有音訊靜音",
-      "muteHelp": "說話時音樂和影片會靜音，結束後恢復原本的音量。"
+      "mute": "听写时将所有音频静音",
+      "muteHelp": "说话时音乐和视频会静音，结束后恢复原本的音量。"
     },
     "recovery": {
-      "title": "復原快速鍵",
-      "description": "不必離開鍵盤，就能找回或送出上一次的聽寫。",
-      "notSet": "未設定",
-      "current": "快速鍵：{{shortcut}}",
-      "listening": "請按下快速鍵⋯",
+      "title": "恢复快捷键",
+      "description": "不必离开键盘，就能找回或发送上一次的听写。",
+      "notSet": "未设置",
+      "current": "快捷键：{{shortcut}}",
+      "listening": "请按下快捷键⋯",
       "listeningHelp": "按下要使用的按键或鼠标按钮。按 Esc 取消。",
-      "record": "錄製",
+      "record": "录制",
       "cancel": "取消",
       "clear": "清除",
-      "useDefault": "使用預設值",
-      "unusable": "無法使用此快速鍵。請換一個。",
-      "saveFailed": "無法儲存快速鍵。",
-      "recordFailed": "無法錄製快速鍵。請檢查此 App 是否已取得輔助使用權限。",
+      "useDefault": "使用默认值",
+      "unusable": "无法使用此快捷键。请换一个。",
+      "saveFailed": "无法保存快捷键。",
+      "recordFailed": "无法录制快捷键。请检查此 App 是否已取得辅助功能权限。",
       "pasteLast": {
-        "title": "貼上上一次聽寫",
-        "help": "將上一次的聽寫內容再次貼到你正在輸入的位置。"
+        "title": "粘贴上一次听写",
+        "help": "将上一次的听写内容再次粘贴到你正在输入的位置。"
       },
       "copyLast": {
-        "title": "拷貝上一次聽寫",
-        "help": "將上一次的聽寫內容放到剪貼板。"
+        "title": "拷贝上一次听写",
+        "help": "将上一次的听写内容放到剪贴板。"
       },
       "pressEnter": {
         "title": "按下 Return",
-        "help": "替你按下 Return 鍵，例如送出剛剛聽寫的訊息。",
-        "mouse": "滑鼠按鈕仍會在指標下方的 App 中照常點按，因此側鍵（上一頁或下一頁）最合適。"
+        "help": "替你按下 Return 键，例如发送刚刚听写的消息。",
+        "mouse": "鼠标按钮仍会在指针下方的 App 中照常点按，因此侧键（后退或前进）最合适。"
       },
       "undoCancel": {
-        "title": "還原取消",
+        "title": "撤销取消",
         "help": "在浮动栏显示“撤销”时，找回刚刚取消的听写。"
       }
     }
   },
   "settingsModal": {
-    "title": "設定",
-    "close": "關閉設定",
-    "navigation": "設定分類",
+    "title": "设置",
+    "close": "关闭设置",
+    "navigation": "设置分类",
     "sections": {
       "general": "一般",
-      "system": "系統",
-      "vibe": "Vibe 程式設計",
-      "privacy": "資料與隱私權",
-      "advanced": "進階",
-      "about": "關於",
-      "hotkeys": "快速鍵"
+      "system": "系统",
+      "vibe": "Vibe 编程",
+      "privacy": "数据与隐私",
+      "advanced": "高级",
+      "about": "关于",
+      "hotkeys": "快捷键"
     },
     "general": {
-      "shortcuts": "快速鍵",
-      "shortcutTitle": "聽寫快速鍵",
-      "shortcutHint": "選擇開始聽寫的方式，並管理所有鍵盤操作。",
-      "holdToTalk": "按住 {{shortcut}} 說話",
+      "shortcuts": "快捷键",
+      "shortcutTitle": "听写快捷键",
+      "shortcutHint": "选择开始听写的方式，并管理所有键盘操作。",
+      "holdToTalk": "按住 {{shortcut}} 说话",
       "change": "更改",
-      "microphone": "麥克風",
-      "languages": "我的語言",
-      "appearance": "App 語言和主題"
+      "microphone": "麦克风",
+      "languages": "我的语言",
+      "appearance": "App 语言和主题"
     },
     "system": {
-      "app": "App 行為",
-      "alwaysBar": "永遠顯示浮動列",
-      "showDock": "在 Dock 中顯示 App",
-      "showDockHint": "關閉視窗後仍將 Wispr Bro 保留在 Dock 中。",
-      "sounds": "聲音",
+      "app": "App 行为",
+      "alwaysBar": "永远显示浮动栏",
+      "showDock": "在 Dock 中显示 App",
+      "showDockHint": "关闭窗口后仍将 Wispr Bro 保留在 Dock 中。",
+      "sounds": "声音",
       "notifications": "通知",
       "notificationKinds": {
         "system": "Mac 通知",
-        "modelReady": "語音模型已就緒",
-        "updateReady": "更新已就緒",
-        "queuedReady": "排入佇列的聽寫已就緒",
-        "errors": "需要處理的問題",
-        "suggestions": "建議",
+        "modelReady": "语音模型已就绪",
+        "updateReady": "更新已就绪",
+        "queuedReady": "排队的听写已就绪",
+        "errors": "需要处理的问题",
+        "suggestions": "建议",
         "announcements": "功能公告",
         "milestones": "里程碑"
       },
       "scratchpad": "草稿板",
-      "scratchpadLabel": "打開草稿板時",
-      "scratchpadHint": "選擇快速鍵和浮動列按鈕要打開的內容。",
+      "scratchpadLabel": "打开草稿板时",
+      "scratchpadHint": "选择快捷键和浮动栏按钮要打开的内容。",
       "scratchpadOptions": {
-        "resume_last": "繼續上一則筆記",
-        "new_note": "新增筆記"
+        "resume_last": "继续上一条笔记",
+        "new_note": "新建笔记"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro 可以透過輔助使用讀取 VS Code、Cursor 和 Windsurf 在螢幕上顯示的程式碼名稱和檔案名稱。它從不打開你的專案檔案夾或檔案。",
-      "contextOff": "情境感知已關閉，因此這些功能沒有內容可讀取。開啟後即可使用。",
-      "recognize": "辨識程式碼名稱",
-      "recognizeHint": "說出編輯器中可見的變數或函式名稱時，會依照程式碼中的拼法寫出，例如 getUserById 或 user_id。",
-      "setUp": "設定",
-      "change": "更改編輯器",
-      "setUpFor": "為 {{editors}} 設定",
-      "fileTags": "在聊天中標記檔案",
-      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，如果 index.ts 已在標籤頁中打開或顯示在檔案列表中，說「index dot ts」會寫出 @index.ts。",
-      "fileTagsNeedsChat": "將 Cursor 或 Windsurf 加入編輯器後即可使用。",
-      "fileTagsNeedsSetup": "設定程式碼名稱辨識後即可使用。",
+      "intro": "Wispr Bro 可以通过辅助功能读取 VS Code、Cursor 和 Windsurf 在屏幕上显示的代码名称和文件名称。它从不打开你的项目文件夹或文件。",
+      "contextOff": "情境感知已关闭，因此这些功能没有内容可读取。打开后即可使用。",
+      "recognize": "识别代码名称",
+      "recognizeHint": "说出编辑器中可见的变量或函数名称时，会依照代码中的拼写写出，例如 getUserById 或 user_id。",
+      "setUp": "设置",
+      "change": "更改编辑器",
+      "setUpFor": "为 {{editors}} 设置",
+      "fileTags": "在聊天中标记文件",
+      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，如果 index.ts 已在标签页中打开或显示在文件列表中，说「index dot ts」会写出 @index.ts。",
+      "fileTagsNeedsChat": "将 Cursor 或 Windsurf 添加到编辑器后即可使用。",
+      "fileTagsNeedsSetup": "设置代码名称识别后即可使用。",
       "setup": {
-        "title": "設定程式碼名稱辨識",
-        "stepEditors": "1. 選擇你使用的編輯器",
-        "stepScreenReader": "2. 在每個編輯器中開啟螢幕閱讀器模式，讓它們與 Wispr Bro 分享文字",
-        "openSettings": "按 ⌘ 逗號打開編輯器的設定。",
-        "search": "搜尋「accessibility support」。",
-        "setOn": "將「Editor: Accessibility Support」設為「on」。",
-        "palette": "你也可以在命令面板（⇧⌘P）中執行「Toggle Screen Reader Accessibility Mode」。",
-        "confirm": "我已在這些編輯器中開啟螢幕閱讀器模式",
+        "title": "设置代码名称识别",
+        "stepEditors": "1. 选择你使用的编辑器",
+        "stepScreenReader": "2. 在每个编辑器中打开屏幕阅读器模式，让它们与 Wispr Bro 分享文本",
+        "openSettings": "按 ⌘ 逗号打开编辑器的设置。",
+        "search": "搜索「accessibility support」。",
+        "setOn": "将「Editor: Accessibility Support」设为「on」。",
+        "palette": "你也可以在命令面板（⇧⌘P）中运行「Toggle Screen Reader Accessibility Mode」。",
+        "confirm": "我已在这些编辑器中打开屏幕阅读器模式",
         "cancel": "取消",
-        "finish": "完成設定"
+        "finish": "完成设置"
       }
     },
     "privacy": {
       "promise": {
-        "title": "從設計就保護隱私",
-        "local": "你的聽寫內容和資料都留在這台 Mac 上。",
-        "noCloud": "語音辨識、清理和歷史記錄都在本機執行。沒有帳號、遙測、雲端聽寫或雲端清理。",
-        "networkIntro": "Wispr Bro 只會在以下兩種情況使用網路：",
-        "models": "從 Hugging Face（huggingface.co）下載語音和清理模型。",
-        "updates": "開啟更新檢查時，在 GitHub（github.com）上尋找 App 更新。"
+        "title": "隐私保护，从设计开始",
+        "local": "你的听写内容和数据都留在这台 Mac 上。",
+        "noCloud": "语音识别、清理和历史记录都在本机运行。没有账户、遥测、云端听写或云端清理。",
+        "networkIntro": "Wispr Bro 只会在以下两种情况使用网络：",
+        "models": "从 Hugging Face（huggingface.co）下载语音和清理模型。",
+        "updates": "打开更新检查时，在 GitHub（github.com）上查找 App 更新。"
       },
       "locations": {
-        "title": "你的資料存放位置",
-        "hint": "這些檔案夾屬於 Wispr Bro。可攜版會將它們全部存放在 App 的 Data 檔案夾中。",
-        "data": "App 資料和設定",
-        "models": "已下載的模型",
-        "recordings": "錄音",
-        "logs": "記錄檔和當機報告",
-        "show": "在 Finder 中顯示",
-        "loading": "正在尋找⋯",
-        "failed": "無法打開該檔案夾。請再試一次。"
+        "title": "你的数据存放位置",
+        "hint": "这些文件夹属于 Wispr Bro。便携版会将它们全部存放在 App 的 Data 文件夹中。",
+        "data": "App 数据和设置",
+        "models": "已下载的模型",
+        "recordings": "录音",
+        "logs": "日志和崩溃报告",
+        "show": "在 Finder 中显示",
+        "loading": "正在查找⋯",
+        "failed": "无法打开该文件夹。请再试一次。"
       },
       "retention": {
-        "title": "歷史記錄保留時間",
-        "textLabel": "保留聽寫文字",
-        "textHint": "較舊的項目會自動移除。文字預設會永久保留。",
-        "audioLabel": "保留錄音",
-        "audioHint": "音訊預設在 14 天後過期。移除音訊後，其聽寫文字會保留到文字期限為止。",
+        "title": "历史记录保留时间",
+        "textLabel": "保留听写文本",
+        "textHint": "较旧的项目会自动移除。文本默认会永久保留。",
+        "audioLabel": "保留录音",
+        "audioHint": "音频默认在 14 天后过期。移除音频后，其听写文本会保留到文本期限为止。",
         "options": {
-          "0": "永不保留音訊",
+          "0": "永不保留音频",
           "1": "1 天",
           "7": "7 天",
           "14": "14 天",
@@ -285,258 +285,258 @@
         }
       },
       "choices": {
-        "title": "隱私權選項",
+        "title": "隐私选项",
         "context": "使用情境感知",
-        "contextHint": "只在聽寫時讀取附近的文字，以辨識名稱和拼法。情境內容不會被儲存或記錄。",
-        "updates": "檢查 App 更新",
-        "updatesHint": "連線到 GitHub 檢查是否有新版本。不會傳送任何聽寫內容或個人資料。",
-        "learn": "從我的修正中學習",
-        "learnHint": "聽寫內容貼上後，留意你在該文字框中修改的字詞，並在字典中提供建議。只會保留修正後的字詞；其餘文字從不儲存或記錄。"
+        "contextHint": "只在听写时读取附近的文本，以识别名称和拼写。情境内容不会被保存或记录。",
+        "updates": "检查 App 更新",
+        "updatesHint": "连接到 GitHub 检查是否有新版本。不会发送任何听写内容或个人数据。",
+        "learn": "从我的修正中学习",
+        "learnHint": "听写内容粘贴后，留意你在该文本框中修改的词，并在词典中提供建议。只会保留修正后的词；其余文本从不保存或记录。"
       },
       "export": {
-        "title": "你的資料",
-        "hint": "匯出包含歷史記錄、設定和錄音的 zip 檔案。不包括模型和記錄檔。",
-        "button": "匯出我的資料",
+        "title": "你的数据",
+        "hint": "导出包含历史记录、设置和录音的 zip 文件。不包括模型和日志。",
+        "button": "导出我的数据",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip 封存檔",
-        "done": "匯出檔案已儲存，並已在 Finder 中顯示。",
-        "failed": "無法匯出你的資料。沒有刪除任何內容。"
+        "filter": "Zip 归档",
+        "done": "导出文件已保存，并已在 Finder 中显示。",
+        "failed": "无法导出你的数据。没有删除任何内容。"
       },
       "delete": {
-        "button": "刪除我的所有資料",
-        "title": "要刪除你的所有資料嗎？",
-        "warning": "這會永久刪除歷史記錄、錄音、設定、記錄檔和當機報告。此動作無法還原。",
-        "relaunch": "Wispr Bro 會停止運作、清除資料，然後重新啟動並進入新手導覽。",
-        "models": "同時刪除已下載的模型",
-        "modelsHint": "保持關閉可避免重新下載語音和清理模型。",
-        "confirmLabel": "輸入 {{word}} 以確認",
+        "button": "删除我的所有数据",
+        "title": "要删除你的所有数据吗？",
+        "warning": "这会永久删除历史记录、录音、设置、日志和崩溃报告。此操作无法撤销。",
+        "relaunch": "Wispr Bro 会停止运行、清除数据，然后重新启动并进入新手引导。",
+        "models": "同时删除已下载的模型",
+        "modelsHint": "保持关闭可避免重新下载语音和清理模型。",
+        "confirmLabel": "输入 {{word}} 以确认",
         "cancel": "取消",
-        "confirm": "全部刪除",
-        "failed": "刪除未完成。請先檢查剩餘的資料，再試一次。"
+        "confirm": "全部删除",
+        "failed": "删除未完成。请先检查剩余的数据，再试一次。"
       },
       "diagnostics": {
-        "title": "當機報告和診斷資訊",
-        "hint": "當機報告會留在這台 Mac 上，從不上傳。只有在你想分享時才拷貝或儲存診斷資訊。",
-        "sanitized": "診斷資訊會移除聽寫文字、提示詞、字典字詞、電子郵件地址、密鑰和你的個人專屬檔案夾路徑。",
-        "copy": "拷貝診斷資訊",
-        "save": "儲存診斷資訊⋯",
+        "title": "崩溃报告和诊断信息",
+        "hint": "崩溃报告会留在这台 Mac 上，从不上传。只有在你想分享时才拷贝或保存诊断信息。",
+        "sanitized": "诊断信息会移除听写文本、提示词、词典中的词、电子邮件地址、密钥和你的个人专属文件夹路径。",
+        "copy": "拷贝诊断信息",
+        "save": "保存诊断信息⋯",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "已拷貝去識別化的診斷資訊。",
-        "saved": "已儲存去識別化的診斷資訊。",
-        "failed": "無法準備診斷資訊。請再試一次。"
+        "copied": "已拷贝脱敏后的诊断信息。",
+        "saved": "已保存脱敏后的诊断信息。",
+        "failed": "无法准备诊断信息。请再试一次。"
       }
     },
     "advanced": {
-      "output": "文字輸出",
-      "transcription": "轉錄",
-      "barAndOverlay": "聽寫浮動列和覆疊層",
-      "liveText": "在浮動列中顯示即時文字",
-      "liveTextHint": "說話時顯示辨識出的文字。",
-      "keyboard": "鍵盤後端",
-      "prompts": "清理服務和提示詞編輯器",
-      "history": "歷史記錄儲存",
+      "output": "文本输出",
+      "transcription": "转录",
+      "barAndOverlay": "听写浮动栏和叠加层",
+      "liveText": "在浮动栏中显示实时文本",
+      "liveTextHint": "说话时显示识别出的文本。",
+      "keyboard": "键盘后端",
+      "prompts": "清理服务和提示词编辑器",
+      "history": "历史记录保存",
       "updates": "更新",
-      "updateChannel": "更新頻道",
-      "updateChannelHint": "Beta 版可能包含尚未完成的變更。",
+      "updateChannel": "更新通道",
+      "updateChannelHint": "Beta 版可能包含尚未完成的更改。",
       "updateChannels": {
-        "stable": "穩定版",
+        "stable": "稳定版",
         "beta": "Beta 版"
       },
-      "storage": "資料和記錄檔位置",
-      "experimental": "實驗與除錯",
-      "debugMode": "除錯工具",
-      "debugModeHint": "顯示診斷控制項和詳細記錄選項。",
-      "forkDiagnostics": "Fork 設定診斷"
+      "storage": "数据和日志位置",
+      "experimental": "实验与调试",
+      "debugMode": "调试工具",
+      "debugModeHint": "显示诊断控件和详细记录选项。",
+      "forkDiagnostics": "Fork 设置诊断"
     },
     "about": {
-      "tagline": "本機聽寫，不需要帳號，也不經雲端處理。",
+      "tagline": "本机听写，不需要账户，也不经云端处理。",
       "version": "版本 {{version}}",
-      "source": "檢視原始碼",
-      "updates": "更新說明",
+      "source": "查看源代码",
+      "updates": "更新说明",
       "updatesTitle": "更新",
-      "license": "依據 GNU 通用公共授權條款第 3 版（GPL-3.0）發佈的自由軟體。",
-      "licenseLink": "檢視授權條款",
-      "credit": "以 CJ Pais 開發的 Handy 為基礎，依據 MIT 授權條款使用。感謝每一位參與開發的人。",
+      "license": "依据 GNU 通用公共许可证第 3 版（GPL-3.0）发布的自由软件。",
+      "licenseLink": "查看许可证",
+      "credit": "以 CJ Pais 开发的 Handy 为基础，依据 MIT 许可证使用。感谢每一位参与开发的人。",
       "creditLink": "GitHub 上的 Handy",
-      "supportTitle": "支持開發",
-      "supportBody": "{{appName}} 沒有付費方案。最好的支持就是在 GitHub 上回報錯誤、提出想法或參與貢獻。"
+      "supportTitle": "支持开发",
+      "supportBody": "{{appName}} 没有付费计划。最好的支持就是在 GitHub 上报告错误、提出想法或参与贡献。"
     },
     "hotkeys": {
-      "open": "快速鍵",
-      "loading": "正在載入快速鍵⋯",
-      "secureInputHelp": "macOS 安全輸入會對其他 App 隱藏按鍵，以保護密碼輸入。它啟用期間，快速鍵錄製會暫停。",
-      "count": "已設定 {{count}} 個，共 {{max}} 個",
-      "notSet": "未設定",
-      "current": "快速鍵：{{shortcut}}",
-      "activationLabel": "快速鍵觸發方式",
+      "open": "快捷键",
+      "loading": "正在加载快捷键⋯",
+      "secureInputHelp": "macOS 安全输入会对其他 App 隐藏按键，以保护密码输入。它启用期间，快捷键录制会暂停。",
+      "count": "已设置 {{count}} 个，共 {{max}} 个",
+      "notSet": "未设置",
+      "current": "快捷键：{{shortcut}}",
+      "activationLabel": "快捷键触发方式",
       "activations": {
         "hold": "按住",
-        "double_tap": "按兩下",
+        "double_tap": "连按两次",
         "press": "按下",
-        "toggle": "切換"
+        "toggle": "切换"
       },
-      "add": "加入快速鍵",
-      "edit": "編輯",
-      "delete": "刪除",
-      "reset": "回復為預設值",
+      "add": "添加快捷键",
+      "edit": "编辑",
+      "delete": "删除",
+      "reset": "恢复默认设置",
       "resetting": "正在重置⋯",
-      "resetFailed": "無法重置所有快速鍵。請再試一次。",
+      "resetFailed": "无法重置所有快捷键。请再试一次。",
       "done": "完成",
-      "saveFailed": "無法儲存該快速鍵。",
-      "conflict": "「{{action}}」也在使用此快速鍵。請選擇其他快速鍵。",
-      "invalid": "無法辨識此快速鍵。",
+      "saveFailed": "无法保存该快捷键。",
+      "conflict": "「{{action}}」也在使用此快捷键。请选择其他快捷键。",
+      "invalid": "无法识别此快捷键。",
       "unsupported": "此组合无法用作该操作的快捷键。",
       "capture": {
-        "starting": "正在開始錄製快速鍵⋯",
-        "listening": "請按下快速鍵⋯",
+        "starting": "正在开始录制快捷键⋯",
+        "listening": "请按下快捷键⋯",
         "listeningHelp": "按下要使用的组合键或鼠标按钮。按 Esc 取消。",
         "cancel": "取消",
         "close": "返回",
-        "secure": "安全輸入啟用期間無法錄製快速鍵。請離開密碼欄位或關閉「安全鍵盤輸入」，然後再試一次。",
-        "failed": "無法開始錄製快速鍵。請檢查輔助使用權限，然後再試一次。"
+        "secure": "安全输入启用期间无法录制快捷键。请离开密码输入框或关闭「安全键盘输入」，然后再试一次。",
+        "failed": "无法开始录制快捷键。请检查辅助功能权限，然后再试一次。"
       },
       "actions": {
         "dictate": "按住说话",
-        "hands_free": "免持聽寫",
-        "cancel": "取消聽寫",
+        "hands_free": "免提听写",
+        "cancel": "取消听写",
         "command_mode": "指令模式",
-        "paste_last": "貼上上一次聽寫",
-        "copy_last": "拷貝上一次聽寫",
+        "paste_last": "粘贴上一次听写",
+        "copy_last": "拷贝上一次听写",
         "press_enter": "按下 Return",
-        "undo_cancel": "還原取消",
+        "undo_cancel": "撤销取消",
         "transform": {
-          "polish": "用 Polish 潤飾所選文字",
-          "prompt_engineer": "將所選文字轉成 AI 提示詞",
-          "view_changes": "檢視轉換變更"
+          "polish": "用 Polish 润饰所选文本",
+          "prompt_engineer": "将所选文本转成 AI 提示词",
+          "view_changes": "查看转换的更改"
         },
         "scratchpad": {
-          "open": "打開草稿板"
+          "open": "打开草稿板"
         }
       },
       "help": {
-        "dictate": "說話時按住快速鍵；放開即結束。",
-        "hands_free": "不必按住按鍵即可開始和停止聽寫。",
-        "cancel": "停止目前的聽寫，不插入文字。",
+        "dictate": "说话时按住快捷键；放开即结束。",
+        "hands_free": "不必按住按键即可开始和停止听写。",
+        "cancel": "停止当前的听写，不插入文本。",
         "command_mode": "按住快捷键，同时说出要如何编辑或撰写文本。",
-        "paste_last": "再次貼上最近一次的聽寫。",
-        "copy_last": "將最近一次的聽寫拷貝到剪貼板。",
-        "press_enter": "在你正在輸入的 App 中按下 Return 鍵。滑鼠側鍵很適合這個動作。",
-        "undo_cancel": "取消聽寫後立即將其還原。",
+        "paste_last": "再次粘贴最近一次的听写。",
+        "copy_last": "将最近一次的听写拷贝到剪贴板。",
+        "press_enter": "在你正在输入的 App 中按下 Return 键。鼠标侧键很适合这个操作。",
+        "undo_cancel": "取消听写后立即将其恢复。",
         "transform": {
-          "polish": "用 Polish 改寫所選文字。",
-          "prompt_engineer": "將所選文字改寫為清楚的 AI 提示詞。",
-          "view_changes": "檢視最近一次轉換的前後對照。"
+          "polish": "用 Polish 改写所选文本。",
+          "prompt_engineer": "将所选文本改写为清晰的 AI 提示词。",
+          "view_changes": "查看最近一次转换的前后对照。"
         },
         "scratchpad": {
-          "open": "依照草稿板設定，繼續上一則筆記或新增筆記。"
+          "open": "依照草稿板设置，继续上一条笔记或新建笔记。"
         }
       },
-      "description_other": "每個動作最多可加入 {{max}} 個快速鍵。變更會立即儲存。"
+      "description_other": "每个操作最多可添加 {{max}} 个快捷键。更改会立即保存。"
     },
     "resetSetting": "重置「{{setting}}」"
   },
   "hub": {
     "nav": {
-      "label": "主選單"
+      "label": "主菜单"
     },
     "sidebar": {
-      "collapse": "收合側邊欄",
-      "expand": "展開側邊欄"
+      "collapse": "收起侧边栏",
+      "expand": "展开侧边栏"
     },
     "header": {
-      "toDark": "切換為深色外觀",
-      "toLight": "切換為淺色外觀"
+      "toDark": "切换为深色外观",
+      "toLight": "切换为浅色外观"
     },
     "notifications": {
       "title": "通知",
       "empty": {
-        "title": "沒有新內容",
-        "body": "更新和提示會顯示在這裡。"
+        "title": "没有新内容",
+        "body": "更新和提示会显示在这里。"
       },
-      "bellUnread_other": "通知，{{count}} 則未讀",
+      "bellUnread_other": "通知，{{count}} 条未读",
       "filter": {
-        "label": "顯示",
+        "label": "显示",
         "all": "全部",
-        "unread": "未讀"
+        "unread": "未读"
       },
-      "more": "更多通知選項",
-      "markAllRead": "全部標示為已讀",
+      "more": "更多通知选项",
+      "markAllRead": "全部标记为已读",
       "groups": {
-        "show": "在此列表中顯示",
-        "mac": "在這台 Mac 上"
+        "show": "在此列表中显示",
+        "mac": "在这台 Mac 上"
       },
       "toggles": {
-        "suggestions": "建議",
+        "suggestions": "建议",
         "announcements": "公告",
         "milestones": "里程碑",
         "system": "Mac 通知"
       },
       "list": "通知",
-      "unreadDot": "未讀",
+      "unreadDot": "未读",
       "emptyUnread": {
-        "title": "沒有新內容",
-        "body": "你已閱讀所有內容。"
+        "title": "没有新内容",
+        "body": "你已阅读所有内容。"
       },
-      "loadFailed": "無法載入通知。",
-      "actionFailed": "動作未成功。請再試一次。",
-      "copied": "已拷貝最近一次聽寫",
-      "nothingToCopy": "還沒有可拷貝的聽寫",
-      "justNow": "剛剛"
+      "loadFailed": "无法加载通知。",
+      "actionFailed": "操作未成功。请再试一次。",
+      "copied": "已拷贝最近一次听写",
+      "nothingToCopy": "还没有可拷贝的听写",
+      "justNow": "刚刚"
     },
     "help": {
-      "title": "輔助說明",
+      "title": "帮助",
       "updates": "更新",
       "whatsNew": "新功能",
       "essentials": "基本功能",
-      "shortcuts": "快速鍵",
-      "microphone": "麥克風",
-      "languages": "語言",
-      "documentation": "說明文件",
-      "getInTouch": "聯絡我們",
-      "reportProblem": "回報問題⋯",
-      "sendFeedback": "傳送意見回饋",
+      "shortcuts": "快捷键",
+      "microphone": "麦克风",
+      "languages": "语言",
+      "documentation": "文档",
+      "getInTouch": "联系我们",
+      "reportProblem": "报告问题⋯",
+      "sendFeedback": "发送反馈",
       "report": {
-        "title": "回報問題",
-        "body": "這會在瀏覽器中於 GitHub 開啟新的問題，並自動填入你的 App 版本和 Mac 機型。其中絕不會包含你聽寫的任何內容，而且你可以在送出前閱讀並修改所有內容。",
-        "diagnosticsTitle": "診斷資訊（選用）",
-        "diagnosticsBody": "去識別化的記錄檔有助於找出原因，其中絕不會包含你的聽寫內容。在這裡拷貝，然後貼到問題中。",
-        "copy": "拷貝診斷資訊",
-        "copied": "已拷貝診斷資訊。請貼到問題中。",
-        "copyFailed": "無法拷貝診斷資訊。",
-        "open": "打開 GitHub",
+        "title": "报告问题",
+        "body": "这会在浏览器中打开 GitHub 并新建一个问题，自动填入你的 App 版本和 Mac 机型。其中绝不会包含你听写的任何内容，而且你可以在发送前阅读并修改所有内容。",
+        "diagnosticsTitle": "诊断信息（可选）",
+        "diagnosticsBody": "已脱敏的日志有助于找出原因，其中绝不会包含你的听写内容。在这里拷贝，然后粘贴到问题中。",
+        "copy": "拷贝诊断信息",
+        "copied": "已拷贝诊断信息。请粘贴到问题中。",
+        "copyFailed": "无法拷贝诊断信息。",
+        "open": "打开 GitHub",
         "cancel": "取消",
-        "close": "關閉"
+        "close": "关闭"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "設定分類"
+      "sectionsLabel": "设置分类"
     },
     "pages": {
       "dictation": {
-        "title": "聽寫",
+        "title": "听写",
         "banner": {
-          "title": "用說的，不用打字",
-          "body": "在任何 App 中按住 fn，說出想寫的內容，然後放開。{{appName}} 會將整理好的文字放到游標位置。",
-          "examplesLabel": "試試這些",
+          "title": "动动嘴，不用打字",
+          "body": "在任何 App 中按住 fn，说出想写的内容，然后放开。{{appName}} 会将整理好的文本放到光标位置。",
+          "examplesLabel": "试试这些",
           "examples": {
-            "reply": "快速回覆一則訊息",
-            "notes": "通話後馬上記筆記",
-            "prompt": "給 AI 聊天的長篇提示詞"
+            "reply": "快速回复一条消息",
+            "notes": "通话后马上记笔记",
+            "prompt": "给 AI 聊天的长篇提示词"
           },
-          "quiet": "輕聲聽寫：教我怎麼做"
+          "quiet": "轻声听写：教我怎么做"
         },
         "empty": {
-          "title": "你的聽寫內容會顯示在這裡"
+          "title": "你的听写内容会显示在这里"
         }
       },
       "insights": {
-        "title": "統計",
+        "title": "统计",
         "empty": {
-          "title": "統計需要一些聽寫資料",
-          "action": "前往聽寫"
+          "title": "统计需要一些听写数据",
+          "action": "前往听写"
         }
       },
       "dictionary": {
@@ -546,19 +546,19 @@
         "title": "文字片段"
       },
       "style": {
-        "title": "風格"
+        "title": "风格"
       },
       "transforms": {
-        "title": "轉換"
+        "title": "转换"
       },
       "scratchpad": {
         "title": "草稿板"
       },
       "share": {
-        "title": "與朋友分享"
+        "title": "与朋友分享"
       },
       "settings": {
-        "title": "設定"
+        "title": "设置"
       }
     },
     "featurePopup": {
@@ -567,30 +567,30 @@
       "open": "查看"
     },
     "update": {
-      "off": "更新檢查已關閉",
-      "turnOn": "開啟",
-      "notChecked": "尚未檢查",
-      "check": "檢查更新",
-      "checking": "正在檢查更新⋯",
+      "off": "更新检查已关闭",
+      "turnOn": "打开",
+      "notChecked": "尚未检查",
+      "check": "检查更新",
+      "checking": "正在检查更新⋯",
       "upToDate": "已是最新版本",
-      "checkAgain": "再次檢查",
-      "checkFailed": "無法檢查",
-      "retry": "重試",
-      "downloading": "正在下載 {{version}}⋯",
-      "ready": "更新已就緒",
-      "restartNow": "立即重新啟動",
-      "installing": "正在安裝 {{version}}⋯",
-      "installedWaiting": "已安裝 {{version}} · 本次聽寫結束後重新啟動",
-      "restarting": "正在重新啟動⋯",
-      "installFailed": "更新未能安裝",
-      "busy": "請先完成聽寫。",
-      "actionFailed": "動作未成功。請稍後再試。",
-      "lastChecked": "上次檢查時間：{{time}}。",
-      "paused": "連續三次嘗試失敗，自動更新已暫停至 {{time}}。",
-      "manualOnly": "這是開發版本：只有在你要求時才會檢查更新。",
-      "readyHint": "你 20 分鐘沒有聽寫或結束 App 時，更新會自動安裝。",
+      "checkAgain": "再次检查",
+      "checkFailed": "无法检查",
+      "retry": "重试",
+      "downloading": "正在下载 {{version}}⋯",
+      "ready": "更新已就绪",
+      "restartNow": "立即重新启动",
+      "installing": "正在安装 {{version}}⋯",
+      "installedWaiting": "已安装 {{version}} · 本次听写结束后重新启动",
+      "restarting": "正在重新启动⋯",
+      "installFailed": "更新未能安装",
+      "busy": "请先完成听写。",
+      "actionFailed": "操作未成功。请稍后再试。",
+      "lastChecked": "上次检查时间：{{time}}。",
+      "paused": "连续三次尝试失败，自动更新已暂停至 {{time}}。",
+      "manualOnly": "这是开发版本：只有在你要求时才会检查更新。",
+      "readyHint": "你 20 分钟没有听写或退出 App 时，更新会自动安装。",
       "policy": "更新会在后台下载，并在你 20 分钟没有听写时或退出 App 时安装。",
-      "needsPassword": "此 App 所在的檔案夾需要管理者密碼才能更改，因此只有在你選擇「立即重新啟動」時才會安裝更新。"
+      "needsPassword": "此 App 所在的文件夹需要管理员密码才能更改，因此只有在你选择「立即重新启动」时才会安装更新。"
     }
   },
   "ui": {
@@ -599,101 +599,101 @@
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "關閉"
+      "dismiss": "关闭"
     },
     "importWizard": {
-      "stepsLabel": "匯入步驟",
+      "stepsLabel": "导入步骤",
       "stepOf": "第 {{step}} 步，共 {{total}} 步：{{title}}",
       "steps": {
-        "choose": "選擇檔案",
-        "columns": "對應欄位",
-        "review": "檢查",
+        "choose": "选择文件",
+        "columns": "匹配列",
+        "review": "检查",
         "done": "完成"
       },
-      "dropHint": "將 .csv 檔案拖移到這裡，或選擇一個檔案。",
-      "browse": "選擇 .csv 檔案",
+      "dropHint": "将 .csv 文件拖到这里，或选择一个文件。",
+      "browse": "选择 .csv 文件",
       "limit": "最大 3 MB。",
       "formatLink": "支援的格式",
-      "csvFilter": "CSV 檔案",
+      "csvFilter": "CSV 文件",
       "fileSummary_other": "{{name}}：{{count}} 列",
-      "hasHeader": "第一列為欄位名稱",
-      "optional": "（選用）",
-      "noColumn": "不在此檔案中",
-      "column": "{{letter}} 欄",
-      "columnNamed": "{{letter}} 欄：{{name}}",
+      "hasHeader": "第一行为列名",
+      "optional": "（可选）",
+      "noColumn": "不在此文件中",
+      "column": "第 {{letter}} 列",
+      "columnNamed": "第 {{letter}} 列：{{name}}",
       "mapRequired": "请为每个必填字段选择一列。",
-      "previewCaption_other": "前 {{count}} 列預覽",
+      "previewCaption_other": "前 {{count}} 行预览",
       "rowHeader": "列",
       "cancel": "取消",
       "back": "返回",
       "next": "下一步",
-      "import": "匯入",
+      "import": "导入",
       "done": "完成",
-      "close": "關閉",
+      "close": "关闭",
       "errors": {
-        "notCsv": "這不是 .csv 檔案。請將試算表儲存為 CSV 格式，然後再試一次。",
-        "tooLarge": "該檔案大小為 {{size}} MB。檔案最大為 3 MB。",
-        "unreadable": "無法讀取該檔案。請確認它是 CSV 檔案，然後再試一次。",
-        "empty": "該檔案中沒有可匯入的列。",
-        "failed": "發生問題。沒有匯入任何內容，請再試一次。"
+        "notCsv": "这不是 .csv 文件。请将电子表格保存为 CSV 格式，然后再试一次。",
+        "tooLarge": "该文件大小为 {{size}} MB。文件最大为 3 MB。",
+        "unreadable": "无法读取该文件。请确认它是 CSV 文件，然后再试一次。",
+        "empty": "该文件中没有可导入的行。",
+        "failed": "发生问题。没有导入任何内容，请再试一次。"
       }
     }
   },
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "聽寫",
+      "dictation": "听写",
       "vocabulary": "词典",
-      "help": "輔助說明",
-      "file": "檔案",
-      "edit": "編輯",
-      "view": "顯示方式",
-      "window": "視窗",
-      "wordsDictated_other": "已聽寫 {{count}} 個字詞",
+      "help": "帮助",
+      "file": "文件",
+      "edit": "编辑",
+      "view": "显示",
+      "window": "窗口",
+      "wordsDictated_other": "已听写 {{count}} 个词",
       "copyLast": "拷贝上一次听写",
       "copyLastPreview": "拷贝上一次听写：“{{preview}}”",
       "copyLastConcealed": "拷贝上一次听写（文本已隐藏）",
-      "microphone": "麥克風",
-      "languages": "語言",
-      "moreLanguages": "加入或移除語言⋯",
-      "automaticMicrophone": "自動偵測（系統設定）",
-      "noMicrophones": "找不到麥克風",
-      "dictionaryWords_other": "字典中有 {{count}} 個字詞",
-      "snippetCount_other": "{{count}} 個文字片段",
-      "addWord": "加入字詞⋯",
+      "microphone": "麦克风",
+      "languages": "语言",
+      "moreLanguages": "添加或移除语言⋯",
+      "automaticMicrophone": "自动检测（系统设置）",
+      "noMicrophones": "找不到麦克风",
+      "dictionaryWords_other": "词典中有 {{count}} 个词",
+      "snippetCount_other": "{{count}} 个文本片段",
+      "addWord": "添加单词⋯",
       "newSnippet": "新增文字片段⋯",
-      "documentation": "說明文件",
-      "shortcuts": "快速鍵",
-      "reportProblem": "回報問題⋯",
-      "sendFeedback": "傳送意見回饋⋯",
-      "openApp": "打開 {{appName}}",
-      "checkUpdates": "檢查更新⋯",
+      "documentation": "文档",
+      "shortcuts": "快捷键",
+      "reportProblem": "报告问题⋯",
+      "sendFeedback": "发送反馈⋯",
+      "openApp": "打开 {{appName}}",
+      "checkUpdates": "检查更新⋯",
       "pasteLast": "粘贴上一次听写",
-      "cancelDictation": "取消聽寫",
-      "shortcutsBlocked": "快速鍵遭到阻擋 — 打開設定",
-      "undo": "還原",
+      "cancelDictation": "取消听写",
+      "shortcutsBlocked": "快捷键被阻止 — 打开设置",
+      "undo": "撤销",
       "redo": "重做",
       "cut": "剪下",
-      "copy": "拷貝",
-      "paste": "貼上",
-      "selectAll": "全選",
-      "minimize": "縮到最小",
-      "zoom": "縮放",
-      "closeWindow": "關閉視窗",
-      "fullScreen": "進入全螢幕",
-      "services": "服務",
-      "hideOthers": "隱藏其他",
-      "showAll": "顯示全部",
-      "about": "關於 {{appName}}",
-      "hide": "隱藏 {{appName}}",
-      "quitApp": "結束 {{appName}}",
-      "restartToUpdate": "重新啟動以更新至 {{version}}",
-      "updatesOff": "更新檢查已關閉⋯"
+      "copy": "拷贝",
+      "paste": "粘贴",
+      "selectAll": "全选",
+      "minimize": "最小化",
+      "zoom": "缩放",
+      "closeWindow": "关闭窗口",
+      "fullScreen": "进入全屏幕",
+      "services": "服务",
+      "hideOthers": "隐藏其他",
+      "showAll": "显示全部",
+      "about": "关于 {{appName}}",
+      "hide": "隐藏 {{appName}}",
+      "quitApp": "退出 {{appName}}",
+      "restartToUpdate": "重新启动以更新至 {{version}}",
+      "updatesOff": "更新检查已关闭⋯"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
-      "versionDev": "Wispr Bro v{{version}}（開發版）",
-      "shortcutLost": "快速鍵已停止運作"
+      "versionDev": "Wispr Bro v{{version}}（开发版）",
+      "shortcutLost": "快捷键已停止工作"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -705,100 +705,100 @@
         "option": "Option",
         "shift": "Shift",
         "command": "Command",
-        "space": "空白鍵",
+        "space": "空格键",
         "escape": "Esc",
         "return": "Return",
         "tab": "Tab",
         "delete": "Delete",
-        "forwardDelete": "向後刪除",
-        "left": "左方向鍵",
-        "right": "右方向鍵",
-        "up": "上方向鍵",
-        "down": "下方向鍵",
+        "forwardDelete": "向前删除",
+        "left": "左方向键",
+        "right": "右方向键",
+        "up": "上方向键",
+        "down": "下方向键",
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
-        "mouseLeft": "滑鼠左鍵",
-        "mouseRight": "滑鼠右鍵",
-        "mouseMiddle": "滑鼠中鍵",
-        "mouseBack": "滑鼠上一頁鍵",
-        "mouseForward": "滑鼠下一頁鍵"
+        "mouseLeft": "鼠标左键",
+        "mouseRight": "鼠标右键",
+        "mouseMiddle": "鼠标中键",
+        "mouseBack": "鼠标后退键",
+        "mouseForward": "鼠标前进键"
       }
     },
     "notify": {
       "modelReady": {
-        "title": "聽寫已就緒",
-        "body": "語音模型已下載完成。在任何 App 中按住 fn 並開始說話。"
+        "title": "听写已就绪",
+        "body": "语音模型已下载完成。在任何 App 中按住 fn 并开始说话。"
       },
       "updateReady": {
-        "title": "更新已就緒",
-        "body": "{{appName}} {{version}} 會在 App 下次重新啟動時安裝。"
+        "title": "更新已就绪",
+        "body": "{{appName}} {{version}} 会在 App 下次重新启动时安装。"
       },
       "queuedTakesReady": {
-        "title_other": "{{count}} 則聽寫已就緒",
-        "body": "語音模型缺少期間你說的內容已轉錄完成。"
+        "title_other": "{{count}} 条听写已就绪",
+        "body": "语音模型缺少期间你说的内容已转录完成。"
       },
       "shortcutProblem": {
-        "title": "你的快速鍵無法運作",
-        "body": "{{appName}} 無法開始偵聽 fn。請打開設定檢查你的快速鍵。",
-        "bodyPermission": "{{appName}} 需要輔助使用權限才能偵聽 fn。請在「系統設定」中開啟。"
+        "title": "你的快捷键无法正常工作",
+        "body": "{{appName}} 无法开始监听 fn。请打开设置检查你的快捷键。",
+        "bodyPermission": "{{appName}} 需要辅助功能权限才能监听 fn。请在「系统设置」中打开。"
       },
       "crashReport": {
-        "title": "{{appName}} 意外結束",
-        "body": "當機報告已儲存在這台 Mac 上，沒有傳送到任何地方。"
+        "title": "{{appName}} 意外退出",
+        "body": "崩溃报告已保存在这台 Mac 上，没有发送到任何地方。"
       },
       "dataRecovered": {
-        "title": "你的歷史記錄檔案已修復",
-        "body": "原檔案無法讀取，因此已建立新檔案。損壞的檔案保留在旁邊。"
+        "title": "你的历史记录文件已修复",
+        "body": "原文件无法读取，因此已创建新文件。损坏的文件保留在旁边。"
       },
       "milestoneWords": {
-        "title_other": "已聽寫 {{count}} 個字詞",
-        "body_other": "這是你不必親手輸入的 {{count}} 個字詞。做得好。"
+        "title_other": "已听写 {{count}} 个词",
+        "body_other": "这是你不必亲手输入的 {{count}} 个词。做得好。"
       },
       "milestoneStreak": {
-        "title_other": "連續 {{count}} 天",
-        "body_other": "你已連續 {{count}} 天使用聽寫。"
+        "title_other": "连续 {{count}} 天",
+        "body_other": "你已连续 {{count}} 天使用听写。"
       },
       "tips": {
         "handsFree": {
-          "title": "不必按住按鍵也能說話",
-          "body": "按兩下 fn，或按下 fn 和空白鍵，即可進入免持模式。說完後再按一次 fn。"
+          "title": "不必按住按键也能说话",
+          "body": "连按两次 fn，或按下 fn 和空格键，即可进入免提模式。说完后再按一次 fn。"
         },
         "cancel": {
-          "title": "改變主意了？",
-          "body": "說話時按下 Esc，這次聽寫就會捨棄，不會貼上任何內容。"
+          "title": "改变主意了？",
+          "body": "说话时按下 Esc，这次听写就会被丢弃，不会粘贴任何内容。"
         },
         "history": {
-          "title": "每次聽寫都會保留",
-          "body": "你的聽寫內容會留在這台 Mac 上。打開歷史記錄即可再次拷貝。"
+          "title": "每次听写都会保留",
+          "body": "你的听写内容会留在这台 Mac 上。打开历史记录即可再次拷贝。"
         },
         "darkMode": {
-          "title": "淺色或深色",
-          "body": "點一下此視窗上方的月亮按鈕即可切換外觀。"
+          "title": "浅色或深色",
+          "body": "点一下此窗口上方的月亮按钮即可切换外观。"
         },
         "customWords": {
-          "title": "教它認識你的用詞",
-          "body": "加入你常用的名稱和術語，讓它們每次都拼寫正確。"
+          "title": "教它认识你的用词",
+          "body": "添加你常用的名称和术语，让它们每次都拼写正确。"
         }
       },
       "slowerMac": {
-        "title": "在這台 Mac 上聽寫可能較慢",
-        "body": "在這台 Mac 上，沒有夠快的語音模型支援你的語言，因此會使用最快的模型。文字可能需要稍等一下才會出現。"
+        "title": "在这台 Mac 上听写可能较慢",
+        "body": "在这台 Mac 上，没有够快的语音模型支持你的语言，因此会使用最快的模型。文本可能需要稍等一下才会出现。"
       },
       "features": {
         "inbox": {
-          "title": "你的通知都在這裡",
-          "body": "下載、里程碑和提示現在都集中在鈴鐺圖像中。在其選單中選擇要接收的內容。"
+          "title": "你的通知都在这里",
+          "body": "下载、里程碑和提示现在都集中在铃铛图标下。在其菜单中选择要接收的内容。"
         }
       },
       "buttons": {
-        "copyLatest": "拷貝最新內容",
-        "open": "打開",
-        "openAccessibility": "打開設定"
+        "copyLatest": "拷贝最新内容",
+        "open": "打开",
+        "openAccessibility": "打开设置"
       },
       "takeRecovered": {
-        "title_other": "App 結束時已儲存 {{count}} 段錄音",
+        "title_other": "App 退出时已保存 {{count}} 段录音",
         "body_other": "{{appName}} 关闭时你仍在听写。这些录音正在转写，完成后会显示在历史记录中。"
       }
     },
@@ -811,8 +811,8 @@
       "hideForAnHour": "隐藏一小时",
       "slots": {
         "dictate": {
-          "label": "聽寫",
-          "tooltip": "按住 fn 進行聽寫"
+          "label": "听写",
+          "tooltip": "按住 fn 进行听写"
         },
         "scratchpad": {
           "label": "草稿板",
@@ -826,11 +826,11 @@
         "cancelled": "听写已取消",
         "silenceWarning": "一段时间没有检测到语音。听写即将停止。",
         "lengthWarning": "听写会在 30 分钟时停止。",
-        "settingUp": "正在設定聽寫。你說的話已保留。",
-        "card": "你的聽寫內容已就緒。可從浮動列拷貝。",
-        "micLostWarning": "麥克風已中斷連線。到目前為止你說的內容都已保留。",
-        "undo": "「還原」會在聽寫浮動列上顯示 4 秒。",
-        "diff": "轉換變更已可供檢視。",
+        "settingUp": "正在设置听写。你说的话已保留。",
+        "card": "你的听写内容已就绪。可从浮动栏拷贝。",
+        "micLostWarning": "麦克风已中断连接。到目前为止你说的内容都已保留。",
+        "undo": "「撤销」会在听写浮动栏上显示 4 秒。",
+        "diff": "可以查看转换的更改了。",
         "secureInputWarning": "安全输入已开启。fn 和空格键无法锁定听写。按 Esc 或关闭按钮仍可取消。",
         "inserted": "已插入文字"
       },
@@ -843,12 +843,12 @@
         "mic_denied": "麦克风访问已关闭",
         "no_microphone": "未找到麦克风",
         "mic_failed": "麦克风未能启动",
-        "download_failed": "無法下載",
-        "check_connection": "請檢查你的網際網路連線",
-        "no_space": "磁碟空間不足，無法設定聽寫",
+        "download_failed": "无法下载",
+        "check_connection": "请检查你的互联网连接",
+        "no_space": "磁盘空间不足，无法设置听写",
         "cancelled": "已取消",
-        "no_transcript": "還沒有可貼上的聽寫",
-        "copied_last": "已拷貝上一次聽寫",
+        "no_transcript": "还没有可粘贴的听写",
+        "copied_last": "已拷贝上一次听写",
         "transform_done": "完成",
         "command_done": "完成",
         "command_needs_text": "命令模式用于编辑和撰写文本。请选择文本或点按输入栏。",
