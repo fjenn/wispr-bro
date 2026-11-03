@@ -368,7 +368,8 @@ describe("the real tree", () => {
     expect(noticeSection(notice, "Files licensed AGPL-3.0-only")).toContain(
       "src-tauri/src/fork/diagnostics/sanitizer.rs",
     );
-    expect(noticeApacheNames(notice).size).toBe(0);
+    // S-25: es-toolkit (Recharts) ships a NOTICE with Lodash's notice.
+    expect([...noticeApacheNames(notice)]).toEqual(["es-toolkit"]);
   });
 
   test("npm, manual and NOTICE checks pass without cargo-about", () => {
