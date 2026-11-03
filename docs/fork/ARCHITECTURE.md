@@ -2526,3 +2526,28 @@ Note: Handy's `playwright.config.ts` (`testDir: ./tests`) also discovers
   by itself) gets the running version marked seen without a note; otherwise
   it waits while the chooser, a lesson, the spotlight or another dialog is
   open, plus 400 ms after (`useOtherDialogOpen` from `featurePopupGate.ts`).
+
+## Mac wave 4 fixes (`fix/wave4`)
+
+- **Building the bar's web views never unhides a hidden app**
+  (`fork/pill/activation.rs` `without_app_activation`): wry 0.55 ends every
+  top-level web view build with `NSApplication::activate()`
+  (`activateIgnoringOtherApps:` before macOS 14) "so the window is on
+  top". On a hidden app that call does not activate it, but AppKit unhides
+  it ~0.5 s later and every window comes back, the Hub included; `canHide`
+  (wave 3) cannot help, since the window is never ordered in during the
+  build (`visible(false)`). The `fork-pill` and `fork-spotlight` builds run
+  inside a guard that swaps both NSApplication methods for no-ops for the
+  length of the synchronous main-thread build and restores them on return
+  or unwind. The Hub, Scratchpad and Handy's overlay (built at launch) are
+  untouched and still activate as before. Off-screen proof:
+  `scripts/wb-f02/unhide-repro.swift`. Guard tests: `activation.rs` (swap
+  and restore, also on panic) and `pill/tests.rs`
+  `bar_panels_never_unhide_a_hidden_app` (built `visible(false)`, inside the
+  guard, `canHide` off before the first order-in, one builder per file).
+- **What's New reads the take itself** (`useTakeRunning`, exported from
+  `featurePopupGate.ts`): Handy's `recording-state-event` plus Handy's
+  `is_recording` at mount (a Hub opened mid-take never saw `started`; an
+  event that arrives first wins). The gate waits on it as on any other
+  blocker, and on `update.busy` while the text is delivered. The feature
+  popup gets the same mount query.

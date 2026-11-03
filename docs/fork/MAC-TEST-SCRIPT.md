@@ -2026,15 +2026,22 @@ needed first).
       Privacy: the footer reads "Update checks off · Turn on" and the tray
       "Update checks are off…" (opens Data and Privacy).
 - [ ] S-28.7 **Mac wave 3: FAIL S-28.1d-f again (14/17); cause found: the take itself unhides the hidden app and shows its Hub, so the relaunch is correctly "shown"; without a take the relaunch is hidden (PASS)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-3.md)) **Queued for the Mac wave** (Mac wave 2 fixes, finding 2): re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The relaunch decision now reads AppKit (`NSApp.isHidden`, the Hub's occlusion state) as well as Tauri's window state and the parked Hub (`fork::update::scheduler::relaunch_hidden`). Expect S-28.1d-.1f PASS: `update: relaunching (hidden)`, `relaunched after an update (hidden)`, no Hub window. The profile now starts with every shortcut unbound and a cloned model cache (no download), and the take plays a silent WAV through the test microphone (no Microphone grant needed). Extra by hand if time allows: the Hub minimised (⌘M) or behind another app's window when B installs → also relaunches hidden; the Hub in front → relaunches shown.
-- [ ] S-28.8 **Mac wave 4: FAIL 14/19 (1d-1i): the take still unhides the hidden app; isolated: a take while the per-take web view already exists stays hidden (the `canHide` fix works), the unhide comes with building the `fork-pill` web view at take start** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 3 fixes, finding 1):
-      re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. The bar's
-      panels (resting bar, `fork-pill` web view, spotlight) now have
-      `canHide` off, so ordering them in during a take no longer unhides the
-      hidden app. Expect 19/19 PASS, including the new S-28.1h (5 s into the
-      take System Events still reports the app not visible) and .1i (no Hub
-      window during the take), then .1d-.1f (`relaunching (hidden)`, no Hub
-      window). By hand if time allows: ⌘H the app, dictate into TextEdit:
-      the bar shows and pastes, the Hub stays hidden.
+- [ ] S-28.8 **Mac wave 4: FAIL 14/19 (1d-1i): the take still unhides the hidden app; isolated: a take while the per-take web view already exists stays hidden (the `canHide` fix works), the unhide comes with building the `fork-pill` web view at take start** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 4 fixes, finding 1):
+      re-run `F02_ONLY_S28=1 scripts/wb-f02/update-e2e.sh <out>`. Cause of
+      the wave 4 FAIL: wry calls `NSApp.activate()` after every web view
+      build, which unhides a hidden app ~0.5 s later
+      (`scripts/wb-f02/unhide-repro.swift` shows it off screen). The
+      `fork-pill` and `fork-spotlight` builds now run with app activation
+      switched off (`fork/pill/activation.rs`); `canHide` stays off on all
+      three panels. Expect 19/19 PASS: S-28.1h (5 s into the take System
+      Events still reports the app not visible), .1i (no Hub window during
+      the take), then .1d-.1f (`relaunching (hidden)`, no Hub window). The
+      take must be the first one after ⌘H with no `fork-pill` web view
+      alive (the driver's take is; in the log
+      `pill: web view built` follows `Received SIGUSR2`). Extra: wait > 10 s after a take (the
+      web view is destroyed), ⌘H, SIGUSR2 again → still hidden, no Hub. By
+      hand if time allows: ⌘H the app, dictate into TextEdit: the bar shows
+      and pastes, the Hub stays hidden.
 - [ ] S-28.9 **Mac wave 4: PASS fresh install (chooser alone, no What's New, also after Maybe later; key = running version, also from an empty key) and updated profile (once, then never again); FAIL edge: the Hub opened within ~10 s of a take's start shows What's New during the take (the gate's `busy` is sampled every 10 s); "panel open first" not verified (the driver could not open the panel)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-4.md)) **Queued for the Mac wave** (Mac wave 3 fixes, finding 4):
       What's New on a fresh install. A fresh test profile (debug bundle,
       `wb_unbind_keys` + `wb_clone_models`), onboarding finished: on the
@@ -2046,6 +2053,15 @@ needed first).
       the notifications panel open first it waits until the panel closes.
       `scripts/wb-s37/run.sh hub` needs no `press-if Got it` for What's New
       on a fresh copy any more (it stays harmless).
+      **Wave 4 re-check (Mac wave 4 fixes, finding 2):** the gate now reads
+      the take itself (`recording-state-event` plus Handy's `is_recording`
+      when the Hub mounts), not only `busy`. On the updated profile (key
+      `0.9.7`), Hub hidden: start a take (SIGUSR2, the silent test
+      microphone; the log must say `test microphone plays`), open the Hub 2 s
+      later (second launch). Expect no "What's new in …" in screenshots
+      every second for the next 10 s of the take; after the stop it opens
+      within ~2 s. Same with the Hub opened 25 s into the take (wave 4 PASS
+      case). Wait until no copy of the identity runs before each launch.
 - [ ] S-28.6 RS-12 on real GitHub releases (release wave, with F-02.4):
       alpha.N → alpha.N+1 installs by itself after 20 idle minutes, the app
       comes back to the bar without a window, Microphone and Accessibility
