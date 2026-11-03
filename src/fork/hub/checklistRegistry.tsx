@@ -17,7 +17,10 @@
  *   take pasted into another app, `fork/onboarding/checklist.rs`).
  *
  * Chaining (R1 §11): when the item the user started from the card ticks,
- * the next open item's `run` starts on its own.
+ * the next open item is *shown*, never started: its `reveal` runs (open its
+ * page, point at it with a coach mark) or, without one, the card points at
+ * its row. `run` is for the user's own click only, because a `run` may have
+ * a side effect (Open at login's turns autostart on; S-32 decision).
  */
 import { useSyncExternalStore } from "react";
 import type { LucideIcon } from "lucide-react";
@@ -37,7 +40,10 @@ export interface ChecklistRunContext {
 export interface ChecklistItem {
   /** Stable id stored in `onboarding.checklist_done` (`a-z0-9_.-`). */
   id: string;
-  /** Position in the card (S-30 uses 10, 20, 30, 40; later items fit in). */
+  /**
+   * Position in the card (S-30 uses 10, 20, 30, 40; later items fit in:
+   * S-31's Try a Transform 35, S-32's Try whispering 37).
+   */
   order: number;
   icon: LucideIcon;
   /** `fork` namespace keys. */
@@ -48,9 +54,21 @@ export interface ChecklistItem {
   isDone?: () => Promise<boolean>;
   /** Event names after which `isDone` runs again. */
   refreshOn?: string[];
-  /** The item's step, from its button (and from chaining). */
+  /** The item's step, from its button only (an explicit click). */
   run: (ctx: ChecklistRunContext) => void | Promise<void>;
+  /**
+   * Shows the item when chaining reaches it: navigate to its page, point at
+   * it. Must never change a setting or start anything (no `markDone`).
+   * Without one, chaining points at the item's row in the card.
+   */
+  reveal?: (ctx: ChecklistRevealContext) => void | Promise<void>;
 }
+
+/** What `reveal` can use: showing things only. */
+export type ChecklistRevealContext = Pick<
+  ChecklistRunContext,
+  "navigate" | "coach"
+>;
 
 let items: readonly ChecklistItem[] = [];
 const listeners = new Set<() => void>();

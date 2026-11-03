@@ -9,18 +9,46 @@
  *   the first-use chooser.
  * - Add a word / Create a snippet: done once the Dictionary or Snippets has
  *   one; the button opens the page and points at its Add button.
- * - Open at login: Handy's `autostart_enabled`; "Turn on" sets it.
+ * - Open at login: Handy's `autostart_enabled`; "Turn on" sets it, on the
+ *   user's click only: it has no `reveal`, so chaining points at its row
+ *   and never turns launch at login on by itself (S-32).
  */
 import { AppWindow, BookA, Power, TextQuote } from "lucide-react";
 import { commands as handyCommands } from "@/bindings";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { commands } from "../bindings";
-import { registerChecklistItem } from "./checklistRegistry";
+import {
+  registerChecklistItem,
+  type ChecklistRevealContext,
+} from "./checklistRegistry";
 
 export const TRY_IN_APP = "try_in_app";
 export const ADD_WORD = "add_word";
 export const CREATE_SNIPPET = "create_snippet";
 export const LAUNCH_AT_LOGIN = "launch_at_login";
+
+/** Opens a page and points at its Add button (no setting changes). */
+const showPage =
+  (page: string, target: string, item: string) =>
+  ({ navigate, coach }: ChecklistRevealContext) => {
+    navigate(page);
+    coach(
+      target,
+      `checklist.items.${item}.coachTitle`,
+      `checklist.items.${item}.coachBody`,
+    );
+  };
+
+const showDictionary = showPage(
+  "dictionary",
+  '[data-testid="wb-dictionary-add"]',
+  ADD_WORD,
+);
+const showSnippets = showPage(
+  "snippets",
+  '[data-testid="wb-snippets-add"]',
+  CREATE_SNIPPET,
+);
 
 let registered = false;
 
@@ -52,14 +80,8 @@ export function registerBuiltInChecklistItems(): void {
       );
     },
     refreshOn: ["fork-dictionary-changed"],
-    run: ({ navigate, coach }) => {
-      navigate("dictionary");
-      coach(
-        '[data-testid="wb-dictionary-add"]',
-        "checklist.items.add_word.coachTitle",
-        "checklist.items.add_word.coachBody",
-      );
-    },
+    run: showDictionary,
+    reveal: showDictionary,
   });
 
   registerChecklistItem({
@@ -73,14 +95,8 @@ export function registerBuiltInChecklistItems(): void {
       return result.status === "ok" && result.data.counts.snippets > 0;
     },
     refreshOn: ["fork-snippets-changed"],
-    run: ({ navigate, coach }) => {
-      navigate("snippets");
-      coach(
-        '[data-testid="wb-snippets-add"]',
-        "checklist.items.create_snippet.coachTitle",
-        "checklist.items.create_snippet.coachBody",
-      );
-    },
+    run: showSnippets,
+    reveal: showSnippets,
   });
 
   registerChecklistItem({
@@ -95,6 +111,7 @@ export function registerBuiltInChecklistItems(): void {
       return result.status === "ok" && result.data.autostart_enabled === true;
     },
     refreshOn: ["fork-settings-changed"],
+    // No `reveal`: turning autostart on is a side effect, a click only.
     run: async ({ markDone }) => {
       await useSettingsStore
         .getState()

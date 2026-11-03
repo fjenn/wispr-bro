@@ -4,15 +4,17 @@
  * started", n of m done, the registered items (`checklistRegistry.tsx`) in
  * order, the next open one expanded with its button. Items tick themselves
  * (see the registry); when the item started from this card ticks, the next
- * open one starts on its own (chaining), but only while the window is on
- * screen, so a tick that happened while it was hidden never pulls the user
- * around.
+ * open one is shown (chaining): its `reveal` opens its page with a coach
+ * mark, or the card points at its row. Chaining never runs an item's `run`
+ * (which may change a setting: Open at login turns autostart on), and only
+ * happens while the window is on screen, so a tick that happened while it
+ * was hidden never pulls the user around.
  *
  * Shown after setup is done (onboarding `completed`) until hidden with ✕
  * (`dismissed_banners` › `hub.checklist`). When everything is done it says
  * so and stays until hidden.
  */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { listen } from "@tauri-apps/api/event";
@@ -35,8 +37,10 @@ import { navigate, type HubPageId } from "./nav";
 registerBuiltInChecklistItems();
 
 export const CHECKLIST_HIDDEN_ID = "hub.checklist";
-/** Pause between a tick and the next step opening by itself. */
+/** Pause between a tick and the next step being shown. */
 export const CHAIN_DELAY_MS = 700;
+/** How long the card points at the next row (until a click ends it). */
+export const HIGHLIGHT_MS = 8000;
 
 /** Persists a tick (also used by lessons, S-31). */
 export async function markChecklistItem(id: string): Promise<void> {
@@ -106,10 +110,19 @@ export function SetupChecklist() {
     items.length > 0;
   useAutoTicks(items, done, visible);
 
-  /** The item last started from the card (chaining follows it). */
+  /** The item last started or shown from the card (chaining follows it). */
   const started = useRef<string | null>(null);
   const chainTimer = useRef<number | undefined>(undefined);
-  useEffect(() => () => window.clearTimeout(chainTimer.current), []);
+  const highlightTimer = useRef<number | undefined>(undefined);
+  /** The row chaining points at (an item without `reveal`). */
+  const [highlight, setHighlight] = useState<string | null>(null);
+  useEffect(
+    () => () => {
+      window.clearTimeout(chainTimer.current);
+      window.clearTimeout(highlightTimer.current);
+    },
+    [],
+  );
 
   const context = useCallback(
     (item: ChecklistItem): ChecklistRunContext => ({
@@ -127,15 +140,39 @@ export function SetupChecklist() {
     [t],
   );
 
+  /** The user's click: the item's own step. */
   const run = useCallback(
     (item: ChecklistItem) => {
       started.current = item.id;
+      setHighlight(null);
       void item.run(context(item));
     },
     [context],
   );
 
-  // Chaining: the started item ticked → the next open one starts.
+  /** Chaining: show the item (its page, or its row), never run it. */
+  const reveal = useCallback(
+    (item: ChecklistItem) => {
+      if (item.reveal) {
+        started.current = item.id;
+        const { navigate: go, coach } = context(item);
+        void item.reveal({ navigate: go, coach });
+        return;
+      }
+      setHighlight(item.id);
+      window.clearTimeout(highlightTimer.current);
+      highlightTimer.current = window.setTimeout(
+        () => setHighlight(null),
+        HIGHLIGHT_MS,
+      );
+      document
+        .querySelector(`[data-testid="wb-checklist-${item.id}"]`)
+        ?.scrollIntoView?.({ block: "nearest" });
+    },
+    [context],
+  );
+
+  // Chaining: the started item ticked → the next open one is shown.
   const doneKey = done.join(",");
   useEffect(() => {
     const id = started.current;
@@ -144,9 +181,9 @@ export function SetupChecklist() {
     const next = nextOpenItem(items, done);
     if (!next || !windowInFront()) return;
     window.clearTimeout(chainTimer.current);
-    chainTimer.current = window.setTimeout(() => run(next), CHAIN_DELAY_MS);
+    chainTimer.current = window.setTimeout(() => reveal(next), CHAIN_DELAY_MS);
     // `done` is read through its key.
-  }, [doneKey, items, run]);
+  }, [doneKey, items, reveal]);
 
   if (!visible) return null;
 
@@ -217,7 +254,8 @@ export function SetupChecklist() {
                 key={item.id}
                 data-testid={`wb-checklist-${item.id}`}
                 data-done={isDone || undefined}
-                className={`rounded-(--wb-radius-control) px-1.5 py-1 ${isNext ? "bg-(--wb-hover)" : ""}`}
+                data-highlight={(isNext && highlight === item.id) || undefined}
+                className={`wb-checklist-row rounded-(--wb-radius-control) px-1.5 py-1 ${isNext ? "bg-(--wb-hover)" : ""}`}
               >
                 <div className="flex items-center gap-2 text-[12.5px]">
                   <span

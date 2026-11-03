@@ -56,3 +56,20 @@
 .driver-popover.wb-coach .driver-popover-arrow-side-right {
   border-right-color: var(--wb-card);
 }
+
+/* S-30 chaining: the next checklist row is pointed at, not started. */
+.wb-checklist-row[data-highlight] {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 1px;
+  animation: wb-checklist-pulse 1.4s ease-in-out 3;
+}
+@keyframes wb-checklist-pulse {
+  50% {
+    outline-offset: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-checklist-row[data-highlight] {
+    animation: none;
+  }
+}
