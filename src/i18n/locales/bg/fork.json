@@ -43,7 +43,7 @@
       "kind": "Вид",
       "delay": "Задължаване (с)",
       "post": "Пример за публикация",
-      "posted": "Поставяне след {{seconds}} с. Превключете се към друга приложение, за да видите макос уведомление."
+      "posted": "Поставяне в {{seconds}} с. Преместете се към друга приложение, за да видите известие в macOS."
     },
     "update": {
       "title": "Обновления",
@@ -365,7 +365,6 @@
     "hotkeys": {
       "open": "Съкратки",
       "loading": "Зареждане на кратките команди…",
-      "description": "Добавете до {{max}} кратки комбинации за всяко действие. Промените се запазват при всяко променяне.",
       "secureInputHelp": "macOS Secure Input защитава въвеждането на пароли, скривайки клавиатурните въвеждания от другите приложения. Краткото изпълнение спира, когато е активно.",
       "count": "{{count}} от {{max}} зададени",
       "notSet": "Не е зададен",
@@ -425,14 +424,16 @@
         "press_enter": "Натиснете Return в приложението, където пишете. Със странен бутон на мишка работи добре тук.",
         "undo_cancel": "Възстанови диктовката след премахване.",
         "transform": {
-          "polish": "Преобрази избраното текст с полски.",
+          "polish": "Преобразувайте избраното текст с \"Polish\".",
           "prompt_engineer": "Преобрази избраното текст като ясно AI изказване.",
           "view_changes": "Прегледайте последните промени преди и след това."
         },
         "scratchpad": {
           "open": "Направи повторение на последното ти бележка или започни ново, според настройките на Scratchpad-а."
         }
-      }
+      },
+      "description_one": "Добавете до {{max}} клавишна комбинация за всяко действие. Промените се запазват при всяко променяне.",
+      "description_other": "Добавете до {{max}} клавишни комбинации за всяко действие. Измененията се запазват при всяко променяне."
     },
     "resetSetting": "Reset {{setting}}"
   },
@@ -528,7 +529,7 @@
             "notes": "Записи след разговор",
             "prompt": "Дълъг промпт за чат с ИИ"
           },
-          "quiet": "Dictate quietly: show me how"
+          "quiet": "Диктувайте тихо: покажете ми как"
         },
         "empty": {
           "title": "Вашият диктован текст ще бъде тук",
@@ -789,12 +790,16 @@
         "body": "Не можа да бъде прочетено, затова е започнат нов. Повреденият файл е останал до него."
       },
       "milestoneWords": {
-        "title": "{{words}} думи диктирана",
-        "body": "Това са {{words}} думи, които нямаш да въвеждаш. Хубава работа."
+        "title_one": "Диктувано е {{count}} дума",
+        "title_other": "{{count}} думи диктувани",
+        "body_one": "Това е {{count}} дума, която нямаш да въвеждаш. Хубава работа.",
+        "body_other": "Това са {{count}} думи, които нямаш да въвеждаш. Хубава работа."
       },
       "milestoneStreak": {
-        "title": "стreak от {{days}} дни",
-        "body": "Съобщавате се на {{days}} дни наред."
+        "title_one": "{{count}}-ден стик",
+        "title_other": "{{count}}-ден стик",
+        "body_one": "Вие сте диктували на {{count}} ден в ред.",
+        "body_other": "Диктувайте сте на {{count}} дни редно."
       },
       "tips": {
         "handsFree": {
@@ -1008,9 +1013,9 @@
         "not_enabled": "Apple Intelligence е изключен в настройките. Wispr Bro използва собствения си модел за премахване.",
         "model_not_ready": "Apple Intelligence все още се премества в готовност на модела.",
         "unsupported": "Apple Intelligence изисква macOS 26 или по-нов. Wispr Bro използва силен модел за премахване.",
-        "unknown": "Интелигентността на Apple не е налична в момента."
+        "unknown": "Apple Intelligence не е налична в момента."
       },
-      "counts": "От началото на приложението: {{requests}} изисквания, {{refusals}} отказане, {{rateLimited}} ограничено."
+      "counts": "От началото на приложението: изпратени заявки {{requests}}, отклонени {{refusals}}, ограничени {{rateLimited}}."
     }
   },
   "home": {
@@ -1038,10 +1043,12 @@
     },
     "voiceProfile": {
       "title": "Вашият профил за глас",
-      "progress": "{{current}} от {{goal}} думи",
-      "locked": "Се отваря при {{goal}} думи. Нека продължавате да говорите, за да го създадете.",
       "unlocked": "Отворено. Вижте как говорите в Инсайтс.",
-      "open": "Отвори Insights"
+      "open": "Отвори Insights",
+      "progress_one": "{{current}} от {{goal}} дума",
+      "progress_other": "{{current}} от {{goal}} думи",
+      "locked_one": "Отключва се при {{goal}} думи. Диктувайте, за да го създадете.",
+      "locked_other": "Отключва се при {{goal}} думи. Нека диктувате, за да се създаде."
     },
     "history": {
       "title": "Диктованите ти текстове са запазени върху този Mac",
@@ -1118,11 +1125,13 @@
     },
     "problem": {
       "empty": "Напиши дума първо.",
-      "too_long": "Слова могат да бъдат до {{max}} символа.",
-      "replacement_too_long": "Заместванията могат да бъдат до {{maxReplacement}} символа.",
       "same_as_replacement": "Замяната е същата като думата.",
       "control_character": "Паузите и табовете не могат да се използват тук.",
-      "full": "Словарът ти е пълен. Премахни някои записи преди да продължиш."
+      "full": "Словарът ти е пълен. Премахни някои записи преди да продължиш.",
+      "too_long_one": "Слова могат да бъдат до {{max}} символ.",
+      "too_long_other": "Слова могат да бъдат до {{max}} символа.",
+      "replacement_too_long_one": "Заместванията могат да бъдат до {{maxReplacement}} символ.",
+      "replacement_too_long_other": "Заместванията могат да бъдат до {{maxReplacement}} символа."
     },
     "dialog": {
       "addTitle": "Додаи в речник",
@@ -1258,8 +1267,8 @@
     "banner": {
       "title": "Преобрази избран текст в всяко приложение",
       "body": "Изберете превод, изберете текст и използвайте бързото клавиатурно комбинация. Писането ви остава върху този Mac.",
-      "tryIt": "Try it",
-      "howItWorks": "How it works"
+      "tryIt": "Попробвайте го",
+      "howItWorks": "Как работи"
     },
     "enable": {
       "title": "Потвърдете преводи",
@@ -1284,7 +1293,7 @@
     },
     "myTransforms": "Моите преводи",
     "reset": "Първоначални стойности",
-    "resetConfirm": "Първоначално изпълнение на Польска и Помощен инженер и премахване на всички променливи трансформации?",
+    "resetConfirm": "Повтори ли сте Польската и Помошника за Prompt и премахнете всички променени трансформации?",
     "createNew": "Създай нов",
     "deleteConfirm": "Изтриване на {{name}}? Това не може да бъде отменено.",
     "loading": "Зареждане на промените ви...",
@@ -1355,14 +1364,15 @@
     },
     "examples": {
       "title": "Примери за пишане",
-      "help": "Поставете или заредете до {{max}} примера, по {{chars}} символа на всеки. Те насочват стилът, без да се включват в резултата.",
       "fileType": "Текст или Markdown",
       "label": "Пример за редактиране {{number}}",
       "count": "{{count}} / {{max}}",
       "paste": "Постави пример",
       "load": "Зареждане на .txt или .md",
       "remove": "Премахни пример {{number}}",
-      "readError": "Изберете .txt или .md файл с не повече от 1500 символа."
+      "readError": "Изберете .txt или .md файл с не повече от 1500 символа.",
+      "help_one": "Поставете или заредете до {{max}} пример, по {{chars}} символа. Те насочват стила, без да се включват в резултата.",
+      "help_other": "Поставете или заредете до {{max}} примера, по {{chars}} символа на всеки. Те насочват стила, без да се включват в резултата."
     },
     "diff": {
       "changes_one": "{{count}} промяна",
@@ -1378,7 +1388,7 @@
       "simpleView": "Показва едно заместване за това голямо или сложно промяна.",
       "actionFailed": "Това действие не е успяло. Текстът ви е все още тук; опитайте отново."
     },
-    "startTutorial": "Start tutorial"
+    "startTutorial": "Почни урок"
   },
   "cleanup": {
     "title": "Изчистване",
@@ -1410,8 +1420,9 @@
       "none": "Няма диктация от началото на приложението.",
       "applied_one": "Изчистено за {{ms}} ms, {{count}} промяна.",
       "applied_other": "Изчистено за {{ms}} ms, {{count}} промени.",
-      "partial": "Изчистено частично ({{applied}} от {{total}} параграфа); остатъкът е както е било казано: {{reason}}",
-      "checks": "Проверки за безопасност, които ги спряха: {{checks}}"
+      "checks": "Проверки за безопасност, които ги спряха: {{checks}}",
+      "partial_one": "Почистено частично ({{applied}} от {{total}} абзац); останалото е както е било казано: {{reason}}",
+      "partial_other": "Почистено частично ({{applied}} от {{total}} параграфа); останалото е както е било казано: {{reason}}"
     },
     "why": {
       "level_none": "Изчистването е изключено.",
@@ -1494,13 +1505,15 @@
     },
     "problem": {
       "empty_trigger": "Напиши това, което ще кажеш първо.",
-      "trigger_too_long": "Това, което казваш, може да е до {{max}} символа.",
       "trigger_not_spoken": "Това, което казваш, трябва да съдържа поне едно буква или цифра.",
       "trigger_control_character": "Това, което казваш, трябва да се отбелязва на една ред.",
       "empty_body": "Напишете текста за да го напишете.",
-      "body_too_long": "Текстът може да бъде до {{maxBody}} символа.",
       "body_control_character": "Текстът съдържа символ, който не може да бъде написан. Премахни го и опитай отново.",
-      "full": "Имате най-много късички, които приложението може да съдържа. Премахнете някои преди да продължите."
+      "full": "Имате най-много късички, които приложението може да съдържа. Премахнете някои преди да продължите.",
+      "trigger_too_long_one": "Това, което казваш, може да е до {{max}} символ.",
+      "trigger_too_long_other": "Това, което казвате, може да е до {{max}} символа.",
+      "body_too_long_one": "Текстът може да бъде до {{maxBody}} символ.",
+      "body_too_long_other": "Текстът може да бъде до {{maxBody}} символа."
     },
     "dialog": {
       "addTitle": "Добави късина",
@@ -1532,8 +1545,9 @@
         "intro": "Един snippet на ред:",
         "columns": "Първата колона е това, което казваш; втората е текста, който да се напише.",
         "lines": "Текст с редови във възможността се вписва в кавички, както спредшит апликациите го запазват.",
-        "limits": "Това, което казваш, до {{max}} символа, текстове до {{maxBody}}, максимум 1000 реда и 3 МБ на файл.",
-        "encoding": "Съхрани като CSV UTF-8, така че акцентите и другите писмености да се пренесат."
+        "encoding": "Съхрани като CSV UTF-8, така че акцентите и другите писмености да се пренесат.",
+        "limits_one": "Това, което казвате, до {{max}} символ, текст до {{maxBody}}, максимум 1000 реда и 3 МБ на файл.",
+        "limits_other": "Това, което казвате до {{max}} символа, текстове до {{maxBody}}, максимум 1000 реда и 3 МБ на файл."
       },
       "review": {
         "new_one": "нова фрагмент",
@@ -1635,7 +1649,7 @@
       "longest": "Най-дългият ред",
       "days_one": "{{count, number}} ден",
       "days_other": "{{count, number}} дни",
-      "active_one": "Един ден с диктация в последните години",
+      "active_one": "{{count, number}} ден с диктовка през последната година",
       "active_other": "{{count, number}} дни с диктиране през последната година",
       "day_one": "{{date}}: {{count, number}} дума",
       "day_other": "{{date}}: {{count, number}} думи",
@@ -1648,8 +1662,6 @@
       "band4": "750 думи или повече"
     },
     "voice": {
-      "lockedTitle": "Вашата гласова профил се разблокира при {{goal}} думи",
-      "lockedBody": "Насърчаваме да продължавате да говорите: {{current}} от {{goal}} думи досега. Тогава ще видите фразата, която най-често използвате, когато и къде говорите, а също и думите, които {{appName}} ви поправя.",
       "locked": "Забранено",
       "phrase": "Вашата фраза",
       "phraseIn_one": "В {{count, number}} диктиране",
@@ -1671,7 +1683,11 @@
         "peak": "време от дните",
         "word": "съдържащо любимо думи",
         "corrected": "слово, което се поправя"
-      }
+      },
+      "lockedTitle_one": "Вашият гласен профил се разблокира при {{goal}} думи",
+      "lockedTitle_other": "Вашият стил на диктовка се разкрива при {{goal}} думи",
+      "lockedBody_one": "Нека диктувате: {{current}} от {{goal}} думи досега. След това ще видите фразата, която използвате най-често, когато и къде диктувате, а също и думите, които {{appName}} ви поправя.",
+      "lockedBody_other": "Нека диктувате: {{current}} от {{goal}} думи досега. След това ще видите фразата, която използвате най-често, когато и къде диктувате, а също и думите, които {{appName}} ви поправя."
     }
   },
   "history": {
@@ -1814,8 +1830,8 @@
     "tabs": "Отвори бележки",
     "tools": "Ноти за инструменти",
     "sidebar": "Покажи списък с бележки",
-    "polish": "Полиши нота",
-    "polishing": "Полиране…",
+    "polish": "Полиши фрагмент",
+    "polishing": "Почистване…",
     "textSize": "Промени размера на текста (също тук {{size}} точки)",
     "expand": "Разшири прозореца на бележката",
     "shrink": "Възстанови размера на прозореца за бележки",
@@ -2085,16 +2101,17 @@
       "intro": "Писането е по-бърzo от говоренето за повечето хора. Проверете за 30 секунди какво време може да ви спаси.",
       "howFast": "Какво бързо ти пишеш?",
       "skipTest": "Пропусни теста",
-      "basisMeasured": "Основано върху това, което пишете {{wpm}} думи в минута и говорите около {{speaking}} думи в минута.",
-      "basisAverage": "Основано върху средна скорост на въвеждане от {{wpm}} думи на минута и говорене на около {{speaking}} думи на минута.",
       "sliderLabel": "Какво време пишете всеки ден?",
       "hoursPerDay_one": "{{hours}} час на ден",
       "hoursPerDay_other": "{{hours}} часа дневно",
-      "takeTest": "Приеми теста за тайпване"
+      "takeTest": "Приеми теста за тайпване",
+      "basisMeasured_one": "Основано върху диктовката ви {{wpm}} думи на минута и говоренето ви на около {{speaking}} думи на минута.",
+      "basisMeasured_other": "Основано върху диктовката ви {{wpm}} думи на минута и говоренето ви на около {{speaking}} думи на минута.",
+      "basisAverage_one": "Основано върху средна скорост на въвеждане от {{wpm}} думи на минута и говорене на около {{speaking}} думи на минута.",
+      "basisAverage_other": "Основано върху средна скорост на въвеждане на {{wpm}} думи в минута и на изречения на около {{speaking}} думи в минута."
     },
     "typing": {
       "title": "Каква скорост типаш?",
-      "instruction": "Напишете параграфа по-долу, както обикновено. Часът започва след първия въвеждане и продължава за {{seconds}} секунди.",
       "skip": "Пропусни",
       "language": "Език",
       "wpmPending": "— думи на минута",
@@ -2108,7 +2125,9 @@
       "result_one": "Ти пишеш около {{count}} дума в минута.",
       "result_other": "Ти пишеш около {{count}} думи в минута.",
       "tryAgain": "Попробвай отново",
-      "recalculate": "Пересметни"
+      "recalculate": "Пересметни",
+      "instruction_one": "Диктувайте параграфа по-долу, както обикновено. Часовникът започва след първата клавиша и се изпълнява за {{seconds}} секунда.",
+      "instruction_other": "Диктувайте параграфа по-долу, както обикновено. Часовникът започва след първата клавиша и се изпълнява за {{seconds}} секунди."
     },
     "summary": {
       "title": "Си готов",
@@ -2294,14 +2313,14 @@
         "body": "{{appName}} започва със свойта Mac, така че краткото съобщение винаги да работи."
       },
       "try_transform": {
-        "title": "Try a Transform",
-        "action": "Show me",
-        "body": "Select text and press a shortcut: it is rewritten in place."
+        "title": "Попробвайте трансформация",
+        "action": "Покажи ми",
+        "body": "Изберете текст и натиснете клавишна комбинация: той е променян на място."
       },
       "try_whisper": {
-        "title": "Try whispering",
-        "action": "Show me",
-        "body": "Dictate quietly when other people are around, and find the right microphone."
+        "title": "Попробвайте да диктувате",
+        "action": "Покажи ми",
+        "body": "Диктувайте тихо, когато други хора са около, и намерете правилния микрофон."
       }
     },
     "coach": {
@@ -2311,265 +2330,265 @@
   },
   "lessons": {
     "common": {
-      "close": "Close the lesson",
-      "back": "Back",
-      "continue": "Continue",
-      "skip": "Skip",
-      "tryIt": "Try it yourself",
-      "tryItOut": "Try it out",
-      "howItWorks": "How it works",
-      "progress": "Step {{step}} of {{total}}",
-      "pause": "Pause animation",
-      "play": "Play animation",
-      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+      "close": "Затвори урока",
+      "back": "Назад",
+      "continue": "Продължи",
+      "skip": "Премини",
+      "tryIt": "Попробвайте сами",
+      "tryItOut": "Попробвайте го",
+      "howItWorks": "Как работи",
+      "progress": "Стъпка {{step}} от {{total}}",
+      "pause": "Пауза на анимацията",
+      "play": "Пусни анимация",
+      "turnOnFailed": "Това не е включено. Попробайте отново или използвайте изключението на страницата си."
     },
     "transforms": {
-      "title": "Transforms",
-      "help": "Learn Transforms",
+      "title": "Трансформации",
+      "help": "Учей Трансформации",
       "intro": {
-        "title": "Make your writing say it the way you mean it",
-        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
-        "continue": "Try it out"
+        "title": "Да направите писането си да говори както имате предвид",
+        "body": "Изберете текст във всяко приложение и натиснете клавишна комбинация. Трансформацията променя текста на място, директно върху този Mac.",
+        "continue": "Попробвайте го"
       },
       "cards": {
-        "label": "The same text, three ways",
+        "label": "Същият текст, три начина",
         "original": {
-          "name": "Original",
-          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+          "name": "Оригинал",
+          "text": "така че основно исках да проверя дали можем да преместим прегледа на четвъртично, защото числата са неподготвени и също така Сам е отсъства"
         },
         "polish": {
           "name": "Polish",
-          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+          "text": "Можем ли да преместим ревюта на четвърти? Числата все още нямат готови, а Съм е отсъства."
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+          "text": "Напишете кратко и дружелюбно бележка, моля да преместите прегледа на четвърти събота. Причини: числата не са готови и Сам е отсъства. Оставете го на две предложения."
         }
       },
       "benefits": {
-        "label": "What a transform can do",
-        "shorter": "Says it in fewer words",
-        "clearer": "Rewords for clarity",
-        "order": "Puts points in a better order",
-        "structure": "Adds headings and lists",
-        "tone": "Keeps your tone",
-        "anywhere": "Works in any app you write in"
+        "label": "Какво може да направи трансформация",
+        "shorter": "Го казва с по-малко думи",
+        "clearer": "Прилагане на пояснили изречения",
+        "order": "Поставя точки в по-добър ред",
+        "structure": "Добавя заглавия и списъци",
+        "tone": "Запазва тоновете ви",
+        "anywhere": "Работи във всяко приложение, в което пишете"
       },
       "practice": {
-        "title": "Select the text, then press {{shortcut}}",
-        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
-        "doneTitle": "Text rewritten",
-        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
-        "app": "Chat with Jordan",
-        "context": "Are we still on for the review tomorrow?",
-        "fieldLabel": "Your reply to Jordan",
-        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "title": "Изберете текста, след това докъжете {{shortcut}}",
+        "body": "Изберете съобщението по-долу (⌘A избира всичко), след това дадете клавишната комбинация за Polish.",
+        "doneTitle": "Текстът е променен",
+        "doneBody": "Натиснете {{view}} за да видите промените. {{undo}} отменя това.",
+        "app": "Разговор с Джордан",
+        "context": "Ние все още сме на разгледване днес?",
+        "fieldLabel": "Отговорът ви към Джордан",
+        "draft": "хей, така че мисля, че трябва да преместим ревюто на четвъртък, ако е ок, защото числата все още не са готови и не искам да показвам неизработени неща",
         "example": {
-          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
-          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+          "polish": "Можем ли да преместим ревюта на четвърти? Числата са готови още, и предпочитам да не показвам непълно изпълнено работа.",
+          "prompt": "Напишете кратко и вежливо отговор, моля да преместите прегледа за вчера на четвъртичния ден, защото числата не са готови. Оставете го приятен и под три предложения."
         },
-        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
-        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
-        "working": "Rewriting…",
-        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
-        "barLabel": "The bar",
+        "exampleNote": "Преобразуването на текста не е активно на този Mac досега, затова е показан пример. Когато бъде активно, краткото възпроизвеждане ще промени вашето текст в същия начин.",
+        "selectFirst": "Изберете част от съобщението първо, после натиснете отново {{shortcut}}.",
+        "working": "Приготвяне...",
+        "spotlight": "После всяка трансформация лентата по-долу от екрана предлага Вид промени. Кликнете го или натиснете {{view}}.",
+        "barLabel": "лентата",
         "bar": {
-          "done": "Done",
-          "view": "View changes"
+          "done": "Готово",
+          "view": "Погледни промените"
         },
-        "hideChanges": "Hide the changes"
+        "hideChanges": "Скрий промените"
       },
       "how": {
         "select": {
-          "title": "Select text in any app",
-          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
-          "scene": "Animation: a draft email is selected."
+          "title": "Изберете текст във всяко приложение",
+          "body": "Пиши или диктувайте както обикновено: имейл, разговор, документ. След това изберете какво желаете да бъде преработено.",
+          "scene": "Анимация: избран е черновицата на е-писмо."
         },
         "press": {
-          "title": "Press {{shortcut}}",
-          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
-          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+          "title": "Натиснете {{shortcut}}",
+          "body": "Polish променя избора на място. Prompt Engineer ({{prompt}}) го превръща в ясно изказване за ИИ помощник.",
+          "scene": "Анимация: при държане на {{shortcut}} чертежът се заменя с ясна версия."
         },
         "changes": {
-          "title": "See what changed",
-          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
-          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+          "title": "Вижте как се променило",
+          "body": "Натиснете {{view}} или кликнете \"Преглед на промените\" на лентата: изтритите думи са поставени със зачеркване, новите са подчертани. {{undo}} възстановява оригиналното.",
+          "scene": "Анимация: карта отбелязва промените, изтритите думи са пресечени, а новите думи са подчертани."
         }
       },
       "scene": {
-        "app": "Mail: new message",
-        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
-        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+        "app": "Писмо: ново съобщение",
+        "draft": "Здравейте всички, само забележка, че старта се премества на следващия седмица, защото намерихме баг в процеса на плащане и искаме да го излекуваме преди всичко",
+        "polished": "Здравейте всички, старта се премества в следващата седмица. Намерихме баг в процеса на плащане и искаме да го поправим първо."
       },
       "finish": {
-        "turnOn": "Turn on Transforms",
-        "done": "Done"
+        "turnOn": "Включете Трансформации",
+        "done": "Готово"
       }
     },
     "whisper": {
-      "title": "Dictate quietly",
-      "help": "Learn to dictate quietly",
+      "title": "Диктувайте тихо",
+      "help": "Учейте да диктувате тихо",
       "soft": {
-        "title": "A soft voice is enough",
-        "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
-        "app": "Notes",
-        "spoken": "“remind me to send the slides before lunch and book a room for friday”",
-        "text": "Remind me to send the slides before lunch and book a room for Friday.",
-        "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
+        "title": "Достатъчно е тих глас",
+        "body": "Нямате нужда да говорите гласно. Мълчанието ви се превръща в чист текст, така че можете да диктувате в отворена къщина, на вагон или когато някой спи близо.",
+        "app": "Забележки",
+        "spoken": "„помни ми да изпратя слайдовете преди обяд и да резервирам стаята за петък\"",
+        "text": "Напомни ми да изпратя слайдовете преди обяд и да резервирам стая за петък.",
+        "scene": "Анимация: променя се диктувано изречение като търсен текст: \"{{text}}\""
       },
       "how": {
-        "title": "How to whisper to your Mac",
-        "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
-        "distance": "About 30 cm, roughly a forearm, from the microphone",
+        "title": "Как да диктувате до вашия Mac",
+        "body": "С микрофона, вграден в Мак, четири привички правят тихия глас лесен за слушане.",
+        "distance": "Приблизително 30 см, около дължината на ръкава, от микрофона",
         "tips": {
           "distance": {
-            "title": "Sit close.",
-            "body": "Face your Mac at about a forearm's length. Leaning in a little helps more than speaking louder."
+            "title": "Седнете близо.",
+            "body": "Следете се към Мак на разстояние от около дължината на ръката си. Наклонете се малко, това е по-ефективно от повече глас."
           },
           "breath": {
-            "title": "Whisper with some breath.",
-            "body": "Not the faintest whisper: a little firmer, as if talking to someone across a small table."
+            "title": "Диктувайте с малко дъх.",
+            "body": "Не е чувствано никакво шепот: малко по-силно, както говориш с когото от друга страна на малко маса."
           },
           "pace": {
-            "title": "Keep a steady pace.",
-            "body": "Say each word fully and don't let the ends of sentences fade away."
+            "title": "Държете равномерна скорост.",
+            "body": "Диктувайте всяко думи напълно и не оставяйте краищата на изреченията да се изгубят."
           },
           "release": {
-            "title": "Let go last.",
-            "body": "Release the key only after your last word, so it is kept."
+            "title": "Освободи последно.",
+            "body": "Освободете клавишa само след последното си думи, така че да бъде задържано."
           }
         }
       },
       "practice": {
-        "title": "Whisper this email",
-        "body": "A real take: it lands in the drawn message below and nowhere else.",
-        "doneTitle": "Heard you, even in a whisper",
-        "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
-        "instruction": "Hold {{key}}, whisper the email below, then let go.",
-        "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
+        "title": "Диктувайте това имейл",
+        "body": "Реално изпълнение: се появява в съобщението по-долу и нигде друго.",
+        "doneTitle": "Го чувал, дори в тихо",
+        "doneBody": "Това е всичко, което е нужно. Продължете да намирате микрофона, който ви се пада.",
+        "instruction": "Държете {{key}}, диктувайте е-мейла по-долу, после отпуснете.",
+        "unbound": "Няма зададен кратък превод за диктовка, затова тук не може да започне диктовка. Пропуснете този етап за сега и задайте кратък превод в Настройки.",
         "key": "fn",
-        "keyFallback": "Control and Option",
+        "keyFallback": "Контрол и Опция",
         "sentenceLabel": "Whisper:",
-        "sentence": "Hi Sam, I'm in a quiet room, so I'm whispering this email. Could we move our call to the afternoon? Thanks a lot.",
-        "app": "New message",
-        "context": "To Sam, about this afternoon",
-        "fieldLabel": "Your whispered email",
-        "placeholder": "Your whispered words appear here.",
+        "sentence": "Привет, Сам, съм в тиха стая, затова диктувам това имейл. Можем ли да преместим нашето съобщение към следобеда? Благодаря много.",
+        "app": "Ново съобщение",
+        "context": "За Съм, за този следобед",
+        "fieldLabel": "Е-мейл, който диктуваш",
+        "placeholder": "Вашият шепнен текст се появява тук.",
         "status": {
-          "idle": "Waiting for you to hold {{key}} and whisper…",
-          "listening": "Listening… let go of {{key}} when you're done.",
-          "working": "Writing it down…",
-          "nothing": "Nothing came through. Check that your microphone is on, then try again.",
-          "low": "{{percent}}% of the words came through. Try once more:",
-          "passed": "{{percent}}% of the words came through.",
-          "example": "This is an example of a whispered take."
+          "idle": "Чакаме ви да държите {{key}} и да диктувате…",
+          "listening": "Слушане… освободете {{key}} след като сте готови.",
+          "working": "Го пише…",
+          "nothing": "Нечие не е пристигнало. Проверете дали микрофона ви е включен, след това опитайте отново.",
+          "low": "{{percent}}% от думите бяха преведени. Опитайте още веднага:",
+          "passed": "{{percent}}% от думите са преминали.",
+          "example": "Това е пример за изречение, изречено на шепот."
         },
-        "exampleNote": "Speech recognition is still being set up on this Mac, so this shows an example. Your own take is saved in History and is written down as soon as setup finishes.",
+        "exampleNote": "Диктовката все още се настройва върху този Mac, затова тук е преглед. Вашето собствено диктуване е запазено в История и се записва веднага след завършване на настройките.",
         "tips": {
-          "title": "A few things help",
-          "closer": "Move a little closer to your Mac, about 30 cm away.",
-          "firmer": "Whisper a bit firmer, with more breath behind the words.",
-          "volume": "Raise the input volume in System Settings › Sound › Input.",
-          "openSound": "Open Sound settings"
+          "title": "Няколко неща помогнат",
+          "closer": "Преместете се малко по-близо до Мак, на разстояние около 30 см.",
+          "firmer": "Диктувайте малко по-силно, с повече дъх зад думите.",
+          "volume": "Повиши волумена на входа в Настройките на системата › Звук › Вход.",
+          "openSound": "Отвори настройките за Звук"
         }
       },
       "mics": {
         "built_in": {
-          "name": "Built-in microphone",
-          "hint": "Already in your laptop or iMac",
-          "why": "It is already there; sit close and it does the job at home."
+          "name": "Вграден микрофон",
+          "hint": "Възможно е в laptop или iMac",
+          "why": "Вече е наличен; седнете близо и той работи в дома."
         },
         "wired_headset": {
-          "name": "Wired headset",
-          "hint": "A mic on a short arm or cable, close to your mouth",
-          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+          "name": "Свързано ушно устройство",
+          "hint": "Микрофон на къс арм или кабел, близо до устата ви",
+          "why": "Микрофонът е близо до устата ви, затова дори тихо диктуване се чувства, независимо от това къде сте."
         },
         "wireless_earbuds": {
-          "name": "Wireless earbuds",
-          "hint": "Earbuds with a microphone, no cable",
-          "why": "Nothing to plug in and they go everywhere with you."
+          "name": "Безжични ушни къщи",
+          "hint": "Ушни къщи с микрофон, без кабел",
+          "why": "Няма какво да се връзва и те са във всеки където ви водят."
         },
         "desk_usb": {
-          "name": "Desk or USB mic",
-          "hint": "A microphone that stands on your desk",
-          "why": "The clearest sound when you work at one desk and sit close to it."
+          "name": "Столен или USB микрофон",
+          "hint": "Микрофон, който става върху масата ви",
+          "why": "Най-ясното звучание, когато работите на един плот и седите близо до него."
         }
       },
       "quiz": {
-        "more": "More about microphones",
+        "more": "Повече за микрофони",
         "comfortable": {
-          "title": "Pick a microphone you'd be comfortable using",
-          "body": "All of them work. Choose the one you'd happily wear or keep on your desk."
+          "title": "Изберете микрофон, който би било комфортно да използвате",
+          "body": "Всички работят. Изберете този, който би се излъчвал да носите или да го държите върху масата си."
         },
         "workplace": {
-          "title": "Where do you usually work?",
-          "body": "Whispering matters most when people are close by.",
+          "title": "Къде обикновено работите?",
+          "body": "Диктовката е най-важна, когато хората са близо до вас.",
           "private": {
-            "label": "Somewhere private",
-            "hint": "A home office or a room to yourself"
+            "label": "Някъде частно",
+            "hint": "Домашна кабинет или стая за себе си"
           },
           "mixed": {
-            "label": "A bit of both",
-            "hint": "Sometimes alone, sometimes with people around"
+            "label": "Няколко от двете",
+            "hint": "Някога сам, някога със хора около"
           },
           "shared": {
-            "label": "Around other people",
-            "hint": "An open office, a café, a shared room"
+            "label": "Около други хора",
+            "hint": "Отворена къща, кафето, общо помещение"
           }
         },
         "moves": {
-          "title": "Do you move between places?",
-          "body": "A microphone that travels with you helps if you do.",
+          "title": "Движите ли се между места?",
+          "body": "Микрофон, който се движи с вас, е полезен ако го използвате.",
           "one_desk": {
-            "label": "I stay at one desk",
-            "hint": "The same setup every day"
+            "label": "Оставам на един плот",
+            "hint": "Същият настройка всеки ден"
           },
           "different_places": {
-            "label": "I work in different places",
-            "hint": "Home, office, trains, cafés"
+            "label": "Работя в различни места",
+            "hint": "Дом, кабинет, вагони, кафета"
           }
         },
         "owned": {
-          "title": "Which microphones do you have?",
-          "body": "Pick every one you have. A Mac mini or Mac Studio has no microphone of its own.",
-          "continue": "See my match"
+          "title": "Кои микрофоны имате?",
+          "body": "Изберете всеки, който имате. Мак мини или Мак Студио нямат собствен микрофон.",
+          "continue": "Виж моята игра"
         }
       },
       "results": {
-        "title": "Your microphone match",
-        "body": "Based on your answers. Nothing is saved or sent anywhere.",
-        "bestLine": "Best match: {{mic}}.",
-        "caption": "How each kind of microphone does",
+        "title": "Съвпадението ви на микрофона",
+        "body": "На база на отговорите ви. Нищо не се запазва или изпраща навсякъде.",
+        "bestLine": "Най-доброто съвпадение: {{mic}}.",
+        "caption": "Каква е работата на всеки вид микрофон",
         "columns": {
-          "mic": "Microphone",
-          "quality": "Mic quality",
-          "others": "Whispering around others",
-          "home": "Whispering at home",
-          "price": "Price",
-          "best": "Best match"
+          "mic": "Микрофон",
+          "quality": "Качество на микрофона",
+          "others": "Диктовка около други",
+          "home": "Диктовка в дома",
+          "price": "Цена",
+          "best": "Най-доброто съвпадение"
         },
-        "notBest": "Not the best match",
+        "notBest": "Не е най-доброто съответствие",
         "rating": {
-          "fair": "Fair",
-          "good": "Good",
-          "great": "Great"
+          "fair": "Средно",
+          "good": "Добре",
+          "great": "Отлично"
         },
         "price": {
-          "included": "Comes with most laptops",
-          "low": "Low",
-          "medium": "Medium",
-          "owned": "You have one"
+          "included": "Включено с повечето лаптопи",
+          "low": "Ниско",
+          "medium": "Средно",
+          "owned": "Имате един"
         },
         "copy": {
-          "label": "Copy results",
-          "heading": "{{appName}}: my microphone match",
-          "best": "Best match: {{mic}}",
-          "unanswered": "not answered",
-          "noneOwned": "none"
+          "label": "Копирай резултати",
+          "heading": "{{appName}}: моят микрофон се съвпада",
+          "best": "Най-добър резултат: {{mic}}",
+          "unanswered": "не е отговорен",
+          "noneOwned": "нищо"
         },
-        "copied": "Copied",
-        "copyFailed": "Could not copy. Select the table and copy it instead.",
-        "done": "Done"
+        "copied": "Копирано",
+        "copyFailed": "Не може да се копира. Изберете таблицата и я копирайте вместо това.",
+        "done": "Готово"
       }
     }
   },

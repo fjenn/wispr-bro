@@ -35,7 +35,8 @@
         "blobImage": "blob: imagem",
         "forkCommand": "Comando de divisão",
         "probe": "Fonte bloqueada"
-      }
+      },
+      "violations_many": "{{count}} violações CSP registradas."
     },
     "notifications": {
       "title": "Notificações",
@@ -365,7 +366,6 @@
     "hotkeys": {
       "open": "Atalhos",
       "loading": "Carregando atalhos...",
-      "description": "Adicione até {{max}} atalhos para cada ação. As alterações são salvas enquanto você as faz.",
       "secureInputHelp": "O macOS Secure Input protege a digitação de senhas ocultando os teclados de outras aplicações. A captura de atalhos pausa enquanto estiver ativa.",
       "count": "{{count}} de {{max}} definidos",
       "notSet": "Não definido",
@@ -407,7 +407,7 @@
         "press_enter": "Aperte Enter",
         "undo_cancel": "Desfazer um cancelar",
         "transform": {
-          "polish": "Aprimore o texto selecionado",
+          "polish": "Polishar o texto selecionado",
           "prompt_engineer": "Transformar o texto selecionado em um prompt de IA",
           "view_changes": "Visualizar alterações de transformação"
         },
@@ -425,14 +425,17 @@
         "press_enter": "Aperte Return no aplicativo onde você está digitando. Um botão lateral do mouse funciona bem aqui.",
         "undo_cancel": "Restaurar uma dictação imediatamente após cancelá-la.",
         "transform": {
-          "polish": "Reescreva o texto selecionado em polonês.",
+          "polish": "Reescreva o texto selecionado com Polish.",
           "prompt_engineer": "Reescreva o texto selecionado como um prompt claro para IA.",
           "view_changes": "Revise as últimas transformações antes e depois."
         },
         "scratchpad": {
           "open": "Reinicie sua última nota ou comece uma nova, de acordo com suas configurações do Scratchpad."
         }
-      }
+      },
+      "description_one": "Adicione até {{max}} atalho para cada ação. As alterações são salvas enquanto você as faz.",
+      "description_many": "Adicione até {{max}} atalhos para cada ação. As alterações são salvas enquanto você as faz.",
+      "description_other": "Adicione até {{max}} atalhos para cada ação. As alterações são salvas enquanto você as faz."
     },
     "resetSetting": "Reset {{setting}}"
   },
@@ -483,7 +486,8 @@
       "actionFailed": "Isso não funcionou. Tente novamente.",
       "copied": "Última dictação copiada",
       "nothingToCopy": "Nada para copiar ainda",
-      "justNow": "Agora"
+      "justNow": "Agora",
+      "bellUnread_many": "Notificações, {{count}} não lidas"
     },
     "help": {
       "title": "Ajuda",
@@ -528,7 +532,7 @@
             "notes": "Notas logo após uma ligação",
             "prompt": "Um prompt longo para uma conversa com IA"
           },
-          "quiet": "Dictate quietly: show me how"
+          "quiet": "Ditar silenciosamente: mostre-me como"
         },
         "empty": {
           "title": "Suas dictações aparecerão aqui",
@@ -653,7 +657,7 @@
       "column": "Coluna {{letter}}",
       "columnNamed": "Coluna {{letter}}: {{name}}",
       "mapRequired": "Escolha uma coluna para cada campo que não seja opcional.",
-      "previewCaption_one": "Visualização da primeira linha",
+      "previewCaption_one": "Visualização das primeiras {{count}} linhas",
       "previewCaption_other": "Visualização das primeiras {{count}} linhas",
       "rowHeader": "Linha",
       "cancel": "Cancelar",
@@ -668,7 +672,9 @@
         "unreadable": "Arquivo não pode ser lido. Verifique se é um arquivo CSV e tente novamente.",
         "empty": "Arquivo não possui linhas para importar.",
         "failed": "Algo deu errado. Nada foi importado; por favor, tente novamente."
-      }
+      },
+      "fileSummary_many": "{{name}}: {{count}} linhas",
+      "previewCaption_many": "Visualização das primeiras {{count}} linhas"
     }
   },
   "rust": {
@@ -723,7 +729,10 @@
       "hide": "Ocultar {{appName}}",
       "quitApp": "Sair {{appName}}",
       "restartToUpdate": "Reinicie para atualizar para {{version}}",
-      "updatesOff": "Verificações de atualização desligadas…"
+      "updatesOff": "Verificações de atualização desligadas…",
+      "wordsDictated_many": "{{count}} palavras ditas",
+      "dictionaryWords_many": "{{count}} palavras do dicionário",
+      "snippetCount_many": "{{count}} trechos"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
@@ -773,7 +782,8 @@
       "queuedTakesReady": {
         "title_one": "{{count}} dictação pronta",
         "title_other": "{{count}} dictações prontas",
-        "body": "O que você disse enquanto o modelo de fala estava ausente foi transcrita."
+        "body": "O que você disse enquanto o modelo de fala estava ausente foi transcrita.",
+        "title_many": "{{count}} ditados prontos"
       },
       "shortcutProblem": {
         "title": "O seu atalho não está funcionando",
@@ -789,12 +799,20 @@
         "body": "Não foi possível ler, então começou um novo. O arquivo danificado foi mantido ao lado dele."
       },
       "milestoneWords": {
-        "title": "{{words}} palavras ditadas",
-        "body": "Isso são {{words}} palavras que você não tinha que digitar. Parabéns."
+        "title_one": "{{count}} palavra dita",
+        "title_many": "{{count}} palavras ditas",
+        "title_other": "{{count}} palavras ditas",
+        "body_one": "Isso é {{count}} palavra que você não precisou digitar. Parabéns.",
+        "body_many": "Isso são {{count}} palavras que você não precisou digitar. Parabéns.",
+        "body_other": "Isso são {{count}} palavras que você não precisou digitar. Parabéns."
       },
       "milestoneStreak": {
-        "title": "cadeia de {{days}} dias",
-        "body": "Você dictou por {{days}} dias seguidos."
+        "title_one": "{{count}}-dia de sequência",
+        "title_many": "{{count}}-dia de sequência",
+        "title_other": "{{count}}-dia de sequência",
+        "body_one": "Você ditar em {{count}} dia seguido.",
+        "body_many": "Você ditar em {{count}} dias seguidos.",
+        "body_other": "Você ditar em {{count}} dias seguidos."
       },
       "tips": {
         "handsFree": {
@@ -834,9 +852,10 @@
         "openAccessibility": "Abrir Configurações"
       },
       "takeRecovered": {
-        "title_one": "Um gravamento foi salvo quando o app foi encerrado",
+        "title_one": "{{count}} gravações foram salvas quando o app foi encerrado",
         "title_other": "{{count}} gravações foram salvas quando o app foi encerrado",
-        "body": "Eles ainda estavam gravando quando o {{appName}} foi fechado. Estão na História, onde são transcritos."
+        "body": "Eles ainda estavam gravando quando o {{appName}} foi fechado. Estão na História, onde são transcritos.",
+        "title_many": "{{count}} gravações foram salvas quando o app foi encerrado"
       }
     },
     "scratchpad": {
@@ -1004,13 +1023,13 @@
       "state": {
         "available_fallback": "Pronto neste Mac. O Wispr Bro o usa quando o seu modelo de limpeza não puder rodar ainda, por exemplo enquanto está a baixar.",
         "available_default": "Pronto neste Mac. Wispr Bro limpa suas dictações com ele.",
-        "device_not_eligible": "Este Mac não pode executar a Inteligência da Apple. O Wispr Bro usa o seu próprio modelo de limpeza.",
-        "not_enabled": "A Inteligência Apple está desligada nas Configurações do Sistema. O Wispr Bro usa o seu próprio modelo de limpeza.",
-        "model_not_ready": "A Inteligência Apple ainda está preparando seu modelo.",
+        "device_not_eligible": "Este Mac não pode rodar a Apple Intelligence. O Wispr Bro usa seu próprio modelo de limpeza.",
+        "not_enabled": "Apple Intelligence está desligado nas Configurações do Sistema. Wispr Bro usa seu próprio modelo de limpeza.",
+        "model_not_ready": "O Apple Intelligence ainda está preparando seu modelo.",
         "unsupported": "A Apple Intelligence precisa de macOS 26 ou posterior. O Wispr Bro utiliza seu próprio modelo de limpeza.",
-        "unknown": "A Inteligência Apple não está disponível no momento."
+        "unknown": "A Apple Intelligence não está disponível no momento."
       },
-      "counts": "Desde que o app começou: {{requests}} solicitações, {{refusals}} recusadas, {{rateLimited}} limitadas."
+      "counts": "Desde que o app começou: solicitações {{requests}}, recusadas {{refusals}}, limitadas {{rateLimited}}."
     }
   },
   "home": {
@@ -1038,10 +1057,14 @@
     },
     "voiceProfile": {
       "title": "Seu perfil de voz",
-      "progress": "{{current}} de {{goal}} palavras",
-      "locked": "Desbloqueia em {{goal}} palavras. Continue dictando para construí-lo.",
       "unlocked": "Desbloqueado. Veja como você fala nas Insights.",
-      "open": "Abrir Insights"
+      "open": "Abrir Insights",
+      "progress_one": "{{current}} de {{goal}} palavra",
+      "progress_many": "{{current}} de {{goal}} palavras",
+      "progress_other": "{{current}} de {{goal}} palavras",
+      "locked_one": "Desbloqueia em {{goal}} palavra. Continue ditar para construí-la.",
+      "locked_many": "Desbloqueia em {{goal}} palavras. Continue ditar para construí-lo.",
+      "locked_other": "Desbloqueia em {{goal}} palavras. Continue ditar para construí-lo."
     },
     "history": {
       "title": "As suas dictações são salvas nesse Mac",
@@ -1090,7 +1113,8 @@
       "edit": "Editar {{entry}}",
       "delete": "Excluir {{entry}}",
       "accept": "Adicione {{entry}} ao seu dicionário",
-      "reject": "Não aprenda {{entry}}"
+      "reject": "Não aprenda {{entry}}",
+      "used_many": "Usado {{count}} vezes"
     },
     "source": {
       "import": "Importado",
@@ -1118,11 +1142,15 @@
     },
     "problem": {
       "empty": "Digite uma palavra primeiro.",
-      "too_long": "As palavras podem ter até {{max}} caracteres.",
-      "replacement_too_long": "As substituições podem ter até {{maxReplacement}} caracteres.",
       "same_as_replacement": "A substituição é a mesma que a palavra.",
       "control_character": "Quebras de linha e tabs não podem ser usados aqui.",
-      "full": "Seu dicionário está cheio. Apague algumas entradas primeiro."
+      "full": "Seu dicionário está cheio. Apague algumas entradas primeiro.",
+      "too_long_one": "Palavras podem ter até {{max}} caractere.",
+      "too_long_many": "Palavras podem ter até {{max}} caracteres.",
+      "too_long_other": "Palavras podem ter até {{max}} caracteres.",
+      "replacement_too_long_one": "Substituições podem ter até {{maxReplacement}} caractere.",
+      "replacement_too_long_many": "As substituições podem ter até {{maxReplacement}} caracteres.",
+      "replacement_too_long_other": "As substituições podem ter até {{maxReplacement}} caracteres."
     },
     "dialog": {
       "addTitle": "Adicionar ao dicionário",
@@ -1183,7 +1211,13 @@
         "useFile": "Usar o arquivo:",
         "yours": "O seu:",
         "showInvalid": "Mostrar as linhas que não podem ser importadas",
-        "invalidRow": "Linha {{row}} ({{phrase}}): {{reason}}"
+        "invalidRow": "Linha {{row}} ({{phrase}}): {{reason}}",
+        "new_many": "novos registros",
+        "duplicates_many": "já está lá",
+        "conflicts_many": "conflitos",
+        "invalid_many": "não pode ser importado",
+        "overLimit_many": "Seu dicionário tem espaço para {{room}} mais; {{count}} entradas novas não cabem.",
+        "more_many": "e {{count}} mais"
       },
       "done": {
         "title_one": "{{count}} entrada importada",
@@ -1199,7 +1233,14 @@
         "invalid_one": "{{count}} linha não foi importada",
         "invalid_other": "{{count}} linhas não foram importadas",
         "overLimit_one": "{{count}} não cabia (o dicionário está cheio)",
-        "overLimit_other": "{{count}} não cabia (o dicionário está cheio)"
+        "overLimit_other": "{{count}} não cabia (o dicionário está cheio)",
+        "title_many": "{{count}} entradas importadas",
+        "added_many": "{{count}} adicionados",
+        "replaced_many": "{{count}} substituído pela versão do arquivo",
+        "skipped_many": "{{count}} já lá, pular",
+        "kept_many": "{{count}} conflitos mantidos como estavam",
+        "invalid_many": "{{count}} linhas não foram importadas",
+        "overLimit_many": "{{count}} não coube (o dicionário está cheio)"
       }
     },
     "export": {
@@ -1207,14 +1248,16 @@
       "fileName": "{{appName}} dicionário.csv",
       "done_one": "Exportado {{count}} entrada.",
       "done_other": "Exportado {{count}} entradas.",
-      "failed": "O dicionário não pôde ser exportado. Por favor, tente novamente."
+      "failed": "O dicionário não pôde ser exportado. Por favor, tente novamente.",
+      "done_many": "Exportado {{count}} entradas."
     },
     "rejected": "“{{entry}}” não será sugerido novamente.",
     "actionFailed": "Isso não funcionou. Por favor, tente novamente.",
     "learn": {
       "toggle": "Aprender com as minhas correções",
       "hint": "Por 30 segundos após uma dictação ser colada, o {{appName}} percebe as palavras que você corrige nessa caixa e sugere-as aqui. Apenas a palavra que você corrigiu é mantida, nunca o resto do texto. Campos de senha, gerenciadores de senha, aplicativos bancários e terminais nunca são lidos."
-    }
+    },
+    "shown_many": "{{count}} entradas mostradas"
   },
   "pill": {
     "region": "Dictation bar",
@@ -1252,14 +1295,15 @@
     "shortcutDetail": {
       "permission": "O acesso à acessibilidade está desligado",
       "stopped": "O ouvinte do teclado parou"
-    }
+    },
+    "cardMore_many": "O seu ditado · {{count}} mais no Histórico"
   },
   "transforms": {
     "banner": {
       "title": "Reescreva o texto selecionado em qualquer app",
       "body": "Escolha uma transformação, selecione o texto e use seu atalho. Seu texto permanece nesse Mac.",
-      "tryIt": "Try it",
-      "howItWorks": "How it works"
+      "tryIt": "Tente",
+      "howItWorks": "Como funciona"
     },
     "enable": {
       "title": "Habilitar Transforms",
@@ -1355,14 +1399,16 @@
     },
     "examples": {
       "title": "Exemplos de escrita",
-      "help": "Cole ou carregue até {{max}} exemplos, {{chars}} caracteres cada. Eles orientam o estilo sem se tornarem parte do resultado.",
       "fileType": "Texto ou Markdown",
       "label": "Exemplo de escrita {{number}}",
       "count": "{{count}} / {{max}}",
       "paste": "Colar um exemplo",
       "load": "Carregar .txt ou .md",
       "remove": "Remover exemplo {{number}}",
-      "readError": "Escolha um arquivo .txt ou .md com no máximo 1.500 caracteres."
+      "readError": "Escolha um arquivo .txt ou .md com no máximo 1.500 caracteres.",
+      "help_one": "Cole ou carregue até {{max}} exemplo, cada um com {{chars}} caracteres. Eles orientam o estilo sem se tornarem parte do resultado.",
+      "help_many": "Cole ou carregue até {{max}} exemplos, cada um com {{chars}} caracteres. Eles orientam o estilo sem se tornarem parte do resultado.",
+      "help_other": "Cole ou carregue até {{max}} exemplos, cada um com {{chars}} caracteres. Eles orientam o estilo sem se tornarem parte do resultado."
     },
     "diff": {
       "changes_one": "{{count}} alteração",
@@ -1376,9 +1422,10 @@
       "good": "Boa resultado",
       "bad": "Resultado ruim",
       "simpleView": "Mostrando uma substituição para esta grande ou mudança complexa.",
-      "actionFailed": "Ação falhou. Seu texto ainda está aqui; tente novamente."
+      "actionFailed": "Ação falhou. Seu texto ainda está aqui; tente novamente.",
+      "changes_many": "{{count}} mudanças"
     },
-    "startTutorial": "Start tutorial"
+    "startTutorial": "Começar tutorial"
   },
   "cleanup": {
     "title": "Limpeza",
@@ -1410,8 +1457,11 @@
       "none": "Nenhuma dictação desde que o app começou.",
       "applied_one": "Limpo em {{ms}} ms, {{count}} alteração.",
       "applied_other": "Limpo em {{ms}} ms, {{count}} alterações.",
-      "partial": "Limpo em parte ({{applied}} de {{total}} parágrafos); o restante é como falado: {{reason}}",
-      "checks": "Verificações de segurança que a pararam: {{checks}}"
+      "checks": "Verificações de segurança que a pararam: {{checks}}",
+      "applied_many": "Limpo em {{ms}} ms, {{count}} mudanças.",
+      "partial_one": "Cleaned in part ({{applied}} of {{total}} paragraph); the rest is as spoken: {{reason}}",
+      "partial_many": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}",
+      "partial_other": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}"
     },
     "why": {
       "level_none": "Limpeza desligada.",
@@ -1450,7 +1500,9 @@
       "snippets_one": "{{count}} snippet",
       "snippets_other": "{{count}} fragmentos",
       "uses_one": "usado {{count}} vez",
-      "uses_other": "usado {{count}} vezes"
+      "uses_other": "usado {{count}} vezes",
+      "snippets_many": "{{count}} trechos",
+      "uses_many": "usado {{count}} vezes"
     },
     "sort": {
       "label": "Ordenar",
@@ -1477,7 +1529,9 @@
       "used_one": "Usado {{count}} vez",
       "used_other": "Usado {{count}} vezes",
       "edit": "Editar {{trigger}}",
-      "delete": "Excluir {{trigger}}"
+      "delete": "Excluir {{trigger}}",
+      "lines_many": "{{count}} linhas",
+      "used_many": "Usado {{count}} vezes"
     },
     "empty": {
       "title": "Ainda não há snippets",
@@ -1494,13 +1548,17 @@
     },
     "problem": {
       "empty_trigger": "Digite o que você vai dizer primeiro.",
-      "trigger_too_long": "O que você diz pode ter até {{max}} caracteres.",
       "trigger_not_spoken": "O que você diz precisa ter pelo menos uma letra ou número.",
       "trigger_control_character": "O que você disser deve caber em uma linha.",
       "empty_body": "Digite o texto para escrever.",
-      "body_too_long": "O texto pode ter até {{maxBody}} caracteres.",
       "body_control_character": "O texto contém um caractere que não pode ser escrito. Remova-o e tente novamente.",
-      "full": "Você tem o número máximo de trechos que o aplicativo pode armazenar. Apague alguns primeiro."
+      "full": "Você tem o número máximo de trechos que o aplicativo pode armazenar. Apague alguns primeiro.",
+      "trigger_too_long_one": "O que você diz pode ter até {{max}} caractere.",
+      "trigger_too_long_many": "O que você diz pode ter até {{max}} caracteres.",
+      "trigger_too_long_other": "O que você diz pode ter até {{max}} caracteres.",
+      "body_too_long_one": "O texto pode ter até {{maxBody}} caractere.",
+      "body_too_long_many": "O texto pode ter até {{maxBody}} caracteres.",
+      "body_too_long_other": "O texto pode ter até {{maxBody}} caracteres."
     },
     "dialog": {
       "addTitle": "Adicionar trecho",
@@ -1532,8 +1590,10 @@
         "intro": "Um snippet por linha:",
         "columns": "A primeira coluna é o que você diz; a segunda é o texto a ser escrito.",
         "lines": "Um texto com quebras de linha vai dentro das aspas, como os aplicativos de planilhas o salvam.",
-        "limits": "O que você diz até {{max}} caracteres, textos até {{maxBody}}, no máximo 1.000 linhas e 3 MB por arquivo.",
-        "encoding": "Salve como CSV UTF-8 para que acentos e outros scripts sejam exibidos."
+        "encoding": "Salve como CSV UTF-8 para que acentos e outros scripts sejam exibidos.",
+        "limits_one": "O que você diz até {{max}} caractere, textos até {{maxBody}}, no máximo 1.000 linhas e 3 MB por arquivo.",
+        "limits_many": "O que você diz até {{max}} caracteres, textos até {{maxBody}}, no máximo 1.000 linhas e 3 MB por arquivo.",
+        "limits_other": "O que você diz até {{max}} caracteres, textos até {{maxBody}}, no máximo 1.000 linhas e 3 MB por arquivo."
       },
       "review": {
         "new_one": "novamente",
@@ -1558,7 +1618,14 @@
         "useFile": "Usar o arquivo:",
         "yours": "O seu:",
         "showInvalid": "Mostrar as linhas que não podem ser importadas",
-        "invalidRow": "Linha {{row}} ({{trigger}}): {{reason}}"
+        "invalidRow": "Linha {{row}} ({{trigger}}): {{reason}}",
+        "new_many": "novos trechos",
+        "duplicates_many": "já está lá",
+        "conflicts_many": "conflitos",
+        "invalid_many": "não pode ser importado",
+        "overLimit_many": "Há espaço para {{room}} mais; {{count}} novos trechos não cabem.",
+        "ignoredRows_many": "Apenas as primeiras 1.000 linhas são lidas; {{count}} linhas adicionais são ignoradas.",
+        "more_many": "e {{count}} mais"
       },
       "done": {
         "title_one": "{{count}} snippeto importado",
@@ -1574,7 +1641,14 @@
         "invalid_one": "{{count}} linha não foi importada",
         "invalid_other": "{{count}} linhas não foram importadas",
         "overLimit_one": "{{count}} não cabia",
-        "overLimit_other": "{{count}} não cabia"
+        "overLimit_other": "{{count}} não cabia",
+        "title_many": "{{count}} trechos importados",
+        "added_many": "{{count}} adicionados",
+        "replaced_many": "{{count}} substituído pelo texto do arquivo",
+        "skipped_many": "{{count}} já lá, pular",
+        "kept_many": "{{count}} conflitos mantidos como estavam",
+        "invalid_many": "{{count}} linhas não foram importadas",
+        "overLimit_many": "{{count}} não coube"
       }
     },
     "export": {
@@ -1582,8 +1656,10 @@
       "fileName": "{{appName}} snippets.csv",
       "done_one": "Exportado {{count}} snippet.",
       "done_other": "Exportado {{count}} trechos.",
-      "failed": "Os snippets não foram exportados. Por favor, tente novamente."
-    }
+      "failed": "Os snippets não foram exportados. Por favor, tente novamente.",
+      "done_many": "Exportado {{count}} trechos."
+    },
+    "shown_many": "{{count}} trechos exibidos"
   },
   "insights": {
     "tabs": {
@@ -1610,7 +1686,8 @@
     "words": {
       "title": "Palavras totais",
       "dictations_one": "em {{count, number}} dictação",
-      "dictations_other": "em {{count, number}} dictações"
+      "dictations_other": "em {{count, number}} dictações",
+      "dictations_many": "em {{count, number}} ditados"
     },
     "fixes": {
       "title": "Correções realizadas",
@@ -1627,7 +1704,8 @@
       "email": "E-mail",
       "work": "Mensagens de trabalho",
       "personal": "Mensagens pessoais",
-      "other": "Tudo o que restar"
+      "other": "Tudo o que restar",
+      "words_many": "{{count, number}} palavras"
     },
     "heatmap": {
       "title": "Seu recorde",
@@ -1635,7 +1713,7 @@
       "longest": "Melhor sequência",
       "days_one": "{{count, number}} dia",
       "days_other": "{{count, number}} dias",
-      "active_one": "1 dia com dictação nos últimos anos",
+      "active_one": "{{count, number}} dia com ditado nos últimos 12 meses",
       "active_other": "{{count, number}} dias com dicção nos últimos 12 meses",
       "day_one": "{{date}}: {{count, number}} palavra",
       "day_other": "{{date}}: {{count, number}} palavras",
@@ -1645,11 +1723,12 @@
       "band1": "de 1 a 249 palavras",
       "band2": "250 a 499 palavras",
       "band3": "500 a 749 palavras",
-      "band4": "750 palavras ou mais"
+      "band4": "750 palavras ou mais",
+      "days_many": "{{count, number}} dias",
+      "active_many": "{{count, number}} dias com ditado nos últimos 1000000 dias",
+      "day_many": "{{date}}: {{count, number}} palavras"
     },
     "voice": {
-      "lockedTitle": "Seu perfil de voz será desbloqueado em {{goal}} palavras",
-      "lockedBody": "Continue dictando: {{current}} de {{goal}} palavras até agora. Depois você verá a frase que usa mais, quando e onde dicta, e as palavras que o {{appName}} corrige para você.",
       "locked": "Bloqueado",
       "phrase": "Sua frase",
       "phraseIn_one": "Em {{count, number}} dictação",
@@ -1664,14 +1743,24 @@
       "fixed_one": "Corrigido {{count, number}} vez",
       "fixed_other": "Corrigido {{count, number}} vezes",
       "notEnough": "Ainda não há suficientes dictações.",
-      "footnote_one": "Trabalhado neste Mac a partir da sua última dictação. Nada sai do seu Mac.",
+      "footnote_one": "Calculado a partir dessas {{count, number}} dictações do seu Mac mais recente. Nada sai do seu Mac.",
       "footnote_other": "Trabalhado nesse Mac a partir das últimas {{count, number}} dictações. Nada sai do seu Mac.",
       "sample": {
         "phrase": "uma frase que você diz com frequência",
         "peak": "um momento do dia",
         "word": "uma palavra favorita",
         "corrected": "uma palavra que é corrigida"
-      }
+      },
+      "lockedTitle_one": "Seu perfil de voz será desbloqueado em {{goal}} palavra",
+      "lockedTitle_many": "Seu perfil de voz será desbloqueado em {{goal}} palavras",
+      "lockedTitle_other": "Seu perfil de voz desbloqueia em {{goal}} palavras",
+      "lockedBody_one": "Continue ditar: {{current}} de {{goal}} palavra até agora. Depois você verá a frase que usa mais, quando e onde dita, e as palavras que o {{appName}} corrige para você.",
+      "lockedBody_many": "Continue ditar: {{current}} de {{goal}} palavras até agora. Depois você verá a frase que usa mais, quando e onde diz, e as palavras que o {{appName}} corrige para você.",
+      "lockedBody_other": "Continue ditar: {{current}} de {{goal}} palavras até agora. Depois você verá a frase que usa mais, quando e onde dita, e as palavras que o {{appName}} corrige para você.",
+      "phraseIn_many": "Em {{count, number}} ditados",
+      "uses_many": "Usado {{count, number}} vezes",
+      "fixed_many": "Corrigido {{count, number}} vezes",
+      "footnote_many": "Calculado a partir dessas {{count, number}} dictações do seu último Mac. Nada sai do seu Mac."
     }
   },
   "history": {
@@ -1745,7 +1834,8 @@
       "missing": "Nenhum gravamento para esta dictação",
       "filter": "Áudio WAV",
       "saved": "Gravação salva.",
-      "saveFailed": "O gravamento não pôde ser salvo. Por favor, tente novamente."
+      "saveFailed": "O gravamento não pôde ser salvo. Por favor, tente novamente.",
+      "expired_many": "Áudio removido após {{count}} dias"
     },
     "copyFailed": "O texto não pôde ser copiado. Por favor, tente novamente.",
     "actionFailed": "Isso não funcionou. Por favor, tente novamente.",
@@ -1775,7 +1865,9 @@
       "savedRule": "A partir de agora, \"{{from}}\" vira \"{{to}}\".",
       "savedWord": "“{{word}}” está em seu dicionário.",
       "openDictionary": "Abrir Dicionário"
-    }
+    },
+    "results_many": "{{count}} ditados encontrados",
+    "resultsMore_many": "Os {{count}} últimos matches. Rolar para ver mais."
   },
   "scratchpad": {
     "newNote": "Nova nota",
@@ -1814,8 +1906,8 @@
     "tabs": "Abrir notas",
     "tools": "Ferramentas de anotação",
     "sidebar": "Mostrar lista de notas",
-    "polish": "Ajustar anotação",
-    "polishing": "Aprimorando…",
+    "polish": "Trecho Polished",
+    "polishing": "Polishing…",
     "textSize": "Mudar o tamanho do texto (atualmente {{size}} pontos)",
     "expand": "Expandar a janela de nota",
     "shrink": "Restaurar o tamanho da janela de nota",
@@ -1969,7 +2061,9 @@
       "count_one": "A dictação funciona em {{count}} idioma. Você pode mudar mais tarde nas Configurações.",
       "count_other": "A dictação funciona em {{count}} idiomas. Você pode mudar depois nas Configurações.",
       "weak_one": "A reconhecimento é menos preciso em {{languages}}. Funciona, mas espera mais erros.",
-      "weak_other": "A reconhecimento é menos preciso em {{languages}}. Eles ainda funcionam, mas espere mais erros."
+      "weak_other": "A reconhecimento é menos preciso em {{languages}}. Eles ainda funcionam, mas espere mais erros.",
+      "count_many": "O Ditado funciona em {{count}} idiomas. Você pode mudar o seu mais tarde nos Ajustes.",
+      "weak_many": "A reconhecimento é menos preciso em {{languages}}. Eles ainda funcionam, mas espere mais erros."
     },
     "permissions": {
       "title": "Duas permissões",
@@ -2085,16 +2179,21 @@
       "intro": "Falar é mais rápido que digitar para a maioria das pessoas. Faça um teste de digitação de 30 segundos para ver quanto tempo poderia economizar.",
       "howFast": "Como você digita rápido?",
       "skipTest": "Pular a prova",
-      "basisMeasured": "Baseado em {{wpm}} palavras por minuto digitadas e falando em cerca de {{speaking}} palavras por minuto.",
-      "basisAverage": "Baseado numa velocidade média de digitação de {{wpm}} palavras por minuto, e falando cerca de {{speaking}} palavras por minuto.",
       "sliderLabel": "Quanto tempo você digita por dia?",
       "hoursPerDay_one": "{{hours}} hora por dia",
       "hoursPerDay_other": "{{hours}} horas por dia",
-      "takeTest": "Fazer o teste de digitação"
+      "takeTest": "Fazer o teste de digitação",
+      "headline_many": "Ditar poderia economizar cerca de {{hours}} horas por semana",
+      "basisMeasured_one": "Baseado em sua digitação de {{wpm}} palavras por minuto e fala de cerca de {{speaking}} palavras por minuto.",
+      "basisMeasured_many": "Baseado em {{wpm}} palavras por minuto digitadas e falando em cerca de {{speaking}} palavras por minuto.",
+      "basisMeasured_other": "Baseado em {{wpm}} palavras por minuto digitadas e falando em cerca de {{speaking}} palavras por minuto.",
+      "basisAverage_one": "Com base em uma velocidade média de digitação de {{wpm}} palavras por minuto e fala de cerca de {{speaking}} palavras por minuto.",
+      "basisAverage_many": "Com base em uma velocidade média de digitação de {{wpm}} palavras por minuto e fala de cerca de {{speaking}} palavras por minuto.",
+      "basisAverage_other": "Com base em uma velocidade média de digitação de {{wpm}} palavras por minuto e falando em torno de {{speaking}} palavras por minuto.",
+      "hoursPerDay_many": "{{hours}} horas por dia"
     },
     "typing": {
       "title": "Quanto você digita rápido?",
-      "instruction": "Digite o parágrafo abaixo como faria normalmente. O relógio começa com a sua primeira tecla e dura {{seconds}} segundos.",
       "skip": "Pular",
       "language": "Idioma",
       "wpmPending": "— palavras por minuto",
@@ -2108,7 +2207,13 @@
       "result_one": "Você digita cerca de {{count}} palavra por minuto.",
       "result_other": "Você digita cerca de {{count}} palavras por minuto.",
       "tryAgain": "Tente novamente",
-      "recalculate": "Recalcular"
+      "recalculate": "Recalcular",
+      "instruction_one": "Digite o parágrafo abaixo como faria normalmente. O relógio começa com a sua primeira tecla e dura {{seconds}} segundo.",
+      "instruction_many": "Digite o parágrafo abaixo como você normalmente faria. O relógio começa com a sua primeira tecla e continua por {{seconds}} segundos.",
+      "instruction_other": "Digite o parágrafo abaixo como você normalmente faria. O relógio começa com a sua primeira tecla e dura {{seconds}} segundos.",
+      "wpm_many": "{{count}} palavras por minuto",
+      "secondsLeft_many": "{{count}} segundos restantes",
+      "result_many": "Você digita cerca de {{count}} palavras por minuto."
     },
     "summary": {
       "title": "Você está tudo pronto",
@@ -2127,7 +2232,8 @@
       "launchAtLogin": "Abrir o Wispr Bro quando você logar",
       "launchAtLoginHint": "Então a dicção está pronta sempre que precisar.",
       "later": "Você pode mudar tudo isso mais tarde nas Configurações.",
-      "finish": "Começar a dictar"
+      "finish": "Começar a dictar",
+      "typingWpm_many": "{{count}} palavras por minuto"
     }
   },
   "whatsNew": {
@@ -2294,14 +2400,14 @@
         "body": "O {{appName}} inicia com seu Mac, então seu atalho sempre funciona."
       },
       "try_transform": {
-        "title": "Try a Transform",
-        "action": "Show me",
-        "body": "Select text and press a shortcut: it is rewritten in place."
+        "title": "Tente uma Transformação",
+        "action": "Mostre-me",
+        "body": "Selecione o texto e pressione um atalho: ele será reescrito no local."
       },
       "try_whisper": {
-        "title": "Try whispering",
-        "action": "Show me",
-        "body": "Dictate quietly when other people are around, and find the right microphone."
+        "title": "Tente sussurrar",
+        "action": "Mostre-me",
+        "body": "Dite silenciosamente quando outras pessoas estiverem por perto e encontre o microfone certo."
       }
     },
     "coach": {
@@ -2311,265 +2417,265 @@
   },
   "lessons": {
     "common": {
-      "close": "Close the lesson",
-      "back": "Back",
-      "continue": "Continue",
-      "skip": "Skip",
-      "tryIt": "Try it yourself",
-      "tryItOut": "Try it out",
-      "howItWorks": "How it works",
-      "progress": "Step {{step}} of {{total}}",
-      "pause": "Pause animation",
-      "play": "Play animation",
-      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+      "close": "Fechar a aula",
+      "back": "Voltar",
+      "continue": "Continuar",
+      "skip": "Pular",
+      "tryIt": "Tente por si mesmo",
+      "tryItOut": "Tente agora",
+      "howItWorks": "Como funciona",
+      "progress": "Passo {{step}} de {{total}}",
+      "pause": "Pausar animação",
+      "play": "Tentar animação",
+      "turnOnFailed": "Isso não ligou. Tente novamente, ou use o interruptor na página."
     },
     "transforms": {
-      "title": "Transforms",
-      "help": "Learn Transforms",
+      "title": "Transformações",
+      "help": "Aprenda Transformações",
       "intro": {
-        "title": "Make your writing say it the way you mean it",
-        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
-        "continue": "Try it out"
+        "title": "Faça seu texto dizer o que você quer dizer",
+        "body": "Selecione texto em qualquer app e pressione um atalho. Uma transformação reescreve-o no local, direto nesse Mac.",
+        "continue": "Tente agora"
       },
       "cards": {
-        "label": "The same text, three ways",
+        "label": "O mesmo texto, de três formas",
         "original": {
           "name": "Original",
-          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+          "text": "então basicamente eu queria ver se poderíamos mover a revisão para quinta, porque os números não estão prontos e também Sam está fora"
         },
         "polish": {
           "name": "Polish",
-          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+          "text": "Podemos mover a revisão para quinta? Os números ainda não estão prontos, e Sam está de viagem."
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+          "text": "Escreva uma breve e amigável mensagem pedindo para mover a revisão para quinta-feira. Motivos: os números não estão prontos e Sam está de viagem. Mantenha em duas frases."
         }
       },
       "benefits": {
-        "label": "What a transform can do",
-        "shorter": "Says it in fewer words",
-        "clearer": "Rewords for clarity",
-        "order": "Puts points in a better order",
-        "structure": "Adds headings and lists",
-        "tone": "Keeps your tone",
-        "anywhere": "Works in any app you write in"
+        "label": "O que uma transformação pode fazer",
+        "shorter": "Diz com menos palavras",
+        "clearer": "Reescrita para clareza",
+        "order": "Coloca os pontos em uma ordem melhor",
+        "structure": "Adiciona títulos e listas",
+        "tone": "Mantém o seu tom",
+        "anywhere": "Funciona em qualquer app que você escreve"
       },
       "practice": {
-        "title": "Select the text, then press {{shortcut}}",
-        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
-        "doneTitle": "Text rewritten",
-        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
-        "app": "Chat with Jordan",
-        "context": "Are we still on for the review tomorrow?",
-        "fieldLabel": "Your reply to Jordan",
-        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "title": "Selecione o texto, depois pressione {{shortcut}}",
+        "body": "Selecione a mensagem abaixo (⌘A seleciona toda ela), depois pressione o atalho da Transformação Polish.",
+        "doneTitle": "Texto reescrito",
+        "doneBody": "Aperte {{view}} para ver as alterações. {{undo}} desfaz isso.",
+        "app": "Fale com Jordan",
+        "context": "Ainda vamos revisar amanhã?",
+        "fieldLabel": "Sua resposta para Jordan",
+        "draft": "eita, acho que deveríamos mover a revisão para quinta, se isso está bem, porque os números ainda não estão prontos e eu não quero mostrar coisa meio acabada",
         "example": {
-          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
-          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+          "polish": "Podemos mover a revisão para quinta? Os números ainda não estão prontos, e prefiro não mostrar trabalho incompleto.",
+          "prompt": "Escreva uma resposta curta e educada pedindo para mover a revisão de amanhã para quinta-feira, porque os números ainda não estão prontos. Mantenha o tom amigável e dentro de três frases."
         },
-        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
-        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
-        "working": "Rewriting…",
-        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
-        "barLabel": "The bar",
+        "exampleNote": "Reescrita ainda não está disponível neste Mac, então este é um exemplo. Quando estiver, seu atalho reescreverá o seu próprio texto da mesma forma.",
+        "selectFirst": "Selecione algum trecho da mensagem primeiro, depois pressione novamente {{shortcut}}.",
+        "working": "Reescrita…",
+        "spotlight": "Após cada transformação, a barra no fundo da tela oferece Visualizar mudanças. Clique nela ou pressione {{view}}.",
+        "barLabel": "a barra",
         "bar": {
-          "done": "Done",
-          "view": "View changes"
+          "done": "Pronto",
+          "view": "Ver alterações"
         },
-        "hideChanges": "Hide the changes"
+        "hideChanges": "Ocultar as alterações"
       },
       "how": {
         "select": {
-          "title": "Select text in any app",
-          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
-          "scene": "Animation: a draft email is selected."
+          "title": "Selecione texto em qualquer app",
+          "body": "Escreva ou dite normalmente: um e-mail, uma conversa, um documento. Em seguida, escolha o que deseja reescrever.",
+          "scene": "Animação: um rascunho de e-mail é selecionado."
         },
         "press": {
-          "title": "Press {{shortcut}}",
-          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
-          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+          "title": "Aperte {{shortcut}}",
+          "body": "Polish reescreve a seleção no local. Prompt Engineer ({{prompt}}) transforma em um prompt claro para um assistente de IA.",
+          "scene": "Animação: {{shortcut}} é pressionado e o rascunho é substituído por uma versão mais clara."
         },
         "changes": {
-          "title": "See what changed",
-          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
-          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+          "title": "Veja o que mudou",
+          "body": "Aperte {{view}} ou clique em \"Ver mudanças\" na barra: as palavras removidas estão riscadas e as novas estão destacadas. {{undo}} coloca o original de volta.",
+          "scene": "Animação: uma carta lista as mudanças, palavras removidas riscadas e palavras novas destacadas."
         }
       },
       "scene": {
-        "app": "Mail: new message",
-        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
-        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+        "app": "E-mail: mensagem nova",
+        "draft": "olá todos, só um aviso rápido: o lançamento está sendo movido para a semana que vem porque encontramos um erro no fluxo de pagamento e queremos consertá-lo primeiro",
+        "polished": "Oi todos, o lançamento está sendo movido para a semana que vem. Encontramos um erro no fluxo de pagamento e queremos consertá-lo primeiro."
       },
       "finish": {
-        "turnOn": "Turn on Transforms",
-        "done": "Done"
+        "turnOn": "Ligue as Transformações",
+        "done": "Pronto"
       }
     },
     "whisper": {
-      "title": "Dictate quietly",
-      "help": "Learn to dictate quietly",
+      "title": "Ditar silenciosamente",
+      "help": "Aprenda a ditar silenciosamente",
       "soft": {
-        "title": "A soft voice is enough",
-        "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
-        "app": "Notes",
-        "spoken": "“remind me to send the slides before lunch and book a room for friday”",
-        "text": "Remind me to send the slides before lunch and book a room for Friday.",
-        "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
+        "title": "Uma voz suave é suficiente",
+        "body": "Você não precisa falar alto. Só basta sussurrar, e suas palavras ainda se transformam em texto limpo, então você pode ditar em um escritório aberto, em um trem ou enquanto alguém dorme perto.",
+        "app": "Anotações",
+        "spoken": "“lembre-me de enviar as apresentações antes do almoço e reservar um quarto para sexta”",
+        "text": "Lembre-me de enviar as apresentações antes do almoço e reservar um quarto para sexta-feira.",
+        "scene": "Animação: uma frase sussurrada aparece como texto digitado: \"{{text}}\""
       },
       "how": {
-        "title": "How to whisper to your Mac",
-        "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
-        "distance": "About 30 cm, roughly a forearm, from the microphone",
+        "title": "Como sussurrar para o seu Mac",
+        "body": "Com o microfone integrado ao seu Mac, quatro hábitos tornam uma voz silenciosa fácil de ouvir.",
+        "distance": "Aproximadamente 30 cm, ou seja, um braço, da microfonia",
         "tips": {
           "distance": {
-            "title": "Sit close.",
-            "body": "Face your Mac at about a forearm's length. Leaning in a little helps more than speaking louder."
+            "title": "Sentre perto.",
+            "body": "Foque seu Mac a uma distância de cerca de um braço. Inclinar um pouco ajuda mais do que falar mais alto."
           },
           "breath": {
-            "title": "Whisper with some breath.",
-            "body": "Not the faintest whisper: a little firmer, as if talking to someone across a small table."
+            "title": "Ditar com um pouco de respiração.",
+            "body": "Não a menor sussurro: um pouco mais firme, como se estivesse falando com alguém ao lado de uma pequena mesa."
           },
           "pace": {
-            "title": "Keep a steady pace.",
-            "body": "Say each word fully and don't let the ends of sentences fade away."
+            "title": "Mantenha um ritmo constante.",
+            "body": "Diga cada palavra inteiramente e não deixe os finais das frases desvanecerem."
           },
           "release": {
-            "title": "Let go last.",
-            "body": "Release the key only after your last word, so it is kept."
+            "title": "Solte o último.",
+            "body": "Solte a tecla apenas após a sua última palavra, para que fique ativa."
           }
         }
       },
       "practice": {
-        "title": "Whisper this email",
-        "body": "A real take: it lands in the drawn message below and nowhere else.",
-        "doneTitle": "Heard you, even in a whisper",
-        "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
-        "instruction": "Hold {{key}}, whisper the email below, then let go.",
-        "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
+        "title": "Ditar este e-mail",
+        "body": "Uma verdadeira avaliação: ele cai na mensagem escrita abaixo e não em lugar algum.",
+        "doneTitle": "Ouviu você, mesmo em um sussurro",
+        "doneBody": "Isso é tudo o que você precisa. Continue a encontrar o microfone que lhe agradar.",
+        "instruction": "Segure {{key}}, sussurre o e-mail abaixo, depois solte.",
+        "unbound": "Nenhum atalho de ditado está definido, então não é possível começar uma gravação aqui. Pule este passo por enquanto e defina um atalho nos Ajustes.",
         "key": "fn",
-        "keyFallback": "Control and Option",
+        "keyFallback": "Controle e Opção",
         "sentenceLabel": "Whisper:",
-        "sentence": "Hi Sam, I'm in a quiet room, so I'm whispering this email. Could we move our call to the afternoon? Thanks a lot.",
-        "app": "New message",
-        "context": "To Sam, about this afternoon",
-        "fieldLabel": "Your whispered email",
-        "placeholder": "Your whispered words appear here.",
+        "sentence": "Oi Sam, estou em um quarto calmo, então estou sussurrando este e-mail. Podemos mudar nossa chamada para a tarde? Muito obrigado.",
+        "app": "Nova mensagem",
+        "context": "Para Sam, sobre esta tarde",
+        "fieldLabel": "O seu e-mail sussurrado",
+        "placeholder": "Suas palavras sussurradas aparecem aqui.",
         "status": {
-          "idle": "Waiting for you to hold {{key}} and whisper…",
-          "listening": "Listening… let go of {{key}} when you're done.",
-          "working": "Writing it down…",
-          "nothing": "Nothing came through. Check that your microphone is on, then try again.",
-          "low": "{{percent}}% of the words came through. Try once more:",
-          "passed": "{{percent}}% of the words came through.",
-          "example": "This is an example of a whispered take."
+          "idle": "Aguardando que você segure {{key}} e sussurre...",
+          "listening": "Ouvindo… solte {{key}} quando terminar.",
+          "working": "Escrevendo isso aqui...",
+          "nothing": "Nada foi capturado. Verifique se o microfone está ligado, depois tente novamente.",
+          "low": "{{percent}}% das palavras foram capturadas. Tente novamente:",
+          "passed": "{{percent}}% das palavras foram ditas.",
+          "example": "Este é um exemplo de uma leitura sussurrada."
         },
-        "exampleNote": "Speech recognition is still being set up on this Mac, so this shows an example. Your own take is saved in History and is written down as soon as setup finishes.",
+        "exampleNote": "O reconhecimento de fala ainda está sendo configurado nesse Mac, então isso mostra um exemplo. A sua versão é salva no Histórico e é gravada assim que a configuração terminar.",
         "tips": {
-          "title": "A few things help",
-          "closer": "Move a little closer to your Mac, about 30 cm away.",
-          "firmer": "Whisper a bit firmer, with more breath behind the words.",
-          "volume": "Raise the input volume in System Settings › Sound › Input.",
-          "openSound": "Open Sound settings"
+          "title": "Algumas coisas ajudam",
+          "closer": "Mova-se um pouco mais perto do seu Mac, a cerca de 30 cm de distância.",
+          "firmer": "Dite um pouco mais firme, com mais respiração atrás das palavras.",
+          "volume": "Aumente o volume de entrada em Ajustes do Sistema › Som › Entrada.",
+          "openSound": "Abrir configurações de Som"
         }
       },
       "mics": {
         "built_in": {
-          "name": "Built-in microphone",
-          "hint": "Already in your laptop or iMac",
-          "why": "It is already there; sit close and it does the job at home."
+          "name": "Microfone integrado",
+          "hint": "Já no seu notebook ou iMac",
+          "why": "Já está lá; fique perto e ele faz o trabalho em casa."
         },
         "wired_headset": {
-          "name": "Wired headset",
-          "hint": "A mic on a short arm or cable, close to your mouth",
-          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+          "name": "Headset com fio",
+          "hint": "Um microfone em um braço curto ou cabo, perto da sua boca",
+          "why": "O microfone fica perto da sua boca, então até um sussurro suave é ouvido, onde quer que você esteja."
         },
         "wireless_earbuds": {
-          "name": "Wireless earbuds",
-          "hint": "Earbuds with a microphone, no cable",
-          "why": "Nothing to plug in and they go everywhere with you."
+          "name": "Fones sem fio",
+          "hint": "Fone de ouvido com microfone, sem fio",
+          "why": "Nada para conectar e eles vão por onde você quiser."
         },
         "desk_usb": {
-          "name": "Desk or USB mic",
-          "hint": "A microphone that stands on your desk",
-          "why": "The clearest sound when you work at one desk and sit close to it."
+          "name": "Microfone de mesa ou USB",
+          "hint": "Um microfone que fica sobre sua mesa",
+          "why": "O som mais claro quando você trabalha em uma mesa e fica perto dela."
         }
       },
       "quiz": {
-        "more": "More about microphones",
+        "more": "Mais sobre microfones",
         "comfortable": {
-          "title": "Pick a microphone you'd be comfortable using",
-          "body": "All of them work. Choose the one you'd happily wear or keep on your desk."
+          "title": "Escolha um microfone que você se sinta confortável usando",
+          "body": "Todos funcionam. Escolha o que gostaria de usar ou manter na sua mesa."
         },
         "workplace": {
-          "title": "Where do you usually work?",
-          "body": "Whispering matters most when people are close by.",
+          "title": "Onde você geralmente trabalha?",
+          "body": "Ditar importa mais quando as pessoas estão perto.",
           "private": {
-            "label": "Somewhere private",
-            "hint": "A home office or a room to yourself"
+            "label": "Algo privado",
+            "hint": "Um escritório residencial ou um quarto para você só"
           },
           "mixed": {
-            "label": "A bit of both",
-            "hint": "Sometimes alone, sometimes with people around"
+            "label": "Um pouco de cada um",
+            "hint": "Às vezes sozinho, às vezes com pessoas ao redor"
           },
           "shared": {
-            "label": "Around other people",
-            "hint": "An open office, a café, a shared room"
+            "label": "Em torno de outras pessoas",
+            "hint": "Um escritório aberto, um café, um quarto compartilhado"
           }
         },
         "moves": {
-          "title": "Do you move between places?",
-          "body": "A microphone that travels with you helps if you do.",
+          "title": "Você muda de lugar?",
+          "body": "Um microfone que viaja com você ajuda se você fizer.",
           "one_desk": {
-            "label": "I stay at one desk",
-            "hint": "The same setup every day"
+            "label": "Eu fico em uma mesa",
+            "hint": "O mesmo setup todos os dias"
           },
           "different_places": {
-            "label": "I work in different places",
-            "hint": "Home, office, trains, cafés"
+            "label": "Eu trabalho em lugares diferentes",
+            "hint": "Casa, escritório, trens, cafés"
           }
         },
         "owned": {
-          "title": "Which microphones do you have?",
-          "body": "Pick every one you have. A Mac mini or Mac Studio has no microphone of its own.",
-          "continue": "See my match"
+          "title": "Quais microfones você tem?",
+          "body": "Escolha todos os que você tem. Um Mac mini ou Mac Studio não possui microfone interno.",
+          "continue": "Veja meu jogo"
         }
       },
       "results": {
-        "title": "Your microphone match",
-        "body": "Based on your answers. Nothing is saved or sent anywhere.",
-        "bestLine": "Best match: {{mic}}.",
-        "caption": "How each kind of microphone does",
+        "title": "Seu microfone combinou",
+        "body": "Com base em suas respostas. Nada é salvo ou enviado por nenhum lugar.",
+        "bestLine": "Melhor correspondência: {{mic}}.",
+        "caption": "Como cada tipo de microfone faz",
         "columns": {
-          "mic": "Microphone",
-          "quality": "Mic quality",
-          "others": "Whispering around others",
-          "home": "Whispering at home",
-          "price": "Price",
-          "best": "Best match"
+          "mic": "Microfone",
+          "quality": "Qualidade do microfone",
+          "others": "Ditando ao redor dos outros",
+          "home": "Ditando em casa",
+          "price": "Preço",
+          "best": "Melhor correspondência"
         },
-        "notBest": "Not the best match",
+        "notBest": "Não o melhor ajuste",
         "rating": {
-          "fair": "Fair",
-          "good": "Good",
-          "great": "Great"
+          "fair": "Regular",
+          "good": "Bom",
+          "great": "Ótimo"
         },
         "price": {
-          "included": "Comes with most laptops",
-          "low": "Low",
-          "medium": "Medium",
-          "owned": "You have one"
+          "included": "Inclui a maioria dos notebooks",
+          "low": "Baixo",
+          "medium": "Médio",
+          "owned": "Você tem um"
         },
         "copy": {
-          "label": "Copy results",
-          "heading": "{{appName}}: my microphone match",
-          "best": "Best match: {{mic}}",
-          "unanswered": "not answered",
-          "noneOwned": "none"
+          "label": "Copiar resultados",
+          "heading": "{{appName}}: meu microfone combinou",
+          "best": "Melhor correspondência: {{mic}}",
+          "unanswered": "não respondido",
+          "noneOwned": "nenhum"
         },
-        "copied": "Copied",
-        "copyFailed": "Could not copy. Select the table and copy it instead.",
-        "done": "Done"
+        "copied": "Copiado",
+        "copyFailed": "Não foi possível copiar. Selecione a tabela e copie-a em vez disso.",
+        "done": "Pronto"
       }
     }
   },

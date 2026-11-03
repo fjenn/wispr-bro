@@ -27,7 +27,6 @@
       "ok": "được ({{detail}})",
       "failed": "thất bại ({{detail}})",
       "noViolations": "Không phát hiện vi phạm CSP.",
-      "violations_one": "{{count}} lỗi CSP được ghi nhận.",
       "violations_other": "Đã ghi nhận {{count}} vi phạm CSP.",
       "checks": {
         "media": "Âm thanh (giao thức tài sản)",
@@ -365,7 +364,6 @@
     "hotkeys": {
       "open": "Các phím tắt",
       "loading": "Đang tải các phím tắt…",
-      "description": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi sẽ được lưu khi bạn thực hiện.",
       "secureInputHelp": "macOS Secure Input bảo vệ việc nhập mật khẩu bằng cách ẩn các phím được nhấn khỏi các ứng dụng khác. Chức năng bắt nhanh phím tạm dừng khi đang hoạt động.",
       "count": "{{count}} trong {{max}} đã thiết lập",
       "notSet": "Chưa thiết lập",
@@ -407,7 +405,7 @@
         "press_enter": "Nhấn Enter",
         "undo_cancel": "Hoàn tác một hành động hủy",
         "transform": {
-          "polish": "Chỉnh sửa văn bản đã chọn",
+          "polish": "Chuyển đổi đoạn văn bản đã chọn thành \"Polish\"",
           "prompt_engineer": "Chuyển văn bản được chọn thành một gợi ý AI",
           "view_changes": "Xem thay đổi biến đổi nhìn"
         },
@@ -425,14 +423,15 @@
         "press_enter": "Nhấn Return trong ứng dụng mà bạn đang nhập văn bản. Một nút bên của chuột sẽ hoạt động tốt ở đây.",
         "undo_cancel": "Khôi phục một bản ghi giọng nói chỉ sau khi bạn hủy bỏ nó.",
         "transform": {
-          "polish": "Viết lại văn bản đã chọn bằng tiếng Ba Lan.",
+          "polish": "Viết lại văn bản đã chọn với Phong cách Polish.",
           "prompt_engineer": "Chuyển đổi văn bản được chọn thành một câu hỏi AI rõ ràng.",
           "view_changes": "Xem lại sự thay đổi mới nhất trước và sau khi chuyển đổi."
         },
         "scratchpad": {
           "open": "Tái khởi động ghi chú trước đó hoặc bắt đầu một ghi chú mới, tùy theo cài đặt của bạn với Scratchpad."
         }
-      }
+      },
+      "description_other": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi được lưu khi bạn thực hiện."
     },
     "resetSetting": "Reset {{setting}}"
   },
@@ -454,7 +453,6 @@
         "title": "Không có điều gì mới",
         "body": "Các cập nhật và lời khuyên sẽ xuất hiện ở đây."
       },
-      "bellUnread_one": "Thông báo, {{count}} chưa đọc",
       "bellUnread_other": "Thông báo, {{count}} chưa đọc",
       "filter": {
         "label": "Hiện",
@@ -528,7 +526,7 @@
             "notes": "Ghi chú ngay sau cuộc gọi",
             "prompt": "Một câu hỏi dài cho cuộc trò chuyện với AI"
           },
-          "quiet": "Dictate quietly: show me how"
+          "quiet": "Đọc chính tả im lặng: cho tôi thấy cách làm"
         },
         "empty": {
           "title": "Các bản ghi giọng nói của bạn sẽ xuất hiện ở đây",
@@ -645,7 +643,6 @@
       "limit": "Tối đa 3 MB.",
       "formatLink": "Định dạng được chấp nhận",
       "csvFilter": "tệp CSV",
-      "fileSummary_one": "{{name}}: {{count}} dòng",
       "fileSummary_other": "{{name}}: {{count}} dòng",
       "hasHeader": "Hàng đầu chứa tên cột",
       "optional": "(tùy chọn)",
@@ -653,7 +650,6 @@
       "column": "Cột {{letter}}",
       "columnNamed": "Cột {{letter}}: {{name}}",
       "mapRequired": "Chọn một cột cho mỗi trường không bắt buộc.",
-      "previewCaption_one": "Xem trước hàng đầu tiên",
       "previewCaption_other": "Xem trước {{count}} hàng đầu tiên",
       "rowHeader": "Hàng",
       "cancel": "Hủy",
@@ -681,7 +677,6 @@
       "edit": "Sửa",
       "view": "Xem",
       "window": "Cửa sổ",
-      "wordsDictated_one": "{{count}} từ được ghi âm",
       "wordsDictated_other": "{{count}} từ đã được ghi âm",
       "copyLast": "Sao chép bản ghi gần nhất",
       "copyLastPreview": "Sao chép bản ghi gần nhất: \"{{preview}}\"",
@@ -691,9 +686,7 @@
       "moreLanguages": "Thêm hoặc xóa ngôn ngữ…",
       "automaticMicrophone": "Tự phát hiện (cài đặt hệ thống)",
       "noMicrophones": "Không tìm thấy micro nào",
-      "dictionaryWords_one": "{{count}} từ trong từ điển",
       "dictionaryWords_other": "{{count}} từ trong từ điển",
-      "snippetCount_one": "{{count}} đoạn",
       "snippetCount_other": "{{count}} đoạn",
       "addWord": "Thêm từ…",
       "newSnippet": "Một đoạn văn mới…",
@@ -771,7 +764,6 @@
         "body": "{{appName}} {{version}} sẽ cài đặt lần tiếp theo khi ứng dụng được khởi động lại."
       },
       "queuedTakesReady": {
-        "title_one": "{{count}} bản đọc chính tả đã sẵn sàng",
         "title_other": "{{count}} bản ghi sẵn sàng",
         "body": "Điều bạn nói khi mô hình phát âm chưa có đã được ghi lại."
       },
@@ -789,12 +781,12 @@
         "body": "Không thể đọc được, do đó đã bắt đầu một file mới. File bị hỏng được giữ bên cạnh nó."
       },
       "milestoneWords": {
-        "title": "{{words}} từ được ghi âm",
-        "body": "Đó là {{words}} từ bạn không cần phải đánh. Chúc mừng."
+        "title_other": "{{count}} từ được đọc chính tả",
+        "body_other": "Đó là {{count}} từ bạn không cần phải đánh. Chúc mừng."
       },
       "milestoneStreak": {
-        "title": "dãy {{days}} ngày",
-        "body": "Bạn đã ghi âm liên tục trong {{days}} ngày."
+        "title_other": "dãy {{count}} ngày",
+        "body_other": "Bạn đã đọc chính tả trong {{count}} ngày liên tiếp."
       },
       "tips": {
         "handsFree": {
@@ -834,7 +826,6 @@
         "openAccessibility": "Mở Cài đặt"
       },
       "takeRecovered": {
-        "title_one": "Một bản ghi đã được lưu khi ứng dụng tắt",
         "title_other": "Đã lưu {{count}} bản ghi khi ứng dụng tắt",
         "body": "Chúng vẫn đang ghi lại khi {{appName}} được đóng. Chúng nằm trong Lịch sử, nơi được chuyển thành văn bản."
       }
@@ -1008,9 +999,9 @@
         "not_enabled": "Apple Intelligence được tắt trong Cài đặt Hệ thống. Wispr Bro sử dụng mô hình làm sạch của chính nó.",
         "model_not_ready": "Apple Intelligence vẫn đang chuẩn bị mô hình của mình.",
         "unsupported": "Apple Intelligence cần macOS 26 hoặc sau đó. Wispr Bro sử dụng mô hình làm sạch riêng của mình.",
-        "unknown": "Trí tuệ Apple hiện không khả dụng lúc này."
+        "unknown": "Tính năng Apple Intelligence hiện không khả dụng."
       },
-      "counts": "Từ khi ứng dụng bắt đầu: {{requests}} yêu cầu, {{refusals}} từ chối, {{rateLimited}} bị giới hạn tốc độ."
+      "counts": "Từ khi ứng dụng bắt đầu: yêu cầu {{requests}}, từ chối {{refusals}}, giới hạn tốc độ {{rateLimited}}."
     }
   },
   "home": {
@@ -1038,10 +1029,10 @@
     },
     "voiceProfile": {
       "title": "Bản sắc giọng nói của bạn",
-      "progress": "{{current}} / {{goal}} từ",
-      "locked": "Mở khóa tại {{goal}} từ. Tiếp tục ghi âm để xây dựng nó.",
       "unlocked": "Đã mở khóa. Xem cách bạn nói trong Insights.",
-      "open": "Mở Insights"
+      "open": "Mở Insights",
+      "progress_other": "{{current}} của {{goal}} từ",
+      "locked_other": "Mở khóa tại {{goal}} từ. Tiếp tục đọc chính tả để xây dựng nó."
     },
     "history": {
       "title": "Các bản ghi giọng nói của bạn được lưu trên máy Mac này",
@@ -1054,7 +1045,6 @@
     "added": "Đã thêm “{{entry}}”.",
     "search": "Tìm trong từ điển của bạn",
     "refresh": "Refresh",
-    "shown_one": "Đang hiển thị {{count}} mục",
     "shown_other": "{{count}} mục được hiển thị",
     "deleted": "Đã xóa “{{entry}}”.",
     "deleteFailed": "Không thể xóa mục này. Vui lòng thử lại.",
@@ -1085,7 +1075,6 @@
     "entry": {
       "rule": "{{from}} → {{to}}",
       "becomes": "trở thành",
-      "used_one": "Đã sử dụng {{count}} lần",
       "used_other": "Đã sử dụng {{count}} lần",
       "edit": "Sửa {{entry}}",
       "delete": "Xoá {{entry}}",
@@ -1118,11 +1107,11 @@
     },
     "problem": {
       "empty": "Nhập một từ trước.",
-      "too_long": "Các từ có thể dài tối đa {{max}} ký tự.",
-      "replacement_too_long": "Các thay thế có thể dài tối đa {{maxReplacement}} ký tự.",
       "same_as_replacement": "Thay thế giống như từ đó.",
       "control_character": "Các ký tự xuống dòng và tab không thể được sử dụng ở đây.",
-      "full": "Từ điển của bạn đã đầy. Xóa một số mục trước."
+      "full": "Từ điển của bạn đã đầy. Xóa một số mục trước.",
+      "too_long_other": "Các từ có thể dài đến {{max}} ký tự.",
+      "replacement_too_long_other": "Các thay thế có thể dài tối đa {{maxReplacement}} ký tự."
     },
     "dialog": {
       "addTitle": "Thêm vào từ điển",
@@ -1163,18 +1152,12 @@
         "encoding": "Lưu dưới dạng CSV UTF-8 để các dấu sắc và các bộ ký tự khác được hiển thị đúng."
       },
       "review": {
-        "new_one": "một mục mới",
         "new_other": "các mục mới",
-        "duplicates_one": "đã có ở đó",
         "duplicates_other": "đã có ở đó",
-        "conflicts_one": "mâu thuẫn",
         "conflicts_other": "xung đột",
-        "invalid_one": "không thể nhập",
         "invalid_other": "không thể nhập",
-        "overLimit_one": "Từ điển của bạn còn chỗ cho {{room}} thêm; {{count}} từ mới sẽ không phù hợp.",
         "overLimit_other": "Từ điển của bạn còn chỗ cho {{room}} thêm; {{count}} từ mới sẽ không phù hợp.",
         "showNew": "Hiện các mục mới",
-        "more_one": "và {{count}} thêm",
         "more_other": "và {{count}} thêm",
         "conflictsTitle": "Đã có trong từ điển của bạn, khác nhau",
         "conflictsHelp": "Chọn những mục nơi phiên bản tệp nên thay thế phiên bản của bạn.",
@@ -1186,26 +1169,18 @@
         "invalidRow": "Hàng {{row}} ({{phrase}}): {{reason}}"
       },
       "done": {
-        "title_one": "Đã nhập {{count}} mục",
         "title_other": "Đã nhập {{count}} mục",
-        "added_one": "{{count}} đã được thêm",
         "added_other": "Đã thêm {{count}}",
-        "replaced_one": "{{count}} đã được thay thế bằng phiên bản của tập tin",
         "replaced_other": "{{count}} được thay thế bằng phiên bản của tập tin",
-        "skipped_one": "{{count}} đã có, đã bỏ qua",
         "skipped_other": "{{count}} đã có, đã bỏ qua",
-        "kept_one": "{{count}} xung đột được giữ nguyên",
         "kept_other": "Đã giữ {{count}} xung đột vì chúng vẫn như cũ",
-        "invalid_one": "{{count}} dòng không thể nhập",
         "invalid_other": "{{count}} hàng không thể được nhập",
-        "overLimit_one": "{{count}} không phù hợp (từ điển đã đầy)",
         "overLimit_other": "{{count}} không phù hợp (từ điển đã đầy)"
       }
     },
     "export": {
       "open": "Xuất",
       "fileName": "{{appName}} dictionary.csv",
-      "done_one": "Đã xuất {{count}} mục.",
       "done_other": "Đã xuất {{count}} mục.",
       "failed": "Không thể xuất từ điển. Vui lòng thử lại."
     },
@@ -1238,7 +1213,6 @@
     "settingUpPercent": "Đang thiết lập… {{percent}}%",
     "settingUpHint": "Lời bạn nói đã được lưu. Văn bản sẽ hiện ở đây khi tính năng đọc chính tả sẵn sàng.",
     "cardReady": "Bản đọc chính tả của bạn",
-    "cardMore_one": "Bản đọc chính tả của bạn · còn {{count}} trong Lịch sử",
     "cardMore_other": "Bản đọc chính tả của bạn · còn {{count}} trong Lịch sử",
     "copy": "Sao chép",
     "copied": "Đã sao chép",
@@ -1258,8 +1232,8 @@
     "banner": {
       "title": "Viết lại văn bản đã chọn trong bất kỳ ứng dụng nào",
       "body": "Chọn một biến đổi, chọn văn bản và sử dụng phím tắt. Văn bản của bạn sẽ luôn ở trên máy Mac này.",
-      "tryIt": "Try it",
-      "howItWorks": "How it works"
+      "tryIt": "Thử xem",
+      "howItWorks": "Cách nó hoạt động"
     },
     "enable": {
       "title": "Bật Transforms",
@@ -1355,17 +1329,16 @@
     },
     "examples": {
       "title": "Ví dụ về việc viết",
-      "help": "Dán hoặc tải lên đến {{max}} ví dụ, mỗi ví dụ {{chars}} ký tự. Chúng hướng dẫn phong cách mà không trở thành phần của kết quả.",
       "fileType": "Text hoặc Markdown",
       "label": "Ví dụ về việc viết {{number}}",
       "count": "{{count}} / {{max}}",
       "paste": "Dán một ví dụ",
       "load": "Tải .txt hoặc .md",
       "remove": "Xóa ví dụ {{number}}",
-      "readError": "Chọn một tệp .txt hoặc .md với không quá 1.500 ký tự."
+      "readError": "Chọn một tệp .txt hoặc .md với không quá 1.500 ký tự.",
+      "help_other": "Dán hoặc tải lên đến {{max}} ví dụ, mỗi ví dụ {{chars}} ký tự. Chúng hướng dẫn kiểu mà không trở thành phần của kết quả."
     },
     "diff": {
-      "changes_one": "{{count}} thay đổi",
       "changes_other": "{{count}} thay đổi",
       "configure": "Cấu hình",
       "copy": "Sao chép",
@@ -1378,7 +1351,7 @@
       "simpleView": "Hiện thị một thay thế cho thay đổi lớn hoặc phức tạp này.",
       "actionFailed": "Hành động đó không thành công. Văn bản của bạn vẫn ở đây; hãy thử lại."
     },
-    "startTutorial": "Start tutorial"
+    "startTutorial": "Bắt đầu hướng dẫn"
   },
   "cleanup": {
     "title": "Xử lý",
@@ -1408,10 +1381,9 @@
     "last": {
       "title": "Dictation cuối cùng",
       "none": "Không có ghi âm nào kể từ khi mở ứng dụng.",
-      "applied_one": "Đã làm sạch trong {{ms}} ms, {{count}} thay đổi.",
       "applied_other": "Đã làm sạch trong {{ms}} ms, {{count}} thay đổi.",
-      "partial": "Đã làm sạch một phần ({{applied}} trong {{total}} đoạn); phần còn lại là như đã nói: {{reason}}",
-      "checks": "Kiểm tra an toàn đã dừng lại: {{checks}}"
+      "checks": "Kiểm tra an toàn đã dừng lại: {{checks}}",
+      "partial_other": "Đã dọn dẹp một phần ({{applied}} trong {{total}} đoạn); phần còn lại là như đã nói: {{reason}}"
     },
     "why": {
       "level_none": "Sự làm sạch được tắt.",
@@ -1441,15 +1413,12 @@
     "added": "Đã thêm \"{{trigger}}\".",
     "search": "Tìm kiếm các mẫu của bạn",
     "refresh": "Refresh",
-    "shown_one": "{{count}} mẫu được hiển thị",
     "shown_other": "{{count}} mẫu được hiển thị",
     "deleted": "Đã xóa “{{trigger}}”.",
     "deleteFailed": "Snippet đó không thể xóa. Vui lòng thử lại.",
     "undo": "Hoàn tác",
     "counts": {
-      "snippets_one": "{{count}} mẫu",
       "snippets_other": "{{count}} đoạn trích",
-      "uses_one": "đã sử dụng {{count}} lần",
       "uses_other": "đã sử dụng {{count}} lần"
     },
     "sort": {
@@ -1471,10 +1440,8 @@
     "entry": {
       "becomes": "được viết là",
       "pair": "{{trigger}} → {{text}}",
-      "lines_one": "{{count}} dòng",
       "lines_other": "{{count}} dòng",
       "imported": "Đã nhập",
-      "used_one": "Đã sử dụng {{count}} lần",
       "used_other": "Đã sử dụng {{count}} lần",
       "edit": "Sửa {{trigger}}",
       "delete": "Xoá {{trigger}}"
@@ -1494,13 +1461,13 @@
     },
     "problem": {
       "empty_trigger": "Nhập những gì bạn sẽ nói trước.",
-      "trigger_too_long": "Điều bạn nói có thể lên đến {{max}} ký tự.",
       "trigger_not_spoken": "Điều bạn nói cần ít nhất một chữ cái hoặc chữ số.",
       "trigger_control_character": "Điều bạn nói phải nằm trên một dòng.",
       "empty_body": "Nhập văn bản để viết.",
-      "body_too_long": "Text này có thể lên đến {{maxBody}} ký tự.",
       "body_control_character": "Text chứa một ký tự không thể ghi. Xóa nó và thử lại.",
-      "full": "Bạn đã có số lượng đoạn văn tối đa mà ứng dụng có thể lưu trữ. Hãy xóa một số trước."
+      "full": "Bạn đã có số lượng đoạn văn tối đa mà ứng dụng có thể lưu trữ. Hãy xóa một số trước.",
+      "trigger_too_long_other": "Điều bạn nói có thể lên đến {{max}} ký tự.",
+      "body_too_long_other": "Đoạn văn bản có thể lên đến {{maxBody}} ký tự."
     },
     "dialog": {
       "addTitle": "Thêm mẫu",
@@ -1532,24 +1499,17 @@
         "intro": "Một đoạn văn trên mỗi dòng:",
         "columns": "Cột đầu tiên là điều bạn nói; cột thứ hai là văn bản cần gõ.",
         "lines": "Một đoạn văn có ký tự xuống dòng được đặt trong dấu ngoặc, giống như các ứng dụng bảng tính lưu trữ nó.",
-        "limits": "Điều bạn nói đến {{max}} ký tự, văn bản đến {{maxBody}}, tối đa 1.000 dòng và 3 MB mỗi file.",
-        "encoding": "Lưu dưới dạng CSV UTF-8 để các dấu sắc và các bộ ký tự khác được hiển thị đúng."
+        "encoding": "Lưu dưới dạng CSV UTF-8 để các dấu sắc và các bộ ký tự khác được hiển thị đúng.",
+        "limits_other": "Điều bạn nói đến {{max}} ký tự, văn bản đến {{maxBody}}, tối đa 1.000 dòng và 3 MB mỗi file."
       },
       "review": {
-        "new_one": "một đoạn mới",
         "new_other": "các đoạn trích mới",
-        "duplicates_one": "đã có ở đó",
         "duplicates_other": "đã có ở đó",
-        "conflicts_one": "mâu thuẫn",
         "conflicts_other": "xung đột",
-        "invalid_one": "không thể nhập",
         "invalid_other": "không thể nhập",
-        "overLimit_one": "Có chỗ trống cho {{room}} thêm; {{count}} đoạn mới sẽ không phù hợp.",
         "overLimit_other": "Có chỗ trống cho {{room}} thêm; {{count}} đoạn nội dung mới sẽ không phù hợp.",
-        "ignoredRows_one": "Chỉ đọc 1.000 hàng đầu tiên; {{count}} hàng còn lại bị bỏ qua.",
         "ignoredRows_other": "Chỉ đọc được 1.000 hàng đầu tiên; {{count}} hàng còn lại bị bỏ qua.",
         "showNew": "Hiện các đoạn trích mới",
-        "more_one": "và {{count}} thêm",
         "more_other": "và {{count}} thêm",
         "conflictsTitle": "Đã lưu với văn bản khác",
         "conflictsHelp": "Chọn những mục nơi nội dung tệp sẽ thay thế nội dung của bạn.",
@@ -1561,26 +1521,18 @@
         "invalidRow": "Hàng {{row}} ({{trigger}}): {{reason}}"
       },
       "done": {
-        "title_one": "Đã nhập {{count}} mẫu",
         "title_other": "Đã nhập {{count}} đoạn trích",
-        "added_one": "{{count}} đã được thêm",
         "added_other": "{{count}} đã được thêm",
-        "replaced_one": "{{count}} đã được thay thế bằng nội dung của tập tin",
         "replaced_other": "{{count}} đã được thay thế bằng nội dung của tập tin",
-        "skipped_one": "{{count}} đã có, đã bỏ qua",
         "skipped_other": "{{count}} đã có, đã bỏ qua",
-        "kept_one": "{{count}} xung đột được giữ nguyên",
         "kept_other": "Đã giữ {{count}} xung đột như cũ",
-        "invalid_one": "{{count}} dòng không thể được nhập",
         "invalid_other": "{{count}} hàng không thể được nhập",
-        "overLimit_one": "{{count}} không phù hợp",
         "overLimit_other": "{{count}} không phù hợp"
       }
     },
     "export": {
       "open": "Xuất",
       "fileName": "{{appName}} snippets.csv",
-      "done_one": "Đã xuất {{count}} đoạn trích.",
       "done_other": "Đã xuất {{count}} đoạn trích.",
       "failed": "Không thể xuất các mẫu. Vui lòng thử lại."
     }
@@ -1609,7 +1561,6 @@
     },
     "words": {
       "title": "Tổng số từ",
-      "dictations_one": "trong {{count, number}} dictation",
       "dictations_other": "trong {{count, number}} bản ghi dictation"
     },
     "fixes": {
@@ -1620,7 +1571,6 @@
     "categories": {
       "title": "Địa điểm bạn ghi âm",
       "empty": "Dictate trong một vài ứng dụng để thấy những nơi từ của bạn được gửi đi.",
-      "words_one": "{{count, number}} từ",
       "words_other": "{{count, number}} từ",
       "documents": "Tài liệu",
       "ai_prompts": "Các gợi ý AI",
@@ -1633,11 +1583,8 @@
       "title": "Dãy liên tiếp của bạn",
       "current": "Câu chuyện hiện tại",
       "longest": "Câu chuyện dài nhất",
-      "days_one": "{{count, number}} ngày",
       "days_other": "{{count, number}} ngày",
-      "active_one": "Một ngày trong số {{count, number}} ngày có ghi âm trong năm qua",
       "active_other": "{{count, number}} ngày dùng dictation trong 1 năm qua",
-      "day_one": "{{date}}: {{count, number}} từ",
       "day_other": "{{date}}: {{count, number}} từ",
       "less": "Ít hơn",
       "more": "Thêm",
@@ -1648,30 +1595,26 @@
       "band4": "750 từ hoặc nhiều hơn"
     },
     "voice": {
-      "lockedTitle": "Hình ảnh giọng nói của bạn được giải khóa tại {{goal}} từ",
-      "lockedBody": "Tiếp tục ghi âm: {{current}} từ trong {{goal}} từ đến nay. Sau đó bạn sẽ thấy cụm từ bạn sử dụng nhiều nhất, thời điểm và nơi bạn ghi âm, cùng các từ được {{appName}} sửa tự động cho bạn.",
       "locked": "Đã khóa",
       "phrase": "Câu của bạn",
-      "phraseIn_one": "Trong {{count, number}} dictation",
       "phraseIn_other": "Trong {{count, number}} bản ghi giọng nói",
       "peak": "Thời gian cao điểm và ứng dụng",
       "peakApp": "Hầu hết các từ trong {{app}}",
       "word": "Từ được sử dụng nhiều nhất",
-      "uses_one": "Đã sử dụng {{count, number}} lần",
       "uses_other": "Đã sử dụng {{count, number}} lần",
       "corrected": "Từ được sửa chính xác nhất",
       "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Đã sửa {{count, number}} lần",
       "fixed_other": "Đã sửa {{count, number}} lần",
       "notEnough": "Chưa đủ bản ghi giọng nói.",
-      "footnote_one": "Đã xử lý trên thiết bị Mac này từ bản ghi giọng nói mới nhất của bạn. Không có gì rời khỏi Mac của bạn.",
       "footnote_other": "Đã xử lý trên máy Mac này từ {{count, number}} bản ghi giọng nói gần nhất của bạn. Không gì rời khỏi máy Mac của bạn.",
       "sample": {
         "phrase": "một cụm từ bạn thường nói",
         "peak": "một thời điểm trong ngày",
         "word": "từ yêu thích",
         "corrected": "một từ được sửa lại"
-      }
+      },
+      "lockedTitle_other": "Kiểu giọng của bạn được mở khóa tại {{goal}} từ",
+      "lockedBody_other": "Tiếp tục đọc chính tả: {{current}} của {{goal}} từ đến nay. Sau đó bạn sẽ thấy cụm từ bạn dùng nhiều nhất, thời điểm và nơi bạn đọc chính tả, cùng các từ mà {{appName}} tự động sửa cho bạn."
     }
   },
   "history": {
@@ -1689,9 +1632,7 @@
       "title": "Không tìm thấy gì",
       "body": "Không có nội dung ghi âm nào chứa \"{{query}}\"."
     },
-    "results_one": "{{count}} kết quả ghi âm được tìm thấy",
     "results_other": "{{count}} bản ghi dictation được tìm thấy",
-    "resultsMore_one": "{{count}} kết quả gần đây nhất. Cuộn để xem thêm.",
     "resultsMore_other": "{{count}} kết quả gần đây nhất. Cuộn để xem thêm.",
     "search": {
       "open": "Lịch sử tìm kiếm",
@@ -1739,7 +1680,6 @@
       "delete": "Xoá bản ghi"
     },
     "audio": {
-      "expired_one": "Âm thanh đã bị xóa sau {{count}} ngày",
       "expired_other": "Âm thanh đã bị xóa sau {{count}} ngày",
       "removed": "Âm thanh đã bị xóa",
       "missing": "Không có bản ghi cho bản ghi này",
@@ -1814,8 +1754,8 @@
     "tabs": "Mở ghi chú",
     "tools": "Các công cụ ghi chú",
     "sidebar": "Hiện danh sách ghi chú",
-    "polish": "Sửa note",
-    "polishing": "Đang làm mịn...",
+    "polish": "Chỉnh sửa đoạn văn bản",
+    "polishing": "Đang làm sạch...",
     "textSize": "Thay đổi kích thước chữ (hiện tại {{size}} điểm)",
     "expand": "Mở rộng cửa sổ ghi chú",
     "shrink": "Khôi phục kích thước cửa sổ ghi chú",
@@ -1966,9 +1906,7 @@
       "subtitle": "Chọn mọi ngôn ngữ bạn ghi âm. Wispr Bro sẽ xử lý tốt hơn khi nó biết các ngôn ngữ đó.",
       "listLabel": "Ngôn ngữ",
       "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”.",
-      "count_one": "Dictation hoạt động trong {{count}} ngôn ngữ. Bạn có thể thay đổi sau này trong Cài đặt.",
       "count_other": "Dictation hoạt động trong {{count}} ngôn ngữ. Bạn có thể thay đổi ngôn ngữ của mình sau này trong Cài đặt.",
-      "weak_one": "Việc nhận diện không chính xác trong {{languages}}. Nó vẫn hoạt động, nhưng hãy dự kiến sẽ có nhiều lỗi.",
       "weak_other": "Việc nhận diện không chính xác trong {{languages}}. Chúng vẫn hoạt động, nhưng hãy mong đợi nhiều lỗi hơn."
     },
     "permissions": {
@@ -2080,35 +2018,30 @@
       "subtitle": "Ở bất kỳ đâu bạn có thể gõ, giờ bạn có thể nói thay vì gõ."
     },
     "timeSaved": {
-      "headline_one": "Việc gõ bằng giọng nói có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
       "headline_other": "Việc gõ bằng giọng nói có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
       "intro": "Nói nhanh hơn là gõ phím với hầu hết mọi người. Thực hiện một bài kiểm tra gõ phím trong 30 giây để thấy được lượng thời gian có thể tiết kiệm được.",
       "howFast": "Bạn đánh nhanh như thế nào?",
       "skipTest": "Bỏ qua bài kiểm tra",
-      "basisMeasured": "Dựa trên tốc độ gõ {{wpm}} từ/phút của bạn và tốc độ nói khoảng {{speaking}} từ/phút.",
-      "basisAverage": "Dựa trên tốc độ gõ trung bình là {{wpm}} từ mỗi phút, và nói khoảng {{speaking}} từ mỗi phút.",
       "sliderLabel": "Bạn nhập bao lâu mỗi ngày?",
-      "hoursPerDay_one": "{{hours}} giờ mỗi ngày",
       "hoursPerDay_other": "{{hours}} giờ mỗi ngày",
-      "takeTest": "Làm bài kiểm tra gõ chữ"
+      "takeTest": "Làm bài kiểm tra gõ chữ",
+      "basisMeasured_other": "Dựa trên tốc độ nhập văn bản của bạn {{wpm}} từ/phút và tốc độ nói khoảng {{speaking}} từ/phút.",
+      "basisAverage_other": "Dựa trên tốc độ gõ trung bình là {{wpm}} từ mỗi phút, và nói với tốc độ khoảng {{speaking}} từ mỗi phút."
     },
     "typing": {
       "title": "Bạn đánh nhanh như thế nào?",
-      "instruction": "Nhập đoạn văn dưới đây như bình thường. Đồng hồ bắt đầu khi bạn nhấn phím đầu tiên và chạy trong {{seconds}} giây.",
       "skip": "Bỏ qua",
       "language": "Ngôn ngữ",
       "wpmPending": "— từ phút",
-      "wpm_one": "{{count}} từ một phút",
       "wpm_other": "{{count}} từ mỗi phút",
-      "secondsLeft_one": "còn {{count}} giây",
       "secondsLeft_other": "còn lại {{count}} giây",
       "inputLabel": "Nhập đoạn văn ở đây",
       "placeholder": "Bắt đầu gõ ở đây…",
       "nothing": "Không có gì khớp với đoạn văn. Hãy thử lại.",
-      "result_one": "Bạn đang gõ khoảng {{count}} từ mỗi phút.",
       "result_other": "Bạn đang gõ khoảng {{count}} từ mỗi phút.",
       "tryAgain": "Thử lại",
-      "recalculate": "Tính lại"
+      "recalculate": "Tính lại",
+      "instruction_other": "Nhập đoạn văn dưới đây như bình thường. Đồng hồ bắt đầu khi bạn nhấn phím đầu tiên và chạy trong {{seconds}} giây."
     },
     "summary": {
       "title": "Bạn đã sẵn sàng",
@@ -2120,7 +2053,6 @@
       "microphone": "Microphone",
       "micDefault": "Microphone mặc định của Mac",
       "typing": "Tốc độ gõ",
-      "typingWpm_one": "{{count}} từ một phút",
       "typingWpm_other": "{{count}} từ một phút",
       "typingSkipped": "Không được đo",
       "notSet": "Chưa thiết lập",
@@ -2294,14 +2226,14 @@
         "body": "{{appName}} khởi động cùng Mac của bạn, nên phím tắt luôn hoạt động."
       },
       "try_transform": {
-        "title": "Try a Transform",
-        "action": "Show me",
-        "body": "Select text and press a shortcut: it is rewritten in place."
+        "title": "Thử một Chuyển đổi",
+        "action": "Hãy cho tôi xem",
+        "body": "Chọn văn bản và nhấn phím tắt: nó sẽ được viết lại ngay tại chỗ."
       },
       "try_whisper": {
-        "title": "Try whispering",
-        "action": "Show me",
-        "body": "Dictate quietly when other people are around, and find the right microphone."
+        "title": "Thử nói thầm",
+        "action": "Hãy cho tôi xem",
+        "body": "Đọc chính tả nhẹ nhàng khi có người khác xung quanh, và tìm micro phù hợp."
       }
     },
     "coach": {
@@ -2311,265 +2243,265 @@
   },
   "lessons": {
     "common": {
-      "close": "Close the lesson",
-      "back": "Back",
-      "continue": "Continue",
-      "skip": "Skip",
-      "tryIt": "Try it yourself",
-      "tryItOut": "Try it out",
-      "howItWorks": "How it works",
-      "progress": "Step {{step}} of {{total}}",
-      "pause": "Pause animation",
-      "play": "Play animation",
-      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+      "close": "Đóng bài học",
+      "back": "Quay lại",
+      "continue": "Tiếp tục",
+      "skip": "Bỏ qua",
+      "tryIt": "Thử ngay",
+      "tryItOut": "Thử xem",
+      "howItWorks": "Cách nó hoạt động",
+      "progress": "Bước {{step}} trong tổng số {{total}}",
+      "pause": "Dừng hoạt động",
+      "play": "Chơi animation",
+      "turnOnFailed": "Điều đó không bật lên. Hãy thử lại, hoặc dùng nút bật trên trang của nó."
     },
     "transforms": {
-      "title": "Transforms",
-      "help": "Learn Transforms",
+      "title": "Chuyển đổi",
+      "help": "Học Chuyển đổi",
       "intro": {
-        "title": "Make your writing say it the way you mean it",
-        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
-        "continue": "Try it out"
+        "title": "Đổi cách viết của bạn nói lên điều bạn muốn",
+        "body": "Chọn văn bản trong bất kỳ ứng dụng nào và nhấn phím tắt. Một chuyển đổi sẽ sửa lại văn bản ngay tại chỗ, trên chiếc Mac này.",
+        "continue": "Thử xem"
       },
       "cards": {
-        "label": "The same text, three ways",
+        "label": "Cùng văn bản, ba cách",
         "original": {
           "name": "Original",
-          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+          "text": "vậy thì cơ bản là tôi muốn kiểm tra xem liệu chúng ta có thể chuyển buổi kiểm tra sang thứ Ba không vì các con số chưa sẵn sàng và cũng vì Sam đang đi xa"
         },
         "polish": {
           "name": "Polish",
-          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+          "text": "Chúng ta có thể chuyển cuộc họp về thứ Ba không? Các con số chưa sẵn sàng và Sam đang đi xa."
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+          "text": "Viết một lời nhắn ngắn và thân thiện yêu cầu chuyển cuộc họp về thứ Ba. Lý do: các con số chưa sẵn sàng và Sam đang đi xa. Giữ trong hai câu."
         }
       },
       "benefits": {
-        "label": "What a transform can do",
-        "shorter": "Says it in fewer words",
-        "clearer": "Rewords for clarity",
-        "order": "Puts points in a better order",
-        "structure": "Adds headings and lists",
-        "tone": "Keeps your tone",
-        "anywhere": "Works in any app you write in"
+        "label": "Điều một chuyển đổi có thể làm",
+        "shorter": "Nói ngắn gọn hơn",
+        "clearer": "Viết lại để rõ ràng hơn",
+        "order": "Sắp xếp các điểm một cách hợp lý hơn",
+        "structure": "Thêm tiêu đề và danh sách",
+        "tone": "Giữ giọng điệu của bạn",
+        "anywhere": "Áp dụng trong bất kỳ ứng dụng nào bạn viết"
       },
       "practice": {
-        "title": "Select the text, then press {{shortcut}}",
-        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
-        "doneTitle": "Text rewritten",
-        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
-        "app": "Chat with Jordan",
-        "context": "Are we still on for the review tomorrow?",
-        "fieldLabel": "Your reply to Jordan",
-        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "title": "Chọn đoạn văn bản, sau đó nhấn {{shortcut}}",
+        "body": "Chọn thông điệp bên dưới (⌘A chọn toàn bộ), sau đó nhấn phím tắt Polish.",
+        "doneTitle": "Đoạn văn đã được viết lại",
+        "doneBody": "Nhấn {{view}} để xem các thay đổi. {{undo}} sẽ hủy thao tác đó.",
+        "app": "Thảo luận với Jordan",
+        "context": "Chúng ta vẫn họp xem xét ngày mai không?",
+        "fieldLabel": "Trả lời của bạn với Jordan",
+        "draft": "heo vậy tôi nghĩ chúng ta nên chuyển buổi kiểm tra sang thứ Ba nếu được, vì con số chưa sẵn sàng và tôi không muốn hiển thị những thứ chưa hoàn thành",
         "example": {
-          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
-          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+          "polish": "Chúng ta có thể chuyển buổi kiểm tra sang thứ Ba không? Các con số chưa sẵn sàng, và tôi muốn tránh việc trình bày công việc chưa hoàn thành.",
+          "prompt": "Viết một lời trả lời ngắn gọn và lịch sự, đề nghị chuyển buổi kiểm tra ngày mai sang thứ Ba vì các con số chưa sẵn sàng. Giữ tinh thần thân thiện và dưới ba câu."
         },
-        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
-        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
-        "working": "Rewriting…",
-        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
-        "barLabel": "The bar",
+        "exampleNote": "Viết lại chưa được hỗ trợ trên thiết bị này, do đó đây là một ví dụ. Khi được hỗ trợ, phím tắt của bạn sẽ viết lại văn bản của chính bạn theo cách tương tự.",
+        "selectFirst": "Chọn một phần của tin nhắn trước, rồi nhấn {{shortcut}} lại.",
+        "working": "Đang chỉnh sửa...",
+        "spotlight": "Sau mỗi chuyển đổi, thanh ở dưới màn hình cung cấp Xem thay đổi. Nhấn vào nó hoặc nhấn {{view}}.",
+        "barLabel": "thanhs",
         "bar": {
-          "done": "Done",
-          "view": "View changes"
+          "done": "Đã hoàn thành",
+          "view": "Xem thay đổi"
         },
-        "hideChanges": "Hide the changes"
+        "hideChanges": "Ẩn các thay đổi"
       },
       "how": {
         "select": {
-          "title": "Select text in any app",
-          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
-          "scene": "Animation: a draft email is selected."
+          "title": "Chọn văn bản trong bất kỳ ứng dụng nào",
+          "body": "Viết hoặc đọc chính tả như bình thường: một email, một cuộc trò chuyện, một tài liệu. Sau đó chọn phần bạn muốn được chỉnh sửa.",
+          "scene": "Điều khiển: một email mẫu được chọn."
         },
         "press": {
-          "title": "Press {{shortcut}}",
-          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
-          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+          "title": "Nhấn {{shortcut}}",
+          "body": "Polish chỉnh sửa phần được chọn ngay tại chỗ. Prompt Engineer ({{prompt}}) chuyển nó thành một câu hỏi rõ ràng cho trợ lý AI.",
+          "scene": "Animation: {{shortcut}} được nhấn và bản nháp được thay thế bằng phiên bản rõ ràng hơn."
         },
         "changes": {
-          "title": "See what changed",
-          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
-          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+          "title": "Xem những gì đã thay đổi",
+          "body": "Nhấn {{view}} hoặc nhấp vào Xem thay đổi trên thanh: các từ bị xóa sẽ được gạch bỏ, các từ mới sẽ được đánh dấu. {{undo}} sẽ đưa lại bản gốc của bạn.",
+          "scene": "Điều chỉnh: một thẻ liệt kê các thay đổi, các từ bị xóa được gạch qua và các từ mới được in đậm."
         }
       },
       "scene": {
-        "app": "Mail: new message",
-        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
-        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+        "app": "Mail: tin nhắn mới",
+        "draft": "xin chào mọi người, chỉ là một lưu ý nhanh rằng việc ra mắt sẽ được chuyển sang tuần tới vì chúng tôi đã phát hiện ra một lỗi trong quy trình thanh toán và muốn sửa trước",
+        "polished": "Xin chào mọi người, việc ra mắt sẽ được chuyển sang tuần tới. Chúng tôi đã phát hiện một lỗi trong quy trình thanh toán và muốn sửa nó trước."
       },
       "finish": {
-        "turnOn": "Turn on Transforms",
-        "done": "Done"
+        "turnOn": "Bật Chuyển đổi",
+        "done": "Đã hoàn thành"
       }
     },
     "whisper": {
-      "title": "Dictate quietly",
-      "help": "Learn to dictate quietly",
+      "title": "Đọc chính tả nhẹ",
+      "help": "Học cách đọc chính tả im lặng",
       "soft": {
-        "title": "A soft voice is enough",
-        "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
-        "app": "Notes",
-        "spoken": "“remind me to send the slides before lunch and book a room for friday”",
-        "text": "Remind me to send the slides before lunch and book a room for Friday.",
-        "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
+        "title": "Một giọng nói nhẹ là đủ",
+        "body": "Bạn không cần phải nói to. Nhẹ nhàng nói, và những lời bạn nói vẫn sẽ chuyển thành văn bản sạch, nên bạn có thể đọc chính tả ở văn phòng mở, trên xe điện hoặc khi ai đó đang ngủ gần đó.",
+        "app": "Ghi chú",
+        "spoken": "“nhắc tôi gửi slide trước bữa trưa và đặt phòng cho thứ sáu”",
+        "text": "Nhắc tôi gửi slide trước bữa trưa và đặt phòng cho thứ Sáu.",
+        "scene": "Animation: một câu nói nhỏ hiện lên như văn bản được nhập: \"{{text}}\""
       },
       "how": {
-        "title": "How to whisper to your Mac",
-        "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
-        "distance": "About 30 cm, roughly a forearm, from the microphone",
+        "title": "Cách nói thầm với Mac của bạn",
+        "body": "Với mic tích hợp trên Mac của bạn, bốn thói quen giúp giọng nói nhẹ nhàng dễ nghe.",
+        "distance": "Khoảng 30 cm, tương đương một tay, cách micro",
         "tips": {
           "distance": {
-            "title": "Sit close.",
-            "body": "Face your Mac at about a forearm's length. Leaning in a little helps more than speaking louder."
+            "title": "Đặt gần.",
+            "body": "Đối mặt với Mac cách khoảng một tay người. Ngả vào một chút sẽ hiệu quả hơn là nói to hơn."
           },
           "breath": {
-            "title": "Whisper with some breath.",
-            "body": "Not the faintest whisper: a little firmer, as if talking to someone across a small table."
+            "title": "Đọc chính tả với một chút hơi thở.",
+            "body": "Không có tiếng thì thầm nào: chắc chắn hơn một chút, như đang nói chuyện với ai đó ở bên cạnh một chiếc bàn nhỏ."
           },
           "pace": {
-            "title": "Keep a steady pace.",
-            "body": "Say each word fully and don't let the ends of sentences fade away."
+            "title": "Giữ tốc độ ổn định.",
+            "body": "Nói từng từ đầy đủ và đừng để những đầu câu bị phai đi."
           },
           "release": {
-            "title": "Let go last.",
-            "body": "Release the key only after your last word, so it is kept."
+            "title": "Thả ra cuối cùng.",
+            "body": "Giải phóng phím chỉ sau từ cuối cùng của bạn, để nó được giữ lại."
           }
         }
       },
       "practice": {
-        "title": "Whisper this email",
-        "body": "A real take: it lands in the drawn message below and nowhere else.",
-        "doneTitle": "Heard you, even in a whisper",
-        "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
-        "instruction": "Hold {{key}}, whisper the email below, then let go.",
-        "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
+        "title": "Đọc chính tả email này",
+        "body": "Một cách thực tế: nó xuất hiện ở thông điệp được vẽ bên dưới và không ở đâu khác.",
+        "doneTitle": "Đã nghe được, ngay cả khi nói thầm",
+        "doneBody": "Đó là tất cả những gì bạn cần. Hãy tiếp tục tìm micro phù hợp với bạn.",
+        "instruction": "Nhấn giữ {{key}}, đọc thầm email dưới đây, rồi thả nút.",
+        "unbound": "Không có phím tắt đọc chính tả được thiết lập, do đó không thể bắt đầu ghi âm ở đây. Bỏ qua bước này tạm thời và thiết lập phím tắt trong Cài đặt.",
         "key": "fn",
-        "keyFallback": "Control and Option",
+        "keyFallback": "Control và Option",
         "sentenceLabel": "Whisper:",
-        "sentence": "Hi Sam, I'm in a quiet room, so I'm whispering this email. Could we move our call to the afternoon? Thanks a lot.",
-        "app": "New message",
-        "context": "To Sam, about this afternoon",
-        "fieldLabel": "Your whispered email",
-        "placeholder": "Your whispered words appear here.",
+        "sentence": "Chào Sam, tôi đang ở trong một phòng yên tĩnh, nên tôi đang nói nhỏ đoạn email này. Chúng ta có thể chuyển cuộc gọi của mình sang buổi chiều không? Cảm ơn rất nhiều.",
+        "app": "Tin nhắn mới",
+        "context": "Cho Sam, về buổi chiều này",
+        "fieldLabel": "Email bạn nói thầm",
+        "placeholder": "Các từ bạn thầm thì xuất hiện ở đây.",
         "status": {
-          "idle": "Waiting for you to hold {{key}} and whisper…",
-          "listening": "Listening… let go of {{key}} when you're done.",
-          "working": "Writing it down…",
-          "nothing": "Nothing came through. Check that your microphone is on, then try again.",
-          "low": "{{percent}}% of the words came through. Try once more:",
-          "passed": "{{percent}}% of the words came through.",
-          "example": "This is an example of a whispered take."
+          "idle": "Đang chờ bạn giữ {{key}} và nhỏ giọng…",
+          "listening": "Đang nghe… thả {{key}} khi bạn xong.",
+          "working": "Viết nó xuống…",
+          "nothing": "Không có gì được ghi nhận. Kiểm tra xem loa của bạn có bật không, rồi thử lại.",
+          "low": "{{percent}}% các từ đã được nhận diện. Hãy thử một lần nữa:",
+          "passed": "{{percent}}% các từ đã được truyền qua.",
+          "example": "Đây là một ví dụ về một lần đọc thầm."
         },
-        "exampleNote": "Speech recognition is still being set up on this Mac, so this shows an example. Your own take is saved in History and is written down as soon as setup finishes.",
+        "exampleNote": "Việc nhận diện giọng nói vẫn đang được thiết lập trên máy Mac này, do đó đây là một ví dụ. Bản ghi của bạn sẽ được lưu trong Lịch sử và được ghi lại ngay khi thiết lập hoàn tất.",
         "tips": {
-          "title": "A few things help",
-          "closer": "Move a little closer to your Mac, about 30 cm away.",
-          "firmer": "Whisper a bit firmer, with more breath behind the words.",
-          "volume": "Raise the input volume in System Settings › Sound › Input.",
-          "openSound": "Open Sound settings"
+          "title": "Một vài điều giúp",
+          "closer": "Di chuyển gần Mac một chút, khoảng 30 cm.",
+          "firmer": "Đọc nhẹ một chút chắc hơn, với hơi thở mạnh hơn phía sau từng từ.",
+          "volume": "Tăng thể tích đầu vào trong Cài đặt hệ thống › Âm thanh › Đầu vào.",
+          "openSound": "Mở cài đặt Âm thanh"
         }
       },
       "mics": {
         "built_in": {
-          "name": "Built-in microphone",
-          "hint": "Already in your laptop or iMac",
-          "why": "It is already there; sit close and it does the job at home."
+          "name": "Mic nội bộ",
+          "hint": "Đã có trong laptop hoặc iMac của bạn",
+          "why": "Nó đã có sẵn; ngồi gần và nó sẽ làm việc tại nhà."
         },
         "wired_headset": {
-          "name": "Wired headset",
-          "hint": "A mic on a short arm or cable, close to your mouth",
-          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+          "name": "Đầu nối có dây",
+          "hint": "Một mic trên tay ngắn hoặc dây, gần miệng bạn",
+          "why": "Mic được đặt ngay bên miệng bạn, nên dù là tiếng thì thầm nhẹ cũng có thể truyền qua, bất kể bạn đang ở đâu."
         },
         "wireless_earbuds": {
-          "name": "Wireless earbuds",
-          "hint": "Earbuds with a microphone, no cable",
-          "why": "Nothing to plug in and they go everywhere with you."
+          "name": "Tai nghe không dây",
+          "hint": "Tai nghe có micro, không dây",
+          "why": "Không cần cắm vào và chúng đi đâu bạn cũng mang theo."
         },
         "desk_usb": {
-          "name": "Desk or USB mic",
-          "hint": "A microphone that stands on your desk",
-          "why": "The clearest sound when you work at one desk and sit close to it."
+          "name": "Mic bàn hoặc USB",
+          "hint": "Một micro đứng trên bàn của bạn",
+          "why": "Âm thanh rõ nhất khi bạn làm việc tại một chiếc bàn và ngồi gần nó."
         }
       },
       "quiz": {
-        "more": "More about microphones",
+        "more": "Thêm về microphones",
         "comfortable": {
-          "title": "Pick a microphone you'd be comfortable using",
-          "body": "All of them work. Choose the one you'd happily wear or keep on your desk."
+          "title": "Chọn một micro bạn cảm thấy thoải mái sử dụng",
+          "body": "Tất cả đều hoạt động. Chọn một cái bạn sẽ thoải mái mặc hoặc để trên bàn làm việc."
         },
         "workplace": {
-          "title": "Where do you usually work?",
-          "body": "Whispering matters most when people are close by.",
+          "title": "Bạn thường làm việc ở đâu?",
+          "body": "Việc thầm thì quan trọng nhất khi mọi người đang gần nhau.",
           "private": {
-            "label": "Somewhere private",
-            "hint": "A home office or a room to yourself"
+            "label": "Địa điểm riêng tư",
+            "hint": "Một văn phòng gia đình hoặc một phòng riêng cho mình"
           },
           "mixed": {
-            "label": "A bit of both",
-            "hint": "Sometimes alone, sometimes with people around"
+            "label": "Một chút của cả hai",
+            "hint": "Thỉnh thoảng một mình, thỉnh thoảng cùng người khác"
           },
           "shared": {
-            "label": "Around other people",
-            "hint": "An open office, a café, a shared room"
+            "label": "Quanh những người khác",
+            "hint": "Một văn phòng mở, một quán cà phê, một phòng chung"
           }
         },
         "moves": {
-          "title": "Do you move between places?",
-          "body": "A microphone that travels with you helps if you do.",
+          "title": "Bạn có di chuyển giữa các nơi không?",
+          "body": "Một micro mà bạn mang theo sẽ giúp nếu bạn làm.",
           "one_desk": {
-            "label": "I stay at one desk",
-            "hint": "The same setup every day"
+            "label": "Tôi ở một bàn làm việc",
+            "hint": "Cùng một thiết lập mỗi ngày"
           },
           "different_places": {
-            "label": "I work in different places",
-            "hint": "Home, office, trains, cafés"
+            "label": "Tôi làm việc ở những nơi khác nhau",
+            "hint": "Nhà, văn phòng, tàu điện, quán cà phê"
           }
         },
         "owned": {
-          "title": "Which microphones do you have?",
-          "body": "Pick every one you have. A Mac mini or Mac Studio has no microphone of its own.",
-          "continue": "See my match"
+          "title": "Bạn có những micro nào?",
+          "body": "Chọn tất cả những thứ bạn có. Một Mac mini hoặc Mac Studio không có micro riêng.",
+          "continue": "Xem trận đấu của tôi"
         }
       },
       "results": {
-        "title": "Your microphone match",
-        "body": "Based on your answers. Nothing is saved or sent anywhere.",
-        "bestLine": "Best match: {{mic}}.",
-        "caption": "How each kind of microphone does",
+        "title": "Phù hợp với micro của bạn",
+        "body": "Dựa trên các câu trả lời của bạn. Không có gì được lưu hoặc gửi đi.",
+        "bestLine": "Phù hợp tốt nhất: {{mic}}.",
+        "caption": "Cách mỗi loại micro làm việc",
         "columns": {
           "mic": "Microphone",
-          "quality": "Mic quality",
-          "others": "Whispering around others",
-          "home": "Whispering at home",
-          "price": "Price",
-          "best": "Best match"
+          "quality": "Chất lượng micro",
+          "others": "Đọc chính tả xung quanh người khác",
+          "home": "Đọc chính tả tại nhà",
+          "price": "Giá",
+          "best": "Phù hợp nhất"
         },
-        "notBest": "Not the best match",
+        "notBest": "Không phải là sự khớp tốt nhất",
         "rating": {
-          "fair": "Fair",
-          "good": "Good",
-          "great": "Great"
+          "fair": "Trung bình",
+          "good": "Tốt",
+          "great": "Rất tốt"
         },
         "price": {
-          "included": "Comes with most laptops",
-          "low": "Low",
-          "medium": "Medium",
-          "owned": "You have one"
+          "included": "Gồm hầu hết các máy tính xách tay",
+          "low": "Thấp",
+          "medium": "Trung bình",
+          "owned": "Bạn có một"
         },
         "copy": {
-          "label": "Copy results",
-          "heading": "{{appName}}: my microphone match",
-          "best": "Best match: {{mic}}",
-          "unanswered": "not answered",
-          "noneOwned": "none"
+          "label": "Sao chép kết quả",
+          "heading": "{{appName}}: microPHONE match",
+          "best": "Phù hợp tốt nhất: {{mic}}",
+          "unanswered": "chưa trả lời",
+          "noneOwned": "không có"
         },
-        "copied": "Copied",
-        "copyFailed": "Could not copy. Select the table and copy it instead.",
-        "done": "Done"
+        "copied": "Đã sao chép",
+        "copyFailed": "Không thể sao chép. Vui lòng chọn bảng và sao chép nó thay vào đó.",
+        "done": "Xong"
       }
     }
   },

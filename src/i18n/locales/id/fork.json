@@ -27,7 +27,6 @@
       "ok": "ok ({{detail}})",
       "failed": "gagal ({{detail}})",
       "noViolations": "Tidak ditemukan pelanggaran CSP.",
-      "violations_one": "{{count}} pelanggaran CSP tercatat.",
       "violations_other": "{{count}} pelanggaran CSP tercatat.",
       "checks": {
         "media": "Audio (protokol aset)",
@@ -365,7 +364,6 @@
     "hotkeys": {
       "open": "Pintasan",
       "loading": "Memuat pintasan...",
-      "description": "Tambahkan hingga {{max}} pintasan untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya.",
       "secureInputHelp": "macOS Secure Input melindungi entri kata sandi dengan menyembunyikan ketikan dari aplikasi lain. Pengaturan pintas ketik menghentikan saat aktif.",
       "count": "{{count}} dari {{max}} diatur",
       "notSet": "Tidak diatur",
@@ -407,7 +405,7 @@
         "press_enter": "Tekan Enter",
         "undo_cancel": "Unduh batalkan",
         "transform": {
-          "polish": "Perbaiki teks yang dipilih",
+          "polish": "Polish text yang dipilih",
           "prompt_engineer": "Ubah teks terpilih menjadi prompt AI",
           "view_changes": "Lihat perubahan transformasi"
         },
@@ -425,14 +423,15 @@
         "press_enter": "Tekan Return di aplikasi di mana Anda sedang mengetik. Tombol samping mouse bekerja dengan baik di sini.",
         "undo_cancel": "Memulai kembali sebuah dictation setelah Anda membatalkannya.",
         "transform": {
-          "polish": "Ubah teks yang dipilih dengan bahasa Polandia.",
+          "polish": "Ubah teks yang dipilih dengan Polish.",
           "prompt_engineer": "Ubah teks yang dipilih menjadi prompt AI yang jelas.",
           "view_changes": "Uji transformasi terbaru sebelum dan sesudah."
         },
         "scratchpad": {
           "open": "Lanjutkan catatan terakhir Anda atau mulai yang baru, sesuai dengan pengaturan Scratchpad Anda."
         }
-      }
+      },
+      "description_other": "Tambahkan hingga {{max}} pintasan papan ketik untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya."
     },
     "resetSetting": "Reset {{setting}}"
   },
@@ -454,7 +453,6 @@
         "title": "Tidak ada yang baru",
         "body": "Perbaruan dan tips akan muncul di sini."
       },
-      "bellUnread_one": "Notifikasi, {{count}} belum dibaca",
       "bellUnread_other": "Notifikasi, {{count}} belum dibaca",
       "filter": {
         "label": "Tampilkan",
@@ -528,7 +526,7 @@
             "notes": "Catatan segera setelah telepon",
             "prompt": "Sebuah prompt panjang untuk percakapan AI"
           },
-          "quiet": "Dictate quietly: show me how"
+          "quiet": "Mendikte diam-diam: tunjukkan bagaimana"
         },
         "empty": {
           "title": "Dictatamu akan muncul di sini",
@@ -645,7 +643,6 @@
       "limit": "Sampai 3 MB.",
       "formatLink": "Format yang diterima",
       "csvFilter": "file CSV",
-      "fileSummary_one": "{{name}}: {{count}} baris",
       "fileSummary_other": "{{name}}: {{count}} baris",
       "hasHeader": "Baris pertama mengandung nama kolom",
       "optional": "(opsional)",
@@ -653,7 +650,6 @@
       "column": "Kolom {{letter}}",
       "columnNamed": "Kolom {{letter}}: {{name}}",
       "mapRequired": "Pilih kolom untuk setiap field yang tidak wajib.",
-      "previewCaption_one": "Pratinjau baris pertama",
       "previewCaption_other": "Pratinjau baris pertama {{count}}",
       "rowHeader": "Bar",
       "cancel": "Batal",
@@ -681,7 +677,6 @@
       "edit": "Sunting",
       "view": "Lihat",
       "window": "Jendela",
-      "wordsDictated_one": "{{count}} kata yang dikatakan",
       "wordsDictated_other": "{{count}} kata yang dikatakan",
       "copyLast": "Salin naskah terakhir",
       "copyLastPreview": "Salin naskah terakhir: \"{{preview}}\"",
@@ -691,9 +686,7 @@
       "moreLanguages": "Tambah atau hapus bahasa…",
       "automaticMicrophone": "Deteksi otomatis (pengaturan sistem)",
       "noMicrophones": "Tidak ditemukan mikrofon",
-      "dictionaryWords_one": "{{count}} kata kamus",
       "dictionaryWords_other": "{{count}} kata kamus",
-      "snippetCount_one": "{{count}} snippet",
       "snippetCount_other": "{{count}} snippet",
       "addWord": "Tambahkan kata…",
       "newSnippet": "Snippet baru…",
@@ -771,7 +764,6 @@
         "body": "{{appName}} {{version}} akan diinstal saat aplikasi diperbarui."
       },
       "queuedTakesReady": {
-        "title_one": "{{count}} dictasi siap",
         "title_other": "{{count}} dictasi siap",
         "body": "Yang Anda katakan saat model bicara tidak tersedia telah di transkripsi."
       },
@@ -789,12 +781,12 @@
         "body": "Tidak bisa dibaca, jadi dimulai yang baru. File rusak tetap disimpan di sampingnya."
       },
       "milestoneWords": {
-        "title": "{{words}} kata yang dikatakan",
-        "body": "Itu adalah {{words}} kata yang tidak perlu Anda ketik. Selamat."
+        "title_other": "{{count}} kata yang didikte",
+        "body_other": "Itu adalah {{count}} kata yang tidak perlu Anda ketik. Selamat."
       },
       "milestoneStreak": {
-        "title": "streak {{days}} hari",
-        "body": "Anda telah mengetikkan perintah selama {{days}} hari berturut-turut."
+        "title_other": "deretan {{count}} hari",
+        "body_other": "Anda telah mendikte selama {{count}} hari berturut-turut."
       },
       "tips": {
         "handsFree": {
@@ -834,7 +826,6 @@
         "openAccessibility": "Buka Pengaturan"
       },
       "takeRecovered": {
-        "title_one": "Sebuah rekaman disimpan saat aplikasi dimatikan",
         "title_other": "{{count}} rekaman disimpan saat aplikasi dimatikan",
         "body": "Mereka masih mencatat saat {{appName}} ditutup. Mereka ada di Sejarah, di mana mereka telah diterjemahkan."
       }
@@ -1008,9 +999,9 @@
         "not_enabled": "Apple Intelligence dinonaktifkan di System Settings. Wispr Bro menggunakan model pembersih sendiri.",
         "model_not_ready": "Apple Intelligence masih mempersiapkan modelnya.",
         "unsupported": "Apple Intelligence membutuhkan macOS 26 atau lebih baru. Wispr Bro menggunakan model pembersihnya sendiri.",
-        "unknown": "Kecerdasan Buatan Apple saat ini tidak tersedia."
+        "unknown": "Apple Intelligence belum tersedia saat ini."
       },
-      "counts": "Since the app started: {{requests}} permintaan, {{refusals}} ditolak, {{rateLimited}} terbatas."
+      "counts": "Since aplikasi dimulai: permintaan {{requests}}, ditolak {{refusals}}, terbatas {{rateLimited}}."
     }
   },
   "home": {
@@ -1038,10 +1029,10 @@
     },
     "voiceProfile": {
       "title": "Profil suara Anda",
-      "progress": "{{current}} dari {{goal}} kata",
-      "locked": "Dibuka pada {{goal}} kata. Terus berbicara untuk membangunnya.",
       "unlocked": "Dibuka. Lihat bagaimana Anda berbicara di Insights.",
-      "open": "Buka Insights"
+      "open": "Buka Insights",
+      "progress_other": "{{current}} dari {{goal}} kata",
+      "locked_other": "Dikunci pada {{goal}} kata. Terus mendikte untuk membangunnya."
     },
     "history": {
       "title": "Dictasan Anda disimpan di Mac ini",
@@ -1054,7 +1045,6 @@
     "added": "Ditambahkan “{{entry}}”.",
     "search": "Cari dalam kamus Anda",
     "refresh": "Segarkan",
-    "shown_one": "{{count}} entri ditampilkan",
     "shown_other": "{{count}} entri ditampilkan",
     "deleted": "Dihapus “{{entry}}”.",
     "deleteFailed": "Entri tersebut tidak bisa dihapus. Silakan coba lagi.",
@@ -1085,7 +1075,6 @@
     "entry": {
       "rule": "{{from}} → {{to}}",
       "becomes": "menjadi",
-      "used_one": "Digunakan {{count}} kali",
       "used_other": "Digunakan {{count}} kali",
       "edit": "Sunting {{entry}}",
       "delete": "Hapus {{entry}}",
@@ -1118,11 +1107,11 @@
     },
     "problem": {
       "empty": "Masukkan kata terlebih dahulu.",
-      "too_long": "Kata bisa mencapai {{max}} karakter.",
-      "replacement_too_long": "Pengganti dapat mencapai {{maxReplacement}} karakter.",
       "same_as_replacement": "Pengganti sama dengan kata tersebut.",
       "control_character": "Pemberhentian baris dan tab tidak bisa digunakan di sini.",
-      "full": "Kamus Anda penuh. Hapus beberapa entri terlebih dahulu."
+      "full": "Kamus Anda penuh. Hapus beberapa entri terlebih dahulu.",
+      "too_long_other": "Kata dapat mencapai {{max}} karakter.",
+      "replacement_too_long_other": "Pengganti dapat mencapai {{maxReplacement}} karakter."
     },
     "dialog": {
       "addTitle": "Tambah ke kamus",
@@ -1163,18 +1152,12 @@
         "encoding": "Simpan sebagai CSV UTF-8 agar akent dan skrip lainnya muncul."
       },
       "review": {
-        "new_one": "entry baru",
         "new_other": "entri baru",
-        "duplicates_one": "sudah ada",
         "duplicates_other": "sudah ada",
-        "conflicts_one": "konflik",
         "conflicts_other": "konflik",
-        "invalid_one": "tidak bisa diimpor",
         "invalid_other": "tidak bisa diimpor",
-        "overLimit_one": "Diksi Anda masih memiliki ruang untuk {{room}} lebih; {{count}} entri baru tidak akan masuk.",
         "overLimit_other": "Diksi Anda masih memiliki ruang untuk {{room}} lebih; {{count}} entri baru tidak akan masuk.",
         "showNew": "Tampilkan entri baru",
-        "more_one": "dan {{count}} lebih",
         "more_other": "dan {{count}} lainnya",
         "conflictsTitle": "Sudah ada di kamarmu, berbeda",
         "conflictsHelp": "Centang yang mana saja di mana versi file harus menggantikan versi Anda.",
@@ -1186,26 +1169,18 @@
         "invalidRow": "Baris {{row}} ({{phrase}}): {{reason}}"
       },
       "done": {
-        "title_one": "{{count}} entri diimpor",
         "title_other": "{{count}} entri diimpor",
-        "added_one": "{{count}} ditambahkan",
         "added_other": "{{count}} ditambahkan",
-        "replaced_one": "{{count}} diganti dengan versi file",
         "replaced_other": "{{count}} diganti dengan versi file",
-        "skipped_one": "{{count}} sudah ada, diabaikan",
         "skipped_other": "{{count}} sudah ada, diabaikan",
-        "kept_one": "{{count}} konflik dipertahankan seperti semula",
         "kept_other": "{{count}} konflik dipertahankan karena sebelumnya",
-        "invalid_one": "{{count}} baris tidak bisa diimpor",
         "invalid_other": "{{count}} baris tidak bisa diimpor",
-        "overLimit_one": "{{count}} tidak masuk (diksi penuh)",
         "overLimit_other": "{{count}} tidak masuk (diksi penuh)"
       }
     },
     "export": {
       "open": "Ekspor",
       "fileName": "{{appName}} dictionary.csv",
-      "done_one": "Dieduksi {{count}} entri.",
       "done_other": "Diekspor {{count}} entri.",
       "failed": "Kamus tidak bisa diekspor. Silakan coba lagi."
     },
@@ -1238,7 +1213,6 @@
     "settingUpPercent": "Menyiapkan… {{percent}}%",
     "settingUpHint": "Kata-kata Anda sudah disimpan. Teksnya muncul di sini saat dikte siap.",
     "cardReady": "Dikte Anda",
-    "cardMore_one": "Dikte Anda · {{count}} lagi di Riwayat",
     "cardMore_other": "Dikte Anda · {{count}} lagi di Riwayat",
     "copy": "Salin",
     "copied": "Disalin",
@@ -1258,8 +1232,8 @@
     "banner": {
       "title": "Ubah teks yang dipilih di aplikasi apa pun",
       "body": "Pilih transformasi, pilih teks, dan gunakan pintasnya. Tulisan Anda tetap di Mac ini.",
-      "tryIt": "Try it",
-      "howItWorks": "How it works"
+      "tryIt": "Coba saja",
+      "howItWorks": "Cara kerjanya"
     },
     "enable": {
       "title": "Aktifkan Transforms",
@@ -1355,17 +1329,16 @@
     },
     "examples": {
       "title": "Contoh penulisan",
-      "help": "Tempel atau muat hingga {{max}} contoh, masing-masing {{chars}} karakter. Mereka membimbing gaya tanpa menjadi bagian dari hasil.",
       "fileType": "Teks atau Markdown",
       "label": "Contoh menulis {{number}}",
       "count": "{{count}} / {{max}}",
       "paste": "Tempel contoh",
       "load": "Muat .txt atau .md",
       "remove": "Hapus contoh {{number}}",
-      "readError": "Pilih file .txt atau .md dengan tidak lebih dari 1.500 karakter."
+      "readError": "Pilih file .txt atau .md dengan tidak lebih dari 1.500 karakter.",
+      "help_other": "Tempel atau muat hingga {{max}} contoh, masing-masing {{chars}} karakter. Mereka membimbing gaya tanpa menjadi bagian dari hasil."
     },
     "diff": {
-      "changes_one": "{{count}} perubahan",
       "changes_other": "{{count}} perubahan",
       "configure": "Konfigurasi",
       "copy": "Salin",
@@ -1378,7 +1351,7 @@
       "simpleView": "Menampilkan satu penggantian untuk perubahan besar atau kompleks ini.",
       "actionFailed": "Aksi tersebut gagal. Teks Anda masih di sini; coba lagi."
     },
-    "startTutorial": "Start tutorial"
+    "startTutorial": "Mulai tutorial"
   },
   "cleanup": {
     "title": "Pembersihan",
@@ -1408,10 +1381,9 @@
     "last": {
       "title": "Pengucapan terakhir",
       "none": "Tidak ada dictation sejak aplikasi dimulai.",
-      "applied_one": "Dihapus dalam {{ms}} ms, {{count}} perubahan.",
       "applied_other": "Dihapus dalam {{ms}} ms, {{count}} perubahan.",
-      "partial": "Dihapus sebagian ({{applied}} dari {{total}} paragraf); sisanya seperti yang diucapkan: {{reason}}",
-      "checks": "Pemeriksaan keamanan yang menghentikannya: {{checks}}"
+      "checks": "Pemeriksaan keamanan yang menghentikannya: {{checks}}",
+      "partial_other": "Dikosongkan sebagian ({{applied}} dari {{total}} paragraf); sisanya seperti yang diucapkan: {{reason}}"
     },
     "why": {
       "level_none": "Pembersihan dinonaktifkan.",
@@ -1441,15 +1413,12 @@
     "added": "Ditambahkan “{{trigger}}”.",
     "search": "Cari snippet Anda",
     "refresh": "Segarkan",
-    "shown_one": "{{count}} snippet ditampilkan",
     "shown_other": "{{count}} snippet ditampilkan",
     "deleted": "Dihapus “{{trigger}}”.",
     "deleteFailed": "Snippet tersebut tidak bisa dihapus. Silakan coba lagi.",
     "undo": "Unduh",
     "counts": {
-      "snippets_one": "{{count}} snippet",
       "snippets_other": "{{count}} snippet",
-      "uses_one": "digunakan {{count}} kali",
       "uses_other": "digunakan {{count}} kali"
     },
     "sort": {
@@ -1471,10 +1440,8 @@
     "entry": {
       "becomes": "ditulis sebagai",
       "pair": "{{trigger}} → {{text}}",
-      "lines_one": "{{count}} baris",
       "lines_other": "{{count}} baris",
       "imported": "Diperimpitkan",
-      "used_one": "Digunakan {{count}} kali",
       "used_other": "Digunakan {{count}} kali",
       "edit": "Sunting {{trigger}}",
       "delete": "Hapus {{trigger}}"
@@ -1494,13 +1461,13 @@
     },
     "problem": {
       "empty_trigger": "Tulis apa yang akan kamu katakan terlebih dahulu.",
-      "trigger_too_long": "Yang kamu katakan bisa mencapai {{max}} karakter.",
       "trigger_not_spoken": "Yang kamu katakan perlu setidaknya satu huruf atau angka.",
       "trigger_control_character": "Yang kamu katakan harus masuk dalam satu baris.",
       "empty_body": "Masukkan teks yang ingin ditulis.",
-      "body_too_long": "Teks dapat mencapai {{maxBody}} karakter.",
       "body_control_character": "Teks mengandung karakter yang tidak bisa ditulis. Hapus karakter tersebut dan coba lagi.",
-      "full": "Anda memiliki jumlah snippet terbanyak yang dapat disimpan oleh aplikasi. Hapus beberapa dulu."
+      "full": "Anda memiliki jumlah snippet terbanyak yang dapat disimpan oleh aplikasi. Hapus beberapa dulu.",
+      "trigger_too_long_other": "Yang Anda katakan bisa mencapai {{max}} karakter.",
+      "body_too_long_other": "Teks ini dapat mencapai {{maxBody}} karakter."
     },
     "dialog": {
       "addTitle": "Tambahkan snippet",
@@ -1532,24 +1499,17 @@
         "intro": "Satu snippet per baris:",
         "columns": "Kolom pertama adalah yang kamu katakan; kolom kedua adalah teks yang akan ditulis.",
         "lines": "Sebuah teks dengan baris baru dimasukkan dalam tanda kutip, seperti yang disimpan oleh aplikasi spreadsheet.",
-        "limits": "Yang kamu katakan hingga {{max}} karakter, teks hingga {{maxBody}}, paling banyak 1.000 baris dan 3 MB per file.",
-        "encoding": "Simpan sebagai CSV UTF-8 agar tanda baca dan skrip lainnya muncul."
+        "encoding": "Simpan sebagai CSV UTF-8 agar tanda baca dan skrip lainnya muncul.",
+        "limits_other": "Yang Anda katakan hingga {{max}} karakter, teks hingga {{maxBody}}, paling banyak 1.000 baris dan 3 MB per file."
       },
       "review": {
-        "new_one": "snippet baru",
         "new_other": "snippets baru",
-        "duplicates_one": "sudah ada",
         "duplicates_other": "sudah ada",
-        "conflicts_one": "konflik",
         "conflicts_other": "konflik",
-        "invalid_one": "tidak bisa diimpor",
         "invalid_other": "tidak bisa diimpor",
-        "overLimit_one": "Ada ruang untuk {{room}} lebih; {{count}} snippet baru tidak akan masuk.",
         "overLimit_other": "Ada ruang untuk {{room}} lebih; {{count}} snippet baru tidak akan masuk.",
-        "ignoredRows_one": "Hanya 1.000 baris pertama yang dibaca; {{count}} baris lebih diabaikan.",
         "ignoredRows_other": "Hanya 1.000 baris pertama yang dibaca; {{count}} baris lainnya diabaikan.",
         "showNew": "Tampilkan snippet baru",
-        "more_one": "dan {{count}} lebih",
         "more_other": "dan {{count}} lainnya",
         "conflictsTitle": "Sudah disimpan dengan teks lain",
         "conflictsHelp": "Centang yang mana saja di mana teks file harus menggantikan yang ada.",
@@ -1561,26 +1521,18 @@
         "invalidRow": "Baris {{row}} ({{trigger}}): {{reason}}"
       },
       "done": {
-        "title_one": "{{count}} snippet diimpor",
         "title_other": "{{count}} snippet diimpor",
-        "added_one": "{{count}} ditambahkan",
         "added_other": "{{count}} ditambahkan",
-        "replaced_one": "{{count}} diganti dengan teks file",
         "replaced_other": "{{count}} diganti dengan teks file",
-        "skipped_one": "{{count}} sudah ada, dilewati",
         "skipped_other": "{{count}} sudah ada, diabaikan",
-        "kept_one": "{{count}} konflik dipertahankan seperti semula",
         "kept_other": "{{count}} konflik dipertahankan karena sebelumnya",
-        "invalid_one": "{{count}} baris tidak bisa diimpor",
         "invalid_other": "{{count}} baris tidak bisa diimpor",
-        "overLimit_one": "{{count}} tidak sesuai",
         "overLimit_other": "{{count}} tidak sesuai"
       }
     },
     "export": {
       "open": "Ekspor",
       "fileName": "{{appName}} snippets.csv",
-      "done_one": "Diekspor {{count}} snippet.",
       "done_other": "Diekspor {{count}} snippet.",
       "failed": "Snippet tidak bisa diekspor. Silakan coba lagi."
     }
@@ -1609,7 +1561,6 @@
     },
     "words": {
       "title": "Jumlah kata",
-      "dictations_one": "dalam {{count, number}} dictasi",
       "dictations_other": "dalam {{count, number}} dictasi"
     },
     "fixes": {
@@ -1620,7 +1571,6 @@
     "categories": {
       "title": "Di mana Anda mengatur",
       "empty": "Dicatat di beberapa aplikasi untuk melihat ke mana kata-kata Anda pergi.",
-      "words_one": "{{count, number}} kata",
       "words_other": "{{count, number}} kata",
       "documents": "Dokumen",
       "ai_prompts": "prompts AI",
@@ -1633,11 +1583,8 @@
       "title": "Streak Anda",
       "current": "Streak saat ini",
       "longest": "Rantai terpanjang",
-      "days_one": "{{count, number}} hari",
       "days_other": "{{count, number}} hari",
-      "active_one": "1 hari dengan dictation dalam tahun terakhir",
       "active_other": "{{count, number}} hari dengan dictation dalam satu tahun terakhir",
-      "day_one": "{{date}}: {{count, number}} kata",
       "day_other": "{{date}}: {{count, number}} kata",
       "less": "Kurang",
       "more": "Lebih",
@@ -1648,30 +1595,26 @@
       "band4": "750 kata atau lebih"
     },
     "voice": {
-      "lockedTitle": "Profil suara Anda terbuka saat mencapai {{goal}} kata",
-      "lockedBody": "Lanjutkan mengetik: {{current}} dari {{goal}} kata hingga saat ini. Kemudian Anda akan melihat frasa yang sering digunakan, kapan dan di mana Anda mengetik, serta kata-kata yang {{appName}} perbaiki untuk Anda.",
       "locked": "Dilock",
       "phrase": "Frasa Anda",
-      "phraseIn_one": "Dalam {{count, number}} dictasi",
       "phraseIn_other": "Di {{count, number}} dictasi",
       "peak": "Waktu puncak dan aplikasi",
       "peakApp": "Kata-kata paling banyak di {{app}}",
       "word": "Kata yang paling digunakan",
-      "uses_one": "Digunakan {{count, number}} kali",
       "uses_other": "Digunakan {{count, number}} kali",
       "corrected": "Kata yang paling dikoreksi",
       "pair": "{{heard}} → {{written}}",
-      "fixed_one": "Diperbaiki {{count, number}} kali",
       "fixed_other": "Diperbaiki {{count, number}} kali",
       "notEnough": "Belum cukup dictasi.",
-      "footnote_one": "Dikalkulasi dari dictasi terbaru ini di Mac Anda. Tidak ada yang meninggalkan Mac Anda.",
       "footnote_other": "Dikerjakan di Mac ini dari {{count, number}} dictasi terbaru Anda. Tidak ada yang meninggalkan Mac Anda.",
       "sample": {
         "phrase": "sebuah kalimat yang sering kamu ucapkan",
         "peak": "waktu sehari",
         "word": "kata favorit",
         "corrected": "kata yang diperbaiki"
-      }
+      },
+      "lockedTitle_other": "Profil suara Anda terbuka pada {{goal}} kata",
+      "lockedBody_other": "Lanjutkan mendikte: {{current}} dari {{goal}} kata hingga saat ini. Kemudian Anda akan melihat frasa yang paling sering digunakan, kapan dan di mana Anda mendikte, serta kata-kata yang {{appName}} perbaiki untuk Anda."
     }
   },
   "history": {
@@ -1689,9 +1632,7 @@
       "title": "Tidak ditemukan",
       "body": "Tidak ada dictation yang mengandung “{{query}}”."
     },
-    "results_one": "{{count}} dictasi ditemukan",
     "results_other": "{{count}} dictasi ditemukan",
-    "resultsMore_one": "Hasil {{count}} yang paling baru. Geser untuk melihat lebih banyak.",
     "resultsMore_other": "{{count}} hasil pencocokan terbaru. Geser untuk melihat lebih banyak.",
     "search": {
       "open": "Riwayat pencarian",
@@ -1739,7 +1680,6 @@
       "delete": "Hapus transkrip"
     },
     "audio": {
-      "expired_one": "Audio dihapus setelah {{count}} hari",
       "expired_other": "Audio dihapus setelah {{count}} hari",
       "removed": "Audio dihapus",
       "missing": "Tidak ada rekaman untuk dictasi ini",
@@ -1814,7 +1754,7 @@
     "tabs": "Buka catatan",
     "tools": "Alat catatan",
     "sidebar": "Tampilkan daftar catatan",
-    "polish": "Perbaiki catatan",
+    "polish": "Polish catatan",
     "polishing": "Dipolish...",
     "textSize": "Ubah ukuran teks (saat ini {{size}} point)",
     "expand": "Perluas jendela catatan",
@@ -1966,9 +1906,7 @@
       "subtitle": "Pilih setiap bahasa yang Anda dictasikan. Wispr Bro memproses kata-kata Anda lebih baik ketika ia tahu bahasanya.",
       "listLabel": "Bahasa",
       "noMatch": "Tidak ada bahasa yang sesuai dengan “{{query}}”.",
-      "count_one": "Dictation bekerja dalam {{count}} bahasa. Anda bisa mengubahnya nanti di Pengaturan.",
       "count_other": "Pengucapan bekerja dalam {{count}} bahasa. Anda bisa mengubahnya nanti di Pengaturan.",
-      "weak_one": "Pengenalan kurang akurat di {{languages}}. Ini masih berfungsi, tetapi harap siapkan lebih banyak kesalahan.",
       "weak_other": "Pengenalan kurang akurat dalam {{languages}}. Mereka masih bekerja, tetapi harap siapkan lebih banyak kesalahan."
     },
     "permissions": {
@@ -2080,35 +2018,30 @@
       "subtitle": "Di mana pun Anda bisa mengetik, sekarang Anda bisa berbicara saja."
     },
     "timeSaved": {
-      "headline_one": "Menggunakan dictation bisa menghemat Anda sekitar {{hours}} jam per minggu",
       "headline_other": "Menggunakan dictation bisa menghemat Anda sekitar {{hours}} jam per minggu",
       "intro": "Membicarakan lebih cepat daripada mengetik bagi kebanyakan orang. Uji ketik selama 30 detik untuk melihat berapa banyak waktu yang bisa Anda hemat.",
       "howFast": "Berapa cepat kamu ketik?",
       "skipTest": "Lewatkan uji coba",
-      "basisMeasured": "Berdasarkan kecepatan ketik Anda {{wpm}} kata per menit, dan berbicara sekitar {{speaking}} kata per menit.",
-      "basisAverage": "Berdasarkan kecepatan ketik rata-rata {{wpm}} kata per menit, dan berbicara sekitar {{speaking}} kata per menit.",
       "sliderLabel": "Berapa lama Anda mengetik setiap hari?",
-      "hoursPerDay_one": "{{hours}} jam per hari",
       "hoursPerDay_other": "{{hours}} jam per hari",
-      "takeTest": "Ambil uji ketikan"
+      "takeTest": "Ambil uji ketikan",
+      "basisMeasured_other": "Berdasarkan kecepatan ketik Anda {{wpm}} kata per menit dan berbicara sekitar {{speaking}} kata per menit.",
+      "basisAverage_other": "Berdasarkan kecepatan ketik rata-rata {{wpm}} kata per menit, dan berbicara sekitar {{speaking}} kata per menit."
     },
     "typing": {
       "title": "Berapa cepat kamu mengetik?",
-      "instruction": "Tulis paragraf di bawah ini seperti biasa. Jam mulai saat Anda menekan tombol pertama dan berjalan selama {{seconds}} detik.",
       "skip": "Lompat",
       "language": "Bahasa",
       "wpmPending": "— kata per menit",
-      "wpm_one": "{{count}} kata per menit",
       "wpm_other": "{{count}} kata per menit",
-      "secondsLeft_one": "sisa {{count}} detik",
       "secondsLeft_other": "sisa {{count}} detik",
       "inputLabel": "Tulis paragraf di sini",
       "placeholder": "Mulai ketik di sini…",
       "nothing": "Tidak ada yang cocok dengan paragraf tersebut. Coba lagi.",
-      "result_one": "Kamu mengetik sekitar {{count}} kata per menit.",
       "result_other": "Kamu mengetik sekitar {{count}} kata per menit.",
       "tryAgain": "Coba lagi",
-      "recalculate": "Recalculate"
+      "recalculate": "Recalculate",
+      "instruction_other": "Tulis paragraf di bawah ini seperti biasa. Jam dimulai saat Anda memasukkan tombol pertama dan berjalan selama {{seconds}} detik."
     },
     "summary": {
       "title": "Kamu sudah siap",
@@ -2120,7 +2053,6 @@
       "microphone": "Microfon",
       "micDefault": "Kamera default Mac",
       "typing": "Kecepatan ketik",
-      "typingWpm_one": "{{count}} kata per menit",
       "typingWpm_other": "{{count}} kata per menit",
       "typingSkipped": "Tidak diukur",
       "notSet": "Tidak diatur",
@@ -2294,14 +2226,14 @@
         "body": "{{appName}} dimulai bersama Mac Anda, sehingga pintasan Anda selalu berfungsi."
       },
       "try_transform": {
-        "title": "Try a Transform",
-        "action": "Show me",
-        "body": "Select text and press a shortcut: it is rewritten in place."
+        "title": "Coba Transformasi",
+        "action": "Tunjukkan saya",
+        "body": "Pilih teks dan tekan pintasan: teks tersebut direvisi di tempat."
       },
       "try_whisper": {
-        "title": "Try whispering",
-        "action": "Show me",
-        "body": "Dictate quietly when other people are around, and find the right microphone."
+        "title": "Coba berbisik",
+        "action": "Tunjukkan saya",
+        "body": "Mendikte dengan tenang saat orang lain berada di sekitar, dan cari mikrofon yang tepat."
       }
     },
     "coach": {
@@ -2311,265 +2243,265 @@
   },
   "lessons": {
     "common": {
-      "close": "Close the lesson",
-      "back": "Back",
-      "continue": "Continue",
-      "skip": "Skip",
-      "tryIt": "Try it yourself",
-      "tryItOut": "Try it out",
-      "howItWorks": "How it works",
-      "progress": "Step {{step}} of {{total}}",
-      "pause": "Pause animation",
-      "play": "Play animation",
-      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+      "close": "Tutup pelajaran",
+      "back": "Kembali",
+      "continue": "Lanjutkan",
+      "skip": "Lompat",
+      "tryIt": "Coba sendiri",
+      "tryItOut": "Coba saja",
+      "howItWorks": "Cara kerjanya",
+      "progress": "Langkah {{step}} dari {{total}}",
+      "pause": "Jeda animasi",
+      "play": "Putar animasi",
+      "turnOnFailed": "Tidak berhasil diaktifkan. Coba lagi, atau gunakan saklar di halamannya."
     },
     "transforms": {
-      "title": "Transforms",
-      "help": "Learn Transforms",
+      "title": "Transformasi",
+      "help": "Pelajari Transformasi",
       "intro": {
-        "title": "Make your writing say it the way you mean it",
-        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
-        "continue": "Try it out"
+        "title": "Buat tulisan Anda menyampaikan apa yang Anda maksud",
+        "body": "Pilih teks di aplikasi apa pun dan tekan pintasan. Sebuah transformasi mengubahnya langsung di tempat, langsung di Mac ini.",
+        "continue": "Coba saja"
       },
       "cards": {
-        "label": "The same text, three ways",
+        "label": "Teks yang sama, tiga cara",
         "original": {
-          "name": "Original",
-          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+          "name": "Asli",
+          "text": "jadi dasarnya saya ingin memeriksa apakah mungkin kita bisa menunda review ke hari kamis karena angka belum siap dan juga sam sedang tidak ada"
         },
         "polish": {
           "name": "Polish",
-          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+          "text": "Apakah kita bisa memindahkan review ke hari Kamis? Angka-angkanya belum siap, dan Sam sedang berada di luar."
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+          "text": "Tulis catatan singkat dan ramah meminta untuk memindahkan review ke hari Kamis. Alasannya: angka-angkanya belum siap dan Sam sedang tidak ada. Tetapkan hanya dua kalimat."
         }
       },
       "benefits": {
-        "label": "What a transform can do",
-        "shorter": "Says it in fewer words",
-        "clearer": "Rewords for clarity",
-        "order": "Puts points in a better order",
-        "structure": "Adds headings and lists",
-        "tone": "Keeps your tone",
-        "anywhere": "Works in any app you write in"
+        "label": "Apa yang bisa dilakukan oleh transformasi",
+        "shorter": "Mendikte dengan kata-kata yang lebih sedikit",
+        "clearer": "Mengubah kata-kata untuk kejelasan",
+        "order": "Menempatkan titik-titik dalam urutan yang lebih baik",
+        "structure": "Menambahkan judul dan daftar",
+        "tone": "Mempertahankan nada Anda",
+        "anywhere": "Bisa digunakan di setiap aplikasi yang Anda tulis"
       },
       "practice": {
-        "title": "Select the text, then press {{shortcut}}",
-        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
-        "doneTitle": "Text rewritten",
-        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
-        "app": "Chat with Jordan",
-        "context": "Are we still on for the review tomorrow?",
-        "fieldLabel": "Your reply to Jordan",
-        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "title": "Pilih teks, lalu tekan {{shortcut}}",
+        "body": "Pilih pesan di bawah ini (⌘A memilih semua isi), lalu tekan pintasan Polish.",
+        "doneTitle": "Teks direvisi",
+        "doneBody": "Tekan {{view}} untuk melihat perubahan. {{undo}} membatalkan perubahan tersebut.",
+        "app": "Bicarakan dengan Jordan",
+        "context": "Apakah kita masih jadwal ulangan besok?",
+        "fieldLabel": "Jawaban Anda terhadap Jordan",
+        "draft": "hei jadi saya pikir kita sebaiknya pindahkan review ke hari kamis jika itu oke karena angka-angkanya belum siap benar-benar dan saya tidak ingin menampilkan hal yang belum selesai",
         "example": {
-          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
-          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+          "polish": "Apakah kita bisa memindahkan review ke hari Kamis? Angka-angkanya belum siap, dan saya lebih tidak ingin menampilkan pekerjaan yang belum selesai.",
+          "prompt": "Tulis balasan singkat dan sopan meminta agar review besok dipindahkan ke hari Kamis karena angkanya belum siap. Tetaplah ramah dan tidak lebih dari tiga kalimat."
         },
-        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
-        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
-        "working": "Rewriting…",
-        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
-        "barLabel": "The bar",
+        "exampleNote": "Pengulangan tidak tersedia di perangkat ini saat ini, jadi ini hanya contoh. Setelah tersedia, pintasan Anda akan mengubah teks Anda secara sama.",
+        "selectFirst": "Pilih beberapa pesan terlebih dahulu, lalu tekan {{shortcut}} lagi.",
+        "working": "Mengubah...",
+        "spotlight": "Setelah setiap transformasi, bilah di bagian bawah layar Anda menawarkan View changes. Klik itu atau tekan {{view}}.",
+        "barLabel": "Bilah",
         "bar": {
-          "done": "Done",
-          "view": "View changes"
+          "done": "Selesai",
+          "view": "Lihat perubahan"
         },
-        "hideChanges": "Hide the changes"
+        "hideChanges": "Sembunyikan perubahan"
       },
       "how": {
         "select": {
-          "title": "Select text in any app",
-          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
-          "scene": "Animation: a draft email is selected."
+          "title": "Pilih teks di aplikasi apa pun",
+          "body": "Tulis atau mendikte seperti biasa: sebuah email, percakapan, atau dokumen. Lalu pilih yang ingin diubah.",
+          "scene": "Animasi: surat draft dipilih."
         },
         "press": {
-          "title": "Press {{shortcut}}",
-          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
-          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+          "title": "Tekan {{shortcut}}",
+          "body": "Polish mengubah pemilihan secara langsung. Prompt Engineer ({{prompt}}) mengubahnya menjadi prompt jelas untuk asisten AI.",
+          "scene": "Animasi: {{shortcut}} ditekan dan naskah diganti dengan versi yang lebih jelas."
         },
         "changes": {
-          "title": "See what changed",
-          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
-          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+          "title": "Lihat perubahan apa saja",
+          "body": "Tekan {{view}} atau klik Lihat perubahan di bilah: kata-kata yang dihapus ditebalkan, yang baru ditonjolkan. {{undo}} mengembalikan versi awal Anda.",
+          "scene": "Animasi: sebuah kartu daftar perubahan, kata yang dihapus ditebalkan dan kata baru dihighlight."
         }
       },
       "scene": {
-        "app": "Mail: new message",
-        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
-        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+        "app": "Email: pesan baru",
+        "draft": "halo semua, hanya catatan cepat bahwa peluncuran akan dipindahkan ke minggu depan karena kami menemukan bug dalam alur pembayaran dan ingin memperbaikinya terlebih dahulu",
+        "polished": "Hai semua, peluncuran akan dipindahkan ke minggu depan. Kita menemukan bug dalam alur pembayaran dan ingin memperbaikinya terlebih dahulu."
       },
       "finish": {
-        "turnOn": "Turn on Transforms",
-        "done": "Done"
+        "turnOn": "Nyalakan Transformasi",
+        "done": "Selesai"
       }
     },
     "whisper": {
-      "title": "Dictate quietly",
-      "help": "Learn to dictate quietly",
+      "title": "Mendikte dengan diam-diam",
+      "help": "Pelajari cara mendikte dengan diam-diam",
       "soft": {
-        "title": "A soft voice is enough",
-        "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
-        "app": "Notes",
-        "spoken": "“remind me to send the slides before lunch and book a room for friday”",
-        "text": "Remind me to send the slides before lunch and book a room for Friday.",
-        "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
+        "title": "Suara lembut sudah cukup",
+        "body": "Anda tidak perlu berbicara keras. Bisikan saja, dan kata-kata Anda tetap diubah menjadi teks yang bersih, sehingga Anda bisa mendikte di kantor terbuka, di kereta, atau saat seseorang tidur di dekatnya.",
+        "app": "Catatan",
+        "spoken": "“ingatkan saya untuk mengirim slide sebelum makan siang dan reservasi ruangan untuk hari jumat”",
+        "text": "Ingatkan saya untuk mengirim slide sebelum makan siang dan memesan ruangan untuk hari Jumat.",
+        "scene": "Animasi: kalimat yang diucapkan pelan muncul sebagai teks yang ditulis: \"{{text}}\""
       },
       "how": {
-        "title": "How to whisper to your Mac",
-        "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
-        "distance": "About 30 cm, roughly a forearm, from the microphone",
+        "title": "Cara berbisik ke Mac Anda",
+        "body": "Dengan mikrofon yang terintegrasi di Mac Anda, empat kebiasaan membuat suara yang tenang mudah didengar.",
+        "distance": "Sekitar 30 cm, kurang lebih panjang lengan, dari mikrofon",
         "tips": {
           "distance": {
-            "title": "Sit close.",
-            "body": "Face your Mac at about a forearm's length. Leaning in a little helps more than speaking louder."
+            "title": "Duduk dekat.",
+            "body": "Hadapkan wajah Anda ke Mac pada jarak sekitar satu lengan. Miring sedikit membantu lebih dari berbicara lebih keras."
           },
           "breath": {
-            "title": "Whisper with some breath.",
-            "body": "Not the faintest whisper: a little firmer, as if talking to someone across a small table."
+            "title": "Berbisik dengan sedikit napas.",
+            "body": "Tidak ada suara terdengar sedikit pun: lebih kuat sedikit, seperti berbicara kepada seseorang di meja kecil."
           },
           "pace": {
-            "title": "Keep a steady pace.",
-            "body": "Say each word fully and don't let the ends of sentences fade away."
+            "title": "Pertahankan laju yang stabil.",
+            "body": "Ucapkan setiap kata secara lengkap dan jangan biarkan ujung kalimat menghilang."
           },
           "release": {
-            "title": "Let go last.",
-            "body": "Release the key only after your last word, so it is kept."
+            "title": "Lepaskan yang terakhir.",
+            "body": "Lepaskan tombol hanya setelah kata terakhir Anda, agar tetap aktif."
           }
         }
       },
       "practice": {
-        "title": "Whisper this email",
-        "body": "A real take: it lands in the drawn message below and nowhere else.",
-        "doneTitle": "Heard you, even in a whisper",
-        "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
-        "instruction": "Hold {{key}}, whisper the email below, then let go.",
-        "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
+        "title": "Ucapkan email ini",
+        "body": "Sebuah pengalaman nyata: terjadi di pesan yang sudah ditulis di bawah ini dan tidak di tempat lain.",
+        "doneTitle": "Dengar kamu, bahkan dalam bisikan",
+        "doneBody": "Itu semua yang dibutuhkan. Lanjutkan mencari mikrofon yang sesuai dengan Anda.",
+        "instruction": "Tahan {{key}}, bisikkan email di bawah ini, lalu lepaskan.",
+        "unbound": "Tidak ada pintasan dikte yang diatur, sehingga tidak bisa memulai pengambilan di sini. Langsung lewatkan langkah ini sementara dan atur pintasan di Pengaturan.",
         "key": "fn",
-        "keyFallback": "Control and Option",
+        "keyFallback": "Control dan Option",
         "sentenceLabel": "Whisper:",
-        "sentence": "Hi Sam, I'm in a quiet room, so I'm whispering this email. Could we move our call to the afternoon? Thanks a lot.",
-        "app": "New message",
-        "context": "To Sam, about this afternoon",
-        "fieldLabel": "Your whispered email",
-        "placeholder": "Your whispered words appear here.",
+        "sentence": "Hai Sam, saya di ruangan yang tenang, jadi saya berbisik email ini. Apakah kita bisa pindah jadwal panggilan ke siang hari? Terima kasih banyak.",
+        "app": "Pesan baru",
+        "context": "Kepada Sam, soal siang ini",
+        "fieldLabel": "Email Anda yang diomel",
+        "placeholder": "Kata-kata Anda yang diomel muncul di sini.",
         "status": {
-          "idle": "Waiting for you to hold {{key}} and whisper…",
-          "listening": "Listening… let go of {{key}} when you're done.",
-          "working": "Writing it down…",
-          "nothing": "Nothing came through. Check that your microphone is on, then try again.",
-          "low": "{{percent}}% of the words came through. Try once more:",
-          "passed": "{{percent}}% of the words came through.",
-          "example": "This is an example of a whispered take."
+          "idle": "Menunggu Anda menekan {{key}} dan berbisik...",
+          "listening": "Mendengarkan… lepaskan {{key}} saat selesai.",
+          "working": "Mencatatnya...",
+          "nothing": "Tidak ada yang terkirim. Periksa apakah mikrofon Anda menyala, lalu coba lagi.",
+          "low": "{{percent}}% kata telah sampai. Coba lagi:",
+          "passed": "{{percent}}% dari kata-kata berhasil diterima.",
+          "example": "Ini adalah contoh dari suara yang dihembuskan."
         },
-        "exampleNote": "Speech recognition is still being set up on this Mac, so this shows an example. Your own take is saved in History and is written down as soon as setup finishes.",
+        "exampleNote": "Pengenalan suara masih sedang diatur di perangkat ini, jadi ini hanya contoh. Hasil Anda sendiri disimpan di Riwayat dan dicatat segera setelah pengaturan selesai.",
         "tips": {
-          "title": "A few things help",
-          "closer": "Move a little closer to your Mac, about 30 cm away.",
-          "firmer": "Whisper a bit firmer, with more breath behind the words.",
-          "volume": "Raise the input volume in System Settings › Sound › Input.",
-          "openSound": "Open Sound settings"
+          "title": "Beberapa hal yang membantu",
+          "closer": "Gerakkan diri Anda sedikit lebih dekat ke Mac, sekitar 30 cm.",
+          "firmer": "Berbicara sedikit lebih kuat, dengan napas yang lebih besar di balik kata-kata.",
+          "volume": "Naikkan volume masukan di Pengaturan Sistem › Suara › Masukan.",
+          "openSound": "Buka pengaturan Suara"
         }
       },
       "mics": {
         "built_in": {
-          "name": "Built-in microphone",
-          "hint": "Already in your laptop or iMac",
-          "why": "It is already there; sit close and it does the job at home."
+          "name": "Microfon bawaan",
+          "hint": "Sudah ada di laptop Anda atau iMac Anda",
+          "why": "Sudah ada; duduk dekat dan ini bekerja di rumah."
         },
         "wired_headset": {
-          "name": "Wired headset",
-          "hint": "A mic on a short arm or cable, close to your mouth",
-          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+          "name": "Headset Kabel",
+          "hint": "Sebuah mikrofon di ujung kabel pendek, dekat mulut Anda",
+          "why": "Mic berada tepat di dekat mulut Anda, jadi bahkan suara bisikan lemah juga terdengar, di mana pun Anda berada."
         },
         "wireless_earbuds": {
-          "name": "Wireless earbuds",
-          "hint": "Earbuds with a microphone, no cable",
-          "why": "Nothing to plug in and they go everywhere with you."
+          "name": "Telinga tanpa kabel",
+          "hint": "Dengar dengan telinga yang memiliki mikrofon, tanpa kabel",
+          "why": "Tidak perlu disambungkan dan mereka bisa di mana saja bersama Anda."
         },
         "desk_usb": {
-          "name": "Desk or USB mic",
-          "hint": "A microphone that stands on your desk",
-          "why": "The clearest sound when you work at one desk and sit close to it."
+          "name": "Mic meja atau USB",
+          "hint": "Mic yang berdiri di meja Anda",
+          "why": "Suara yang paling jelas ketika Anda bekerja di meja satu dan duduk dekat dengannya."
         }
       },
       "quiz": {
-        "more": "More about microphones",
+        "more": "Lebih tentang mikrofon",
         "comfortable": {
-          "title": "Pick a microphone you'd be comfortable using",
-          "body": "All of them work. Choose the one you'd happily wear or keep on your desk."
+          "title": "Pilih mikrofon yang Anda gunakan dengan nyaman",
+          "body": "Semuanya berfungsi. Pilih yang Anda sukai pakai atau letakkan di meja Anda."
         },
         "workplace": {
-          "title": "Where do you usually work?",
-          "body": "Whispering matters most when people are close by.",
+          "title": "Di mana Anda biasanya bekerja?",
+          "body": "Mendikte penting ketika orang-orang berada dekat.",
           "private": {
-            "label": "Somewhere private",
-            "hint": "A home office or a room to yourself"
+            "label": "Suatu tempat pribadi",
+            "hint": "Sebuah kantor rumah atau ruangan untuk diri sendiri"
           },
           "mixed": {
-            "label": "A bit of both",
-            "hint": "Sometimes alone, sometimes with people around"
+            "label": "Sebagian dari keduanya",
+            "hint": "Kadang sendirian, kadang bersama orang lain"
           },
           "shared": {
-            "label": "Around other people",
-            "hint": "An open office, a café, a shared room"
+            "label": "Di sekitar orang lain",
+            "hint": "Sebuah kantor terbuka, sebuah kafe, sebuah ruangan bersama"
           }
         },
         "moves": {
-          "title": "Do you move between places?",
-          "body": "A microphone that travels with you helps if you do.",
+          "title": "Apakah Anda berpindah antar tempat?",
+          "body": "Mic yang bergerak bersama Anda membantu jika Anda melakukannya.",
           "one_desk": {
-            "label": "I stay at one desk",
-            "hint": "The same setup every day"
+            "label": "Saya tetap di meja satu",
+            "hint": "Pengaturan yang sama setiap hari"
           },
           "different_places": {
-            "label": "I work in different places",
-            "hint": "Home, office, trains, cafés"
+            "label": "Saya bekerja di tempat yang berbeda",
+            "hint": "Rumah, kantor, kereta, kafe"
           }
         },
         "owned": {
-          "title": "Which microphones do you have?",
-          "body": "Pick every one you have. A Mac mini or Mac Studio has no microphone of its own.",
-          "continue": "See my match"
+          "title": "Mic mana yang Anda miliki?",
+          "body": "Pilih semua yang Anda miliki. Mac mini atau Mac Studio tidak memiliki mikrofon sendiri.",
+          "continue": "Lihat pertandingan saya"
         }
       },
       "results": {
-        "title": "Your microphone match",
-        "body": "Based on your answers. Nothing is saved or sent anywhere.",
-        "bestLine": "Best match: {{mic}}.",
-        "caption": "How each kind of microphone does",
+        "title": "Kesesuaian mikrofon Anda",
+        "body": "Berdasarkan jawaban Anda. Tidak ada yang disimpan atau dikirim ke mana pun.",
+        "bestLine": "Pilihan terbaik: {{mic}}.",
+        "caption": "Bagaimana setiap jenis mikrofon bekerja",
         "columns": {
           "mic": "Microphone",
-          "quality": "Mic quality",
-          "others": "Whispering around others",
-          "home": "Whispering at home",
-          "price": "Price",
-          "best": "Best match"
+          "quality": "Kualitas mikrofon",
+          "others": "Mendikte di sekitar orang lain",
+          "home": "Mendikte di rumah",
+          "price": "Harga",
+          "best": "Pertandingan terbaik"
         },
-        "notBest": "Not the best match",
+        "notBest": "Bukan yang terbaik",
         "rating": {
-          "fair": "Fair",
-          "good": "Good",
-          "great": "Great"
+          "fair": "Cukup",
+          "good": "Bagus",
+          "great": "Sangat bagus"
         },
         "price": {
-          "included": "Comes with most laptops",
-          "low": "Low",
-          "medium": "Medium",
-          "owned": "You have one"
+          "included": "Termasuk pada kebanyakan laptop",
+          "low": "Rendah",
+          "medium": "Sedang",
+          "owned": "Anda memiliki satu"
         },
         "copy": {
-          "label": "Copy results",
-          "heading": "{{appName}}: my microphone match",
-          "best": "Best match: {{mic}}",
-          "unanswered": "not answered",
-          "noneOwned": "none"
+          "label": "Salin hasil",
+          "heading": "{{appName}}: mikrofon saya cocok",
+          "best": "Pertandingan terbaik: {{mic}}",
+          "unanswered": "tidak dijawab",
+          "noneOwned": "tidak ada"
         },
-        "copied": "Copied",
-        "copyFailed": "Could not copy. Select the table and copy it instead.",
-        "done": "Done"
+        "copied": "Dikopi",
+        "copyFailed": "Tidak bisa menyalin. Pilih tabel dan salin secara langsung.",
+        "done": "Selesai"
       }
     }
   },

@@ -365,7 +365,6 @@
     "hotkeys": {
       "open": "Tastenkombinationen",
       "loading": "Shortcuts werden geladen…",
-      "description": "Bis zu {{max}} Tastenkombinationen pro Aktion hinzufügen. Änderungen werden im Laufe der Zeit gespeichert.",
       "secureInputHelp": "macOS Secure Input schützt die Eingabe von Passwörtern, indem es Tasteneingaben von anderen Apps verbirgt. Die Tastenkombination wird während der Aktivität pausiert.",
       "count": "{{count}} von {{max}} festgelegt",
       "notSet": "Nicht festgelegt",
@@ -407,7 +406,7 @@
         "press_enter": "Enter drücken",
         "undo_cancel": "Rückgängig machen eine Stornierung",
         "transform": {
-          "polish": "Ausgewählten Text verfeinern",
+          "polish": "Ausgewählten Text polisch machen",
           "prompt_engineer": "Aus dem ausgewählten Text einen AI-Prompt erstellen",
           "view_changes": "Ansichts-Transformationsänderungen"
         },
@@ -425,14 +424,16 @@
         "press_enter": "Drücken Sie Return in der Anwendung, in der Sie schreiben. Eine Maustaste funktioniert hier gut.",
         "undo_cancel": "Eine Diktat wiederherstellen, nachdem sie abgebrochen wurde.",
         "transform": {
-          "polish": "Das ausgewählte Text mit polnisch neu schreiben.",
+          "polish": "Wiederhole den ausgewählten Text mit Polish.",
           "prompt_engineer": "Das ausgewählte Textabschnitt als klares AI-Prompt neu schreiben.",
           "view_changes": "Die neueste Transformation vor und nach der Änderung überprüfen."
         },
         "scratchpad": {
           "open": "Ihre letzte Notiz fortsetzen oder eine neue starten, je nach Ihren Scratchpad-Einstellungen."
         }
-      }
+      },
+      "description_one": "Füge pro Aktion bis zu {{max}} Tastaturkurzbefehl hinzu. Änderungen werden sofort gesichert.",
+      "description_other": "Füge pro Aktion bis zu {{max}} Tastaturkurzbefehle hinzu. Änderungen werden sofort gesichert."
     },
     "resetSetting": "Reset {{setting}}"
   },
@@ -528,7 +529,7 @@
             "notes": "Notizen direkt nach einem Anruf",
             "prompt": "Ein langer Prompt für ein KI-Chat"
           },
-          "quiet": "Dictate quietly: show me how"
+          "quiet": "Diktat leise: zeig mir, wie"
         },
         "empty": {
           "title": "Deine Dictaturen werden hier angezeigt",
@@ -789,12 +790,16 @@
         "body": "Es konnte nicht gelesen werden, daher wurde ein neuer erstellt. Die beschädigte Datei wurde daneben beibehalten."
       },
       "milestoneWords": {
-        "title": "{{words}} Wörter diktiert",
-        "body": "Das sind {{words}} Wörter, die du nicht tippen musst. Gute Arbeit."
+        "title_one": "{{count}} Wort diktiert",
+        "title_other": "{{count}} Wörter diktiert",
+        "body_one": "Das ist {{count}} Wort, das du nicht tippen musstest. Weiter so.",
+        "body_other": "Das sind {{count}} Wörter, die du nicht tippen musstest. Weiter so."
       },
       "milestoneStreak": {
-        "title": "{{days}}-Tage-Streak",
-        "body": "Du hast auf {{days}} Tage in Folge diktiert."
+        "title_one": "{{count}} Tag in Folge",
+        "title_other": "{{count}} Tage in Folge",
+        "body_one": "Du hast an {{count}} Tag in Folge diktiert.",
+        "body_other": "Du hast an {{count}} Tagen in Folge diktiert."
       },
       "tips": {
         "handsFree": {
@@ -1010,7 +1015,7 @@
         "unsupported": "Apple Intelligence benötigt macOS 26 oder neuer. Wispr Bro verwendet sein eigenes Cleanup-Modell.",
         "unknown": "Apple Intelligence ist derzeit nicht verfügbar."
       },
-      "counts": "Seit dem Start der App: {{requests}} Anfragen, {{refusals}} abgelehnt, {{rateLimited}} begrenzt."
+      "counts": "Seit dem Start der App: Anfragen {{requests}}, abgelehnt {{refusals}}, gedrosselt {{rateLimited}}."
     }
   },
   "home": {
@@ -1038,10 +1043,12 @@
     },
     "voiceProfile": {
       "title": "Dein Stimmenprofil",
-      "progress": "{{current}} von {{goal}} Wörtern",
-      "locked": "Entspricht {{goal}} Wörtern. Weiter dictieren, um es zu bauen.",
       "unlocked": "Entschlossen. Schauen Sie, wie Sie sprechen, in Insights.",
-      "open": "Insights öffnen"
+      "open": "Insights öffnen",
+      "progress_one": "{{current}} von {{goal}} Wort",
+      "progress_other": "{{current}} von {{goal}} Wörtern",
+      "locked_one": "Wird bei {{goal}} Wort freigeschaltet. Diktiere weiter, um es aufzubauen.",
+      "locked_other": "Wird bei {{goal}} Wörtern freigeschaltet. Diktiere weiter, um es aufzubauen."
     },
     "history": {
       "title": "Deine Diktate werden auf diesem Mac gespeichert",
@@ -1118,11 +1125,13 @@
     },
     "problem": {
       "empty": "Geben Sie zuerst ein Wort ein.",
-      "too_long": "Wörter können bis zu {{max}} Zeichen lang sein.",
-      "replacement_too_long": "Ersatzwerte können bis zu {{maxReplacement}} Zeichen lang sein.",
       "same_as_replacement": "Der Ersatz ist gleich dem Wort.",
       "control_character": "Zeilenumbrüche und Tabs können hier nicht verwendet werden.",
-      "full": "Dein Wörterbuch ist voll. Lösche zuerst einige Einträge."
+      "full": "Dein Wörterbuch ist voll. Lösche zuerst einige Einträge.",
+      "too_long_one": "Wörter können bis zu {{max}} Zeichen lang sein.",
+      "too_long_other": "Wörter können bis zu {{max}} Zeichen lang sein.",
+      "replacement_too_long_one": "Ersatztexte können bis zu {{maxReplacement}} Zeichen lang sein.",
+      "replacement_too_long_other": "Ersatztexte können bis zu {{maxReplacement}} Zeichen lang sein."
     },
     "dialog": {
       "addTitle": "Zu Wörterbuch hinzufügen",
@@ -1258,8 +1267,8 @@
     "banner": {
       "title": "Ausgewählten Text in jeder App neu schreiben",
       "body": "Ein Transformieren auswählen, Text auswählen und die Tastenkombination verwenden. Dein Schreiben bleibt auf diesem Mac.",
-      "tryIt": "Try it",
-      "howItWorks": "How it works"
+      "tryIt": "Probier es aus",
+      "howItWorks": "Wie es funktioniert"
     },
     "enable": {
       "title": "Transforms aktivieren",
@@ -1284,7 +1293,7 @@
     },
     "myTransforms": "Meine Transformationen",
     "reset": "Zu Standardwerten zurücksetzen",
-    "resetConfirm": "Polnisch und Prompt-Engineer zurücksetzen und jede benutzerdefinierte Transformation entfernen?",
+    "resetConfirm": "Bereinigen Sie Polish und Prompt Engineer und entfernen Sie jede benutzerdefinierte Transformation?",
     "createNew": "Neu erstellen",
     "deleteConfirm": "Löschen Sie {{name}}? Das kann nicht rückgängig gemacht werden.",
     "loading": "Ihre Transformierungen werden geladen…",
@@ -1355,14 +1364,15 @@
     },
     "examples": {
       "title": "Schreibbeispiele",
-      "help": "Fügen Sie oder laden Sie bis zu {{max}} Beispiele hoch, jeweils {{chars}} Zeichen lang. Sie leiten die Stilrichtung ohne sich in das Ergebnis einzubetten.",
       "fileType": "Text oder Markdown",
       "label": "Schreibbeispiel {{number}}",
       "count": "{{count}} / {{max}}",
       "paste": "Beispiel einfügen",
       "load": "Laden von .txt oder .md",
       "remove": "Beispiel entfernen {{number}}",
-      "readError": "Eine .txt- oder .md-Datei mit nicht mehr als 1.500 Zeichen auswählen."
+      "readError": "Eine .txt- oder .md-Datei mit nicht mehr als 1.500 Zeichen auswählen.",
+      "help_one": "Füge bis zu {{max}} Beispiel mit je {{chars}} Zeichen ein oder lade es. Beispiele geben den Stil vor, werden aber nicht Teil des Ergebnisses.",
+      "help_other": "Füge bis zu {{max}} Beispiele mit je {{chars}} Zeichen ein oder lade sie. Beispiele geben den Stil vor, werden aber nicht Teil des Ergebnisses."
     },
     "diff": {
       "changes_one": "{{count}} Änderung",
@@ -1378,7 +1388,7 @@
       "simpleView": "Ein Ersatz für diese große oder komplexe Änderung wird angezeigt.",
       "actionFailed": "Die Aktion ist fehlgeschlagen. Dein Text ist noch hier; versuche es erneut."
     },
-    "startTutorial": "Start tutorial"
+    "startTutorial": "Tutorial starten"
   },
   "cleanup": {
     "title": "Aufräumen",
@@ -1410,8 +1420,9 @@
       "none": "Keine Diktat seit dem Start der App.",
       "applied_one": "Geclebt in {{ms}} ms, {{count}} Änderung.",
       "applied_other": "Geclebt in {{ms}} ms, {{count}} Änderungen.",
-      "partial": "Gesäubert teilweise ({{applied}} von {{total}} Absätzen); der Rest ist wie gesprochen: {{reason}}",
-      "checks": "Sicherheitsprüfungen, die es gestoppt haben: {{checks}}"
+      "checks": "Sicherheitsprüfungen, die es gestoppt haben: {{checks}}",
+      "partial_one": "Teilweise bereinigt ({{applied}} von {{total}} Absatz); der Rest bleibt wie gesprochen: {{reason}}",
+      "partial_other": "Teilweise bereinigt ({{applied}} von {{total}} Absätzen); der Rest bleibt wie gesprochen: {{reason}}"
     },
     "why": {
       "level_none": "Die Bereinigung ist deaktiviert.",
@@ -1494,13 +1505,15 @@
     },
     "problem": {
       "empty_trigger": "Tippe, was du zuerst sagen wirst.",
-      "trigger_too_long": "Was du sagst kann bis zu {{max}} Zeichen lang sein.",
       "trigger_not_spoken": "Was du sagst, muss mindestens ein Buchstabe oder eine Zahl enthalten.",
       "trigger_control_character": "Was du sagst, muss auf einer Zeile passen.",
       "empty_body": "Geben Sie den Text ein, den Sie schreiben möchten.",
-      "body_too_long": "Der Text kann bis zu {{maxBody}} Zeichen lang sein.",
       "body_control_character": "Der Text enthält einen Zeichen, der nicht geschrieben werden kann. Entfernen Sie es und versuchen Sie es erneut.",
-      "full": "Sie haben die maximale Anzahl an Stichwörtern, die die App speichern kann. Löschen Sie einige zuerst."
+      "full": "Sie haben die maximale Anzahl an Stichwörtern, die die App speichern kann. Löschen Sie einige zuerst.",
+      "trigger_too_long_one": "Was du sagst, darf bis zu {{max}} Zeichen lang sein.",
+      "trigger_too_long_other": "Was du sagst, darf bis zu {{max}} Zeichen lang sein.",
+      "body_too_long_one": "Der Text kann bis zu {{maxBody}} Zeichen lang sein.",
+      "body_too_long_other": "Der Text kann bis zu {{maxBody}} Zeichen lang sein."
     },
     "dialog": {
       "addTitle": "Snippet hinzufügen",
@@ -1532,8 +1545,9 @@
         "intro": "Ein Eintrag pro Zeile:",
         "columns": "Die erste Spalte ist das, was du sagst; die zweite ist der Text, den du schreiben willst.",
         "lines": "Ein Text mit Zeilenumbrüchen wird in Anführungszeichen eingegeben, wie Spreadsheet-Apps es speichern.",
-        "limits": "Was Sie sagen, bis zu {{max}} Zeichen, Texte bis zu {{maxBody}}, höchstens 1.000 Zeilen und 3 MB pro Datei.",
-        "encoding": "Als CSV UTF-8 speichern, damit Akzente und andere Schriftarten korrekt angezeigt werden."
+        "encoding": "Als CSV UTF-8 speichern, damit Akzente und andere Schriftarten korrekt angezeigt werden.",
+        "limits_one": "Was du sagst: bis zu {{max}} Zeichen, Texte bis zu {{maxBody}}, höchstens 1.000 Zeilen und 3 MB pro Datei.",
+        "limits_other": "Was du sagst: bis zu {{max}} Zeichen, Texte bis zu {{maxBody}}, höchstens 1.000 Zeilen und 3 MB pro Datei."
       },
       "review": {
         "new_one": "neuer Eintrag",
@@ -1635,7 +1649,7 @@
       "longest": "Längste Folge",
       "days_one": "{{count, number}} Tag",
       "days_other": "{{count, number}} Tage",
-      "active_one": "Ein Tag mit Diktat in den letzten Jahren",
+      "active_one": "{{count, number}} Tag mit Diktat im letzten Jahr",
       "active_other": "{{count, number}} Tage mit Diktat in den letzten Jahren",
       "day_one": "{{date}}: {{count, number}} Wort",
       "day_other": "{{date}}: {{count, number}} Wörter",
@@ -1648,8 +1662,6 @@
       "band4": "750 Wörter oder mehr"
     },
     "voice": {
-      "lockedTitle": "Dein Stimmenprofil entlockt bei {{goal}} Wörtern",
-      "lockedBody": "Weitere Diktat fortsetzen: {{current}} von {{goal}} Wörtern bisher. Dann sehen Sie den häufigsten Ausdruck, wann und wo Sie dictieren, sowie die Wörter, die {{appName}} für Sie korrigiert.",
       "locked": "Geschlossen",
       "phrase": "Deine Phrase",
       "phraseIn_one": "In {{count, number}} Diktat",
@@ -1671,7 +1683,11 @@
         "peak": "eine zeit des tags",
         "word": "ein beliebtes Wort",
         "corrected": "ein Wort, das korrigiert wird"
-      }
+      },
+      "lockedTitle_one": "Dein Stimmprofil wird bei {{goal}} Wort freigeschaltet",
+      "lockedTitle_other": "Dein Stimmprofil wird bei {{goal}} Wörtern freigeschaltet",
+      "lockedBody_one": "Diktiere weiter: bisher {{current}} von {{goal}} Wort. Dann siehst du deinen häufigsten Ausdruck, wann und wo du diktierst und welche Wörter {{appName}} für dich korrigiert.",
+      "lockedBody_other": "Diktiere weiter: bisher {{current}} von {{goal}} Wörtern. Dann siehst du deinen häufigsten Ausdruck, wann und wo du diktierst und welche Wörter {{appName}} für dich korrigiert."
     }
   },
   "history": {
@@ -1814,8 +1830,8 @@
     "tabs": "Notizen öffnen",
     "tools": "Notizwerkzeuge",
     "sidebar": "Notizliste anzeigen",
-    "polish": "Polnische Notiz",
-    "polishing": "Polieren…",
+    "polish": "Notizblock.Polish",
+    "polishing": "Polishing…",
     "textSize": "Textgröße ändern (derzeitige Größe: {{size}} Punkte)",
     "expand": "Notizfenster erweitern",
     "shrink": "Notizfenstergröße wiederherstellen",
@@ -2085,16 +2101,17 @@
       "intro": "Sprechen ist für die meisten Menschen schneller als Tippen. Machen Sie einen 30-Sekunden-Tipptest, um zu sehen, wie viel Zeit Sie sparen können.",
       "howFast": "Wie schnell tippen Sie?",
       "skipTest": "Den Test überspringen",
-      "basisMeasured": "Basierend auf Ihren {{wpm}} Wörtern pro Minute beim Tippen und etwa {{speaking}} Wörtern pro Minute beim Sprechen.",
-      "basisAverage": "Basierend auf einer durchschnittlichen Tippgeschwindigkeit von {{wpm}} Wörtern pro Minute und einer Sprachgeschwindigkeit von etwa {{speaking}} Wörtern pro Minute.",
       "sliderLabel": "Wie lange tippen Sie täglich?",
       "hoursPerDay_one": "{{hours}} Stunde pro Tag",
       "hoursPerDay_other": "{{hours}} Stunden pro Tag",
-      "takeTest": "Den Tipp-Test machen"
+      "takeTest": "Den Tipp-Test machen",
+      "basisMeasured_one": "Bei deinem Tippen mit {{wpm}} Wort pro Minute und Sprechen mit etwa {{speaking}} Wörtern pro Minute.",
+      "basisMeasured_other": "Bei deinem Tippen mit {{wpm}} Wörtern pro Minute und Sprechen mit etwa {{speaking}} Wörtern pro Minute.",
+      "basisAverage_one": "Bei einer durchschnittlichen Tippgeschwindigkeit von {{wpm}} Wort pro Minute und Sprechen mit etwa {{speaking}} Wörtern pro Minute.",
+      "basisAverage_other": "Basierend auf einer durchschnittlichen Tippgeschwindigkeit von {{wpm}} Wörtern pro Minute und einer Sprachgeschwindigkeit von etwa {{speaking}} Wörtern pro Minute."
     },
     "typing": {
       "title": "Wie schnell tippen Sie?",
-      "instruction": "Tipp den Absatz unten wie gewohnt. Die Uhr beginnt mit deinem ersten Tastendruck und läuft für {{seconds}} Sekunden.",
       "skip": "Überspringen",
       "language": "Sprache",
       "wpmPending": "— Wörter pro Minute",
@@ -2108,7 +2125,9 @@
       "result_one": "Sie tippen etwa {{count}} Wörter pro Minute.",
       "result_other": "Sie tippen etwa {{count}} Wörter pro Minute.",
       "tryAgain": "Versuche es erneut",
-      "recalculate": "Neuberechnen"
+      "recalculate": "Neuberechnen",
+      "instruction_one": "Tippe den Absatz unten wie gewohnt ab. Die Zeit beginnt mit deinem ersten Tastendruck und läuft {{seconds}} Sekunde.",
+      "instruction_other": "Tippe den Absatz unten wie gewohnt ab. Die Zeit beginnt mit deinem ersten Tastendruck und läuft {{seconds}} Sekunden."
     },
     "summary": {
       "title": "Sie sind fertig",
@@ -2294,14 +2313,14 @@
         "body": "{{appName}} startet mit deinem Mac, damit dein Shortcut immer funktioniert."
       },
       "try_transform": {
-        "title": "Try a Transform",
-        "action": "Show me",
-        "body": "Select text and press a shortcut: it is rewritten in place."
+        "title": "Ein Transform versuchen",
+        "action": "Zeig mir",
+        "body": "Wähle Text aus und drücke eine Tastenkombination: er wird an der Stelle neu geschrieben."
       },
       "try_whisper": {
-        "title": "Try whispering",
-        "action": "Show me",
-        "body": "Dictate quietly when other people are around, and find the right microphone."
+        "title": "Versuch es mit Flüstern",
+        "action": "Zeig mir",
+        "body": "Diktierst leise, wenn andere Menschen da sind, und suchst den richtigen Mikrofon."
       }
     },
     "coach": {
@@ -2311,265 +2330,265 @@
   },
   "lessons": {
     "common": {
-      "close": "Close the lesson",
-      "back": "Back",
-      "continue": "Continue",
-      "skip": "Skip",
-      "tryIt": "Try it yourself",
-      "tryItOut": "Try it out",
-      "howItWorks": "How it works",
-      "progress": "Step {{step}} of {{total}}",
-      "pause": "Pause animation",
-      "play": "Play animation",
-      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+      "close": "Die Lesson schließen",
+      "back": "Zurück",
+      "continue": "Fortsetzen",
+      "skip": "Überspringen",
+      "tryIt": "Probier es selbst aus",
+      "tryItOut": "Probier es aus",
+      "howItWorks": "Wie es funktioniert",
+      "progress": "Schritt {{step}} von {{total}}",
+      "pause": "Animation pausieren",
+      "play": "Animation abspielen",
+      "turnOnFailed": "Das hat nicht eingeschaltet. Versuche es noch einmal, oder nutze den Schalter auf der Seite."
     },
     "transforms": {
-      "title": "Transforms",
-      "help": "Learn Transforms",
+      "title": "Transformation",
+      "help": "Lerne Transformationen",
       "intro": {
-        "title": "Make your writing say it the way you mean it",
-        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
-        "continue": "Try it out"
+        "title": "Mach deine Schreibweise so, wie du es meinst",
+        "body": "Wähle im beliebigen App-Text aus und drücke eine Tastenkombination. Eine Transformation ändert den Text direkt hier auf deinem Mac.",
+        "continue": "Probier es aus"
       },
       "cards": {
-        "label": "The same text, three ways",
+        "label": "Der gleiche Text, drei Weisen",
         "original": {
           "name": "Original",
-          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+          "text": "also wollte ich einfach überprüfen, ob wir die Prüfung auf Donnerstag verschieben könnten, weil die Zahlen noch nicht bereit sind und Sam auch weg ist"
         },
         "polish": {
           "name": "Polish",
-          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+          "text": "Könnten wir die Prüfung auf Donnerstag verschieben? Die Zahlen sind noch nicht fertig, und Sam ist weg."
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+          "text": "Schreibe eine kurze, freundliche Nachricht, in der du den Überblick auf Donnerstag verschiebst. Gründe: Die Zahlen sind noch nicht fertig und Sam ist weg. Halte es auf zwei Sätze."
         }
       },
       "benefits": {
-        "label": "What a transform can do",
-        "shorter": "Says it in fewer words",
-        "clearer": "Rewords for clarity",
-        "order": "Puts points in a better order",
-        "structure": "Adds headings and lists",
-        "tone": "Keeps your tone",
-        "anywhere": "Works in any app you write in"
+        "label": "Was eine Transformation kann",
+        "shorter": "Sagt es in weniger Wörtern",
+        "clearer": "Wiederholungen für Klarheit",
+        "order": "Setzt die Punkte in einer besseren Reihenfolge",
+        "structure": "Fügt Überschriften und Listen hinzu",
+        "tone": "Hält deinen Stil",
+        "anywhere": "Funktioniert in jeder App, in der du schreibst"
       },
       "practice": {
-        "title": "Select the text, then press {{shortcut}}",
-        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
-        "doneTitle": "Text rewritten",
-        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
-        "app": "Chat with Jordan",
-        "context": "Are we still on for the review tomorrow?",
-        "fieldLabel": "Your reply to Jordan",
-        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "title": "Wähle den Text aus, dann drücke {{shortcut}}",
+        "body": "Wähle die Nachricht unten aus (⌘A wählt alles aus), dann drücke die Tastenkombination für Polish.",
+        "doneTitle": "Text neu geschrieben",
+        "doneBody": "Drücke {{view}}, um die Änderungen anzuzeigen. {{undo}} rückgängig macht es.",
+        "app": "Mit Jordan chatten",
+        "context": "Bleiben wir noch morgen zur Überprüfung?",
+        "fieldLabel": "Deine Antwort auf Jordan",
+        "draft": "hey, also denke ich, wir sollten die Prüfung auf Donnerstag verschieben, wenn das in Ordnung ist, weil die Zahlen noch nicht wirklich fertig sind und ich keine halbfertigen Dinge zeigen möchte",
         "example": {
-          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
-          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+          "polish": "Könnten wir die Prüfung auf Donnerstag verschieben? Die Zahlen sind noch nicht fertig, und ich möchte lieber keine unvollendeten Arbeiten zeigen.",
+          "prompt": "Schreibe eine kurze, höfliche Antwort und frag, ob der Überblick von morgen auf Donnerstag verschoben wird, weil die Zahlen nicht bereit sind. Halte es freundlich und halte es unter drei Sätzen."
         },
-        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
-        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
-        "working": "Rewriting…",
-        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
-        "barLabel": "The bar",
+        "exampleNote": "Das Umformen ist auf diesem Mac noch nicht verfügbar, daher zeigt dies ein Beispiel. Sobald es verfügbar ist, übersetzt dein Tastaturkürzel deinen eigenen Text auf die gleiche Weise.",
+        "selectFirst": "Wähle zuerst einige Textabschnitte aus, dann drücke {{shortcut}} erneut.",
+        "working": "Umbrechen…",
+        "spotlight": "Nach jeder Transformation bietet die Leiste unten auf dem Bildschirm View Änderungen an. Klicke darauf oder drücke {{view}}.",
+        "barLabel": "die Leiste",
         "bar": {
-          "done": "Done",
-          "view": "View changes"
+          "done": "Fertig",
+          "view": "Änderungen ansehen"
         },
-        "hideChanges": "Hide the changes"
+        "hideChanges": "Änderungen verstecken"
       },
       "how": {
         "select": {
-          "title": "Select text in any app",
-          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
-          "scene": "Animation: a draft email is selected."
+          "title": "Text in jeder App auswählen",
+          "body": "Schreibe oder diktiere wie gewohnt: eine E-Mail, ein Chat, ein Dokument. Wähle dann aus, was du neu schreiben möchtest.",
+          "scene": "Animation: ein Entwurf-E-Mail wird ausgewählt."
         },
         "press": {
-          "title": "Press {{shortcut}}",
-          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
-          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+          "title": "Drücke {{shortcut}}",
+          "body": "Polish überarbeitet die Auswahl an Ort und Stelle. Prompt Engineer ({{prompt}}) wandelt sie in einen klaren Prompt für eine KI-Assistenten um.",
+          "scene": "Animation: {{shortcut}} wird gedrückt und der Entwurf wird durch eine klarere Version ersetzt."
         },
         "changes": {
-          "title": "See what changed",
-          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
-          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+          "title": "Was sich geändert hat",
+          "body": "Drücke {{view}} oder klicke auf \"Änderungen anzeigen\" in der Leiste: gelöschte Wörter sind durchgestrichen, neue hervorgehoben. {{undo}} setzt deine ursprüngliche Version zurück.",
+          "scene": "Animation: eine Karte zeigt die Änderungen, entfernte Wörter durchgestrichen und neue Wörter hervorgehoben."
         }
       },
       "scene": {
-        "app": "Mail: new message",
-        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
-        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+        "app": "E-Mail: neues Nachricht",
+        "draft": "Hallo alle, nur ein kurzes Hinweis: der Start verschiebt sich auf nächste Woche, weil wir einen Bug im Zahlungsprozess gefunden haben und diesen zuerst beheben wollen",
+        "polished": "Hallo alle, der Start verschiebt sich auf nächste Woche. Wir haben einen Bug im Zahlungsprozess gefunden und wollen ihn zuerst beheben."
       },
       "finish": {
-        "turnOn": "Turn on Transforms",
-        "done": "Done"
+        "turnOn": "Transforms einschalten",
+        "done": "Fertig"
       }
     },
     "whisper": {
-      "title": "Dictate quietly",
-      "help": "Learn to dictate quietly",
+      "title": "Diktat leise",
+      "help": "Lerne, leise zu diktieren",
       "soft": {
-        "title": "A soft voice is enough",
-        "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
-        "app": "Notes",
-        "spoken": "“remind me to send the slides before lunch and book a room for friday”",
-        "text": "Remind me to send the slides before lunch and book a room for Friday.",
-        "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
+        "title": "Eine weiche Stimme reicht aus",
+        "body": "Du brauchst nicht laut zu sprechen. Flüstere, und deine Worte werden dennoch zu sauberem Text. So kannst du diktieren, wenn du in einem offenen Büro bist, im Zug oder wenn jemand nebenan schläft.",
+        "app": "Notizblock",
+        "spoken": "„erinnere mich, die Präsentation vor dem Mittag zu schicken und einen Raum für Freitag zu buchen“",
+        "text": "Erinnere mich, die Präsentation vor dem Mittag zu schicken und einen Raum für Freitag zu buchen.",
+        "scene": "Animation: ein flüsterndes Satz erscheint als eingegebener Text: „{{text}}“"
       },
       "how": {
-        "title": "How to whisper to your Mac",
-        "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
-        "distance": "About 30 cm, roughly a forearm, from the microphone",
+        "title": "So, wie du deinem Mac flüstern kannst",
+        "body": "Mit dem Mikrofon in deinem Mac sind vier Gewohnheiten ausreichend, um eine leise Stimme gut zu hören.",
+        "distance": "Etwa 30 cm, also eine Armbeuge, vom Mikrofon",
         "tips": {
           "distance": {
-            "title": "Sit close.",
-            "body": "Face your Mac at about a forearm's length. Leaning in a little helps more than speaking louder."
+            "title": "Sitz näher.",
+            "body": "Gehe deine Mac-Entscheidung auf etwa Abstand einer Armlänge. Ein bisschen vorbeugen hilft mehr als lauter sprechen."
           },
           "breath": {
-            "title": "Whisper with some breath.",
-            "body": "Not the faintest whisper: a little firmer, as if talking to someone across a small table."
+            "title": "Whispere mit etwas Atemzug.",
+            "body": "Kein Spitzel: ein bisschen fester, als würde man jemandem über einen kleinen Tisch zuhören."
           },
           "pace": {
-            "title": "Keep a steady pace.",
-            "body": "Say each word fully and don't let the ends of sentences fade away."
+            "title": "Halt eine konstante Geschwindigkeit.",
+            "body": "Sage jedes Wort vollständig und lass die Enden von Sätzen nicht verblasen."
           },
           "release": {
-            "title": "Let go last.",
-            "body": "Release the key only after your last word, so it is kept."
+            "title": "Lass das Letzte los.",
+            "body": "Lass die Taste nur nach deinem letzten Wort los, damit sie beibehalten wird."
           }
         }
       },
       "practice": {
         "title": "Whisper this email",
-        "body": "A real take: it lands in the drawn message below and nowhere else.",
-        "doneTitle": "Heard you, even in a whisper",
-        "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
-        "instruction": "Hold {{key}}, whisper the email below, then let go.",
-        "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
+        "body": "Ein echter Eindruck: es landet in der unten abgebildeten Nachricht und nirgends sonst.",
+        "doneTitle": "Hast du gehört, auch im Flüstern",
+        "doneBody": "Das ist alles, was du brauchst. Suche weiter nach dem Mikrofon, das zu dir passt.",
+        "instruction": "Halt {{key}}, flüstere die E-Mail unten, dann lasse los.",
+        "unbound": "Kein Diktat-Tastaturkürzel eingestellt, daher kann kein Aufnahmebeginn hier erfolgen. Überspringe diesen Schritt für jetzt und stelle ein Kürzel in den Einstellungen ein.",
         "key": "fn",
-        "keyFallback": "Control and Option",
+        "keyFallback": "Steuerung und Option",
         "sentenceLabel": "Whisper:",
-        "sentence": "Hi Sam, I'm in a quiet room, so I'm whispering this email. Could we move our call to the afternoon? Thanks a lot.",
-        "app": "New message",
-        "context": "To Sam, about this afternoon",
-        "fieldLabel": "Your whispered email",
-        "placeholder": "Your whispered words appear here.",
+        "sentence": "Hi Sam, ich bin in einem ruhigen Zimmer, also flüstere ich diese E-Mail. Können wir unseren Anruf auf nachmittags verschieben? Vielen Dank.",
+        "app": "Neue Nachricht",
+        "context": "An Sam, über dieses Nachmittag",
+        "fieldLabel": "Dein flüsterndes E-Mail",
+        "placeholder": "Deine flüsternden Worte erscheinen hier.",
         "status": {
-          "idle": "Waiting for you to hold {{key}} and whisper…",
-          "listening": "Listening… let go of {{key}} when you're done.",
-          "working": "Writing it down…",
-          "nothing": "Nothing came through. Check that your microphone is on, then try again.",
-          "low": "{{percent}}% of the words came through. Try once more:",
-          "passed": "{{percent}}% of the words came through.",
-          "example": "This is an example of a whispered take."
+          "idle": "Warte auf dein Halten von {{key}} und Flüstern…",
+          "listening": "Hörst du zu… gib {{key}} los, sobald du fertig bist.",
+          "working": "Es notieren…",
+          "nothing": "Nichts ist dabei. Stelle sicher, dass dein Mikrofon eingeschaltet ist, dann versuche es noch einmal.",
+          "low": "{{percent}}% der Wörter kamen durch. Versuch es noch einmal:",
+          "passed": "{{percent}}% der Wörter kamen durch.",
+          "example": "Das ist ein Beispiel für ein flüsterndes Aufnahme."
         },
-        "exampleNote": "Speech recognition is still being set up on this Mac, so this shows an example. Your own take is saved in History and is written down as soon as setup finishes.",
+        "exampleNote": "Die Spracherkennung wird noch auf diesem Mac eingerichtet, deshalb zeigt das ein Beispiel. Deine eigene Version wird im Verlauf gespeichert und sobald die Einstellung abgeschlossen ist, wird sie aufgeschrieben.",
         "tips": {
-          "title": "A few things help",
-          "closer": "Move a little closer to your Mac, about 30 cm away.",
-          "firmer": "Whisper a bit firmer, with more breath behind the words.",
-          "volume": "Raise the input volume in System Settings › Sound › Input.",
-          "openSound": "Open Sound settings"
+          "title": "Ein paar Dinge helfen",
+          "closer": "Gehe einen kleinen Schritt näher an dein Mac heran, etwa 30 cm entfernt.",
+          "firmer": "Flüster etwas fester, mit mehr Atem hinter den Wörtern.",
+          "volume": "Erhöhe die Eingabevolumen in Systemeinstellungen › Klang › Eingang.",
+          "openSound": "Sound-Einstellungen öffnen"
         }
       },
       "mics": {
         "built_in": {
-          "name": "Built-in microphone",
-          "hint": "Already in your laptop or iMac",
-          "why": "It is already there; sit close and it does the job at home."
+          "name": "Interner Mikrofon",
+          "hint": "Bereits in deinem Laptop oder iMac",
+          "why": "Es ist bereits da; setz dich nah und es funktioniert zu Hause."
         },
         "wired_headset": {
-          "name": "Wired headset",
-          "hint": "A mic on a short arm or cable, close to your mouth",
-          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+          "name": "Gekoppeltes Headset",
+          "hint": "Ein Mikrofon auf einem kurzen Arm oder Kabel, in der Nähe deines Mundes",
+          "why": "Der Mikrofon liegt direkt bei deinem Mund, also kommt sogar ein leises Flüstern durch, egal wo du bist."
         },
         "wireless_earbuds": {
-          "name": "Wireless earbuds",
-          "hint": "Earbuds with a microphone, no cable",
-          "why": "Nothing to plug in and they go everywhere with you."
+          "name": "Wireless Kopfhörer",
+          "hint": "Kopfhörer mit Mikrofon, kein Kabel",
+          "why": "Nichts zu stecken und sie gehen überall mit dir."
         },
         "desk_usb": {
-          "name": "Desk or USB mic",
-          "hint": "A microphone that stands on your desk",
-          "why": "The clearest sound when you work at one desk and sit close to it."
+          "name": "Tisch- oder USB-Mikrofon",
+          "hint": "Ein Mikrofon, das auf deinem Schreibtisch steht",
+          "why": "Der klarste Klang, wenn du an einem Tisch arbeitest und dicht davor sitzt."
         }
       },
       "quiz": {
-        "more": "More about microphones",
+        "more": "Weitere Infos zu Mikrofonen",
         "comfortable": {
-          "title": "Pick a microphone you'd be comfortable using",
-          "body": "All of them work. Choose the one you'd happily wear or keep on your desk."
+          "title": "Ein Mikrofon auswählen, das dir komfortabel ist",
+          "body": "Alle funktionieren. Wähl den, den du gerne tragen oder auf deinem Schreibtisch lassen würdest."
         },
         "workplace": {
-          "title": "Where do you usually work?",
-          "body": "Whispering matters most when people are close by.",
+          "title": "Wo arbeitest du normalerweise?",
+          "body": "Whisperen zählt am meisten, wenn Leute in der Nähe sind.",
           "private": {
-            "label": "Somewhere private",
-            "hint": "A home office or a room to yourself"
+            "label": "Irgendwo privat",
+            "hint": "Ein Heimoffice oder ein Raum für dich allein"
           },
           "mixed": {
-            "label": "A bit of both",
-            "hint": "Sometimes alone, sometimes with people around"
+            "label": "Ein bisschen von beidem",
+            "hint": "Manchmal allein, manchmal mit Leuten umher"
           },
           "shared": {
-            "label": "Around other people",
-            "hint": "An open office, a café, a shared room"
+            "label": "Um andere Menschen",
+            "hint": "Ein offenes Büro, ein Café, ein gemeinsames Zimmer"
           }
         },
         "moves": {
-          "title": "Do you move between places?",
-          "body": "A microphone that travels with you helps if you do.",
+          "title": "Bewegst du dich zwischen Orten?",
+          "body": "Ein Mikrofon, das mit dir reist, hilft, wenn du es brauchst.",
           "one_desk": {
-            "label": "I stay at one desk",
-            "hint": "The same setup every day"
+            "label": "Ich bleibe bei einem Tisch",
+            "hint": "Die gleiche Einstellung jeden Tag"
           },
           "different_places": {
-            "label": "I work in different places",
-            "hint": "Home, office, trains, cafés"
+            "label": "Ich arbeite an verschiedenen Orten",
+            "hint": "Zuhause, Büro, Züge, Cafés"
           }
         },
         "owned": {
-          "title": "Which microphones do you have?",
-          "body": "Pick every one you have. A Mac mini or Mac Studio has no microphone of its own.",
-          "continue": "See my match"
+          "title": "Welche Mikrofone hast du?",
+          "body": "Wähle alle aus, die du hast. Ein Mac mini oder Mac Studio hat kein eigenes Mikrofon.",
+          "continue": "Mein Spiel sehen"
         }
       },
       "results": {
-        "title": "Your microphone match",
-        "body": "Based on your answers. Nothing is saved or sent anywhere.",
-        "bestLine": "Best match: {{mic}}.",
-        "caption": "How each kind of microphone does",
+        "title": "Dein Mikrofon-Match",
+        "body": "Basierend auf deinen Antworten. Nichts wird gespeichert oder gesendet.",
+        "bestLine": "Beste Übereinstimmung: {{mic}}.",
+        "caption": "Wie jede Art Mikrofon es macht",
         "columns": {
-          "mic": "Microphone",
-          "quality": "Mic quality",
-          "others": "Whispering around others",
-          "home": "Whispering at home",
-          "price": "Price",
-          "best": "Best match"
+          "mic": "Microfon",
+          "quality": "Klangqualität",
+          "others": "Whisperen um andere",
+          "home": "Whisperen zu Hause",
+          "price": "Preis",
+          "best": "Beste Übereinstimmung"
         },
-        "notBest": "Not the best match",
+        "notBest": "Kein bestes Ergebnis",
         "rating": {
-          "fair": "Fair",
-          "good": "Good",
-          "great": "Great"
+          "fair": "Mittelmäßig",
+          "good": "Gut",
+          "great": "Sehr gut"
         },
         "price": {
-          "included": "Comes with most laptops",
-          "low": "Low",
-          "medium": "Medium",
-          "owned": "You have one"
+          "included": "Mit den meisten Laptops inklusive",
+          "low": "Niedrig",
+          "medium": "Mittel",
+          "owned": "Du hast einen"
         },
         "copy": {
-          "label": "Copy results",
-          "heading": "{{appName}}: my microphone match",
-          "best": "Best match: {{mic}}",
-          "unanswered": "not answered",
-          "noneOwned": "none"
+          "label": "Ergebnisse kopieren",
+          "heading": "{{appName}}: mein Mikrofon passt",
+          "best": "Beste Übereinstimmung: {{mic}}",
+          "unanswered": "nicht beantwortet",
+          "noneOwned": "keiner"
         },
-        "copied": "Copied",
-        "copyFailed": "Could not copy. Select the table and copy it instead.",
-        "done": "Done"
+        "copied": "Kopiert",
+        "copyFailed": "Kann nicht kopieren. Wähl die Tabelle aus und kopiere sie stattdessen.",
+        "done": "Fertig"
       }
     }
   },
