@@ -1772,6 +1772,10 @@
   "scratchpad": {
     "newNote": "Ny note",
     "preferences": "Indstillinger for Kladdeblok",
+    "hero": {
+      "title": "Plads til løse tanker",
+      "body": "Skriv en liste, lav et udkast til et svar, eller tænk en idé igennem højt. Hver note gemmes af sig selv."
+    },
     "addToBar": "Føj til bjælken",
     "addToBarHelp": "Vis en Kladdeblok-knap ved siden af Diktér på bjælken, når den er i hvile.",
     "recents": "Nylige",

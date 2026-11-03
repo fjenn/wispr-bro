@@ -1865,6 +1865,10 @@
   "scratchpad": {
     "newNote": "New note",
     "preferences": "Scratchpad preferences",
+    "hero": {
+      "title": "Room for loose thoughts",
+      "body": "Keep a list, draft a reply or talk an idea through. Every note saves itself."
+    },
     "addToBar": "Add to the bar",
     "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
     "recents": "Recents",

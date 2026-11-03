@@ -59,7 +59,7 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     }
     let locale = crate::fork::i18n::current_locale(R::handy_app_language(app).as_deref());
     let title = crate::fork::i18n::t(locale, "rust.scratchpad.windowTitle", &[]);
-    let window = WebviewWindowBuilder::new(
+    let builder = WebviewWindowBuilder::new(
         app,
         WINDOW_LABEL,
         WebviewUrl::App(format!("{PAGE}?note={}", note.id).into()),
@@ -68,13 +68,45 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     .inner_size(560.0, 440.0)
     .min_inner_size(400.0, 300.0)
     .resizable(true)
-    .always_on_top(true)
-    .build()
-    .map_err(|error| error.to_string())?;
+    .always_on_top(true);
+    let window = title_strip(builder)
+        .build()
+        .map_err(|error| error.to_string())?;
     // Closing hides it (Handy's `CloseRequested`); hidden, it is parked.
     crate::fork::hub::park::watch(app, &window);
     present(&window)?;
     Ok(note)
+}
+
+/// Height of the note window's title strip (tabs, expand, close); keep in
+/// step with `h-11` in `src/fork/scratchpad/NoteWindow.tsx`.
+pub const TITLE_STRIP_HEIGHT: f64 = 44.0;
+
+/// Where macOS draws the traffic lights: at the start of the title strip,
+/// on its centre line (tao's y is the buttons' centre for 14 pt buttons).
+/// The web page keeps 78 pt free for them (`ps-[78px]`).
+pub const TRAFFIC_LIGHTS: (f64, f64) = (16.0, TITLE_STRIP_HEIGHT / 2.0);
+
+/// Design W6: the note window draws its own title strip (tabs, expand,
+/// close) under an overlay title bar with hidden title text, like the Hub.
+/// A no-op elsewhere.
+fn title_strip<'a, R: tauri::Runtime, M: Manager<R>>(
+    builder: WebviewWindowBuilder<'a, R, M>,
+) -> WebviewWindowBuilder<'a, R, M> {
+    #[cfg(target_os = "macos")]
+    {
+        builder
+            .title_bar_style(tauri::TitleBarStyle::Overlay)
+            .hidden_title(true)
+            .traffic_light_position(tauri::LogicalPosition::new(
+                TRAFFIC_LIGHTS.0,
+                TRAFFIC_LIGHTS.1,
+            ))
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        builder
+    }
 }
 
 /// Shows the note and gives it keyboard focus, on the first open too
@@ -158,5 +190,20 @@ mod tests {
         let inputs = std::fs::read_to_string(root.join("../src/fork/vite-inputs.ts")).unwrap();
         assert!(inputs.contains("fork-scratchpad"));
         assert!(root.join("..").join(super::PAGE).is_file());
+    }
+
+    #[test]
+    fn traffic_lights_sit_in_the_note_title_strip() {
+        let (x, y) = super::TRAFFIC_LIGHTS;
+        // The three 14 pt buttons with their gaps end before the 78 pt the
+        // page keeps free.
+        assert!(x > 0.0 && x + 60.0 < 78.0);
+        assert!((y - super::TITLE_STRIP_HEIGHT / 2.0).abs() < 1.0);
+        let page = std::fs::read_to_string(
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../src/fork/scratchpad/NoteWindow.tsx"),
+        )
+        .unwrap();
+        assert!(page.contains("h-11") && page.contains("ps-[78px]"));
     }
 }

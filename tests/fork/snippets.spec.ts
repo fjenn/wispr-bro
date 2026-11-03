@@ -558,10 +558,10 @@ snipTest.describe("import wizard", () => {
       await expect(page.getByTestId("wb-import-wizard-header")).toBeChecked();
       await expect(
         page.getByTestId("wb-import-wizard-column-trigger"),
-      ).toHaveValue("0");
-      await expect(
-        page.getByTestId("wb-import-wizard-column-body"),
-      ).toHaveValue("1");
+      ).toHaveText("Column A: trigger");
+      await expect(page.getByTestId("wb-import-wizard-column-body")).toHaveText(
+        "Column B: text",
+      );
       await shot(page, "import-2-columns");
 
       await page.getByTestId("wb-import-wizard-next").click();

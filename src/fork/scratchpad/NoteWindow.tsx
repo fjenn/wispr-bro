@@ -1,22 +1,37 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+import { useTranslation } from "react-i18next";
+import { AnimatePresence, motion } from "motion/react";
+import {
+  ALargeSmall,
   Check,
   Copy,
-  Expand,
-  Minimize,
+  Loader2,
+  Maximize2,
+  Minimize2,
   PanelLeft,
   Plus,
   Search,
-  Type,
-  WandSparkles,
+  Sparkles,
+  SquarePen,
   X,
 } from "../ui/icons";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { commands, events, type Note } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { FOCUS_RING } from "../ui";
+import {
+  Button,
+  FOCUS_RING,
+  IconButton,
+  SearchField,
+  useMotionPresets,
+} from "../ui";
 import { NoteTabs } from "./NoteTabs";
 
 const AUTOSAVE_MS = 500;
@@ -31,6 +46,7 @@ function requestedNote(): number | null {
 
 export function NoteWindow() {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
+  const m = useMotionPresets();
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(requestedNote);
   const [body, setBody] = useState("");
@@ -205,231 +221,228 @@ export function NoteWindow() {
     setTextSize(TEXT_SIZES[(index + 1) % TEXT_SIZES.length]);
   };
 
-  const railButton = (
+  const toolButton = (
     label: string,
     testId: string,
     onClick: () => void,
-    icon: React.ReactNode,
+    icon: ReactNode,
     pressed?: boolean,
   ) => (
-    <button
-      type="button"
+    <IconButton
       onClick={onClick}
       aria-label={label}
       title={label}
       aria-pressed={pressed}
-      className={`grid size-9 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+      className={pressed ? "bg-(--wb-fill-active)! text-(--wb-ink)!" : ""}
       data-testid={testId}
     >
       {icon}
-    </button>
+    </IconButton>
+  );
+
+  const visibleNotes = notes.filter(
+    (note) =>
+      !query ||
+      note.body.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
   );
 
   return (
     <div
       dir={getLanguageDirection(i18n.language)}
-      className="flex h-screen bg-(--wb-panel) text-(--wb-ink)"
+      className="flex h-screen flex-col bg-(--wb-chrome) text-(--wb-ink) select-none"
       data-testid="wb-note-window"
     >
-      <nav
-        aria-label={t("scratchpad.tools")}
-        className="flex w-12 shrink-0 flex-col items-center gap-1 border-e border-(--wb-line) bg-(--wb-surface) py-3"
+      {/* The title strip: macOS draws the traffic lights over its start
+          (overlay title bar, `fork/scratchpad/window.rs`); empty space
+          drags the window. */}
+      <header
+        data-tauri-drag-region
+        className="flex h-11 shrink-0 items-center gap-1 ps-[78px] pe-2"
       >
-        {railButton(
-          t("scratchpad.sidebar"),
-          "wb-note-sidebar",
-          () => setSidebar((value) => !value),
-          <PanelLeft size={18} aria-hidden="true" />,
-          sidebar,
-        )}
-        {railButton(
-          t("scratchpad.newNote"),
-          "wb-note-new-rail",
-          () => void newNote(),
-          <Plus size={18} aria-hidden="true" />,
-        )}
-        {railButton(
-          t("scratchpad.searchLabel"),
-          "wb-note-search-toggle",
-          () => {
-            setSearchOpen((value) => !value);
-            window.setTimeout(() => searchRef.current?.focus(), 0);
-          },
-          <Search size={18} aria-hidden="true" />,
-          searchOpen,
-        )}
-        <div className="my-2 h-px w-6 bg-(--wb-line)" />
-        {railButton(
-          t("scratchpad.polish"),
-          "wb-note-polish",
-          () => void polish(),
-          <WandSparkles size={18} aria-hidden="true" />,
-        )}
-        {railButton(
-          t("scratchpad.textSize", { size: textSize }),
-          "wb-note-text-size",
-          cycleTextSize,
-          <Type size={18} aria-hidden="true" />,
-        )}
-      </nav>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center gap-1 border-b border-(--wb-line) px-2 py-1.5">
-          <NoteTabs
-            notes={notes}
-            selected={selectedId ?? -1}
-            onSelect={(id) => void openNote(id)}
-          />
-          <button
-            type="button"
-            onClick={() => void newNote()}
-            aria-label={t("scratchpad.newNote")}
-            title={t("scratchpad.newNote")}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
-            data-testid="wb-note-new-tab"
-          >
-            <Plus size={16} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              void commands.forkScratchpadExpand().then((result) => {
-                if (result.status === "ok") setExpanded(result.data);
-              })
-            }
-            aria-label={t(expanded ? "scratchpad.shrink" : "scratchpad.expand")}
-            title={t(expanded ? "scratchpad.shrink" : "scratchpad.expand")}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
-            data-testid="wb-note-expand"
-          >
-            {expanded ? (
-              <Minimize size={16} aria-hidden="true" />
-            ) : (
-              <Expand size={16} aria-hidden="true" />
+        <NoteTabs
+          notes={notes}
+          selected={selectedId ?? -1}
+          onSelect={(id) => void openNote(id)}
+        />
+        <IconButton
+          size="sm"
+          onClick={() => void newNote()}
+          aria-label={t("scratchpad.newNote")}
+          title={t("scratchpad.newNote")}
+          data-testid="wb-note-new-tab"
+        >
+          <Plus size={16} />
+        </IconButton>
+        <div data-tauri-drag-region className="h-full min-w-4 flex-1" />
+        <IconButton
+          size="sm"
+          onClick={() =>
+            void commands.forkScratchpadExpand().then((result) => {
+              if (result.status === "ok") setExpanded(result.data);
+            })
+          }
+          aria-label={t(expanded ? "scratchpad.shrink" : "scratchpad.expand")}
+          title={t(expanded ? "scratchpad.shrink" : "scratchpad.expand")}
+          data-testid="wb-note-expand"
+        >
+          {expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+        </IconButton>
+        <IconButton
+          size="sm"
+          onClick={() => void close()}
+          aria-label={t("scratchpad.close")}
+          title={t("scratchpad.close")}
+          data-testid="wb-note-close"
+        >
+          <X size={16} />
+        </IconButton>
+      </header>
+      <div className="flex min-h-0 flex-1">
+        <nav
+          aria-label={t("scratchpad.tools")}
+          className="flex w-[52px] shrink-0 flex-col items-center gap-1 pt-1 pb-3"
+        >
+          {toolButton(
+            t("scratchpad.sidebar"),
+            "wb-note-sidebar",
+            () => setSidebar((value) => !value),
+            <PanelLeft size={18} />,
+            sidebar,
+          )}
+          {toolButton(
+            t("scratchpad.newNote"),
+            "wb-note-new-rail",
+            () => void newNote(),
+            <SquarePen size={18} />,
+          )}
+          {toolButton(
+            t("scratchpad.searchLabel"),
+            "wb-note-search-toggle",
+            () => {
+              setSearchOpen((value) => !value);
+              window.setTimeout(() => searchRef.current?.focus(), 0);
+            },
+            <Search size={18} />,
+            searchOpen,
+          )}
+          <div className="mt-auto flex flex-col items-center gap-1">
+            {toolButton(
+              t("scratchpad.polish"),
+              "wb-note-polish",
+              () => void polish(),
+              polishing ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <Sparkles size={18} />
+              ),
             )}
-          </button>
-          <button
-            type="button"
-            onClick={() => void close()}
-            aria-label={t("scratchpad.close")}
-            title={t("scratchpad.close")}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
-            data-testid="wb-note-close"
-          >
-            <X size={16} aria-hidden="true" />
-          </button>
-        </header>
-        <div className="flex min-h-0 flex-1">
+            {toolButton(
+              t("scratchpad.textSize", { size: textSize }),
+              "wb-note-text-size",
+              cycleTextSize,
+              <ALargeSmall size={18} />,
+            )}
+          </div>
+        </nav>
+        <AnimatePresence initial={false}>
           {sidebar && (
-            <aside
+            <motion.aside
+              {...m.reveal}
               aria-label={t("scratchpad.recents")}
-              className="w-48 shrink-0 overflow-y-auto border-e border-(--wb-line) bg-(--wb-surface) p-2"
+              className="flex w-44 shrink-0 flex-col gap-0.5 overflow-y-auto pe-2 pb-2"
               data-testid="wb-note-sidebar-panel"
             >
-              {notes
-                .filter(
-                  (note) =>
-                    !query ||
-                    note.body
-                      .toLocaleLowerCase()
-                      .includes(query.toLocaleLowerCase()),
-                )
-                .map((note) => (
-                  <button
-                    key={note.id}
-                    type="button"
-                    onClick={() => void openNote(note.id)}
-                    aria-current={note.id === selectedId ? "true" : undefined}
-                    className={`block w-full cursor-pointer truncate rounded-md px-2 py-2 text-start text-xs hover:bg-(--wb-fill-hover) ${note.id === selectedId ? "bg-(--wb-fill-hover) font-semibold" : ""} ${FOCUS_RING}`}
-                  >
-                    {note.title || t("scratchpad.untitled")}
-                  </button>
-                ))}
-            </aside>
+              {visibleNotes.map((note) => (
+                <button
+                  key={note.id}
+                  type="button"
+                  onClick={() => void openNote(note.id)}
+                  aria-current={note.id === selectedId ? "true" : undefined}
+                  className={`block h-8 w-full shrink-0 cursor-pointer truncate rounded-(--wb-radius-sm) px-2.5 text-start text-[13px] transition-colors duration-(--wb-dur-fast) ${note.id === selectedId ? "bg-(--wb-fill-active) font-medium text-(--wb-ink)" : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
+                >
+                  {note.title || t("scratchpad.untitled")}
+                </button>
+              ))}
+            </motion.aside>
           )}
-          <main
-            className="flex min-w-0 flex-1 flex-col"
-            id="wb-note-editor-panel"
-            role="tabpanel"
-          >
-            {searchOpen && (
-              <div className="border-b border-(--wb-line) p-2">
-                <label className="sr-only" htmlFor="wb-note-search">
-                  {t("scratchpad.searchLabel")}
-                </label>
-                <input
-                  ref={searchRef}
-                  id="wb-note-search"
-                  type="search"
-                  value={query}
-                  onChange={(event) => {
-                    const value = event.currentTarget.value;
-                    setQuery(value);
-                    void loadNotes(value);
-                  }}
-                  placeholder={t("scratchpad.searchPlaceholder")}
-                  className={`w-full rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-sm ${FOCUS_RING}`}
-                  data-testid="wb-note-search"
-                />
-              </div>
-            )}
-            <div className="flex items-center justify-between px-5 pt-3 text-xs text-(--wb-ink)">
-              <span role="status" data-testid="wb-note-save-state">
-                {saveState === "saved"
+        </AnimatePresence>
+        <main
+          className="relative me-2 mb-2 flex min-w-0 flex-1 flex-col overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-panel) select-text"
+          id="wb-note-editor-panel"
+          role="tabpanel"
+        >
+          {searchOpen && (
+            <div className="shrink-0 px-4 pt-3">
+              <label className="sr-only" htmlFor="wb-note-search">
+                {t("scratchpad.searchLabel")}
+              </label>
+              <SearchField
+                ref={searchRef}
+                id="wb-note-search"
+                size="sm"
+                value={query}
+                onChange={(event) => {
+                  const value = event.currentTarget.value;
+                  setQuery(value);
+                  void loadNotes(value);
+                }}
+                placeholder={t("scratchpad.searchPlaceholder")}
+                data-testid="wb-note-search"
+              />
+            </div>
+          )}
+          {loading || !selected ? (
+            <div className="grid flex-1 place-items-center p-8 text-center text-[15px] text-(--wb-ink-2)">
+              {loading ? t("scratchpad.loading") : t("scratchpad.empty")}
+            </div>
+          ) : (
+            <textarea
+              aria-label={t("scratchpad.noteBody")}
+              value={body}
+              onChange={(event) => setBody(event.currentTarget.value)}
+              placeholder={t("scratchpad.notePlaceholder")}
+              autoFocus
+              spellCheck
+              style={{ fontSize: textSize }}
+              className="min-h-0 w-full flex-1 resize-none bg-transparent px-6 pt-5 pb-16 leading-[1.55] text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:outline-none"
+              data-testid="wb-note-body"
+            />
+          )}
+          {error && (
+            <p
+              role="alert"
+              className="mx-4 mb-14 rounded-(--wb-radius-sm) bg-(--wb-danger-soft) px-3 py-2 text-[13px] text-(--wb-ink)"
+            >
+              {t("scratchpad.error")}
+            </p>
+          )}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 ps-6 pe-3 pb-3">
+            <span
+              role="status"
+              title={t("scratchpad.autosaveHelp")}
+              className="pointer-events-auto text-[12px] text-(--wb-ink-3)"
+              data-testid="wb-note-save-state"
+            >
+              {polishing
+                ? t("scratchpad.polishing")
+                : saveState === "saved"
                   ? t("scratchpad.saved")
                   : saveState === "saving"
                     ? t("scratchpad.saving")
                     : t("scratchpad.saveError")}
-              </span>
-              {polishing && (
-                <span role="status">{t("scratchpad.polishing")}</span>
-              )}
-            </div>
-            {loading || !selected ? (
-              <div className="grid flex-1 place-items-center p-8 text-center text-sm text-(--wb-ink-2)">
-                {loading ? t("scratchpad.loading") : t("scratchpad.empty")}
-              </div>
-            ) : (
-              <textarea
-                aria-label={t("scratchpad.noteBody")}
-                value={body}
-                onChange={(event) => setBody(event.currentTarget.value)}
-                placeholder={t("scratchpad.notePlaceholder")}
-                autoFocus
-                spellCheck
-                style={{ fontSize: textSize }}
-                className={`min-h-0 w-full flex-1 resize-none bg-transparent px-5 py-3 leading-relaxed text-(--wb-ink) outline-none placeholder:text-(--wb-ink-2) ${FOCUS_RING}`}
-                data-testid="wb-note-body"
-              />
-            )}
-            {error && (
-              <p
-                role="alert"
-                className="px-5 pb-2 text-xs text-red-700 dark:text-red-300"
-              >
-                {t("scratchpad.error")}
-              </p>
-            )}
-            <footer className="flex items-center justify-between border-t border-(--wb-line) px-4 py-2">
-              <span className="text-xs text-(--wb-ink)">
-                {t("scratchpad.autosaveHelp")}
-              </span>
-              <button
-                type="button"
-                onClick={() => void copy()}
-                disabled={!selected}
-                className={`inline-flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) disabled:opacity-50 ${FOCUS_RING}`}
-                data-testid="wb-note-copy"
-              >
-                {copied ? (
-                  <Check size={16} aria-hidden="true" />
-                ) : (
-                  <Copy size={16} aria-hidden="true" />
-                )}
-                {copied ? t("scratchpad.copied") : t("scratchpad.copy")}
-              </button>
-            </footer>
-          </main>
-        </div>
+            </span>
+            <Button
+              variant="primary"
+              onClick={() => void copy()}
+              disabled={!selected}
+              leading={copied ? <Check size={16} /> : <Copy size={16} />}
+              className="pointer-events-auto rounded-full! px-4 shadow-(--wb-elev-1)"
+              data-testid="wb-note-copy"
+            >
+              {copied ? t("scratchpad.copied") : t("scratchpad.copy")}
+            </Button>
+          </div>
+        </main>
       </div>
     </div>
   );

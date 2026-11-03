@@ -152,6 +152,7 @@ const SAMPLE = {
   tooltip: "Collapse sidebar",
   openDialog: "Open dialog",
   openSheet: "Open sheet",
+  openSheetMd: "Open medium sheet",
   menu: "Open menu",
   popover: "Open popover",
   popoverBody: "A popover: solid surface, 12 pt radius, soft shadow.",
@@ -276,6 +277,7 @@ function Board({ theme }: { theme: "light" | "dark" }) {
   const [checked, setChecked] = useState(true);
   const [dialog, setDialog] = useState(false);
   const [sheet, setSheet] = useState(false);
+  const [sheetMd, setSheetMd] = useState(false);
   const [langs, setLangs] = useState<string[]>([SAMPLE.langs[0]]);
   const [apps, setApps] = useState([SAMPLE.appA, SAMPLE.appB]);
   const [micKind, setMicKind] = useState("builtin");
@@ -886,6 +888,7 @@ function Board({ theme }: { theme: "light" | "dark" }) {
             {SAMPLE.openDialog}
           </Button>
           <Button onClick={() => setSheet(true)}>{SAMPLE.openSheet}</Button>
+          <Button onClick={() => setSheetMd(true)}>{SAMPLE.openSheetMd}</Button>
         </Row>
         <Dialog
           open={dialog}
@@ -921,6 +924,23 @@ function Board({ theme }: { theme: "light" | "dark" }) {
               {SAMPLE.sheet}{" "}
               <em className="text-(--wb-accent)">{SAMPLE.sheetEm}</em>
             </h2>
+            <p className="text-[15px] text-(--wb-ink-2)">{SAMPLE.sheetBody}</p>
+          </div>
+        </Sheet>
+        <Sheet
+          open={sheetMd}
+          onOpenChange={setSheetMd}
+          label={SAMPLE.sheetLabel}
+          size="md"
+          tone="plain"
+          footer={
+            <Button variant="primary" onClick={() => setSheetMd(false)}>
+              {SAMPLE.primary}
+            </Button>
+          }
+        >
+          <div className="flex flex-col items-center gap-3 text-center">
+            <h2 className="type-sheet">{SAMPLE.sheet}</h2>
             <p className="text-[15px] text-(--wb-ink-2)">{SAMPLE.sheetBody}</p>
           </div>
         </Sheet>

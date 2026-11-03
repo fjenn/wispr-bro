@@ -1,22 +1,51 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Keyboard,
-  Pencil,
-  Pin,
-  PinOff,
-  Plus,
-  Search,
-  Trash2,
-} from "../ui/icons";
+import { Pencil, Pin, PinOff, Trash2 } from "../ui/icons";
 import { commands, events, type Note } from "../bindings";
-import { PageHeader } from "../hub/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { chordLabel } from "../settings/hotkeys/model";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button, FOCUS_RING } from "../ui";
+import {
+  Button,
+  EmptyState,
+  FOCUS_RING,
+  Hero,
+  IconButton,
+  PageHeader,
+  SearchField,
+  Switch,
+  Tag,
+} from "../ui";
 import { SCRATCHPAD_ACTION, ShortcutDialog } from "./ShortcutDialog";
+
+/** The banner's picture: a small note window, drawn (decorative). */
+function NotePeek() {
+  return (
+    <div className="w-[248px] translate-y-9 rounded-t-(--wb-radius-md) bg-(--wb-chrome) p-1.5 pb-0 shadow-(--wb-elev-3) rtl:-scale-x-100">
+      <div className="flex items-center gap-1.5 px-1.5 pb-1.5">
+        <span className="size-1.5 rounded-full bg-(--wb-ink-3)/50" />
+        <span className="size-1.5 rounded-full bg-(--wb-ink-3)/50" />
+        <span className="size-1.5 rounded-full bg-(--wb-ink-3)/50" />
+        <span className="ms-3 h-3 w-14 rounded-[4px] bg-(--wb-fill-active)" />
+        <span className="h-1.5 w-8 rounded-full bg-(--wb-line-2)" />
+      </div>
+      <div className="flex gap-1.5">
+        <div className="flex w-5 flex-col items-center gap-2 pt-1.5">
+          <span className="size-2.5 rounded-[3px] border border-(--wb-ink-3)/60" />
+          <span className="size-2.5 rounded-[3px] border border-(--wb-ink-3)/60" />
+          <span className="size-2.5 rounded-full border border-(--wb-ink-3)/60" />
+        </div>
+        <div className="flex h-[92px] flex-1 flex-col gap-2 rounded-t-[8px] bg-(--wb-panel) px-3 pt-3">
+          <span className="h-1.5 w-[86%] rounded-full bg-(--wb-ink-3)/45" />
+          <span className="h-1.5 w-[72%] rounded-full bg-(--wb-ink-3)/45" />
+          <span className="h-1.5 w-[80%] rounded-full bg-(--wb-ink-3)/45" />
+          <span className="h-1.5 w-[40%] rounded-full bg-(--wb-ink-3)/45" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function ScratchpadPage() {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
@@ -79,169 +108,166 @@ export function ScratchpadPage() {
     else setError(true);
   };
   const binding = settings?.hotkeys[SCRATCHPAD_ACTION]?.[0];
+  const dateFormat = new Intl.DateTimeFormat(i18n.language, {
+    month: "short",
+    day: "2-digit",
+  });
+  const timeFormat = new Intl.DateTimeFormat(i18n.language, {
+    timeStyle: "short",
+  });
 
   return (
     <div data-testid="wb-scratchpad-page" className="flex flex-col gap-6">
-      <PageHeader title={t("hub.pages.scratchpad.title")}>
-        <Button
-          variant="primary"
-          onClick={() => void commands.forkScratchpadNew()}
-          data-testid="wb-scratchpad-new"
-        >
-          <Plus size={16} aria-hidden="true" />
-          {t("scratchpad.newNote")}
-        </Button>
-      </PageHeader>
-      <section
-        aria-label={t("scratchpad.preferences")}
-        className="grid gap-3 sm:grid-cols-2"
+      <PageHeader
+        title={t("hub.pages.scratchpad.title")}
+        tag={<Tag kind="beta" />}
       >
-        <label className="flex cursor-pointer items-start gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
-          <input
-            type="checkbox"
-            role="switch"
-            checked={settings?.scratchpad_on_bar ?? false}
-            disabled={!settings || !!pending.scratchpad_on_bar}
-            onChange={(event) =>
-              void setSetting("scratchpad_on_bar", event.currentTarget.checked)
-            }
-            className="mt-0.5 size-4 accent-(--wb-ink)"
-            data-testid="wb-scratchpad-on-bar"
-          />
-          <span>
-            <span className="block text-sm font-semibold">
+        <section
+          aria-label={t("scratchpad.preferences")}
+          className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2"
+        >
+          <span className="flex items-center gap-2.5">
+            <label
+              htmlFor="wb-scratchpad-on-bar"
+              title={t("scratchpad.addToBarHelp")}
+              className="cursor-pointer text-[15px] text-(--wb-ink)"
+            >
               {t("scratchpad.addToBar")}
-            </span>
-            <span className="mt-1 block text-xs text-(--wb-ink-2)">
+            </label>
+            <span id="wb-scratchpad-on-bar-help" className="sr-only">
               {t("scratchpad.addToBarHelp")}
             </span>
+            <Switch
+              id="wb-scratchpad-on-bar"
+              checked={settings?.scratchpad_on_bar ?? false}
+              disabled={!settings || !!pending.scratchpad_on_bar}
+              onChange={(on) => void setSetting("scratchpad_on_bar", on)}
+              ariaDescribedBy="wb-scratchpad-on-bar-help"
+              testId="wb-scratchpad-on-bar"
+            />
           </span>
-        </label>
-        <div className="flex items-center justify-between gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
-          <div>
-            <p className="text-sm font-semibold">
+          <Button
+            variant="outline"
+            onClick={() => setShortcutOpen(true)}
+            data-testid="wb-scratchpad-shortcut"
+          >
+            <span className={binding ? "text-(--wb-ink-2)" : "sr-only"}>
               {t("scratchpad.shortcut.label")}
-            </p>
-            <p
-              className="mt-1 text-xs text-(--wb-ink-2)"
+            </span>
+            <span
+              className={binding ? "tracking-wide tabular-nums" : ""}
               data-testid="wb-scratchpad-shortcut-value"
             >
               {binding
                 ? chordLabel(binding.chord)
-                : t("settingsModal.hotkeys.notSet")}
-            </p>
-          </div>
-          <Button
-            onClick={() => setShortcutOpen(true)}
-            data-testid="wb-scratchpad-shortcut"
-          >
-            <Keyboard size={16} aria-hidden="true" />
-            {t("scratchpad.shortcut.change")}
+                : t("scratchpad.shortcut.change")}
+            </span>
           </Button>
-        </div>
-      </section>
+        </section>
+      </PageHeader>
+      <Hero
+        id="scratchpad"
+        title={t("scratchpad.hero.title")}
+        body={t("scratchpad.hero.body")}
+        action={{
+          label: t("scratchpad.newNote"),
+          onClick: () => void commands.forkScratchpadNew(),
+          testId: "wb-scratchpad-new",
+        }}
+        art={<NotePeek />}
+      />
       <section
         aria-labelledby="wb-scratchpad-recents"
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-4"
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-(--wb-line) pb-3">
           <h2
             id="wb-scratchpad-recents"
-            className="font-(--wb-font-display) text-xl"
+            className="type-card-title text-(--wb-ink)"
           >
             {t("scratchpad.recents")}
           </h2>
-          <label className="relative block min-w-52 flex-1 sm:max-w-xs">
+          <label className="block w-60 max-w-full">
             <span className="sr-only">{t("scratchpad.searchLabel")}</span>
-            <Search
-              size={16}
-              aria-hidden="true"
-              className="pointer-events-none absolute start-3 top-2.5 text-(--wb-ink-3)"
-            />
-            <input
-              type="search"
+            <SearchField
+              size="sm"
               value={query}
               onChange={(event) => setQuery(event.currentTarget.value)}
               placeholder={t("scratchpad.searchPlaceholder")}
-              className={`w-full rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) py-2 pe-3 ps-9 text-sm ${FOCUS_RING}`}
               data-testid="wb-scratchpad-search"
             />
           </label>
         </div>
         {error && (
-          <p role="alert" className="text-sm text-red-700 dark:text-red-300">
+          <p
+            role="alert"
+            className="rounded-(--wb-radius-sm) bg-(--wb-danger-soft) px-3 py-2 text-[14px] text-(--wb-ink)"
+          >
             {t("scratchpad.error")}
           </p>
         )}
         {loading && (
-          <p role="status" className="text-sm text-(--wb-ink-2)">
+          <p role="status" className="text-[15px] text-(--wb-ink-2)">
             {t("scratchpad.loading")}
           </p>
         )}
         {!loading && notes.length === 0 && (
-          <div className="rounded-(--wb-radius-md) border border-dashed border-(--wb-line-strong) p-8 text-center">
-            <p className="text-sm font-medium">
-              {query ? t("scratchpad.noResults") : t("scratchpad.empty")}
-            </p>
-            <p className="mt-1 text-xs text-(--wb-ink-2)">
-              {t("scratchpad.emptyHelp")}
-            </p>
-          </div>
+          <EmptyState
+            compact={Boolean(query)}
+            title={query ? t("scratchpad.noResults") : t("scratchpad.empty")}
+            body={t("scratchpad.emptyHelp")}
+          />
         )}
         <ul
-          className="flex flex-col gap-2"
+          className="flex flex-col gap-3"
           aria-label={t("scratchpad.recents")}
         >
-          {notes.map((note) => (
-            <li
-              key={note.id}
-              className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
-              data-testid={`wb-note-${note.id}`}
-            >
-              <div className="flex items-start gap-3">
+          {notes.map((note) => {
+            const name = note.title || t("scratchpad.untitled");
+            const rest = note.body.split("\n").slice(1).join(" ").trim();
+            return (
+              <li
+                key={note.id}
+                className="group/note relative rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint)"
+                data-testid={`wb-note-${note.id}`}
+              >
                 <button
                   type="button"
                   onClick={() => void commands.forkScratchpadShowNote(note.id)}
-                  className={`min-w-0 flex-1 cursor-pointer text-start ${FOCUS_RING}`}
+                  className={`block w-full cursor-pointer rounded-(--wb-radius-md) px-4 pt-4 pb-3.5 text-start ${FOCUS_RING} focus-visible:-outline-offset-2`}
                   data-testid={`wb-note-edit-${note.id}`}
                 >
-                  <span className="flex items-center gap-2 text-sm font-semibold">
+                  <span className="flex items-center gap-2 pe-28 text-[16px] leading-[22px] font-semibold text-(--wb-ink)">
                     {note.pinned && (
                       <Pin
                         size={14}
                         aria-label={t("scratchpad.pinned")}
-                        className="shrink-0 text-(--wb-accent)"
+                        className="shrink-0 text-(--wb-ink-2)"
                       />
                     )}
-                    <span className="truncate">
-                      {note.title || t("scratchpad.untitled")}
-                    </span>
+                    <span className="truncate">{name}</span>
                   </span>
-                  <span className="mt-1 line-clamp-2 block text-xs text-(--wb-ink-2)">
-                    {note.body || t("scratchpad.emptyNote")}
+                  <span className="mt-1.5 line-clamp-2 block text-[15px] leading-[22px] text-(--wb-ink-2)">
+                    {rest || (note.body ? "" : t("scratchpad.emptyNote"))}
                   </span>
-                  <span className="mt-2 block text-[11px] text-(--wb-ink-3)">
-                    {new Intl.DateTimeFormat(i18n.language, {
-                      dateStyle: "medium",
-                    }).format(note.updated_at)}
+                  <span className="mt-3 flex justify-between gap-3 text-[13px] text-(--wb-ink-3) tabular-nums">
+                    <span>{dateFormat.format(note.updated_at)}</span>
+                    <span>{timeFormat.format(note.updated_at)}</span>
                   </span>
                 </button>
-                <div className="flex shrink-0 items-center gap-1">
-                  <button
-                    type="button"
+                <div className="absolute end-3 top-3 flex items-center rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) p-0.5 opacity-0 shadow-(--wb-elev-1) transition-opacity duration-(--wb-dur-fast) group-focus-within/note:opacity-100 group-hover/note:opacity-100">
+                  <IconButton
+                    size="sm"
                     onClick={() =>
                       void commands.forkScratchpadShowNote(note.id)
                     }
-                    aria-label={t("scratchpad.edit", {
-                      name: note.title || t("scratchpad.untitled"),
-                    })}
+                    aria-label={t("scratchpad.edit", { name })}
                     title={t("scratchpad.editAction")}
-                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
                   >
-                    <Pencil size={16} aria-hidden="true" />
-                  </button>
-                  <button
-                    type="button"
+                    <Pencil size={16} />
+                  </IconButton>
+                  <IconButton
+                    size="sm"
                     onClick={() => void pin(note)}
                     aria-label={t(
                       note.pinned ? "scratchpad.unpin" : "scratchpad.pin",
@@ -250,29 +276,24 @@ export function ScratchpadPage() {
                       note.pinned ? "scratchpad.unpin" : "scratchpad.pin",
                     )}
                     aria-pressed={note.pinned}
-                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
                     data-testid={`wb-note-pin-${note.id}`}
                   >
-                    {note.pinned ? (
-                      <PinOff size={16} aria-hidden="true" />
-                    ) : (
-                      <Pin size={16} aria-hidden="true" />
-                    )}
-                  </button>
-                  <button
-                    type="button"
+                    {note.pinned ? <PinOff size={16} /> : <Pin size={16} />}
+                  </IconButton>
+                  <IconButton
+                    size="sm"
                     onClick={() => void remove(note)}
                     aria-label={t("scratchpad.delete")}
                     title={t("scratchpad.delete")}
-                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-red-700 ${FOCUS_RING}`}
+                    className="text-(--wb-danger)! hover:bg-(--wb-danger-soft)!"
                     data-testid={`wb-note-delete-${note.id}`}
                   >
-                    <Trash2 size={16} aria-hidden="true" />
-                  </button>
+                    <Trash2 size={16} />
+                  </IconButton>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       </section>
       {shortcutOpen && (

@@ -1926,6 +1926,10 @@
   "scratchpad": {
     "newNote": "Nová poznámka",
     "preferences": "Předvolby poznámkového bloku",
+    "hero": {
+      "title": "Místo pro volné myšlenky",
+      "body": "Sepište seznam, připravte odpověď nebo promyslete nápad nahlas. Každá poznámka se ukládá sama."
+    },
     "addToBar": "Přidat na lištu",
     "addToBarHelp": "Zobrazovat tlačítko Poznámkový blok vedle tlačítka Diktovat na neaktivní liště.",
     "recents": "Nedávné",

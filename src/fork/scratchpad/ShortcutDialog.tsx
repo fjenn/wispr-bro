@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { X } from "../ui/icons";
 import { FORK_NAMESPACE } from "../i18n";
 import { Capture } from "../settings/hotkeys/Capture";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button, FOCUS_RING } from "../ui";
+import { Button, Dialog, KbdCombo } from "../ui";
 
 export const SCRATCHPAD_ACTION = "scratchpad.open";
 export const PROPOSED_SHORTCUT = "ctrl+option+s";
@@ -13,16 +12,10 @@ export const PROPOSED_SHORTCUT = "ctrl+option+s";
 export function ShortcutDialog({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const { setSetting } = useForkSettings();
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  // The safe first focus: nothing is bound until the user picks.
   const closeRef = useRef<HTMLButtonElement>(null);
   const [capturing, setCapturing] = useState(false);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (dialog && !dialog.open) dialog.showModal();
-    closeRef.current?.focus();
-  }, []);
 
   const save = async (chord: string) => {
     const result = await setSetting("hotkey", {
@@ -34,82 +27,78 @@ export function ShortcutDialog({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <dialog
-      ref={dialogRef}
-      aria-labelledby="wb-scratchpad-shortcut-title"
-      className="m-auto w-[min(460px,calc(100vw-32px))] max-w-none rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
-      data-testid="wb-scratchpad-shortcut-dialog"
-      onCancel={(event) => {
-        event.preventDefault();
-        onClose();
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
       }}
-    >
-      <div className="flex items-start justify-between gap-4 border-b border-(--wb-line) px-5 py-4">
-        <div>
-          <h2
-            id="wb-scratchpad-shortcut-title"
-            className="font-(--wb-font-display) text-2xl"
-          >
-            {t("scratchpad.shortcut.title")}
-          </h2>
-          <p className="mt-1 text-sm text-(--wb-ink-2)">
-            {t("scratchpad.shortcut.help")}
-          </p>
-        </div>
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={onClose}
-          aria-label={t("scratchpad.shortcut.close")}
-          title={t("scratchpad.shortcut.close")}
-          className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
-          data-testid="wb-scratchpad-shortcut-close"
-        >
-          <X size={18} aria-hidden="true" />
-        </button>
-      </div>
-      <div className="flex flex-col gap-4 p-5">
-        <div className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
-          <p className="text-sm font-medium">
-            {t("scratchpad.shortcut.proposed")}
-          </p>
-          <p
-            className="mt-1 font-mono text-lg"
-            data-testid="wb-scratchpad-proposed"
-          >
-            {t("scratchpad.shortcut.ctrlOptionS")}
-          </p>
+      title={t("scratchpad.shortcut.title")}
+      description={t("scratchpad.shortcut.help")}
+      closeLabel={t("scratchpad.shortcut.close")}
+      closeRef={closeRef}
+      closeTestId="wb-scratchpad-shortcut-close"
+      initialFocusRef={closeRef as React.RefObject<HTMLElement>}
+      contentFades={false}
+      testId="wb-scratchpad-shortcut-dialog"
+      footer={
+        <div className="flex w-full items-center justify-between gap-2">
+          {capturing ? (
+            <span />
+          ) : (
+            <Button
+              onClick={() => setCapturing(true)}
+              data-testid="wb-scratchpad-capture"
+            >
+              {t("scratchpad.shortcut.chooseAnother")}
+            </Button>
+          )}
           <Button
             variant="primary"
-            className="mt-3"
             onClick={() => void save(PROPOSED_SHORTCUT)}
             data-testid="wb-scratchpad-use-proposed"
           >
             {t("scratchpad.shortcut.use")}
           </Button>
         </div>
-        {capturing ? (
-          <Capture
-            actionId={SCRATCHPAD_ACTION}
-            onDone={(chord) => {
-              setCapturing(false);
-              if (chord) void save(chord);
-            }}
-          />
-        ) : (
-          <Button
-            onClick={() => setCapturing(true)}
-            data-testid="wb-scratchpad-capture"
-          >
-            {t("scratchpad.shortcut.chooseAnother")}
-          </Button>
+      }
+    >
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-4 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4">
+          <div className="min-w-0">
+            <p className="text-[15px] font-semibold text-(--wb-ink)">
+              {t("scratchpad.shortcut.proposed")}
+            </p>
+            <p
+              className="mt-0.5 text-[13px] text-(--wb-ink-2)"
+              data-testid="wb-scratchpad-proposed"
+            >
+              {t("scratchpad.shortcut.ctrlOptionS")}
+            </p>
+          </div>
+          <span aria-hidden="true">
+            <KbdCombo keys={["⌃", "⌥", "S"]} />
+          </span>
+        </div>
+        {capturing && (
+          <div className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4">
+            <Capture
+              actionId={SCRATCHPAD_ACTION}
+              onDone={(chord) => {
+                setCapturing(false);
+                if (chord) void save(chord);
+              }}
+            />
+          </div>
         )}
         {error && (
-          <p role="alert" className="text-sm text-red-700 dark:text-red-300">
+          <p
+            role="alert"
+            className="rounded-(--wb-radius-sm) bg-(--wb-danger-soft) px-3 py-2 text-[14px] text-(--wb-ink)"
+          >
             {t("scratchpad.shortcut.error")}
           </p>
         )}
       </div>
-    </dialog>
+    </Dialog>
   );
 }

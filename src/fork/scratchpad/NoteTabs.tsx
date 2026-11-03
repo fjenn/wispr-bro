@@ -18,7 +18,7 @@ export function NoteTabs({
     <div
       role="tablist"
       aria-label={t("scratchpad.tabs")}
-      className="flex min-w-0 flex-1 items-end gap-1 overflow-x-auto"
+      className="flex min-w-0 items-center gap-0.5 overflow-x-auto [scrollbar-width:none]"
       data-testid="wb-note-tabs"
     >
       {notes.map((note) => (
@@ -45,7 +45,7 @@ export function NoteTabs({
               if (target instanceof HTMLElement) target.focus();
             }
           }}
-          className={`max-w-40 min-w-0 cursor-pointer truncate rounded-t-lg border-b-2 px-3 py-2 text-xs whitespace-nowrap ${selected === note.id ? "border-(--wb-accent) bg-(--wb-surface) text-(--wb-ink)" : "border-transparent text-(--wb-ink-2) hover:bg-(--wb-fill-hover)"} ${FOCUS_RING}`}
+          className={`h-7 max-w-40 min-w-0 shrink-0 cursor-pointer truncate rounded-(--wb-radius-sm) px-2.5 text-[13px] whitespace-nowrap transition-colors duration-(--wb-dur-fast) ${selected === note.id ? "bg-(--wb-fill-active) font-medium text-(--wb-ink)" : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
           data-testid={`wb-note-tab-${note.id}`}
         >
           {note.title || t("scratchpad.untitled")}

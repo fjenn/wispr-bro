@@ -16,7 +16,7 @@ import {
   type SnippetReviewRow,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, FOCUS_RING } from "../ui";
+import { Button, Checkbox, FOCUS_RING } from "../ui";
 import {
   ImportWizard,
   type ImportField,
@@ -80,7 +80,7 @@ function FormatHelp() {
   return (
     <div className="flex flex-col gap-2" data-testid="wb-snippets-format">
       <p>{t("snippets.import.format.intro")}</p>
-      <pre className="overflow-x-auto rounded-(--wb-radius-sm) bg-(--wb-fill-active) px-3 py-2 font-mono text-[12.5px]">
+      <pre className="overflow-x-auto rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-3 py-2 font-(family-name:--wb-font-mono) text-[13px] text-(--wb-ink)">
         {
           'trigger,text\nmy sign-off,"Best wishes,\nFinn"\nmy hours,Mondays to Thursdays 9-17'
         }
@@ -119,12 +119,12 @@ function Review({
     <li
       data-testid={`wb-import-count-${id}`}
       data-count={count}
-      className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-3 py-2"
+      className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-4 py-3"
     >
-      <span className="block text-[20px] font-semibold tabular-nums">
+      <span className="block font-(family-name:--wb-font-display) text-[28px] leading-8 tabular-nums">
         {count}
       </span>
-      <span className="text-[12.5px] text-(--wb-ink-2)">
+      <span className="text-[13px] text-(--wb-ink-2)">
         {t(`snippets.import.review.${id}`, { count })}
       </span>
     </li>
@@ -139,7 +139,7 @@ function Review({
         {stat("invalid", review.invalid.length)}
       </ul>
       {overLimit > 0 && (
-        <p role="status" className="text-[13px]">
+        <p role="status" className="text-[14px] text-(--wb-ink)">
           {t("snippets.import.review.overLimit", {
             count: overLimit,
             room: review.room,
@@ -147,20 +147,20 @@ function Review({
         </p>
       )}
       {review.ignored_rows > 0 && (
-        <p role="status" className="text-[13px]">
+        <p role="status" className="text-[14px] text-(--wb-ink)">
           {t("snippets.import.review.ignoredRows", {
             count: review.ignored_rows,
           })}
         </p>
       )}
       {review.new_snippets.length > 0 && (
-        <details className="rounded-(--wb-radius-md) border border-(--wb-line) px-3 py-2">
+        <details className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-4 py-3">
           <summary
-            className={`cursor-pointer text-[13px] font-medium ${FOCUS_RING}`}
+            className={`cursor-pointer text-[14px] font-medium ${FOCUS_RING}`}
           >
             {t("snippets.import.review.showNew")}
           </summary>
-          <ul className="mt-2 flex flex-col gap-1 text-[13px]">
+          <ul className="mt-2 flex flex-col gap-1 text-[14px] text-(--wb-ink-2)">
             {sample(review.new_snippets).map((r) => (
               <li key={r.row}>
                 <Preview row={r} />
@@ -178,20 +178,24 @@ function Review({
       )}
       {review.conflicts.length > 0 && (
         <fieldset
-          className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) px-3 py-2"
+          className="flex flex-col gap-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-4 pt-1 pb-4"
           data-testid="wb-snippets-conflicts"
         >
-          <legend className="px-1 text-[13px] font-medium">
+          <legend className="px-1 text-[14px] font-semibold">
             {t("snippets.import.review.conflictsTitle")}
           </legend>
-          <p className="text-[12.5px] text-(--wb-ink-2)">
+          <p className="text-[13px] text-(--wb-ink-2)">
             {t("snippets.import.review.conflictsHelp")}
           </p>
           <div className="flex gap-2">
-            <Button onClick={() => setChoices(conflictRows)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setChoices(conflictRows)}
+            >
               {t("snippets.import.review.useAllFile")}
             </Button>
-            <Button onClick={() => setChoices([])}>
+            <Button variant="outline" size="sm" onClick={() => setChoices([])}>
               {t("snippets.import.review.keepAllMine")}
             </Button>
           </div>
@@ -200,12 +204,11 @@ function Review({
               const on = choices.includes(c.incoming.row);
               return (
                 <li key={c.incoming.row}>
-                  <label className="flex items-start gap-2 text-[13px]">
-                    <input
-                      type="checkbox"
+                  <label className="flex cursor-pointer items-start gap-2.5 text-[14px]">
+                    <Checkbox
                       checked={on}
                       onChange={(e) => toggle(c.incoming.row, e.target.checked)}
-                      className={`mt-0.5 size-4 accent-(--wb-ink) ${FOCUS_RING}`}
+                      className="mt-px"
                       data-testid={`wb-conflict-${c.incoming.row}`}
                     />
                     <span className="flex flex-col">
@@ -228,14 +231,14 @@ function Review({
         </fieldset>
       )}
       {review.invalid.length > 0 && (
-        <details className="rounded-(--wb-radius-md) border border-(--wb-line) px-3 py-2">
+        <details className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-4 py-3">
           <summary
-            className={`cursor-pointer text-[13px] font-medium ${FOCUS_RING}`}
+            className={`cursor-pointer text-[14px] font-medium ${FOCUS_RING}`}
           >
             {t("snippets.import.review.showInvalid")}
           </summary>
           <ul
-            className="mt-2 flex flex-col gap-1 text-[13px]"
+            className="mt-2 flex flex-col gap-1 text-[14px] text-(--wb-ink-2)"
             data-testid="wb-snippets-invalid"
           >
             {review.invalid.slice(0, 100).map((r) => (
@@ -339,9 +342,9 @@ export function SnippetsImportWizard({
         void useSnippetsStore.getState().reload();
         const o = result.data;
         return (
-          <div className="flex flex-col gap-2 text-[13.5px]">
+          <div className="flex flex-col gap-2 text-[15px]">
             <p
-              className="font-(family-name:--wb-font-display) text-[22px]"
+              className="type-serif-title text-(--wb-ink)"
               data-testid="wb-import-added"
               data-count={o.added + o.replaced}
             >

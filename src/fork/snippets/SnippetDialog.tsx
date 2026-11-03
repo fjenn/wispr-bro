@@ -28,8 +28,7 @@ import {
   type SnippetSaveOutcome,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { INPUT_CLASS } from "../dictionary/AddWordDialog";
-import { Button } from "../ui";
+import { Button, TextArea, TextField } from "../ui";
 import { useSnippetsStore } from "./useSnippets";
 
 export const MAX_TRIGGER_CHARS = 60;
@@ -175,7 +174,7 @@ export function SnippetDialog({
   const counter = (n: number, max: number, testId: string) => (
     <span
       data-testid={testId}
-      className={`text-[12px] tabular-nums ${n > max ? "font-semibold text-(--wb-ink)" : "text-(--wb-ink-2)"}`}
+      className={`text-[12px] tabular-nums ${n > max ? "font-semibold text-(--wb-danger)" : "text-(--wb-ink-3)"}`}
     >
       {t("snippets.dialog.counter", { count: n, max })}
     </span>
@@ -220,12 +219,12 @@ export function SnippetDialog({
       >
         <div className="flex flex-col gap-1.5">
           <div className="flex items-baseline justify-between">
-            <label htmlFor={triggerId} className="text-[13px] font-medium">
+            <label htmlFor={triggerId} className="text-[14px] font-medium">
               {t("snippets.dialog.trigger")}
             </label>
             {counter(tLength, MAX_TRIGGER_CHARS, "wb-snippet-trigger-counter")}
           </div>
-          <input
+          <TextField
             id={triggerId}
             ref={firstRef}
             value={trigger}
@@ -234,23 +233,22 @@ export function SnippetDialog({
               setFeedback(null);
             }}
             placeholder={t("snippets.dialog.triggerPlaceholder")}
-            aria-invalid={triggerTooLong || undefined}
+            invalid={triggerTooLong}
             aria-describedby={hintId}
             autoComplete="off"
             autoCorrect="off"
             spellCheck={false}
-            className={INPUT_CLASS}
             data-testid="wb-snippet-trigger"
           />
         </div>
         <div className="flex flex-col gap-1.5">
           <div className="flex items-baseline justify-between">
-            <label htmlFor={bodyId} className="text-[13px] font-medium">
+            <label htmlFor={bodyId} className="text-[14px] font-medium">
               {t("snippets.dialog.body")}
             </label>
             {counter(bLength, MAX_BODY_CHARS, "wb-snippet-body-counter")}
           </div>
-          <textarea
+          <TextArea
             id={bodyId}
             value={body}
             onChange={(e) => {
@@ -259,14 +257,14 @@ export function SnippetDialog({
             }}
             onKeyDown={onBodyKey}
             placeholder={t("snippets.dialog.bodyPlaceholder")}
-            aria-invalid={bodyTooLong || undefined}
+            invalid={bodyTooLong}
             rows={7}
             spellCheck
-            className={`${INPUT_CLASS} min-h-36 resize-y leading-5`}
+            className="min-h-40 resize-y"
             data-testid="wb-snippet-body"
           />
         </div>
-        <p id={hintId} className="text-[12.5px] text-(--wb-ink-2)">
+        <p id={hintId} className="text-[13px] leading-[18px] text-(--wb-ink-2)">
           {t("snippets.dialog.hint")}
         </p>
         {feedback && (
@@ -275,11 +273,13 @@ export function SnippetDialog({
             role="alert"
             data-testid="wb-snippet-feedback"
             data-kind={feedback.kind}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
+            className={`flex flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-(--wb-radius-sm) px-4 py-3 text-[14px] leading-5 text-(--wb-ink) ${feedback.kind === "failed" || feedback.kind === "problem" ? "bg-(--wb-danger-soft)" : "border border-(--wb-line) bg-(--wb-surface-tint)"}`}
           >
             <span>{feedbackText(feedback)}</span>
             {feedback.kind === "conflict" && !editing && (
               <Button
+                variant="outline"
+                size="sm"
                 onClick={() => void save(feedback.existing.id)}
                 disabled={busy}
                 data-testid="wb-snippet-replace-existing"

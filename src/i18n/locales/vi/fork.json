@@ -1695,6 +1695,10 @@
   "scratchpad": {
     "newNote": "Ghi chú mới",
     "preferences": "Tùy chọn Bản nháp",
+    "hero": {
+      "title": "Chỗ cho những ý nghĩ chợt đến",
+      "body": "Ghi một danh sách, soạn nháp câu trả lời hoặc nói ra để nghĩ về một ý tưởng. Mọi ghi chú đều tự lưu."
+    },
     "addToBar": "Thêm vào thanh",
     "addToBarHelp": "Giữ nút Bản nháp cạnh Đọc chính tả trên thanh khi không hoạt động.",
     "recents": "Gần đây",

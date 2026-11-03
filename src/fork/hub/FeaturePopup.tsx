@@ -14,11 +14,11 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "../ui/Dialog";
 import { commands, type FeatureAnnouncement } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
-import { Button } from "../ui";
+import { Button, Dialog } from "../ui";
+import { Sparkles } from "../ui/icons";
 import { useFeaturePopupDeferred } from "./featurePopupGate";
 import { runHubAction, useInbox } from "./notifications";
 
@@ -105,12 +105,20 @@ export function FeaturePopup() {
         </div>
       }
     >
-      <p
-        data-testid="wb-feature-popup"
-        className="text-[14px] leading-5 text-(--wb-ink-2)"
-      >
-        {t(feature.body_key, { appName: t("rust.appName") })}
-      </p>
+      <div data-testid="wb-feature-popup" className="flex flex-col gap-4">
+        <div
+          aria-hidden="true"
+          className="relative grid h-32 place-items-center overflow-hidden rounded-(--wb-radius-md) bg-(--wb-hero) text-(--wb-on-hero)"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(90%_120%_at_85%_0%,rgba(154,114,186,0.38)_0%,rgba(154,114,186,0)_60%),radial-gradient(80%_120%_at_10%_120%,rgba(196,140,90,0.3)_0%,rgba(196,140,90,0)_60%)]" />
+          <span className="relative grid size-14 place-items-center rounded-full bg-white/10 ring-1 ring-white/15">
+            <Sparkles size={24} />
+          </span>
+        </div>
+        <p className="text-[15px] leading-[22px] text-(--wb-ink-2)">
+          {t(feature.body_key, { appName: t("rust.appName") })}
+        </p>
+      </div>
     </Dialog>
   );
 }

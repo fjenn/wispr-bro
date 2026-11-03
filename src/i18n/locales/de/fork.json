@@ -1772,6 +1772,10 @@
   "scratchpad": {
     "newNote": "Neue Notiz",
     "preferences": "Einstellungen für den Notizblock",
+    "hero": {
+      "title": "Platz für lose Gedanken",
+      "body": "Schreib eine Liste, entwirf eine Antwort oder denk eine Idee laut durch. Jede Notiz speichert sich selbst."
+    },
     "addToBar": "Zur Leiste hinzufügen",
     "addToBarHelp": "Zeigt in der ruhenden Leiste eine Notizblock-Taste neben „Diktieren“.",
     "recents": "Zuletzt verwendet",

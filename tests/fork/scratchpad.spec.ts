@@ -130,7 +130,7 @@ test("Hub preferences, unset shortcut proposal and New note", async ({
   const fake = new FakeNotes();
   await openPage(page, ipc, hub, fake);
   await expect(page.getByTestId("wb-scratchpad-shortcut-value")).toHaveText(
-    "Not set",
+    "Set shortcut",
   );
   await page.getByTestId("wb-scratchpad-on-bar").check();
   await expect.poll(() => hub.forkSettings.scratchpad_on_bar).toBe(true);

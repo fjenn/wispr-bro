@@ -20,7 +20,9 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { open as openFileDialog } from "@tauri-apps/plugin-dialog";
-import { FileUp, Loader2 } from "./icons";
+import { ChevronDown, FileUp, Loader2 } from "./icons";
+import { Checkbox } from "./Checkbox";
+import { Select } from "./Select";
 import { Dialog } from "./Dialog";
 import { FORK_NAMESPACE } from "../i18n";
 import { useDropZone } from "../hub/dropRouter";
@@ -76,6 +78,8 @@ export interface ImportWizardProps<Review, Choices> {
 type Step = "choose" | "columns" | "review" | "done";
 const STEPS: Step[] = ["choose", "columns", "review", "done"];
 const PREVIEW_ROWS = 5;
+/** The Select value for "no column" (Radix reserves the empty string). */
+const NO_COLUMN = "none";
 
 const isCsvPath = (p: string) => /\.csv$/i.test(p);
 
@@ -225,12 +229,13 @@ function WizardBody<Review, Choices>({
   const stepTitle = t(`ui.importWizard.steps.${step}`);
 
   const footer = (
-    <>
+    <div className="flex w-full items-center gap-2">
       {step !== "done" && (
         <Button onClick={() => onOpenChange(false)}>
           {t("ui.importWizard.cancel")}
         </Button>
       )}
+      <span className="flex-1" />
       {(step === "columns" || step === "review") && (
         <Button
           disabled={busy}
@@ -273,7 +278,7 @@ function WizardBody<Review, Choices>({
           {t("ui.importWizard.done")}
         </Button>
       )}
-    </>
+    </div>
   );
 
   return (
@@ -283,31 +288,31 @@ function WizardBody<Review, Choices>({
       title={title}
       closeLabel={t("ui.importWizard.close")}
       footer={footer}
-      className="max-w-2xl! bg-(--wb-panel)! text-(--wb-ink)"
+      className="max-w-[680px]!"
       contentFades={false}
     >
       <div
         data-testid={testId}
         data-step={step}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-5"
       >
         <ol
           aria-label={t("ui.importWizard.stepsLabel")}
-          className="flex flex-wrap gap-x-4 gap-y-1 text-[12.5px] text-(--wb-ink-2)"
+          className="grid grid-cols-4 gap-2"
         >
           {STEPS.map((s, i) => (
             <li
               key={s}
               aria-current={s === step ? "step" : undefined}
-              className={`flex items-center gap-1.5 ${s === step ? "font-semibold text-(--wb-ink)" : ""}`}
+              className={`flex min-w-0 flex-col gap-1.5 text-[12px] leading-4 ${s === step ? "font-semibold text-(--wb-ink)" : i < index ? "text-(--wb-ink-2)" : "text-(--wb-ink-3)"}`}
             >
               <span
                 aria-hidden="true"
-                className={`grid size-5 place-items-center rounded-full text-[11px] ${i <= index ? "bg-(--wb-ink) text-(--wb-on-ink)" : "border border-(--wb-line-strong)"}`}
-              >
-                {i + 1}
+                className={`h-[3px] rounded-full transition-colors duration-(--wb-dur-base) ${i <= index ? "bg-(--wb-ink)" : "bg-(--wb-line-2)"}`}
+              />
+              <span className="truncate">
+                {t(`ui.importWizard.steps.${s}`)}
               </span>
-              {t(`ui.importWizard.steps.${s}`)}
             </li>
           ))}
         </ol>
@@ -325,20 +330,25 @@ function WizardBody<Review, Choices>({
         </h3>
 
         {step === "choose" && (
-          <section aria-labelledby={headingId} className="flex flex-col gap-3">
-            <p className="text-[13.5px] text-(--wb-ink-2)">{description}</p>
+          <section aria-labelledby={headingId} className="flex flex-col gap-4">
+            <p className="text-[15px] leading-[22px] text-(--wb-ink-2)">
+              {description}
+            </p>
             <div
               ref={dropRef}
               data-testid={`${testId}-drop`}
               data-drop-active={dropActive || undefined}
-              className={`flex flex-col items-center gap-3 rounded-(--wb-radius-md) border-2 border-dashed px-6 py-8 text-center ${dropActive ? "border-(--wb-accent) bg-(--wb-fill-active)" : "border-(--wb-line-strong)"}`}
+              className={`flex flex-col items-center gap-3 rounded-(--wb-radius-md) border-[1.5px] border-dashed px-6 py-9 text-center transition-colors duration-(--wb-dur-fast) ${dropActive ? "border-(--wb-accent-2) bg-(--wb-accent-soft)" : "border-(--wb-line-2) bg-(--wb-surface-tint)"}`}
             >
-              <FileUp
-                size={24}
+              <span
                 aria-hidden="true"
-                className="text-(--wb-ink-2)"
-              />
-              <p className="text-[13.5px]">{t("ui.importWizard.dropHint")}</p>
+                className="grid size-12 place-items-center rounded-full border border-(--wb-line) bg-(--wb-surface) text-(--wb-ink-2) shadow-(--wb-elev-1)"
+              >
+                <FileUp size={20} />
+              </span>
+              <p className="text-[15px] text-(--wb-ink)">
+                {t("ui.importWizard.dropHint")}
+              </p>
               <Button
                 variant="primary"
                 disabled={busy}
@@ -350,7 +360,7 @@ function WizardBody<Review, Choices>({
                 )}
                 {t("ui.importWizard.browse")}
               </Button>
-              <p className="text-[12.5px] text-(--wb-ink-2)">
+              <p className="text-[13px] text-(--wb-ink-3)">
                 {t("ui.importWizard.limit")}
               </p>
             </div>
@@ -360,15 +370,19 @@ function WizardBody<Review, Choices>({
                 aria-expanded={helpOpen}
                 aria-controls={helpId}
                 onClick={() => setHelpOpen((o) => !o)}
-                className={`cursor-pointer rounded text-[13px] font-medium text-(--wb-accent) underline underline-offset-2 ${FOCUS_RING}`}
+                className={`inline-flex cursor-pointer items-center gap-1 rounded text-[14px] font-medium text-(--wb-ink) underline decoration-(--wb-line-strong) underline-offset-4 hover:decoration-(--wb-ink) ${FOCUS_RING}`}
                 data-testid={`${testId}-format`}
               >
                 {t("ui.importWizard.formatLink")}
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform duration-(--wb-dur-fast) ${helpOpen ? "rotate-180" : ""}`}
+                />
               </button>
               {helpOpen && (
                 <div
                   id={helpId}
-                  className="mt-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-[13px] leading-5"
+                  className="mt-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4 text-[14px] leading-[21px] text-(--wb-ink-2)"
                 >
                   {formatHelp}
                 </div>
@@ -378,31 +392,32 @@ function WizardBody<Review, Choices>({
         )}
 
         {step === "columns" && table && (
-          <section aria-labelledby={headingId} className="flex flex-col gap-3">
-            <p className="text-[13.5px] text-(--wb-ink-2)">
-              {t("ui.importWizard.fileSummary", {
-                name: fileName ?? "",
-                count: rows.length,
-              })}
-            </p>
-            <label className="flex items-center gap-2 text-[13.5px]">
-              <input
-                type="checkbox"
+          <section aria-labelledby={headingId} className="flex flex-col gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-[15px] text-(--wb-ink-2)">
+                {t("ui.importWizard.fileSummary", {
+                  name: fileName ?? "",
+                  count: rows.length,
+                })}
+              </p>
+              <Checkbox
                 checked={hasHeader}
                 onChange={(e) => {
                   const header = e.target.checked;
                   setHasHeader(header);
                   setMapping(guessMapping(table, fields, header));
                 }}
-                className={`size-4 accent-(--wb-ink) ${FOCUS_RING}`}
+                label={t("ui.importWizard.hasHeader")}
                 data-testid={`${testId}-header`}
               />
-              {t("ui.importWizard.hasHeader")}
-            </label>
-            <div className="grid gap-3 sm:grid-cols-2">
+            </div>
+            <div className="grid gap-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) p-4 sm:grid-cols-2">
               {fields.map((field) => (
-                <label key={field.id} className="flex flex-col gap-1">
-                  <span className="text-[13px] font-medium">
+                <div key={field.id} className="flex min-w-0 flex-col gap-1.5">
+                  <span
+                    id={`${helpId}-${field.id}`}
+                    className="text-[14px] font-medium text-(--wb-ink)"
+                  >
                     {field.label}
                     {!field.required && (
                       <span className="font-normal text-(--wb-ink-2)">
@@ -411,48 +426,50 @@ function WizardBody<Review, Choices>({
                       </span>
                     )}
                   </span>
-                  <select
-                    value={mapping[field.id] ?? ""}
-                    onChange={(e) =>
+                  <Select
+                    value={String(mapping[field.id] ?? NO_COLUMN)}
+                    onValueChange={(value) =>
                       setMapping({
                         ...mapping,
-                        [field.id]:
-                          e.target.value === "" ? null : Number(e.target.value),
+                        [field.id]: value === NO_COLUMN ? null : Number(value),
                       })
                     }
-                    className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
-                    data-testid={`${testId}-column-${field.id}`}
-                  >
-                    <option value="">{t("ui.importWizard.noColumn")}</option>
-                    {Array.from({ length: table.columns }, (_, i) => {
-                      const head = hasHeader
-                        ? table.records[0]?.[i]?.trim()
-                        : "";
-                      return (
-                        <option key={i} value={i}>
-                          {head
+                    labelledBy={`${helpId}-${field.id}`}
+                    testId={`${testId}-column-${field.id}`}
+                    options={[
+                      {
+                        value: NO_COLUMN,
+                        label: t("ui.importWizard.noColumn"),
+                      },
+                      ...Array.from({ length: table.columns }, (_, i) => {
+                        const head = hasHeader
+                          ? table.records[0]?.[i]?.trim()
+                          : "";
+                        return {
+                          value: String(i),
+                          label: head
                             ? t("ui.importWizard.columnNamed", {
                                 letter: columnLetter(i),
                                 name: head,
                               })
                             : t("ui.importWizard.column", {
                                 letter: columnLetter(i),
-                              })}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </label>
+                              }),
+                        };
+                      }),
+                    ]}
+                  />
+                </div>
               ))}
             </div>
             {!mappingComplete && (
-              <p role="status" className="text-[13px] text-(--wb-ink-2)">
+              <p role="status" className="text-[14px] text-(--wb-ink-2)">
                 {t("ui.importWizard.mapRequired")}
               </p>
             )}
-            <div className="overflow-x-auto rounded-(--wb-radius-md) border border-(--wb-line)">
+            <div className="overflow-x-auto rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface)">
               <table
-                className="w-full text-start text-[13px]"
+                className="w-full text-start text-[14px]"
                 data-testid={`${testId}-preview`}
               >
                 <caption className="sr-only">
@@ -460,11 +477,11 @@ function WizardBody<Review, Choices>({
                     count: Math.min(PREVIEW_ROWS, rows.length),
                   })}
                 </caption>
-                <thead className="bg-(--wb-surface) text-(--wb-ink-2)">
+                <thead>
                   <tr>
                     <th
                       scope="col"
-                      className="px-3 py-2 text-start font-medium"
+                      className="type-micro w-16 px-4 pt-3 pb-2 text-start text-(--wb-ink-3)"
                     >
                       {t("ui.importWizard.rowHeader")}
                     </th>
@@ -472,7 +489,7 @@ function WizardBody<Review, Choices>({
                       <th
                         key={f.id}
                         scope="col"
-                        className="px-3 py-2 text-start font-medium"
+                        className="type-micro px-4 pt-3 pb-2 text-start text-(--wb-ink-3)"
                       >
                         {f.label}
                       </th>
@@ -482,11 +499,13 @@ function WizardBody<Review, Choices>({
                 <tbody>
                   {rows.slice(0, PREVIEW_ROWS).map((r) => (
                     <tr key={r.row} className="border-t border-(--wb-line)">
-                      <td className="px-3 py-1.5 text-(--wb-ink-2)">{r.row}</td>
+                      <td className="px-4 py-2 text-(--wb-ink-3) tabular-nums">
+                        {r.row}
+                      </td>
                       {fields.map((f) => (
                         <td
                           key={f.id}
-                          className="max-w-60 truncate px-3 py-1.5"
+                          className="max-w-60 truncate px-4 py-2 text-(--wb-ink)"
                         >
                           {r.values[f.id]}
                         </td>
@@ -519,7 +538,7 @@ function WizardBody<Review, Choices>({
           <p
             role="alert"
             data-testid={`${testId}-error`}
-            className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
+            className="rounded-(--wb-radius-sm) bg-(--wb-danger-soft) px-4 py-3 text-[14px] text-(--wb-ink)"
           >
             {error}
           </p>

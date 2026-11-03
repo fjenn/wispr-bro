@@ -1849,6 +1849,10 @@
   "scratchpad": {
     "newNote": "Nuova nota",
     "preferences": "Preferenze del Blocco note",
+    "hero": {
+      "title": "Spazio per i pensieri sparsi",
+      "body": "Scrivi una lista, prepara una risposta o ragiona ad alta voce su un’idea. Ogni nota si salva da sola."
+    },
     "addToBar": "Aggiungi alla barra",
     "addToBarHelp": "Mostra un pulsante Blocco note accanto a Detta sulla barra a riposo.",
     "recents": "Recenti",

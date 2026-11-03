@@ -1849,6 +1849,10 @@
   "scratchpad": {
     "newNote": "Nota nueva",
     "preferences": "Preferencias del Bloc de notas",
+    "hero": {
+      "title": "Espacio para ideas sueltas",
+      "body": "Haz una lista, redacta una respuesta o piensa una idea en voz alta. Cada nota se guarda sola."
+    },
     "addToBar": "Añadir a la barra",
     "addToBarHelp": "Muestra un botón del Bloc de notas junto a Dictar en la barra en reposo.",
     "recents": "Recientes",

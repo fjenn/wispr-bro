@@ -1849,6 +1849,10 @@
   "scratchpad": {
     "newNote": "Nouvelle note",
     "preferences": "Préférences du Bloc-notes",
+    "hero": {
+      "title": "De la place pour vos idées en vrac",
+      "body": "Faites une liste, préparez une réponse ou réfléchissez à voix haute. Chaque note s’enregistre toute seule."
+    },
     "addToBar": "Ajouter à la barre",
     "addToBarHelp": "Affiche un bouton Bloc-notes à côté de Dicter sur la barre au repos.",
     "recents": "Récents",

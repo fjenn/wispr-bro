@@ -21,7 +21,7 @@ import {
   type SaveOutcome,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, FOCUS_RING } from "../ui";
+import { Button, FOCUS_RING, TextField } from "../ui";
 import { useDictionaryStore } from "./useDictionary";
 
 export const MAX_PHRASE_CHARS = 60;
@@ -202,7 +202,7 @@ export function AddWordDialog({
   const counter = (n: number, max: number, testId: string) => (
     <span
       data-testid={testId}
-      className={`text-[12px] ${n > max ? "font-semibold text-(--wb-ink)" : "text-(--wb-ink-2)"}`}
+      className={`text-[12px] tabular-nums ${n > max ? "font-semibold text-(--wb-danger)" : "text-(--wb-ink-3)"}`}
     >
       {t("dictionary.dialog.counter", { count: n, max })}
     </span>
@@ -244,8 +244,8 @@ export function AddWordDialog({
         className="flex flex-col gap-4"
         aria-describedby={feedback ? feedbackId : undefined}
       >
-        <div className="flex items-center justify-between gap-3">
-          <span id={switchLabelId} className="text-[13.5px] font-medium">
+        <div className="flex items-center justify-between gap-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-4 py-3">
+          <span id={switchLabelId} className="text-[15px] font-medium">
             {t("dictionary.dialog.replaceToggle")}
           </span>
           <Switch
@@ -259,12 +259,12 @@ export function AddWordDialog({
         </div>
         <div className="flex flex-col gap-1.5">
           <div className="flex items-baseline justify-between">
-            <label htmlFor={phraseId} className="text-[13px] font-medium">
+            <label htmlFor={phraseId} className="text-[14px] font-medium">
               {t(replace ? "dictionary.dialog.from" : "dictionary.dialog.word")}
             </label>
             {counter(phraseLength, MAX_PHRASE_CHARS, "wb-dictionary-counter")}
           </div>
-          <input
+          <TextField
             id={phraseId}
             ref={firstRef}
             value={phrase}
@@ -277,11 +277,10 @@ export function AddWordDialog({
                 ? "dictionary.dialog.fromPlaceholder"
                 : "dictionary.dialog.wordPlaceholder",
             )}
-            aria-invalid={phraseTooLong || undefined}
+            invalid={phraseTooLong}
             autoComplete="off"
             autoCorrect="off"
             spellCheck={false}
-            className={INPUT_CLASS}
             data-testid="wb-dictionary-phrase"
           />
         </div>
@@ -290,7 +289,7 @@ export function AddWordDialog({
             <div className="flex items-baseline justify-between">
               <label
                 htmlFor={replacementId}
-                className="text-[13px] font-medium"
+                className="text-[14px] font-medium"
               >
                 {t("dictionary.dialog.to")}
               </label>
@@ -300,7 +299,7 @@ export function AddWordDialog({
                 "wb-dictionary-counter-to",
               )}
             </div>
-            <input
+            <TextField
               id={replacementId}
               value={replacement}
               onChange={(e) => {
@@ -308,16 +307,15 @@ export function AddWordDialog({
                 setFeedback(null);
               }}
               placeholder={t("dictionary.dialog.toPlaceholder")}
-              aria-invalid={replacementTooLong || undefined}
+              invalid={replacementTooLong}
               autoComplete="off"
               autoCorrect="off"
               spellCheck={false}
-              className={INPUT_CLASS}
               data-testid="wb-dictionary-replacement"
             />
           </div>
         )}
-        <p className="text-[12.5px] text-(--wb-ink-2)">
+        <p className="text-[13px] leading-[18px] text-(--wb-ink-2)">
           {t(
             replace
               ? "dictionary.dialog.ruleHint"
@@ -330,11 +328,13 @@ export function AddWordDialog({
             role="alert"
             data-testid="wb-dictionary-feedback"
             data-kind={feedback.kind}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
+            className={`flex flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-(--wb-radius-sm) px-4 py-3 text-[14px] leading-5 text-(--wb-ink) ${feedback.kind === "failed" || feedback.kind === "problem" ? "bg-(--wb-danger-soft)" : "border border-(--wb-line) bg-(--wb-surface-tint)"}`}
           >
             <span>{feedbackText(feedback)}</span>
             {feedback.kind === "conflict" && !editing && (
               <Button
+                variant="outline"
+                size="sm"
                 onClick={() => void save(feedback.existing.id)}
                 disabled={busy}
                 data-testid="wb-dictionary-replace-existing"

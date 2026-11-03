@@ -1926,6 +1926,10 @@
   "scratchpad": {
     "newNote": "Nowa notatka",
     "preferences": "Preferencje Brudnopisu",
+    "hero": {
+      "title": "Miejsce na luźne myśli",
+      "body": "Spisz listę, przygotuj odpowiedź albo przemyśl pomysł na głos. Każda notatka zapisuje się sama."
+    },
     "addToBar": "Dodaj do paska",
     "addToBarHelp": "Pokazuj przycisk Brudnopisu obok przycisku Dyktuj na pasku w spoczynku.",
     "recents": "Ostatnie",

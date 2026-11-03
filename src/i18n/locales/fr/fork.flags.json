@@ -1349,6 +1349,8 @@
   "history.flag.openDictionary": "ai-reviewed",
   "scratchpad.newNote": "ai-reviewed",
   "scratchpad.preferences": "ai-reviewed",
+  "scratchpad.hero.title": "ai-reviewed",
+  "scratchpad.hero.body": "ai-reviewed",
   "scratchpad.addToBar": "ai-reviewed",
   "scratchpad.addToBarHelp": "ai-reviewed",
   "scratchpad.recents": "ai-reviewed",

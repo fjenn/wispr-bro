@@ -21,7 +21,7 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Bell, BellOff, CheckCheck, MoreHorizontal } from "../ui/icons";
+import { Bell, CheckCheck, MoreHorizontal } from "../ui/icons";
 import { toast } from "sonner";
 import {
   events,
@@ -33,7 +33,7 @@ import { useForkSettings } from "../settings/useForkSettings";
 import { listenForTransformChanges } from "../transforms/store";
 import { listenForMenuActions } from "./menuActions";
 import { reportHubReady } from "./ready";
-import { EmptyState, FOCUS_RING, Menu, Popover } from "../ui";
+import { Button, EmptyState, FOCUS_RING, Menu, Popover } from "../ui";
 import {
   activateNotification,
   buttonLabel,
@@ -134,7 +134,7 @@ function FilterSwitch() {
     <div
       role="group"
       aria-label={t("hub.notifications.filter.label")}
-      className="flex gap-1 px-4 pb-2"
+      className="flex gap-1 px-4 pb-3"
     >
       {options.map((option) => (
         <button
@@ -143,7 +143,7 @@ function FilterSwitch() {
           data-testid={`wb-notifications-filter-${option}`}
           aria-pressed={filter === option}
           onClick={() => setFilter(option)}
-          className={`cursor-pointer rounded-full px-3 py-1 text-[12.5px] font-medium transition-colors ${FOCUS_RING} ${
+          className={`h-7 cursor-pointer rounded-full px-3 text-[13px] font-medium transition-colors duration-(--wb-dur-fast) ${FOCUS_RING} ${
             filter === option
               ? "bg-(--wb-fill-active) text-(--wb-ink)"
               : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"
@@ -171,24 +171,23 @@ function Entry({ item, now }: { item: NotificationItem; now: number }) {
       data-testid={`wb-notification-${item.id}`}
       data-kind={item.kind}
       data-read={item.read ? "true" : "false"}
-      className="border-b border-(--wb-line) last:border-b-0"
     >
       {/* The button's name is its visible text (title, time, body), with
           "Unread" spoken first for unread entries. */}
       <button
         type="button"
         onClick={() => void run(null)}
-        className={`flex w-full cursor-pointer gap-2.5 px-4 pt-3 text-start hover:bg-(--wb-fill-hover) ${item.buttons.length ? "pb-1.5" : "pb-3"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
+        className={`flex w-full cursor-pointer gap-3 px-4 pt-3.5 text-start transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) ${item.buttons.length ? "pb-2" : "pb-3.5"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
       >
         <span
           aria-hidden="true"
-          className={`mt-1.5 size-2 shrink-0 rounded-full ${item.read ? "bg-transparent" : "bg-(--wb-accent)"}`}
+          className={`mt-[7px] size-1.5 shrink-0 rounded-full ${item.read ? "bg-transparent" : "bg-(--wb-accent)"}`}
         />
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
           <span className="flex items-baseline gap-2">
             <span
               id={titleId}
-              className={`min-w-0 flex-1 text-[13px] leading-5 ${item.read ? "font-medium text-(--wb-ink-2)" : "font-semibold text-(--wb-ink)"}`}
+              className={`min-w-0 flex-1 text-[14px] leading-5 ${item.read ? "font-medium text-(--wb-ink-2)" : "font-semibold text-(--wb-ink)"}`}
             >
               {!item.read && (
                 <span className="sr-only">
@@ -197,34 +196,37 @@ function Entry({ item, now }: { item: NotificationItem; now: number }) {
               )}
               {title}
             </span>
-            <span className="shrink-0 text-[11.5px] text-(--wb-ink-3)">
+            <span className="shrink-0 text-[12px] text-(--wb-ink-3) tabular-nums">
               {when}
             </span>
           </span>
           {body && (
-            <span className="text-[12.5px] leading-[18px] text-(--wb-ink-2)">
+            <span className="text-[13px] leading-[18px] text-(--wb-ink-2)">
               {body}
             </span>
           )}
         </span>
       </button>
       {item.buttons.length > 0 && (
-        <div className="flex flex-wrap gap-2 ps-[34px] pe-4 pb-3">
-          {item.buttons.map((button) => (
-            <button
+        <div className="flex flex-wrap gap-2 ps-[34px] pe-4 pb-3.5">
+          {item.buttons.map((button, i) => (
+            <Button
               key={button}
-              type="button"
+              size="sm"
+              variant={i === 0 ? "secondary" : "outline"}
               data-testid={`wb-notification-${item.id}-${button}`}
               onClick={() => void run(button)}
-              className={`cursor-pointer rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-1 text-[12px] font-medium text-(--wb-ink) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             >
               {buttonLabel(button, t)}
-            </button>
+            </Button>
           ))}
         </div>
       )}
       {failed && (
-        <p role="alert" className="px-4 pb-3 text-[12px] text-(--wb-ink)">
+        <p
+          role="alert"
+          className="mx-4 mb-3 rounded-(--wb-radius-sm) bg-(--wb-danger-soft) px-3 py-2 text-[13px] text-(--wb-ink)"
+        >
           {t("hub.notifications.actionFailed")}
         </p>
       )}
@@ -241,7 +243,7 @@ function PanelBody() {
 
   if (status === "error") {
     return (
-      <p role="alert" className="px-4 py-6 text-[12.5px] text-(--wb-ink-2)">
+      <p role="alert" className="px-4 py-6 text-[13px] text-(--wb-ink-2)">
         {t("hub.notifications.loadFailed")}
       </p>
     );
@@ -253,7 +255,6 @@ function PanelBody() {
         compact
         testId="wb-notifications-empty"
         art={<ForkArt name="empty-notifications" width={96} />}
-        icon={BellOff}
         title={t(`hub.notifications.${key}.title`)}
         body={t(`hub.notifications.${key}.body`)}
       />
@@ -263,7 +264,7 @@ function PanelBody() {
     <ul
       aria-label={t("hub.notifications.list")}
       data-testid="wb-notifications-list"
-      className="max-h-[min(440px,calc(100vh-140px))] overflow-y-auto"
+      className="max-h-[min(440px,calc(100vh-140px))] divide-y divide-(--wb-line) overflow-y-auto"
     >
       {items.map((item) => (
         <Entry key={item.id} item={item} now={now} />
@@ -286,7 +287,7 @@ export function NotificationsBell() {
     <Popover
       label={title}
       testId="wb-notifications-panel"
-      className="w-[360px]"
+      className="w-[380px] overflow-hidden"
       open={open}
       onOpenChange={setOpen}
       trigger={
@@ -309,8 +310,8 @@ export function NotificationsBell() {
         </button>
       }
     >
-      <div className="flex items-center justify-between gap-2 py-2 ps-4 pe-2">
-        <h2 className="text-[13.5px] font-semibold">{title}</h2>
+      <div className="flex items-center justify-between gap-2 pt-3 pb-2 ps-4 pe-2">
+        <h2 className="text-[15px] font-semibold text-(--wb-ink)">{title}</h2>
         <MoreMenu />
       </div>
       <FilterSwitch />

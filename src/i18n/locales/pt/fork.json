@@ -1849,6 +1849,10 @@
   "scratchpad": {
     "newNote": "Nova nota",
     "preferences": "Preferências do Rascunho",
+    "hero": {
+      "title": "Espaço para ideias soltas",
+      "body": "Faça uma lista, rascunhe uma resposta ou pense em uma ideia em voz alta. Cada nota é salva automaticamente."
+    },
     "addToBar": "Adicionar à barra",
     "addToBarHelp": "Mantém um botão do Rascunho ao lado de Ditar na barra em repouso.",
     "recents": "Recentes",

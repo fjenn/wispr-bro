@@ -80,16 +80,20 @@ export function ReportProblemDialog({
     >
       <section
         data-testid="wb-report-dialog"
-        className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
+        className="flex flex-col gap-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4"
       >
-        <h3 className="text-[13.5px] font-semibold">
-          {t("hub.help.report.diagnosticsTitle")}
-        </h3>
-        <p className="text-[13px] text-(--wb-ink-2)">
-          {t("hub.help.report.diagnosticsBody")}
-        </p>
+        <div className="flex flex-col gap-1">
+          <h3 className="text-[15px] font-semibold text-(--wb-ink)">
+            {t("hub.help.report.diagnosticsTitle")}
+          </h3>
+          <p className="text-[13px] leading-[18px] text-(--wb-ink-2)">
+            {t("hub.help.report.diagnosticsBody")}
+          </p>
+        </div>
         <div className="flex flex-wrap items-center gap-3">
           <Button
+            variant="outline"
+            size="sm"
             onClick={() => void copyDiagnostics()}
             disabled={copy === "busy"}
             data-testid="wb-report-copy-diagnostics"
@@ -104,7 +108,7 @@ export function ReportProblemDialog({
           <p
             role="status"
             data-testid="wb-report-copy-status"
-            className="text-[12.5px] text-(--wb-ink-2)"
+            className="text-[13px] text-(--wb-ink-2)"
           >
             {copy === "copied" && t("hub.help.report.copied")}
             {copy === "failed" && t("hub.help.report.copyFailed")}

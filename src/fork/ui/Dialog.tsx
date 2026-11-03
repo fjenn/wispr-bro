@@ -22,6 +22,7 @@ import {
   type CSSProperties,
   type MouseEvent,
   type ReactNode,
+  type Ref,
   type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
@@ -142,6 +143,9 @@ export interface DialogProps {
   closeOnBackdrop?: boolean;
   showCloseButton?: boolean;
   initialFocusRef?: RefObject<HTMLElement | null>;
+  /** The close button (e.g. to give it the first focus, W6). */
+  closeRef?: Ref<HTMLButtonElement>;
+  closeTestId?: string;
   /** Extra classes on the panel (e.g. a `max-w-*` override). */
   className?: string;
   contentClassName?: string;
@@ -162,6 +166,8 @@ export function Dialog({
   closeOnBackdrop = true,
   showCloseButton = true,
   initialFocusRef,
+  closeRef,
+  closeTestId,
   className = "",
   contentClassName = "",
   contentFades = true,
@@ -216,6 +222,8 @@ export function Dialog({
               </div>
               {dismissible && showCloseButton && (
                 <IconButton
+                  ref={closeRef}
+                  data-testid={closeTestId}
                   aria-label={closeLabel}
                   variant="secondary"
                   size="sm"
@@ -264,6 +272,11 @@ export interface SheetProps {
   initialFocusRef?: RefObject<HTMLElement | null>;
   /** `warm` is the lesson sheet (`--wb-sheet`); `plain` is white. */
   tone?: "warm" | "plain";
+  /**
+   * `lg` (default) is the full lesson sheet, 940 × 640 pt; `md` is 720 pt
+   * wide and as tall as its content, up to the same height (What's new).
+   */
+  size?: "lg" | "md";
   className?: string;
   testId?: string;
 }
@@ -283,6 +296,7 @@ export function Sheet({
   closeOnBackdrop = true,
   initialFocusRef,
   tone = "warm",
+  size = "lg",
   className = "",
   testId,
 }: SheetProps) {
@@ -315,7 +329,7 @@ export function Sheet({
             aria-label={label}
             tabIndex={-1}
             data-testid={testId}
-            className={`flex h-[min(640px,calc(100dvh-4rem))] w-full max-w-[940px] flex-col overflow-hidden rounded-(--wb-radius-lg) text-(--wb-ink) shadow-(--wb-elev-3) outline-none ${tone === "warm" ? "bg-(--wb-sheet)" : "bg-(--wb-surface)"} ${className}`}
+            className={`flex w-full flex-col ${size === "lg" ? "h-[min(640px,calc(100dvh-4rem))] max-w-[940px]" : "max-h-[min(640px,calc(100dvh-4rem))] max-w-[720px]"} overflow-hidden rounded-(--wb-radius-lg) text-(--wb-ink) shadow-(--wb-elev-3) outline-none ${tone === "warm" ? "bg-(--wb-sheet)" : "bg-(--wb-surface)"} ${className}`}
           >
             <div className="grid shrink-0 grid-cols-[1fr_auto_1fr] items-center px-5 pt-5">
               <div>

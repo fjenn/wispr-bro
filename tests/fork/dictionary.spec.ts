@@ -616,10 +616,10 @@ dictTest.describe("import wizard", () => {
       await expect(page.getByTestId("wb-import-wizard-header")).toBeChecked();
       await expect(
         page.getByTestId("wb-import-wizard-column-phrase"),
-      ).toHaveValue("0");
+      ).toHaveText("Column A: phrase");
       await expect(
         page.getByTestId("wb-import-wizard-column-replacement"),
-      ).toHaveValue("1");
+      ).toHaveText("Column B: replacement");
       const preview = page.getByTestId("wb-import-wizard-preview");
       await expect(preview.locator("tbody tr")).toHaveCount(5);
       await expect(preview.locator("tbody tr").nth(4)).toContainText(
@@ -631,6 +631,25 @@ dictTest.describe("import wizard", () => {
       await page.getByTestId("wb-import-wizard-header").uncheck();
       await expect(preview.locator("tbody tr").first()).toContainText("phrase");
       await page.getByTestId("wb-import-wizard-header").check();
+
+      // The column pickers are listboxes: a column can be left out and
+      // picked again.
+      const replacementColumn = page.getByTestId(
+        "wb-import-wizard-column-replacement",
+      );
+      await replacementColumn.click();
+      await page
+        .getByTestId("wb-import-wizard-column-replacement-option-none")
+        .click();
+      await expect(replacementColumn).toHaveText("Not in this file");
+      await expect(preview.locator("tbody tr").nth(2)).not.toContainText(
+        "want to",
+      );
+      await replacementColumn.focus();
+      await page.keyboard.press("Enter");
+      await page.getByRole("option", { name: "Column B: replacement" }).click();
+      await expect(replacementColumn).toHaveText("Column B: replacement");
+      await expect(preview.locator("tbody tr").nth(2)).toContainText("want to");
 
       await page.getByTestId("wb-import-wizard-next").click();
       await expect(wizard(page)).toHaveAttribute("data-step", "review");

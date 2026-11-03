@@ -1772,6 +1772,10 @@
   "scratchpad": {
     "newNote": "Ny anteckning",
     "preferences": "Inställningar för Kladdblock",
+    "hero": {
+      "title": "Plats för lösa tankar",
+      "body": "Gör en lista, skriv ett utkast till ett svar eller tänk högt kring en idé. Varje anteckning sparas av sig själv."
+    },
     "addToBar": "Lägg till i listen",
     "addToBarHelp": "Visa en Kladdblock-knapp bredvid Diktera i listen när den vilar.",
     "recents": "Senaste",

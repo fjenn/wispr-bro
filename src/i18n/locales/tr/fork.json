@@ -1772,6 +1772,10 @@
   "scratchpad": {
     "newNote": "Yeni not",
     "preferences": "Karalama ayarları",
+    "hero": {
+      "title": "Dağınık düşünceler için bir yer",
+      "body": "Bir liste tutun, bir yanıt taslağı yazın ya da bir fikri sesli düşünün. Her not kendiliğinden kaydedilir."
+    },
     "addToBar": "Çubuğa ekle",
     "addToBarHelp": "Bekleme durumundaki çubukta Dikte düğmesinin yanında bir Karalama düğmesi bulundurur.",
     "recents": "Son Kullanılanlar",

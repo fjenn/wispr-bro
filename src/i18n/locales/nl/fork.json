@@ -1772,6 +1772,10 @@
   "scratchpad": {
     "newNote": "Nieuwe notitie",
     "preferences": "Voorkeuren voor Kladblok",
+    "hero": {
+      "title": "Ruimte voor losse gedachten",
+      "body": "Maak een lijstje, schrijf een concept voor een antwoord of denk hardop over een idee. Elke notitie bewaart zichzelf."
+    },
     "addToBar": "Voeg toe aan de balk",
     "addToBarHelp": "Toon een Kladblok-knop naast “Dicteer” op de balk in rust.",
     "recents": "Recent",

@@ -23,7 +23,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getVersion } from "@tauri-apps/api/app";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "../ui/Dialog";
 import { MarkdownContent } from "@/components/whats-new/MarkdownContent";
 import { useSettings } from "@/hooks/useSettings";
 import { useOtherDialogOpen, useTakeRunning } from "../hub/featurePopupGate";
@@ -34,8 +33,20 @@ import { CHOOSER_DISMISSED_ID } from "../onboarding/firstUse";
 import { useFirstUseStore } from "../onboarding/firstUseStore";
 import { useForkSettingsStore } from "../settings/store";
 import { useLessonStore } from "../tutorials/lessonRegistry";
-import { Button } from "../ui";
+import { Button, Sheet } from "../ui";
 import { noteToShow, type ReleaseNote } from "./releaseNotes";
+
+/**
+ * Handy's `MarkdownContent` set in the fork's type: the note's heading as a
+ * card title, bullets as 15 pt body lines with a quiet dot, more air.
+ */
+const NOTE_STYLE = [
+  "flex flex-col gap-4 text-(--wb-ink)",
+  "[&_h3]:text-[17px] [&_h3]:leading-6 [&_h3]:font-semibold [&_h3]:text-(--wb-ink)",
+  "[&_p]:text-[15px] [&_p]:leading-[23px] [&_p]:text-(--wb-ink-2)",
+  "[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-3 [&_ul]:space-y-0 [&_ul]:ps-5 [&_ul]:text-[15px] [&_ul]:leading-[23px] [&_ul]:text-(--wb-ink-2)",
+  "[&_li]:ps-1 [&_li]:marker:text-(--wb-ink-3) [&_strong]:font-semibold [&_strong]:text-(--wb-ink)",
+].join(" ");
 
 /** The marker inside What's New's own dialog. */
 const OWN = '[data-testid="wb-whats-new"]';
@@ -137,25 +148,38 @@ export function WhatsNewGate() {
   };
 
   return (
-    <Dialog
+    <Sheet
       open
-      title={t("whatsNew.title", { version: note.version })}
-      description={t("whatsNew.label")}
+      size="md"
+      tone="plain"
+      label={t("whatsNew.title", { version: note.version })}
       closeLabel={t("whatsNew.close")}
       onOpenChange={(open) => {
         if (!open) close();
       }}
       footer={
-        <div className="flex justify-end">
-          <Button data-testid="wb-whats-new-close" onClick={close}>
-            {t("whatsNew.done")}
-          </Button>
-        </div>
+        <Button
+          variant="primary"
+          size="lg"
+          className="min-w-32"
+          data-testid="wb-whats-new-close"
+          onClick={close}
+        >
+          {t("whatsNew.done")}
+        </Button>
       }
     >
-      <div data-testid="wb-whats-new">
-        <MarkdownContent markdown={note.markdown} />
+      <div data-testid="wb-whats-new" className="mx-auto max-w-[540px]">
+        <header className="mb-7 flex flex-col items-center gap-2 text-center">
+          <p className="type-micro text-(--wb-ink-3)">{t("whatsNew.label")}</p>
+          <h2 className="type-sheet text-(--wb-ink)">
+            {t("whatsNew.title", { version: note.version })}
+          </h2>
+        </header>
+        <div className={NOTE_STYLE}>
+          <MarkdownContent markdown={note.markdown} />
+        </div>
       </div>
-    </Dialog>
+    </Sheet>
   );
 }

@@ -1695,6 +1695,10 @@
   "scratchpad": {
     "newNote": "Catatan baru",
     "preferences": "Preferensi Coretan",
+    "hero": {
+      "title": "Ruang untuk pikiran lepas",
+      "body": "Buat daftar, susun draf balasan, atau pikirkan ide sambil bicara. Setiap catatan tersimpan sendiri."
+    },
     "addToBar": "Tambahkan ke bilah",
     "addToBarHelp": "Tampilkan tombol Coretan di samping Dikte pada bilah saat diam.",
     "recents": "Terbaru",

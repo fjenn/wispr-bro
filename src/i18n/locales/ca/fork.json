@@ -1849,6 +1849,10 @@
   "scratchpad": {
     "newNote": "Nota nova",
     "preferences": "Preferències de l'Esborrany",
+    "hero": {
+      "title": "Espai per a idees soltes",
+      "body": "Fes una llista, esborra una resposta o pensa una idea en veu alta. Cada nota es desa sola."
+    },
     "addToBar": "Afegir a la barra",
     "addToBarHelp": "Mostra un botó de l'Esborrany al costat de Dictar a la barra en repòs.",
     "recents": "Recents",
