@@ -73,6 +73,9 @@ jobs:
           bun run check:translations
           bun run wb:check:translations
 
+      - name: Copy check (English fork strings vs R1's Wispr quotes, S-37, DEC-45)
+        run: bun run wb:copy-check
+
       - name: Vendored fonts match their pinned hashes (S-13)
         run: bun scripts/wb-fonts.ts --check
 

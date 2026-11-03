@@ -33,6 +33,7 @@
     "wb:brand": "bun scripts/wb-brand-overrides.ts",
     "wb:icons": "bun scripts/wb-icons.ts",
     "wb:fonts": "bun scripts/wb-fonts.ts",
+    "wb:copy-check": "bun scripts/wb-copy-check.ts",
     "wb:test:scripts": "bun test scripts/",
     "//fork:guards": "Wispr Bro CI guards (F-03, R5 §4.12): begin",
     "wb:guards": "bun scripts/wb-guards.ts",
