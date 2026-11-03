@@ -150,10 +150,10 @@ function ChooserDialog() {
                 tabIndex={selected ? 0 : -1}
                 data-testid={`wb-first-use-${id}`}
                 onClick={() => setChoice(id)}
-                className={`flex cursor-pointer items-center gap-2.5 rounded-(--wb-radius-control) border px-3 py-2 text-start text-[13.5px] font-medium transition-colors ${FOCUS_RING} ${
+                className={`flex cursor-pointer items-center gap-2.5 rounded-(--wb-radius-sm) border px-3 py-2 text-start text-[13.5px] font-medium transition-colors ${FOCUS_RING} ${
                   selected
-                    ? "border-(--wb-accent) bg-(--wb-selected) text-(--wb-ink)"
-                    : "border-(--wb-line) bg-(--wb-card) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink)"
+                    ? "border-(--wb-accent) bg-(--wb-fill-active) text-(--wb-ink)"
+                    : "border-(--wb-line) bg-(--wb-surface) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"
                 }`}
               >
                 <Icon size={16} aria-hidden="true" className="shrink-0" />

@@ -35,10 +35,10 @@ export function PresetCard({
       htmlFor={id}
       data-testid={`wb-style-preset-${preset}`}
       data-selected={checked}
-      className={`flex min-w-0 cursor-pointer flex-col gap-2 rounded-(--wb-radius-card) border bg-(--wb-card) p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent) ${
+      className={`flex min-w-0 cursor-pointer flex-col gap-2 rounded-(--wb-radius-md) border bg-(--wb-surface) p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent) ${
         checked
-          ? "border-(--wb-accent) shadow-(--wb-shadow)"
-          : "border-(--wb-line) hover:bg-(--wb-hover)"
+          ? "border-(--wb-accent) shadow-(--wb-elev-1)"
+          : "border-(--wb-line) hover:bg-(--wb-fill-hover)"
       }`}
     >
       <span className="flex items-center gap-2">
@@ -69,7 +69,7 @@ export function PresetCard({
         lang="en"
         dir="ltr"
         data-testid={`wb-style-example-${preset}`}
-        className="rounded-[10px] bg-(--wb-canvas) px-3 py-2 text-start text-[13px] leading-snug text-(--wb-ink)"
+        className="rounded-[10px] bg-(--wb-panel) px-3 py-2 text-start text-[13px] leading-snug text-(--wb-ink)"
       >
         {example}
       </span>

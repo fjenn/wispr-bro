@@ -44,7 +44,7 @@ function AccessibilityPicture() {
       role="img"
       aria-label={t("shortcutHealth.sheet.pictureLabel")}
       data-testid="wb-fix-picture"
-      className="overflow-hidden rounded-[10px] border border-(--wb-line) bg-(--wb-card) text-(--wb-ink) shadow-sm"
+      className="overflow-hidden rounded-[10px] border border-(--wb-line) bg-(--wb-surface) text-(--wb-ink) shadow-sm"
     >
       <div aria-hidden className="flex flex-col">
         <div className="flex items-center gap-1.5 border-b border-(--wb-line) px-3 py-2">
@@ -61,13 +61,13 @@ function AccessibilityPicture() {
             {t("shortcutHealth.sheet.pictureTitle")}
           </span>
           <div className="flex items-center gap-3 rounded-[8px] border border-(--wb-line) px-3 py-2">
-            <span className="grid size-6 place-items-center rounded-[6px] bg-(--wb-ink) text-(--wb-canvas)">
+            <span className="grid size-6 place-items-center rounded-[6px] bg-(--wb-ink) text-(--wb-panel)">
               <Mic size={14} />
             </span>
             <span className="flex-1 text-[12.5px]">
               {t("rust.window.mainTitle")}
             </span>
-            <span className="relative inline-flex h-[18px] w-[32px] items-center rounded-full bg-(--wb-accent-fill) outline-2 outline-offset-2 outline-(--wb-accent)">
+            <span className="relative inline-flex h-[18px] w-[32px] items-center rounded-full bg-(--wb-ink) outline-2 outline-offset-2 outline-(--wb-accent)">
               <span className="absolute end-[2px] size-[14px] rounded-full bg-white" />
             </span>
           </div>

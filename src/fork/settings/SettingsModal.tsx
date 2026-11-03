@@ -81,7 +81,7 @@ export function SettingsModal() {
       ref={dialogRef}
       aria-labelledby="wb-settings-title"
       dir={getLanguageDirection(i18n.language)}
-      className="m-auto h-[min(680px,calc(100vh-32px))] w-[min(920px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-canvas) p-0 text-(--wb-ink) shadow-(--wb-shadow) backdrop:bg-black/45"
+      className="m-auto h-[min(680px,calc(100vh-32px))] w-[min(920px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
       data-testid="wb-settings-modal"
       onCancel={(event) => {
         event.preventDefault();
@@ -89,7 +89,7 @@ export function SettingsModal() {
       }}
     >
       <div className="grid h-full grid-cols-[190px_minmax(0,1fr)]">
-        <aside className="flex min-h-0 flex-col border-e border-(--wb-line) bg-(--wb-sidebar) p-4">
+        <aside className="flex min-h-0 flex-col border-e border-(--wb-line) bg-(--wb-chrome) p-4">
           <div className="flex h-10 items-center justify-between gap-2">
             <h1
               id="wb-settings-title"
@@ -102,7 +102,7 @@ export function SettingsModal() {
               aria-label={t("settingsModal.close")}
               title={t("settingsModal.close")}
               onClick={close}
-              className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+              className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
               data-testid="wb-settings-close"
             >
               <X size={18} aria-hidden="true" />
@@ -119,10 +119,10 @@ export function SettingsModal() {
                       id === "advanced" ? section === id : undefined
                     }
                     onClick={() => select(id)}
-                    className={`flex w-full cursor-pointer items-center gap-2 rounded-(--wb-radius-control) px-3 py-2 text-start text-sm ${FOCUS_RING} ${
+                    className={`flex w-full cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) px-3 py-2 text-start text-sm ${FOCUS_RING} ${
                       section === id
-                        ? "bg-(--wb-selected) font-semibold"
-                        : "text-(--wb-ink-2) hover:bg-(--wb-hover)"
+                        ? "bg-(--wb-fill-active) font-semibold"
+                        : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover)"
                     }`}
                     data-testid={`wb-settings-nav-${id}`}
                   >
@@ -147,7 +147,7 @@ export function SettingsModal() {
           className="min-h-0 overflow-y-auto"
           data-testid="wb-settings-content"
         >
-          <header className="sticky top-0 z-10 border-b border-(--wb-line) bg-(--wb-canvas) px-6 py-5">
+          <header className="sticky top-0 z-10 border-b border-(--wb-line) bg-(--wb-panel) px-6 py-5">
             <h2 className="font-(--wb-font-display) text-2xl">{title}</h2>
           </header>
           <div className="p-6">

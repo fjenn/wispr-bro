@@ -7,6 +7,7 @@
  * unless `open` is passed (then `onOpenChange` reports every change).
  */
 import * as RadixPopover from "@radix-ui/react-popover";
+import { usePinnedThemeProps } from "./ThemeScope";
 import type { ReactElement, ReactNode } from "react";
 
 export interface PopoverProps {
@@ -34,6 +35,7 @@ export function Popover({
   open,
   onOpenChange,
 }: PopoverProps) {
+  const pinned = usePinnedThemeProps();
   return (
     <RadixPopover.Root open={open} onOpenChange={onOpenChange}>
       <RadixPopover.Trigger asChild>{trigger}</RadixPopover.Trigger>
@@ -45,6 +47,7 @@ export function Popover({
           collisionPadding={8}
           aria-label={label}
           data-testid={testId}
+          {...pinned}
           className={`wb-pop z-50 w-80 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) text-(--wb-ink) shadow-(--wb-elev-1) outline-none ${className}`}
         >
           {children}

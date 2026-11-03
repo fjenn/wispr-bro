@@ -183,7 +183,7 @@ export function VibeCoding() {
       {!settings.context_awareness && (
         <p
           role="note"
-          className="rounded-(--wb-radius-control) border border-(--wb-line-strong) px-3 py-2 text-sm"
+          className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) px-3 py-2 text-sm"
           data-testid="wb-vibe-context-off"
         >
           {t("settingsModal.vibe.contextOff")}

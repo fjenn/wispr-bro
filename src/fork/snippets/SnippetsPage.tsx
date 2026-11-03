@@ -98,7 +98,7 @@ function SnippetRow({
           onClick={() => onEdit(snippet)}
           aria-label={t("snippets.entry.edit", { trigger: snippet.trigger })}
           data-testid="wb-snippet-edit"
-          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
         >
           <Pencil size={16} aria-hidden="true" />
         </button>
@@ -107,7 +107,7 @@ function SnippetRow({
           onClick={() => onDelete(snippet)}
           aria-label={t("snippets.entry.delete", { trigger: snippet.trigger })}
           data-testid="wb-snippet-delete"
-          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
         >
           <Trash2 size={16} aria-hidden="true" />
         </button>
@@ -317,7 +317,7 @@ export function SnippetsPage() {
             <select
               value={order}
               onChange={(e) => setOrder(e.target.value as SortOrder)}
-              className={`rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
+              className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
               data-testid="wb-snippets-sort"
             >
               {SORT_ORDERS.map((o) => (
@@ -354,7 +354,7 @@ export function SnippetsPage() {
             <ul
               aria-labelledby="wb-snippets-heading"
               data-testid="wb-snippets-list"
-              className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-3"
+              className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3"
             >
               {visible.map((s) => (
                 <SnippetRow

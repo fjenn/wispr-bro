@@ -99,13 +99,13 @@ export default function CategoryChart({
               tick={{ fill: "var(--wb-ink-2)", fontSize: 12.5 }}
             />
             <Tooltip
-              cursor={{ fill: "var(--wb-hover)" }}
+              cursor={{ fill: "var(--wb-fill-hover)" }}
               isAnimationActive={false}
               content={({ active, payload }) => {
                 const row = payload?.[0]?.payload as Row | undefined;
                 if (!active || !row) return null;
                 return (
-                  <div className="rounded-(--wb-radius-control) border border-(--wb-line) bg-(--wb-card) px-3 py-2 text-[12.5px] text-(--wb-ink) shadow-(--wb-shadow)">
+                  <div className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-3 py-2 text-[12.5px] text-(--wb-ink) shadow-(--wb-elev-1)">
                     <div className="font-medium">{row.name}</div>
                     <div className="text-(--wb-ink-2)">
                       {row.label} · {row.wordsText}

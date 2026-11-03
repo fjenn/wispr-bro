@@ -146,7 +146,7 @@ export function AppPicker({
                   onClick={() => void pick(app)}
                   data-testid="wb-style-picker-app"
                   data-bundle-id={app.bundle_id}
-                  className={`flex w-full cursor-pointer items-center gap-3 rounded-[10px] px-2.5 py-1.5 text-start text-[13px] hover:bg-(--wb-hover) disabled:cursor-default disabled:opacity-60 ${FOCUS_RING}`}
+                  className={`flex w-full cursor-pointer items-center gap-3 rounded-[10px] px-2.5 py-1.5 text-start text-[13px] hover:bg-(--wb-fill-hover) disabled:cursor-default disabled:opacity-60 ${FOCUS_RING}`}
                 >
                   <AppIcon bundleId={app.bundle_id} name={app.name} size={24} />
                   <span className="min-w-0 flex-1 truncate">{app.name}</span>

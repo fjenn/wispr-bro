@@ -125,7 +125,7 @@ export function TransformModal({
     <dialog
       ref={dialogRef}
       aria-labelledby="wb-transform-editor-title"
-      className="m-auto h-[min(760px,calc(100vh-32px))] w-[min(720px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-canvas) p-0 text-(--wb-ink) shadow-(--wb-shadow) backdrop:bg-black/45"
+      className="m-auto h-[min(760px,calc(100vh-32px))] w-[min(720px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
       data-testid="wb-transform-modal"
       onCancel={(event) => {
         event.preventDefault();
@@ -154,7 +154,7 @@ export function TransformModal({
             onClick={() => void close()}
             aria-label={t("transforms.editor.close")}
             title={t("transforms.editor.close")}
-            className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             data-testid="wb-transform-close"
           >
             <X size={18} aria-hidden="true" />
@@ -168,7 +168,7 @@ export function TransformModal({
                 value={draft.name}
                 maxLength={80}
                 onChange={(event) => update("name", event.currentTarget.value)}
-                className={`rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
+                className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
                 data-testid="wb-transform-name"
               />
             </label>
@@ -215,13 +215,13 @@ export function TransformModal({
               onChange={(event) =>
                 update("description", event.currentTarget.value)
               }
-              className={`resize-y rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
               data-testid="wb-transform-description"
             />
           </label>
           <section
             aria-labelledby="wb-transform-example-title"
-            className="flex flex-col gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+            className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
           >
             <h3
               id="wb-transform-example-title"
@@ -240,7 +240,7 @@ export function TransformModal({
                 setExample(event.currentTarget.value);
                 setPreview(null);
               }}
-              className={`resize-y rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-canvas) p-3 text-sm select-text ${FOCUS_RING}`}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-panel) p-3 text-sm select-text ${FOCUS_RING}`}
               data-testid="wb-transform-example-input"
             />
             <div>
@@ -278,7 +278,7 @@ export function TransformModal({
               maxLength={6000}
               rows={5}
               onChange={(event) => update("prompt", event.currentTarget.value)}
-              className={`resize-y rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
               data-testid="wb-transform-prompt"
             />
           </label>

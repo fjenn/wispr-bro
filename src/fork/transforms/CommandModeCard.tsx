@@ -21,7 +21,7 @@ export function CommandModeCard({
   return (
     <section
       aria-labelledby="wb-command-mode-title"
-      className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-5"
+      className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5"
       data-testid="wb-command-mode-card"
       data-enabled={checked ? "true" : "false"}
     >
@@ -32,7 +32,7 @@ export function CommandModeCard({
           checked={checked}
           disabled={disabled}
           onChange={(event) => onChange(event.currentTarget.checked)}
-          className={`mt-1 size-4 accent-(--wb-accent-fill) ${FOCUS_RING}`}
+          className={`mt-1 size-4 accent-(--wb-ink) ${FOCUS_RING}`}
           aria-describedby="wb-command-mode-help"
           data-testid="wb-command-mode-enabled"
         />

@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FOCUS_RING } from "./Button";
 import { Check, ChevronDown } from "./icons";
+import { usePinnedThemeProps } from "./ThemeScope";
 
 export interface SelectOption {
   value: string;
@@ -78,6 +79,7 @@ export function Select({
   fitContent = false,
 }: SelectProps) {
   const { i18n } = useTranslation();
+  const pinned = usePinnedThemeProps();
   const sections: SelectGroup[] = groups ?? [{ options: options ?? [] }];
   const trigger =
     variant === "field"
@@ -106,6 +108,7 @@ export function Select({
       </RadixSelect.Trigger>
       <RadixSelect.Portal>
         <RadixSelect.Content
+          {...pinned}
           position="popper"
           sideOffset={6}
           collisionPadding={8}

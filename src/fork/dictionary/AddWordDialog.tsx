@@ -69,7 +69,7 @@ export const SAVE_FAILURE_KEY: Record<SaveFailure, string> = {
   unknown: "dictionary.dialog.failed",
 };
 
-export const INPUT_CLASS = `w-full rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-[14px] text-(--wb-ink) placeholder:text-(--wb-ink-3) ${FOCUS_RING}`;
+export const INPUT_CLASS = `w-full rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[14px] text-(--wb-ink) placeholder:text-(--wb-ink-3) ${FOCUS_RING}`;
 
 export function AddWordDialog({
   open,
@@ -330,7 +330,7 @@ export function AddWordDialog({
             role="alert"
             data-testid="wb-dictionary-feedback"
             data-kind={feedback.kind}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-[13px]"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
           >
             <span>{feedbackText(feedback)}</span>
             {feedback.kind === "conflict" && !editing && (

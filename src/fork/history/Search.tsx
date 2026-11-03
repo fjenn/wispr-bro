@@ -53,7 +53,7 @@ export function Search({ query, onQuery }: SearchProps) {
         aria-label={t("history.search.open")}
         title={t("history.search.open")}
         onClick={() => setOpen(true)}
-        className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+        className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       >
         <SearchIcon size={16} aria-hidden="true" />
       </button>
@@ -63,7 +63,7 @@ export function Search({ query, onQuery }: SearchProps) {
   return (
     <div
       role="search"
-      className="flex min-w-0 items-center gap-1 rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) ps-2.5 pe-1 focus-within:ring-2 focus-within:ring-(--wb-accent)"
+      className="flex min-w-0 items-center gap-1 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) ps-2.5 pe-1 focus-within:ring-2 focus-within:ring-(--wb-accent)"
     >
       <SearchIcon
         size={16}
@@ -98,7 +98,7 @@ export function Search({ query, onQuery }: SearchProps) {
         aria-label={t("history.search.close")}
         title={t("history.search.close")}
         onClick={close}
-        className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-[6px] text-(--wb-ink-3) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+        className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-[6px] text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       >
         <X size={14} aria-hidden="true" />
       </button>

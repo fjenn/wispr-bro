@@ -144,8 +144,8 @@ function FilterSwitch() {
           onClick={() => setFilter(option)}
           className={`cursor-pointer rounded-full px-3 py-1 text-[12.5px] font-medium transition-colors ${FOCUS_RING} ${
             filter === option
-              ? "bg-(--wb-selected) text-(--wb-ink)"
-              : "text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink)"
+              ? "bg-(--wb-fill-active) text-(--wb-ink)"
+              : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"
           }`}
         >
           {t(`hub.notifications.filter.${option}`)}
@@ -177,7 +177,7 @@ function Entry({ item, now }: { item: NotificationItem; now: number }) {
       <button
         type="button"
         onClick={() => void run(null)}
-        className={`flex w-full cursor-pointer gap-2.5 px-4 pt-3 text-start hover:bg-(--wb-hover) ${item.buttons.length ? "pb-1.5" : "pb-3"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
+        className={`flex w-full cursor-pointer gap-2.5 px-4 pt-3 text-start hover:bg-(--wb-fill-hover) ${item.buttons.length ? "pb-1.5" : "pb-3"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
       >
         <span
           aria-hidden="true"
@@ -215,7 +215,7 @@ function Entry({ item, now }: { item: NotificationItem; now: number }) {
               type="button"
               data-testid={`wb-notification-${item.id}-${button}`}
               onClick={() => void run(button)}
-              className={`cursor-pointer rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-2.5 py-1 text-[12px] font-medium text-(--wb-ink) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+              className={`cursor-pointer rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-1 text-[12px] font-medium text-(--wb-ink) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             >
               {buttonLabel(button, t)}
             </button>

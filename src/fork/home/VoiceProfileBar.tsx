@@ -35,7 +35,7 @@ export function VoiceProfileBar({ totalWords }: { totalWords: number | null }) {
       aria-labelledby="wb-voice-profile-title"
       data-testid="wb-voice-profile"
       data-unlocked={unlocked}
-      className="flex flex-col gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-5 py-4"
+      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4"
     >
       <h2
         id="wb-voice-profile-title"
@@ -55,7 +55,7 @@ export function VoiceProfileBar({ totalWords }: { totalWords: number | null }) {
       >
         <ProgressLine
           value={current / VOICE_PROFILE_GOAL}
-          className="h-2 bg-(--wb-selected)! [&>i]:bg-(--wb-accent)!"
+          className="h-2 bg-(--wb-fill-active)! [&>i]:bg-(--wb-accent)!"
         />
         {/* Read through aria-valuetext; shown for sighted users. */}
         <span

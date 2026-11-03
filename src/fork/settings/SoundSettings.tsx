@@ -78,7 +78,7 @@ export function SoundSettings() {
             onChange={(e) =>
               void updateSetting("sound_theme", e.currentTarget.value as Theme)
             }
-            className="rounded border border-(--wb-line-strong) bg-(--wb-card) px-1 py-0.5"
+            className="rounded border border-(--wb-line-strong) bg-(--wb-surface) px-1 py-0.5"
           >
             {themes.map((th) => (
               <option key={th} value={th}>

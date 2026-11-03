@@ -172,14 +172,14 @@ export function HandsFreePractice({
           type="button"
           onClick={onSkip}
           data-testid="wb-practice-skip"
-          className="shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
+          className="shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
         >
           {t("onboardingFlow.practice.skip")}
         </button>
       </div>
 
       <div
-        className="flex w-full flex-col overflow-hidden rounded-(--wb-radius-card) border border-(--wb-line-strong) bg-(--wb-card) text-start shadow-(--wb-shadow)"
+        className="flex w-full flex-col overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line-strong) bg-(--wb-surface) text-start shadow-(--wb-elev-1)"
         data-testid="wb-practice-composer"
       >
         <div className="flex items-center justify-between border-b border-(--wb-line) px-4 py-2.5">
@@ -215,7 +215,7 @@ export function HandsFreePractice({
           placeholder={t("onboardingFlow.practice.composer.placeholder")}
           data-testid="wb-practice-body"
           rows={6}
-          className="min-h-[150px] w-full resize-none select-text border-0 bg-transparent px-4 py-3 text-[15px] leading-6 text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:bg-(--wb-hover)"
+          className="min-h-[150px] w-full resize-none select-text border-0 bg-transparent px-4 py-3 text-[15px] leading-6 text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:bg-(--wb-fill-hover)"
         />
       </div>
 

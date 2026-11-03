@@ -56,7 +56,7 @@ export function MoveToApplications({
   return (
     <div className="mx-auto flex max-w-[540px] flex-col items-center gap-5 text-center">
       <div
-        className="grid size-16 place-items-center rounded-2xl bg-(--wb-banner) text-(--wb-accent)"
+        className="grid size-16 place-items-center rounded-2xl bg-(--wb-accent-soft) text-(--wb-accent)"
         aria-hidden="true"
       >
         <FolderInput size={32} />

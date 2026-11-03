@@ -109,7 +109,7 @@ function LockedHeader({ voice }: { voice: VoiceProfile }) {
     <section
       aria-labelledby="wb-voice-locked-title"
       data-testid="wb-voice-locked"
-      className="flex flex-col gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-5 py-4"
+      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4"
     >
       <h2
         id="wb-voice-locked-title"
@@ -136,7 +136,7 @@ function LockedHeader({ voice }: { voice: VoiceProfile }) {
       >
         <ProgressLine
           value={current / voice.goal}
-          className="h-2 bg-(--wb-selected)! [&>i]:bg-(--wb-accent)!"
+          className="h-2 bg-(--wb-fill-active)! [&>i]:bg-(--wb-accent)!"
         />
       </div>
     </section>

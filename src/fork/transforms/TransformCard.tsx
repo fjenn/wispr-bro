@@ -25,7 +25,7 @@ export function TransformCard({
     });
   return (
     <article
-      className="relative flex min-h-36 flex-col rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+      className="relative flex min-h-36 flex-col rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
       data-testid={`wb-transform-${entry.key}`}
     >
       <button
@@ -57,7 +57,7 @@ export function TransformCard({
           onClick={onDelete}
           aria-label={t("transforms.card.delete", { name: entry.name })}
           title={t("transforms.card.delete", { name: entry.name })}
-          className={`absolute bottom-3 end-3 grid size-7 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+          className={`absolute bottom-3 end-3 grid size-7 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
           data-testid={`wb-transform-delete-${entry.key}`}
         >
           <Trash2 size={14} aria-hidden="true" />
@@ -73,7 +73,7 @@ export function CreateTransformCard({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-h-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-(--wb-radius-card) border border-dashed border-(--wb-line-strong) bg-transparent p-4 text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+      className={`flex min-h-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-(--wb-radius-md) border border-dashed border-(--wb-line-strong) bg-transparent p-4 text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       data-testid="wb-transform-create-card"
     >
       <Plus size={20} aria-hidden="true" />

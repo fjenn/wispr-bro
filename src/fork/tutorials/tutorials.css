@@ -10,7 +10,7 @@
   background: var(--wb-line-strong);
 }
 .wb-lesson-dashes li[data-on] {
-  background: var(--wb-accent-fill);
+  background: var(--wb-ink);
 }
 
 /* Example cards: Original / Polish / Prompt Engineer. */
@@ -29,12 +29,12 @@
   flex-direction: column;
   gap: 8px;
   border: 1px solid var(--wb-line);
-  border-radius: var(--wb-radius-card);
-  background: var(--wb-card);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
   padding: 14px;
 }
 .wb-lesson-card[data-kind="original"] {
-  background: var(--wb-canvas);
+  background: var(--wb-panel);
 }
 .wb-lesson-card h4 {
   display: flex;
@@ -56,7 +56,7 @@
   padding: 1px 6px;
   border-radius: 6px;
   border: 1px solid var(--wb-line-strong);
-  background: var(--wb-card);
+  background: var(--wb-surface);
   color: var(--wb-ink);
   box-shadow: 0 1px 0 var(--wb-line-strong);
 }
@@ -101,7 +101,7 @@
   white-space: nowrap;
   border-radius: 999px;
   border: 1px solid var(--wb-line);
-  background: var(--wb-card);
+  background: var(--wb-surface);
   padding: 4px 12px;
   font-size: 12.5px;
   color: var(--wb-ink);
@@ -140,16 +140,16 @@
   align-items: center;
   gap: 14px;
   padding: 16px;
-  border-radius: var(--wb-radius-card);
-  background: var(--wb-banner);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-accent-soft);
   overflow: hidden;
 }
 .wb-practice-window {
   width: 100%;
   border: 1px solid var(--wb-line);
   border-radius: 10px;
-  background: var(--wb-card);
-  box-shadow: var(--wb-shadow);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-1);
   overflow: hidden;
 }
 .wb-practice-titlebar {
@@ -182,7 +182,7 @@
   align-self: flex-start;
   max-width: 80%;
   border-radius: 14px;
-  background: var(--wb-hover);
+  background: var(--wb-fill-hover);
   padding: 6px 12px;
   font-size: 13px;
   color: var(--wb-ink);
@@ -192,7 +192,7 @@
   resize: none;
   border: 1px solid var(--wb-line-strong);
   border-radius: 10px;
-  background: var(--wb-canvas);
+  background: var(--wb-panel);
   padding: 10px 12px;
   font-size: 14px;
   line-height: 1.45;
@@ -204,7 +204,7 @@
   outline-offset: 1px;
 }
 .wb-practice-field::selection {
-  background: color-mix(in srgb, var(--wb-accent-fill) 32%, transparent);
+  background: color-mix(in srgb, var(--wb-ink) 32%, transparent);
 }
 
 /* The drawn bar: "Done · View changes" after a rewrite. */
@@ -305,8 +305,8 @@
   gap: 14px;
   min-height: 250px;
   padding: 18px;
-  border-radius: var(--wb-radius-card);
-  background: var(--wb-banner);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-accent-soft);
   overflow: hidden;
 }
 .wb-lesson-stage .wb-practice-window {
@@ -316,7 +316,7 @@
   min-height: 72px;
   border-radius: 10px;
   border: 1px solid var(--wb-line);
-  background: var(--wb-canvas);
+  background: var(--wb-panel);
   padding: 10px 12px;
   font-size: 13.5px;
   line-height: 1.5;
@@ -328,12 +328,12 @@
   transition: background-color 0.6s ease;
 }
 .wb-lesson-stage[data-beat="selecting"] .wb-scene-draft mark {
-  background: color-mix(in srgb, var(--wb-accent-fill) 18%, transparent);
+  background: color-mix(in srgb, var(--wb-ink) 18%, transparent);
 }
 .wb-lesson-stage[data-beat="selected"] .wb-scene-draft mark,
 .wb-lesson-stage[data-beat="keys"] .wb-scene-draft mark,
 .wb-lesson-stage[data-beat="working"] .wb-scene-draft mark {
-  background: color-mix(in srgb, var(--wb-accent-fill) 32%, transparent);
+  background: color-mix(in srgb, var(--wb-ink) 32%, transparent);
 }
 .wb-scene-keys {
   position: absolute;
@@ -360,7 +360,7 @@
   padding: 0 10px;
   border-radius: 10px;
   border: 1px solid var(--wb-line-strong);
-  background: var(--wb-card);
+  background: var(--wb-surface);
   color: var(--wb-ink);
   font-size: 18px;
   font-weight: 600;
@@ -371,9 +371,9 @@
   inset-inline: 10%;
   top: 14%;
   border: 1px solid var(--wb-line);
-  border-radius: var(--wb-radius-card);
-  background: var(--wb-card);
-  box-shadow: var(--wb-shadow);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-1);
   padding: 12px 14px;
   opacity: 0;
   transform: translateY(8px);
@@ -404,13 +404,13 @@
   align-items: center;
   gap: 5px;
   padding: 3px 8px;
-  border-radius: var(--wb-radius-control);
+  border-radius: var(--wb-radius-sm);
   font-size: 12px;
   color: var(--wb-ink-2);
   cursor: pointer;
 }
 .wb-lesson-pause:hover {
-  background: var(--wb-hover);
+  background: var(--wb-fill-hover);
   color: var(--wb-ink);
 }
 .wb-lesson-pause:focus-visible {

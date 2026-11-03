@@ -60,7 +60,7 @@ export function FirstDictation({
         className="pointer-events-none fixed inset-0 z-10 size-full"
       />
       <div
-        className="grid size-20 place-items-center rounded-[24px] bg-(--wb-banner) text-(--wb-accent)"
+        className="grid size-20 place-items-center rounded-[24px] bg-(--wb-accent-soft) text-(--wb-accent)"
         aria-hidden="true"
       >
         <PartyPopper size={40} strokeWidth={1.6} />

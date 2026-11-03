@@ -24,7 +24,7 @@ export function ShortcutHealthBanner() {
     <div
       role="alert"
       data-testid="wb-shortcut-banner"
-      className="flex items-center gap-3 rounded-(--wb-radius-card) border border-(--wb-line-strong) bg-(--wb-card) px-4 py-3 text-(--wb-ink)"
+      className="flex items-center gap-3 rounded-(--wb-radius-md) border border-(--wb-line-strong) bg-(--wb-surface) px-4 py-3 text-(--wb-ink)"
     >
       <TriangleAlert size={18} aria-hidden className="shrink-0" />
       <p className="min-w-0 flex-1 text-[13.5px] leading-5 font-medium">

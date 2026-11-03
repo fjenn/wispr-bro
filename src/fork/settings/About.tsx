@@ -19,7 +19,7 @@ import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 
 const CARD =
-  "rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-6";
+  "rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-6";
 
 function open(url: string): void {
   void openUrl(url).catch(() => undefined);

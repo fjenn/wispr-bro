@@ -218,7 +218,7 @@ export function NoteWindow() {
       aria-label={label}
       title={label}
       aria-pressed={pressed}
-      className={`grid size-9 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+      className={`grid size-9 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       data-testid={testId}
     >
       {icon}
@@ -228,12 +228,12 @@ export function NoteWindow() {
   return (
     <div
       dir={getLanguageDirection(i18n.language)}
-      className="flex h-screen bg-(--wb-canvas) text-(--wb-ink)"
+      className="flex h-screen bg-(--wb-panel) text-(--wb-ink)"
       data-testid="wb-note-window"
     >
       <nav
         aria-label={t("scratchpad.tools")}
-        className="flex w-12 shrink-0 flex-col items-center gap-1 border-e border-(--wb-line) bg-(--wb-card) py-3"
+        className="flex w-12 shrink-0 flex-col items-center gap-1 border-e border-(--wb-line) bg-(--wb-surface) py-3"
       >
         {railButton(
           t("scratchpad.sidebar"),
@@ -284,7 +284,7 @@ export function NoteWindow() {
             onClick={() => void newNote()}
             aria-label={t("scratchpad.newNote")}
             title={t("scratchpad.newNote")}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             data-testid="wb-note-new-tab"
           >
             <Plus size={16} aria-hidden="true" />
@@ -298,7 +298,7 @@ export function NoteWindow() {
             }
             aria-label={t(expanded ? "scratchpad.shrink" : "scratchpad.expand")}
             title={t(expanded ? "scratchpad.shrink" : "scratchpad.expand")}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             data-testid="wb-note-expand"
           >
             {expanded ? (
@@ -312,7 +312,7 @@ export function NoteWindow() {
             onClick={() => void close()}
             aria-label={t("scratchpad.close")}
             title={t("scratchpad.close")}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-md text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             data-testid="wb-note-close"
           >
             <X size={16} aria-hidden="true" />
@@ -322,7 +322,7 @@ export function NoteWindow() {
           {sidebar && (
             <aside
               aria-label={t("scratchpad.recents")}
-              className="w-48 shrink-0 overflow-y-auto border-e border-(--wb-line) bg-(--wb-card) p-2"
+              className="w-48 shrink-0 overflow-y-auto border-e border-(--wb-line) bg-(--wb-surface) p-2"
               data-testid="wb-note-sidebar-panel"
             >
               {notes
@@ -339,7 +339,7 @@ export function NoteWindow() {
                     type="button"
                     onClick={() => void openNote(note.id)}
                     aria-current={note.id === selectedId ? "true" : undefined}
-                    className={`block w-full cursor-pointer truncate rounded-md px-2 py-2 text-start text-xs hover:bg-(--wb-hover) ${note.id === selectedId ? "bg-(--wb-hover) font-semibold" : ""} ${FOCUS_RING}`}
+                    className={`block w-full cursor-pointer truncate rounded-md px-2 py-2 text-start text-xs hover:bg-(--wb-fill-hover) ${note.id === selectedId ? "bg-(--wb-fill-hover) font-semibold" : ""} ${FOCUS_RING}`}
                   >
                     {note.title || t("scratchpad.untitled")}
                   </button>
@@ -367,7 +367,7 @@ export function NoteWindow() {
                     void loadNotes(value);
                   }}
                   placeholder={t("scratchpad.searchPlaceholder")}
-                  className={`w-full rounded-md border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-sm ${FOCUS_RING}`}
+                  className={`w-full rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-sm ${FOCUS_RING}`}
                   data-testid="wb-note-search"
                 />
               </div>
@@ -417,7 +417,7 @@ export function NoteWindow() {
                 type="button"
                 onClick={() => void copy()}
                 disabled={!selected}
-                className={`inline-flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) disabled:opacity-50 ${FOCUS_RING}`}
+                className={`inline-flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) disabled:opacity-50 ${FOCUS_RING}`}
                 data-testid="wb-note-copy"
               >
                 {copied ? (

@@ -184,7 +184,7 @@ export function Advanced() {
         </div>
       )}
       <details
-        className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+        className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
         data-testid="wb-advanced-fork-diagnostics"
       >
         <summary className="cursor-pointer text-sm font-medium">

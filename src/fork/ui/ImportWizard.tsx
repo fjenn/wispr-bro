@@ -283,7 +283,7 @@ function WizardBody<Review, Choices>({
       title={title}
       closeLabel={t("ui.importWizard.close")}
       footer={footer}
-      className="max-w-2xl! bg-(--wb-canvas)! text-(--wb-ink)"
+      className="max-w-2xl! bg-(--wb-panel)! text-(--wb-ink)"
       contentFades={false}
     >
       <div
@@ -303,7 +303,7 @@ function WizardBody<Review, Choices>({
             >
               <span
                 aria-hidden="true"
-                className={`grid size-5 place-items-center rounded-full text-[11px] ${i <= index ? "bg-(--wb-accent-fill) text-(--wb-on-accent)" : "border border-(--wb-line-strong)"}`}
+                className={`grid size-5 place-items-center rounded-full text-[11px] ${i <= index ? "bg-(--wb-ink) text-(--wb-on-ink)" : "border border-(--wb-line-strong)"}`}
               >
                 {i + 1}
               </span>
@@ -331,7 +331,7 @@ function WizardBody<Review, Choices>({
               ref={dropRef}
               data-testid={`${testId}-drop`}
               data-drop-active={dropActive || undefined}
-              className={`flex flex-col items-center gap-3 rounded-(--wb-radius-card) border-2 border-dashed px-6 py-8 text-center ${dropActive ? "border-(--wb-accent) bg-(--wb-selected)" : "border-(--wb-line-strong)"}`}
+              className={`flex flex-col items-center gap-3 rounded-(--wb-radius-md) border-2 border-dashed px-6 py-8 text-center ${dropActive ? "border-(--wb-accent) bg-(--wb-fill-active)" : "border-(--wb-line-strong)"}`}
             >
               <FileUp
                 size={24}
@@ -368,7 +368,7 @@ function WizardBody<Review, Choices>({
               {helpOpen && (
                 <div
                   id={helpId}
-                  className="mt-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4 text-[13px] leading-5"
+                  className="mt-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-[13px] leading-5"
                 >
                   {formatHelp}
                 </div>
@@ -394,7 +394,7 @@ function WizardBody<Review, Choices>({
                   setHasHeader(header);
                   setMapping(guessMapping(table, fields, header));
                 }}
-                className={`size-4 accent-(--wb-accent-fill) ${FOCUS_RING}`}
+                className={`size-4 accent-(--wb-ink) ${FOCUS_RING}`}
                 data-testid={`${testId}-header`}
               />
               {t("ui.importWizard.hasHeader")}
@@ -420,7 +420,7 @@ function WizardBody<Review, Choices>({
                           e.target.value === "" ? null : Number(e.target.value),
                       })
                     }
-                    className={`rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
+                    className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
                     data-testid={`${testId}-column-${field.id}`}
                   >
                     <option value="">{t("ui.importWizard.noColumn")}</option>
@@ -450,7 +450,7 @@ function WizardBody<Review, Choices>({
                 {t("ui.importWizard.mapRequired")}
               </p>
             )}
-            <div className="overflow-x-auto rounded-(--wb-radius-card) border border-(--wb-line)">
+            <div className="overflow-x-auto rounded-(--wb-radius-md) border border-(--wb-line)">
               <table
                 className="w-full text-start text-[13px]"
                 data-testid={`${testId}-preview`}
@@ -460,7 +460,7 @@ function WizardBody<Review, Choices>({
                     count: Math.min(PREVIEW_ROWS, rows.length),
                   })}
                 </caption>
-                <thead className="bg-(--wb-card) text-(--wb-ink-2)">
+                <thead className="bg-(--wb-surface) text-(--wb-ink-2)">
                   <tr>
                     <th
                       scope="col"
@@ -519,7 +519,7 @@ function WizardBody<Review, Choices>({
           <p
             role="alert"
             data-testid={`${testId}-error`}
-            className="rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-[13px]"
+            className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
           >
             {error}
           </p>

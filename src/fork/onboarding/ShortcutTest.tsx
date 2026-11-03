@@ -198,12 +198,12 @@ export function ShortcutTest({
           )}
         </p>
       </div>
-      <div className="flex w-full flex-col items-center gap-5 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-5">
+      <div className="flex w-full flex-col items-center gap-5 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5">
         <div
           className={`grid min-h-24 min-w-32 place-items-center rounded-2xl border-2 px-6 py-4 motion-safe:transition-[background-color,border-color,transform] motion-safe:duration-150 ${
             pressed
-              ? "scale-95 border-(--wb-accent) bg-(--wb-banner) text-(--wb-accent)"
-              : "border-(--wb-line-strong) bg-(--wb-canvas) text-(--wb-ink)"
+              ? "scale-95 border-(--wb-accent) bg-(--wb-accent-soft) text-(--wb-accent)"
+              : "border-(--wb-line-strong) bg-(--wb-panel) text-(--wb-ink)"
           }`}
           data-testid="wb-shortcut-key"
           data-pressed={pressed}
@@ -278,7 +278,7 @@ export function ShortcutTest({
       {diagnosis && (
         <section
           aria-labelledby="wb-shortcut-fix-title"
-          className="flex w-full flex-col items-start gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4 text-start"
+          className="flex w-full flex-col items-start gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start"
           data-testid={`wb-diagnosis-panel-${diagnosis}`}
         >
           <h2

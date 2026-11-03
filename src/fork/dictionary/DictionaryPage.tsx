@@ -151,7 +151,7 @@ function EntryRow({
               aria-label={t("dictionary.entry.accept", { entry: label })}
               title={t("dictionary.entry.accept", { entry: label })}
               data-testid="wb-dictionary-accept"
-              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
             >
               <Check size={16} aria-hidden="true" />
             </button>
@@ -161,7 +161,7 @@ function EntryRow({
               aria-label={t("dictionary.entry.reject", { entry: label })}
               title={t("dictionary.entry.reject", { entry: label })}
               data-testid="wb-dictionary-reject"
-              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
             >
               <X size={16} aria-hidden="true" />
             </button>
@@ -173,7 +173,7 @@ function EntryRow({
             onClick={() => onEdit(entry)}
             aria-label={t("dictionary.entry.edit", { entry: label })}
             data-testid="wb-dictionary-edit"
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
           >
             <Pencil size={16} aria-hidden="true" />
           </button>
@@ -184,7 +184,7 @@ function EntryRow({
             onClick={() => onDelete(entry)}
             aria-label={t("dictionary.entry.delete", { entry: label })}
             data-testid="wb-dictionary-delete"
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
           >
             <Trash2 size={16} aria-hidden="true" />
           </button>
@@ -439,7 +439,7 @@ export function DictionaryPage() {
             <select
               value={order}
               onChange={(e) => setOrder(e.target.value as SortOrder)}
-              className={`rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
+              className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
               data-testid="wb-dictionary-sort"
             >
               {SORT_ORDERS.map((o) => (
@@ -468,7 +468,7 @@ export function DictionaryPage() {
           <TabPanel key={id} value={id} className="mt-2">
             {id === tab && id === "suggested" && (
               <div
-                className="mb-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-3 py-1.5"
+                className="mb-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3 py-1.5"
                 data-testid="wb-dictionary-learn"
               >
                 <ForkToggle
@@ -498,7 +498,7 @@ export function DictionaryPage() {
                       count: tabCounts[id],
                     })}
                     data-testid="wb-dictionary-list"
-                    className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-3"
+                    className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3"
                   >
                     {visible.map((e) => (
                       <EntryRow

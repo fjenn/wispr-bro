@@ -433,7 +433,7 @@ export function HistoryList() {
             aria-label={t("history.transcribeFile")}
             title={t("history.transcribeFile")}
             onClick={() => void transcribeFile()}
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
           >
             <FilePlus size={16} aria-hidden="true" />
           </button>

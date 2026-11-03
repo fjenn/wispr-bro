@@ -83,7 +83,7 @@ export function Greeting() {
             aria-label={editLabel}
             title={editLabel}
             disabled={!settled}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) disabled:invisible ${FOCUS_RING}`}
+            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) disabled:invisible ${FOCUS_RING}`}
           >
             <Pencil size={16} aria-hidden="true" />
           </button>
@@ -164,7 +164,7 @@ function NameEditor({
         spellCheck={false}
         aria-describedby={failed ? `${hintId} ${errorId}` : hintId}
         aria-invalid={failed || undefined}
-        className="rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-canvas) px-3 py-2 text-[14px] text-(--wb-ink) select-text focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent)"
+        className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-panel) px-3 py-2 text-[14px] text-(--wb-ink) select-text focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent)"
       />
       <p id={hintId} className="text-[12.5px] text-(--wb-ink-2)">
         {t("home.nameEditor.hint")}

@@ -10,13 +10,14 @@
  * Design Phase 0: flush with the window chrome (no divider), 216 pt wide,
  * 15 px medium labels in ink with 18 pt icons on a 40 pt pitch; the current
  * page gets a barely-there warm fill, never a colour or a bolder label.
- * The traffic lights and the collapse toggle live in the title strip above.
+ * The traffic lights and the collapse toggle live in the title strip above;
+ * the wordmark (glyph only when collapsed) heads the sidebar (Phase 0b).
  */
 import { forwardRef, type ReactNode } from "react";
 import { CircleHelp } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
-import { FOCUS_RING, Tag, Tooltip } from "../ui";
+import { FOCUS_RING, Tag, Tooltip, Wordmark } from "../ui";
 import { HelpPopover } from "./HelpPopover";
 import { navigate, useHubNav } from "./nav";
 import { HUB_PAGES, newTagId, pageLabelKey, type HubPage } from "./pages";
@@ -147,7 +148,12 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
           : "w-(--wb-sidebar-width)"
       }`}
     >
-      <div data-tauri-drag-region className="h-3 shrink-0" />
+      <div
+        data-tauri-drag-region
+        className={`flex h-14 shrink-0 items-center pb-2 ${collapsed ? "justify-center" : "px-5"}`}
+      >
+        <Wordmark compact={collapsed} />
+      </div>
       <nav
         aria-label={t("hub.nav.label")}
         className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 pb-2.5"

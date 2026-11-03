@@ -19,7 +19,7 @@ const BASE: SVGProps<SVGSVGElement> = {
   "aria-hidden": true,
   focusable: false,
 };
-const MIC = "var(--wb-accent-fill)";
+const MIC = "var(--wb-ink)";
 
 function BuiltIn() {
   return (

@@ -45,6 +45,7 @@
     "wb:guard:bundle-hosts": "bun scripts/wb-guard-bundle-hosts.ts",
     "wb:guard:telemetry": "bun scripts/wb-guard-telemetry.ts",
     "wb:guard:spdx": "bun scripts/wb-guard-spdx.ts",
+    "wb:guard:tokens": "bun scripts/wb-guard-tokens.ts",
     "wb:test:guards": "bun test scripts/wb-guards.test.ts",
     "wb:clippy": "bun scripts/wb-clippy-fork.ts",
     "wb:format:check": "prettier --check --ignore-path .prettierignore --ignore-path .wb-prettierignore . && cd src-tauri && cargo fmt -- --check",

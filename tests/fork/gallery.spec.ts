@@ -209,3 +209,172 @@ test.describe("primitives gallery", () => {
     await expect(dialog).toHaveCount(0);
   });
 });
+
+// Design Phase 0b: chips, radios, option cards, setting rows, toasts, the
+// wordmark, and popups that keep a pinned board's theme.
+test.describe("primitives gallery: Phase 0b pieces", () => {
+  test.setTimeout(180_000);
+
+  test("keyboard: chips, radios, option cards, setting row", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await openGallery(page, ipc, hub);
+    const light = board(page, "light");
+
+    // Toggle chips: Space/Enter flip aria-pressed.
+    const chips = light.getByTestId("light-chips");
+    await expect(chips).toHaveAttribute("role", "group");
+    const nl = chips.getByRole("button", { name: "Nederlands" });
+    await nl.focus();
+    await expect(nl).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.press("Space");
+    await expect(nl).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Enter");
+    await expect(nl).toHaveAttribute("aria-pressed", "false");
+
+    // Removable chip: the ✕ is named; Delete removes, Enter removes.
+    const removeSafari = light.getByRole("button", { name: "Remove Safari" });
+    await removeSafari.focus();
+    await page.keyboard.press("Delete");
+    await expect(removeSafari).toHaveCount(0);
+    const removeNotes = light.getByRole("button", { name: "Remove Notes" });
+    await removeNotes.focus();
+    await page.keyboard.press("Enter");
+    await expect(removeNotes).toHaveCount(0);
+
+    // Radio group: Tab enters on the chosen item, arrows move and select,
+    // disabled items are skipped.
+    const radios = light.getByTestId("light-radios");
+    await expect(radios).toHaveAttribute("role", "radiogroup");
+    const builtIn = radios.getByRole("radio", { name: "Built-in microphone" });
+    await expect(builtIn).toBeChecked();
+    await builtIn.focus();
+    await page.keyboard.press("ArrowDown");
+    const headset = radios.getByRole("radio", { name: "Headset" });
+    await expect(headset).toBeFocused();
+    await expect(headset).toBeChecked();
+    await page.keyboard.press("ArrowDown");
+    await expect(builtIn).toBeFocused();
+    await expect(
+      radios.getByRole("radio", { name: "Desk microphone" }),
+    ).toBeDisabled();
+
+    // Option cards: same model; the card shows the selected state.
+    const options = light.getByTestId("light-options");
+    const chat = options.getByRole("radio", { name: "Messages and chat" });
+    await chat.focus();
+    await page.keyboard.press("ArrowDown");
+    const docs = options.getByRole("radio", { name: "Email and documents" });
+    await expect(docs).toBeChecked();
+    await expect(docs).toHaveAccessibleDescription("Longer, careful text.");
+    const card = (name: string) =>
+      options
+        .locator("label")
+        .filter({ has: page.getByRole("radio", { name }) });
+    await expect(card("Email and documents")).toHaveAttribute(
+      "data-selected",
+      "true",
+    );
+    await expect(card("Messages and chat")).not.toHaveAttribute(
+      "data-selected",
+      "true",
+    );
+
+    // Setting row: the control is named and described by the row.
+    const sw = light.getByTestId("light-setting-sounds-switch");
+    await expect(sw).toHaveAccessibleName("Dictation sounds");
+    await expect(sw).toHaveAccessibleDescription(
+      "A soft tick when the bar starts and stops.",
+    );
+    await sw.focus();
+    await page.keyboard.press("Space");
+    await expect(sw).not.toBeChecked();
+  });
+
+  test("popups keep the theme of the board that opened them", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await page.emulateMedia({ colorScheme: "light" });
+    await openGallery(page, ipc, hub, { handy: { theme: "light" } });
+    const dark = board(page, "dark");
+    await dark.getByRole("button", { name: "Open popover" }).click();
+    const popover = page.getByRole("dialog", { name: "Open popover" });
+    await expect(popover).toBeVisible();
+    await expect(popover).toHaveAttribute("data-wb-theme", "dark");
+    const bg = await popover.evaluate(
+      (el) => getComputedStyle(el).backgroundColor,
+    );
+    // --wb-dark-surface #222220, not the light #ffffff.
+    expect(bg).toBe("rgb(34, 34, 32)");
+    // Its text follows the pinned theme too (--wb-dark-ink #f3f2ee).
+    expect(
+      await popover.locator("p").evaluate((el) => getComputedStyle(el).color),
+    ).toBe("rgb(243, 242, 238)");
+    await page.keyboard.press("Escape");
+
+    await dark.getByRole("button", { name: "Open dialog" }).click();
+    const dialog = page.getByRole("dialog", { name: "Add word" });
+    await expect(dialog).toBeVisible();
+    expect(
+      await dialog.evaluate((el) => getComputedStyle(el).backgroundColor),
+    ).toBe("rgb(34, 34, 32)");
+    await page.keyboard.press("Escape");
+  });
+
+  test("toasts: sonner toasts wear the HUD card; the wordmark", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await openGallery(page, ipc, hub);
+    const light = board(page, "light");
+    const view = light.getByTestId("light-toast");
+    const hud = "rgb(27, 27, 27)"; // --wb-hud-2
+    await expect(view).toHaveCSS("background-color", hud);
+    await expect(board(page, "dark").getByTestId("dark-toast")).toHaveCSS(
+      "background-color",
+      hud,
+    );
+
+    await light.getByRole("button", { name: "Show a toast" }).click();
+    const live = page.locator("[data-sonner-toast]");
+    await expect(live).toBeVisible();
+    await expect(live).toContainText("It will be spelled your way");
+    await expect(live).toHaveCSS("background-color", hud);
+    await expect(live).toHaveCSS("border-radius", "12px");
+    await expect(live.getByRole("button", { name: "Undo" })).toHaveCSS(
+      "background-color",
+      "rgb(240, 237, 230)", // --wb-cream
+    );
+
+    await expect(light.getByTestId("light-wordmark")).toHaveText("Wispr Bro");
+    await expect(
+      light.getByTestId("light-wordmark-compact"),
+    ).toHaveAccessibleName("Wispr Bro");
+  });
+
+  test("RTL and Reduce Motion: radios follow reading order, chips work", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await openGallery(page, ipc, hub, { handy: { app_language: "ar" } });
+    await expect(gallery(page)).toHaveAttribute("dir", "rtl");
+    const light = board(page, "light");
+    const tiles = light.getByRole("radiogroup", { name: "Pick your mic" });
+    const usb = tiles.getByRole("radio", { name: "USB mic" });
+    await usb.focus();
+    // In RTL the grid runs right to left: ArrowLeft moves to the next tile.
+    await page.keyboard.press("ArrowLeft");
+    await expect(tiles.getByRole("radio", { name: "Headset" })).toBeChecked();
+    const nl = light.getByRole("button", { name: "Nederlands" });
+    await nl.click();
+    await expect(nl).toHaveAttribute("aria-pressed", "true");
+    await axe(page);
+  });
+});

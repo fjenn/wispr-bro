@@ -220,7 +220,7 @@ export function TransformsPage() {
       />
       <section
         aria-labelledby="wb-transforms-enable-title"
-        className="flex flex-col gap-4 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-5"
+        className="flex flex-col gap-4 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5"
       >
         <label className="flex cursor-pointer items-start gap-3">
           <input
@@ -231,7 +231,7 @@ export function TransformsPage() {
             onChange={(event) =>
               void setSetting("transforms_enabled", event.currentTarget.checked)
             }
-            className="mt-1 size-4 accent-(--wb-accent-fill)"
+            className="mt-1 size-4 accent-(--wb-ink)"
             data-testid="wb-transforms-enabled"
           />
           <span>
@@ -262,7 +262,7 @@ export function TransformsPage() {
                     : null,
                 )
               }
-              className="size-4 accent-(--wb-accent-fill)"
+              className="size-4 accent-(--wb-ink)"
               data-testid="wb-transforms-auto"
             />
             {t("transforms.auto.title")}
@@ -287,7 +287,7 @@ export function TransformsPage() {
                 event.currentTarget.value || null,
               )
             }
-            className="w-full max-w-sm rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-sm"
+            className="w-full max-w-sm rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-sm"
             data-testid="wb-transforms-auto-choice"
           >
             {!settings?.auto_apply_transform && (

@@ -80,7 +80,7 @@ export function ReportProblemDialog({
     >
       <section
         data-testid="wb-report-dialog"
-        className="flex flex-col gap-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+        className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
       >
         <h3 className="text-[13.5px] font-semibold">
           {t("hub.help.report.diagnosticsTitle")}

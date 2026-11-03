@@ -22,7 +22,7 @@ export function HistoryDropZone({ children }: { children: React.ReactNode }) {
     >
       {children}
       {active && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-(--wb-radius-card) border-2 border-dashed border-(--wb-accent) bg-(--wb-canvas)/90 text-center">
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-(--wb-radius-md) border-2 border-dashed border-(--wb-accent) bg-(--wb-panel)/90 text-center">
           <FileAudio
             size={32}
             aria-hidden="true"

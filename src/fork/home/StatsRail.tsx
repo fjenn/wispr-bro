@@ -85,7 +85,7 @@ export function StatsRail({ summary, status }: StatsRailProps) {
       data-testid="wb-stats-rail"
       data-status={status}
       aria-busy={status === "loading"}
-      className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-5 py-4"
+      className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4"
     >
       <dl className="grid grid-cols-1 gap-4 @min-[520px]:grid-cols-3 @min-[680px]:grid-cols-1">
         <Stat

@@ -45,7 +45,7 @@ export function NoteTabs({
               if (target instanceof HTMLElement) target.focus();
             }
           }}
-          className={`max-w-40 min-w-0 cursor-pointer truncate rounded-t-lg border-b-2 px-3 py-2 text-xs whitespace-nowrap ${selected === note.id ? "border-(--wb-accent) bg-(--wb-card) text-(--wb-ink)" : "border-transparent text-(--wb-ink-2) hover:bg-(--wb-hover)"} ${FOCUS_RING}`}
+          className={`max-w-40 min-w-0 cursor-pointer truncate rounded-t-lg border-b-2 px-3 py-2 text-xs whitespace-nowrap ${selected === note.id ? "border-(--wb-accent) bg-(--wb-surface) text-(--wb-ink)" : "border-transparent text-(--wb-ink-2) hover:bg-(--wb-fill-hover)"} ${FOCUS_RING}`}
           data-testid={`wb-note-tab-${note.id}`}
         >
           {note.title || t("scratchpad.untitled")}

@@ -51,6 +51,7 @@ import {
 import { packageOfSpecifier, runTelemetry } from "./wb-guard-telemetry";
 import { runSpdx } from "./wb-guard-spdx";
 import { runIcons } from "./wb-guard-icons";
+import { runTokens } from "./wb-guard-tokens";
 import { runAll } from "./wb-guards";
 
 const H = "https:" + "//";
@@ -489,6 +490,37 @@ describe("icons guard", () => {
       `${SPDX}import { Mic } from "../ui/icons";\n`,
     );
     expectPass(runIcons({ root }));
+  });
+});
+
+describe("tokens guard", () => {
+  test("a v1 token name fails; v2 roles and longer names pass", () => {
+    const root = fixture({
+      "src/fork/home/Page.tsx": `${SPDX}const c = "bg-(--wb-card) rounded-(--wb-radius-card)";\n`,
+      "src/fork/home/ok.css": `${SPDX}a { color: var(--wb-canvas-warm); font: var(--wb-card-title); }\n`,
+      "tests/fork/x.spec.ts": `${SPDX}const v = "--wb-dark-banner";\n`,
+      "src/components/Handy.tsx": `const c = "--wb-card";\n`,
+    });
+    const r = runTokens({ root });
+    expect(new Set(rules(r))).toEqual(new Set(["tokens/v1-name"]));
+    expect(r.violations.map((v) => v.file)).toEqual([
+      "src/fork/home/Page.tsx",
+      "src/fork/home/Page.tsx",
+      "tests/fork/x.spec.ts",
+    ]);
+    expect(r.violations[0].message).toContain("--wb-surface");
+
+    write(
+      root,
+      "src/fork/home/Page.tsx",
+      `${SPDX}const c = "bg-(--wb-surface) rounded-(--wb-radius-md)";\n`,
+    );
+    write(
+      root,
+      "tests/fork/x.spec.ts",
+      `${SPDX}const v = "--wb-dark-accent-soft";\n`,
+    );
+    expectPass(runTokens({ root }));
   });
 });
 

@@ -94,7 +94,7 @@ export function Languages({
         </p>
       </div>
       <div
-        className="flex w-full flex-col overflow-hidden rounded-(--wb-radius-card) border border-(--wb-line-strong) bg-(--wb-card) text-start"
+        className="flex w-full flex-col overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line-strong) bg-(--wb-surface) text-start"
         data-testid="wb-onboarding-languages"
       >
         <LanguageSearchField

@@ -237,7 +237,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
 
   const radio = (value: FlagKind, label: string, hint: string) => (
     <label
-      className={`flex cursor-pointer items-start gap-2.5 rounded-(--wb-radius-control) border px-3 py-2 ${kind === value ? "border-(--wb-accent) bg-(--wb-selected)" : "border-(--wb-line)"}`}
+      className={`flex cursor-pointer items-start gap-2.5 rounded-(--wb-radius-sm) border px-3 py-2 ${kind === value ? "border-(--wb-accent) bg-(--wb-fill-active)" : "border-(--wb-line)"}`}
     >
       <input
         type="radio"
@@ -303,7 +303,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
             role="group"
             aria-labelledby={wordsLabelId}
             data-testid="wb-flag-words"
-            className="flex max-h-48 flex-wrap gap-1 overflow-y-auto rounded-(--wb-radius-control) border border-(--wb-line) bg-(--wb-card) p-2"
+            className="flex max-h-48 flex-wrap gap-1 overflow-y-auto rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) p-2"
           >
             {words.map((w, i) => {
               const picked = pick !== null && i >= pick[0] && i <= pick[1];
@@ -315,7 +315,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
                   aria-pressed={picked}
                   data-testid="wb-flag-word"
                   onClick={() => choose(i)}
-                  className={`cursor-pointer rounded-[6px] px-1.5 py-0.5 text-[14px] ${picked ? "bg-(--wb-accent-fill) text-(--wb-on-accent)" : "text-(--wb-ink) hover:bg-(--wb-hover)"} ${FOCUS_RING}`}
+                  className={`cursor-pointer rounded-[6px] px-1.5 py-0.5 text-[14px] ${picked ? "bg-(--wb-ink) text-(--wb-on-ink)" : "text-(--wb-ink) hover:bg-(--wb-fill-hover)"} ${FOCUS_RING}`}
                 >
                   {w.text}
                 </button>
@@ -369,7 +369,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
             role="alert"
             data-testid="wb-flag-feedback"
             data-kind={feedback.kind}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-[13px]"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
           >
             <span>{feedbackText(feedback)}</span>
             {feedback.kind === "conflict" && (

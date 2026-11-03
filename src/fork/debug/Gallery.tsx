@@ -16,6 +16,8 @@ import {
   Button,
   Card,
   Checkbox,
+  Chip,
+  ChipGroup,
   Dialog,
   EmptyState,
   Hero,
@@ -25,14 +27,19 @@ import {
   ListContainer,
   ListRow,
   Menu,
+  OptionCard,
   PageHeader,
   Popover,
   ProgressDashes,
   ProgressLine,
+  Radio,
+  RadioGroup,
   SearchField,
   SectionLabel,
   SegmentedControl,
   Select,
+  SettingGroup,
+  SettingRow,
   Sheet,
   StatNumber,
   Stepper,
@@ -41,12 +48,17 @@ import {
   Tabs,
   TextArea,
   TextField,
+  ThemeScope,
+  toast,
+  ToastView,
   Tooltip,
+  Wordmark,
 } from "../ui";
 import {
   BookA,
   Copy,
   Flag,
+  Globe,
   Mic,
   MoreHorizontal,
   Play,
@@ -161,6 +173,51 @@ const SAMPLE = {
   light: "Light",
   dark: "Dark",
   fn: "fn",
+  // Design Phase 0b
+  choices: "Chips, radios, option cards",
+  languages: "Languages",
+  langs: ["English", "Nederlands", "Français", "Deutsch", "日本語"],
+  apps: "Apps",
+  appA: "Safari",
+  appB: "Notes",
+  remove: "Remove",
+  micKind: "Microphone kind",
+  micBuiltIn: "Built-in microphone",
+  micBuiltInDesc: "Good for a quiet room.",
+  micHeadset: "Headset",
+  micHeadsetDesc: "Best when it is noisy.",
+  micDesk: "Desk microphone",
+  question: "How do you write most?",
+  optA: "Messages and chat",
+  optADesc: "Short notes to people.",
+  optB: "Email and documents",
+  optBDesc: "Longer, careful text.",
+  optC: "Code and notes",
+  optCDesc: "Names, symbols, lists.",
+  tiles: "Pick your mic",
+  tileA: "Laptop",
+  tileB: "Earbuds",
+  tileC: "USB mic",
+  tileD: "Headset",
+  settingRows: "Setting rows",
+  general: "General",
+  rowSounds: "Dictation sounds",
+  rowSoundsDesc: "A soft tick when the bar starts and stops.",
+  rowMic: "Microphone",
+  rowMicDesc: "The mic Wispr Bro listens to.",
+  rowShortcut: "Shortcut",
+  rowShortcutDesc: "Hold to talk, let go to insert.",
+  rowChange: "Change",
+  rowDisabled: "Context awareness",
+  rowDisabledDesc: "Needs Accessibility access.",
+  toasts: "Toasts and wordmark",
+  toastSaved: "Saved to Downloads",
+  toastAdded: "Added \u201cpostgres\u201d",
+  toastAddedDesc: "It will be spelled your way from now on.",
+  toastFailed: "Couldn\u2019t export the dictionary",
+  toastUndo: "Undo",
+  toastInfo: "Update ready",
+  toastShow: "Show a toast",
 };
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -219,12 +276,18 @@ function Board({ theme }: { theme: "light" | "dark" }) {
   const [checked, setChecked] = useState(true);
   const [dialog, setDialog] = useState(false);
   const [sheet, setSheet] = useState(false);
+  const [langs, setLangs] = useState<string[]>([SAMPLE.langs[0]]);
+  const [apps, setApps] = useState([SAMPLE.appA, SAMPLE.appB]);
+  const [micKind, setMicKind] = useState("builtin");
+  const [opt, setOpt] = useState("chat");
+  const [tile, setTile] = useState("usb");
+  const [sounds, setSounds] = useState(true);
   const id = (s: string) => `${theme}-${s}`;
   return (
-    <div
-      data-wb-theme={theme}
+    <ThemeScope
+      theme={theme}
       data-testid={`wb-gallery-${theme}`}
-      className="flex min-w-0 flex-1 flex-col gap-6 bg-(--wb-panel) p-8 text-(--wb-ink)"
+      className="flex min-w-0 flex-1 flex-col gap-6 bg-(--wb-panel) p-8"
     >
       <PageHeader
         title={`${SAMPLE.title} · ${theme === "light" ? SAMPLE.light : SAMPLE.dark}`}
@@ -444,6 +507,200 @@ function Board({ theme }: { theme: "light" | "dark" }) {
             {SAMPLE.tabSuggested}
           </TabPanel>
         </Tabs>
+      </Section>
+
+      <Section title={SAMPLE.choices}>
+        <ChipGroup label={SAMPLE.languages} data-testid={id("chips")}>
+          {SAMPLE.langs.map((lang) => (
+            <Chip
+              key={lang}
+              selected={langs.includes(lang)}
+              onSelectedChange={(on) =>
+                setLangs((cur) =>
+                  on ? [...cur, lang] : cur.filter((l) => l !== lang),
+                )
+              }
+            >
+              {lang}
+            </Chip>
+          ))}
+          <Chip selected={false} disabled>
+            {SAMPLE.disabled}
+          </Chip>
+        </ChipGroup>
+        <ChipGroup label={SAMPLE.apps}>
+          {apps.map((app) => (
+            <Chip
+              key={app}
+              size="sm"
+              leading={<Globe size={14} />}
+              removeLabel={`${SAMPLE.remove} ${app}`}
+              onRemove={() => setApps((cur) => cur.filter((a) => a !== app))}
+            >
+              {app}
+            </Chip>
+          ))}
+          <Chip size="sm" selected leading={<Globe size={14} />}>
+            {SAMPLE.cardSelected}
+          </Chip>
+        </ChipGroup>
+        <RadioGroup
+          label={SAMPLE.micKind}
+          value={micKind}
+          onValueChange={setMicKind}
+          testId={id("radios")}
+        >
+          <Radio
+            value="builtin"
+            label={SAMPLE.micBuiltIn}
+            description={SAMPLE.micBuiltInDesc}
+          />
+          <Radio
+            value="headset"
+            label={SAMPLE.micHeadset}
+            description={SAMPLE.micHeadsetDesc}
+          />
+          <Radio value="desk" label={SAMPLE.micDesk} disabled />
+        </RadioGroup>
+        <p className="type-sheet">{SAMPLE.question}</p>
+        <RadioGroup
+          label={SAMPLE.question}
+          value={opt}
+          onValueChange={setOpt}
+          className="max-w-[344px]"
+          testId={id("options")}
+        >
+          <OptionCard
+            value="chat"
+            title={SAMPLE.optA}
+            description={SAMPLE.optADesc}
+          />
+          <OptionCard
+            value="docs"
+            title={SAMPLE.optB}
+            description={SAMPLE.optBDesc}
+          />
+          <OptionCard
+            value="code"
+            title={SAMPLE.optC}
+            description={SAMPLE.optCDesc}
+            icon={<Sparkles size={20} />}
+          />
+        </RadioGroup>
+        <RadioGroup
+          label={SAMPLE.tiles}
+          value={tile}
+          onValueChange={setTile}
+          layout="grid"
+          columns={4}
+        >
+          {(
+            [
+              ["laptop", SAMPLE.tileA],
+              ["buds", SAMPLE.tileB],
+              ["usb", SAMPLE.tileC],
+              ["headset", SAMPLE.tileD],
+            ] as const
+          ).map(([value, label]) => (
+            <OptionCard
+              key={value}
+              value={value}
+              title={label}
+              media={<Mic size={24} className="text-(--wb-ink-3)" />}
+            />
+          ))}
+        </RadioGroup>
+      </Section>
+
+      <Section title={SAMPLE.settingRows}>
+        <SettingGroup label={SAMPLE.general}>
+          <SettingRow
+            title={SAMPLE.rowSounds}
+            description={SAMPLE.rowSoundsDesc}
+            testId={id("setting-sounds")}
+            control={(a) => (
+              <Switch
+                checked={sounds}
+                onChange={setSounds}
+                ariaLabelledBy={a.labelledBy}
+                ariaDescribedBy={a.describedBy}
+                testId={id("setting-sounds-switch")}
+              />
+            )}
+          />
+          <SettingRow
+            title={SAMPLE.rowMic}
+            description={SAMPLE.rowMicDesc}
+            icon={<Mic size={18} />}
+            control={
+              <Select
+                label={SAMPLE.rowMic}
+                value={mic}
+                onValueChange={setMic}
+                className="w-56"
+                options={[
+                  { value: "builtin", label: SAMPLE.selectA },
+                  { value: "airpods", label: SAMPLE.selectB },
+                ]}
+              />
+            }
+          />
+          <SettingRow
+            title={SAMPLE.rowShortcut}
+            description={SAMPLE.rowShortcutDesc}
+            control={
+              <>
+                <Kbd>{SAMPLE.fn}</Kbd>
+                <Button variant="outline" size="sm">
+                  {SAMPLE.rowChange}
+                </Button>
+              </>
+            }
+          />
+          <SettingRow
+            title={SAMPLE.rowDisabled}
+            description={SAMPLE.rowDisabledDesc}
+            disabled
+            control={(a) => (
+              <Switch
+                checked={false}
+                disabled
+                onChange={() => {}}
+                ariaLabelledBy={a.labelledBy}
+              />
+            )}
+          />
+        </SettingGroup>
+      </Section>
+
+      <Section title={SAMPLE.toasts}>
+        <div className="flex flex-col items-start gap-3">
+          <ToastView title={SAMPLE.toastSaved} />
+          <ToastView
+            tone="success"
+            title={SAMPLE.toastAdded}
+            description={SAMPLE.toastAddedDesc}
+            action={{ label: SAMPLE.toastUndo, onClick: () => {} }}
+            testId={id("toast")}
+          />
+          <ToastView tone="error" title={SAMPLE.toastFailed} />
+          <ToastView tone="info" title={SAMPLE.toastInfo} />
+          <Button
+            onClick={() =>
+              toast.success(SAMPLE.toastAdded, {
+                description: SAMPLE.toastAddedDesc,
+                action: { label: SAMPLE.toastUndo, onClick: () => {} },
+              })
+            }
+          >
+            {SAMPLE.toastShow}
+          </Button>
+        </div>
+        <Row>
+          <Wordmark testId={id("wordmark")} />
+          <Wordmark compact testId={id("wordmark-compact")} />
+          <Wordmark size={28} />
+        </Row>
       </Section>
 
       <Section title={SAMPLE.fields}>
@@ -718,7 +975,7 @@ function Board({ theme }: { theme: "light" | "dark" }) {
           ))}
         </Row>
       </Section>
-    </div>
+    </ThemeScope>
   );
 }
 

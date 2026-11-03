@@ -12,6 +12,7 @@
  */
 import * as RadixMenu from "@radix-ui/react-dropdown-menu";
 import { Check, type Glyph } from "./icons";
+import { usePinnedThemeProps } from "./ThemeScope";
 import type { ReactElement } from "react";
 
 export interface MenuItem {
@@ -56,6 +57,7 @@ export function Menu({
   testId,
   onCloseAutoFocus,
 }: MenuProps) {
+  const pinned = usePinnedThemeProps();
   return (
     // Non-modal: the rest of the window stays readable (no aria-hidden on
     // it); Esc, a click outside or Tab closes the menu.
@@ -70,6 +72,7 @@ export function Menu({
           aria-label={label}
           data-testid={testId}
           onCloseAutoFocus={onCloseAutoFocus}
+          {...pinned}
           className="wb-pop z-50 min-w-52 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-1 text-(--wb-ink) shadow-(--wb-elev-1)"
         >
           {groups.map((group, index) => (

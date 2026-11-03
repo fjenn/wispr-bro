@@ -33,7 +33,7 @@ export function AppIcon({
     <span
       aria-hidden="true"
       style={{ width: size, height: size }}
-      className="grid shrink-0 place-items-center rounded-[7px] bg-(--wb-selected) text-[12px] font-semibold text-(--wb-ink-2)"
+      className="grid shrink-0 place-items-center rounded-[7px] bg-(--wb-fill-active) text-[12px] font-semibold text-(--wb-ink-2)"
     >
       {[...name.trim()][0]?.toLocaleUpperCase() ?? ""}
     </span>

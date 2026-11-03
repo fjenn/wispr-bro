@@ -187,7 +187,7 @@ export function MicrophonePicker({
             <label
               key={entry.value}
               htmlFor={id}
-              className="flex cursor-pointer items-start gap-2 rounded-(--wb-radius-control) px-1 py-1 hover:bg-(--wb-hover)"
+              className="flex cursor-pointer items-start gap-2 rounded-(--wb-radius-sm) px-1 py-1 hover:bg-(--wb-fill-hover)"
               data-testid="wb-mic-option"
               data-value={entry.value}
             >
@@ -216,7 +216,7 @@ export function MicrophonePicker({
       )}
       {list.avoided && (
         <div
-          className="flex flex-col gap-2 rounded-(--wb-radius-control) border border-(--wb-line) p-2 text-xs"
+          className="flex flex-col gap-2 rounded-(--wb-radius-sm) border border-(--wb-line) p-2 text-xs"
           data-testid="wb-mic-avoided"
         >
           <p>{t("settings.mic.avoided", { name: list.avoided })}</p>

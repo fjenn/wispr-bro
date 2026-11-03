@@ -56,7 +56,7 @@ export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
         >
           {t("settingsModal.general.microphone")}
         </h3>
-        <div className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4">
+        <div className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
           <MicrophonePicker />
         </div>
       </section>

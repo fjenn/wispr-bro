@@ -133,7 +133,7 @@ function HowToWhisper() {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
     <div className="flex flex-col gap-4" data-testid="wb-whisper-how">
-      <figure className="m-0 flex flex-col items-center gap-1 rounded-(--wb-radius-card) bg-(--wb-banner) px-4 py-3 text-(--wb-ink)">
+      <figure className="m-0 flex flex-col items-center gap-1 rounded-(--wb-radius-md) bg-(--wb-accent-soft) px-4 py-3 text-(--wb-ink)">
         <WhisperDistanceArt className="h-24 w-full max-w-[320px]" />
         <figcaption className="text-[13px] font-medium text-(--wb-ink-2)">
           {t("lessons.whisper.how.distance")}
@@ -148,7 +148,7 @@ function HowToWhisper() {
           >
             <span
               aria-hidden="true"
-              className="grid size-6 shrink-0 place-items-center rounded-full bg-(--wb-selected) text-[12px] font-semibold"
+              className="grid size-6 shrink-0 place-items-center rounded-full bg-(--wb-fill-active) text-[12px] font-semibold"
             >
               {i + 1}
             </span>
@@ -300,7 +300,7 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
         </p>
       )}
       <blockquote
-        className="m-0 rounded-(--wb-radius-card) border-s-4 border-(--wb-accent-fill) bg-(--wb-banner) px-4 py-3 text-[15px] leading-6"
+        className="m-0 rounded-(--wb-radius-md) border-s-4 border-(--wb-ink) bg-(--wb-accent-soft) px-4 py-3 text-[15px] leading-6"
         data-testid="wb-whisper-sentence"
       >
         <span className="sr-only">
@@ -343,7 +343,7 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
       {(phase === "low" || phase === "nothing") && (
         <section
           aria-labelledby="wb-whisper-tips-title"
-          className="flex flex-col gap-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-3"
+          className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-3"
           data-testid="wb-whisper-tips"
         >
           <h4

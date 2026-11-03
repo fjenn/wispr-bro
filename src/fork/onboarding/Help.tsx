@@ -27,7 +27,7 @@ export function HelpChip({
       <button
         type="button"
         onClick={onOpen}
-        className={`inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-(--wb-line) bg-(--wb-card) px-3 py-1.5 text-xs font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+        className={`inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-(--wb-line) bg-(--wb-surface) px-3 py-1.5 text-xs font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       >
         <CircleHelp size={16} aria-hidden="true" />
         {t("onboardingFlow.help.chip")}
@@ -36,7 +36,7 @@ export function HelpChip({
         <dialog
           ref={dialog}
           aria-labelledby="wb-onboarding-help-title"
-          className="m-auto w-[min(440px,calc(100vw-32px))] max-w-none rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-canvas) p-0 text-(--wb-ink) shadow-(--wb-shadow) backdrop:bg-black/45"
+          className="m-auto w-[min(440px,calc(100vw-32px))] max-w-none rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
           onCancel={(event) => {
             event.preventDefault();
             onClose();
@@ -53,7 +53,7 @@ export function HelpChip({
               type="button"
               aria-label={t("onboardingFlow.help.close")}
               onClick={onClose}
-              className={`grid size-8 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+              className={`grid size-8 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
             >
               <X size={18} aria-hidden="true" />
             </button>

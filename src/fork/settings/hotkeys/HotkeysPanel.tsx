@@ -222,7 +222,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
           {error}
         </p>
       )}
-      <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-(--wb-line) bg-(--wb-canvas) py-3">
+      <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-(--wb-line) bg-(--wb-panel) py-3">
         <Button
           disabled={capture !== null || busy}
           onClick={() => void reset()}

@@ -16,9 +16,10 @@
  *
  * Every token carries the `--wb-` prefix so it never collides with Handy's
  * `--color-*`, `--font-*`, `--radius-*` and `--text-*` theme variables. Use
- * them through Tailwind arbitrary values (`bg-(--wb-surface)`) or the
- * `wb-*` utilities registered in `theme.css` (`bg-wb-surface`,
- * `rounded-wb-card`, `type-title`).
+ * them through Tailwind arbitrary values (`bg-(--wb-surface)`,
+ * `rounded-(--wb-radius-md)`) and the `type-*` classes below. The v1
+ * aliases (canvas, card, banner, radius-card…) are gone; the tokens guard
+ * (`scripts/wb-guard-tokens.ts`) fails if one comes back.
  *
  * Text pairs meet WCAG AA (4.5:1) in both themes and control edges
  * (`--wb-line-strong`) 3:1; `tests/fork/hub.spec.ts` checks them and axe checks
@@ -75,9 +76,6 @@
   --wb-radius-lg: 16px;
   --wb-radius-xl: 22px;
   --wb-radius-full: 9999px;
-  /* v1 names */
-  --wb-radius-card: var(--wb-radius-md);
-  --wb-radius-control: var(--wb-radius-sm);
 
   /* ---- Motion (SYSTEM-PLAN §1.6, §5; springs in src/fork/ui/motion.ts) ---- */
   --wb-dur-instant: 90ms;
@@ -222,26 +220,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 64px rgba(0, 0, 0, 0.45),
     0 2px 6px rgba(0, 0, 0, 0.15);
 
-  /* v1 names (aliases until the Phase 1 sweep removes them) */
-  --wb-light-canvas: var(--wb-light-panel);
-  --wb-dark-canvas: var(--wb-dark-panel);
-  --wb-light-sidebar: var(--wb-light-chrome);
-  --wb-dark-sidebar: var(--wb-dark-chrome);
-  --wb-light-card: var(--wb-light-surface);
-  --wb-dark-card: var(--wb-dark-surface);
-  --wb-light-banner: var(--wb-light-accent-soft);
-  --wb-dark-banner: var(--wb-dark-accent-soft);
-  --wb-light-hover: var(--wb-light-fill-hover);
-  --wb-dark-hover: var(--wb-dark-fill-hover);
-  --wb-light-selected: var(--wb-light-fill-active);
-  --wb-dark-selected: var(--wb-dark-fill-active);
-  --wb-light-accent-fill: var(--wb-light-ink);
-  --wb-dark-accent-fill: var(--wb-dark-ink);
-  --wb-light-on-accent: var(--wb-light-on-ink);
-  --wb-dark-on-accent: var(--wb-dark-on-ink);
-  --wb-light-shadow: var(--wb-light-elev-1);
-  --wb-dark-shadow: var(--wb-dark-elev-1);
-
   /* Active tokens: light by default */
   --wb-chrome: var(--wb-light-chrome);
   --wb-panel: var(--wb-light-panel);
@@ -289,15 +267,6 @@
   --wb-elev-1: var(--wb-light-elev-1);
   --wb-elev-2: var(--wb-light-elev-2);
   --wb-elev-3: var(--wb-light-elev-3);
-  --wb-canvas: var(--wb-light-canvas);
-  --wb-sidebar: var(--wb-light-sidebar);
-  --wb-card: var(--wb-light-card);
-  --wb-banner: var(--wb-light-banner);
-  --wb-hover: var(--wb-light-hover);
-  --wb-selected: var(--wb-light-selected);
-  --wb-accent-fill: var(--wb-light-accent-fill);
-  --wb-on-accent: var(--wb-light-on-accent);
-  --wb-shadow: var(--wb-light-shadow);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -348,15 +317,6 @@
     --wb-elev-1: var(--wb-dark-elev-1);
     --wb-elev-2: var(--wb-dark-elev-2);
     --wb-elev-3: var(--wb-dark-elev-3);
-    --wb-canvas: var(--wb-dark-canvas);
-    --wb-sidebar: var(--wb-dark-sidebar);
-    --wb-card: var(--wb-dark-card);
-    --wb-banner: var(--wb-dark-banner);
-    --wb-hover: var(--wb-dark-hover);
-    --wb-selected: var(--wb-dark-selected);
-    --wb-accent-fill: var(--wb-dark-accent-fill);
-    --wb-on-accent: var(--wb-dark-on-accent);
-    --wb-shadow: var(--wb-dark-shadow);
   }
 }
 
@@ -408,15 +368,6 @@
   --wb-elev-1: var(--wb-light-elev-1);
   --wb-elev-2: var(--wb-light-elev-2);
   --wb-elev-3: var(--wb-light-elev-3);
-  --wb-canvas: var(--wb-light-canvas);
-  --wb-sidebar: var(--wb-light-sidebar);
-  --wb-card: var(--wb-light-card);
-  --wb-banner: var(--wb-light-banner);
-  --wb-hover: var(--wb-light-hover);
-  --wb-selected: var(--wb-light-selected);
-  --wb-accent-fill: var(--wb-light-accent-fill);
-  --wb-on-accent: var(--wb-light-on-accent);
-  --wb-shadow: var(--wb-light-shadow);
 }
 
 :root[data-theme="dark"],
@@ -468,15 +419,6 @@
   --wb-elev-1: var(--wb-dark-elev-1);
   --wb-elev-2: var(--wb-dark-elev-2);
   --wb-elev-3: var(--wb-dark-elev-3);
-  --wb-canvas: var(--wb-dark-canvas);
-  --wb-sidebar: var(--wb-dark-sidebar);
-  --wb-card: var(--wb-dark-card);
-  --wb-banner: var(--wb-dark-banner);
-  --wb-hover: var(--wb-dark-hover);
-  --wb-selected: var(--wb-dark-selected);
-  --wb-accent-fill: var(--wb-dark-accent-fill);
-  --wb-on-accent: var(--wb-dark-on-accent);
-  --wb-shadow: var(--wb-dark-shadow);
 }
 
 /*
@@ -722,4 +664,90 @@ input[type="radio"] {
   display: none;
   appearance: none;
   margin: 0;
+}
+
+/*
+ * Toasts (Design Phase 0b, `src/fork/ui/Toast.tsx`). Every sonner toast
+ * (Handy's `<Toaster unstyled>` in `App.tsx`) and the static `ToastView`
+ * are the dark HUD card in both themes: 12 pt radius, white 14 px text, a
+ * soft shadow, a coloured status glyph and a cream action. Unlayered, so it
+ * outranks the Tailwind classes Handy passes; sonner's own layout,
+ * stacking and enter/exit transforms are left alone.
+ */
+:is([data-sonner-toaster] [data-sonner-toast][data-styled="false"], .wb-toast) {
+  display: flex;
+  align-items: center;
+  gap: var(--wb-space-3);
+  min-height: 48px;
+  padding: 12px 14px 12px 16px;
+  border: 0;
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-hud-2);
+  color: var(--wb-on-hud);
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.24);
+  font-family: var(--wb-font-ui);
+  font-size: 14px;
+  line-height: 20px;
+}
+.wb-toast {
+  width: 356px;
+  max-width: 100%;
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast) [data-title] {
+  font-weight: 500;
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast) [data-description] {
+  color: var(--wb-on-hud-2);
+  font-size: 13px;
+  line-height: 18px;
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast) [data-content] {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast) [data-icon] {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--wb-on-hud-2);
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast)[data-type="success"]
+  [data-icon] {
+  color: var(--wb-dark-success);
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast)[data-type="error"]
+  [data-icon] {
+  color: var(--wb-dark-danger);
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast)[data-type="warning"]
+  [data-icon] {
+  color: var(--wb-dark-warning-ink);
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast)
+  [data-button]:not([data-close-button]) {
+  flex-shrink: 0;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--wb-radius-sm);
+  background: var(--wb-cream);
+  color: var(--wb-on-cream);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--wb-dur-fast);
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast)
+  [data-button]:not([data-close-button]):hover {
+  background: #ffffff;
+}
+:is([data-sonner-toast][data-styled="false"], .wb-toast)
+  [data-button]:focus-visible {
+  outline: 2px solid var(--wb-dark-accent);
+  outline-offset: 2px;
 }

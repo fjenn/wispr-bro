@@ -11,6 +11,7 @@
  */
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import type { ReactElement, ReactNode } from "react";
+import { usePinnedThemeProps } from "./ThemeScope";
 
 export function TooltipProvider({ children }: { children: ReactNode }) {
   return (
@@ -41,6 +42,7 @@ export function Tooltip({
   disabled = false,
   open,
 }: TooltipProps) {
+  const pinned = usePinnedThemeProps();
   if (disabled) return children;
   return (
     <RadixTooltip.Provider delayDuration={500} skipDelayDuration={300}>
@@ -48,6 +50,7 @@ export function Tooltip({
         <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
+            {...pinned}
             side={side}
             align={align}
             sideOffset={8}

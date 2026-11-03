@@ -138,7 +138,7 @@ export function TypingTest({
           type="button"
           onClick={onSkip}
           data-testid="wb-typing-skip"
-          className="shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
+          className="shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
         >
           {t("onboardingFlow.typing.skip")}
         </button>
@@ -155,7 +155,7 @@ export function TypingTest({
               reset();
             }}
             data-testid="wb-typing-language"
-            className="cursor-pointer rounded-lg border border-(--wb-line-strong) bg-(--wb-card) px-2 py-1 text-sm text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent) disabled:cursor-default disabled:opacity-60"
+            className="cursor-pointer rounded-lg border border-(--wb-line-strong) bg-(--wb-surface) px-2 py-1 text-sm text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent) disabled:cursor-default disabled:opacity-60"
           >
             {TYPING_SAMPLES.map((s) => (
               <option key={s.language} value={s.language}>
@@ -180,7 +180,7 @@ export function TypingTest({
         </div>
       </div>
 
-      <div className="w-full rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4 text-start">
+      <div className="w-full rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start">
         <p className="sr-only" lang={language}>
           {sample}
         </p>
@@ -228,7 +228,7 @@ export function TypingTest({
         rows={3}
         placeholder={t("onboardingFlow.typing.placeholder")}
         data-testid="wb-typing-input"
-        className="w-full resize-none rounded-(--wb-radius-control) select-text border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 font-mono text-[14px] leading-6 text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent) read-only:opacity-70"
+        className="w-full resize-none rounded-(--wb-radius-sm) select-text border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-mono text-[14px] leading-6 text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent) read-only:opacity-70"
       />
 
       <div

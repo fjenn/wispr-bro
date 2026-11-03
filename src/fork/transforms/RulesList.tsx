@@ -27,11 +27,11 @@ export function RulesList({
       {RULE_KEYS.map((key) => (
         <label
           key={key}
-          className="flex cursor-pointer items-start gap-3 rounded-(--wb-radius-control) px-2 py-2 hover:bg-(--wb-hover)"
+          className="flex cursor-pointer items-start gap-3 rounded-(--wb-radius-sm) px-2 py-2 hover:bg-(--wb-fill-hover)"
         >
           <input
             type="checkbox"
-            className="mt-0.5 size-4 accent-(--wb-accent-fill)"
+            className="mt-0.5 size-4 accent-(--wb-ink)"
             checked={value[key]}
             onChange={(event) =>
               onChange({ ...value, [key]: event.currentTarget.checked })

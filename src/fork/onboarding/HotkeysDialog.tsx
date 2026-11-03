@@ -25,7 +25,7 @@ export function HotkeysDialog({ onClose }: { onClose: () => void }) {
       ref={dialogRef}
       aria-labelledby="wb-onboarding-hotkeys-title"
       dir={getLanguageDirection(i18n.language)}
-      className="m-auto h-[min(680px,calc(100vh-32px))] w-[min(760px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-canvas) p-0 text-(--wb-ink) shadow-(--wb-shadow) backdrop:bg-black/45"
+      className="m-auto h-[min(680px,calc(100vh-32px))] w-[min(760px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
       data-testid="wb-onboarding-hotkeys-modal"
       onCancel={(event) => {
         event.preventDefault();
@@ -44,7 +44,7 @@ export function HotkeysDialog({ onClose }: { onClose: () => void }) {
             type="button"
             aria-label={t("settingsModal.close")}
             onClick={onClose}
-            className={`grid size-8 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-lg text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
           >
             <X size={18} aria-hidden="true" />
           </button>

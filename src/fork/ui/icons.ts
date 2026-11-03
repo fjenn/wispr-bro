@@ -57,6 +57,7 @@ export const Globe = glyph(L.Globe);
 export const GraduationCap = glyph(L.GraduationCap);
 export const Heart = glyph(L.Heart);
 export const ImageDown = glyph(L.ImageDown);
+export const Info = glyph(L.Info);
 export const Keyboard = glyph(L.Keyboard);
 export const Languages = glyph(L.Languages);
 export const Loader2 = glyph(L.Loader2);

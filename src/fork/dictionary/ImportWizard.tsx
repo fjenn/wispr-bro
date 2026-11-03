@@ -64,7 +64,7 @@ function FormatHelp() {
   return (
     <div className="flex flex-col gap-2" data-testid="wb-dictionary-format">
       <p>{t("dictionary.import.format.intro")}</p>
-      <pre className="overflow-x-auto rounded-(--wb-radius-control) bg-(--wb-selected) px-3 py-2 font-mono text-[12.5px]">
+      <pre className="overflow-x-auto rounded-(--wb-radius-sm) bg-(--wb-fill-active) px-3 py-2 font-mono text-[12.5px]">
         {"phrase,replacement\nSiobhán,\nKubernetes,\ngonna,going to"}
       </pre>
       <ul className="list-disc ps-5">
@@ -112,7 +112,7 @@ function Review({
     <li
       data-testid={`wb-import-count-${id}`}
       data-count={count}
-      className="rounded-(--wb-radius-control) border border-(--wb-line) bg-(--wb-card) px-3 py-2"
+      className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-3 py-2"
     >
       <span className="block text-[20px] font-semibold tabular-nums">
         {count}
@@ -140,7 +140,7 @@ function Review({
         </p>
       )}
       {review.new_entries.length > 0 && (
-        <details className="rounded-(--wb-radius-card) border border-(--wb-line) px-3 py-2">
+        <details className="rounded-(--wb-radius-md) border border-(--wb-line) px-3 py-2">
           <summary
             className={`cursor-pointer text-[13px] font-medium ${FOCUS_RING}`}
           >
@@ -164,7 +164,7 @@ function Review({
       )}
       {review.conflicts.length > 0 && (
         <fieldset
-          className="flex flex-col gap-2 rounded-(--wb-radius-card) border border-(--wb-line) px-3 py-2"
+          className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) px-3 py-2"
           data-testid="wb-dictionary-conflicts"
         >
           <legend className="px-1 text-[13px] font-medium">
@@ -191,7 +191,7 @@ function Review({
                       type="checkbox"
                       checked={on}
                       onChange={(e) => toggle(c.incoming.row, e.target.checked)}
-                      className={`mt-0.5 size-4 accent-(--wb-accent-fill) ${FOCUS_RING}`}
+                      className={`mt-0.5 size-4 accent-(--wb-ink) ${FOCUS_RING}`}
                       data-testid={`wb-conflict-${c.incoming.row}`}
                     />
                     <span className="flex flex-col">
@@ -220,7 +220,7 @@ function Review({
         </fieldset>
       )}
       {review.invalid.length > 0 && (
-        <details className="rounded-(--wb-radius-card) border border-(--wb-line) px-3 py-2">
+        <details className="rounded-(--wb-radius-md) border border-(--wb-line) px-3 py-2">
           <summary
             className={`cursor-pointer text-[13px] font-medium ${FOCUS_RING}`}
           >

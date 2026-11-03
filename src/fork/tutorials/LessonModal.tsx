@@ -192,7 +192,7 @@ function LessonModal({ lesson, mode }: { lesson: Lesson; mode: LessonMode }) {
               aria-label={t("lessons.common.back")}
               title={t("lessons.common.back")}
               data-testid="wb-lesson-back"
-              className={`grid size-7 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+              className={`grid size-7 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
             >
               <ArrowLeft
                 size={16}

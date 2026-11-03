@@ -19,7 +19,7 @@ export type SaveOutcome = "saved" | "cancelled" | "failed";
 /** The page background, so the PNG is not transparent. */
 function canvasColor(): string {
   const v = getComputedStyle(document.documentElement)
-    .getPropertyValue("--wb-canvas")
+    .getPropertyValue("--wb-panel")
     .trim();
   return v || "#ffffff";
 }

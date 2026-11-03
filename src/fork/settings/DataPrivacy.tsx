@@ -390,7 +390,7 @@ export function DataPrivacy() {
       <dialog
         ref={deleteDialog}
         aria-labelledby="wb-delete-title"
-        className="m-auto w-[min(480px,calc(100vw-32px))] max-w-none rounded-2xl border border-(--wb-line) bg-(--wb-canvas) p-6 text-(--wb-ink) shadow-(--wb-shadow) backdrop:bg-black/50"
+        className="m-auto w-[min(480px,calc(100vw-32px))] max-w-none rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-6 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/50"
         data-testid="wb-delete-dialog"
         onCancel={(event) => {
           // React propagates cancel/close through the component tree: keep
@@ -446,7 +446,7 @@ export function DataPrivacy() {
           onChange={(event) => setConfirmation(event.currentTarget.value)}
           autoComplete="off"
           spellCheck={false}
-          className={`mt-2 w-full rounded-md border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-sm ${FOCUS_RING}`}
+          className={`mt-2 w-full rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-sm ${FOCUS_RING}`}
           data-testid="wb-delete-confirmation"
         />
         <div className="mt-6 flex justify-end gap-2">

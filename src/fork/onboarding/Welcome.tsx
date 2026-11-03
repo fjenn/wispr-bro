@@ -9,7 +9,7 @@ export function Welcome({ onContinue }: { onContinue: () => void }) {
   return (
     <div className="mx-auto flex max-w-[590px] flex-col items-center gap-6 text-center">
       <div
-        className="grid size-20 place-items-center rounded-[24px] bg-(--wb-banner) text-(--wb-accent)"
+        className="grid size-20 place-items-center rounded-[24px] bg-(--wb-accent-soft) text-(--wb-accent)"
         aria-hidden="true"
       >
         <AudioLines size={40} strokeWidth={1.6} />
@@ -22,7 +22,7 @@ export function Welcome({ onContinue }: { onContinue: () => void }) {
           {t("onboardingFlow.welcome.subtitle")}
         </p>
       </div>
-      <div className="flex w-full items-start gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4 text-start shadow-(--wb-shadow)">
+      <div className="flex w-full items-start gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start shadow-(--wb-elev-1)">
         <LockKeyhole
           size={20}
           aria-hidden="true"

@@ -21,7 +21,7 @@ const CategoryChart = lazy(() => import("./CategoryChart"));
 const Heatmap = lazy(() => import("./Heatmap"));
 
 export const CARD =
-  "rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-5 py-4";
+  "rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4";
 
 export function Card({
   testId,

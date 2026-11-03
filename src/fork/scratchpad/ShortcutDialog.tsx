@@ -37,7 +37,7 @@ export function ShortcutDialog({ onClose }: { onClose: () => void }) {
     <dialog
       ref={dialogRef}
       aria-labelledby="wb-scratchpad-shortcut-title"
-      className="m-auto w-[min(460px,calc(100vw-32px))] max-w-none rounded-2xl border border-(--wb-line) bg-(--wb-canvas) p-0 text-(--wb-ink) shadow-(--wb-shadow) backdrop:bg-black/45"
+      className="m-auto w-[min(460px,calc(100vw-32px))] max-w-none rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
       data-testid="wb-scratchpad-shortcut-dialog"
       onCancel={(event) => {
         event.preventDefault();
@@ -62,14 +62,14 @@ export function ShortcutDialog({ onClose }: { onClose: () => void }) {
           onClick={onClose}
           aria-label={t("scratchpad.shortcut.close")}
           title={t("scratchpad.shortcut.close")}
-          className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+          className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
           data-testid="wb-scratchpad-shortcut-close"
         >
           <X size={18} aria-hidden="true" />
         </button>
       </div>
       <div className="flex flex-col gap-4 p-5">
-        <div className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4">
+        <div className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
           <p className="text-sm font-medium">
             {t("scratchpad.shortcut.proposed")}
           </p>

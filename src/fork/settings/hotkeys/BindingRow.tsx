@@ -53,12 +53,12 @@ export function BindingRow({
 
   return (
     <div
-      className="flex flex-col gap-2 rounded-(--wb-radius-control) border border-(--wb-line) bg-(--wb-card) p-3"
+      className="flex flex-col gap-2 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) p-3"
       data-testid={`wb-hotkey-${actionId}-${index}`}
     >
       <div className="flex flex-wrap items-center gap-2">
         <kbd
-          className="min-w-20 rounded-md border border-(--wb-line-strong) bg-(--wb-canvas) px-2 py-1 text-center font-sans text-xs"
+          className="min-w-20 rounded-md border border-(--wb-line-strong) bg-(--wb-panel) px-2 py-1 text-center font-sans text-xs"
           aria-label={
             binding.chord
               ? t("settingsModal.hotkeys.current", {
@@ -75,7 +75,7 @@ export function BindingRow({
         </label>
         <select
           id={activationId}
-          className={`rounded-md border border-(--wb-line-strong) bg-(--wb-card) px-2 py-1 text-xs ${FOCUS_RING}`}
+          className={`rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-2 py-1 text-xs ${FOCUS_RING}`}
           value={binding.activation}
           disabled={capturing || captureBusy || activations.length === 1}
           onChange={(event) =>

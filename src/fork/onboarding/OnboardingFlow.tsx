@@ -272,7 +272,7 @@ export function OnboardingFlow({
   return (
     <div
       dir={getLanguageDirection(i18n.language)}
-      className={`flex h-screen w-full cursor-default flex-col overflow-hidden bg-(--wb-canvas) text-(--wb-ink) select-none ${
+      className={`flex h-screen w-full cursor-default flex-col overflow-hidden bg-(--wb-panel) text-(--wb-ink) select-none ${
         step === "first_dictation" ? "wb-stage-dark" : ""
       }`}
       data-testid="wb-onboarding"
@@ -316,7 +316,7 @@ export function OnboardingFlow({
               disabled={navBusy}
               onClick={() => void go(back)}
               data-testid="wb-onboarding-back"
-              className={`cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) disabled:cursor-default disabled:opacity-50 ${FOCUS_RING}`}
+              className={`cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) disabled:cursor-default disabled:opacity-50 ${FOCUS_RING}`}
             >
               <span
                 aria-hidden="true"

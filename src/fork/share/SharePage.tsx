@@ -65,7 +65,7 @@ function CopyRow({
           onFocus={(e) => e.currentTarget.select()}
           data-testid={`wb-share-${id}`}
           dir="ltr"
-          className={`min-w-0 flex-1 rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-canvas) px-3 py-2 text-[13px] text-(--wb-ink) ${
+          className={`min-w-0 flex-1 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-panel) px-3 py-2 text-[13px] text-(--wb-ink) ${
             mono ? "font-mono" : ""
           }`}
         />
@@ -120,7 +120,7 @@ export function SharePage() {
   return (
     <div className="flex flex-col gap-6" data-testid="wb-share">
       <PageHeader title={t("hub.pages.share.title")} />
-      <section className="flex flex-col gap-5 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-6">
+      <section className="flex flex-col gap-5 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-6">
         <div className="flex items-start gap-3">
           <Heart
             size={20}
@@ -152,7 +152,7 @@ export function SharePage() {
           />
         )}
       </section>
-      <section className="flex flex-wrap items-center justify-between gap-4 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-6">
+      <section className="flex flex-wrap items-center justify-between gap-4 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-6">
         <div className="flex flex-col gap-1">
           <h2 className="text-[15px] font-semibold">{t("share.shareTitle")}</h2>
           <p className="text-[13px] text-(--wb-ink-2)">

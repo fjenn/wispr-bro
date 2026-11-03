@@ -521,7 +521,7 @@ function Practice({ ctx }: { ctx: LessonStepContext }) {
       {diff && (
         <section
           aria-labelledby="wb-lesson-diff-title"
-          className="flex flex-col gap-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+          className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
           data-testid="wb-lesson-diff"
         >
           <div className="flex items-center justify-between gap-2">

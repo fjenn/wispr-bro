@@ -157,7 +157,7 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
             data-auto-send={app.auto_send}
             aria-label={t("style.apps.chipLabel", { app: label })}
             title={app.ai_chat ? t("style.apps.aiChat") : undefined}
-            className={`flex cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-card) py-1 ps-1 pe-3 text-[13px] text-(--wb-ink) hover:bg-(--wb-hover) ${FOCUS_RING} ${app.installed ? "" : "opacity-70"}`}
+            className={`flex cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface) py-1 ps-1 pe-3 text-[13px] text-(--wb-ink) hover:bg-(--wb-fill-hover) ${FOCUS_RING} ${app.installed ? "" : "opacity-70"}`}
           >
             <AppIcon bundleId={app.bundle_id} name={app.name} size={24} />
             <span className="max-w-40 truncate">{app.name}</span>

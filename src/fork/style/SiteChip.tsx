@@ -130,7 +130,7 @@ export function SiteChip({
             data-host={site.host}
             data-auto-send={site.auto_send}
             aria-label={t("style.apps.chipLabel", { app: label })}
-            className={`flex cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-card) px-2 py-1 text-[13px] text-(--wb-ink) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+            className={`flex cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface) px-2 py-1 text-[13px] text-(--wb-ink) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
           >
             <Globe size={18} aria-hidden="true" className="text-(--wb-ink-2)" />
             <span>{site.name}</span>{" "}

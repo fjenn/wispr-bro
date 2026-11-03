@@ -29,7 +29,7 @@
   max-width: min(420px, calc(100vw - 32px));
   padding: 14px 18px 12px;
   border-radius: 16px;
-  background: var(--wb-card);
+  background: var(--wb-surface);
   color: var(--wb-ink);
   box-shadow: 0 12px 40px rgb(0 0 0 / 0.35);
   text-align: center;

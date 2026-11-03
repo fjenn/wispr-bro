@@ -31,7 +31,7 @@ function PermissionRow({
   return (
     <section
       aria-labelledby={titleId}
-      className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+      className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
       data-testid={`wb-permission-${kind}`}
       data-status={status}
     >
@@ -39,8 +39,8 @@ function PermissionRow({
         <span
           className={`grid size-10 shrink-0 place-items-center rounded-xl ${
             granted
-              ? "bg-(--wb-accent-fill) text-(--wb-on-accent)"
-              : "bg-(--wb-banner) text-(--wb-accent)"
+              ? "bg-(--wb-ink) text-(--wb-on-ink)"
+              : "bg-(--wb-accent-soft) text-(--wb-accent)"
           }`}
           aria-hidden="true"
         >

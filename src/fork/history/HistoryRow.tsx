@@ -140,7 +140,7 @@ export function HistoryRow({
       data-variant={row.variant}
       role="group"
       aria-label={t("history.rowLabel", { time })}
-      className="group relative flex gap-4 rounded-(--wb-radius-card) px-3 py-3 hover:bg-(--wb-hover) focus-within:bg-(--wb-hover)"
+      className="group relative flex gap-4 rounded-(--wb-radius-md) px-3 py-3 hover:bg-(--wb-fill-hover) focus-within:bg-(--wb-fill-hover)"
     >
       <div className="w-16 shrink-0 pt-0.5 text-[12.5px] text-(--wb-ink-3) tabular-nums">
         {time}
@@ -154,7 +154,7 @@ export function HistoryRow({
             {row.source === "file" && (
               <span
                 data-testid="wb-history-tag-file"
-                className="flex max-w-full min-w-0 items-center gap-1 rounded-full bg-(--wb-selected) px-2 py-0.5"
+                className="flex max-w-full min-w-0 items-center gap-1 rounded-full bg-(--wb-fill-active) px-2 py-0.5"
                 title={row.source_name ?? undefined}
               >
                 <FileAudio size={12} aria-hidden="true" className="shrink-0" />
@@ -167,7 +167,7 @@ export function HistoryRow({
             {row.source === "practice" && (
               <span
                 data-testid="wb-history-tag-practice"
-                className="flex items-center gap-1 rounded-full bg-(--wb-selected) px-2 py-0.5"
+                className="flex items-center gap-1 rounded-full bg-(--wb-fill-active) px-2 py-0.5"
               >
                 <GraduationCap size={12} aria-hidden="true" />
                 {t("history.tag.practice")}
@@ -176,7 +176,7 @@ export function HistoryRow({
             {row.variant === "raw" && (
               <span
                 data-testid="wb-history-tag-raw"
-                className="rounded-full bg-(--wb-selected) px-2 py-0.5"
+                className="rounded-full bg-(--wb-fill-active) px-2 py-0.5"
               >
                 {t("history.tag.raw")}
               </span>
@@ -184,7 +184,7 @@ export function HistoryRow({
             {row.flagged && (
               <span
                 data-testid="wb-history-tag-flagged"
-                className="flex items-center gap-1 rounded-full bg-(--wb-selected) px-2 py-0.5"
+                className="flex items-center gap-1 rounded-full bg-(--wb-fill-active) px-2 py-0.5"
               >
                 <Flag size={12} aria-hidden="true" />
                 {t("history.tag.flagged")}

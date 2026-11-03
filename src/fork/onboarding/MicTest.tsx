@@ -20,7 +20,7 @@ export function MicTest({
   return (
     <div className="mx-auto flex w-full max-w-[570px] flex-col items-center gap-5">
       <div className="text-center">
-        <span className="mb-3 inline-grid size-12 place-items-center rounded-2xl bg-(--wb-banner) text-(--wb-accent)">
+        <span className="mb-3 inline-grid size-12 place-items-center rounded-2xl bg-(--wb-accent-soft) text-(--wb-accent)">
           <Mic size={24} aria-hidden="true" />
         </span>
         <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
@@ -30,7 +30,7 @@ export function MicTest({
           {t("onboardingFlow.mic.guidance")}
         </p>
       </div>
-      <div className="flex w-full flex-col items-center gap-4 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-5">
+      <div className="flex w-full flex-col items-center gap-4 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5">
         <MicLevelMeter autoStart={!preview} inert={preview} />
         <fieldset className="m-0 flex flex-col items-center gap-3 border-0 p-0">
           <legend className="mb-1 text-center text-sm font-medium">

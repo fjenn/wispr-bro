@@ -91,7 +91,7 @@ export function DiffCard({
   return (
     <section
       aria-labelledby="wb-diff-title"
-      className="flex flex-col gap-4 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-5 shadow-(--wb-shadow)"
+      className="flex flex-col gap-4 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5 shadow-(--wb-elev-1)"
       data-testid="wb-transform-diff"
     >
       <div className="flex items-center justify-between gap-3">
@@ -111,7 +111,7 @@ export function DiffCard({
           {t("transforms.diff.configure")}
         </Button>
       </div>
-      <div className="max-h-72 overflow-y-auto rounded-(--wb-radius-control) border border-(--wb-line) bg-(--wb-canvas) p-4">
+      <div className="max-h-72 overflow-y-auto rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-panel) p-4">
         <DiffWords ops={diff.ops} />
       </div>
       {diff.degraded && (
@@ -162,7 +162,7 @@ export function DiffCard({
                 title={label}
                 aria-pressed={selected}
                 onClick={() => onRate(rating)}
-                className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) ${selected ? "bg-(--wb-selected) text-(--wb-accent)" : "text-(--wb-ink-2) hover:bg-(--wb-hover)"} ${FOCUS_RING}`}
+                className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) ${selected ? "bg-(--wb-fill-active) text-(--wb-accent)" : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover)"} ${FOCUS_RING}`}
                 data-testid={rating === 1 ? "wb-diff-good" : "wb-diff-bad"}
               >
                 <Icon size={16} aria-hidden="true" />

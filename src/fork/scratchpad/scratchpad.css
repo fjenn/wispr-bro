@@ -9,7 +9,7 @@ body,
 }
 
 body {
-  background: var(--wb-canvas);
+  background: var(--wb-panel);
 }
 
 textarea {

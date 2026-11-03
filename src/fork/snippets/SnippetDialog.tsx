@@ -275,7 +275,7 @@ export function SnippetDialog({
             role="alert"
             data-testid="wb-snippet-feedback"
             data-kind={feedback.kind}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) px-3 py-2 text-[13px]"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[13px]"
           >
             <span>{feedbackText(feedback)}</span>
             {feedback.kind === "conflict" && !editing && (

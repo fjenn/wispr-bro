@@ -32,6 +32,7 @@ import { IconButton } from "./Button";
 import { ArrowLeft, X } from "./icons";
 import { useMotionPresets } from "./motion";
 import { ProgressDashes } from "./Progress";
+import { usePinnedThemeProps } from "./ThemeScope";
 
 const FOCUSABLE = [
   "a[href]",
@@ -170,6 +171,7 @@ export function Dialog({
   const descriptionId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const m = useMotionPresets();
+  const pinned = usePinnedThemeProps();
   useModal({ open, dismissible, onOpenChange, initialFocusRef, panelRef });
 
   const onScrimDown = (event: MouseEvent<HTMLDivElement>) => {
@@ -183,6 +185,7 @@ export function Dialog({
         <motion.div
           key="wb-dialog"
           {...m.dialog.scrim}
+          {...pinned}
           className="fixed inset-0 z-50 flex items-center justify-center bg-(--wb-scrim) p-4 sm:p-6"
           onMouseDown={onScrimDown}
         >
@@ -286,6 +289,7 @@ export function Sheet({
   const { t } = useTranslation(FORK_NAMESPACE);
   const panelRef = useRef<HTMLDivElement>(null);
   const m = useMotionPresets();
+  const pinned = usePinnedThemeProps();
   useModal({ open, dismissible, onOpenChange, initialFocusRef, panelRef });
 
   const onScrimDown = (event: MouseEvent<HTMLDivElement>) => {
@@ -299,6 +303,7 @@ export function Sheet({
         <motion.div
           key="wb-sheet"
           {...m.sheet.scrim}
+          {...pinned}
           className="fixed inset-0 z-50 flex items-center justify-center bg-(--wb-scrim) p-4 sm:p-8"
           onMouseDown={onScrimDown}
         >

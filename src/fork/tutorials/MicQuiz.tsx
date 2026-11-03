@@ -73,7 +73,7 @@ function useAnswers(): QuizAnswers & {
 }
 
 const OPTION =
-  "flex cursor-pointer items-center gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-3 text-start hover:bg-(--wb-hover) has-[:checked]:border-(--wb-accent) has-[:checked]:bg-(--wb-selected) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent)";
+  "flex cursor-pointer items-center gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-3 text-start hover:bg-(--wb-fill-hover) has-[:checked]:border-(--wb-accent) has-[:checked]:bg-(--wb-fill-active) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent)";
 
 /** One choice in a group (native radio or checkbox: arrows, Space). */
 function Option({
@@ -115,7 +115,7 @@ function Option({
       </span>
       <span
         aria-hidden="true"
-        className={`grid size-5 shrink-0 place-items-center border border-(--wb-line-strong) ${type === "radio" ? "rounded-full" : "rounded-[5px]"} ${checked ? "border-(--wb-accent-fill) bg-(--wb-accent-fill) text-(--wb-on-accent)" : ""}`}
+        className={`grid size-5 shrink-0 place-items-center border border-(--wb-line-strong) ${type === "radio" ? "rounded-full" : "rounded-[5px]"} ${checked ? "border-(--wb-ink) bg-(--wb-ink) text-(--wb-on-ink)" : ""}`}
       >
         {checked && <Check size={12} strokeWidth={3} />}
       </span>
@@ -276,7 +276,7 @@ function RatingCell({ value }: { value: Rating }) {
         {[1, 2, 3].map((n) => (
           <i
             key={n}
-            className={`block size-1.5 rounded-full ${n <= value ? "bg-(--wb-accent-fill)" : "bg-(--wb-line-strong)"}`}
+            className={`block size-1.5 rounded-full ${n <= value ? "bg-(--wb-ink)" : "bg-(--wb-line-strong)"}`}
           />
         ))}
       </span>
@@ -348,7 +348,7 @@ export function QuizResults() {
       data-testid="wb-quiz-results"
       data-best={best}
     >
-      <p className="m-0 flex items-center gap-3 rounded-(--wb-radius-card) bg-(--wb-banner) p-3 text-[14px]">
+      <p className="m-0 flex items-center gap-3 rounded-(--wb-radius-md) bg-(--wb-accent-soft) p-3 text-[14px]">
         {micArt(best)}
         <span>
           {t("lessons.whisper.results.bestLine", {
@@ -359,7 +359,7 @@ export function QuizResults() {
           </span>
         </span>
       </p>
-      <div className="overflow-x-auto rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card)">
+      <div className="overflow-x-auto rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface)">
         <table className="w-full border-collapse" data-testid="wb-quiz-table">
           <caption className="sr-only">
             {t("lessons.whisper.results.caption")}
@@ -392,7 +392,7 @@ export function QuizResults() {
                 key={row.kind}
                 data-testid={`wb-quiz-row-${row.kind}`}
                 data-best={row.best || undefined}
-                className={`border-b border-(--wb-line) last:border-b-0 ${row.best ? "bg-(--wb-selected)" : ""}`}
+                className={`border-b border-(--wb-line) last:border-b-0 ${row.best ? "bg-(--wb-fill-active)" : ""}`}
               >
                 <th scope="row" className={`${td} text-start font-medium`}>
                   {t(`lessons.whisper.mics.${row.kind}.name`)}
@@ -409,7 +409,7 @@ export function QuizResults() {
                 <td className={td}>{priceLabel(row, t)}</td>
                 <td className={td}>
                   {row.best ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-(--wb-accent-fill) px-2 py-0.5 text-[12px] font-semibold text-(--wb-on-accent)">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-(--wb-ink) px-2 py-0.5 text-[12px] font-semibold text-(--wb-on-ink)">
                       <Check size={12} strokeWidth={3} aria-hidden="true" />
                       {t("lessons.whisper.results.columns.best")}
                     </span>

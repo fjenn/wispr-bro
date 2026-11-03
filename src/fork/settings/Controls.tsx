@@ -24,7 +24,7 @@ export function Panel({
       >
         {title}
       </h3>
-      <div className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4">
+      <div className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
         {children}
       </div>
     </section>
@@ -109,7 +109,7 @@ export function ForkSelect({
         disabled={disabled}
         aria-describedby={hint ? hintId : undefined}
         onChange={(event) => onChange(event.currentTarget.value)}
-        className={`mt-1 max-w-md rounded-md border border-(--wb-line-strong) bg-(--wb-card) px-2 py-1.5 text-sm ${FOCUS_RING}`}
+        className={`mt-1 max-w-md rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-2 py-1.5 text-sm ${FOCUS_RING}`}
         data-testid={testId}
       >
         {options.map((option) => (

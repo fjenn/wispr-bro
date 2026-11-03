@@ -30,6 +30,15 @@ export {
   type ListRowProps,
 } from "./Card";
 export { Checkbox, type CheckboxProps } from "./Checkbox";
+export {
+  Chip,
+  ChipGroup,
+  type ChipGroupProps,
+  type ChipProps,
+  type ChipSize,
+  type RemovableChipProps,
+  type ToggleChipProps,
+} from "./Chip";
 export { Dialog, Sheet, type DialogProps, type SheetProps } from "./Dialog";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
 export { Kbd, KbdCombo } from "./Kbd";
@@ -42,6 +51,14 @@ export {
   type StepperStage,
 } from "./Progress";
 export {
+  OptionCard,
+  Radio,
+  RadioGroup,
+  type OptionCardProps,
+  type RadioGroupProps,
+  type RadioProps,
+} from "./Radio";
+export {
   SegmentedControl,
   type SegmentOption,
   type SegmentedControlProps,
@@ -52,6 +69,12 @@ export {
   type SelectOption,
   type SelectProps,
 } from "./Select";
+export {
+  SettingGroup,
+  SettingRow,
+  type SettingControlIds,
+  type SettingRowProps,
+} from "./SettingRow";
 export { Switch, type SwitchProps } from "./Switch";
 export { Tabs, TabPanel, type TabItem, type TabsProps } from "./Tabs";
 export {
@@ -69,6 +92,15 @@ export {
   type TextFieldProps,
 } from "./TextField";
 export { Tooltip, TooltipProvider, type TooltipProps } from "./Tooltip";
+export {
+  ThemeScope,
+  usePinnedTheme,
+  usePinnedThemeProps,
+  type PinnedTheme,
+  type ThemeScopeProps,
+} from "./ThemeScope";
+export { toast, ToastView, type ToastTone, type ToastViewProps } from "./Toast";
+export { BrandGlyph, Wordmark, type WordmarkProps } from "./Wordmark";
 export { PageHeader } from "./PageHeader";
 export { StatNumber } from "./StatNumber";
 export * from "./motion";

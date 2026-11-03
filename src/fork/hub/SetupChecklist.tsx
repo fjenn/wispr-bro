@@ -227,7 +227,7 @@ export function SetupChecklist() {
           aria-label={t("checklist.hide")}
           title={t("checklist.hide")}
           data-testid="wb-checklist-hide"
-          className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
         >
           <X size={14} aria-hidden="true" />
         </button>
@@ -255,14 +255,14 @@ export function SetupChecklist() {
                 data-testid={`wb-checklist-${item.id}`}
                 data-done={isDone || undefined}
                 data-highlight={(isNext && highlight === item.id) || undefined}
-                className={`wb-checklist-row rounded-(--wb-radius-control) px-1.5 py-1 ${isNext ? "bg-(--wb-hover)" : ""}`}
+                className={`wb-checklist-row rounded-(--wb-radius-sm) px-1.5 py-1 ${isNext ? "bg-(--wb-fill-hover)" : ""}`}
               >
                 <div className="flex items-center gap-2.5 text-[13px]">
                   <span
                     aria-hidden="true"
                     className={`grid size-[18px] shrink-0 place-items-center rounded-full border ${
                       isDone
-                        ? "border-(--wb-accent-fill) bg-(--wb-accent-fill) text-(--wb-on-accent)"
+                        ? "border-(--wb-ink) bg-(--wb-ink) text-(--wb-on-ink)"
                         : "border-(--wb-line-strong) text-(--wb-ink-2)"
                     }`}
                   >

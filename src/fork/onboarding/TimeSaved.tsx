@@ -101,7 +101,7 @@ export function TimeSaved({
   return (
     <div className="mx-auto flex w-full max-w-[580px] flex-col items-center gap-6 text-center">
       <div
-        className="grid size-16 place-items-center rounded-[20px] bg-(--wb-banner) text-(--wb-accent)"
+        className="grid size-16 place-items-center rounded-[20px] bg-(--wb-accent-soft) text-(--wb-accent)"
         aria-hidden="true"
       >
         <Clock size={32} strokeWidth={1.6} />
@@ -144,7 +144,7 @@ export function TimeSaved({
                   speaking: SPEAKING_WPM,
                 })}
           </p>
-          <div className="flex w-full flex-col gap-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4 text-start">
+          <div className="flex w-full flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start">
             <div className="flex items-baseline justify-between gap-3">
               <label
                 htmlFor="wb-time-saved-hours"
@@ -175,7 +175,7 @@ export function TimeSaved({
               })}
               onChange={(e) => saveHours(Number(e.target.value))}
               data-testid="wb-time-saved-slider"
-              className="w-full accent-(--wb-accent-fill)"
+              className="w-full accent-(--wb-ink)"
             />
           </div>
           {measured == null && (

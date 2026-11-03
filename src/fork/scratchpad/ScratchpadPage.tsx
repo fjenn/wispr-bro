@@ -96,7 +96,7 @@ export function ScratchpadPage() {
         aria-label={t("scratchpad.preferences")}
         className="grid gap-3 sm:grid-cols-2"
       >
-        <label className="flex cursor-pointer items-start gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4">
+        <label className="flex cursor-pointer items-start gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
           <input
             type="checkbox"
             role="switch"
@@ -105,7 +105,7 @@ export function ScratchpadPage() {
             onChange={(event) =>
               void setSetting("scratchpad_on_bar", event.currentTarget.checked)
             }
-            className="mt-0.5 size-4 accent-(--wb-accent-fill)"
+            className="mt-0.5 size-4 accent-(--wb-ink)"
             data-testid="wb-scratchpad-on-bar"
           />
           <span>
@@ -117,7 +117,7 @@ export function ScratchpadPage() {
             </span>
           </span>
         </label>
-        <div className="flex items-center justify-between gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4">
+        <div className="flex items-center justify-between gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
           <div>
             <p className="text-sm font-semibold">
               {t("scratchpad.shortcut.label")}
@@ -163,7 +163,7 @@ export function ScratchpadPage() {
               value={query}
               onChange={(event) => setQuery(event.currentTarget.value)}
               placeholder={t("scratchpad.searchPlaceholder")}
-              className={`w-full rounded-(--wb-radius-control) border border-(--wb-line-strong) bg-(--wb-card) py-2 pe-3 ps-9 text-sm ${FOCUS_RING}`}
+              className={`w-full rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) py-2 pe-3 ps-9 text-sm ${FOCUS_RING}`}
               data-testid="wb-scratchpad-search"
             />
           </label>
@@ -179,7 +179,7 @@ export function ScratchpadPage() {
           </p>
         )}
         {!loading && notes.length === 0 && (
-          <div className="rounded-(--wb-radius-card) border border-dashed border-(--wb-line-strong) p-8 text-center">
+          <div className="rounded-(--wb-radius-md) border border-dashed border-(--wb-line-strong) p-8 text-center">
             <p className="text-sm font-medium">
               {query ? t("scratchpad.noResults") : t("scratchpad.empty")}
             </p>
@@ -195,7 +195,7 @@ export function ScratchpadPage() {
           {notes.map((note) => (
             <li
               key={note.id}
-              className="rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-4"
+              className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
               data-testid={`wb-note-${note.id}`}
             >
               <div className="flex items-start gap-3">
@@ -236,7 +236,7 @@ export function ScratchpadPage() {
                       name: note.title || t("scratchpad.untitled"),
                     })}
                     title={t("scratchpad.editAction")}
-                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
                   >
                     <Pencil size={16} aria-hidden="true" />
                   </button>
@@ -250,7 +250,7 @@ export function ScratchpadPage() {
                       note.pinned ? "scratchpad.unpin" : "scratchpad.pin",
                     )}
                     aria-pressed={note.pinned}
-                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
+                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
                     data-testid={`wb-note-pin-${note.id}`}
                   >
                     {note.pinned ? (
@@ -264,7 +264,7 @@ export function ScratchpadPage() {
                     onClick={() => void remove(note)}
                     aria-label={t("scratchpad.delete")}
                     title={t("scratchpad.delete")}
-                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-red-700 ${FOCUS_RING}`}
+                    className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-red-700 ${FOCUS_RING}`}
                     data-testid={`wb-note-delete-${note.id}`}
                   >
                     <Trash2 size={16} aria-hidden="true" />
