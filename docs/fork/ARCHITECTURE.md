@@ -2097,7 +2097,7 @@ objc2-app-kit already in the tree; `sysinfo` from S-07b).
 | `src/fork/hub/HelpPopover.tsx`                | The sidebar's Help and Feedback menu (Radix, `../ui/Menu`): Updates (What's new → releases on GitHub), Essentials (Shortcuts, Microphone, Languages, S-31 lessons via `setHelpLessons`, Documentation), Get in touch (Report a problem…, Send feedback)                                                                             |
 | `src/fork/hub/ReportProblemDialog.tsx`        | What the issue contains, Copy diagnostics (S-27's `fork_copy_diagnostics`), Open GitHub                                                                                                                                                                                                                                             |
 | `src/fork/hub/links.ts`                       | The GitHub links the Hub opens and shows (a Rust test checks they equal `share.rs`)                                                                                                                                                                                                                                                 |
-| `src/fork/share/SharePage.tsx`                | Share with a friend: download link and Homebrew line with Copy (web clipboard API), Share… (share sheet)                                                                                                                                                                                                                            |
+| `src/fork/share/SharePage.tsx`                | Share with a friend: download link with Copy (web clipboard API; the Homebrew line once `BREW_CASK_PUBLISHED`), Share… (share sheet)                                                                                                                                                                                                |
 | `src/fork/settings/About.tsx`                 | Version, GPL-3.0 + licence link, source, credit to Handy (MIT), Support development (Report a problem / Send feedback)                                                                                                                                                                                                              |
 
 **Privacy.** Every link is on github.com (R5 §1; `ci/allowed-hosts.txt`
@@ -2112,10 +2112,11 @@ reads; the Hub's Report a problem shows the dialog first so Copy diagnostics
 is one click away (the issue body points there). Send feedback is a GitHub
 issue labelled `feedback` (Discussions may be off on a new repo). What's new
 opens the GitHub releases page (Handy's bundled notes are Handy's). The
-Homebrew line names S-39's tap (`fjenn/tap/wispr-bro`). Before the first
-push the repository needs Wispr Bro issue templates: Handy's
-`.github/ISSUE_TEMPLATE/config.yml` disables blank issues and links to
-Handy's Discussions.
+Homebrew line names S-39's tap (`fjenn/tap/wispr-bro`) and stays hidden
+(`BREW_CASK_PUBLISHED = false`) until S-39 publishes the cask. Handy's
+`.github/ISSUE_TEMPLATE/` is replaced by `wb-bug-report.md` and
+`wb-feedback.md` with blank issues on (Handy's had them off and linked
+Handy's Discussions), so the prefilled URL opens as a form.
 
 ## Tests
 
