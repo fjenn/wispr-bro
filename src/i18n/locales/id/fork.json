@@ -123,12 +123,14 @@
           "no_input_device": "Mikrofon tidak ditemukan.",
           "failed": "Mikrofon tidak mulai. Coba yang lain."
         }
-      }
+      },
+      "loadErrorPlain": "Tidak dapat menampilkan daftar mikrofon.",
+      "chooseErrorPlain": "Tidak dapat mengganti mikrofon."
     },
     "sound": {
       "title": "Suara",
       "enabled": "Putar suara saat dikte dimulai dan berhenti",
-      "enabledHelp": "Nada pendek memberi tahu bahwa mikrofon menyala, dan nada lain bahwa mikrofon berhenti.",
+      "enabledHelp": "Nada singkat saat mikrofon menyala dan mati.",
       "theme": "Suara",
       "themes": {
         "marimba": "Marimba",
@@ -139,7 +141,7 @@
       "volumeValue": "{{percent}} persen",
       "preview": "Putar",
       "mute": "Bisukan semua audio saat mendikte",
-      "muteHelp": "Musik dan video menjadi senyap saat Anda berbicara, lalu kembali ke volume yang sama setelahnya."
+      "muteHelp": "Musik dan video senyap saat Anda berbicara, lalu kembali seperti semula."
     },
     "recovery": {
       "title": "Pintasan pemulihan",
@@ -223,15 +225,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro dapat membaca nama kode dan nama file yang ditampilkan VS Code, Cursor, dan Windsurf di layar, melalui Aksesibilitas. Wispr Bro tidak pernah membuka folder proyek atau file Anda.",
+      "intro": "Wispr Bro membaca nama kode dan file yang ditampilkan editor Anda. Ia tidak pernah membuka file Anda.",
       "contextOff": "Kesadaran konteks nonaktif, jadi fitur ini tidak punya apa pun untuk dibaca. Nyalakan untuk menggunakannya.",
       "recognize": "Kenali nama kode",
-      "recognizeHint": "Saat Anda mengucapkan nama variabel atau fungsi yang terlihat di editor, nama itu ditulis sesuai ejaan di kode Anda, seperti getUserById atau user_id.",
+      "recognizeHint": "Menulis nama yang terlihat di editor sesuai ejaan di kode Anda.",
       "setUp": "Atur",
       "change": "Ubah editor",
       "setUpFor": "Atur untuk {{editors}}",
       "fileTags": "Tandai file di chat",
-      "fileTagsHint": "Di chat Cursor atau Windsurf, mengucapkan “index dot ts” akan menulis @index.ts jika file itu terbuka di tab atau tampil di daftar file.",
+      "fileTagsHint": "Di chat Cursor atau Windsurf, mengucapkan “index dot ts” menulis @index.ts.",
       "fileTagsNeedsChat": "Tersedia setelah Anda menambahkan Cursor atau Windsurf ke editor Anda.",
       "fileTagsNeedsSetup": "Tersedia setelah Anda mengatur pengenalan nama kode.",
       "setup": {
@@ -258,7 +260,7 @@
       },
       "locations": {
         "title": "Tempat data Anda disimpan",
-        "hint": "Folder ini milik Wispr Bro. Instalasi portabel menyimpan semuanya di folder Data milik app.",
+        "hint": "Folder ini berisi semua yang disimpan Wispr Bro di Mac ini.",
         "data": "Data dan pengaturan app",
         "models": "Model yang diunduh",
         "recordings": "Rekaman",
@@ -272,7 +274,7 @@
         "textLabel": "Simpan teks hasil dikte",
         "textHint": "Entri lama dihapus otomatis. Secara default, teks disimpan selamanya.",
         "audioLabel": "Simpan rekaman",
-        "audioHint": "Secara default, audio kedaluwarsa setelah 14 hari. Menghapus audio tetap menyimpan teks diktenya hingga batas teks.",
+        "audioHint": "Secara default audio kedaluwarsa setelah 14 hari; teksnya tetap ada.",
         "options": {
           "0": "Jangan pernah simpan audio",
           "1": "1 hari",
@@ -287,15 +289,15 @@
       "choices": {
         "title": "Pilihan privasi",
         "context": "Gunakan kesadaran konteks",
-        "contextHint": "Baca teks di sekitar hanya saat mendikte untuk mengenali nama dan ejaan. Konteks tidak disimpan atau dicatat.",
+        "contextHint": "Membaca teks di sekitar saat Anda mendikte agar nama ditulis benar. Tidak pernah disimpan atau dicatat.",
         "updates": "Periksa pembaruan app",
-        "updatesHint": "Menghubungi GitHub untuk memeriksa versi baru. Tidak ada dikte atau data pribadi yang dikirim.",
+        "updatesHint": "Menanyakan versi baru ke GitHub. Tidak mengirim dikte atau data pribadi.",
         "learn": "Belajar dari koreksi saya",
-        "learnHint": "Setelah dikte ditempel, perhatikan kata yang Anda perbaiki di kotak teks itu dan sarankan di Kamus. Hanya kata yang dikoreksi yang disimpan; sisa teks tidak pernah disimpan atau dicatat."
+        "learnHint": "Menyarankan kata untuk kamus dari perbaikan yang Anda buat setelah dikte."
       },
       "export": {
         "title": "Data Anda",
-        "hint": "Ekspor file zip berisi Riwayat, pengaturan, dan rekaman Anda. Model dan log tidak disertakan.",
+        "hint": "Zip berisi Riwayat, pengaturan, dan rekaman Anda, tanpa model atau log.",
         "button": "Ekspor data saya",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Arsip zip",
@@ -312,18 +314,20 @@
         "confirmLabel": "Ketik {{word}} untuk mengonfirmasi",
         "cancel": "Batalkan",
         "confirm": "Hapus semuanya",
-        "failed": "Penghapusan semua data tidak selesai. Periksa data yang tersisa sebelum mencoba lagi."
+        "failed": "Penghapusan semua data tidak selesai. Periksa data yang tersisa sebelum mencoba lagi.",
+        "short": "Menghapus Riwayat, rekaman, dan pengaturan. Tidak bisa dibatalkan."
       },
       "diagnostics": {
         "title": "Laporan crash dan diagnostik",
-        "hint": "Laporan crash tetap di Mac ini dan tidak pernah diunggah. Salin atau simpan diagnostik hanya saat Anda ingin membagikannya.",
-        "sanitized": "Diagnostik menghapus teks hasil dikte, prompt, kata kamus, alamat email, kunci, dan jalur folder rumah Anda.",
+        "hint": "Laporan crash tetap di Mac ini. Bagikan diagnostik hanya jika Anda mau.",
+        "sanitized": "Menghapus teks dikte, prompt, kata kamus, email, kunci, dan jalur folder rumah Anda.",
         "copy": "Salin diagnostik",
         "save": "Simpan diagnostik…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Diagnostik yang sudah dibersihkan telah disalin.",
         "saved": "Diagnostik yang sudah dibersihkan telah disimpan.",
-        "failed": "Tidak dapat menyiapkan diagnostik. Coba lagi."
+        "failed": "Tidak dapat menyiapkan diagnostik. Coba lagi.",
+        "rowTitle": "Bagikan diagnostik"
       }
     },
     "advanced": {
@@ -364,7 +368,7 @@
     "hotkeys": {
       "open": "Pintasan",
       "loading": "Memuat pintasan…",
-      "secureInputHelp": "Secure Input macOS melindungi pengetikan kata sandi dengan menyembunyikan ketukan tombol dari app lain. Perekaman pintasan dijeda selama fitur ini aktif.",
+      "secureInputHelp": "Perekaman pintasan dijeda selama Input Aman macOS melindungi kolom kata sandi.",
       "count": "{{count}} dari {{max}} diatur",
       "notSet": "Belum diatur",
       "current": "Pintasan: {{shortcut}}",
@@ -420,7 +424,7 @@
         "command_mode": "Tahan pintasan sambil mengucapkan cara mengedit atau menulis teks.",
         "paste_last": "Tempel lagi dikte terbaru Anda.",
         "copy_last": "Salin dikte terbaru Anda ke papan klip.",
-        "press_enter": "Tekan Return di app tempat Anda mengetik. Tombol samping mouse cocok untuk ini.",
+        "press_enter": "Menekan Return di tempat Anda mengetik. Tombol samping mouse cocok untuk ini.",
         "undo_cancel": "Pulihkan dikte tepat setelah Anda membatalkannya.",
         "transform": {
           "polish": "Tulis ulang teks yang dipilih dengan Polish.",
@@ -428,12 +432,22 @@
           "view_changes": "Tinjau sebelum dan sesudah transformasi terakhir."
         },
         "scratchpad": {
-          "open": "Lanjutkan catatan terakhir atau mulai yang baru, sesuai pengaturan Coretan Anda."
+          "open": "Lanjutkan catatan terakhir atau mulai yang baru."
         }
       },
-      "description_other": "Tambahkan hingga {{max}} pintasan untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya."
+      "description_other": "Tambahkan hingga {{max}} pintasan untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya.",
+      "addFor": "Tambahkan pintasan untuk {{action}}"
     },
-    "resetSetting": "Atur ulang {{setting}}"
+    "resetSetting": "Atur ulang {{setting}}",
+    "intro": {
+      "general": "Pintasan, mikrofon, bahasa, dan tampilan app Anda.",
+      "system": "Cara Wispr Bro dimulai, berbunyi, dan memberi tahu Anda.",
+      "privacy": "Semuanya tetap di Mac ini. Pilih apa yang disimpan, dan berapa lama.",
+      "advanced": "Penyetelan halus untuk ucapan, pembersihan, keluaran teks, dan pembaruan."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

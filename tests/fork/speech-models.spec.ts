@@ -219,6 +219,14 @@ test.describe("Speech models", () => {
 
   test("RTL: the panel mirrors and stays accessible", async ({ page, ipc }) => {
     const section = await openPanel(page, ipc);
+    // Design W3: the switch sits at the end of its row, after the label.
+    const ltrBox = await section
+      .getByTestId("fork-models-automatic")
+      .boundingBox();
+    const ltrLabel = await section
+      .getByText("Choose the model automatically")
+      .boundingBox();
+    expect(ltrBox && ltrLabel && ltrBox.x > ltrLabel.x).toBe(true);
     await page.evaluate(() => {
       document.documentElement.dir = "rtl";
       document
@@ -232,7 +240,7 @@ test.describe("Speech models", () => {
     const label = await section
       .getByText("Choose the model automatically")
       .boundingBox();
-    expect(box && label && box.x > label.x).toBe(true);
+    expect(box && label && box.x < label.x).toBe(true);
     await expectAccessible(page);
   });
 });

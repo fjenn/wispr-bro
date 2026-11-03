@@ -124,12 +124,14 @@
           "no_input_device": "Geen microfoon gevonden.",
           "failed": "De microfoon is niet gestart. Probeer een andere."
         }
-      }
+      },
+      "loadErrorPlain": "Kan de microfoons niet ophalen.",
+      "chooseErrorPlain": "Kan niet van microfoon wisselen."
     },
     "sound": {
       "title": "Geluiden",
       "enabled": "Speel een geluid af als dicteren start en stopt",
-      "enabledHelp": "Een kort geluid laat je weten dat de microfoon aan is, en een ander dat hij is gestopt.",
+      "enabledHelp": "Een korte toon als de microfoon aan- en uitgaat.",
       "theme": "Geluid",
       "themes": {
         "marimba": "Marimba",
@@ -140,7 +142,7 @@
       "volumeValue": "{{percent}} procent",
       "preview": "Speel af",
       "mute": "Zet alle audio stil tijdens het dicteren",
-      "muteHelp": "Muziek en video’s worden stil terwijl je praat en gaan daarna verder op hetzelfde volume."
+      "muteHelp": "Muziek en video’s worden stil terwijl je praat en komen daarna ongewijzigd terug."
     },
     "recovery": {
       "title": "Hersteltoetscombinaties",
@@ -224,15 +226,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro kan via Toegankelijkheid de codenamen en bestandsnamen lezen die VS Code, Cursor en Windsurf op het scherm tonen. Het opent nooit je projectmap of je bestanden.",
+      "intro": "Wispr Bro leest de code- en bestandsnamen die je editor toont. Het opent nooit je bestanden.",
       "contextOff": "Contextbewustzijn staat uit, dus deze functies hebben niets om te lezen. Zet het aan om ze te gebruiken.",
       "recognize": "Herken codenamen",
-      "recognizeHint": "Als je een variabele- of functienaam zegt die in je editor zichtbaar is, wordt die geschreven zoals in je code, bijvoorbeeld getUserById of user_id.",
+      "recognizeHint": "Schrijft namen die in je editor staan zoals je code ze spelt.",
       "setUp": "Stel in",
       "change": "Wijzig editors",
       "setUpFor": "Stel in voor {{editors}}",
       "fileTags": "Tag bestanden in chat",
-      "fileTagsHint": "Als je in de chat van Cursor of Windsurf “index dot ts” zegt, wordt dat @index.ts wanneer dat bestand in een tabblad open is of in de bestandslijst staat.",
+      "fileTagsHint": "In de chat van Cursor of Windsurf wordt „index dot ts” @index.ts.",
       "fileTagsNeedsChat": "Beschikbaar nadat je Cursor of Windsurf aan je editors hebt toegevoegd.",
       "fileTagsNeedsSetup": "Beschikbaar nadat je herkenning van codenamen hebt ingesteld.",
       "setup": {
@@ -259,7 +261,7 @@
       },
       "locations": {
         "title": "Waar je gegevens staan",
-        "hint": "Deze mappen horen bij Wispr Bro. Bij een draagbare installatie staan ze allemaal in de map “Data” van de app.",
+        "hint": "In deze mappen staat alles wat Wispr Bro op deze Mac bewaart.",
         "data": "Appgegevens en instellingen",
         "models": "Gedownloade modellen",
         "recordings": "Opnames",
@@ -273,7 +275,7 @@
         "textLabel": "Bewaar gedicteerde tekst",
         "textHint": "Oudere items worden automatisch verwijderd. Standaard wordt tekst voor altijd bewaard.",
         "audioLabel": "Bewaar opnames",
-        "audioHint": "Audio verloopt standaard na 14 dagen. Als audio wordt verwijderd, blijft de gedicteerde tekst bewaard tot de limiet voor tekst.",
+        "audioHint": "Audio verloopt standaard na 14 dagen; de tekst blijft.",
         "options": {
           "0": "Bewaar nooit audio",
           "1": "1 dag",
@@ -288,15 +290,15 @@
       "choices": {
         "title": "Privacykeuzes",
         "context": "Gebruik contextbewustzijn",
-        "contextHint": "Leest tekst in de buurt alleen tijdens het dicteren, om namen en spelling te herkennen. Context wordt niet bewaard of gelogd.",
+        "contextHint": "Leest tekst in de buurt tijdens het dicteren om namen goed te spellen. Nooit bewaard of gelogd.",
         "updates": "Controleer op app-updates",
-        "updatesHint": "Neemt contact op met GitHub om te zien of er een nieuwe versie is. Er worden geen dictees of persoonlijke gegevens verstuurd.",
+        "updatesHint": "Vraagt GitHub om nieuwe versies. Stuurt geen dictaat of persoonlijke gegevens.",
         "learn": "Leer van mijn correcties",
-        "learnHint": "Nadat een dictee is geplakt, worden woorden die je in dat tekstveld verbetert opgemerkt en voorgesteld in Woordenboek. Alleen het verbeterde woord wordt bewaard; de rest van de tekst wordt nooit bewaard of gelogd."
+        "learnHint": "Stelt woorden voor het woordenboek voor op basis van je verbeteringen na een dictaat."
       },
       "export": {
         "title": "Je gegevens",
-        "hint": "Exporteer een zip met je Geschiedenis, instellingen en opnames. Modellen en logs worden niet meegenomen.",
+        "hint": "Een zip met je geschiedenis, instellingen en opnames, zonder modellen of logs.",
         "button": "Exporteer mijn gegevens",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip-archief",
@@ -313,18 +315,20 @@
         "confirmLabel": "Typ {{word}} om te bevestigen",
         "cancel": "Annuleer",
         "confirm": "Verwijder alles",
-        "failed": "“Verwijder alles” is niet voltooid. Controleer de resterende gegevens voordat je het opnieuw probeert."
+        "failed": "“Verwijder alles” is niet voltooid. Controleer de resterende gegevens voordat je het opnieuw probeert.",
+        "short": "Wist geschiedenis, opnames en instellingen. Dit kan niet ongedaan worden."
       },
       "diagnostics": {
         "title": "Crashrapporten en diagnostiek",
-        "hint": "Crashrapporten blijven op deze Mac en worden nooit geüpload. Kopieer of bewaar diagnostische gegevens alleen als je ze wilt delen.",
-        "sanitized": "Uit diagnostische gegevens worden gedicteerde tekst, prompts, woorden uit het woordenboek, e-mailadressen, sleutels en het pad van je thuismap verwijderd.",
+        "hint": "Crashrapporten blijven op deze Mac. Deel diagnose alleen als je dat wilt.",
+        "sanitized": "Haalt gedicteerde tekst, prompts, woordenboekwoorden, e-mailadressen, sleutels en je thuismap-pad weg.",
         "copy": "Kopieer diagnostiek",
         "save": "Bewaar diagnostiek…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Opgeschoonde diagnostiek gekopieerd.",
         "saved": "Opgeschoonde diagnostiek bewaard.",
-        "failed": "Kan diagnostiek niet voorbereiden. Probeer het opnieuw."
+        "failed": "Kan diagnostiek niet voorbereiden. Probeer het opnieuw.",
+        "rowTitle": "Diagnose delen"
       }
     },
     "advanced": {
@@ -365,7 +369,7 @@
     "hotkeys": {
       "open": "Toetscombinaties",
       "loading": "Toetscombinaties laden…",
-      "secureInputHelp": "Beveiligde invoer van macOS beschermt het invoeren van wachtwoorden door toetsaanslagen voor andere apps te verbergen. Zolang die actief is, wordt het opnemen van toetscombinaties gepauzeerd.",
+      "secureInputHelp": "Opnemen pauzeert zolang Secure Input van macOS een wachtwoordveld beschermt.",
       "count": "{{count}} van {{max}} ingesteld",
       "notSet": "Niet ingesteld",
       "current": "Toetscombinatie: {{shortcut}}",
@@ -421,7 +425,7 @@
         "command_mode": "Houd de toetscombinatie ingedrukt terwijl je zegt hoe tekst moet worden bewerkt of geschreven.",
         "paste_last": "Plak je meest recente dictee opnieuw.",
         "copy_last": "Kopieer je meest recente dictee naar het klembord.",
-        "press_enter": "Druk op Return in de app waarin je typt. Een zijknop van de muis werkt hier goed.",
+        "press_enter": "Drukt op Return waar je typt. Een zijknop van de muis werkt goed.",
         "undo_cancel": "Haal een dictee terug vlak nadat je het hebt geannuleerd.",
         "transform": {
           "polish": "Herschrijf de geselecteerde tekst met Polish.",
@@ -429,13 +433,23 @@
           "view_changes": "Bekijk de laatste transformatie van voor en na."
         },
         "scratchpad": {
-          "open": "Ga verder met je laatste notitie of begin een nieuwe, afhankelijk van je instelling voor Kladblok."
+          "open": "Ga verder met je laatste notitie of begin een nieuwe."
         }
       },
       "description_one": "Voeg per actie maximaal {{max}} toetscombinatie toe. Wijzigingen worden direct bewaard.",
-      "description_other": "Voeg per actie maximaal {{max}} toetscombinaties toe. Wijzigingen worden direct bewaard."
+      "description_other": "Voeg per actie maximaal {{max}} toetscombinaties toe. Wijzigingen worden direct bewaard.",
+      "addFor": "Toetscombinatie toevoegen voor {{action}}"
     },
-    "resetSetting": "Herstel {{setting}}"
+    "resetSetting": "Herstel {{setting}}",
+    "intro": {
+      "general": "Je toetscombinatie, microfoon, talen en hoe de app eruitziet.",
+      "system": "Hoe Wispr Bro opstart, klinkt en je meldingen stuurt.",
+      "privacy": "Alles blijft op deze Mac. Kies wat bewaard blijft, en hoelang.",
+      "advanced": "Fijnafstelling voor spraak, opschonen, tekstuitvoer en updates."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

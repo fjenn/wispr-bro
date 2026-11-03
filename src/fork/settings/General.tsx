@@ -4,14 +4,13 @@ import { AppLanguageSelector } from "@/components/settings/AppLanguageSelector";
 import { ChineseScriptSetting } from "@/components/settings/ChineseScript";
 import { PreferredLanguages } from "@/components/settings/PreferredLanguages";
 import { ThemeSelector } from "@/components/settings/ThemeSelector";
-import { SettingContainer } from "@/components/ui/SettingContainer";
-import { SettingsGroup } from "@/components/ui/SettingsGroup";
 import { useSettings } from "@/hooks/useSettings";
 import { isChinese } from "@/lib/utils/languageSuggestions";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
+import { Button, SettingGroup, SettingRow } from "../ui";
+import { HandyRow } from "./Controls";
 import { MicrophonePicker } from "./MicrophonePicker";
-import { chordLabel } from "./hotkeys/model";
+import { ChordKeys } from "./hotkeys/ChordKeys";
 import { useForkSettings } from "./useForkSettings";
 
 export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
@@ -22,58 +21,86 @@ export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
     (getSetting("spoken_languages") ?? []).some(isChinese) ||
     (getSetting("chinese_script") ?? "as_transcribed") !== "as_transcribed";
   const binding = forkSettings?.hotkeys.dictate?.[0];
-  const shortcut = binding
-    ? chordLabel(binding.chord)
-    : t("settingsModal.hotkeys.notSet");
 
   return (
-    <div className="flex flex-col gap-6" data-testid="wb-settings-general">
-      <SettingsGroup title={t("settingsModal.general.shortcuts")}>
-        <SettingContainer
+    <div className="flex flex-col gap-8" data-testid="wb-settings-general">
+      <SettingGroup>
+        <SettingRow
           title={t("settingsModal.general.shortcutTitle")}
           description={t("settingsModal.general.shortcutHint")}
-          grouped
-        >
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <span
-              className="text-sm text-(--wb-ink-2)"
-              data-testid="wb-shortcut-summary"
-            >
-              {binding?.activation === "hold"
-                ? t("settingsModal.general.holdToTalk", { shortcut })
-                : shortcut}
-            </span>
-            <Button onClick={onChangeHotkeys} data-testid="wb-shortcuts-change">
-              {t("settingsModal.general.change")}
-            </Button>
-          </div>
-        </SettingContainer>
-      </SettingsGroup>
+          testId="wb-shortcut-row"
+          control={
+            <>
+              <span
+                className="flex items-center gap-1.5 text-[14px] text-(--wb-ink-2)"
+                data-testid="wb-shortcut-summary"
+              >
+                {binding ? (
+                  binding.activation === "hold" ? (
+                    <HoldSummary chord={binding.chord} />
+                  ) : (
+                    <ChordKeys chord={binding.chord} />
+                  )
+                ) : (
+                  t("settingsModal.hotkeys.notSet")
+                )}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onChangeHotkeys}
+                data-testid="wb-shortcuts-change"
+              >
+                {t("settingsModal.general.change")}
+              </Button>
+            </>
+          }
+        />
+      </SettingGroup>
       <section aria-labelledby="wb-general-mic" className="flex flex-col gap-3">
-        <h3
-          id="wb-general-mic"
-          className="text-xs font-semibold tracking-wide text-(--wb-ink-3) uppercase"
-        >
+        <h3 id="wb-general-mic" className="type-micro text-(--wb-ink-3)">
           {t("settingsModal.general.microphone")}
         </h3>
-        <div className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4">
-          <MicrophonePicker />
+        <div className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4">
+          <MicrophonePicker hideLegend />
         </div>
       </section>
-      <div id="wb-general-languages" data-handy-content>
-        <SettingsGroup title={t("settingsModal.general.languages")}>
-          <PreferredLanguages descriptionMode="tooltip" grouped />
+      <div id="wb-general-languages">
+        <SettingGroup label={t("settingsModal.general.languages")}>
+          <HandyRow>
+            <PreferredLanguages descriptionMode="inline" grouped />
+          </HandyRow>
           {speaksChinese && (
-            <ChineseScriptSetting descriptionMode="tooltip" grouped />
+            <HandyRow>
+              <ChineseScriptSetting descriptionMode="tooltip" grouped />
+            </HandyRow>
           )}
-        </SettingsGroup>
+        </SettingGroup>
       </div>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.general.appearance")}>
-          <AppLanguageSelector descriptionMode="tooltip" grouped />
-          <ThemeSelector descriptionMode="tooltip" grouped />
-        </SettingsGroup>
-      </div>
+      <SettingGroup label={t("settingsModal.general.appearance")}>
+        <HandyRow>
+          <AppLanguageSelector descriptionMode="inline" grouped />
+        </HandyRow>
+        <HandyRow>
+          <ThemeSelector descriptionMode="inline" grouped />
+        </HandyRow>
+      </SettingGroup>
     </div>
+  );
+}
+
+/** "Hold fn to talk", with the keys drawn as key caps. */
+function HoldSummary({ chord }: { chord: string }) {
+  const { t } = useTranslation(FORK_NAMESPACE);
+  const marker = "\u0000";
+  const [before, after = ""] = t("settingsModal.general.holdToTalk", {
+    shortcut: marker,
+  }).split(marker);
+  return (
+    <>
+      {before.trim() && <span>{before}</span>}
+      <ChordKeys chord={chord} />
+      {after.trim() && <span>{after}</span>}
+    </>
   );
 }

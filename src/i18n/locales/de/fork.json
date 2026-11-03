@@ -124,12 +124,14 @@
           "no_input_device": "Kein Mikrofon gefunden.",
           "failed": "Das Mikrofon ist nicht gestartet. Probier ein anderes."
         }
-      }
+      },
+      "loadErrorPlain": "Mikrofone konnten nicht aufgelistet werden.",
+      "chooseErrorPlain": "Mikrofon konnte nicht gewechselt werden."
     },
     "sound": {
       "title": "Töne",
       "enabled": "Ton bei Start und Ende des Diktats abspielen",
-      "enabledHelp": "Ein kurzer Ton zeigt dir, dass das Mikrofon an ist, ein anderer, dass es aus ist.",
+      "enabledHelp": "Ein kurzer Ton, wenn das Mikrofon an- und ausgeht.",
       "theme": "Ton",
       "themes": {
         "marimba": "Marimba",
@@ -140,7 +142,7 @@
       "volumeValue": "{{percent}} Prozent",
       "preview": "Abspielen",
       "mute": "Beim Diktieren sämtlichen Ton stummschalten",
-      "muteHelp": "Musik und Videos verstummen, während du sprichst, und laufen danach mit derselben Lautstärke weiter."
+      "muteHelp": "Musik und Videos werden leise, während du sprichst, und kommen danach unverändert zurück."
     },
     "recovery": {
       "title": "Kurzbefehle zur Wiederherstellung",
@@ -224,15 +226,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro kann über die Bedienungshilfen die Codenamen und Dateinamen lesen, die VS Code, Cursor und Windsurf auf dem Bildschirm zeigen. Dein Projektordner und deine Dateien werden nie geöffnet.",
+      "intro": "Wispr Bro liest die Code- und Dateinamen, die dein Editor anzeigt. Deine Dateien öffnet es nie.",
       "contextOff": "Kontextbezug ist aus, daher haben diese Funktionen nichts zu lesen. Schalte ihn ein, um sie zu nutzen.",
       "recognize": "Codenamen erkennen",
-      "recognizeHint": "Sagst du einen Variablen- oder Funktionsnamen, der in deinem Editor zu sehen ist, wird er so geschrieben wie in deinem Code, etwa getUserById oder user_id.",
+      "recognizeHint": "Schreibt Namen, die in deinem Editor zu sehen sind, so wie dein Code sie schreibt.",
       "setUp": "Einrichten",
       "change": "Editoren ändern",
       "setUpFor": "Für {{editors}} einrichten",
       "fileTags": "Dateien im Chat markieren",
-      "fileTagsHint": "Im Chat von Cursor oder Windsurf wird aus „index dot ts“ @index.ts, wenn die Datei in einem Tab geöffnet ist oder in der Dateiliste steht.",
+      "fileTagsHint": "Im Chat von Cursor oder Windsurf wird aus „index dot ts“ @index.ts.",
       "fileTagsNeedsChat": "Verfügbar, sobald du Cursor oder Windsurf zu deinen Editoren hinzufügst.",
       "fileTagsNeedsSetup": "Verfügbar, sobald du die Codenamen-Erkennung eingerichtet hast.",
       "setup": {
@@ -259,7 +261,7 @@
       },
       "locations": {
         "title": "Wo deine Daten liegen",
-        "hint": "Diese Ordner gehören zu Wispr Bro. Bei einer portablen Installation liegen sie alle im Ordner „Data“ der App.",
+        "hint": "In diesen Ordnern liegt alles, was Wispr Bro auf diesem Mac speichert.",
         "data": "App-Daten und Einstellungen",
         "models": "Heruntergeladene Modelle",
         "recordings": "Aufnahmen",
@@ -273,7 +275,7 @@
         "textLabel": "Diktierten Text behalten",
         "textHint": "Ältere Einträge werden automatisch entfernt. Standardmäßig bleibt Text für immer.",
         "audioLabel": "Aufnahmen behalten",
-        "audioHint": "Audio wird standardmäßig nach 14 Tagen gelöscht. Der diktierte Text bleibt dabei bis zur Frist für Text erhalten.",
+        "audioHint": "Audio wird standardmäßig nach 14 Tagen gelöscht; der Text bleibt.",
         "options": {
           "0": "Audio nie behalten",
           "1": "1 Tag",
@@ -288,15 +290,15 @@
       "choices": {
         "title": "Datenschutz",
         "context": "Kontextbezug verwenden",
-        "contextHint": "Liest Text in der Nähe nur während des Diktats, um Namen und Schreibweisen zu erkennen. Der Kontext wird weder gespeichert noch protokolliert.",
+        "contextHint": "Liest beim Diktieren Text in der Nähe, um Namen richtig zu schreiben. Nie gespeichert oder protokolliert.",
         "updates": "Nach App-Updates suchen",
-        "updatesHint": "Fragt bei GitHub nach einer neuen Version. Es werden keine Diktate oder persönlichen Daten gesendet.",
+        "updatesHint": "Fragt GitHub nach neuen Versionen. Sendet kein Diktat und keine persönlichen Daten.",
         "learn": "Von meinen Korrekturen lernen",
-        "learnHint": "Nach dem Einfügen eines Diktats merkt sich Wispr Bro Wörter, die du in diesem Textfeld korrigierst, und schlägt sie im Wörterbuch vor. Nur das korrigierte Wort wird behalten, der übrige Text wird nie gespeichert oder protokolliert."
+        "learnHint": "Schlägt Wörter für das Wörterbuch vor, die du nach einem Diktat korrigierst."
       },
       "export": {
         "title": "Deine Daten",
-        "hint": "Exportiere eine ZIP-Datei mit deinem Verlauf, deinen Einstellungen und Aufnahmen. Modelle und Protokolle sind nicht enthalten.",
+        "hint": "Ein ZIP mit Verlauf, Einstellungen und Aufnahmen, ohne Modelle und Protokolle.",
         "button": "Meine Daten exportieren",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "ZIP-Archiv",
@@ -313,18 +315,20 @@
         "confirmLabel": "Gib zur Bestätigung {{word}} ein",
         "cancel": "Abbrechen",
         "confirm": "Alles löschen",
-        "failed": "„Alles löschen“ wurde nicht abgeschlossen. Prüfe die verbliebenen Daten, bevor du es noch einmal versuchst."
+        "failed": "„Alles löschen“ wurde nicht abgeschlossen. Prüfe die verbliebenen Daten, bevor du es noch einmal versuchst.",
+        "short": "Löscht Verlauf, Aufnahmen und Einstellungen. Das lässt sich nicht rückgängig machen."
       },
       "diagnostics": {
         "title": "Absturzberichte und Diagnose",
-        "hint": "Absturzberichte bleiben auf diesem Mac und werden nie hochgeladen. Kopiere oder sichere Diagnosedaten nur, wenn du sie teilen möchtest.",
-        "sanitized": "Aus Diagnosedaten werden diktierter Text, Prompts, Wörterbucheinträge, E-Mail-Adressen, Schlüssel und der Pfad deines Benutzerordners entfernt.",
+        "hint": "Absturzberichte bleiben auf diesem Mac. Diagnosedaten teilst nur du, wenn du willst.",
+        "sanitized": "Entfernt diktierten Text, Prompts, Wörterbuchwörter, E-Mail-Adressen, Schlüssel und deinen Benutzerordner-Pfad.",
         "copy": "Diagnosedaten kopieren",
         "save": "Diagnosedaten speichern …",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Bereinigte Diagnosedaten kopiert.",
         "saved": "Bereinigte Diagnosedaten gespeichert.",
-        "failed": "Diagnosedaten konnten nicht vorbereitet werden. Versuch es noch einmal."
+        "failed": "Diagnosedaten konnten nicht vorbereitet werden. Versuch es noch einmal.",
+        "rowTitle": "Diagnosedaten teilen"
       }
     },
     "advanced": {
@@ -365,7 +369,7 @@
     "hotkeys": {
       "open": "Kurzbefehle",
       "loading": "Kurzbefehle werden geladen …",
-      "secureInputHelp": "Die sichere Eingabe von macOS schützt Passworteingaben, indem sie Tastenanschläge vor anderen Apps verbirgt. Solange sie aktiv ist, pausiert die Aufnahme von Kurzbefehlen.",
+      "secureInputHelp": "Die Aufnahme pausiert, solange die sichere Eingabe von macOS ein Passwortfeld schützt.",
       "count": "{{count}} von {{max}} festgelegt",
       "notSet": "Nicht festgelegt",
       "current": "Kurzbefehl: {{shortcut}}",
@@ -421,7 +425,7 @@
         "command_mode": "Halte den Kurzbefehl gedrückt und sag, wie Text bearbeitet oder geschrieben werden soll.",
         "paste_last": "Dein letztes Diktat noch einmal einfügen.",
         "copy_last": "Dein letztes Diktat in die Zwischenablage kopieren.",
-        "press_enter": "Drückt Return in der App, in der du schreibst. Dafür eignet sich eine Seitentaste der Maus.",
+        "press_enter": "Drückt Return dort, wo du schreibst. Eine Maus-Seitentaste eignet sich gut.",
         "undo_cancel": "Ein Diktat direkt nach dem Abbrechen zurückholen.",
         "transform": {
           "polish": "Den ausgewählten Text mit Polish umschreiben.",
@@ -429,13 +433,23 @@
           "view_changes": "Die letzte Transformation im Vorher-nachher-Vergleich ansehen."
         },
         "scratchpad": {
-          "open": "Setzt je nach Einstellung für den Notizblock deine letzte Notiz fort oder beginnt eine neue."
+          "open": "Setzt deine letzte Notiz fort oder beginnt eine neue."
         }
       },
       "description_one": "Füge pro Aktion bis zu {{max}} Kurzbefehl hinzu. Änderungen werden sofort gespeichert.",
-      "description_other": "Füge pro Aktion bis zu {{max}} Kurzbefehle hinzu. Änderungen werden sofort gespeichert."
+      "description_other": "Füge pro Aktion bis zu {{max}} Kurzbefehle hinzu. Änderungen werden sofort gespeichert.",
+      "addFor": "Kurzbefehl für {{action}} hinzufügen"
     },
-    "resetSetting": "{{setting}} zurücksetzen"
+    "resetSetting": "{{setting}} zurücksetzen",
+    "intro": {
+      "general": "Dein Kurzbefehl, Mikrofon, deine Sprachen und das Aussehen der App.",
+      "system": "Wie Wispr Bro startet, klingt und dich benachrichtigt.",
+      "privacy": "Alles bleibt auf diesem Mac. Lege fest, was wie lange behalten wird.",
+      "advanced": "Feinabstimmung für Sprache, Bereinigung, Textausgabe und Updates."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

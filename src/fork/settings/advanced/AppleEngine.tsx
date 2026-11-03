@@ -45,12 +45,12 @@ export function AppleEngine({ status }: { status: ForkAppleStatus | null }) {
   const available = status.availability === "available";
   return (
     <section
-      className="flex flex-col gap-1 border-t border-line pt-3"
+      className="flex flex-col gap-1 border-t border-(--wb-line) pt-3"
       aria-labelledby="fork-ai-engine-apple-title"
       data-testid="fork-ai-engine-apple"
       data-availability={status.availability}
     >
-      <h3 id="fork-ai-engine-apple-title" className="text-xs font-medium">
+      <h3 id="fork-ai-engine-apple-title" className="text-[13px] font-medium">
         {t("aiEngine.apple.title")}
       </h3>
       <p
@@ -61,7 +61,7 @@ export function AppleEngine({ status }: { status: ForkAppleStatus | null }) {
       </p>
       {available && status.requests > 0 && (
         <p
-          className="text-xs text-ink-3"
+          className="text-[13px] text-ink-2"
           data-testid="fork-ai-engine-apple-counts"
         >
           {t("aiEngine.apple.counts", {

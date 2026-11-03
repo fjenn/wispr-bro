@@ -126,12 +126,14 @@
           "no_input_device": "Nebyl nalezen žádný mikrofon.",
           "failed": "Mikrofon se nespustil. Zkuste jiný."
         }
-      }
+      },
+      "loadErrorPlain": "Mikrofony se nepodařilo načíst.",
+      "chooseErrorPlain": "Mikrofon se nepodařilo přepnout."
     },
     "sound": {
       "title": "Zvuky",
       "enabled": "Přehrát zvuk při spuštění a ukončení diktování",
-      "enabledHelp": "Krátký tón oznámí, že je mikrofon zapnutý, a další, že se vypnul.",
+      "enabledHelp": "Krátký tón, když se mikrofon zapne a vypne.",
       "theme": "Zvuk",
       "themes": {
         "marimba": "Marimba",
@@ -142,7 +144,7 @@
       "volumeValue": "{{percent}} procent",
       "preview": "Přehrát",
       "mute": "Během diktování ztlumit všechen zvuk",
-      "muteHelp": "Hudba a videa se během mluvení ztiší a pak se vrátí na stejnou hlasitost."
+      "muteHelp": "Hudba a videa při mluvení ztichnou a pak se vrátí beze změny."
     },
     "recovery": {
       "title": "Zkratky pro obnovení",
@@ -226,15 +228,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro umí pomocí Zpřístupnění číst názvy z kódu a názvy souborů, které VS Code, Cursor a Windsurf zobrazují na obrazovce. Nikdy neotevírá složku projektu ani vaše soubory.",
+      "intro": "Wispr Bro čte názvy z kódu a souborů, které editor zobrazuje. Vaše soubory nikdy neotevírá.",
       "contextOff": "Povědomí o kontextu je vypnuté, takže tyto funkce nemají co číst. Chcete-li je používat, zapněte ho.",
       "recognize": "Rozpoznávat názvy z kódu",
-      "recognizeHint": "Když vyslovíte název proměnné nebo funkce, který je vidět v editoru, zapíše se tak, jak ho píše váš kód, například getUserById nebo user_id.",
+      "recognizeHint": "Píše názvy viditelné v editoru tak, jak je píše váš kód.",
       "setUp": "Nastavit",
       "change": "Změnit editory",
       "setUpFor": "Nastavit pro {{editors}}",
       "fileTags": "Označovat soubory v chatu",
-      "fileTagsHint": "Když v chatu Cursoru nebo Windsurfu řeknete „index dot ts“, zapíše se @index.ts, pokud je soubor otevřený v panelu nebo zobrazený v seznamu souborů.",
+      "fileTagsHint": "V chatu Cursor nebo Windsurf se z „index dot ts“ stane @index.ts.",
       "fileTagsNeedsChat": "K dispozici po přidání Cursoru nebo Windsurfu mezi vaše editory.",
       "fileTagsNeedsSetup": "K dispozici po nastavení rozpoznávání názvů z kódu.",
       "setup": {
@@ -261,7 +263,7 @@
       },
       "locations": {
         "title": "Kde jsou vaše data",
-        "hint": "Tyto složky patří Wispr Bro. Přenosné instalace je mají všechny ve složce Data aplikace.",
+        "hint": "V těchto složkách je vše, co Wispr Bro v tomto Macu uchovává.",
         "data": "Data a nastavení aplikace",
         "models": "Stažené modely",
         "recordings": "Nahrávky",
@@ -275,7 +277,7 @@
         "textLabel": "Uchovávat nadiktovaný text",
         "textHint": "Starší záznamy se odstraňují automaticky. Ve výchozím nastavení se text uchovává navždy.",
         "audioLabel": "Uchovávat nahrávky",
-        "audioHint": "Ve výchozím nastavení zvuk vyprší po 14 dnech. Po odstranění zvuku zůstane jeho nadiktovaný text až do limitu pro text.",
+        "audioHint": "Zvuk ve výchozím stavu vyprší po 14 dnech; text zůstane.",
         "options": {
           "0": "Zvuk neuchovávat",
           "1": "1 den",
@@ -290,15 +292,15 @@
       "choices": {
         "title": "Volby soukromí",
         "context": "Používat povědomí o kontextu",
-        "contextHint": "Číst okolní text jen během diktování, aby se správně rozpoznala jména a pravopis. Kontext se neukládá ani nezaznamenává.",
+        "contextHint": "Při diktování čte okolní text, aby správně psal jména. Nikdy se neukládá ani nezapisuje.",
         "updates": "Kontrolovat aktualizace aplikace",
-        "updatesHint": "Kontaktuje GitHub kvůli nové verzi. Neodesílají se žádné diktáty ani osobní údaje.",
+        "updatesHint": "Zjišťuje nové verze na GitHubu. Neposílá diktování ani osobní údaje.",
         "learn": "Učit se z mých oprav",
-        "learnHint": "Po vložení diktátu si všímat slov, která v daném textovém poli opravíte, a navrhovat je do Slovníku. Uchová se jen opravené slovo; zbytek textu se nikdy neukládá ani nezaznamenává."
+        "learnHint": "Navrhuje slova do slovníku podle oprav, které po diktování uděláte."
       },
       "export": {
         "title": "Vaše data",
-        "hint": "Exportujte ZIP s Historií, nastavením a nahrávkami. Modely a protokoly nejsou zahrnuty.",
+        "hint": "Zip s historií, nastavením a nahrávkami, bez modelů a protokolů.",
         "button": "Exportovat moje data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archiv ZIP",
@@ -315,18 +317,20 @@
         "confirmLabel": "Pro potvrzení zadejte {{word}}",
         "cancel": "Zrušit",
         "confirm": "Smazat vše",
-        "failed": "Mazání všech dat se nedokončilo. Než to zkusíte znovu, zkontrolujte zbývající data."
+        "failed": "Mazání všech dat se nedokončilo. Než to zkusíte znovu, zkontrolujte zbývající data.",
+        "short": "Smaže historii, nahrávky a nastavení. Nelze to vrátit."
       },
       "diagnostics": {
         "title": "Hlášení o pádech a diagnostika",
-        "hint": "Hlášení o pádech zůstávají na tomto Macu a nikdy se neodesílají. Diagnostiku kopírujte nebo ukládejte, jen když ji chcete sdílet.",
-        "sanitized": "Diagnostika neobsahuje nadiktovaný text, prompty, slova ze slovníku, e-mailové adresy, klíče ani cestu k vaší domovské složce.",
+        "hint": "Zprávy o pádech zůstávají v tomto Macu. Diagnostiku sdílíte, jen když chcete.",
+        "sanitized": "Odstraní diktovaný text, prompty, slova ze slovníku, e-maily, klíče a cestu k vaší složce.",
         "copy": "Zkopírovat diagnostiku",
         "save": "Uložit diagnostiku…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Anonymizovaná diagnostika byla zkopírována.",
         "saved": "Anonymizovaná diagnostika byla uložena.",
-        "failed": "Diagnostiku nelze připravit. Zkuste to znovu."
+        "failed": "Diagnostiku nelze připravit. Zkuste to znovu.",
+        "rowTitle": "Sdílet diagnostiku"
       }
     },
     "advanced": {
@@ -367,7 +371,7 @@
     "hotkeys": {
       "open": "Zkratky",
       "loading": "Načítání zkratek…",
-      "secureInputHelp": "Zabezpečené zadávání v macOS chrání zadávání hesel tím, že skrývá stisky kláves před jinými aplikacemi. Dokud je aktivní, zachytávání zkratek je pozastavené.",
+      "secureInputHelp": "Záznam zkratky se pozastaví, dokud zabezpečené zadávání macOS chrání pole hesla.",
       "count": "Nastaveno {{count}} z {{max}}",
       "notSet": "Nenastaveno",
       "current": "Zkratka: {{shortcut}}",
@@ -423,7 +427,7 @@
         "command_mode": "Podržte zkratku a řekněte, jak text upravit nebo napsat.",
         "paste_last": "Znovu vloží váš nejnovější diktát.",
         "copy_last": "Zkopíruje váš nejnovější diktát do schránky.",
-        "press_enter": "Stiskne Return v aplikaci, kde píšete. Hodí se k tomu boční tlačítko myši.",
+        "press_enter": "Stiskne Return tam, kde píšete. Hodí se boční tlačítko myši.",
         "undo_cancel": "Obnoví diktát hned poté, co ho zrušíte.",
         "transform": {
           "polish": "Přepíše vybraný text pomocí Polish.",
@@ -431,15 +435,25 @@
           "view_changes": "Zobrazí poslední transformaci před a po."
         },
         "scratchpad": {
-          "open": "Podle nastavení Poznámkového bloku pokračuje v poslední poznámce nebo začne novou."
+          "open": "Pokračovat v poslední poznámce nebo začít novou."
         }
       },
       "description_one": "Ke každé akci přidejte až {{max}} zkratku. Změny se ukládají průběžně.",
       "description_few": "Ke každé akci přidejte až {{max}} zkratky. Změny se ukládají průběžně.",
       "description_many": "Ke každé akci přidejte až {{max}} zkratky. Změny se ukládají průběžně.",
-      "description_other": "Ke každé akci přidejte až {{max}} zkratek. Změny se ukládají průběžně."
+      "description_other": "Ke každé akci přidejte až {{max}} zkratek. Změny se ukládají průběžně.",
+      "addFor": "Přidat zkratku pro akci {{action}}"
     },
-    "resetSetting": "Obnovit {{setting}}"
+    "resetSetting": "Obnovit {{setting}}",
+    "intro": {
+      "general": "Vaše klávesová zkratka, mikrofon, jazyky a vzhled aplikace.",
+      "system": "Jak se Wispr Bro spouští, zní a jak vás upozorňuje.",
+      "privacy": "Vše zůstává v tomto Macu. Vyberte, co se uchovává a jak dlouho.",
+      "advanced": "Jemné ladění řeči, vyčištění, výstupu textu a aktualizací."
+    },
+    "navGroups": {
+      "app": "Aplikace"
+    }
   },
   "hub": {
     "nav": {

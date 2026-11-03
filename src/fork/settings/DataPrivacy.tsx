@@ -17,8 +17,8 @@ import {
   type ForkDataLocations,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, FOCUS_RING } from "../ui";
-import { ForkSelect, ForkToggle, Panel } from "./Controls";
+import { Button, Checkbox, FOCUS_RING, SettingGroup, SettingRow } from "../ui";
+import { PanelCard, SelectRow, ToggleRow } from "./Controls";
 import { useForkSettings } from "./useForkSettings";
 
 const LOCATION_KINDS: ForkDataLocationKind[] = [
@@ -180,217 +180,232 @@ export function DataPrivacy() {
   if (!settings) return null;
 
   return (
-    <div className="flex flex-col gap-6" data-testid="wb-settings-privacy">
-      <Panel
-        title={t("settingsModal.privacy.promise.title")}
-        testId="wb-privacy-promise"
-      >
-        <div className="flex gap-3">
-          <ShieldCheck
-            size={20}
-            aria-hidden="true"
-            className="mt-0.5 shrink-0 text-(--wb-accent)"
-          />
-          <div className="space-y-3 text-sm">
-            <p className="font-medium">
-              {t("settingsModal.privacy.promise.local")}
-            </p>
-            <p className="text-(--wb-ink-2)">
-              {t("settingsModal.privacy.promise.noCloud")}
-            </p>
-            <p className="text-(--wb-ink-2)">
-              {t("settingsModal.privacy.promise.networkIntro")}
-            </p>
-            <ul className="list-disc space-y-2 ps-5 text-(--wb-ink-2)">
-              <li>{t("settingsModal.privacy.promise.models")}</li>
-              <li>{t("settingsModal.privacy.promise.updates")}</li>
-            </ul>
+    <div className="flex flex-col gap-8" data-testid="wb-settings-privacy">
+      <div data-testid="wb-privacy-promise">
+        <PanelCard>
+          <div className="flex gap-4">
+            <ShieldCheck
+              size={20}
+              aria-hidden="true"
+              className="mt-0.5 shrink-0 text-(--wb-accent)"
+            />
+            <div className="flex flex-col gap-2 text-[14px] leading-5">
+              <h3 className="type-card-title">
+                {t("settingsModal.privacy.promise.local")}
+              </h3>
+              <p className="text-(--wb-ink-2)">
+                {t("settingsModal.privacy.promise.noCloud")}
+              </p>
+              <p className="text-(--wb-ink-2)">
+                {t("settingsModal.privacy.promise.networkIntro")}
+              </p>
+              <ul className="list-disc space-y-1 ps-5 text-(--wb-ink-2)">
+                <li>{t("settingsModal.privacy.promise.models")}</li>
+                <li>{t("settingsModal.privacy.promise.updates")}</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </Panel>
+        </PanelCard>
+      </div>
 
-      <Panel
-        title={t("settingsModal.privacy.locations.title")}
-        testId="wb-privacy-locations"
-      >
-        <p className="mb-3 text-xs text-(--wb-ink-2)">
-          {t("settingsModal.privacy.locations.hint")}
-        </p>
-        <div className="divide-y divide-(--wb-line)">
+      <div data-testid="wb-privacy-locations">
+        <SettingGroup label={t("settingsModal.privacy.locations.title")}>
+          <p className="type-small -mt-1 text-(--wb-ink-2)">
+            {t("settingsModal.privacy.locations.hint")}
+          </p>
           {LOCATION_KINDS.map((kind) => (
-            <div
+            <SettingRow
               key={kind}
-              className="flex flex-wrap items-center gap-3 py-3 first:pt-0 last:pb-0"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-medium">
-                  {t(`settingsModal.privacy.locations.${kind}`)}
-                </div>
-                <div
-                  className="mt-0.5 break-all font-mono text-[11px] text-(--wb-ink-3)"
+              title={t(`settingsModal.privacy.locations.${kind}`)}
+              description={
+                <span
+                  className="font-(family-name:--wb-font-mono) text-[12px] break-all"
                   dir="ltr"
                   data-testid={`wb-privacy-path-${kind}`}
                 >
                   {locations?.[kind] ??
                     t("settingsModal.privacy.locations.loading")}
-                </div>
-              </div>
-              <Button
-                onClick={() => void showLocation(kind)}
-                data-testid={`wb-privacy-show-${kind}`}
-              >
-                <FolderOpen size={14} aria-hidden="true" />
-                {t("settingsModal.privacy.locations.show")}
-              </Button>
-            </div>
+                </span>
+              }
+              control={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void showLocation(kind)}
+                  data-testid={`wb-privacy-show-${kind}`}
+                >
+                  <FolderOpen size={14} />
+                  {t("settingsModal.privacy.locations.show")}
+                </Button>
+              }
+            />
           ))}
-        </div>
-      </Panel>
+        </SettingGroup>
+      </div>
 
-      <Panel
-        title={t("settingsModal.privacy.retention.title")}
-        testId="wb-privacy-retention"
-      >
-        <ForkSelect
-          label={t("settingsModal.privacy.retention.textLabel")}
-          hint={t("settingsModal.privacy.retention.textHint")}
-          value={
-            settings.text_retention_days === null
-              ? "forever"
-              : String(settings.text_retention_days)
-          }
-          disabled={!!pending.text_retention_days}
-          options={["forever", "365", "90", "30"].map((value) => ({
-            value,
-            label: t(`settingsModal.privacy.retention.options.${value}`),
-          }))}
-          onChange={(value) =>
-            void setSetting("text_retention_days", optionalDays(value))
-          }
-          testId="wb-privacy-text-retention"
-        />
-        <ForkSelect
-          label={t("settingsModal.privacy.retention.audioLabel")}
-          hint={t("settingsModal.privacy.retention.audioHint")}
-          value={
-            settings.audio_retention_days === null
-              ? "forever"
-              : String(settings.audio_retention_days)
-          }
-          disabled={!!pending.audio_retention_days}
-          options={["0", "1", "7", "14", "30", "90", "forever"].map(
-            (value) => ({
+      <div data-testid="wb-privacy-retention">
+        <SettingGroup label={t("settingsModal.privacy.retention.title")}>
+          <SelectRow
+            label={t("settingsModal.privacy.retention.textLabel")}
+            hint={t("settingsModal.privacy.retention.textHint")}
+            value={
+              settings.text_retention_days === null
+                ? "forever"
+                : String(settings.text_retention_days)
+            }
+            disabled={!!pending.text_retention_days}
+            options={["forever", "365", "90", "30"].map((value) => ({
               value,
               label: t(`settingsModal.privacy.retention.options.${value}`),
-            }),
-          )}
-          onChange={(value) =>
-            void setSetting("audio_retention_days", optionalDays(value))
-          }
-          testId="wb-privacy-audio-retention"
-        />
-      </Panel>
+            }))}
+            onChange={(value) =>
+              void setSetting("text_retention_days", optionalDays(value))
+            }
+            testId="wb-privacy-text-retention"
+            width="w-44"
+          />
+          <SelectRow
+            label={t("settingsModal.privacy.retention.audioLabel")}
+            hint={t("settingsModal.privacy.retention.audioHint")}
+            value={
+              settings.audio_retention_days === null
+                ? "forever"
+                : String(settings.audio_retention_days)
+            }
+            disabled={!!pending.audio_retention_days}
+            options={["0", "1", "7", "14", "30", "90", "forever"].map(
+              (value) => ({
+                value,
+                label: t(`settingsModal.privacy.retention.options.${value}`),
+              }),
+            )}
+            onChange={(value) =>
+              void setSetting("audio_retention_days", optionalDays(value))
+            }
+            testId="wb-privacy-audio-retention"
+            width="w-44"
+          />
+        </SettingGroup>
+      </div>
 
-      <Panel
-        title={t("settingsModal.privacy.choices.title")}
-        testId="wb-privacy-choices"
-      >
-        <ForkToggle
-          label={t("settingsModal.privacy.choices.context")}
-          hint={t("settingsModal.privacy.choices.contextHint")}
-          checked={settings.context_awareness}
-          disabled={!!pending.context_awareness}
-          onChange={(checked) => void setSetting("context_awareness", checked)}
-          testId="wb-privacy-context"
-        />
-        <ForkToggle
-          label={t("settingsModal.privacy.choices.learn")}
-          hint={t("settingsModal.privacy.choices.learnHint")}
-          checked={settings.auto_learn_enabled}
-          disabled={!!pending.auto_learn_enabled}
-          onChange={(checked) => void setSetting("auto_learn_enabled", checked)}
-          testId="wb-privacy-learn"
-        />
-        <ForkToggle
-          label={t("settingsModal.privacy.choices.updates")}
-          hint={t("settingsModal.privacy.choices.updatesHint")}
-          checked={settings.update_checks_enabled}
-          disabled={!!pending.update_checks_enabled}
-          onChange={(checked) =>
-            void setSetting("update_checks_enabled", checked)
-          }
-          testId="wb-privacy-updates"
-        />
-      </Panel>
+      <div data-testid="wb-privacy-choices">
+        <SettingGroup label={t("settingsModal.privacy.choices.title")}>
+          <ToggleRow
+            label={t("settingsModal.privacy.choices.context")}
+            hint={t("settingsModal.privacy.choices.contextHint")}
+            checked={settings.context_awareness}
+            disabled={!!pending.context_awareness}
+            onChange={(checked) =>
+              void setSetting("context_awareness", checked)
+            }
+            testId="wb-privacy-context"
+          />
+          <ToggleRow
+            label={t("settingsModal.privacy.choices.learn")}
+            hint={t("settingsModal.privacy.choices.learnHint")}
+            checked={settings.auto_learn_enabled}
+            disabled={!!pending.auto_learn_enabled}
+            onChange={(checked) =>
+              void setSetting("auto_learn_enabled", checked)
+            }
+            testId="wb-privacy-learn"
+          />
+          <ToggleRow
+            label={t("settingsModal.privacy.choices.updates")}
+            hint={t("settingsModal.privacy.choices.updatesHint")}
+            checked={settings.update_checks_enabled}
+            disabled={!!pending.update_checks_enabled}
+            onChange={(checked) =>
+              void setSetting("update_checks_enabled", checked)
+            }
+            testId="wb-privacy-updates"
+          />
+        </SettingGroup>
+      </div>
 
-      <Panel
-        title={t("settingsModal.privacy.export.title")}
-        testId="wb-privacy-export"
-      >
-        <p className="text-sm text-(--wb-ink-2)">
-          {t("settingsModal.privacy.export.hint")}
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Button
-            variant="primary"
-            onClick={() => void exportData()}
-            disabled={busy !== null}
-            aria-busy={busy === "export"}
-            data-testid="wb-privacy-export-button"
-          >
-            <Download size={14} aria-hidden="true" />
-            {t("settingsModal.privacy.export.button")}
-          </Button>
-          <Button
-            onClick={() => {
-              setConfirmation("");
-              setDeleteModels(false);
-              setDeleteOpen(true);
-            }}
-            disabled={busy !== null}
-            className="border-red-300 text-red-700 dark:border-red-900 dark:text-red-300"
-            data-testid="wb-privacy-delete-button"
-          >
-            <Trash2 size={14} aria-hidden="true" />
-            {t("settingsModal.privacy.delete.button")}
-          </Button>
-        </div>
-      </Panel>
+      <div data-testid="wb-privacy-export">
+        <SettingGroup label={t("settingsModal.privacy.export.title")}>
+          <SettingRow
+            title={t("settingsModal.privacy.export.button")}
+            description={t("settingsModal.privacy.export.hint")}
+            control={
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void exportData()}
+                disabled={busy !== null}
+                aria-busy={busy === "export"}
+                data-testid="wb-privacy-export-button"
+              >
+                <Download size={14} />
+                {t("settingsModal.privacy.export.button")}
+              </Button>
+            }
+          />
+          <SettingRow
+            title={t("settingsModal.privacy.delete.button")}
+            description={t("settingsModal.privacy.delete.short")}
+            control={
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => {
+                  setConfirmation("");
+                  setDeleteModels(false);
+                  setDeleteOpen(true);
+                }}
+                disabled={busy !== null}
+                data-testid="wb-privacy-delete-button"
+              >
+                <Trash2 size={14} />
+                {t("settingsModal.privacy.delete.button")}
+              </Button>
+            }
+          />
+        </SettingGroup>
+      </div>
 
-      <Panel
-        title={t("settingsModal.privacy.diagnostics.title")}
-        testId="wb-privacy-diagnostics"
-      >
-        <p className="text-sm text-(--wb-ink-2)">
-          {t("settingsModal.privacy.diagnostics.hint")}
-        </p>
-        <p className="mt-2 text-xs text-(--wb-ink-3)">
-          {t("settingsModal.privacy.diagnostics.sanitized")}
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Button
-            onClick={() => void copyDiagnostics()}
-            disabled={busy !== null}
-            data-testid="wb-privacy-copy-diagnostics"
+      <div data-testid="wb-privacy-diagnostics">
+        <SettingGroup label={t("settingsModal.privacy.diagnostics.title")}>
+          <SettingRow
+            title={t("settingsModal.privacy.diagnostics.rowTitle")}
+            description={t("settingsModal.privacy.diagnostics.hint")}
+            control={
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void copyDiagnostics()}
+                  disabled={busy !== null}
+                  data-testid="wb-privacy-copy-diagnostics"
+                >
+                  <Copy size={14} />
+                  {t("settingsModal.privacy.diagnostics.copy")}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void saveDiagnostics()}
+                  disabled={busy !== null}
+                  data-testid="wb-privacy-save-diagnostics"
+                >
+                  <Save size={14} />
+                  {t("settingsModal.privacy.diagnostics.save")}
+                </Button>
+              </>
+            }
           >
-            <Copy size={14} aria-hidden="true" />
-            {t("settingsModal.privacy.diagnostics.copy")}
-          </Button>
-          <Button
-            onClick={() => void saveDiagnostics()}
-            disabled={busy !== null}
-            data-testid="wb-privacy-save-diagnostics"
-          >
-            <Save size={14} aria-hidden="true" />
-            {t("settingsModal.privacy.diagnostics.save")}
-          </Button>
-        </div>
-      </Panel>
+            <p className="type-small text-(--wb-ink-2)">
+              {t("settingsModal.privacy.diagnostics.sanitized")}
+            </p>
+          </SettingRow>
+        </SettingGroup>
+      </div>
 
       <dialog
         ref={deleteDialog}
         aria-labelledby="wb-delete-title"
-        className="m-auto w-[min(480px,calc(100vw-32px))] max-w-none rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-6 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/50"
+        className="wb-settings-dialog m-auto w-[min(480px,calc(100vw-32px))] max-w-none rounded-(--wb-radius-lg) border-0 bg-(--wb-surface) p-6 text-(--wb-ink) shadow-(--wb-elev-3)"
         data-testid="wb-delete-dialog"
         onCancel={(event) => {
           // React propagates cancel/close through the component tree: keep
@@ -404,18 +419,18 @@ export function DataPrivacy() {
           setDeleteOpen(false);
         }}
       >
-        <h2 id="wb-delete-title" className="font-(--wb-font-display) text-xl">
+        <h2 id="wb-delete-title" className="type-heading">
           {t("settingsModal.privacy.delete.title")}
         </h2>
-        <p className="mt-3 text-sm text-(--wb-ink-2)">
+        <p className="mt-2 text-[14px] leading-5 text-(--wb-ink-2)">
           {t("settingsModal.privacy.delete.warning")}
         </p>
-        <p className="mt-2 text-sm text-(--wb-ink-2)">
+        <p className="mt-2 text-[14px] leading-5 text-(--wb-ink-2)">
           {t("settingsModal.privacy.delete.relaunch")}
         </p>
-        <label className="mt-4 flex cursor-pointer items-start gap-2 text-sm">
-          <input
-            type="checkbox"
+        <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-4 py-3 text-[14px]">
+          <Checkbox
+            className="mt-0.5"
             checked={deleteModels}
             disabled={busy === "erase"}
             onChange={(event) => setDeleteModels(event.currentTarget.checked)}
@@ -425,14 +440,14 @@ export function DataPrivacy() {
             <span className="block font-medium">
               {t("settingsModal.privacy.delete.models")}
             </span>
-            <span className="mt-1 block text-xs text-(--wb-ink-3)">
+            <span className="mt-0.5 block text-[13px] text-(--wb-ink-2)">
               {t("settingsModal.privacy.delete.modelsHint")}
             </span>
           </span>
         </label>
         <label
           htmlFor="wb-delete-confirmation"
-          className="mt-5 block text-sm font-medium"
+          className="mt-5 block text-[14px] font-medium"
         >
           {t("settingsModal.privacy.delete.confirmLabel", {
             word: confirmationWord,
@@ -446,11 +461,12 @@ export function DataPrivacy() {
           onChange={(event) => setConfirmation(event.currentTarget.value)}
           autoComplete="off"
           spellCheck={false}
-          className={`mt-2 w-full rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-sm ${FOCUS_RING}`}
+          className={`mt-2 h-10 w-full rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 text-[15px] ${FOCUS_RING}`}
           data-testid="wb-delete-confirmation"
         />
         <div className="mt-6 flex justify-end gap-2">
           <Button
+            variant="secondary"
             onClick={() => setDeleteOpen(false)}
             disabled={busy === "erase"}
             data-testid="wb-delete-cancel"
@@ -461,7 +477,7 @@ export function DataPrivacy() {
             onClick={() => void erase()}
             disabled={confirmation !== confirmationWord || busy === "erase"}
             aria-busy={busy === "erase"}
-            className="border-red-300 text-red-700 dark:border-red-900 dark:text-red-300"
+            variant="destructive"
             data-testid="wb-delete-confirm"
           >
             {t("settingsModal.privacy.delete.confirm")}

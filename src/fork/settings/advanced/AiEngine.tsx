@@ -91,7 +91,10 @@ export function AiEngine() {
 
   if (!status) {
     return (
-      <p className="text-xs text-ink-3" data-testid="fork-ai-engine-loading">
+      <p
+        className="text-[13px] text-ink-2"
+        data-testid="fork-ai-engine-loading"
+      >
         {loadError
           ? t("aiEngine.loadError", { message: loadError })
           : t("aiEngine.loading")}
@@ -106,7 +109,10 @@ export function AiEngine() {
   const serverKey = `aiEngine.server.${status.server.phase}`;
 
   return (
-    <div className="flex flex-col gap-3 text-sm" data-testid="fork-ai-engine">
+    <div
+      className="flex flex-col gap-3 text-[14px]"
+      data-testid="fork-ai-engine"
+    >
       <div className="flex flex-col gap-1">
         <p
           role="status"
@@ -127,12 +133,15 @@ export function AiEngine() {
           />
         )}
         {status.model_name && (
-          <p className="text-xs text-ink-3">
+          <p className="text-[13px] text-ink-2">
             {t("aiEngine.model", { name: status.model_name })}
           </p>
         )}
         {(ready || status.server.phase !== "stopped") && (
-          <p className="text-xs text-ink-3" data-testid="fork-ai-engine-server">
+          <p
+            className="text-[13px] text-ink-2"
+            data-testid="fork-ai-engine-server"
+          >
             {t(serverKey)}
             {status.server.device === "cpu" && ` · ${t("aiEngine.cpuOnly")}`}
           </p>
@@ -140,7 +149,7 @@ export function AiEngine() {
         {status.state === "download_failed" && (
           <div className="flex items-center gap-2">
             {status.error && (
-              <p role="alert" className="text-xs text-red-500">
+              <p role="alert" className="text-[13px] text-(--wb-danger)">
                 {t("aiEngine.downloadError", { message: status.error })}
               </p>
             )}
@@ -150,7 +159,7 @@ export function AiEngine() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor={textId} className="text-xs font-medium">
+        <label htmlFor={textId} className="text-[13px] font-medium">
           {t("aiEngine.try.label")}
         </label>
         <textarea
@@ -160,7 +169,7 @@ export function AiEngine() {
           rows={3}
           maxLength={2000}
           onChange={(e) => setText(e.currentTarget.value)}
-          className="rounded border border-line-strong bg-wash px-2 py-1 text-sm"
+          className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[14px] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent)"
         />
         <div>
           <Button
@@ -177,7 +186,7 @@ export function AiEngine() {
               : t("aiEngine.try.button")}
           </Button>
           {!canTry && (
-            <p id={`${textId}-hint`} className="mt-1 text-xs text-ink-3">
+            <p id={`${textId}-hint`} className="mt-1 text-[13px] text-ink-2">
               {t("aiEngine.try.notReady")}
             </p>
           )}
@@ -185,13 +194,15 @@ export function AiEngine() {
         <div aria-live="polite" data-testid="fork-ai-engine-result">
           {tryState.kind === "done" && (
             <div className="flex flex-col gap-1">
-              <p className="text-xs font-medium">{t("aiEngine.try.result")}</p>
-              <p className="rounded bg-wash px-2 py-1 select-text">
+              <p className="text-[13px] font-medium">
+                {t("aiEngine.try.result")}
+              </p>
+              <p className="rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) px-3 py-2 select-text">
                 {tryState.result.cleaned || t("aiEngine.try.empty")}
               </p>
               {tryState.result.why && (
                 <p
-                  className="text-xs text-ink-2"
+                  className="text-[13px] text-ink-2"
                   data-testid="fork-ai-engine-why"
                 >
                   {t(`cleanup.why.${tryState.result.why}`)}
@@ -199,13 +210,13 @@ export function AiEngine() {
               )}
               {tryState.result.engine === "apple" && (
                 <p
-                  className="text-xs text-ink-2"
+                  className="text-[13px] text-ink-2"
                   data-testid="fork-ai-engine-engine"
                 >
                   {t("aiEngine.try.ranOnApple")}
                 </p>
               )}
-              <p className="text-xs text-ink-3">
+              <p className="text-[13px] text-ink-2">
                 {tryState.result.start_ms > 0
                   ? t("aiEngine.try.timingCold", {
                       ms: tryState.result.cleanup_ms,
@@ -218,7 +229,7 @@ export function AiEngine() {
             </div>
           )}
           {tryState.kind === "error" && (
-            <p role="alert" className="text-xs text-red-500">
+            <p role="alert" className="text-[13px] text-(--wb-danger)">
               {tryState.error.kind === "LowMemory"
                 ? t("aiEngine.try.lowMemory")
                 : tryState.error.kind === "NotReady"

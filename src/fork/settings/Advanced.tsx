@@ -1,4 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+/**
+ * Settings › Advanced (S-14; Design W3): the fork's panels (models, AI
+ * engine, cleanup) as tinted cards, then Handy's own settings, each hosted
+ * in a row card (`HandyRow`) with its description behind the info glyph:
+ * this section is for people tuning the engine, so it stays dense.
+ */
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AccelerationSelector } from "@/components/settings/AccelerationSelector";
@@ -29,7 +35,6 @@ import { VoiceActivityDetection } from "@/components/settings/VoiceActivityDetec
 import { DebugSettings } from "@/components/settings/debug/DebugSettings";
 import { KeyboardImplementationSelector } from "@/components/settings/debug/KeyboardImplementationSelector";
 import { LogDirectory } from "@/components/settings/debug/LogDirectory";
-import { SettingsGroup } from "@/components/ui/SettingsGroup";
 import { useSettings } from "@/hooks/useSettings";
 import { HandyAppHandlersContext } from "../hub/HandySettingsPage";
 import type { UpdateChannel } from "../bindings";
@@ -38,9 +43,27 @@ import { CleanupLevelPicker } from "../style/CleanupLevelPicker";
 import { AiEngine } from "./advanced/AiEngine";
 import { SpeechModels } from "./advanced/Models";
 import { BarSettings } from "./BarSettings";
-import { ForkSelect, ForkToggle, Panel } from "./Controls";
+import { FOCUS_RING, SettingGroup } from "../ui";
+import { ChevronRight } from "../ui/icons";
+import { HandyRow, PanelCard, SelectRow, ToggleRow } from "./Controls";
 import { ForkSettingsDebug } from "./ForkSettingsDebug";
 import { useForkSettings } from "./useForkSettings";
+
+/** Handy's transcription settings, each in its own row card. */
+const TRANSCRIPTION = [
+  ShortcutActivationSetting,
+  ChannelSelector,
+  VoiceActivityDetection,
+  TranslateToEnglish,
+  LongFormChunking,
+  FillerWordRemoval,
+  CustomWords,
+  ModelUnloadTimeoutSetting,
+  AccelerationSelector,
+  LazyStreamClose,
+  VadBackendSelector,
+  LanguageDetection,
+];
 
 export function Advanced() {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -49,133 +72,148 @@ export function Advanced() {
   const handlers = useContext(HandyAppHandlersContext);
   if (!settings) return null;
 
+  const g = (key: string) => t(`settingsModal.advanced.${key}`);
   return (
-    <div className="flex flex-col gap-6" data-testid="wb-settings-advanced">
-      <Panel title={t("speechModels.title")} testId="wb-advanced-models">
-        <SpeechModels />
-      </Panel>
-      <Panel title={t("aiEngine.title")} testId="wb-advanced-ai">
-        <AiEngine />
-      </Panel>
-      <Panel title={t("cleanup.title")} testId="wb-advanced-cleanup">
-        <CleanupLevelPicker />
-      </Panel>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.advanced.output")}>
+    <div className="flex flex-col gap-8" data-testid="wb-settings-advanced">
+      <div data-testid="wb-advanced-models">
+        <SettingGroup label={t("speechModels.title")}>
+          <PanelCard>
+            <SpeechModels />
+          </PanelCard>
+        </SettingGroup>
+      </div>
+      <div data-testid="wb-advanced-ai">
+        <SettingGroup label={t("aiEngine.title")}>
+          <PanelCard>
+            <AiEngine />
+          </PanelCard>
+        </SettingGroup>
+      </div>
+      <div data-testid="wb-advanced-cleanup">
+        <SettingGroup label={t("cleanup.title")}>
+          <PanelCard>
+            <CleanupLevelPicker />
+          </PanelCard>
+        </SettingGroup>
+      </div>
+      <SettingGroup label={g("output")}>
+        <HandyRow>
           <PasteMethodSetting descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <TypingToolSetting descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <ClipboardHandlingSetting descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <AutoSubmit descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <AppendTrailingSpace descriptionMode="tooltip" grouped />
-        </SettingsGroup>
-      </div>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.advanced.transcription")}>
-          <ShortcutActivationSetting descriptionMode="tooltip" grouped />
-          <ChannelSelector descriptionMode="tooltip" grouped />
-          <VoiceActivityDetection descriptionMode="tooltip" grouped />
-          <TranslateToEnglish descriptionMode="tooltip" grouped />
-          <LongFormChunking descriptionMode="tooltip" grouped />
-          <FillerWordRemoval descriptionMode="tooltip" grouped />
-          <CustomWords descriptionMode="tooltip" grouped />
-          <ModelUnloadTimeoutSetting descriptionMode="tooltip" grouped />
-          <AccelerationSelector descriptionMode="tooltip" grouped />
-          <LazyStreamClose descriptionMode="tooltip" grouped />
-          <VadBackendSelector descriptionMode="tooltip" grouped />
-          <LanguageDetection descriptionMode="tooltip" grouped />
-        </SettingsGroup>
-      </div>
-      <SettingsGroup title={t("settingsModal.advanced.barAndOverlay")}>
-        <div className="p-4">
-          <BarSettings />
-          <ForkToggle
-            label={t("settingsModal.advanced.liveText")}
-            hint={t("settingsModal.advanced.liveTextHint")}
-            checked={settings.live_text_in_pill}
-            disabled={!!pending.live_text_in_pill}
-            onChange={(checked) =>
-              void setSetting("live_text_in_pill", checked)
-            }
-            testId="wb-advanced-live-text"
-          />
-        </div>
-        <div data-handy-content>
+        </HandyRow>
+      </SettingGroup>
+      <SettingGroup label={g("transcription")}>
+        {TRANSCRIPTION.map((Setting, index) => (
+          <HandyRow key={index}>
+            <Setting descriptionMode="tooltip" grouped />
+          </HandyRow>
+        ))}
+      </SettingGroup>
+      <SettingGroup label={g("barAndOverlay")}>
+        <BarSettings />
+        <ToggleRow
+          label={g("liveText")}
+          hint={g("liveTextHint")}
+          checked={settings.live_text_in_pill}
+          disabled={!!pending.live_text_in_pill}
+          onChange={(checked) => void setSetting("live_text_in_pill", checked)}
+          testId="wb-advanced-live-text"
+        />
+        <HandyRow>
           <ShowOverlay descriptionMode="tooltip" grouped />
-        </div>
-      </SettingsGroup>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.advanced.keyboard")}>
+        </HandyRow>
+      </SettingGroup>
+      <SettingGroup label={g("keyboard")}>
+        <HandyRow>
           <KeyboardImplementationSelector descriptionMode="tooltip" grouped />
-        </SettingsGroup>
-      </div>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.advanced.prompts")}>
+        </HandyRow>
+      </SettingGroup>
+      <SettingGroup label={g("prompts")}>
+        <HandyRow>
           <PostProcessingToggle descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <PostProcessingSettingsApi />
+        </HandyRow>
+        <HandyRow>
           <PostProcessingSettingsPrompts />
-        </SettingsGroup>
-      </div>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.advanced.history")}>
+        </HandyRow>
+      </SettingGroup>
+      <SettingGroup label={g("history")}>
+        <HandyRow>
           <HistoryLimit descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <RecordingRetentionPeriodSelector descriptionMode="tooltip" grouped />
-        </SettingsGroup>
-      </div>
-      <SettingsGroup title={t("settingsModal.advanced.updates")}>
+        </HandyRow>
+      </SettingGroup>
+      <SettingGroup label={g("updates")}>
         {/* S-28: the fork setting (mirrored into Handy's at once); Handy's
             own toggle wrote only Handy's value, which the next start
             overwrote. */}
-        <div className="px-4">
-          <ForkToggle
-            label={t("settingsModal.privacy.choices.updates")}
-            hint={t("settingsModal.privacy.choices.updatesHint")}
-            checked={settings.update_checks_enabled}
-            disabled={!!pending.update_checks_enabled}
-            onChange={(checked) =>
-              void setSetting("update_checks_enabled", checked)
-            }
-            testId="wb-advanced-update-checks"
-          />
-        </div>
-        <div className="px-4">
-          <ForkSelect
-            label={t("settingsModal.advanced.updateChannel")}
-            hint={t("settingsModal.advanced.updateChannelHint")}
-            value={settings.update_channel}
-            disabled={!!pending.update_channel}
-            options={["stable", "beta"].map((value) => ({
-              value,
-              label: t(`settingsModal.advanced.updateChannels.${value}`),
-            }))}
-            onChange={(value) =>
-              void setSetting("update_channel", value as UpdateChannel)
-            }
-            testId="wb-advanced-update-channel"
-          />
-        </div>
-      </SettingsGroup>
-      <div data-handy-content>
-        <SettingsGroup title={t("settingsModal.advanced.storage")}>
+        <ToggleRow
+          label={t("settingsModal.privacy.choices.updates")}
+          hint={t("settingsModal.privacy.choices.updatesHint")}
+          checked={settings.update_checks_enabled}
+          disabled={!!pending.update_checks_enabled}
+          onChange={(checked) =>
+            void setSetting("update_checks_enabled", checked)
+          }
+          testId="wb-advanced-update-checks"
+        />
+        <SelectRow
+          label={g("updateChannel")}
+          hint={g("updateChannelHint")}
+          value={settings.update_channel}
+          disabled={!!pending.update_channel}
+          options={["stable", "beta"].map((value) => ({
+            value,
+            label: t(`settingsModal.advanced.updateChannels.${value}`),
+          }))}
+          onChange={(value) =>
+            void setSetting("update_channel", value as UpdateChannel)
+          }
+          testId="wb-advanced-update-channel"
+          width="w-36"
+        />
+      </SettingGroup>
+      <SettingGroup label={g("storage")}>
+        <HandyRow>
           <AppDataDirectory descriptionMode="tooltip" grouped />
+        </HandyRow>
+        <HandyRow>
           <LogDirectory grouped />
-        </SettingsGroup>
-      </div>
-      <SettingsGroup title={t("settingsModal.advanced.experimental")}>
-        <div data-handy-content>
+        </HandyRow>
+      </SettingGroup>
+      <SettingGroup label={g("experimental")}>
+        <HandyRow>
           <ExperimentalToggle descriptionMode="tooltip" grouped />
-        </div>
-        <div className="px-4">
-          <ForkToggle
-            label={t("settingsModal.advanced.debugMode")}
-            hint={t("settingsModal.advanced.debugModeHint")}
-            checked={handy?.debug_mode ?? false}
-            onChange={(checked) => void updateSetting("debug_mode", checked)}
-            testId="wb-advanced-debug-mode"
-          />
-        </div>
-      </SettingsGroup>
+        </HandyRow>
+        <ToggleRow
+          label={g("debugMode")}
+          hint={g("debugModeHint")}
+          checked={handy?.debug_mode ?? false}
+          onChange={(checked) => void updateSetting("debug_mode", checked)}
+          testId="wb-advanced-debug-mode"
+        />
+      </SettingGroup>
       {handy?.debug_mode && (
-        <div data-handy-content data-testid="wb-advanced-debug">
+        <div
+          data-handy-content
+          className="wb-handy"
+          data-testid="wb-advanced-debug"
+        >
           <DebugSettings
             onPreviewOnboarding={handlers.onPreviewOnboarding}
             onRunOnboarding={handlers.onRunOnboarding}
@@ -184,11 +222,18 @@ export function Advanced() {
         </div>
       )}
       <details
-        className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
+        className="group rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4"
         data-testid="wb-advanced-fork-diagnostics"
       >
-        <summary className="cursor-pointer text-sm font-medium">
-          {t("settingsModal.advanced.forkDiagnostics")}
+        <summary
+          className={`flex cursor-pointer list-none items-center gap-2 rounded text-[15px] font-medium [&::-webkit-details-marker]:hidden ${FOCUS_RING}`}
+        >
+          <ChevronRight
+            size={16}
+            aria-hidden="true"
+            className="shrink-0 text-(--wb-ink-3) transition-transform duration-(--wb-dur-fast) group-open:rotate-90 rtl:-scale-x-100"
+          />
+          {g("forkDiagnostics")}
         </summary>
         <div className="mt-4">
           <ForkSettingsDebug />

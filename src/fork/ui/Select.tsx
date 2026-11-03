@@ -13,7 +13,7 @@
  * ```
  */
 import * as RadixSelect from "@radix-ui/react-select";
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FOCUS_RING } from "./Button";
@@ -45,6 +45,8 @@ export interface SelectProps {
   label?: string;
   /** Id of a visible label. */
   labelledBy?: string;
+  /** Id of a visible description (a setting row's hint). */
+  describedBy?: string;
   id?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -69,6 +71,7 @@ export function Select({
   groups,
   label,
   labelledBy,
+  describedBy,
   id,
   placeholder,
   disabled,
@@ -81,6 +84,13 @@ export function Select({
   const { i18n } = useTranslation();
   const pinned = usePinnedThemeProps();
   const sections: SelectGroup[] = groups ?? [{ options: options ?? [] }];
+  // Inside a native modal <dialog> (Settings) everything outside the dialog
+  // is inert, so the list portals into the dialog instead of <body>.
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+  useLayoutEffect(() => {
+    setContainer(triggerRef.current?.closest("dialog") ?? null);
+  }, []);
   const trigger =
     variant === "field"
       ? "border border-(--wb-line-strong) bg-(--wb-surface) hover:border-(--wb-ink-3)"
@@ -93,9 +103,11 @@ export function Select({
       disabled={disabled}
     >
       <RadixSelect.Trigger
+        ref={triggerRef}
         id={id}
         aria-label={label}
         aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
         data-testid={testId}
         className={`inline-flex min-w-0 cursor-pointer items-center justify-between gap-2 rounded-(--wb-radius-sm) text-(--wb-ink) transition-colors duration-(--wb-dur-fast) disabled:cursor-default disabled:opacity-60 data-[placeholder]:text-(--wb-ink-3) ${HEIGHTS[size]} ${trigger} ${FOCUS_RING} ${className}`}
       >
@@ -106,7 +118,7 @@ export function Select({
           <ChevronDown size={16} />
         </RadixSelect.Icon>
       </RadixSelect.Trigger>
-      <RadixSelect.Portal>
+      <RadixSelect.Portal container={container ?? undefined}>
         <RadixSelect.Content
           {...pinned}
           position="popper"

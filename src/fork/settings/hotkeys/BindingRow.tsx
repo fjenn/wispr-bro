@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   HotkeyActivation,
@@ -7,9 +6,17 @@ import type {
   HotkeyStatus,
 } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
-import { Button, FOCUS_RING } from "../../ui";
+import { IconButton, Select } from "../../ui";
+import { Pencil, Trash2 } from "../../ui/icons";
 import { Capture } from "./Capture";
+import { ChordKeys } from "./ChordKeys";
 import { chordLabel } from "./model";
+
+/**
+ * One shortcut of an action (S-14; Design W3 after o-0178): a white key
+ * field with the keys as caps, an activation choice when the action has
+ * more than one, and inline edit and delete glyphs. Capture opens below.
+ */
 
 interface BindingRowProps {
   actionId: string;
@@ -39,7 +46,6 @@ export function BindingRow({
   onDelete,
 }: BindingRowProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
-  const activationId = useId();
   const label = status?.bindings.find(
     (candidate) =>
       candidate.action === actionId && candidate.chord === binding.chord,
@@ -53,12 +59,31 @@ export function BindingRow({
 
   return (
     <div
-      className="flex flex-col gap-2 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface) p-3"
+      className="flex flex-col gap-2"
       data-testid={`wb-hotkey-${actionId}-${index}`}
     >
-      <div className="flex flex-wrap items-center gap-2">
+      <div
+        className={`flex h-10 items-center gap-1 rounded-(--wb-radius-sm) border bg-(--wb-surface) ps-1.5 pe-1 transition-colors duration-(--wb-dur-fast) ${capturing ? "border-(--wb-accent) outline-1 -outline-offset-1 outline-(--wb-accent) outline-solid" : "border-(--wb-line)"}`}
+      >
+        {activations.length > 1 && (
+          <Select
+            value={binding.activation}
+            variant="ghost"
+            size="sm"
+            fitContent
+            label={t("settingsModal.hotkeys.activationLabel")}
+            disabled={capturing || captureBusy}
+            options={activations.map((activation) => ({
+              value: activation,
+              label: t(`settingsModal.hotkeys.activations.${activation}`),
+            }))}
+            onValueChange={(value) => onActivation(value as HotkeyActivation)}
+            testId={`wb-hotkey-${actionId}-${index}-activation`}
+            className="shrink-0 text-(--wb-ink-2)"
+          />
+        )}
         <kbd
-          className="min-w-20 rounded-md border border-(--wb-line-strong) bg-(--wb-panel) px-2 py-1 text-center font-sans text-xs"
+          className={`flex min-w-0 flex-1 items-center px-1.5 font-(family-name:--wb-font-ui) text-[14px] ${binding.chord && !capturing ? "" : "text-(--wb-ink-2)"}`}
           aria-label={
             binding.chord
               ? t("settingsModal.hotkeys.current", {
@@ -68,46 +93,37 @@ export function BindingRow({
           }
           data-testid={`wb-hotkey-${actionId}-${index}-chord`}
         >
-          {capturing ? t("settingsModal.hotkeys.capture.listening") : shown}
+          {capturing ? (
+            t("settingsModal.hotkeys.capture.listening")
+          ) : binding.chord ? (
+            <ChordKeys text={shown} />
+          ) : (
+            shown
+          )}
         </kbd>
-        <label htmlFor={activationId} className="sr-only">
-          {t("settingsModal.hotkeys.activationLabel")}
-        </label>
-        <select
-          id={activationId}
-          className={`rounded-md border border-(--wb-line-strong) bg-(--wb-surface) px-2 py-1 text-xs ${FOCUS_RING}`}
-          value={binding.activation}
-          disabled={capturing || captureBusy || activations.length === 1}
-          onChange={(event) =>
-            onActivation(event.currentTarget.value as HotkeyActivation)
-          }
-          data-testid={`wb-hotkey-${actionId}-${index}-activation`}
-        >
-          {activations.map((activation) => (
-            <option key={activation} value={activation}>
-              {t(`settingsModal.hotkeys.activations.${activation}`)}
-            </option>
-          ))}
-        </select>
         {!capturing && (
           <>
-            <Button
-              className="px-2.5 py-1"
+            <IconButton
+              size="sm"
+              aria-label={t("settingsModal.hotkeys.edit")}
+              title={t("settingsModal.hotkeys.edit")}
               disabled={captureBusy}
               onClick={onCapture}
               data-testid={`wb-hotkey-${actionId}-${index}-edit`}
             >
-              {t("settingsModal.hotkeys.edit")}
-            </Button>
+              <Pencil size={16} />
+            </IconButton>
             {onDelete && (
-              <Button
-                className="px-2.5 py-1"
+              <IconButton
+                size="sm"
+                aria-label={t("settingsModal.hotkeys.delete")}
+                title={t("settingsModal.hotkeys.delete")}
                 disabled={captureBusy}
                 onClick={onDelete}
                 data-testid={`wb-hotkey-${actionId}-${index}-delete`}
               >
-                {t("settingsModal.hotkeys.delete")}
-              </Button>
+                <Trash2 size={16} />
+              </IconButton>
             )}
           </>
         )}
@@ -117,7 +133,7 @@ export function BindingRow({
         <p
           key={`${issue.kind}-${issueIndex}`}
           role="alert"
-          className="text-xs text-red-700 dark:text-red-300"
+          className="text-[13px] leading-[18px] text-(--wb-danger)"
           data-testid={`wb-hotkey-${actionId}-${index}-issue`}
         >
           {issue.kind === "conflict"

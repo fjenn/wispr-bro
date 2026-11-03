@@ -20,6 +20,7 @@ import {
   type ForkModelPolicy,
 } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
+import { FOCUS_RING, Switch } from "../../ui";
 
 /** i18n key and values for a chip (`speechModels.chip.*`). */
 export function chipLabel(chip: Chip): {
@@ -107,7 +108,7 @@ export function SpeechModels() {
 
   if (!status) {
     return (
-      <p className="text-xs text-ink-3" data-testid="fork-models-loading">
+      <p className="text-[13px] text-ink-2" data-testid="fork-models-loading">
         {t("speechModels.loading")}
       </p>
     );
@@ -136,11 +137,14 @@ export function SpeechModels() {
     .join(", ");
 
   return (
-    <div className="flex flex-col gap-3 text-sm" data-testid="fork-models">
+    <div className="flex flex-col gap-3 text-[14px]" data-testid="fork-models">
       <p className="text-ink-2">{t("speechModels.intro", { appName })}</p>
 
       <div className="flex flex-col gap-1">
-        <p className="font-medium text-ink" data-testid="fork-models-current">
+        <p
+          className="text-[15px] font-medium text-ink"
+          data-testid="fork-models-current"
+        >
           {status.current_model
             ? t("speechModels.current", { name: status.current_model })
             : t("speechModels.none")}
@@ -161,7 +165,7 @@ export function SpeechModels() {
         )}
         {status.automatic && downloading && status.percent != null && (
           <progress
-            className="w-full"
+            className="h-1 w-full accent-(--wb-accent)"
             max={100}
             value={status.percent}
             aria-label={t("speechModels.progressLabel")}
@@ -176,7 +180,7 @@ export function SpeechModels() {
       </div>
 
       {(languages || chip) && (
-        <ul className="flex flex-col gap-0.5 text-xs text-ink-3">
+        <ul className="flex flex-col gap-0.5 text-[13px] text-ink-2">
           {languages && <li>{t("speechModels.languages", { languages })}</li>}
           {chip && status.machine && (
             <li data-testid="fork-models-machine">
@@ -191,25 +195,26 @@ export function SpeechModels() {
         </ul>
       )}
 
-      <div className="flex items-start gap-2">
-        <input
-          id={toggleId}
-          type="checkbox"
-          className="mt-0.5"
-          checked={status.automatic}
-          disabled={busy}
-          aria-describedby={`${toggleId}-hint`}
-          data-testid="fork-models-automatic"
-          onChange={(e) => void setAutomatic(e.target.checked)}
-        />
-        <div className="flex flex-col">
-          <label htmlFor={toggleId} className="text-ink">
+      <div className="flex items-center justify-between gap-4 border-t border-(--wb-line) pt-3">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <label htmlFor={toggleId} className="text-[15px] font-medium">
             {t("speechModels.automatic")}
           </label>
-          <span id={`${toggleId}-hint`} className="text-xs text-ink-3">
+          <span
+            id={`${toggleId}-hint`}
+            className="text-[14px] text-(--wb-ink-2)"
+          >
             {t("speechModels.automaticHint")}
           </span>
         </div>
+        <Switch
+          id={toggleId}
+          checked={status.automatic}
+          disabled={busy}
+          ariaDescribedBy={`${toggleId}-hint`}
+          testId="fork-models-automatic"
+          onChange={(checked) => void setAutomatic(checked)}
+        />
       </div>
 
       <div>
@@ -218,7 +223,7 @@ export function SpeechModels() {
           aria-expanded={showList}
           aria-controls={listId}
           data-testid="fork-models-list-toggle"
-          className="text-sm text-ink underline decoration-line-strong underline-offset-[3px] hover:decoration-text focus:outline-none focus-visible:ring-1 focus-visible:ring-logo-primary rounded"
+          className={`cursor-pointer rounded text-[14px] font-medium text-(--wb-ink) underline decoration-(--wb-line-strong) underline-offset-[3px] hover:decoration-(--wb-ink) ${FOCUS_RING}`}
           onClick={() => setShowList((v) => !v)}
         >
           {t("speechModels.list")}

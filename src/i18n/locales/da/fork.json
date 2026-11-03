@@ -124,12 +124,14 @@
           "no_input_device": "Ingen mikrofon fundet.",
           "failed": "Mikrofonen startede ikke. Prøv en anden."
         }
-      }
+      },
+      "loadErrorPlain": "Kunne ikke vise mikrofonerne.",
+      "chooseErrorPlain": "Kunne ikke skifte mikrofon."
     },
     "sound": {
       "title": "Lyde",
       "enabled": "Afspil en lyd, når diktering starter og stopper",
-      "enabledHelp": "En kort tone fortæller dig, at mikrofonen er tændt, og en anden, at den er stoppet.",
+      "enabledHelp": "En kort tone, når mikrofonen tænder og slukker.",
       "theme": "Lyd",
       "themes": {
         "marimba": "Marimba",
@@ -140,7 +142,7 @@
       "volumeValue": "{{percent}} procent",
       "preview": "Afspil",
       "mute": "Slå al lyd fra under diktering",
-      "muteHelp": "Musik og video bliver stille, mens du taler, og vender tilbage med samme lydstyrke bagefter."
+      "muteHelp": "Musik og video bliver stille, mens du taler, og vender så uændret tilbage."
     },
     "recovery": {
       "title": "Gendannelsesgenveje",
@@ -224,15 +226,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro kan via Tilgængelighed læse de kodenavne og filnavne, som VS Code, Cursor og Windsurf viser på skærmen. Den åbner aldrig din projektmappe eller dine filer.",
+      "intro": "Wispr Bro læser de kode- og filnavne, din editor viser. Den åbner aldrig dine filer.",
       "contextOff": "Kontekstbevidsthed er slået fra, så disse funktioner har intet at læse. Slå den til for at bruge dem.",
       "recognize": "Genkend kodenavne",
-      "recognizeHint": "Når du siger et variabel- eller funktionsnavn, der er synligt i din editor, skrives det, som det staves i din kode, f.eks. getUserById eller user_id.",
+      "recognizeHint": "Skriver navne, der ses i din editor, sådan som din kode staver dem.",
       "setUp": "Konfigurer",
       "change": "Skift editorer",
       "setUpFor": "Konfigurer til {{editors}}",
       "fileTags": "Tag filer i chat",
-      "fileTagsHint": "Når du i chatten i Cursor eller Windsurf siger ”index dot ts”, skrives @index.ts, hvis filen er åben i en fane eller vises på fillisten.",
+      "fileTagsHint": "I Cursor- eller Windsurf-chat bliver “index dot ts” til @index.ts.",
       "fileTagsNeedsChat": "Tilgængelig, når du har føjet Cursor eller Windsurf til dine editorer.",
       "fileTagsNeedsSetup": "Tilgængelig, når du har konfigureret genkendelse af kodenavne.",
       "setup": {
@@ -259,7 +261,7 @@
       },
       "locations": {
         "title": "Hvor dine data ligger",
-        "hint": "Disse mapper tilhører Wispr Bro. Ved en bærbar installation ligger de alle i appens Data-mappe.",
+        "hint": "Disse mapper rummer alt, hvad Wispr Bro gemmer på denne Mac.",
         "data": "Appdata og indstillinger",
         "models": "Hentede modeller",
         "recordings": "Optagelser",
@@ -273,7 +275,7 @@
         "textLabel": "Behold dikteret tekst",
         "textHint": "Ældre poster fjernes automatisk. Som standard gemmes tekst for altid.",
         "audioLabel": "Behold optagelser",
-        "audioHint": "Lyd udløber som standard efter 14 dage. Når lyden fjernes, beholdes den dikterede tekst indtil grænsen for tekst.",
+        "audioHint": "Lyd udløber som standard efter 14 dage; teksten bliver.",
         "options": {
           "0": "Behold aldrig lyd",
           "1": "1 dag",
@@ -288,15 +290,15 @@
       "choices": {
         "title": "Valg om anonymitet",
         "context": "Brug kontekstbevidsthed",
-        "contextHint": "Læser kun tekst i nærheden, mens du dikterer, for at genkende navne og stavning. Konteksten bliver hverken gemt eller logget.",
+        "contextHint": "Læser tekst i nærheden, mens du dikterer, for at stave navne rigtigt. Aldrig gemt eller logget.",
         "updates": "Søg efter appopdateringer",
-        "updatesHint": "Kontakter GitHub for at søge efter en ny version. Der sendes ingen diktering eller personlige data.",
+        "updatesHint": "Spørger GitHub om nye versioner. Sender ingen diktering eller personlige data.",
         "learn": "Lær af mine rettelser",
-        "learnHint": "Når en diktering er indsat, bemærkes ord, du retter i tekstfeltet, og de foreslås i Ordbog. Kun det rettede ord gemmes; resten af teksten bliver aldrig gemt eller logget."
+        "learnHint": "Foreslår ord til ordbogen ud fra dine rettelser efter en diktering."
       },
       "export": {
         "title": "Dine data",
-        "hint": "Eksportér en zip-fil med din Historik, dine indstillinger og optagelser. Modeller og logfiler er ikke med.",
+        "hint": "En zip med din historik, indstillinger og optagelser, uden modeller og logfiler.",
         "button": "Eksportér mine data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip-arkiv",
@@ -313,18 +315,20 @@
         "confirmLabel": "Skriv {{word}} for at bekræfte",
         "cancel": "Annuller",
         "confirm": "Slet alt",
-        "failed": "”Slet alt” blev ikke fuldført. Tjek de resterende data, før du prøver igen."
+        "failed": "”Slet alt” blev ikke fuldført. Tjek de resterende data, før du prøver igen.",
+        "short": "Sletter historik, optagelser og indstillinger. Det kan ikke fortrydes."
       },
       "diagnostics": {
         "title": "Nedbrudsrapporter og diagnosticering",
-        "hint": "Nedbrudsrapporter bliver på denne Mac og uploades aldrig. Kopiér eller gem kun diagnosticeringsdata, når du vil dele dem.",
-        "sanitized": "Diagnosticeringsdata fjerner dikteret tekst, prompts, ord fra ordbogen, e-mailadresser, nøgler og stien til din hjemmemappe.",
+        "hint": "Nedbrudsrapporter bliver på denne Mac. Del kun diagnosticering, hvis du vil.",
+        "sanitized": "Fjerner dikteret tekst, prompts, ordbogsord, e-mails, nøgler og stien til din hjemmemappe.",
         "copy": "Kopiér diagnosticering",
         "save": "Gem diagnosticering…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Renset diagnosticering kopieret.",
         "saved": "Renset diagnosticering gemt.",
-        "failed": "Kunne ikke klargøre diagnosticering. Prøv igen."
+        "failed": "Kunne ikke klargøre diagnosticering. Prøv igen.",
+        "rowTitle": "Del diagnosticering"
       }
     },
     "advanced": {
@@ -365,7 +369,7 @@
     "hotkeys": {
       "open": "Genveje",
       "loading": "Indlæser genveje…",
-      "secureInputHelp": "Sikker indtastning i macOS beskytter indtastning af adgangskoder ved at skjule tastetryk for andre apps. Optagelse af genveje er sat på pause, så længe den er aktiv.",
+      "secureInputHelp": "Optagelse af genveje holder pause, mens macOS’ sikre indtastning beskytter et adgangskodefelt.",
       "count": "{{count}} af {{max}} angivet",
       "notSet": "Ikke angivet",
       "current": "Genvej: {{shortcut}}",
@@ -421,7 +425,7 @@
         "command_mode": "Hold genvejen nede, mens du siger, hvordan tekst skal redigeres eller skrives.",
         "paste_last": "Indsæt din seneste diktering igen.",
         "copy_last": "Kopiér din seneste diktering til udklipsholderen.",
-        "press_enter": "Tryk på Retur i den app, hvor du skriver. En sideknap på musen er god til dette.",
+        "press_enter": "Trykker på Retur, hvor du skriver. En sideknap på musen er god til det.",
         "undo_cancel": "Gendan en diktering lige efter, at du har annulleret den.",
         "transform": {
           "polish": "Omskriv den valgte tekst med Polish.",
@@ -429,13 +433,23 @@
           "view_changes": "Se den seneste transformation før og efter."
         },
         "scratchpad": {
-          "open": "Fortsæt din seneste note, eller start en ny, alt efter din indstilling for Kladdeblok."
+          "open": "Fortsæt din seneste note, eller start en ny."
         }
       },
       "description_one": "Tilføj op til {{max}} genvej til hver handling. Ændringer gemmes med det samme.",
-      "description_other": "Tilføj op til {{max}} genveje til hver handling. Ændringer gemmes med det samme."
+      "description_other": "Tilføj op til {{max}} genveje til hver handling. Ændringer gemmes med det samme.",
+      "addFor": "Tilføj en genvej til {{action}}"
     },
-    "resetSetting": "Nulstil {{setting}}"
+    "resetSetting": "Nulstil {{setting}}",
+    "intro": {
+      "general": "Din tastaturgenvej, mikrofon, sprog og hvordan appen ser ud.",
+      "system": "Hvordan Wispr Bro starter, lyder og giver dig besked.",
+      "privacy": "Alt bliver på denne Mac. Vælg hvad der gemmes, og hvor længe.",
+      "advanced": "Finjustering af tale, oprydning, tekstoutput og opdateringer."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

@@ -124,12 +124,14 @@
           "no_input_device": "Mikrofon bulunamadı.",
           "failed": "Mikrofon başlamadı. Başka bir mikrofon deneyin."
         }
-      }
+      },
+      "loadErrorPlain": "Mikrofonlar listelenemedi.",
+      "chooseErrorPlain": "Mikrofon değiştirilemedi."
     },
     "sound": {
       "title": "Sesler",
       "enabled": "Dikte başlayınca ve durunca ses çal",
-      "enabledHelp": "Kısa bir ton mikrofonun açıldığını, bir başkası da kapandığını bildirir.",
+      "enabledHelp": "Mikrofon açılıp kapanırken kısa bir ses.",
       "theme": "Ses",
       "themes": {
         "marimba": "Marimba",
@@ -140,7 +142,7 @@
       "volumeValue": "%{{percent}}",
       "preview": "Çal",
       "mute": "Dikte sırasında tüm sesleri kapat",
-      "muteHelp": "Siz konuşurken müzik ve videolar sessize alınır, ardından aynı ses düzeyinde geri gelir."
+      "muteHelp": "Siz konuşurken müzik ve videolar susar, sonra değişmeden geri gelir."
     },
     "recovery": {
       "title": "Kurtarma kestirmeleri",
@@ -224,15 +226,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro, VS Code, Cursor ve Windsurf’ün ekranda gösterdiği kod adlarını ve dosya adlarını Erişilebilirlik aracılığıyla okuyabilir. Proje klasörünüzü veya dosyalarınızı hiçbir zaman açmaz.",
+      "intro": "Wispr Bro, düzenleyicinizin gösterdiği kod ve dosya adlarını okur. Dosyalarınızı asla açmaz.",
       "contextOff": "Bağlam farkındalığı kapalı olduğu için bu özelliklerin okuyacağı bir şey yok. Bunları kullanmak için bağlam farkındalığını açın.",
       "recognize": "Kod adlarını tanı",
-      "recognizeHint": "Düzenleyicinizde görünen bir değişken veya fonksiyon adını söylediğinizde, kodunuzdaki yazılışıyla yazılır; örneğin getUserById veya user_id.",
+      "recognizeHint": "Düzenleyicide görünen adları kodunuzun yazdığı gibi yazar.",
       "setUp": "Ayarla",
       "change": "Düzenleyicileri değiştir",
       "setUpFor": "Şunlar için ayarla: {{editors}}",
       "fileTags": "Sohbette dosyaları etiketle",
-      "fileTagsHint": "Cursor veya Windsurf sohbetinde “index dot ts” dediğinizde, o dosya bir sekmede açıksa veya dosya listesinde görünüyorsa @index.ts yazılır.",
+      "fileTagsHint": "Cursor veya Windsurf sohbetinde “index dot ts” demek @index.ts yazar.",
       "fileTagsNeedsChat": "Düzenleyicilerinize Cursor veya Windsurf’ü ekledikten sonra kullanılabilir.",
       "fileTagsNeedsSetup": "Kod adı tanımayı ayarladıktan sonra kullanılabilir.",
       "setup": {
@@ -259,7 +261,7 @@
       },
       "locations": {
         "title": "Verilerinizin konumu",
-        "hint": "Bu klasörler Wispr Bro’ya aittir. Taşınabilir kurulumlar hepsini uygulamanın Data klasöründe tutar.",
+        "hint": "Bu klasörler Wispr Bro’nun bu Mac’te tuttuğu her şeyi içerir.",
         "data": "Uygulama verileri ve ayarlar",
         "models": "İndirilen modeller",
         "recordings": "Kayıtlar",
@@ -273,7 +275,7 @@
         "textLabel": "Dikte edilen metni sakla",
         "textHint": "Daha eski kayıtlar otomatik olarak silinir. Metin varsayılan olarak süresiz saklanır.",
         "audioLabel": "Kayıtları sakla",
-        "audioHint": "Ses varsayılan olarak 14 gün sonra silinir. Ses silindiğinde dikte edilen metni, metin sınırına kadar saklanır.",
+        "audioHint": "Ses varsayılan olarak 14 gün sonra silinir; metin kalır.",
         "options": {
           "0": "Sesi hiç saklama",
           "1": "1 gün",
@@ -288,15 +290,15 @@
       "choices": {
         "title": "Gizlilik seçenekleri",
         "context": "Bağlam farkındalığını kullan",
-        "contextHint": "Adları ve yazımı tanımak için yakındaki metni yalnızca dikte sırasında okur. Bağlam kaydedilmez veya günlüğe yazılmaz.",
+        "contextHint": "Adları doğru yazmak için dikte ederken yakındaki metni okur. Asla kaydedilmez veya günlüğe yazılmaz.",
         "updates": "Uygulama güncellemelerini denetle",
-        "updatesHint": "Yeni bir sürüm olup olmadığını denetlemek için GitHub’a bağlanır. Dikte veya kişisel veri gönderilmez.",
+        "updatesHint": "Yeni sürümleri GitHub’a sorar. Dikte veya kişisel veri göndermez.",
         "learn": "Düzeltmelerimden öğren",
-        "learnHint": "Bir dikte yapıştırıldıktan sonra o metin kutusunda düzelttiğiniz kelimeleri fark eder ve Sözlük’te önerir. Yalnızca düzeltilen kelime saklanır; metnin geri kalanı hiçbir zaman kaydedilmez veya günlüğe yazılmaz."
+        "learnHint": "Dikteden sonra yaptığınız düzeltmelerden sözlük için kelime önerir."
       },
       "export": {
         "title": "Verileriniz",
-        "hint": "Geçmişinizi, ayarlarınızı ve kayıtlarınızı içeren bir zip dosyası dışa aktarın. Modeller ve günlükler dahil değildir.",
+        "hint": "Geçmişiniz, ayarlarınız ve kayıtlarınızla bir zip; modeller ve günlükler hariç.",
         "button": "Verilerimi dışa aktar",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip arşivi",
@@ -313,18 +315,20 @@
         "confirmLabel": "Onaylamak için {{word}} yazın",
         "cancel": "Vazgeç",
         "confirm": "Her şeyi sil",
-        "failed": "Tümünü silme işlemi tamamlanmadı. Yeniden denemeden önce kalan verileri denetleyin."
+        "failed": "Tümünü silme işlemi tamamlanmadı. Yeniden denemeden önce kalan verileri denetleyin.",
+        "short": "Geçmişi, kayıtları ve ayarları siler. Geri alınamaz."
       },
       "diagnostics": {
         "title": "Çökme raporları ve tanılama",
-        "hint": "Çökme raporları bu Mac’te kalır ve hiçbir zaman yüklenmez. Tanılama verilerini yalnızca paylaşmak istediğinizde kopyalayın veya kaydedin.",
-        "sanitized": "Tanılama verilerinden dikte edilen metin, istemler, sözlük kelimeleri, e-posta adresleri, anahtarlar ve ana klasörünüzün yolu çıkarılır.",
+        "hint": "Çökme raporları bu Mac’te kalır. Tanılama verilerini yalnızca isterseniz paylaşın.",
+        "sanitized": "Dikte edilen metni, istemleri, sözlük kelimelerini, e-postaları, anahtarları ve ana klasör yolunuzu kaldırır.",
         "copy": "Tanılamayı kopyala",
         "save": "Tanılamayı kaydet…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Arındırılmış tanılama verileri kopyalandı.",
         "saved": "Arındırılmış tanılama verileri kaydedildi.",
-        "failed": "Tanılama verileri hazırlanamadı. Yeniden deneyin."
+        "failed": "Tanılama verileri hazırlanamadı. Yeniden deneyin.",
+        "rowTitle": "Tanılama verilerini paylaş"
       }
     },
     "advanced": {
@@ -365,7 +369,7 @@
     "hotkeys": {
       "open": "Kestirmeler",
       "loading": "Kestirmeler yükleniyor…",
-      "secureInputHelp": "macOS Güvenli Giriş, tuş vuruşlarını diğer uygulamalardan gizleyerek parola girişini korur. Etkin olduğu sürece kestirme yakalama duraklatılır.",
+      "secureInputHelp": "macOS Güvenli Girişi bir parola alanını korurken kestirme kaydı duraklar.",
       "count": "{{count}}/{{max}} ayarlı",
       "notSet": "Ayarlanmadı",
       "current": "Kestirme: {{shortcut}}",
@@ -421,7 +425,7 @@
         "command_mode": "Metnin nasıl düzenleneceğini veya yazılacağını söylerken kestirmeyi basılı tutun.",
         "paste_last": "En son dikteyi yeniden yapıştırır.",
         "copy_last": "En son dikteyi panoya kopyalar.",
-        "press_enter": "Yazdığınız uygulamada Return’e basar. Bunun için farenin yan düğmesi iyi bir seçimdir.",
+        "press_enter": "Yazdığınız yerde Return’e basar. Farenin yan düğmesi iyi bir seçimdir.",
         "undo_cancel": "İptal ettiğiniz dikteyi hemen ardından geri getirir.",
         "transform": {
           "polish": "Seçili metni Polish ile yeniden yazar.",
@@ -429,13 +433,23 @@
           "view_changes": "Son dönüştürmenin öncesini ve sonrasını gözden geçirin."
         },
         "scratchpad": {
-          "open": "Karalama ayarınıza göre son notunuza devam eder veya yeni bir not başlatır."
+          "open": "Son notunuza devam edin ya da yenisini başlatın."
         }
       },
       "description_one": "Her eyleme en fazla {{max}} kestirme ekleyin. Değişiklikler siz yaptıkça kaydedilir.",
-      "description_other": "Her eyleme en fazla {{max}} kestirme ekleyin. Değişiklikler siz yaptıkça kaydedilir."
+      "description_other": "Her eyleme en fazla {{max}} kestirme ekleyin. Değişiklikler siz yaptıkça kaydedilir.",
+      "addFor": "{{action}} için kestirme ekle"
     },
-    "resetSetting": "Sıfırla: {{setting}}"
+    "resetSetting": "Sıfırla: {{setting}}",
+    "intro": {
+      "general": "Kestirmeniz, mikrofonunuz, dilleriniz ve uygulamanın görünümü.",
+      "system": "Wispr Bro’nun nasıl açıldığı, ses çıkardığı ve sizi bilgilendirdiği.",
+      "privacy": "Her şey bu Mac’te kalır. Neyin, ne kadar süre saklanacağını seçin.",
+      "advanced": "Konuşma, temizleme, metin çıktısı ve güncellemeler için ince ayarlar."
+    },
+    "navGroups": {
+      "app": "Uygulama"
+    }
   },
   "hub": {
     "nav": {

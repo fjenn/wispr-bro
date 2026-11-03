@@ -2,7 +2,11 @@
 import { test, expect, ipcError, NOT_READY } from "./fixtures";
 import { expectNoSeriousAxeFindings } from "./hub-fixture";
 import { forkSettingsDefaults } from "./settings-fixture";
-import { openSettingsModal } from "./settings-modal-fixture";
+import {
+  chooseOption,
+  expectOptions,
+  openSettingsModal,
+} from "./settings-modal-fixture";
 
 function persistentSettings(ipc: import("./fixtures").IpcMock) {
   let current = structuredClone(forkSettingsDefaults);
@@ -46,18 +50,21 @@ test("retention, context, and update choices persist across reload", async ({
 }) => {
   await openSettingsModal(page, ipc, "privacy");
   persistentSettings(ipc);
-  await expect(page.getByTestId("wb-privacy-text-retention")).toHaveValue(
-    "forever",
+  await expect(page.getByTestId("wb-privacy-text-retention")).toHaveText(
+    "Forever",
   );
-  await expect(page.getByTestId("wb-privacy-audio-retention")).toHaveValue(
-    "14",
+  await expect(page.getByTestId("wb-privacy-audio-retention")).toHaveText(
+    "14 days",
   );
-  await expect(
-    page.getByTestId("wb-privacy-text-retention").locator("option"),
-  ).toHaveText(["Forever", "1 year", "90 days", "30 days"]);
-  await expect(
-    page.getByTestId("wb-privacy-audio-retention").locator("option"),
-  ).toHaveText([
+  await expectOptions(page, "wb-privacy-text-retention", [
+    "Forever",
+    "1 year",
+    "90 days",
+    "30 days",
+  ]);
+  // Escape closes only the list, never the Settings modal around it.
+  await expect(page.getByTestId("wb-settings-modal")).toBeVisible();
+  await expectOptions(page, "wb-privacy-audio-retention", [
     "Never keep audio",
     "1 day",
     "7 days",
@@ -67,8 +74,8 @@ test("retention, context, and update choices persist across reload", async ({
     "Forever",
   ]);
 
-  await page.getByTestId("wb-privacy-text-retention").selectOption("30");
-  await page.getByTestId("wb-privacy-audio-retention").selectOption("0");
+  await chooseOption(page, "wb-privacy-text-retention", "30");
+  await chooseOption(page, "wb-privacy-audio-retention", "0");
   // Controlled toggles change after the backend answers (no optimistic UI).
   await page.getByTestId("wb-privacy-context").click();
   await expect(page.getByTestId("wb-privacy-context")).not.toBeChecked();
@@ -89,8 +96,12 @@ test("retention, context, and update choices persist across reload", async ({
   });
 
   await page.reload();
-  await expect(page.getByTestId("wb-privacy-text-retention")).toHaveValue("30");
-  await expect(page.getByTestId("wb-privacy-audio-retention")).toHaveValue("0");
+  await expect(page.getByTestId("wb-privacy-text-retention")).toHaveText(
+    "30 days",
+  );
+  await expect(page.getByTestId("wb-privacy-audio-retention")).toHaveText(
+    "Never keep audio",
+  );
   await expect(page.getByTestId("wb-privacy-context")).not.toBeChecked();
   await expect(page.getByTestId("wb-privacy-updates")).not.toBeChecked();
   await expect(page.getByTestId("wb-privacy-learn")).toBeChecked();

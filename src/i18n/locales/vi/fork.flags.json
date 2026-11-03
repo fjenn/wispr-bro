@@ -1820,5 +1820,15 @@
   "overrides.settings.models.retiredNotice.title": "ai-reviewed",
   "overrides.settings.models.untestedNote": "ai-reviewed",
   "overrides.theme.description": "ai-reviewed",
-  "overrides.whatsNew.title": "ai-reviewed"
+  "overrides.whatsNew.title": "ai-reviewed",
+  "settings.mic.loadErrorPlain": "ai-reviewed",
+  "settings.mic.chooseErrorPlain": "ai-reviewed",
+  "settingsModal.privacy.delete.short": "ai-reviewed",
+  "settingsModal.privacy.diagnostics.rowTitle": "ai-reviewed",
+  "settingsModal.hotkeys.addFor": "ai-reviewed",
+  "settingsModal.intro.general": "ai-reviewed",
+  "settingsModal.intro.system": "ai-reviewed",
+  "settingsModal.intro.privacy": "ai-reviewed",
+  "settingsModal.intro.advanced": "ai-reviewed",
+  "settingsModal.navGroups.app": "ai-reviewed"
 }

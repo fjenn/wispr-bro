@@ -376,6 +376,11 @@ function Board({ theme }: { theme: "light" | "dark" }) {
           <IconButton aria-label={SAMPLE.add} variant="primary" round>
             <Plus size={18} />
           </IconButton>
+          <div className="rounded-(--wb-radius-sm) bg-(--wb-surface-tint) p-2">
+            <IconButton aria-label={SAMPLE.add} variant="outline" size="lg">
+              <Plus size={18} />
+            </IconButton>
+          </div>
           <div className="rounded-full bg-(--wb-hud) p-1.5">
             <IconButton aria-label={SAMPLE.close} variant="hud" round size="sm">
               <Icons.X size={14} />

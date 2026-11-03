@@ -123,12 +123,14 @@
           "no_input_device": "마이크를 찾을 수 없습니다.",
           "failed": "마이크가 시작되지 않았습니다. 다른 마이크를 사용해 보세요."
         }
-      }
+      },
+      "loadErrorPlain": "마이크 목록을 가져올 수 없습니다.",
+      "chooseErrorPlain": "마이크를 바꿀 수 없습니다."
     },
     "sound": {
       "title": "사운드",
       "enabled": "받아쓰기 시작 및 중단 시 사운드 재생",
-      "enabledHelp": "짧은 신호음으로 마이크가 켜졌음을, 또 다른 신호음으로 중단되었음을 알려줍니다.",
+      "enabledHelp": "마이크가 켜지고 꺼질 때 짧은 소리가 납니다.",
       "theme": "사운드",
       "themes": {
         "marimba": "Marimba",
@@ -139,7 +141,7 @@
       "volumeValue": "{{percent}}%",
       "preview": "재생",
       "mute": "받아쓰는 동안 모든 오디오 음소거",
-      "muteHelp": "말하는 동안 음악과 비디오가 조용해지고, 끝나면 원래 음량으로 돌아옵니다."
+      "muteHelp": "말하는 동안 음악과 비디오가 조용해지고, 끝나면 그대로 돌아옵니다."
     },
     "recovery": {
       "title": "복구 단축키",
@@ -223,15 +225,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro는 손쉬운 사용을 통해 VS Code, Cursor 및 Windsurf가 화면에 표시하는 코드 이름과 파일 이름을 읽을 수 있습니다. 프로젝트 폴더나 파일은 절대 열지 않습니다.",
+      "intro": "Wispr Bro는 편집기에 표시된 코드와 파일 이름을 읽습니다. 파일을 열지는 않습니다.",
       "contextOff": "문맥 인식이 꺼져 있어 이 기능들이 읽을 내용이 없습니다. 사용하려면 켜세요.",
       "recognize": "코드 이름 인식",
-      "recognizeHint": "편집기에 보이는 변수나 함수 이름을 말하면 getUserById 또는 user_id처럼 코드의 철자 그대로 입력됩니다.",
+      "recognizeHint": "편집기에 보이는 이름을 코드에 적힌 대로 씁니다.",
       "setUp": "설정",
       "change": "편집기 변경",
       "setUpFor": "{{editors}} 설정",
       "fileTags": "채팅에서 파일 태그",
-      "fileTagsHint": "Cursor 또는 Windsurf 채팅에서 \"index dot ts\"라고 말하면, 해당 파일이 탭에 열려 있거나 파일 목록에 표시될 때 @index.ts가 입력됩니다.",
+      "fileTagsHint": "Cursor나 Windsurf 채팅에서 “index dot ts”라고 말하면 @index.ts로 씁니다.",
       "fileTagsNeedsChat": "편집기에 Cursor 또는 Windsurf를 추가하면 사용할 수 있습니다.",
       "fileTagsNeedsSetup": "코드 이름 인식을 설정하면 사용할 수 있습니다.",
       "setup": {
@@ -258,7 +260,7 @@
       },
       "locations": {
         "title": "데이터 저장 위치",
-        "hint": "이 폴더들은 Wispr Bro 전용입니다. 포터블 설치는 모든 폴더를 앱의 Data 폴더에 보관합니다.",
+        "hint": "Wispr Bro가 이 Mac에 보관하는 모든 것이 이 폴더들에 있습니다.",
         "data": "앱 데이터 및 설정",
         "models": "다운로드한 모델",
         "recordings": "녹음",
@@ -272,7 +274,7 @@
         "textLabel": "받아쓴 텍스트 보관",
         "textHint": "오래된 항목은 자동으로 제거됩니다. 기본적으로 텍스트는 계속 보관됩니다.",
         "audioLabel": "녹음 보관",
-        "audioHint": "기본적으로 오디오는 14일 후에 만료됩니다. 오디오를 제거해도 받아쓴 텍스트는 텍스트 보관 기간까지 유지됩니다.",
+        "audioHint": "오디오는 기본적으로 14일 후 만료되며, 텍스트는 남습니다.",
         "options": {
           "0": "오디오 보관 안 함",
           "1": "1일",
@@ -287,15 +289,15 @@
       "choices": {
         "title": "개인정보 보호 선택 사항",
         "context": "문맥 인식 사용",
-        "contextHint": "받아쓰는 동안에만 주변 텍스트를 읽어 이름과 철자를 인식합니다. 문맥은 저장되거나 기록되지 않습니다.",
+        "contextHint": "이름을 바르게 쓰기 위해 받아쓰기 중 주변 텍스트를 읽습니다. 저장하거나 기록하지 않습니다.",
         "updates": "앱 업데이트 확인",
-        "updatesHint": "GitHub에 연결해 새 버전을 확인합니다. 받아쓰기나 개인 데이터는 전송되지 않습니다.",
+        "updatesHint": "GitHub에 새 버전을 확인합니다. 받아쓰기 내용이나 개인 데이터는 보내지 않습니다.",
         "learn": "내 수정 사항에서 학습",
-        "learnHint": "받아쓰기가 붙여넣어진 후 해당 텍스트 상자에서 고친 단어를 감지해 사전에 제안합니다. 수정한 단어만 보관되며 나머지 텍스트는 저장되거나 기록되지 않습니다."
+        "learnHint": "받아쓰기 후 고친 단어를 사전에 추가하도록 제안합니다."
       },
       "export": {
         "title": "내 데이터",
-        "hint": "기록, 설정 및 녹음이 포함된 zip 파일을 내보냅니다. 모델과 로그는 포함되지 않습니다.",
+        "hint": "기록, 설정, 녹음이 담긴 zip 파일이며 모델과 로그는 제외됩니다.",
         "button": "내 데이터 내보내기",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip 아카이브",
@@ -312,18 +314,20 @@
         "confirmLabel": "확인하려면 {{word}} 입력",
         "cancel": "취소",
         "confirm": "모두 삭제",
-        "failed": "모두 삭제가 완료되지 않았습니다. 남은 데이터를 확인한 후 다시 시도하세요."
+        "failed": "모두 삭제가 완료되지 않았습니다. 남은 데이터를 확인한 후 다시 시도하세요.",
+        "short": "기록, 녹음, 설정을 지웁니다. 되돌릴 수 없습니다."
       },
       "diagnostics": {
         "title": "충돌 보고서 및 진단",
-        "hint": "충돌 보고서는 이 Mac에만 남으며 업로드되지 않습니다. 공유하려는 경우에만 진단 정보를 복사하거나 저장하세요.",
-        "sanitized": "진단 정보에서는 받아쓴 텍스트, 프롬프트, 사전 단어, 이메일 주소, 키 및 홈 폴더 경로가 제거됩니다.",
+        "hint": "충돌 보고서는 이 Mac에 남습니다. 진단 정보는 원할 때만 공유하세요.",
+        "sanitized": "받아쓴 텍스트, 프롬프트, 사전 단어, 이메일, 키, 홈 폴더 경로를 제거합니다.",
         "copy": "진단 정보 복사",
         "save": "진단 정보 저장…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "민감 정보를 제거한 진단 정보를 복사했습니다.",
         "saved": "민감 정보를 제거한 진단 정보를 저장했습니다.",
-        "failed": "진단 정보를 준비할 수 없습니다. 다시 시도하세요."
+        "failed": "진단 정보를 준비할 수 없습니다. 다시 시도하세요.",
+        "rowTitle": "진단 정보 공유"
       }
     },
     "advanced": {
@@ -364,7 +368,7 @@
     "hotkeys": {
       "open": "단축키",
       "loading": "단축키를 불러오는 중…",
-      "secureInputHelp": "macOS 보안 입력은 다른 앱에 키 입력을 숨겨 암호 입력을 보호합니다. 보안 입력이 활성화된 동안에는 단축키 기록이 일시 정지됩니다.",
+      "secureInputHelp": "macOS 보안 입력이 암호 필드를 보호하는 동안 단축키 기록이 일시 정지됩니다.",
       "count": "{{max}}개 중 {{count}}개 설정됨",
       "notSet": "설정 안 됨",
       "current": "단축키: {{shortcut}}",
@@ -420,7 +424,7 @@
         "command_mode": "단축키를 누른 채 텍스트를 어떻게 편집하거나 작성할지 말하세요.",
         "paste_last": "가장 최근의 받아쓰기를 다시 붙여넣습니다.",
         "copy_last": "가장 최근의 받아쓰기를 클립보드에 복사합니다.",
-        "press_enter": "입력 중인 앱에서 Return 키를 누릅니다. 마우스 측면 버튼에 잘 맞습니다.",
+        "press_enter": "입력 중인 곳에서 Return 키를 누릅니다. 마우스 측면 버튼에 잘 맞습니다.",
         "undo_cancel": "받아쓰기를 취소한 직후 다시 복원합니다.",
         "transform": {
           "polish": "선택한 텍스트를 Polish로 다시 씁니다.",
@@ -428,12 +432,22 @@
           "view_changes": "최근 변환의 전후를 비교합니다."
         },
         "scratchpad": {
-          "open": "스크래치패드 설정에 따라 마지막 메모를 이어서 쓰거나 새 메모를 시작합니다."
+          "open": "마지막 메모를 이어 쓰거나 새 메모를 시작합니다."
         }
       },
-      "description_other": "동작마다 단축키를 최대 {{max}}개까지 추가할 수 있습니다. 변경 사항은 바로 저장됩니다."
+      "description_other": "동작마다 단축키를 최대 {{max}}개까지 추가할 수 있습니다. 변경 사항은 바로 저장됩니다.",
+      "addFor": "{{action}} 단축키 추가"
     },
-    "resetSetting": "{{setting}} 재설정"
+    "resetSetting": "{{setting}} 재설정",
+    "intro": {
+      "general": "단축키, 마이크, 언어, 앱 모양.",
+      "system": "Wispr Bro가 시작하고, 소리를 내고, 알려 주는 방식.",
+      "privacy": "모든 것이 이 Mac에 남습니다. 무엇을 얼마나 오래 보관할지 선택하세요.",
+      "advanced": "음성, 정리, 텍스트 출력, 업데이트를 세밀하게 조정합니다."
+    },
+    "navGroups": {
+      "app": "앱"
+    }
   },
   "hub": {
     "nav": {

@@ -126,12 +126,14 @@
           "no_input_device": "Nie znaleziono mikrofonu.",
           "failed": "Nie można uruchomić mikrofonu. Wypróbuj inny."
         }
-      }
+      },
+      "loadErrorPlain": "Nie udało się pobrać listy mikrofonów.",
+      "chooseErrorPlain": "Nie udało się zmienić mikrofonu."
     },
     "sound": {
       "title": "Dźwięki",
       "enabled": "Odtwarzaj dźwięk na początku i końcu dyktowania",
-      "enabledHelp": "Krótki dźwięk informuje, że mikrofon jest włączony, a drugi, że się wyłączył.",
+      "enabledHelp": "Krótki dźwięk, gdy mikrofon się włącza i wyłącza.",
       "theme": "Dźwięk",
       "themes": {
         "marimba": "Marimba",
@@ -142,7 +144,7 @@
       "volumeValue": "{{percent}} procent",
       "preview": "Odtwórz",
       "mute": "Wyciszaj wszystkie dźwięki podczas dyktowania",
-      "muteHelp": "Muzyka i wideo cichną, gdy mówisz, a potem wracają do tej samej głośności."
+      "muteHelp": "Muzyka i wideo cichną, gdy mówisz, a potem wracają bez zmian."
     },
     "recovery": {
       "title": "Skróty odzyskiwania",
@@ -226,15 +228,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro może odczytywać nazwy z kodu i nazwy plików, które VS Code, Cursor i Windsurf pokazują na ekranie, za pomocą funkcji Dostępność. Nigdy nie otwiera folderu projektu ani Twoich plików.",
+      "intro": "Wispr Bro czyta nazwy z kodu i plików widoczne w edytorze. Nigdy nie otwiera twoich plików.",
       "contextOff": "Świadomość kontekstu jest wyłączona, więc te funkcje nie mają czego odczytać. Włącz ją, aby z nich korzystać.",
       "recognize": "Rozpoznawaj nazwy z kodu",
-      "recognizeHint": "Gdy wypowiesz nazwę zmiennej lub funkcji widoczną w edytorze, zostanie zapisana tak jak w kodzie, np. getUserById lub user_id.",
+      "recognizeHint": "Zapisuje nazwy widoczne w edytorze tak, jak zapisuje je twój kod.",
       "setUp": "Skonfiguruj",
       "change": "Zmień edytory",
       "setUpFor": "Skonfiguruj dla: {{editors}}",
       "fileTags": "Oznaczaj pliki w czacie",
-      "fileTagsHint": "W czacie Cursora lub Windsurfa powiedzenie „index dot ts” wpisuje @index.ts, gdy ten plik jest otwarty w karcie lub widoczny na liście plików.",
+      "fileTagsHint": "W czacie Cursor lub Windsurf „index dot ts” zamienia się w @index.ts.",
       "fileTagsNeedsChat": "Dostępne po dodaniu Cursora lub Windsurfa do edytorów.",
       "fileTagsNeedsSetup": "Dostępne po skonfigurowaniu rozpoznawania nazw z kodu.",
       "setup": {
@@ -261,7 +263,7 @@
       },
       "locations": {
         "title": "Gdzie są Twoje dane",
-        "hint": "Te foldery należą do Wispr Bro. Instalacje przenośne trzymają je wszystkie w folderze Data aplikacji.",
+        "hint": "W tych folderach jest wszystko, co Wispr Bro przechowuje na tym Macu.",
         "data": "Dane i ustawienia aplikacji",
         "models": "Pobrane modele",
         "recordings": "Nagrania",
@@ -275,7 +277,7 @@
         "textLabel": "Przechowuj podyktowany tekst",
         "textHint": "Starsze wpisy są usuwane automatycznie. Domyślnie tekst jest przechowywany bezterminowo.",
         "audioLabel": "Przechowuj nagrania",
-        "audioHint": "Domyślnie nagrania wygasają po 14 dniach. Po usunięciu nagrania podyktowany tekst pozostaje do upływu limitu dla tekstu.",
+        "audioHint": "Domyślnie dźwięk wygasa po 14 dniach; tekst zostaje.",
         "options": {
           "0": "Nie przechowuj nagrań",
           "1": "1 dzień",
@@ -290,15 +292,15 @@
       "choices": {
         "title": "Opcje prywatności",
         "context": "Używaj świadomości kontekstu",
-        "contextHint": "Odczytuje pobliski tekst tylko podczas dyktowania, aby rozpoznawać nazwy i pisownię. Kontekst nie jest zapisywany ani logowany.",
+        "contextHint": "Czyta pobliski tekst podczas dyktowania, by dobrze pisać nazwy. Nigdy nie jest zapisywany ani logowany.",
         "updates": "Sprawdzaj aktualizacje aplikacji",
-        "updatesHint": "Łączy się z serwisem GitHub, aby sprawdzić, czy jest nowa wersja. Nie są wysyłane żadne dyktowania ani dane osobowe.",
+        "updatesHint": "Sprawdza na GitHubie nowe wersje. Nie wysyła dyktowania ani danych osobowych.",
         "learn": "Ucz się z moich poprawek",
-        "learnHint": "Po wklejeniu dyktowania zauważa słowa, które poprawiasz w tym polu tekstowym, i proponuje je w Słowniku. Zachowywane jest tylko poprawione słowo; reszta tekstu nigdy nie jest zapisywana ani logowana."
+        "learnHint": "Proponuje słowa do słownika na podstawie twoich poprawek po dyktowaniu."
       },
       "export": {
         "title": "Twoje dane",
-        "hint": "Eksportuj plik ZIP z Historią, ustawieniami i nagraniami. Modele i logi nie są dołączane.",
+        "hint": "Plik zip z historią, ustawieniami i nagraniami, bez modeli i logów.",
         "button": "Eksportuj moje dane",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archiwum ZIP",
@@ -315,18 +317,20 @@
         "confirmLabel": "Wpisz {{word}}, aby potwierdzić",
         "cancel": "Anuluj",
         "confirm": "Usuń wszystko",
-        "failed": "Usuwanie wszystkiego nie zostało ukończone. Sprawdź pozostałe dane, zanim spróbujesz ponownie."
+        "failed": "Usuwanie wszystkiego nie zostało ukończone. Sprawdź pozostałe dane, zanim spróbujesz ponownie.",
+        "short": "Usuwa historię, nagrania i ustawienia. Tego nie da się cofnąć."
       },
       "diagnostics": {
         "title": "Raporty awarii i diagnostyka",
-        "hint": "Raporty awarii pozostają na tym Macu i nigdy nie są wysyłane. Kopiuj lub zapisuj dane diagnostyczne tylko wtedy, gdy chcesz je komuś przekazać.",
-        "sanitized": "Z danych diagnostycznych usuwane są podyktowane teksty, prompty, słowa ze słownika, adresy e-mail, klucze i ścieżka folderu domowego.",
+        "hint": "Raporty awarii zostają na tym Macu. Diagnostykę udostępniasz tylko, gdy chcesz.",
+        "sanitized": "Usuwa dyktowany tekst, prompty, słowa ze słownika, adresy e-mail, klucze i ścieżkę folderu domowego.",
         "copy": "Kopiuj dane diagnostyczne",
         "save": "Zachowaj dane diagnostyczne…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Skopiowano oczyszczone dane diagnostyczne.",
         "saved": "Zapisano oczyszczone dane diagnostyczne.",
-        "failed": "Nie można przygotować danych diagnostycznych. Spróbuj ponownie."
+        "failed": "Nie można przygotować danych diagnostycznych. Spróbuj ponownie.",
+        "rowTitle": "Udostępnij diagnostykę"
       }
     },
     "advanced": {
@@ -367,7 +371,7 @@
     "hotkeys": {
       "open": "Skróty",
       "loading": "Wczytywanie skrótów…",
-      "secureInputHelp": "Bezpieczne wprowadzanie w macOS chroni wpisywanie haseł, ukrywając naciśnięcia klawiszy przed innymi aplikacjami. Gdy jest aktywne, nagrywanie skrótów jest wstrzymane.",
+      "secureInputHelp": "Nagrywanie skrótów wstrzymuje się, gdy bezpieczne wprowadzanie macOS chroni pole hasła.",
       "count": "Ustawiono {{count}} z {{max}}",
       "notSet": "Nie ustawiono",
       "current": "Skrót: {{shortcut}}",
@@ -423,7 +427,7 @@
         "command_mode": "Przytrzymaj skrót, mówiąc, jak edytować lub napisać tekst.",
         "paste_last": "Ponownie wkleja ostatnie dyktowanie.",
         "copy_last": "Kopiuje ostatnie dyktowanie do schowka.",
-        "press_enter": "Naciska Return w aplikacji, w której piszesz. Dobrze sprawdza się tu boczny przycisk myszy.",
+        "press_enter": "Naciska Return tam, gdzie piszesz. Dobrze sprawdza się boczny przycisk myszy.",
         "undo_cancel": "Przywraca dyktowanie zaraz po jego anulowaniu.",
         "transform": {
           "polish": "Przepisuje zaznaczony tekst za pomocą Polish.",
@@ -431,15 +435,25 @@
           "view_changes": "Pokazuje ostatnie przekształcenie przed i po."
         },
         "scratchpad": {
-          "open": "Wraca do ostatniej notatki lub zaczyna nową, zgodnie z ustawieniem Brudnopisu."
+          "open": "Wróć do ostatniej notatki lub zacznij nową."
         }
       },
       "description_one": "Dodaj maksymalnie {{max}} skrót dla każdej akcji. Zmiany są zapisywane na bieżąco.",
       "description_few": "Dodaj maksymalnie {{max}} skróty dla każdej akcji. Zmiany są zapisywane na bieżąco.",
       "description_many": "Dodaj maksymalnie {{max}} skrótów dla każdej akcji. Zmiany są zapisywane na bieżąco.",
-      "description_other": "Dodaj maksymalnie {{max}} skrótu dla każdej akcji. Zmiany są zapisywane na bieżąco."
+      "description_other": "Dodaj maksymalnie {{max}} skrótu dla każdej akcji. Zmiany są zapisywane na bieżąco.",
+      "addFor": "Dodaj skrót dla: {{action}}"
     },
-    "resetSetting": "Przywróć: {{setting}}"
+    "resetSetting": "Przywróć: {{setting}}",
+    "intro": {
+      "general": "Twój skrót klawiszowy, mikrofon, języki i wygląd aplikacji.",
+      "system": "Jak Wispr Bro się uruchamia, brzmi i powiadamia cię.",
+      "privacy": "Wszystko zostaje na tym Macu. Wybierz, co jest przechowywane i jak długo.",
+      "advanced": "Dostrajanie mowy, porządkowania, wstawiania tekstu i aktualizacji."
+    },
+    "navGroups": {
+      "app": "Aplikacja"
+    }
   },
   "hub": {
     "nav": {

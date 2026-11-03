@@ -8,7 +8,8 @@ import type {
 } from "../../bindings";
 import { commands } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
-import { Button } from "../../ui";
+import { Button, IconButton } from "../../ui";
+import { Plus } from "../../ui/icons";
 import { useForkSettings } from "../useForkSettings";
 import { BindingRow } from "./BindingRow";
 import {
@@ -85,20 +86,21 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
     setBusy(false);
   };
 
+  const busyCapture = capture !== null || busy;
   return (
-    <div className="flex flex-col gap-5" data-testid="wb-hotkeys-panel">
+    <div className="flex flex-col gap-6" data-testid="wb-hotkeys-panel">
       <div className="flex flex-col gap-1">
-        <p className="text-sm text-(--wb-ink-2)">
+        <p className="type-body text-(--wb-ink-2)">
           {t("settingsModal.hotkeys.description", {
             count: MAX_BINDINGS,
             max: MAX_BINDINGS,
           })}
         </p>
-        <p className="text-xs text-(--wb-ink-3)">
+        <p className="type-small text-(--wb-ink-2)">
           {t("settingsModal.hotkeys.secureInputHelp")}
         </p>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {ids.map((id) => {
           const definition = actionDefinition(id);
           const bindings = settings.hotkeys[id] ?? [];
@@ -106,125 +108,139 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
             id === "hands_free"
               ? ["double_tap", "press"]
               : [definition.activation];
+          const adding =
+            capture?.action === id && capture.index === bindings.length;
+          const name = t(`settingsModal.hotkeys.actions.${id}`, {
+            defaultValue: id,
+          });
           return (
             <section
               key={id}
               aria-labelledby={`wb-hotkey-title-${id}`}
-              className="flex flex-col gap-2"
+              className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4"
               data-testid={`wb-hotkey-action-${id}`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex min-w-48 flex-1 flex-col gap-0.5 pt-2">
                 <h3
                   id={`wb-hotkey-title-${id}`}
-                  className="text-sm font-semibold"
+                  className="text-[15px] leading-5 font-medium"
                 >
-                  {t(`settingsModal.hotkeys.actions.${id}`, {
-                    defaultValue: id,
-                  })}
+                  {name}
                 </h3>
-                <span className="text-xs text-(--wb-ink-3)">
+                <p className="text-[13px] leading-[18px] text-(--wb-ink-2)">
+                  {t(`settingsModal.hotkeys.help.${id}`, { defaultValue: "" })}
+                </p>
+                <span className="sr-only">
                   {t("settingsModal.hotkeys.count", {
                     count: bindings.length,
                     max: MAX_BINDINGS,
                   })}
                 </span>
               </div>
-              <p className="text-xs text-(--wb-ink-2)">
-                {t(`settingsModal.hotkeys.help.${id}`, { defaultValue: "" })}
-              </p>
-              {bindings.length === 0 && (
-                <p className="text-sm text-(--wb-ink-3)">
-                  {t("settingsModal.hotkeys.notSet")}
-                </p>
-              )}
-              {bindings.map((binding, index) => (
-                <BindingRow
-                  key={`${index}-${binding.chord}-${binding.activation}`}
-                  actionId={id}
-                  binding={binding}
-                  index={index}
-                  activations={activations}
-                  status={status}
-                  capturing={capture?.action === id && capture.index === index}
-                  captureBusy={capture !== null || busy}
-                  onCapture={() => setCapture({ action: id, index })}
-                  onCaptured={(chord) => {
-                    setCapture(null);
-                    if (!chord) return;
-                    const next = bindings.map((current, candidate) =>
-                      candidate === index ? { ...current, chord } : current,
-                    );
-                    void save(id, next);
-                  }}
-                  onActivation={(activation) => {
-                    const next = bindings.map((current, candidate) =>
-                      candidate === index
-                        ? { ...current, activation }
-                        : current,
-                    );
-                    void save(id, next);
-                  }}
-                  onDelete={() => {
-                    void save(
-                      id,
-                      bindings.filter((_, candidate) => candidate !== index),
-                    );
-                  }}
-                />
-              ))}
-              {capture?.action === id && capture.index === bindings.length && (
-                <BindingRow
-                  actionId={id}
-                  binding={{
-                    chord: "",
-                    activation: nextBindingActivation(id, bindings),
-                  }}
-                  index={bindings.length}
-                  activations={activations}
-                  status={status}
-                  capturing
-                  captureBusy={busy}
-                  onCapture={() => undefined}
-                  onCaptured={(chord) => {
-                    setCapture(null);
-                    if (!chord) return;
-                    void save(id, [
-                      ...bindings,
-                      {
-                        chord,
+              <div className="flex items-end gap-2">
+                <div className="flex w-[264px] max-w-full flex-col gap-2">
+                  {bindings.length === 0 && !adding && (
+                    <p className="flex h-10 items-center rounded-(--wb-radius-sm) border border-dashed border-(--wb-line-strong) px-3 text-[14px] text-(--wb-ink-2)">
+                      {t("settingsModal.hotkeys.notSet")}
+                    </p>
+                  )}
+                  {bindings.map((binding, index) => (
+                    <BindingRow
+                      key={`${index}-${binding.chord}-${binding.activation}`}
+                      actionId={id}
+                      binding={binding}
+                      index={index}
+                      activations={activations}
+                      status={status}
+                      capturing={
+                        capture?.action === id && capture.index === index
+                      }
+                      captureBusy={busyCapture}
+                      onCapture={() => setCapture({ action: id, index })}
+                      onCaptured={(chord) => {
+                        setCapture(null);
+                        if (!chord) return;
+                        const next = bindings.map((current, candidate) =>
+                          candidate === index ? { ...current, chord } : current,
+                        );
+                        void save(id, next);
+                      }}
+                      onActivation={(activation) => {
+                        const next = bindings.map((current, candidate) =>
+                          candidate === index
+                            ? { ...current, activation }
+                            : current,
+                        );
+                        void save(id, next);
+                      }}
+                      onDelete={() => {
+                        void save(
+                          id,
+                          bindings.filter(
+                            (_, candidate) => candidate !== index,
+                          ),
+                        );
+                      }}
+                    />
+                  ))}
+                  {adding && (
+                    <BindingRow
+                      actionId={id}
+                      binding={{
+                        chord: "",
                         activation: nextBindingActivation(id, bindings),
-                      },
-                    ]);
-                  }}
-                  onActivation={() => undefined}
-                />
-              )}
-              <div>
-                <Button
-                  className="px-2.5 py-1"
-                  disabled={
-                    capture !== null || busy || !canAddBinding(bindings)
-                  }
+                      }}
+                      index={bindings.length}
+                      activations={activations}
+                      status={status}
+                      capturing
+                      captureBusy={busy}
+                      onCapture={() => undefined}
+                      onCaptured={(chord) => {
+                        setCapture(null);
+                        if (!chord) return;
+                        void save(id, [
+                          ...bindings,
+                          {
+                            chord,
+                            activation: nextBindingActivation(id, bindings),
+                          },
+                        ]);
+                      }}
+                      onActivation={() => undefined}
+                    />
+                  )}
+                </div>
+                <IconButton
+                  variant="outline"
+                  size="lg"
+                  aria-label={t("settingsModal.hotkeys.addFor", {
+                    action: name,
+                  })}
+                  title={t("settingsModal.hotkeys.add")}
+                  disabled={busyCapture || !canAddBinding(bindings)}
                   onClick={() =>
                     setCapture({ action: id, index: bindings.length })
                   }
+                  className="mb-0.5"
                   data-testid={`wb-hotkey-${id}-add`}
                 >
-                  {t("settingsModal.hotkeys.add")}
-                </Button>
+                  <Plus size={18} />
+                </IconButton>
               </div>
             </section>
           );
         })}
       </div>
       {error && (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-300">
+        <p role="alert" className="text-[14px] text-(--wb-danger)">
           {error}
         </p>
       )}
-      <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-(--wb-line) bg-(--wb-panel) py-3">
+      <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-(--wb-line) bg-(--wb-surface) py-4">
         <Button
-          disabled={capture !== null || busy}
+          variant="secondary"
+          disabled={busyCapture}
           onClick={() => void reset()}
           data-testid="wb-hotkeys-reset"
         >
@@ -234,7 +250,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
         </Button>
         <Button
           variant="primary"
-          disabled={capture !== null || busy}
+          disabled={busyCapture}
           onClick={onDone}
           data-testid="wb-hotkeys-done"
         >

@@ -10,11 +10,11 @@
  */
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Code2 } from "../ui/icons";
+import { Code2, TriangleAlert } from "../ui/icons";
 import type { VibeCodingSettings } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
-import { ForkToggle, Panel } from "./Controls";
+import { Button, Checkbox, SettingGroup, SettingRow } from "../ui";
+import { PanelCard, ToggleRow } from "./Controls";
 import { useForkSettings } from "./useForkSettings";
 
 /** The editors the backend knows (`ide::Editor` ids), with product names. */
@@ -78,63 +78,55 @@ function Setup({
         id={`${stepsId}-title`}
         ref={headingRef}
         tabIndex={-1}
-        className="text-sm font-semibold outline-none"
+        className="type-card-title outline-none"
       >
         {t("settingsModal.vibe.setup.title")}
       </h4>
       <fieldset className="flex flex-col gap-1">
-        <legend className="mb-1 text-sm font-medium">
+        <legend className="mb-1 text-[15px] font-medium">
           {t("settingsModal.vibe.setup.stepEditors")}
         </legend>
         {VIBE_EDITORS.map((editor) => (
-          <label
+          <Checkbox
             key={editor.id}
-            className="flex cursor-pointer items-center gap-2 py-1 text-sm"
-          >
-            <input
-              type="checkbox"
-              checked={editors.includes(editor.id)}
-              onChange={(event) =>
-                toggle(editor.id, event.currentTarget.checked)
-              }
-              data-testid={`wb-vibe-editor-${editor.id}`}
-            />
-            {editor.name}
-          </label>
+            label={editor.name}
+            className="py-1"
+            checked={editors.includes(editor.id)}
+            onChange={(event) => toggle(editor.id, event.currentTarget.checked)}
+            data-testid={`wb-vibe-editor-${editor.id}`}
+          />
         ))}
       </fieldset>
       <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium">
+        <p className="text-[15px] font-medium">
           {t("settingsModal.vibe.setup.stepScreenReader")}
         </p>
         <ol
-          className="ms-5 list-decimal text-sm text-(--wb-ink-2)"
+          className="ms-5 list-decimal space-y-0.5 text-[14px] text-(--wb-ink-2)"
           data-testid="wb-vibe-steps"
         >
           <li>{t("settingsModal.vibe.setup.openSettings")}</li>
           <li>{t("settingsModal.vibe.setup.search")}</li>
           <li>{t("settingsModal.vibe.setup.setOn")}</li>
         </ol>
-        <p className="text-xs text-(--wb-ink-3)">
+        <p className="text-[13px] text-(--wb-ink-2)">
           {t("settingsModal.vibe.setup.palette")}
         </p>
       </div>
-      <label
-        htmlFor={confirmId}
-        className="flex cursor-pointer items-center gap-2 text-sm"
-      >
-        <input
-          id={confirmId}
-          type="checkbox"
-          checked={confirmed}
-          onChange={(event) => setConfirmed(event.currentTarget.checked)}
-          data-testid="wb-vibe-confirm"
-        />
-        {t("settingsModal.vibe.setup.confirm")}
-      </label>
+      <Checkbox
+        id={confirmId}
+        label={t("settingsModal.vibe.setup.confirm")}
+        checked={confirmed}
+        onChange={(event) => setConfirmed(event.currentTarget.checked)}
+        data-testid="wb-vibe-confirm"
+      />
       <div className="flex flex-wrap justify-end gap-2">
         {onCancel && (
-          <Button onClick={onCancel} data-testid="wb-vibe-cancel">
+          <Button
+            variant="secondary"
+            onClick={onCancel}
+            data-testid="wb-vibe-cancel"
+          >
             {t("settingsModal.vibe.setup.cancel")}
           </Button>
         )}
@@ -176,92 +168,89 @@ export function VibeCoding() {
   const chatReady = vibe.setup_completed && hasChat(vibe.editors);
 
   return (
-    <div className="flex flex-col gap-6" data-testid="wb-settings-vibe">
-      <p className="text-sm text-(--wb-ink-2)" data-testid="wb-vibe-intro">
-        {t("settingsModal.vibe.intro")}
-      </p>
+    <div className="flex flex-col gap-8" data-testid="wb-settings-vibe">
       {!settings.context_awareness && (
         <p
           role="note"
-          className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) px-3 py-2 text-sm"
+          className="flex items-start gap-3 rounded-(--wb-radius-sm) bg-(--wb-warning-bg) px-4 py-3 text-[14px] text-(--wb-warning-ink)"
           data-testid="wb-vibe-context-off"
         >
-          {t("settingsModal.vibe.contextOff")}
+          <TriangleAlert size={16} aria-hidden="true" className="mt-0.5" />
+          <span>{t("settingsModal.vibe.contextOff")}</span>
         </p>
       )}
-      <Panel
-        title={t("settingsModal.vibe.recognize")}
-        testId="wb-vibe-recognize"
-      >
-        {setupOpen ? (
-          <Setup
-            current={vibe}
-            busy={busy}
-            onCancel={close}
-            onFinish={(editors) => {
-              void save({
-                enabled: true,
-                setup_completed: true,
-                editors,
-                file_tags_enabled: vibe.file_tags_enabled && hasChat(editors),
-              }).then((result) => {
-                if (result.status === "ok") close();
-              });
-            }}
-          />
-        ) : vibe.setup_completed ? (
-          <div className="flex flex-col gap-2">
-            <ForkToggle
+      <div data-testid="wb-vibe-recognize">
+        <SettingGroup>
+          {setupOpen ? (
+            <PanelCard>
+              <Setup
+                current={vibe}
+                busy={busy}
+                onCancel={close}
+                onFinish={(editors) => {
+                  void save({
+                    enabled: true,
+                    setup_completed: true,
+                    editors,
+                    file_tags_enabled:
+                      vibe.file_tags_enabled && hasChat(editors),
+                  }).then((result) => {
+                    if (result.status === "ok") close();
+                  });
+                }}
+              />
+            </PanelCard>
+          ) : vibe.setup_completed ? (
+            <ToggleRow
               label={t("settingsModal.vibe.recognize")}
               hint={t("settingsModal.vibe.recognizeHint")}
               checked={vibe.enabled}
               disabled={busy}
               onChange={(checked) => void save({ ...vibe, enabled: checked })}
               testId="wb-vibe-enabled"
-            />
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span
-                className="text-sm text-(--wb-ink-2)"
-                data-testid="wb-vibe-editors"
-              >
-                {t("settingsModal.vibe.setUpFor", {
-                  editors: names(vibe.editors),
-                })}
-              </span>
-              <Button
-                ref={setupButton}
-                onClick={() => setSetupOpen(true)}
-                data-testid="wb-vibe-change"
-              >
-                {t("settingsModal.vibe.change")}
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-start gap-3">
-              <Code2
-                size={20}
-                aria-hidden="true"
-                className="mt-0.5 shrink-0 text-(--wb-ink-2)"
-              />
-              <p className="max-w-md text-sm text-(--wb-ink-2)">
-                {t("settingsModal.vibe.recognizeHint")}
-              </p>
-            </div>
-            <Button
-              ref={setupButton}
-              variant="primary"
-              onClick={() => setSetupOpen(true)}
-              data-testid="wb-vibe-setup-start"
             >
-              {t("settingsModal.vibe.setUp")}
-            </Button>
-          </div>
-        )}
-      </Panel>
-      <Panel title={t("settingsModal.vibe.fileTags")} testId="wb-vibe-files">
-        <ForkToggle
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-(--wb-line) pt-3">
+                <span
+                  className="text-[14px] text-(--wb-ink-2)"
+                  data-testid="wb-vibe-editors"
+                >
+                  {t("settingsModal.vibe.setUpFor", {
+                    editors: names(vibe.editors),
+                  })}
+                </span>
+                <Button
+                  ref={setupButton}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSetupOpen(true)}
+                  data-testid="wb-vibe-change"
+                >
+                  {t("settingsModal.vibe.change")}
+                </Button>
+              </div>
+            </ToggleRow>
+          ) : (
+            <SettingRow
+              icon={<Code2 size={18} />}
+              title={t("settingsModal.vibe.recognize")}
+              description={t("settingsModal.vibe.recognizeHint")}
+              control={
+                <Button
+                  ref={setupButton}
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setSetupOpen(true)}
+                  data-testid="wb-vibe-setup-start"
+                >
+                  {t("settingsModal.vibe.setUp")}
+                </Button>
+              }
+            />
+          )}
+        </SettingGroup>
+      </div>
+      <div data-testid="wb-vibe-files">
+        <ToggleRow
           label={t("settingsModal.vibe.fileTags")}
           hint={
             chatReady
@@ -277,7 +266,7 @@ export function VibeCoding() {
           }
           testId="wb-vibe-file-tags"
         />
-      </Panel>
+      </div>
     </div>
   );
 }

@@ -123,12 +123,14 @@
           "no_input_device": "找不到麦克风。",
           "failed": "麦克风无法启动。请换一个试试。"
         }
-      }
+      },
+      "loadErrorPlain": "无法列出麦克风。",
+      "chooseErrorPlain": "无法切换麦克风。"
     },
     "sound": {
       "title": "声音",
       "enabled": "听写开始和停止时播放声音",
-      "enabledHelp": "一声短音提示麦克风已打开，另一声提示已停止。",
+      "enabledHelp": "麦克风开启和关闭时播放一声短音。",
       "theme": "声音",
       "themes": {
         "marimba": "Marimba",
@@ -139,7 +141,7 @@
       "volumeValue": "{{percent}}%",
       "preview": "播放",
       "mute": "听写时将所有音频静音",
-      "muteHelp": "说话时音乐和视频会静音，结束后恢复原本的音量。"
+      "muteHelp": "你说话时音乐和视频会静音，之后恢复原样。"
     },
     "recovery": {
       "title": "恢复快捷键",
@@ -223,15 +225,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro 可以通过辅助功能读取 VS Code、Cursor 和 Windsurf 在屏幕上显示的代码名称和文件名称。它从不打开你的项目文件夹或文件。",
+      "intro": "Wispr Bro 会读取编辑器显示的代码名称和文件名。它从不打开你的文件。",
       "contextOff": "情境感知已关闭，因此这些功能没有内容可读取。打开后即可使用。",
       "recognize": "识别代码名称",
-      "recognizeHint": "说出编辑器中可见的变量或函数名称时，会依照代码中的拼写写出，例如 getUserById 或 user_id。",
+      "recognizeHint": "按代码中的拼写写出编辑器里可见的名称。",
       "setUp": "设置",
       "change": "更改编辑器",
       "setUpFor": "为 {{editors}} 设置",
       "fileTags": "在聊天中标记文件",
-      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，如果 index.ts 已在标签页中打开或显示在文件列表中，说「index dot ts」会写出 @index.ts。",
+      "fileTagsHint": "在 Cursor 或 Windsurf 聊天中，说“index dot ts”会写成 @index.ts。",
       "fileTagsNeedsChat": "将 Cursor 或 Windsurf 添加到编辑器后即可使用。",
       "fileTagsNeedsSetup": "设置代码名称识别后即可使用。",
       "setup": {
@@ -258,7 +260,7 @@
       },
       "locations": {
         "title": "你的数据存放位置",
-        "hint": "这些文件夹属于 Wispr Bro。便携版会将它们全部存放在 App 的 Data 文件夹中。",
+        "hint": "这些文件夹包含 Wispr Bro 在这台 Mac 上保存的全部内容。",
         "data": "App 数据和设置",
         "models": "已下载的模型",
         "recordings": "录音",
@@ -272,7 +274,7 @@
         "textLabel": "保留听写文本",
         "textHint": "较旧的项目会自动移除。文本默认会永久保留。",
         "audioLabel": "保留录音",
-        "audioHint": "音频默认在 14 天后过期。移除音频后，其听写文本会保留到文本期限为止。",
+        "audioHint": "音频默认在 14 天后过期；文本会保留。",
         "options": {
           "0": "永不保留音频",
           "1": "1 天",
@@ -287,15 +289,15 @@
       "choices": {
         "title": "隐私选项",
         "context": "使用情境感知",
-        "contextHint": "只在听写时读取附近的文本，以识别名称和拼写。情境内容不会被保存或记录。",
+        "contextHint": "听写时读取附近文本以正确拼写名称。从不保存或记录。",
         "updates": "检查 App 更新",
-        "updatesHint": "连接到 GitHub 检查是否有新版本。不会发送任何听写内容或个人数据。",
+        "updatesHint": "向 GitHub 查询新版本。不发送听写内容或个人数据。",
         "learn": "从我的修正中学习",
-        "learnHint": "听写内容粘贴后，留意你在该文本框中修改的词，并在词典中提供建议。只会保留修正后的词；其余文本从不保存或记录。"
+        "learnHint": "根据你在听写后所做的修改，为词典推荐词语。"
       },
       "export": {
         "title": "你的数据",
-        "hint": "导出包含历史记录、设置和录音的 zip 文件。不包括模型和日志。",
+        "hint": "包含历史记录、设置和录音的 zip，不含模型和日志。",
         "button": "导出我的数据",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip 归档",
@@ -312,18 +314,20 @@
         "confirmLabel": "输入 {{word}} 以确认",
         "cancel": "取消",
         "confirm": "全部删除",
-        "failed": "删除未完成。请先检查剩余的数据，再试一次。"
+        "failed": "删除未完成。请先检查剩余的数据，再试一次。",
+        "short": "清除历史记录、录音和设置。此操作无法撤销。"
       },
       "diagnostics": {
         "title": "崩溃报告和诊断信息",
-        "hint": "崩溃报告会留在这台 Mac 上，从不上传。只有在你想分享时才拷贝或保存诊断信息。",
-        "sanitized": "诊断信息会移除听写文本、提示词、词典中的词、电子邮件地址、密钥和你的个人专属文件夹路径。",
+        "hint": "崩溃报告留在这台 Mac 上。仅在你愿意时共享诊断信息。",
+        "sanitized": "移除听写文本、提示词、词典词语、电子邮件地址、密钥和你的主文件夹路径。",
         "copy": "拷贝诊断信息",
         "save": "保存诊断信息⋯",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "已拷贝脱敏后的诊断信息。",
         "saved": "已保存脱敏后的诊断信息。",
-        "failed": "无法准备诊断信息。请再试一次。"
+        "failed": "无法准备诊断信息。请再试一次。",
+        "rowTitle": "共享诊断信息"
       }
     },
     "advanced": {
@@ -364,7 +368,7 @@
     "hotkeys": {
       "open": "快捷键",
       "loading": "正在加载快捷键⋯",
-      "secureInputHelp": "macOS 安全输入会对其他 App 隐藏按键，以保护密码输入。它启用期间，快捷键录制会暂停。",
+      "secureInputHelp": "macOS 安全输入保护密码栏期间，快捷键录制会暂停。",
       "count": "已设置 {{count}} 个，共 {{max}} 个",
       "notSet": "未设置",
       "current": "快捷键：{{shortcut}}",
@@ -420,7 +424,7 @@
         "command_mode": "按住快捷键，同时说出要如何编辑或撰写文本。",
         "paste_last": "再次粘贴最近一次的听写。",
         "copy_last": "将最近一次的听写拷贝到剪贴板。",
-        "press_enter": "在你正在输入的 App 中按下 Return 键。鼠标侧键很适合这个操作。",
+        "press_enter": "在你输入的位置按 Return 键。很适合鼠标侧键。",
         "undo_cancel": "取消听写后立即将其恢复。",
         "transform": {
           "polish": "用 Polish 改写所选文本。",
@@ -428,12 +432,22 @@
           "view_changes": "查看最近一次转换的前后对照。"
         },
         "scratchpad": {
-          "open": "依照草稿板设置，继续上一条笔记或新建笔记。"
+          "open": "继续上一条笔记或开始新笔记。"
         }
       },
-      "description_other": "每个操作最多可添加 {{max}} 个快捷键。更改会立即保存。"
+      "description_other": "每个操作最多可添加 {{max}} 个快捷键。更改会立即保存。",
+      "addFor": "为“{{action}}”添加快捷键"
     },
-    "resetSetting": "重置「{{setting}}」"
+    "resetSetting": "重置「{{setting}}」",
+    "intro": {
+      "general": "你的快捷键、麦克风、语言和 App 外观。",
+      "system": "Wispr Bro 如何启动、发出提示音和通知你。",
+      "privacy": "一切都留在这台 Mac 上。选择保留哪些内容以及保留多久。",
+      "advanced": "语音、整理、文本输出和更新的细节设置。"
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

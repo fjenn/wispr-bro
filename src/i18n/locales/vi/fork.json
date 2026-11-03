@@ -123,12 +123,14 @@
           "no_input_device": "Không tìm thấy micrô.",
           "failed": "Micrô không khởi động. Hãy thử micrô khác."
         }
-      }
+      },
+      "loadErrorPlain": "Không thể liệt kê micrô.",
+      "chooseErrorPlain": "Không thể đổi micrô."
     },
     "sound": {
       "title": "Âm thanh",
       "enabled": "Phát âm thanh khi đọc chính tả bắt đầu và dừng",
-      "enabledHelp": "Một âm ngắn cho biết micrô đang bật, và một âm khác cho biết nó đã dừng.",
+      "enabledHelp": "Một âm ngắn khi micrô bật và tắt.",
       "theme": "Âm thanh",
       "themes": {
         "marimba": "Marimba",
@@ -139,7 +141,7 @@
       "volumeValue": "{{percent}} phần trăm",
       "preview": "Phát",
       "mute": "Tắt tiếng mọi âm thanh khi đọc chính tả",
-      "muteHelp": "Nhạc và video sẽ im lặng khi bạn nói và trở lại cùng mức âm lượng sau đó."
+      "muteHelp": "Nhạc và video im lặng khi bạn nói, rồi trở lại như cũ."
     },
     "recovery": {
       "title": "Phím tắt khôi phục",
@@ -223,15 +225,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro có thể đọc tên trong mã và tên tệp mà VS Code, Cursor và Windsurf hiển thị trên màn hình, thông qua Trợ năng. Wispr Bro không bao giờ mở thư mục dự án hay các tệp của bạn.",
+      "intro": "Wispr Bro đọc tên mã và tên tệp mà trình soạn thảo hiển thị. Nó không bao giờ mở tệp của bạn.",
       "contextOff": "Nhận biết ngữ cảnh đang tắt nên các tính năng này không có gì để đọc. Hãy bật lên để sử dụng.",
       "recognize": "Nhận dạng tên trong mã",
-      "recognizeHint": "Khi bạn nói tên biến hoặc hàm đang hiển thị trong trình sửa mã, tên đó được viết đúng như trong mã của bạn, ví dụ getUserById hoặc user_id.",
+      "recognizeHint": "Viết các tên hiển thị trong trình soạn thảo đúng như mã của bạn viết.",
       "setUp": "Thiết lập",
       "change": "Đổi trình sửa mã",
       "setUpFor": "Thiết lập cho {{editors}}",
       "fileTags": "Gắn thẻ tệp trong chat",
-      "fileTagsHint": "Trong chat của Cursor hoặc Windsurf, nói “index dot ts” sẽ viết @index.ts khi tệp đó đang mở trong một tab hoặc hiện trong danh sách tệp.",
+      "fileTagsHint": "Trong chat của Cursor hoặc Windsurf, nói “index dot ts” sẽ viết @index.ts.",
       "fileTagsNeedsChat": "Có sau khi bạn thêm Cursor hoặc Windsurf vào danh sách trình sửa mã.",
       "fileTagsNeedsSetup": "Có sau khi bạn thiết lập nhận dạng tên trong mã.",
       "setup": {
@@ -258,7 +260,7 @@
       },
       "locations": {
         "title": "Nơi lưu dữ liệu của bạn",
-        "hint": "Các thư mục này thuộc về Wispr Bro. Bản cài đặt di động giữ tất cả trong thư mục Data của ứng dụng.",
+        "hint": "Các thư mục này chứa mọi thứ Wispr Bro lưu trên máy Mac này.",
         "data": "Dữ liệu và cài đặt ứng dụng",
         "models": "Mô hình đã tải về",
         "recordings": "Bản ghi âm",
@@ -272,7 +274,7 @@
         "textLabel": "Giữ văn bản đọc chính tả",
         "textHint": "Các mục cũ hơn được tự động xóa. Theo mặc định, văn bản được giữ vĩnh viễn.",
         "audioLabel": "Giữ bản ghi âm",
-        "audioHint": "Theo mặc định, âm thanh hết hạn sau 14 ngày. Xóa âm thanh vẫn giữ văn bản đọc chính tả của nó cho đến giới hạn văn bản.",
+        "audioHint": "Theo mặc định âm thanh hết hạn sau 14 ngày; văn bản vẫn giữ.",
         "options": {
           "0": "Không bao giờ lưu âm thanh",
           "1": "1 ngày",
@@ -287,15 +289,15 @@
       "choices": {
         "title": "Lựa chọn quyền riêng tư",
         "context": "Dùng nhận biết ngữ cảnh",
-        "contextHint": "Chỉ đọc văn bản lân cận trong lúc đọc chính tả để nhận dạng tên và chính tả. Ngữ cảnh không được lưu hay ghi nhật ký.",
+        "contextHint": "Đọc văn bản gần đó khi bạn đọc chính tả để viết đúng tên. Không bao giờ được lưu hay ghi nhật ký.",
         "updates": "Kiểm tra cập nhật ứng dụng",
-        "updatesHint": "Liên hệ GitHub để kiểm tra phiên bản mới. Không gửi bản đọc chính tả hay dữ liệu cá nhân nào.",
+        "updatesHint": "Hỏi GitHub về phiên bản mới. Không gửi nội dung đọc chính tả hay dữ liệu cá nhân.",
         "learn": "Học từ những chỗ tôi sửa",
-        "learnHint": "Sau khi dán bản đọc chính tả, nhận biết các từ bạn sửa trong ô văn bản đó và gợi ý chúng trong Từ điển. Chỉ từ đã sửa được giữ lại; phần còn lại của văn bản không bao giờ được lưu hay ghi nhật ký."
+        "learnHint": "Gợi ý từ cho từ điển dựa trên những chỗ bạn sửa sau khi đọc chính tả."
       },
       "export": {
         "title": "Dữ liệu của bạn",
-        "hint": "Xuất một tệp zip chứa Lịch sử, cài đặt và bản ghi âm của bạn. Không bao gồm mô hình và nhật ký.",
+        "hint": "Tệp zip gồm Lịch sử, cài đặt và bản ghi âm, không có mô hình hay nhật ký.",
         "button": "Xuất dữ liệu của tôi",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Tệp lưu trữ zip",
@@ -312,18 +314,20 @@
         "confirmLabel": "Nhập {{word}} để xác nhận",
         "cancel": "Hủy",
         "confirm": "Xóa tất cả",
-        "failed": "Chưa xóa xong tất cả. Hãy kiểm tra dữ liệu còn lại trước khi thử lại."
+        "failed": "Chưa xóa xong tất cả. Hãy kiểm tra dữ liệu còn lại trước khi thử lại.",
+        "short": "Xóa Lịch sử, bản ghi âm và cài đặt. Không thể hoàn tác."
       },
       "diagnostics": {
         "title": "Báo cáo sự cố và chẩn đoán",
-        "hint": "Báo cáo sự cố ở lại trên máy Mac này và không bao giờ được tải lên. Chỉ sao chép hoặc lưu thông tin chẩn đoán khi bạn muốn chia sẻ.",
-        "sanitized": "Thông tin chẩn đoán loại bỏ văn bản đọc chính tả, lời nhắc, từ trong từ điển, địa chỉ email, khóa và đường dẫn thư mục người dùng của bạn.",
+        "hint": "Báo cáo sự cố ở lại trên máy Mac này. Chỉ chia sẻ chẩn đoán khi bạn muốn.",
+        "sanitized": "Xóa văn bản đã đọc, prompt, từ trong từ điển, email, khóa và đường dẫn thư mục nhà của bạn.",
         "copy": "Sao chép thông tin chẩn đoán",
         "save": "Lưu thông tin chẩn đoán…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Đã sao chép thông tin chẩn đoán đã làm sạch.",
         "saved": "Đã lưu thông tin chẩn đoán đã làm sạch.",
-        "failed": "Không thể chuẩn bị thông tin chẩn đoán. Hãy thử lại."
+        "failed": "Không thể chuẩn bị thông tin chẩn đoán. Hãy thử lại.",
+        "rowTitle": "Chia sẻ chẩn đoán"
       }
     },
     "advanced": {
@@ -364,7 +368,7 @@
     "hotkeys": {
       "open": "Phím tắt",
       "loading": "Đang tải các phím tắt…",
-      "secureInputHelp": "Secure Input của macOS bảo vệ việc nhập mật khẩu bằng cách ẩn thao tác gõ phím khỏi các ứng dụng khác. Việc ghi phím tắt tạm dừng khi tính năng này đang bật.",
+      "secureInputHelp": "Việc ghi phím tắt tạm dừng khi Nhập liệu an toàn của macOS bảo vệ một trường mật khẩu.",
       "count": "Đã đặt {{count}}/{{max}}",
       "notSet": "Chưa đặt",
       "current": "Phím tắt: {{shortcut}}",
@@ -420,7 +424,7 @@
         "command_mode": "Giữ phím tắt trong khi nói cách sửa hoặc viết văn bản.",
         "paste_last": "Dán lại bản đọc chính tả gần nhất.",
         "copy_last": "Sao chép bản đọc chính tả gần nhất vào bảng nhớ tạm.",
-        "press_enter": "Nhấn Return trong ứng dụng bạn đang gõ. Nút bên của chuột rất hợp cho việc này.",
+        "press_enter": "Nhấn Return ở nơi bạn đang gõ. Nút bên của chuột rất hợp.",
         "undo_cancel": "Khôi phục bản đọc chính tả ngay sau khi bạn hủy.",
         "transform": {
           "polish": "Viết lại văn bản đã chọn bằng Polish.",
@@ -428,12 +432,22 @@
           "view_changes": "Xem lại trước và sau của lần chuyển đổi gần nhất."
         },
         "scratchpad": {
-          "open": "Tiếp tục ghi chú gần nhất hoặc bắt đầu ghi chú mới, theo cài đặt Bản nháp của bạn."
+          "open": "Tiếp tục ghi chú gần nhất hoặc bắt đầu ghi chú mới."
         }
       },
-      "description_other": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi được lưu khi bạn thực hiện."
+      "description_other": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi được lưu khi bạn thực hiện.",
+      "addFor": "Thêm phím tắt cho {{action}}"
     },
-    "resetSetting": "Đặt lại {{setting}}"
+    "resetSetting": "Đặt lại {{setting}}",
+    "intro": {
+      "general": "Phím tắt, micrô, ngôn ngữ của bạn và giao diện của ứng dụng.",
+      "system": "Cách Wispr Bro khởi động, phát âm thanh và thông báo cho bạn.",
+      "privacy": "Mọi thứ ở lại trên máy Mac này. Chọn những gì được giữ và trong bao lâu.",
+      "advanced": "Tinh chỉnh giọng nói, làm sạch, xuất văn bản và cập nhật."
+    },
+    "navGroups": {
+      "app": "Ứng dụng"
+    }
   },
   "hub": {
     "nav": {

@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 import { useSettings } from "@/hooks/useSettings";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
+import { Button, FOCUS_RING, Select } from "../ui";
+import { Play } from "../ui/icons";
+import { ToggleRow } from "./Controls";
 
 type Theme = "marimba" | "pop" | "custom";
 
@@ -21,12 +23,8 @@ export function SoundSettings() {
   const playTestSound = useSettingsStore((s) => s.playTestSound);
   const customSounds = useSettingsStore((s) => s.customSounds);
   const checkCustomSounds = useSettingsStore((s) => s.checkCustomSounds);
-  const soundsId = useId();
-  const soundsHelpId = useId();
   const themeId = useId();
   const volumeId = useId();
-  const muteId = useId();
-  const muteHelpId = useId();
 
   useEffect(() => {
     void checkCustomSounds();
@@ -46,94 +44,86 @@ export function SoundSettings() {
   };
 
   return (
-    <div
-      className="flex flex-col gap-2 text-sm"
-      data-testid="wb-sound-settings"
-    >
-      <label htmlFor={soundsId} className="flex items-center gap-2">
-        <input
-          id={soundsId}
-          type="checkbox"
-          data-testid="wb-sound-enabled"
-          aria-describedby={soundsHelpId}
-          checked={sounds}
-          disabled={isUpdating("audio_feedback")}
-          onChange={(e) =>
-            void updateSetting("audio_feedback", e.currentTarget.checked)
-          }
-        />
-        {t("settings.sound.enabled")}
-      </label>
-      <p id={soundsHelpId} className="-mt-1 ms-6 text-xs text-(--wb-ink-3)">
-        {t("settings.sound.enabledHelp")}
-      </p>
-      <div className="ms-6 flex flex-wrap items-center gap-3">
-        <label htmlFor={themeId} className="flex items-center gap-2">
-          {t("settings.sound.theme")}
-          <select
-            id={themeId}
-            data-testid="wb-sound-theme"
-            value={theme}
-            disabled={!sounds || isUpdating("sound_theme")}
-            onChange={(e) =>
-              void updateSetting("sound_theme", e.currentTarget.value as Theme)
-            }
-            className="rounded border border-(--wb-line-strong) bg-(--wb-surface) px-1 py-0.5"
-          >
-            {themes.map((th) => (
-              <option key={th} value={th}>
-                {t(`settings.sound.themes.${th}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label htmlFor={volumeId} className="flex items-center gap-2">
-          {t("settings.sound.volume")}
-          <input
-            id={volumeId}
-            type="range"
-            min={0}
-            max={100}
-            step={5}
-            data-testid="wb-sound-volume"
-            value={volume}
-            disabled={!sounds}
-            aria-valuetext={t("settings.sound.volumeValue", {
-              percent: volume,
-            })}
-            onChange={(e) =>
-              void updateSetting(
-                "audio_feedback_volume",
-                Number(e.currentTarget.value) / 100,
-              )
-            }
-          />
-        </label>
-        <Button
-          data-testid="wb-sound-preview"
-          disabled={!sounds}
-          onClick={() => void preview()}
+    <div className="flex flex-col gap-3" data-testid="wb-sound-settings">
+      <ToggleRow
+        label={t("settings.sound.enabled")}
+        hint={t("settings.sound.enabledHelp")}
+        checked={!!sounds}
+        disabled={isUpdating("audio_feedback")}
+        onChange={(checked) => void updateSetting("audio_feedback", checked)}
+        testId="wb-sound-enabled"
+      >
+        <div
+          className={`flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-(--wb-line) pt-3 text-[14px] ${sounds ? "" : "opacity-60"}`}
         >
-          {t("settings.sound.preview")}
-        </Button>
-      </div>
-      <label htmlFor={muteId} className="mt-2 flex items-center gap-2">
-        <input
-          id={muteId}
-          type="checkbox"
-          data-testid="wb-sound-mute"
-          aria-describedby={muteHelpId}
-          checked={settings.mute_while_recording}
-          disabled={isUpdating("mute_while_recording")}
-          onChange={(e) =>
-            void updateSetting("mute_while_recording", e.currentTarget.checked)
-          }
-        />
-        {t("settings.sound.mute")}
-      </label>
-      <p id={muteHelpId} className="-mt-1 ms-6 text-xs text-(--wb-ink-3)">
-        {t("settings.sound.muteHelp")}
-      </p>
+          <div className="flex items-center gap-2">
+            <span id={themeId} className="text-(--wb-ink-2)">
+              {t("settings.sound.theme")}
+            </span>
+            <Select
+              value={theme}
+              size="sm"
+              labelledBy={themeId}
+              disabled={!sounds || isUpdating("sound_theme")}
+              options={themes.map((th) => ({
+                value: th,
+                label: t(`settings.sound.themes.${th}`),
+              }))}
+              onValueChange={(value) =>
+                void updateSetting("sound_theme", value as Theme)
+              }
+              testId="wb-sound-theme"
+              className="w-32"
+            />
+          </div>
+          <label htmlFor={volumeId} className="flex items-center gap-2">
+            <span className="text-(--wb-ink-2)">
+              {t("settings.sound.volume")}
+            </span>
+            <input
+              id={volumeId}
+              type="range"
+              min={0}
+              max={100}
+              step={5}
+              data-testid="wb-sound-volume"
+              value={volume}
+              disabled={!sounds}
+              aria-valuetext={t("settings.sound.volumeValue", {
+                percent: volume,
+              })}
+              onChange={(e) =>
+                void updateSetting(
+                  "audio_feedback_volume",
+                  Number(e.currentTarget.value) / 100,
+                )
+              }
+              className={`w-32 cursor-pointer accent-(--wb-ink) disabled:cursor-default ${FOCUS_RING}`}
+            />
+          </label>
+          <Button
+            variant="outline"
+            size="sm"
+            data-testid="wb-sound-preview"
+            disabled={!sounds}
+            onClick={() => void preview()}
+            className="ms-auto"
+          >
+            <Play size={14} />
+            {t("settings.sound.preview")}
+          </Button>
+        </div>
+      </ToggleRow>
+      <ToggleRow
+        label={t("settings.sound.mute")}
+        hint={t("settings.sound.muteHelp")}
+        checked={!!settings.mute_while_recording}
+        disabled={isUpdating("mute_while_recording")}
+        onChange={(checked) =>
+          void updateSetting("mute_while_recording", checked)
+        }
+        testId="wb-sound-mute"
+      />
     </div>
   );
 }

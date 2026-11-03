@@ -431,17 +431,21 @@ test.describe("Sounds", () => {
     });
     const { sound } = await openSound(page, ipc, hub);
     await page.getByTestId("wb-settings-nav-system").click();
-    const enabled = sound.getByRole("checkbox", {
+    const enabled = sound.getByRole("switch", {
       name: "Play a sound when dictation starts and stops",
     });
     await expect(enabled).toBeChecked();
-    const mute = sound.getByRole("checkbox", {
+    const mute = sound.getByRole("switch", {
       name: "Mute all audio while dictating",
     });
     await expect(mute).not.toBeChecked();
-    await expect(mute).toHaveAccessibleDescription(/same volume/);
+    await expect(mute).toHaveAccessibleDescription(/return unchanged/);
+    await expect(enabled).toHaveAccessibleDescription(/short tone/);
 
-    await sound.getByRole("combobox", { name: "Sound" }).selectOption("pop");
+    const theme = sound.getByRole("combobox", { name: "Sound" });
+    await expect(theme).toHaveText("Marimba");
+    await theme.click();
+    await page.getByRole("option", { name: "Pop" }).click();
     await ipc.expectCalled("change_sound_theme_setting", { theme: "pop" });
     await sound.getByRole("button", { name: "Play" }).click();
     await expect

@@ -106,27 +106,26 @@ export function Capture({ actionId, onDone }: CaptureProps) {
     <div
       className="flex flex-col items-start gap-2"
       data-testid="wb-hotkey-capture"
+      data-ready={ready || undefined}
     >
       <span role="status" className="sr-only">
-        {t("settingsModal.hotkeys.capture.listeningHelp")}
+        {ready
+          ? t("settingsModal.hotkeys.capture.listeningHelp")
+          : t("settingsModal.hotkeys.capture.starting")}
       </span>
-      {error ? (
+      {error && (
         <p
           role="alert"
-          className="max-w-md text-xs text-red-700 dark:text-red-300"
+          className="text-[13px] leading-[18px] text-(--wb-danger)"
           data-testid="wb-hotkey-capture-error"
         >
           {t(`settingsModal.hotkeys.capture.${error}`)}
         </p>
-      ) : (
-        <span className="text-xs text-(--wb-ink-2)">
-          {ready
-            ? t("settingsModal.hotkeys.capture.listening")
-            : t("settingsModal.hotkeys.capture.starting")}
-        </span>
       )}
       <Button
         ref={cancelRef}
+        variant="ghost"
+        size="sm"
         data-testid="wb-hotkey-capture-cancel"
         onClick={() => doneRef.current(null)}
       >

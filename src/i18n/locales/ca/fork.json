@@ -125,12 +125,14 @@
           "no_input_device": "No s'ha trobat cap micròfon.",
           "failed": "El micròfon no s'ha iniciat. Prova'n un altre."
         }
-      }
+      },
+      "loadErrorPlain": "No s’han pogut llistar els micròfons.",
+      "chooseErrorPlain": "No s’ha pogut canviar de micròfon."
     },
     "sound": {
       "title": "Sons",
       "enabled": "Reproduir un so quan el dictat comença i s'atura",
-      "enabledHelp": "Un to curt t'indica que el micròfon està activat, i un altre que s'ha aturat.",
+      "enabledHelp": "Un so breu quan el micròfon s’activa i es desactiva.",
       "theme": "Son",
       "themes": {
         "marimba": "Marimba",
@@ -141,7 +143,7 @@
       "volumeValue": "{{percent}} per cent",
       "preview": "Reproduir",
       "mute": "Silenciar tot l'àudio mentre dictes",
-      "muteHelp": "La música i els vídeos se silencien mentre parles i després tornen al mateix volum."
+      "muteHelp": "La música i els vídeos es silencien mentre parles i després tornen igual."
     },
     "recovery": {
       "title": "Dreceres de recuperació",
@@ -225,15 +227,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro pot llegir els noms de codi i de fitxers que VS Code, Cursor i Windsurf mostren a la pantalla, mitjançant l'Accessibilitat. No obre mai la carpeta del projecte ni els teus fitxers.",
+      "intro": "Wispr Bro llegeix els noms de codi i de fitxers que mostra l’editor. Mai no obre els teus fitxers.",
       "contextOff": "El context està desactivat, així que aquestes funcions no tenen res per llegir. Activa'l per fer-les servir.",
       "recognize": "Reconèixer noms de codi",
-      "recognizeHint": "Quan dius el nom d'una variable o funció visible a l'editor, s'escriu tal com el teu codi l'escriu, com ara getUserById o user_id.",
+      "recognizeHint": "Escriu els noms visibles a l’editor tal com els escriu el teu codi.",
       "setUp": "Configurar",
       "change": "Canviar editors",
       "setUpFor": "Configurar per a {{editors}}",
       "fileTags": "Etiquetar fitxers al xat",
-      "fileTagsHint": "Al xat de Cursor o Windsurf, si dius “index punt ts” s'escriu @index.ts quan aquest fitxer està obert en una pestanya o apareix a la llista de fitxers.",
+      "fileTagsHint": "Al xat de Cursor o Windsurf, dir «index dot ts» escriu @index.ts.",
       "fileTagsNeedsChat": "Disponible quan afegeixis Cursor o Windsurf als teus editors.",
       "fileTagsNeedsSetup": "Disponible quan configuris el reconeixement de noms de codi.",
       "setup": {
@@ -260,7 +262,7 @@
       },
       "locations": {
         "title": "On es desen les teves dades",
-        "hint": "Aquestes carpetes són de Wispr Bro. Les instal·lacions portàtils les desen totes a la carpeta Data de l'app.",
+        "hint": "Aquestes carpetes contenen tot el que Wispr Bro conserva en aquest Mac.",
         "data": "Dades i configuració de l'app",
         "models": "Models baixats",
         "recordings": "Enregistraments",
@@ -274,7 +276,7 @@
         "textLabel": "Conservar el text dictat",
         "textHint": "Les entrades més antigues s'eliminen automàticament. Per defecte, el text es conserva per sempre.",
         "audioLabel": "Conservar els enregistraments",
-        "audioHint": "Per defecte, l'àudio caduca al cap de 14 dies. Si s'elimina l'àudio, el text dictat es conserva fins al límit del text.",
+        "audioHint": "Per defecte, l’àudio caduca als 14 dies; el text es queda.",
         "options": {
           "0": "No conservar mai l'àudio",
           "1": "1 dia",
@@ -289,15 +291,15 @@
       "choices": {
         "title": "Opcions de privacitat",
         "context": "Fer servir el context",
-        "contextHint": "Llegeix el text proper només mentre dictes, per reconèixer noms i ortografia. El context no es desa ni es registra.",
+        "contextHint": "Llegeix el text proper mentre dictes per escriure bé els noms. Mai no es desa ni es registra.",
         "updates": "Comprovar si hi ha actualitzacions",
-        "updatesHint": "Contacta amb GitHub per comprovar si hi ha una versió nova. No s'envia cap dictat ni cap dada personal.",
+        "updatesHint": "Consulta GitHub per si hi ha versions noves. No envia dictats ni dades personals.",
         "learn": "Aprendre de les meves correccions",
-        "learnHint": "Després d'enganxar un dictat, detecta les paraules que corregeixes en aquell quadre de text i te les suggereix al Diccionari. Només es conserva la paraula corregida; la resta del text no es desa ni es registra mai."
+        "learnHint": "Suggereix paraules per al diccionari a partir del que corregeixes després d’un dictat."
       },
       "export": {
         "title": "Les teves dades",
-        "hint": "Exporta un zip amb l'Historial, la configuració i els enregistraments. No inclou els models ni els registres.",
+        "hint": "Un zip amb l’Historial, la configuració i les gravacions, sense models ni registres.",
         "button": "Exportar les meves dades",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Arxiu ZIP",
@@ -314,18 +316,20 @@
         "confirmLabel": "Escriu {{word}} per confirmar",
         "cancel": "Cancel·lar",
         "confirm": "Eliminar-ho tot",
-        "failed": "L'eliminació no s'ha completat. Revisa les dades que queden abans de tornar-ho a provar."
+        "failed": "L'eliminació no s'ha completat. Revisa les dades que queden abans de tornar-ho a provar.",
+        "short": "Esborra l’Historial, les gravacions i la configuració. No es pot desfer."
       },
       "diagnostics": {
         "title": "Informes d'errors i diagnòstics",
-        "hint": "Els informes d'errors no surten d'aquest Mac i no es pugen mai. Copia o desa els diagnòstics només quan els vulguis compartir.",
-        "sanitized": "Els diagnòstics eliminen el text dictat, les instruccions, les paraules del diccionari, les adreces de correu electrònic, les claus i el camí de la teva carpeta d'inici.",
+        "hint": "Els informes d’errors es queden en aquest Mac. Comparteix diagnòstics només si vols.",
+        "sanitized": "Treu el text dictat, els prompts, les paraules del diccionari, els correus, les claus i el camí de la teva carpeta.",
         "copy": "Copiar els diagnòstics",
         "save": "Desar els diagnòstics…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "S'han copiat els diagnòstics anonimitzats.",
         "saved": "S'han desat els diagnòstics anonimitzats.",
-        "failed": "No s'han pogut preparar els diagnòstics. Torna-ho a provar."
+        "failed": "No s'han pogut preparar els diagnòstics. Torna-ho a provar.",
+        "rowTitle": "Comparteix diagnòstics"
       }
     },
     "advanced": {
@@ -366,7 +370,7 @@
     "hotkeys": {
       "open": "Dreceres",
       "loading": "Carregant les dreceres…",
-      "secureInputHelp": "L'entrada segura de macOS protegeix les contrasenyes amagant les pulsacions a les altres apps. La captura de dreceres es posa en pausa mentre està activa.",
+      "secureInputHelp": "La captura s’atura mentre l’entrada segura de macOS protegeix un camp de contrasenya.",
       "count": "{{count}} de {{max}} definides",
       "notSet": "No definida",
       "current": "Drecera: {{shortcut}}",
@@ -422,7 +426,7 @@
         "command_mode": "Mantén premuda la drecera mentre dius com vols editar o escriure el text.",
         "paste_last": "Torna a enganxar el teu dictat més recent.",
         "copy_last": "Copia el teu dictat més recent al porta-retalls.",
-        "press_enter": "Prem Retorn a l'app on estàs escrivint. Un botó lateral del ratolí hi funciona bé.",
+        "press_enter": "Prem Retorn on escrius. Un botó lateral del ratolí hi va bé.",
         "undo_cancel": "Recupera un dictat just després de cancel·lar-lo.",
         "transform": {
           "polish": "Reescriu el text seleccionat amb Polish.",
@@ -430,14 +434,24 @@
           "view_changes": "Revisa l'abans i el després de l'última transformació."
         },
         "scratchpad": {
-          "open": "Continua l'última nota o en comença una de nova, segons la configuració de l'Esborrany."
+          "open": "Reprèn l’última nota o comença’n una de nova."
         }
       },
       "description_one": "Afegeix fins a {{max}} drecera per a cada acció. Els canvis es desen a mesura que els fas.",
       "description_many": "Afegeix fins a {{max}} de dreceres per a cada acció. Els canvis es desen a mesura que els fas.",
-      "description_other": "Afegeix fins a {{max}} dreceres per a cada acció. Els canvis es desen a mesura que els fas."
+      "description_other": "Afegeix fins a {{max}} dreceres per a cada acció. Els canvis es desen a mesura que els fas.",
+      "addFor": "Afegeix una drecera per a {{action}}"
     },
-    "resetSetting": "Restaurar {{setting}}"
+    "resetSetting": "Restaurar {{setting}}",
+    "intro": {
+      "general": "La teva drecera, el micròfon, els idiomes i l’aspecte de l’app.",
+      "system": "Com s’inicia Wispr Bro, com sona i com t’avisa.",
+      "privacy": "Tot es queda en aquest Mac. Tria què es conserva i durant quant de temps.",
+      "advanced": "Ajustos fins de veu, neteja, sortida de text i actualitzacions."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

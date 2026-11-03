@@ -112,7 +112,7 @@ export interface IconButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
   /** Required: the button has no visible text. */
   "aria-label": string;
-  variant?: "ghost" | "secondary" | "primary" | "hud";
+  variant?: "ghost" | "secondary" | "primary" | "hud" | "outline";
   size?: ButtonSize;
   /** Round instead of the 8 px square. */
   round?: boolean;
@@ -131,6 +131,9 @@ const ICON_VARIANTS: Record<NonNullable<IconButtonProps["variant"]>, string> = {
     "bg-(--wb-secondary) text-(--wb-ink) hover:bg-(--wb-secondary-hover)",
   primary: "bg-(--wb-ink) text-(--wb-on-ink) hover:bg-(--wb-ink-hover)",
   hud: "bg-(--wb-hud-control) text-(--wb-on-hud) hover:brightness-125",
+  /** White square with a hairline on a tinted card (the hotkeys "+"). */
+  outline:
+    "border border-(--wb-line-2) bg-(--wb-surface) text-(--wb-ink) hover:bg-(--wb-surface-tint)",
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(

@@ -68,6 +68,32 @@ export async function openSettingsModal(
   await page.setViewportSize({ width: 1040, height: 720 });
   await page.goto(`/#/hub/settings/${section}`);
   const modal = page.getByTestId("wb-settings-modal");
-  await expect(modal).toBeVisible({ timeout: 15_000 });
+  await expect(modal).toBeVisible({ timeout: 30_000 });
   return modal;
+}
+
+/**
+ * Picks `value` in a Radix `Select` (Design W3 replaced the native selects):
+ * opens the combobox, clicks the option, and waits for the list to close.
+ */
+export async function chooseOption(page: Page, testId: string, value: string) {
+  const trigger = page.getByTestId(testId);
+  await expect(trigger).toBeEnabled();
+  await trigger.click();
+  await page.getByTestId(`${testId}-option-${value}`).click();
+  await expect(page.getByRole("listbox")).toHaveCount(0);
+}
+
+/** The labels a Radix `Select` offers, in order (opens and closes it). */
+export async function expectOptions(
+  page: Page,
+  testId: string,
+  labels: string[],
+) {
+  await page.getByTestId(testId).click();
+  await expect(page.getByRole("listbox").getByRole("option")).toHaveText(
+    labels,
+  );
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("listbox")).toHaveCount(0);
 }

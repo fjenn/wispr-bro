@@ -17,6 +17,7 @@ import {
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
+import { TriangleAlert } from "../ui/icons";
 
 import { barHeights, baseHeight, litBars, METER_BARS } from "./meterBars";
 
@@ -34,12 +35,16 @@ type LoadState =
   | { kind: "ready"; list: ForkMicList }
   | { kind: "error"; message: string };
 
+/** A short reason for an error, or "" when there is none worth showing
+ * (a backend that is not ready answers `null`; "…: null" is no reason). */
 function errorText(e: unknown): string {
   if (e && typeof e === "object" && "kind" in e) {
-    const err = e as { kind: string; message?: string };
-    return err.message ?? err.kind;
+    const err = e as { kind: string; message?: string | null };
+    return (err.message ?? err.kind ?? "").trim();
   }
-  return String(e);
+  if (e === null || e === undefined) return "";
+  const text = String(e).trim();
+  return text === "null" || text === "undefined" ? "" : text;
 }
 
 /** A reply that can be rendered (a backend not ready yet may send none). */
@@ -62,7 +67,7 @@ function EntryLabel({
       <span className="flex flex-col">
         <span>{t("settings.mic.auto")}</span>
         {list.system_default && (
-          <span className="text-xs text-(--wb-ink-3)">
+          <span className="text-[13px] leading-[18px] text-(--wb-ink-2)">
             {t("settings.mic.autoNow", { name: list.system_default })}
           </span>
         )}
@@ -90,8 +95,12 @@ function EntryLabel({
 
 export function MicrophonePicker({
   showMeter = true,
+  hideLegend = false,
 }: {
   showMeter?: boolean;
+  /** The surrounding card already says "Microphone": keep the legend for
+   * screen readers only. */
+  hideLegend?: boolean;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const [state, setState] = useState<LoadState>({ kind: "loading" });
@@ -152,18 +161,31 @@ export function MicrophonePicker({
 
   if (state.kind === "loading") {
     return (
-      <p className="text-xs text-(--wb-ink-3)" data-testid="wb-mic-loading">
+      <p
+        className="text-[13px] leading-[18px] text-(--wb-ink-2)"
+        data-testid="wb-mic-loading"
+      >
         {t("settings.mic.loading")}
       </p>
     );
   }
   if (state.kind === "error") {
     return (
-      <div className="flex flex-col gap-2 text-sm" data-testid="wb-mic-picker">
-        <p role="alert" className="text-xs font-medium text-(--wb-ink)">
-          {t("settings.mic.loadError", { message: state.message })}
+      <div
+        className="flex items-center gap-3 text-[14px]"
+        data-testid="wb-mic-picker"
+      >
+        <TriangleAlert
+          size={16}
+          aria-hidden="true"
+          className="shrink-0 text-(--wb-ink-2)"
+        />
+        <p role="alert" className="min-w-0 flex-1 text-(--wb-ink)">
+          {state.message
+            ? t("settings.mic.loadError", { message: state.message })
+            : t("settings.mic.loadErrorPlain")}
         </p>
-        <Button className="self-start" onClick={() => void load()}>
+        <Button variant="outline" size="sm" onClick={() => void load()}>
           {t("settings.mic.retry")}
         </Button>
       </div>
@@ -180,14 +202,18 @@ export function MicrophonePicker({
         aria-describedby={anyWireless ? cautionId : undefined}
         aria-busy={busy}
       >
-        <legend className="mb-1 font-medium">{t("settings.mic.legend")}</legend>
+        <legend
+          className={hideLegend ? "sr-only" : "mb-1 text-[15px] font-medium"}
+        >
+          {t("settings.mic.legend")}
+        </legend>
         {list.entries.map((entry) => {
           const id = `${groupId}-${entry.value}`;
           return (
             <label
               key={entry.value}
               htmlFor={id}
-              className="flex cursor-pointer items-start gap-2 rounded-(--wb-radius-sm) px-1 py-1 hover:bg-(--wb-fill-hover)"
+              className="-mx-2 flex cursor-pointer items-start gap-2.5 rounded-(--wb-radius-sm) px-2 py-1.5 text-[15px] leading-5 transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover)"
               data-testid="wb-mic-option"
               data-value={entry.value}
             >
@@ -195,7 +221,7 @@ export function MicrophonePicker({
                 id={id}
                 type="radio"
                 name={groupId}
-                className="mt-0.5"
+                className="mt-[3px] size-4"
                 value={entry.value}
                 checked={(pending ?? list.selected) === entry.value}
                 onChange={() => void choose(entry.value)}
@@ -208,7 +234,7 @@ export function MicrophonePicker({
       {anyWireless && (
         <p
           id={cautionId}
-          className="text-xs text-(--wb-ink-2)"
+          className="text-[13px] leading-[18px] text-(--wb-ink-2)"
           data-testid="wb-mic-caution"
         >
           {t("settings.mic.caution")}
@@ -216,7 +242,7 @@ export function MicrophonePicker({
       )}
       {list.avoided && (
         <div
-          className="flex flex-col gap-2 rounded-(--wb-radius-sm) border border-(--wb-line) p-2 text-xs"
+          className="flex flex-col gap-2 rounded-(--wb-radius-sm) border border-(--wb-line) p-3 text-[13px]"
           data-testid="wb-mic-avoided"
         >
           <p>{t("settings.mic.avoided", { name: list.avoided })}</p>
@@ -233,15 +259,17 @@ export function MicrophonePicker({
       {list.in_use && (
         <p
           id={inUseId}
-          className="text-xs text-(--wb-ink-3)"
+          className="text-[13px] leading-[18px] text-(--wb-ink-2)"
           data-testid="wb-mic-in-use"
         >
           {t("settings.mic.inUse", { name: list.in_use })}
         </p>
       )}
-      {chooseError && (
-        <p role="alert" className="text-xs font-medium text-(--wb-ink)">
-          {t("settings.mic.chooseError", { message: chooseError })}
+      {chooseError !== null && (
+        <p role="alert" className="text-[13px] font-medium text-(--wb-ink)">
+          {chooseError
+            ? t("settings.mic.chooseError", { message: chooseError })
+            : t("settings.mic.chooseErrorPlain")}
         </p>
       )}
       {showMeter && (
@@ -473,14 +501,17 @@ export function MicLevelMeter({
         </div>
       </div>
       {running && (
-        <p className="text-xs text-(--wb-ink-3)" aria-live="polite">
+        <p
+          className="text-[13px] leading-[18px] text-(--wb-ink-2)"
+          aria-live="polite"
+        >
           {t("settings.mic.meter.hint")}
         </p>
       )}
       {error && (
         <p
           role="alert"
-          className="text-xs font-medium text-(--wb-ink)"
+          className="text-[13px] font-medium text-(--wb-ink)"
           data-testid="wb-mic-meter-error"
         >
           {t(errorKey)}

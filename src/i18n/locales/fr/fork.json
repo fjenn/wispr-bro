@@ -125,12 +125,14 @@
           "no_input_device": "Aucun micro détecté.",
           "failed": "Le micro n’a pas démarré. Essayez-en un autre."
         }
-      }
+      },
+      "loadErrorPlain": "Impossible d’obtenir la liste des micros.",
+      "chooseErrorPlain": "Impossible de changer de micro."
     },
     "sound": {
       "title": "Sons",
       "enabled": "Émettre un son au début et à la fin de la dictée",
-      "enabledHelp": "Un son bref indique que le micro est activé, un autre qu’il s’est arrêté.",
+      "enabledHelp": "Un bref son quand le micro s’allume et s’éteint.",
       "theme": "Son",
       "themes": {
         "marimba": "Marimba",
@@ -141,7 +143,7 @@
       "volumeValue": "{{percent}} pour cent",
       "preview": "Écouter",
       "mute": "Couper tout le son pendant la dictée",
-      "muteHelp": "La musique et les vidéos se taisent pendant que vous parlez, puis reprennent au même volume."
+      "muteHelp": "La musique et les vidéos se taisent pendant que vous parlez, puis reviennent comme avant."
     },
     "recovery": {
       "title": "Raccourcis de récupération",
@@ -225,15 +227,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro peut lire les noms de code et de fichiers que VS Code, Cursor et Windsurf affichent à l’écran, grâce à l’Accessibilité. Il n’ouvre jamais le dossier de votre projet ni vos fichiers.",
+      "intro": "Wispr Bro lit les noms de code et de fichiers affichés par votre éditeur. Il n’ouvre jamais vos fichiers.",
       "contextOff": "La prise en compte du contexte est désactivée : ces fonctions n’ont donc rien à lire. Activez-la pour les utiliser.",
       "recognize": "Reconnaître les noms de code",
-      "recognizeHint": "Quand vous prononcez un nom de variable ou de fonction visible dans votre éditeur, il est écrit comme dans votre code, par exemple getUserById ou user_id.",
+      "recognizeHint": "Écrit les noms visibles dans votre éditeur comme votre code les écrit.",
       "setUp": "Configurer",
       "change": "Changer d’éditeurs",
       "setUpFor": "Configurer pour {{editors}}",
       "fileTags": "Mentionner des fichiers dans le chat",
-      "fileTagsHint": "Dans le chat de Cursor ou Windsurf, dire « index point ts » écrit @index.ts quand ce fichier est ouvert dans un onglet ou affiché dans la liste des fichiers.",
+      "fileTagsHint": "Dans le chat de Cursor ou Windsurf, dire « index dot ts » écrit @index.ts.",
       "fileTagsNeedsChat": "Disponible une fois Cursor ou Windsurf ajouté à vos éditeurs.",
       "fileTagsNeedsSetup": "Disponible une fois la reconnaissance des noms de code configurée.",
       "setup": {
@@ -260,7 +262,7 @@
       },
       "locations": {
         "title": "Emplacement de vos données",
-        "hint": "Ces dossiers appartiennent à Wispr Bro. Les installations portables les regroupent tous dans le dossier Data de l’app.",
+        "hint": "Ces dossiers contiennent tout ce que Wispr Bro garde sur ce Mac.",
         "data": "Données et réglages de l’app",
         "models": "Modèles téléchargés",
         "recordings": "Enregistrements",
@@ -274,7 +276,7 @@
         "textLabel": "Conserver le texte dicté",
         "textHint": "Les entrées plus anciennes sont supprimées automatiquement. Le texte est conservé indéfiniment par défaut.",
         "audioLabel": "Conserver les enregistrements",
-        "audioHint": "Par défaut, l’audio expire au bout de 14 jours. Supprimer l’audio conserve son texte dicté jusqu’à la limite fixée pour le texte.",
+        "audioHint": "Par défaut, l’audio expire au bout de 14 jours ; le texte reste.",
         "options": {
           "0": "Ne jamais conserver l’audio",
           "1": "1 jour",
@@ -289,15 +291,15 @@
       "choices": {
         "title": "Choix de confidentialité",
         "context": "Utiliser la prise en compte du contexte",
-        "contextHint": "Lit le texte voisin uniquement pendant la dictée, pour reconnaître les noms et leur orthographe. Le contexte n’est ni enregistré ni journalisé.",
+        "contextHint": "Lit le texte voisin pendant la dictée pour bien écrire les noms. Jamais enregistré ni journalisé.",
         "updates": "Rechercher les mises à jour de l’app",
-        "updatesHint": "Contacte GitHub pour chercher une nouvelle version. Aucune dictée ni donnée personnelle n’est envoyée.",
+        "updatesHint": "Demande à GitHub s’il existe une nouvelle version. N’envoie ni dictée ni donnée personnelle.",
         "learn": "Apprendre à partir de mes corrections",
-        "learnHint": "Une fois une dictée collée, repère les mots que vous corrigez dans ce champ de texte et les suggère dans le Dictionnaire. Seul le mot corrigé est conservé ; le reste du texte n’est jamais enregistré ni journalisé."
+        "learnHint": "Suggère des mots pour le dictionnaire d’après vos corrections après une dictée."
       },
       "export": {
         "title": "Vos données",
-        "hint": "Exportez un fichier zip contenant votre Historique, vos réglages et vos enregistrements. Les modèles et les journaux ne sont pas inclus.",
+        "hint": "Un zip de votre Historique, de vos réglages et enregistrements, sans modèles ni journaux.",
         "button": "Exporter mes données",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archive ZIP",
@@ -314,18 +316,20 @@
         "confirmLabel": "Saisissez {{word}} pour confirmer",
         "cancel": "Annuler",
         "confirm": "Tout supprimer",
-        "failed": "La suppression n’a pas abouti. Vérifiez les données restantes avant de réessayer."
+        "failed": "La suppression n’a pas abouti. Vérifiez les données restantes avant de réessayer.",
+        "short": "Efface l’Historique, les enregistrements et les réglages. C’est irréversible."
       },
       "diagnostics": {
         "title": "Rapports de plantage et diagnostics",
-        "hint": "Les rapports de plantage restent sur ce Mac et ne sont jamais envoyés. Copiez ou enregistrez les diagnostics uniquement si vous souhaitez les partager.",
-        "sanitized": "Les diagnostics retirent le texte dicté, les prompts, les mots du dictionnaire, les adresses e-mail, les clés et le chemin de votre dossier personnel.",
+        "hint": "Les rapports de plantage restent sur ce Mac. Partagez les diagnostics seulement si vous le voulez.",
+        "sanitized": "Retire le texte dicté, les prompts, les mots du dictionnaire, les e-mails, les clés et le chemin de votre dossier.",
         "copy": "Copier les diagnostics",
         "save": "Enregistrer les diagnostics…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Diagnostics anonymisés copiés.",
         "saved": "Diagnostics anonymisés enregistrés.",
-        "failed": "Impossible de préparer les diagnostics. Réessayez."
+        "failed": "Impossible de préparer les diagnostics. Réessayez.",
+        "rowTitle": "Partager des diagnostics"
       }
     },
     "advanced": {
@@ -366,7 +370,7 @@
     "hotkeys": {
       "open": "Raccourcis",
       "loading": "Chargement des raccourcis…",
-      "secureInputHelp": "La saisie sécurisée de macOS protège les mots de passe en masquant les frappes aux autres apps. La capture des raccourcis est suspendue tant qu’elle est active.",
+      "secureInputHelp": "La capture est suspendue tant que la saisie sécurisée de macOS protège un champ de mot de passe.",
       "count": "{{count}} sur {{max}} définis",
       "notSet": "Non défini",
       "current": "Raccourci : {{shortcut}}",
@@ -422,7 +426,7 @@
         "command_mode": "Maintenez le raccourci tout en disant comment modifier ou écrire le texte.",
         "paste_last": "Collez à nouveau votre dernière dictée.",
         "copy_last": "Copiez votre dernière dictée dans le presse-papiers.",
-        "press_enter": "Appuyez sur Retour dans l’app où vous écrivez. Un bouton latéral de souris convient bien.",
+        "press_enter": "Appuie sur Retour là où vous tapez. Un bouton latéral de souris convient bien.",
         "undo_cancel": "Récupérez une dictée juste après l’avoir annulée.",
         "transform": {
           "polish": "Réécrivez le texte sélectionné avec Polish.",
@@ -430,14 +434,24 @@
           "view_changes": "Comparez l’avant et l’après de la dernière transformation."
         },
         "scratchpad": {
-          "open": "Reprenez votre dernière note ou créez-en une, selon votre réglage du Bloc-notes."
+          "open": "Reprend votre dernière note ou en commence une nouvelle."
         }
       },
       "description_one": "Ajoutez jusqu’à {{max}} raccourci par action. Les modifications sont enregistrées au fur et à mesure.",
       "description_many": "Ajoutez jusqu’à {{max}} de raccourcis par action. Les modifications sont enregistrées au fur et à mesure.",
-      "description_other": "Ajoutez jusqu’à {{max}} raccourcis par action. Les modifications sont enregistrées au fur et à mesure."
+      "description_other": "Ajoutez jusqu’à {{max}} raccourcis par action. Les modifications sont enregistrées au fur et à mesure.",
+      "addFor": "Ajouter un raccourci pour {{action}}"
     },
-    "resetSetting": "Réinitialiser {{setting}}"
+    "resetSetting": "Réinitialiser {{setting}}",
+    "intro": {
+      "general": "Votre raccourci, votre micro, vos langues et l’apparence de l’app.",
+      "system": "Comment Wispr Bro démarre, sonne et vous prévient.",
+      "privacy": "Tout reste sur ce Mac. Choisissez ce qui est conservé, et combien de temps.",
+      "advanced": "Réglages fins de la parole, du nettoyage, de la saisie et des mises à jour."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

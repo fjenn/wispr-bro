@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 import { test, expect, type IpcMock } from "./fixtures";
 import { expectNoSeriousAxeFindings, handySettings } from "./hub-fixture";
 import { forkSettingsDefaults } from "./settings-fixture";
-import { openSettingsModal } from "./settings-modal-fixture";
+import { chooseOption, openSettingsModal } from "./settings-modal-fixture";
 
 const responses = {
   fork_mic_list: {
@@ -113,8 +113,8 @@ test("System, Data and Privacy, collapsed Advanced, and About deep-link", async 
   await openSection(page, ipc, "system");
   await expect(page.getByTestId("wb-system-show-dock")).toBeChecked();
   await expect(page.getByTestId("wb-system-notifications")).toBeVisible();
-  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveValue(
-    "resume_last",
+  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveText(
+    "Resume my last note",
   );
   await page.getByTestId("wb-settings-nav-privacy").click();
   await expect(page.getByTestId("wb-settings-privacy")).toContainText(
@@ -128,13 +128,90 @@ test("System, Data and Privacy, collapsed Advanced, and About deep-link", async 
   await expect(page.getByTestId("wb-advanced-models")).toBeVisible();
   await expect(page.getByTestId("wb-advanced-ai")).toBeVisible();
   await expect(page.getByTestId("wb-advanced-live-text")).toBeVisible();
-  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveValue(
-    "stable",
+  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveText(
+    "Stable",
   );
   await page.getByTestId("wb-settings-nav-about").click();
   await expect(page.getByTestId("wb-about-version")).toHaveText(
     "Version 1.0.0-alpha.1",
   );
+});
+
+test("the nav groups sections under micro labels with the version below", async ({
+  page,
+  ipc,
+}) => {
+  await openSection(page, ipc);
+  const nav = page.getByRole("navigation", { name: "Settings sections" });
+  await expect(nav.getByRole("list", { name: "Settings" })).toBeVisible();
+  await expect(
+    nav.getByRole("list", { name: "Settings" }).getByRole("button"),
+  ).toHaveText(["General", "System", "Vibe coding", "Advanced"]);
+  await expect(
+    nav.getByRole("list", { name: "App" }).getByRole("button"),
+  ).toHaveText(["Data and Privacy", "About"]);
+  await expect(page.getByTestId("wb-settings-nav-general")).toHaveAttribute(
+    "aria-current",
+    "location",
+  );
+  await expect(page.getByTestId("wb-settings-version")).toHaveText(
+    "Version 1.0.0-alpha.1",
+  );
+  await expect(page.getByTestId("wb-settings-intro")).toHaveText(
+    "Your shortcut, microphone, languages and how the app looks.",
+  );
+  // The shortcut summary draws the key as a cap and still reads as text.
+  await expect(page.getByTestId("wb-shortcut-summary")).toHaveText(
+    "Hold fn to talk",
+  );
+});
+
+test("Escape closes an open select first, then the modal", async ({
+  page,
+  ipc,
+}) => {
+  await openSection(page, ipc, "system");
+  await page.getByTestId("wb-scratchpad-open-behavior").click();
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("listbox")).toHaveCount(0);
+  await expect(page.getByTestId("wb-settings-modal")).toBeVisible();
+  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("wb-settings-modal")).toHaveCount(0);
+});
+
+test("on/off settings are switches named and described by their row", async ({
+  page,
+  ipc,
+}) => {
+  await openSection(page, ipc, "system");
+  const dock = page.getByRole("switch", { name: "Show app in Dock" });
+  await expect(dock).toBeChecked();
+  await expect(dock).toHaveAccessibleDescription(
+    "Keep Wispr Bro in the Dock after its window closes.",
+  );
+  await expect(
+    page.getByRole("combobox", { name: "When Scratchpad opens" }),
+  ).toHaveAccessibleDescription(
+    "Choose what the shortcut and bar button open.",
+  );
+  // No native select or on/off checkbox is left in any fork section.
+  for (const section of ["general", "system", "vibe", "privacy", "advanced"]) {
+    await page.getByTestId(`wb-settings-nav-${section}`).click();
+    await expect(page.getByTestId("wb-settings-content")).toBeVisible();
+    const natives = await page.getByTestId("wb-settings-content").evaluate(
+      (root) =>
+        // A closed confirmation dialog (Delete all) keeps its own
+        // multi-choice checkbox; only controls on the page count.
+        [
+          ...root.querySelectorAll(
+            'select, input[type="checkbox"]:not([role="switch"]):not(.sr-only)',
+          ),
+        ].filter((el) => !el.closest("dialog:not([open])")).length,
+    );
+    expect(natives, section).toBe(0);
+  }
 });
 
 test("Help > Shortcuts opens the hotkeys panel", async ({ page, ipc }) => {
@@ -153,21 +230,19 @@ test("Dock and Scratchpad choices survive modal close and relaunch", async ({
   installPersistentSettings(ipc);
   await page.getByTestId("wb-system-show-dock").click();
   await expect(page.getByTestId("wb-system-show-dock")).not.toBeChecked();
-  await page
-    .getByTestId("wb-scratchpad-open-behavior")
-    .selectOption("new_note");
+  await chooseOption(page, "wb-scratchpad-open-behavior", "new_note");
   await page.getByTestId("wb-settings-close").click();
   await expect(page.getByTestId("wb-settings-modal")).toHaveCount(0);
   await page.getByTestId("wb-nav-settings").click();
   await page.getByTestId("wb-settings-nav-system").click();
   await expect(page.getByTestId("wb-system-show-dock")).not.toBeChecked();
-  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveValue(
-    "new_note",
+  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveText(
+    "Start a new note",
   );
   await page.reload();
   await expect(page.getByTestId("wb-system-show-dock")).not.toBeChecked();
-  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveValue(
-    "new_note",
+  await expect(page.getByTestId("wb-scratchpad-open-behavior")).toHaveText(
+    "Start a new note",
   );
 });
 
@@ -179,14 +254,14 @@ test("Advanced choices persist across relaunch", async ({ page, ipc }) => {
   // the mock IPC under the full parallel suite).
   await page.getByTestId("wb-advanced-live-text").click();
   await expect(page.getByTestId("wb-advanced-live-text")).toBeChecked();
-  await page.getByTestId("wb-advanced-update-channel").selectOption("beta");
-  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveValue(
-    "beta",
+  await chooseOption(page, "wb-advanced-update-channel", "beta");
+  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveText(
+    "Beta",
   );
   await page.reload();
   await expect(page.getByTestId("wb-advanced-live-text")).toBeChecked();
-  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveValue(
-    "beta",
+  await expect(page.getByTestId("wb-advanced-update-channel")).toHaveText(
+    "Beta",
   );
 });
 

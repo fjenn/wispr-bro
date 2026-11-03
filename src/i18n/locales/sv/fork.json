@@ -124,12 +124,14 @@
           "no_input_device": "Ingen mikrofon hittades.",
           "failed": "Mikrofonen startade inte. Prova en annan."
         }
-      }
+      },
+      "loadErrorPlain": "Kunde inte lista mikrofonerna.",
+      "chooseErrorPlain": "Kunde inte byta mikrofon."
     },
     "sound": {
       "title": "Ljud",
       "enabled": "Spela upp ett ljud när diktering startar och slutar",
-      "enabledHelp": "En kort ton talar om att mikrofonen är på, och en annan att den har stängts av.",
+      "enabledHelp": "En kort ton när mikrofonen slås på och av.",
       "theme": "Ljud",
       "themes": {
         "marimba": "Marimba",
@@ -140,7 +142,7 @@
       "volumeValue": "{{percent}} procent",
       "preview": "Spela upp",
       "mute": "Stäng av allt ljud medan du dikterar",
-      "muteHelp": "Musik och video tystnar medan du pratar och kommer tillbaka med samma volym efteråt."
+      "muteHelp": "Musik och video tystnar medan du pratar och kommer sedan tillbaka oförändrade."
     },
     "recovery": {
       "title": "Kortkommandon för återställning",
@@ -224,15 +226,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro kan via Hjälpmedel läsa de kodnamn och filnamn som VS Code, Cursor och Windsurf visar på skärmen. Appen öppnar aldrig din projektmapp eller dina filer.",
+      "intro": "Wispr Bro läser de kod- och filnamn som din editor visar. Den öppnar aldrig dina filer.",
       "contextOff": "Kontextmedvetenhet är avstängd, så de här funktionerna har inget att läsa. Slå på den för att använda dem.",
       "recognize": "Känn igen kodnamn",
-      "recognizeHint": "När du säger ett variabel- eller funktionsnamn som syns i redigeraren skrivs det som i din kod, till exempel getUserById eller user_id.",
+      "recognizeHint": "Skriver namn som syns i editorn så som din kod stavar dem.",
       "setUp": "Konfigurera",
       "change": "Byt redigerare",
       "setUpFor": "Konfigurera för {{editors}}",
       "fileTags": "Tagga filer i chatten",
-      "fileTagsHint": "När du säger ”index dot ts” i chatten i Cursor eller Windsurf skrivs @index.ts om filen är öppen i en flik eller syns i fillistan.",
+      "fileTagsHint": "I Cursors eller Windsurfs chatt blir ”index dot ts” @index.ts.",
       "fileTagsNeedsChat": "Tillgängligt när du har lagt till Cursor eller Windsurf bland dina redigerare.",
       "fileTagsNeedsSetup": "Tillgängligt när du har konfigurerat igenkänning av kodnamn.",
       "setup": {
@@ -259,7 +261,7 @@
       },
       "locations": {
         "title": "Var dina data finns",
-        "hint": "De här mapparna tillhör Wispr Bro. I en portabel installation ligger alla i appens Data-mapp.",
+        "hint": "De här mapparna rymmer allt Wispr Bro sparar på den här Macen.",
         "data": "Appdata och inställningar",
         "models": "Hämtade modeller",
         "recordings": "Inspelningar",
@@ -273,7 +275,7 @@
         "textLabel": "Behåll dikterad text",
         "textHint": "Äldre poster tas bort automatiskt. Som standard sparas text för alltid.",
         "audioLabel": "Behåll inspelningar",
-        "audioHint": "Ljud raderas som standard efter 14 dagar. När ljudet tas bort finns den dikterade texten kvar tills textgränsen nås.",
+        "audioHint": "Ljud går ut efter 14 dagar som standard; texten finns kvar.",
         "options": {
           "0": "Behåll aldrig ljud",
           "1": "1 dag",
@@ -288,15 +290,15 @@
       "choices": {
         "title": "Integritetsval",
         "context": "Använd kontextmedvetenhet",
-        "contextHint": "Läser text i närheten bara medan du dikterar, för att känna igen namn och stavning. Kontexten sparas eller loggas aldrig.",
+        "contextHint": "Läser text i närheten medan du dikterar för att stava namn rätt. Sparas eller loggas aldrig.",
         "updates": "Sök efter appuppdateringar",
-        "updatesHint": "Kontaktar GitHub för att söka efter en ny version. Ingen diktering eller personlig information skickas.",
+        "updatesHint": "Frågar GitHub efter nya versioner. Skickar ingen diktering eller personlig data.",
         "learn": "Lär av mina korrigeringar",
-        "learnHint": "När en diktering har klistrats in uppmärksammas ord du rättar i textrutan och föreslås i Ordlista. Bara det rättade ordet sparas; resten av texten sparas eller loggas aldrig."
+        "learnHint": "Föreslår ord till ordlistan utifrån det du rättar efter en diktering."
       },
       "export": {
         "title": "Dina data",
-        "hint": "Exportera en zip-fil med din Historik, dina inställningar och inspelningar. Modeller och loggar ingår inte.",
+        "hint": "En zip med din historik, dina inställningar och inspelningar, utan modeller och loggar.",
         "button": "Exportera mina data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Ziparkiv",
@@ -313,18 +315,20 @@
         "confirmLabel": "Skriv {{word}} för att bekräfta",
         "cancel": "Avbryt",
         "confirm": "Radera allt",
-        "failed": "”Radera allt” slutfördes inte. Kontrollera återstående data innan du försöker igen."
+        "failed": "”Radera allt” slutfördes inte. Kontrollera återstående data innan du försöker igen.",
+        "short": "Raderar historik, inspelningar och inställningar. Det går inte att ångra."
       },
       "diagnostics": {
         "title": "Kraschrapporter och diagnostik",
-        "hint": "Kraschrapporter stannar på den här datorn och laddas aldrig upp. Kopiera eller spara diagnostik bara när du vill dela den.",
-        "sanitized": "Diagnostiken tar bort dikterad text, promptar, ord i ordlistan, e-postadresser, nycklar och sökvägen till din hemmapp.",
+        "hint": "Kraschrapporter stannar på den här Macen. Dela diagnostik bara om du vill.",
+        "sanitized": "Tar bort dikterad text, promptar, ord i ordlistan, e-postadresser, nycklar och sökvägen till din hemmapp.",
         "copy": "Kopiera diagnostik",
         "save": "Spara diagnostik…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Rensad diagnostik har kopierats.",
         "saved": "Rensad diagnostik har sparats.",
-        "failed": "Det gick inte att förbereda diagnostiken. Försök igen."
+        "failed": "Det gick inte att förbereda diagnostiken. Försök igen.",
+        "rowTitle": "Dela diagnostik"
       }
     },
     "advanced": {
@@ -365,7 +369,7 @@
     "hotkeys": {
       "open": "Kortkommandon",
       "loading": "Laddar kortkommandon…",
-      "secureInputHelp": "Säker inmatning i macOS skyddar lösenord genom att dölja tangenttryckningar för andra appar. Inspelning av kortkommandon pausas medan den är aktiv.",
+      "secureInputHelp": "Inspelningen pausas medan säker inmatning i macOS skyddar ett lösenordsfält.",
       "count": "{{count}} av {{max}} inställda",
       "notSet": "Inte inställt",
       "current": "Kortkommando: {{shortcut}}",
@@ -421,7 +425,7 @@
         "command_mode": "Håll ned kortkommandot medan du säger hur texten ska redigeras eller skrivas.",
         "paste_last": "Klistra in din senaste diktering igen.",
         "copy_last": "Kopiera din senaste diktering till urklipp.",
-        "press_enter": "Tryck på Retur i appen där du skriver. En sidoknapp på musen passar bra till detta.",
+        "press_enter": "Trycker på Retur där du skriver. En sidoknapp på musen passar bra.",
         "undo_cancel": "Återställ en diktering direkt efter att du har avbrutit den.",
         "transform": {
           "polish": "Skriv om den markerade texten med Polish.",
@@ -429,13 +433,23 @@
           "view_changes": "Granska den senaste omvandlingen före och efter."
         },
         "scratchpad": {
-          "open": "Fortsätt på din senaste anteckning eller börja på en ny, beroende på din inställning för Kladdblock."
+          "open": "Fortsätt din senaste anteckning eller börja en ny."
         }
       },
       "description_one": "Lägg till upp till {{max}} kortkommando för varje åtgärd. Ändringar sparas direkt.",
-      "description_other": "Lägg till upp till {{max}} kortkommandon för varje åtgärd. Ändringar sparas direkt."
+      "description_other": "Lägg till upp till {{max}} kortkommandon för varje åtgärd. Ändringar sparas direkt.",
+      "addFor": "Lägg till ett kortkommando för {{action}}"
     },
-    "resetSetting": "Återställ {{setting}}"
+    "resetSetting": "Återställ {{setting}}",
+    "intro": {
+      "general": "Ditt kortkommando, din mikrofon, dina språk och hur appen ser ut.",
+      "system": "Hur Wispr Bro startar, låter och meddelar dig.",
+      "privacy": "Allt stannar på den här Macen. Välj vad som sparas och hur länge.",
+      "advanced": "Finjustering av tal, rensning, textutmatning och uppdateringar."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {

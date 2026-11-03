@@ -124,12 +124,14 @@
           "no_input_device": "No microphone found.",
           "failed": "The microphone didn't start. Try another one."
         }
-      }
+      },
+      "loadErrorPlain": "Couldn't list the microphones.",
+      "chooseErrorPlain": "Couldn't switch microphones."
     },
     "sound": {
       "title": "Sounds",
       "enabled": "Play a sound when dictation starts and stops",
-      "enabledHelp": "A short tone tells you the mic is on, and another that it stopped.",
+      "enabledHelp": "A short tone when the mic turns on and off.",
       "theme": "Sound",
       "themes": {
         "marimba": "Marimba",
@@ -140,7 +142,7 @@
       "volumeValue": "{{percent}} percent",
       "preview": "Play",
       "mute": "Mute all audio while dictating",
-      "muteHelp": "Music and videos go quiet while you talk and come back at the same volume afterwards."
+      "muteHelp": "Music and videos go quiet while you talk, then return unchanged."
     },
     "recovery": {
       "title": "Recovery shortcuts",
@@ -224,15 +226,15 @@
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
+      "intro": "Wispr Bro reads the code and file names your editor shows. It never opens your files.",
       "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
       "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
+      "recognizeHint": "Writes names visible in your editor the way your code spells them.",
       "setUp": "Set up",
       "change": "Change editors",
       "setUpFor": "Set up for {{editors}}",
       "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” writes @index.ts.",
       "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
       "fileTagsNeedsSetup": "Available after you set up code name recognition.",
       "setup": {
@@ -259,7 +261,7 @@
       },
       "locations": {
         "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
+        "hint": "These folders hold everything Wispr Bro keeps on this Mac.",
         "data": "App data and settings",
         "models": "Downloaded models",
         "recordings": "Recordings",
@@ -273,7 +275,7 @@
         "textLabel": "Keep dictated text",
         "textHint": "Older entries are removed automatically. Text is kept forever by default.",
         "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "audioHint": "Audio expires after 14 days by default; the text stays.",
         "options": {
           "0": "Never keep audio",
           "1": "1 day",
@@ -288,15 +290,15 @@
       "choices": {
         "title": "Privacy choices",
         "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
+        "contextHint": "Reads nearby text while you dictate to spell names right. Never saved or logged.",
         "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
+        "updatesHint": "Asks GitHub for new versions. Sends no dictation or personal data.",
         "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "learnHint": "Suggests Dictionary words from fixes you make after a dictation."
       },
       "export": {
         "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
+        "hint": "A zip of your History, settings and recordings, without models or logs.",
         "button": "Export my data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip archive",
@@ -313,18 +315,20 @@
         "confirmLabel": "Type {{word}} to confirm",
         "cancel": "Cancel",
         "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "failed": "Delete all did not finish. Check the remaining data before trying again.",
+        "short": "Erase History, recordings and settings. This can't be undone."
       },
       "diagnostics": {
         "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
+        "hint": "Crash reports stay on this Mac. Share diagnostics only if you choose.",
+        "sanitized": "Removes dictated text, prompts, dictionary words, emails, keys and your home path.",
         "copy": "Copy diagnostics",
         "save": "Save diagnostics…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
         "copied": "Sanitized diagnostics copied.",
         "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "failed": "Could not prepare diagnostics. Try again.",
+        "rowTitle": "Share diagnostics"
       }
     },
     "advanced": {
@@ -365,7 +369,7 @@
     "hotkeys": {
       "open": "Shortcuts",
       "loading": "Loading shortcuts…",
-      "secureInputHelp": "macOS Secure Input protects password entry by hiding keystrokes from other apps. Shortcut capture pauses while it is active.",
+      "secureInputHelp": "Capture pauses while macOS Secure Input protects a password field.",
       "count": "{{count}} of {{max}} set",
       "notSet": "Not set",
       "current": "Shortcut: {{shortcut}}",
@@ -417,17 +421,27 @@
         "command_mode": "Hold the shortcut while you say how to edit or write text.",
         "paste_last": "Paste your most recent dictation again.",
         "copy_last": "Copy your most recent dictation to the clipboard.",
-        "press_enter": "Press Return in the app where you are typing. A mouse side button works well here.",
+        "press_enter": "Press Return where you are typing. A mouse side button works well.",
         "undo_cancel": "Restore a dictation just after you cancel it.",
         "transform.polish": "Rewrite the selected text with Polish.",
         "transform.prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
         "transform.view_changes": "Review the latest transform before and after.",
-        "scratchpad.open": "Resume your last note or start a new one, according to your Scratchpad setting."
+        "scratchpad.open": "Resume your last note or start a new one."
       },
       "description_one": "Add up to {{max}} shortcut for each action. Changes are saved as you make them.",
-      "description_other": "Add up to {{max}} shortcuts for each action. Changes are saved as you make them."
+      "description_other": "Add up to {{max}} shortcuts for each action. Changes are saved as you make them.",
+      "addFor": "Add a shortcut for {{action}}"
     },
-    "resetSetting": "Reset {{setting}}"
+    "resetSetting": "Reset {{setting}}",
+    "intro": {
+      "general": "Your shortcut, microphone, languages and how the app looks.",
+      "system": "How Wispr Bro starts, sounds and notifies you.",
+      "privacy": "Everything stays on this Mac. Choose what is kept, and for how long.",
+      "advanced": "Fine-tuning for speech, cleanup, text output and updates."
+    },
+    "navGroups": {
+      "app": "App"
+    }
   },
   "hub": {
     "nav": {
