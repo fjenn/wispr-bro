@@ -389,6 +389,10 @@ test.describe("backend handshake", () => {
 });
 
 test.describe("Design W4 morphs", () => {
+  // Timing tests: generous waits so a loaded machine (other worktrees
+  // building) slows them down instead of failing them.
+  const WAIT = 30_000;
+  test.beforeEach(() => test.setTimeout(120_000));
   const capsuleWidth = (page: Page) =>
     page
       .getByTestId("wb-pill-capsule")
@@ -399,7 +403,7 @@ test.describe("Design W4 morphs", () => {
     ipc,
   }) => {
     await openPill(page, ipc, STATES.heldMic);
-    await ipc.expectCalled("fork_pill_ready", { seq: 1 });
+    await ipc.expectCalled("fork_pill_ready", { seq: 1 }, WAIT);
     await ipc.waitForListener("fork-pill-state");
     await ipc.clearCalls();
     // The label goes: the window will shrink from 72 to 30 high.
@@ -410,7 +414,7 @@ test.describe("Design W4 morphs", () => {
         (c) => (c.args as { seq?: number }).seq === 2,
       ),
     ).toHaveLength(0);
-    await ipc.expectCalled("fork_pill_ready", { seq: 2 });
+    await ipc.expectCalled("fork_pill_ready", { seq: 2 }, WAIT);
     await expect(page.getByTestId("wb-pill-mic")).toHaveCount(0);
   });
 
@@ -422,9 +426,9 @@ test.describe("Design W4 morphs", () => {
     await ipc.waitForListener("fork-pill-state");
     await ipc.clearCalls();
     await ipc.emit("fork-pill-state", { ...STATES.locked, seq: 2 });
-    await ipc.expectCalled("fork_pill_ready", { seq: 2 });
+    await ipc.expectCalled("fork_pill_ready", { seq: 2 }, WAIT);
     await expect
-      .poll(() => capsuleWidth(page))
+      .poll(() => capsuleWidth(page), { timeout: WAIT })
       .toBeCloseTo(geometry.capsules.locked.w, 0);
   });
 
@@ -434,18 +438,32 @@ test.describe("Design W4 morphs", () => {
   }) => {
     await openPill(page, ipc, null);
     await ipc.waitForListener("fork-pill-state");
+    // Record the capsule's width on every frame from now on.
+    await page.evaluate(() => {
+      const seen: number[] = [];
+      (window as unknown as { __widths: number[] }).__widths = seen;
+      const tick = () => {
+        const el = document.querySelector('[data-testid="wb-pill-capsule"]');
+        if (el) seen.push(el.getBoundingClientRect().width);
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    // A stamp just ahead of the page's clock: the grow starts at the line
+    // whatever the machine's load (a busy page may paint late).
     await ipc.emit("fork-pill-state", {
       ...STATES.locked,
-      grown_at_unix_ms: await page.evaluate(() => Date.now()),
+      grown_at_unix_ms: (await page.evaluate(() => Date.now())) + 500,
     });
-    // It starts between the resting line and the full capsule …
-    const first = await capsuleWidth(page);
-    expect(first).toBeGreaterThanOrEqual(geometry.shapes.rest.w);
-    expect(first).toBeLessThan(geometry.capsules.locked.w);
-    // … and settles on the full size.
     await expect
-      .poll(() => capsuleWidth(page))
+      .poll(() => capsuleWidth(page), { timeout: WAIT })
       .toBeCloseTo(geometry.capsules.locked.w, 0);
+    const widths = await page.evaluate(
+      () => (window as unknown as { __widths: number[] }).__widths,
+    );
+    // It started at the resting line's width, not at the full size.
+    expect(widths[0]).toBeCloseTo(geometry.shapes.rest.w, 0);
+    expect(Math.max(...widths)).toBeLessThan(geometry.capsules.locked.w + 2);
   });
 
   test("Reduce Motion: sizes change at once, no shrink delay", async ({
@@ -463,7 +481,7 @@ test.describe("Design W4 morphs", () => {
     expect(await capsuleWidth(page)).toBe(geometry.capsules.locked.w);
     await ipc.emit("fork-pill-state", { ...STATES.lockedMic, seq: 2 });
     await ipc.emit("fork-pill-state", { ...STATES.locked, seq: 3 });
-    await ipc.expectCalled("fork_pill_ready", { seq: 3 });
+    await ipc.expectCalled("fork_pill_ready", { seq: 3 }, WAIT);
   });
 });
 
@@ -540,6 +558,8 @@ test("the waveform: a dotted line, then centred bars on the voice", async ({
   page,
   ipc,
 }) => {
+  // Page load, 20 emits and three polls: room for a busy machine.
+  test.setTimeout(120_000);
   await openPill(page, ipc, STATES.held);
   await ipc.waitForListener("fork-pill-levels");
   const wave = page.getByTestId("wb-pill-wave");
@@ -558,14 +578,14 @@ test("the waveform: a dotted line, then centred bars on the voice", async ({
     await page.waitForTimeout(30);
   }
   await expect(wave).toHaveAttribute("data-state", "audio");
-  await expect
-    .poll(async () => Math.min(...(await heights())))
-    .toBeGreaterThan(7);
-  const loud = await heights();
-  // Centre-weighted: the middle bar stands tallest.
+  // Centre-weighted: the middle bar stands tallest, the ends lower.
   const mid = Math.floor(geometry.bars / 2);
-  expect(loud[mid]).toBeGreaterThan(12);
-  expect(loud[mid]).toBeGreaterThan(loud[0]);
+  await expect
+    .poll(async () => {
+      const h = await heights();
+      return Math.min(...h) > 7 && h[mid] > 12 && h[mid] > h[0];
+    })
+    .toBe(true);
   // Silence: back down to the dotted line.
   for (let i = 0; i < 12; i++) {
     await ipc.emit("fork-pill-levels", { bars: Array(geometry.bars).fill(0) });

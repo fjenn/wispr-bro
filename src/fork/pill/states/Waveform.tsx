@@ -61,7 +61,8 @@ export function Waveform({ levels }: { levels: { current: LevelStore } }) {
     let last = performance.now();
     let raf = 0;
     const tick = (now: number) => {
-      const dt = Math.min(64, Math.max(0, now - last));
+      // Real time between frames (a slow frame catches up, it never lags).
+      const dt = Math.min(1000, Math.max(0, now - last));
       last = now;
       const { bars: level, heard } = levels.current;
       for (let i = 0; i < BARS; i++) {

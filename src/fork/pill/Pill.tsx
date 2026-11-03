@@ -292,7 +292,10 @@ function initialSize(
   grownAt: number | null,
   reduced: boolean,
 ): Size & { dw: number; dh: number; progressVelocity: number } {
-  const elapsed = grownAt == null ? Infinity : Date.now() - grownAt;
+  // A stamp slightly ahead of this clock (both read the wall clock, from
+  // two processes) counts as the start of the grow.
+  const raw = grownAt == null ? Infinity : Date.now() - grownAt;
+  const elapsed = raw < 0 && raw > -1000 ? 0 : raw;
   if (reduced || !(elapsed >= 0 && elapsed < SPRING_PARAMS.settleMs)) {
     return { ...target, dw: 0, dh: 0, progressVelocity: 0 };
   }
