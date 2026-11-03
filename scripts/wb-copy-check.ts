@@ -159,8 +159,22 @@ export function check(
 ): { findings: Finding[]; stale: string[] } {
   const findings: Finding[] = [];
   const allowedHit = new Set<string>();
+  // Index every quote by its five-word runs, so each string is compared
+  // only with the quotes it shares a run with.
+  const byRun = new Map<string, Quote[]>();
+  for (const q of quotes) {
+    for (const run of runs(words(q.text), MIN_WORDS)) {
+      const list = byRun.get(run) ?? [];
+      if (!list.includes(q)) list.push(q);
+      byRun.set(run, list);
+    }
+  }
   for (const [key, text] of strings) {
-    for (const q of quotes) {
+    const candidates = new Set<Quote>();
+    for (const run of runs(words(text), MIN_WORDS)) {
+      for (const q of byRun.get(run) ?? []) candidates.add(q);
+    }
+    for (const q of candidates) {
       const shared = sharedRun(text, q.text);
       if (!shared) continue;
       if (key in allow) {
