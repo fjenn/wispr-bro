@@ -12,10 +12,12 @@
 //!   from `fork.db` once per take. They are never given to the recognizer.
 //!
 //! [`store`] is the table, [`import`] and [`export`] the CSV paths of the
-//! Dictionary page. Every change emits [`ForkDictionaryChanged`].
+//! Dictionary page, [`learn`] the opt-in auto-learn (S-34) that fills
+//! Suggested. Every change emits [`ForkDictionaryChanged`].
 
 pub mod export;
 pub mod import;
+pub mod learn;
 pub mod migrate;
 pub mod store;
 #[cfg(test)]

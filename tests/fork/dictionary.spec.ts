@@ -153,6 +153,25 @@ class FakeDictionary {
       this.entries.push(...back);
       return back.length;
     });
+    ipc.handle("fork_dictionary_accept", (a) => {
+      const ids = a.ids as number[];
+      let accepted = 0;
+      for (const e of this.entries) {
+        if (ids.includes(e.id) && e.status === "suggested") {
+          e.status = "active";
+          accepted += 1;
+        }
+      }
+      return { accepted, full: 0 };
+    });
+    ipc.handle("fork_dictionary_reject", (a) => {
+      const ids = a.ids as number[];
+      const before = this.entries.length;
+      this.entries = this.entries.filter(
+        (e) => !(ids.includes(e.id) && e.status === "suggested"),
+      );
+      return before - this.entries.length;
+    });
   }
 }
 
@@ -418,9 +437,7 @@ dictTest.describe("dictionary page", () => {
       await page
         .getByRole("button", { name: "Add postgress to your dictionary" })
         .click();
-      await ipc.expectCalled("fork_dictionary_add", {
-        input: { phrase: "postgress", replacement: null },
-      });
+      await ipc.expectCalled("fork_dictionary_accept", { ids: [5] });
     },
   );
 
@@ -746,6 +763,174 @@ dictTest.describe("import wizard", () => {
       ]);
     },
   );
+});
+
+// S-34: auto-learn suggestions (Accept / Reject) and the opt-in toggle.
+dictTest.describe("dictionary suggestions (S-34)", () => {
+  const seedSuggestions = (dict: FakeDictionary) => {
+    dict.seed({ phrase: "Siobhán", replacement: null });
+    dict.seed(
+      { phrase: "Kubernetes", replacement: null },
+      { status: "suggested", source: "learn" },
+    );
+    dict.seed(
+      { phrase: "Aoife", replacement: "Aoibhe" },
+      { status: "suggested", source: "learn" },
+    );
+  };
+
+  dictTest(
+    "the toggle is off by default and opts in from the Suggested tab",
+    async ({ page, ipc, hub, dict }) => {
+      await openDictionary(page, ipc, hub, dict);
+      await selectTab(page, /Suggested/);
+      const toggle = page.getByTestId("wb-dictionary-learn-toggle");
+      await expect(toggle).not.toBeChecked();
+      await expect(page.getByTestId("wb-dictionary-learn")).toContainText(
+        "Only the word you fixed is kept",
+      );
+      await expect(
+        page.getByTestId("wb-dictionary-empty-suggested"),
+      ).toContainText("When Wispr Bro can learn");
+      await toggle.click();
+      await ipc.expectCalled("fork_set_setting", {
+        update: { key: "auto_learn_enabled", value: true },
+      });
+      await expect(toggle).toBeChecked();
+      expect(hub.forkSettings.auto_learn_enabled).toBe(true);
+      await expect(
+        page.getByTestId("wb-dictionary-empty-suggested"),
+      ).toContainText("press Return, Tab or move on");
+      // Only the Suggested tab carries the toggle.
+      await selectTab(page, /^All/);
+      await expect(page.getByTestId("wb-dictionary-learn")).toHaveCount(0);
+      await shot(page, "learn-on");
+    },
+  );
+
+  dictTest(
+    "accept and reject a suggestion; suggested rows cannot be edited",
+    async ({ page, ipc, hub, dict }) => {
+      seedSuggestions(dict);
+      hub.forkSettings.auto_learn_enabled = true;
+      await openDictionary(page, ipc, hub, dict);
+      await expect(tab(page, /^Suggested \(2\)$/)).toBeVisible();
+      await selectTab(page, /Suggested/);
+      await expect(rows(page)).toHaveCount(2);
+      await expect(rows(page).getByTestId("wb-dictionary-edit")).toHaveCount(0);
+      await expect(rows(page).getByTestId("wb-dictionary-delete")).toHaveCount(
+        0,
+      );
+      await shot(page, "suggested");
+
+      await page
+        .getByRole("button", { name: "Don't learn Aoife → Aoibhe" })
+        .click();
+      await ipc.expectCalled("fork_dictionary_reject", { ids: [3] });
+      await expect(
+        page.getByText("“Aoife → Aoibhe” won't be suggested again."),
+      ).toBeVisible();
+      await expect(rows(page)).toHaveCount(1);
+
+      await page
+        .getByRole("button", { name: "Add Kubernetes to your dictionary" })
+        .click();
+      await ipc.expectCalled("fork_dictionary_accept", { ids: [2] });
+      await expect(page.getByText("Added “Kubernetes”.")).toBeVisible();
+      await expect(
+        page.getByTestId("wb-dictionary-empty-suggested"),
+      ).toBeVisible();
+      await expect(tab(page, /^All \(2\)$/)).toBeVisible();
+      // A learned word is not "Added by you".
+      await expect(tab(page, /^Added by you \(1\)$/)).toBeVisible();
+    },
+  );
+
+  dictTest(
+    "a full dictionary keeps the suggestion waiting",
+    async ({ page, ipc, hub, dict }) => {
+      seedSuggestions(dict);
+      await openDictionary(page, ipc, hub, dict);
+      ipc.respond("fork_dictionary_accept", { accepted: 0, full: 1 });
+      await selectTab(page, /Suggested/);
+      await page
+        .getByRole("button", { name: "Add Kubernetes to your dictionary" })
+        .click();
+      await expect(
+        page.getByText("Your dictionary is full. Delete some entries first."),
+      ).toBeVisible();
+    },
+  );
+
+  dictTest(
+    "keyboard only: toggle, accept and reject",
+    async ({ page, ipc, hub, dict }) => {
+      seedSuggestions(dict);
+      await openDictionary(page, ipc, hub, dict);
+      await tab(page, /Suggested/).focus();
+      await page.keyboard.press("Enter");
+      await expect(tab(page, /Suggested/)).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+      const toggle = page.getByTestId("wb-dictionary-learn-toggle");
+      await toggle.focus();
+      await page.keyboard.press("Space");
+      await expect(toggle).toBeChecked();
+      const accept = page.getByRole("button", {
+        name: "Add Kubernetes to your dictionary",
+      });
+      await accept.focus();
+      await page.keyboard.press("Enter");
+      await ipc.expectCalled("fork_dictionary_accept", { ids: [2] });
+      const reject = page.getByRole("button", {
+        name: "Don't learn Aoife → Aoibhe",
+      });
+      await reject.focus();
+      await page.keyboard.press("Enter");
+      await ipc.expectCalled("fork_dictionary_reject", { ids: [3] });
+    },
+  );
+
+  dictTest(
+    "RTL mirrors the suggestion row",
+    async ({ page, ipc, hub, dict }) => {
+      seedSuggestions(dict);
+      await openDictionary(page, ipc, hub, dict, {
+        handy: { app_language: "ar" },
+      });
+      await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
+      // Tab names are Arabic here: the third tab is Suggested.
+      const suggestedTab = page.getByRole("tab").nth(2);
+      await suggestedTab.click();
+      await expect(suggestedTab).toHaveAttribute("aria-selected", "true");
+      const row = rows(page).first();
+      const text = await row
+        .getByTestId("wb-dictionary-phrase-text")
+        .boundingBox();
+      const accept = await row
+        .getByTestId("wb-dictionary-accept")
+        .boundingBox();
+      expect(text && accept && accept.x < text.x).toBe(true);
+      await expectNoSeriousAxeFindings(page);
+    },
+  );
+
+  for (const theme of ["light", "dark"] as const) {
+    dictTest(
+      `axe: the Suggested tab with suggestions (${theme})`,
+      async ({ page, ipc, hub, dict }) => {
+        await page.emulateMedia({ colorScheme: theme });
+        seedSuggestions(dict);
+        hub.forkSettings.auto_learn_enabled = true;
+        await openDictionary(page, ipc, hub, dict, { handy: { theme } });
+        await selectTab(page, /Suggested/);
+        await expect(rows(page)).toHaveCount(2);
+        await expectNoSeriousAxeFindings(page);
+        await shot(page, `suggested-${theme}`);
+      },
+    );
+  }
 });
 
 for (const theme of ["light", "dark"] as const) {

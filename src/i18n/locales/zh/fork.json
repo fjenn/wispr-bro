@@ -290,7 +290,9 @@
         "context": "Use context awareness",
         "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
         "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent."
+        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
+        "learn": "Learn from my corrections",
+        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
       },
       "export": {
         "title": "Your data",
@@ -1011,7 +1013,8 @@
       "used_other": "已使用 {{count}} 次",
       "edit": "编辑 {{entry}}",
       "delete": "删除 {{entry}}",
-      "accept": "将 {{entry}} 添加到你的词典中"
+      "accept": "将 {{entry}} 添加到你的词典中",
+      "reject": "Don't learn {{entry}}"
     },
     "source": {
       "import": "已导入",
@@ -1025,7 +1028,8 @@
     },
     "emptySuggested": {
       "title": "还没有建议",
-      "body": "当 {{appName}} 能从你纠正的词语中学习时，这些词语会在这里供你批准。"
+      "body": "当 {{appName}} 能从你纠正的词语中学习时，这些词语会在这里供你批准。",
+      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
     },
     "noMatch": {
       "title": "没有匹配项",
@@ -1128,6 +1132,12 @@
       "done_one": "已导出 {{count}} 条记录。",
       "done_other": "已导出 {{count}} 条记录。",
       "failed": "词典导出失败。请重试。"
+    },
+    "rejected": "“{{entry}}” won't be suggested again.",
+    "actionFailed": "That didn't work. Please try again.",
+    "learn": {
+      "toggle": "Learn from my corrections",
+      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
     }
   },
   "pill": {

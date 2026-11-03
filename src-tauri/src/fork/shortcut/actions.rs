@@ -35,6 +35,10 @@ pub type Handler = Arc<dyn Fn() + Send + Sync>;
 /// it); returns nothing and never blocks the key.
 pub type EscObserver = Arc<dyn Fn(EscContext) + Send + Sync>;
 
+/// A commit-key observer (S-34 auto-learn): told of every Return, keypad
+/// Enter or Tab that commits typed text; never blocks the key.
+pub type CommitKeyObserver = Arc<dyn Fn() + Send + Sync>;
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct EscContext {
     /// The Esc cancelled a recording or a transcription.
@@ -84,6 +88,7 @@ struct Inner {
     handlers: BTreeMap<String, Handler>,
     esc: Vec<(u64, EscObserver)>,
     next_esc: u64,
+    commit_keys: Vec<CommitKeyObserver>,
 }
 
 /// Handle returned by [`Registry::observe_esc`]; pass it back to stop.
@@ -146,6 +151,19 @@ impl Registry {
 
     pub fn unobserve_esc(&self, token: EscToken) {
         self.lock().esc.retain(|(t, _)| *t != token.0);
+    }
+
+    /// Adds a commit-key observer (for the app's lifetime).
+    pub fn observe_commit_key(&self, observer: CommitKeyObserver) {
+        self.lock().commit_keys.push(observer);
+    }
+
+    /// Tells every commit-key observer about a commit key-down.
+    pub fn notify_commit_key(&self) {
+        let observers: Vec<CommitKeyObserver> = self.lock().commit_keys.clone();
+        for o in observers {
+            o();
+        }
     }
 
     /// Tells every observer about an Esc key-down.

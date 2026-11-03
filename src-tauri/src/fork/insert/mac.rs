@@ -116,6 +116,11 @@ pub(super) fn deliver(
         }
     }
     publish_outcome(&app, take, report.delivery, &text, kind);
+    // S-34: a dictation left in the field (not sent by a Return) is watched
+    // for the user's corrections when auto-learn is on.
+    if kind == Kind::Take && report.delivery.inserted() && req.submit.is_none() {
+        crate::fork::dictionary::learn::on_pasted(&app, &text);
+    }
     (
         hook_result(report.delivery),
         report.delivery.paste_outcome(),

@@ -74,6 +74,13 @@ test("retention, context, and update choices persist across reload", async ({
   await expect(page.getByTestId("wb-privacy-context")).not.toBeChecked();
   await page.getByTestId("wb-privacy-updates").click();
   await expect(page.getByTestId("wb-privacy-updates")).not.toBeChecked();
+  // S-34: auto-learn is off by default (DEC-20) and opts in here.
+  await expect(page.getByTestId("wb-privacy-learn")).not.toBeChecked();
+  await page.getByTestId("wb-privacy-learn").click();
+  await expect(page.getByTestId("wb-privacy-learn")).toBeChecked();
+  await ipc.expectCalled("fork_set_setting", {
+    update: { key: "auto_learn_enabled", value: true },
+  });
   await ipc.expectCalled("fork_set_setting", {
     update: { key: "text_retention_days", value: 30 },
   });
@@ -86,6 +93,7 @@ test("retention, context, and update choices persist across reload", async ({
   await expect(page.getByTestId("wb-privacy-audio-retention")).toHaveValue("0");
   await expect(page.getByTestId("wb-privacy-context")).not.toBeChecked();
   await expect(page.getByTestId("wb-privacy-updates")).not.toBeChecked();
+  await expect(page.getByTestId("wb-privacy-learn")).toBeChecked();
 });
 
 test("export, copy, and save diagnostics use the selected paths", async ({

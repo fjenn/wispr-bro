@@ -252,6 +252,15 @@ impl Engine {
         let effects = self.grammar.advance(now);
         self.apply(effects, host);
 
+        // S-34: Return, keypad Enter and Tab commit what the user typed.
+        if ev.is_key_down
+            && ev.key.is_some_and(|k| {
+                crate::fork::dictionary::learn::watcher::is_commit_key(k, ev.modifiers)
+            })
+        {
+            self.registry.notify_commit_key();
+        }
+
         // Keyed action bindings (exact modifier match, key-down only).
         if ev.is_key_down {
             if let Some(key) = ev.key {

@@ -290,7 +290,9 @@
         "context": "Use context awareness",
         "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
         "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent."
+        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
+        "learn": "Learn from my corrections",
+        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
       },
       "export": {
         "title": "Your data",
@@ -1011,7 +1013,8 @@
       "used_other": "प्रयोग गरिएको छ {{count}} बार",
       "edit": "सम्पादन गर्नुहोस {{entry}}",
       "delete": "{{entry}} निकाल्नुहोस",
-      "accept": "आपको अपन शब्दकोशमा {{entry}} थप गर्नुहोस"
+      "accept": "आपको अपन शब्दकोशमा {{entry}} थप गर्नुहोस",
+      "reject": "Don't learn {{entry}}"
     },
     "source": {
       "import": "import गएको",
@@ -1025,7 +1028,8 @@
     },
     "emptySuggested": {
       "title": "अबसम्म सुझाव छैन",
-      "body": "जब {{appName}} तपाईंले सुधारेको शब्दहरूबाट सिक्न सक्छ, तिनीहरू यहाँ तपाईंलाई स्वीकृत गर्न दिन्छन।"
+      "body": "जब {{appName}} तपाईंले सुधारेको शब्दहरूबाट सिक्न सक्छ, तिनीहरू यहाँ तपाईंलाई स्वीकृत गर्न दिन्छन।",
+      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
     },
     "noMatch": {
       "title": "कुनै भने नमान",
@@ -1128,6 +1132,12 @@
       "done_one": "{{count}} एन्ट्री एक्सपोर्ट गरिएको छ।",
       "done_other": "अन्तर्गत {{count}} एन्ट्री स्थानान्तरित गरिएको छ।",
       "failed": "अनुच्छेद निर्यात गर्न सकिएको छ। कृपया पुनः प्रयास गर्नुहोस।"
+    },
+    "rejected": "“{{entry}}” won't be suggested again.",
+    "actionFailed": "That didn't work. Please try again.",
+    "learn": {
+      "toggle": "Learn from my corrections",
+      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
     }
   },
   "pill": {

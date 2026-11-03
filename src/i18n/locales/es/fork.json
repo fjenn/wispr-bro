@@ -290,7 +290,9 @@
         "context": "Use context awareness",
         "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
         "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent."
+        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
+        "learn": "Learn from my corrections",
+        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
       },
       "export": {
         "title": "Your data",
@@ -1011,7 +1013,8 @@
       "used_other": "Usado {{count}} veces",
       "edit": "Editar {{entry}}",
       "delete": "Eliminar {{entry}}",
-      "accept": "Añadir {{entry}} a tu diccionario"
+      "accept": "Añadir {{entry}} a tu diccionario",
+      "reject": "Don't learn {{entry}}"
     },
     "source": {
       "import": "Importado",
@@ -1025,7 +1028,8 @@
     },
     "emptySuggested": {
       "title": "Aún no hay sugerencias",
-      "body": "Cuando {{appName}} pueda aprender de las palabras que corriges, aparecerán aquí para que las apruebes."
+      "body": "Cuando {{appName}} pueda aprender de las palabras que corriges, aparecerán aquí para que las apruebes.",
+      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
     },
     "noMatch": {
       "title": "Nada coincide",
@@ -1128,6 +1132,12 @@
       "done_one": "Exportado {{count}} entrada.",
       "done_other": "Exportado {{count}} entradas.",
       "failed": "No se pudo exportar el diccionario. Por favor, inténtalo de nuevo."
+    },
+    "rejected": "“{{entry}}” won't be suggested again.",
+    "actionFailed": "That didn't work. Please try again.",
+    "learn": {
+      "toggle": "Learn from my corrections",
+      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
     }
   },
   "pill": {

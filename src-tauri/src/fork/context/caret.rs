@@ -279,7 +279,12 @@ pub fn is_secure_role(role: &str, subrole: &str) -> bool {
         || subrole.to_lowercase().contains("secure")
 }
 
-fn field_exclusion(role: &str, subrole: &str, protected: bool, labels: &str) -> Option<Skip> {
+pub(crate) fn field_exclusion(
+    role: &str,
+    subrole: &str,
+    protected: bool,
+    labels: &str,
+) -> Option<Skip> {
     if is_secure_role(role, subrole) || protected {
         return Some(Skip::SecureField);
     }

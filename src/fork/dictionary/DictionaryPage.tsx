@@ -10,8 +10,9 @@
  *   gonna → going to        Used 3 times              ✎  🗑
  *
  * Words go to the recognizer (Handy's custom words), replacements to the
- * text pipeline; both are added here. "Suggested" fills with S-34's
- * auto-learn; until then it explains where suggestions come from. Counts
+ * text pipeline; both are added here. "Suggested" holds S-34's auto-learn
+ * suggestions (Accept ✓ / Reject ✕) under the "Learn from my corrections"
+ * toggle (off by default, DEC-20); a rejected one never returns. Counts
  * follow every change live (`useDictionaryLive`). Deleting offers Undo.
  */
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
@@ -30,12 +31,15 @@ import {
   Sparkles,
   Trash2,
   Upload,
+  X,
 } from "lucide-react";
 import { commands, type DictionaryEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
 import { navigate, useHubNav } from "../hub/nav";
 import { Banner, Button, EmptyState, FOCUS_RING, TabPanel, Tabs } from "../ui";
+import { ForkToggle } from "../settings/Controls";
+import { useForkSettings } from "../settings/useForkSettings";
 import { AddWordDialog, INPUT_CLASS } from "./AddWordDialog";
 import { DictionaryImportWizard } from "./ImportWizard";
 import {
@@ -79,14 +83,23 @@ function EntryRow({
     entry.source === "user" ? null : t(`dictionary.source.${entry.source}`);
   const suggested = entry.status === "suggested";
   const accept = async () => {
-    const result = await commands.forkDictionaryAdd({
-      phrase: entry.phrase,
-      replacement: entry.replacement,
-    });
-    if (result.status === "ok" && result.data.status === "saved") {
+    const result = await commands.forkDictionaryAccept([entry.id]);
+    if (result.status === "ok" && result.data.accepted > 0) {
       void useDictionaryStore.getState().reload();
+      toast.success(t("dictionary.added", { entry: label }));
+    } else if (result.status === "ok" && result.data.full > 0) {
+      toast.error(t("dictionary.problem.full"));
     } else {
-      toast.error(t("dictionary.dialog.failed"));
+      toast.error(t("dictionary.actionFailed"));
+    }
+  };
+  const reject = async () => {
+    const result = await commands.forkDictionaryReject([entry.id]);
+    if (result.status === "ok") {
+      void useDictionaryStore.getState().reload();
+      toast(t("dictionary.rejected", { entry: label }));
+    } else {
+      toast.error(t("dictionary.actionFailed"));
     }
   };
   return (
@@ -131,14 +144,28 @@ function EntryRow({
       </div>
       <div className="flex shrink-0 items-center gap-1">
         {suggested && (
-          <button
-            type="button"
-            onClick={() => void accept()}
-            aria-label={t("dictionary.entry.accept", { entry: label })}
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
-          >
-            <Check size={16} aria-hidden="true" />
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={() => void accept()}
+              aria-label={t("dictionary.entry.accept", { entry: label })}
+              title={t("dictionary.entry.accept", { entry: label })}
+              data-testid="wb-dictionary-accept"
+              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            >
+              <Check size={16} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => void reject()}
+              aria-label={t("dictionary.entry.reject", { entry: label })}
+              title={t("dictionary.entry.reject", { entry: label })}
+              data-testid="wb-dictionary-reject"
+              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            >
+              <X size={16} aria-hidden="true" />
+            </button>
+          </>
         )}
         {!suggested && (
           <button
@@ -151,15 +178,17 @@ function EntryRow({
             <Pencil size={16} aria-hidden="true" />
           </button>
         )}
-        <button
-          type="button"
-          onClick={() => onDelete(entry)}
-          aria-label={t("dictionary.entry.delete", { entry: label })}
-          data-testid="wb-dictionary-delete"
-          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
-        >
-          <Trash2 size={16} aria-hidden="true" />
-        </button>
+        {!suggested && (
+          <button
+            type="button"
+            onClick={() => onDelete(entry)}
+            aria-label={t("dictionary.entry.delete", { entry: label })}
+            data-testid="wb-dictionary-delete"
+            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-control) text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          >
+            <Trash2 size={16} aria-hidden="true" />
+          </button>
+        )}
       </div>
     </li>
   );
@@ -183,6 +212,8 @@ export function DictionaryPage() {
   const [importOpen, setImportOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const appName = t("rust.appName");
+  const { settings, pending, setSetting } = useForkSettings();
+  const learning = settings?.auto_learn_enabled ?? false;
 
   useEffect(() => {
     if (section === "add") setDialog({ entry: null });
@@ -303,7 +334,11 @@ export function DictionaryPage() {
           testId="wb-dictionary-empty-suggested"
           icon={Sparkles}
           title={t("dictionary.emptySuggested.title")}
-          body={t("dictionary.emptySuggested.body", { appName })}
+          body={
+            learning
+              ? t("dictionary.emptySuggested.bodyOn")
+              : t("dictionary.emptySuggested.body", { appName })
+          }
         />
       );
     }
@@ -417,6 +452,23 @@ export function DictionaryPage() {
         </div>
         {(["all", "mine", "suggested"] as TabId[]).map((id) => (
           <TabPanel key={id} value={id} className="mt-2">
+            {id === tab && id === "suggested" && (
+              <div
+                className="mb-2 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) px-3 py-1.5"
+                data-testid="wb-dictionary-learn"
+              >
+                <ForkToggle
+                  label={t("dictionary.learn.toggle")}
+                  hint={t("dictionary.learn.hint", { appName })}
+                  checked={learning}
+                  disabled={!!pending.auto_learn_enabled}
+                  onChange={(checked) =>
+                    void setSetting("auto_learn_enabled", checked)
+                  }
+                  testId="wb-dictionary-learn-toggle"
+                />
+              </div>
+            )}
             {id === tab &&
               (visible.length > 0 ? (
                 <>

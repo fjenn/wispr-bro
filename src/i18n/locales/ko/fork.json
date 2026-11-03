@@ -290,7 +290,9 @@
         "context": "Use context awareness",
         "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
         "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent."
+        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
+        "learn": "Learn from my corrections",
+        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
       },
       "export": {
         "title": "Your data",
@@ -1011,7 +1013,8 @@
       "used_other": "다른 곳에서 {{count}}번 사용",
       "edit": "편집 {{entry}}",
       "delete": "삭제 {{entry}}",
-      "accept": "사전에 {{entry}} 추가"
+      "accept": "사전에 {{entry}} 추가",
+      "reject": "Don't learn {{entry}}"
     },
     "source": {
       "import": "импортированный",
@@ -1025,7 +1028,8 @@
     },
     "emptySuggested": {
       "title": "추천 사항이 아직 없습니다",
-      "body": "{{appName}}이 당신이 수정한 단어를 배우면, 여기에 나타나서 승인할 수 있습니다."
+      "body": "{{appName}}이 당신이 수정한 단어를 배우면, 여기에 나타나서 승인할 수 있습니다.",
+      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
     },
     "noMatch": {
       "title": "아무것도 일치하지 않음",
@@ -1128,6 +1132,12 @@
       "done_one": "{{count}}개 항목이 내보내졌습니다.",
       "done_other": "다른 항목 {{count}}개를 내보냈습니다.",
       "failed": "사전을 내보내지 못했습니다. 다시 시도해 주세요."
+    },
+    "rejected": "“{{entry}}” won't be suggested again.",
+    "actionFailed": "That didn't work. Please try again.",
+    "learn": {
+      "toggle": "Learn from my corrections",
+      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
     }
   },
   "pill": {

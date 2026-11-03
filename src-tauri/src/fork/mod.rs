@@ -435,6 +435,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     snippets::install(app);
     // S-19a: the Style page's app rules, cached for the take path.
     commands::style::on_ready(app);
+    // S-34: auto-learn hears Return, keypad Enter and Tab from the fork tap.
+    dictionary::learn::on_ready();
     // S-16: Handy's custom words and the dictionary's words (one-time
     // migration, then the mirror), off the main thread.
     {
@@ -558,6 +560,8 @@ macro_rules! fork_specta_builder {
                 commands::dictionary::fork_dictionary_import_review::<$runtime>,
                 commands::dictionary::fork_dictionary_import::<$runtime>,
                 commands::dictionary::fork_dictionary_export::<$runtime>,
+                commands::dictionary::fork_dictionary_accept::<$runtime>,
+                commands::dictionary::fork_dictionary_reject::<$runtime>,
                 commands::notifications::fork_notifications_list::<$runtime>,
                 commands::notifications::fork_notifications_mark_read::<$runtime>,
                 commands::notifications::fork_notifications_mark_all_read::<$runtime>,

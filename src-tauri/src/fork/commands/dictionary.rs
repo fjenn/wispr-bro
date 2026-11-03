@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Dictionary commands (S-16) for the Dictionary page: list, add, edit,
-//! delete with undo, CSV import (read, review, commit) and export.
+//! delete with undo, CSV import (read, review, commit) and export; S-34
+//! adds accepting and rejecting auto-learn suggestions.
 //!
 //! Every change syncs the words into Handy's `custom_words`
 //! (`fork::dictionary::migrate`) and emits `ForkDictionaryChanged`. The
@@ -13,6 +14,7 @@ use tauri::{AppHandle, Manager};
 use super::ForkError;
 use crate::fork::db::{DbError, ForkDb};
 use crate::fork::dictionary::import::{ImportFile, ImportOutcome, ImportReview, ImportRow};
+use crate::fork::dictionary::learn::review::{self, AcceptOutcome};
 use crate::fork::dictionary::store::{self, SaveOutcome};
 use crate::fork::dictionary::{
     self, clean, migrate, DictionaryCounts, DictionaryEntry, EntryInput, EntrySource,
@@ -202,4 +204,41 @@ pub fn fork_dictionary_export<R: ForkRuntime>(
         log::warn!("dictionary: export failed: {e}");
         ForkError::Internal(e.to_string())
     })
+}
+
+/// Accepts auto-learn suggestions (S-34): they become active words or
+/// replacements (source `learn`). Suggestions the full dictionary has no
+/// room for stay waiting.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_dictionary_accept<R: ForkRuntime>(
+    app: AppHandle<R>,
+    ids: Vec<i64>,
+) -> Result<AcceptOutcome, ForkError> {
+    let now = crate::fork::context::now_ms();
+    let outcome = db(&app)?
+        .with_conn(|c| review::accept(c, &ids, now))
+        .map_err(internal)?;
+    if outcome.accepted > 0 {
+        changed(&app);
+    }
+    Ok(outcome)
+}
+
+/// Rejects auto-learn suggestions (S-34): they are never shown or
+/// suggested again. Returns how many were rejected.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_dictionary_reject<R: ForkRuntime>(
+    app: AppHandle<R>,
+    ids: Vec<i64>,
+) -> Result<u32, ForkError> {
+    let now = crate::fork::context::now_ms();
+    let n = db(&app)?
+        .with_conn(|c| review::reject(c, &ids, now))
+        .map_err(internal)?;
+    if n > 0 {
+        dictionary::notify_changed(&app);
+    }
+    Ok(n)
 }
