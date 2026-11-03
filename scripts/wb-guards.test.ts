@@ -483,7 +483,11 @@ describe("icons guard", () => {
     expect(rules(r)).toEqual(["icons/direct-lucide"]);
     expect(r.violations[0].file).toBe("src/fork/home/Page.tsx");
 
-    write(root, "src/fork/home/Page.tsx", `${SPDX}import { Mic } from "../ui/icons";\n`);
+    write(
+      root,
+      "src/fork/home/Page.tsx",
+      `${SPDX}import { Mic } from "../ui/icons";\n`,
+    );
     expectPass(runIcons({ root }));
   });
 });

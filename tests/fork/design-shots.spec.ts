@@ -77,8 +77,7 @@ test.describe("design shots", () => {
         await openOnboarding(page, ipc, {
           step,
           theme,
-          location:
-            step === "move_to_applications" ? "move_needed" : undefined,
+          location: step === "move_to_applications" ? "move_needed" : undefined,
         });
         await page.setViewportSize({ width: 1040, height: 720 });
         await page.waitForTimeout(600);

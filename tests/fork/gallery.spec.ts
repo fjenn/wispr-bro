@@ -86,15 +86,15 @@ test.describe("primitives gallery", () => {
       );
       // The pinned boards really differ.
       const bg = (theme: "light" | "dark") =>
-        board(page, theme).evaluate((el) => getComputedStyle(el).backgroundColor);
+        board(page, theme).evaluate(
+          (el) => getComputedStyle(el).backgroundColor,
+        );
       expect(await bg("light")).not.toEqual(await bg("dark"));
       await axe(page);
 
       const dir = process.env.WB_GALLERY_SHOTS_DIR;
       if (dir) {
-        const height = await gallery(page).evaluate(
-          (el) => el.scrollHeight,
-        );
+        const height = await gallery(page).evaluate((el) => el.scrollHeight);
         await page.setViewportSize({ width: 1400, height });
         await gallery(page).evaluate((el) => el.scrollTo({ top: 0 }));
         await settle(page);
@@ -117,7 +117,9 @@ test.describe("primitives gallery", () => {
     const radio = light.getByRole("radio", { name: "Medium" }).first();
     await radio.focus();
     await page.keyboard.press("ArrowRight");
-    await expect(light.getByRole("radio", { name: "High" }).first()).toBeFocused();
+    await expect(
+      light.getByRole("radio", { name: "High" }).first(),
+    ).toBeFocused();
     await expect(
       light.getByRole("radio", { name: "High" }).first(),
     ).toHaveAttribute("aria-checked", "true");
@@ -139,7 +141,9 @@ test.describe("primitives gallery", () => {
       page.getByRole("option", { name: "MacBook Pro Microphone" }),
     ).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(page.getByRole("option", { name: /AirPods Pro/ })).toBeFocused();
+    await expect(
+      page.getByRole("option", { name: /AirPods Pro/ }),
+    ).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(listbox).toHaveCount(0);
     await expect(select).toBeFocused();
