@@ -2122,7 +2122,47 @@ profile is never used).
       (needs BlackHole installed by the owner; Slack and Notion are not
       installed on the builder Mac).
 - [ ] S-38.5 The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1).
-- Procedure: S-38.2-S-38.5 above. Machines: all for S-38.1.
+- [ ] S-38.6 §5.1 latency on each reference machine (part 2; headless, no
+      GUI, nothing played): `scripts/wb-perf/latency.sh` (TTS takes written to
+      files, `fork::perf_bench` on the shipped recognizer, pipeline, cleanup
+      and Polish transform with the real sidecar; PASS/FAIL per row from
+      `scripts/wb-perf/latency.ts`). Run it with each tier's speech model
+      (`WB_ASR_MODEL`) on M1 8 GB, M-series 16 GB and, if DEC-29 keeps it,
+      Intel. M5 Max numbers in `docs/fork/PERF.md`. **Queued for the
+      reference-machine wave** (M1 8 GB / M 16 GB not on hand).
+- [ ] S-38.7 8 GB memory rule (part 2). Simulated on any Mac with a debug
+      build: `WB_DEBUG_MEMORY=physical_gb=8` (8 GB tier: speech model capped
+      at 1,400 MB footprint, Muesli 2B), then
+      `WB_DEBUG_MEMORY=physical_gb=8,available_mb=2000` → a Light take skips
+      the local LLM (Apple's model stands in with Apple Intelligence on, else
+      the bar reads "Inserted without cleanup"), then
+      `…,pressure=critical` with the server running → the take skips the LLM
+      and within 5 s the log says `stopped the idle server`; `pressure=warn`
+      with the server running → cleaned as usual. On a real M1 8 GB: 30 takes
+      with Light while Safari holds ~15 tabs: combined RSS (app +
+      `llama-server`) ≤ 3.2 GB during a take, `sysctl vm.swapusage` grows
+      ≤ 200 MB over the session, no stall beyond the 6 s deadline, no crash.
+      **Queued for the Mac wave** (simulation) and the reference-machine
+      wave (M1 8 GB).
+- [ ] S-38.8 Startup (§5.3, part 2): `/usr/bin/lockf -k ~/wb-bench/gui.lock
+    python3 -I scripts/wb-perf/startup.py --app <portable dir or .app>
+    --runs 10` on a finished-onboarding portable profile with Accessibility
+      granted: launch → hotkey ready and bar visible p50 ≤ 2 s, p95 ≤ 3 s,
+      plus the cold first launch reported. Release build on each reference
+      machine. **Queued for the Mac wave.**
+- [ ] S-38.9 50-take hardware run (§9, before 1.0): `python3 -I
+    scripts/wb-soak/soak.py --hardware --plan plan.json --takes 50 --app
+    unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
+      each printed sentence into the focused app. Pass: 0 lost, 0 duplicate,
+      0 wrong_target, clipboard restored every take. **Queued for the Mac
+      wave** (needs the owner).
+- [ ] S-38.10 8 h idle (§5.2, RT-17, before 1.0): release build, bar
+      visible, 100 takes spread over the first hour (`soak.py --takes 100
+    --gap 30`), then `python3 -I scripts/wb-soak/idle.py --pid <pid>
+    --minutes 480 --every 60 --footprint`: idle RSS ≤ 250 MB and CPU ≤ 0.5 %
+      at the end, the pill's web view growth ≤ 50 MB, no crash. **Queued for
+      the Mac wave** (overnight; the takes need BlackHole).
+- Procedure: S-38.2-S-38.10 above. Machines: all for S-38.1.
 
 ### S-39 1.0 release
 

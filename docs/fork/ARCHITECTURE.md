@@ -11,19 +11,19 @@ Re-check them when Tauri or tauri-specta is upgraded.
 
 ## Where fork code lives
 
-| Layer          | Location                                                                                                                                                                                                                                                                                                                               |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `app_menu.rs` (S-26a), `share.rs` (S-26b), `net.rs`, `settings.rs`, `commands/` (incl. `selfcheck.rs`, `csp.rs`, `history.rs`), `db/`, `context/`, `stats/`, `llm/`, `diagnostics/`, `models/`, `ax/` (S-05), `recovery/` (S-06), `testutil.rs` under `cfg(test)`) |
-| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                                                                                                                                                                                                                        |
-| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                                                                                                                                                                                                                      |
-| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                                                                                                                                                                                                                     |
-| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                                                                                                                                                                                                                      |
-| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                                                                                                                                          |
-| Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                                                                                                                                      |
-| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                                                                                                                                             |
-| Cleanup eval   | `eval/cleanup/` (items, README, `prompts/` (RS-07 upstream prompts, MIT), gitignored `reports/`), `scripts/wb-eval-cleanup.ts`, RS-07 bench `scripts/wb-bench-cleanup.ts`                                                                                                                                                              |
-| Manual tests   | `docs/fork/MAC-TEST-SCRIPT.md`                                                                                                                                                                                                                                                                                                         |
-| CI guards      | `scripts/wb-guard*.ts`, `ci/`, `.github/workflows/wb-*.yml`, `about.toml`                                                                                                                                                                                                                                                              |
+| Layer          | Location                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rust           | `src-tauri/src/fork/` (`mod.rs`, `events.rs`, `i18n.rs`, `tray.rs`, `app_menu.rs` (S-26a), `share.rs` (S-26b), `net.rs`, `settings.rs`, `commands/` (incl. `selfcheck.rs`, `csp.rs`, `history.rs`), `db/`, `context/`, `stats/`, `llm/`, `diagnostics/`, `models/`, `ax/` (S-05), `recovery/` (S-06), `startup.rs` (S-38), `testutil.rs` and `perf_bench.rs` under `cfg(test)`) |
+| React          | `src/fork/` (`index.ts`, `i18n.ts`, `bindings.ts` (generated), `debug/`, `ui/`)                                                                                                                                                                                                                                                                                                 |
+| Strings        | `src/i18n/locales/<lng>/fork.json` (+ `fork.flags.json` sidecars)                                                                                                                                                                                                                                                                                                               |
+| Capabilities   | `src-tauri/capabilities/fork.json`                                                                                                                                                                                                                                                                                                                                              |
+| Config overlay | `src-tauri/tauri.fork.conf.json` (identity, F-01)                                                                                                                                                                                                                                                                                                                               |
+| Icons          | `src-tauri/icons-fork/` (app, + `src/*.svg` sources), `src-tauri/resources/fork/tray/` (tray)                                                                                                                                                                                                                                                                                   |
+| Scripts        | `scripts/wb-*.ts`                                                                                                                                                                                                                                                                                                                                                               |
+| UI tests       | `tests/fork/`, `playwright.fork.config.ts`                                                                                                                                                                                                                                                                                                                                      |
+| Cleanup eval   | `eval/cleanup/` (items, README, `prompts/` (RS-07 upstream prompts, MIT), gitignored `reports/`), `scripts/wb-eval-cleanup.ts`, RS-07 bench `scripts/wb-bench-cleanup.ts`                                                                                                                                                                                                       |
+| Manual tests   | `docs/fork/MAC-TEST-SCRIPT.md`                                                                                                                                                                                                                                                                                                                                                  |
+| CI guards      | `scripts/wb-guard*.ts`, `ci/`, `.github/workflows/wb-*.yml`, `about.toml`                                                                                                                                                                                                                                                                                                       |
 
 Every fork source file starts with `// SPDX-License-Identifier: GPL-3.0-or-later`.
 Exception: AGPL ports start with `// SPDX-License-Identifier: AGPL-3.0-only`
@@ -2106,6 +2106,74 @@ prints a §5.2 verdict; `soak.py` is the exactly-once soak (CLI
 read-back with `axread.swift`, clipboard digest from `wb-s05/clip.swift`,
 card from `wb-s03-pill.swift`; outcome per take: confirmed / duplicate /
 card / wrong_target / lost).
+
+## Performance and reliability hardening, part 2 (S-38)
+
+Part 2 covers the slices merged up to S-26b, S-28, S-29b and S-34 (S-02
+lands in parallel; its tap health is not touched). Numbers are in
+`docs/fork/PERF.md`; Mac checks S-38.6-S-38.10.
+
+**Accent-folded dictionary words** (`fork/text/mod.rs`
+`dictionary_accent_stage`, stage `dictionary_accents`, S-16 finding).
+Handy's fuzzy word fix skips any word whose key is not ASCII, so a
+dictionary "Siobhán" never fixed Parakeet's "Siobhan". After Handy's stages
+(per line) the pipeline runs S-20's spelling pass
+(`fork::context::hints::correct_outside`) with the dictionary's
+**accent words** as hints: active words with a letter outside ASCII whose
+accent-free key (`hints::key`: NFD without marks, ø/ł/æ/ß…) is plain ASCII
+and ≥ 3 characters. Its safety rules hold: a lowercase transcript word
+changes only when its letters equal the word's apart from accents, a
+capitalized one also by Handy's normalized Levenshtein + Soundex score under
+0.18, only letters change, and dictionary rule outputs are protected (stage
+9 still finds them). An all-lowercase word (`café`) keeps a capital the
+transcript had at a sentence start (`hints::cased_like`; S-20's hints are
+capitalized, so nothing changes for them). The words come from `fork.db`
+once per take (`install_word_source`, like the rules); CJK and Cyrillic
+words stay with the recognizer's vocabulary, as in Handy. No Handy file.
+
+**Memory rule** (`fork/llm/memory.rs`, §5.2): `allows(running, snapshot,
+resident)` is the one decision for cleanup, transforms, prewarm and the
+first-launch warm-up: critical pressure (`kern.memorystatus_vm_pressure_level` 4) → no LLM, even a running one; a running server otherwise passes (its
+memory is already paid; the deadline fails a slow reply open); a stopped one
+needs model + 1.5 GB available. Under critical pressure the idle owner
+(every 5 s) stops an idle server at once (`Supervisor::stop_if_idle`: never
+with a request in flight or a start running), instead of after 120 s.
+Debug builds read `WB_DEBUG_MEMORY=physical_gb=8,available_mb=…,pressure=…`
+over the real figures (`memory::snapshot`), and the speech-model policy's
+RAM tier reads the same physical override (`models/machine.rs`), so the
+8 GB tier, headroom and pressure paths run on any Mac (S-38.7).
+
+**Startup timing** (`fork/startup.rs`, §5.3): two milestones, measured from
+the kernel's process start (`proc_pidinfo` `PROC_PIDTBSDINFO`): the fork's
+tap running (`shortcut::spawn_engine`) and the resting bar first ordered in
+(`pill::native` `show`). Once both are in, one info line:
+`startup: ready <ms> ms after launch (hotkeys <ms> ms, bar <ms> ms)`.
+`scripts/wb-perf/startup.py` launches a portable profile N times and
+reports p50/p95 with PASS/FAIL.
+
+**Latency bench** (`fork/perf_bench.rs`, ignored test; `scripts/wb-perf/`):
+`takes.ts` writes the 20 takes of `eval/perf/takes.jsonl` (9-185 words) to
+16 kHz WAVs with `say -o` (never played); the test runs per take the
+recognizer on the whole take (transcribe-cpp, warm), `fork::text::process`
+around Handy's public stages, then on the real sidecar `post_process::clean`
+at Light and Medium and the Polish transform (≤ 150 words), plus the speech
+model's cold load + first run (×5) and the sidecar's start; `latency.ts`
+prints the §5.1 rows with PASS/FAIL (adds S-04's 41.7 ms p95 delivery;
+exit 1 on a failed row); `latency.sh` runs it all.
+
+**Hardware run** (`scripts/wb-soak/soak.py --hardware`): the soak's apps,
+read-back, card and clipboard checks with a person's fn take of each printed
+sentence; outcomes compare words, not the exact text.
+
+**E-85.** A source test keeps the single-instance plugin registered with the
+CLI routes (`fork::startup::tests`).
+
+| Test                                                                                                | Where                                                                               |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Accent words, the S-16 case, ordinary words untouched, rule outputs protected, the installed source | `fork::text::tests` (S-38 block)                                                    |
+| 8 GB rule, pressure levels, debug override                                                          | `fork::llm::memory::tests`                                                          |
+| Pressure stop skips the timeout, never a request                                                    | `fork::llm::supervisor::tests::pressure_stop_skips_the_timeout_but_never_a_request` |
+| Startup line once, process age, single instance                                                     | `fork::startup::tests`                                                              |
 
 ## Help, support, Share with a friend and About (S-26b)
 

@@ -43,9 +43,52 @@ queued; needs BlackHole 2ch). Earlier evidence: S-04's 100-take soak in 10
 apps, 0 lost / 0 duplicated, 100/100 clipboards byte-identical
 (`docs/fork/test-runs/1.0.0-alpha.1-M-26.md`).
 
+## §5.1 Latency (part 2)
+
+Harness: `scripts/wb-perf/latency.sh` (headless; `fork::perf_bench` on the
+shipped recognizer, text pipeline, cleanup and Polish transform with the
+real sidecar; 20 TTS takes of 8-185 words written to WAVs, never played;
+the paste is added from S-04's 41.7 ms p95). The report refuses a run when
+the 1-minute load average was above half the cores (exit 3).
+
+Two runs on the M5 Max builder (2026-11-02, debug Rust build, Parakeet
+unified-en 0.6B Q8_0 on Metal `MTL0`, Muesli 2B v12): both were **not a
+measurement**. The Mac had a load average of 55-83 on 18 cores and another
+agent's `llama-server` and Chrome test runs on the GPU; a warm 2 s take took
+1.1-1.3 s in the recognizer (RS-09 on the same Mac, quiet: 48 ms p50), the
+sidecar 14.6 s to start, and most Medium and long cleanups hit their
+deadline and failed open (as designed). The one row that passed under that
+load was the Polish transform (p50 1,947 ms, p95 2,845 ms vs 2,000/3,500).
+The text pipeline took 20-34 ms per take in the debug build (one 172 ms
+first call with lazy tables), under the same load.
+
+**Queued:** a quiet M5 Max run, and the reference machines (Mac test
+S-38.6). Settled evidence until then: S-12a's real-app key-up → text p50
+230 ms on the M5 Max; RS-06 Light p95 306 ms; RS-09's recognizer latencies.
+
+## §5.2 Memory pressure (part 2)
+
+`fork::llm::memory::allows` (tests `eight_gb_memory_rule`,
+`pressure_levels_map`, `the_debug_override_simulates_another_mac`;
+`pressure_stop_skips_the_timeout_but_never_a_request`). With Muesli 2B
+(RS-06 resident 2,100 MiB) a stopped server starts on an 8 GB Mac only with
+≥ 3,636 MiB available; critical pressure skips the LLM and stops an idle
+server within one 5 s idle tick. The 8 GB tier is unchanged: RS-06's
+combined RSS with Parakeet 0.6B loaded was 2,873 MiB (≤ 3.2 GB). The real
+M1 8 GB run (30 takes, swap growth, combined RSS) is Mac test S-38.7;
+`WB_DEBUG_MEMORY` simulates its rule on any Mac.
+
+## §5.3 Startup (part 2)
+
+`fork/startup.rs` logs `startup: ready N ms after launch (hotkeys …, bar
+…)` from the kernel's process start; `scripts/wb-perf/startup.py` launches
+a portable profile N times. **Not run** (it puts the bar on screen and
+needs a profile with Accessibility granted): Mac test S-38.8.
+
 ## Other §5 rows
 
-Latency (§5.1), startup (§5.3), the 8 h idle run and the 8 GB memory-pressure
-test are part 2. Settled evidence so far: RS-01 (`T_show`), RS-06/RS-08
-(LLM runtime), S-03 (bar appear 163 ms p50, web view growth), S-12a (key-up →
-text p50 230 ms on the M5 Max).
+The 8 h idle run (S-38.10), the 500-take soak (S-38.4, BlackHole) and the
+50-take hardware run (S-38.9, `soak.py --hardware`) are queued. Settled
+evidence so far: RS-01 (`T_show`), RS-06/RS-08 (LLM runtime), S-03 (bar
+appear 163 ms p50, web view growth), S-12a (key-up → text p50 230 ms on the
+M5 Max).
