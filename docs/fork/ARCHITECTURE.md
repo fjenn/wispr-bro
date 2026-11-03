@@ -241,7 +241,12 @@ fall back to English. Keys today: `rust.appName`, `rust.tray.version`,
 `rust.tray.versionDev`, `rust.window.mainTitle` (copied English, flagged
 `untranslated`; they are brand + version only). Tests:
 `every_rust_key_resolves_in_every_locale`, `no_rust_string_names_handy`,
-`embeds_all_26_locale_directories`. The tray hook itself needs a native menu,
+`embeds_all_26_locale_directories`; since S-37b also
+`every_rust_plural_group_has_the_locale_forms` and `t_plural` (CLDR plural
+forms through ICU4X, see "i18n and the untranslated marking scheme"). The
+`rust.*` keys are in the same `fork.json`/`fork.flags.json` as every other
+fork string, so parity, placeholder, plural and strict checks cover the tray,
+app menu, notification and VoiceOver strings without a separate list. The tray hook itself needs a native menu,
 which muda builds only on the macOS main thread, so `cargo test` covers its
 two pure functions and the self-check below covers the live tray.
 
@@ -865,6 +870,42 @@ take starts continues (network only).
   unaffected, and the sidecar is never bundled. A reviewed string has no flag.
 - `bun run wb:check:translations` exits 1 on missing or extra keys or a
   placeholder mismatch. Flags pass until S-37 (R5 §4.12).
+- **Plurals (S-37b).** A key with an i18next plural suffix (`_zero`, `_one`,
+  `_two`, `_few`, `_many`, `_other`) is part of a group. English has exactly
+  `_one` + `_other` (checked); every other locale has exactly its CLDR
+  cardinal categories from `Intl.PluralRules(lang).resolvedOptions()` (`ja`,
+  `ko`, `zh`, `zh-TW`, `vi`, `id`: `_other` only; `ru`, `uk`, `pl`:
+  `_one/_few/_many/_other`; `cs` adds `_few/_many`; `he` `_two`; `ar` all six;
+  `ca/es/fr/it/pt` a `_many` for millions), so parity is per locale, not 1:1
+  with English. A locale's `_one` is translated from English `_one` when that
+  has `_other`'s placeholders or the locale's "one" is 1 alone, else from
+  `_other` (every other form always), with the category and example counts
+  as a backend hint. Call sites pass `count` (React `t(key, { count })`; a
+  message that shows the number as `{{goal}}`/`{{max}}`/`{{seconds}}` passes
+  `count` too, only to pick the form). Rust: `fork::i18n::t_plural` and
+  `plural_category` on ICU4X `icu_plurals` (compiled CLDR data, same family
+  as `icu_normalizer`); the app menu's counts and macOS notifications
+  (`notify::render` strips the stored `_one/_other` and resolves again,
+  like the inbox) use it; `every_rust_plural_group_has_the_locale_forms`
+  checks that ICU4X and the browser's CLDR agree on every locale's forms.
+- **Placeholders** compare `{{name, format}}` whitespace-normalized
+  (`{{count, number}}` was invisible to the old pattern, which hid broken
+  machine strings such as `{{inserted as you said it}}`). A flagged (never
+  reviewed) entry whose placeholders no longer match is translated again in
+  write mode; a reviewed one fails the check. Strings without letters
+  (`{{from}} → {{to}}`) are copied and never flagged. A translating backend
+  also replaces every `untranslated` English copy; a reply with wrong
+  placeholders gets one retry that names them, then falls back to English.
+- **Strict mode (S-37).** `--strict` is `--check` plus a failure for any
+  `untranslated`/`machine` flag, brand `overrides.*` flags included. CI runs
+  `bun run wb:check:translations:strict` (`--strict-switch`), which is strict
+  only when `ci/i18n-strict` says `I18N_STRICT=on`; it is `off` until the
+  review agents have cleared the flags (`docs/fork/TRANSLATION-REVIEW.md`:
+  procedure, tone and glossary; `--review <lang>` prints a locale's
+  worklist). `--locale a,b` limits any mode to some locales.
+- **Glossary.** `scripts/wb-translate-glossary.ts` holds the per-locale tone
+  and terms (Apple's macOS wording where it exists); the `llama-server`
+  prompt includes them, and a test keeps the review guide's tables equal.
 
 ## `fork.db` (F-06)
 
@@ -1398,6 +1439,7 @@ The `llama-server` sidecar, its supervisor and the `local` provider (R5
 | `fork/commands/llm.rs`                    | `fork_llm_status`, `fork_llm_try`, `fork_llm_retry`; event `fork-llm-status` (`ForkLlmStatus`)                                              |
 | `src/fork/settings/advanced/AiEngine.tsx` | Settings › Advanced › AI engine, mounted on the debug panel until S-14                                                                      |
 | `scripts/wb-translate-llama.ts`           | `llama-server` backend of `wb-translate-missing.ts` (`--backend llama-server --server … --model …`)                                         |
+| `scripts/wb-translate-glossary.ts`        | Per-locale tone and glossary (S-37b): the translation prompt and `docs/fork/TRANSLATION-REVIEW.md`                                          |
 
 No new upstream hook: the plugin's `setup` registers the runtime state,
 `on_ready` starts it, `RunEvent::Exit` stops the server; prewarm listens to

@@ -2316,6 +2316,28 @@ bundle); keep `run.log`, `axtree.tsv` and `unnamed.txt`. Then S-37.1/.2 by a
 person with VoiceOver on the same bundle. Quit; delete the bundle copies and
 `~/Library/{WebKit,Caches}/com.wisprbro.s37check`.
 
+**S-37b (localization preparation) — queued for the Mac wave.**
+
+- [ ] S-37b.1 The app menu's counts use the app language's plural form: with
+      the app language Russian and a profile with a word count whose form is
+      `_few` or `_many` (for example 2-4 or 5-20 words dictated), Dictation's
+      "N words dictated" and Vocabulary's dictionary and snippet counts read
+      as `rust.menu.*_<category>` for their numbers. Repeat once with Arabic
+      (six forms) or Polish. A test identity with a seeded profile is enough.
+- [ ] S-37b.2 A macOS notification in Russian uses the CLDR form: a
+      milestone or queued-takes notification (e.g. the S-07c queue with 2 and
+      5 takes) shows the `_few`/`_many` title, and the Hub inbox shows the
+      same text.
+
+Procedure (unattended except S-37b.2's banner by eye; ~5 min). Build the
+drivers as for S-26a (`WBMENUS`). Launch the S-26a test identity with the
+app language set to `ru`, note its pid, then
+`scripts/wb-s37b/plurals.sh <pid> ru <out>`: every line PASS. Change the
+language to `ar` (or `pl`), relaunch, run it again. For S-37b.2, run the
+S-07c queued-takes driver with the language `ru` (two takes, then five) and
+compare the banner and inbox titles with `rust.notify.queuedTakesReady.title_few`
+and `_many`.
+
 ### S-38 Performance and reliability hardening
 
 - [ ] S-38.1 (Exit criterion) Every §5 number met on each reference machine, or the model tier changed to meet it (recorded): latency benches p50/p95 per §5.1, 8 h idle run, 500-take soak, 50-take hardware run, memory-pressure test on 8 GB, startup timing. Part 2 (after S-25..S-37).
