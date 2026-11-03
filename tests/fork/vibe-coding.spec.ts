@@ -73,7 +73,10 @@ test("off until set up: Set up walks through editors and screen-reader mode", as
   );
   await expect(page.getByTestId("wb-vibe-change")).toBeFocused();
   await expect(tags).toBeEnabled();
-  await tags.check();
+  // The toggle shows the saved value (no optimistic state), so it flips
+  // only after the fork_set_setting round trip: click, then wait for it.
+  // `check()` asserts the flip right after the click and fails under load.
+  await tags.click();
   await ipc.expectCalled("fork_set_setting", {
     update: {
       key: "vibe_coding",
@@ -96,7 +99,7 @@ test("file tags stay off without a chat editor; Cancel keeps the setup", async (
   await expect(tags).toBeDisabled();
   await expect(page.getByTestId("wb-vibe-files")).toContainText("Cursor");
 
-  await page.getByTestId("wb-vibe-enabled").uncheck();
+  await page.getByTestId("wb-vibe-enabled").click(); // saved value, see above
   await ipc.expectCalled("fork_set_setting", {
     update: { key: "vibe_coding", value: { enabled: false } },
   });
