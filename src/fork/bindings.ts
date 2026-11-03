@@ -161,6 +161,15 @@ async forkOnboardingPractice(on: boolean) : Promise<void> {
     await TAURI_INVOKE("fork_onboarding_practice", { on });
 },
 /**
+ * A lesson's practice step is open (`on`, renewed every 60 s; two minutes
+ * unless renewed) or closed (`off`). While on, a transform shortcut pressed
+ * with Wispr Bro in front comes back as `fork-lesson-shortcut` instead of
+ * running (`fork::tutorials::practice`).
+ */
+async forkLessonPractice(on: boolean) : Promise<void> {
+    await TAURI_INVOKE("fork_lesson_practice", { on });
+},
+/**
  * DEC-44: called only after the screen explained the change and the user
  * pressed the button. The user's own value is kept for the restore
  * (`shortcut::globe`), which runs when fn stops being the trigger.
@@ -1330,6 +1339,7 @@ forkCleanupResult: ForkCleanupResult,
 forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
+forkLessonShortcut: ForkLessonShortcut,
 forkLlmStatus: ForkLlmStatus,
 forkMenuAction: ForkMenuAction,
 forkMicDevicesChanged: ForkMicDevicesChanged,
@@ -1360,6 +1370,7 @@ forkCleanupResult: "fork-cleanup-result",
 forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
+forkLessonShortcut: "fork-lesson-shortcut",
 forkLlmStatus: "fork-llm-status",
 forkMenuAction: "fork-menu-action",
 forkMicDevicesChanged: "fork-mic-devices-changed",
@@ -1855,6 +1866,15 @@ export type ForkInsertOutcome = {
  * Delivery counter since launch.
  */
 take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
+/**
+ * A shortcut pressed while a practice step was open with Wispr Bro in
+ * front. Only the action id: the page reads its own composer.
+ */
+export type ForkLessonShortcut = { 
+/**
+ * The fork action id, e.g. `transform.polish`, `transform.view_changes`.
+ */
+action: string }
 /**
  * `fork_llm_try` error.
  */

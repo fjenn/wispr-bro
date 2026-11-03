@@ -1254,7 +1254,9 @@
   "transforms": {
     "banner": {
       "title": "Réécrire le texte sélectionné dans n'importe quelle application",
-      "body": "Choisissez une transformation, sélectionnez du texte et utilisez son raccourci. Vos écrits restent sur ce Mac."
+      "body": "Choisissez une transformation, sélectionnez du texte et utilisez son raccourci. Vos écrits restent sur ce Mac.",
+      "tryIt": "Try it",
+      "howItWorks": "How it works"
     },
     "enable": {
       "title": "Activer Transforms",
@@ -1372,7 +1374,8 @@
       "bad": "Résultat mauvais",
       "simpleView": "Affichage d'une seule remplacement pour ce grand ou changement complexe.",
       "actionFailed": "Cette action n'a pas fonctionné. Votre texte est toujours ici ; réessayez."
-    }
+    },
+    "startTutorial": "Start tutorial"
   },
   "cleanup": {
     "title": "Nettoyage",
@@ -2286,6 +2289,11 @@
         "title": "Ouvrir au démarrage",
         "action": "Allumer",
         "body": "{{appName}} démarre avec votre Mac, donc votre raccourci fonctionne toujours."
+      },
+      "try_transform": {
+        "title": "Try a Transform",
+        "action": "Show me",
+        "body": "Select text and press a shortcut: it is rewritten in place."
       }
     },
     "coach": {
@@ -2392,6 +2400,104 @@
     },
     "theme": {
       "description": "Choisissez si Wispr Bro suit le thème du système ou reste clair ou sombre"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Close the lesson",
+      "back": "Back",
+      "continue": "Continue",
+      "skip": "Skip",
+      "tryIt": "Try it yourself",
+      "tryItOut": "Try it out",
+      "howItWorks": "How it works",
+      "progress": "Step {{step}} of {{total}}",
+      "pause": "Pause animation",
+      "play": "Play animation",
+      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+    },
+    "transforms": {
+      "title": "Transforms",
+      "help": "Learn Transforms",
+      "intro": {
+        "title": "Make your writing say it the way you mean it",
+        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
+        "continue": "Try it out"
+      },
+      "cards": {
+        "label": "The same text, three ways",
+        "original": {
+          "name": "Original",
+          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+        }
+      },
+      "benefits": {
+        "label": "What a transform can do",
+        "shorter": "Says it in fewer words",
+        "clearer": "Rewords for clarity",
+        "order": "Puts points in a better order",
+        "structure": "Adds headings and lists",
+        "tone": "Keeps your tone",
+        "anywhere": "Works in any app you write in"
+      },
+      "practice": {
+        "title": "Select the text, then press {{shortcut}}",
+        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
+        "doneTitle": "Text rewritten",
+        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
+        "app": "Chat with Jordan",
+        "context": "Are we still on for the review tomorrow?",
+        "fieldLabel": "Your reply to Jordan",
+        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "example": {
+          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
+          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+        },
+        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
+        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
+        "working": "Rewriting…",
+        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
+        "barLabel": "The bar",
+        "bar": {
+          "done": "Done",
+          "view": "View changes"
+        },
+        "hideChanges": "Hide the changes"
+      },
+      "how": {
+        "select": {
+          "title": "Select text in any app",
+          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
+          "scene": "Animation: a draft email is selected."
+        },
+        "press": {
+          "title": "Press {{shortcut}}",
+          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
+          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+        },
+        "changes": {
+          "title": "See what changed",
+          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
+          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+        }
+      },
+      "scene": {
+        "app": "Mail: new message",
+        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
+        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+      },
+      "finish": {
+        "turnOn": "Turn on Transforms",
+        "done": "Done"
+      }
     }
   }
 }

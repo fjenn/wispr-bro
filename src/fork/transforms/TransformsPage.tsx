@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, RotateCcw, ShieldCheck } from "lucide-react";
+import { GraduationCap, Plus, RotateCcw, ShieldCheck } from "lucide-react";
 import {
   commands,
   events,
@@ -15,6 +15,7 @@ import { PageHeader } from "../hub/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
 import { Banner, Button } from "../ui";
+import { openLesson, TRANSFORMS_LESSON, useLesson } from "../tutorials";
 import { CommandModeCard } from "./CommandModeCard";
 import { DiffCard } from "./DiffCard";
 import { useTransformViewStore } from "./store";
@@ -47,6 +48,8 @@ export function TransformsPage() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [diff, setDiff] = useState<WordDiff | null>(null);
+  // S-31: the lesson's entry points appear once it is registered.
+  const lesson = useLesson(TRANSFORMS_LESSON);
 
   const load = useCallback(async () => {
     const result = await commands.forkTransformsList();
@@ -169,6 +172,16 @@ export function TransformsPage() {
   return (
     <div data-testid="wb-transforms" className="flex flex-col gap-6">
       <PageHeader title={t("hub.pages.transforms.title")}>
+        {lesson && (
+          <Button
+            variant="ghost"
+            onClick={() => openLesson(TRANSFORMS_LESSON, "try")}
+            data-testid="wb-transforms-tutorial"
+          >
+            <GraduationCap size={14} aria-hidden="true" />
+            {t("transforms.startTutorial")}
+          </Button>
+        )}
         <Button onClick={() => void reset()} data-testid="wb-transforms-reset">
           <RotateCcw size={14} aria-hidden="true" />
           {t("transforms.reset")}
@@ -186,6 +199,24 @@ export function TransformsPage() {
         id="transforms.rewrite"
         title={t("transforms.banner.title")}
         body={t("transforms.banner.body")}
+        action={
+          lesson
+            ? {
+                label: t("transforms.banner.tryIt"),
+                onClick: () => openLesson(TRANSFORMS_LESSON, "try"),
+                testId: "wb-transforms-try-it",
+              }
+            : undefined
+        }
+        secondaryAction={
+          lesson
+            ? {
+                label: t("transforms.banner.howItWorks"),
+                onClick: () => openLesson(TRANSFORMS_LESSON, "how"),
+                testId: "wb-transforms-how-it-works",
+              }
+            : undefined
+        }
       />
       <section
         aria-labelledby="wb-transforms-enable-title"

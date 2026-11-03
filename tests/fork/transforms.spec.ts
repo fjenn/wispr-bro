@@ -168,10 +168,9 @@ test("opt-in, banner, auto-apply choice and safe shortcuts", async ({
   await expect(page.getByTestId("wb-banner-transforms.rewrite")).toContainText(
     "Rewrite selected text in any app",
   );
-  await expect(page.getByRole("button", { name: "Try it" })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "How it works" })).toHaveCount(
-    0,
-  );
+  // S-31 registered the lesson: the banner's buttons are there.
+  await expect(page.getByTestId("wb-transforms-try-it")).toBeVisible();
+  await expect(page.getByTestId("wb-transforms-how-it-works")).toBeVisible();
   await expect(page.getByTestId("wb-transform-polish")).toBeVisible();
   await expect(page.getByTestId("wb-transform-prompt_engineer")).toBeVisible();
   await expect(page.getByTestId("wb-transform-create-card")).toBeVisible();

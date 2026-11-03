@@ -49,7 +49,14 @@ export function HelpPopover({ trigger }: { trigger: ReactElement }) {
   // Report a problem opens its dialog once the menu has closed, instead of
   // the menu handing focus back to the Help button.
   const reportNext = useRef(false);
-  const lessons = helpLessons?.() ?? [];
+  // A lesson opens its dialog after the menu closed, for the same reason.
+  const afterClose = useRef<(() => void) | null>(null);
+  const lessons = (helpLessons?.() ?? []).map((item) => ({
+    ...item,
+    onSelect: () => {
+      afterClose.current = item.onSelect;
+    },
+  }));
 
   return (
     <>
@@ -122,6 +129,13 @@ export function HelpPopover({ trigger }: { trigger: ReactElement }) {
         ]}
         trigger={trigger}
         onCloseAutoFocus={(event) => {
+          const then = afterClose.current;
+          if (then) {
+            afterClose.current = null;
+            event.preventDefault();
+            then();
+            return;
+          }
           if (!reportNext.current) return;
           reportNext.current = false;
           event.preventDefault();

@@ -1,0 +1,419 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* Lessons (S-31): progress dashes, the simulated composer, the drawn bar
+   and its spotlight, example cards, the benefits ticker and the How it
+   works scenes. Our own drawing; Hub tokens only (light and dark). */
+
+.wb-lesson-dashes li {
+  width: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--wb-line-strong);
+}
+.wb-lesson-dashes li[data-on] {
+  background: var(--wb-accent-fill);
+}
+
+/* Example cards: Original / Polish / Prompt Engineer. */
+.wb-lesson-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .wb-lesson-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.wb-lesson-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-card);
+  background: var(--wb-card);
+  padding: 14px;
+}
+.wb-lesson-card[data-kind="original"] {
+  background: var(--wb-canvas);
+}
+.wb-lesson-card h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--wb-ink-2);
+}
+.wb-lesson-card p {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--wb-ink);
+}
+.wb-lesson-card kbd,
+.wb-kbd {
+  font-family: inherit;
+  font-size: 11.5px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--wb-line-strong);
+  background: var(--wb-card);
+  color: var(--wb-ink);
+  box-shadow: 0 1px 0 var(--wb-line-strong);
+}
+
+/* Benefits ticker: one slow line, paused on hover/focus or by its button. */
+.wb-ticker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wb-ticker-view {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 24px,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+}
+.wb-ticker-track {
+  display: flex;
+  width: max-content;
+  gap: 8px;
+  animation: wb-ticker 28s linear infinite;
+}
+[dir="rtl"] .wb-ticker-track {
+  animation-name: wb-ticker-rtl;
+}
+.wb-ticker[data-paused] .wb-ticker-track,
+.wb-ticker-view:hover .wb-ticker-track {
+  animation-play-state: paused;
+}
+.wb-ticker-track ul {
+  display: flex;
+  gap: 8px;
+}
+.wb-ticker-track li {
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid var(--wb-line);
+  background: var(--wb-card);
+  padding: 4px 12px;
+  font-size: 12.5px;
+  color: var(--wb-ink);
+}
+@keyframes wb-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes wb-ticker-rtl {
+  to {
+    transform: translateX(50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-ticker-view {
+    mask-image: none;
+  }
+  .wb-ticker-track {
+    animation: none;
+    width: auto;
+  }
+  .wb-ticker-track ul {
+    flex-wrap: wrap;
+  }
+  .wb-ticker-track ul[aria-hidden] {
+    display: none;
+  }
+}
+
+/* The simulated app. */
+.wb-practice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--wb-radius-card);
+  background: var(--wb-banner);
+  overflow: hidden;
+}
+.wb-practice-window {
+  width: 100%;
+  border: 1px solid var(--wb-line);
+  border-radius: 10px;
+  background: var(--wb-card);
+  box-shadow: var(--wb-shadow);
+  overflow: hidden;
+}
+.wb-practice-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--wb-line);
+  font-size: 12px;
+  color: var(--wb-ink-2);
+}
+.wb-practice-dots {
+  display: inline-flex;
+  gap: 5px;
+  margin-inline-end: 6px;
+}
+.wb-practice-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--wb-line-strong);
+}
+.wb-practice-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+.wb-practice-context {
+  align-self: flex-start;
+  max-width: 80%;
+  border-radius: 14px;
+  background: var(--wb-hover);
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--wb-ink);
+}
+.wb-practice-field {
+  width: 100%;
+  resize: none;
+  border: 1px solid var(--wb-line-strong);
+  border-radius: 10px;
+  background: var(--wb-canvas);
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--wb-ink);
+  user-select: text;
+}
+.wb-practice-field:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 1px;
+}
+.wb-practice-field::selection {
+  background: color-mix(in srgb, var(--wb-accent-fill) 32%, transparent);
+}
+
+/* The drawn bar: "Done · View changes" after a rewrite. */
+.wb-lesson-bar {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  padding: 4px 6px 4px 14px;
+  border-radius: 999px;
+  background: #17171a;
+  color: #f5f5f7;
+  font-size: 13px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
+}
+.wb-lesson-bar[data-state="idle"] {
+  min-width: 64px;
+  min-height: 12px;
+  padding: 0;
+  opacity: 0.85;
+}
+.wb-lesson-bar button {
+  cursor: pointer;
+  border-radius: 999px;
+  background: #34343a;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.wb-lesson-bar button:hover {
+  background: #45454d;
+}
+.wb-lesson-bar button:focus-visible {
+  outline: 2px solid #8fb8ff;
+  outline-offset: 2px;
+}
+.wb-lesson-spin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 0.35);
+  border-top-color: #fff;
+  animation: wb-lesson-spin 0.9s linear infinite;
+}
+@keyframes wb-lesson-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spotlight on the bar: the rest of the simulated app dims. */
+.wb-lesson-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(0 0 0 / 0.55);
+  border: 0;
+  cursor: default;
+  animation: wb-lesson-fade 0.25s ease-out;
+}
+.wb-lesson-bar[data-spot] {
+  outline: 3px solid color-mix(in srgb, #fff 70%, transparent);
+  outline-offset: 4px;
+  animation: wb-lesson-pulse 1.6s ease-in-out infinite;
+}
+@keyframes wb-lesson-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wb-lesson-pulse {
+  50% {
+    outline-offset: 7px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-lesson-dim,
+  .wb-lesson-bar[data-spot],
+  .wb-lesson-spin {
+    animation: none;
+  }
+}
+
+/* How it works scenes. */
+.wb-lesson-scene {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wb-lesson-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-height: 250px;
+  padding: 18px;
+  border-radius: var(--wb-radius-card);
+  background: var(--wb-banner);
+  overflow: hidden;
+}
+.wb-lesson-stage .wb-practice-window {
+  max-width: 520px;
+}
+.wb-scene-draft {
+  min-height: 72px;
+  border-radius: 10px;
+  border: 1px solid var(--wb-line);
+  background: var(--wb-canvas);
+  padding: 10px 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--wb-ink);
+}
+.wb-scene-draft mark {
+  color: inherit;
+  background: transparent;
+  transition: background-color 0.6s ease;
+}
+.wb-lesson-stage[data-beat="selecting"] .wb-scene-draft mark {
+  background: color-mix(in srgb, var(--wb-accent-fill) 18%, transparent);
+}
+.wb-lesson-stage[data-beat="selected"] .wb-scene-draft mark,
+.wb-lesson-stage[data-beat="keys"] .wb-scene-draft mark,
+.wb-lesson-stage[data-beat="working"] .wb-scene-draft mark {
+  background: color-mix(in srgb, var(--wb-accent-fill) 32%, transparent);
+}
+.wb-scene-keys {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  display: flex;
+  gap: 6px;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.wb-lesson-stage[data-beat="keys"] .wb-scene-keys,
+.wb-lesson-stage[data-beat="undo"] .wb-scene-keys {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.wb-scene-keys span {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--wb-line-strong);
+  background: var(--wb-card);
+  color: var(--wb-ink);
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 3px 0 var(--wb-line-strong);
+}
+.wb-scene-diff {
+  position: absolute;
+  inset-inline: 10%;
+  top: 14%;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-card);
+  background: var(--wb-card);
+  box-shadow: var(--wb-shadow);
+  padding: 12px 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+.wb-lesson-stage[data-beat="diff"] .wb-scene-diff {
+  opacity: 1;
+  transform: none;
+}
+.wb-scene-diff h4 {
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-scene-draft mark,
+  .wb-scene-keys,
+  .wb-scene-diff {
+    transition: none;
+  }
+}
+
+.wb-lesson-pause {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--wb-radius-control);
+  font-size: 12px;
+  color: var(--wb-ink-2);
+  cursor: pointer;
+}
+.wb-lesson-pause:hover {
+  background: var(--wb-hover);
+  color: var(--wb-ink);
+}
+.wb-lesson-pause:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 2px;
+}

@@ -82,9 +82,15 @@ fn sync_custom_actions<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, enabled:
         for (action, id) in &next {
             let app = app.clone();
             let id = *id;
-            if let Err(error) =
-                registry.register(action, Arc::new(move || run::spawn_custom(&app, id)))
-            {
+            let action_id = action.clone();
+            if let Err(error) = registry.register(
+                action,
+                Arc::new(move || {
+                    if !crate::fork::tutorials::practice::intercept(&app, &action_id) {
+                        run::spawn_custom(&app, id);
+                    }
+                }),
+            ) {
                 log::warn!("transforms: could not register {action}: {error}");
             }
         }
@@ -94,7 +100,11 @@ fn sync_custom_actions<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, enabled:
         let app = app.clone();
         if let Err(error) = registry.register(
             VIEW_CHANGES_ACTION,
-            Arc::new(move || record::view_changes(&app)),
+            Arc::new(move || {
+                if !crate::fork::tutorials::practice::intercept(&app, VIEW_CHANGES_ACTION) {
+                    record::view_changes(&app);
+                }
+            }),
         ) {
             log::warn!("transforms: could not register View changes: {error}");
         }
@@ -123,7 +133,12 @@ pub fn on_ready<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
 pub fn sync_registration<R: crate::fork::ForkRuntime>(app: &AppHandle<R>, enabled: bool) {
     sync_actions(&crate::fork::shortcut::registry(), enabled, |kind| {
         let app = app.clone();
-        Arc::new(move || run::spawn(&app, kind))
+        // A lesson's practice step in front gets the shortcut instead (S-31).
+        Arc::new(move || {
+            if !crate::fork::tutorials::practice::intercept(&app, &kind.action_id()) {
+                run::spawn(&app, kind);
+            }
+        })
     });
     sync_custom_actions(app, enabled);
     run::settings_changed(enabled);

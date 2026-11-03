@@ -67,6 +67,7 @@ mod testutil;
 pub mod text;
 pub mod transforms;
 pub mod tray;
+pub mod tutorials;
 pub mod update;
 /// Third-party code kept as received (see each file's header).
 pub mod vendor;
@@ -599,6 +600,7 @@ macro_rules! fork_specta_builder {
                 commands::onboarding::fork_onboarding_move_to_applications::<$runtime>,
                 commands::onboarding::fork_onboarding_key_test::<$runtime>,
                 commands::onboarding::fork_onboarding_practice,
+                commands::tutorials::fork_lesson_practice,
                 commands::onboarding::fork_onboarding_globe_do_nothing::<$runtime>,
                 commands::onboarding::fork_onboarding_open_pane::<$runtime>,
                 commands::hotkeys::fork_shortcut_health,
@@ -745,6 +747,7 @@ macro_rules! fork_specta_builder {
                 app_menu::ForkMenuAction,
                 update::scheduler::ForkUpdateState,
                 onboarding::practice::ForkPracticeTake,
+                tutorials::practice::ForkLessonShortcut,
                 shortcut::health::ForkShortcutHealthChanged,
                 shortcut::health::ForkShortcutFixRequested,
                 pill::spotlight::ForkSpotlightState

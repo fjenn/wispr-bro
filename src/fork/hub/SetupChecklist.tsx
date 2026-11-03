@@ -38,7 +38,8 @@ export const CHECKLIST_HIDDEN_ID = "hub.checklist";
 /** Pause between a tick and the next step opening by itself. */
 export const CHAIN_DELAY_MS = 700;
 
-async function mark(id: string): Promise<void> {
+/** Persists a tick (also used by lessons, S-31). */
+export async function markChecklistItem(id: string): Promise<void> {
   const result = await commands.forkChecklistMark(id);
   if (result.status === "error") {
     console.warn("checklist: could not save a tick", result.error);
@@ -63,7 +64,7 @@ function useAutoTicks(
   const check = useCallback(async (item: ChecklistItem) => {
     if (!item.isDone || doneRef.current.includes(item.id)) return;
     try {
-      if (await item.isDone()) await mark(item.id);
+      if (await item.isDone()) await markChecklistItem(item.id);
     } catch (e) {
       console.warn(`checklist: ${item.id} check failed`, e);
     }
@@ -121,7 +122,7 @@ export function SetupChecklist() {
           close: t("checklist.coach.close"),
         }),
       openChooser,
-      markDone: () => mark(item.id),
+      markDone: () => markChecklistItem(item.id),
     }),
     [t],
   );

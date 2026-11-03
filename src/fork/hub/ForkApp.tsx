@@ -54,6 +54,7 @@ import { setSidebarCard, Sidebar } from "./Sidebar";
 import { renderSetupChecklist } from "./SetupChecklist";
 import { FirstUseChooser } from "../onboarding/FirstUseChooser";
 import { useFirstUseLive } from "../onboarding/firstUseStore";
+import { LessonHost } from "../tutorials";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
 
@@ -192,6 +193,9 @@ export function ForkApp(props: ForkAppProps) {
         </ErrorBoundary>
         <ErrorBoundary context="First use">
           <FirstUseChooser />
+        </ErrorBoundary>
+        <ErrorBoundary context="Lesson">
+          <LessonHost />
         </ErrorBoundary>
         <Sidebar collapsed={collapsed} />
         <div className="flex min-w-0 flex-1 flex-col">

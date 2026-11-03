@@ -384,7 +384,8 @@ test.describe("setup checklist", () => {
   const item = (page: Page, id: string) =>
     page.getByTestId(`wb-checklist-${id}`);
 
-  test("lists the four items with progress and the next step open", async ({
+  // S-30's four plus S-31's "Try a Transform" (order 35).
+  test("lists the five items with progress and the next step open", async ({
     page,
     ipc,
     hub,
@@ -393,9 +394,9 @@ test.describe("setup checklist", () => {
     const card = page.getByTestId("wb-checklist");
     await expect(card).toBeVisible();
     await expect(card.getByRole("heading")).toHaveText(en.checklist.title);
-    await expect(card.getByRole("listitem")).toHaveCount(4);
+    await expect(card.getByRole("listitem")).toHaveCount(5);
     await expect(page.getByTestId("wb-checklist-progress")).toHaveText(
-      "0 of 4 done",
+      "0 of 5 done",
     );
     await expect(page.getByTestId("wb-checklist-run-try_in_app")).toHaveText(
       en.checklist.items.try_in_app.action,
@@ -412,7 +413,7 @@ test.describe("setup checklist", () => {
     await expect(item(page, "add_word")).toHaveAttribute("data-done", "true");
     await ipc.expectCalled("fork_checklist_mark", { id: "add_word" });
     await expect(page.getByTestId("wb-checklist-progress")).toHaveText(
-      "1 of 4 done",
+      "1 of 5 done",
     );
     // A snippet is created elsewhere: its event re-checks.
     b.snippets = 1;
@@ -434,10 +435,11 @@ test.describe("setup checklist", () => {
     });
     await expect(item(page, "try_in_app")).toHaveAttribute("data-done", "true");
     await expect(page.getByTestId("wb-checklist-progress")).toHaveText(
-      "3 of 4 done",
+      "3 of 5 done",
     );
+    // S-31's Try a Transform comes next (order 35).
     await expect(
-      page.getByTestId("wb-checklist-run-launch_at_login"),
+      page.getByTestId("wb-checklist-run-try_transform"),
     ).toBeVisible();
   });
 
@@ -485,7 +487,12 @@ test.describe("setup checklist", () => {
     await open(page, ipc, hub, backend(), {
       fork: {
         ...chosen,
-        onboarding: completed(["try_in_app", "add_word", "create_snippet"]),
+        onboarding: completed([
+          "try_in_app",
+          "add_word",
+          "create_snippet",
+          "try_transform",
+        ]),
       },
       handy: { autostart_enabled: false },
     });
