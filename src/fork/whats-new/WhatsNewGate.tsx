@@ -2,8 +2,10 @@
 /**
  * What's New (S-28, C-99): after an update, the Hub shows our note for the
  * new version once (`releaseNotes.ts`), and never while a dictation is in
- * progress (`busy` in `fork-update-state`; the dialog opens when the take
- * ends). Handy's "Show What's New after updates" setting and its
+ * progress (the take itself through `useTakeRunning`, and `busy` in
+ * `fork-update-state` while its text is delivered; the dialog opens when
+ * the take ends). Mac wave 4 (S-28.9): `busy` alone is sampled every 10 s,
+ * so a Hub opened 2 s into a take showed the note for ~3 s. Handy's "Show What's New after updates" setting and its
  * `whats_new_last_seen_version` record what was seen, as in Handy's gate;
  * Handy's own notes are not shown.
  *
@@ -24,7 +26,7 @@ import { useTranslation } from "react-i18next";
 import { Dialog } from "@/components/ui";
 import { MarkdownContent } from "@/components/whats-new/MarkdownContent";
 import { useSettings } from "@/hooks/useSettings";
-import { useOtherDialogOpen } from "../hub/featurePopupGate";
+import { useOtherDialogOpen, useTakeRunning } from "../hub/featurePopupGate";
 import { useUpdateState } from "../hub/UpdateStatus";
 import { FORK_NAMESPACE } from "../i18n";
 import { useChooserOpen } from "../onboarding/FirstUseChooser";
@@ -87,8 +89,9 @@ export function WhatsNewGate() {
   const lesson = useLessonStore((s) => s.open != null);
   const spotlight = useFirstUseStore((s) => s.spotlight?.active ?? false);
   const otherDialog = useOtherDialogOpen(OWN);
+  const take = useTakeRunning();
   const clear = useClearFor(
-    chooser || lesson || spotlight || otherDialog,
+    take || chooser || lesson || spotlight || otherDialog,
     AFTER_BLOCKER_MS,
   );
 
@@ -121,7 +124,8 @@ export function WhatsNewGate() {
     };
   }, [isLoading, settings, enabled, lastSeen, newUser, updateSetting]);
 
-  // Never while dictating: wait for the update state, and for `busy` false.
+  // Never while dictating: no take running, the update state known and its
+  // `busy` false.
   // Never over another modal or the first-use flow.
   if (!note || dismissed === note.version || !update || update.busy || !clear) {
     return null;

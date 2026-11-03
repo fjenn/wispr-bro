@@ -17,7 +17,7 @@
  * arrives with the page (View changes, a notification's Open) lands first.
  */
 import { useEffect, useState } from "react";
-import { events as handyEvents } from "@/bindings";
+import { commands as handyCommands, events as handyEvents } from "@/bindings";
 import { useHubNav } from "./nav";
 
 /** After the page loads, before the popup may first show. */
@@ -41,14 +41,23 @@ export function otherDialogOpen(
   ).some((dialog) => !dialog.querySelector(own));
 }
 
-function useTakeRunning(): boolean {
+/**
+ * `true` while a take runs (and [`AFTER_TAKE_MS`] after it stops): Handy's
+ * `recording-state-event`, plus Handy's `is_recording` at mount, since a
+ * Hub opened (or rebuilt, S-38) after the take started never sees its
+ * `started` (Mac wave 4, S-28.9: What's New showed over a take started 2 s
+ * before the Hub opened). An event that arrives before the answer wins.
+ */
+export function useTakeRunning(): boolean {
   const [running, setRunning] = useState(false);
   useEffect(() => {
     let timer: number | undefined;
     let off: (() => void) | undefined;
     let alive = true;
+    let heard = false;
     handyEvents.recordingStateEvent
       .listen(({ payload }) => {
+        heard = true;
         window.clearTimeout(timer);
         if (payload.phase === "started" || payload.phase === "locked") {
           setRunning(true);
@@ -62,6 +71,14 @@ function useTakeRunning(): boolean {
       })
       .catch(() => {
         // No take events (a test page): never deferred for a take.
+      });
+    handyCommands
+      .isRecording()
+      .then((recording) => {
+        if (alive && !heard && recording === true) setRunning(true);
+      })
+      .catch(() => {
+        // No answer: the events alone decide.
       });
     return () => {
       alive = false;

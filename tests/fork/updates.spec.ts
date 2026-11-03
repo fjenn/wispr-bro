@@ -349,6 +349,50 @@ test.describe("What's New", () => {
     await expect(whatsNew(page)).toHaveCount(0);
   });
 
+  // Mac wave 4, S-28.9: `busy` is sampled every 10 s, so a Hub opened 2 s
+  // into a take (it never saw the take's `started`) showed the note for
+  // ~3 s. The gate asks Handy's `is_recording` at mount.
+  test("a take started 2 s before the Hub opened: no note until it ends", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    ipc.respond("is_recording", true);
+    // The scheduler has not sampled the take yet: `busy` is still false.
+    await hubWith(page, ipc, hub, updateState("up_to_date"), {
+      ...seen,
+      whats_new_last_seen_version: "0.9.7",
+    });
+    await ipc.waitForListener("recording-state-event");
+    await ipc.expectCalled("is_recording");
+    // Longer than the gate's own delays: the note must stay away.
+    await page.waitForTimeout(2500);
+    await expect(whatsNew(page)).toHaveCount(0);
+    ipc.respond("is_recording", false);
+    await ipc.emit("recording-state-event", { phase: "stopped" });
+    await expect(whatsNew(page)).toBeVisible();
+  });
+
+  test("a take that starts while the note is open hides it at once", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await hubWith(page, ipc, hub, updateState("up_to_date"), {
+      ...seen,
+      whats_new_last_seen_version: "0.9.7",
+    });
+    await expect(whatsNew(page)).toBeVisible();
+    await ipc.emit("recording-state-event", { phase: "started" });
+    await expect(whatsNew(page)).toHaveCount(0, { timeout: 500 });
+    await ipc.emit("recording-state-event", { phase: "stopped" });
+    // Not dismissed: it comes back after the take, still unseen.
+    await expect(whatsNew(page)).toBeVisible();
+    expect(
+      await ipc.calls("change_whats_new_last_seen_version_setting"),
+    ).toEqual([]);
+  });
+
   test("a fresh install or the setting off shows nothing", async ({
     page,
     ipc,
