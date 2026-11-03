@@ -232,7 +232,7 @@ pub(crate) mod tests {
             "crashReporterKey": "A1B2C3D4-device-key",
             "exception": {"codes": "0x0000000000000000, 0x0000000000000000", "rawCodes": [0, 0], "type": "EXC_CRASH", "signal": "SIGABRT", "message": format!("panic: {marker}")},
             "termination": {"flags": 0, "code": 6, "namespace": "SIGNAL", "indicator": format!("Abort trap: 6 {marker}"), "reasons": [marker]},
-            "asi": {"libsystem_c.dylib": [format!("abort() called"), format!("thread 'paste' panicked: {marker}")]},
+            "asi": {"libsystem_c.dylib": ["abort() called".to_string(), format!("thread 'paste' panicked: {marker}")]},
             "faultingThread": 3,
             "threads": [
                 {"id": 1, "queue": "com.apple.main-thread", "frames": [{"imageOffset": 4321, "symbol": "mach_msg2_trap", "symbolLocation": 8, "imageIndex": 0}]},
