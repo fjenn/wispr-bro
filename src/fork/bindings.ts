@@ -182,6 +182,51 @@ async forkOnboardingOpenPane(pane: ForkSettingsPane) : Promise<Result<null, Fork
 }
 },
 /**
+ * S-02: whether the shortcut works (both taps), and why not.
+ */
+async forkShortcutHealth() : Promise<HealthStatus> {
+    return await TAURI_INVOKE("fork_shortcut_health");
+},
+/**
+ * S-02: "Check again". The answer arrives as `ForkShortcutHealthChanged`
+ * when it differs; the status returned is the one before the check.
+ */
+async forkShortcutRecheck() : Promise<HealthStatus> {
+    return await TAURI_INVOKE("fork_shortcut_recheck");
+},
+/**
+ * S-02: opens System Settings at Accessibility.
+ */
+async forkShortcutOpenAccessibility() : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_shortcut_open_accessibility") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * S-02: "Reset and re-grant" (Yap's recovery for a stale row after a
+ * re-signed update): clears this app's Accessibility record with
+ * `tccutil`, asks macOS to list the app again (the system prompt), and
+ * opens the pane. Only this app's own record is touched.
+ */
+async forkShortcutResetPermission() : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_shortcut_reset_permission") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * S-02 / RS-02 fallback: "Relaunch to finish" when a re-granted tap can
+ * only be rebuilt by a new process.
+ */
+async forkShortcutRelaunch() : Promise<void> {
+    await TAURI_INVOKE("fork_shortcut_relaunch");
+},
+/**
  * Lifetime and today's stats (survive retention and deletes).
  */
 async forkStatsSummary() : Promise<Result<StatsSummary, ForkError>> {
@@ -1239,6 +1284,8 @@ forkPracticeTake: ForkPracticeTake,
 forkScratchpadChanged: ForkScratchpadChanged,
 forkScratchpadOpen: ForkScratchpadOpen,
 forkSettingsChanged: ForkSettingsChanged,
+forkShortcutFixRequested: ForkShortcutFixRequested,
+forkShortcutHealthChanged: ForkShortcutHealthChanged,
 forkSnippetsChanged: ForkSnippetsChanged,
 forkSpeechSetup: ForkSpeechSetup,
 forkStatsUpdated: ForkStatsUpdated,
@@ -1266,6 +1313,8 @@ forkPracticeTake: "fork-practice-take",
 forkScratchpadChanged: "fork-scratchpad-changed",
 forkScratchpadOpen: "fork-scratchpad-open",
 forkSettingsChanged: "fork-settings-changed",
+forkShortcutFixRequested: "fork-shortcut-fix-requested",
+forkShortcutHealthChanged: "fork-shortcut-health-changed",
 forkSnippetsChanged: "fork-snippets-changed",
 forkSpeechSetup: "fork-speech-setup",
 forkStatsUpdated: "fork-stats-updated",
@@ -1980,7 +2029,12 @@ context: boolean;
 /**
  * S-22: the transform run and word diff on the Diff phase.
  */
-diff: ForkTransformDiff | null }
+diff: ForkTransformDiff | null; 
+/**
+ * S-02: the app holding Secure Input (with the `secure_input`
+ * warning), when known.
+ */
+holder: string | null }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
@@ -2171,6 +2225,18 @@ export type ForkSettingsPane =
  */
 "keyboard"
 /**
+ * Asks the Hub to open the Fix sheet (the bar's Fix, the tray item).
+ */
+export type ForkShortcutFixRequested = { 
+/**
+ * What asked: `pill`, `tray`, `notification`.
+ */
+source: string }
+/**
+ * Emitted when the overall status changes.
+ */
+export type ForkShortcutHealthChanged = { status: HealthStatus }
+/**
  * Emitted after the snippets changed (page edits, imports) or a take used
  * one, so every window's Snippets page and counts refresh.
  */
@@ -2304,6 +2370,20 @@ checks_enabled: boolean;
  * minisign key id downloads are verified against.
  */
 pubkey_id: string }
+/**
+ * The whole picture (`fork_shortcut_health`, event
+ * `ForkShortcutHealthChanged`).
+ */
+export type HealthStatus = { 
+/**
+ * The worst of the two taps.
+ */
+state: TapHealth; reason: LostReason | null; fork_tap: TapHealth; handy_tap: TapHealth; 
+/**
+ * A tap could not be rebuilt [`MAX_REBUILDS`] times although the
+ * permission is granted: offer "Relaunch to finish".
+ */
+needs_relaunch: boolean }
 /**
  * One heatmap cell.
  */
@@ -2533,6 +2613,16 @@ export type LlmState =
  * Download failed; Retry is offered.
  */
 "download_failed"
+export type LostReason = 
+/**
+ * The probe tap could not be created: Accessibility is off, the row
+ * was removed, or the app was re-signed.
+ */
+"permission" | 
+/**
+ * The permission is fine, but the tap stopped or could not be rebuilt.
+ */
+"tap_stopped"
 /**
  * This Mac, as the Models panel shows it.
  */
@@ -2745,7 +2835,11 @@ export type PillFix =
 /**
  * Sends the latest transform run to S-22's future changes view.
  */
-"view_changes"
+"view_changes" | 
+/**
+ * S-02: opens the Fix sheet in the Hub.
+ */
+"fix_shortcut"
 /**
  * A message or an error after (or instead of) a take. The English copy is
  * in `fork.json` > `pill.message.<kind>`.
@@ -2811,7 +2905,22 @@ export type PillMessage =
 /**
  * A transform finished; S-22 will present its before/after record.
  */
-"transform_done" | "command_done" | "command_needs_text" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed"
+"transform_done" | "command_done" | "command_needs_text" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed" | 
+/**
+ * S-02: the shortcut stopped working: Accessibility is off (or the
+ * app's grant no longer matches it). Fix opens the Fix sheet. Stays
+ * until the shortcut works again, ✕ or the next take.
+ */
+"shortcut_lost" | 
+/**
+ * S-02: the keyboard listener stopped although the permission is
+ * there (it is being rebuilt, or needs a relaunch).
+ */
+"shortcut_stopped" | 
+/**
+ * S-02: the shortcut works again (after a loss was shown).
+ */
+"shortcut_back"
 /**
  * What the active bar is doing (the web view's `state`).
  */
@@ -2884,7 +2993,13 @@ export type PillWarning =
  * The take's microphone disappeared (unplugged, Bluetooth dropped);
  * what it heard before is kept (S-08). Stays until the take ends.
  */
-"mic_lost"
+"mic_lost" | 
+/**
+ * S-02: the take started while an app holds Secure Input: fn+Space
+ * cannot lock; Esc (through the Carbon shadow) or ✕ cancels. Names the
+ * holder when known. Shown for [`SECURE_INPUT_MS`].
+ */
+"secure_input"
 /**
  * What the background work is doing (Settings › Advanced › Models).
  */
@@ -3051,6 +3166,14 @@ export type Shape =
  * Hands-free with a text in the middle (microphone name, warning).
  */
 "locked_label" | 
+/**
+ * S-02: held, with the Secure Input notice (a longer text).
+ */
+"held_notice" | 
+/**
+ * S-02: hands-free, with the Secure Input notice.
+ */
+"locked_notice" | 
 /**
  * "Transcribing…" / "Cleaning up…".
  */
@@ -3348,6 +3471,11 @@ export type StyleSettings = { personal: StylePreset; work: StylePreset; email: S
  * One site on the Style page (S-19b).
  */
 export type StyleSite = { host: string; name: string; group: StyleGroup; builtin_group: StyleGroup; user_group: StyleGroup | null; auto_send: boolean }
+export type TapHealth = "healthy" | "lost" | 
+/**
+ * The permission is back; the tap is being rebuilt.
+ */
+"recovering"
 /**
  * Apple Silicon tier from the brand string (`Apple M2 Pro`).
  */
