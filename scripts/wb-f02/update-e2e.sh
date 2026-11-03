@@ -22,9 +22,26 @@
 #      --strict`) and has the same designated requirement as A, which is what
 #      macOS privacy grants (Microphone, Accessibility) are tied to.
 #
+# S-28 phases (the same two builds, A restored from a pristine copy each
+# time; the background scheduler, no selftest; shorter timings through the
+# debug-only WISPRBRO_UPDATE_TIMING):
+#   S-28.1 B downloads in the background; a hands-free take (SIGUSR2, the
+#          microphone records silence; no speakers) runs past the quiet window
+#          and nothing installs; after the take and the quiet window B
+#          installs and the app relaunches hidden (the Hub had been hidden),
+#          with no layer-0 window afterwards.
+#   S-28.2 B ready, the app is quit: B installs at quit, no relaunch.
+#   S-28.3 B's archive is tampered with: three failed installs, then the
+#          24-hour pause (update-state.json).
+#   S-28.4 A's folder is read-only: no background install, no password
+#          prompt, the "waiting for Restart now" line instead.
+# S-28.1 needs Microphone access granted to com.wisprbro.f02check once
+# (System Settings › Privacy & Security › Microphone), and Automation for
+# the terminal → System Events (hides the app).
+#
 # Real permission survival and the footer/tray paths stay RS-12 person checks.
 #
-# Usage: scripts/wb-f02/update-e2e.sh <out dir>
+# Usage: scripts/wb-f02/update-e2e.sh <out dir>   (F02_ONLY_S28=1 skips F-02.3)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -64,6 +81,9 @@ build() { # <version> <dest dir>
 }
 build "$B" "$OUT/b"
 build "$A" "$OUT/a"
+rm -rf "$OUT/a-pristine"
+mkdir -p "$OUT/a-pristine"
+ditto "$OUT/a/$NAME.app" "$OUT/a-pristine/$NAME.app"
 bun scripts/wb-release/minisign.ts "$OUT/b/Wispr-Bro_${B}_aarch64.app.tar.gz"
 
 FEED="$OUT/feed"
@@ -123,13 +143,18 @@ check() {
   if "$@"; then echo "PASS $label"; pass=$((pass + 1)); else echo "FAIL $label"; fail=$((fail + 1)); fi
 }
 
+STABLE_B() {
+  manifest "$B" "v$B" "$REPO/releases/download/v$B/Wispr-Bro_${B}_aarch64.app.tar.gz" \
+    "$REPO/releases/latest/download/latest.json"
+}
+
+if [[ "${F02_ONLY_S28:-}" != 1 ]]; then
 launch
 check "F-02.3a stable install ignores the newer beta ($C)" run_until "fork update selftest: UP-TO-DATE" 120
 stop_app
 : > "$LOG"
 
-manifest "$B" "v$B" "$REPO/releases/download/v$B/Wispr-Bro_${B}_aarch64.app.tar.gz" \
-  "$REPO/releases/latest/download/latest.json"
+STABLE_B
 launch
 check "F-02.3b $A downloads, verifies and installs $B" run_until "fork update selftest: INSTALLED $B" 300
 check "F-02.3c relaunched as $B" run_until "fork update selftest: v$B" 120
@@ -142,5 +167,84 @@ check "F-02.3f updated bundle passes codesign --verify --deep --strict" codesign
 DR_B="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^designated => //p')"
 check "F-02.3g designated requirement unchanged (privacy grants carry over)" test -n "$DR_A" -a "$DR_A" = "$DR_B"
 grep "fork update selftest\|update:" "$LOG" > "$OUT/update-lines.log" || true
+fi
+
+# ------------------------------------------------------------ S-28 -------
+STABLE_B
+DATA="$APP_HOME/Library/Application Support/$ID"
+WINDOW_ID="$OUT/wb-window-id"
+swiftc -O -o "$WINDOW_ID" "$ROOT/scripts/wb-window-id.swift" >/dev/null
+restore_a() {
+  stop_app
+  chmod -R u+w "$OUT/a" 2>/dev/null || true
+  rm -rf "$OUT/a/$NAME.app"
+  ditto "$OUT/a-pristine/$NAME.app" "$OUT/a/$NAME.app"
+  rm -f "$DATA/update-state.json"
+  : > "$LOG" 2>/dev/null || true
+}
+launch_s28() { # <WISPRBRO_UPDATE_TIMING>
+  HOME="$APP_HOME" WISPRBRO_UPDATE_ENDPOINT="$BASE" WISPRBRO_UPDATE_TIMING="$1" \
+    nohup "$APP/Contents/MacOS/$EXE" > "$OUT/app-stdout.log" 2>&1 &
+}
+app_pid() { pgrep -f "$APP/Contents/MacOS/$EXE" | head -1; }
+bundle_version() { /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist"; }
+not_in_log() { ! grep -q "$1" "$LOG"; }
+no_hub_window() { ! "$WINDOW_ID" "$(app_pid)" >/dev/null 2>&1; }
+
+# S-28.1: a take outlasting the quiet window defers the install; then a
+# quiet relaunch.
+restore_a
+launch_s28 "first=3,quiet=40,tick=1,retry=5"
+check "S-28.1a $B downloads and verifies in the background" run_until "update: $B ready" 120
+osascript -e "tell application \"System Events\" to set visible of (first process whose unix id is $(app_pid)) to false" >/dev/null 2>&1 || true
+kill -USR2 "$(app_pid)" # hands-free take starts
+sleep 55
+check "S-28.1b nothing installs during a 55 s take (past the 40 s quiet window)" not_in_log "update: installing"
+kill -USR2 "$(app_pid)" # take ends
+check "S-28.1c $B installs after the take and the quiet window" run_until "update: installed $B" 120
+check "S-28.1d relaunches hidden (the Hub was hidden)" run_until "update: relaunching (hidden)" 30
+check "S-28.1e the new process says it was relaunched hidden" run_until "update: relaunched after an update (hidden)" 120
+sleep 3
+check "S-28.1f no Hub window after the relaunch" no_hub_window
+check "S-28.1g bundle on disk is $B" test "$(bundle_version)" = "$B"
+cp "$LOG" "$OUT/s28-1.log" 2>/dev/null || true
+
+# S-28.2: install at quit, no relaunch.
+restore_a
+launch_s28 "first=3,quiet=3600,tick=1"
+check "S-28.2a $B ready" run_until "update: $B ready" 120
+osascript -e "tell application id \"$ID\" to quit" >/dev/null 2>&1 || kill -TERM "$(app_pid)"
+for _ in $(seq 1 30); do [[ -z "$(app_pid)" ]] && break; sleep 1; done
+check "S-28.2b installed at quit" run_until "update: installing at quit" 5
+check "S-28.2c bundle on disk is $B" test "$(bundle_version)" = "$B"
+sleep 5
+check "S-28.2d no relaunch after quit" test -z "$(app_pid)"
+cp "$LOG" "$OUT/s28-2.log" 2>/dev/null || true
+
+# S-28.3: three failed installs (tampered archive), then the pause.
+restore_a
+cp "$REPO/releases/download/v$B/Wispr-Bro_${B}_aarch64.app.tar.gz" "$OUT/b-archive.bak"
+printf 'tampered' >> "$REPO/releases/download/v$B/Wispr-Bro_${B}_aarch64.app.tar.gz"
+launch_s28 "first=2,quiet=1,tick=1,retry=3"
+check "S-28.3a three failures pause background updates" run_until "failed installs, pausing background updates for 24 h" 180
+check "S-28.3b update-state.json records 3 failures and a pause" \
+  python3 -I -c 'import json,sys,time; d=json.load(open(sys.argv[1])); sys.exit(0 if d["count"]==3 and d["paused_until_ms"]>time.time()*1000 else 1)' "$DATA/update-state.json"
+check "S-28.3c bundle on disk is still $A" test "$(bundle_version)" = "$A"
+cp "$OUT/b-archive.bak" "$REPO/releases/download/v$B/Wispr-Bro_${B}_aarch64.app.tar.gz"
+cp "$LOG" "$OUT/s28-3.log" 2>/dev/null || true
+
+# S-28.4: a folder that needs a password never prompts in the background.
+restore_a
+chmod a-w "$OUT/a"
+launch_s28 "first=2,quiet=1,tick=1"
+check "S-28.4a $B ready" run_until "update: $B ready" 120
+check "S-28.4b waits for Restart now instead of asking for a password" run_until "waiting for Restart now" 30
+sleep 10
+check "S-28.4c nothing installed" not_in_log "update: installing"
+stop_app
+chmod u+w "$OUT/a"
+cp "$LOG" "$OUT/s28-4.log" 2>/dev/null || true
+
+grep -h "update:" "$OUT"/s28-*.log >> "$OUT/update-lines.log" 2>/dev/null || true
 echo "passed $pass, failed $fail (logs in $OUT)"
 [[ $fail == 0 ]]

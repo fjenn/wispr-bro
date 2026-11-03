@@ -10,12 +10,16 @@
 //! download that is not one of our GitHub release assets, and, on the beta
 //! channel, takes the newer of the beta and stable releases.
 //!
-//! Callers in F-02: the fork debug panel ("Check now" / "Install") and the
-//! debug-only `WISPRBRO_UPDATE_SELFTEST` hook the Mac update test drives.
-//! S-28 adds the background scheduler, the idle gate and the footer/tray UI on
-//! top of [`check`] and [`install`].
+//! Callers: the fork debug panel ("Check now" / "Install") and the
+//! debug-only `WISPRBRO_UPDATE_SELFTEST` hook the Mac update test drives
+//! (F-02); S-28's background [`scheduler`] (idle gate, failures, quiet
+//! relaunch) behind the Hub footer, the About page and the tray.
 
 pub mod channel;
+pub mod failures;
+pub mod idle_gate;
+pub mod relaunch;
+pub mod scheduler;
 #[cfg(test)]
 mod tests;
 

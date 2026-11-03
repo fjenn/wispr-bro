@@ -366,3 +366,428 @@ async fn real_updater_artifact_verifies_against_our_pubkey() {
         .unwrap();
     assert_eq!(download_verified(&update).await.unwrap(), bytes);
 }
+
+// ------------------------------------------------------------ S-28 -------
+
+mod s28 {
+    use super::super::failures::{FailureLog, MAX_FAILURES};
+    use super::super::idle_gate::Activity;
+    use super::super::scheduler::*;
+    use super::*;
+    use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
+    use std::time::Duration;
+
+    const MIN: i64 = 60_000;
+
+    fn timing() -> Timing {
+        Timing::default()
+    }
+
+    fn inputs(now_ms: i64, busy: bool, last: i64) -> Inputs {
+        Inputs {
+            checks_enabled: true,
+            automatic: true,
+            channel: UpdateChannel::Stable,
+            activity: Activity {
+                now_ms,
+                busy,
+                last_activity_ms: last,
+                window_focused: false,
+            },
+            silent_install: true,
+        }
+    }
+
+    /// A machine with 1.0.1 downloaded at t = 0 (launch at t = 0).
+    fn ready_machine() -> Machine {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        assert_eq!(m.tick(&inputs(MIN, false, 0)), Step::Check);
+        assert_eq!(
+            m.on_checked(MIN, UpdateChannel::Stable, Ok(Some("1.0.1".into()))),
+            Step::Download
+        );
+        assert!(m.on_downloaded(MIN, Ok(())));
+        assert_eq!(m.phase, ForkUpdatePhase::Ready);
+        m
+    }
+
+    #[test]
+    fn timing_env_overrides_parse_and_ignore_junk() {
+        let t = Timing::parse("first=3,period=60,retry=5,quiet=30,tick=1,bogus=9,quiet");
+        assert_eq!(t.first_check, Duration::from_secs(3));
+        assert_eq!(t.period, Duration::from_secs(60));
+        assert_eq!(t.retry_check, Duration::from_secs(5));
+        assert_eq!(t.retry_install, Duration::from_secs(5));
+        assert_eq!(t.quiet, Duration::from_secs(30));
+        assert_eq!(t.tick, Duration::from_secs(1));
+        assert_eq!(Timing::parse(""), Timing::default());
+        assert_eq!(Timing::default().quiet, Duration::from_secs(20 * 60));
+    }
+
+    #[test]
+    fn checks_start_after_the_first_delay_and_repeat_periodically() {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        assert_eq!(m.tick(&inputs(59_000, false, 0)), Step::Nothing);
+        assert_eq!(m.tick(&inputs(MIN, false, 0)), Step::Check);
+        assert_eq!(m.tick(&inputs(MIN, false, 0)), Step::Nothing, "in flight");
+        assert_eq!(
+            m.on_checked(MIN, UpdateChannel::Stable, Ok(None)),
+            Step::Nothing
+        );
+        assert_eq!(m.phase, ForkUpdatePhase::UpToDate);
+        assert_eq!(m.tick(&inputs(6 * 60 * MIN, false, 0)), Step::Nothing);
+        assert_eq!(m.tick(&inputs(6 * 60 * MIN + MIN, false, 0)), Step::Check);
+        // A failed check retries after 30 minutes.
+        m.on_checked(361 * MIN, UpdateChannel::Stable, Err("offline".into()));
+        assert_eq!(m.phase, ForkUpdatePhase::CheckFailed);
+        assert_eq!(m.tick(&inputs(390 * MIN, false, 0)), Step::Nothing);
+        assert_eq!(m.tick(&inputs(391 * MIN, false, 0)), Step::Check);
+    }
+
+    // Guard case "skips dev builds": no automatic check, a manual one works.
+    #[test]
+    fn dev_builds_never_check_on_their_own_but_check_on_request() {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        let mut i = inputs(10 * 60 * MIN, false, 0);
+        i.automatic = false;
+        assert_eq!(m.tick(&i), Step::Nothing);
+        assert_eq!(m.request_check(), Step::Check);
+        assert_eq!(m.request_check(), Step::Nothing, "already checking");
+        m.on_checked(0, UpdateChannel::Stable, Ok(Some("1.0.1".into())));
+        assert!(m.on_downloaded(0, Ok(())));
+        // Ready, but a dev build installs only on Restart now.
+        assert_eq!(m.tick(&i), Step::Nothing);
+        assert_eq!(m.request_restart(false), Ok(Step::Install));
+    }
+
+    // Guard case "blocks during recording" and the 20-minute quiet window.
+    #[test]
+    fn a_ready_update_installs_only_when_idle_for_twenty_minutes() {
+        let mut m = ready_machine();
+        assert_eq!(
+            m.tick(&inputs(30 * MIN, true, 0)),
+            Step::Nothing,
+            "mid-take"
+        );
+        assert_eq!(m.phase, ForkUpdatePhase::Ready);
+        // The take was seen at 30 min: nothing before 50 min.
+        assert_eq!(m.tick(&inputs(49 * MIN, false, 30 * MIN)), Step::Nothing);
+        let mut focused = inputs(50 * MIN, false, 30 * MIN);
+        focused.activity.window_focused = true;
+        assert_eq!(m.tick(&focused), Step::Nothing, "the user is in the Hub");
+        assert_eq!(m.tick(&inputs(50 * MIN, false, 30 * MIN)), Step::Install);
+        assert_eq!(m.phase, ForkUpdatePhase::Installing);
+        m.on_installed(50 * MIN, Ok(()));
+        assert_eq!(m.phase, ForkUpdatePhase::Installed);
+    }
+
+    // Guard case "vetoes relaunch mid-take".
+    #[test]
+    fn an_installed_update_never_relaunches_mid_take() {
+        let mut m = ready_machine();
+        assert_eq!(m.tick(&inputs(40 * MIN, false, 0)), Step::Install);
+        m.on_installed(40 * MIN, Ok(()));
+        assert_eq!(m.tick(&inputs(40 * MIN, true, 40 * MIN)), Step::Nothing);
+        assert_eq!(
+            m.request_restart(true),
+            Err(RestartRefused::Busy),
+            "Restart now waits too"
+        );
+        // Right after the take: no quiet window, the files are new already.
+        assert_eq!(m.tick(&inputs(41 * MIN, false, 41 * MIN)), Step::Relaunch);
+        assert_eq!(m.request_restart(false), Ok(Step::Relaunch));
+    }
+
+    #[test]
+    fn a_bundle_that_needs_a_password_installs_only_on_restart_now() {
+        let mut m = ready_machine();
+        let mut i = inputs(60 * MIN, false, 0);
+        i.silent_install = false;
+        assert_eq!(m.tick(&i), Step::Nothing);
+        assert_eq!(m.phase, ForkUpdatePhase::Ready);
+        assert_eq!(m.request_restart(false), Ok(Step::Install));
+    }
+
+    #[test]
+    fn restart_now_installs_but_is_refused_mid_take_or_without_an_update() {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        assert_eq!(m.request_restart(false), Err(RestartRefused::NothingReady));
+        let mut m = ready_machine();
+        assert_eq!(m.request_restart(true), Err(RestartRefused::Busy));
+        assert_eq!(m.phase, ForkUpdatePhase::Ready);
+        assert_eq!(m.request_restart(false), Ok(Step::Install));
+    }
+
+    // "after 3 failed installs it pauses 24 h".
+    #[test]
+    fn three_failed_installs_pause_background_updates_for_a_day() {
+        let mut m = ready_machine();
+        let mut now = 30 * MIN;
+        for attempt in 1..=MAX_FAILURES {
+            if attempt > 1 {
+                assert_eq!(m.tick(&inputs(now, false, 0)), Step::Check, "{attempt}");
+                m.on_checked(now, UpdateChannel::Stable, Ok(Some("1.0.1".into())));
+                assert!(m.on_downloaded(now, Ok(())));
+            }
+            assert_eq!(m.tick(&inputs(now, false, 0)), Step::Install);
+            m.on_installed(now, Err("read-only volume".into()));
+            assert_eq!(m.phase, ForkUpdatePhase::InstallFailed);
+            assert_eq!(m.failures.count, attempt);
+            now += 61 * MIN; // past the 1 h retry
+        }
+        assert!(m.failures.is_paused(now));
+        assert_eq!(m.tick(&inputs(now, false, 0)), Step::Nothing, "paused");
+        assert_eq!(
+            m.tick(&inputs(now + 22 * 60 * MIN, false, 0)),
+            Step::Nothing
+        );
+        // Retry by hand still works during the pause.
+        assert_eq!(m.clone().request_check(), Step::Check);
+        // After 24 h the pause ends and the count starts again.
+        let later = 30 * MIN + 2 * 61 * MIN + 24 * 60 * MIN;
+        assert_eq!(m.tick(&inputs(later, false, 0)), Step::Check);
+        assert_eq!(m.failures.count, 0);
+    }
+
+    #[test]
+    fn a_bad_signature_counts_as_a_failed_install() {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        m.tick(&inputs(MIN, false, 0));
+        m.on_checked(MIN, UpdateChannel::Stable, Ok(Some("1.0.1".into())));
+        assert!(!m.on_downloaded(MIN, Err("signature".into())));
+        assert_eq!(m.phase, ForkUpdatePhase::InstallFailed);
+        assert_eq!(m.failures.count, 1);
+        assert_eq!(m.failures.version.as_deref(), Some("1.0.1"));
+    }
+
+    #[test]
+    fn turning_checks_off_drops_the_update_and_on_checks_again() {
+        let mut m = ready_machine();
+        let mut off = inputs(30 * MIN, false, 0);
+        off.checks_enabled = false;
+        assert_eq!(m.tick(&off), Step::Nothing);
+        assert_eq!(m.phase, ForkUpdatePhase::Off);
+        assert_eq!(m.version, None);
+        assert!(!m.take_quit_install(false), "nothing installs at quit");
+        assert_eq!(m.tick(&inputs(31 * MIN, false, 0)), Step::Check);
+    }
+
+    #[test]
+    fn a_ready_beta_is_dropped_when_the_user_returns_to_stable() {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        let mut beta = inputs(MIN, false, 0);
+        beta.channel = UpdateChannel::Beta;
+        assert_eq!(m.tick(&beta), Step::Check);
+        m.on_checked(MIN, UpdateChannel::Beta, Ok(Some("1.1.0-beta.1".into())));
+        assert!(m.on_downloaded(MIN, Ok(())));
+        assert_eq!(m.tick(&inputs(2 * MIN, false, 0)), Step::Nothing);
+        assert_eq!(m.phase, ForkUpdatePhase::Idle);
+        assert_eq!(m.version, None);
+        assert_eq!(m.tick(&inputs(2 * MIN, false, 0)), Step::Check);
+    }
+
+    #[test]
+    fn at_quit_a_ready_update_installs_once() {
+        let mut m = ready_machine();
+        assert!(m.take_quit_install(true));
+        assert!(!m.take_quit_install(true));
+        m.on_installed(MIN, Ok(()));
+        assert_eq!(m.phase, ForkUpdatePhase::Installed);
+        let mut idle = Machine::new(0, FailureLog::default(), timing());
+        assert!(!idle.take_quit_install(true));
+    }
+
+    #[test]
+    fn late_results_after_a_phase_change_are_ignored() {
+        let mut m = Machine::new(0, FailureLog::default(), timing());
+        assert_eq!(
+            m.on_checked(0, UpdateChannel::Stable, Ok(Some("9.0.0".into()))),
+            Step::Nothing
+        );
+        assert!(!m.on_downloaded(0, Ok(())));
+        m.on_installed(0, Ok(()));
+        assert_eq!(m.phase, ForkUpdatePhase::Idle);
+    }
+
+    // ---------------------------------------------------- executor -------
+
+    static INSTALLS: AtomicU32 = AtomicU32::new(0);
+    static FAIL_INSTALL: AtomicBool = AtomicBool::new(false);
+    /// The executor tests share the install counter and the activity clock.
+    static SERIAL: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
+    fn fake_install(update: &Update, bytes: Vec<u8>) -> Result<(), String> {
+        assert_eq!(bytes, ARTIFACT, "the verified bytes reach the install");
+        assert_eq!(update.version, "0.2.0");
+        INSTALLS.fetch_add(1, Ordering::SeqCst);
+        if FAIL_INSTALL.load(Ordering::SeqCst) {
+            Err("read-only volume".into())
+        } else {
+            Ok(())
+        }
+    }
+
+    struct Rig {
+        app: App<MockRuntime>,
+        relaunched: Arc<Mutex<Vec<bool>>>,
+        _stand: Stand,
+        dir: tempfile::TempDir,
+    }
+
+    /// A mock app (0.1.0, our test key) whose scheduler reads a loopback
+    /// stand serving 0.2.0, with a fake install and relaunch probe.
+    fn rig(quiet_secs: u64) -> Rig {
+        let stand = Stand::new();
+        stand.release(STABLE_PATH, "0.2.0");
+        let app = app(TEST_PUBKEY, true);
+        crate::fork::specta_builder::<MockRuntime>().mount_events(app.handle());
+        let dir = tempfile::tempdir().unwrap();
+        let timing = Timing {
+            quiet: Duration::from_secs(quiet_secs),
+            ..Timing::default()
+        };
+        let scheduler = UpdateScheduler::new(
+            Machine::new(
+                0,
+                FailureLog::default(),
+                Timing {
+                    first_check: Duration::ZERO,
+                    ..timing
+                },
+            ),
+            Some(failures::state_path(dir.path())),
+            true,
+            fake_install,
+            Some(stand.endpoints(UpdateChannel::Stable)),
+        );
+        let relaunched: Arc<Mutex<Vec<bool>>> = Arc::default();
+        let probe = relaunched.clone();
+        scheduler.set_relaunch(Arc::new(move |hidden| probe.lock().unwrap().push(hidden)));
+        app.manage(scheduler);
+        app.manage(FakeBusy(AtomicBool::new(false)));
+        Rig {
+            app,
+            relaunched,
+            _stand: stand,
+            dir,
+        }
+    }
+
+    fn set_busy(rig: &Rig, busy: bool) {
+        rig.app.state::<FakeBusy>().0.store(busy, Ordering::SeqCst);
+    }
+
+    #[tokio::test]
+    async fn the_scheduler_downloads_waits_for_quiet_installs_and_relaunches_hidden() {
+        let _serial = SERIAL.lock().await;
+        INSTALLS.store(0, Ordering::SeqCst);
+        FAIL_INSTALL.store(false, Ordering::SeqCst);
+        let rig = rig(3600);
+        let handle = rig.app.handle();
+        super::super::idle_gate::note_activity();
+
+        // Check + download + verify; the take just now keeps it waiting.
+        tick_once(handle).await;
+        let s = state(handle);
+        assert_eq!(s.phase, ForkUpdatePhase::Ready, "{s:?}");
+        assert_eq!(s.version.as_deref(), Some("0.2.0"));
+        assert!(s.automatic);
+        set_busy(&rig, true);
+        tick_once(handle).await;
+        assert!(state(handle).busy);
+        assert_eq!(INSTALLS.load(Ordering::SeqCst), 0, "never mid-take");
+        set_busy(&rig, false);
+        tick_once(handle).await;
+        assert_eq!(
+            INSTALLS.load(Ordering::SeqCst),
+            0,
+            "inside the quiet window"
+        );
+
+        // Restart now while a take runs is refused; afterwards it installs
+        // and relaunches hidden (no Hub window in the mock).
+        set_busy(&rig, true);
+        assert_eq!(restart_now(handle), Err(RestartRefused::Busy));
+        set_busy(&rig, false);
+        assert_eq!(restart_now(handle), Ok(()));
+        for _ in 0..100 {
+            if !rig.relaunched.lock().unwrap().is_empty() {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(20)).await;
+        }
+        assert_eq!(INSTALLS.load(Ordering::SeqCst), 1);
+        assert_eq!(*rig.relaunched.lock().unwrap(), vec![true]);
+        assert_eq!(state(handle).phase, ForkUpdatePhase::Installed);
+        // The quit after that installs nothing more.
+        on_exit(handle);
+        assert_eq!(INSTALLS.load(Ordering::SeqCst), 1);
+        drop(rig.dir);
+    }
+
+    #[tokio::test]
+    async fn the_quit_install_uses_the_held_bytes_without_a_relaunch() {
+        let _serial = SERIAL.lock().await;
+        FAIL_INSTALL.store(false, Ordering::SeqCst);
+        let rig = rig(3600);
+        let handle = rig.app.handle();
+        super::super::idle_gate::note_activity();
+        tick_once(handle).await;
+        assert_eq!(state(handle).phase, ForkUpdatePhase::Ready);
+        let s = rig.app.state::<UpdateScheduler>();
+        // At quit the held bytes install (fake_install checks them).
+        on_exit(handle);
+        assert_eq!(s.machine().phase, ForkUpdatePhase::Installed);
+        assert!(
+            rig.relaunched.lock().unwrap().is_empty(),
+            "no relaunch at quit"
+        );
+        let saved = failures::load(&failures::state_path(rig.dir.path()));
+        assert_eq!(saved, FailureLog::default());
+    }
+
+    #[tokio::test]
+    async fn a_failed_install_is_kept_on_disk_and_nothing_relaunches() {
+        let _serial = SERIAL.lock().await;
+        FAIL_INSTALL.store(true, Ordering::SeqCst);
+        let rig = rig(3600);
+        let handle = rig.app.handle();
+        super::super::idle_gate::note_activity();
+        tick_once(handle).await;
+        assert_eq!(state(handle).phase, ForkUpdatePhase::Ready);
+        assert_eq!(restart_now(handle), Ok(()));
+        for _ in 0..100 {
+            if state(handle).phase == ForkUpdatePhase::InstallFailed {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(20)).await;
+        }
+        FAIL_INSTALL.store(false, Ordering::SeqCst);
+        let s = state(handle);
+        assert_eq!(s.phase, ForkUpdatePhase::InstallFailed);
+        assert_eq!(s.failures, 1);
+        assert!(rig.relaunched.lock().unwrap().is_empty());
+        let saved = failures::load(&failures::state_path(rig.dir.path()));
+        assert_eq!(saved.count, 1);
+        assert_eq!(saved.version.as_deref(), Some("0.2.0"));
+    }
+
+    #[tokio::test]
+    async fn checks_off_reports_off_and_refuses_a_manual_check() {
+        let app = app(TEST_PUBKEY, false);
+        crate::fork::specta_builder::<MockRuntime>().mount_events(app.handle());
+        let handle = app.handle();
+        assert_eq!(state(handle).phase, ForkUpdatePhase::Off);
+        app.manage(UpdateScheduler::new(
+            Machine::new(0, FailureLog::default(), Timing::default()),
+            None,
+            true,
+            fake_install,
+            None,
+        ));
+        app.manage(FakeBusy(AtomicBool::new(false)));
+        tick_once(handle).await;
+        assert_eq!(state(handle).phase, ForkUpdatePhase::Off);
+        assert_eq!(check_now(handle).phase, ForkUpdatePhase::Off);
+    }
+}

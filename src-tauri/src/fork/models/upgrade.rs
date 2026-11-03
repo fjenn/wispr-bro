@@ -144,6 +144,8 @@ pub(super) fn on_progress<R: Runtime>(app: &AppHandle<R>, percent: u8) {
 /// A take ended (the swap waits for a quiet moment after it).
 pub fn on_take_ended() {
     LAST_TAKE_MS.store(now_ms(), Ordering::Release);
+    // S-28: updates wait for a quiet moment after a take too.
+    crate::fork::update::idle_gate::note_activity();
 }
 
 /// Whether a swap may happen now: nothing records or transcribes and no

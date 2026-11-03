@@ -453,6 +453,18 @@ Details per port: docs/fork/PORTS.md.
   and 100 ms budgets; the caret window before, selected and after; Wispr's
   exclusions; no OCR; only spelling hints leave the read, S-20).
 
+- src-tauri/src/fork/update/idle_gate.rs (behaviour and test cases only)
+  Source: MacParakeet, https://github.com/moona3k/macparakeet
+  Commit: b6ca965c348532232e71dd07d01bb0fbf6c0b995
+  Files:  Sources/MacParakeet/App/SparkleUpdateGuard.swift,
+          Tests/MacParakeetTests/App/SparkleUpdateGuardTests.swift
+  Copyright (C) 2026 Daniel Moon
+  Licence: GPL-3.0
+  Modified by Wispr Bro contributors, 2026-11-02 (no code copied: the
+  guard cases re-expressed in Rust for tauri-plugin-updater: dev versions
+  skip background checks, no install mid-take, relaunch veto; Wispr's
+  20-minute quiet window and the Hub-focus rule added, S-28).
+
 ======================================================================
 4. Files licensed AGPL-3.0-only
 ======================================================================

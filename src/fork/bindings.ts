@@ -1124,6 +1124,36 @@ async forkUpdateInstall() : Promise<Result<string | null, ForkError>> {
     else return { status: "error", error: e  as any };
 }
 },
+/**
+ * S-28: the update state the footer, About page and tray show.
+ */
+async forkUpdateState() : Promise<ForkUpdateState> {
+    return await TAURI_INVOKE("fork_update_state");
+},
+/**
+ * S-28: "Check for updates" / "Retry". Returns at once; progress arrives
+ * as `fork-update-state`. Refused while update checks are off.
+ */
+async forkUpdateCheckNow() : Promise<Result<ForkUpdateState, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_update_check_now") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * S-28: "Restart now": installs the downloaded update and relaunches.
+ * Refused mid-take (the relaunch veto) or when nothing is downloaded.
+ */
+async forkUpdateRestartNow() : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_update_restart_now") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 async forkDataLocations() : Promise<Result<ForkDataLocations, ForkError>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("fork_data_locations") };
@@ -1205,7 +1235,8 @@ forkSpeechSetup: ForkSpeechSetup,
 forkStatsUpdated: ForkStatsUpdated,
 forkToastsDismiss: ForkToastsDismiss,
 forkTransformViewChanges: ForkTransformViewChanges,
-forkTransformsChanged: ForkTransformsChanged
+forkTransformsChanged: ForkTransformsChanged,
+forkUpdateState: ForkUpdateState
 }>({
 forkAppRulesChanged: "fork-app-rules-changed",
 forkCleanupResult: "fork-cleanup-result",
@@ -1230,7 +1261,8 @@ forkSpeechSetup: "fork-speech-setup",
 forkStatsUpdated: "fork-stats-updated",
 forkToastsDismiss: "fork-toasts-dismiss",
 forkTransformViewChanges: "fork-transform-view-changes",
-forkTransformsChanged: "fork-transforms-changed"
+forkTransformsChanged: "fork-transforms-changed",
+forkUpdateState: "fork-update-state"
 })
 
 /** user-defined constants **/
@@ -2164,6 +2196,73 @@ export type ForkUpdateCheck = { current_version: string; channel: UpdateChannel;
  * `None`: up to date.
  */
 available: ForkAvailableUpdate | null }
+/**
+ * Where the update is (the footer's states).
+ */
+export type ForkUpdatePhase = 
+/**
+ * Update checks are off (setting or kill switch).
+ */
+"off" | 
+/**
+ * No check yet.
+ */
+"idle" | "checking" | "up_to_date" | 
+/**
+ * The last check failed (offline, GitHub down).
+ */
+"check_failed" | 
+/**
+ * A newer release is downloading and being verified.
+ */
+"downloading" | 
+/**
+ * Downloaded and verified; installs when idle, at quit or on Restart now.
+ */
+"ready" | "installing" | 
+/**
+ * The new version is on disk; relaunches once no take runs.
+ */
+"installed" | 
+/**
+ * The download, signature check or install failed.
+ */
+"install_failed"
+/**
+ * Everything the footer, About page and tray show. Also emitted as the
+ * `fork-update-state` event whenever it changes.
+ */
+export type ForkUpdateState = { current_version: string; channel: UpdateChannel; phase: ForkUpdatePhase; 
+/**
+ * The release this state is about (downloading, ready, failed).
+ */
+version: string | null; 
+/**
+ * Unix ms of the last finished check.
+ */
+last_checked_ms: number | null; 
+/**
+ * Background updates pause until this Unix ms after three failures.
+ */
+paused_until_ms: number | null; 
+/**
+ * Failed installs in a row.
+ */
+failures: number; 
+/**
+ * A take or transform runs now (What's New waits for it).
+ */
+busy: boolean; 
+/**
+ * Whether checks and installs run on their own in this build (not in
+ * development builds).
+ */
+automatic: boolean; 
+/**
+ * Replacing the app needs an administrator password (it sits in a
+ * folder the user cannot write), so it installs only on Restart now.
+ */
+needs_password: boolean }
 /**
  * What the debug panel shows before a check.
  */

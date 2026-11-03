@@ -130,9 +130,11 @@ fn disabled_states_follow_transcript_and_update_availability() {
         item(&tray, PASTE_LAST_ID),
         MenuSpec::Item { enabled: false, .. }
     ));
+    // S-28: honest instead of greyed out while checks are off.
+    assert!(!ids(&tray).contains(&"check_updates"));
     assert!(matches!(
-        item(&tray, "check_updates"),
-        MenuSpec::Item { enabled: false, .. }
+        item(&tray, TRAY_UPDATES_OFF_ID),
+        MenuSpec::Item { enabled: true, .. }
     ));
 
     snapshot.last = sample("en").last;
@@ -346,4 +348,47 @@ fn busy_and_secure_input_keep_their_existing_recovery_actions() {
     let warned_specs = tray_specs(&sample("en"), false, true);
     let warned = ids(&warned_specs);
     assert_eq!(warned[0], "secure_input_warning");
+}
+
+#[test]
+fn the_tray_update_item_follows_the_fork_update_state() {
+    let mut snapshot = sample("en");
+    let tray = tray_specs(&snapshot, false, false);
+    assert!(
+        matches!(item(&tray, TRAY_UPDATES_ID), MenuSpec::Item { enabled: true, label, .. } if label == "Check for updates…")
+    );
+    snapshot.update_ready = Some("1.0.1".into());
+    let tray = tray_specs(&snapshot, false, false);
+    assert!(!ids(&tray).contains(&TRAY_UPDATES_ID));
+    assert!(
+        matches!(item(&tray, TRAY_RESTART_UPDATE_ID), MenuSpec::Item { enabled: true, label, .. } if label == "Restart to update to 1.0.1")
+    );
+    snapshot.update_checks_enabled = false;
+    let tray = tray_specs(&snapshot, false, false);
+    assert!(
+        matches!(item(&tray, TRAY_UPDATES_OFF_ID), MenuSpec::Item { label, .. } if label == "Update checks are off…")
+    );
+    snapshot.updates_forced_off = true;
+    let tray = tray_specs(&snapshot, false, false);
+    for id in [TRAY_UPDATES_ID, TRAY_UPDATES_OFF_ID, TRAY_RESTART_UPDATE_ID] {
+        assert!(!ids(&tray).contains(&id), "{id}");
+    }
+}
+
+#[test]
+fn tray_update_clicks_are_routed_to_fork_update() {
+    // Handy's `check_updates` handler only shows the Hub (its checker is
+    // not mounted); the check itself must run in `on_menu`.
+    let source = include_str!("../app_menu.rs");
+    let on_menu = &source[source.find("fn on_menu<").unwrap()..];
+    let on_menu = &on_menu[..on_menu.find("\n}\n").unwrap()];
+    assert!(on_menu.contains("TRAY_UPDATES_ID => {"));
+    assert!(on_menu.contains("update::scheduler::check_now(app)"));
+    assert!(on_menu.contains("update::scheduler::restart_now(app)"));
+    assert!(
+        on_menu.contains("TRAY_UPDATES_OFF_ID => open_hub(app, \"settings\", Some(\"privacy\"))")
+    );
+    let footer = include_str!("../../../../src/fork/hub/Footer.tsx");
+    assert!(!footer.contains("<UpdateChecker"));
+    assert!(footer.contains("<UpdateStatus />"));
 }

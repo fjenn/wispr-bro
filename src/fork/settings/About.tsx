@@ -5,6 +5,7 @@ import { getVersion } from "@tauri-apps/api/app";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { ShowWhatsNewOnUpdate } from "@/components/settings/ShowWhatsNewOnUpdate";
 import { SettingsGroup } from "@/components/ui/SettingsGroup";
+import { UpdatePanel } from "../hub/UpdateStatus";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 
@@ -34,6 +35,15 @@ export function About() {
         >
           {t("settingsModal.about.source")}
         </Button>
+      </section>
+      <section
+        aria-labelledby="wb-about-updates"
+        className="flex flex-col gap-3 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-6"
+      >
+        <h3 id="wb-about-updates" className="text-base font-semibold">
+          {t("settingsModal.about.updatesTitle")}
+        </h3>
+        <UpdatePanel />
       </section>
       <div data-handy-content>
         <SettingsGroup title={t("settingsModal.about.updates")}>

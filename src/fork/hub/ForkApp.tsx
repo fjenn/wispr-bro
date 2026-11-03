@@ -25,7 +25,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { platform } from "@tauri-apps/plugin-os";
 import SecureInputWarning from "@/components/SecureInputWarning";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { WhatsNewGate } from "@/components/whats-new";
+import { WhatsNewGate } from "../whats-new/WhatsNewGate";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";

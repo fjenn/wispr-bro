@@ -24,7 +24,6 @@ import { ShortcutActivationSetting } from "@/components/settings/ShortcutActivat
 import { ShowOverlay } from "@/components/settings/ShowOverlay";
 import { TranslateToEnglish } from "@/components/settings/TranslateToEnglish";
 import { TypingToolSetting } from "@/components/settings/TypingTool";
-import { UpdateChecksToggle } from "@/components/settings/UpdateChecksToggle";
 import { VadBackendSelector } from "@/components/settings/VadBackendSelector";
 import { VoiceActivityDetection } from "@/components/settings/VoiceActivityDetection";
 import { DebugSettings } from "@/components/settings/debug/DebugSettings";
@@ -123,8 +122,20 @@ export function Advanced() {
         </SettingsGroup>
       </div>
       <SettingsGroup title={t("settingsModal.advanced.updates")}>
-        <div data-handy-content>
-          <UpdateChecksToggle descriptionMode="tooltip" grouped />
+        {/* S-28: the fork setting (mirrored into Handy's at once); Handy's
+            own toggle wrote only Handy's value, which the next start
+            overwrote. */}
+        <div className="px-4">
+          <ForkToggle
+            label={t("settingsModal.privacy.choices.updates")}
+            hint={t("settingsModal.privacy.choices.updatesHint")}
+            checked={settings.update_checks_enabled}
+            disabled={!!pending.update_checks_enabled}
+            onChange={(checked) =>
+              void setSetting("update_checks_enabled", checked)
+            }
+            testId="wb-advanced-update-checks"
+          />
         </div>
         <div className="px-4">
           <ForkSelect

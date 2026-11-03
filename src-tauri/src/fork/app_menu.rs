@@ -67,6 +67,11 @@ pub const LANGUAGE_PREFIX: &str = "fork.language:";
 /// Handy's tray ids, kept so Handy's tray handler still runs them.
 pub const TRAY_OPEN_ID: &str = "settings";
 pub const TRAY_UPDATES_ID: &str = "check_updates";
+/// S-28: shown instead of Check for updates… while update checks are off;
+/// opens Settings › Data and Privacy (Handy's handler ignores the id).
+pub const TRAY_UPDATES_OFF_ID: &str = "fork.updates_off";
+/// S-28: shown instead of Check for updates… once an update is downloaded.
+pub const TRAY_RESTART_UPDATE_ID: &str = "fork.restart_update";
 pub const TRAY_CANCEL_ID: &str = "cancel";
 pub const TRAY_QUIT_ID: &str = "quit";
 pub const TRAY_SECURE_INPUT_ID: &str = "secure_input_warning";
@@ -104,6 +109,8 @@ pub struct MenuSnapshot {
     pub languages: Vec<MenuLanguage>,
     pub update_checks_enabled: bool,
     pub updates_forced_off: bool,
+    /// S-28: the downloaded update's version (Restart to update).
+    pub update_ready: Option<String>,
 }
 
 static SNAPSHOT: LazyLock<Mutex<MenuSnapshot>> =
@@ -400,13 +407,28 @@ pub fn tray_specs(snapshot: &MenuSnapshot, busy: bool, warning: bool) -> Vec<Men
         true,
     ));
     // Forced off (HANDY_DISABLE_UPDATER/WISPRBRO_DISABLE_UPDATER): dropped
-    // rather than greyed, as Handy does.
+    // rather than greyed, as Handy does. S-28: the item uses `fork/update`
+    // and says so when checks are off instead of greying out.
     if !snapshot.updates_forced_off {
-        items.push(MenuSpec::item(
-            TRAY_UPDATES_ID,
-            text(locale, "rust.menu.checkUpdates"),
-            snapshot.update_checks_enabled,
-        ));
+        items.push(
+            match (&snapshot.update_ready, snapshot.update_checks_enabled) {
+                (Some(version), true) => MenuSpec::item(
+                    TRAY_RESTART_UPDATE_ID,
+                    i18n::t(locale, "rust.menu.restartToUpdate", &[("version", version)]),
+                    true,
+                ),
+                (_, true) => MenuSpec::item(
+                    TRAY_UPDATES_ID,
+                    text(locale, "rust.menu.checkUpdates"),
+                    true,
+                ),
+                (_, false) => MenuSpec::item(
+                    TRAY_UPDATES_OFF_ID,
+                    text(locale, "rust.menu.updatesOff"),
+                    true,
+                ),
+            },
+        );
     }
     items.push(MenuSpec::item(
         PASTE_LAST_ID,
@@ -950,6 +972,12 @@ fn read_snapshot<R: ForkRuntime>(app: &AppHandle<R>, devices: bool) -> MenuSnaps
             .as_ref()
             .is_some_and(|settings| settings.update_checks_enabled),
         updates_forced_off: crate::settings::update_checks_forced_disabled(),
+        update_ready: {
+            let update = super::update::scheduler::state(app);
+            (update.phase == super::update::scheduler::ForkUpdatePhase::Ready)
+                .then_some(update.version)
+                .flatten()
+        },
         ..MenuSnapshot::default()
     };
     let Some(db) = app.try_state::<ForkDb>() else {
@@ -1115,9 +1143,21 @@ fn choose_microphone<R: ForkRuntime>(app: &AppHandle<R>, value: &str) {
 }
 
 /// Every menu click (app menu and tray). Handy's tray handler runs its own
-/// ids (`settings`, `check_updates`, `cancel`, `quit`, `secure_input_warning`).
+/// ids (`settings`, `check_updates`, `cancel`, `quit`, `secure_input_warning`);
+/// for `check_updates` it only shows the Hub (its own checker is not
+/// mounted), and the check itself runs here through `fork/update` (S-28).
 fn on_menu<R: ForkRuntime>(app: &AppHandle<R>, id: &str) {
     match id {
+        TRAY_UPDATES_ID => {
+            super::update::scheduler::check_now(app);
+        }
+        TRAY_UPDATES_OFF_ID => open_hub(app, "settings", Some("privacy")),
+        TRAY_RESTART_UPDATE_ID => {
+            if let Err(refused) = super::update::scheduler::restart_now(app) {
+                log::info!("app menu: restart to update refused: {refused:?}");
+                open_hub(app, "settings", Some("about"));
+            }
+        }
         COPY_LAST_ID => R::menu_copy_last(app),
         PASTE_LAST_ID => R::menu_paste_last(app),
         DOCUMENTATION_ID => {
