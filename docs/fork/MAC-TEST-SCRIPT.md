@@ -1673,6 +1673,11 @@ fork::context::names_eval -- --ignored --nocapture` per speech model.
 
 - [ ] S-22.1 **Mac wave 1: PASS in TextEdit only (Slack not installed)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) ⌥O after a transform in Slack.
 - [ ] S-22.2 **Mac wave 1: NOT VERIFIED (fail-open seen; no auto-apply run logged under load)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Auto-apply on a 3-sentence dictation.
+- [ ] S-22.3 **Queued for the Mac wave (fix on `fix/wave1-b`, Finding 9):** on a
+      fresh test identity (feature popup not yet dismissed), ⌥O after a Polish
+      opens the Hub on View changes with no "Your notifications live here"
+      popup over it; the popup appears once you leave the diff (another Hub
+      page), and never while a take runs.
 - Procedure: TODO (S-22).
 
 ### S-23 Command Mode
@@ -1685,6 +1690,22 @@ fork::context::names_eval -- --ignored --nocapture` per speech model.
 - [ ] S-24.1 **Mac wave 1: FAIL (app loses focus when a take starts from the note)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dictate into the note window.
 - [ ] S-24.2 **Mac wave 1: FAIL, fixed on `fix/macwave-s24` (window showed the Hub); note does not take focus** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Open via ⌥S after binding.
 - [x] S-24.3 **Mac wave 1: PASS with the `fix/macwave-s24` fix** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The note survives a force-quit.
+- **Fixed on `fix/wave1-b` (2026-11-03), queued for the Mac wave:** S-24.1
+  (the bar's web view no longer flips the app to the Prohibited activation
+  policy; no AX call into our own process) and S-24.2's focus (every open
+  path calls `set_focus`). Rerun S-24.1 and S-24.2 on a bundled test
+  identity and a `--no-bundle` build:
+  1. ⌥S (bound to `scratchpad.open`) with TextEdit in front:
+     `lsappinfo front` is the test app within 1 s and typed keys land in the
+     note (the note's text changes; TextEdit's does not).
+  2. With the note in front and its caret in the text, start a take
+     (`kill -USR2 <pid>` or `--toggle-transcription`), play the WAV, stop:
+     `lsappinfo front` stays the test app at +0.2, +1 and +3 s after the
+     start; the log has `context: read own_app` and no `focus_moved`; the
+     note gets the text; the app does not crash.
+  3. Start a take in TextEdit, click into the note, stop: the text goes to
+     the card (`focus_moved`), not into the note.
+     Builder check (2026-11-03, `--no-bundle` debug build, portable `com.wisprbro.fixbcheck`, no speakers, under `gui.lock`): ⌥S with a TextEdit document in front made the test app frontmost and typed keys landed in the note (notes row 1 `Zz`, TextEdit unchanged); a take started with SIGUSR2 from the note kept the app frontmost at +0.2, +1.0 and +3.0 s (`context: read own_app`, `pill: web view built`), and the app stayed up after the stop. Not checked: the take's text arriving in the note (no speech model was loaded and no WAV path exists), the bundled identity.
 - Procedure: TODO (S-24).
 
 ### S-25 Insights
@@ -2133,6 +2154,7 @@ slice (2026-11-02).
 - [x] S-36.7 **Mac wave 1: PASS (TextEdit and editor takes)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Clipboard byte-identical after the `editor` and `textedit` takes (the `chat` case reads its text back with ⌘A ⌘C, so its own check reports "changed (restored)" by design).
 - [ ] S-36.8 **Mac wave 1: BLOCKED (person)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) (person, UI wave) Settings › Vibe coding: Set up, the three steps, Finish, Change editors, Tag files in chat enabled only with Cursor or Windsurf; light and dark.
 - Not covered on this Mac: VS Code and Windsurf (not installed); their bundle ids and chat detection are unit-tested only.
+- **Driver fix on `fix/wave1-b` (2026-11-03), queued:** Mac wave 1's `identifiers=0` came from a restored Cursor session (the driver never removed the profile, so the editor take went into `index.ts`). `take.sh` now removes the profile every take (or copies `WB_S36_PROFILE`, a prepared signed-out profile past the Log In window) and sets `window.restoreWindows: none`. Rerun S-36.1: check that the evidence screenshot shows `user_service.ts` focused before reading the verdict. Keep the throwaway `--user-data-dir` short (≤ ~60 chars): Cursor's IPC socket path must fit 103 bytes, so a deep `$TMPDIR` path fails at start.
 
 **Profile:** the S-20 portable debug build (`com.wisprbro.s20check` or a
 `s36check` identity, never the owner's app, data or clipboard), set up as
@@ -2182,6 +2204,10 @@ profile is never used).
       dark while parked; ⌘Q / tray Quit still quit at once. Close the
       Scratchpad window, wait 15 s, open it from the bar: the last note is
       there. Minimize the Hub, wait 15 s: it stays in the Dock.
+      **Fixed on `fix/wave1-b` (2026-11-03), queued:** the rebuilt Hub opens
+      on the page and tab it showed when parked (e.g. close on Insights ›
+      Voice, wait 15 s, reopen from the tray: Insights › Voice; close on
+      Home: Home).
 - [ ] S-38.4 Exactly-once soak (§5.4, 100 takes for A12.1, 500 before 1.0):
       `scripts/wb-soak/soak.py` (header lists the setup: BlackHole 2ch as
       the app's microphone, an empty field focused in each app, helpers

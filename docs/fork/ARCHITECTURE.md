@@ -521,6 +521,7 @@ block; the delegate is installed from `fork::on_ready`.
 | `src/fork/hub/notifications.ts`                           | Zustand inbox store, entry text (plural keys re-resolved by i18next, numbers grouped per language, `appName`), relative times, `activateNotification`, `runHubAction`                                                                                                                |
 | `src/fork/hub/NotificationsPanel.tsx`                     | Bell (unread dot, count in its name), panel (All/Unread, ⋯ menu with Mark all as read and the Suggestions/Announcements/Milestones/Mac notifications toggles, entries with their buttons, empty states), `useNotificationsLive` (events, toasts, Esc)                                |
 | `src/fork/hub/FeaturePopup.tsx`                           | The version's feature popup (Handy's `Dialog`), once: `feature.<id>` in `dismissed_banners`                                                                                                                                                                                          |
+| `src/fork/hub/featurePopupGate.ts`                        | Defers the popup (never dismisses it) while a take runs, View changes or another dialog is open, and 0.8 s after load (Mac wave 1, Finding 9)                                                                                                                                        |
 | `src/fork/debug/NotificationsDebug.tsx`                   | Debug panel: permission state (no prompt) and a delayed sample poster                                                                                                                                                                                                                |
 | `scripts/wb-s18-notifications.swift`                      | Mac test helper: lists, waits for, clicks and presses buttons on Notification Center banners through AX                                                                                                                                                                              |
 
@@ -1812,6 +1813,19 @@ verification. The decision table:
 | control (button, list, table, link, …), no window, Finder without a text field                                           | card `no_text_field`                              | `card`          |
 | text field, terminal, web area, container, empty Electron tree, Gecko                                                    | paste                                             | as S-04         |
 
+**Our own window in front** (the Scratchpad note, the Hub; Mac wave 1 fix,
+`fix/wave1-b`): no AX call goes to this process from the AX thread
+(AppKit would answer in-process off the main thread and WebKit aborts the
+app). `fork::ax::is_own_pid` guards the take's capture and read
+(`focus::own_app`: verdict `unknown (own_app)`, so paste fail-open;
+`focus_moved` still compares pids), S-04's verification (`unverified`),
+S-21's menu Copy, S-34's watcher and S-20's read (`own_app`). The bar's
+per-take web view must never use tauri-nspanel's `no_activate(true)`: it
+flips the app to the Prohibited activation policy while the panel is
+built, which hands focus from our window back to the previous app (a unit
+test fails on it anywhere in fork code). The Scratchpad note is shown with
+`set_focus` on every open, which activates the accessory app.
+
 **Card behaviour.** One card for S-05's takes that were not pasted (S-07c's
 late queue results go only to History and the batch notification); the reason is its label. It stays until ✕, Esc
 (observed from the hotkey tap through the Esc registry, never blocked),
@@ -2114,7 +2128,10 @@ not visible, not minimized, and for `main` its page reported ready
   View changes, the S-26a menu deep links). It replays Handy's builder (label `main`, `/`, Handy's
   size and minimum, resizable, hidden, portable `data_directory`), then
   `R::hub_apply_theme` (Handy's `apply_window_theme`), `hub::style_main`
-  (the S-13 chrome) and the parked frame. The Scratchpad's own `open` already
+  (the S-13 chrome) and the parked frame. It loads the page the Hub showed
+  when it was parked (`hub_route`: the `#/hub/<page>[/<section>]` hash
+  `nav.tsx` keeps in the URL, read from the window URL at park time; other
+  hashes rebuild on `/`; Mac wave 1, S-38.3). The Scratchpad's own `open` already
   builds its window when there is none; it now calls `park::shown` and
   `park::watch`.
 - **Events for a new page.** `fork_hub_ready` (from
