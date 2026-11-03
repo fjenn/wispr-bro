@@ -102,6 +102,77 @@ async forkUseHotkeyProfile(fallback: boolean) : Promise<Result<HotkeyStatus, For
     else return { status: "error", error: e  as any };
 }
 },
+async forkOnboardingGoTo(step: string) : Promise<Result<OnboardingState, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_go_to", { step }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkOnboardingComplete() : Promise<Result<OnboardingState, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_complete") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkOnboardingAppLocation() : Promise<Result<ForkOnboardingLocation, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_app_location") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Moves only when the user pressed the button. Never overwrites another
+ * app. On success the app reopens from the new place and this one quits.
+ */
+async forkOnboardingMoveToApplications() : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_move_to_applications") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * The shortcut test (S-29a). `on`: trigger presses light the on-screen key
+ * (`fork-hotkey-event` `key_test`) and start no take, for two minutes unless
+ * renewed; the tap is started first if it could not start at launch (the
+ * user granted Accessibility a moment ago). `off` ends the test at once.
+ */
+async forkOnboardingKeyTest(on: boolean) : Promise<Result<HotkeyStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_key_test", { on }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * DEC-44: called only after the screen explained the change and the user
+ * pressed the button. The user's own value is kept for the restore
+ * (`shortcut::globe`), which runs when fn stops being the trigger.
+ */
+async forkOnboardingGlobeDoNothing() : Promise<Result<HotkeyStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_globe_do_nothing") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async forkOnboardingOpenPane(pane: ForkSettingsPane) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_open_pane", { pane }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 /**
  * Lifetime and today's stats (survive retention and deletes).
  */
@@ -1563,7 +1634,8 @@ export type ForkExportResult = { path: string; files: number; bytes: number }
 export type ForkHotkeyEvent = { 
 /**
  * `take_started`, `locked`, `stopped`, `cancelled`, `chord`, `warning`,
- * `action`, `stuck_released`.
+ * `action`, `stuck_released`; `key_test` (detail `down`/`up`) while
+ * onboarding's shortcut test runs ([`set_key_test`]).
  */
 kind: string; 
 /**
@@ -1764,6 +1836,7 @@ export type ForkNotificationOpened = { id: number | null; action: NotificationAc
  * Hub shows it as a toast); `None` after reads and clears.
  */
 export type ForkNotificationsChanged = { unread: number; posted: NotificationItem | null }
+export type ForkOnboardingLocation = "already_in_applications" | "move_needed" | "not_bundled"
 /**
  * What one take's delivery ended in (`fork::insert`, S-04): the take's
  * `paste_outcome` (R5 §4.3). `outcome` is `None` for a take cancelled
@@ -1982,6 +2055,18 @@ export type ForkSettingsChanged = {
  * The `key` of the update that caused the change.
  */
 key: string; settings: ForkSettings }
+/**
+ * System Settings panes the diagnoses open (local URL scheme; no host).
+ */
+export type ForkSettingsPane = 
+/**
+ * Privacy & Security › Accessibility (the tap is not live).
+ */
+"accessibility" | 
+/**
+ * Keyboard (the "Press 🌐 key to" setting).
+ */
+"keyboard"
 /**
  * Emitted after the snippets changed (page edits, imports) or a take used
  * one, so every window's Snippets page and counts refresh.

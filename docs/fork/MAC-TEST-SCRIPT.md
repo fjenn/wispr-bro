@@ -1813,9 +1813,33 @@ onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
 
 ### S-29a Onboarding: welcome, permissions, the two tests
 
-- [ ] S-29a.1 Clean Mac: permissions to shortcut test in ≤ 2 min.
-- [ ] S-29a.2 Each diagnosis branch reachable.
-- Procedure: TODO (S-29a).
+All items **queued for the Mac wave** (consolidated UI run; nothing here has
+run on the Mac yet). Playwright covers every screen, branch, resume, preview,
+axe light/dark, RTL and keyboard-only (`tests/fork/onboarding.spec.ts`).
+
+- [ ] S-29a.1 Clean account (no TCC rows for the test identity): permissions to shortcut test in ≤ 2 min (`run.sh timing` from the log's `onboarding: step` lines).
+- [ ] S-29a.2 Each diagnosis branch reachable on the real Mac: tap not live (launch before granting Accessibility; after the grant, Try again lights the key **without a relaunch**), Secure Input (a password field in Safari focused), no fn key (switch → ⌃⌥ lights), Globe on Emoji (consent → `AppleFnUsageType` 0 and the marker written; switching to ⌃⌥ restores the old value and drops the marker).
+- [ ] S-29a.3 Shortcut test: a synthetic fn press lights the key and records no take (`run.sh keytest`).
+- [ ] S-29a.4 Resume after relaunch at each step (`run.sh resume`), no step written on resume.
+- [ ] S-29a.5 Move to Applications from `~/Downloads` (rename) and from a mounted disk image (copy): the app reopens from Applications and continues at Languages; a name clash shows the Finder message.
+- [ ] S-29a.6 By eye: the permission pictures match macOS 26 (and 15 if a second Mac is available), light and dark; no screen names a model; the speech download never blocks a step.
+
+**Setup.** Debug build with the test identity (CONTEXT, execution
+protocol): `echo '{"identifier":"com.wisprbro.s29acheck","productName":"Wispr Bro S29a Check","plugins":{"updater":{"active":false}}}' > <scratch>/s29a.conf.json`,
+`bun run tauri build --debug --bundles app --config src-tauri/tauri.fork.conf.json --config <scratch>/s29a.conf.json`;
+copy the `.app` to a scratch folder whose path contains `s29a`, add
+`Contents/MacOS/portable`, sign ad hoc, launch once and quit.
+`swiftc -O scripts/wb-s01-keys.swift -o <scratch>/wbkeys` (the terminal
+needs Accessibility for posting events). Record `run.sh globe-state` first
+and put the owner's Globe setting back at the end if any case changed it.
+
+**Procedure** (`APP=<bundle> OUT=<dir> KEYS=<scratch>/wbkeys scripts/wb-s29a/run.sh <case>`; holds `~/wb-bench/gui.lock`; no audio):
+
+1. `resume` (S-29a.4), `keytest` (S-29a.3).
+2. `python3 -I scripts/wb-s29a/profile.py <…>/Data fresh`, `tccutil reset All com.wisprbro.s29acheck`, launch, go through Welcome → Languages → Permissions (grant both in the real prompts) → mic test → shortcut test → Finish; then `timing` (S-29a.1).
+3. Diagnoses (S-29a.2): `profile.py … shortcut_test`, `tccutil reset Accessibility com.wisprbro.s29acheck`, launch, No → "cannot see key presses", grant, Try again, press fn. Then Globe: set "Press 🌐 key to" Show Emoji, `globe-state`, No → Globe → Set to Do Nothing, `globe-state`; Edit shortcut → Ctrl+Option (or the no-fn branch), `globe-state` (restored). Secure Input with a focused password field.
+4. `move` (S-29a.5) twice: from `~/Downloads`, and from a `hdiutil create`/`attach` image holding the bundle; clean up `/Applications/Wispr Bro S29a Check.app`.
+5. Quit; delete the bundle copies and `~/Library/{WebKit,Caches}/com.wisprbro.s29acheck`.
 
 ### S-29b Onboarding: languages, practice, celebration, typing test, summary
 

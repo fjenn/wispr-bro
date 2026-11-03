@@ -625,7 +625,7 @@ Copy latest, History Copy or ⌃⌘V writes it.
 | `src-tauri/src/fork/commands/models.rs`                     | `fork_speech_setup_status`, `fork_speech_setup_retry`, `fork_speech_setup_refresh`                                                                                                                                                                                                                     |
 | `src/fork/pill/states/SettingUp.tsx`, `Card.tsx`            | "Setting up… 40%" (ring, ✕) and the card (two lines, Copy, ✕); setup problems are bar messages with Retry                                                                                                                                                                                              |
 | `src/fork/history/WaitingRow.tsx`                           | "Waiting for speech model" in the saved row; Play/Delete stay available, Copy/Flag/Retry wait                                                                                                                                                                                                          |
-| `src/fork/onboarding/firstRun.ts`                           | Inside Handy's onboarding (until S-29a): skips the Model screen when the fork manages the model, counts Demo/Try it as ready when the fork says so, re-picks after Welcome                                                                                                                             |
+| `src/fork/onboarding/OnboardingFlow.tsx`                    | S-29a replaced Handy's flow (and S-07a's `firstRun.ts` hook inside it): no screen picks, names or waits for a model; see "Onboarding (S-29a)"                                                                                                                                                          |
 
 A queued take, end to end: the mic gate lets the take record; at stop
 `transcribe_take` durably queues the WAV name and returns an empty
@@ -673,6 +673,35 @@ when it is Bluetooth. The sounds are Handy's own Marimba and Pop files
 (MIT, Handy's repo), on by default through F-07's `FIRST_RUN_DEFAULTS`; no
 new sound file was added.
 
+## Onboarding (S-29a)
+
+The fork's first-run flow replaces Handy's: `src/App.tsx` imports
+`OnboardingFlow` from `@/fork/onboarding/` instead of
+`./components/onboarding/` (one changed line, `ci/hooks.txt`). Handy's
+onboarding files are untouched; S-07a/b's hook in Handy's
+`OnboardingFlow.tsx` and `src/fork/onboarding/firstRun.{ts,css}` were
+removed, because that flow is no longer mounted.
+
+| File                                                                                              | What                                                                                                                                                                                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src-tauri/src/fork/onboarding/state.rs`                                                          | Step ids and order (`ORDER`), resume (`resume_step`), `go_to` (Back drops later completion; a finished run starts over and clears the S-30 checklist), `complete`. The state lives in fork settings › `onboarding` (RE-16). A test checks `steps.ts` lists the same ids                                                           |
+| `src-tauri/src/fork/onboarding/native.rs`                                                         | Move to Applications: `rename` into `/Applications`, else `~/Applications` (no write access); `ditto` copy for another volume, a disk image or a translocated launch, quarantine flag cleared on the copy; never overwrites; then `open -n` the new copy and quit                                                                 |
+| `src-tauri/src/fork/shortcut/globe.rs`                                                            | DEC-44 (OpenWhispr port, MIT): Globe → Do Nothing through `TISUpdateFnUsageType` after the user's consent; the user's value goes to `globe-preference.json` in the data folder first; `reconcile` restores it at launch and on every binding change once fn is no longer the trigger, unless the user picked another action since |
+| `src-tauri/src/fork/shortcut/mod.rs`                                                              | `retry_tap` (the tap could not start before Accessibility; the shortcut test starts it, no relaunch), `set_key_test` (2-minute self-expiring test mode: trigger presses emit `fork-hotkey-event` `key_test` down/up and start no take)                                                                                            |
+| `src-tauri/src/fork/commands/onboarding.rs`                                                       | `fork_onboarding_go_to`, `_complete`, `_app_location`, `_move_to_applications`, `_key_test`, `_globe_do_nothing`, `_open_pane` (Accessibility / Keyboard settings, local URL scheme only)                                                                                                                                         |
+| `src/fork/onboarding/steps.ts`                                                                    | `welcome`, `move_to_applications`, `languages` (stage Welcome), `permissions`, `mic_test`, `shortcut_test` (Setup); Back targets. S-29b appends Practice                                                                                                                                                                          |
+| `src/fork/onboarding/{Welcome,MoveToApplications,Languages,Permissions,MicTest,ShortcutTest}.tsx` | The screens; Languages reuses Handy's `LanguagePicker` and saves `spoken_languages`; Permissions reuses Handy's `usePermissions`; MicTest reuses S-08's meter and list; ShortcutTest reuses the S-14 hotkeys panel (`HotkeysDialog.tsx`)                                                                                          |
+| `src/fork/onboarding/{Stepper,Help,PermissionArt}.tsx`, `art/*.svg`, `art.css`                    | Stepper with Back/Help; permission pictures inlined so they follow the app theme (macOS 13-15 and macOS 26 sets)                                                                                                                                                                                                                  |
+
+Rules: every step change is saved before the screen changes (a relaunch
+resumes there; the log line `onboarding: step <id>` carries only the id);
+no screen reads the speech-model download (it starts from Welcome, S-07a
+queues earlier takes); the shortcut test ends when its screen unmounts and
+expires on its own; "No" picks the likely cause from the engine
+(`running`, Handy's Secure Input check, Globe setting) and links the others.
+Preview (debug) is inert. Tests: `cargo test --lib onboarding`,
+`fork::shortcut`; Playwright `tests/fork/onboarding.spec.ts`.
+
 ## Silent model policy, upgrades and cleanup (S-07b)
 
 The user never picks a speech model. After the first model (S-07a) is
@@ -694,7 +723,6 @@ until S-14) is the only place a model is named.
 | `src-tauri/src/fork/commands/models.rs`            | `fork_model_policy_status`, `fork_model_policy_set_automatic`, `fork_models_hidden`                                                                                                                                                                                                                                                            |
 | `src-tauri/src/fork/tray.rs`                       | Product builds: Handy's Model ▸ submenu and Unload are gone; since S-26a the existing `extend` hook replaces the whole tray with `fork::app_menu::fill_tray` (no new `tray.rs` line)                                                                                                                                                           |
 | `src/fork/settings/advanced/Models.tsx`            | Speech models panel: model in use, background phase and progress, "slower on this Mac", this Mac and the languages, "Choose the model automatically", and Handy's Models page folded under "All models" (wrapped, retired and restricted models pruned from Handy's model store)                                                               |
-| `src/fork/onboarding/firstRun.css`                 | Hides the empty Model row of Handy's All set panel (the `OnboardingFlow.tsx` hook passes no model when the fork manages it)                                                                                                                                                                                                                    |
 
 **The rule** (`policy::decide`): candidates hear every language the user
 speaks (Handy's `spoken_languages`; else the macOS preferred languages plus

@@ -1,0 +1,15 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 480 300">
+  <rect width="480" height="300" rx="12" class="wbart-bg"/>
+  <rect x="102" y="35" width="276" height="230" rx="16" class="wbart-panel"/>
+  <circle cx="240" cy="82" r="24" class="wbart-accent"/>
+  <circle cx="240" cy="67" r="4" fill="#fff"/>
+  <path d="M226 76h28M240 74v19m0-10-10 16m10-16 10 16" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="173" y="119" width="134" height="10" rx="5" class="wbart-ink"/>
+  <rect x="148" y="140" width="184" height="7" rx="3.5" class="wbart-muted" opacity=".65"/>
+  <rect x="170" y="153" width="140" height="7" rx="3.5" class="wbart-muted" opacity=".45"/>
+  <rect x="132" y="194" width="102" height="38" rx="8" class="wbart-line"/>
+  <rect x="246" y="194" width="102" height="38" rx="8" class="wbart-accent"/>
+  <rect x="151" y="209" width="64" height="7" rx="3.5" class="wbart-muted"/>
+  <rect x="275" y="209" width="44" height="7" rx="3.5" fill="#fff"/>
+</svg>

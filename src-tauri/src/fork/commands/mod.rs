@@ -17,6 +17,7 @@ pub mod insights;
 pub mod llm;
 pub mod models;
 pub mod notifications;
+pub mod onboarding;
 pub mod pill;
 pub mod privacy;
 pub mod scratchpad;

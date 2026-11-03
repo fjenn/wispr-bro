@@ -1,0 +1,15 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 480 300">
+  <rect width="480" height="300" rx="12" class="wbart-bg"/>
+  <rect x="102" y="35" width="276" height="230" rx="16" class="wbart-panel"/>
+  <circle cx="240" cy="82" r="24" class="wbart-accent"/>
+  <rect x="234" y="65" width="12" height="24" rx="6" fill="none" stroke="#fff" stroke-width="3"/>
+  <path d="M228 78v5a12 12 0 0 0 24 0v-5M240 95v7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <rect x="181" y="119" width="118" height="10" rx="5" class="wbart-ink"/>
+  <rect x="154" y="140" width="172" height="7" rx="3.5" class="wbart-muted" opacity=".65"/>
+  <rect x="170" y="153" width="140" height="7" rx="3.5" class="wbart-muted" opacity=".45"/>
+  <rect x="132" y="194" width="102" height="38" rx="8" class="wbart-line"/>
+  <rect x="246" y="194" width="102" height="38" rx="8" class="wbart-accent"/>
+  <rect x="158" y="209" width="50" height="7" rx="3.5" class="wbart-muted"/>
+  <rect x="275" y="209" width="44" height="7" rx="3.5" fill="#fff"/>
+</svg>
