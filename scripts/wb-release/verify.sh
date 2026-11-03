@@ -90,7 +90,7 @@ verify_app() { # <app> <label>
   check "codesign --verify --deep --strict" codesign --verify --deep --strict --verbose=2 "$app"
   local f info team nested=0 nested_bad=0
   while IFS= read -r -d '' f; do
-    file -b "$f" | grep -q 'Mach-O' || continue
+    grep -q 'Mach-O' <<<"$(file -b "$f")" || continue
     nested=$((nested + 1))
     info="$(codesign -dv --verbose=2 "$f" 2>&1 || true)"
     team="$(sed -n 's/^TeamIdentifier=//p' <<<"$info")"
@@ -102,13 +102,15 @@ verify_app() { # <app> <label>
   [[ $nested_bad == 0 ]] && ok "${nested} Mach-O file(s) signed by ${TEAM_ID} with the hardened runtime"
   local stamped
   for stamped in "${app}" "${app}/Contents/MacOS/${exe}" "${app}/Contents/MacOS/llama-server"; do
-    if codesign -dv --verbose=2 "$stamped" 2>&1 | grep -q '^Timestamp='; then
+    # Capture first: with pipefail, `grep -q` closing the pipe early can fail
+    # codesign with SIGPIPE and report a stamped binary as unstamped.
+    if grep -q '^Timestamp=' <<<"$(codesign -dv --verbose=2 "$stamped" 2>&1 || true)"; then
       ok "secure timestamp: ${stamped#"$app"}"
     else
       ko "no secure timestamp: ${stamped#"$app"}"
     fi
   done
-  if codesign -d --entitlements - --xml "$app" 2>/dev/null | grep -q 'com.apple.security.device.audio-input'; then
+  if grep -q 'com.apple.security.device.audio-input' <<<"$(codesign -d --entitlements - --xml "$app" 2>/dev/null || true)"; then
     ok "app entitlements include the microphone"
   else
     ko "app entitlements lack com.apple.security.device.audio-input"

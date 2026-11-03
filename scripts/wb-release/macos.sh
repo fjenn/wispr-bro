@@ -158,7 +158,7 @@ if [[ $UNSIGNED == 0 ]]; then
   ENTITLEMENTS="${ROOT}/src-tauri/Entitlements.plist"
   while IFS= read -r -d '' f; do
     [[ "$f" == "$APP/Contents/MacOS/$EXE" ]] && continue
-    file -b "$f" | grep -q 'Mach-O' || continue
+    grep -q 'Mach-O' <<<"$(file -b "$f")" || continue
     ident=()
     [[ "$(basename "$f")" == llama-server ]] && ident=(--identifier com.wisprbro.desktop.llama-server)
     codesign --force --options runtime --timestamp ${KEYCHAIN_ARGS[@]+"${KEYCHAIN_ARGS[@]}"} \
@@ -185,7 +185,7 @@ fi
 step "nested code: Team ID, hardened runtime, secure timestamp"
 bad=0
 while IFS= read -r -d '' f; do
-  if file -b "$f" | grep -q 'Mach-O'; then
+  if grep -q 'Mach-O' <<<"$(file -b "$f")"; then
     info="$(codesign -dv --verbose=2 "$f" 2>&1 || true)"
     team="$(sed -n 's/^TeamIdentifier=//p' <<<"$info")"
     if [[ "$team" != "$TEAM_ID" ]] || ! grep -q 'flags=.*runtime' <<<"$info" || ! grep -q '^Timestamp=' <<<"$info"; then
