@@ -259,6 +259,8 @@ Rules for Phase 1:
 - Each area's gate: its existing Playwright specs green, new screenshot pairs (ours vs. the same reference frames, kept local) reviewed in the comparison page, axe light/dark/Increase Contrast, RTL, Reduce Motion, keyboard-only, and a WebKit frame-time check on its heaviest animation.
 - Migration: each area deletes the old styling it replaces; after Phase 1 a sweep removes the v1 tokens (`--wb-banner`, indigo, `--wb-radius-*`) and fails CI if any remain.
 
+**W1 as built (2026-11-03, `design/w1-onboarding`):** see R5 "Design W1". `SplitLayout`/`CentredLayout`/`TestCard`/`StagePattern` live in `src/fork/onboarding/Layout.tsx` (onboarding-only, not primitives); shared additions were kept to `Stepper doneLabel`, `useWindowTheme()` and `MicLevelMeter variant="well"`.
+
 ### Phase 2 (one agent): polish pass
 
 Cross-app consistency review against the comparison page, motion tuning on the real Mac (WebKit, 60 Hz and 120 Hz), the native bar on a real display, a dark-mode pass on every screen, and the owner's review.
