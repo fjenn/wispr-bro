@@ -81,6 +81,9 @@ struct State {
     main_ready: bool,
     /// Where the main window was when it was parked.
     main_frame: Option<Frame>,
+    /// The Hub page it showed then (`/#/hub/<page>[/<section>]`), so the
+    /// rebuilt page opens there (Mac wave 1, S-38.3).
+    main_route: Option<String>,
     pending: Vec<Pending>,
 }
 
@@ -143,6 +146,12 @@ impl Parking {
         state.main_parked = true;
         state.main_ready = false;
         state.main_frame = frame;
+    }
+
+    /// The Hub page a parked main window showed (tests; see [`park`]).
+    #[cfg(test)]
+    pub(crate) fn set_main_route(&self, route: Option<String>) {
+        self.lock().main_route = route;
     }
 
     /// Whether a park of `label` scheduled in `generation` may destroy the
@@ -286,10 +295,14 @@ pub fn park<R: ForkRuntime>(
     let window = window.ok_or(Kept::Gone)?;
     if label == MAIN {
         let frame = frame_of(&window);
+        // The page writes its location into the hash (`src/fork/hub/nav.tsx`,
+        // `history.replaceState`), which WebKit reflects in the URL.
+        let route = window.url().ok().and_then(|url| hub_route(&url));
         let mut state = parking.lock();
         state.main_parked = true;
         state.main_ready = false;
         state.main_frame = frame.or(state.main_frame);
+        state.main_route = route;
         drop(state);
         crate::fork::tray::set_parked_appearance(Some(handy_appearance(app)));
     }
@@ -335,8 +348,11 @@ pub fn ensure_main<R: ForkRuntime>(app: &AppHandle<R>) -> Option<WebviewWindow<R
         // Not ours to rebuild (headless CLI modes have no main window).
         return None;
     }
-    let frame = parking.lock().main_frame;
-    match build_main(app, frame) {
+    let (frame, route) = {
+        let state = parking.lock();
+        (state.main_frame, state.main_route.clone())
+    };
+    match build_main(app, frame, route.as_deref()) {
         Ok(window) => {
             {
                 let mut state = parking.lock();
@@ -355,16 +371,34 @@ pub fn ensure_main<R: ForkRuntime>(app: &AppHandle<R>) -> Option<WebviewWindow<R
     }
 }
 
-/// Handy's main-window builder (`lib.rs` `.setup()`), then the fork's chrome
-/// and the parked frame. Hidden: the caller shows it.
+/// The app path that reopens the Hub page in `url`'s hash
+/// (`#/hub/<page>[/<section>]`, `src/fork/hub/nav.tsx`), or `None` for any
+/// other hash (Home, the debug panel). Only the hash's own characters are
+/// kept: page ids, and sections percent-encoded by `encodeURIComponent`.
+pub fn hub_route(url: &tauri::Url) -> Option<String> {
+    let fragment = url.fragment()?;
+    let rest = fragment.strip_prefix("/hub/")?;
+    let ok = !rest.is_empty()
+        && rest.len() <= 200
+        && rest
+            .chars()
+            .all(|c| c.is_ascii_alphanumeric() || matches!(c, '/' | '-' | '_' | '.' | '%'));
+    ok.then(|| format!("/#{fragment}"))
+}
+
+/// Handy's main-window builder (`lib.rs` `.setup()`), then the fork's chrome,
+/// the parked frame and the parked page (`route`, from [`hub_route`]).
+/// Hidden: the caller shows it.
 fn build_main<R: ForkRuntime>(
     app: &AppHandle<R>,
     frame: Option<Frame>,
+    route: Option<&str>,
 ) -> tauri::Result<WebviewWindow<R>> {
     let locale = crate::fork::i18n::current_locale(R::handy_app_language(app).as_deref());
     let title = crate::fork::i18n::t(locale, "rust.window.mainTitle", &[]);
     let (width, height) = crate::utils::MAIN_WINDOW_SIZE;
-    let mut builder = WebviewWindowBuilder::new(app, MAIN, WebviewUrl::App("/".into()))
+    let path = route.unwrap_or("/");
+    let mut builder = WebviewWindowBuilder::new(app, MAIN, WebviewUrl::App(path.into()))
         .title(title)
         .inner_size(width, height)
         .min_inner_size(width, height)

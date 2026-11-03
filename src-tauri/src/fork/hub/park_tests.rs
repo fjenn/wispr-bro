@@ -163,3 +163,38 @@ fn the_show_main_window_hook_is_in_place() {
         "{body}"
     );
 }
+
+/// S-38.3 (Mac wave 1, Finding 11): the rebuilt Hub opens on the page (and
+/// tab) it showed when it was parked, not on Home.
+#[test]
+fn a_parked_hub_reopens_on_its_last_page() {
+    let url = |s: &str| tauri::Url::parse(s).unwrap();
+    assert_eq!(
+        hub_route(&url("tauri://localhost/#/hub/dictionary")).as_deref(),
+        Some("/#/hub/dictionary")
+    );
+    assert_eq!(
+        hub_route(&url("http://localhost:1420/#/hub/insights/voice")).as_deref(),
+        Some("/#/hub/insights/voice")
+    );
+    assert_eq!(
+        hub_route(&url("tauri://localhost/#/hub/style/work%20email")).as_deref(),
+        Some("/#/hub/style/work%20email")
+    );
+    for other in [
+        "tauri://localhost/",
+        "tauri://localhost/#/fork/debug",
+        "tauri://localhost/#/hub/",
+        "tauri://localhost/#/hub/a?b=c",
+    ] {
+        assert_eq!(hub_route(&url(other)), None, "{other}");
+    }
+
+    let app = app();
+    let parking = app.state::<Parking>();
+    parking.mark_main_parked(None);
+    parking.set_main_route(Some("/#/hub/dictionary".into()));
+    let window = ensure_main(app.handle()).expect("rebuilt");
+    let rebuilt = window.url().expect("url");
+    assert_eq!(rebuilt.fragment(), Some("/hub/dictionary"), "{rebuilt}");
+}
