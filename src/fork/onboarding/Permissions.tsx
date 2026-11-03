@@ -1,14 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Permissions (S-29a): Microphone and Accessibility rows, each with a
- * picture of the macOS prompt and of its System Settings pane; a row ticks
- * as soon as macOS reports the grant (Handy's `usePermissions` polls).
+ * Permissions (S-29a; Design W1 split layout): Microphone and Accessibility
+ * as tall outlined rows on the left, each with its Allow button and a tick
+ * as soon as macOS reports the grant (Handy's `usePermissions` polls). The
+ * right pane shows the pictures for the permission being asked now: the
+ * macOS prompt over its System Settings pane (one pair for macOS 13-15 and
+ * one for macOS 26).
  */
-import { Check, Keyboard, Mic } from "../ui/icons";
+import { Check } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import type { Permissions as PermissionState } from "@/components/onboarding/usePermissions";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
+import { SplitLayout } from "./Layout";
 import { PermissionArt, type PermissionKind } from "./PermissionArt";
 
 function PermissionRow({
@@ -31,50 +35,35 @@ function PermissionRow({
   return (
     <section
       aria-labelledby={titleId}
-      className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
+      className={`rounded-(--wb-radius-md) border bg-(--wb-surface) px-5 py-4 transition-colors duration-(--wb-dur-fast) ${
+        primary && !granted ? "border-(--wb-ink)" : "border-(--wb-line-2)"
+      }`}
       data-testid={`wb-permission-${kind}`}
       data-status={status}
     >
-      <div className="flex flex-wrap items-center gap-3 text-start">
-        <span
-          className={`grid size-10 shrink-0 place-items-center rounded-xl ${
-            granted
-              ? "bg-(--wb-ink) text-(--wb-on-ink)"
-              : "bg-(--wb-accent-soft) text-(--wb-accent)"
-          }`}
-          aria-hidden="true"
-        >
-          {granted ? (
-            <Check size={20} />
-          ) : kind === "microphone" ? (
-            <Mic size={20} />
-          ) : (
-            <Keyboard size={20} />
-          )}
-        </span>
-        <div className="min-w-[180px] flex-1">
-          <h2 id={titleId} className="m-0 text-sm font-semibold">
+      <div className="flex items-center gap-4 text-start">
+        <div className="min-w-0 flex-1">
+          <h2 id={titleId} className="type-card-title m-0">
             {t(`onboardingFlow.permissions.${kind}.title`)}
           </h2>
-          <p className="mt-1 mb-0 text-xs leading-5 text-(--wb-ink-2)">
+          <p className="mt-0.5 mb-0 text-[13px] leading-[18px] text-(--wb-ink-2)">
             {t(`onboardingFlow.permissions.${kind}.why`)}
           </p>
         </div>
         {granted ? (
           <span
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-(--wb-ink)"
+            className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-medium text-(--wb-ink)"
             data-testid={`wb-permission-${kind}-granted`}
           >
-            <Check
-              size={16}
-              aria-hidden="true"
-              className="text-(--wb-accent)"
-            />
-            {t("onboardingFlow.permissions.allowed")}
+            <span className="sr-only">
+              {t("onboardingFlow.permissions.allowed")}
+            </span>
+            <Check size={20} aria-hidden="true" />
           </span>
         ) : (
           <Button
             variant={primary ? "primary" : "secondary"}
+            size="sm"
             disabled={status === "checking" || waiting}
             onClick={onRequest}
             aria-describedby={titleId}
@@ -88,31 +77,52 @@ function PermissionRow({
           </Button>
         )}
       </div>
-      {!granted && (
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          {(["prompt", "pane"] as const).map((art) => (
-            <figure key={art} className="m-0 min-w-0">
-              <PermissionArt
-                kind={kind}
-                art={art}
-                label={t(`onboardingFlow.permissions.${kind}.${art}Alt`)}
-              />
-              <figcaption className="mt-1.5 text-center text-[11px] text-(--wb-ink-3)">
-                {t(`onboardingFlow.permissions.${art}`)}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      )}
       {waiting && (
         <p
-          className="mt-3 mb-0 text-start text-xs leading-5 text-(--wb-ink-2)"
+          className="mt-3 mb-0 text-start text-[13px] leading-[18px] text-(--wb-ink-2)"
           role="status"
         >
           {t(`onboardingFlow.permissions.${kind}.waitingHelp`)}
         </p>
       )}
     </section>
+  );
+}
+
+/** The prompt over its System Settings pane, for one permission. */
+function ArtPair({ kind, shown }: { kind: PermissionKind; shown: boolean }) {
+  const { t } = useTranslation(FORK_NAMESPACE);
+  return (
+    <div
+      hidden={!shown}
+      className="relative w-full max-w-[460px] pe-[8%] pb-[22%]"
+      data-testid={`wb-permission-art-${kind}`}
+    >
+      <figure className="m-0">
+        <figcaption className="type-micro mb-2 text-(--wb-ink-3)">
+          {t("onboardingFlow.permissions.pane")}
+        </figcaption>
+        <div className="overflow-hidden rounded-(--wb-radius-md) bg-(--wb-surface) shadow-(--wb-elev-2)">
+          <PermissionArt
+            kind={kind}
+            art="pane"
+            label={t(`onboardingFlow.permissions.${kind}.paneAlt`)}
+          />
+        </div>
+      </figure>
+      <figure className="absolute end-0 bottom-0 m-0 w-[50%]">
+        <div className="overflow-hidden rounded-(--wb-radius-md) bg-(--wb-surface) shadow-(--wb-elev-3)">
+          <PermissionArt
+            kind={kind}
+            art="prompt"
+            label={t(`onboardingFlow.permissions.${kind}.promptAlt`)}
+          />
+        </div>
+        <figcaption className="type-micro mt-2 text-end text-(--wb-ink-3)">
+          {t("onboardingFlow.permissions.prompt")}
+        </figcaption>
+      </figure>
+    </div>
   );
 }
 
@@ -128,17 +138,36 @@ export function Permissions({
   const { t } = useTranslation(FORK_NAMESPACE);
   const mac = permissions.platform === "macos";
   const micGranted = permissions.microphone === "granted";
+  // The pictures follow the permission being asked now.
+  const active: PermissionKind =
+    !micGranted || !mac ? "microphone" : "accessibility";
   return (
-    <div className="mx-auto flex w-full max-w-[620px] flex-col items-center gap-5">
-      <div className="text-center">
-        <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-          {t("onboardingFlow.permissions.title")}
-        </h1>
-        <p className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-          {t("onboardingFlow.permissions.subtitle")}
-        </p>
-      </div>
-      <div className="flex w-full flex-col gap-4">
+    <SplitLayout
+      title={t("onboardingFlow.permissions.title")}
+      subtitle={t("onboardingFlow.permissions.subtitle")}
+      asideLabel={t(`onboardingFlow.permissions.${active}.title`)}
+      aside={
+        <>
+          <ArtPair kind="microphone" shown={active === "microphone"} />
+          {mac && (
+            <ArtPair kind="accessibility" shown={active === "accessibility"} />
+          )}
+        </>
+      }
+      action={
+        <Button
+          variant="primary"
+          size="lg"
+          block
+          disabled={!preview && !permissions.allGranted}
+          onClick={onContinue}
+          data-testid="wb-permissions-continue"
+        >
+          {t("onboardingFlow.continue")}
+        </Button>
+      }
+    >
+      <div className="flex flex-col gap-3">
         <PermissionRow
           kind="microphone"
           status={permissions.microphone}
@@ -156,14 +185,6 @@ export function Permissions({
           />
         )}
       </div>
-      <Button
-        variant="primary"
-        disabled={!preview && !permissions.allGranted}
-        onClick={onContinue}
-        data-testid="wb-permissions-continue"
-      >
-        {t("onboardingFlow.continue")}
-      </Button>
-    </div>
+    </SplitLayout>
   );
 }

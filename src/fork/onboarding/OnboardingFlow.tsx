@@ -17,6 +17,7 @@
  *   button writes the launch-at-login choice and completes setup.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import { useSettings } from "@/hooks/useSettings";
 import { useTranslation } from "react-i18next";
 import type { OnboardingStep as HandyPreviewStep } from "@/components/onboarding/onboardingStore";
@@ -26,7 +27,8 @@ import { getLanguageDirection } from "@/lib/utils/rtl";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { FOCUS_RING } from "../ui";
+import { FOCUS_RING, ProgressLine, useMotionPresets } from "../ui";
+import { ArrowLeft } from "../ui/icons";
 import { FirstDictation } from "./FirstDictation";
 import { HandsFreePractice } from "./HandsFreePractice";
 import { HelpChip } from "./Help";
@@ -36,12 +38,19 @@ import { MoveToApplications } from "./MoveToApplications";
 import { Permissions } from "./Permissions";
 import { ShortcutTest } from "./ShortcutTest";
 import { Stepper } from "./Stepper";
-import { BACK, isOnboardingStep, type OnboardingStep } from "./steps";
+import { STAGE_PAD_X } from "./Layout";
+import {
+  BACK,
+  DARK_STEPS,
+  isOnboardingStep,
+  ONBOARDING_STEPS,
+  type OnboardingStep,
+} from "./steps";
 import { Summary } from "./Summary";
 import { TimeSaved } from "./TimeSaved";
 import { TypingTest } from "./TypingTest";
 import { Welcome } from "./Welcome";
-import "./practice.css";
+import "./onboarding.css";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
 
@@ -79,7 +88,16 @@ export function OnboardingFlow({
   const [navigationFailed, setNavigationFailed] = useState(false);
   const initialized = useRef(false);
   const finished = useRef(false);
-  const heading = useRef<HTMLElement>(null);
+  const heading = useRef<HTMLDivElement>(null);
+
+  // +1 forward, -1 back: the step slides in the direction of travel.
+  const direction = useRef<1 | -1>(1);
+  const m = useMotionPresets();
+  const stepVariants: Variants = {
+    hidden: (d: 1 | -1) => m.step(d).hidden as never,
+    shown: (d: 1 | -1) => m.step(d).shown as never,
+    gone: (d: 1 | -1) => m.step(d).gone as never,
+  };
 
   const go = useCallback(
     async (next: OnboardingStep): Promise<boolean> => {
@@ -124,15 +142,18 @@ export function OnboardingFlow({
   }, [preview]);
 
   // Each new step moves focus to its heading (keyboard and VoiceOver users
-  // land on the new screen, not on the button that is gone).
-  useEffect(() => {
-    if (!step) return;
+  // land on the new screen, not on the button that is gone). Runs when the
+  // new step's frame mounts, after the old one has left.
+  const focusHeading = useCallback(() => {
     const h1 = heading.current?.querySelector("h1");
-    if (h1) {
+    if (h1 && !h1.contains(document.activeElement)) {
       h1.setAttribute("tabindex", "-1");
       h1.focus({ preventScroll: true });
     }
-  }, [step]);
+  }, []);
+  useEffect(() => {
+    if (step) focusHeading();
+  }, [step, focusHeading]);
 
   const leaveWelcome = async () => {
     if (preview) {
@@ -268,76 +289,128 @@ export function OnboardingFlow({
   }
 
   const back = step ? BACK[step] : undefined;
+  const rtl = getLanguageDirection(i18n.language) === "rtl";
+  const dark = !!step && DARK_STEPS.includes(step);
+  const progress = step
+    ? (ONBOARDING_STEPS.indexOf(step) + 1) / ONBOARDING_STEPS.length
+    : 0;
+
+  const loading = (
+    <p
+      key="loading"
+      className="m-0 grid h-full place-items-center text-center text-sm text-(--wb-ink-2)"
+      role="status"
+    >
+      {t("onboardingFlow.loading")}
+    </p>
+  );
 
   return (
     <div
       dir={getLanguageDirection(i18n.language)}
-      className={`flex h-screen w-full cursor-default flex-col overflow-hidden bg-(--wb-panel) text-(--wb-ink) select-none ${
-        step === "first_dictation" ? "wb-stage-dark" : ""
-      }`}
+      className="flex h-screen w-full cursor-default flex-col overflow-hidden bg-(--wb-panel) text-(--wb-ink) select-none"
       data-testid="wb-onboarding"
       data-step={step ?? "loading"}
     >
       {/* The window's title strip (overlay title bar, Design Phase 0): it
-          drags the window and leaves room for the traffic lights. */}
+          drags the window and leaves room for the traffic lights, which
+          stay on the left in either direction. The stepper sits in its
+          centre; the purple line under it is the whole flow's progress. */}
       <header
         data-tauri-drag-region
-        className="flex h-(--wb-titlebar-height) shrink-0 items-center gap-3 pr-4 pl-[84px] sm:pr-6"
+        className="grid h-(--wb-titlebar-height) shrink-0 grid-cols-[minmax(84px,1fr)_minmax(0,auto)_minmax(84px,1fr)] items-center gap-3 px-3"
       >
-        {step ? <Stepper current={step} /> : <span className="flex-1" />}
-        <HelpChip
-          open={helpOpen}
-          onOpen={() => setHelpOpen(true)}
-          onClose={() => setHelpOpen(false)}
-        />
+        <span />
+        {step ? <Stepper current={step} /> : <span />}
+        <span className="flex justify-end">
+          <HelpChip
+            open={helpOpen}
+            onOpen={() => setHelpOpen(true)}
+            onClose={() => setHelpOpen(false)}
+          />
+        </span>
       </header>
-      <main
-        ref={heading}
-        className="min-h-0 flex-1 overflow-y-auto px-5 py-4 sm:px-8"
-      >
-        {content ? (
-          <div key={step} className="min-h-full content-center py-2">
-            {content}
-          </div>
-        ) : (
-          <p
-            className="m-0 text-center text-sm text-(--wb-ink-2)"
-            role="status"
+      <div aria-hidden="true">
+        <ProgressLine
+          value={progress}
+          label={t("onboardingFlow.stepper.label")}
+        />
+      </div>
+      <main className="relative min-h-0 flex-1 overflow-hidden">
+        {back && (
+          <button
+            type="button"
+            disabled={navBusy}
+            onClick={() => {
+              direction.current = -1;
+              void go(back);
+            }}
+            data-testid="wb-onboarding-back"
+            style={{ insetInlineStart: STAGE_PAD_X }}
+            className={`absolute top-5 z-20 -ms-2 inline-flex cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) px-2 py-1 text-[15px] font-medium transition-colors duration-(--wb-dur-fast) disabled:cursor-default disabled:opacity-50 ${
+              dark
+                ? "text-(--wb-dark-ink-2) hover:bg-(--wb-dark-fill-hover) hover:text-(--wb-dark-ink)"
+                : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"
+            } ${FOCUS_RING}`}
           >
-            {t("onboardingFlow.loading")}
+            <ArrowLeft
+              size={16}
+              aria-hidden="true"
+              className="rtl:-scale-x-100"
+            />
+            {t("onboardingFlow.back")}
+          </button>
+        )}
+        {m.reduced ? (
+          // Reduce Motion: the new step fades in over the old one, which
+          // leaves at once (no slide, nothing waits on an exit).
+          content ? (
+            <motion.div
+              key={step}
+              ref={heading}
+              className="h-full"
+              {...m.page}
+              exit={undefined}
+            >
+              {content}
+            </motion.div>
+          ) : (
+            loading
+          )
+        ) : (
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+            custom={direction.current * (rtl ? -1 : 1)}
+          >
+            {content ? (
+              <motion.div
+                key={step}
+                ref={heading}
+                className="h-full"
+                custom={direction.current * (rtl ? -1 : 1)}
+                variants={stepVariants}
+                initial="hidden"
+                animate="shown"
+                exit="gone"
+                onAnimationStart={focusHeading}
+              >
+                {content}
+              </motion.div>
+            ) : (
+              loading
+            )}
+          </AnimatePresence>
+        )}
+        {navigationFailed && (
+          <p
+            className="absolute bottom-4 left-1/2 z-30 m-0 -translate-x-1/2 rounded-full bg-(--wb-hud) px-4 py-2 text-[13px] font-medium text-(--wb-on-hud) shadow-(--wb-elev-1)"
+            role="alert"
+          >
+            {t("onboardingFlow.navigationFailed")}
           </p>
         )}
       </main>
-      <footer className="flex min-h-16 shrink-0 items-center justify-between gap-3 border-t border-(--wb-line) px-5 py-3 sm:px-7">
-        <div>
-          {back && (
-            <button
-              type="button"
-              disabled={navBusy}
-              onClick={() => void go(back)}
-              data-testid="wb-onboarding-back"
-              className={`cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) disabled:cursor-default disabled:opacity-50 ${FOCUS_RING}`}
-            >
-              <span
-                aria-hidden="true"
-                className="me-1 rtl:inline-block rtl:-scale-x-100"
-              >
-                ‹
-              </span>
-              {t("onboardingFlow.back")}
-            </button>
-          )}
-        </div>
-        {navigationFailed ? (
-          <p className="m-0 text-end text-xs text-(--wb-ink)" role="alert">
-            {t("onboardingFlow.navigationFailed")}
-          </p>
-        ) : (
-          <p className="m-0 text-end text-xs text-(--wb-ink-2)">
-            {t("onboardingFlow.downloadHint")}
-          </p>
-        )}
-      </footer>
     </div>
   );
 }

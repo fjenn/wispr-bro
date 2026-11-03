@@ -63,7 +63,7 @@ export function PermissionArt({
       aria-label={label}
       data-testid={`wb-permission-art-${kind}-${art}`}
       data-family={artFamily(osVersion())}
-      className="aspect-[16/10] w-full overflow-hidden rounded-lg border border-(--wb-line) [&>svg]:block [&>svg]:h-full [&>svg]:w-full"
+      className="aspect-[16/10] w-full overflow-hidden [&>svg]:block [&>svg]:h-full [&>svg]:w-full"
       dangerouslySetInnerHTML={{ __html: svgMarkup(kind, art) }}
     />
   );

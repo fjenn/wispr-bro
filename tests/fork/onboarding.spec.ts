@@ -71,9 +71,8 @@ test.describe("S-29a onboarding", () => {
     );
     // The meter starts on its own.
     await ipc.expectCalled("fork_mic_monitor_start");
-    await expect(page.getByTestId("wb-mic-continue")).toBeDisabled();
+    // Design W1: the card's Yes is the way on.
     await page.getByTestId("wb-mic-yes").click();
-    await page.getByTestId("wb-mic-continue").click();
 
     await expectStep(page, "shortcut_test");
     await ipc.expectCalled("fork_onboarding_key_test", { on: true });
@@ -81,7 +80,6 @@ test.describe("S-29a onboarding", () => {
     await ipc.expectCalled("fork_mic_monitor_stop");
     const key = page.getByTestId("wb-shortcut-key");
     await expect(key).toHaveAttribute("data-pressed", "false");
-    await expect(page.getByTestId("wb-shortcut-finish")).toBeDisabled();
     await ipc.waitForListener("fork-hotkey-event");
     await ipc.emit("fork-hotkey-event", {
       kind: "key_test",
@@ -108,7 +106,7 @@ test.describe("S-29a onboarding", () => {
     await expect(key).toHaveAttribute("data-pressed", "false");
 
     // S-29b: setup goes on to Practice (its own spec runs it to the end).
-    await page.getByTestId("wb-shortcut-finish").click();
+    await page.getByTestId("wb-shortcut-yes").click();
     await expectStep(page, "practice");
     await expect(stepper.locator('[aria-current="step"]')).toContainText(
       "Practice",
@@ -117,6 +115,41 @@ test.describe("S-29a onboarding", () => {
     await ipc.expectCalled("fork_onboarding_key_test", { on: false });
     expect(be.fork.onboarding.current_step).toBe("practice");
     expect(await ipc.calls("fork_onboarding_complete")).toHaveLength(0);
+  });
+
+  test("Design W1: five stages, the flow's progress line and the layouts", async ({
+    page,
+    ipc,
+  }) => {
+    await openOnboarding(page, ipc, { step: "permissions" });
+    const stepper = page.getByTestId("wb-onboarding-stepper");
+    await expect(stepper.getByRole("listitem")).toHaveText([
+      "Welcome (done)",
+      "Permissions",
+      "Setup",
+      "Practice",
+      "Finish",
+    ]);
+    await expect(stepper.locator('[aria-current="step"]')).toHaveText(
+      "Permissions",
+    );
+    // 4th of 11 steps.
+    await expect(
+      page.getByRole("progressbar", { includeHidden: true }),
+    ).toHaveAttribute("aria-valuenow", String(Math.round((4 / 11) * 100)));
+    const stage = page.getByTestId("wb-onboarding-stage");
+    await expect(stage).toHaveAttribute("data-layout", "split");
+    await page.getByTestId("wb-permissions-continue").click();
+    await expectStep(page, "mic_test");
+    await expect(stage).toHaveAttribute("data-layout", "centred");
+    await expect(stage).toHaveAttribute("data-tone", "warm");
+    await expect(page.getByTestId("wb-onboarding-pattern")).toBeAttached();
+    // The heading takes focus but draws no ring (it is not a control).
+    const h1 = page.locator("main h1");
+    await expect(h1).toBeFocused();
+    expect(await h1.evaluate((e) => getComputedStyle(e).outlineStyle)).toBe(
+      "none",
+    );
   });
 
   test("no step names a speech model or waits for its download", async ({
@@ -137,10 +170,10 @@ test.describe("S-29a onboarding", () => {
     await page.getByTestId("wb-permissions-continue").click();
     await check();
     await page.getByTestId("wb-mic-yes").click();
-    await page.getByTestId("wb-mic-continue").click();
+    await expectStep(page, "shortcut_test");
     await check();
     await page.getByTestId("wb-shortcut-yes").click();
-    await expect(page.getByTestId("wb-shortcut-finish")).toBeEnabled();
+    await expectStep(page, "practice");
     // The download was never asked about: no screen reads its state.
     expect(await ipc.calls("fork_speech_setup_status")).toHaveLength(0);
   });
@@ -277,9 +310,11 @@ test.describe("S-29a onboarding", () => {
     await expect(list.getByTestId("wb-mic-option").first()).toContainText(
       "MacBook Pro Microphone",
     );
-    await expect(page.getByTestId("wb-mic-continue")).toBeDisabled();
+    await expect(page.getByRole("status")).toContainText(
+      "Choose another microphone",
+    );
     await page.getByTestId("wb-mic-yes").click();
-    await expect(page.getByTestId("wb-mic-continue")).toBeEnabled();
+    await expectStep(page, "shortcut_test");
   });
 
   test("Edit shortcut opens the hotkeys panel", async ({ page, ipc }) => {
@@ -488,6 +523,7 @@ test.describe("S-29a onboarding", () => {
   for (const theme of ["light", "dark"] as const) {
     for (const step of [
       "welcome",
+      "move_to_applications",
       "languages",
       "permissions",
       "mic_test",
@@ -501,6 +537,7 @@ test.describe("S-29a onboarding", () => {
         await openOnboarding(page, ipc, {
           step,
           theme,
+          location: step === "move_to_applications" ? "move_needed" : undefined,
           mic: step !== "permissions",
           accessibility: step !== "permissions",
         });

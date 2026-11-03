@@ -14,9 +14,9 @@ import { useSettings } from "@/hooks/useSettings";
 import { languageList } from "@/lib/constants/languages";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { ForkToggle } from "../settings/Controls";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button } from "../ui";
+import { Button, Switch } from "../ui";
+import { ArtSlot, SplitLayout } from "./Layout";
 
 export function Summary({
   preview,
@@ -84,60 +84,70 @@ export function Summary({
   ];
 
   return (
-    <div className="mx-auto flex w-full max-w-[560px] flex-col items-center gap-5">
-      <div className="text-center">
-        <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-          {t("onboardingFlow.summary.title")}
-        </h1>
-        <p className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-          {t("onboardingFlow.summary.subtitle")}
-        </p>
-      </div>
+    <SplitLayout
+      title={t("onboardingFlow.summary.title")}
+      subtitle={t("onboardingFlow.summary.subtitle")}
+      aside={<ArtSlot name="onboarding-welcome" />}
+      action={
+        <Button
+          variant="primary"
+          size="lg"
+          block
+          disabled={busy}
+          onClick={() => onFinish(launch)}
+          data-testid="wb-summary-finish"
+        >
+          {t("onboardingFlow.summary.finish")}
+        </Button>
+      }
+    >
       <dl
-        className="m-0 w-full overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) text-sm"
+        className="m-0 flex flex-col gap-2.5 text-[15px] leading-5"
         data-testid="wb-summary-list"
       >
-        {rows.map((row, index) => (
+        {rows.map((row) => (
           <div
             key={row.id}
-            className={`flex items-start gap-3 px-4 py-3 ${
-              index > 0 ? "border-t border-(--wb-line)" : ""
-            }`}
+            className="flex items-start gap-3"
             data-testid={`wb-summary-${row.id}`}
           >
             <Check
               size={16}
               aria-hidden="true"
-              className="mt-0.5 shrink-0 text-(--wb-accent)"
+              className="mt-0.5 shrink-0 text-(--wb-success)"
             />
-            <dt className="w-32 shrink-0 font-semibold">{row.label}</dt>
-            <dd className="m-0 min-w-0 flex-1 break-words text-(--wb-ink-2)">
+            <dt className="w-[120px] shrink-0 text-(--wb-ink-2)">
+              {row.label}
+            </dt>
+            <dd className="m-0 min-w-0 flex-1 font-medium break-words">
               {row.value}
             </dd>
           </div>
         ))}
       </dl>
-      <div className="w-full rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-4 py-2 text-start">
-        <ForkToggle
-          label={t("onboardingFlow.summary.launchAtLogin")}
-          hint={t("onboardingFlow.summary.launchAtLoginHint")}
+      <div className="mt-7 flex items-center gap-4 rounded-(--wb-radius-md) bg-(--wb-surface-tint) px-4 py-3.5">
+        <div className="min-w-0 flex-1">
+          <label
+            htmlFor="wb-summary-launch-input"
+            className="block text-[15px] leading-5 font-medium"
+          >
+            {t("onboardingFlow.summary.launchAtLogin")}
+          </label>
+          <p
+            id="wb-summary-launch-hint"
+            className="mt-0.5 mb-0 text-[13px] leading-[18px] text-(--wb-ink-2)"
+          >
+            {t("onboardingFlow.summary.launchAtLoginHint")}
+          </p>
+        </div>
+        <Switch
+          id="wb-summary-launch-input"
           checked={launch}
           onChange={setLaunch}
+          ariaDescribedBy="wb-summary-launch-hint"
           testId="wb-summary-launch"
         />
       </div>
-      <p className="m-0 text-center text-xs leading-5 text-(--wb-ink-3)">
-        {t("onboardingFlow.summary.later")}
-      </p>
-      <Button
-        variant="primary"
-        className="px-5 py-2.5"
-        disabled={busy}
-        onClick={() => onFinish(launch)}
-        data-testid="wb-summary-finish"
-      >
-        {t("onboardingFlow.summary.finish")}
-      </Button>
-    </div>
+    </SplitLayout>
   );
 }

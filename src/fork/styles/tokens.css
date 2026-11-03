@@ -12,7 +12,7 @@
  * subtree can pin a theme with `data-wb-theme="light|dark"` (the gallery
  * shows both side by side). Text colour is inherited, so a pinned subtree
  * also sets `color: var(--wb-ink)` on itself. `.wb-stage-dark` (the
- * onboarding celebration, `onboarding/practice.css`) is dark in either theme.
+ * onboarding dark stage, `onboarding/onboarding.css`) is dark in either theme.
  *
  * Every token carries the `--wb-` prefix so it never collides with Handy's
  * `--color-*`, `--font-*`, `--radius-*` and `--text-*` theme variables. Use

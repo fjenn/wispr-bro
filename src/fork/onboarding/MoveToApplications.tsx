@@ -6,11 +6,12 @@
  * resumes here, sees the new place and goes on by itself.
  */
 import { useEffect, useState } from "react";
-import { FolderInput } from "../ui/icons";
+import { ArrowRight, FolderInput } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
+import { BrandGlyph, Button } from "../ui";
+import { CentredLayout, TestCard } from "./Layout";
 
 export function MoveToApplications({
   preview,
@@ -54,48 +55,62 @@ export function MoveToApplications({
   };
 
   return (
-    <div className="mx-auto flex max-w-[540px] flex-col items-center gap-5 text-center">
-      <div
-        className="grid size-16 place-items-center rounded-2xl bg-(--wb-accent-soft) text-(--wb-accent)"
-        aria-hidden="true"
-      >
-        <FolderInput size={32} />
-      </div>
-      <div>
-        <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-          {t("onboardingFlow.move.title")}
-        </h1>
-        <p className="mt-3 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-          {t("onboardingFlow.move.body")}
-        </p>
-      </div>
-      <p className="m-0 text-xs leading-5 text-(--wb-ink-3)">
-        {t("onboardingFlow.move.note")}
-      </p>
-      {error && (
-        <p
-          role="alert"
-          className="m-0 text-sm text-(--wb-ink)"
-          data-testid="wb-move-error"
+    <CentredLayout
+      title={t("onboardingFlow.move.title")}
+      subtitle={t("onboardingFlow.move.body")}
+      action={
+        <div className="flex w-full max-w-[300px] flex-col gap-2">
+          <Button
+            variant="primary"
+            size="lg"
+            block
+            disabled={busy}
+            onClick={() => void move()}
+            data-testid="wb-move-action"
+          >
+            {busy
+              ? t("onboardingFlow.move.moving")
+              : t("onboardingFlow.move.action")}
+          </Button>
+          <Button
+            variant="ghost"
+            size="lg"
+            block
+            disabled={busy}
+            onClick={onDone}
+            data-testid="wb-move-skip"
+          >
+            {t("onboardingFlow.move.skip")}
+          </Button>
+        </div>
+      }
+    >
+      <TestCard>
+        <div
+          aria-hidden="true"
+          className="flex items-center justify-center gap-5 rounded-(--wb-radius-sm) bg-(--wb-surface-tint) px-6 py-6"
         >
-          {t("onboardingFlow.move.error")}
-        </p>
-      )}
-      <div className="flex flex-wrap justify-center gap-2">
-        <Button
-          variant="primary"
-          disabled={busy}
-          onClick={() => void move()}
-          data-testid="wb-move-action"
-        >
-          {busy
-            ? t("onboardingFlow.move.moving")
-            : t("onboardingFlow.move.action")}
-        </Button>
-        <Button disabled={busy} onClick={onDone} data-testid="wb-move-skip">
-          {t("onboardingFlow.move.skip")}
-        </Button>
-      </div>
-    </div>
+          <span className="grid size-16 place-items-center rounded-[18px] bg-(--wb-hud) text-(--wb-on-hud) shadow-(--wb-elev-1)">
+            <BrandGlyph size={30} />
+          </span>
+          <ArrowRight
+            size={20}
+            className="text-(--wb-ink-3) rtl:-scale-x-100"
+          />
+          <span className="grid size-16 place-items-center rounded-[18px] border border-(--wb-line-2) bg-(--wb-surface) text-(--wb-accent)">
+            <FolderInput size={32} />
+          </span>
+        </div>
+        {error && (
+          <p
+            role="alert"
+            className="m-0 text-center text-[13px] leading-[18px] text-(--wb-danger)"
+            data-testid="wb-move-error"
+          >
+            {t("onboardingFlow.move.error")}
+          </p>
+        )}
+      </TestCard>
+    </CentredLayout>
   );
 }

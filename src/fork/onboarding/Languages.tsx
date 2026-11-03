@@ -28,6 +28,7 @@ import type { ChineseScript } from "@/bindings";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
+import { ArtSlot, SplitLayout } from "./Layout";
 
 const SCRIPT_SETTING: Record<ChineseScriptChoice, ChineseScript> = {
   "zh-Hans": "simplified",
@@ -84,28 +85,36 @@ export function Languages({
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[600px] flex-col items-center gap-5">
-      <div className="text-center">
-        <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-          {t("onboardingFlow.languages.title")}
-        </h1>
-        <p className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-          {t("onboardingFlow.languages.subtitle")}
-        </p>
-      </div>
+    <SplitLayout
+      title={t("onboardingFlow.languages.title")}
+      subtitle={t("onboardingFlow.languages.subtitle")}
+      aside={<ArtSlot name="onboarding-languages" />}
+      action={
+        <Button
+          variant="primary"
+          size="lg"
+          block
+          disabled={busy || !languages.length}
+          onClick={() => void save()}
+          data-testid="wb-languages-continue"
+        >
+          {t("onboardingFlow.continue")}
+        </Button>
+      }
+    >
       <div
-        className="flex w-full flex-col overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line-strong) bg-(--wb-surface) text-start"
+        className="flex min-h-[180px] flex-1 flex-col overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line-2) bg-(--wb-surface) text-start"
         data-testid="wb-onboarding-languages"
       >
         <LanguageSearchField
           picker={picker}
           className="border-b border-(--wb-line)"
-          inputClassName="min-w-[120px] text-sm"
+          inputClassName="min-w-[120px] text-[15px]"
         />
         <div
           role="group"
           aria-label={t("onboardingFlow.languages.listLabel")}
-          className="grid max-h-[220px] grid-cols-[repeat(auto-fill,minmax(150px,1fr))] content-start gap-[2px] overflow-y-auto p-1.5"
+          className="grid min-h-0 flex-1 grid-cols-[repeat(auto-fill,minmax(150px,1fr))] content-start gap-[2px] overflow-y-auto p-1.5"
         >
           <LanguageOptions
             picker={picker}
@@ -117,7 +126,7 @@ export function Languages({
         </div>
       </div>
       <p
-        className="m-0 text-center text-xs leading-5 text-(--wb-ink-2)"
+        className="mt-3 mb-0 text-[13px] leading-[18px] text-(--wb-ink-2)"
         data-testid="wb-onboarding-languages-note"
       >
         {weak.length
@@ -127,14 +136,6 @@ export function Languages({
             })
           : t("onboardingFlow.languages.count", { count: LANGUAGES.length })}
       </p>
-      <Button
-        variant="primary"
-        disabled={busy || !languages.length}
-        onClick={() => void save()}
-        data-testid="wb-languages-continue"
-      >
-        {t("onboardingFlow.continue")}
-      </Button>
-    </div>
+    </SplitLayout>
   );
 }

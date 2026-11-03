@@ -15,12 +15,13 @@
  * counts, the copy teaches hands-free.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Mic } from "../ui/icons";
+import { Mail, Mic } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { events as handyEvents } from "@/bindings";
 import { commands, events, type ForkSpeechSetup } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
+import { CentredLayout, SkipLink, Title } from "./Layout";
 
 /** The practice mode renews itself before the backend's two-minute expiry. */
 const RENEW_MS = 60_000;
@@ -149,55 +150,58 @@ export function HandsFreePractice({
               : t("onboardingFlow.practice.waiting");
 
   return (
-    <div className="mx-auto flex w-full max-w-[620px] flex-col items-center gap-5">
-      <div className="flex w-full items-start justify-between gap-3">
-        <div className="min-w-0 flex-1 text-start">
-          <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-            {t("onboardingFlow.practice.title")}
-          </h1>
-          <p
-            className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)"
-            data-testid="wb-practice-instruction"
-          >
-            {trigger
-              ? t(
-                  fallback
-                    ? "onboardingFlow.practice.instructionFallback"
-                    : "onboardingFlow.practice.instruction",
-                )
-              : t("onboardingFlow.practice.instructionUnbound")}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onSkip}
-          data-testid="wb-practice-skip"
-          className="shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
-        >
+    <CentredLayout
+      title={<Title i18nKey="onboardingFlow.practice.title" />}
+      subtitle={
+        <span data-testid="wb-practice-instruction">
+          {trigger
+            ? t(
+                fallback
+                  ? "onboardingFlow.practice.instructionFallback"
+                  : "onboardingFlow.practice.instruction",
+              )
+            : t("onboardingFlow.practice.instructionUnbound")}
+        </span>
+      }
+      skip={
+        <SkipLink onClick={onSkip} testId="wb-practice-skip">
           {t("onboardingFlow.practice.skip")}
-        </button>
-      </div>
-
+        </SkipLink>
+      }
+      action={
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full max-w-[300px]"
+          disabled={!filled && !preview}
+          onClick={onDone}
+          data-testid="wb-practice-continue"
+        >
+          {t("onboardingFlow.continue")}
+        </Button>
+      }
+    >
       <div
-        className="flex w-full flex-col overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line-strong) bg-(--wb-surface) text-start shadow-(--wb-elev-1)"
+        className="mt-9 flex w-full max-w-[480px] flex-col overflow-hidden rounded-(--wb-radius-md) bg-(--wb-surface) text-start shadow-(--wb-elev-2)"
         data-testid="wb-practice-composer"
       >
-        <div className="flex items-center justify-between border-b border-(--wb-line) px-4 py-2.5">
-          <span className="text-sm font-semibold">
+        <div className="flex items-center gap-2 bg-(--wb-surface-tint) px-4 py-3">
+          <Mail size={16} aria-hidden="true" className="text-(--wb-ink-2)" />
+          <span className="type-card-title">
             {t("onboardingFlow.practice.composer.title")}
           </span>
         </div>
-        <dl className="m-0 border-b border-(--wb-line) text-sm">
-          <div className="flex gap-3 border-b border-(--wb-line) px-4 py-2">
-            <dt className="w-16 shrink-0 text-(--wb-ink-3)">
+        <dl className="m-0 px-4 text-[14px]">
+          <div className="flex gap-2 border-b border-(--wb-line) py-2.5">
+            <dt className="font-medium text-(--wb-ink-2)">
               {t("onboardingFlow.practice.composer.to")}
             </dt>
             <dd className="m-0 text-(--wb-ink-2)">
               {t("onboardingFlow.practice.composer.recipient")}
             </dd>
           </div>
-          <div className="flex gap-3 px-4 py-2">
-            <dt className="w-16 shrink-0 text-(--wb-ink-3)">
+          <div className="flex gap-2 border-b border-(--wb-line) py-2.5">
+            <dt className="font-medium text-(--wb-ink-2)">
               {t("onboardingFlow.practice.composer.subject")}
             </dt>
             <dd className="m-0 text-(--wb-ink-2)">
@@ -208,25 +212,31 @@ export function HandsFreePractice({
         <label className="sr-only" htmlFor="wb-practice-body">
           {t("onboardingFlow.practice.composer.body")}
         </label>
-        <textarea
-          id="wb-practice-body"
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-          placeholder={t("onboardingFlow.practice.composer.placeholder")}
-          data-testid="wb-practice-body"
-          rows={6}
-          className="min-h-[150px] w-full resize-none select-text border-0 bg-transparent px-4 py-3 text-[15px] leading-6 text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:bg-(--wb-fill-hover)"
-        />
+        <div className="p-3">
+          <textarea
+            id="wb-practice-body"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            placeholder={t("onboardingFlow.practice.composer.placeholder")}
+            data-testid="wb-practice-body"
+            rows={5}
+            className={`min-h-[132px] w-full resize-none rounded-(--wb-radius-sm) border bg-transparent px-3 py-2.5 text-[15px] leading-[22px] text-(--wb-ink) outline-none select-text placeholder:text-(--wb-ink-3) placeholder:italic focus-visible:border-(--wb-accent) ${
+              phase === "listening"
+                ? "border-(--wb-accent-2)"
+                : "border-(--wb-line-2)"
+            }`}
+          />
+        </div>
       </div>
 
       <p
-        className="m-0 flex items-center gap-2 text-center text-sm text-(--wb-ink-2)"
+        className="mt-4 mb-0 flex items-center gap-2 text-center text-[13px] leading-[18px] text-(--wb-ink-2)"
         role="status"
         data-testid="wb-practice-status"
         data-phase={phase}
       >
         <Mic
-          size={16}
+          size={14}
           aria-hidden="true"
           className={
             phase === "listening"
@@ -238,21 +248,12 @@ export function HandsFreePractice({
       </p>
       {phase === "queued" && (
         <p
-          className="m-0 max-w-[480px] text-center text-xs leading-5 text-(--wb-ink-3)"
+          className="mt-2 mb-0 max-w-[460px] text-center text-[13px] leading-[18px] text-(--wb-ink-3)"
           data-testid="wb-practice-queued-note"
         >
           {t("onboardingFlow.practice.queuedNote")}
         </p>
       )}
-
-      <Button
-        variant="primary"
-        disabled={!filled && !preview}
-        onClick={onDone}
-        data-testid="wb-practice-continue"
-      >
-        {t("onboardingFlow.continue")}
-      </Button>
-    </div>
+    </CentredLayout>
   );
 }
