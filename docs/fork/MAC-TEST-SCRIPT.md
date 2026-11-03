@@ -232,7 +232,7 @@ filled by the slice; "Machines" defaults to M1-8 and M-26 unless stated.
       every release): download the DMG through a browser (quarantine set),
       open it, drag to Applications, first launch shows no Gatekeeper warning
       beyond "downloaded from the Internet"; macOS 26 (M-26) and 13 (M-13).
-- [ ] F-02.3 Update end to end over a loopback GitHub stand-in, no clicks
+- [x] F-02.3 **Mac wave 1: PASS 7/7** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Update end to end over a loopback GitHub stand-in, no clicks
       (queued for the Mac wave): `scripts/wb-f02/update-e2e.sh <out>` builds
       A (overlay version) and B (one prerelease step up) as Developer-ID
       signed debug bundles (`com.wisprbro.f02check`), signs B's archive with
@@ -1201,8 +1201,8 @@ data) and the log lines in the run file.
 
 ### S-14 Settings modal and hotkeys panel
 
-- [ ] S-14.1 Dock toggle on macOS 26 (activation policy flips).
-- [ ] S-14.2 Launch at login after reboot.
+- [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).
+- [ ] S-14.2 **Mac wave 1: BLOCKED (needs a reboot; owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Launch at login after reboot.
 - Procedure: TODO (S-14). Machines: M-26.
 
 ### S-15a Dictation home and stats rail
@@ -1633,27 +1633,27 @@ fork::context::names_eval -- --ignored --nocapture` per speech model.
 
 ### S-21 Transforms core
 
-- [ ] S-21.1 RS-04 replace rows on the real slice.
-- [ ] S-21.2 RS-11 ⌥ characters on the real slice.
-- [ ] S-21.3 Polish in Gmail, Slack, VS Code, Notes.
+- [ ] S-21.1 **Mac wave 1: BLOCKED (RS-04 apps not installed)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) RS-04 replace rows on the real slice.
+- [x] S-21.2 **Mac wave 1: PASS, partial: ⌥1 swallowed and ran; ⌃⌥ alternatives not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) RS-11 ⌥ characters on the real slice.
+- [ ] S-21.3 **Mac wave 1: PASS in TextEdit only (1.1-1.3 s, one ⌘Z); Gmail/Slack/VS Code/Notes not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Polish in Gmail, Slack, VS Code, Notes.
 - Procedure: TODO (S-21).
 
 ### S-22 Transforms page, editor, diff, auto-apply
 
-- [ ] S-22.1 ⌥O after a transform in Slack.
-- [ ] S-22.2 Auto-apply on a 3-sentence dictation.
+- [ ] S-22.1 **Mac wave 1: PASS in TextEdit only (Slack not installed)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) ⌥O after a transform in Slack.
+- [ ] S-22.2 **Mac wave 1: NOT VERIFIED (fail-open seen; no auto-apply run logged under load)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Auto-apply on a 3-sentence dictation.
 - Procedure: TODO (S-22).
 
 ### S-23 Command Mode
 
-- [ ] S-23.1 20 commands across Mail, Slack, Docs; ⌘Z restores.
+- [ ] S-23.1 **Mac wave 1: BLOCKED (fn+Ctrl only; owner's app holds fn; accounts)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) 20 commands across Mail, Slack, Docs; ⌘Z restores.
 - Procedure: TODO (S-23).
 
 ### S-24 Scratchpad
 
-- [ ] S-24.1 Dictate into the note window.
-- [ ] S-24.2 Open via ⌥S after binding.
-- [ ] S-24.3 The note survives a force-quit.
+- [ ] S-24.1 **Mac wave 1: FAIL (app loses focus when a take starts from the note)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dictate into the note window.
+- [ ] S-24.2 **Mac wave 1: FAIL, fixed on `fix/macwave-s24` (window showed the Hub); note does not take focus** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Open via ⌥S after binding.
+- [x] S-24.3 **Mac wave 1: PASS with the `fix/macwave-s24` fix** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The note survives a force-quit.
 - Procedure: TODO (S-24).
 
 ### S-25 Insights
@@ -1718,11 +1718,11 @@ Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-25.md` (all three pass).
 
 ### S-26a App menus and tray
 
-- [ ] S-26a.1 ⌘C / ⌘V / ⌘Z in Hub text fields.
-- [ ] S-26a.2 The Help search box finds menu items.
-- [ ] S-26a.3 The tray icon comes back after the menu bar process (ControlCenter) restarts (A-69).
-- [ ] S-26a.0 The menu bar has Dictation, Vocabulary and Help with their items; Edit keeps ⌘Z ⌘X ⌘C ⌘V ⌘A.
-- [ ] S-26a.4 Vocabulary's dictionary count follows a word added from Vocabulary › Add word… without reopening the app.
+- [x] S-26a.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) ⌘C / ⌘V / ⌘Z in Hub text fields.
+- [x] S-26a.2 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The Help search box finds menu items.
+- [x] S-26a.3 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The tray icon comes back after the menu bar process (ControlCenter) restarts (A-69).
+- [x] S-26a.0 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The menu bar has Dictation, Vocabulary and Help with their items; Edit keeps ⌘Z ⌘X ⌘C ⌘V ⌘A.
+- [x] S-26a.4 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Vocabulary's dictionary count follows a word added from Vocabulary › Add word… without reopening the app.
 
 **Status: queued for the Mac wave** (UI wave; not run by the slice agent).
 
@@ -1814,14 +1814,14 @@ executable, note its pid and its log file
 
 ### S-27 Data and Privacy, export, delete all, diagnostics
 
-- [ ] S-27.1 Export opens in Finder. _(queued for the Mac wave)_
-- [ ] S-27.2 Erase, then relaunch shows onboarding. _(queued for the Mac wave)_
-- [ ] S-27.3 `brew uninstall --zap` paths match (S-39). _(queued for the Mac
+- [x] S-27.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Export opens in Finder. _(queued for the Mac wave)_
+- [x] S-27.2 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Erase, then relaunch shows onboarding. _(queued for the Mac wave)_
+- [x] S-27.3 **Mac wave 1: paths recorded** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) `brew uninstall --zap` paths match (S-39). _(queued for the Mac
       wave: this slice records the path list; S-39 compares it with the
       cask's `zap` stanza)_
-- [ ] S-27.4 Copy and Save diagnostics are sanitized (seeded marker phrase,
+- [x] S-27.4 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Copy and Save diagnostics are sanitized (seeded marker phrase,
       home path) and hold no databases, audio or settings. _(queued)_
-- [ ] S-27.5 Every "Show in Finder" opens its folder; a recent macOS `.ips`
+- [ ] S-27.5 **Mac wave 1: FAIL (`.ips` copy keeps a marker line)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Every "Show in Finder" opens its folder; a recent macOS `.ips`
       for the test identity is picked up as a crash file and shown once in
       the inbox. _(queued)_
 
@@ -1832,7 +1832,7 @@ touched. Debug is enough (no CSP-sensitive check). No audio: History is
 seeded. Two layouts, both under the test identity:
 
 - **Portable** (S-27.1, .2, .4, .5): copy the `.app` to a scratch folder
-  whose path contains `s27`, add `Contents/MacOS/portable`, re-sign ad hoc,
+  whose path contains `s27`, add `Contents/MacOS/portable` containing `Handy Portable Mode` (an empty marker is ignored on a first launch), re-sign ad hoc,
   as in S-25. `Data` = `Contents/MacOS/Data`.
 - **Installed** (S-27.3): the same `.app` without the `portable` marker, so
   it uses `~/Library/Application Support/com.wisprbro.s27check` and
@@ -1935,18 +1935,18 @@ All items **queued for the Mac wave** (consolidated UI run; nothing here has
 run on the Mac yet). Playwright covers every screen, branch, resume, preview,
 axe light/dark, RTL and keyboard-only (`tests/fork/onboarding.spec.ts`).
 
-- [ ] S-29a.1 Clean account (no TCC rows for the test identity): permissions to shortcut test in ≤ 2 min (`run.sh timing` from the log's `onboarding: step` lines).
-- [ ] S-29a.2 Each diagnosis branch reachable on the real Mac: tap not live (launch before granting Accessibility; after the grant, Try again lights the key **without a relaunch**), Secure Input (a password field in Safari focused), no fn key (switch → ⌃⌥ lights), Globe on Emoji (consent → `AppleFnUsageType` 0 and the marker written; switching to ⌃⌥ restores the old value and drops the marker).
-- [ ] S-29a.3 Shortcut test: a synthetic fn press lights the key and records no take (`run.sh keytest`).
-- [ ] S-29a.4 Resume after relaunch at each step (`run.sh resume`), no step written on resume.
-- [ ] S-29a.5 Move to Applications from `~/Downloads` (rename) and from a mounted disk image (copy): the app reopens from Applications and continues at Languages; a name clash shows the Finder message.
-- [ ] S-29a.6 By eye: the permission pictures match macOS 26 (and 15 if a second Mac is available), light and dark; no screen names a model; the speech download never blocks a step.
+- [ ] S-29a.1 **Mac wave 1: BLOCKED (TCC prompts; owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Clean account (no TCC rows for the test identity): permissions to shortcut test in ≤ 2 min (`run.sh timing` from the log's `onboarding: step` lines).
+- [ ] S-29a.2 **Mac wave 1: BLOCKED (owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Each diagnosis branch reachable on the real Mac: tap not live (launch before granting Accessibility; after the grant, Try again lights the key **without a relaunch**), Secure Input (a password field in Safari focused), no fn key (switch → ⌃⌥ lights), Globe on Emoji (consent → `AppleFnUsageType` 0 and the marker written; switching to ⌃⌥ restores the old value and drops the marker).
+- [ ] S-29a.3 **Mac wave 1: BLOCKED (owner's app holds fn)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Shortcut test: a synthetic fn press lights the key and records no take (`run.sh keytest`).
+- [x] S-29a.4 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Resume after relaunch at each step (`run.sh resume`), no step written on resume.
+- [ ] S-29a.5 **Mac wave 1: BLOCKED on a debug build (relaunch panics in the debug bindings export); rerun on release** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Move to Applications from `~/Downloads` (rename) and from a mounted disk image (copy): the app reopens from Applications and continues at Languages; a name clash shows the Finder message.
+- [ ] S-29a.6 **Mac wave 1: partial; by eye: owner** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) By eye: the permission pictures match macOS 26 (and 15 if a second Mac is available), light and dark; no screen names a model; the speech download never blocks a step.
 
 **Setup.** Debug build with the test identity (CONTEXT, execution
 protocol): `echo '{"identifier":"com.wisprbro.s29acheck","productName":"Wispr Bro S29a Check","plugins":{"updater":{"active":false}}}' > <scratch>/s29a.conf.json`,
 `bun run tauri build --debug --bundles app --config src-tauri/tauri.fork.conf.json --config <scratch>/s29a.conf.json`;
 copy the `.app` to a scratch folder whose path contains `s29a`, add
-`Contents/MacOS/portable`, sign ad hoc, launch once and quit.
+`Contents/MacOS/portable` containing `Handy Portable Mode`, sign ad hoc, launch once and quit.
 `swiftc -O scripts/wb-s01-keys.swift -o <scratch>/wbkeys` (the terminal
 needs Accessibility for posting events). Record `run.sh globe-state` first
 and put the owner's Globe setting back at the end if any case changed it.
@@ -2056,14 +2056,14 @@ learned rows, the last `learn:` line and the leak check.
 Queued for the Mac wave (the S-19b + S-36 browser/AX run); not run by the
 slice (2026-11-02).
 
-- [ ] S-36.1 (Exit criterion) Dictate "rename get user by id" in Cursor with `getUserById` visible (screen-reader mode on): the buffer gets `getUserById`; the log shows `context: read ok (…, cursor: N code name(s), 0 file name(s), …)` with N ≥ 1 and `text: … identifiers=1`.
-- [ ] S-36.2 In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets `@index.ts`; the log shows `cursor chat: … M file name(s)` with M ≥ 1 and `file_tags=1`.
-- [ ] S-36.3 The same chat take with "Tag files in chat" off (`setup.sh … off`): the text keeps "index dot ts" (or `index.ts`), no `@`.
-- [ ] S-36.4 Not set up (`setup.sh … unset`): the editor take keeps "get user by id" and the log line has no `cursor:` part (DEC-41: off until set up).
-- [ ] S-36.5 TextEdit (not a listed editor) with `index.ts` in the document: "open index dot ts" is not tagged.
-- [ ] S-36.6 No filesystem scanning (exit criterion): `sudo fs_usage -w -f filesys <app pid>` during S-36.1/.2 shows no open or stat of the workspace folder (`$TMPDIR/wb-s36-workspace`); the names come from AX only. Read p95 of the editor takes stays within S-20's 100 ms.
-- [ ] S-36.7 Clipboard byte-identical after the `editor` and `textedit` takes (the `chat` case reads its text back with ⌘A ⌘C, so its own check reports "changed (restored)" by design).
-- [ ] S-36.8 (person, UI wave) Settings › Vibe coding: Set up, the three steps, Finish, Change editors, Tag files in chat enabled only with Cursor or Windsurf; light and dark.
+- [ ] S-36.1 **Mac wave 1: FAIL / not conclusive (identifiers=0; fresh Cursor profile shows Log In)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) (Exit criterion) Dictate "rename get user by id" in Cursor with `getUserById` visible (screen-reader mode on): the buffer gets `getUserById`; the log shows `context: read ok (…, cursor: N code name(s), 0 file name(s), …)` with N ≥ 1 and `text: … identifiers=1`.
+- [ ] S-36.2 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets `@index.ts`; the log shows `cursor chat: … M file name(s)` with M ≥ 1 and `file_tags=1`.
+- [ ] S-36.3 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The same chat take with "Tag files in chat" off (`setup.sh … off`): the text keeps "index dot ts" (or `index.ts`), no `@`.
+- [ ] S-36.4 **Mac wave 1: not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Not set up (`setup.sh … unset`): the editor take keeps "get user by id" and the log line has no `cursor:` part (DEC-41: off until set up).
+- [x] S-36.5 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) TextEdit (not a listed editor) with `index.ts` in the document: "open index dot ts" is not tagged.
+- [ ] S-36.6 **Mac wave 1: BLOCKED (sudo)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) No filesystem scanning (exit criterion): `sudo fs_usage -w -f filesys <app pid>` during S-36.1/.2 shows no open or stat of the workspace folder (`$TMPDIR/wb-s36-workspace`); the names come from AX only. Read p95 of the editor takes stays within S-20's 100 ms.
+- [x] S-36.7 **Mac wave 1: PASS (TextEdit and editor takes)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Clipboard byte-identical after the `editor` and `textedit` takes (the `chat` case reads its text back with ⌘A ⌘C, so its own check reports "changed (restored)" by design).
+- [ ] S-36.8 **Mac wave 1: BLOCKED (person)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) (person, UI wave) Settings › Vibe coding: Set up, the three steps, Finish, Change editors, Tag files in chat enabled only with Cursor or Windsurf; light and dark.
 - Not covered on this Mac: VS Code and Windsurf (not installed); their bundle ids and chat detection are unit-tested only.
 
 **Profile:** the S-20 portable debug build (`com.wisprbro.s20check` or a
@@ -2100,8 +2100,8 @@ profile is never used).
 ### S-38 Performance and reliability hardening
 
 - [ ] S-38.1 (Exit criterion) Every §5 number met on each reference machine, or the model tier changed to meet it (recorded): latency benches p50/p95 per §5.1, 8 h idle run, 500-take soak, 50-take hardware run, memory-pressure test on 8 GB, startup timing. Part 2 (after S-25..S-37).
-- [ ] S-38.2 Idle memory and CPU (§5.2) on the release build, models unloaded, bar visible, Hub closed for > 60 s: total RSS (app + its WebKit processes) ≤ 250 MB and app CPU ≤ 0.5 % over 10 min (`python3 -I scripts/wb-soak/idle.py --pid <pid> --minutes 10 --footprint`). Part 1 measured on a debug build (PERF.md). **Queued for the Mac wave** on the release build.
-- [ ] S-38.3 Parked Hub by hand (queued for the Mac wave, one pass, debug
+- [x] S-38.2 **Mac wave 1: PASS: 157.4 MB median RSS, 0.41 % CPU over 10 min (release, test identity)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Idle memory and CPU (§5.2) on the release build, models unloaded, bar visible, Hub closed for > 60 s: total RSS (app + its WebKit processes) ≤ 250 MB and app CPU ≤ 0.5 % over 10 min (`python3 -I scripts/wb-soak/idle.py --pid <pid> --minutes 10 --footprint`). Part 1 measured on a debug build (PERF.md). **Queued for the Mac wave** on the release build.
+- [ ] S-38.3 **Mac wave 1: PARTIAL, FAIL: page not kept across parking** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Parked Hub by hand (queued for the Mac wave, one pass, debug
       build with `WB_DEBUG_PARK_AFTER_S=10`): close the Hub, wait 15 s, the
       log says `hub park: main hidden, web view released` and `idle.py`
       shows one WebContent process fewer; then reopen it from (a) the tray's
@@ -2121,7 +2121,7 @@ profile is never used).
       clipboard_restored true on every take. **Queued for the Mac wave**
       (needs BlackHole installed by the owner; Slack and Notion are not
       installed on the builder Mac).
-- [ ] S-38.5 The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1).
+- [ ] S-38.5 **Mac wave 1: ps and crash report name wispr-bro (PASS); grants from a handy-named build: owner** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1).
 - [ ] S-38.6 §5.1 latency on each reference machine (part 2; headless, no
       GUI, nothing played): `scripts/wb-perf/latency.sh` (TTS takes written to
       files, `fork::perf_bench` on the shipped recognizer, pipeline, cleanup
