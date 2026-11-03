@@ -19,14 +19,8 @@
  *   Transform" (ticked by this practice or any real transform run).
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Check,
-  MessageCircle,
-  Pause,
-  Play,
-  Mail,
-  WandSparkles,
-} from "../../ui/icons";
+import { motion } from "motion/react";
+import { Check, Mail, MessageCircle, WandSparkles } from "../../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands, type DiffOp, type TransformEntry } from "../../bindings";
 import { navigate } from "../../hub/nav";
@@ -35,6 +29,9 @@ import { chordLabel } from "../../settings/hotkeys/model";
 import { useForkSettingsStore } from "../../settings/store";
 import { DiffWords } from "../../transforms/DiffCard";
 import { Button } from "../../ui";
+import { useMotionPresets } from "../../ui/motion";
+import { PauseButton } from "../PauseButton";
+import { Keys } from "../RichText";
 import { registerLesson, type LessonStepContext } from "../lessonRegistry";
 import {
   PracticeComposer,
@@ -97,31 +94,43 @@ const BENEFITS = [
 
 function Examples() {
   const { t } = useTranslation(FORK_NAMESPACE);
+  const m = useMotionPresets();
   const [paused, setPaused] = useState(false);
   const benefits = BENEFITS.map((b) => t(`lessons.transforms.benefits.${b}`));
+  const ticks = () =>
+    benefits.map((b) => (
+      <li key={b}>
+        <Check size={14} aria-hidden="true" />
+        {b}
+      </li>
+    ));
   return (
-    <div className="flex flex-col gap-4" data-testid="wb-lesson-examples">
-      <ul
+    <div className="flex flex-col gap-8" data-testid="wb-lesson-examples">
+      <motion.ul
         className="wb-lesson-cards"
         aria-label={t("lessons.transforms.cards.label")}
+        variants={m.stagger.container}
+        initial="hidden"
+        animate="shown"
       >
         {(["original", "polish", "prompt"] as const).map((kind) => (
-          <li
+          <motion.li
             key={kind}
+            variants={m.stagger.item}
             className="wb-lesson-card"
             data-kind={kind}
             data-testid={`wb-lesson-card-${kind}`}
           >
-            <h4>
+            <h3>
               {t(`lessons.transforms.cards.${kind}.name`)}
               {kind !== "original" && (
-                <kbd>{shortcut(kind === "polish" ? POLISH : PROMPT)}</kbd>
+                <Keys>{shortcut(kind === "polish" ? POLISH : PROMPT)}</Keys>
               )}
-            </h4>
+            </h3>
             <p>{t(`lessons.transforms.cards.${kind}.text`)}</p>
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
       <div
         className="wb-ticker"
         data-paused={paused || undefined}
@@ -130,32 +139,20 @@ function Examples() {
         <div className="wb-ticker-view">
           <div className="wb-ticker-track">
             <ul aria-label={t("lessons.transforms.benefits.label")}>
-              {benefits.map((b) => (
-                <li key={b}>{b}</li>
-              ))}
+              {ticks()}
             </ul>
             {/* The second copy makes the loop seamless; read once. */}
-            <ul aria-hidden="true">
-              {benefits.map((b) => (
-                <li key={b}>{b}</li>
-              ))}
-            </ul>
+            <ul aria-hidden="true">{ticks()}</ul>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => setPaused((p) => !p)}
-          className="wb-lesson-pause motion-reduce:hidden"
-          aria-pressed={paused}
-          data-testid="wb-lesson-ticker-pause"
-        >
-          {paused ? (
-            <Play size={14} aria-hidden="true" />
-          ) : (
-            <Pause size={14} aria-hidden="true" />
-          )}
-          {paused ? t("lessons.common.play") : t("lessons.common.pause")}
-        </button>
+        <PauseButton
+          paused={paused}
+          onToggle={() => setPaused((p) => !p)}
+          pauseLabel={t("lessons.common.pause")}
+          playLabel={t("lessons.common.play")}
+          testId="wb-lesson-ticker-pause"
+          className="motion-reduce:hidden"
+        />
       </div>
     </div>
   );
@@ -222,20 +219,18 @@ function Scene({ chapter }: { chapter: Chapter }) {
         data-beat={beat}
         data-chapter={chapter}
       >
-        <div className="wb-practice-window" aria-hidden="true">
-          <div className="wb-practice-titlebar">
-            <span className="wb-practice-dots">
+        <div className="wb-scene-window" aria-hidden="true">
+          <div className="wb-scene-titlebar">
+            <span className="wb-scene-dots">
               <i />
               <i />
               <i />
             </span>
-            <Mail size={14} aria-hidden="true" />
+            <Mail size={14} />
             <span>{t("lessons.transforms.scene.app")}</span>
           </div>
-          <div className="wb-practice-body">
-            <div className="wb-scene-draft" data-testid="wb-lesson-scene-text">
-              {replaced ? polished : <mark>{draft}</mark>}
-            </div>
+          <div className="wb-scene-draft" data-testid="wb-lesson-scene-text">
+            {replaced ? polished : <mark>{draft}</mark>}
           </div>
         </div>
         <div className="wb-scene-keys" aria-hidden="true">
@@ -250,20 +245,15 @@ function Scene({ chapter }: { chapter: Chapter }) {
         <DrawnBar state={bar} />
       </div>
       {!still && (
-        <button
-          type="button"
-          className="wb-lesson-pause self-start"
-          onClick={() => setPaused((p) => !p)}
-          aria-pressed={paused}
-          data-testid="wb-lesson-scene-pause"
-        >
-          {paused ? (
-            <Play size={14} aria-hidden="true" />
-          ) : (
-            <Pause size={14} aria-hidden="true" />
-          )}
-          {paused ? t("lessons.common.play") : t("lessons.common.pause")}
-        </button>
+        <PauseButton
+          paused={paused}
+          onToggle={() => setPaused((p) => !p)}
+          pauseLabel={t("lessons.common.pause")}
+          playLabel={t("lessons.common.play")}
+          testId="wb-lesson-scene-pause"
+          tone="hud"
+          className="wb-scene-control"
+        />
       )}
     </div>
   );
@@ -315,7 +305,7 @@ function DrawnBar({
               {t("lessons.transforms.practice.bar.view")}
             </button>
           ) : (
-            <span className="rounded-full bg-[#34343a] px-3 py-1 text-[12.5px] font-semibold">
+            <span className="wb-lesson-bar-action">
               {t("lessons.transforms.practice.bar.view")}
             </span>
           )}
@@ -469,7 +459,7 @@ function Practice({ ctx }: { ctx: LessonStepContext }) {
   const values = shortcutValues();
   return (
     <div
-      className="flex flex-col gap-3"
+      className="mx-auto flex w-full max-w-[560px] flex-col gap-3"
       data-testid="wb-lesson-practice"
       data-phase={phase}
     >
@@ -500,7 +490,10 @@ function Practice({ ctx }: { ctx: LessonStepContext }) {
           onView={rewrite ? () => void showChanges(rewrite) : undefined}
         />
       </PracticeComposer>
-      <div aria-live="polite" className="min-h-5 text-[13px] text-(--wb-ink-2)">
+      <div
+        aria-live="polite"
+        className="type-small min-h-5 text-center text-(--wb-ink-2)"
+      >
         {phase === "select_first" && (
           <p data-testid="wb-lesson-select-first">
             {t("lessons.transforms.practice.selectFirst", values)}
@@ -521,16 +514,16 @@ function Practice({ ctx }: { ctx: LessonStepContext }) {
       {diff && (
         <section
           aria-labelledby="wb-lesson-diff-title"
-          className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
+          className="wb-lesson-changes"
           data-testid="wb-lesson-diff"
         >
           <div className="flex items-center justify-between gap-2">
-            <h4 id="wb-lesson-diff-title" className="text-[15px] font-semibold">
+            <h3 id="wb-lesson-diff-title" className="type-small font-semibold">
               {t("transforms.diff.changes", { count: changes })}
-            </h4>
+            </h3>
             <Button
               variant="ghost"
-              className="px-2! py-1! text-[12px]!"
+              size="sm"
               onClick={() => setDiff(null)}
               data-testid="wb-lesson-diff-hide"
             >
@@ -555,6 +548,7 @@ export function registerTransformsLesson(): void {
     id: TRANSFORMS_LESSON,
     icon: WandSparkles,
     titleKey: "lessons.transforms.title",
+    tone: "plain",
     steps: [
       {
         id: "examples",

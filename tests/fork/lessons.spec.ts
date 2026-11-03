@@ -23,11 +23,15 @@ import {
 } from "./hub-fixture";
 import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
+// The rendered text of a string: headings mark their italic word with
+// `<em>` and shortcuts with `<kbd>` (Design W5), which never show as text.
 const en = JSON.parse(
   readFileSync(
     new URL("../../src/i18n/locales/en/fork.json", import.meta.url),
     "utf8",
   ),
+  (_key, value) =>
+    typeof value === "string" ? value.replace(/<\/?(em|kbd)>/g, "") : value,
 );
 const L = en.lessons.transforms;
 const DRAFT: string = L.practice.draft;
@@ -116,6 +120,11 @@ const lesson = (page: Page) => page.getByTestId("wb-lesson-transforms");
 const heading = (page: Page) => page.getByTestId("wb-lesson-heading");
 const primary = (page: Page) => page.getByTestId("wb-lesson-primary");
 const field = (page: Page) => page.getByTestId("wb-practice-field");
+// The sheet's back chevron (named "Back"; Design W5 moved it to the Sheet).
+const back = (page: Page) =>
+  page
+    .getByRole("dialog")
+    .getByRole("button", { name: en.lessons.common.back, exact: true });
 
 async function toPractice(page: Page): Promise<void> {
   await page.getByTestId("wb-transforms-try-it").click();
@@ -152,7 +161,7 @@ test.describe("Transforms lesson: Try it out", () => {
     await expect(page.getByTestId("wb-lesson-ticker")).toContainText(
       L.benefits.tone,
     );
-    await expect(page.getByTestId("wb-lesson-progress")).toHaveAttribute(
+    await expect(page.getByTestId("wb-progress-dashes")).toHaveAttribute(
       "aria-label",
       "Step 1 of 2",
     );
@@ -161,6 +170,9 @@ test.describe("Transforms lesson: Try it out", () => {
 
     await expect(heading(page)).toHaveText("Select the text, then press ⌥ 1");
     await expect(heading(page)).toBeFocused();
+    // One italic word and the shortcut as key caps (Design W5).
+    await expect(heading(page).locator("em")).toHaveText("Select");
+    await expect(heading(page).locator("kbd")).toHaveText(["⌥", "1"]);
     await expect(primary(page)).toBeDisabled();
     await expect(page.getByTestId("wb-lesson-skip")).toBeVisible();
     await expect(field(page)).toHaveValue(DRAFT);
@@ -317,7 +329,7 @@ test.describe("Transforms lesson: Try it out", () => {
   }) => {
     await open(page, ipc, hub);
     await toPractice(page);
-    await page.getByTestId("wb-lesson-back").click();
+    await back(page).click();
     await expect(lesson(page)).toHaveAttribute("data-step", "examples");
     await page.keyboard.press("Escape");
     await expect(lesson(page)).toHaveCount(0);
@@ -367,14 +379,16 @@ test.describe("Transforms lesson: How it works", () => {
     await expect(heading(page)).toHaveText(L.how.select.title);
     await expect(page.getByTestId("wb-lesson-scene")).toBeVisible();
     await expect(page.getByTestId("wb-lesson-scene-pause")).toBeVisible();
-    await expect(page.getByTestId("wb-lesson-progress")).toHaveAttribute(
+    await expect(page.getByTestId("wb-progress-dashes")).toHaveAttribute(
       "aria-label",
       "Step 1 of 3",
     );
     await primary(page).click();
     await expect(heading(page)).toHaveText("Press ⌥ 1");
-    await expect(page.getByRole("img")).toHaveAccessibleName(/⌥ 1 is pressed/);
-    await page.getByTestId("wb-lesson-back").click();
+    await expect(
+      page.getByTestId("wb-lesson-scene").getByRole("img"),
+    ).toHaveAccessibleName(/⌥ 1 is pressed/);
+    await back(page).click();
     await expect(heading(page)).toHaveText(L.how.select.title);
     await primary(page).click();
     await primary(page).click();
@@ -384,7 +398,7 @@ test.describe("Transforms lesson: How it works", () => {
     await expect(lesson(page)).toHaveAttribute("data-mode", "try");
     await expect(heading(page)).toHaveText(L.intro.title);
     // Back from the first Try step returns to the last scene.
-    await page.getByTestId("wb-lesson-back").click();
+    await back(page).click();
     await expect(heading(page)).toHaveText(L.how.changes.title);
   });
 

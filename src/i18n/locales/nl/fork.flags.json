@@ -1911,5 +1911,6 @@
   "overrides.settings.models.untestedNote": "ai-reviewed",
   "overrides.sidebar.about": "ai-reviewed",
   "overrides.theme.description": "ai-reviewed",
-  "overrides.whatsNew.title": "ai-reviewed"
+  "overrides.whatsNew.title": "ai-reviewed",
+  "lessons.common.sheetLabel": "ai-reviewed"
 }

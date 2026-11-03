@@ -2098,7 +2098,7 @@
     }
   },
   "firstUse": {
-    "title": "你想先試試什麼？",
+    "title": "你想先<em>試試</em>什麼？",
     "subtitle": "選一項看看效果，然後在你自己的 App 中試試。",
     "choicesLabel": "開始的方式",
     "choices": {
@@ -2232,13 +2232,14 @@
       "progress": "第 {{step}} 步，共 {{total}} 步",
       "pause": "暫停動畫",
       "play": "播放動畫",
-      "turnOnFailed": "未能開啟。請再試一次，或使用它頁面上的開關。"
+      "turnOnFailed": "未能開啟。請再試一次，或使用它頁面上的開關。",
+      "sheetLabel": "{{lesson}}：{{mode}}"
     },
     "transforms": {
       "title": "轉換",
       "help": "瞭解轉換",
       "intro": {
-        "title": "讓文字準確表達你的本意",
+        "title": "讓文字準確表達你的<em>本意</em>",
         "body": "在任何 App 中選取文字並按下快速鍵。轉換會直接在這部 Mac 上原地改寫文字。",
         "continue": "試試看"
       },
@@ -2267,10 +2268,10 @@
         "anywhere": "適用於你寫字的任何 App"
       },
       "practice": {
-        "title": "選取文字，然後按 {{shortcut}}",
+        "title": "<em>選取</em>文字，然後按 <kbd>{{shortcut}}</kbd>",
         "body": "選取下方的訊息（按 ⌘A 可全選），然後按 Polish 快速鍵。",
-        "doneTitle": "文字已改寫",
-        "doneBody": "按 {{view}} 檢視變更。按 {{undo}} 還原。",
+        "doneTitle": "文字已<em>改寫</em>",
+        "doneBody": "按 <kbd>{{view}}</kbd> 檢視變更。按 <kbd>{{undo}}</kbd> 還原。",
         "app": "與 Jordan 聊天",
         "context": "明天的審查還照常嗎？",
         "fieldLabel": "你給 Jordan 的回覆",
@@ -2292,17 +2293,17 @@
       },
       "how": {
         "select": {
-          "title": "在任何 App 中選取文字",
+          "title": "在任何 App 中<em>選取</em>文字",
           "body": "像平常一樣書寫或聽寫：郵件、聊天、文件都可以。然後選取想要改寫的內容。",
           "scene": "動畫：選取了一封郵件草稿。"
         },
         "press": {
-          "title": "按 {{shortcut}}",
+          "title": "<em>按</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish 會原地改寫選取的內容。Prompt Engineer（{{prompt}}）會將它變成給 AI 助理的清楚提示詞。",
           "scene": "動畫：按下 {{shortcut}} 後，草稿換成了更清楚的版本。"
         },
         "changes": {
-          "title": "查看改了什麼",
+          "title": "查看<em>改了</em>什麼",
           "body": "按 {{view}} 或按一下浮動列上的「檢視變更」：刪除的字詞會加上刪除線，新的字詞會醒目標示。按 {{undo}} 可恢復原文。",
           "scene": "動畫：一張卡片列出變更，刪除的字詞加上刪除線，新的字詞醒目標示。"
         }
@@ -2321,7 +2322,7 @@
       "title": "輕聲聽寫",
       "help": "學習輕聲聽寫",
       "soft": {
-        "title": "輕聲說話就夠了",
+        "title": "<em>輕聲</em>說話就夠了",
         "body": "你不必提高音量。輕聲說話，你的話照樣會變成整齊的文字，所以你可以在開放式辦公室、火車上，或有人在旁邊睡覺時聽寫。",
         "app": "備忘錄",
         "spoken": "「提醒我午餐前把簡報寄出去 再訂一間星期五的會議室」",
@@ -2329,7 +2330,7 @@
         "scene": "動畫：一句輕聲說出的話變成了輸入的文字：「{{text}}」"
       },
       "how": {
-        "title": "如何對著 Mac 輕聲說話",
+        "title": "如何對著 Mac <em>輕聲</em>說話",
         "body": "使用 Mac 內建的麥克風時，四個習慣能讓輕聲也容易被聽清楚。",
         "distance": "距離麥克風約 30 公分（大約一個前臂長）",
         "tips": {
@@ -2352,9 +2353,9 @@
         }
       },
       "practice": {
-        "title": "輕聲說出這封郵件",
+        "title": "<em>輕聲</em>說出這封郵件",
         "body": "這是一次真實的聽寫。文字只會出現在下方的郵件中，不會出現在其他地方。",
-        "doneTitle": "即使輕聲，也聽清楚了",
+        "doneTitle": "即使<em>輕聲</em>，也聽清楚了",
         "doneBody": "就這麼簡單。繼續下一步，找到適合你的麥克風。",
         "instruction": "按住 {{key}}，輕聲說出下方的郵件，然後放開。",
         "unbound": "尚未設定聽寫快速鍵，因此無法在這裡開始聽寫。請先略過這個步驟，再到設定中設定快速鍵。",
@@ -2447,7 +2448,7 @@
         }
       },
       "results": {
-        "title": "最適合你的麥克風",
+        "title": "<em>最適合</em>你的麥克風",
         "body": "根據你的回答得出。不會儲存或傳送任何內容。",
         "bestLine": "最佳推薦：{{mic}}。",
         "caption": "各類麥克風的表現",

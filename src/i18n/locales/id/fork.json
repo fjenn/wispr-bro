@@ -2098,7 +2098,7 @@
     }
   },
   "firstUse": {
-    "title": "Apa yang ingin Anda coba terlebih dahulu?",
+    "title": "Apa yang ingin Anda <em>coba</em> terlebih dahulu?",
     "subtitle": "Pilih salah satu untuk melihat hasilnya. Lalu coba di app Anda sendiri.",
     "choicesLabel": "Cara memulai",
     "choices": {
@@ -2232,13 +2232,14 @@
       "progress": "Langkah {{step}} dari {{total}}",
       "pause": "Jeda animasi",
       "play": "Putar animasi",
-      "turnOnFailed": "Tidak berhasil diaktifkan. Coba lagi, atau gunakan sakelar di halamannya."
+      "turnOnFailed": "Tidak berhasil diaktifkan. Coba lagi, atau gunakan sakelar di halamannya.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformasi",
       "help": "Pelajari Transformasi",
       "intro": {
-        "title": "Buat tulisan Anda menyampaikan persis maksud Anda",
+        "title": "Buat tulisan Anda menyampaikan persis <em>maksud</em> Anda",
         "body": "Pilih teks di app apa pun dan tekan pintasan. Transformasi menulis ulang teks itu di tempatnya, langsung di Mac ini.",
         "continue": "Coba"
       },
@@ -2267,10 +2268,10 @@
         "anywhere": "Berfungsi di app apa pun tempat Anda menulis"
       },
       "practice": {
-        "title": "Pilih teks, lalu tekan {{shortcut}}",
+        "title": "<em>Pilih</em> teks, lalu tekan <kbd>{{shortcut}}</kbd>",
         "body": "Pilih pesan di bawah (⌘A memilih semuanya), lalu tekan pintasan Polish.",
-        "doneTitle": "Teks ditulis ulang",
-        "doneBody": "Tekan {{view}} untuk melihat perubahan. {{undo}} mengurungkannya.",
+        "doneTitle": "Teks <em>ditulis ulang</em>",
+        "doneBody": "Tekan <kbd>{{view}}</kbd> untuk melihat perubahan. <kbd>{{undo}}</kbd> mengurungkannya.",
         "app": "Chat dengan Jordan",
         "context": "Review besok jadi, kan?",
         "fieldLabel": "Balasan Anda untuk Jordan",
@@ -2292,17 +2293,17 @@
       },
       "how": {
         "select": {
-          "title": "Pilih teks di app apa pun",
+          "title": "<em>Pilih</em> teks di app apa pun",
           "body": "Tulis atau dikte seperti biasa: email, chat, dokumen. Lalu pilih bagian yang ingin ditulis ulang.",
           "scene": "Animasi: draf email dipilih."
         },
         "press": {
-          "title": "Tekan {{shortcut}}",
+          "title": "<em>Tekan</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish menulis ulang pilihan di tempatnya. Prompt Engineer ({{prompt}}) mengubahnya menjadi prompt yang jelas untuk asisten AI.",
           "scene": "Animasi: {{shortcut}} ditekan dan draf diganti dengan versi yang lebih jelas."
         },
         "changes": {
-          "title": "Lihat apa yang berubah",
+          "title": "Lihat apa yang <em>berubah</em>",
           "body": "Tekan {{view}} atau klik Lihat perubahan di bilah: kata yang dihapus dicoret, kata baru disorot. {{undo}} mengembalikan teks asli Anda.",
           "scene": "Animasi: sebuah kartu mencantumkan perubahan, kata yang dihapus dicoret dan kata baru disorot."
         }
@@ -2321,7 +2322,7 @@
       "title": "Dikte dengan suara pelan",
       "help": "Pelajari cara mendikte dengan suara pelan",
       "soft": {
-        "title": "Suara lembut sudah cukup",
+        "title": "Suara <em>lembut</em> sudah cukup",
         "body": "Anda tidak perlu bicara keras. Cukup berbisik, dan kata-kata Anda tetap menjadi teks yang rapi, jadi Anda bisa mendikte di kantor terbuka, di kereta, atau saat ada yang tidur di dekat Anda.",
         "app": "Catatan",
         "spoken": "“ingatkan saya kirim slide sebelum makan siang dan pesan ruangan untuk hari jumat”",
@@ -2329,7 +2330,7 @@
         "scene": "Animasi: kalimat yang dibisikkan muncul sebagai teks yang diketik: “{{text}}”"
       },
       "how": {
-        "title": "Cara berbisik ke Mac Anda",
+        "title": "Cara <em>berbisik</em> ke Mac Anda",
         "body": "Dengan mikrofon bawaan Mac, empat kebiasaan ini membuat suara pelan mudah didengar.",
         "distance": "Sekitar 30 cm (sepanjang lengan bawah) dari mikrofon",
         "tips": {
@@ -2352,9 +2353,9 @@
         }
       },
       "practice": {
-        "title": "Bisikkan email ini",
+        "title": "<em>Bisikkan</em> email ini",
         "body": "Ini dikte sungguhan. Teksnya hanya masuk ke pesan di bawah ini, tidak ke tempat lain.",
-        "doneTitle": "Terdengar, bahkan saat berbisik",
+        "doneTitle": "Terdengar, bahkan saat <em>berbisik</em>",
         "doneBody": "Hanya itu yang diperlukan. Lanjutkan untuk menemukan mikrofon yang cocok untuk Anda.",
         "instruction": "Tahan {{key}}, bisikkan email di bawah ini, lalu lepaskan.",
         "unbound": "Belum ada pintasan dikte yang diatur, jadi rekaman tidak dapat dimulai di sini. Lewati langkah ini untuk sekarang dan atur pintasan di Pengaturan.",
@@ -2447,7 +2448,7 @@
         }
       },
       "results": {
-        "title": "Mikrofon yang cocok untuk Anda",
+        "title": "Mikrofon yang <em>cocok</em> untuk Anda",
         "body": "Berdasarkan jawaban Anda. Tidak ada yang disimpan atau dikirim ke mana pun.",
         "bestLine": "Paling cocok: {{mic}}.",
         "caption": "Kinerja setiap jenis mikrofon",

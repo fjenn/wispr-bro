@@ -25,12 +25,14 @@
  * after the practice passed or showed the example).
  */
 import { useEffect, useRef, useState } from "react";
-import { Ear, Mail, Mic, Pause, Play } from "../../ui/icons";
+import { Ear, Mail, Mic } from "../../ui/icons";
 import { useTranslation } from "react-i18next";
 import { events as handyEvents } from "@/bindings";
 import { commands, events } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
 import { Button } from "../../ui";
+import { photos } from "@/assets/fork/art";
+import { ArtSlot } from "../art/ArtSlot";
 import { WhisperDistanceArt } from "../art/MicArt";
 import { registerLesson, type LessonStepContext } from "../lessonRegistry";
 import {
@@ -40,6 +42,7 @@ import {
   QuizResults,
   QuizWorkplace,
 } from "../MicQuiz";
+import { PauseButton } from "../PauseButton";
 import { PracticeComposer } from "../PracticeComposer";
 import { useBeatScript, type BeatScript } from "../scenes/beats";
 import { wordMatch, WHISPER_PASS } from "./whisperMatch";
@@ -81,45 +84,38 @@ function SoftScene() {
         <p className="wb-whisper-caption" aria-hidden="true">
           {t("lessons.whisper.soft.spoken")}
         </p>
-        <div className="wb-practice-window" aria-hidden="true">
-          <div className="wb-practice-titlebar">
-            <span className="wb-practice-dots">
-              <i />
-              <i />
-              <i />
-            </span>
-            <Mail size={14} aria-hidden="true" />
-            <span>{t("lessons.whisper.soft.app")}</span>
-          </div>
-          <div className="wb-practice-body">
-            <div className="wb-scene-draft wb-whisper-landing">
-              {t("lessons.whisper.soft.text")}
-            </div>
-          </div>
-        </div>
         <div className="wb-lesson-bar wb-whisper-bar" aria-hidden="true">
           <span className="wb-whisper-levels">
-            {[0, 1, 2, 3, 4].map((i) => (
+            {Array.from({ length: 11 }, (_, i) => (
               <i key={i} />
             ))}
           </span>
         </div>
+        <div className="wb-scene-window" aria-hidden="true">
+          <div className="wb-scene-titlebar">
+            <span className="wb-scene-dots">
+              <i />
+              <i />
+              <i />
+            </span>
+            <Mail size={14} />
+            <span>{t("lessons.whisper.soft.app")}</span>
+          </div>
+          <div className="wb-scene-draft wb-whisper-landing">
+            {t("lessons.whisper.soft.text")}
+          </div>
+        </div>
       </div>
       {!still && (
-        <button
-          type="button"
-          className="wb-lesson-pause self-start"
-          onClick={() => setPaused((p) => !p)}
-          aria-pressed={paused}
-          data-testid="wb-lesson-scene-pause"
-        >
-          {paused ? (
-            <Play size={14} aria-hidden="true" />
-          ) : (
-            <Pause size={14} aria-hidden="true" />
-          )}
-          {paused ? t("lessons.common.play") : t("lessons.common.pause")}
-        </button>
+        <PauseButton
+          paused={paused}
+          onToggle={() => setPaused((p) => !p)}
+          pauseLabel={t("lessons.common.pause")}
+          playLabel={t("lessons.common.play")}
+          testId="wb-lesson-scene-pause"
+          tone="hud"
+          className="wb-scene-control"
+        />
       )}
     </div>
   );
@@ -132,37 +128,40 @@ const HOW_TIPS = ["distance", "breath", "pace", "release"] as const;
 function HowToWhisper() {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
-    <div className="flex flex-col gap-4" data-testid="wb-whisper-how">
-      <figure className="m-0 flex flex-col items-center gap-1 rounded-(--wb-radius-md) bg-(--wb-accent-soft) px-4 py-3 text-(--wb-ink)">
-        <WhisperDistanceArt className="h-24 w-full max-w-[320px]" />
-        <figcaption className="text-[13px] font-medium text-(--wb-ink-2)">
-          {t("lessons.whisper.how.distance")}
-        </figcaption>
-      </figure>
-      <ul className="m-0 flex list-none flex-col gap-2 p-0">
+    <div className="flex flex-col gap-5" data-testid="wb-whisper-how">
+      <ArtSlot
+        slot="lesson-whisper"
+        photo={photos.lessonWhisper}
+        caption={
+          <span className="inline-flex items-center gap-3">
+            <WhisperDistanceArt className="h-8 w-[72px] shrink-0 text-(--wb-ink-2)" />
+            {t("lessons.whisper.how.distance")}
+          </span>
+        }
+        className="mx-auto w-full max-w-[340px]"
+      />
+      <ol className="m-0 grid list-none grid-cols-4 gap-5 p-0 max-sm:grid-cols-2">
         {HOW_TIPS.map((tip, i) => (
           <li
             key={tip}
-            className="flex gap-3 text-[14px] leading-5"
+            className="flex flex-col gap-1"
             data-testid={`wb-whisper-tip-${tip}`}
           >
             <span
               aria-hidden="true"
-              className="grid size-6 shrink-0 place-items-center rounded-full bg-(--wb-fill-active) text-[12px] font-semibold"
+              className="mb-1 grid size-6 place-items-center rounded-full bg-(--wb-ink) text-[12px] font-semibold text-(--wb-on-ink)"
             >
               {i + 1}
             </span>
-            <span>
-              <strong className="font-semibold">
-                {t(`lessons.whisper.how.tips.${tip}.title`)}
-              </strong>{" "}
-              <span className="text-(--wb-ink-2)">
-                {t(`lessons.whisper.how.tips.${tip}.body`)}
-              </span>
+            <strong className="text-[14px] leading-5 font-semibold">
+              {t(`lessons.whisper.how.tips.${tip}.title`)}
+            </strong>
+            <span className="text-[13px] leading-[18px] text-(--wb-ink-2)">
+              {t(`lessons.whisper.how.tips.${tip}.body`)}
             </span>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   );
 }
@@ -280,27 +279,27 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
 
   return (
     <div
-      className="flex flex-col gap-3"
+      className="mx-auto flex w-full max-w-[520px] flex-col items-center gap-4"
       data-testid="wb-whisper-practice"
       data-phase={phase}
     >
       {trigger ? (
         <p
-          className="m-0 text-[14px] leading-5"
+          className="type-small m-0 text-center text-(--wb-ink-2)"
           data-testid="wb-whisper-instruction"
         >
           {t("lessons.whisper.practice.instruction", { key })}
         </p>
       ) : (
         <p
-          className="m-0 text-[14px] leading-5"
+          className="type-small m-0 text-center text-(--wb-ink-2)"
           data-testid="wb-whisper-unbound"
         >
           {t("lessons.whisper.practice.unbound")}
         </p>
       )}
       <blockquote
-        className="m-0 rounded-(--wb-radius-md) border-s-4 border-(--wb-ink) bg-(--wb-accent-soft) px-4 py-3 text-[15px] leading-6"
+        className="wb-whisper-script m-0"
         data-testid="wb-whisper-sentence"
       >
         <span className="sr-only">
@@ -308,17 +307,20 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
         </span>
         {sentence}
       </blockquote>
-      <PracticeComposer
-        app={t("lessons.whisper.practice.app")}
-        icon={Mail}
-        context={t("lessons.whisper.practice.context")}
-        label={t("lessons.whisper.practice.fieldLabel")}
-        value={text}
-        placeholder={t("lessons.whisper.practice.placeholder")}
-      />
+      <div className="w-full">
+        <PracticeComposer
+          variant="mail"
+          app={t("lessons.whisper.practice.app")}
+          icon={Mail}
+          context={t("lessons.whisper.practice.context")}
+          label={t("lessons.whisper.practice.fieldLabel")}
+          value={text}
+          placeholder={t("lessons.whisper.practice.placeholder")}
+        />
+      </div>
       <p
         role="status"
-        className="m-0 flex items-center gap-2 text-[13px] text-(--wb-ink-2)"
+        className="type-small m-0 flex items-center justify-center gap-2 text-center text-(--wb-ink-2)"
         data-testid="wb-whisper-status"
       >
         <Mic
@@ -334,7 +336,7 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
       </p>
       {phase === "example" && (
         <p
-          className="m-0 text-[12.5px] leading-5 text-(--wb-ink-2)"
+          className="m-0 text-center text-[12.5px] leading-5 text-(--wb-ink-2)"
           data-testid="wb-whisper-example-note"
         >
           {t("lessons.whisper.practice.exampleNote")}
@@ -343,23 +345,24 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
       {(phase === "low" || phase === "nothing") && (
         <section
           aria-labelledby="wb-whisper-tips-title"
-          className="flex flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-3"
+          className="flex w-full flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
           data-testid="wb-whisper-tips"
         >
-          <h4
+          <h3
             id="wb-whisper-tips-title"
             className="m-0 flex items-center gap-2 text-[14px] font-semibold"
           >
             <Ear size={16} aria-hidden="true" />
             {t("lessons.whisper.practice.tips.title")}
-          </h4>
-          <ul className="m-0 flex list-disc flex-col gap-1 ps-5 text-[13px] leading-5">
+          </h3>
+          <ul className="m-0 flex list-disc flex-col gap-1 ps-5 text-[13px] leading-5 text-(--wb-ink-2)">
             <li>{t("lessons.whisper.practice.tips.closer")}</li>
             <li>{t("lessons.whisper.practice.tips.firmer")}</li>
             <li>{t("lessons.whisper.practice.tips.volume")}</li>
           </ul>
           <Button
-            className="self-start px-2.5! py-1! text-[12.5px]!"
+            size="sm"
+            className="self-start"
             onClick={() =>
               void commands
                 .forkOnboardingOpenPane("sound_input")

@@ -42,9 +42,12 @@ export interface LessonStepContext {
 }
 
 export interface LessonStep extends LessonStepShape {
-  /** The step's heading (`fork` key). A step may change it, see `heading`. */
+  /**
+   * The step's heading (`fork` key), a serif sheet heading: `<em>` marks its
+   * one italic word, `<kbd>` a shortcut shown as key caps (`RichText`).
+   */
   titleKey: string;
-  /** One line under the heading. */
+  /** One line under the heading (may hold `<kbd>` marks). */
   bodyKey?: string;
   /** Heading and line once the step reported success. */
   doneTitleKey?: string;
@@ -72,8 +75,14 @@ export interface Lesson {
   /** Stable id (`a-z0-9_-`), also the test id suffix. */
   id: string;
   icon: Glyph;
-  /** Dialog title (`fork` key). */
+  /** The lesson's name (`fork` key): the sheet's accessible name. */
   titleKey: string;
+  /**
+   * The sheet's look (Design W5): `plain` is white with the italic heading
+   * word in purple (Transforms), `warm` the warm sheet with an ink italic
+   * (whisper). Default `warm`.
+   */
+  tone?: "warm" | "plain";
   steps: readonly LessonStep[];
   howItWorks?: readonly LessonStep[];
   finish?: LessonFinish;

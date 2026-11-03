@@ -2186,7 +2186,7 @@
     }
   },
   "firstUse": {
-    "title": "Was möchtest du zuerst ausprobieren?",
+    "title": "Was möchtest du zuerst <em>ausprobieren</em>?",
     "subtitle": "Wähle etwas aus und sieh dir an, wie es läuft. Probier es dann in deiner eigenen App.",
     "choicesLabel": "Möglichkeiten zum Starten",
     "choices": {
@@ -2320,13 +2320,14 @@
       "progress": "Schritt {{step}} von {{total}}",
       "pause": "Animation pausieren",
       "play": "Animation abspielen",
-      "turnOnFailed": "Das ließ sich nicht einschalten. Versuch es noch einmal oder nutze den Schalter auf der zugehörigen Seite."
+      "turnOnFailed": "Das ließ sich nicht einschalten. Versuch es noch einmal oder nutze den Schalter auf der zugehörigen Seite.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformationen",
       "help": "Transformationen kennenlernen",
       "intro": {
-        "title": "Damit dein Text sagt, was du meinst",
+        "title": "Damit dein Text sagt, was du <em>meinst</em>",
         "body": "Markiere in einer beliebigen App Text und drück einen Kurzbefehl. Eine Transformation schreibt ihn an Ort und Stelle um, direkt auf diesem Mac.",
         "continue": "Ausprobieren"
       },
@@ -2355,10 +2356,10 @@
         "anywhere": "Funktioniert in jeder App, in der du schreibst"
       },
       "practice": {
-        "title": "Markiere den Text und drück dann {{shortcut}}",
+        "title": "<em>Markiere</em> den Text und drück dann <kbd>{{shortcut}}</kbd>",
         "body": "Markiere die Nachricht unten (⌘A markiert alles) und drück dann den Kurzbefehl für Polish.",
-        "doneTitle": "Text umgeschrieben",
-        "doneBody": "Drück {{view}}, um die Änderungen zu sehen. {{undo}} macht es rückgängig.",
+        "doneTitle": "Text <em>umgeschrieben</em>",
+        "doneBody": "Drück <kbd>{{view}}</kbd>, um die Änderungen zu sehen. <kbd>{{undo}}</kbd> macht es rückgängig.",
         "app": "Mit Jordan chatten",
         "context": "Bleibt es beim Review morgen?",
         "fieldLabel": "Deine Antwort an Jordan",
@@ -2380,17 +2381,17 @@
       },
       "how": {
         "select": {
-          "title": "Text in einer beliebigen App markieren",
+          "title": "Text in einer beliebigen App <em>markieren</em>",
           "body": "Schreib oder diktiere wie gewohnt: eine E-Mail, einen Chat, ein Dokument. Markiere dann, was umgeschrieben werden soll.",
           "scene": "Animation: Ein E-Mail-Entwurf wird markiert."
         },
         "press": {
-          "title": "{{shortcut}} drücken",
+          "title": "<kbd>{{shortcut}}</kbd> <em>drücken</em>",
           "body": "Polish schreibt die Auswahl an Ort und Stelle um. Prompt Engineer ({{prompt}}) macht daraus einen klaren Prompt für einen KI-Assistenten.",
           "scene": "Animation: {{shortcut}} wird gedrückt und der Entwurf wird durch eine klarere Version ersetzt."
         },
         "changes": {
-          "title": "Änderungen ansehen",
+          "title": "<em>Änderungen</em> ansehen",
           "body": "Drück {{view}} oder klick in der Leiste auf „Änderungen ansehen“: Entfernte Wörter sind durchgestrichen, neue hervorgehoben. {{undo}} stellt dein Original wieder her.",
           "scene": "Animation: Eine Karte listet die Änderungen auf, entfernte Wörter durchgestrichen, neue hervorgehoben."
         }
@@ -2409,7 +2410,7 @@
       "title": "Leise diktieren",
       "help": "Lerne, leise zu diktieren",
       "soft": {
-        "title": "Eine leise Stimme genügt",
+        "title": "Eine <em>leise</em> Stimme genügt",
         "body": "Du musst nicht laut sprechen. Flüstere, und deine Worte werden trotzdem zu sauberem Text. So kannst du im Großraumbüro, im Zug oder neben jemandem diktieren, der schläft.",
         "app": "Notizen",
         "spoken": "„erinnere mich die folien vor dem mittagessen zu schicken und einen raum für freitag zu buchen“",
@@ -2417,7 +2418,7 @@
         "scene": "Animation: Ein geflüsterter Satz erscheint als getippter Text: „{{text}}“"
       },
       "how": {
-        "title": "So flüsterst du mit deinem Mac",
+        "title": "So <em>flüsterst</em> du mit deinem Mac",
         "body": "Mit dem integrierten Mikrofon deines Mac sorgen vier Gewohnheiten dafür, dass eine leise Stimme gut verstanden wird.",
         "distance": "Etwa 30 cm (eine Unterarmlänge) vom Mikrofon entfernt",
         "tips": {
@@ -2440,9 +2441,9 @@
         }
       },
       "practice": {
-        "title": "Flüstere diese E-Mail",
+        "title": "<em>Flüstere</em> diese E-Mail",
         "body": "Das ist ein echtes Diktat. Der Text landet nur in der Nachricht unten und nirgendwo sonst.",
-        "doneTitle": "Verstanden, sogar geflüstert",
+        "doneTitle": "Verstanden, sogar <em>geflüstert</em>",
         "doneBody": "Mehr braucht es nicht. Mach weiter, um das passende Mikrofon für dich zu finden.",
         "instruction": "Halte {{key}} gedrückt, flüstere die E-Mail unten und lass dann los.",
         "unbound": "Es ist kein Kurzbefehl fürs Diktat festgelegt, daher kann hier keine Aufnahme starten. Überspring diesen Schritt vorerst und leg in den Einstellungen einen Kurzbefehl fest.",
@@ -2535,7 +2536,7 @@
         }
       },
       "results": {
-        "title": "Deine Mikrofonempfehlung",
+        "title": "Deine <em>Mikrofonempfehlung</em>",
         "body": "Basiert auf deinen Antworten. Nichts wird gespeichert oder irgendwohin gesendet.",
         "bestLine": "Beste Wahl: {{mic}}.",
         "caption": "So schneidet jede Mikrofonart ab",

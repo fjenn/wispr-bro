@@ -2274,7 +2274,7 @@
     }
   },
   "firstUse": {
-    "title": "Que voulez-vous essayer en premier ?",
+    "title": "Que voulez-vous <em>essayer</em> en premier ?",
     "subtitle": "Choisissez un exemple pour voir le résultat. Essayez ensuite dans votre propre app.",
     "choicesLabel": "Pour commencer",
     "choices": {
@@ -2408,13 +2408,14 @@
       "progress": "Étape {{step}} sur {{total}}",
       "pause": "Mettre l’animation en pause",
       "play": "Lire l’animation",
-      "turnOnFailed": "L’activation a échoué. Réessayez, ou utilisez l’interrupteur de sa page."
+      "turnOnFailed": "L’activation a échoué. Réessayez, ou utilisez l’interrupteur de sa page.",
+      "sheetLabel": "{{lesson}} : {{mode}}"
     },
     "transforms": {
       "title": "Transformations",
       "help": "Découvrir les transformations",
       "intro": {
-        "title": "Que vos écrits disent exactement ce que vous voulez dire",
+        "title": "Que vos écrits disent exactement ce que vous voulez <em>dire</em>",
         "body": "Sélectionnez du texte dans n’importe quelle app et appuyez sur un raccourci. Une transformation le réécrit sur place, directement sur ce Mac.",
         "continue": "Essayer"
       },
@@ -2443,10 +2444,10 @@
         "anywhere": "Fonctionne dans toutes les apps où vous écrivez"
       },
       "practice": {
-        "title": "Sélectionnez le texte, puis appuyez sur {{shortcut}}",
+        "title": "<em>Sélectionnez</em> le texte, puis appuyez sur <kbd>{{shortcut}}</kbd>",
         "body": "Sélectionnez le message ci-dessous (⌘A sélectionne tout), puis appuyez sur le raccourci Polish.",
-        "doneTitle": "Texte réécrit",
-        "doneBody": "Appuyez sur {{view}} pour voir les modifications. {{undo}} les annule.",
+        "doneTitle": "Texte <em>réécrit</em>",
+        "doneBody": "Appuyez sur <kbd>{{view}}</kbd> pour voir les modifications. <kbd>{{undo}}</kbd> les annule.",
         "app": "Discussion avec Jordan",
         "context": "On maintient toujours la revue de demain ?",
         "fieldLabel": "Votre réponse à Jordan",
@@ -2468,17 +2469,17 @@
       },
       "how": {
         "select": {
-          "title": "Sélectionnez du texte dans n’importe quelle app",
+          "title": "<em>Sélectionnez</em> du texte dans n’importe quelle app",
           "body": "Écrivez ou dictez comme d’habitude : un e-mail, un message, un document. Sélectionnez ensuite ce que vous voulez réécrire.",
           "scene": "Animation : un brouillon d’e-mail est sélectionné."
         },
         "press": {
-          "title": "Appuyez sur {{shortcut}}",
+          "title": "<em>Appuyez</em> sur <kbd>{{shortcut}}</kbd>",
           "body": "Polish réécrit la sélection sur place. Prompt Engineer ({{prompt}}) la transforme en prompt clair pour un assistant IA.",
           "scene": "Animation : on appuie sur {{shortcut}} et le brouillon est remplacé par une version plus claire."
         },
         "changes": {
-          "title": "Voir ce qui a changé",
+          "title": "Voir ce qui a <em>changé</em>",
           "body": "Appuyez sur {{view}} ou cliquez sur Voir les modifications dans la barre : les mots supprimés sont barrés, les nouveaux surlignés. {{undo}} rétablit votre texte d’origine.",
           "scene": "Animation : une carte liste les modifications, avec les mots supprimés barrés et les nouveaux surlignés."
         }
@@ -2497,7 +2498,7 @@
       "title": "Dicter discrètement",
       "help": "Apprendre à dicter à voix basse",
       "soft": {
-        "title": "Une voix douce suffit",
+        "title": "Une voix <em>douce</em> suffit",
         "body": "Inutile de parler fort. Chuchotez : vos mots deviennent quand même un texte propre. Vous pouvez donc dicter dans un open space, dans le train ou quand quelqu’un dort à côté.",
         "app": "Notes",
         "spoken": "« rappelle-moi d’envoyer les diapos avant le déjeuner et de réserver une salle pour vendredi »",
@@ -2505,7 +2506,7 @@
         "scene": "Animation : une phrase chuchotée apparaît sous forme de texte saisi : « {{text}} »"
       },
       "how": {
-        "title": "Comment chuchoter à votre Mac",
+        "title": "Comment <em>chuchoter</em> à votre Mac",
         "body": "Avec le micro intégré de votre Mac, quatre habitudes permettent de bien capter une voix douce.",
         "distance": "Environ 30 cm (la longueur d’un avant-bras) du micro",
         "tips": {
@@ -2528,9 +2529,9 @@
         }
       },
       "practice": {
-        "title": "Chuchotez cet e-mail",
+        "title": "<em>Chuchotez</em> cet e-mail",
         "body": "C’est une vraie dictée. Le texte va uniquement dans le message ci-dessous, nulle part ailleurs.",
-        "doneTitle": "Entendu, même à voix basse",
+        "doneTitle": "Entendu, même à <em>voix basse</em>",
         "doneBody": "Rien de plus. Continuez pour trouver le micro qui vous convient.",
         "instruction": "Maintenez {{key}}, chuchotez l’e-mail ci-dessous, puis relâchez.",
         "unbound": "Aucun raccourci de dictée n’est défini : aucune prise ne peut donc commencer ici. Passez cette étape pour l’instant et définissez un raccourci dans Réglages.",
@@ -2623,7 +2624,7 @@
         }
       },
       "results": {
-        "title": "Votre micro idéal",
+        "title": "Votre micro <em>idéal</em>",
         "body": "D’après vos réponses. Rien n’est enregistré ni envoyé.",
         "bestLine": "Le plus adapté : {{mic}}.",
         "caption": "Performances de chaque type de micro",

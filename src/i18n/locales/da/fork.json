@@ -2186,7 +2186,7 @@
     }
   },
   "firstUse": {
-    "title": "Hvad vil du prøve først?",
+    "title": "Hvad vil du <em>prøve</em> først?",
     "subtitle": "Vælg én for at se, hvordan det foregår. Prøv det derefter i din egen app.",
     "choicesLabel": "Måder at starte på",
     "choices": {
@@ -2320,13 +2320,14 @@
       "progress": "Trin {{step}} af {{total}}",
       "pause": "Sæt animation på pause",
       "play": "Afspil animation",
-      "turnOnFailed": "Det blev ikke slået til. Prøv igen, eller brug kontakten på den tilhørende side."
+      "turnOnFailed": "Det blev ikke slået til. Prøv igen, eller brug kontakten på den tilhørende side.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformationer",
       "help": "Lær Transformationer",
       "intro": {
-        "title": "Få din tekst til at sige det, du mener",
+        "title": "Få din tekst til at sige det, du <em>mener</em>",
         "body": "Vælg tekst i en hvilken som helst app, og tryk på en genvej. En transformation omskriver den på stedet, direkte på denne Mac.",
         "continue": "Prøv det"
       },
@@ -2355,10 +2356,10 @@
         "anywhere": "Virker i alle apps, du skriver i"
       },
       "practice": {
-        "title": "Vælg teksten, og tryk derefter på {{shortcut}}",
+        "title": "<em>Vælg</em> teksten, og tryk derefter på <kbd>{{shortcut}}</kbd>",
         "body": "Vælg beskeden nedenfor (⌘A vælger det hele), og tryk derefter på genvejen til Polish.",
-        "doneTitle": "Teksten er omskrevet",
-        "doneBody": "Tryk på {{view}} for at se ændringerne. {{undo}} fortryder det.",
+        "doneTitle": "Teksten er <em>omskrevet</em>",
+        "doneBody": "Tryk på <kbd>{{view}}</kbd> for at se ændringerne. <kbd>{{undo}}</kbd> fortryder det.",
         "app": "Chat med Jordan",
         "context": "Holder vi stadig fast i gennemgangen i morgen?",
         "fieldLabel": "Dit svar til Jordan",
@@ -2380,17 +2381,17 @@
       },
       "how": {
         "select": {
-          "title": "Vælg tekst i enhver app",
+          "title": "<em>Vælg</em> tekst i enhver app",
           "body": "Skriv eller diktér som normalt: en e-mail, en chat, et dokument. Vælg derefter det, du vil have omskrevet.",
           "scene": "Animation: Et udkast til en e-mail bliver valgt."
         },
         "press": {
-          "title": "Tryk på {{shortcut}}",
+          "title": "<em>Tryk</em> på <kbd>{{shortcut}}</kbd>",
           "body": "Polish omskriver det valgte på stedet. Prompt Engineer ({{prompt}}) gør det til en tydelig prompt til en AI-assistent.",
           "scene": "Animation: {{shortcut}} bliver trykket, og udkastet erstattes af en tydeligere version."
         },
         "changes": {
-          "title": "Se, hvad der er ændret",
+          "title": "Se, hvad der er <em>ændret</em>",
           "body": "Tryk på {{view}}, eller klik på Vis ændringer på bjælken: Fjernede ord er overstreget, nye er fremhævet. {{undo}} sætter din original tilbage.",
           "scene": "Animation: Et kort viser ændringerne med fjernede ord overstreget og nye ord fremhævet."
         }
@@ -2409,7 +2410,7 @@
       "title": "Diktér stille",
       "help": "Lær at diktere stille",
       "soft": {
-        "title": "En blød stemme er nok",
+        "title": "En <em>blød</em> stemme er nok",
         "body": "Du behøver ikke at tale højt. Hvisk, og dine ord bliver stadig til ren tekst, så du kan diktere i et storrumskontor, i toget eller mens nogen sover i nærheden.",
         "app": "Noter",
         "spoken": "”mind mig om at sende slides før frokost og booke et lokale til fredag”",
@@ -2417,7 +2418,7 @@
         "scene": "Animation: En hvisket sætning vises som skrevet tekst: ”{{text}}”"
       },
       "how": {
-        "title": "Sådan hvisker du til din Mac",
+        "title": "Sådan <em>hvisker</em> du til din Mac",
         "body": "Med den indbyggede mikrofon i din Mac gør fire vaner en stille stemme let at høre.",
         "distance": "Omkring 30 cm (en underarms længde) fra mikrofonen",
         "tips": {
@@ -2440,9 +2441,9 @@
         }
       },
       "practice": {
-        "title": "Hvisk denne e-mail",
+        "title": "<em>Hvisk</em> denne e-mail",
         "body": "Det her er en rigtig diktering. Teksten havner kun i beskeden nedenfor og ingen andre steder.",
-        "doneTitle": "Hørt, selv når du hvisker",
+        "doneTitle": "Hørt, selv når du <em>hvisker</em>",
         "doneBody": "Mere skal der ikke til. Fortsæt for at finde den mikrofon, der passer dig.",
         "instruction": "Hold {{key}} nede, hvisk e-mailen nedenfor, og slip så.",
         "unbound": "Der er ikke angivet nogen genvej til diktering, så der kan ikke startes en optagelse her. Spring trinnet over indtil videre, og angiv en genvej i Indstillinger.",
@@ -2535,7 +2536,7 @@
         }
       },
       "results": {
-        "title": "Din mikrofonmatch",
+        "title": "Din <em>mikrofonmatch</em>",
         "body": "Baseret på dine svar. Intet gemmes eller sendes nogen steder hen.",
         "bestLine": "Bedste match: {{mic}}.",
         "caption": "Sådan klarer hver type mikrofon sig",

@@ -2274,7 +2274,7 @@
     }
   },
   "firstUse": {
-    "title": "O que você quer experimentar primeiro?",
+    "title": "O que você quer <em>experimentar</em> primeiro?",
     "subtitle": "Escolha uma opção para ver como funciona. Depois experimente no seu próprio app.",
     "choicesLabel": "Formas de começar",
     "choices": {
@@ -2408,13 +2408,14 @@
       "progress": "Etapa {{step}} de {{total}}",
       "pause": "Pausar animação",
       "play": "Reproduzir animação",
-      "turnOnFailed": "Não foi ativado. Tente novamente ou use o botão na página do recurso."
+      "turnOnFailed": "Não foi ativado. Tente novamente ou use o botão na página do recurso.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformações",
       "help": "Conhecer as Transformações",
       "intro": {
-        "title": "Faça seu texto dizer exatamente o que você quer",
+        "title": "Faça seu texto dizer exatamente o que você <em>quer</em>",
         "body": "Selecione um texto em qualquer app e pressione um atalho. Uma transformação o reescreve no lugar, aqui mesmo neste Mac.",
         "continue": "Experimentar"
       },
@@ -2443,10 +2444,10 @@
         "anywhere": "Funciona em qualquer app em que você escreve"
       },
       "practice": {
-        "title": "Selecione o texto e pressione {{shortcut}}",
+        "title": "<em>Selecione</em> o texto e pressione <kbd>{{shortcut}}</kbd>",
         "body": "Selecione a mensagem abaixo (⌘A seleciona tudo) e pressione o atalho do Polish.",
-        "doneTitle": "Texto reescrito",
-        "doneBody": "Pressione {{view}} para ver as alterações. {{undo}} desfaz.",
+        "doneTitle": "Texto <em>reescrito</em>",
+        "doneBody": "Pressione <kbd>{{view}}</kbd> para ver as alterações. <kbd>{{undo}}</kbd> desfaz.",
         "app": "Chat com Jordan",
         "context": "A revisão de amanhã ainda está de pé?",
         "fieldLabel": "Sua resposta para Jordan",
@@ -2468,17 +2469,17 @@
       },
       "how": {
         "select": {
-          "title": "Selecione um texto em qualquer app",
+          "title": "<em>Selecione</em> um texto em qualquer app",
           "body": "Escreva ou dite como sempre: um e-mail, um chat, um documento. Depois selecione o que quer reescrever.",
           "scene": "Animação: um rascunho de e-mail é selecionado."
         },
         "press": {
-          "title": "Pressione {{shortcut}}",
+          "title": "<em>Pressione</em> <kbd>{{shortcut}}</kbd>",
           "body": "O Polish reescreve a seleção no lugar. O Prompt Engineer ({{prompt}}) a transforma em um prompt claro para um assistente de IA.",
           "scene": "Animação: {{shortcut}} é pressionado e o rascunho é substituído por uma versão mais clara."
         },
         "changes": {
-          "title": "Veja o que mudou",
+          "title": "Veja o que <em>mudou</em>",
           "body": "Pressione {{view}} ou clique em Ver alterações na barra: palavras removidas aparecem riscadas, e as novas, destacadas. {{undo}} traz o original de volta.",
           "scene": "Animação: um cartão lista as alterações, com palavras removidas riscadas e novas palavras destacadas."
         }
@@ -2497,7 +2498,7 @@
       "title": "Dite em voz baixa",
       "help": "Aprender a ditar em voz baixa",
       "soft": {
-        "title": "Uma voz baixa basta",
+        "title": "Uma voz <em>baixa</em> basta",
         "body": "Você não precisa falar alto. Sussurre, e suas palavras continuam virando texto limpo, para ditar num escritório aberto, no trem ou com alguém dormindo por perto.",
         "app": "Notas",
         "spoken": "“me lembra de mandar os slides antes do almoço e reservar uma sala pra sexta”",
@@ -2505,7 +2506,7 @@
         "scene": "Animação: uma frase sussurrada aparece como texto digitado: “{{text}}”"
       },
       "how": {
-        "title": "Como sussurrar para o seu Mac",
+        "title": "Como <em>sussurrar</em> para o seu Mac",
         "body": "Com o microfone embutido do Mac, quatro hábitos facilitam ouvir uma voz baixa.",
         "distance": "Cerca de 30 cm (o comprimento de um antebraço) do microfone",
         "tips": {
@@ -2528,9 +2529,9 @@
         }
       },
       "practice": {
-        "title": "Sussurre este e-mail",
+        "title": "<em>Sussurre</em> este e-mail",
         "body": "É um ditado de verdade. O texto vai só para a mensagem abaixo, para nenhum outro lugar.",
-        "doneTitle": "Ouvido, mesmo sussurrando",
+        "doneTitle": "Ouvido, mesmo <em>sussurrando</em>",
         "doneBody": "É só isso. Continue para encontrar o microfone ideal para você.",
         "instruction": "Segure {{key}}, sussurre o e-mail abaixo e solte.",
         "unbound": "Nenhum atalho de ditado está definido, então não é possível gravar aqui. Pule esta etapa por enquanto e defina um atalho nos Ajustes.",
@@ -2623,7 +2624,7 @@
         }
       },
       "results": {
-        "title": "O microfone ideal para você",
+        "title": "O microfone <em>ideal</em> para você",
         "body": "Com base nas suas respostas. Nada é salvo nem enviado.",
         "bestLine": "Melhor opção: {{mic}}.",
         "caption": "Como cada tipo de microfone se sai",

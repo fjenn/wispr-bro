@@ -8,11 +8,16 @@
  * tech (its label names the example and says what is written); a Pause
  * button stops the loop (WCAG 2.2.2), and reduced motion shows the
  * finished frame only.
+ *
+ * Design W5: the stage is a colourful wallpaper (our own CSS mesh
+ * gradient) with the drawn app on it like a screenshot, the bar under it
+ * and the spoken words as a dark caption pill under the bar; the pause
+ * control sits in the stage's corner like a player's.
  */
 import { useState } from "react";
-import { Pause, Play } from "../../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../../i18n";
+import { PauseButton } from "../../tutorials/PauseButton";
 import { CHOICE_ICONS, type FirstUseChoice } from "../firstUse";
 import { useSceneLoop } from "./engine";
 import "./scenes.css";
@@ -70,6 +75,16 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
             </div>
           </div>
         </div>
+        <div className="wb-scene-pill" data-state={pill} aria-hidden="true">
+          {pill === "rec" && (
+            <span className="wb-scene-bars">
+              {Array.from({ length: 11 }, (_, i) => (
+                <i key={i} style={{ animationDelay: `${(i % 6) * 90}ms` }} />
+              ))}
+            </span>
+          )}
+          {pill === "work" && <span className="wb-scene-spin" />}
+        </div>
         <div className="wb-scene-caption" aria-hidden="true">
           <span className="wb-scene-caption-label">
             {t("firstUse.scene.said")}
@@ -85,31 +100,17 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
             ))}
           </span>
         </div>
-        <div className="wb-scene-pill" data-state={pill} aria-hidden="true">
-          {pill === "rec" && (
-            <span className="wb-scene-bars">
-              {Array.from({ length: 7 }, (_, i) => (
-                <i key={i} style={{ animationDelay: `${i * 90}ms` }} />
-              ))}
-            </span>
-          )}
-          {pill === "work" && <span className="wb-scene-spin" />}
-        </div>
       </div>
       {!still && (
-        <button
-          type="button"
+        <PauseButton
+          paused={paused}
+          onToggle={() => setPaused((p) => !p)}
+          pauseLabel={t("firstUse.scene.pause")}
+          playLabel={t("firstUse.scene.play")}
+          testId="wb-scene-pause"
+          tone="hud"
           className="wb-scene-pause"
-          onClick={() => setPaused((p) => !p)}
-          data-testid="wb-scene-pause"
-        >
-          {paused ? (
-            <Play size={14} aria-hidden="true" />
-          ) : (
-            <Pause size={14} aria-hidden="true" />
-          )}
-          {paused ? t("firstUse.scene.play") : t("firstUse.scene.pause")}
-        </button>
+        />
       )}
     </div>
   );

@@ -2186,7 +2186,7 @@
     }
   },
   "firstUse": {
-    "title": "Vad vill du prova först?",
+    "title": "Vad vill du <em>prova</em> först?",
     "subtitle": "Välj en för att se hur det går till. Prova sedan i din egen app.",
     "choicesLabel": "Sätt att börja",
     "choices": {
@@ -2320,13 +2320,14 @@
       "progress": "Steg {{step}} av {{total}}",
       "pause": "Pausa animation",
       "play": "Spela upp animation",
-      "turnOnFailed": "Det gick inte att slå på. Försök igen eller använd reglaget på dess sida."
+      "turnOnFailed": "Det gick inte att slå på. Försök igen eller använd reglaget på dess sida.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Omvandlingar",
       "help": "Lär dig Omvandlingar",
       "intro": {
-        "title": "Få din text att säga det du menar",
+        "title": "Få din text att säga det du <em>menar</em>",
         "body": "Markera text i valfri app och tryck på ett kortkommando. En omvandling skriver om den på plats, direkt på den här datorn.",
         "continue": "Prova"
       },
@@ -2355,10 +2356,10 @@
         "anywhere": "Fungerar i alla appar du skriver i"
       },
       "practice": {
-        "title": "Markera texten och tryck sedan på {{shortcut}}",
+        "title": "<em>Markera</em> texten och tryck sedan på <kbd>{{shortcut}}</kbd>",
         "body": "Markera meddelandet nedan (⌘A markerar allt) och tryck sedan på kortkommandot för Polish.",
-        "doneTitle": "Texten har skrivits om",
-        "doneBody": "Tryck på {{view}} för att visa ändringarna. {{undo}} ångrar det.",
+        "doneTitle": "Texten har <em>skrivits om</em>",
+        "doneBody": "Tryck på <kbd>{{view}}</kbd> för att visa ändringarna. <kbd>{{undo}}</kbd> ångrar det.",
         "app": "Chatt med Jordan",
         "context": "Blir det genomgång i morgon fortfarande?",
         "fieldLabel": "Ditt svar till Jordan",
@@ -2380,17 +2381,17 @@
       },
       "how": {
         "select": {
-          "title": "Markera text i valfri app",
+          "title": "<em>Markera</em> text i valfri app",
           "body": "Skriv eller diktera som vanligt: ett mejl, en chatt, ett dokument. Markera sedan det du vill få omskrivet.",
           "scene": "Animation: ett utkast till ett mejl markeras."
         },
         "press": {
-          "title": "Tryck på {{shortcut}}",
+          "title": "<em>Tryck</em> på <kbd>{{shortcut}}</kbd>",
           "body": "Polish skriver om markeringen på plats. Prompt Engineer ({{prompt}}) gör om den till en tydlig prompt för en AI-assistent.",
           "scene": "Animation: {{shortcut}} trycks ned och utkastet ersätts med en tydligare version."
         },
         "changes": {
-          "title": "Se vad som ändrats",
+          "title": "Se vad som <em>ändrats</em>",
           "body": "Tryck på {{view}} eller klicka på Visa ändringar i listen: borttagna ord är överstrukna, nya är markerade. {{undo}} återställer originalet.",
           "scene": "Animation: ett kort listar ändringarna, med borttagna ord överstrukna och nya ord markerade."
         }
@@ -2409,7 +2410,7 @@
       "title": "Diktera tyst",
       "help": "Lär dig att diktera tyst",
       "soft": {
-        "title": "En mjuk röst räcker",
+        "title": "En <em>mjuk</em> röst räcker",
         "body": "Du behöver inte prata högt. Viska, så blir dina ord ändå ren text. Då kan du diktera i ett öppet kontorslandskap, på tåget eller när någon sover i närheten.",
         "app": "Anteckningar",
         "spoken": "”påminn mig om att skicka bilderna före lunch och boka ett rum till fredag”",
@@ -2417,7 +2418,7 @@
         "scene": "Animation: en viskad mening visas som skriven text: ”{{text}}”"
       },
       "how": {
-        "title": "Så viskar du till din Mac",
+        "title": "Så <em>viskar</em> du till din Mac",
         "body": "Med den inbyggda mikrofonen i din Mac gör fyra vanor en tyst röst lätt att höra.",
         "distance": "Omkring 30 cm (en underarms längd) från mikrofonen",
         "tips": {
@@ -2440,9 +2441,9 @@
         }
       },
       "practice": {
-        "title": "Viska det här mejlet",
+        "title": "<em>Viska</em> det här mejlet",
         "body": "Det här är en riktig diktering. Texten hamnar bara i meddelandet nedan och ingen annanstans.",
-        "doneTitle": "Hörde dig, även när du viskade",
+        "doneTitle": "Hörde dig, även när du <em>viskade</em>",
         "doneBody": "Mer krävs inte. Fortsätt för att hitta mikrofonen som passar dig.",
         "instruction": "Håll ned {{key}}, viska mejlet nedan och släpp sedan.",
         "unbound": "Inget kortkommando för diktering är inställt, så ingen inspelning kan starta här. Hoppa över steget så länge och ställ in ett kortkommando i Inställningar.",
@@ -2535,7 +2536,7 @@
         }
       },
       "results": {
-        "title": "Din mikrofonmatch",
+        "title": "Din <em>mikrofonmatch</em>",
         "body": "Baserat på dina svar. Inget sparas eller skickas någonstans.",
         "bestLine": "Bästa match: {{mic}}.",
         "caption": "Så klarar sig varje typ av mikrofon",

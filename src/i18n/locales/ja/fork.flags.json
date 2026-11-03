@@ -1821,5 +1821,6 @@
   "overrides.settings.models.retiredNotice.title": "ai-reviewed",
   "overrides.settings.models.untestedNote": "ai-reviewed",
   "overrides.theme.description": "ai-reviewed",
-  "overrides.whatsNew.title": "ai-reviewed"
+  "overrides.whatsNew.title": "ai-reviewed",
+  "lessons.common.sheetLabel": "ai-reviewed"
 }

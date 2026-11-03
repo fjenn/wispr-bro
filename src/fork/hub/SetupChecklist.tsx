@@ -13,16 +13,23 @@
  * Shown after setup is done (onboarding `completed`) until hidden with ✕
  * (`dismissed_banners` › `hub.checklist`). When everything is done it says
  * so and stays until hidden.
+ *
+ * Design W5 (REFERENCE-SPEC §1 "Sidebar card"): a white card with a 13 px
+ * title, a 4 pt ink progress bar, then 13 px items with 18 pt hollow
+ * circles that fill with a tick when done (the label stays readable, no
+ * strike-through). The next item gets a quiet "Show me →" link instead of a
+ * button block; its one-line explanation describes that link for screen
+ * readers, so the card stays as compact as the reference's.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, X } from "../ui/icons";
+import { ArrowRight, Check, X } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { listen } from "@tauri-apps/api/event";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { openChooser } from "../onboarding/firstUseStore";
 import { useForkSettingsStore } from "../settings/store";
-import { Button, FOCUS_RING } from "../ui";
+import { Button, IconButton, ProgressLine } from "../ui";
 import {
   checklistProgress,
   nextOpenItem,
@@ -203,10 +210,10 @@ export function SetupChecklist() {
     <section
       aria-labelledby="wb-checklist-title"
       data-testid="wb-checklist"
-      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-(--wb-ink)"
+      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3.5 pt-3 pb-3.5 text-(--wb-ink)"
     >
       <div className="flex items-start gap-2">
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 pt-0.5">
           <h2
             id="wb-checklist-title"
             className="text-[13px] leading-[18px] font-semibold"
@@ -214,66 +221,63 @@ export function SetupChecklist() {
             {t("checklist.title")}
           </h2>
           <p
-            className="mt-0.5 text-[12px] text-(--wb-ink-2)"
+            className="text-[12px] leading-4 text-(--wb-ink-3)"
             data-testid="wb-checklist-progress"
             aria-live="polite"
           >
             {t("checklist.progress", progress)}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={hide}
+        <IconButton
           aria-label={t("checklist.hide")}
           title={t("checklist.hide")}
+          size="sm"
+          round
+          onClick={hide}
           data-testid="wb-checklist-hide"
-          className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          className="-me-1.5 -mt-0.5"
         >
-          <X size={14} aria-hidden="true" />
-        </button>
+          <X size={14} />
+        </IconButton>
       </div>
-      <div
-        aria-hidden="true"
-        className="h-1 overflow-hidden rounded-full bg-(--wb-line)"
-      >
-        <div
-          className="h-full rounded-full bg-(--wb-ink) transition-[width] duration-(--wb-dur-slow) ease-(--wb-ease-out) motion-reduce:transition-none"
-          style={{
-            width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%`,
-          }}
+      <div aria-hidden="true">
+        <ProgressLine
+          value={progress.total ? progress.done / progress.total : 0}
+          label={t("checklist.progress", progress)}
+          tone="ink"
+          thickness={4}
         />
       </div>
       {next ? (
-        <ol className="flex flex-col gap-1" aria-label={t("checklist.label")}>
+        <ol className="flex flex-col" aria-label={t("checklist.label")}>
           {items.map((item) => {
             const isDone = done.includes(item.id);
             const isNext = item.id === next.id;
-            const Icon = item.icon;
+            const bodyId = `wb-checklist-body-${item.id}`;
             return (
               <li
                 key={item.id}
                 data-testid={`wb-checklist-${item.id}`}
                 data-done={isDone || undefined}
+                data-next={isNext || undefined}
                 data-highlight={(isNext && highlight === item.id) || undefined}
-                className={`wb-checklist-row rounded-(--wb-radius-sm) px-1.5 py-1 ${isNext ? "bg-(--wb-fill-hover)" : ""}`}
+                className="wb-checklist-row rounded-(--wb-radius-sm)"
               >
-                <div className="flex items-center gap-2.5 text-[13px]">
+                <div className="flex items-start gap-2.5 py-[7px] text-[13px] leading-[18px]">
                   <span
                     aria-hidden="true"
-                    className={`grid size-[18px] shrink-0 place-items-center rounded-full border ${
+                    className={`grid size-[18px] shrink-0 place-items-center rounded-full transition-colors duration-(--wb-dur-base) ${
                       isDone
-                        ? "border-(--wb-ink) bg-(--wb-ink) text-(--wb-on-ink)"
-                        : "border-(--wb-line-strong) text-(--wb-ink-2)"
+                        ? "bg-(--wb-fill-active) text-(--wb-ink)"
+                        : isNext
+                          ? "border-[1.5px] border-(--wb-ink)"
+                          : "border-[1.5px] border-(--wb-line-strong)"
                     }`}
                   >
-                    {isDone ? (
-                      <Check size={12} strokeWidth={3} />
-                    ) : (
-                      <Icon size={12} />
-                    )}
+                    {isDone && <Check size={12} />}
                   </span>
                   <span
-                    className={`min-w-0 flex-1 ${isDone ? "text-(--wb-ink-2) line-through" : "font-medium"}`}
+                    className={`min-w-0 flex-1 ${isDone ? "text-(--wb-ink-2)" : isNext ? "font-medium" : ""}`}
                   >
                     {t(item.titleKey)}
                     {isDone && (
@@ -282,16 +286,21 @@ export function SetupChecklist() {
                   </span>
                 </div>
                 {isNext && (
-                  <div className="mt-1.5 flex flex-col gap-1.5 ps-[26px]">
+                  <div className="-mt-1 ps-[22px] pb-1">
                     {item.bodyKey && (
-                      <p className="text-[12px] leading-4 text-(--wb-ink-2)">
+                      <span id={bodyId} className="sr-only">
                         {t(item.bodyKey, { appName })}
-                      </p>
+                      </span>
                     )}
                     <Button
-                      variant="primary"
-                      className="self-start px-2.5! py-1! text-[12px]!"
+                      variant="ghost"
+                      size="sm"
+                      className="h-7! gap-1! px-1.5! text-[12.5px]! text-(--wb-ink)!"
                       onClick={() => run(item)}
+                      aria-describedby={item.bodyKey ? bodyId : undefined}
+                      trailing={
+                        <ArrowRight size={12} className="rtl:-scale-x-100" />
+                      }
                       data-testid={`wb-checklist-run-${item.id}`}
                     >
                       {t(item.actionKey)}

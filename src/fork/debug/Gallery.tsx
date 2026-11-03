@@ -27,6 +27,7 @@ import {
   ListContainer,
   ListRow,
   Menu,
+  CheckCard,
   OptionCard,
   PageHeader,
   Popover,
@@ -196,6 +197,7 @@ const SAMPLE = {
   optC: "Code and notes",
   optCDesc: "Names, symbols, lists.",
   tiles: "Pick your mic",
+  owned: "Mics you have",
   tileA: "Laptop",
   tileB: "Earbuds",
   tileC: "USB mic",
@@ -283,6 +285,7 @@ function Board({ theme }: { theme: "light" | "dark" }) {
   const [micKind, setMicKind] = useState("builtin");
   const [opt, setOpt] = useState("chat");
   const [tile, setTile] = useState("usb");
+  const [owned, setOwned] = useState<string[]>(["laptop"]);
   const [sounds, setSounds] = useState(true);
   const id = (s: string) => `${theme}-${s}`;
   return (
@@ -612,6 +615,32 @@ function Board({ theme }: { theme: "light" | "dark" }) {
             />
           ))}
         </RadioGroup>
+        <fieldset className="m-0 border-0 p-0" data-testid={id("check-cards")}>
+          <legend className="sr-only">{SAMPLE.owned}</legend>
+          <div className="grid grid-cols-4 gap-4">
+            {(
+              [
+                ["laptop", SAMPLE.tileA],
+                ["buds", SAMPLE.tileB],
+                ["usb", SAMPLE.tileC],
+                ["headset", SAMPLE.tileD],
+              ] as const
+            ).map(([value, label]) => (
+              <CheckCard
+                key={value}
+                checked={owned.includes(value)}
+                onCheckedChange={(on) =>
+                  setOwned((now) =>
+                    on ? [...now, value] : now.filter((v) => v !== value),
+                  )
+                }
+                title={label}
+                media={<Mic size={24} className="text-(--wb-ink-3)" />}
+                disabled={value === "headset"}
+              />
+            ))}
+          </div>
+        </fieldset>
       </Section>
 
       <Section title={SAMPLE.settingRows}>

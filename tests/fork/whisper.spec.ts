@@ -23,11 +23,15 @@ import {
 } from "./hub-fixture";
 import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
+// The rendered text of a string: headings mark their italic word with
+// `<em>` and shortcuts with `<kbd>` (Design W5), which never show as text.
 const en = JSON.parse(
   readFileSync(
     new URL("../../src/i18n/locales/en/fork.json", import.meta.url),
     "utf8",
   ),
+  (_key, value) =>
+    typeof value === "string" ? value.replace(/<\/?(em|kbd)>/g, "") : value,
 );
 const W = en.lessons.whisper;
 const SENTENCE: string = W.practice.sentence;
@@ -93,6 +97,11 @@ const lesson = (page: Page) => page.getByTestId("wb-lesson-whisper");
 const heading = (page: Page) => page.getByTestId("wb-lesson-heading");
 const primary = (page: Page) => page.getByTestId("wb-lesson-primary");
 const skip = (page: Page) => page.getByTestId("wb-lesson-skip");
+// The sheet's back chevron (named "Back"; Design W5 moved it to the Sheet).
+const back = (page: Page) =>
+  page
+    .getByRole("dialog")
+    .getByRole("button", { name: en.lessons.common.back, exact: true });
 const field = (page: Page) => page.getByTestId("wb-practice-field");
 const step = (page: Page, id: string) =>
   expect(lesson(page)).toHaveAttribute("data-step", id);
@@ -380,14 +389,25 @@ test.describe("Whisper lesson: the microphone quiz", () => {
     await expect(
       page.locator("[data-best='true'][data-testid^=wb-quiz-row]"),
     ).toHaveCount(1);
-    // The table's columns.
+    // The table: a column per microphone, a row per criterion.
     const table = page.getByTestId("wb-quiz-table");
-    for (const col of ["mic", "quality", "others", "home", "price", "best"]) {
+    for (const kind of [
+      "built_in",
+      "wired_headset",
+      "wireless_earbuds",
+      "desk_usb",
+    ]) {
       await expect(
-        table.getByRole("columnheader", { name: W.results.columns[col] }),
+        table.getByRole("columnheader", { name: W.mics[kind].name }),
       ).toBeVisible();
     }
-    await expect(page.getByTestId("wb-quiz-row-built_in")).toContainText(
+    for (const criterion of ["quality", "others", "home", "price"]) {
+      await expect(
+        table.getByRole("rowheader", { name: W.results.columns[criterion] }),
+      ).toBeVisible();
+    }
+    await expect(page.getByTestId("wb-quiz-best")).toHaveCount(1);
+    await expect(page.getByTestId("wb-quiz-cell-built_in-price")).toContainText(
       W.results.price.owned,
     );
     await page.getByTestId("wb-quiz-copy").click();
@@ -400,8 +420,8 @@ test.describe("Whisper lesson: the microphone quiz", () => {
     expect(copied[0]).toContain(W.quiz.workplace.private.label);
 
     // Back keeps the answers within one opening …
-    await page.getByTestId("wb-lesson-back").click();
-    await page.getByTestId("wb-lesson-back").click();
+    await back(page).click();
+    await back(page).click();
     await expect(
       page.getByTestId("wb-quiz-moves-one_desk").locator("input"),
     ).toBeChecked();

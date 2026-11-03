@@ -9,13 +9,18 @@
  * The options are a radio group (arrow keys move and select, Home/End,
  * one tab stop), the scene follows the selection. It opens on the saved
  * choice, or the first option.
+ *
+ * Design W5: a white `Sheet` split in two, the serif question (one italic
+ * word), the options as a centred stack of chips and the black "Try it now"
+ * on the left, the scene on its colourful wallpaper on the right.
  */
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "../ui/Dialog";
+import { Sheet } from "../ui/Dialog";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
-import { Button, FOCUS_RING } from "../ui";
+import { plainText, RichText } from "../tutorials/RichText";
+import { Button, Chip } from "../ui";
 import {
   CHOICE_ICONS,
   CHOOSER_DISMISSED_ID,
@@ -90,80 +95,81 @@ function ChooserDialog() {
   };
 
   return (
-    <Dialog
+    <Sheet
       open
       onOpenChange={(o) => !o && !busy && closeChooser()}
-      title={
-        <span className="font-(family-name:--wb-font-display) text-[22px] font-medium">
-          {t("firstUse.title")}
-        </span>
-      }
-      description={t("firstUse.subtitle")}
+      label={plainText(t("firstUse.title"))}
       closeLabel={t("firstUse.close")}
       initialFocusRef={selectedRef as React.RefObject<HTMLElement>}
       closeOnBackdrop={false}
-      className="max-w-[820px]!"
-      contentFades={false}
-      footer={
-        <div className="flex justify-end gap-2">
-          <Button
-            variant="ghost"
-            onClick={closeChooser}
-            disabled={busy}
-            data-testid="wb-first-use-later"
-          >
-            {t("firstUse.later")}
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => void start()}
-            disabled={busy}
-            data-testid="wb-first-use-try"
-          >
-            {t("firstUse.tryNow")}
-          </Button>
-        </div>
-      }
+      tone="plain"
+      className="wb-chooser-sheet"
     >
       <div
         data-testid="wb-first-use"
-        className="grid grid-cols-1 gap-5 sm:grid-cols-[minmax(0,240px)_minmax(0,1fr)]"
+        className="grid h-full min-h-0 grid-cols-1 gap-8 md:grid-cols-[minmax(0,300px)_minmax(0,1fr)]"
       >
-        <div
-          role="radiogroup"
-          aria-label={t("firstUse.choicesLabel")}
-          onKeyDown={move}
-          className="flex flex-col gap-1.5"
-        >
-          {FIRST_USE_CHOICES.map((id) => {
-            const Icon = CHOICE_ICONS[id];
-            const selected = id === choice;
-            return (
-              <button
-                key={id}
-                ref={(el) => {
-                  refs.current[id] = el;
-                }}
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                tabIndex={selected ? 0 : -1}
-                data-testid={`wb-first-use-${id}`}
-                onClick={() => setChoice(id)}
-                className={`flex cursor-pointer items-center gap-2.5 rounded-(--wb-radius-sm) border px-3 py-2 text-start text-[13.5px] font-medium transition-colors ${FOCUS_RING} ${
-                  selected
-                    ? "border-(--wb-accent) bg-(--wb-fill-active) text-(--wb-ink)"
-                    : "border-(--wb-line) bg-(--wb-surface) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"
-                }`}
-              >
-                <Icon size={16} aria-hidden="true" className="shrink-0" />
-                <span>{t(`firstUse.choices.${id}`)}</span>
-              </button>
-            );
-          })}
+        <div className="flex min-h-0 flex-col items-center gap-6 pt-2">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h2 className="type-sheet text-balance text-(--wb-ink)">
+              <RichText i18nKey="firstUse.title" />
+            </h2>
+            <p className="type-small text-balance text-(--wb-ink-2)">
+              {t("firstUse.subtitle")}
+            </p>
+          </div>
+          <div
+            role="radiogroup"
+            aria-label={t("firstUse.choicesLabel")}
+            onKeyDown={move}
+            className="flex flex-col items-center gap-2.5"
+          >
+            {FIRST_USE_CHOICES.map((id) => {
+              const Icon = CHOICE_ICONS[id];
+              const selected = id === choice;
+              return (
+                <Chip
+                  key={id}
+                  ref={(el) => {
+                    refs.current[id] = el;
+                  }}
+                  role="radio"
+                  aria-pressed={undefined}
+                  aria-checked={selected}
+                  tabIndex={selected ? 0 : -1}
+                  selected={selected}
+                  onClick={() => setChoice(id)}
+                  leading={<Icon size={16} className="shrink-0" />}
+                  testId={`wb-first-use-${id}`}
+                >
+                  {t(`firstUse.choices.${id}`)}
+                </Chip>
+              );
+            })}
+          </div>
+          <div className="mt-auto flex flex-col items-center gap-1 pb-1">
+            <Button
+              variant="primary"
+              onClick={() => void start()}
+              disabled={busy}
+              className="min-w-[132px]"
+              data-testid="wb-first-use-try"
+            >
+              {t("firstUse.tryNow")}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={closeChooser}
+              disabled={busy}
+              data-testid="wb-first-use-later"
+            >
+              {t("firstUse.later")}
+            </Button>
+          </div>
         </div>
         <Scene choice={choice} />
       </div>
-    </Dialog>
+    </Sheet>
   );
 }

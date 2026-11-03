@@ -51,9 +51,11 @@ export {
   type StepperStage,
 } from "./Progress";
 export {
+  CheckCard,
   OptionCard,
   Radio,
   RadioGroup,
+  type CheckCardProps,
   type OptionCardProps,
   type RadioGroupProps,
   type RadioProps,

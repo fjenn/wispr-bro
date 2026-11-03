@@ -2186,7 +2186,7 @@
     }
   },
   "firstUse": {
-    "title": "İlk olarak neyi denemek istersiniz?",
+    "title": "İlk olarak neyi <em>denemek</em> istersiniz?",
     "subtitle": "Nasıl çalıştığını görmek için birini seçin. Sonra kendi uygulamanızda deneyin.",
     "choicesLabel": "Başlama yolları",
     "choices": {
@@ -2320,13 +2320,14 @@
       "progress": "Adım {{step}}/{{total}}",
       "pause": "Animasyonu duraklat",
       "play": "Animasyonu oynat",
-      "turnOnFailed": "Açılamadı. Yeniden deneyin veya ilgili sayfadaki anahtarı kullanın."
+      "turnOnFailed": "Açılamadı. Yeniden deneyin veya ilgili sayfadaki anahtarı kullanın.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Dönüştürmeler",
       "help": "Dönüştürmeleri Öğrenin",
       "intro": {
-        "title": "Yazdıklarınız tam da demek istediğinizi anlatsın",
+        "title": "Yazdıklarınız tam da <em>demek istediğinizi</em> anlatsın",
         "body": "Herhangi bir uygulamada metni seçin ve bir kestirmeye basın. Dönüştürme, metni doğrudan bu Mac’te, yerinde yeniden yazar.",
         "continue": "Deneyin"
       },
@@ -2355,10 +2356,10 @@
         "anywhere": "Yazdığınız her uygulamada çalışır"
       },
       "practice": {
-        "title": "Metni seçin, sonra {{shortcut}} kestirmesine basın",
+        "title": "Metni <em>seçin</em>, sonra <kbd>{{shortcut}}</kbd> kestirmesine basın",
         "body": "Aşağıdaki iletiyi seçin (⌘A tümünü seçer), sonra Polish kestirmesine basın.",
-        "doneTitle": "Metin yeniden yazıldı",
-        "doneBody": "Değişiklikleri görmek için {{view}} kestirmesine basın. {{undo}} bunu geri alır.",
+        "doneTitle": "Metin <em>yeniden yazıldı</em>",
+        "doneBody": "Değişiklikleri görmek için <kbd>{{view}}</kbd> kestirmesine basın. <kbd>{{undo}}</kbd> bunu geri alır.",
         "app": "Jordan ile sohbet",
         "context": "Yarınki inceleme hâlâ geçerli mi?",
         "fieldLabel": "Jordan’a yanıtınız",
@@ -2380,17 +2381,17 @@
       },
       "how": {
         "select": {
-          "title": "Herhangi bir uygulamada metni seçin",
+          "title": "Herhangi bir uygulamada metni <em>seçin</em>",
           "body": "Her zamanki gibi yazın veya dikte edin: e-posta, sohbet, belge. Sonra yeniden yazılmasını istediğiniz kısmı seçin.",
           "scene": "Animasyon: bir e-posta taslağı seçiliyor."
         },
         "press": {
-          "title": "{{shortcut}} kestirmesine basın",
+          "title": "<kbd>{{shortcut}}</kbd> kestirmesine <em>basın</em>",
           "body": "Polish seçili metni yerinde yeniden yazar. Prompt Engineer ({{prompt}}) metni bir yapay zekâ asistanı için açık bir isteme dönüştürür.",
           "scene": "Animasyon: {{shortcut}} kestirmesine basılıyor ve taslak daha anlaşılır bir sürümle değiştiriliyor."
         },
         "changes": {
-          "title": "Nelerin değiştiğini görün",
+          "title": "Nelerin <em>değiştiğini</em> görün",
           "body": "{{view}} kestirmesine basın veya çubuktaki Değişiklikleri Göster’i tıklayın: silinen kelimelerin üstü çizilir, yeniler vurgulanır. {{undo}} özgün metninizi geri getirir.",
           "scene": "Animasyon: bir kart değişiklikleri listeliyor; silinen kelimelerin üstü çizili, yeni kelimeler vurgulu."
         }
@@ -2409,7 +2410,7 @@
       "title": "Sessizce dikte edin",
       "help": "Sessizce dikte etmeyi öğrenin",
       "soft": {
-        "title": "Alçak bir ses yeterli",
+        "title": "<em>Alçak</em> bir ses yeterli",
         "body": "Yüksek sesle konuşmanız gerekmez. Fısıldasanız da kelimeleriniz temiz bir metne dönüşür; böylece açık ofiste, trende veya yanınızda biri uyurken dikte edebilirsiniz.",
         "app": "Notlar",
         "spoken": "“öğle yemeğinden önce slaytları göndermemi ve cuma için bir oda ayırtmamı hatırlat”",
@@ -2417,7 +2418,7 @@
         "scene": "Animasyon: fısıldanan bir cümle yazılı metin olarak beliriyor: “{{text}}”"
       },
       "how": {
-        "title": "Mac’inize nasıl fısıldanır",
+        "title": "Mac’inize nasıl <em>fısıldanır</em>",
         "body": "Mac’inizin yerleşik mikrofonuyla dört alışkanlık, alçak bir sesin kolayca duyulmasını sağlar.",
         "distance": "Mikrofondan yaklaşık 30 cm (bir önkol boyu)",
         "tips": {
@@ -2440,9 +2441,9 @@
         }
       },
       "practice": {
-        "title": "Bu e-postayı fısıldayın",
+        "title": "Bu e-postayı <em>fısıldayın</em>",
         "body": "Bu gerçek bir dikte. Metin yalnızca aşağıdaki iletiye yazılır, başka hiçbir yere değil.",
-        "doneTitle": "Fısıltınız bile duyuldu",
+        "doneTitle": "<em>Fısıltınız</em> bile duyuldu",
         "doneBody": "Hepsi bu kadar. Size uygun mikrofonu bulmak için devam edin.",
         "instruction": "{{key}} kestirmesini basılı tutun, aşağıdaki e-postayı fısıldayın, sonra bırakın.",
         "unbound": "Dikte kestirmesi ayarlanmadığı için burada kayıt başlatılamıyor. Bu adımı şimdilik atlayın ve Ayarlar’da bir kestirme belirleyin.",
@@ -2535,7 +2536,7 @@
         }
       },
       "results": {
-        "title": "Size uygun mikrofon",
+        "title": "Size <em>uygun</em> mikrofon",
         "body": "Yanıtlarınıza göre. Hiçbir şey kaydedilmez veya bir yere gönderilmez.",
         "bestLine": "En iyi eşleşme: {{mic}}.",
         "caption": "Her mikrofon türünün performansı",
