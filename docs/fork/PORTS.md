@@ -147,10 +147,6 @@ AGPL-3.0-only` and never in a Handy file.
   first-audio wall-clock stamp in the debug log for the §5.1 latency check.
 - Upstream-bound (MIT). The app uses it through `[patch.crates-io]` in
   `src-tauri/Cargo.toml`; CI runs the crate's own suite.
-- Design W4 adds `take_peak_level_db` (`lib.rs`, called from
-  `capture/delivery.rs` before each chunk reaches the sink): the RMS of the
-  loudest chunk since the last call, with no ceiling, for the bar's
-  waveform; marked "Added by Wispr Bro" with a unit test.
 
 ### `fork/shortcut/tests/ported.rs` (S-01)
 

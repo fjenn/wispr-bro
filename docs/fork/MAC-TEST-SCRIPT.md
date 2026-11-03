@@ -1310,6 +1310,37 @@ Design Phase 0, by eye.
 - [ ] DP0b.4 In the gallery's dark board under a light window, a menu,
       select and popover open dark.
 
+### Design W5 (lessons and first use) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w5-lessons`. A debug build with an empty profile
+(`bun run wb:dev`), onboarding finished; one pass, by eye, light and dark.
+
+- [ ] W5.1 First-use chooser (opens after onboarding): a white sheet over the
+      Hub, the serif question with "try" in italic, seven outlined chips with
+      icons, the scene on the colourful wallpaper with the dark caption pill
+      under the bar; arrows/Home/End move the choice, Try it now still starts
+      the spotlight, Maybe later closes it for good.
+- [ ] W5.2 Transforms lesson (Transforms › Try it): white sheet, dashes
+      centred at the top, the heading's italic word in purple, three raised
+      example cards (the Polish one shows struck and purple words), the
+      ticker of ticks scrolls and pauses on hover and with its round button.
+      Practice: ⌥1 on the selected draft rewrites it, the bar below shows
+      Done · View changes inside a round cut-out; ⌥O shows the dark changes
+      card; ⌘Z puts the draft back. How it works: the dark stage plays and
+      pauses from its corner button.
+- [ ] W5.3 Whisper lesson (home banner › Dictate quietly): warm sheet, the
+      photo with the 30 cm drawing under it, the quoted sentence in italic
+      serif, a real take fills the mail composer (practice mode unchanged);
+      the four questions as option cards and mic tiles; the table has a
+      column per mic with its drawing and a green Best match band.
+- [ ] W5.4 Sidebar checklist: compact card (no clipping at 720 pt tall),
+      ink progress bar, hollow circles that fill with a tick, "Show me →"
+      on the next item.
+- [ ] W5.5 Reduce Motion: sheets and steps only fade, every scene is still,
+      no pause buttons; Increase Contrast: chips, option cards and the
+      table's edges stay visible. WebKit timeline: no dropped frames when a
+      lesson sheet opens on M-26.
+
 ### Design W7 (art) — queued for the Mac wave
 
 Built 2026-11-03 on `design/w7-assets` (SYSTEM-PLAN §6, W7). A debug build
@@ -1329,81 +1360,6 @@ with an empty profile is enough (`bun run wb:dev`); one pass, by eye.
       (`tauri://`/`asset`), none from the network; no CSP error in the
       console (the characters are inlined SVGs with a `<style>` element;
       `style-src 'unsafe-inline'` allows it).
-
-### Design W4 (the bar and the spotlight) — queued for the Mac wave
-
-Built 2026-11-03 on `design/w4-bar` (docs/fork/design/SYSTEM-PLAN.md §7,
-W4). Test identity `com.wisprbro.w4check`, debug build, shortcuts unbound,
-takes by SIGUSR2 through the WAV microphone (`WISPRBRO_TEST_MIC_WAV`, WAVs
-from `scripts/wb-meter/make-wav.py`); never the owner's app, speakers or
-real microphone. Window sizes and timings through
-`swift scripts/wb-s03-pill.swift` (`WB_PID=<pid>`); stills with its `shot`.
-Reference: Wispr Flow's bar crops (local evidence `02-bar-click-*`,
-`03-bar-hover-*`; by eye only). Before/after renders of every web state:
-the builder's scratch folder (not in the repo).
-
-- [ ] W4.1 Sizes. `-e 'rest'`: the resting window is 54 × 18 pt (the 38 × 6
-      line plus its hit area), the line's bottom 8 pt above the Dock. A held
-      take (`appear 1 1500`, or SIGUSR2 + `windows` mid-take): the active
-      window is 72 × 30 (push to talk) or 100 × 30 (hands-free: `clickbar`),
-      300 × 72 while the mic label shows (label 34 tall, 8 pt above the
-      capsule), back to 72/100 × 30 after about 2 s. Bar at the top of the
-      display (Settings › bar position): the label hangs below the capsule.
-- [ ] W4.2 Look, by eye beside the reference crops: an opaque black capsule
-      with no white edge on a light window; in dark mode a faint hairline
-      only. Hands-free: ✕ in a dark 18 pt disc on the left, ✓ in a white disc
-      with a black check on the right (mirrored in Arabic). Text on every
-      state is 15 px. The resting line is the same black, a little
-      translucent, with no edge.
-- [ ] W4.3 Morphs (Web Inspector › Timelines on the `fork-pill` page for
-      frame drops; M-26, 60 Hz and 120 Hz): fn down grows the resting line
-      into the capsule in one spring with no jump at the hand-over from the
-      native bridge to the web view; the mic label blurs in, holds, leaves;
-      Transcribing grows out of the take's capsule; the take's end shrinks
-      the capsule back into the resting line. A click on the bar and a hover
-      grow on the same spring. With Reduce Motion on: sizes change at once,
-      the label only fades, the spinner is still.
-- [ ] W4.4 Waveform: a dotted line from fn down until the first audio frame,
-      then bars, tallest in the middle, moving with the words. Café WAV
-      (`make-wav.py`): flat on the noise, lively on the speech (OT1.2). Peaks:
-      two takes, `SPEECH_PEAK=0.15` and `SPEECH_PEAK=0.9`, with `--debug`:
-      the `pill: level frames …, loudest bar …` lines of the loud take reach
-      higher (≥ 0.95) than the ordinary one (≤ 0.9), and the ordinary take's
-      bars no longer all sit at the top.
-- [ ] W4.5 Clicks: during the ~2 s label the window is wider than the
-      capsule; a click beside the capsule (inside that window, outside the
-      capsule) is absorbed by the bar's panel, as designed (not passed to the
-      app below), and the frontmost app keeps focus (DEC-28); ✕ and ✓ still cancel and finish without activating
-      Wispr Bro (S-03's `watchfront` check). A take with the app hidden (⌘H)
-      leaves it hidden (S-28.8 re-check).
-- [ ] W4.6 Card and diff: a card (take into the desktop) and the View
-      changes diff (⌥O after a Polish) look like the renders: dark card,
-      15 px text, teal inserted chips, struck grey deleted chips, four
-      outline actions.
-- [ ] W4.7 Spotlight (S-30 chooser › any card › Try it): the screen dims with
-      a round cut-out of about 224 pt centred on the bar, the hint in a black
-      card above it; dictating there keeps the label inside the circle.
-- [ ] W4.8 Scratchpad group on the bar (S-24 on): the two buttons sit on the
-      black capsule (not 6 pt below it), hover help still per button.
-
-### Design W6 (Scratchpad and dialogs) — queued for the Mac wave
-
-Built 2026-11-03 on `design/w6-scratch-dialogs`. Debug build, by eye unless
-noted; the shots in Playwright are the reference.
-
-- [ ] DW6.1 Open the note (Hub › Scratchpad › New note, or the shortcut):
-      no system title text; the traffic lights sit at the start of the
-      44 pt strip, vertically centred, clear of the first tab chip; empty
-      strip space drags the window; expand and close work. Repeat with the
-      app language set to Arabic (strip mirrored, lights still clear).
-- [ ] DW6.2 Re-run S-24.1 (`scripts/wb-s24/`, WAV microphone): a take started
-      from the note keeps focus and the text lands in it with the new chrome.
-- [ ] DW6.3 Scratchpad page in light and dark: hero photo, note peek, hover
-      toolbar on a Recents card (red delete), Add to the bar switch.
-- [ ] DW6.4 Dialogs in WebKit: Add word (with a conflict), Snippet, the
-      import wizard's column pickers (listbox opens, keyboard works), Report
-      a problem, the feature popup, What's new as a sheet; Reduce Motion
-      crossfades them.
 
 ### S-14 Settings modal and hotkeys panel
 

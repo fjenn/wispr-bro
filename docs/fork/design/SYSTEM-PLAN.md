@@ -236,8 +236,6 @@ Exit: gallery reviewed by the owner; `hub.spec.ts` AA pairs pass with the new pa
 - Onboarding keeps the overlay title bar (the traffic-light inset applies to the whole window).
 - Gallery route: `#/fork/gallery`.
 
-**W4 as built (2026-11-03, `design/w4-bar`):** see R5 "Design W4". Calls: no edge on the capsule (owner), a 12 % hairline in dark mode only; the resting window is a 54 × 18 hit area around the 38 × 6 line; labelled windows are label + gap + capsule (300 or 460 wide); one closed-form spring shared by the native bar and the web view; the spotlight is a 224 pt circle; the hover glow and the three-mode Scratchpad bar were not rebuilt (the group keeps two buttons on a black capsule).
-
 ### Phase 1 (6 agents in parallel, each in its own worktree, each owning its folders)
 
 | #   | Area                              | Owns                                                                                                                                                                                                                          | Reference frames (local only)                               | Notes                                                                                                                                                                                                                                  |
