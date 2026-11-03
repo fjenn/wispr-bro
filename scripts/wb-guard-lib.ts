@@ -234,6 +234,7 @@ export const FORK_PATHS: string[] = [
   "src-tauri/icons-fork/**",
   "src-tauri/resources/fork/**",
   "src/assets/fonts/fork/**",
+  "src/assets/fork/**", // Design W7: art
   "tests/fork/**",
   "playwright.fork.config.ts",
   ".github/workflows/wb-*",
@@ -261,6 +262,7 @@ export const FORK_CODE_PATHS: string[] = [
   "src-tauri/src/fork/**",
   "src-tauri/crates/wb-*/**",
   "src/fork/**",
+  "src/assets/fork/**",
   "scripts/wb-*",
   "scripts/wb-*/**",
 ];

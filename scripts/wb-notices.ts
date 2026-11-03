@@ -21,9 +21,10 @@
 //   3. C/C++ compiled into crates: the manual NATIVE list below. Every
 //      shipped crate that builds native code (a `cc`/`cmake` build
 //      dependency) must be in it, and every entry must still ship.
-//   4. NOTICE: §6 model attributions and §7 fonts are copied verbatim; every
-//      CC-BY catalog model must be named there; every NOTICE file found in a
-//      shipped package must be named in §5 (Apache-2.0 §4(d)).
+//   4. NOTICE: §6 model attributions, §7 fonts and §9 art are copied
+//      verbatim; every CC-BY catalog model must be named there; every
+//      NOTICE file found in a shipped package must be named in §5
+//      (Apache-2.0 §4(d)).
 //
 // Fails (exit 1) on a licence outside the `about.toml` accepted list
 // (GPL-2.0-only, UNLICENSED, missing licence, non-free or unknown), on any
@@ -628,6 +629,12 @@ export function render(input: RenderInput): string {
     "",
     fence(noticeSection(input.notice, "Fonts")),
     "",
+    "## Art",
+    "",
+    "From `NOTICE` §9 (Design W7): photos and illustrations bundled in the app.",
+    "",
+    fence(noticeSection(input.notice, "Art")),
+    "",
   );
 
   // S-10: programs shipped next to the app binary (NOTICE §8), with the
@@ -839,6 +846,7 @@ export function generate(opts: GenerateOptions): GenerateResult {
           message: `ships ${p.notices.map((n) => n.file).join(", ")}; list "- ${p.name}" in NOTICE §5 (Apache-2.0 §4(d))`,
         });
     noticeSection(notice, "Fonts");
+    noticeSection(notice, "Art");
   } catch (e) {
     problems.push({ where: "NOTICE", message: (e as Error).message });
   }

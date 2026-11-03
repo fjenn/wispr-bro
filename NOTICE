@@ -774,3 +774,50 @@ LICENSES/, when they are added.
     LICENSES/MIT-or-Unlicense-stb_image.txt.
   - SHA-1 by Steve Reid and SHA-256 by Igor Pavlov (from Crypto++):
     public domain, as stated in the source files.
+
+======================================================================
+9. Art
+======================================================================
+
+Pictures bundled in src/assets/fork/art/ (Design W7). Sources, exact
+pages, changes and sha256 sums: docs/fork/LICENSE-REGISTER.md §2a and
+src/assets/fork/art/SHA256SUMS. Every photo was cropped, colour-graded
+(warmer, darker, less saturated), blurred in part, given film grain and
+re-encoded as WebP and AVIF by Wispr Bro.
+
+- Insights banner (photos/banner-insights@*): "Watch, pocket
+  (AM 1942.92-15)", photograph by Auckland War Memorial Museum Tāmaki
+  Paenga Hira (object made by Army & Navy C S Ltd; gift of Miss E G
+  Martin, 1942.92),
+  https://commons.wikimedia.org/wiki/File:Watch,_pocket_(AM_1942.92-15).jpg
+  Licence: Creative Commons Attribution 4.0 International (CC BY 4.0),
+  https://creativecommons.org/licenses/by/4.0/ . Changed as described
+  above.
+
+Released into the public domain under CC0 1.0
+(https://creativecommons.org/publicdomain/zero/1.0/); credited as a
+courtesy:
+
+- Home banner: "Microphone 1", freestocks.org (via Flickr),
+  https://commons.wikimedia.org/wiki/File:Microphone_1.jpg
+- Scratchpad banner: "Notebook writing man book person blur", PxHere,
+  https://commons.wikimedia.org/wiki/File:Notebook-writing-man-book-person-blur-1176206.jpg
+- Transforms banner: "Monarch Pioneer keyboard, 2021-02-09, 01", Cbaile19,
+  https://commons.wikimedia.org/wiki/File:Monarch_Pioneer_keyboard,_2021-02-09,_01.jpg
+- Style banner: "Metal movable types, Reading Mi BookStore, Dongguan,
+  December 2024", NAS 238 WMMNO,
+  https://commons.wikimedia.org/wiki/File:GD_廣東_Guangdong_東莞_Dongguan_民盈_國貿城_DC_Mall_shop_覔書店_Reading_Mi_BookStore_goods_活版字粒_Metal_movable_types_December_2024_R12S_01.jpg
+- Dictionary banner: "Thesaurus Graece Linguae", Jonund,
+  https://commons.wikimedia.org/wiki/File:Thesaurus_Graece_Linguae.jpg
+- Snippets banner: "Wooden Card Catalog Furniture", MarkBuckawicki,
+  https://commons.wikimedia.org/wiki/File:Wooden_Card_Catalog_Furniture.jpg
+- Whisper lesson photo: "Man writing while using his laptop 2",
+  Pixel.la Free Stock Photos,
+  https://commons.wikimedia.org/wiki/File:Man_writing_while_using_his_laptop_2.jpg
+- Characters (characters/*.svg): Open Doodles by Pablo Stanley,
+  https://www.opendoodles.com/ ; recoloured, cropped and simplified by
+  Wispr Bro.
+
+The mark, wordmark, background pattern, stickers and "How it works"
+pictures (brand/, stickers/, how/) were drawn for Wispr Bro and are
+licensed GPL-3.0-or-later with the rest of the app.
