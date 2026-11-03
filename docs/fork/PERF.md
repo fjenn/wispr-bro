@@ -106,6 +106,19 @@ already covers the per-start cost. **Queued for the Mac wave** (S-38.6):
 samples, and one deliberate first start of a freshly installed sidecar to
 record the one-time Metal compile on its own row.
 
+**Mac wave 3 (2026-11-03, M5 Max, release bench `WB_PERF_RELEASE=1`,
+load 4.1-6.7 at the start of each run):** LLM cold start to ready **421 ms
+and 403 ms** (two samples, the sidecar started once on this Mac before;
+budget 1,500/2,500): PASS. A copy of the same sidecar under a new file name
+(new to the Mac) took **4,607 ms** on its first start: the one-time Metal
+compile, paid once per installed sidecar. Every other §5.1 row passed in both
+samples (≤ 20 s take 143/205 and 134/148 ms; Light 517/635 and 546/668;
+Medium 624/746 and 604/709; 51-200 words 1,689/2,992 and 1,757/2,996;
+transform 471/1,242 and 472/1,239), except sample 1's "first take after ASR
+unload" p95 4,619 ms: its first speech-model load was the freshly built bench
+binary's own Metal compile (4.6 s, then 200 ms each); sample 2: 244/285 ms.
+Run report: `docs/fork/test-runs/1.0.0-alpha.1-M-26-macwave-3.md`.
+
 ## §5.2 Memory pressure (part 2)
 
 `fork::llm::memory::allows` (tests `eight_gb_memory_rule`,
