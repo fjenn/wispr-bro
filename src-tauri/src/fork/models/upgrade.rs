@@ -19,6 +19,20 @@
 //! leaves the choice alone until "Choose automatically" is turned back on.
 //! A retired selection (policy `retired`, Handy's retired ONNX models)
 //! migrates through the same path.
+//!
+//! Hysteresis (Mac wave 1, finding 12: under load the policy alternated
+//! between two models and re-downloaded 135-731 MB each cycle):
+//! - the measured factor is the Mac's, not the model's: once confirmed slow
+//!   ([`super::speed::confirmed_factor`]) it is kept in `model_policy_state`
+//!   for [`VERDICT_TTL_MS`], so the lighter model it led to (with no takes of
+//!   its own yet) is not swapped straight back; a fast reading never clears
+//!   it early;
+//! - a model the fork deleted is not downloaded again within
+//!   [`REDOWNLOAD_COOLDOWN_MS`] while the selection still hears the user's
+//!   languages ([`plan`]);
+//! - every round waits for a quiet moment ([`is_quiet`]) before any model
+//!   work (probe, download, checksum, swap, delete), and the checksum runs
+//!   at background QoS, so model work never delays a take or its paste.
 
 use std::collections::HashSet;
 use std::sync::atomic::{AtomicI64, Ordering};
@@ -34,6 +48,10 @@ use super::policy::{self, Decision, Table};
 
 /// No swap within this long after a take ended.
 pub const QUIET_MS: i64 = 10_000;
+/// A confirmed slow factor stands this long without new evidence.
+pub const VERDICT_TTL_MS: i64 = 14 * 24 * 60 * 60 * 1000;
+/// A model the fork deleted is not downloaded again for this long.
+pub const REDOWNLOAD_COOLDOWN_MS: i64 = 7 * 24 * 60 * 60 * 1000;
 
 /// What the background work is doing (Settings › Advanced › Models).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -205,14 +223,48 @@ pub enum Plan {
 }
 
 /// The pure part of [`step`]: from the selection and the policy's pick.
-pub fn plan(selected: &str, pick: Option<&str>, pick_on_disk: bool, pinned: bool) -> Plan {
+/// `cooling` = the pick was deleted within [`REDOWNLOAD_COOLDOWN_MS`] and
+/// the selection still serves the user's languages: no new download.
+pub fn plan(
+    selected: &str,
+    pick: Option<&str>,
+    pick_on_disk: bool,
+    pinned: bool,
+    cooling: bool,
+) -> Plan {
     match pick {
         _ if pinned => Plan::Stay,
         None => Plan::Stay,
         Some(p) if p == selected || failed(p) => Plan::Stay,
         Some(p) if pick_on_disk => Plan::Switch { to: p.to_string() },
+        Some(_) if cooling => Plan::Stay,
         Some(p) => Plan::Download { to: p.to_string() },
     }
+}
+
+/// The measured factor the policy uses: a confirmed one slower than the
+/// class (returned with `true`: save it), else a saved one younger than
+/// [`VERDICT_TTL_MS`], else none (the class factor).
+pub fn measured(
+    confirmed: Option<f64>,
+    class: f64,
+    saved: Option<(f64, i64)>,
+    now: i64,
+) -> (Option<f64>, bool) {
+    match confirmed {
+        Some(c) if c.is_finite() && c > class => (Some(c), true),
+        _ => match saved {
+            Some((f, at)) if f.is_finite() && now.saturating_sub(at) <= VERDICT_TTL_MS => {
+                (Some(f), false)
+            }
+            _ => (None, false),
+        },
+    }
+}
+
+fn parse_verdict(s: &str) -> Option<(f64, i64)> {
+    let (f, at) = s.split_once('@')?;
+    Some((f.parse().ok()?, at.parse().ok()?))
 }
 
 /// Whether a selection that is not the one the fork made is the user's
@@ -329,12 +381,24 @@ fn measured_factor<R: Runtime>(
     chip: &Chip,
     selected: &str,
 ) -> Option<f64> {
-    let id = policy_id_of(table, selected)?;
-    let reference = table.reference_p50_ms(&id, chip)?;
-    let recent = db(app)?
-        .with_conn(|c| super::speed::recent(c, selected, super::speed::SAMPLES))
-        .ok()?;
-    super::speed::factor(&recent, reference)
+    let now = now_ms();
+    let confirmed = policy_id_of(table, selected)
+        .and_then(|id| table.reference_p50_ms(&id, chip))
+        .and_then(|reference| {
+            let rows = db(app)?
+                .with_conn(|c| super::speed::recent_timed(c, selected, 2 * super::speed::SAMPLES))
+                .ok()?;
+            super::speed::confirmed_factor(&rows, reference, now)
+        });
+    let saved = state(app, cleanup::KEY_MEASURED).and_then(|s| parse_verdict(&s));
+    let (factor, save) = measured(confirmed, table.class_factor(chip), saved, now);
+    if save {
+        if let Some(f) = factor {
+            log::info!("models: this Mac measured slower than its class (factor {f:.1})");
+            set_state(app, cleanup::KEY_MEASURED, Some(&format!("{f}@{now}")));
+        }
+    }
+    factor
 }
 
 fn summary(m: &Machine) -> MachineSummary {
@@ -399,6 +463,8 @@ pub(super) async fn step(
     let Some(table) = policy::TABLE.as_ref() else {
         return;
     };
+    // Model work never runs while a take records, transcribes or pastes.
+    wait_quiet(app).await;
     // Who chose the selection?
     let fork_selected = state(app, cleanup::KEY_FORK_SELECTED);
     let fork_on_disk = fork_selected
@@ -433,7 +499,30 @@ pub(super) async fn step(
         .as_deref()
         .and_then(|p| mm.get_model_info(p))
         .is_some_and(|m| m.is_downloaded);
-    let the_plan = plan(selected, pick.as_deref(), pick_on_disk, pinned.is_some());
+    let cooling = match (&pick, &decision) {
+        (Some(p), Some((d, _))) => {
+            let rows = db(app)
+                .and_then(|db| db.with_conn(|c| cleanup::rows(c)).ok())
+                .unwrap_or_default();
+            cleanup::deleted_within(&rows, p, now_ms(), REDOWNLOAD_COOLDOWN_MS)
+                && serves(table, selected, &d.languages)
+        }
+        _ => false,
+    };
+    let the_plan = plan(
+        selected,
+        pick.as_deref(),
+        pick_on_disk,
+        pinned.is_some(),
+        cooling,
+    );
+    if cooling && the_plan == Plan::Stay && pick.as_deref() != Some(selected) {
+        log::info!(
+            "models: not downloading {} again yet (deleted less than {} days ago)",
+            pick.as_deref().unwrap_or_default(),
+            REDOWNLOAD_COOLDOWN_MS / 86_400_000
+        );
+    }
     if let Some((d, m)) = &decision {
         log::info!(
             "models: policy for {:?} on {:?} (factor {:.1}): {} expected {:.0}/{:.0} ms{}; passed over {:?} → {:?}",
@@ -520,6 +609,21 @@ pub(super) async fn step(
         }
     };
     swap(app, mm, table, selected, &to).await;
+}
+
+/// Whether the selection hears every one of `languages` (a cooldown never
+/// keeps the user on a model that cannot hear a language they speak).
+fn serves(table: &Table, selected: &str, languages: &[String]) -> bool {
+    policy_id_of(table, selected)
+        .and_then(|id| table.pin(&id))
+        .is_some_and(|p| languages.iter().all(|l| p.languages.iter().any(|h| h == l)))
+}
+
+/// Waits until [`quiet_now`].
+async fn wait_quiet(app: &AppHandle) {
+    while !quiet_now(app) {
+        tokio::time::sleep(std::time::Duration::from_millis(250)).await;
+    }
 }
 
 /// Selects `to` at a quiet moment; on a load keeps it and cleans up, else
@@ -667,19 +771,142 @@ mod tests {
 
     #[test]
     fn plans() {
-        assert_eq!(plan("a", Some("a"), true, false), Plan::Stay);
-        assert_eq!(plan("a", None, false, false), Plan::Stay);
-        assert_eq!(plan("a", Some("b"), true, true), Plan::Stay);
+        assert_eq!(plan("a", Some("a"), true, false, false), Plan::Stay);
+        assert_eq!(plan("a", None, false, false, false), Plan::Stay);
+        assert_eq!(plan("a", Some("b"), true, true, false), Plan::Stay);
         assert_eq!(
-            plan("a", Some("b"), true, false),
+            plan("a", Some("b"), true, false, false),
             Plan::Switch { to: "b".into() }
         );
         assert_eq!(
-            plan("a", Some("b"), false, false),
+            plan("a", Some("b"), false, false, false),
             Plan::Download { to: "b".into() }
         );
         mark_failed("broken");
-        assert_eq!(plan("a", Some("broken"), true, false), Plan::Stay);
+        assert_eq!(plan("a", Some("broken"), true, false, false), Plan::Stay);
+    }
+
+    #[test]
+    fn a_deleted_model_is_not_downloaded_again_during_the_cooldown() {
+        // Mac wave 1: 110m was deleted by the swap back and downloaded again
+        // minutes later, cycle after cycle.
+        assert_eq!(plan("a", Some("b"), false, false, true), Plan::Stay);
+        // On disk it costs no download.
+        assert_eq!(
+            plan("a", Some("b"), true, false, true),
+            Plan::Switch { to: "b".into() }
+        );
+        let mut r = cleanup::Row {
+            handy_id: "b".into(),
+            origin: Origin::Policy,
+            loaded_at: Some(1),
+            superseded_at: Some(2),
+            deleted_at: Some(1_000),
+        };
+        let rows = [r.clone()];
+        assert!(cleanup::deleted_within(
+            &rows,
+            "b",
+            1_000 + REDOWNLOAD_COOLDOWN_MS - 1,
+            REDOWNLOAD_COOLDOWN_MS
+        ));
+        assert!(!cleanup::deleted_within(
+            &rows,
+            "b",
+            1_000 + REDOWNLOAD_COOLDOWN_MS,
+            REDOWNLOAD_COOLDOWN_MS
+        ));
+        assert!(!cleanup::deleted_within(
+            &rows,
+            "c",
+            1_000,
+            REDOWNLOAD_COOLDOWN_MS
+        ));
+        r.deleted_at = None;
+        assert!(!cleanup::deleted_within(
+            &[r],
+            "b",
+            1_000,
+            REDOWNLOAD_COOLDOWN_MS
+        ));
+    }
+
+    #[test]
+    fn a_slow_verdict_outlives_the_swap_it_caused() {
+        let class = 1.0;
+        let day = 86_400_000;
+        // Confirmed slow on the big model: used and saved.
+        assert_eq!(measured(Some(18.2), class, None, 0), (Some(18.2), true));
+        // After the swap the light model has no takes yet: the saved verdict
+        // keeps it (before the fix the class factor picked the big model
+        // again at once).
+        assert_eq!(
+            measured(None, class, Some((18.2, 0)), 3 * day),
+            (Some(18.2), false)
+        );
+        // A fast reading does not clear it early.
+        assert_eq!(
+            measured(Some(0.9), class, Some((18.2, 0)), 3 * day),
+            (Some(18.2), false)
+        );
+        // It expires.
+        assert_eq!(
+            measured(None, class, Some((18.2, 0)), VERDICT_TTL_MS + 1),
+            (None, false)
+        );
+        assert_eq!(measured(None, class, None, 0), (None, false));
+        assert_eq!(
+            parse_verdict("18.2@1730000000000"),
+            Some((18.2, 1730000000000))
+        );
+        assert_eq!(parse_verdict("junk"), None);
+        // The cooldown is shorter than the verdict, so the expired verdict
+        // can bring the better model back once, and fresh evidence decides.
+        const { assert!(REDOWNLOAD_COOLDOWN_MS < VERDICT_TTL_MS) };
+    }
+
+    #[test]
+    fn the_load_spike_of_mac_wave_1_no_longer_loops() {
+        // Replays finding 12 through the pure parts: an English user on the
+        // M5 Max (class factor 1), unified-en selected, ten takes timed
+        // while the load was 60-96.
+        let table = policy::TABLE.as_ref().unwrap();
+        let (load, cores) = (Some(80.0), 18);
+        // 1. The busy takes are never recorded, so nothing is confirmed.
+        assert!(!crate::fork::models::speed::machine_quiet(load, cores));
+        let (factor, _) = measured(None, 1.0, None, 0);
+        assert_eq!(factor, None);
+        let m = Machine {
+            chip: Chip::AppleSilicon {
+                generation: 5,
+                tier: crate::fork::models::machine::Tier::Max,
+            },
+            ram_bytes: 128 << 30,
+            free_disk_bytes: Some(500 << 30),
+        };
+        let langs = vec!["en".to_string()];
+        let pick = |measured_factor: Option<f64>, on_disk: &[String]| {
+            policy::decide(
+                table,
+                &policy::Inputs {
+                    languages: &langs,
+                    machine: &m,
+                    cc_by: policy::CC_BY_ALLOWED,
+                    measured_factor,
+                    on_disk,
+                },
+            )
+            .unwrap()
+            .model
+        };
+        let big = pick(factor, &[]);
+        // 2. Even if a confirmed slow verdict did move to a lighter model,
+        // the saved verdict keeps the pick there while the light model has
+        // no takes, instead of flipping back.
+        let light = pick(Some(18.2), &[]);
+        assert_ne!(big, light);
+        let (after_swap, _) = measured(None, 1.0, Some((18.2, 0)), 60_000);
+        assert_eq!(pick(after_swap, &[]), light);
     }
 
     #[test]

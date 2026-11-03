@@ -115,6 +115,15 @@ pub fn mark_deleted(c: &Connection, handy_id: &str, now: i64) -> Result<(), DbEr
     Ok(())
 }
 
+/// Whether the fork deleted `handy_id` less than `cooldown_ms` ago.
+pub fn deleted_within(rows: &[Row], handy_id: &str, now: i64, cooldown_ms: i64) -> bool {
+    rows.iter().any(|r| {
+        r.handy_id == handy_id
+            && r.deleted_at
+                .is_some_and(|d| now.saturating_sub(d) < cooldown_ms)
+    })
+}
+
 pub fn rows(c: &Connection) -> Result<Vec<Row>, DbError> {
     let mut st = c.prepare(
         "SELECT handy_id, origin, loaded_at, superseded_at, deleted_at
@@ -138,6 +147,9 @@ pub fn rows(c: &Connection) -> Result<Vec<Row>, DbError> {
 pub const KEY_PINNED: &str = "pinned";
 pub const KEY_FORK_SELECTED: &str = "fork_selected";
 pub const KEY_SLOWER_SAID: &str = "slower_said";
+/// The last confirmed slow measured factor, `<factor>@<unix ms>` (S-07b
+/// hysteresis: it outlives a swap to a model with no takes yet).
+pub const KEY_MEASURED: &str = "measured_factor";
 
 pub fn get_state(c: &Connection, key: &str) -> Result<Option<String>, DbError> {
     Ok(c.query_row(

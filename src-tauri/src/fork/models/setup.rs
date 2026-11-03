@@ -221,9 +221,20 @@ fn on_take_timed(app: &AppHandle, warm: bool, audio_ms: u64, keyup_ms: u64) {
         return;
     }
     super::upgrade::record_loaded(app, &model);
-    if super::speed::counts(audio_ms, warm)
-        && super::upgrade::record_speed(app, &model, audio_ms, keyup_ms)
-    {
+    if !super::speed::counts(audio_ms, warm) {
+        return;
+    }
+    // A take timed on a busy Mac says nothing about its speed (Mac wave 1:
+    // load 60-96 read as factor 18 and flipped the model back and forth).
+    let (load, cores) = super::speed::load_now();
+    if !super::speed::machine_quiet(load, cores) {
+        log::debug!(
+            "models: take speed not recorded (load {:.1} on {cores} cores)",
+            load.unwrap_or_default()
+        );
+        return;
+    }
+    if super::upgrade::record_speed(app, &model, audio_ms, keyup_ms) {
         kick(Kick::Speed);
     }
 }
@@ -1061,7 +1072,7 @@ async fn verify(
         return false;
     };
     let (size, sha) = (pinned.size, pinned.sha256.clone());
-    tauri::async_runtime::spawn_blocking(move || {
+    in_background(move || {
         let len = std::fs::metadata(&path).map(|m| m.len()).unwrap_or(0);
         len == size
             && crate::fork::llm::download::sha256_file(
@@ -1072,6 +1083,31 @@ async fn verify(
     })
     .await
     .unwrap_or(false)
+}
+
+/// Runs `f` on its own thread at macOS background QoS (CPU and disk
+/// throttled), so hashing hundreds of MB never competes with a take or its
+/// paste (S-07b, Mac wave 1). A pooled blocking thread is not used: the QoS
+/// would stay on it for later work.
+pub(super) async fn in_background<T: Send + 'static>(
+    f: impl FnOnce() -> T + Send + 'static,
+) -> Option<T> {
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    let spawned = std::thread::Builder::new()
+        .name("fork-model-background".into())
+        .spawn(move || {
+            #[cfg(target_os = "macos")]
+            // SAFETY: sets the calling thread's own QoS class; no pointers.
+            unsafe {
+                libc::pthread_set_qos_class_self_np(libc::qos_class_t::QOS_CLASS_BACKGROUND, 0);
+            }
+            let _ = tx.send(f());
+        });
+    if let Err(e) = spawned {
+        log::warn!("models: could not start a background thread: {e}");
+        return None;
+    }
+    rx.await.ok()
 }
 
 // ---------------------------------------------------------------------------
