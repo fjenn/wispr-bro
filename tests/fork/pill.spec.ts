@@ -334,6 +334,9 @@ test.describe("buttons", () => {
   });
 
   test("Fix and Dismiss on an error", async ({ page, ipc }) => {
+    // Two clicks and two IPC polls; a page.evaluate waited past the 30 s
+    // default under the full parallel suite (S-30 wave, load ~100).
+    test.setTimeout(120_000);
     await openPill(page, ipc, STATES.micDenied);
     await page.getByRole("button", { name: "Fix" }).click();
     await ipc.expectCalled("fork_pill_action", { action: "fix" });

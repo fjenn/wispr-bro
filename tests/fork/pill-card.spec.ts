@@ -79,6 +79,9 @@ test("every reason labels the card, which keeps its exact size", async ({
   page,
   ipc,
 }) => {
+  // One page load per reason with layout reads: under the full parallel
+  // suite (load ~100 in the S-30 wave) it outran the 30 s default.
+  test.setTimeout(120_000);
   for (const r of ["no_text_field", "focus_moved", "secure_field"]) {
     expect(REASONS).toContain(r);
   }
