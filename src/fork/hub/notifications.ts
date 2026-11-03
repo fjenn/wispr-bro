@@ -139,8 +139,9 @@ function interpolation(
 }
 
 /** Translates one key of an entry. A plural key Rust picked (`_one` /
- * `_other`, English rules) is resolved again with i18next's rules for the
- * current language. */
+ * `_other`, English rules) is resolved again with the current language's
+ * CLDR rules; `{{count}}` keeps the grouped number ("10,000"), which
+ * i18next's own `count` option would replace with the raw one. */
 function translate(
   key: string,
   item: NotificationItem,
@@ -150,10 +151,10 @@ function translate(
   const values = interpolation(item, t, language);
   const count = item.args.count;
   if (PLURAL_SUFFIX.test(key) && count !== undefined && DIGITS.test(count)) {
-    return t(key.replace(PLURAL_SUFFIX, ""), {
-      ...values,
-      count: Number(count),
-    });
+    const base = key.replace(PLURAL_SUFFIX, "");
+    const category = new Intl.PluralRules(language).select(Number(count));
+    const form = t(`${base}_${category}`, { ...values, defaultValue: "" });
+    return form || t(`${base}_other`, values);
   }
   return t(key, values);
 }
