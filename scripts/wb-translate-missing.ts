@@ -903,7 +903,9 @@ async function main(): Promise<void> {
     );
   } else if (strictSwitch) {
     console.log(
-      `\nstrict i18n is off (ci/i18n-strict); ${flagged.length} locales still have flags.`,
+      strict
+        ? `\nstrict i18n is on (ci/i18n-strict); no locale has flags left.`
+        : `\nstrict i18n is off (ci/i18n-strict); ${flagged.length} locales still have flags.`,
     );
   }
   if (drift) process.exit(1);

@@ -162,6 +162,8 @@ jobs:
 
           Download the DMG, open it and drag Wispr Bro to Applications. Installed copies update themselves.
 
+          Languages: English and 25 translations. Every translation was reviewed by AI, not by native speakers, so some wording may be off; corrections from native speakers are welcome (docs/fork/TRANSLATION-REVIEW.md in the repository).
+
           Wispr Bro is free software under the GNU General Public License v3.0. The complete corresponding source of this build is attached: [wispr-bro-${VERSION}-source.tar.gz](${base}/wispr-bro-${VERSION}-source.tar.gz). Third-party licences: THIRD-PARTY-NOTICES.md. Checksums: SHA256SUMS.
           EOF
           sed -i 's/^          //' notes.md

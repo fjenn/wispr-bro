@@ -80,14 +80,21 @@ src-tauri/src/fork`) or open the screen.
 5. Run `bun scripts/wb-translate-missing.ts --check --locale <lang>` and
    `bun run wb:check:translations`, then commit:
    `i18n(<lang>): review <area> strings` with `git commit -s`.
-6. When `--strict --locale <lang>` passes, the locale is done. When every
-   locale passes, the owner sets `I18N_STRICT=on` in `ci/i18n-strict`.
+6. When `--strict --locale <lang>` passes, the locale is done. Every
+   locale passed on 2026-11-03 (AI review of all 25 locales), and
+   `ci/i18n-strict` now says `I18N_STRICT=on`: CI fails on any
+   `untranslated` or `machine` flag.
 
 Rules for reviewers:
 
 - R5 asks a person (not only an agent) to review the 10 sample-text
   languages: en, es, fr, de, pt, it, ja, zh, ko, ru. The other 15 may ship
   machine-translated after the S-37 pass; the release notes list them.
+  **Status:** every string in all 25 locales is `ai-reviewed`, i.e. read
+  by AI reviewers, not by native speakers. The human review of the 10
+  sample-text languages is still open, for the owner or the community: a
+  native speaker reads the strings and deletes the `ai-reviewed` flags
+  they have checked.
 - Never edit English in a review commit. A wrong or unclear English string
   is a separate fix (and S-37a's copy check).
 - When an English string changes, `en/fork.source-hashes.json` (a short
@@ -95,9 +102,12 @@ Rules for reviewers:
   `bun run wb:translate` replaces the translation in every locale (with the
   default backend an English copy flagged `untranslated`, with the model a
   new `machine` string), reviewed or not, and `--check` fails until then.
-- New strings arrive copy-English (`untranslated`) from slices and are
-  machine-translated once per merge wave (`--backend llama-server`); they
-  then need review like everything else.
+- With strict mode on, a branch that adds or changes English strings also
+  translates them in every locale before it merges: run
+  `bun run wb:translate` (English copies flagged `untranslated`, or
+  `--backend llama-server` for `machine` drafts), then review each one as
+  above and flag it `ai-reviewed` (or clear it, for a person). CI fails
+  while any `untranslated` or `machine` flag is left.
 
 ## Plurals
 

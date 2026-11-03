@@ -52,7 +52,7 @@ test("Handy strings are rebranded at load in English and two other locales", asy
   expect(probe.en["settings.about.version.description"]).toBe(
     "Current version of Wispr Bro",
   );
-  expect(probe.tr["onboarding.welcome.noMatch"]).toContain("Wispr Bro'nun");
+  expect(probe.tr["onboarding.welcome.noMatch"]).toMatch(/Wispr Bro['’]nun/);
   expect(probe.de["settings.debug.updateChecks.lockedDescription"]).toContain(
     "WISPRBRO_DISABLE_UPDATER",
   );

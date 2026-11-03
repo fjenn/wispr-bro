@@ -906,8 +906,9 @@ take starts continues (network only).
 - **Strict mode (S-37).** `--strict` is `--check` plus a failure for any
   `untranslated`/`machine` flag, brand `overrides.*` flags included. CI runs
   `bun run wb:check:translations:strict` (`--strict-switch`), which is strict
-  only when `ci/i18n-strict` says `I18N_STRICT=on`; it is `off` until the
-  review agents have cleared the flags (`docs/fork/TRANSLATION-REVIEW.md`:
+  only when `ci/i18n-strict` says `I18N_STRICT=on`; it is `on` since
+  2026-11-03, when AI review agents had flagged every string in all 25
+  locales `ai-reviewed` (`docs/fork/TRANSLATION-REVIEW.md`:
   procedure, tone and glossary; `--review <lang>` prints a locale's
   worklist). `--locale a,b` limits any mode to some locales.
 - **Glossary.** `scripts/wb-translate-glossary.ts` holds the per-locale tone

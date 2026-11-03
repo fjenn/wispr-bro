@@ -131,6 +131,16 @@ on other branches (`wb-build.yml`, `workflow_dispatch`).
 | `LICENSE`, `NOTICE`, `THIRD-PARTY-NOTICES.md` | the tag's files; notices checked by `wb-notices.ts --check` |
 | `SHA256SUMS`                                  | all of the above                                            |
 
+## Release notes
+
+`wb-release.yml` drafts the GitHub release notes (step "Release notes"):
+the platform line, how to install, the translation status and the GPL
+source link. Translation status: all 25 non-English locales were reviewed
+by AI, not by native speakers (S-37, `docs/fork/TRANSLATION-REVIEW.md`);
+the notes say so until a person has reviewed at least the 10 sample-text
+languages (R5 §5.6), then list the locales that are still AI-reviewed
+only. In-app What's New notes live in `src/fork/whats-new/`.
+
 ## GPL release assets (F-04)
 
 Every release (stable, beta and drafts) carries `THIRD-PARTY-NOTICES.md`,

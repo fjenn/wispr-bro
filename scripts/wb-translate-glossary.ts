@@ -523,7 +523,7 @@ export const GLOSSARY: Record<string, LocaleGlossary> = {
     ),
   },
   zh: {
-    tone: "Simplified Chinese for mainland China; „你“ as current macOS uses; no spaces between Chinese characters, one space around Latin words and numbers as Apple does.",
+    tone: "Simplified Chinese for mainland China; „你“, never „您“: checked against macOS, whose zh-CN UI says „你的 Mac“ and „使用你的 Apple 账户登录“ (S-37 AI review); no spaces between Chinese characters, one space around Latin words and numbers as Apple does.",
     appleUi: true,
     terms: t(
       "听写",
@@ -543,7 +543,7 @@ export const GLOSSARY: Record<string, LocaleGlossary> = {
     ),
   },
   "zh-TW": {
-    tone: "Traditional Chinese for Taiwan; „你“ as current macOS uses; Taiwan vocabulary (設定, 檔案, 鍵盤快速鍵), not Hong Kong or mainland terms.",
+    tone: "Traditional Chinese for Taiwan; „你“, never „您“, as macOS zh-TW does („你的 Mac“); Taiwan vocabulary (設定, 檔案, 鍵盤快速鍵), not Hong Kong or mainland terms.",
     appleUi: true,
     terms: t(
       "聽寫",

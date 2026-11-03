@@ -6,6 +6,8 @@
 # left in a locale's fork.flags.json (brand overrides included). With off it
 # runs the normal parity check and prints the flag counts.
 #
-# Off until the review agents have cleared the machine flags locale by locale
-# (docs/fork/TRANSLATION-REVIEW.md); the owner turns it on.
-I18N_STRICT=off
+# On since 2026-11-03: AI review agents read every fork string in all 25
+# locales and flagged it "ai-reviewed" (docs/fork/TRANSLATION-REVIEW.md).
+# That is not a native speaker's review; R5's human review of the 10
+# sample-text languages is still open.
+I18N_STRICT=on
