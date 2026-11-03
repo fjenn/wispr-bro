@@ -228,6 +228,9 @@ snipTest.describe("snippets page", () => {
     async ({ page, ipc, hub, snips }) => {
       await openSnippets(page, ipc, hub, snips);
       await page.getByTestId("wb-snippets-add").click();
+      // The dialog focuses its first field a frame after opening; a fill
+      // before that lands in the wrong field under load.
+      await expect(page.getByTestId("wb-snippet-trigger")).toBeFocused();
       await page.getByTestId("wb-snippet-trigger").fill("my sign-off");
       await page.getByTestId("wb-snippet-body").click();
       await page.keyboard.type("Best wishes,");
@@ -247,6 +250,9 @@ snipTest.describe("snippets page", () => {
     async ({ page, ipc, hub, snips }) => {
       await openSnippets(page, ipc, hub, snips);
       await page.getByTestId("wb-snippets-add").click();
+      // The dialog focuses its first field a frame after opening; a fill
+      // before that lands in the wrong field under load.
+      await expect(page.getByTestId("wb-snippet-trigger")).toBeFocused();
       await page.getByTestId("wb-snippet-trigger").fill("é".repeat(60));
       await page.getByTestId("wb-snippet-body").fill("x".repeat(4000));
       await expect(page.getByTestId("wb-snippet-trigger-counter")).toHaveText(
@@ -280,6 +286,9 @@ snipTest.describe("snippets page", () => {
       });
       await openSnippets(page, ipc, hub, snips);
       await page.getByTestId("wb-snippets-add").click();
+      // The dialog focuses its first field a frame after opening; a fill
+      // before that lands in the wrong field under load.
+      await expect(page.getByTestId("wb-snippet-trigger")).toBeFocused();
       await page.getByTestId("wb-snippet-trigger").fill("My Email");
       await page.getByTestId("wb-snippet-body").fill("a@example.com");
       await page.getByTestId("wb-snippet-save").click();

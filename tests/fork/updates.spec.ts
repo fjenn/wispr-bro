@@ -342,6 +342,9 @@ test.describe("What's New", () => {
     await expect(whatsNew(page)).toHaveCount(0);
     await ipc.emit("fork-update-state", updateState("up_to_date"));
     await expect(whatsNew(page)).toBeVisible();
+    // The dialog takes focus a frame after its key handler is attached; an
+    // Esc before that went nowhere under the full parallel suite.
+    await expect(page.getByRole("dialog")).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(whatsNew(page)).toHaveCount(0);
   });
