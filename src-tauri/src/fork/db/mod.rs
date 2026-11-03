@@ -8,10 +8,15 @@
 //! - One connection per process, behind a mutex ([`ForkDb`]). The plugin
 //!   `setup` only registers the handle ([`register`]); the file is opened
 //!   lazily on first use, so `setup` does no I/O (R5 §4.1 init order).
-//! - Migrations with `rusqlite_migration` on its own `user_version`. Before a
+//! - Migrations on its own `user_version`, through the schema-aware runner in
+//!   [`migrate`]: the file's schema is compared with the one expected at its
+//!   version, a schema that is ahead (or missing pieces) is repaired forward
+//!   with its data kept, and each migration runs in one transaction. Before a
 //!   migration runs on an existing database, the file is checkpointed and
-//!   copied ([backup](BACKUP_PREFIX)). A schema newer than this build knows is
-//!   refused with [`DbError::SchemaTooNew`] and the file is left untouched.
+//!   copied ([backup](BACKUP_PREFIX)), at most once per version; concurrent
+//!   first opens wait on one migration ([`MIGRATE_LOCK_NAME`]). A schema newer
+//!   than this build knows is refused with [`DbError::SchemaTooNew`] and the
+//!   file is left untouched.
 //! - A file that cannot be read as a database or fails `PRAGMA quick_check` is
 //!   moved aside under a timestamped name and recreated
 //!   ([`report_db_recovered`]). Opening never panics.
@@ -34,6 +39,7 @@ pub mod handy;
 pub mod history_list;
 pub mod insights;
 pub mod jobs;
+pub mod migrate;
 pub mod reconcile;
 pub mod retention;
 pub mod rules;
@@ -48,9 +54,9 @@ use std::path::{Path, PathBuf};
 use std::sync::{Mutex, MutexGuard};
 use std::time::Duration;
 
+use migrate::{Migration as M, Schema};
 use rusqlite::config::DbConfig;
 use rusqlite::{params_from_iter, Connection, ErrorCode, ToSql};
-use rusqlite_migration::{MigrationDefinitionError, Migrations, M};
 use tauri::{Manager, Runtime};
 
 /// File name of the fork database inside the app data dir.
@@ -63,6 +69,10 @@ pub const BACKUP_PREFIX: &str = "fork.backup-";
 /// `fork.corrupt-<ts>.db`.
 pub const CORRUPT_PREFIX: &str = "fork.corrupt-";
 
+/// Lock file held while a process checks, backs up and migrates `fork.db`,
+/// so concurrent first opens wait on one migration.
+pub const MIGRATE_LOCK_NAME: &str = "fork.migrate.lock";
+
 /// How many pre-migration backups are kept; older ones are removed.
 pub const BACKUPS_KEPT: usize = 3;
 
@@ -73,7 +83,7 @@ pub const BUSY_TIMEOUT_MS: u64 = 5000;
 const SIDECAR_SUFFIXES: [&str; 2] = ["-wal", "-shm"];
 
 /// The fork's migrations, in order. Append only; never edit a shipped entry.
-static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::new(|| {
+static MIGRATIONS: std::sync::LazyLock<Vec<M>> = std::sync::LazyLock::new(|| {
     vec![
         M::up(include_str!("migrations/0001_init.sql")),
         M::up(include_str!("migrations/0002_history.sql")),
@@ -97,7 +107,7 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M<'static>>> = std::sync::LazyLock::n
 
 /// The first `n` shipped migrations (tests build older databases with it).
 #[cfg(test)]
-pub(crate) fn test_migrations(n: usize) -> Vec<M<'static>> {
+pub(crate) fn test_migrations(n: usize) -> Vec<M> {
     MIGRATIONS[..n].to_vec()
 }
 
@@ -125,7 +135,8 @@ pub enum DbError {
     /// An upsert helper was called with no fields.
     NoFields,
     Sqlite(rusqlite::Error),
-    Migration(rusqlite_migration::Error),
+    /// Migration `version` failed; its transaction was rolled back.
+    Migration(migrate::MigrationFailure),
     Io(io::Error),
 }
 
@@ -148,7 +159,11 @@ impl fmt::Display for DbError {
             DbError::UnknownColumn(name) => write!(f, "unknown fork.db column `{name}`"),
             DbError::NoFields => write!(f, "upsert called with no fields"),
             DbError::Sqlite(e) => write!(f, "fork.db: {e}"),
-            DbError::Migration(e) => write!(f, "fork.db migration failed: {e}"),
+            DbError::Migration(e) => write!(
+                f,
+                "fork.db migration to version {} failed: {}",
+                e.version, e.error
+            ),
             DbError::Io(e) => write!(f, "fork.db file operation failed: {e}"),
         }
     }
@@ -158,7 +173,7 @@ impl std::error::Error for DbError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
             DbError::Sqlite(e) => Some(e),
-            DbError::Migration(e) => Some(e),
+            DbError::Migration(e) => Some(&e.error),
             DbError::Io(e) => Some(e),
             _ => None,
         }
@@ -184,7 +199,7 @@ impl From<io::Error> for DbError {
 /// first use.
 pub struct ForkDb {
     path: PathBuf,
-    migrations: Vec<M<'static>>,
+    migrations: Vec<M>,
     conn: Mutex<Option<Connection>>,
 }
 
@@ -207,7 +222,7 @@ impl ForkDb {
 
     /// Like [`ForkDb::new`] with an explicit migration list (tests simulate
     /// past and future schema versions with it).
-    pub(crate) fn with_migrations(path: impl Into<PathBuf>, migrations: Vec<M<'static>>) -> Self {
+    pub(crate) fn with_migrations(path: impl Into<PathBuf>, migrations: Vec<M>) -> Self {
         Self {
             path: path.into(),
             migrations,
@@ -255,6 +270,7 @@ impl ForkDb {
         let mut guard = self.lock();
         close_connection(guard.take());
         remove_db_files(&self.path)?;
+        remove_if_exists(&self.path.with_file_name(MIGRATE_LOCK_NAME))?;
         if let Some(dir) = self.path.parent() {
             for aside in aside_files(dir, BACKUP_PREFIX)?
                 .into_iter()
@@ -287,10 +303,28 @@ pub fn register<R: Runtime, A: Manager<R>>(app: &A) {
     };
     match dir {
         Ok(dir) => {
+            #[cfg(test)]
+            let dir = test_safe_dir(dir);
             app.manage(ForkDb::in_dir(&dir));
         }
         Err(e) => log::error!("fork.db: app data dir unavailable, fork.db disabled: {e}"),
     }
+}
+
+/// Unit tests that build a mock app with the product identifier (the
+/// settings tests) resolve the real `~/Library/Application Support/
+/// com.wisprbro.desktop`, and their `on_ready` jobs open `fork.db` there:
+/// on a developer's Mac that is the user's own database (owner test 1: a
+/// test run migrated it). Under `cfg(test)` anything outside the temp dir
+/// becomes a per-process temp dir.
+#[cfg(test)]
+fn test_safe_dir(dir: PathBuf) -> PathBuf {
+    let tmp = std::env::temp_dir();
+    let canonical = |p: &Path| fs::canonicalize(p).unwrap_or_else(|_| p.to_path_buf());
+    if canonical(&dir).starts_with(canonical(&tmp)) {
+        return dir;
+    }
+    tmp.join(format!("wb-fork-db-test-{}", std::process::id()))
 }
 
 /// Called after a corrupted `fork.db` was moved aside and recreated.
@@ -390,7 +424,7 @@ fn is_corruption(e: &DbError) -> bool {
 }
 
 /// Opens, recovers if corrupted, and migrates `fork.db`.
-fn open_database(path: &Path, migrations: &[M<'static>]) -> Result<Connection, DbError> {
+fn open_database(path: &Path, migrations: &[M]) -> Result<Connection, DbError> {
     if let Some(dir) = path.parent() {
         fs::create_dir_all(dir)?;
     }
@@ -413,38 +447,125 @@ pub fn user_version(conn: &Connection) -> Result<usize, DbError> {
     Ok(usize::try_from(v).unwrap_or(0))
 }
 
-fn migrate(conn: &mut Connection, path: &Path, migrations: &[M<'static>]) -> Result<(), DbError> {
+fn migrate(conn: &mut Connection, path: &Path, migrations: &[M]) -> Result<(), DbError> {
     let known = migrations.len();
     let found = user_version(conn)?;
     if found > known {
         return Err(DbError::SchemaTooNew { found, known });
     }
-    if found == known {
+    let expected = migrate::expected_schemas(migrations)?;
+    if found == known && expected[found].missing_in(&Schema::read(conn)?).is_empty() {
         return Ok(());
     }
+    // Another process may be migrating: wait for it, then look again.
+    let _lock = MigrateLock::acquire(path)?;
+    let found = user_version(conn)?;
+    if found > known {
+        return Err(DbError::SchemaTooNew { found, known });
+    }
+    let actual = Schema::read(conn)?;
+    let missing = expected[found].missing_in(&actual);
+    if found == known && missing.is_empty() {
+        return Ok(());
+    }
+    // Changes of later versions that the file already has.
+    let still_missing = expected[known].missing_in(&actual);
+    let ahead: Vec<String> = expected[known]
+        .missing_in(&expected[found])
+        .into_iter()
+        .filter(|item| !still_missing.contains(item))
+        .collect();
+    if !ahead.is_empty() {
+        log::info!(
+            "fork.db repair: the schema at version {found} already has later changes ({}); \
+             they are kept and skipped",
+            ahead.join(", ")
+        );
+    }
+    let from = if missing.is_empty() {
+        found
+    } else {
+        log::info!(
+            "fork.db repair: the schema at version {found} lacks {}; replaying every \
+             migration and skipping what is there (data kept)",
+            missing.join(", ")
+        );
+        0
+    };
     if found > 0 {
         backup_before_migrate(conn, path, found)?;
     }
-    match Migrations::new(migrations.to_vec()).to_latest(conn) {
-        Ok(()) => {
-            log::info!("fork.db migrated from version {found} to {known}");
-            Ok(())
-        }
-        Err(rusqlite_migration::Error::MigrationDefinition(
-            MigrationDefinitionError::DatabaseTooFarAhead,
-        )) => Err(DbError::SchemaTooNew { found, known }),
-        Err(e) => Err(DbError::Migration(e)),
+    let report = migrate::run(conn, migrations, &expected, from).map_err(DbError::Migration)?;
+    if !report.skipped.is_empty() || report.statements_skipped > 0 {
+        log::info!(
+            "fork.db repair: versions {:?} were already applied, {} statements already done; \
+             applied {:?}",
+            report.skipped,
+            report.statements_skipped,
+            report.applied
+        );
+    }
+    let left = expected[known].missing_in(&Schema::read(conn)?);
+    if left.is_empty() {
+        log::info!("fork.db migrated from version {found} to {known}");
+    } else {
+        log::warn!(
+            "fork.db migrated from version {found} to {known}, but these still differ from \
+             the expected schema: {}",
+            left.join(", ")
+        );
+    }
+    Ok(())
+}
+
+/// An exclusive lock on [`MIGRATE_LOCK_NAME`] next to the database, released
+/// on drop. Blocks while another process holds it.
+struct MigrateLock(fs::File);
+
+impl MigrateLock {
+    fn acquire(db_path: &Path) -> Result<Self, DbError> {
+        let file = fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .write(true)
+            .open(db_path.with_file_name(MIGRATE_LOCK_NAME))?;
+        file.lock()?;
+        Ok(Self(file))
+    }
+}
+
+impl Drop for MigrateLock {
+    fn drop(&mut self) {
+        let _ = self.0.unlock();
     }
 }
 
 /// Checkpoints the WAL into the main file and copies `fork.db` (and any
 /// `-wal`/`-shm` left) to `fork.backup-v<version>-<ts>.db`. Keeps the newest
 /// [`BACKUPS_KEPT`] backups.
+///
+/// At most one backup per version step: when a `v<version>` backup at least
+/// as new as the file already exists (an earlier attempt failed and nothing
+/// was written since), no new copy is made. The copy carries the source's
+/// modification time, which is what that comparison reads.
 fn backup_before_migrate(
     conn: &Connection,
     path: &Path,
     version: usize,
 ) -> Result<Vec<PathBuf>, DbError> {
+    if let (Some(dir), Some(changed)) = (path.parent(), last_change(path)) {
+        let current = aside_files(dir, &format!("{BACKUP_PREFIX}v{version}-"))?
+            .into_iter()
+            .filter(|p| p.extension().is_some_and(|ext| ext == "db"))
+            .find(|p| modified(p).is_some_and(|t| t >= changed));
+        if let Some(existing) = current {
+            log::info!(
+                "fork.db: {} already holds this version {version} database; no new backup",
+                existing.display()
+            );
+            return Ok(Vec::new());
+        }
+    }
     // (busy, wal frames, frames checkpointed); TRUNCATE also empties -wal.
     let (busy, _, _): (i64, i64, i64) =
         conn.query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |row| {
@@ -454,18 +575,41 @@ fn backup_before_migrate(
         log::warn!("fork.db: WAL checkpoint before backup was blocked; copying -wal too");
     }
     let name = format!("{BACKUP_PREFIX}v{version}-{}.db", timestamp());
+    let target = path.with_file_name(name);
     let mut copied = Vec::new();
-    for (from, to) in sidecar_pairs(path, &path.with_file_name(name)) {
+    for (from, to) in sidecar_pairs(path, &target) {
         if from.exists() {
             fs::copy(&from, &to)?;
             copied.push(to);
         }
+    }
+    if let Some(changed) = last_change(path) {
+        fs::File::options()
+            .write(true)
+            .open(&target)?
+            .set_modified(changed)?;
     }
     log::info!("fork.db backed up before migration to {:?}", copied);
     if let Some(dir) = path.parent() {
         prune_backups(dir)?;
     }
     Ok(copied)
+}
+
+fn modified(path: &Path) -> Option<std::time::SystemTime> {
+    fs::metadata(path).and_then(|m| m.modified()).ok()
+}
+
+/// When the database's content last changed: the main file, or its `-wal`
+/// while that holds frames.
+fn last_change(path: &Path) -> Option<std::time::SystemTime> {
+    let main = modified(path)?;
+    let wal = with_suffix(path, "-wal");
+    let wal_time = fs::metadata(&wal)
+        .ok()
+        .filter(|m| m.len() > 0)
+        .and_then(|m| m.modified().ok());
+    Some(wal_time.map_or(main, |w| w.max(main)))
 }
 
 fn prune_backups(dir: &Path) -> Result<(), DbError> {
@@ -661,5 +805,7 @@ fn table_columns(conn: &Connection, table: &str) -> Result<Vec<String>, DbError>
     Ok(names)
 }
 
+#[cfg(test)]
+mod migrate_tests;
 #[cfg(test)]
 mod tests;

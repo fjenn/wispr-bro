@@ -425,8 +425,9 @@ pub fn ensure_norms(conn: &Connection) -> Result<(), DbError> {
 
 /// The migration 0004 hook: fills `norm` and `updated_at` for older rows
 /// (the key is a Rust case fold), removes a newer duplicate of an older
-/// row, then makes the key unique.
-pub fn migrate_v4(tx: &Transaction) -> rusqlite_migration::HookResult {
+/// row, then makes the key unique. Idempotent: the repair runner may
+/// replay it on a database that already has the key.
+pub fn migrate_v4(tx: &Transaction) -> rusqlite::Result<()> {
     let rows: Vec<(i64, String, Option<String>, Option<String>)> = {
         let mut stmt = tx.prepare(
             "SELECT id, kind, term, from_text FROM dictionary_entries ORDER BY created_at, id",
@@ -451,7 +452,8 @@ pub fn migrate_v4(tx: &Transaction) -> rusqlite_migration::HookResult {
         )?;
     }
     tx.execute_batch(
-        "CREATE UNIQUE INDEX dictionary_entries_kind_norm ON dictionary_entries (kind, norm);",
+        "CREATE UNIQUE INDEX IF NOT EXISTS dictionary_entries_kind_norm
+         ON dictionary_entries (kind, norm);",
     )?;
     Ok(())
 }

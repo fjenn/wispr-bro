@@ -45,7 +45,7 @@ fn files_with_prefix(dir: &Path, prefix: &str) -> Vec<PathBuf> {
 }
 
 /// The shipped migrations plus test-only future ones.
-fn future_migrations() -> Vec<M<'static>> {
+fn future_migrations() -> Vec<M> {
     let mut all = MIGRATIONS.to_vec();
     all.push(M::up(
         "ALTER TABLE entry_meta ADD COLUMN test_future_a TEXT;",
@@ -571,7 +571,9 @@ fn transform_runs_keep_only_the_last_20() {
 
 #[test]
 fn migrations_are_valid() {
-    Migrations::new(MIGRATIONS.to_vec()).validate().unwrap();
+    // Every migration applies to an empty database, hooks included.
+    let schemas = migrate::expected_schemas(&MIGRATIONS).unwrap();
+    assert_eq!(schemas.len(), latest_version() + 1);
 }
 
 #[test]
@@ -586,4 +588,13 @@ fn plugin_setup_registers_the_handle_without_opening_the_file() {
         .expect("ForkDb registered in setup");
     assert_eq!(db.path().file_name().unwrap(), DB_FILE_NAME);
     assert!(db.lock().is_none(), "no connection opened during setup");
+}
+
+#[test]
+fn tests_never_open_a_real_app_data_dir() {
+    let home = Path::new("/Users/someone/Library/Application Support/com.wisprbro.desktop");
+    let safe = test_safe_dir(home.to_path_buf());
+    assert!(safe.starts_with(std::env::temp_dir()), "{}", safe.display());
+    let tmp = tempfile::tempdir().unwrap();
+    assert_eq!(test_safe_dir(tmp.path().to_path_buf()), tmp.path());
 }
