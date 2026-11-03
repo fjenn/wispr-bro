@@ -1,624 +1,624 @@
 {
   "debug": {
-    "title": "Fork 调试面板",
-    "description": "Wispr Bro 层的内部检查。仅在调试版本中或以 --debug 启动应用时显示。",
-    "close": "关闭",
-    "runAgain": "再运行一次",
+    "title": "Fork 除錯面板",
+    "description": "Wispr Bro 層的內部檢查。僅在除錯版本中，或以 --debug 啟動 App 時顯示。",
+    "close": "關閉",
+    "runAgain": "再次執行",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "模型状态",
-      "notReady": "尚未准备就绪：应用程序尚未完成启动。"
+      "title": "模型狀態",
+      "notReady": "尚未就緒：App 還沒完成啟動。"
     },
     "lastEvent": {
-      "title": "最后一次心跳事件",
-      "none": "尚未接收到任何事件。"
+      "title": "上一個 Ping 事件",
+      "none": "尚未收到任何事件。"
     },
-    "pending": "等待中…",
-    "error": "错误：{{message}}",
+    "pending": "正在等待⋯",
+    "error": "錯誤：{{message}}",
     "csp": {
-      "title": "内容安全策略",
-      "description": "通过资产协议播放音频文件，加载数据：和 blob: 图片，调用 fork 命令，并检查不允许的图片是否被阻止。",
-      "run": "运行CSP检查",
-      "running": "运行中…",
-      "pass": "通过：未发现意外的CSP违规。",
-      "fail": "失败：请查看下方的检查项。",
-      "ok": "好的（{{detail}}）",
-      "failed": "失败（{{detail}}）",
-      "noViolations": "未记录到CSP违规。",
-      "violations_other": "检测到 {{count}} 个 CSP 违规。",
+      "title": "內容安全政策",
+      "description": "透過 asset 協定播放音訊檔案、載入 data: 和 blob: 影像、呼叫 Fork 指令，並檢查不允許的影像是否遭到阻擋。",
+      "run": "執行 CSP 檢查",
+      "running": "正在執行⋯",
+      "pass": "通過：沒有非預期的 CSP 違規。",
+      "fail": "失敗：請查看下方的檢查項目。",
+      "ok": "正常（{{detail}}）",
+      "failed": "失敗（{{detail}}）",
+      "noViolations": "未記錄到 CSP 違規。",
+      "violations_other": "記錄到 {{count}} 個 CSP 違規。",
       "checks": {
-        "media": "音频（资产协议）",
-        "dataImage": "data: image",
-        "blobImage": "blob: 图片",
-        "forkCommand": "Fork 命令",
-        "probe": "被阻止的源"
+        "media": "音訊（asset 協定）",
+        "dataImage": "data: 影像",
+        "blobImage": "blob: 影像",
+        "forkCommand": "Fork 指令",
+        "probe": "已阻擋的來源"
       }
     },
     "notifications": {
       "title": "通知",
-      "permission": "macOS 权限：{{state}}",
-      "kind": "类型",
-      "delay": "延迟 (s)",
-      "post": "发送示例",
-      "posted": "正在发布，耗时{{seconds}}秒。切换到另一个应用以查看macOS通知。"
+      "permission": "macOS 權限：{{state}}",
+      "kind": "類型",
+      "delay": "延遲（秒）",
+      "post": "傳送範例",
+      "posted": "將在 {{seconds}} 秒後傳送。切換到其他 App 以查看 macOS 通知。"
     },
     "update": {
       "title": "更新",
       "version": "版本",
-      "channel": "通道",
-      "key": "签名密钥",
-      "endpoints": "feeds",
-      "checksOff": "更新检查已关闭（设置 › 高级，或已设置关闭开关）",
-      "check": "现在检查",
-      "checking": "正在检查…",
-      "install": "安装 {{version}} 并重新启动",
-      "installing": "下载并验证…",
-      "installed": "{{version}} 已安装。正在重新启动…",
-      "available": "{{version}} 已可用。",
-      "upToDate": "最新版本",
-      "failed": "无法检查：{{message}}"
+      "channel": "頻道",
+      "key": "簽署密鑰",
+      "endpoints": "更新來源",
+      "checksOff": "更新檢查已關閉（設定 › 進階，或已設定停用開關）。",
+      "check": "立即檢查",
+      "checking": "正在檢查⋯",
+      "install": "安裝 {{version}} 並重新啟動",
+      "installing": "正在下載並驗證⋯",
+      "installed": "已安裝 {{version}}。正在重新啟動⋯",
+      "available": "已推出 {{version}}。",
+      "upToDate": "已是最新版本。",
+      "failed": "無法檢查：{{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "正在加载设置…",
-      "loadError": "无法读取设置：{{message}}",
-      "setError": "该更改未保存：{{message}}",
-      "contextAwareness": "上下文感知",
-      "contextAwarenessHint": "使用光标附近文本中的名称正确拼写它们。该文本仅保留在本台Mac上，永远不会被保存。",
-      "transforms": "变换",
-      "transformsHint": "⌥1 对选中的文本进行优化，⌥2 将其转换为更清晰的 AI 提示。启用时，这些按键会替代 ¡ 和 ™。",
-      "transformsSafeShortcuts": "使用 ⌃⌥1 和 ⌃⌥2 替代",
-      "transformsSafeShortcutsHint": "保持 ¡ 和 ™ 在 ⌥1 和 ⌥2 上可用。",
-      "cleanupLevel": "清理级别",
+      "title": "Fork 設定",
+      "loading": "正在載入設定⋯",
+      "loadError": "無法讀取設定：{{message}}",
+      "setError": "無法儲存該變更：{{message}}",
+      "contextAwareness": "情境感知",
+      "contextAwarenessHint": "參考游標附近文字中的名稱來正確拼寫。這些文字只會留在這台 Mac 上，且從不儲存。",
+      "transforms": "轉換",
+      "transformsHint": "⌥1 會潤飾所選文字，⌥2 會將其轉換為更清楚的 AI 提示詞。啟用後，這兩個按鍵將不再輸入 ¡ 和 ™。",
+      "transformsSafeShortcuts": "改用 ⌃⌥1 和 ⌃⌥2",
+      "transformsSafeShortcutsHint": "保留 ⌥1 和 ⌥2 輸入 ¡ 和 ™ 的功能。",
+      "cleanupLevel": "清理程度",
       "levels": {
-        "none": "none",
-        "light": "轻",
-        "medium": "中等"
+        "none": "無",
+        "light": "輕度",
+        "medium": "中度"
       },
-      "all": "所有设置"
+      "all": "所有設定"
     },
     "bar": {
-      "title": "Dictation bar",
-      "alwaysShow": "Always show the bar",
-      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
-      "position": "Position",
+      "title": "听写浮动栏",
+      "alwaysShow": "始终显示浮动栏",
+      "alwaysShowHelp": "关闭后，浮动栏只在听写时显示。",
+      "position": "位置",
       "positions": {
-        "bottom": "Bottom of the screen",
-        "top": "Top of the screen"
+        "bottom": "屏幕底部",
+        "top": "屏幕顶部"
       },
-      "hideInRecordings": "Hide the bar in screen recordings",
-      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
-      "hiddenUntil": "Hidden until {{time}}",
-      "showNow": "Show it again",
-      "resetPositions": "Center the bar on every display"
+      "hideInRecordings": "在录屏中隐藏浮动栏",
+      "hideInRecordingsHelp": "截屏、录屏和屏幕共享都不会包含浮动栏。",
+      "hiddenUntil": "隐藏至 {{time}}",
+      "showNow": "重新显示",
+      "resetPositions": "在所有显示器上将浮动栏居中"
     },
     "mic": {
-      "title": "麦克风",
-      "legend": "使用的麦克风",
-      "loading": "正在查找麦克风…",
-      "loadError": "无法列出麦克风：{{message}}",
-      "retry": "再试一次",
-      "recommended": "{{name}} (推荐)",
-      "auto": "自动检测（系统设置）",
-      "autoNow": "现在：{{name}}",
-      "wirelessTag": "蓝牙",
-      "caution": "有线或内置麦克风效果最好；蓝牙可能会断连。",
-      "avoided": "你的 Mac 的音频输入已设置为 {{name}}。蓝牙麦克风可能会中断，因此语音输入会使用内置麦克风。",
-      "useAnyway": "无论如何都使用 {{name}}",
-      "inUse": "语音输入正在使用：{{name}}",
-      "chooseError": "无法切换麦克风：{{message}}",
+      "title": "麥克風",
+      "legend": "要使用的麥克風",
+      "loading": "正在尋找麥克風⋯",
+      "loadError": "無法列出麥克風：{{message}}",
+      "retry": "再試一次",
+      "recommended": "{{name}}（建議）",
+      "auto": "自動偵測（系統設定）",
+      "autoNow": "目前：{{name}}",
+      "wirelessTag": "藍牙",
+      "caution": "有線或內建麥克風效果最好；藍牙麥克風可能會斷線。",
+      "avoided": "你的 Mac 聲音輸入設為 {{name}}。藍牙麥克風可能會斷線，因此聽寫會改用內建麥克風。",
+      "useAnyway": "仍要使用 {{name}}",
+      "inUse": "聽寫正在使用：{{name}}",
+      "chooseError": "無法切換麥克風：{{message}}",
       "meter": {
-        "start": "测试麦克风",
-        "stop": "停止测试",
-        "label": "麦克风音量",
-        "value": "{{percent}} percent",
-        "off": "未测试",
-        "hint": "说点什么。说话时条形图应该会移动。",
+        "start": "測試麥克風",
+        "stop": "停止測試",
+        "label": "麥克風音量",
+        "value": "{{percent}}%",
+        "off": "未在測試",
+        "hint": "說些話。說話時音量列應該會跳動。",
         "errors": {
-          "permission_denied": "麦克风访问已关闭。请在系统设置 › 隐私与安全 › 麦克风中开启。",
-          "no_input_device": "未找到麦克风。",
-          "failed": "麦克风未启动。请尝试另一个。"
+          "permission_denied": "麥克風取用權限已關閉。請在「系統設定」›「隱私權與安全性」›「麥克風」中開啟。",
+          "no_input_device": "找不到麥克風。",
+          "failed": "麥克風無法啟動。請換一個試試。"
         }
       }
     },
     "sound": {
-      "title": "声音",
-      "enabled": "在语音输入开始和结束时播放声音",
-      "enabledHelp": "一声短音表示麦克风已开启，另一声表示已关闭。",
-      "theme": "声音",
+      "title": "聲音",
+      "enabled": "聽寫開始和停止時播放聲音",
+      "enabledHelp": "一聲短音提示麥克風已開啟，另一聲提示已停止。",
+      "theme": "聲音",
       "themes": {
         "marimba": "Marimba",
         "pop": "Pop",
-        "custom": "自定义"
+        "custom": "自訂"
       },
       "volume": "音量",
-      "volumeValue": "{{percent}} percent",
+      "volumeValue": "{{percent}}%",
       "preview": "播放",
-      "mute": "关闭所有语音输入时的音频",
-      "muteHelp": "音乐和视频在你说话时会变静，之后会恢复原来的音量。"
+      "mute": "聽寫時將所有音訊靜音",
+      "muteHelp": "說話時音樂和影片會靜音，結束後恢復原本的音量。"
     },
     "recovery": {
-      "title": "恢复快捷键",
-      "description": "不离开键盘就能找回或发送最近一次听写。",
-      "notSet": "未设置",
-      "current": "快捷键：{{shortcut}}",
-      "listening": "请按下快捷键…",
-      "listeningHelp": "按下想用的按键或鼠标按钮。按 Escape 取消。",
-      "record": "录制",
+      "title": "復原快速鍵",
+      "description": "不必離開鍵盤，就能找回或送出上一次的聽寫。",
+      "notSet": "未設定",
+      "current": "快速鍵：{{shortcut}}",
+      "listening": "請按下快速鍵⋯",
+      "listeningHelp": "按下要使用的按鍵或滑鼠按鈕。按 Esc 取消。",
+      "record": "錄製",
       "cancel": "取消",
       "clear": "清除",
-      "useDefault": "使用默认",
-      "unusable": "无法使用这个快捷键，请换一个。",
-      "saveFailed": "无法保存快捷键。",
-      "recordFailed": "无法录制快捷键。请检查应用是否获得了辅助功能权限。",
+      "useDefault": "使用預設值",
+      "unusable": "無法使用此快速鍵。請換一個。",
+      "saveFailed": "無法儲存快速鍵。",
+      "recordFailed": "無法錄製快速鍵。請檢查此 App 是否已取得輔助使用權限。",
       "pasteLast": {
-        "title": "粘贴最近一次听写",
-        "help": "把最近一次听写再次粘贴到你正在输入的位置。"
+        "title": "貼上上一次聽寫",
+        "help": "將上一次的聽寫內容再次貼到你正在輸入的位置。"
       },
       "copyLast": {
-        "title": "复制最近一次听写",
-        "help": "把最近一次听写放到剪贴板。"
+        "title": "拷貝上一次聽寫",
+        "help": "將上一次的聽寫內容放到剪貼板。"
       },
       "pressEnter": {
-        "title": "按下回车",
-        "help": "替你按下回车键，例如发送刚刚听写的消息。",
-        "mouse": "鼠标按钮仍会在指针下的应用中照常点击，所以侧键（后退或前进）最合适。"
+        "title": "按下 Return",
+        "help": "替你按下 Return 鍵，例如送出剛剛聽寫的訊息。",
+        "mouse": "滑鼠按鈕仍會在指標下方的 App 中照常點按，因此側鍵（上一頁或下一頁）最合適。"
       },
       "undoCancel": {
-        "title": "撤销取消",
-        "help": "在听写栏显示“撤销”时，找回刚刚取消的听写。"
+        "title": "還原取消",
+        "help": "在浮動列顯示「還原」時，找回剛剛取消的聽寫。"
       }
     }
   },
   "settingsModal": {
-    "title": "设置",
-    "close": "关闭设置",
-    "navigation": "设置部分",
+    "title": "設定",
+    "close": "關閉設定",
+    "navigation": "設定分類",
     "sections": {
-      "general": "通用",
-      "system": "系统",
-      "vibe": "Vibe 编码",
-      "privacy": "数据与隐私",
-      "advanced": "高级",
-      "about": "关于",
-      "hotkeys": "快捷键"
+      "general": "一般",
+      "system": "系統",
+      "vibe": "Vibe 程式設計",
+      "privacy": "資料與隱私權",
+      "advanced": "進階",
+      "about": "關於",
+      "hotkeys": "快速鍵"
     },
     "general": {
-      "shortcuts": "快捷键",
-      "shortcutTitle": "语音输入快捷方式",
-      "shortcutHint": "选择您如何开始语音输入，并管理所有键盘操作。",
-      "holdToTalk": "长按 {{shortcut}} 开始说话",
+      "shortcuts": "快速鍵",
+      "shortcutTitle": "聽寫快速鍵",
+      "shortcutHint": "選擇開始聽寫的方式，並管理所有鍵盤操作。",
+      "holdToTalk": "按住 {{shortcut}} 說話",
       "change": "更改",
-      "microphone": "麦克风",
-      "languages": "我的语言",
-      "appearance": "应用语言和主题"
+      "microphone": "麥克風",
+      "languages": "我的語言",
+      "appearance": "App 語言和主題"
     },
     "system": {
-      "app": "应用行为",
-      "alwaysBar": "始终显示栏",
-      "showDock": "在Dock中显示应用",
-      "showDockHint": "在 Wispr Bro 窗口关闭后，将其保留在 Dock 中。",
-      "sounds": "声音",
+      "app": "App 行為",
+      "alwaysBar": "永遠顯示浮動列",
+      "showDock": "在 Dock 中顯示 App",
+      "showDockHint": "關閉視窗後仍將 Wispr Bro 保留在 Dock 中。",
+      "sounds": "聲音",
       "notifications": "通知",
       "notificationKinds": {
         "system": "Mac 通知",
-        "modelReady": "语音模型准备就绪",
-        "updateReady": "更新就绪",
-        "queuedReady": "已排队的语音输入准备就绪",
-        "errors": "需要关注的问题",
-        "suggestions": "建议",
+        "modelReady": "語音模型已就緒",
+        "updateReady": "更新已就緒",
+        "queuedReady": "排入佇列的聽寫已就緒",
+        "errors": "需要處理的問題",
+        "suggestions": "建議",
         "announcements": "功能公告",
         "milestones": "里程碑"
       },
-      "scratchpad": "Scratchpad",
-      "scratchpadLabel": "当草稿纸打开时",
-      "scratchpadHint": "选择使用快捷方式时Scratchpad打开的位置。",
+      "scratchpad": "草稿板",
+      "scratchpadLabel": "打開草稿板時",
+      "scratchpadHint": "選擇快速鍵和浮動列按鈕要打開的內容。",
       "scratchpadOptions": {
-        "resume_last": "继续我上一次的笔记",
-        "new_note": "新建一个笔记"
+        "resume_last": "繼續上一則筆記",
+        "new_note": "新增筆記"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro 可以通过辅助功能读取 VS Code、Cursor 和 Windsurf 在屏幕上显示的代码名和文件名，它永远不会打开你的项目文件夹或文件。",
-      "contextOff": "上下文感知已关闭，因此这些功能无法读取。请打开以使用它们。",
-      "recognize": "识别代号",
-      "recognizeHint": "当你在编辑器中说出一个变量或函数名称时，它会按照你代码中的拼写方式显示，例如 getUserById 或 user_id。",
-      "setUp": "设置",
-      "change": "更换编辑器",
-      "setUpFor": "为 {{editors}} 配置",
-      "fileTags": "在聊天中为文件打标签",
-      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，说 \"index dot ts\" 会写入 @index.ts，当该文件在标签页中打开或在文件列表中显示时。",
-      "fileTagsNeedsChat": "添加 Cursor 或 Windsurf 到您的编辑器后才可用。",
-      "fileTagsNeedsSetup": "设置完成后才可用",
+      "intro": "Wispr Bro 可以透過輔助使用讀取 VS Code、Cursor 和 Windsurf 在螢幕上顯示的程式碼名稱和檔案名稱。它從不打開你的專案檔案夾或檔案。",
+      "contextOff": "情境感知已關閉，因此這些功能沒有內容可讀取。開啟後即可使用。",
+      "recognize": "辨識程式碼名稱",
+      "recognizeHint": "說出編輯器中可見的變數或函式名稱時，會依照程式碼中的拼法寫出，例如 getUserById 或 user_id。",
+      "setUp": "設定",
+      "change": "更改編輯器",
+      "setUpFor": "為 {{editors}} 設定",
+      "fileTags": "在聊天中標記檔案",
+      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，如果 index.ts 已在標籤頁中打開或顯示在檔案列表中，說「index dot ts」會寫出 @index.ts。",
+      "fileTagsNeedsChat": "將 Cursor 或 Windsurf 加入編輯器後即可使用。",
+      "fileTagsNeedsSetup": "設定程式碼名稱辨識後即可使用。",
       "setup": {
-        "title": "设置代码名识别",
-        "stepEditors": "1. 选择你常用的编辑器",
-        "stepScreenReader": "2. 在每个应用中开启屏幕阅读器模式，以便它们将文本共享给 Wispr Bro",
-        "openSettings": "使用 ⌘ 逗号 打开编辑器的设置",
-        "search": "搜索 \"accessibility support\"。",
-        "setOn": "设置编辑器：无障碍支持设为\"on\"。",
-        "palette": "你也可以从命令面板（⇧⌘P）运行 \"切换屏幕阅读器可访问模式\"。",
-        "confirm": "我在这些编辑器中打开了屏幕阅读器模式",
+        "title": "設定程式碼名稱辨識",
+        "stepEditors": "1. 選擇你使用的編輯器",
+        "stepScreenReader": "2. 在每個編輯器中開啟螢幕閱讀器模式，讓它們與 Wispr Bro 分享文字",
+        "openSettings": "按 ⌘ 逗號打開編輯器的設定。",
+        "search": "搜尋「accessibility support」。",
+        "setOn": "將「Editor: Accessibility Support」設為「on」。",
+        "palette": "你也可以在命令面板（⇧⌘P）中執行「Toggle Screen Reader Accessibility Mode」。",
+        "confirm": "我已在這些編輯器中開啟螢幕閱讀器模式",
         "cancel": "取消",
-        "finish": "完成设置"
+        "finish": "完成設定"
       }
     },
     "privacy": {
       "promise": {
-        "title": "隐私由设计保证",
-        "local": "你的语音输入和数据都保留在这台 Mac 上。",
-        "noCloud": "语音识别、清理和历史记录都在本地运行。没有账号、遥测、云端语音识别或云端清理。",
-        "networkIntro": "Wispr Bro 仅使用网络完成以下两项内容：",
-        "models": "从 Hugging Face (huggingface.co) 下载语音和清理模型。",
-        "updates": "当更新检查开启时，会在 GitHub（github.com）上查找应用更新。"
+        "title": "從設計就保護隱私",
+        "local": "你的聽寫內容和資料都留在這台 Mac 上。",
+        "noCloud": "語音辨識、清理和歷史記錄都在本機執行。沒有帳號、遙測、雲端聽寫或雲端清理。",
+        "networkIntro": "Wispr Bro 只會在以下兩種情況使用網路：",
+        "models": "從 Hugging Face（huggingface.co）下載語音和清理模型。",
+        "updates": "開啟更新檢查時，在 GitHub（github.com）上尋找 App 更新。"
       },
       "locations": {
-        "title": "你的数据在哪里",
-        "hint": "这些文件夹属于 Wispr Bro。便携式安装会将它们全部保留在应用的 Data 文件夹中。",
-        "data": "App 数据和设置",
-        "models": "已下载的模型",
-        "recordings": "记录",
-        "logs": "日志和崩溃报告",
-        "show": "在Finder中显示",
-        "loading": "定位中…",
-        "failed": "无法打开该文件夹。请重试。"
+        "title": "你的資料存放位置",
+        "hint": "這些檔案夾屬於 Wispr Bro。可攜版會將它們全部存放在 App 的 Data 檔案夾中。",
+        "data": "App 資料和設定",
+        "models": "已下載的模型",
+        "recordings": "錄音",
+        "logs": "記錄檔和當機報告",
+        "show": "在 Finder 中顯示",
+        "loading": "正在尋找⋯",
+        "failed": "無法打開該檔案夾。請再試一次。"
       },
       "retention": {
-        "title": "保留历史记录多久",
-        "textLabel": "保留语音输入的文本",
-        "textHint": "较早的记录会自动被删除。文本默认永久保存。",
-        "audioLabel": "保留录音",
-        "audioHint": "音频默认在14天后过期。删除音频后，所录的文字内容将保留直到达到文字限制。",
+        "title": "歷史記錄保留時間",
+        "textLabel": "保留聽寫文字",
+        "textHint": "較舊的項目會自動移除。文字預設會永久保留。",
+        "audioLabel": "保留錄音",
+        "audioHint": "音訊預設在 14 天後過期。移除音訊後，其聽寫文字會保留到文字期限為止。",
         "options": {
-          "0": "永不保存音频",
-          "1": "1天",
-          "7": "7天",
-          "14": "14天",
-          "30": "30天",
-          "90": "90天",
-          "365": "1年",
-          "forever": "永远"
+          "0": "永不保留音訊",
+          "1": "1 天",
+          "7": "7 天",
+          "14": "14 天",
+          "30": "30 天",
+          "90": "90 天",
+          "365": "1 年",
+          "forever": "永久"
         }
       },
       "choices": {
-        "title": "隐私设置",
-        "context": "使用上下文感知",
-        "contextHint": "仅在语音输入时读取附近文本以识别姓名和拼写。上下文不会被保存或记录。",
-        "updates": "检查应用程序更新",
-        "updatesHint": "联系 GitHub 检查是否有新版本。不会发送任何语音识别或个人数据。",
-        "learn": "从我的更正中学习",
-        "learnHint": "在将语音输入粘贴后，注意你修改的词语，并在词典中提出建议。仅保留修正后的词语；其余文本永远不会被保存或记录。"
+        "title": "隱私權選項",
+        "context": "使用情境感知",
+        "contextHint": "只在聽寫時讀取附近的文字，以辨識名稱和拼法。情境內容不會被儲存或記錄。",
+        "updates": "檢查 App 更新",
+        "updatesHint": "連線到 GitHub 檢查是否有新版本。不會傳送任何聽寫內容或個人資料。",
+        "learn": "從我的修正中學習",
+        "learnHint": "聽寫內容貼上後，留意你在該文字框中修改的字詞，並在字典中提供建議。只會保留修正後的字詞；其餘文字從不儲存或記錄。"
       },
       "export": {
-        "title": "您的数据",
-        "hint": "导出一个包含您历史记录、设置和录音的zip文件。模型和日志不包含在内。",
-        "button": "导出我的数据",
+        "title": "你的資料",
+        "hint": "匯出包含歷史記錄、設定和錄音的 zip 檔案。不包括模型和記錄檔。",
+        "button": "匯出我的資料",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip压缩包",
-        "done": "导出完成，已在Finder中显示。",
-        "failed": "无法导出您的数据。没有任何内容被删除。"
+        "filter": "Zip 封存檔",
+        "done": "匯出檔案已儲存，並已在 Finder 中顯示。",
+        "failed": "無法匯出你的資料。沒有刪除任何內容。"
       },
       "delete": {
-        "button": "删除我所有的数据",
-        "title": "删除所有数据吗？",
-        "warning": "这将永久删除历史记录、录音、设置、日志和崩溃报告。无法撤销。",
-        "relaunch": "Wispr Bro 将停止运行，删除数据，并重新进入引导流程。",
-        "models": "也删除已下载的模型",
-        "modelsHint": "保持此选项关闭以避免再次下载语音和清理模型。",
-        "confirmLabel": "输入 {{word}} 确认",
+        "button": "刪除我的所有資料",
+        "title": "要刪除你的所有資料嗎？",
+        "warning": "這會永久刪除歷史記錄、錄音、設定、記錄檔和當機報告。此動作無法還原。",
+        "relaunch": "Wispr Bro 會停止運作、清除資料，然後重新啟動並進入新手導覽。",
+        "models": "同時刪除已下載的模型",
+        "modelsHint": "保持關閉可避免重新下載語音和清理模型。",
+        "confirmLabel": "輸入 {{word}} 以確認",
         "cancel": "取消",
-        "confirm": "删除全部",
-        "failed": "删除全部未完成。请检查剩余数据后再试一次。"
+        "confirm": "全部刪除",
+        "failed": "刪除未完成。請先檢查剩餘的資料，再試一次。"
       },
       "diagnostics": {
-        "title": "崩溃报告和诊断",
-        "hint": "崩溃报告会保留在这台Mac上，永远不会上传。只有在你想分享时才复制或保存诊断信息。",
-        "sanitized": "诊断功能会移除所录文本、提示词、词典词条、邮箱地址、按键信息以及你的家目录路径。",
-        "copy": "复制诊断信息",
-        "save": "保存诊断信息…",
+        "title": "當機報告和診斷資訊",
+        "hint": "當機報告會留在這台 Mac 上，從不上傳。只有在你想分享時才拷貝或儲存診斷資訊。",
+        "sanitized": "診斷資訊會移除聽寫文字、提示詞、字典字詞、電子郵件地址、密鑰和你的個人專屬檔案夾路徑。",
+        "copy": "拷貝診斷資訊",
+        "save": "儲存診斷資訊⋯",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "已复制脱敏的诊断信息。",
-        "saved": "已保存去标识化的诊断信息。",
-        "failed": "无法准备诊断信息。请重试。"
+        "copied": "已拷貝去識別化的診斷資訊。",
+        "saved": "已儲存去識別化的診斷資訊。",
+        "failed": "無法準備診斷資訊。請再試一次。"
       }
     },
     "advanced": {
-      "output": "文本输出",
-      "transcription": "转录",
-      "barAndOverlay": "语音输入栏和覆盖层",
-      "liveText": "在条状区域显示实时文本",
-      "liveTextHint": "在说话时显示识别的词语。",
-      "keyboard": "键盘后端",
-      "prompts": "清理提供商和提示编辑器",
-      "history": "历史存储",
+      "output": "文字輸出",
+      "transcription": "轉錄",
+      "barAndOverlay": "聽寫浮動列和覆疊層",
+      "liveText": "在浮動列中顯示即時文字",
+      "liveTextHint": "說話時顯示辨識出的文字。",
+      "keyboard": "鍵盤後端",
+      "prompts": "清理服務和提示詞編輯器",
+      "history": "歷史記錄儲存",
       "updates": "更新",
-      "updateChannel": "更新频道",
-      "updateChannelHint": "Beta版本可能包含未完成的更新。",
+      "updateChannel": "更新頻道",
+      "updateChannelHint": "Beta 版可能包含尚未完成的變更。",
       "updateChannels": {
-        "stable": "稳定",
-        "beta": "Beta"
+        "stable": "穩定版",
+        "beta": "Beta 版"
       },
-      "storage": "数据和日志位置",
-      "experimental": "实验性与调试",
-      "debugMode": "调试工具",
-      "debugModeHint": "显示诊断控制和详细日志选项。",
-      "forkDiagnostics": "Fork 设置诊断"
+      "storage": "資料和記錄檔位置",
+      "experimental": "實驗與除錯",
+      "debugMode": "除錯工具",
+      "debugModeHint": "顯示診斷控制項和詳細記錄選項。",
+      "forkDiagnostics": "Fork 設定診斷"
     },
     "about": {
-      "tagline": "本地语音输入，无需账号，无需云端处理。",
+      "tagline": "本機聽寫，不需要帳號，也不經雲端處理。",
       "version": "版本 {{version}}",
-      "source": "查看源代码",
-      "updates": "更新说明",
+      "source": "檢視原始碼",
+      "updates": "更新說明",
       "updatesTitle": "更新",
-      "license": "免费软件，遵循 GNU 通用公共许可证第 3 版（GPL-3.0）",
-      "licenseLink": "查看许可",
-      "credit": "基于Handy由CJ Pais开发，采用MIT许可证。感谢所有为该项目付出努力的人。",
-      "creditLink": "Handy 在 GitHub",
-      "supportTitle": "支持开发",
-      "supportBody": "{{appName}} 没有付费计划。最好的支持是提交一个错误报告、一个想法或在 GitHub 上做出贡献。"
+      "license": "依據 GNU 通用公共授權條款第 3 版（GPL-3.0）發佈的自由軟體。",
+      "licenseLink": "檢視授權條款",
+      "credit": "以 CJ Pais 開發的 Handy 為基礎，依據 MIT 授權條款使用。感謝每一位參與開發的人。",
+      "creditLink": "GitHub 上的 Handy",
+      "supportTitle": "支持開發",
+      "supportBody": "{{appName}} 沒有付費方案。最好的支持就是在 GitHub 上回報錯誤、提出想法或參與貢獻。"
     },
     "hotkeys": {
-      "open": "快捷键",
-      "loading": "正在加载快捷键…",
-      "secureInputHelp": "macOS Secure Input 通过隐藏按键输入来保护密码输入，快捷键捕获在激活时会暂停。",
-      "count": "已设置 {{count}} 个，共 {{max}} 个",
-      "notSet": "未设置",
-      "current": "快捷键：{{shortcut}}",
-      "activationLabel": "快捷键激活",
+      "open": "快速鍵",
+      "loading": "正在載入快速鍵⋯",
+      "secureInputHelp": "macOS 安全輸入會對其他 App 隱藏按鍵，以保護密碼輸入。它啟用期間，快速鍵錄製會暫停。",
+      "count": "已設定 {{count}} 個，共 {{max}} 個",
+      "notSet": "未設定",
+      "current": "快速鍵：{{shortcut}}",
+      "activationLabel": "快速鍵觸發方式",
       "activations": {
-        "hold": "保持",
-        "double_tap": "双击",
+        "hold": "按住",
+        "double_tap": "按兩下",
         "press": "按下",
-        "toggle": "切换"
+        "toggle": "切換"
       },
-      "add": "添加快捷键",
-      "edit": "编辑",
-      "delete": "删除",
-      "reset": "恢复为默认值",
-      "resetting": "正在重置…",
-      "resetFailed": "无法重置所有快捷键。请重试。",
+      "add": "加入快速鍵",
+      "edit": "編輯",
+      "delete": "刪除",
+      "reset": "回復為預設值",
+      "resetting": "正在重置⋯",
+      "resetFailed": "無法重置所有快速鍵。請再試一次。",
       "done": "完成",
-      "saveFailed": "无法保存该快捷键。",
-      "conflict": "也用于 {{action}}。请选择另一个快捷键。",
-      "invalid": "这个快捷键不被识别。",
-      "unsupported": "快捷键引擎无法为该操作使用此组合。",
+      "saveFailed": "無法儲存該快速鍵。",
+      "conflict": "「{{action}}」也在使用此快速鍵。請選擇其他快速鍵。",
+      "invalid": "無法辨識此快速鍵。",
+      "unsupported": "快速鍵引擎無法將此組合用於該動作。",
       "capture": {
-        "starting": "正在捕获启动快捷键…",
-        "listening": "按下快捷键…",
-        "listeningHelp": "按键组合或鼠标按钮使用。Escape 取消。",
+        "starting": "正在開始錄製快速鍵⋯",
+        "listening": "請按下快速鍵⋯",
+        "listeningHelp": "按下要使用的組合鍵或滑鼠按鈕。按 Esc 取消。",
         "cancel": "取消",
-        "close": "后退",
-        "secure": "快捷键捕获在启用安全输入时不可用。请离开密码字段或关闭安全键盘输入，然后重试。",
-        "failed": "无法开始快捷键捕获。请检查无障碍权限并重试。"
+        "close": "返回",
+        "secure": "安全輸入啟用期間無法錄製快速鍵。請離開密碼欄位或關閉「安全鍵盤輸入」，然後再試一次。",
+        "failed": "無法開始錄製快速鍵。請檢查輔助使用權限，然後再試一次。"
       },
       "actions": {
-        "dictate": "按下说话",
-        "hands_free": "语音输入（无需动手）",
-        "cancel": "取消语音输入",
-        "command_mode": "命令模式",
-        "paste_last": "粘贴上一次语音输入",
-        "copy_last": "复制上一次的语音输入",
-        "press_enter": "按回车",
-        "undo_cancel": "撤销取消",
+        "dictate": "按住說話",
+        "hands_free": "免持聽寫",
+        "cancel": "取消聽寫",
+        "command_mode": "指令模式",
+        "paste_last": "貼上上一次聽寫",
+        "copy_last": "拷貝上一次聽寫",
+        "press_enter": "按下 Return",
+        "undo_cancel": "還原取消",
         "transform": {
-          "polish": "转换 选中的文本 Polish",
-          "prompt_engineer": "将选中的文本转换为AI提示",
-          "view_changes": "查看变换更改"
+          "polish": "用 Polish 潤飾所選文字",
+          "prompt_engineer": "將所選文字轉成 AI 提示詞",
+          "view_changes": "檢視轉換變更"
         },
         "scratchpad": {
-          "open": "打开草稿纸"
+          "open": "打開草稿板"
         }
       },
       "help": {
-        "dictate": "说话时按住快捷键；松开以结束。",
-        "hands_free": "无需按键即可开始和停止语音输入。",
-        "cancel": "取消当前语音输入而不将其插入。",
-        "command_mode": "同时按住 fn 和 Ctrl，然后说出如何编辑或输入文字。",
-        "paste_last": "再次粘贴你最近的语音输入。",
-        "copy_last": "将您最近的语音输入复制到剪贴板。",
-        "press_enter": "在您正在输入的应用程序中按回车键。使用鼠标侧键效果更佳。",
-        "undo_cancel": "撤销并取消语音输入",
+        "dictate": "說話時按住快速鍵；放開即結束。",
+        "hands_free": "不必按住按鍵即可開始和停止聽寫。",
+        "cancel": "停止目前的聽寫，不插入文字。",
+        "command_mode": "按住 fn 和 Ctrl，同時說出要如何編輯或撰寫文字。",
+        "paste_last": "再次貼上最近一次的聽寫。",
+        "copy_last": "將最近一次的聽寫拷貝到剪貼板。",
+        "press_enter": "在你正在輸入的 App 中按下 Return 鍵。滑鼠側鍵很適合這個動作。",
+        "undo_cancel": "取消聽寫後立即將其還原。",
         "transform": {
-          "polish": "使用Polish对选中的文本进行重写。",
-          "prompt_engineer": "将选中的文本重写为一个清晰的AI提示。",
-          "view_changes": "查看变换前后的最新内容。"
+          "polish": "用 Polish 改寫所選文字。",
+          "prompt_engineer": "將所選文字改寫為清楚的 AI 提示詞。",
+          "view_changes": "檢視最近一次轉換的前後對照。"
         },
         "scratchpad": {
-          "open": "继续您之前的笔记或创建一个新的，根据您的Scratchpad设置。"
+          "open": "依照草稿板設定，繼續上一則筆記或新增筆記。"
         }
       },
-      "description_other": "为每个操作添加最多 {{max}} 个键盘快捷键。修改时会实时保存。"
+      "description_other": "每個動作最多可加入 {{max}} 個快速鍵。變更會立即儲存。"
     },
-    "resetSetting": "重置 {{setting}}"
+    "resetSetting": "重置「{{setting}}」"
   },
   "hub": {
     "nav": {
-      "label": "主"
+      "label": "主選單"
     },
     "sidebar": {
-      "collapse": "折叠侧边栏",
-      "expand": "展开侧边栏"
+      "collapse": "收合側邊欄",
+      "expand": "展開側邊欄"
     },
     "header": {
-      "toDark": "切换到深色外观",
-      "toLight": "切换到浅色外观"
+      "toDark": "切換為深色外觀",
+      "toLight": "切換為淺色外觀"
     },
     "notifications": {
       "title": "通知",
       "empty": {
-        "title": "没有新内容",
-        "body": "更新和提示会在这里显示。"
+        "title": "沒有新內容",
+        "body": "更新和提示會顯示在這裡。"
       },
-      "bellUnread_other": "通知，{{count}} 条未读",
+      "bellUnread_other": "通知，{{count}} 則未讀",
       "filter": {
-        "label": "显示",
+        "label": "顯示",
         "all": "全部",
-        "unread": "未读"
+        "unread": "未讀"
       },
-      "more": "更多通知选项",
-      "markAllRead": "全部标记为已读",
+      "more": "更多通知選項",
+      "markAllRead": "全部標示為已讀",
       "groups": {
-        "show": "在此列表中显示",
-        "mac": "在这款 Mac 上"
+        "show": "在此列表中顯示",
+        "mac": "在這台 Mac 上"
       },
       "toggles": {
-        "suggestions": "建议",
+        "suggestions": "建議",
         "announcements": "公告",
         "milestones": "里程碑",
         "system": "Mac 通知"
       },
       "list": "通知",
-      "unreadDot": "未读",
+      "unreadDot": "未讀",
       "emptyUnread": {
-        "title": "没有新内容",
-        "body": "你已经读完了所有内容。"
+        "title": "沒有新內容",
+        "body": "你已閱讀所有內容。"
       },
-      "loadFailed": "通知无法加载。",
-      "actionFailed": "那没成功。再试一次。",
-      "copied": "最新语音笔记已复制",
-      "nothingToCopy": "还没有需要复制的语音输入",
-      "justNow": "刚刚"
+      "loadFailed": "無法載入通知。",
+      "actionFailed": "動作未成功。請再試一次。",
+      "copied": "已拷貝最近一次聽寫",
+      "nothingToCopy": "還沒有可拷貝的聽寫",
+      "justNow": "剛剛"
     },
     "help": {
-      "title": "帮助",
+      "title": "輔助說明",
       "updates": "更新",
-      "whatsNew": "有什么新内容",
-      "essentials": "基础",
-      "shortcuts": "快捷方式",
-      "microphone": "麦克风",
-      "languages": "语言",
-      "documentation": "文档",
-      "getInTouch": "联系我们",
-      "reportProblem": "反馈问题…",
-      "sendFeedback": "发送反馈",
+      "whatsNew": "新功能",
+      "essentials": "基本功能",
+      "shortcuts": "快速鍵",
+      "microphone": "麥克風",
+      "languages": "語言",
+      "documentation": "說明文件",
+      "getInTouch": "聯絡我們",
+      "reportProblem": "回報問題⋯",
+      "sendFeedback": "傳送意見回饋",
       "report": {
-        "title": "反馈问题",
-        "body": "这会在你的浏览器中打开一个GitHub新问题，自动填入你的应用版本和Mac型号。它不会包含你所语音输入的内容，你可以在发送前阅读并修改所有内容。",
-        "diagnosticsTitle": "诊断信息（可选）",
-        "diagnosticsBody": "清理后的日志有助于定位问题。它们不会包含您的语音输入。将它们复制到这里，然后粘贴到问题中。",
-        "copy": "复制诊断信息",
-        "copied": "诊断信息已复制。请将其粘贴到问题中。",
-        "copyFailed": "无法复制诊断信息。",
-        "open": "打开 GitHub",
+        "title": "回報問題",
+        "body": "這會在瀏覽器中於 GitHub 開啟新的問題，並自動填入你的 App 版本和 Mac 機型。其中絕不會包含你聽寫的任何內容，而且你可以在送出前閱讀並修改所有內容。",
+        "diagnosticsTitle": "診斷資訊（選用）",
+        "diagnosticsBody": "去識別化的記錄檔有助於找出原因，其中絕不會包含你的聽寫內容。在這裡拷貝，然後貼到問題中。",
+        "copy": "拷貝診斷資訊",
+        "copied": "已拷貝診斷資訊。請貼到問題中。",
+        "copyFailed": "無法拷貝診斷資訊。",
+        "open": "打開 GitHub",
         "cancel": "取消",
-        "close": "关闭"
+        "close": "關閉"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "设置区域"
+      "sectionsLabel": "設定分類"
     },
     "pages": {
       "dictation": {
-        "title": "语音输入",
+        "title": "聽寫",
         "banner": {
-          "title": "说话而不是打字",
-          "body": "在任何应用中按住 fn 键，说出你想输入的内容，然后松开。{{appName}} 将干净的文本放置在光标位置。",
-          "examplesLabel": "可以尝试的内容",
+          "title": "用說的，不用打字",
+          "body": "在任何 App 中按住 fn，說出想寫的內容，然後放開。{{appName}} 會將整理好的文字放到游標位置。",
+          "examplesLabel": "試試這些",
           "examples": {
-            "reply": "对一条消息的快速回复",
-            "notes": "通话后立即记的笔记",
-            "prompt": "一个用于AI聊天的长提示"
+            "reply": "快速回覆一則訊息",
+            "notes": "通話後馬上記筆記",
+            "prompt": "給 AI 聊天的長篇提示詞"
           },
-          "quiet": "安静听写：让我看看"
+          "quiet": "輕聲聽寫：教我怎麼做"
         },
         "empty": {
-          "title": "你的语音输入会显示在这里",
-          "body": "每个都被保存在这款Mac上，包含音频，以便你之后复制或查看。",
-          "action": "打开记录"
+          "title": "你的聽寫內容會顯示在這裡",
+          "body": "每一則都會連同音訊儲存在這台 Mac 上，方便你之後拷貝或查看。",
+          "action": "打開歷史記錄"
         }
       },
       "insights": {
-        "title": "洞察",
+        "title": "統計",
         "empty": {
-          "title": "洞察需要几段语音输入",
-          "body": "你的说话速度、连续记录天数以及节省的时间，只有在你持续语音输入一段时间后才会显示。",
-          "action": "前往语音输入"
+          "title": "統計需要一些聽寫資料",
+          "body": "聽寫一段時間後，這裡會顯示你的語速、連續天數和節省的時間。",
+          "action": "前往聽寫"
         }
       },
       "dictionary": {
-        "title": "词典",
+        "title": "字典",
         "empty": {
-          "title": "Teach {{appName}} your words",
-          "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
-          "action": "Open custom words"
+          "title": "教 {{appName}} 认识你的用词",
+          "body": "你添加的名称、产品术语和缩写词每次都会拼写正确。在此页面就绪前，你的词语保存在设置中。",
+          "action": "打开自定义词语"
         }
       },
       "snippets": {
-        "title": "片段",
+        "title": "文字片段",
         "empty": {
-          "title": "片段即将上线",
-          "body": "说一个简短的提示，比如“我的地址”，就能获取完整文本。该页面将在后续更新中出现。",
-          "action": "前往语音输入"
+          "title": "文字片段即將推出",
+          "body": "說出「我的地址」這類簡短提示語，即可得到完整文字。此頁面將在之後的更新中推出。",
+          "action": "前往聽寫"
         }
       },
       "style": {
-        "title": "风格",
+        "title": "風格",
         "empty": {
-          "title": "样式即将上线",
-          "body": "选择你在各种应用中文本的精致程度，从正式邮件到轻松聊天。此页面将在后续更新中出现。",
-          "action": "前往语音输入"
+          "title": "風格即將推出",
+          "body": "為每類 App 選擇文字的正式程度，從正式郵件到輕鬆聊天。此頁面將在之後的更新中推出。",
+          "action": "前往聽寫"
         }
       },
       "transforms": {
-        "title": "转换",
+        "title": "轉換",
         "empty": {
-          "title": "转换功能即将推出",
-          "body": "选择文本并使用一个快捷方式重新编写它：更简短、更清晰或更有序。该页面将在后续更新中出现。",
-          "action": "前往语音输入"
+          "title": "轉換即將推出",
+          "body": "選取文字，用一個快速鍵改寫：更簡短、更清楚或更有條理。此頁面將在之後的更新中推出。",
+          "action": "前往聽寫"
         }
       },
       "scratchpad": {
-        "title": "草稿纸",
+        "title": "草稿板",
         "empty": {
-          "title": "草稿板即将上线",
-          "body": "一个快速记录笔记的地方，在它们被发送到其他地方之前。此页面将在后续更新中出现。",
-          "action": "前往语音输入"
+          "title": "草稿板即將推出",
+          "body": "快速聽寫筆記的地方，之後再把它們放到別處。此頁面將在之後的更新中推出。",
+          "action": "前往聽寫"
         }
       },
       "share": {
-        "title": "与朋友分享"
+        "title": "與朋友分享"
       },
       "settings": {
-        "title": "设置"
+        "title": "設定"
       }
     },
     "featurePopup": {
-      "label": "本版本的新功能",
-      "dismiss": "明白了",
-      "open": "给我看"
+      "label": "此版本的新功能",
+      "dismiss": "知道了",
+      "open": "查看"
     },
     "update": {
-      "off": "关闭更新检查",
-      "turnOn": "打开",
-      "notChecked": "尚未检查",
-      "check": "检查更新",
-      "checking": "正在检查更新…",
-      "upToDate": "最新",
-      "checkAgain": "再检查一次",
-      "checkFailed": "无法检查",
-      "retry": "重试",
-      "downloading": "正在下载 {{version}}…",
-      "ready": "更新就绪",
-      "restartNow": "现在重启",
-      "installing": "正在安装 {{version}}…",
-      "installedWaiting": "{{version}} 已安装 · 本次语音输入后需要重启",
-      "restarting": "正在重启…",
-      "installFailed": "更新未安装",
-      "busy": "先完成语音输入。",
-      "actionFailed": "那没成功。稍后再试。",
-      "lastChecked": "上次检查时间是 {{time}}。",
-      "paused": "三次尝试失败后，自动更新将暂停，直到 {{time}}。",
-      "manualOnly": "这是一个开发版本：只有在你要求时才会检查更新。",
-      "readyHint": "它会在你20分钟没有语音输入，或退出时自动安装。",
-      "policy": "更新在后台下载，仅在您未进行语音输入或退出时安装。",
-      "needsPassword": "这个应用程序当前位于一个需要管理员密码才能修改的文件夹中，因此只有在您选择现在重启时，才会安装更新。"
+      "off": "更新檢查已關閉",
+      "turnOn": "開啟",
+      "notChecked": "尚未檢查",
+      "check": "檢查更新",
+      "checking": "正在檢查更新⋯",
+      "upToDate": "已是最新版本",
+      "checkAgain": "再次檢查",
+      "checkFailed": "無法檢查",
+      "retry": "重試",
+      "downloading": "正在下載 {{version}}⋯",
+      "ready": "更新已就緒",
+      "restartNow": "立即重新啟動",
+      "installing": "正在安裝 {{version}}⋯",
+      "installedWaiting": "已安裝 {{version}} · 本次聽寫結束後重新啟動",
+      "restarting": "正在重新啟動⋯",
+      "installFailed": "更新未能安裝",
+      "busy": "請先完成聽寫。",
+      "actionFailed": "動作未成功。請稍後再試。",
+      "lastChecked": "上次檢查時間：{{time}}。",
+      "paused": "連續三次嘗試失敗，自動更新已暫停至 {{time}}。",
+      "manualOnly": "這是開發版本：只有在你要求時才會檢查更新。",
+      "readyHint": "你 20 分鐘沒有聽寫或結束 App 時，更新會自動安裝。",
+      "policy": "更新會在背景下載，只會在你沒有聽寫或結束 App 時安裝。",
+      "needsPassword": "此 App 所在的檔案夾需要管理者密碼才能更改，因此只有在你選擇「立即重新啟動」時才會安裝更新。"
     }
   },
   "ui": {
@@ -627,101 +627,101 @@
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "取消"
+      "dismiss": "關閉"
     },
     "importWizard": {
-      "stepsLabel": "导入步骤",
+      "stepsLabel": "匯入步驟",
       "stepOf": "第 {{step}} 步，共 {{total}} 步：{{title}}",
       "steps": {
-        "choose": "选择一个文件",
-        "columns": "匹配列",
-        "review": "审核",
+        "choose": "選擇檔案",
+        "columns": "對應欄位",
+        "review": "檢查",
         "done": "完成"
       },
-      "dropHint": "在这里拖入一个.csv文件，或选择一个。",
-      "browse": "选择一个.csv文件",
-      "limit": "最多 3 MB。",
-      "formatLink": "已接受的格式",
-      "csvFilter": "CSV 文件",
-      "fileSummary_other": "{{name}}: {{count}} 行",
-      "hasHeader": "第一行包含列名",
-      "optional": "(可选)",
-      "noColumn": "不在这个文件中",
-      "column": "列 {{letter}}",
-      "columnNamed": "列 {{letter}}: {{name}}",
-      "mapRequired": "为每个非必填字段选择一列。",
-      "previewCaption_other": "前{{count}}行的预览",
-      "rowHeader": "行",
+      "dropHint": "將 .csv 檔案拖移到這裡，或選擇一個檔案。",
+      "browse": "選擇 .csv 檔案",
+      "limit": "最大 3 MB。",
+      "formatLink": "支援的格式",
+      "csvFilter": "CSV 檔案",
+      "fileSummary_other": "{{name}}：{{count}} 列",
+      "hasHeader": "第一列為欄位名稱",
+      "optional": "（選用）",
+      "noColumn": "不在此檔案中",
+      "column": "{{letter}} 欄",
+      "columnNamed": "{{letter}} 欄：{{name}}",
+      "mapRequired": "請為每個必填欄位選擇一欄。",
+      "previewCaption_other": "前 {{count}} 列預覽",
+      "rowHeader": "列",
       "cancel": "取消",
       "back": "返回",
       "next": "下一步",
-      "import": "导入",
+      "import": "匯入",
       "done": "完成",
-      "close": "关闭",
+      "close": "關閉",
       "errors": {
-        "notCsv": "这不是一个.csv文件。请将表格另存为CSV格式，然后重试。",
-        "tooLarge": "该文件大小为 {{size}} MB。文件最大支持 3 MB。",
-        "unreadable": "该文件无法读取。请确认它是CSV文件，然后重试。",
-        "empty": "该文件没有行可以导入。",
-        "failed": "发生了一些错误。没有导入任何内容；请重新尝试。"
+        "notCsv": "這不是 .csv 檔案。請將試算表儲存為 CSV 格式，然後再試一次。",
+        "tooLarge": "該檔案大小為 {{size}} MB。檔案最大為 3 MB。",
+        "unreadable": "無法讀取該檔案。請確認它是 CSV 檔案，然後再試一次。",
+        "empty": "該檔案中沒有可匯入的列。",
+        "failed": "發生問題。沒有匯入任何內容，請再試一次。"
       }
     }
   },
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "语音输入",
-      "vocabulary": "词汇",
-      "help": "帮助",
-      "file": "文件",
-      "edit": "编辑",
-      "view": "查看",
-      "window": "窗口",
-      "wordsDictated_other": "已识别{{count}}个词",
-      "copyLast": "复制上一条转录",
-      "copyLastPreview": "复制上次转录：“{{preview}}”",
-      "copyLastConcealed": "复制上次的转录文本（隐藏的文本）",
-      "microphone": "麦克风",
-      "languages": "语言",
-      "moreLanguages": "添加或移除语言…",
-      "automaticMicrophone": "自动检测（系统设置）",
-      "noMicrophones": "未找到麦克风",
-      "dictionaryWords_other": "其他词典单词 {{count}}",
-      "snippetCount_other": "{{count}} 个片段",
-      "addWord": "添加单词…",
-      "newSnippet": "新建片段…",
-      "documentation": "文档",
-      "shortcuts": "快捷键",
-      "reportProblem": "反馈问题…",
-      "sendFeedback": "发送反馈…",
-      "openApp": "打开 {{appName}}",
-      "checkUpdates": "检查更新…",
-      "pasteLast": "粘贴上一条转录",
-      "cancelDictation": "取消语音输入",
-      "shortcutsBlocked": "快捷键被阻止 — 打开设置",
-      "undo": "撤销",
+      "dictation": "聽寫",
+      "vocabulary": "詞彙",
+      "help": "輔助說明",
+      "file": "檔案",
+      "edit": "編輯",
+      "view": "顯示方式",
+      "window": "視窗",
+      "wordsDictated_other": "已聽寫 {{count}} 個字詞",
+      "copyLast": "拷貝上一則轉錄文字",
+      "copyLastPreview": "拷貝上一則轉錄文字：「{{preview}}」",
+      "copyLastConcealed": "拷貝上一則轉錄文字（文字已隱藏）",
+      "microphone": "麥克風",
+      "languages": "語言",
+      "moreLanguages": "加入或移除語言⋯",
+      "automaticMicrophone": "自動偵測（系統設定）",
+      "noMicrophones": "找不到麥克風",
+      "dictionaryWords_other": "字典中有 {{count}} 個字詞",
+      "snippetCount_other": "{{count}} 個文字片段",
+      "addWord": "加入字詞⋯",
+      "newSnippet": "新增文字片段⋯",
+      "documentation": "說明文件",
+      "shortcuts": "快速鍵",
+      "reportProblem": "回報問題⋯",
+      "sendFeedback": "傳送意見回饋⋯",
+      "openApp": "打開 {{appName}}",
+      "checkUpdates": "檢查更新⋯",
+      "pasteLast": "貼上上一則轉錄文字",
+      "cancelDictation": "取消聽寫",
+      "shortcutsBlocked": "快速鍵遭到阻擋 — 打開設定",
+      "undo": "還原",
       "redo": "重做",
-      "cut": "剪切",
-      "copy": "复制",
-      "paste": "粘贴",
-      "selectAll": "全部选择",
-      "minimize": "最小化",
-      "zoom": "缩放",
-      "closeWindow": "关闭窗口",
-      "fullScreen": "进入全屏",
-      "services": "服务",
-      "hideOthers": "隐藏其他",
-      "showAll": "显示全部",
-      "about": "关于 {{appName}}",
-      "hide": "隐藏 {{appName}}",
-      "quitApp": "退出 {{appName}}",
-      "restartToUpdate": "重启以更新到 {{version}}",
-      "updatesOff": "更新检查已关闭…"
+      "cut": "剪下",
+      "copy": "拷貝",
+      "paste": "貼上",
+      "selectAll": "全選",
+      "minimize": "縮到最小",
+      "zoom": "縮放",
+      "closeWindow": "關閉視窗",
+      "fullScreen": "進入全螢幕",
+      "services": "服務",
+      "hideOthers": "隱藏其他",
+      "showAll": "顯示全部",
+      "about": "關於 {{appName}}",
+      "hide": "隱藏 {{appName}}",
+      "quitApp": "結束 {{appName}}",
+      "restartToUpdate": "重新啟動以更新至 {{version}}",
+      "updatesOff": "更新檢查已關閉⋯"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
-      "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "快捷方式已停止工作"
+      "versionDev": "Wispr Bro v{{version}}（開發版）",
+      "shortcutLost": "快速鍵已停止運作"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -729,218 +729,218 @@
     "hotkeys": {
       "keys": {
         "fn": "fn",
-        "control": "控制",
-        "option": "选项",
+        "control": "Control",
+        "option": "Option",
         "shift": "Shift",
         "command": "Command",
-        "space": "空格",
-        "escape": "Escape",
-        "return": "返回",
+        "space": "空白鍵",
+        "escape": "Esc",
+        "return": "Return",
         "tab": "Tab",
-        "delete": "删除",
-        "forwardDelete": "向前删除",
-        "left": "左箭头",
-        "right": "右箭头",
-        "up": "上箭头",
-        "down": "向下箭头",
+        "delete": "Delete",
+        "forwardDelete": "向後刪除",
+        "left": "左方向鍵",
+        "right": "右方向鍵",
+        "up": "上方向鍵",
+        "down": "下方向鍵",
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
-        "mouseLeft": "鼠标左键",
-        "mouseRight": "鼠标右键",
-        "mouseMiddle": "鼠标中键",
-        "mouseBack": "鼠标后退键",
-        "mouseForward": "鼠标前进键"
+        "mouseLeft": "滑鼠左鍵",
+        "mouseRight": "滑鼠右鍵",
+        "mouseMiddle": "滑鼠中鍵",
+        "mouseBack": "滑鼠上一頁鍵",
+        "mouseForward": "滑鼠下一頁鍵"
       }
     },
     "notify": {
       "modelReady": {
-        "title": "语音输入已准备就绪",
-        "body": "语音模型下载完成。在任意应用中按住 fn 并开始说话。"
+        "title": "聽寫已就緒",
+        "body": "語音模型已下載完成。在任何 App 中按住 fn 並開始說話。"
       },
       "updateReady": {
-        "title": "更新就绪",
-        "body": "{{appName}} {{version}} 下次重启应用时将进行安装。"
+        "title": "更新已就緒",
+        "body": "{{appName}} {{version}} 會在 App 下次重新啟動時安裝。"
       },
       "queuedTakesReady": {
-        "title_other": "共有 {{count}} 条语音备妥",
-        "body": "你在语音模型缺失时所说的内容已经转录了。"
+        "title_other": "{{count}} 則聽寫已就緒",
+        "body": "語音模型缺少期間你說的內容已轉錄完成。"
       },
       "shortcutProblem": {
-        "title": "你的快捷方式不起作用",
-        "body": "{{appName}} 无法开始监听 fn。请打开设置以检查您的快捷方式。",
-        "bodyPermission": "{{appName}} 需要无障碍访问权限来监听 fn。请在系统设置中开启它。"
+        "title": "你的快速鍵無法運作",
+        "body": "{{appName}} 無法開始偵聽 fn。請打開設定檢查你的快速鍵。",
+        "bodyPermission": "{{appName}} 需要輔助使用權限才能偵聽 fn。請在「系統設定」中開啟。"
       },
       "crashReport": {
-        "title": "{{appName}} 异常退出",
-        "body": "在该 Mac 上保存了一个崩溃报告。没有任何内容被发送到任何地方。"
+        "title": "{{appName}} 意外結束",
+        "body": "當機報告已儲存在這台 Mac 上，沒有傳送到任何地方。"
       },
       "dataRecovered": {
-        "title": "您的历史文件已修复",
-        "body": "无法读取，因此创建了一个新的文件。损坏的文件被保留在其旁边。"
+        "title": "你的歷史記錄檔案已修復",
+        "body": "原檔案無法讀取，因此已建立新檔案。損壞的檔案保留在旁邊。"
       },
       "milestoneWords": {
-        "title_other": "{{count}} 个听写词",
-        "body_other": "那是一段你无需输入的{{count}}个词，做得不错。"
+        "title_other": "已聽寫 {{count}} 個字詞",
+        "body_other": "這是你不必親手輸入的 {{count}} 個字詞。做得好。"
       },
       "milestoneStreak": {
-        "title_other": "{{count}}天连击",
-        "body_other": "你已连续听写 {{count}} 天。"
+        "title_other": "連續 {{count}} 天",
+        "body_other": "你已連續 {{count}} 天使用聽寫。"
       },
       "tips": {
         "handsFree": {
-          "title": "说话而无需按键",
-          "body": "双击 fn，或按 fn 和 Space，开启无手模式。完成时再次按 fn。"
+          "title": "不必按住按鍵也能說話",
+          "body": "按兩下 fn，或按下 fn 和空白鍵，即可進入免持模式。說完後再按一次 fn。"
         },
         "cancel": {
-          "title": "改变主意了？",
-          "body": "说话时按 Esc，语音输入将被取消。不会有任何内容被粘贴。"
+          "title": "改變主意了？",
+          "body": "說話時按下 Esc，這次聽寫就會捨棄，不會貼上任何內容。"
         },
         "history": {
-          "title": "每段语音输入都会被保存",
-          "body": "你的语音输入会保留在这台 Mac 上。打开历史记录以再次复制一条。"
+          "title": "每次聽寫都會保留",
+          "body": "你的聽寫內容會留在這台 Mac 上。打開歷史記錄即可再次拷貝。"
         },
         "darkMode": {
-          "title": "亮或暗",
-          "body": "此窗口顶部的月亮按钮可切换外观。"
+          "title": "淺色或深色",
+          "body": "點一下此視窗上方的月亮按鈕即可切換外觀。"
         },
         "customWords": {
-          "title": "教它你的词语",
-          "body": "添加你经常使用的名称和术语，以确保每次都能正确拼写。"
+          "title": "教它認識你的用詞",
+          "body": "加入你常用的名稱和術語，讓它們每次都拼寫正確。"
         }
       },
       "slowerMac": {
-        "title": "语音输入在这款Mac上可能会变慢",
-        "body": "此 Mac 上没有足够快的语音模型支持您的语言，因此使用最快的一个。文本显示可能需要稍长一点的时间。"
+        "title": "在這台 Mac 上聽寫可能較慢",
+        "body": "在這台 Mac 上，沒有夠快的語音模型支援你的語言，因此會使用最快的模型。文字可能需要稍等一下才會出現。"
       },
       "features": {
         "inbox": {
-          "title": "您的通知都在这里",
-          "body": "下载、里程碑和提示现在会聚集在铃铛后面。在菜单中选择您想要的内容。"
+          "title": "你的通知都在這裡",
+          "body": "下載、里程碑和提示現在都集中在鈴鐺圖像中。在其選單中選擇要接收的內容。"
         }
       },
       "buttons": {
-        "copyLatest": "复制最新",
-        "open": "打开",
-        "openAccessibility": "打开设置"
+        "copyLatest": "拷貝最新內容",
+        "open": "打開",
+        "openAccessibility": "打開設定"
       },
       "takeRecovered": {
-        "title_other": "退出应用时保存了{{count}}条录音",
-        "body": "他们关闭 {{appName}} 时仍在录制。这些内容已保存在历史记录中，并已转录。"
+        "title_other": "App 結束時已儲存 {{count}} 段錄音",
+        "body": "{{appName}} 關閉時這些錄音仍在進行中。它們已在歷史記錄中，並會在那裡轉錄。"
       }
     },
     "scratchpad": {
-      "windowTitle": "Scratchpad"
+      "windowTitle": "草稿板"
     },
     "pill": {
-      "name": "Dictation bar",
-      "hint": "Hold fn to dictate, or click to start",
-      "hideForAnHour": "Hide for an hour",
+      "name": "听写浮动栏",
+      "hint": "按住 fn 听写，或点按开始",
+      "hideForAnHour": "隐藏一小时",
       "slots": {
         "dictate": {
-          "label": "语音输入",
-          "tooltip": "按住 fn 来语音输入"
+          "label": "聽寫",
+          "tooltip": "按住 fn 進行聽寫"
         },
         "scratchpad": {
-          "label": "Scratchpad",
-          "tooltip": "Scratchpad"
+          "label": "草稿板",
+          "tooltip": "草稿板"
         }
       },
       "announce": {
-        "listening": "Listening",
-        "transcribing": "Transcribing",
-        "cleaningUp": "Cleaning up your text",
-        "cancelled": "Dictation cancelled",
-        "silenceWarning": "No speech for a while. Dictation stops soon.",
-        "lengthWarning": "Dictation stops at 30 minutes.",
-        "settingUp": "正在设置听写。你说的话已保存。",
-        "card": "你的听写已就绪。可从栏中复制。",
-        "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。",
-        "undo": "“撤销”会在听写栏上显示 4 秒。",
-        "diff": "变换更改已准备就绪，可供审核。",
-        "secureInputWarning": "Secure Input 已开启。fn 和 空格键 无法锁定语音输入。Escape 或 关闭按钮 仍可取消。",
-        "inserted": "文本已插入"
+        "listening": "正在聆听",
+        "transcribing": "正在转写",
+        "cleaningUp": "正在清理你的文本",
+        "cancelled": "听写已取消",
+        "silenceWarning": "一段时间没有检测到语音。听写即将停止。",
+        "lengthWarning": "听写会在 30 分钟时停止。",
+        "settingUp": "正在設定聽寫。你說的話已保留。",
+        "card": "你的聽寫內容已就緒。可從浮動列拷貝。",
+        "micLostWarning": "麥克風已中斷連線。到目前為止你說的內容都已保留。",
+        "undo": "「還原」會在聽寫浮動列上顯示 4 秒。",
+        "diff": "轉換變更已可供檢視。",
+        "secureInputWarning": "安全輸入已開啟。fn 和空白鍵無法鎖定聽寫。按 Esc 或關閉按鈕仍可取消。",
+        "inserted": "已插入文字"
       },
       "message": {
-        "no_speech": "No speech heard",
-        "mic_muted": "Only silence came in. Is the mic muted?",
-        "inserted_without_cleanup": "Inserted without cleanup",
-        "not_pasted": "Not pasted. Your text is in History.",
-        "transcription_failed": "Couldn't transcribe that",
-        "mic_denied": "Microphone access is off",
-        "no_microphone": "No microphone found",
-        "mic_failed": "The microphone didn't start",
-        "download_failed": "无法下载",
-        "check_connection": "请检查网络连接",
-        "no_space": "磁盘空间不足，无法设置听写",
+        "no_speech": "未听到语音",
+        "mic_muted": "只收到了静音。麦克风是否已静音？",
+        "inserted_without_cleanup": "已插入，未经清理",
+        "not_pasted": "未粘贴。你的文本在历史记录中。",
+        "transcription_failed": "无法转写这段内容",
+        "mic_denied": "麦克风访问已关闭",
+        "no_microphone": "未找到麦克风",
+        "mic_failed": "麦克风未能启动",
+        "download_failed": "無法下載",
+        "check_connection": "請檢查你的網際網路連線",
+        "no_space": "磁碟空間不足，無法設定聽寫",
         "cancelled": "已取消",
-        "no_transcript": "还没有可粘贴的听写",
-        "copied_last": "已复制最近一次听写",
+        "no_transcript": "還沒有可貼上的聽寫",
+        "copied_last": "已拷貝上一次聽寫",
         "transform_done": "完成",
-        "command_done": "好了",
-        "command_needs_text": "命令模式下可编辑和输入文本。请选择文本或点击输入框。",
-        "select_text_first": "先选择文本",
-        "selection_too_long": "选择 6,000 个字符或更少",
-        "transform_focus_moved": "你已经移动过去，所以没有变化",
+        "command_done": "完成",
+        "command_needs_text": "命令模式用于编辑和撰写文本。请选择文本或点按输入栏。",
+        "select_text_first": "请先选择文本",
+        "selection_too_long": "请选择不超过 6,000 个字符",
+        "transform_focus_moved": "你已切换到别处，因此未做任何更改",
         "transform_failed": "无法转换该文本",
-        "shortcut_lost": "你的快捷方式已失效",
-        "shortcut_stopped": "你的快捷方式已停止响应",
-        "shortcut_back": "你的快捷方式又可以使用了"
+        "shortcut_lost": "你的快捷键已停止工作",
+        "shortcut_stopped": "你的快捷键已停止响应",
+        "shortcut_back": "你的快捷键已恢复工作"
       },
       "card": {
-        "no_text_field": "先点击文本框",
-        "focus_moved": "你已经移动到下一个位置，因此没有进行粘贴",
-        "secure_field": "未输入到密码字段",
-        "sleep": "未粘贴：您的 Mac 进入睡眠状态",
+        "no_text_field": "请先点按一个文本栏",
+        "focus_moved": "你已切换到别处，因此未粘贴任何内容",
+        "secure_field": "未输入到密码栏",
+        "sleep": "未粘贴：你的 Mac 进入了睡眠",
         "screen_locked": "未粘贴：屏幕已锁定",
-        "session_inactive": "未粘贴：您切换了用户",
-        "paste_failed": "无法粘贴这段文字",
+        "session_inactive": "未粘贴：你切换了用户",
+        "paste_failed": "无法粘贴此文本",
         "disk_full": "磁盘已满：录音已停止"
       }
     },
     "share": {
-      "message": "{{appName}} 是免费的语音输入，完全在您的 Mac 上运行。点击这里获取："
+      "message": "{{appName}} 是一款完全在你的 Mac 上运行的免费听写工具。在这里获取："
     },
     "spotlight": {
       "label": "下一步",
       "hint": {
-        "ai_chat": "打开一个AI聊天，比如ChatGPT或Claude",
-        "note": "打开你的笔记应用",
-        "message": "打开一个聊天，比如信息或Slack",
-        "email": "打开你的邮箱",
+        "ai_chat": "打开 AI 聊天，例如 ChatGPT 或 Claude",
+        "note": "打开你的笔记 App",
+        "message": "打开聊天，例如“信息”或 Slack",
+        "email": "打开你的邮件",
         "comment": "打开你想评论的帖子",
-        "document": "打开你正在撰写的文档",
-        "coding": "打开光标、VS Code 或其他代码编辑器"
+        "document": "打开你正在撰写的文稿",
+        "coding": "打开 Cursor、VS Code 或其他代码编辑器"
       },
-      "how": "点击你想输入的位置，然后按住 fn 并说话。",
-      "howFallback": "点击你想输入的位置，然后按住 Control 和 Option 键并说话。",
-      "escape": "按 Esc 键关闭此提示。"
+      "how": "点按想要输入的位置，然后按住 fn 并说话。",
+      "howFallback": "点按想要输入的位置，然后按住 Control 和 Option 并说话。",
+      "escape": "按 Esc 关闭此提示。"
     }
   },
   "speechModels": {
     "title": "语音模型",
-    "intro": "{{appName}} 为你的语言和这台 Mac 选择语音模型，并在可以时自动更换为更好的模型。你永远不必选择。",
+    "intro": "{{appName}} 会根据你的语言和这台 Mac 选择语音模型，并在可能时换用更好的模型。你无需自己选择。",
     "loading": "正在检查语音模型…",
-    "current": "当前使用：{{name}}",
-    "none": "尚未添加语音模型",
+    "current": "正在使用：{{name}}",
+    "none": "尚无语音模型",
     "phase": {
-      "checking": "正在检查哪个模型适合这台Mac…",
-      "settled": "这是为您设备上的语言提供最佳体验的模型。",
-      "downloading": "正在后台下载更好的模型……{{percent}}%",
+      "checking": "正在检查哪个模型适合这台 Mac…",
+      "settled": "这是在这台 Mac 上最适合你的语言的模型。",
+      "downloading": "正在后台下载更好的模型… {{percent}}%",
       "downloadingNoPercent": "正在后台下载更好的模型…",
-      "waiting_to_swap": "有一个更好的模型已经准备就绪。在您不进行语音输入时会进行切换。",
-      "paused": "更好的模型无法下载。稍后会再次尝试。"
+      "waiting_to_swap": "更好的模型已就绪，将在你不听写时换用。",
+      "paused": "无法下载更好的模型，稍后会重试。"
     },
     "next": "下一个：{{name}}",
-    "progressLabel": "更好的语音模型下载",
-    "slower": "在这款 Mac 上语音识别可能较慢：目前没有足够快的模型支持您的语言，因此使用最快的一个。",
-    "pinned": "你亲自选择了这个模型，所以 {{appName}} 不会动它。",
+    "progressLabel": "更好的语音模型下载进度",
+    "slower": "在这台 Mac 上听写可能较慢：没有足够快的模型支持你的语言，因此将使用最快的模型。",
+    "pinned": "这是你自己选择的模型，因此 {{appName}} 不会更改它。",
     "automatic": "自动选择模型",
-    "automaticHint": "在下方列表中选择模型时会关闭。",
-    "languages": "语言：{{languages}}",
-    "machine": "这台Mac：{{chip}}，{{ram}} GB 内存",
-    "freeDisk": "{{gb}} GB 空闲空间用于模型",
+    "automaticHint": "在下方列表中选择模型后，此选项会关闭。",
+    "languages": "适用于：{{languages}}",
+    "machine": "这台 Mac：{{chip}}，{{ram}} GB 内存",
+    "freeDisk": "{{gb}} GB 可用于模型",
     "chip": {
       "apple": "Apple M{{generation}}",
       "apple_pro": "Apple M{{generation}} Pro",
@@ -952,120 +952,120 @@
     "list": "所有模型"
   },
   "aiEngine": {
-    "title": "AI引擎",
-    "loading": "正在检查AI引擎…",
-    "loadError": "无法读取AI引擎状态：{{message}}",
+    "title": "AI 引擎",
+    "loading": "正在检查 AI 引擎…",
+    "loadError": "无法读取 AI 引擎状态：{{message}}",
     "state": {
-      "unsupported": "在这款 Mac 上，使用本地 AI 引擎进行文本清理功能不可用。",
-      "missing_runtime": "该AI引擎在此版本中缺失。",
-      "waiting_for_speech_model": "清理模型在语音模型之后下载。",
-      "downloading": "正在下载清理模型……{{percent}}%",
-      "verifying": "正在验证清理模型…",
-      "ready": "已准备就绪",
+      "unsupported": "这台 Mac 不支持使用本地 AI 引擎清理文本。",
+      "missing_runtime": "此版本中缺少 AI 引擎。",
+      "waiting_for_speech_model": "清理模型将在语音模型之后下载。",
+      "downloading": "正在下载清理模型… {{percent}}%",
+      "verifying": "正在检查清理模型…",
+      "ready": "已就绪",
       "download_failed": "无法下载清理模型。"
     },
-    "progressLabel": "清理模型下载",
+    "progressLabel": "清理模型下载进度",
     "model": "模型：{{name}}",
     "server": {
-      "stopped": "引擎空闲：你开始语音输入时会启动。",
-      "starting": "引擎启动…",
-      "ready": "引擎运行中",
-      "failed": "引擎启动失败；将尝试再次启动。"
+      "stopped": "引擎空闲：将在你听写时启动。",
+      "starting": "引擎正在启动…",
+      "ready": "引擎正在运行",
+      "failed": "引擎启动失败，将重试。"
     },
     "cpuOnly": "在 CPU 上运行",
     "downloadError": "错误：{{message}}",
     "retry": "重试",
     "try": {
-      "label": "在一句话上试试",
-      "sample": "嗯，所以我想我们可以在周五见面，不对，是周四，来讨论一下预算",
+      "label": "用一句话试试",
+      "sample": "嗯 我在想我们可以 呃 周五见面 不对 周四 一起过一下 那个那个预算",
       "button": "试试",
       "running": "正在清理…",
-      "notReady": "一旦清理模型准备就绪，将可用。",
+      "notReady": "清理模型就绪后可用。",
       "result": "清理后的文本",
-      "empty": "(清理后没有内容)",
+      "empty": "（清理后没有剩余内容）",
       "timing": "清理用时 {{ms}} 毫秒。",
-      "timingCold": "清理用时 {{ms}} 毫秒，从 {{start}} 毫秒开始启动引擎。",
-      "lowMemory": "当前内存不足，无法启动AI引擎。请关闭一些应用程序后再试。",
-      "badReply": "模型的回复无法使用。您的文本将被插入而不会进行清理。",
+      "timingCold": "清理用时 {{ms}} 毫秒，此前启动引擎用时 {{start}} 毫秒。",
+      "lowMemory": "当前可用内存不足，无法启动 AI 引擎。请退出一些 App，然后重试。",
+      "badReply": "无法使用模型的回复。你的文本将不经清理直接插入。",
       "failed": "清理失败：{{message}}",
-      "ranOnApple": "在 Apple Intelligence 上运行。"
+      "ranOnApple": "由 Apple 智能运行。"
     },
     "apple": {
-      "title": "Apple Intelligence",
+      "title": "Apple 智能",
       "state": {
-        "available_fallback": "在这款 Mac 上已准备就绪。当 Wispr Bro 自己的清理模型尚未运行时，例如下载过程中，它会使用这个功能。",
-        "available_default": "在这款 Mac 上已准备就绪。Wispr Bro 将使用它来清理你的语音输入。",
-        "device_not_eligible": "这台Mac无法运行Apple Intelligence。Wispr Bro使用自己的清理模型。",
-        "not_enabled": "Apple Intelligence 在系统设置中已关闭。Wispr Bro 使用其自身的清理模型。",
-        "model_not_ready": "Apple Intelligence 仍在准备模型。",
-        "unsupported": "Apple Intelligence 需要 macOS 26 或更高版本。Wispr Bro 使用自己的清理模型。",
-        "unknown": "Apple Intelligence 当前不可用。"
+        "available_fallback": "已在这台 Mac 上就绪。当 Wispr Bro 自己的清理模型还无法运行时（例如正在下载），会使用它。",
+        "available_default": "已在这台 Mac 上就绪。Wispr Bro 会用它清理你的听写内容。",
+        "device_not_eligible": "这台 Mac 无法运行 Apple 智能。Wispr Bro 会使用自己的清理模型。",
+        "not_enabled": "Apple 智能已在“系统设置”中关闭。Wispr Bro 会使用自己的清理模型。",
+        "model_not_ready": "Apple 智能仍在准备其模型。",
+        "unsupported": "Apple 智能需要 macOS 26 或更高版本。Wispr Bro 会使用自己的清理模型。",
+        "unknown": "Apple 智能当前不可用。"
       },
-      "counts": "应用启动以来：请求 {{requests}}，拒绝 {{refusals}}，限流 {{rateLimited}}。"
+      "counts": "自 App 启动以来：请求 {{requests}} 次，拒绝 {{refusals}} 次，限流 {{rateLimited}} 次。"
     }
   },
   "home": {
     "greeting": {
       "named": "你好，{{name}}",
       "anonymous": "你好",
-      "edit": "更改问候语中的名称"
+      "edit": "更改问候语中的名字"
     },
     "nameEditor": {
-      "label": "问候中的名称",
+      "label": "问候语中的名字",
       "field": "你的名字",
-      "hint": "仅在该 Mac 上显示。",
-      "save": "保存",
+      "hint": "仅在这台 Mac 上显示。",
+      "save": "存储",
       "useAccountName": "使用我的 Mac 账户名称",
-      "clear": "删除名称",
-      "saveFailed": "名称保存失败。请重试。"
+      "clear": "移除名字",
+      "saveFailed": "无法存储名字。请重试。"
     },
     "stats": {
-      "label": "你的统计数据",
+      "label": "你的统计",
       "totalWords": "总词数",
-      "wordsPerMinute": "每分钟单词数",
+      "wordsPerMinute": "每分钟词数",
       "streak": "连续天数",
-      "notEnoughSpeech": "语音还不够",
-      "unavailable": "尚未可用"
+      "notEnoughSpeech": "语音数据还不够",
+      "unavailable": "暂不可用"
     },
     "voiceProfile": {
       "title": "你的语音档案",
-      "unlocked": "已解锁。在洞察中查看你的语音说话方式。",
-      "open": "打开洞察",
-      "progress_other": "{{current}} 个词 out of {{goal}} 个词",
-      "locked_other": "在 {{goal}} 个词时解锁。继续听写以完善它。"
+      "unlocked": "已解锁。在“统计”中查看你的说话方式。",
+      "open": "打开统计",
+      "progress_other": "{{current}} / {{goal}} 个词",
+      "locked_other": "达到 {{goal}} 个词时解锁。继续听写来建立它。"
     },
     "history": {
-      "title": "你的语音输入保存在这款 Mac 上",
-      "body": "打开历史记录以复制、播放或搜索。",
+      "title": "你的听写内容存储在这台 Mac 上",
+      "body": "打开历史记录即可拷贝、播放或搜索。",
       "action": "打开历史记录"
     }
   },
   "dictionary": {
     "add": "添加单词",
-    "added": "已添加“{{entry}}”。“",
-    "search": "在词典中搜索",
+    "added": "已添加“{{entry}}”。",
+    "search": "搜索你的词典",
     "refresh": "刷新",
-    "shown_other": "显示了{{count}}个条目",
+    "shown_other": "显示了 {{count}} 个条目",
     "deleted": "已删除“{{entry}}”。",
-    "deleteFailed": "该条目无法删除，请再试一次。",
+    "deleteFailed": "无法删除该条目。请重试。",
     "undo": "撤销",
     "tabs": {
       "label": "词典条目",
       "all": "全部（{{count}}）",
       "mine": "你添加的（{{count}}）",
-      "suggested": "推荐（{{count}}）"
+      "suggested": "建议的（{{count}}）"
     },
     "sort": {
       "label": "排序",
-      "newest": "最新优先",
-      "oldest": "最老的在前",
+      "newest": "最新的优先",
+      "oldest": "最早的优先",
       "az": "A 到 Z",
       "za": "Z 到 A",
       "used": "最常用"
     },
     "banner": {
-      "title": "教 {{appName}} 你的词汇",
-      "body": "添加名称、产品术语和缩写，以便按您的方式拼写，或用您想要的文本替换您说出的单词。",
+      "title": "教 {{appName}} 认识你的用词",
+      "body": "添加名称、产品术语和缩写词，让它们按你的方式拼写；或将你说出的某个词替换为想要的文本。",
       "examplesLabel": "示例",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1074,257 +1074,257 @@
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
-      "becomes": "变成",
+      "becomes": "变为",
       "used_other": "已使用 {{count}} 次",
-      "edit": "编辑 {{entry}}",
-      "delete": "删除 {{entry}}",
-      "accept": "将 {{entry}} 添加到你的词典中",
-      "reject": "不要学习 {{entry}}"
+      "edit": "编辑“{{entry}}”",
+      "delete": "删除“{{entry}}”",
+      "accept": "将“{{entry}}”添加到你的词典",
+      "reject": "不学习“{{entry}}”"
     },
     "source": {
       "import": "已导入",
       "migrated": "来自你之前的自定义词语",
       "learn": "已学习",
-      "flag": "来自已标记的语音输入"
+      "flag": "来自已标记的听写"
     },
     "empty": {
       "title": "你的词典是空的",
-      "body": "添加 {{appName}} 需要的名称、词语和替换项。它们将应用于你的下一次语音输入。"
+      "body": "添加 {{appName}} 应该认识的名称、词语和替换项。它们会在你下一次听写时生效。"
     },
     "emptySuggested": {
       "title": "还没有建议",
-      "body": "当 {{appName}} 能从你纠正的词语中学习时，这些词语会在这里供你批准。",
-      "bodyOn": "在语音输入后，立即在文本框中修正拼写错误的名称或术语，然后按回车键、制表键或继续操作。你修正的词会在这里显示，供你确认。"
+      "body": "当 {{appName}} 能够从你更正的词语中学习时，这些词语会显示在这里，等待你确认。",
+      "bodyOn": "听写后立即在文本框中改正拼错的名称或术语，然后按 Return 键、Tab 键或继续操作。你改正的词语会显示在这里，等待你确认。"
     },
     "noMatch": {
       "title": "没有匹配项",
-      "body": "没有条目包含“{{query}}”。“",
+      "body": "没有包含“{{query}}”的条目。",
       "action": "清除搜索"
     },
     "unavailable": {
-      "title": "词典目前不可用",
-      "body": "它在应用程序启动完成后立即打开。"
+      "title": "词典暂不可用",
+      "body": "App 完成启动后即可打开。"
     },
     "problem": {
-      "empty": "先输入一个词。",
-      "same_as_replacement": "替换词和原词相同。",
-      "control_character": "换行和制表符不能在这里使用。",
+      "empty": "请先输入一个词。",
+      "same_as_replacement": "替换内容与原词相同。",
+      "control_character": "此处不能使用换行符和制表符。",
       "full": "你的词典已满。请先删除一些条目。",
-      "too_long_other": "单词最长可达 {{max}} 个字符。",
-      "replacement_too_long_other": "替换内容最多可为 {{maxReplacement}} 个字符。"
+      "too_long_other": "词语最多 {{max}} 个字符。",
+      "replacement_too_long_other": "替换内容最多 {{maxReplacement}} 个字符。"
     },
     "dialog": {
       "addTitle": "添加到词典",
       "editTitle": "编辑词典条目",
-      "description": "词语是按照你在这里的书写方式拼写的。",
-      "replaceToggle": "替换一个词",
-      "word": "单词或名称",
+      "description": "词语会按你在这里的写法拼写。",
+      "replaceToggle": "替换词语",
+      "word": "词语或名称",
       "wordPlaceholder": "例如：Siobhán",
-      "from": "当我说到",
-      "fromPlaceholder": "例如 gonna",
-      "to": "写",
-      "toPlaceholder": "例如：去",
+      "from": "当我说",
+      "fromPlaceholder": "例如：gonna",
+      "to": "写成",
+      "toPlaceholder": "例如：going to",
       "counter": "{{count}}/{{max}}",
-      "wordHint": "帮助语音模型正确听到并拼写它。",
-      "ruleHint": "匹配整个单词，不区分大小写，并且完全按照输入的内容进行替换。",
+      "wordHint": "帮助语音模型正确识别和拼写。",
+      "ruleHint": "匹配完整词语（不区分大小写），并完全按输入的内容写出替换项。",
       "cancel": "取消",
       "add": "添加单词",
-      "save": "保存",
+      "save": "存储",
       "close": "关闭",
-      "duplicate": "“{{entry}}” 已经存在于你的词典中。",
-      "conflictRule": "“{{from}}” 已经变成 “{{to}}”。“",
-      "conflictWord": "“{{word}}” 已经在你的词典中，有另一种拼写方式。",
-      "replaceExisting": "替换它",
-      "missing": "这个条目已被删除。",
-      "failed": "无法保存。请重新尝试。"
+      "duplicate": "“{{entry}}”已在你的词典中。",
+      "conflictRule": "“{{from}}”已设为替换成“{{to}}”。",
+      "conflictWord": "“{{word}}”已以另一种拼写存在于你的词典中。",
+      "replaceExisting": "替换",
+      "missing": "此条目在此期间已被删除。",
+      "failed": "无法存储。请重试。"
     },
     "import": {
       "open": "导入",
       "title": "导入词典",
-      "description": "将保存为CSV的电子表格中的单词和替换项导入进来。",
-      "fieldPhrase": "词，或者你说的",
-      "fieldReplacement": "用以下内容替换",
+      "description": "从存储为 CSV 的电子表格导入词语和替换项。",
+      "fieldPhrase": "词语或你说的内容",
+      "fieldReplacement": "替换为",
       "format": {
         "intro": "每行一个条目：",
-        "columns": "第一列是单词或你说的内容；第二列，如果填写了，是你要输入的文本。",
-        "header": "第一行包含列名是可以的；你将在下一步中选择列。",
-        "limits": "单词最多60个字符，替换最多200个，文件最多3MB。",
-        "encoding": "保存为 CSV UTF-8 以便正确显示重音符号和其他字符。"
+        "columns": "第一列是词语或你说的内容；第二列（如有填写）是要改为写出的文本。",
+        "header": "第一行可以是列名；你将在下一步中选择列。",
+        "limits": "词语最多 60 个字符，替换内容最多 200 个字符，文件最大 3 MB。",
+        "encoding": "请存储为 CSV UTF-8 格式，以便正确保留重音符号和其他文字。"
       },
       "review": {
-        "new_other": "新的条目",
-        "duplicates_other": "已经存在",
+        "new_other": "新条目",
+        "duplicates_other": "已存在",
         "conflicts_other": "冲突",
         "invalid_other": "无法导入",
-        "overLimit_other": "你的词典还有{{room}}个空间；{{count}}个新条目无法容纳。",
+        "overLimit_other": "你的词典还能容纳 {{room}} 个条目；有 {{count}} 个新条目放不下。",
         "showNew": "显示新条目",
-        "more_other": "还有 {{count}} 个",
-        "conflictsTitle": "已经在你的词典里，但不同",
-        "conflictsHelp": "勾选文件版本应替换你版本的项。",
-        "useAllFile": "使用文件的版本用于全部",
-        "keepAllMine": "保留我所有的",
-        "useFile": "使用文件的：",
+        "more_other": "以及另外 {{count}} 个",
+        "conflictsTitle": "已在你的词典中，但内容不同",
+        "conflictsHelp": "勾选要用文件中的版本替换你的版本的条目。",
+        "useAllFile": "全部使用文件中的版本",
+        "keepAllMine": "全部保留我的版本",
+        "useFile": "使用文件中的：",
         "yours": "你的：",
         "showInvalid": "显示无法导入的行",
         "invalidRow": "第 {{row}} 行（{{phrase}}）：{{reason}}"
       },
       "done": {
-        "title_other": "已导入{{count}}个条目",
-        "added_other": "已添加 {{count}}",
-        "replaced_other": "已用文件版本替换 {{count}}",
-        "skipped_other": "{{count}} 已经存在，已跳过",
-        "kept_other": "已保留 {{count}} 个冲突项",
-        "invalid_other": "无法导入{{count}}行",
-        "overLimit_other": "{{count}} 没有容纳下（字典已满）"
+        "title_other": "已导入 {{count}} 个条目",
+        "added_other": "已添加 {{count}} 个",
+        "replaced_other": "{{count}} 个已替换为文件中的版本",
+        "skipped_other": "{{count}} 个已存在，已跳过",
+        "kept_other": "{{count}} 个冲突项保持不变",
+        "invalid_other": "{{count}} 行无法导入",
+        "overLimit_other": "{{count}} 个放不下（词典已满）"
       }
     },
     "export": {
       "open": "导出",
       "fileName": "{{appName}} 词典.csv",
-      "done_other": "已导出 {{count}} 条记录。",
-      "failed": "词典导出失败。请重试。"
+      "done_other": "已导出 {{count}} 个条目。",
+      "failed": "无法导出词典。请重试。"
     },
-    "rejected": "“{{entry}}” 将不会被再次推荐。",
-    "actionFailed": "那没成功。请再试一次。",
+    "rejected": "不会再建议“{{entry}}”。",
+    "actionFailed": "操作未成功。请重试。",
     "learn": {
-      "toggle": "从我的修改中学习",
-      "hint": "在语音输入内容粘贴后30秒内，{{appName}}会注意到你对文本框中单词的修改，并在此处提出建议。仅保留你修改的单词，不会保留其余文本。密码字段、密码管理器、银行应用和终端不会被读取。"
+      "toggle": "从我的更正中学习",
+      "hint": "听写内容粘贴后的 30 秒内，{{appName}} 会留意你在该文本框中改正的词语，并在这里提供建议。只保留你改正的词语，从不保留其余文本。从不读取密码栏、密码管理器、银行 App 和终端。"
     }
   },
   "pill": {
-    "region": "Dictation bar",
-    "listening": "Listening",
-    "cancel": "Cancel dictation",
-    "finish": "Finish dictation",
-    "transcribing": "Transcribing…",
-    "cleaningUp": "Cleaning up…",
-    "contextUsed": "附近的文字有助于拼写",
-    "mic": "Mic: {{name}}",
-    "fix": "Fix",
-    "dismiss": "Dismiss",
+    "region": "听写浮动栏",
+    "listening": "正在聆听",
+    "cancel": "取消听写",
+    "finish": "完成听写",
+    "transcribing": "正在转写…",
+    "cleaningUp": "正在清理…",
+    "contextUsed": "附近的文本帮助纠正了拼写",
+    "mic": "麦克风：{{name}}",
+    "fix": "修复",
+    "dismiss": "关闭",
     "warning": {
-      "silence": "No speech for a while, stopping soon",
-      "length": "Stops at 30 minutes",
-      "mic_lost": "麦克风丢失，保留你刚才说的话",
-      "secure_input": "安全输入已开启 · 无法使用 fn+空格键锁定 · 按 Esc 或 ✕ 可取消",
-      "secure_input_app": "{{app}} 已开启安全输入 · fn+空格无法锁定 · 按 Esc 或 ✕ 可取消"
+      "silence": "一段时间没有语音，即将停止",
+      "length": "30 分钟时停止",
+      "mic_lost": "麦克风已断开，已保留你说的内容",
+      "secure_input": "安全输入已打开 · fn+空格键无法锁定 · 按 Esc 或 ✕ 取消",
+      "secure_input_app": "“{{app}}”打开了安全输入 · fn+空格键无法锁定 · 按 Esc 或 ✕ 取消"
     },
     "settingUp": "正在设置…",
     "settingUpPercent": "正在设置… {{percent}}%",
-    "settingUpHint": "你说的话已保存。听写准备就绪后，文字会显示在这里。",
+    "settingUpHint": "你说的话已保留。听写就绪后，文本会显示在这里。",
     "cardReady": "你的听写",
     "cardMore_other": "你的听写 · 历史记录中还有 {{count}} 条",
-    "copy": "复制",
-    "copied": "已复制",
+    "copy": "拷贝",
+    "copied": "已拷贝",
     "retry": "重试",
     "card": {
-      "hidden": "隐藏，因为它本应用于密码字段"
+      "hidden": "已隐藏，因为它原本要输入到密码栏"
     },
     "undo": "撤销",
     "viewChanges": "查看更改",
     "sendsAutomatically": "自动发送",
     "shortcutDetail": {
-      "permission": "无障碍访问已关闭",
-      "stopped": "键盘监听器已停止"
+      "permission": "辅助功能权限已关闭",
+      "stopped": "键盘监听已停止"
     }
   },
   "transforms": {
     "banner": {
-      "title": "在任何应用中重写选中的文本",
-      "body": "选择一个转换，选中文本，使用其快捷方式。你的书写将保留在这台 Mac 上。",
+      "title": "在任意 App 中改写所选文本",
+      "body": "选择一种转换，选中文本，然后使用它的快捷键。你写的内容保留在这台 Mac 上。",
       "tryIt": "试试",
-      "howItWorks": "它是如何工作的"
+      "howItWorks": "工作原理"
     },
     "enable": {
-      "title": "启用 Transforms",
-      "help": "开启改写快捷键和修改查看功能。改写功能将在您选择后才启用。"
+      "title": "启用转换",
+      "help": "打开改写快捷键和更改视图。在你选择之前，转换一直处于关闭状态。"
     },
     "commandMode": {
       "title": "命令模式",
       "shortcut": "fn ⌃",
-      "on": "开启",
-      "off": "关闭",
-      "help": "按住 fn 和 Ctrl，然后说出如何修改选择或要输入的内容。如果没有选中内容，该字段会提供上下文，结果会出现在光标位置。所有内容都保留在这台 Mac 上；命令模式不会进行任何查询。关闭时，fn 和 Ctrl 按照正常方式工作。"
+      "on": "开",
+      "off": "关",
+      "help": "按住 fn 和 Ctrl，然后说出要如何更改所选内容或要写什么。如果没有选中内容，会以输入栏中的文本作为上下文，结果插入到插入点处。所有内容都保留在这台 Mac 上；命令模式从不联网查找任何内容。关闭时，fn 和 Ctrl 照常用于听写。"
     },
     "auto": {
-      "title": "每次语音输入后应用",
-      "help": "清理后运行选定的转换。如果无法完成，您的清理语音将原样粘贴。每隔少于5秒的运行将被跳过。",
-      "choice": "转换应用",
-      "none": "选择一个转换"
+      "title": "每次听写后应用",
+      "help": "在清理后运行所选转换。如果无法完成，则原样粘贴清理后的听写内容。两次运行间隔不足 5 秒时会跳过。",
+      "choice": "要应用的转换",
+      "none": "选择转换"
     },
     "shortcuts": {
-      "warning": "⌥1、⌥2 和 ⌥O 在启用变换时会替换字符 ¡、™ 和 ø。",
-      "safe": "使用 ⌃⌥ 代替"
+      "warning": "转换处于打开状态时，⌥1、⌥2 和 ⌥O 将不再输入 ¡、™ 和 ø。",
+      "safe": "改用 ⌃⌥"
     },
-    "myTransforms": "我的变换",
-    "reset": "重置为默认值",
-    "resetConfirm": "重置 Polish 和 Prompt Engineer 并移除每个自定义转换？",
-    "createNew": "创建新",
-    "deleteConfirm": "删除 {{name}}？无法撤销。",
-    "loading": "正在加载您的转换……",
-    "empty": "还没有转换。创建一个以开始。",
-    "error": "该变换更改无法保存，请重试。",
+    "myTransforms": "我的转换",
+    "reset": "恢复默认设置",
+    "resetConfirm": "要重置 Polish 和 Prompt Engineer 并移除所有自定义转换吗？",
+    "createNew": "新建",
+    "deleteConfirm": "要删除“{{name}}”吗？此操作无法撤销。",
+    "loading": "正在载入你的转换…",
+    "empty": "还没有转换。新建一个即可开始。",
+    "error": "无法存储对该转换的更改。请重试。",
     "card": {
-      "createOwn": "创建你的专属",
-      "createOwnHint": "选择规则、说明和写作示例。",
-      "delete": "删除 {{name}}"
+      "createOwn": "自己创建",
+      "createOwnHint": "选择规则、指令和写作示例。",
+      "delete": "删除“{{name}}”"
     },
     "builtin": {
       "polish": {
-        "description": "在保持你声音的基础上，修正语法和用词。"
+        "description": "修正语法和措辞，同时保留你的语气。"
       },
       "prompt_engineer": {
-        "description": "将粗糙的笔记转化为清晰完整的AI提示。"
+        "description": "将零散的笔记变成清晰完整的 AI 提示词。"
       }
     },
     "new": {
-      "name": "我的变换",
-      "description": "以我想要的方式重写文本。",
-      "prompt": "重写选中的文本，同时保持其含义、事实和语言。"
+      "name": "我的转换",
+      "description": "按我想要的方式改写文本。",
+      "prompt": "改写所选文本，同时保留其含义、事实和语言。"
     },
     "editor": {
-      "title": "编辑 {{name}}",
+      "title": "编辑“{{name}}”",
       "name": "名称",
       "description": "描述",
-      "hotkey": "热键",
+      "hotkey": "快捷键",
       "addHotkey": "添加快捷键",
       "example": "示例",
       "exampleInput": "要转换的文本",
-      "exampleText": "嗯 你能把报告发给我明天吗 也许那时我们可以聊聊",
+      "exampleText": "嗯 你能不能明天把报告发给我 也许到时候我们可以聊一下",
       "preview": "预览",
-      "previewing": "预览中…",
-      "customPrompt": "自定义提示",
-      "customPromptHelp": "添加特定指令。所选文本会被转换，不会被回答。",
+      "previewing": "正在预览…",
+      "customPrompt": "自定义提示词",
+      "customPromptHelp": "添加具体指令。所选文本只会被转换，不会被当作问题来回答。",
       "rules": "编辑规则",
       "autosave": {
-        "saved": "自动保存 · 所有更改已保存",
-        "saving": "自动保存 · 保存中…",
-        "error": "自动保存 · 无法保存最新更改"
+        "saved": "自动存储 · 所有更改已存储",
+        "saving": "自动存储 · 正在存储…",
+        "error": "自动存储 · 无法存储最近的更改"
       },
       "reset": "重置",
-      "done": "好了",
+      "done": "完成",
       "close": "关闭编辑器"
     },
     "rules": {
       "shorter": {
-        "title": "更短",
-        "help": "去除重复和多余词语。"
+        "title": "更简短",
+        "help": "删除重复和多余的词语。"
       },
       "clearer": {
-        "title": "更清晰的表达",
+        "title": "措辞更清晰",
         "help": "使用直接、准确的语言。"
       },
       "better_order": {
-        "title": "更好的排序",
-        "help": "将想法按逻辑顺序排列。"
+        "title": "顺序更合理",
+        "help": "按逻辑顺序组织观点。"
       },
       "headings_lists": {
         "title": "添加标题和列表",
         "help": "让较长的文本更易于浏览。"
       },
       "keep_tone": {
-        "title": "保持我的语气",
-        "help": "保留你的声音和正式程度。"
+        "title": "保留我的语气",
+        "help": "保留你的风格和正式程度。"
       }
     },
     "examples": {
@@ -1332,1175 +1332,1175 @@
       "fileType": "文本或 Markdown",
       "label": "写作示例 {{number}}",
       "count": "{{count}} / {{max}}",
-      "paste": "粘贴一个示例",
-      "load": "加载 .txt 或 .md",
-      "remove": "删除示例 {{number}}",
-      "readError": "选择一个 .txt 或 .md 文件，字符数不超过 1500。",
-      "help_other": "粘贴或加载最多 {{max}} 个示例，每个 {{chars}} 个字符。它们指导风格，但不会成为结果的一部分。"
+      "paste": "粘贴示例",
+      "load": "载入 .txt 或 .md",
+      "remove": "移除示例 {{number}}",
+      "readError": "请选择不超过 1,500 个字符的 .txt 或 .md 文件。",
+      "help_other": "粘贴或载入最多 {{max}} 个示例，每个最多 {{chars}} 个字符。它们用于引导风格，不会成为结果的一部分。"
     },
     "diff": {
-      "changes_other": "{{count}} 个更改",
+      "changes_other": "{{count}} 处更改",
       "configure": "配置",
-      "copy": "复制",
-      "copied": "已复制",
+      "copy": "拷贝",
+      "copied": "已拷贝",
       "retry": "重试",
-      "retrying": "重试中…",
-      "feedback": "评价这个转换",
-      "good": "好的结果",
-      "bad": "差的结果",
-      "simpleView": "显示此大型或复杂变更的一个替换项。",
-      "actionFailed": "该操作未成功。你的文本仍然在这里；请再试一次。"
+      "retrying": "正在重试…",
+      "feedback": "为此次转换评分",
+      "good": "结果很好",
+      "bad": "结果不佳",
+      "simpleView": "此更改较大或较复杂，因此以整体替换的方式显示。",
+      "actionFailed": "操作未成功。你的文本仍在这里，请重试。"
     },
     "startTutorial": "开始教程"
   },
   "cleanup": {
     "title": "清理",
-    "loading": "正在加载清理级别…",
-    "loadError": "无法读取清理级别：{{message}}",
-    "setError": "该更改未保存：{{message}}",
-    "notice": "已插入且未清理",
+    "loading": "正在载入清理程度…",
+    "loadError": "无法读取清理程度：{{message}}",
+    "setError": "未能存储该更改：{{message}}",
+    "notice": "已插入，未经清理",
     "picker": {
-      "legend": "你的文字应该被清理到什么程度？",
+      "legend": "要对你的话做多少清理？",
       "recommended": "推荐",
-      "aiChat": "在AI聊天应用中，你的文字会按你说的原样插入，不会经过AI清理。"
+      "aiChat": "在 AI 聊天 App 中，你的话会原样插入，不经 AI 清理。"
     },
     "levels": {
       "none": {
-        "label": "none",
-        "description": "完全如你所说，仅应用了空格和语音命令。"
+        "label": "无",
+        "description": "完全按你说的内容，仅处理空格和语音命令。"
       },
       "light": {
-        "label": "轻",
-        "description": "移除像\"um\"和\"you know\"这样的填充词，修正标点和大小写，保留你的修改：\"at 2, actually 3\" 变成 \"at 3\""
+        "label": "轻度",
+        "description": "移除“嗯”“那个”等填充词，修正标点和大小写，并保留你的更正：“2 点，不对，3 点”会变成“3 点”。"
       },
       "medium": {
-        "label": "中等",
-        "description": "轻度清理，包含所有轻度内容，语法和用词更流畅。你的事实和含义保持不变。"
+        "label": "中度",
+        "description": "包含轻度的所有处理，并让语法和措辞更通顺。你的事实和原意保持不变。"
       }
     },
     "last": {
-      "title": "上次语音输入",
-      "none": "自从应用启动以来没有语音输入。",
+      "title": "上一次听写",
+      "none": "自 App 启动以来还没有听写。",
       "applied_other": "清理用时 {{ms}} 毫秒，共 {{count}} 处更改。",
-      "checks": "安全检查已停止：{{checks}}",
-      "partial_other": "部分清理（已应用{{applied}}个中的{{total}}个段落）；其余内容保持原样：{{reason}}"
+      "checks": "阻止清理的安全检查：{{checks}}",
+      "partial_other": "部分清理（{{total}} 个段落中的 {{applied}} 个）；其余保持原话：{{reason}}"
     },
     "why": {
       "level_none": "清理已关闭。",
-      "empty": "无需清理。",
-      "already_clean": "已经干净，所以不需要AI引擎。",
-      "ai_chat": "AI聊天应用：如你所说插入。",
-      "not_ready": "已插入但未清理：清理模型尚未准备就绪。",
-      "low_memory": "插入时未清理：当前可用内存不足。",
-      "guard": "未清理插入：清理后的文本未通过安全检查。",
-      "timeout": "插入时未清理：清理耗时过长。",
-      "error": "插入时未清理：AI引擎出问题了。"
+      "empty": "没有需要清理的内容。",
+      "already_clean": "文本已经很干净，无需使用 AI 引擎。",
+      "ai_chat": "AI 聊天 App：按你说的原样插入。",
+      "not_ready": "已插入，未经清理：清理模型尚未就绪。",
+      "low_memory": "已插入，未经清理：当前可用内存不足。",
+      "guard": "已插入，未经清理：清理后的文本未通过安全检查。",
+      "timeout": "已插入，未经清理：清理耗时过长。",
+      "error": "已插入，未经清理：AI 引擎出现问题。"
     },
     "reason": {
       "level_none": "清理已关闭",
       "empty": "没有需要清理的内容",
-      "already_clean": "已经干净",
-      "ai_chat": "AI聊天应用",
-      "not_ready": "清理模型尚未准备就绪",
-      "low_memory": "内存不足",
-      "guard": "它没有通过安全检查",
+      "already_clean": "已经很干净",
+      "ai_chat": "AI 聊天 App",
+      "not_ready": "清理模型尚未就绪",
+      "low_memory": "可用内存不足",
+      "guard": "未通过安全检查",
       "timeout": "清理耗时过长",
-      "error": "AI引擎出问题了"
+      "error": "AI 引擎出现问题"
     }
   },
   "snippets": {
-    "add": "添加片段",
-    "added": "已添加“{{trigger}}”。“",
-    "search": "搜索你的片段",
+    "add": "添加文本片段",
+    "added": "已添加“{{trigger}}”。",
+    "search": "搜索你的文本片段",
     "refresh": "刷新",
-    "shown_other": "显示了{{count}}个片段",
+    "shown_other": "显示了 {{count}} 个文本片段",
     "deleted": "已删除“{{trigger}}”。",
-    "deleteFailed": "该片段无法删除，请再试一次。",
+    "deleteFailed": "无法删除该文本片段。请重试。",
     "undo": "撤销",
     "counts": {
-      "snippets_other": "{{count}} 个片段",
+      "snippets_other": "{{count}} 个文本片段",
       "uses_other": "已使用 {{count}} 次"
     },
     "sort": {
       "label": "排序",
-      "newest": "最新优先",
-      "oldest": "最老的在前",
+      "newest": "最新的优先",
+      "oldest": "最早的优先",
       "az": "A 到 Z",
       "za": "Z 到 A",
       "used": "最常用"
     },
     "banner": {
-      "title": "说几句，得到整段文字",
-      "body": "保存你反复输入的文本。在任何应用中，单独说出或在句子中间说出其提示词，{{appName}} 就会写出保存的文本，包括换行。",
+      "title": "说几个字，得到整段文本",
+      "body": "存储你经常重复书写的文本。在任意 App 中，单独说出或在句子中说出它的提示语，{{appName}} 就会写出存储的文本，连换行也一并保留。",
       "examplesLabel": "示例",
-      "example1": "“我的地址” → 你的完整邮政地址",
-      "example2": "“我的结束语” → 祝好，以及你的名字",
-      "example3": "“我的预约链接” → 人们用来预约通话的链接"
+      "example1": "“我的地址” → 你的完整邮寄地址",
+      "example2": "“我的落款” → 祝好，加上你的名字",
+      "example3": "“我的预约链接” → 别人用来预约通话的链接"
     },
     "entry": {
-      "becomes": "被写成",
+      "becomes": "写成",
       "pair": "{{trigger}} → {{text}}",
       "lines_other": "{{count}} 行",
-      "imported": "导入的",
+      "imported": "已导入",
       "used_other": "已使用 {{count}} 次",
-      "edit": "编辑 {{trigger}}",
-      "delete": "删除 {{trigger}}"
+      "edit": "编辑“{{trigger}}”",
+      "delete": "删除“{{trigger}}”"
     },
     "empty": {
-      "title": "还没有片段",
-      "body": "保存一个地址、签名或链接一次。当你说出它的提示词时，{{appName}}会为你写出来。"
+      "title": "还没有文本片段",
+      "body": "只需存储一次地址、落款或链接。说出它的提示语时，{{appName}} 就会替你写出来。"
     },
     "noMatch": {
       "title": "没有匹配项",
-      "body": "没有片段包含 “{{query}}”。“",
+      "body": "没有包含“{{query}}”的文本片段。",
       "action": "清除搜索"
     },
     "unavailable": {
-      "title": "片段目前不可用",
-      "body": "它们在应用程序启动完成后立即打开。"
+      "title": "文本片段暂不可用",
+      "body": "App 完成启动后即可打开。"
     },
     "problem": {
-      "empty_trigger": "先输入你要说的话。",
-      "trigger_not_spoken": "你所说的内容至少需要一个字母或数字。",
-      "trigger_control_character": "你说的内容必须在一行里。",
-      "empty_body": "输入要输入的文字。",
-      "body_control_character": "文本包含无法输入的字符。请删除它并重新尝试。",
-      "full": "您已达到应用可存储的最多片段数量，请先删除一些。",
-      "trigger_too_long_other": "你说的内容最多可以有 {{max}} 个字符。",
-      "body_too_long_other": "文本最多可为 {{maxBody}} 个字符。"
+      "empty_trigger": "请先输入你要说的话。",
+      "trigger_not_spoken": "你要说的话至少需要包含一个文字或数字。",
+      "trigger_control_character": "你要说的话必须在一行之内。",
+      "empty_body": "请输入要写出的文本。",
+      "body_control_character": "文本中包含无法写出的字符。请移除后重试。",
+      "full": "文本片段数量已达上限。请先删除一些。",
+      "trigger_too_long_other": "你要说的话最多 {{max}} 个字符。",
+      "body_too_long_other": "文本最多 {{maxBody}} 个字符。"
     },
     "dialog": {
-      "addTitle": "添加片段",
-      "editTitle": "编辑片段",
-      "description": "说出提示词，就会写出已保存的文本。",
-      "trigger": "当我说到",
+      "addTitle": "添加文本片段",
+      "editTitle": "编辑文本片段",
+      "description": "说出提示语，就会改为写出存储的文本。",
+      "trigger": "当我说",
       "triggerPlaceholder": "例如：我的地址",
-      "body": "写",
-      "bodyPlaceholder": "要输入的文本。换行符会被保留。",
+      "body": "写成",
+      "bodyPlaceholder": "要写出的文本。换行会保留。",
       "counter": "{{count}}/{{max}}",
-      "hint": "可以单独使用，也可以嵌入句子中，无论哪种情况。在句子中，提示语的标点符号必须以相同方式说出。文本内容与保存时完全一致。",
+      "hint": "可以单独说，也可以在句子中说，不区分大小写。在句子中时，提示语中的标点也必须照样说出。文本会完全按存储的内容写出。",
       "cancel": "取消",
-      "add": "添加片段",
-      "save": "保存",
+      "add": "添加文本片段",
+      "save": "存储",
       "close": "关闭",
-      "duplicate": "“{{trigger}}” 已经用这段文字保存过了。",
-      "conflict": "“{{trigger}}” 已经是另一个文本的片段了。",
-      "replaceExisting": "替换它",
-      "missing": "这个片段已被删除。",
-      "failed": "无法保存。请重新尝试。"
+      "duplicate": "“{{trigger}}”已存储为此文本。",
+      "conflict": "“{{trigger}}”已是另一个文本的文本片段。",
+      "replaceExisting": "替换",
+      "missing": "此文本片段在此期间已被删除。",
+      "failed": "无法存储。请重试。"
     },
     "import": {
       "open": "导入",
-      "title": "导入片段",
-      "description": "将保存为CSV的电子表格中的片段导入进来。",
-      "fieldTrigger": "你说的",
-      "fieldBody": "要输入的文本",
+      "title": "导入文本片段",
+      "description": "从存储为 CSV 的电子表格导入文本片段。",
+      "fieldTrigger": "你说的话",
+      "fieldBody": "要写出的文本",
       "format": {
-        "intro": "每行一个片段：",
-        "columns": "第一列是你所说的内容；第二列是你要输入的文字。",
-        "lines": "一个带换行的文本放入引号中，就像电子表格应用保存的那样。",
-        "encoding": "保存为 CSV UTF-8 以便正确显示重音符号和其他字符。",
-        "limits_other": "你输入的内容最多{{max}}个字符，文本最多{{maxBody}}，每个文件最多1000行和3MB。"
+        "intro": "每行一个文本片段：",
+        "columns": "第一列是你说的话；第二列是要写出的文本。",
+        "lines": "包含换行的文本放在引号中，电子表格 App 存储时会自动这样处理。",
+        "encoding": "请存储为 CSV UTF-8 格式，以便正确保留重音符号和其他文字。",
+        "limits_other": "你说的话最多 {{max}} 个字符，文本最多 {{maxBody}} 个字符，每个文件最多 1,000 行、3 MB。"
       },
       "review": {
-        "new_other": "新的片段",
-        "duplicates_other": "已经存在",
+        "new_other": "新文本片段",
+        "duplicates_other": "已存在",
         "conflicts_other": "冲突",
         "invalid_other": "无法导入",
-        "overLimit_other": "还有{{room}}个空间；{{count}}个新片段无法容纳。",
-        "ignoredRows_other": "只读取了前1000行；{{count}}行被忽略。",
-        "showNew": "显示新的片段",
-        "more_other": "还有{{count}}个",
-        "conflictsTitle": "已用其他文本保存",
-        "conflictsHelp": "勾选那些文件内容应替换你原有内容的项。",
-        "useAllFile": "使用文件的文本用于全部",
-        "keepAllMine": "保留我所有的",
-        "useFile": "使用文件的：",
+        "overLimit_other": "还能容纳 {{room}} 个；有 {{count}} 个新文本片段放不下。",
+        "ignoredRows_other": "只读取前 1,000 行；另有 {{count}} 行未读取。",
+        "showNew": "显示新文本片段",
+        "more_other": "以及另外 {{count}} 个",
+        "conflictsTitle": "已存储为其他文本",
+        "conflictsHelp": "勾选要用文件中的文本替换你的文本的条目。",
+        "useAllFile": "全部使用文件中的文本",
+        "keepAllMine": "全部保留我的文本",
+        "useFile": "使用文件中的：",
         "yours": "你的：",
         "showInvalid": "显示无法导入的行",
         "invalidRow": "第 {{row}} 行（{{trigger}}）：{{reason}}"
       },
       "done": {
-        "title_other": "已导入{{count}}个片段",
-        "added_other": "已添加 {{count}} 条",
-        "replaced_other": "已用文件内容替换 {{count}}",
-        "skipped_other": "{{count}} 已经存在，已跳过",
-        "kept_other": "已保留 {{count}} 个冲突项",
+        "title_other": "已导入 {{count}} 个文本片段",
+        "added_other": "已添加 {{count}} 个",
+        "replaced_other": "{{count}} 个已替换为文件中的文本",
+        "skipped_other": "{{count}} 个已存在，已跳过",
+        "kept_other": "{{count}} 个冲突项保持不变",
         "invalid_other": "{{count}} 行无法导入",
-        "overLimit_other": "{{count}} 没有容纳下"
+        "overLimit_other": "{{count}} 个放不下"
       }
     },
     "export": {
       "open": "导出",
-      "fileName": "{{appName}} snippets.csv",
-      "done_other": "已导出 {{count}} 个片段。",
-      "failed": "片段无法导出，请重试。"
+      "fileName": "{{appName}} 文本片段.csv",
+      "done_other": "已导出 {{count}} 个文本片段。",
+      "failed": "无法导出文本片段。请重试。"
     }
   },
   "insights": {
     "tabs": {
-      "label": "洞察",
+      "label": "统计",
       "usage": "使用情况",
       "voice": "语音"
     },
-    "asOf": "你的数据截至 {{date}}",
-    "unavailable": "洞察目前无法读取。稍后会出现。",
+    "asOf": "截至 {{date}} 的数据",
+    "unavailable": "暂时无法读取统计数据，稍后即会显示。",
     "save": {
-      "button": "保存为图片",
-      "fileName": "{{appName}} insights {{date}}.png",
-      "filter": "PNG图片",
-      "done": "已保存图片。",
-      "failed": "图片保存失败。请重试。"
+      "button": "存储为图像",
+      "fileName": "{{appName}} 统计 {{date}}.png",
+      "filter": "PNG 图像",
+      "done": "已存储图像。",
+      "failed": "无法存储图像。请重试。"
     },
     "speed": {
-      "title": "说话速度",
-      "value": "{{wpm}} 字/分钟",
-      "notEnough": "多说一点以查看你的速度。",
-      "measured": "您的打字速度为 {{typing}} wpm，测量速度是 {{ratio}} 倍",
-      "average": "{{ratio}}× 一个普通打字员的速度（{{typing}} wpm）"
+      "title": "语速",
+      "value": "每分钟 {{wpm}} 词",
+      "notEnough": "再多听写一些即可查看你的语速。",
+      "measured": "是你打字速度（每分钟 {{typing}} 词）的 {{ratio}} 倍",
+      "average": "是普通打字速度（每分钟 {{typing}} 词）的 {{ratio}} 倍"
     },
     "words": {
       "title": "总词数",
-      "dictations_other": "在 {{count, number}} 次语音输入中"
+      "dictations_other": "来自 {{count, number}} 次听写"
     },
     "fixes": {
-      "title": "已修复",
-      "dictionary": "词典修复",
-      "ai": "AI清理修复"
+      "title": "已做的修正",
+      "dictionary": "词典修正",
+      "ai": "AI 清理修正"
     },
     "categories": {
-      "title": "你在哪里输入语音",
-      "empty": "在几个应用中输入语音以查看你的文字去向。",
+      "title": "你在哪里听写",
+      "empty": "在几个 App 中听写后，即可查看你的文字都去了哪里。",
       "words_other": "{{count, number}} 个词",
-      "documents": "文档",
-      "ai_prompts": "AI提示",
+      "documents": "文稿",
+      "ai_prompts": "AI 提示词",
       "email": "邮件",
-      "work": "工作消息",
-      "personal": "个人消息",
-      "other": "其他一切"
+      "work": "工作信息",
+      "personal": "个人信息",
+      "other": "其他"
     },
     "heatmap": {
-      "title": "你的连贯记录",
-      "current": "当前连贯",
-      "longest": "最长连贯",
+      "title": "你的连续记录",
+      "current": "当前连续天数",
+      "longest": "最长连续天数",
       "days_other": "{{count, number}} 天",
-      "active_other": "过去一年中，有{{count, number}}天使用了语音输入",
-      "day_other": "{{date}}: {{count, number}} 个词",
+      "active_other": "过去一年中有 {{count, number}} 天使用了听写",
+      "day_other": "{{date}}：{{count, number}} 个词",
       "less": "少",
-      "more": "更多",
-      "band0": "没有词语",
+      "more": "多",
+      "band0": "无",
       "band1": "1 到 249 个词",
       "band2": "250 到 499 个词",
       "band3": "500 到 749 个词",
-      "band4": "750个字或更多"
+      "band4": "750 个词或以上"
     },
     "voice": {
       "locked": "已锁定",
-      "phrase": "你的短语",
-      "phraseIn_other": "在 {{count, number}} 次语音输入中",
-      "peak": "高峰时段和应用",
-      "peakApp": "在 {{app}} 中最常见的词",
+      "phrase": "你的口头禅",
+      "phraseIn_other": "出现在 {{count, number}} 次听写中",
+      "peak": "高峰时段和 App",
+      "peakApp": "在“{{app}}”中听写最多",
       "word": "最常用的词",
-      "uses_other": "已使用 {{count, number}} 次",
-      "corrected": "最修正的词",
+      "uses_other": "使用了 {{count, number}} 次",
+      "corrected": "最常被修正的词",
       "pair": "{{heard}} → {{written}}",
-      "fixed_other": "已修复 {{count, number}} 次",
-      "notEnough": "语音输入还不足够。",
-      "footnote_other": "在你最近的{{count, number}}段语音输入中，本设备上完成的。没有内容会离开你的Mac。",
+      "fixed_other": "修正了 {{count, number}} 次",
+      "notEnough": "听写次数还不够。",
+      "footnote_other": "根据你最近 {{count, number}} 次听写在这台 Mac 上计算得出。任何数据都不会离开你的 Mac。",
       "sample": {
-        "phrase": "你经常说的一句话",
-        "peak": "一天中的某个时间",
-        "word": "一个最喜欢的词",
-        "corrected": "一个被修正的词"
+        "phrase": "你常说的一句话",
+        "peak": "一天中的某个时段",
+        "word": "你最爱用的词",
+        "corrected": "一个常被修正的词"
       },
-      "lockedTitle_other": "你的语音档案在输入{{goal}}个单词时解锁",
-      "lockedBody_other": "继续听写：到目前为止已输入 {{current}} 个词，共 {{goal}} 个词。之后你将看到你最常使用的短语、听写时的时间和地点，以及 {{appName}} 为你自动修正的词语。"
+      "lockedTitle_other": "达到 {{goal}} 个词时解锁你的语音档案",
+      "lockedBody_other": "继续听写：目前已有 {{current}} / {{goal}} 个词。解锁后，你将看到最常说的一句话、你在何时何处听写，以及 {{appName}} 为你修正的词语。"
     }
   },
   "history": {
-    "title": "历史",
+    "title": "历史记录",
     "today": "今天",
     "yesterday": "昨天",
-    "rowLabel": "语音输入于 {{time}}",
-    "loading": "正在加载你的语音输入…",
-    "loadingMore": "加载更多…",
-    "unavailable": "历史尚未可用。应用启动完成后就会显示。",
+    "rowLabel": "{{time}} 的听写",
+    "loading": "正在载入你的听写…",
+    "loadingMore": "正在载入更多…",
+    "unavailable": "历史记录暂不可用。App 完成启动后即会显示。",
     "empty": {
-      "body": "按住 fn 键在任意应用中开始说话。每段语音记录都会保存在这里，保存在本台 Mac 上。"
+      "body": "在任意 App 中按住 fn 并开始说话。每次听写都会保留在这里，存储在这台 Mac 上。"
     },
     "noResults": {
       "title": "未找到任何内容",
-      "body": "没有语音输入包含“{{query}}”。“"
+      "body": "没有包含“{{query}}”的听写。"
     },
-    "results_other": "{{count}} 条语音记录",
-    "resultsMore_other": "最近的{{count}}个匹配项。滚动查看更多。",
+    "results_other": "找到 {{count}} 条听写",
+    "resultsMore_other": "最近的 {{count}} 个匹配项。滚动以查看更多。",
     "search": {
-      "open": "搜索历史",
-      "label": "搜索你的语音笔记",
-      "placeholder": "搜索语音记录",
+      "open": "搜索历史记录",
+      "label": "搜索你的听写",
+      "placeholder": "搜索听写",
       "close": "关闭搜索"
     },
-    "transcribeFile": "将文件转录…",
-    "transcribeFailed": "该文件无法打开，请重新尝试。",
+    "transcribeFile": "转写文件…",
+    "transcribeFailed": "无法打开该文件。请重试。",
     "showMore": "显示更多",
     "showLess": "显示更少",
-    "failed": "转录失败。请尝试在 ⋮ 菜单中点击重试转录。",
+    "failed": "转写失败。请试试 ⋮ 菜单中的“重新转写”。",
     "waitingForModel": "正在等待语音模型",
-    "notTranscribed": "尚未转录。",
+    "notTranscribed": "尚未转写。",
     "job": {
-      "waiting": "正在转录中…",
-      "transcribing": "正在转录…",
-      "percent": "转录中… {{percent}}%"
+      "waiting": "正在等待转写…",
+      "transcribing": "正在转写…",
+      "percent": "正在转写… {{percent}}%"
     },
     "tag": {
       "file": "文件",
       "practice": "练习",
-      "raw": "AI清理之前",
-      "flagged": "标记"
+      "raw": "AI 清理前",
+      "flagged": "已标记"
     },
     "actions": {
       "play": "播放录音",
       "hidePlayer": "隐藏播放器",
-      "copy": "复制文本",
-      "copied": "已复制",
-      "flag": "词错了？修改它",
+      "copy": "拷贝文本",
+      "copied": "已拷贝",
+      "flag": "有错词？修正它",
       "more": "更多操作"
     },
     "menu": {
-      "label": "语音输入操作",
-      "undoAi": "撤销AI编辑",
-      "redoAi": "重新执行AI编辑",
-      "retry": "重新转录",
+      "label": "听写操作",
+      "undoAi": "撤销 AI 编辑",
+      "redoAi": "重做 AI 编辑",
+      "retry": "重新转写",
       "retryAt": {
-        "none": "重新尝试而不清理",
-        "light": "重试并使用轻度清理",
-        "medium": "重新尝试，中等清理"
+        "none": "重新转写，不清理",
+        "light": "重新转写，轻度清理",
+        "medium": "重新转写，中度清理"
       },
-      "saveAudio": "保存音频为…",
-      "delete": "删除字幕"
+      "saveAudio": "将音频存储为…",
+      "delete": "删除转写文本"
     },
     "audio": {
-      "expired_other": "音频在{{count}}天后被移除",
-      "removed": "音频已删除",
-      "missing": "此语音输入无记录",
+      "expired_other": "音频已在 {{count}} 天后移除",
+      "removed": "音频已移除",
+      "missing": "此听写没有录音",
       "filter": "WAV 音频",
-      "saved": "录音已保存。",
-      "saveFailed": "录音保存失败。请重试。"
+      "saved": "录音已存储。",
+      "saveFailed": "无法存储录音。请重试。"
     },
-    "copyFailed": "文本复制失败。请重试。",
-    "actionFailed": "那没成功。请再试一次。",
+    "copyFailed": "无法拷贝文本。请重试。",
+    "actionFailed": "操作未成功。请重试。",
     "deleted": "已删除",
     "undo": "撤销",
-    "deleteFailed": "该语音记录无法删除，请重试。",
-    "undoFailed": "已经太晚了，无法把那段语音输入恢复。",
+    "deleteFailed": "无法删除该听写。请重试。",
+    "undoFailed": "已无法恢复该听写。",
     "flag": {
-      "title": "词错了？",
-      "description": "选择拼写错误的词，并将其正确拼写。从此你的词典会自动修正它。",
+      "title": "有错词？",
+      "description": "选择识别错误的词，并输入正确的写法。从现在起，你的词典会自动修正它。",
       "close": "关闭",
       "cancel": "取消",
       "save": "添加到词典",
-      "pick": "选错词（如果要几个词，就选下一个）",
-      "noWords": "这段语音输入没有可以选取的词语。",
-      "correction": "纠正拼写",
-      "correctionFor": "纠正“{{word}}”的拼写",
-      "correctionPlaceholder": "把它按正确的方式输入",
-      "kindLabel": "添加什么",
-      "rule": "每次都替换它",
-      "ruleHint": "添加一个替换规则，以便在每次语音输入中纠正相同的错误。",
-      "ruleHintFilled": "“{{from}}” 变成 “{{to}}” 在每次语音输入中。",
-      "word": "教拼写",
-      "wordHint": "添加这个词，以便应用在你说出它时能够识别。",
-      "duplicate": "那已经存在于你的词典中了。",
-      "failed": "该内容无法保存，请重新尝试。",
-      "savedRule": "从现在开始，“{{from}}”将变为“{{to}}”。“",
-      "savedWord": "“{{word}}” 已加入你的词典。",
+      "pick": "选择错误的词（如果涉及多个词，请连同后面的词一起选择）",
+      "noWords": "此听写中没有可选择的词。",
+      "correction": "正确拼写",
+      "correctionFor": "“{{word}}”的正确拼写",
+      "correctionPlaceholder": "输入正确的写法",
+      "kindLabel": "要添加的内容",
+      "rule": "每次都替换",
+      "ruleHint": "添加替换规则，在每次听写中修正同样的错误。",
+      "ruleHintFilled": "在每次听写中将“{{from}}”替换为“{{to}}”。",
+      "word": "教它拼写",
+      "wordHint": "添加这个词，以便 App 在你说出它时能识别出来。",
+      "duplicate": "它已在你的词典中。",
+      "failed": "无法存储。请重试。",
+      "savedRule": "从现在起，“{{from}}”将替换为“{{to}}”。",
+      "savedWord": "“{{word}}”已加入你的词典。",
       "openDictionary": "打开词典"
     }
   },
   "scratchpad": {
     "newNote": "新建笔记",
-    "preferences": "Scratchpad偏好设置",
-    "addToBar": "添加到栏位",
-    "addToBarHelp": "在休息栏中将Scratchpad按钮放在Dictate旁边。",
-    "recents": "最近",
+    "preferences": "草稿板偏好设置",
+    "addToBar": "添加到浮动栏",
+    "addToBarHelp": "在闲置的浮动栏上，于“听写”旁边保留一个草稿板按钮。",
+    "recents": "最近使用",
     "searchLabel": "搜索笔记",
-    "searchPlaceholder": "在您的笔记中搜索",
-    "loading": "加载笔记…",
+    "searchPlaceholder": "搜索你的笔记",
+    "loading": "正在载入笔记…",
     "empty": "还没有笔记",
-    "emptyHelp": "开始输入，然后在浮动窗口中输入或语音输入。",
-    "emptyNote": "空笔记",
-    "noResults": "没有笔记符合您的搜索。",
-    "untitled": "无标题笔记",
-    "pinned": "已固定",
-    "pin": "钉住笔记",
-    "unpin": "取消固定笔记",
+    "emptyHelp": "新建一条笔记，然后在其浮动窗口中输入或听写。",
+    "emptyNote": "空白笔记",
+    "noResults": "没有与搜索匹配的笔记。",
+    "untitled": "未命名笔记",
+    "pinned": "已置顶",
+    "pin": "置顶笔记",
+    "unpin": "取消置顶笔记",
     "editAction": "编辑笔记",
-    "edit": "编辑 {{name}}",
+    "edit": "编辑“{{name}}”",
     "delete": "删除笔记",
-    "deleteConfirm": "删除“{{name}}”？无法撤销。",
-    "error": "草稿本无法完成该操作。您的当前文本仍然保留；请重新尝试。",
+    "deleteConfirm": "要删除“{{name}}”吗？此操作无法撤销。",
+    "error": "草稿板无法完成该操作。你当前的文本仍在这里，请重试。",
     "shortcut": {
-      "label": "打开快捷方式",
+      "label": "打开快捷键",
       "change": "设置快捷键",
-      "title": "Scratchpad快捷方式",
-      "help": "从任何地方打开草稿区。它启动时未设置，因此除非你选择一个，否则不会拦截按键。",
-      "close": "关闭快捷方式对话框",
-      "proposed": "建议组合",
-      "ctrlOptionS": "控制 + 选项 + S",
+      "title": "草稿板快捷键",
+      "help": "从任意位置打开草稿板。它默认未设置，因此在你选择之前不会占用任何按键。",
+      "close": "关闭快捷键对话框",
+      "proposed": "建议的组合键",
+      "ctrlOptionS": "Control + Option + S",
       "use": "使用 Control + Option + S",
-      "chooseAnother": "选择另一个快捷方式",
-      "error": "该快捷方式无法保存，请尝试另一种组合。"
+      "chooseAnother": "选择其他快捷键",
+      "error": "无法存储该快捷键。请试试其他组合。"
     },
-    "tabs": "打开笔记",
+    "tabs": "打开的笔记",
     "tools": "笔记工具",
     "sidebar": "显示笔记列表",
-    "polish": "Polish 草稿板",
-    "polishing": "优化中…",
-    "textSize": "更改文本大小（当前为 {{size}} 点）",
-    "expand": "展开笔记窗口",
+    "polish": "用 Polish 润色笔记",
+    "polishing": "正在润色…",
+    "textSize": "更改文字大小（当前为 {{size}} 磅）",
+    "expand": "放大笔记窗口",
     "shrink": "恢复笔记窗口大小",
-    "close": "关闭草稿区",
-    "noteBody": "笔记内容",
-    "notePlaceholder": "写或语音输入一个笔记…",
-    "saved": "已保存",
-    "saving": "保存中…",
-    "saveError": "尚未保存",
-    "autosaveHelp": "自动保存",
-    "copy": "复制",
-    "copied": "已复制"
+    "close": "关闭草稿板",
+    "noteBody": "笔记文本",
+    "notePlaceholder": "输入或听写笔记…",
+    "saved": "已存储",
+    "saving": "正在存储…",
+    "saveError": "尚未存储",
+    "autosaveHelp": "自动存储",
+    "copy": "拷贝",
+    "copied": "已拷贝"
   },
   "style": {
-    "tabsLabel": "样式组",
+    "tabsLabel": "风格分组",
     "groups": {
       "personal": {
-        "tab": "个人消息",
-        "label": "个人消息",
-        "description": "与朋友和家人聊天，例如信息、WhatsApp、Telegram、Signal 和 Discord。"
+        "tab": "个人信息",
+        "label": "个人信息",
+        "description": "与亲友聊天，例如“信息”、WhatsApp、Telegram、Signal 和 Discord。"
       },
       "work": {
-        "tab": "工作消息",
-        "label": "工作消息",
-        "description": "与同事的聊天，例如 Slack、Microsoft Teams 和 Google Chat。"
+        "tab": "工作信息",
+        "label": "工作信息",
+        "description": "与同事聊天，例如 Slack、Microsoft Teams 和 Google Chat。"
       },
       "email": {
         "tab": "邮件",
-        "label": "邮箱",
-        "description": "邮件应用，例如 Mail、Outlook、Spark 和 Superhuman。"
+        "label": "邮件",
+        "description": "邮件 App，例如“邮件”、Outlook、Spark 和 Superhuman。"
       },
       "other": {
         "tab": "其他",
         "label": "其他",
-        "description": "每其他一个应用：笔记、文档、代码编辑器等。"
+        "description": "所有其他 App：笔记、文稿、代码编辑器等。"
       }
     },
     "presets": {
       "formal": {
         "label": "正式",
-        "description": "大写字母和完整标点。"
+        "description": "首字母大写，标点完整。"
       },
       "relaxed": {
-        "label": "放松的",
-        "description": "大写字母，较轻的标点。"
+        "label": "轻松",
+        "description": "首字母大写，标点较少。"
       },
       "very_relaxed": {
-        "label": "非常放松",
-        "description": "句子开头使用小写，标点更轻。"
+        "label": "非常轻松",
+        "description": "句首小写，标点较少。"
       },
       "upbeat": {
-        "label": "充满活力的",
-        "description": "完整标点，带一点更多活力。"
+        "label": "活泼",
+        "description": "标点完整，语气更有活力。"
       }
     },
     "presetsHeading": "风格",
-    "presetsLegend": "风格：{{group}}",
-    "before": "你说的",
-    "after": "写什么：",
-    "englishOnly": "样式适用于英文语音输入。清理功能适用于所有语言。",
+    "presetsLegend": "“{{group}}”的风格",
+    "before": "你说的话",
+    "after": "写出的内容：",
+    "englishOnly": "风格仅适用于英语听写。清理适用于所有语言。",
     "apps": {
-      "heading": "在这些应用中使用",
-      "listLabel": "使用 {{group}} 风格的应用",
-      "addShort": "添加应用",
-      "allOthers": "所有不属于其他组的应用程序也使用此样式。",
-      "empty": "这里还没有应用。点击\"添加应用\"来添加一个。",
-      "unavailable": "应用程序无法加载。它们将在应用程序准备就绪时出现。",
+      "heading": "用于以下 App",
+      "listLabel": "使用“{{group}}”风格的 App",
+      "addShort": "添加 App",
+      "allOthers": "不属于其他分组的所有 App 也使用此风格。",
+      "empty": "这里还没有 App。使用“添加 App”添加一个。",
+      "unavailable": "无法载入 App 列表。App 就绪后即会显示。",
       "chipLabel": "{{app}}：选项",
-      "menuLabel": "{{app}} 的选项",
-      "moveTo": "移动到",
-      "useDefault": "回到其默认组（{{group}}）",
-      "remove": "从 {{group}} 中移除",
-      "autoSend": "说完后按回车",
-      "autoSendOn": "dictation完成后按回车",
+      "menuLabel": "“{{app}}”的选项",
+      "moveTo": "移到",
+      "useDefault": "恢复到默认分组（{{group}}）",
+      "remove": "从“{{group}}”中移除",
+      "autoSend": "听写后按下回车",
+      "autoSendOn": "听写后按下回车",
       "notInstalled": "未安装",
-      "aiChat": "一个AI聊天：你的文字会被清理，不会带任何风格。",
-      "moved": "现在 {{app}} 使用 {{group}} 风格。",
-      "removed": "现在 {{app}} 使用了其他样式。",
-      "added": "现在，{{app}} 使用了 {{group}} 的样式。",
+      "aiChat": "AI 聊天：你的话会经清理后插入，不应用风格。",
+      "moved": "“{{app}}”现在使用“{{group}}”风格。",
+      "removed": "“{{app}}”现在使用“其他”风格。",
+      "added": "“{{app}}”现在使用“{{group}}”风格。",
       "undo": "撤销",
-      "changeFailed": "该更改未保存。请重新尝试。"
+      "changeFailed": "未能存储该更改。请重试。"
     },
     "sites": {
-      "heading": "在这些网站上使用",
-      "listLabel": "使用 {{group}} 风格的网站"
+      "heading": "用于以下网站",
+      "listLabel": "使用“{{group}}”风格的网站"
     },
     "picker": {
-      "title": "将一个应用添加到 {{group}}",
-      "description": "选择这个Mac上的一个应用。该应用的语音输入将使用{{group}}样式。",
-      "search": "搜索应用",
-      "listLabel": "此 Mac 上的 App",
-      "loading": "正在查找应用…",
-      "failed": "此Mac上的应用程序无法列出。",
-      "none": "没有应用程序匹配。",
-      "inGroup": "在 {{group}}",
-      "alreadyHere": "已经在这里",
+      "title": "将 App 添加到“{{group}}”",
+      "description": "选择这台 Mac 上的一个 App。它的听写将使用“{{group}}”风格。",
+      "search": "搜索 App",
+      "listLabel": "这台 Mac 上的 App",
+      "loading": "正在查找 App…",
+      "failed": "无法列出这台 Mac 上的 App。",
+      "none": "没有匹配的 App。",
+      "inGroup": "位于“{{group}}”",
+      "alreadyHere": "已在此分组中",
       "cancel": "取消",
       "close": "关闭"
     },
     "cleanup": {
       "tab": "清理",
-      "description": "你的文字在每个应用和每种语言中被整理的程度。每个组的风格会叠加应用。"
+      "description": "在所有 App 和所有语言中整理你的话的程度。每个分组的风格会在此基础上应用。"
     }
   },
   "onboardingFlow": {
-    "loading": "正在准备中…",
+    "loading": "正在准备…",
     "back": "返回",
     "continue": "继续",
     "yes": "是",
-    "no": "不",
-    "downloadHint": "语音设置将在后台继续进行。你在这里永远不必等待。",
-    "navigationFailed": "该步骤无法保存，请重新尝试。",
+    "no": "否",
+    "downloadHint": "语音设置会在后台继续进行。你无需在这里等待。",
+    "navigationFailed": "无法存储该步骤。请重试。",
     "stepper": {
       "label": "设置进度",
       "welcome": "欢迎",
       "permissions": "权限",
       "setup": "设置",
       "practice": "练习",
-      "done": "(完成)"
+      "done": "（已完成）"
     },
     "help": {
       "chip": "帮助",
       "title": "设置帮助",
       "close": "关闭帮助",
-      "done": "明白了",
-      "body": "每一步只需几秒钟。您随时可以返回，如果退出，设置会从您离开的地方继续。",
-      "download": "Wispr Bro 在您完成这些步骤的同时，为这台 Mac 设置语音识别。在它准备就绪之前，您所 dictate 的内容都会被保存，并在准备就绪后自动输入。"
+      "done": "知道了",
+      "body": "每一步只需几秒钟。你可以随时返回；如果中途退出，设置会从你离开的地方继续。",
+      "download": "在你完成这些步骤的同时，Wispr Bro 会在这台 Mac 上设置语音识别。在就绪前听写的任何内容都会被保留，并在就绪后输入出来。"
     },
     "welcome": {
-      "title": "说话，你的文字就会出现",
-      "subtitle": "按住一个键，说话，松开。干净的文本会出现在你输入的任何地方。",
-      "privacyTitle": "所有内容都保留在这台 Mac 上",
-      "privacy": "你的声音和文本永远不会离开这台电脑。没有账号，没有云端，没有追踪。",
+      "title": "开口说话，文字随即出现",
+      "subtitle": "按住一个键，说话，松开。整理好的文本会出现在你正在输入的地方。",
+      "privacyTitle": "一切都保留在这台 Mac 上",
+      "privacy": "你的声音和文本从不离开这台电脑。无需账户，不用云端，没有跟踪。",
       "download": "语音设置现在开始，并在后台运行。",
-      "start": "开始"
+      "start": "开始使用"
     },
     "move": {
-      "title": "将 Wispr Bro 移动到 应用程序",
-      "body": "Wispr Bro 正从你的应用程序文件夹外部运行。将其移动到该文件夹内可以确保更新和权限正常工作。",
-      "note": "Wispr Bro 会自行重新打开，并继续设置。",
-      "action": "移动到应用程序",
-      "moving": "移动中…",
-      "skip": "现在不",
-      "error": "Wispr Bro 无法移动自身。请将其拖入Finder的 应用程序 文件夹，然后重新打开它。"
+      "title": "将 Wispr Bro 移到“应用程序”",
+      "body": "Wispr Bro 正在“应用程序”文件夹之外运行。将它移到该文件夹可确保更新和权限正常工作。",
+      "note": "移动后，Wispr Bro 会自动重新打开并继续设置。",
+      "action": "移到“应用程序”",
+      "moving": "正在移动…",
+      "skip": "以后再说",
+      "error": "Wispr Bro 无法移动自身。请在访达中将它拖到“应用程序”，然后重新打开。"
     },
     "languages": {
-      "title": "您会说哪些语言？",
-      "subtitle": "选择你用来语音输入的所有语言。Wispr Bro 在熟悉这些语言后，能更好地整理你的语音。",
+      "title": "你说哪些语言？",
+      "subtitle": "选择你听写时使用的所有语言。Wispr Bro 了解这些语言后，能更好地整理你的话。",
       "listLabel": "语言",
-      "noMatch": "没有语言匹配 “{{query}}”。“",
-      "count_other": "语音输入支持 {{count}} 种语言。您稍后可以在设置中更改。",
-      "weak_other": "在 {{languages}} 中的识别准确性较低。它们仍然可以工作，但可能会出现更多错误。"
+      "noMatch": "没有与“{{query}}”匹配的语言。",
+      "count_other": "听写支持 {{count}} 种语言。你之后可以在设置中更改。",
+      "weak_other": "{{languages}}的识别准确度较低。仍然可以使用，但错误可能会更多。"
     },
     "permissions": {
-      "title": "两个权限",
-      "subtitle": "macOS 会一次性询问你是否允许这些权限。每行一旦被勾选，就会立即打勾。",
-      "allowed": "允许",
+      "title": "两项权限",
+      "subtitle": "macOS 只会请求你允许一次。每项权限打开后，对应的行会立即打勾。",
+      "allowed": "已允许",
       "waiting": "正在等待 macOS…",
       "openSettings": "打开系统设置",
       "prompt": "macOS 提示",
       "pane": "在系统设置中",
       "microphone": {
         "title": "麦克风",
-        "why": "所以 Wispr Bro 在你按住键时能听到你。音频仅在本 Mac 上处理。",
-        "action": "允许麦克风",
-        "promptAlt": "macOS 微麦克风提示图，允许按钮高亮",
-        "paneAlt": "系统设置、隐私与安全，麦克风，Wispr Bro 开关已打开",
-        "waitingHelp": "在 macOS 提示中点击「允许」。如果看不到，请打开系统设置，开启 Wispr Bro 下的麦克风。"
+        "why": "让 Wispr Bro 在你按住按键时能听到你说话。音频只在这台 Mac 上处理。",
+        "action": "允许使用麦克风",
+        "promptAlt": "macOS 麦克风提示的图片，“允许”按钮已高亮",
+        "paneAlt": "“系统设置” › “隐私与安全性” › “麦克风”的图片，Wispr Bro 的开关已打开",
+        "waitingHelp": "在 macOS 提示中点按“允许”。如果没有看到提示，请打开“系统设置”，在“麦克风”下打开 Wispr Bro。"
       },
       "accessibility": {
-        "title": "无障碍",
-        "why": "所以 Wispr Bro 可以识别你的快捷方式，并将文本输入到你正在使用的应用中。",
+        "title": "辅助功能",
+        "why": "让 Wispr Bro 能察觉你的快捷键，并将文本输入到你正在使用的 App 中。",
         "action": "允许辅助功能",
-        "promptAlt": "macOS 可访问性提示的图片，系统设置按钮已高亮",
-        "paneAlt": "系统设置、隐私与安全、可访问性，其中 Wispr Bro 的开关已打开",
-        "waitingHelp": "在系统设置中，打开 Wispr Bro 旁边的开关。您可能需要使用密码解锁。"
+        "promptAlt": "macOS 辅助功能提示的图片，“打开系统设置”按钮已高亮",
+        "paneAlt": "“系统设置” › “隐私与安全性” › “辅助功能”的图片，Wispr Bro 的开关已打开",
+        "waitingHelp": "在“系统设置”中，打开 Wispr Bro 旁边的开关。你可能需要输入密码来解锁。"
       }
     },
     "mic": {
       "title": "测试你的麦克风",
-      "guidance": "有线和内置麦克风效果最好。蓝牙耳机可能会掉线或声音模糊。",
-      "question": "说话的时候条形指示器会动吗？",
-      "noHelp": "请选择下方的另一个麦克风，然后再说一遍。",
+      "guidance": "有线麦克风和内建麦克风效果最好。蓝牙耳机可能会断开或声音发闷。",
+      "question": "你说话时音量条会跳动吗？",
+      "noHelp": "在下方选择另一个麦克风，然后再说一遍。",
       "change": "更换麦克风",
       "previewList": "你的麦克风会显示在这里。"
     },
     "shortcut": {
-      "title": "测试你的快捷方式",
-      "instruction": "按住键盘上的 fn 键（🌐）。按住时，下方的键会亮起。",
+      "title": "测试你的快捷键",
+      "instruction": "按住键盘上的 fn 键（🌐）。按住时，下方的按键会亮起。",
       "fallbackInstruction": "同时按住 Control 和 Option。按住时，下方的按键会亮起。",
-      "unboundInstruction": "未设置语音输入快捷方式。使用「编辑快捷方式」来选择一个。",
+      "unboundInstruction": "尚未设置听写快捷键。请使用“编辑快捷键”进行选择。",
       "keyLabel": "fn 键",
-      "fallbackKeyLabel": "控制和选项",
-      "pressed": "按键被按住",
-      "notPressed": "等待按键…",
-      "worked": "它有效了。按键亮起来了。",
-      "question": "键盘上的键是否亮了？",
-      "edit": "编辑快捷方式",
-      "tryAgain": "再试一次",
-      "otherCauses": "不是吗？其他可能原因：",
-      "changeFailed": "该更改未成功。请重新尝试，或使用系统设置。",
+      "fallbackKeyLabel": "Control 和 Option",
+      "pressed": "已按住按键",
+      "notPressed": "正在等待按键…",
+      "worked": "成功了。按键亮了。",
+      "question": "按键亮了吗？",
+      "edit": "编辑快捷键",
+      "tryAgain": "重试",
+      "otherCauses": "不是这个原因？其他可能的原因：",
+      "changeFailed": "该更改未能生效。请重试，或使用“系统设置”。",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro 无法看到按键输入",
-          "title": "Wispr Bro 还无法看到按键操作",
-          "body": "这通常意味着 Wispr Bro 的可访问性未开启。请在系统设置中开启，然后返回并点击\"再次尝试\"。",
-          "action": "打开无障碍设置"
+          "choice": "Wispr Bro 察觉不到按键",
+          "title": "Wispr Bro 还察觉不到按键",
+          "body": "这通常表示尚未为 Wispr Bro 打开辅助功能权限。请在“系统设置”中打开，然后回到这里点按“重试”。",
+          "action": "打开辅助功能设置"
         },
         "secure_input": {
-          "choice": "一个密码字段或其他应用正在阻止按键",
-          "title": "另一个应用程序正在阻止按键输入",
-          "body": "当密码输入框或某些应用（如密码管理器、终端的安全键盘输入）获得焦点时，macOS 会隐藏其他应用的按键输入。关闭或点击离开该应用，然后重新尝试。",
-          "active": "目前，另一个应用程序正在阻止按键输入。",
-          "inactive": "目前没有东西阻止按键输入。"
+          "choice": "密码栏或其他 App 拦截了按键",
+          "title": "另一个 App 正在拦截按键",
+          "body": "当密码栏或某些 App（密码管理器、“终端”的“安全键盘输入”）处于焦点时，macOS 会向所有其他 App 隐藏按键。关闭它或点按其他位置，然后重试。",
+          "active": "当前有另一个 App 正在拦截按键。",
+          "inactive": "当前没有任何内容拦截按键。"
         },
         "globe": {
-          "choice": "🌐 键可打开表情符号或切换键盘",
-          "title": "macOS 给 🌐 键分配了专属功能",
-          "body": "你的 Mac 在按下 🌐 时会打开表情符号、切换输入法或启动 Apple 语音输入。Wispr Bro 可以设置 \"按下 🌐 键以\" 为 \"无操作\"。如果你停止使用 fn 进行语音输入，系统会恢复你的选择。",
-          "consent": "将 🌐 设置为 不采取任何行动",
-          "changed": "🌐 现在它自己不会做任何事",
+          "choice": "🌐 键会打开表情符号或切换键盘",
+          "title": "macOS 为 🌐 键分配了其他功能",
+          "body": "按下 🌐 时，你的 Mac 会打开表情符号、切换输入法或启动 Apple 听写。Wispr Bro 可以将“按下 🌐 键时”设为“不执行任何操作”。如果你不再使用 fn 进行听写，会恢复你原来的选择。",
+          "consent": "将 🌐 设为“不执行任何操作”",
+          "changed": "单独按下 🌐 现在不会执行任何操作",
           "open": "打开键盘设置"
         },
         "no_fn": {
           "choice": "我的键盘没有 fn 键",
-          "title": "使用控制键和选项键代替",
-          "body": "一些键盘没有 fn 或 🌐 键。按住 Control 和 Option 键一起进行语音输入。您随时可以在设置中更改此选项。",
+          "title": "改用 Control 和 Option",
+          "body": "有些键盘没有 fn 或 🌐 键。可以改为同时按住 Control 和 Option 进行听写。你可以随时在设置中更改。",
           "action": "使用 Control + Option",
-          "changed": "Control + 选项 是你的快捷方式"
+          "changed": "你的快捷键已设为 Control + Option"
         }
       }
     },
     "practice": {
-      "title": "练习：完整邮件，无需动手",
-      "instruction": "同时按住 fn 和 空格键，然后开始说话。你不需要按住任何按键。说完后再次按 fn。试试看：\"嗨，萨姆，谢谢你的笔记，周四上午十点能见面吗？\"",
-      "instructionFallback": "同时按住控制键、选项键和空格键，然后开始说话。你不需要一直按住任何按键。说完后，再次按住控制键和选项键。试试看：\"嗨，萨姆，谢谢你的笔记，周四上午十点能见面吗？\"",
-      "instructionUnbound": "没有设置语音输入快捷键，因此无法开始练习。现在跳过，并在设置中设置快捷键。",
+      "title": "练习：免提写完一封邮件",
+      "instruction": "同时按下 fn 和空格键，然后开始说话，无需一直按住。说完后再按一次 fn。试着说：“嗨 Sam，谢谢你的笔记。我们周四十点见面可以吗？”",
+      "instructionFallback": "同时按下 Control、Option 和空格键，然后开始说话，无需一直按住。说完后再按一次 Control 和 Option。试着说：“嗨 Sam，谢谢你的笔记。我们周四十点见面可以吗？”",
+      "instructionUnbound": "尚未设置听写快捷键，因此无法开始练习。请先跳过，然后在设置中设置快捷键。",
       "skip": "跳过",
       "waiting": "正在等待你开始说话…",
-      "listening": "聆听中… 完成后按 fn",
-      "listening_fallback": "聆听中… 完成后按 Control 和 Option。",
-      "working": "写下来……",
-      "settingUp": "设置中…",
-      "settingUpPercent": "设置中… {{percent}}%",
-      "queuedNote": "你的文字已保存。设置完成后，它们会在这里显示，无论怎样都会出现在历史记录中。我们稍后会自动继续。",
-      "nothing": "没有内容传过来。请检查麦克风是否打开，然后重新尝试。",
-      "filled": "那就是你的邮箱。添加更多内容，或者继续。",
+      "listening": "正在聆听… 说完后按 fn。",
+      "listening_fallback": "正在聆听… 说完后按 Control 和 Option。",
+      "working": "正在写下来…",
+      "settingUp": "正在设置…",
+      "settingUpPercent": "正在设置… {{percent}}%",
+      "queuedNote": "你说的话已保留。设置完成后会立即显示在这里，并且无论如何都会出现在历史记录中。稍后会自动进入下一步。",
+      "nothing": "没有收到任何内容。请检查麦克风是否已打开，然后重试。",
+      "filled": "这就是你的邮件。可以继续添加内容，或继续下一步。",
       "composer": {
-        "title": "新消息",
-        "to": "到",
+        "title": "新信息",
+        "to": "收件人",
         "recipient": "Sam",
         "subject": "主题",
         "subjectText": "周四",
-        "body": "消息",
-        "placeholder": "你的文字会出现在这里。"
+        "body": "正文",
+        "placeholder": "你说的话会显示在这里。"
       }
     },
     "firstDictation": {
-      "title": "好了。你已经录下了第一段文字。",
-      "subtitle": "你可以在任何可以输入的地方现在开始说话。"
+      "title": "完成了。你听写了第一段文本。",
+      "subtitle": "现在，凡是能打字的地方，都可以改用说的。"
     },
     "timeSaved": {
-      "headline_other": "语音输入每周可为您节省约{{hours}}小时",
-      "intro": "说话对大多数人来说比打字更快。进行一个30秒的打字测试，看看能为你节省多少时间。",
+      "headline_other": "听写每周可为你节省约 {{hours}} 小时",
+      "intro": "对大多数人来说，说话比打字快。做一个 30 秒的打字测试，看看听写能为你节省多少时间。",
       "howFast": "你打字有多快？",
       "skipTest": "跳过测试",
-      "sliderLabel": "你每天打字多久？",
-      "hoursPerDay_other": "每天{{hours}}小时",
+      "sliderLabel": "你每天打字多长时间？",
+      "hoursPerDay_other": "每天 {{hours}} 小时",
       "takeTest": "进行打字测试",
-      "basisMeasured_other": "基于你每分钟输入{{wpm}}个词，以每分钟约{{speaking}}个词的速度说话。",
-      "basisAverage_other": "基于每分钟平均输入{{wpm}}个词，以每分钟约{{speaking}}个词的速度说话。"
+      "basisMeasured_other": "根据你每分钟 {{wpm}} 词的打字速度，以及每分钟约 {{speaking}} 词的语速估算。",
+      "basisAverage_other": "根据每分钟 {{wpm}} 词的平均打字速度，以及每分钟约 {{speaking}} 词的语速估算。"
     },
     "typing": {
-      "title": "你打字的速度有多快？",
+      "title": "你打字有多快？",
       "skip": "跳过",
       "language": "语言",
-      "wpmPending": "—— 每分钟单词数",
-      "wpm_other": "每分钟{{count}}个字",
-      "secondsLeft_other": "还剩{{count}}秒",
-      "inputLabel": "在这里输入段落",
-      "placeholder": "在这里开始输入…",
-      "nothing": "没有匹配到段落。再试一次。",
-      "result_other": "你大约每分钟输入 {{count}} 个字。",
-      "tryAgain": "再试一次",
+      "wpmPending": "每分钟 — 词",
+      "wpm_other": "每分钟 {{count}} 词",
+      "secondsLeft_other": "还剩 {{count}} 秒",
+      "inputLabel": "在此输入段落",
+      "placeholder": "从这里开始输入…",
+      "nothing": "输入的内容与段落不匹配。请重试。",
+      "result_other": "你每分钟大约能打 {{count}} 个词。",
+      "tryAgain": "重试",
       "recalculate": "重新计算",
-      "instruction_other": "像平时一样输入下面的段落。当你按下第一个键时计时开始，持续 {{seconds}} 秒。"
+      "instruction_other": "像平时一样输入下面的段落。计时从你按下第一个键开始，持续 {{seconds}} 秒。"
     },
     "summary": {
-      "title": "你已经准备好了",
-      "subtitle": "这里是 Wispr Bro 的设置方式。在任何应用中按住快捷键即可语音输入。",
+      "title": "一切就绪",
+      "subtitle": "以下是 Wispr Bro 的设置。在任意 App 中按住快捷键即可听写。",
       "languages": "语言",
-      "shortcut": "快捷方式",
-      "shortcutFn": "按住 fn (🌐)",
+      "shortcut": "快捷键",
+      "shortcutFn": "按住 fn（🌐）",
       "shortcutFallback": "按住 Control 和 Option",
       "microphone": "麦克风",
       "micDefault": "Mac 的默认麦克风",
       "typing": "打字速度",
-      "typingWpm_other": "每分钟{{count}}个字",
+      "typingWpm_other": "每分钟 {{count}} 词",
       "typingSkipped": "未测量",
       "notSet": "未设置",
       "launchAtLogin": "登录时打开 Wispr Bro",
-      "launchAtLoginHint": "所以，你需要的时候，语音输入就已准备就绪。",
-      "later": "你可以在设置中稍后更改这些内容。",
-      "finish": "开始语音输入"
+      "launchAtLoginHint": "这样随时需要时都可以听写。",
+      "later": "你之后可以在设置中更改所有这些内容。",
+      "finish": "开始听写"
     }
   },
   "whatsNew": {
-    "title": "{{version}} 中的新功能",
-    "label": "本版本的发布说明",
+    "title": "{{version}} 的新功能",
+    "label": "此版本的发布说明",
     "close": "关闭",
-    "done": "明白"
+    "done": "知道了"
   },
   "share": {
-    "heading": "将 {{appName}} 传递",
-    "body": "{{appName}} 是免费且开源的，完全在 Mac 上运行。没有推荐码，也没有任何数据被追踪：链接对所有人都是相同的。",
+    "heading": "推荐 {{appName}}",
+    "body": "{{appName}} 免费且开源，完全在 Mac 上运行。没有推荐码，也不跟踪任何内容：每个人拿到的链接都一样。",
     "downloadLabel": "下载链接",
     "brewLabel": "使用 Homebrew 安装",
-    "copyLink": "复制下载链接",
-    "copyBrew": "复制 Homebrew 命令",
-    "copy": "复制",
-    "copied": "已复制",
-    "copyFailed": "无法复制。请选择文本并复制它。",
-    "shareTitle": "发送给某人",
-    "shareBody": "消息、邮件、AirDrop 以及 Mac 任何其他分享方式。",
-    "shareButton": "分享…",
-    "shareFailed": "无法打开共享面板。"
+    "copyLink": "拷贝下载链接",
+    "copyBrew": "拷贝 Homebrew 命令",
+    "copy": "拷贝",
+    "copied": "已拷贝",
+    "copyFailed": "无法拷贝。请选择文本后手动拷贝。",
+    "shareTitle": "发送给他人",
+    "shareBody": "通过“信息”、“邮件”、隔空投送或 Mac 支持的任何其他方式共享。",
+    "shareButton": "共享…",
+    "shareFailed": "无法打开共享菜单。"
   },
   "shortcutHealth": {
     "banner": {
-      "lost": "你的语音快捷方式已停止工作。Wispr Bro 需要重新获得无障碍访问权限。",
-      "stopped": "你的语音速记快捷方式已停止响应。",
+      "lost": "你的听写快捷键已停止工作。Wispr Bro 需要重新获得辅助功能权限。",
+      "stopped": "你的听写快捷键已停止响应。",
       "fix": "修复"
     },
     "sheet": {
-      "title": "修复你的快捷方式",
-      "introPermission": "macOS 关闭了 Wispr Bro 的可访问性权限，因此无法检测到你的快捷方式。这可能发生在更新之后，或者系统设置中修改了相关条目时。",
-      "introStopped": "Wispr Bro的键盘监听器已停止。一旦macOS允许，它会自动重新启动。",
-      "pictureLabel": "系统设置，隐私与安全，无障碍：开启的 Wispr Bro 选项",
-      "pictureTitle": "无障碍",
-      "pictureBack": "隐私与安全",
+      "title": "修复你的快捷键",
+      "introPermission": "macOS 关闭了 Wispr Bro 的辅助功能权限，因此它察觉不到你的快捷键。这可能发生在更新之后，或在“系统设置”中更改了该项之后。",
+      "introStopped": "Wispr Bro 的键盘监听已停止。macOS 允许后，它会自动重新启动。",
+      "pictureLabel": "“系统设置” › “隐私与安全性” › “辅助功能”：Wispr Bro 一行的开关已打开",
+      "pictureTitle": "辅助功能",
+      "pictureBack": "隐私与安全性",
       "stepsTitle": "重新打开",
-      "step1": "打开系统设置 › 隐私与安全 › 可访问性。",
-      "step2": "打开 Wispr Bro。如果它已经打开，请先关闭再重新打开。",
-      "step3": "回来这里。几秒钟后，快捷方式就会再次生效，无需重启。",
-      "resetTitle": "还是不行吗？",
-      "resetBody": "更新后，macOS 可能会保留一个已不再匹配应用的旧条目。重置会移除 Wispr Bro 的条目，以便再次允许它。",
-      "resetStep1": "选择重置并重新授权。",
-      "resetStep2": "允许 Wispr Bro 当 macOS 提示时，或在打开的列表中开启它。",
-      "resetFailed": "无法重置该条目。在列表中选择 Wispr Bro，然后使用减号按钮将其移除，再使用加号按钮重新添加。",
-      "openSettings": "打开无障碍设置",
+      "step1": "打开“系统设置” › “隐私与安全性” › “辅助功能”。",
+      "step2": "打开 Wispr Bro。如果已经打开，请先关闭再重新打开。",
+      "step3": "回到这里。几秒钟内快捷键就会恢复工作，无需重新启动。",
+      "resetTitle": "仍然无法使用？",
+      "resetBody": "更新后，macOS 可能会保留一个与 App 不再匹配的旧条目。“重置”会移除 Wispr Bro 的条目，以便你重新允许它。",
+      "resetStep1": "选择“重置并重新授权”。",
+      "resetStep2": "在 macOS 询问时允许 Wispr Bro，或在打开的列表中将它打开。",
+      "resetFailed": "无法重置该条目。请在列表中选择 Wispr Bro，用减号按钮将其移除，然后用加号按钮重新添加。",
+      "openSettings": "打开辅助功能设置",
       "reset": "重置并重新授权",
-      "checkAgain": "再检查一次",
+      "checkAgain": "再次检查",
       "relaunch": "重新启动以完成",
       "close": "关闭",
       "status": {
-        "healthy": "你的快捷方式正常工作。",
-        "lost": "尚未工作",
+        "healthy": "你的快捷键工作正常。",
+        "lost": "仍无法使用",
         "recovering": "正在重新连接…",
-        "needsRelaunch": "访问已恢复。重新启动 Wispr Bro 以完成。"
+        "needsRelaunch": "权限已恢复。重新启动 Wispr Bro 以完成。"
       }
     }
   },
   "firstUse": {
-    "title": "你想先尝试什么？",
-    "subtitle": "选择一个来试试效果。然后在你的应用中尝试使用它。",
+    "title": "你想先试试什么？",
+    "subtitle": "选择一项看看效果，然后在你自己的 App 中试试。",
     "choicesLabel": "开始的方式",
     "choices": {
-      "ai_chat": "询问一个AI助手",
-      "note": "记个便条",
-      "message": "回复一条消息",
+      "ai_chat": "询问 AI 助手",
+      "note": "记一条笔记",
+      "message": "回复信息",
       "email": "写一封邮件",
       "comment": "发表评论",
-      "document": "草拟一份文档",
-      "coding": "提示一个编码工具"
+      "document": "起草文稿",
+      "coding": "给编程工具写提示词"
     },
     "scene": {
       "label": "示例：{{choice}}",
       "said": "你说",
-      "written": "{{appName}} 写",
+      "written": "{{appName}} 写出",
       "pause": "暂停示例",
       "play": "播放示例"
     },
     "scenes": {
       "ai_chat": {
-        "app": "AI聊天",
-        "context": "我可以帮您做什么？",
-        "said": "嗯，那你能解释一下复利是怎么工作的吗，就像我刚接触这个一样",
-        "text": "你能解释一下复利是怎么工作的吗，就像我刚接触这个一样？"
+        "app": "AI 聊天",
+        "context": "有什么可以帮你的？",
+        "said": "嗯 那个 你能给我解释一下复利是怎么回事吗 就当我是新手",
+        "text": "你能给我解释一下复利是怎么回事吗？就当我是新手。"
       },
       "note": {
-        "app": "笔记",
+        "app": "备忘录",
         "context": "星期一",
-        "said": "备注给自己 去看牙医 嗯 去取干洗之前六点前",
-        "text": "备注给自己：打电话给牙医，六点前取干洗。"
+        "said": "提醒自己 给牙医打电话 呃 六点前去取干洗的衣服",
+        "text": "提醒自己：给牙医打电话，六点前去取干洗的衣服。"
       },
       "message": {
-        "app": "消息",
-        "context": "我们还是约午饭吗？",
-        "said": "是的，确定是十二点半，可以吗",
-        "text": "是的，当然！12点30分可以吗？"
+        "app": "信息",
+        "context": "午饭还照常吗？",
+        "said": "当然 十二点半你方便吗",
+        "text": "当然！12:30 你方便吗？"
       },
       "email": {
         "app": "邮件",
         "context": "收件人：Priya · 主题：周四",
-        "said": "hi Priya 谢谢你的笔记 我周四早上会发草稿",
-        "text": "嗨，Priya，谢谢你的笔记。我周四早上会发草稿。"
+        "said": "嗨 Priya 谢谢你的笔记 我周四上午前把草稿发给你",
+        "text": "嗨 Priya，谢谢你的笔记。我周四上午前把草稿发给你。"
       },
       "comment": {
         "app": "社交",
-        "context": "我们的新办公室下周就开张了！",
-        "said": "恭喜整个团队，这看起来太棒了",
-        "text": "恭喜整个团队，这看起来太棒了！"
+        "context": "我们的新办公室下周开张！",
+        "said": "恭喜整个团队 看起来太棒了",
+        "text": "恭喜整个团队，看起来太棒了！"
       },
       "document": {
         "app": "文档",
         "context": "项目计划",
-        "said": "这一阶段的目标是嗯在月底前将beta版本发送给五十名测试者",
-        "text": "这一阶段的目标是在月底前将beta版本推送给五十名测试者。"
+        "said": "这个阶段的目标是 嗯 在月底前把 beta 版发给五十位测试者",
+        "text": "这个阶段的目标是在月底前把 beta 版发给五十位测试者。"
       },
       "coding": {
         "app": "代码编辑器",
-        "context": "让代理提问",
-        "said": "登录按钮在移动设备上无法使用，你能找出原因并修复它吗",
-        "text": "移动端的登录按钮不起作用。你能找出原因并修复它吗？"
+        "context": "询问智能体",
+        "said": "登录按钮在手机上不能用 你能查一下原因然后修好吗",
+        "text": "登录按钮在手机上不能用。你能查一下原因然后修好吗？"
       }
     },
-    "tryNow": "现在试试",
-    "later": "也许稍后",
+    "tryNow": "立即试试",
+    "later": "以后再说",
     "close": "关闭",
-    "noBar": "dictation bar 未运行，因此没有提示显示。你仍然可以尝试：打开应用并按住快捷键。",
+    "noBar": "听写浮动栏未在运行，因此无法显示提示。你仍然可以试试：打开 App 并按住你的快捷键。",
     "banner": {
-      "title": "在你的应用中使用它",
+      "title": "在你自己的 App 中使用",
       "body": "{{hint}}。{{how}}",
       "again": "再次显示提示",
       "stop": "隐藏提示",
       "other": "试试别的",
-      "active": "提示在屏幕上。按 Esc 关闭它。"
+      "active": "提示正显示在屏幕上。按 Esc 关闭。"
     }
   },
   "checklist": {
-    "title": "开始",
+    "title": "开始使用",
     "label": "设置清单",
-    "progress": "{{done}} 个出 {{total}} 个",
+    "progress": "已完成 {{done}} / {{total}}",
     "hide": "隐藏清单",
     "done": "完成",
-    "next": "下一个",
-    "allDone": "全部完成。你已经掌握了基础。",
+    "next": "下一项",
+    "allDone": "全部完成。你已掌握基础用法。",
     "items": {
       "try_in_app": {
-        "title": "在另一个应用中试一下",
-        "action": "给我看看"
+        "title": "在其他 App 中试试",
+        "action": "演示"
       },
       "add_word": {
-        "title": "添加一个词",
-        "action": "添加一个词",
-        "coachTitle": "添加你的第一个词",
-        "coachBody": "你经常使用的名称、产品术语和行话。它们会按你写的拼法出现。"
+        "title": "添加单词",
+        "action": "添加单词",
+        "coachTitle": "添加你的第一个单词",
+        "coachBody": "你常说的名称、产品术语和行话。它们会按你的拼法写出。"
       },
       "create_snippet": {
-        "title": "创建一个片段",
-        "action": "新建片段",
-        "coachTitle": "创建您的第一个片段",
-        "coachBody": "说一个短语，得到更长的文本：你的地址，一个链接，一个结束语。"
+        "title": "创建文本片段",
+        "action": "新建文本片段",
+        "coachTitle": "创建你的第一个文本片段",
+        "coachBody": "说一个简短的短语，得到一段更长的文本：你的地址、一个链接、一句落款。"
       },
       "launch_at_login": {
         "title": "登录时打开",
-        "action": "开启",
-        "body": "{{appName}} 会随你的 Mac 启动，因此你的快捷方式始终有效。"
+        "action": "打开",
+        "body": "{{appName}} 会随 Mac 一起启动，让你的快捷键始终可用。"
       },
       "try_transform": {
-        "title": "尝试一个转换",
-        "action": "给我看",
-        "body": "选择文本并按下快捷键：它会原地被重写。"
+        "title": "试试转换",
+        "action": "演示",
+        "body": "选择文本并按下快捷键：文本会被就地改写。"
       },
       "try_whisper": {
-        "title": "试试小声说",
-        "action": "给我看",
-        "body": "在别人周围安静地听写，并找到合适的麦克风。"
+        "title": "试试轻声说话",
+        "action": "演示",
+        "body": "身边有人时轻声听写，并找到合适的麦克风。"
       }
     },
     "coach": {
       "close": "关闭",
-      "done": "明白"
+      "done": "知道了"
     }
   },
   "lessons": {
     "common": {
-      "close": "关闭这节课",
+      "close": "关闭课程",
       "back": "返回",
       "continue": "继续",
       "skip": "跳过",
       "tryIt": "自己试试",
       "tryItOut": "试试看",
-      "howItWorks": "它是如何工作的",
+      "howItWorks": "工作原理",
       "progress": "第 {{step}} 步，共 {{total}} 步",
       "pause": "暂停动画",
       "play": "播放动画",
-      "turnOnFailed": "那没有打开。再试一次，或者在它的页面上使用开关。"
+      "turnOnFailed": "未能打开。请重试，或使用其页面上的开关。"
     },
     "transforms": {
       "title": "转换",
-      "help": "学习转换",
+      "help": "了解转换",
       "intro": {
-        "title": "让你的写作准确表达你的本意",
-        "body": "在任意应用中选择文本并按下快捷键。转换会在此 Mac 上直接修改文本。",
+        "title": "让文字准确表达你的本意",
+        "body": "在任意 App 中选择文本并按下快捷键。转换会直接在这台 Mac 上就地改写文本。",
         "continue": "试试看"
       },
       "cards": {
-        "label": "相同文本，三种方式",
+        "label": "同一段文本，三种写法",
         "original": {
-          "name": "原始",
-          "text": "所以基本上我想确认一下是否可以把评审推到周四，因为数据还没准备好，而且sam也出差了"
+          "name": "原文",
+          "text": "就是说我想问一下评审能不能推到周四 因为数据还没准备好 而且 Sam 也不在"
         },
         "polish": {
           "name": "Polish",
-          "text": "我们能否把评审改到周四？数据还没准备好，Sam也出差了。"
+          "text": "评审能改到周四吗？数据还没准备好，而且 Sam 也不在。"
         },
         "prompt": {
           "name": "Prompt Engineer",
-          "text": "写一条简短友好的信息，请求将评审改到周四。原因：数据还没准备好，Sam 也出差了。保持两句话。"
+          "text": "写一条简短友好的消息，请求将评审改到周四。原因：数据还没准备好，Sam 也不在。控制在两句话以内。"
         }
       },
       "benefits": {
         "label": "转换能做什么",
-        "shorter": "用更少的字说",
-        "clearer": "表达更清晰",
-        "order": "将要点按更好的顺序排列",
+        "shorter": "用更少的文字表达",
+        "clearer": "改写得更清晰",
+        "order": "让要点顺序更合理",
         "structure": "添加标题和列表",
-        "tone": "保持你的语气",
-        "anywhere": "在你编写任何应用时均可使用"
+        "tone": "保留你的语气",
+        "anywhere": "适用于你写字的任何 App"
       },
       "practice": {
-        "title": "选中文本，然后按 {{shortcut}}",
-        "body": "请选择下方的消息（⌘A 可选中全部内容），然后按下 Polish 的键盘快捷键。",
-        "doneTitle": "文本已重写",
-        "doneBody": "按 {{view}} 查看更改。{{undo}} 可撤销它。",
-        "app": "与乔丹聊天",
-        "context": "我们明天还进行复盘吗？",
-        "fieldLabel": "你对Jordan的回复",
-        "draft": "嘿，所以我觉得我们可能应该把复习移到周四，如果可以的话，因为数据还没准备好，我不想展示半成品的东西",
+        "title": "选择文本，然后按 {{shortcut}}",
+        "body": "选择下方的消息（按 ⌘A 可全选），然后按 Polish 快捷键。",
+        "doneTitle": "文本已改写",
+        "doneBody": "按 {{view}} 查看更改。按 {{undo}} 撤销。",
+        "app": "与 Jordan 聊天",
+        "context": "明天的评审还照常吗？",
+        "fieldLabel": "你给 Jordan 的回复",
+        "draft": "嘿 我觉得要不咱们把评审挪到周四吧 如果可以的话 因为数据其实还没准备好 我不想拿半成品出来",
         "example": {
-          "polish": "我们能否把评审改到周四？数据还没准备好，我不想展示未完成的工作。",
-          "prompt": "写一个简短礼貌的回复，请求将明天的回顾改到周四，因为数据还没准备好。保持友好，不超过三句话。"
+          "polish": "评审能改到周四吗？数据还没准备好，我不想展示未完成的内容。",
+          "prompt": "写一条简短礼貌的回复，请求将明天的评审改到周四，因为数据还没准备好。语气友好，不超过三句话。"
         },
-        "exampleNote": "重写功能目前还不支持此Mac，因此这里仅作示例。一旦支持，你的快捷键就会以相同方式重写你自己的文本。",
-        "selectFirst": "先选择部分消息，然后再次按 {{shortcut}}。",
-        "working": "重写中…",
-        "spotlight": "每次转换后，屏幕底部的浮动栏会提供查看更改选项。点击它或按 {{view}}。",
+        "exampleNote": "这台 Mac 上的改写功能尚未就绪，因此这里显示的是示例。就绪后，你的快捷键会以同样方式改写你自己的文本。",
+        "selectFirst": "请先选择部分消息，然后再按一次 {{shortcut}}。",
+        "working": "正在改写…",
+        "spotlight": "每次转换后，屏幕底部的浮动栏都会提供“查看更改”。点按它或按 {{view}}。",
         "barLabel": "浮动栏",
         "bar": {
-          "done": "好了",
+          "done": "完成",
           "view": "查看更改"
         },
         "hideChanges": "隐藏更改"
       },
       "how": {
         "select": {
-          "title": "在任意应用中选择文本",
-          "body": "像平常一样输入或听写：一封邮件、一段聊天、一份文档。然后选择你想要重写的部分。",
-          "scene": "动画：已选择一封草稿邮件。"
+          "title": "在任意 App 中选择文本",
+          "body": "像平常一样书写或听写：邮件、聊天、文稿都可以。然后选择想要改写的内容。",
+          "scene": "动画：选中了一封邮件草稿。"
         },
         "press": {
           "title": "按 {{shortcut}}",
-          "body": "Polish 在原地重写选择内容。Prompt Engineer ({{prompt}}) 将其转换为 AI 助手的清晰提示。",
-          "scene": "动画：按下了 {{shortcut}}，草稿被替换为更清晰的版本。"
+          "body": "Polish 会就地改写所选内容。Prompt Engineer（{{prompt}}）会将其变成给 AI 助手的清晰提示词。",
+          "scene": "动画：按下 {{shortcut}} 后，草稿被替换为更清晰的版本。"
         },
         "changes": {
-          "title": "查看有什么变化",
-          "body": "按 {{view}} 或点击浮动栏上的「查看更改」：被删除的词会划掉，新的词会高亮。{{undo}} 可将原始内容恢复。",
-          "scene": "动画：一个卡片列出变更，删除的词用删除线标出，新增的词用高亮标出。"
+          "title": "查看更改内容",
+          "body": "按 {{view}} 或点按浮动栏上的“查看更改”：删除的词会被划掉，新的词会高亮显示。按 {{undo}} 可恢复原文。",
+          "scene": "动画：一张卡片列出更改，删除的词被划掉，新的词高亮显示。"
         }
       },
       "scene": {
-        "app": "邮件：新消息",
-        "draft": "大家好 有个小提示 发布时间会推迟到下周 因为我们发现支付流程有个bug 首先想修复",
-        "polished": "大家好，发布已推迟到下周。我们在支付流程中发现了一个bug，想先修复它。"
+        "app": "邮件：新邮件",
+        "draft": "大家好 简单说一下 发布要推迟到下周 因为我们在支付流程里发现了一个 bug 想先修好",
+        "polished": "大家好，发布将推迟到下周。我们在支付流程中发现了一个 bug，想先修复它。"
       },
       "finish": {
-        "turnOn": "开启 转换",
+        "turnOn": "打开转换",
         "done": "完成"
       }
     },
     "whisper": {
-      "title": "安静听写",
-      "help": "学会安静地听写",
+      "title": "轻声听写",
+      "help": "学习轻声听写",
       "soft": {
-        "title": "柔和的声音就够了",
-        "body": "你不必大声说话。轻声细语，你的文字依然会变成干净的文本，因此你可以在开放式办公室、火车上，或者在附近有人睡觉时进行听写。",
-        "app": "笔记",
-        "spoken": "“提醒我午饭前发送幻灯片，并为周五预订房间”",
-        "text": "提醒我午饭前发送幻灯片，并为周五预订会议室。",
-        "scene": "动画：一条轻声细语的句子以打字文本的形式出现：\"{{text}}\""
+        "title": "轻声说话就够了",
+        "body": "你不必提高音量。轻声说话，你的话照样会变成整洁的文本，因此你可以在开放式办公室、火车上或有人在旁边睡觉时听写。",
+        "app": "备忘录",
+        "spoken": "“提醒我午饭前把幻灯片发出去 再订一间周五的会议室”",
+        "text": "提醒我午饭前把幻灯片发出去，再订一间周五的会议室。",
+        "scene": "动画：一句轻声说出的话变成了输入的文本：“{{text}}”"
       },
       "how": {
-        "title": "如何用听写功能与你的 Mac 互动",
-        "body": "在你的Mac内置麦克风的帮助下，四个习惯让安静的声音变得容易听到。",
-        "distance": "大约30厘米，相当于一臂长，距离麦克风",
+        "title": "如何对着 Mac 轻声说话",
+        "body": "使用 Mac 的内建麦克风时，四个习惯能让轻声也容易被听清。",
+        "distance": "距离麦克风约 30 厘米，大概一个前臂的长度",
         "tips": {
           "distance": {
-            "title": "坐近点。",
-            "body": "距离你的 Mac 大约一臂长。稍微前倾比大声说话更有效。"
+            "title": "坐近一些。",
+            "body": "面对 Mac，相距大约一个前臂。稍微前倾比大声说话更有用。"
           },
           "breath": {
-            "title": "用一些呼吸来轻声说话。",
-            "body": "没有一丝细语：稍微坚定一点，就像在小桌子对面和别人说话一样。"
+            "title": "带点气息地轻声说。",
+            "body": "不要用最微弱的气声：稍微实一点，就像隔着小桌子跟人说话那样。"
           },
           "pace": {
-            "title": "保持稳定的语速。",
-            "body": "每个词都完整地说出来，不要让句子结尾模糊不清。"
+            "title": "保持平稳的语速。",
+            "body": "把每个字都说完整，不要让句尾越来越弱。"
           },
           "release": {
-            "title": "最后释放",
-            "body": "只有在说完最后一个词后才松开按键，才能保持听写状态。"
+            "title": "最后再松开。",
+            "body": "说完最后一个字再松开按键，这样它才会被保留。"
           }
         }
       },
       "practice": {
-        "title": "听写这封邮件",
-        "body": "真实情况：它会出现在下方的已输入消息中，而不会出现在其他地方。",
-        "doneTitle": "听到你了，即使是很轻的呢喃",
-        "doneBody": "这就够了。继续寻找适合你的麦克风。",
-        "instruction": "按住 {{key}}，小声说出下面的邮件，然后松开。",
-        "unbound": "没有设置听写快捷键，因此无法在此处开始听写。先跳过这一步，稍后在设置中设置快捷键。",
+        "title": "轻声说出这封邮件",
+        "body": "这是一次真实的听写：文字只会出现在下方绘制的邮件中，不会出现在其他地方。",
+        "doneTitle": "即使轻声，也听清了",
+        "doneBody": "就这么简单。继续下一步，找到适合你的麦克风。",
+        "instruction": "按住 {{key}}，轻声说出下面的邮件，然后松开。",
+        "unbound": "尚未设置听写快捷键，因此无法在这里开始听写。请先跳过此步骤，然后在设置中设置快捷键。",
         "key": "fn",
-        "keyFallback": "控制 和 选项",
-        "sentenceLabel": "听写：",
-        "sentence": "嗨 Sam，我在安静的房间，所以这封邮件我是在轻声说。我们能不能把会议改到下午？非常感谢。",
-        "app": "新消息",
-        "context": "给萨姆，关于今天下午",
-        "fieldLabel": "你的低语邮件",
-        "placeholder": "你的低语在这里显示。",
+        "keyFallback": "Control 和 Option",
+        "sentenceLabel": "轻声说：",
+        "sentence": "嗨 Sam，我在一个安静的房间里，所以这封邮件是轻声说的。我们的通话能改到下午吗？非常感谢。",
+        "app": "新邮件",
+        "context": "发给 Sam，关于今天下午",
+        "fieldLabel": "你轻声说出的邮件",
+        "placeholder": "你轻声说的话会显示在这里。",
         "status": {
-          "idle": "等待你按住 {{key}} 并轻声说…",
-          "listening": "正在听写…听写完成后松开 {{key}}。",
-          "working": "在记录中…",
-          "nothing": "没有内容被识别。请检查麦克风是否打开，然后重新尝试。",
-          "low": "{{percent}}% 的单词被识别到。再试一次：",
-          "passed": "{{percent}}% 的单词都正确听写出来了。",
-          "example": "这是一个低声练习的示例。"
+          "idle": "正在等待你按住 {{key}} 并轻声说话…",
+          "listening": "正在聆听… 说完后松开 {{key}}。",
+          "working": "正在写下来…",
+          "nothing": "没有收到任何内容。请检查麦克风是否已打开，然后重试。",
+          "low": "识别出了 {{percent}}% 的字词。再试一次：",
+          "passed": "识别出了 {{percent}}% 的字词。",
+          "example": "这是一次轻声听写的示例。"
         },
-        "exampleNote": "语音识别仍在设置中，此为示例。你的实际输入会保存在历史记录中，并在设置完成后立即记录下来。",
+        "exampleNote": "这台 Mac 上的语音识别仍在设置中，因此这里显示的是示例。你自己的听写已存储在历史记录中，设置完成后会立即转成文字。",
         "tips": {
-          "title": "几点小提示",
-          "closer": "靠近你的Mac一点，大约距离30厘米。",
-          "firmer": "轻声一点，多些气息在词后",
-          "volume": "在系统设置 › 声音 › 输入中提高输入音量。",
+          "title": "这些方法会有帮助",
+          "closer": "离 Mac 再近一点，大约 30 厘米。",
+          "firmer": "轻声说得再实一点，多带些气息。",
+          "volume": "在“系统设置” › “声音” › “输入”中调高输入音量。",
           "openSound": "打开声音设置"
         }
       },
       "mics": {
         "built_in": {
-          "name": "内置麦克风",
-          "hint": "已包含在你的笔记本电脑或iMac中",
-          "why": "它已经内置了；靠近一点，在家里就能正常使用。"
+          "name": "内建麦克风",
+          "hint": "笔记本电脑或 iMac 自带",
+          "why": "它本来就在；坐近一点，在家里就够用了。"
         },
         "wired_headset": {
-          "name": "有线耳机",
-          "hint": "一个短臂或电缆的麦克风，靠近你的嘴",
-          "why": "麦克风就贴着你的嘴，所以无论你在哪儿，哪怕轻声细语都能被听到。"
+          "name": "有线耳麦",
+          "hint": "麦克风在短杆或线上，靠近嘴边",
+          "why": "麦克风就在嘴边，无论你在哪里，再轻的声音也能听清。"
         },
         "wireless_earbuds": {
           "name": "无线耳机",
-          "hint": "带麦克风的无线耳塞，无线缆",
-          "why": "无需插线，随处携带。"
+          "hint": "带麦克风的耳机，无需连线",
+          "why": "无需插线，随身携带到任何地方。"
         },
         "desk_usb": {
-          "name": "桌面或USB麦克风",
-          "hint": "一个放在你桌上的麦克风",
-          "why": "你在一张桌子旁工作并且靠近它时，声音最清晰。"
+          "name": "桌面或 USB 麦克风",
+          "hint": "放在桌上的麦克风",
+          "why": "固定在一张桌前工作并坐得近时，声音最清晰。"
         }
       },
       "quiz": {
-        "more": "关于麦克风的更多内容",
+        "more": "进一步了解麦克风",
         "comfortable": {
-          "title": "选择一个你感到舒服使用的麦克风",
-          "body": "它们都行 选一个你愿意穿或者放在桌上的"
+          "title": "选择一个你用起来舒服的麦克风",
+          "body": "它们都能用。选一个你乐意戴着或放在桌上的。"
         },
         "workplace": {
           "title": "你通常在哪里工作？",
-          "body": "当人们 nearby 时，低语才最重要。",
+          "body": "身边有人时，轻声说话最重要。",
           "private": {
-            "label": "某个私密的地方",
-            "hint": "一个家庭办公室 或 一个属于你自己的房间"
+            "label": "私密的地方",
+            "hint": "家庭办公室或独自使用的房间"
           },
           "mixed": {
             "label": "两者都有",
-            "hint": "有时独自一人，有时和人在一起"
+            "hint": "有时独自一人，有时周围有人"
           },
           "shared": {
-            "label": "在其他人周围",
-            "hint": "一个开放式办公室，一家咖啡馆，一个共享房间"
+            "label": "周围有其他人",
+            "hint": "开放式办公室、咖啡馆、共享房间"
           }
         },
         "moves": {
-          "title": "你移动到不同的地方吗？",
-          "body": "一个随你移动的麦克风在你需要的时候会很有帮助",
+          "title": "你会在不同地方之间移动吗？",
+          "body": "如果会，随身携带的麦克风更有帮助。",
           "one_desk": {
-            "label": "我坐在一张桌子",
+            "label": "我固定在一张桌前",
             "hint": "每天都是同样的设置"
           },
           "different_places": {
-            "label": "我在不同的地方工作",
-            "hint": "家 办公室 火车 咖啡店"
+            "label": "我在不同地方工作",
+            "hint": "家里、办公室、火车上、咖啡馆"
           }
         },
         "owned": {
-          "title": "你有哪几种麦克风？",
-          "body": "选择你拥有的每一个。一台 Mac mini 或 Mac Studio 本身没有麦克风。",
-          "continue": "看我的对战"
+          "title": "你有哪些麦克风？",
+          "body": "选择你拥有的所有麦克风。Mac mini 和 Mac Studio 没有内建麦克风。",
+          "continue": "查看推荐结果"
         }
       },
       "results": {
-        "title": "你的麦克风匹配",
-        "body": "根据你的回答。没有任何内容被保存或发送到任何地方。",
-        "bestLine": "最佳匹配：{{mic}}。",
-        "caption": "每种麦克风的表现",
+        "title": "最适合你的麦克风",
+        "body": "根据你的回答得出。不会存储或发送任何内容。",
+        "bestLine": "最佳推荐：{{mic}}。",
+        "caption": "各类麦克风的表现",
         "columns": {
           "mic": "麦克风",
           "quality": "麦克风质量",
-          "others": "在他人周围听写",
-          "home": "在家听写",
+          "others": "有人时轻声说话",
+          "home": "在家轻声说话",
           "price": "价格",
-          "best": "最佳匹配"
+          "best": "最佳推荐"
         },
-        "notBest": "不是最佳匹配",
+        "notBest": "不是最佳推荐",
         "rating": {
           "fair": "一般",
-          "good": "不错",
-          "great": "很棒"
+          "good": "良好",
+          "great": "出色"
         },
         "price": {
-          "included": "包含大多数笔记本电脑",
+          "included": "大多数笔记本电脑自带",
           "low": "低",
           "medium": "中等",
-          "owned": "你有一个"
+          "owned": "你已拥有"
         },
         "copy": {
-          "label": "复制结果",
-          "heading": "{{appName}}: 我的麦克风匹配",
-          "best": "最佳匹配：{{mic}}",
-          "unanswered": "未作答",
-          "noneOwned": "没有"
+          "label": "拷贝结果",
+          "heading": "{{appName}}：最适合我的麦克风",
+          "best": "最佳推荐：{{mic}}",
+          "unanswered": "未回答",
+          "noneOwned": "无"
         },
-        "copied": "已复制",
-        "copyFailed": "无法复制。请选择表格并复制它。",
+        "copied": "已拷贝",
+        "copyFailed": "无法拷贝。请选择表格后手动拷贝。",
         "done": "完成"
       }
     }
@@ -2508,30 +2508,30 @@
   "overrides": {
     "onboarding": {
       "migration": {
-        "description": "Wispr Bro 现在使用一种更新的模型类型。请下载新版本以继续转录。旧版本将被移除。"
+        "description": "Wispr Bro 现在使用一种更新的模型。请下载新版本以继续转写。旧版本将被移除。"
       },
       "permissions": {
         "microphone": {
-          "why": "这样 Wispr Bro 才能听到您说话。音频只在这台电脑上转成文字，绝不会上传。"
+          "why": "这样 Wispr Bro 才能听到你说话。音频在这台电脑上转为文本，从不上传。"
         },
         "accessibility": {
-          "why": "这样快捷键在每个应用中都能使用，Wispr Bro 也能把文字输入到光标所在的位置。"
+          "why": "这样你的快捷键在所有 App 中都能使用，Wispr Bro 也能将文本输入到光标所在位置。"
         },
-        "turnOnMac": "请在“系统设置”中打开 Wispr Bro，然后回到这里。",
-        "relaunch": "之后快捷键没有反应？<relaunch>重新启动 Wispr Bro</relaunch>，您会直接回到这里。"
+        "turnOnMac": "在“系统设置”中打开 Wispr Bro，然后回到这里。",
+        "relaunch": "之后快捷键没有反应？<relaunch>重新启动 Wispr Bro</relaunch>，你会直接回到这里。"
       },
       "welcome": {
-        "noMatch": "没有与“{{query}}”匹配的语言。Wispr Bro 的模型涵盖约 100 种语言，更多语言可在设置中找到。",
+        "noMatch": "没有与“{{query}}”匹配的语言。Wispr Bro 的模型支持约 100 种语言；更多语言请在设置中查看。",
         "chinese": {
-          "question": "您说{{languages}}。Wispr Bro 应该写哪种汉字？"
+          "question": "你说{{languages}}。Wispr Bro 应该写简体字还是繁体字？"
         }
       },
       "try": {
-        "subtitle": "Wispr Bro 就在角落里，带您一步步体验"
+        "subtitle": "Wispr Bro 就在屏幕一角，带你一步步完成"
       },
       "done": {
-        "subMac": "Wispr Bro 现在位于菜单栏中。在任何应用里按住或轻按 <keys/> 即可说话。",
-        "subTray": "Wispr Bro 现在位于系统托盘中。在任何应用里按住或轻按 <keys/> 即可说话。",
+        "subMac": "Wispr Bro 现在位于菜单栏中。在任意 App 中按住或轻点 <keys/> 即可说话。",
+        "subTray": "Wispr Bro 现在位于系统托盘中。在任意 App 中按住或轻点 <keys/> 即可说话。",
         "atLogin": "登录时启动 Wispr Bro",
         "panel": {
           "name": "Wispr Bro"
@@ -2544,13 +2544,13 @@
           "title": "Wispr Bro 快捷键"
         },
         "preferredLanguages": {
-          "description": "您会说的语言。Wispr Bro 会据此推荐模型。"
+          "description": "你说的语言。Wispr Bro 会据此推荐模型。"
         }
       },
       "models": {
-        "untestedNote": "尚未经过 Wispr Bro 测试，可能更慢或错误更多。",
-        "emptyYours": "还没有模型。请在下方选择一个：它会先下载，然后由 Wispr Bro 使用。",
-        "deleteAskActive": "删除{{name}}？在您选择其他模型之前，Wispr Bro 无法转录。",
+        "untestedNote": "未经 Wispr Bro 测试。它们可能更慢或出错更多。",
+        "emptyYours": "还没有模型。在下方选择一个：下载完成后，Wispr Bro 就会使用它。",
+        "deleteAskActive": "要删除“{{name}}”吗？在你选择其他模型之前，Wispr Bro 将无法转写。",
         "retiredNotice": {
           "title": "旧模型已无法在 Wispr Bro 中使用"
         },
@@ -2560,7 +2560,7 @@
       },
       "advanced": {
         "autostart": {
-          "description": "登录计算机时自动启动 Wispr Bro。"
+          "description": "登录电脑时自动启动 Wispr Bro。"
         },
         "showTrayIcon": {
           "description": "在系统托盘中显示 Wispr Bro 图标。"
@@ -2569,10 +2569,10 @@
       "debug": {
         "updateChecks": {
           "description": "自动检查 Wispr Bro 的新版本",
-          "lockedDescription": "已被系统配置禁用 (WISPRBRO_DISABLE_UPDATER)"
+          "lockedDescription": "已被系统配置停用（WISPRBRO_DISABLE_UPDATER）"
         },
         "keyboardDiagnostic": {
-          "description": "检查键盘事件是否能到达 Wispr Bro。仅记录事件数量，绝不记录您按了哪些键。",
+          "description": "检查键盘事件能否到达 Wispr Bro。只记录事件数量，从不记录你按了哪些键。",
           "verdictOk": "按键事件正常到达 Wispr Bro。"
         }
       },
@@ -2581,7 +2581,7 @@
           "description": "Wispr Bro 的当前版本"
         },
         "whatsNewUpdates": {
-          "description": "Wispr Bro 更新后显示发行说明"
+          "description": "Wispr Bro 更新后显示发布说明"
         },
         "appDataDirectory": {
           "description": "Wispr Bro 存储数据的位置"
@@ -2591,7 +2591,7 @@
         },
         "acknowledgments": {
           "ggml": {
-            "details": "Wispr Bro 使用 ggml 进行快速的本地语音转文字处理。感谢 Georgi Gerganov 和贡献者们的出色工作。"
+            "details": "Wispr Bro 的本地语音转文本基于 transcribe.cpp 和 ggml 构建。感谢 Georgi Gerganov 和各位贡献者的出色工作。"
           }
         }
       }
@@ -2603,7 +2603,7 @@
       "description": "更改 Wispr Bro 界面的语言"
     },
     "theme": {
-      "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
+      "description": "选择 Wispr Bro 跟随系统外观，还是始终使用浅色或深色"
     }
   }
 }
