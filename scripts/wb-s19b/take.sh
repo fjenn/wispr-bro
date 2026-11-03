@@ -7,6 +7,7 @@ BROWSER="$1"; URL="$2"; WAV="$3"; OUT="$4"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
 APP_DIR="$ROOT/src-tauri/target/debug"
+. "$HERE/../wb-lib/app.sh"
 BIN="${WB_S19B_BIN:?set WB_S19B_BIN}"
 PROFILE="${TMPDIR:-/tmp}/wb-s19b-chrome-profile"
 LOG="$APP_DIR/Data/logs/wispr-bro.log"
@@ -41,7 +42,7 @@ if [ "$f" != "$expect" ]; then
   echo "SKIP front=$f" | tee "$T/result"
 else
   kill -USR2 "$pid"; sleep 0.8; afplay "$WAV"; sleep 0.6
-  if [ "$(front)" = "$expect" ]; then kill -USR2 "$pid"; else (cd "$APP_DIR" && ./handy --cancel >/dev/null 2>&1); fi
+  if [ "$(front)" = "$expect" ]; then kill -USR2 "$pid"; else wb_cancel "$APP_DIR" >/dev/null 2>&1; fi
   sleep 8
   echo OK >"$T/result"
 fi

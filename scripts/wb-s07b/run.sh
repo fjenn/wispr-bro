@@ -15,8 +15,9 @@
 # rows. Takes: `scripts/wb-s07a/take.sh <pid> <aiff>` while it runs (holds
 # the GUI lock for the take only). No key events are posted.
 #
-# Usage: scripts/wb-s07b/run.sh <dir with handy + portable> <seed settings_store.json> <out dir> fresh|relaunch <langs> [timeout_s]
+# Usage: scripts/wb-s07b/run.sh <dir with wispr-bro (or handy) + portable> <seed settings_store.json> <out dir> fresh|relaunch <langs> [timeout_s]
 set -u
+. "$(cd "$(dirname "$0")" && pwd)/../wb-lib/app.sh"
 APP="$1"; SEED="$2"; OUT="$3"; WHAT="$4"; LANGS="$5"; TIMEOUT="${6:-900}"
 M="${S07B_MIRROR:-http://127.0.0.1:18177}"
 LOG="$APP/Data/logs/wispr-bro.log"
@@ -46,7 +47,7 @@ case "$WHAT" in
 esac
 LINES0=$( [ -f "$LOG" ] && wc -l < "$LOG" || echo 0 )
 T0=$(date +%s)
-( cd "$APP" && HF_ENDPOINT=$M exec ./handy --debug --start-hidden ) > "$OUT/stdout.log" 2>&1 &
+( cd "$APP" && HF_ENDPOINT=$M exec "./$(wb_bin_name "$APP")" --debug --start-hidden ) > "$OUT/stdout.log" 2>&1 &
 PID=$!
 echo "pid $PID"
 echo "$PID" > "$OUT/pid"

@@ -26,6 +26,7 @@ set -u
 CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 BIN="${WB_S20_BIN:?set WB_S20_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PROFILE="${TMPDIR:-/tmp}/wb-s20-chrome-profile"
@@ -87,7 +88,7 @@ else
   if [ "$(front)" = "$expect" ]; then
     kill -USR2 "$pid"
   else
-    (cd "$APP_DIR" && ./handy --cancel >/dev/null 2>&1)
+    wb_cancel "$APP_DIR" >/dev/null 2>&1
     echo "focus moved; cancelled" >"$T/skip"
   fi
   sleep 9

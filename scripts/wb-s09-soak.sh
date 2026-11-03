@@ -9,9 +9,10 @@
 # "none" so nothing is typed into those apps.
 #
 # Usage: scripts/wb-s09-soak.sh <segments dir> [takes=50]
-#   The app must run as `./handy --start-hidden` (portable profile, see the
+#   The app must run as `./wispr-bro --start-hidden` (or `./handy`) (portable profile, see the
 #   Mac test script). Every take holds ~/wb-bench/gui.lock (shared Mac).
 set -u
+. "$(cd "$(dirname "$0")" && pwd)/wb-lib/app.sh"
 SEGMENTS="${1:?segments dir with en-sentences-01..12.wav}"
 N="${2:-50}"
 LOCK="$HOME/wb-bench/gui.lock"
@@ -20,7 +21,7 @@ IDS=(com.apple.TextEdit com.apple.Notes com.apple.mail com.apple.MobileSMS com.a
 
 take() {
   local app="$1" wav="$2" expect="$3" pid front
-  pid=$(pgrep -f "^./handy --start-hidden" | head -1)
+  pid=$(pgrep -f "^./$WB_BIN_RE --start-hidden" | head -1)
   [ -n "$pid" ] || { echo "NO APP"; return 3; }
   open -a "$app"
   sleep 1.5

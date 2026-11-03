@@ -9,11 +9,12 @@
 #
 # Usage: scripts/wb-s07b/panel.sh <app dir> <app pid> <window-id binary> <out png>
 set -u
+. "$(cd "$(dirname "$0")" && pwd)/../wb-lib/app.sh"
 APP="$1"; PID="$2"; WINID="$3"; OUT="$4"
 if [ "${S07B_LOCKED:-}" != 1 ]; then
   S07B_LOCKED=1 exec /usr/bin/lockf -k -t 600 "$HOME/wb-bench/gui.lock" "$0" "$@"
 fi
-( cd "$APP" && ./handy > /dev/null 2>&1 ) &
+( cd "$APP" && "./$(wb_bin_name "$APP")" > /dev/null 2>&1 ) &
 sleep 3
 # Bring our own process forward (an accessory app is not activated by the
 # hand-over).

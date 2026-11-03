@@ -15,6 +15,7 @@ set -u
 WAV="$1"; OUT="$2"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 LOCK="$HOME/wb-bench/gui.lock"
 
 if [ "${WB_S12A_LOCKED:-}" != 1 ]; then
@@ -22,7 +23,7 @@ if [ "${WB_S12A_LOCKED:-}" != 1 ]; then
 fi
 
 pid=""
-for p in $(pgrep -f "handy --start-hidden"); do
+for p in $(pgrep -f "$WB_BIN_RE --start-hidden"); do
   if [ -z "$pid" ] && lsof -a -p "$p" -d cwd -Fn 2>/dev/null | grep -qx "n$APP_DIR"; then
     pid=$p
   fi

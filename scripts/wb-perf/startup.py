@@ -14,7 +14,7 @@ quit (SIGTERM) and the next launch waits `--gap` seconds. The first launch
 after a build is reported separately as "cold" (the dyld and Metal shader
 caches are empty then; macOS keeps them across launches afterwards).
 
-    python3 -I scripts/wb-perf/startup.py --app <dir with handy + portable> \
+    python3 -I scripts/wb-perf/startup.py --app <dir with wispr-bro (or handy) + portable> \
         [--runs 10] [--timeout 20] [--gap 3]
     python3 -I scripts/wb-perf/startup.py --app <Wispr Bro.app> ...
 
@@ -56,7 +56,12 @@ def binary_and_log(app):
             exe = plistlib.load(f)["CFBundleExecutable"]
         binary = os.path.join(app, "Contents", "MacOS", exe)
     else:
-        binary = os.path.join(app, "handy")
+        # `tauri build --no-bundle` writes `wispr-bro` (mainBinaryName); a
+        # plain `cargo build` the crate name `handy`. The newest one wins
+        # (scripts/wb-lib/app.sh does the same for the shell drivers).
+        found = [os.path.join(app, n) for n in ("wispr-bro", "handy")]
+        found = [f for f in found if os.access(f, os.X_OK)]
+        binary = max(found, key=os.path.getmtime) if found else os.path.join(app, "handy")
     data = os.path.join(os.path.dirname(binary), "Data")
     if not os.path.exists(os.path.join(os.path.dirname(binary), "portable")):
         sys.exit("no `portable` marker next to the binary: refusing to touch the real profile")

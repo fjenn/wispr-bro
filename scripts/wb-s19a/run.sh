@@ -28,6 +28,7 @@ set -u
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
 APP_DIR="$ROOT/src-tauri/target/debug"
+. "$HERE/../wb-lib/app.sh"
 TAKE="$ROOT/scripts/wb-s12a/take.sh"
 SCRATCH="${WB_S19A_SCRATCH:-${TMPDIR:-/tmp}/wb-s19a}"
 WAVS="$SCRATCH/wavs"
@@ -50,12 +51,12 @@ say_wav en_notes Samantha "So far, the new onboarding flow works well, and the f
 say_wav en_send Samantha "The build finished at 2, actually 3, so I am merging it now."
 
 app_pids() {
-  for p in $(pgrep -f "handy --start-hidden"); do
+  for p in $(pgrep -f "$WB_BIN_RE --start-hidden"); do
     if lsof -a -p "$p" -d cwd -Fn 2>/dev/null | grep -qx "n$APP_DIR"; then echo "$p"; fi
   done
 }
 
-# The main process only: the other `handy --start-hidden` with the same
+# The main process only: the other `wispr-bro --start-hidden` with the same
 # directory is S-10's watchdog (a child of the main one), which stops the
 # sidecar when the app ends.
 main_pids() {
@@ -88,7 +89,7 @@ start_app() {
   local phase="$1"; shift
   local from
   from=$(log_lines)
-  (cd "$APP_DIR" && env "$@" WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden >"$LOGS/$phase.stdout" 2>&1 &)
+  (cd "$APP_DIR" && env "$@" WB_DEBUG_TEXT_TRACE=1 "./$(wb_bin_name "$APP_DIR")" --start-hidden >"$LOGS/$phase.stdout" 2>&1 &)
   for _ in $(seq 1 120); do
     sleep 2
     if cat "$APP_DIR"/Data/logs/*.log 2>/dev/null | tail -n +"$((from + 1))" | grep -q "llm: .* ready ("; then

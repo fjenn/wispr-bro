@@ -9,12 +9,13 @@
 set -u
 PID="$1"; CMDS="$2"; PNG="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 if [ "${WB_S12B_LOCKED:-}" != 1 ]; then
   WB_S12B_LOCKED=1 exec /usr/bin/lockf -k -t 900 "$HOME/wb-bench/gui.lock" /bin/bash "$HERE/panel.sh" "$@"
 fi
 # A second launch of the same portable build brings the running app's
 # window forward (single instance) and exits.
-(cd "$HERE/../../src-tauri/target/debug" && ./handy >/dev/null 2>&1 &)
+(D="$HERE/../../src-tauri/target/debug"; cd "$D" && "./$(wb_bin_name "$D")" >/dev/null 2>&1 &)
 sleep 3
 swift "$HERE/../wb-s16/ui.swift" "$PID" "front; $CMDS" || exit $?
 read -r wid _ < <(swift "$HERE/../wb-window-id.swift" "$PID")

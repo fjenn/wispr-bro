@@ -30,6 +30,7 @@ set -u
 CASE="$1"; OUT="$2"; WAV="${3:-}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 BIN="${WB_S06_BIN:?set WB_S06_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 LOG="$APP_DIR/Data/logs/wispr-bro.log"
@@ -117,7 +118,7 @@ record_and_cancel() { # a take through the speakers, then Esc in our window
   afplay "$WAV"
   sleep 0.4
   if [ "$(front)" != "$EXPECT" ]; then
-    (cd "$APP_DIR" && ./handy --cancel >/dev/null 2>&1)
+    wb_cancel "$APP_DIR" >/dev/null 2>&1
     echo "focus taken before the cancel" >"$T/skip"
     return 1
   fi

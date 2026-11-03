@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Mac test S-05: start / stop the portable test build (never the owner's
-# app). The app runs as `./handy --start-hidden` from src-tauri/target/debug
+# app). The app runs as `./wispr-bro --start-hidden` (or `./handy` from a
+# plain `cargo build`, scripts/wb-lib/app.sh) from src-tauri/target/debug
 # (portable profile in ./Data, test identifier com.wisprbro.s05check).
 #
 # usage: scripts/wb-s05/app.sh start|stop|pid|init
@@ -10,14 +11,15 @@
 set -u
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 
-# The app's main process: a `handy --start-hidden` in our build folder
+# The app's main process: a `wispr-bro`/`handy --start-hidden` in our build folder
 # whose parent is not one too (the LLM watchdog is a fork of the app with
 # the same command line).
 app_pid() {
   local p pp
   local all
-  all=" $(pgrep -f "handy --start-hidden" | tr '\n' ' ') "
+  all=" $(pgrep -f "$WB_BIN_RE --start-hidden" | tr '\n' ' ') "
   for p in $all; do
     pp=$(ps -o ppid= -p "$p" | tr -d ' ')
     case "$all" in *" $pp "*) continue ;; esac
@@ -33,7 +35,7 @@ case "${1:-}" in
   start)
     if app_pid >/dev/null; then echo "already running: $(app_pid)"; exit 0; fi
     cd "$APP_DIR" || exit 1
-    nohup ./handy --start-hidden </dev/null >"$APP_DIR/Data/s05-stdout.log" 2>&1 &
+    nohup "./$(wb_bin_name "$APP_DIR")" --start-hidden </dev/null >"$APP_DIR/Data/s05-stdout.log" 2>&1 &
     sleep 12
     app_pid || { echo "did not start"; exit 1; }
     ;;
@@ -43,7 +45,7 @@ case "${1:-}" in
     sleep 3
     # The LLM watchdog and sidecar are children of the app; make sure
     # nothing of ours is left.
-    pkill -f "$APP_DIR/handy" 2>/dev/null
+    pkill -f "$APP_DIR/$WB_BIN_RE" 2>/dev/null
     pkill -f "$APP_DIR/llama-server" 2>/dev/null
     echo "stopped $pid"
     ;;

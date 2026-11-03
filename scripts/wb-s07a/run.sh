@@ -7,9 +7,10 @@
 # launch. The mirror (`hf-mirror.py`) must already run when HF_ENDPOINT is
 # set; leave HF_ENDPOINT unset to download from huggingface.co.
 #
-# Usage: scripts/wb-s07a/run.sh <dir with handy + portable> <out dir> [take_at_s] [aiff]
+# Usage: scripts/wb-s07a/run.sh <dir with wispr-bro (or handy) + portable> <out dir> [take_at_s] [aiff]
 # Env:   HF_ENDPOINT, S07A_KEEP_DATA=1 (do not wipe Data/), S07A_TIMEOUT (s, 400)
 set -u
+. "$(cd "$(dirname "$0")" && pwd)/../wb-lib/app.sh"
 APP="$1"; OUT="$2"; TAKE_AT="${3:-}"; AUDIO="${4:-}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 mkdir -p "$OUT"
@@ -17,7 +18,7 @@ mkdir -p "$OUT"
 LOG="$APP/Data/logs/wispr-bro.log"
 CB0=$(pbpaste | shasum -a 256 | cut -c1-16)
 T0=$(python3 -I -c 'import time;print(time.time())')
-( cd "$APP" && exec ./handy --debug ) > "$OUT/stdout.log" 2>&1 &
+( cd "$APP" && exec "./$(wb_bin_name "$APP")" --debug ) > "$OUT/stdout.log" 2>&1 &
 PID=$!
 echo "pid $PID t0 $T0"
 deadline=$(( $(date +%s) + ${S07A_TIMEOUT:-400} ))

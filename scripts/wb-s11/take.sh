@@ -17,12 +17,13 @@
 #   chrome    chat.html in a separate Chrome instance with its own profile
 #             (Enter sends, Shift+Enter is a new line; Chrome 155/156 is
 #             S-04's typing path); <out> gets the window title
-# The app runs as `./handy --start-hidden` from src-tauri/target/debug
+# The app runs as `./wispr-bro --start-hidden` (or `./handy`) from src-tauri/target/debug
 # (portable profile, see the Mac test script).
 set -u
 TARGET="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 LOCK="$HOME/wb-bench/gui.lock"
 PORT=47811
 PROFILE="${TMPDIR:-/tmp}/wb-s11-chrome-profile"
@@ -42,7 +43,7 @@ fi
 # directory is our debug build (the LLM watchdog is a fork with the same
 # command line, and other test apps may be running).
 pid=""
-for p in $(pgrep -f "handy --start-hidden"); do
+for p in $(pgrep -f "$WB_BIN_RE --start-hidden"); do
   if [ -z "$pid" ] && lsof -a -p "$p" -d cwd -Fn 2>/dev/null | grep -qx "n$APP_DIR"; then
     pid=$p
   fi

@@ -6,9 +6,10 @@
 # the local Hugging Face stand-in (`hf-mirror.py` on :18077, which this
 # script switches between modes), each timed from launch to "selected".
 #
-# Usage: scripts/wb-s07a/scenarios.sh <dir with handy + portable> <seed settings_store.json> <out dir> <scenario>...
+# Usage: scripts/wb-s07a/scenarios.sh <dir with wispr-bro (or handy) + portable> <seed settings_store.json> <out dir> <scenario>...
 # Scenarios: t50 t10 429 drop resume corrupt realhf
 set -u
+. "$(cd "$(dirname "$0")" && pwd)/../wb-lib/app.sh"
 APP="$1"; SEED="$2"; OUT="$3"; shift 3
 M=http://127.0.0.1:18077
 LOG="$APP/Data/logs/wispr-bro.log"
@@ -30,9 +31,9 @@ PY
 
 launch() { # $1 = use mirror (1/0)
   if [ "$1" = 1 ]; then
-    ( cd "$APP" && HF_ENDPOINT=$M exec ./handy --debug --start-hidden ) > /dev/null 2>&1 &
+    ( cd "$APP" && HF_ENDPOINT=$M exec "./$(wb_bin_name "$APP")" --debug --start-hidden ) > /dev/null 2>&1 &
   else
-    ( cd "$APP" && exec ./handy --debug --start-hidden ) > /dev/null 2>&1 &
+    ( cd "$APP" && exec "./$(wb_bin_name "$APP")" --debug --start-hidden ) > /dev/null 2>&1 &
   fi
   PID=$!
   T0=$(now)

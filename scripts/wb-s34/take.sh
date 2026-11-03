@@ -25,6 +25,7 @@ set -u
 CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 BIN="${WB_S34_BIN:?set WB_S34_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PROFILE="${TMPDIR:-/tmp}/wb-s34-chrome-profile"
@@ -60,7 +61,7 @@ if [ "$(front)" != com.google.Chrome ]; then
 else
   kill -USR2 "$pid"; sleep 0.8; afplay "$WAV"; sleep 0.6
   if [ "$(front)" = com.google.Chrome ]; then kill -USR2 "$pid"; else
-    (cd "$APP_DIR" && ./handy --cancel >/dev/null 2>&1); echo "focus moved; cancelled" >"$T/skip"; fi
+    wb_cancel "$APP_DIR" >/dev/null 2>&1; echo "focus moved; cancelled" >"$T/skip"; fi
   sleep 8
   pasted=$(title | sed 's/^S34://')
   echo "$pasted" >"$T/pasted"

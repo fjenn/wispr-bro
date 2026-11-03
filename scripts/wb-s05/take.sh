@@ -31,6 +31,7 @@ CASE="$1"; WAV="$2"; OUT="$3"
 [ -n "${WB_S05_TRACE:-}" ] && set -x
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
 BIN="${WB_S05_BIN:?set WB_S05_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PORT=47815
@@ -95,7 +96,7 @@ stop_take() {
     kill -USR2 "$pid"
     return 0
   fi
-  (cd "$APP_DIR" && ./handy --cancel >/dev/null 2>&1)
+  wb_cancel "$APP_DIR" >/dev/null 2>&1
   echo "focus taken by $now before the stop (expected $1); take cancelled" >"$T/skip"
   return 1
 }
@@ -207,7 +208,7 @@ case "$CASE" in
     afplay "$WAV"
     sleep 0.6
     if [ "$(front)" != "$expect" ]; then
-      (cd "$APP_DIR" && ./handy --cancel >/dev/null 2>&1)
+      wb_cancel "$APP_DIR" >/dev/null 2>&1
       echo "focus taken before the stop; take cancelled" >"$T/skip"
     else
       "$BIN/drive" stopswitch "$pid" "${CASE##*:}" com.apple.Safari >"$T/switch.json"
