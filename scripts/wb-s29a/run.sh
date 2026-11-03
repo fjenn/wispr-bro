@@ -64,7 +64,13 @@ resume)
     else
       log "PASS resume $step (screenshot: $OUT/resume-$step.png)"
     fi
-    screencapture -x "$OUT/resume-$step.png"
+    # The app's window only (never the rest of the screen) when WBWIN names
+    # the compiled scripts/wb-window-id.swift.
+    if [ -n "${WBWIN:-}" ] && w=$("$WBWIN" "$(pid)" | cut -d' ' -f1) && [ -n "$w" ]; then
+      screencapture -x -o -l "$w" "$OUT/resume-$step.png"
+    else
+      screencapture -x "$OUT/resume-$step.png"
+    fi
   done
   quit_app
   ;;
