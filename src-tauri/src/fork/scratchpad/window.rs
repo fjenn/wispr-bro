@@ -40,6 +40,11 @@ fn choose<R: ForkRuntime>(app: &AppHandle<R>, open: Open) -> Result<Note, String
     .map_err(|error| error.to_string())
 }
 
+/// The note page as Vite emits it (`src/fork/vite-inputs.ts`): the input's
+/// source path, like the Flow Bar's. A path that does not exist falls back to
+/// the Hub's `index.html`, so the window would show the Hub.
+pub const PAGE: &str = "src/fork/scratchpad/index.html";
+
 pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, String> {
     let note = choose(app, choice)?;
     super::changed(app);
@@ -58,7 +63,7 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     let window = WebviewWindowBuilder::new(
         app,
         WINDOW_LABEL,
-        WebviewUrl::App(format!("fork-scratchpad.html?note={}", note.id).into()),
+        WebviewUrl::App(format!("{PAGE}?note={}", note.id).into()),
     )
     .title(title)
     .inner_size(560.0, 440.0)
@@ -128,6 +133,6 @@ mod tests {
             .contains(&serde_json::json!(super::WINDOW_LABEL)));
         let inputs = std::fs::read_to_string(root.join("../src/fork/vite-inputs.ts")).unwrap();
         assert!(inputs.contains("fork-scratchpad"));
-        assert!(root.join("../src/fork/scratchpad/index.html").is_file());
+        assert!(root.join("..").join(super::PAGE).is_file());
     }
 }
