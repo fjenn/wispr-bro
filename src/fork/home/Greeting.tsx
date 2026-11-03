@@ -58,14 +58,14 @@ export function Greeting() {
   const editLabel = t("home.greeting.edit");
 
   return (
-    <div className="flex min-w-0 items-center gap-2">
+    <div className="group/greet flex min-w-0 items-center gap-1.5">
       <h1
         data-testid="wb-page-title"
         data-name-source={
           !settled ? "pending" : override ? "setting" : account ? "mac" : "none"
         }
         aria-busy={!settled}
-        className={`min-w-0 truncate font-(family-name:--wb-font-display) text-[30px] leading-tight font-medium text-(--wb-ink) ${settled ? "" : "invisible"}`}
+        className={`type-title min-w-0 truncate text-(--wb-ink) ${settled ? "" : "invisible"}`}
       >
         {text}
       </h1>
@@ -83,9 +83,9 @@ export function Greeting() {
             aria-label={editLabel}
             title={editLabel}
             disabled={!settled}
-            className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) disabled:invisible ${FOCUS_RING}`}
+            className={`grid size-7 shrink-0 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-3) opacity-0 transition-opacity duration-(--wb-dur-fast) group-hover/greet:opacity-100 hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) focus-visible:opacity-100 disabled:invisible data-[state=open]:opacity-100 [@media(hover:none)]:opacity-100 ${FOCUS_RING}`}
           >
-            <Pencil size={16} aria-hidden="true" />
+            <Pencil size={14} aria-hidden="true" />
           </button>
         }
       >

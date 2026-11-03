@@ -18,6 +18,7 @@ import {
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
+import { OptionCard, RadioGroup } from "../ui";
 
 export const CLEANUP_LEVELS: readonly CleanupLevel[] = [
   "none",
@@ -82,7 +83,10 @@ export function CleanupLevelPicker() {
 
   if (!settings) {
     return (
-      <p className="text-xs text-ink-3" data-testid="fork-cleanup-loading">
+      <p
+        className="text-[13px] text-(--wb-ink-3)"
+        data-testid="fork-cleanup-loading"
+      >
         {status === "error"
           ? t("cleanup.loadError", {
               message:
@@ -98,60 +102,49 @@ export function CleanupLevelPicker() {
   const reasonText = (why: string) => t(`cleanup.reason.${why}`);
 
   return (
-    <div className="flex flex-col gap-3 text-sm" data-testid="fork-cleanup">
+    <div className="flex flex-col gap-4" data-testid="fork-cleanup">
       <fieldset
-        className="flex flex-col gap-2"
-        aria-labelledby={legendId}
+        className="flex flex-col gap-3"
         disabled={!!pending.cleanup_level}
         aria-busy={!!pending.cleanup_level}
       >
-        <legend id={legendId} className="mb-1 font-medium">
+        <legend id={legendId} className="type-micro mb-3 text-(--wb-ink-3)">
           {t("cleanup.picker.legend")}
         </legend>
-        {CLEANUP_LEVELS.map((level) => {
-          const id = `${name}-${level}`;
-          return (
-            <label
+        <RadioGroup
+          name={name}
+          value={current}
+          onValueChange={(level) =>
+            void setSetting("cleanup_level", level as CleanupLevel)
+          }
+          labelledBy={legendId}
+          disabled={!!pending.cleanup_level}
+        >
+          {CLEANUP_LEVELS.map((level) => (
+            <OptionCard
               key={level}
-              htmlFor={id}
-              data-testid={`fork-cleanup-level-${level}`}
-              data-selected={current === level}
-              className={`flex cursor-pointer items-start gap-2 rounded border px-3 py-2 ${
-                current === level
-                  ? "border-ink bg-wash"
-                  : "border-line-strong hover:bg-wash"
-              }`}
-            >
-              <input
-                id={id}
-                type="radio"
-                name={name}
-                value={level}
-                checked={current === level}
-                onChange={() => void setSetting("cleanup_level", level)}
-                aria-describedby={`${id}-desc`}
-                className="mt-1"
-              />
-              <span className="flex flex-col">
-                <span className="font-medium">
+              value={level}
+              testId={`fork-cleanup-level-${level}`}
+              title={
+                <>
                   {t(`cleanup.levels.${level}.label`)}
                   {level === "light" && (
-                    <span className="ms-2 text-xs font-normal text-ink-2">
+                    <span className="ms-2 text-[13px] font-normal text-(--wb-ink-2)">
                       {t("cleanup.picker.recommended")}
                     </span>
                   )}
-                </span>
-                <span id={`${id}-desc`} className="text-xs text-ink-2">
-                  {t(`cleanup.levels.${level}.description`)}
-                </span>
-              </span>
-            </label>
-          );
-        })}
+                </>
+              }
+              description={t(`cleanup.levels.${level}.description`)}
+            />
+          ))}
+        </RadioGroup>
       </fieldset>
-      <p className="text-xs text-ink-3">{t("cleanup.picker.aiChat")}</p>
+      <p className="text-[13px] text-(--wb-ink-3)">
+        {t("cleanup.picker.aiChat")}
+      </p>
       {error && (
-        <p role="alert" className="text-xs text-red-500">
+        <p role="alert" className="text-[13px] text-(--wb-danger)">
           {t("cleanup.setError", {
             message: "message" in error ? error.message : error.kind,
           })}
@@ -162,17 +155,23 @@ export function CleanupLevelPicker() {
         data-testid="fork-cleanup-last"
         data-outcome={last?.outcome ?? ""}
         data-notice={last?.notice ? "true" : "false"}
-        className="flex flex-col gap-1"
+        className="flex flex-col gap-1 border-t border-(--wb-line) pt-4"
       >
-        <p className="text-xs font-medium">{t("cleanup.last.title")}</p>
+        <p className="text-[13px] font-medium text-(--wb-ink)">
+          {t("cleanup.last.title")}
+        </p>
         {!last || !line ? (
-          <p className="text-xs text-ink-3">{t("cleanup.last.none")}</p>
+          <p className="text-[13px] text-(--wb-ink-3)">
+            {t("cleanup.last.none")}
+          </p>
         ) : (
           <>
             {last.notice && (
-              <p className="text-xs font-medium">{t("cleanup.notice")}</p>
+              <p className="text-[13px] font-medium text-(--wb-ink)">
+                {t("cleanup.notice")}
+              </p>
             )}
-            <p className="text-xs text-ink-2">
+            <p className="text-[13px] text-(--wb-ink-2)">
               {t(line.key, {
                 ...line.values,
                 reason:
@@ -182,7 +181,7 @@ export function CleanupLevelPicker() {
               })}
             </p>
             {last.guard_reasons.length > 0 && (
-              <p className="text-xs text-ink-3">
+              <p className="text-[13px] text-(--wb-ink-3)">
                 {t("cleanup.last.checks", {
                   checks: last.guard_reasons.join(", "),
                 })}

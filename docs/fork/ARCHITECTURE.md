@@ -394,18 +394,25 @@ Source Serif 4 are gone). The same list is in the `package.json` comment of
 
 ## Dictation home (S-15a)
 
+**Design W2 (Hub pages)** restyled `home/`, `history/`, `insights/`,
+`dictionary/` and `snippets/` (pages only), `style/`, `transforms/` (page and
+cards) and `share/` on the Phase 0/0b primitives and the W7 art; behaviour,
+commands and test ids are unchanged. Details and the shared-piece
+change (`Hero` `aside` slot) are in R5 "Design
+W2, as built".
+
 `src/fork/home/` fills the Hub's Dictation slot (`HUB_PAGES` in
 `pages.tsx`), the page the Hub opens on. No Handy file is touched.
 
-| File                                   | Role                                                                                                                                                                                                                    |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/fork/home/Home.tsx`               | Layout by container query on the page's own width: ≥ 680 px greeting above, main column + 240 px rail; narrower, one column (greeting, rail, main). History slot (S-15b) until then an empty state → Settings › History |
-| `src/fork/home/Greeting.tsx`           | The page's `h1` "Hello, <name>": `greeting_name` (fork setting) → `fork_account_name` (macOS) → "Hello". Pencil button opens a Radix popover to set or clear the override                                               |
-| `src/fork/home/useStatsSummary.ts`     | `fork_stats_summary` on mount, on every `ForkStatsUpdated`, on window focus/visibility and after local midnight; overlapping triggers collapse into one extra read; `NotReady` retried at 1, 2, 4, 8, 16 s              |
-| `src/fork/home/StatsRail.tsx`          | `<dl>` of total words, words per minute (rounded; a dash with "Not enough speech yet" under 3 s of timed speech) and current day streak, grouped per the app language                                                   |
-| `src/fork/home/VoiceProfileBar.tsx`    | `role="progressbar"` over Handy's `ProgressLine` (recoloured), goal 1,700 words (DEC-50); unlocked → "Open Insights" (`navigate("insights", "voice")`, S-25)                                                            |
-| `src/fork/home/PromoBanner.tsx`        | The Hub `Banner` with id `hub.dictation.start` (S-13's id, so an earlier dismissal holds)                                                                                                                               |
-| `src-tauri/src/fork/commands/stats.rs` | `fork_account_name`: first word of `NSFullUserName` (objc2-foundation, in tree), surrounding punctuation trimmed, ≤ 64 chars; `None` off macOS or for an empty name                                                     |
+| File                                   | Role                                                                                                                                                                                                                                                                           |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/fork/home/Home.tsx`               | Layout by container query on the page's own width: ≥ 680 px greeting above, main column + 250 px rail (Design W2: one tinted card, stats then voice profile); narrower, one column (greeting, rail, main). History slot (S-15b) until then an empty state → Settings › History |
+| `src/fork/home/Greeting.tsx`           | The page's `h1` "Hello, <name>": `greeting_name` (fork setting) → `fork_account_name` (macOS) → "Hello". Pencil button opens a Radix popover to set or clear the override                                                                                                      |
+| `src/fork/home/useStatsSummary.ts`     | `fork_stats_summary` on mount, on every `ForkStatsUpdated`, on window focus/visibility and after local midnight; overlapping triggers collapse into one extra read; `NotReady` retried at 1, 2, 4, 8, 16 s                                                                     |
+| `src/fork/home/StatsRail.tsx`          | `<dl>` of total words, words per minute (rounded; a dash with "Not enough speech yet" under 3 s of timed speech) and current day streak, grouped per the app language                                                                                                          |
+| `src/fork/home/VoiceProfileBar.tsx`    | `role="progressbar"` over Handy's `ProgressLine` (recoloured), goal 1,700 words (DEC-50); unlocked → "Open Insights" (`navigate("insights", "voice")`, S-25)                                                                                                                   |
+| `src/fork/home/PromoBanner.tsx`        | The Hub `Banner` with id `hub.dictation.start` (S-13's id, so an earlier dismissal holds)                                                                                                                                                                                      |
+| `src-tauri/src/fork/commands/stats.rs` | `fork_account_name`: first word of `NSFullUserName` (objc2-foundation, in tree), surrounding punctuation trimmed, ≤ 64 chars; `None` off macOS or for an empty name                                                                                                            |
 
 The numbers are S-09's `daily_stats` read as they are (`fork_stats_summary`
 stayed in `commands/history.rs`); the rail does no maths of its own, so it

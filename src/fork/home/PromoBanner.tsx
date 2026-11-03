@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The home's one dismissible promo banner (S-15a, C-29): how to dictate,
- * with three things to try. Built on the Hub `Banner` (S-13, C-23), whose
+ * on the W7 home photo (the reference banner carries no example chips). Built on the Hub `Banner` (S-13, C-23), whose
  * dismissal persists in `dismissed_banners`. The id is the one S-13's
  * placeholder home used, so a banner dismissed there stays dismissed.
  * Its "Show me how" opens S-32's whisper lesson (C-29: dictating quietly
@@ -25,12 +25,6 @@ export function PromoBanner() {
       image={photos.home.src}
       title={t("hub.pages.dictation.banner.title")}
       body={t("hub.pages.dictation.banner.body", { appName })}
-      examplesLabel={t("hub.pages.dictation.banner.examplesLabel")}
-      examples={[
-        t("hub.pages.dictation.banner.examples.reply"),
-        t("hub.pages.dictation.banner.examples.notes"),
-        t("hub.pages.dictation.banner.examples.prompt"),
-      ]}
       action={{
         label: t("hub.pages.dictation.banner.quiet"),
         onClick: () => openLesson(WHISPER_LESSON, "try"),

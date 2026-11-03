@@ -523,12 +523,6 @@
         "banner": {
           "title": "Sprechen statt Tippen",
           "body": "Halte in einer beliebigen App fn gedrückt, sag, was du schreiben willst, und lass los. {{appName}} setzt sauberen Text an deinen Cursor.",
-          "examplesLabel": "Probier mal",
-          "examples": {
-            "reply": "Eine kurze Antwort auf eine Nachricht",
-            "notes": "Notizen direkt nach einem Anruf",
-            "prompt": "Einen langen Prompt für einen KI-Chat"
-          },
           "quiet": "Leise diktieren: So geht’s"
         },
         "empty": {

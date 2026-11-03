@@ -35,16 +35,24 @@ export function VoiceProfileBar({ totalWords }: { totalWords: number | null }) {
       aria-labelledby="wb-voice-profile-title"
       data-testid="wb-voice-profile"
       data-unlocked={unlocked}
-      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4"
+      className="flex flex-col gap-2 border-t border-(--wb-line) px-6 pt-5 pb-6"
     >
       <h2
         id="wb-voice-profile-title"
-        className="font-(family-name:--wb-font-display) text-[17px] leading-tight font-medium text-(--wb-ink)"
+        className="type-card-title text-(--wb-ink)"
       >
         {t("home.voiceProfile.title")}
       </h2>
+      <p className="text-[13px] leading-[18px] text-(--wb-ink-2)">
+        {unlocked
+          ? t("home.voiceProfile.unlocked")
+          : t("home.voiceProfile.locked", {
+              goal,
+              count: VOICE_PROFILE_GOAL,
+            })}
+      </p>
       <div
-        className="flex flex-col gap-1.5"
+        className="mt-1 flex items-center gap-3"
         role="progressbar"
         data-testid="wb-voice-profile-bar"
         aria-labelledby="wb-voice-profile-title"
@@ -55,27 +63,21 @@ export function VoiceProfileBar({ totalWords }: { totalWords: number | null }) {
       >
         <ProgressLine
           value={current / VOICE_PROFILE_GOAL}
-          className="h-2 bg-(--wb-fill-active)! [&>i]:bg-(--wb-accent)!"
+          className="h-1 min-w-12 flex-1 rounded-full bg-(--wb-line-2)! [&>i]:rounded-full [&>i]:bg-(--wb-accent)!"
         />
         {/* Read through aria-valuetext; shown for sighted users. */}
         <span
           aria-hidden="true"
-          className="text-[12.5px] font-medium text-(--wb-ink) tabular-nums"
+          className="shrink-0 text-[12px] font-medium text-(--wb-ink) tabular-nums"
         >
           {progressText}
         </span>
       </div>
-      <p className="text-[12.5px] leading-5 text-(--wb-ink-2)">
-        {unlocked
-          ? t("home.voiceProfile.unlocked")
-          : t("home.voiceProfile.locked", {
-              goal,
-              count: VOICE_PROFILE_GOAL,
-            })}
-      </p>
       {unlocked && (
-        <div>
+        <div className="mt-2">
           <Button
+            size="sm"
+            variant="secondary"
             data-testid="wb-voice-profile-open"
             onClick={() => navigate("insights", "voice")}
           >

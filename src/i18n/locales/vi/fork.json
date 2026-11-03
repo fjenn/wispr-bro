@@ -520,12 +520,6 @@
         "banner": {
           "title": "Nói thay vì gõ",
           "body": "Giữ fn trong bất kỳ ứng dụng nào, nói điều bạn muốn viết rồi thả ra. {{appName}} đặt văn bản gọn gàng vào vị trí con trỏ.",
-          "examplesLabel": "Những điều nên thử",
-          "examples": {
-            "reply": "Trả lời nhanh một tin nhắn",
-            "notes": "Ghi chú ngay sau cuộc gọi",
-            "prompt": "Lời nhắc dài cho chat AI"
-          },
           "quiet": "Đọc chính tả khẽ: chỉ cho tôi cách làm"
         },
         "empty": {

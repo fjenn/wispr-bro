@@ -9,7 +9,6 @@
  * Words per minute needs 3 s of timed speech (S-09); until then, and while
  * the stats cannot be read, a dash is shown with the reason as text.
  */
-import { Flame, Gauge, Type, type Glyph } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import type { StatsSummary } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -33,35 +32,29 @@ export function formatCount(value: number, language: string): string {
 
 function Stat({
   testId,
-  icon: Icon,
   label,
   value,
   missing,
 }: {
   testId: string;
-  icon: Glyph;
   label: string;
   value: string | null;
   /** Read instead of the dash when `value` is null. */
   missing: string;
 }) {
+  // The number reads first on screen ("12,840 Total words"), the label
+  // first for screen readers (term, then definition).
   return (
     <div
       data-testid={testId}
-      className="flex min-w-0 items-center gap-3 @min-[520px]:flex-col @min-[520px]:items-start @min-[680px]:flex-row @min-[680px]:items-center"
+      className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"
     >
-      <dt className="flex min-w-0 items-center gap-2 text-[13px] text-(--wb-ink-2)">
-        <Icon
-          size={16}
-          strokeWidth={1.8}
-          aria-hidden="true"
-          className="shrink-0"
-        />
-        <span className="truncate">{label}</span>
+      <dt className="order-2 min-w-0 truncate text-[15px] leading-5 text-(--wb-ink-2)">
+        {label}
       </dt>
       <dd
         data-testid={`${testId}-value`}
-        className="ms-auto shrink-0 @min-[520px]:ms-0 @min-[680px]:ms-auto font-(family-name:--wb-font-display) text-[22px] leading-none font-medium text-(--wb-ink) tabular-nums"
+        className="type-serif-title order-1 shrink-0 text-(--wb-ink) tabular-nums"
       >
         {value ?? (
           <>
@@ -85,19 +78,17 @@ export function StatsRail({ summary, status }: StatsRailProps) {
       data-testid="wb-stats-rail"
       data-status={status}
       aria-busy={status === "loading"}
-      className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4"
+      className="px-6 pt-6 pb-5"
     >
-      <dl className="grid grid-cols-1 gap-4 @min-[520px]:grid-cols-3 @min-[680px]:grid-cols-1">
+      <dl className="grid grid-cols-1 gap-3 @min-[520px]:grid-cols-3 @min-[680px]:grid-cols-1">
         <Stat
           testId="wb-stat-words"
-          icon={Type}
           label={t("home.stats.totalWords")}
           value={summary ? formatCount(summary.total_words, language) : null}
           missing={unavailable}
         />
         <Stat
           testId="wb-stat-wpm"
-          icon={Gauge}
           label={t("home.stats.wordsPerMinute")}
           value={
             summary && wpm != null && Number.isFinite(wpm)
@@ -108,7 +99,6 @@ export function StatsRail({ summary, status }: StatsRailProps) {
         />
         <Stat
           testId="wb-stat-streak"
-          icon={Flame}
           label={t("home.stats.streak")}
           value={
             summary ? formatCount(summary.current_streak_days, language) : null

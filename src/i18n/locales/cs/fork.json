@@ -529,12 +529,6 @@
         "banner": {
           "title": "Mluvte místo psaní",
           "body": "V libovolné aplikaci podržte fn, řekněte, co chcete napsat, a pusťte. {{appName}} vloží čistý text tam, kde je kurzor.",
-          "examplesLabel": "Co vyzkoušet",
-          "examples": {
-            "reply": "Rychlou odpověď na zprávu",
-            "notes": "Poznámky hned po hovoru",
-            "prompt": "Dlouhý prompt pro AI chat"
-          },
           "quiet": "Diktovat potichu: ukázat jak"
         },
         "empty": {

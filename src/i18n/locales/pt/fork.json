@@ -526,12 +526,6 @@
         "banner": {
           "title": "Fale em vez de digitar",
           "body": "Mantenha fn pressionado em qualquer app, diga o que quer escrever e solte. O {{appName}} coloca o texto limpo onde está o cursor.",
-          "examplesLabel": "O que experimentar",
-          "examples": {
-            "reply": "Uma resposta rápida a uma mensagem",
-            "notes": "Anotações logo depois de uma chamada",
-            "prompt": "Um prompt longo para um chat de IA"
-          },
           "quiet": "Ditar em voz baixa: mostre como"
         },
         "empty": {

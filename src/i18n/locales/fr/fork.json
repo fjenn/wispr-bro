@@ -526,12 +526,6 @@
         "banner": {
           "title": "Parlez au lieu de taper",
           "body": "Maintenez fn dans n’importe quelle app, dites ce que vous voulez écrire, puis relâchez. {{appName}} insère un texte propre là où se trouve votre curseur.",
-          "examplesLabel": "À essayer",
-          "examples": {
-            "reply": "Une réponse rapide à un message",
-            "notes": "Des notes juste après un appel",
-            "prompt": "Un long prompt pour un chat avec une IA"
-          },
           "quiet": "Dicter discrètement : montrez-moi comment"
         },
         "empty": {

@@ -182,12 +182,14 @@ test("opt-in, banner, auto-apply choice and safe shortcuts", async ({
   await expect.poll(() => hub.forkSettings.transforms_enabled).toBe(true);
   await page.getByTestId("wb-transforms-auto").click();
   await expect(page.getByTestId("wb-transforms-auto")).toBeChecked();
-  await expect(page.getByTestId("wb-transforms-auto-choice")).toHaveValue(
-    "polish",
+  // A Radix select (W2): the trigger shows the chosen transform's name.
+  await expect(page.getByTestId("wb-transforms-auto-choice")).toHaveText(
+    "Polish",
   );
+  await page.getByTestId("wb-transforms-auto-choice").click();
   await page
-    .getByTestId("wb-transforms-auto-choice")
-    .selectOption("prompt_engineer");
+    .getByTestId("wb-transforms-auto-choice-option-prompt_engineer")
+    .click();
   await expect
     .poll(() => hub.forkSettings.auto_apply_transform)
     .toBe("prompt_engineer");

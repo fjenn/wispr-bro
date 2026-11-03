@@ -515,12 +515,6 @@
         "banner": {
           "title": "Talk instead of typing",
           "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
-          "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
-          },
           "quiet": "Dictate quietly: show me how"
         },
         "empty": {

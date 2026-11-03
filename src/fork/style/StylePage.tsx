@@ -29,7 +29,10 @@ export function StylePage() {
   useStyleApps();
 
   return (
-    <div data-testid="wb-style" className="flex flex-col gap-4">
+    <div
+      data-testid="wb-style"
+      className="mx-auto flex w-full max-w-[800px] flex-col gap-6"
+    >
       <PageHeader title={t("hub.pages.style.title")} />
       <Tabs
         value={tab}

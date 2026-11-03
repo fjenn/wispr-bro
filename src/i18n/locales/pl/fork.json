@@ -529,12 +529,6 @@
         "banner": {
           "title": "Mów zamiast pisać",
           "body": "Przytrzymaj fn w dowolnej aplikacji, powiedz, co chcesz napisać, i puść. {{appName}} wstawi uporządkowany tekst tam, gdzie jest kursor.",
-          "examplesLabel": "Co możesz wypróbować",
-          "examples": {
-            "reply": "Szybka odpowiedź na wiadomość",
-            "notes": "Notatki zaraz po rozmowie",
-            "prompt": "Długi prompt do czatu z AI"
-          },
           "quiet": "Dyktuj po cichu: pokaż mi, jak"
         },
         "empty": {

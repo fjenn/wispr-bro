@@ -1,62 +1,18 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /*
- * Insights chart tokens (S-25). Same scheme as `styles/tokens.css`: each
- * colour is a light/dark pair, the active token follows the OS, and an
- * explicit `data-theme` on <html> wins.
- *
- * - `--wb-heat-0..4`: the streak heatmap, one hue (the brand indigo) from
- *   light to dark for the five word bands; dark mode has its own steps,
- *   from dark to light, not a flipped copy. Band 0 is a neutral grey.
- * - `--wb-bar`: the single-series bars of "Where you dictate".
+ * Insights chart tokens (S-25; Design W2). The reference's data palette:
+ * one teal from light to dark for the heatmap's five word bands (band 0 is
+ * the warm empty cell) and the bars of "Where you dictate". They alias the
+ * `--wb-data-*` roles in `styles/tokens.css`, which carry the light/dark
+ * pairs; `[data-wb-theme]` re-reads them inside a pinned subtree.
  */
 
-:root {
-  --wb-light-heat-0: #ebe8e0;
-  --wb-light-heat-1: #c9c8f4;
-  --wb-light-heat-2: #9896ea;
-  --wb-light-heat-3: #6763dc;
-  --wb-light-heat-4: #3a37b8;
-  --wb-dark-heat-0: #363430;
-  --wb-dark-heat-1: #3e3d7c;
-  --wb-dark-heat-2: #5653b8;
-  --wb-dark-heat-3: #7d7dea;
-  --wb-dark-heat-4: #b6b7ff;
-  --wb-light-bar: #4341cf;
-  --wb-dark-bar: #a9abff;
-
-  --wb-heat-0: var(--wb-light-heat-0);
-  --wb-heat-1: var(--wb-light-heat-1);
-  --wb-heat-2: var(--wb-light-heat-2);
-  --wb-heat-3: var(--wb-light-heat-3);
-  --wb-heat-4: var(--wb-light-heat-4);
-  --wb-bar: var(--wb-light-bar);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --wb-heat-0: var(--wb-dark-heat-0);
-    --wb-heat-1: var(--wb-dark-heat-1);
-    --wb-heat-2: var(--wb-dark-heat-2);
-    --wb-heat-3: var(--wb-dark-heat-3);
-    --wb-heat-4: var(--wb-dark-heat-4);
-    --wb-bar: var(--wb-dark-bar);
-  }
-}
-
-:root[data-theme="light"] {
-  --wb-heat-0: var(--wb-light-heat-0);
-  --wb-heat-1: var(--wb-light-heat-1);
-  --wb-heat-2: var(--wb-light-heat-2);
-  --wb-heat-3: var(--wb-light-heat-3);
-  --wb-heat-4: var(--wb-light-heat-4);
-  --wb-bar: var(--wb-light-bar);
-}
-
-:root[data-theme="dark"] {
-  --wb-heat-0: var(--wb-dark-heat-0);
-  --wb-heat-1: var(--wb-dark-heat-1);
-  --wb-heat-2: var(--wb-dark-heat-2);
-  --wb-heat-3: var(--wb-dark-heat-3);
-  --wb-heat-4: var(--wb-dark-heat-4);
-  --wb-bar: var(--wb-dark-bar);
+:root,
+[data-wb-theme] {
+  --wb-heat-0: var(--wb-data-empty);
+  --wb-heat-1: var(--wb-data-4);
+  --wb-heat-2: var(--wb-data-3);
+  --wb-heat-3: var(--wb-data-2);
+  --wb-heat-4: var(--wb-data-1);
+  --wb-bar: var(--wb-data-1);
 }

@@ -526,12 +526,6 @@
         "banner": {
           "title": "Habla en lugar de escribir",
           "body": "Mantén pulsada fn en cualquier app, di lo que quieres escribir y suéltala. {{appName}} pone texto limpio donde está el cursor.",
-          "examplesLabel": "Prueba con",
-          "examples": {
-            "reply": "Una respuesta rápida a un mensaje",
-            "notes": "Notas justo después de una llamada",
-            "prompt": "Un prompt largo para un chat de IA"
-          },
           "quiet": "Dictar en voz baja: muéstrame cómo"
         },
         "empty": {

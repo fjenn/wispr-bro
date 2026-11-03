@@ -1405,6 +1405,46 @@ noted; the shots in Playwright are the reference.
       a problem, the feature popup, What's new as a sheet; Reduce Motion
       crossfades them.
 
+### Design W2 (Hub pages) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w2-hub` (SYSTEM-PLAN §7, W2). A debug build with
+a profile that has some history (the S-09/S-15b seeders, or a few WAV
+takes through `WISPRBRO_TEST_MIC_WAV`), one pass by eye, light then dark
+(title-strip toggle), at the default window size and once at the minimum.
+
+- [ ] W2.1 Home: sans 24 pt greeting with the pencil appearing on hover;
+      photo banner (no example chips); the rail is one tinted card (serif
+      numbers, then the voice profile under a hairline with the thin purple
+      bar); History is one bordered list per day under uppercase day labels,
+      rows hover to the warm tint and show play/copy/flag/⋯ over the row's
+      end; Play still opens the player and the menu still opens.
+- [ ] W2.2 Insights: three tinted stat cards (number, micro label, hairline,
+      detail), the teal category bars with the share inside and the name
+      after, the teal heatmap and legend; Voice locked shows the Insights
+      photo hero with the white progress bar; "Save as image" still writes a
+      PNG that looks like the page.
+- [ ] W2.3 Dictionary and Snippets: ghost Import/Export, black Add; the
+      search field and the "Sort" dropdown (a menu, not a native popup) work
+      by mouse and keyboard; rows in one bordered list with edit/delete
+      revealed on hover and on Tab; Suggested shows the auto-learn switch
+      row and Accept/Reject always visible.
+- [ ] W2.4 Style: the page is a centred column; each group tab opens with
+      the Style photo hero carrying the group's real app icons in frosted
+      circles and a "+" (each icon's menu and the "+" picker work; VoiceOver
+      reads the app name); three preset cards with the sample bubble, the
+      chosen one with a purple edge, arrows move the choice; Cleanup shows
+      three option cards (also in Settings › Advanced).
+- [ ] W2.5 Transforms: Beta tag; "Enable Transforms" switch and the ⌥ O
+      "View changes" chip in the header; the auto-apply row (dropdown +
+      switch) and the shortcut note; Command Mode as a tinted row with its
+      switch; serif "My Transforms" with tutorial/reset/create, cards with
+      their key caps; the editor and View changes still open.
+- [ ] W2.6 Share: one card with the serif headline, the link field + black
+      Copy, Share… (the share sheet still anchors to the button) and the
+      character on the right.
+- [ ] W2.7 Increase Contrast and Reduce Motion on: hairlines darken, focus
+      rings show, no hover-only control is unreachable by keyboard.
+
 ### S-14 Settings modal and hotkeys panel
 
 - [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).

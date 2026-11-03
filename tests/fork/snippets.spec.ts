@@ -41,6 +41,15 @@ async function shot(page: Page, name: string) {
     .catch((e) => console.warn(`screenshot ${name} skipped: ${e}`));
 }
 
+/** Picks a sort order in the page's Radix select (W2: was a native select). */
+async function pickSort(page: Page, value: string) {
+  await page.getByTestId("wb-snippets-sort").click();
+  await page.getByTestId("wb-snippets-sort-option-" + value).click();
+  await expect(
+    page.getByTestId("wb-snippets-sort-option-" + value),
+  ).toHaveCount(0);
+}
+
 const ADDRESS = "Alex Morgan\n12 Harbour Lane\nKiel 24103";
 
 /** A small stand-in for `fork::snippets` (key = lowercase trigger). */
@@ -357,15 +366,15 @@ snipTest.describe("snippets page", () => {
         "café menu",
         "my address",
       ]);
-      await page.getByTestId("wb-snippets-sort").selectOption("az");
+      await pickSort(page, "az");
       expect(await triggers()).toEqual([
         "booking link",
         "café menu",
         "my address",
       ]);
-      await page.getByTestId("wb-snippets-sort").selectOption("za");
+      await pickSort(page, "za");
       expect((await triggers())[0]).toBe("my address");
-      await page.getByTestId("wb-snippets-sort").selectOption("used");
+      await pickSort(page, "used");
       expect((await triggers())[0]).toBe("café menu");
 
       await page.getByTestId("wb-snippets-search").fill("CAFE");

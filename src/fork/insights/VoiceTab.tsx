@@ -11,34 +11,21 @@
  * corrected word, from `fork_insights_voice` (worked out on this Mac from
  * History). A card with too little data says so.
  */
-import {
-  Clock,
-  Lock,
-  MessageSquareQuote,
-  SpellCheck,
-  Star,
-  type Glyph,
-} from "../ui/icons";
+import { Lock } from "../ui/icons";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { ProgressLine } from "@/components/shared/ProgressLine";
 import type { VoiceProfile } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { formatCount } from "../home/StatsRail";
+import { Hero } from "../ui";
+import { photos } from "@/assets/fork/art";
 import { Card } from "./UsageTab";
 
 type CardId = "phrase" | "peak" | "word" | "corrected";
 
-const ICONS: Record<CardId, Glyph> = {
-  phrase: MessageSquareQuote,
-  peak: Clock,
-  word: Star,
-  corrected: SpellCheck,
-};
-
-const VALUE =
-  "font-(family-name:--wb-font-display) text-[24px] leading-tight font-medium text-(--wb-ink) break-words";
-const NOTE = "text-[12.5px] leading-5 text-(--wb-ink-2)";
+const VALUE = "type-serif-title text-(--wb-ink) break-words";
+const NOTE = "text-[15px] leading-[22px] text-(--wb-ink-2)";
 
 /** "2 – 3 PM" in the app language for the hour starting at `hour`. */
 export function formatHourRange(hour: number, language: string): string {
@@ -65,13 +52,13 @@ function VoiceCard({
   return (
     <Card
       testId={`wb-voice-card-${id}`}
-      icon={ICONS[id]}
       title={t(`insights.voice.${id}`)}
-      className="min-h-32"
+      small
+      className="min-h-36 gap-3!"
     >
       {locked ? (
         <>
-          <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-(--wb-ink-2)">
+          <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-(--wb-ink-2)">
             <Lock size={14} aria-hidden="true" />
             {t("insights.voice.locked")}
           </span>
@@ -105,41 +92,45 @@ function LockedHeader({ voice }: { voice: VoiceProfile }) {
     goal,
     count: voice.goal,
   });
+  // The W7 Insights photo as the locked profile's hero; the bar sits on
+  // its right. The hero's heading names the progress bar.
   return (
-    <section
-      aria-labelledby="wb-voice-locked-title"
-      data-testid="wb-voice-locked"
-      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-5 py-4"
-    >
-      <h2
-        id="wb-voice-locked-title"
-        className="font-(family-name:--wb-font-display) text-[19px] leading-tight font-medium text-(--wb-ink)"
-      >
-        {t("insights.voice.lockedTitle", { goal, count: voice.goal })}
-      </h2>
-      <p className={NOTE}>
-        {t("insights.voice.lockedBody", {
+    <div data-testid="wb-voice-locked">
+      <Hero
+        id="voice-locked"
+        image={photos.insights.src}
+        title={t("insights.voice.lockedTitle", { goal, count: voice.goal })}
+        body={t("insights.voice.lockedBody", {
           current: formatCount(current, language),
           goal,
           count: voice.goal,
           appName: t("rust.appName"),
         })}
-      </p>
-      <div
-        role="progressbar"
-        data-testid="wb-voice-locked-bar"
-        aria-labelledby="wb-voice-locked-title"
-        aria-valuemin={0}
-        aria-valuemax={voice.goal}
-        aria-valuenow={current}
-        aria-valuetext={progress}
-      >
-        <ProgressLine
-          value={current / voice.goal}
-          className="h-2 bg-(--wb-fill-active)! [&>i]:bg-(--wb-accent)!"
-        />
-      </div>
-    </section>
+        aside={
+          <div
+            className="flex w-44 flex-col gap-2"
+            role="progressbar"
+            data-testid="wb-voice-locked-bar"
+            aria-labelledby="wb-banner-voice-locked-title"
+            aria-valuemin={0}
+            aria-valuemax={voice.goal}
+            aria-valuenow={current}
+            aria-valuetext={progress}
+          >
+            <ProgressLine
+              value={current / voice.goal}
+              className="h-1 rounded-full bg-white/25! [&>i]:rounded-full [&>i]:bg-(--wb-on-hero)!"
+            />
+            <span
+              aria-hidden="true"
+              className="text-[12px] font-medium text-(--wb-on-hero-2) tabular-nums"
+            >
+              {progress}
+            </span>
+          </div>
+        }
+      />
+    </div>
   );
 }
 
@@ -152,10 +143,10 @@ export function VoiceTab({ voice }: { voice: VoiceProfile }) {
     <div
       data-testid="wb-insights-voice"
       data-unlocked={voice.unlocked}
-      className="@container flex flex-col gap-4"
+      className="@container flex flex-col gap-6"
     >
       {locked && <LockedHeader voice={voice} />}
-      <div className="grid grid-cols-1 gap-4 @min-[560px]:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 @min-[560px]:grid-cols-2">
         <VoiceCard id="phrase" locked={locked}>
           {phrase ? (
             <>

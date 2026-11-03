@@ -526,12 +526,6 @@
         "banner": {
           "title": "Parla invece di digitare",
           "body": "Tieni premuto fn in qualsiasi app, di’ cosa vuoi scrivere e rilascia. {{appName}} inserisce il testo pulito dove si trova il cursore.",
-          "examplesLabel": "Cose da provare",
-          "examples": {
-            "reply": "Una risposta rapida a un messaggio",
-            "notes": "Appunti subito dopo una chiamata",
-            "prompt": "Un prompt lungo per una chat AI"
-          },
           "quiet": "Dettare a bassa voce: scopri come"
         },
         "empty": {

@@ -31,14 +31,14 @@ export function Home() {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
     <div data-testid="wb-home" className="@container">
-      <div className="grid grid-cols-1 gap-6 [grid-template-areas:'greet'_'rail'_'main'] @min-[680px]:grid-cols-[minmax(0,1fr)_240px] @min-[680px]:[grid-template-areas:'greet_greet'_'main_rail']">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 [grid-template-areas:'greet'_'rail'_'main'] @min-[680px]:grid-cols-[minmax(0,1fr)_250px] @min-[680px]:[grid-template-areas:'greet_greet'_'main_rail']">
         <div className="[grid-area:greet]">
           <Greeting />
         </div>
         <aside
           aria-label={t("home.stats.label")}
           data-testid="wb-home-rail"
-          className="flex flex-col gap-4 [grid-area:rail] @min-[680px]:self-start"
+          className="overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface-tint) [grid-area:rail] @min-[680px]:self-start"
         >
           <StatsRail summary={summary} status={status} />
           <VoiceProfileBar totalWords={summary?.total_words ?? null} />

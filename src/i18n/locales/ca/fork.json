@@ -526,12 +526,6 @@
         "banner": {
           "title": "Parla en lloc d'escriure",
           "body": "Mantén premuda la tecla fn en qualsevol app, digues el que vols escriure i deixa-la anar. {{appName}} posa el text net on tens el cursor.",
-          "examplesLabel": "Coses per provar",
-          "examples": {
-            "reply": "Una resposta ràpida a un missatge",
-            "notes": "Notes just després d'una trucada",
-            "prompt": "Una instrucció llarga per a un xat d'IA"
-          },
           "quiet": "Dictar en veu baixa: mostra-m'ho"
         },
         "empty": {

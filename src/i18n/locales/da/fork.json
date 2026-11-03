@@ -523,12 +523,6 @@
         "banner": {
           "title": "Tal i stedet for at skrive",
           "body": "Hold fn nede i en hvilken som helst app, sig, hvad du vil skrive, og slip. {{appName}} indsætter ren tekst, hvor din markør står.",
-          "examplesLabel": "Prøv f.eks.",
-          "examples": {
-            "reply": "Et hurtigt svar på en besked",
-            "notes": "Noter lige efter et opkald",
-            "prompt": "En lang prompt til en AI-chat"
-          },
           "quiet": "Diktér stille: Vis mig hvordan"
         },
         "empty": {

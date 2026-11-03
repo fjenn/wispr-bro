@@ -520,12 +520,6 @@
         "banner": {
           "title": "Bicara, tak perlu mengetik",
           "body": "Tahan fn di app apa pun, ucapkan yang ingin Anda tulis, lalu lepaskan. {{appName}} menaruh teks yang rapi di posisi kursor Anda.",
-          "examplesLabel": "Yang bisa dicoba",
-          "examples": {
-            "reply": "Balasan cepat untuk pesan",
-            "notes": "Catatan setelah menelepon",
-            "prompt": "Prompt panjang untuk chat AI"
-          },
           "quiet": "Dikte dengan suara pelan: tunjukkan caranya"
         },
         "empty": {

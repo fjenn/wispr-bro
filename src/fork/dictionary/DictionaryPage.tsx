@@ -37,10 +37,21 @@ import { commands, type DictionaryEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
 import { navigate, useHubNav } from "../hub/nav";
-import { Banner, Button, EmptyState, FOCUS_RING, TabPanel, Tabs } from "../ui";
-import { ForkToggle } from "../settings/Controls";
+import {
+  Banner,
+  Button,
+  EmptyState,
+  FOCUS_RING,
+  ListContainer,
+  SearchField,
+  Select,
+  SettingRow,
+  Switch,
+  TabPanel,
+  Tabs,
+} from "../ui";
 import { useForkSettings } from "../settings/useForkSettings";
-import { AddWordDialog, INPUT_CLASS } from "./AddWordDialog";
+import { AddWordDialog } from "./AddWordDialog";
 import { DictionaryImportWizard } from "./ImportWizard";
 import {
   SORT_ORDERS,
@@ -55,6 +66,9 @@ import { ForkArt, photos } from "@/assets/fork/art";
 type TabId = "all" | "mine" | "suggested";
 
 const BANNER_ID = "dictionary.teach";
+
+/** A row's icon button: bare ink glyph, a press fill on hover. */
+const ROW_ACTION = `grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink) hover:bg-(--wb-fill-press) ${FOCUS_RING}`;
 
 function inTab(entry: DictionaryEntry, tab: TabId): boolean {
   switch (tab) {
@@ -108,19 +122,19 @@ function EntryRow({
       data-testid="wb-dictionary-entry"
       data-kind={entry.kind}
       data-id={entry.id}
-      className="group flex items-center gap-3 border-b border-(--wb-line) px-1 py-2.5 last:border-b-0"
+      className="group flex min-h-(--wb-row-h) items-center gap-3 px-4 py-2.5 transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) focus-within:bg-(--wb-surface-tint)"
     >
       <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-0.5">
-        <span className="flex min-w-0 items-center gap-2 text-[14px] text-(--wb-ink)">
+        <span className="flex min-w-0 items-center gap-2 text-[15px] leading-[22px] text-(--wb-ink)">
           <span className="break-words" data-testid="wb-dictionary-phrase-text">
             {entry.phrase}
           </span>
           {entry.replacement && (
             <>
               <ArrowRight
-                size={14}
+                size={16}
                 aria-hidden="true"
-                className="shrink-0 text-(--wb-ink-2) rtl:rotate-180"
+                className="shrink-0 text-(--wb-ink-3) rtl:rotate-180"
               />
               <span className="sr-only">{t("dictionary.entry.becomes")}</span>
               <span
@@ -133,7 +147,7 @@ function EntryRow({
           )}
         </span>
         {(sourceLabel || entry.kind === "rule") && (
-          <span className="flex gap-2 text-[12px] text-(--wb-ink-2)">
+          <span className="flex gap-2 text-[13px] text-(--wb-ink-3)">
             {sourceLabel && <span>{sourceLabel}</span>}
             {entry.kind === "rule" && entry.hit_count > 0 && (
               <span data-testid="wb-dictionary-hits">
@@ -143,7 +157,9 @@ function EntryRow({
           </span>
         )}
       </div>
-      <div className="flex shrink-0 items-center gap-1">
+      <div
+        className={`flex shrink-0 items-center gap-0.5 transition-opacity duration-(--wb-dur-fast) ${suggested ? "" : "opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"}`}
+      >
         {suggested && (
           <>
             <button
@@ -152,9 +168,9 @@ function EntryRow({
               aria-label={t("dictionary.entry.accept", { entry: label })}
               title={t("dictionary.entry.accept", { entry: label })}
               data-testid="wb-dictionary-accept"
-              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+              className={`${ROW_ACTION}`}
             >
-              <Check size={16} aria-hidden="true" />
+              <Check size={18} aria-hidden="true" />
             </button>
             <button
               type="button"
@@ -162,9 +178,9 @@ function EntryRow({
               aria-label={t("dictionary.entry.reject", { entry: label })}
               title={t("dictionary.entry.reject", { entry: label })}
               data-testid="wb-dictionary-reject"
-              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+              className={`${ROW_ACTION}`}
             >
-              <X size={16} aria-hidden="true" />
+              <X size={18} aria-hidden="true" />
             </button>
           </>
         )}
@@ -174,9 +190,9 @@ function EntryRow({
             onClick={() => onEdit(entry)}
             aria-label={t("dictionary.entry.edit", { entry: label })}
             data-testid="wb-dictionary-edit"
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`${ROW_ACTION}`}
           >
-            <Pencil size={16} aria-hidden="true" />
+            <Pencil size={18} aria-hidden="true" />
           </button>
         )}
         {!suggested && (
@@ -185,9 +201,9 @@ function EntryRow({
             onClick={() => onDelete(entry)}
             aria-label={t("dictionary.entry.delete", { entry: label })}
             data-testid="wb-dictionary-delete"
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`${ROW_ACTION}`}
           >
-            <Trash2 size={16} aria-hidden="true" />
+            <Trash2 size={18} aria-hidden="true" />
           </button>
         )}
       </div>
@@ -380,6 +396,7 @@ export function DictionaryPage() {
     <div data-testid="wb-dictionary" className="flex flex-col gap-6">
       <PageHeader title={t("hub.pages.dictionary.title")}>
         <Button
+          variant="ghost"
           onClick={() => setImportOpen(true)}
           data-testid="wb-dictionary-import"
         >
@@ -387,6 +404,7 @@ export function DictionaryPage() {
           {t("dictionary.import.open")}
         </Button>
         <Button
+          variant="ghost"
           onClick={() => void exportCsv()}
           disabled={counts.words + counts.rules === 0}
           data-testid="wb-dictionary-export"
@@ -424,45 +442,44 @@ export function DictionaryPage() {
         tabs={tabs}
         label={t("dictionary.tabs.label")}
       >
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <div className="relative min-w-48 flex-1">
-            <Search
-              size={16}
-              aria-hidden="true"
-              className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-(--wb-ink-2)"
-            />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label={t("dictionary.search")}
-              placeholder={t("dictionary.search")}
-              className={`${INPUT_CLASS} ps-9`}
-              data-testid="wb-dictionary-search"
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <SearchField
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label={t("dictionary.search")}
+            placeholder={t("dictionary.search")}
+            className="min-w-48 flex-1"
+            data-testid="wb-dictionary-search"
+          />
+          <div className="flex items-center gap-1">
+            <span
+              id="wb-dictionary-sort-label"
+              className="ps-2 text-[13px] text-(--wb-ink-3)"
+            >
+              {t("dictionary.sort.label")}
+            </span>
+            <Select
+              value={order}
+              onValueChange={(v) => setOrder(v as SortOrder)}
+              labelledBy="wb-dictionary-sort-label"
+              variant="ghost"
+              size="sm"
+              fitContent
+              testId="wb-dictionary-sort"
+              options={SORT_ORDERS.map((o) => ({
+                value: o,
+                label: t(`dictionary.sort.${o}`),
+              }))}
             />
           </div>
-          <label className="flex items-center gap-2 text-[13px] text-(--wb-ink-2)">
-            {t("dictionary.sort.label")}
-            <select
-              value={order}
-              onChange={(e) => setOrder(e.target.value as SortOrder)}
-              className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
-              data-testid="wb-dictionary-sort"
-            >
-              {SORT_ORDERS.map((o) => (
-                <option key={o} value={o}>
-                  {t(`dictionary.sort.${o}`)}
-                </option>
-              ))}
-            </select>
-          </label>
           <Button
             variant="ghost"
+            size="sm"
             onClick={() => void refresh()}
             aria-label={t("dictionary.refresh")}
             title={t("dictionary.refresh")}
             data-testid="wb-dictionary-refresh"
-            className="px-2.5"
+            className="px-2"
           >
             <RefreshCw
               size={16}
@@ -472,23 +489,26 @@ export function DictionaryPage() {
           </Button>
         </div>
         {(["all", "mine", "suggested"] as TabId[]).map((id) => (
-          <TabPanel key={id} value={id} className="mt-2">
+          <TabPanel key={id} value={id} className="mt-3">
             {id === tab && id === "suggested" && (
-              <div
-                className="mb-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3 py-1.5"
-                data-testid="wb-dictionary-learn"
-              >
-                <ForkToggle
-                  label={t("dictionary.learn.toggle")}
-                  hint={t("dictionary.learn.hint", { appName })}
-                  checked={learning}
-                  disabled={!!pending.auto_learn_enabled}
-                  onChange={(checked) =>
-                    void setSetting("auto_learn_enabled", checked)
-                  }
-                  testId="wb-dictionary-learn-toggle"
-                />
-              </div>
+              <SettingRow
+                className="mb-3"
+                testId="wb-dictionary-learn"
+                title={t("dictionary.learn.toggle")}
+                description={t("dictionary.learn.hint", { appName })}
+                control={(ids) => (
+                  <Switch
+                    checked={learning}
+                    disabled={!!pending.auto_learn_enabled}
+                    onChange={(checked) =>
+                      void setSetting("auto_learn_enabled", checked)
+                    }
+                    ariaLabelledBy={ids.labelledBy}
+                    ariaDescribedBy={ids.describedBy}
+                    testId="wb-dictionary-learn-toggle"
+                  />
+                )}
+              />
             )}
             {id === tab &&
               (visible.length > 0 ? (
@@ -500,12 +520,11 @@ export function DictionaryPage() {
                   >
                     {t("dictionary.shown", { count: visible.length })}
                   </p>
-                  <ul
+                  <ListContainer
                     aria-label={t(`dictionary.tabs.${id}`, {
                       count: tabCounts[id],
                     })}
                     data-testid="wb-dictionary-list"
-                    className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3"
                   >
                     {visible.map((e) => (
                       <EntryRow
@@ -515,7 +534,7 @@ export function DictionaryPage() {
                         onDelete={(entry) => void remove(entry)}
                       />
                     ))}
-                  </ul>
+                  </ListContainer>
                 </>
               ) : (
                 empty()

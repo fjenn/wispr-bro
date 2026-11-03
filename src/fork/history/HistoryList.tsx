@@ -330,13 +330,14 @@ export function HistoryList() {
     );
   } else if (status === "unavailable" && rows.length === 0) {
     body = (
-      <p
-        data-testid="wb-history-unavailable"
-        role="status"
-        className="px-3 py-8 text-center text-[13.5px] text-(--wb-ink-2)"
-      >
-        {t("history.unavailable")}
-      </p>
+      <div data-testid="wb-history-unavailable" role="status">
+        <EmptyState
+          art={<ForkArt name="empty-unavailable" width={96} />}
+          title={t("history.unavailable")}
+          body=""
+          compact
+        />
+      </div>
     );
   } else if (rows.length === 0) {
     body = query ? (
@@ -367,11 +368,21 @@ export function HistoryList() {
           {virtualItems.map((v) => {
             const item = items[v.index];
             if (!item) return null;
+            // Each day's rows form one bordered container (the reference's
+            // list card): the first row carries the top edge and corners,
+            // the last the bottom ones, every row a divider above it.
+            const first = items[v.index - 1]?.kind !== "row";
+            const last = items[v.index + 1]?.kind !== "row";
+            const edge =
+              item.kind === "row"
+                ? `overflow-hidden border-x border-t border-(--wb-line) bg-(--wb-surface) ${first ? "rounded-t-(--wb-radius-md)" : ""} ${last ? "rounded-b-(--wb-radius-md) border-b" : ""}`
+                : "";
             return (
               <div
                 key={v.key}
                 data-index={v.index}
                 ref={virtualizer.measureElement}
+                className={edge}
                 style={{
                   position: "absolute",
                   top: 0,
@@ -416,13 +427,10 @@ export function HistoryList() {
       aria-labelledby="wb-history-heading"
       data-testid="wb-history"
       data-lang={i18n.language}
-      className="flex min-w-0 flex-col gap-2"
+      className="flex min-w-0 flex-col gap-1"
     >
-      <div className="flex min-h-9 flex-wrap items-center justify-between gap-2 px-1">
-        <h2
-          id="wb-history-heading"
-          className="font-(family-name:--wb-font-display) text-[20px] font-medium text-(--wb-ink)"
-        >
+      <div className="flex min-h-9 flex-wrap items-center justify-between gap-2">
+        <h2 id="wb-history-heading" className="type-card-title text-(--wb-ink)">
           {t("history.title")}
         </h2>
         <div className="flex min-w-0 items-center gap-1">
@@ -436,9 +444,9 @@ export function HistoryList() {
             aria-label={t("history.transcribeFile")}
             title={t("history.transcribeFile")}
             onClick={() => void transcribeFile()}
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
           >
-            <FilePlus size={16} aria-hidden="true" />
+            <FilePlus size={18} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -476,7 +484,7 @@ function DayHeading({ dayKey: key, now }: { dayKey: string; now: number }) {
     <h3
       data-testid="wb-history-day"
       data-day={key}
-      className="px-3 pt-4 pb-1 text-[12.5px] font-semibold text-(--wb-ink-2)"
+      className="type-micro px-1 pt-5 pb-3 text-(--wb-ink-3)"
     >
       {text}
     </h3>

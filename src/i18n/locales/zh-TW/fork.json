@@ -520,12 +520,6 @@
         "banner": {
           "title": "用說的，不用打字",
           "body": "在任何 App 中按住 fn，說出想寫的內容，然後放開。{{appName}} 會將整理好的文字放到游標位置。",
-          "examplesLabel": "試試這些",
-          "examples": {
-            "reply": "快速回覆一則訊息",
-            "notes": "通話後馬上記筆記",
-            "prompt": "給 AI 聊天的長篇提示詞"
-          },
           "quiet": "輕聲聽寫：教我怎麼做"
         },
         "empty": {

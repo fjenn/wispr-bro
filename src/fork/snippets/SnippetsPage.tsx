@@ -30,8 +30,15 @@ import { commands, type SnippetEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
 import { navigate, useHubNav } from "../hub/nav";
-import { INPUT_CLASS } from "../dictionary/AddWordDialog";
-import { Banner, Button, EmptyState, FOCUS_RING } from "../ui";
+import {
+  Banner,
+  Button,
+  EmptyState,
+  FOCUS_RING,
+  ListContainer,
+  SearchField,
+  Select,
+} from "../ui";
 import { SnippetDialog } from "./SnippetDialog";
 import { SnippetsImportWizard } from "./ImportWizard";
 import {
@@ -61,11 +68,11 @@ function SnippetRow({
     <li
       data-testid="wb-snippet-entry"
       data-id={snippet.id}
-      className="group flex items-start gap-3 border-b border-(--wb-line) px-1 py-3 last:border-b-0"
+      className="group flex min-h-(--wb-row-h) items-start gap-3 px-4 py-3.5 transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) focus-within:bg-(--wb-surface-tint)"
     >
-      <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:gap-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:gap-6">
         <span
-          className="shrink-0 text-[14px] font-medium break-words text-(--wb-ink) sm:w-48"
+          className="shrink-0 text-[15px] leading-[22px] font-medium break-words text-(--wb-ink) sm:w-44"
           data-testid="wb-snippet-trigger-text"
         >
           {snippet.trigger}
@@ -73,12 +80,12 @@ function SnippetRow({
         <span className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="sr-only">{t("snippets.entry.becomes")}</span>
           <span
-            className="line-clamp-3 text-[13.5px] whitespace-pre-line break-words text-(--wb-ink-2)"
+            className="line-clamp-3 text-[15px] leading-[22px] whitespace-pre-line break-words text-(--wb-ink-2)"
             data-testid="wb-snippet-body-text"
           >
             {snippet.body}
           </span>
-          <span className="flex flex-wrap gap-2 text-[12px] text-(--wb-ink-2)">
+          <span className="flex flex-wrap gap-2 text-[13px] text-(--wb-ink-3) empty:hidden">
             {lines.length > 1 && (
               <span>{t("snippets.entry.lines", { count: lines.length })}</span>
             )}
@@ -93,24 +100,24 @@ function SnippetRow({
           </span>
         </span>
       </div>
-      <div className="flex shrink-0 items-center gap-1">
+      <div className="-my-1 flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity duration-(--wb-dur-fast) group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100">
         <button
           type="button"
           onClick={() => onEdit(snippet)}
           aria-label={t("snippets.entry.edit", { trigger: snippet.trigger })}
           data-testid="wb-snippet-edit"
-          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink) hover:bg-(--wb-fill-press) ${FOCUS_RING}`}
         >
-          <Pencil size={16} aria-hidden="true" />
+          <Pencil size={18} aria-hidden="true" />
         </button>
         <button
           type="button"
           onClick={() => onDelete(snippet)}
           aria-label={t("snippets.entry.delete", { trigger: snippet.trigger })}
           data-testid="wb-snippet-delete"
-          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+          className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink) hover:bg-(--wb-fill-press) ${FOCUS_RING}`}
         >
-          <Trash2 size={16} aria-hidden="true" />
+          <Trash2 size={18} aria-hidden="true" />
         </button>
       </div>
     </li>
@@ -248,6 +255,7 @@ export function SnippetsPage() {
     <div data-testid="wb-snippets" className="flex flex-col gap-6">
       <PageHeader title={t("hub.pages.snippets.title")}>
         <Button
+          variant="ghost"
           onClick={() => setImportOpen(true)}
           data-testid="wb-snippets-import"
         >
@@ -255,6 +263,7 @@ export function SnippetsPage() {
           {t("snippets.import.open")}
         </Button>
         <Button
+          variant="ghost"
           onClick={() => void exportCsv()}
           disabled={counts.snippets === 0}
           data-testid="wb-snippets-export"
@@ -291,7 +300,7 @@ export function SnippetsPage() {
       >
         <h2
           id="wb-snippets-heading"
-          className="text-[14px] font-medium text-(--wb-ink-2)"
+          className="type-micro text-(--wb-ink-3)"
           data-testid="wb-snippets-counts"
           data-count={counts.snippets}
           data-uses={counts.uses}
@@ -301,44 +310,43 @@ export function SnippetsPage() {
             ` · ${t("snippets.counts.uses", { count: counts.uses })}`}
         </h2>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="relative min-w-48 flex-1">
-            <Search
-              size={16}
-              aria-hidden="true"
-              className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-(--wb-ink-2)"
-            />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label={t("snippets.search")}
-              placeholder={t("snippets.search")}
-              className={`${INPUT_CLASS} ps-9`}
-              data-testid="wb-snippets-search"
+          <SearchField
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label={t("snippets.search")}
+            placeholder={t("snippets.search")}
+            className="min-w-48 flex-1"
+            data-testid="wb-snippets-search"
+          />
+          <div className="flex items-center gap-1">
+            <span
+              id="wb-snippets-sort-label"
+              className="ps-2 text-[13px] text-(--wb-ink-3)"
+            >
+              {t("snippets.sort.label")}
+            </span>
+            <Select
+              value={order}
+              onValueChange={(v) => setOrder(v as SortOrder)}
+              labelledBy="wb-snippets-sort-label"
+              variant="ghost"
+              size="sm"
+              fitContent
+              testId="wb-snippets-sort"
+              options={SORT_ORDERS.map((o) => ({
+                value: o,
+                label: t(`snippets.sort.${o}`),
+              }))}
             />
           </div>
-          <label className="flex items-center gap-2 text-[13px] text-(--wb-ink-2)">
-            {t("snippets.sort.label")}
-            <select
-              value={order}
-              onChange={(e) => setOrder(e.target.value as SortOrder)}
-              className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-2.5 py-2 text-[13px] text-(--wb-ink) ${FOCUS_RING}`}
-              data-testid="wb-snippets-sort"
-            >
-              {SORT_ORDERS.map((o) => (
-                <option key={o} value={o}>
-                  {t(`snippets.sort.${o}`)}
-                </option>
-              ))}
-            </select>
-          </label>
           <Button
             variant="ghost"
+            size="sm"
             onClick={() => void refresh()}
             aria-label={t("snippets.refresh")}
             title={t("snippets.refresh")}
             data-testid="wb-snippets-refresh"
-            className="px-2.5"
+            className="px-2"
           >
             <RefreshCw
               size={16}
@@ -356,10 +364,9 @@ export function SnippetsPage() {
             >
               {t("snippets.shown", { count: visible.length })}
             </p>
-            <ul
+            <ListContainer
               aria-labelledby="wb-snippets-heading"
               data-testid="wb-snippets-list"
-              className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3"
             >
               {visible.map((s) => (
                 <SnippetRow
@@ -369,7 +376,7 @@ export function SnippetsPage() {
                   onDelete={(snippet) => void remove(snippet)}
                 />
               ))}
-            </ul>
+            </ListContainer>
           </>
         ) : (
           empty()

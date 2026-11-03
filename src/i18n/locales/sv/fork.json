@@ -523,12 +523,6 @@
         "banner": {
           "title": "Prata i stället för att skriva",
           "body": "Håll ned fn i valfri app, säg vad du vill skriva och släpp. {{appName}} placerar ren text där markören står.",
-          "examplesLabel": "Prova till exempel",
-          "examples": {
-            "reply": "Ett snabbt svar på ett meddelande",
-            "notes": "Anteckningar direkt efter ett samtal",
-            "prompt": "En lång prompt till en AI-chatt"
-          },
           "quiet": "Diktera tyst: visa hur"
         },
         "empty": {

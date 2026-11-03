@@ -916,7 +916,10 @@ test.describe("history", () => {
     const r = rowById(page, 1);
     const text = (await r.getByTestId("wb-history-text").boundingBox())!;
     const acts = (await r.getByTestId("wb-history-actions").boundingBox())!;
-    expect(acts.x + acts.width).toBeLessThanOrEqual(text.x + 1);
+    // W2: the actions float over the row's end (the reference's hover
+    // strip), so in RTL they sit over the left end of the text.
+    expect(acts.x).toBeLessThanOrEqual(text.x + 1);
+    expect(acts.x + acts.width).toBeLessThan(text.x + text.width / 2);
     await expectNoSeriousAxeFindings(page);
   });
 });

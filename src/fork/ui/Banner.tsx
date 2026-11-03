@@ -4,7 +4,9 @@
  * of a feature page. A serif headline in white, one sentence at 82 % white,
  * optional example chips, a cream primary button and a quiet text button.
  * `image` puts a photo under a left-to-right dark grade (W7 sources the
- * photos; without one the banner is a warm near-black with a soft glow).
+ * photos; without one the banner is a warm near-black with a soft glow);
+ * over a photo the text keeps to the graded left ~64 % and example chips sit
+ * on a dark wash, so they stay legible on bright photos (W2).
  * Each feature page brings its own content (C-29, C-61, C-73, D-206).
  *
  * Dismissal persists in the fork setting `dismissed_banners` under `id`, so a
@@ -35,6 +37,11 @@ export interface BannerProps {
   live?: boolean;
   /** Decorative art on the right (hidden from screen readers). */
   art?: ReactNode;
+  /**
+   * Interactive content on the right, read by screen readers (the Style
+   * page's app icons and "+"). Shown instead of `art` when both are set.
+   */
+  aside?: ReactNode;
   /** Background photo URL (bundled asset); graded dark on the left. */
   image?: string;
 }
@@ -49,6 +56,7 @@ export function Banner({
   secondaryAction,
   live = false,
   art,
+  aside,
   image,
 }: BannerProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -79,6 +87,7 @@ export function Banner({
       secondaryAction={secondaryAction}
       live={live}
       art={art}
+      aside={aside}
       image={image}
       onDismiss={dismiss}
       dismissLabel={t("ui.banner.dismiss")}
@@ -105,6 +114,7 @@ export function Hero({
   secondaryAction,
   live = false,
   art,
+  aside,
   image,
   onDismiss,
   dismissLabel,
@@ -114,7 +124,7 @@ export function Hero({
     <section
       aria-labelledby={titleId}
       data-testid={`wb-banner-${id}`}
-      className="relative isolate flex min-h-[180px] items-center gap-6 overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-hero) px-8 py-7 text-(--wb-on-hero)"
+      className="@container/hero relative isolate flex min-h-[180px] items-center gap-6 overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-hero) px-8 py-7 text-(--wb-on-hero)"
     >
       {image ? (
         <>
@@ -135,7 +145,9 @@ export function Hero({
           className="absolute inset-0 -z-10 bg-[radial-gradient(120%_140%_at_100%_0%,rgba(154,114,186,0.28)_0%,rgba(154,114,186,0)_55%),radial-gradient(90%_120%_at_85%_120%,rgba(196,140,90,0.22)_0%,rgba(196,140,90,0)_60%)] rtl:-scale-x-100"
         />
       )}
-      <div className="flex min-w-0 flex-1 flex-col gap-2">
+      <div
+        className={`flex min-w-0 flex-1 flex-col gap-2 ${image ? "@min-[560px]/hero:max-w-[64%]" : ""}`}
+      >
         <h2 id={titleId} className="type-serif-title pe-8 text-(--wb-on-hero)">
           {title}
         </h2>
@@ -150,7 +162,7 @@ export function Hero({
             {examples.map((example) => (
               <li
                 key={example}
-                className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[13px] text-(--wb-on-hero)"
+                className="rounded-full border border-white/20 bg-black/30 px-3 py-1 text-[13px] text-(--wb-on-hero)"
               >
                 {example}
               </li>
@@ -181,10 +193,16 @@ export function Hero({
           </div>
         )}
       </div>
-      {art && (
-        <div aria-hidden="true" className="hidden shrink-0 sm:block">
-          {art}
+      {aside ? (
+        <div className="flex max-w-[45%] shrink-0 flex-wrap items-center justify-end">
+          {aside}
         </div>
+      ) : (
+        art && (
+          <div aria-hidden="true" className="hidden shrink-0 sm:block">
+            {art}
+          </div>
+        )
       )}
       {onDismiss && dismissLabel && (
         <IconButton

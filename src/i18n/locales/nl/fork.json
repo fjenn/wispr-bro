@@ -523,12 +523,6 @@
         "banner": {
           "title": "Praat in plaats van te typen",
           "body": "Houd in een willekeurige app fn ingedrukt, zeg wat je wilt schrijven en laat los. {{appName}} zet nette tekst waar je cursor staat.",
-          "examplesLabel": "Probeer eens",
-          "examples": {
-            "reply": "Een snelle reactie op een bericht",
-            "notes": "Notities direct na een gesprek",
-            "prompt": "Een lange prompt voor een AI-chat"
-          },
           "quiet": "Zacht dicteren: laat zien hoe"
         },
         "empty": {

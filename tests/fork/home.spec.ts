@@ -403,7 +403,7 @@ test.describe("dictation home", () => {
     let r = (await rail.boundingBox())!;
     let b = (await banner.boundingBox())!;
     expect(r.x).toBeGreaterThan(b.x + b.width - 1);
-    expect(r.width).toBeCloseTo(240, 0);
+    expect(r.width).toBeCloseTo(250, 0); // W2: the reference's 250 pt rail
 
     // Minimum window: the page is too narrow for two columns.
     await page.setViewportSize({ width: 720, height: 600 });

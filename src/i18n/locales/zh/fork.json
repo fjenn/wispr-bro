@@ -520,12 +520,6 @@
         "banner": {
           "title": "动动嘴，不用打字",
           "body": "在任何 App 中按住 fn，说出想写的内容，然后放开。{{appName}} 会将整理好的文本放到光标位置。",
-          "examplesLabel": "试试这些",
-          "examples": {
-            "reply": "快速回复一条消息",
-            "notes": "通话后马上记笔记",
-            "prompt": "给 AI 聊天的长篇提示词"
-          },
           "quiet": "轻声听写：教我怎么做"
         },
         "empty": {

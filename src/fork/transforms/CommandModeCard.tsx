@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { MessageSquareText } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { chordLabel } from "../settings/hotkeys/model";
-import { FOCUS_RING } from "../ui";
+import { Kbd, KbdCombo, Switch } from "../ui";
 
 export function CommandModeCard({
   checked,
@@ -21,50 +20,45 @@ export function CommandModeCard({
   return (
     <section
       aria-labelledby="wb-command-mode-title"
-      className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5"
+      className="flex items-start gap-4 rounded-(--wb-radius-sm) border border-(--wb-line) bg-(--wb-surface-tint) px-5 py-4"
       data-testid="wb-command-mode-card"
       data-enabled={checked ? "true" : "false"}
     >
-      <label className="flex cursor-pointer items-start gap-3">
-        <input
-          type="checkbox"
-          role="switch"
-          checked={checked}
-          disabled={disabled}
-          onChange={(event) => onChange(event.currentTarget.checked)}
-          className={`mt-1 size-4 accent-(--wb-ink) ${FOCUS_RING}`}
-          aria-describedby="wb-command-mode-help"
-          data-testid="wb-command-mode-enabled"
-        />
-        <MessageSquareText
-          size={18}
-          aria-hidden="true"
-          className="mt-0.5 shrink-0 text-(--wb-accent)"
-        />
-        <span className="min-w-0 flex-1">
-          <span className="flex flex-wrap items-center gap-2">
-            <span id="wb-command-mode-title" className="font-semibold">
-              {t("transforms.commandMode.title")}
-            </span>
-            <kbd className="rounded border border-(--wb-line) px-1.5 py-0.5 text-xs text-(--wb-ink-2)">
-              {shortcut
-                ? chordLabel(shortcut)
-                : t("settingsModal.hotkeys.notSet")}
-            </kbd>
-            <span className="text-xs text-(--wb-ink-2)">
-              {checked
-                ? t("transforms.commandMode.on")
-                : t("transforms.commandMode.off")}
-            </span>
-          </span>
+      <span className="flex min-w-0 flex-1 flex-col gap-1">
+        <span className="flex flex-wrap items-center gap-2">
           <span
-            id="wb-command-mode-help"
-            className="mt-1 block text-sm leading-5 text-(--wb-ink-2)"
+            id="wb-command-mode-title"
+            className="text-[15px] leading-5 font-medium text-(--wb-ink)"
           >
-            {t("transforms.commandMode.help")}
+            {t("transforms.commandMode.title")}
+          </span>
+          {shortcut ? (
+            <KbdCombo keys={chordLabel(shortcut).split(" ")} />
+          ) : (
+            <Kbd>{t("settingsModal.hotkeys.notSet")}</Kbd>
+          )}
+          <span className="sr-only">
+            {checked
+              ? t("transforms.commandMode.on")
+              : t("transforms.commandMode.off")}
           </span>
         </span>
-      </label>
+        <span
+          id="wb-command-mode-help"
+          className="text-[13px] leading-[18px] text-(--wb-ink-2)"
+        >
+          {t("transforms.commandMode.help")}
+        </span>
+      </span>
+      <Switch
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+        ariaLabelledBy="wb-command-mode-title"
+        ariaDescribedBy="wb-command-mode-help"
+        testId="wb-command-mode-enabled"
+        className="mt-0.5"
+      />
     </section>
   );
 }

@@ -66,10 +66,12 @@ export function InsightsPage() {
     <div
       data-testid="wb-insights"
       data-status={status}
-      className="flex flex-col gap-5"
+      className="flex flex-col gap-6"
     >
       <PageHeader title={t("hub.pages.insights.title")}>
         <Button
+          size="sm"
+          variant="outline"
           data-testid="wb-insights-save"
           onClick={() => void save()}
           disabled={!usage || saving || (tab === "voice" && !voice)}
@@ -110,10 +112,10 @@ export function InsightsPage() {
           <div
             ref={exportRef}
             data-testid="wb-insights-export"
-            className="flex flex-col gap-4 pt-4"
+            className="flex flex-col gap-4 pt-6"
           >
             <p
-              className="text-[12.5px] text-(--wb-ink-2)"
+              className="text-[13px] text-(--wb-ink-3)"
               data-testid="wb-insights-asof"
             >
               {t("insights.asOf", {

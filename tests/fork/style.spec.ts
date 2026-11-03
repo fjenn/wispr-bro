@@ -306,7 +306,12 @@ styleTest.describe("style page", () => {
       await expect(page.getByTestId("wb-style-cleanup")).toBeVisible();
       // Controlled radio: it changes after the backend answers, so click
       // (check() fails if the state has not flipped yet under load).
-      await page.getByRole("radio", { name: /Medium/ }).click();
+      // W2: the levels are option cards; click the card (its label), as a
+      // person does; the radio inside is visually hidden.
+      await page
+        .getByTestId("fork-cleanup-level-medium")
+        .locator("xpath=ancestor::label[1]")
+        .click();
       await ipc.expectCalled("fork_set_setting", {
         update: { key: "cleanup_level", value: "medium" },
       });

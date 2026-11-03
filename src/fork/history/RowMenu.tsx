@@ -39,7 +39,7 @@ export interface RowMenuProps {
   onDelete: () => void;
 }
 
-export const ACTION_BUTTON = `grid size-7 cursor-pointer place-items-center rounded-[7px] text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent ${FOCUS_RING}`;
+export const ACTION_BUTTON = `grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink) hover:bg-(--wb-fill-press) hover:text-(--wb-ink) disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent ${FOCUS_RING}`;
 
 const MoreButton = forwardRef<
   HTMLButtonElement,
@@ -54,7 +54,7 @@ const MoreButton = forwardRef<
       className={ACTION_BUTTON}
       {...props}
     >
-      <MoreHorizontal size={16} aria-hidden="true" />
+      <MoreHorizontal size={18} aria-hidden="true" />
     </button>
   );
 });

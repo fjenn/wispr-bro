@@ -140,9 +140,9 @@ export function HistoryRow({
       data-variant={row.variant}
       role="group"
       aria-label={t("history.rowLabel", { time })}
-      className="group relative flex gap-4 rounded-(--wb-radius-md) px-3 py-3 hover:bg-(--wb-fill-hover) focus-within:bg-(--wb-fill-hover)"
+      className="group relative flex min-h-(--wb-row-h) gap-4 px-4 py-3.5 transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) focus-within:bg-(--wb-surface-tint)"
     >
-      <div className="w-16 shrink-0 pt-0.5 text-[12.5px] text-(--wb-ink-3) tabular-nums">
+      <div className="w-[76px] shrink-0 text-[13px] leading-[22px] text-(--wb-ink-3) tabular-nums">
         {time}
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">
@@ -195,7 +195,7 @@ export function HistoryRow({
         <p
           ref={textRef}
           data-testid="wb-history-text"
-          className={`text-[14px] leading-[1.45] break-words whitespace-pre-wrap ${
+          className={`text-[15px] leading-[22px] break-words whitespace-pre-wrap ${
             busy
               ? "text-(--wb-ink-2) motion-safe:animate-pulse"
               : hasText
@@ -236,7 +236,7 @@ export function HistoryRow({
       </div>
       <div
         data-testid="wb-history-actions"
-        className="flex shrink-0 items-start gap-0.5 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 has-[[data-state=open]]:opacity-100 has-[[aria-pressed=true]]:opacity-100 motion-reduce:transition-none [@media(hover:none)]:opacity-100"
+        className="absolute end-2 top-2 flex items-center gap-0.5 bg-[linear-gradient(to_left,var(--wb-surface-tint)_78%,transparent)] ps-8 opacity-0 transition-opacity duration-(--wb-dur-fast) group-focus-within:opacity-100 group-hover:opacity-100 has-[[data-state=open]]:opacity-100 has-[[aria-pressed=true]]:opacity-100 motion-reduce:transition-none rtl:bg-[linear-gradient(to_right,var(--wb-surface-tint)_78%,transparent)] [@media(hover:none)]:opacity-100"
       >
         <button
           type="button"
@@ -259,9 +259,9 @@ export function HistoryRow({
           className={ACTION_BUTTON}
         >
           {playing ? (
-            <Square size={14} aria-hidden="true" />
+            <Square size={16} aria-hidden="true" />
           ) : (
-            <Play size={16} aria-hidden="true" />
+            <Play size={18} aria-hidden="true" />
           )}
         </button>
         <button
@@ -278,9 +278,9 @@ export function HistoryRow({
           className={ACTION_BUTTON}
         >
           {copied ? (
-            <Check size={16} aria-hidden="true" />
+            <Check size={18} aria-hidden="true" />
           ) : (
-            <Copy size={16} aria-hidden="true" />
+            <Copy size={18} aria-hidden="true" />
           )}
         </button>
         <button
@@ -293,7 +293,7 @@ export function HistoryRow({
           onClick={() => onFlag(row)}
           className={ACTION_BUTTON}
         >
-          <Flag size={16} aria-hidden="true" />
+          <Flag size={18} aria-hidden="true" />
         </button>
         <RowMenu
           row={row}

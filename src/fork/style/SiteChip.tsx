@@ -130,11 +130,11 @@ export function SiteChip({
             data-host={site.host}
             data-auto-send={site.auto_send}
             aria-label={t("style.apps.chipLabel", { app: label })}
-            className={`flex cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface) px-2 py-1 text-[13px] text-(--wb-ink) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
+            className={`flex h-9 cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-2) bg-(--wb-surface) px-3 text-[13px] text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) ${FOCUS_RING}`}
           >
-            <Globe size={18} aria-hidden="true" className="text-(--wb-ink-2)" />
+            <Globe size={16} aria-hidden="true" className="text-(--wb-ink-2)" />
             <span>{site.name}</span>{" "}
-            <span className="max-w-48 truncate text-[11.5px] text-(--wb-ink-2)">
+            <span className="max-w-48 truncate text-[12px] text-(--wb-ink-3)">
               {site.host}
             </span>
             {site.auto_send && (

@@ -53,9 +53,9 @@ export function Search({ query, onQuery }: SearchProps) {
         aria-label={t("history.search.open")}
         title={t("history.search.open")}
         onClick={() => setOpen(true)}
-        className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+        className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       >
-        <SearchIcon size={16} aria-hidden="true" />
+        <SearchIcon size={18} aria-hidden="true" />
       </button>
     );
   }
@@ -63,7 +63,7 @@ export function Search({ query, onQuery }: SearchProps) {
   return (
     <div
       role="search"
-      className="flex min-w-0 items-center gap-1 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) ps-2.5 pe-1 focus-within:ring-2 focus-within:ring-(--wb-accent)"
+      className="flex min-w-0 items-center gap-1 h-8 rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) ps-2.5 pe-1 focus-within:ring-2 focus-within:ring-(--wb-accent)"
     >
       <SearchIcon
         size={16}
@@ -90,7 +90,7 @@ export function Search({ query, onQuery }: SearchProps) {
             onQuery(text.trim());
           }
         }}
-        className="w-48 min-w-0 bg-transparent py-1.5 text-[13.5px] text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) [&::-webkit-search-cancel-button]:hidden"
+        className="w-48 min-w-0 bg-transparent py-1 text-[14px] text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) [&::-webkit-search-cancel-button]:hidden"
       />
       <button
         type="button"

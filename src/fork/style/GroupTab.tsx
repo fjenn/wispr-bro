@@ -19,7 +19,8 @@ import {
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button, FOCUS_RING, Menu, type MenuGroup } from "../ui";
+import { FOCUS_RING, Hero, Menu, SectionLabel, type MenuGroup } from "../ui";
+import { photos } from "@/assets/fork/art";
 import { AppIcon } from "./AppIcon";
 import { AppPicker } from "./AppPicker";
 import { PresetCard } from "./PresetCard";
@@ -144,7 +145,7 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
     .join(", ");
 
   return (
-    <li>
+    <li className="relative -ms-2 first:ms-0">
       <Menu
         label={t("style.apps.menuLabel", { app: app.name })}
         groups={groups}
@@ -156,17 +157,20 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
             data-bundle-id={app.bundle_id}
             data-auto-send={app.auto_send}
             aria-label={t("style.apps.chipLabel", { app: label })}
-            title={app.ai_chat ? t("style.apps.aiChat") : undefined}
-            className={`flex cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface) py-1 ps-1 pe-3 text-[13px] text-(--wb-ink) hover:bg-(--wb-fill-hover) ${FOCUS_RING} ${app.installed ? "" : "opacity-70"}`}
+            title={
+              app.ai_chat ? `${app.name} · ${t("style.apps.aiChat")}` : app.name
+            }
+            className={`relative grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-transform duration-(--wb-dur-fast) hover:z-10 hover:scale-105 focus-visible:z-10 motion-reduce:transition-none ${FOCUS_RING} ${app.installed ? "" : "opacity-70"}`}
           >
-            <AppIcon bundleId={app.bundle_id} name={app.name} size={24} />
-            <span className="max-w-40 truncate">{app.name}</span>
+            <AppIcon bundleId={app.bundle_id} name={app.name} size={30} />
+            <span className="sr-only">{app.name}</span>
             {app.auto_send && (
-              <CornerDownLeft
-                size={14}
+              <span
                 aria-hidden="true"
-                className="text-(--wb-ink-2)"
-              />
+                className="absolute -end-0.5 -bottom-0.5 grid size-4 place-items-center rounded-full bg-(--wb-cream) text-(--wb-on-cream)"
+              >
+                <CornerDownLeft size={12} />
+              </span>
             )}
           </button>
         }
@@ -212,59 +216,68 @@ export function GroupTab({ group }: { group: StyleGroup }) {
 
   return (
     <div
-      className="flex flex-col gap-6 pt-5"
+      className="flex flex-col gap-6 pt-6"
       data-testid={`wb-style-group-${group}`}
     >
-      <p className="text-[13.5px] text-(--wb-ink-2)">
-        {t(`style.groups.${group}.description`)}
-      </p>
-
-      <section aria-labelledby={appsHeading} className="flex flex-col gap-2.5">
-        <h2
-          id={appsHeading}
-          className="text-[13px] font-semibold text-(--wb-ink)"
-        >
-          {t("style.apps.heading")}
-        </h2>
-        <ul
-          className="flex flex-wrap items-center gap-2"
-          aria-label={t("style.apps.listLabel", { group: groupName })}
-          data-testid="wb-style-apps"
-        >
-          {members.map((app) => (
-            <AppChip key={app.bundle_id} app={app} group={group} />
-          ))}
-          <li>
-            <Button
-              variant="secondary"
-              onClick={() => setPicking(true)}
-              data-testid="wb-style-add-app"
-              className="rounded-full! px-2.5! py-1.5!"
+      <Hero
+        id={`style-${group}`}
+        image={photos.style.src}
+        title={groupName}
+        body={t(`style.groups.${group}.description`)}
+        aside={
+          <section aria-labelledby={appsHeading}>
+            <h2 id={appsHeading} className="sr-only">
+              {t("style.apps.heading")}
+            </h2>
+            <ul
+              className="flex flex-wrap items-center justify-end gap-y-2"
+              aria-label={t("style.apps.listLabel", { group: groupName })}
+              data-testid="wb-style-apps"
             >
-              <Plus size={16} aria-hidden="true" />
-              <span>{t("style.apps.addShort")}</span>
-            </Button>
-          </li>
-        </ul>
-        {group === "other" && (
-          <p className="text-[12.5px] text-(--wb-ink-2)">
-            {t("style.apps.allOthers")}
-          </p>
-        )}
-        {status === "ready" && members.length === 0 && group !== "other" && (
-          <p
-            className="text-[12.5px] text-(--wb-ink-2)"
-            data-testid="wb-style-apps-empty"
-          >
-            {t("style.apps.empty")}
-          </p>
-        )}
-        {status === "unavailable" && (
-          <p role="alert" className="text-[12.5px] text-(--wb-ink-2)">
-            {t("style.apps.unavailable")}
-          </p>
-        )}
-      </section>
+              {members.map((app) => (
+                <AppChip key={app.bundle_id} app={app} group={group} />
+              ))}
+              <li className="relative -ms-2 first:ms-0">
+                <button
+                  type="button"
+                  onClick={() => setPicking(true)}
+                  data-testid="wb-style-add-app"
+                  aria-label={t("style.apps.addShort")}
+                  title={t("style.apps.addShort")}
+                  className={`grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 text-(--wb-on-hero) shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-colors duration-(--wb-dur-fast) hover:bg-white/25 ${FOCUS_RING}`}
+                >
+                  <Plus size={20} aria-hidden="true" />
+                </button>
+              </li>
+            </ul>
+          </section>
+        }
+      />
+
+      {(group === "other" ||
+        (status === "ready" && members.length === 0) ||
+        status === "unavailable") && (
+        <div className="-mt-2 flex flex-col gap-1">
+          {group === "other" && (
+            <p className="text-[13px] text-(--wb-ink-2)">
+              {t("style.apps.allOthers")}
+            </p>
+          )}
+          {status === "ready" && members.length === 0 && group !== "other" && (
+            <p
+              className="text-[13px] text-(--wb-ink-2)"
+              data-testid="wb-style-apps-empty"
+            >
+              {t("style.apps.empty")}
+            </p>
+          )}
+          {status === "unavailable" && (
+            <p role="alert" className="text-[13px] text-(--wb-ink-2)">
+              {t("style.apps.unavailable")}
+            </p>
+          )}
+        </div>
+      )}
 
       {siteMembers.length > 0 && (
         <section
@@ -272,12 +285,9 @@ export function GroupTab({ group }: { group: StyleGroup }) {
           className="flex flex-col gap-2.5"
           data-testid="wb-style-sites-section"
         >
-          <h2
-            id={sitesHeading}
-            className="text-[13px] font-semibold text-(--wb-ink)"
-          >
+          <SectionLabel id={sitesHeading}>
             {t("style.sites.heading")}
-          </h2>
+          </SectionLabel>
           <ul
             className="flex flex-wrap items-center gap-2"
             aria-label={t("style.sites.listLabel", { group: groupName })}
@@ -290,22 +300,19 @@ export function GroupTab({ group }: { group: StyleGroup }) {
         </section>
       )}
 
-      <section aria-labelledby={presetsHeading} className="flex flex-col gap-3">
-        <h2
-          id={presetsHeading}
-          className="text-[13px] font-semibold text-(--wb-ink)"
-        >
+      <section aria-labelledby={presetsHeading} className="flex flex-col gap-4">
+        <h2 id={presetsHeading} className="sr-only">
           {t("style.presetsHeading")}
         </h2>
-        <div className="flex flex-col gap-1">
-          <span className="text-[12px] font-medium text-(--wb-ink-2)">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="type-micro text-(--wb-ink-3)">
             {t("style.before")}
           </span>
           <p
             lang="en"
             dir="ltr"
             data-testid="wb-style-before"
-            className="text-start text-[13px] text-(--wb-ink-2) italic"
+            className="text-start text-[15px] text-(--wb-ink-2) italic"
           >
             {example.before}
           </p>
@@ -317,12 +324,13 @@ export function GroupTab({ group }: { group: StyleGroup }) {
           <legend className="sr-only">
             {t("style.presetsLegend", { group: groupName })}
           </legend>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-            {PRESETS[group].map((preset) => (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {PRESETS[group].map((preset, index) => (
               <PresetCard
                 key={preset}
                 preset={preset}
                 name={name}
+                index={index}
                 checked={current === preset}
                 example={example.after[preset] ?? ""}
                 onSelect={() => choose(preset)}
@@ -331,7 +339,7 @@ export function GroupTab({ group }: { group: StyleGroup }) {
           </div>
         </fieldset>
         <p
-          className="text-[12.5px] text-(--wb-ink-2)"
+          className="text-[13px] text-(--wb-ink-3)"
           data-testid="wb-style-english-note"
         >
           {t("style.englishOnly")}

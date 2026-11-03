@@ -175,6 +175,15 @@ class FakeDictionary {
   }
 }
 
+/** Picks a sort order in the page's Radix select (W2: was a native select). */
+async function pickSort(page: Page, value: string) {
+  await page.getByTestId("wb-dictionary-sort").click();
+  await page.getByTestId("wb-dictionary-sort-option-" + value).click();
+  await expect(
+    page.getByTestId("wb-dictionary-sort-option-" + value),
+  ).toHaveCount(0);
+}
+
 const dictTest = test.extend<{ dict: FakeDictionary }>({
   dict: async ({}, use) => {
     await use(new FakeDictionary());
@@ -411,14 +420,14 @@ dictTest.describe("dictionary page", () => {
         "Anna",
         "Siobhán",
       ]);
-      await page.getByTestId("wb-dictionary-sort").selectOption("az");
+      await pickSort(page, "az");
       expect(await phrases()).toEqual([
         "Anna",
         "Kubernetees",
         "Siobhán",
         "Zoë",
       ]);
-      await page.getByTestId("wb-dictionary-sort").selectOption("used");
+      await pickSort(page, "used");
       expect((await phrases())[0]).toBe("Anna");
 
       await page.getByTestId("wb-dictionary-search").fill("SIOBHAN");

@@ -523,12 +523,6 @@
         "banner": {
           "title": "Yazmak yerine konuşun",
           "body": "Herhangi bir uygulamada fn tuşunu basılı tutun, yazmak istediğinizi söyleyin ve bırakın. {{appName}}, temiz metni imlecinizin olduğu yere yazar.",
-          "examplesLabel": "Bunları deneyin",
-          "examples": {
-            "reply": "Bir mesaja hızlı yanıt",
-            "notes": "Görüşmeden hemen sonra notlar",
-            "prompt": "Yapay zekâ sohbeti için uzun bir istem"
-          },
           "quiet": "Sessizce dikte edin: Nasıl yapılacağını göster"
         },
         "empty": {
