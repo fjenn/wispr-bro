@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Panel pro ladění forku",
+    "description": "Vnitřní kontrola pro vrstvu Wispr Bro. Zobrazuje se pouze v debug verzi nebo při spuštění aplikace s --debug.",
+    "close": "Zavřít",
+    "runAgain": "Spustit znovu",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Stav modelu",
+      "notReady": "Ještě není připravený: aplikace ještě nebyla spuštěna."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Poslední událost ping",
+      "none": "Yetu nebyl přijat žádný událost."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "Čekám...",
+    "error": "Chyba: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
+      "title": "Zásada bezpečnosti obsahu",
+      "description": "Hraje zvukový soubor prostřednictvím protokolu asset, načte data: a blob: obrázky, volá příkaz fork a overí, že zakázaný obrázek je zablokován.",
+      "run": "Spustit kontrolu CSP",
+      "running": "Spouští se...",
+      "pass": "Prošlo: žádné nečekané porušení CSP.",
+      "fail": "Selhal: podívejte se na kontrolní body níže.",
       "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "failed": "neúspěšné ({{detail}})",
+      "noViolations": "Žádné porušení CSP nebylo zaznamenáno.",
+      "violations_one": "{{count}} zaznamenáno porušení CSP.",
+      "violations_other": "{{count}} zaznamenáno porušení CSP.",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "media": "Zvuk (protokol zdroje)",
+        "dataImage": "data: obrázek",
+        "blobImage": "blob: obrázek",
+        "forkCommand": "Příkaz rozdělení",
+        "probe": "Zablokováný zdroj"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "Odesílání za {{seconds}} s. Přepněte se na jiný program, abyste viděli oznámení macOS."
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "Aktualizace",
+      "version": "Verze",
+      "channel": "Kanál",
+      "key": "Klíč podpisu",
+      "endpoints": "Zdroje",
+      "checksOff": "Ověření aktualizací je vypnuto (Nastavení › Pokročilé, nebo je nastaven vypínač.)",
+      "check": "Zkontrolujte nyní",
+      "checking": "Zkontrolováno…",
+      "install": "Nainstalovat {{version}} a znovu spustit",
+      "installing": "Stahování a ověřování…",
+      "installed": "Nainstalováno {{version}}. Znovu spuštění…",
+      "available": "Je dostupné {{version}}.",
+      "upToDate": "Na nejnovější verzi.",
+      "failed": "Nelze zkontrolovat: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Nastavení rozvětvení",
+      "loading": "Načítání nastavení…",
+      "loadError": "Nemohu načíst nastavení: {{message}}",
+      "setError": "Tato změna nebyla uložena: {{message}}",
+      "contextAwareness": "Závislost na kontextu",
+      "contextAwarenessHint": "Používá názvy textu blízko kurzoru k správnému psaní. Tento text zůstává na tomto Macu a nikdy není uložen.",
       "transforms": "Transformace",
       "transformsHint": "⌥1 zjasňuje vybraný text a ⌥2 jej převede na jasnější AI prompt. Během povolení tyto klávesy nahrazují ¡ a ™.",
       "transformsSafeShortcuts": "Použít ⌃⌥1 a ⌃⌥2 náhradně",
       "transformsSafeShortcutsHint": "Udržuje ¡ a ™ k dispozici pomocí ⌥1 a ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Úroveň čištění",
       "levels": {
-        "none": "None",
+        "none": "Žádné",
         "light": "Light",
-        "medium": "Medium"
+        "medium": "Střední"
       },
-      "all": "All settings"
+      "all": "Všechny nastavení"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Obecné",
       "system": "Systém",
-      "vibe": "Vibe coding",
+      "vibe": "Kódování podle výsledku",
       "privacy": "Data a soukromí",
       "advanced": "Pokročilé",
       "about": "O",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Otevřít Příkazový panel v",
       "scratchpadHint": "Vyberte, kde se otevře Scratchpad při použití jeho zkratky.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Pokračovat v minulém poznámce",
+        "new_note": "Začít nový poznámku"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro může číst názvy kódu a názvy souborů, které ukazuje VS Code, Cursor a Windsurf na obrazovce, prostřednictvím Přístupnosti. Nikdy neotevře vaši složku s projektovým dokumentem ani vaše soubory.",
+      "contextOff": "Přizpůsobení kontextu je vypnuto, takže tyto funkce nemají nic na čtení. Zapněte jej, abyste je použili.",
+      "recognize": "Zpřesnit názvy kódů",
+      "recognizeHint": "Když říkáte název proměnné nebo funkce, který je viditelný v editoru, bude psaný tak, jak to má váš kód, například getUserById nebo user_id.",
+      "setUp": "Nastavit",
+      "change": "Změnit editory",
+      "setUpFor": "Nastavit pro {{editors}}",
+      "fileTags": "Označit soubory v chatu",
+      "fileTagsHint": "V mluvě Cursor nebo Windsurf, řeknutí \"index dot ts\" zapisuje @index.ts, když je tento soubor otevřen v záložce nebo zobrazen v seznamu souborů.",
+      "fileTagsNeedsChat": "Dostupné po přidání Cursor nebo Windsurf do vašich editátorů.",
+      "fileTagsNeedsSetup": "Dostupné po nastavení rozpoznávání názvů kódu.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Nastavit rozpoznávání názvu kódu",
+        "stepEditors": "1. Vyberte editory, které používáte",
+        "stepScreenReader": "2. Zapněte režim čtečky pro text v každém z nich, aby sdílely svůj text s Wispr Bro",
+        "openSettings": "Otevřít nastavení editora s ⌘ komma.",
+        "search": "Hledat \"pomoc pro přístupnost\".",
+        "setOn": "Nastavit Editor: Podpora přístupnosti na \"on\".",
+        "palette": "Můžete také spustit \"Přepnout přístupnost pro čtečku obrazovky\" z panelu příkazů (⇧⌘P).",
+        "confirm": "Zapnul jsem režim čtečky pro tato editory",
+        "cancel": "Storno",
+        "finish": "Dokončit nastavení"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Soukromé od začátku",
+        "local": "Vaše dictace a data zůstávají na tomto Macu.",
+        "noCloud": "Překlad, čistění a historie probíhají místně. Neexistuje žádný účet, telemetrie, cloud dictation nebo cloud čistění.",
+        "networkIntro": "Wispr Bro používá síť pouze pro tyto dva věci:",
+        "models": "Stáhni modely hlasu a čistění z Hugging Face (huggingface.co).",
+        "updates": "Při zapnutých kontrolách aktualizací hledáme aktualizace aplikace na GitHub (github.com)."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Kde se vaše data nachází",
+        "hint": "Tyto složky patří do Wispr Bro. Přesunuté instalace uchovávají všechny v appově Data složce.",
+        "data": "Data a nastavení aplikace",
+        "models": "Stažené modely",
+        "recordings": "Záznamy",
+        "logs": "Logy a zprávy o chybách",
+        "show": "Zobrazit v Finderu",
+        "loading": "Hledání...",
+        "failed": "Nemohu otevřít tento složku. Zkuste to znovu."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Jak dlouho uchovávat historii",
+        "textLabel": "Uchovat dictovaný text",
+        "textHint": "Starší záznamy jsou automaticky odstraněny. Text je výchozím nastavením uložen vždy.",
+        "audioLabel": "Uchovávat záznamy",
+        "audioHint": "Zvuk vyprší po 14 dnech výchozí hodnotou. Odstranění zvuku zachovává text, který byl předpovězen, až dosáhne limitu textu.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Audio nikdy neuchovat",
+          "1": "1 den",
+          "7": "7 dní",
+          "14": "14 dní",
+          "30": "30 dní",
+          "90": "90 dní",
+          "365": "1 rok",
+          "forever": "věčně"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Volby soukromí",
+        "context": "Použít vědomí kontextu",
+        "contextHint": "Přečti si jen text vedle sebe při psaní, abys získal jména a pravopis. Kontext není ukládán ani zaznamenáván.",
+        "updates": "Zkontrolovat aktualizace aplikace",
+        "updatesHint": "Kontaktujte GitHub, abyste zkontrolovali novou verzi. Žádná dictace nebo osobní data není odesílána.",
+        "learn": "Učit se z mého opravování",
+        "learnHint": "Po zkopírování dictace si poznáte slova, která upravíte v tomto textu, a doporučíte je v Slovníku. Uchovává se pouze opravené slovo; zbytek textu se nikdy nepřejevuje ani nezaznamenává."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Vaše data",
+        "hint": "Exportujte soubor zip s historiem, nastaveními a záznamy. Modely a logy nejsou zahrnuty.",
+        "button": "Výstup mé data",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Archiv ZIP",
+        "done": "Export byl uložen a zobrazen v Finderu.",
+        "failed": "Nemohu exportovat vaše data. Nic nebylo smazáno."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Odstranit všechna mé data",
+        "title": "Odstranit všechna data?",
+        "warning": "Toto trvalé smaže historii, záznamy, nastavení, logy a zprávy o chybách. To nemůže být navráceno.",
+        "relaunch": "Wispr Bro zastaví svou činnost, smaže data a znovu spustí do onboardingu.",
+        "models": "Odebrat i stáhnuté modely",
+        "modelsHint": "Zůstaňte to vypnuto, aby se vyhnuli stahování modelů hlasu a čištění.",
+        "confirmLabel": "Zadej {{word}} pro potvrzení",
+        "cancel": "Storno",
+        "confirm": "Vše smazat",
+        "failed": "Odstranit vše nebylo dokončeno. Zkontrolujte zbylé data před opakováním."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Zprávy o chybách a diagnostika",
+        "hint": "Zprávy o chybách zůstávají na tomto Macu a nikdy nejsou odesílány. Kopírujte nebo ukládejte diagnózy pouze v případě, že je potřeba je sdílet.",
+        "sanitized": "Diagnostika odstraňuje dictovaný text, otázky, slova slovníku, e-mailové adresy, klávesy a cestu k domovnímu složce.",
+        "copy": "Zkopírovat diagnostiku",
+        "save": "Uložit diagnostiku…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Zřízení diagnostiky bylo zkopírováno.",
+        "saved": "Uloženo čisté diagnostické data.",
+        "failed": "Nemohu připravit diagnózy. Zkuste to znovu."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Verze {{version}}",
       "source": "Zobrazit zdrojový kód",
       "updates": "Poznámky k aktualizaci",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Aktualizace",
+      "license": "Zdarma dostupné software pod licencí GNU General Public License, verze 3 (GPL-3.0).",
+      "licenseLink": "Zobrazit licenci",
+      "credit": "Vytvořeno na Handy od CJ Pais, použito pod licencí MIT. Děkujeme všem, kteří na něm pracují.",
+      "creditLink": "Handy na GitHubu",
+      "supportTitle": "Podpora vývoje",
+      "supportBody": "{{appName}} nemá platný plán. Nejlepší podpora je bug report, návrh nebo příspěvek na GitHubu."
     },
     "hotkeys": {
       "open": "Zkratky",
@@ -412,7 +412,7 @@
           "view_changes": "Zobrazit změny převodu"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Otevřít Scratchpad"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Prohlédněte si nejnovější transformaci před a po."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Pokračujte v posledním poznámce nebo začněte novou podle nastavení Scratchpadu."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Hlavní"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Zkrátit panel",
+      "expand": " Rozbalit panel"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Přepnout na tmavý vzhled",
+      "toLight": "Přepnout na světlé zobrazení"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Oznámení",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Žádné nové",
+        "body": "Zde se objeví aktualizace a tipy."
       },
       "bellUnread_one": "Upozornění, {{count}} nečtená",
       "bellUnread_other": "Upozornění, {{count}} nečtená",
@@ -485,65 +485,65 @@
       "justNow": "Před chvílí"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "Podpora",
+      "updates": "Aktualizace",
+      "whatsNew": "Co je nové",
+      "essentials": "Základní",
+      "shortcuts": "Zkratky",
+      "microphone": "Mikrofon",
+      "languages": "Jazyky",
+      "documentation": "Dokumentace",
+      "getInTouch": "Stáhni se",
+      "reportProblem": "Odeslat zprávu o chybě…",
+      "sendFeedback": "Odeslat zpět vývojové návrhy",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Odeslat zprávu o chybě",
+        "body": "Toto otevře nový problém na GitHubu v prohlížeči, kde bude vyplněna verze vašeho aplikace a model Mac. Obsahuje všechno, co jste řekli, a můžete si to přečíst a upravit před odesláním.",
+        "diagnosticsTitle": "Diagnostika (volitelné)",
+        "diagnosticsBody": "Očištěné logy pomáhají určit příčinu. Nekoná zahrnují žádné vaše dictace. Skopírujte je sem a vložte do problému.",
+        "copy": "Zkopírovat diagnostiku",
+        "copied": "Diagnostiky byly zkopírovány. Vložte je do problému.",
+        "copyFailed": "Nemohu diagnostiky zkopírovat.",
+        "open": "Otevřít GitHub",
+        "cancel": "Storno",
+        "close": "Zavřít"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Oddíly nastavení"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "Dictace",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Mluvte namiesto psaní",
+          "body": "Držte tlačítko fn v jakékoliv aplikaci, řekněte si, co chcete napsat, a uvolněte. {{appName}} umíš text v místě kurzoru.",
+          "examplesLabel": "Věci k zkušení",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Rychlá odpověď na zprávu",
+            "notes": "Poznámky hned po zavolání",
+            "prompt": "Dlouhý prompt pro AI chat"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Vaše dictace se zobrazí sem",
+          "body": "Každý je uložen na tomto Macu spolu s hlasovým záznamem, takže můžete jej později zkopírovat nebo zkontrolovat.",
+          "action": "Otevřít historii"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Závěry",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Závěry potřebují několik dictací",
+          "body": "Rychlost vašeho hlasu, počet pokračování a čas, který ušetříte, se objeví po dlouhém čase hlasového záznamu.",
+          "action": "Pojďte k dictaci"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Slovník",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "Snipky",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Snipky jsou už k dispozici",
+          "body": "Řekněte krátký pokyn, jako \"moje adresa\" a získejte celý text. Tato stránka bude k dispozici v následujícím aktualizaci.",
+          "action": "Pojďte k Dictaci"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Styl",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Stylizace je na cestě",
+          "body": "Vyberte, jak přesně a profesionálně má být vaše textová zpráva v každé aplikaci, od formálního e-mailu až po příjemný rozhovor. Tato stránka bude k dispozici v následujícím aktualizaci.",
+          "action": "Přejít na Dictation"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Transformace",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Transformace jsou na cestě",
+          "body": "Vyberte text a ho přepište jedním klávesovým zkratkou: kratší, jasnější nebo lépe uspořádaný. Tato stránka bude k dispozici v následujícím aktualizaci.",
+          "action": "Pojďte k Dictaci"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Plocha pro návrh je už k dispozici",
+          "body": "Rychlé místo pro zaznamenání poznámek, než se dostanou někam jinde. Tato stránka bude v příštím aktualizaci.",
+          "action": "Přejít k Dictaci"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Sdílej s přítelem"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Nastavení"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Ukaž mi"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Ověření aktualizací vypnuto",
+      "turnOn": "Zapnout",
+      "notChecked": "Ještě nebylo zkontrolováno",
+      "check": "Zkontrolovat aktualizace",
+      "checking": "Zkontrolování aktualizací…",
+      "upToDate": "Aktuální",
+      "checkAgain": "Zkontroluj znovu",
+      "checkFailed": "Nemohu zkontrolovat",
+      "retry": "Zopakovat",
+      "downloading": "Stahuji {{version}}…",
+      "ready": "Aktualizace je připravena",
+      "restartNow": "Začněte nyní",
+      "installing": "Nainstalování {{version}}…",
+      "installedWaiting": "Nainstalováno {{version}} · po restartu po této dictaci",
+      "restarting": "Zapínání…",
+      "installFailed": "Aktualizace se nepodařilo nainstalovat",
+      "busy": "Dokončete dictaci nejprve.",
+      "actionFailed": "To nevyšlo. Zkus to později.",
+      "lastChecked": "Poslední kontrola {{time}}.",
+      "paused": "Po třech neúspěšných pokusech jsou automatické aktualizace zastaveny až do {{time}}.",
+      "manualOnly": "Toto je vývojová verze: aktualizace jsou kontrolovány pouze v případě, že to požádáte.",
+      "readyHint": "Instaluje se samostatně, až budeš nevyužívat dictaci 20 minut nebo když ukončíš dictaci.",
+      "policy": "Aktualizace se stahují v pozadí a nainstalují pouze v době, kdy neříkáte, nebo kdy zavřete aplikaci.",
+      "needsPassword": "Tato verze aplikace je uložena v složce, která vyžaduje administrátorové heslo pro změnu, proto se aktualizace nainstalují pouze v případě, že vyberete Uspět nyní."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Nové!",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Zavřít"
     },
     "importWizard": {
       "stepsLabel": "Kroky importu",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
+      "dictation": "Dictace",
+      "vocabulary": "Slovníček",
       "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
-      "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "file": "Soubor",
+      "edit": "Upravit",
+      "view": "Zobrazit",
+      "window": "Okno",
+      "wordsDictated_one": "{{count}} slovo předáno",
+      "wordsDictated_other": "{{count}} slov předáno",
+      "copyLast": "Zkopírovat poslední transkript",
+      "copyLastPreview": "Zkopírovat poslední transkript: \"{{preview}}\"",
+      "copyLastConcealed": "Zkopírovat poslední transkript (text skrytý)",
+      "microphone": "Mikrofon",
+      "languages": "Jazyky",
+      "moreLanguages": "Přidat nebo odstranit jazyky…",
+      "automaticMicrophone": "Automatické detekce (nastavení systému)",
+      "noMicrophones": "Nenalezeny žádné mikrofony",
+      "dictionaryWords_one": "{{count}} slovo v slovníku",
+      "dictionaryWords_other": "{{count}} slova v slovníku",
+      "snippetCount_one": "{{count}} příkladu",
+      "snippetCount_other": "{{count}} úseky",
+      "addWord": "Přidat slovo…",
+      "newSnippet": "Nový snippet…",
+      "documentation": "Dokumentace",
+      "shortcuts": "Zkratky",
+      "reportProblem": "Odeslat problém…",
+      "sendFeedback": "Odeslat zpět výsledky…",
+      "openApp": "Otevřít {{appName}}",
+      "checkUpdates": "Zkontrolovat aktualizace…",
+      "pasteLast": "Vložit poslední transkript",
+      "cancelDictation": "Storno dictace",
+      "shortcutsBlocked": "Zkratky blokovány — otevřít Nastavení",
+      "undo": "Zpět",
+      "redo": "Zpět",
+      "cut": "Vyjmout",
+      "copy": "Zkopírovat",
+      "paste": "Vložit",
+      "selectAll": "Vybrat vše",
+      "minimize": "Zmenšit",
+      "zoom": "Zvětšení",
+      "closeWindow": "Zavřít okno",
+      "fullScreen": "Začít v plném rozlišení",
+      "services": "Služby",
+      "hideOthers": "Skrýt ostatní",
+      "showAll": "Zobrazit vše",
+      "about": "O {{appName}}",
+      "hide": "Skryj {{appName}}",
+      "quitApp": "Ukončit {{appName}}",
+      "restartToUpdate": "Začít znovu pro aktualizaci na {{version}}",
+      "updatesOff": "Ověření aktualizací je vypnuto…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Zkratka už nefunguje"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -744,14 +744,14 @@
         "tab": "Tab",
         "delete": "Delete",
         "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
-        "pageUp": "Page Up",
-        "pageDown": "Page Down",
+        "left": "Tlačítko levé šipky",
+        "right": "Pravý šipka",
+        "up": "Střelka nahoru",
+        "down": "Střela dolů",
+        "home": "Domů",
+        "end": "Konec",
+        "pageUp": "Stránka nahoru",
+        "pageDown": "Stránka dolů",
         "mouseLeft": "Levé tlačítko myši",
         "mouseRight": "Pravé tlačítko myši",
         "mouseMiddle": "Prostřední tlačítko myši",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "Dictáto",
+          "tooltip": "Držte fn pro předání"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Mikrofon se odpojil. Co jsi řekl, je uloženo.",
         "undo": "Zpět je na diktovací liště 4 sekundy.",
         "diff": "Změny pro transformaci jsou připraveny k prohlídce.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Bezpečné vstupní data jsou zapnuty. fn a Space nemohou uzamknout dictaci. Escape nebo tlačítko ukončení stále zruší."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Vyberte 6 000 znaků nebo méně",
         "transform_focus_moved": "Přesunul jsi, takže se nic nezměnilo",
         "transform_failed": "Nemohu převést tento text",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Váš klávesový zkrat ztratil funkci",
+        "shortcut_stopped": "Váš klávesový zkrat zastavil reakci",
+        "shortcut_back": "Váš klávesový zkrat funguje znovu"
       },
       "card": {
         "no_text_field": "Nejprve klikněte do položky textu",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} je zadarmé dictování, které běží kompletně na vašem Macu. Stačí to zde:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Další krok",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Otevřít chat s umělou inteligencí, jako je ChatGPT nebo Claude",
+        "note": "Otevři svůj aplikaci Poznámky",
+        "message": "Otevřít chat, jako jsou Messages nebo Slack",
+        "email": "Otevřít e-mail",
+        "comment": "Otevřít příspěvek, na který chcete napsat komentář",
+        "document": "Otevřít dokument, do kterého psíš",
+        "coding": "Otevřít Cursor, VS Code nebo jiný editor kódu"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Klikněte tam, kde chcete psát, pak stiskněte tlačítko fn a řekněte.",
+      "howFallback": "Klikněte tam, kde chcete psát, pak držte Ctrl a Opt a řekněte.",
+      "escape": "Stiskněte Esc, abyste zavřeli tento tip."
     }
   },
   "speechModels": {
     "title": "Modely řeči",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} vybírá model řeči pro vaše jazyky a tento Mac a při vhodném okamžiku nahrazuje lepší model. Není třeba nic vybírat.",
     "loading": "Zkontrolování mluvených modelů…",
     "current": "Aktuálně používáno: {{name}}",
     "none": "Žádný model řeči ještě nebyl nainstalován",
@@ -1087,7 +1087,7 @@
       "edit": "Upravit {{entry}}",
       "delete": "Odstranit {{entry}}",
       "accept": "Přidej {{entry}} do svého slovníku",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Nepřijmout {{entry}}"
     },
     "source": {
       "import": "Importované",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Zatím žádné doporučení",
       "body": "Když {{appName}} získá z výsledků, které opravíte, objeví se sem pro vaši schválení.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Oprav chybné jméno nebo výraz v poli po dictaci, pak stiskni Enter, Tab nebo přejdi dál. Slovo, které jsi opravil, se zobrazí sem, abys mohl potvrdit."
     },
     "noMatch": {
       "title": "Nic neodpovídá",
@@ -1191,7 +1191,7 @@
         "replaced_other": "{{count}} nahrazeno verzi souboru",
         "skipped_one": "{{count}} už je zde, přeskočeno",
         "skipped_other": "{{count}} už je zde, přeskočeno",
-        "kept_one": "{{count}} conflict kept as it was",
+        "kept_one": "{{count}} konflikt ponechán beze změny",
         "kept_other": "{{count}} konfliktů byl uchován, protože byl uveden",
         "invalid_one": "Nelze naimportovat {{count}} řádek",
         "invalid_other": "Nelze naimportovat {{count}} řádků",
@@ -1206,11 +1206,11 @@
       "done_other": "Exportováno {{count}} záznamů.",
       "failed": "Slovník se nepodařilo exportovat. Zkuste to prosím znovu."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "„{{entry}}“ už nebude navržen.",
+    "actionFailed": "To nevyšlo. Zkuste to prosím znovu.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Učit se z mého opravení",
+      "hint": "Po 30 sekundách po vložení dictace si {{appName}} všimne slov, která jste tam opravili, a navrhuje je sem. Uchovává se pouze slovo, které jste opravili, nikoli zbytek textu. Pole pro hesla, správce hesel, bankovní aplikace a terminály se nikdy nepřečtou."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Blízký text pomohl s psaním",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Ztracen mikrofon, udržuji to, co jsi řekl",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Bezpečné vstupní data jsou zapnuty · fn+Space nemůže uzamknout · Esc nebo ✕ zruší",
+      "secure_input_app": "{{app}} má Bezpečné vstupní data · fn+Space nemůže uzamknout · Esc nebo ✕ zruší"
     },
     "settingUp": "Nastavuje se…",
     "settingUpPercent": "Nastavuje se… {{percent}} %",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Zobrazit změny",
     "sendsAutomatically": "Odesílá se automaticky",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Přístup k přístupnosti je vypnutý",
+      "stopped": "Naslouchací klávesnice byla zastavena"
     }
   },
   "transforms": {
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Nový poznámka",
+    "preferences": "Preferencie Scratchpadu",
+    "addToBar": "Přidat do palety",
+    "addToBarHelp": "Udržet tlačítko Scratchpad vedle Dictate na paletě při klidovém stavu.",
+    "recents": "Nové",
+    "searchLabel": "Hledat poznámky",
+    "searchPlaceholder": "Hledej svoje poznámky",
+    "loading": "Načítání poznámek…",
+    "empty": "Žádné poznámky ještě",
+    "emptyHelp": "Začni poznámku a napiš nebo předpověz do jejího pohyblivého okna.",
+    "emptyNote": "Prázná poznámka",
+    "noResults": "Žádné poznámky neodpovídají vaší hledání.",
+    "untitled": "Zápis bez názvu",
+    "pinned": "Připevněné",
+    "pin": "Připejnout poznámku",
+    "unpin": "Odezvá se poznámka",
+    "editAction": "Upravit poznámku",
+    "edit": "Upravit {{name}}",
+    "delete": "Smazat poznámku",
+    "deleteConfirm": "Smazat „{{name}}“? To nelze vrátit zpět.",
+    "error": "Nelze dokončit tuto akci. Vaše aktuální text je stále zde; zkuste to znovu.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "Otevřít zkratku",
+      "change": "Nastavit klávesový základ",
+      "title": "Zkratka pro poznámku",
+      "help": "Otevřít Scratchpad z kteréhokoli místa. Začíná bez nastavení, takže nepřerušuje klávesy, dokud si nevybereš jednu.",
+      "close": "Zavřít zkratku dialogu",
+      "proposed": "Navrhnutá kombinace",
+      "ctrlOptionS": "Control + Alt + S",
+      "use": "Použít Ctrl + Alt + S",
+      "chooseAnother": "Vyber jiný zkratka",
+      "error": "Tento zkratka se nepodařilo uložit. Zkuste jinou kombinaci."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
+    "tabs": "Otevřít poznámky",
+    "tools": "Poznámky nástroje",
+    "sidebar": "Zobrazit seznam poznámek",
     "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "polishing": "Lepení…",
+    "textSize": "Změnit velikost textu (aktuálně {{size}} bodů)",
+    "expand": " Rozšířit okno poznámky",
+    "shrink": "Obnovit velikost poznámkového okna",
+    "close": "Zavřít Scratchpad",
+    "noteBody": "Text poznámky",
+    "notePlaceholder": "Napiš nebo přečti poznámku…",
+    "saved": "Uloženo",
+    "saving": "Ukládám...",
+    "saveError": "Ještě nebylo uloženo",
+    "autosaveHelp": "Ukládá se automaticky",
+    "copy": "Zkopírovat",
+    "copied": "Zkopírováno"
   },
   "style": {
     "tabsLabel": "Skupiny stylů",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Nastavujeme věci...",
+    "back": "Zpět",
+    "continue": "Pokračovat",
+    "yes": "Ano",
+    "no": "Žádný",
+    "downloadHint": "Nastavení mluveného textu pokračuje v pozadí. Tu nemusíte čekat.",
+    "navigationFailed": "Tento krok se nepodařilo uložit. Zkuste to znovu.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Postup nastavení",
+      "welcome": "Vítejte",
+      "permissions": "Oprávnění",
+      "setup": "Nastavení",
+      "practice": "Procvičovat",
+      "done": "(hotovo)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Pomoc",
+      "title": "Pomoc při nastavení",
+      "close": "Zavřít pomoc",
+      "done": "Pořád je",
+      "body": "Každý krok trvá několik vteřin. Vždy můžete vrátit zpět a pokud zastavíte, nastavení pokračuje od místa, kde jste zastavili.",
+      "download": "Wispr Bro nakonfiguruje poznávání hlasu na tomto Macu během těchto kroků. Vše, co řekneš předtím, než bude připraven, bude uloženo a přepsáno, jakmile bude připraveno."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Řekni, a tvé slova se objeví",
+      "subtitle": "Držte jednu klávesu, řekněte, uvolněte. Čistý text se objeví tam, kde psát.",
+      "privacyTitle": "Vše zůstává na tomto Macu",
+      "privacy": "Vaši hlas a text nikdy neopouští tento počítač. Bez účtu, bez cloudu, bez sledování.",
+      "download": "Nastavení mluveného textu začíná nyní a běží v pozadí.",
+      "start": "Začněte"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Přesuď Wispr Bro do Aplikací",
+      "body": "Wispr Bro běží mimo vaši složku Applications. Přesunutí jej do této složky zajistí správné aktualizace a oprávnění.",
+      "note": "Wispr Bro se samostatně znovu otevře po přesunutí a pokračuje v nastavování.",
+      "action": "Přesunout do Aplikací",
+      "moving": "Přesouvám...",
+      "skip": "Nezajímá mě teď",
+      "error": "Wispr Bro nemohl přesunout samostatně. Přetáhni jej do aplikací v Finderu a znovu ho otevři."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Které jazyky mluvíte?",
+      "subtitle": "Vyberte každý jazyk, ve kterém budete říkat. Wispr Bro vám lépe vyřadí slova, když je zná.",
+      "listLabel": "Jazyky",
+      "noMatch": "Žádný jazyk neodpovídá „{{query}}“.",
+      "count_one": "Dictace funguje v {{count}} jazyce. Můžete změnit ji později v Nastavení.",
+      "count_other": "Dictace funguje v {{count}} jazycích. Můžete změnit jazyk později v Nastavení.",
+      "weak_one": "Závislost na přesnosti je nižší v {{languages}}. Funkce stále funguje, ale očekávejte více chyb.",
+      "weak_other": "Závislost na rozpoznávání je méně přesná v {{languages}}. Stále fungují, ale očekávejte více chyb."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Dva oprávnění",
+      "subtitle": "macOS vás požádá o povolení těchto položek jednou. Každá řádková položka se označí, jakmile je zapnutá.",
+      "allowed": "Povoleno",
+      "waiting": "Čekání na macOS…",
+      "openSettings": "Otevřít nastavení systému",
+      "prompt": "Upozornění macOS",
+      "pane": "V nastavení systému",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "Mikrofon",
+        "why": "Takže Wispr Bro může slyšet, když držíš klíč. Zvuk je zpracováván pouze na tomto Macu.",
+        "action": "Povolit mikrofon",
+        "promptAlt": "Obrázek upozornění mikrofonu macOS s výrazem Povolit vybraný",
+        "paneAlt": "Obrázek nastavení systému, soukromí a bezpečnost, mikrofon, s vypnutým vypínačem pro Wispr Bro",
+        "waitingHelp": "Klikněte na \"Povolit\" v upozornění macOS. Pokud to nevidíte, otevřete System Settings a zapněte Wispr Bro pod mikrofonem."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Přístupnost",
+        "why": "Takže může Wispr Bro poznat vaše klávesové zkratky a zápis textu do aplikace, kterou používáte.",
+        "action": "Povolit přístupnost",
+        "promptAlt": "Obrázek upozornění přístupnosti macOS s výrazně zvýrazněným tlačítkem Otevřít nastavení systému",
+        "paneAlt": "Obrázek Nastavení systému, Soukromí a bezpečnost, Přístupnost, s vypnutým vypínačem pro Wispr Bro",
+        "waitingHelp": "V nastavení systému přepněte přepínač vedle Wispr Bro. Může být třeba zadejte své heslo."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Testujte svůj mikrofon",
+      "guidance": "Připojené a vnitřní mikrofony pracují nejlepší. Bluetooth mikrofony mohou ztratit spojení nebo zvuk být znečištěn.",
+      "question": "Pohybují se čáry, když mluvíš?",
+      "noHelp": "Vyberte jiný mikrofon níže, pak řekněte znovu.",
+      "change": "Změnit mikrofon",
+      "previewList": "Vaše mikrofony se zobrazí zde."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Zkuste svůj zkratku",
+      "instruction": "Stiskněte a držte klávesu fn (🌐) na vašem klávesnici. Klávesa pod ní se zapnou, zatímco ji držíte.",
+      "fallbackInstruction": "Stiskněte a držte současně Control a Option. Klávesy níže se zapnou, zatímco je držíte.",
+      "unboundInstruction": "Žádný zkratka pro dictaci není nastaven. Použijte Upravit zkratku k vybrání jedné.",
+      "keyLabel": "Tlačítko fn",
+      "fallbackKeyLabel": "Ovládání a Alt",
+      "pressed": "Tlačítko drženo",
+      "notPressed": "Čekám na klávesu…",
+      "worked": "To funguje. Klíč svítí.",
+      "question": "Zapálil se klíč?",
+      "edit": "Upravit zkratku",
+      "tryAgain": "Zkus to znovu",
+      "otherCauses": "Ne, ne? Další možné příčiny:",
+      "changeFailed": "Tento změna nebyla provedena. Zkuste to znovu nebo použijte Nastavení systému.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro nemůže vidět stisknutí kláves",
+          "title": "Wispr Bro nemá zatím možnost vidět stisknutí kláves",
+          "body": "To znamená obvykle, že pro Wispr Bro není zapnuta přístupnost. Zapněte ji v Nastavení systému a pak se vrátte a stiskněte Opakovat.",
+          "action": "Otevřít nastavení přístupnosti"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Pole pro heslo nebo jiný program blokuje klávesy",
+          "title": "Jiný program zablokuje stisk kláves",
+          "body": "Při zobrazení pole pro heslo nebo některých aplikací (správce hesel, bezpečný klávesní vstup v Terminalu) skrývá macOS stisky kláves z ostatních aplikací. Zavřete nebo klikněte na jiné okno, pak zkuste to znovu.",
+          "active": "Teď blokuje jiné aplikace stisky kláves.",
+          "inactive": "Nic nezadnívá klávesové stisky v současnosti."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "Tlačítko 🌐 otevře ikony nebo přepne klávesnici",
+          "title": "macOS přiřadí klávesě 🌐 svůj vlastní úkol",
+          "body": "Vaše Mac otevře emoji, přepne zdroj vstupu nebo spustí Apple dictaci, když stisknete 🌐. Wispr Bro může nastavit \"Stiskněte klávesu 🌐, abyste udělali nic.\" Vaše volba bude vrácena, pokud zastavíte použití fn pro dictaci.",
+          "consent": "Nastavit 🌐 na Nic",
+          "changed": "🌐 nyní nic samostatně neudělá",
+          "open": "Otevřít nastavení klávesnice"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Máme klávesnici bez klávesy fn",
+          "title": "Použijte Control a Option nástroj",
+          "body": "Některé klávesnice nemají klávesu fn nebo 🌐. Zdržte Control a Option spolu, abyste mohli říkat. Tuto volbu můžete vždy změnit v Nastavení.",
+          "action": "Použijte Control + Option",
+          "changed": "Ovládání + Alt je vaše zkratka"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Procvičení: napiš e-mail bez ruky",
+      "instruction": "Stiskněte fn a prostor, pak řekněte. Není třeba nic držet. Stiskněte fn znovu, když budete hotovi. Zkusit: \"Ahoj Sam, děkuji za poznámky. Můžeme se setkat na středu v deset?\"",
+      "instructionFallback": "Stiskněte Control, Option a Prostor, pak řekněte. Není třeba držet žádný tlačítko. Stiskněte opět Control a Option, když budete hotovi. Zkusit: \"Ahoj Sam, děkuji za poznámky. Můžeme se setkat na středu v deset?\"",
+      "instructionUnbound": "Žádný zkratka pro dictaci není nastaven, protože tento cvičení nemůže začít. Přeskočit ho na chvíli a nastavit zkratku v Nastavení.",
+      "skip": "Přeskočit",
+      "waiting": "Čekám, až začneš mluvit…",
+      "listening": "Slyšení… stiskněte fn, když to bude hotovo.",
+      "listening_fallback": "Slyšení… stiskněte Control a Option, když to bude hotovo.",
+      "working": "Psaní toho do zápisu…",
+      "settingUp": "Nastavování…",
+      "settingUpPercent": "Nastavování… {{percent}}%",
+      "queuedNote": "Vaše slova jsou uložena. Zobrazí se zde až po dokončení nastavení a v historii je vždy. Přejdeme dál sami za chvíle.",
+      "nothing": "Nic se nepřijalo. Zkontrolujte, zda je vaši mikrofon zapnuty a zkuste to znovu.",
+      "filled": "To je tvá e-mailová adresa. Přidej více, nebo pokračuj.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Nové zprávy",
+        "to": "K",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "Záhlaví",
+        "subjectText": "Středa",
+        "body": "Zpráva",
+        "placeholder": "Tvoje slova se zobrazí zde."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "To je vše. Napsal jste svůj první text.",
+      "subtitle": "Kdekoliv můžete psát, můžete nyní říkat."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Dictace může ušetřit přibližně {{hours}} hodiny týdně",
+      "headline_other": "Dictace by mohla ušetřit uživatelského přibližně {{hours}} hodin týdně",
+      "intro": "Hovor je rychlejší než psaní pro většinu lidí. Zkuste si 30-secondní test psaní, abyste viděli, kolik času by vám to mohlo ušetřit.",
+      "howFast": "Jak rychle psát?",
+      "skipTest": "Test přeskočit",
+      "basisMeasured": "Založeno na vašem {{wpm}} slov za minutu psaní a mluvení přibližně {{speaking}} slov za minutu.",
+      "basisAverage": "Založeno na průměrné rychlosti psaní {{wpm}} slov za minutu a mluvení přibližně {{speaking}} slov za minutu.",
+      "sliderLabel": "Jak dlouho psíš každý den?",
+      "hoursPerDay_one": "{{hours}} hodiny denně",
+      "hoursPerDay_other": "{{hours}} hodin denně",
+      "takeTest": "Zapiš si test"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "Jak rychle psát?",
+      "instruction": "Napište níže uvedený text tak, jak byste to dělali běžně. Hodina začne s vaším prvním klávesou a bude trvat {{seconds}} sekund.",
+      "skip": "Přeskočit",
+      "language": "Jazyk",
+      "wpmPending": "— slova za minutu",
+      "wpm_one": "{{count}} slova za minutu",
+      "wpm_other": "{{count}} slov za minutu",
+      "secondsLeft_one": "Zbylý {{count}} sekund",
+      "secondsLeft_other": "Zbývá {{count}} sekund",
+      "inputLabel": "Zadejte paragraf zde",
+      "placeholder": "Začněte psát zde…",
+      "nothing": "Nic neodpovídá paragrafu. Zkuste to znovu.",
+      "result_one": "Typujete přibližně {{count}} slov za minutu.",
+      "result_other": "Typujete přibližně {{count}} slov za minutu.",
+      "tryAgain": "Zkuste to znovu",
+      "recalculate": "Znovu vypočítej"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "Je vše hotové",
+      "subtitle": "Zde je, jak je Wispr Bro nastaven. Udržujte klávesový zkrat v jakékoliv aplikaci pro převod mluvy.",
+      "languages": "Jazyky",
+      "shortcut": "Zkratka",
+      "shortcutFn": "Držte tlačítko fn (🌐)",
+      "shortcutFallback": "Držte klávesy Control a Option",
+      "microphone": "Mikrofon",
+      "micDefault": "Výchozí mikrofon Maca",
+      "typing": "Rychlost psaní",
+      "typingWpm_one": "{{count}} slova za minutu",
+      "typingWpm_other": "{{count}} slov za minutu",
+      "typingSkipped": "Neměřeno",
+      "notSet": "Není nastaveno",
+      "launchAtLogin": "Otevřít Wispr Bro při přihlášení",
+      "launchAtLoginHint": "Takže dictace je připravena vždy, když to potřebuješ.",
+      "later": "Můžete to všechno později upravit v Nastavení.",
+      "finish": "Začít psát"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Co je nového v {{version}}",
+    "label": "Přehled novinek pro tuto verzi",
+    "close": "Zavřít",
+    "done": "Pořád je"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
+    "heading": "Předat {{appName}} na",
+    "body": "{{appName}} je zadarmo a otevřený zdroj, běží úplně na Macu. Neexistuje odkaz na doporučení a nic není sledováno: odkaz je stejný pro všechny.",
+    "downloadLabel": "Odkaz na stažení",
+    "brewLabel": "Nainstalovat pomocí Homebrew",
+    "copyLink": "Zkopírovat odkaz ke stažení",
+    "copyBrew": "Zkopírovat příkaz Homebrew",
+    "copy": "Zkopírovat",
+    "copied": "Zkopírováno",
+    "copyFailed": "Nemohu zkopírovat. Vyberte text a zkopírujte ho.",
+    "shareTitle": "Odeslat to někomu",
+    "shareBody": "Zprávy, Mail, AirDrop a jakákoli jiná možnost, jak může vaše Mac sdílet.",
     "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "shareFailed": "Nemohu otevřít panel sdílení."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Váš zkratka pro dictaci už nefunguje. Wispr Bro potřebuje opět přístup k přístupnosti.",
+      "stopped": "Váš zkratka pro dictaci už neodpovídá.",
+      "fix": "Zřízení"
+    },
+    "sheet": {
+      "title": "Upravte svůj zkratku",
+      "introPermission": "macOS vypnul Wispr Bro přístup k Zpřístupnění, takže nemůže zaznamenat vaši zkratku. Může se to stát po aktualizaci nebo když byla položka změněna v Nastavení systému.",
+      "introStopped": "Slučovací klávesnice Wispr Bro je zastavena. Znovu se spustí automaticky, jakmile macOS to umožní.",
+      "pictureLabel": "Nastavení systému, soukromí a bezpečnost, přístupnost: řádek s Wispr Bro s vypnutým vypínačem",
+      "pictureTitle": "Přístupnost",
+      "pictureBack": "Soukromí a bezpečnost",
+      "stepsTitle": "Zapnout znovu",
+      "step1": "Otevřít Nastavení systému › Soukromí a bezpečnost › Přístup.",
+      "step2": "Zapněte Wispr Bro. Pokud je už zapnuto, vypněte jej a znovu jej zapněte.",
+      "step3": "Přijď zpět. Zkratka funguje znovu za několik vteřin, bez restartování.",
+      "resetTitle": "Stále nefunguje?",
+      "resetBody": "Po aktualizaci může macOS uchovávat starý záznam, který již neodpovídá aplikaci. Vynulování odstraní záznam pro Wispr Bro, abyste mohli aplikaci znovu povolit.",
+      "resetStep1": "Vyber Odmítnout a znovu udělit.",
+      "resetStep2": "Povolit Wispr Bro, když macOS požádá, nebo jej zapnout v seznamu, který se otevře.",
+      "resetFailed": "Nemohu obnovit záznam. V seznamu vyberte Wispr Bro a odstraňte jej pomocí tlačítka mínus, pak jej znovu přidejte pomocí tlačítka plus.",
+      "openSettings": "Otevřít nastavení přístupnosti",
+      "reset": "Nastavit a znovu udělit",
+      "checkAgain": "Zkontroluj znovu",
+      "relaunch": "Znovu spustit, abyste dokončili",
+      "close": "Zavřít",
+      "status": {
+        "healthy": "Váš zkratka funguje.",
+        "lost": "Ještě nefunguje",
+        "recovering": "Připojuji se...",
+        "needsRelaunch": "Přístup je zpět. Znovu spusťte Wispr Bro, aby jste dokončili."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Co chceš nejprve zkusit?",
+    "subtitle": "Vyber jednu, abyste viděli, jak to jde. Pak to zkuste ve svém vlastním aplikaci.",
+    "choicesLabel": "Způsoby jak začít",
+    "choices": {
+      "ai_chat": "Otázka k umělému asistentu",
+      "note": "Zapiš si poznámku",
+      "message": "Odpovědět na zprávu",
+      "email": "Napiš email",
+      "comment": "Napiš komentář",
+      "document": "Napiš dokument",
+      "coding": "Promptovat nástroj pro psaní kódu"
+    },
+    "scene": {
+      "label": "Příklad: {{choice}}",
+      "said": "Říkáš",
+      "written": "{{appName}} psá",
+      "pause": "Přerušit příklad",
+      "play": "Hraj příklad"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI chat",
+        "context": "Co mohu pomoci s tím?",
+        "said": "um tak můžeš mi vysvětlit, jak funguje složené úrokování, jako bych byl z toho nový",
+        "text": "Můžeš mi vysvětlit, jak funguje složené úrokování, jako bych to byl nový?"
+      },
+      "note": {
+        "app": "Poznámky",
+        "context": "Pondělí",
+        "said": "poznámka pro sebe zavolej dente a už to zvedni sušení před šesti",
+        "text": "Poznámka pro sebe: zavolej dente a vezmi si suchou čistotu před šesti."
+      },
+      "message": {
+        "app": "Zprávy",
+        "context": "Jsme stále na oběd?",
+        "said": "ano určitě je dvanáctá třicet, v pořádku pro tebe",
+        "text": "Ano, určitě! Je 12:30 v pořádku pro vás?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Ke: Priya · Záhlaví: Středa",
+        "said": "až Priya děkuji za poznámky odesílám návrh stále v pátek ráno",
+        "text": "Ahoj Priya, děkuji za poznámky. Odesílam návrh stále v pátek ráno."
+      },
+      "comment": {
+        "app": "Sociální",
+        "context": "Naší novou kancelář otevřeme příští týden!",
+        "said": "gratulace na celé tým, to vypadá úžasně",
+        "text": "Výborné pro celou team, to vypadá úžasně!"
+      },
+      "document": {
+        "app": "Dokumenty",
+        "context": "Plán projektu",
+        "said": "cílem tohoto fáze je um vydat beta 50 testérů do konce měsíce",
+        "text": "Cílem tohoto fáze je doručit beta 50 testérům do konce měsíce."
+      },
+      "coding": {
+        "app": "Editore kódu",
+        "context": "Požádej agenta",
+        "said": "tlačítko přihlášení nefunguje na mobilu, najdi to, proč a oprav to",
+        "text": "Tlačítko přihlášení nefunguje na mobilu. Můžete zjistit, proč a opravit to?"
+      }
+    },
+    "tryNow": "Zkus to nyní",
+    "later": "Možná později",
+    "close": "Zavřít",
+    "noBar": "Pás dictace není spuštěn, protože žádný tip neukazuje. Stále můžete zkusit: otevřete aplikaci a držte svůj klíčový zástup.",
+    "banner": {
+      "title": "Použijte to v svých vlastních aplikacích",
+      "body": "{{hint}}. {{how}}",
+      "again": "Zobraz hint opět",
+      "stop": "Skrytí tipu",
+      "other": "Zkuste něco jiného",
+      "active": "Tip je na vašem obrazovce. Stiskněte Esc, abyste jej zavřeli."
+    }
+  },
+  "checklist": {
+    "title": "Začněte",
+    "label": "Seznam nastavení",
+    "progress": "{{done}} z {{total}} dokončeno",
+    "hide": "Skrytí seznamu",
+    "done": "Hotovo",
+    "next": "Další",
+    "allDone": "Vše je hotovo. Víte základy.",
+    "items": {
+      "try_in_app": {
+        "title": "Zkus to v jiné aplikaci",
+        "action": "Ukaž mi"
+      },
+      "add_word": {
+        "title": "Přidat slovo",
+        "action": "Přidat slovo",
+        "coachTitle": "Přidejte svůj první slovo",
+        "coachBody": "Jména, výrazy a specializované výrazy, které často říkáte. Vypadají tak, jak je vyškolené."
+      },
+      "create_snippet": {
+        "title": "Vytvořit snippet",
+        "action": "Nový snippet",
+        "coachTitle": "Vytvořte svůj první snippet",
+        "coachBody": "Řekni krátký výraz a dostaneš delší text: tvůj adresu, odkaz, podpis."
+      },
+      "launch_at_login": {
+        "title": "Otevřít při přihlášení",
+        "action": "Zapnout",
+        "body": "{{appName}} spustí s vaším Macem, takže vaše zkratka vždy funguje."
+      }
+    },
+    "coach": {
+      "close": "Zavřít",
+      "done": "Pořád je"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Zvolte, zda má Wispr Bro sledovat motiv systému, nebo zůstat světlý či tmavý"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

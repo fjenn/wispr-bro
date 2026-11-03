@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Panneau de débogage Fork",
+    "description": "Vérifications internes pour la couche Wispr Bro. Affichées uniquement dans les versions de débogage ou lorsque l'application a été lancée avec --debug.",
+    "close": "Fermer",
+    "runAgain": "Exécuter à nouveau",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "État du modèle",
+      "notReady": "Pas prêt encore : l'application n'a pas terminé son lancement."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Dernier événement de ping",
+      "none": "Aucun événement reçu encore."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "En attente…",
+    "error": "Erreur : {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
+      "title": "Politique de sécurité du contenu",
+      "description": "Joue un fichier audio via le protocole asset, charge des données : et des images blob, appelle une commande fork et vérifie que l'image interdite est bloquée.",
+      "run": "Exécuter le contrôle CSP",
+      "running": "En cours…",
+      "pass": "Passé : aucune violation CSP inattendue.",
+      "fail": "Échec : voir les vérifications ci-dessous.",
       "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "failed": "échec ({{detail}})",
+      "noViolations": "Aucune violation CSP enregistrée.",
+      "violations_one": "{{count}} violation CSP enregistré.",
+      "violations_other": "{{count}} violations CSP enregistrés.",
       "checks": {
-        "media": "Audio (asset protocol)",
+        "media": "Audio (protocole d'asset)",
         "dataImage": "data: image",
-        "blobImage": "blob: image",
+        "blobImage": "blob : image",
         "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "probe": "Source bloqué"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "Envoi en {{seconds}} s. Passer à une autre application pour voir une notification macOS."
     },
     "update": {
-      "title": "Updates",
+      "title": "Mises à jour",
       "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "channel": "Canal",
+      "key": "Clé de signature",
+      "endpoints": "\"Alimentations\"",
+      "checksOff": "Les vérifications de mises à jour sont désactivées (Paramètres › Avancés, ou un interrupteur est activé).",
+      "check": "Vérifier maintenant",
+      "checking": "Vérification…",
+      "install": "Installer {{version}} et relancer",
+      "installing": "Téléchargement et vérification…",
+      "installed": "{{version}} installé. Redémarrage…",
+      "available": "{{version}} est disponible.",
+      "upToDate": "À jour.",
+      "failed": "Impossible de vérifier : {{message}}"
     }
   },
   "settings": {
     "debug": {
       "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "loading": "Chargement des paramètres…",
+      "loadError": "Impossible de lire les paramètres : {{message}}",
+      "setError": "Cette modification n'a pas été enregistrée : {{message}}",
+      "contextAwareness": "Conscience du contexte",
+      "contextAwarenessHint": "Utilise les noms du texte proche de votre curseur pour les écrire correctement. Ce texte reste sur ce Mac et n'est jamais enregistré.",
       "transforms": "Transforms",
       "transformsHint": "⌥1 améliore le texte sélectionné et ⌥2 le transforme en une demande AI plus claire. Lorsqu&apos;il est activé, ces raccourcis remplacent ¡ et ™.",
       "transformsSafeShortcuts": "Utiliser ⌃⌥1 et ⌃⌥2 au lieu",
       "transformsSafeShortcutsHint": "Garantit que ¡ et ™ sont disponibles avec ⌥1 et ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Niveau de nettoyage",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "Aucun",
+        "light": "Léger",
+        "medium": "Moyen"
       },
-      "all": "All settings"
+      "all": "Tous les paramètres"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Général",
       "system": "Système",
-      "vibe": "Vibe coding",
+      "vibe": "Coder avec du vibe",
       "privacy": "Données et Confidentialité",
       "advanced": "Avancé",
       "about": "À propos",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Ouvrir le Scratchpad dans",
       "scratchpadHint": "Choisissez où ouvre le Scratchpad lorsque vous utilisez son raccourci.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Reprendre ma dernière note",
+        "new_note": "Commencer une nouvelle note"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro peut lire les noms de code et les noms de fichiers que VS Code, Cursor et Windsurf affichent à l'écran, grâce à Accessibility. Il ne ouvre jamais votre dossier de projet ni vos fichiers.",
+      "contextOff": "La conscience du contexte est désactivée, ces fonctionnalités n'ont donc rien à lire. Activez-la pour les utiliser.",
+      "recognize": "Reconnaître les noms de code",
+      "recognizeHint": "Lorsque vous dites le nom d'une variable ou d'une fonction visible dans votre éditeur, elle est écrite comme votre code le spell, par exemple getUserById ou user_id.",
+      "setUp": "Configurer",
+      "change": "Changer les éditeurs",
+      "setUpFor": "Configurer pour {{editors}}",
+      "fileTags": "Ajouter des étiquettes aux fichiers dans le chat",
+      "fileTagsHint": "Dans la conversation Cursor ou Windsurf, dire \"index point ts\" écrit @index.ts lorsque ce fichier est ouvert dans une onglet ou affiché dans la liste des fichiers.",
+      "fileTagsNeedsChat": "Disponible après que vous avez ajouté Cursor ou Windsurf à vos éditeurs.",
+      "fileTagsNeedsSetup": "Disponible après que vous ayez configuré la reconnaissance du nom de code.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Configurer la reconnaissance du nom de code",
+        "stepEditors": "1. Choisissez les éditeurs que vous utilisez",
+        "stepScreenReader": "2. Activez le mode lecteur d'écran dans chacun d'entre eux, afin qu'ils partagent leur texte avec Wispr Bro",
+        "openSettings": "Ouvrir les paramètres de l'éditeur avec ⌘ virgule.",
+        "search": "Rechercher \"soutien à l'accessibilité\".",
+        "setOn": "Éditeur : Support d'accessibilité sur \"on\".",
+        "palette": "Vous pouvez aussi exécuter \"Activer le mode d'accessibilité lecteur d'écran\" depuis le palette des commandes (⇧⌘P).",
+        "confirm": "J'ai activé le mode lecteur d'écran dans ces éditeurs",
+        "cancel": "Annuler",
+        "finish": "Finir la configuration"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Privé par conception",
+        "local": "Votre dictation et vos données restent sur ce Mac.",
+        "noCloud": "Reconnaissance vocale, nettoyage et Historique sont exécutés localement. Il n'y a pas de compte, de télemétrie, de dictation ou de nettoyage en nuage.",
+        "networkIntro": "Wispr Bro utilise le réseau uniquement pour ces deux choses :",
+        "models": "Télécharger des modèles de reconnaissance vocale et de nettoyage depuis Hugging Face (huggingface.co).",
+        "updates": "Lorsque les vérifications de mises à jour sont activées, recherchez les mises à jour de l'application sur GitHub (github.com)."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Où se trouve vos données",
+        "hint": "Ces dossiers appartiennent à Wispr Bro. Les installations portables les conservent tous dans le dossier Données de l'application.",
+        "data": "Données de l'application et des paramètres",
+        "models": "Modèles téléchargés",
+        "recordings": "Enregistrements",
+        "logs": "Journaux et rapports de crash",
+        "show": "Afficher dans Finder",
+        "loading": "Localisation…",
+        "failed": "Impossible d'ouvrir ce dossier. Réessayer."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Durée de conservation de l'histoire",
+        "textLabel": "Conserver le texte dicté",
+        "textHint": "Les entrées plus anciennes sont supprimées automatiquement. Le texte est conservé indéfiniment par défaut.",
+        "audioLabel": "Conserver les enregistrements",
+        "audioHint": "L'audio expire après 14 jours par défaut. Enlever l'audio conserve le texte dicté jusqu'à la limite du texte.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Ne jamais enregistrer l'audio",
+          "1": "1 jour",
+          "7": "7 jours",
+          "14": "14 jours",
+          "30": "30 jours",
+          "90": "90 jours",
+          "365": "1 an",
+          "forever": "Pour toujours"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Choix de la confidentialité",
+        "context": "Utiliser la conscience du contexte",
+        "contextHint": "Lire uniquement le texte proche pendant la dictée pour reconnaître des noms et des orthographies. Le contexte n'est pas enregistré ni enregistré.",
+        "updates": "Vérifier les mises à jour de l'application",
+        "updatesHint": "Contacter GitHub pour vérifier une nouvelle version. Aucune dictation ni données personnelles n'est envoyée.",
+        "learn": "Apprendre à partir de mes corrections",
+        "learnHint": "Après que vous avez collé une dictée, remarquez les mots que vous corrigez dans cette zone de texte et suggérez-les dans le Dictionnaire. Seul le mot corrigé est conservé ; le reste du texte n'est jamais enregistré ni enregistré."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Vos données",
+        "hint": "Exporter un zip avec votre Historique, vos paramètres et vos enregistrements. Les modèles et les journaux ne sont pas inclus.",
+        "button": "Exporter mes données",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Archive ZIP",
+        "done": "Exporté et affiché dans Finder.",
+        "failed": "Impossible d'exporter vos données. Rien n'a été supprimé."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Supprimer tous mes données",
+        "title": "Supprimer toutes vos données ?",
+        "warning": "Cela supprime définitivement l'histoire, les enregistrements, les paramètres, les journaux et les rapports de crash. Cela ne peut pas être annulé.",
+        "relaunch": "Wispr Bro arrêtera son fonctionnement, effacera les données et redémarrera dans l'onboarding.",
+        "models": "Supprimer également les modèles téléchargés",
+        "modelsHint": "Désactivez cela pour éviter de télécharger à nouveau les modèles de parole et de nettoyage.",
+        "confirmLabel": "Type {{word}} pour confirmer",
+        "cancel": "Annuler",
+        "confirm": "Supprimer tout",
+        "failed": "Supprimer tout n'a pas fini. Vérifiez les données restantes avant de réessayer."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Rapports de crash et diagnostics",
+        "hint": "Les rapports de crash restent sur ce Mac et ne sont jamais envoyés. Copiez ou enregistrez les diagnostics uniquement lorsque vous souhaitez les partager.",
+        "sanitized": "Les diagnostics suppriment le texte dicté, les prompts, les mots du dictionnaire, les adresses e-mail, les clés et le chemin de votre dossier personnel.",
+        "copy": "Copier les diagnostics",
+        "save": "Enregistrer les diagnostics…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Diagnostic sanitisé copié.",
+        "saved": "Diagnostic sanitisé enregistré.",
+        "failed": "Impossible de préparer les diagnostics. Réessayer."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Version {{version}}",
       "source": "Voir le code source",
       "updates": "Notes des mises à jour",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Mises à jour",
+      "license": "Logiciel libre sous la licence GNU General Public License, version 3 (GPL-3.0).",
+      "licenseLink": "Voir la licence",
+      "credit": "Conçu avec Handy par CJ Pais, utilisé sous la licence MIT. Merci à tous ceux qui y travaillent.",
+      "creditLink": "Handy sur GitHub",
+      "supportTitle": "Soutenir le développement",
+      "supportBody": "{{appName}} n'a pas de plan payant. Le meilleur support, c'est un rapport de bug, une idée ou une contribution sur GitHub."
     },
     "hotkeys": {
       "open": "Raccourcis",
@@ -412,7 +412,7 @@
           "view_changes": "Voir les modifications de transformation"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Ouvrir le Scratchpad"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Vérifiez les dernières transformations avant et après."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Reprenez votre dernier note ou commencez en nouveau, selon vos paramètres Scratchpad."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Principal"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Réduire le panneau latéral",
+      "expand": "Étendre le panneau latéral"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Passer à l'apparence sombre",
+      "toLight": "Passer à l'apparence claire"
     },
     "notifications": {
       "title": "Notifications",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Rien de nouveau",
+        "body": "Les mises à jour et les conseils apparaîtront ici."
       },
       "bellUnread_one": "Notifications, {{count}} non lues",
       "bellUnread_other": "Notifications, {{count}} non lues",
@@ -485,65 +485,65 @@
       "justNow": "Il y a tout à l'heure"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
+      "title": "Aide",
+      "updates": "Mises à jour",
+      "whatsNew": "Qu'est-ce qui est nouveau",
+      "essentials": "Les indispensables",
+      "shortcuts": "Raccourcis",
       "microphone": "Microphone",
-      "languages": "Languages",
+      "languages": "Langues",
       "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "getInTouch": "Prends contact",
+      "reportProblem": "Signaler un problème…",
+      "sendFeedback": "Envoyer un retour",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Signaler un problème",
+        "body": "Cela ouvre une nouvelle demande sur GitHub dans votre navigateur, avec la version de votre application et le modèle de votre Mac remplis. Elle ne contient jamais ce que vous avez dicté, et vous pouvez lire et modifier tout cela avant d'envoyer.",
+        "diagnosticsTitle": "Diagnostic (facultatif)",
+        "diagnosticsBody": "Les journaux sanitisés aident à identifier la cause. Ils ne contiennent jamais vos dictées. Copiez-les ici, puis collez-les dans le problème.",
+        "copy": "Copier les diagnostics",
+        "copied": "Les diagnostics ont été copiés. Coller les informations dans le problème.",
+        "copyFailed": "Impossible de copier les diagnostics.",
+        "open": "Ouvrir GitHub",
+        "cancel": "Annuler",
+        "close": "Fermer"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Sections de paramètres"
     },
     "pages": {
       "dictation": {
         "title": "Dictation",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Parlez au lieu de taper",
+          "body": "Tenez fn dans n'importe quelle application, dites ce que vous souhaitez écrire et relâchez. {{appName}} met du texte propre où se trouve votre curseur.",
+          "examplesLabel": "Des choses à essayer",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Une réponse rapide à un message",
+            "notes": "Notes juste après une appel",
+            "prompt": "Un long prompt pour une conversation avec une IA"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Vos dictations apparaîtront ici",
+          "body": "Chaque une est enregistrée sur ce Mac, avec son audio, afin que vous puissiez la copier ou la vérifier plus tard.",
+          "action": "Ouvrir l'historique"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Aperçus",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Les insights nécessitent quelques dictées",
+          "body": "Votre vitesse de parole, vos séries de dictées et le temps que vous économisez apparaissent après avoir dicté pendant un certain temps.",
+          "action": "Aller à Dictation"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Dictionnaire",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -553,40 +553,40 @@
       "snippets": {
         "title": "Snippets",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Les snippets sont bientôt disponibles",
+          "body": "Dites un indice court comme \"mon adresse\" et obtenez le texte complet. Cette page apparaît dans une mise à jour ultérieure.",
+          "action": "Aller à Dictation"
         }
       },
       "style": {
         "title": "Style",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Les styles sont bientôt disponibles",
+          "body": "Choisissez le degré de politesse de votre texte dans chaque type d'application, de courriel formel à une conversation détendue. Cette page sera disponible dans une mise à jour ultérieure.",
+          "action": "Aller à Dictation"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Transformations",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Les transformations sont bientôt disponibles",
+          "body": "Sélectionnez du texte et réécrivez-le avec un raccourci : plus court, plus clair ou mieux organisé. Cette page sera disponible dans une mise à jour ultérieure.",
+          "action": "Aller à Dictation"
         }
       },
       "scratchpad": {
-        "title": "Scratchpad",
+        "title": "Ruban",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Le raccourci est en route",
+          "body": "Un endroit rapide pour dicter des notes avant qu'elles ne soient partout ailleurs. Cette page sera disponible dans une mise à jour ultérieure.",
+          "action": "Aller à Dictation"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Partager avec un ami"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Paramètres"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Montrez-moi"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Vérifications de mise à jour désactivées",
+      "turnOn": "Allumer",
+      "notChecked": "Pas encore vérifié",
+      "check": "Vérifier les mises à jour",
+      "checking": "Vérification des mises à jour…",
+      "upToDate": "À jour",
+      "checkAgain": "Vérifier à nouveau",
+      "checkFailed": "Impossible de vérifier",
+      "retry": "Réessayer",
+      "downloading": "Téléchargement de {{version}}…",
+      "ready": "Mise à jour prête",
+      "restartNow": "Redémarrer maintenant",
+      "installing": "Installation de {{version}}…",
+      "installedWaiting": "{{version}} installé · redémarrage après cette dictée",
+      "restarting": "Redémarrage…",
+      "installFailed": "Mise à jour non installée",
+      "busy": "Finissez d'écouter d'abord.",
+      "actionFailed": "Ça n'a pas fonctionné. Réessayer plus tard.",
+      "lastChecked": "Dernière vérification {{time}}.",
+      "paused": "Après trois tentatives échouées, les mises à jour automatiques sont suspendues jusqu'à {{time}}.",
+      "manualOnly": "Ceci est une version de développement : les mises à jour sont vérifiées uniquement lorsque vous le demandez.",
+      "readyHint": "Il s'installe automatiquement une fois que vous n'avez pas dicté pendant 20 minutes, ou lorsque vous quittez.",
+      "policy": "Les mises à jour sont téléchargées en arrière-plan et installées uniquement lorsque vous ne dictiez pas ou lorsque vous quittez l'application.",
+      "needsPassword": "Cette version de l'application se trouve dans un dossier qui nécessite un mot de passe administrateur pour être modifié, donc les mises à jour s'installent uniquement lorsque vous choisissez Redémarrer maintenant."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Nouveau !",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Annuler"
     },
     "importWizard": {
       "stepsLabel": "Étapes d'importation",
@@ -673,60 +673,60 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
+      "vocabulary": "Vocabulaire",
+      "help": "Aide",
+      "file": "Fichier",
+      "edit": "Éditer",
+      "view": "Voir",
+      "window": "Fenêtre",
+      "wordsDictated_one": "{{count}} mot dicté",
+      "wordsDictated_other": "{{count}} mots dictés",
+      "copyLast": "Copier le dernier transcript",
+      "copyLastPreview": "Copier le dernier transcript : «{{preview}}»",
+      "copyLastConcealed": "Copier le dernier transcript (texte caché)",
       "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
+      "languages": "Langues",
+      "moreLanguages": "Ajouter ou supprimer des langues…",
+      "automaticMicrophone": "Détecter automatiquement (paramètre du système)",
+      "noMicrophones": "Aucun micro trouvé",
+      "dictionaryWords_one": "{{count}} mot du dictionnaire",
+      "dictionaryWords_other": "{{count}} mots du dictionnaire",
       "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
+      "snippetCount_other": "{{count}} fragments",
+      "addWord": "Ajouter un mot…",
+      "newSnippet": "Snippet nouveau…",
       "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
+      "shortcuts": "Raccourcis",
+      "reportProblem": "Signaler un problème…",
+      "sendFeedback": "Envoyer un retour d'expérience…",
+      "openApp": "Ouvrir {{appName}}",
+      "checkUpdates": "Vérifier les mises à jour…",
+      "pasteLast": "Coller le dernier transcript",
+      "cancelDictation": "Annuler la dictée",
+      "shortcutsBlocked": "Raccourcis bloqués — ouvrir Paramètres",
+      "undo": "Annuler",
+      "redo": "Réfaire",
+      "cut": "Couper",
+      "copy": "Copier",
+      "paste": "Coller",
+      "selectAll": "Sélectionner tout",
+      "minimize": "Minimiser",
       "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
+      "closeWindow": "Fermer la fenêtre",
+      "fullScreen": "Entrer en mode plein écran",
       "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "hideOthers": "Cacher les autres",
+      "showAll": "Afficher Tout",
+      "about": "À propos {{appName}}",
+      "hide": "Cacher {{appName}}",
+      "quitApp": "Quitter {{appName}}",
+      "restartToUpdate": "Redémarrer pour mettre à jour à {{version}}",
+      "updatesOff": "Vérifications de mises à jour désactivées…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Le raccourci ne fonctionne plus"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -737,19 +737,19 @@
         "control": "Control",
         "option": "Option",
         "shift": "Shift",
-        "command": "Command",
-        "space": "Space",
-        "escape": "Escape",
-        "return": "Return",
+        "command": "Commande",
+        "space": "Espace",
+        "escape": "Échapper",
+        "return": "Retour",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
+        "delete": "Supprimer",
+        "forwardDelete": "Supprimer vers l'avant",
+        "left": "Flèche de gauche",
+        "right": "Flèche droite",
+        "up": "Flèche vers le haut",
+        "down": "Flèche vers le bas",
+        "home": "Accueil",
+        "end": "Fin",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
         "mouseLeft": "Bouton gauche de la souris",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "Dictater",
+          "tooltip": "Tenez fn pour dicter"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Le micro a perdu la connexion. Ce que vous avez dit jusqu'à présent est conservé.",
         "undo": "Annuler reste disponible 4 secondes dans la barre de dictée.",
         "diff": "Les modifications de transformation sont prêtes à être revues.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "L'entrée sécurisée est activée. fn et Espace ne peuvent pas verrouiller la dictation. Escape ou le bouton fermer annulent toujours."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Sélectionnez 6 000 caractères ou moins",
         "transform_focus_moved": "Vous avez passé à la suite, donc rien n'a changé",
         "transform_failed": "Impossible de transformer ce texte",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Votre raccourci ne fonctionne plus",
+        "shortcut_stopped": "Votre raccourci n'a plus répondu",
+        "shortcut_back": "Votre raccourci fonctionne à nouveau"
       },
       "card": {
         "no_text_field": "Cliquez d'abord dans un champ de texte",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} est une dictée gratuite qui fonctionne entièrement sur votre Mac. Obtenez-la ici :"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Étape suivante",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Ouvrir une conversation avec IA, comme ChatGPT ou Claude",
+        "note": "Ouvrir votre application Notes",
+        "message": "Ouvrir une conversation, comme Messages ou Slack",
+        "email": "Ouvrir votre email",
+        "comment": "Ouvrir un post que vous souhaitez commenter",
+        "document": "Ouvrir un document que vous écrivez",
+        "coding": "Ouvrir Cursor, VS Code ou un autre éditeur de code"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Cliquez où vous souhaitez écrire, puis maintenez fn et parlez.",
+      "howFallback": "Cliquez où vous souhaitez écrire, puis maintenez Control et Option et parlez.",
+      "escape": "Appuyez sur Esc pour fermer ce conseil."
     }
   },
   "speechModels": {
     "title": "Modèles de parole",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} choisit le modèle de dictée pour vos langues et ce Mac, et remplace par un meilleur lorsque c'est possible. Vous n'avez jamais à choisir.",
     "loading": "Vérification des modèles de parole…",
     "current": "En cours d'utilisation : {{name}}",
     "none": "Aucun modèle de parole encore",
@@ -1051,7 +1051,7 @@
     "added": "Ajouté «{{entry}}».",
     "search": "Rechercher dans votre dictionnaire",
     "refresh": "Actualiser",
-    "shown_one": "{{count}} entry shown",
+    "shown_one": "{{count}} entrée affichée",
     "shown_other": "{{count}} entrées affichées",
     "deleted": "Supprimé «{{entry}}».",
     "deleteFailed": "Cette entrée ne peut pas être supprimée. Veuillez réessayer.",
@@ -1087,7 +1087,7 @@
       "edit": "Modifier {{entry}}",
       "delete": "Supprimer {{entry}}",
       "accept": "Ajouter {{entry}} au dictionnaire",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Ne pas apprendre {{entry}}"
     },
     "source": {
       "import": "Importé",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Aucune suggestion encore",
       "body": "Lorsque {{appName}} peut apprendre des mots que vous corrigez, ils apparaîtront ici pour que vous les approuviez.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Corrige un nom ou un terme mal écrit dans la zone de texte juste après avoir dicté, puis appuie sur Retour, Tab ou passe à la suite. Le mot corrigé s'affiche ici pour que tu l'approves."
     },
     "noMatch": {
       "title": "Rien ne correspond",
@@ -1191,9 +1191,9 @@
         "replaced_other": "{{count}} remplacé par la version du fichier",
         "skipped_one": "{{count}} déjà présent, sauté",
         "skipped_other": "{{count}} déjà présent, sauté",
-        "kept_one": "{{count}} conflict kept as it was",
+        "kept_one": "{{count}} conflit conservé tel quel",
         "kept_other": "{{count}} conflits conservés telles quelles",
-        "invalid_one": "{{count}} row couldn't be imported",
+        "invalid_one": "{{count}} ligne n’a pas pu être importée",
         "invalid_other": "{{count}} lignes ne peuvent pas être importées",
         "overLimit_one": "{{count}} n'a pas pu être importé (le dictionnaire est plein)",
         "overLimit_other": "{{count}} n'a pas pu être importé (le dictionnaire est plein)"
@@ -1206,11 +1206,11 @@
       "done_other": "Exporté {{count}} entrées.",
       "failed": "Le dictionnaire ne peut pas être exporté. Veuillez réessayer."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "« {{entry}} » ne sera pas suggéré à nouveau.",
+    "actionFailed": "Ça n'a pas fonctionné. Veuillez réessayer.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Apprendre à partir de mes corrections",
+      "hint": "Durant 30 secondes après que vous avez collé une dictée, {{appName}} remarque les mots que vous corrigez dans cette zone de texte et les suggère ici. Seulement le mot corrigé est conservé, jamais le reste du texte. Les champs de mot de passe, les gestionnaires de mots de passe, les applications bancaires et les terminaux ne sont jamais lus."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Du texte proche a aidé à écrire le mot",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Micro perdu, vos paroles sont gardées",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "L'entrée sécurisée est activée · fn+Espace ne peut pas verrouiller · Esc ou ✕ annule",
+      "secure_input_app": "{{app}} a Secure Input activé · fn+Espace ne peut pas verrouiller · Esc ou ✕ annule"
     },
     "settingUp": "Configuration…",
     "settingUpPercent": "Configuration… {{percent}} %",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Voir les modifications",
     "sendsAutomatically": "Envoyé automatiquement",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "L'accès à Accessibilité est désactivé",
+      "stopped": "L'écouteur de clavier a été arrêté"
     }
   },
   "transforms": {
@@ -1563,7 +1563,7 @@
         "replaced_other": "{{count}} remplacé par le texte du fichier",
         "skipped_one": "{{count}} déjà présent, sauté",
         "skipped_other": "{{count}} déjà présent, sauté",
-        "kept_one": "{{count}} conflict kept as it was",
+        "kept_one": "{{count}} conflit conservé tel quel",
         "kept_other": "{{count}} conflits conservés telles quelles",
         "invalid_one": "{{count}} ligne ne peut pas être importée",
         "invalid_other": "{{count}} lignes ne peuvent pas être importées",
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Note nouvelle",
+    "preferences": "Préférences du scratchpad",
+    "addToBar": "Ajouter à la barre",
+    "addToBarHelp": "Gardez un bouton Scratchpad à côté de Dictate sur la barre de repos.",
+    "recents": "Récents",
+    "searchLabel": "Rechercher des notes",
+    "searchPlaceholder": "Rechercher dans vos notes",
+    "loading": "Chargement des notes…",
+    "empty": "Aucune note encore",
+    "emptyHelp": "Commencez une note, puis tapez ou dictez dans sa fenêtre flottante.",
+    "emptyNote": "Note vide",
+    "noResults": "Aucune note ne correspond à votre recherche.",
+    "untitled": "Note sans titre",
+    "pinned": "Collé",
+    "pin": "Fixer la note",
+    "unpin": "Désassocier la note",
+    "editAction": "Modifier la note",
+    "edit": "Modifier {{name}}",
+    "delete": "Supprimer la note",
+    "deleteConfirm": "Supprimer «{{name}}» ? Cela ne peut pas être annulé.",
+    "error": "Le scratchpad ne peut pas effectuer cette action. Votre texte actuel est toujours là ; réessayez.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "Ouvrir raccourci",
+      "change": "Définir raccourci",
+      "title": "Raccourci du scratchpad",
+      "help": "Ouvrir le Scratchpad partout. Il démarre sans paramètre, donc il ne capte jamais une touche jusqu'à ce que vous en choisissiez une.",
+      "close": "Raccourci pour fermer le dialogue",
+      "proposed": "Combinaison suggérée",
+      "ctrlOptionS": "Ctrl + Option + S",
+      "use": "Utiliser Ctrl + Option + S",
+      "chooseAnother": "Choisir un raccourci différent",
+      "error": "Ce raccourci ne peut pas être enregistré. Essayez une autre combinaison."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "Ouvrir des notes",
+    "tools": "Outils de note",
+    "sidebar": "Afficher la liste des notes",
+    "polish": "Améliorer le note",
+    "polishing": "Affinage…",
+    "textSize": "Modifier la taille du texte (actuellement {{size}} points)",
+    "expand": "Étendre la fenêtre de note",
+    "shrink": "Restaurer la taille de la fenêtre de note",
+    "close": "Fermer le Scratchpad",
+    "noteBody": "Texte de note",
+    "notePlaceholder": "Écrire ou dicter une note…",
+    "saved": "Enregistré",
+    "saving": "Enregistrement…",
+    "saveError": "Pas encore enregistré",
+    "autosaveHelp": "Enregistre automatiquement",
+    "copy": "Copier",
+    "copied": "Copié"
   },
   "style": {
     "tabsLabel": "Groupes de style",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Réalisation des préparatifs…",
+    "back": "Retour",
+    "continue": "Continuer",
+    "yes": "Oui",
+    "no": "Non",
+    "downloadHint": "La configuration de la parole continue en arrière-plan. Vous n'avez jamais à attendre ici.",
+    "navigationFailed": "Cette étape ne peut pas être enregistrée. Réessayer.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
+      "label": "Progrès de la configuration",
+      "welcome": "Bienvenue",
       "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "setup": "Configuration",
+      "practice": "Pratiquer",
+      "done": "(terminé)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Aide",
+      "title": "Aide pour la configuration",
+      "close": "Fermer l'aide",
+      "done": "J'ai compris",
+      "body": "Chaque étape dure quelques secondes. Vous pouvez revenir à tout moment, et si vous abandonnez, la configuration reprend où vous l'avez laissé.",
+      "download": "Wispr Bro configure la reconnaissance vocale sur ce Mac pendant que vous suivez ces étapes. Tout ce que vous dicterez avant qu'elle soit prête est conservé et saisi une fois qu'elle est prête."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Parlez, et vos mots apparaissent",
+      "subtitle": "Tenez une touche, parlez, relâchez. Du texte propre apparaît partout où vous écrivez.",
+      "privacyTitle": "Tout reste sur ce Mac",
+      "privacy": "Votre voix et votre texte ne quittent jamais ce ordinateur. Aucun compte, aucune nuvée, aucune traçabilité.",
+      "download": "La configuration de la parole commence maintenant et s'exécute en arrière-plan.",
+      "start": "Commencez"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Déplacer Wispr Bro dans Applications",
+      "body": "Wispr Bro est en cours d'exécution en dehors de votre dossier Applications. Le déplacement dans ce dossier permet aux mises à jour et aux permissions de fonctionner.",
+      "note": "Wispr Bro se réouvre tout seul après le déplacement et continue la configuration.",
+      "action": "Déplacer vers Applications",
+      "moving": "Déplacement…",
+      "skip": "Pas maintenant",
+      "error": "Wispr Bro ne peut pas se déplacer. Glissez-le dans Applications dans Finder, puis ouvrez-le à nouveau."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Quelles langues parlez-vous ?",
+      "subtitle": "Sélectionnez chaque langue dans laquelle vous dicterez. Wispr Bro corrige mieux vos mots quand il les connaît.",
+      "listLabel": "Langues",
+      "noMatch": "Aucune langue ne correspond à «{{query}}».",
+      "count_one": "La dictation fonctionne en {{count}} langue. Vous pouvez la changer plus tard dans Paramètres.",
+      "count_other": "La dictation fonctionne dans {{count}} langues. Vous pouvez la modifier plus tard dans Paramètres.",
+      "weak_one": "La reconnaissance est moins précise dans {{languages}}. Elle fonctionne toujours, mais attendez plus d'erreurs.",
+      "weak_other": "La reconnaissance est moins précise dans {{languages}}. Elles fonctionnent toujours, mais attendez plus d'erreurs."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Deux autorisations",
+      "subtitle": "macOS vous demande d'accepter cela une fois. Chaque ligne est cochée dès qu'elle est activée.",
+      "allowed": "Autorisé",
+      "waiting": "En attente de macOS…",
+      "openSettings": "Ouvrir System Settings",
+      "prompt": "Le prompt macOS",
+      "pane": "Dans Paramètres du système",
       "microphone": {
         "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "why": "Alors Wispr Bro peut t'entendre quand tu tiens la touche. L'audio est traité uniquement sur ce Mac.",
+        "action": "Autoriser le micro",
+        "promptAlt": "Image du prompt du micro de macOS, avec le bouton Autoriser mis en évidence",
+        "paneAlt": "Image de Paramètres du système, Confidentialité et Sécurité, Microphone, avec l'interrupteur pour Wispr Bro activé",
+        "waitingHelp": "Cliquez sur Autoriser dans la demande macOS. Si vous ne la voyez pas, ouvrez System Settings et activez Wispr Bro sous Microphone."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Accessibilité",
+        "why": "Alors Wispr Bro peut détecter votre raccourci et saisir le texte dans l'application que vous utilisez.",
+        "action": "Autoriser l'accessibilité",
+        "promptAlt": "Image du prompt d'accessibilité de macOS, avec le bouton \"Ouvrir les paramètres du système\" mis en évidence",
+        "paneAlt": "Image de System Settings, Privé et Sécurité, Accessibilité, avec l'interrupteur pour Wispr Bro activé",
+        "waitingHelp": "Dans Paramètres du système, activez l'interrupteur à côté de Wispr Bro. Vous pouvez devoir déverrouiller avec votre mot de passe."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Teste ton micro",
+      "guidance": "Les microphones filaires et intégrés fonctionnent le mieux. Les écouteurs Bluetooth peuvent se déconnecter ou sonner étouffés.",
+      "question": "Les barres bougent quand vous parlez ?",
+      "noHelp": "Choisissez un autre microcien ci-dessous, puis parlez à nouveau.",
+      "change": "Changer le micro",
+      "previewList": "Vos microphones apparaissent ici."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Testez votre raccourci",
+      "instruction": "Appuyez et tenez enfoncé la touche fn (🌐) sur votre clavier. La touche située en dessous s'allume pendant que vous la tenez.",
+      "fallbackInstruction": "Appuyez et tenez en même temps Control et Option. Les touches ci-dessous s'éclairent pendant que vous les tenez.",
+      "unboundInstruction": "Aucun raccourci de dictée n'est défini. Utilisez Éditer le raccourci pour en choisir un.",
+      "keyLabel": "La touche fn",
+      "fallbackKeyLabel": "Control et Option",
+      "pressed": "Clé tenue",
+      "notPressed": "En attente de la touche…",
+      "worked": "Cela fonctionne. La touche s'est éclairée.",
+      "question": "Est-ce que la touche s'est éclairée ?",
+      "edit": "Modifier le raccourci",
+      "tryAgain": "Réessaie",
+      "otherCauses": "Pas ça ? Autres causes possibles :",
+      "changeFailed": "Cette modification n'a pas été appliquée. Réessayer, ou utiliser Paramètres du système.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro ne voit pas les appuis de touche",
+          "title": "Wispr Bro ne peut pas voir les appuis de touche pour l'instant",
+          "body": "Cela signifie généralement que l'accessibilité est désactivée pour Wispr Bro. Activez-la dans les paramètres du système, puis revenez et appuyez sur \"Recommencer\".",
+          "action": "Ouvrir les paramètres d'Accessibilité"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Un champ de mot de passe ou une autre application bloque les touches",
+          "title": "Une autre application bloque les saisies de clés",
+          "body": "Lorsqu'un champ de mot de passe ou certaines applications (gestionnaires de mots de passe, entrée sécurisée du Terminal) ont le focus, macOS cache les frappes de touches pour toutes les autres applications. Fermez ou cliquez ailleurs, puis réessayez.",
+          "active": "Actuellement, une autre application bloque les saisies clavier.",
+          "inactive": "Rien ne bloque actuellement les saisies de clés."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "La touche 🌐 ouvre les émoticônes ou change le clavier",
+          "title": "macOS donne à la clé 🌐 une fonction spéciale",
+          "body": "Votre Mac ouvre les émoticônes, change la source d'entrée ou démarre la dictation d'Apple lorsque vous appuyez sur 🌐. Wispr Bro peut définir \"Appuyer sur la touche 🌐 pour\" à \"Rien à faire\". Votre choix est annulé si vous cessez d'utiliser fn pour la dictation.",
+          "consent": "Configurer 🌐 pour Ne Faire Rien",
+          "changed": "🌐 ne fait rien seul",
+          "open": "Ouvrir les paramètres du clavier"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Mon clavier n'a pas de touche fn",
+          "title": "Utilisez Control et Option au lieu",
+          "body": "Quelques claviers n'ont pas de touche fn ou 🌐. Tiens Control et Option en même temps pour dicter. Tu peux modifier cela à tout moment dans les Paramètres.",
+          "action": "Utiliser Control + Option",
+          "changed": "Control + Option est votre raccourci"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Pratique : écrivez un courriel sans main",
+      "instruction": "Appuyez sur fn et espace ensemble, puis parlez. Vous n'avez pas besoin de tenir rien. Appuyez à nouveau sur fn quand vous êtes fini. Essayez : \"Bonjour Sam, merci pour les notes. Pouvons-nous nous rencontrer jeudi à dix heures ?\"",
+      "instructionFallback": "Appuyez sur Control, Option et Espace ensemble, puis parlez. Vous n'avez pas besoin de tenir rien. Appuyez à nouveau sur Control et Option quand vous êtes fini. Essayez : « Salut Sam, merci pour les notes. Pouvons-nous nous rencontrer jeudi à dix heures ? »",
+      "instructionUnbound": "Aucun raccourci de dictée n'est défini, donc cette pratique ne peut pas commencer. Sautez-la pour l'instant et définissez un raccourci dans les Paramètres.",
+      "skip": "Sauter",
+      "waiting": "En attente de votre début de parole…",
+      "listening": "En écoute… appuyez sur fn quand vous êtes prêt.",
+      "listening_fallback": "En écoute… appuyez sur Control et Option quand vous êtes prêt.",
+      "working": "L'écrire…",
+      "settingUp": "Configuration…",
+      "settingUpPercent": "Configuration… {{percent}}%",
+      "queuedNote": "Vos mots sont enregistrés. Ils apparaissent ici dès que la configuration est terminée, et ils sont dans l'Historique quel que soit le cas. Nous allons passer à l'action tout seul dans un instant.",
+      "nothing": "Rien n'est passé. Vérifie que ton micro est allumé et essaie à nouveau.",
+      "filled": "C'est votre email. Ajoutez-en d'autres ou continuez.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Message nouveau",
+        "to": "À",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
+        "subject": "Sujet",
+        "subjectText": "Jeudi",
         "body": "Message",
-        "placeholder": "Your words appear here."
+        "placeholder": "Vos mots apparaissent ici."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "C'est tout. Vous avez dicté votre premier texte.",
+      "subtitle": "Partout où vous pouvez taper, vous pouvez maintenant parler."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "L'écriture dictée pourrait vous épargner environ {{hours}} heure par semaine",
+      "headline_other": "L'écriture dictée pourrait vous épargner environ {{hours}} heures par semaine",
+      "intro": "Parler est plus rapide que de taper pour la plupart des gens. Faites un test de saisie de 30 secondes pour voir combien de temps cela pourrait vous épargner.",
+      "howFast": "Combien taper rapidement ?",
+      "skipTest": "Sauter le test",
+      "basisMeasured": "Basé sur vos {{wpm}} mots par minute de frappe, et sur une vitesse de parole d'environ {{speaking}} mots par minute.",
+      "basisAverage": "Basé sur une vitesse de frappe moyenne de {{wpm}} mots par minute, et sur une parole de l'ordre de {{speaking}} mots par minute.",
+      "sliderLabel": "Combien de temps tapez-vous chaque jour ?",
+      "hoursPerDay_one": "{{hours}} heure par jour",
+      "hoursPerDay_other": "{{hours}} heures par jour",
+      "takeTest": "Faire le test de frappe"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "Combien tapez-vous vite ?",
+      "instruction": "Écrivez le paragraphe ci-dessous comme vous le feriez d'habitude. L'horloge commence avec votre première touche et dure {{seconds}} secondes.",
+      "skip": "Sauter",
+      "language": "Langue",
+      "wpmPending": "— mots par minute",
+      "wpm_one": "{{count}} mot par minute",
+      "wpm_other": "{{count}} mots par minute",
+      "secondsLeft_one": "{{count}} seconde restante",
+      "secondsLeft_other": "{{count}} secondes restantes",
+      "inputLabel": "Écrivez le paragraphe ici",
+      "placeholder": "Commencez à taper ici…",
+      "nothing": "Rien n'a correspondu au paragraphe. Réessayer.",
+      "result_one": "Vous tapez environ {{count}} mot par minute.",
+      "result_other": "Vous tapez environ {{count}} mots par minute.",
+      "tryAgain": "Essayer à nouveau",
+      "recalculate": "Recalculer"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
+      "title": "Vous êtes prêt",
+      "subtitle": "Voici la configuration de Wispr Bro. Enregistrez votre raccourci dans n'importe quelle application pour dicter.",
+      "languages": "Langues",
+      "shortcut": "Raccourci",
+      "shortcutFn": "Tenez Fn (🌐)",
+      "shortcutFallback": "Tenez en même temps Ctrl et Option",
       "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "micDefault": "Le micro par défaut du Mac",
+      "typing": "Vitesse de frappe",
+      "typingWpm_one": "{{count}} mot par minute",
+      "typingWpm_other": "{{count}} mots par minute",
+      "typingSkipped": "Pas mesuré",
+      "notSet": "Pas défini",
+      "launchAtLogin": "Ouvrir Wispr Bro lorsque vous vous connectez",
+      "launchAtLoginHint": "Alors, la dictation est prête chaque fois que vous le souhaitez.",
+      "later": "Vous pouvez modifier tout cela plus tard dans les Paramètres.",
+      "finish": "Commencer à dicter"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Ce qui est nouveau dans {{version}}",
+    "label": "Les notes de version de cette mise à jour",
+    "close": "Fermer",
+    "done": "J'ai compris"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "Partager {{appName}}",
+    "body": "{{appName}} est gratuit et open source, et il fonctionne entièrement sur le Mac. Il n'y a pas de code de référence et rien n'est suivi : le lien est le même pour tout le monde.",
+    "downloadLabel": "Lien de téléchargement",
+    "brewLabel": "Installer avec Homebrew",
+    "copyLink": "Copier le lien de téléchargement",
+    "copyBrew": "Copier la commande Homebrew",
+    "copy": "Copier",
+    "copied": "Copié",
+    "copyFailed": "Impossible de copier. Sélectionnez le texte et copiez-le au lieu de cela.",
+    "shareTitle": "L'envoyer à quelqu'un",
+    "shareBody": "Messages, Mail, AirDrop et toute autre méthode que votre Mac peut utiliser pour partager.",
+    "shareButton": "Partager…",
+    "shareFailed": "Impossible d'ouvrir la feuille de partage."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Votre raccourci de dictée ne fonctionne plus. Wispr Bro a besoin d'accès à Accessibilité à nouveau.",
+      "stopped": "Votre raccourci de dictée n'a plus répondu.",
+      "fix": "Corriger"
+    },
+    "sheet": {
+      "title": "Corrige ton raccourci",
+      "introPermission": "macOS a désactivé l'accès à l'accessibilité de Wispr Bro, donc il ne peut plus détecter votre raccourci. Cela peut arriver après une mise à jour ou lorsque l'entrée a été modifiée dans les paramètres système.",
+      "introStopped": "L'écouteur du clavier de Wispr Bro est arrêté. Il se relance automatiquement dès que macOS le permet.",
+      "pictureLabel": "Paramètres du système, Confidentialité & Sécurité, Accessibilité : la ligne Wispr Bro avec son interrupteur activé",
+      "pictureTitle": "Accessibilité",
+      "pictureBack": "Confidentialité & Sécurité",
+      "stepsTitle": "Reactive-le",
+      "step1": "Ouvrir System Settings › Confidentialité & Sécurité › Accessibilité.",
+      "step2": "Activez Wispr Bro. S'il est déjà actif, désactivez-le et réactivez-le.",
+      "step3": "Revenez ici. Le raccourci fonctionne à nouveau en quelques secondes, sans redémarrer.",
+      "resetTitle": "Funcionne toujours pas ?",
+      "resetBody": "Après une mise à jour, macOS peut conserver une entrée ancienne qui ne correspond plus à l'application. Réinitialiser supprime l'entrée de Wispr Bro afin de pouvoir l'autoriser à nouveau.",
+      "resetStep1": "Choisir Réinitialiser et réautoriser.",
+      "resetStep2": "Autoriser Wispr Bro lorsque macOS le demande, ou activer-le dans la liste qui s'affiche.",
+      "resetFailed": "Impossible de réinitialiser l'entrée. Dans la liste, sélectionnez Wispr Bro et supprimez-le avec le bouton moins, puis ajoutez-le à nouveau avec le bouton plus.",
+      "openSettings": "Ouvrir les paramètres d'accessibilité",
+      "reset": "Réinitialiser et réautoriser",
+      "checkAgain": "Vérifier à nouveau",
+      "relaunch": "Relancer pour terminer",
+      "close": "Fermer",
+      "status": {
+        "healthy": "Votre raccourci fonctionne.",
+        "lost": "Pas encore fonctionnel",
+        "recovering": "Reconnexion…",
+        "needsRelaunch": "L'accès est de retour. Redémarrez Wispr Bro pour terminer."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Qu'est-ce que vous voulez essayer en premier ?",
+    "subtitle": "Sélectionnez un pour voir ça fonctionner. Ensuite, essayez-le dans votre propre application.",
+    "choicesLabel": "Les façons de commencer",
+    "choices": {
+      "ai_chat": "Demandez à un assistant IA",
+      "note": "Écris une note",
+      "message": "Répondre à un message",
+      "email": "Écrire un e-mail",
+      "comment": "Laisser un commentaire",
+      "document": "Rédiger un document",
+      "coding": "Suggérer un outil de programmation"
+    },
+    "scene": {
+      "label": "Exemple : {{choice}}",
+      "said": "Vous dites",
+      "written": "{{appName}} écrit",
+      "pause": "Pauser l'exemple",
+      "play": "Jouer l'exemple"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "Chat AI",
+        "context": "Qu'est-ce que je peux vous aider à faire ?",
+        "said": "um donc tu pourrais m'expliquer comment fonctionne l'intérêt composé comme si je venais de commencer",
+        "text": "Peux-tu m'expliquer comment fonctionne l'intérêt composé, comme si je venais de commencer ?"
+      },
+      "note": {
+        "app": "Notes",
+        "context": "Lundi",
+        "said": "note à moi appeler le dentiste et uh récupérer le repassage avant six",
+        "text": "Remarque pour moi : appeler le dentiste et récupérer la lessive avant six."
+      },
+      "message": {
+        "app": "Messages",
+        "context": "On est encore pour le déjeuner ?",
+        "said": "oui pour sûr, douze heures trente, d'accord pour vous",
+        "text": "Oui, certainement ! 12h30 vous convient ?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "À : Priya · Sujet : Jeudi",
+        "said": "hi Priya merci pour les notes je t'envoie le brouillon jeudi matin",
+        "text": "Bonjour Priya, merci pour les notes. Je t'envoie le brouillon jeudi matin."
+      },
+      "comment": {
+        "app": "Social",
+        "context": "Notre nouveau bureau ouvre la semaine prochaine !",
+        "said": "félicitations à l'ensemble de l'équipe, c'est incroyable",
+        "text": "Félicitations à l'ensemble de l'équipe, c'est incroyable !"
+      },
+      "document": {
+        "app": "Docs",
+        "context": "Plan de projet",
+        "said": "l'objectif de cette phase est de envoyer la beta à cinquante testeurs d'ici la fin du mois",
+        "text": "L'objectif de cette phase est de livrer la version bêta à cinquante testeurs d'ici la fin du mois."
+      },
+      "coding": {
+        "app": "Éditeur de code",
+        "context": "Demandez à l'agent",
+        "said": "le bouton connexion ne fonctionne pas sur mobile peux-tu trouver la cause et le corriger",
+        "text": "Le bouton de connexion ne fonctionne pas sur mobile. Pouvez-vous trouver la cause et le corriger ?"
+      }
+    },
+    "tryNow": "Essaye-le maintenant",
+    "later": "Peut-être plus tard",
+    "close": "Fermer",
+    "noBar": "La barre de dictée n'est pas en cours d'exécution, donc aucun indice n'est affiché. Vous pouvez tout de même l'essayer : ouvrez l'application et maintenez votre raccourci.",
+    "banner": {
+      "title": "L'utiliser dans vos propres applications",
+      "body": "{{hint}}. {{how}}",
+      "again": "Afficher l'indice à nouveau",
+      "stop": "Cacher l'indice",
+      "other": "Essayez autre chose",
+      "active": "L'indice est sur votre écran. Appuyez sur Esc pour le fermer."
+    }
+  },
+  "checklist": {
+    "title": "Commencez",
+    "label": "Liste de vérification de configuration",
+    "progress": "{{done}} sur {{total}} terminé",
+    "hide": "Cacher la liste de contrôle",
+    "done": "Terminé",
+    "next": "Suivant",
+    "allDone": "Tout prêt. Vous connaissez les bases.",
+    "items": {
+      "try_in_app": {
+        "title": "Essayer dans une autre application",
+        "action": "Montrez-moi"
+      },
+      "add_word": {
+        "title": "Ajouter un mot",
+        "action": "Ajouter un mot",
+        "coachTitle": "Ajoutez votre premier mot",
+        "coachBody": "Noms, termes de produit et jargon que vous utilisez souvent. Ils apparaissent écrits comme vous les écrivez."
+      },
+      "create_snippet": {
+        "title": "Créer un snippet",
+        "action": "Nouveau snippet",
+        "coachTitle": "Créer votre premier snippet",
+        "coachBody": "Dites une phrase courte et obtenez du texte plus long : votre adresse, un lien, une formule de fin."
+      },
+      "launch_at_login": {
+        "title": "Ouvrir au démarrage",
+        "action": "Allumer",
+        "body": "{{appName}} démarre avec votre Mac, donc votre raccourci fonctionne toujours."
+      }
+    },
+    "coach": {
+      "close": "Fermer",
+      "done": "J'ai compris"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Choisissez si Wispr Bro suit le thème du système ou reste clair ou sombre"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

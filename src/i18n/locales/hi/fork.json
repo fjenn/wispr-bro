@@ -1,40 +1,40 @@
 {
   "debug": {
     "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "description": "Wispr Bro layer ke liye internal checks. sirf debug builds mein ya --debug ke saath app start hone par dikhai deta hai.",
+    "close": "बंद करें",
+    "runAgain": "फिर से चलाएँ",
     "ping": {
-      "title": "Ping"
+      "title": "पिंग"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "मॉडल की स्थिति",
+      "notReady": "अभी तैयार नहीं: एप्लिकेशन शुरू होने में पूरा नहीं हुआ है।"
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "पिछला पिंग घटना",
+      "none": "अभी तक कोई घटना प्राप्त नहीं हुई।"
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "अपेक्षा कर रहा हूँ…",
+    "error": "गलती: {{message}}",
     "csp": {
       "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
-      "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "description": "एक ऑडियो फ़ाइल को एसेट प्रोटोकॉल के माध्यम से खेला जाता है, डेटा: और ब्लॉब: इमेज लोड होते हैं, एक फोर्क कमांड को बुलाया जाता है और एक निषेधित इमेज के बंद करने की जांच की जाती है।",
+      "run": "CSP चेक चलाएं",
+      "running": "चल रहा है…",
+      "pass": "पास किया गया: अनियंत्रित CSP उल्लंघन नहीं।",
+      "fail": "विफल: नीचे दिए गए जांचें देखें।",
+      "ok": "ठीक है ({{detail}})",
+      "failed": "विफल ({{detail}})",
+      "noViolations": "कोई CSP उल्लंघन नहीं रिकॉर्ड किया गया था।",
+      "violations_one": "{{count}} CSP उल्लंघन नोट किया गया।",
+      "violations_other": "{{count}} CSP उल्लंघन नोट किए गए।",
       "checks": {
-        "media": "Audio (asset protocol)",
+        "media": "आवाज (संपत्ति प्रोटोकॉल)",
         "dataImage": "data: image",
-        "blobImage": "blob: image",
+        "blobImage": "blob: छवि",
         "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "probe": "ब्लॉक किए गए स्रोत"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "{{seconds}} सेकंड में पोस्ट कर रहा हूं। एक अन्य एप्लिकेशन में जाएं ताकि macOS नोटिफिकेशन देखा जा सके।"
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "अपडेट",
+      "version": "संस्करण",
+      "channel": "चैनल",
+      "key": "साइनिंग की की",
+      "endpoints": "\"Feeds\"",
+      "checksOff": "अपडेट चेक बंद है (सेटिंग्स › एडवांस्ड, या एक किल स्विच सेट किया गया है)",
+      "check": "अभी चेक करें",
+      "checking": "चेक कर रहा हूँ…",
+      "install": "{{version}} का इंस्टॉल करें और फिर रीलॉन चलाएं",
+      "installing": "डाउनलोड कर रहा है और जांच रहा है…",
+      "installed": "{{version}} इंस्टॉल हुआ है। फिर से चलाया जा रहा है…",
+      "available": "{{version}} उपलब्ध है।",
+      "upToDate": "अपडेट कर दिया गया है।",
+      "failed": "चेक करने में विफल रहा: {{message}}"
     }
   },
   "settings": {
     "debug": {
       "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "loading": "सेटिंग्स लोड हो रहे हैं…",
+      "loadError": "सेटिंग्स को पढ़ना नहीं मिला: {{message}}",
+      "setError": "वह बदलाव सेव नहीं किया गया: {{message}}",
+      "contextAwareness": "संदर्भ जागरूकता",
+      "contextAwarenessHint": "कर्सर के निकट के टेक्स्ट में नामों का उपयोग करके उन्हें सही लिखा जाता है। वह टेक्स्ट इस Mac पर ही रहता है और कभी बचाया नहीं जाता है।",
       "transforms": "Transforms",
       "transformsHint": "⌥1 चुने गए टेक्स्ट को सुधारता है और ⌥2 इसे एक अधिक स्पष्ट AI प्रमुख बनाता है। इसकी एक्टिव होने पर, उन बटनों के स्थान पर ¡ और ™ लग जाते हैं।",
       "transformsSafeShortcuts": "✅⌥1 और ✅⌥2 का उपयोग करें",
       "transformsSafeShortcutsHint": "¡ और ™ को ⌥1 और ⌥2 से उपलब्ध रखता है।",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "स्वच्छता स्तर",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "कोई नहीं",
+        "light": "लाइट",
+        "medium": "मध्यम"
       },
-      "all": "All settings"
+      "all": "सभ अनुप्रयोग"
     },
     "bar": {
       "title": "Dictation bar",
@@ -217,114 +217,114 @@
       },
       "scratchpad": "Scratchpad",
       "scratchpadLabel": "स्क्रैचपैड खोलें",
-      "scratchpadHint": "Choose where Scratchpad opens when you use its shortcut.",
+      "scratchpadHint": "संकेत और बार बटन किसे खोलता है इसका चयन करें।",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "मेरे आखिरी नोट को जारी रखें",
+        "new_note": "नया नोट शुरू करें"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro को VS Code, Cursor और Windsurf द्वारा स्क्रीन पर दिखाए गए कोड नाम और फ़ाइल नाम को अनुवाद करने के लिए Accessibility के माध्यम से उपयोग कर सकता है, इसके लिए आपके प्रोजेक्ट फोल्डर या फ़ाइल खोले जाते नहीं हैं।",
+      "contextOff": "संदर्भ समझ बंद है, इसलिए इन फीचर्स के लिए कुछ भी पढ़ा नहीं जा सकता है। इन्हें उत्तेजित करें ताकि इन्हें उपयोग कर सकें।",
+      "recognize": "कोड नाम पहचानें",
+      "recognizeHint": "जब आप एक चर या फ़ंक्शन के नाम कहते हैं जो आपके एडिटर में दिखाई देता है, तो यह आपके कोड के अनुसार लिखा जाता है, जैसे getUserById या user_id।",
+      "setUp": "सेट अप करें",
+      "change": "दिए गए संपादक बदलें",
+      "setUpFor": "{{editors}} ke liye setup karein",
+      "fileTags": "चैट में फ़ाइल टैग करें",
+      "fileTagsHint": "Cursor ya Windsurf chat mein \"index dot ts\" ke baad @index.ts likhne lagega jab us file ko tab mein ya file list mein dikhaya gaya ho.",
+      "fileTagsNeedsChat": "उपलब्ध होगा जब आप Cursor या Windsurf को अपने एडिटर में जोड़ देंगे।",
+      "fileTagsNeedsSetup": "उपलब्ध होगा जब आप कोड नाम पहचान के लिए सेटअप करेंगे।",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "कोड नाम पहचान सेट करें",
+        "stepEditors": "1. आप किन एडिटर्स का उपयोग करते हैं उसका चयन करें",
+        "stepScreenReader": "2. इनमें से प्रत्येक में स्क्रीन रीडर मोड चालू करें, ताकि वे अपना टेक्स्ट विस्प्र ब्रो साझा करें",
+        "openSettings": "संपादक के सेटिंग्स खोलें जिसमें विकल्प दिखाए जाएंगे।",
+        "search": "\"सुविधा समर्थन\" के लिए खोजें।",
+        "setOn": "सेट एडिटर: अनुपलब्धता समर्थन को \"on\" पर रखें।",
+        "palette": "आप भी \"स्क्रीन रीडर एक्सेसिबिलिटी मोड बदलें\" कमांड पेलेट (⇧⌘P) से चला सकते हैं।",
+        "confirm": "मैंने इन एडिटर में स्क्रीन रीडर मोड चालू कर दिया",
+        "cancel": "रद्द करें",
+        "finish": "सेटअप पूरा करें"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "निर्माण में गुप्त",
+        "local": "आपका डिक्टेशन और डेटा इस मैक पर रहता है।",
+        "noCloud": "स्पीच रिकग्निशन, स्वचालित करें और इतिहास लोकल पर चलता है। अकाउंट, टेलीमेट्री, क्लाउड डिक्टेशन या क्लाउड क्लीनअप नहीं है।",
+        "networkIntro": "Wispr Bro इन दो चीजों के लिए नेटवर्क का उपयोग करता है:",
+        "models": "स्पीच और क्लीनअप मॉडल हुगिंग फेस से डाउनलोड करें (huggingface.co)।",
+        "updates": "जब अपडेट चेक ओन होते हैं, तब गिहुब (github.com) पर एप अपडेट खोजें।"
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "जहां आपके डेटा रहता है",
+        "hint": "ये फोल्डर्स विस्प्र ब्रो के साथ हैं। पोर्टेबल इंस्टॉलेशन इन सभी को एप के डेटा फोल्डर में रखता है।",
+        "data": "App ke data aur settings",
+        "models": "गिने गए मॉडल",
+        "recordings": "रिकॉर्डिंग",
+        "logs": "लोकेशन लॉग और क्रैश रिपोर्ट",
+        "show": "फाइंडर में दिखाएँ",
+        "loading": "स्थान खोज रहा है...",
+        "failed": "उस फोल्डर को खोलना संभव नहीं था। फिर से कोशिश करें।"
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "इतिहास को कितना समय तक बनाए रखेंगे",
+        "textLabel": "dictated text ko rakhein",
+        "textHint": "पुराने आवाज़ के उदाहरण हटाए जाते हैं। डिफॉल्ट रूप से टेक्स्ट को हमेशा तक बनाया रहता है।",
+        "audioLabel": "रिकॉर्डिंग को बनाए रखें",
+        "audioHint": "आवाज़ 14 दिन बाद खत्म हो जाती है। आवाज़ को हटाना आवाज़ के लिए अपना लिखा गया टेक्स्ट बनाए रखता है जब तक कि टेक्स्ट की सीमा नहीं पार नहीं होती है।",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "आवाज कभी नहीं रखें",
+          "1": "1 दिन",
+          "7": "7 दिन",
+          "14": "14 दिन",
+          "30": "30 दिन",
+          "90": "90 दिन",
+          "365": "1 साल",
+          "forever": "हमेशा"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "अनुमति के विकल्प",
+        "context": "कंटेक्स्ट अहसास का उपयोग करें",
+        "contextHint": "केवल निकट वाले टेक्स्ट को पढ़ें जब आप नाम और लिखावट को पहचानने के लिए बोल रहे हों। संदर्भ सेवा या लॉग नहीं किया जाता है।",
+        "updates": "अप्लिकेशन अपडेट के लिए चेक करें",
+        "updatesHint": "GitHub से संपर्क करें ताकि नई वर्जन की जांच कर सकें। कोई डिक्टेशन या व्यक्तिगत डेटा भेजा नहीं जाता।",
+        "learn": "मेरे सुधार से सीखें",
+        "learnHint": "बाद में एक डिक्टेशन को पेस्ट करने के बाद, उस टेक्स्ट बॉक्स में आप अपने बदले हुए शब्दों को ध्यान से देखें और डिक्शनरी में उन्हें सुझाव दें। केवल सही शब्द बचाया जाता है; बाकी का टेक्स्ट कभी बचाया या लॉग नहीं किया जाता है।"
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "आपके डेटा",
+        "hint": "आपके इतिहास, सेटिंग्स और रिकॉर्डिंग के साथ एक ZIP एक्सपोर्ट करें। मॉडल और लॉग शामिल नहीं हैं।",
+        "button": "मेरे डेटा एक्सपोर्ट करें",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "done": "दस्तावेज़ बचाया गया है और फाइंडर में दिखाया गया है।",
+        "failed": "आपके डेटा के निकालने में विफलता हुई। कुछ भी हटा नहीं गया।"
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "सभ डेटा हटाएं",
+        "title": "क्या आप सभ डेटा हटाना चाहते हैं?",
+        "warning": "यह इतिहास, रिकॉर्डिंग, सेटिंग्स, लॉग और क्रैश रिपोर्ट्स को स्थायी रूप से हटा देगा। इसे वापस नहीं किया जा सकता।",
+        "relaunch": "Wispr Bro काम बंद करेगा, डेटा हटा देगा और ओनबॉर्डिंग में फिर से शुरू करेगा।",
+        "models": "भी डाउनलोड किए गए मॉडल्स को हटा दें",
+        "modelsHint": "इसे बंद रखें ताकि बार-बार बातचीत और स्कैन मॉडल डाउनलोड न होए।",
+        "confirmLabel": "{{word}} टाइप करें जाबात जाहिर करें",
+        "cancel": "रद्द करें",
+        "confirm": "सब के बारे में डिलीट करें",
+        "failed": "सभ को हटाना पूरा नहीं हुआ। बार-बार कोशिश करने से पहले शेष डेटा की जांच करें।"
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "क्रैश रिपोर्ट्स और डिग्री डेटा",
+        "hint": "क्रैश रिपोर्ट्स इस मैक पर ही रहते हैं और कभी अपलोड नहीं किए जाते हैं। आप अपने शेयर करने के लिए डायग्नोस्टिक्स कॉपी या सेव करें।",
+        "sanitized": "दिग्नोस्टिक्स दिक्टेटेड टेक्स्ट, प्रॉम्प्ट्स, डिक्शनरी शब्द, ईमेल एड्रेस, कीज और आपके होम फोल्डर पथ को हटा देते हैं।",
+        "copy": "दियाग्नोस्टिक्स कॉपी करें",
+        "save": "दिग्नोस्टिक्स सेव करें…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "साफ कर दिए गए डायग्नोस्टिक्स कॉपी कर लिए गए हैं।",
+        "saved": "दिग्गज निरीक्षण संरक्षित कर दिए गए हैं।",
+        "failed": "दिग्नोस्टिक्स के लिए तैयार नहीं कर सका। फिर से कोशिश करें।"
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "वर्जन {{version}}",
       "source": "स्रोत कोड देखें",
       "updates": "अपडेट नोट्स",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "अपडेट",
+      "license": "मुफ्त सॉफ्टवेयर, GNU जनरल पब्लिक लाइसेंस, वर्जन 3 (GPL-3.0) के तहत।",
+      "licenseLink": "लाइसेंस देखें",
+      "credit": "Handy पर बनाया गया, CJ Pais द्वारा, MIT लाइसेंस के तहत। इसके विकास के लिए सभी लोगों को धन्यवाद।",
+      "creditLink": "Handy पर GitHub",
+      "supportTitle": "समर्थन के लिए विकास करें",
+      "supportBody": "{{appName}} में कोई भुगतान करने वाला योजना नहीं है। सबसे अच्छा समर्थन एक बग रिपोर्ट, एक विचार या गिहुब पर योगदान है।"
     },
     "hotkeys": {
       "open": "कुंजी चाल",
@@ -412,7 +412,7 @@
           "view_changes": "दृश्य परिवर्तन बदलना"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Scratchpad kholne wale"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "पहले और बाद के बदलाव की नवीनतम बदलाव की जांच करें।"
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "अपने अंतिम नोट को जारी रखें या नए नोट के लिए शुरू करें, आपके स्क्रैचपैड सेटिंग के अनुसार।"
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "मुख्य"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "पार्टी कम करें",
+      "expand": "बाएँ ओ बार फैलाएं"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "दारक दिखाएं बदलें",
+      "toLight": "लाइट दिखाएं में बदलें"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "सूचनाएं",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "कुछ नया नहीं",
+        "body": "यहां अपडेट और सुझाव दिखाई देंगे।"
       },
       "bellUnread_one": "सूचनाएं, {{count}} अनपढ़",
       "bellUnread_other": "सूचनाएं, {{count}} अनपढ़",
@@ -485,65 +485,65 @@
       "justNow": "केवल अभी"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "मदद",
+      "updates": "अपडेट",
+      "whatsNew": "नया क्या है",
+      "essentials": "मूल बातें",
+      "shortcuts": "संक्षिप्त चिह्न",
+      "microphone": "माइक्रोफोन",
+      "languages": "भाषाएँ",
+      "documentation": "दस्तावेज़",
+      "getInTouch": "संपर्क करें",
+      "reportProblem": "समस्या रिपोर्ट करें…",
+      "sendFeedback": "प्रतिक्रिया भेजें",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "समस्या रिपोर्ट करें",
+        "body": "यह आपके ब्राउज़र में GitHub पर एक नया समस्या खोलता है, जिसमें आपके ऐप का संस्करण और Mac मॉडल भरा होता है। इसमें आपने बताया गया कुछ नहीं शामिल होता है, और आप भेजने से पहले इसे पढ़ सकते हैं और बदल सकते हैं।",
+        "diagnosticsTitle": "दिग्गज (वैकल्पिक)",
+        "diagnosticsBody": "साफ करी गई लॉग बीमारी के कारण खोजने में मदद करती हैं। उनमें आपके डिक्टेशन नहीं होते हैं। उन्हें यहां कॉपी करें, फिर समस्या में पेस्ट करें।",
+        "copy": "दिग्गज का निकालें",
+        "copied": "दिग्गज अनुलग्न कर दिए गए हैं। समस्या में उन्हें पेस्ट करें।",
+        "copyFailed": "डायग्नोस्टिक्स कॉपी नहीं कर सकल",
+        "open": "GitHub को खोलें",
+        "cancel": "रद्द करें",
+        "close": "बंद करें"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "सेटिंग्स सेक्शन"
     },
     "pages": {
       "dictation": {
         "title": "Dictation",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "बजाय टाइप करे, बोलें",
+          "body": "किसी भी एप में fn को रखें, आप लिखना चाहते हैं उसका बोलें और छोड़ दें। {{appName}} अपने कर्सर के स्थान पर साफ टेक्स्ट रखता है।",
+          "examplesLabel": "कुछ चीजों के अनुसरण करें",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "एक जल्दी जवाब संदेश के लिए",
+            "notes": "कॉल के बाद नोट्स",
+            "prompt": "एक लंबा प्रमोट एआई चैट के लिए"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "आपके डिक्टेशन यहां दिखाई देंगे",
+          "body": "हर एक इस मैक पर सेव किया जाता है, जिसमें आवाज शामिल है, इसलिए आप बाद में इसे कॉपी या चेक कर सकते हैं।",
+          "action": "इतिहास खोलें"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "दृष्टिएं",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "समाचार के लिए कुछ बातें आवश्यक हैं",
+          "body": "आपकी बोली की गति, चली गई रोज़ और बचा गया समय आप लंबे समय तक बोली देने के बाद दिखाई देता है।",
+          "action": "दिक्शन के लिए जाएं"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "शब्दकोश",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "स्निपेट्स",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "स्निपेट्स आ रहे हैं",
+          "body": "\"मेरा पता\" जैसा एक छोटा संकेत दें और पूरा टेक्स्ट प्राप्त करें। यह पृष्ठ बाद के अपडेट में आएगा।",
+          "action": "दिक्शन के लिए जाएं"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "शैली",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "शैली आ रही हैं",
+          "body": "प्रत्येक ऐप में अपने टेक्स्ट के कितने स्पष्ट या निर्मल होने का चयन करें, जैसे औपचारिक ईमेल से लेकर आरामदायक चैट तक। यह पृष्ठ बाद के अपडेट में आएगा।",
+          "action": "Dictation ke paas jaye"
         }
       },
       "transforms": {
         "title": "Transforms",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Transforms ko aage badhne ke liye",
+          "body": "कोई टेक्स्ट चुनें और एक शॉर्टकट से इसे छोटा, स्पष्ट या बेहतर तरीके से लिखें। यह पृष्ठ बाद के अपडेट में आएगा।",
+          "action": "Dictation ke paas jaye"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Scratchpad ke liye aage badh raha hai",
+          "body": "एक तेज़ स्थान जहां नोट लिखे जा सकते हैं जो कहीं भी जाएं तक नहीं। इस पृष्ठ को बाद के अपडेट में मिलेगा।",
+          "action": "दिटेक्शन पर जाएं"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "दोस्त से साझा करें"
       },
       "settings": {
-        "title": "Settings"
+        "title": "सेटिंग्स"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "मुझे दिखाएं"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "अपडेट चेक बंद",
+      "turnOn": "गैर चालू करें",
+      "notChecked": "अभी चेक नहीं किया गया",
+      "check": "अपडेट चेक करें",
+      "checking": "अपडेट चेक कर रहा हूँ…",
+      "upToDate": "अपडेट कर दिया गया",
+      "checkAgain": "फिर से चेक करें",
+      "checkFailed": "चेक नहीं कर सका",
+      "retry": "पुनरारंभ करें",
+      "downloading": "{{version}} के डाउनलोड कर रहा है…",
+      "ready": "अपडेट तैयार है",
+      "restartNow": "अभी रीस्टार्ट करें",
+      "installing": "लोड कर रहा है {{version}}...",
+      "installedWaiting": "{{version}} इंस्टॉल हो गया · इस डिक्टेशन के बाद रीस्टार्ट होगा",
+      "restarting": "पुन: शुरू कर रहा हूं…",
+      "installFailed": "अपडेट नहीं इंस्टॉल हुआ",
+      "busy": "पहले डिक्टेटिंग को समाप्त करें।",
+      "actionFailed": "वो काम नहीं कर पाया। बाद में फिर कोशिश करें।",
+      "lastChecked": "पिछले चेक किया गया {{time}}।",
+      "paused": "तीन अटेम्प्ट बाद, ऑटोमैटिक अपडेट रुक गए हैं जब तक कि {{time}} न हो जाए।",
+      "manualOnly": "यह विकास बिल्ड है: आप के अनुरोध पर ही अपडेट चेक किए जाते हैं।",
+      "readyHint": "20 मिनट तक बार-बार बोले बिना या बंद करने के बाद खुद से इंस्टॉल हो जाता है।",
+      "policy": "अपडेट पृष्ठ पर डाले जाते हैं और आप बोल रहे हों या बंद कर रहे हों तब इंस्टॉल होते हैं।",
+      "needsPassword": "यह ऐप एक फोल्डर में है जिसे एडमिन पासवर्ड की जरूरत होती है ताकि बदलाव किए जा सकें, इसलिए अपडेट केवल जब आप अब रीस्टार्ट करें तो होते हैं।"
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
-      "beta": "Beta"
+      "new": "नया!",
+      "beta": "बेटा"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "बंद करें"
     },
     "importWizard": {
       "stepsLabel": "अपनाए बिंदुओं",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
+      "dictation": "दिटेशन",
+      "vocabulary": "शब्दावली",
+      "help": "मदद",
+      "file": "फाइल",
+      "edit": "संपादित करें",
+      "view": "देखें",
+      "window": "विंडो",
+      "wordsDictated_one": "{{count}} शब्द बोला गया",
+      "wordsDictated_other": "{{count}} शब्द बोले गए",
+      "copyLast": "पिछले ट्रान्सक्रिप्ट को कॉपी करें",
+      "copyLastPreview": "पिछले ट्रान्सक्रिप्ट को कॉपी करें: “{{preview}}”",
+      "copyLastConcealed": "पिछला ट्रांसक्रिप्ट (टेक्स्ट छिपा हुआ) कॉपी करें",
+      "microphone": "माइक्रोफोन",
+      "languages": "भाषाएँ",
+      "moreLanguages": "भाषाएँ जोड़ें या हटाएं…",
+      "automaticMicrophone": "अटॉ-डिटेक्ट (सिस्टम सेटिंग)",
+      "noMicrophones": "कोई माइक्रोफोन नहीं मिला",
+      "dictionaryWords_one": "{{count}} शब्द का शब्दकोश",
+      "dictionaryWords_other": "{{count}} शब्द शब्दकोश",
       "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
+      "snippetCount_other": "{{count}} स्निपेट",
+      "addWord": "शब्द जोड़ें…",
+      "newSnippet": "नया स्निपेट…",
+      "documentation": "दस्तावेज़",
+      "shortcuts": "संक्षिप्त चिह्न",
+      "reportProblem": "समस्या रिपोर्ट करें…",
+      "sendFeedback": "प्रतिक्रिया भेजें…",
+      "openApp": "{{appName}} को खोलें",
+      "checkUpdates": "अपडेट चेक करें…",
+      "pasteLast": "पिछले ट्रान्सक्रिप्ट को पेस्ट करें",
+      "cancelDictation": "dictation cancel karein",
+      "shortcutsBlocked": "संक्षिप्त की ब्लॉक की गई है — सेटिंग्स खोलें",
+      "undo": "विरोधाभास",
+      "redo": "फिर से करें",
+      "cut": "कट",
+      "copy": "रिकॉपी करें",
+      "paste": "लगाएँ",
+      "selectAll": "सभ के चुनें",
+      "minimize": "कम करें",
       "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "closeWindow": "बंद करें",
+      "fullScreen": "पूरा स्क्रीन में घटाएं",
+      "services": "सेवाएं",
+      "hideOthers": "दूसरे छुपाएँ",
+      "showAll": "सभ को दिखाएं",
+      "about": "{{appName}} के बारे में",
+      "hide": "{{appName}} छुपाएं",
+      "quitApp": "बंद करें {{appName}}",
+      "restartToUpdate": "रीस्टार्ट करें ताकि अपडेट हो सके {{version}}",
+      "updatesOff": "अपडेट चेक करना बंद कर दिया गया…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "शॉर्टकट काम नहीं कर रहा है"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -744,14 +744,14 @@
         "tab": "Tab",
         "delete": "Delete",
         "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
+        "left": "बाएँ बटन",
+        "right": "दाएं बटन",
+        "up": "ऊपर के बटन",
+        "down": "नीचे के बटन",
+        "home": "गृह",
+        "end": "अंत",
         "pageUp": "Page Up",
-        "pageDown": "Page Down",
+        "pageDown": "पेज डाउन",
         "mouseLeft": "माउस का बायाँ बटन",
         "mouseRight": "माउस का दायाँ बटन",
         "mouseMiddle": "माउस का बीच वाला बटन",
@@ -834,7 +834,7 @@
       "takeRecovered": {
         "title_one": "एक रिकॉर्डिंग बंद होने पर बचाई गई थी",
         "title_other": "{{count}} रिकॉर्डिंग एप बंद होने पर बचाए गए",
-        "body": "They were still recording when {{appName}} closed. They are in History, where they are transcribed."
+        "body": "{{appName}} बंद होने के समय ये रिकॉर्डिंग अभी चल रही थीं। ये इतिहास में हैं, जहाँ इन्हें टेक्स्ट में बदला जाता है।"
       }
     },
     "scratchpad": {
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "दिटेट",
+          "tooltip": "fn के ऊपर रखें ताकि बोलें"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "माइक्रोफोन से जुड़ाव खत्म हो गया है। आपने तक बोला है उसे बचाया जाएगा।",
         "undo": "“पहले जैसा करें” डिक्टेशन बार पर 4 सेकंड तक रहता है।",
         "diff": "रूट बदलाव समीक्षा के लिए तैयार हैं।",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Secure Input चालू है। fn और Space डिटेक्शन को बंद नहीं कर सकते। Escape या बंद करने वाला बटन अभी भी डिटेक्शन को रद्द कर सकता है।"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "6,000 अक्षर या उससे कम चुनें",
         "transform_focus_moved": "आपने आगे बढ़ गए, इसलिए कुछ नहीं बदला",
         "transform_failed": "उस टेक्स्ट को बदलने में सफल नहीं हुआ",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "आपका शॉर्टकट काम नहीं कर रहा है",
+        "shortcut_stopped": "आपका शॉर्टकट अब जवाब दे रहा है",
+        "shortcut_back": "आपका शॉर्टकट फिर से काम कर रहा है"
       },
       "card": {
         "no_text_field": "पहले एक टेक्स्ट फील्ड में क्लिक करें",
@@ -906,22 +906,22 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} Mac पर पूरी तरह से काम करने वाला मुफ्त डिक्टेशन है। यहाँ प्राप्त करें:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "अगला कदम",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "AI चैट खोलें, जैसे ChatGPT या Claude",
+        "note": "अपने नोट्स ऐप को खोलें",
+        "message": "एक चैट खोलें, जैसे मैसेजेस या स्लैक",
+        "email": "अपने ईमेल खोलें",
+        "comment": "एक पोस्ट खोलें जिस पर आप टिप्पणी करना चाहते हैं",
+        "document": "एक लिख रहे दस्तावेज खोलें",
+        "coding": "Open Cursor, VS Code ya kisi aur code editor"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "क्लिक करें जहां आप लिखना चाहते हैं, फिर fn के साथ बोलें।",
+      "howFallback": "क्लिक करें जहां आप लिखना चाहते हैं, फिर कंट्रोल और ऑप्शन होल्ड करें और बोलें।",
+      "escape": "Esc कमान दबाएं ताकि इस सुझाव को बंद करें।"
     }
   },
   "speechModels": {
@@ -1087,7 +1087,7 @@
       "edit": "{{entry}} के संपादन करें",
       "delete": "{{entry}} हटाएं",
       "accept": "{{entry}} को अपने शब्दकोश में जोड़ें",
-      "reject": "Don't learn {{entry}}"
+      "reject": "नहीं सीखें {{entry}}"
     },
     "source": {
       "import": "import kiya",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "अभी तक कोई सुझाव नहीं",
       "body": "जब {{appName}} आपके सही करने वाले शब्दों से सीख सके, तब वे यहाँ आपके अनुमोदन के लिए दिखाई देंगे।",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "प्रतिशुद्ध नाम या शब्द को बात बोले के बाद टेक्स्ट बॉक्स में सुधारें, फिर Return, Tab या आगे बढ़ें। आपने सुधारा शब्द यहां दिखाई देता है जिसे आप अपना स्वीकार कर सकते हैं।"
     },
     "noMatch": {
       "title": "कुछ भी मेल नहीं करता",
@@ -1151,7 +1151,7 @@
       "title": "शब्दकोश इम्पोर्ट करें",
       "description": "CSV में बचाए गए स्प्रेडशीट से शब्द और बदलाव लाएं।",
       "fieldPhrase": "शब्द, या जो आप कहते हैं",
-      "fieldReplacement": "Replace with",
+      "fieldReplacement": "जगह लें",
       "format": {
         "intro": "एक एंट्री प्रति पंक्ति:",
         "columns": "पहले स्तंभ को एक शब्द या आप के बोले गए शब्द है; दूसरे, यदि भरा गया है, तो लिखने के लिए लिखा गया टेक्स्ट है।",
@@ -1202,15 +1202,15 @@
     "export": {
       "open": "बाहर निकालें",
       "fileName": "{{appName}} dictionary.csv",
-      "done_one": "Exported {{count}} entry.",
+      "done_one": "{{count}} प्रविष्टि निर्यात की गई।",
       "done_other": "अन्य {{count}} एंट्रीज़ एक्सपोर्ट कर दिए गए हैं।",
       "failed": "शब्दकोश निर्यात नहीं किया जा सकता है। कृपया फिर से कोशिश करें।"
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” को फिर से सुझाया नहीं जाएगा।",
+    "actionFailed": "वो काम नहीं करा। कृपया फिर से कोशिश करें।",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "मेरे सुधार से सीखें",
+      "hint": "30 सेकंड तक बाद जब एक डिक्टेशन को पेस्ट कर दिया जाता है, तो {{appName}} इस टेक्स्ट बॉक्स में आप द्वारा सुधारे गए शब्दों को ध्यान में रखता है और यहां सुझाव देता है। केवल आपने सुधारा गया शब्द बचाया जाता है, बाकी का कोई भी टेक्स्ट नहीं। पासवर्ड फील्ड, पासवर्ड मैनेजर, बैंकिंग एप्स और टर्मिनल कभी नहीं पढ़े जाते हैं।"
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "निकट वाला टेक्स्ट लिखने में मदद करा",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "माइक खो गया, आपने क्या कहा उसे बनाए रखा जा रहा है",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "अनुचित इनपुट सक्षम है · fn+Space लॉक नहीं कर सकता · Esc या ✕ रद्द करता है",
+      "secure_input_app": "{{app}} में निर्यात उपलब्धता है · fn+Space लॉक नहीं कर सकता · Esc या ✕ रद्द करता है"
     },
     "settingUp": "सेट अप हो रहा है…",
     "settingUpPercent": "सेट अप हो रहा है… {{percent}}%",
@@ -1248,7 +1248,7 @@
     "sendsAutomatically": "स्वयंक्रिय भेजता है",
     "shortcutDetail": {
       "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "stopped": "कीबोर्ड सुनने वाला बंद हो गया"
     }
   },
   "transforms": {
@@ -1431,7 +1431,7 @@
     }
   },
   "snippets": {
-    "add": "Add snippet",
+    "add": "क्षेत्र जोड़ें",
     "added": "“{{trigger}}” जोड़ दिया गया है।",
     "search": "अपने स्निपेट्स की तलाश करें",
     "refresh": "नवीनाइकरण",
@@ -1766,62 +1766,62 @@
       "wordHint": "शब्द जोड़ेगा, ताकि जब आप उसे कहेंगे तो ऐप उसे पहचान सके।",
       "duplicate": "वह पहले ही आपके शब्दकोश में है।",
       "failed": "वह सेव नहीं किया जा सकता था। कृपया फिर से कोशिश करें।",
-      "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
+      "savedRule": "अब से “{{from}}” की जगह “{{to}}” लिखा जाएगा।",
       "savedWord": "“{{word}}” आपके शब्दकोश में है।",
       "openDictionary": "Dictionary kholne"
     }
   },
   "scratchpad": {
-    "newNote": "New note",
+    "newNote": "नया नोट",
     "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "addToBar": "bar mein add karein",
+    "addToBarHelp": "रिस्क्यू पैड बटन को डिक्टेट के पास रिस्टिंग बार पर रखें।",
+    "recents": "हाल के",
+    "searchLabel": "नोट खोजें",
+    "searchPlaceholder": "अपने नोट्स में खोजें",
+    "loading": "नोट्स लोड हो रहे हैं…",
+    "empty": "अभी तक कोई नोट नहीं",
+    "emptyHelp": "एक नोट शुरू करें, फिर इस फ्लोटिंग विंडो में टाइप या डिक्टेट करें।",
+    "emptyNote": "खाली नोट",
+    "noResults": "कोई नोट आपके खोज से मेल नहीं करता है।",
+    "untitled": "बिना नाम की नोट",
+    "pinned": "लगाया गया",
+    "pin": "नोट के पिन करें",
+    "unpin": "नोट अनपिन करें",
+    "editAction": "नोट संपादित करें",
+    "edit": "{{name}} के संपादन करें",
+    "delete": "नोट हटाएं",
+    "deleteConfirm": "“{{name}}” को हटाएं? इसे वापस नहीं ले सकते।",
+    "error": "Scratchpad उस कार्य को पूरा नहीं कर सका। आपका वर्तमान टेक्स्ट यहां अभी भी है; कृपया दोबारा कोशिश करें।",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
+      "label": "संक्षिप्त रूप से खोलें",
+      "change": "शॉर्टकट सेट करें",
       "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
+      "help": "कहीं भी स्क्रैचपैड खोलें। यह शुरू में सेट नहीं होता है, इसलिए तब तक यह कोई की नहीं रोकता जब आप एक चुनते हैं।",
+      "close": "संक्षिप्त चरण बंद करें",
+      "proposed": "सुझाव दिया गया संयोजन",
       "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "use": "Control + Option + S",
+      "chooseAnother": "एक अलग शॉर्टकट चुनें",
+      "error": "वह शॉर्टकट सेव नहीं किया जा सकता था। कोने का एक अन्य संयोजन का प्रयास करें।"
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "नोट खोलें",
+    "tools": "नोट टूल्स",
+    "sidebar": "नोट सूची दिखाएं",
+    "polish": "नोट को सुधारें",
+    "polishing": "सुंदर कर रहा हूं…",
+    "textSize": "टेक्स्ट आकार बदलें (वर्तमान में {{size}} पॉइंट्स)",
+    "expand": "नोट विंडो को फैलाएं",
+    "shrink": "नोट विंडो के आकार को वापस करें",
+    "close": "Scratchpad. close",
+    "noteBody": "नोट का टेक्स्ट",
+    "notePlaceholder": "लिखें या नोट बताएं…",
+    "saved": "बचाया गया",
+    "saving": "बचा रहा है…",
+    "saveError": "अभी बचाया नहीं गया",
+    "autosaveHelp": "स्वयंक्रिय बचाता है",
+    "copy": "लिखा गया",
+    "copied": "कॉपी कर दिया गया"
   },
   "style": {
     "tabsLabel": "शैली के समूह",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "कुछ तैयार कर रहा हूं…",
+    "back": "पीछे",
+    "continue": "जارी रखें",
+    "yes": "हां",
+    "no": "नहीं",
+    "downloadHint": "बातचीत के सेटअप बैकग्राउंड में जारी रहेगा। यहां इसके लिए इंतजार करना आवश्यक नहीं होगा।",
+    "navigationFailed": "वह स्टेप सेव नहीं किया जा सकता था। फिर से कोशिश करें।",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "सेटअप प्रगति",
+      "welcome": "स्वागत है",
+      "permissions": "अनुमतियाँ",
+      "setup": "सेटअप",
+      "practice": "प्रैक्टिस",
+      "done": "(पूरा कर दिया)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "मदद",
+      "title": "सेटअप के लिए मदद",
+      "close": "सहायता को बंद करें",
+      "done": "समझ गया",
+      "body": "हर चरण के लिए कुछ सेकंड लगते हैं। किसी भी समय आप वापस जा सकते हैं, और अगर आप बंद कर देंगे, तो सेटअप आपके छोड़े गए स्थान पर फिर से शुरू हो जाएगा।",
+      "download": "Wispr Bro इस Mac पर बोली के पहचान को सेट करता है जब आप इन चरणों के माध्यम से जा रहे होते हैं। जब तक यह तैयार नहीं होता, तब तक आप बोले गए चीजों को बचाया जाता है और जब तैयार हो जाता है तब उन्हें टाइप कर दिया जाता है।"
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "बोलिए, और आपके शब्द दिखाई देंगे",
+      "subtitle": "एक की रखें, बोलें, छोड़ दें। साफ टेक्स्ट आपके टाइप करने के स्थान पर पहुंचता है।",
+      "privacyTitle": "Sab kuch is Mac par rahega",
+      "privacy": "आपकी आवाज़ और आपका टेक्स्ट कोई भी कंप्यूटर छोड़े नहीं। कोई अकाउंट, कोई बाउंड, कोई ट्रैकिंग नहीं।",
+      "download": "अब बातचीत के सेटअप शुरू हो रहा है और पीछे बगल में चल रहा है।",
+      "start": "शुरू करें"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Wispr Bro ko Applications mein badalne ke liye",
+      "body": "Wispr Bro आपके Applications फोल्डर के बाहर से चल रहा है। इसे वहाँ ले जाने से अपडेट और परमिशन काम करता है।",
+      "note": "Wispr Bro को खुद ही फिर से खोलता है और सेटअप जारी रखता है।",
+      "action": "Applications में शिफ्ट करें",
+      "moving": "गत चल रहा है...",
+      "skip": "क्या अब नहीं",
+      "error": "Wispr Bro को खुद को बदलने में सफल नहीं हुआ। फाइंडर में एप्लिकेशन्स में खींचें, फिर फिर से खोलें।"
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "आप किन भाषाओं में बोलते हैं?",
+      "subtitle": "हर भाषा चुनें जिसमें आप बोलते हैं। Wispr Bro जब आपकी भाषा को जानता है, तो आपके शब्दों को बेहतर तरीके से सुधारता है।",
+      "listLabel": "भाषाएँ",
+      "noMatch": "कोई भाषा “{{query}}” के साथ मेल नहीं करती।",
+      "count_one": "Dictation works in {{count}} language. आप बाद में सेटिंग्स में अपना बदल सकते हैं।",
+      "count_other": "Dictation works in {{count}} languages. आप बाद में सेटिंग्स में अपना बदल सकते हैं।",
+      "weak_one": "{{languages}} में पहचान कम निर्धारित होती है। यह काम करता है, लेकिन गलतियों के अधिक होने की उम्मीद है।",
+      "weak_other": "{{languages}} में पहचान कम निश्चित होती है। वे काम करते हैं, लेकिन अधिक गलतियों की उम्मीद होनी चाहिए।"
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "दो अनुमति",
+      "subtitle": "macOS आपको इनकी अनुमति देने के लिए कहता है, जब तक कि एक बार नहीं होता है। हर पंक्ति जैसे ही उत्तर देती है, उसे चिह्नित कर देती है।",
+      "allowed": "अनुमति दी गई",
+      "waiting": "macOS … में इंतजार कर रहा हूं",
+      "openSettings": "System Settings ke upar kholne",
+      "prompt": "macOS के प्रश्न",
+      "pane": "सिस्टम सेटिंग्स में",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "माइक्रोफोन",
+        "why": "ताकि Wispr Bro आपके हाथ में की रखते समय आपका आवाज सुन सके। आवाज का प्रोसेसिंग इस Mac पर ही होता है।",
+        "action": "माइक्रोफोन की अनुमति दें",
+        "promptAlt": "macOS माइक्रोफोन के प्रमाण प्रस्तुत करता है, जिसमें 'अनुमति' बटन हाइलाइट किया गया है",
+        "paneAlt": "सिस्टम सेटिंग्स, गोपनीयता और सुरक्षा, माइक्रोफोन, जिसमें विस्प्र ब्रो का स्विच चालू है",
+        "waitingHelp": "macOS में 'अनुमति' पर क्लिक करें। अगर आप इसे देख नहीं पाएं तो सिस्टम सेटिंग्स खोलें और माइक्रोफोन के नीचे विस्प्र ब्रो चालू करें।"
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "सुविधा",
+        "why": "ताकि Wispr Bro आपके शॉर्टकट को देख सके और आप उपयोग कर रहे ऐप में टेक्स्ट टाइप कर सके।",
+        "action": "अनुमति दें Accessibility",
+        "promptAlt": "macOS में एक्सेसिबिलिटी प्रमाण पर चित्र, जिसमें 'सिस्टम सेटिंग्स खोलें' बटन हाइलाइट किया गया है",
+        "paneAlt": "सिस्टम सेटिंग्स, प्राइवेसी और सुरक्षा, अक्षमता का चित्र, जिसमें विस्प्र ब्रो का स्विच चालू है",
+        "waitingHelp": "सिस्टम सेटिंग्स में, विस्प्र ब्रो के निकट बटन को ओन करें। आपको अपने पासवर्ड से लॉक खोलना हो सकता है।"
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "अपने माइक्रोफोन को टेस्ट करें",
+      "guidance": "लगाए गए और बिल्ट-इन माइक्रोफोन सबसे अच्छा काम करते हैं। ब्लूटूथ हेडसेट टूट सकते हैं या गूंज सकते हैं।",
+      "question": "क्या आप बात करते हैं तो बार गति बदलते हैं?",
+      "noHelp": "नीचे एक और माइक्रोफोन चुनें, फिर बार-बार बोलें।",
+      "change": "माइक्रोफोन बदलें",
+      "previewList": "आपके माइक्रोफोन यहां दिखाई देंगे।"
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "अपना शॉर्टकट टेस्ट करें",
+      "instruction": "कीबोर्ड पर fn की (🌐) पर दबाए रखें। आप इसे दबाए रखते हुए नीचे वाली की के नीचे जलता है।",
+      "fallbackInstruction": "Control और Option को एक साथ दबाए रखें। नीचे दिए गए टाइप के नीचे लाल हो जाएंगे जब आप उन्हें दबाए रखेंगे।",
+      "unboundInstruction": "कोई डिक्टेशन शॉर्टकट सेट नहीं है। एडिट शॉर्टकट का उपयोग करके एक चुनें।",
+      "keyLabel": "fn की",
+      "fallbackKeyLabel": "Control aur Option",
+      "pressed": "टाइप किया गया",
+      "notPressed": "की के लिए इंतजार कर रहा हूँ…",
+      "worked": "काम करता है। बटन जल उठा।",
+      "question": "की के बिजली उगी?",
+      "edit": "शॉर्टकट संपादित करें",
+      "tryAgain": "फिर से कोशिश करें",
+      "otherCauses": "नहीं? अन्य संभावित कारण:",
+      "changeFailed": "वह बदलाव सफल नहीं हुआ। फिर से कोशिश करें, या सिस्टम सेटिंग्स का उपयोग करें।",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro में की दबाव का दृश्य नहीं है",
+          "title": "Wispr Bro के पास अभी तक की बटन दबाव के दृश्य नहीं है",
+          "body": "यह आमतौर पर विस्प्र ब्रो के लिए अनुपलब्धता नहीं है। सिस्टम सेटिंग्स में इसे चालू करें, फिर वापस आएं और \"प्रयास करें\" पर क्लिक करें।",
+          "action": "Accessibility settings ke upar click karein"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "एक पासवर्ड फील्ड या दूसरा एप ब्लॉक कर रहा है",
+          "title": "दूसरा एप बटन दबाव को रोक रहा है",
+          "body": "जब एक पासवर्ड फील्ड या कुछ ऐप्स (पासवर्ड मैनेजर, टर्मिनल के सुरक्षित कीबोर्ड एंट्री) के फोकस होता है, तब macOS अन्य सभी ऐप्स से की दबाव को छुट्टी देता है। इसे बंद करें या इससे दूर क्लिक करें, फिर फिर से कोशिश करें।",
+          "active": "अभी, कोई दूसरा एप बटन के दबाव को रोक रहा है।",
+          "inactive": "अभी कोई भी की दबाव रोक रहा नहीं है।"
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "🌐 की एमोजी खोलती है या कीबोर्ड बदलती है",
+          "title": "macOS ने 🌐 की अपना काम दिया",
+          "body": "आपका Mac जब आप 🌐 पर दबाते हैं तो एमोजी खुलता है, इनपुट स्रोत बदलता है या Apple डिक्टेशन शुरू होता है। Wispr Bro \"🌐 कुंजी पर दबाएं ताकि\" के लिए \"कुछ भी न करें\" रख सकता है। यदि आप fn के लिए डिक्टेशन का उपयोग बंद कर देते हैं तो आपका चयन वापस ले लिया जाता है।",
+          "consent": "🌐 पर कुछ भी न करें लगाएं",
+          "changed": "🌐 अब अपने आप के लिए कुछ नहीं करता",
+          "open": "Keyboard settings ke opening"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "मेरे कीबोर्ड पर fn की नहीं है",
+          "title": "Control aur Option ke liye istemal karein",
+          "body": "कुछ कीबोर्ड में fn या 🌐 की नहीं होती है। इसके बजाय नियंत्रण और ऑप्शन को एक साथ दबाएं और बोलें। आप किसी भी समय सेटिंग्स में इसे बदल सकते हैं।",
+          "action": "Control + Option",
+          "changed": "Control + Option आपका शॉर्टकट है"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "प्रैक्टिस: हैंड्स फ्री में एक ईमेल लिखें",
+      "instruction": "fn और स्पेस के साथ दबाएं, फिर बोलें। कुछ भी नहीं रखना है। जब आप खत्म कर लेंगे तो फिर से fn दबाएं। कोशिश करें: \"नमस्ते सैम, नोट्स के लिए धन्यवाद। गुरुवार को दस बजे मिल सकते हैं?\"",
+      "instructionFallback": "Control, Option aur Space ke saath dabaa lein, phir baat karein. Kuch bhi nahi hold karna padega. baat khatam hone par Control aur Option phir baar dabaa lein. karo: \"Namaste Sam, notes ke liye shukriya. Thursday ko 10 baje milne ke liye kya hoga?\"",
+      "instructionUnbound": "कोई डिक्टेशन शॉर्टकट सेट नहीं है, इसलिए इस प्रैक्टिस को शुरू नहीं किया जा सकता है। अभी इसे छोड़ दें और सेटिंग्स में शॉर्टकट सेट करें।",
+      "skip": "चलो छोड़ दें",
+      "waiting": "आप बोलना शुरू करने के लिए इंतजार कर रहे हैं…",
+      "listening": "सुन रहा हूँ… जब आप पूरा कर लेंगे तो fn दबाएं।",
+      "listening_fallback": "सुन रहा हूँ… आप खत्म करने पर कंट्रोल और ऑप्शन दबाएं।",
+      "working": "लिखना शुरू कर रहा हूँ…",
+      "settingUp": "सेटअप कर रहा है...",
+      "settingUpPercent": "सेट कर रहा है… {{percent}}%",
+      "queuedNote": "आपके शब्द सेवा में हैं। सेटअप पूरा होने के बाद यहां दिखेंगे, और इस तरह या विकल्प के रूप में इतिहास में भी होंगे। एक थोड़ा बाद हम आगे बढ़ जाएंगे।",
+      "nothing": "कुछ नहीं आया। अपने माइक्रोफोन को चालू करें और फिर एक बार अपना प्रयास करें।",
+      "filled": "वो आपका ईमेल है। अधिक जोड़ें या जारी रखें।",
       "composer": {
-        "title": "New message",
-        "to": "To",
-        "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "title": "नया संदेश",
+        "to": "टू",
+        "recipient": "साम",
+        "subject": "विषय",
+        "subjectText": "गुरुवार",
+        "body": "संदेश",
+        "placeholder": "आपके शब्द यहां दिखाई देंगे।"
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "बस यह है। आपने अपना पहला टेक्स्ट बताया।",
+      "subtitle": "कहाँ भी टाइप कर सकते हैं, वहाँ अब बात कर सकते हैं।"
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "दिग्गज बोलने से आप हर हफ्ते लगभग {{hours}} घंटा बचा सकते हैं",
+      "headline_other": "दिग्गज बोलने से आप हर हफ्ते लगभग {{hours}} घंटे बचा सकते हैं",
+      "intro": "बोलना अधिकांश लोगों के लिए टाइप करने से जल्दी होता है। 30 सेकंड के टाइप टेस्ट करें ताकि आपको बचा सके वक्त का अनुमान लग सके।",
+      "howFast": "आप कितनी तेज़ी से टाइप करते हैं?",
+      "skipTest": "टेस्ट छोड़ दें",
+      "basisMeasured": "आपके {{wpm}} शब्द प्रति मिनट टाइपिंग के आधार पर, और बात करते समय लगभग {{speaking}} शब्द प्रति मिनट के आधार पर।",
+      "basisAverage": "{{wpm}} शब्द प्रति मिनट के औसत टाइपिंग स्पीड पर और {{speaking}} शब्द प्रति मिनट के बारे में बोलते हुए आधारित।",
+      "sliderLabel": "आप रोज कितना टाइप करते हैं?",
+      "hoursPerDay_one": "{{hours}} घंटा दिन में",
+      "hoursPerDay_other": "{{hours}} घंटे दिन में",
+      "takeTest": "टाइपिंग टेस्ट लें"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "आप कितनी तेज़ टाइप करते हैं?",
+      "instruction": "नीचे दिए गए अनुच्छेद को आप अपने सामान्य तरीके से टाइप करें। घड़ी आपके पहले की दबाव से शुरू होती है और {{seconds}} सेकंड तक चलती है।",
+      "skip": "चलो",
+      "language": "भाषा",
+      "wpmPending": "— शब्द प्रति मिनट",
+      "wpm_one": "{{count}} शब्द प्रति मिनट",
+      "wpm_other": "{{count}} शब्द प्रति मिनट",
+      "secondsLeft_one": "{{count}} दूसरा बचा है",
+      "secondsLeft_other": "{{count}} सेकंड बचे हैं",
+      "inputLabel": "यहां एक अनुच्छेद टाइप करें",
+      "placeholder": "यहाँ टाइप करना शुरू करें…",
+      "nothing": "कुछ भी पैराग्राफ से मेल नहीं किया गया। फिर से कोशिश करें।",
+      "result_one": "आप लगभग {{count}} शब्द प्रति मिनट टाइप करते हैं।",
+      "result_other": "आप लगभग {{count}} शब्द प्रति मिनट टाइप करते हैं।",
+      "tryAgain": "फिर से कोशिश करें",
+      "recalculate": "फिर से गणना करें"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "आपके पास सभ के लिए तैयार है",
+      "subtitle": "यहाँ विस्प ब्रो के सेटअप का विवरण है। किसी भी एप में अपना शॉर्टकट रखें और बोलें।",
+      "languages": "भाषाएँ",
+      "shortcut": "शॉर्टकट",
+      "shortcutFn": "fn के ऊपर रखें (🌐)",
+      "shortcutFallback": "Control और Option को दबाए रखें",
+      "microphone": "माइक्रोफोन",
+      "micDefault": "मैक के प्रारंभिक माइक्रोफोन",
+      "typing": "लिखने की गति",
+      "typingWpm_one": "{{count}} शब्द प्रति मिनट",
+      "typingWpm_other": "{{count}} शब्द प्रति मिनट",
+      "typingSkipped": "नापा गया नहीं",
+      "notSet": "निर्धारित नहीं",
+      "launchAtLogin": "Wispr Bro ko login karte time open kare",
+      "launchAtLoginHint": "तो जब भी आप चाहें, तब तक डिक्टेशन तैयार है।",
+      "later": "आप बाद में सेटिंग्स में इस सबको बदल सकते हैं।",
+      "finish": "शुरू करें बोलना"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "नए क्या हैं {{version}} में",
+    "label": "इस एडिशन के लिए रिलीज नोट्स",
+    "close": "बंद करें",
+    "done": "समझ गया"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "{{appName}} के बंद करें",
+    "body": "{{appName}} मुफ्त और खुला स्रोत है, और यह पूरी तरह से Mac पर चलता है। कोई रिफरल कोड नहीं है और कुछ भी ट्रैक नहीं किया जाता है: लिंक सभी के लिए एक ही है।",
+    "downloadLabel": "डाउनलोड लिंक",
+    "brewLabel": "Homebrew में इंस्टॉल करें",
+    "copyLink": "लिंक कॉपी करें",
+    "copyBrew": "होमब्रीव कमांड कॉपी करें",
+    "copy": "रिकॉपी करें",
+    "copied": "कॉपी कर दिया गया",
+    "copyFailed": "कॉपी नहीं कर सका। टेक्स्ट चुनें और उसे कॉपी करें।",
+    "shareTitle": "kisi ko bhejne ke liye",
+    "shareBody": "संदेश, मेल, एयरड्रॉप और आपके मैक के शेयर करने के कोने के कोने।",
+    "shareButton": "शेयर…",
+    "shareFailed": "शेयर शीट खोलने में सफल नहीं हुआ।"
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "आपका डिक्टेशन शॉर्टकट काम नहीं कर रहा है। विस्प्र ब्रो के लिए एक्सेसिबिलिटी एक्सेस फिर से चाहिए।",
+      "stopped": "आपका डिक्टेशन शॉर्टकट अब जवाब दे रहा है।",
+      "fix": "सही करें"
+    },
+    "sheet": {
+      "title": "अपने शॉर्टकट को ठीक करें",
+      "introPermission": "macOS ने Wispr Bro के Accessibility एक्सेस को बंद कर दिया है, इसलिए इसे अपने शॉर्टकट को नोटिस नहीं कर पाएगा। इसका हो सकता है कि एक अपडेट के बाद या जब System Settings में एंट्री को बदला गया हो।",
+      "introStopped": "Wispr Bro के कीबोर्ड लिस्टनर स्टॉप हो गया है। जैसे ही macOS इसे अनुमति देता है, वह खुद ही शुरू कर देता है।",
+      "pictureLabel": "System Settings, Privacy & Security, Accessibility: Wispr Bro row में अपना स्विच चालू किया गया है",
+      "pictureTitle": "सुविधा",
+      "pictureBack": "गोपनीयता और सुरक्षा",
+      "stepsTitle": "उसे बार-बार चलाएं",
+      "step1": "Open System Settings › Privacy & Security › Accessibility.",
+      "step2": "Wispr Bro को चालू करें। यदि यह पहले से चालू है, तो इसे बंद करके फिर से चालू करें।",
+      "step3": "यहाँ वापस आएं। कुछ सेकंड में ही शॉर्टकट फिर से काम करेगा, बिना शुरू करने की आवश्यकता होगी।",
+      "resetTitle": "अभी भी काम नहीं कर रहा?",
+      "resetBody": "अपडेट के बाद, macOS पुराने एंट्री को बनाए रख सकता है जो अब एप्लिकेशन से मेल नहीं करता है। रीसेट विस्प्र ब्रो के एंट्री को हटा देता है ताकि आप इसे फिर से अनुमति दे सकें।",
+      "resetStep1": "सेट रिसेट और फिर दोबारा दें।",
+      "resetStep2": "Wispr Bro ke liye macOS ne puchne par allow karein, ya us list mein usko badal dein.",
+      "resetFailed": "एंट्री को रीसेट करने में सफल नहीं हुआ। लिस्ट में विस्प्र ब्रो का चयन करें और माइनस बटन से इसे हटाएं, फिर प्लस बटन से फिर से जोड़ें।",
+      "openSettings": "एक्सेसिबिलिटी सेटिंग्स खोलें",
+      "reset": "निर्माण करें और फिर दोबारा दें",
+      "checkAgain": "फिर से चेक करें",
+      "relaunch": "नव चलाएं ताकि पूरा कर लिया जा सके",
+      "close": "बंद करें",
+      "status": {
+        "healthy": "आपका शॉर्टकट काम कर रहा है।",
+        "lost": "अभी काम नहीं कर रहा",
+        "recovering": "पुन: जोड़ रहा हूं…",
+        "needsRelaunch": "अक्षेण वापस आ गया है। विस्प्र ब्रो को फिर से शुरू करें ताकि पूरा कर लिया जा सके।"
+      }
+    }
+  },
+  "firstUse": {
+    "title": "पहले क्या आजमाना चाहते हैं?",
+    "subtitle": "एक चुनें ताकि आप देख सकें। फिर अपने एप में इसका उपयोग करें।",
+    "choicesLabel": "पहले चलने के तरीके",
+    "choices": {
+      "ai_chat": "AI सहायक से पूछें",
+      "note": "एक नोट लिखें",
+      "message": "एक संदेश पर जवाब दें",
+      "email": "एक ईमेल लिखें",
+      "comment": "कमेंट लगाएं",
+      "document": "दस्तावेज़ लिखें",
+      "coding": "कोडिंग टूल के लिए प्रमोट करें"
+    },
+    "scene": {
+      "label": "उदाहरण: {{choice}}",
+      "said": "आप कहते हैं",
+      "written": "{{appName}} likhta hai",
+      "pause": "उदाहरण को रोकें",
+      "play": "उदाहरण खेलें"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI चैट",
+        "context": "मैं आपकी क्या मदद कर सकता हूँ?",
+        "said": "उम, तो आप क्या बता सकते हैं कि चक्रवृद्धि ब्याज कैसे काम करता है, जैसे मैं इसके बारे में नया हूँ",
+        "text": "क्या आप मुझे बता सकते हैं कि चक्रवृद्धि ब्याज कैसे काम करता है, जैसे मैं इसके बारे में नया हूँ?"
+      },
+      "note": {
+        "app": "नोट्स",
+        "context": "मंगलवार",
+        "said": "नोट टू सेल्फ कॉल करें डेंटिस्ट और उह पिक अप ड्राइ क्लीनिंग भी तीन बजे पहले",
+        "text": "खुद पर नोट: डेंटिस्ट से बात करें और छह बजे पहले ड्राई क्लीनिंग लें।"
+      },
+      "message": {
+        "app": "संदेश",
+        "context": "क्या हम लंच के लिए अभी भी तैयार हैं?",
+        "said": "हां, निश्चित रूप से, बारह बजे तीन बजे के लिए ठीक है, आपके लिए?",
+        "text": "हां, शायद! आपके लिए 12:30 ठीक है?"
+      },
+      "email": {
+        "app": "पते के लिए",
+        "context": "प्रिया के लेल · विषय: गुरुवार",
+        "said": "नमस्ते प्रिया, आपके नोट्स के लिए धन्यवाद, बुधवार के सुबह तक ड्राफ्ट भेज दूंगा",
+        "text": "नमस्ते प्रिया, आपके नोट्स के लिए धन्यवाद। बुधवार के सुबह तक ड्राफ्ट भेज दूंगा।"
+      },
+      "comment": {
+        "app": "सामाजिक",
+        "context": "हमारा नया कार्यालय अगले हफ्ते खुलेगा!",
+        "said": "सभ के लिए बधाई, यह बहुत अच्छा लग रहा है",
+        "text": "शुभकामनाएं पूरे टीम के लिए, यह बहुत अच्छा लग रहा है!"
+      },
+      "document": {
+        "app": "दस्तावेज़",
+        "context": "प्रोजेक्ट प्लान",
+        "said": "इस चरण का उद्देश्य एक बीटा शुरू करना है जो मासिक अंत तक 50 टेस्टर तक पहुंचाए जाएंगे",
+        "text": "इस चरण का उद्देश्य अंत तक एक मास में 50 टेस्टर तक बेटा शिक्षण करना है।"
+      },
+      "coding": {
+        "app": "कोड एडिटर",
+        "context": "एगो एजेंट के साथ पूछें",
+        "said": "मोबाइल पर लॉगिन बटन काम नहीं कर रहा है, इसका कारण पता करें और इसे ठीक करें",
+        "text": "मोबाइल पर लॉगिन बटन काम नहीं कर रहा है। इसका कारण पता करें और इसे ठीक करें?"
+      }
+    },
+    "tryNow": "अभी कोशिश करें",
+    "later": "कम लेट लेते हैं",
+    "close": "बंद करें",
+    "noBar": "दिग्गज बार चल रहा है नहीं, इसलिए कोई सुझाव दिखाया जा रहा है। आप इसे कोशिश कर सकते हैं: एप्लिकेशन खोलें और अपना शॉर्टकट दबाएं।",
+    "banner": {
+      "title": "अपने अपने ऐप में इसका उपयोग करें",
+      "body": "{{hint}}. {{how}}",
+      "again": "बार-बार सुझाव दिखाएं",
+      "stop": "हिंट छुपाएं",
+      "other": "कुछ और को ट्राई करें",
+      "active": "सुझाव आपके स्क्रीन पर है। Esc दबाएं ताकि इसे बंद करें।"
+    }
+  },
+  "checklist": {
+    "title": "शुरू करें",
+    "label": "सेटअप चेकलिस्ट",
+    "progress": "{{done}} लेल {{total}} में से किया गया",
+    "hide": "चेकलिस्ट छुपाएं",
+    "done": "पूरा",
+    "next": "अगला",
+    "allDone": "सभ कर लिया गया है। आप बेसिक चीजों को जानते हैं।",
+    "items": {
+      "try_in_app": {
+        "title": "दूसरे एप में ट्राई करें",
+        "action": "मुझे दिखाएं"
+      },
+      "add_word": {
+        "title": "एक शब्द जोड़ें",
+        "action": "एक शब्द जोड़ें",
+        "coachTitle": "पहला शब्द जोड़ें",
+        "coachBody": "वो नाम, उत्पाद शब्द और जॉर्न जो आप अक्सर कहते हैं। वे आपके लिखे तरीके से लिखे जाते हैं।"
+      },
+      "create_snippet": {
+        "title": "एक स्निपेट बनाएं",
+        "action": "नया स्निपेट",
+        "coachTitle": "पहला स्निपेट बनाएं",
+        "coachBody": "एक छोटा वाक्य कहिए और एक लंबा टेक्स्ट प्राप्त करें: आपका पता, एक लिंक, एक साइन-ऑफ।"
+      },
+      "launch_at_login": {
+        "title": "लॉगिन पर खोलें",
+        "action": "गैर-बंद करें",
+        "body": "{{appName}} Mac ke saath shuru hota hai, isliye aapke shortcut hamesha kaam karega."
+      }
+    },
+    "coach": {
+      "close": "बंद करें",
+      "done": "समझ गया"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "चुनें कि Wispr Bro आपकी सिस्टम थीम के हिसाब से चले या हमेशा लाइट या डार्क रहे"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

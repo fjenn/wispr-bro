@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Panel debug fork",
+    "description": "Pemeriksaan internal untuk lapisan Wispr Bro. Tampilkan hanya di build debug atau saat aplikasi dimulai dengan --debug.",
+    "close": "Tutup",
+    "runAgain": "Jalankan lagi",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Status model",
+      "notReady": "Belum siap: aplikasi belum selesai memulai."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Peristiwa ping terakhir",
+      "none": "Belum ada peristiwa yang diterima."
     },
-    "pending": "Waiting…",
+    "pending": "Menunggu…",
     "error": "Error: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
+      "title": "Kebijakan Keamanan Konten",
+      "description": "Mengucapkan file audio melalui protokol aset, memuat data: dan blob: gambar, memanggil perintah fork dan memeriksa bahwa gambar yang dilarang diblokir.",
+      "run": "Jalankan pengecekan CSP",
+      "running": "Dijalankan…",
+      "pass": "Diterima: tidak ada pelanggaran CSP yang tidak diharapkan.",
+      "fail": "Gagal: lihat pengecekan di bawah ini.",
       "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "failed": "gagal ({{detail}})",
+      "noViolations": "Tidak ditemukan pelanggaran CSP.",
+      "violations_one": "{{count}} pelanggaran CSP tercatat.",
+      "violations_other": "{{count}} pelanggaran CSP tercatat.",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "media": "Audio (protokol aset)",
+        "dataImage": "data: gambar",
+        "blobImage": "blob: gambar",
+        "forkCommand": "Perintah bagi",
+        "probe": "Sumber yang diblokir"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "Mengunggah dalam {{seconds}} detik. Beralih ke aplikasi lain untuk melihat notifikasi macOS."
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
+      "title": "Perbaruan",
+      "version": "Versi",
       "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "key": "Kunci tanda tangan",
+      "endpoints": "Sumber",
+      "checksOff": "Pemeriksaan pembaruan dinonaktifkan (Pengaturan › Lanjutan, atau saklar mati telah diatur).",
+      "check": "Periksa sekarang",
+      "checking": "Memeriksa...",
+      "install": "Instal {{version}} dan ulang",
+      "installing": "Mengunduh dan memverifikasi…",
+      "installed": "Versi {{version}} terinstal. Memulai ulang...",
+      "available": "Versi {{version}} tersedia.",
+      "upToDate": "Paling terkini.",
+      "failed": "Tidak bisa memeriksa: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Pengaturan Fork",
+      "loading": "Memuat pengaturan…",
+      "loadError": "Tidak dapat membaca pengaturan: {{message}}",
+      "setError": "Perubahan tersebut tidak disimpan: {{message}}",
+      "contextAwareness": "Kecerdasan konteks",
+      "contextAwarenessHint": "Menggunakan nama di teks dekat kursor Anda untuk mengetiknya dengan benar. Teks tersebut tetap di perangkat ini dan tidak pernah disimpan.",
       "transforms": "Transforms",
       "transformsHint": "⌥1 memperindah teks yang dipilih dan ⌥2 mengubahnya menjadi prompt AI yang lebih jelas. Saat diaktifkan, tombol-tombol tersebut menggantikan ¡ dan ™.",
       "transformsSafeShortcuts": "Gunakan ⌃⌥1 dan ⌃⌥2 sebagai ganti",
       "transformsSafeShortcutsHint": "Mengawetkan ¡ dan ™ tersedia dengan ⌥1 dan ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Tingkat pembersihan",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "Tidak ada",
+        "light": "Ringan",
+        "medium": "Sedang"
       },
-      "all": "All settings"
+      "all": "Semua pengaturan"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Umum",
       "system": "Sistem",
-      "vibe": "Vibe coding",
+      "vibe": "Koding vibe",
       "privacy": "Data dan Privasi",
       "advanced": "Lanjutan",
       "about": "Tentang",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Buka Scratchpad di",
       "scratchpadHint": "Pilih tempat Scratchpad terbuka saat Anda menggunakan pintasnya.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Lanjutkan catatan terakhir saya",
+        "new_note": "Mulai catatan baru"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro dapat membaca nama kode dan nama file yang ditampilkan oleh VS Code, Cursor dan Windsurf di layar, melalui Accessibility. Ini tidak pernah membuka folder proyek Anda atau file Anda.",
+      "contextOff": "Pengertian konteks dimatikan, sehingga fitur-fitur ini tidak memiliki apa-apa untuk dibaca. Nyalakan untuk menggunakan fitur tersebut.",
+      "recognize": "Kenali nama kode",
+      "recognizeHint": "Ketika Anda mengatakan nama variabel atau fungsi yang terlihat di editor Anda, nama tersebut ditulis sesuai dengan penulisan kode Anda, seperti getUserById atau user_id.",
+      "setUp": "atur",
+      "change": "Ubah editor",
+      "setUpFor": "Siapkan untuk {{editors}}",
+      "fileTags": "Tandai file dalam chat",
+      "fileTagsHint": "Dalam percakapan Cursor atau Windsurf, mengatakan \"index dot ts\" akan menulis @index.ts ketika file tersebut terbuka di tab atau muncul di daftar file.",
+      "fileTagsNeedsChat": "Tersedia setelah Anda menambahkan Cursor atau Windsurf ke editor Anda.",
+      "fileTagsNeedsSetup": "Tersedia setelah Anda mengatur pengenalan nama kode.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "atur pengenalan nama kode",
+        "stepEditors": "1. Pilih editor yang Anda gunakan",
+        "stepScreenReader": "2. Nyalakan mode pembaca layar di setiap aplikasinya, agar mereka berbagi teks dengan Wispr Bro",
+        "openSettings": "Buka pengaturan editor dengan ⌘ koma.",
+        "search": "Cari \"dukungan aksesibilitas\".",
+        "setOn": "Atur Editor: Dukungan Aksesibilitas ke \"on\".",
+        "palette": "Anda juga bisa menjalankan \"Toggle Screen Reader Accessibility Mode\" dari Command Palette (⇧⌘P).",
+        "confirm": "Saya mengaktifkan mode pembaca layar di editor-editor ini",
+        "cancel": "Batal",
+        "finish": "Selesai mengatur"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Privat dari desain",
+        "local": "Dictasi dan data Anda tetap di Mac ini.",
+        "noCloud": "Pengenalan suara, pembersihan, dan Sejarah berjalan secara lokal. Tidak ada akun, telemetri, dictation cloud, atau pembersihan cloud.",
+        "networkIntro": "Wispr Bro menggunakan jaringan hanya untuk dua hal ini:",
+        "models": "Unduh model suara dan model pembersih dari Hugging Face (huggingface.co).",
+        "updates": "Ketika periksa pembaruan diaktifkan, cari pembaruan aplikasi di GitHub (github.com)."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Di mana data Anda tinggal",
+        "hint": "Direktori-direktori ini milik Wispr Bro. Instalasi portabel menyimpan semua direktori tersebut di folder Data aplikasi.",
+        "data": "Data dan pengaturan aplikasi",
+        "models": "Model yang diunduh",
+        "recordings": "Rekaman",
+        "logs": "Catatan dan laporan kegagalan",
+        "show": "Tampilkan di Finder",
+        "loading": "Mencari lokasi...",
+        "failed": "Tidak bisa membuka folder tersebut. Coba lagi."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Seberapa lama menyimpan Sejarah",
+        "textLabel": "Simpan teks yang diucapkan",
+        "textHint": "Entri-entri yang lebih tua dihapus secara otomatis. Teks dijaga selamanya secara default.",
+        "audioLabel": "Simpan catatan suara",
+        "audioHint": "Audio berakhir setelah 14 hari secara default. Menghapus audio mempertahankan teks yang diucapkan hingga batas teks.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Tidak pernah menyimpan suara",
+          "1": "1 hari",
+          "7": "7 hari",
+          "14": "14 hari",
+          "30": "30 hari",
+          "90": "90 hari",
+          "365": "1 tahun",
+          "forever": "Selamanya"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Pilihan privasi",
+        "context": "Gunakan kesadaran konteks",
+        "contextHint": "Baca teks di sekitar saja saat memasukkan teks untuk mengenali nama dan penulisan. Konteks tidak disimpan atau dicatat.",
+        "updates": "Cek pembaruan aplikasi",
+        "updatesHint": "Hubungi GitHub untuk memeriksa versi baru. Tidak ada dictation atau data pribadi yang dikirim.",
+        "learn": "Belajar dari perbaikan saya",
+        "learnHint": "Setelah teks dictation dipaste, perhatikan kata-kata yang Anda perbaiki di kotak tersebut dan usulkan di Dictionary. Hanya kata yang telah diperbaiki yang disimpan; sisanya tidak pernah disimpan atau dikirimkan."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Data Anda",
+        "hint": "Ekspor zip dengan sejarah, pengaturan, dan rekaman Anda. Model dan log tidak termasuk.",
+        "button": "Ekspor data saya",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Arsip ZIP",
+        "done": "Ekspor disimpan dan ditampilkan di Finder.",
+        "failed": "Tidak bisa mengunggah data Anda. Tidak ada yang dihapus."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Hapus semua data saya",
+        "title": "Hapus semua data Anda?",
+        "warning": "Ini secara permanen menghapus sejarah, catatan, pengaturan, log, dan laporan kegagalan. Ini tidak dapat dibatalkan.",
+        "relaunch": "Wispr Bro akan berhenti bekerja, menghapus data, dan memulai ulang ke proses onboarding.",
+        "models": "Hapus juga model yang sudah diunduh",
+        "modelsHint": "Jaga ini mati agar tidak mengunduh model suara dan model pembersihan lagi.",
+        "confirmLabel": " Ketik {{word}} untuk mengonfirmasi",
+        "cancel": "Batal",
+        "confirm": "Hapus semuanya",
+        "failed": "Hapus semua tidak selesai. Periksa data sisa sebelum mencoba lagi."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Laporan kegagalan dan diagnosa",
+        "hint": "Laporan crash tetap di Mac ini dan tidak pernah diunggah. Salin atau simpan diagnosa hanya ketika Anda ingin berbagi.",
+        "sanitized": "Diagnostics menghapus teks yang diucapkan, pertanyaan, kata-kata kamus, alamat email, kunci, dan jalur folder rumah Anda.",
+        "copy": "Salin diagnosa",
+        "save": "Simpan diagnosa…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Diagnostics yang telah disanitasi berhasil disalin.",
+        "saved": "Diagnostik yang telah disanitasi disimpan.",
+        "failed": "Tidak bisa mempersiapkan diagnosa. Coba lagi."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Versi {{version}}",
       "source": "Lihat kode sumber",
       "updates": "Catatan pembaruan",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Pembaruan",
+      "license": "Perangkat lunak gratis di bawah Lisensi Umum GNU, versi 3 (GPL-3.0).",
+      "licenseLink": "Lihat lisensi",
+      "credit": "Dibangun berdasarkan Handy oleh CJ Pais, digunakan di bawah Lisensi MIT. Terima kasih kepada semua orang yang berkontribusi terhadapnya.",
+      "creditLink": "Handy di GitHub",
+      "supportTitle": "Dukung pengembangan",
+      "supportBody": "{{appName}} tidak memiliki rencana berbayar. Dukungan terbaik adalah laporan bug, ide, atau kontribusi di GitHub."
     },
     "hotkeys": {
       "open": "Pintasan",
@@ -412,7 +412,7 @@
           "view_changes": "Lihat perubahan transformasi"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Buka Scratchpad"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Uji transformasi terbaru sebelum dan sesudah."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Lanjutkan catatan terakhir Anda atau mulai yang baru, sesuai dengan pengaturan Scratchpad Anda."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Utama"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Kurangi sisi samping",
+      "expand": "Perluas sidebar"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Beralih ke tampilan gelap",
+      "toLight": "Beralih ke tampilan terang"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Notifikasi",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Tidak ada yang baru",
+        "body": "Perbaruan dan tips akan muncul di sini."
       },
       "bellUnread_one": "Notifikasi, {{count}} belum dibaca",
       "bellUnread_other": "Notifikasi, {{count}} belum dibaca",
@@ -485,65 +485,65 @@
       "justNow": "Baru saja"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "Bantuan",
+      "updates": "Perbaruan",
+      "whatsNew": "Apa yang baru",
+      "essentials": "Pintar",
+      "shortcuts": "Singkatan",
+      "microphone": "Microfon",
+      "languages": "Bahasa",
+      "documentation": "Dokumentasi",
+      "getInTouch": "Hubungi",
+      "reportProblem": "Laporkan masalah…",
+      "sendFeedback": "Kirim umpan balik",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Laporkan masalah",
+        "body": "Ini membuka masalah baru di GitHub di browser Anda, dengan versi aplikasi dan model Mac yang sudah diisi. Hal ini tidak mencakup apa pun yang Anda dictasikan, dan Anda bisa membaca serta mengubah semua isi sebelum mengirimkannya.",
+        "diagnosticsTitle": "Diagnostics (opsional)",
+        "diagnosticsBody": "Log yang telah diperjelas membantu menemukan penyebabnya. Mereka tidak mengandung dictasi Anda. Salin di sini, lalu tempelkan ke dalam masalah.",
+        "copy": "Salin diagnosa",
+        "copied": "Diagnostics disalin. Tempelkan ke masalahnya.",
+        "copyFailed": "Tidak bisa menyalin diagnosa.",
+        "open": "Buka GitHub",
+        "cancel": "Batal",
+        "close": "Tutup"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Bagian pengaturan"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "Dictasi",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Bicara alih-alih mengetik",
+          "body": "Tahan fn di aplikasi apa pun, katakan apa yang ingin Anda tulis dan lepaskan. {{appName}} menempatkan teks yang bersih di tempat kursor Anda.",
+          "examplesLabel": "Hal-hal yang bisa dicoba",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Balasan cepat terhadap pesan",
+            "notes": "Catatan segera setelah telepon",
+            "prompt": "Sebuah prompt panjang untuk percakapan AI"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Dictatamu akan muncul di sini",
+          "body": "Setiap satu disimpan di Mac ini, dengan suaranya, jadi Anda bisa salin atau periksa nanti.",
+          "action": "Buka riwayat"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Pandangan",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Insight butuh beberapa dictasi",
+          "body": "Kecepatan berbicara, deretan hari, dan waktu yang Anda hemat muncul setelah Anda mengetikkan beberapa waktu.",
+          "action": "Pindah ke Dictation"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Kamus",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -553,40 +553,40 @@
       "snippets": {
         "title": "Snippets",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Snippets akan segera datang",
+          "body": "Katakan petunjuk pendek seperti \"alamat saya\" dan dapatkan teks lengkap. Halaman ini akan datang dalam pembaruan lebih lambat.",
+          "action": "Pindah ke Dictation"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Gaya",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Gaya sedang datang",
+          "body": "Pilih seberapa rapi teks Anda dalam setiap jenis aplikasi, dari email resmi hingga percakapan santai. Halaman ini akan datang dalam pembaruan lebih lanjut.",
+          "action": "Pindah ke Dictation"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Transformasi",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Transforms akan segera datang",
+          "body": "Pilih teks dan ubahnya dengan satu pintasan: lebih pendek, lebih jelas atau lebih terorganisasi. Halaman ini akan datang dalam pembaruan lebih lambat.",
+          "action": "Pindah ke Dictation"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Lembar kerja sedang dalam perjalanan",
+          "body": "Tempat cepat untuk mengetik catatan sebelum mereka pergi ke tempat lain. Halaman ini akan datang dalam pembaruan lebih lanjut.",
+          "action": "Pindah ke Dictation"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Bagikan dengan teman"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Pengaturan"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Tunjukkan saya"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Pemeriksaan pembaruan dimatikan",
+      "turnOn": "Nyalakan",
+      "notChecked": "Belum dicek",
+      "check": "Periksa pembaruan",
+      "checking": "Memeriksa update…",
+      "upToDate": "Paling terkini",
+      "checkAgain": "Cek lagi",
+      "checkFailed": "Tidak bisa memeriksa",
+      "retry": "Coba lagi",
+      "downloading": "Mengunduh {{version}}…",
+      "ready": "Pembaruan siap",
+      "restartNow": "Restart sekarang",
+      "installing": "Menginstal {{version}}...",
+      "installedWaiting": "versi {{version}} terinstal · restart setelah dictasi ini",
+      "restarting": "Memulai ulang...",
+      "installFailed": "Pembaruan tidak terinstal",
+      "busy": "Selesai mengetik terlebih dahulu.",
+      "actionFailed": "Itu tidak berhasil. Coba lagi nanti.",
+      "lastChecked": "Diperiksa terakhir {{time}}.",
+      "paused": "Setelah tiga kali gagal, pembaruan otomatis dihentikan sampai {{time}}.",
+      "manualOnly": "Ini adalah build pengembangan: pembaruan hanya dicek ketika Anda meminta.",
+      "readyHint": "Ini akan diinstal secara otomatis setelah 20 menit tidak ada dictasi, atau saat Anda keluar.",
+      "policy": "Pembaruan didownload di latar belakang dan hanya diinstal saat Anda tidak sedang menginput suara, atau saat Anda keluar.",
+      "needsPassword": "Salinan aplikasi ini berada di folder yang membutuhkan kata sandar administrator untuk diubah, sehingga pembaruan hanya terinstal ketika Anda memilih Mulai Sekarang."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Baru!",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Batalkan"
     },
     "importWizard": {
       "stepsLabel": "Langkah impor",
@@ -673,60 +673,60 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
+      "vocabulary": "Kamus",
+      "help": "Bantuan",
       "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
+      "edit": "Sunting",
+      "view": "Lihat",
+      "window": "Jendela",
+      "wordsDictated_one": "{{count}} kata yang dikatakan",
+      "wordsDictated_other": "{{count}} kata yang dikatakan",
+      "copyLast": "Salin naskah terakhir",
+      "copyLastPreview": "Salin naskah terakhir: \"{{preview}}\"",
+      "copyLastConcealed": "Salin naskah terakhir (teks tersembunyi)",
+      "microphone": "Microfon",
+      "languages": "Bahasa",
+      "moreLanguages": "Tambah atau hapus bahasa…",
+      "automaticMicrophone": "Deteksi otomatis (pengaturan sistem)",
+      "noMicrophones": "Tidak ditemukan mikrofon",
+      "dictionaryWords_one": "{{count}} kata kamus",
+      "dictionaryWords_other": "{{count}} kata kamus",
       "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
+      "snippetCount_other": "{{count}} snippet",
+      "addWord": "Tambahkan kata…",
+      "newSnippet": "Snippet baru…",
+      "documentation": "Dokumentasi",
+      "shortcuts": "Pintasan",
+      "reportProblem": "Laporkan masalah…",
+      "sendFeedback": "Kirim umpan balik…",
+      "openApp": "Buka {{appName}}",
+      "checkUpdates": "Periksa update…",
+      "pasteLast": "Tempel naskah terakhir",
+      "cancelDictation": "Batal dictasi",
+      "shortcutsBlocked": "Pembatasan pintasan — buka Pengaturan",
+      "undo": "Unduk",
+      "redo": "Ulangi",
+      "cut": "Potong",
+      "copy": "Salin",
+      "paste": "Tempel",
+      "selectAll": "Pilih Semua",
+      "minimize": "Minimalkan",
       "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "closeWindow": "Tutup Jendela",
+      "fullScreen": "Masuk ke Mode Penuh",
+      "services": "Layanan",
+      "hideOthers": "Sembunyikan Lainnya",
+      "showAll": "Tampilkan Semua",
+      "about": "Tentang {{appName}}",
+      "hide": "Sembunyikan {{appName}}",
+      "quitApp": "Keluar {{appName}}",
+      "restartToUpdate": "Restart untuk memperbarui ke {{version}}",
+      "updatesOff": "Pemeriksaan pembaruan dinonaktifkan…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Pembatasan pintasan berhenti bekerja"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -742,14 +742,14 @@
         "escape": "Escape",
         "return": "Return",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
+        "delete": "Hapus",
+        "forwardDelete": "Hapus Maju",
+        "left": "Panah Kiri",
+        "right": "Panah Kanan",
+        "up": "Panah ke atas",
+        "down": "Panah Bawah",
         "home": "Home",
-        "end": "End",
+        "end": "Akhir",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
         "mouseLeft": "Tombol kiri mouse",
@@ -847,7 +847,7 @@
       "slots": {
         "dictate": {
           "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "tooltip": "Tahan fn untuk mengetikkan"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Microfon terputus. Yang Anda katakan sampai sekarang tetap disimpan.",
         "undo": "Urungkan ada di bilah dikte selama 4 detik.",
         "diff": "Perubahan transformasi siap untuk diperiksa.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Secure Input diaktifkan. fn dan Space tidak bisa mematikan dictation. Escape atau tombol tutup masih bisa membatalkan."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Pilih 6.000 karakter atau kurang",
         "transform_focus_moved": "Kamu berpindah, jadi tidak ada yang berubah",
         "transform_failed": "Tidak bisa mengubah teks tersebut",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Pengaturan cepat Anda berhenti bekerja",
+        "shortcut_stopped": "Pintasan Anda berhenti merespons",
+        "shortcut_back": "Pengaturan singkatan Anda bekerja lagi"
       },
       "card": {
         "no_text_field": "Klik ke dalam bidang teks terlebih dahulu",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} adalah dictation gratis yang berjalan sepenuhnya di Mac Anda. Dapatkan sekarang di sini:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Langkah berikutnya",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Buka percakapan AI, seperti ChatGPT atau Claude",
+        "note": "Buka aplikasi catatan Anda",
+        "message": "Buka percakapan, seperti Messages atau Slack",
+        "email": "Buka email Anda",
+        "comment": "Buka sebuah postingan yang ingin Anda komentar",
+        "document": "Buka dokumen yang sedang Anda tulis",
+        "coding": "Buka Cursor, VS Code atau editor kode lainnya"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Klik di tempat yang ingin Anda tulis, lalu tekan fn dan bicarakan.",
+      "howFallback": "Klik di tempat yang ingin Anda tulis, lalu tahan Control dan Option dan bicarakan.",
+      "escape": "Tekan Esc untuk menutup petunjuk ini."
     }
   },
   "speechModels": {
     "title": "Model suara",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} memilih model suara untuk bahasa Anda dan perangkat ini, serta mengganti dengan yang lebih baik saat bisa. Anda tidak perlu memilih apa-apa.",
     "loading": "Memeriksa model suara…",
     "current": "Dalam penggunaan: {{name}}",
     "none": "Tidak ada model suara belum",
@@ -1087,7 +1087,7 @@
       "edit": "Sunting {{entry}}",
       "delete": "Hapus {{entry}}",
       "accept": "Tambahkan {{entry}} ke kamarmu",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Jangan pelajari {{entry}}"
     },
     "source": {
       "import": "Diperimpitkan",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Belum ada saran",
       "body": "Ketika {{appName}} dapat belajar dari kata-kata yang Anda koreksi, mereka akan muncul di sini untuk Anda setujui.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Perbaiki nama atau istilah yang salah di kotak teks setelah mengucapkan, lalu tekan Return, Tab atau lanjutkan. Kata yang sudah diperbaiki muncul di sini untuk Anda setujui."
     },
     "noMatch": {
       "title": "Tidak ada yang cocok",
@@ -1206,11 +1206,11 @@
       "done_other": "Diekspor {{count}} entri.",
       "failed": "Kamus tidak bisa diekspor. Silakan coba lagi."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” tidak akan disarankan lagi.",
+    "actionFailed": "Itu tidak berhasil. Silakan coba lagi.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Belajar dari perbaikan saya",
+      "hint": "Selama 30 detik setelah dictation dimasukkan, {{appName}} memperhatikan kata-kata yang Anda perbaiki di kotak teks ini dan menyarankan kata-kata tersebut di sini. Hanya kata yang Anda perbaiki yang disimpan, tidak pernah bagian lain dari teks. Formulir kata sandar, manajer kata sandar, aplikasi perbankan, dan terminal tidak pernah dibaca."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Teks dekat membantu dalam penulisan kata",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Mic hilang, mempertahankan apa yang kamu katakan",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Masukan Aman diaktifkan · fn+Space tidak bisa mengunci · Esc atau ✕ membatalkan",
+      "secure_input_app": "Aplikasi {{app}} memiliki Secure Input pada · fn+Space tidak bisa mengunci · Esc atau ✕ membatalkan"
     },
     "settingUp": "Menyiapkan…",
     "settingUpPercent": "Menyiapkan… {{percent}}%",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Lihat perubahan",
     "sendsAutomatically": "Kirim secara otomatis",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Akses Accessibility dinonaktifkan",
+      "stopped": "Pendengar keyboard berhenti"
     }
   },
   "transforms": {
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Catatan baru",
+    "preferences": "Preferensi scratchpad",
+    "addToBar": "Tambahkan ke bar",
+    "addToBarHelp": "Tetapkan tombol Scratchpad di samping Dictate di bar istirahat.",
+    "recents": "Baru-baru ini",
+    "searchLabel": "Cari catatan",
+    "searchPlaceholder": "Cari catatan Anda",
+    "loading": "Memuat catatan…",
+    "empty": "Belum ada catatan",
+    "emptyHelp": "Mulai catatan, lalu ketik atau dictasikan ke jendela yang muncul.",
+    "emptyNote": "Catatan kosong",
+    "noResults": "Tidak ada catatan yang sesuai dengan pencarian Anda.",
+    "untitled": "Catatan tanpa judul",
+    "pinned": "Dipasang",
+    "pin": "Pasang catatan",
+    "unpin": "Depipetkan catatan",
+    "editAction": "Sunting catatan",
+    "edit": "Sunting {{name}}",
+    "delete": "Hapus catatan",
+    "deleteConfirm": "Hapus “{{name}}”? Ini tidak bisa dibatalkan.",
+    "error": "Scratchpad tidak bisa menyelesaikan tindakan tersebut. Teks Anda saat ini masih ada; coba lagi.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
+      "label": "Buka pintasan",
+      "change": "Atur pintasan",
+      "title": "shortcut scratchpad",
+      "help": "Buka Scratchpad dari mana saja. Ini dimulai tanpa pengaturan, jadi tidak akan menangkap tombol sampai Anda memilih satu.",
+      "close": "Singkatan untuk menutup dialog",
+      "proposed": "Kombinasi yang disarankan",
       "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "use": "Gunakan Control + Option + S",
+      "chooseAnother": "Pilih singkatan lain",
+      "error": "Pesan pintasan tidak bisa disimpan. Coba kombinasi lain."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "Buka catatan",
+    "tools": "Alat catatan",
+    "sidebar": "Tampilkan daftar catatan",
+    "polish": "Perbaiki catatan",
+    "polishing": "Dipolish...",
+    "textSize": "Ubah ukuran teks (saat ini {{size}} point)",
+    "expand": "Perluas jendela catatan",
+    "shrink": "Kembalikan ukuran jendela catatan",
+    "close": "Tutup Scratchpad",
+    "noteBody": "Teks catatan",
+    "notePlaceholder": "Tulis atau dictasikan catatan...",
+    "saved": "Ditambahkan",
+    "saving": "Menyimpan…",
+    "saveError": "Belum disimpan",
+    "autosaveHelp": "Disimpan secara otomatis",
+    "copy": "Salin",
+    "copied": "Dikopi"
   },
   "style": {
     "tabsLabel": "Kelompok Gaya",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Mengatur hal-hal yang dibutuhkan…",
+    "back": "Kembali",
+    "continue": "Lanjutkan",
+    "yes": "Ya",
+    "no": "Tidak",
+    "downloadHint": "Pengaturan suara terus berjalan di latar belakang. Anda tidak perlu menunggu di sini.",
+    "navigationFailed": "Langkah tersebut tidak bisa disimpan. Coba lagi.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Proses pengaturan",
+      "welcome": "Selamat datang",
+      "permissions": "Izin",
+      "setup": "Pengaturan",
+      "practice": "Latihan",
+      "done": "(selesai)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Bantuan",
+      "title": "Bantuan dalam pengaturan",
+      "close": "Tutup bantuan",
+      "done": "Paham",
+      "body": "Setiap langkah membutuhkan beberapa detik. Anda bisa kembali kapan saja, dan jika menghentikan, pengaturan akan melanjutkan dari tempat yang Anda tinggalkan.",
+      "download": "Wispr Bro mengatur pengenalan suara di Mac ini sambil Anda melalui langkah-langkah ini. Semua yang Anda dictasikan sebelum siap akan disimpan dan ditulis setelah siap."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Bicaralah, dan kata-kata Anda muncul",
+      "subtitle": "Tahan satu tombol, bicarakan, lepaskan. Teks yang bersih muncul di mana pun Anda mengetik.",
+      "privacyTitle": "Semuanya tetap di Mac ini",
+      "privacy": "Suara dan teks Anda tidak pernah meninggalkan komputer ini. Tidak ada akun, tidak ada cloud, tidak ada pemantauan.",
+      "download": "Pengaturan suara dimulai sekarang dan berjalan di latar belakang.",
+      "start": "Mulai"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Pindahkan Wispr Bro ke Aplikasi",
+      "body": "Wispr Bro sedang berjalan dari luar folder Applications Anda. Memindahkannya ke sana mempertahankan pembaruan dan izin.",
+      "note": "Wispr Bro membuka kembali secara otomatis setelah dipindahkan dan melanjutkan pengaturan.",
+      "action": "Pindahkan ke Aplikasi",
+      "moving": "Pindah...",
+      "skip": "Tidak sekarang",
+      "error": "Wispr Bro tidak bisa berpindah sendiri. Tarik ke Applications di Finder, lalu buka kembali."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Bahasa apa yang Anda ucapkan?",
+      "subtitle": "Pilih setiap bahasa yang Anda dictasikan. Wispr Bro memproses kata-kata Anda lebih baik ketika ia tahu bahasanya.",
+      "listLabel": "Bahasa",
+      "noMatch": "Tidak ada bahasa yang sesuai dengan “{{query}}”.",
+      "count_one": "Dictation bekerja dalam {{count}} bahasa. Anda bisa mengubahnya nanti di Pengaturan.",
+      "count_other": "Pengucapan bekerja dalam {{count}} bahasa. Anda bisa mengubahnya nanti di Pengaturan.",
+      "weak_one": "Pengenalan kurang akurat di {{languages}}. Ini masih berfungsi, tetapi harap siapkan lebih banyak kesalahan.",
+      "weak_other": "Pengenalan kurang akurat dalam {{languages}}. Mereka masih bekerja, tetapi harap siapkan lebih banyak kesalahan."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Dua izin",
+      "subtitle": "macOS meminta Anda memperbolehkan ini sekali. Setiap baris centang segera saat sudah diaktifkan.",
+      "allowed": "Diperbolehkan",
+      "waiting": "Menunggu macOS…",
+      "openSettings": "Buka Pengaturan Sistem",
+      "prompt": "Pertanyaan macOS",
+      "pane": "Di Pengaturan Sistem",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "Kamera",
+        "why": "Jadi Wispr Bro bisa mendengar kamu saat kamu menekan tombol. Audio diproses hanya di Mac ini saja.",
+        "action": "Izinkan mikrofon",
+        "promptAlt": "Gambar prompt mikrofon macOS, dengan tombol Izinkan dihighlight",
+        "paneAlt": "Gambar Pengaturan Sistem, Privasi dan Keamanan, Mikrofon, dengan saklar untuk Wispr Bro diaktifkan",
+        "waitingHelp": "Klik Ijin di prompt macOS. Jika Anda tidak melihatnya, buka System Settings dan aktifkan Wispr Bro di Microphone."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Aksesibilitas",
+        "why": "Jadi Wispr Bro bisa memperhatikan pintasan Anda dan mengetikkan teks ke dalam aplikasi yang sedang Anda gunakan.",
+        "action": "Izinkan Aksesibilitas",
+        "promptAlt": "Gambar prompt keberatan aksesibilitas macOS, dengan tombol Buka Pengaturan Sistem yang ditonjolkan",
+        "paneAlt": "Gambar Pengaturan Sistem, Privasi dan Keamanan, Aksesibilitas, dengan saklar Wispr Bro diaktifkan",
+        "waitingHelp": "Di Pengaturan Sistem, aktifkan saklar di samping Wispr Bro. Anda mungkin perlu membuka dengan kata sandi Anda."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Uji mikrofonmu",
+      "guidance": "Microfon terhubung dan bawaan bekerja paling baik. Headset Bluetooth bisa terputus atau terdengar kabur.",
+      "question": "Apakah garis-garis bergerak saat kamu berbicara?",
+      "noHelp": "Pilih mikrofon lain di bawah ini, lalu bicarakan lagi.",
+      "change": "Ganti mikrofon",
+      "previewList": "Microfon Anda muncul di sini."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Uji pintasan Anda",
+      "instruction": "Tekan dan tahan tombol fn (🌐) pada keyboard Anda. Tombol di bawahnya menyala saat Anda menahan tombolnya.",
+      "fallbackInstruction": "Tekan dan tahan Control dan Option bersamaan. Ketik di bawahnya akan menyala saat Anda menahan keduanya.",
+      "unboundInstruction": "Tidak ada shortcut dictation yang diatur. Gunakan Edit shortcut untuk memilih satu.",
+      "keyLabel": "Kunci fn",
+      "fallbackKeyLabel": "Control dan Option",
+      "pressed": "Kunci dipegang",
+      "notPressed": "Menunggu tombol...",
+      "worked": "Ini bekerja. Lampu tombol menyala.",
+      "question": "Apakah tombol menyala?",
+      "edit": "Sunting pintasan",
+      "tryAgain": "Coba lagi",
+      "otherCauses": "Bukan itu? Penyebab lainnya:",
+      "changeFailed": "Perubahan tersebut tidak berhasil. Coba lagi, atau gunakan System Settings.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro tidak bisa melihat tekanan tombol",
+          "title": "Wispr Bro belum bisa melihat tekanan tombol saat ini",
+          "body": "Ini biasanya berarti Accessibility tidak diaktifkan untuk Wispr Bro. Aktifkan di System Settings, lalu kembali dan tekan Try again.",
+          "action": "Buka pengaturan Aksesibilitas"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Field kata sandi atau aplikasi lain sedang menghalangi kunci",
+          "title": "Aplikasi lain sedang menghalangi tekanan tombol",
+          "body": "Saat field kata sandi atau beberapa aplikasi (manajer kata sandi, Secure Keyboard Entry di Terminal) memiliki fokus, macOS menyembunyikan ketukan tombol dari semua aplikasi lain. Tutup atau klik keluar dari itu, lalu coba lagi.",
+          "active": "Saat ini, aplikasi lain sedang menghalangi tekanan tombol.",
+          "inactive": "Tidak ada yang menghalangi ketekanan tombol saat ini."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "Kunci 🌐 membuka emoji atau beralih keyboard",
+          "title": "macOS memberi kunci 🌐 tugasnya sendiri",
+          "body": "Mac Anda membuka emoji, mengganti sumber input atau memulai dictasi Apple saat Anda tekan 🌐. Wispr Bro dapat mengatur \"Tekan tombol 🌐 untuk\" menjadi \"Tidak Ada Apapun.\" Pilihan Anda akan dikembalikan jika Anda berhenti menggunakan fn untuk dictasi.",
+          "consent": "Atur 🌐 menjadi Tidak Ada Apapun",
+          "changed": "🌐 sekarang tidak melakukan apa-apa sendiri",
+          "open": "Buka pengaturan Keyboard"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Keyboard saya tidak memiliki tombol fn",
+          "title": "Gunakan Control dan Option saja",
+          "body": "Beberapa keyboard tidak memiliki tombol fn atau 🌐. Tekan Control dan Option bersamaan untuk mengetikkan. Anda bisa mengubah ini kapan saja di Pengaturan.",
+          "action": "Gunakan Control + Option",
+          "changed": "Control + Option adalah pintasan Anda"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Latihan: tulis email tanpa menggunakan tangan",
+      "instruction": "Tekan fn dan Spasi bersamaan, lalu bicarakan. Anda tidak perlu menahan apa-apa. Tekan fn lagi saat selesai. Coba: \"Hai Sam, terima kasih atas catatan. Bisa kita bertemu pada hari Kamis pukul sepuluh?\"",
+      "instructionFallback": "Tekan Control, Option dan Spasi bersamaan, lalu bicara. Anda tidak perlu menahan apa-apa. Tekan lagi Control dan Option saat selesai. Coba: \"Hai Sam, terima kasih atas catatan. Bisa kita bertemu pada hari Kamis pukul sepuluh?\"",
+      "instructionUnbound": "Tidak ada singkatan dictation yang diatur, jadi latihan ini tidak bisa dimulai. Langsung lewatinya dan atur singkatan di Pengaturan.",
+      "skip": "Lewatkan",
+      "waiting": "Menunggu Anda mulai berbicara...",
+      "listening": "Mendengarkan… tekan fn saat selesai.",
+      "listening_fallback": "Mendengarkan… tekan Control dan Option saat selesai.",
+      "working": "Mengaturkannya di kertas...",
+      "settingUp": "Mematangkan...",
+      "settingUpPercent": "Mengatur… {{percent}}%",
+      "queuedNote": "Kata-kata Anda telah disimpan. Mereka muncul di sini segera setelah pengaturan selesai, dan mereka ada di Sejarah baik itu. Kita akan melanjutkan sendiri sebentar lagi.",
+      "nothing": "Tidak ada yang muncul. Periksa apakah mikrofon Anda menyala dan coba lagi.",
+      "filled": "Itu adalah email kamu. Tambahkan lebih banyak, atau lanjutkan.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Pesan baru",
+        "to": "Ke",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "Subjek",
+        "subjectText": "Kamis",
+        "body": "Pesan",
+        "placeholder": "Kata-kata Anda muncul di sini."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "Selesai. Anda telah mengetikkan teks pertama Anda.",
+      "subtitle": "Di mana pun Anda bisa mengetik, sekarang Anda bisa berbicara saja."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Menggunakan dictation bisa menghemat Anda sekitar {{hours}} jam per minggu",
+      "headline_other": "Menggunakan dictation bisa menghemat Anda sekitar {{hours}} jam per minggu",
+      "intro": "Membicarakan lebih cepat daripada mengetik bagi kebanyakan orang. Uji ketik selama 30 detik untuk melihat berapa banyak waktu yang bisa Anda hemat.",
+      "howFast": "Berapa cepat kamu ketik?",
+      "skipTest": "Lewatkan uji coba",
+      "basisMeasured": "Berdasarkan kecepatan ketik Anda {{wpm}} kata per menit, dan berbicara sekitar {{speaking}} kata per menit.",
+      "basisAverage": "Berdasarkan kecepatan ketik rata-rata {{wpm}} kata per menit, dan berbicara sekitar {{speaking}} kata per menit.",
+      "sliderLabel": "Berapa lama Anda mengetik setiap hari?",
+      "hoursPerDay_one": "{{hours}} jam per hari",
+      "hoursPerDay_other": "{{hours}} jam per hari",
+      "takeTest": "Ambil uji ketikan"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
+      "title": "Berapa cepat kamu mengetik?",
+      "instruction": "Tulis paragraf di bawah ini seperti biasa. Jam mulai saat Anda menekan tombol pertama dan berjalan selama {{seconds}} detik.",
+      "skip": "Lompat",
+      "language": "Bahasa",
+      "wpmPending": "— kata per menit",
+      "wpm_one": "{{count}} kata per menit",
+      "wpm_other": "{{count}} kata per menit",
+      "secondsLeft_one": "sisa {{count}} detik",
+      "secondsLeft_other": "sisa {{count}} detik",
+      "inputLabel": "Tulis paragraf di sini",
+      "placeholder": "Mulai ketik di sini…",
+      "nothing": "Tidak ada yang cocok dengan paragraf tersebut. Coba lagi.",
+      "result_one": "Kamu mengetik sekitar {{count}} kata per menit.",
+      "result_other": "Kamu mengetik sekitar {{count}} kata per menit.",
+      "tryAgain": "Coba lagi",
       "recalculate": "Recalculate"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "Kamu sudah siap",
+      "subtitle": "Berikut cara pengaturan Wispr Bro. Tahan pintasan Anda di setiap aplikasi untuk mengetik dengan suara.",
+      "languages": "Bahasa",
+      "shortcut": "Pintasan",
+      "shortcutFn": "Tahan fn (🌐)",
+      "shortcutFallback": "Tahan Control dan Option",
+      "microphone": "Microfon",
+      "micDefault": "Kamera default Mac",
+      "typing": "Kecepatan ketik",
+      "typingWpm_one": "{{count}} kata per menit",
+      "typingWpm_other": "{{count}} kata per menit",
+      "typingSkipped": "Tidak diukur",
+      "notSet": "Tidak diatur",
+      "launchAtLogin": "Buka Wispr Bro saat Anda masuk",
+      "launchAtLoginHint": "Jadi, dictation siap kapan saja Anda butuhnya.",
+      "later": "Anda bisa mengubah semua ini nanti di Pengaturan.",
+      "finish": "Mulai mengetik dengan suara"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Apa yang baru di {{version}}",
+    "label": "Catatan rilis versi ini",
+    "close": "Tutup",
+    "done": "Paham"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "Bagikan {{appName}}",
+    "body": "{{appName}} adalah gratis dan sumber terbuka, dan berjalan sepenuhnya di Mac. Tidak ada kode referal dan tidak ada yang dilacak: tautan tersebut sama untuk semua orang.",
+    "downloadLabel": "Tautan unduh",
+    "brewLabel": "Instal dengan Homebrew",
+    "copyLink": "Salin tautan unduhan",
+    "copyBrew": "Salin perintah Homebrew",
+    "copy": "Salin",
+    "copied": "Dikopi",
+    "copyFailed": "Tidak bisa menyalin. Pilih teks dan salin saja.",
+    "shareTitle": "Kirimkan ke seseorang",
+    "shareBody": "Pesan, Mail, AirDrop dan cara lainnya untuk membagikan di Mac Anda.",
+    "shareButton": "Bagikan…",
+    "shareFailed": "Tidak bisa membuka sheet berbagi."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Pengaturan dictation Anda berhenti bekerja. Wispr Bro membutuhkan akses Accessibility lagi.",
+      "stopped": "Pintasan dictation Anda berhenti merespons.",
+      "fix": "Perbaiki"
+    },
+    "sheet": {
+      "title": "Perbaiki pintasan Anda",
+      "introPermission": "macOS mematikan aksesibilitas Wispr Bro, sehingga tidak bisa mendeteksi shortcut Anda. Hal ini bisa terjadi setelah pembaruan atau saat entri diubah di System Settings.",
+      "introStopped": "Pendengar keyboard Wispr Bro berhenti. Ini akan dijalankan kembali secara otomatis segera setelah macOS memperbolehkannya.",
+      "pictureLabel": "Pengaturan Sistem, Privasi & Keamanan, Aksesibilitas: baris Wispr Bro dengan saklar diaktifkan",
+      "pictureTitle": "Aksesibilitas",
+      "pictureBack": "Privasi & Keamanan",
+      "stepsTitle": "Nyalakan kembali",
+      "step1": "Buka System Settings › Privasi & Keamanan › Aksesibilitas.",
+      "step2": "Nyalakan Wispr Bro. Jika sudah menyala, matikan dan nyala lagi.",
+      "step3": "Kembali ke sini. Shortcut bekerja kembali dalam beberapa detik, tanpa memulai ulang.",
+      "resetTitle": "Masih tidak berfungsi?",
+      "resetBody": "Setelah pembaruan, macOS dapat menyimpan entri lama yang tidak lagi sesuai dengan aplikasi. Mengatur ulang menghapus entri Wispr Bro agar Anda dapat mengizinkannya kembali.",
+      "resetStep1": "Pilih Reset dan berikan kembali.",
+      "resetStep2": "Izinkan Wispr Bro saat macOS meminta, atau aktifkan di daftar yang terbuka.",
+      "resetFailed": "Tidak bisa mereset entri tersebut. Pilih Wispr Bro dari daftar dan hapus dengan tombol kurang, lalu tambahkan kembali dengan tombol plus.",
+      "openSettings": "Buka Pengaturan Aksesibilitas",
+      "reset": "Reset dan re-grant",
+      "checkAgain": "Cek lagi",
+      "relaunch": "Diluncurkan kembali untuk selesai",
+      "close": "Tutup",
+      "status": {
+        "healthy": "Shortcut Anda berfungsi.",
+        "lost": "Belum berfungsi",
+        "recovering": "Menghubungkan kembali...",
+        "needsRelaunch": "Akses kembali. Relaunch Wispr Bro untuk selesai."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Apa yang ingin Anda coba terlebih dahulu?",
+    "subtitle": "Pilih satu untuk melihat bagaimana hasilnya. Lalu coba di aplikasi Anda sendiri.",
+    "choicesLabel": "Cara memulai",
+    "choices": {
+      "ai_chat": "Tanya asisten AI",
+      "note": "Catat catatan",
+      "message": "Balas pesan",
+      "email": "Tulis email",
+      "comment": "Tinggalkan komentar",
+      "document": "Buat dokumen",
+      "coding": "Prompt alat coding"
+    },
+    "scene": {
+      "label": "Contoh: {{choice}}",
+      "said": "Kamu bilang",
+      "written": "{{appName}} menulis",
+      "pause": "Jeda contoh",
+      "play": "Putar contoh"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "obrolan AI",
+        "context": "Apa yang bisa saya bantu?",
+        "said": "um jadi bisa jelaskan bagaimana cara kerja bunga majemuk seperti aku baru belajar ini",
+        "text": "Bisakah kamu jelaskan bagaimana bunga majemuk bekerja, seperti aku baru belajar ini?"
+      },
+      "note": {
+        "app": "Catatan",
+        "context": "Senin",
+        "said": "catatan untuk diri sendiri panggil dokter gigi dan ya ambil penjernihan sebelum enam",
+        "text": "Catatan untuk diri sendiri: hubungi dokter gigi dan ambil penjagaan kering sebelum enam."
+      },
+      "message": {
+        "app": "Pesan",
+        "context": "Apakah kita masih janji makan si tengah?",
+        "said": "ya untuk pasti pukul dua puluh tiga okay untuk kamu",
+        "text": "Iya, tentu saja! Pukul 12.30 bagus untuk Anda?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Ke: Priya · Subjek: Kamis",
+        "said": "hi Priya terima kasih atas catatan saya kirimkan draftnya hari kamis pagi",
+        "text": "Hai Priya, terima kasih atas catatan Anda. Aku akan mengirimkan draftnya pada pagi hari Kamis."
+      },
+      "comment": {
+        "app": "Sosial",
+        "context": "Kantor baru kami dibuka minggu depan!",
+        "said": "selamat kepada seluruh tim, ini terlihat luar biasa",
+        "text": "Selamat kepada seluruh tim, ini terlihat luar biasa!"
+      },
+      "document": {
+        "app": "Dokumen",
+        "context": "Rencana proyek",
+        "said": "tujuan fase ini adalah mengirim beta ke lima puluh pengujar pada akhir bulan ini",
+        "text": "Tujuan fase ini adalah mengirimkan beta ke seratus penestari pada akhir bulan ini."
+      },
+      "coding": {
+        "app": "Editor kode",
+        "context": "Tanya agen",
+        "said": "tombol login tidak berfungsi di ponsel bisa kamu cari tahu mengapa dan perbaiki",
+        "text": "Tombol login tidak berfungsi di ponsel. Apakah kamu bisa mengetahui alasannya dan memperbaikinya?"
+      }
+    },
+    "tryNow": "Coba sekarang",
+    "later": "Mungkin nanti",
+    "close": "Tutup",
+    "noBar": "Bar dictasi tidak berjalan, jadi tidak ada petunjuk yang ditampilkan. Anda tetap bisa mencoba: buka aplikasi dan tahan shortcut Anda.",
+    "banner": {
+      "title": "Gunakan di aplikasi Anda sendiri",
+      "body": "{{hint}}. {{how}}",
+      "again": "Tampilkan petunjuk lagi",
+      "stop": "Sembunyikan petunjuk",
+      "other": "Coba sesuatu yang lain",
+      "active": "Petunjuknya ada di layar Anda. Tekan Esc untuk menutupnya."
+    }
+  },
+  "checklist": {
+    "title": "Mulai",
+    "label": "Daftar pengaturan",
+    "progress": "{{done}} dari {{total}} selesai",
+    "hide": "Sembunyikan daftar cek",
+    "done": "Selesai",
+    "next": "Berikutnya",
+    "allDone": "Semua siap. Kamu tahu dasarnya.",
+    "items": {
+      "try_in_app": {
+        "title": "Coba di aplikasi lain",
+        "action": "Tunjukkan saya"
+      },
+      "add_word": {
+        "title": "Tambahkan kata",
+        "action": "Tambahkan kata",
+        "coachTitle": "Tambahkan kata pertama Anda",
+        "coachBody": "Nama, istilah produk dan istilah khusus yang sering Anda katakan. Mereka muncul ditulis sesuai cara Anda menulisnya."
+      },
+      "create_snippet": {
+        "title": "Buat sebuah snippet",
+        "action": "Snippet baru",
+        "coachTitle": "Buat snippet pertama Anda",
+        "coachBody": "Ucapkan frasa pendek dan dapatkan teks yang lebih panjang: alamat Anda, sebuah tautan, tanda tangan."
+      },
+      "launch_at_login": {
+        "title": "Buka saat login",
+        "action": "Nyalakan",
+        "body": "{{appName}} dimulai bersama Mac Anda, sehingga pintasan Anda selalu berfungsi."
+      }
+    },
+    "coach": {
+      "close": "Tutup",
+      "done": "Paham"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

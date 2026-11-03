@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "הצגת חלון טעינה",
+    "description": "בדיקות פנימיות על الطبقה של Wispr Bro. מוצגות רק בגרסאות טעינה או כאשר התוכן נפתח עם --debug.",
+    "close": "לסגור",
+    "runAgain": "לרצות שוב",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "מצב המודל",
+      "notReady": "לא מוכן עדיין: התוכן לא הסתיים להתחיל."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "האירוע האחרון של פינג",
+      "none": "לא קיבלו אירועים עדיין."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "מתאריך...",
+    "error": "שגיאה: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
-      "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "title": "מדיניות אבטחה של תוכן",
+      "description": "מפעיל קובץ שמע דרך תבנית אסטט, טוען מידע: ותמונות ב- blob: , מפעיל פקודה של חילוף ובודק שהתמונה המותרת מונעת.",
+      "run": "לצאת בדיקת CSP",
+      "running": "מתבצע...",
+      "pass": "הועבר: לא נמצאו תקנות CSP לא מותאמות.",
+      "fail": "השגיאה: ראה את הבדיקות להלן.",
+      "ok": "בונה ({{detail}})",
+      "failed": "השגיאה ({{detail}})",
+      "noViolations": "לא נרשמו תקנות CSP.",
+      "violations_one": "{{count}} תקופת עברה בדיקה.",
+      "violations_other": "הנחיות CSP מופעלות: {{count}}",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "media": "אודיו (פרוטוקול אסטט)",
+        "dataImage": "דאט: תמונה",
+        "blobImage": "blob: תמונה",
+        "forkCommand": "הפקת פורק",
+        "probe": "מקור מוגבל"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "העתקה ב-{{seconds}} שניות. היכנס לתוכנת מקלדת אחרת כדי לראות הודעה מ-macos."
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "עדכונים",
+      "version": "גרסה",
+      "channel": "ערוץ",
+      "key": "מפתח חתימה",
+      "endpoints": "המוצעים",
+      "checksOff": "הבדיקה של עדכונים מופעלת (הגדרות › מתקדמת, או שמתג הפסיק מוגדר).",
+      "check": "השווה עכשיו",
+      "checking": "בדיקה של עדכון…",
+      "install": "לInstal {{version}} ולשדר",
+      "installing": "הצגת והצגת...",
+      "installed": "הגרסה {{version}} נתקנת. מתחילה מחדש...",
+      "available": "הגרסה {{version}} זמינה.",
+      "upToDate": "עד עדכון",
+      "failed": "לא ניתן לבדוק: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "הגדרות חיבור",
+      "loading": "הטמעת הגדרות…",
+      "loadError": "לא ניתן לקרוא את ההגדרות: {{message}}",
+      "setError": "השינוי לא נשמר: {{message}}",
+      "contextAwareness": "ההבנה של הקשר",
+      "contextAwarenessHint": "משתמש בשמות בטקסט קרוב למקursor כדי לרשום אותם נכון. הטקסט נשאר על זה המاك ומשתנה לא נשמר.",
       "transforms": "השינויים",
       "transformsHint": "⌥1 מטיל את הטקסט שנבחר ו⌥2 מפצל אותו למשהו יותר ברור. במהלך הפעלה, מקשים אלה מחליפים את ¡ ו™.",
       "transformsSafeShortcuts": "השתמש ב- ⌃⌥1 ו- ⌃⌥2",
       "transformsSafeShortcutsHint": "מימין ל-¡ ו-™ זמינים עם ⌥1 ו-⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "רמת ניקוי",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "ללא",
+        "light": "ללא",
+        "medium": "מتوוות"
       },
-      "all": "All settings"
+      "all": "הכל"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "הכללי",
       "system": "המערכת",
-      "vibe": "Vibe coding",
+      "vibe": "קוד לפי רגש",
       "privacy": "הנתונים והפרטיות",
       "advanced": "התקדמות",
       "about": "אודות",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "הפתוח בـ",
       "scratchpadHint": "העתק את המיקום שבו מופעל ה-Scratchpad כשאתה משתמש בקיצור.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "המשוך את הערה האחרונה שלי",
+        "new_note": "להתחיל ניוט חדש"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro יכול לקרוא את שמות הקוד והשמות של קבצים שמציגים VS Code, Cursor ו-Windsurf על המסך, דרך האפשרויות לגישה. הוא לא מפתח את תיקיית הפרויקט או את הקבצים שלך.",
+      "contextOff": "ההערכה של הקשר מופעלת, לכן הרגליים האלה לא יוכלו לקרוא. הפעל את זה כדי להשתמש בהם.",
+      "recognize": "הכיר את שמות הקוד",
+      "recognizeHint": "כשאתם מדברים על שם משתנה או פונקציה שמתוכנן במחברת, הוא נכתב לפי איך הקוד מופיע, כמו getUserById או user_id.",
+      "setUp": "הכין",
+      "change": "לשנות מحرרי",
+      "setUpFor": "הכין עבור {{editors}}",
+      "fileTags": "הוסף תגיות לملفات בדיאלוג",
+      "fileTagsHint": "בשיחה של Cursor או Windsurf, לומר \"index dot ts\" מكتיב @index.ts כשהקובץ פתוח בתיבת הניווט או מופיע ברשימת הקבצים.",
+      "fileTagsNeedsChat": "متاح לאחר שמוסיפים ל- Cursor או Windsurf לערטורים שלך.",
+      "fileTagsNeedsSetup": "מופיע לאחר שיצרת את ההפניה של שם קוד.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "העתקת שמות קוד",
+        "stepEditors": "1. בחר במתכנתים שמשתמשים",
+        "stepScreenReader": "2. הפעל את מצב lector של המסך בכל אחד מהם, כדי שיתפו את הטקסט עם Wispr Bro",
+        "openSettings": "הפתוח את הגדרות המحرר עם ⌘ קoma.",
+        "search": "חפש \"העצמה לסיוע למשתמשים\".",
+        "setOn": "הגדרת עורך: תמיכה ביציבות ל\"on\".",
+        "palette": "אתם גם יכולים להפעיל \"הפעלה של מצב נגישות למסך\" מהפלטפורמה של הפקודות (⇧⌘P).",
+        "confirm": "הכפתי את מצב lector של המסך בדרכן",
+        "cancel": "ל hủy",
+        "finish": "לסיים את ההגדרה"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "הפרטי בדפוס",
+        "local": "ההערכה שלך והנתונים נשארים על המاك שלך.",
+        "noCloud": "ההערכה, העריכה וההיסטוריה מתרחשים מקומית. אין חשבונות, תצפית, דיקטציה או עריכת מוקד ב-cloud.",
+        "networkIntro": "Wispr Bro משתמש ברשת רק בשתי דברים:",
+        "models": "לטלות מודלים של שיחה וניקוי מ-Hugging Face (huggingface.co).",
+        "updates": "כששאילתות עדכון מופעלות, חפש עדכוני התוכן ב-GitHub (github.com)"
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "איפה נתונים שלך מוגדרים",
+        "hint": "הdirectories אלו שייכים לWispr Bro. התקנות ניידות שומרות על כל אחד מהן בדיקת התוכן של התוכן.",
+        "data": "דанныים של התוכנה והגדרות",
+        "models": "מודלים שנלכדו",
+        "recordings": "ההקלטות",
+        "logs": "הლוגים והדיווחים על שגיאות",
+        "show": "הצגת מיקום בFinder",
+        "loading": "מאתר...",
+        "failed": "לא ניתן לפתוח את המיקום הזה. נסה שוב."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "לכמה זמן לשמור על היסטוריה",
+        "textLabel": "לשמור על הטקסט המוסכם",
+        "textHint": "ההכנסות הישויות מוסרות אוטומטית. הטקסט נשמר תמיד בדוק.",
+        "audioLabel": "לשמור על הקלטות",
+        "audioHint": "השמעה מתרחשת לאחר 14 ימים ברירת מחדל. הסרת שמעה משמור את הטקסט המוקדש עד הגבול של הטקסט.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "ללא שמירה על שמע",
+          "1": "יום אחד",
+          "7": "7 ימים",
+          "14": "14 ימים",
+          "30": "30 ימים",
+          "90": "90 ימים",
+          "365": "1 שנה",
+          "forever": "לנצח"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "הבחירות בפרטיות",
+        "context": "לשימוש במודל של תחושה",
+        "contextHint": "לקרוא טקסט קרוב רק במהלך הקלדה כדי לזהות שמות וכתיבה. המקרה לא נשמר או מוגדר.",
+        "updates": "לבדוק עדכונים לתוכנת האפליקציה",
+        "updatesHint": "היכנסו לGitHub כדי לבדוק גרסה חדשה. לא נשלחים נתונים של דיקטציה או מידע אישי.",
+        "learn": "לומד מההתקנות שלי",
+        "learnHint": "אחרי שכתבת טקסט, שקול מילים שתקנתם במשבצת הטקסט ותציעו בה מילון. רק המילה המתקנת נשמרת; הטקסט האחר לא נשמר או מוגדר."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "הנתונים שלך",
+        "hint": "ליצירת ארכיב של זיפ עם היסטוריה, הגדרות ורשומות. מודלים וlogg לא מופיעים.",
+        "button": "לlexport את הנתונים שלי",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "ארכיב זיפ",
+        "done": "הייצוא נשמר והוצג בFinder.",
+        "failed": "לא ניתן להפוך את הנתונים שלך. לא נמחק דבר."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "למחוק את כל הנתונים שלי",
+        "title": "למחוק את כל הנתונים שלך?",
+        "warning": "הפעולה מוחקת באופן קבוע את היסטוריה, הקליפים, הגדרות, לוגים ודיווחי שגיאות. לא ניתן לבטל את הפעולה.",
+        "relaunch": "Wispr Bro יפסיק לעבוד, ימחק את הנתונים, ויסגור לכניסה ראשונית.",
+        "models": "העתק גם מודלים שנלכדו",
+        "modelsHint": "השאירו את זה מופעל כדי להימנע מההעתקה של מודלים של שפה וניקוי.",
+        "confirmLabel": "הקלד {{word}} כדי לאמת",
+        "cancel": "ל hủy",
+        "confirm": "למחוק הכול",
+        "failed": "המחיקה של כל הנתונים לא הסתיימה. בדוק את הנתונים שנותרים לפני שנסעיף שוב."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "הדיווחים על שגיאות וניתוחים",
+        "hint": "הדיווחים על שגיאות נשארים על המחשב הזה ואינם מועדים. קובץ או שמור בדיקות רק כשאתם רוצים לשתף.",
+        "sanitized": "הניתוח מוחק את הטקסט המוחלט, שאלות, מילים מתרגל, כתובות של דוא\"ל, מפתחות ונתיב הבית שלך.",
+        "copy": "העתק דיאגנוסטיות",
+        "save": "להציל תיעודים…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "המידע על הדיאגנוסטייקה נמחק והועבר.",
+        "saved": "ההערכות המוסכימות נשמרו.",
+        "failed": "לא ניתן להכין נתונים תחביריים. נסה שוב."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "גרסה {{version}}",
       "source": "הצגת קוד המקור",
       "updates": "הערות לעדכון",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "עדכונים",
+      "license": "תוכנת חופשית לפי רשות GNU General Public License, גרסה 3 (GPL-3.0).",
+      "licenseLink": "הצגת רישיון",
+      "credit": "בנוי על Handy על ידי CJ Pais, מותיר תוקף MIT. תודה לכל מי שעובד על זה.",
+      "creditLink": "הנגיש ב-GitHub",
+      "supportTitle": "השראה לפיתוח",
+      "supportBody": "האפליקציה {{appName}} לא mająת תוכנית משלוח. התמיכה הטובה ביותר היא דיווח על שגיאה, רעיון או תרומה ל-GitHub."
     },
     "hotkeys": {
       "open": "הקצרים",
@@ -412,7 +412,7 @@
           "view_changes": "הצגת שינויים במעבר"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "לפתוח את המפה"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "הצג את ההגדרות האחרונות לפני והאחרי."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "המשתמש ימשיך את הערה האחרונה או יתחיל אחת חדשה, בהתאם להגדרות ה-Scratchpad."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "ראשי"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "הקטן את הסרגל",
+      "expand": "הרחיב את הסרגל"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "החל לגרסה חשוכה",
+      "toLight": "החל לגרסה בהירה"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "ההתראות",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "שום דבר חדש",
+        "body": "העדפות וטיפים יופיעו כאן."
       },
       "bellUnread_one": "ההתראות, {{count}} לא נקראות",
       "bellUnread_other": "ההתראות, {{count}} לא נקראות",
@@ -485,65 +485,65 @@
       "justNow": "הרגע"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "עזרה",
+      "updates": "עדכונים",
+      "whatsNew": "מה חדש",
+      "essentials": "האיסוף",
+      "shortcuts": "השיקולים",
+      "microphone": "מיקרופון",
+      "languages": "שפות",
+      "documentation": "מסמך תיעוד",
+      "getInTouch": "היכן אתה?",
+      "reportProblem": "לדווח על בעיה…",
+      "sendFeedback": "שלח הערות",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "לדווח על בעיה",
+        "body": "הפעלת זה מפתח את נושא חדש ב-GitHub בדפדפן שלך, עם גרסה של התוכנית ומודל המاك שוכן. זה לא כולל דבר שכתבת, וניתן לקרוא ולשנות את כל המלל לפני שירשימו.",
+        "diagnosticsTitle": "הצגת מידע (אופציונלי)",
+        "diagnosticsBody": "הლוגים המטפלים עוזרים למצוא את הסיבה. הם לא מכילים את הדרישות שלך. קח אותם כאן, ואז הכנס אותם לבעייתך.",
+        "copy": "העתק את התיקון",
+        "copied": "הדפסות נקופו. הכנס אותן לבעיה.",
+        "copyFailed": "לא ניתן להעתק את התיעוד.",
+        "open": "הפתוח את GitHub",
+        "cancel": "לבטל",
+        "close": "לסגור"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "השדות של הגדרות"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "ההערכה",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "דבר במקום לקליט",
+          "body": "החזיקו על Fn בכל אפליקציה, אומרים מה שברצונכם לכתוב ורלו. {{appName}} מכניס טקסט נקי במקום הנקודה.",
+          "examplesLabel": "דברים לניסוי",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "תגובה מהירה לرسالة",
+            "notes": "הערות לאחר שיחה",
+            "prompt": "האורך של תקציר לדיוק אינטיליגנציה"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "ההקלדה שלך תופיע כאן",
+          "body": "האחת מحفשה על זה המاك, עם האודיו, כך תוכל להעתק או לבדוק את זה מאוחר יותר.",
+          "action": "הפתוח את היסטוריה"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "ההערכות",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "ההערכות דורשות כמה דיקטציות",
+          "body": "מהירות הקריאה שלך, הסדרות והזמן ששמנת אתה רואה לאחר שהתרחשה תנועה של דיקטציה.",
+          "action": "ללכת לDictation"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "המילון",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "המוצעים",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "הסניפטים בקשו",
+          "body": "הגיד תחילה כמו \"הכתובת שלי\" ותקבל את הטקסט המלא. עמוד זה יגיע עדכון מאוחר.",
+          "action": "ללכת לDictation"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "סגנון",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "הצגות יגיעו בקרוב",
+          "body": "בחר איך מדויקת הטקסט שלך בכל סוג של אפליקציה, מדוקה למייל עד שקט לדיוק. עמוד זה יגיע עדכון מאוחר.",
+          "action": "ללכת לDictation"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "השינויים",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "השינויים במערך בקרוב",
+          "body": "בחר טקסט וערוך אותו בקיצור: קצר יותר, ברור יותר או מארגן יותר. עמוד זה יגיע עדכון מאוחר.",
+          "action": "ללכת לDictation"
         }
       },
       "scratchpad": {
-        "title": "Scratchpad",
+        "title": "הדף המטושטש",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "הדף הפתוח נמצא בדרך",
+          "body": "מקום מהיר לרשום הערות לפני שיגיעו למקום אחר. הדף הזה יופיע בעדכון מאוחר.",
+          "action": "ללכת לDictation"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "שתף עם חבר"
       },
       "settings": {
-        "title": "Settings"
+        "title": "הגדרות"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "הראה לי"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "העדכון מושבת",
+      "turnOn": "הפעל",
+      "notChecked": "לא בדקו עדיין",
+      "check": "לבדוק עדכונים",
+      "checking": "בדיקה לעדכונים…",
+      "upToDate": "עד עדכון",
+      "checkAgain": "השווה שוב",
+      "checkFailed": "לא ניתן לבדוק",
+      "retry": "לנסות שוב",
+      "downloading": "הצגת {{version}}...",
+      "ready": "העדכון מוכן",
+      "restartNow": "הפעל עכשיו",
+      "installing": "ההתקנה של {{version}}...",
+      "installedWaiting": "הגרסה {{version}} נתקנת · יקרה לאחר מכן",
+      "restarting": "השروع במשהו...",
+      "installFailed": "העדכון לא התקין",
+      "busy": "השלימו את הכתיבה לפני שתרום.",
+      "actionFailed": "הטיפוס לא עבד. נסה שוב מאוחר יותר.",
+      "lastChecked": "האחרון שנבדק {{time}}.",
+      "paused": "אחרי שלושה ניסיונות נכשלים, עדכון אוטומטי נעצר עד {{time}}.",
+      "manualOnly": "הגרסה זו היא גרסה של פיתוח: עדכונים מודפסים רק כשאתם מבקשים.",
+      "readyHint": "המתקין בעצמו לאחר שמעדיף 20 דקות, או כשאתם מפסיקים.",
+      "policy": "העדפות העדכון מותאמות בפונקציית הバックגרא운ד וInstalls רק כשאתם לא מדברים או כשאתם מפסיקים.",
+      "needsPassword": "הنسخה של התוכן נמצאת בתיק שדורש סיסמה של מנהל כדי לשנות, לכן עדכון מתקיים רק כאשר אתה מחליט להתחיל עכשיו."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
-      "beta": "Beta"
+      "new": "חדש!",
+      "beta": "בータ"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "הבטל"
     },
     "importWizard": {
       "stepsLabel": "העתקת שלבים",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
-      "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "dictation": "ההערכה",
+      "vocabulary": "המונחים",
+      "help": "עזרה",
+      "file": "קובץ",
+      "edit": "עריכה",
+      "view": "הצגה",
+      "window": "חלון",
+      "wordsDictated_one": "המילה שנאמרה {{count}}",
+      "wordsDictated_other": "{{count}} מילים נאמרו",
+      "copyLast": "העתק את התרגום האחרון",
+      "copyLastPreview": "העתק את התרגום האחרון: \"{{preview}}\"",
+      "copyLastConcealed": "העתק את הטקסט האחרון (טקסט מוסתר)",
+      "microphone": "מיקרופון",
+      "languages": "שפות",
+      "moreLanguages": "הוסף או הסר שפות…",
+      "automaticMicrophone": "הפעלת אוטומטי (הגדרה של המערכת)",
+      "noMicrophones": "לא נמצאו מיקרופונים",
+      "dictionaryWords_one": "{{count}} מילה מילון",
+      "dictionaryWords_other": "{{count}} מילים מילון",
+      "snippetCount_one": "{{count}} מדריך",
+      "snippetCount_other": "{{count}} שיעורים",
+      "addWord": "הוסף מילה…",
+      "newSnippet": "הsnippet החדש…",
+      "documentation": "מסמך תوثית",
+      "shortcuts": "השיקולים",
+      "reportProblem": "לדווח על בעיה…",
+      "sendFeedback": "שלח הערות…",
+      "openApp": "הפתוח {{appName}}",
+      "checkUpdates": "לבדוק עדכונים…",
+      "pasteLast": "העתק את התרגום האחרון",
+      "cancelDictation": "ל hủy את הכתיבה",
+      "shortcutsBlocked": "הקצובים מונעים — פתח את ההגדרות",
+      "undo": "החזיר",
+      "redo": "השחזר",
+      "cut": "העתק",
+      "copy": "העתק",
+      "paste": "העתק",
+      "selectAll": "בחר הכל",
+      "minimize": "לצמצם",
+      "zoom": "הצגה",
+      "closeWindow": "לסגור חלון",
+      "fullScreen": "הכנס למסך מלא",
+      "services": "שירותים",
+      "hideOthers": "הסתר את שאר",
+      "showAll": "הצג הכל",
+      "about": "אודות {{appName}}",
+      "hide": "הסתר {{appName}}",
+      "quitApp": "לצאת מה {{appName}}",
+      "restartToUpdate": "הפעל כדי לעדכן ל{{version}}",
+      "updatesOff": "הבדיקה של עדכונים מופעלת…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "ההקשר לא עובד"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -734,22 +734,22 @@
     "hotkeys": {
       "keys": {
         "fn": "fn",
-        "control": "Control",
-        "option": "Option",
+        "control": "Contrôle",
+        "option": "האפשרות",
         "shift": "Shift",
-        "command": "Command",
-        "space": "Space",
+        "command": "הפקת",
+        "space": "המפתח של המרחב",
         "escape": "Escape",
-        "return": "Return",
+        "return": "השאלה",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
+        "delete": "למחוק",
+        "forwardDelete": "המחיקה של קצה",
+        "left": "המפתח השמאלי",
+        "right": "המפתח הימני",
+        "up": "העכבר למעלה",
+        "down": "המפתח למטה",
+        "home": "הבית",
+        "end": "הסתיים",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
         "mouseLeft": "לחצן עכבר שמאלי",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "הקלדה",
+          "tooltip": "החזק fn כדי לרשום"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "המיקרופון נ desconנected. מה שדיברתם עד כה נשמר.",
         "undo": "״ביטול פעולה״ מופיע בסרגל ההכתבה למשך 4 שניות.",
         "diff": "השינויים בדוקים והם מוכנים להצגה.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "ההכנסה המוגנת מופעלת. fn ו-Space לא יכולים ללחוץ על הדיקטציה. Escape או הכפתור לסגירה עדיין מפסיקים."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "בחר 6,000 תווים או פחות",
         "transform_focus_moved": "האם עברת, אז לא השתנה",
         "transform_failed": "לא ניתן להמיר את הטקסט הזה",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "ההקשר שלך נעצר",
+        "shortcut_stopped": "ההקשר שלך נעצר",
+        "shortcut_back": "ההקשר שלך עובד שוב"
       },
       "card": {
         "no_text_field": "העתק לשדה טקסט קודם",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "האפליקציה {{appName}} היא דיקטציה מופרעת שמתבצעת לגמרי על המחשב שלך. קח אותה כאן:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "השלב הבא",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "הפתיחה של שיחה עם אינטיליגנציה מלאכותית, כמו ChatGPT או Claude",
+        "note": "הפתוח את אפליקציית הערות שלך",
+        "message": "פתח שיחה, כמו הודעות או סלאק",
+        "email": "הפתוח את הדוא\"ל",
+        "comment": "הפתוחת פוסט שברצונך לרשום תגובה עליו",
+        "document": "הפתיחה של מסמך שכתבת",
+        "coding": "הפתוח את Cursor, VS Code או מתרגל קוד אחר"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "לחץ במקום שבו אתה רוצה לכתוב, ואז הקח Fn והדבר.",
+      "howFallback": "לחץ במקום שבו אתה רוצה לכתוב, ואז הקח Ctrl ו-Option והדבר.",
+      "escape": "נלחץ Esc כדי לסגור את ההודעה."
     }
   },
   "speechModels": {
     "title": "מודלים של דיבור",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "האפליקציה {{appName}} מختירה את המודל של השפה שלך ומכונה את המחשב שלך, ומעדכנת את המודל הטוב יותר כשאפשר. אתה לא צריך לבחור.",
     "loading": "הבדיקה של מודלים דיבור…",
     "current": "הנוכreon: {{name}}",
     "none": "ללא מודל שיחה עדיין",
@@ -1087,7 +1087,7 @@
       "edit": "עריכה {{entry}}",
       "delete": "למחוק {{entry}}",
       "accept": "הוסף {{entry}} לרשימת המילים שלך",
-      "reject": "Don't learn {{entry}}"
+      "reject": "ללא ללמוד {{entry}}"
     },
     "source": {
       "import": "הועלה",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "לא נמצאו הצעות עדיין",
       "body": "כש{{appName}} יבין מהשורש שתקופתך מתקיים, הם יופיעו כאן כדי לאמת.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "התקן שם או מונח שגוי במשתנה אחרי שכתבת, ואז נסה Retun, Tab או היכן שתרצה. המילה שהתקנת מופיעה כאן כדי שתאשר."
     },
     "noMatch": {
       "title": "ללא התאמה",
@@ -1189,7 +1189,7 @@
         "added_other": "{{count}} הוספה",
         "replaced_one": "{{count}} נוצר עם גרסה של הקובץ",
         "replaced_other": "{{count}} נוצר עם גרסה של הקובץ",
-        "skipped_one": "{{count}} already there, skipped",
+        "skipped_one": "{{count}} כבר קיים, דולג",
         "skipped_other": "הـ{{count}} כבר קיים, נדחה",
         "kept_one": "ההפרות {{count}} נשמרו כפי שהיו",
         "kept_other": "{{count}} נקודות התנגשות נשמרו כהן",
@@ -1206,11 +1206,11 @@
       "done_other": "הועלה {{count}} רשויות.",
       "failed": "לא ניתן להפוך את המילון. אנא נסה שוב."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "ההערכה \"{{entry}}\" לא תופיע שוב.",
+    "actionFailed": "הפעולה לא הצליחה. אנא נסה שוב.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "לומד מההתקנות שלי",
+      "hint": "למשך 30 שניות לאחר שההקלדה נשלחה, {{appName}} מתרפק במשהו שאתם מתקנים במשבצת הטקסט, ומכניס את זה כאן. רק המילה שאתם מתקנים נשמרת, לא כל הטקסט. שדות סיסמה, מנהלי סיסמה, תכונות בנק והמסד לא יקראו."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "הטקסט קרוב עזר בכתיבה",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "המיקרופון נעלם, ממשיך להשמיע מה שכתבת",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "ההכנסה בטוחה מופעלת · fn+Space לא יכול לברר · Esc או ✕ מפסיק",
+      "secure_input_app": "האפליקציה {{app}} יש להגדרה של אבטחה בקלט · לא ניתן ללחוץ על fn+Space כדי ללחוץ על סגור · Esc או ✕ מפסיקים"
     },
     "settingUp": "בהגדרה…",
     "settingUpPercent": "בהגדרה… {{percent}}%",
@@ -1247,8 +1247,8 @@
     "viewChanges": "לצפות שינויים",
     "sendsAutomatically": "שולח אוטומטי",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "הגישה לסיוע טכני מופתלת",
+      "stopped": "המונח של המקלדת נעצר"
     }
   },
   "transforms": {
@@ -1561,8 +1561,8 @@
         "added_other": "{{count}} הוספה",
         "replaced_one": "{{count}} נוצר עם הטקסט של הקובץ",
         "replaced_other": "{{count}} נוצר עם טקסט הקובץ",
-        "skipped_one": "{{count}} already there, skipped",
-        "skipped_other": "{{count}} already there, skipped",
+        "skipped_one": "{{count}} כבר קיים, דולג",
+        "skipped_other": "{{count}} כבר קיימים, דולגו",
         "kept_one": "ההערכה של {{count}} נמצאה והושמרה כהיה",
         "kept_other": "{{count}} נקודות התנגשות נשמרו כהן",
         "invalid_one": "השורה {{count}} לא נקלטה",
@@ -1766,62 +1766,62 @@
       "wordHint": "يضfü את המילה, כך שהאפליקציה תראה אותה כשאתה מדבר עליה.",
       "duplicate": "הذا כבר נמצא בדיקטורים שלך.",
       "failed": "ההערכה לא נסגרה. אנא נסה שוב.",
-      "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
+      "savedRule": "מעכשיו “{{from}}” יהפוך ל“{{to}}”.",
       "savedWord": "המילה \"{{word}}\" נמצאת בדיקטונאריה שלך.",
       "openDictionary": "הפתיחה של מילון"
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "ההערה החדשה",
+    "preferences": "ההעדפות של הסקרטפאד",
+    "addToBar": "להוסיף לבר",
+    "addToBarHelp": "השאירו כפתור למסך שטח ליד Dictate על הרצפה.",
+    "recents": "השנים",
+    "searchLabel": "חפש מזימות",
+    "searchPlaceholder": "חפש מכתבים שלך",
+    "loading": "הטמעת שיעורים...",
+    "empty": "לא יש מכתבים עדיין",
+    "emptyHelp": "התחיל לרשום, ואז נסה או לרשום בחלון המ浮.",
+    "emptyNote": "ההערה ריקה",
+    "noResults": "אין שיעורים שמתאימים לחיפוש שלך.",
+    "untitled": "הערה לא נקראת",
+    "pinned": "מונח",
+    "pin": "לשים ניוט",
+    "unpin": "הבטל את ההעתק",
+    "editAction": "עריכה של ניוט",
+    "edit": "עריכה של {{name}}",
+    "delete": "למחוק ניוט",
+    "deleteConfirm": "למחוק \"{{name}}\"? זה לא ניתן לבטל.",
+    "error": "השולחן העריכה לא הצליח לבצע פעולה זו. הטקסט שלך עדיין כאן; נסה שוב.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "הפתוח של סדרת שילוב",
+      "change": "הגדר קיצור",
+      "title": "השורת הקיצור של המפה",
+      "help": "הפתיחה של שדה הכתיבה בכל מקום. הוא מתחיל ללא הגדרה, לכן לא מפריע למקלדת עד שתרצה.",
+      "close": "הצגת שורת הקיצון של סגירת",
+      "proposed": "השילוב המוצע",
+      "ctrlOptionS": "Contrôle + אופציה + S",
+      "use": "השתמש בקיצוץ של Ctrl + Option + S",
+      "chooseAnother": "בחר שורת קיצור אחרת",
+      "error": "הקיצור הזה לא נוכח לשמור. נסה קומבינציה אחרת."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "הפתיחה של שיעורים",
+    "tools": "הכלים לרשומה",
+    "sidebar": "הצגת רשימה של שורות",
+    "polish": "לתקן ניוט",
+    "polishing": "הטמעה...",
+    "textSize": "החלף את גודל הטקסט (הגודל הנוכחי הוא {{size}} נקודות)",
+    "expand": "הרחיב את חלון המחבר",
+    "shrink": "החזיר את גודל חלון הערה",
+    "close": "לסיום שדה שטח",
+    "noteBody": "טקסט הערה",
+    "notePlaceholder": "כתוב או לרשום ניוט…",
+    "saved": "הושלף",
+    "saving": "שומר...",
+    "saveError": "לא נשמר עדיין",
+    "autosaveHelp": "שומר אוטומטי",
+    "copy": "העתק",
+    "copied": "הועלה"
   },
   "style": {
     "tabsLabel": "קבוצות סגנון",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "הכנת דברים מוכנים…",
+    "back": "חזרה",
+    "continue": "המשיך",
+    "yes": "כן",
+    "no": "ללא",
+    "downloadHint": "ההכנה של שיחה ממשיך בפונקציה. לא צריך להמתין כאן.",
+    "navigationFailed": "השלב הזה לא נשמש. נסה שוב.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "התקדמות בהתקנת המערכת",
+      "welcome": "ברוך הבא",
+      "permissions": "הרשאות",
+      "setup": "הכנת תצוגה",
+      "practice": "לתרגל",
+      "done": "(הושלם)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "העזרה",
+      "title": "עזרה בהתקנת המערכת",
+      "close": "לסגור עזרה",
+      "done": "בנתי",
+      "body": "כל שלב לוקח כמה שניות. אתה יכול להחזיר בכל זמן, ואם תפסיק, ההعداد ימשיך מהמקום שבו עזב.",
+      "download": "Wispr Bro יתקין רישום שפה על זה Mac בזמן שאתם מתקדמים בצעדים. כל מה שתרצה לרשום לפני שהוא מוכן יישמר ויתן כטקסט לאחר שהוא מוכן."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "דבר, והמילים שלך מופיעות",
+      "subtitle": "החזיקו על מקש, תנו דיבור, שחררו. טקסט נקי יגיע למקומו שבו אתם מקלידים.",
+      "privacyTitle": "הכל נשאר על המاك",
+      "privacy": "הקול שלך והטקסט שלך לעולם לא יעזבו את המחשב. לא חשבונות, לא ענן, לא跟跟.",
+      "download": "ההכנה של שיחה מתחיל עכשיו ועובר בפונקציה של רקע.",
+      "start": "התחיל"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "העתק Wispr Bro לתוכניות",
+      "body": "Wispr Bro מתרגל מחוץ לתיק התוכן שלך. כדי להזיז אותו לשם, יישאר עדכון ורשות פעילות.",
+      "note": "Wispr Bro מפצל עצמו באופן אוטומטי לאחר המעבר ומשלב את ההתקנה.",
+      "action": "העתק ליישומים",
+      "moving": "מתקדם...",
+      "skip": "לא עכשיו",
+      "error": "Wispr Bro לא יכול להזיז את עצמו. העבירו אותו לApplications בFinder, ואז התחילו שוב."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "אילו שפות אתם מדברים?",
+      "subtitle": "בחר כל שפה שאתה מדבר בה. Wispr Bro מטפל בקונספט שלך בצורה טובה יותר כששומע אותה.",
+      "listLabel": "שפות",
+      "noMatch": "לא נמצאו שפות שמתאימות ל-“{{query}}”.",
+      "count_one": "הדוקטציה עובדת בשפה אחת {{count}}. תוכל לשנות את השפה שלך מאוחר יותר בהגדרות.",
+      "count_other": "הדוקטציה עובדת בשפה {{count}}. תוכל לשנות את השפה שלך מאוחר יותר בהגדרות.",
+      "weak_one": "ההערכה פחות מדויקת ב-{{languages}}. זה עובד, אך תקבל יותר שגיאות.",
+      "weak_other": "ההערכה פחות מדויקת ב-{{languages}}. הן עדיין עובדות, אך תקבלו שגיאות יותר."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "שניים רשות",
+      "subtitle": "macOS שואל אותך לשים אذנה לאותה פעולת פעם אחת. כל שורה מושבת כשמופיעה.",
+      "allowed": "המאושר",
+      "waiting": "ממתין ל-macOS…",
+      "openSettings": "הפתוח את הגדרות המערכת",
+      "prompt": "השאלה של macOS",
+      "pane": "בהגדרות המערכת",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "מיקרופון",
+        "why": "אז Wispr Bro יכול לשמוע אותך כשאתה מחזיק את המפתח. הצלח נוגע רק בmac",
+        "action": "העניק את המיקרופון",
+        "promptAlt": "הצגת מצלמה של המיקרופון של macOS, עם כפתור \"העניק\" מוקדש",
+        "paneAlt": "תמונה של הגדרות המערכת, פרטיות ובטיחות, מיקרופון, עם המפסק של Wispr Bro מופעל",
+        "waitingHelp": "לחץ \"העניק\" במשתמש של macOS. אם לא רואה את זה, פתח את הגדרות המערכת ובטל את Wispr Bro תחת המיקרופון."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "השגת נגישות",
+        "why": "אז Wispr Bro יכול לראות את הקיצור שלך ולכתוב את הטקסט לתוכנתך.",
+        "action": "העניק גישה למודל",
+        "promptAlt": "תמונה של ההודעה על נגישות של macOS, עם כפתור \"פתיחת הגדרות המערכת\" מוקדש",
+        "paneAlt": "הצגת מערכת ההגדרות, פרטיות ובטיחות, נגישות, עם המפסק של Wispr Bro מופעל",
+        "waitingHelp": "בהגדרות המערכת, הפעל את המפסק ליד Wispr Bro. עליך לחשוף את הסיסמה שלך."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "השווה את המיקרופון שלך",
+      "guidance": "מיקרופונים מחוברים ומבנים עובדים טובים. שוקפי Bluetooth יכולים להישר או להיראות מוטל.",
+      "question": "הסיביות מתרחבות כשאתם מדברים?",
+      "noHelp": "בחר מיקרופון אחר להלן, ואז שורטט שוב.",
+      "change": "לשנות מיקרופון",
+      "previewList": "המיקרופונים שלך מופיעים כאן."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "השווה את המפתח שלך",
+      "instruction": "נשא והחזיק את מקש Fn (🌐) על מקש המחשב. מקש התחתון יתעורר כשאתם מחזיקים בו.",
+      "fallbackInstruction": "נלחץ והחזיק על Ctrl ו-Option יחד. התווים להלן יאירו כשאתם מחזיקים עליהם.",
+      "unboundInstruction": "אין שורת קיצור מוגדרת. השתמש בעריכה של שורת קיצור כדי לבחור אחת.",
+      "keyLabel": "הכפתור fn",
+      "fallbackKeyLabel": "Control ו-Op",
+      "pressed": "המפתח נחזק",
+      "notPressed": "מתאריך למקש...",
+      "worked": "העובד. המפתח נדלק.",
+      "question": "המפתח נדלק?",
+      "edit": "עריכה של שיקוף",
+      "tryAgain": "נסה שוב",
+      "otherCauses": "לא? סיבות אחרות:",
+      "changeFailed": "השינוי לא עבר. נסה שוב, או השתמש בהגדרות המערכת.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro לא רואה נקודות מפתח",
+          "title": "Wispr Bro לא יכול לראות לחצנים עדיין",
+          "body": "המשמעות היא שמערכת האפשרויות לא מופעלת עבור Wispr Bro. הפעל אותה בהגדרות המערכת, ואז חזור ולחץ על \"נסה שוב\".",
+          "action": "הפעלת הגדרות נגישות"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "שדה סיסמה או אפליקציה אחרת מונע מקלדת",
+          "title": "האפליקציה אחרת מונעת ביצוע של מקשים",
+          "body": "בעת שדה סיסמה או בتطبيقات מסוימות (ניהול סיסמאות, הכניסה המוגנת של טרמינל) יש להתחבר, macOS מוסר את הקלידות מכל תכונה אחרת. סגור או לחץ על חלון אחר, ואז נסה שוב.",
+          "active": "הרגע, אפליקציה אחרת מונעת ביצוע של מקשים.",
+          "inactive": "לכבוד אין מפריע ללחיצות כרגע."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "המפתח 🌐 מפתח את הסמלים או מחליף את המקלדת",
+          "title": "macOS נותן למקש 🌐 תפקיד שלו",
+          "body": "המקר שלך מפתח את הסמלים, מחליף את המקור של הקלט או מתחיל את הדיקטציה של Apple כשאתה מלחיש 🌐. Wispr Bro יכול להגדיר \"לחצן 🌐 כדי\" לאי-ביצוע. בחירתך תוחזר אם אתה עוצר להשתמש בfn עבור דיקטציה.",
+          "consent": "העתק 🌐 לאי-ביצוע",
+          "changed": "🌐 עכשיו לא עושה דבר בעצמו",
+          "open": "הפתוח את הגדרות המקלדת"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "מקלדת שלי לא ישield פונקציה",
+          "title": "השתמש בקונטרול ואופציה",
+          "body": "לכמה תקופות של מקש יש אין fn או מקש 🌐. לחזק Control ו-Option יחד כדי לרשום. תוכל לשנות את זה בכל זמן בהגדרות.",
+          "action": "השתמש בקונטרול + אופציה",
+          "changed": "השלב + אופציה היא הבחירה שלך"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "התרגל: כתוב אימייל ללא יד",
+      "instruction": "נלחץ fn וمسpace יחד, ואז תדבר. אין צורך להחזיק במשהו. נלחץ שוב על fn כשאתם מסיימים. ננסה: \"היי סם, תודה על הערות. אפשר להיפגש בתורה בעשרה?\"",
+      "instructionFallback": "נלחץ Ctrl, Option ו-Space יחד, ואז תדבר. לא צריך להחזיק במשהו. נלחץ שוב Ctrl ו-Option כשאתם מסיימים. ננסה: \"היי סם, תודה על הערות. אפשר להיפגש בתורה בעשרה?\"",
+      "instructionUnbound": "אין קיצור מקלדת מוגדר, לכן לא ניתן להתחיל את התרגול. נסחף לרגע ועזור להגדיר קיצור בממשק.",
+      "skip": "לצאת",
+      "waiting": "מתאריך להתחיל לדבר...",
+      "listening": "השמע… נקח fn כשאתם מסיימים.",
+      "listening_fallback": "האזנה… נקח Ctrl ו-Option כשאתם מסיימים.",
+      "working": "לכתוב את זה...",
+      "settingUp": "הכנת תצוגה...",
+      "settingUpPercent": "הכנת תצוגה… {{percent}}%",
+      "queuedNote": "המילים שלך נשמרו. הן יופיעו כאן כשתסתיים ההגדרה, ויהיו בהיסטוריה בכל מקרה. נמשיך לרגע הבא.",
+      "nothing": "לא הגיע דבר. בדוק שהמיקרופון מופעל ונסה שוב.",
+      "filled": "הדוא\"ל שלך. הוסף עוד, או המשך.",
       "composer": {
-        "title": "New message",
-        "to": "To",
-        "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "title": "הודעה חדשה",
+        "to": "ל",
+        "recipient": "סם",
+        "subject": "נושא",
+        "subjectText": "שלישי",
+        "body": "הודעה",
+        "placeholder": "המילים שלך מופיעות כאן."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "הذاו. אתה כתב את הטקסט הראשון שלך.",
+      "subtitle": "איפשהו שאתה יכול לקליט, אתה יכול עכשיו לדבר."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "הכתיבה בדיקציה יכולה להציל לך כ-{{hours}} שעה בשבוע",
+      "headline_other": "הכתיבה בדיקציה יכולה להציל לך כ-{{hours}} שעות בשבוע",
+      "intro": "הכתיבה היא מהירה יותר מלהקליד לרוב האנשים. נסה תרגיל של 30 שניות של כתיבה כדי לראות כמה זמן תוכל להציל.",
+      "howFast": "איך מהיר אתה מקליד?",
+      "skipTest": "לצאת מהבדיקה",
+      "basisMeasured": "בהתבסס על {{wpm}} מילים לדקה שכתבת, ובהגשה של כ-{{speaking}} מילים לדקה.",
+      "basisAverage": "בהתבסס על מהירות כתיבה ממוצעת של {{wpm}} מילים לדקה, ובהגשה של כ-{{speaking}} מילים לדקה.",
+      "sliderLabel": "כמה זמן אתה מקליד כל יום?",
+      "hoursPerDay_one": "{{hours}} שעה ביום",
+      "hoursPerDay_other": "{{hours}} שעות ביום",
+      "takeTest": "לבצע את הבדיקה של הקלדה"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "איך מהיר אתה מקליד?",
+      "instruction": "הקלד את הטקסט להלן כמו שמעריך. השעון מתחיל עם המפתח הראשון והמשוך ל{{seconds}} שניות.",
+      "skip": "לצאת",
+      "language": "שפה",
+      "wpmPending": "— מילים לדקה",
+      "wpm_one": "{{count}} מילה לדקה",
+      "wpm_other": "{{count}} מילים לדקה",
+      "secondsLeft_one": "השנייה האחרונה היא {{count}}",
+      "secondsLeft_other": "השניות שנותנות {{count}}",
+      "inputLabel": "הקלד את המparagraph כאן",
+      "placeholder": "התחל לקליט כאן…",
+      "nothing": "ללא התאמה לפסקה. נסה שוב.",
+      "result_one": "אתם מקלידים כـ {{count}} מילים לדקה.",
+      "result_other": "אתם מקלידים כـ {{count}} מילים לדקה.",
+      "tryAgain": "נסה שוב",
+      "recalculate": "החשבה מחדש"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "אתם מוכנים",
+      "subtitle": "הנה איך מותאם Wispr Bro. שמר את הקיצור במערכת של כל תוכנת כדי לרשום.",
+      "languages": "שפות",
+      "shortcut": "ההקשר",
+      "shortcutFn": "החזיק על Fn (🌐)",
+      "shortcutFallback": "החזיק על Ctrl ו-Option",
+      "microphone": "מיקרופון",
+      "micDefault": "המיקרופון ברירת מחדל של המاك",
+      "typing": "המהירות בה אתה מקליד",
+      "typingWpm_one": "{{count}} מילה לדקה",
+      "typingWpm_other": "{{count}} מילים לדקה",
+      "typingSkipped": "לא נמדד",
+      "notSet": "לא נקבע",
+      "launchAtLogin": "הפעלת Wispr Bro בעת הכניסה",
+      "launchAtLoginHint": "אז הדיקטציה מוכנה בכל פעם שאתה צריך.",
+      "later": "אתם יכולים לשנות את כל זה מאוחר יותר בהגדרות.",
+      "finish": "התחל לרשום"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "מה חדש ב{{version}}",
+    "label": "ההערות על הגרסה הזו",
+    "close": "לסגור",
+    "done": "בנתיים"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "לשתף {{appName}}",
+    "body": "ה{{appName}} הוא مجاني ופתוח, ומשתמש במקלט של המاك. אין קוד הפנייה ושום דבר לא מתריע: הקישור זה לכולם.",
+    "downloadLabel": "קישור להורדה",
+    "brewLabel": "התקן עם Homebrew",
+    "copyLink": "העתק קישור ההורדה",
+    "copyBrew": "העתקה של הפקודה של Homebrew",
+    "copy": "העתק",
+    "copied": "הועלה",
+    "copyFailed": "לא ניתן להעתק. בחר את הטקסט והעתק אותו.",
+    "shareTitle": "שלח אותו למשהו",
+    "shareBody": "הודעות, מיל, אירד롭 וכל דרך אחרת שיכולה לשתף את המاك שלך.",
+    "shareButton": "שתף…",
+    "shareFailed": "לא ניתן לפתוח את הדף של שיתוף."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "ההקשר של הדיקטציה שלך נעצר. Wispr Bro צריך גישה למסמכים.",
+      "stopped": "ההקשר של הדיקטציה שלך נעצר.",
+      "fix": "לתקן"
+    },
+    "sheet": {
+      "title": "התקן את המפתח שלך",
+      "introPermission": "macOS הפסיק את הכניסה למסגרת האפשרויות של Wispr Bro, ולכן לא יכול לשים לב למשהו. זה יכול להתרחש לאחר עדכון או כשההכנסה נמצאת במערכת ההגדרות.",
+      "introStopped": "המונח של המקלדת של Wispr Bro נעצר. הוא מתחבר מחדש באופן אוטומטי כשתאפשרו לmacOS.",
+      "pictureLabel": "הגדרות המערכת, פרטיות ובטיחות, נגישות: שורה של Wispr Bro עם המפסק מופעל",
+      "pictureTitle": "השגת נגישות",
+      "pictureBack": "הפרטיות וביטחון",
+      "stepsTitle": "החזיר אותו על",
+      "step1": "הפתוח את הגדרות המערכת › פרטיות ובטיחות › נגישות.",
+      "step2": "הפעל Wispr Bro. אם הוא כבר פעיל, שutoff אותו ופעל שוב.",
+      "step3": "החזיר לכאן. המפתח עובד שוב תוך כמה שניות, בלי להתחיל מחדש.",
+      "resetTitle": "האם עדיין לא עובד?",
+      "resetBody": "אחרי עדכון, macOS יכול לשמור על רשימה ישנה שלא מתאימה לתוכנית. לוחץ על חזרה מוחק את הרשומה של Wispr Bro כדי להרשות את התוכנית שוב.",
+      "resetStep1": "בחר להחזיר ולשאול שוב.",
+      "resetStep2": "העניק Wispr Bro כשmacOS שואל, או הפעל אותו ברשימה שמתפתחת.",
+      "resetFailed": "לא ניתן להחזיר את הכניסה. בדוק את הרשימה, והזן Wispr Bro ומחק אותו עם הכפתור של מינוס, ואז הוסף אותו שוב עם הכפתור של פלוס.",
+      "openSettings": "הפתוח את הגדרות האפשרויות",
+      "reset": "איפוס ורשות מחדש",
+      "checkAgain": "השווה שוב",
+      "relaunch": "לפתוח מחדש כדי לסיים",
+      "close": "לסגור",
+      "status": {
+        "healthy": "ההקשר שלך עובד.",
+        "lost": "לא עובד עדיין",
+        "recovering": "המחברות חוזרות...",
+        "needsRelaunch": "הגישה חזרה. הפעל שוב Wispr Bro כדי לסיים."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "מה אתה רוצה לנסות أولًا?",
+    "subtitle": "בחר אחד כדי לראות איך זה עובד. לאחר מכן נסה אותו בתוכנתך.",
+    "choicesLabel": "הطرق להתחיל",
+    "choices": {
+      "ai_chat": "השאלה למשתמש חכם",
+      "note": "הקלד ניוט",
+      "message": "לשנות תגובה לرسالة",
+      "email": "כתוב אימייל",
+      "comment": "העלו תגובה",
+      "document": "לכתוב מסמך",
+      "coding": "השתמש בדפדוף למתכון"
+    },
+    "scene": {
+      "label": "דוגמה: {{choice}}",
+      "said": "אתם מדברים",
+      "written": "{{appName}} כותב",
+      "pause": "הפסיק את המثال",
+      "play": "הצג את המثال"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "שיחה אינטיליגנציה מלאכותית",
+        "context": "מה יכול לעזור לי?",
+        "said": "אומ, אז תוכל להסביר איך עובד הריבית המורכבת כמו שאני חדש בזה",
+        "text": "האם תוכל להסביר איך עובד הריבית המורכבת, כמו שאני חדש בזה?"
+      },
+      "note": {
+        "app": "הערות",
+        "context": "אילו",
+        "said": "הערה לעצמי, קראו לדנטיסט וקחו את התחממות לפני שש",
+        "text": "הערה לעצמי: קרא למדינת וקח את התחממות לפני שש"
+      },
+      "message": {
+        "app": "הודעות",
+        "context": "האם אנחנו עדיין על לארוחת צהריים?",
+        "said": "כן בהחלט ב-12:30 טוב לך",
+        "text": "כן, כמובן! 12:30 מתקיים לך?"
+      },
+      "email": {
+        "app": "דואר",
+        "context": "ל: פריה · נושא: שישי",
+        "said": "היה פריה תודה על הערות אשלח את הגרסה עד שישי בצהריים",
+        "text": "שלום priya, תודה על הערות. אשלח את הגרסה בתחילת שישי."
+      },
+      "comment": {
+        "app": "חברתי",
+        "context": "המשרד החדש נפתח בשבוע הבא!",
+        "said": "מזל טוב לכול הקבוצה זה נראה מעולה",
+        "text": "מזל טוב לכול הקבוצה, זה נראה מעולה!"
+      },
+      "document": {
+        "app": "מסמך",
+        "context": "תוכנית פרויקט",
+        "said": "המטרה של שלב זה היא לשלוח את הבטחה לخمسים מודענים עד סוף החודש",
+        "text": "מטרת שלב זה היא לשלוח גרסה בيتה לخمسים מודדים עד סוף החודש."
+      },
+      "coding": {
+        "app": "עריכה של קוד",
+        "context": "השאלה למשתמש",
+        "said": "הלחצן להתחבר לא עובד במכשיר נייד, תוכל למצוא את הסיבה ולתקן?",
+        "text": "הלחצן להתחבר לא עובד במכשירים ניידים. האם תוכל למצוא את הסיבה ולתקן?"
+      }
+    },
+    "tryNow": "השתמש בו עכשיו",
+    "later": "אולי מאוחר",
+    "close": "לסגור",
+    "noBar": "השורת הדיקטציה לא מופעלת, לכן אין להציג תזכורת. עדיין אפשר לנסות: לפתוח את האפליקציה והחזיק בקיצור.",
+    "banner": {
+      "title": "השתמש בו ביישומים שלך",
+      "body": "{{hint}}. {{how}}",
+      "again": "הראה את ההטלה שוב",
+      "stop": "הסתר את ההטלה",
+      "other": "נסה משהו אחר",
+      "active": "הטיפ על המסך. נקlick על Esc כדי לסגור."
+    }
+  },
+  "checklist": {
+    "title": "התחיל",
+    "label": "ללא סדר",
+    "progress": "{{done}} מתוך {{total}} בוצע",
+    "hide": "להסתיר את רשימת הבדיקה",
+    "done": "הושלם",
+    "next": "הבא",
+    "allDone": "הכול מוכן. אתה יודע את הבסיס.",
+    "items": {
+      "try_in_app": {
+        "title": "הנסה את זה באפליקציה אחרת",
+        "action": "הראה לי"
+      },
+      "add_word": {
+        "title": "הוספת מילה",
+        "action": "לadder מילה",
+        "coachTitle": "הוספת מילה ראשונה שלך",
+        "coachBody": "שמות, מונחים של מוצרים וביטויים שאתם מדברים בהם לעתים קרובות. הם מופיעים כשמיכם מציינים אותם."
+      },
+      "create_snippet": {
+        "title": "ליצור נייד",
+        "action": "הsnippet החדש",
+        "coachTitle": "העורך שלך הראשון",
+        "coachBody": "אמר פסוק קצר וקבל טקסט ארוך: כתובתך, קישור, סיום."
+      },
+      "launch_at_login": {
+        "title": "הפתוח בכניסה",
+        "action": "לפתוח",
+        "body": "האפליקציה {{appName}} מתחילה עם המחשב שלך, לכן המפתח שלך תמיד עובד."
+      }
+    },
+    "coach": {
+      "close": "לסגור",
+      "done": "בנתיים"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "בחר אם Wispr Bro יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

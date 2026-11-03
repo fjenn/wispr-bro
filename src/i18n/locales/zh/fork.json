@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Fork 调试面板",
+    "description": "Wispr Bro 层的内部检查。仅在调试版本中或以 --debug 启动应用时显示。",
+    "close": "关闭",
+    "runAgain": "再运行一次",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "模型状态",
+      "notReady": "尚未准备就绪：应用程序尚未完成启动。"
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "最后一次心跳事件",
+      "none": "尚未接收到任何事件。"
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "等待中…",
+    "error": "错误：{{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
-      "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "title": "内容安全策略",
+      "description": "通过资产协议播放音频文件，加载数据：和 blob: 图片，调用 fork 命令，并检查不允许的图片是否被阻止。",
+      "run": "运行CSP检查",
+      "running": "运行中…",
+      "pass": "通过：未发现意外的CSP违规。",
+      "fail": "失败：请查看下方的检查项。",
+      "ok": "好的（{{detail}}）",
+      "failed": "失败（{{detail}}）",
+      "noViolations": "未记录到CSP违规。",
+      "violations_one": "检测到 {{count}} 个 CSP 违规。",
+      "violations_other": "检测到 {{count}} 个 CSP 违规。",
       "checks": {
-        "media": "Audio (asset protocol)",
+        "media": "音频（资产协议）",
         "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "blobImage": "blob: 图片",
+        "forkCommand": "Fork 命令",
+        "probe": "被阻止的源"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "正在发布，耗时{{seconds}}秒。切换到另一个应用以查看macOS通知。"
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "更新",
+      "version": "版本",
+      "channel": "通道",
+      "key": "签名密钥",
+      "endpoints": "feeds",
+      "checksOff": "更新检查已关闭（设置 › 高级，或已设置关闭开关）",
+      "check": "现在检查",
+      "checking": "正在检查…",
+      "install": "安装 {{version}} 并重新启动",
+      "installing": "下载并验证…",
+      "installed": "{{version}} 已安装。正在重新启动…",
+      "available": "{{version}} 已可用。",
+      "upToDate": "最新版本",
+      "failed": "无法检查：{{message}}"
     }
   },
   "settings": {
     "debug": {
       "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "loading": "正在加载设置…",
+      "loadError": "无法读取设置：{{message}}",
+      "setError": "该更改未保存：{{message}}",
+      "contextAwareness": "上下文感知",
+      "contextAwarenessHint": "使用光标附近文本中的名称正确拼写它们。该文本仅保留在本台Mac上，永远不会被保存。",
       "transforms": "变换",
       "transformsHint": "⌥1 对选中的文本进行优化，⌥2 将其转换为更清晰的 AI 提示。启用时，这些按键会替代 ¡ 和 ™。",
       "transformsSafeShortcuts": "使用 ⌃⌥1 和 ⌃⌥2 替代",
       "transformsSafeShortcutsHint": "保持 ¡ 和 ™ 在 ⌥1 和 ⌥2 上可用。",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "清理级别",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "none",
+        "light": "轻",
+        "medium": "中等"
       },
-      "all": "All settings"
+      "all": "所有设置"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "通用",
       "system": "系统",
-      "vibe": "Vibe coding",
+      "vibe": "Vibe 编码",
       "privacy": "数据与隐私",
       "advanced": "高级",
       "about": "关于",
@@ -216,115 +216,115 @@
         "milestones": "里程碑"
       },
       "scratchpad": "Scratchpad",
-      "scratchpadLabel": "Open Scratchpad in",
+      "scratchpadLabel": "当草稿纸打开时",
       "scratchpadHint": "选择使用快捷方式时Scratchpad打开的位置。",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "继续我上一次的笔记",
+        "new_note": "新建一个笔记"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro 可以通过辅助功能读取 VS Code、Cursor 和 Windsurf 在屏幕上显示的代码名和文件名，它永远不会打开你的项目文件夹或文件。",
+      "contextOff": "上下文感知已关闭，因此这些功能无法读取。请打开以使用它们。",
+      "recognize": "识别代号",
+      "recognizeHint": "当你在编辑器中说出一个变量或函数名称时，它会按照你代码中的拼写方式显示，例如 getUserById 或 user_id。",
+      "setUp": "设置",
+      "change": "更换编辑器",
+      "setUpFor": "为 {{editors}} 配置",
+      "fileTags": "在聊天中为文件打标签",
+      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，说 \"index dot ts\" 会写入 @index.ts，当该文件在标签页中打开或在文件列表中显示时。",
+      "fileTagsNeedsChat": "添加 Cursor 或 Windsurf 到您的编辑器后才可用。",
+      "fileTagsNeedsSetup": "设置完成后才可用",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "设置代码名识别",
+        "stepEditors": "1. 选择你常用的编辑器",
+        "stepScreenReader": "2. 在每个应用中开启屏幕阅读器模式，以便它们将文本共享给 Wispr Bro",
+        "openSettings": "使用 ⌘ 逗号 打开编辑器的设置",
+        "search": "搜索 \"accessibility support\"。",
+        "setOn": "设置编辑器：无障碍支持设为\"on\"。",
+        "palette": "你也可以从命令面板（⇧⌘P）运行 \"切换屏幕阅读器可访问模式\"。",
+        "confirm": "我在这些编辑器中打开了屏幕阅读器模式",
+        "cancel": "取消",
+        "finish": "完成设置"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "隐私由设计保证",
+        "local": "你的语音输入和数据都保留在这台 Mac 上。",
+        "noCloud": "语音识别、清理和历史记录都在本地运行。没有账号、遥测、云端语音识别或云端清理。",
+        "networkIntro": "Wispr Bro 仅使用网络完成以下两项内容：",
+        "models": "从 Hugging Face (huggingface.co) 下载语音和清理模型。",
+        "updates": "当更新检查开启时，会在 GitHub（github.com）上查找应用更新。"
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "你的数据在哪里",
+        "hint": "这些文件夹属于 Wispr Bro。便携式安装会将它们全部保留在应用的 Data 文件夹中。",
+        "data": "App 数据和设置",
+        "models": "已下载的模型",
+        "recordings": "记录",
+        "logs": "日志和崩溃报告",
+        "show": "在Finder中显示",
+        "loading": "定位中…",
+        "failed": "无法打开该文件夹。请重试。"
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "保留历史记录多久",
+        "textLabel": "保留语音输入的文本",
+        "textHint": "较早的记录会自动被删除。文本默认永久保存。",
+        "audioLabel": "保留录音",
+        "audioHint": "音频默认在14天后过期。删除音频后，所录的文字内容将保留直到达到文字限制。",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "永不保存音频",
+          "1": "1天",
+          "7": "7天",
+          "14": "14天",
+          "30": "30天",
+          "90": "90天",
+          "365": "1年",
+          "forever": "永远"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "隐私设置",
+        "context": "使用上下文感知",
+        "contextHint": "仅在语音输入时读取附近文本以识别姓名和拼写。上下文不会被保存或记录。",
+        "updates": "检查应用程序更新",
+        "updatesHint": "联系 GitHub 检查是否有新版本。不会发送任何语音识别或个人数据。",
+        "learn": "从我的更正中学习",
+        "learnHint": "在将语音输入粘贴后，注意你修改的词语，并在词典中提出建议。仅保留修正后的词语；其余文本永远不会被保存或记录。"
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "您的数据",
+        "hint": "导出一个包含您历史记录、设置和录音的zip文件。模型和日志不包含在内。",
+        "button": "导出我的数据",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Zip压缩包",
+        "done": "导出完成，已在Finder中显示。",
+        "failed": "无法导出您的数据。没有任何内容被删除。"
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "删除我所有的数据",
+        "title": "删除所有数据吗？",
+        "warning": "这将永久删除历史记录、录音、设置、日志和崩溃报告。无法撤销。",
+        "relaunch": "Wispr Bro 将停止运行，删除数据，并重新进入引导流程。",
+        "models": "也删除已下载的模型",
+        "modelsHint": "保持此选项关闭以避免再次下载语音和清理模型。",
+        "confirmLabel": "输入 {{word}} 确认",
+        "cancel": "取消",
+        "confirm": "删除全部",
+        "failed": "删除全部未完成。请检查剩余数据后再试一次。"
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "崩溃报告和诊断",
+        "hint": "崩溃报告会保留在这台Mac上，永远不会上传。只有在你想分享时才复制或保存诊断信息。",
+        "sanitized": "诊断功能会移除所录文本、提示词、词典词条、邮箱地址、按键信息以及你的家目录路径。",
+        "copy": "复制诊断信息",
+        "save": "保存诊断信息…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "已复制脱敏的诊断信息。",
+        "saved": "已保存去标识化的诊断信息。",
+        "failed": "无法准备诊断信息。请重试。"
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "版本 {{version}}",
       "source": "查看源代码",
       "updates": "更新说明",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "更新",
+      "license": "免费软件，遵循 GNU 通用公共许可证第 3 版（GPL-3.0）",
+      "licenseLink": "查看许可",
+      "credit": "基于Handy由CJ Pais开发，采用MIT许可证。感谢所有为该项目付出努力的人。",
+      "creditLink": "Handy 在 GitHub",
+      "supportTitle": "支持开发",
+      "supportBody": "{{appName}} 没有付费计划。最好的支持是提交一个错误报告、一个想法或在 GitHub 上做出贡献。"
     },
     "hotkeys": {
       "open": "快捷键",
@@ -412,7 +412,7 @@
           "view_changes": "查看变换更改"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "打开草稿纸"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "查看变换前后的最新内容。"
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "继续您之前的笔记或创建一个新的，根据您的Scratchpad设置。"
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "主"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "折叠侧边栏",
+      "expand": "展开侧边栏"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "切换到深色外观",
+      "toLight": "切换到浅色外观"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "通知",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "没有新内容",
+        "body": "更新和提示会在这里显示。"
       },
       "bellUnread_one": "通知，{{count}} 条未读",
       "bellUnread_other": "通知，{{count}} 条未读",
@@ -485,65 +485,65 @@
       "justNow": "刚刚"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "帮助",
+      "updates": "更新",
+      "whatsNew": "有什么新内容",
+      "essentials": "基础",
+      "shortcuts": "快捷方式",
+      "microphone": "麦克风",
+      "languages": "语言",
+      "documentation": "文档",
+      "getInTouch": "联系我们",
+      "reportProblem": "反馈问题…",
+      "sendFeedback": "发送反馈",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "反馈问题",
+        "body": "这会在你的浏览器中打开一个GitHub新问题，自动填入你的应用版本和Mac型号。它不会包含你所语音输入的内容，你可以在发送前阅读并修改所有内容。",
+        "diagnosticsTitle": "诊断信息（可选）",
+        "diagnosticsBody": "清理后的日志有助于定位问题。它们不会包含您的语音输入。将它们复制到这里，然后粘贴到问题中。",
+        "copy": "复制诊断信息",
+        "copied": "诊断信息已复制。请将其粘贴到问题中。",
+        "copyFailed": "无法复制诊断信息。",
+        "open": "打开 GitHub",
+        "cancel": "取消",
+        "close": "关闭"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "设置区域"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "语音输入",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "说话而不是打字",
+          "body": "在任何应用中按住 fn 键，说出你想输入的内容，然后松开。{{appName}} 将干净的文本放置在光标位置。",
+          "examplesLabel": "可以尝试的内容",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "对一条消息的快速回复",
+            "notes": "通话后立即记的笔记",
+            "prompt": "一个用于AI聊天的长提示"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "你的语音输入会显示在这里",
+          "body": "每个都被保存在这款Mac上，包含音频，以便你之后复制或查看。",
+          "action": "打开记录"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "洞察",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "洞察需要几段语音输入",
+          "body": "你的说话速度、连续记录天数以及节省的时间，只有在你持续语音输入一段时间后才会显示。",
+          "action": "前往语音输入"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "词典",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "片段",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "片段即将上线",
+          "body": "说一个简短的提示，比如“我的地址”，就能获取完整文本。该页面将在后续更新中出现。",
+          "action": "前往语音输入"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "风格",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "样式即将上线",
+          "body": "选择你在各种应用中文本的精致程度，从正式邮件到轻松聊天。此页面将在后续更新中出现。",
+          "action": "前往语音输入"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "转换",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "转换功能即将推出",
+          "body": "选择文本并使用一个快捷方式重新编写它：更简短、更清晰或更有序。该页面将在后续更新中出现。",
+          "action": "前往语音输入"
         }
       },
       "scratchpad": {
-        "title": "Scratchpad",
+        "title": "草稿纸",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "草稿板即将上线",
+          "body": "一个快速记录笔记的地方，在它们被发送到其他地方之前。此页面将在后续更新中出现。",
+          "action": "前往语音输入"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "与朋友分享"
       },
       "settings": {
-        "title": "Settings"
+        "title": "设置"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "给我看"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "关闭更新检查",
+      "turnOn": "打开",
+      "notChecked": "尚未检查",
+      "check": "检查更新",
+      "checking": "正在检查更新…",
+      "upToDate": "最新",
+      "checkAgain": "再检查一次",
+      "checkFailed": "无法检查",
+      "retry": "重试",
+      "downloading": "正在下载 {{version}}…",
+      "ready": "更新就绪",
+      "restartNow": "现在重启",
+      "installing": "正在安装 {{version}}…",
+      "installedWaiting": "{{version}} 已安装 · 本次语音输入后需要重启",
+      "restarting": "正在重启…",
+      "installFailed": "更新未安装",
+      "busy": "先完成语音输入。",
+      "actionFailed": "那没成功。稍后再试。",
+      "lastChecked": "上次检查时间是 {{time}}。",
+      "paused": "三次尝试失败后，自动更新将暂停，直到 {{time}}。",
+      "manualOnly": "这是一个开发版本：只有在你要求时才会检查更新。",
+      "readyHint": "它会在你20分钟没有语音输入，或退出时自动安装。",
+      "policy": "更新在后台下载，仅在您未进行语音输入或退出时安装。",
+      "needsPassword": "这个应用程序当前位于一个需要管理员密码才能修改的文件夹中，因此只有在您选择现在重启时，才会安装更新。"
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "新！",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "取消"
     },
     "importWizard": {
       "stepsLabel": "导入步骤",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
-      "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "dictation": "语音输入",
+      "vocabulary": "词汇",
+      "help": "帮助",
+      "file": "文件",
+      "edit": "编辑",
+      "view": "查看",
+      "window": "窗口",
+      "wordsDictated_one": "已识别{{count}}个词",
+      "wordsDictated_other": "已识别{{count}}个词",
+      "copyLast": "复制上一条转录",
+      "copyLastPreview": "复制上次转录：“{{preview}}”",
+      "copyLastConcealed": "复制上次的转录文本（隐藏的文本）",
+      "microphone": "麦克风",
+      "languages": "语言",
+      "moreLanguages": "添加或移除语言…",
+      "automaticMicrophone": "自动检测（系统设置）",
+      "noMicrophones": "未找到麦克风",
+      "dictionaryWords_one": "{{count}} 个词典词",
+      "dictionaryWords_other": "其他词典单词 {{count}}",
+      "snippetCount_one": "{{count}} 个片段",
+      "snippetCount_other": "{{count}} 个片段",
+      "addWord": "添加单词…",
+      "newSnippet": "新建片段…",
+      "documentation": "文档",
+      "shortcuts": "快捷键",
+      "reportProblem": "反馈问题…",
+      "sendFeedback": "发送反馈…",
+      "openApp": "打开 {{appName}}",
+      "checkUpdates": "检查更新…",
+      "pasteLast": "粘贴上一条转录",
+      "cancelDictation": "取消语音输入",
+      "shortcutsBlocked": "快捷键被阻止 — 打开设置",
+      "undo": "撤销",
+      "redo": "重做",
+      "cut": "剪切",
+      "copy": "复制",
+      "paste": "粘贴",
+      "selectAll": "全部选择",
+      "minimize": "最小化",
+      "zoom": "缩放",
+      "closeWindow": "关闭窗口",
+      "fullScreen": "进入全屏",
+      "services": "服务",
+      "hideOthers": "隐藏其他",
+      "showAll": "显示全部",
+      "about": "关于 {{appName}}",
+      "hide": "隐藏 {{appName}}",
+      "quitApp": "退出 {{appName}}",
+      "restartToUpdate": "重启以更新到 {{version}}",
+      "updatesOff": "更新检查已关闭…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "快捷方式已停止工作"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -734,20 +734,20 @@
     "hotkeys": {
       "keys": {
         "fn": "fn",
-        "control": "Control",
-        "option": "Option",
+        "control": "控制",
+        "option": "选项",
         "shift": "Shift",
         "command": "Command",
-        "space": "Space",
+        "space": "空格",
         "escape": "Escape",
-        "return": "Return",
+        "return": "返回",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
+        "delete": "删除",
+        "forwardDelete": "向前删除",
+        "left": "左箭头",
+        "right": "右箭头",
+        "up": "上箭头",
+        "down": "向下箭头",
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "语音输入",
+          "tooltip": "按住 fn 来语音输入"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。",
         "undo": "“撤销”会在听写栏上显示 4 秒。",
         "diff": "变换更改已准备就绪，可供审核。",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Secure Input 已开启。fn 和 空格键 无法锁定语音输入。Escape 或 关闭按钮 仍可取消。"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "选择 6,000 个字符或更少",
         "transform_focus_moved": "你已经移动过去，所以没有变化",
         "transform_failed": "无法转换该文本",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "你的快捷方式已失效",
+        "shortcut_stopped": "你的快捷方式已停止响应",
+        "shortcut_back": "你的快捷方式又可以使用了"
       },
       "card": {
         "no_text_field": "先点击文本框",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} 是免费的语音输入，完全在您的 Mac 上运行。点击这里获取："
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "下一步",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "打开一个AI聊天，比如ChatGPT或Claude",
+        "note": "打开你的笔记应用",
+        "message": "打开一个聊天，比如信息或Slack",
+        "email": "打开你的邮箱",
+        "comment": "打开你想评论的帖子",
+        "document": "打开你正在撰写的文档",
+        "coding": "打开光标、VS Code 或其他代码编辑器"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "点击你想输入的位置，然后按住fn键并说话。",
+      "howFallback": "点击你想输入的位置，然后按住 Control 和 Option 键并说话。",
+      "escape": "按 Esc 键关闭此提示。"
     }
   },
   "speechModels": {
     "title": "语音模型",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} 为你的语言和这台 Mac 选择语音模型，并在可以时自动更换为更好的模型。你永远不必选择。",
     "loading": "正在检查语音模型…",
     "current": "当前使用：{{name}}",
     "none": "尚未添加语音模型",
@@ -1087,7 +1087,7 @@
       "edit": "编辑 {{entry}}",
       "delete": "删除 {{entry}}",
       "accept": "将 {{entry}} 添加到你的词典中",
-      "reject": "Don't learn {{entry}}"
+      "reject": "不要学习 {{entry}}"
     },
     "source": {
       "import": "已导入",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "还没有建议",
       "body": "当 {{appName}} 能从你纠正的词语中学习时，这些词语会在这里供你批准。",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "在语音输入后，立即在文本框中修正拼写错误的名称或术语，然后按回车键、制表键或继续操作。你修正的词会在这里显示，供你确认。"
     },
     "noMatch": {
       "title": "没有匹配项",
@@ -1206,11 +1206,11 @@
       "done_other": "已导出 {{count}} 条记录。",
       "failed": "词典导出失败。请重试。"
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” 将不会被再次推荐。",
+    "actionFailed": "那没成功。请再试一次。",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "从我的修改中学习",
+      "hint": "在语音输入内容粘贴后30秒内，{{appName}}会注意到你对文本框中单词的修改，并在此处提出建议。仅保留你修改的单词，不会保留其余文本。密码字段、密码管理器、银行应用和终端不会被读取。"
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "附近的文字有助于拼写",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "麦克风丢失，保留你刚才说的话",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "安全输入已开启 · 无法使用 fn+空格键锁定 · 按 Esc 或 ✕ 可取消",
+      "secure_input_app": "{{app}} 已开启安全输入 · fn+空格无法锁定 · 按 Esc 或 ✕ 可取消"
     },
     "settingUp": "正在设置…",
     "settingUpPercent": "正在设置… {{percent}}%",
@@ -1247,8 +1247,8 @@
     "viewChanges": "查看更改",
     "sendsAutomatically": "自动发送",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "无障碍访问已关闭",
+      "stopped": "键盘监听器已停止"
     }
   },
   "transforms": {
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "新建笔记",
+    "preferences": "Scratchpad偏好设置",
+    "addToBar": "添加到栏位",
+    "addToBarHelp": "在休息栏中将Scratchpad按钮放在Dictate旁边。",
+    "recents": "最近",
+    "searchLabel": "搜索笔记",
+    "searchPlaceholder": "在您的笔记中搜索",
+    "loading": "加载笔记…",
+    "empty": "还没有笔记",
+    "emptyHelp": "开始输入，然后在浮动窗口中输入或语音输入。",
+    "emptyNote": "空笔记",
+    "noResults": "没有笔记符合您的搜索。",
+    "untitled": "无标题笔记",
+    "pinned": "已固定",
+    "pin": "钉住笔记",
+    "unpin": "取消固定笔记",
+    "editAction": "编辑笔记",
+    "edit": "编辑 {{name}}",
+    "delete": "删除笔记",
+    "deleteConfirm": "删除“{{name}}”？无法撤销。",
+    "error": "草稿本无法完成该操作。您的当前文本仍然保留；请重新尝试。",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "打开快捷方式",
+      "change": "设置快捷键",
+      "title": "Scratchpad快捷方式",
+      "help": "从任何地方打开草稿区。它启动时未设置，因此除非你选择一个，否则不会拦截按键。",
+      "close": "关闭快捷方式对话框",
+      "proposed": "建议组合",
+      "ctrlOptionS": "控制 + 选项 + S",
+      "use": "使用 Control + Option + S",
+      "chooseAnother": "选择另一个快捷方式",
+      "error": "该快捷方式无法保存，请尝试另一种组合。"
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "打开笔记",
+    "tools": "笔记工具",
+    "sidebar": "显示笔记列表",
+    "polish": "润色笔记",
+    "polishing": "打磨中…",
+    "textSize": "更改文本大小（当前为 {{size}} 点）",
+    "expand": "展开笔记窗口",
+    "shrink": "恢复笔记窗口大小",
+    "close": "关闭草稿区",
+    "noteBody": "笔记内容",
+    "notePlaceholder": "写或语音输入一个笔记…",
+    "saved": "已保存",
+    "saving": "保存中…",
+    "saveError": "尚未保存",
+    "autosaveHelp": "自动保存",
+    "copy": "复制",
+    "copied": "已复制"
   },
   "style": {
     "tabsLabel": "样式组",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "正在准备中…",
+    "back": "返回",
+    "continue": "继续",
+    "yes": "是",
+    "no": "不",
+    "downloadHint": "语音设置将在后台继续进行。你在这里永远不必等待。",
+    "navigationFailed": "该步骤无法保存，请重新尝试。",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "设置进度",
+      "welcome": "欢迎",
+      "permissions": "权限",
+      "setup": "设置",
+      "practice": "练习",
+      "done": "(完成)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "帮助",
+      "title": "设置帮助",
+      "close": "关闭帮助",
+      "done": "明白了",
+      "body": "每一步只需几秒钟。您随时可以返回，如果退出，设置会从您离开的地方继续。",
+      "download": "Wispr Bro 在您完成这些步骤的同时，为这台 Mac 设置语音识别。在它准备就绪之前，您所 dictate 的内容都会被保存，并在准备就绪后自动输入。"
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "说话，你的文字就会出现",
+      "subtitle": "按住一个键，说话，松开。干净的文本会出现在你输入的任何地方。",
+      "privacyTitle": "所有内容都保留在这台 Mac 上",
+      "privacy": "你的声音和文本永远不会离开这台电脑。没有账号，没有云端，没有追踪。",
+      "download": "语音设置现在开始，并在后台运行。",
+      "start": "开始"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "将 Wispr Bro 移动到 应用程序",
+      "body": "Wispr Bro 正从你的应用程序文件夹外部运行。将其移动到该文件夹内可以确保更新和权限正常工作。",
+      "note": "Wispr Bro 会自行重新打开，并继续设置。",
+      "action": "移动到应用程序",
+      "moving": "移动中…",
+      "skip": "现在不",
+      "error": "Wispr Bro 无法移动自身。请将其拖入Finder的 应用程序 文件夹，然后重新打开它。"
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "您会说哪些语言？",
+      "subtitle": "选择你用来语音输入的所有语言。Wispr Bro 在熟悉这些语言后，能更好地整理你的语音。",
+      "listLabel": "语言",
+      "noMatch": "没有语言匹配 “{{query}}”。“",
+      "count_one": "语音输入支持{{count}}种语言。您稍后可以在设置中更改。",
+      "count_other": "语音输入支持 {{count}} 种语言。您稍后可以在设置中更改。",
+      "weak_one": "在 {{languages}} 中的识别准确性较低。它仍然可以工作，但可能会出现更多错误。",
+      "weak_other": "在 {{languages}} 中的识别准确性较低。它们仍然可以工作，但可能会出现更多错误。"
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "两个权限",
+      "subtitle": "macOS 会一次性询问你是否允许这些权限。每行一旦被勾选，就会立即打勾。",
+      "allowed": "允许",
+      "waiting": "正在等待 macOS…",
+      "openSettings": "打开系统设置",
+      "prompt": "macOS 提示",
+      "pane": "在系统设置中",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "麦克风",
+        "why": "所以 Wispr Bro 在你按住键时能听到你。音频仅在本 Mac 上处理。",
+        "action": "允许麦克风",
+        "promptAlt": "macOS 微麦克风提示图，允许按钮高亮",
+        "paneAlt": "系统设置、隐私与安全，麦克风，Wispr Bro 开关已打开",
+        "waitingHelp": "在 macOS 提示中点击「允许」。如果看不到，请打开系统设置，开启 Wispr Bro 下的麦克风。"
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "无障碍",
+        "why": "所以 Wispr Bro 可以识别你的快捷方式，并将文本输入到你正在使用的应用中。",
+        "action": "允许辅助功能",
+        "promptAlt": "macOS 可访问性提示的图片，系统设置按钮已高亮",
+        "paneAlt": "系统设置、隐私与安全、可访问性，其中 Wispr Bro 的开关已打开",
+        "waitingHelp": "在系统设置中，打开 Wispr Bro 旁边的开关。您可能需要使用密码解锁。"
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "测试你的麦克风",
+      "guidance": "有线和内置麦克风效果最好。蓝牙耳机可能会掉线或声音模糊。",
+      "question": "说话的时候条形指示器会动吗？",
+      "noHelp": "请选择下方的另一个麦克风，然后再说一遍。",
+      "change": "更换麦克风",
+      "previewList": "你的麦克风会显示在这里。"
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "测试你的快捷方式",
+      "instruction": "按住键盘上的 fn 键（🌐）。按住时，下方的键会亮起。",
+      "fallbackInstruction": "同时按住 Control 和 Option。按住时，下方的按键会亮起。",
+      "unboundInstruction": "未设置语音输入快捷方式。使用「编辑快捷方式」来选择一个。",
+      "keyLabel": "fn 键",
+      "fallbackKeyLabel": "控制和选项",
+      "pressed": "按键被按住",
+      "notPressed": "等待按键…",
+      "worked": "它有效了。按键亮起来了。",
+      "question": "键盘上的键是否亮了？",
+      "edit": "编辑快捷方式",
+      "tryAgain": "再试一次",
+      "otherCauses": "不是吗？其他可能原因：",
+      "changeFailed": "该更改未成功。请重新尝试，或使用系统设置。",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro 无法看到按键输入",
+          "title": "Wispr Bro 还无法看到按键操作",
+          "body": "这通常意味着 Wispr Bro 的可访问性未开启。请在系统设置中开启，然后返回并点击\"再次尝试\"。",
+          "action": "打开无障碍设置"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "一个密码字段或其他应用正在阻止按键",
+          "title": "另一个应用程序正在阻止按键输入",
+          "body": "当密码输入框或某些应用（如密码管理器、终端的安全键盘输入）获得焦点时，macOS 会隐藏其他应用的按键输入。关闭或点击离开该应用，然后重新尝试。",
+          "active": "目前，另一个应用程序正在阻止按键输入。",
+          "inactive": "目前没有东西阻止按键输入。"
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "🌐 键可打开表情符号或切换键盘",
+          "title": "macOS 给 🌐 键分配了专属功能",
+          "body": "你的 Mac 在按下 🌐 时会打开表情符号、切换输入法或启动 Apple 语音输入。Wispr Bro 可以设置 \"按下 🌐 键以\" 为 \"无操作\"。如果你停止使用 fn 进行语音输入，系统会恢复你的选择。",
+          "consent": "将 🌐 设置为 不采取任何行动",
+          "changed": "🌐 现在它自己不会做任何事",
+          "open": "打开键盘设置"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "我的键盘没有 fn 键",
+          "title": "使用控制键和选项键代替",
+          "body": "一些键盘没有 fn 或 🌐 键。按住 Control 和 Option 键一起进行语音输入。您随时可以在设置中更改此选项。",
+          "action": "使用 Control + Option",
+          "changed": "Control + 选项 是你的快捷方式"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "练习：手写一封邮件",
+      "instruction": "同时按住 fn 和 空格键，然后开始说话。你不需要按住任何按键。说完后再次按 fn。试试看：\"嗨，萨姆，谢谢你的笔记，周四上午十点能见面吗？\"",
+      "instructionFallback": "同时按住控制键、选项键和空格键，然后开始说话。你不需要一直按住任何按键。说完后，再次按住控制键和选项键。试试看：\"嗨，萨姆，谢谢你的笔记，周四上午十点能见面吗？\"",
+      "instructionUnbound": "没有设置语音输入快捷键，因此无法开始练习。现在跳过，并在设置中设置快捷键。",
+      "skip": "跳过",
+      "waiting": "正在等待你开始说话…",
+      "listening": "聆听中… 完成后按 fn",
+      "listening_fallback": "聆听中… 完成后按 Control 和 Option。",
+      "working": "写下来……",
+      "settingUp": "设置中…",
+      "settingUpPercent": "设置中… {{percent}}%",
+      "queuedNote": "你的文字已保存。设置完成后，它们会在这里显示，无论怎样都会出现在历史记录中。我们稍后会自动继续。",
+      "nothing": "没有内容传过来。请检查麦克风是否打开，然后重新尝试。",
+      "filled": "那就是你的邮箱。添加更多内容，或者继续。",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "新消息",
+        "to": "到",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "主题",
+        "subjectText": "周四",
+        "body": "消息",
+        "placeholder": "你的文字会出现在这里。"
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "好了。你已经录下了第一段文字。",
+      "subtitle": "你可以在任何可以输入的地方现在开始说话。"
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "语音输入每周可节省约{{hours}}小时",
+      "headline_other": "语音输入每周可为您节省约{{hours}}小时",
+      "intro": "说话对大多数人来说比打字更快。进行一个30秒的打字测试，看看能为你节省多少时间。",
+      "howFast": "你打字有多快？",
+      "skipTest": "跳过测试",
+      "basisMeasured": "基于您每分钟输入{{wpm}}个词，以及大约每分钟说出{{speaking}}个词。",
+      "basisAverage": "基于每分钟平均输入{{wpm}}个词，以及每分钟大约说{{speaking}}个词。",
+      "sliderLabel": "你每天打字多久？",
+      "hoursPerDay_one": "每天{{hours}}小时",
+      "hoursPerDay_other": "每天{{hours}}小时",
+      "takeTest": "进行打字测试"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "你打字的速度有多快？",
+      "instruction": "像平时一样输入下面的段落。从你按下第一个键开始计时，持续{{seconds}}秒。",
+      "skip": "跳过",
+      "language": "语言",
+      "wpmPending": "—— 每分钟单词数",
+      "wpm_one": "每分钟{{count}}个字",
+      "wpm_other": "每分钟{{count}}个字",
+      "secondsLeft_one": "还剩{{count}}秒",
+      "secondsLeft_other": "还剩{{count}}秒",
+      "inputLabel": "在这里输入段落",
+      "placeholder": "在这里开始输入…",
+      "nothing": "没有匹配到段落。再试一次。",
+      "result_one": "你大约每分钟输入 {{count}} 个字。",
+      "result_other": "你大约每分钟输入 {{count}} 个字。",
+      "tryAgain": "再试一次",
+      "recalculate": "重新计算"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "你已经准备好了",
+      "subtitle": "这里是 Wispr Bro 的设置方式。在任何应用中按住快捷键即可语音输入。",
+      "languages": "语言",
+      "shortcut": "快捷方式",
+      "shortcutFn": "按住 fn (🌐)",
+      "shortcutFallback": "按住 Control 和 Option",
+      "microphone": "麦克风",
+      "micDefault": "Mac 的默认麦克风",
+      "typing": "打字速度",
+      "typingWpm_one": "每分钟{{count}}个字",
+      "typingWpm_other": "每分钟{{count}}个字",
+      "typingSkipped": "未测量",
+      "notSet": "未设置",
+      "launchAtLogin": "登录时打开 Wispr Bro",
+      "launchAtLoginHint": "所以，你需要的时候，语音输入就已准备就绪。",
+      "later": "你可以在设置中稍后更改这些内容。",
+      "finish": "开始语音输入"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "{{version}} 中的新功能",
+    "label": "本版本的发布说明",
+    "close": "关闭",
+    "done": "明白"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "将 {{appName}} 传递",
+    "body": "{{appName}} 是免费且开源的，完全在 Mac 上运行。没有推荐码，也没有任何数据被追踪：链接对所有人都是相同的。",
+    "downloadLabel": "下载链接",
+    "brewLabel": "使用 Homebrew 安装",
+    "copyLink": "复制下载链接",
+    "copyBrew": "复制 Homebrew 命令",
+    "copy": "复制",
+    "copied": "已复制",
+    "copyFailed": "无法复制。请选择文本并复制它。",
+    "shareTitle": "发送给某人",
+    "shareBody": "消息、邮件、AirDrop 以及 Mac 任何其他分享方式。",
+    "shareButton": "分享…",
+    "shareFailed": "无法打开共享面板。"
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "你的语音快捷方式已停止工作。Wispr Bro 需要重新获得无障碍访问权限。",
+      "stopped": "你的语音速记快捷方式已停止响应。",
+      "fix": "修复"
+    },
+    "sheet": {
+      "title": "修复你的快捷方式",
+      "introPermission": "macOS 关闭了 Wispr Bro 的可访问性权限，因此无法检测到你的快捷方式。这可能发生在更新之后，或者系统设置中修改了相关条目时。",
+      "introStopped": "Wispr Bro的键盘监听器已停止。一旦macOS允许，它会自动重新启动。",
+      "pictureLabel": "系统设置，隐私与安全，无障碍：开启的 Wispr Bro 选项",
+      "pictureTitle": "无障碍",
+      "pictureBack": "隐私与安全",
+      "stepsTitle": "重新打开",
+      "step1": "打开系统设置 › 隐私与安全 › 可访问性。",
+      "step2": "打开 Wispr Bro。如果它已经打开，请先关闭再重新打开。",
+      "step3": "回来这里。几秒钟后，快捷方式就会再次生效，无需重启。",
+      "resetTitle": "还是不行吗？",
+      "resetBody": "更新后，macOS 可能会保留一个已不再匹配应用的旧条目。重置会移除 Wispr Bro 的条目，以便再次允许它。",
+      "resetStep1": "选择重置并重新授权。",
+      "resetStep2": "允许 Wispr Bro 当 macOS 提示时，或在打开的列表中开启它。",
+      "resetFailed": "无法重置该条目。在列表中选择 Wispr Bro，然后使用减号按钮将其移除，再使用加号按钮重新添加。",
+      "openSettings": "打开无障碍设置",
+      "reset": "重置并重新授权",
+      "checkAgain": "再检查一次",
+      "relaunch": "重新启动以完成",
+      "close": "关闭",
+      "status": {
+        "healthy": "你的快捷方式正常工作。",
+        "lost": "尚未工作",
+        "recovering": "正在重新连接…",
+        "needsRelaunch": "访问已恢复。重新启动 Wispr Bro 以完成。"
+      }
+    }
+  },
+  "firstUse": {
+    "title": "你想先尝试什么？",
+    "subtitle": "选择一个来试试效果。然后在你的应用中尝试使用它。",
+    "choicesLabel": "开始的方式",
+    "choices": {
+      "ai_chat": "询问一个AI助手",
+      "note": "记个便条",
+      "message": "回复一条消息",
+      "email": "写一封邮件",
+      "comment": "发表评论",
+      "document": "草拟一份文档",
+      "coding": "提示一个编码工具"
+    },
+    "scene": {
+      "label": "示例：{{choice}}",
+      "said": "你说",
+      "written": "{{appName}} 写",
+      "pause": "暂停示例",
+      "play": "播放示例"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI聊天",
+        "context": "我可以帮您做什么？",
+        "said": "嗯，那你能解释一下复利是怎么工作的吗，就像我刚接触这个一样",
+        "text": "你能解释一下复利是怎么工作的吗，就像我刚接触这个一样？"
+      },
+      "note": {
+        "app": "笔记",
+        "context": "星期一",
+        "said": "备注给自己 去看牙医 嗯 去取干洗之前六点前",
+        "text": "备注给自己：打电话给牙医，六点前取干洗。"
+      },
+      "message": {
+        "app": "消息",
+        "context": "我们还是约午饭吗？",
+        "said": "是的，确定是十二点半，可以吗",
+        "text": "是的，当然！12点30分可以吗？"
+      },
+      "email": {
+        "app": "邮件",
+        "context": "收件人：Priya · 主题：周四",
+        "said": "hi Priya 谢谢你的笔记 我周四早上会发草稿",
+        "text": "嗨，Priya，谢谢你的笔记。我周四早上会发草稿。"
+      },
+      "comment": {
+        "app": "社交",
+        "context": "我们的新办公室下周就开张了！",
+        "said": "恭喜整个团队，这看起来太棒了",
+        "text": "恭喜整个团队，这看起来太棒了！"
+      },
+      "document": {
+        "app": "文档",
+        "context": "项目计划",
+        "said": "这一阶段的目标是嗯在月底前将beta版本发送给五十名测试者",
+        "text": "这一阶段的目标是在月底前将beta版本推送给五十名测试者。"
+      },
+      "coding": {
+        "app": "代码编辑器",
+        "context": "让代理提问",
+        "said": "登录按钮在移动设备上无法使用，你能找出原因并修复它吗",
+        "text": "移动端的登录按钮不起作用。你能找出原因并修复它吗？"
+      }
+    },
+    "tryNow": "现在试试",
+    "later": "也许稍后",
+    "close": "关闭",
+    "noBar": "dictation bar 未运行，因此没有提示显示。你仍然可以尝试：打开应用并按住快捷键。",
+    "banner": {
+      "title": "在你的应用中使用它",
+      "body": "{{hint}}。{{how}}",
+      "again": "再次显示提示",
+      "stop": "隐藏提示",
+      "other": "试试别的",
+      "active": "提示在屏幕上。按 Esc 关闭它。"
+    }
+  },
+  "checklist": {
+    "title": "开始",
+    "label": "设置清单",
+    "progress": "{{done}} 个出 {{total}} 个",
+    "hide": "隐藏清单",
+    "done": "完成",
+    "next": "下一个",
+    "allDone": "全部完成。你已经掌握了基础。",
+    "items": {
+      "try_in_app": {
+        "title": "在另一个应用中试一下",
+        "action": "给我看看"
+      },
+      "add_word": {
+        "title": "添加一个词",
+        "action": "添加一个词",
+        "coachTitle": "添加你的第一个词",
+        "coachBody": "你经常使用的名称、产品术语和行话。它们会按你写的拼法出现。"
+      },
+      "create_snippet": {
+        "title": "创建一个片段",
+        "action": "新建片段",
+        "coachTitle": "创建您的第一个片段",
+        "coachBody": "说一个短语，得到更长的文本：你的地址，一个链接，一个结束语。"
+      },
+      "launch_at_login": {
+        "title": "登录时打开",
+        "action": "开启",
+        "body": "{{appName}} 会随你的 Mac 启动，因此你的快捷方式始终有效。"
+      }
+    },
+    "coach": {
+      "close": "关闭",
+      "done": "明白"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "选择 Wispr Bro 跟随系统主题，还是保持浅色或深色"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

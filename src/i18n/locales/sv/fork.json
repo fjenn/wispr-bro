@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Fork debugpanel",
+    "description": "Inre kontroller för Wispr Bro-lagen. Endast synlig i debug-byggnader eller när appen startades med --debug.",
+    "close": "Stäng",
+    "runAgain": "Kör igen",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Modellstatus",
+      "notReady": "Inte klar än: appen har inte färdigt startat."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Senaste pingshändelse",
+      "none": "Ingen händelse fångad ännu."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "Väntar...",
+    "error": "Fel: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
+      "title": "Innehålls säkerhetspolicy",
+      "description": "Spelar en ljudfil via assetprotokollet, laddar data: och blob: bilder, kallar en fork-kommando och kontrollerar att en förbjuden bild blockeras.",
+      "run": "Kör CSP-kontroll",
+      "running": "Körer…",
+      "pass": "Passade: inga oväntade CSP-violationer.",
+      "fail": "Misslyckades: se kontrollerna ovan.",
       "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "failed": "misslytt ({{detail}})",
+      "noViolations": "Inga CSP-violationer registrerade.",
+      "violations_one": "{{count}} CSP vidareföring registrerad.",
+      "violations_other": "{{count}} CSP-violationer registrerade.",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "media": "Ljud (assetprotokoll)",
+        "dataImage": "data: bild",
+        "blobImage": "blob: bild",
+        "forkCommand": "Fork kommando",
+        "probe": "Blokad källa"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "Plockar upp efter {{seconds}} s. Byt till en annan app för att se en macOS-notifikation."
     },
     "update": {
-      "title": "Updates",
+      "title": "Uppdateringar",
       "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "channel": "Canal",
+      "key": "Signeringsnyckel",
+      "endpoints": "Försörjningar",
+      "checksOff": "Uppdateringskontroller är av (Inställningar › Avancerade, eller en avstängning är satt).",
+      "check": "Kontrollera nu",
+      "checking": "Kontrollerar...",
+      "install": "Installera {{version}} och starta om",
+      "installing": "Laddar ner och verifierar…",
+      "installed": "{{version}} installer. Återstartar...",
+      "available": "{{version}} är tillgänglig.",
+      "upToDate": "Uppdaterat.",
+      "failed": "Kunde inte kontrollera: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Fork inställningar",
+      "loading": "Laddar inställningar…",
+      "loadError": "Kunde inte läsa inställningarna: {{message}}",
+      "setError": "Den här ändringen sparas inte: {{message}}",
+      "contextAwareness": "Sammanhängande uppfattning",
+      "contextAwarenessHint": "Använder namn i texten nära din kursork för att skriva dem rätt. Den texten finns kvar på denna Mac och sparas aldrig.",
       "transforms": "Transformar",
       "transformsHint": "⌥1 färdigställer vald text och ⌥2 gör den till en tydligare AI-prompt. Under aktivering ersätter de ¡ och ™.",
       "transformsSafeShortcuts": "Använd ⌃⌥1 och ⌃⌥2 istället",
       "transformsSafeShortcutsHint": "Förvarar ¡ och ™ tillgängliga med ⌥1 och ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Rekommendationsnivå",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "Inget",
+        "light": "Ljus",
+        "medium": "Mitt"
       },
-      "all": "All settings"
+      "all": "Alla inställningar"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Allmänt",
       "system": "System",
-      "vibe": "Vibe coding",
+      "vibe": "Kodning med vibe",
       "privacy": "Data och integritet",
       "advanced": "Avancerade",
       "about": "Om",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Öppna Scratchpad i",
       "scratchpadHint": "Välj där Scratchpad öppnas när du använder dess snabbkommando.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Fortsätt med min senaste anteckning",
+        "new_note": "Starta en ny anteckning"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro kan läsa kodenamn och filnamn som VS Code, Cursor och Windsurf visar på skärmen genom Accessibility. Det öppnar aldrig din projektkatalog eller dina filer.",
+      "contextOff": "Sammanhållning är av, så har dessa funktioner inget att läsa. Återställ den för att använda dem.",
+      "recognize": "Känna igen kodnamn",
+      "recognizeHint": "När du säger ett variabel- eller funktionnamn som är synligt i din editor skrivs det enligt hur ditt kod skriver sig, t.ex. getUserById eller user_id.",
+      "setUp": "Ställ in",
+      "change": "Ändra redigerare",
+      "setUpFor": "Ställ in för {{editors}}",
+      "fileTags": "Märk filer i chat",
+      "fileTagsHint": "I Cursor eller Windsurf chat, säger \"index dot ts\" skriver @index.ts när den filen är öppen i en flik eller syns i fillistan.",
+      "fileTagsNeedsChat": "Tillgängligt efter att du lägger till Cursor eller Windsurf i dina redigerare.",
+      "fileTagsNeedsSetup": "Tillgängligt efter att du har inställt kodenamnuppfattning.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Ställ in kodenamnsanpassning",
+        "stepEditors": "1. Välj redigerarens du använder",
+        "stepScreenReader": "2. Aktivera skärmsläsareläge i var och en av dem så att de delar sin text med Wispr Bro",
+        "openSettings": "Öppna redigerarens inställningar med ⌘ komma.",
+        "search": "Sök efter \"åtkomlighetstöd\".",
+        "setOn": "Sätt Editor: Accessibility Support till \"on\".",
+        "palette": "Du kan också köra \"Toggle Screen Reader Accessibility Mode\" från kommandopalatet (⇧⌘P).",
+        "confirm": "Jag aktiverade skärmsläsareläge i dessa redigerare",
+        "cancel": "Avbryt",
+        "finish": "Slut med inställningar"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Privat genom design",
+        "local": "Din dictation och data finns kvar på denna Mac.",
+        "noCloud": "Taligenkänning, rening och historia kör lokalt. Det finns ingen konto, telemetri, molndictation eller molnrening.",
+        "networkIntro": "Wispr Bro använder nätverket endast för dessa två saker:",
+        "models": "Ladda ner tal och rensningsmodeller från Hugging Face (huggingface.co).",
+        "updates": "När uppdateringskontroll är aktiverad, leta efter app-uppdateringar på GitHub (github.com)."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Var dina data lever",
+        "hint": "Dessa mappar tillhör Wispr Bro. Portabla installationer håller alla dem i appens Data-mapp.",
+        "data": "Appdata och inställningar",
+        "models": "Nedladda modeller",
+        "recordings": "Insamlingar",
+        "logs": "Loggar och kraschrapporter",
+        "show": "Visa i Finder",
+        "loading": "Lokaliserar...",
+        "failed": "Kunde inte öppna den mappen. Försök igen."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Hur lång tid att behålla historia",
+        "textLabel": "Behåll dictat text",
+        "textHint": "Äldre inlägg tas bort automatiskt. Text sparas som standard för alltid.",
+        "audioLabel": "Behåll inspelningar",
+        "audioHint": "Ljudet går ut efter 14 dagar som standard. Att ta bort ljudet behåller texten som skrivits ut tills textgränsen har nåtts.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Behåll aldrig ljud",
+          "1": "1 dag",
+          "7": "7 dagar",
+          "14": "14 dagar",
+          "30": "30 dagar",
+          "90": "90 dagar",
+          "365": "1 år",
+          "forever": "Oändligt"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Privatlivsvalf",
+        "context": "Använd kontextbevakning",
+        "contextHint": "Läs nära text endast när du talar för att identifiera namn och stavning. Kontext sparas inte eller loggas.",
+        "updates": "Sök efter app-uppdateringar",
+        "updatesHint": "Kontakta GitHub för att kolla om det finns en ny version. Inga dictation eller persondata skickas.",
+        "learn": "Lär dig från mina korrigeringar",
+        "learnHint": "Efter att en dictation har klistrats in, observera ord som du korrigerar i textfältet och föreslå dem i Ordbok. Endast det korrigerade ordet sparas; resten av texten sparas aldrig eller loggas."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Dina data",
+        "hint": "Exportera en zip med din historia, inställningar och inspelningar. Modeller och loggar ingår inte.",
+        "button": "Exportera min data",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Ziparkiv",
+        "done": "Exporten har sparats och visas i Finder.",
+        "failed": "Kunde inte exportera dina data. Inget togs bort."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Radera allt mitt data",
+        "title": "Radera all din data?",
+        "warning": "Detta tar bort historia, inspelningar, inställningar, loggar och kraschrapporter permanent. Det kan inte återkallas.",
+        "relaunch": "Wispr Bro kommer att avsluta sitt arbete, radera data och starta om med onboarding.",
+        "models": "Radera också nerladdade modeller",
+        "modelsHint": "Behåll detta avvänd för att undvika att ladda ner tal- och rensningsmodeller igen.",
+        "confirmLabel": "Typ {{word}} för att bekräfta",
+        "cancel": "Avbryt",
+        "confirm": "Radera allt",
+        "failed": "Radera alla avbrutit. Kontrollera de återstående data innan du försöker igen."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
-        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "title": "Kraschrapporter och diagnostik",
+        "hint": "Kraschrapporter håller sig på denna Mac och uppladdas aldrig. Kopia eller spara diagnostik endast när du vill dela dem.",
+        "sanitized": "Diagnostik tar bort dictat text, frågor, ordbokord, e-postadresser, nycklar och din hemmappels väg.",
+        "copy": "Kopiera diagnostik",
+        "save": "Spara diagnostik…",
+        "fileName": "wispr-bro-diagnostik-{{date}}.zip",
+        "copied": "Diagnostikdata kopierade.",
+        "saved": "Diagnostikdata sparade.",
+        "failed": "Kunde inte förbereda diagnostik. Försök igen."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Version {{version}}",
       "source": "Visa källkod",
       "updates": "Uppdateringsnotiser",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Uppdateringar",
+      "license": "Fritt program under GNU Allmänna Public License, version 3 (GPL-3.0).",
+      "licenseLink": "Visa licens",
+      "credit": "Byggt på Handy av CJ Pais, använts enligt MIT-license. Tack till alla som arbetar med det.",
+      "creditLink": "Handy på GitHub",
+      "supportTitle": "Stöd utvecklingen",
+      "supportBody": "{{appName}} har inga betalade planer. Bästa stöd är en bugrapport, en idé eller en bidrag på GitHub."
     },
     "hotkeys": {
       "open": "Snabbknappar",
@@ -412,7 +412,7 @@
           "view_changes": "Visa transformation förändringar"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Öppna Scratchpad"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Granska den senaste transformationen före och efter."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Fortsätt din senaste anteckning eller starta en ny enligt din inställning för Scratchpad."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Huvud"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Sammanfatta sidofältet",
+      "expand": "Expanda sidfältet"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Byt till mörk utseende",
+      "toLight": "Byt till ljus utseende"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Notifikationer",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Inget nytt",
+        "body": "Uppdateringar och tips visas här."
       },
       "bellUnread_one": "Notifikationer, {{count}} olästa",
       "bellUnread_other": "Notifikationer, {{count}} olästa",
@@ -485,65 +485,65 @@
       "justNow": "Jag precis"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "Hjälp",
+      "updates": "Uppdateringar",
+      "whatsNew": "Vad är nytt",
+      "essentials": "Essentiella",
+      "shortcuts": "Snabbknappar",
+      "microphone": "Microfon",
+      "languages": "Språk",
+      "documentation": "Dokumentation",
+      "getInTouch": "Kom i kontakt",
+      "reportProblem": "Rapportera ett problem…",
+      "sendFeedback": "Skicka feedback",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Rapportera ett problem",
+        "body": "Det öppnar en ny issue på GitHub i ditt webbläsare med din appversion och Mac-modell fylld i. Det inkluderar aldrig något du dictat, och du kan läsa och ändra allt innan du skickar det.",
+        "diagnosticsTitle": "Diagnostik (valfritt)",
+        "diagnosticsBody": "Förbättrad loggdata hjälper till att hitta orsaken. De innehåller aldrig dina dictationer. Kopia dem här och klistra in dem i problemet.",
+        "copy": "Kopiera diagnostik",
+        "copied": "Diagnostik kopierad. Klistra in dem i problemet.",
+        "copyFailed": "Kunde inte kopia diagnostik.",
+        "open": "Öppna GitHub",
+        "cancel": "Avbryt",
+        "close": "Stäng"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Inställningar – avsnitt"
     },
     "pages": {
       "dictation": {
         "title": "Dictation",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Tala istället för att skriva",
+          "body": "Håll fn i varje app, säg vad du vill skriva och släp. {{appName}} placerar ren text där din kursör är.",
+          "examplesLabel": "Saker att prova",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "En snabb svar på ett meddelande",
+            "notes": "Notis direkt efter en telefon",
+            "prompt": "En lång prompt till en AI-chat"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Dina dictationer kommer att visas här",
+          "body": "Varje en är sparad på denna Mac, med ljudet, så du kan kopiera eller kontrollera den senare.",
+          "action": "Öppna historia"
         }
       },
       "insights": {
         "title": "Insights",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Insights behöver några dictationer",
+          "body": "Tidigare är din talhastighet, streakar och tiden du sparar synlig när du har talat i en tid.",
+          "action": "Gå till Dictation"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Ordbok",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "Snippeter",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Snippeter är på väg",
+          "body": "Säg en kort prompt som \"min adress\" och få hela texten. Den här sidan kommer i en senare uppdatering.",
+          "action": "Gå till Dictation"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Stil",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Stilar kommer snart",
+          "body": "Välj hur polerad din text är i varje typ av app, från formell e-post till lättare chatt. Den här sidan kommer i en senare uppdatering.",
+          "action": "Gå till Dictation"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Transformar",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Transformationer är på väg",
+          "body": "Välj text och omformulera den med en kortare, tydligare eller bättre organiserad version. Den här sidan kommer i en senare uppdatering.",
+          "action": "Gå till Dictation"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Scratchpad är på väg",
+          "body": "En snabb plats att dictera anteckningar innan de går någonstans annars. Den här sidan kommer i en senare uppdatering.",
+          "action": "Gå till Dictation"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Dela med en vän"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Inställningar"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Visa mig"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Uppdateringskontroller avstängd",
+      "turnOn": "Återvänd",
+      "notChecked": "Kontrollerat inte än",
+      "check": "Kontrollera uppdateringar",
+      "checking": "Kontrollerar uppdateringar…",
+      "upToDate": "Uppdaterad",
+      "checkAgain": "Kontrollera igen",
+      "checkFailed": "Kunde inte kontrollera",
+      "retry": "Försök igen",
+      "downloading": "Laddar ner {{version}}…",
+      "ready": "Uppdatering klar",
+      "restartNow": "Start om nu",
+      "installing": "Installerar {{version}}...",
+      "installedWaiting": "{{version}} installerad · startar om efter denna dictation",
+      "restarting": "Startar om...",
+      "installFailed": "Uppdateringen kunde inte installeras",
+      "busy": "Avsluta dictationen först.",
+      "actionFailed": "Det fungerade inte. Försök igen senare.",
+      "lastChecked": "Sist kontrollerad {{time}}.",
+      "paused": "Efter tre misslyckade försök är automatiska uppgraderingar pausade tills {{time}}.",
+      "manualOnly": "Detta är en utvecklingsversion: uppdateringar kontrolleras endast när du frågar.",
+      "readyHint": "Det installerar automatiskt när du inte har dictat i 20 minuter, eller när du stänger programmet.",
+      "policy": "Uppdateringar laddas ner i bakgrunden och installerar endast när du inte säger något, eller när du stänger programmet.",
+      "needsPassword": "Den här kopien av appen ligger i en mapp som kräver en administratörslösenord för att ändras, så att uppgraderingar installerar endast när du väljer \"Starta nu\"."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Ny!",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Avbryt"
     },
     "importWizard": {
       "stepsLabel": "Importera steg",
@@ -673,60 +673,60 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
+      "vocabulary": "Vokabulär",
+      "help": "Hjälp",
+      "file": "Fil",
+      "edit": "Redigera",
+      "view": "Visa",
+      "window": "Fönster",
+      "wordsDictated_one": "{{count}} ord dictat",
+      "wordsDictated_other": "{{count}} ord som dictat",
+      "copyLast": "Kopiera senaste transkription",
+      "copyLastPreview": "Kopiera senaste transkript: \"{{preview}}\"",
+      "copyLastConcealed": "Kopiera senaste transkription (text döljd)",
+      "microphone": "Microfon",
+      "languages": "Språk",
+      "moreLanguages": "Lägg till eller ta bort språk…",
+      "automaticMicrophone": "Auto-detektera (systeminställning)",
+      "noMicrophones": "Inga mikrofoner hittades",
+      "dictionaryWords_one": "{{count}} ord i lexikonet",
+      "dictionaryWords_other": "{{count}} ord i ordbok",
       "snippetCount_one": "{{count}} snippet",
       "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
+      "addWord": "Lägg till ord…",
+      "newSnippet": "Ny snippet…",
+      "documentation": "Dokumentation",
+      "shortcuts": "Snabbknappar",
+      "reportProblem": "Rapportera ett problem…",
+      "sendFeedback": "Skicka feedback…",
+      "openApp": "Öppna {{appName}}",
+      "checkUpdates": "Kontrollera uppdateringar…",
+      "pasteLast": "Klistra in senaste transkription",
+      "cancelDictation": "Avbryt dictation",
+      "shortcutsBlocked": "Snabbkommandon blockade — öppna Inställningar",
+      "undo": "Ångra",
+      "redo": "Upprepa",
+      "cut": "Klipp",
+      "copy": "Kopiera",
+      "paste": "Klistra in",
+      "selectAll": "Markera allt",
+      "minimize": "Minimera",
       "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "closeWindow": "Stäng fönster",
+      "fullScreen": "Gå till fullskärm",
+      "services": "Tjänster",
+      "hideOthers": "Dölj andra",
+      "showAll": "Visa alla",
+      "about": "Om {{appName}}",
+      "hide": "Dölj {{appName}}",
+      "quitApp": "Avsluta {{appName}}",
+      "restartToUpdate": "Start om för att uppdatera till {{version}}",
+      "updatesOff": "Uppdateringskontroller är av..."
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Snabbkommando fungerar inte länge"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -737,21 +737,21 @@
         "control": "Control",
         "option": "Option",
         "shift": "Shift",
-        "command": "Command",
-        "space": "Space",
+        "command": "Kommando",
+        "space": "Rum",
         "escape": "Escape",
         "return": "Return",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
-        "pageUp": "Page Up",
-        "pageDown": "Page Down",
+        "delete": "Radera",
+        "forwardDelete": "Förväntad bort",
+        "left": "Vänster piltangent",
+        "right": "Vänster piltangent",
+        "up": "Uppepilken",
+        "down": "Nedåt piltangent",
+        "home": "Hem",
+        "end": "Slut",
+        "pageUp": "Sida upp",
+        "pageDown": "Sida ned",
         "mouseLeft": "Vänster musknapp",
         "mouseRight": "Höger musknapp",
         "mouseMiddle": "Mittenmusknapp",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "Dictater",
+          "tooltip": "Håll fn för att dictera"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Microfonen har avbrutits. Det du sa hittills sparas.",
         "undo": "Ångra finns på dikteringsfältet i 4 sekunder.",
         "diff": "Förändringar är redo att granska.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Säker inmatning är aktiverad. fn och Space kan inte låsa dictation. Escape eller stängknappen avbryter fortfarande."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Välj 6 000 tecken eller färre",
         "transform_focus_moved": "Du flyttade dig, så förändrades inget",
         "transform_failed": "Kunde inte omvandla det texten",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Din snabbkommando fungerar inte länge",
+        "shortcut_stopped": "Din snabbkommando har avbrutit svar",
+        "shortcut_back": "Din kortkommando fungerar igen"
       },
       "card": {
         "no_text_field": "Klicka in i ett textfält först",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} är gratis dictation som kör helt på din Mac. Hämta den här:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Nästa steg",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Öppna en AI-chat, t.ex. ChatGPT eller Claude",
+        "note": "Öppna din notatapp",
+        "message": "Öppna en chat, t.ex. Messages eller Slack",
+        "email": "Öppna din e-post",
+        "comment": "Öppna en post du vill kommentera på",
+        "document": "Öppna ett dokument du skriver",
+        "coding": "Öppna Cursor, VS Code eller en annan kodredigerare"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Klicka där du vill skriva, sedan håll fn och säg.",
+      "howFallback": "Klicka där du vill skriva, sedan håll Control och Option och säg.",
+      "escape": "Tryck Esc för att stänga denna tips."
     }
   },
   "speechModels": {
     "title": "Talmodeller",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} väljer talmodellen för dina språk och denna Mac, och byter ut till en bättre när det går. Du behöver aldrig välja.",
     "loading": "Kontrollerar talmodeller…",
     "current": "I använd: {{name}}",
     "none": "Ingen talmodell ännu",
@@ -1087,7 +1087,7 @@
       "edit": "Redigera {{entry}}",
       "delete": "Radera {{entry}}",
       "accept": "Lägg till {{entry}} i din ordbok",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Lär inte mig {{entry}}"
     },
     "source": {
       "import": "Importad",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Inga förslag ännu",
       "body": "När {{appName}} kan lära sig från orden du korrigerar, visas de här för dig att godkänna.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Förändra ett felaktigt namn eller begrepp i rutan direkt efter att du har talat, sedan tryck Retur, Tabell eller gå vidare. Det ord du har rättat visas här så att du kan godkänna det."
     },
     "noMatch": {
       "title": "Inget matchar",
@@ -1206,11 +1206,11 @@
       "done_other": "Exportade {{count}} poster.",
       "failed": "Ordboken kunde inte exporteras. Försök igen."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” kommer inte förslag igen.",
+    "actionFailed": "Det fungerade inte. Försök igen.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Lär dig från mina korrigeringar",
+      "hint": "Under 30 sekunder efter att en dictation har klistrats in, märker {{appName}} ord som du korrigerar i textfältet och föreslår dem här. Endast det ord du korrigerar sparas, aldrig resten av texten. Lösenordsfält, lösenordshantering, bankapplikationer och terminaler läses aldrig."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Text nära var hjälpt med stavning",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Mikrofon förlorad, behåller vad du sa",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Säker inmatning är aktiverad · fn+Space kan inte låsa · Esc eller ✕ avbryter",
+      "secure_input_app": "{{app}} har säker inmatning på · fn+Space kan inte låsa · Esc eller ✕ avbryter"
     },
     "settingUp": "Förbereder…",
     "settingUpPercent": "Förbereder… {{percent}} %",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Visa ändringar",
     "sendsAutomatically": "Skickar automatiskt",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Tillgång till accessibility är inaktiverad",
+      "stopped": "Tangentens lyssnare avbrutet"
     }
   },
   "transforms": {
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Ny anteckning",
+    "preferences": "Inställningar för scratchpad",
+    "addToBar": "Lägg till i varven",
+    "addToBarHelp": "Behåll en Scratchpad-knapp vid Dictate på den vila raden.",
+    "recents": "Nyligen",
+    "searchLabel": "Sök anteckningar",
+    "searchPlaceholder": "Sök dina anteckningar",
+    "loading": "Laddar anteckningar…",
+    "empty": "Inga anteckningar ännu",
+    "emptyHelp": "Starta en anteckning, sedan skriv eller dictera i dess flikande fönster.",
+    "emptyNote": "Tom notis",
+    "noResults": "Inga anteckningar matchar din sökning.",
+    "untitled": "Obestämd notering",
+    "pinned": "Fäst",
+    "pin": "Pins notering",
+    "unpin": "Avbinder anteckning",
+    "editAction": "Redigera anteckning",
+    "edit": "Redigera {{name}}",
+    "delete": "Radera anteckning",
+    "deleteConfirm": "Radera \"{{name}}\"? Det här kan inte återkallas.",
+    "error": "Scratchpad kunde inte utföra den här åtgärden. Din nuvarande text är fortfarande här; försök igen.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "Öppna snabbkommando",
+      "change": "Sätt snabbkommando",
+      "title": "Snabbkoppling till scratchpad",
+      "help": "Öppna Scratchpad från någonstans. Det startar utan inställningar, så det tar aldrig in en tangent förrän du väljer en.",
+      "close": "Stäng kortkommando-dialog",
+      "proposed": "Förslag om kombination",
+      "ctrlOptionS": "Control + Alternativ + S",
+      "use": "Använd Ctrl + Alt + S",
+      "chooseAnother": "Välj en annan kortkommando",
+      "error": "Den snabbkommandon kunde inte sparas. Försök en annan kombination."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "Öppna anteckningar",
+    "tools": "Notiser verktyg",
+    "sidebar": "Visa anteckelslista",
+    "polish": "Förbättra anteckning",
+    "polishing": "Återställning...",
+    "textSize": "Ändra textstorlek (nuvarande {{size}} punkter)",
+    "expand": "Öppna anteckningens fönster",
+    "shrink": "Återställ anteckningens fönsterram尺寸",
+    "close": "Stäng Scratchpad",
+    "noteBody": "Notat text",
+    "notePlaceholder": "Skriv eller dicta en anteckning…",
+    "saved": "Sparad",
+    "saving": "Sparar...",
+    "saveError": "Sparad inte än",
+    "autosaveHelp": "Sparar automatiskt",
+    "copy": "Kopiera",
+    "copied": "Kopierat"
   },
   "style": {
     "tabsLabel": "Stilgrupper",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Förbereder saker...",
+    "back": "Tillbaka",
+    "continue": "Fortsätt",
+    "yes": "Ja",
+    "no": "Nej",
+    "downloadHint": "Talinställning fortsätter i bakgrunden. Du måste aldrig vänta här.",
+    "navigationFailed": "Den stegen kunde inte sparas. Försök igen.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Inställningsförlopp",
+      "welcome": "Välkommen",
+      "permissions": "Rättigheter",
+      "setup": "Inställningar",
+      "practice": "Öva",
+      "done": "(färdig)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Hjälp",
+      "title": "Hjälp med inställning",
+      "close": "Stäng hjälp",
+      "done": "Förstått",
+      "body": "Varje steg tar några sekunder. Du kan gå tillbaka när som helst, och om du avbryter, startar inställningarna från där du avbröt.",
+      "download": "Wispr Bro konfigurerar taligenkänning på denna Mac samtidigt som du går igenom dessa steg. Allt du säger före det är färdigt sparas och skrivs ut när det är färdigt."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Tala, och dina ord visas",
+      "subtitle": "Håll en tangent, prata, släp. Ren text landar där du skriver.",
+      "privacyTitle": "Allt blir kvar på denna Mac",
+      "privacy": "Din röst och ditt text går aldrig bort från denna dator. Inget konto, inget moln, inget följskap.",
+      "download": "Språkinställningar startar nu och kör i bakgrunden.",
+      "start": "Börja"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Flytta Wispr Bro till Applications",
+      "body": "Wispr Bro kör från utanför din Applications-mapp. Att flytta den där håller uppdateringar och rättigheter fungerande.",
+      "note": "Wispr Bro öppnar sig själv efter flyttningen och fortsätter inställningarna.",
+      "action": "Flytta till Applikationer",
+      "moving": "Flyttar...",
+      "skip": "Inte nu",
+      "error": "Wispr Bro kunde inte flytta sig. Dra den till Applications i Finder, sedan öppna den igen."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Vilka språk pratar du?",
+      "subtitle": "Välj varje språk du dictat i. Wispr Bro organiseras bättre på dina ord när det känner till dem.",
+      "listLabel": "Språk",
+      "noMatch": "Ingen språk matchar “{{query}}”.",
+      "count_one": "Dictation fungerar i {{count}} språk. Du kan ändra det senare i Inställningar.",
+      "count_other": "Dictation fungerar i {{count}} språk. Du kan ändra det senare i Inställningar.",
+      "weak_one": "Känning är mindre noggrann i {{languages}}. Den fungerar fortfarande, men förvänta dig på fler fel.",
+      "weak_other": "Känning är mindre noggrann i {{languages}}. De fungerar fortfarande, men förvänta dig på fler fel."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Två behörigheter",
+      "subtitle": "macOS frågar dig om att godkänna detta en gång. Varje rad markeras direkt när den är aktiverad.",
+      "allowed": "Godkänt",
+      "waiting": "Väntar på macOS…",
+      "openSettings": "Öppna systeminställningar",
+      "prompt": "Frågan från macOS",
+      "pane": "I Systeminställningar",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "Microfon",
+        "why": "Så att Wispr Bro kan höra dig när du håller nyckeln. Ljudet behandlas endast på denna Mac.",
+        "action": "Godkänn mikrofon",
+        "promptAlt": "Bild av mikrofonprompten för macOS, med knappen Tillåt markerad",
+        "paneAlt": "Bild av systeminställningar, integritet och säkerhet, mikrofon, med switch för Wispr Bro på",
+        "waitingHelp": "Klicka på 'Godkän' i macOS-förfrågan. Om du inte ser den, öppna Systeminställningar och aktivera Wispr Bro under Mikrofon."
       },
       "accessibility": {
         "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "why": "Så att Wispr Bro kan upptäcka din kortkod och skriva texten i appen du använder.",
+        "action": "Godkänn tillgång till accessibility",
+        "promptAlt": "Bild av macOS-åtkomstmeddelandet med knappen Öppna systeminställningar markerad",
+        "paneAlt": "Bild av systeminställningar, integritet och säkerhet, tillgång till accessibility, med switch för Wispr Bro aktiverad",
+        "waitingHelp": "I Systeminställningar, aktivera switchen vid Wispr Bro. Du måste kanske låsa med ditt lösenord."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Prova din mikrofon",
+      "guidance": "Kopplade och inbyggda mikrofoner fungerar bäst. Bluetooth-huvudhörn kan bryta kontakt eller känna sig mörka.",
+      "question": "Rör sig bara när du pratar?",
+      "noHelp": "Välj en annan mikrofon ovan, sedan prata igen.",
+      "change": "Byt mikrofon",
+      "previewList": "Dina mikrofoner visas här."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Prova din kortfattning",
+      "instruction": "Tryck och håll fn-knappen (🌐) på din tangentbord. Knappen under lyser på när du håller den.",
+      "fallbackInstruction": "Tryck och håll Control och Option samtidigt. Textraden nedan lyser upp när du håller dem.",
+      "unboundInstruction": "Ingen dictationskort är satt. Använd Redigera kort för att välja ett.",
+      "keyLabel": "tangenten fn",
+      "fallbackKeyLabel": "Styr och Alternativ",
+      "pressed": "Tangent hålls",
+      "notPressed": "Väntar på tangenten…",
+      "worked": "Det fungerar. Nyckeln blev synlig.",
+      "question": "Såg nyckeln lysa?",
+      "edit": "Redigera snabbkommando",
+      "tryAgain": "Försök igen",
+      "otherCauses": "Inte det? Andra möjliga orsaker:",
+      "changeFailed": "Den ändringen gick inte igen. Försök igen, eller använd Systeminställningar.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro kan inte se tangenttryck",
+          "title": "Wispr Bro kan inte se tangenttryck än",
+          "body": "Det här betyder vanligtvis att tillgänglighet är avstängd för Wispr Bro. Aktivera den i systeminställningarna och kom tillbaka och tryck på Försök igen.",
+          "action": "Öppna tillgänglighetinställningar"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "En lösenordsfält eller en annan app blockar tangenterna",
+          "title": "En annan app blockar nyckeltryck",
+          "body": "När ett lösenordsfält eller vissa appar (lösenordshanterare, Terminalens säkert tangentbordsinmatning) har fokus, döljer macOS tangenttryck från alla andra appar. Stäng eller klicka bort från det, sedan försök igen.",
+          "active": "Nu blockeras nyckeltryck av en annan app.",
+          "inactive": "Inget hindrar att trycka på tangenterna just nu."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "Nyckeln 🌐 öppnar emoji eller byter keyboard",
+          "title": "macOS ger nyckeln 🌐 sin egen uppgift",
+          "body": "Din Mac öppnas emoji, byter inmatningskälla eller startar Apple dictation när du trycker 🌐. Wispr Bro kan sätta \"Tryck 🌐 knapp för att\" till Inget. Din val är återställd om du stoppar med att använda fn för dictation.",
+          "consent": "Ställ 🌐 till Inget",
+          "changed": "🌐 gör nu inget av sig själv",
+          "open": "Öppna tangentbordsinställningar"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Min tangentbord har inget fn-tangent",
+          "title": "Använd Control och Option istället",
+          "body": "Vissa tangentbord har inget fn eller 🌐-tangent. Håll Control och Option tillsammans för att skriva med tal. Du kan ändra detta när som helst i Inställningar.",
+          "action": "Använd Kontroll + Alternativ",
+          "changed": "Styr + Alternativ är din snabbkommando"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Öva: skriv en e-post utan händer",
+      "instruction": "Tryck fn och mellanrum samtidigt, sedan prata. Du behöver inte hålla något. Tryck på fn igen när du är färdig. Försök: \"Hej Sam, tack för noterna. Kan vi mötas på torsdag kl 10?\"",
+      "instructionFallback": "Tryck Control, Alternativ och Space samtidigt, sedan prata. Du behöver inte hålla något. Tryck igen Control och Alternativ när du är färdig. Försök: \"Hej Sam, tack för noterna. Kan vi mötas på torsdag kl 10?\"",
+      "instructionUnbound": "Inget dictationskort är satt, så kan denna övning inte startas. Hoppa över den för nu och sätt ett kort i Inställningar.",
+      "skip": "Hoppa över",
+      "waiting": "Väntar på att du börjar prata...",
+      "listening": "Återkoppling… tryck fn när du är färdig.",
+      "listening_fallback": "Hör… tryck Control och Option när du är färdig.",
+      "working": "Att skriva det ner…",
+      "settingUp": "Inställningar…",
+      "settingUpPercent": "Att ställa in… {{percent}}%",
+      "queuedNote": "Dina ord är sparade. De visas här så snart inställningarna är färdiga, och de finns i Historik oavsett. Vi går vidare själva på en knapp.",
+      "nothing": "Inget kom genom. Kontrollera att din mikrofon är på och försök igen.",
+      "filled": "Det är din e-post. Lägg till mer eller fortsätt.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Ny meddelande",
+        "to": "Till",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "Ämne",
+        "subjectText": "Onsdag",
+        "body": "Meddelande",
+        "placeholder": "Dina ord visas här."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "Det är allt. Du har dictat din första text.",
+      "subtitle": "Var du kan skriva, kan du nu prata istället."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Att använda dictation kan spara dig cirka {{hours}} timme per vecka",
+      "headline_other": "Att använda dictation kan spara dig cirka {{hours}} timmar per vecka",
+      "intro": "Att prata är snabbare än att skriva för de flesta. Försök en 30-sekunders skrivtest för att se hur mycket tid det kan spara dig.",
+      "howFast": "Hur snabbt typar du?",
+      "skipTest": "Hoppa över testet",
+      "basisMeasured": "Baserat på din {{wpm}} ord per minut skrivande, och talar ungefär {{speaking}} ord per minut.",
+      "basisAverage": "Baserat på en genomsnittlig skrivningsspeed av {{wpm}} ord per minut, och talande på ca {{speaking}} ord per minut.",
+      "sliderLabel": "Hur lång tid typar du varje dag?",
+      "hoursPerDay_one": "{{hours}} timme per dag",
+      "hoursPerDay_other": "{{hours}} timmar per dag",
+      "takeTest": "Ta typsnittet"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "Hur snabbt typar du?",
+      "instruction": "Typa paragrafen ovan som du normalt gör. Klockan startar när du trycker på din första tangent och kör i {{seconds}} sekunder.",
+      "skip": "Hoppa över",
+      "language": "Språk",
+      "wpmPending": "— ord per minut",
+      "wpm_one": "{{count}} ord per minut",
+      "wpm_other": "{{count}} ord per minut",
+      "secondsLeft_one": "{{count}} sekund kvar",
+      "secondsLeft_other": "{{count}} sekunder kvar",
+      "inputLabel": "Skriv paragrafen här",
+      "placeholder": "Börja skriva här…",
+      "nothing": "Inget matchade paragraf. Försök igen.",
+      "result_one": "Du skriver ungefär {{count}} ord per minut.",
+      "result_other": "Du skriver ungefär {{count}} ord per minut.",
+      "tryAgain": "Försök igen",
+      "recalculate": "Förny"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "Du är klar",
+      "subtitle": "Här är hur Wispr Bro är inställd. Håll din kortkommando i varje app för att skriva text.",
+      "languages": "Språk",
+      "shortcut": "Snabbkoppling",
+      "shortcutFn": "Håll fn (🌐)",
+      "shortcutFallback": "Håll Control och Option",
+      "microphone": "Microfon",
+      "micDefault": "Macens standardmikrofon",
+      "typing": "Typsningshastighet",
+      "typingWpm_one": "{{count}} ord per minut",
+      "typingWpm_other": "{{count}} ord per minut",
+      "typingSkipped": "Mätas inte",
+      "notSet": "Inte satt",
+      "launchAtLogin": "Öppna Wispr Bro när du loggar in",
+      "launchAtLoginHint": "Så är dictation redo när du behöver den.",
+      "later": "Du kan ändra allt detta senare i Inställningar.",
+      "finish": "Börja dicta"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Vad är nytt i {{version}}",
+    "label": "Uppdateringsnotiser för denna version",
+    "close": "Stäng",
+    "done": "Förstått"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "Dela {{appName}} på",
+    "body": "{{appName}} är gratis och öppen källkod, och kör helt på Mac. Det finns inget inviteringskod och inget följs: länken är samma för alla.",
+    "downloadLabel": "Ladda ner länk",
+    "brewLabel": "Installar med Homebrew",
+    "copyLink": "Kopiera länk till nedladdning",
+    "copyBrew": "Kopiera Homebrew-kommandot",
+    "copy": "Kopiera",
+    "copied": "Kopierat",
+    "copyFailed": "Kunde inte kopia. Välj texten och kopia den istället.",
+    "shareTitle": "Dela det med någon",
+    "shareBody": "Meddelanden, Mail, AirDrop och alla andra sätt som din Mac kan dela.",
+    "shareButton": "Dela…",
+    "shareFailed": "Kunde inte öppna delningsarket."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Din dictationskortstig fungerar inte längre. Wispr Bro behöver återigen tillgång till Accessibility.",
+      "stopped": "Din dictationskortrutin har avbrutit svar.",
+      "fix": "Fik"
+    },
+    "sheet": {
+      "title": "Fikas din kortkommando",
+      "introPermission": "macOS avvände Wispr Bro:s tillgång till Accessibility, så det kan inte upptäcka din kortkod. Det kan hända efter en uppgradering eller när inmatningen ändrades i Systeminställningar.",
+      "introStopped": "Wispr Bro:s tastatursöknare har avbrutits. Den startar automatiskt när macOS tillåter det.",
+      "pictureLabel": "Systeminställningar, Privatliv & säkerhet, Accessibility: raden med Wispr Bro med switchen på",
+      "pictureTitle": "Tillgänglighet",
+      "pictureBack": "Privatliv & säkerhet",
+      "stepsTitle": "Återaktivera det",
+      "step1": "Öppna Systeminställningar › Privatliv & säkerhet › Accessibility.",
+      "step2": "Aktivera Wispr Bro. Om den är på, stäng den av och starta den igen.",
+      "step3": "Kom tillbaka här. Snart fungerar kortkommandot igen utan att starta om.",
+      "resetTitle": "Funkar fortfarande inte?",
+      "resetBody": "Efter ett uppgradering kan macOS behålla en gammal inmatning som inte längre matchar appen. Återställ tar bort Wispr Bro:s inmatning så du kan tillåta den igen.",
+      "resetStep1": "Välj Återställ och bevilja igen.",
+      "resetStep2": "Godkänn Wispr Bro när macOS frågar, eller aktivera den i listan som öppnas.",
+      "resetFailed": "Kunde inte nollställa inmatningen. I listan, välj Wispr Bro och ta bort den med minusknappen, sedan lägg den till igen med plusknappen.",
+      "openSettings": "Öppna tillgänglighetinställningar",
+      "reset": "Återställ och tilldelar igen",
+      "checkAgain": "Kolla igen",
+      "relaunch": "Återstarta för att slutföra",
+      "close": "Stäng",
+      "status": {
+        "healthy": "Din kortkod fungerar.",
+        "lost": "Fungerar inte ännu",
+        "recovering": "Ansluter igen…",
+        "needsRelaunch": "Åtkomst är tillbaka. Starta om Wispr Bro för att slutföra."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Vad vill du försöka först?",
+    "subtitle": "Välj en för att se hur det går. Därefter försök den i din egen app.",
+    "choicesLabel": "Sätt att starta",
+    "choices": {
+      "ai_chat": "Ställ en fråga till en AI-hjälp",
+      "note": "Skriv en anteckning",
+      "message": "Svara på ett meddelande",
+      "email": "Skriv en e-post",
+      "comment": "Posta en kommentar",
+      "document": "Skapa ett dokument",
+      "coding": "Ställa in en kodningstjänst"
+    },
+    "scene": {
+      "label": "Exempel: {{choice}}",
+      "said": "Du säger",
+      "written": "{{appName}} skriver",
+      "pause": "Pausa exemplet",
+      "play": "Spela exemplet"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI-chat",
+        "context": "Vad kan jag hjälpa till med?",
+        "said": "um så kan du förklara hur kompoundintresset fungerar som om jag är ny här",
+        "text": "Kan du förklara hur kompoundintresset fungerar, som om jag är ny till det?"
+      },
+      "note": {
+        "app": "Noteringar",
+        "context": "Måndag",
+        "said": "notis till mig ring dentisten och uh ta upp torkningen före sex",
+        "text": "Notis till mig: ring dentisten och hämta torkningen innan sex."
+      },
+      "message": {
+        "app": "Meddelanden",
+        "context": "Är vi fortfarande på lunch?",
+        "said": "ja helt säkert är två trettio okay för dig",
+        "text": "Ja, absolut! Är 12:30 ok för dig?"
+      },
+      "email": {
+        "app": "E-post",
+        "context": "Till: Priya · Ämne: Torsdag",
+        "said": "hej Priya tack för noterna jag skickar färdigversionen på torsdagsmorgon",
+        "text": "Hej Priya, tack för noterna. Jag skickar färdigversionen på torsdagsmorgonen."
+      },
+      "comment": {
+        "app": "Samhälls",
+        "context": "Vårt nya kontor öppnas nästa vecka!",
+        "said": "grattis till hela teamet detta ser fantastiskt ut",
+        "text": "Grattis till hela teamet, det ser fantastiskt ut!"
+      },
+      "document": {
+        "app": "Dokument",
+        "context": "Projektplan",
+        "said": "målet med denna fas är att skicka beta till femtio tester innan slutet av månaden",
+        "text": "Målet med denna fas är att skicka beta till femtio tester innan slutet av månaden."
+      },
+      "coding": {
+        "app": "Kodredigerare",
+        "context": "Ställ frågan till agenten",
+        "said": "loggningsknappen fungerar inte på mobil kan du hitta ut varför och fixa det",
+        "text": "Logg-in-knappen fungerar inte på mobil. Kan du hitta ut varför och fixa det?"
+      }
+    },
+    "tryNow": "Försök nu",
+    "later": "Måhända senare",
+    "close": "Stäng",
+    "noBar": "Dictationsfältet kör inte, så finns inget hint att visa. Du kan fortfarande prova: öppna appen och håll din snabbkommando.",
+    "banner": {
+      "title": "Använd det i dina egna appar",
+      "body": "{{hint}}. {{how}}",
+      "again": "Visa tipset igen",
+      "stop": "Dölj tipset",
+      "other": "Prova något annat",
+      "active": "Tipsen är på skermen. Tryck Esc för att stänga den."
+    }
+  },
+  "checklist": {
+    "title": "Börja",
+    "label": "Uppsettningsskärm",
+    "progress": "{{done}} av {{total}} klara",
+    "hide": "Dölj listan",
+    "done": "Färdig",
+    "next": "Nästa",
+    "allDone": "Allt färdigt. Du känner till grunderna.",
+    "items": {
+      "try_in_app": {
+        "title": "Prova det i en annan app",
+        "action": "Visa mig"
+      },
+      "add_word": {
+        "title": "Lägg till ett ord",
+        "action": "Lägg till ett ord",
+        "coachTitle": "Lägg till din första ord",
+        "coachBody": "Namn, produkttermer och specialterminologi som du brukar säga. De kommer ut skrivna enligt hur du skriver dem."
+      },
+      "create_snippet": {
+        "title": "Skapa en snippet",
+        "action": "Ny snippet",
+        "coachTitle": "Skapa din första snippet",
+        "coachBody": "Säg en kort mening och få en längre text: din adress, en länk, en avslutning."
+      },
+      "launch_at_login": {
+        "title": "Öppna vid inloggning",
+        "action": "Återaktivera",
+        "body": "{{appName}} startar med din Mac, så fungerar din kortkod alltid."
+      }
+    },
+    "coach": {
+      "close": "Stäng",
+      "done": "Förstått"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Välj om Wispr Bro ska följa systemets tema eller förbli ljust eller mörkt"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

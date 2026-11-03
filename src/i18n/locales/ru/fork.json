@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Панель отладки для Fork",
+    "description": "Внутренние проверки для слоя Wispr Bro. Показываются только в версиях с отладкой или при запуске приложения с параметром --debug.",
+    "close": "Закрыть",
+    "runAgain": "Запустить снова",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Состояние модели",
+      "notReady": "Еще не готов: приложение еще не завершило запуск."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Последний событие пинга",
+      "none": "Еще не получено ни одного события."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "Ожидание…",
+    "error": "Ошибка: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
-      "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "title": "Политика безопасности содержимого",
+      "description": "Прослушивает аудиофайл через протокол ассетов, загружает данные: и изображения blob:, вызывает команду fork и проверяет, что запрещённое изображение заблокировано.",
+      "run": "Запустить проверку CSP",
+      "running": "Запускается…",
+      "pass": "Пройдено: отсутствуют неожиданные нарушения CSP.",
+      "fail": "Ошибка: см. проверки ниже.",
+      "ok": "ок ({{detail}})",
+      "failed": "не удалось ({{detail}})",
+      "noViolations": "Ни одной ошибки CSP не зафиксировано.",
+      "violations_one": "{{count}} нарушение CSP зафиксировано.",
+      "violations_other": "Записано {{count}} нарушений CSP.",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "media": "Звук (протокол ассета)",
+        "dataImage": "data: изображение",
+        "blobImage": "blob: изображение",
+        "forkCommand": "Команда форка",
+        "probe": "Заблокированный источник"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "Отправка через {{seconds}} с. Переключитесь на другое приложение, чтобы увидеть уведомление macOS."
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "Обновления",
+      "version": "Версия",
+      "channel": "Канал",
+      "key": "Ключ подписи",
+      "endpoints": "«Источники»",
+      "checksOff": "Проверка обновлений отключена (Настройки › Расширенные, или выключатель установлен)",
+      "check": "Проверить сейчас",
+      "checking": "Проверка...",
+      "install": "Установить {{version}} и перезапустить",
+      "installing": "Скачивание и проверка…",
+      "installed": "Версия {{version}} установлена. Запуск перезагрузки...",
+      "available": "Доступна версия {{version}}.",
+      "upToDate": "До последнего.",
+      "failed": "Не удалось проверить: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Настройки форка",
+      "loading": "Загрузка настроек…",
+      "loadError": "Невозможно прочитать настройки: {{message}}",
+      "setError": "Изменение не было сохранено: {{message}}",
+      "contextAwareness": "Сознание контекста",
+      "contextAwarenessHint": "Использует названия в тексте рядом с вашей курсором, чтобы правильно их написать. Этот текст остаётся на этом Mac и никогда не сохраняется.",
       "transforms": "Преобразования",
       "transformsHint": "⌥1 улучшает выбраный текст и ⌥2 превращает его в более чёткий запрос AI. Включено, эти клавиши заменяют ¡ и ™.",
       "transformsSafeShortcuts": "Использовать ⌃⌥1 и ⌃⌥2 вместо",
       "transformsSafeShortcutsHint": "Оставляет ¡ и ™ доступными с ⌥1 и ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Уровень очистки",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "Ни одного",
+        "light": "Мягкий",
+        "medium": "Средний"
       },
-      "all": "All settings"
+      "all": "Все настройки"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Общее",
       "system": "Система",
-      "vibe": "Vibe coding",
+      "vibe": "Кодирование в настроении",
       "privacy": "Данные и конфиденциальность",
       "advanced": "Расширенные",
       "about": "О программе",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Открыть Строку в",
       "scratchpadHint": "Выберите, где откроется панель для заметок при использовании ее сочетания клавиш.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Продолжить мой предыдущий заметку",
+        "new_note": "Начать новую заметку"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro может читать названия кодов и имен файлов, которые показывает VS Code, Cursor и Windsurf на экране, через Accessibility. Он никогда не открывает папку с проектом или ваши файлы.",
+      "contextOff": "Режим контекста выключен, поэтому эти функции не могут ничего читать. Включите его, чтобы использовать их.",
+      "recognize": "Признать названия кодов",
+      "recognizeHint": "Когда вы называете переменную или функцию, которая видна в вашем редакторе, она будет написана так, как вы её вводите, например, getUserById или user_id.",
+      "setUp": "Настройка",
+      "change": "Изменить редакторы",
+      "setUpFor": "Настройка для {{editors}}",
+      "fileTags": "Помечать файлы в чате",
+      "fileTagsHint": "В диалоге Cursor или Windsurf, говоря \"index dot ts\", будет написан @index.ts, когда этот файл открыт в вкладке или отображается в списке файлов.",
+      "fileTagsNeedsChat": "Доступно после добавления Cursor или Windsurf в ваши редакторы.",
+      "fileTagsNeedsSetup": "Доступно после настройки распознавания названий кодов.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Настройте распознавание кодового названия",
+        "stepEditors": "1. Выберите редакторы, которые вы используете",
+        "stepScreenReader": "2. Включите режим чтения экрана в каждом из них, чтобы они передавали текст Wispr Bro",
+        "openSettings": "Откройте настройки редактора с ⌘ запятой.",
+        "search": "Искать \"поддержку доступности\".",
+        "setOn": "Установить редактор: Поддержка доступности в \"включено\".",
+        "palette": "Вы также можете выполнить \"Переключить режим доступности для экранного читателя\" из панели команд (⇧⌘P).",
+        "confirm": "Я включил режим чтения экрана в этих редакторах",
+        "cancel": "Отмена",
+        "finish": "Завершить настройку"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Приватность с самого начала",
+        "local": "Ваша диктовка и данные остаются на этом Mac.",
+        "noCloud": "Распознавание речи, очистка и история работают локально. Нет аккаунта, телеметрии, облачного диктования или облачной очистки.",
+        "networkIntro": "Wispr Bro использует сеть только для этих двух вещей:",
+        "models": "Скачивайте модели распознавания речи и очистки с Hugging Face (huggingface.co).",
+        "updates": "Когда проверка обновлений включена, ищите обновления приложения на GitHub (github.com)."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Где хранится ваша информация",
+        "hint": "Эти папки принадлежат Wispr Bro. Портативные установки сохраняют все их в папке Data приложения.",
+        "data": "Данные и настройки приложения",
+        "models": "Модели, загруженные",
+        "recordings": "Записи",
+        "logs": "Журналы и отчёты о сбоях",
+        "show": "Показывать в Finder",
+        "loading": "Поиск местоположения...",
+        "failed": "Невозможно открыть эту папку. Попробуйте снова."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Сколько времени хранить историю",
+        "textLabel": "Сохранять текст, который был записан",
+        "textHint": "Старые записи удаляются автоматически. Текст по умолчанию сохраняется вечно.",
+        "audioLabel": "Сохранять записи",
+        "audioHint": "Звук исчезает через 14 дней по умолчанию. Удаление аудио сохраняет текст, который был записан, до достижения лимита текста.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Никогда не сохранять звук",
+          "1": "1 день",
+          "7": "7 дней",
+          "14": "14 дней",
+          "30": "30 дней",
+          "90": "90 дней",
+          "365": "1 год",
+          "forever": "Вечно"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Выборы конфиденциальности",
+        "context": "Использовать осознание контекста",
+        "contextHint": "Читайте только близкий текст при диктовке, чтобы распознать имена и орфографию. Контекст не сохраняется и не логируется.",
+        "updates": "Проверять обновления приложения",
+        "updatesHint": "Свяжитесь с GitHub, чтобы проверить наличие новой версии. Никакой диктовки или персональных данных не отправляется.",
+        "learn": "Учиться из моих исправлений",
+        "learnHint": "После вставки заметки, отмечайте слова, которые вы исправляете, и предлагайте их в словаре. Сохраняется только исправленное слово; остальной текст никогда не сохраняется или логируется."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Ваши данные",
+        "hint": "Экспорт архива с историей, настройками и записями. Модели и логи не включаются.",
+        "button": "Экспорт моих данных",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Архив ZIP",
+        "done": "Экспорт сохранён и отображён в Finder.",
+        "failed": "Не удалось экспортировать ваши данные. Ничего не было удалено."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Удалить все мои данные",
+        "title": "Удалить все ваши данные?",
+        "warning": "Это полностью удалит историю, записи, настройки, журналы и отчёты о сбоях. Это нельзя отменить.",
+        "relaunch": "Wispr Bro остановит работу, удалит данные и перезапустится в процессе настройки.",
+        "models": "Также удалить загруженные модели",
+        "modelsHint": "Оставьте это выключенным, чтобы избежать повторного загрузки моделей распознавания речи и очистки.",
+        "confirmLabel": "Введите {{word}} для подтверждения",
+        "cancel": "Отмена",
+        "confirm": "Удалить всё",
+        "failed": "Удаление всех не завершилось. Проверьте оставшиеся данные перед попыткой снова."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Отчеты о сбоях и диагностика",
+        "hint": "Отчеты о сбоях остаются на этом Mac и никогда не загружаются. Копируйте или сохраняйте диагностику только тогда, когда хотите их делиться.",
+        "sanitized": "Диагностические данные удаляют текст, введённый с помощью диктовки, запросы, слова словаря, адреса электронной почты, клавиши и путь к папке домашнего каталога.",
+        "copy": "Скопировать диагностику",
+        "save": "Сохранить диагностику…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Диагностические данные очищены и скопированы.",
+        "saved": "Диагностические данные обработаны и сохранены.",
+        "failed": "Не удалось подготовить диагностику. Попробуйте снова."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Версия {{version}}",
       "source": "Посмотреть исходный код",
       "updates": "Заметки по обновлению",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Обновления",
+      "license": "Бесплатное программное обеспечение под лицензией GNU General Public License, версия 3 (GPL-3.0).",
+      "licenseLink": "Посмотреть лицензию",
+      "credit": "Разработан на Handy от CJ Pais, используется под лицензией MIT. Благодарим всех, кто работает над ним.",
+      "creditLink": "Handy на GitHub",
+      "supportTitle": "Поддержка развития",
+      "supportBody": "{{appName}} не имеет платного плана. Лучшая поддержка — это отчёт об ошибке, идея или вклад на GitHub."
     },
     "hotkeys": {
       "open": "Быстрые клавиши",
@@ -412,7 +412,7 @@
           "view_changes": "Просмотр изменений преобразования"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Открыть панель"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Посмотрите последние изменения преобразования до и после."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Продолжите предыдущую заметку или начните новую, в зависимости от настроек Scratchpad."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Основное"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Свернуть панель",
+      "expand": "Расширить панель"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Переключиться на темный вид",
+      "toLight": "Переключиться на светлый вид"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Уведомления",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Нет ничего нового",
+        "body": "Обновления и советы появятся здесь."
       },
       "bellUnread_one": "Уведомления, {{count}} непрочитанных",
       "bellUnread_other": "Уведомления, {{count}} непрочитанных",
@@ -485,65 +485,65 @@
       "justNow": "Ровно сейчас"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "Помощь",
+      "updates": "Обновления",
+      "whatsNew": "Что нового",
+      "essentials": "Основы",
+      "shortcuts": "Быстрые ссылки",
+      "microphone": "Микрофон",
+      "languages": "Языки",
+      "documentation": "Документация",
+      "getInTouch": "Свяжитесь",
+      "reportProblem": "Отправить жалобу на проблему…",
+      "sendFeedback": "Отправить обратную связь",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Отправить жалобу",
+        "body": "Это открывает новую проблему на GitHub в вашем браузере, с указанием версии вашего приложения и модели Mac. В ней никогда не содержатся данные, которые вы произнесли, и вы можете прочитать и изменить всё до отправки.",
+        "diagnosticsTitle": "Диагностика (опционально)",
+        "diagnosticsBody": "Очищенные журналы помогают определить причину. В них никогда не содержатся ваши записанные речи. Скопируйте их сюда, затем вставьте в проблему.",
+        "copy": "Скопировать диагностику",
+        "copied": "Диагностические данные скопированы. Вставьте их в проблему.",
+        "copyFailed": "Не удалось скопировать диагностику.",
+        "open": "Открыть GitHub",
+        "cancel": "Отмена",
+        "close": "Закрыть"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Разделы настроек"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "Диктовка",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Говорите, а не пишите",
+          "body": "Удерживайте fn в любом приложении, скажите, что хотите написать, и отпустите. {{appName}} помещает чистый текст на место курсора.",
+          "examplesLabel": "Что попробовать",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Быстрый ответ на сообщение",
+            "notes": "Заметки сразу после звонка",
+            "prompt": "Длинный запрос для чата с ИИ"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Ваши диктовки будут отображаться здесь",
+          "body": "Каждый из них сохраняется на этом Mac вместе с аудио, поэтому вы можете скопировать или проверить его позже.",
+          "action": "Открыть историю"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Выводы",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Инсайты требуют несколько диктовок",
+          "body": "Скорость вашей речи, серии и время, которое вы экономите, появляются после того, как вы будете говорить некоторое время.",
+          "action": "Перейти к Диктовке"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Словарь",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "Фрагменты",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Фрагменты скоро будут доступны",
+          "body": "Напишите короткую подсказку, например, \"мой адрес\", и получите полный текст. Эта страница появится в следующем обновлении.",
+          "action": "Перейти к Диктовке"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Стиль",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Стили скоро будут доступны",
+          "body": "Выберите, насколько выверенно будет выглядеть ваш текст в каждом типе приложения, от официального письма до расслабленного диалога. Эта страница появится в следующем обновлении.",
+          "action": "Перейти к Диктовке"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Преобразования",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Преобразования скоро будут доступны",
+          "body": "Выберите текст и перепишите его одним сочетанием клавиш: короче, яснее или лучше организовано. Эта страница появится в следующем обновлении.",
+          "action": "Перейти к Диктовке"
         }
       },
       "scratchpad": {
-        "title": "Scratchpad",
+        "title": "Скретчпад",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Скретчпад скоро будет",
+          "body": "Быстрое место для записи заметок до того, как они пойдут куда-то ещё. Эта страница появится в следующем обновлении.",
+          "action": "Перейти к Диктовке"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Поделиться с другом"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Настройки"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Покажи мне"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Проверка обновлений выключена",
+      "turnOn": "Включить",
+      "notChecked": "Еще не проверялось",
+      "check": "Проверить обновления",
+      "checking": "Проверка обновлений…",
+      "upToDate": "Обновление до последней версии",
+      "checkAgain": "Проверить снова",
+      "checkFailed": "Не удалось проверить",
+      "retry": "Повторить",
+      "downloading": "Скачивание {{version}}…",
+      "ready": "Обновление готово",
+      "restartNow": "Перезапустить сейчас",
+      "installing": "Установка {{version}}…",
+      "installedWaiting": "Установлено {{version}} · после этой дикции произойдёт перезагрузка",
+      "restarting": "Перезапуск...",
+      "installFailed": "Обновление не установлено",
+      "busy": "Завершите запись сначала.",
+      "actionFailed": "Это не сработало. Попробуйте позже.",
+      "lastChecked": "Последний проверка {{time}}.",
+      "paused": "После трех неудачных попыток автоматические обновления приостановлены до {{time}}.",
+      "manualOnly": "Это тестовая версия: обновления проверяются только при запросе.",
+      "readyHint": "Устанавливается автоматически, как только вы не говорите 20 минут, или когда закрываете приложение.",
+      "policy": "Обновления загружаются в фоне и устанавливаются только тогда, когда вы не используете диктовку, или при выходе из программы.",
+      "needsPassword": "Этот экземпляр приложения находится в папке, которая требует пароля администратора для изменения, поэтому обновления устанавливаются только тогда, когда вы выберете «Перезапустить сейчас»."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
-      "beta": "Beta"
+      "new": "Новое!",
+      "beta": "Бета"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Отменить"
     },
     "importWizard": {
       "stepsLabel": "Экспорт шагов",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
-      "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "dictation": "Диктовка",
+      "vocabulary": "Словарь",
+      "help": "Помощь",
+      "file": "Файл",
+      "edit": "Редактировать",
+      "view": "Просмотр",
+      "window": "Окно",
+      "wordsDictated_one": "Одно слово было произнесено {{count}}",
+      "wordsDictated_other": "{{count}} слов произнесено",
+      "copyLast": "Скопировать последний транскрипт",
+      "copyLastPreview": "Скопировать последний транскрипт: \"{{preview}}\"",
+      "copyLastConcealed": "Скопировать последний текст (скрытый текст)",
+      "microphone": "Микрофон",
+      "languages": "Языки",
+      "moreLanguages": "Добавить или удалить языки…",
+      "automaticMicrophone": "Автоматическое обнаружение (настройка системы)",
+      "noMicrophones": "Микрофонов не найдено",
+      "dictionaryWords_one": "{{count}} слово в словаре",
+      "dictionaryWords_other": "{{count}} слов в словаре",
+      "snippetCount_one": "{{count}} фрагмента",
+      "snippetCount_other": "{{count}} фрагментов",
+      "addWord": "Добавить слово…",
+      "newSnippet": "Новый фрагмент…",
+      "documentation": "Документация",
+      "shortcuts": "Быстрые клавиши",
+      "reportProblem": "Отправить жалобу на проблему…",
+      "sendFeedback": "Отправить обратную связь…",
+      "openApp": "Открыть {{appName}}",
+      "checkUpdates": "Проверить наличие обновлений…",
+      "pasteLast": "Вставить последний транскрипт",
+      "cancelDictation": "Отменить диктовку",
+      "shortcutsBlocked": "Краткие команды заблокированы — открыть Настройки",
+      "undo": "Отменить",
+      "redo": "Повторить",
+      "cut": "Вырезать",
+      "copy": "Скопировать",
+      "paste": "Вставить",
+      "selectAll": "Выделить всё",
+      "minimize": "Сократить",
+      "zoom": "Увеличение",
+      "closeWindow": "Закрыть окно",
+      "fullScreen": "Войти в полноэкранный режим",
+      "services": "Услуги",
+      "hideOthers": "Скрыть другие",
+      "showAll": "Показать всё",
+      "about": "О {{appName}}",
+      "hide": "Скрыть {{appName}}",
+      "quitApp": "Выйти из {{appName}}",
+      "restartToUpdate": "Перезапустите, чтобы обновиться до {{version}}",
+      "updatesOff": "Проверка обновлений выключена…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Скорость работы остановилась"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -734,22 +734,22 @@
     "hotkeys": {
       "keys": {
         "fn": "fn",
-        "control": "Control",
-        "option": "Option",
+        "control": "Контроль",
+        "option": "Опция",
         "shift": "Shift",
-        "command": "Command",
-        "space": "Space",
+        "command": "Команда",
+        "space": "Пробел",
         "escape": "Escape",
-        "return": "Return",
+        "return": "Вернуть",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
+        "delete": "Удалить",
+        "forwardDelete": "Передняя удаление",
+        "left": "Стрелка влево",
+        "right": "Стрелка вправо",
+        "up": "Вверх",
+        "down": "Вниз",
+        "home": "Дом",
+        "end": "Конец",
         "pageUp": "Page Up",
         "pageDown": "Page Down",
         "mouseLeft": "Левая кнопка мыши",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "Перевод",
+          "tooltip": "Держите fn, чтобы говорить"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Микрофон отключился. То, что вы сказали, сохранено.",
         "undo": "Кнопка «Отменить» видна на панели диктовки 4 секунды.",
         "diff": "Изменения преобразования готовы к проверке.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Безопасный ввод включен. fn и Пробел не могут блокировать диктовку. Escape или кнопка закрытия всё ещё отменяют."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Выберите 6 000 символов или меньше",
         "transform_focus_moved": "Вы перешли к следующему, поэтому ничего не изменилось",
         "transform_failed": "Не удалось преобразовать этот текст",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Ваша комбинация клавиш перестала работать",
+        "shortcut_stopped": "Ваша комбинация клавиш перестала отвечать",
+        "shortcut_back": "Ваше сочетание клавиш работает снова"
       },
       "card": {
         "no_text_field": "Сначала нажмите в текстовое поле",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} — бесплатная диктовка, которая работает полностью на вашем Mac. Скачайте здесь:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Следующий шаг",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Открой чат с ИИ, как ChatGPT или Claude",
+        "note": "Откройте приложение \"Заметки\"",
+        "message": "Открой чат, как Messages или Slack",
+        "email": "Откройте вашу электронную почту",
+        "comment": "Откройте пост, на который вы хотите оставить комментарий",
+        "document": "Открой документ, в котором ты пишешь",
+        "coding": "Открой Cursor, VS Code или другой редактор кода"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Нажмите мышью там, где хотите начать писать, затем удерживайте клавишу fn и говорите.",
+      "howFallback": "Нажмите, где хотите начать писать, затем удерживайте Control и Option и говорите.",
+      "escape": "Нажмите Esc, чтобы закрыть это предупреждение."
     }
   },
   "speechModels": {
     "title": "Модели речи",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} выбирает модель речи для ваших языков и этого Mac, и заменяет её на лучшую, когда это возможно. Вам никогда не нужно выбирать.",
     "loading": "Проверка моделей речи…",
     "current": "Текущий: {{name}}",
     "none": "Еще нет модели речи",
@@ -1087,7 +1087,7 @@
       "edit": "Редактировать {{entry}}",
       "delete": "Удалить {{entry}}",
       "accept": "Добавить {{entry}} в ваш словарь",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Не учитывать {{entry}}"
     },
     "source": {
       "import": "Импортировано",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Еще нет предложений",
       "body": "Когда {{appName}} сможет учиться на словах, которые вы исправляете, они появятся здесь, чтобы вы подтвердили их.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Исправьте имя или термин, который был неправильно написан, в поле после того, как произнесли, затем нажмите ВВОД, ТАБ или перейдите к следующему. Слово, которое вы исправили, отображается здесь для подтверждения."
     },
     "noMatch": {
       "title": "Ничего не соответствует",
@@ -1191,7 +1191,7 @@
         "replaced_other": "{{count}} заменено версией файла",
         "skipped_one": "{{count}} уже есть, пропущено",
         "skipped_other": "{{count}} уже есть, пропущено",
-        "kept_one": "{{count}} conflict kept as it was",
+        "kept_one": "{{count}} конфликт оставлен как был",
         "kept_other": "{{count}} конфликтов сохранены как они были",
         "invalid_one": "{{count}} строку нельзя импортировать",
         "invalid_other": "Не удалось импортировать {{count}} строк",
@@ -1206,11 +1206,11 @@
       "done_other": "Экспорт {{count}} записей.",
       "failed": "Словарь не может быть экспортирован. Пожалуйста, попробуйте снова."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "«{{entry}}» больше не будет предложено.",
+    "actionFailed": "Это не сработало. Пожалуйста, попробуйте снова.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Учиться из моих исправлений",
+      "hint": "В течение 30 секунд после того, как была вставлена диктовка, {{appName}} замечает слова, которые вы исправляете в этом поле, и предлагает их здесь. Сохраняется только слово, которое вы исправили, а не весь текст. Пароли, менеджеры паролей, банковские приложения и терминалы никогда не читаются."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Близкий текст помог с правописанием",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Микрофон потерялся, сохраняю то, что ты сказал",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Безопасный ввод включен · fn+Space не может заблокировать · Esc или ✕ отменяет",
+      "secure_input_app": "{{app}} имеет безопасный ввод · fn+Space не может заблокировать · Esc или ✕ отменяет"
     },
     "settingUp": "Настройка…",
     "settingUpPercent": "Настройка… {{percent}}%",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Посмотреть изменения",
     "sendsAutomatically": "Отправляется автоматически",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Доступ кAccessibility отключен",
+      "stopped": "Слушатель клавиатуры остановлен"
     }
   },
   "transforms": {
@@ -1563,7 +1563,7 @@
         "replaced_other": "{{count}} заменено на текст файла",
         "skipped_one": "{{count}} уже есть, пропущено",
         "skipped_other": "{{count}} уже есть, пропущено",
-        "kept_one": "{{count}} conflict kept as it was",
+        "kept_one": "{{count}} конфликт оставлен как был",
         "kept_other": "{{count}} конфликтов сохранены как они были",
         "invalid_one": "{{count}} строку нельзя импортировать",
         "invalid_other": "Не удалось импортировать {{count}} строк",
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Новая заметка",
+    "preferences": "Предпочтения панели для заметок",
+    "addToBar": "Добавить в панель",
+    "addToBarHelp": "Сохраняйте кнопку Scratchpad рядом с Dictate на панели острова.",
+    "recents": "Последние",
+    "searchLabel": "Искать заметки",
+    "searchPlaceholder": "Ищите свои заметки",
+    "loading": "Загрузка заметок…",
+    "empty": "Еще нет заметок",
+    "emptyHelp": "Начните заметку, затем введите или произнесите в ее плавающем окне.",
+    "emptyNote": "Пустая заметка",
+    "noResults": "Заметок, соответствующих вашему поиску, не найдено.",
+    "untitled": "Заметка без названия",
+    "pinned": "Фиксировано",
+    "pin": "Фиксировать заметку",
+    "unpin": "Разфиксировать заметку",
+    "editAction": "Редактировать заметку",
+    "edit": "Редактировать {{name}}",
+    "delete": "Удалить заметку",
+    "deleteConfirm": "Удалить \"{{name}}\"? Это нельзя отменить.",
+    "error": "Невозможно выполнить данное действие с подложкой. Ваш текст остается здесь; попробуйте снова.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "Открыть ярлык",
+      "change": "Установить сочетание клавиш",
+      "title": "Скорость доступа к бланку",
+      "help": "Откройте Scratchpad из любой точки. Он запускается без настроек, поэтому не перехватывает клавиши до тех пор, пока вы не выберете одну.",
+      "close": "Сокращение для закрытия диалога",
+      "proposed": "Предложенная комбинация",
+      "ctrlOptionS": "Контроль + Альт + С",
+      "use": "Использовать Control + Option + S",
+      "chooseAnother": "Выберите другой сочетание клавиш",
+      "error": "Короткое сочетание не может быть сохранено. Попробуйте другое сочетание."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "Открыть заметки",
+    "tools": "Примечания инструменты",
+    "sidebar": "Показать список заметок",
+    "polish": "Полish note",
+    "polishing": "Улучшение...",
+    "textSize": "Изменить размер текста (текущий размер {{size}} пунктов)",
+    "expand": "Расширить окно заметки",
+    "shrink": "Восстановить размер окна заметки",
+    "close": "Закрыть панель",
+    "noteBody": "Текст заметки",
+    "notePlaceholder": "Запишите или произнесите заметку…",
+    "saved": "Сохранено",
+    "saving": "Сохранение…",
+    "saveError": "Еще не сохранено",
+    "autosaveHelp": "Сохраняет автоматически",
+    "copy": "Скопировать",
+    "copied": "Скопировано"
   },
   "style": {
     "tabsLabel": "Группы стилей",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Подготовка вещей…",
+    "back": "Назад",
+    "continue": "Продолжить",
+    "yes": "Да",
+    "no": "Нет",
+    "downloadHint": "Настройка речи продолжается в фоне. Вам никогда не нужно ждать здесь.",
+    "navigationFailed": "Этот шаг не может быть сохранён. Попробуйте снова.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Прогресс настройки",
+      "welcome": "Добро пожаловать",
+      "permissions": "Разрешения",
+      "setup": "Настройка",
+      "practice": "Практика",
+      "done": "(закончено)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Помощь",
+      "title": "Помощь при настройке",
+      "close": "Закрыть помощь",
+      "done": "Понятно",
+      "body": "Каждый шаг занимает несколько секунд. В любой момент вы можете вернуться назад, и если вы отмените процесс, настройка возобновится с той же точки.",
+      "download": "Wispr Bro настраивает распознавание речи на этом Mac, пока вы проходите эти шаги. Все, что вы будете говорить до готовности системы, будет сохранено и введено после её готовности."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Говори, и твои слова появятся",
+      "subtitle": "Удерживайте одну клавишу, говорите, отпустите. Чистый текст появляется там, где вы пишете.",
+      "privacyTitle": "Всё остается на этом Mac",
+      "privacy": "Ваш голос и текст никогда не выходят за пределы этого компьютера. Нет аккаунта, нет облака, нет отслеживания.",
+      "download": "Настройка речи начинается сейчас и работает в фоне.",
+      "start": "Начать"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Переместите Wispr Bro в Приложения",
+      "body": "Wispr Bro работает извне папки \"Программы\". Перемещение его туда обеспечит работу обновлений и разрешений.",
+      "note": "Wispr Bro сам открывается после перемещения и продолжает настройку.",
+      "action": "Переместить в Приложения",
+      "moving": "Перемещение...",
+      "skip": "Не сейчас",
+      "error": "Wispr Bro не может переместиться. Перетащите его в Applications в Finder, затем откройте снова."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Какие языки вы говорите?",
+      "subtitle": "Выберите все языки, на которых вы будете говорить. Wispr Bro лучше упорядочивает ваши слова, когда знает их.",
+      "listLabel": "Языки",
+      "noMatch": "Языка не соответствует “{{query}}”.",
+      "count_one": "Диктовка работает на языке {{count}}. Вы можете изменить его позже в Настройках.",
+      "count_other": "Диктовка работает на {{count}} языках. Вы можете изменить свой язык позже в Настройках.",
+      "weak_one": "Признание менее точное в {{languages}}. Оно всё ещё работает, но ожидайте больше ошибок.",
+      "weak_other": "Признание менее точное в {{languages}}. Они всё ещё работают, но ожидайте большего количества ошибок."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Два разрешения",
+      "subtitle": "macOS просит вас разрешить это один раз. Каждая строка отмечается сразу, как только она активна.",
+      "allowed": "Разрешено",
+      "waiting": "Ожидание macOS…",
+      "openSettings": "Открыть системные настройки",
+      "prompt": "Запрос macOS",
+      "pane": "В настройках системы",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "Микрофон",
+        "why": "Так Wispr Bro сможет слышать вас, когда вы держите кнопку. Звук обрабатывается только на этом Mac.",
+        "action": "Дать доступ к микрофону",
+        "promptAlt": "Картинка запроса на разрешение микрофона macOS, с выделенным кнопкой «Разрешить»",
+        "paneAlt": "Картинка настроек системы, конфиденциальность и безопасность, микрофон, переключатель для Wispr Bro включен",
+        "waitingHelp": "Нажмите «Разрешить» в запросе macOS. Если его нет, откройте «Настройки системы» и включите Wispr Bro в разделе «Микрофон»."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Доступность",
+        "why": "Так Wispr Bro может заметить вашу команду и ввести текст в приложение, которое вы используете.",
+        "action": "Разрешить доступность",
+        "promptAlt": "Изображение запроса доступа кAccessibility в macOS, с выделенным кнопкой \"Открыть настройки системы\"",
+        "paneAlt": "Изображение настроек системы, конфиденциальности и безопасности, доступность, с переключателем для Wispr Bro, включенным",
+        "waitingHelp": "В настройках системы включите переключатель рядом с Wispr Bro. Возможно, вам нужно разблокировать аккаунт паролем."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Проверьте микрофон",
+      "guidance": "Подключенные и встроенные микрофоны работают лучше всего. Наушники Bluetooth могут потерять связь или звучать нечетко.",
+      "question": "При говорении движутся полоски?",
+      "noHelp": "Выберите другой микрофон ниже, затем говорите снова.",
+      "change": "Изменить микрофон",
+      "previewList": "Ваше микрофоны появляются здесь."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Проверьте свою команду",
+      "instruction": "Нажмите и удерживайте клавишу fn (🌐) на вашей клавиатуре. Клавиша ниже будет светиться, пока вы её удерживаете.",
+      "fallbackInstruction": "Нажмите и удерживайте клавиши Control и Option одновременно. Клавиши ниже будут светиться, пока вы их держите.",
+      "unboundInstruction": "Нет заданного сочетания клавиш для диктовки. Используйте Редактирование сочетания клавиш, чтобы выбрать одно.",
+      "keyLabel": "Клавиша fn",
+      "fallbackKeyLabel": "Контроль и Альтернатива",
+      "pressed": "Клавиша удерживается",
+      "notPressed": "Ожидание клавиши…",
+      "worked": "Работает. Яркость кнопки включилась.",
+      "question": "Погасла ли клавиша?",
+      "edit": "Редактировать сочетание клавиш",
+      "tryAgain": "Попробуйте снова",
+      "otherCauses": "Не это? Другие возможные причины:",
+      "changeFailed": "Это изменение не было применено. Попробуйте снова или используйте Настройки системы.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro не видит нажатия клавиш",
+          "title": "Wispr Bro пока не может видеть нажатия клавиш",
+          "body": "Это обычно означает, что доступность не включена для Wispr Bro. Включите её в настройках системы, затем вернитесь и нажмите «Попробовать снова».",
+          "action": "Открыть настройки доступности"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Поле пароля или другое приложение блокирует клавиши",
+          "title": "В другом приложении заблокированы нажатия клавиш",
+          "body": "При фокусе на поле ввода пароля или некоторых приложениях (управление паролями, безопасный ввод в терминале) macOS скрывает ввод символов от всех остальных приложений. Закройте или кликните вне этого поля, затем попробуйте снова.",
+          "active": "Сейчас другое приложение блокирует ввод ключей.",
+          "inactive": "Сейчас ничего не мешает вводу символов."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "Клавиша 🌐 открывает смайлы или переключает клавиатуру",
+          "title": "macOS присваивает клавише 🌐 свою собственную задачу",
+          "body": "Ваш Mac открывает смайлы, переключает источник ввода или запускает Apple dictation, когда вы нажимаете 🌐. Wispr Bro может установить «Нажать клавишу 🌐 для» на «Ничего не делать». Ваш выбор будет отменён, если вы перестанете использовать fn для dictation.",
+          "consent": "Установить 🌐 как «Не делать ничего»",
+          "changed": "🌐 теперь не делает ничего самостоятельно",
+          "open": "Открыть настройки клавиатуры"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "На моей клавиатуре нет клавиши fn",
+          "title": "Используйте Control и Option вместо этого",
+          "body": "Некоторые клавиатуры не имеют клавиши fn или 🌐. Удерживайте одновременно Control и Option, чтобы вводить текст. Вы можете изменить это в любое время в Настройках.",
+          "action": "Используйте Control + Option",
+          "changed": "Контроль + Альтернатива — ваше сочетание"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Практика: напишите письмо без рук",
+      "instruction": "Нажмите fn и Пробел одновременно, затем начните говорить. Вам не нужно держать ничего. Нажмите fn снова, когда закончите. Попробуйте: «Привет, Сэм, спасибо за заметки. Можем ли мы встретиться в четверг в десять?»",
+      "instructionFallback": "Нажмите одновременно Control, Option и Пробел, затем начните говорить. Вам не нужно держать никакие клавиши. При завершении нажмите снова Control и Option. Попробуйте: «Привет, Сэм, спасибо за заметки. Можем ли мы встретиться в четверг в десять?»",
+      "instructionUnbound": "Нет заданного сочетания клавиш для диктовки, поэтому практика не может начаться. Пропустите её на данный момент и установите сочетание клавиш в Настройках.",
+      "skip": "Пропустить",
+      "waiting": "Ожидание, пока вы начнёте говорить…",
+      "listening": "Слушание… нажмите fn, когда закончите.",
+      "listening_fallback": "Слушание… нажмите Control и Option, когда закончите.",
+      "working": "Пишем это на бумаге…",
+      "settingUp": "Настройка...",
+      "settingUpPercent": "Настройка… {{percent}}%",
+      "queuedNote": "Ваши слова сохранены. Они появятся здесь сразу после завершения настройки, и в любом случае они будут в Истории. Мы перейдём к следующему шагу сами.",
+      "nothing": "Ничего не поступило. Убедитесь, что микрофон включен, и попробуйте снова.",
+      "filled": "Это ваша электронная почта. Добавьте больше, или продолжите.",
       "composer": {
-        "title": "New message",
-        "to": "To",
-        "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "title": "Новое сообщение",
+        "to": "К",
+        "recipient": "Сэм",
+        "subject": "Тема",
+        "subjectText": "Четверг",
+        "body": "Сообщение",
+        "placeholder": "Ваши слова появляются здесь."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "Готово. Вы записали свой первый текст.",
+      "subtitle": "В любом месте, где вы можете вводить текст, теперь можете говорить."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Речевое ввода может сэкономить вам около {{hours}} часа в неделю",
+      "headline_other": "Речевое ввода может сэкономить вам около {{hours}} часов в неделю",
+      "intro": "Говорение быстрее, чем ввод текста, для большинства людей. Пройдите тест на ввод текста в течение 30 секунд, чтобы увидеть, сколько времени вы можете сэкономить.",
+      "howFast": "С какой скоростью вы пишете?",
+      "skipTest": "Пропустить проверку",
+      "basisMeasured": "На основе вашего {{wpm}} слов в минуту при вводе и речи около {{speaking}} слов в минуту.",
+      "basisAverage": "На основе средней скорости ввода {{wpm}} слов в минуту и речи около {{speaking}} слов в минуту.",
+      "sliderLabel": "Сколько времени вы вводите каждый день?",
+      "hoursPerDay_one": "{{hours}} час в день",
+      "hoursPerDay_other": "{{hours}} часов в день",
+      "takeTest": "Пройдите тест на печать"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "С какой скоростью вы пишете?",
+      "instruction": "Введите абзац ниже, как обычно. Часы начинаются с первого нажатия клавиши и работают в течение {{seconds}} секунд.",
+      "skip": "Пропустить",
+      "language": "Язык",
+      "wpmPending": "— слов в минуту",
+      "wpm_one": "{{count}} слово в минуту",
+      "wpm_other": "{{count}} слов в минуту",
+      "secondsLeft_one": "Осталось {{count}} секунды",
+      "secondsLeft_other": "осталось {{count}} секунд",
+      "inputLabel": "Введите абзац здесь",
+      "placeholder": "Начните вводить здесь…",
+      "nothing": "Ничего не совпало с абзацем. Попробуйте снова.",
+      "result_one": "Вы пишете около {{count}} слов в минуту.",
+      "result_other": "Вы пишете около {{count}} слов в минуту.",
+      "tryAgain": "Попробуйте снова",
+      "recalculate": "Пересчитать"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "Вы все готовы",
+      "subtitle": "Здесь описано, как настроить Wispr Bro. Удерживайте сочетание клавиш в любом приложении, чтобы вводить текст.",
+      "languages": "Языки",
+      "shortcut": "Быстрый способ",
+      "shortcutFn": "Удерживайте fn (🌐)",
+      "shortcutFallback": "Удерживайте Control и Option",
+      "microphone": "Микрофон",
+      "micDefault": "Встроенный микрофон Mac",
+      "typing": "Скорость ввода",
+      "typingWpm_one": "{{count}} слов в минуту",
+      "typingWpm_other": "{{count}} слов в минуту",
+      "typingSkipped": "Не измерялось",
+      "notSet": "Не установлено",
+      "launchAtLogin": "Открывать Wispr Bro при входе",
+      "launchAtLoginHint": "Таким образом, диктовка готова каждый раз, когда вам нужно.",
+      "later": "Вы можете изменить всё это позже в Настройках.",
+      "finish": "Начать диктовку"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Что нового в {{version}}",
+    "label": "Сведения о выпуске этой версии",
+    "close": "Закрыть",
+    "done": "Понял"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "Передайте {{appName}}",
+    "body": "{{appName}} — бесплатный и открытый исходный код, работает полностью на Mac. Нет реферальных кодов и ничего не отслеживается: ссылка одинакова для всех.",
+    "downloadLabel": "Ссылка для скачивания",
+    "brewLabel": "Установить с Homebrew",
+    "copyLink": "Скопировать ссылку для скачивания",
+    "copyBrew": "Скопировать команду Homebrew",
+    "copy": "Скопировать",
+    "copied": "Скопировано",
+    "copyFailed": "Не удалось скопировать. Выберите текст и скопируйте его.",
+    "shareTitle": "Отправить кому-то",
+    "shareBody": "Сообщения, Почта, AirDrop и любым другим способом, которым может делиться ваш Mac.",
+    "shareButton": "Поделиться…",
+    "shareFailed": "Не удалось открыть лист с возможностью делиться."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Ваша короткая команда перестала работать. Wispr Bro снова нуждается в доступе кAccessibility.",
+      "stopped": "Ваша короткая команда диктовки перестала отвечать.",
+      "fix": "Исправить"
+    },
+    "sheet": {
+      "title": "Исправьте свой сочетание клавиш",
+      "introPermission": "macOS отключил доступ Wispr Bro к Accessibility, поэтому он не может обнаружить вашу комбинацию клавиш. Это может произойти после обновления или при изменении настройки в System Settings.",
+      "introStopped": "Слушатель клавиатуры Wispr Bro остановлен. Он автоматически запускается как только macOS это позволяет.",
+      "pictureLabel": "Настройки системы, Конфиденциальность и безопасность, Доступность: строка с Wispr Bro, переключатель включен",
+      "pictureTitle": "Доступность",
+      "pictureBack": "Конфиденциальность и безопасность",
+      "stepsTitle": "Включить снова",
+      "step1": "Откройте System Settings › Приватность и безопасность › Доступность.",
+      "step2": "Включите Wispr Bro. Если он уже включен, выключите и снова включите его.",
+      "step3": "Вернитесь сюда. Скорость снова работает через несколько секунд, без перезагрузки.",
+      "resetTitle": "Всё ещё не работает?",
+      "resetBody": "После обновления macOS может сохранять старую запись, которая больше не соответствует приложению. Сброс удаляет запись Wispr Bro, чтобы можно было снова разрешить её.",
+      "resetStep1": "Выберите Сброс и повторно разрешите.",
+      "resetStep2": "Разрешить Wispr Bro, когда macOS спросит, или включить его в списке, который откроется.",
+      "resetFailed": "Не удалось сбросить запись. В списке выберите Wispr Bro и удалите её с помощью кнопки минус, затем добавьте снова с помощью кнопки плюс.",
+      "openSettings": "Открыть настройки доступности",
+      "reset": "Сброс и повторное разрешение",
+      "checkAgain": "Проверить снова",
+      "relaunch": "Запустить снова, чтобы закончить",
+      "close": "Закрыть",
+      "status": {
+        "healthy": "Ваша короткая команда работает.",
+        "lost": "Еще не работает",
+        "recovering": "Повторное подключение...",
+        "needsRelaunch": "Доступ возвращен. Запустите Wispr Bro, чтобы закончить."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Что вы хотите попробовать сначала?",
+    "subtitle": "Выберите один, чтобы увидеть, как это работает. Затем попробуйте в своей собственной приложении.",
+    "choicesLabel": "Способы запуска",
+    "choices": {
+      "ai_chat": "Спросите помощника на основе ИИ",
+      "note": "Запиши заметку",
+      "message": "Ответить на сообщение",
+      "email": "Напиши письмо",
+      "comment": "Оставить комментарий",
+      "document": "Создать документ",
+      "coding": "Предложите инструмент для программирования"
+    },
+    "scene": {
+      "label": "Пример: {{choice}}",
+      "said": "Вы говорите",
+      "written": "{{appName}} пишет",
+      "pause": "Пауза примера",
+      "play": "Послушать пример"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "Чат с ИИ",
+        "context": "Что я могу помочь вам с?",
+        "said": "ум, так что объясните, как работает сложный процент, как если бы я только начинал",
+        "text": "Можете ли вы объяснить, как работает сложный процент, как если бы я только начинал?"
+      },
+      "note": {
+        "app": "Заметки",
+        "context": "Понедельник",
+        "said": "заметка для себя позвони дентисту и ух, забери с干-очистку до шести",
+        "text": "Заметка для себя: позвони дентисту и забери с干-очистку до шести."
+      },
+      "message": {
+        "app": "Сообщения",
+        "context": "Раз мы ещё на обед?",
+        "said": "да, конечно, двенадцать тридцать, хорошо для вас",
+        "text": "Да, конечно! Время 12:30 подходит вам?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "К: Прия · Тема: Четверг",
+        "said": "привет, ПРИЯ, спасибо за заметки, я отправлю черновик в четверг утром",
+        "text": "Привет, Priya, спасибо за заметки. Я отправлю черновик к четвергу утром."
+      },
+      "comment": {
+        "app": "Социальные",
+        "context": "Наш новый офис откроется через неделю!",
+        "said": "поздравляю всю команду, это выглядит впечатляюще",
+        "text": "Поздравляем всю команду, это просто великолепно!"
+      },
+      "document": {
+        "app": "Документы",
+        "context": "План проекта",
+        "said": "цель этой фазы — передать бета-версию пятьюдесяти тестерам к концу месяца",
+        "text": "Цель этой фазы — отправить бета-версию пятьюдесяти тестерам к концу месяца."
+      },
+      "coding": {
+        "app": "Редактор кода",
+        "context": "Задайте вопрос агенту",
+        "said": "кнопка входа не работает на мобильном устройстве, найдите причину и исправьте это",
+        "text": "Кнопка входа не работает на мобильных устройствах. Можете выяснить, почему и исправить это?"
+      }
+    },
+    "tryNow": "Попробуйте сейчас",
+    "later": "Может быть, позже",
+    "close": "Закрыть",
+    "noBar": "Панель диктовки не запущена, поэтому нет подсказки для отображения. Вы всё ещё можете попробовать: откройте приложение и удерживайте свой сочетание клавиш.",
+    "banner": {
+      "title": "Используйте в своих приложениях",
+      "body": "{{hint}}. {{how}}",
+      "again": "Показать подсказку снова",
+      "stop": "Скрыть подсказку",
+      "other": "Попробуй что-то другое",
+      "active": "Совет на вашем экране. Нажмите Esc, чтобы закрыть его."
+    }
+  },
+  "checklist": {
+    "title": "Начать",
+    "label": "Список настройки",
+    "progress": "{{done}} из {{total}} выполнено",
+    "hide": "Скрыть список проверки",
+    "done": "Готово",
+    "next": "Следующий",
+    "allDone": "Всё готово. Вы знаете основы.",
+    "items": {
+      "try_in_app": {
+        "title": "Попробуйте в другом приложении",
+        "action": "Покажи мне"
+      },
+      "add_word": {
+        "title": "Добавить слово",
+        "action": "Добавить слово",
+        "coachTitle": "Добавьте свой первый словарный элемент",
+        "coachBody": "Имена, термины и сложные слова, которые вы часто используете. Они появляются, как и вы их пишете."
+      },
+      "create_snippet": {
+        "title": "Создать фрагмент",
+        "action": "Новый фрагмент",
+        "coachTitle": "Создайте свой первый фрагмент",
+        "coachBody": "Скажите короткую фразу и получите более длинный текст: ваш адрес, ссылку, фразу-подписи."
+      },
+      "launch_at_login": {
+        "title": "Открывать при входе",
+        "action": "Включить",
+        "body": "{{appName}} запускается вместе с вашим Mac, поэтому ваша кнопка всегда работает."
+      }
+    },
+    "coach": {
+      "close": "Закрыть",
+      "done": "Понял"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Выберите, следует ли Wispr Bro системной теме или остаётся светлым либо тёмным"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

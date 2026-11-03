@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Fork debug panosu",
+    "description": "Wispr Bro katmanı için iç kontrol. Sadece debug build'lerde ya da --debug ile başlatıldığında gösterilir.",
+    "close": "Kapat",
+    "runAgain": "Yeniden çalış",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Model durumu",
+      "notReady": "Hâlâ hazır değil: uygulama başlatma işlemi bittikten sonra."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Son ping olayı",
+      "none": "Hâlâ hiçbir olay alınamadı."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "Bekleniyor...",
+    "error": "Hata: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
+      "title": "İçerik Güvenlik Politikası",
+      "description": "Bir ses dosyasını varlık protokolü üzerinden oynatır, veri: ve blob: resimlerini yükler, bir fork komutu çağırır ve engellenen bir resmin engellenip engellenmediğini kontrol eder.",
+      "run": "CSP kontrolünü çalıştır",
+      "running": "Çalışıyor...",
+      "pass": "Geçildi: beklenmeyen CSP ihlali yok.",
+      "fail": "Başarısız: aşağıda bulunan kontrolleri kontrol edin.",
       "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "failed": "başarısız ({{detail}})",
+      "noViolations": "CSP ihlalı kaydedilmedi.",
+      "violations_one": "{{count}} CSP ihlali kaydedildi.",
+      "violations_other": "{{count}} CSP ihlali kaydedildi.",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
-        "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "media": "Ses (varlık protokolü)",
+        "dataImage": "veri: resim",
+        "blobImage": "blob: resim",
+        "forkCommand": "Fork komutu",
+        "probe": "Kaynak engellenmiştir"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "{{seconds}} s'de gönderiliyor. Bir başka uygulama açın ve macOS bildirimi görün."
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "Güncellemeler",
+      "version": "Sürüm",
+      "channel": "Canal",
+      "key": "İmza anahtarı",
+      "endpoints": "Günlükler",
+      "checksOff": "Güncelleme kontrolü kapalı (Ayarlar › Ileri, ya da bir kapatma anahtarı ayarlanmıştır.)",
+      "check": "Şimdi kontrol et",
+      "checking": "Deneyim…",
+      "install": "{{version}} sürümünü kurun ve yeniden başlatın",
+      "installing": "İndiriliyor ve doğrulanıyor…",
+      "installed": "{{version}} yüklendi. Yeniden başlatılıyor...",
+      "available": "{{version}} mevcut.",
+      "upToDate": "Güncel.",
+      "failed": "Güncelleme kontrol edilemedi: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Fork ayarları",
+      "loading": "Ayarlar yükleniyor...",
+      "loadError": "Ayarlar okunamadı: {{message}}",
+      "setError": "O değişiklik kaydedilmedi: {{message}}",
+      "contextAwareness": "Çevre bilinçli",
+      "contextAwarenessHint": "Kurşunun etrafındaki metin adlarını doğru yazmaya yardımcı olur. Bu metin bu Mac'te kalır ve hiçbir zaman kaydedilmez.",
       "transforms": "Dönüşümler",
       "transformsHint": "⌥1 seçili metni temizler ve ⌥2 daha net bir AI komutu oluşturur. Etkin durumda, bu tuşlar ¡ ve ™'yi değiştirir.",
       "transformsSafeShortcuts": "✅⌥1 ve ✅⌥2 yerine kullan",
       "transformsSafeShortcutsHint": "¡ ve ™ kısayol ile ⌥1 ve ⌥2 ile kullanılabilir.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Temizleme seviyesi",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "Hiç",
+        "light": "Hafif",
+        "medium": "Orta"
       },
-      "all": "All settings"
+      "all": "Tüm ayarlar"
     },
     "bar": {
       "title": "Dictation bar",
@@ -109,7 +109,7 @@
       "wirelessTag": "Bluetooth",
       "caution": "Kablolu veya yerleşik mikrofonlar en iyi çalışır; Bluetooth bağlantısı kopabilir.",
       "avoided": "Mac'ınızın ses girişi {{name}} olarak ayarlanmıştır. Bluetooth mikrofonlar kesilebilir, bu yüzden metin yazma işlemi içeriye sahip mikrofona geçer.",
-      "useAnyway": "Use {{name}} anyway",
+      "useAnyway": "Herhalde {{name}} kullan",
       "inUse": "Dictasyon: {{name}} ile dinliyor",
       "chooseError": "Kulaklık değiştirilemedi: {{message}}",
       "meter": {
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Genel",
       "system": "Sistem",
-      "vibe": "Vibe coding",
+      "vibe": "Vibe kodlama",
       "privacy": "Veri ve Gizlilik",
       "advanced": "Ileri",
       "about": "Hakkında",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Önünde Scratchpad'i aç",
       "scratchpadHint": "Scratchpad kısa yoluyla kullanıldığında nerede açılıp açılmayacağını seçin.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Son notumu devam ettir",
+        "new_note": "Yeni bir not başlat"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro, VS Code, Cursor ve Windsurf ekran üzerinde gösterilen kod isimlerini ve dosya isimlerini Accessibility aracılığıyla okuyabilir. Projenizdeki klasör veya dosyaları açmaz.",
+      "contextOff": "İçerik bilinci kapalı, bu özellikleri kullanmak için hiçbir şey okumaz. Açılıp kullanmak için etkinleştirin.",
+      "recognize": "Kod isimlerini tanıyın",
+      "recognizeHint": "Düzenleyicide görünen bir değişken veya fonksiyon adını söylerken, kodunuzun nasıl yazdığını yansıtır, örneğin getUserById ya da user_id.",
+      "setUp": "Ayarla",
+      "change": "Düzenleyicileri değiştir",
+      "setUpFor": "{{editors}} için ayarla",
+      "fileTags": "Chatta dosya etiketleri",
+      "fileTagsHint": "Cursor ya da Windsurf konuşmalarında \"index dot ts\" derken, o dosya bir sekmede ya da dosya listesinde görünürse @index.ts yazılır.",
+      "fileTagsNeedsChat": "Cursor ya da Windsurf ekleyince mevcut olur.",
+      "fileTagsNeedsSetup": "Kod adı tanımı ayarlandıktan sonra mevcut olur.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Kod isim tanıyı ayarla",
+        "stepEditors": "1. Kullanılan düzenleyicileri seçin",
+        "stepScreenReader": "2. Her birinde ekran okuyucu modunu açın, böylece metinleri Wispr Bro ile paylaşın",
+        "openSettings": "Düzenleyici ayarlarını ⌘ virgül ile açın.",
+        "search": "\"Erişilebilirlik desteği\" aranıyor.",
+        "setOn": "Düzenleyici: Erişilebilirlik Desteki'ni \"açık\" olarak ayarla.",
+        "palette": "Ayrıca, \"Ekran Okuyucu Erişilebilirlik Modunu Aç/Kapat\" komut panelinden (⇧⌘P) çalıştırabilirsiniz.",
+        "confirm": "Ekran okuyucu modunu bu düzenleyicilerde açtım",
+        "cancel": "İptal",
+        "finish": "Ayarları bitir"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Gizlilikle tasarlanmıştır",
+        "local": "Dictasyon ve verileriniz bu Mac'te kalır.",
+        "noCloud": "Ses tanımı, temizleme ve Tarih yerel olarak çalışır. Hesap, telemetri, bulut dictation veya bulut temizleme yoktur.",
+        "networkIntro": "Wispr Bro yalnızca bu iki şey için ağ kullanır:",
+        "models": "Ses ve temizleme modellerini Hugging Face'den (huggingface.co) indirin.",
+        "updates": "Güncelleme kontrolü açılıyorsa, GitHub'da (github.com) uygulama güncellemelerini arayın."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Verilerin nerede kalıyor",
+        "hint": "Bu klasörler Wispr Bro'ya aittir. Taşınabilir kurulumlar tümünü uygulamanın Veri klasörüne tutar.",
+        "data": "Uygulama verisi ve ayarları",
+        "models": "İndirilen modeller",
+        "recordings": "Kayıtlar",
+        "logs": "Kayıtlar ve hata raporları",
+        "show": "Finder'da göster",
+        "loading": "Yerleştiriliyor...",
+        "failed": "O klasörü açamadım. Yeniden dene."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Tarihleri ne kadar sakla?",
+        "textLabel": "Yazılışlı metni sakla",
+        "textHint": "Daha eski girdiler otomatik olarak silinir. Metin varsayılan olarak her zaman korunur.",
+        "audioLabel": "Kayıtları sakla",
+        "audioHint": "Ses, varsayılan olarak 14 gün sonra sona erer. Sesin kaldırılması, metin sınırına kadar dicted metni korur.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Sesleri asla sakla",
+          "1": "1 gün",
+          "7": "7 gün",
+          "14": "14 gün",
+          "30": "30 gün",
+          "90": "90 gün",
+          "365": "1 yıl",
+          "forever": "Daima"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Gizlilik seçenekleri",
+        "context": "Çevre bilincini kullan",
+        "contextHint": "Sadece söylenirken yakındaki metni oku, isimler ve yazım için tanıyı yap. Kontekst kaydedilmez veya kaydedilmez.",
+        "updates": "Uygulama güncellemeleri aranacak",
+        "updatesHint": "GitHub'e başvurun ve yeni bir sürüm var mı kontrol edin. Dictasyon veya kişisel veri gönderilmemektedir.",
+        "learn": "Düzeltilerimden öğren",
+        "learnHint": "Bir dictation yapıştırıldıktan sonra, o metin kutusunda düzelttiğiniz kelimeleri dikkate alarak Sözlük'te önerin. Sadece düzelttikten sonra kalan kelime saklanmaz veya kaydedilmez."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Verileriniz",
+        "hint": "Geçmişiniz, ayarlarınız ve kayıtlarınızla bir zip dosyası oluşturun. Model ve loglar dahil değildir.",
+        "button": "Verilerimi dışa aktar",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Zip arşivi",
+        "done": "Kaydedilen dışa aktarıldı ve Finder'de gösterildi.",
+        "failed": "Verilerinizin dışa aktarılması başarısız oldu. Herhangi bir şey silinmedi."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Tüm verilerimi sil",
+        "title": "Tüm verilerinizi silmek istiyor musunuz?",
+        "warning": "Bu, tarih, kayıtlar, ayarlar, loglar ve çöküş raporlarını kalıcı olarak siler. Bu işlem geri alınamaz.",
+        "relaunch": "Wispr Bro çalışmasını durduracak, verileri silip onboarding'a dönecektir.",
+        "models": "İndirilen modelleri de sil",
+        "modelsHint": "Bu seçeneği kapalı tutun çünkü konuşma ve temizleme modellerini tekrar indirmek istemeyebilirsiniz.",
+        "confirmLabel": "{{word}} yazarak onayla",
+        "cancel": "İptal",
+        "confirm": "Her şeyi sil",
+        "failed": "Tümünü silme işlemi bitti. Yeniden dene öncesi kalan veriyi kontrol edin."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Aşırı durum raporları ve tanımlayıcılar",
+        "hint": "Kırılma raporları bu Mac'te kalır ve hiçbir zaman yüklenmez. Paylaşmak istiyorsanız sadece kopyalayın veya kaydedin.",
+        "sanitized": "Diagnostikler, sözlü metin, sorular, sözlük kelimeleri, e-posta adresleri, tuşlar ve ev dizin yolu gibi bilgileri kaldırır.",
+        "copy": "Diagnostikleri kopyala",
+        "save": "Diagnostikleri kaydet…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Temizlenen diagnostik bilgiler kopyalandı.",
+        "saved": "Temizlenen diagnostik verileri kaydedildi.",
+        "failed": "Diagnostik hazırlanamadı. Yeniden dene."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Sürüm {{version}}",
       "source": "Kaynak kodu görüntüle",
       "updates": "Güncelleme notları",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Güncellemeler",
+      "license": "GNU Genel Kullanım Lisansı, sürüm 3 (GPL-3.0) altında ücretsiz yazılım.",
+      "licenseLink": "Lisansı görüntüle",
+      "credit": "Handy'ye dayalı, CJ Pais tarafından oluşturuldu, MIT Lisansı altında kullanılıyor. Çalışan herkese teşekkür ederim.",
+      "creditLink": "Handy GitHub'de",
+      "supportTitle": "Gelişmeyi destekle",
+      "supportBody": "{{appName}} abonelik planı yoktur. En iyi destek, bir hata raporu, bir fikir ya da GitHub'ta bir katkıdır."
     },
     "hotkeys": {
       "open": "Kısa yollar",
@@ -412,7 +412,7 @@
           "view_changes": "Görünüm dönüşüm değişiklikleri"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Scratchpad'ı aç"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "En son dönüşümü önce ve sonra inceleyin."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Daha önce yazdığınız notu devam ettirin ya da Scratchpad ayarlarına göre yeni bir not başlatın."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Ana"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Kenar çubuğunu daralt",
+      "expand": "Yan menüyü genişlet"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Koyu görünümüne geç",
+      "toLight": "Aydınlık görünümüne geç"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Bildirimler",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Hiç yeni şey yok",
+        "body": "Güncellemeler ve ipuçları burada görünecek."
       },
       "bellUnread_one": "Bildirimler, {{count}} okunmamış",
       "bellUnread_other": "Bildirimler, {{count}} okunmamış",
@@ -485,65 +485,65 @@
       "justNow": "Yakın bir zaman"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "title": "Yardım",
+      "updates": "Güncellemeler",
+      "whatsNew": "Yeni ne var?",
+      "essentials": "Temel",
+      "shortcuts": "Kısayollar",
+      "microphone": "Mikrofon",
+      "languages": "Diller",
+      "documentation": "Dokümantasyon",
+      "getInTouch": "İletişim kur",
+      "reportProblem": "Bir sorun bildir...",
+      "sendFeedback": "Öneri gönder",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Bir sorun bildir",
+        "body": "Bu, uygulamanızın sürümü ve Mac modelinizin doldurulmuş olduğu bir GitHub sorunu açar. Belirttiğiniz her şeyi içermez ve göndermeden önce okuyabilir ve değiştirebilirsiniz.",
+        "diagnosticsTitle": "Diagnostik (isteğe bağlı)",
+        "diagnosticsBody": "Temizlenmiş loglar nedeni bulmaya yardımcı olur. Dictasyonlarınız içermez. Onları buraya kopyalayın, sonra sorunu oluştururken yapıştırın.",
+        "copy": "Diagnostikleri kopyala",
+        "copied": "Diagnostikler kopyalandı. Sorunu çözme için yapıştırın.",
+        "copyFailed": "Diagnostikleri kopyalamadım.",
+        "open": "GitHub'ı aç",
+        "cancel": "İptal",
+        "close": "Kapat"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Ayar bölümleri"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "Dictasyon",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Söyleyin, yazmaya gerek yok",
+          "body": "Her uygulamada fn'ı tutun, yazmak istediğin şeyi söyleyin ve bırakın. {{appName}} imleciniz olduğu yerde temiz metin koyar.",
+          "examplesLabel": "Denemek için şeyler",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Bir mesaj için hızlı bir yanıt",
+            "notes": "Aradan sonra notlar",
+            "prompt": "Bir AI sohbeti için uzun bir prompt"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Dictasyonlarınız burada görünecektir",
+          "body": "Her biri bu Mac'te kaydedilir ve sesiyle birlikte, sonra kopyalayabilir veya kontrol edebilirsiniz.",
+          "action": "Tarihleri aç"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Görüşler",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Görüşler için birkaç dictation gerekli",
+          "body": "Söyleyici hızınız, devam eden günler ve kaydettiğiniz zaman, bir süre söyleyerek dictation yapmış olmanızda görünür.",
+          "action": "Dictasyon'a git"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Sözlük",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "Parça",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Parçalar yakında gelecek",
+          "body": "Kısa bir ipucu verin, örneğin \"benim adresim\" ve tam metni alın. Bu sayfa daha sonra bir güncellemede gelir.",
+          "action": "Dictasyon'a git"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Stil",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Stiller yakında gelecek",
+          "body": "Her uygulamada metniniz nasıl profesyonel olacağını seçin, resmi e-posta ya da rahat konuşma gibi. Bu sayfa bir sonraki güncellemede gelir.",
+          "action": "Dictasyon'a git"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Dönüşümler",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Dönüşümler yakında gelecek",
+          "body": "Metni seçip bir kısayol ile yeniden yazın: daha kısa, daha net ya da daha iyi düzenlenmiş. Bu sayfa daha sonra bir güncellemede gelir.",
+          "action": "Dictasyon'a git"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Scratchpad yakında geliyor",
+          "body": "Notlarınızı başka yerlere gitmeden önce hızlıca dictasyon yapabileceğiniz bir yer. Bu sayfa daha sonra bir güncellemede gelecek.",
+          "action": "Dictasyon'a git"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Dostunu ile paylaş"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Ayarlar"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Bana göster"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Güncelleme kontrolü kapalı",
+      "turnOn": "Aç",
+      "notChecked": "Hâlâ kontrol edilmemiş",
+      "check": "Güncellemeleri kontrol et",
+      "checking": "Güncellemeler kontrol ediliyor...",
+      "upToDate": "Güncel",
+      "checkAgain": "Yine kontrol et",
+      "checkFailed": "Denetleme yapılamadı",
+      "retry": "Tekrar deneyin",
+      "downloading": "İndiriliyor {{version}}...",
+      "ready": "Güncelleme hazır",
+      "restartNow": "Şimdi yeniden başlat",
+      "installing": "Yükleme {{version}}...",
+      "installedWaiting": "{{version}} yüklendi · bu dictation sonrası yeniden başlatılacak",
+      "restarting": "Yeniden başlatılıyor...",
+      "installFailed": "Güncelleme kurulamadı",
+      "busy": "Önce dictation'ı bittirmelisin.",
+      "actionFailed": "O işe yaramadı. Biraz sonra tekrar dene.",
+      "lastChecked": "Son kontrol {{time}}.",
+      "paused": "Üç başarısız deneme sonrası, otomatik güncellemeler {{time}}'e kadar durdurulur.",
+      "manualOnly": "Bu, geliştirme sürümüdür: sadece sormuşsanız güncelleme kontrol edilir.",
+      "readyHint": "20 dakika dictation yapmadıktan sonra veya çıkınca otomatik olarak kurulur.",
+      "policy": "Güncellemeler arka planda indirilir ve sadece sözlü komut vermede olmazsanız veya uygulamayı kapatınca kurulur.",
+      "needsPassword": "Bu uygulamanın klasöründe yönetici şifresi gerekir, bu yüzden sadece şimdi yeniden başlatmayı seçerseniz güncelleme kurulur."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Yeni!",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Kapat"
     },
     "importWizard": {
       "stepsLabel": "Adımları içe aktar",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
+      "dictation": "Dictasyon",
+      "vocabulary": "Vocabülature",
+      "help": "Yardım",
+      "file": "Dosya",
+      "edit": "Düzenle",
+      "view": "Görünüm",
+      "window": "Pencere",
+      "wordsDictated_one": "{{count}} kelime dictat edildi",
+      "wordsDictated_other": "{{count}} kelime dictat edildi",
+      "copyLast": "Son metni kopyala",
+      "copyLastPreview": "Son metni kopyala: “{{preview}}”",
+      "copyLastConcealed": "Son metni (gizli metin) kopyala",
+      "microphone": "Mikrofon",
+      "languages": "Diller",
+      "moreLanguages": "Dil ekle veya kaldır…",
+      "automaticMicrophone": "Otomatik tespit (sistem ayarı)",
+      "noMicrophones": "Microfon bulunamadı",
+      "dictionaryWords_one": "{{count}} sözlük kelimesi",
+      "dictionaryWords_other": "{{count}} sözlük kelimesi",
+      "snippetCount_one": "{{count}} parçası",
+      "snippetCount_other": "{{count}} parçası",
+      "addWord": "Kelime ekle…",
+      "newSnippet": "Yeni parça…",
+      "documentation": "Dokümantasyon",
+      "shortcuts": "Kısayollar",
+      "reportProblem": "Bir sorun bildir...",
+      "sendFeedback": "Öneri gönder…",
+      "openApp": "Uygulamayı aç {{appName}}",
+      "checkUpdates": "Güncellemeleri kontrol et…",
+      "pasteLast": "Daha önceki metni yapıştır",
+      "cancelDictation": "Dictasyonu iptal et",
+      "shortcutsBlocked": "Kısayollar engelleniyor — Ayarlar'a girin",
+      "undo": "Geri al",
+      "redo": "Yeniden",
+      "cut": "Kes",
+      "copy": "Kopyala",
+      "paste": "Yapıştır",
+      "selectAll": "Hepsi seç",
+      "minimize": "Küçült",
       "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "closeWindow": "Pencereyi Kapat",
+      "fullScreen": "Tam Ekran'a Gir",
+      "services": "Hizmetler",
+      "hideOthers": "Diğerlerini Gizle",
+      "showAll": "Tümünü Göster",
+      "about": "Hakkında {{appName}}",
+      "hide": "Gizle {{appName}}",
+      "quitApp": "Uygulamayı kapat {{appName}}",
+      "restartToUpdate": "Yeniden başlatmak için güncelleme yapmak gerekir {{version}}",
+      "updatesOff": "Güncelleme kontrolü kapalı…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Kısayol çalışmayı bıraktı"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -738,20 +738,20 @@
         "option": "Option",
         "shift": "Shift",
         "command": "Command",
-        "space": "Space",
+        "space": "Boşluk",
         "escape": "Escape",
-        "return": "Return",
+        "return": "Dön",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
-        "home": "Home",
-        "end": "End",
-        "pageUp": "Page Up",
-        "pageDown": "Page Down",
+        "delete": "Sil",
+        "forwardDelete": "İleri Sil",
+        "left": "Sol Yukarı",
+        "right": "Sağ Ok",
+        "up": "Yukarı Ok",
+        "down": "Aşağı Ok",
+        "home": "Ev",
+        "end": "Son",
+        "pageUp": "Sayfa Yukarı",
+        "pageDown": "Sayfa Aşağı",
         "mouseLeft": "Sol fare düğmesi",
         "mouseRight": "Sağ fare düğmesi",
         "mouseMiddle": "Orta fare düğmesi",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "Yazma",
+          "tooltip": "fn'ı tutun ve konuşun"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Mikrofon bağlantısı kesildi. Daha önce söyledikleriniz korunuyor.",
         "undo": "Geri al, dikte çubuğunda 4 saniye kalır.",
         "diff": "Değişikliklerin dönüşümü onaylamaya hazır.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Güvenli Giriş etkin. fn ve Boşluk tuşları dictation'ı kapatamaz. Escape ya da kapama düğmesi hâlâ dictation'ı iptal eder."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "6.000 karakterden az seçin",
         "transform_focus_moved": "Yerini değiştirdiniz, bu yüzden hiçbir şey değişmedi",
         "transform_failed": "O metni dönüştürme başarısız oldu",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Kısayolunuz artık çalışmiyor",
+        "shortcut_stopped": "Kısayolun cevap vermedi",
+        "shortcut_back": "Kısayolunuz tekrar çalışır"
       },
       "card": {
         "no_text_field": "Önce bir metin alanı içine tıklayın",
@@ -906,22 +906,22 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} Mac'ta tamamen çalışır bir ücretsiz dictation. Buradan alın:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Son adım",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Bir AI sohbeti açın, örneğin ChatGPT ya da Claude",
+        "note": "Notlar uygulamasını açın",
+        "message": "Bir konuşma açın, mesela Mesajlar ya da Slack",
+        "email": "E-posta aç",
+        "comment": "İlgili bir gönderiye yorum yapmak için açın",
+        "document": "Yazdığınız belgeyi açın",
+        "coding": "Open Cursor, VS Code veya başka bir kod düzenleyicisi"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Yazmak istediginiz yerde tıklayın, sonra fn'ı tutup konuşun.",
+      "howFallback": "Yazmak istediginiz yerde tıklayın, sonra Kontrol ve Seçim tuşlarını tutup konuşun.",
+      "escape": "Bu ipucuyu kapatmak için Esc tuşuna basın."
     }
   },
   "speechModels": {
@@ -1086,8 +1086,8 @@
       "used_other": "{{count}} kez kullanıldı",
       "edit": "Giriş {{entry}}'i düzenle",
       "delete": "Girişin silinsin {{entry}}",
-      "accept": "Add {{entry}} to your dictionary",
-      "reject": "Don't learn {{entry}}"
+      "accept": "{{entry}}'yi sözlüğe ekleyin",
+      "reject": "Öğrenme işlemini iptal et {{entry}}"
     },
     "source": {
       "import": "Dışa aktarıldı",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Hâlâ öneri yok",
       "body": "{{appName}}'in düzeltilen kelimelerden öğrenmesi durumunda, onları buraya onaylamak için buraya getirir.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Dictation sonrası kutuya yanlış yazılan bir isim veya terimi düzeltin, sonra Return, Tab ya da ilerleyin. Düzelttiğiniz kelime burada görüntülenerek onaylayabilirsiniz."
     },
     "noMatch": {
       "title": "Hiçbir şey uyuşmuyor",
@@ -1206,11 +1206,11 @@
       "done_other": "{{count}} kayıt dışa aktarıldı.",
       "failed": "Sözlük dışa aktarılamadı. Lütfen tekrar dene."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” tekrar önerilmeyecektir.",
+    "actionFailed": "O işe yaramadı. Lütfen tekrar dene.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Düzeltilerimden öğren",
+      "hint": "Bir dictation yapılıp 30 saniye sonra, {{appName}} bu metin kutusunda düzelttiğiniz kelimeleri burada önerir. Sadece düzelttiğiniz kelime saklanır, diğer metinler saklanmaz. Şifre alanları, şifre yöneticileri, banka uygulamaları ve terminaller okunmaz."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Yakın metin harf yazımına yardımcı oldu",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Mikrofon kayboldu, dediğin şeyi koruyoruz",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Güvenli Giriş etkin · fn+Space ile kilitlenemez · Esc veya ✕ iptal eder",
+      "secure_input_app": "{{app}}'de Güvenli Giriş etmektedir · fn+Space engellenemez · Esc ya da ✕ iptal eder"
     },
     "settingUp": "Hazırlanıyor…",
     "settingUpPercent": "Hazırlanıyor… %{{percent}}",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Değişiklikleri görüntüle",
     "sendsAutomatically": "Otomatik gönderir",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Erişilebilirlik erişimi kapalı",
+      "stopped": "Tuş dinleyici durdu"
     }
   },
   "transforms": {
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Yeni not",
+    "preferences": "Scratchpad ayarları",
+    "addToBar": "Bara ekle",
+    "addToBarHelp": "Dictate'ın yanına bir Scratchpad düğmesi tutun.",
+    "recents": "Sonlar",
+    "searchLabel": "Notları arama",
+    "searchPlaceholder": "Notlarınızda arama yapın",
+    "loading": "Notlar yükleniyor...",
+    "empty": "Hâlâ not yok",
+    "emptyHelp": "Bir notayı başlatın, sonra onun kaybolmuş penceresine yazın veya söylenin.",
+    "emptyNote": "Boş not",
+    "noResults": "Arama sonuçlarınız bulunamadı.",
+    "untitled": "Başlıksız not",
+    "pinned": "Bağlı",
+    "pin": "Notu kaydet",
+    "unpin": "Notu bağla",
+    "editAction": "Notu düzenle",
+    "edit": "{{name}}'i düzenle",
+    "delete": "Notu sil",
+    "deleteConfirm": "“{{name}}”'yi silmek istiyor musun? Bu geri alınamaz.",
+    "error": "Scratchpad o işlemi tamamlamadı. Mevcut metin hâlâ burada; lütfen tekrar dene.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "Hızlı erişim aç",
+      "change": "Yeni kısayol ayarla",
+      "title": "Scratchpad kısayolu",
+      "help": "Her yerden Scratchpad'ı açın. Başlangıçta ayarlanmamıştır, bu nedenle bir tuşa müdahale etmeden önce seçmeniz gerekir.",
+      "close": "Kısayol penceresini kapat",
+      "proposed": "Önerilen kombinasyon",
+      "ctrlOptionS": "Control + Seçim + S",
+      "use": "Control + Seçim + S kullan",
+      "chooseAnother": "Farklı bir kısayol seçin",
+      "error": "O kısayol kaydedilemedi. Başka bir kombinasyon deneyin."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
+    "tabs": "Notları aç",
+    "tools": "Not araçları",
+    "sidebar": "Not listesini göster",
     "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "polishing": "Yüzey işlenmesi...",
+    "textSize": "Metin boyutunu değiştir (mevcut olarak {{size}} nokta)",
+    "expand": "Notu genişlet",
+    "shrink": "Not giriş boyutunu geri yükle",
+    "close": "Scratchpad'ı kapat",
+    "noteBody": "Not metni",
+    "notePlaceholder": "Not yazın veya dictete bir not yazın…",
+    "saved": "Kaydedildi",
+    "saving": "Kaydediliyor…",
+    "saveError": "Hâlâ kaydedilmedi",
+    "autosaveHelp": "Otomatik kaydediliyor",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı"
   },
   "style": {
     "tabsLabel": "Stil grupları",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Hazırlıklar yapılıyor…",
+    "back": "Geri",
+    "continue": "Devam et",
+    "yes": "Evet",
+    "no": "Hayır",
+    "downloadHint": "Ses ayarlaması arka planda devam eder. Burada her zaman beklemek zorunda değilsiniz.",
+    "navigationFailed": "O adımı kaydedilemedi. Yeniden dene.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Ayarlama ilerlemesi",
+      "welcome": "Hoş geldiniz",
+      "permissions": "İzinler",
+      "setup": "Ayarla",
+      "practice": "Uygulama",
+      "done": "(bitti)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Yardım",
+      "title": "Yapılandırma hakkında yardım",
+      "close": "Yardımı kapat",
+      "done": "Anladım",
+      "body": "Her adım birkaç saniye sürer. Her zaman geri dönebilirsin ve eğer çıkarsan, kurulum, bırakılan yerden devam eder.",
+      "download": "Wispr Bro bu Mac'te konuşmaları tanıyacak şekilde ayarlarken bu adımları takip ediyorsun. Onu hazır hale getirmeye kadar söylediğin her şey saklanır ve hazır olduğunda yazılır."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Söyle, ve kelimelerin geleceğini gör",
+      "subtitle": "Bir tuşa bas, konuş, bırak. Temiz metin yazdığın yerde yer alır.",
+      "privacyTitle": "Tüm şeylar bu Mac'te kalır",
+      "privacy": "Sesin ve metnin hiçbir zaman bu bilgisayardan ayrılmaz. Hesap, bulut, izleme yok.",
+      "download": "Ses ayarlaması şimdi başlıyor ve arka planda çalışır.",
+      "start": "Başlayalım"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Wispr Bro'yu Uygulamalar'a taşı",
+      "body": "Wispr Bro, Uygulamalar klasörünüzden dışarıdan çalışıyor. O klasöre taşınması, güncellemeler ve izinlerin çalışmasını sağlar.",
+      "note": "Wispr Bro, taşınmasından sonra kendiliğinden açılır ve kurulumu devam eder.",
+      "action": "Uygulamalar'a taşı",
+      "moving": "Taşınıyor...",
+      "skip": "Şu an değil",
+      "error": "Wispr Bro kendini hareket ettiremedi. Finder'da Uygulamalar'a sürükleyin, sonra yeniden açın."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Hangi dilleri konuşursunuz?",
+      "subtitle": "Her dile dictation yapmak için seçin. Wispr Bro, bu dilleri bilmesi durumunda kelimelarınızı daha iyi düzenler.",
+      "listLabel": "Diller",
+      "noMatch": "Bir dille eşleşmiyor \"{{query}}\".",
+      "count_one": "Dictation çalışır {{count}} dili. Daha sonra Ayarlar'da kendi seçeneğinizi değiştirebilirsiniz.",
+      "count_other": "Dictasyon {{count}} dili destekler. Daha sonra Ayarlar'da kendi dili değiştirebilirsiniz.",
+      "weak_one": "Tanıma {{languages}}'da daha az doğru olur. Hâlâ çalışır, ancak daha fazla hata beklenir.",
+      "weak_other": "Tanıma {{languages}}'da daha az doğru olur. Hâlâ çalışır, ancak daha fazla hata beklenir."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "İki izin",
+      "subtitle": "macOS sana bu izinleri bir kez onaylamasını istiyor. Her satır, ona geldiğinde otomatik olarak işaretlenir.",
+      "allowed": "İzin verildi",
+      "waiting": "macOS'ı bekliyoruz...",
+      "openSettings": "Sistem Ayarlarını Aç",
+      "prompt": "macOS isteği",
+      "pane": "Sistem Ayarlarında",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "Mikrofon",
+        "why": "Bu yüzden Wispr Bro, anahtar tuttuğunuz sürede sizden ses dinler. Ses sadece bu Mac'te işlenir.",
+        "action": "Kamera izni ver",
+        "promptAlt": "macOS mikrofon isteği resmi, İzin düğmesi vurgulu",
+        "paneAlt": "Sistem Ayarları, Gizlilik ve Güvenlik, Mikrofon, Wispr Bro anahtarı açık olan resim",
+        "waitingHelp": "macOS penceresinde İzin ver'ı tıklayın. Görmüyorsanız, Sistem Ayarları'na girip Mikrofon altında Wispr Bro'yu açın."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Erişilebilirlik",
+        "why": "Bu yüzden Wispr Bro, kısayolunuzu fark edip kullanıyorsunuz olan uygulamada metin yazabilir.",
+        "action": "Erişilebilirlik için izin ver",
+        "promptAlt": "macOS Erişilebilirlik bildirimi resmi, Sistem Ayarlarını Aç düğmesi vurgulu",
+        "paneAlt": "Sistem Ayarları, Gizlilik ve Güvenlik, Erişilebilirlik, Wispr Bro anahtarı açık olan resmi",
+        "waitingHelp": "Sistem Ayarlarında Wispr Bro'ya yanındaki switch'i açın. Şifrenizle açmaniz gerekebilir."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Mikrofonunuzu deneyin",
+      "guidance": "Kablolu ve yerleşik mikrofonlar en iyi çalışır. Bluetooth kulaklıkleri bağlanabilirlik kaybı ya da sızıntı gibi ses problemleri yaşayabilir.",
+      "question": "Söyleyorken çubuklar hareket mi ediyor?",
+      "noHelp": "Aşağıdaki başka bir mikrofon seçin, sonra tekrar konuşun.",
+      "change": "Microfonu değiştir",
+      "previewList": "Mikrofonlarınız burada görünür."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Yönlendirme senaryonuzu test edin",
+      "instruction": "Tuşu (🌐) üzerinde basın ve tutun. Tuşun altındaki tuş  tutarken ışık çıkar.",
+      "fallbackInstruction": "Control ve Option tuşlarını aynı anda basılı tutun. Tuşlar aşağıda tuttuğunuz sürece ışıklandırılır.",
+      "unboundInstruction": "Dictasyon kısayolu ayarlanmamış. Düzenle kısayolu seçmek için Edit shortcut kullanın.",
+      "keyLabel": "fn tuşu",
+      "fallbackKeyLabel": "Denetle ve Seçim",
+      "pressed": "Tuş tutuldu",
+      "notPressed": "Anahtar bekleniyor...",
+      "worked": "Çalışıyor. Tuş ışıklandı.",
+      "question": "Anahtar ışık verdi mi?",
+      "edit": "Yönlendirmeyi düzenle",
+      "tryAgain": "Tekrar dene",
+      "otherCauses": "Değil mi? Diğer olası nedenler:",
+      "changeFailed": "O değişiklik gerçekleşmedi. Yeniden dene ya da Sistem Ayarları'na girin.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro anahtar basışlarını göremez",
+          "title": "Wispr Bro henüz tuş basışlarını göremez",
+          "body": "Bu genellikle Wispr Bro için Erişilebilirlik açılmamıştır. Sistem Ayarlarında açın ve sonra tekrar denemek için tıklayın.",
+          "action": "Erişilebilirlik ayarlarını aç"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Bir şifre alanına ya da başka bir uygulama anahtarları engelliyor",
+          "title": "Bir başka uygulama tuş basmalarını engelliyor",
+          "body": "Şifre alanına veya bazı uygulamalar (şifre yöneticileri, Terminal'in Güvenli Klavye Girişi) odaklanırken, macOS diğer uygulamalardan anahtar basmalarını gizler. Bu uygulamayı kapatın veya dışarı tıklayın, sonra tekrar dene.",
+          "active": "Şu an başka bir uygulama tuş basmalarını engelliyor.",
+          "inactive": "Şu anda hiçbir şey anahtar basmalarını engellemiyor."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "🌐 tuşu emoji açar ya da klavyeyi değiştirir",
+          "title": "macOS, 🌐 tuşuna kendi işini verir",
+          "body": "Mac'ınız 🌐 tuşuna basıldığında emoji açılır, giriş kaynağı değiştirilir veya Apple dictation başlar. Wispr Bro, \"🌐 tuşuna basıldığında\" seçeneğini \"Hiçbir şey yapma\" olarak ayarlayabilir. Dictation için fn'ı kullanmazsanız, seçiminiz geri alınır.",
+          "consent": "🌐'yi Yapmadan Başlat",
+          "changed": "🌐 şimdi kendi başına hiçbir şey yapmaz",
+          "open": "Tuşlayıcı ayarlarını aç"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Tuğmamda fn tuşu yok",
+          "title": "Control ve Seçenek yerine kullanın",
+          "body": "Bazı klavyelerde fn veya 🌐 tuşu yoktur. Dictation yapmak için Control ve Option tuşlarını aynı anda tutun. Bu ayarları her zaman Ayarlar'da değişteyebilirsiniz.",
+          "action": "Kontrol + Seçenek kullan",
+          "changed": "Denetleme + Seçenek işin kısa yolu"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Uygulama: Bir e-posta yazmak için elinizden kaçın",
+      "instruction": "fn ve boşluk tuşlarını aynı anda basın, sonra konuşun. Herhangi bir şey tutmaya gerek yok. Bittiğinde yeniden fn'ı basın. Deneyin: \"Merhaba Sam, notlarınız için teşekkür ederim. Çarşamba günü saat onda buluşabilir miyiz?\"",
+      "instructionFallback": "Control, Seçenek ve Boşluk tuşlarını aynı anda basın, sonra konuşun. Herhangi bir tuşa basman gerekmez. konuşmadan sonra tekrar Control ve Seçenek tuşlarına basın. Deneyin: \"Merhaba Sam, notlarınız için teşekkür ederim. Çarşamba günü saat onda buluşabilir miyiz?\"",
+      "instructionUnbound": "Dictasyon kısayolu ayarlanmamış, bu uygulama başlatılamaz. Şimdi atla ve Ayarlar'da bir kısayolu ayarla.",
+      "skip": "Atla",
+      "waiting": "Söylemeye başlamanı bekliyoruz…",
+      "listening": "Dinleme… bitince fn'ı basın.",
+      "listening_fallback": "Dinleme… bitirirken Control ve Option tuşlarını basın.",
+      "working": "Yazmak için yazıyorum...",
+      "settingUp": "Ayarlanıyor...",
+      "settingUpPercent": "Ayarlanıyor… {{percent}}%",
+      "queuedNote": "Kelimeleriniz kaydedildi. Ayarlar bittikten sonra buraya gelecek ve her durumda Tarih içinde olacak. Aniden devam edeceğiz.",
+      "nothing": "Hiçbir şey gelmedi. Mikrofonun açık olduğunu kontrol edin ve tekrar dene.",
+      "filled": "O e-posta senin. Daha fazla ekle ya da devam et.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Yeni mesaj",
+        "to": "Ön",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "Konu",
+        "subjectText": "Çarşamba",
+        "body": "Mesaj",
+        "placeholder": "Kelimeleriniz burada görünür."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "O kadar. İlk metninizi söylenmesi bitti.",
+      "subtitle": "Herhangi bir yerde yazabileceğiniz yerde şimdi konuşabilirsiniz."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Dikte etme, haftada yaklaşık {{hours}} saat zaman kazandırabilir.",
+      "headline_other": "Diktörlük, haftada yaklaşık {{hours}} saat zaman kazandırabilir.",
+      "intro": "Söylemek, çoğu insan için yazmaktan daha hızlıdır. 30 saniye yazma testi yapın ve ne kadar zaman kazanabileceğinizi görün.",
+      "howFast": "Ne kadar hızlı yazıyorsun?",
+      "skipTest": "Testi atla",
+      "basisMeasured": "{{wpm}} kelime dakikasında yazma ve yaklaşık {{speaking}} kelime dakikasında konuşma temel alınarak.",
+      "basisAverage": "Ortalama {{wpm}} kelime dakika hızıyla yazma ve yaklaşık {{speaking}} kelime dakika hızıyla konuşma temel alınarak.",
+      "sliderLabel": "Günlük ne kadar yazıyorsun?",
+      "hoursPerDay_one": "Günlük {{hours}} saat",
+      "hoursPerDay_other": "Günlük {{hours}} saat",
+      "takeTest": "Yazım testi yap"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "Ne kadar hızlı yazıyorsun?",
+      "instruction": "Aşağıdaki paragrafı normal olarak yazın. Saat ilk tuşunuzla başlar ve {{seconds}} saniye sürer.",
+      "skip": "Atla",
+      "language": "Dil",
+      "wpmPending": "— kelime dakika",
+      "wpm_one": "{{count}} kelime dakika",
+      "wpm_other": "{{count}} kelime dakika",
+      "secondsLeft_one": "{{count}} saniye kaldı",
+      "secondsLeft_other": "{{count}} saniye kaldı",
+      "inputLabel": "Buraya paragraf yazın",
+      "placeholder": "Buraya başlayarak yazın…",
+      "nothing": "Hiçbir şey paragraf ile eşleşmedi. Yeniden dene.",
+      "result_one": "Yazıyorsunuz yaklaşık {{count}} kelime dakika.",
+      "result_other": "Yazıyorsunuz yaklaşık {{count}} kelime dakika.",
+      "tryAgain": "Yine dene",
+      "recalculate": "Yeniden hesapla"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "Tüm ayarlar tamamlandı",
+      "subtitle": "Wispr Bro nasıl ayarlandığını burada görüyoruz. Her uygulamada kısayolunu tutun ve söylenmeyi başlatın.",
+      "languages": "Diller",
+      "shortcut": "Hızlı erişim",
+      "shortcutFn": "Fn'ı tutun (🌐)",
+      "shortcutFallback": "Control ve Seçenek tuşlarını tutun",
+      "microphone": "Mikrofon",
+      "micDefault": "Mac'ın varsayılan mikrofonu",
+      "typing": "Yazım hızı",
+      "typingWpm_one": "{{count}} kelime dakika",
+      "typingWpm_other": "{{count}} kelime dakika",
+      "typingSkipped": "Ölçülmemiş",
+      "notSet": "Belirtilmemiş",
+      "launchAtLogin": "Wispr Bro'yu giriş yaptığınızda aç",
+      "launchAtLoginHint": "O zaman her zaman ihtiyacınız olursa dictation hazır.",
+      "later": "Bunu daha sonra Ayarlar'da değişteyebilirsin.",
+      "finish": "Dictasyonu başlat"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Yeni ne var {{version}}",
+    "label": "Bu sürüm için açıklamalar",
+    "close": "Kapat",
+    "done": "Anladım"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "İşlemi {{appName}} üzerinde paylaş",
+    "body": "{{appName}} ücretsiz ve açık kaynaklıdır ve tamamen Mac'te çalışır. İndirme kodu yoktur ve hiçbir şey takip edilmez: bağlantı herkes için aynıdır.",
+    "downloadLabel": "İndirme bağlantısı",
+    "brewLabel": "Homebrew ile kurulum",
+    "copyLink": "İndirme bağlantısını kopyala",
+    "copyBrew": "Evrensel Homebrew komutunu kopyala",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "copyFailed": "Kopyalanamadı. Metni seçip kopyalayın.",
+    "shareTitle": "Birine gönder",
+    "shareBody": "Mesajlar, E-posta, AirDrop ve Mac'in paylaşabileceği her başka yol.",
+    "shareButton": "Paylaş...",
+    "shareFailed": "Paylaşma panosu açılamadı."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Dictasyon kısayolunuz çalışmıyor. Wispr Bro yeniden Erişilebilirlik erişimine ihtiyaç duyor.",
+      "stopped": "Dictasyon kısayolunuz cevap vermiyor.",
+      "fix": "Düzel"
+    },
+    "sheet": {
+      "title": "Kısayolunu düzelt",
+      "introPermission": "macOS Wispr Bro'ya Erişim erişimini kapatmıştır, bu yüzden kısa yolu fark etmiyor. Bu, bir güncellemeden sonra veya Sistem Ayarlarında girişin değiştirilmesiyle olabilir.",
+      "introStopped": "Wispr Bro'nun klavye dinleyici durdu. macOS'ın izin vermesi durumunda kendiliğinden tekrar başlar.",
+      "pictureLabel": "Sistem Ayarları, Gizlilik & Güvenlik, Erişilebilirlik: Wispr Bro satırı, switch açık",
+      "pictureTitle": "Erişilebilirlik",
+      "pictureBack": "Gizlilik & Güvenlik",
+      "stepsTitle": "Tekrar aç",
+      "step1": "Sistem Ayarları › Gizlilik & Güvenlik › Erişilebilirlik'i açın.",
+      "step2": "Wispr Bro'yu açın. Zaten açık ise, kapatıp tekrar açın.",
+      "step3": "Buraya döner. Kısa bir süre içinde kısayol tekrar çalışır, yeniden başlatmadan.",
+      "resetTitle": "Hâlâ çalışmıyorsa?",
+      "resetBody": "Güncellemeden sonra macOS, uygulama ile artık eşleşmeyen bir eski giriş koruyabilir. Sıfırla, Wispr Bro'nun girişini kaldırarak yeniden onaylayabilirsiniz.",
+      "resetStep1": "Yeniden ayarla ve tekrar onayla.",
+      "resetStep2": "Wispr Bro'yu macOS sorması durumunda onayla ya da açılan listede açın.",
+      "resetFailed": "Giriş sıfırlanamadı. Liste içinde Wispr Bro'yu seçip eksi düğmesiyle kaldırın, sonra artı düğmesiyle yeniden ekleyin.",
+      "openSettings": "Erişilebilirlik Ayarlarını Aç",
+      "reset": "Sıfırla ve yeniden onayla",
+      "checkAgain": "Tekrar kontrol et",
+      "relaunch": "Yeniden başlatma için",
+      "close": "Kapat",
+      "status": {
+        "healthy": "Kısa yolu doğru çalışıyor.",
+        "lost": "Hâlâ çalışmiyor",
+        "recovering": "Yeniden bağlanılıyor...",
+        "needsRelaunch": "Erişim geri döndü. Wispr Bro'yu yeniden başlatın."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "İlk olarak ne denemek istersiniz?",
+    "subtitle": "Birini seçip nasıl çalıştığını gör. Sonra kendi uygulamanda deney.",
+    "choicesLabel": "Başlangıç yöntemleri",
+    "choices": {
+      "ai_chat": "Bir AI yardımcı sor",
+      "note": "Bir not yaz",
+      "message": "Bir mesajı cevapla",
+      "email": "Bir e-posta yaz",
+      "comment": "Yorum yap",
+      "document": "Bir belge yazın",
+      "coding": "Kod aracıyı tetikle"
+    },
+    "scene": {
+      "label": "Örnek: {{choice}}",
+      "said": "Sen demeyi",
+      "written": "{{appName}} yazıyor",
+      "pause": "Örnekleri durdur",
+      "play": "Örnekleri oynat"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI sohbeti",
+        "context": "Ne ile yardımcı olabilirim?",
+        "said": "um so senin bu konuyu yeni öğreniyorsan nasıl çalıştığını anlatabilir misin",
+        "text": "Bileşik faiz nasıl çalışır, benim bu konuda yeni olduğumu düşünerek anlatabilir misiniz?"
+      },
+      "note": {
+        "app": "Notlar",
+        "context": "Pazartesi",
+        "said": "kendime not et, diş hekimiyle görüş ve altı saatte önce kurutma temizliği al",
+        "text": "Kendime not: diş hekimiyle görüşüp,altı saat öncesi kurutma temizliği al."
+      },
+      "message": {
+        "app": "Mesajlar",
+        "context": "İşte öğlen yemeği için hâlâ var mı?",
+        "said": "evet kesin olarak on üçte yedi doğru mu",
+        "text": "Evet, kesin! 12:30 sizin için uygun mu?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "To: Priya · Konu: Perşembe",
+        "said": "merhaba Priya notlarınız için teşekkür ederim, perşembe sabahı taslağı gönderirim",
+        "text": "Merhaba Priya, notlarınız için teşekkür ederim. Çarşamba sabahı draft'ı gönderirim."
+      },
+      "comment": {
+        "app": "Sosyal",
+        "context": "Yeni ofisimiz hafta sonu açılıyor!",
+        "said": "tüm ekipa tebrik ederiz bu çok güzel görünüyor",
+        "text": "Tüm ekipa için tebrikler, bu çok harika görünüyor!"
+      },
+      "document": {
+        "app": "Dokümanlar",
+        "context": "Proje planı",
+        "said": "bu aşamanın amacı, ay sonuna kadar beta sürümünü beş yirmi test ediciye göndermek",
+        "text": "Bu aşamanın amacı, ayın sonunda 50 test ediciye beta sürümünü göndermektir."
+      },
+      "coding": {
+        "app": "Kod düzenleyici",
+        "context": "Ağentinin sorusunu sor",
+        "said": "giriş düğmesi mobil cihazda çalışmiyor, nedenini bulup onu düzeltin",
+        "text": "Giriş düğmesi mobil cihazda çalışmıyor. Nedenini bulup onu düzeltin mi?"
+      }
+    },
+    "tryNow": "Şimdi deneyin",
+    "later": "Belki sonra",
+    "close": "Kapat",
+    "noBar": "Dictasyon çubuğu çalışıyor değil, bu yüzden bir ipucu gösterilemiyor. Hâlâ deneyebilirsiniz: uygulamayı açın ve kısayolunu tutun.",
+    "banner": {
+      "title": "Kendi uygulamalarınıza kullanın",
+      "body": "{{hint}}. {{how}}",
+      "again": "İpucunu tekrar göster",
+      "stop": "İpucu'yu gizle",
+      "other": "Bir şey daha dene",
+      "active": "İpucu ekranınızda. Onu kapatmak için Esc tuşuna basın."
+    }
+  },
+  "checklist": {
+    "title": "Başlayalım",
+    "label": "Ayar listesi",
+    "progress": "{{done}} of {{total}} tamam",
+    "hide": "Controllü listeyi gizle",
+    "done": "Bitti",
+    "next": "Bir sonraki",
+    "allDone": "Tümü tamam. Temel bilgileri biliyorsun.",
+    "items": {
+      "try_in_app": {
+        "title": "Başka bir uygulamada deneyin",
+        "action": "Bana göster"
+      },
+      "add_word": {
+        "title": "Bir kelime ekle",
+        "action": "Bir kelime ekle",
+        "coachTitle": "İlk kelimenizi ekleyin",
+        "coachBody": "Sık kullandığınız isimler, ürün terimleri ve jargonlar. Bunlar sizin nasıl yazdığınız gibi yazılır."
+      },
+      "create_snippet": {
+        "title": "Bir snippet oluştur",
+        "action": "Yeni parçası",
+        "coachTitle": "İlk snippet'ini oluştur",
+        "coachBody": "Bir kısa ifade söyleyin ve uzun bir metin elde edin: adresiniz, bir link, bir son söz."
+      },
+      "launch_at_login": {
+        "title": "Girişte aç",
+        "action": "Aç",
+        "body": "{{appName}} Mac ile başlar, bu yüzden kısa yolu her zaman çalışır."
+      }
+    },
+    "coach": {
+      "close": "Kapat",
+      "done": "Anla"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Wispr Bro'nun sistem temasını izlemesini ya da açık veya koyu kalmasını seçin"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

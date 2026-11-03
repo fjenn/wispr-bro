@@ -1,40 +1,40 @@
 {
   "debug": {
     "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "description": "Interne controles voor de Wispr Bro laag. Alleen weergegeven in debug-builds of wanneer de app is gestart met --debug.",
+    "close": "Dichtmaken",
+    "runAgain": "Opnieuw uitvoeren",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Status van model",
+      "notReady": "Niet klaar nog: de app is niet volledig gestart."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Laatste ping gebeurtenis",
+      "none": "Geen gebeurtenis ontvangen nog."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "Wacht op...",
+    "error": "Fout: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
+      "title": "Inhoudsbeveiligingsbeleid",
+      "description": "Een audiobestand speelt via het assetprotocol, laadt gegevens: en blob: afbeeldingen, roept een fork-opdracht op en controleert of een toegestane afbeelding is geblokkeerd.",
+      "run": "CSP controle uitvoeren",
+      "running": "Aan het uitvoeren…",
+      "pass": "Gepasseerd: geen onverwachte CSP-verstoring.",
+      "fail": "Mislukt: zie de controles hieronder.",
       "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "failed": "gevallen ({{detail}})",
+      "noViolations": "Geen CSP-vereisten opgenomen.",
+      "violations_one": "{{count}} CSP overtreding opgeslagen.",
+      "violations_other": "{{count}} CSP overtredingen opgeslagen.",
       "checks": {
         "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
+        "dataImage": "data: afbeelding",
+        "blobImage": "blob: afbeelding",
         "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "probe": "Geblokkeerde bron"
       }
     },
     "notifications": {
@@ -47,40 +47,40 @@
     },
     "update": {
       "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
+      "version": "Versie",
+      "channel": "Kanaal",
+      "key": "Signatuur sleutel",
+      "endpoints": "Voedingsbronnen",
+      "checksOff": "Update controles zijn uit (Instellingen › Geavanceerd, of een uitknop is ingesteld).",
+      "check": "Controleer nu",
+      "checking": "Controleren…",
+      "install": "Installeer {{version}} en herstart",
+      "installing": "Ophalen en controleren…",
+      "installed": "{{version}} geïnstalleerd. Opnieuw opstarten…",
       "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "upToDate": "Bijgewerkt.",
+      "failed": "Kan niet controleren: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Fork instellingen",
+      "loading": "Instellingen laden…",
+      "loadError": "Kon de instellingen niet lezen: {{message}}",
+      "setError": "Die wijziging is niet opgeslagen: {{message}}",
+      "contextAwareness": "Contextbewustzijn",
+      "contextAwarenessHint": "Gebruikt namen in de tekst dichtbij je cursor om ze juist te typen. Die tekst blijft op deze Mac en wordt nooit opgeslagen.",
       "transforms": "Transforms",
       "transformsHint": "⌥1 verbetert de geselecteerde tekst en ⌥2 zet het om in een duidelijker AI-prompt. Wanneer ingeschakeld, vervangen die toetsen ¡ en ™.",
       "transformsSafeShortcuts": "Gebruik ⌃⌥1 en ⌃⌥2 in plaats daarvan",
       "transformsSafeShortcutsHint": "Houdt ¡ en ™ beschikbaar met ⌥1 en ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Cleanup niveau",
       "levels": {
-        "none": "None",
-        "light": "Light",
-        "medium": "Medium"
+        "none": "Geen",
+        "light": "Licht",
+        "medium": "Middel"
       },
-      "all": "All settings"
+      "all": "Alle instellingen"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Algemene",
       "system": "Systeem",
-      "vibe": "Vibe coding",
+      "vibe": "Coding in een sfeer",
       "privacy": "Gegevens en Privacy",
       "advanced": "Geavanceerd",
       "about": "Over",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Schrappenbord openen in",
       "scratchpadHint": "Kies waar de Scratchpad opent wanneer je zijn sneltoets gebruikt.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Mijn laatste notitie opnieuw opstarten",
+        "new_note": "Een nieuwe notitie beginnen"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro kan de code namen en bestandsnamen lezen die VS Code, Cursor en Windsurf op scherm tonen via Accessibility. Het opent nooit je projectmap of je bestanden.",
+      "contextOff": "Contextbewustzijn is uit, dus deze functies hebben niets te lezen. Schakel het aan om ze te gebruiken.",
+      "recognize": "Code namen herkennen",
+      "recognizeHint": "Wanneer je een variabele of functie naam zegt die zichtbaar is in je editor, wordt die geschreven zoals je code het schrijft, zoals getUserById of user_id.",
+      "setUp": "Instellen",
+      "change": "Editors wijzigen",
+      "setUpFor": "Instellen voor {{editors}}",
+      "fileTags": "Bestand tags in chat",
+      "fileTagsHint": "In de Cursor of Windsurf chat, zeggen \"index dot ts\" schrijft @index.ts wanneer die bestand open is in een tab of in de bestandslijst.",
+      "fileTagsNeedsChat": "Beschikbaar nadat u Cursor of Windsurf heeft toegevoegd aan uw editors.",
+      "fileTagsNeedsSetup": "Beschikbaar nadat u herkenning van code namen hebt ingesteld.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Code naam herkennen instellen",
+        "stepEditors": "1. Kies de editors die je gebruikt",
+        "stepScreenReader": "2. Schakel de schermlezermodus in elke app in, zodat ze hun tekst delen met Wispr Bro",
+        "openSettings": "Open de instellingen van de editor met ⌘ komma.",
+        "search": "Zoek naar \"toegankelijkheid ondersteuning\".",
+        "setOn": "Editor: Toegankelijkheid ondersteuning op \"aan\".",
+        "palette": "U kunt ook \"Schakel Schermlezer Toegankelijkheid Modus in/uit\" uitvoeren in de Command Palette (⇧⌘P).",
+        "confirm": "Ik heb de schermlezermodus ingeschakeld in deze editors",
+        "cancel": "Annuleren",
+        "finish": "Setup afronden"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Privé vanaf het begin",
+        "local": "Je dictatie en gegevens blijven op deze Mac.",
+        "noCloud": "Spraakherkenning, opruimen en geschiedenis lopen lokaal. Er is geen account, telemetrie, clouddictatie of cloudopruimen.",
+        "networkIntro": "Wispr Bro gebruikt het netwerk alleen voor deze twee dingen:",
+        "models": "Download spraak en cleanup modellen van Hugging Face (huggingface.co).",
+        "updates": "Wanneer updatecontroles zijn ingeschakeld, zoek op GitHub (github.com) naar app-updates."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Waar je gegevens wonen",
+        "hint": "Deze mappen horen bij Wispr Bro. Portabele installaties houden alle mappen in de Data map van de app.",
+        "data": "Appgegevens en instellingen",
+        "models": "Gedownloade modellen",
+        "recordings": "Opnames",
+        "logs": "Logs en crashverslagen",
+        "show": "Toon in Finder",
+        "loading": "Bevestigen...",
+        "failed": "Kan die map niet openen. Probeer het opnieuw."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Hoe lang de geschiedenis bewaren",
+        "textLabel": "Bewaar gedicteerde tekst",
+        "textHint": "Oudere entries worden automatisch verwijderd. Tekst wordt standaard voor altijd bewaard.",
+        "audioLabel": "Bewaar opnames",
+        "audioHint": "Gesprekken verlopen na 14 dagen standaard. Opslaan van audio houdt de geschreven tekst tot de tekstlimiet.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Audio nooit opslaan",
+          "1": "1 dag",
+          "7": "7 dagen",
+          "14": "14 dagen",
+          "30": "30 dagen",
+          "90": "90 dagen",
+          "365": "1 jaar",
+          "forever": "Eeuwig"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Privacykeuzes",
+        "context": "Context bewustzijn gebruiken",
+        "contextHint": "Alleen tekst in de buurt lezen wanneer je schrijft om namen en spelling te herkennen. Context wordt niet opgeslagen of geëxporteerd.",
+        "updates": "Controleren of updates beschikbaar zijn",
+        "updatesHint": "Neem contact op met GitHub om te controleren of er een nieuwe versie is. Geen dictatie of persoonlijke gegevens worden verzonden.",
+        "learn": "Leer uit mijn correcties",
+        "learnHint": "Na een dictatie is geplakt, merk woorden op die je in dat veld corrigeert en stel ze in het Woordenboek voor. Alleen het gecorrigeerde woord wordt opgeslagen; de rest van de tekst wordt nooit opgeslagen of geëxporteerd."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Je gegevens",
+        "hint": "Een zip bestand exporteren met je geschiedenis, instellingen en opnames. Modellen en logs zijn niet opgenomen.",
+        "button": "Mijn gegevens exporteren",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Ziparchief",
+        "done": "Geexporteerd en getoond in Finder.",
+        "failed": "Kan je gegevens niet exporteren. Niets is verwijderd."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Alle mijn gegevens verwijderen",
+        "title": "Alle gegevens verwijderen?",
+        "warning": "Dit verwijdert permanent geschiedenis, opnames, instellingen, logs en crashrapporten. Dit kan niet ongedaan gemaakt worden.",
+        "relaunch": "Wispr Bro zal stoppen met werken, de gegevens wissen en opnieuw starten in opstartproces.",
+        "models": "Zorg ook dat gedownloade modellen worden verwijderd",
+        "modelsHint": "Zet dit uit om te voorkomen dat spraak- en cleanupmodellen opnieuw worden gedownload.",
+        "confirmLabel": "Typ {{word}} om te bevestigen",
+        "cancel": "Annuleren",
+        "confirm": "Alles verwijderen",
+        "failed": "Alle verwijderen is niet afgerond. Controleer de overblijvende gegevens voordat je opnieuw probeert."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Rapporten over crashen en diagnostiek",
+        "hint": "Rapporten over crashen blijven op deze Mac en worden nooit geupload. Kopieer of sla diagnostics op alleen wanneer je ze wilt delen.",
+        "sanitized": "Diagnostiek verwijdert gedicteerde tekst, prompts, woorden uit het woordenboek, e-mailadressen, toetsen en de padnaam van je thuismap.",
+        "copy": "Diagnostica kopiëren",
+        "save": "Diagnostica opslaan…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Diagnostica gecontroleerd en gekopieerd.",
+        "saved": "Diagnostica gecontroleerd en opgeslagen.",
+        "failed": "Kan diagnostiek niet voorbereiden. Probeer opnieuw."
       }
     },
     "advanced": {
@@ -355,12 +355,12 @@
       "source": "Broncode weergeven",
       "updates": "Update notities",
       "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "license": "Gratis software onder de GNU Algemene Publieke Licentie, versie 3 (GPL-3.0).",
+      "licenseLink": "Licentie bekijken",
+      "credit": "Gebouwd op Handy door CJ Pais, gebruikt onder de MIT Licentie. Dank aan iedereen die erop werkt.",
+      "creditLink": "Handy op GitHub",
+      "supportTitle": "Ondersteuning van ontwikkeling",
+      "supportBody": "{{appName}} heeft geen betaalde plan. De beste ondersteuning is een bugrapport, een idee of een bijdrage op GitHub."
     },
     "hotkeys": {
       "open": "Sneltoetsen",
@@ -412,7 +412,7 @@
           "view_changes": "Bekijk transformatie wijzigingen"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Schrappenbord openen"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Bekijk de laatste transformatie voor en na."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Voer uw vorige notitie op of start er een nieuwe, afhankelijk van uw instellingen voor Scratchpad."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Hoofd"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Sidebar samenvouwen",
+      "expand": "Sidebar uitbreiden"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Wissel naar donkere uitstraling",
+      "toLight": "Wissel naar licht uitstraling"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Notificaties",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Niets nieuws",
+        "body": "Updates en tips verschijnen hier."
       },
       "bellUnread_one": "Notificaties, {{count}} ongelezen",
       "bellUnread_other": "Notificaties, {{count}} ongelezen",
@@ -485,65 +485,65 @@
       "justNow": "Geen moment geleden"
     },
     "help": {
-      "title": "Help",
+      "title": "Hulp",
       "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "whatsNew": "Wat is nieuw",
+      "essentials": "Essentiële onderdelen",
+      "shortcuts": "Snelkoppelingen",
+      "microphone": "Microfoon",
+      "languages": "Talen",
+      "documentation": "Documentatie",
+      "getInTouch": "Neem contact op",
+      "reportProblem": "Een probleem melden…",
+      "sendFeedback": "Feedback verzenden",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Een probleem melden",
+        "body": "Dit opent een nieuwe issue op GitHub in je browser, met je appversie en Mac-model ingevuld. Er wordt nooit iets wat je dictatie hebt gedaan, en je kunt alles lezen en wijzigen voordat je het verzendt.",
+        "diagnosticsTitle": "Diagnostiek (optioneel)",
+        "diagnosticsBody": "Gebruikte logbestanden helpen bij het vinden van de oorzaak. Ze bevatten nooit jouw dictaties. Kopieer ze hier, en plak dan in het probleem.",
+        "copy": "Diagnostica kopiëren",
+        "copied": "Diagnostica gekopieerd. Plak ze in het probleem.",
+        "copyFailed": "Kan diagnostiek niet kopiëren.",
+        "open": "GitHub openen",
+        "cancel": "Annuleren",
+        "close": "Sluiten"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Afdelingen van instellingen"
     },
     "pages": {
       "dictation": {
-        "title": "Dictation",
+        "title": "Dictatie",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Praten in plaats van typen",
+          "body": "Houd fn in elke app, zeg wat je wilt schrijven en los los. {{appName}} zet nette tekst waar je cursor is.",
+          "examplesLabel": "Dingen om te proberen",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Een snelle reactie op een bericht",
+            "notes": "Notities direct na een telefooncall",
+            "prompt": "Een lang prompt voor een AI-chat"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Uw dictaties verschijnen hier",
+          "body": "Elke enkele wordt opgeslagen op dit Mac, met de audio, dus je kunt het later kopiëren of controleren.",
+          "action": "Geschiedenis openen"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Inzichten",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Insights hebben een paar dictaties nodig",
+          "body": "Je sprekersnelheid, streek en de tijd die je bespaart worden weergegeven zodra je een tijdje hebt dictatie gemaakt.",
+          "action": "Ga naar Dictatie"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Woordenboek",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -553,40 +553,40 @@
       "snippets": {
         "title": "Snippets",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Snippets komen binnenkort",
+          "body": "Zeg een korte aanwijzing zoals \"mijn adres\" en krijg de volledige tekst. Deze pagina komt in een latere update.",
+          "action": "Ga naar Dictatie"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Stijl",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Stijlen komen binnen",
+          "body": "Kies hoe gepolijst je tekst is in elke soort app, van formele e-mail tot ontspannen chat. Deze pagina komt in een latere update.",
+          "action": "Ga naar Dictatie"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Transformaties",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Transforms komen binnenkort",
+          "body": "Kies tekst en herschrijf deze met één sneltoets: korter, duidelijker of beter georganiseerd. Deze pagina komt in een latere update.",
+          "action": "Ga naar Dictatie"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Scratchpad is op de weg",
+          "body": "Een snelle plek om notities op te schrijven voordat ze elders gaan. Deze pagina komt in een latere update.",
+          "action": "Ga naar Dictatie"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Deel met een vriend"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Instellingen"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Toon me"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Updatecontroles uitschakelen",
+      "turnOn": "Aanzetten",
+      "notChecked": "Nog niet gecontroleerd",
+      "check": "Update controleren",
+      "checking": "Controleren of er updates zijn…",
+      "upToDate": "Bijgewerkt",
+      "checkAgain": "Control opnieuw",
+      "checkFailed": "Kan niet controleren",
+      "retry": "Herproberen",
+      "downloading": "Ondertekening van {{version}}…",
+      "ready": "Update klaar",
+      "restartNow": "Herstart nu",
+      "installing": "Installeert {{version}}...",
+      "installedWaiting": "{{version}} geïnstalleerd · herstarten na deze dictatie",
+      "restarting": "Herstarten…",
+      "installFailed": "Update is niet geïnstalleerd",
+      "busy": "Eerst dicteer af.",
+      "actionFailed": "Dat is niet gewerkt. Probeer het later opnieuw.",
+      "lastChecked": "Laatst gecontroleerd {{time}}.",
+      "paused": "Na drie mislukte pogingen wordt de automatische update ingesteld op pauze tot {{time}}.",
+      "manualOnly": "Dit is een ontwikkelingsbuild: updates worden alleen gecontroleerd wanneer je dat vraagt.",
+      "readyHint": "Installeert zich automatisch wanneer je 20 minuten niet hebt gedictateerd, of wanneer je het programma afsluit.",
+      "policy": "Updates downloaden in de achtergrond en worden alleen geïnstalleerd wanneer je niet dicteert of wanneer je het programma sluit.",
+      "needsPassword": "Deze versie van de app zit in een map die een beheerderwachtwoord vereist om te wijzigen, dus alleen wanneer je nu opnieuw start, worden updates geïnstalleerd."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Nieuw!",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Weigeren"
     },
     "importWizard": {
       "stepsLabel": "Stappen importeren",
@@ -672,61 +672,61 @@
   "rust": {
     "appName": "Wispr Bro",
     "menu": {
-      "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
-      "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
+      "dictation": "Dictatie",
+      "vocabulary": "Vocabulaire",
+      "help": "Hulp",
+      "file": "Bestand",
+      "edit": "Bewerken",
+      "view": "Bekijk",
+      "window": "Venster",
+      "wordsDictated_one": "{{count}} woord dictatie",
+      "wordsDictated_other": "{{count}} woorden dictatie",
+      "copyLast": "Laatste transcript kopiëren",
+      "copyLastPreview": "Laatste transcript kopiëren: \"{{preview}}\"",
+      "copyLastConcealed": "Laatste transcript (tekst verborgen) kopiëren",
+      "microphone": "Microfoon",
+      "languages": "Talen",
+      "moreLanguages": "Taal toevoegen of verwijderen…",
+      "automaticMicrophone": "Automatisch detecteren (systeeminstelling)",
+      "noMicrophones": "Geen microfoons gevonden",
+      "dictionaryWords_one": "{{count}} woord uit het woordenboek",
+      "dictionaryWords_other": "{{count}} woorden uit het woordenboek",
+      "snippetCount_one": "{{count}} fragment",
+      "snippetCount_other": "{{count}} stukjes",
+      "addWord": "Woord toevoegen…",
+      "newSnippet": "Nieuwe snippet…",
+      "documentation": "Documentatie",
+      "shortcuts": "Sneltoetsen",
+      "reportProblem": "Een probleem melden…",
+      "sendFeedback": "Feedback verzenden…",
       "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
+      "checkUpdates": "Controleren of er updates zijn…",
+      "pasteLast": "Laatste transcript plakken",
+      "cancelDictation": "Dictatie annuleren",
+      "shortcutsBlocked": "Sneltoetsen geblokkeerd — open Instellingen",
+      "undo": "Ongedaan maken",
+      "redo": "Herstellen",
+      "cut": "Snijden",
+      "copy": "Kopieer",
+      "paste": "Plakken",
+      "selectAll": "Alles selecteren",
+      "minimize": "Minimaliseren",
       "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "closeWindow": "Venster sluiten",
+      "fullScreen": "Volledig scherm ingaan",
+      "services": "Diensten",
+      "hideOthers": "Andere verbergen",
+      "showAll": "Alle tonen weergeven",
+      "about": "Over {{appName}}",
+      "hide": "Zichtbaar maken {{appName}}",
+      "quitApp": "Afsluiten {{appName}}",
+      "restartToUpdate": "Herstarten om te upgraden naar {{version}}",
+      "updatesOff": "Controles van updates zijn uit…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Sneltoets werkt niet meer"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -738,20 +738,20 @@
         "option": "Option",
         "shift": "Shift",
         "command": "Command",
-        "space": "Space",
+        "space": "ruimte",
         "escape": "Escape",
         "return": "Return",
         "tab": "Tab",
-        "delete": "Delete",
+        "delete": "Verwijder",
         "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
+        "left": "Links pijl",
+        "right": "Rechts pijl",
+        "up": "Bovenste pijl",
         "down": "Down Arrow",
         "home": "Home",
-        "end": "End",
-        "pageUp": "Page Up",
-        "pageDown": "Page Down",
+        "end": "Einde",
+        "pageUp": "Pagenaar omhoog",
+        "pageDown": "Pagend",
         "mouseLeft": "Linkermuisknop",
         "mouseRight": "Rechtermuisknop",
         "mouseMiddle": "Middelste muisknop",
@@ -792,7 +792,7 @@
       },
       "milestoneStreak": {
         "title": "{{days}}-dag stroom",
-        "body": "Je hebt dictieerd op {{days}} dagen in een rij."
+        "body": "Je hebt dicteerd op {{days}} dagen in een rij."
       },
       "tips": {
         "handsFree": {
@@ -847,7 +847,7 @@
       "slots": {
         "dictate": {
           "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "tooltip": "Houd fn ingedrukt om te dictaten"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "De microfoon is verloren. Wat je net zei wordt opgeslagen.",
         "undo": "Ongedaan maken staat 4 seconden op de dicteerbalk.",
         "diff": "Wijzigingen zijn klaar om te bekijken.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Beveiligde invoer is ingeschakeld. fn en Space kunnen dictatie niet verbinden. Escape of het sluiten knoppen annuleert nog steeds."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Kies 6.000 tekens of minder",
         "transform_focus_moved": "Je bent verder gegaan, dus niets is veranderd",
         "transform_failed": "Kan die tekst niet omzetten",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Je sneltoets werkt niet meer",
+        "shortcut_stopped": "Je sneltoets reageert niet meer",
+        "shortcut_back": "Je sneltoets werkt weer"
       },
       "card": {
         "no_text_field": "Klik eerst in een tekstveld",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} is gratis dictie die volledig op je Mac draait. Krijg het hier:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Volgende stap",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Een AI-chat openen, zoals ChatGPT of Claude",
+        "note": "Open je notitiesapp",
+        "message": "Een chat openen, zoals Messages of Slack",
+        "email": "Open je e-mail",
+        "comment": "Een post openen die je wilt comentaren",
+        "document": "Een document dat je schrijft openen",
+        "coding": "Open Cursor, VS Code of een andere codeeditor"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Klik waar je wilt schrijven, houd dan fn en zeg het.",
+      "howFallback": "Klik waar je wilt schrijven, houd dan Control en Option ingedrukt en zeg het.",
+      "escape": "Druk op Esc om dit hint te sluiten."
     }
   },
   "speechModels": {
     "title": "Spraakmodellen",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} kiest de spraakmodel voor je talen en deze Mac, en vervangt het door een beter model wanneer dat mogelijk is. Je hoeft nooit te kiezen.",
     "loading": "Controleert de spraakmodellen…",
     "current": "Actief: {{name}}",
     "none": "Geen spraakmodel nog",
@@ -1087,7 +1087,7 @@
       "edit": "Bewerk {{entry}}",
       "delete": "Verwijder {{entry}}",
       "accept": "Voeg {{entry}} toe aan je woordenboek",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Leer niet {{entry}}"
     },
     "source": {
       "import": "Geïmporteerd",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Geen suggesties nog",
       "body": "Wanneer {{appName}} kan leren van de woorden die je corrigeert, verschijnen ze hier voor je goedkeuring.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Een verkeurlijk woord of term in de tekstvak correctie na dictatie aanpassen, dan op Enter, Tab of verder gaan. Het gewijzigde woord wordt hier getoond om te bevestigen."
     },
     "noMatch": {
       "title": "Niets komt overeen",
@@ -1110,7 +1110,7 @@
       "action": "Zoekterm wissen"
     },
     "unavailable": {
-      "title": "De woordenboek is nog niet beschikbaar",
+      "title": "Het woordenboek is nog niet beschikbaar",
       "body": "Het wordt geopend zodra de app is gestart."
     },
     "problem": {
@@ -1195,8 +1195,8 @@
         "kept_other": "{{count}} conflicten behouden zoals ze waren",
         "invalid_one": "{{count}} rij kon niet worden geïmporteerd",
         "invalid_other": "{{count}} rijen konden niet worden geïmporteerd",
-        "overLimit_one": "{{count}} pasten niet (de woordenboek is vol)",
-        "overLimit_other": "{{count}} pasten niet (de woordenboek is vol)"
+        "overLimit_one": "{{count}} pasten niet (het woordenboek is vol)",
+        "overLimit_other": "{{count}} pasten niet (het woordenboek is vol)"
       }
     },
     "export": {
@@ -1204,13 +1204,13 @@
       "fileName": "{{appName}} woordenboek.csv",
       "done_one": "Gewijzigd {{count}} entry.",
       "done_other": "Gewijzigd {{count}} entries.",
-      "failed": "De woordenboek kan niet worden geëxporteerd. Probeer het opnieuw."
+      "failed": "Het woordenboek kan niet worden geëxporteerd. Probeer het opnieuw."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” wordt niet meer aanbevolen.",
+    "actionFailed": "Dat is niet gewerkt. Probeer het opnieuw.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Leer van mijn correcties",
+      "hint": "Voor 30 seconden na dat een dictatie is geplakt, merkt {{appName}} woorden op die je hier in het veld corrigeert en stelt ze voor. Alleen het gewijzigde woord wordt opgeslagen, nooit de rest van de tekst. Wachtwoorden, wachtwoordbeheersystemen, bankapplicaties en terminalen worden nooit gelezen."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Bijliggende tekst hielp bij spelling",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Microfoon verloren, houdt wat je zei",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Beveiligde invoer is ingeschakeld · fn+Space kan niet locken · Esc of ✕ annuleert",
+      "secure_input_app": "{{app}} heeft Beveiligde Invoer aan · fn+Space kan niet locken · Esc of ✕ annuleert"
     },
     "settingUp": "Instellen…",
     "settingUpPercent": "Instellen… {{percent}}%",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Wijzigingen weergeven",
     "sendsAutomatically": "Verstuurt automatisch",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Toegang tot toegankelijkheid is uit",
+      "stopped": "De toetsenbordlistener is gestopt"
     }
   },
   "transforms": {
@@ -1612,7 +1612,7 @@
       "ai": "AI-afwijkingen verbeteren"
     },
     "categories": {
-      "title": "Waar je dictieert",
+      "title": "Waar je dicteert",
       "empty": "Dictate in een paar apps om te zien waar je woorden heen gaan.",
       "words_one": "{{count, number}} woord",
       "words_other": "{{count, number}} woorden",
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Nieuw note",
+    "preferences": "voorkeuren van de scratchpad",
+    "addToBar": "Voeg toe aan de balk",
+    "addToBarHelp": "Een Scratchpad-knop bij Dictate houden op de rustbare.",
+    "recents": "Recenten",
+    "searchLabel": "Zoek notities",
+    "searchPlaceholder": "Zoek in je notities",
+    "loading": "Notities laden…",
+    "empty": "Geen notities nog",
+    "emptyHelp": "Begin een notitie, dan typ of dicteer in het zwevende venster.",
+    "emptyNote": "Lege nota",
+    "noResults": "Geen notities voldoen aan je zoekopdracht.",
+    "untitled": "Onbevestigd note",
+    "pinned": "Aangeduid",
+    "pin": "Note pinnen",
+    "unpin": "Note ontkoppelen",
+    "editAction": "Notitie bewerken",
+    "edit": "Bewerk {{name}}",
+    "delete": "Note verwijderen",
+    "deleteConfirm": "Verwijder \"{{name}}\"? Dit kan niet ongedaan gemaakt worden.",
+    "error": "De scratchpad kon die actie niet afronden. Je huidige tekst staat nog hier; probeer het opnieuw.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
-      "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "label": "Sneltoets openen",
+      "change": "Sneltoets instellen",
+      "title": "Scherpplaat sneltoets",
+      "help": "Schakel Scratchpad in elk punt van de computer in. Het start leeg, dus het neemt geen toets in totdat je er een kiest.",
+      "close": "Sneltoets dialoog sluiten",
+      "proposed": "Aanbevolen combinatie",
+      "ctrlOptionS": "Control + Optie + S",
+      "use": "Gebruik Control + Optie + S",
+      "chooseAnother": "Kies een andere sneltoets",
+      "error": "Die sneltoets kon niet worden opgeslagen. Probeer een andere combinatie."
     },
     "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tools": "Notitie hulpmiddelen",
+    "sidebar": "Note lijst weergeven",
+    "polish": "Note herstellen",
+    "polishing": "Afhankelijk maken...",
+    "textSize": "Tekstgrootte wijzigen (huidige grootte: {{size}} punten)",
+    "expand": "Notevenverderen",
+    "shrink": "Notevenster grootte herstellen",
+    "close": "Schrappenpad sluiten",
+    "noteBody": "Notitie tekst",
+    "notePlaceholder": "Schrijf of dicteer een nota…",
+    "saved": "Gesaved",
+    "saving": "Bezig met opslaan…",
+    "saveError": "Nog niet opgeslagen",
+    "autosaveHelp": "Automatisch opslaan",
+    "copy": "Kopieer",
+    "copied": "Gekopieerd"
   },
   "style": {
     "tabsLabel": "Stijlgroepen",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Het aanmaken van dingen voorbereiden…",
+    "back": "Terug",
+    "continue": "Doorgaan",
+    "yes": "Ja",
+    "no": "Nee",
+    "downloadHint": "De spraakinstellingen worden in de achtergrond doorgeschreven. Je hoeft hier nooit te wachten.",
+    "navigationFailed": "Die stap kon niet worden opgeslagen. Probeer het opnieuw.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Aanpassingsvoortgang",
+      "welcome": "Welkom",
+      "permissions": "Permissies",
+      "setup": "Instellen",
+      "practice": "Oefenen",
+      "done": "(afgerond)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Hulp",
+      "title": "Hulp bij instellen",
+      "close": "Hulp sluiten",
+      "done": "Oké",
+      "body": "Elke stap duurt een paar seconden. Je kunt op elk moment teruggaan, en als je afbreukt, start het instellen opnieuw waar je opgehouden hebt.",
+      "download": "Wispr Bro installeert spraakherkenning op deze Mac terwijl je deze stappen doorloopt. Alles wat je vooraf dicteert, wordt opgeslagen en wordt later getypt."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Praten, en je woorden verschijnen",
+      "subtitle": "Houd een toets vast, praat, loslaat. Nette tekst verschijnt waar je typen.",
+      "privacyTitle": "Alles blijft op deze Mac",
+      "privacy": "Je stem en je tekst blijven hier op dit apparaat. Geen account, geen cloud, geen tracking.",
+      "download": "De spraakinstellingen beginnen nu en lopen in de achtergrond.",
+      "start": "Beginnen"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Wispr Bro verplaatsen naar Toepassingen",
+      "body": "Wispr Bro draait buiten je Applications map. Het verplaatsen daarheen houdt updates en permisies in het werk.",
+      "note": "Wispr Bro opent zichzelf automatisch na het verplaatsen en voert de instellingen door.",
+      "action": "Verplaats naar Toepassingen",
+      "moving": "Bezig met verplaatsen...",
+      "skip": "Niet nu",
+      "error": "Wispr Bro kon zich niet verplaatsen. Sleep het naar Applications in Finder, dan open het opnieuw."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Welke talen praten wij?",
+      "subtitle": "Kies elke taal waarin je dicteert. Wispr Bro organiseert je woorden beter wanneer het ze kent.",
+      "listLabel": "Talen",
+      "noMatch": "Geen taal komt overeen met \"{{query}}\".",
+      "count_one": "Dictatie werkt in {{count}} taal. Je kunt die later wijzigen in Instellingen.",
+      "count_other": "Dictatie werkt in {{count}} talen. Je kunt het later wijzigen in Instellingen.",
+      "weak_one": "Herkenning is minder nauwkeurig in {{languages}}. Het werkt nog, maar verwacht meer fouten.",
+      "weak_other": "Herkenning is minder nauwkeurig in {{languages}}. Ze werken nog, maar verwacht meer fouten."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Twee permisies",
+      "subtitle": "macOS vraagt om toestemming voor deze instellingen één keer. Elke rij wordt aangevinkt zodra het is aangevinkt.",
+      "allowed": "Toegestaan",
+      "waiting": "Wacht op macOS…",
+      "openSettings": "Systeeminstellingen openen",
+      "prompt": "De macOS prompt",
+      "pane": "In Systeeminstellingen",
       "microphone": {
-        "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "title": "Microfoon",
+        "why": "Dus kan Wispr Bro je horen wanneer je de knop houdt. De geluiden worden alleen verwerkt op deze Mac.",
+        "action": "Microfoon toestaan",
+        "promptAlt": "Afbeelding van de macOS-microfoonprompt, met de knop Toestaan geselecteerd",
+        "paneAlt": "Afbeelding van Systeeminstellingen, Privacy en Beveiliging, Microfoon, met de schakelaar voor Wispr Bro ingeschakeld",
+        "waitingHelp": "Klik \"Toegang geven\" in de macOS-voorkeur. Als je dat niet ziet, open System Instellingen en schakel Wispr Bro in onder Microfoon."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Toegankelijkheid",
+        "why": "Dus kan Wispr Bro je sneltoets opmerken en het teksttype in de app waarin je nu bent.",
+        "action": "Toegang tot Accessibility toestaan",
+        "promptAlt": "Afbeelding van de macOS Accessibility prompt, met de knop Open System Settings gewijzigd",
+        "paneAlt": "Afbeelding van Systeeminstellingen, Privacy en Beveiliging, Toegankelijkheid, met de schakelaar voor Wispr Bro ingeschakeld",
+        "waitingHelp": "In Systeeminstellingen schakel de schakelaar naast Wispr Bro aan. Je kunt eventueel je wachtwoord moeten invoeren om te ontsluiten."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Test je microfoon",
+      "guidance": "Aangesloten en ingebouwde microfoons werken het beste. Bluetooth-oordoppen kunnen verloren gaan of gedempt klinken.",
+      "question": "Veranderen de balken wanneer je praat?",
+      "noHelp": "Kies een andere microfoon hieronder, dan praat opnieuw.",
+      "change": "Microfoon veranderen",
+      "previewList": "Je microfoons worden hier weergegeven."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Test je sneltoets",
+      "instruction": "Druk en houd de fn-toets (🌐) op je toetsenbord ingedrukt. De toets eronder gaat aan als je hem houdt ingedrukt.",
+      "fallbackInstruction": "Houd Control en Option tegelijk ingedrukt. De knoppen hieronder lichten op terwijl je ze houdt ingedrukt.",
+      "unboundInstruction": "Geen dictatie-sneltoets ingesteld. Gebruik Bewerken sneltoets om een te kiezen.",
+      "keyLabel": "de fn-toets",
+      "fallbackKeyLabel": "Control en Optie",
+      "pressed": "Toets ingedrukt",
+      "notPressed": "Wacht op de toets…",
+      "worked": "Het werkt. De knop is aangegeven.",
+      "question": "Is de toets ingeschakeld?",
+      "edit": "Sneltoets bewerken",
+      "tryAgain": "Probeer opnieuw",
+      "otherCauses": "Niet het? Andere mogelijke oorzaken:",
+      "changeFailed": "Die wijziging is niet doorgevoerd. Probeer opnieuw, of gebruik Systeeminstellingen.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro kan toetsinvoer niet zien",
+          "title": "Wispr Bro kan op dit moment nog geen toetsdrukken zien",
+          "body": "Dit betekent meestal dat toegankelijkheid niet is ingeschakeld voor Wispr Bro. Schakel het in in Systeeminstellingen, kom dan terug en druk op Probeer opnieuw.",
+          "action": "Toegang tot toegankelijkheidsinstellingen"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Een wachtwoordveld of een ander app blokkeert toetsen",
+          "title": "Een ander app blokkeert toetsinvoer",
+          "body": "Terwijl een wachtwoordveld of sommige apps (wachtwoordbeheerders, Terminal's Secure Keyboard Entry) de focus hebben, verbergt macOS de toetsinvoer van alle andere apps. Sluit het af of klik eruit, dan proberen we het opnieuw.",
+          "active": "Nu blokkeert een ander appje de toetsdrukkingen.",
+          "inactive": "Niets blokkeert huidige toetsinvoer."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "De 🌐 toets opent emoji's of schakelt de toetsenbord in",
+          "title": "macOS geeft de 🌐 toets haar eigen taak",
+          "body": "Uw Mac opent emoji's, wisselt de invoerbron of start Apple dictatie wanneer u 🌐 drukt. Wispr Bro kan \"Druk op de 🌐 toets om\" instellen op \"Niets doen\". Uw keuze wordt hersteld als u fn voor dictatie stoppt.",
+          "consent": "Stel 🌐 in op Niets doen",
+          "changed": "🌐 doet nu niets alleen",
+          "open": "Toetsenbordinstellingen openen"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Mijn toetsenblock heeft geen fn-toets",
+          "title": "Gebruik Control en Option in plaats daarvan",
+          "body": "Beide toetsen hebben geen fn of 🌐 toets. Houd Control en Option tegelijk vast om te dicteren. Je kunt dit op elk moment in Instellingen veranderen.",
+          "action": "Gebruik Control + Optie",
+          "changed": "Control + Optie is je sneltoets"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Oefenen: een e-mail schrijven zonder handen",
+      "instruction": "Druk op fn en ruimte tegelijk, dan praten. Je hoeft niets te houden. Druk op fn opnieuw wanneer je klaar bent. Probeer: \"Hoi Sam, bedankt voor de notities. Kunnen we op donderdag om tien ontmoeten?\"",
+      "instructionFallback": "Druk op Control, Option en Space tegelijk, dan praten. Je hoeft niets te houden. Druk op Control en Option opnieuw wanneer je klaar bent. Probeer: \"Hoi Sam, bedankt voor de notities. Kunnen we op donderdag om tien ontmoeten?\"",
+      "instructionUnbound": "Geen dictatie-sneltoets is ingesteld, dus deze oefening kan niet beginnen. Overslaan voor nu en een sneltoets instellen in Instellingen.",
+      "skip": "Sla over",
+      "waiting": "Wacht op jouw beginnen te praten…",
+      "listening": "Lijsten… druk fn wanneer je klaar bent.",
+      "listening_fallback": "Lijsten… druk Control en Option wanneer je klaar bent.",
+      "working": "Het opschrijven…",
+      "settingUp": "Inrichting...",
+      "settingUpPercent": "Inrichting… {{percent}}%",
+      "queuedNote": "Je woorden zijn opgeslagen. Ze verschijnen hier direct na afloop van de instellingen en staan in Geschiedenis in elk geval. We gaan over naar de volgende stap over een moment.",
+      "nothing": "Niets is doorgestuurd. Controleer of je microfoon aan staat en probeer opnieuw.",
+      "filled": "Dat is je e-mail. Voeg meer toe of ga verder.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Nieuw bericht",
+        "to": "Naar",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "Onderwerp",
+        "subjectText": "Donderdag",
+        "body": "Bericht",
+        "placeholder": "Je woorden verschijnen hier."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "Dat is het. Je hebt je eerste tekst dictatie gegeven.",
+      "subtitle": "Overal waar je kunt typen, kun je nu spreken."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Uitspreken kan u ongeveer {{hours}} uur per week besparen",
+      "headline_other": "Uitspreken kan u ongeveer {{hours}} uur per week besparen",
+      "intro": "Praten is sneller dan typen voor de meeste mensen. Neem een 30-seconden typetest om te zien hoeveel tijd je daarbij kunt besparen.",
+      "howFast": "Hoe snel typen je?",
+      "skipTest": "Test overslaan",
+      "basisMeasured": "Op basis van je {{wpm}} woorden per minuut typen en spreken op ongeveer {{speaking}} woorden per minuut.",
+      "basisAverage": "Op basis van een gemiddelde typingsnelheid van {{wpm}} woorden per minuut, en spreken op ongeveer {{speaking}} woorden per minuut.",
+      "sliderLabel": "Hoe lang typen je elke dag?",
+      "hoursPerDay_one": "{{hours}} uur per dag",
+      "hoursPerDay_other": "{{hours}} uur per dag",
+      "takeTest": "Neem de typetest"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "Hoe snel typen je?",
+      "instruction": "Typ de paragraaf hieronder zoals je gewoon zou typen. De klok start met je eerste toets en loopt voor {{seconds}} seconden.",
+      "skip": "Sla over",
+      "language": "Taal",
+      "wpmPending": "— woorden per minuut",
+      "wpm_one": "{{count}} woord per minuut",
+      "wpm_other": "{{count}} woorden per minuut",
+      "secondsLeft_one": "{{count}} seconde over",
+      "secondsLeft_other": "{{count}} seconden over",
+      "inputLabel": "Typ hier de paragraaf",
+      "placeholder": "Typ hier beginnen…",
+      "nothing": "Niets is gevonden in de paragraaf. Probeer opnieuw.",
+      "result_one": "Je typt ongeveer {{count}} woorden per minuut.",
+      "result_other": "Je typt ongeveer {{count}} woorden per minuut.",
+      "tryAgain": "Probeer opnieuw",
+      "recalculate": "Herrekenen"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
-      "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "title": "Je bent klaar",
+      "subtitle": "Hier is hoe Wispr Bro is ingesteld. Houd je sneltoets in elke app vast om te dictaten.",
+      "languages": "Talen",
+      "shortcut": "Sneltoets",
+      "shortcutFn": "Houd fn (🌐)",
+      "shortcutFallback": "Houd Control en Option",
+      "microphone": "Microfoon",
+      "micDefault": "De standaardmicrofoon van de Mac",
+      "typing": "Typingsnelheid",
+      "typingWpm_one": "{{count}} woord per minuut",
+      "typingWpm_other": "{{count}} woorden per minuut",
+      "typingSkipped": "Niet gemeten",
+      "notSet": "Niet ingesteld",
+      "launchAtLogin": "Wispr Bro openen wanneer je inlogt",
+      "launchAtLoginHint": "Dus dictatie is klaar wanneer je het nodig hebt.",
+      "later": "U kunt alles later in Instellingen wijzigen.",
+      "finish": "Begin dictaten"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Wat is nieuw in {{version}}",
+    "label": "Release notes voor deze versie",
+    "close": "Sluiten",
+    "done": "Ik heb het"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
+    "heading": "Deel {{appName}} door",
+    "body": "{{appName}} is gratis en open source en draait volledig op de Mac. Er is geen referentiecode en niets wordt gevolgd: de link is hetzelfde voor iedereen.",
     "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "brewLabel": "Installeer met Homebrew",
+    "copyLink": "Kopieer downloadlink",
+    "copyBrew": "Homebrew command kopiëren",
+    "copy": "Kopieer",
+    "copied": "Gecopieerd",
+    "copyFailed": "Kan niet kopiëren. Kies het tekst en kopieer het in plaats daarvan.",
+    "shareTitle": "Verstuur het aan iemand",
+    "shareBody": "Berichten, Mail, AirDrop en op elk andere manier dat je Mac kan delen.",
+    "shareButton": "Deel…",
+    "shareFailed": "Kan de delen-sheet niet openen."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Je dictatie-sneltoets werkt niet meer. Wispr Bro heeft opnieuw toegang tot Accessibility nodig.",
+      "stopped": "Je dictatie-sneltoets reageert niet meer.",
+      "fix": "Repareren"
+    },
+    "sheet": {
+      "title": "Je sneltoets repareren",
+      "introPermission": "macOS heeft de toegang tot Accessibility van Wispr Bro uitgezet, dus het kan je shortcut niet meer opmerken. Dit kan voorkomen na een update of wanneer de instelling in System Settings is gewijzigd.",
+      "introStopped": "De keyboardlistener van Wispr Bro is gestopt. Hij start op zijn eigen tijd opnieuw zodra macOS dat toestaat.",
+      "pictureLabel": "Systeeminstellingen, Privacy & Beveiliging, Toegankelijkheid: de rij met Wispr Bro met de schakelaar aangezet",
+      "pictureTitle": "Toegankelijkheid",
+      "pictureBack": "Privacy & Beveiliging",
+      "stepsTitle": "Zet het opnieuw aan",
+      "step1": "Open Systeeminstellingen › Privacy & Beveiliging › Toegang.",
+      "step2": "Schakel Wispr Bro aan. Als het al aan staat, schakel het uit en weer aan.",
+      "step3": "Kom hier terug. De sneltoets werkt weer binnen een paar seconden, zonder opnieuw op te starten.",
+      "resetTitle": "Blijft het niet werken?",
+      "resetBody": "Na een update kan macOS een oude entry behouden die niet meer overeenkomt met de app. Herstellen verwijdert de entry van Wispr Bro zodat je hem opnieuw kunt toestaan.",
+      "resetStep1": "Kies Reset en herbeveel.",
+      "resetStep2": "Wispr Bro toestaan wanneer macOS vragen, of schakel het in in de lijst die opent.",
+      "resetFailed": "Kan de entry niet herstellen. In de lijst, kies Wispr Bro en verwijder het met de min-pijl, voeg dan weer toe met de plus-pijl.",
+      "openSettings": "Toegang tot toegankelijkheidsinstellingen openen",
+      "reset": "Resetten en opnieuw toekennen",
+      "checkAgain": "Controleer opnieuw",
+      "relaunch": "Opstarten om te afronden",
+      "close": "Sluit",
+      "status": {
+        "healthy": "Je kortste werkt.",
+        "lost": "Niet actief nog",
+        "recovering": "Opnieuw verbinden...",
+        "needsRelaunch": "Toegang is terug. Herstart Wispr Bro om te afronden."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Wat wil je eerst proberen?",
+    "subtitle": "Kies er één om te zien hoe het gaat. Dan proef het in je eigen app.",
+    "choicesLabel": "Ways to starten",
+    "choices": {
+      "ai_chat": "Vraag een AI-assistent",
+      "note": "Een notitie opschrijven",
+      "message": "Antwoord op een bericht",
+      "email": "Een e-mail schrijven",
+      "comment": "Een commentaar plaatsen",
+      "document": "Een document schrijven",
+      "coding": "Een coderingshulpmiddel aanroepen"
+    },
+    "scene": {
+      "label": "Voorbeeld: {{choice}}",
+      "said": "Je zegt",
+      "written": "{{appName}} schrijft",
+      "pause": "De voorbeeldsessie pauzeren",
+      "play": "Speel het voorbeeld"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI chat",
+        "context": "Wat kan ik helpen met?",
+        "said": "um dus kan je me uitleggen hoe samengestelde rente werkt alsof ik hier nog helemaal nieuw ben",
+        "text": "Kan je me uitleggen hoe samengestelde rente werkt, alsof ik hier nog niets van weet?"
+      },
+      "note": {
+        "app": "Notities",
+        "context": "Maandag",
+        "said": "notitie voor mezelf bel de tandarts en uh haal de droge was op voor zes",
+        "text": "Notitie voor mezelf: bel de tandarts en haal de droge was op voor zes."
+      },
+      "message": {
+        "app": "Berichten",
+        "context": "Zijn we nog op voor het lunchtijd?",
+        "said": "ja zeker om 12.30 oké voor jou",
+        "text": "Ja, zeker! Is 12:30 ok voor jou?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Aan: Priya · Onderwerp: Donderdag",
+        "said": "hi Priya dank je voor de notities ik stuur de ontwerp op donderdagochtend",
+        "text": "Hallo Priya, dank je voor de notities. Ik stuur de ontwerp op donderdagochtend."
+      },
+      "comment": {
+        "app": "Sociaal",
+        "context": "Onze nieuwe kantoor is volgende week open!",
+        "said": "geen probleem voor het hele team dit is geweldig",
+        "text": "Gefeliciteerd met de hele team, dit kijkt geweldig uit!"
+      },
+      "document": {
+        "app": "Docs",
+        "context": "Projectplan",
+        "said": "het doel van deze fase is om de beta naar vifty testers te sturen voor eind maand",
+        "text": "Doel van deze fase is de beta uit te geven aan vifty testers voor eind maand."
+      },
+      "coding": {
+        "app": "Codeeditor",
+        "context": "Vraag de agent",
+        "said": "de inlogknop werkt niet op mobiel kan je uitvinden waarom en het repareren",
+        "text": "De ingelogde knop werkt niet op mobiel. Kan je uitvinden waarom en het repareren?"
+      }
+    },
+    "tryNow": "Probeer het nu",
+    "later": "Misschien later",
+    "close": "Sluit",
+    "noBar": "De dictatiebalk is niet actief, dus wordt er geen hint weergegeven. Je kunt het nog proberen: open de app en houd je sneltoets vast.",
+    "banner": {
+      "title": "Gebruik het in je eigen apps",
+      "body": "{{hint}}. {{how}}",
+      "again": "Toon de tip opnieuw",
+      "stop": "De hint verbergen",
+      "other": "Probeer iets anders",
+      "active": "De tip staat op je scherm. Druk op Esc om het te sluiten."
+    }
+  },
+  "checklist": {
+    "title": "Beginnen",
+    "label": "Controlelijst",
+    "progress": "{{done}} van {{total}} gedaan",
+    "hide": "De checklist verbergen",
+    "done": "Gedaan",
+    "next": "Volgende",
+    "allDone": "Al klaar. Je weet de basis.",
+    "items": {
+      "try_in_app": {
+        "title": "Probeer het in een andere app",
+        "action": "Toon me"
+      },
+      "add_word": {
+        "title": "Een woord toevoegen",
+        "action": "Een woord toevoegen",
+        "coachTitle": "Je eerste woord toevoegen",
+        "coachBody": "Naamwoorden, producttermen en jargon die je vaak gebruikt. Ze komen eruit geschreven zoals je ze schrijft."
+      },
+      "create_snippet": {
+        "title": "Een snippet maken",
+        "action": "Nieuw snippet",
+        "coachTitle": "Maak je eerste snippet aan",
+        "coachBody": "Zeg een korte zin en krijg een langere tekst: jouw adres, een link, een afsluiting."
+      },
+      "launch_at_login": {
+        "title": "Open bij inloggen",
+        "action": "Aanzetten",
+        "body": "{{appName}} start met je Mac, dus je sneltoets werkt altijd."
+      }
+    },
+    "coach": {
+      "close": "Dichtmaken",
+      "done": "Ik heb het begrepen"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2248,154 +2396,6 @@
     },
     "sidebar": {
       "about": "Over Wispr Bro"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }

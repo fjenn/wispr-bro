@@ -1,40 +1,40 @@
 {
   "debug": {
-    "title": "Fork debug panel",
-    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
-    "close": "Close",
-    "runAgain": "Run again",
+    "title": "Panel kiểm tra fork",
+    "description": "Kiểm tra nội bộ cho lớp Wispr Bro. Chỉ hiển thị trong các bản xây dựng debug hoặc khi ứng dụng được khởi động với --debug.",
+    "close": "Đóng",
+    "runAgain": "Chạy lại",
     "ping": {
       "title": "Ping"
     },
     "modelStatus": {
-      "title": "Model status",
-      "notReady": "Not ready yet: the app has not finished starting."
+      "title": "Trạng thái mô hình",
+      "notReady": "Chưa sẵn sàng: Ứng dụng vẫn chưa hoàn thành khởi động."
     },
     "lastEvent": {
-      "title": "Last ping event",
-      "none": "No event received yet."
+      "title": "Sự kiện ping gần nhất",
+      "none": "Chưa nhận được sự kiện nào."
     },
-    "pending": "Waiting…",
-    "error": "Error: {{message}}",
+    "pending": "Đang chờ...",
+    "error": "Lỗi: {{message}}",
     "csp": {
-      "title": "Content Security Policy",
-      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
-      "run": "Run CSP check",
-      "running": "Running…",
-      "pass": "Passed: no unexpected CSP violation.",
-      "fail": "Failed: see the checks below.",
-      "ok": "ok ({{detail}})",
-      "failed": "failed ({{detail}})",
-      "noViolations": "No CSP violations recorded.",
-      "violations_one": "{{count}} CSP violation recorded.",
-      "violations_other": "{{count}} CSP violations recorded.",
+      "title": "Chính sách an toàn nội dung",
+      "description": "Chơi tệp âm thanh qua giao thức tài sản, tải dữ liệu: và hình ảnh blob:, gọi lệnh fork và kiểm tra rằng hình ảnh bị cấm được chặn.",
+      "run": "Chạy kiểm tra CSP",
+      "running": "Đang chạy…",
+      "pass": "Đã qua: không có vi phạm CSP bất ngờ.",
+      "fail": "Thất bại: xem các kiểm tra dưới đây.",
+      "ok": "được ({{detail}})",
+      "failed": "thất bại ({{detail}})",
+      "noViolations": "Không phát hiện vi phạm CSP.",
+      "violations_one": "{{count}} lỗi CSP được ghi nhận.",
+      "violations_other": "Đã ghi nhận {{count}} vi phạm CSP.",
       "checks": {
-        "media": "Audio (asset protocol)",
-        "dataImage": "data: image",
-        "blobImage": "blob: image",
+        "media": "Âm thanh (giao thức tài sản)",
+        "dataImage": "data: hình ảnh",
+        "blobImage": "blob: hình ảnh",
         "forkCommand": "Fork command",
-        "probe": "Blocked source"
+        "probe": "Nguồn bị chặn"
       }
     },
     "notifications": {
@@ -46,41 +46,41 @@
       "posted": "Đang đăng trong {{seconds}} giây. Chuyển sang một ứng dụng khác để xem thông báo của macOS."
     },
     "update": {
-      "title": "Updates",
-      "version": "Version",
-      "channel": "Channel",
-      "key": "Signing key",
-      "endpoints": "Feeds",
-      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
-      "check": "Check now",
-      "checking": "Checking…",
-      "install": "Install {{version}} and relaunch",
-      "installing": "Downloading and verifying…",
-      "installed": "{{version}} installed. Relaunching…",
-      "available": "{{version}} is available.",
-      "upToDate": "Up to date.",
-      "failed": "Couldn't check: {{message}}"
+      "title": "Cập nhật",
+      "version": "Phiên bản",
+      "channel": "Kênh",
+      "key": "Chìa khóa ký",
+      "endpoints": "Các nguồn dữ liệu",
+      "checksOff": "Kiểm tra cập nhật đã tắt (Cài đặt › Nâng cao, hoặc công tắc tắt được thiết lập).",
+      "check": "Kiểm tra ngay",
+      "checking": "Đang kiểm tra…",
+      "install": "Cài đặt {{version}} và khởi động lại",
+      "installing": "Đang tải và xác minh…",
+      "installed": "Đã cài đặt phiên bản {{version}}. Đang khởi động lại...",
+      "available": "Phiên bản {{version}} đã sẵn sàng.",
+      "upToDate": "Cập nhật đến phiên bản mới nhất.",
+      "failed": "Không thể kiểm tra: {{message}}"
     }
   },
   "settings": {
     "debug": {
-      "title": "Fork settings",
-      "loading": "Loading settings…",
-      "loadError": "Could not read the settings: {{message}}",
-      "setError": "That change was not saved: {{message}}",
-      "contextAwareness": "Context awareness",
-      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "title": "Cài đặt nhánh",
+      "loading": "Đang tải cài đặt…",
+      "loadError": "Không thể đọc thiết lập: {{message}}",
+      "setError": "Thay đổi đó không được lưu: {{message}}",
+      "contextAwareness": "Tính năng nhận thức bối cảnh",
+      "contextAwarenessHint": "Sử dụng tên trong văn bản gần con trỏ của bạn để đánh đúng chính xác. Văn bản đó vẫn nằm trên máy Mac này và sẽ không bao giờ được lưu trữ.",
       "transforms": "Transforms",
       "transformsHint": "⌥1 làm sạch văn bản được chọn và ⌥2 chuyển nó thành một câu hỏi AI rõ ràng. Khi bật, các phím này thay thế ¡ và ™.",
       "transformsSafeShortcuts": "Sử dụng ⌃⌥1 và ⌃⌥2 thay vì",
       "transformsSafeShortcutsHint": "Giữ ¡ và ™ sẵn sàng với ⌥1 và ⌥2.",
-      "cleanupLevel": "Cleanup level",
+      "cleanupLevel": "Mức làm sạch",
       "levels": {
-        "none": "None",
+        "none": "Không",
         "light": "Light",
-        "medium": "Medium"
+        "medium": "Trung bình"
       },
-      "all": "All settings"
+      "all": "Tất cả các cài đặt"
     },
     "bar": {
       "title": "Dictation bar",
@@ -182,7 +182,7 @@
     "sections": {
       "general": "Tổng quát",
       "system": "Hệ thống",
-      "vibe": "Vibe coding",
+      "vibe": "Lập trình theo phong cách",
       "privacy": "Dữ liệu và Bảo mật",
       "advanced": "Nâng cao",
       "about": "Về",
@@ -219,112 +219,112 @@
       "scratchpadLabel": "Mở Scratchpad trong",
       "scratchpadHint": "Chọn vị trí để Scratchpad mở khi bạn sử dụng phím tắt của nó.",
       "scratchpadOptions": {
-        "resume_last": "Resume my last note",
-        "new_note": "Start a new note"
+        "resume_last": "Tái khởi động ghi chú trước đó của tôi",
+        "new_note": "Bắt đầu một chú ý mới"
       }
     },
     "vibe": {
-      "intro": "Wispr Bro can read the code names and file names that VS Code, Cursor and Windsurf show on screen, through Accessibility. It never opens your project folder or your files.",
-      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
-      "recognize": "Recognize code names",
-      "recognizeHint": "When you say a variable or function name that is visible in your editor, it is written the way your code spells it, such as getUserById or user_id.",
-      "setUp": "Set up",
-      "change": "Change editors",
-      "setUpFor": "Set up for {{editors}}",
-      "fileTags": "Tag files in chat",
-      "fileTagsHint": "In the Cursor or Windsurf chat, saying \"index dot ts\" writes @index.ts when that file is open in a tab or shown in the file list.",
-      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
-      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "intro": "Wispr Bro có thể đọc tên mã và tên tệp mà VS Code, Cursor và Windsurf hiển thị trên màn hình, thông qua Accessibility. Nó không bao giờ mở thư mục dự án hay các tệp của bạn.",
+      "contextOff": "Tính năng nhận biết bối cảnh đã tắt, do đó các tính năng này không có gì để đọc. Bật nó lên để sử dụng.",
+      "recognize": "Nhận diện tên mã",
+      "recognizeHint": "Khi bạn nói tên biến hoặc hàm được hiển thị trong trình soạn thảo, nó sẽ được ghi theo cách bạn viết mã, ví dụ như getUserById hoặc user_id.",
+      "setUp": "Cài đặt",
+      "change": "Thay đổi trình soạn thảo",
+      "setUpFor": "Cài đặt cho {{editors}}",
+      "fileTags": "Gán nhãn tệp trong cuộc trò chuyện",
+      "fileTagsHint": "Trong cuộc trò chuyện Cursor hoặc Windsurf, nói \"index dot ts\" sẽ ghi @index.ts khi tệp này được mở trong một tab hoặc hiển thị trong danh sách tệp.",
+      "fileTagsNeedsChat": "Sẽ có sẵn sau khi bạn thêm Cursor hoặc Windsurf vào các trình soạn thảo của mình.",
+      "fileTagsNeedsSetup": "Sẽ có sẵn sau khi bạn thiết lập nhận diện tên mã nguồn.",
       "setup": {
-        "title": "Set up code name recognition",
-        "stepEditors": "1. Choose the editors you use",
-        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
-        "openSettings": "Open the editor's settings with ⌘ comma.",
-        "search": "Search for \"accessibility support\".",
-        "setOn": "Set Editor: Accessibility Support to \"on\".",
-        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
-        "confirm": "I turned on screen reader mode in these editors",
-        "cancel": "Cancel",
-        "finish": "Finish setup"
+        "title": "Cài đặt nhận dạng tên mã nguồn",
+        "stepEditors": "1. Chọn các trình soạn thảo mà bạn sử dụng",
+        "stepScreenReader": "2. Bật chế độ đọc màn hình trong từng ứng dụng này, để chúng chia sẻ văn bản với Wispr Bro",
+        "openSettings": "Mở cài đặt của trình biên tập với ⌘ phím phẩy.",
+        "search": "Tìm kiếm \"hỗ trợ tính năng tiếp cận\".",
+        "setOn": "Đặt Biên tập viên: Hỗ trợ Truy cập thành \"on\".",
+        "palette": "Bạn cũng có thể thực hiện \"Chuyển đổi chế độ khả năng truy cập màn hình đọc\" từ thanh lệnh (⇧⌘P).",
+        "confirm": "Tôi đã bật chế độ đọc màn hình trong các trình soạn thảo này",
+        "cancel": "Hủy",
+        "finish": "Hoàn thành thiết lập"
       }
     },
     "privacy": {
       "promise": {
-        "title": "Private by design",
-        "local": "Your dictation and data stay on this Mac.",
-        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
-        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "title": "Bảo mật từ thiết kế",
+        "local": "Dictation và dữ liệu của bạn luôn được lưu trên Mac này.",
+        "noCloud": "Phát âm, xử lý và Lịch sử được chạy cục bộ. Không có tài khoản, theo dõi, dictation trên đám mây hay xử lý trên đám mây.",
+        "networkIntro": "Wispr Bro chỉ sử dụng mạng để làm hai điều này:",
+        "models": "Tải xuống các mô hình giọng nói và xử lý từ Hugging Face (huggingface.co).",
+        "updates": "Khi bật kiểm tra cập nhật, sẽ tìm kiếm các bản cập nhật ứng dụng trên GitHub (github.com)."
       },
       "locations": {
-        "title": "Where your data lives",
-        "hint": "These folders belong to Wispr Bro. Portable installations keep all of them in the app's Data folder.",
-        "data": "App data and settings",
-        "models": "Downloaded models",
-        "recordings": "Recordings",
-        "logs": "Logs and crash reports",
-        "show": "Show in Finder",
-        "loading": "Locating…",
-        "failed": "Could not open that folder. Try again."
+        "title": "Địa điểm mà dữ liệu của bạn tồn tại",
+        "hint": "Những thư mục này thuộc về Wispr Bro. Các bản cài đặt di động giữ tất cả chúng trong thư mục Data của ứng dụng.",
+        "data": "Dữ liệu và cài đặt ứng dụng",
+        "models": "Các mô hình đã tải về",
+        "recordings": "Những bản ghi",
+        "logs": "Lịch sử và báo cáo sự cố",
+        "show": "Hiện trong Finder",
+        "loading": "Đang xác định vị trí...",
+        "failed": "Không thể mở thư mục đó. Hãy thử lại."
       },
       "retention": {
-        "title": "How long to keep History",
-        "textLabel": "Keep dictated text",
-        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
-        "audioLabel": "Keep recordings",
-        "audioHint": "Audio expires after 14 days by default. Removing audio keeps its dictated text until the text limit.",
+        "title": "Giữ lịch sử trong bao lâu",
+        "textLabel": "Giữ văn bản được ghi âm",
+        "textHint": "Các mục cũ sẽ được xóa tự động. Văn bản sẽ được lưu vĩnh viễn mặc định.",
+        "audioLabel": "Giữ lại các bản ghi",
+        "audioHint": "Âm thanh hết hạn sau 14 ngày theo mặc định. Xóa âm thanh sẽ giữ nội dung được ghi lại cho đến khi đạt giới hạn văn bản.",
         "options": {
-          "0": "Never keep audio",
-          "1": "1 day",
-          "7": "7 days",
-          "14": "14 days",
-          "30": "30 days",
-          "90": "90 days",
-          "365": "1 year",
-          "forever": "Forever"
+          "0": "Không bao giờ lưu âm thanh",
+          "1": "1 ngày",
+          "7": "7 ngày",
+          "14": "14 ngày",
+          "30": "30 ngày",
+          "90": "90 ngày",
+          "365": "1 năm",
+          "forever": "Vĩnh viễn"
         }
       },
       "choices": {
-        "title": "Privacy choices",
-        "context": "Use context awareness",
-        "contextHint": "Read nearby text only while dictating to recognize names and spelling. Context is not saved or logged.",
-        "updates": "Check for app updates",
-        "updatesHint": "Contact GitHub to check for a new version. No dictation or personal data is sent.",
-        "learn": "Learn from my corrections",
-        "learnHint": "After a dictation is pasted, notice words you fix in that text box and suggest them in Dictionary. Only the corrected word is kept; the rest of the text is never saved or logged."
+        "title": "Các lựa chọn về quyền riêng tư",
+        "context": "Sử dụng nhận thức về bối cảnh",
+        "contextHint": "Chỉ đọc văn bản gần đó khi ghi âm để nhận diện tên và chính tả. Bối cảnh không được lưu trữ hoặc ghi log.",
+        "updates": "Kiểm tra cập nhật ứng dụng",
+        "updatesHint": "Liên hệ GitHub để kiểm tra phiên bản mới. Không gửi bất kỳ nội dung ghi âm hay dữ liệu cá nhân nào.",
+        "learn": "Học từ các sửa đổi của tôi",
+        "learnHint": "Sau khi dán một đoạn dictation, hãy lưu ý các từ bạn sửa trong ô văn bản và đề xuất chúng trong Từ điển. Chỉ từ đã được sửa mới được lưu; phần còn lại của văn bản sẽ không bao giờ được lưu hoặc ghi lại."
       },
       "export": {
-        "title": "Your data",
-        "hint": "Export a zip with your History, settings, and recordings. Models and logs are not included.",
-        "button": "Export my data",
+        "title": "Dữ liệu của bạn",
+        "hint": "Xuất một file zip chứa lịch sử, cài đặt và các bản ghi của bạn. Các mô hình và nhật ký không được bao gồm.",
+        "button": "Xuất dữ liệu của tôi",
         "fileName": "wispr-bro-data-{{date}}.zip",
-        "filter": "Zip archive",
-        "done": "Export saved and shown in Finder.",
-        "failed": "Could not export your data. Nothing was deleted."
+        "filter": "Tập file ZIP",
+        "done": "Đã xuất và hiển thị trong Finder.",
+        "failed": "Không thể xuất dữ liệu của bạn. Không có gì bị xóa."
       },
       "delete": {
-        "button": "Delete all my data",
-        "title": "Delete all your data?",
-        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
-        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
-        "models": "Also delete downloaded models",
-        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
-        "confirmLabel": "Type {{word}} to confirm",
-        "cancel": "Cancel",
-        "confirm": "Delete everything",
-        "failed": "Delete all did not finish. Check the remaining data before trying again."
+        "button": "Xoá tất cả dữ liệu của tôi",
+        "title": "Xoá tất cả dữ liệu của bạn?",
+        "warning": "Điều này sẽ xóa vĩnh viễn lịch sử, các bản ghi, cài đặt, nhật ký và báo cáo sự cố. Điều này không thể hoàn tác.",
+        "relaunch": "Wispr Bro sẽ dừng hoạt động, xóa dữ liệu và khởi động lại vào quá trình cài đặt.",
+        "models": "Cũng xóa các mô hình đã tải về",
+        "modelsHint": "Bật tính năng này để tránh tải xuống và cập nhật lại các mô hình phát âm và làm sạch.",
+        "confirmLabel": "Nhập {{word}} để xác nhận",
+        "cancel": "Hủy",
+        "confirm": "Xoá tất cả",
+        "failed": "Xoá tất cả chưa hoàn thành. Kiểm tra dữ liệu còn lại trước khi thử lại."
       },
       "diagnostics": {
-        "title": "Crash reports and diagnostics",
-        "hint": "Crash reports stay on this Mac and are never uploaded. Copy or save diagnostics only when you want to share them.",
-        "sanitized": "Diagnostics remove dictated text, prompts, dictionary words, email addresses, keys, and your home folder path.",
-        "copy": "Copy diagnostics",
-        "save": "Save diagnostics…",
+        "title": "Báo cáo sự cố và chẩn đoán",
+        "hint": "Các báo cáo sự cố sẽ được lưu trên máy Mac này và sẽ không được tải lên. Sao chép hoặc lưu thông tin chẩn đoán chỉ khi bạn muốn chia sẻ chúng.",
+        "sanitized": "Diagnostics loại bỏ văn bản được ghi lại, các câu hỏi, từ điển, địa chỉ email, các phím và đường dẫn thư mục nhà của bạn.",
+        "copy": "Sao chép thông tin chẩn đoán",
+        "save": "Lưu thông tin chẩn đoán…",
         "fileName": "wispr-bro-diagnostics-{{date}}.zip",
-        "copied": "Sanitized diagnostics copied.",
-        "saved": "Sanitized diagnostics saved.",
-        "failed": "Could not prepare diagnostics. Try again."
+        "copied": "Diagnostics đã được sao chép và được làm sạch.",
+        "saved": "Diagnostics đã được lưu và được làm sạch.",
+        "failed": "Không thể chuẩn bị thông tin giám sát. Hãy thử lại."
       }
     },
     "advanced": {
@@ -354,13 +354,13 @@
       "version": "Phiên bản {{version}}",
       "source": "Xem mã nguồn",
       "updates": "Ghi chú cập nhật",
-      "updatesTitle": "Updates",
-      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
-      "licenseLink": "View license",
-      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
-      "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "updatesTitle": "Cập nhật",
+      "license": "Phần mềm miễn phí theo giấy phép GNU General Public License, phiên bản 3 (GPL-3.0).",
+      "licenseLink": "Xem giấy phép",
+      "credit": "Xây dựng trên Handy bởi CJ Pais, được sử dụng theo giấy phép MIT. Cảm ơn những người làm việc trên nó.",
+      "creditLink": "Handy trên GitHub",
+      "supportTitle": "Hỗ trợ phát triển",
+      "supportBody": "{{appName}} không có gói trả phí. Hỗ trợ tốt nhất là báo lỗi, một ý tưởng hoặc một đóng góp trên GitHub."
     },
     "hotkeys": {
       "open": "Các phím tắt",
@@ -412,7 +412,7 @@
           "view_changes": "Xem thay đổi biến đổi nhìn"
         },
         "scratchpad": {
-          "open": "Open Scratchpad"
+          "open": "Mở Scratchpad"
         }
       },
       "help": {
@@ -430,28 +430,28 @@
           "view_changes": "Xem lại sự thay đổi mới nhất trước và sau khi chuyển đổi."
         },
         "scratchpad": {
-          "open": "Resume your last note or start a new one, according to your Scratchpad setting."
+          "open": "Tái khởi động ghi chú trước đó hoặc bắt đầu một ghi chú mới, tùy theo cài đặt của bạn với Scratchpad."
         }
       }
     }
   },
   "hub": {
     "nav": {
-      "label": "Main"
+      "label": "Chủ"
     },
     "sidebar": {
-      "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "collapse": "Thu thanh thanh sidebar",
+      "expand": "Mở thanh bên"
     },
     "header": {
-      "toDark": "Switch to dark appearance",
-      "toLight": "Switch to light appearance"
+      "toDark": "Chuyển sang giao diện tối",
+      "toLight": "Chuyển sang giao diện sáng"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Thông báo",
       "empty": {
-        "title": "Nothing new",
-        "body": "Updates and tips will show up here."
+        "title": "Không có điều gì mới",
+        "body": "Các cập nhật và lời khuyên sẽ xuất hiện ở đây."
       },
       "bellUnread_one": "Thông báo, {{count}} chưa đọc",
       "bellUnread_other": "Thông báo, {{count}} chưa đọc",
@@ -485,65 +485,65 @@
       "justNow": "Vừa rồi"
     },
     "help": {
-      "title": "Help",
-      "updates": "Updates",
-      "whatsNew": "What's new",
-      "essentials": "Essentials",
-      "shortcuts": "Shortcut and microphone",
+      "title": "Giúp đỡ",
+      "updates": "Cập nhật",
+      "whatsNew": "Có gì mới",
+      "essentials": "Các yếu tố cốt lõi",
+      "shortcuts": "Tắt tắt",
       "microphone": "Microphone",
-      "languages": "Languages",
-      "documentation": "Documentation",
-      "getInTouch": "Get in touch",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback",
+      "languages": "Ngôn ngữ",
+      "documentation": "Tài liệu",
+      "getInTouch": "Liên hệ",
+      "reportProblem": "Báo cáo vấn đề…",
+      "sendFeedback": "Gửi phản hồi",
       "report": {
-        "title": "Report a problem",
-        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
-        "diagnosticsTitle": "Diagnostics (optional)",
-        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
-        "copy": "Copy diagnostics",
-        "copied": "Diagnostics copied. Paste them into the issue.",
-        "copyFailed": "Couldn't copy diagnostics.",
-        "open": "Open GitHub",
-        "cancel": "Cancel",
-        "close": "Close"
+        "title": "Báo cáo vấn đề",
+        "body": "Điều này sẽ mở một vấn đề mới trên GitHub trong trình duyệt của bạn, với phiên bản ứng dụng và mô hình Mac được điền vào. Nó không bao giờ bao gồm bất cứ điều gì bạn đã nói, và bạn có thể đọc và chỉnh sửa mọi thứ trước khi gửi.",
+        "diagnosticsTitle": "Chẩn đoán (tùy chọn)",
+        "diagnosticsBody": "Các bản ghi đã được làm sạch giúp xác định nguyên nhân. Chúng không bao giờ chứa các bản ghi của bạn. Sao chép chúng vào đây, rồi dán vào vấn đề.",
+        "copy": "Sao chép thông tin chẩn đoán",
+        "copied": "Diagnostics đã được sao chép. Dán chúng vào vấn đề.",
+        "copyFailed": "Không thể sao chép thông tin chẩn đoán.",
+        "open": "Mở GitHub",
+        "cancel": "Hủy",
+        "close": "Đóng"
       }
     },
     "footer": {
       "version": "v{{version}}"
     },
     "settings": {
-      "sectionsLabel": "Settings sections"
+      "sectionsLabel": "Các phần cài đặt"
     },
     "pages": {
       "dictation": {
         "title": "Dictation",
         "banner": {
-          "title": "Talk instead of typing",
-          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
-          "examplesLabel": "Things to try",
+          "title": "Nói thay vì gõ",
+          "body": "Giữ phím fn trong bất kỳ ứng dụng nào, nói điều bạn muốn viết và thả phím. {{appName}} sẽ đưa văn bản sạch vào vị trí con trỏ của bạn.",
+          "examplesLabel": "Các điều để thử",
           "examples": {
-            "reply": "A quick reply to a message",
-            "notes": "Notes right after a call",
-            "prompt": "A long prompt for an AI chat"
+            "reply": "Một lời trả lời nhanh cho một tin nhắn",
+            "notes": "Ghi chú ngay sau cuộc gọi",
+            "prompt": "Một câu hỏi dài cho cuộc trò chuyện với AI"
           }
         },
         "empty": {
-          "title": "Your dictations will show up here",
-          "body": "Each one is saved on this Mac, with its audio, so you can copy or check it later.",
-          "action": "Open history"
+          "title": "Các bản ghi giọng nói của bạn sẽ xuất hiện ở đây",
+          "body": "Mỗi bản được lưu trên Mac này, cùng với âm thanh, nên bạn có thể sao chép hoặc kiểm tra nó sau này.",
+          "action": "Mở lịch sử"
         }
       },
       "insights": {
-        "title": "Insights",
+        "title": "Các phát hiện",
         "empty": {
-          "title": "Insights need a few dictations",
-          "body": "Your speaking speed, streaks and the time you save appear once you have dictated for a while.",
-          "action": "Go to Dictation"
+          "title": "Các thông tin cần một số bản ghi giọng nói",
+          "body": "Tốc độ nói, chuỗi ngày liên tiếp và thời gian bạn tiết kiệm sẽ xuất hiện sau khi bạn ghi âm trong một thời gian dài.",
+          "action": "Đi đến Dictation"
         }
       },
       "dictionary": {
-        "title": "Dictionary",
+        "title": "Từ điển",
         "empty": {
           "title": "Teach {{appName}} your words",
           "body": "Names, product terms and acronyms you add are spelled right every time. Until this page is ready, your words live in Settings.",
@@ -551,42 +551,42 @@
         }
       },
       "snippets": {
-        "title": "Snippets",
+        "title": "Các mẫu",
         "empty": {
-          "title": "Snippets are on the way",
-          "body": "Say a short cue such as “my address” and get the full text. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Các mẫu sẽ đến sớm",
+          "body": "Nói một gợi ý ngắn như \"địa chỉ của tôi\" để nhận toàn bộ văn bản. Trang này sẽ xuất hiện trong bản cập nhật sau.",
+          "action": "Đi đến Dictation"
         }
       },
       "style": {
-        "title": "Style",
+        "title": "Phong cách",
         "empty": {
-          "title": "Styles are on the way",
-          "body": "Choose how polished your text is in each kind of app, from formal email to relaxed chat. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Các phong cách đang được chuẩn bị",
+          "body": "Chọn mức độ trang trọng của văn bản của bạn trong từng loại ứng dụng, từ email trang trọng đến trò chuyện thoải mái. Trang này sẽ được cập nhật trong phiên bản sau.",
+          "action": "Đi đến Dictation"
         }
       },
       "transforms": {
-        "title": "Transforms",
+        "title": "Biến đổi",
         "empty": {
-          "title": "Transforms are on the way",
-          "body": "Select text and rewrite it with one shortcut: shorter, clearer or better organised. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Các biến đổi đang đến",
+          "body": "Chọn văn bản và chỉnh sửa lại bằng một phím tắt: ngắn gọn, rõ ràng hoặc được tổ chức tốt hơn. Trang này sẽ được cập nhật trong phiên bản sau.",
+          "action": "Đi đến Dictation"
         }
       },
       "scratchpad": {
         "title": "Scratchpad",
         "empty": {
-          "title": "Scratchpad is on the way",
-          "body": "A quick place to dictate notes before they go anywhere else. This page arrives in a later update.",
-          "action": "Go to Dictation"
+          "title": "Bảng ghi đang được phát triển",
+          "body": "Một không gian nhanh để ghi chú trước khi gửi đi đâu khác. Trang này sẽ xuất hiện trong bản cập nhật sau.",
+          "action": "Đi đến Dictation"
         }
       },
       "share": {
-        "title": "Share with a friend"
+        "title": "Chia sẻ với một người bạn"
       },
       "settings": {
-        "title": "Settings"
+        "title": "Cài đặt"
       }
     },
     "featurePopup": {
@@ -595,39 +595,39 @@
       "open": "Hãy cho tôi xem"
     },
     "update": {
-      "off": "Update checks off",
-      "turnOn": "Turn on",
-      "notChecked": "Not checked yet",
-      "check": "Check for updates",
-      "checking": "Checking for updates…",
-      "upToDate": "Up to date",
-      "checkAgain": "Check again",
-      "checkFailed": "Couldn't check",
-      "retry": "Retry",
-      "downloading": "Downloading {{version}}…",
-      "ready": "Update ready",
-      "restartNow": "Restart now",
-      "installing": "Installing {{version}}…",
-      "installedWaiting": "{{version}} installed · restarts after this dictation",
-      "restarting": "Restarting…",
-      "installFailed": "Update didn't install",
-      "busy": "Finish dictating first.",
-      "actionFailed": "That didn't work. Try again later.",
-      "lastChecked": "Last checked {{time}}.",
-      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
-      "manualOnly": "This is a development build: updates are checked only when you ask.",
-      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
-      "policy": "Updates download in the background and install only while you're not dictating, or when you quit.",
-      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+      "off": "Kiểm tra cập nhật được tắt",
+      "turnOn": "Bật",
+      "notChecked": "Chưa được kiểm tra",
+      "check": "Kiểm tra cập nhật",
+      "checking": "Đang kiểm tra cập nhật…",
+      "upToDate": "Cập nhật đến phiên bản mới nhất",
+      "checkAgain": "Kiểm tra lại",
+      "checkFailed": "Không thể kiểm tra",
+      "retry": "Thử lại",
+      "downloading": "Đang tải xuống {{version}}…",
+      "ready": "Cập nhật sẵn sàng",
+      "restartNow": "Tái khởi động ngay",
+      "installing": "Đang cài đặt {{version}}...",
+      "installedWaiting": "{{version}} đã được cài đặt · sẽ khởi động lại sau khi ghi giọng",
+      "restarting": "Đang khởi động lại...",
+      "installFailed": "Cập nhật không thể cài đặt",
+      "busy": "Hoàn thành ghi âm trước.",
+      "actionFailed": "Đó không thành công. Hãy thử lại sau.",
+      "lastChecked": "Đã kiểm tra lần cuối vào {{time}}.",
+      "paused": "Sau ba lần thất bại, cập nhật tự động được tạm dừng cho đến {{time}}.",
+      "manualOnly": "Đây là phiên bản phát triển: các cập nhật chỉ được kiểm tra khi bạn yêu cầu.",
+      "readyHint": "Nó sẽ tự động cài đặt khi bạn chưa nói lệnh trong 20 phút, hoặc khi bạn thoát ứng dụng.",
+      "policy": "Cập nhật được tải về trong nền và chỉ cài đặt khi bạn không đang ghi âm, hoặc khi bạn thoát.",
+      "needsPassword": "Bản sao của ứng dụng này nằm trong một thư mục cần mật khẩu quản trị để thay đổi, vì vậy các bản cập nhật chỉ được cài đặt khi bạn chọn 'Khởi động ngay'."
     }
   },
   "ui": {
     "tag": {
-      "new": "New!",
+      "new": "Mới!",
       "beta": "Beta"
     },
     "banner": {
-      "dismiss": "Dismiss"
+      "dismiss": "Hủy"
     },
     "importWizard": {
       "stepsLabel": "Bước nhập",
@@ -673,60 +673,60 @@
     "appName": "Wispr Bro",
     "menu": {
       "dictation": "Dictation",
-      "vocabulary": "Vocabulary",
-      "help": "Help",
-      "file": "File",
-      "edit": "Edit",
-      "view": "View",
-      "window": "Window",
-      "wordsDictated_one": "{{count}} word dictated",
-      "wordsDictated_other": "{{count}} words dictated",
-      "copyLast": "Copy last transcript",
-      "copyLastPreview": "Copy last transcript: “{{preview}}”",
-      "copyLastConcealed": "Copy last transcript (text hidden)",
+      "vocabulary": "Từ vựng",
+      "help": "Giúp đỡ",
+      "file": "Tệp",
+      "edit": "Sửa",
+      "view": "Xem",
+      "window": "Cửa sổ",
+      "wordsDictated_one": "{{count}} từ được ghi âm",
+      "wordsDictated_other": "{{count}} từ đã được ghi âm",
+      "copyLast": "Sao chép bản ghi gần nhất",
+      "copyLastPreview": "Sao chép bản ghi gần nhất: \"{{preview}}\"",
+      "copyLastConcealed": "Sao chép bản ghi gần nhất (text ẩn)",
       "microphone": "Microphone",
-      "languages": "Languages",
-      "moreLanguages": "Add or remove languages…",
-      "automaticMicrophone": "Auto-detect (system setting)",
-      "noMicrophones": "No microphones found",
-      "dictionaryWords_one": "{{count}} dictionary word",
-      "dictionaryWords_other": "{{count}} dictionary words",
-      "snippetCount_one": "{{count}} snippet",
-      "snippetCount_other": "{{count}} snippets",
-      "addWord": "Add word…",
-      "newSnippet": "New snippet…",
-      "documentation": "Documentation",
-      "shortcuts": "Shortcuts",
-      "reportProblem": "Report a problem…",
-      "sendFeedback": "Send feedback…",
-      "openApp": "Open {{appName}}",
-      "checkUpdates": "Check for updates…",
-      "pasteLast": "Paste last transcript",
-      "cancelDictation": "Cancel dictation",
-      "shortcutsBlocked": "Shortcuts blocked — open Settings",
-      "undo": "Undo",
-      "redo": "Redo",
-      "cut": "Cut",
-      "copy": "Copy",
-      "paste": "Paste",
-      "selectAll": "Select All",
-      "minimize": "Minimize",
-      "zoom": "Zoom",
-      "closeWindow": "Close Window",
-      "fullScreen": "Enter Full Screen",
-      "services": "Services",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "about": "About {{appName}}",
-      "hide": "Hide {{appName}}",
-      "quitApp": "Quit {{appName}}",
-      "restartToUpdate": "Restart to update to {{version}}",
-      "updatesOff": "Update checks are off…"
+      "languages": "Ngôn ngữ",
+      "moreLanguages": "Thêm hoặc xóa ngôn ngữ…",
+      "automaticMicrophone": "Tự phát hiện (cài đặt hệ thống)",
+      "noMicrophones": "Không tìm thấy micro nào",
+      "dictionaryWords_one": "{{count}} từ trong từ điển",
+      "dictionaryWords_other": "{{count}} từ trong từ điển",
+      "snippetCount_one": "{{count}} đoạn",
+      "snippetCount_other": "{{count}} đoạn",
+      "addWord": "Thêm từ…",
+      "newSnippet": "Một đoạn văn mới…",
+      "documentation": "Tài liệu",
+      "shortcuts": "Tắt phím",
+      "reportProblem": "Báo cáo vấn đề…",
+      "sendFeedback": "Gửi phản hồi…",
+      "openApp": "Mở {{appName}}",
+      "checkUpdates": "Kiểm tra cập nhật…",
+      "pasteLast": "Dán bản ghi gần nhất",
+      "cancelDictation": "Hủy ghi âm",
+      "shortcutsBlocked": "Các phím tắt đã bị chặn — mở Cài đặt",
+      "undo": "Hoàn tác",
+      "redo": "Làm lại",
+      "cut": "Cắt",
+      "copy": "Sao chép",
+      "paste": "Dán",
+      "selectAll": "Chọn Tất Cả",
+      "minimize": "Thu nhỏ",
+      "zoom": "Tăng giảm kích thước",
+      "closeWindow": "Đóng cửa sổ",
+      "fullScreen": "Nhập chế độ đầy màn hình",
+      "services": "Dịch vụ",
+      "hideOthers": "Ẩn Các Khác",
+      "showAll": "Hiển thị tất cả",
+      "about": "Về {{appName}}",
+      "hide": "Ẩn {{appName}}",
+      "quitApp": "Đóng {{appName}}",
+      "restartToUpdate": "Khởi động lại để cập nhật đến {{version}}",
+      "updatesOff": "Kiểm tra cập nhật đã tắt…"
     },
     "tray": {
       "version": "Wispr Bro v{{version}}",
       "versionDev": "Wispr Bro v{{version}} (Dev)",
-      "shortcutLost": "Shortcut stopped working"
+      "shortcutLost": "Phím tắt không còn hoạt động"
     },
     "window": {
       "mainTitle": "Wispr Bro"
@@ -742,16 +742,16 @@
         "escape": "Escape",
         "return": "Return",
         "tab": "Tab",
-        "delete": "Delete",
-        "forwardDelete": "Forward Delete",
-        "left": "Left Arrow",
-        "right": "Right Arrow",
-        "up": "Up Arrow",
-        "down": "Down Arrow",
+        "delete": "Xoá",
+        "forwardDelete": "Xoá trước",
+        "left": "Phím mũi tên trái",
+        "right": "Phím mũi tên phải",
+        "up": "Phím mũi tên lên",
+        "down": "Phím mũi tên xuống",
         "home": "Home",
         "end": "End",
         "pageUp": "Page Up",
-        "pageDown": "Page Down",
+        "pageDown": "Trang Xuống",
         "mouseLeft": "Nút chuột trái",
         "mouseRight": "Nút chuột phải",
         "mouseMiddle": "Nút chuột giữa",
@@ -846,8 +846,8 @@
       "hideForAnHour": "Hide for an hour",
       "slots": {
         "dictate": {
-          "label": "Dictate",
-          "tooltip": "Hold fn to dictate"
+          "label": "Đọc aloud",
+          "tooltip": "Giữ phím fn để ghi âm"
         },
         "scratchpad": {
           "label": "Scratchpad",
@@ -866,7 +866,7 @@
         "micLostWarning": "Microphone đã bị mất kết nối. Những gì bạn đã nói trước đây vẫn được lưu giữ.",
         "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
         "diff": "Các thay đổi chuyển đổi đã sẵn sàng để xem xét.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Secure Input đang được bật. fn và Space không thể khóa dictation. Escape hoặc nút đóng vẫn có thể hủy."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -890,9 +890,9 @@
         "selection_too_long": "Chọn 6.000 ký tự hoặc ít hơn",
         "transform_focus_moved": "Bạn đã chuyển sang, nên không có gì thay đổi",
         "transform_failed": "Không thể chuyển đổi văn bản đó",
-        "shortcut_lost": "Your shortcut stopped working",
-        "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_lost": "Tắt nhanh của bạn đã không còn hoạt động",
+        "shortcut_stopped": "Tắt nhanh của bạn đã không phản hồi",
+        "shortcut_back": "Tắt nhanh của bạn hoạt động lại"
       },
       "card": {
         "no_text_field": "Nhấn vào một ô nhập văn bản trước",
@@ -906,27 +906,27 @@
       }
     },
     "share": {
-      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+      "message": "{{appName}} là chức năng ghi âm miễn phí chạy hoàn toàn trên Mac của bạn. Tải ngay tại đây:"
     },
     "spotlight": {
-      "label": "Next step",
+      "label": "Bước tiếp theo",
       "hint": {
-        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
-        "note": "Open your notes app",
-        "message": "Open a chat, like Messages or Slack",
-        "email": "Open your email",
-        "comment": "Open a post you want to comment on",
-        "document": "Open a document you are writing",
-        "coding": "Open Cursor, VS Code or another code editor"
+        "ai_chat": "Mở một cuộc trò chuyện AI, như ChatGPT hoặc Claude",
+        "note": "Mở ứng dụng ghi chú của bạn",
+        "message": "Mở một cuộc trò chuyện, ví dụ như Messages hoặc Slack",
+        "email": "Mở email của bạn",
+        "comment": "Mở một bài viết mà bạn muốn bình luận",
+        "document": "Mở một tài liệu bạn đang viết",
+        "coding": "Mở Cursor, VS Code hoặc một trình chỉnh sửa mã nguồn khác"
       },
-      "how": "Click where you want to write, then hold fn and speak.",
-      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
-      "escape": "Press Esc to close this hint."
+      "how": "Nhấn vào vị trí bạn muốn viết, sau đó giữ phím fn và nói.",
+      "howFallback": "Nhấn vào vị trí bạn muốn viết, sau đó giữ phím Control và Option rồi nói.",
+      "escape": "Nhấn Esc để đóng gợi ý này."
     }
   },
   "speechModels": {
     "title": "Mô hình phát âm",
-    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "intro": "{{appName}} chọn mô hình phát âm phù hợp với các ngôn ngữ và thiết bị của bạn, và thay thế bằng một mô hình tốt hơn khi có thể. Bạn không bao giờ cần phải chọn.",
     "loading": "Đang kiểm tra các mô hình giọng nói…",
     "current": "Đang sử dụng: {{name}}",
     "none": "Chưa có mô hình giọng nói nào",
@@ -1051,7 +1051,7 @@
     "added": "Đã thêm “{{entry}}”.",
     "search": "Tìm trong từ điển của bạn",
     "refresh": "Refresh",
-    "shown_one": "{{count}} entry shown",
+    "shown_one": "Đang hiển thị {{count}} mục",
     "shown_other": "{{count}} mục được hiển thị",
     "deleted": "Đã xóa “{{entry}}”.",
     "deleteFailed": "Không thể xóa mục này. Vui lòng thử lại.",
@@ -1087,7 +1087,7 @@
       "edit": "Sửa {{entry}}",
       "delete": "Xoá {{entry}}",
       "accept": "Thêm {{entry}} vào từ điển của bạn",
-      "reject": "Don't learn {{entry}}"
+      "reject": "Không học {{entry}}"
     },
     "source": {
       "import": "Đã nhập",
@@ -1102,7 +1102,7 @@
     "emptySuggested": {
       "title": "Chưa có đề xuất nào",
       "body": "Khi {{appName}} có thể học từ những từ bạn sửa, chúng sẽ xuất hiện ở đây để bạn xác nhận.",
-      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+      "bodyOn": "Chỉnh sửa tên hoặc cụm từ bị sai trong hộp văn bản ngay sau khi ghi âm, rồi nhấn Return, Tab hoặc chuyển sang mục khác. Từ bạn đã chỉnh sửa sẽ xuất hiện ở đây để bạn xác nhận."
     },
     "noMatch": {
       "title": "Không có gì khớp",
@@ -1206,11 +1206,11 @@
       "done_other": "Đã xuất {{count}} mục.",
       "failed": "Không thể xuất từ điển. Vui lòng thử lại."
     },
-    "rejected": "“{{entry}}” won't be suggested again.",
-    "actionFailed": "That didn't work. Please try again.",
+    "rejected": "“{{entry}}” sẽ không được đề xuất lại.",
+    "actionFailed": "Đó không thành công. Hãy thử lại.",
     "learn": {
-      "toggle": "Learn from my corrections",
-      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+      "toggle": "Học từ những sửa đổi của tôi",
+      "hint": "Trong 30 giây sau khi ghi âm được dán vào, {{appName}} sẽ nhận biết các từ bạn sửa trong hộp văn bản và đề xuất chúng ở đây. Chỉ giữ lại từ bạn đã sửa, không bao giờ giữ lại phần còn lại. Các trường mật khẩu, phần mềm quản lý mật khẩu, ứng dụng ngân hàng và terminal sẽ không bao giờ được đọc."
     }
   },
   "pill": {
@@ -1220,7 +1220,7 @@
     "finish": "Finish dictation",
     "transcribing": "Transcribing…",
     "cleaningUp": "Cleaning up…",
-    "contextUsed": "Nearby text helped with spelling",
+    "contextUsed": "Text gần đó giúp với việc đánh dấu từ",
     "mic": "Mic: {{name}}",
     "fix": "Fix",
     "dismiss": "Dismiss",
@@ -1228,8 +1228,8 @@
       "silence": "No speech for a while, stopping soon",
       "length": "Stops at 30 minutes",
       "mic_lost": "Mic mất, giữ lại những gì bạn vừa nói",
-      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
-      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+      "secure_input": "Secure Input đang bật · không thể khóa bằng fn+Space · nhấn Esc hoặc ✕ để hủy",
+      "secure_input_app": "Ứng dụng {{app}} có Bảo mật Nhập liệu · phím fn+Space không thể khóa · phím Esc hoặc ✕ hủy"
     },
     "settingUp": "Đang thiết lập…",
     "settingUpPercent": "Đang thiết lập… {{percent}}%",
@@ -1247,8 +1247,8 @@
     "viewChanges": "Xem thay đổi",
     "sendsAutomatically": "Gửi tự động",
     "shortcutDetail": {
-      "permission": "Accessibility access is off",
-      "stopped": "The keyboard listener stopped"
+      "permission": "Truy cập khả năng tiếp cận đang bị tắt",
+      "stopped": "Nghe bàn phím đã dừng"
     }
   },
   "transforms": {
@@ -1772,56 +1772,56 @@
     }
   },
   "scratchpad": {
-    "newNote": "New note",
-    "preferences": "Scratchpad preferences",
-    "addToBar": "Add to the bar",
-    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
-    "recents": "Recents",
-    "searchLabel": "Search notes",
-    "searchPlaceholder": "Search your notes",
-    "loading": "Loading notes…",
-    "empty": "No notes yet",
-    "emptyHelp": "Start a note, then type or dictate into its floating window.",
-    "emptyNote": "Empty note",
-    "noResults": "No notes match your search.",
-    "untitled": "Untitled note",
-    "pinned": "Pinned",
-    "pin": "Pin note",
-    "unpin": "Unpin note",
-    "editAction": "Edit note",
-    "edit": "Edit {{name}}",
-    "delete": "Delete note",
-    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
-    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "newNote": "Ghi chú mới",
+    "preferences": "Ưu tiên Scratchpad",
+    "addToBar": "Thêm vào thanh",
+    "addToBarHelp": "Giữ nút Scratchpad bên cạnh Dictate trên thanh nghỉ.",
+    "recents": "Mới nhất",
+    "searchLabel": "Tìm kiếm ghi chú",
+    "searchPlaceholder": "Tìm kiếm ghi chú của bạn",
+    "loading": "Đang tải ghi chú…",
+    "empty": "Chưa có ghi chú nào",
+    "emptyHelp": "Bắt đầu ghi chú, sau đó nhập hoặc ghi âm vào cửa sổ nổi.",
+    "emptyNote": "Ghi chú rỗng",
+    "noResults": "Không có ghi chú nào khớp với tìm kiếm của bạn.",
+    "untitled": "Ghi chú chưa tên",
+    "pinned": "Đính",
+    "pin": "Ghi chú pin",
+    "unpin": "Lỏng note",
+    "editAction": "Sửa ghi chú",
+    "edit": "Sửa {{name}}",
+    "delete": "Xoá ghi chú",
+    "deleteConfirm": "Xoá \"{{name}}\"? Không thể hoàn tác được.",
+    "error": "Không thể hoàn thành thao tác này trên bản ghi. Văn bản hiện tại của bạn vẫn ở đây; hãy thử lại.",
     "shortcut": {
-      "label": "Open shortcut",
-      "change": "Set shortcut",
-      "title": "Scratchpad shortcut",
-      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
-      "close": "Close shortcut dialog",
-      "proposed": "Suggested combination",
+      "label": "Mở shortcut",
+      "change": "Đặt phím tắt",
+      "title": "Tắt shortcut",
+      "help": "Mở Scratchpad từ bất kỳ đâu. Nó bắt đầu không được thiết lập, nên sẽ không can thiệp vào phím cho đến khi bạn chọn một phím.",
+      "close": "Phím tắt đóng hộp thoại",
+      "proposed": "Kết hợp đề xuất",
       "ctrlOptionS": "Control + Option + S",
-      "use": "Use Control + Option + S",
-      "chooseAnother": "Choose a different shortcut",
-      "error": "That shortcut could not be saved. Try another combination."
+      "use": "Sử dụng Control + Option + S",
+      "chooseAnother": "Chọn một phím tắt khác",
+      "error": "Từ khóa này không thể được lưu. Hãy thử một tổ hợp khác."
     },
-    "tabs": "Open notes",
-    "tools": "Note tools",
-    "sidebar": "Show note list",
-    "polish": "Polish note",
-    "polishing": "Polishing…",
-    "textSize": "Change text size (currently {{size}} points)",
-    "expand": "Expand note window",
-    "shrink": "Restore note window size",
-    "close": "Close Scratchpad",
-    "noteBody": "Note text",
-    "notePlaceholder": "Write or dictate a note…",
-    "saved": "Saved",
-    "saving": "Saving…",
-    "saveError": "Not saved yet",
-    "autosaveHelp": "Saves automatically",
-    "copy": "Copy",
-    "copied": "Copied"
+    "tabs": "Mở ghi chú",
+    "tools": "Các công cụ ghi chú",
+    "sidebar": "Hiện danh sách ghi chú",
+    "polish": "Sửa note",
+    "polishing": "Đang làm mịn...",
+    "textSize": "Thay đổi kích thước chữ (hiện tại {{size}} điểm)",
+    "expand": "Mở rộng cửa sổ ghi chú",
+    "shrink": "Khôi phục kích thước cửa sổ ghi chú",
+    "close": "Đóng Scratchpad",
+    "noteBody": "Nội dung ghi chú",
+    "notePlaceholder": "Viết hoặc ghi chú một lời nhắn…",
+    "saved": "Đã lưu",
+    "saving": "Lưu…",
+    "saveError": "Chưa được lưu",
+    "autosaveHelp": "Lưu tự động",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép"
   },
   "style": {
     "tabsLabel": "Nhóm phong cách",
@@ -1915,235 +1915,383 @@
     }
   },
   "onboardingFlow": {
-    "loading": "Getting things ready…",
-    "back": "Back",
-    "continue": "Continue",
-    "yes": "Yes",
-    "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
-    "navigationFailed": "That step could not be saved. Try again.",
+    "loading": "Đang chuẩn bị các thứ...",
+    "back": "Quay lại",
+    "continue": "Tiếp tục",
+    "yes": "Có",
+    "no": "Không",
+    "downloadHint": "Cài đặt giọng nói tiếp tục trong nền. Bạn không bao giờ phải chờ ở đây.",
+    "navigationFailed": "Bước đó không thể được lưu. Hãy thử lại.",
     "stepper": {
-      "label": "Setup progress",
-      "welcome": "Welcome",
-      "permissions": "Permissions",
-      "setup": "Setup",
-      "practice": "Practice",
-      "done": "(done)"
+      "label": "Tiến trình cài đặt",
+      "welcome": "Chào mừng",
+      "permissions": "Quyền hạn",
+      "setup": "Cấu hình",
+      "practice": "Thực hành",
+      "done": "(xong)"
     },
     "help": {
-      "chip": "Help",
-      "title": "Help with setup",
-      "close": "Close help",
-      "done": "Got it",
-      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
-      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+      "chip": "Giúp đỡ",
+      "title": "Giúp thiết lập",
+      "close": "Đóng giúp đỡ",
+      "done": "Hiểu rồi",
+      "body": "Mỗi bước mất vài giây. Bạn có thể quay lại bất cứ lúc nào, và nếu bỏ cuộc, quá trình cài đặt sẽ tiếp tục từ điểm bạn đã dừng.",
+      "download": "Wispr Bro sẽ cài đặt nhận dạng giọng nói trên chiếc Mac này khi bạn thực hiện các bước này. Mọi thứ bạn ghi lại trước khi nó sẵn sàng sẽ được lưu lại và được gõ ra sau khi hoàn tất."
     },
     "welcome": {
-      "title": "Talk, and your words appear",
-      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
-      "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave this computer. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "title": "Nói, và những lời của bạn sẽ xuất hiện",
+      "subtitle": "Giữ một phím, nói, thả. Văn bản sạch xuất hiện ở bất kỳ nơi nào bạn đang nhập.",
+      "privacyTitle": "Tất cả đều được giữ lại trên chiếc Mac này",
+      "privacy": "Giọng nói và văn bản của bạn sẽ không bao giờ rời khỏi máy tính này. Không cần tài khoản, không cần đám mây, không có theo dõi.",
+      "download": "Cài đặt giọng nói bắt đầu ngay bây giờ và chạy ở phía sau nền.",
+      "start": "Bắt đầu"
     },
     "move": {
-      "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
-      "action": "Move to Applications",
-      "moving": "Moving…",
-      "skip": "Not now",
-      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+      "title": "Chuyển Wispr Bro sang Applications",
+      "body": "Wispr Bro đang chạy từ bên ngoài thư mục Applications của bạn. Di chuyển nó vào thư mục đó sẽ giúp các cập nhật và quyền truy cập hoạt động ổn định.",
+      "note": "Wispr Bro tự mở lại sau khi di chuyển và tiếp tục quá trình thiết lập.",
+      "action": "Chuyển đến Ứng dụng",
+      "moving": "Đang di chuyển...",
+      "skip": "Không bây giờ",
+      "error": "Wispr Bro không thể di chuyển được. Kéo nó vào Applications trong Finder, rồi mở lại."
     },
     "languages": {
-      "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
-      "listLabel": "Languages",
-      "noMatch": "No language matches “{{query}}”.",
-      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
-      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
-      "weak_one": "Recognition is less accurate in {{languages}}. It still works, but expect more mistakes.",
-      "weak_other": "Recognition is less accurate in {{languages}}. They still work, but expect more mistakes."
+      "title": "Ngôn ngữ bạn nói là gì?",
+      "subtitle": "Chọn mọi ngôn ngữ bạn ghi âm. Wispr Bro sẽ xử lý tốt hơn khi nó biết các ngôn ngữ đó.",
+      "listLabel": "Ngôn ngữ",
+      "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”.",
+      "count_one": "Dictation hoạt động trong {{count}} ngôn ngữ. Bạn có thể thay đổi sau này trong Cài đặt.",
+      "count_other": "Dictation hoạt động trong {{count}} ngôn ngữ. Bạn có thể thay đổi ngôn ngữ của mình sau này trong Cài đặt.",
+      "weak_one": "Việc nhận diện không chính xác trong {{languages}}. Nó vẫn hoạt động, nhưng hãy dự kiến sẽ có nhiều lỗi.",
+      "weak_other": "Việc nhận diện không chính xác trong {{languages}}. Chúng vẫn hoạt động, nhưng hãy mong đợi nhiều lỗi hơn."
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
-      "allowed": "Allowed",
-      "waiting": "Waiting for macOS…",
-      "openSettings": "Open System Settings",
-      "prompt": "The macOS prompt",
-      "pane": "In System Settings",
+      "title": "Hai quyền truy cập",
+      "subtitle": "macOS yêu cầu bạn cho phép những điều này một lần. Mỗi dòng được đánh dấu ngay khi bạn bật nó.",
+      "allowed": "Cho phép",
+      "waiting": "Đang chờ macOS…",
+      "openSettings": "Mở System Settings",
+      "prompt": "Thông báo của macOS",
+      "pane": "Trong Cài đặt Hệ thống",
       "microphone": {
         "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
-        "action": "Allow microphone",
-        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
-        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+        "why": "Vì vậy Wispr Bro sẽ nghe bạn khi bạn giữ phím. Âm thanh sẽ được xử lý chỉ trên chiếc Mac này.",
+        "action": "Cho phép micro",
+        "promptAlt": "Ảnh của thông báo micro của macOS, với nút Cho phép được đánh dấu",
+        "paneAlt": "Hình ảnh Cài đặt Hệ thống, Bảo mật và Bảo vệ, Microphone, với công tắc cho Wispr Bro được bật",
+        "waitingHelp": "Nhấn \"Cho phép\" trong thông báo của macOS. Nếu bạn không thấy nó, mở System Settings và bật Wispr Bro dưới Microphone."
       },
       "accessibility": {
-        "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
-        "action": "Allow Accessibility",
-        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
-        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
-        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+        "title": "Tính năng tiếp cận",
+        "why": "Vì vậy Wispr Bro có thể nhận biết phím tắt của bạn và gõ văn bản vào ứng dụng bạn đang sử dụng.",
+        "action": "Cho phép Truy cập Tính năng",
+        "promptAlt": "Ảnh của thông báo khả năng truy cập của macOS, với nút Mở Cài đặt Hệ thống được đánh dấu",
+        "paneAlt": "Hình ảnh Cài đặt Hệ thống, Bảo mật và Tính riêng tư, Truy cập Tính năng, với công tắc Wispr Bro được bật",
+        "waitingHelp": "Trong Cài đặt Hệ thống, bật nút bên cạnh Wispr Bro. Bạn có thể cần nhập mật khẩu để mở khóa."
       }
     },
     "mic": {
-      "title": "Test your microphone",
-      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
-      "question": "Do the bars move when you talk?",
-      "noHelp": "Choose another microphone below, then talk again.",
-      "change": "Change microphone",
-      "previewList": "Your microphones appear here."
+      "title": "Thử micro của bạn",
+      "guidance": "Microphone dây và micro nội bộ hoạt động tốt nhất. Tai nghe Bluetooth có thể mất kết nối hoặc âm thanh bị mờ.",
+      "question": "Các thanh có di chuyển khi bạn nói không?",
+      "noHelp": "Chọn micro khác dưới đây, rồi nói lại.",
+      "change": "Thay đổi micro",
+      "previewList": "Các micro của bạn xuất hiện ở đây."
     },
     "shortcut": {
-      "title": "Test your shortcut",
-      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
-      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
-      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
-      "keyLabel": "The fn key",
-      "fallbackKeyLabel": "Control and Option",
-      "pressed": "Key held",
-      "notPressed": "Waiting for the key…",
-      "worked": "It works. The key lit up.",
-      "question": "Did the key light up?",
-      "edit": "Edit shortcut",
-      "tryAgain": "Try again",
-      "otherCauses": "Not it? Other possible causes:",
-      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "title": "Thử nhanh phím của bạn",
+      "instruction": "Nhấn và giữ phím fn (🌐) trên bàn phím của bạn. Phím dưới sẽ sáng khi bạn giữ nó.",
+      "fallbackInstruction": "Nhấn và giữ cùng lúc Control và Option. Các phím dưới đây sẽ sáng lên khi bạn giữ chúng.",
+      "unboundInstruction": "Không có shortcut ghi âm được thiết lập. Sử dụng Chỉnh sửa shortcut để chọn một.",
+      "keyLabel": "Phím fn",
+      "fallbackKeyLabel": "Control và Option",
+      "pressed": "Phím được giữ",
+      "notPressed": "Đang chờ phím…",
+      "worked": "Nó hoạt động. Phím đã sáng lên.",
+      "question": "Chìa khóa có sáng lên không?",
+      "edit": "Chỉnh sửa phím tắt",
+      "tryAgain": "Thử lại",
+      "otherCauses": "Không phải sao? Các nguyên nhân khác:",
+      "changeFailed": "Sửa đổi đó không thành công. Hãy thử lại, hoặc sử dụng Cài đặt Hệ thống.",
       "diagnoses": {
         "tap": {
-          "choice": "Wispr Bro cannot see key presses",
-          "title": "Wispr Bro cannot see key presses yet",
-          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
-          "action": "Open Accessibility settings"
+          "choice": "Wispr Bro không thể nhìn thấy các phím được nhấn",
+          "title": "Wispr Bro chưa thể thấy các phím được nhấn yet",
+          "body": "Điều này thường có nghĩa là tính năng Truy cập không được bật cho Wispr Bro. Bật nó trong Cài đặt Hệ thống, rồi quay lại và nhấn Thử lại.",
+          "action": "Mở cài đặt Truy cập tính năng"
         },
         "secure_input": {
-          "choice": "A password field or another app is blocking keys",
-          "title": "Another app is blocking key presses",
-          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
-          "active": "Right now, another app is blocking key presses.",
-          "inactive": "Nothing is blocking key presses right now."
+          "choice": "Một trường nhập mật khẩu hoặc một ứng dụng khác đang chặn các phím",
+          "title": "Một ứng dụng khác đang chặn các phím được nhấn",
+          "body": "Trong khi trường nhập mật khẩu hoặc một số ứng dụng (quản lý mật khẩu, nhập ký tự an toàn của Terminal) đang được chọn, macOS sẽ ẩn các phím được nhấn khỏi các ứng dụng khác. Đóng hoặc nhấp ra khỏi nó, rồi thử lại.",
+          "active": "Hiện tại, một ứng dụng khác đang chặn các phím được nhấn.",
+          "inactive": "Hiện tại không có gì đang chặn việc nhấn phím."
         },
         "globe": {
-          "choice": "The 🌐 key opens emoji or switches the keyboard",
-          "title": "macOS gives the 🌐 key its own job",
-          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
-          "consent": "Set 🌐 to Do Nothing",
-          "changed": "🌐 now does nothing on its own",
-          "open": "Open Keyboard settings"
+          "choice": "Phím 🌐 mở biểu tượng cảm xúc hoặc đổi bàn phím",
+          "title": "macOS gán nhiệm vụ riêng cho phím 🌐",
+          "body": "Mac bạn mở biểu tượng cảm xúc, chuyển nguồn nhập liệu hoặc bắt đầu ghi âm Apple khi bạn nhấn 🌐. Wispr Bro có thể thiết lập \"Nhấn phím 🌐 để\" thành \"Không làm gì\". Lựa chọn của bạn sẽ được trả lại nếu bạn ngừng sử dụng phím fn để ghi âm.",
+          "consent": "Đặt 🌐 thành Không làm gì",
+          "changed": "🌐 giờ không làm gì cả",
+          "open": "Mở cài đặt bàn phím"
         },
         "no_fn": {
-          "choice": "My keyboard has no fn key",
-          "title": "Use Control and Option instead",
-          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
-          "action": "Use Control + Option",
-          "changed": "Control + Option is your shortcut"
+          "choice": "Bàn phím của tôi không có phím fn",
+          "title": "Sử dụng Control và Option thay vì",
+          "body": "Một số bàn phím không có phím fn hoặc 🌐. Nhấn đồng thời Control và Option để gõ giọng thay vì đó. Bạn có thể thay đổi điều này bất cứ khi nào trong Cài đặt.",
+          "action": "Sử dụng Control + Option",
+          "changed": "Control + Option là phím tắt của bạn"
         }
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
-      "skip": "Skip",
-      "waiting": "Waiting for you to start talking…",
-      "listening": "Listening… press fn when you're done.",
-      "listening_fallback": "Listening… press Control and Option when you're done.",
-      "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
-      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
-      "nothing": "Nothing came through. Check that your microphone is on and try again.",
-      "filled": "That's your email. Add more, or continue.",
+      "title": "Thực hành: viết một email mà không cần dùng tay",
+      "instruction": "Nhấn cùng fn và phím không gian, rồi nói. Bạn không cần giữ bất cứ thứ gì. Nhấn fn lại khi xong. Thử: \"Xin chào Sam, cảm ơn vì ghi chú. Chúng ta có thể gặp vào thứ Ba lúc mười giờ không?\"",
+      "instructionFallback": "Nhấn cùng lúc Control, Option và Không gian, rồi nói. Bạn không cần giữ bất kỳ phím nào. Nhấn lại Control và Option khi xong. Thử: \"Xin chào Sam, cảm ơn vì ghi chú. Chúng ta có thể gặp vào thứ Ba lúc mười giờ không?\"",
+      "instructionUnbound": "Không có phím tắt ghi âm được thiết lập, vì vậy không thể bắt đầu bài luyện tập này. Bỏ qua tạm thời và thiết lập phím tắt trong Cài đặt.",
+      "skip": "Bỏ qua",
+      "waiting": "Đang chờ bạn bắt đầu nói...",
+      "listening": "Đang nghe… nhấn fn khi bạn xong.",
+      "listening_fallback": "Đang nghe… nhấn Control và Option khi bạn xong.",
+      "working": "Viết nó ra...",
+      "settingUp": "Đang thiết lập...",
+      "settingUpPercent": "Đang thiết lập… {{percent}}%",
+      "queuedNote": "Các từ của bạn đã được lưu. Chúng sẽ xuất hiện ở đây ngay khi hoàn thành thiết lập, và chúng luôn luôn có trong Lịch sử. Chúng tôi sẽ tiếp tục ngay lập tức.",
+      "nothing": "Không có gì được ghi nhận. Kiểm tra xem loa của bạn có bật không và thử lại.",
+      "filled": "Đó là email của bạn. Thêm nhiều hơn, hoặc tiếp tục.",
       "composer": {
-        "title": "New message",
-        "to": "To",
+        "title": "Tin nhắn mới",
+        "to": "Đến",
         "recipient": "Sam",
-        "subject": "Subject",
-        "subjectText": "Thursday",
-        "body": "Message",
-        "placeholder": "Your words appear here."
+        "subject": "Chủ đề",
+        "subjectText": "Thứ Ba",
+        "body": "Tin nhắn",
+        "placeholder": "Các từ của bạn xuất hiện ở đây."
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "Đã xong. Bạn đã ghi lại văn bản đầu tiên của mình.",
+      "subtitle": "Ở bất kỳ đâu bạn có thể gõ, giờ bạn có thể nói thay vì gõ."
     },
     "timeSaved": {
-      "headline_one": "Dictating could save you about {{hours}} hour a week",
-      "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "basisMeasured": "Based on your {{wpm}} words a minute typing, and speaking at about {{speaking}} words a minute.",
-      "basisAverage": "Based on an average typing speed of {{wpm}} words a minute, and speaking at about {{speaking}} words a minute.",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test"
+      "headline_one": "Việc gõ bằng giọng nói có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
+      "headline_other": "Việc gõ bằng giọng nói có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
+      "intro": "Nói nhanh hơn là gõ phím với hầu hết mọi người. Thực hiện một bài kiểm tra gõ phím trong 30 giây để thấy được lượng thời gian có thể tiết kiệm được.",
+      "howFast": "Bạn đánh nhanh như thế nào?",
+      "skipTest": "Bỏ qua bài kiểm tra",
+      "basisMeasured": "Dựa trên tốc độ gõ {{wpm}} từ/phút của bạn và tốc độ nói khoảng {{speaking}} từ/phút.",
+      "basisAverage": "Dựa trên tốc độ gõ trung bình là {{wpm}} từ mỗi phút, và nói khoảng {{speaking}} từ mỗi phút.",
+      "sliderLabel": "Bạn nhập bao lâu mỗi ngày?",
+      "hoursPerDay_one": "{{hours}} giờ mỗi ngày",
+      "hoursPerDay_other": "{{hours}} giờ mỗi ngày",
+      "takeTest": "Làm bài kiểm tra gõ chữ"
     },
     "typing": {
-      "title": "How fast do you type?",
-      "instruction": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
-      "skip": "Skip",
-      "language": "Language",
-      "wpmPending": "— words a minute",
-      "wpm_one": "{{count}} word a minute",
-      "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
-      "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
-      "nothing": "Nothing matched the paragraph. Try again.",
-      "result_one": "You type about {{count}} word a minute.",
-      "result_other": "You type about {{count}} words a minute.",
-      "tryAgain": "Try again",
-      "recalculate": "Recalculate"
+      "title": "Bạn đánh nhanh như thế nào?",
+      "instruction": "Nhập đoạn văn dưới đây như bình thường. Đồng hồ bắt đầu khi bạn nhấn phím đầu tiên và chạy trong {{seconds}} giây.",
+      "skip": "Bỏ qua",
+      "language": "Ngôn ngữ",
+      "wpmPending": "— từ phút",
+      "wpm_one": "{{count}} từ một phút",
+      "wpm_other": "{{count}} từ mỗi phút",
+      "secondsLeft_one": "còn {{count}} giây",
+      "secondsLeft_other": "còn lại {{count}} giây",
+      "inputLabel": "Nhập đoạn văn ở đây",
+      "placeholder": "Bắt đầu gõ ở đây…",
+      "nothing": "Không có gì khớp với đoạn văn. Hãy thử lại.",
+      "result_one": "Bạn đang gõ khoảng {{count}} từ mỗi phút.",
+      "result_other": "Bạn đang gõ khoảng {{count}} từ mỗi phút.",
+      "tryAgain": "Thử lại",
+      "recalculate": "Tính lại"
     },
     "summary": {
-      "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
-      "languages": "Languages",
-      "shortcut": "Shortcut",
-      "shortcutFn": "Hold fn (🌐)",
-      "shortcutFallback": "Hold Control and Option",
+      "title": "Bạn đã sẵn sàng",
+      "subtitle": "Đây là cách cài đặt Wispr Bro. Nhấn giữ phím tắt trong bất kỳ ứng dụng nào để gõ văn bản bằng giọng nói.",
+      "languages": "Ngôn ngữ",
+      "shortcut": "Tắt",
+      "shortcutFn": "Giữ phím fn (🌐)",
+      "shortcutFallback": "Giữ Control và Option",
       "microphone": "Microphone",
-      "micDefault": "The Mac's default microphone",
-      "typing": "Typing speed",
-      "typingWpm_one": "{{count}} word a minute",
-      "typingWpm_other": "{{count}} words a minute",
-      "typingSkipped": "Not measured",
-      "notSet": "Not set",
-      "launchAtLogin": "Open Wispr Bro when you log in",
-      "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
-      "finish": "Start dictating"
+      "micDefault": "Microphone mặc định của Mac",
+      "typing": "Tốc độ gõ",
+      "typingWpm_one": "{{count}} từ một phút",
+      "typingWpm_other": "{{count}} từ một phút",
+      "typingSkipped": "Không được đo",
+      "notSet": "Chưa thiết lập",
+      "launchAtLogin": "Mở Wispr Bro khi bạn đăng nhập",
+      "launchAtLoginHint": "Vậy chức năng ghi âm đã sẵn sàng bất cứ khi nào bạn cần.",
+      "later": "Bạn có thể thay đổi tất cả những điều này sau này trong Cài đặt.",
+      "finish": "Bắt đầu ghi âm"
     }
   },
   "whatsNew": {
-    "title": "What's new in {{version}}",
-    "label": "Release notes for this version",
-    "close": "Close",
-    "done": "Got it"
+    "title": "Có gì mới trong {{version}}",
+    "label": "Thông báo cập nhật phiên bản này",
+    "close": "Đóng",
+    "done": "Được rồi"
   },
   "share": {
-    "heading": "Pass {{appName}} on",
-    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
-    "downloadLabel": "Download link",
-    "brewLabel": "Install with Homebrew",
-    "copyLink": "Copy download link",
-    "copyBrew": "Copy Homebrew command",
-    "copy": "Copy",
-    "copied": "Copied",
-    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
-    "shareTitle": "Send it to someone",
-    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
-    "shareButton": "Share…",
-    "shareFailed": "Couldn't open the share sheet."
+    "heading": "Chia sẻ {{appName}}",
+    "body": "{{appName}} là miễn phí và mở nguồn, và nó chạy hoàn toàn trên Mac. Không có mã giới thiệu và không có gì được theo dõi: liên kết này giống nhau với mọi người.",
+    "downloadLabel": "Liên kết tải về",
+    "brewLabel": "Cài đặt với Homebrew",
+    "copyLink": "Sao chép liên kết tải xuống",
+    "copyBrew": "Sao chép lệnh Homebrew",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "copyFailed": "Không thể sao chép. Vui lòng chọn văn bản và sao chép thay vào đó.",
+    "shareTitle": "Chia sẻ với ai đó",
+    "shareBody": "Tin nhắn, Thư, AirDrop và bất kỳ cách nào mà Mac của bạn có thể chia sẻ.",
+    "shareButton": "Chia sẻ…",
+    "shareFailed": "Không thể mở bảng chia sẻ."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Tắt chức năng gõ giọng của bạn. Wispr Bro cần quyền truy cập Truy cập Tính năng lại.",
+      "stopped": "Tường thuật dictation của bạn đã ngừng phản hồi.",
+      "fix": "Sửa"
+    },
+    "sheet": {
+      "title": "Sửa nhanh phím tắt của bạn",
+      "introPermission": "macOS đã tắt quyền truy cập Tính năng truy cập của Wispr Bro, vì vậy nó không thể nhận biết được shortcut của bạn. Điều này có thể xảy ra sau khi cập nhật hoặc khi mục được thay đổi trong Cài đặt Hệ thống.",
+      "introStopped": "Nghe bàn phím của Wispr Bro đã dừng. Nó sẽ tự động khởi động lại ngay khi macOS cho phép.",
+      "pictureLabel": "Các cài đặt hệ thống, Bảo mật & Tính năng truy cập: dòng Wispr Bro với nút bật",
+      "pictureTitle": "Tính năng tiếp cận",
+      "pictureBack": "Bảo mật & An toàn",
+      "stepsTitle": "Bật lại",
+      "step1": "Mở System Settings › Bảo mật & Bảo vệ › Truy cập khả dụng.",
+      "step2": "Bật Wispr Bro. Nếu nó đã bật, tắt nó đi rồi bật lại.",
+      "step3": "Trở lại đây. Phím tắt hoạt động lại trong vài giây, không cần khởi động lại.",
+      "resetTitle": "Vẫn không hoạt động chứ?",
+      "resetBody": "Sau khi cập nhật, macOS có thể giữ lại một mục cũ không còn phù hợp với ứng dụng. Việc đặt lại sẽ xóa mục của Wispr Bro để bạn có thể cho phép nó lại.",
+      "resetStep1": "Chọn Đặt lại và cấp lại quyền.",
+      "resetStep2": "Cho phép Wispr Bro khi macOS hỏi, hoặc bật nó trong danh sách mở ra.",
+      "resetFailed": "Không thể đặt lại mục này. Trong danh sách, chọn Wispr Bro và xóa nó bằng nút trừ, sau đó thêm lại bằng nút cộng.",
+      "openSettings": "Mở Cài đặt Truy cập",
+      "reset": "Đặt lại và cấp lại",
+      "checkAgain": "Kiểm tra lại",
+      "relaunch": "Khởi động lại để hoàn thành",
+      "close": "Đóng",
+      "status": {
+        "healthy": "Tắt tắt nhanh của bạn đang hoạt động.",
+        "lost": "Chưa hoạt động",
+        "recovering": "Đang nối lại...",
+        "needsRelaunch": "Truy cập đã trở lại. Khởi động lại Wispr Bro để hoàn thành."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Bạn muốn thử điều gì trước?",
+    "subtitle": "Chọn một để xem cách hoạt động. Sau đó thử trong ứng dụng của bạn.",
+    "choicesLabel": "Các cách bắt đầu",
+    "choices": {
+      "ai_chat": "Hỏi một trợ lý AI",
+      "note": "Ghi một ghi chú",
+      "message": "Trả lời một tin nhắn",
+      "email": "Viết một email",
+      "comment": "Đăng một bình luận",
+      "document": "Viết một văn bản",
+      "coding": "Gợi ý công cụ lập trình"
+    },
+    "scene": {
+      "label": "Ví dụ: {{choice}}",
+      "said": "Bạn nói",
+      "written": "{{appName}} viết",
+      "pause": "Dừng ví dụ",
+      "play": "Chơi ví dụ"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "trò chuyện AI",
+        "context": "Tôi có thể giúp bạn điều gì?",
+        "said": "um vậy có thể giải thích cho tôi biết cách lãi kép hoạt động như tôi mới bắt đầu học",
+        "text": "Bạn có thể giải thích cách lãi kép hoạt động không, như tôi mới bắt đầu?"
+      },
+      "note": {
+        "app": "Ghi chú",
+        "context": "Thứ Hai",
+        "said": "ghi chú cho bản thân gọi bác sĩ nha khoa và ừm, lấy đồ giặt trước sáu",
+        "text": "Ghi chú cho bản thân: gọi bác sĩ nha khoa và lấy đồ giặt trước sáu."
+      },
+      "message": {
+        "app": "Thông điệp",
+        "context": "Chúng ta vẫn họp ăn trưa không?",
+        "said": "đúng rồi, mười hai giờ ba mươi, được không?",
+        "text": "Đúng vậy! 12 giờ 30 phút có được không?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Đến: Priya · Chủ đề: Thứ Tư",
+        "said": "xin chào Priya, cám ơn vì ghi chú, tôi sẽ gửi bản thảo vào buổi sáng thứ Ba",
+        "text": "Xin chào Priya, cảm ơn bạn đã ghi chú. Tôi sẽ gửi bản thảo vào buổi sáng thứ Ba."
+      },
+      "comment": {
+        "app": "Xã hội",
+        "context": "Công ty chúng tôi mở văn phòng mới vào tuần tới!",
+        "said": "chúc mừng cả đội, điều này thật tuyệt vời",
+        "text": "Chúc mừng cả đội, điều này thật tuyệt vời!"
+      },
+      "document": {
+        "app": "Tài liệu",
+        "context": "Kế hoạch dự án",
+        "said": "mục tiêu của giai đoạn này là gửi beta đến 50 người dùng thử nghiệm trước cuối tháng",
+        "text": "Mục tiêu của giai đoạn này là gửi bản beta cho 50 người dùng thử nghiệm trước cuối tháng."
+      },
+      "coding": {
+        "app": "Chỉnh sửa mã nguồn",
+        "context": "Hỏi người đại diện",
+        "said": "nút đăng nhập không hoạt động trên điện thoại có thể bạn tìm ra lý do và sửa nó",
+        "text": "Nút đăng nhập không hoạt động trên điện thoại. Bạn có thể tìm ra lý do và sửa nó được không?"
+      }
+    },
+    "tryNow": "Thử ngay",
+    "later": "Có thể sau này",
+    "close": "Đóng",
+    "noBar": "Thanh nhập văn không đang chạy, do đó không có gợi ý nào để hiển thị. Bạn vẫn có thể thử: mở ứng dụng và giữ phím tắt của bạn.",
+    "banner": {
+      "title": "Sử dụng nó trong các ứng dụng của bạn",
+      "body": "{{hint}}. {{how}}",
+      "again": "Hiển thị gợi ý lần nữa",
+      "stop": "Ẩn gợi ý",
+      "other": "Thử điều khác",
+      "active": "Gợi ý hiện trên màn hình của bạn. Nhấn Esc để đóng nó."
+    }
+  },
+  "checklist": {
+    "title": "Bắt đầu",
+    "label": "Danh sách kiểm tra thiết lập",
+    "progress": "{{done}} của {{total}} đã hoàn thành",
+    "hide": "Ẩn danh sách kiểm tra",
+    "done": "Đã hoàn thành",
+    "next": "Tiếp theo",
+    "allDone": "Đã hoàn tất. Bạn biết những điều cơ bản rồi.",
+    "items": {
+      "try_in_app": {
+        "title": "Thử nó trong một ứng dụng khác",
+        "action": "Hãy cho tôi xem"
+      },
+      "add_word": {
+        "title": "Thêm một từ",
+        "action": "Thêm một từ",
+        "coachTitle": "Thêm từ đầu tiên của bạn",
+        "coachBody": "Các tên gọi, thuật ngữ sản phẩm và từ ngữ chuyên môn bạn thường nói. Chúng xuất hiện được chính tả theo cách bạn đánh chính tả."
+      },
+      "create_snippet": {
+        "title": "Tạo một đoạn trích",
+        "action": "Mới tạo đoạn",
+        "coachTitle": "Tạo đoạn văn đầu tiên của bạn",
+        "coachBody": "Nói một cụm từ ngắn và nhận được đoạn văn dài: địa chỉ của bạn, một liên kết, một lời kết."
+      },
+      "launch_at_login": {
+        "title": "Mở khi đăng nhập",
+        "action": "Bật",
+        "body": "{{appName}} khởi động cùng Mac của bạn, nên phím tắt luôn hoạt động."
+      }
+    },
+    "coach": {
+      "close": "Đóng",
+      "done": "Được rồi"
+    }
   },
   "overrides": {
     "onboarding": {
@@ -2244,154 +2392,6 @@
     },
     "theme": {
       "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
-    }
-  },
-  "shortcutHealth": {
-    "banner": {
-      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
-      "stopped": "Your dictation shortcut stopped responding.",
-      "fix": "Fix"
-    },
-    "sheet": {
-      "title": "Fix your shortcut",
-      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
-      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
-      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
-      "pictureTitle": "Accessibility",
-      "pictureBack": "Privacy & Security",
-      "stepsTitle": "Turn it back on",
-      "step1": "Open System Settings › Privacy & Security › Accessibility.",
-      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
-      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
-      "resetTitle": "Still not working?",
-      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
-      "resetStep1": "Choose Reset and re-grant.",
-      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
-      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
-      "openSettings": "Open Accessibility Settings",
-      "reset": "Reset and re-grant",
-      "checkAgain": "Check again",
-      "relaunch": "Relaunch to finish",
-      "close": "Close",
-      "status": {
-        "healthy": "Your shortcut works.",
-        "lost": "Not working yet",
-        "recovering": "Reconnecting…",
-        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
-      }
-    }
-  },
-  "firstUse": {
-    "title": "What do you want to try first?",
-    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
-    "choicesLabel": "Ways to start",
-    "choices": {
-      "ai_chat": "Ask an AI assistant",
-      "note": "Jot a note",
-      "message": "Reply to a message",
-      "email": "Write an email",
-      "comment": "Post a comment",
-      "document": "Draft a document",
-      "coding": "Prompt a coding tool"
-    },
-    "scene": {
-      "label": "Example: {{choice}}",
-      "said": "You say",
-      "written": "{{appName}} writes",
-      "pause": "Pause the example",
-      "play": "Play the example"
-    },
-    "scenes": {
-      "ai_chat": {
-        "app": "AI chat",
-        "context": "What can I help with?",
-        "said": "um so can you explain how compound interest works like I'm new to this",
-        "text": "Can you explain how compound interest works, like I'm new to this?"
-      },
-      "note": {
-        "app": "Notes",
-        "context": "Monday",
-        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
-        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
-      },
-      "message": {
-        "app": "Messages",
-        "context": "Are we still on for lunch?",
-        "said": "yes for sure is twelve thirty okay for you",
-        "text": "Yes, for sure! Is 12:30 okay for you?"
-      },
-      "email": {
-        "app": "Mail",
-        "context": "To: Priya · Subject: Thursday",
-        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
-        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
-      },
-      "comment": {
-        "app": "Social",
-        "context": "Our new office opens next week!",
-        "said": "congrats to the whole team this looks amazing",
-        "text": "Congrats to the whole team, this looks amazing!"
-      },
-      "document": {
-        "app": "Docs",
-        "context": "Project plan",
-        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
-        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
-      },
-      "coding": {
-        "app": "Code editor",
-        "context": "Ask the agent",
-        "said": "the login button doesn't work on mobile can you find out why and fix it",
-        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
-      }
-    },
-    "tryNow": "Try it now",
-    "later": "Maybe later",
-    "close": "Close",
-    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
-    "banner": {
-      "title": "Use it in your own apps",
-      "body": "{{hint}}. {{how}}",
-      "again": "Show the hint again",
-      "stop": "Hide the hint",
-      "other": "Try something else",
-      "active": "The hint is on your screen. Press Esc to close it."
-    }
-  },
-  "checklist": {
-    "title": "Get started",
-    "label": "Setup checklist",
-    "progress": "{{done}} of {{total}} done",
-    "hide": "Hide the checklist",
-    "done": "Done",
-    "next": "Next",
-    "allDone": "All set. You know the basics.",
-    "items": {
-      "try_in_app": {
-        "title": "Try it in another app",
-        "action": "Show me"
-      },
-      "add_word": {
-        "title": "Add a word",
-        "action": "Add a word",
-        "coachTitle": "Add your first word",
-        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
-      },
-      "create_snippet": {
-        "title": "Create a snippet",
-        "action": "New snippet",
-        "coachTitle": "Create your first snippet",
-        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
-      },
-      "launch_at_login": {
-        "title": "Open at login",
-        "action": "Turn on",
-        "body": "{{appName}} starts with your Mac, so your shortcut always works."
-      }
-    },
-    "coach": {
-      "close": "Close",
-      "done": "Got it"
     }
   }
 }
