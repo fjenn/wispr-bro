@@ -494,6 +494,29 @@ async fn idle_stop_after_the_timeout_but_never_mid_request() {
     assert_eq!(h.launches().len(), 2);
 }
 
+/// S-38: under critical memory pressure the idle owner stops an idle
+/// server at once (no idle timeout), never one with a request in flight.
+#[tokio::test(flavor = "multi_thread")]
+async fn pressure_stop_skips_the_timeout_but_never_a_request() {
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 0 }]);
+    assert!(!sup.stop_if_idle().await, "nothing running");
+    sup.ensure_ready().await.unwrap();
+    h.shared().chat_delay_ms = 400;
+    let s2 = sup.clone();
+    let req = tokio::spawn(async move {
+        s2.complete(&sample(), Duration::from_secs(5), &CancellationToken::new())
+            .await
+    });
+    tokio::time::sleep(Duration::from_millis(150)).await;
+    assert!(!sup.stop_if_idle().await, "request in flight");
+    req.await.unwrap().unwrap();
+    // Just used, well inside the 120 s idle timeout: stopped anyway.
+    assert!(sup.stop_if_idle().await);
+    assert!(!sup.is_running().await);
+    assert_eq!(sup.status().phase, ServerPhase::Stopped);
+    assert_eq!(sup.status().restarts, 0);
+}
+
 #[tokio::test(flavor = "multi_thread")]
 async fn wake_restarts_a_server_that_does_not_answer() {
     let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 0 }]);

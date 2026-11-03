@@ -122,7 +122,10 @@ pub fn probe(model_dir: &Path) -> Machine {
         free_space_for(existing, &list).or_else(|| crate::fork::db::disk::free_bytes(existing));
     let machine = Machine {
         chip: parse_chip(&brand, std::env::consts::ARCH),
-        ram_bytes: sys.total_memory(),
+        // Debug builds: `WB_DEBUG_MEMORY` physical_gb simulates another
+        // Mac's RAM tier (S-38, Mac test S-38.7).
+        ram_bytes: crate::fork::llm::memory::simulated_physical_bytes()
+            .unwrap_or_else(|| sys.total_memory()),
         free_disk_bytes: free,
     };
     log::info!(

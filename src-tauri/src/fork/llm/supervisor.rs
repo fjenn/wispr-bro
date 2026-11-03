@@ -645,6 +645,22 @@ impl Supervisor {
         }
     }
 
+    /// Stops the server now if no request is in flight and no start runs
+    /// (critical memory pressure, S-38). `true` when it stopped one.
+    pub async fn stop_if_idle(&self) -> bool {
+        if self.in_flight.load(Ordering::Acquire) > 0 {
+            return false;
+        }
+        let Ok(mut inner) = self.inner.try_lock() else {
+            return false;
+        };
+        if inner.running.is_none() {
+            return false;
+        }
+        self.stop_locked(&mut inner).await;
+        true
+    }
+
     /// Called every few seconds: stops an idle server.
     pub async fn idle_tick(&self) -> bool {
         let idle_timeout = lock(&self.config).idle_timeout;

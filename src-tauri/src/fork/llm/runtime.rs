@@ -200,19 +200,23 @@ impl LlmRuntime {
         lock(&self.state).state == LlmState::Ready
     }
 
-    /// R5 §4.5 memory rule for starting the server now. A running server
-    /// always passes.
+    /// R5 §4.5 / §5.2 memory rule for using the LLM now
+    /// ([`memory::allows`]): a running server passes unless macOS reports
+    /// critical pressure; a stopped one must also fit beside the headroom.
     pub async fn memory_allows_start(&self) -> bool {
         let (Some(model), Some(sup)) = (self.model, &self.supervisor) else {
             return false;
         };
-        if sup.is_running().await {
-            return true;
+        let snapshot = memory::snapshot();
+        let allowed = memory::allows(
+            sup.is_running().await,
+            snapshot,
+            model.resident_mib * 1024 * 1024,
+        );
+        if !allowed && snapshot.is_some_and(|m| m.pressure == memory::Pressure::Critical) {
+            log::info!("llm: memory pressure is critical; the LLM is skipped");
         }
-        match memory::snapshot() {
-            Some(m) => memory::may_start(m.available_bytes, model.resident_mib * 1024 * 1024),
-            None => true,
-        }
+        allowed
     }
 }
 
@@ -288,6 +292,10 @@ pub fn on_ready<R: Runtime>(app: &AppHandle<R>) {
         tauri::async_runtime::spawn(async move {
             loop {
                 tokio::time::sleep(Duration::from_secs(5)).await;
+                if memory::release_idle(memory::snapshot()) && sup.stop_if_idle().await {
+                    log::info!("llm: memory pressure is critical; stopped the idle server");
+                    continue;
+                }
                 sup.idle_tick().await;
             }
         });
