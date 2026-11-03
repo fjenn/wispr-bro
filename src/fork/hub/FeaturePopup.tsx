@@ -8,6 +8,9 @@
  * fork setting `dismissed_banners`, so it never returns, in any window or
  * after a relaunch. Closing it also marks its inbox entry read. "Show me"
  * runs the feature's action (a Hub page, or the notifications panel).
+ *
+ * It waits while a take runs, while View changes or any other dialog is
+ * open, and briefly after the page loads (`featurePopupGate.ts`).
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +19,7 @@ import { commands, type FeatureAnnouncement } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
 import { Button } from "../ui";
+import { useFeaturePopupDeferred } from "./featurePopupGate";
 import { runHubAction, useInbox } from "./notifications";
 
 export function FeaturePopup() {
@@ -24,6 +28,7 @@ export function FeaturePopup() {
   const dismissed = useForkSettingsStore((s) => s.settings?.dismissed_banners);
   const [feature, setFeature] = useState<FeatureAnnouncement | null>(null);
   const [closed, setClosed] = useState(false);
+  const deferred = useFeaturePopupDeferred();
 
   useEffect(() => {
     if (status !== "ready") return;
@@ -41,7 +46,12 @@ export function FeaturePopup() {
     };
   }, [status]);
 
-  if (!feature || closed || dismissed?.includes(feature.dismiss_id)) {
+  if (
+    !feature ||
+    closed ||
+    deferred ||
+    dismissed?.includes(feature.dismiss_id)
+  ) {
     return null;
   }
 

@@ -478,6 +478,63 @@ test.describe("notifications", () => {
         .toEqual(["feature.inbox"]);
     });
 
+    // Mac wave 1, Finding 9: the popup covered S-22's View changes diff.
+    test("waits while View changes is open, then shows", async ({
+      page,
+      ipc,
+      hub,
+    }) => {
+      await openInbox(
+        page,
+        ipc,
+        hub,
+        { feature },
+        { hash: "#/hub/transforms/changes" },
+      );
+      await expect(page.getByTestId("wb-main")).toHaveAttribute(
+        "data-page",
+        "transforms",
+      );
+      // Past the settle delay, and still away while the diff is open.
+      await page.waitForTimeout(1200);
+      await expect(page.getByTestId("wb-feature-popup")).toBeHidden();
+      await page.evaluate(() => {
+        window.location.hash = "#/hub/dictation";
+      });
+      await expect(page.getByTestId("wb-feature-popup")).toBeVisible();
+      // Deferred, not dismissed.
+      expect(hub.forkSettings.dismissed_banners).toEqual([]);
+    });
+
+    test("waits while a take runs or another dialog is open", async ({
+      page,
+      ipc,
+      hub,
+    }) => {
+      await openInbox(page, ipc, hub, { feature });
+      await expect(page.getByTestId("wb-feature-popup")).toBeVisible();
+      await ipc.emit("recording-state-event", { phase: "started" });
+      await expect(page.getByTestId("wb-feature-popup")).toBeHidden();
+      await ipc.emit("recording-state-event", { phase: "stopped" });
+      await page.waitForTimeout(500);
+      await expect(page.getByTestId("wb-feature-popup")).toBeHidden();
+      await expect(page.getByTestId("wb-feature-popup")).toBeVisible();
+
+      // Another dialog open: the popup steps aside until it closes.
+      await page.evaluate(() => {
+        const other = document.createElement("div");
+        other.id = "wb-test-other-dialog";
+        other.setAttribute("role", "dialog");
+        document.body.appendChild(other);
+      });
+      await expect(page.getByTestId("wb-feature-popup")).toBeHidden();
+      await page.evaluate(() =>
+        document.getElementById("wb-test-other-dialog")?.remove(),
+      );
+      await expect(page.getByTestId("wb-feature-popup")).toBeVisible();
+      expect(hub.forkSettings.dismissed_banners).toEqual([]);
+    });
+
     test("stays away once dismissed or when there is none", async ({
       page,
       ipc,
