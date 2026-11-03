@@ -8,7 +8,7 @@
  * in `typing.ts`.
  */
 import { useEffect, useRef, useState } from "react";
-import { Clock } from "lucide-react";
+import { Clock } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";

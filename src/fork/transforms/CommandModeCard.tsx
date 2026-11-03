@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { MessageSquareText } from "lucide-react";
+import { MessageSquareText } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { chordLabel } from "../settings/hotkeys/model";

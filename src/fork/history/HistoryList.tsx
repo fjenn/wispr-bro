@@ -24,7 +24,7 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { save as saveFileDialog } from "@tauri-apps/plugin-dialog";
-import { AudioLines, FilePlus, SearchX } from "lucide-react";
+import { AudioLines, FilePlus, SearchX } from "../ui/icons";
 import {
   useCallback,
   useEffect,

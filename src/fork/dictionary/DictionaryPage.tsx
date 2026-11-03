@@ -32,7 +32,7 @@ import {
   Trash2,
   Upload,
   X,
-} from "lucide-react";
+} from "../ui/icons";
 import { commands, type DictionaryEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
@@ -363,7 +363,7 @@ export function DictionaryPage() {
           onClick={() => setImportOpen(true)}
           data-testid="wb-dictionary-import"
         >
-          <Upload size={15} aria-hidden="true" />
+          <Upload size={16} aria-hidden="true" />
           {t("dictionary.import.open")}
         </Button>
         <Button
@@ -371,7 +371,7 @@ export function DictionaryPage() {
           disabled={counts.words + counts.rules === 0}
           data-testid="wb-dictionary-export"
         >
-          <Download size={15} aria-hidden="true" />
+          <Download size={16} aria-hidden="true" />
           {t("dictionary.export.open")}
         </Button>
         <Button
@@ -379,7 +379,7 @@ export function DictionaryPage() {
           onClick={() => setDialog({ entry: null })}
           data-testid="wb-dictionary-add"
         >
-          <Plus size={15} aria-hidden="true" />
+          <Plus size={16} aria-hidden="true" />
           {t("dictionary.add")}
         </Button>
       </PageHeader>
@@ -406,7 +406,7 @@ export function DictionaryPage() {
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <div className="relative min-w-48 flex-1">
             <Search
-              size={15}
+              size={16}
               aria-hidden="true"
               className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-(--wb-ink-2)"
             />

@@ -20,8 +20,8 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { open as openFileDialog } from "@tauri-apps/plugin-dialog";
-import { FileUp, Loader2 } from "lucide-react";
-import { Dialog } from "@/components/ui/Dialog";
+import { FileUp, Loader2 } from "./icons";
+import { Dialog } from "./Dialog";
 import { FORK_NAMESPACE } from "../i18n";
 import { useDropZone } from "../hub/dropRouter";
 import { Button, FOCUS_RING } from "./Button";
@@ -334,7 +334,7 @@ function WizardBody<Review, Choices>({
               className={`flex flex-col items-center gap-3 rounded-(--wb-radius-card) border-2 border-dashed px-6 py-8 text-center ${dropActive ? "border-(--wb-accent) bg-(--wb-selected)" : "border-(--wb-line-strong)"}`}
             >
               <FileUp
-                size={28}
+                size={24}
                 aria-hidden="true"
                 className="text-(--wb-ink-2)"
               />

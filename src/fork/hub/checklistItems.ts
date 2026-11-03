@@ -13,7 +13,7 @@
  *   user's click only: it has no `reveal`, so chaining points at its row
  *   and never turns launch at login on by itself (S-32).
  */
-import { AppWindow, BookA, Power, TextQuote } from "lucide-react";
+import { AppWindow, BookA, Power, TextQuote } from "../ui/icons";
 import { commands as handyCommands } from "@/bindings";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { commands } from "../bindings";

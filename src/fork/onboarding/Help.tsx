@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useEffect, useRef } from "react";
-import { CircleHelp, X } from "lucide-react";
+import { CircleHelp, X } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";
@@ -29,7 +29,7 @@ export function HelpChip({
         onClick={onOpen}
         className={`inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-(--wb-line) bg-(--wb-card) px-3 py-1.5 text-xs font-medium text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       >
-        <CircleHelp size={15} aria-hidden="true" />
+        <CircleHelp size={16} aria-hidden="true" />
         {t("onboardingFlow.help.chip")}
       </button>
       {open && (

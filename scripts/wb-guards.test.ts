@@ -50,6 +50,7 @@ import {
 } from "./wb-guard-bundle-hosts";
 import { packageOfSpecifier, runTelemetry } from "./wb-guard-telemetry";
 import { runSpdx } from "./wb-guard-spdx";
+import { runIcons } from "./wb-guard-icons";
 import { runAll } from "./wb-guards";
 
 const H = "https:" + "//";
@@ -467,6 +468,23 @@ describe("bundle-hosts guard", () => {
     ).toBe("blob.handy.computer");
     expect(normalizePackedHost("www.years", [])).toBeUndefined();
     expect(normalizePackedHost("evil.example.de", [])).toBe("evil.example.de");
+  });
+});
+
+describe("icons guard", () => {
+  test("a direct lucide-react import in fork code fails; the wrapper may", () => {
+    const root = fixture({
+      "src/fork/ui/icons.ts": `${SPDX}import * as L from "lucide-react";\n`,
+      "src/fork/ui/Icon.tsx": `${SPDX}import type { LucideIcon } from "lucide-react";\n`,
+      "src/fork/home/Page.tsx": `${SPDX}import { Mic } from "lucide-react";\n`,
+      "src/components/Handy.tsx": `import { Mic } from "lucide-react";\n`,
+    });
+    const r = runIcons({ root });
+    expect(rules(r)).toEqual(["icons/direct-lucide"]);
+    expect(r.violations[0].file).toBe("src/fork/home/Page.tsx");
+
+    write(root, "src/fork/home/Page.tsx", `${SPDX}import { Mic } from "../ui/icons";\n`);
+    expectPass(runIcons({ root }));
   });
 });
 

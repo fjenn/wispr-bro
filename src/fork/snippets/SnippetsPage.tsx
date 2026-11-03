@@ -25,7 +25,7 @@ import {
   TextQuote,
   Trash2,
   Upload,
-} from "lucide-react";
+} from "../ui/icons";
 import { commands, type SnippetEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { PageHeader } from "../hub/PageHeader";
@@ -247,7 +247,7 @@ export function SnippetsPage() {
           onClick={() => setImportOpen(true)}
           data-testid="wb-snippets-import"
         >
-          <Upload size={15} aria-hidden="true" />
+          <Upload size={16} aria-hidden="true" />
           {t("snippets.import.open")}
         </Button>
         <Button
@@ -255,7 +255,7 @@ export function SnippetsPage() {
           disabled={counts.snippets === 0}
           data-testid="wb-snippets-export"
         >
-          <Download size={15} aria-hidden="true" />
+          <Download size={16} aria-hidden="true" />
           {t("snippets.export.open")}
         </Button>
         <Button
@@ -263,7 +263,7 @@ export function SnippetsPage() {
           onClick={() => setDialog({ snippet: null })}
           data-testid="wb-snippets-add"
         >
-          <Plus size={15} aria-hidden="true" />
+          <Plus size={16} aria-hidden="true" />
           {t("snippets.add")}
         </Button>
       </PageHeader>
@@ -298,7 +298,7 @@ export function SnippetsPage() {
         <div className="flex flex-wrap items-center gap-2">
           <div className="relative min-w-48 flex-1">
             <Search
-              size={15}
+              size={16}
               aria-hidden="true"
               className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-(--wb-ink-2)"
             />

@@ -21,8 +21,8 @@ import {
   Minus,
   Plus,
   TriangleAlert,
-} from "lucide-react";
-import { Dialog } from "@/components/ui/Dialog";
+} from "../ui/icons";
+import { Dialog } from "../ui/Dialog";
 import { commands, type HealthStatus } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
@@ -62,7 +62,7 @@ function AccessibilityPicture() {
           </span>
           <div className="flex items-center gap-3 rounded-[8px] border border-(--wb-line) px-3 py-2">
             <span className="grid size-6 place-items-center rounded-[6px] bg-(--wb-ink) text-(--wb-canvas)">
-              <Mic size={13} />
+              <Mic size={14} />
             </span>
             <span className="flex-1 text-[12.5px]">
               {t("rust.window.mainTitle")}
@@ -133,7 +133,6 @@ export function FixShortcutSheet() {
       )}
       closeLabel={t("shortcutHealth.sheet.close")}
       initialFocusRef={openRef as React.RefObject<HTMLElement>}
-      className="bg-(--wb-canvas)! text-(--wb-ink)"
       contentFades={false}
       footer={
         <>

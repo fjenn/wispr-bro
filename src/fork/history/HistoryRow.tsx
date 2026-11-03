@@ -19,7 +19,7 @@ import {
   GraduationCap,
   Play,
   Square,
-} from "lucide-react";
+} from "../ui/icons";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
@@ -186,7 +186,7 @@ export function HistoryRow({
                 data-testid="wb-history-tag-flagged"
                 className="flex items-center gap-1 rounded-full bg-(--wb-selected) px-2 py-0.5"
               >
-                <Flag size={11} aria-hidden="true" />
+                <Flag size={12} aria-hidden="true" />
                 {t("history.tag.flagged")}
               </span>
             )}
@@ -261,7 +261,7 @@ export function HistoryRow({
           {playing ? (
             <Square size={14} aria-hidden="true" />
           ) : (
-            <Play size={15} aria-hidden="true" />
+            <Play size={16} aria-hidden="true" />
           )}
         </button>
         <button
@@ -278,9 +278,9 @@ export function HistoryRow({
           className={ACTION_BUTTON}
         >
           {copied ? (
-            <Check size={15} aria-hidden="true" />
+            <Check size={16} aria-hidden="true" />
           ) : (
-            <Copy size={15} aria-hidden="true" />
+            <Copy size={16} aria-hidden="true" />
           )}
         </button>
         <button
@@ -293,7 +293,7 @@ export function HistoryRow({
           onClick={() => onFlag(row)}
           className={ACTION_BUTTON}
         >
-          <Flag size={15} aria-hidden="true" />
+          <Flag size={16} aria-hidden="true" />
         </button>
         <RowMenu
           row={row}

@@ -16,7 +16,7 @@ import {
   RotateCcw,
   Trash2,
   Undo2,
-} from "lucide-react";
+} from "../ui/icons";
 import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { CleanupLevel, HistoryRow } from "../bindings";

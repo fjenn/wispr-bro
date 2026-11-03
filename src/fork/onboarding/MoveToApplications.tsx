@@ -6,7 +6,7 @@
  * resumes here, sees the new place and goes on by itself.
  */
 import { useEffect, useState } from "react";
-import { FolderInput } from "lucide-react";
+import { FolderInput } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";

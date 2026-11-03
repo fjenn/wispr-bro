@@ -10,7 +10,7 @@
  */
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Check, Copy, Heart, Share } from "lucide-react";
+import { Check, Copy, Heart, Share } from "../ui/icons";
 import { commands } from "../bindings";
 import { BREW_CASK_PUBLISHED, BREW_COMMAND, DOWNLOAD_URL } from "../hub/links";
 import { PageHeader } from "../hub/PageHeader";
@@ -123,7 +123,7 @@ export function SharePage() {
       <section className="flex flex-col gap-5 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-6">
         <div className="flex items-start gap-3">
           <Heart
-            size={22}
+            size={20}
             aria-hidden
             className="mt-1 shrink-0 text-(--wb-accent)"
           />

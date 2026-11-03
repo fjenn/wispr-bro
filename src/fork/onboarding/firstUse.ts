@@ -5,7 +5,7 @@
  * this list). Each option has a scene (`scenes/`) and a hint on the bar
  * spotlight (`rust.spotlight.hint.<id>`); a Playwright test checks both.
  */
-import type { LucideIcon } from "lucide-react";
+import { type Glyph } from "../ui/icons";
 import {
   CodeXml,
   FileText,
@@ -14,7 +14,7 @@ import {
   MessagesSquare,
   NotebookPen,
   Sparkles,
-} from "lucide-react";
+} from "../ui/icons";
 
 export const FIRST_USE_CHOICES = [
   "ai_chat",
@@ -28,7 +28,7 @@ export const FIRST_USE_CHOICES = [
 
 export type FirstUseChoice = (typeof FIRST_USE_CHOICES)[number];
 
-export const CHOICE_ICONS: Record<FirstUseChoice, LucideIcon> = {
+export const CHOICE_ICONS: Record<FirstUseChoice, Glyph> = {
   ai_chat: Sparkles,
   note: NotebookPen,
   message: MessageCircle,

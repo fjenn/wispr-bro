@@ -8,7 +8,7 @@ import {
   Save,
   ShieldCheck,
   Trash2,
-} from "lucide-react";
+} from "../ui/icons";
 import { save } from "@tauri-apps/plugin-dialog";
 import { toast } from "sonner";
 import {
@@ -187,7 +187,7 @@ export function DataPrivacy() {
       >
         <div className="flex gap-3">
           <ShieldCheck
-            size={22}
+            size={20}
             aria-hidden="true"
             className="mt-0.5 shrink-0 text-(--wb-accent)"
           />

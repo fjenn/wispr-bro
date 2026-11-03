@@ -16,7 +16,7 @@
  *   stops being the trigger), or open Keyboard settings.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, Keyboard } from "lucide-react";
+import { Check, Keyboard } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands as handyCommands } from "@/bindings";
 import { commands, events, type HotkeyStatus } from "../bindings";
@@ -270,7 +270,7 @@ export function ShortcutTest({
           onClick={() => setEditorOpen(true)}
           data-testid="wb-edit-shortcut"
         >
-          <Keyboard size={15} aria-hidden="true" />
+          <Keyboard size={16} aria-hidden="true" />
           {t("onboardingFlow.shortcut.edit")}
         </Button>
       </div>
@@ -319,7 +319,7 @@ export function ShortcutTest({
               onClick={() => void useFallback()}
               data-testid="wb-diagnosis-no_fn-action"
             >
-              {fallback && <Check size={15} aria-hidden="true" />}
+              {fallback && <Check size={16} aria-hidden="true" />}
               {t(
                 fallback
                   ? "onboardingFlow.shortcut.diagnoses.no_fn.changed"
@@ -335,7 +335,7 @@ export function ShortcutTest({
                 onClick={() => void fixGlobe()}
                 data-testid="wb-diagnosis-globe-action"
               >
-                {globeFixed && <Check size={15} aria-hidden="true" />}
+                {globeFixed && <Check size={16} aria-hidden="true" />}
                 {t(
                   globeFixed
                     ? "onboardingFlow.shortcut.diagnoses.globe.changed"

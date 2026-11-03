@@ -7,7 +7,7 @@
  * the app's CSP) and is cleared when the screen goes.
  */
 import { useEffect, useRef } from "react";
-import { PartyPopper } from "lucide-react";
+import { PartyPopper } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import { FORK_NAMESPACE } from "../i18n";

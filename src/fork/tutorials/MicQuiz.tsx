@@ -19,7 +19,7 @@
  * text on the clipboard (Wispr's "Email results" is cloud, R2 B-43).
  */
 import { useState } from "react";
-import { Check, Copy, ExternalLink } from "lucide-react";
+import { Check, Copy, ExternalLink } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { create } from "zustand";
@@ -178,7 +178,7 @@ export function QuizComfortable() {
         data-testid="wb-quiz-more-mics"
       >
         {t("lessons.whisper.quiz.more")}
-        <ExternalLink size={13} aria-hidden="true" />
+        <ExternalLink size={14} aria-hidden="true" />
       </button>
     </div>
   );

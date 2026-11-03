@@ -8,7 +8,7 @@ import {
   Settings2,
   ThumbsDown,
   ThumbsUp,
-} from "lucide-react";
+} from "../ui/icons";
 import type { DiffOp, ForkTransformViewChanges, WordDiff } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { Check } from "lucide-react";
+import { Check } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { STAGES, stageFor, type OnboardingStep } from "./steps";
@@ -34,7 +34,7 @@ export function Stepper({ current }: { current: OnboardingStep }) {
               </span>
             )}
             {index < active && (
-              <Check size={13} aria-hidden="true" className="shrink-0" />
+              <Check size={14} aria-hidden="true" className="shrink-0" />
             )}
             <span className="truncate text-xs">
               {t(`onboardingFlow.stepper.${item}`)}

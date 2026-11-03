@@ -9,7 +9,7 @@ import {
   Plus,
   Search,
   Trash2,
-} from "lucide-react";
+} from "../ui/icons";
 import { commands, events, type Note } from "../bindings";
 import { PageHeader } from "../hub/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
@@ -88,7 +88,7 @@ export function ScratchpadPage() {
           onClick={() => void commands.forkScratchpadNew()}
           data-testid="wb-scratchpad-new"
         >
-          <Plus size={15} aria-hidden="true" />
+          <Plus size={16} aria-hidden="true" />
           {t("scratchpad.newNote")}
         </Button>
       </PageHeader>
@@ -135,7 +135,7 @@ export function ScratchpadPage() {
             onClick={() => setShortcutOpen(true)}
             data-testid="wb-scratchpad-shortcut"
           >
-            <Keyboard size={15} aria-hidden="true" />
+            <Keyboard size={16} aria-hidden="true" />
             {t("scratchpad.shortcut.change")}
           </Button>
         </div>
@@ -154,7 +154,7 @@ export function ScratchpadPage() {
           <label className="relative block min-w-52 flex-1 sm:max-w-xs">
             <span className="sr-only">{t("scratchpad.searchLabel")}</span>
             <Search
-              size={15}
+              size={16}
               aria-hidden="true"
               className="pointer-events-none absolute start-3 top-2.5 text-(--wb-ink-3)"
             />
@@ -208,7 +208,7 @@ export function ScratchpadPage() {
                   <span className="flex items-center gap-2 text-sm font-semibold">
                     {note.pinned && (
                       <Pin
-                        size={13}
+                        size={14}
                         aria-label={t("scratchpad.pinned")}
                         className="shrink-0 text-(--wb-accent)"
                       />
@@ -238,7 +238,7 @@ export function ScratchpadPage() {
                     title={t("scratchpad.editAction")}
                     className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
                   >
-                    <Pencil size={15} aria-hidden="true" />
+                    <Pencil size={16} aria-hidden="true" />
                   </button>
                   <button
                     type="button"
@@ -254,9 +254,9 @@ export function ScratchpadPage() {
                     data-testid={`wb-note-pin-${note.id}`}
                   >
                     {note.pinned ? (
-                      <PinOff size={15} aria-hidden="true" />
+                      <PinOff size={16} aria-hidden="true" />
                     ) : (
-                      <Pin size={15} aria-hidden="true" />
+                      <Pin size={16} aria-hidden="true" />
                     )}
                   </button>
                   <button
@@ -267,7 +267,7 @@ export function ScratchpadPage() {
                     className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) hover:text-red-700 ${FOCUS_RING}`}
                     data-testid={`wb-note-delete-${note.id}`}
                   >
-                    <Trash2 size={15} aria-hidden="true" />
+                    <Trash2 size={16} aria-hidden="true" />
                   </button>
                 </div>
               </div>

@@ -12,7 +12,7 @@
  */
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "@/components/ui/Dialog";
+import { Dialog } from "../ui/Dialog";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
 import { Button, FOCUS_RING } from "../ui";
@@ -102,7 +102,7 @@ function ChooserDialog() {
       closeLabel={t("firstUse.close")}
       initialFocusRef={selectedRef as React.RefObject<HTMLElement>}
       closeOnBackdrop={false}
-      className="max-w-[820px]! bg-(--wb-canvas)! text-(--wb-ink)"
+      className="max-w-[820px]!"
       contentFades={false}
       footer={
         <div className="flex justify-end gap-2">

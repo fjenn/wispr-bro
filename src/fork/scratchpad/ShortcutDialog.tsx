@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { X } from "lucide-react";
+import { X } from "../ui/icons";
 import { FORK_NAMESPACE } from "../i18n";
 import { Capture } from "../settings/hotkeys/Capture";
 import { useForkSettings } from "../settings/useForkSettings";
@@ -65,7 +65,7 @@ export function ShortcutDialog({ onClose }: { onClose: () => void }) {
           className={`grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-hover) ${FOCUS_RING}`}
           data-testid="wb-scratchpad-shortcut-close"
         >
-          <X size={17} aria-hidden="true" />
+          <X size={18} aria-hidden="true" />
         </button>
       </div>
       <div className="flex flex-col gap-4 p-5">

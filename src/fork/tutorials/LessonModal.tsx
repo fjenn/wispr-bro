@@ -14,9 +14,9 @@
  * checklist item ticks (`lessonRegistry.tsx`).
  */
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "../ui/icons";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "@/components/ui/Dialog";
+import { Dialog } from "../ui/Dialog";
 import { FORK_NAMESPACE } from "../i18n";
 import { markChecklistItem } from "../hub/SetupChecklist";
 import { Button, FOCUS_RING } from "../ui";
@@ -146,7 +146,7 @@ function LessonModal({ lesson, mode }: { lesson: Lesson; mode: LessonMode }) {
       }
       closeLabel={t("lessons.common.close")}
       closeOnBackdrop={false}
-      className="max-w-[760px]! bg-(--wb-canvas)! text-(--wb-ink)"
+      className="max-w-[760px]!"
       contentFades={false}
       footer={
         <div className="flex flex-wrap items-center justify-end gap-2">

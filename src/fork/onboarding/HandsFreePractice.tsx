@@ -15,7 +15,7 @@
  * counts, the copy teaches hands-free.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Mic } from "lucide-react";
+import { Mic } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { events as handyEvents } from "@/bindings";
 import { commands, events, type ForkSpeechSetup } from "../bindings";
@@ -226,7 +226,7 @@ export function HandsFreePractice({
         data-phase={phase}
       >
         <Mic
-          size={15}
+          size={16}
           aria-hidden="true"
           className={
             phase === "listening"

@@ -10,7 +10,7 @@
  * image" renders the visible tab with a dated heading; the buttons are
  * left out of the picture.
  */
-import { ChartColumn, ImageDown } from "lucide-react";
+import { ChartColumn, ImageDown } from "../ui/icons";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -74,7 +74,7 @@ export function InsightsPage() {
           disabled={!usage || saving || (tab === "voice" && !voice)}
           aria-busy={saving}
         >
-          <ImageDown size={15} aria-hidden="true" />
+          <ImageDown size={16} aria-hidden="true" />
           {t("insights.save.button")}
         </Button>
       </PageHeader>

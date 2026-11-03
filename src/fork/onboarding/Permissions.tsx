@@ -4,7 +4,7 @@
  * picture of the macOS prompt and of its System Settings pane; a row ticks
  * as soon as macOS reports the grant (Handy's `usePermissions` polls).
  */
-import { Check, Keyboard, Mic } from "lucide-react";
+import { Check, Keyboard, Mic } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import type { Permissions as PermissionState } from "@/components/onboarding/usePermissions";
 import { FORK_NAMESPACE } from "../i18n";

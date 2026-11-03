@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GraduationCap, Plus, RotateCcw, ShieldCheck } from "lucide-react";
+import { GraduationCap, Plus, RotateCcw, ShieldCheck } from "../ui/icons";
 import {
   commands,
   events,
@@ -302,7 +302,7 @@ export function TransformsPage() {
         </div>
         <div className="ms-7 flex items-start gap-2 text-xs text-(--wb-ink-2)">
           <ShieldCheck
-            size={15}
+            size={16}
             aria-hidden="true"
             className="mt-0.5 shrink-0"
           />

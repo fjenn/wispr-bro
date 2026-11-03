@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useTranslation } from "react-i18next";
-import { CornerDownLeft, Globe } from "lucide-react";
+import { CornerDownLeft, Globe } from "../ui/icons";
 import { toast } from "sonner";
 import { commands, type StyleGroup, type StyleSite } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -139,7 +139,7 @@ export function SiteChip({
             </span>
             {site.auto_send && (
               <CornerDownLeft
-                size={13}
+                size={14}
                 aria-hidden="true"
                 className="text-(--wb-ink-2)"
               />

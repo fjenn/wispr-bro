@@ -10,12 +10,12 @@
  * does after a real transform.
  */
 import { forwardRef, type ReactNode } from "react";
-import type { LucideIcon } from "lucide-react";
+import { type Glyph } from "../ui/icons";
 
 export interface PracticeComposerProps {
   /** Window title (the simulated app). */
   app: string;
-  icon: LucideIcon;
+  icon: Glyph;
   /** A line above the field (the message being answered), optional. */
   context?: string;
   /** Accessible name of the field. */
@@ -57,7 +57,7 @@ export const PracticeComposer = forwardRef<
             <i />
             <i />
           </span>
-          <Icon size={13} aria-hidden="true" />
+          <Icon size={14} aria-hidden="true" />
           <span>{app}</span>
         </div>
         <div className="wb-practice-body">

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Update status (S-28, E-51): the Hub footer's "Up to date", "Update ready ·
+ * Update status (S-28, E-51): the Hub title strip's "Up to date", "Update ready ·
  * Restart now" and "Couldn't check · Retry", and the fuller block on the
  * About page. The backend (`fork/update/scheduler.rs`) checks, downloads and
  * installs on its own; this only shows `fork-update-state` and offers the
@@ -183,11 +183,18 @@ function StatusLine({
   );
 }
 
-/** The footer's status, left of the version. */
-export function UpdateStatus() {
+/** Phases the title strip stays silent about (About still shows them). */
+const QUIET: ForkUpdateState["phase"][] = ["idle", "up_to_date"];
+
+/**
+ * The compact status line. `quiet` (the title strip) shows nothing while
+ * there is nothing to act on or watch: never checked, or up to date.
+ */
+export function UpdateStatus({ quiet = false }: { quiet?: boolean }) {
   const [state, setState] = useUpdateState();
   const { problem, check, restart } = useUpdateActions(setState);
   if (!state) return null;
+  if (quiet && QUIET.includes(state.phase) && !problem) return null;
   return (
     <span data-testid="wb-update-status" className="flex items-center">
       <StatusLine

@@ -17,8 +17,8 @@ import {
   Settings,
   TextQuote,
   WandSparkles,
-  type LucideIcon,
-} from "lucide-react";
+  type Glyph,
+} from "../ui/icons";
 import { DictionaryPage } from "../dictionary/DictionaryPage";
 import { Home } from "../home/Home";
 import { InsightsPage } from "../insights/InsightsPage";
@@ -35,7 +35,7 @@ export interface HubPage {
   id: HubPageId;
   /** `main` pages are the feature list; `bottom` pages sit at the bottom. */
   group: "main" | "bottom";
-  icon: LucideIcon;
+  icon: Glyph;
   /** Optional tag beside the label. A `new` tag hides once the page is opened. */
   tag?: TagKind;
   component: ComponentType;

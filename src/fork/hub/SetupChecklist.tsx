@@ -15,7 +15,7 @@
  * so and stays until hidden.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, X } from "lucide-react";
+import { Check, X } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { listen } from "@tauri-apps/api/event";
 import { commands } from "../bindings";
@@ -203,13 +203,13 @@ export function SetupChecklist() {
     <section
       aria-labelledby="wb-checklist-title"
       data-testid="wb-checklist"
-      className="flex flex-col gap-2.5 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-3 text-(--wb-ink)"
+      className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-(--wb-ink)"
     >
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <h2
             id="wb-checklist-title"
-            className="font-(family-name:--wb-font-display) text-[15px] leading-tight font-semibold"
+            className="text-[13px] leading-[18px] font-semibold"
           >
             {t("checklist.title")}
           </h2>
@@ -237,7 +237,7 @@ export function SetupChecklist() {
         className="h-1 overflow-hidden rounded-full bg-(--wb-line)"
       >
         <div
-          className="h-full rounded-full bg-(--wb-accent-fill) transition-[width] duration-300 motion-reduce:transition-none"
+          className="h-full rounded-full bg-(--wb-ink) transition-[width] duration-(--wb-dur-slow) ease-(--wb-ease-out) motion-reduce:transition-none"
           style={{
             width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%`,
           }}
@@ -257,7 +257,7 @@ export function SetupChecklist() {
                 data-highlight={(isNext && highlight === item.id) || undefined}
                 className={`wb-checklist-row rounded-(--wb-radius-control) px-1.5 py-1 ${isNext ? "bg-(--wb-hover)" : ""}`}
               >
-                <div className="flex items-center gap-2 text-[12.5px]">
+                <div className="flex items-center gap-2.5 text-[13px]">
                   <span
                     aria-hidden="true"
                     className={`grid size-[18px] shrink-0 place-items-center rounded-full border ${
@@ -267,9 +267,9 @@ export function SetupChecklist() {
                     }`}
                   >
                     {isDone ? (
-                      <Check size={11} strokeWidth={3} />
+                      <Check size={12} strokeWidth={3} />
                     ) : (
-                      <Icon size={10} />
+                      <Icon size={12} />
                     )}
                   </span>
                   <span

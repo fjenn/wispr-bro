@@ -14,7 +14,7 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "@/components/ui";
+import { Dialog } from "../ui/Dialog";
 import { commands, type FeatureAnnouncement } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";

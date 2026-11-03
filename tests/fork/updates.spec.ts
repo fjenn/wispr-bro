@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// S-28: the Hub footer's update status, the About page's update panel and
+// S-28: the Hub title strip's update status (the footer until Design
+// Phase 0), the About page's update panel and
 // What's New (once per version, never while dictating). Every state, light
 // and dark with reduced motion, RTL, keyboard-only and axe.
 import type { Page } from "@playwright/test";
@@ -57,14 +58,13 @@ async function hubWith(
   await openHub(page, ipc, hub, { handy });
 }
 
-const footer = (page: Page) => page.getByTestId("wb-footer");
+const strip = (page: Page) => page.getByTestId("wb-header");
 const status = (page: Page) => page.getByTestId("wb-update-status");
 
-test.describe("Hub footer: update status", () => {
+test.describe("Hub title strip: update status", () => {
   const cases: [Phase, string, Record<string, unknown>?][] = [
     ["off", "Update checks off"],
     ["checking", "Checking for updates…"],
-    ["up_to_date", "Up to date"],
     ["check_failed", "Couldn't check"],
     ["downloading", "Downloading 1.0.0-alpha.2…"],
     ["ready", "Update ready"],
@@ -78,35 +78,45 @@ test.describe("Hub footer: update status", () => {
     ["install_failed", "Update didn't install"],
   ];
   for (const [phase, text, over] of cases) {
-    test(`${phase}${over ? " (busy)" : ""}: "${text}" next to the version`, async ({
+    test(`${phase}${over ? " (busy)" : ""}: "${text}" in the title strip`, async ({
       page,
       ipc,
       hub,
     }) => {
       await hubWith(page, ipc, hub, updateState(phase, over));
       await expect(status(page).getByTestId("wb-update-text")).toHaveText(text);
-      await expect(page.getByTestId("wb-footer-version")).toHaveText(
-        "v1.0.0-alpha.1",
-      );
+      await expect(strip(page).getByTestId("wb-update-status")).toBeVisible();
       // Handy's update checker is gone (it called the plugin directly).
-      await expect(footer(page)).not.toContainText("Check for updates?");
+      await expect(strip(page)).not.toContainText("Check for updates?");
     });
   }
 
-  test("never checked: a Check for updates link that checks now", async ({
+  for (const phase of ["idle", "up_to_date"] as const) {
+    test(`${phase}: the title strip stays quiet (About shows it)`, async ({
+      page,
+      ipc,
+      hub,
+    }) => {
+      await hubWith(page, ipc, hub, updateState(phase));
+      await expect(page.getByTestId("wb-sidebar")).toBeVisible();
+      await expect(status(page)).toHaveCount(0);
+      await expect(page.getByTestId("wb-footer")).toHaveCount(0);
+    });
+  }
+
+  test("a live check shows in the strip, then goes quiet when up to date", async ({
     page,
     ipc,
     hub,
   }) => {
     await hubWith(page, ipc, hub, updateState("idle"));
-    ipc.respond("fork_update_check_now", updateState("checking"));
-    await status(page)
-      .getByRole("button", { name: "Check for updates" })
-      .click();
-    await ipc.expectCalled("fork_update_check_now");
+    await ipc.waitForListener("fork-update-state");
+    await ipc.emit("fork-update-state", updateState("checking"));
     await expect(status(page).getByTestId("wb-update-text")).toHaveText(
       "Checking for updates…",
     );
+    await ipc.emit("fork-update-state", updateState("up_to_date"));
+    await expect(status(page)).toHaveCount(0);
   });
 
   test("ready: Restart now restarts, and says so when a take runs", async ({
@@ -170,7 +180,7 @@ test.describe("Hub footer: update status", () => {
     await expect(page.getByTestId("wb-settings-privacy")).toBeVisible();
   });
 
-  test("keyboard only: the footer action is reachable and works", async ({
+  test("keyboard only: the strip's action is reachable and works", async ({
     page,
     ipc,
     hub,
@@ -187,7 +197,7 @@ test.describe("Hub footer: update status", () => {
     await ipc.expectCalled("fork_update_restart_now");
   });
 
-  test("RTL: the status stays in the footer and keeps its order", async ({
+  test("RTL: the status stays in the title strip", async ({
     page,
     ipc,
     hub,
@@ -195,16 +205,17 @@ test.describe("Hub footer: update status", () => {
     await hubWith(page, ipc, hub, updateState("ready"), { app_language: "ar" });
     await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
     const box = await status(page).boundingBox();
-    const bar = await footer(page).boundingBox();
+    const bar = await strip(page).boundingBox();
     expect(box && bar && box.y >= bar.y && box.y < bar.y + bar.height).toBe(
       true,
     );
-    // In RTL the version/status group sits at the inline end (left).
-    expect(box && bar && box.x - bar.x < bar.width / 2).toBe(true);
+    // The strip does not mirror (the traffic lights stay on the left), so
+    // the status stays right of centre, next to the theme and bell.
+    expect(box && bar && box.x - bar.x > bar.width / 2).toBe(true);
   });
 
   for (const theme of ["light", "dark"] as const) {
-    test(`axe and reduced motion: footer states (${theme})`, async ({
+    test(`axe and reduced motion: title strip states (${theme})`, async ({
       page,
       ipc,
       hub,

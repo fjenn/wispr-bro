@@ -14,10 +14,10 @@
  * with "Replace it", too long …) is shown in place, like the Add word
  * dialog. The row is never re-pasted or rewritten.
  */
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "../ui/icons";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog } from "@/components/ui/Dialog";
+import { Dialog } from "../ui/Dialog";
 import {
   commands,
   type DictionaryEntry,
@@ -258,7 +258,6 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
       description={t("history.flag.description")}
       closeLabel={t("history.flag.close")}
       initialFocusRef={firstWordRef as React.RefObject<HTMLElement>}
-      className="bg-(--wb-canvas)! text-(--wb-ink)"
       contentFades={false}
       footer={
         <>

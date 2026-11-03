@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * "New!" / "Beta" tag beside a label (S-13, C-15).
+ * "New!" / "Beta" tag beside a label (S-13, C-15; Design Phase 0: a warm
+ * orange "New!" chip and a black "Beta" chip).
  *
  * A "new" tag disappears once the user has seen the thing it marks: pass
  * `seenId` and it hides when that id is in the fork setting `seen_new_tags`.
@@ -50,7 +51,7 @@ export function Tag({ kind, seenId, className = "" }: TagProps) {
   return (
     <span
       data-testid={`wb-tag-${kind}`}
-      className={`inline-flex shrink-0 items-center rounded-full px-1.5 py-px text-[10.5px] font-semibold leading-4 tracking-wide ${STYLES[kind]} ${className}`}
+      className={`inline-flex h-5 shrink-0 items-center rounded-full px-2 text-[11px] leading-none font-semibold ${STYLES[kind]} ${className}`}
     >
       {t(`ui.tag.${kind}`)}
     </span>

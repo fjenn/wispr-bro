@@ -6,7 +6,7 @@
  * Hub, so this is what the user lands on.
  */
 import { useTranslation } from "react-i18next";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "../ui/icons";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 import { useShortcutHealth } from "../settings/shortcutHealth";

@@ -6,9 +6,10 @@
  * Ctrl+Shift+D elsewhere; see `App.tsx`) or the route `#/fork/debug`, but only
  * when the backend reports a debug build or a `--debug` launch (`fork_ping`).
  * In a release build without `--debug` the chord keeps toggling Handy's debug
- * mode and the fork panel never renders.
+ * mode and the fork panel never renders. The same gate covers the primitives
+ * gallery at `#/fork/gallery` (Design Phase 0).
  */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { commands } from "../bindings";
 import { CspSmoke } from "./CspSmoke";
@@ -45,6 +46,11 @@ registerForkDebugSection({
   runCspSmoke;
 
 export const FORK_DEBUG_ROUTE = "#/fork/debug";
+/** Design Phase 0: the primitives gallery (debug builds only). */
+export const FORK_GALLERY_ROUTE = "#/fork/gallery";
+const Gallery = lazy(() =>
+  import("./Gallery").then((m) => ({ default: m.Gallery })),
+);
 const ROOT_ID = "fork-debug-root";
 
 export function isDebugChord(event: KeyboardEvent): boolean {
@@ -71,6 +77,7 @@ async function debugPanelAllowed(): Promise<boolean> {
 
 function ForkDebugHost() {
   const [open, setOpen] = useState(false);
+  const [gallery, setGallery] = useState(false);
 
   const openIfAllowed = useCallback(async () => {
     if (await debugPanelAllowed()) setOpen(true);
@@ -90,6 +97,11 @@ function ForkDebugHost() {
   useEffect(() => {
     const onRoute = () => {
       if (window.location.hash === FORK_DEBUG_ROUTE) void openIfAllowed();
+      if (window.location.hash === FORK_GALLERY_ROUTE) {
+        void debugPanelAllowed().then(setGallery);
+      } else {
+        setGallery(false);
+      }
     };
     onRoute();
     window.addEventListener("hashchange", onRoute);
@@ -108,7 +120,16 @@ function ForkDebugHost() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, close, openIfAllowed]);
 
-  return open ? <DebugPanel onClose={close} /> : null;
+  return (
+    <>
+      {gallery && (
+        <Suspense fallback={null}>
+          <Gallery />
+        </Suspense>
+      )}
+      {open && <DebugPanel onClose={close} />}
+    </>
+  );
 }
 
 export function mountForkDebugHost(): void {

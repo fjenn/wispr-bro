@@ -9,7 +9,7 @@ import {
   ThumbsDown,
   ThumbsUp,
   X,
-} from "lucide-react";
+} from "../../ui/icons";
 import { commands, type ForkPillState } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
 import { DiffWords } from "../../transforms/DiffCard";
@@ -36,7 +36,7 @@ export function DiffCard({ state }: { state: ForkPillState }) {
           onClick={() => void commands.forkPillAction("configure_diff")}
           data-testid="wb-pill-diff-configure"
         >
-          <Settings2 size={13} aria-hidden="true" />
+          <Settings2 size={14} aria-hidden="true" />
           {t("transforms.diff.configure")}
         </button>
         <button
@@ -61,9 +61,9 @@ export function DiffCard({ state }: { state: ForkPillState }) {
           data-testid="wb-pill-diff-copy"
         >
           {state.copied ? (
-            <Check size={13} aria-hidden="true" />
+            <Check size={14} aria-hidden="true" />
           ) : (
-            <Clipboard size={13} aria-hidden="true" />
+            <Clipboard size={14} aria-hidden="true" />
           )}
           {state.copied
             ? t("transforms.diff.copied")
@@ -76,7 +76,7 @@ export function DiffCard({ state }: { state: ForkPillState }) {
           onClick={() => void retry()}
           data-testid="wb-pill-diff-retry"
         >
-          <RotateCcw size={13} aria-hidden="true" />
+          <RotateCcw size={14} aria-hidden="true" />
           {retrying
             ? t("transforms.diff.retrying")
             : t("transforms.diff.retry")}
@@ -102,7 +102,7 @@ export function DiffCard({ state }: { state: ForkPillState }) {
                 rating === 1 ? "wb-pill-diff-good" : "wb-pill-diff-bad"
               }
             >
-              <Icon size={13} aria-hidden="true" />
+              <Icon size={14} aria-hidden="true" />
             </button>
           );
         })}

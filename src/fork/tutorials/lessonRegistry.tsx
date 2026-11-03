@@ -18,7 +18,7 @@
  * it.
  */
 import { useSyncExternalStore, type ReactNode } from "react";
-import type { LucideIcon } from "lucide-react";
+import { type Glyph } from "../ui/icons";
 import i18next from "i18next";
 import { create } from "zustand";
 import { setHelpLessons } from "../hub/HelpPopover";
@@ -71,7 +71,7 @@ export interface LessonFinish {
 export interface Lesson {
   /** Stable id (`a-z0-9_-`), also the test id suffix. */
   id: string;
-  icon: LucideIcon;
+  icon: Glyph;
   /** Dialog title (`fork` key). */
   titleKey: string;
   steps: readonly LessonStep[];

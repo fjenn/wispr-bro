@@ -26,7 +26,7 @@ import {
   Play,
   Mail,
   WandSparkles,
-} from "lucide-react";
+} from "../../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands, type DiffOp, type TransformEntry } from "../../bindings";
 import { navigate } from "../../hub/nav";
@@ -150,9 +150,9 @@ function Examples() {
           data-testid="wb-lesson-ticker-pause"
         >
           {paused ? (
-            <Play size={13} aria-hidden="true" />
+            <Play size={14} aria-hidden="true" />
           ) : (
-            <Pause size={13} aria-hidden="true" />
+            <Pause size={14} aria-hidden="true" />
           )}
           {paused ? t("lessons.common.play") : t("lessons.common.pause")}
         </button>
@@ -229,7 +229,7 @@ function Scene({ chapter }: { chapter: Chapter }) {
               <i />
               <i />
             </span>
-            <Mail size={13} aria-hidden="true" />
+            <Mail size={14} aria-hidden="true" />
             <span>{t("lessons.transforms.scene.app")}</span>
           </div>
           <div className="wb-practice-body">
@@ -258,9 +258,9 @@ function Scene({ chapter }: { chapter: Chapter }) {
           data-testid="wb-lesson-scene-pause"
         >
           {paused ? (
-            <Play size={13} aria-hidden="true" />
+            <Play size={14} aria-hidden="true" />
           ) : (
-            <Pause size={13} aria-hidden="true" />
+            <Pause size={14} aria-hidden="true" />
           )}
           {paused ? t("lessons.common.play") : t("lessons.common.pause")}
         </button>

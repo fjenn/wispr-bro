@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /** A saved dictation whose audio is waiting for a usable speech model. */
-import { Clock3 } from "lucide-react";
+import { Clock3 } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 

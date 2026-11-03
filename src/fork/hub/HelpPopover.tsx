@@ -21,7 +21,7 @@ import {
   MessageSquareText,
   Mic,
   Sparkles,
-} from "lucide-react";
+} from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { commands } from "../bindings";
