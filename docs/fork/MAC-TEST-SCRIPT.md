@@ -1231,11 +1231,12 @@ Procedure (any Mac; a dev build is enough: `bun run wb:dev`, or the
    window moves. Double-click the strip: the window zooms (and back). Check
    `~/Library/Logs/com.wisprbro.desktop/wispr-bro.log` has no `start_dragging`
    or `set_title_bar_style` "not allowed" error.
-3. **Onboarding keeps a normal title bar.** Settings › Debug (turn on debug
-   mode with ⌘⇧D) › Run onboarding: the standard title bar returns while the
-   onboarding screens show, and the overlay comes back with the Hub.
+3. **Onboarding keeps the overlay title bar** (Design Phase 0 changed this:
+   it used to switch back to the standard bar). Settings › Debug (turn on
+   debug mode with ⌘⇧D) › Run onboarding: the traffic lights stay centred in
+   the 46 pt strip above the stepper, and the strip drags the window.
 4. **Theme (S-13.4).** Click the moon icon: the whole window turns dark
-   (sidebar, page, footer, Handy's settings tabs) and the icon becomes a sun.
+   (sidebar, page, Handy's settings tabs) and the icon becomes a sun.
    Start a dictation: the recording overlay is dark too. Relaunch: still dark.
    Click the sun: light. Settings › About › Theme still offers System.
 5. **Keyboard.** Click the page once, then Tab: focus goes to the collapse
@@ -1247,7 +1248,7 @@ Procedure (any Mac; a dev build is enough: `bun run wb:dev`, or the
    "Main" navigation landmark, each item as "<name>, button" and the current
    page as "current page"; the tags read "New!" / "Beta"; collapsed, each icon
    still reads its name. VO-U › Landmarks lists Main, the banner (header),
-   main and content information (footer). ⌘F5 to stop.
+   and main (no footer since Design Phase 0). ⌘F5 to stop.
 7. **File drops (S-13.5).** Drag any `.csv` from Finder onto the Dictation
    page and drop it: nothing happens (no toast, no History entry). Open
    Settings › History and drop an `.m4a` or `.wav` on it: the dashed "drop"
@@ -1258,6 +1259,37 @@ Procedure (any Mac; a dev build is enough: `bun run wb:dev`, or the
 
 Record window sizes, screenshots (mocked or empty profile only, no personal
 data) and the log lines in the run file.
+
+### Design Phase 0 (foundations) — queued for the Mac wave
+
+Built 2026-11-03 on `design/foundations` (docs/fork/design/SYSTEM-PLAN.md §7
+Phase 0). A debug build is enough (`bun run wb:dev`); one pass, by eye,
+mocked or empty profile only.
+
+- [ ] DP0.1 Title strip: the traffic lights are vertically centred in the
+      46 pt strip, close button's centre about 21 pt from the left edge, in
+      the Hub and on every onboarding step; they stay put after resizing,
+      full screen and back, and after the Hub is parked and rebuilt (S-38).
+      If they sit too high or low, adjust `TRAFFIC_LIGHTS` in
+      `src-tauri/src/fork/hub/mod.rs` (tao's inset; one number) and note it.
+- [ ] DP0.2 The strip drags the window (Hub: the empty middle of the strip;
+      onboarding: either side of the stepper); double-click zooms.
+- [ ] DP0.3 Inset content panel: 22 pt corners, 10 pt from the right and
+      bottom window edges, hairline edge, no footer bar; Settings › About
+      shows the version.
+- [ ] DP0.4 Fonts in WebKit: UI text is Figtree (double-storey `a`), page
+      titles sans semibold, banner headlines EB Garamond, Russian or Greek UI
+      falls back to Inter, CJK/Arabic to the system fonts. Web Inspector ›
+      Network shows no font request leaving the app (only `asset`/`tauri`
+      URLs).
+- [ ] DP0.5 Motion in WebKit: a dialog (Dictionary › Add word) springs in and
+      fades out; a page change crossfades; button press shows a small scale.
+      With Reduce Motion on, both become a plain fade. Web Inspector ›
+      Timelines: no dropped frames on the dialog open on M-26.
+- [ ] DP0.6 Light, dark and Increase Contrast: the hero banner, sidebar and
+      panel read clearly in each.
+- [ ] DP0.7 `#/fork/gallery` opens in the debug build (⌘⇧D panel works as
+      before) and not in a release build.
 
 ### S-14 Settings modal and hotkeys panel
 

@@ -226,6 +226,15 @@ Branch `design/foundations`. Delivers, behind no flag (the old look is removed a
 
 Exit: gallery reviewed by the owner; `hub.spec.ts` AA pairs pass with the new palette.
 
+**As built (2026-11-03, `design/foundations`).** Delivered as above with these calls (full list in R5, after S-13's "As built"):
+
+- Token names carry the `--wb-` prefix (`--wb-chrome`, `--wb-panel`, `--wb-surface`…): Handy already owns `--font-*`, `--radius-*`, `--text-*` and `--color-line`. v1 names are aliases of the v2 roles until the Phase 1 sweep. No Tailwind `@theme` hook (it would edit Handy's `App.css`); use `bg-(--wb-surface)` and the `type-*` classes (`type-title`, `type-serif-title`, `type-micro`…).
+- Changed values: `--wb-ink-3` `#666666` / `#9C9A94` (AA on the secondary fill); `--wb-line-strong` stays a 3:1 control edge (`#8F8B82` / `#7D786E`) and the plan's `#D9D7D0` is `--wb-line-2`. New roles: `--wb-sheet`, `--wb-secondary-hover`, `--wb-ink-hover`, `--wb-ink-disabled`, `--wb-danger-soft`, `--wb-hero`, `--wb-on-hero(-2)`, `--wb-hero-grade`, `--wb-on-hud(-2)`.
+- Springs as tuned (no overshoot on large surfaces): `snappy` 520/42, `soft` 380/38, `gentle` 300/34, `bar` 600/38/0.8, `pop` 460/22 (stickers only).
+- Primitives not built in Phase 0: `Chip`, `Radio`, `Toast` (sonner stays), `SettingRow` and `Popover`-based `Menu` variants beyond the existing ones; `Tabs`, `Menu`, `Popover` were restyled, not rebuilt. W3 builds `SettingRow` from `Card tone="tint"` + `Switch`/`Select`; a shared `Chip` goes to the foundations owner when W1/W5 need it.
+- Onboarding keeps the overlay title bar (the traffic-light inset applies to the whole window).
+- Gallery route: `#/fork/gallery`.
+
 ### Phase 1 (6 agents in parallel, each in its own worktree, each owning its folders)
 
 | #   | Area                              | Owns                                                                                                                                                                                                                          | Reference frames (local only)                               | Notes                                                                                                                                                                                                                                  |
