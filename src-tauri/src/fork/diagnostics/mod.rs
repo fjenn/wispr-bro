@@ -13,9 +13,13 @@
 //!
 //! S-27: `bundle.rs` creates the Copy/Save diagnostics payload from sanitized
 //! logs and crash reports only.
+//!
+//! S-26b: `issue_url.rs` builds the prefilled GitHub issue for Report a
+//! problem and Send feedback (versions and ids only, never text).
 
 pub mod bundle;
 pub mod crash;
+pub mod issue_url;
 pub mod sanitizer;
 
 use serde_json::{json, Value};

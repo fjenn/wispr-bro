@@ -21,6 +21,9 @@
 //! checked); a menu is rebuilt only when its shape changes (a microphone
 //! plugged in, a language added) or the app language changes.
 //!
+//! S-26b adds Report a problem… (⌘/) and Send feedback… to Help and the
+//! tray.
+//!
 //! Later slices add items by putting a [`MenuSpec`] with a stable id into the
 //! spec builders below ([`dictation_spec`], [`vocabulary_spec`],
 //! [`help_items`], [`tray_specs`]) and handling the id in [`on_menu`].
@@ -54,6 +57,10 @@ pub const COPY_LAST_ID: &str = "fork.copy_last";
 pub const PASTE_LAST_ID: &str = "fork.paste_last";
 pub const DOCUMENTATION_ID: &str = "fork.documentation";
 pub const SHORTCUTS_ID: &str = "fork.shortcuts";
+/// S-26b: Help › Report a problem… (⌘/) and Send feedback… (app menu and
+/// tray): a prefilled GitHub issue in the browser.
+pub const REPORT_PROBLEM_ID: &str = "fork.report_problem";
+pub const SEND_FEEDBACK_ID: &str = "fork.send_feedback";
 pub const DICTIONARY_COUNT_ID: &str = "fork.vocabulary.dictionary_count";
 pub const SNIPPET_COUNT_ID: &str = "fork.vocabulary.snippet_count";
 pub const ADD_WORD_ID: &str = "fork.add_word";
@@ -368,6 +375,17 @@ pub fn help_items(snapshot: &MenuSnapshot) -> Vec<MenuSpec> {
             true,
         ),
         MenuSpec::item(HELP_LANGUAGES_ID, text(locale, "rust.menu.languages"), true),
+        MenuSpec::Separator,
+        MenuSpec::item(
+            REPORT_PROBLEM_ID,
+            text(locale, "rust.menu.reportProblem"),
+            true,
+        ),
+        MenuSpec::item(
+            SEND_FEEDBACK_ID,
+            text(locale, "rust.menu.sendFeedback"),
+            true,
+        ),
     ]
 }
 
@@ -449,6 +467,16 @@ pub fn tray_specs(snapshot: &MenuSnapshot, busy: bool, warning: bool) -> Vec<Men
         text(locale, "rust.menu.documentation"),
         true,
     ));
+    items.push(MenuSpec::item(
+        REPORT_PROBLEM_ID,
+        text(locale, "rust.menu.reportProblem"),
+        true,
+    ));
+    items.push(MenuSpec::item(
+        SEND_FEEDBACK_ID,
+        text(locale, "rust.menu.sendFeedback"),
+        true,
+    ));
     items.push(MenuSpec::Separator);
     items.push(MenuSpec::item(
         TRAY_QUIT_ID,
@@ -493,12 +521,15 @@ impl<R: Runtime> Parent<'_, R> {
     }
 }
 
-fn accelerator(id: &str) -> Option<&'static str> {
-    (id == TRAY_QUIT_ID).then_some(if cfg!(target_os = "macos") {
-        "Cmd+Q"
-    } else {
-        "Ctrl+Q"
-    })
+/// Key equivalents: Quit (⌘Q) and Report a problem (⌘/, as Wispr's
+/// "Talk to support").
+pub fn accelerator(id: &str) -> Option<&'static str> {
+    let mac = cfg!(target_os = "macos");
+    match id {
+        TRAY_QUIT_ID => Some(if mac { "Cmd+Q" } else { "Ctrl+Q" }),
+        REPORT_PROBLEM_ID => Some(if mac { "Cmd+/" } else { "Ctrl+/" }),
+        _ => None,
+    }
 }
 
 fn append_spec<R: Runtime>(
@@ -1167,6 +1198,14 @@ fn on_menu<R: ForkRuntime>(app: &AppHandle<R>, id: &str) {
             }
         }
         SHORTCUTS_ID => open_hub(app, "settings", Some("hotkeys")),
+        REPORT_PROBLEM_ID => super::commands::help::open_issue(
+            app,
+            super::diagnostics::issue_url::IssueKind::Problem,
+        ),
+        SEND_FEEDBACK_ID => super::commands::help::open_issue(
+            app,
+            super::diagnostics::issue_url::IssueKind::Feedback,
+        ),
         ADD_WORD_ID => open_hub(app, "dictionary", Some("add")),
         NEW_SNIPPET_ID => open_hub(app, "snippets", Some("add")),
         HELP_MICROPHONE_ID => open_hub(app, "settings", Some("microphone")),

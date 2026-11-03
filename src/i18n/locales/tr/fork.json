@@ -354,7 +354,13 @@
       "version": "Sürüm {{version}}",
       "source": "Kaynak kodu görüntüle",
       "updates": "Güncelleme notları",
-      "updatesTitle": "Updates"
+      "updatesTitle": "Updates",
+      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
+      "licenseLink": "View license",
+      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
+      "creditLink": "Handy on GitHub",
+      "supportTitle": "Support development",
+      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
     },
     "hotkeys": {
       "open": "Kısa yollar",
@@ -480,10 +486,28 @@
     },
     "help": {
       "title": "Help",
+      "updates": "Updates",
+      "whatsNew": "What's new",
       "essentials": "Essentials",
       "shortcuts": "Shortcut and microphone",
-      "models": "Speech models and languages",
-      "history": "History"
+      "microphone": "Microphone",
+      "languages": "Languages",
+      "documentation": "Documentation",
+      "getInTouch": "Get in touch",
+      "reportProblem": "Report a problem…",
+      "sendFeedback": "Send feedback",
+      "report": {
+        "title": "Report a problem",
+        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
+        "diagnosticsTitle": "Diagnostics (optional)",
+        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
+        "copy": "Copy diagnostics",
+        "copied": "Diagnostics copied. Paste them into the issue.",
+        "copyFailed": "Couldn't copy diagnostics.",
+        "open": "Open GitHub",
+        "cancel": "Cancel",
+        "close": "Close"
+      }
     },
     "footer": {
       "version": "v{{version}}"
@@ -559,12 +583,7 @@
         }
       },
       "share": {
-        "title": "Share with a friend",
-        "empty": {
-          "title": "Know someone who types all day?",
-          "body": "{{appName}} is free and runs entirely on the Mac. A way to pass it on arrives in a later update.",
-          "action": "Go to Dictation"
-        }
+        "title": "Share with a friend"
       },
       "settings": {
         "title": "Settings"
@@ -678,6 +697,8 @@
       "newSnippet": "New snippet…",
       "documentation": "Documentation",
       "shortcuts": "Shortcuts",
+      "reportProblem": "Report a problem…",
+      "sendFeedback": "Send feedback…",
       "openApp": "Open {{appName}}",
       "checkUpdates": "Check for updates…",
       "pasteLast": "Paste last transcript",
@@ -878,6 +899,9 @@
         "paste_failed": "Bu metni yapıştırılamadı",
         "disk_full": "Disk doldu: kaydedilme durduruldu"
       }
+    },
+    "share": {
+      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
     }
   },
   "speechModels": {
@@ -2079,6 +2103,21 @@
     "label": "Release notes for this version",
     "close": "Close",
     "done": "Got it"
+  },
+  "share": {
+    "heading": "Pass {{appName}} on",
+    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
+    "downloadLabel": "Download link",
+    "brewLabel": "Install with Homebrew",
+    "copyLink": "Copy download link",
+    "copyBrew": "Copy Homebrew command",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
+    "shareTitle": "Send it to someone",
+    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
+    "shareButton": "Share…",
+    "shareFailed": "Couldn't open the share sheet."
   },
   "overrides": {
     "onboarding": {

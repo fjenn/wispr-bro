@@ -3,7 +3,7 @@
  * Hub sidebar (S-13, C-01, C-14, C-15, C-210).
  *
  * Feature pages on top, then the setup-checklist slot (S-30), then Share,
- * Settings and Help at the bottom. Items are buttons; the current page has
+ * Settings and Help at the bottom (the Help and Feedback popover, S-26b). Items are buttons; the current page has
  * `aria-current="page"`. Collapsed, the sidebar shows icons only, each with
  * its name as the accessible label and a tooltip.
  *
@@ -11,12 +11,13 @@
  * collapse button (rendered by `ForkApp`) sit there, and it drags the window.
  */
 import { forwardRef, type ReactNode } from "react";
-import { CircleHelp, History, Keyboard, Languages } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { FORK_NAMESPACE } from "../i18n";
-import { FOCUS_RING, Menu, Tag } from "../ui";
-import { navigate, useHubNav, type HubPageId } from "./nav";
+import { FOCUS_RING, Tag } from "../ui";
+import { HelpPopover } from "./HelpPopover";
+import { navigate, useHubNav } from "./nav";
 import { HUB_PAGES, newTagId, pageLabelKey, type HubPage } from "./pages";
 
 /** Content for the setup checklist card (S-30); null renders nothing. */
@@ -119,44 +120,12 @@ function PageButton({
 
 function HelpMenu({ collapsed }: { collapsed: boolean }) {
   const { t } = useTranslation(FORK_NAMESPACE);
-  const label = t("hub.help.title");
-  const go = (page: HubPageId, section?: string) => () =>
-    navigate(page, section);
   return (
-    <Menu
-      label={label}
-      side="right"
-      align="end"
-      testId="wb-help-menu"
-      groups={[
-        {
-          label: t("hub.help.essentials"),
-          items: [
-            {
-              id: "shortcuts",
-              label: t("hub.help.shortcuts"),
-              icon: Keyboard,
-              onSelect: go("settings", "hotkeys"),
-            },
-            {
-              id: "models",
-              label: t("hub.help.models"),
-              icon: Languages,
-              onSelect: go("settings", "models"),
-            },
-            {
-              id: "history",
-              label: t("hub.help.history"),
-              icon: History,
-              onSelect: go("dictation", "history"),
-            },
-          ],
-        },
-      ]}
+    <HelpPopover
       trigger={
         <NavButton
           testId="wb-nav-help"
-          label={label}
+          label={t("hub.help.title")}
           icon={CircleHelp}
           collapsed={collapsed}
         />

@@ -1213,6 +1213,29 @@ async forkEraseAllData(confirmation: string, deleteModels: boolean) : Promise<Re
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Help › Report a problem / Send feedback: opens the prefilled GitHub issue
+ * in the browser. Nothing is sent by the app.
+ */
+async forkOpenIssue(kind: IssueKind) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_open_issue", { kind }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Shows the macOS share sheet next to `anchor` (the Share button).
+ */
+async forkShareSheet(anchor: ShareAnchor) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_share_sheet", { anchor }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -2498,6 +2521,18 @@ export type Issue =
  */
 { kind: "unsupported"; action: string; chord: string; reason: string }
 /**
+ * Which form to open.
+ */
+export type IssueKind = 
+/**
+ * Help › Report a problem… (⌘/).
+ */
+"problem" | 
+/**
+ * Help › Send feedback….
+ */
+"feedback"
+/**
  * A chord's label.
  */
 export type Label = { 
@@ -3071,6 +3106,11 @@ export type Shape =
  * A transform's word diff and actions (S-22).
  */
 "diff"
+/**
+ * Where the Share button is, in the web view's CSS pixels (top-left
+ * origin), so the sheet opens next to it.
+ */
+export type ShareAnchor = { x: number; y: number; width: number; height: number }
 /**
  * Which text a row shows and copies (`entry_meta.shown_variant`).
  */

@@ -71,7 +71,10 @@ fn app_menu_structure_snapshot() {
             "separator",
             SHORTCUTS_ID,
             HELP_MICROPHONE_ID,
-            HELP_LANGUAGES_ID
+            HELP_LANGUAGES_ID,
+            "separator",
+            REPORT_PROBLEM_ID,
+            SEND_FEEDBACK_ID,
         ]
     );
     // Menu::default supplies the predefined Edit/Window menus and keyboard
@@ -99,6 +102,8 @@ fn tray_structure_has_no_model_or_old_copy_items() {
             "fork.tray.languages",
             "separator",
             DOCUMENTATION_ID,
+            REPORT_PROBLEM_ID,
+            SEND_FEEDBACK_ID,
             "separator",
             TRAY_QUIT_ID,
         ]
@@ -391,4 +396,36 @@ fn tray_update_clicks_are_routed_to_fork_update() {
     let footer = include_str!("../../../../src/fork/hub/Footer.tsx");
     assert!(!footer.contains("<UpdateChecker"));
     assert!(footer.contains("<UpdateStatus />"));
+}
+
+#[test]
+fn report_a_problem_has_the_command_slash_key_and_both_menus_carry_it() {
+    let expected = if cfg!(target_os = "macos") {
+        "Cmd+/"
+    } else {
+        "Ctrl+/"
+    };
+    assert_eq!(accelerator(REPORT_PROBLEM_ID), Some(expected));
+    assert_eq!(accelerator(SEND_FEEDBACK_ID), None);
+    // muda 0.19.3 parses "/" as `Code::Slash` (`accelerator.rs`, `"SLASH" |
+    // "/"`); Tauri does not re-export its parser, so MAC-TEST-SCRIPT S-26b.1
+    // checks the key on the real menu.
+    let snapshot = sample("en");
+    for specs in [
+        submenu_items(&help_spec(&snapshot)).to_vec(),
+        tray_specs(&snapshot, false, false),
+    ] {
+        for (wanted, label) in [
+            (REPORT_PROBLEM_ID, "Report a problem…"),
+            (SEND_FEEDBACK_ID, "Send feedback…"),
+        ] {
+            assert!(matches!(
+                item(&specs, wanted),
+                MenuSpec::Item { label: l, enabled: true, checked: None, .. } if l == label
+            ));
+        }
+    }
+    let source = include_str!("../app_menu.rs");
+    assert!(source.contains("REPORT_PROBLEM_ID => super::commands::help::open_issue("));
+    assert!(source.contains("SEND_FEEDBACK_ID => super::commands::help::open_issue("));
 }

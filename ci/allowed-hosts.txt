@@ -16,8 +16,8 @@ huggingface.co                       # §1 #2: model downloads (pinned revisions
 [link]
 # Allowed only as an openUrl(…) / open_url(…) argument (same line or up to
 # two lines above): the user clicks a link and the browser opens it; this is
-# not app traffic. None yet; S-26b (Help, support, Share with a friend) adds
-# its link hosts here.
+# not app traffic. None: S-26b's Help, support, Share and About links are all
+# on github.com ([network] above), opened only on a click.
 
 [schema]
 # Allowed only as a JSON "$schema" value (editor hint, never fetched by the

@@ -3,9 +3,8 @@
  * The Hub's pages (S-13, C-01): sidebar order, icons, tags and the component
  * each page slot renders. A feature slice mounts its page by replacing the
  * `component` of its entry (S-15a Dictation: done, S-16 Dictionary: done,
- * S-17 Snippets: done, S-25 Insights: done, S-19a Style: done, S-22 Transforms, S-24 Scratchpad, S-26b Share,
- * S-14 Settings). Until then the slot shows a placeholder page with an empty
- * state and one clear action.
+ * S-17 Snippets: done, S-25 Insights: done, S-19a Style: done, S-22 Transforms, S-24 Scratchpad: done, S-26b Share: done,
+ * S-14 Settings: done). Every page now has its slice's component.
  */
 import type { ComponentType } from "react";
 import {
@@ -20,19 +19,17 @@ import {
   WandSparkles,
   type LucideIcon,
 } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { FORK_NAMESPACE } from "../i18n";
 import { DictionaryPage } from "../dictionary/DictionaryPage";
 import { Home } from "../home/Home";
 import { InsightsPage } from "../insights/InsightsPage";
 import { SnippetsPage } from "../snippets/SnippetsPage";
 import { StylePage } from "../style/StylePage";
 import { ScratchpadPage } from "../scratchpad/ScratchpadPage";
+import { SharePage } from "../share/SharePage";
 import { TransformsPage } from "../transforms/TransformsPage";
-import { EmptyState, type TagKind } from "../ui";
+import type { TagKind } from "../ui";
 import { SettingsModal } from "../settings/SettingsModal";
-import { navigate, type HubPageId } from "./nav";
-import { PageHeader } from "./PageHeader";
+import type { HubPageId } from "./nav";
 
 export interface HubPage {
   id: HubPageId;
@@ -46,35 +43,6 @@ export interface HubPage {
 
 /** Key of a page's name in the `fork` namespace. */
 export const pageLabelKey = (id: HubPageId) => `hub.pages.${id}.title`;
-
-/** Placeholder until the page's own slice lands. */
-function placeholder(
-  id: HubPageId,
-  icon: LucideIcon,
-  action: { page: HubPageId; section?: string },
-): ComponentType {
-  function PlaceholderPage() {
-    const { t } = useTranslation(FORK_NAMESPACE);
-    const appName = t("rust.appName");
-    return (
-      <>
-        <PageHeader title={t(pageLabelKey(id))} />
-        <EmptyState
-          testId={`wb-empty-${id}`}
-          icon={icon}
-          title={t(`hub.pages.${id}.empty.title`, { appName })}
-          body={t(`hub.pages.${id}.empty.body`, { appName })}
-          action={{
-            label: t(`hub.pages.${id}.empty.action`),
-            onClick: () => navigate(action.page, action.section),
-          }}
-        />
-      </>
-    );
-  }
-  PlaceholderPage.displayName = `PlaceholderPage(${id})`;
-  return PlaceholderPage;
-}
 
 export const HUB_PAGES: HubPage[] = [
   {
@@ -126,7 +94,7 @@ export const HUB_PAGES: HubPage[] = [
     id: "share",
     group: "bottom",
     icon: Heart,
-    component: placeholder("share", Heart, { page: "dictation" }),
+    component: SharePage,
   },
   {
     id: "settings",

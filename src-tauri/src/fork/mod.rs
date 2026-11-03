@@ -55,6 +55,7 @@ pub mod pill;
 pub mod recovery;
 pub mod scratchpad;
 pub mod settings;
+pub mod share;
 pub mod shortcut;
 pub mod snippets;
 pub mod stats;
@@ -681,6 +682,8 @@ macro_rules! fork_specta_builder {
                 commands::privacy::fork_copy_diagnostics::<$runtime>,
                 commands::privacy::fork_save_diagnostics::<$runtime>,
                 commands::privacy::fork_erase_all_data::<$runtime>,
+                commands::help::fork_open_issue::<$runtime>,
+                commands::help::fork_share_sheet::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -782,6 +785,9 @@ pub trait ForkRuntime: Runtime {
     /// S-28: a take records, transcribes, cleans up or is delivered, or a
     /// transform runs (updates never install or relaunch then).
     fn update_busy(app: &AppHandle<Self>) -> bool;
+    /// S-26b: shows the macOS share sheet in the main window. `MockRuntime`
+    /// records the request instead (`share::recorded`).
+    fn show_share_sheet(app: &AppHandle<Self>, request: share::ShareRequest) -> Result<(), String>;
 }
 
 impl ForkRuntime for tauri::Wry {
@@ -831,6 +837,21 @@ impl ForkRuntime for tauri::Wry {
                 .try_state::<crate::TranscriptionCoordinator>()
                 .is_some_and(|c| c.is_busy())
             || transforms::run::is_active()
+    }
+
+    fn show_share_sheet(app: &AppHandle<Self>, request: share::ShareRequest) -> Result<(), String> {
+        #[cfg(target_os = "macos")]
+        {
+            let window = app
+                .get_webview_window("main")
+                .ok_or_else(|| "no main window".to_string())?;
+            share::show(&window, request)
+        }
+        #[cfg(not(target_os = "macos"))]
+        {
+            let _ = (app, request);
+            Err("the share sheet is available on macOS".into())
+        }
     }
 
     fn pill_start(app: &AppHandle<Self>) {
@@ -925,6 +946,17 @@ impl ForkRuntime for tauri::test::MockRuntime {
     fn update_busy(app: &AppHandle<Self>) -> bool {
         app.try_state::<update::scheduler::FakeBusy>()
             .is_some_and(|b| b.0.load(std::sync::atomic::Ordering::Acquire))
+    }
+
+    fn show_share_sheet(
+        _app: &AppHandle<Self>,
+        request: share::ShareRequest,
+    ) -> Result<(), String> {
+        share::recorded::REQUESTS
+            .lock()
+            .unwrap_or_else(|p| p.into_inner())
+            .push(request);
+        Ok(())
     }
 
     fn hub_title_bar_height(_window: &tauri::WebviewWindow<Self>) -> f64 {

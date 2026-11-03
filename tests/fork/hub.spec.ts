@@ -128,15 +128,15 @@ test.describe("hub shell", () => {
     await page.keyboard.press("Enter");
     const menu = page.getByRole("menu", { name: "Help" });
     await expect(menu).toBeVisible();
+    await expect(page.getByTestId("wb-menu-item-whats-new")).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(page.getByTestId("wb-menu-item-models")).toBeFocused();
+    await expect(page.getByTestId("wb-menu-item-shortcuts")).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(menu).toBeHidden();
     await expect(main(page)).toHaveAttribute("data-page", "settings");
-    await expect(page.getByTestId("wb-settings-nav-advanced")).toHaveAttribute(
-      "aria-current",
-      "location",
-    );
+    await expect(page.getByTestId("wb-hotkeys-panel")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByTestId("wb-hotkeys-panel")).toHaveCount(0);
     await page.keyboard.press("Escape");
     await expect(page.getByTestId("wb-nav-settings")).toBeFocused();
 
@@ -333,8 +333,9 @@ test.describe("hub shell", () => {
     expect(await ipc.calls("transcribe_file")).toHaveLength(0);
 
     // History registers a zone; a drop outside it (the sidebar) is ignored…
-    await page.getByTestId("wb-nav-help").click();
-    await page.getByTestId("wb-menu-item-history").click();
+    await page.evaluate(() => {
+      window.location.hash = "#/hub/dictation/history";
+    });
     const zone = page.getByTestId("wb-drop-zone-history");
     await expect(zone).toBeVisible();
     const sidebar = await centerOf(page, "wb-sidebar");

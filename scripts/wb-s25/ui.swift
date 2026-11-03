@@ -16,6 +16,7 @@
 //   keys <text>            a path as US-layout key presses (the save panel)
 //   key <name>             return | escape | tab | space | down | up | cmd-a | cmd-shift-g | cmd-d
 //                          | cmd-c | cmd-v | cmd-x | cmd-z | cmd-shift-z | cmd-shift-slash (S-26a)
+//                          | cmd-slash (S-26b)
 //   wait <ms>              sleep
 // Prints one line per command.
 import AppKit
@@ -130,6 +131,7 @@ let keys: [String: (CGKeyCode, CGEventFlags)] = [
     "cmd-c": (8, .maskCommand), "cmd-v": (9, .maskCommand), "cmd-x": (7, .maskCommand),
     "cmd-z": (6, .maskCommand), "cmd-shift-z": (6, [.maskCommand, .maskShift]),
     "cmd-shift-slash": (44, [.maskCommand, .maskShift]),
+    "cmd-slash": (44, [.maskCommand]),
 ]
 
 func key(_ name: String) {

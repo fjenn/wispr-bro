@@ -39,6 +39,12 @@ export interface MenuProps {
   /** Accessible name of the menu. */
   label: string;
   testId?: string;
+  /**
+   * Called when the closed menu is about to return focus to its trigger;
+   * `event.preventDefault()` keeps focus where an item put it (S-26b: an
+   * item that opens a dialog).
+   */
+  onCloseAutoFocus?: (event: Event) => void;
 }
 
 export function Menu({
@@ -48,6 +54,7 @@ export function Menu({
   align = "start",
   label,
   testId,
+  onCloseAutoFocus,
 }: MenuProps) {
   return (
     // Non-modal: the rest of the window stays readable (no aria-hidden on
@@ -62,6 +69,7 @@ export function Menu({
           collisionPadding={8}
           aria-label={label}
           data-testid={testId}
+          onCloseAutoFocus={onCloseAutoFocus}
           className="z-50 min-w-52 rounded-(--wb-radius-card) border border-(--wb-line) bg-(--wb-card) p-1.5 text-(--wb-ink) shadow-(--wb-shadow) motion-safe:animate-drop"
         >
           {groups.map((group, index) => (
