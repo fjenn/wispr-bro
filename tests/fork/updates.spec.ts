@@ -70,7 +70,11 @@ test.describe("Hub footer: update status", () => {
     ["ready", "Update ready"],
     ["installing", "Installing 1.0.0-alpha.2…"],
     ["installed", "Restarting…"],
-    ["installed", "1.0.0-alpha.2 installed · restarts after this dictation", { busy: true }],
+    [
+      "installed",
+      "1.0.0-alpha.2 installed · restarts after this dictation",
+      { busy: true },
+    ],
     ["install_failed", "Update didn't install"],
   ];
   for (const [phase, text, over] of cases) {
@@ -96,7 +100,9 @@ test.describe("Hub footer: update status", () => {
   }) => {
     await hubWith(page, ipc, hub, updateState("idle"));
     ipc.respond("fork_update_check_now", updateState("checking"));
-    await status(page).getByRole("button", { name: "Check for updates" }).click();
+    await status(page)
+      .getByRole("button", { name: "Check for updates" })
+      .click();
     await ipc.expectCalled("fork_update_check_now");
     await expect(status(page).getByTestId("wb-update-text")).toHaveText(
       "Checking for updates…",
@@ -211,7 +217,9 @@ test.describe("Hub footer: update status", () => {
       ).toBeVisible();
       await expectNoSeriousAxeFindings(page);
       await ipc.emit("fork-update-state", updateState("check_failed"));
-      await expect(status(page).getByRole("button", { name: "Retry" })).toBeVisible();
+      await expect(
+        status(page).getByRole("button", { name: "Retry" }),
+      ).toBeVisible();
       await expectNoSeriousAxeFindings(page);
     });
   }

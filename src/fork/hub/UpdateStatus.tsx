@@ -90,7 +90,13 @@ interface LineProps {
 }
 
 /** One line: what is happening, plus the single action that fits. */
-function StatusLine({ state, onCheck, onRestart, problem, compact }: LineProps) {
+function StatusLine({
+  state,
+  onCheck,
+  onRestart,
+  problem,
+  compact,
+}: LineProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const linkClass = `cursor-pointer rounded-sm font-medium text-(--wb-ink) underline underline-offset-2 ${FOCUS_RING}`;
   const action = (label: string, onClick: () => void, testId: string) =>
@@ -223,7 +229,9 @@ export function UpdatePanel() {
     details.push(t("hub.update.manualOnly"));
   }
   details.push(
-    state.phase === "ready" ? t("hub.update.readyHint") : t("hub.update.policy"),
+    state.phase === "ready"
+      ? t("hub.update.readyHint")
+      : t("hub.update.policy"),
   );
   return (
     <div

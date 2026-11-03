@@ -2220,7 +2220,12 @@ busy: boolean;
  * Whether checks and installs run on their own in this build (not in
  * development builds).
  */
-automatic: boolean }
+automatic: boolean; 
+/**
+ * Replacing the app needs an administrator password (it sits in a
+ * folder the user cannot write), so it installs only on Restart now.
+ */
+needs_password: boolean }
 /**
  * What the debug panel shows before a check.
  */
