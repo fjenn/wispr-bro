@@ -277,6 +277,14 @@ test.describe("dictation home", () => {
     await openHub(page, ipc, hub);
     await expect(statValue(page, "words")).toHaveText("0");
     await ipc.waitForListener("fork-stats-updated");
+    // Only the events count here: with parallel workers another page can
+    // take focus and fire the hook's focus/visibility refresh, a third read
+    // that is not the burst's (Mac wave 2 fixes run, under load).
+    await page.evaluate(() => {
+      const stop = (e: Event) => e.stopImmediatePropagation();
+      window.addEventListener("focus", stop, true);
+      document.addEventListener("visibilitychange", stop, true);
+    });
     // Slow replies so the events overlap the read in flight.
     ipc.handle("fork_stats_summary", async () => {
       await new Promise((r) => setTimeout(r, 300));
