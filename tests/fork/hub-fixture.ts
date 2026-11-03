@@ -214,7 +214,12 @@ export async function openHub(
   options.beforeNavigate?.();
 
   await page.goto(`/${options.hash ?? ""}`);
-  await expect(page.getByTestId("wb-sidebar")).toBeVisible();
+  // The first Hub page of a run compiles every Hub module on the dev server
+  // (S-30 added the chooser, checklist and driver.js); under the full
+  // parallel suite that took longer than the 5 s default twice.
+  await expect(page.getByTestId("wb-sidebar")).toBeVisible({
+    timeout: 20_000,
+  });
 }
 
 /** Axe on the whole page: no serious or critical findings (R5 §5.5). */
