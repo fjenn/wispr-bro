@@ -30,6 +30,7 @@
     "wb:llama-server": "ci/llama-server/build.sh",
     "wb:translate": "bun scripts/wb-translate-missing.ts",
     "wb:check:translations": "bun scripts/wb-translate-missing.ts --check && bun scripts/wb-brand-overrides.ts --check",
+    "wb:check:translations:strict": "bun scripts/wb-translate-missing.ts --strict-switch",
     "wb:brand": "bun scripts/wb-brand-overrides.ts",
     "wb:icons": "bun scripts/wb-icons.ts",
     "wb:fonts": "bun scripts/wb-fonts.ts",

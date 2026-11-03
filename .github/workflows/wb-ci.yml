@@ -76,6 +76,11 @@ jobs:
       - name: Copy check (English fork strings vs R1's Wispr quotes, S-37, DEC-45)
         run: bun run wb:copy-check
 
+      # S-37: fails on machine/untranslated flags only once ci/i18n-strict
+      # says I18N_STRICT=on (off until the translation review is done).
+      - name: Strict i18n (switch in ci/i18n-strict)
+        run: bun run wb:check:translations:strict
+
       - name: Vendored fonts match their pinned hashes (S-13)
         run: bun scripts/wb-fonts.ts --check
 

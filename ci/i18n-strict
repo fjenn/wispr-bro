@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Strict i18n switch (S-37, R5 §5.6). CI runs
+#   bun scripts/wb-translate-missing.ts --strict-switch
+# which, with I18N_STRICT=on, fails on any `untranslated` or `machine` flag
+# left in a locale's fork.flags.json (brand overrides included). With off it
+# runs the normal parity check and prints the flag counts.
+#
+# Off until the review agents have cleared the machine flags locale by locale
+# (docs/fork/TRANSLATION-REVIEW.md); the owner turns it on.
+I18N_STRICT=off
