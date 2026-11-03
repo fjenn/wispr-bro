@@ -792,7 +792,7 @@ until S-14) is the only place a model is named.
 | `src-tauri/src/fork/models/policy.fork.json`       | The data: RS-09's short-take p50/p95 on the M5 Max (CPU numbers where measured), peak footprints, per-language rankings with and without CC-BY models (DEC-26; `*` for languages without a row), machine-class factors, RAM-tier footprint caps, the 5 GB disk reserve, §5.1 budgets (Apple Silicon and Intel) and the policy's `retired` list |
 | `src-tauri/src/fork/models/policy.rs`              | `decide`: a pure function from languages, `Machine`, measured factor, on-disk models and the DEC-26 switch to the pick (rules in the module docs); ≥ 60 vectors in `policy_tests.rs`                                                                                                                                                           |
 | `src-tauri/src/fork/models/machine.rs`             | sysinfo 0.39 (`system`, `disk`): chip from the brand string (M1-M5 × base/Pro/Max/Ultra, Intel), RAM, free space on the model volume (macOS `AvailableCapacityForImportantUsage`, purgeable-aware)                                                                                                                                             |
-| `src-tauri/src/fork/models/speed.rs`               | `fork.db` › `asr_speed`: key-up → text of warm 2-20 s takes (lengths and times only); the median of the newest 5 over RS-09's p50 is the measured factor, used when slower than the class                                                                                                                                                      |
+| `src-tauri/src/fork/models/speed.rs`               | `fork.db` › `asr_speed`: key-up → text of warm 2-20 s takes (lengths and times only), not recorded when the 1-min load per core is above 0.75; the measured factor needs two sets of 5 takes, both slower than the class, over ≥ 30 min and ≤ 14 days old (the faster set counts)                                                             |
 | `src-tauri/src/fork/models/upgrade.rs`             | `step` (runs in the S-07a setup loop on every kick): who chose the selection (a different selection while the fork's model is still on disk pins it), the decision, background download (S-07a's state machine in `Mode::Background`: no bar, no Retry wait), swap at a quiet moment, cleanup; `ForkModelPolicy` (`fork-model-policy`)         |
 | `src-tauri/src/fork/models/cleanup.rs`             | `fork.db` › `speech_models` (origin `starter`/`policy`/`selection`, `loaded_at`, `superseded_at`, `deleted_at`) and `model_policy_state`; `to_delete`: superseded or retired, not selected, only after the selection loaded, never a model the user downloaded                                                                                 |
 | `src-tauri/src/fork/db/migrations/0007_models.sql` | The three tables above                                                                                                                                                                                                                                                                                                                         |
@@ -829,6 +829,24 @@ superseded `starter`/`policy` model, plus a retired selection the fork
 migrated away from and Handy's retired ONNX files, is deleted. Handy's
 `model-download-complete` notification ("Dictation is ready") is posted
 only for the first model.
+
+**Hysteresis (Mac wave 1, finding 12).** Under load 60-96 the policy read
+factor 18.2 on unified-en, stepped down to parakeet-110m, then (110m had
+no takes, so the class factor applied) picked unified-en again: each cycle
+re-downloaded 135-731 MB, and one take's paste came 17 s late. Now: busy
+takes are not recorded and a factor needs two spread-out slow sets
+(`speed.rs`); a confirmed slow factor is the Mac's, kept as
+`model_policy_state` › `measured_factor` (`<factor>@<ms>`) for 14 days and
+used while the new selection has no confirmed factor of its own (a fast
+reading never clears it early); a model the fork deleted is not downloaded
+again for 7 days while the selection still hears the user's languages
+(`plan`'s `cooling`); each `step` waits for a quiet moment (no take, none
+ended in the last 10 s) before any model work, and the checksum runs on its
+own thread at background QoS (`setup::in_background`). The cause of the
+17 s paste delay was not proven from the wave's log (the paste path shares
+no lock with model work; the machine was saturated); with these rules no
+model work starts within 10 s of a take. A download already running when a
+take starts continues (network only).
 
 ## i18n and the untranslated marking scheme
 
@@ -2005,8 +2023,11 @@ bind the existing F-07 fork settings.
   delete everything in the data dir and the log dir (symlinks unlinked, never
   followed; `$HOME`, relative and symlinked roots refused) except, when models
   are kept, `models/`, `huggingface/` and `llm/verified/` → wait 500 ms for
-  WebKit, `app.restart()`. Fresh `fork-settings.json` means onboarding
-  `not_started`, so the relaunch shows onboarding. TCC grants and the login
+  WebKit, write S-28's relaunch marker with `show` (`update::relaunch::
+  write_show_marker`: the next start clears a `--start-hidden` the erased
+  process had, other flags stay; Mac wave 1 finding 8), `app.restart()`.
+  Fresh `fork-settings.json` means onboarding `not_started`, so the relaunch
+  shows onboarding. TCC grants and the login
   item are system state and stay (the login item follows the default setting
   at the next launch).
 - **Diagnostics (`fork/diagnostics/bundle.rs`).** Reads only `.log`, `.txt`
@@ -2018,8 +2039,13 @@ bind the existing F-07 fork settings.
 - **macOS crash reports (`crash.rs`).** At launch (product/test identity
   only; `fork::notify`'s crash producer) `.ips` files under
   `~/Library/Logs/DiagnosticReports` younger than 7 days whose JSON header
-  names our bundle id are copied, sanitized, as
-  `crash-<time>-ips-<name>.txt` into the log dir (mtime kept, existing copies
+  names our bundle id are copied as `crash-<time>-ips-<name>.txt` into the
+  log dir. The copy is rebuilt from an allow-list (`diagnostics/ips.rs`:
+  header versions and ids, exception, termination code, thread frames,
+  identifier-like thread/queue names, the used images' names, uuids and
+  addresses; never `asi`, `vmSummary`, paths, user/device ids or any body
+  that is not the JSON `.ips` format), then sanitized (Mac wave 1, S-27.5:
+  pattern redaction alone let free text through) (mtime kept, existing copies
   skipped, then pruned to 10). Other apps' reports are never read past the
   header line. The existing next-launch inbox notice then shows them once.
 - **Scripted Mac checks:** `scripts/wb-s27/{seed.py,verify.py,zap-paths.sh}`

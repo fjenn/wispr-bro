@@ -39,6 +39,16 @@ macOS 13, 14, 15 and 26 (R5 §9).
 M-15 and M-26 may be the same Mac on two volumes. Record the exact model
 identifier, RAM and macOS build (`sw_vers`) in every run.
 
+**Binary name.** Since S-38 the executable is `wispr-bro` (`mainBinaryName`):
+a bundle's `Contents/MacOS/wispr-bro` and a `tauri build --no-bundle`'s
+`target/<profile>/wispr-bro`; a plain `cargo build` still writes `handy`.
+Where a procedure below says `./handy`, run whichever of the two is there
+(newest). The drivers do this through `scripts/wb-lib/app.sh` (`wb_bin_name`
+reads `CFBundleExecutable` for a bundle; `wb_cancel` sends `--cancel` only to
+a running instance and kills a call that does not return in 15 s: with no
+instance, `--cancel` starts a whole app, the 9-minute hang of Mac wave 1).
+Never symlink one name to the other (Tauri's resource lookup panics).
+
 ## Evidence format
 
 One file per run: `docs/fork/test-runs/<version>-<machine-id>.md`
@@ -738,6 +748,13 @@ only for the take that needs the mic (S-07a.2).
       is ready" only for the first model).
 - [ ] S-07b.6 §5.3 at 10 Mbit/s in English with the Q4_K_M starter (≤ 90 s).
 - [ ] S-07b.7 (Intel, DEC-29 later milestone) Intel picks a CPU model.
+- [ ] S-07b.8 No model loop (Mac wave 1, finding 12): with slow takes on
+      record the policy steps down once and stays there over two more
+      launches; no second download, the deleted model does not come back.
+      _(queued for the Mac wave: `scripts/wb-s07b/loop.sh`, no audio)_
+- [ ] S-07b.9 Under load a take's paste is not delayed by model work and its
+      time is not recorded. _(queued for the Mac wave; one take through the
+      speakers)_
 
 **Profile:** as S-07a with the identity `com.wisprbro.s07bcheck`, the
 stand-in `scripts/wb-s07a/hf-mirror.py --root ~/wb-bench/asr` (it needs
@@ -767,6 +784,20 @@ and `whisper-large-v3-turbo-Q8_0.gguf` under that root) and a seed
 4. S-07b.4 / .5: open the debug panel (⌘⇧D) in the test build, screenshot
    the Speech models section; screenshot the tray menu; read the inbox.
 5. S-07b.6: mirror `--rate 1250000`, `fresh en`, time launch → `selected`.
+6. S-07b.8 (after step 1, app quit, mirror running):
+   `scripts/wb-s07b/loop.sh <app> <out>`. It seeds 10 warm takes at 18×
+   RS-09's p50 for unified-en spread over 90 min and launches three times.
+   Pass: it prints `PASS S-07b.8` (launch 1 logs `measured slower than its
+class` and `swapped`; launches 2-3 log `→ Stay` and no `downloading a
+better speech model`; `measured_factor` is in `model_policy_state`;
+   unified-en stays deleted).
+7. S-07b.9: relaunch with `run.sh … relaunch en`, start CPU load
+   (`for i in $(seq $(sysctl -n hw.ncpu)); do yes >/dev/null & done`), wait
+   60 s, one `scripts/wb-s07a/take.sh <pid> <aiff>` into TextEdit, then
+   `killall yes`. Pass: the log has `take speed not recorded (load …)`; the
+   take's `insert: take N … pasted` line is within 2 s of its `insert: take N
+target` line; no `models:` download, checksum or swap line falls between
+   the take's start and its paste.
 
 Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-07a.md`.
 
@@ -1823,7 +1854,10 @@ executable, note its pid and its log file
       home path) and hold no databases, audio or settings. _(queued)_
 - [ ] S-27.5 **Mac wave 1: FAIL (`.ips` copy keeps a marker line)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Every "Show in Finder" opens its folder; a recent macOS `.ips`
       for the test identity is picked up as a crash file and shown once in
-      the inbox. _(queued)_
+      the inbox. **Fixed on `fix/wave1-a`** (the copy keeps only allow-listed
+      crash fields, `fork/diagnostics/ips.rs`); re-check _(queued for the
+      next Mac wave: step 4 with a body line and a JSON free-text field both
+      holding the marker)_
 
 **Profile: an isolated debug build** with its own identity ("Wispr Bro S27
 Check", `com.wisprbro.s27check`; the product runtime, its own app data,
@@ -1869,11 +1903,17 @@ diagnostics <zip> <seed>` passes; `copy.txt` contains neither the marker
 4. Quit. Copy a real `.ips` header for the identity into
    `~/Library/Logs/DiagnosticReports/Wispr Bro S27 Check-s27.ips`
    (`{"bundleID":"com.wisprbro.s27check"}` then any body line containing the
-   marker); relaunch. Pass (S-27.5): the inbox shows one crash notice; the
-   log folder has a `crash-…-ips-…txt` without the marker. Delete the `.ips`.
+   marker; for the re-check also a real report's body with the marker in
+   `asi` and a thread name, e.g. from `kill -ABRT` of the test app);
+   relaunch. Pass (S-27.5): the inbox shows one crash notice; the log
+   folder has a `crash-…-ips-…txt` without the marker that still names
+   `bundleID`, the exception type and the crashed thread's frames. Delete
+   the `.ips`.
 5. "Delete all my data", leave "Also delete downloaded models" off, type
    `DELETE`, confirm. Pass (S-27.2): the app quits and relaunches into
-   onboarding (screenshot); then `verify.py erased <Data> <seed> kept` (seeded
+   onboarding with its window shown even when it was started with
+   `--start-hidden` (screenshot; Mac wave 1 finding 8, fixed on
+   `fix/wave1-a`, re-check queued for the next Mac wave); then `verify.py erased <Data> <seed> kept` (seeded
    rows, WAVs, log and crash marker gone, fake models kept) and `verify.py
 onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
    unit test; the relaunched app recreates empty stores at once.)
