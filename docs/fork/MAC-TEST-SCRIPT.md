@@ -1504,6 +1504,30 @@ practice (use the WAV microphone, `WISPRBRO_TEST_MIC_WAV`).
 - [ ] W1.6 Time saved: the number rolls; dragging the slider rolls it
       again; Summary's switch and Start dictating finish setup.
 
+### Design W3 (Settings) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w3-settings`. Same debug build as Design Phase
+0; by eye in light, dark, Increase Contrast and Reduce Motion, with the
+reference frames u-033 and o-0178 open beside it (local only).
+
+- [ ] DW3.1 Settings (⌘, or the sidebar) opens a 960 × 640 modal that
+      springs in (no bounce), over a lighter scrim; with Reduce Motion it
+      only fades. Section changes crossfade; the pane starts at the top.
+- [ ] DW3.2 Nav: glyphs, "SETTINGS" and "APP" micro labels, the active
+      fill, the version at the bottom; Advanced's chevron turns. RTL
+      (Arabic app language): the nav sits on the right, chevrons mirror.
+- [ ] DW3.3 Every section: serif title, one intro line, tinted row cards
+      with switches/selects at the end; Handy's rows (Launch on Startup,
+      Advanced) look like the fork's rows: black switch with a white knob,
+      field-style dropdowns, no pink anywhere; History Limit has no spin
+      buttons and ↑/↓ still step it.
+- [ ] DW3.4 Selects open as popovers under the field, Esc closes only the
+      list (the modal stays), VoiceOver reads "pop-up button" with the row
+      title and the description.
+- [ ] DW3.5 Shortcuts panel: tinted cards, key caps in white fields,
+      pencil/trash, "+" squares; record a new shortcut (field turns purple,
+      Esc cancels); Reset to defaults and Done.
+
 ### S-14 Settings modal and hotkeys panel
 
 - [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).
