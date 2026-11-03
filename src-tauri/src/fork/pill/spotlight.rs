@@ -488,7 +488,11 @@ mod mac {
             .level(PanelLevel::MainMenu)
             .has_shadow(false)
             .transparent(true)
-            .no_activate(true)
+            // No `.no_activate(true)`: tauri-nspanel flips the whole app to
+            // the Prohibited activation policy while it builds, which
+            // deactivates the Hub the chooser's "Try it now" was clicked in
+            // (see `panel.rs`, S-24.1). Built hidden and unfocused with the
+            // non-activating mask, the panel never activates the app.
             .hides_on_deactivate(false)
             .corner_radius(0.0)
             .style_mask(StyleMask::empty().borderless().nonactivating_panel())

@@ -1820,7 +1820,7 @@ app). `fork::ax::is_own_pid` guards the take's capture and read
 (`focus::own_app`: verdict `unknown (own_app)`, so paste fail-open;
 `focus_moved` still compares pids), S-04's verification (`unverified`),
 S-21's menu Copy, S-34's watcher and S-20's read (`own_app`). The bar's
-per-take web view must never use tauri-nspanel's `no_activate(true)`: it
+per-take web view (and S-30's spotlight panel) must never use tauri-nspanel's `no_activate(true)`: it
 flips the app to the Prohibited activation policy while the panel is
 built, which hands focus from our window back to the previous app (a unit
 test fails on it anywhere in fork code). The Scratchpad note is shown with
