@@ -180,6 +180,11 @@ pub fn exclusions() -> &'static Exclusions {
     })
 }
 
+/// `pid` is this process (Wispr Bro itself, bundled or not).
+pub(crate) fn is_own_pid(pid: i32) -> bool {
+    i64::from(pid) == i64::from(std::process::id())
+}
+
 fn words_of(s: &str) -> Vec<String> {
     s.to_lowercase()
         .split(|c: char| !c.is_alphanumeric())
@@ -946,6 +951,14 @@ pub mod mac {
         let Some((pid, bundle_id, name)) = frontmost() else {
             return Read::skipped(Skip::NoAccess, ms(start));
         };
+        // Our own window in front (the Hub, the Scratchpad note): never read
+        // it. An unbundled build (`tauri dev`, `--no-bundle`) has no bundle
+        // id for the exclusion below, and AX calls into this process from
+        // the AX thread reach WebKit off the main thread, which crashes the
+        // app (`crashDueToApplicationCallingMainThreadOnlyWebKitAPIFromBackgroundThread`).
+        if super::is_own_pid(pid) {
+            return Read::skipped(Skip::OwnApp, ms(start));
+        }
         let ide = super::super::ide::access(vibe, bundle_id.as_deref());
         if el::secure_input_on() {
             return Read::skipped(Skip::SecureInput, ms(start));
@@ -1085,6 +1098,13 @@ pub mod mac {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn own_process_is_recognised_without_a_bundle_id() {
+        assert!(super::is_own_pid(std::process::id() as i32));
+        assert!(!super::is_own_pid(0));
+        assert!(!super::is_own_pid(-1));
+    }
+
     use super::*;
 
     #[test]
