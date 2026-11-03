@@ -433,7 +433,8 @@
           "open": "Continua la tua nota precedente o inizia una nuova, a seconda delle tue impostazioni Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Il microfono è disconnesso. Ciò che hai detto finora viene conservato.",
         "undo": "Annulla resta sulla barra di dettatura per 4 secondi.",
         "diff": "I cambiamenti di trasformazione sono pronti per la revisione.",
-        "secureInputWarning": "L'Input Sicuro è attivo. fn e Spazio non possono bloccare la diczione. Escape o il tasto chiudi annullano comunque."
+        "secureInputWarning": "L'Input Sicuro è attivo. fn e Spazio non possono bloccare la diczione. Escape o il tasto chiudi annullano comunque.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

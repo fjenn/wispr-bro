@@ -79,10 +79,7 @@ export function TabPanel({
   className?: string;
 }) {
   return (
-    <RadixTabs.Content
-      value={value}
-      className={`outline-none ${FOCUS_RING} ${className}`}
-    >
+    <RadixTabs.Content value={value} className={`${FOCUS_RING} ${className}`}>
       {children}
     </RadixTabs.Content>
   );

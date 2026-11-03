@@ -433,7 +433,8 @@
           "open": "Reprenez votre dernier note ou commencez en nouveau, selon vos paramètres Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Le micro a perdu la connexion. Ce que vous avez dit jusqu'à présent est conservé.",
         "undo": "Annuler reste disponible 4 secondes dans la barre de dictée.",
         "diff": "Les modifications de transformation sont prêtes à être revues.",
-        "secureInputWarning": "L'entrée sécurisée est activée. fn et Espace ne peuvent pas verrouiller la dictation. Escape ou le bouton fermer annulent toujours."
+        "secureInputWarning": "L'entrée sécurisée est activée. fn et Espace ne peuvent pas verrouiller la dictation. Escape ou le bouton fermer annulent toujours.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

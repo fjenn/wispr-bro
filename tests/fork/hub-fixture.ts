@@ -232,11 +232,14 @@ export async function expectNoSeriousAxeFindings(
   await page.waitForFunction(() =>
     document.getAnimations().every((a) => a.playState !== "running"),
   );
-  // Handy's own settings sections, hosted unchanged on the Settings page
-  // until S-14 rebuilds them, are outside the Hub's scope (S-37 audits them).
-  let builder = new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-    .exclude("[data-handy-content]");
+  // Handy's settings rows hosted in Settings (`data-handy-content`) are
+  // included since S-37 (named by `settings/handyA11y.ts`).
+  let builder = new AxeBuilder({ page }).withTags([
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+  ]);
   for (const selector of options.exclude ?? []) {
     builder = builder.exclude(selector);
   }

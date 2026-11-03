@@ -433,7 +433,8 @@
           "open": "Tái khởi động ghi chú trước đó hoặc bắt đầu một ghi chú mới, tùy theo cài đặt của bạn với Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Microphone đã bị mất kết nối. Những gì bạn đã nói trước đây vẫn được lưu giữ.",
         "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
         "diff": "Các thay đổi chuyển đổi đã sẵn sàng để xem xét.",
-        "secureInputWarning": "Secure Input đang được bật. fn và Space không thể khóa dictation. Escape hoặc nút đóng vẫn có thể hủy."
+        "secureInputWarning": "Secure Input đang được bật. fn và Space không thể khóa dictation. Escape hoặc nút đóng vẫn có thể hủy.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

@@ -13,6 +13,7 @@ import { DataPrivacy } from "./DataPrivacy";
 import { General } from "./General";
 import { System } from "./System";
 import { VibeCoding } from "./VibeCoding";
+import { useHandyA11y } from "./handyA11y";
 import { HotkeysPanel } from "./hotkeys/HotkeysPanel";
 
 const SECTIONS = [
@@ -40,6 +41,9 @@ export function SettingsModal() {
   const section = sectionFromHash(requested);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const previousFocus = useRef<Element | null>(null);
+  // S-37: Handy's hosted rows get names for their unnamed controls.
+  const contentRef = useRef<HTMLDivElement>(null);
+  useHandyA11y(contentRef);
   const title = t(`settingsModal.sections.${section}`);
 
   useEffect(() => {
@@ -139,6 +143,7 @@ export function SettingsModal() {
           </nav>
         </aside>
         <div
+          ref={contentRef}
           className="min-h-0 overflow-y-auto"
           data-testid="wb-settings-content"
         >

@@ -433,7 +433,8 @@
           "open": "Fortæl din sidste note eller start en ny, efter din Scratchpad-instilling."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Mikrofonen er blevet afbrudt. Det, du har sagt, bliver bevaret.",
         "undo": "Fortryd er på dikteringslinjen i 4 sekunder.",
         "diff": "Ogskiftninger er klar til at overvåge.",
-        "secureInputWarning": "Secure Input er slået til. fn og Space kan ikke låse dictation. Escape eller lukke-knap kan stadig annullere."
+        "secureInputWarning": "Secure Input er slået til. fn og Space kan ikke låse dictation. Escape eller lukke-knap kan stadig annullere.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

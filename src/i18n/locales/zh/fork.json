@@ -433,7 +433,8 @@
           "open": "继续您之前的笔记或创建一个新的，根据您的Scratchpad设置。"
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "麦克风已断开连接。你之前所说的内容会被保留。",
         "undo": "“撤销”会在听写栏上显示 4 秒。",
         "diff": "变换更改已准备就绪，可供审核。",
-        "secureInputWarning": "Secure Input 已开启。fn 和 空格键 无法锁定语音输入。Escape 或 关闭按钮 仍可取消。"
+        "secureInputWarning": "Secure Input 已开启。fn 和 空格键 无法锁定语音输入。Escape 或 关闭按钮 仍可取消。",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

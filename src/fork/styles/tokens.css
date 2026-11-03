@@ -189,3 +189,80 @@
   --color-ink-2: var(--wb-ink-2);
   --color-ink-3: var(--wb-ink-3);
 }
+
+/*
+ * S-37: Increase Contrast (System Settings › Accessibility › Display, which
+ * WebKit reports as `prefers-contrast: more`). Secondary text moves towards
+ * the ink, edges and fills get darker (lighter in dark mode) so every line,
+ * chip and selected row stands out, and the accent deepens. The pairs stay
+ * AA or better (secondary text ≥ 7:1 on the canvas and cards); axe checks
+ * every page with the media query on (tests/fork/a11y-sweep.spec.ts).
+ */
+@media (prefers-contrast: more) {
+  :root {
+    --wb-light-ink-2: #3a3732;
+    --wb-light-ink-3: #46423c;
+    --wb-light-line: #8f897e;
+    --wb-light-line-strong: #4f4b45;
+    --wb-light-hover: rgba(31, 29, 26, 0.12);
+    --wb-light-selected: #d8d4c9;
+    --wb-light-accent: #2f2db3;
+    --wb-light-accent-fill: #2f2db3;
+    --wb-light-banner: #e4e2fa;
+    --wb-light-tag-new-ink: #23208a;
+    --wb-light-tag-beta-ink: #4f3c0c;
+
+    --wb-dark-ink-2: #e4e0d8;
+    --wb-dark-ink-3: #d2cdc3;
+    --wb-dark-line: #8a8478;
+    --wb-dark-line-strong: #b9b3a7;
+    --wb-dark-hover: rgba(255, 255, 255, 0.14);
+    --wb-dark-selected: #46433d;
+    --wb-dark-accent: #c6c8ff;
+    --wb-dark-accent-fill: #4643c9;
+    --wb-dark-tag-new-ink: #ececff;
+    --wb-dark-tag-beta-ink: #fbefd0;
+  }
+
+  /* A thicker focus ring wherever one is drawn. */
+  :focus-visible {
+    outline-width: 3px !important;
+  }
+}
+
+/*
+ * S-37: Reduce Motion (R5 §5.5). Components keep their own stills (scenes,
+ * confetti, the coach marks); this catches everything else (spinners,
+ * fades, sliding drawers): animations finish at once and do not repeat,
+ * transitions jump to their end. `animationend`/`transitionend` still fire,
+ * so nothing waiting on them hangs.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * S-37: Handy's settings hosted in the Hub (`data-handy-content`, R5 §4.2:
+ * Handy's files keep their look). Their text fields draw no focus ring of
+ * their own (`outline-none`, a border shade only), and a disabled row's
+ * title and description at 50 % opacity fall below AA; both are fixed here
+ * rather than in Handy's components. (react-select draws its own ring on
+ * the control around its input.)
+ */
+[data-handy-content]
+  :is(input, textarea, select):not(.app-select__input):focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 1px;
+}
+[data-handy-content] :is(h3, p, span).opacity-50 {
+  opacity: 0.75;
+}

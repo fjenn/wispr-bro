@@ -433,7 +433,8 @@
           "open": "Voer uw vorige notitie op of start er een nieuwe, afhankelijk van uw instellingen voor Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "De microfoon is verloren. Wat je net zei wordt opgeslagen.",
         "undo": "Ongedaan maken staat 4 seconden op de dicteerbalk.",
         "diff": "Wijzigingen zijn klaar om te bekijken.",
-        "secureInputWarning": "Beveiligde invoer is ingeschakeld. fn en Space kunnen dictatie niet verbinden. Escape of het sluiten knoppen annuleert nog steeds."
+        "secureInputWarning": "Beveiligde invoer is ingeschakeld. fn en Space kunnen dictatie niet verbinden. Escape of het sluiten knoppen annuleert nog steeds.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

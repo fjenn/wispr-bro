@@ -433,7 +433,8 @@
           "open": "Daha önce yazdığınız notu devam ettirin ya da Scratchpad ayarlarına göre yeni bir not başlatın."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Mikrofon bağlantısı kesildi. Daha önce söyledikleriniz korunuyor.",
         "undo": "Geri al, dikte çubuğunda 4 saniye kalır.",
         "diff": "Değişikliklerin dönüşümü onaylamaya hazır.",
-        "secureInputWarning": "Güvenli Giriş etkin. fn ve Boşluk tuşları dictation'ı kapatamaz. Escape ya da kapama düğmesi hâlâ dictation'ı iptal eder."
+        "secureInputWarning": "Güvenli Giriş etkin. fn ve Boşluk tuşları dictation'ı kapatamaz. Escape ya da kapama düğmesi hâlâ dictation'ı iptal eder.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

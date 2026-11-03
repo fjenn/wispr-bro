@@ -433,7 +433,8 @@
           "open": "繼續您上次的筆記或開始新的筆記，依照您的 Scratchpad 設定。"
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "麥克風已斷線。你之前說過的話會被保留。",
         "undo": "「復原」會在聽寫列上顯示 4 秒。",
         "diff": "變更已準備好供審查。",
-        "secureInputWarning": "Secure Input 是開啟狀態。fn 和 空格鍵 無法鎖定語音輸入。Escape 鍵 或 關閉按鈕 仍可取消。"
+        "secureInputWarning": "Secure Input 是開啟狀態。fn 和 空格鍵 無法鎖定語音輸入。Escape 鍵 或 關閉按鈕 仍可取消。",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

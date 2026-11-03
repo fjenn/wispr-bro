@@ -425,7 +425,8 @@
         "transform.view_changes": "Review the latest transform before and after.",
         "scratchpad.open": "Resume your last note or start a new one, according to your Scratchpad setting."
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -859,7 +860,8 @@
         "micLostWarning": "The microphone disconnected. What you said so far is kept.",
         "undo": "Undo is on the dictation bar for 4 seconds.",
         "diff": "Transform changes are ready to review.",
-        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels."
+        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Escape or the close button still cancels.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",
@@ -2142,7 +2144,7 @@
       }
     },
     "practice": {
-      "title": "Practice: write an email hands-free",
+      "title": "Practice: a whole email, hands-free",
       "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
       "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
       "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",

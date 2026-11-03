@@ -433,7 +433,8 @@
           "open": "Lanjutkan catatan terakhir Anda atau mulai yang baru, sesuai dengan pengaturan Scratchpad Anda."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Microfon terputus. Yang Anda katakan sampai sekarang tetap disimpan.",
         "undo": "Urungkan ada di bilah dikte selama 4 detik.",
         "diff": "Perubahan transformasi siap untuk diperiksa.",
-        "secureInputWarning": "Secure Input diaktifkan. fn dan Space tidak bisa mematikan dictation. Escape atau tombol tutup masih bisa membatalkan."
+        "secureInputWarning": "Secure Input diaktifkan. fn dan Space tidak bisa mematikan dictation. Escape atau tombol tutup masih bisa membatalkan.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

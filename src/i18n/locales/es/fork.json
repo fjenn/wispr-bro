@@ -433,7 +433,8 @@
           "open": "Reanuda tu última nota o comienza una nueva, según tu configuración de Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "El micrófono se desconectó. Lo que dijiste hasta ahora se mantiene.",
         "undo": "Deshacer está en la barra de dictado durante 4 segundos.",
         "diff": "Los cambios de transformación están listos para revisar.",
-        "secureInputWarning": "Secure Input está activado. fn y Espacio no pueden bloquear la dictado. Escape o el botón de cierre aún cancelan."
+        "secureInputWarning": "Secure Input está activado. fn y Espacio no pueden bloquear la dictado. Escape o el botón de cierre aún cancelan.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

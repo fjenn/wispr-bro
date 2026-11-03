@@ -433,7 +433,8 @@
           "open": "Fortsätt din senaste anteckning eller starta en ny enligt din inställning för Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "Microfonen har avbrutits. Det du sa hittills sparas.",
         "undo": "Ångra finns på dikteringsfältet i 4 sekunder.",
         "diff": "Förändringar är redo att granska.",
-        "secureInputWarning": "Säker inmatning är aktiverad. fn och Space kan inte låsa dictation. Escape eller stängknappen avbryter fortfarande."
+        "secureInputWarning": "Säker inmatning är aktiverad. fn och Space kan inte låsa dictation. Escape eller stängknappen avbryter fortfarande.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

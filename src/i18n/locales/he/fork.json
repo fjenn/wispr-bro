@@ -433,7 +433,8 @@
           "open": "המשתמש ימשיך את הערה האחרונה או יתחיל אחת חדשה, בהתאם להגדרות ה-Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "המיקרופון נ desconנected. מה שדיברתם עד כה נשמר.",
         "undo": "״ביטול פעולה״ מופיע בסרגל ההכתבה למשך 4 שניות.",
         "diff": "השינויים בדוקים והם מוכנים להצגה.",
-        "secureInputWarning": "ההכנסה המוגנת מופעלת. fn ו-Space לא יכולים ללחוץ על הדיקטציה. Escape או הכפתור לסגירה עדיין מפסיקים."
+        "secureInputWarning": "ההכנסה המוגנת מופעלת. fn ו-Space לא יכולים ללחוץ על הדיקטציה. Escape או הכפתור לסגירה עדיין מפסיקים.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",

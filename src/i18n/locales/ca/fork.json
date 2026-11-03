@@ -433,7 +433,8 @@
           "open": "Recontinua la teva nota anterior o comença una nova segons la configuració del Scratchpad."
         }
       }
-    }
+    },
+    "resetSetting": "Reset {{setting}}"
   },
   "hub": {
     "nav": {
@@ -867,7 +868,8 @@
         "micLostWarning": "El microfònim s'ha desconnectat. El que has dit fins ara es manté.",
         "undo": "Desfés és a la barra de dictat durant 4 segons.",
         "diff": "Els canvis de transformació estan preparats per revisar.",
-        "secureInputWarning": "L'entrada segura està activada. fn i Espai no poden bloquejar la dictació. Escape o el botó de tancar encara cancel·len."
+        "secureInputWarning": "L'entrada segura està activada. fn i Espai no poden bloquejar la dictació. Escape o el botó de tancar encara cancel·len.",
+        "inserted": "Text inserted"
       },
       "message": {
         "no_speech": "No speech heard",
