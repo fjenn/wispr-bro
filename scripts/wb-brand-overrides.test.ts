@@ -7,6 +7,7 @@ import {
   LOCALES_DIR,
   UPSTREAM_BRAND,
   brandKeys,
+  computeLocale,
   flatten,
   handyStrings,
   locales,
@@ -62,6 +63,27 @@ describe("brand overrides", () => {
       "utf8",
     );
     expect(src).not.toMatch(/writeJson\([^)]*translation\.json/);
+  });
+});
+
+describe("ai-reviewed overrides", () => {
+  test("a regenerate keeps AI-reviewed values and their flags", () => {
+    const flags = readJson<Record<string, string>>(
+      path.join(LOCALES_DIR, "fr", "fork.flags.json"),
+      {},
+    );
+    const reviewed = Object.keys(flags).filter(
+      (k) => k.startsWith("overrides.") && flags[k] === "ai-reviewed",
+    );
+    expect(reviewed.length).toBeGreaterThan(0);
+    const result = computeLocale("fr", english);
+    const current = overridesOf("fr");
+    for (const flagKey of reviewed) {
+      const key = flagKey.slice("overrides.".length);
+      if (!result.overrides.has(key)) continue;
+      expect(result.overrides.get(key), key).toBe(current.get(key));
+      expect(result.flags[flagKey], key).toBe("ai-reviewed");
+    }
   });
 });
 

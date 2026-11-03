@@ -27,7 +27,8 @@
  *   - Generated values are flagged in `fork.flags.json` as
  *     `"overrides.<key>": "machine"` (mechanical rewrite, awaits review) or
  *     `"untranslated"` (the locale lacks the key, so English was rebranded).
- *     An override without a flag counts as reviewed and is kept as is, unless
+ *     An override without a flag, or flagged `"ai-reviewed"` (kept), counts
+ *     as reviewed and is kept as is, unless
  *     it still names Handy or Handy's key disappeared.
  *   - `{{placeholders}}` and `<tags>` must survive unchanged (checked).
  */
@@ -46,7 +47,7 @@ export const BRAND = "Wispr Bro";
 export const UPSTREAM_BRAND = /Handy|HANDY_/;
 
 type Json = { [key: string]: string | Json };
-type Flag = "untranslated" | "machine";
+type Flag = "untranslated" | "machine" | "ai-reviewed";
 type Flags = Record<string, Flag>;
 
 /** Locale-specific rewrites, applied before the generic one. */
@@ -193,11 +194,15 @@ export function computeLocale(
     }
     const reviewed =
       existing !== undefined &&
-      flags[flagKey] === undefined &&
+      (flags[flagKey] === undefined || flags[flagKey] === "ai-reviewed") &&
       !UPSTREAM_BRAND.test(existing);
     let value: string;
     if (reviewed) {
       value = existing;
+      // An AI review keeps its flag (wb-translate-missing.ts): it is not a
+      // person's review, but it must not be rebranded over either.
+      if (flags[flagKey] === "ai-reviewed")
+        result.flags[flagKey] = "ai-reviewed";
     } else {
       value = rebrand(base, lng);
       if (!local.has(key)) result.flags[flagKey] = "untranslated";
