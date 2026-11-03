@@ -10,6 +10,7 @@
 //!   keys or endpoint URLs.
 //! - [`sanitizer`]: redaction (Voquill port, AGPL-3.0-only).
 //! - [`crash`]: the panic hook installed by `fork::early_init`.
+//! - [`ips`]: the allow-listed fields of a macOS `.ips` report (S-27).
 //!
 //! S-27: `bundle.rs` creates the Copy/Save diagnostics payload from sanitized
 //! logs and crash reports only.
@@ -19,6 +20,7 @@
 
 pub mod bundle;
 pub mod crash;
+pub mod ips;
 pub mod issue_url;
 pub mod sanitizer;
 

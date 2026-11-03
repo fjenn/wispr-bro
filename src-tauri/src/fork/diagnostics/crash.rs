@@ -224,8 +224,11 @@ pub fn pickup_ips_reports(
             continue;
         };
         std::fs::create_dir_all(log_dir)?;
+        // Only the allow-listed crash fields, never the report's free text
+        // (S-27.5): `ips::structured`, then the usual sanitizer.
         let text = super::sanitizer::sanitize_log_content(&format!(
-            "Wispr Bro macOS crash report (local only, never uploaded)\nsource: {stem}.ips\n{raw}"
+            "Wispr Bro macOS crash report (local only, never uploaded; crash fields only)\nsource: {stem}.ips\n{}",
+            super::ips::structured(&raw)
         ));
         std::fs::write(&destination, text)?;
         if let Ok(file) = std::fs::File::options().write(true).open(&destination) {
@@ -357,8 +360,28 @@ mod tests {
             .set_modified(std::time::SystemTime::now() - IPS_MAX_AGE * 2)
             .unwrap();
 
+        // A realistic report quoting user text outside any `Transcript:`
+        // line (Mac wave 1, S-27.5).
+        std::fs::write(
+            reports.join("wispr-bro-2026-11-03-002121.ips"),
+            super::super::ips::tests::realistic_ips(id, "zebra lantern quartz"),
+        )
+        .unwrap();
+
         let copied = pickup_ips_reports(&reports, &logs, id).unwrap();
-        assert_eq!(copied.len(), 1);
+        assert_eq!(copied.len(), 2);
+        for c in &copied {
+            let text = std::fs::read_to_string(c).unwrap();
+            assert!(!text.contains("zebra"), "{text}");
+            assert!(!text.contains("private words"), "{text}");
+        }
+        // Keep only the first file for the inbox checks below.
+        let (realistic, copied): (Vec<_>, Vec<_>) = copied
+            .into_iter()
+            .partition(|c| c.to_string_lossy().contains("wispr-bro-2026-11-03"));
+        assert_eq!(realistic.len(), 1);
+        std::fs::remove_file(&realistic[0]).unwrap();
+        std::fs::remove_file(reports.join("wispr-bro-2026-11-03-002121.ips")).unwrap();
         let name = copied[0].file_name().unwrap().to_str().unwrap();
         assert!(crate::fork::notify::is_crash_file_name(name));
         let text = std::fs::read_to_string(&copied[0]).unwrap();
