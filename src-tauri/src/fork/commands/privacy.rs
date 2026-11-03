@@ -232,6 +232,13 @@ pub fn fork_erase_all_data<R: ForkRuntime>(
         },
         || {
             std::thread::sleep(erase::WEBVIEW_CLEAR_GRACE);
+            // Tauri restarts with the old arguments; a `--start-hidden`
+            // launch would come back with no window, so onboarding would
+            // not show (Mac wave 1). The marker drops that flag only.
+            let now = chrono::Utc::now().timestamp_millis();
+            if let Err(e) = crate::fork::update::relaunch::write_show_marker(&logs, now) {
+                log::warn!("erase: could not write the relaunch marker: {e}");
+            }
             app.restart()
         },
     )
