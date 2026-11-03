@@ -2145,21 +2145,21 @@ profile is never used).
       **Queued for the Mac wave** (simulation) and the reference-machine
       wave (M1 8 GB).
 - [ ] S-38.8 Startup (§5.3, part 2): `/usr/bin/lockf -k ~/wb-bench/gui.lock
-    python3 -I scripts/wb-perf/startup.py --app <portable dir or .app>
-    --runs 10` on a finished-onboarding portable profile with Accessibility
+python3 -I scripts/wb-perf/startup.py --app <portable dir or .app>
+--runs 10` on a finished-onboarding portable profile with Accessibility
       granted: launch → hotkey ready and bar visible p50 ≤ 2 s, p95 ≤ 3 s,
       plus the cold first launch reported. Release build on each reference
       machine. **Queued for the Mac wave.**
 - [ ] S-38.9 50-take hardware run (§9, before 1.0): `python3 -I
-    scripts/wb-soak/soak.py --hardware --plan plan.json --takes 50 --app
-    unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
+scripts/wb-soak/soak.py --hardware --plan plan.json --takes 50 --app
+unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
       each printed sentence into the focused app. Pass: 0 lost, 0 duplicate,
       0 wrong_target, clipboard restored every take. **Queued for the Mac
       wave** (needs the owner).
 - [ ] S-38.10 8 h idle (§5.2, RT-17, before 1.0): release build, bar
       visible, 100 takes spread over the first hour (`soak.py --takes 100
-    --gap 30`), then `python3 -I scripts/wb-soak/idle.py --pid <pid>
-    --minutes 480 --every 60 --footprint`: idle RSS ≤ 250 MB and CPU ≤ 0.5 %
+--gap 30`), then `python3 -I scripts/wb-soak/idle.py --pid <pid>
+--minutes 480 --every 60 --footprint`: idle RSS ≤ 250 MB and CPU ≤ 0.5 %
       at the end, the pill's web view growth ≤ 50 MB, no crash. **Queued for
       the Mac wave** (overnight; the takes need BlackHole).
 - Procedure: S-38.2-S-38.10 above. Machines: all for S-38.1.

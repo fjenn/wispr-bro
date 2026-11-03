@@ -2145,7 +2145,7 @@ RAM tier reads the same physical override (`models/machine.rs`), so the
 
 **Startup timing** (`fork/startup.rs`, §5.3): two milestones, measured from
 the kernel's process start (`proc_pidinfo` `PROC_PIDTBSDINFO`): the fork's
-tap running (`shortcut::spawn_engine`) and the resting bar first ordered in
+tap running (`shortcut::start`, the launch tap) and the resting bar first ordered in
 (`pill::native` `show`). Once both are in, one info line:
 `startup: ready <ms> ms after launch (hotkeys <ms> ms, bar <ms> ms)`.
 `scripts/wb-perf/startup.py` launches a portable profile N times and
