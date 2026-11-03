@@ -97,6 +97,8 @@ export interface TranslationBackend {
     key: string,
     /** Extra instruction, e.g. which plural form to write. */
     hint?: string,
+    /** Retry number: a sampling backend varies its output (0 = greedy). */
+    attempt?: number,
   ): Promise<string | null>;
   /** Releases resources (the llama-server process). */
   close?(): Promise<void>;
@@ -381,9 +383,14 @@ export const KEPT_NAMES = [
 
 /** Kept names that `english` has and `translated` lost. */
 export function lostNames(english: string, translated: string): string[] {
+  // Latin names count as whole words ("Polishing" is not the name "Polish";
+  // "fn을" in Korean is fn).
   const has = (text: string, name: string) =>
-    name === "fn"
-      ? /(^|[^\p{L}])fn([^\p{L}]|$)/iu.test(text)
+    /^[A-Za-z]/.test(name)
+      ? new RegExp(
+          `(^|[^A-Za-z])${name}([^A-Za-z]|$)`,
+          name === "fn" ? "i" : "",
+        ).test(text)
       : text.includes(name);
   return KEPT_NAMES.filter((n) => has(english, n) && !has(translated, n));
 }
@@ -553,17 +560,22 @@ export async function syncLocale(
       }
     }
     if (out !== null && foreignScripts(lang, out).length) {
-      // A word in another language's script: one more try that says so,
-      // else English.
+      // A word in another language's script: up to three more tries that
+      // say so (sampled, so each differs), else English.
       const retry = `Write only in the target language's own script: no ${foreignScripts(lang, out).join(" or ")} letters.`;
-      const again = await backend.translate(
-        src.english,
-        lang,
-        key,
-        src.hint ? `${src.hint}\n${retry}` : retry,
-      );
-      out =
-        again !== null && !foreignScripts(lang, again).length ? again : null;
+      let clean: string | null = null;
+      for (let attempt = 1; attempt <= 3 && clean === null; attempt++) {
+        const again = await backend.translate(
+          src.english,
+          lang,
+          key,
+          src.hint ? `${src.hint}\n${retry}` : retry,
+          attempt,
+        );
+        if (again !== null && !foreignScripts(lang, again).length)
+          clean = again;
+      }
+      out = clean;
     }
     if (out !== null && samePlaceholders(out, src.english)) {
       next.set(key, out);

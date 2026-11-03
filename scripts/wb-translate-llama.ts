@@ -35,6 +35,7 @@ export interface TranslationBackendLike {
     targetLang: string,
     key: string,
     hint?: string,
+    attempt?: number,
   ): Promise<string | null>;
   close?(): Promise<void>;
 }
@@ -83,11 +84,13 @@ export function requestBody(
   code: string,
   key: string,
   hint?: string,
+  attempt = 0,
 ): Record<string, unknown> {
   return {
     model: "local",
-    temperature: 0,
-    seed: 42,
+    // Greedy first; a retry samples a little, with its own seed.
+    temperature: attempt > 0 ? 0.5 : 0,
+    seed: 42 + attempt,
     max_tokens: Math.min(1024, 64 + text.length * 3),
     stream: false,
     response_format: RESPONSE_FORMAT,
@@ -121,10 +124,10 @@ export function backendFrom(
   return {
     name: "llama-server",
     flag: "machine",
-    async translate(text, targetLang, key, hint) {
+    async translate(text, targetLang, key, hint, attempt) {
       try {
         return parseTranslation(
-          await complete(requestBody(text, targetLang, key, hint)),
+          await complete(requestBody(text, targetLang, key, hint, attempt)),
         );
       } catch {
         return null;

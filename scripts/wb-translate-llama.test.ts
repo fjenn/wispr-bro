@@ -47,6 +47,13 @@ describe("wb-translate-llama", () => {
     ).not.toContain("Plural form");
   });
 
+  test("a retry samples with its own seed", () => {
+    expect(requestBody("x", "he", "k").temperature).toBe(0);
+    const retry = requestBody("x", "he", "k", undefined, 2);
+    expect(retry.temperature).toBe(0.5);
+    expect(retry.seed).toBe(44);
+  });
+
   test("replies must be JSON with a non-empty text", () => {
     expect(parseTranslation('{"text":"Bereit"}')).toBe("Bereit");
     expect(parseTranslation("Bereit")).toBeNull();

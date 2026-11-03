@@ -317,6 +317,8 @@ describe("kept names", () => {
     expect(lostNames("Hold fn and ⌥", "Halte Fn und ⌥")).toEqual([]);
     expect(lostNames("Hold fn", "Halte die Taste")).toEqual(["fn"]);
     expect(lostNames("Open Wispr Bro", "Ouvrir Wispr Bro")).toEqual([]);
+    expect(lostNames("Polishing…", "Pulido…")).toEqual([]);
+    expect(lostNames("Press fn", "fn을 누르세요")).toEqual([]);
   });
 
   test("machine output that lost a name is translated again, with the names spelled out", async () => {
