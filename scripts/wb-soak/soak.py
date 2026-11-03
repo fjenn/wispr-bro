@@ -28,12 +28,17 @@ line is printed at the end. Every take holds ~/wb-bench/gui.lock.
           --app '<…>/Wispr Bro Check.app/Contents/MacOS/wispr-bro' --pid <app pid>
           --mic <out dir>/test-mic.wav --bin <helpers dir> --out <dir>
 
-`plan.json`: {"apps": [{"name": "TextEdit", "bundle": "com.apple.TextEdit"},
+`plan.json`: {"apps": [{"name": "TextEdit", "bundle": "com.apple.TextEdit",
+"pid": <optional: an instance the run opened, e.g. wb_textedit_open>},
 …], "takes": [{"wav": "…/take-01.wav", "expect": "…"}, …]}. Takes cycle
 through the apps (§5.4 lists Mail, Notes, TextEdit, Slack, VS Code, Chrome
 Gmail, Safari, Notion, Messages, Terminal) and the WAVs. Each app must have
 an empty text field focused (a scratch document, a draft, a local page);
-the driver never types into anything else. `--bin` holds the compiled
+the driver never types into anything else. Give each app the "pid" of
+an instance the run opened itself whenever the Mac's user may have the same
+app open (TextEdit): it is then activated, read and cleared by pid only,
+and a take whose target lost the front before the stop is cancelled
+(`--cancel`, outcome `skipped`) so nothing is pasted into another window. `--bin` holds the compiled
 helpers: `axread` and `play` (this folder), `clip` (scripts/wb-s05) and
 `pill` (scripts/wb-s03-pill.swift), each `swiftc -O -o <bin>/<name> …`
 (`play` only for `--device`).
@@ -102,8 +107,12 @@ class Helpers:
         self.bin = bin_dir
         self.pid = pid
 
-    def ax(self, cmd):
-        return run_json([os.path.join(self.bin, "axread"), cmd])
+    def ax(self, cmd, pid=None):
+        # With the target's pid, axread refuses to read or clear a field
+        # unless that very process is frontmost (the owner's TextEdit has
+        # the same bundle id as the run's own).
+        env = {**os.environ, "WB_FRONT_PID": str(pid)} if pid else None
+        return run_json([os.path.join(self.bin, "axread"), *cmd.split()], env=env)
 
     def clip_digest(self):
         return run_json([os.path.join(self.bin, "clip"), "digest"])
@@ -159,6 +168,25 @@ def toggle(app_bin):
 
 def activate(bundle):
     subprocess.run(["/usr/bin/open", "-b", bundle], capture_output=True, timeout=30)
+
+
+def bring_front(h, target):
+    """The target to the front; returns whether it is frontmost. A target
+    with a "pid" (an instance the run opened itself) is activated and
+    checked by process id, never by bundle id."""
+    pid = target.get("pid")
+    if pid:
+        return bool(h.ax(f"activate {pid}").get("activated"))
+    activate(target["bundle"])
+    time.sleep(1.0)
+    return h.ax("front").get("front") == target["bundle"]
+
+
+def is_front(h, target):
+    d = h.ax("front")
+    if target.get("pid"):
+        return d.get("pid") == target["pid"]
+    return d.get("front") == target["bundle"]
 
 
 def words(text):
@@ -230,14 +258,13 @@ def hardware_take(h, a, n, target, take):
 
 def one_take(h, a, n, target, take):
     rec = {"n": n, "app": target["name"], "wav": os.path.basename(take["wav"])}
-    activate(target["bundle"])
-    time.sleep(1.0)
-    front = h.ax("front").get("front")
-    if front != target["bundle"]:
-        rec.update(outcome="skipped", reason=f"front={front}")
+    tpid = target.get("pid")
+    if not bring_front(h, target):
+        rec.update(outcome="skipped", reason=f"front={h.ax('front')}")
         return rec
-    h.ax("clear")
-    before = h.ax("value").get("value", "")
+    time.sleep(0.2)
+    h.ax("clear", tpid)
+    before = h.ax("value", tpid).get("value", "")
     clip_before = h.clip_digest()
     if a.device:
         toggle(a.app)
@@ -255,23 +282,33 @@ def one_take(h, a, n, target, take):
         # The test microphone plays the file from the stream start.
         time.sleep(0.35 + wav_seconds(take["wav"]))
     time.sleep(0.25)
-    rec["front_at_stop"] = h.ax("front").get("front")
+    front_now = h.ax("front")
+    rec["front_at_stop"] = front_now.get("front")
+    rec["pid_at_stop"] = front_now.get("pid")
+    if tpid and front_now.get("pid") != tpid:
+        # Someone else's window came forward during the take: never let the
+        # stop paste into it. The take is cancelled, not delivered.
+        subprocess.run([a.app, "--cancel"], capture_output=True, timeout=30)
+        rec.update(outcome="skipped", reason=f"focus moved to pid {front_now.get('pid')}; take cancelled")
+        return rec
     t_stop = time.monotonic()
     toggle(a.app)
 
     expect = norm(take["expect"])
     value, changed_at, card = before, None, False
     while time.monotonic() - t_stop < FIELD_WAIT_S:
-        value = h.ax("value").get("value", "")
+        value = h.ax("value", tpid).get("value", before)
         if norm(value) != norm(before):
             changed_at = time.monotonic()
             time.sleep(0.6)  # a duplicate paste would follow within this
-            value = h.ax("value").get("value", "")
+            value = h.ax("value", tpid).get("value", value)
             break
         if h.active_bar_height() >= CARD_MIN_H and h.active_bar_height() < 80:
             card = True
         time.sleep(0.2)
-    rec["front_at_end"] = h.ax("front").get("front")
+    end = h.ax("front")
+    rec["front_at_end"] = end.get("front")
+    rec["pid_at_end"] = end.get("pid")
     clip_after = h.clip_digest()
     count = norm(value).count(expect) if expect else 0
     if count == 1:
@@ -281,8 +318,10 @@ def one_take(h, a, n, target, take):
     elif changed_at is None and card:
         outcome = "card"
     elif changed_at is None and (
-        rec["front_at_stop"] != target["bundle"]
-        or rec["front_at_end"] != target["bundle"]
+        (rec["pid_at_end"] != tpid) if tpid else (
+            rec["front_at_stop"] != target["bundle"]
+            or rec["front_at_end"] != target["bundle"]
+        )
     ):
         outcome = "wrong_target"
     else:
@@ -292,6 +331,9 @@ def one_take(h, a, n, target, take):
         latency_ms=round((changed_at - t_stop) * 1000) if changed_at else None,
         clipboard_restored=clip_before.get("digest") == clip_after.get("digest"),
         field_chars=len(value),
+        # The field holds only this run's own dictation: kept so a lost or
+        # duplicate take can be read (and expects calibrated) afterwards.
+        value=value[:400],
     )
     return rec
 

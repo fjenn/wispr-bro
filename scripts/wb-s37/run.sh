@@ -41,7 +41,12 @@ launch() {
   [ -n "$(pid)" ] || { "$EXE" >/dev/null 2>&1 & }
   for _ in $(seq 1 60); do [ -n "$(pid)" ] && break; sleep 0.5; done
   sleep 6
-  open -a "$APP"; sleep 1
+  open -a "$APP"
+  # The Hub's window (built on demand, S-38 parking) can take several
+  # seconds to appear and load after `open`; reading it earlier finds
+  # nothing to press (Mac wave 3).
+  for _ in $(seq 1 60); do "$LESSON" "$(pid)" windows 2>/dev/null | grep -q "window 'Wispr Bro'" && break; sleep 0.5; done
+  sleep 3
   log "launched pid $(pid)"
 }
 check() {
@@ -59,19 +64,23 @@ check() {
 case "${1:-}" in
   hub)
     launch
-    drive "front; press-if Got it"
+    # What's New first, then (deferred while it was open) the one-time
+    # notifications popup: both are modal and hide the page from AX.
+    drive "front; press-if Got it; wait 1500; press-if Got it"
     for page in "Dictation" "Insights" "Dictionary" "Snippets" "Style" "Transforms" "Scratchpad" "Share with a friend"; do
       drive "press $page" || { log "FAIL cannot open $page"; FAILED=1; continue; }
       check "hub $page"
     done
-    drive "press Notifications" && check "notifications panel" && drive "key escape"
-    drive "press Help" && check "help popover" && drive "key escape"
+    # Help and Notifications are Radix menu/popover triggers (AXPopUpButton):
+    # `open` focuses them and posts Space (AXPress alone opens nothing).
+    drive "front; open Notifications" && check "notifications panel" && drive "front; key escape"
+    drive "front; open Help" && check "help popover" && drive "front; key escape"
     drive "press Settings" || { log "FAIL cannot open Settings"; exit 1; }
     for section in "General" "System" "Vibe coding" "Data and Privacy" "Advanced" "About"; do
       drive "press $section" || { log "FAIL cannot open $section"; FAILED=1; continue; }
       check "settings $section"
     done
-    drive "key escape"
+    drive "front; key escape"
     drive "press Scratchpad; press New note" && check "scratchpad window"
     # The resting bar is a native panel: it is in every reading above;
     # this row set is the bar alone after the windows closed.
@@ -79,20 +88,21 @@ case "${1:-}" in
     ;;
   onboarding)
     launch
-    drive "front; press-if Got it"
+    drive "front; press-if Got it; wait 1500; press-if Got it"
     check "onboarding welcome"
-    drive "press Continue" && check "onboarding second screen"
+    # Welcome's button is "Get started"; later screens say Continue.
+    drive "press-if Continue; press-if Get started" && check "onboarding second screen"
     ;;
   lessons)
     launch
-    drive "front; press-if Got it; press Help"
+    drive "front; press-if Got it; wait 1500; press-if Got it"
     for lesson in "Learn Transforms" "Learn to dictate quietly"; do
-      drive "press $lesson" || { log "FAIL cannot open $lesson"; FAILED=1; continue; }
+      # Help › Essentials items are Radix menu items: `item` focuses one
+      # and posts Return (AXPress does not select it).
+      drive "front; open Help; item $lesson" || { log "FAIL cannot open $lesson"; FAILED=1; continue; }
       check "lesson $lesson"
-      drive "key escape"
-      drive "press Help"
+      drive "front; key escape"
     done
-    drive "key escape"
     ;;
   prefs)
     contrast=$(defaults read com.apple.universalaccess increaseContrast 2>/dev/null || echo 0)

@@ -24,6 +24,14 @@
 //   wait <ms>             sleep
 //   pressany <title>      AXPress the first element of any role (tab, link,
 //                         row) whose title or description is <title>
+//   open <title>          open a menu or popover trigger (an AXPopUpButton such
+//                         as Help or "Notifications, 2 unread", matched by
+//                         title or description prefix): AXPress alone does
+//                         not open a Radix menu (it opens on pointer-down or a
+//                         key), so the trigger is focused and Space posted
+//                         (only while the app is frontmost; Mac wave 3)
+//   item <title>          choose an open menu's AXMenuItem: focused, then
+//                         Return (AXPress does not select a Radix item)
 //   close                 press the close button of the app's first window
 //                         that has one
 //   windows               print each window's title, position and size
@@ -150,6 +158,27 @@ for raw in args[2].split(separator: ";") {
         print("key \(rest)")
     case "wait":
         usleep(UInt32((Int(rest) ?? 0) * 1000))
+    case "open":
+        guard let b = poll(10, {
+            let r = str($0, kAXRoleAttribute)
+            let t = str($0, kAXTitleAttribute), d = str($0, kAXDescriptionAttribute)
+            return (r == kAXPopUpButtonRole as String || r == kAXMenuButtonRole as String || r == kAXButtonRole as String)
+                && (t == rest || d == rest || t.hasPrefix(rest + ",") || d.hasPrefix(rest + ","))
+        }) else { print("open \(rest): not found"); exit(4) }
+        AXUIElementPerformAction(b, kAXPressAction as CFString)
+        AXUIElementSetAttributeValue(b, kAXFocusedAttribute as CFString, kCFBooleanTrue)
+        usleep(200_000)
+        post(49, [])
+        usleep(400_000)
+        print("open \(rest)")
+    case "item":
+        guard let b = poll(5, {
+            str($0, kAXRoleAttribute) == kAXMenuItemRole as String && str($0, kAXTitleAttribute) == rest
+        }) else { print("item \(rest): not found"); exit(4) }
+        AXUIElementSetAttributeValue(b, kAXFocusedAttribute as CFString, kCFBooleanTrue)
+        usleep(200_000)
+        post(36, [])
+        print("item \(rest)")
     case "pressany":
         guard let b = poll(10, {
             str($0, kAXTitleAttribute) == rest || str($0, kAXDescriptionAttribute) == rest

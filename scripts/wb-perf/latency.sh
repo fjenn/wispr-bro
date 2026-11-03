@@ -13,6 +13,8 @@
 #                    else the main checkout's, else ~/wb-bench's upstream b11624]
 #   WB_PERF_COLD_RUNS  speech-model cold loads [5]
 #   WB_PERF_NO_LLM=1   recognizer and pipeline rows only
+#   WB_PERF_RELEASE=1  the bench built with `cargo test --release` (the
+#                    shipped optimisation level; S-38.6b), not a debug build
 # Results stay under the out dir [~/wb-bench/results/perf-<date>] (never committed).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -34,5 +36,7 @@ if [ "${WB_PERF_NO_LLM:-}" != "1" ] && [ -n "${WB_LLAMA_SERVER:-}" ]; then
 else
   unset WB_LLAMA_SERVER WB_LLM_MODEL
 fi
-(cd "$ROOT/src-tauri" && cargo test --lib fork::perf_bench -- --ignored --nocapture)
+PROFILE=()
+[ "${WB_PERF_RELEASE:-}" = "1" ] && PROFILE=(--release)
+(cd "$ROOT/src-tauri" && cargo test ${PROFILE[@]+"${PROFILE[@]}"} --lib fork::perf_bench -- --ignored --nocapture)
 bun "$ROOT/scripts/wb-perf/latency.ts" "$OUT/run.jsonl" | tee "$OUT/report.md"

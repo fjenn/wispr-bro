@@ -17,7 +17,9 @@
 // text, enabled, and the window title. A control is **named** when any of
 // AXTitle, AXDescription or its AXTitleUIElement text is non-empty (a text
 // field may also be named by AXPlaceholderValue, which VoiceOver reads;
-// recorded as `placeholder-only`). Hidden and offscreen-only web nodes are
+// recorded as `placeholder-only`). AppKit's title-bar buttons (close,
+// minimise, zoom, full screen) have neither in any app and are read by their
+// role description: recorded as `system`, not failures. Hidden and offscreen-only web nodes are
 // skipped (AXHidden, zero size).
 //
 // Exit 0: every control named. Exit 1: at least one `UNNAMED` row (they are
@@ -56,6 +58,11 @@ let controlRoles: Set<String> = [
     kAXPopUpButtonRole as String, kAXMenuButtonRole as String, kAXComboBoxRole as String,
     kAXTextFieldRole as String, kAXTextAreaRole as String, kAXSliderRole as String,
     "AXLink", kAXDisclosureTriangleRole as String, "AXTab", "AXSwitch", kAXIncrementorRole as String,
+    kAXMenuItemRole as String, // the Help and Notifications menus (Mac wave 3)
+]
+let windowButtons: Set<String> = [
+    kAXCloseButtonSubrole as String, kAXMinimizeButtonSubrole as String,
+    kAXZoomButtonSubrole as String, kAXFullScreenButtonSubrole as String,
 ]
 let textRoles: Set<String> = [kAXTextFieldRole as String, kAXTextAreaRole as String, kAXComboBoxRole as String]
 
@@ -107,8 +114,15 @@ for window in windows {
         let placeholder = str(e, kAXPlaceholderValueAttribute)
         let enabled = (attr(e, kAXEnabledAttribute) as? Bool) ?? true
         var verdict = "ok"
+        let subrole = str(e, kAXSubroleAttribute)
         if title.isEmpty && desc.isEmpty && titleUI.isEmpty {
-            if textRoles.contains(role) && !placeholder.isEmpty {
+            if windowButtons.contains(subrole) {
+                // AppKit's own title-bar buttons carry no title or
+                // description in any app (TextEdit's are the same);
+                // VoiceOver names them from the role description ("close
+                // button"). Recorded, not a failure (Mac wave 3).
+                verdict = "system"
+            } else if textRoles.contains(role) && !placeholder.isEmpty {
                 verdict = "placeholder-only"
             } else {
                 verdict = "UNNAMED"
@@ -116,7 +130,7 @@ for window in windows {
             }
         }
         let row = [
-            label, verdict, role, str(e, kAXSubroleAttribute), clean(title), clean(desc), clean(help),
+            label, verdict, role, subrole, clean(title), clean(desc), clean(help),
             clean(value, 40), clean(titleUI), enabled ? "enabled" : "disabled", windowTitle,
         ].joined(separator: "\t")
         rows.append(row)

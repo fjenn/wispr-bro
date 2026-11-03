@@ -16,9 +16,12 @@
 #   wav       make $OUT/whisper-30cm.wav (and the loud reference
 #             $OUT/whisper-ref.wav) from the lesson's English sentence
 #   starter   transcribe it on the starter (STARTER, default the English
-#             starter parakeet-tdt_ctc-110m) and grade it
+#             starter handy-computer/parakeet-tdt_ctc-110m-gguf/…-Q4_K_M.gguf)
+#             and grade it
 #   full      the same on the full model (FULL, default
-#             parakeet-unified-en-0.6b)
+#             handy-computer/parakeet-unified-en-0.6b-gguf/…-Q8_0.gguf)
+#             (`--model` takes the full catalog id that `models` prints; the
+#             short names fail with "Model not found", Mac wave 3)
 #   all       wav, starter, full; also the reference WAV on both models,
 #             so a FAIL can be told apart from a model that is not installed
 #   models    list the bundle's models (--list-models), to pick ids
@@ -28,8 +31,8 @@ set -u
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
 EXE="$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")"
-STARTER="${STARTER:-parakeet-tdt_ctc-110m}"
-FULL="${FULL:-parakeet-unified-en-0.6b}"
+STARTER="${STARTER:-handy-computer/parakeet-tdt_ctc-110m-gguf/parakeet-tdt_ctc-110m-Q4_K_M.gguf}"
+FULL="${FULL:-handy-computer/parakeet-unified-en-0.6b-gguf/parakeet-unified-en-0.6b-Q8_0.gguf}"
 GAIN_DB="${GAIN_DB:--24}"
 WAV="$OUT/whisper-30cm.wav"
 REF="$OUT/whisper-ref.wav"
