@@ -384,8 +384,9 @@ test.describe("setup checklist", () => {
   const item = (page: Page, id: string) =>
     page.getByTestId(`wb-checklist-${id}`);
 
-  // S-30's four plus S-31's "Try a Transform" (order 35).
-  test("lists the five items with progress and the next step open", async ({
+  // S-30's four plus S-31's "Try a Transform" (order 35) and S-32's "Try
+  // whispering" (order 37).
+  test("lists the six items with progress and the next step open", async ({
     page,
     ipc,
     hub,
@@ -394,9 +395,9 @@ test.describe("setup checklist", () => {
     const card = page.getByTestId("wb-checklist");
     await expect(card).toBeVisible();
     await expect(card.getByRole("heading")).toHaveText(en.checklist.title);
-    await expect(card.getByRole("listitem")).toHaveCount(5);
+    await expect(card.getByRole("listitem")).toHaveCount(6);
     await expect(page.getByTestId("wb-checklist-progress")).toHaveText(
-      "0 of 5 done",
+      "0 of 6 done",
     );
     await expect(page.getByTestId("wb-checklist-run-try_in_app")).toHaveText(
       en.checklist.items.try_in_app.action,
@@ -413,7 +414,7 @@ test.describe("setup checklist", () => {
     await expect(item(page, "add_word")).toHaveAttribute("data-done", "true");
     await ipc.expectCalled("fork_checklist_mark", { id: "add_word" });
     await expect(page.getByTestId("wb-checklist-progress")).toHaveText(
-      "1 of 5 done",
+      "1 of 6 done",
     );
     // A snippet is created elsewhere: its event re-checks.
     b.snippets = 1;
@@ -435,7 +436,7 @@ test.describe("setup checklist", () => {
     });
     await expect(item(page, "try_in_app")).toHaveAttribute("data-done", "true");
     await expect(page.getByTestId("wb-checklist-progress")).toHaveText(
-      "3 of 5 done",
+      "3 of 6 done",
     );
     // S-31's Try a Transform comes next (order 35).
     await expect(
@@ -483,6 +484,55 @@ test.describe("setup checklist", () => {
     );
   });
 
+  test("chaining only shows the next item: a lesson's row is pointed at, never opened; Open at login is never turned on", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const b = backend();
+    await open(page, ipc, hub, b, {
+      fork: {
+        ...chosen,
+        onboarding: completed(["try_in_app", "add_word"]),
+      },
+      handy: { autostart_enabled: false },
+    });
+    await page.getByTestId("wb-checklist-run-create_snippet").click();
+    await expect(page.getByTestId("wb-main")).toHaveAttribute(
+      "data-page",
+      "snippets",
+    );
+    await page.keyboard.press("Escape");
+    b.snippets = 1;
+    await ipc.emit("fork-snippets-changed", {
+      counts: { snippets: 1, uses: 0 },
+    });
+    await expect(item(page, "create_snippet")).toHaveAttribute(
+      "data-done",
+      "true",
+    );
+    // Try a Transform (a lesson) is next: its row is pointed at, the lesson
+    // does not open by itself and the page stays where the user is.
+    await expect(item(page, "try_transform")).toHaveAttribute(
+      "data-highlight",
+      "true",
+    );
+    await page.waitForTimeout(1000);
+    await expect(page.getByTestId("wb-lesson-transforms")).toHaveCount(0);
+    await expect(page.getByTestId("wb-main")).toHaveAttribute(
+      "data-page",
+      "snippets",
+    );
+    // The user's click runs it (and ends the pointing).
+    await page.getByTestId("wb-checklist-run-try_transform").click();
+    await expect(page.getByTestId("wb-lesson-transforms")).toBeVisible();
+    await expect(item(page, "try_transform")).not.toHaveAttribute(
+      "data-highlight",
+      "true",
+    );
+    expect(await ipc.calls("change_autostart_setting")).toHaveLength(0);
+  });
+
   test("Open at login turns it on and ticks", async ({ page, ipc, hub }) => {
     await open(page, ipc, hub, backend(), {
       fork: {
@@ -492,6 +542,7 @@ test.describe("setup checklist", () => {
           "add_word",
           "create_snippet",
           "try_transform",
+          "try_whisper",
         ]),
       },
       handy: { autostart_enabled: false },

@@ -11,6 +11,9 @@ export const RELEASES_URL = "https://github.com/fjenn/wispr-bro/releases";
 /** User docs: Help › Documentation (as the native Help menu, S-26a). */
 export const DOCS_URL =
   "https://github.com/fjenn/wispr-bro/tree/wispr-bro/docs/fork/user";
+/** The whisper lesson's "More about microphones" (S-32, P-1). */
+export const MICROPHONES_DOC_URL =
+  "https://github.com/fjenn/wispr-bro/blob/wispr-bro/docs/fork/user/microphones.md";
 export const LICENSE_URL =
   "https://github.com/fjenn/wispr-bro/blob/wispr-bro/LICENSE";
 /** Handy, the MIT-licensed app Wispr Bro is built on. */

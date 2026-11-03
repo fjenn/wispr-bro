@@ -2295,7 +2295,8 @@ export type ForkSettingsChanged = {
  */
 key: string; settings: ForkSettings }
 /**
- * System Settings panes the diagnoses open (local URL scheme; no host).
+ * System Settings panes the diagnoses and the whisper tips open (local URL
+ * scheme; no host).
  */
 export type ForkSettingsPane = 
 /**
@@ -2305,7 +2306,11 @@ export type ForkSettingsPane =
 /**
  * Keyboard (the "Press 🌐 key to" setting).
  */
-"keyboard"
+"keyboard" | 
+/**
+ * Sound › Input (the input volume; S-32's whisper tips).
+ */
+"sound_input"
 /**
  * Asks the Hub to open the Fix sheet (the bar's Fix, the tray item).
  */

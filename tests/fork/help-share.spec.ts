@@ -18,8 +18,9 @@ const HELP_ITEMS = [
   "shortcuts",
   "microphone",
   "languages",
-  // S-31's lessons sit before Documentation.
+  // S-31's and S-32's lessons sit before Documentation.
   "lesson-transforms",
+  "lesson-whisper",
   "documentation",
   "report-problem",
   "send-feedback",

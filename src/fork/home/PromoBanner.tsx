@@ -4,9 +4,13 @@
  * with three things to try. Built on the Hub `Banner` (S-13, C-23), whose
  * dismissal persists in `dismissed_banners`. The id is the one S-13's
  * placeholder home used, so a banner dismissed there stays dismissed.
+ * Its "Show me how" opens S-32's whisper lesson (C-29: dictating quietly
+ * around other people).
  */
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
+import { openLesson } from "../tutorials/lessonRegistry";
+import { WHISPER_LESSON } from "../tutorials/lessons/whisper";
 import { Banner } from "../ui";
 
 export const PROMO_BANNER_ID = "hub.dictation.start";
@@ -25,6 +29,11 @@ export function PromoBanner() {
         t("hub.pages.dictation.banner.examples.notes"),
         t("hub.pages.dictation.banner.examples.prompt"),
       ]}
+      action={{
+        label: t("hub.pages.dictation.banner.quiet"),
+        onClick: () => openLesson(WHISPER_LESSON, "try"),
+        testId: "wb-home-whisper",
+      }}
     />
   );
 }

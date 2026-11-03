@@ -2,8 +2,8 @@
 /**
  * A simulated app for practice steps (S-31, B-40): a drawn window (title
  * bar, the other person's last message, a real text field) where the user
- * does the real gesture (select text, press the shortcut; later lessons:
- * dictate into it). Our own drawing, no other app's look.
+ * does the real gesture (select text and press the shortcut, S-31; dictate
+ * into it, S-32). Our own drawing, no other app's look.
  *
  * `replaceSelection` writes through the editing command so the field's own
  * undo works: ⌘Z after a practice rewrite puts the original back, as it
@@ -20,7 +20,14 @@ export interface PracticeComposerProps {
   context?: string;
   /** Accessible name of the field. */
   label: string;
-  defaultValue: string;
+  /** The field's starting text (an uncontrolled field the user edits). */
+  defaultValue?: string;
+  /**
+   * The field's text when the lesson fills it (S-32: the take); the field
+   * is then read-only, the take is what is graded.
+   */
+  value?: string;
+  placeholder?: string;
   /** Drawn under the window (the bar, a spotlight). */
   children?: ReactNode;
 }
@@ -29,7 +36,16 @@ export const PracticeComposer = forwardRef<
   HTMLTextAreaElement,
   PracticeComposerProps
 >(function PracticeComposer(
-  { app, icon: Icon, context, label, defaultValue, children },
+  {
+    app,
+    icon: Icon,
+    context,
+    label,
+    defaultValue,
+    value,
+    placeholder,
+    children,
+  },
   ref,
 ) {
   return (
@@ -56,7 +72,10 @@ export const PracticeComposer = forwardRef<
           <textarea
             ref={ref}
             aria-label={label}
-            defaultValue={defaultValue}
+            {...(value !== undefined
+              ? { value, readOnly: true }
+              : { defaultValue })}
+            placeholder={placeholder}
             spellCheck={false}
             rows={4}
             className="wb-practice-field"

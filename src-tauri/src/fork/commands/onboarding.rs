@@ -166,7 +166,8 @@ pub fn fork_spotlight_state() -> crate::fork::pill::spotlight::ForkSpotlightStat
     crate::fork::pill::spotlight::state()
 }
 
-/// System Settings panes the diagnoses open (local URL scheme; no host).
+/// System Settings panes the diagnoses and the whisper tips open (local URL
+/// scheme; no host).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]
 pub enum ForkSettingsPane {
@@ -174,6 +175,8 @@ pub enum ForkSettingsPane {
     Accessibility,
     /// Keyboard (the "Press 🌐 key to" setting).
     Keyboard,
+    /// Sound › Input (the input volume; S-32's whisper tips).
+    SoundInput,
 }
 
 pub fn pane_url(pane: ForkSettingsPane) -> &'static str {
@@ -181,6 +184,9 @@ pub fn pane_url(pane: ForkSettingsPane) -> &'static str {
         ForkSettingsPane::Accessibility => crate::fork::notify::ACCESSIBILITY_PANE,
         ForkSettingsPane::Keyboard => {
             "x-apple.systempreferences:com.apple.Keyboard-Settings.extension"
+        }
+        ForkSettingsPane::SoundInput => {
+            "x-apple.systempreferences:com.apple.Sound-Settings.extension?input"
         }
     }
 }
@@ -203,7 +209,11 @@ mod tests {
 
     #[test]
     fn panes_open_only_local_settings_urls() {
-        for pane in [ForkSettingsPane::Accessibility, ForkSettingsPane::Keyboard] {
+        for pane in [
+            ForkSettingsPane::Accessibility,
+            ForkSettingsPane::Keyboard,
+            ForkSettingsPane::SoundInput,
+        ] {
             assert!(pane_url(pane).starts_with("x-apple.systempreferences:"));
         }
     }
