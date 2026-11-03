@@ -102,6 +102,44 @@ pub fn file_source_active() -> bool {
         .is_some()
 }
 
+/// The loudest chunk's mean square delivered since the last
+/// [`take_peak_level_db`] (`f32` bits; positive floats order like their
+/// bits), and whether one arrived. Added by Wispr Bro (Design W4).
+static PEAK_MEAN_SQUARE: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(0);
+static PEAK_FRESH: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// Notes one delivered chunk's level (its real frames, every channel).
+pub(crate) fn note_chunk_level(samples: &[f32]) {
+    if samples.is_empty() {
+        return;
+    }
+    let mean_square = samples.iter().map(|s| s * s).sum::<f32>() / samples.len() as f32;
+    if mean_square.is_finite() {
+        PEAK_MEAN_SQUARE.fetch_max(
+            mean_square.max(0.0).to_bits(),
+            std::sync::atomic::Ordering::Relaxed,
+        );
+        PEAK_FRESH.store(true, std::sync::atomic::Ordering::Release);
+    }
+}
+
+/// The RMS level, in dBFS, of the loudest chunk delivered to any sink
+/// since the previous call, or `None` when none was. Unlike a visualiser
+/// scale it has no ceiling, so a level meter can tell loud speech from
+/// ordinary speech. Added by Wispr Bro (Design W4).
+pub fn take_peak_level_db() -> Option<f32> {
+    if !PEAK_FRESH.swap(false, std::sync::atomic::Ordering::AcqRel) {
+        return None;
+    }
+    let mean_square =
+        f32::from_bits(PEAK_MEAN_SQUARE.swap(0, std::sync::atomic::Ordering::Relaxed));
+    Some(if mean_square > 1e-12 {
+        10.0 * mean_square.log10()
+    } else {
+        -120.0
+    })
+}
+
 fn selected_backend() -> Arc<dyn Backend> {
     match FILE_SOURCE
         .lock()
@@ -246,3 +284,19 @@ const _: () = {
     assert_send::<StartError<CollectingSink>>();
     assert_send::<Error>();
 };
+
+/// Added by Wispr Bro (Design W4).
+#[cfg(test)]
+mod level_tap_tests {
+    #[test]
+    fn the_peak_level_has_no_ceiling() {
+        // Other tests deliver quieter audio meanwhile; the loudest wins.
+        super::note_chunk_level(&[0.01; 64]);
+        super::note_chunk_level(&[1.0, -1.0, 1.0, -1.0]);
+        let db = super::take_peak_level_db().expect("a level");
+        assert!(db > -0.1 && db <= 0.01, "{db}");
+        super::note_chunk_level(&[0.1; 32]);
+        let db = super::take_peak_level_db().expect("a level");
+        assert!(db > -20.1, "{db}");
+    }
+}

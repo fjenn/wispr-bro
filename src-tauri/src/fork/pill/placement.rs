@@ -21,7 +21,7 @@
 //!   always kept inside the visible frame (a side Dock never covers it).
 //! - Positions are rounded to the display's pixel grid.
 
-use super::geometry::EDGE_GAP;
+use super::geometry::{Shape, EDGE_GAP, REST_HIT_PAD_X, REST_HIT_PAD_Y};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Rect {
@@ -150,6 +150,32 @@ pub fn frame(anchor: &Anchor, size: (f64, f64)) -> Rect {
     Rect::new(snap(x, anchor.scale), snap(y, anchor.scale), w, h)
 }
 
+/// The native bar's window and the capsule it draws (in window
+/// coordinates, y up) for a capsule of `capsule` size at `anchor`.
+///
+/// The capsule sits where the web view's capsule sits for the same size
+/// (its edge on the anchor, centred, kept on screen), so the two hand over
+/// without a jump. The window is the capsule plus the resting bar's hit
+/// area ([`REST_HIT_PAD_X`] / [`REST_HIT_PAD_Y`] around the 38 × 6 line),
+/// so the thin resting bar stays easy to hover and click, and is never
+/// smaller than that area while a morph passes through it.
+pub fn native_frame(anchor: &Anchor, capsule: (f64, f64)) -> (Rect, Rect) {
+    let c = frame(anchor, capsule);
+    let rest = frame(anchor, Shape::Rest.size());
+    let hit = Rect::new(
+        rest.x - REST_HIT_PAD_X,
+        rest.y - REST_HIT_PAD_Y,
+        rest.w + 2.0 * REST_HIT_PAD_X,
+        rest.h + 2.0 * REST_HIT_PAD_Y,
+    );
+    let x = c.x.min(hit.x);
+    let y = c.y.min(hit.y);
+    let w = c.max_x().max(hit.max_x()) - x;
+    let h = c.max_y().max(hit.max_y()) - y;
+    let window = Rect::new(x, y, w, h);
+    (window, Rect::new(c.x - x, c.y - y, c.w, c.h))
+}
+
 /// The drag position to remember for a bar whose centre is at `centre_x`.
 pub fn x_frac(screen: &Screen, centre_x: f64) -> f64 {
     let b = screen.visible;
@@ -210,7 +236,6 @@ pub fn display_key(name: &str, frame: &Rect) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::fork::pill::geometry::Shape;
 
     /// MacBook Pro 14" (1512 × 982 pt at 2x), notch: 38 pt menu bar.
     fn builtin(dock: Dock) -> Screen {
@@ -259,7 +284,7 @@ mod tests {
         let s = builtin(Dock::Bottom(70.0));
         let a = anchor(&s, Edge::Bottom, None, false);
         let r = rest(&a);
-        assert_eq!(r, Rect::new(726.0, 70.0 + EDGE_GAP, 60.0, 12.0));
+        assert_eq!(r, Rect::new(737.0, 70.0 + EDGE_GAP, 38.0, 6.0));
         // Every shape shares the bottom edge and the centre.
         for shape in Shape::ALL {
             let f = frame(&a, shape.size());
@@ -331,7 +356,7 @@ mod tests {
         let ext = external();
         let a = anchor(&ext, Edge::Bottom, None, false);
         let r = rest(&a);
-        assert_eq!(r, Rect::new(1512.0 + 930.0, -98.0 + EDGE_GAP, 60.0, 12.0));
+        assert_eq!(r, Rect::new(1512.0 + 941.0, -98.0 + EDGE_GAP, 38.0, 6.0));
         // A position that falls between pixels: whole points at 1x, half
         // points at 2x.
         let odd = Shape::Held.size();
@@ -339,13 +364,13 @@ mod tests {
             centre_x: 2000.3,
             ..a
         };
-        assert_eq!(frame(&a1, odd).x, 1944.0);
+        assert_eq!(frame(&a1, odd).x, 1964.0);
         let b = anchor(&builtin(Dock::Bottom(70.0)), Edge::Bottom, None, false);
         let b1 = Anchor {
             centre_x: 700.3,
             ..b
         };
-        assert_eq!(frame(&b1, odd).x, 644.5);
+        assert_eq!(frame(&b1, odd).x, 664.5);
     }
 
     #[test]
@@ -397,6 +422,32 @@ mod tests {
         let a = anchor(&s, Edge::Bottom, Some(1.0), false);
         let r = frame(&a, Shape::Message.size());
         assert_eq!(r.max_x(), 1512.0);
+    }
+
+    #[test]
+    fn the_native_bar_draws_where_the_web_capsule_sits() {
+        for edge in [Edge::Bottom, Edge::Top] {
+            let a = anchor(&builtin(Dock::Bottom(70.0)), edge, None, false);
+            // At rest: a hit area around the 38 × 6 line, the line centred.
+            let (win, cap) = native_frame(&a, Shape::Rest.size());
+            assert_eq!((win.w, win.h), (38.0 + 16.0, 6.0 + 12.0), "{edge:?}");
+            assert_eq!((cap.x, cap.y, cap.w, cap.h), (8.0, 6.0, 38.0, 6.0));
+            let line = rest(&a);
+            assert_eq!((win.x + cap.x, win.y + cap.y), (line.x, line.y));
+            // Active: the capsule is exactly the web view's capsule.
+            for shape in Shape::ALL {
+                let (win, cap) = native_frame(&a, shape.capsule());
+                let web = frame(&a, shape.capsule());
+                assert_eq!(
+                    (win.x + cap.x, win.y + cap.y, cap.w, cap.h),
+                    (web.x, web.y, web.w, web.h),
+                    "{shape:?} {edge:?}"
+                );
+                // The window covers the capsule and the hit area.
+                assert!(win.w >= cap.w && win.h >= cap.h);
+                assert!(win.h <= cap.h.max(6.0) + 6.0 + 6.0, "{shape:?}");
+            }
+        }
     }
 
     #[test]

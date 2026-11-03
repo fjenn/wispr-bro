@@ -1,74 +1,36 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Held (push to talk) and hands-free: the waveform, with the microphone
- * name for the first 1.5 s or a "stops soon" warning in its place.
- * Hands-free adds ✕ (cancel) and ✓ (finish) around it.
+ * Held (push to talk) and hands-free: the waveform; hands-free adds ✕
+ * (cancel, a dark disc) and ✓ (finish, a white disc) around it. The
+ * microphone name, "Sends automatically" and warnings float above the
+ * capsule in the label pill (`Label.tsx`); screen readers hear them here,
+ * in the capsule's status line.
  */
 import { useTranslation } from "react-i18next";
 import { commands, type ForkPillState } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
 import { usePillLevels } from "../usePill";
-import { CheckIcon, CloseIcon, MicIcon, ReturnIcon } from "./icons";
-import { SecureInputNotice, secureInputText } from "./SecureInput";
+import { CheckIcon, CloseIcon } from "./icons";
+import type { BarLabelContent } from "./Label";
+import { Waveform } from "./Waveform";
 
-function Waveform({ bars }: { bars: number[] }) {
-  return (
-    <div className="wb-pill-wave" data-testid="wb-pill-wave" aria-hidden>
-      {bars.map((v, i) => (
-        <i
-          key={i}
-          style={{
-            height: `${Math.round(Math.max(3, Math.min(18, 3 + Math.pow(v, 0.7) * 15)))}px`,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-export function Listening({ state }: { state: ForkPillState }) {
+export function Listening({
+  state,
+  label,
+}: {
+  state: ForkPillState;
+  label: BarLabelContent | null;
+}) {
   const { t } = useTranslation(FORK_NAMESPACE);
-  const bars = usePillLevels(true);
+  const levels = usePillLevels(true);
   const locked = state.phase === "locked";
-  // S-19a: "Sends automatically" takes the microphone name's place.
-  const secure = state.warning === "secure_input";
-  const label = secure
-    ? secureInputText(state, t)
-    : state.warning
-      ? t(`pill.warning.${state.warning}`)
-      : state.sends_automatically
-        ? t("pill.sendsAutomatically")
-        : state.mic
-          ? t("pill.mic", { name: state.mic })
-          : null;
-
-  const middle = secure ? (
-    <SecureInputNotice state={state} />
-  ) : label ? (
-    <span
-      className={`wb-pill-label${state.warning ? " wb-pill-warning" : ""}`}
-      data-testid={
-        state.warning
-          ? "wb-pill-warning"
-          : state.sends_automatically
-            ? "wb-pill-sends"
-            : "wb-pill-mic"
-      }
-    >
-      {!state.warning &&
-        (state.sends_automatically ? <ReturnIcon /> : <MicIcon />)}
-      <span className="wb-pill-text">{label}</span>
-    </span>
-  ) : (
-    <Waveform bars={bars} />
-  );
 
   return (
-    <>
+    <div className="wb-pill-listening" data-locked={locked || undefined}>
       {locked && (
         <button
           type="button"
-          className="wb-pill-btn wb-pill-cancel"
+          className="wb-pill-disc wb-pill-cancel"
           data-testid="wb-pill-cancel"
           aria-label={t("pill.cancel")}
           title={t("pill.cancel")}
@@ -78,13 +40,13 @@ export function Listening({ state }: { state: ForkPillState }) {
         </button>
       )}
       <span className="wb-pill-middle" role="status" aria-live="polite">
-        <span className="wb-sr-only">{label ?? t("pill.listening")}</span>
-        {middle}
+        <span className="wb-sr-only">{label?.text ?? t("pill.listening")}</span>
+        <Waveform levels={levels} />
       </span>
       {locked && (
         <button
           type="button"
-          className="wb-pill-btn wb-pill-finish"
+          className="wb-pill-disc wb-pill-finish"
           data-testid="wb-pill-finish"
           aria-label={t("pill.finish")}
           title={t("pill.finish")}
@@ -93,6 +55,6 @@ export function Listening({ state }: { state: ForkPillState }) {
           <CheckIcon />
         </button>
       )}
-    </>
+    </div>
   );
 }

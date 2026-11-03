@@ -542,6 +542,8 @@ fn deliver<S: Sink>(active: &mut Active<S>, samples: &[f32], valid: usize, forma
         channels: format.1,
         valid_frames: valid,
     };
+    // Added by Wispr Bro (Design W4): an uncapped level for the bar.
+    crate::note_chunk_level(&samples[..(valid * format.1 as usize).min(samples.len())]);
     let sink = &mut active.sink;
     match catch_unwind(AssertUnwindSafe(|| sink.process_chunk(chunk))) {
         Ok(()) => {

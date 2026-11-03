@@ -5,6 +5,8 @@
 Writes <wav> and <wav>.json with the segment times.
 
 usage: make-wav.py <out.wav>
+       SPEECH_PEAK=0.15 make-wav.py <out.wav>   (speech peak, default 0.6;
+       Design W4's waveform check compares an ordinary and a loud take)
 """
 import json
 import math
@@ -47,7 +49,7 @@ def cafe(n):
     return out
 
 
-gain = 0.6 / max(abs(s) for s in speech)
+gain = float(os.environ.get("SPEECH_PEAK", "0.6")) / max(abs(s) for s in speech)
 pre = cafe(SR * 4)
 voiced = [a + b * gain for a, b in zip(cafe(len(speech)), speech)]
 post = cafe(SR * 3)

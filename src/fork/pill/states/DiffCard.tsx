@@ -1,4 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+/**
+ * S-22's word diff on the bar (Design W4 restyle): a dark card with the
+ * change count, Configure and ✕ on top, the words (deletions struck on a
+ * grey chip, insertions on a teal chip), and four outline actions: Copy,
+ * thumbs up, thumbs down, Retry.
+ */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -19,6 +25,12 @@ export function DiffCard({ state }: { state: ForkPillState }) {
   const [retrying, setRetrying] = useState(false);
   const value = state.diff;
   if (!value) return null;
+  const copyLabel = state.copied
+    ? t("transforms.diff.copied")
+    : t("transforms.diff.copy");
+  const retryLabel = retrying
+    ? t("transforms.diff.retrying")
+    : t("transforms.diff.retry");
   const retry = async () => {
     setRetrying(true);
     await commands.forkPillAction("retry_diff");
@@ -41,7 +53,7 @@ export function DiffCard({ state }: { state: ForkPillState }) {
         </button>
         <button
           type="button"
-          className="wb-pill-btn"
+          className="wb-pill-disc wb-pill-dismiss"
           onClick={() => void commands.forkPillAction("dismiss")}
           aria-label={t("pill.dismiss")}
           title={t("pill.dismiss")}
@@ -56,32 +68,19 @@ export function DiffCard({ state }: { state: ForkPillState }) {
       <div className="wb-pill-diff-actions">
         <button
           type="button"
-          className="wb-pill-fix"
+          className="wb-pill-icon-btn"
           onClick={() => void commands.forkPillAction("copy_diff")}
+          aria-label={copyLabel}
+          title={copyLabel}
+          data-copied={state.copied || undefined}
           data-testid="wb-pill-diff-copy"
         >
           {state.copied ? (
-            <Check size={14} aria-hidden="true" />
+            <Check size={18} aria-hidden="true" />
           ) : (
-            <Clipboard size={14} aria-hidden="true" />
+            <Clipboard size={18} aria-hidden="true" />
           )}
-          {state.copied
-            ? t("transforms.diff.copied")
-            : t("transforms.diff.copy")}
         </button>
-        <button
-          type="button"
-          className="wb-pill-diff-link"
-          disabled={retrying}
-          onClick={() => void retry()}
-          data-testid="wb-pill-diff-retry"
-        >
-          <RotateCcw size={14} aria-hidden="true" />
-          {retrying
-            ? t("transforms.diff.retrying")
-            : t("transforms.diff.retry")}
-        </button>
-        <span className="wb-pill-diff-spacer" />
         {([1, -1] as const).map((rating) => {
           const Icon = rating === 1 ? ThumbsUp : ThumbsDown;
           const label = t(
@@ -91,7 +90,7 @@ export function DiffCard({ state }: { state: ForkPillState }) {
             <button
               key={rating}
               type="button"
-              className="wb-pill-btn"
+              className="wb-pill-icon-btn"
               aria-label={label}
               title={label}
               aria-pressed={value.run.rating === rating}
@@ -102,10 +101,21 @@ export function DiffCard({ state }: { state: ForkPillState }) {
                 rating === 1 ? "wb-pill-diff-good" : "wb-pill-diff-bad"
               }
             >
-              <Icon size={14} aria-hidden="true" />
+              <Icon size={18} aria-hidden="true" />
             </button>
           );
         })}
+        <button
+          type="button"
+          className="wb-pill-icon-btn"
+          disabled={retrying}
+          aria-label={retryLabel}
+          title={retryLabel}
+          onClick={() => void retry()}
+          data-testid="wb-pill-diff-retry"
+        >
+          <RotateCcw size={18} aria-hidden="true" />
+        </button>
       </div>
     </div>
   );

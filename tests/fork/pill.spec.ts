@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // S-03: the `fork-pill` web view (the active Flow Bar) with a mocked
 // backend: every state in light and dark, reduced motion, the ready
-// handshake, the buttons, the waveform, RTL and axe. The resting bar is
+// handshake, the buttons, the waveform, RTL and axe. Design W4: the
+// capsule and label geometry, the morphs and their ready timing. The resting bar is
 // native (src-tauri/src/fork/pill/native.rs) and is checked on the real Mac
 // (docs/fork/MAC-TEST-SCRIPT.md, S-03).
 //
@@ -21,7 +22,12 @@ const geometry = JSON.parse(
     new URL("../../src/fork/pill/geometry.gen.json", import.meta.url),
     "utf8",
   ),
-) as { bars: number; shapes: Record<ForkPillState["shape"], Size> };
+) as {
+  bars: number;
+  shapes: Record<ForkPillState["shape"], Size>;
+  capsules: Record<ForkPillState["shape"], Size>;
+  label: { h: number; gap: number };
+};
 const shotsDir = process.env.WB_SHOTS_DIR;
 
 test.use({ ipcSetup: { windowLabel: "fork-pill" } });
@@ -44,6 +50,9 @@ function state(partial: Partial<ForkPillState>): ForkPillState {
     sends_automatically: false,
     context: false,
     diff: null,
+    holder: null,
+    top: false,
+    grown_at_unix_ms: null,
     ...partial,
   };
 }
@@ -221,13 +230,41 @@ test.describe("states", () => {
       const box = await pill.boundingBox();
       expect(box?.width).toBe(geometry.shapes[s.shape].w);
       expect(box?.height).toBe(geometry.shapes[s.shape].h);
-      // Nothing overflows the capsule.
+      // The capsule has its own size, on the window's bottom edge.
+      const capsule = await page.getByTestId("wb-pill-capsule").boundingBox();
+      expect(capsule?.width).toBe(geometry.capsules[s.shape].w);
+      expect(capsule?.height).toBe(geometry.capsules[s.shape].h);
+      expect(capsule!.y + capsule!.height).toBe(box!.y + box!.height);
+      // Nothing overflows the window or the capsule's content.
       const overflow = await pill.evaluate(
         (el) => el.scrollWidth > el.clientWidth + 1,
       );
       expect(overflow).toBe(false);
+      const content = await page
+        .locator(".wb-pill-content")
+        .evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+      expect(content).toBe(false);
     });
   }
+
+  test("Design W4: the bar has Wispr Flow's proportions", async () => {
+    expect(geometry.shapes.rest).toEqual({ w: 38, h: 6 });
+    expect(geometry.shapes.held).toEqual({ w: 72, h: 30 });
+    expect(geometry.shapes.locked).toEqual({ w: 100, h: 30 });
+    expect(geometry.label.h).toBe(34);
+  });
+
+  test("bar text is 15 px on a black capsule", async ({ page, ipc }) => {
+    await openPill(page, ipc, STATES.noSpeech);
+    await expect(page.locator(".wb-pill-message .wb-pill-text")).toHaveCSS(
+      "font-size",
+      "15px",
+    );
+    await expect(page.getByTestId("wb-pill-capsule")).toHaveCSS(
+      "background-color",
+      "rgb(0, 0, 0)",
+    );
+  });
 
   test("held shows the waveform and no buttons", async ({ page, ipc }) => {
     await openPill(page, ipc, STATES.held);
@@ -236,17 +273,44 @@ test.describe("states", () => {
     await expect(page.getByTestId("wb-pill-finish")).toHaveCount(0);
   });
 
-  test("the mic label and warnings take the waveform's place", async ({
+  test("the mic label floats above the capsule; warnings take its place", async ({
     page,
     ipc,
   }) => {
     await openPill(page, ipc, STATES.lockedMic);
-    await expect(page.getByTestId("wb-pill-mic")).toHaveText(
+    const label = page.getByTestId("wb-pill-mic");
+    await expect(label).toHaveText("Mic: MacBook Pro Microphone");
+    // The waveform keeps going under the label.
+    await expect(page.getByTestId("wb-pill-wave")).toBeVisible();
+    await expect(label).toHaveCSS("font-size", "15px");
+    await expect
+      .poll(async () => (await label.boundingBox())?.height)
+      .toBe(geometry.label.h);
+    const l = (await label.boundingBox())!;
+    const c = (await page.getByTestId("wb-pill-capsule").boundingBox())!;
+    expect(Math.round(c.y - (l.y + l.height))).toBe(geometry.label.gap);
+    expect(Math.round(l.x + l.width / 2)).toBe(Math.round(c.x + c.width / 2));
+    await expect(page.getByRole("status")).toContainText(
       "Mic: MacBook Pro Microphone",
     );
-    await expect(page.getByTestId("wb-pill-wave")).toHaveCount(0);
     await ipc.emit("fork-pill-state", { ...STATES.lockedSilence, seq: 2 });
     await expect(page.getByTestId("wb-pill-warning")).toBeVisible();
+    await expect(page.getByTestId("wb-pill-mic")).toHaveCount(0);
+  });
+
+  test("at the top of the display the label hangs below", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, { ...STATES.heldMic, top: true });
+    const label = page.getByTestId("wb-pill-mic");
+    await expect
+      .poll(async () => (await label.boundingBox())?.height)
+      .toBe(geometry.label.h);
+    const l = (await label.boundingBox())!;
+    const c = (await page.getByTestId("wb-pill-capsule").boundingBox())!;
+    expect(c.y).toBe(0);
+    expect(Math.round(l.y - (c.y + c.height))).toBe(geometry.label.gap);
   });
 
   test("S-19a: Sends automatically takes the mic label's place", async ({
@@ -258,7 +322,9 @@ test.describe("states", () => {
       "Sends automatically",
     );
     await expect(page.getByTestId("wb-pill-mic")).toHaveCount(0);
-    await expect(page.getByRole("status")).toContainText("Sends automatically");
+    await expect(page.getByRole("status").first()).toContainText(
+      "Sends automatically",
+    );
   });
 
   test("messages use the shared Rust strings", async ({ page, ipc }) => {
@@ -319,6 +385,85 @@ test.describe("backend handshake", () => {
       "locked",
     );
     await ipc.expectCalled("fork_pill_ready", { seq: 1 });
+  });
+});
+
+test.describe("Design W4 morphs", () => {
+  const capsuleWidth = (page: Page) =>
+    page
+      .getByTestId("wb-pill-capsule")
+      .evaluate((el) => el.getBoundingClientRect().width);
+
+  test("a shrink plays before the state is reported painted", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, STATES.heldMic);
+    await ipc.expectCalled("fork_pill_ready", { seq: 1 });
+    await ipc.waitForListener("fork-pill-state");
+    await ipc.clearCalls();
+    // The label goes: the window will shrink from 72 to 30 high.
+    await ipc.emit("fork-pill-state", { ...STATES.held, seq: 2 });
+    await page.waitForTimeout(120);
+    expect(
+      (await ipc.calls("fork_pill_ready")).filter(
+        (c) => (c.args as { seq?: number }).seq === 2,
+      ),
+    ).toHaveLength(0);
+    await ipc.expectCalled("fork_pill_ready", { seq: 2 });
+    await expect(page.getByTestId("wb-pill-mic")).toHaveCount(0);
+  });
+
+  test("a grow is reported at once and the capsule springs to size", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, STATES.held);
+    await ipc.waitForListener("fork-pill-state");
+    await ipc.clearCalls();
+    await ipc.emit("fork-pill-state", { ...STATES.locked, seq: 2 });
+    await ipc.expectCalled("fork_pill_ready", { seq: 2 });
+    await expect
+      .poll(() => capsuleWidth(page))
+      .toBeCloseTo(geometry.capsules.locked.w, 0);
+  });
+
+  test("a page that paints mid-grow continues the bridge's curve", async ({
+    page,
+    ipc,
+  }) => {
+    await openPill(page, ipc, null);
+    await ipc.waitForListener("fork-pill-state");
+    await ipc.emit("fork-pill-state", {
+      ...STATES.locked,
+      grown_at_unix_ms: await page.evaluate(() => Date.now()),
+    });
+    // It starts between the resting line and the full capsule …
+    const first = await capsuleWidth(page);
+    expect(first).toBeGreaterThanOrEqual(geometry.shapes.rest.w);
+    expect(first).toBeLessThan(geometry.capsules.locked.w);
+    // … and settles on the full size.
+    await expect
+      .poll(() => capsuleWidth(page))
+      .toBeCloseTo(geometry.capsules.locked.w, 0);
+  });
+
+  test("Reduce Motion: sizes change at once, no shrink delay", async ({
+    page,
+    ipc,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await openPill(page, ipc, null);
+    await ipc.waitForListener("fork-pill-state");
+    await ipc.emit("fork-pill-state", {
+      ...STATES.locked,
+      grown_at_unix_ms: await page.evaluate(() => Date.now()),
+    });
+    await expect(page.getByTestId("wb-pill-capsule")).toBeVisible();
+    expect(await capsuleWidth(page)).toBe(geometry.capsules.locked.w);
+    await ipc.emit("fork-pill-state", { ...STATES.lockedMic, seq: 2 });
+    await ipc.emit("fork-pill-state", { ...STATES.locked, seq: 3 });
+    await ipc.expectCalled("fork_pill_ready", { seq: 3 });
   });
 });
 
@@ -391,35 +536,63 @@ test.describe("buttons", () => {
   });
 });
 
-test("the waveform follows the mic levels", async ({ page, ipc }) => {
+test("the waveform: a dotted line, then centred bars on the voice", async ({
+  page,
+  ipc,
+}) => {
   await openPill(page, ipc, STATES.held);
   await ipc.waitForListener("fork-pill-levels");
+  const wave = page.getByTestId("wb-pill-wave");
   const heights = () =>
-    page
-      .getByTestId("wb-pill-wave")
+    wave
       .locator("i")
-      .evaluateAll((bars) => bars.map((b) => (b as HTMLElement).offsetHeight));
+      .evaluateAll((bars) =>
+        bars.map((b) => (b as HTMLElement).getBoundingClientRect().height),
+      );
   const quiet = await heights();
   expect(quiet).toHaveLength(geometry.bars);
-  expect(Math.max(...quiet)).toBeLessThanOrEqual(3);
+  expect(Math.max(...quiet)).toBeLessThanOrEqual(2);
+  await expect(wave).toHaveAttribute("data-state", "idle");
   for (let i = 0; i < 8; i++) {
     await ipc.emit("fork-pill-levels", { bars: Array(geometry.bars).fill(1) });
     await page.waitForTimeout(30);
   }
+  await expect(wave).toHaveAttribute("data-state", "audio");
   await expect
     .poll(async () => Math.min(...(await heights())))
-    .toBeGreaterThan(12);
+    .toBeGreaterThan(7);
+  const loud = await heights();
+  // Centre-weighted: the middle bar stands tallest.
+  const mid = Math.floor(geometry.bars / 2);
+  expect(loud[mid]).toBeGreaterThan(12);
+  expect(loud[mid]).toBeGreaterThan(loud[0]);
+  // Silence: back down to the dotted line.
+  for (let i = 0; i < 12; i++) {
+    await ipc.emit("fork-pill-levels", { bars: Array(geometry.bars).fill(0) });
+    await page.waitForTimeout(30);
+  }
+  await expect.poll(async () => Math.max(...(await heights()))).toBeLessThan(3);
 });
 
 test.describe("reduced motion", () => {
-  test("processing dots and bar easing are stills", async ({ page, ipc }) => {
+  test("the processing spinner and bar easing are stills", async ({
+    page,
+    ipc,
+  }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await openPill(page, ipc, STATES.transcribing);
-    const dot = page.locator(".wb-pill-dots i").first();
-    await expect(dot).toHaveCSS("animation-name", "none");
+    const spinner = page.locator(".wb-pill-spinner");
+    await expect(spinner).toHaveCSS("animation-name", "none");
     await ipc.emit("fork-pill-state", { ...STATES.held, seq: 2 });
     const bar = page.getByTestId("wb-pill-wave").locator("i").first();
-    await expect(bar).toHaveCSS("transition-duration", "0s");
+    // The global Reduce Motion rule (tokens.css) leaves 0.01 ms.
+    await expect
+      .poll(async () =>
+        parseFloat(
+          await bar.evaluate((el) => getComputedStyle(el).transitionDuration),
+        ),
+      )
+      .toBeLessThan(0.001);
   });
 
   // One test per state and theme (S-38): the single loop over all 48 page
@@ -447,25 +620,50 @@ test.describe("reduced motion", () => {
         const serious = results.violations.filter(
           (v) => v.impact === "serious" || v.impact === "critical",
         );
-        expect(serious.map((v) => `${theme} ${name}: ${v.id}`)).toEqual([]);
+        expect(
+          serious.map(
+            (v) =>
+              `${theme} ${name}: ${v.id} ${v.nodes.map((n) => n.target.join(" ") + " " + n.failureSummary).join(" | ")}`,
+          ),
+        ).toEqual([]);
       });
     }
   }
 });
 
-test("dark mode lightens the capsule", async ({ page, ipc }) => {
-  const bg = async () =>
-    page
-      .getByTestId("wb-pill")
-      .evaluate((el) => getComputedStyle(el).backgroundColor);
+test("an opaque black capsule in both themes; no halo in light", async ({
+  page,
+  ipc,
+}) => {
+  const capsule = () => page.getByTestId("wb-pill-capsule");
+  const style = () =>
+    capsule().evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { bg: s.backgroundColor, edge: s.boxShadow };
+    });
   await page.emulateMedia({ colorScheme: "light" });
   await openPill(page, ipc, STATES.held);
-  // Under load the pill stylesheet can land after the first paint: wait for
-  // the light token (pill.css `--wb-pill-light-bg`) before comparing.
-  const light = "rgba(24, 24, 27, 0.92)";
-  await expect.poll(bg).toBe(light);
+  await expect.poll(style).toEqual({ bg: "rgb(0, 0, 0)", edge: "none" });
   await page.emulateMedia({ colorScheme: "dark" });
-  await expect.poll(bg).not.toBe(light);
+  // Dark: the same black, with a faint hairline to find it on black.
+  await expect.poll(async () => (await style()).bg).toBe("rgb(0, 0, 0)");
+  await expect.poll(async () => (await style()).edge).not.toBe("none");
+});
+
+test("hands-free: a dark ✕ disc and a white ✓ disc", async ({ page, ipc }) => {
+  await openPill(page, ipc, STATES.locked);
+  await expect(page.getByTestId("wb-pill-finish")).toHaveCSS(
+    "background-color",
+    "rgb(255, 255, 255)",
+  );
+  await expect(page.getByTestId("wb-pill-cancel")).toHaveCSS(
+    "background-color",
+    "rgb(48, 48, 47)",
+  );
+  for (const id of ["wb-pill-cancel", "wb-pill-finish"]) {
+    const b = (await page.getByTestId(id).boundingBox())!;
+    expect([b.width, b.height]).toEqual([18, 18]);
+  }
 });
 
 test("RTL locales mirror the hands-free buttons", async ({ page, ipc }) => {
@@ -593,9 +791,9 @@ test.describe("screenshots", () => {
         if (s.phase === "held" || s.phase === "locked") {
           await ipc.waitForListener("fork-pill-levels");
           await ipc.emit("fork-pill-levels", {
-            bars: [0.2, 0.5, 0.9, 0.6, 0.8, 0.4, 0.7, 0.3, 0.15],
+            bars: [0.95, 0.8, 0.85, 0.6, 0.7, 0.5, 0.45, 0.35, 0.3, 0.2, 0.15],
           });
-          await page.waitForTimeout(120);
+          await page.waitForTimeout(300);
         }
         await page.screenshot({
           path: path.join(shotsDir!, `pill-${theme}-${name}.png`),

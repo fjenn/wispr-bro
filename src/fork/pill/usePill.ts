@@ -5,11 +5,13 @@
  * - State: `ForkPillState` events, plus `fork_pill_snapshot` once the
  *   listener is in place (the page may load after the take started). A
  *   lower `seq` never replaces a higher one.
- * - Ready: after each state is painted (two animation frames), the page
- *   reports its `seq` with `fork_pill_ready`; the window shows or resizes
- *   only then.
- * - Levels: `ForkPillLevels` (≤ 30 per second while a take shows),
- *   smoothed like Handy's overlay waveform.
+ * - Ready: after each state is painted, the page reports its `seq` with
+ *   `fork_pill_ready` (`useReportPainted`); the window shows or resizes only
+ *   then. A state that makes the window smaller is reported once the
+ *   capsule has shrunk into the new size (Design W4 morphs).
+ * - Levels: `ForkPillLevels` (≤ 30 per second while a take shows), kept in
+ *   a ref the waveform reads every animation frame (no React render per
+ *   frame).
  */
 import { useEffect, useRef, useState } from "react";
 import type { UnlistenFn } from "@tauri-apps/api/event";
@@ -52,48 +54,59 @@ export function usePillState(): ForkPillState | null {
     };
   }, []);
 
-  // Report each painted state.
+  return state;
+}
+
+/**
+ * Reports `seq` with `fork_pill_ready` once the page has painted it: after
+ * two animation frames, or after `delayMs` when the page first plays a
+ * shrink into a smaller window.
+ */
+export function useReportPainted(seq: number | null, delayMs: number): void {
   useEffect(() => {
-    if (!state) return;
-    const seq = state.seq;
+    if (seq == null) return;
     let second = 0;
+    let timer = 0;
+    const report = () => void commands.forkPillReady(seq);
     const first = requestAnimationFrame(() => {
       second = requestAnimationFrame(() => {
-        void commands.forkPillReady(seq);
+        if (delayMs > 0) timer = window.setTimeout(report, delayMs);
+        else report();
       });
     });
     return () => {
       cancelAnimationFrame(first);
       cancelAnimationFrame(second);
+      window.clearTimeout(timer);
     };
-  }, [state]);
-
-  return state;
+  }, [seq, delayMs]);
 }
 
-/** Smoothed waveform bars (0..1). */
-export function usePillLevels(active: boolean): number[] {
-  const [bars, setBars] = useState<number[]>(() => Array(BARS).fill(0));
-  const smoothed = useRef<number[]>(Array(BARS).fill(0));
+/** The latest waveform frame (0..1 per bar) and whether audio has come. */
+export type LevelStore = { bars: number[]; heard: boolean };
+
+/**
+ * The backend's waveform frames, in a ref. The backend already shapes the
+ * bars (noise floor, loudness, attack and release:
+ * `fork::pill::levels::Waveform`); the waveform animates toward them.
+ */
+export function usePillLevels(active: boolean): {
+  current: LevelStore;
+} {
+  const store = useRef<LevelStore>({ bars: Array(BARS).fill(0), heard: false });
 
   useEffect(() => {
-    if (!active) {
-      smoothed.current = Array(BARS).fill(0);
-      setBars(smoothed.current);
-      return;
-    }
+    store.current = { bars: Array(BARS).fill(0), heard: false };
+    if (!active) return;
     let alive = true;
     let off: UnlistenFn | null = null;
     void events.forkPillLevels
       .listen((event) => {
-        // The backend already shapes the bars (noise floor, attack and
-        // release: `fork::pill::levels::Waveform`); only a light blend here.
-        const next = smoothed.current.map((prev, i) => {
-          const target = event.payload.bars[i] ?? 0;
-          return prev * 0.2 + target * 0.8;
+        const bars = Array.from({ length: BARS }, (_, i) => {
+          const v = event.payload.bars[i] ?? 0;
+          return Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 0;
         });
-        smoothed.current = next;
-        setBars(next);
+        store.current = { bars, heard: true };
       })
       .then((unlisten) => {
         if (alive) off = unlisten;
@@ -105,5 +118,5 @@ export function usePillLevels(active: boolean): number[] {
     };
   }, [active]);
 
-  return bars;
+  return store;
 }

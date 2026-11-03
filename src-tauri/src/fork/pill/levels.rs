@@ -14,6 +14,17 @@
 //! gives each bar the mic meter's dynamics ([`crate::fork::audio::dynamics`]):
 //! its own noise floor (noise differs per frequency), a gain that lets
 //! speech fill the bar, fast attack and smooth release.
+//!
+//! Handy's mapping also caps each bucket at its ceiling, so every syllable
+//! of ordinary speech pinned the bars at the top and loud speech looked the
+//! same (Design W4). The recorder (vendored, `take_peak_level_db`) reports
+//! the uncapped RMS of the audio behind each frame. With it, each bar is
+//! first stretched over the headroom Handy's scale really leaves above
+//! that bar's noise floor (in a café only ~6 dB, so speech filled at most
+//! ~3/4 of the old bar), then scaled by the loudness's own [`Dynamics`]
+//! (a floor and a wider span): Handy's buckets say where and when there is
+//! speech, the uncapped level says how loud. Ordinary speech reaches most
+//! of the bar and only loud speech the top.
 
 use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -33,6 +44,17 @@ const HANDY_CURVE: f32 = 0.7;
 const WAVE_SPAN_DB: f32 = 9.0;
 /// Fluctuation of steady noise that still reads flat (Handy's dB).
 const WAVE_KNEE_DB: f32 = 1.5;
+/// Loudness (uncapped RMS, dBFS) fills its scale over this many dB above
+/// its floor + [`LOUD_KNEE_DB`]: ordinary speech in a café is 12-18 dB over
+/// the hum, a raised voice 25 or more.
+const LOUD_SPAN_DB: f32 = 24.0;
+const LOUD_KNEE_DB: f32 = 4.5;
+/// The bars' height at the bottom of the loudness scale (they still need
+/// Handy's buckets above the noise to show at all).
+const LOUD_BASE: f32 = 0.55;
+/// A floor this close to Handy's ceiling leaves no headroom worth
+/// stretching (the room is louder than speech on that scale).
+const MIN_REACH: f32 = 0.3;
 /// A gap longer than this between level frames starts a new take.
 pub const RESET_GAP_MS: u64 = 400;
 
@@ -50,6 +72,10 @@ pub fn handy_db(v: f32) -> f32 {
 pub struct Waveform {
     bars: Vec<Dynamics>,
     last_ms: Option<u64>,
+    /// Broadband loudness from the recorder's uncapped level.
+    loud: Dynamics,
+    loud_ms: Option<u64>,
+    loudness: Option<f32>,
 }
 
 impl Default for Waveform {
@@ -57,13 +83,17 @@ impl Default for Waveform {
         Self {
             bars: vec![Dynamics::new(WAVE_SPAN_DB, WAVE_KNEE_DB); BARS],
             last_ms: None,
+            loud: Dynamics::new(LOUD_SPAN_DB, LOUD_KNEE_DB),
+            loud_ms: None,
+            loudness: None,
         }
     }
 }
 
 impl Waveform {
-    /// Feeds one frame of Handy's levels at `now_ms`; returns the bars.
-    pub fn push(&mut self, levels: &[f32], now_ms: u64) -> Vec<f32> {
+    /// Feeds one frame of Handy's levels at `now_ms`, with the recorder's
+    /// uncapped level when one arrived (`loud_db`, dBFS); returns the bars.
+    pub fn push(&mut self, levels: &[f32], now_ms: u64, loud_db: Option<f32>) -> Vec<f32> {
         let dt = match self.last_ms {
             Some(last) if now_ms.saturating_sub(last) <= RESET_GAP_MS => {
                 now_ms.saturating_sub(last) as f32
@@ -75,11 +105,35 @@ impl Waveform {
             None => 0.0,
         };
         self.last_ms = Some(now_ms);
+        if let Some(db) = loud_db {
+            let dt = self
+                .loud_ms
+                .map(|last| now_ms.saturating_sub(last) as f32)
+                .unwrap_or(0.0);
+            self.loud_ms = Some(now_ms);
+            self.loudness = Some(self.loud.push(db, dt));
+        }
+        // Without the recorder's level (tests, another source) the bars
+        // keep Handy's capped scale.
+        let scale = self
+            .loudness
+            .map(|l| LOUD_BASE + (1.0 - LOUD_BASE) * l)
+            .unwrap_or(1.0);
+        let stretch = self.loudness.is_some();
         let raw = bars(levels);
         self.bars
             .iter_mut()
             .zip(raw)
-            .map(|(d, v)| d.push(handy_db(v), dt))
+            .map(|(d, v)| {
+                let level = d.push(handy_db(v), dt);
+                if !stretch {
+                    return level;
+                }
+                // The most this bar can show under Handy's ceiling.
+                let x = (handy_db(1.0) - d.floor() - WAVE_KNEE_DB) / WAVE_SPAN_DB;
+                let reach = 1.0 - (1.0 - x.clamp(0.0, 1.0)).powi(2);
+                (level / reach.max(MIN_REACH)).min(1.0) * scale
+            })
             .collect()
     }
 }
@@ -138,7 +192,8 @@ mod tests {
         assert_eq!(b[0], 0.0);
         assert_eq!(b[5], 0.5);
         // Clamped to 0..1.
-        assert_eq!(b[BARS - 1], 0.8);
+        assert_eq!(b[BARS - 1], 1.0);
+        assert_eq!(b[8], 0.8);
         assert_eq!(bars(&[2.0, -1.0, f32::NAN])[..3], [1.0, 0.0, 0.0]);
         // Short input pads with silence.
         assert_eq!(bars(&[]), vec![0.0; BARS]);
@@ -182,7 +237,7 @@ mod tests {
         let mut last = Vec::new();
         for _ in 0..90 {
             t += 32;
-            last = w.push(&hum(), t);
+            last = w.push(&hum(), t, None);
         }
         assert!(last.iter().all(|b| *b < 0.05), "flat on hum: {last:?}");
         // Speech: buckets 12-16 dB over the hum, different per bar.
@@ -199,7 +254,7 @@ mod tests {
                     })
                 })
                 .collect();
-            for (p, v) in peak.iter_mut().zip(w.push(&frame, t)) {
+            for (p, v) in peak.iter_mut().zip(w.push(&frame, t, None)) {
                 *p = p.max(v);
             }
         }
@@ -210,7 +265,7 @@ mod tests {
         // A pause: back down within ~0.5 s.
         for _ in 0..16 {
             t += 32;
-            last = w.push(&hum(), t);
+            last = w.push(&hum(), t, None);
         }
         assert!(last.iter().all(|b| *b < 0.15), "{last:?}");
     }
@@ -223,7 +278,7 @@ mod tests {
         let loud = vec![handy_value(-39.0); 16];
         for _ in 0..100 {
             t += 32;
-            w.push(&loud, t);
+            w.push(&loud, t, None);
         }
         // Take 2, seconds later, in a quiet room: its speech must show, so
         // take 1's floor is forgotten.
@@ -231,15 +286,57 @@ mod tests {
         let quiet = vec![handy_value(-52.0); 16];
         for _ in 0..20 {
             t += 32;
-            w.push(&quiet, t);
+            w.push(&quiet, t, None);
         }
         let speech = vec![handy_value(-42.0); 16];
         let mut peak = 0.0f32;
         for _ in 0..5 {
             t += 32;
-            peak = peak.max(w.push(&speech, t)[0]);
+            peak = peak.max(w.push(&speech, t, None)[0]);
         }
         assert!(peak > 0.5, "{peak}");
+    }
+
+    /// Design W4: Handy's buckets are capped, so ordinary and loud speech
+    /// both pin them; the recorder's uncapped level tells them apart.
+    #[test]
+    fn loud_speech_reaches_higher_than_ordinary_speech() {
+        let peak_for = |speech_db: f32| {
+            let mut w = Waveform::default();
+            let mut t = 0u64;
+            // A second of café hum: buckets at -45, RMS at -42 dBFS.
+            for _ in 0..32 {
+                t += 32;
+                w.push(&[handy_value(-45.0); 16], t, Some(-42.0));
+            }
+            // Syllables: every bucket past Handy's ceiling.
+            let mut peak = 0.0f32;
+            for i in 0..30u64 {
+                t += 32;
+                let syllable = i % 5 < 3;
+                let (bucket, rms) = if syllable {
+                    (-30.0, speech_db)
+                } else {
+                    (-44.0, -41.0)
+                };
+                let frame = w.push(&[handy_value(bucket); 16], t, Some(rms));
+                peak = peak.max(frame.iter().copied().fold(0.0, f32::max));
+            }
+            peak
+        };
+        let ordinary = peak_for(-27.0);
+        let loud = peak_for(-14.0);
+        assert!(ordinary > 0.72, "ordinary speech fills most: {ordinary}");
+        assert!(ordinary < 0.88, "but not the top: {ordinary}");
+        assert!(loud > 0.9, "loud speech nears the top: {loud}");
+        assert!(loud - ordinary > 0.08, "{ordinary} vs {loud}");
+        // Hum alone stays flat with the loudness scale too.
+        let mut w = Waveform::default();
+        let mut last = vec![];
+        for i in 0..60u64 {
+            last = w.push(&[handy_value(-45.0); 16], 1_000 + i * 32, Some(-42.0));
+        }
+        assert!(last.iter().all(|b| *b < 0.05), "{last:?}");
     }
 
     #[test]

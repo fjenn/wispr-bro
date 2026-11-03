@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * The bar spotlight's page (S-30, A-16): the whole display dimmed except a
- * rounded cut-out around the Flow Bar, a soft ring on the cut-out, and the
- * hint beside it (above the bar at the bottom, below it at the top):
+ * The bar spotlight's page (S-30, A-16; Design W4): the whole display
+ * dimmed except a circular cut-out around the Flow Bar, and the hint in the
+ * bar's own style (a black HUD card) beside it, above the circle at the
+ * bottom, below it at the top:
  * "Next step · Open your email", how to dictate, and "Press Esc to close
  * this hint". The window ignores the mouse (every click reaches the app
  * below), so the page has no buttons.
@@ -19,7 +20,7 @@ import { FORK_NAMESPACE } from "../i18n";
 import { howKey } from "../onboarding/firstUseStore";
 
 /** Gap between the cut-out and the hint card. */
-const HINT_GAP = 14;
+const HINT_GAP = 12;
 
 function newer(
   prev: ForkSpotlightState | null,
@@ -73,7 +74,7 @@ export function Spotlight() {
   }
   const hole = state.hole;
   const bottom = state.edge === "bottom";
-  const radius = hole.h / 2;
+  const radius = Math.min(hole.w, hole.h) / 2;
   const hintStyle = bottom
     ? { bottom: `calc(100% - ${hole.y - HINT_GAP}px)` }
     : { top: `${hole.y + hole.h + HINT_GAP}px` };
@@ -94,12 +95,10 @@ export function Spotlight() {
         <defs>
           <mask id="wb-spotlight-hole">
             <rect width="100%" height="100%" fill="white" />
-            <rect
-              x={hole.x}
-              y={hole.y}
-              width={hole.w}
-              height={hole.h}
-              rx={radius}
+            <circle
+              cx={hole.x + hole.w / 2}
+              cy={hole.y + hole.h / 2}
+              r={radius}
               fill="black"
             />
           </mask>
@@ -110,12 +109,10 @@ export function Spotlight() {
           className="wb-spotlight-shade"
           mask="url(#wb-spotlight-hole)"
         />
-        <rect
-          x={hole.x}
-          y={hole.y}
-          width={hole.w}
-          height={hole.h}
-          rx={radius}
+        <circle
+          cx={hole.x + hole.w / 2}
+          cy={hole.y + hole.h / 2}
+          r={radius}
           className="wb-spotlight-ring"
           data-testid="wb-spotlight-hole"
         />

@@ -11,9 +11,14 @@
 //! The panel: a borderless, non-activating `NSPanel` subclass that can never
 //! become key or main, at the status level, on every Space and over
 //! full-screen apps, `hidesOnDeactivate` off (R5 §4.9; no private API,
-//! DEC-28). Its one view draws a thin capsule; on hover (a native tracking
-//! area, which fires while another app is active: RS-03) it grows into a
-//! bubble with the localized hint. A Dictate click starts hands-free
+//! DEC-28). Its one view draws a thin opaque capsule (Design W4: 38 × 6 pt,
+//! inside a slightly larger hit area); on hover (a native tracking area,
+//! which fires while another app is active: RS-03) it grows into a black
+//! bubble with the localized hint. Every size change runs on the bar's
+//! spring (`geometry::spring`, the web view's `SPRING.bar`), except under
+//! Reduce Motion: the bridge grows out of the resting line when a take
+//! starts, and the resting line grows back out of the last active capsule
+//! when the take ends. A Dictate click starts hands-free
 //! dictation; the optional S-24 group adds a Scratchpad button beside it,
 //! without taking focus from the frontmost app (`acceptsFirstMouse`, the
 //! panel never activates the app); right-click offers "Hide for an hour";
@@ -103,7 +108,27 @@ pub struct ViewIvars {
     anchor: Cell<Option<Anchor>>,
     screen: RefCell<Option<Screen>>,
     drag: RefCell<Option<Drag>>,
+    /// Design W4: the capsule drawn now, the size it is heading for, and
+    /// the running spring morph between them (`geometry::spring`).
+    shown: Cell<(f64, f64)>,
+    target: Cell<(f64, f64)>,
+    morph: Cell<Option<Morph>>,
+    /// Where the capsule sits inside the window (window coordinates).
+    capsule: Cell<NSRect>,
+    /// The take's appearance time (Unix ms): the bridge's grow out of the
+    /// resting line starts there, the same clock the web view continues.
+    grown_at: Cell<Option<u64>>,
+    tick_pending: Cell<bool>,
     on_event: Callback,
+}
+
+/// A size morph on the bar's spring.
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct Morph {
+    from: (f64, f64),
+    to: (f64, f64),
+    /// Start, Unix ms (fractional).
+    t0: f64,
 }
 
 /// A drag starts after this many points of horizontal movement.
@@ -306,6 +331,12 @@ define_class!(
             (self.ivars().on_event)(NativeEvent::HideForAnHour);
         }
 
+        #[unsafe(method(morphTick:))]
+        fn morph_tick(&self, _sender: Option<&AnyObject>) {
+            self.ivars().tick_pending.set(false);
+            self.relayout();
+        }
+
         #[unsafe(method(dictateSlot:))]
         fn dictate_slot(&self, _sender: Option<&AnyObject>) {
             (self.ivars().on_event)(NativeEvent::Click);
@@ -385,6 +416,12 @@ impl RestingView {
             anchor: Cell::new(None),
             screen: RefCell::new(None),
             drag: RefCell::new(None),
+            shown: Cell::new(Shape::Rest.size()),
+            target: Cell::new(Shape::Rest.size()),
+            morph: Cell::new(None),
+            capsule: Cell::new(NSRect::ZERO),
+            grown_at: Cell::new(None),
+            tick_pending: Cell::new(false),
             on_event,
         });
         // SAFETY: NSView's designated initializer.
@@ -421,9 +458,11 @@ impl RestingView {
         };
         let enabled = self.ivars().scratchpad_enabled.get();
         let half = slots::GROUP_WIDTH / 2.0;
+        // On the capsule, which sits inside the hit area (`native_frame`).
+        let origin = self.ivars().capsule.get().origin;
         for (button, x) in [(&buttons.0, 0.0), (&buttons.1, half)] {
             button.setFrame(NSRect::new(
-                NSPoint::new(x, 0.0),
+                NSPoint::new(origin.x + x, origin.y),
                 NSSize::new(half, slots::GROUP_HEIGHT),
             ));
             button.setHidden(!enabled);
@@ -465,10 +504,10 @@ impl RestingView {
         }
     }
 
-    /// The size this view wants now (points).
-    fn current_size(&self) -> (f64, f64) {
+    /// The capsule this view is heading for (points).
+    fn target_size(&self) -> (f64, f64) {
         match self.ivars().mode.get() {
-            Mode::Bridge(shape) => shape.size(),
+            Mode::Bridge(shape) => shape.capsule(),
             Mode::Rest if self.ivars().scratchpad_enabled.get() => {
                 (slots::GROUP_WIDTH, slots::GROUP_HEIGHT)
             }
@@ -483,19 +522,78 @@ impl RestingView {
         }
     }
 
-    /// Resizes the window around the anchor and redraws.
+    /// The width the bar takes for dragging (its target, not a frame of a
+    /// morph).
+    fn current_size(&self) -> (f64, f64) {
+        self.target_size()
+    }
+
+    /// Starts the morph to `to` from what is drawn now, at `t0` (Unix ms).
+    fn start_morph(&self, to: (f64, f64), t0: f64) {
+        let from = self.ivars().shown.get();
+        self.ivars().target.set(to);
+        if reduce_motion() || from == to {
+            self.ivars().morph.set(None);
+            self.ivars().shown.set(to);
+        } else {
+            self.ivars().morph.set(Some(Morph { from, to, t0 }));
+        }
+    }
+
+    /// Resizes the window around the anchor (following the running morph)
+    /// and redraws.
     fn relayout(&self) {
+        let target = self.target_size();
+        if target != self.ivars().target.get() {
+            // The bridge grows from the take's appearance time, so a web
+            // view that paints mid-way continues the same curve.
+            let t0 = match (self.ivars().mode.get(), self.ivars().grown_at.get()) {
+                (Mode::Bridge(_), Some(at)) => (at as f64).min(now_ms()),
+                _ => now_ms(),
+            };
+            self.start_morph(target, t0);
+        }
+        let shown = match self.ivars().morph.get() {
+            Some(m) => {
+                let t = now_ms() - m.t0;
+                if t >= geometry::MORPH_MS {
+                    self.ivars().morph.set(None);
+                    m.to
+                } else {
+                    geometry::morph(m.from, m.to, t)
+                }
+            }
+            None => target,
+        };
+        self.ivars().shown.set(shown);
         let Some(anchor) = self.ivars().anchor.get() else {
             return;
         };
-        let r = placement::frame(&anchor, self.current_size());
+        let (win, cap) = placement::native_frame(&anchor, shown);
+        let capsule = NSRect::new(NSPoint::new(cap.x, cap.y), NSSize::new(cap.w, cap.h));
+        if self.ivars().capsule.replace(capsule) != capsule {
+            self.layout_slot_buttons();
+        }
         if let Some(window) = self.window() {
-            let target = NSRect::new(NSPoint::new(r.x, r.y), NSSize::new(r.w, r.h));
+            let target = NSRect::new(NSPoint::new(win.x, win.y), NSSize::new(win.w, win.h));
             if window.frame() != target {
                 window.setFrame_display(target, true);
             }
         }
         self.setNeedsDisplay(true);
+        if self.ivars().morph.get().is_some() && !self.ivars().tick_pending.replace(true) {
+            // SAFETY: `morphTick:` is defined on this class with the
+            // one-object-argument signature; the run loop retains the view
+            // until the call.
+            unsafe {
+                let _: () = msg_send![
+                    self,
+                    performSelector: sel!(morphTick:),
+                    withObject: std::ptr::null::<AnyObject>(),
+                    afterDelay: 1.0f64 / 120.0
+                ];
+            }
+        }
     }
 
     fn is_dark(&self) -> bool {
@@ -508,65 +606,178 @@ impl RestingView {
     }
 
     fn draw(&self) {
-        let bounds = self.bounds();
-        let dark = self.is_dark();
-        let rect = NSRect::new(
-            NSPoint::new(bounds.origin.x + 0.5, bounds.origin.y + 0.5),
-            NSSize::new(bounds.size.width - 1.0, bounds.size.height - 1.0),
-        );
-        let radius = rect.size.height / 2.0;
-        let path = NSBezierPath::bezierPathWithRoundedRect_xRadius_yRadius(rect, radius, radius);
-        // A dark capsule in both themes (it sits over any app); in dark mode
-        // a lighter fill and a stronger edge keep it visible on dark windows.
-        let (fill, edge) = if dark {
-            (
-                rgba(44.0, 44.0, 48.0, 0.94),
-                rgba(255.0, 255.0, 255.0, 0.32),
-            )
-        } else {
-            (
-                rgba(24.0, 24.0, 27.0, 0.88),
-                rgba(255.0, 255.0, 255.0, 0.55),
-            )
-        };
-        fill.setFill();
+        let cap = self.ivars().capsule.get();
+        if cap.size.width <= 0.0 || cap.size.height <= 0.0 {
+            return;
+        }
+        let (w, h) = (cap.size.width, cap.size.height);
+        let radius = capsule_radius(h);
+        let path = NSBezierPath::bezierPathWithRoundedRect_xRadius_yRadius(cap, radius, radius);
+        // Design W4: an opaque black capsule in both themes, no white edge
+        // (the old 55 % edge read as a halo on light windows). The resting
+        // line is a touch translucent, like the reference, and turns fully
+        // opaque as it grows. In dark mode a faint hairline keeps it findable
+        // on black windows.
+        let grown =
+            ((h - geometry::REST_H) / (geometry::ACTIVE_H - geometry::REST_H)).clamp(0.0, 1.0);
+        rgba(0.0, 0.0, 0.0, 0.82 + 0.18 * grown).setFill();
         path.fill();
-        edge.setStroke();
-        path.setLineWidth(1.0);
-        path.stroke();
+        if self.is_dark() {
+            let inset = NSRect::new(
+                NSPoint::new(cap.origin.x + 0.25, cap.origin.y + 0.25),
+                NSSize::new(w - 0.5, h - 0.5),
+            );
+            let r = (radius - 0.25).max(0.0);
+            let edge = NSBezierPath::bezierPathWithRoundedRect_xRadius_yRadius(inset, r, r);
+            rgba(255.0, 255.0, 255.0, 0.12).setStroke();
+            edge.setLineWidth(0.5);
+            edge.stroke();
+        }
 
+        // Content fades in over the second half of a morph.
+        let content = match self.ivars().morph.get() {
+            Some(m) => {
+                let (p, _) = geometry::spring(now_ms() - m.t0);
+                ((p - 0.5) / 0.5).clamp(0.0, 1.0)
+            }
+            None => 1.0,
+        };
+        if content <= 0.0 {
+            return;
+        }
         match self.ivars().mode.get() {
             Mode::Rest if self.ivars().hover.get() => {
                 let hint = self.hover_text();
                 let size = text_size(&hint);
-                let x = bounds.origin.x + (bounds.size.width - size.width) / 2.0;
-                let y = bounds.origin.y + (bounds.size.height - size.height) / 2.0;
-                draw_text(&hint, NSPoint::new(x.max(geometry::HOVER_PAD_X / 2.0), y));
+                let x = cap.origin.x + (w - size.width) / 2.0;
+                let y = cap.origin.y + (h - size.height) / 2.0;
+                draw_text(
+                    &hint,
+                    NSPoint::new(x.max(cap.origin.x + geometry::HOVER_PAD_X / 2.0), y),
+                    content,
+                );
             }
             Mode::Rest if self.ivars().scratchpad_enabled.get() => {
-                rgba(255.0, 255.0, 255.0, 0.24).setFill();
+                rgba(255.0, 255.0, 255.0, 0.24 * content).setFill();
                 NSBezierPath::bezierPathWithRect(NSRect::new(
-                    NSPoint::new(bounds.size.width / 2.0, 7.0),
-                    NSSize::new(1.0, bounds.size.height - 14.0),
+                    NSPoint::new(cap.origin.x + w / 2.0, cap.origin.y + 7.0),
+                    NSSize::new(1.0, (h - 14.0).max(0.0)),
                 ))
                 .fill();
             }
-            Mode::Bridge(_) => {
-                // Three quiet dots: the take has started, the waveform loads.
-                let dot = 4.0;
-                let gap = 5.0;
-                let total = 3.0 * dot + 2.0 * gap;
-                let mut x = bounds.origin.x + (bounds.size.width - total) / 2.0;
-                let y = bounds.origin.y + (bounds.size.height - dot) / 2.0;
-                rgba(255.0, 255.0, 255.0, 0.85).setFill();
-                for _ in 0..3 {
-                    let r = NSRect::new(NSPoint::new(x, y), NSSize::new(dot, dot));
-                    NSBezierPath::bezierPathWithOvalInRect(r).fill();
-                    x += dot + gap;
-                }
-            }
+            Mode::Bridge(shape) => draw_bridge(shape, cap, content),
             Mode::Rest => {}
         }
+    }
+}
+
+/// Corner radius of a capsule `h` high: round ends, the cards 18 pt (the
+/// web view's `capsuleRadius`; continuous, so a morph never jumps).
+fn capsule_radius(h: f64) -> f64 {
+    (h / 2.0).min(18.0)
+}
+
+/// The bridge's content while the web view loads, laid out like the web
+/// view's (`pill.css`) so the hand-over does not move anything: the dotted
+/// idle waveform, and for hands-free the ✕ (dark) and ✓ (white) discs.
+fn draw_bridge(shape: Shape, cap: NSRect, alpha: f64) {
+    let (x0, y0, w, h) = (cap.origin.x, cap.origin.y, cap.size.width, cap.size.height);
+    let mid_y = y0 + h / 2.0;
+    match shape {
+        Shape::Held
+        | Shape::HeldLabel
+        | Shape::HeldNotice
+        | Shape::Locked
+        | Shape::LockedLabel
+        | Shape::LockedNotice => {
+            // Dotted line: one 2 pt dot per bar, 4.5 pt apart.
+            let n = geometry::BARS as f64;
+            let total = n * WAVE_BAR + (n - 1.0) * WAVE_GAP;
+            let mut x = x0 + (w - total) / 2.0;
+            rgba(255.0, 255.0, 255.0, 0.55 * alpha).setFill();
+            for _ in 0..geometry::BARS {
+                let r = NSRect::new(NSPoint::new(x, mid_y - 1.0), NSSize::new(2.0, 2.0));
+                NSBezierPath::bezierPathWithOvalInRect(r).fill();
+                x += WAVE_BAR + WAVE_GAP;
+            }
+            if shape.capsule() == Shape::Locked.size() {
+                let d = BUTTON_D;
+                let cancel = NSRect::new(
+                    NSPoint::new(x0 + BUTTON_INSET, mid_y - d / 2.0),
+                    NSSize::new(d, d),
+                );
+                let finish = NSRect::new(
+                    NSPoint::new(x0 + w - BUTTON_INSET - d, mid_y - d / 2.0),
+                    NSSize::new(d, d),
+                );
+                rgba(48.0, 48.0, 47.0, alpha).setFill();
+                NSBezierPath::bezierPathWithOvalInRect(cancel).fill();
+                rgba(255.0, 255.0, 255.0, alpha).setFill();
+                NSBezierPath::bezierPathWithOvalInRect(finish).fill();
+                // ✕: two 7 pt strokes; ✓: a short and a long stroke.
+                let cross = NSBezierPath::bezierPath();
+                let (cx, cy) = (cancel.origin.x + d / 2.0, mid_y);
+                cross.moveToPoint(NSPoint::new(cx - 3.5, cy - 3.5));
+                cross.lineToPoint(NSPoint::new(cx + 3.5, cy + 3.5));
+                cross.moveToPoint(NSPoint::new(cx - 3.5, cy + 3.5));
+                cross.lineToPoint(NSPoint::new(cx + 3.5, cy - 3.5));
+                cross.setLineWidth(1.6);
+                cross.setLineCapStyle(objc2_app_kit::NSLineCapStyle::Round);
+                rgba(255.0, 255.0, 255.0, alpha).setStroke();
+                cross.stroke();
+                let check = NSBezierPath::bezierPath();
+                let (kx, ky) = (finish.origin.x + d / 2.0, mid_y);
+                check.moveToPoint(NSPoint::new(kx - 4.0, ky + 0.2));
+                check.lineToPoint(NSPoint::new(kx - 1.2, ky - 2.6));
+                check.lineToPoint(NSPoint::new(kx + 4.0, ky + 3.0));
+                check.setLineWidth(1.8);
+                check.setLineCapStyle(objc2_app_kit::NSLineCapStyle::Round);
+                check.setLineJoinStyle(objc2_app_kit::NSLineJoinStyle::Round);
+                rgba(0.0, 0.0, 0.0, alpha).setStroke();
+                check.stroke();
+            }
+        }
+        _ => {
+            // Three quiet dots: the bar has something to say, the page loads.
+            let dot = 4.0;
+            let gap = 5.0;
+            let total = 3.0 * dot + 2.0 * gap;
+            let mut x = x0 + (w - total) / 2.0;
+            let y = mid_y - dot / 2.0;
+            rgba(255.0, 255.0, 255.0, 0.85 * alpha).setFill();
+            for _ in 0..3 {
+                let r = NSRect::new(NSPoint::new(x, y), NSSize::new(dot, dot));
+                NSBezierPath::bezierPathWithOvalInRect(r).fill();
+                x += dot + gap;
+            }
+        }
+    }
+}
+
+/// Waveform bar width and gap (pt), as in `pill.css`.
+const WAVE_BAR: f64 = 2.0;
+const WAVE_GAP: f64 = 2.5;
+/// Hands-free ✕ / ✓ disc diameter and inset from the capsule's ends.
+const BUTTON_D: f64 = 18.0;
+const BUTTON_INSET: f64 = 6.0;
+
+/// Wall-clock milliseconds (the clock the web view's morph shares).
+fn now_ms() -> f64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs_f64() * 1000.0)
+        .unwrap_or(0.0)
+}
+
+/// macOS Reduce Motion: sizes change at once.
+fn reduce_motion() -> bool {
+    // SAFETY: plain class and property getters on NSWorkspace.
+    unsafe {
+        let ws: *mut AnyObject = msg_send![objc2::class!(NSWorkspace), sharedWorkspace];
+        if ws.is_null() {
+            return false;
+        }
+        msg_send![ws, accessibilityDisplayShouldReduceMotion]
     }
 }
 
@@ -581,7 +792,7 @@ fn slot_button(
     button.setBordered(false);
     // SAFETY: medium system font and a light title over the dark capsule.
     button.setFont(Some(unsafe {
-        &NSFont::systemFontOfSize_weight(geometry::HOVER_FONT, NSFontWeightMedium)
+        &NSFont::systemFontOfSize_weight(SLOT_FONT, NSFontWeightMedium)
     }));
     // SAFETY: target and action use the RestingView methods defined above;
     // the view owns these buttons and outlives their callbacks.
@@ -594,14 +805,18 @@ fn slot_button(
     button
 }
 
+/// The grouped bar's two labels share a 184 pt capsule: a point smaller
+/// than the bar's 15 pt text so longer translations fit.
+const SLOT_FONT: f64 = 14.0;
+
 fn rgba(r: f64, g: f64, b: f64, a: f64) -> Retained<NSColor> {
     NSColor::colorWithSRGBRed_green_blue_alpha(r / 255.0, g / 255.0, b / 255.0, a)
 }
 
-fn text_attributes() -> Retained<NSDictionary<NSString, AnyObject>> {
+fn text_attributes(alpha: f64) -> Retained<NSDictionary<NSString, AnyObject>> {
     // SAFETY: plain class methods and framework constants.
     let font = unsafe { NSFont::systemFontOfSize_weight(geometry::HOVER_FONT, NSFontWeightMedium) };
-    let color = NSColor::colorWithSRGBRed_green_blue_alpha(1.0, 1.0, 1.0, 0.96);
+    let color = NSColor::colorWithSRGBRed_green_blue_alpha(1.0, 1.0, 1.0, alpha);
     let keys: [&NSString; 2] = unsafe { [NSFontAttributeName, NSForegroundColorAttributeName] };
     let values: [&AnyObject; 2] = [&font, &color];
     NSDictionary::from_slices(&keys, &values)
@@ -609,14 +824,14 @@ fn text_attributes() -> Retained<NSDictionary<NSString, AnyObject>> {
 
 fn text_size(text: &str) -> NSSize {
     let s = NSString::from_str(text);
-    let attrs = text_attributes();
+    let attrs = text_attributes(1.0);
     // SAFETY: `-[NSString sizeWithAttributes:]` (NSStringDrawing).
     unsafe { msg_send![&*s, sizeWithAttributes: &*attrs] }
 }
 
-fn draw_text(text: &str, at: NSPoint) {
+fn draw_text(text: &str, at: NSPoint, alpha: f64) {
     let s = NSString::from_str(text);
-    let attrs = text_attributes();
+    let attrs = text_attributes(alpha);
     // SAFETY: `-[NSString drawAtPoint:withAttributes:]` inside `drawRect:`.
     unsafe {
         let _: () = msg_send![&*s, drawAtPoint: at, withAttributes: &*attrs];
@@ -725,8 +940,30 @@ impl Resting {
         }
     }
 
+    /// The take's appearance time (Unix ms), for the bridge's grow.
+    pub fn set_grown_at(&self, at: Option<u64>) {
+        self.view.ivars().grown_at.set(at);
+    }
+
+    /// The bar comes back after the web view showed a `capsule`-sized
+    /// capsule: the next morph starts from that size (the take's end
+    /// shrinks back into the resting line).
+    pub fn morph_from(&self, capsule: (f64, f64)) {
+        if !self.panel.isVisible() {
+            self.view.ivars().morph.set(None);
+            self.view.ivars().shown.set(capsule);
+            self.view.ivars().target.set(capsule);
+        }
+    }
+
     pub fn set_mode(&self, mode: Mode) {
         if self.view.ivars().mode.get() != mode {
+            if matches!(mode, Mode::Bridge(_)) && !self.panel.isVisible() {
+                // A bar that was hidden grows from the resting line too.
+                self.view.ivars().morph.set(None);
+                self.view.ivars().shown.set(Shape::Rest.size());
+                self.view.ivars().target.set(Shape::Rest.size());
+            }
             self.view.ivars().mode.set(mode);
             if mode != Mode::Rest {
                 self.view.ivars().hover.set(false);

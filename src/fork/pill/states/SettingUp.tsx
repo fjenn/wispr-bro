@@ -44,7 +44,7 @@ export function SettingUp({ state }: { state: ForkPillState }) {
   return (
     <>
       <span
-        className="wb-pill-working wb-pill-setup"
+        className="wb-pill-setup"
         role="status"
         aria-live="polite"
         data-testid="wb-pill-setup"
@@ -57,7 +57,7 @@ export function SettingUp({ state }: { state: ForkPillState }) {
       </span>
       <button
         type="button"
-        className="wb-pill-btn wb-pill-dismiss"
+        className="wb-pill-disc wb-pill-dismiss"
         data-testid="wb-pill-dismiss"
         aria-label={t("pill.dismiss")}
         title={t("pill.dismiss")}

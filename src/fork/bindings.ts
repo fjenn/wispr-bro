@@ -2075,7 +2075,7 @@ export type ForkPillState = {
  */
 seq: number; phase: PillPhase; shape: Shape; 
 /**
- * The microphone name (first 1.5 s of a take).
+ * The microphone name (first 2 s of a take).
  */
 mic: string | null; message: PillMessage | null; tone: PillTone | null; fix: PillFix | null; warning: PillWarning | null; 
 /**
@@ -2118,7 +2118,20 @@ diff: ForkTransformDiff | null;
  * S-02: the app holding Secure Input (with the `secure_input`
  * warning), when known.
  */
-holder: string | null }
+holder: string | null; 
+/**
+ * Design W4: the bar rests at the top of the display, so a label pill
+ * goes below the capsule instead of above it.
+ */
+top: boolean; 
+/**
+ * Design W4: when (Unix ms) the bar started growing out of the resting
+ * line for this appearance. The native bridge runs that morph on
+ * `geometry::spring`; a page that paints within it continues the same
+ * curve, so the hand-over is seamless. `None` in tests and snapshots
+ * without an appearance.
+ */
+grown_at_unix_ms: number | null }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
@@ -3279,7 +3292,7 @@ export type Shape =
  */
 "held" | 
 /**
- * Held, with the microphone name for its first 1.5 s.
+ * Held, with the microphone name for its first 2 s.
  */
 "held_label" | 
 /**

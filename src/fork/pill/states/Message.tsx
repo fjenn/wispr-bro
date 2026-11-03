@@ -53,7 +53,7 @@ export function Message({ state }: { state: ForkPillState }) {
       )}
       <button
         type="button"
-        className="wb-pill-btn wb-pill-dismiss"
+        className="wb-pill-disc wb-pill-dismiss"
         data-testid="wb-pill-dismiss"
         aria-label={t("pill.dismiss")}
         title={t("pill.dismiss")}

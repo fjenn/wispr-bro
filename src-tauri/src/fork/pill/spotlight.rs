@@ -45,10 +45,11 @@ pub const CHOICES: &[&str] = &[
 /// The spotlight gives up after ten minutes (a user who walked away does
 /// not come back to a dimmed screen for the rest of the day).
 pub const MAX_MS: u64 = 10 * 60 * 1000;
-/// The cut-out around the bar, in points: room for the active bar
-/// ("Transcribing…" is 208 pt) with a margin.
-pub const HOLE_W: f64 = 248.0;
-pub const HOLE_H: f64 = 64.0;
+/// The circular cut-out around the bar (Design W4: about 220 pt, as in the
+/// reference), in points: the active bar, the label pill above it and a
+/// margin. Centred on the active capsule; it may run past the display's
+/// edge (the bar sits 8 pt from it), as the reference's does.
+pub const HOLE_D: f64 = 224.0;
 
 pub fn valid_choice(choice: &str) -> bool {
     CHOICES.contains(&choice)
@@ -108,18 +109,16 @@ pub enum EndReason {
 /// (the panel covers `screen.frame`). Kept inside the display.
 pub fn layout(screen: &Screen, anchor: &Anchor) -> (SpotlightRect, SpotlightEdge) {
     let f = screen.frame;
-    let (_, rest_h) = super::geometry::Shape::Rest.size();
-    // The bar's vertical centre in AppKit coordinates (y up).
+    let (_, active_h) = super::geometry::Shape::Held.size();
+    // The active capsule's vertical centre in AppKit coordinates (y up).
     let centre_y = match anchor.edge {
-        Edge::Bottom => anchor.edge_y + rest_h / 2.0,
-        Edge::Top => anchor.edge_y - rest_h / 2.0,
+        Edge::Bottom => anchor.edge_y + active_h / 2.0,
+        Edge::Top => anchor.edge_y - active_h / 2.0,
     };
-    let w = HOLE_W.min(f.w);
-    let h = HOLE_H.min(f.h);
-    let x = (anchor.centre_x - w / 2.0).clamp(f.x, f.max_x() - w) - f.x;
+    let d = HOLE_D;
+    let x = anchor.centre_x - d / 2.0 - f.x;
     // Flip to top-left page coordinates.
-    let top = f.max_y() - (centre_y + h / 2.0);
-    let y = top.clamp(0.0, f.h - h);
+    let y = f.max_y() - (centre_y + d / 2.0);
     let edge = match anchor.edge {
         Edge::Bottom => SpotlightEdge::Bottom,
         Edge::Top => SpotlightEdge::Top,
@@ -128,8 +127,8 @@ pub fn layout(screen: &Screen, anchor: &Anchor) -> (SpotlightRect, SpotlightEdge
         SpotlightRect {
             x: x.round(),
             y: y.round(),
-            w,
-            h,
+            w: d,
+            h: d,
         },
         edge,
     )
@@ -610,31 +609,47 @@ mod tests {
         }
     }
 
+    /// The bar (active capsule, label above it) is inside the circle.
+    fn bar_inside(hole: &SpotlightRect, bar_x: f64, bar_top: f64, bar_bottom: f64) {
+        let (cx, cy, r) = (hole.x + hole.w / 2.0, hole.y + hole.h / 2.0, hole.w / 2.0);
+        for (x, y) in [
+            (bar_x - 50.0, bar_top),
+            (bar_x + 50.0, bar_bottom),
+            (bar_x - 60.0, bar_top - 25.0),
+        ] {
+            assert!(
+                ((x - cx).powi(2) + (y - cy).powi(2)).sqrt() <= r,
+                "({x}, {y}) outside {hole:?}"
+            );
+        }
+    }
+
     #[test]
     fn hole_sits_on_the_bar_at_the_bottom() {
         let s = screen();
         let a = placement::anchor(&s, Edge::Bottom, None, false);
         let (hole, edge) = layout(&s, &a);
         assert_eq!(edge, SpotlightEdge::Bottom);
+        assert_eq!((hole.w, hole.h), (HOLE_D, HOLE_D));
         // Centred on the bar.
         assert_eq!(hole.x + hole.w / 2.0, 756.0);
-        // The bar (12 pt high, its bottom 8 pt above the visible frame at
-        // y = 70 in AppKit coordinates) is inside the cut-out.
-        let bar_top_page = 982.0 - (70.0 + 8.0 + 12.0);
+        // The active capsule (30 pt high, its bottom 8 pt above the visible
+        // frame at y = 70 in AppKit coordinates) is at the circle's centre.
         let bar_bottom_page = 982.0 - (70.0 + 8.0);
-        assert!(hole.y <= bar_top_page && hole.y + hole.h >= bar_bottom_page);
+        let bar_top_page = bar_bottom_page - 30.0;
+        assert_eq!(hole.y + hole.h / 2.0, bar_top_page + 15.0);
+        bar_inside(&hole, 756.0, bar_top_page, bar_bottom_page);
     }
 
     #[test]
-    fn hole_sits_on_the_bar_at_the_top_and_stays_on_screen() {
+    fn hole_sits_on_the_bar_at_the_top() {
         let s = screen();
         let a = placement::anchor(&s, Edge::Top, Some(0.0), false);
         let (hole, edge) = layout(&s, &a);
         assert_eq!(edge, SpotlightEdge::Top);
-        assert!(hole.x >= 0.0 && hole.x + hole.w <= 1512.0);
-        assert!(hole.y >= 0.0);
         let bar_top_page = 982.0 - (945.0 - 8.0);
-        assert!(hole.y <= bar_top_page && hole.y + hole.h >= bar_top_page + 12.0);
+        assert_eq!(hole.y + hole.h / 2.0, bar_top_page + 15.0);
+        assert_eq!(hole.x + hole.w / 2.0, a.centre_x);
     }
 
     #[test]
@@ -648,7 +663,7 @@ mod tests {
         let a = placement::anchor(&s, Edge::Bottom, None, false);
         let (hole, _) = layout(&s, &a);
         assert_eq!(hole.x + hole.w / 2.0, 1280.0);
-        assert!(hole.y > 1300.0 && hole.y + hole.h <= 1440.0);
+        assert_eq!(hole.y + hole.h / 2.0, 1440.0 - 8.0 - 15.0);
     }
 
     #[test]

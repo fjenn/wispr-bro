@@ -98,7 +98,7 @@ pub struct ForkPillState {
     pub seq: u32,
     pub phase: PillPhase,
     pub shape: Shape,
-    /// The microphone name (first 1.5 s of a take).
+    /// The microphone name (first 2 s of a take).
     pub mic: Option<String>,
     pub message: Option<PillMessage>,
     pub tone: Option<PillTone>,
@@ -127,6 +127,15 @@ pub struct ForkPillState {
     /// S-02: the app holding Secure Input (with the `secure_input`
     /// warning), when known.
     pub holder: Option<String>,
+    /// Design W4: the bar rests at the top of the display, so a label pill
+    /// goes below the capsule instead of above it.
+    pub top: bool,
+    /// Design W4: when (Unix ms) the bar started growing out of the resting
+    /// line for this appearance. The native bridge runs that morph on
+    /// `geometry::spring`; a page that paints within it continues the same
+    /// curve, so the hand-over is seamless. `None` in tests and snapshots
+    /// without an appearance.
+    pub grown_at_unix_ms: Option<u64>,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -227,10 +236,11 @@ pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
         input(Input::Voice);
     }
     let now = monotonic_ms();
+    let loud = handy_recorder::take_peak_level_db();
     let shaped = WAVEFORM
         .lock()
         .unwrap_or_else(|e| e.into_inner())
-        .push(levels, now);
+        .push(levels, now, loud);
     if !THROTTLE.admit(now) {
         return;
     }
@@ -502,6 +512,8 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         context: a.context,
         diff: a.diff.clone(),
         holder: a.holder.clone(),
+        top: false,
+        grown_at_unix_ms: None,
     }
 }
 
@@ -679,6 +691,8 @@ struct Controller {
     dark: Option<bool>,
     seq: u32,
     sent: Option<ActiveView>,
+    /// When the current appearance started growing from rest (Unix ms).
+    grown_at: Option<u64>,
     painted: u32,
     web: Web,
     /// The web view is destroyed at this time (linger or prewarm).
@@ -713,6 +727,7 @@ impl Controller {
             dark: theme_dark(handy.theme),
             seq: 0,
             sent: None,
+            grown_at: None,
             painted: 0,
             web: Web::Absent,
             web_until: None,
@@ -1097,7 +1112,13 @@ impl Controller {
                 self.web_until = None;
                 if self.sent.as_ref() != Some(active) {
                     self.seq += 1;
-                    let state = state_event(self.seq, active);
+                    if self.sent.is_none() {
+                        self.grown_at = Some(unix_ms().max(0) as u64);
+                    }
+                    let mut state = state_event(self.seq, active);
+                    state.top =
+                        self.settings.bar_position == crate::fork::settings::BarPosition::Top;
+                    state.grown_at_unix_ms = self.grown_at;
                     *SNAPSHOT.lock().unwrap_or_else(|e| e.into_inner()) = Some(state.clone());
                     if self.web != Web::Absent {
                         let _ = tauri_specta::Event::emit_to(&state, &self.app, panel_label());
@@ -1167,6 +1188,7 @@ impl Controller {
                 }
             }
             None => {
+                self.grown_at = None;
                 if self.sent.take().is_some() {
                     *SNAPSHOT.lock().unwrap_or_else(|e| e.into_inner()) = None;
                     // Tell the page to clear, so a reuse never flashes the
@@ -1234,6 +1256,7 @@ impl Controller {
             dark: self.dark,
             scratchpad_enabled: self.settings.scratchpad_on_bar,
             texts: self.texts(),
+            grown_at: self.grown_at,
         }
     }
 

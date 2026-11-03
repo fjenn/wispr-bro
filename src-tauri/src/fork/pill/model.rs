@@ -28,7 +28,7 @@ use crate::fork::events::ForkCardReason;
 pub type Ms = u64;
 
 /// How long the microphone name shows at the start of a take.
-pub const MIC_LABEL_MS: Ms = 1_500;
+pub const MIC_LABEL_MS: Ms = 2_000;
 /// How long an information message stays.
 pub const INFO_MS: Ms = 2_500;
 /// How long an error stays (one with a Fix action stays longer).
@@ -1071,9 +1071,9 @@ mod tests {
         assert_eq!(v.shape, Shape::HeldLabel);
         assert_eq!(v.mic.as_deref(), Some("MacBook Pro Microphone"));
         assert_eq!(m.next_deadline(), Some(1_000 + MIC_LABEL_MS));
-        // The label goes after 1.5 s.
-        assert_eq!(shape(&mut m, 2_499), Some(Shape::HeldLabel));
-        assert_eq!(shape(&mut m, 2_500), Some(Shape::Held));
+        // The label goes after 2 s.
+        assert_eq!(shape(&mut m, 2_999), Some(Shape::HeldLabel));
+        assert_eq!(shape(&mut m, 3_000), Some(Shape::Held));
         m.step(4_000, Input::Stopped);
         assert_eq!(phase(&mut m, 4_000), Some(PillPhase::Transcribing));
         m.step(4_001, Input::Transcribing);
@@ -1096,7 +1096,7 @@ mod tests {
         m.step(0, Input::TakeStarted { locked: true });
         m.step(10, Input::MicName("USB Mic".into()));
         assert_eq!(shape(&mut m, 10), Some(Shape::LockedLabel));
-        assert_eq!(shape(&mut m, 1_600), Some(Shape::Locked));
+        assert_eq!(shape(&mut m, 2_100), Some(Shape::Locked));
         // A held take that locks (double-tap, fn+Space) keeps its label time.
         let mut m = Model::new(ready());
         m.step(0, Input::TakeStarted { locked: false });

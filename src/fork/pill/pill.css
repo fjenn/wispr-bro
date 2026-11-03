@@ -1,77 +1,170 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /*
- * The active Flow Bar (S-03). A dark capsule in both themes (it floats over
- * any app), matching the native resting bar (`native.rs`): in dark mode a
- * lighter fill and a softer edge. Text pairs meet WCAG AA on the fill:
- * white on #18181b ≈ 17:1, #ffb4ab on #18181b ≈ 10:1, #c4c6ff on #2c2c30
- * ≈ 8.6:1. `data-theme` (Handy's theme setting) wins over the OS.
+ * The active Flow Bar (S-03; Design W4 after Wispr Flow's bar). An opaque
+ * black capsule in both themes (it floats over any app) with no white edge;
+ * in dark mode a faint hairline keeps it findable on black windows, like
+ * the native resting bar (`native.rs`). One text size, 15 px. The card and
+ * the diff card are the dark grey HUD surface.
+ *
+ * Text pairs (WCAG AA): white on #000 21:1; --wb-pill-ink-2 on #1b1b1b
+ * ≈ 9:1; --wb-pill-accent on #000 ≈ 9:1; --wb-pill-error on #000 ≈ 13:1;
+ * black on the white ✓ disc and Fix pill 21:1.
  */
 
 :root {
-  --wb-pill-light-bg: rgba(24, 24, 27, 0.92);
-  --wb-pill-dark-bg: rgba(44, 44, 48, 0.96);
-  --wb-pill-light-edge: rgba(255, 255, 255, 0.55);
-  --wb-pill-dark-edge: rgba(255, 255, 255, 0.32);
-
-  --wb-pill-bg: var(--wb-pill-light-bg);
-  --wb-pill-edge: var(--wb-pill-light-edge);
+  --wb-pill-bg: var(--wb-hud, #000000);
+  --wb-pill-card: var(--wb-hud-2, #1b1b1b);
+  --wb-pill-control: var(--wb-hud-control, #30302f);
+  --wb-pill-control-hover: #3e3e3c;
   --wb-pill-ink: #ffffff;
-  --wb-pill-ink-2: rgba(255, 255, 255, 0.82);
+  --wb-pill-ink-2: rgba(255, 255, 255, 0.74);
+  --wb-pill-accent: #c3a0ee;
   --wb-pill-error: #ffb4ab;
-  --wb-pill-accent: #c4c6ff;
-  --wb-pill-btn: rgba(255, 255, 255, 0.14);
-  --wb-pill-btn-hover: rgba(255, 255, 255, 0.24);
-  --wb-pill-finish: #5754e6;
-  --wb-pill-finish-hover: #6b68f0;
-  --wb-pill-focus: #c4c6ff;
+  --wb-pill-insert: rgba(56, 178, 156, 0.38);
+  --wb-pill-delete: rgba(255, 255, 255, 0.12);
+  --wb-pill-edge: none;
+  --wb-pill-focus: #c3a0ee;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --wb-pill-bg: var(--wb-pill-dark-bg);
-    --wb-pill-edge: var(--wb-pill-dark-edge);
+    --wb-pill-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
   }
 }
 
 :root[data-theme="dark"] {
-  --wb-pill-bg: var(--wb-pill-dark-bg);
-  --wb-pill-edge: var(--wb-pill-dark-edge);
+  --wb-pill-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
 }
 
 html,
 body {
   background: transparent;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui,
-    sans-serif;
+  font-family: var(--wb-font-ui, -apple-system, system-ui, sans-serif);
   -webkit-font-smoothing: antialiased;
   user-select: none;
   -webkit-user-select: none;
   cursor: default;
 }
 
+/* The stage sits on the window's resting edge, so while the window is
+   larger than the state (a shrink playing) the capsule stays in place. */
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+:root[data-edge="top"] #root {
+  align-items: flex-start;
+}
+
 .wb-pill {
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--wb-pill-ink);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.wb-pill[data-edge="top"] {
+  justify-content: flex-start;
+}
+
+.wb-pill-anchor {
+  position: relative;
+  flex: none;
+}
+
+/* ---- The label pill (mic name, Sends automatically, warnings). ---- */
+
+.wb-pill-label-slot {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  display: flex;
+  justify-content: center;
+}
+
+.wb-pill[data-edge="top"] .wb-pill-label-slot {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+
+.wb-pill-label {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--wb-pill-bg);
+  box-shadow: var(--wb-pill-edge);
+  color: var(--wb-pill-ink);
+}
+
+.wb-pill-label svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.wb-pill-label[data-kind="warning"],
+.wb-pill-label[data-kind="secure"] {
+  color: var(--wb-pill-accent);
+}
+
+.wb-pill-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* ---- The capsule. ---- */
+
+.wb-pill-capsule {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--wb-pill-bg);
+  box-shadow: var(--wb-pill-edge);
+}
+
+.wb-pill[data-phase="card"] .wb-pill-capsule,
+.wb-pill[data-phase="diff"] .wb-pill-capsule {
+  background: var(--wb-pill-card);
+}
+
+/* Laid out at the target size and revealed as the capsule grows. */
+.wb-pill-content {
+  box-sizing: border-box;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---- Held and hands-free. ---- */
+
+.wb-pill-listening {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 0 4px;
-  margin: 0 auto;
-  border-radius: 999px;
-  background: var(--wb-pill-bg);
-  box-shadow: inset 0 0 0 1px var(--wb-pill-edge);
-  color: var(--wb-pill-ink);
-  font-size: 12.5px;
-  font-weight: 500;
-  line-height: 1;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.wb-pill[data-phase="message"] {
-  padding: 0 4px 0 12px;
-  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 0 6px;
 }
 
 .wb-pill-middle {
@@ -82,157 +175,164 @@ body {
   justify-content: center;
 }
 
-.wb-pill-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-
-/* Waveform: nine bars driven by the mic levels. */
 .wb-pill-wave {
   display: flex;
   align-items: center;
-  gap: 3px;
-  height: 20px;
+  gap: 2.5px;
+  height: 18px;
 }
 
 .wb-pill-wave i {
   display: block;
-  width: 3px;
-  border-radius: 2px;
+  width: 2px;
+  border-radius: 1px;
   background: var(--wb-pill-ink);
-  transition: height 70ms linear;
+  transition: opacity 140ms ease-out;
 }
 
-.wb-pill-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-  padding: 0 6px;
-  color: var(--wb-pill-ink-2);
+/* Before the first audio frame: a quiet dotted line. */
+.wb-pill-wave[data-state="idle"] i {
+  opacity: 0.55;
 }
 
-.wb-pill-label svg,
-.wb-pill-message svg {
-  width: 14px;
-  height: 14px;
-  flex: none;
-}
-
-.wb-pill-warning {
-  color: var(--wb-pill-accent);
-}
-
-/* Buttons: ✕ and ✓ in hands-free, ✕ on messages. */
-.wb-pill-btn {
+/* ✕ (dark) and ✓ (white) discs; ✕ on messages and cards too. */
+.wb-pill-disc {
   flex: none;
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: var(--wb-pill-btn);
-  color: var(--wb-pill-ink);
   cursor: default;
+  transition: background-color 140ms ease-out;
 }
 
-.wb-pill-btn svg {
-  width: 14px;
-  height: 14px;
+.wb-pill-disc svg {
+  width: 11px;
+  height: 11px;
 }
 
-.wb-pill-btn:hover {
-  background: var(--wb-pill-btn-hover);
+.wb-pill-cancel,
+.wb-pill-dismiss {
+  background: var(--wb-pill-control);
+  color: var(--wb-pill-ink);
+}
+
+.wb-pill-cancel:hover,
+.wb-pill-dismiss:hover {
+  background: var(--wb-pill-control-hover);
 }
 
 .wb-pill-finish {
-  background: var(--wb-pill-finish);
+  background: #ffffff;
+  color: #000000;
 }
 
 .wb-pill-finish:hover {
-  background: var(--wb-pill-finish-hover);
+  background: #e6e6e6;
 }
 
-.wb-pill-btn:focus-visible,
-.wb-pill-fix:focus-visible {
+.wb-pill-finish svg {
+  stroke-width: 2.2;
+}
+
+/* Outside the waveform the ✕ is a little larger (an easier target). */
+.wb-pill-dismiss {
+  width: 22px;
+  height: 22px;
+}
+
+.wb-pill button:focus-visible {
   outline: 2px solid var(--wb-pill-focus);
   outline-offset: 1px;
 }
 
-/* Processing. */
+/* ---- Processing: a split capsule (text, spinner). ---- */
+
 .wb-pill-working {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 10px;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+}
+
+.wb-pill-working-text {
+  flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 16px 10px;
+  border-start-start-radius: 15px;
+  border-end-start-radius: 15px;
+  background: var(--wb-pill-card);
+  color: var(--wb-pill-ink-2);
+}
+
+.wb-pill-working-spin {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+}
+
+.wb-pill-spinner {
+  width: 16px;
+  height: 16px;
+  animation: wb-pill-spin 0.9s steps(8) infinite;
+}
+
+.wb-pill-spinner line {
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.wb-pill-spoke-a {
+  stroke: var(--wb-pill-accent);
+}
+
+.wb-pill-spoke-b {
+  stroke: var(--wb-pill-ink);
 }
 
 /* S-20: nearby text helped spell this take. */
 .wb-pill-context {
   display: inline-flex;
   flex: none;
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   color: var(--wb-pill-accent);
 }
 
 .wb-pill-context svg {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
 }
 
-.wb-pill-dots {
-  display: inline-flex;
-  gap: 3px;
+/* ---- Messages. ---- */
+
+.wb-pill[data-phase="message"] .wb-pill-content {
+  padding-inline: 14px 4px;
 }
 
-.wb-pill-dots i {
-  display: block;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--wb-pill-ink);
-  opacity: 0.4;
-  animation: wb-pill-dot 1s ease-in-out infinite;
-}
-
-.wb-pill-dots i:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.wb-pill-dots i:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes wb-pill-dot {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* Messages. */
 .wb-pill-message {
   flex: 1;
   min-width: 0;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 }
 
-.wb-pill[data-tone="error"] .wb-pill-message {
+.wb-pill-message svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.wb-pill[data-tone="error"] .wb-pill-message svg {
   color: var(--wb-pill-error);
-}
-
-.wb-pill-message .wb-pill-text {
-  color: var(--wb-pill-ink);
 }
 
 .wb-pill-fix {
@@ -241,22 +341,31 @@ body {
   padding: 0 12px;
   border: 0;
   border-radius: 999px;
-  background: var(--wb-pill-ink);
-  color: #18181b;
+  background: #ffffff;
+  color: #000000;
   font: inherit;
+  font-size: 14px;
   font-weight: 600;
   cursor: default;
+  transition: background-color 140ms ease-out;
 }
 
-/* S-07a: "Setting up… 40%" with a progress ring. */
-.wb-pill[data-phase="setting_up"] {
-  padding: 0 4px 0 6px;
-  justify-content: space-between;
+.wb-pill-fix:hover {
+  background: #e6e6e6;
+}
+
+/* ---- S-07a: "Setting up… 40%" with a progress ring. ---- */
+
+.wb-pill[data-phase="setting_up"] .wb-pill-content {
+  padding-inline: 10px 4px;
 }
 
 .wb-pill-setup {
   flex: 1;
-  padding: 0 6px;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .wb-pill-ring {
@@ -268,7 +377,7 @@ body {
 }
 
 .wb-pill-ring-track {
-  stroke: var(--wb-pill-btn-hover);
+  stroke: rgba(255, 255, 255, 0.22);
 }
 
 .wb-pill-ring-fill {
@@ -287,12 +396,11 @@ body {
   }
 }
 
-/* S-07a: the card, a rounded panel with two lines of text. */
-.wb-pill[data-phase="card"] {
-  border-radius: 16px;
-  padding: 0 8px 0 14px;
-  gap: 8px;
-  justify-content: flex-start;
+/* ---- S-07a / S-05: the card. ---- */
+
+.wb-pill[data-phase="card"] .wb-pill-content {
+  padding-inline: 18px 10px;
+  gap: 10px;
 }
 
 .wb-pill-card {
@@ -300,15 +408,15 @@ body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  line-height: 1.25;
+  gap: 3px;
   white-space: normal;
 }
 
 .wb-pill-card-label {
-  color: var(--wb-pill-accent);
-  font-size: 11px;
-  font-weight: 600;
+  color: var(--wb-pill-ink-2);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -317,6 +425,7 @@ body {
 .wb-pill-card-text {
   color: var(--wb-pill-ink);
   font-weight: 400;
+  line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -324,91 +433,6 @@ body {
   overflow-wrap: anywhere;
   user-select: text;
   -webkit-user-select: text;
-}
-
-/* S-22: transform changes, with a bounded scroll area and explicit actions. */
-.wb-pill[data-phase="diff"] {
-  border-radius: 18px;
-  padding: 0;
-  white-space: normal;
-}
-
-.wb-pill-diff {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 12px;
-  gap: 9px;
-}
-
-.wb-pill-diff-header,
-.wb-pill-diff-actions {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  min-width: 0;
-}
-
-.wb-pill-diff-header strong {
-  flex: 1;
-  text-align: start;
-}
-
-.wb-pill-diff-body {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2);
-  user-select: text;
-  -webkit-user-select: text;
-}
-
-.wb-pill-diff-body p {
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.wb-pill-diff-body del {
-  color: #ffb4ab;
-}
-
-.wb-pill-diff-body ins {
-  color: #a7f3d0;
-  background: rgba(16, 185, 129, 0.18);
-}
-
-.wb-pill-diff-link,
-.wb-pill-diff-actions .wb-pill-fix {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  border: 0;
-  font: inherit;
-  cursor: default;
-}
-
-.wb-pill-diff-link {
-  padding: 4px;
-  background: transparent;
-  color: var(--wb-pill-accent);
-}
-
-.wb-pill-diff-actions .wb-pill-fix {
-  padding: 0 10px;
-}
-
-.wb-pill-diff-spacer {
-  flex: 1;
-}
-
-.wb-pill-diff button:focus-visible {
-  outline: 2px solid var(--wb-pill-focus);
-  outline-offset: 1px;
 }
 
 /* S-05: a password field's text is never shown. */
@@ -428,6 +452,126 @@ body {
   height: 13px;
 }
 
+/* ---- S-22: the transform's changes. ---- */
+
+.wb-pill[data-phase="diff"] {
+  white-space: normal;
+}
+
+.wb-pill-diff {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 14px 14px 10px 18px;
+  gap: 10px;
+}
+
+.wb-pill-diff-header,
+.wb-pill-diff-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.wb-pill-diff-header strong {
+  flex: 1;
+  color: var(--wb-pill-ink);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: start;
+}
+
+.wb-pill-diff-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wb-pill-accent);
+  font: inherit;
+  font-size: 14px;
+  cursor: default;
+}
+
+.wb-pill-diff-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.wb-pill-diff-body p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--wb-pill-ink);
+}
+
+.wb-pill-diff-body del,
+.wb-pill-diff-body ins {
+  padding: 1px 3px;
+  border-radius: 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.wb-pill-diff-body del {
+  background: var(--wb-pill-delete);
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.6);
+}
+
+.wb-pill-diff-body ins {
+  background: var(--wb-pill-insert);
+  color: var(--wb-pill-ink);
+  text-decoration: none;
+}
+
+.wb-pill-diff-actions {
+  gap: 2px;
+  margin-inline-start: -6px;
+}
+
+.wb-pill-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wb-pill-ink-2);
+  cursor: default;
+  transition:
+    background-color 140ms ease-out,
+    color 140ms ease-out;
+}
+
+.wb-pill-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--wb-pill-ink);
+}
+
+.wb-pill-icon-btn[aria-pressed="true"],
+.wb-pill-icon-btn[data-copied] {
+  color: var(--wb-pill-accent);
+}
+
+.wb-pill-icon-btn:disabled {
+  opacity: 0.5;
+}
+
 .wb-sr-only {
   position: absolute;
   width: 1px;
@@ -443,29 +587,12 @@ body {
 /* Reduced motion: stills instead of animation. The waveform keeps
    following the voice (it is information), without easing. */
 @media (prefers-reduced-motion: reduce) {
-  .wb-pill-wave i {
-    transition: none;
-  }
-  .wb-pill-dots i {
-    animation: none;
-    opacity: 0.85;
-  }
+  .wb-pill-spinner,
   .wb-pill-ring-spin {
     animation: none;
   }
-  .wb-pill-ring-fill {
+  .wb-pill-ring-fill,
+  .wb-pill-wave i {
     transition: none;
   }
-}
-
-[dir="rtl"] .wb-pill[data-phase="message"] {
-  padding: 0 12px 0 4px;
-}
-
-[dir="rtl"] .wb-pill[data-phase="setting_up"] {
-  padding: 0 6px 0 4px;
-}
-
-[dir="rtl"] .wb-pill[data-phase="card"] {
-  padding: 0 14px 0 8px;
 }

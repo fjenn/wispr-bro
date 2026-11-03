@@ -13,6 +13,8 @@ import {
 } from "@/lib/utils/theme";
 import type { Theme } from "@/bindings";
 import "@/i18n";
+import "../styles/fonts.css";
+import "../styles/tokens.css";
 import { Pill } from "./Pill";
 import "./pill.css";
 

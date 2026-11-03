@@ -611,7 +611,7 @@ function spotState(over: Partial<ForkSpotlightState> = {}): ForkSpotlightState {
     seq: 1,
     active: true,
     choice: "email",
-    hole: { x: 632, y: 850, w: 248, h: 64 },
+    hole: { x: 644, y: 777, w: 224, h: 224 },
     edge: "bottom",
     ...over,
   };
@@ -657,6 +657,12 @@ spot.describe("spotlight page", () => {
     expect(
       Math.abs(box!.x + box!.width / 2 - (hole!.x + hole!.width / 2)),
     ).toBeLessThan(2);
+    // Design W4: a circular cut-out, the hint in the bar's black style.
+    const shape = await page
+      .getByTestId("wb-spotlight-hole")
+      .evaluate((el) => el.tagName.toLowerCase());
+    expect(shape).toBe("circle");
+    await expect(hint).toHaveCSS("background-color", "rgb(0, 0, 0)");
     // Nothing on the page takes a click (the window ignores the mouse).
     await expect(page.getByRole("button")).toHaveCount(0);
   });
@@ -665,7 +671,7 @@ spot.describe("spotlight page", () => {
     await openSpotlight(
       page,
       ipc,
-      spotState({ edge: "top", hole: { x: 632, y: 20, w: 248, h: 64 } }),
+      spotState({ edge: "top", hole: { x: 644, y: -60, w: 224, h: 224 } }),
     );
     const hole = await page.getByTestId("wb-spotlight-hole").boundingBox();
     const box = await page.getByTestId("wb-spotlight-hint").boundingBox();

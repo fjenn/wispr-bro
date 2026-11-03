@@ -79,6 +79,9 @@ pub struct Scene {
     /// S-24: Dictate and Scratchpad share the resting bar.
     pub scratchpad_enabled: bool,
     pub texts: Texts,
+    /// Design W4: when the current appearance started growing from rest
+    /// (Unix ms); the native bridge's morph runs from there.
+    pub grown_at: Option<u64>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -213,6 +216,11 @@ impl Ui {
             }
         }
 
+        // Design W4: the take ends: the resting line grows back out of the
+        // capsule the web view showed last (same place, same size).
+        let last_web = self.web_shown;
+        self.resting.set_grown_at(scene.grown_at);
+
         // Web view first, so the native bar hides only once the web bar is
         // on screen (no blank frame between the two).
         match scene.web {
@@ -238,6 +246,9 @@ impl Ui {
         match scene.native {
             NativeScene::Hidden => self.resting.hide(),
             NativeScene::Rest => {
+                if let (Some(shape), None) = (last_web, self.web_shown) {
+                    self.resting.morph_from(shape.capsule());
+                }
                 self.resting.set_mode(Mode::Rest);
                 self.resting.show();
             }
