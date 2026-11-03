@@ -43,6 +43,7 @@ import {
   runHubAction,
   useInbox,
 } from "./notifications";
+import { ForkArt } from "@/assets/fork/art";
 
 const iconButton = `relative grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`;
 
@@ -251,6 +252,7 @@ function PanelBody() {
       <EmptyState
         compact
         testId="wb-notifications-empty"
+        art={<ForkArt name="empty-notifications" width={96} />}
         icon={BellOff}
         title={t(`hub.notifications.${key}.title`)}
         body={t(`hub.notifications.${key}.body`)}

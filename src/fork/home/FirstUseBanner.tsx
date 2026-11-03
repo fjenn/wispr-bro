@@ -21,6 +21,7 @@ import {
   showHint,
   useFirstUseStore,
 } from "../onboarding/firstUseStore";
+import { photos } from "@/assets/fork/art";
 
 export function FirstUseBanner({ fallback }: { fallback: ReactNode }) {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -48,6 +49,7 @@ export function FirstUseBanner({ fallback }: { fallback: ReactNode }) {
   return (
     <Banner
       id={OWN_APPS_BANNER_ID}
+      image={photos.home.src}
       title={t("firstUse.banner.title")}
       body={body}
       live

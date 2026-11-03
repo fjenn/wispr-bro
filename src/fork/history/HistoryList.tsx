@@ -55,6 +55,7 @@ import { FlagDialog } from "./FlagDialog";
 import { HistoryRow } from "./HistoryRow";
 import { Search } from "./Search";
 import { useHistoryLive, useHistoryStore } from "./useHistory";
+import { ForkArt } from "@/assets/fork/art";
 
 /** S-09's undo window is 10 s; the toast closes a little before. */
 export const UNDO_TOAST_MS = 9_000;
@@ -341,6 +342,7 @@ export function HistoryList() {
     body = query ? (
       <EmptyState
         testId="wb-history-no-results"
+        art={<ForkArt name="empty-search" width={96} />}
         icon={SearchX}
         title={t("history.noResults.title")}
         body={t("history.noResults.body", { query })}
@@ -349,6 +351,7 @@ export function HistoryList() {
     ) : (
       <EmptyState
         testId="wb-empty-dictation"
+        art={<ForkArt name="empty-history" width={160} />}
         icon={AudioLines}
         title={t("hub.pages.dictation.empty.title")}
         body={t("history.empty.body")}

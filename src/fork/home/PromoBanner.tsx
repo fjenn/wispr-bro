@@ -12,6 +12,7 @@ import { FORK_NAMESPACE } from "../i18n";
 import { openLesson } from "../tutorials/lessonRegistry";
 import { WHISPER_LESSON } from "../tutorials/lessons/whisper";
 import { Banner } from "../ui";
+import { photos } from "@/assets/fork/art";
 
 export const PROMO_BANNER_ID = "hub.dictation.start";
 
@@ -21,6 +22,7 @@ export function PromoBanner() {
   return (
     <Banner
       id={PROMO_BANNER_ID}
+      image={photos.home.src}
       title={t("hub.pages.dictation.banner.title")}
       body={t("hub.pages.dictation.banner.body", { appName })}
       examplesLabel={t("hub.pages.dictation.banner.examplesLabel")}

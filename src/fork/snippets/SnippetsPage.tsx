@@ -42,6 +42,7 @@ import {
   useSnippetsStore,
   type SortOrder,
 } from "./useSnippets";
+import { ForkArt, photos } from "@/assets/fork/art";
 
 const BANNER_ID = "snippets.examples";
 
@@ -202,6 +203,7 @@ export function SnippetsPage() {
       return (
         <EmptyState
           testId="wb-snippets-unavailable"
+          art={<ForkArt name="empty-unavailable" width={160} />}
           icon={TextQuote}
           title={t("snippets.unavailable.title")}
           body={t("snippets.unavailable.body")}
@@ -216,6 +218,7 @@ export function SnippetsPage() {
       return (
         <EmptyState
           testId="wb-snippets-no-match"
+          art={<ForkArt name="empty-search" width={160} />}
           icon={Search}
           title={t("snippets.noMatch.title")}
           body={t("snippets.noMatch.body", { query: query.trim() })}
@@ -229,6 +232,7 @@ export function SnippetsPage() {
     return (
       <EmptyState
         testId="wb-snippets-empty"
+        art={<ForkArt name="empty-snippets" width={160} />}
         icon={TextQuote}
         title={t("snippets.empty.title")}
         body={t("snippets.empty.body", { appName })}
@@ -270,6 +274,7 @@ export function SnippetsPage() {
 
       <Banner
         id={BANNER_ID}
+        image={photos.snippets.src}
         title={t("snippets.banner.title")}
         body={t("snippets.banner.body", { appName })}
         examplesLabel={t("snippets.banner.examplesLabel")}

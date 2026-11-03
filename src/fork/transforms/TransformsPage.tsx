@@ -21,6 +21,7 @@ import { DiffCard } from "./DiffCard";
 import { useTransformViewStore } from "./store";
 import { TransformCard, CreateTransformCard } from "./TransformCard";
 import { TransformModal } from "./TransformModal";
+import { photos } from "@/assets/fork/art";
 
 function blankInput(t: (key: string) => string): TransformInput {
   return {
@@ -197,6 +198,7 @@ export function TransformsPage() {
       </PageHeader>
       <Banner
         id="transforms.rewrite"
+        image={photos.transforms.src}
         title={t("transforms.banner.title")}
         body={t("transforms.banner.body")}
         action={

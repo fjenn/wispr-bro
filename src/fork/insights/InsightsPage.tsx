@@ -24,6 +24,7 @@ import { UsageTab } from "./UsageTab";
 import { useInsights } from "./useInsights";
 import { VoiceTab } from "./VoiceTab";
 import "./insights.css";
+import { ForkArt } from "@/assets/fork/art";
 
 type TabId = "usage" | "voice";
 
@@ -83,6 +84,7 @@ export function InsightsPage() {
         status === "unavailable" ? (
           <EmptyState
             testId="wb-insights-unavailable"
+            art={<ForkArt name="empty-insights" width={160} />}
             icon={ChartColumn}
             title={t("hub.pages.insights.empty.title")}
             body={t("insights.unavailable")}

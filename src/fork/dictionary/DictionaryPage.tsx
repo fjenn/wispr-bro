@@ -50,6 +50,7 @@ import {
   useDictionaryStore,
   type SortOrder,
 } from "./useDictionary";
+import { ForkArt, photos } from "@/assets/fork/art";
 
 type TabId = "all" | "mine" | "suggested";
 
@@ -304,6 +305,7 @@ export function DictionaryPage() {
       return (
         <EmptyState
           testId="wb-dictionary-broken"
+          art={<ForkArt name="empty-unavailable" width={160} />}
           icon={BookA}
           title={t("dictionary.unavailable.brokenTitle")}
           body={t("dictionary.unavailable.brokenBody", { appName })}
@@ -318,6 +320,7 @@ export function DictionaryPage() {
       return (
         <EmptyState
           testId="wb-dictionary-unavailable"
+          art={<ForkArt name="empty-unavailable" width={160} />}
           icon={BookA}
           title={t("dictionary.unavailable.title")}
           body={t("dictionary.unavailable.body")}
@@ -332,6 +335,7 @@ export function DictionaryPage() {
       return (
         <EmptyState
           testId="wb-dictionary-no-match"
+          art={<ForkArt name="empty-search" width={160} />}
           icon={Search}
           title={t("dictionary.noMatch.title")}
           body={t("dictionary.noMatch.body", { query: query.trim() })}
@@ -346,6 +350,7 @@ export function DictionaryPage() {
       return (
         <EmptyState
           testId="wb-dictionary-empty-suggested"
+          art={<ForkArt name="empty-suggested" width={160} />}
           icon={Sparkles}
           title={t("dictionary.emptySuggested.title")}
           body={
@@ -359,6 +364,7 @@ export function DictionaryPage() {
     return (
       <EmptyState
         testId="wb-dictionary-empty"
+        art={<ForkArt name="empty-dictionary" width={160} />}
         icon={BookA}
         title={t("dictionary.empty.title")}
         body={t("dictionary.empty.body", { appName })}
@@ -400,6 +406,7 @@ export function DictionaryPage() {
 
       <Banner
         id={BANNER_ID}
+        image={photos.dictionary.src}
         title={t("dictionary.banner.title", { appName })}
         body={t("dictionary.banner.body")}
         examplesLabel={t("dictionary.banner.examplesLabel")}
