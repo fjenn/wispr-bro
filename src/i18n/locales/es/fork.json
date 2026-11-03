@@ -299,7 +299,7 @@
       },
       "export": {
         "title": "Tus datos",
-        "hint": "Un zip con tu Historial, ajustes y grabaciones, sin modelos ni registros.",
+        "hint": "Un zip con tu Historial, ajustes y grabaciones. No incluye modelos ni registros.",
         "button": "Exportar mis datos",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archivo ZIP",

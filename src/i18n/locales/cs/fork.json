@@ -300,7 +300,7 @@
       },
       "export": {
         "title": "Vaše data",
-        "hint": "Zip s historií, nastavením a nahrávkami, bez modelů a protokolů.",
+        "hint": "Zip s historií, nastavením a nahrávkami. Modely a protokoly nejsou zahrnuty.",
         "button": "Exportovat moje data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archiv ZIP",

@@ -298,7 +298,7 @@
       },
       "export": {
         "title": "Dine data",
-        "hint": "En zip med din historik, indstillinger og optagelser, uden modeller og logfiler.",
+        "hint": "En zip med din historik, indstillinger og optagelser. Modeller og logfiler er ikke med.",
         "button": "Eksportér mine data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip-arkiv",

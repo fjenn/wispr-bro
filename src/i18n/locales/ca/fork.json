@@ -299,7 +299,7 @@
       },
       "export": {
         "title": "Les teves dades",
-        "hint": "Un zip amb l’Historial, la configuració i les gravacions, sense models ni registres.",
+        "hint": "Un zip amb l’Historial, la configuració i les gravacions. No inclou models ni registres.",
         "button": "Exportar les meves dades",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Arxiu ZIP",

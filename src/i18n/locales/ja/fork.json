@@ -297,7 +297,7 @@
       },
       "export": {
         "title": "データ",
-        "hint": "履歴、設定、録音の zip。モデルとログは含みません。",
+        "hint": "履歴、設定、録音の zip。モデルとログは含まれません。",
         "button": "データを書き出す",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "ZIP アーカイブ",

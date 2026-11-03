@@ -297,7 +297,7 @@
       },
       "export": {
         "title": "내 데이터",
-        "hint": "기록, 설정, 녹음이 담긴 zip 파일이며 모델과 로그는 제외됩니다.",
+        "hint": "기록, 설정, 녹음이 담긴 zip 파일입니다. 모델과 로그는 포함되지 않습니다.",
         "button": "내 데이터 내보내기",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip 아카이브",

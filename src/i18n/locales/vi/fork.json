@@ -297,7 +297,7 @@
       },
       "export": {
         "title": "Dữ liệu của bạn",
-        "hint": "Tệp zip gồm Lịch sử, cài đặt và bản ghi âm, không có mô hình hay nhật ký.",
+        "hint": "Tệp zip gồm Lịch sử, cài đặt và bản ghi âm. Không bao gồm mô hình và nhật ký.",
         "button": "Xuất dữ liệu của tôi",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Tệp lưu trữ zip",

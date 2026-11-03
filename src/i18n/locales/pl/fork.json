@@ -300,7 +300,7 @@
       },
       "export": {
         "title": "Twoje dane",
-        "hint": "Plik zip z historią, ustawieniami i nagraniami, bez modeli i logów.",
+        "hint": "Plik zip z historią, ustawieniami i nagraniami. Modele i logi nie są dołączane.",
         "button": "Eksportuj moje dane",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archiwum ZIP",

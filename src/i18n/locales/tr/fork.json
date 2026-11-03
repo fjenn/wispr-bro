@@ -298,7 +298,7 @@
       },
       "export": {
         "title": "Verileriniz",
-        "hint": "Geçmişiniz, ayarlarınız ve kayıtlarınızla bir zip; modeller ve günlükler hariç.",
+        "hint": "Geçmişiniz, ayarlarınız ve kayıtlarınızla bir zip. Modeller ve günlükler dahil değildir.",
         "button": "Verilerimi dışa aktar",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip arşivi",

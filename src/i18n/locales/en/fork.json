@@ -298,7 +298,7 @@
       },
       "export": {
         "title": "Your data",
-        "hint": "A zip of your History, settings and recordings, without models or logs.",
+        "hint": "A zip of your History, settings and recordings. Models and logs are not included.",
         "button": "Export my data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip archive",

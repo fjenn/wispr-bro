@@ -298,7 +298,7 @@
       },
       "export": {
         "title": "Je gegevens",
-        "hint": "Een zip met je geschiedenis, instellingen en opnames, zonder modellen of logs.",
+        "hint": "Een zip met je geschiedenis, instellingen en opnames. Modellen en logs zitten er niet in.",
         "button": "Exporteer mijn gegevens",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Zip-archief",

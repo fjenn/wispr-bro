@@ -299,7 +299,7 @@
       },
       "export": {
         "title": "Vos données",
-        "hint": "Un zip de votre Historique, de vos réglages et enregistrements, sans modèles ni journaux.",
+        "hint": "Un zip de votre Historique, de vos réglages et enregistrements. Les modèles et journaux ne sont pas inclus.",
         "button": "Exporter mes données",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archive ZIP",

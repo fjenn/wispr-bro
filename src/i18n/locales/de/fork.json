@@ -298,7 +298,7 @@
       },
       "export": {
         "title": "Deine Daten",
-        "hint": "Ein ZIP mit Verlauf, Einstellungen und Aufnahmen, ohne Modelle und Protokolle.",
+        "hint": "Ein ZIP mit Verlauf, Einstellungen und Aufnahmen. Modelle und Protokolle sind nicht enthalten.",
         "button": "Meine Daten exportieren",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "ZIP-Archiv",

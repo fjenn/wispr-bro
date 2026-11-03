@@ -298,7 +298,7 @@
       },
       "export": {
         "title": "Dina data",
-        "hint": "En zip med din historik, dina inställningar och inspelningar, utan modeller och loggar.",
+        "hint": "En zip med din historik, dina inställningar och inspelningar. Modeller och loggar ingår inte.",
         "button": "Exportera mina data",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Ziparkiv",

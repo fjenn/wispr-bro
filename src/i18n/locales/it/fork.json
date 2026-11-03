@@ -299,7 +299,7 @@
       },
       "export": {
         "title": "I tuoi dati",
-        "hint": "Uno zip con Cronologia, impostazioni e registrazioni, senza modelli né log.",
+        "hint": "Uno zip con Cronologia, impostazioni e registrazioni. Modelli e log non sono inclusi.",
         "button": "Esporta i miei dati",
         "fileName": "wispr-bro-data-{{date}}.zip",
         "filter": "Archivio ZIP",
