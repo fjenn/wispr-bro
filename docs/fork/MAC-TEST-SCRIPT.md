@@ -2087,8 +2087,27 @@ notes."`.
 
 ### S-31 Lesson engine and Transforms tutorial
 
-- [ ] S-31.1 (Exit criterion; R5 has no separate real-Mac line) The Transforms lesson completes end-to-end on a real Mac in under 2 min.
-- Procedure: TODO (S-31).
+Items S-31.1-.4 are **queued for the Mac wave** (consolidated UI run;
+`scripts/wb-s31/run.sh`, AX driver `scripts/wb-s31/lesson.swift`). Test
+bundle: "Wispr Bro S31 Check" (`com.wisprbro.s31check`, portable profile,
+onboarding completed, a ready local AI engine so the practice rewrite is
+real). No audio: the lesson has no take.
+
+- [ ] S-31.1 (Exit criterion) `run.sh off`: with Transforms off, Transforms
+      › Start tutorial › Try it out › select all › ⌥1 › "Text rewritten" › ⌥O
+      shows the changes › ⌘Z restores the draft › ⌥1 › Turn on Transforms,
+      **under 120 s** end to end; `transforms_enabled` is on afterwards, the
+      clipboard is unchanged, no `transforms: run` log line (nothing pasted).
+- [ ] S-31.2 `run.sh on`: with Transforms on, the same practice; the fork tap
+      swallows ⌥1 and hands it over (log `tutorials: transform.polish went to the
+practice step`), no real run; the last button says Done.
+- [ ] S-31.3 `run.sh outside`: the practice step open, TextEdit in front with
+      a selection: ⌥1 runs a real Polish there (log `transforms: run … pasted`),
+      nothing is handed to the lesson.
+- [ ] S-31.4 By eye (screenshot `off.png` and the session): the drawn bar's
+      spotlight and "Done · View changes", the three How it works scenes moving
+      (and still with Reduce motion on), Help › Essentials › Learn Transforms,
+      the checklist's "Try a Transform" ticking after the lesson closes.
 
 ### S-32 Whisper tutorial and microphone quiz
 
