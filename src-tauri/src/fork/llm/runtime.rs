@@ -422,6 +422,13 @@ fn on_recording_phase<R: Runtime>(app: &AppHandle<R>, phase: Option<&str>) {
         // S-12b: Apple's model too, when it would clean this take.
         super::post_process::prewarm_apple(app);
     }
+    if let Some(sup) = rt.supervisor() {
+        match phase {
+            Some("started") => sup.take_started(),
+            Some("stopped") | Some("cancelled") => sup.take_ended(),
+            _ => {}
+        }
+    }
     let action = {
         let mut p = lock(&rt.planner);
         match phase {
@@ -587,7 +594,10 @@ fn warm_marker_name(binary: &std::path::Path) -> Option<String> {
 /// ~3.5 s more on an M5 Max, because Metal compiles the embedded shader
 /// library and caches it per binary. Pay that once in the background, right
 /// after the model is ready, instead of in the user's first take. Skipped
-/// when memory is short; the server is stopped again at once.
+/// when memory is short. The server is stopped again at once, unless a take
+/// started meanwhile ([`Supervisor::warm_up`]; Mac wave 3: stopping it
+/// under a take that was waiting for it cost that take a second cold
+/// start).
 async fn first_launch_warmup<R: Runtime>(app: &AppHandle<R>) {
     let Some(rt) = runtime(app) else { return };
     let Some(sup) = rt.supervisor.clone() else {
@@ -601,7 +611,15 @@ async fn first_launch_warmup<R: Runtime>(app: &AppHandle<R>) {
         return;
     }
     let t0 = Instant::now();
-    match sup.ensure_ready().await {
+    match sup.warm_up().await {
+        // A start that fell back to the CPU compiled no Metal library: the
+        // next launch (on the GPU again) warms up again.
+        Ok(_) if sup.status().device != "gpu" => {
+            log::info!(
+                "llm: first-launch warm-up ran on the CPU ({:?}); it runs again at the next launch",
+                t0.elapsed()
+            );
+        }
         Ok(_) => {
             log::info!("llm: first-launch warm-up took {:?}", t0.elapsed());
             if let Ok(entries) = std::fs::read_dir(&rt.llm_dir) {
@@ -612,7 +630,6 @@ async fn first_launch_warmup<R: Runtime>(app: &AppHandle<R>) {
                 }
             }
             let _ = std::fs::write(&path, b"");
-            sup.stop().await;
         }
         Err(e) => log::warn!("llm: first-launch warm-up failed: {e}"),
     }

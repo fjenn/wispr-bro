@@ -703,3 +703,230 @@ async fn real_server_killed_mid_request_fails_open_and_restarts() {
     eprintln!("restarted in {:?}", t1.elapsed());
     sup.stop().await;
 }
+
+// ---------------------------------------------------------------------------
+// Mac wave 3 (finding 3): the first take after a fresh start waited 19 s.
+// The launch warm-up stopped the server a take was waiting for, the take's
+// memory check waited behind the start, and a take's start had no deadline.
+
+#[tokio::test(flavor = "multi_thread")]
+async fn warm_up_alone_stops_its_server() {
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 50 }]);
+    assert!(!sup.warm_up().await.unwrap(), "nothing wanted it");
+    assert!(!sup.is_running().await);
+    assert_eq!(sup.status().phase, ServerPhase::Stopped);
+    assert_eq!(h.launches().len(), 1);
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn a_take_that_starts_during_the_warm_up_keeps_its_server() {
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 300 }]);
+    let s2 = sup.clone();
+    let warm = tokio::spawn(async move { s2.warm_up().await });
+    tokio::time::sleep(Duration::from_millis(80)).await;
+    // Key-down: the take starts and its prewarm waits for the same start.
+    sup.take_started();
+    let s3 = sup.clone();
+    let prewarm = tokio::spawn(async move { s3.ensure_ready().await });
+    assert!(warm.await.unwrap().unwrap(), "kept for the take");
+    prewarm.await.unwrap().unwrap();
+    assert!(sup.is_running().await);
+    assert_eq!(h.launches().len(), 1, "one start, shared");
+    // The take's request uses it at once.
+    let t0 = Instant::now();
+    sup.complete(&sample(), Duration::from_secs(5), &CancellationToken::new())
+        .await
+        .unwrap();
+    assert!(t0.elapsed() < Duration::from_millis(200));
+    assert_eq!(h.launches().len(), 1);
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn a_request_waiting_on_the_warm_up_keeps_its_server() {
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 300 }]);
+    let s2 = sup.clone();
+    let warm = tokio::spawn(async move { s2.warm_up().await });
+    tokio::time::sleep(Duration::from_millis(80)).await;
+    let s3 = sup.clone();
+    let req = tokio::spawn(async move {
+        s3.complete(&sample(), Duration::from_secs(5), &CancellationToken::new())
+            .await
+    });
+    assert!(warm.await.unwrap().unwrap());
+    req.await.unwrap().unwrap();
+    assert!(sup.is_running().await);
+    assert_eq!(h.launches().len(), 1);
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn is_running_never_waits_for_a_start() {
+    let (_h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 600 }]);
+    {
+        lock(&sup.config).health_timeout = Duration::from_secs(5);
+    }
+    assert!(!sup.is_running().await);
+    let s2 = sup.clone();
+    let start = tokio::spawn(async move { s2.ensure_ready().await });
+    tokio::time::sleep(Duration::from_millis(80)).await;
+    let t0 = Instant::now();
+    assert!(sup.is_running().await, "a start in progress counts");
+    assert!(
+        t0.elapsed() < Duration::from_millis(100),
+        "{:?}",
+        t0.elapsed()
+    );
+    start.await.unwrap().unwrap();
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn a_take_that_gives_up_on_a_cold_start_leaves_it_running() {
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 500 }]);
+    {
+        lock(&sup.config).health_timeout = Duration::from_secs(5);
+    }
+    // The take's budget runs out first; it pastes without cleanup.
+    let t0 = Instant::now();
+    let gave_up = tokio::time::timeout(Duration::from_millis(100), sup.ensure_ready()).await;
+    assert!(gave_up.is_err());
+    assert!(t0.elapsed() < Duration::from_millis(300));
+    // The start was not cut off (no half-started process): it finishes and
+    // the next take reuses it.
+    let t0 = Instant::now();
+    loop {
+        if sup.status().phase == ServerPhase::Ready {
+            break;
+        }
+        assert!(t0.elapsed() < Duration::from_secs(3), "start abandoned");
+        tokio::time::sleep(Duration::from_millis(20)).await;
+    }
+    sup.complete(&sample(), Duration::from_secs(5), &CancellationToken::new())
+        .await
+        .unwrap();
+    assert_eq!(h.launches().len(), 1);
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn the_idle_owner_never_stops_the_server_under_a_take() {
+    let (_h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 0 }]);
+    {
+        lock(&sup.config).idle_timeout = Duration::from_millis(100);
+    }
+    sup.ensure_ready().await.unwrap();
+    sup.take_started();
+    tokio::time::sleep(Duration::from_millis(250)).await;
+    assert!(!sup.idle_tick().await, "a take is recording");
+    sup.take_ended();
+    assert!(
+        !sup.idle_tick().await,
+        "the idle timeout counts from the take's end"
+    );
+    // Someone waiting for the server holds it too.
+    tokio::time::sleep(Duration::from_millis(150)).await;
+    sup.waiting.fetch_add(1, Ordering::AcqRel);
+    assert!(!sup.idle_tick().await, "a caller is waiting");
+    assert!(!sup.stop_if_idle().await, "a caller is waiting");
+    sup.waiting.fetch_sub(1, Ordering::AcqRel);
+    assert!(sup.idle_tick().await);
+    assert!(!sup.is_running().await);
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn a_take_that_never_ends_stops_holding_the_server() {
+    let (_h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 0 }]);
+    {
+        lock(&sup.config).idle_timeout = Duration::from_millis(50);
+    }
+    sup.ensure_ready().await.unwrap();
+    sup.take_started();
+    *lock(&sup.take_since) = Some(Instant::now() - TAKE_HOLD_MAX);
+    *lock(&sup.last_used) = Instant::now() - Duration::from_secs(1);
+    assert!(sup.idle_tick().await);
+}
+
+/// Note 5: a slow first exec (syspolicyd) timed the GPU starts out and the
+/// app fell back to the CPU; the GPU gets one more try at the next start,
+/// once per launch.
+#[tokio::test(flavor = "multi_thread")]
+async fn a_timeout_fallback_tries_the_gpu_again_once() {
+    let (h, sup, _d) = setup(&[
+        Behavior::NeverHealthy,
+        Behavior::NeverHealthy,
+        Behavior::NeverHealthy,
+        Behavior::Healthy { load_ms: 0 },
+    ]);
+    assert!(sup.ensure_ready().await.is_err());
+    assert_eq!(sup.status().device, "cpu");
+    sup.inner.lock().await.backoff_until = None;
+    sup.ensure_ready().await.unwrap();
+    let l = h.launches();
+    assert_eq!(l.len(), 4);
+    assert!(!has_ngl0(&l[3]), "back on the GPU");
+    assert_eq!(sup.status().device, "gpu");
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn the_gpu_retry_is_used_once_per_launch() {
+    let (h, sup, _d) = setup(&[
+        Behavior::NeverHealthy,
+        Behavior::NeverHealthy,
+        Behavior::NeverHealthy,
+        // The retry: the GPU times out twice again, then the CPU starts.
+        Behavior::NeverHealthy,
+        Behavior::NeverHealthy,
+        Behavior::Healthy { load_ms: 0 },
+    ]);
+    assert!(sup.ensure_ready().await.is_err());
+    sup.inner.lock().await.backoff_until = None;
+    sup.ensure_ready().await.unwrap();
+    let l = h.launches();
+    assert_eq!(l.len(), 6);
+    assert!(!has_ngl0(&l[3]) && !has_ngl0(&l[4]) && has_ngl0(&l[5]));
+    // No third GPU try in this launch.
+    sup.stop().await;
+    sup.ensure_ready().await.unwrap();
+    assert!(has_ngl0(h.launches().last().unwrap()));
+    assert_eq!(sup.status().device, "cpu");
+}
+
+/// A take whose server is still starting (cold, slow) gets
+/// `deadline::START_BUDGET`, then pastes the deterministic text; the start
+/// carries on for the next take.
+#[tokio::test(flavor = "multi_thread")]
+async fn a_cold_start_inside_a_take_falls_back_within_the_start_budget() {
+    use crate::fork::llm::deadline::START_BUDGET;
+    use crate::fork::llm::post_process::{clean, CleanupOutcome, LocalEngine, Request};
+    use crate::fork::settings::CleanupLevel;
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 4_000 }]);
+    {
+        lock(&sup.config).health_timeout = Duration::from_secs(10);
+    }
+    let text = "um so I was thinking we could uh meet on friday no wait thursday";
+    let req = Request {
+        text,
+        level: CleanupLevel::Light,
+        language: None,
+        hint: None,
+        terms: &[],
+        keep: &[],
+        style: None,
+        context: &[],
+    };
+    let t0 = Instant::now();
+    let cleaned = clean(
+        &LocalEngine {
+            supervisor: &sup,
+            pill: false,
+        },
+        &req,
+    )
+    .await;
+    let took = t0.elapsed();
+    assert_eq!(cleaned.outcome, CleanupOutcome::Timeout);
+    assert!(
+        took < START_BUDGET + Duration::from_millis(500),
+        "waited {took:?}"
+    );
+    assert_eq!(h.shared().chats, 0);
+    assert_eq!(sup.status().phase, ServerPhase::Starting, "still starting");
+    assert_eq!(h.launches().len(), 1);
+}

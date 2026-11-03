@@ -4,18 +4,31 @@
 //! Rust port of the lifecycle in TypeWhisper's `LlamaCppServer.swift`
 //! (GPL-3.0-or-later; docs/fork/PORTS.md), with R5's additions:
 //!
-//! - **One start at a time.** [`Supervisor::ensure_ready`] holds the state
-//!   lock across a start, so a prewarm at key-down and the take's request
-//!   share one server.
+//! - **One start at a time.** A start holds the state lock, so a prewarm at
+//!   key-down and the take's request share one server. It runs as its own
+//!   task: a caller that gives up (a take's start budget, a transform's
+//!   deadline) only stops waiting, the start finishes for the next request
+//!   and no half-started process is left behind.
+//! - **Never blocks a take on a start.** [`Supervisor::is_running`] does not
+//!   wait for the lock: a start in progress counts as running (Mac wave 3: a
+//!   take's memory check waited 9 s behind the launch warm-up's start).
+//! - **Warm-up yields to takes.** [`Supervisor::warm_up`] (RS-06 first
+//!   launch) stops its server afterwards only when nothing asked for it
+//!   meanwhile; a take that started during the warm-up keeps it.
 //! - **Failures.** A failed start is retried once at once ("restart once");
 //!   a second failure on the GPU switches to the CPU (`-ngl 0`) for one more
 //!   try; after that the supervisor backs off (30 s, doubling, at most
-//!   10 min). A lost port race (`couldn't bind`) retries with a new port and
+//!   10 min). A CPU fallback caused only by `/health` timeouts (a slow first
+//!   exec: syspolicyd held a copied sidecar 58 s in Mac wave 3) tries the
+//!   GPU again once at the next fresh start; one caused by the server
+//!   exiting stays on the CPU until the app quits. Every launch starts on
+//!   the GPU. A lost port race (`couldn't bind`) retries with a new port and
 //!   does not count. A server that crashes after it was ready is restarted
 //!   once in the background; a second crash within a minute waits for the
 //!   next demand and the backoff.
 //! - **One idle owner.** [`Supervisor::idle_tick`] stops the server after
-//!   [`IDLE_TIMEOUT`] with no request in flight (R5 §4.5; no
+//!   [`IDLE_TIMEOUT`] with no request in flight, nobody waiting for it and
+//!   no take running ([`Supervisor::take_started`]; R5 §4.5; no
 //!   `--sleep-idle-seconds`).
 //! - **Wake.** [`Supervisor::on_wake`] probes `/health` and restarts a server
 //!   that does not answer.
@@ -53,8 +66,12 @@ pub const BACKOFF_BASE: Duration = Duration::from_secs(30);
 pub const BACKOFF_MAX: Duration = Duration::from_secs(600);
 /// Two crashes this close together stop the automatic restart.
 pub const CRASH_WINDOW: Duration = Duration::from_secs(60);
+/// How a start that timed out waiting for `/health` is reported.
+const TIMEOUT_PREFIX: &str = "no /health";
 /// Port races retried per start.
 const BIND_RETRIES: u32 = 3;
+/// A take that never reported its end stops holding the server after this.
+pub const TAKE_HOLD_MAX: Duration = Duration::from_secs(30 * 60);
 
 // ---------------------------------------------------------------------------
 // Process abstraction
@@ -224,6 +241,13 @@ struct Inner {
     backoffs: u32,
     backoff_until: Option<Instant>,
     last_crash: Option<Instant>,
+    /// The failures of the current start were all `/health` timeouts.
+    only_timeouts: bool,
+    /// The CPU fallback came from timeouts only: the next fresh start tries
+    /// the GPU once more.
+    retry_gpu: bool,
+    /// That retry was used (once per launch).
+    gpu_retried: bool,
 }
 
 /// See the module docs.
@@ -233,6 +257,12 @@ pub struct Supervisor {
     inner: tokio::sync::Mutex<Inner>,
     generation: AtomicU64,
     in_flight: AtomicUsize,
+    /// Callers waiting in [`Supervisor::ensure_ready`].
+    waiting: AtomicUsize,
+    /// Bumped by every demand: a take starting, a prewarm, a request.
+    demand: AtomicU64,
+    /// When the running take started ([`Supervisor::take_started`]).
+    take_since: Mutex<Option<Instant>>,
     last_used: Mutex<Instant>,
     status: watch::Sender<ServerStatus>,
     me: Weak<Supervisor>,
@@ -268,9 +298,15 @@ impl Supervisor {
                 backoffs: 0,
                 backoff_until: None,
                 last_crash: None,
+                only_timeouts: true,
+                retry_gpu: false,
+                gpu_retried: false,
             }),
             generation: AtomicU64::new(0),
             in_flight: AtomicUsize::new(0),
+            waiting: AtomicUsize::new(0),
+            demand: AtomicU64::new(0),
+            take_since: Mutex::new(None),
             last_used: Mutex::new(Instant::now()),
             status: watch::channel(ServerStatus::default()).0,
             me: me.clone(),
@@ -324,13 +360,48 @@ impl Supervisor {
         *lock(&self.last_used) = Instant::now();
     }
 
-    /// `true` while a server process is up and ready.
+    /// `true` while a server process is up, or being started. Never waits
+    /// for a start: while one holds the lock, the published phase answers.
     pub async fn is_running(&self) -> bool {
-        let mut inner = self.inner.lock().await;
-        match inner.running.as_mut() {
-            Some(r) => !r.server.has_exited(),
-            None => false,
+        match self.inner.try_lock() {
+            Ok(mut inner) => match inner.running.as_mut() {
+                Some(r) => !r.server.has_exited(),
+                None => false,
+            },
+            Err(_) => matches!(
+                self.status.borrow().phase,
+                ServerPhase::Starting | ServerPhase::Ready
+            ),
         }
+    }
+
+    /// A take started recording (Handy's `recording-state-event`): the idle
+    /// owner leaves the server alone until [`Self::take_ended`], and a
+    /// launch warm-up in flight keeps its server for it.
+    pub fn take_started(&self) {
+        self.demand.fetch_add(1, Ordering::AcqRel);
+        *lock(&self.take_since) = Some(Instant::now());
+        self.touch();
+    }
+
+    /// The take's recording ended or was cancelled. Its cleanup request,
+    /// seconds later, is in flight while it runs; the idle timeout counts
+    /// from now.
+    pub fn take_ended(&self) {
+        *lock(&self.take_since) = None;
+        self.touch();
+    }
+
+    fn take_running(&self) -> bool {
+        lock(&self.take_since).is_some_and(|t| t.elapsed() < TAKE_HOLD_MAX)
+    }
+
+    /// Something needs the server now: a request, a caller waiting for a
+    /// start, or a take.
+    fn wanted(&self) -> bool {
+        self.in_flight.load(Ordering::Acquire) > 0
+            || self.waiting.load(Ordering::Acquire) > 0
+            || self.take_running()
     }
 
     /// PID of the running server (tests, RS-06 bench).
@@ -343,9 +414,46 @@ impl Supervisor {
             .map(|r| r.server.pid())
     }
 
-    /// Starts the server if needed and returns its client.
+    /// Starts the server if needed and returns its client. The start runs
+    /// as its own task: dropping this future (a deadline) stops the wait,
+    /// not the start.
     pub async fn ensure_ready(&self) -> Result<Handle, StartError> {
         self.touch();
+        self.demand.fetch_add(1, Ordering::AcqRel);
+        self.waiting.fetch_add(1, Ordering::AcqRel);
+        let _waiting = InFlight(&self.waiting);
+        self.start_detached().await
+    }
+
+    /// [`Self::ensure_ready_now`] on its own task.
+    async fn start_detached(&self) -> Result<Handle, StartError> {
+        let (Some(me), Ok(rt)) = (self.me.upgrade(), tokio::runtime::Handle::try_current()) else {
+            return self.ensure_ready_now().await;
+        };
+        match rt.spawn(async move { me.ensure_ready_now().await }).await {
+            Ok(result) => result,
+            Err(e) => Err(StartError::Failed(format!("start task: {e}"))),
+        }
+    }
+
+    /// RS-06 first-launch warm-up: starts the server (paying the first
+    /// Metal compile outside a take), then stops it again unless something
+    /// asked for it meanwhile (a take started, a prewarm or a request came
+    /// in, someone is waiting). `Ok(true)`: the server stays up for them;
+    /// the idle owner stops it later. Does not count as a demand itself.
+    pub async fn warm_up(&self) -> Result<bool, StartError> {
+        let before = self.demand.load(Ordering::Acquire);
+        self.start_detached().await?;
+        let mut inner = self.inner.lock().await;
+        if self.wanted() || self.demand.load(Ordering::Acquire) != before {
+            log::info!("llm: warm-up done; a take wants the server, it stays up");
+            return Ok(true);
+        }
+        self.stop_locked(&mut inner).await;
+        Ok(false)
+    }
+
+    async fn ensure_ready_now(&self) -> Result<Handle, StartError> {
         let mut inner = self.inner.lock().await;
         if let Some(r) = inner.running.as_mut() {
             if !r.server.has_exited() {
@@ -376,6 +484,16 @@ impl Supervisor {
         if lock(&self.config).model.is_none() {
             return Err(StartError::NoModel);
         }
+        if inner.retry_gpu && inner.device == Device::Cpu {
+            // The CPU fallback came from timeouts only (a slow first exec):
+            // the GPU gets one more chance.
+            inner.retry_gpu = false;
+            inner.gpu_retried = true;
+            inner.device = Device::Gpu;
+            self.publish(|s| s.device = "gpu".into());
+            log::info!("llm: the CPU fallback came from start timeouts; trying the GPU again");
+        }
+        inner.only_timeouts = true;
 
         let mut binds = 0;
         loop {
@@ -395,11 +513,15 @@ impl Supervisor {
                     log::warn!("llm: port taken before the server bound it; new port");
                 }
                 Attempt::Bind => {
+                    inner.only_timeouts = false;
                     if let Some(e) = self.after_failure(&mut inner, "could not bind".into()) {
                         return Err(e);
                     }
                 }
                 Attempt::Failed(msg) => {
+                    if !msg.starts_with(TIMEOUT_PREFIX) {
+                        inner.only_timeouts = false;
+                    }
                     if let Some(e) = self.after_failure(&mut inner, msg) {
                         return Err(e);
                     }
@@ -421,6 +543,7 @@ impl Supervisor {
             (_, Device::Gpu) => {
                 log::warn!("llm: falling back to CPU (-ngl 0)");
                 inner.device = Device::Cpu;
+                inner.retry_gpu = inner.only_timeouts && !inner.gpu_retried;
                 self.publish(|s| s.device = "cpu".into());
                 None
             }
@@ -543,7 +666,7 @@ impl Supervisor {
                 Attempt::Failed(match why {
                     WaitError::Exited => format!("server exited while loading{detail}"),
                     WaitError::Timeout => format!(
-                        "no /health after {} s{detail}",
+                        "{TIMEOUT_PREFIX} after {} s{detail}",
                         config.health_timeout.as_secs()
                     ),
                 })
@@ -645,10 +768,12 @@ impl Supervisor {
         }
     }
 
-    /// Stops the server now if no request is in flight and no start runs
-    /// (critical memory pressure, S-38). `true` when it stopped one.
+    /// Stops the server now if no request is in flight, nobody waits for it
+    /// and no start runs (critical memory pressure, S-38; a recording take
+    /// does not hold it: it skips cleanup for memory). `true` when it
+    /// stopped one.
     pub async fn stop_if_idle(&self) -> bool {
-        if self.in_flight.load(Ordering::Acquire) > 0 {
+        if self.in_flight.load(Ordering::Acquire) > 0 || self.waiting.load(Ordering::Acquire) > 0 {
             return false;
         }
         let Ok(mut inner) = self.inner.try_lock() else {
@@ -664,9 +789,7 @@ impl Supervisor {
     /// Called every few seconds: stops an idle server.
     pub async fn idle_tick(&self) -> bool {
         let idle_timeout = lock(&self.config).idle_timeout;
-        if self.in_flight.load(Ordering::Acquire) > 0
-            || lock(&self.last_used).elapsed() < idle_timeout
-        {
+        if self.wanted() || lock(&self.last_used).elapsed() < idle_timeout {
             return false;
         }
         // Never wait behind a start.
