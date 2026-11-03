@@ -228,6 +228,7 @@ export const FORK_PATHS: string[] = [
   "scripts/wb-*/**",
   "src/i18n/locales/*/fork.json",
   "src/i18n/locales/*/fork.flags.json",
+  "src/i18n/locales/en/fork.source-hashes.json", // S-37b: English source hashes
   "src-tauri/tauri.fork.conf.json",
   "src-tauri/capabilities/fork.json",
   "src-tauri/icons-fork/**",
