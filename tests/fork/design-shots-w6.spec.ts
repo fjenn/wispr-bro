@@ -243,6 +243,12 @@ test.describe("design shots W6", () => {
       await snap(page, "note-window-empty", theme);
     });
 
+    test(`scratchpad empty ${theme}`, async ({ page, ipc, hub }) => {
+      await hubAt(page, ipc, hub, theme, "#/hub/scratchpad");
+      await expect(page.getByTestId("wb-scratchpad-page")).toBeVisible();
+      await snap(page, "scratchpad-empty", theme);
+    });
+
     test(`notifications and help ${theme}`, async ({ page, ipc, hub }) => {
       await hubAt(page, ipc, hub, theme, "", () => installInbox(ipc), {});
       await page.getByTestId("wb-notifications-bell").click();

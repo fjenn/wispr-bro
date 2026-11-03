@@ -1386,6 +1386,25 @@ the builder's scratch folder (not in the repo).
 - [ ] W4.8 Scratchpad group on the bar (S-24 on): the two buttons sit on the
       black capsule (not 6 pt below it), hover help still per button.
 
+### Design W6 (Scratchpad and dialogs) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w6-scratch-dialogs`. Debug build, by eye unless
+noted; the shots in Playwright are the reference.
+
+- [ ] DW6.1 Open the note (Hub › Scratchpad › New note, or the shortcut):
+      no system title text; the traffic lights sit at the start of the
+      44 pt strip, vertically centred, clear of the first tab chip; empty
+      strip space drags the window; expand and close work. Repeat with the
+      app language set to Arabic (strip mirrored, lights still clear).
+- [ ] DW6.2 Re-run S-24.1 (`scripts/wb-s24/`, WAV microphone): a take started
+      from the note keeps focus and the text lands in it with the new chrome.
+- [ ] DW6.3 Scratchpad page in light and dark: hero photo, note peek, hover
+      toolbar on a Recents card (red delete), Add to the bar switch.
+- [ ] DW6.4 Dialogs in WebKit: Add word (with a conflict), Snippet, the
+      import wizard's column pickers (listbox opens, keyboard works), Report
+      a problem, the feature popup, What's new as a sheet; Reduce Motion
+      crossfades them.
+
 ### S-14 Settings modal and hotkeys panel
 
 - [x] S-14.1 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dock toggle on macOS 26 (activation policy flips).

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil, Pin, PinOff, Trash2 } from "../ui/icons";
+import { ForkArt, photos } from "@/assets/fork/art";
 import { commands, events, type Note } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { chordLabel } from "../settings/hotkeys/model";
@@ -174,6 +175,7 @@ export function ScratchpadPage() {
           onClick: () => void commands.forkScratchpadNew(),
           testId: "wb-scratchpad-new",
         }}
+        image={photos.scratchpad.src}
         art={<NotePeek />}
       />
       <section
@@ -214,6 +216,11 @@ export function ScratchpadPage() {
         {!loading && notes.length === 0 && (
           <EmptyState
             compact={Boolean(query)}
+            art={
+              query ? undefined : (
+                <ForkArt name="empty-scratchpad" width={160} />
+              )
+            }
             title={query ? t("scratchpad.noResults") : t("scratchpad.empty")}
             body={t("scratchpad.emptyHelp")}
           />
