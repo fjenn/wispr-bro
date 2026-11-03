@@ -2421,7 +2421,13 @@ Note: Handy's `playwright.config.ts` (`testDir: ./tests`) also discovers
   run unchanged; no real microphone is opened (no indicator, no prompt).
   Drivers use `wb_test_mic`/`wb_mic_load`/`wb_mic_play`
   (`scripts/wb-lib/app.sh`), which refuse the speakers unless
-  `WB_ALLOW_SPEAKERS=1`.
+  `WB_ALLOW_SPEAKERS=1`. Every Mac driver that played audio aloud now does:
+  the debug-build drivers agree on `Data/test-mic.wav` (`wb_test_mic_env`,
+  exported by `scripts/wb-s05/app.sh start` and by each take), the S-08
+  bundle is launched with `open --env`, and the S-38 soak starts its app with
+  `scripts/wb-soak/start.sh` and copies each WAV into `soak.py --mic` (no
+  loopback driver). S-08's mic-loss case is the one exception: cutting real
+  mic audio needs the real mic, so it refuses without `WB_ALLOW_SPEAKERS=1`.
 - **Test profiles** (`scripts/wb-lib/profile.py`, `wb_unbind_keys`,
   `wb_clone_models`): every global shortcut unbound except Esc unless a
   check keeps or sets one, and the model cache cloned (APFS `cp -c`) from

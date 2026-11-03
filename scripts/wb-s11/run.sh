@@ -3,8 +3,9 @@
 #
 # Mac test S-11.1 / S-11.2 (docs/fork/MAC-TEST-SCRIPT.md), unattended:
 # N rounds of six dictations through the running test app, each checked by
-# check.py. The speech is macOS TTS (`say`, Samantha) with pauses where a
-# speaker pauses around a command, played through the speakers.
+# check.py. The speech is macOS TTS (`say -o`, Samantha) with pauses where a
+# speaker pauses around a command, written to WAVs that the app plays as its
+# test microphone (take.sh; never the speakers).
 #
 #   round: TextEdit e-mail (3 paragraphs), Safari e-mail (WebKit editor),
 #          TextEdit chat (2 lines), Chrome chat (typing path, Shift+Return),

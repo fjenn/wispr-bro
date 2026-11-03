@@ -7,8 +7,12 @@
 # (scripts/wb-s19a/setup.py), the app is started again, and dictations go
 # into new TextEdit documents through the real record path (S-12a's
 # take.sh: holds ~/wb-bench/gui.lock per take, checks the frontmost app,
-# closes only what it opened). The audio is macOS TTS played once through
-# the speakers into the mic (the real mic path; keep the volume moderate).
+# closes only what it opened). The audio is macOS TTS written to WAVs
+# (`say -o`) that the app plays as its test microphone
+# (WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav, set at each start; never the
+# speakers unless WB_ALLOW_SPEAKERS=1). Each start unbinds the profile's
+# global shortcuts (takes are SIGUSR2) and clones the model cache when
+# Data/huggingface is missing (scripts/wb-lib/profile.py).
 #
 # TextEdit stands in for the apps of each group: a rule puts it in the
 # group under test, so the whole chain runs for real (frontmost app → the
@@ -29,6 +33,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
 APP_DIR="$ROOT/src-tauri/target/debug"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 TAKE="$ROOT/scripts/wb-s12a/take.sh"
 SCRATCH="${WB_S19A_SCRATCH:-${TMPDIR:-/tmp}/wb-s19a}"
 WAVS="$SCRATCH/wavs"
@@ -88,6 +93,8 @@ log_lines() { cat "$APP_DIR"/Data/logs/*.log 2>/dev/null | wc -l | tr -d ' '; }
 start_app() {
   local phase="$1"; shift
   local from
+  wb_unbind_keys "$APP_DIR/Data" >>"$LOGS/$phase.profile" || return 1
+  [ -d "$APP_DIR/Data/huggingface" ] || wb_clone_models "$APP_DIR/Data" "${WB_MODEL_CACHE:-}" >>"$LOGS/$phase.profile"
   from=$(log_lines)
   (cd "$APP_DIR" && env "$@" WB_DEBUG_TEXT_TRACE=1 "./$(wb_bin_name "$APP_DIR")" --start-hidden >"$LOGS/$phase.stdout" 2>&1 &)
   for _ in $(seq 1 120); do

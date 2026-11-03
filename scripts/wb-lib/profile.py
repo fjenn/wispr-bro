@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Seeds a test identity's data folder for a Mac-wave driver (never the
-owner's: the folder must belong to a `com.wisprbro.<slice>check` identity or
-a portable `Contents/MacOS/Data`).
+owner's: the folder must belong to a `com.wisprbro.<slice>check` identity,
+a portable `Contents/MacOS/Data` or a portable worktree build's
+`src-tauri/target/{debug,release}/Data`).
 
   profile.py unbind <data dir> [--keep id,id...] [--set id=chord[/activation]...]
       Every global shortcut unbound (fork-settings.json `hotkeys` = [] for
@@ -63,6 +64,10 @@ KEEP_ALWAYS = {"cancel"}
 def refuse_unless_test_profile(data):
     real = os.path.realpath(data)
     if "/Contents/MacOS/Data" in real:
+        return
+    # A portable build in a worktree (scripts/wb-s05/app.sh), built with a
+    # test identity by the Mac test script.
+    if re.search(r"/src-tauri/target/(debug|release)/Data$", real.rstrip("/")):
         return
     m = re.search(r"/Application Support/(com\.wisprbro\.[A-Za-z0-9]+)(/|$)", real)
     if m and re.fullmatch(r"com\.wisprbro\.[A-Za-z0-9]+check", m.group(1)):

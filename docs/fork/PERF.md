@@ -38,8 +38,10 @@ M5 Max, macOS 26.6.2. One run each.
 
 ## §5.4 Exactly-once insertion
 
-Not run in part 1. Harness: `scripts/wb-soak/soak.py` (Mac test S-38.4,
-queued; needs BlackHole 2ch). Earlier evidence: S-04's 100-take soak in 10
+Not run in part 1. Harness: `scripts/wb-soak/start.sh` + `soak.py` (Mac
+test S-38.4, queued). Since the Mac wave 2 fixes the takes go through the
+app's test microphone (`WISPRBRO_TEST_MIC_WAV`, test identities and debug
+builds only): no BlackHole, no reboot, no speakers. Earlier evidence: S-04's 100-take soak in 10
 apps, 0 lost / 0 duplicated, 100/100 clipboards byte-identical
 (`docs/fork/test-runs/1.0.0-alpha.1-M-26.md`).
 
@@ -125,7 +127,7 @@ needs a profile with Accessibility granted): Mac test S-38.8.
 
 ## Other §5 rows
 
-The 8 h idle run (S-38.10), the 500-take soak (S-38.4, BlackHole) and the
+The 8 h idle run (S-38.10), the 500-take soak (S-38.4, test microphone) and the
 50-take hardware run (S-38.9, `soak.py --hardware`) are queued. Settled
 evidence so far: RS-01 (`T_show`), RS-06/RS-08 (LLM runtime), S-03 (bar
 appear 163 ms p50, web view growth), S-12a (key-up → text p50 230 ms on the

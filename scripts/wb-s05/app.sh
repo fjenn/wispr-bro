@@ -6,7 +6,16 @@
 # plain `cargo build`, scripts/wb-lib/app.sh) from src-tauri/target/debug
 # (portable profile in ./Data, test identifier com.wisprbro.s05check).
 #
-# usage: scripts/wb-s05/app.sh start|stop|pid|init
+# usage: scripts/wb-s05/app.sh start [keep] [action=chord ...] | stop | pid | init
+#   start  with the app closed: the profile's global shortcuts unbound except
+#          the comma-separated actions in [keep] and the [action=chord]
+#          bindings a check needs (scripts/wb-lib/profile.py, Mac wave 2
+#          finding 7), the model cache cloned when Data/huggingface is
+#          missing, then the app started with the test microphone
+#          (WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav; the take drivers load
+#          each WAV into it, never the speakers; WB_ALLOW_SPEAKERS=1 starts
+#          it on the real mic instead). Other variables pass through
+#          (WB_DEBUG_TEXT_TRACE=1, WB_DEBUG_CLEANUP_DEADLINE_MS=1 …).
 #   init   first launch (creates Data/settings_store.json and fork.db), stop
 set -u
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -34,6 +43,12 @@ app_pid() {
 case "${1:-}" in
   start)
     if app_pid >/dev/null; then echo "already running: $(app_pid)"; exit 0; fi
+    keep="${2:-}"
+    shift 2 2>/dev/null || shift $#
+    wb_unbind_keys "$APP_DIR/Data" "$keep" "$@" || exit 1
+    [ -d "$APP_DIR/Data/huggingface" ] || wb_clone_models "$APP_DIR/Data" "${WB_MODEL_CACHE:-}" || exit 1
+    wb_test_mic_env "$APP_DIR/Data" || exit 1
+    echo "test microphone: ${WISPRBRO_TEST_MIC_WAV:-off (WB_ALLOW_SPEAKERS=1, real mic)}"
     cd "$APP_DIR" || exit 1
     nohup "./$(wb_bin_name "$APP_DIR")" --start-hidden </dev/null >"$APP_DIR/Data/s05-stdout.log" 2>&1 &
     sleep 12
@@ -57,7 +72,7 @@ case "${1:-}" in
     ls "$APP_DIR/Data"
     ;;
   *)
-    echo "usage: $0 start|stop|pid|init" >&2
+    echo "usage: $0 start [keep] [action=chord ...] | stop | pid | init" >&2
     exit 2
     ;;
 esac

@@ -4,16 +4,23 @@
 # Mac test S-16 (docs/fork/MAC-TEST-SCRIPT.md): one dictation into a new
 # TextEdit document this script creates, through the running test app's
 # real record path: SIGUSR2 (Handy's toggle) → microphone → speech model →
-# text pipeline (dictionary replacements) → delivery (⌘V). The audio is
-# macOS TTS played through the speakers into the mic. Holds
+# text pipeline (dictionary replacements) → delivery (⌘V). The audio is a
+# macOS TTS WAV the app plays as its test microphone. Holds
 # ~/wb-bench/gui.lock for the whole take, checks the frontmost app before
 # recording, and closes only the document it opened.
+# The app plays the WAV as its test microphone (started by
+# scripts/wb-s05/app.sh with WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav;
+# wb_mic_load/wb_mic_play in scripts/wb-lib/app.sh): never the speakers
+# unless WB_ALLOW_SPEAKERS=1.
 #
 # usage: scripts/wb-s16/take.sh <app pid> <wav> <out file>
 #   <out> gets the document text.
 set -u
 PID="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
+APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
+. "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 LOCK="$HOME/wb-bench/gui.lock"
 
 if [ "${WB_S16_LOCKED:-}" != 1 ]; then
@@ -29,10 +36,12 @@ sleep 3
 f=$(front)
 if [ "$f" != com.apple.TextEdit ]; then
   echo "SKIP front=$f" | tee "$OUT"
+elif ! wb_mic_load "$WAV"; then
+  echo "NO TEST MIC" | tee "$OUT"
 else
   kill -USR2 "$PID"
   sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   sleep 0.6
   kill -USR2 "$PID"
   sleep 9

@@ -10,9 +10,9 @@
 # path with S-11's take.sh (SIGUSR2 → microphone → speech model → pipeline
 # → delivery; it holds ~/wb-bench/gui.lock per take, checks the frontmost
 # app and closes only what it opened). The clipboard is snapshotted before
-# the run and put back after it. Plays through the speakers (the owner may
-# be at the Mac): keep to one round at moderate volume; repetition belongs
-# in the unit tests.
+# the run and put back after it. The app plays the `say -o` WAVs as its
+# test microphone (started by `scripts/wb-s05/app.sh start`), never the
+# speakers; repetition still belongs in the unit tests.
 #
 # usage: scripts/wb-s17/run.sh [rounds=1] [case:target ...]
 #   (default: every case in every target)

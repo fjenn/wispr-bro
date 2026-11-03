@@ -5,9 +5,10 @@ S-38.3 and A12.1).
 Per take: focus the target app's field (prepared by a person or by
 `--prepare`), clear it through AX, snapshot the clipboard digest, start the
 take with `<app> --toggle-transcription` (the CLI goes through the same
-coordinator and `deliver` path as the hotkey), play the prerecorded WAV
-into the loopback device the app uses as its microphone, stop with the same
-flag, then read the field back through AX and decide the outcome:
+coordinator and `deliver` path as the hotkey) while the app's test
+microphone plays the prerecorded WAV (copied into `--mic` before the take;
+the app re-reads it at each take), wait the WAV's length, stop with the
+same flag, then read the field back through AX and decide the outcome:
 
   confirmed     the expected text is in the field exactly once
   duplicate     it is there more than once
@@ -22,9 +23,10 @@ take equals the one before (restored), and the frontmost app at stop and at
 the end. One JSON object per take goes to `<out>/takes.jsonl`; a summary
 line is printed at the end. Every take holds ~/wb-bench/gui.lock.
 
+  scripts/wb-soak/start.sh '<…>/Wispr Bro Check.app' <out dir>   # prints the pid
   python3 -I scripts/wb-soak/soak.py --plan plan.json --takes 500
-          --app '<…>/Wispr Bro.app/Contents/MacOS/wispr-bro' --pid <app pid>
-          --device 'BlackHole 2ch' --bin <helpers dir> --out <dir>
+          --app '<…>/Wispr Bro Check.app/Contents/MacOS/wispr-bro' --pid <app pid>
+          --mic <out dir>/test-mic.wav --bin <helpers dir> --out <dir>
 
 `plan.json`: {"apps": [{"name": "TextEdit", "bundle": "com.apple.TextEdit"},
 …], "takes": [{"wav": "…/take-01.wav", "expect": "…"}, …]}. Takes cycle
@@ -33,14 +35,24 @@ Gmail, Safari, Notion, Messages, Terminal) and the WAVs. Each app must have
 an empty text field focused (a scratch document, a draft, a local page);
 the driver never types into anything else. `--bin` holds the compiled
 helpers: `axread` and `play` (this folder), `clip` (scripts/wb-s05) and
-`pill` (scripts/wb-s03-pill.swift), each `swiftc -O -o <bin>/<name> …`.
+`pill` (scripts/wb-s03-pill.swift), each `swiftc -O -o <bin>/<name> …`
+(`play` only for `--device`).
 
-Never plays through the speakers: `--device` must be a loopback driver, and
-the run stops if `play` reports another device.
+The microphone is the app's test microphone (Mac wave 2 fixes,
+`fork/audio/test_mic.rs`): the app (a test identity or a debug build, never
+`com.wisprbro.desktop`) must have been started with
+`WISPRBRO_TEST_MIC_WAV=<--mic>`, which `start.sh` does after unbinding the
+profile's shortcuts and cloning its model cache. No loopback driver
+(BlackHole) and no speakers are needed. `--mic` defaults to
+`$WISPRBRO_TEST_MIC_WAV`. The older loopback path is still there for a Mac
+that has one: `--device '<loopback output>'` plays each WAV into it with
+`play` instead; the run stops if `play` reports another device, so nothing
+reaches the speakers either way.
 
 **Hardware run** (`--hardware`, R5 S-38: 50 takes with a real fn key on a
 real keyboard): the same apps, field clearing, read-back, card and
-clipboard checks, but no CLI toggle and no WAV. Per take the driver
+clipboard checks, but no CLI toggle and no WAV (start the app with
+`start.sh --hardware`: the real microphone and fn kept). Per take the driver
 focuses the target, prints the sentence (`expect`), and the tester holds
 fn, reads it aloud and releases; the driver waits up to `--hardware-wait`
 seconds for the field to change. A person's words differ from the script,
@@ -48,7 +60,7 @@ so the outcome compares words, not the exact text: `confirmed` when the
 field changed and holds the take once (≥ 50 % of the script's words, not
 twice their number), `duplicate` when the field holds it twice, then card /
 wrong_target / lost as above. No GUI lock is taken (the tester is at the
-Mac), and `--pid`, `--device`, `play` are not used.
+Mac), and `--pid`, `--mic`, `--device`, `play` are not used.
 
   python3 -I scripts/wb-soak/soak.py --hardware --plan plan.json --takes 50
           --app unused --pid 0 --bin <helpers dir> --out <dir>
@@ -61,6 +73,7 @@ import subprocess
 import sys
 import time
 import unicodedata
+import wave
 
 LOCK = os.path.expanduser("~/wb-bench/gui.lock")
 FIELD_WAIT_S = 12.0
@@ -105,6 +118,39 @@ class Helpers:
 
     def play(self, device, wav):
         return run_json([os.path.join(self.bin, "play"), device, wav], timeout=180)
+
+
+def wav_seconds(path):
+    try:
+        with wave.open(path) as w:
+            return w.getnframes() / float(w.getframerate())
+    except (wave.Error, OSError, EOFError):
+        out = subprocess.run(
+            ["/usr/bin/afinfo", path], capture_output=True, text=True, timeout=30
+        ).stdout
+        for line in out.splitlines():
+            if line.startswith("estimated duration:"):
+                return float(line.split()[2])
+    return 3.0
+
+
+def mic_load(mic, wav):
+    """The take's WAV into the test microphone file: any `say -o` / WAV
+    format → 16 kHz mono 16-bit, swapped in atomically (the app reads it
+    when the take starts). Returns an error string or None."""
+    if os.path.realpath(wav) == os.path.realpath(mic):
+        return None
+    tmp = mic + ".tmp.wav"
+    r = subprocess.run(
+        ["/usr/bin/afconvert", "-f", "WAVE", "-d", "LEI16@16000", "-c", "1", wav, tmp],
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    if r.returncode != 0:
+        return f"afconvert: {r.stderr.strip()}"
+    os.replace(tmp, mic)
+    return None
 
 
 def toggle(app_bin):
@@ -193,12 +239,21 @@ def one_take(h, a, n, target, take):
     h.ax("clear")
     before = h.ax("value").get("value", "")
     clip_before = h.clip_digest()
-    toggle(a.app)
-    time.sleep(0.35)
-    played = h.play(a.device, take["wav"])
-    if played.get("device") != a.device:
-        rec.update(outcome="aborted", reason=f"play: {played}")
-        return rec
+    if a.device:
+        toggle(a.app)
+        time.sleep(0.35)
+        played = h.play(a.device, take["wav"])
+        if played.get("device") != a.device:
+            rec.update(outcome="aborted", reason=f"play: {played}")
+            return rec
+    else:
+        err = mic_load(a.mic, take["wav"])
+        if err:
+            rec.update(outcome="aborted", reason=f"test microphone: {err}")
+            return rec
+        toggle(a.app)
+        # The test microphone plays the file from the stream start.
+        time.sleep(0.35 + wav_seconds(take["wav"]))
     time.sleep(0.25)
     rec["front_at_stop"] = h.ax("front").get("front")
     t_stop = time.monotonic()
@@ -247,13 +302,26 @@ def main():
     ap.add_argument("--takes", type=int, default=500)
     ap.add_argument("--app", required=True, help="the app's executable")
     ap.add_argument("--pid", type=int, required=True)
-    ap.add_argument("--device", default="BlackHole 2ch")
+    ap.add_argument(
+        "--mic",
+        default=os.environ.get("WISPRBRO_TEST_MIC_WAV", ""),
+        help="the app's WISPRBRO_TEST_MIC_WAV file (start.sh prints it)",
+    )
+    ap.add_argument(
+        "--device",
+        default="",
+        help="optional: a loopback output (e.g. BlackHole 2ch) instead of the test microphone",
+    )
     ap.add_argument("--bin", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--gap", type=float, default=2.0, help="seconds between takes")
     ap.add_argument("--hardware", action="store_true", help="a person takes each sentence with fn")
     ap.add_argument("--hardware-wait", type=float, default=60.0)
     a = ap.parse_args()
+    if not a.hardware and not a.device:
+        if not a.mic or not os.path.isabs(a.mic):
+            ap.error("--mic <absolute path> (the app's WISPRBRO_TEST_MIC_WAV) or --device <loopback>")
+        os.makedirs(os.path.dirname(a.mic), exist_ok=True)
 
     plan = json.load(open(a.plan))
     apps, takes = plan["apps"], plan["takes"]

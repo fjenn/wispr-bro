@@ -190,6 +190,20 @@ wb_mic_load() {
     && mv -f "$WISPRBRO_TEST_MIC_WAV.tmp.wav" "$WISPRBRO_TEST_MIC_WAV"
 }
 
+# A driver whose app is started in one step (scripts/wb-s05/app.sh start, a
+# phase restart) and whose takes run in another agrees on one file: <data
+# dir>/test-mic.wav, exported as WISPRBRO_TEST_MIC_WAV before the app starts
+# and before each take. An existing WISPRBRO_TEST_MIC_WAV is kept;
+# WB_ALLOW_SPEAKERS=1 leaves it unset (the old speakers-into-the-mic path).
+wb_test_mic_env() {
+  local data="${1:?data dir}"
+  [ -n "${WISPRBRO_TEST_MIC_WAV:-}" ] && return 0
+  [ "${WB_ALLOW_SPEAKERS:-}" = 1 ] && return 0
+  mkdir -p "$data" || return 1
+  WISPRBRO_TEST_MIC_WAV="$(cd "$data" && pwd)/test-mic.wav"
+  export WISPRBRO_TEST_MIC_WAV
+}
+
 wb_test_mic() {
   local dir="${1:?dir}" wav="${2:?wav}"
   mkdir -p "$dir"
@@ -210,7 +224,8 @@ wb_mic_play() {
     return 0
   fi
   if [ "${WB_ALLOW_SPEAKERS:-}" = 1 ]; then
-    afplay "$wav"
+    # WB_SPEAKER_VOLUME (afplay -v, 0-1): keep it moderate.
+    afplay ${WB_SPEAKER_VOLUME:+-v "$WB_SPEAKER_VOLUME"} "$wav"
     return $?
   fi
   echo "wb_mic_play: no WISPRBRO_TEST_MIC_WAV (start the app with it); not playing through the speakers (set WB_ALLOW_SPEAKERS=1 to force)" >&2

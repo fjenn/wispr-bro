@@ -4,8 +4,9 @@
 # Mac test S-29b (docs/fork/MAC-TEST-SCRIPT.md, S-29b), for the orchestrator's
 # consolidated UI wave. Drives the S-29b test bundle ("Wispr Bro S29b Check",
 # com.wisprbro.s29bcheck, portable) through the practice take with real keys
-# (scripts/wb-s01-keys.swift) and one pre-recorded `say` WAV played once
-# through the speakers (the practice needs the live mic). Every GUI case holds
+# (scripts/wb-s01-keys.swift) and one pre-recorded `say` WAV that the app
+# plays as its test microphone (WISPRBRO_TEST_MIC_WAV; never the speakers).
+# Every GUI case holds
 # ~/wb-bench/gui.lock. Screens that need a person (the typing test by hand,
 # the celebration by eye) are listed in MAC-TEST-SCRIPT.
 #

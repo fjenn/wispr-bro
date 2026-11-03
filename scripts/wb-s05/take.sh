@@ -4,8 +4,10 @@
 # Mac test S-05 (docs/fork/MAC-TEST-SCRIPT.md S-05): one dictation through
 # the running test app's real record path (SIGUSR2, Handy's toggle →
 # microphone → speech model → text pipeline → fork::insert target check →
-# paste or card), into windows this script opens. The speech is a WAV
-# played through the speakers into the mic.
+# paste or card), into windows this script opens. The speech is a WAV the
+# app plays as its test microphone (started by scripts/wb-s05/app.sh with
+# WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav; wb_mic_load/wb_mic_play in
+# scripts/wb-lib/app.sh), never the speakers unless WB_ALLOW_SPEAKERS=1.
 #
 # Holds ~/wb-bench/gui.lock for the whole take, checks the frontmost app
 # before recording, closes only what it opened, and saves and restores the
@@ -32,6 +34,7 @@ CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 BIN="${WB_S05_BIN:?set WB_S05_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PORT=47815
@@ -51,6 +54,8 @@ if [ "${WB_S05_LOCKED:-}" != 1 ]; then
 fi
 
 mkdir -p "$OUT"
+# The take's WAV into the test microphone (refuses the speakers).
+wb_mic_load "$WAV" || { echo "{\"case\":\"$CASE\",\"result\":\"NO TEST MIC\"}"; exit 4; }
 n=$(($(ls "$OUT" | grep -c '^take-') + 1))
 T="$OUT/take-$(printf %03d $n)-${CASE//:/_}"
 mkdir -p "$T"
@@ -83,7 +88,7 @@ print("%d,%d,%d,%d"%(w["x"]-24,w["y"]-24,w["w"]+48,w["h"]+48) if w else "")' >"$
 record() {
   kill -USR2 "$pid"
   sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   sleep 0.6
 }
 # The key-up: only if a window of ours still has focus (another tool may
@@ -205,7 +210,7 @@ case "$CASE" in
   moved:*)
     kill -USR2 "$pid"
     sleep 0.8
-    afplay "$WAV"
+    wb_mic_play "$WAV"
     sleep 0.6
     if [ "$(front)" != "$expect" ]; then
       wb_cancel "$APP_DIR" >/dev/null 2>&1
@@ -221,7 +226,7 @@ case "$CASE" in
   switch)
     kill -USR2 "$pid"
     sleep 0.8
-    afplay "$WAV"
+    wb_mic_play "$WAV"
     "$BIN/drive" activate com.apple.TextEdit >"$T/switch.json"
     sleep 0.6
     stop_take com.apple.TextEdit

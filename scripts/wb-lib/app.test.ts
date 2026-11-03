@@ -203,6 +203,17 @@ describe("profile.py", () => {
     expect(s.typing_wpm).toBe(55);
   });
 
+  test("accepts a portable worktree build's Data folder", () => {
+    const dbg = join(tmp, "wt", "src-tauri", "target", "debug", "Data");
+    expect(py("unbind", dbg, "--keep", "paste_last").code).toBe(0);
+    const h = JSON.parse(readFileSync(join(dbg, "fork-settings.json"), "utf8"))
+      .settings.hotkeys as Record<string, { chord: string }[]>;
+    expect(h.paste_last[0].chord).toBe("ctrl+command+v");
+    expect(h.dictate).toEqual([]);
+    const other = join(tmp, "wt", "src-tauri", "target", "debug", "Other");
+    expect(py("unbind", other).code).not.toBe(0);
+  });
+
   test("never touches a folder that is not a test identity's", () => {
     const owner = join(
       tmp,
@@ -255,10 +266,20 @@ describe("test microphone helpers", () => {
   });
 
   test("no Mac-wave driver plays audio through the speakers", () => {
-    // The drivers Mac wave 2 used with the live mic.
+    // Every driver that used to play its take with afplay or `say`.
     for (const f of [
+      "wb-s05/take.sh",
+      "wb-s06/case.sh",
       "wb-s07a/take.sh",
       "wb-s07b/take.sh",
+      "wb-s08/run.sh",
+      "wb-s09-soak.sh",
+      "wb-s11/take.sh",
+      "wb-s12a/take.sh",
+      "wb-s15a-takes.sh",
+      "wb-s16/take.sh",
+      "wb-s19b/take.sh",
+      "wb-s20/take.sh",
       "wb-s24/recheck.sh",
       "wb-s29b/run.sh",
       "wb-s30/run.sh",
@@ -269,5 +290,63 @@ describe("test microphone helpers", () => {
       expect([f, /^\s*[^#\n]*\bafplay\b/m.test(text)]).toEqual([f, false]);
       expect([f, text.includes("wb_mic_play")]).toEqual([f, true]);
     }
+    // No script speaks aloud: `say` only ever writes a file (`-o`).
+    const aloud: string[] = [];
+    const walk = (dir: string) => {
+      for (const d of readdirSync(dir, { withFileTypes: true })) {
+        const p = join(dir, d.name);
+        if (d.isDirectory()) walk(p);
+        else if (/\.(sh|py|ts)$/.test(d.name) && !d.name.endsWith(".test.ts")) {
+          for (const line of readFileSync(p, "utf8").split("\n")) {
+            const code = line.trimStart();
+            if (
+              code.startsWith("#") ||
+              code.startsWith("//") ||
+              code.startsWith("*")
+            )
+              continue;
+            if (/\bafplay\b/.test(code) && !p.endsWith("wb-lib/app.sh"))
+              aloud.push(`${p}: ${code}`);
+            // A shell `say` command, or a spawn of /usr/bin/say, without
+            // `-o` (listing voices with `-v '?'` plays nothing).
+            const shellSay =
+              d.name.endsWith(".sh") &&
+              /(^|[;&|(]\s*)say\s/.test(code) &&
+              !/\s-o\s/.test(code) &&
+              !/-v '\?'/.test(code);
+            const spawnSay =
+              /"\/usr\/bin\/say"/.test(code) && !/"-o"/.test(code);
+            if (shellSay || spawnSay) aloud.push(`${p}: ${code}`);
+          }
+        }
+      }
+    };
+    walk(SCRIPTS);
+    expect(aloud).toEqual([]);
+    // The soak no longer needs a loopback driver by default.
+    const soak = readFileSync(join(SCRIPTS, "wb-soak/soak.py"), "utf8");
+    expect(soak).toContain('"--mic"');
+    expect(soak).not.toContain('default="BlackHole 2ch"');
+  });
+
+  test("wb_test_mic_env agrees on <data>/test-mic.wav unless set or speakers allowed", () => {
+    const data = join(tmp, "mic-data");
+    expect(
+      sh(`wb_test_mic_env "${data}"; echo "$WISPRBRO_TEST_MIC_WAV"`, {
+        WISPRBRO_TEST_MIC_WAV: "",
+        WB_ALLOW_SPEAKERS: "",
+      }).out,
+    ).toBe(join(data, "test-mic.wav"));
+    expect(
+      sh(`wb_test_mic_env "${data}"; echo "$WISPRBRO_TEST_MIC_WAV"`, {
+        WISPRBRO_TEST_MIC_WAV: "/x/own.wav",
+      }).out,
+    ).toBe("/x/own.wav");
+    expect(
+      sh(`wb_test_mic_env "${data}"; echo "[$WISPRBRO_TEST_MIC_WAV]"`, {
+        WISPRBRO_TEST_MIC_WAV: "",
+        WB_ALLOW_SPEAKERS: "1",
+      }).out,
+    ).toBe("[]");
   });
 });

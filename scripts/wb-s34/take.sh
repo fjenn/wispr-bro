@@ -7,7 +7,9 @@
 # instance (never the owner's profile), then a correction typed the way a
 # person fixes a word, then Return (the composer sends and empties, as
 # Slack's does). Speech is a pre-recorded WAV ("Deploy it to zebra
-# today.") played once through the speakers into the mic; the profile's
+# today.") that the app plays as its test microphone (started by
+# scripts/wb-s05/app.sh with WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav; never
+# the speakers unless WB_ALLOW_SPEAKERS=1); the profile's
 # test rule turns "zebra" into "Kubernetees" (setup.sh).
 # Built on scripts/wb-s20/take.sh: holds ~/wb-bench/gui.lock, records
 # only while Chrome is in front, saves and checks the whole clipboard, and
@@ -26,6 +28,7 @@ CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 BIN="${WB_S34_BIN:?set WB_S34_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PROFILE="${TMPDIR:-/tmp}/wb-s34-chrome-profile"

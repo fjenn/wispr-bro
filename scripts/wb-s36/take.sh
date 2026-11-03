@@ -7,7 +7,9 @@
 # Cursor window this script opens on a throwaway workspace, in a separate
 # Cursor profile (never the owner's) with screen-reader mode on
 # ("editor.accessibilitySupport": "on"). Speech is a pre-recorded WAV
-# played once through the speakers into the mic. Built on
+# that the app plays as its test microphone (started by scripts/wb-s05/app.sh
+# with WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav; never the speakers unless
+# WB_ALLOW_SPEAKERS=1). Built on
 # scripts/wb-s20/take.sh: holds ~/wb-bench/gui.lock, records only while
 # the expected app is in front, saves and checks the whole clipboard, and
 # closes what it opened.
@@ -26,6 +28,7 @@ CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 BIN="${WB_S36_BIN:?set WB_S36_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PROFILE="${TMPDIR:-/tmp}/wb-s36-cursor-profile"

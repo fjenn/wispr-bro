@@ -4,15 +4,20 @@
 # Mac test S-09.1 (docs/fork/MAC-TEST-SCRIPT.md): N dictations spread over
 # five apps (TextEdit, Notes, Mail, Messages, Claude), through the running
 # app's real record path. For each take: bring the app to the front, check it
-# is frontmost, start recording with SIGUSR2 (Handy's toggle), play a WAV
-# through the speakers, stop with SIGUSR2. The app's paste method should be
-# "none" so nothing is typed into those apps.
+# is frontmost, load a WAV into the app's test microphone, start recording
+# with SIGUSR2 (Handy's toggle), wait the WAV's length, stop with SIGUSR2.
+# Never the speakers unless WB_ALLOW_SPEAKERS=1. The app's paste method
+# should be "none" so nothing is typed into those apps.
 #
 # Usage: scripts/wb-s09-soak.sh <segments dir> [takes=50]
-#   The app must run as `./wispr-bro --start-hidden` (or `./handy`) (portable profile, see the
-#   Mac test script). Every take holds ~/wb-bench/gui.lock (shared Mac).
+#   The app must run as `./wispr-bro --start-hidden` (or `./handy`) from
+#   src-tauri/target/debug (portable profile, see the Mac test script),
+#   started by `scripts/wb-s05/app.sh start` (shortcuts unbound, model cache
+#   cloned, WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav). Every take holds
+#   ~/wb-bench/gui.lock (shared Mac).
 set -u
 . "$(cd "$(dirname "$0")" && pwd)/wb-lib/app.sh"
+wb_test_mic_env "$(cd "$(dirname "$0")/../src-tauri/target/debug" && pwd)/Data" || exit 1
 SEGMENTS="${1:?segments dir with en-sentences-01..12.wav}"
 N="${2:-50}"
 LOCK="$HOME/wb-bench/gui.lock"
@@ -30,9 +35,10 @@ take() {
     echo "SKIP front=$front expected=$expect"
     return 2
   fi
+  wb_mic_load "$wav" || { echo "NO TEST MIC"; return 4; }
   kill -USR2 "$pid"
   sleep 0.6
-  afplay "$wav"
+  wb_mic_play "$wav"
   sleep 0.4
   kill -USR2 "$pid"
   sleep 3
@@ -48,7 +54,10 @@ for ((i = 0; i < N; i++)); do
   a=$((i % 5))
   wav="$SEGMENTS/en-sentences-$(printf "%02d" $(((i % 12) + 1))).wav"
   for try in 1 2 3; do
-    WB_S09_TAKE=1 /usr/bin/lockf -k -t 600 "$LOCK" "$0" "${APPS[$a]}" "$wav" "${IDS[$a]}" && break
+    WB_S09_TAKE=1 /usr/bin/lockf -k -t 600 "$LOCK" "$0" "${APPS[$a]}" "$wav" "${IDS[$a]}"
+    rc=$?
+    [ $rc = 0 ] && break
+    [ $rc = 4 ] && exit 4
     [ "$try" = 3 ] && echo "GAVE UP take $i"
     sleep 5
   done

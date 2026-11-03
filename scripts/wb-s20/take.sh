@@ -4,9 +4,11 @@
 # Mac test S-20 (docs/fork/MAC-TEST-SCRIPT.md S-20): one take through the
 # running test app's real record path (SIGUSR2, Handy's toggle → context
 # read at record start → microphone → speech model → text pipeline →
-# cleanup → paste), into a window this script opens. Speech is a WAV played
-# through the speakers into the mic (`none`: a silent take, which still
-# makes the context read).
+# cleanup → paste), into a window this script opens. Speech is a WAV the
+# app plays as its test microphone (`none`: a silent WAV, which still makes
+# the context read). The app runs from `scripts/wb-s05/app.sh start`
+# (WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav; wb_mic_load/wb_mic_play), never
+# the speakers unless WB_ALLOW_SPEAKERS=1.
 #
 # Holds ~/wb-bench/gui.lock for the whole take, checks the frontmost app
 # before recording and before the stop (cancels otherwise), closes only
@@ -27,6 +29,7 @@ CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 BIN="${WB_S20_BIN:?set WB_S20_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 PROFILE="${TMPDIR:-/tmp}/wb-s20-chrome-profile"
@@ -40,6 +43,11 @@ fi
 mkdir -p "$OUT"
 T="$OUT/$(date +%H%M%S)-$CASE"
 mkdir -p "$T"
+if [ "$WAV" = none ]; then
+  # 1.5 s of silence: the take still opens the (test) microphone.
+  WAV="$T/silence.wav"
+  /usr/bin/python3 -I -c 'import sys,wave; w=wave.open(sys.argv[1],"wb"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000); w.writeframes(b"\0\0"*24000); w.close()' "$WAV"
+fi
 pid=$(/bin/bash "$HERE/../wb-s05/app.sh" pid) || { echo "NO APP" | tee "$T/result"; exit 3; }
 log_from=$(wc -l <"$LOG")
 
@@ -80,10 +88,12 @@ chrome_title() {
 f=$(front)
 if [ "$f" != "$expect" ]; then
   echo "SKIP front=$f" | tee "$T/result"
+elif ! wb_mic_load "$WAV"; then
+  echo "NO TEST MIC" | tee "$T/result"
 else
   kill -USR2 "$pid"
   sleep 0.8
-  if [ "$WAV" != none ]; then afplay "$WAV"; else sleep 1.5; fi
+  wb_mic_play "$WAV"
   sleep 0.6
   if [ "$(front)" = "$expect" ]; then
     kill -USR2 "$pid"

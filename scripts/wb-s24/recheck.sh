@@ -7,7 +7,10 @@
 # Runs a portable test profile (never the owner's) whose hotkeys were set
 # with `scratchpad.open = option+s` and fn/⌃⌘V unbound, so the owner's own
 # Wispr Bro and this one never share a key. Takes are SIGUSR2 (Handy's
-# toggle); speech is one pre-recorded WAV played once through the speakers.
+# toggle); speech is one pre-recorded WAV that the app plays as its test
+# microphone: start it with WISPRBRO_TEST_MIC_WAV=<Data dir>/test-mic.wav
+# (or export your own path for both); never the speakers unless
+# WB_ALLOW_SPEAKERS=1.
 # Keys go only to a TextEdit instance this script opens (`open -n`, guarded
 # by its pid) or to the test app while it is in front (scripts/wb-s25/ui.swift).
 # Holds ~/wb-bench/gui.lock.
@@ -28,6 +31,7 @@ set -u
 EXE="$1"; DATA="$2"; WAV="$3"; OUT="$4"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$DATA" || exit 1
 : "${WBUI:?}" "${WBKEYS:?}"
 if [ "${WB_S24_LOCKED:-}" != 1 ]; then
   WB_S24_LOCKED=1 exec /usr/bin/lockf -k -t 900 "$HOME/wb-bench/gui.lock" /bin/bash "$0" "$@"

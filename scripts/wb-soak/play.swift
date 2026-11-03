@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// S-38 soak helper: plays a WAV into a named audio *output* device and
-// returns when it has finished. With a loopback driver (BlackHole 2ch, test
-// machines only, never shipped) set as the app's microphone, the app hears
-// the prerecorded take and nothing reaches the speakers.
+// S-38 soak helper (optional since the Mac wave 2 fixes: soak.py feeds the
+// app's test microphone, WISPRBRO_TEST_MIC_WAV, and needs no loopback
+// driver): plays a WAV into a named audio *output* device and returns when
+// it has finished. With a loopback driver (e.g. BlackHole 2ch, test machines
+// only, never shipped) set as the app's microphone, the app hears the
+// prerecorded take and nothing reaches the speakers (`soak.py --device`).
 //
 //   swift scripts/wb-soak/play.swift <device name> <file.wav>
 //   swift scripts/wb-soak/play.swift --list

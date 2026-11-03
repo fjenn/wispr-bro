@@ -561,14 +561,21 @@ python3 scripts/wb-s05/setup.py "$PWD/src-tauri/target/debug/Data" s05-parakeet-
 scripts/wb-s05/app.sh start   # a test identity runs as a product build (S-07a)
 ```
 
+`app.sh start` (since the Mac wave 2 fixes) unbinds every global shortcut
+of the profile except those named on its command line, clones a model cache
+into `Data/huggingface` when there is none (`scripts/wb-lib/profile.py`),
+and starts the app with its test microphone
+(`WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav`): the take drivers load each WAV
+into it (`wb_mic_load`/`wb_mic_play`, `scripts/wb-lib/app.sh`) and refuse to
+play through the speakers unless `WB_ALLOW_SPEAKERS=1`.
+
 Helpers (compiled once): `for h in clip drive; do swiftc -O -o $BIN/$h
 scripts/wb-s05/$h.swift; done; swiftc -O -o $BIN/pill scripts/wb-s03-pill.swift`.
 
-**Procedure (S-05.2 to S-05.7, unattended, ~1 min per take, speakers and
-mic):** `WB_S05_BIN=$BIN scripts/wb-s05/run.sh <out dir> [rounds]` (or `python3 -I scripts/wb-s05/run.py …` when executing scripts made on this Mac hangs: syspolicyd down). Before the stop each take checks again that its own window has focus and cancels the take otherwise (`handy --cancel`), so nothing goes to a window the run did not open. Keep speaker runs to one round. Each
+**Procedure (S-05.2 to S-05.7, unattended, ~1 min per take, no speakers):** `WB_S05_BIN=$BIN scripts/wb-s05/run.sh <out dir> [rounds]` (or `python3 -I scripts/wb-s05/run.py …` when executing scripts made on this Mac hangs: syspolicyd down). Before the stop each take checks again that its own window has focus and cancels the take otherwise (`handy --cancel`), so nothing goes to a window the run did not open. Each
 take holds `~/wb-bench/gui.lock`, opens its own window, checks the
 frontmost app before recording, records through Handy's toggle (SIGUSR2)
-while `say`'s speech plays through the speakers, and closes only what it
+while the app's test microphone plays `say`'s WAV, and closes only what it
 opened; card cases save the whole clipboard first and put it back after
 (byte-identical, checked). Cases: the fields (a new TextEdit document;
 `fields.html` input, textarea, contenteditable and search in Safari; input,
@@ -628,7 +635,7 @@ printf "Handy Portable Mode\n" > portable
 mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s06-parakeet-v3.gguf
 cd ../../.. && scripts/wb-s05/app.sh init
 python3 -I scripts/wb-s06/setup.py "$PWD/src-tauri/target/debug/Data" s06-parakeet-v3
-scripts/wb-s05/app.sh start
+scripts/wb-s05/app.sh start paste_last,copy_last press_enter=mousex1 undo_cancel=ctrl+option+z
 ```
 
 `setup.py` turns cleanup off, binds Press Enter to the back mouse button
@@ -645,8 +652,8 @@ $SCRATCH/undo.aiff $SCRATCH/undo.wav`) and `WB_S06_SAID="<sentence>"`.
 <out dir> [wav]` for `paste:textedit`, `paste:held:1200`,
 `paste:held:3500`, `paste:chrome`, `paste:terminal`, `copy:textedit`,
 `enter:mouse` (no audio), then `undo:bar`, `undo:moved`, `undo:expire` with
-the WAV (through the speakers into the mic: run each once, at a moderate
-volume). Every case holds `~/wb-bench/gui.lock`, opens its own window
+the WAV (the app's test microphone, `app.sh start`; never the speakers;
+every shortcut but those four unbound). Every case holds `~/wb-bench/gui.lock`, opens its own window
 (TextEdit document, a separate Chrome instance on `fields.html`, a Terminal
 window running `cat` into a file), posts each synthetic event only while
 that window's app is frontmost (`post` refuses otherwise), saves the whole
@@ -690,7 +697,9 @@ headers hf-hub reads, one throttled link, runtime modes `normal`,
 `HF_ENDPOINT` for both Handy's downloader and the fork's probe (release
 builds always use `huggingface.co`). One run also downloads from the real
 Hugging Face (no `HF_ENDPOINT`). Takes go through Handy's record path with
-SIGUSR2 and `say` through the speakers (`scripts/wb-s07a/take.sh`), so no
+SIGUSR2 and a `say` WAV played by the app's test microphone
+(`WISPRBRO_TEST_MIC_WAV` exported for the app and `scripts/wb-s07a/take.sh`;
+never the speakers), so no
 key events are posted; clicks on the bar's card use `scripts/wb-s03-pill.swift`
 with `WB_FRONT` set to a TextEdit window the run opened, under
 `~/wb-bench/gui.lock`. Save the clipboard first and put it back at the end.
@@ -727,8 +736,8 @@ of the bar only), `scripts/wb-s07a/copy.sh` (Copy on the card, clipboard
 saved and restored) and `scripts/wb-s07a/scenarios.sh <app dir> <seed
 settings> <out> t50 t10 429 drop resume corrupt realhf` (no audio). The
 Python stand-in tops out near 18 Mbit/s on M-26, so time the 50 Mbit/s case
-on a real link (or Network Link Conditioner by a person). Use the speakers
-only for the take that needs the mic (S-07a.2).
+on a real link (or Network Link Conditioner by a person). The take of
+S-07a.2 uses the test microphone, not the speakers.
 
 ### S-07b Silent model policy, upgrades and cleanup
 
@@ -853,9 +862,16 @@ re-sign (`codesign --force --deep --options runtime --entitlements
 src-tauri/Entitlements.plist -s -`), `lsregister -f`, launch once and quit,
 then `python3 -I scripts/wb-s08/setup.py <app>/Contents/MacOS/Data <model> [1]`
 (never chosen, sounds on, no paste, optional mute). Takes are toggled with
-`kill -USR2`. Keep speaker playback to the one check that needs real mic
-audio (the mic loss: one short WAV made once with `say -o`, played at a
-moderate volume); everything else runs silent. Hold `~/wb-bench/gui.lock`
+`kill -USR2`; every launch unbinds the profile's shortcuts and clones a
+model cache (`scripts/wb-lib/profile.py`). `run.sh take` and `relaunch`
+start the app with its test microphone (`open --env
+WISPRBRO_TEST_MIC_WAV=$OUT/test-mic.wav`) and play a `say -o` WAV through
+it, never the speakers. The device cases need the real microphone:
+`relaunch <mute> real` before `revoke`/`denied` (silent; the driver refuses
+otherwise). The mic loss is the one check the test microphone cannot give
+(it opens no device, so there is nothing to cut): `run.sh loss` refuses
+unless `WB_ALLOW_SPEAKERS=1`, then plays one short WAV at
+`WB_SPEAKER_VOLUME` (default 0.6). Hold `~/wb-bench/gui.lock`
 for every run that plays sound or changes the default input; put the
 default input and the output volume back. `scripts/wb-s08/run.sh` has a
 case per step (`HAL`, `APP`, `OUT` set; `grant.sh` answers the first
@@ -873,7 +889,7 @@ Microphone prompt with Allow).
    during and after a take. Pass: `mute` 1 during, the same `mute` and
    volume `bits` after; with the output muted beforehand it stays muted; no
    `osascript` process.
-3. Revoke + quit (`grant.sh`, `run.sh revoke`): `tccutil reset Microphone
+3. Revoke + quit (`grant.sh`, `run.sh relaunch 0 real`, `run.sh revoke`): `tccutil reset Microphone
 com.wisprbro.s08check` 3 s into a take. If macOS shows "Quit & Reopen",
    press it; otherwise (2026-10-31: no dialog appeared) send the quit Apple
    event and reopen. Pass: log `saved the take running at quit`, after the
@@ -931,8 +947,8 @@ product enforces), `paste_method: "none"` (nothing is typed into the five
 apps), `vad_enabled: false` (speaker-to-mic audio is too quiet for VAD),
 `selected_language: "en"`, `log_level: "debug"`.
 
-**Procedure S-09.1 (unattended, ~13 min, needs speakers and the mic):**
-`./handy --start-hidden &`, then
+**Procedure S-09.1 (unattended, ~13 min, no speakers):**
+`scripts/wb-s05/app.sh start` (test microphone, shortcuts unbound), then
 `scripts/wb-s09-soak.sh ~/wb-bench/audio/segments 50`. Each take holds
 `~/wb-bench/gui.lock`, brings the app to the front and checks it is
 frontmost before sending SIGUSR2 (Handy's toggle); a skipped take is
@@ -1054,11 +1070,10 @@ printf "Handy Portable Mode\n" > portable
 mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s11-parakeet-v3.gguf
 ./handy --start-hidden & sleep 15; kill %1     # creates Data/settings_store.json and fork.db
 python3 ../../../scripts/wb-s11/setup.py "$PWD/Data" s11-parakeet-v3   # settings + 4 rules
-WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden &  # debug builds log each take's texts
+cd ../../.. && WB_DEBUG_TEXT_TRACE=1 scripts/wb-s05/app.sh start  # debug builds log each take's texts
 ```
 
-**Procedure (unattended, ~2 min per round, needs the speakers and the
-mic):** `scripts/wb-s11/run.sh 3`. Each round dictates six takes with
+**Procedure (unattended, ~2 min per round, no speakers: the app plays each take's WAV as its test microphone (`WISPRBRO_TEST_MIC_WAV`, set by `scripts/wb-s05/app.sh start`), never through the speakers):** `scripts/wb-s11/run.sh 3`. Each round dictates six takes with
 macOS TTS (`say`): the e-mail into a new TextEdit document and into a
 WebKit contenteditable page in a new Safari window (`compose.html`, the
 stand-in for Mail's editor), the chat message into TextEdit and into
@@ -1113,7 +1128,7 @@ printf "Handy Portable Mode\n" > portable
 mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/
 ./handy --start-hidden & sleep 20; kill %1
 /usr/bin/python3 ../../../scripts/wb-s12a/setup.py "$PWD/Data" parakeet-tdt-0.6b-v3 ~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf light
-WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden &
+cd ../../.. && WB_DEBUG_TEXT_TRACE=1 scripts/wb-s05/app.sh start
 ```
 
 `setup.py` sets Parakeet, VAD off, spoken languages en/nl/fr, puts the
@@ -1122,11 +1137,11 @@ is downloaded), sets the level and two dictionary replacements. Stop the
 app by its main process only (the other `handy --start-hidden` is S-10's
 watchdog, which stops the sidecar).
 
-**Procedure (unattended, needs the speakers and the mic):**
+**Procedure (unattended, no speakers: the app plays each take's WAV as its test microphone (`WISPRBRO_TEST_MIC_WAV`, set by `scripts/wb-s05/app.sh start`), never through the speakers):**
 `scripts/wb-s12a/run.sh light 2` (seven takes per round: en fillers +
 repair, an en question, an en dictionary spelling, nl lead-ins, an nl
 repair, fr lead-ins, an fr repair), then restart the app with
-`WB_DEBUG_CLEANUP_DEADLINE_MS=1` and run `run.sh timeout`, then
+`WB_DEBUG_CLEANUP_DEADLINE_MS=1 scripts/wb-s05/app.sh start` and run `run.sh timeout`, then
 `setup.py … none`, restart, `run.sh none`. Each take opens and closes its
 own TextEdit document under `~/wb-bench/gui.lock` and prints the key-up →
 text time. Check the log's `cleanup:` lines and `fork.db`
@@ -1168,9 +1183,9 @@ HF cache).
    and leave another app in front: after ~4 min the log has
    `fork apple selfcheck: PASS engines {"apple": 38} …` with the latencies and
    `rate_limited`.
-3. Restart with `WB_DEBUG_LLM_HOLD_MODEL=1` only and run
-   `scripts/wb-s12b/takes.sh <out dir>` (three takes through the speakers at
-   volume 40, restored after; the clipboard is saved and restored by
+3. Restart with `WB_DEBUG_LLM_HOLD_MODEL=1 scripts/wb-s05/app.sh start` only
+   and run `scripts/wb-s12b/takes.sh <out dir>` (three takes through the
+   app's test microphone, never the speakers; the clipboard is saved and restored by
    `scripts/wb-s12b/clip.swift`). Open the debug panel (⌘⇧D) › AI engine:
    the Apple Intelligence row, Try it → "Ran on Apple Intelligence".
 4. Restart with `WISPRBRO_SELFCHECK_APPLE=local` only (the model verified
@@ -1269,10 +1284,12 @@ per minute = round(timed_words / (speech_ms / 60000)); streak = days in a
 row up to today (5 with the seed). Click the pencil, enter a name, Save: the
 greeting changes; "Use my Mac account name" restores it.
 
-**Procedure S-15a.1 (unattended, ~2 min, needs speakers and the mic):**
-with the app running, `scripts/wb-s15a-takes.sh <pid> <…>/Data <out dir> 10`.
-Each take (holding `~/wb-bench/gui.lock`) plays a `say` sentence between two
-SIGUSR2s, then screenshots the app's window and prints the `daily_stats`
+**Procedure S-15a.1 (unattended, ~2 min, no speakers):** start the app
+with `scripts/wb-s05/app.sh start` (test microphone, shortcuts unbound) and
+show the Hub with a second `./handy`, then
+`scripts/wb-s15a-takes.sh <pid> <…>/Data <out dir> 10`.
+Each take (holding `~/wb-bench/gui.lock`) loads a `say -o` sentence into the
+test microphone between two SIGUSR2s, then screenshots the app's window and prints the `daily_stats`
 totals. Pass: every screenshot shows the totals printed for that take
 (words, rounded WPM, streak) without any reload or click; the voice profile
 count equals total words. Quit, relaunch: the same numbers.
@@ -1395,10 +1412,11 @@ printf "Handy Portable Mode\n" > portable
 mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s16-parakeet-v3.gguf
 ./handy --start-hidden & sleep 15; kill %1      # creates Data/
 python3 -I ../../../scripts/wb-s16/setup.py "$PWD/Data" s16-parakeet-v3   # Handy custom words, empty dictionary
-WB_DEBUG_TEXT_TRACE=1 ./handy &                 # window visible
+cd ../../.. && WB_DEBUG_TEXT_TRACE=1 scripts/wb-s05/app.sh start
+(cd src-tauri/target/debug && ./handy)          # second launch shows the window
 ```
 
-**Procedure (unattended, ~3 min, needs the speakers and the mic).**
+**Procedure (unattended, ~3 min, no speakers: the app plays each take's WAV as its test microphone (`WISPRBRO_TEST_MIC_WAV`, set by `scripts/wb-s05/app.sh start`), never through the speakers).**
 `say -v Samantha --data-format=LEI16@16000 -o /tmp/s16.wav "I'm gonna call
 Siobhan about the Kubernetes rollout tomorrow."`, then:
 
@@ -1444,11 +1462,11 @@ printf "Handy Portable Mode\n" > portable
 mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b-v3-Q8_0.gguf Data/models/s17-parakeet-v3.gguf
 ./handy --start-hidden & sleep 15; kill %1      # creates Data/
 python3 -I ../../../scripts/wb-s17/setup.py "$PWD/Data" s17-parakeet-v3   # no snippets yet
-WB_DEBUG_TEXT_TRACE=1 ./handy --start-hidden &
-./handy                                         # second launch shows the window
+cd ../../.. && WB_DEBUG_TEXT_TRACE=1 scripts/wb-s05/app.sh start
+(cd src-tauri/target/debug && ./handy)          # second launch shows the window
 ```
 
-**Procedure (unattended, ~6 min, needs the speakers and the mic).**
+**Procedure (unattended, ~6 min, no speakers: the app plays each take's WAV as its test microphone (`WISPRBRO_TEST_MIC_WAV`, set by `scripts/wb-s05/app.sh start`), never through the speakers).**
 
 1. Snippets › Add snippet: `my address`, text on three lines (a person, or
    `swift scripts/wb-s16/ui.swift <pid> 'front; click …; type my address;
@@ -1457,8 +1475,7 @@ key tab; type …; key return; …'` with coordinates from a window
 2. `scripts/wb-s17/run.sh` (one round): alone and inline into TextEdit,
    the Safari editor page and the Chrome chat page (S-11's `take.sh`;
    snapshots and restores the clipboard). Every line must say PASS. The
-   audio goes through the speakers (the real mic path), so keep to one
-   round at moderate volume when someone is at the Mac; repetition is
+   audio is the app's test microphone, never the speakers; repetition is
    covered by the matcher's unit tests (the acceptance table), not by more
    takes.
 3. S-17.2: a window screenshot of the page shows the use count;
@@ -1592,14 +1609,16 @@ mkdir -p Data/models && cp ~/wb-bench/asr/parakeet-tdt-0.6b-v3/parakeet-tdt-0.6b
 ./handy --start-hidden & sleep 20; kill %1      # creates Data/
 ```
 
-**Procedure (unattended, ~8 min, needs the speakers and the mic).**
+**Procedure (unattended, ~8 min, no speakers: each phase start sets the
+test microphone, `WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav`, unbinds the
+profile's shortcuts and clones a model cache when there is none).**
 `WB_S19A_MODEL_ID=parakeet-tdt-0.6b-v3 scripts/wb-s19a/run.sh personal work email other autosend fallback`:
 per phase it stops the app (main process only), writes the phase's styles
 and `app_rules` rows (`scripts/wb-s19a/setup.py`: TextEdit put in the
 group under test, auto-send on for the last two), starts the app again
 and dictates into new TextEdit documents through S-12a's `take.sh` (one
-warm-up take per phase, under `~/wb-bench/gui.lock`, one round of TTS at
-moderate volume). Check the printed document texts (a trailing `|` is the
+warm-up take per phase, under `~/wb-bench/gui.lock`, one round of TTS
+WAVs through the test microphone). Check the printed document texts (a trailing `|` is the
 Return), the log's `style:` and `insert:` lines (`submitted`) and
 `fork.db` (`entry_meta.style_group`, `cleanup_outcome`). S-19a.1 and .4:
 start the app once more, open the Hub (second launch), Style, and take
@@ -1640,11 +1659,11 @@ scripts/wb-s05/app.sh start
 ```
 
 **Procedure (unattended):** `WB_S20_BIN=$BIN scripts/wb-s20/take.sh <case>
-<wav|none> <out dir>` for `textedit` and `chrome` with the WAV (through
-the speakers into the mic, once each, moderate volume), then
+<wav|none> <out dir>` for `textedit` and `chrome` with the WAV (the app's
+test microphone, `app.sh start`; never the speakers), then
 `setup.sh … off`, restart, `textedit` with the WAV again (S-20.2), then
-`card none` and `terminal none` (silent takes: the read still runs at
-record start). Each case holds `~/wb-bench/gui.lock`, opens its own
+`card none` and `terminal none` (silent takes: a silent WAV; the read
+still runs at record start). Each case holds `~/wb-bench/gui.lock`, opens its own
 window (a TextEdit document whose text names the people; the
 `thread.html` stand-in for a Slack thread in a separate Chrome instance;
 a Terminal window running `cat`), records only while that window is in
@@ -2206,7 +2225,8 @@ $SCRATCH/s34-deploy.wav <out dir>` for `fix` (S-34.1/.2/.7), `card`,
 `wait`, then reject in the app and `fix` again (S-34.4), `setup.sh … on`
 (restart) and `tab` (S-34.3), `setup.sh … off` (restart) and `fix`
 (S-34.6). Each case holds `~/wb-bench/gui.lock`, records only while Chrome
-is in front, plays the WAV once through the speakers, and prints the
+is in front, plays the WAV once as the app's test microphone (never the
+speakers), and prints the
 learned rows, the last `learn:` line and the leak check.
 
 ### S-35 Vocabulary importers
@@ -2249,8 +2269,8 @@ scripts/wb-s05/app.sh start
 s36-rename.wav` (S-36.4). Each case holds `~/wb-bench/gui.lock`, opens
 Cursor in a throwaway profile (`$TMPDIR/wb-s36-cursor-profile`,
 `editor.accessibilitySupport: on`) on a throwaway workspace, records only
-while Cursor (or TextEdit) is in front, plays the WAV once through the
-speakers, reads the result back (saved file, chat text, document), and
+while Cursor (or TextEdit) is in front, plays the WAV once as the app's
+test microphone (never the speakers), reads the result back (saved file, chat text, document), and
 closes what it opened. If Cursor's chat input needs a sign-in in a fresh
 profile, S-36.2/.3 are recorded as not verified (the owner's Cursor
 profile is never used).
@@ -2318,12 +2338,17 @@ person with VoiceOver on the same bundle. Quit; delete the bundle copies and
       Voice, wait 15 s, reopen from the tray: Insights › Voice; close on
       Home: Home).
 - [ ] S-38.4 **Mac wave 2: NOT RUN (BlackHole needs the owner's reboot)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) Exactly-once soak (§5.4, 100 takes for A12.1, 500 before 1.0):
-      `scripts/wb-soak/soak.py` (header lists the setup: BlackHole 2ch as
-      the app's microphone, an empty field focused in each app, helpers
-      compiled into `--bin`). Pass: 0 lost, 0 duplicate, 0 wrong_target;
+      `scripts/wb-soak/start.sh <test bundle> <out>` (shortcuts unbound,
+      model cache cloned, the app started with its test microphone
+      `WISPRBRO_TEST_MIC_WAV=<out>/test-mic.wav`; prints `pid` and `mic`),
+      then `scripts/wb-soak/soak.py … --pid <pid> --mic <out>/test-mic.wav`
+      (header lists the setup: an empty field focused in each app, helpers
+      compiled into `--bin`). Since the Mac wave 2 fixes the takes need no
+      BlackHole, no reboot and no speakers: soak.py copies each WAV into the
+      test microphone before the take (`--device <loopback>` remains for a
+      Mac that has one). Pass: 0 lost, 0 duplicate, 0 wrong_target;
       clipboard_restored true on every take. **Queued for the Mac wave**
-      (needs BlackHole installed by the owner; Slack and Notion are not
-      installed on the builder Mac).
+      (Slack and Notion are not installed on the builder Mac).
 - [ ] S-38.5 **Mac wave 1: ps and crash report name wispr-bro (PASS); grants from a handy-named build: owner** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The release bundle's executable is `Contents/MacOS/wispr-bro`: `ps`, Activity Monitor and a test crash's `.ips` name it; Microphone and Accessibility grants from an earlier `handy`-named build still apply (same bundle id). **Queued for the Mac wave** (with F-02.1).
 - [ ] S-38.6 **Mac wave 2 (M5 Max, load 7.4-7.8): 6/7 rows PASS, LLM cold start 5,447 ms FAIL (one sample)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) §5.1 latency on each reference machine (part 2; headless, no
       GUI, nothing played): `scripts/wb-perf/latency.sh` (TTS takes written to
@@ -2353,7 +2378,8 @@ python3 -I scripts/wb-perf/startup.py --app <portable dir or .app>
       granted: launch → hotkey ready and bar visible p50 ≤ 2 s, p95 ≤ 3 s,
       plus the cold first launch reported. Release build on each reference
       machine. **Queued for the Mac wave.**
-- [ ] S-38.9 50-take hardware run (§9, before 1.0): `python3 -I
+- [ ] S-38.9 50-take hardware run (§9, before 1.0): `scripts/wb-soak/start.sh
+--hardware <test bundle> <out>` (real microphone, only fn kept), then `python3 -I
 scripts/wb-soak/soak.py --hardware --plan plan.json --takes 50 --app
 unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
       each printed sentence into the focused app. Pass: 0 lost, 0 duplicate,
@@ -2364,8 +2390,9 @@ unused --pid 0 --bin <helpers> --out <dir>`; a person holds fn and reads
 --gap 30`), then `python3 -I scripts/wb-soak/idle.py --pid <pid>
 --minutes 480 --every 60 --footprint`: idle RSS ≤ 250 MB and CPU ≤ 0.5 %
       at the end, the pill's web view growth ≤ 50 MB, no crash. **Queued for
-      the Mac wave** (overnight; the takes need BlackHole).
-- [ ] S-38.11 **Queued for the Mac wave** (Mac wave 2 fixes: takes without speakers). A debug test bundle started with `WISPRBRO_TEST_MIC_WAV=<scratch>/test-mic.wav` and keys unbound (`. scripts/wb-lib/app.sh; wb_unbind_keys <Data>; wb_test_mic <scratch> <say WAV>`), our own TextEdit in front (`wb_textedit_open`), one SIGUSR2 take of the WAV's length (`wb_mic_play`). Pass: the log says `test microphone plays …`; the bar shows levels while the WAV plays; the TextEdit file gets the sentence; the orange microphone indicator never lights and no Microphone prompt appears (no real device is opened); the output volume is untouched. Then a second take after `wb_mic_load <another WAV>` transcribes the new sentence (the file is re-read per take). Drivers switched to it: `wb-s07a/take.sh`, `wb-s07b/take.sh`, `wb-s24/recheck.sh`, `wb-s29b/run.sh`, `wb-s30/run.sh`, `wb-s34/take.sh`, `wb-s36/take.sh` (`wb_mic_load`/`wb_mic_play`; they refuse to play through the speakers unless `WB_ALLOW_SPEAKERS=1`).
+      the Mac wave** (overnight; the takes use the test microphone,
+      `start.sh`, no BlackHole).
+- [ ] S-38.11 **Queued for the Mac wave** (Mac wave 2 fixes: takes without speakers). A debug test bundle started with `WISPRBRO_TEST_MIC_WAV=<scratch>/test-mic.wav` and keys unbound (`. scripts/wb-lib/app.sh; wb_unbind_keys <Data>; wb_test_mic <scratch> <say WAV>`), our own TextEdit in front (`wb_textedit_open`), one SIGUSR2 take of the WAV's length (`wb_mic_play`). Pass: the log says `test microphone plays …`; the bar shows levels while the WAV plays; the TextEdit file gets the sentence; the orange microphone indicator never lights and no Microphone prompt appears (no real device is opened); the output volume is untouched. Then a second take after `wb_mic_load <another WAV>` transcribes the new sentence (the file is re-read per take). Drivers switched to it: `wb-s07a/take.sh`, `wb-s07b/take.sh`, `wb-s24/recheck.sh`, `wb-s29b/run.sh`, `wb-s30/run.sh`, `wb-s34/take.sh`, `wb-s36/take.sh`, then every other Mac driver: `wb-s05` (`app.sh start` sets the test microphone for every debug-build driver, unbinds the shortcuts and clones the model cache), `wb-s06`, `wb-s08` (`take`; `loss` needs real mic audio and refuses without `WB_ALLOW_SPEAKERS=1`), `wb-s09-soak.sh`, `wb-s11`, `wb-s12a`, `wb-s12b`, `wb-s15a-takes.sh`, `wb-s16`, `wb-s17`, `wb-s19a`, `wb-s19b`, `wb-s20` and the soak (`wb-soak/start.sh`, `soak.py --mic`) (`wb_mic_load`/`wb_mic_play`; they refuse to play through the speakers unless `WB_ALLOW_SPEAKERS=1`). `wb-s20/names-audio.ts` only writes files.
 - [ ] S-38.6b **Queued for the Mac wave** (Mac wave 2 finding 4, see `PERF.md` "LLM cold start"): `latency.sh` on a **release** build, two samples, with the sidecar already started once on this Mac, then one deliberate first start of a freshly built sidecar recorded on its own row (the one-time Metal library compile). The spawn line now has `--fit off` (no dry-run second model load).
 - Procedure: S-38.2-S-38.10 above. Machines: all for S-38.1.
 

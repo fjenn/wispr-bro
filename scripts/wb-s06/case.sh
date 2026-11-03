@@ -17,13 +17,18 @@
 #   copy:textedit         ⌃⌘C → the clipboard holds the last dictation
 #   enter:mouse           the mouse's back button over our TextEdit document
 #                         → a Return in the document (Press Enter)
-#   undo:bar <wav>        a take (SIGUSR2 + the WAV through the speakers),
+#   undo:bar <wav>        a take (SIGUSR2 + the WAV as the test microphone),
 #                         Esc → "Cancelled · Undo", Undo clicked on the bar →
 #                         the text in the document and in History
 #   undo:moved <wav>      as undo:bar, but another document gets focus
 #                         before Undo (the ⌃⌥Z hotkey) → the card
 #   undo:expire <wav>     as undo:bar, nobody undoes: after 4 s the offer
 #                         goes, ⌃⌥Z does nothing, no History row
+# The app runs from scripts/wb-s05/app.sh with the shortcuts these cases use
+# kept and every other one unbound:
+#   scripts/wb-s05/app.sh start paste_last,copy_last press_enter=mousex1 undo_cancel=ctrl+option+z
+# and plays each take's WAV as its test microphone (WISPRBRO_TEST_MIC_WAV,
+# wb_mic_load/wb_mic_play), never the speakers unless WB_ALLOW_SPEAKERS=1.
 # Env: WB_S06_BIN = folder with the compiled helpers (post: scripts/wb-s06/
 #   post.swift; clip: scripts/wb-s05/clip.swift; pill: scripts/wb-s03-pill.swift).
 set -u
@@ -31,6 +36,7 @@ CASE="$1"; OUT="$2"; WAV="${3:-}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 BIN="${WB_S06_BIN:?set WB_S06_BIN}"
 LOCK="$HOME/wb-bench/gui.lock"
 LOG="$APP_DIR/Data/logs/wispr-bro.log"
@@ -112,10 +118,11 @@ open_terminal() {
     -e 'return id of (first window whose tabs contains t)' -e 'end tell')
   sleep 2
 }
-record_and_cancel() { # a take through the speakers, then Esc in our window
+record_and_cancel() { # a take of the WAV (test microphone), then Esc in our window
+  wb_mic_load "$WAV" || { echo "no test microphone; take refused" >"$T/skip"; return 1; }
   kill -USR2 "$pid"
   sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   sleep 0.4
   if [ "$(front)" != "$EXPECT" ]; then
     wb_cancel "$APP_DIR" >/dev/null 2>&1

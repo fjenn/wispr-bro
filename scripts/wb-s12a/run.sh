@@ -3,10 +3,10 @@
 #
 # Mac test S-12a (docs/fork/MAC-TEST-SCRIPT.md), unattended: dictations
 # through the running test app (portable profile, test identifier) into new
-# TextEdit documents, with macOS TTS played through the speakers into the
-# mic. Uses S-11's take.sh (holds ~/wb-bench/gui.lock, checks the frontmost
-# app, closes only what it opened). The app must be running already (see the
-# Mac test script for the phase it was started in).
+# TextEdit documents, with macOS TTS written to WAVs (`say -o`) that the app
+# plays as its test microphone (never the speakers). Uses S-11's take.sh (holds ~/wb-bench/gui.lock, checks the frontmost
+# app, closes only what it opened). The app must be running already, started
+# by `scripts/wb-s05/app.sh start` (see the Mac test script for the phase).
 #
 # usage: scripts/wb-s12a/run.sh <light|timeout|none> [rounds=1]
 #   light    en/nl/fr fillers and lead-ins, a self-repair, a question that

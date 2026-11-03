@@ -4,7 +4,7 @@
 # Mac test S-11 (docs/fork/MAC-TEST-SCRIPT.md): one dictation into a window
 # this script creates, through the running test app's real record path:
 # SIGUSR2 (Handy's toggle) → microphone → speech model → text pipeline →
-# delivery. The audio is a WAV played through the speakers into the mic.
+# delivery. The audio is a WAV the app plays as its test microphone.
 # Holds ~/wb-bench/gui.lock for the whole take (shared Mac), checks the
 # frontmost app before recording, and closes only what it opened.
 #
@@ -18,12 +18,18 @@
 #             (Enter sends, Shift+Enter is a new line; Chrome 155/156 is
 #             S-04's typing path); <out> gets the window title
 # The app runs as `./wispr-bro --start-hidden` (or `./handy`) from src-tauri/target/debug
-# (portable profile, see the Mac test script).
+# (portable profile, see the Mac test script), started by
+# `scripts/wb-s05/app.sh start` (shortcuts unbound, model cache cloned).
+# The app plays the WAV as its test microphone (started by
+# scripts/wb-s05/app.sh with WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav;
+# wb_mic_load/wb_mic_play in scripts/wb-lib/app.sh): never the speakers
+# unless WB_ALLOW_SPEAKERS=1.
 set -u
 TARGET="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 LOCK="$HOME/wb-bench/gui.lock"
 PORT=47811
 PROFILE="${TMPDIR:-/tmp}/wb-s11-chrome-profile"
@@ -79,10 +85,12 @@ sleep 4
 f=$(front)
 if [ "$f" != "$expect" ]; then
   echo "SKIP front=$f expected=$expect" | tee "$OUT"
+elif ! wb_mic_load "$WAV"; then
+  echo "NO TEST MIC" | tee "$OUT"
 else
   kill -USR2 "$pid"
   sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   sleep 0.6
   kill -USR2 "$pid"
   sleep 9

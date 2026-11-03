@@ -8,6 +8,10 @@
 # Based on scripts/wb-s11/take.sh: holds ~/wb-bench/gui.lock for the whole
 # take, checks the frontmost app before recording, closes only what it
 # opened.
+# The app plays the WAV as its test microphone (started by
+# scripts/wb-s05/app.sh with WISPRBRO_TEST_MIC_WAV=Data/test-mic.wav;
+# wb_mic_load/wb_mic_play in scripts/wb-lib/app.sh): never the speakers
+# unless WB_ALLOW_SPEAKERS=1.
 #
 # usage: scripts/wb-s12a/take.sh <wav> <out file>
 #   <out> gets the document text; stdout: "OK <ms from key-up to text>"
@@ -16,6 +20,7 @@ WAV="$1"; OUT="$2"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(cd "$HERE/../../src-tauri/target/debug" && pwd)"
 . "$HERE/../wb-lib/app.sh"
+wb_test_mic_env "$APP_DIR/Data" || exit 1
 LOCK="$HOME/wb-bench/gui.lock"
 
 if [ "${WB_S12A_LOCKED:-}" != 1 ]; then
@@ -38,10 +43,12 @@ sleep 3
 f=$(front)
 if [ "$f" != com.apple.TextEdit ]; then
   echo "SKIP front=$f" | tee "$OUT"
+elif ! wb_mic_load "$WAV"; then
+  echo "NO TEST MIC" | tee "$OUT"
 else
   kill -USR2 "$pid"
   sleep 0.8
-  afplay "$WAV"
+  wb_mic_play "$WAV"
   sleep 0.6
   kill -USR2 "$pid"
   # Key-up: poll the document until text appears (≈ 60-90 ms per poll).
