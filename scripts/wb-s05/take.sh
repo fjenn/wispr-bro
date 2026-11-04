@@ -21,7 +21,7 @@
 #                             the clipboard, "Copied to clipboard" (OT2-A)
 #   card:desktop              the desktop (an empty spot clicked) → as
 #                             card:finder (OT2-A)
-#   card:password             fields.html#password in Safari → refused card
+#   card:password             fields.html#password in our Chrome → refused card
 #                             with hidden text, Copy → concealed clipboard
 #   switch                    take starts in Chrome, TextEdit is activated
 #                             before the stop → text in TextEdit (S-05.4)
@@ -44,13 +44,14 @@ PORT=47815
 PROFILE="${TMPDIR:-/tmp}/wb-s05-chrome-profile"
 LOG="$APP_DIR/Data/logs/wispr-bro.log"
 PAGE="http://127.0.0.1:$PORT/fields.html"
-# The card (S-07a's 400 x 58 pt shape since the S-05 rebase): its height,
-# and Copy / close centres from its bottom-left corner. The S-05 run used
-# S-05's earlier 360 x 132 card; these values are not re-measured yet.
-CARD_H=58
-CARD_MID=29
-COPY_X=322
-CLOSE_X=379
+# The card (440 x 76 pt since Design W4, `pill/geometry.rs` CARD_H and
+# `.wb-pill[data-phase="card"]` in pill.css: 10 pt end padding, 18 pt ✕
+# disc, 10 pt gap, Copy ~57 pt): its height, and Copy / close centres from
+# its bottom-left corner, computed from those numbers (Mac wave 7).
+CARD_H=76
+CARD_MID=38
+COPY_X=374
+CLOSE_X=421
 
 if [ "${WB_S05_LOCKED:-}" != 1 ]; then
   WB_S05_LOCKED=1 exec /usr/bin/lockf -k -t 900 "$LOCK" /bin/bash "$HERE/take.sh" "$@"
@@ -164,7 +165,8 @@ case "$CASE" in
   field:textedit) open_textedit; expect=com.apple.TextEdit ;;
   field:safari:*) open_safari "${CASE##*:}"; expect=com.apple.Safari ;;
   field:chrome:*) open_chrome "${CASE##*:}"; expect=com.google.Chrome ;;
-  card:password) open_safari password; expect=com.apple.Safari ;;
+  # Our own Chrome instance, never a page in the owner's Safari (Mac wave 7).
+  card:password) open_chrome password; expect=com.google.Chrome ;;
   card:finder)
     mkdir -p "${TMPDIR:-/tmp}/wb-s05-finder"
     osascript -e 'tell application "Finder"' -e 'activate' \
