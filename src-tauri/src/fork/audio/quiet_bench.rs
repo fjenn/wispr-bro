@@ -615,7 +615,7 @@ pub fn wave_run(audio: &[f32], after: bool, lead: usize, end: usize, acc: &mut A
     }
 }
 
-/// The Mac wave's WAVs (MAC-TEST-SCRIPT OT2.1-OT2.3): a few takes of the
+/// The Mac wave's WAVs (MAC-TEST-SCRIPT OT2-B.1-OT2-B.3): a few takes of the
 /// set as 16 kHz mono files under `WB_QUIET_OUT`, each with a `.json` of
 /// its segments in `scripts/wb-meter/make-wav.py`'s format (noise, speech,
 /// noise_after, silence) and a `.txt` of its words.

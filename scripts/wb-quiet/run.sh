@@ -12,10 +12,10 @@
 #          whisper-30-3dB, whisper-35-0dB, each <name>.wav + .wav.json
 #          (segments) + .txt (words), in <OUT>/wavs
 #        EXE=<debug wispr-bro> OUT=<dir> scripts/wb-quiet/run.sh meter
-#          OT2.1: each WAV through the mic test (scripts/wb-meter/run.sh,
+#          OT2-B.1: each WAV through the mic test (scripts/wb-meter/run.sh,
 #          QUIET=1 for the quiet ones), PASS/FAIL per segment
 #        PID=<test app pid> DATA=<its Data dir> OUT=<dir> scripts/wb-quiet/run.sh takes
-#          OT2.2/OT2.3: one take per WAV by SIGUSR2 into our own TextEdit
+#          OT2-B.2/OT2-B.3: one take per WAV by SIGUSR2 into our own TextEdit
 #          (start the app first with `scripts/wb-s05/app.sh start`); per take
 #          the History text against the words (WER) and the bar's loudest
 #          level per second from the debug log (`pill: level frames …`)
@@ -42,9 +42,9 @@ meter() {
     local quiet=1
     [ "$n" = normal-20dB ] && quiet=
     if QUIET="$quiet" OUT="$OUT/meter-$n" "$ROOT/scripts/wb-meter/run.sh" "$WAVS/$n.wav"; then
-      echo "OT2.1 $n: PASS"
+      echo "OT2-B.1 $n: PASS"
     else
-      echo "OT2.1 $n: FAIL"
+      echo "OT2-B.1 $n: FAIL"
       ok=1
     fi
   done

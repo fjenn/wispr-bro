@@ -2581,7 +2581,7 @@ Queued for the Mac wave (the S-19b + S-36 browser/AX run); not run by the
 slice (2026-11-02).
 
 - [ ] S-36.1 **Mac wave 2: NOT RUN (this Cursor version shows Log In inside the workspace window; needs a signed-in throwaway profile from the owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) **Mac wave 1: FAIL / not conclusive (identifiers=0; fresh Cursor profile shows Log In)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) (Exit criterion) Dictate "rename get user by id" in Cursor with `getUserById` visible (screen-reader mode on): the buffer gets `getUserById`; the log shows `context: read ok (…, cursor: N code name(s), 0 file name(s), …)` with N ≥ 1 and `text: … identifiers=1`.
-- [ ] S-36.2 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets a real `index.ts` tag through Cursor's `@` picker (OT2-C; `chat-tags` prints `tags: 1`); the log shows `cursor chat: … M file name(s)` with M ≥ 1, `file_tags=1` and `"mention_tags":[1,1]`. A signed-out profile is enough (see OT2C).
+- [ ] S-36.2 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets a real `index.ts` tag through Cursor's `@` picker (OT2-C; `chat-tags` prints `tags: 1`); the log shows `cursor chat: … M file name(s)` with M ≥ 1, `file_tags=1` and `"mention_tags":[1,1]`. A signed-out profile is enough (see OT2-C).
 - [ ] S-36.3 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The same chat take with "Tag files in chat" off (`setup.sh … off`): the text keeps "index dot ts" (or `index.ts`), no `@`.
 - [ ] S-36.4 **Mac wave 1: not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Not set up (`setup.sh … unset`): the editor take keeps "get user by id" and the log line has no `cursor:` part (DEC-41: off until set up).
 - [x] S-36.5 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) TextEdit (not a listed editor) with `index.ts` in the document: "open index dot ts" is not tagged.
@@ -2800,7 +2800,15 @@ never the speakers or the real microphone.
       "Not saved: Wispr Bro can't open its data file. …" in the dialog and
       the page shows "Your dictionary can't be opened".
 
-### Owner test 2 fixes (`fix/hold`, OT2-A)
+### Owner test 2 (OT2-A … OT2-F)
+
+The owner tested rc3 (`docs/fork/AUDIT-OT2.md`); six fixes followed, one
+subsection each. Ids are unique per fix: `OT2-<fix>.<n>`. Earlier drafts
+numbered part E as OT2.1–OT2.8, the quiet-speech checks as OT2.1–OT2.3 and the
+vibe-coding checks as OT2C.1–OT2C.7; those are now OT2-E.1–8, OT2-B.1–3 and
+OT2-C.1–7.
+
+#### OT2-A: a held take survives a focus switch (`fix/hold`)
 
 The S-05 portable debug build (`com.wisprbro.s05check`, set up as in S-05
 above), started by the driver with only push-to-talk and the double press
@@ -2845,7 +2853,41 @@ saves and restores the whole clipboard. Helpers:
       instead of the card (`summarize.py` updated); `card:password` still
       expects the refused card.
 
-### Owner test 2: vibe coding and websites (`fix/vibe`, OT2-C)
+#### OT2-B: quiet speech and whispers (`fix/quiet`)
+
+Test identity `com.wisprbro.metercheck` for the meter (as OT1.1) and the
+S-05 portable debug build (`scripts/wb-s05/app.sh start`: shortcuts unbound,
+models cloned, WAV microphone) for the takes. WAVs only, made by
+`OUT=<scratch> scripts/wb-quiet/run.sh prep` (`say` sentences over
+synthetic café noise with distant babble, `quiet_bench::write_wavs`): never
+the speakers, never the real microphone, never the owner's app or data.
+
+- [ ] OT2-B.1 **Queued for the Mac wave.** The mic meter with quiet speech
+      and whispers, each WAV through `scripts/wb-meter/run.sh` (the quiet
+      ones graded with `summary.py --quiet`):
+      `EXE=<debug wispr-bro> OUT=<scratch> scripts/wb-quiet/run.sh meter`.
+      Pass: noise segments mean < 0.05 (no bar most of the time) for all
+      four; normal-20dB speech as OT1.1 (top > 0.7, ≥ 6 bars of range);
+      quiet-20-3dB, whisper-30-3dB and whisper-35-0dB speech top > 0.2,
+      mean > 0.1 and ≥ 2 bars of range (builder bench: whispers 3-5 of 12
+      bars, noise 0).
+- [ ] OT2-B.2 **Queued for the Mac wave.** Whispers are heard: one SIGUSR2
+      take per WAV into our own TextEdit, the app started with
+      `scripts/wb-s05/app.sh start`:
+      `PID=<pid> DATA=<its Data dir> OUT=<scratch> scripts/wb-quiet/run.sh takes`.
+      Pass: every take has text (no "No speech heard"), WER ≤ 10 % for
+      normal-20dB, quiet-20-3dB and whisper-30-3dB, ≤ 40 % for
+      whisper-35-0dB (builder bench, turbo: 0 / 2.9 / 1.9 / 22.9 % over 8
+      sentences; before this fix 0 / 2.9 / 21.9 / 87.6 % with 4 of 8
+      whisper-35-0dB takes empty).
+- [ ] OT2-B.3 **Queued for the Mac wave.** The bar's waveform by eye and by
+      log, during the OT2-B.2 takes: the debug log's "pill: level frames …,
+      loudest bar …" lines during the whispers read ≥ 0.2 at least once a
+      second while the voice runs and < 0.1 in the second before it
+      starts; by eye the bars lie flat on the café noise and visibly move
+      with the whisper (before: flat throughout).
+
+#### OT2-C: vibe coding and websites (`fix/vibe`)
 
 **Queued for the Mac wave** (the S-19b + S-36 browser/AX run). Test identity
 build, a throwaway Cursor started with its own `--user-data-dir` and
@@ -2857,137 +2899,37 @@ text and `@` tags (checked by a builder on 3.28.7), so no sign-in is needed.
 Build the read-back helper once:
 `swiftc -O -o $WB_S36_BIN/chat-tags scripts/wb-s36/chat-tags.swift`.
 
-- [ ] OT2C.1 Cold start: quit and reopen the throwaway Cursor, wait 3 s, run
+- [ ] OT2-C.1 Cold start: quit and reopen the throwaway Cursor, wait 3 s, run
       `scripts/wb-s36/take.sh editor <get-user-by-id.wav> <out>`: the log
       has `context: read ok (…, cursor: N code name(s) …)` with N ≥ 1 on the
       first take, and `user_service.ts` gets `getUserById` (S-36.1). If the
       log shows `context: the app's tree is still building` (debug level),
       a later read of the same take filled the names.
-- [ ] OT2C.2 Chat tag: `take.sh chat <open-index-dot-ts.wav> <out>`: the log
+- [ ] OT2-C.2 Chat tag: `take.sh chat <open-index-dot-ts.wav> <out>`: the log
       has `cursor chat: … M file name(s)` with M ≥ 1 and an `insert:` line
       with `"mention_tags":[1,1]`; `chat-tags` prints `tags: 1 ["index.ts"]`
       (a real tag with its "Remove mention" button), and the chat was not
       submitted (S-36.2).
-- [ ] OT2C.3 A spoken file that is not open in a tab: the text keeps
+- [ ] OT2-C.3 A spoken file that is not open in a tab: the text keeps
       `@name` as typed text, `"mention_tags":[0,1]`, no Return sent.
-- [ ] OT2C.4 "Press Enter after dictating" on for Cursor (Style page): the
+- [ ] OT2-C.4 "Press Enter after dictating" on for Cursor (Style page): the
       chat take with a tag sends Return once, after the tag and the rest of
       the text.
-- [ ] OT2C.5 Style page in the real app, by eye, light and dark: Work tab ›
+- [ ] OT2-C.5 Style page in the real app, by eye, light and dark: Work tab ›
       Add website › paste `https://www.linear.app/team/x?y=1` → the hint says
       "Adds linear.app and its subdomains", Add puts a `linear.app` chip in
       Work; `entry_meta`/`app_rules` hold only `linear.app`.
-- [ ] OT2C.6 Recently used websites: dictate once (WAV) in Chrome with a
+- [ ] OT2-C.6 Recently used websites: dictate once (WAV) in Chrome with a
       throwaway profile into a text field on a public page that is not in
       the built-in list (the S-19b driver's page on `example.org`); the
       Style page's Personal tab offers `example.org` under "Recently used
       websites"; one click moves it to Personal; the log has no host at
       INFO.
-- [ ] OT2C.7 An AI chat site: a take in Chrome on `chatgpt.com` (throwaway
+- [ ] OT2-C.7 An AI chat site: a take in Chrome on `chatgpt.com` (throwaway
       profile, signed out) goes in without cleanup (its cleanup reason is
       `ai_chat`) and without a style.
 
-### Owner test 2 fixes, part E (`fix/polish2`, OT2-E)
-
-Owner feedback on rc3: the DMG window, About's GitHub links, Support in the
-sidebar, and four design calls from Mac wave 6. Never the owner's Wispr Bro,
-`/Applications/Wispr Bro.app` or its data; no sudo. UI checks run on a debug
-test bundle (`com.wisprbro.polish2check`, shortcuts unbound,
-`WISPRBRO_HUB_ROUTE` for deep links) with `screencapture -l` on the app's own
-windows, light and dark, English and Arabic.
-
-- [x] OT2.1 **Builder run (2026-11-04): FIX → PASS.** The first dry run built
-      the app and the DMG with its window (every install-window check
-      passed) but `codesign --verify --deep --strict` rejected the app in
-      the image: hiding the `.app` extension (`SetFile -a E`) had put Finder
-      info on the bundle. The extension is no longer hidden (Finder hides
-      `.app` by default anyway); the DMG rebuilt by `dmg/build.sh` from the
-      same app then passed `verify.sh --unsigned` in full (window checks,
-      ad-hoc signature deep/strict, `--list-devices` smoke). Unsigned dry run
-      of the release pipeline: `macos.sh --out <scratch> --unsigned` runs the
-      tauri build, then `dmg/build.sh`, then `verify.sh --unsigned`, which reads
-      the mounted image's `.DS_Store`: background 1x + 2x, toolbar, sidebar and
-      status bar hidden, 660 × 400, icons 128, Wispr Bro.app at (180, 228),
-      Applications at (480, 228). No Finder window was opened (the image is
-      attached `-nobrowse`). A second full `macos.sh --unsigned` run after the
-      fix built the DMG through the pipeline; its `verify.sh` stalled in a
-      subshell `source` of `dmg/build.sh` and then in a plain `hdiutil detach`
-      while the Mac was loaded, so the venv lookup became `build.sh
---print-python` and the detach gets 60 s before `-force`; `verify.sh
---unsigned` on that DMG then passed every check in 3.4 s.
-- [ ] OT2.2 **Queued for the Mac wave.** The DMG window by eye: open the
-      dry-run (or next rc's) DMG in Finder, light and dark appearance.
-      Pass: the window opens at about 660 × 400 with no toolbar or sidebar,
-      our background whole (heading "Drag to install", the help line, the
-      tray, the arrow; nothing cut off at the bottom), the app icon left
-      and Applications right on the tray at 128 pt, both labels readable
-      (dark in light mode, light in dark mode), the volume icon is ours;
-      dragging the app onto Applications copies it (to a scratch
-      Applications folder alias if the owner's must stay untouched: drag
-      onto a Finder window of `<scratch>/Applications` instead). Then the
-      signed path: the next rc's `verify.sh` lists the install-window
-      checks and passes, and the stapled DMG still opens with no Gatekeeper
-      prompt.
-- [ ] OT2.3 **Queued for the Mac wave.** Sidebar Support: the item sits
-      between Share with a friend and Settings, stays at the bottom with the
-      setup card open at the default window size; a click opens "Support
-      Wispr Bro" (Star on GitHub with GitHub's mark, Contribute, Send
-      feedback; no Sponsor item); Help › Get in touch › Support Wispr Bro
-      opens the same menu. Light/dark, Arabic. Links are not clicked (they
-      open the owner's browser).
-- [ ] OT2.4 **Queued for the Mac wave.** Settings › About: View source code,
-      View license and Handy on GitHub show the GitHub mark in the button's
-      ink, crisp at 2x, light and dark.
-- [ ] OT2.5 **Queued for the Mac wave.** Handy's hosted rows in sentence
-      case: Settings › System ("Launch on startup", "Show tray icon", "Start
-      hidden"), Advanced and the debug rows; the Turkish and Italian Hub
-      show their rows in sentence case; Japanese and German unchanged.
-- [ ] OT2.6 **Queued for the Mac wave.** Home banner: at the default window
-      and at full screen, English and Arabic, the heading, body and button
-      stay clear of the microphone in the photo.
-- [ ] OT2.7 **Queued for the Mac wave.** Onboarding Summary on the unbound
-      test profile: "Not set" rows show a grey dash, set rows the green tick.
-- [ ] OT2.8 **Queued for the Mac wave.** No focus ring after a deep link:
-      `WISPRBRO_HUB_ROUTE=#/hub/settings/microphone` at launch, Help ›
-      Microphone by mouse, the tray's Shortcuts…, and a tab deep link
-      (Insights › Voice): no ring on the close button or the tab panel; one
-      Tab press then draws the ring on the next control.
-
-### Owner test 2: quiet speech and whispers (`fix/quiet`, OT2-B)
-
-Test identity `com.wisprbro.metercheck` for the meter (as OT1.1) and the
-S-05 portable debug build (`scripts/wb-s05/app.sh start`: shortcuts unbound,
-models cloned, WAV microphone) for the takes. WAVs only, made by
-`OUT=<scratch> scripts/wb-quiet/run.sh prep` (`say` sentences over
-synthetic café noise with distant babble, `quiet_bench::write_wavs`): never
-the speakers, never the real microphone, never the owner's app or data.
-
-- [ ] OT2.1 **Queued for the Mac wave.** The mic meter with quiet speech
-      and whispers, each WAV through `scripts/wb-meter/run.sh` (the quiet
-      ones graded with `summary.py --quiet`):
-      `EXE=<debug wispr-bro> OUT=<scratch> scripts/wb-quiet/run.sh meter`.
-      Pass: noise segments mean < 0.05 (no bar most of the time) for all
-      four; normal-20dB speech as OT1.1 (top > 0.7, ≥ 6 bars of range);
-      quiet-20-3dB, whisper-30-3dB and whisper-35-0dB speech top > 0.2,
-      mean > 0.1 and ≥ 2 bars of range (builder bench: whispers 3-5 of 12
-      bars, noise 0).
-- [ ] OT2.2 **Queued for the Mac wave.** Whispers are heard: one SIGUSR2
-      take per WAV into our own TextEdit, the app started with
-      `scripts/wb-s05/app.sh start`:
-      `PID=<pid> DATA=<its Data dir> OUT=<scratch> scripts/wb-quiet/run.sh takes`.
-      Pass: every take has text (no "No speech heard"), WER ≤ 10 % for
-      normal-20dB, quiet-20-3dB and whisper-30-3dB, ≤ 40 % for
-      whisper-35-0dB (builder bench, turbo: 0 / 2.9 / 1.9 / 22.9 % over 8
-      sentences; before this fix 0 / 2.9 / 21.9 / 87.6 % with 4 of 8
-      whisper-35-0dB takes empty).
-- [ ] OT2.3 **Queued for the Mac wave.** The bar's waveform by eye and by
-      log, during the OT2.2 takes: the debug log's "pill: level frames …,
-      loudest bar …" lines during the whispers read ≥ 0.2 at least once a
-      second while the voice runs and < 0.1 in the second before it
-      starts; by eye the bars lie flat on the café noise and visibly move
-      with the whisper (before: flat throughout).
-
-### Owner test 2: transforms do what they say (OT2-D)
+#### OT2-D: transforms do what they say (`fix/xform`)
 
 Driver: `scripts/wb-ot2d/run.sh <case>` on a portable test bundle
 (onboarding completed, Transforms on, default ⌥1/⌥2, AI engine ready; its
@@ -3017,7 +2959,73 @@ audio. Run `restore` last.
       selected in TextEdit › ⌥1 (Polish restored) pastes once and keeps
       the three paragraphs.
 
-### Audit OT2-F (`fix/audit2`): the open low-severity audit rows
+#### OT2-E: DMG window, Support, GitHub marks, design calls (`fix/polish2`)
+
+Owner feedback on rc3: the DMG window, About's GitHub links, Support in the
+sidebar, and four design calls from Mac wave 6. Never the owner's Wispr Bro,
+`/Applications/Wispr Bro.app` or its data; no sudo. UI checks run on a debug
+test bundle (`com.wisprbro.polish2check`, shortcuts unbound,
+`WISPRBRO_HUB_ROUTE` for deep links) with `screencapture -l` on the app's own
+windows, light and dark, English and Arabic.
+
+- [x] OT2-E.1 **Builder run (2026-11-04): FIX → PASS.** The first dry run built
+      the app and the DMG with its window (every install-window check
+      passed) but `codesign --verify --deep --strict` rejected the app in
+      the image: hiding the `.app` extension (`SetFile -a E`) had put Finder
+      info on the bundle. The extension is no longer hidden (Finder hides
+      `.app` by default anyway); the DMG rebuilt by `dmg/build.sh` from the
+      same app then passed `verify.sh --unsigned` in full (window checks,
+      ad-hoc signature deep/strict, `--list-devices` smoke). Unsigned dry run
+      of the release pipeline: `macos.sh --out <scratch> --unsigned` runs the
+      tauri build, then `dmg/build.sh`, then `verify.sh --unsigned`, which reads
+      the mounted image's `.DS_Store`: background 1x + 2x, toolbar, sidebar and
+      status bar hidden, 660 × 400, icons 128, Wispr Bro.app at (180, 228),
+      Applications at (480, 228). No Finder window was opened (the image is
+      attached `-nobrowse`). A second full `macos.sh --unsigned` run after the
+      fix built the DMG through the pipeline; its `verify.sh` stalled in a
+      subshell `source` of `dmg/build.sh` and then in a plain `hdiutil detach`
+      while the Mac was loaded, so the venv lookup became `build.sh
+--print-python` and the detach gets 60 s before `-force`; `verify.sh
+--unsigned` on that DMG then passed every check in 3.4 s.
+- [ ] OT2-E.2 **Queued for the Mac wave.** The DMG window by eye: open the
+      dry-run (or next rc's) DMG in Finder, light and dark appearance.
+      Pass: the window opens at about 660 × 400 with no toolbar or sidebar,
+      our background whole (heading "Drag to install", the help line, the
+      tray, the arrow; nothing cut off at the bottom), the app icon left
+      and Applications right on the tray at 128 pt, both labels readable
+      (dark in light mode, light in dark mode), the volume icon is ours;
+      dragging the app onto Applications copies it (to a scratch
+      Applications folder alias if the owner's must stay untouched: drag
+      onto a Finder window of `<scratch>/Applications` instead). Then the
+      signed path: the next rc's `verify.sh` lists the install-window
+      checks and passes, and the stapled DMG still opens with no Gatekeeper
+      prompt.
+- [ ] OT2-E.3 **Queued for the Mac wave.** Sidebar Support: the item sits
+      between Share with a friend and Settings, stays at the bottom with the
+      setup card open at the default window size; a click opens "Support
+      Wispr Bro" (Star on GitHub with GitHub's mark, Contribute, Send
+      feedback; no Sponsor item); Help › Get in touch › Support Wispr Bro
+      opens the same menu. Light/dark, Arabic. Links are not clicked (they
+      open the owner's browser).
+- [ ] OT2-E.4 **Queued for the Mac wave.** Settings › About: View source code,
+      View license and Handy on GitHub show the GitHub mark in the button's
+      ink, crisp at 2x, light and dark.
+- [ ] OT2-E.5 **Queued for the Mac wave.** Handy's hosted rows in sentence
+      case: Settings › System ("Launch on startup", "Show tray icon", "Start
+      hidden"), Advanced and the debug rows; the Turkish and Italian Hub
+      show their rows in sentence case; Japanese and German unchanged.
+- [ ] OT2-E.6 **Queued for the Mac wave.** Home banner: at the default window
+      and at full screen, English and Arabic, the heading, body and button
+      stay clear of the microphone in the photo.
+- [ ] OT2-E.7 **Queued for the Mac wave.** Onboarding Summary on the unbound
+      test profile: "Not set" rows show a grey dash, set rows the green tick.
+- [ ] OT2-E.8 **Queued for the Mac wave.** No focus ring after a deep link:
+      `WISPRBRO_HUB_ROUTE=#/hub/settings/microphone` at launch, Help ›
+      Microphone by mouse, the tray's Shortcuts…, and a tab deep link
+      (Insights › Voice): no ring on the close button or the tab panel; one
+      Tab press then draws the ring on the next control.
+
+#### OT2-F: the open low-severity audit rows (`fix/audit2`)
 
 A debug test identity (`com.wisprbro.auditcheck`, portable, shortcuts
 unbound, takes by SIGUSR2 and the test WAV microphone, paste target the
