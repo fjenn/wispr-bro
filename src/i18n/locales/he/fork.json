@@ -233,12 +233,12 @@
       "intro": "Wispr Bro קורא את שמות הקוד והקבצים שהעורך מציג. הוא אף פעם לא פותח את הקבצים שלך.",
       "contextOff": "המודעות להקשר כבויה, ולכן לתכונות האלה אין מה לקרוא. הפעל אותה כדי להשתמש בהן.",
       "recognize": "זיהוי שמות קוד",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "אמור שם שהעורך מציג, למשל \"get user by id\", והוא ייכתב כמו שהקוד שלך כותב אותו: getUserById.",
       "setUp": "הגדר",
       "change": "שנה עורכים",
       "setUpFor": "הגדר עבור {{editors}}",
       "fileTags": "תיוג קבצים בצ׳אט",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "בצ׳אט של Cursor או Windsurf, אמירת \"index dot ts\" מתייגת את index.ts דרך תפריט ה-@ של העורך כשהקובץ פתוח בכרטיסייה או מופיע בסייר הקבצים. אם העורך לא מציע התאמה, @index.ts נכתב כטקסט.",
       "fileTagsNeedsChat": "זמין אחרי שתוסיף את Cursor או Windsurf לעורכים שלך.",
       "fileTagsNeedsSetup": "זמין אחרי הגדרת זיהוי שמות קוד.",
       "setup": {
@@ -2035,27 +2035,27 @@
     "sites": {
       "heading": "בשימוש באתרים האלה",
       "listLabel": "אתרים שמשתמשים בסגנון {{group}}",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_two": "Show all {{count}} websites",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "הוסף אתר",
+      "showAll_one": "הצג אתר {{count}}",
+      "showAll_two": "הצג את {{count}} האתרים",
+      "showAll_other": "הצג את כל {{count}} האתרים",
+      "showFewer": "הצג פחות",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "אתרים שהיו בשימוש לאחרונה",
+        "hint": "אתרים שהכתבת בהם ועדיין אין להם סגנון. לחץ על אחד מהם כדי להשתמש בו ב-\"{{group}}\".",
+        "addLabel": "הוסף את {{host}} ל-\"{{group}}\""
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "הוספת אתר",
+        "description": "בחר את הסגנון לאתר בדפדפן. הוא חל על כל האתר, כולל תת-דומיינים.",
+        "label": "אתר",
+        "hint": "הקלד דומיין כמו github.com, או הדבק כתובת.",
+        "invalid": "זה לא נראה כמו אתר. נסה דומיין כמו example.com.",
+        "preview": "מוסיף את {{host}} ואת תת-הדומיינים שלו.",
+        "already": "{{host}} נמצא עכשיו ב-\"{{group}}\". הוספה כאן תעביר אותו.",
+        "covered": "{{host}} הוא חלק מ-{{parent}} (\"{{group}}\"). הוספה תיתן לו סגנון משלו.",
+        "groupLabel": "סגנון",
+        "submit": "הוסף ל-\"{{group}}\""
       }
     },
     "picker": {

@@ -232,12 +232,12 @@
       "intro": "Wispr Bro чете имената от кода и файловете, които редакторът показва. Никога не отваря файловете ви.",
       "contextOff": "Отчитането на контекста е изключено, затова тези функции нямат какво да четат. Включете го, за да ги използвате.",
       "recognize": "Разпознаване на имена в кода",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Кажете име, което редакторът показва, например „get user by id“, и то се изписва така, както е в кода ви: getUserById.",
       "setUp": "Настрой",
       "change": "Смени редакторите",
       "setUpFor": "Настрой за {{editors}}",
       "fileTags": "Маркиране на файлове в чата",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "В чата на Cursor или Windsurf „index dot ts“ маркира index.ts чрез менюто @ на редактора, когато файлът е отворен в раздел или се вижда в изследователя на файлове. Ако редакторът не предложи съвпадение, @index.ts се изписва като текст.",
       "fileTagsNeedsChat": "Достъпно, след като добавите Cursor или Windsurf към редакторите си.",
       "fileTagsNeedsSetup": "Достъпно, след като настроите разпознаването на имена в кода.",
       "setup": {
@@ -1958,26 +1958,26 @@
     "sites": {
       "heading": "Използва се на тези сайтове",
       "listLabel": "Сайтове със стил {{group}}",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Добави уебсайт",
+      "showAll_one": "Покажи {{count}} уебсайт",
+      "showAll_other": "Покажи всички {{count}} уебсайта",
+      "showFewer": "Покажи по-малко",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Наскоро използвани уебсайтове",
+        "hint": "Уебсайтове, на които сте диктували и които още нямат стил. Щракнете върху някой, за да използвате „{{group}}“ там.",
+        "addLabel": "Добави {{host}} към „{{group}}“"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Добавяне на уебсайт",
+        "description": "Изберете стила за уебсайт в браузъра си. Той важи за целия сайт, включително поддомейните.",
+        "label": "Уебсайт",
+        "hint": "Въведете домейн като github.com или поставете адрес.",
+        "invalid": "Това не прилича на уебсайт. Опитайте с домейн като example.com.",
+        "preview": "Добавя {{host}} и поддомейните му.",
+        "already": "{{host}} сега е в „{{group}}“. Ако го добавите тук, ще бъде преместен.",
+        "covered": "{{host}} е част от {{parent}} („{{group}}“). Ако го добавите, ще получи собствен стил.",
+        "groupLabel": "Стил",
+        "submit": "Добави към „{{group}}“"
       }
     },
     "picker": {

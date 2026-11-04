@@ -232,12 +232,12 @@
       "intro": "Wispr Bro läser de kod- och filnamn som din editor visar. Den öppnar aldrig dina filer.",
       "contextOff": "Kontextmedvetenhet är avstängd, så de här funktionerna har inget att läsa. Slå på den för att använda dem.",
       "recognize": "Känn igen kodnamn",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Säg ett namn som din redigerare visar, till exempel ”get user by id”, så skrivs det som din kod stavar det: getUserById.",
       "setUp": "Konfigurera",
       "change": "Byt redigerare",
       "setUpFor": "Konfigurera för {{editors}}",
       "fileTags": "Tagga filer i chatten",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "I chatten i Cursor eller Windsurf taggar ”index dot ts” filen index.ts via redigerarens @-meny när filen är öppen i en flik eller syns i filutforskaren. Om redigeraren inte hittar någon träff skrivs @index.ts som text.",
       "fileTagsNeedsChat": "Tillgängligt när du har lagt till Cursor eller Windsurf bland dina redigerare.",
       "fileTagsNeedsSetup": "Tillgängligt när du har konfigurerat igenkänning av kodnamn.",
       "setup": {
@@ -1958,26 +1958,26 @@
     "sites": {
       "heading": "Används på de här webbplatserna",
       "listLabel": "Webbplatser som använder stilen ”{{group}}”",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Lägg till webbplats",
+      "showAll_one": "Visa {{count}} webbplats",
+      "showAll_other": "Visa alla {{count}} webbplatser",
+      "showFewer": "Visa färre",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Nyligen använda webbplatser",
+        "hint": "Webbplatser du har dikterat på som ännu inte har någon stil. Klicka på en för att använda ”{{group}}” där.",
+        "addLabel": "Lägg till {{host}} i ”{{group}}”"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Lägg till en webbplats",
+        "description": "Välj stil för en webbplats i webbläsaren. Den gäller hela webbplatsen, även underdomäner.",
+        "label": "Webbplats",
+        "hint": "Skriv en domän som github.com eller klistra in en adress.",
+        "invalid": "Det ser inte ut som en webbplats. Prova en domän som example.com.",
+        "preview": "Lägger till {{host}} och dess underdomäner.",
+        "already": "{{host}} finns i ”{{group}}” nu. Om du lägger till det här flyttas det.",
+        "covered": "{{host}} hör till {{parent}} (”{{group}}”). Om du lägger till det får det en egen stil.",
+        "groupLabel": "Stil",
+        "submit": "Lägg till i ”{{group}}”"
       }
     },
     "picker": {

@@ -232,12 +232,12 @@
       "intro": "Wispr Bro ले तपाईंको एडिटरले देखाउने कोड र फाइल नाम पढ्छ। यसले तपाईंका फाइल कहिल्यै खोल्दैन।",
       "contextOff": "सन्दर्भ बुझाइ बन्द छ, त्यसैले यी सुविधाहरूसँग पढ्ने केही छैन। तिनलाई प्रयोग गर्न यसलाई सक्रिय गर्नुहोस्।",
       "recognize": "कोड नाम चिन्नुहोस्",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "तपाईंको एडिटरले देखाउने कुनै नाम भन्नुहोस्, जस्तै “get user by id”, र त्यो तपाईंको कोडले लेखेजस्तै लेखिन्छ: getUserById.",
       "setUp": "सेटअप गर्नुहोस्",
       "change": "एडिटर बदल्नुहोस्",
       "setUpFor": "{{editors}} का लागि सेटअप गर्नुहोस्",
       "fileTags": "च्याटमा फाइल ट्याग गर्नुहोस्",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Cursor वा Windsurf च्याटमा “index dot ts” भन्दा, त्यो फाइल कुनै ट्याबमा खुला छ वा फाइल एक्सप्लोररमा देखिन्छ भने एडिटरको @ मेनुबाट index.ts ट्याग हुन्छ। एडिटरले कुनै मेल दिएन भने @index.ts टेक्स्टको रूपमा लेखिन्छ।",
       "fileTagsNeedsChat": "तपाईंका एडिटरहरूमा Cursor वा Windsurf थपेपछि उपलब्ध।",
       "fileTagsNeedsSetup": "कोड नाम पहिचान सेटअप गरेपछि उपलब्ध।",
       "setup": {
@@ -1958,26 +1958,26 @@
     "sites": {
       "heading": "यी साइटहरूमा प्रयोग हुन्छ",
       "listLabel": "{{group}} शैली प्रयोग गर्ने साइटहरू",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "वेबसाइट थप्नुहोस्",
+      "showAll_one": "सबै {{count}} वेबसाइट देखाउनुहोस्",
+      "showAll_other": "सबै {{count}} वेबसाइटहरू देखाउनुहोस्",
+      "showFewer": "कम देखाउनुहोस्",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "हालै प्रयोग गरिएका वेबसाइटहरू",
+        "hint": "तपाईंले डिक्टेट गर्नुभएका तर अझै शैली नभएका वेबसाइटहरू। त्यहाँ “{{group}}” प्रयोग गर्न कुनै एकमा क्लिक गर्नुहोस्।",
+        "addLabel": "{{host}} लाई “{{group}}” मा थप्नुहोस्"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "वेबसाइट थप्नुहोस्",
+        "description": "तपाईंको ब्राउजरमा कुनै वेबसाइटका लागि शैली छान्नुहोस्। यो सबडोमेनसहित पूरै साइटमा लागू हुन्छ।",
+        "label": "वेबसाइट",
+        "hint": "github.com जस्तो डोमेन टाइप गर्नुहोस्, वा ठेगाना पेस्ट गर्नुहोस्।",
+        "invalid": "यो वेबसाइटजस्तो देखिँदैन। example.com जस्तो डोमेन प्रयास गर्नुहोस्।",
+        "preview": "{{host}} र यसका सबडोमेनहरू थप्छ।",
+        "already": "{{host}} अहिले “{{group}}” मा छ। यहाँ थप्दा यो सारिन्छ।",
+        "covered": "{{host}} {{parent}} (“{{group}}”) को अंश हो। थप्दा यसको आफ्नै शैली हुन्छ।",
+        "groupLabel": "शैली",
+        "submit": "“{{group}}” मा थप्नुहोस्"
       }
     },
     "picker": {

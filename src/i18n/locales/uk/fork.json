@@ -234,12 +234,12 @@
       "intro": "Wispr Bro читає назви з коду та файлів, які показує редактор. Ваші файли він не відкриває.",
       "contextOff": "Урахування контексту вимкнено, тож цим функціям нічого читати. Увімкніть його, щоб ними користуватися.",
       "recognize": "Розпізнавати імена з коду",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Вимовте ім’я, яке показує редактор, наприклад «get user by id», і воно буде записане так, як у вашому коді: getUserById.",
       "setUp": "Налаштувати",
       "change": "Змінити редактори",
       "setUpFor": "Налаштувати для {{editors}}",
       "fileTags": "Позначати файли в чаті",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "У чаті Cursor або Windsurf фраза «index dot ts» позначає index.ts через меню @ редактора, якщо цей файл відкритий у вкладці або видимий у провіднику файлів. Якщо редактор не пропонує збігів, @index.ts вводиться як текст.",
       "fileTagsNeedsChat": "Доступно, коли ви додасте Cursor або Windsurf до своїх редакторів.",
       "fileTagsNeedsSetup": "Доступно після налаштування розпізнавання імен з коду.",
       "setup": {
@@ -2112,28 +2112,28 @@
     "sites": {
       "heading": "Використовується на цих сайтах",
       "listLabel": "Сайти зі стилем «{{group}}»",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_few": "Show all {{count}} websites",
-      "showAll_many": "Show all {{count}} websites",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Додати сайт",
+      "showAll_one": "Показати {{count}} сайт",
+      "showAll_few": "Показати всі {{count}} сайти",
+      "showAll_many": "Показати всі {{count}} сайтів",
+      "showAll_other": "Показати всі {{count}} сайту",
+      "showFewer": "Показати менше",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Нещодавно використані сайти",
+        "hint": "Сайти, на яких ви диктували і які ще не мають стилю. Натисніть на один, щоб використовувати там «{{group}}».",
+        "addLabel": "Додати {{host}} до «{{group}}»"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Додати сайт",
+        "description": "Виберіть стиль для сайту в браузері. Він діє на весь сайт, разом із піддоменами.",
+        "label": "Сайт",
+        "hint": "Введіть домен, наприклад github.com, або вставте адресу.",
+        "invalid": "Це не схоже на сайт. Спробуйте домен, наприклад example.com.",
+        "preview": "Додає {{host}} та його піддомени.",
+        "already": "Зараз {{host}} у стилі «{{group}}». Якщо додати його тут, його буде перенесено.",
+        "covered": "{{host}} входить до {{parent}} («{{group}}»). Якщо додати його, він матиме власний стиль.",
+        "groupLabel": "Стиль",
+        "submit": "Додати до «{{group}}»"
       }
     },
     "picker": {

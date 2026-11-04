@@ -231,12 +231,12 @@
       "intro": "Wispr Bro đọc tên mã và tên tệp mà trình soạn thảo hiển thị. Nó không bao giờ mở tệp của bạn.",
       "contextOff": "Nhận biết ngữ cảnh đang tắt nên các tính năng này không có gì để đọc. Hãy bật lên để sử dụng.",
       "recognize": "Nhận dạng tên trong mã",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Nói một tên mà trình sửa mã hiển thị, như “get user by id”, và tên đó được viết đúng như trong mã của bạn: getUserById.",
       "setUp": "Thiết lập",
       "change": "Đổi trình sửa mã",
       "setUpFor": "Thiết lập cho {{editors}}",
       "fileTags": "Gắn thẻ tệp trong chat",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Trong chat của Cursor hoặc Windsurf, nói “index dot ts” sẽ gắn thẻ index.ts qua menu @ của trình sửa mã khi tệp đó đang mở trong một thẻ hoặc hiện trong trình khám phá tệp. Nếu trình sửa mã không đưa ra kết quả khớp, @index.ts được viết dưới dạng văn bản.",
       "fileTagsNeedsChat": "Có sau khi bạn thêm Cursor hoặc Windsurf vào danh sách trình sửa mã.",
       "fileTagsNeedsSetup": "Có sau khi bạn thiết lập nhận dạng tên trong mã.",
       "setup": {
@@ -1881,25 +1881,25 @@
     "sites": {
       "heading": "Dùng trên các trang web này",
       "listLabel": "Các trang web dùng kiểu {{group}}",
-      "addShort": "Add website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Thêm trang web",
+      "showAll_other": "Hiện tất cả {{count}} trang web",
+      "showFewer": "Thu gọn",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Trang web dùng gần đây",
+        "hint": "Các trang web bạn đã đọc chính tả nhưng chưa có kiểu. Bấm vào một trang để dùng “{{group}}” ở đó.",
+        "addLabel": "Thêm {{host}} vào “{{group}}”"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Thêm trang web",
+        "description": "Chọn kiểu cho một trang web trong trình duyệt. Kiểu áp dụng cho toàn bộ trang, kể cả tên miền phụ.",
+        "label": "Trang web",
+        "hint": "Nhập tên miền như github.com, hoặc dán một địa chỉ.",
+        "invalid": "Đây có vẻ không phải là trang web. Hãy thử tên miền như example.com.",
+        "preview": "Thêm {{host}} và các tên miền phụ của nó.",
+        "already": "{{host}} hiện đang ở “{{group}}”. Thêm vào đây sẽ chuyển nó sang.",
+        "covered": "{{host}} thuộc {{parent}} (“{{group}}”). Thêm vào sẽ cho nó kiểu riêng.",
+        "groupLabel": "Kiểu",
+        "submit": "Thêm vào “{{group}}”"
       }
     },
     "picker": {

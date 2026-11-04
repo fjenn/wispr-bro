@@ -231,12 +231,12 @@
       "intro": "Wispr Bro는 편집기에 표시된 코드와 파일 이름을 읽습니다. 파일을 열지는 않습니다.",
       "contextOff": "문맥 인식이 꺼져 있어 이 기능들이 읽을 내용이 없습니다. 사용하려면 켜세요.",
       "recognize": "코드 이름 인식",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "“get user by id”처럼 편집기에 표시된 이름을 말하면 코드의 표기대로 getUserById로 입력됩니다.",
       "setUp": "설정",
       "change": "편집기 변경",
       "setUpFor": "{{editors}} 설정",
       "fileTags": "채팅에서 파일 태그",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Cursor나 Windsurf 채팅에서 “index dot ts”라고 말하면, 그 파일이 탭에 열려 있거나 파일 탐색기에 보일 때 편집기의 @ 메뉴로 index.ts를 태그합니다. 편집기가 일치 항목을 제시하지 않으면 @index.ts가 텍스트로 입력됩니다.",
       "fileTagsNeedsChat": "편집기에 Cursor 또는 Windsurf를 추가하면 사용할 수 있습니다.",
       "fileTagsNeedsSetup": "코드 이름 인식을 설정하면 사용할 수 있습니다.",
       "setup": {
@@ -1881,25 +1881,25 @@
     "sites": {
       "heading": "이 사이트에서 사용",
       "listLabel": "{{group}} 스타일을 사용하는 사이트",
-      "addShort": "Add website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "웹사이트 추가",
+      "showAll_other": "웹사이트 {{count}}개 모두 보기",
+      "showFewer": "간단히 보기",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "최근 사용한 웹사이트",
+        "hint": "받아쓰기를 했지만 아직 스타일이 없는 웹사이트입니다. 하나를 클릭하면 그곳에서 “{{group}}”을(를) 사용합니다.",
+        "addLabel": "{{host}}을(를) “{{group}}”에 추가"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "웹사이트 추가",
+        "description": "브라우저에서 사용하는 웹사이트의 스타일을 선택하세요. 하위 도메인을 포함한 사이트 전체에 적용됩니다.",
+        "label": "웹사이트",
+        "hint": "github.com 같은 도메인을 입력하거나 주소를 붙여넣으세요.",
+        "invalid": "웹사이트가 아닌 것 같습니다. example.com 같은 도메인을 입력해 보세요.",
+        "preview": "{{host}} 및 하위 도메인을 추가합니다.",
+        "already": "{{host}}은(는) 현재 “{{group}}”에 있습니다. 여기에 추가하면 이동합니다.",
+        "covered": "{{host}}은(는) {{parent}}(“{{group}}”)의 일부입니다. 추가하면 고유한 스타일을 갖게 됩니다.",
+        "groupLabel": "스타일",
+        "submit": "“{{group}}”에 추가"
       }
     },
     "picker": {

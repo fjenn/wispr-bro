@@ -231,12 +231,12 @@
       "intro": "Wispr Bro membaca nama kode dan file yang ditampilkan editor Anda. Ia tidak pernah membuka file Anda.",
       "contextOff": "Kesadaran konteks nonaktif, jadi fitur ini tidak punya apa pun untuk dibaca. Nyalakan untuk menggunakannya.",
       "recognize": "Kenali nama kode",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Ucapkan nama yang ditampilkan editor Anda, seperti “get user by id”, dan nama itu ditulis seperti ejaan kode Anda: getUserById.",
       "setUp": "Atur",
       "change": "Ubah editor",
       "setUpFor": "Atur untuk {{editors}}",
       "fileTags": "Tandai file di chat",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Di chat Cursor atau Windsurf, mengucapkan “index dot ts” menandai index.ts lewat menu @ editor saat file itu terbuka di tab atau tampil di penjelajah file. Jika editor tidak menawarkan kecocokan, @index.ts ditulis sebagai teks.",
       "fileTagsNeedsChat": "Tersedia setelah Anda menambahkan Cursor atau Windsurf ke editor Anda.",
       "fileTagsNeedsSetup": "Tersedia setelah Anda mengatur pengenalan nama kode.",
       "setup": {
@@ -1881,25 +1881,25 @@
     "sites": {
       "heading": "Digunakan di situs ini",
       "listLabel": "Situs yang menggunakan gaya {{group}}",
-      "addShort": "Add website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Tambah situs web",
+      "showAll_other": "Tampilkan semua {{count}} situs web",
+      "showFewer": "Tampilkan lebih sedikit",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Situs web yang baru digunakan",
+        "hint": "Situs web tempat Anda mendikte yang belum punya gaya. Klik salah satunya untuk memakai “{{group}}” di sana.",
+        "addLabel": "Tambahkan {{host}} ke “{{group}}”"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Tambahkan situs web",
+        "description": "Pilih gaya untuk situs web di browser Anda. Gaya ini berlaku untuk seluruh situs, termasuk subdomain.",
+        "label": "Situs web",
+        "hint": "Ketik domain seperti github.com, atau tempel alamat.",
+        "invalid": "Itu tidak terlihat seperti situs web. Coba domain seperti example.com.",
+        "preview": "Menambahkan {{host}} dan subdomainnya.",
+        "already": "{{host}} saat ini ada di “{{group}}”. Menambahkannya di sini akan memindahkannya.",
+        "covered": "{{host}} adalah bagian dari {{parent}} (“{{group}}”). Menambahkannya memberinya gaya sendiri.",
+        "groupLabel": "Gaya",
+        "submit": "Tambahkan ke “{{group}}”"
       }
     },
     "picker": {

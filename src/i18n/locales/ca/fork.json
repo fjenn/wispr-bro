@@ -233,12 +233,12 @@
       "intro": "Wispr Bro llegeix els noms de codi i de fitxers que mostra l’editor. Mai no obre els teus fitxers.",
       "contextOff": "El context està desactivat, així que aquestes funcions no tenen res per llegir. Activa'l per fer-les servir.",
       "recognize": "Reconèixer noms de codi",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Digues un nom que mostri l’editor, com ara “get user by id”, i s’escriu tal com l’escriu el teu codi: getUserById.",
       "setUp": "Configurar",
       "change": "Canviar editors",
       "setUpFor": "Configurar per a {{editors}}",
       "fileTags": "Etiquetar fitxers al xat",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Al xat de Cursor o Windsurf, dir “index dot ts” etiqueta index.ts amb el menú @ de l’editor quan aquest fitxer és obert en una pestanya o es veu a l’explorador de fitxers. Si l’editor no ofereix cap coincidència, s’escriu @index.ts com a text.",
       "fileTagsNeedsChat": "Disponible quan afegeixis Cursor o Windsurf als teus editors.",
       "fileTagsNeedsSetup": "Disponible quan configuris el reconeixement de noms de codi.",
       "setup": {
@@ -2035,27 +2035,27 @@
     "sites": {
       "heading": "S'utilitza en aquests llocs web",
       "listLabel": "Llocs web que fan servir l'estil {{group}}",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_many": "Show all {{count}} websites",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Afegeix lloc web",
+      "showAll_one": "Mostra {{count}} lloc web",
+      "showAll_many": "Mostra els {{count}} llocs web",
+      "showAll_other": "Mostra els {{count}} llocs web",
+      "showFewer": "Mostra’n menys",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Llocs web utilitzats recentment",
+        "hint": "Llocs web on has dictat que encara no tenen estil. Fes clic en un per fer-hi servir “{{group}}”.",
+        "addLabel": "Afegeix {{host}} a “{{group}}”"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Afegeix un lloc web",
+        "description": "Tria l’estil per a un lloc web del navegador. S’aplica a tot el lloc, subdominis inclosos.",
+        "label": "Lloc web",
+        "hint": "Escriu un domini com github.com o enganxa una adreça.",
+        "invalid": "No sembla un lloc web. Prova un domini com example.com.",
+        "preview": "Afegeix {{host}} i els seus subdominis.",
+        "already": "{{host}} ara és a “{{group}}”. Si l’afegeixes aquí, s’hi mourà.",
+        "covered": "{{host}} forma part de {{parent}} (“{{group}}”). Si l’afegeixes, tindrà el seu propi estil.",
+        "groupLabel": "Estil",
+        "submit": "Afegeix a “{{group}}”"
       }
     },
     "picker": {

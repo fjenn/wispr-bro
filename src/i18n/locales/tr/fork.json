@@ -232,12 +232,12 @@
       "intro": "Wispr Bro, düzenleyicinizin gösterdiği kod ve dosya adlarını okur. Dosyalarınızı asla açmaz.",
       "contextOff": "Bağlam farkındalığı kapalı olduğu için bu özelliklerin okuyacağı bir şey yok. Bunları kullanmak için bağlam farkındalığını açın.",
       "recognize": "Kod adlarını tanı",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Düzenleyicinizin gösterdiği bir adı söyleyin, örneğin “get user by id”; kodunuzdaki yazılışıyla yazılır: getUserById.",
       "setUp": "Ayarla",
       "change": "Düzenleyicileri değiştir",
       "setUpFor": "Şunlar için ayarla: {{editors}}",
       "fileTags": "Sohbette dosyaları etiketle",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Cursor veya Windsurf sohbetinde “index dot ts” demek, dosya bir sekmede açıksa ya da dosya gezgininde görünüyorsa düzenleyicinin @ menüsüyle index.ts’yi etiketler. Düzenleyici eşleşme sunmazsa @index.ts metin olarak yazılır.",
       "fileTagsNeedsChat": "Düzenleyicilerinize Cursor veya Windsurf’ü ekledikten sonra kullanılabilir.",
       "fileTagsNeedsSetup": "Kod adı tanımayı ayarladıktan sonra kullanılabilir.",
       "setup": {
@@ -1958,26 +1958,26 @@
     "sites": {
       "heading": "Bu sitelerde kullanılır",
       "listLabel": "{{group}} stilini kullanan siteler",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Web sitesi ekle",
+      "showAll_one": "{{count}} web sitesini göster",
+      "showAll_other": "{{count}} web sitesinin tümünü göster",
+      "showFewer": "Daha az göster",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Son kullanılan web siteleri",
+        "hint": "Dikte ettiğiniz ve henüz stili olmayan web siteleri. Orada “{{group}}” kullanmak için birine tıklayın.",
+        "addLabel": "{{host}} sitesini “{{group}}” stiline ekle"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "Web sitesi ekle",
+        "description": "Tarayıcınızdaki bir web sitesi için stil seçin. Alt alan adları dahil tüm siteye uygulanır.",
+        "label": "Web sitesi",
+        "hint": "github.com gibi bir alan adı yazın veya bir adres yapıştırın.",
+        "invalid": "Bu bir web sitesine benzemiyor. example.com gibi bir alan adı deneyin.",
+        "preview": "{{host}} ve alt alan adlarını ekler.",
+        "already": "{{host}} şu anda “{{group}}” içinde. Buraya eklemek onu taşır.",
+        "covered": "{{host}}, {{parent}} (“{{group}}”) kapsamında. Eklemek ona kendi stilini verir.",
+        "groupLabel": "Stil",
+        "submit": "“{{group}}” stiline ekle"
       }
     },
     "picker": {

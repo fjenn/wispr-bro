@@ -233,12 +233,12 @@
       "intro": "Wispr Bro lit les noms de code et de fichiers affichés par votre éditeur. Il n’ouvre jamais vos fichiers.",
       "contextOff": "La prise en compte du contexte est désactivée : ces fonctions n’ont donc rien à lire. Activez-la pour les utiliser.",
       "recognize": "Reconnaître les noms de code",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "Dites un nom affiché par votre éditeur, comme « get user by id », et il est écrit comme votre code l’écrit : getUserById.",
       "setUp": "Configurer",
       "change": "Changer d’éditeurs",
       "setUpFor": "Configurer pour {{editors}}",
       "fileTags": "Mentionner des fichiers dans le chat",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Dans le chat de Cursor ou de Windsurf, dire « index dot ts » mentionne index.ts via le menu @ de l’éditeur quand ce fichier est ouvert dans un onglet ou visible dans l’explorateur de fichiers. Si l’éditeur ne propose rien, @index.ts est écrit en texte.",
       "fileTagsNeedsChat": "Disponible une fois Cursor ou Windsurf ajouté à vos éditeurs.",
       "fileTagsNeedsSetup": "Disponible une fois la reconnaissance des noms de code configurée.",
       "setup": {
@@ -2035,27 +2035,27 @@
     "sites": {
       "heading": "Utilisé sur ces sites",
       "listLabel": "Sites qui utilisent le style {{group}}",
-      "addShort": "Add website",
-      "showAll_one": "Show all {{count}} website",
-      "showAll_many": "Show all {{count}} websites",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "Ajouter un site",
+      "showAll_one": "Afficher {{count}} site web",
+      "showAll_many": "Afficher les {{count}} sites web",
+      "showAll_other": "Afficher les {{count}} sites web",
+      "showFewer": "Afficher moins",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "Sites web utilisés récemment",
+        "hint": "Les sites web où vous avez dicté et qui n’ont pas encore de style. Cliquez sur l’un d’eux pour y utiliser « {{group}} ».",
+        "addLabel": "Ajouter {{host}} à « {{group}} »"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "title": "Ajouter un site web",
+        "description": "Choisissez le style d’un site web dans votre navigateur. Il s’applique à tout le site, sous-domaines compris.",
+        "label": "Site web",
+        "hint": "Saisissez un domaine comme github.com, ou collez une adresse.",
+        "invalid": "Cela ne ressemble pas à un site web. Essayez un domaine comme example.com.",
+        "preview": "Ajoute {{host}} et ses sous-domaines.",
+        "already": "{{host}} est actuellement dans « {{group}} ». L’ajouter ici l’y déplace.",
+        "covered": "{{host}} fait partie de {{parent}} (« {{group}} »). L’ajouter lui donne son propre style.",
         "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "submit": "Ajouter à « {{group}} »"
       }
     },
     "picker": {

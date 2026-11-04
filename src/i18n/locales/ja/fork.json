@@ -231,12 +231,12 @@
       "intro": "Wispr Bro はエディタに表示されたコード名とファイル名を読みます。ファイルを開くことはありません。",
       "contextOff": "コンテキスト認識がオフのため、これらの機能は何も読み取れません。使用するにはオンにしてください。",
       "recognize": "コード上の名前を認識",
-      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "recognizeHint": "「get user by id」のようにエディタに表示されている名前を言うと、コードでの表記どおり getUserById と入力されます。",
       "setUp": "設定",
       "change": "エディタを変更",
       "setUpFor": "{{editors}} 用に設定",
       "fileTags": "チャットでファイルをタグ付け",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "Cursor または Windsurf のチャットで「index dot ts」と言うと、そのファイルがタブで開いているかファイルエクスプローラーに表示されているとき、エディタの @ メニューで index.ts をタグ付けします。エディタに一致する候補がない場合は、@index.ts がテキストとして入力されます。",
       "fileTagsNeedsChat": "エディタに Cursor または Windsurf を追加すると利用できます。",
       "fileTagsNeedsSetup": "コード上の名前の認識を設定すると利用できます。",
       "setup": {
@@ -1881,25 +1881,25 @@
     "sites": {
       "heading": "使用するサイト",
       "listLabel": "{{group}}のスタイルを使用するサイト",
-      "addShort": "Add website",
-      "showAll_other": "Show all {{count}} websites",
-      "showFewer": "Show fewer",
+      "addShort": "ウェブサイトを追加",
+      "showAll_other": "{{count}} 件のウェブサイトをすべて表示",
+      "showFewer": "表示を減らす",
       "recent": {
-        "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
-        "addLabel": "Add {{host}} to {{group}}"
+        "heading": "最近使ったウェブサイト",
+        "hint": "音声入力したことがあり、まだスタイルがないウェブサイトです。クリックすると、そこで「{{group}}」を使います。",
+        "addLabel": "{{host}} を「{{group}}」に追加"
       },
       "add": {
-        "title": "Add a website",
-        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
-        "label": "Website",
-        "hint": "Type a domain like github.com, or paste an address.",
-        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
-        "preview": "Adds {{host}} and its subdomains.",
-        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
-        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
-        "groupLabel": "Style",
-        "submit": "Add to {{group}}"
+        "title": "ウェブサイトを追加",
+        "description": "ブラウザで開くウェブサイトのスタイルを選びます。サブドメインを含むサイト全体に適用されます。",
+        "label": "ウェブサイト",
+        "hint": "github.com のようなドメインを入力するか、アドレスをペーストしてください。",
+        "invalid": "ウェブサイトではないようです。example.com のようなドメインを試してください。",
+        "preview": "{{host}} とそのサブドメインを追加します。",
+        "already": "{{host}} は現在「{{group}}」にあります。ここに追加すると移動します。",
+        "covered": "{{host}} は {{parent}}（「{{group}}」）の一部です。追加すると独自のスタイルになります。",
+        "groupLabel": "スタイル",
+        "submit": "「{{group}}」に追加"
       }
     },
     "picker": {
