@@ -547,7 +547,17 @@ test("instruction model download: progress, offline retry, keyboard, RTL and axe
     const line = page.getByTestId("wb-transforms-model");
     await expect(line).toHaveAttribute("data-state", "downloading");
     await expect(line).toContainText("42");
+    // The design-system bar, not a native <progress> (owner, rc5).
+    const bar = page.getByTestId("wb-transforms-model-progress");
+    await expect(bar).toHaveAttribute("role", "progressbar");
+    await expect(bar).toHaveAttribute("aria-valuenow", "42");
+    await expect(line.locator("progress")).toHaveCount(0);
     await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
+    await expectNoSeriousAxeFindings(page);
+    // After the last byte the hash runs as "verifying", not 100 %.
+    await ipc.emit("fork-instruct-status", status("verifying", 1000));
+    await expect(line).toHaveAttribute("data-state", "verifying");
+    await expect(bar).toHaveAttribute("aria-valuenow", "100");
     await expectNoSeriousAxeFindings(page);
     await ipc.emit("fork-instruct-status", status("download_failed"));
     await expect(line).toHaveAttribute("data-state", "download_failed");
@@ -558,6 +568,9 @@ test("instruction model download: progress, offline retry, keyboard, RTL and axe
     await expect.poll(() => retries).toBeGreaterThan(theme === "light" ? 0 : 1);
     await expect(line).toHaveAttribute("data-state", "verifying");
     await ipc.emit("fork-instruct-status", status("ready"));
-    await expect(line).toHaveCount(0);
+    // A brief "ready", then the row leaves.
+    await expect(line).toHaveAttribute("data-state", "ready");
+    await expect(bar).toHaveCount(0);
+    await expect(line).toHaveCount(0, { timeout: 10_000 });
   }
 });

@@ -126,6 +126,23 @@ impl InstructRuntime {
         *lock(&self.state) = (state, error);
     }
 
+    /// While the check/download runs: "downloading" while bytes arrive,
+    /// "verifying" while a hash runs (before, and after the last byte, so
+    /// the row never sits at 100 %).
+    fn track_phase(&self) {
+        let mut state = lock(&self.state);
+        if matches!(
+            state.0,
+            InstructState::Verifying | InstructState::Downloading
+        ) {
+            state.0 = if self.progress.is_downloading() {
+                InstructState::Downloading
+            } else {
+                InstructState::Verifying
+            };
+        }
+    }
+
     pub fn is_ready(&self) -> bool {
         lock(&self.state).0 == InstructState::Ready
     }
@@ -255,10 +272,7 @@ pub fn ensure_downloaded<R: Runtime>(app: &AppHandle<R>) {
                 loop {
                     tokio::time::sleep(Duration::from_millis(500)).await;
                     if let Some(rt) = runtime(&app) {
-                        let st = rt.status();
-                        if st.state == InstructState::Verifying && st.downloaded_bytes > 0 {
-                            rt.set(InstructState::Downloading, None);
-                        }
+                        rt.track_phase();
                     }
                     emit(&app);
                 }
@@ -274,6 +288,8 @@ pub fn ensure_downloaded<R: Runtime>(app: &AppHandle<R>) {
         )
         .await;
         ticker.abort();
+        // Wait for it, so a last tick cannot land after the final state.
+        let _ = ticker.await;
         match result {
             Ok(path) => {
                 log::info!("instruct: {} ready ({:?})", model.id, t0.elapsed());
@@ -379,6 +395,33 @@ mod tests {
         assert_eq!(st.state, InstructState::NotDownloaded);
         assert_eq!(st.total_bytes, catalog::INSTRUCT.size_bytes);
         assert!(!ok.is_ready());
+    }
+
+    /// Owner, rc5: the row sat at "100 %" while the finished file was
+    /// hashed. The phase follows the counter both ways, and a final state
+    /// is never overwritten.
+    #[test]
+    fn phase_is_verifying_while_the_finished_file_is_hashed() {
+        let rt = InstructRuntime::new(
+            Some(&catalog::INSTRUCT),
+            Some("/x".into()),
+            PathBuf::from("/tmp/wb-instruct-test"),
+            Arc::new(NoLaunch),
+        );
+        rt.set(InstructState::Verifying, None);
+        rt.progress.verifying.store(true, Ordering::Relaxed);
+        rt.track_phase();
+        assert_eq!(rt.status().state, InstructState::Verifying);
+        rt.progress.verifying.store(false, Ordering::Relaxed);
+        rt.progress.done.store(1024, Ordering::Relaxed);
+        rt.track_phase();
+        assert_eq!(rt.status().state, InstructState::Downloading);
+        rt.progress.verifying.store(true, Ordering::Relaxed);
+        rt.track_phase();
+        assert_eq!(rt.status().state, InstructState::Verifying);
+        rt.set(InstructState::Ready, None);
+        rt.track_phase();
+        assert_eq!(rt.status().state, InstructState::Ready);
     }
 
     #[test]

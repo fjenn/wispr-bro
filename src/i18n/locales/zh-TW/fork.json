@@ -693,6 +693,7 @@
       "addWord": "加入字詞…",
       "newSnippet": "新增文字片段…",
       "documentation": "說明文件",
+      "showIntro": "再次顯示簡介",
       "shortcuts": "快速鍵",
       "reportProblem": "回報問題…",
       "sendFeedback": "傳送意見回饋…",
@@ -1397,6 +1398,9 @@
     },
     "model": {
       "downloading": "正在準備轉換功能：一次性下載，{{percent}}%",
+      "verifying": "正在準備轉換功能：正在檢查下載內容…",
+      "ready": "轉換功能已就緒",
+      "progressLabel": "轉換功能下載",
       "failed": "無法下載轉換功能所需的內容。請檢查網路連線。",
       "retry": "重試"
     }

@@ -693,6 +693,7 @@
       "addWord": "Add word…",
       "newSnippet": "New snippet…",
       "documentation": "Documentation",
+      "showIntro": "Show the intro again",
       "shortcuts": "Shortcuts",
       "reportProblem": "Report a problem…",
       "sendFeedback": "Send feedback…",
@@ -1752,6 +1753,9 @@
     },
     "model": {
       "downloading": "Getting transforms ready: one-time download, {{percent}}%",
+      "verifying": "Getting transforms ready: checking the download…",
+      "ready": "Transforms are ready",
+      "progressLabel": "Transforms download",
       "failed": "Couldn't download what transforms need. Check your connection.",
       "retry": "Try again"
     }

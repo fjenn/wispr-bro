@@ -701,6 +701,7 @@
       "addWord": "Tilføj ord…",
       "newSnippet": "Nyt tekststykke…",
       "documentation": "Dokumentation",
+      "showIntro": "Vis introduktionen igen",
       "shortcuts": "Genveje",
       "reportProblem": "Rapportér et problem…",
       "sendFeedback": "Send feedback…",
@@ -1435,6 +1436,9 @@
     },
     "model": {
       "downloading": "Gør transformationer klar: engangsdownload, {{percent}} %",
+      "verifying": "Gør transformationer klar: tjekker downloaden…",
+      "ready": "Transformationer er klar",
+      "progressLabel": "Download til transformationer",
       "failed": "Det, transformationer kræver, kunne ikke hentes. Tjek din forbindelse.",
       "retry": "Prøv igen"
     }

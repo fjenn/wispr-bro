@@ -20,7 +20,7 @@ import {
   type ForkModelPolicy,
 } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
-import { FOCUS_RING, Switch } from "../../ui";
+import { FOCUS_RING, ProgressLine, Switch } from "../../ui";
 
 /** i18n key and values for a chip (`speechModels.chip.*`). */
 export function chipLabel(chip: Chip): {
@@ -164,12 +164,14 @@ export function SpeechModels() {
           </p>
         )}
         {status.automatic && downloading && status.percent != null && (
-          <progress
-            className="h-1 w-full accent-(--wb-accent)"
-            max={100}
-            value={status.percent}
-            aria-label={t("speechModels.progressLabel")}
-            aria-valuetext={phaseText}
+          <ProgressLine
+            value={status.percent / 100}
+            label={t("speechModels.progressLabel")}
+            valueText={phaseText}
+            tone="ink"
+            thickness={4}
+            className="my-1"
+            testId="fork-models-progress"
           />
         )}
         {status.automatic && status.slower && (

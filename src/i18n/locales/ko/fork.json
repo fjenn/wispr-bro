@@ -693,6 +693,7 @@
       "addWord": "단어 추가…",
       "newSnippet": "새로운 스니펫…",
       "documentation": "문서",
+      "showIntro": "소개 다시 보기",
       "shortcuts": "단축키",
       "reportProblem": "문제 보고…",
       "sendFeedback": "피드백 보내기…",
@@ -1397,6 +1398,9 @@
     },
     "model": {
       "downloading": "변환 준비 중: 한 번만 다운로드, {{percent}}%",
+      "verifying": "변환 준비 중: 다운로드 확인 중…",
+      "ready": "변환이 준비되었습니다",
+      "progressLabel": "변환용 다운로드",
       "failed": "변환에 필요한 항목을 다운로드하지 못했습니다. 연결을 확인하세요.",
       "retry": "다시 시도"
     }

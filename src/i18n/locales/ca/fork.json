@@ -709,6 +709,7 @@
       "addWord": "Afegir una paraula…",
       "newSnippet": "Fragment nou…",
       "documentation": "Documentació",
+      "showIntro": "Torna a mostrar la introducció",
       "shortcuts": "Dreceres",
       "reportProblem": "Informar d'un problema…",
       "sendFeedback": "Enviar comentaris…",
@@ -1473,6 +1474,9 @@
     },
     "model": {
       "downloading": "Preparant les transformacions: baixada única, {{percent}}%",
+      "verifying": "Preparant les transformacions: comprovant la baixada…",
+      "ready": "Les transformacions estan a punt",
+      "progressLabel": "Baixada de les transformacions",
       "failed": "No s'ha pogut baixar el que necessiten les transformacions. Comprova la connexió.",
       "retry": "Torna-ho a provar"
     }

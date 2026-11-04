@@ -125,7 +125,7 @@ export function ForkApp(props: ForkAppProps) {
 
   useOverlayTitleBar();
   useDropRouter();
-  useMenuActions();
+  useMenuActions(props.onRunOnboarding);
   useNotificationsLive();
   useFirstUseLive();
   useEffect(() => {

@@ -17,7 +17,7 @@ import {
   type ForkLlmTryResult,
 } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
-import { Button } from "../../ui";
+import { Button, ProgressLine } from "../../ui";
 import { AppleEngine, useAppleStatus } from "./AppleEngine";
 
 type TryState =
@@ -124,12 +124,14 @@ export function AiEngine() {
           {t(stateKey(status), { percent: percent ?? 0 })}
         </p>
         {status.state === "downloading" && percent !== null && (
-          <progress
-            className="w-full"
-            max={100}
-            value={percent}
-            aria-label={t("aiEngine.progressLabel")}
-            aria-valuetext={t("aiEngine.state.downloading", { percent })}
+          <ProgressLine
+            value={percent / 100}
+            label={t("aiEngine.progressLabel")}
+            valueText={t("aiEngine.state.downloading", { percent })}
+            tone="ink"
+            thickness={4}
+            className="my-1"
+            testId="fork-ai-engine-progress"
           />
         )}
         {status.model_name && (

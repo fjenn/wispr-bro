@@ -535,9 +535,17 @@ pub fn start_download<R: Runtime>(app: &AppHandle<R>) {
                 loop {
                     tokio::time::sleep(Duration::from_millis(500)).await;
                     if let Some(rt) = runtime(&app) {
+                        // "Verifying" again while the finished file is hashed.
                         let st = rt.status();
-                        if st.state == LlmState::Verifying && st.downloaded_bytes > 0 {
-                            rt.set_state(LlmState::Downloading, None);
+                        let next = if rt.progress.is_downloading() {
+                            LlmState::Downloading
+                        } else {
+                            LlmState::Verifying
+                        };
+                        if matches!(st.state, LlmState::Verifying | LlmState::Downloading)
+                            && st.state != next
+                        {
+                            rt.set_state(next, None);
                         }
                     }
                     emit(&app);
@@ -554,6 +562,8 @@ pub fn start_download<R: Runtime>(app: &AppHandle<R>) {
         )
         .await;
         ticker.abort();
+        // Wait for it, so a last tick cannot land after the final state.
+        let _ = ticker.await;
         match result {
             Ok(path) => {
                 log::info!("llm: {} ready ({:?})", model.id, t0.elapsed());

@@ -224,9 +224,6 @@ export function TransformsPage() {
           </span>
         )}
       </PageHeader>
-      <ModelStatus
-        wanted={enabled || (settings?.command_mode_enabled ?? false)}
-      />
       <Banner
         id="transforms.rewrite"
         image={photos.transforms.src}
@@ -250,6 +247,10 @@ export function TransformsPage() {
               }
             : undefined
         }
+      />
+      {/* Below the hero, next to what it is about (owner, rc5). */}
+      <ModelStatus
+        wanted={enabled || (settings?.command_mode_enabled ?? false)}
       />
       <section
         aria-labelledby="wb-transforms-auto-title"

@@ -709,6 +709,7 @@
       "addWord": "Ajouter un mot…",
       "newSnippet": "Nouveau fragment…",
       "documentation": "Documentation",
+      "showIntro": "Revoir l’introduction",
       "shortcuts": "Raccourcis",
       "reportProblem": "Signaler un problème…",
       "sendFeedback": "Envoyer des commentaires…",
@@ -1473,6 +1474,9 @@
     },
     "model": {
       "downloading": "Préparation des transformations : téléchargement unique, {{percent}} %",
+      "verifying": "Préparation des transformations : vérification du téléchargement…",
+      "ready": "Les transformations sont prêtes",
+      "progressLabel": "Téléchargement des transformations",
       "failed": "Impossible de télécharger ce dont les transformations ont besoin. Vérifiez votre connexion.",
       "retry": "Réessayer"
     }

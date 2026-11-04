@@ -701,6 +701,7 @@
       "addWord": "Voeg woord toe…",
       "newSnippet": "Nieuw tekstfragment…",
       "documentation": "Documentatie",
+      "showIntro": "Introductie opnieuw tonen",
       "shortcuts": "Toetscombinaties",
       "reportProblem": "Meld een probleem…",
       "sendFeedback": "Stuur feedback…",
@@ -1435,6 +1436,9 @@
     },
     "model": {
       "downloading": "Transformaties klaarzetten: eenmalige download, {{percent}}%",
+      "verifying": "Transformaties klaarzetten: download controleren…",
+      "ready": "Transformaties zijn klaar",
+      "progressLabel": "Download voor transformaties",
       "failed": "Wat transformaties nodig hebben, kon niet worden gedownload. Controleer je verbinding.",
       "retry": "Opnieuw proberen"
     }

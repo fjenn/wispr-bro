@@ -17,7 +17,7 @@
 //! backoff; hf-hub resumes from its `.sync.part`.
 
 use std::path::{Path, PathBuf};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::{Duration, Instant, SystemTime};
 
@@ -195,10 +195,20 @@ pub fn remove_cached(hub_dir: &Path, m: &LlmModel) {
 pub struct ProgressCounter {
     pub done: AtomicU64,
     pub total: AtomicU64,
+    /// `true` while [`ensure`] hashes the file (before a download and after
+    /// it finished), so the status shows "checking", not a download stuck
+    /// at 100 %.
+    pub verifying: AtomicBool,
     last_activity_ms: AtomicU64,
 }
 
 impl ProgressCounter {
+    /// `true` once bytes arrive and while no hash runs: what the status
+    /// tickers report as "downloading" (otherwise "verifying").
+    pub fn is_downloading(&self) -> bool {
+        !self.verifying.load(Ordering::Relaxed) && self.done.load(Ordering::Relaxed) > 0
+    }
+
     fn touch(&self, epoch: Instant) {
         let ms = u64::try_from(epoch.elapsed().as_millis()).unwrap_or(u64::MAX);
         self.last_activity_ms.store(ms, Ordering::Relaxed);
@@ -265,13 +275,7 @@ pub async fn ensure(
     counter: Arc<ProgressCounter>,
     cancel: CancellationToken,
 ) -> Result<PathBuf, DownloadError> {
-    let check = {
-        let (h, d, c) = (hub_dir.clone(), markers_dir.clone(), cancel.clone());
-        tokio::task::spawn_blocking(move || check_cached(&h, &d, m, &c))
-            .await
-            .map_err(|e| DownloadError::Failed(e.to_string()))?
-            .map_err(|e| io_error(e, &cancel))?
-    };
+    let check = verify(m, &hub_dir, &markers_dir, &counter, &cancel).await?;
     if check == Check::Ok {
         return Ok(snapshot_path(&hub_dir, m));
     }
@@ -343,11 +347,7 @@ pub async fn ensure(
         watchdog.abort();
         match result {
             Ok(_) => {
-                let (h, d, c) = (hub_dir.clone(), markers_dir.clone(), cancel.clone());
-                let check = tokio::task::spawn_blocking(move || check_cached(&h, &d, m, &c))
-                    .await
-                    .map_err(|e| DownloadError::Failed(e.to_string()))?
-                    .map_err(|e| io_error(e, &cancel))?;
+                let check = verify(m, &hub_dir, &markers_dir, &counter, &cancel).await?;
                 return match check {
                     Check::Ok => Ok(snapshot_path(&hub_dir, m)),
                     Check::Corrupt => Err(DownloadError::Corrupt),
@@ -380,6 +380,24 @@ pub async fn ensure(
         }
     }
     Err(DownloadError::Failed(last_error))
+}
+
+/// [`check_cached`] on a worker thread, with `counter.verifying` set while
+/// it runs (a multi-GB sha256 takes seconds).
+async fn verify(
+    m: &'static LlmModel,
+    hub_dir: &Path,
+    markers_dir: &Path,
+    counter: &ProgressCounter,
+    cancel: &CancellationToken,
+) -> Result<Check, DownloadError> {
+    let (h, d, c) = (hub_dir.to_owned(), markers_dir.to_owned(), cancel.clone());
+    counter.verifying.store(true, Ordering::Relaxed);
+    let result = tokio::task::spawn_blocking(move || check_cached(&h, &d, m, &c)).await;
+    counter.verifying.store(false, Ordering::Relaxed);
+    result
+        .map_err(|e| DownloadError::Failed(e.to_string()))?
+        .map_err(|e| io_error(e, cancel))
 }
 
 fn io_error(e: std::io::Error, cancel: &CancellationToken) -> DownloadError {
@@ -472,6 +490,30 @@ mod tests {
             Check::Corrupt
         );
         assert!(!p.exists());
+    }
+
+    #[test]
+    fn a_hash_after_the_last_byte_is_not_downloading() {
+        let c = ProgressCounter::default();
+        assert!(!c.is_downloading());
+        c.done.store(10, Ordering::Relaxed);
+        assert!(c.is_downloading());
+        c.verifying.store(true, Ordering::Relaxed);
+        assert!(!c.is_downloading());
+    }
+
+    #[tokio::test]
+    async fn verify_clears_its_flag() {
+        let dir = tempfile::tempdir().unwrap();
+        let (hub, markers) = (dir.path().join("hub"), dir.path().join("markers"));
+        let m: &'static LlmModel = Box::leak(Box::new(tiny_with_hash()));
+        place(&hub, m, b"GGUFabcd");
+        let c = ProgressCounter::default();
+        let check = verify(m, &hub, &markers, &c, &CancellationToken::new())
+            .await
+            .unwrap();
+        assert_eq!(check, Check::Ok);
+        assert!(!c.verifying.load(Ordering::Relaxed));
     }
 
     #[test]

@@ -709,6 +709,7 @@
       "addWord": "Aggiungi parola…",
       "newSnippet": "Nuovo frammento…",
       "documentation": "Documentazione",
+      "showIntro": "Mostra di nuovo l’introduzione",
       "shortcuts": "Abbreviazioni",
       "reportProblem": "Segnala un problema…",
       "sendFeedback": "Invia feedback…",
@@ -1473,6 +1474,9 @@
     },
     "model": {
       "downloading": "Preparazione delle trasformazioni: download una tantum, {{percent}}%",
+      "verifying": "Preparazione delle trasformazioni: verifica del download…",
+      "ready": "Le trasformazioni sono pronte",
+      "progressLabel": "Download per le trasformazioni",
       "failed": "Impossibile scaricare ciò che serve alle trasformazioni. Controlla la connessione.",
       "retry": "Riprova"
     }

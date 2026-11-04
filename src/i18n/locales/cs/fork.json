@@ -717,6 +717,7 @@
       "addWord": "Přidat slovo…",
       "newSnippet": "Nový úryvek…",
       "documentation": "Dokumentace",
+      "showIntro": "Znovu zobrazit úvod",
       "shortcuts": "Zkratky",
       "reportProblem": "Nahlásit problém…",
       "sendFeedback": "Odeslat zpětnou vazbu…",
@@ -1511,6 +1512,9 @@
     },
     "model": {
       "downloading": "Připravujeme transformace: jednorázové stažení, {{percent}} %",
+      "verifying": "Připravujeme transformace: kontrolujeme stažený soubor…",
+      "ready": "Transformace jsou připravené",
+      "progressLabel": "Stahování pro transformace",
       "failed": "Nepodařilo se stáhnout, co transformace potřebují. Zkontrolujte připojení.",
       "retry": "Zkusit znovu"
     }

@@ -701,6 +701,7 @@
       "addWord": "Wort hinzufügen …",
       "newSnippet": "Neuer Textbaustein …",
       "documentation": "Dokumentation",
+      "showIntro": "Einführung erneut zeigen",
       "shortcuts": "Kurzbefehle",
       "reportProblem": "Problem melden …",
       "sendFeedback": "Feedback senden …",
@@ -1435,6 +1436,9 @@
     },
     "model": {
       "downloading": "Transformationen werden vorbereitet: einmaliger Download, {{percent}} %",
+      "verifying": "Transformationen werden vorbereitet: Download wird geprüft …",
+      "ready": "Transformationen sind bereit",
+      "progressLabel": "Download für Transformationen",
       "failed": "Was Transformationen brauchen, konnte nicht geladen werden. Prüfe deine Verbindung.",
       "retry": "Erneut versuchen"
     }

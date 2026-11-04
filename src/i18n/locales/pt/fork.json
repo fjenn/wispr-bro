@@ -709,6 +709,7 @@
       "addWord": "Adicionar palavra…",
       "newSnippet": "Novo trecho…",
       "documentation": "Documentação",
+      "showIntro": "Mostrar a introdução novamente",
       "shortcuts": "Atalhos",
       "reportProblem": "Relatar um problema…",
       "sendFeedback": "Enviar feedback…",
@@ -1473,6 +1474,9 @@
     },
     "model": {
       "downloading": "A preparar as transformações: transferência única, {{percent}}%",
+      "verifying": "A preparar as transformações: a verificar a transferência…",
+      "ready": "As transformações estão prontas",
+      "progressLabel": "Transferência das transformações",
       "failed": "Não foi possível transferir o que as transformações precisam. Verifique a ligação.",
       "retry": "Tentar novamente"
     }

@@ -3121,6 +3121,27 @@ in the file). Precondition: Dictation on, Shortcut "Press fn twice"
 - [ ] OT2-H.5 **queued for the Mac wave** After a logout/login with fn still
       the trigger, the next launch switches it off again (`live=0`).
 
+#### OT2-I: transforms download row and Show the intro again (`fix/dlbar`)
+
+The owner's rc5 report: the Transforms row sat at "100%" with a native
+green bar, and an upgrade gave no way to see onboarding again. Use a fresh
+test profile (never the owner's data dir); network on.
+
+- [ ] OT2-I.1 **queued for the Mac wave** Transforms on, create a custom
+      transform: the row below the hero shows the download glyph, "one-time
+      download, N%" and a thin ink bar (no green native bar); after the last
+      byte it reads "checking the download…" (bar full) for the hash, then
+      "Transforms are ready" for about 2.5 s and collapses. Log:
+      `instruct: … ready`. Light and dark.
+- [ ] OT2-I.2 **queued for the Mac wave** Settings › Advanced: the AI engine
+      and speech-model downloads show the same thin bar (delete the cleanup
+      model from the test profile's HF cache to trigger one).
+- [ ] OT2-I.3 **queued for the Mac wave** With onboarding completed and a few
+      History entries and dictionary words: Help › Show the intro again opens
+      onboarding at Welcome; walk it to the summary and finish: History,
+      dictionary, settings and the speech model are all still there, the
+      Hub returns. Quit midway once: the next launch opens the Hub.
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.

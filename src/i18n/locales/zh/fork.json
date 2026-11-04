@@ -693,6 +693,7 @@
       "addWord": "添加单词⋯",
       "newSnippet": "新增文字片段⋯",
       "documentation": "文档",
+      "showIntro": "再次显示简介",
       "shortcuts": "快捷键",
       "reportProblem": "报告问题⋯",
       "sendFeedback": "发送反馈⋯",
@@ -1397,6 +1398,9 @@
     },
     "model": {
       "downloading": "正在准备转换功能：一次性下载，{{percent}}%",
+      "verifying": "正在准备转换功能：正在检查下载内容…",
+      "ready": "转换功能已就绪",
+      "progressLabel": "转换功能下载",
       "failed": "无法下载转换功能所需的内容。请检查网络连接。",
       "retry": "重试"
     }

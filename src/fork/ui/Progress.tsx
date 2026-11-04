@@ -5,7 +5,8 @@
  * - `ProgressDashes`: short dashes at the top of a sheet (lessons, import
  *   wizard): black = done or current, grey = to come.
  * - `ProgressLine`: a thin bar (2 pt purple under the onboarding header,
- *   4 pt ink in the setup checklist).
+ *   4 pt ink in the setup checklist and model downloads). Use it for every
+ *   determinate progress in the fork, never a native `<progress>`.
  * - `Stepper`: the onboarding's uppercase stage labels with chevrons;
  *   current and past stages in ink, future in ink-3; the current stage
  *   never truncates. `doneLabel` adds a
@@ -54,14 +55,19 @@ export function ProgressDashes({
 export function ProgressLine({
   value,
   label,
+  valueText,
   tone = "accent",
   thickness = 2,
   className = "",
+  testId,
 }: {
   /** 0..1 */
   value: number;
   /** Accessible name of the progress bar. */
   label: string;
+  /** Spoken instead of the bare percentage ("Downloading, 40 %"). */
+  valueText?: string;
+  testId?: string;
   /** `accent` (purple, flows) or `ink` (checklist). */
   tone?: "accent" | "ink";
   thickness?: 2 | 4;
@@ -76,6 +82,8 @@ export function ProgressLine({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(clamped * 100)}
+      aria-valuetext={valueText}
+      data-testid={testId}
       className={`w-full overflow-hidden rounded-full bg-(--wb-line) ${className}`}
       style={{ height: thickness }}
     >

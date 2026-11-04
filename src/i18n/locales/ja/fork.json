@@ -693,6 +693,7 @@
       "addWord": "単語を追加…",
       "newSnippet": "新規スニペット…",
       "documentation": "ドキュメント",
+      "showIntro": "紹介をもう一度表示",
       "shortcuts": "ショートカット",
       "reportProblem": "問題を報告…",
       "sendFeedback": "フィードバックを送信…",
@@ -1397,6 +1398,9 @@
     },
     "model": {
       "downloading": "変換を準備中：初回のみのダウンロード、{{percent}}%",
+      "verifying": "変換を準備中：ダウンロードを確認しています…",
+      "ready": "変換の準備ができました",
+      "progressLabel": "変換用のダウンロード",
       "failed": "変換に必要なデータをダウンロードできませんでした。接続を確認してください。",
       "retry": "再試行"
     }

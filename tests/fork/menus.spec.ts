@@ -48,6 +48,25 @@ test("Help and tray Shortcuts open the single hotkeys panel", async ({
   await expect(page).toHaveURL(/#\/hub\/settings\/hotkeys$/);
 });
 
+test("Help › Show the intro again reruns onboarding from Welcome", async ({
+  page,
+  ipc,
+  hub,
+}) => {
+  await openHub(page, ipc, hub);
+  await ipc.waitForListener("fork-menu-action");
+  expect(
+    await ipc.emit("fork-menu-action", { page: "onboarding", section: null }),
+  ).toBe(1);
+  await expect(page.getByTestId("wb-onboarding")).toBeVisible();
+  await expect(page.getByTestId("wb-hub")).toHaveCount(0);
+  // Starts at Welcome; nothing is erased on the way in.
+  await ipc.expectCalled("fork_onboarding_go_to", { step: "welcome" });
+  expect(
+    (await ipc.commandNames()).filter((c) => /erase|reset|delete/i.test(c)),
+  ).toEqual([]);
+});
+
 for (const section of ["microphone", "languages"] as const) {
   test(`Help ${section} opens and scrolls General to its target`, async ({
     page,

@@ -693,6 +693,7 @@
       "addWord": "Tambah kata…",
       "newSnippet": "Cuplikan baru…",
       "documentation": "Dokumentasi",
+      "showIntro": "Tampilkan pengantar lagi",
       "shortcuts": "Pintasan",
       "reportProblem": "Laporkan masalah…",
       "sendFeedback": "Kirim umpan balik…",
@@ -1397,6 +1398,9 @@
     },
     "model": {
       "downloading": "Menyiapkan transformasi: unduhan satu kali, {{percent}}%",
+      "verifying": "Menyiapkan transformasi: memeriksa unduhan…",
+      "ready": "Transformasi siap",
+      "progressLabel": "Unduhan transformasi",
       "failed": "Tidak dapat mengunduh yang dibutuhkan transformasi. Periksa koneksi Anda.",
       "retry": "Coba lagi"
     }

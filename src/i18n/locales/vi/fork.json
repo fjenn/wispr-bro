@@ -693,6 +693,7 @@
       "addWord": "Thêm từ…",
       "newSnippet": "Đoạn văn bản mới…",
       "documentation": "Tài liệu",
+      "showIntro": "Xem lại phần giới thiệu",
       "shortcuts": "Phím tắt",
       "reportProblem": "Báo cáo vấn đề…",
       "sendFeedback": "Gửi phản hồi…",
@@ -1397,6 +1398,9 @@
     },
     "model": {
       "downloading": "Đang chuẩn bị các phép biến đổi: tải xuống một lần, {{percent}}%",
+      "verifying": "Đang chuẩn bị các phép biến đổi: đang kiểm tra bản tải xuống…",
+      "ready": "Các phép biến đổi đã sẵn sàng",
+      "progressLabel": "Tải xuống cho các phép biến đổi",
       "failed": "Không thể tải xuống những gì các phép biến đổi cần. Hãy kiểm tra kết nối.",
       "retry": "Thử lại"
     }

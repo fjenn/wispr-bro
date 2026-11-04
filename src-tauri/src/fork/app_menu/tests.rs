@@ -69,6 +69,7 @@ fn app_menu_structure_snapshot() {
         [
             DOCUMENTATION_ID,
             "separator",
+            SHOW_INTRO_ID,
             SHORTCUTS_ID,
             HELP_MICROPHONE_ID,
             HELP_LANGUAGES_ID,

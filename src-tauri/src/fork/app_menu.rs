@@ -61,6 +61,11 @@ pub const SHORTCUTS_ID: &str = "fork.shortcuts";
 /// tray): a prefilled GitHub issue in the browser.
 pub const REPORT_PROBLEM_ID: &str = "fork.report_problem";
 pub const SEND_FEEDBACK_ID: &str = "fork.send_feedback";
+/// Help › Show the intro again: reruns onboarding from Welcome (settings,
+/// models and history stay). The Hub gets [`INTRO_ACTION_PAGE`].
+pub const SHOW_INTRO_ID: &str = "fork.show_intro";
+/// The [`ForkMenuAction`] page that starts onboarding instead of a page.
+pub const INTRO_ACTION_PAGE: &str = "onboarding";
 pub const DICTIONARY_COUNT_ID: &str = "fork.vocabulary.dictionary_count";
 pub const SNIPPET_COUNT_ID: &str = "fork.vocabulary.snippet_count";
 pub const ADD_WORD_ID: &str = "fork.add_word";
@@ -363,6 +368,7 @@ pub fn help_items(snapshot: &MenuSnapshot) -> Vec<MenuSpec> {
             true,
         ),
         MenuSpec::Separator,
+        MenuSpec::item(SHOW_INTRO_ID, text(locale, "rust.menu.showIntro"), true),
         MenuSpec::item(SHORTCUTS_ID, text(locale, "rust.menu.shortcuts"), true),
         MenuSpec::item(
             HELP_MICROPHONE_ID,
@@ -1200,6 +1206,7 @@ fn on_menu<R: ForkRuntime>(app: &AppHandle<R>, id: &str) {
             }
         }
         SHORTCUTS_ID => open_hub(app, "settings", Some("hotkeys")),
+        SHOW_INTRO_ID => open_hub(app, INTRO_ACTION_PAGE, None),
         REPORT_PROBLEM_ID => super::commands::help::open_issue(
             app,
             super::diagnostics::issue_url::IssueKind::Problem,

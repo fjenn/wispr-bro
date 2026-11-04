@@ -701,6 +701,7 @@
       "addWord": "Kelime ekle…",
       "newSnippet": "Yeni metin parçası…",
       "documentation": "Belgeler",
+      "showIntro": "Tanıtımı yeniden göster",
       "shortcuts": "Klavye Kestirmeleri",
       "reportProblem": "Sorun bildir…",
       "sendFeedback": "Geri bildirim gönder…",
@@ -1435,6 +1436,9 @@
     },
     "model": {
       "downloading": "Dönüşümler hazırlanıyor: tek seferlik indirme, %{{percent}}",
+      "verifying": "Dönüşümler hazırlanıyor: indirme kontrol ediliyor…",
+      "ready": "Dönüşümler hazır",
+      "progressLabel": "Dönüşümler için indirme",
       "failed": "Dönüşümler için gerekenler indirilemedi. Bağlantınızı kontrol edin.",
       "retry": "Yeniden dene"
     }
