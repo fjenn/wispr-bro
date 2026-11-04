@@ -2581,7 +2581,7 @@ Queued for the Mac wave (the S-19b + S-36 browser/AX run); not run by the
 slice (2026-11-02).
 
 - [ ] S-36.1 **Mac wave 2: NOT RUN (this Cursor version shows Log In inside the workspace window; needs a signed-in throwaway profile from the owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) **Mac wave 1: FAIL / not conclusive (identifiers=0; fresh Cursor profile shows Log In)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) (Exit criterion) Dictate "rename get user by id" in Cursor with `getUserById` visible (screen-reader mode on): the buffer gets `getUserById`; the log shows `context: read ok (…, cursor: N code name(s), 0 file name(s), …)` with N ≥ 1 and `text: … identifiers=1`.
-- [ ] S-36.2 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets `@index.ts`; the log shows `cursor chat: … M file name(s)` with M ≥ 1 and `file_tags=1`.
+- [ ] S-36.2 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) In Cursor's chat input with `index.ts` open in a tab, dictate "open index dot ts": the chat gets a real `index.ts` tag through Cursor's `@` picker (OT2-C; `chat-tags` prints `tags: 1`); the log shows `cursor chat: … M file name(s)` with M ≥ 1, `file_tags=1` and `"mention_tags":[1,1]`. A signed-out profile is enough (see OT2C).
 - [ ] S-36.3 **Mac wave 1: BLOCKED (Cursor sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The same chat take with "Tag files in chat" off (`setup.sh … off`): the text keeps "index dot ts" (or `index.ts`), no `@`.
 - [ ] S-36.4 **Mac wave 1: not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Not set up (`setup.sh … unset`): the editor take keeps "get user by id" and the log line has no `cursor:` part (DEC-41: off until set up).
 - [x] S-36.5 **Mac wave 1: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) TextEdit (not a listed editor) with `index.ts` in the document: "open index dot ts" is not tagged.
@@ -2844,6 +2844,48 @@ saves and restores the whole clipboard. Helpers:
       now expects "Copied to clipboard" and the plain text on the clipboard
       instead of the card (`summarize.py` updated); `card:password` still
       expects the refused card.
+
+### Owner test 2: vibe coding and websites (`fix/vibe`, OT2-C)
+
+**Queued for the Mac wave** (the S-19b + S-36 browser/AX run). Test identity
+build, a throwaway Cursor started with its own `--user-data-dir` and
+`--extensions-dir` under a short `/tmp` path (Cursor's socket path must stay
+under 103 characters) on a temp workspace; never the owner's Cursor, its
+windows or projects. Pre-recorded WAVs through the WAV microphone; never the
+speakers. A fresh Cursor profile is signed out: its agent input still takes
+text and `@` tags (checked by a builder on 3.28.7), so no sign-in is needed.
+Build the read-back helper once:
+`swiftc -O -o $WB_S36_BIN/chat-tags scripts/wb-s36/chat-tags.swift`.
+
+- [ ] OT2C.1 Cold start: quit and reopen the throwaway Cursor, wait 3 s, run
+      `scripts/wb-s36/take.sh editor <get-user-by-id.wav> <out>`: the log
+      has `context: read ok (…, cursor: N code name(s) …)` with N ≥ 1 on the
+      first take, and `user_service.ts` gets `getUserById` (S-36.1). If the
+      log shows `context: the app's tree is still building` (debug level),
+      a later read of the same take filled the names.
+- [ ] OT2C.2 Chat tag: `take.sh chat <open-index-dot-ts.wav> <out>`: the log
+      has `cursor chat: … M file name(s)` with M ≥ 1 and an `insert:` line
+      with `"mention_tags":[1,1]`; `chat-tags` prints `tags: 1 ["index.ts"]`
+      (a real tag with its "Remove mention" button), and the chat was not
+      submitted (S-36.2).
+- [ ] OT2C.3 A spoken file that is not open in a tab: the text keeps
+      `@name` as typed text, `"mention_tags":[0,1]`, no Return sent.
+- [ ] OT2C.4 "Press Enter after dictating" on for Cursor (Style page): the
+      chat take with a tag sends Return once, after the tag and the rest of
+      the text.
+- [ ] OT2C.5 Style page in the real app, by eye, light and dark: Work tab ›
+      Add website › paste `https://www.linear.app/team/x?y=1` → the hint says
+      "Adds linear.app and its subdomains", Add puts a `linear.app` chip in
+      Work; `entry_meta`/`app_rules` hold only `linear.app`.
+- [ ] OT2C.6 Recently used websites: dictate once (WAV) in Chrome with a
+      throwaway profile into a text field on a public page that is not in
+      the built-in list (the S-19b driver's page on `example.org`); the
+      Style page's Personal tab offers `example.org` under "Recently used
+      websites"; one click moves it to Personal; the log has no host at
+      INFO.
+- [ ] OT2C.7 An AI chat site: a take in Chrome on `chatgpt.com` (throwaway
+      profile, signed out) goes in without cleanup (its cleanup reason is
+      `ai_chat`) and without a style.
 
 ### S-39 1.0 release
 
