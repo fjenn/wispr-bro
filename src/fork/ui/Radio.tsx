@@ -14,7 +14,14 @@
  *   (image tiles). Rest = white with a 3:1 edge; selected = lilac fill and
  *   the 1.5 pt purple border (as `Card selected`), plus a filled tick.
  */
-import { createContext, useContext, useId, type ReactNode } from "react";
+import {
+  createContext,
+  forwardRef,
+  useContext,
+  useId,
+  type InputHTMLAttributes,
+  type ReactNode,
+} from "react";
 import { Check } from "./icons";
 
 interface GroupContext {
@@ -132,6 +139,29 @@ function NativeRadio({
   );
 }
 
+/** The drawn radio circle (the same look as `Radio`'s) around a native
+ * `<input type="radio">` a page lays out itself. WebKit's own radio turns
+ * into a faint ring with a stray dot when the window is not key (Mac wave
+ * 6), so no page draws the native one. */
+export const RadioMark = forwardRef<
+  HTMLInputElement,
+  Omit<InputHTMLAttributes<HTMLInputElement>, "type">
+>(function RadioMark({ className = "", ...rest }, ref) {
+  return (
+    <span
+      className={`group/radio relative inline-grid size-[18px] shrink-0 place-items-center ${className}`}
+    >
+      <input ref={ref} type="radio" className={RADIO_INPUT} {...rest} />
+      <span className={RADIO_DOT} />
+    </span>
+  );
+});
+
+const RADIO_INPUT =
+  "peer absolute inset-0 m-0 cursor-[inherit] appearance-none rounded-full border border-(--wb-line-strong) bg-(--wb-surface) transition-colors duration-(--wb-dur-fast) checked:border-(--wb-ink) group-hover/radio:border-(--wb-ink-3) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)";
+const RADIO_DOT =
+  "pointer-events-none relative size-2 scale-50 rounded-full bg-(--wb-ink) opacity-0 transition-[opacity,transform] duration-(--wb-dur-fast) ease-(--wb-ease-out) peer-checked:scale-100 peer-checked:opacity-100";
+
 export interface RadioProps extends ItemProps {
   label: ReactNode;
   description?: ReactNode;
@@ -159,9 +189,9 @@ export function Radio({
           disabled={off}
           testId={testId}
           describedBy={description ? descId : undefined}
-          className="peer absolute inset-0 m-0 cursor-[inherit] appearance-none rounded-full border border-(--wb-line-strong) bg-(--wb-surface) transition-colors duration-(--wb-dur-fast) checked:border-(--wb-ink) group-hover/radio:border-(--wb-ink-3) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
+          className={RADIO_INPUT}
         />
-        <span className="pointer-events-none relative size-2 scale-50 rounded-full bg-(--wb-ink) opacity-0 transition-[opacity,transform] duration-(--wb-dur-fast) ease-(--wb-ease-out) peer-checked:scale-100 peer-checked:opacity-100" />
+        <span className={RADIO_DOT} />
       </span>
       <span className="flex min-w-0 flex-col gap-0.5">
         <span className="text-[15px] leading-5">{label}</span>

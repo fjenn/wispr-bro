@@ -16,7 +16,7 @@ import {
   type ForkMicList,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
+import { Button, RadioMark } from "../ui";
 import { TriangleAlert } from "../ui/icons";
 
 import { barHeights, baseHeight, litBars, METER_BARS } from "./meterBars";
@@ -217,11 +217,10 @@ export function MicrophonePicker({
               data-testid="wb-mic-option"
               data-value={entry.value}
             >
-              <input
+              <RadioMark
                 id={id}
-                type="radio"
                 name={groupId}
-                className="mt-[3px] size-4"
+                className="mt-px"
                 value={entry.value}
                 checked={(pending ?? list.selected) === entry.value}
                 onChange={() => void choose(entry.value)}

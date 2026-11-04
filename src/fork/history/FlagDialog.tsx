@@ -36,7 +36,7 @@ import {
 } from "../dictionary/AddWordDialog";
 import { useDictionaryStore } from "../dictionary/useDictionary";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, FOCUS_RING } from "../ui";
+import { Button, FOCUS_RING, RadioMark } from "../ui";
 
 /** Most words shown to pick from (a long take is cut, the rest says …). */
 export const MAX_WORDS = 120;
@@ -239,8 +239,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
     <label
       className={`flex cursor-pointer items-start gap-2.5 rounded-(--wb-radius-sm) border px-3 py-2 ${kind === value ? "border-(--wb-accent) bg-(--wb-fill-active)" : "border-(--wb-line)"}`}
     >
-      <input
-        type="radio"
+      <RadioMark
         name={kindName}
         value={value}
         checked={kind === value}
@@ -249,7 +248,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
           setFeedback(null);
         }}
         data-testid={`wb-flag-kind-${value}`}
-        className="mt-0.5 accent-(--wb-accent)"
+        className="mt-px"
       />
       <span className="flex flex-col">
         <span className="text-[14px] font-medium">{label}</span>

@@ -55,6 +55,7 @@ export {
   OptionCard,
   Radio,
   RadioGroup,
+  RadioMark,
   type CheckCardProps,
   type OptionCardProps,
   type RadioGroupProps,

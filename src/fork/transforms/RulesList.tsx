@@ -2,6 +2,7 @@
 import { useTranslation } from "react-i18next";
 import type { TransformRules } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
+import { Checkbox } from "../ui";
 
 export const RULE_KEYS = [
   "shorter",
@@ -29,9 +30,8 @@ export function RulesList({
           key={key}
           className="flex cursor-pointer items-start gap-3 rounded-(--wb-radius-sm) px-2 py-2 hover:bg-(--wb-fill-hover)"
         >
-          <input
-            type="checkbox"
-            className="mt-0.5 size-4 accent-(--wb-ink)"
+          <Checkbox
+            className="mt-px"
             checked={value[key]}
             onChange={(event) =>
               onChange({ ...value, [key]: event.currentTarget.checked })
