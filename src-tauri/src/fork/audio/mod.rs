@@ -39,10 +39,16 @@
 //! from (R5 S-01 note).
 
 pub mod choice;
+pub mod condition;
 pub mod dynamics;
 pub mod monitor;
 pub mod mute;
 pub mod permission;
+#[cfg(test)]
+mod quiet_bench;
+#[cfg(test)]
+pub mod quiet_set;
+pub mod speech;
 pub mod test_mic;
 pub mod transport;
 pub mod watch;
@@ -156,6 +162,8 @@ pub fn on_ready<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
         .is_some_and(|s| s.mic_follow_system);
     set_follows_system(follow);
     RULES_ON.store(true, Ordering::Release);
+    // OT2-B: the Flow Bar reads the speech meter of every delivered chunk.
+    speech::install();
     watch::start(app);
     permission::on_ready(app);
 }
@@ -246,7 +254,7 @@ pub const VOICE_LEVEL: f32 = 0.2;
 /// Hook in Handy's `overlay::emit_levels`, before its overlay gate: the
 /// hands-free silence timer (S-01) and the Flow Bar's waveform (S-03).
 pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
-    if is_voice(levels) {
+    if is_voice(levels) || speech::voice_now() {
         crate::fork::shortcut::on_voice();
     }
     crate::fork::pill::on_levels(app, levels);

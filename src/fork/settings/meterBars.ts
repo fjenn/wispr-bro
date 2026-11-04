@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * How the microphone meter draws a level (owner test 1). The backend sends
- * a level that is already relative to the room's noise floor, with a fast
- * attack and a smooth release (`fork::audio::dynamics`); this turns it
- * into bars:
+ * How the microphone meter draws a level (owner tests 1 and 2). The
+ * backend sends a level that already says how much voice there is: zero
+ * on the room's steady noise, about a third for a whisper, most of the
+ * meter for ordinary speech and the top only for loud speech, with a fast
+ * attack and a smooth release (`fork::audio::speech`); this turns it into
+ * bars:
  *
  * - below {@link QUIET_LEVEL} no bar lights, so a steady room reads empty
  *   instead of one flickering bar;
@@ -15,8 +17,11 @@
 /** Number of bars in the meter. */
 export const METER_BARS = 12;
 
-/** Levels below this light nothing (residual room noise). */
-export const QUIET_LEVEL = 0.04;
+/**
+ * Levels below this light nothing (residual room noise reads under 0.03,
+ * a whisper in a café 0.1-0.4).
+ */
+export const QUIET_LEVEL = 0.05;
 
 /** How many bars a 0..1 level lights. */
 export function litBars(level: number, bars = METER_BARS): number {

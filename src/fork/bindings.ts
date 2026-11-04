@@ -1963,9 +1963,9 @@ session: number;
  */
 running: boolean; 
 /**
- * 0..1: the level above the room's noise floor, on a dB scale, with a
- * fast attack and a smooth release ([`super::dynamics`]). Steady room
- * noise reads near 0; ordinary speech fills most of the meter.
+ * 0..1: how much voice the mic hears ([`super::speech`]): steady room
+ * noise reads near 0, a whisper about a third, ordinary speech most of
+ * the meter, loud speech the top; fast attack, smooth release.
  */
 level: number; 
 /**

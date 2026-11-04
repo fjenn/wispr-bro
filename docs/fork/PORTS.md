@@ -147,6 +147,11 @@ AGPL-3.0-only` and never in a Handy file.
   first-audio wall-clock stamp in the debug log for the §5.1 latency check.
 - Upstream-bound (MIT). The app uses it through `[patch.crates-io]` in
   `src-tauri/Cargo.toml`; CI runs the crate's own suite.
+- Later fork-only additions (each marked "Added by Wispr Bro" in the
+  source): the test microphone (`set_file_source`, `backend/file.rs`),
+  the uncapped chunk level (`take_peak_level_db`, Design W4) and the chunk
+  tap (`set_chunk_tap`, OT2-B: every delivered chunk, before its sink, for
+  the Flow Bar's speech meter).
 
 ### `fork/shortcut/tests/ported.rs` (S-01)
 

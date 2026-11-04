@@ -2953,6 +2953,40 @@ windows, light and dark, English and Arabic.
       (Insights › Voice): no ring on the close button or the tab panel; one
       Tab press then draws the ring on the next control.
 
+### Owner test 2: quiet speech and whispers (`fix/quiet`, OT2-B)
+
+Test identity `com.wisprbro.metercheck` for the meter (as OT1.1) and the
+S-05 portable debug build (`scripts/wb-s05/app.sh start`: shortcuts unbound,
+models cloned, WAV microphone) for the takes. WAVs only, made by
+`OUT=<scratch> scripts/wb-quiet/run.sh prep` (`say` sentences over
+synthetic café noise with distant babble, `quiet_bench::write_wavs`): never
+the speakers, never the real microphone, never the owner's app or data.
+
+- [ ] OT2.1 **Queued for the Mac wave.** The mic meter with quiet speech
+      and whispers, each WAV through `scripts/wb-meter/run.sh` (the quiet
+      ones graded with `summary.py --quiet`):
+      `EXE=<debug wispr-bro> OUT=<scratch> scripts/wb-quiet/run.sh meter`.
+      Pass: noise segments mean < 0.05 (no bar most of the time) for all
+      four; normal-20dB speech as OT1.1 (top > 0.7, ≥ 6 bars of range);
+      quiet-20-3dB, whisper-30-3dB and whisper-35-0dB speech top > 0.2,
+      mean > 0.1 and ≥ 2 bars of range (builder bench: whispers 3-5 of 12
+      bars, noise 0).
+- [ ] OT2.2 **Queued for the Mac wave.** Whispers are heard: one SIGUSR2
+      take per WAV into our own TextEdit, the app started with
+      `scripts/wb-s05/app.sh start`:
+      `PID=<pid> DATA=<its Data dir> OUT=<scratch> scripts/wb-quiet/run.sh takes`.
+      Pass: every take has text (no "No speech heard"), WER ≤ 10 % for
+      normal-20dB, quiet-20-3dB and whisper-30-3dB, ≤ 40 % for
+      whisper-35-0dB (builder bench, turbo: 0 / 2.9 / 1.9 / 22.9 % over 8
+      sentences; before this fix 0 / 2.9 / 21.9 / 87.6 % with 4 of 8
+      whisper-35-0dB takes empty).
+- [ ] OT2.3 **Queued for the Mac wave.** The bar's waveform by eye and by
+      log, during the OT2.2 takes: the debug log's "pill: level frames …,
+      loudest bar …" lines during the whispers read ≥ 0.2 at least once a
+      second while the voice runs and < 0.1 in the second before it
+      starts; by eye the bars lie flat on the café noise and visibly move
+      with the whisper (before: flat throughout).
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.

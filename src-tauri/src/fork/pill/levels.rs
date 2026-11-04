@@ -25,6 +25,12 @@
 //! (a floor and a wider span): Handy's buckets say where and when there is
 //! speech, the uncapped level says how loud. Ordinary speech reaches most
 //! of the bar and only loud speech the top.
+//!
+//! Owner test 2 (rc3, a café): whispers and quiet speech left the bars flat:
+//! their buckets sit under Handy's -68 floor and the loudness gate reads
+//! them as hum. In product builds the bars now come from the take tap's
+//! speech meter ([`Waveform::push_reading`], `fork::audio::speech`); the
+//! bucket path stays for builds without the tap.
 
 use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -146,6 +152,19 @@ impl Waveform {
                 (level / reach.max(MIN_REACH)).min(1.0) * scale * gate
             })
             .collect()
+    }
+}
+
+impl Waveform {
+    /// The bars from a reading of the take tap
+    /// ([`crate::fork::audio::speech::SpeechMeter`]).
+    pub fn push_reading(
+        &mut self,
+        reading: &crate::fork::audio::speech::Reading,
+        now_ms: u64,
+    ) -> Vec<f32> {
+        self.last_ms = Some(now_ms);
+        bars(&reading.bars)
     }
 }
 
@@ -388,6 +407,30 @@ mod tests {
             peak = peak.max(bars.iter().copied().fold(0.0, f32::max));
         }
         assert!(peak > 0.6, "speech opens the bars: {peak}");
+    }
+
+    /// OT2-B: with the take tap's reading, the bars are the speech meter's
+    /// own (a whisper's show; noise lies flat), clamped to 0..1.
+    #[test]
+    fn a_reading_gives_the_bars() {
+        use crate::fork::audio::speech::Reading;
+        let mut w = Waveform::default();
+        let mut bars_in = vec![0.3; BARS];
+        bars_in[0] = 1.5;
+        bars_in[1] = f32::NAN;
+        let r = Reading {
+            level: 0.3,
+            bars: bars_in,
+            presence: 0.6,
+        };
+        let out = w.push_reading(&r, 1_000);
+        assert_eq!(out.len(), BARS);
+        assert_eq!((out[0], out[1], out[2]), (1.0, 0.0, 0.3));
+        let flat = Reading {
+            bars: vec![0.0; BARS],
+            ..Reading::default()
+        };
+        assert!(w.push_reading(&flat, 1_033).iter().all(|b| *b == 0.0));
     }
 
     #[test]
