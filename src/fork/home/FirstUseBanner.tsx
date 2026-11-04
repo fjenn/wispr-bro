@@ -50,6 +50,9 @@ export function FirstUseBanner({ fallback }: { fallback: ReactNode }) {
     <Banner
       id={OWN_APPS_BANNER_ID}
       image={photos.home.src}
+      // The same photo as the promo banner: keep the text off the mic
+      // (OT2-E.6, Mac wave 7).
+      imageSubjectAt={0.58}
       title={t("firstUse.banner.title")}
       body={body}
       live

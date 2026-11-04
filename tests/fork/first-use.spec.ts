@@ -764,3 +764,43 @@ spot.describe("spotlight page", () => {
     });
   }
 });
+
+// OT2-E.6 (Mac wave 7): this banner shows the Home photo too; its text ran
+// over the microphone. The text column ends ≥ 16 px before the photo's
+// subject (`imageSubjectAt`), LTR and RTL.
+for (const app_language of ["en", "ar"] as const) {
+  test(`the own-apps banner keeps its text off the mic (${app_language})`, async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await open(page, ipc, hub, backend(), {
+      fork: { first_use_choice: "note" },
+      handy: { app_language },
+    });
+    await page.setViewportSize({ width: 1040, height: 720 });
+    const banner = page.getByTestId("wb-banner-first-use.own-apps");
+    await expect(banner).toBeVisible();
+    const gap = async () =>
+      banner.evaluate((el) => {
+        const img = el.querySelector("img") as HTMLImageElement;
+        if (!img.complete || img.naturalWidth === 0) return null;
+        const text = el.querySelector(
+          "[data-testid='wb-banner-first-use.own-apps-text']",
+        ) as HTMLElement;
+        const box = el.getBoundingClientRect();
+        const t = text.getBoundingClientRect();
+        const scale = Math.max(
+          box.width / img.naturalWidth,
+          box.height / img.naturalHeight,
+        );
+        const subject =
+          Number(img.dataset.subjectAt) * img.naturalWidth * scale;
+        return getComputedStyle(el).direction === "rtl"
+          ? t.left - (box.right - subject)
+          : box.left + subject - t.right;
+      });
+    await expect.poll(gap).not.toBeNull();
+    expect(await gap()).toBeGreaterThanOrEqual(16);
+  });
+}
