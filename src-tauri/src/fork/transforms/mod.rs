@@ -3,6 +3,8 @@
 
 pub mod auto;
 pub mod command;
+#[cfg(test)]
+mod long_polish_bench;
 pub mod record;
 pub mod replace;
 pub mod run;

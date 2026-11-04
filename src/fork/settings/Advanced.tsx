@@ -4,6 +4,17 @@
  * engine, cleanup) as tinted cards, then Handy's own settings, each hosted
  * in a row card (`HandyRow`) with its description behind the info glyph:
  * this section is for people tuning the engine, so it stays dense.
+ *
+ * Audit OT2: Handy rows the fork overrides or never reads are not shown,
+ * because changing them did nothing or worse: History limit and Recording
+ * retention ran Handy's own cleanup at once and after every take (deleting
+ * History behind Data and Privacy's retention); Show overlay, the
+ * post-processing toggle, provider and prompt editor, Experimental and
+ * Filler word removal are re-applied from the product rules
+ * (`fork::settings::ENFORCED`) or bypassed by the fork's cleanup; Shortcut
+ * activation and Keyboard backend do not reach the fork's hotkey engine
+ * (activation is per binding in Shortcuts). "Show live text in the bar"
+ * returns when the bar shows Handy's streaming text.
  */
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,26 +25,16 @@ import { AutoSubmit } from "@/components/settings/AutoSubmit";
 import { ChannelSelector } from "@/components/settings/ChannelSelector";
 import { ClipboardHandlingSetting } from "@/components/settings/ClipboardHandling";
 import { CustomWords } from "@/components/settings/CustomWords";
-import { ExperimentalToggle } from "@/components/settings/ExperimentalToggle";
-import { FillerWordRemoval } from "@/components/settings/FillerWordRemoval";
-import { HistoryLimit } from "@/components/settings/HistoryLimit";
 import { LanguageDetection } from "@/components/settings/LanguageDetection";
 import { LazyStreamClose } from "@/components/settings/LazyStreamClose";
 import { LongFormChunking } from "@/components/settings/LongFormChunking";
 import { ModelUnloadTimeoutSetting } from "@/components/settings/ModelUnloadTimeout";
 import { PasteMethodSetting } from "@/components/settings/PasteMethod";
-import { PostProcessingSettingsApi } from "@/components/settings/PostProcessingSettingsApi";
-import { PostProcessingSettingsPrompts } from "@/components/settings/PostProcessingSettingsPrompts";
-import { PostProcessingToggle } from "@/components/settings/PostProcessingToggle";
-import { RecordingRetentionPeriodSelector } from "@/components/settings/RecordingRetentionPeriod";
-import { ShortcutActivationSetting } from "@/components/settings/ShortcutActivation";
-import { ShowOverlay } from "@/components/settings/ShowOverlay";
 import { TranslateToEnglish } from "@/components/settings/TranslateToEnglish";
 import { TypingToolSetting } from "@/components/settings/TypingTool";
 import { VadBackendSelector } from "@/components/settings/VadBackendSelector";
 import { VoiceActivityDetection } from "@/components/settings/VoiceActivityDetection";
 import { DebugSettings } from "@/components/settings/debug/DebugSettings";
-import { KeyboardImplementationSelector } from "@/components/settings/debug/KeyboardImplementationSelector";
 import { LogDirectory } from "@/components/settings/debug/LogDirectory";
 import { useSettings } from "@/hooks/useSettings";
 import { HandyAppHandlersContext } from "../hub/HandySettingsPage";
@@ -51,12 +52,10 @@ import { useForkSettings } from "./useForkSettings";
 
 /** Handy's transcription settings, each in its own row card. */
 const TRANSCRIPTION = [
-  ShortcutActivationSetting,
   ChannelSelector,
   VoiceActivityDetection,
   TranslateToEnglish,
   LongFormChunking,
-  FillerWordRemoval,
   CustomWords,
   ModelUnloadTimeoutSetting,
   AccelerationSelector,
@@ -122,41 +121,6 @@ export function Advanced() {
       </SettingGroup>
       <SettingGroup label={g("barAndOverlay")}>
         <BarSettings />
-        <ToggleRow
-          label={g("liveText")}
-          hint={g("liveTextHint")}
-          checked={settings.live_text_in_pill}
-          disabled={!!pending.live_text_in_pill}
-          onChange={(checked) => void setSetting("live_text_in_pill", checked)}
-          testId="wb-advanced-live-text"
-        />
-        <HandyRow>
-          <ShowOverlay descriptionMode="tooltip" grouped />
-        </HandyRow>
-      </SettingGroup>
-      <SettingGroup label={g("keyboard")}>
-        <HandyRow>
-          <KeyboardImplementationSelector descriptionMode="tooltip" grouped />
-        </HandyRow>
-      </SettingGroup>
-      <SettingGroup label={g("prompts")}>
-        <HandyRow>
-          <PostProcessingToggle descriptionMode="tooltip" grouped />
-        </HandyRow>
-        <HandyRow>
-          <PostProcessingSettingsApi />
-        </HandyRow>
-        <HandyRow>
-          <PostProcessingSettingsPrompts />
-        </HandyRow>
-      </SettingGroup>
-      <SettingGroup label={g("history")}>
-        <HandyRow>
-          <HistoryLimit descriptionMode="tooltip" grouped />
-        </HandyRow>
-        <HandyRow>
-          <RecordingRetentionPeriodSelector descriptionMode="tooltip" grouped />
-        </HandyRow>
       </SettingGroup>
       <SettingGroup label={g("updates")}>
         {/* S-28: the fork setting (mirrored into Handy's at once); Handy's
@@ -197,9 +161,6 @@ export function Advanced() {
         </HandyRow>
       </SettingGroup>
       <SettingGroup label={g("experimental")}>
-        <HandyRow>
-          <ExperimentalToggle descriptionMode="tooltip" grouped />
-        </HandyRow>
         <ToggleRow
           label={g("debugMode")}
           hint={g("debugModeHint")}

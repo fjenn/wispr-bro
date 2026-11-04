@@ -32,7 +32,7 @@
 
 pub mod accessibility;
 #[cfg(target_os = "macos")]
-mod activation;
+pub(crate) mod activation;
 pub mod geometry;
 pub mod levels;
 pub mod model;

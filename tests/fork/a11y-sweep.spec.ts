@@ -283,50 +283,16 @@ test.describe("keyboard only", () => {
 
 // Mac wave 3, S-37.3: WebKit exposed History Limit's spin buttons as an
 // unnamed stepper (AXIncrementor). The fork's Handy a11y layer marks
-// Handy's number fields and tokens.css hides their spin buttons; the field
-// keeps its name and still steps with the arrow keys.
-test("Handy's number fields: named, no separate stepper, arrow keys step", async ({
+// Handy's number fields and tokens.css hides their spin buttons. Audit OT2
+// removed History Limit from Advanced (Handy's own cleanup deleted History
+// behind the fork's retention), so no hosted section has a number field
+// today; this keeps any that comes back marked.
+test("Handy's number fields: every hosted one is marked", async ({
   page,
   ipc,
   hub: state,
 }) => {
   await hub(page, ipc, state, LOOKS[0]);
-  await openSection(page, "advanced");
-  const field = page
-    .locator("[data-handy-content] input[type='number']")
-    .first();
-  await expect(field).toHaveAttribute("data-wb-no-spinner", "");
-  await expect(field).toHaveAccessibleName(/\S/);
-  // Chrome's getComputedStyle does not resolve the spin-button
-  // pseudo-elements, so check the rule that hides them applies to it.
-  const spinner = await field.evaluate((el) => {
-    const hidden = (pseudo: string) =>
-      [...document.styleSheets].some((sheet) =>
-        [...sheet.cssRules].some((rule) => {
-          if (!(rule instanceof CSSStyleRule)) return false;
-          return rule.selectorText
-            .split(",")
-            .map((sel) => sel.trim())
-            .some(
-              (sel) =>
-                sel.endsWith(pseudo) &&
-                el.matches(sel.slice(0, -pseudo.length)) &&
-                rule.style.display === "none",
-            );
-        }),
-      );
-    return {
-      inner: hidden("::-webkit-inner-spin-button"),
-      outer: hidden("::-webkit-outer-spin-button"),
-      appearance: getComputedStyle(el).appearance,
-    };
-  });
-  expect(spinner).toEqual({
-    inner: true,
-    outer: true,
-    appearance: "textfield",
-  });
-  // Every number field in every hosted section is marked.
   for (const section of SETTINGS_SECTIONS) {
     await openSection(page, section);
     const unmarked = await page
@@ -336,11 +302,4 @@ test("Handy's number fields: named, no separate stepper, arrow keys step", async
       .count();
     expect(unmarked, `settings ${section}`).toBe(0);
   }
-  await openSection(page, "advanced");
-  const before = Number(await field.inputValue());
-  await field.focus();
-  await page.keyboard.press("ArrowUp");
-  await expect
-    .poll(async () => Number(await field.inputValue()))
-    .toBe(before + 1);
 });

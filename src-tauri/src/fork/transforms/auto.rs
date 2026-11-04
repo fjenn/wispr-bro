@@ -69,6 +69,10 @@ pub async fn apply<R: Runtime>(
     source: &str,
 ) -> AutoApplied {
     if !claim(Instant::now()) {
+        log::info!(
+            "transforms: auto-apply {} skipped (throttled)",
+            definition.id
+        );
         return AutoApplied {
             text: source.to_owned(),
             applied: false,
@@ -76,13 +80,30 @@ pub async fn apply<R: Runtime>(
         };
     }
     let Some(engine) = run::app_engine(app).await else {
+        log::info!(
+            "transforms: auto-apply {} skipped (no engine)",
+            definition.id
+        );
         return AutoApplied {
             text: source.to_owned(),
             applied: false,
             skipped: false,
         };
     };
+    let started = Instant::now();
     let result = with_engine(&engine, definition, source).await;
+    // Audit OT2: outcome and timing only (never the text), so a Mac run can
+    // tell an unchanged rewrite from one that never ran.
+    log::info!(
+        "transforms: auto-apply {} {} in {} ms",
+        definition.id,
+        match (result.applied, result.text != source) {
+            (true, true) => "changed the text",
+            (true, false) => "left the text unchanged",
+            (false, _) => "failed open",
+        },
+        started.elapsed().as_millis()
+    );
     if result.applied && result.text != source {
         let app_bundle_id =
             crate::fork::context::frontmost::frontmost().and_then(|app| app.bundle_id);

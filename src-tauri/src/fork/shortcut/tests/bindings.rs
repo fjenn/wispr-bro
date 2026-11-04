@@ -289,3 +289,34 @@ fn normalize_gives_one_spelling() {
     assert_eq!(normalize("escape").unwrap().0, "escape");
     assert!(normalize("").is_none());
 }
+
+/// Audit OT2: with Transforms and Command Mode off (the default, DEC-31) a
+/// fresh install's Shortcuts panel showed ⌥1, ⌥2, ⌥O and fn+Ctrl as
+/// "can't be used". Their bindings are kept but not compiled until the
+/// feature is on.
+#[test]
+fn opt_in_features_that_are_off_report_no_issues() {
+    use crate::fork::settings::ForkSettings;
+    use crate::fork::shortcut::active_hotkeys;
+    let handled = |id: &str| matches!(id, "paste_last" | "copy_last");
+    let off = ForkSettings::default();
+    assert!(!off.transforms_enabled && !off.command_mode_enabled);
+    let active = active_hotkeys(&off);
+    assert!(!active.keys().any(|id| id.starts_with("transform.")));
+    assert!(!active.contains_key("command_mode"));
+    let p = compile(&active, handled);
+    assert_eq!(p.issues, Vec::<Issue>::new(), "no false alerts by default");
+    // The unfiltered map is what produced them.
+    assert!(!compile(&off.hotkeys, handled).issues.is_empty());
+
+    let on = ForkSettings {
+        transforms_enabled: true,
+        command_mode_enabled: true,
+        ..ForkSettings::default()
+    };
+    let active = active_hotkeys(&on);
+    assert_eq!(
+        active, on.hotkeys,
+        "everything compiles once the features are on"
+    );
+}
