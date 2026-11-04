@@ -2053,6 +2053,7 @@
         "invalid": "Cela ne ressemble pas à un site web. Essayez un domaine comme example.com.",
         "preview": "Ajoute {{host}} et ses sous-domaines.",
         "already": "{{host}} est actuellement dans « {{group}} ». L’ajouter ici l’y déplace.",
+        "same": "{{host}} utilise déjà « {{group}} ».",
         "covered": "{{host}} fait partie de {{parent}} (« {{group}} »). L’ajouter lui donne son propre style.",
         "groupLabel": "Style",
         "submit": "Ajouter à « {{group}} »"

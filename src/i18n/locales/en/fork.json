@@ -2292,6 +2292,7 @@
         "invalid": "That doesn’t look like a website. Try a domain like example.com.",
         "preview": "Adds {{host}} and its subdomains.",
         "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "same": "{{host}} already uses {{group}}.",
         "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
         "groupLabel": "Style",
         "submit": "Add to {{group}}"

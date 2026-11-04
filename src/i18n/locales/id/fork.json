@@ -1897,6 +1897,7 @@
         "invalid": "Itu tidak terlihat seperti situs web. Coba domain seperti example.com.",
         "preview": "Menambahkan {{host}} dan subdomainnya.",
         "already": "{{host}} saat ini ada di “{{group}}”. Menambahkannya di sini akan memindahkannya.",
+        "same": "{{host}} sudah memakai “{{group}}”.",
         "covered": "{{host}} adalah bagian dari {{parent}} (“{{group}}”). Menambahkannya memberinya gaya sendiri.",
         "groupLabel": "Gaya",
         "submit": "Tambahkan ke “{{group}}”"

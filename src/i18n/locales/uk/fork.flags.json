@@ -1989,6 +1989,7 @@
   "style.sites.add.invalid": "ai-reviewed",
   "style.sites.add.label": "ai-reviewed",
   "style.sites.add.preview": "ai-reviewed",
+  "style.sites.add.same": "ai-reviewed",
   "style.sites.add.submit": "ai-reviewed",
   "style.sites.add.title": "ai-reviewed",
   "style.sites.addShort": "ai-reviewed",

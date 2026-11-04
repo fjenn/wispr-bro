@@ -2053,6 +2053,7 @@
         "invalid": "No sembla un lloc web. Prova un domini com example.com.",
         "preview": "Afegeix {{host}} i els seus subdominis.",
         "already": "{{host}} ara és a “{{group}}”. Si l’afegeixes aquí, s’hi mourà.",
+        "same": "{{host}} ja fa servir “{{group}}”.",
         "covered": "{{host}} forma part de {{parent}} (“{{group}}”). Si l’afegeixes, tindrà el seu propi estil.",
         "groupLabel": "Estil",
         "submit": "Afegeix a “{{group}}”"

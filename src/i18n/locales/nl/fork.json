@@ -1975,6 +1975,7 @@
         "invalid": "Dat lijkt geen website. Probeer een domein zoals example.com.",
         "preview": "Voegt {{host}} en zijn subdomeinen toe.",
         "already": "{{host}} staat nu in “{{group}}”. Als je het hier toevoegt, wordt het verplaatst.",
+        "same": "{{host}} gebruikt al “{{group}}”.",
         "covered": "{{host}} hoort bij {{parent}} (“{{group}}”). Als je het toevoegt, krijgt het een eigen stijl.",
         "groupLabel": "Stijl",
         "submit": "Voeg toe aan “{{group}}”"

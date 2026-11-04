@@ -2131,6 +2131,7 @@
         "invalid": "Tohle nevypadá jako web. Zkuste doménu, například example.com.",
         "preview": "Přidá {{host}} a jeho subdomény.",
         "already": "{{host}} teď používá styl „{{group}}“. Přidáním sem se přesune.",
+        "same": "{{host}} už používá styl „{{group}}“.",
         "covered": "{{host}} patří k {{parent}} („{{group}}“). Přidáním získá vlastní styl.",
         "groupLabel": "Styl",
         "submit": "Přidat do stylu „{{group}}“"

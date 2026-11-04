@@ -1897,6 +1897,7 @@
         "invalid": "这看起来不像网站。试试 example.com 之类的域名。",
         "preview": "添加 {{host}} 及其子域名。",
         "already": "{{host}} 目前在“{{group}}”中。在这里添加会将它移过来。",
+        "same": "{{host}} 已在使用“{{group}}”。",
         "covered": "{{host}} 属于 {{parent}}（“{{group}}”）。添加后它会有自己的风格。",
         "groupLabel": "风格",
         "submit": "添加到“{{group}}”"

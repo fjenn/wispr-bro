@@ -1897,6 +1897,7 @@
         "invalid": "웹사이트가 아닌 것 같습니다. example.com 같은 도메인을 입력해 보세요.",
         "preview": "{{host}} 및 하위 도메인을 추가합니다.",
         "already": "{{host}}은(는) 현재 “{{group}}”에 있습니다. 여기에 추가하면 이동합니다.",
+        "same": "{{host}}은(는) 이미 “{{group}}”을(를) 사용합니다.",
         "covered": "{{host}}은(는) {{parent}}(“{{group}}”)의 일부입니다. 추가하면 고유한 스타일을 갖게 됩니다.",
         "groupLabel": "스타일",
         "submit": "“{{group}}”에 추가"

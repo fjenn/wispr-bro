@@ -118,6 +118,13 @@ export function AddSiteDialog({
       parent: existing.host,
       group: groupLabel(existing.group),
     });
+  else if (host && existing && existing.group === target)
+    // Mac wave 7: a site already in the chosen group (often a built-in
+    // one) said "Adding it here moves it" although nothing would move.
+    hint = t("style.sites.add.same", {
+      host,
+      group: groupLabel(existing.group),
+    });
   else if (host && existing)
     hint = t("style.sites.add.already", {
       host,

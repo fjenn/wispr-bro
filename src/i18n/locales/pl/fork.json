@@ -2131,6 +2131,7 @@
         "invalid": "To nie wygląda na stronę internetową. Spróbuj domeny, np. example.com.",
         "preview": "Dodaje {{host}} i jego subdomeny.",
         "already": "{{host}} jest teraz w stylu „{{group}}”. Dodanie tutaj go przeniesie.",
+        "same": "{{host}} już używa stylu „{{group}}”.",
         "covered": "{{host}} należy do {{parent}} („{{group}}”). Dodanie da mu własny styl.",
         "groupLabel": "Styl",
         "submit": "Dodaj do stylu „{{group}}”"

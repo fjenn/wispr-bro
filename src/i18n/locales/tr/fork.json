@@ -1975,6 +1975,7 @@
         "invalid": "Bu bir web sitesine benzemiyor. example.com gibi bir alan adı deneyin.",
         "preview": "{{host}} ve alt alan adlarını ekler.",
         "already": "{{host}} şu anda “{{group}}” içinde. Buraya eklemek onu taşır.",
+        "same": "{{host}} zaten “{{group}}” stilini kullanıyor.",
         "covered": "{{host}}, {{parent}} (“{{group}}”) kapsamında. Eklemek ona kendi stilini verir.",
         "groupLabel": "Stil",
         "submit": "“{{group}}” stiline ekle"

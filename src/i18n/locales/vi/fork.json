@@ -1897,6 +1897,7 @@
         "invalid": "Đây có vẻ không phải là trang web. Hãy thử tên miền như example.com.",
         "preview": "Thêm {{host}} và các tên miền phụ của nó.",
         "already": "{{host}} hiện đang ở “{{group}}”. Thêm vào đây sẽ chuyển nó sang.",
+        "same": "{{host}} đã dùng “{{group}}”.",
         "covered": "{{host}} thuộc {{parent}} (“{{group}}”). Thêm vào sẽ cho nó kiểu riêng.",
         "groupLabel": "Kiểu",
         "submit": "Thêm vào “{{group}}”"

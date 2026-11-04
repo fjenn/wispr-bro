@@ -606,8 +606,11 @@ styleTest.describe("websites (OT2-C)", () => {
       });
       await expect(dialog).toBeHidden();
       await expect(siteChip(page, "linear.app")).toBeVisible();
-      // Another style from the dialog's own choice; a built-in is named.
+      // Mac wave 7: a site already in the chosen style does not "move".
       await page.getByTestId("wb-style-add-site").click();
+      await input.fill("linear.app");
+      await expect(hint).toHaveText("linear.app already uses Work messages.");
+      // Another style from the dialog's own choice; a built-in is named.
       await input.fill("mail.google.com");
       await expect(hint).toHaveText(
         "mail.google.com is in Email now. Adding it here moves it.",

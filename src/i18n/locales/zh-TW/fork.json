@@ -1897,6 +1897,7 @@
         "invalid": "這看起來不像網站。試試 example.com 之類的網域。",
         "preview": "加入 {{host}} 及其子網域。",
         "already": "{{host}} 目前在「{{group}}」中。在這裡加入會將它移過來。",
+        "same": "{{host}} 已在使用「{{group}}」。",
         "covered": "{{host}} 屬於 {{parent}}（「{{group}}」）。加入後它會有自己的風格。",
         "groupLabel": "風格",
         "submit": "加入「{{group}}」"

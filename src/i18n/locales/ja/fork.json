@@ -1897,6 +1897,7 @@
         "invalid": "ウェブサイトではないようです。example.com のようなドメインを試してください。",
         "preview": "{{host}} とそのサブドメインを追加します。",
         "already": "{{host}} は現在「{{group}}」にあります。ここに追加すると移動します。",
+        "same": "{{host}} はすでに「{{group}}」を使用しています。",
         "covered": "{{host}} は {{parent}}（「{{group}}」）の一部です。追加すると独自のスタイルになります。",
         "groupLabel": "スタイル",
         "submit": "「{{group}}」に追加"

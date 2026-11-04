@@ -1975,6 +1975,7 @@
         "invalid": "Det ser inte ut som en webbplats. Prova en domän som example.com.",
         "preview": "Lägger till {{host}} och dess underdomäner.",
         "already": "{{host}} finns i ”{{group}}” nu. Om du lägger till det här flyttas det.",
+        "same": "{{host}} använder redan ”{{group}}”.",
         "covered": "{{host}} hör till {{parent}} (”{{group}}”). Om du lägger till det får det en egen stil.",
         "groupLabel": "Stil",
         "submit": "Lägg till i ”{{group}}”"
