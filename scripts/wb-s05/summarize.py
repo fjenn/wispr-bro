@@ -83,7 +83,7 @@ elif case.startswith("card:"):
         r["after_copy_h"] = read("after-copy-h")
         ok = ok and ours.get("equal") is True and r["after_copy_h"] == "0"
         ok = ok and ours.get("concealed") is (case == "card:password")
-        ok = ok and "pill: card copied" in log
+        ok = ok and re.search(r"pill: card (text )?copied", log) is not None
 elif case == "switch":
     te = read("textedit.txt") or ""
     ch = read("chrome.txt") or ""
@@ -97,7 +97,8 @@ elif case.startswith("moved:"):
     sa = (read("other.txt") or read("safari.txt") or "").strip()
     sw = read("switch.json") or ""
     r["textedit_chars"] = len(te)
-    r["safari_empty"] = sa.endswith("empty")
+    # Chrome's window title carries " - Google Chrome" after the page's.
+    r["safari_empty"] = sa.split(" - ")[0].endswith("empty")
     r["switch"] = [json.loads(l) for l in sw.splitlines() if l.strip()]
     ours = json.loads(read("clip-ours.json") or "{}")
     r["copied"] = "copied to the clipboard" in log
