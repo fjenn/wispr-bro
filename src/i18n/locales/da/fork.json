@@ -1422,7 +1422,10 @@
       "title": "Stort Begyndelsesbogstav",
       "emoji": "emojis",
       "email": "e-mailadresser",
-      "url": "links"
+      "url": "links",
+      "vowels": "vokaler",
+      "consonants": "konsonanter",
+      "unclearMapping": "Angiv, hvilket bogstav der bliver til hvad, f.eks. a → 1, e → 0."
     }
   },
   "cleanup": {

@@ -1739,7 +1739,10 @@
       "title": "Title Case",
       "emoji": "emoji",
       "email": "email addresses",
-      "url": "links"
+      "url": "links",
+      "vowels": "vowels",
+      "consonants": "consonants",
+      "unclearMapping": "Say which letter becomes which, for example a → 1, e → 0."
     }
   },
   "cleanup": {

@@ -80,6 +80,7 @@ function exactPlan(value: TransformInput): TransformPlan {
   return {
     edits,
     prompt_exact: promptExact,
+    unclear_mapping: /^replace vowels with 1 and 0$/i.test(value.prompt.trim()),
     uses_model: !promptExact && (value.prompt.trim() !== "" || anyRule),
   };
 }
@@ -430,8 +431,18 @@ test("custom transform: exact edits run without AI, find and replace rows, hones
     "Pl10s1 s1nd it",
   );
 
+  // Letters with several replacements and no mapping: ask, don't guess.
+  await page
+    .getByTestId("wb-transform-prompt")
+    .fill("Replace vowels with 1 and 0");
+  await expect(page.getByTestId("wb-transform-unclear")).toContainText(
+    "Say which letter becomes which",
+  );
+  await expect(plan).toHaveCount(0);
+
   // A free-form instruction plus an exact row.
   await page.getByTestId("wb-transform-prompt").fill("Make it shorter");
+  await expect(page.getByTestId("wb-transform-unclear")).toHaveCount(0);
   await expect(page.getByTestId("wb-transform-rules-unused")).toHaveCount(0);
   await page.getByTestId("wb-transform-replace-add").click();
   await page.getByTestId("wb-transform-replace-find-0").fill("Bob");

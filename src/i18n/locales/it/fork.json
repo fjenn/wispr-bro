@@ -1460,7 +1460,10 @@
       "title": "Iniziali Maiuscole",
       "emoji": "emoji",
       "email": "indirizzi email",
-      "url": "link"
+      "url": "link",
+      "vowels": "vocali",
+      "consonants": "consonanti",
+      "unclearMapping": "Indica quale lettera diventa cosa, per esempio a → 1, e → 0."
     }
   },
   "cleanup": {

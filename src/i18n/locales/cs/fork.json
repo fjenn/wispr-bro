@@ -1498,7 +1498,10 @@
       "title": "První Písmeno Velké",
       "emoji": "emotikony",
       "email": "e-mailové adresy",
-      "url": "odkazy"
+      "url": "odkazy",
+      "vowels": "samohlásky",
+      "consonants": "souhlásky",
+      "unclearMapping": "Uveďte, které písmeno se změní na co, například a → 1, e → 0."
     }
   },
   "cleanup": {

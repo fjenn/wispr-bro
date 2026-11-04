@@ -1384,7 +1384,10 @@
       "title": "Viết Hoa Chữ Cái Đầu",
       "emoji": "emoji",
       "email": "địa chỉ email",
-      "url": "liên kết"
+      "url": "liên kết",
+      "vowels": "nguyên âm",
+      "consonants": "phụ âm",
+      "unclearMapping": "Hãy nói chữ nào thành gì, ví dụ a → 1, e → 0."
     }
   },
   "cleanup": {

@@ -1422,7 +1422,10 @@
       "title": "Elk Woord Met Hoofdletter",
       "emoji": "emoji",
       "email": "e-mailadressen",
-      "url": "links"
+      "url": "links",
+      "vowels": "klinkers",
+      "consonants": "medeklinkers",
+      "unclearMapping": "Geef aan welke letter waarin verandert, bijvoorbeeld a → 1, e → 0."
     }
   },
   "cleanup": {

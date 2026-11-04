@@ -1384,7 +1384,10 @@
       "title": "各単語の先頭を大文字",
       "emoji": "絵文字",
       "email": "メールアドレス",
-      "url": "リンク"
+      "url": "リンク",
+      "vowels": "母音",
+      "consonants": "子音",
+      "unclearMapping": "どの文字を何に変えるか指定してください（例: a → 1、e → 0）。"
     }
   },
   "cleanup": {
