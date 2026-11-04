@@ -650,6 +650,9 @@ for (const theme of ["light", "dark"] as const) {
   snipTest(
     `axe: page, dialog and every wizard step (${theme})`,
     async ({ page, ipc, hub, snips }) => {
+      // Six axe runs and a whole import: under the full parallel suite on a
+      // loaded Mac this took longer than 30 s (OT2-B run), never a finding.
+      snipTest.setTimeout(180_000);
       await page.emulateMedia({ colorScheme: theme });
       snips.seed({ trigger: "my address", body: ADDRESS }, { hit_count: 3 });
       snips.seed({ trigger: "my email", body: "finn@example.com" });
