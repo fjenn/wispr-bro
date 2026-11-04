@@ -2935,6 +2935,53 @@ fixes:
 
 Eval: `eval/transforms/` (37 items, code-checked; README there).
 
+## Transforms on an instruction model (OT2-H, `fix/xmodel`)
+
+Owner direction after OT2-D: a small general model should simply follow
+"replace all A's with 1"; no worked examples, no teaching. Muesli 2B v12 is a
+cleanup fine-tune and returns any instruction's text cleaned and unchanged, so
+custom transforms, Polish, Prompt Engineer and Command Mode now run on
+**Qwen3.5-2B Q4_K_M** (`catalog::INSTRUCT`, already pinned, Apache-2.0);
+dictation cleanup stays on Muesli.
+
+- `fork/llm/instruct.rs`: a second `Supervisor` in `<app data>/llm-instruct`
+  (own socket, PID file, markers; same sidecar, spawn line and 120 s idle
+  stop; never prewarmed by a take; no `local` transport). The model is
+  downloaded on demand: when Transforms or Command Mode is turned on
+  (`fork_set_setting` hook), when a transform needs it, or by Retry; a copy
+  already on disk is verified at launch. `ready_supervisor` checks the memory
+  rule for its size and stops an idle cleanup server first when both do not
+  fit. Status: `fork_instruct_status` / `fork_instruct_retry` and the
+  `ForkInstructStatus` event; the Transforms page shows the one-time
+  download's progress or "Couldn't download…" with Try again
+  (`src/fork/transforms/ModelStatus.tsx`).
+- Engine order (`run::app_engine`): instruction model; while it is missing
+  or memory is short, Apple's model when usable; else the pill says
+  "Transforms are getting ready. Try again in a minute." (`TransformGettingReady`).
+- Prompt (`run::TRANSFORM_PROMPT`): system "Apply the instruction to the
+  text. Return only the result.", user "Instruction: …\n\nText:\n…", plain-text
+  reply (no JSON schema), temperature 0. The seven worked examples are gone.
+- The editor form is the instruction (`store::compile`): the user's prompt,
+  one plain line per checked option ("Make it shorter.", "Use clearer
+  wording.", "Put the ideas in a better order.", "Use headings and lists where
+  they help.", "Keep my tone."), and the writing examples in quotes ("Write it
+  in the style of my examples:"). No headings or hidden rules.
+- Guards: Polish keeps the cleanup chain (paragraph-tolerant lines); custom
+  transforms and Prompt Engineer refuse only an empty or runaway reply
+  (> max(1,200, 10×) characters). An unchanged result still ends in
+  "Couldn't apply this transform" / "Nothing to change".
+- `literal.rs` stays: model-only, Qwen3.5-2B fails both letter-swap items
+  (the owner's "A and E → 0 and 1" timed out; "every o → 0" came back
+  unchanged): sub-word edits are a tokenizer limit of a 2B model, not a
+  prompt problem. Exact prompts and Find and replace rows keep running by code.
+
+Eval (`eval/transforms/`, now 50 items: 13 new editor-option items,
+`WB_XFORM_LITERAL=off` for model-only runs, `WB_EVAL_IDS` for a subset), M5
+Max under load 30-45: shipped path 45/50 (custom 28/31, built-in 4/6, options
+13/13), p50 308 ms, p95 670 ms. Fails: numbered list of one sentence, "fix
+grammar" kept "their", American spelling unchanged, Polish rewrote an entity
+sentence (guard refused), Prompt Engineer grew 5× (invented sections).
+
 ## Audit OT2-F: low-severity fixes (`fix/audit2`)
 
 Details and decisions in R5 under S-14 "Audit OT2-F". In short:

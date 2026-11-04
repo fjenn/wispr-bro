@@ -709,7 +709,7 @@ not redistributed by Wispr Bro.
   Based on Qwen3.5-2B by the Qwen team, Alibaba Cloud.
   Licence: Apache-2.0, https://www.apache.org/licenses/LICENSE-2.0
 
-- Qwen3.5-2B, Q4_K_M (pinned fallback, not chosen today)
+- Qwen3.5-2B, Q4_K_M (transforms and Command Mode, downloaded on demand)
   Original model: Qwen/Qwen3.5-2B by the Qwen team, Alibaba Cloud
   Files used: https://huggingface.co/unsloth/Qwen3.5-2B-GGUF
   (revision f6d5376be1edb4d416d56da11e5397a961aca8ae)
