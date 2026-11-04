@@ -536,9 +536,11 @@ not touch the clipboard.
 
 - [ ] S-05.1 RS-04 matrix on the real slice.
 - [ ] S-05.2 0 false cards with a text field focused.
-- [ ] S-05.3 Card appears on the desktop and in Finder.
+- [ ] S-05.3 Card appears on the desktop and in Finder. (OT2-A: now "Copied to
+      clipboard" and the text on the clipboard; OT2-A.6.)
 - [ ] S-05.4 Start a take in Slack, release in Notes → text in Notes.
-- [ ] S-05.5 Switch apps during processing → card.
+- [ ] S-05.5 Switch apps during processing → card. (OT2-A: now the clipboard
+      and "Copied to clipboard"; OT2-A.6.)
 - [ ] S-05.6 Password field → refused card with the text hidden; Copy puts
       the text on the clipboard with `org.nspasteboard.ConcealedType`.
 - [ ] S-05.7 Card Copy replaces the clipboard (no restore) and the card says
@@ -2797,6 +2799,51 @@ never the speakers or the real microphone.
       (`user_version` 99 makes it "too new"), Dictionary › Add word shows
       "Not saved: Wispr Bro can't open its data file. …" in the dialog and
       the page shows "Your dictionary can't be opened".
+
+### Owner test 2 fixes (`fix/hold`, OT2-A)
+
+The S-05 portable debug build (`com.wisprbro.s05check`, set up as in S-05
+above), started by the driver with only push-to-talk and the double press
+bound, on **Ctrl+Option** by default so the owner's Wispr Bro (on fn) never
+answers the synthetic hold (`WB_OT2A_TRIGGER=fn` uses fn, and the driver
+refuses it while another Wispr Bro runs). Takes go through the hotkey
+engine: a synthetic trigger hold (`scripts/wb-s01-keys.swift`:
+`flagsChanged` with the held flags; `click`, `activate`, `front` added for
+OT2-A) and the test microphone (a `say` WAV, never the speakers). Each take
+saves and restores the whole clipboard. Helpers:
+`swiftc -O -o $WB_S05_BIN/keys scripts/wb-s01-keys.swift`, plus `clip` and
+`drive` from `scripts/wb-s05/`. Run:
+`WB_S05_BIN=<bin> scripts/wb-ot2a/run.sh <out> [rounds]`.
+
+- [ ] OT2-A.1 **Queued for the Mac wave.** `hold:cmdtab`: our Finder window
+      in front, the trigger held; 1 s in, ⌘-Tab with the trigger still held
+      and TextEdit activated; released after the speech. Pass: no
+      `Cancelled`/`ChordIgnored`/`StuckReleased` in the log, the text in
+      the TextEdit document (route `paste`), History has it.
+- [ ] OT2-A.2 **Queued for the Mac wave.** `hold:click`: two TextEdit
+      documents, a click (trigger flags held) from A into B mid-take. Pass:
+      the text in B, A empty, the take never cancelled.
+- [ ] OT2-A.3 **Queued for the Mac wave.** `hold:finder` and
+      `hold:desktop`: start in TextEdit, click into our Finder window (or an
+      empty desktop spot) mid-take, release there. Pass: nothing pasted
+      (TextEdit empty), route `card (no_text_field)`, the log line
+      "copied to the clipboard", the clipboard holds the text as plain
+      unmarked text equal to History's, the bar shows "Copied to clipboard" (not the card; check
+      once by eye or `screencapture`), and the driver's restore is
+      byte-identical.
+- [ ] OT2-A.4 **Queued for the Mac wave.** `free:cmdtab`: the same switch in
+      hands-free (double press, ⌘-Tab + TextEdit, a press stops). Pass: the
+      text in TextEdit; both modes decide the target the same way.
+- [ ] OT2-A.5 **Queued for the Mac wave.** With fn (`WB_OT2A_TRIGGER=fn`,
+      only when the owner's app is quit, or a person): the four cases above
+      on the real Globe key, plus a real ⌘-Tab through the switcher and a
+      trackpad swipe to another Space while holding fn (synthetic events do
+      not drive the system's own gestures).
+- [ ] OT2-A.6 **Queued for the Mac wave.** S-05's driver after OT2-A:
+      `scripts/wb-s05/run.sh <out> 1 card:finder card:desktop moved:40`
+      now expects "Copied to clipboard" and the plain text on the clipboard
+      instead of the card (`summarize.py` updated); `card:password` still
+      expects the refused card.
 
 ### S-39 1.0 release
 

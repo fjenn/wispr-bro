@@ -17,14 +17,17 @@
 #   field:textedit            new TextEdit document → text pasted, no card
 #   field:safari:<id>         fields.html#<id> in a new Safari window
 #   field:chrome:<id>         fields.html#<id> in a separate Chrome instance
-#   card:finder               our own Finder window → card, Copy → clipboard
-#   card:desktop              the desktop (an empty spot clicked) → card, ✕
+#   card:finder               our own Finder window → no card: the text on
+#                             the clipboard, "Copied to clipboard" (OT2-A)
+#   card:desktop              the desktop (an empty spot clicked) → as
+#                             card:finder (OT2-A)
 #   card:password             fields.html#password in Safari → refused card
 #                             with hidden text, Copy → concealed clipboard
 #   switch                    take starts in Chrome, TextEdit is activated
 #                             before the stop → text in TextEdit (S-05.4)
 #   moved:<ms>                take in TextEdit, stopped, Safari activated
-#                             <ms> later → card "focus moved" (S-05.5)
+#                             <ms> later → nothing pasted, the text on the
+#                             clipboard (focus_moved, OT2-A; was the card)
 # Env: WB_S05_BIN = folder with the compiled helpers (clip, drive, pill:
 #   swiftc -O -o $WB_S05_BIN/<name> scripts/wb-s05/<name>.swift,
 #   scripts/wb-s03-pill.swift).
@@ -146,7 +149,7 @@ last_text() {
 }
 finish() {
   # The app log of this take: target decision and outcome (no text).
-  tail -n +"$((log_from + 1))" "$LOG" | grep -E "insert: take [0-9]+ |pill: card copied" >"$T/app.log"
+  tail -n +"$((log_from + 1))" "$LOG" | grep -E "insert: take [0-9]+ |pill: card copied|copied to the clipboard" >"$T/app.log"
   python3 -I "$HERE/summarize.py" "$CASE" "$T"
 }
 
@@ -180,6 +183,19 @@ if [ "$f" != "$expect" ]; then
 fi
 
 case "$CASE" in
+  card:finder | card:desktop)
+    # OT2-A: no card; the text goes on the clipboard (not restored by the
+    # app). The driver puts the user's clipboard back afterwards.
+    clip_save
+    record
+    if stop_take "$expect"; then
+      sleep 4
+      [ "$(active_h)" = "$CARD_H" ] && echo yes >"$T/card-shown"
+      last_text
+      "$BIN/clip" ours "$T/history-text.txt" >"$T/clip-ours.json"
+    fi
+    clip_restore
+    ;;
   card:*)
     clip_save
     record
@@ -208,6 +224,7 @@ case "$CASE" in
     clip_restore
     ;;
   moved:*)
+    clip_save
     kill -USR2 "$pid"
     sleep 0.8
     wb_mic_play "$WAV"
@@ -218,8 +235,11 @@ case "$CASE" in
     else
       "$BIN/drive" stopswitch "$pid" "${CASE##*:}" com.apple.Safari >"$T/switch.json"
     fi
-    wait_card && echo yes >"$T/card-shown" && shot_card
-    sleep 1
+    sleep 4
+    [ "$(active_h)" = "$CARD_H" ] && echo yes >"$T/card-shown"
+    last_text
+    "$BIN/clip" ours "$T/history-text.txt" >"$T/clip-ours.json"
+    clip_restore
     safari_title >"$T/safari.txt"
     osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/textedit.txt"
     ;;

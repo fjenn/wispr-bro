@@ -1875,13 +1875,40 @@ slot → cancelled or session interrupted? (S-04 reports it) → **target
 check** (read ≤ 300 ms, else paste: fail-open) → S-04's paste and
 verification. The decision table:
 
-| Focus at delivery                                                                                                        | Route                                             | `paste_outcome` |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------- | --------------- |
-| AX did not answer, no permission                                                                                         | paste (fail-open)                                 | as S-04         |
-| another app, or another element than at key-up                                                                           | card `focus_moved`                                | `card`          |
-| password field (`AXSecureTextField`, `AXProtectedContent`), or Secure Input held by the focused app while AX cannot tell | card `secure_field` (text hidden; Copy concealed) | `refused`       |
-| control (button, list, table, link, …), no window, Finder without a text field                                           | card `no_text_field`                              | `card`          |
-| text field, terminal, web area, container, empty Electron tree, Gecko                                                    | paste                                             | as S-04         |
+| Focus at delivery                                                                                                        | Route                                               | `paste_outcome` |
+| ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | --------------- |
+| AX did not answer, no permission                                                                                         | paste (fail-open)                                   | as S-04         |
+| another app, or another element than at key-up                                                                           | clipboard + "Copied to clipboard" (`focus_moved`)   | `card`          |
+| password field (`AXSecureTextField`, `AXProtectedContent`), or Secure Input held by the focused app while AX cannot tell | card `secure_field` (text hidden; Copy concealed)   | `refused`       |
+| control (button, list, table, link, …), no window, Finder without a text field                                           | clipboard + "Copied to clipboard" (`no_text_field`) | `card`          |
+| text field, terminal, web area, container, empty Electron tree, Gecko                                                    | paste                                               | as S-04         |
+
+**OT2-A (owner test 2, `fix/hold`): a held take follows the user, and no
+field means the clipboard.** The target is whatever has focus at the
+release, in both modes (push-to-talk: the trigger's release; hands-free:
+the stop press, ✓ or the bar; auto-stops keep the start target, DEC-32).
+The hotkey grammar (`shortcut/processor.rs`) gives app, window, tab and
+Space switches their own key class, `Key::Nav` (`shortcut/decision.rs`
+`is_navigation`: a mouse button, or a key pressed with ⌘ or ⌃ held beyond
+the trigger's own modifiers: ⌘-Tab, ⌘-`, ⌘-1…9, ⌃-Tab, ⌃-arrows). A Nav
+key is a chord only while the press is pending (< `T_show`); once the take
+runs it passes through and the take ends only on the release, Esc, ✕ or a
+limit. Before, rule 2 (DEC-54) made every non-modifier key during a held
+take a chord, and handy-keys reports a click with fn held as the key
+`MouseLeft`, so ⌘-Tab (Tab) or a click into another window cancelled the
+take (hands-free lets keys pass, which is why it was fine there). Plain
+fn+key chords (fn+F, fn+arrows, fn+Delete, Shift/Option combos) are
+unchanged. A take routed to `no_text_field`or`focus_moved`
+(`CardReason::copies_to_clipboard`) is written to the clipboard as plain,
+unmarked text by `insert::end_card` (`clipboard::nspb::write_text`, the
+card's Copy; never restored, and a pending restore of an earlier take sees
+the change count move and leaves it), the bar shows `PillMessage::
+CopiedToClipboard`("Copied to clipboard"; the outcome event's`NotPasted`does not replace it), Handy gets`Ok`(no paste-error toast), and History
+records`paste_outcome` `card`as before (no migration). An empty
+transcript is still "No speech heard"; a failed write falls back to the
+card.`secure_field` (password fields and the lock-screen guard) and the
+session interruptions (sleep, lock, user switch, disk full, paste failed)
+keep the card and never touch the clipboard.
 
 **Our own window in front** (the Scratchpad note, the Hub; Mac wave 1 fix,
 `fix/wave1-b`): no AX call goes to this process from the AX thread

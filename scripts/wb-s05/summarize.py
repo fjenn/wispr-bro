@@ -58,8 +58,18 @@ if case.startswith("field:"):
     ok = not card and r["route"] is not None and r["route"].startswith("paste")
     if not case.startswith("field:safari"):
         ok = ok and landed
+elif case in ("card:finder", "card:desktop"):
+    # OT2-A: no field → the clipboard (plain text) and "Copied to clipboard".
+    r["expected"] = "no_text_field"
+    ours = json.loads(read("clip-ours.json") or "{}")
+    r["copy"] = ours
+    r["copied"] = "copied to the clipboard" in log
+    r["clipboard_restored"] = read("clip-restored")
+    ok = not card and r["route"] == "card (no_text_field)" and r["copied"]
+    ok = ok and ours.get("equal") is True and not ours.get("concealed")
+    ok = ok and r["clipboard_restored"] == "identical"
 elif case.startswith("card:"):
-    want = {"card:finder": "no_text_field", "card:desktop": "no_text_field", "card:password": "secure_field"}[case]
+    want = {"card:password": "secure_field"}[case]
     r["expected"] = want
     ok = card and r["route"] == f"card ({want})"
     r["clipboard_restored"] = read("clip-restored")
@@ -87,7 +97,13 @@ elif case.startswith("moved:"):
     r["textedit_chars"] = len(te)
     r["safari_empty"] = sa.endswith("empty")
     r["switch"] = [json.loads(l) for l in sw.splitlines() if l.strip()]
-    ok = card and r["route"] == "card (focus_moved)" and len(te) == 0 and r["safari_empty"]
+    ours = json.loads(read("clip-ours.json") or "{}")
+    r["copied"] = "copied to the clipboard" in log
+    r["clipboard_restored"] = read("clip-restored")
+    # OT2-A: focus moved after the release → the clipboard, not the card.
+    ok = not card and r["copied"] and r["route"] == "card (focus_moved)" and len(te) == 0
+    ok = ok and r["safari_empty"] and ours.get("equal") is True
+    ok = ok and r["clipboard_restored"] == "identical"
 
 r["result"] = "PASS" if ok else "FAIL"
 print(json.dumps(r))

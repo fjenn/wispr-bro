@@ -24,6 +24,16 @@
 //                               whether it ran at all (for "no indicator")
 //   mark <text>                 print a marker line
 //   flags                       print fn in the HID and combined flag state
+//   click <x> <y>               a left click at the global point (top-left
+//                               origin), with the modifiers currently held
+//                               (OT2-A: clicking into another window while
+//                               the trigger is held)
+//   activate <bundle id>        brings that app to the front (an app switch
+//                               without keys); prints the new frontmost app
+//   front                       prints the frontmost app's bundle id
+//   expect <app name>           from here on, WB_FRONT is <app name> (a run
+//                               that switches apps on purpose moves its
+//                               guard with it)
 //
 // WB_LISTEN=1 adds a listen-only tap at the tail of the session taps and
 // prints, at the end, the keycodes of every key-down that got past the taps
@@ -88,7 +98,7 @@ var lastTrigger: Double = 0
 /// WB_FRONT=<app name>: post nothing unless that app is frontmost. Several
 /// agents may drive this Mac's GUI; a burst whose target lost focus is
 /// aborted (held modifiers released) instead of typing into another app.
-let requiredFront = ProcessInfo.processInfo.environment["WB_FRONT"]
+var requiredFront = ProcessInfo.processInfo.environment["WB_FRONT"]
 
 func checkFront() {
     guard let want = requiredFront else { return }
@@ -158,6 +168,34 @@ func key(_ name: String, edge: String?) {
         post(e)
     }
     out(["ev": "key", "key": name, "after_trigger_ms": held.isEmpty ? -1 : (now() - lastTrigger).rounded()])
+}
+
+func click(_ x: Double, _ y: Double) {
+    let p = CGPoint(x: x, y: y)
+    checkFront()
+    for type in [CGEventType.leftMouseDown, .leftMouseUp] {
+        let e = CGEvent(mouseEventSource: source, mouseType: type, mouseCursorPosition: p,
+                        mouseButton: .left)
+        e?.flags = held
+        e?.post(tap: .cghidEventTap)
+        usleep(30_000)
+    }
+    out(["ev": "click", "x": x, "y": y, "held_fn": held.contains(.maskSecondaryFn),
+         "after_trigger_ms": held.isEmpty ? -1 : (now() - lastTrigger).rounded()])
+}
+
+func frontBundle() -> String {
+    RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.002))
+    return NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? "?"
+}
+
+func activate(_ bundle: String) {
+    let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundle).first
+    _ = app?.activate(options: [])
+    let t0 = now()
+    while frontBundle() != bundle && now() - t0 < 2000 { usleep(10_000) }
+    out(["ev": "activate", "bundle": bundle, "front": frontBundle(),
+         "after_trigger_ms": held.isEmpty ? -1 : (now() - lastTrigger).rounded()])
 }
 
 func defaultInput() -> AudioObjectID {
@@ -258,6 +296,11 @@ func run(_ line: String) {
     case "flags":
         out(["hid_fn": CGEventSource.flagsState(.hidSystemState).contains(.maskSecondaryFn),
              "combined_fn": CGEventSource.flagsState(.combinedSessionState).contains(.maskSecondaryFn)])
+    case "click":
+        click(Double(parts.count > 1 ? parts[1] : "0") ?? 0, Double(parts.count > 2 ? parts[2] : "0") ?? 0)
+    case "activate": activate(parts.count > 1 ? parts[1] : "")
+    case "front": out(["front": frontBundle()])
+    case "expect": requiredFront = parts.dropFirst().joined(separator: " ")
     default: out(["error": "unknown command \(line)"])
     }
 }
