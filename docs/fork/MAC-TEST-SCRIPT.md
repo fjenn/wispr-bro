@@ -547,6 +547,15 @@ not touch the clipboard.
       "Copied", then goes; Esc dismisses the card (observed, not blocked).
 - [ ] S-05.8 With VoiceOver on, the card is announced ("Click into a text
       field first") and Copy is a named button (a person).
+- [ ] OT2-A.7 **Queued for the Mac wave.** Owner's rc4 report: released over
+      a place with no field that AX cannot rule out (a web page's body in
+      Chrome or Safari, an Electron app's list, Preview), nothing went to
+      the clipboard. Hold fn there and release. Pass: within the restore
+      deadline (1.5 s native, 7 s Chromium) the bar says "Copied to
+      clipboard", the log has "copied to the clipboard (nothing read the
+      paste)", ⌘V elsewhere pastes the text; a take into ChatGPT or Cursor's
+      chat (fields AX cannot read) still lands there and the old clipboard
+      comes back.
 
 **Profile: an isolated portable debug build** (as S-09; the owner's app and
 data are never touched). In the worktree:

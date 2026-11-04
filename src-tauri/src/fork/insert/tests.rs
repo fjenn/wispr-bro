@@ -1281,3 +1281,46 @@ mod mentions {
         assert_eq!(r.mention_tags, None);
     }
 }
+
+// ---------------------------------------------------------------------------
+// OT2-A follow-up: a fail-open paste that landed nowhere
+
+/// ⌘V on a web page, a list or a canvas: AX could not tell (fail-open),
+/// nothing changed and nothing read the clipboard. The text stays on the
+/// clipboard as plain text instead of the user's old clipboard.
+#[test]
+fn an_unread_fail_open_paste_leaves_the_text_on_the_clipboard() {
+    let nowhere = Target {
+        reads_after_ms: None,
+        ax: false,
+    };
+    let f = Fake::new(user_items(), nowhere);
+    let guard = Mutex::new(Line::new());
+    let (report, pending) = deliver::paste(&f, &guard, &native("said on a page"), &OPEN);
+    assert_eq!(
+        report.delivery,
+        Delivery::Pasted {
+            outcome: PasteOutcome::Unverified
+        }
+    );
+    let mut pending = pending.expect("a clipboard paste");
+    pending.copy_if_unread("said on a page".into());
+    let settled = deliver::settle(&f, &guard, pending, &Timing::R5);
+    assert!(settled.copied_unread && settled.kept_transcript);
+    assert_eq!(f.items(), vec![PasteboardItem::text("said on a page")]);
+}
+
+/// The same paste into a field AX cannot read (ChatGPT, Cursor): the app
+/// reads the text, so the user's clipboard comes back as always.
+#[test]
+fn a_read_fail_open_paste_still_restores_the_clipboard() {
+    let f = Fake::new(user_items(), ELECTRON_NO_AX);
+    let guard = Mutex::new(Line::new());
+    let (_, pending) = deliver::paste(&f, &guard, &native("into chat"), &OPEN);
+    let mut pending = pending.expect("a clipboard paste");
+    pending.copy_if_unread("into chat".into());
+    let settled = deliver::settle(&f, &guard, pending, &Timing::R5);
+    assert!(!settled.copied_unread);
+    assert_eq!(settled.decision, "restore");
+    assert_eq!(f.items(), user_items());
+}

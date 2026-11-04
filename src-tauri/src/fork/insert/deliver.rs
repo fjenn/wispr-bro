@@ -335,11 +335,21 @@ pub struct Pending<P> {
     state: TxState,
     class: TargetClass,
     keep_transcript: Option<String>,
+    /// OT2-A follow-up: a fail-open paste that nobody read (no field took
+    /// it): leave this text on the clipboard instead of restoring.
+    copy_if_unread: Option<String>,
 }
 
 impl<P> Pending<P> {
     pub fn generation(&self) -> u64 {
         self.generation
+    }
+
+    /// If the target never reads the text by the restore deadline (the ⌘V
+    /// landed nowhere: a page, a list, a canvas), [`settle`] leaves `text`
+    /// on the clipboard as plain text instead of restoring the user's.
+    pub fn copy_if_unread(&mut self, text: String) {
+        self.copy_if_unread = Some(text);
     }
 }
 
@@ -354,6 +364,8 @@ pub struct Settled {
     pub reads_ms: Vec<f64>,
     /// The transcript was left on the clipboard as plain text instead.
     pub kept_transcript: bool,
+    /// ... because nobody read the paste ([`Pending::copy_if_unread`]).
+    pub copied_unread: bool,
     pub error: Option<String>,
 }
 
@@ -738,6 +750,7 @@ fn paste_text<P: Platform>(
         state,
         class: req.class,
         keep_transcript: req.keep_transcript.then(|| req.text.clone()),
+        copy_if_unread: None,
     };
     if let Err(e) = posted {
         state.injection_failed = true;
@@ -827,6 +840,7 @@ pub fn settle<P: Platform>(
         restore_after_ms: None,
         reads_ms: Vec::new(),
         kept_transcript: false,
+        copied_unread: false,
         error: None,
     };
     let finish = loop {
@@ -859,7 +873,16 @@ pub fn settle<P: Platform>(
     out.decision = decision.label();
     if let RestoreDecision::Restore(snap) = decision {
         out.restore_after_ms = Some(ms(p.now().duration_since(injected)));
-        let written = match &pending.keep_transcript {
+        let unread = pending.state.last_receipt_after_injection().is_none();
+        let keep = match (&pending.keep_transcript, &pending.copy_if_unread) {
+            (Some(text), _) => Some(text),
+            (None, Some(text)) if unread => {
+                out.copied_unread = true;
+                Some(text)
+            }
+            _ => None,
+        };
+        let written = match keep {
             Some(text) => {
                 out.kept_transcript = true;
                 p.write_plain_text(text)

@@ -49,15 +49,21 @@ pub(super) fn deliver(
     };
 
     // S-05: the key-up target still has focus and is a place to type.
+    let mut fail_open = false;
     if cancelled() || interruption().is_some() {
         // `paste` reports the cancel or the interruption.
         if kind == Kind::Take {
             discard_target();
         }
-    } else if let Some(reason) = route(take, kind) {
-        let delivery = deliver::Delivery::Card { reason };
-        let end = publish_outcome(&app, take, delivery, &text, kind);
-        return (hook_result(delivery, end), delivery.paste_outcome());
+    } else {
+        match route(take, kind) {
+            super::target::Route::Card(reason) => {
+                let delivery = deliver::Delivery::Card { reason };
+                let end = publish_outcome(&app, take, delivery, &text, kind);
+                return (hook_result(delivery, end), delivery.paste_outcome());
+            }
+            super::target::Route::Paste { fail_open: f } => fail_open = f,
+        }
     }
 
     let (bundle, class) = frontmost_class();
@@ -90,7 +96,22 @@ pub(super) fn deliver(
         cancelled: &cancelled,
         interrupted: &interruption,
     };
-    let (report, pending) = deliver::paste(&platform, &LINE, &req, &gate);
+    let (report, mut pending) = deliver::paste(&platform, &LINE, &req, &gate);
+    // OT2-A follow-up: AX could not tell whether a field had focus (a web
+    // page, an Electron view, a list) and the field did not visibly change.
+    // If nothing reads the ⌘V by the restore deadline, it landed nowhere:
+    // the text stays on the clipboard and the bar says so.
+    if fail_open
+        && report.delivery
+            == (deliver::Delivery::Pasted {
+                outcome: deliver::PasteOutcome::Unverified,
+            })
+        && !text.trim().is_empty()
+    {
+        if let Some(p) = pending.as_mut() {
+            p.copy_if_unread(text.clone());
+        }
+    }
     log::info!(
         "insert: take {take} ({kind:?}) {} via {:?} into {} ({}): {}",
         report
@@ -113,6 +134,14 @@ pub(super) fn deliver(
                     settled.decision,
                     serde_json::to_string(&settled).unwrap_or_default()
                 );
+                if settled.copied_unread {
+                    log::info!(
+                        "insert: take {take} copied to the clipboard (nothing read the paste)"
+                    );
+                    crate::fork::pill::show_message(
+                        crate::fork::pill::model::PillMessage::CopiedToClipboard,
+                    );
+                }
             });
         if let Err(e) = spawned {
             // Without the waiter the transcript stays on the clipboard

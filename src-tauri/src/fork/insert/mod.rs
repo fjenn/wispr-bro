@@ -134,7 +134,7 @@ pub fn deliver_as(
     let _ = auto_send;
     // S-05: Handy's other paste methods get the same target check.
     let take = next_take();
-    if let Some(reason) = route(take, kind) {
+    if let target::Route::Card(reason) = route(take, kind) {
         let delivery = Delivery::Card { reason };
         let end = publish_outcome(&app, take, delivery, &text, kind);
         return (hook_result(delivery, end), delivery.paste_outcome());
@@ -255,7 +255,7 @@ fn on_target_phase(payload: &str) {
 /// S-05: where this take may go ([`target::plan`]). Reads the focused
 /// element once (≤ [`crate::fork::ax::READ_BUDGET`], else paste anyway) and
 /// logs the decision: roles and verdict only, never text.
-fn route_take(take: u32) -> Option<CardReason> {
+fn route_take(take: u32) -> target::Route {
     let pending = target::take_pending();
     let captured = pending.map(|(t, _)| t.id);
     let focus = crate::fork::ax::focus_now(captured, crate::fork::ax::READ_BUDGET);
@@ -267,16 +267,13 @@ fn route_take(take: u32) -> Option<CardReason> {
         "insert: take {take} target {}",
         describe_target(focus.as_ref(), pending.map(|(t, _)| t), route)
     );
-    match route {
-        target::Route::Card(reason) => Some(reason),
-        target::Route::Paste { .. } => None,
-    }
+    route
 }
 
 /// [`route_take`] for every kind. The recovery kinds never touch the take
 /// waiting for delivery: Undo compares with its own capture (taken at the
 /// cancel), paste-last with nothing (it goes wherever focus is now).
-fn route(take: u32, kind: Kind) -> Option<CardReason> {
+fn route(take: u32, kind: Kind) -> target::Route {
     let captured = match kind {
         Kind::Take => return route_take(take),
         Kind::Undo { target } => target,
@@ -292,10 +289,7 @@ fn route(take: u32, kind: Kind) -> Option<CardReason> {
         "insert: take {take} ({kind:?}) target {}",
         describe_target(focus.as_ref(), as_target, route)
     );
-    match route {
-        target::Route::Card(reason) => Some(reason),
-        target::Route::Paste { .. } => None,
-    }
+    route
 }
 
 /// A take that will not be pasted for another reason (cancelled, session
