@@ -206,6 +206,16 @@ pub trait Platform {
     fn post_return(&self, flags: u64) -> Result<(), String>;
     /// The focused field, as far as Accessibility can tell.
     fn field(&self) -> Option<FieldState>;
+    /// S-36: the focused input's `@` picker is open and its highlighted
+    /// entry is the file `name` (so Return would insert that tag).
+    fn mention_offered(&self, _name: &str) -> bool {
+        false
+    }
+    /// S-36: one Backspace (the space a picker adds after a tag, when the
+    /// text goes on with punctuation).
+    fn post_backspace(&self) -> Result<(), String> {
+        Err("Backspace is not supported here".into())
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -247,6 +257,10 @@ pub struct Request {
     pub verify_budget: Duration,
     /// Restore deadlines (R5: 1.5 s native, 7 s Chromium/Electron).
     pub timing: Timing,
+    /// S-36: file names whose `@name` in the text is typed through the
+    /// focused chat input's own `@` picker (Cursor), so it becomes a real
+    /// tag. Empty: the text goes in as written.
+    pub mentions: Vec<String>,
 }
 
 /// Modifiers that must be up before we post ⌘V (shift, control, option,
@@ -266,6 +280,7 @@ impl Request {
             max_modifier_wait: Duration::from_millis(3000),
             verify_budget: verify::BUDGET,
             timing: Timing::R5,
+            mentions: Vec::new(),
         }
     }
 }
@@ -308,6 +323,9 @@ pub struct Report {
     pub verification: Option<Verification>,
     pub submitted: bool,
     pub error: Option<String>,
+    /// S-36: file tags made through the picker, of those in the text.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mention_tags: Option<(usize, usize)>,
 }
 
 /// A paste waiting for its restore ([`settle`]).
@@ -398,6 +416,168 @@ pub fn paste<P: Platform>(
     req: &Request,
     gate: &Gate<'_>,
 ) -> (Report, Option<Pending<P::Published>>) {
+    if let Some(split) = mention_segments(&req.text, &req.mentions) {
+        return paste_with_mentions(p, line, req, gate, split);
+    }
+    paste_text(p, line, req, gate)
+}
+
+// ---------------------------------------------------------------------------
+// S-36: file tags through the chat input's own `@` picker
+
+/// How long the `@` picker may take to offer the file (Cursor 3.28 lists
+/// it within ~100-300 ms of the typed name; the search is async).
+pub const MENTION_WAIT: Duration = Duration::from_millis(1_200);
+const MENTION_POLL: Duration = Duration::from_millis(30);
+/// After Return picked the entry: the editor turns it into a tag.
+const MENTION_SETTLE: Duration = Duration::from_millis(80);
+/// Between the keys of a typed `@name`: Cursor 3.28's picker searches on
+/// each input event and stays empty when the name arrives in one burst
+/// (seen on a throwaway Cursor, 2026-11-04); key by key it lists the file.
+pub const MENTION_KEY_GAP: Duration = Duration::from_millis(30);
+
+/// Types `text` one character at a time, [`MENTION_KEY_GAP`] apart.
+fn type_slowly<P: Platform>(p: &P, text: &str) -> Result<(), String> {
+    let mut buf = [0u8; 4];
+    for c in text.chars() {
+        p.type_text(c.encode_utf8(&mut buf))?;
+        p.wait(MENTION_KEY_GAP);
+    }
+    Ok(())
+}
+
+/// The text before the first tag, then each tag's file name with the text
+/// after it, or `None` when `text` has no `@name` of `names`. A tag is `@`
+/// at the start or after a space or an opening bracket or quote, then a name
+/// of `names` exactly, then the end, a space or punctuation (not more of a
+/// file name: `@index.tsx` is not `@index.ts`).
+pub fn mention_segments(text: &str, names: &[String]) -> Option<(String, Vec<(String, String)>)> {
+    if names.is_empty() || !text.contains('@') {
+        return None;
+    }
+    let mut sorted: Vec<&String> = names.iter().filter(|n| !n.is_empty()).collect();
+    sorted.sort_by_key(|n| std::cmp::Reverse(n.len()));
+    let name_char = |c: char| c.is_alphanumeric() || matches!(c, '_' | '-');
+    let mut found: Vec<(usize, usize, String)> = Vec::new();
+    for (at, _) in text.match_indices('@') {
+        let opens = text[..at]
+            .chars()
+            .next_back()
+            .is_none_or(|c| c.is_whitespace() || "([{\"'“‘".contains(c));
+        if !opens {
+            continue;
+        }
+        let rest = &text[at + 1..];
+        let Some(name) = sorted.iter().find(|name| {
+            rest.starts_with(name.as_str()) && {
+                let mut after = rest[name.len()..].chars();
+                match after.next() {
+                    None => true,
+                    Some(c) if name_char(c) => false,
+                    Some('.') => !after.next().is_some_and(name_char),
+                    Some(_) => true,
+                }
+            }
+        }) else {
+            continue;
+        };
+        found.push((at, at + 1 + name.len(), (*name).clone()));
+    }
+    let (first, ..) = found.first()?;
+    let head = text[..*first].to_string();
+    let parts = found
+        .iter()
+        .enumerate()
+        .map(|(i, (_, end, name))| {
+            let next = found.get(i + 1).map_or(text.len(), |(start, ..)| *start);
+            (name.clone(), text[*end..next].to_string())
+        })
+        .collect();
+    Some((head, parts))
+}
+
+/// The text before the first tag goes in the usual way ([`paste_text`]);
+/// then each tag is typed as `@name`, and when the picker offers that file
+/// ([`Platform::mention_offered`]) Return picks it, so the editor makes a
+/// real tag; the text after it is typed. A picker that does not offer the
+/// file leaves `@name` as typed text (what a paste would have given). The
+/// auto-submit Return waits for the last part.
+fn paste_with_mentions<P: Platform>(
+    p: &P,
+    line: &Mutex<Line>,
+    req: &Request,
+    gate: &Gate<'_>,
+    (head, parts): (String, Vec<(String, String)>),
+) -> (Report, Option<Pending<P::Published>>) {
+    let before = p.field();
+    let mut head_req = req.clone();
+    head_req.text = head;
+    head_req.mentions = Vec::new();
+    head_req.submit = None;
+    if head_req.text.is_empty() {
+        // Nothing to paste first: the same checks, then typing only.
+        head_req.method = Method::Typing;
+    }
+    let (mut r, pending) = paste_text(p, line, &head_req, gate);
+    if !r.delivery.inserted() {
+        return (r, pending);
+    }
+    let mut tagged = 0usize;
+    for (name, tail) in &parts {
+        if let Some(d) = gate.stop() {
+            r.delivery = d;
+            r.error = Some(format!("stopped after {tagged} of {} tag(s)", parts.len()));
+            return (r, pending);
+        }
+        let mut tail = tail.as_str();
+        if let Err(e) = type_slowly(p, &format!("@{name}")) {
+            r.error = Some(e);
+            break;
+        }
+        let until = p.now() + MENTION_WAIT;
+        let mut offered = p.mention_offered(name);
+        while !offered && p.now() < until {
+            p.wait(MENTION_POLL);
+            offered = p.mention_offered(name);
+        }
+        if offered && p.post_return(0).is_ok() {
+            tagged += 1;
+            p.wait(MENTION_SETTLE);
+            // The picker ends the tag with a space of its own.
+            match tail.chars().next() {
+                Some(c) if c == ' ' || c == '\t' => tail = &tail[c.len_utf8()..],
+                Some(c) if !c.is_whitespace() => {
+                    let _ = p.post_backspace();
+                }
+                _ => {}
+            }
+        }
+        if !tail.is_empty() {
+            if let Err(e) = p.type_text(tail) {
+                r.error = Some(e);
+                break;
+            }
+        }
+    }
+    let v = verify::verify(
+        before.as_ref(),
+        req.verify_budget,
+        || p.now(),
+        |d| p.wait(d),
+        || p.field(),
+    );
+    let receipt = r.receipt_ms.is_some();
+    r.mention_tags = Some((tagged, parts.len()));
+    finish_paste(p, req, &mut r, v, receipt);
+    (r, pending)
+}
+
+fn paste_text<P: Platform>(
+    p: &P,
+    line: &Mutex<Line>,
+    req: &Request,
+    gate: &Gate<'_>,
+) -> (Report, Option<Pending<P::Published>>) {
     let start = p.now();
     let mut r = Report {
         delivery: Delivery::Cancelled,
@@ -415,6 +595,7 @@ pub fn paste<P: Platform>(
         verification: None,
         submitted: false,
         error: None,
+        mention_tags: None,
     };
 
     // 1. Cancelled or interrupted before anything happened.

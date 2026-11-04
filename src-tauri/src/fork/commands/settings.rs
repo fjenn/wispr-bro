@@ -75,6 +75,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
             log::error!("fork: could not change the Dock activation policy: {error}");
         }
     }
+    if key == "vibe_coding" || key == "context_awareness" {
+        crate::fork::context::ide::sync_warm(&next);
+    }
     if key == "text_retention_days" || key == "audio_retention_days" {
         crate::fork::db::jobs::wake();
     }

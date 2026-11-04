@@ -79,6 +79,11 @@ pub(super) fn deliver(
         }
     }
     req.keep_transcript = settings.clipboard_handling == ClipboardHandling::CopyToClipboard;
+    // S-36: a take into an editor's chat input types its file tags through
+    // the input's own `@` picker, so they become real tags.
+    if kind == Kind::Take {
+        req.mentions = chat_mentions(bundle.as_deref());
+    }
 
     let platform = AppPlatform { app: app.clone() };
     let gate = Gate {
@@ -205,6 +210,7 @@ fn empty_transform_report(delivery: deliver::Delivery) -> deliver::Report {
         verification: None,
         submitted: false,
         error: None,
+        mention_tags: None,
     }
 }
 
@@ -214,6 +220,120 @@ fn submit_flags(key: AutoSubmitKey) -> u64 {
         AutoSubmitKey::CtrlEnter => keys::CONTROL_FLAG,
         AutoSubmitKey::CmdEnter => keys::COMMAND_FLAG,
     }
+}
+
+// ---------------------------------------------------------------------------
+// S-36: file tags in an editor's chat
+
+/// The visible file names whose `@name` this take types through the `@`
+/// picker: only when the take's context read found that editor's chat input
+/// focused and that editor is still in front.
+fn chat_mentions(bundle: Option<&str>) -> Vec<String> {
+    use crate::fork::context::{awareness, ide::Editor};
+    let Some(editor) = awareness::chat_editor() else {
+        return Vec::new();
+    };
+    if !editor.tags_files() || Editor::from_bundle(bundle) != Some(editor) {
+        return Vec::new();
+    }
+    awareness::file_names().unwrap_or_default()
+}
+
+/// Whether the focused input's `@` picker highlights the file `name`. The
+/// input names its open picker in `AXLinkedUIElements` (`aria-controls`:
+/// Cursor 3.28's `typeahead-menu`); the highlighted entry is the selected
+/// one, else the first (`typeahead-item-0`); one of its texts must be the
+/// name exactly. Only that small subtree is read, never the field's text.
+fn mention_offered(name: &str) -> bool {
+    use crate::fork::ax::element as el;
+    use objc2_application_services::AXUIElement;
+    use objc2_core_foundation::{CFArray, CFRetained, CFType};
+
+    let Some(app) = NSWorkspace::sharedWorkspace().frontmostApplication() else {
+        return false;
+    };
+    let pid = app.processIdentifier();
+    if pid <= 0 || crate::fork::ax::is_own_pid(pid) || !crate::fork::ax::accessibility_trusted() {
+        return false;
+    }
+    // SAFETY: plain constructor.
+    let app = unsafe { AXUIElement::new_application(pid) };
+    el::set_timeout(&app, 0.05);
+    let Some(field) = el::attr_element(&app, "AXFocusedUIElement") else {
+        return false;
+    };
+    el::set_timeout(&field, 0.05);
+    let elements = |e: &AXUIElement, attribute: &str| -> Vec<CFRetained<AXUIElement>> {
+        el::attr(e, attribute)
+            .ok()
+            .and_then(|v| v.downcast::<CFArray>().ok())
+            .map(|a| {
+                // SAFETY: an array of CFTypes; every entry is checked.
+                let a: &CFArray<CFType> = unsafe { a.cast_unchecked() };
+                (0..a.len().min(64))
+                    .filter_map(|i| a.get(i))
+                    .filter_map(|v| v.downcast::<AXUIElement>().ok())
+                    .collect()
+            })
+            .unwrap_or_default()
+    };
+    for menu in elements(&field, "AXLinkedUIElements").into_iter().take(4) {
+        // The menu's entries: a bounded walk for `…-item-N` ids.
+        let mut stack = vec![(menu, 0usize)];
+        let mut visited = 0;
+        let mut first = None;
+        let mut selected = None;
+        while let Some((e, depth)) = stack.pop() {
+            visited += 1;
+            if visited > 300 {
+                break;
+            }
+            el::set_timeout(&e, 0.05);
+            let id = el::attr_string(&e, "AXDOMIdentifier").unwrap_or_default();
+            if id.ends_with("item-0") && first.is_none() {
+                first = Some(e.clone());
+            }
+            if id.contains("item-") && el::attr_bool(&e, "AXSelected") == Some(true) {
+                selected = Some(e.clone());
+                break;
+            }
+            if depth < 12 {
+                for child in elements(&e, "AXChildren").into_iter().rev() {
+                    stack.push((child, depth + 1));
+                }
+            }
+        }
+        let Some(entry) = selected.or(first) else {
+            continue;
+        };
+        let mut stack = vec![(entry, 0usize)];
+        let mut visited = 0;
+        while let Some((e, depth)) = stack.pop() {
+            visited += 1;
+            if visited > 60 {
+                break;
+            }
+            el::set_timeout(&e, 0.05);
+            if el::attr_string(&e, "AXRole").as_deref() == Some("AXStaticText")
+                && el::attr_string(&e, "AXValue").is_some_and(|v| v.trim() == name)
+            {
+                return true;
+            }
+            if depth < 6 {
+                for child in elements(&e, "AXChildren") {
+                    stack.push((child, depth + 1));
+                }
+            }
+        }
+    }
+    false
+}
+
+/// Live check against a running editor (Mac only, never in CI): see
+/// `insert::mac::live_tests`.
+#[cfg(test)]
+pub(crate) fn mention_offered_for_test(name: &str) -> bool {
+    mention_offered(name)
 }
 
 // ---------------------------------------------------------------------------
@@ -329,5 +449,67 @@ impl<R: tauri::Runtime> Platform for AppPlatform<R> {
     }
     fn field(&self) -> Option<FieldState> {
         verify::focused_field()
+    }
+    fn mention_offered(&self, name: &str) -> bool {
+        mention_offered(name)
+    }
+    fn post_backspace(&self) -> Result<(), String> {
+        keys::post_key(keys::BACKSPACE_KEY_CODE)
+    }
+}
+
+/// S-36 live check of the `@` picker path against a running editor whose
+/// chat input has focus (never in CI: `#[ignore]`, and only when
+/// `WB_S36_LIVE_PID` names the frontmost app, a throwaway editor instance).
+/// `cargo test --lib live_mention -- --ignored --nocapture`
+#[cfg(test)]
+mod live_tests {
+    use std::time::{Duration, Instant};
+
+    use objc2_app_kit::NSWorkspace;
+
+    use crate::fork::clipboard::keys;
+
+    fn front_pid() -> i32 {
+        NSWorkspace::sharedWorkspace()
+            .frontmostApplication()
+            .map_or(-1, |a| a.processIdentifier())
+    }
+
+    #[test]
+    #[ignore = "needs a throwaway editor in front (WB_S36_LIVE_PID)"]
+    fn live_mention_through_the_picker() {
+        let Some(pid) = std::env::var("WB_S36_LIVE_PID")
+            .ok()
+            .and_then(|p| p.parse::<i32>().ok())
+        else {
+            eprintln!("WB_S36_LIVE_PID not set: skipped");
+            return;
+        };
+        let name = std::env::var("WB_S36_LIVE_FILE").unwrap_or_else(|_| "user_service.ts".into());
+        assert_eq!(front_pid(), pid, "the throwaway editor must be in front");
+        assert!(!super::mention_offered_for_test(&name), "no picker yet");
+        keys::type_text("check ").unwrap();
+        for c in format!("@{name}").chars() {
+            keys::type_text(&c.to_string()).unwrap();
+            std::thread::sleep(crate::fork::insert::deliver::MENTION_KEY_GAP);
+        }
+        let start = Instant::now();
+        let mut offered = false;
+        while start.elapsed() < Duration::from_millis(1_500) {
+            if super::mention_offered_for_test(&name) {
+                offered = true;
+                break;
+            }
+            std::thread::sleep(Duration::from_millis(30));
+        }
+        eprintln!("offered after {:?}: {offered}", start.elapsed());
+        assert!(!super::mention_offered_for_test("not-a-visible-file.rs"));
+        assert!(offered, "the picker offered {name}");
+        assert_eq!(front_pid(), pid);
+        keys::post_return(0).unwrap();
+        std::thread::sleep(Duration::from_millis(80));
+        keys::post_key(keys::BACKSPACE_KEY_CODE).unwrap();
+        keys::type_text(", please.").unwrap();
     }
 }

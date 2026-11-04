@@ -36,6 +36,8 @@ struct Slot {
     hints: Option<Vec<String>>,
     identifiers: Option<Vec<String>>,
     file_names: Option<Vec<String>>,
+    /// S-36: the editor whose chat input had focus at record start.
+    chat_editor: Option<super::ide::Editor>,
     armed_at: Option<Instant>,
     used: bool,
     vocabulary_sent: bool,
@@ -70,6 +72,7 @@ pub fn land(generation: u64, read: Read) {
         s.identifiers = (!read.identifiers.is_empty()).then_some(read.identifiers);
         s.file_names = (!read.file_names.is_empty()).then_some(read.file_names);
         s.hints = (!read.hints.is_empty()).then_some(read.hints);
+        s.chat_editor = read.ide.and_then(|(editor, chat)| chat.then_some(editor));
     }
 }
 
@@ -127,6 +130,20 @@ pub fn identifiers() -> Option<Vec<String>> {
 /// The armed chat take's visible file names (a copy), if any.
 pub fn file_names() -> Option<Vec<String>> {
     armed_value(|s| s.file_names.clone())
+}
+
+/// S-36: the editor whose chat input the armed take goes to, if the read
+/// found one (the delivery types its file tags through the editor's own
+/// `@` picker).
+pub fn chat_editor() -> Option<super::ide::Editor> {
+    let mut guard = slot();
+    let s = guard.as_ref()?;
+    let armed = s.armed_at?;
+    if armed.elapsed() > ARMED_TTL {
+        *guard = None;
+        return None;
+    }
+    s.chat_editor
 }
 
 /// The armed take's hints (a copy), if any. IDE identifiers lead, followed by
@@ -214,16 +231,58 @@ pub fn on_record_start(
             land(generation, Read::skipped(Skip::NoAccess, 0.0));
             return;
         }
-        crate::fork::ax::thread::post(move |ctx| {
-            let read = super::caret::mac::read(ctx, &languages, &vibe);
-            land(generation, read);
-        });
+        read_on_ax_thread(generation, languages, vibe, 0);
     }
     #[cfg(not(target_os = "macos"))]
     {
         let _ = (languages, vibe);
         land(generation, Read::skipped(Skip::NoAccess, 0.0));
     }
+}
+
+/// S-36: a read that found a Chromium/Electron tree still building (our
+/// lease switched it on just now) is repeated this often, at most
+/// [`WARM_RETRIES`] times, while its take is the current one. Each read
+/// keeps its own budget; the take only uses the result after key-up.
+pub const WARM_RETRY_GAP: Duration = Duration::from_millis(400);
+pub const WARM_RETRIES: u32 = 5;
+
+/// Whether a read that came back `warming` is worth repeating.
+pub fn retry_warming(read: &Read, attempt: u32, generation: u64) -> bool {
+    read.warming && attempt < WARM_RETRIES && is_current(generation)
+}
+
+/// Take `generation` is the one in flight.
+pub fn is_current(generation: u64) -> bool {
+    slot().as_ref().is_some_and(|s| s.generation == generation)
+}
+
+#[cfg(target_os = "macos")]
+fn read_on_ax_thread(
+    generation: u64,
+    languages: Vec<String>,
+    vibe: crate::fork::settings::VibeCodingSettings,
+    attempt: u32,
+) {
+    crate::fork::ax::thread::post(move |ctx| {
+        let read = super::caret::mac::read(ctx, &languages, &vibe);
+        if retry_warming(&read, attempt, generation) {
+            log::debug!(
+                "context: the app's tree is still building; reading again ({})",
+                attempt + 1
+            );
+            let spawned = std::thread::Builder::new()
+                .name("wb-context-retry".into())
+                .spawn(move || {
+                    std::thread::sleep(WARM_RETRY_GAP);
+                    read_on_ax_thread(generation, languages, vibe, attempt + 1);
+                });
+            if spawned.is_ok() {
+                return;
+            }
+        }
+        land(generation, read);
+    });
 }
 
 #[cfg(test)]
@@ -262,6 +321,41 @@ pub(crate) mod tests {
         r.file_names = file_names.iter().map(|s| s.to_string()).collect();
         land(g, r);
         on_stopped();
+    }
+
+    #[test]
+    fn a_warming_read_is_repeated_only_for_the_current_take() {
+        let _l = lock();
+        let g = begin();
+        let mut r = read(&[]);
+        assert!(!retry_warming(&r, 0, g), "a built tree is read once");
+        r.warming = true;
+        assert!(retry_warming(&r, 0, g));
+        assert!(retry_warming(&r, WARM_RETRIES - 1, g));
+        assert!(!retry_warming(&r, WARM_RETRIES, g), "bounded");
+        let newer = begin();
+        assert!(!retry_warming(&r, 0, g), "a newer take replaced it");
+        assert!(retry_warming(&r, 0, newer));
+        on_take_over();
+        assert!(!retry_warming(&r, 0, newer), "the take ended");
+    }
+
+    #[test]
+    fn the_chat_editor_is_kept_only_for_a_chat_read() {
+        let _l = lock();
+        let g = begin();
+        let mut r = read(&[]);
+        r.ide = Some((super::super::ide::Editor::Cursor, true));
+        land(g, r.clone());
+        assert_eq!(chat_editor(), None, "not armed yet");
+        on_stopped();
+        assert_eq!(chat_editor(), Some(super::super::ide::Editor::Cursor));
+        let g = begin();
+        r.ide = Some((super::super::ide::Editor::Cursor, false));
+        land(g, r);
+        on_stopped();
+        assert_eq!(chat_editor(), None, "the editor buffer is no chat");
+        on_take_over();
     }
 
     #[test]

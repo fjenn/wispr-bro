@@ -1031,3 +1031,253 @@ fn a_disk_full_signal_sends_only_that_take_to_the_card() {
     log.take_stopped(t0 + Duration::from_secs(6));
     assert_eq!(log.verdict(), None);
 }
+
+// ---------------------------------------------------------------------------
+// S-36: file tags typed through a chat input's `@` picker
+
+mod mentions {
+    use super::*;
+    use crate::fork::insert::deliver::mention_segments;
+
+    fn names(list: &[&str]) -> Vec<String> {
+        list.iter().map(|s| s.to_string()).collect()
+    }
+
+    #[test]
+    fn tags_split_the_text_only_at_whole_visible_names() {
+        let (head, parts) = mention_segments(
+            "Look at @user_service.ts and @index.ts.",
+            &names(&["index.ts", "user_service.ts"]),
+        )
+        .unwrap();
+        assert_eq!(head, "Look at ");
+        assert_eq!(
+            parts,
+            vec![
+                ("user_service.ts".to_string(), " and ".to_string()),
+                ("index.ts".to_string(), ".".to_string()),
+            ]
+        );
+        let (head, parts) = mention_segments("@index.ts is broken", &names(&["index.ts"])).unwrap();
+        assert_eq!(head, "");
+        assert_eq!(parts, vec![("index.ts".into(), " is broken".into())]);
+        // Not a tag: a longer name, an e-mail address, a name not visible.
+        for text in [
+            "see @index.tsx",
+            "mail me@index.ts",
+            "see @other.ts",
+            "see @index.ts.bak",
+            "no tags here",
+        ] {
+            assert_eq!(
+                mention_segments(text, &names(&["index.ts"])),
+                None,
+                "{text}"
+            );
+        }
+        assert_eq!(mention_segments("see @index.ts", &[]), None);
+        // The longest visible name wins.
+        let (_, parts) =
+            mention_segments("(@index.test.ts)", &names(&["index.ts", "index.test.ts"])).unwrap();
+        assert_eq!(parts[0].0, "index.test.ts");
+        assert_eq!(parts[0].1, ")");
+    }
+
+    /// A chat input like Cursor's: a typed `@` opens a picker that offers
+    /// the files in `files`; Return picks the offered one and the input
+    /// shows a tag followed by a space of its own.
+    struct Chat {
+        t0: Instant,
+        elapsed: Cell<u64>,
+        files: Vec<String>,
+        /// Visible field text; a tag is `[tag]`.
+        text: RefCell<String>,
+        query: RefCell<Option<String>>,
+        /// Milliseconds the picker needs before it offers a file.
+        picker_ms: u64,
+        opened_at: Cell<u64>,
+        published: RefCell<Option<String>>,
+        returns: Cell<usize>,
+        pb: FakePasteboard,
+    }
+
+    impl Chat {
+        fn new(files: &[&str], picker_ms: u64) -> Chat {
+            Chat {
+                t0: Instant::now(),
+                elapsed: Cell::new(0),
+                files: names(files),
+                text: RefCell::new(String::new()),
+                query: RefCell::new(None),
+                picker_ms,
+                opened_at: Cell::new(0),
+                published: RefCell::new(None),
+                returns: Cell::new(0),
+                pb: FakePasteboard::with_items(vec![PasteboardItem::text("mine")]),
+            }
+        }
+    }
+
+    impl Platform for Chat {
+        type Published = FakePublished;
+        fn now(&self) -> Instant {
+            self.t0 + Duration::from_millis(self.elapsed.get())
+        }
+        fn wait(&self, d: Duration) {
+            self.elapsed
+                .set(self.elapsed.get() + (d.as_millis() as u64).max(1));
+        }
+        fn modifier_flags(&self) -> u64 {
+            0
+        }
+        fn change_count(&self) -> i64 {
+            self.pb.change_count()
+        }
+        fn read(&self) -> (Snapshot, Vec<String>) {
+            (
+                Snapshot {
+                    items: self.pb.read(),
+                },
+                Vec::new(),
+            )
+        }
+        fn write(&self, snap: &Snapshot) -> Result<i64, String> {
+            Ok(self.pb.write(snap.items.clone()))
+        }
+        fn write_plain_text(&self, text: &str) -> Result<i64, String> {
+            Ok(self.pb.write(vec![PasteboardItem::text(text)]))
+        }
+        fn publish(&self, text: &str) -> Result<FakePublished, String> {
+            *self.published.borrow_mut() = Some(text.to_string());
+            Ok(FakePublished {
+                change_count: self.pb.write(vec![PasteboardItem::text(text)]),
+                reads: Arc::new(Mutex::new(vec![self.now()])),
+            })
+        }
+        fn post_paste(&self) -> Result<(), String> {
+            // A paste never opens the picker: `@name` stays plain text.
+            let text = self.published.borrow().clone().unwrap_or_default();
+            self.text.borrow_mut().push_str(&text);
+            Ok(())
+        }
+        fn type_text(&self, text: &str) -> Result<(), String> {
+            for c in text.chars() {
+                self.text.borrow_mut().push(c);
+                let mut q = self.query.borrow_mut();
+                if c == '@' {
+                    *q = Some(String::new());
+                    self.opened_at.set(self.elapsed.get());
+                } else if c.is_whitespace() {
+                    *q = None;
+                } else if let Some(q) = q.as_mut() {
+                    q.push(c);
+                }
+            }
+            Ok(())
+        }
+        fn post_return(&self, _flags: u64) -> Result<(), String> {
+            let q = self.query.borrow().clone();
+            let offered = q.as_deref().is_some_and(|q| self.mention_offered(q));
+            *self.query.borrow_mut() = None;
+            match q {
+                Some(q) if offered => {
+                    let mut t = self.text.borrow_mut();
+                    let at = t.rfind('@').unwrap();
+                    t.truncate(at);
+                    t.push_str(&format!("[{q}] "));
+                }
+                _ => self.returns.set(self.returns.get() + 1),
+            }
+            Ok(())
+        }
+        fn post_backspace(&self) -> Result<(), String> {
+            self.text.borrow_mut().pop();
+            Ok(())
+        }
+        fn field(&self) -> Option<FieldState> {
+            let t = self.text.borrow();
+            Some(FieldState {
+                role: Some("AXTextArea".into()),
+                chars: Some(t.chars().count() as i64),
+                caret: Some((t.chars().count() as i64, 0)),
+                value_fingerprint: None,
+            })
+        }
+        fn mention_offered(&self, name: &str) -> bool {
+            self.query.borrow().as_deref() == Some(name)
+                && self.files.iter().any(|f| f == name)
+                && self.elapsed.get() >= self.opened_at.get() + self.picker_ms
+        }
+    }
+
+    fn request(text: &str, mentions: &[&str]) -> Request {
+        let mut req = Request::new(text, TargetClass::Native);
+        req.mentions = names(mentions);
+        req
+    }
+
+    #[test]
+    fn tags_go_through_the_picker_and_the_rest_is_typed() {
+        let chat = Chat::new(&["user_service.ts", "index.ts"], 200);
+        let line = Mutex::new(Line::new());
+        let req = request(
+            "Look at @user_service.ts and @index.ts.",
+            &["user_service.ts", "index.ts"],
+        );
+        let (r, _pending) = deliver::paste(&chat, &line, &req, &OPEN);
+        assert_eq!(
+            r.delivery,
+            Delivery::Pasted {
+                outcome: PasteOutcome::Confirmed
+            }
+        );
+        assert_eq!(
+            *chat.text.borrow(),
+            "Look at [user_service.ts] and [index.ts]."
+        );
+        assert_eq!(r.mention_tags, Some((2, 2)));
+        assert_eq!(chat.returns.get(), 0, "no Return outside the picker");
+        // Only the text before the first tag went through the clipboard.
+        assert_eq!(chat.published.borrow().as_deref(), Some("Look at "));
+    }
+
+    #[test]
+    fn a_file_the_picker_does_not_offer_stays_plain_and_never_submits() {
+        let chat = Chat::new(&["other.ts"], 0);
+        let line = Mutex::new(Line::new());
+        let (r, _) = deliver::paste(
+            &chat,
+            &line,
+            &request("Fix @index.ts now", &["index.ts"]),
+            &OPEN,
+        );
+        assert!(r.delivery.inserted());
+        assert_eq!(*chat.text.borrow(), "Fix @index.ts now");
+        assert_eq!(r.mention_tags, Some((0, 1)));
+        assert_eq!(chat.returns.get(), 0, "Return never sent without an offer");
+    }
+
+    #[test]
+    fn a_leading_tag_and_auto_send_wait_for_the_last_part() {
+        let chat = Chat::new(&["index.ts"], 0);
+        let line = Mutex::new(Line::new());
+        let mut req = request("@index.ts is broken", &["index.ts"]);
+        req.submit = Some(0);
+        req.submit_strict = true;
+        let (r, pending) = deliver::paste(&chat, &line, &req, &OPEN);
+        assert!(pending.is_none(), "nothing went through the clipboard");
+        assert_eq!(*chat.text.borrow(), "[index.ts] is broken");
+        assert!(r.submitted);
+        assert_eq!(chat.returns.get(), 1, "one Return, after the whole text");
+    }
+
+    #[test]
+    fn without_mentions_the_text_is_pasted_as_written() {
+        let chat = Chat::new(&["index.ts"], 0);
+        let line = Mutex::new(Line::new());
+        let (r, _) = deliver::paste(&chat, &line, &request("Fix @index.ts", &[]), &OPEN);
+        assert!(r.delivery.inserted());
+        assert_eq!(*chat.text.borrow(), "Fix @index.ts");
+        assert_eq!(r.mention_tags, None);
+    }
+}

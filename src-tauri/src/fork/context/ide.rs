@@ -45,15 +45,25 @@ impl Editor {
         Editor::ALL.into_iter().find(|e| e.id() == id)
     }
 
-    /// The editor of a frontmost app's bundle id (exact ids; VS Code
-    /// Insiders counts as VS Code).
-    pub fn from_bundle(bundle_id: Option<&str>) -> Option<Editor> {
-        match bundle_id?.to_ascii_lowercase().as_str() {
-            "com.microsoft.vscode" | "com.microsoft.vscodeinsiders" => Some(Editor::VsCode),
-            "com.todesktop.230313mzl4w4u92" => Some(Editor::Cursor),
-            "com.exafunction.windsurf" => Some(Editor::Windsurf),
-            _ => None,
+    /// The bundle ids of this editor's macOS app (checked against Cursor
+    /// 3.28.7's `Info.plist`; VS Code Insiders counts as VS Code).
+    pub fn bundle_ids(self) -> &'static [&'static str] {
+        match self {
+            Editor::VsCode => &["com.microsoft.VSCode", "com.microsoft.VSCodeInsiders"],
+            Editor::Cursor => &["com.todesktop.230313mzl4w4u92"],
+            Editor::Windsurf => &["com.exafunction.windsurf"],
         }
+    }
+
+    /// The editor of a frontmost app's bundle id (exact ids, any case).
+    pub fn from_bundle(bundle_id: Option<&str>) -> Option<Editor> {
+        let bundle_id = bundle_id?;
+        Editor::ALL.into_iter().find(|editor| {
+            editor
+                .bundle_ids()
+                .iter()
+                .any(|id| id.eq_ignore_ascii_case(bundle_id))
+        })
     }
 
     /// Editors with an AI chat whose input takes `@file` tags.
@@ -88,31 +98,79 @@ pub fn access(settings: &VibeCodingSettings, bundle_id: Option<&str>) -> Option<
     (access.recognize || access.file_tags).then_some(access)
 }
 
-/// Words that name an AI chat input in its label, placeholder or id.
-const CHAT_WORDS: &[&str] = &["chat", "composer", "cascade", "agent"];
+/// Words that name an AI chat input in its label, placeholder, id or DOM
+/// classes. `aichat` and `aislash` are Cursor's (3.28: the agent panel is
+/// `workbench.panel.aichat.<id>`, its input `aislash-editor-input`).
+const CHAT_WORDS: &[&str] = &[
+    "chat", "composer", "cascade", "agent", "aichat", "aislash", "prompt",
+];
 
-/// Whether the focused field (`role`, and its `labels`: description, title,
-/// placeholder, identifiers, help) is an editor's AI chat input: a text
-/// input whose labels name a chat, or whose placeholder offers `@`
-/// mentions ("@ to mention", "@ for context"). An editor buffer, a search
-/// box, the terminal or an unlabelled field never is (no fail-open here: a
-/// wrong `@` in code is worse than a missed tag).
-pub fn is_chat_input(role: &str, labels: &str) -> bool {
+/// How many ancestors of the focused field [`is_chat_input`]'s caller may
+/// pass as the field's container.
+pub const CHAT_ANCESTORS: usize = 12;
+
+fn words(text: &str) -> Vec<String> {
+    text.to_lowercase()
+        .split(|c: char| !c.is_alphanumeric() && c != '@')
+        .filter(|w| !w.is_empty())
+        .map(str::to_owned)
+        .collect()
+}
+
+/// Whether the focused field is an editor's AI chat input. `role`; its
+/// `labels` (description, title, placeholder, identifiers, help, and its
+/// DOM classes); `container`: the DOM ids and classes of its nearest
+/// [`CHAT_ANCESTORS`] ancestors. It is when its labels or its container
+/// name a chat, or its placeholder offers `@` mentions ("@ to mention",
+/// "@ for context"). The editor buffer (Monaco's `inputarea`), a search
+/// box, the terminal or an unlabelled field outside a chat never is (no
+/// fail-open here: a wrong `@` in code is worse than a missed tag).
+pub fn is_chat_input(role: &str, labels: &str, container: &str) -> bool {
     if !matches!(role, "AXTextArea" | "AXTextField" | "AXComboBox") {
         return false;
     }
-    let lower = labels.to_lowercase();
-    if lower.contains("terminal") || lower.contains("search") {
+    let own = words(labels);
+    let around = words(container);
+    if own
+        .iter()
+        .any(|w| matches!(w.as_str(), "search" | "terminal" | "xterm" | "inputarea"))
+        || around
+            .iter()
+            .any(|w| matches!(w.as_str(), "terminal" | "xterm"))
+    {
         return false;
     }
-    let words: Vec<&str> = lower
-        .split(|c: char| !c.is_alphanumeric() && c != '@')
-        .filter(|w| !w.is_empty())
-        .collect();
-    words.iter().any(|w| CHAT_WORDS.contains(w))
-        || words
-            .windows(2)
-            .any(|pair| pair[0] == "@" && matches!(pair[1], "to" | "for" | "mention" | "mentions"))
+    let chat_word = |w: &String| CHAT_WORDS.contains(&w.as_str());
+    own.iter().any(chat_word)
+        || around.iter().any(chat_word)
+        || own.windows(2).any(|pair| {
+            pair[0] == "@" && matches!(pair[1].as_str(), "to" | "for" | "mention" | "mentions")
+        })
+}
+
+/// The bundle ids whose AX tree the AX thread keeps built while they are in
+/// front ([`crate::fork::ax::thread::keep_warm`]): the set-up editors, when
+/// context awareness is on and either vibe-coding feature applies there.
+pub fn warm_bundles(settings: &VibeCodingSettings, context_awareness: bool) -> Vec<String> {
+    if !context_awareness {
+        return Vec::new();
+    }
+    Editor::ALL
+        .into_iter()
+        .filter(|editor| access(settings, editor.bundle_ids().first().copied()).is_some())
+        .flat_map(|editor| editor.bundle_ids().iter().map(|id| (*id).to_owned()))
+        .collect()
+}
+
+/// Applies [`warm_bundles`] (fork settings loaded or changed).
+pub fn sync_warm(settings: &crate::fork::settings::ForkSettings) {
+    #[cfg(target_os = "macos")]
+    crate::fork::ax::thread::keep_warm(warm_bundles(
+        &settings.vibe_coding,
+        settings.context_awareness,
+    ));
+    #[cfg(not(target_os = "macos"))]
+    let _ = settings;
 }
 
 fn identifier_like(token: &str) -> bool {
@@ -428,8 +486,10 @@ mod tests {
             ("AXTextArea", "Ask anything, @ to mention files"),
             ("AXTextArea", "Plan, @ for context, / for commands"),
             ("AXTextArea", "Agent"),
+            // Cursor 3.28.7's agent input, as its AX tree shows it.
+            ("AXTextArea", "Prompt aislash-editor-input"),
         ] {
-            assert!(is_chat_input(role, labels), "{role}: {labels}");
+            assert!(is_chat_input(role, labels, ""), "{role}: {labels}");
         }
         for (role, labels) in [
             (
@@ -444,9 +504,58 @@ mod tests {
             ("AXTextArea", ""),
             ("AXTextArea", "user@example.com"),
             ("AXTextArea", "Message (⌘⏎ to commit on 'main')"),
+            // Monaco's editor buffer in Cursor (screen-reader mode).
+            (
+                "AXTextArea",
+                "user_service.ts inputarea monaco-mouse-cursor-text",
+            ),
         ] {
-            assert!(!is_chat_input(role, labels), "{role}: {labels}");
+            assert!(!is_chat_input(role, labels, ""), "{role}: {labels}");
         }
+    }
+
+    #[test]
+    fn a_chat_container_qualifies_an_unnamed_input() {
+        // Cursor 3.28.7: the field's own labels are only "Prompt"-free
+        // text; its ancestors carry the agent panel's DOM id and classes.
+        let cursor = "aislash-editor-grid ai-input-full-input-box composer-input-blur-wrapper \
+                      composer-bar workbench.panel.aichat.5e4df9a5 composite auxiliarybar";
+        assert!(is_chat_input("AXTextArea", "", cursor));
+        // The editor buffer's ancestors name no chat.
+        let editor = "overflow-guard monaco-editor editor-instance split-view-view \
+                      workbench.parts.editor part editor monaco-grid-view";
+        assert!(!is_chat_input("AXTextArea", "user_service.ts", editor));
+        // The integrated terminal, even inside a panel named after a chat.
+        assert!(!is_chat_input(
+            "AXTextArea",
+            "",
+            "xterm-helper-textarea chat"
+        ));
+        assert!(!is_chat_input(
+            "AXTextArea",
+            "",
+            "terminal-wrapper composer"
+        ));
+        assert!(!is_chat_input("AXGroup", "", cursor));
+    }
+
+    #[test]
+    fn set_up_editors_are_kept_warm() {
+        let mut settings = set_up();
+        settings.editors = strings(&["cursor"]);
+        assert_eq!(
+            warm_bundles(&settings, true),
+            strings(&["com.todesktop.230313mzl4w4u92"])
+        );
+        assert!(warm_bundles(&settings, false).is_empty());
+        assert!(warm_bundles(&VibeCodingSettings::default(), true).is_empty());
+        let all = warm_bundles(&set_up(), true);
+        assert!(all.contains(&"com.microsoft.VSCodeInsiders".to_string()));
+        assert_eq!(all.len(), 4);
+        assert_eq!(
+            Editor::from_bundle(Some("COM.TODESKTOP.230313MZL4W4U92")),
+            Some(Editor::Cursor)
+        );
     }
 
     #[test]
