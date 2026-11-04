@@ -3066,6 +3066,29 @@ owner's Wispr Bro.
       Parakeet starter the row is off and explains why (by eye, light and
       dark).
 
+#### OT2-G: smart leading space (`fix/space`)
+
+A debug test identity (as OT2-F: portable, shortcuts unbound, takes by
+SIGUSR2 and the test WAV microphone of "hello world", ⌘V paste method).
+TextEdit, a new plain-text document; Handy's "Append trailing space" off
+unless stated. Never the owner's Wispr Bro.
+
+- [ ] OT2-G.1 **queued for the Mac wave** Type `Hi there` (no space), take:
+      the line reads `Hi there Hello world.` (one space added). Debug log:
+      `leading space added`.
+- [ ] OT2-G.2 **queued for the Mac wave** Caret after `Done. `, at the start
+      of an empty line, after `(` and after `“`: no space in any of them.
+- [ ] OT2-G.3 **queued for the Mac wave** Two takes in a row with "Append
+      trailing space" on: exactly one space between them; off: still one
+      (the second take adds it).
+- [ ] OT2-G.4 **queued for the Mac wave** Caret after `你好` (CJK): no space.
+      Chrome on a `contenteditable` page and a `<textarea>`: the same as
+      OT2-G.1; where the log says `unknown (field not read)` the text is
+      pasted unchanged.
+- [ ] OT2-G.5 **queued for the Mac wave** The Scratchpad note: a take after
+      `abc` pastes unchanged (own window, not read); paste-last (⌃⌘V) after
+      `abc` in TextEdit gets the space.
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.

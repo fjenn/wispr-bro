@@ -188,6 +188,16 @@ Details per port: docs/fork/PORTS.md.
     Copyright (c) 2025 Kit Langton. Licence: MIT
   Modified by Wispr Bro contributors, 2026-10-30 (timings T=500 ms,
   T_show=150 ms; expectations follow R5 S-01 where they differ).
+- src-tauri/src/fork/insert/spacing.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/smart_spacing/rules.rs (needs_leading_space and
+          its character classes)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-11-04 (leading space only; a
+  space only after a letter, digit, closing mark or spaced dash; the
+  dictation is never trimmed).
 - src-tauri/src/fork/stats/streak.rs
   Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
   Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8

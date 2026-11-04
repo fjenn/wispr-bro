@@ -156,6 +156,48 @@ pub fn read(ctx: &mut Ctx, captured: Option<u64>) -> Focus {
     }
 }
 
+/// Up to `units` UTF-16 units of the focused field's text just before the
+/// caret (or before the selection), for the smart leading space
+/// (`fork::insert::spacing`). `Some("")` at the start of a field; `None`
+/// when it cannot be told (our own window, no field, a secure field, no
+/// selection range, or the app answers neither `AXStringForRange` nor a
+/// bounded `AXValue`). The text is never logged or kept.
+pub fn before_caret(ctx: &mut Ctx, units: isize) -> Option<String> {
+    let pid = frontmost_pid().filter(|p| !super::is_own_pid(*p))?;
+    let app = ctx.app(pid);
+    let field = focused_element(&app)?;
+    el::set_timeout(&field, super::thread::CALL_TIMEOUT_S);
+    if string(&field, "AXSubrole").as_deref() == Some("AXSecureTextField")
+        || boolean(&field, "AXProtectedContent") == Some(true)
+    {
+        return None;
+    }
+    let caret = el::attr_range(&field, "AXSelectedTextRange")?;
+    if caret.location < 0 {
+        return None;
+    }
+    if caret.location == 0 {
+        return Some(String::new());
+    }
+    let length = caret.location.min(units);
+    let range = objc2_core_foundation::CFRange {
+        location: caret.location - length,
+        length,
+    };
+    if let Some(text) = el::string_for_range(&field, range) {
+        return Some(String::from_utf16_lossy(&text));
+    }
+    // No ranged read: a slice of a value of bounded size.
+    let value: Vec<u16> = el::attr_string(&field, "AXValue")?.encode_utf16().collect();
+    if value.len() > crate::fork::context::caret::MAX_VALUE_UNITS
+        || caret.location as usize > value.len()
+    {
+        return None;
+    }
+    let hi = caret.location as usize;
+    Some(String::from_utf16_lossy(&value[hi - length as usize..hi]))
+}
+
 /// Our own window in front: nothing is read (see [`super::is_own_pid`]).
 /// The verdict is "cannot tell" (paste, fail-open, as for an app that does
 /// not answer); the capture still decides `focus_moved` by pid: a take
