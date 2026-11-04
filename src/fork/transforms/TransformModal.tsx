@@ -125,7 +125,7 @@ export function TransformModal({
     <dialog
       ref={dialogRef}
       aria-labelledby="wb-transform-editor-title"
-      className="m-auto h-[min(760px,calc(100vh-32px))] w-[min(720px,calc(100vw-32px))] max-w-none overflow-hidden rounded-2xl border border-(--wb-line) bg-(--wb-panel) p-0 text-(--wb-ink) shadow-(--wb-elev-1) backdrop:bg-black/45"
+      className="wb-modal m-auto h-[min(760px,calc(100vh-32px))] w-[min(720px,calc(100vw-32px))] max-w-none overflow-hidden rounded-(--wb-radius-lg) border-0 bg-(--wb-surface) p-0 text-(--wb-ink) shadow-(--wb-elev-3)"
       data-testid="wb-transform-modal"
       onCancel={(event) => {
         event.preventDefault();
@@ -135,14 +135,11 @@ export function TransformModal({
       <div className="flex h-full min-h-0 flex-col">
         <header className="flex items-center justify-between gap-4 border-b border-(--wb-line) px-6 py-4">
           <div>
-            <h2
-              id="wb-transform-editor-title"
-              className="font-(--wb-font-display) text-2xl"
-            >
+            <h2 id="wb-transform-editor-title" className="type-heading m-0">
               {t("transforms.editor.title", { name: entry.name })}
             </h2>
             <p
-              className="mt-1 text-xs text-(--wb-ink-2)"
+              className="type-small mt-0.5 text-(--wb-ink-2)"
               role="status"
               data-testid="wb-transform-autosave"
             >
@@ -154,7 +151,7 @@ export function TransformModal({
             onClick={() => void close()}
             aria-label={t("transforms.editor.close")}
             title={t("transforms.editor.close")}
-            className={`grid size-8 cursor-pointer place-items-center rounded-full text-(--wb-ink-2) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
+            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
             data-testid="wb-transform-close"
           >
             <X size={18} aria-hidden="true" />
@@ -162,18 +159,18 @@ export function TransformModal({
         </header>
         <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto p-6">
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="flex flex-col gap-1.5 text-sm font-medium">
+            <label className="flex flex-col gap-1.5 text-[14px] font-medium">
               {t("transforms.editor.name")}
               <input
                 value={draft.name}
                 maxLength={80}
                 onChange={(event) => update("name", event.currentTarget.value)}
-                className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
+                className={`rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[15px] font-normal select-text transition-colors duration-(--wb-dur-fast) hover:border-(--wb-ink-3) ${FOCUS_RING}`}
                 data-testid="wb-transform-name"
               />
             </label>
             <div className="flex flex-col gap-1.5">
-              <span className="text-sm font-medium">
+              <span className="text-[14px] font-medium">
                 {t("transforms.editor.hotkey")}
               </span>
               {capturing || binding.chord ? (
@@ -206,7 +203,7 @@ export function TransformModal({
               )}
             </div>
           </div>
-          <label className="flex flex-col gap-1.5 text-sm font-medium">
+          <label className="flex flex-col gap-1.5 text-[14px] font-medium">
             {t("transforms.editor.description")}
             <textarea
               value={draft.description}
@@ -215,17 +212,17 @@ export function TransformModal({
               onChange={(event) =>
                 update("description", event.currentTarget.value)
               }
-              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[15px] font-normal select-text transition-colors duration-(--wb-dur-fast) hover:border-(--wb-ink-3) ${FOCUS_RING}`}
               data-testid="wb-transform-description"
             />
           </label>
           <section
             aria-labelledby="wb-transform-example-title"
-            className="flex flex-col gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4"
+            className="flex flex-col gap-3 rounded-(--wb-radius-md) bg-(--wb-surface-tint) p-4"
           >
             <h3
               id="wb-transform-example-title"
-              className="text-sm font-semibold"
+              className="type-micro m-0 text-(--wb-ink-3)"
             >
               {t("transforms.editor.example")}
             </h3>
@@ -240,7 +237,7 @@ export function TransformModal({
                 setExample(event.currentTarget.value);
                 setPreview(null);
               }}
-              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-panel) p-3 text-sm select-text ${FOCUS_RING}`}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) p-3 text-[15px] select-text ${FOCUS_RING}`}
               data-testid="wb-transform-example-input"
             />
             <div>
@@ -257,7 +254,7 @@ export function TransformModal({
             </div>
             {preview !== null && (
               <p
-                className="whitespace-pre-wrap border-t border-(--wb-line) pt-3 text-sm leading-6 select-text"
+                className="whitespace-pre-wrap border-t border-(--wb-line) pt-3 type-body leading-6 select-text"
                 data-testid="wb-transform-preview-result"
               >
                 {preview}
@@ -268,9 +265,9 @@ export function TransformModal({
             value={draft.rules}
             onChange={(rules) => update("rules", rules)}
           />
-          <label className="flex flex-col gap-1.5 text-sm font-medium">
+          <label className="flex flex-col gap-1.5 text-[14px] font-medium">
             {t("transforms.editor.customPrompt")}
-            <span className="text-xs font-normal text-(--wb-ink-2)">
+            <span className="type-small font-normal text-(--wb-ink-2)">
               {t("transforms.editor.customPromptHelp")}
             </span>
             <textarea
@@ -278,7 +275,7 @@ export function TransformModal({
               maxLength={6000}
               rows={5}
               onChange={(event) => update("prompt", event.currentTarget.value)}
-              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-normal select-text ${FOCUS_RING}`}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[15px] font-normal select-text transition-colors duration-(--wb-dur-fast) hover:border-(--wb-ink-3) ${FOCUS_RING}`}
               data-testid="wb-transform-prompt"
             />
           </label>
@@ -289,6 +286,8 @@ export function TransformModal({
         </div>
         <footer className="flex items-center justify-between border-t border-(--wb-line) px-6 py-4">
           <Button
+            variant="ghost"
+            leading={<RotateCcw size={14} aria-hidden="true" />}
             disabled={saveState === "saving"}
             onClick={() => {
               setDraft(inputFor(entry));
@@ -296,7 +295,6 @@ export function TransformModal({
             }}
             data-testid="wb-transform-reset"
           >
-            <RotateCcw size={14} aria-hidden="true" />
             {t("transforms.editor.reset")}
           </Button>
           <Button

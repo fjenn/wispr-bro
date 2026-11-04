@@ -191,7 +191,7 @@ export function ShortcutTest({
 
   const keyCap = (label: ReactNode, corner?: ReactNode) => (
     <span
-      className={`relative grid size-14 place-items-center rounded-[10px] border text-[15px] font-medium shadow-[inset_0_-2px_0_var(--wb-line)] motion-safe:transition-[background-color,border-color,color,transform] motion-safe:duration-(--wb-dur-fast) ${
+      className={`relative grid size-14 place-items-center rounded-(--wb-radius-md) border text-[15px] font-medium shadow-[inset_0_-2px_0_var(--wb-line)] motion-safe:transition-[background-color,border-color,color,transform] motion-safe:duration-(--wb-dur-fast) ${
         pressed
           ? "scale-95 border-(--wb-accent) bg-(--wb-accent) text-(--wb-on-ink) shadow-none"
           : "border-(--wb-line-2) bg-(--wb-surface) text-(--wb-ink)"

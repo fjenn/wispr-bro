@@ -13,10 +13,13 @@ import type { DiffOp, ForkTransformViewChanges, WordDiff } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";
 
+/** A changed word: a small chip, 2 px from a neighbouring chip. */
+const CHIP = "mx-px rounded-(--wb-radius-xs) px-0.5 box-decoration-clone";
+
 export function DiffWords({ ops }: { ops: DiffOp[] }) {
   return (
     <p
-      className="m-0 whitespace-pre-wrap break-words text-[14px] leading-6 select-text"
+      className="wb-diff-words m-0 whitespace-pre-wrap break-words type-body leading-6 select-text"
       data-testid="wb-diff-words"
     >
       {ops.map((op, index) => {
@@ -24,7 +27,7 @@ export function DiffWords({ ops }: { ops: DiffOp[] }) {
           return (
             <del
               key={index}
-              className="bg-red-500/10 text-(--wb-ink) decoration-red-700/70"
+              className={`${CHIP} bg-(--wb-danger-soft) text-(--wb-ink-2) decoration-(--wb-danger)`}
               data-diff="delete"
             >
               {op.text}
@@ -35,7 +38,7 @@ export function DiffWords({ ops }: { ops: DiffOp[] }) {
           return (
             <ins
               key={index}
-              className="bg-emerald-500/15 text-(--wb-ink) no-underline"
+              className={`${CHIP} bg-(--wb-data-4) text-(--wb-ink) no-underline`}
               data-diff="insert"
             >
               {op.text}
@@ -97,13 +100,14 @@ export function DiffCard({
       <div className="flex items-center justify-between gap-3">
         <h2
           id="wb-diff-title"
-          className="font-(--wb-font-display) text-xl"
+          className="type-card-title"
           data-testid="wb-diff-count"
         >
           {t("transforms.diff.changes", { count: diff.changes })}
         </h2>
         <Button
-          className="px-2.5 py-1"
+          variant="ghost"
+          size="sm"
           onClick={onConfigure}
           data-testid="wb-diff-configure"
         >
@@ -115,12 +119,12 @@ export function DiffCard({
         <DiffWords ops={diff.ops} />
       </div>
       {diff.degraded && (
-        <p className="text-xs text-(--wb-ink-2)">
+        <p className="type-small text-(--wb-ink-2)">
           {t("transforms.diff.simpleView")}
         </p>
       )}
       {error && (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-300">
+        <p role="alert" className="type-small text-(--wb-danger)">
           {t("transforms.diff.actionFailed")}
         </p>
       )}

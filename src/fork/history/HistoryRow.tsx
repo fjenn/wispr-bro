@@ -150,7 +150,7 @@ export function HistoryRow({
           row.source === "practice" ||
           row.variant === "raw" ||
           row.flagged) && (
-          <div className="flex flex-wrap items-center gap-1.5 text-[11.5px] text-(--wb-ink-2)">
+          <div className="flex flex-wrap items-center gap-1.5 text-[12px] text-(--wb-ink-2)">
             {row.source === "file" && (
               <span
                 data-testid="wb-history-tag-file"
@@ -221,7 +221,7 @@ export function HistoryRow({
             data-testid="wb-history-more-text"
             aria-expanded={expanded}
             onClick={() => setExpanded(!expanded)}
-            className="self-start cursor-pointer rounded-[5px] text-[12.5px] font-medium text-(--wb-ink-2) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-(--wb-accent)"
+            className="self-start cursor-pointer rounded-(--wb-radius-xs) text-[13px] font-medium text-(--wb-ink-2) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-(--wb-accent)"
           >
             {expanded ? t("history.showLess") : t("history.showMore")}
           </button>

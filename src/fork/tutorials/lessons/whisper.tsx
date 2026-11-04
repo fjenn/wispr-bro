@@ -30,6 +30,8 @@ import { useTranslation } from "react-i18next";
 import { events as handyEvents } from "@/bindings";
 import { commands, events } from "../../bindings";
 import { FORK_NAMESPACE } from "../../i18n";
+import { DrawnBar } from "../../onboarding/scenes/DrawnBar";
+import "../../onboarding/scenes/scenes.css";
 import { Button } from "../../ui";
 import { photos } from "@/assets/fork/art";
 import { ArtSlot } from "../art/ArtSlot";
@@ -84,13 +86,12 @@ function SoftScene() {
         <p className="wb-whisper-caption" aria-hidden="true">
           {t("lessons.whisper.soft.spoken")}
         </p>
-        <div className="wb-lesson-bar wb-whisper-bar" aria-hidden="true">
-          <span className="wb-whisper-levels">
-            {Array.from({ length: 11 }, (_, i) => (
-              <i key={i} />
-            ))}
-          </span>
-        </div>
+        <DrawnBar
+          state="rec"
+          level="soft"
+          active={beat === "words"}
+          aria-hidden="true"
+        />
         <div className="wb-scene-window" aria-hidden="true">
           <div className="wb-scene-titlebar">
             <span className="wb-scene-dots">
@@ -336,7 +337,7 @@ function WhisperPractice({ ctx }: { ctx: LessonStepContext }) {
       </p>
       {phase === "example" && (
         <p
-          className="m-0 text-center text-[12.5px] leading-5 text-(--wb-ink-2)"
+          className="m-0 text-center text-[13px] leading-5 text-(--wb-ink-2)"
           data-testid="wb-whisper-example-note"
         >
           {t("lessons.whisper.practice.exampleNote")}

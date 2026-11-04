@@ -145,7 +145,7 @@ export function SettingsModal() {
       ref={dialogRef}
       aria-labelledby="wb-settings-title"
       dir={getLanguageDirection(i18n.language)}
-      className="wb-settings-dialog m-auto h-[min(640px,calc(100vh-48px))] w-[min(960px,calc(100vw-48px))] max-w-none overflow-hidden rounded-(--wb-radius-lg) border-0 bg-(--wb-surface) p-0 text-(--wb-ink) shadow-(--wb-elev-3)"
+      className="wb-settings-dialog wb-modal m-auto h-[min(640px,calc(100vh-48px))] w-[min(960px,calc(100vw-48px))] max-w-none overflow-hidden rounded-(--wb-radius-lg) border-0 bg-(--wb-surface) p-0 text-(--wb-ink) shadow-(--wb-elev-3)"
       data-testid="wb-settings-modal"
       onCancel={(event) => {
         event.preventDefault();

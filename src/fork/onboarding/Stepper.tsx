@@ -3,7 +3,8 @@
  * The header's stage list (Design W1): Welcome › Permissions › Setup ›
  * Practice › Finish in the shared `Stepper` (uppercase, tracked, chevrons;
  * current and past stages in ink). Past stages say "done" to screen
- * readers.
+ * readers. Long labels (ru, de, uk…) in a narrow window close the gaps
+ * and the tracking before anything truncates.
  */
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
@@ -26,7 +27,7 @@ export function Stepper({ current }: { current: OnboardingStep }) {
           id,
           label: t(`onboardingFlow.stepper.${id}`),
         }))}
-        className="m-0 min-w-0 list-none gap-3 p-0"
+        className="m-0 min-w-0 list-none gap-3 p-0 @max-[900px]:gap-2 @max-[900px]:[&_li]:tracking-[0.03em]"
       />
     </nav>
   );

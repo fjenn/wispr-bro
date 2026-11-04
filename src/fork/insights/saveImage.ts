@@ -21,7 +21,7 @@ function canvasColor(): string {
   const v = getComputedStyle(document.documentElement)
     .getPropertyValue("--wb-panel")
     .trim();
-  return v || "#ffffff";
+  return v || "white";
 }
 
 /** `node` as a PNG, base64 without the `data:` prefix. */

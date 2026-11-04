@@ -8,6 +8,14 @@
 //     resolves to nothing, so it fails here instead of rendering unstyled.
 //     The message names the v2 role to use.
 //
+//   - Design polish pass: no raw hex colour (`#1a1a1a`, `bg-[#fff]`) in
+//     fork frontend code outside `src/fork/styles/tokens.css`, so every
+//     colour is a token with a light and a dark value (or a named constant
+//     there: the HUD, the drawn apps' `--wb-light-*`, the wallpaper,
+//     confetti). Comments, the generated `bindings.ts` and the debug-only
+//     `src/fork/debug/` are not checked; a line may opt out with the
+//     comment `wb-allow-colour` and a reason.
+//
 // Run alone: `bun scripts/wb-guard-tokens.ts`; `bun run wb:guards` runs it
 // with the rest.
 
@@ -44,6 +52,27 @@ const V1_RE = new RegExp(
 const SCANNED = /^(src\/fork\/|src\/styles\/|tests\/fork\/)/;
 const EXT = /\.(ts|tsx|js|jsx|css)$/;
 
+/** Where raw colours are checked, and the files allowed to hold them. */
+const COLOUR_SCANNED = /^src\/fork\/.*\.(ts|tsx|css)$/;
+const COLOUR_EXEMPT = /^src\/fork\/(styles\/tokens\.css|bindings\.ts|debug\/)/;
+// `#abc`, `#abcd`, `#aabbcc`, `#aabbccdd`, not followed by more of a name
+// (`#add-word` is an id, `#/fork/debug` a route).
+const HEX_RE = /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})(?![\w-])/g;
+const ALLOW = "wb-allow-colour";
+
+/** `text` with comments blanked (line numbers kept). */
+export function stripComments(text: string, css: boolean): string {
+  let out = text.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, " "));
+  if (!css) {
+    // `//` to the end of the line, unless inside a string or a URL.
+    out = out
+      .split("\n")
+      .map((line) => line.replace(/(^|[^:"'`\w])\/\/.*$/, "$1"))
+      .join("\n");
+  }
+  return out;
+}
+
 export function runTokens(opts: { root?: string } = {}): GuardResult {
   const root = opts.root ?? REPO_ROOT;
   const r = newResult("tokens");
@@ -62,6 +91,24 @@ export function runTokens(opts: { root?: string } = {}): GuardResult {
         });
       }
     });
+  }
+  for (const f of listFiles(root)) {
+    if (!COLOUR_SCANNED.test(f) || COLOUR_EXEMPT.test(f)) continue;
+    const raw = readIfExists(root, f) ?? "";
+    const rawLines = raw.split("\n");
+    stripComments(raw, f.endsWith(".css"))
+      .split("\n")
+      .forEach((line, i) => {
+        if (rawLines[i]?.includes(ALLOW)) return;
+        for (const m of line.matchAll(HEX_RE)) {
+          r.violations.push({
+            file: f,
+            line: i + 1,
+            rule: "tokens/raw-colour",
+            message: `${m[0]} is a raw colour; use a token from src/fork/styles/tokens.css (add one there if none fits)`,
+          });
+        }
+      });
   }
   r.notes.push(`checked ${checked} fork frontend file(s)`);
   return r;

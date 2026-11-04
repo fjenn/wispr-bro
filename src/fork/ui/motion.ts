@@ -41,6 +41,13 @@ export const DUR = {
   slow: 0.32,
   stage: 0.08,
   reduced: 0.12,
+  /** Leaving after a `base` entrance (scrims, the bar's label, a row
+   *  collapsing): ≈ 0.7-0.8 × the enter time. */
+  leave: 0.16,
+  /** A meter or bar growing to its value (the celebration's speed bars). */
+  grow: 0.6,
+  /** A path drawing itself (celebration arrow). */
+  draw: 0.7,
 } as const;
 
 export const EASE = {
@@ -160,7 +167,7 @@ export function motionPresets(reduced: boolean): MotionPresets {
   const scrim: Preset = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: DUR.base, ease: EASE.out } },
-    exit: { opacity: 0, transition: { duration: 0.16, ease: EASE.in } },
+    exit: { opacity: 0, transition: { duration: DUR.leave, ease: EASE.in } },
   };
   return {
     reduced: false,
@@ -255,7 +262,7 @@ export function motionPresets(reduced: boolean): MotionPresets {
         animate: {
           pathLength: 1,
           opacity: 1,
-          transition: { duration: 0.7, ease: EASE.inOut },
+          transition: { duration: DUR.draw, ease: EASE.inOut },
         },
       },
     },
@@ -274,7 +281,7 @@ export function motionPresets(reduced: boolean): MotionPresets {
       exit: {
         opacity: 0,
         height: 0,
-        transition: { duration: 0.18, ease: EASE.in },
+        transition: { duration: DUR.leave, ease: EASE.in },
       },
     },
   };

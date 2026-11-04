@@ -79,7 +79,7 @@ export function PresetCard({
           lang="en"
           dir="ltr"
           data-testid={`wb-style-example-${preset}`}
-          className="w-full rounded-[12px] bg-(--wb-surface-tint) px-4 py-3 text-start text-[15px] leading-[22px] text-(--wb-ink)"
+          className="w-full rounded-(--wb-radius-md) bg-(--wb-surface-tint) px-4 py-3 text-start text-[15px] leading-[22px] text-(--wb-ink)"
         >
           {example}
         </span>

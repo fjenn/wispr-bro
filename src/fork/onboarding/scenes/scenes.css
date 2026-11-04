@@ -22,12 +22,7 @@
   padding: 28px 28px 22px;
   border-radius: var(--wb-radius-md);
   overflow: hidden;
-  background:
-    radial-gradient(70% 60% at 12% 8%, #f6b98a 0%, transparent 62%),
-    radial-gradient(60% 70% at 92% 14%, #9a72ba 0%, transparent 60%),
-    radial-gradient(80% 70% at 78% 100%, #3d6fb6 0%, transparent 62%),
-    radial-gradient(70% 60% at 4% 96%, #e7849a 0%, transparent 60%),
-    linear-gradient(160deg, #f3d7c0 0%, #b9a5dc 52%, #5f86c9 100%);
+  background: var(--wb-wallpaper);
 }
 /* A soft sheen so the gradient reads as a wallpaper, not a flat fill. */
 .wb-scene-stage::before {
@@ -46,8 +41,8 @@
   width: 100%;
   max-width: 400px;
   border-radius: 10px;
-  background: #ffffff;
-  color: #1a1a1a;
+  background: var(--wb-light-surface);
+  color: var(--wb-light-ink);
   box-shadow:
     0 0 0 0.5px rgb(0 0 0 / 0.12),
     0 20px 44px rgb(20 16 40 / 0.28);
@@ -59,11 +54,11 @@
   align-items: center;
   gap: 7px;
   padding: 8px 12px;
-  border-bottom: 1px solid #ecebe6;
-  background: #f5f4f0;
+  border-bottom: 1px solid var(--wb-light-line);
+  background: var(--wb-light-chrome);
   font-size: 12px;
   font-weight: 600;
-  color: #555555;
+  color: var(--wb-light-ink-2);
 }
 .wb-scene-dots {
   display: inline-flex;
@@ -75,7 +70,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #d9d7d0;
+  background: var(--wb-light-line-2);
 }
 .wb-scene-body {
   padding: 14px 16px 16px;
@@ -89,19 +84,19 @@
   max-width: 90%;
   border-radius: 12px;
   border-end-start-radius: 4px;
-  background: #f5f4f0;
+  background: var(--wb-light-chrome);
   padding: 6px 10px;
-  font-size: 12.5px;
-  color: #555555;
+  font-size: 13px;
+  color: var(--wb-light-ink-2);
 }
 .wb-scene-field {
   min-height: 72px;
   padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #d9d7d0;
+  border: 1px solid var(--wb-light-line-2);
   font-size: 14px;
   line-height: 1.45;
-  color: #1a1a1a;
+  color: var(--wb-light-ink);
 }
 .wb-scene-caret {
   display: inline-block;
@@ -109,55 +104,11 @@
   height: 1.05em;
   margin-inline-start: 1px;
   vertical-align: -0.18em;
-  background: #1a1a1a;
+  background: var(--wb-light-ink);
   animation: wb-scene-blink 1s steps(1) infinite;
 }
 .wb-scene-landed {
-  animation: wb-scene-land 380ms var(--wb-ease-out);
-}
-/* The bar: the reference's resting pill, held capsule and spinner. */
-.wb-scene-pill {
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 30px;
-  min-width: 72px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: #000000;
-  box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
-  transition:
-    min-width var(--wb-dur-base) var(--wb-ease-out),
-    height var(--wb-dur-base) var(--wb-ease-out),
-    opacity var(--wb-dur-base) var(--wb-ease-out);
-}
-.wb-scene-pill[data-state="hidden"] {
-  min-width: 38px;
-  height: 6px;
-  padding: 0;
-  opacity: 0.8;
-}
-.wb-scene-bars {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  height: 14px;
-}
-.wb-scene-bars i {
-  display: block;
-  width: 2px;
-  height: 4px;
-  border-radius: 2px;
-  background: #ffffff;
-  animation: wb-scene-bar 520ms ease-in-out infinite alternate;
-}
-.wb-scene-spin {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  border: 2px solid rgb(255 255 255 / 0.3);
-  border-top-color: #ffffff;
-  animation: wb-scene-rot 800ms linear infinite;
+  animation: wb-scene-land var(--wb-dur-slow) var(--wb-ease-out);
 }
 /* The words being said, under the bar. */
 .wb-scene-caption {
@@ -170,7 +121,7 @@
   padding: 7px 14px;
   border-radius: 17px;
   background: rgb(0 0 0 / 0.82);
-  color: #ffffff;
+  color: var(--wb-light-surface);
   text-align: start;
 }
 .wb-scene-caption-label {
@@ -187,7 +138,7 @@
 }
 .wb-scene-caption-words > span {
   opacity: 0.3;
-  transition: opacity 120ms linear;
+  transition: opacity var(--wb-dur-fast) linear;
 }
 .wb-scene-caption-words > span.is-on {
   opacity: 1;
@@ -209,25 +160,12 @@
     transform: translateY(3px);
   }
 }
-@keyframes wb-scene-bar {
-  to {
-    height: 14px;
-  }
-}
-@keyframes wb-scene-rot {
-  to {
-    transform: rotate(360deg);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .wb-scene-caret,
-  .wb-scene-bars i,
-  .wb-scene-spin,
   .wb-scene-landed {
     animation: none;
   }
-  .wb-scene-caption-words > span,
-  .wb-scene-pill {
+  .wb-scene-caption-words > span {
     transition: none;
   }
 }

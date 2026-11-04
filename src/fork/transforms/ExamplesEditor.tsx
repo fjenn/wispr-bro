@@ -91,14 +91,14 @@ export function ExamplesEditor({
             onClick={() => onChange(value.filter((_, at) => at !== index))}
             aria-label={t("transforms.examples.remove", { number: index + 1 })}
             title={t("transforms.examples.remove", { number: index + 1 })}
-            className={`absolute end-2 top-2 grid size-6 cursor-pointer place-items-center rounded-md bg-(--wb-surface) text-(--wb-ink-2) ${FOCUS_RING}`}
+            className={`absolute end-2 top-2 grid size-6 cursor-pointer place-items-center rounded-(--wb-radius-xs) bg-(--wb-surface) text-(--wb-ink-2) ${FOCUS_RING}`}
           >
             <X size={14} aria-hidden="true" />
           </button>
         </div>
       ))}
       {error && (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-300">
+        <p role="alert" className="type-small text-(--wb-danger)">
           {t("transforms.examples.readError", { chars })}
         </p>
       )}

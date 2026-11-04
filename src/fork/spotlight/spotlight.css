@@ -5,7 +5,7 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  animation: wb-spotlight-in 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: wb-spotlight-in var(--wb-dur-slow) var(--wb-ease-out);
   font-family: var(--wb-font-ui, -apple-system, system-ui, sans-serif);
 }
 .wb-spotlight-dim {
@@ -28,12 +28,12 @@
   max-width: min(420px, calc(100vw - 32px));
   padding: 12px 18px 11px;
   border-radius: 18px;
-  background: var(--wb-hud, #000000);
-  color: var(--wb-on-hud, #ffffff);
+  background: var(--wb-hud);
+  color: var(--wb-on-hud);
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
   text-align: center;
-  animation: wb-spotlight-hint-in 320ms cubic-bezier(0.22, 1, 0.36, 1) 120ms
-    both;
+  animation: wb-spotlight-hint-in var(--wb-dur-slow) var(--wb-ease-out)
+    var(--wb-dur-fast) both;
 }
 .wb-spotlight-hint p {
   margin: 0;
@@ -42,7 +42,7 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #c3a0ee;
+  color: var(--wb-hud-accent);
 }
 .wb-spotlight-title {
   margin-top: 2px !important;

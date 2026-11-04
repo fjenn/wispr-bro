@@ -240,66 +240,6 @@
 
 /* ---------- The drawn bar (REFERENCE-SPEC §7, our drawing) ---------- */
 
-.wb-lesson-bar {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 30px;
-  padding: 3px 4px 3px 14px;
-  border-radius: 999px;
-  background: var(--wb-hud);
-  color: var(--wb-on-hud);
-  font-size: 14px;
-  font-weight: 500;
-  transition:
-    min-width var(--wb-dur-base) var(--wb-ease-out),
-    padding var(--wb-dur-base) var(--wb-ease-out);
-}
-.wb-lesson-bar[data-state="idle"] {
-  min-width: 38px;
-  min-height: 6px;
-  padding: 0;
-  opacity: 0.75;
-}
-.wb-lesson-bar[data-state="working"] {
-  padding-inline-end: 12px;
-}
-.wb-lesson-bar button,
-.wb-lesson-bar-action {
-  border-radius: 999px;
-  background: var(--wb-hud-control);
-  color: var(--wb-on-hud);
-  padding: 4px 12px;
-  font-size: 13px;
-  font-weight: 500;
-}
-.wb-lesson-bar button {
-  cursor: pointer;
-  transition: background-color var(--wb-dur-fast);
-}
-.wb-lesson-bar button:hover {
-  background: #45454d;
-}
-.wb-lesson-bar button:focus-visible {
-  outline: 2px solid var(--wb-on-hud);
-  outline-offset: 2px;
-}
-.wb-lesson-spin {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid rgb(255 255 255 / 0.3);
-  border-top-color: #fff;
-  animation: wb-lesson-spin 0.9s linear infinite;
-}
-@keyframes wb-lesson-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Spotlight on the bar: everything else in the practice dims, with a round
    cut-out around the bar (REFERENCE-SPEC §7 "Spotlight"). */
 .wb-lesson-dim {
@@ -333,7 +273,9 @@
   animation: wb-lesson-fade var(--wb-dur-slow) var(--wb-ease-out);
 }
 .wb-lesson-bar[data-spot] {
-  box-shadow: 0 0 0 6px rgb(255 255 255 / 0.18);
+  box-shadow:
+    0 2px 8px rgb(0 0 0 / 0.35),
+    0 0 0 6px rgb(255 255 255 / 0.18);
 }
 @keyframes wb-lesson-fade {
   from {
@@ -392,51 +334,24 @@
   bottom: 12px;
   z-index: 3;
 }
-.wb-scene-window {
-  width: 100%;
+/* The drawn app window is `scenes.css`'s (the first-use scenes'); on the
+   dark How it works stage it is a little wider with a deeper shadow. */
+.wb-lesson-stage .wb-scene-window {
   max-width: 460px;
-  border-radius: 10px;
-  background: #fff;
-  color: #1a1a1a;
   box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
-  overflow: hidden;
-  text-align: start;
-}
-.wb-scene-titlebar {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 12px;
-  border-bottom: 1px solid #ecebe6;
-  background: #f5f4f0;
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
-}
-.wb-scene-dots {
-  display: inline-flex;
-  gap: 5px;
-  margin-inline-end: 4px;
-}
-.wb-scene-dots i {
-  display: block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #d9d7d0;
 }
 .wb-scene-draft {
   min-height: 92px;
   padding: 14px 16px;
   font-size: 14px;
   line-height: 1.5;
-  color: #1a1a1a;
+  color: var(--wb-light-ink);
 }
 .wb-scene-draft mark {
   color: inherit;
   background: transparent;
   border-radius: 3px;
-  transition: background-color 0.6s ease;
+  transition: background-color var(--wb-dur-slow) var(--wb-ease-out);
 }
 .wb-lesson-stage[data-beat="selecting"] .wb-scene-draft mark {
   background: rgb(154 114 186 / 0.18);
@@ -500,6 +415,16 @@
   opacity: 1;
   transform: none;
 }
+/* The changes card on the stage looks like the bar's (pill.css). */
+.wb-scene-diff ins {
+  background: var(--wb-hud-insert);
+  color: var(--wb-on-hud);
+}
+.wb-scene-diff del {
+  background: var(--wb-hud-delete);
+  color: var(--wb-on-hud-delete);
+  text-decoration-color: var(--wb-on-hud-delete);
+}
 .wb-scene-diff h4 {
   margin-bottom: 6px;
   font-size: 13px;
@@ -507,15 +432,13 @@
   color: var(--wb-on-hud-2);
 }
 @media (prefers-reduced-motion: reduce) {
-  .wb-lesson-bar,
   .wb-scene-draft mark,
   .wb-scene-keys,
   .wb-scene-diff {
     transition: none;
   }
   .wb-lesson-dim,
-  .wb-lesson-changes,
-  .wb-lesson-spin {
+  .wb-lesson-changes {
     animation: none;
   }
 }
@@ -532,7 +455,7 @@
   font-style: italic;
   color: var(--wb-on-hud);
   opacity: 0.3;
-  transition: opacity 0.6s ease;
+  transition: opacity var(--wb-dur-slow) var(--wb-ease-out);
 }
 .wb-whisper-stage[data-beat="words"] .wb-whisper-caption,
 .wb-whisper-stage[data-beat="landed"] .wb-whisper-caption {
@@ -540,54 +463,15 @@
 }
 .wb-whisper-landing {
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity var(--wb-dur-slow) var(--wb-ease-out);
 }
 .wb-whisper-stage[data-beat="landed"] .wb-whisper-landing {
   opacity: 1;
-}
-.wb-whisper-bar {
-  padding: 4px 14px;
-}
-.wb-whisper-levels {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  height: 14px;
-}
-.wb-whisper-levels i {
-  display: block;
-  width: 2px;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--wb-on-hud);
-}
-.wb-whisper-stage[data-beat="words"] .wb-whisper-levels i {
-  animation: wb-whisper-level 0.9s ease-in-out infinite;
-}
-.wb-whisper-levels i:nth-child(2n) {
-  animation-delay: 0.15s;
-}
-.wb-whisper-levels i:nth-child(3n) {
-  animation-delay: 0.3s;
-}
-.wb-whisper-levels i:nth-child(4n) {
-  animation-delay: 0.45s;
-}
-.wb-whisper-levels i:nth-child(5n) {
-  animation-delay: 0.6s;
-}
-@keyframes wb-whisper-level {
-  50% {
-    height: 7px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .wb-whisper-caption,
   .wb-whisper-landing {
     transition: none;
-  }
-  .wb-whisper-stage[data-beat="words"] .wb-whisper-levels i {
-    animation: none;
   }
 }
 
@@ -657,7 +541,7 @@
   bottom: 100%;
   border-start-start-radius: var(--wb-radius-sm);
   border-start-end-radius: var(--wb-radius-sm);
-  background: color-mix(in srgb, var(--wb-success) 82%, #000);
+  background: color-mix(in srgb, var(--wb-success) 82%, var(--wb-light-ink));
   color: var(--wb-on-ink);
   padding: 3px 6px;
   font-size: 11px;

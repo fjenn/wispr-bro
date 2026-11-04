@@ -98,7 +98,7 @@ export function Search({ query, onQuery }: SearchProps) {
         aria-label={t("history.search.close")}
         title={t("history.search.close")}
         onClick={close}
-        className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-[6px] text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+        className={`grid size-6 shrink-0 cursor-pointer place-items-center rounded-(--wb-radius-xs) text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
       >
         <X size={14} aria-hidden="true" />
       </button>

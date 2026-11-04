@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../../i18n";
 import { PauseButton } from "../../tutorials/PauseButton";
 import { CHOICE_ICONS, type FirstUseChoice } from "../firstUse";
+import { DrawnBar } from "./DrawnBar";
 import { useSceneLoop } from "./engine";
 import "./scenes.css";
 
@@ -34,7 +35,7 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
       ? "rec"
       : frame.beat === "release"
         ? "work"
-        : "hidden";
+        : "rest";
   const landed = frame.beat === "land";
   const appName = t("rust.appName");
   const text = t(`firstUse.scenes.${choice}.text`);
@@ -75,16 +76,11 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
             </div>
           </div>
         </div>
-        <div className="wb-scene-pill" data-state={pill} aria-hidden="true">
-          {pill === "rec" && (
-            <span className="wb-scene-bars">
-              {Array.from({ length: 11 }, (_, i) => (
-                <i key={i} style={{ animationDelay: `${(i % 6) * 90}ms` }} />
-              ))}
-            </span>
-          )}
-          {pill === "work" && <span className="wb-scene-spin" />}
-        </div>
+        <DrawnBar
+          state={pill}
+          text={pill === "work" ? t("pill.transcribing") : undefined}
+          aria-hidden="true"
+        />
         <div className="wb-scene-caption" aria-hidden="true">
           <span className="wb-scene-caption-label">
             {t("firstUse.scene.said")}

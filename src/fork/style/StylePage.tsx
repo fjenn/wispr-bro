@@ -8,7 +8,7 @@
 import { useTranslation } from "react-i18next";
 import type { StyleGroup } from "../bindings";
 import { navigate, useHubNav } from "../hub/nav";
-import { PageHeader } from "../hub/PageHeader";
+import { PageHeader } from "../ui/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { TabPanel, Tabs } from "../ui";
 import { CleanupTab } from "./CleanupTab";

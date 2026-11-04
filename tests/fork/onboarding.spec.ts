@@ -550,3 +550,52 @@ test.describe("S-29a onboarding", () => {
     }
   }
 });
+
+test.describe("polish: long and right-to-left labels", () => {
+  for (const lang of ["ru", "de", "uk", "pt", "cs"]) {
+    test(`${lang}: the stepper fits the default window without truncating`, async ({
+      page,
+      ipc,
+    }) => {
+      await openOnboarding(page, ipc, {
+        step: "mic_test",
+        handy: { app_language: lang },
+      });
+      await page.setViewportSize({ width: 820, height: 720 });
+      const items = page
+        .getByTestId("wb-stepper")
+        .locator("li:not([aria-hidden])");
+      await expect(items).toHaveCount(5);
+      const cut = await items.evaluateAll((els) =>
+        els
+          .filter((el) => el.scrollWidth > el.clientWidth + 1)
+          .map((el) => el.textContent),
+      );
+      expect(cut).toEqual([]);
+    });
+  }
+
+  for (const lang of ["ar", "en"]) {
+    test(`${lang}: the celebration's arrow stays clear of the lead line`, async ({
+      page,
+      ipc,
+    }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await openOnboarding(page, ipc, {
+        step: "first_dictation",
+        handy: { app_language: lang },
+      });
+      await page.setViewportSize({ width: 1040, height: 720 });
+      const lead = page.getByTestId("wb-first-dictation-lead");
+      const arrow = page.getByTestId("wb-first-dictation-arrow");
+      await expect(lead).toBeVisible();
+      const a = (await lead.boundingBox())!;
+      const b = (await arrow.boundingBox())!;
+      const overlapX =
+        Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x);
+      const overlapY =
+        Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y);
+      expect(overlapX <= 0 || overlapY <= 0).toBe(true);
+    });
+  }
+});

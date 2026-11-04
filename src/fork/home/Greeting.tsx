@@ -166,14 +166,14 @@ function NameEditor({
         aria-invalid={failed || undefined}
         className="rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-panel) px-3 py-2 text-[14px] text-(--wb-ink) select-text focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent)"
       />
-      <p id={hintId} className="text-[12.5px] text-(--wb-ink-2)">
+      <p id={hintId} className="text-[13px] text-(--wb-ink-2)">
         {t("home.nameEditor.hint")}
       </p>
       {failed && (
         <p
           id={errorId}
           role="alert"
-          className="text-[12.5px] font-medium text-(--wb-ink)"
+          className="text-[13px] font-medium text-(--wb-ink)"
         >
           {t("home.nameEditor.saveFailed")}
         </p>

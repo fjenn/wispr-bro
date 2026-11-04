@@ -318,7 +318,7 @@ export function OnboardingFlow({
           centre; the purple line under it is the whole flow's progress. */}
       <header
         data-tauri-drag-region
-        className="grid h-(--wb-titlebar-height) shrink-0 grid-cols-[minmax(84px,1fr)_minmax(0,auto)_minmax(84px,1fr)] items-center gap-3 px-3"
+        className="@container grid h-(--wb-titlebar-height) shrink-0 grid-cols-[minmax(84px,1fr)_minmax(0,auto)_minmax(84px,1fr)] items-center gap-3 px-3"
       >
         <span />
         {step ? <Stepper current={step} /> : <span />}

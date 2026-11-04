@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { FORK_NAMESPACE } from "../i18n";
 import { navigate, useHubNav } from "../hub/nav";
-import { PageHeader } from "../hub/PageHeader";
+import { PageHeader } from "../ui/PageHeader";
 import { Button, EmptyState, TabPanel, Tabs } from "../ui";
 import { formatDay } from "./format";
 import { saveAsImage } from "./saveImage";

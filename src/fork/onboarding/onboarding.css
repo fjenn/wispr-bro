@@ -44,7 +44,7 @@
   height: 20px;
   margin-top: -7px;
   border-radius: 9999px;
-  background: #ffffff;
+  background: var(--wb-light-surface);
   box-shadow:
     0 0 0 0.5px rgba(0, 0, 0, 0.2),
     0 1px 4px rgba(0, 0, 0, 0.35);

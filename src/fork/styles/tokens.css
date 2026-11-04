@@ -94,6 +94,27 @@
   --wb-hud-control: #30302f;
   --wb-on-hud: #ffffff;
   --wb-on-hud-2: rgba(255, 255, 255, 0.72);
+  --wb-hud-control-hover: #3e3e3c;
+  /* Hover of a white button on the HUD (✓ disc, Fix pill). */
+  --wb-hud-light-hover: #e6e6e6;
+  /* Word changes on the HUD (the bar's diff card and the lesson's drawn
+     one): teal inserted chips, struck grey deleted chips. */
+  --wb-hud-insert: rgba(56, 178, 156, 0.38);
+  --wb-hud-delete: rgba(255, 255, 255, 0.12);
+  --wb-on-hud-delete: rgba(255, 255, 255, 0.72);
+  /* The bar's accent and error text on black (≈ 9:1 and 13:1). */
+  --wb-hud-accent: #c3a0ee;
+  --wb-hud-error: #ffb4ab;
+  /* The drawn desktop behind first-use scenes: our own mesh gradient,
+     the same in both themes (like the drawn apps on it). */
+  --wb-wallpaper:
+    radial-gradient(70% 60% at 12% 8%, #f6b98a 0%, transparent 62%),
+    radial-gradient(60% 70% at 92% 14%, #9a72ba 0%, transparent 60%),
+    radial-gradient(80% 70% at 78% 100%, #3d6fb6 0%, transparent 62%),
+    radial-gradient(70% 60% at 4% 96%, #e7849a 0%, transparent 60%),
+    linear-gradient(160deg, #f3d7c0 0%, #b9a5dc 52%, #5f86c9 100%);
+  /* The celebration's confetti (canvas colours, read by FirstDictation). */
+  --wb-confetti: #f3f0ea, #c3a0ee, #f1dca6, #8fd1b4, #f2a28f;
   /* Hero banners: a warm near-black under the photo, white text. */
   --wb-hero: #1d1a17;
   --wb-on-hero: #ffffff;
@@ -750,4 +771,31 @@ input[type="radio"] {
   [data-button]:focus-visible {
   outline: 2px solid var(--wb-dark-accent);
   outline-offset: 2px;
+}
+
+/*
+ * Native `<dialog>` modals (Settings, the Transforms editor): the dialog
+ * preset in CSS (SYSTEM-PLAN §5 rule 1): the scrim fades in, the panel
+ * rises from 8 px and 0.97 over 320 ms; the global Reduce Motion rule
+ * collapses both. Radix and `ui/Dialog` modals use `motion.ts` instead.
+ */
+.wb-modal[open] {
+  animation: wb-modal-in var(--wb-dur-slow) var(--wb-ease-out);
+}
+.wb-modal::backdrop {
+  background: var(--wb-scrim);
+}
+.wb-modal[open]::backdrop {
+  animation: wb-modal-fade var(--wb-dur-base) var(--wb-ease-out);
+}
+@keyframes wb-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+@keyframes wb-modal-fade {
+  from {
+    opacity: 0;
+  }
 }

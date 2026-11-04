@@ -1,0 +1,176 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * The drawn Flow Bar (`DrawnBar.tsx`) at the real bar's proportions
+ * (Design W4, `src-tauri/src/fork/pill/geometry.rs` and `pill/pill.css`):
+ * rest 38 × 6, held 72 × 30, 15 px text, 11 bars 2 px wide and 2.5 px
+ * apart up to 18 px, the split "working" capsule with the spinner on a
+ * 40 px black end, and the white action pill (24 px, 14 px semibold).
+ * Black in both themes, like the bar it draws. Only transform and opacity
+ * animate.
+ */
+.wb-drawn-bar {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 30px;
+  min-width: 72px;
+  padding: 0;
+  border-radius: var(--wb-radius-full);
+  background: var(--wb-hud);
+  color: var(--wb-on-hud);
+  /* The native bar's NSShadow (0 / 2 / 8, 35 %). */
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.35);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    min-width var(--wb-dur-base) var(--wb-ease-out),
+    height var(--wb-dur-base) var(--wb-ease-out),
+    opacity var(--wb-dur-base) var(--wb-ease-out);
+}
+
+.wb-drawn-bar[data-bar="rest"] {
+  width: 38px;
+  min-width: 38px;
+  height: 6px;
+  /* The resting line is a touch translucent (native: 82 % black). */
+  opacity: 0.82;
+  box-shadow: none;
+}
+
+/* ---- Held: the waveform. ---- */
+.wb-drawn-wave {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 18px;
+}
+.wb-drawn-wave i {
+  display: block;
+  width: 2px;
+  height: 18px;
+  border-radius: 1px;
+  background: currentColor;
+  /* Before the voice comes in: a dotted line (2 px dots). */
+  transform: scaleY(0.111);
+  opacity: 0.55;
+  transition: opacity var(--wb-dur-fast) var(--wb-ease-out);
+}
+.wb-drawn-wave[data-active] i {
+  opacity: 1;
+  animation: wb-drawn-level 520ms ease-in-out infinite alternate;
+}
+.wb-drawn-bar[data-level="soft"] .wb-drawn-wave[data-active] i {
+  animation-name: wb-drawn-level-soft;
+  animation-duration: 900ms;
+}
+@keyframes wb-drawn-level {
+  from {
+    transform: scaleY(0.2);
+  }
+  to {
+    transform: scaleY(var(--env, 1));
+  }
+}
+@keyframes wb-drawn-level-soft {
+  from {
+    transform: scaleY(0.15);
+  }
+  to {
+    transform: scaleY(calc(var(--env, 1) * 0.42));
+  }
+}
+
+/* ---- Working: the split capsule. ---- */
+.wb-drawn-bar[data-bar="work"] {
+  overflow: hidden;
+  justify-content: stretch;
+  gap: 0;
+  align-items: stretch;
+}
+.wb-drawn-work-text {
+  display: flex;
+  align-items: center;
+  padding-inline: 16px 10px;
+  background: var(--wb-hud-2);
+  color: var(--wb-on-hud-2);
+}
+.wb-drawn-work-text:empty {
+  display: none;
+}
+.wb-drawn-work-spin {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+}
+.wb-drawn-spinner {
+  width: 16px;
+  height: 16px;
+  animation: wb-drawn-spin 0.9s steps(8) infinite;
+}
+.wb-drawn-spinner line {
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke: currentColor;
+}
+.wb-drawn-spinner line[data-spoke="a"] {
+  stroke: var(--wb-dark-accent);
+}
+@keyframes wb-drawn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Done: tick, text and the white action pill. ---- */
+.wb-drawn-bar[data-bar="done"] {
+  padding-inline: 14px 3px;
+}
+.wb-drawn-done-text {
+  margin-inline-end: 2px;
+}
+.wb-drawn-action,
+.wb-drawn-bar[data-bar="done"] button {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--wb-radius-full);
+  background: var(--wb-on-hud);
+  color: var(--wb-hud);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+.wb-drawn-bar[data-bar="done"] button {
+  cursor: pointer;
+  transition: opacity var(--wb-dur-fast) var(--wb-ease-out);
+}
+.wb-drawn-bar[data-bar="done"] button:hover {
+  opacity: 0.88;
+}
+.wb-drawn-bar button:focus-visible {
+  outline: 2px solid var(--wb-dark-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wb-drawn-bar,
+  .wb-drawn-wave i {
+    transition: none;
+  }
+  .wb-drawn-wave[data-active] i,
+  .wb-drawn-spinner {
+    animation: none;
+  }
+  .wb-drawn-wave[data-active] i {
+    transform: scaleY(calc(var(--env, 1) * 0.6));
+  }
+}

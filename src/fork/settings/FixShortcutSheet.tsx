@@ -51,7 +51,7 @@ function AccessibilityPicture() {
           <span className="size-2.5 rounded-full bg-(--wb-line-strong)" />
           <span className="size-2.5 rounded-full bg-(--wb-line-strong)" />
           <span className="size-2.5 rounded-full bg-(--wb-line-strong)" />
-          <span className="ms-3 flex items-center text-[11.5px] text-(--wb-ink-2)">
+          <span className="ms-3 flex items-center text-[12px] text-(--wb-ink-2)">
             <ChevronLeft size={12} />
             {t("shortcutHealth.sheet.pictureBack")}
           </span>
@@ -64,7 +64,7 @@ function AccessibilityPicture() {
             <span className="grid size-6 place-items-center rounded-[6px] bg-(--wb-ink) text-(--wb-panel)">
               <Mic size={14} />
             </span>
-            <span className="flex-1 text-[12.5px]">
+            <span className="flex-1 text-[13px]">
               {t("rust.window.mainTitle")}
             </span>
             <span className="relative inline-flex h-[18px] w-[32px] items-center rounded-full bg-(--wb-ink) outline-2 outline-offset-2 outline-(--wb-accent)">
@@ -154,7 +154,7 @@ export function FixShortcutSheet() {
           role="status"
           data-testid="wb-fix-status"
           data-state={key}
-          className="flex items-center gap-2 text-[13.5px] font-medium"
+          className="flex items-center gap-2 text-[14px] font-medium"
         >
           <StatusIcon
             size={16}
@@ -174,7 +174,7 @@ export function FixShortcutSheet() {
         )}
         <AccessibilityPicture />
         <section className="flex flex-col gap-2">
-          <h3 className="text-[13.5px] font-semibold">
+          <h3 className="text-[14px] font-semibold">
             {t("shortcutHealth.sheet.stepsTitle")}
           </h3>
           <ol className="flex list-decimal flex-col gap-1 ps-5 text-[13px] leading-5 text-(--wb-ink-2)">
@@ -197,7 +197,7 @@ export function FixShortcutSheet() {
           aria-labelledby={resetTitleId}
           className="flex flex-col gap-2 border-t border-(--wb-line) pt-4"
         >
-          <h3 id={resetTitleId} className="text-[13.5px] font-semibold">
+          <h3 id={resetTitleId} className="text-[14px] font-semibold">
             {t("shortcutHealth.sheet.resetTitle")}
           </h3>
           <p className="text-[13px] leading-5 text-(--wb-ink-2)">

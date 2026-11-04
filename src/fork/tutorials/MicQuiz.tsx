@@ -424,7 +424,7 @@ export function QuizResults() {
         </Button>
         <span
           aria-live="polite"
-          className="text-[12.5px] text-(--wb-ink-2)"
+          className="text-[13px] text-(--wb-ink-2)"
           data-testid="wb-quiz-copy-status"
         >
           {copied === "failed" ? t("lessons.whisper.results.copyFailed") : ""}

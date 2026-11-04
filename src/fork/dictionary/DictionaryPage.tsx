@@ -35,7 +35,7 @@ import {
 } from "../ui/icons";
 import { commands, type DictionaryEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { PageHeader } from "../hub/PageHeader";
+import { PageHeader } from "../ui/PageHeader";
 import { navigate, useHubNav } from "../hub/nav";
 import {
   Banner,

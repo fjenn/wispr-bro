@@ -11,7 +11,7 @@ import {
   type WordDiff,
 } from "../bindings";
 import { navigate, useHubNav } from "../hub/nav";
-import { PageHeader } from "../hub/PageHeader";
+import { PageHeader } from "../ui/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
 import { Banner, Button, KbdCombo, Select, Switch, Tag, Tooltip } from "../ui";

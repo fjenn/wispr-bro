@@ -416,7 +416,7 @@ export function MicLevelMeter({
         <span
           key={i}
           aria-hidden="true"
-          className={`w-3.5 rounded-full motion-safe:transition-[height,background-color] motion-safe:duration-75 ${
+          className={`w-3.5 rounded-full motion-safe:transition-[height,background-color] motion-safe:duration-(--wb-dur-instant) ${
             i < lit ? "bg-(--wb-accent-meter)" : "bg-(--wb-accent-meter-idle)"
           }`}
           style={{
@@ -492,7 +492,7 @@ export function MicLevelMeter({
             <span
               key={i}
               aria-hidden="true"
-              className={`w-1.5 rounded-sm motion-safe:transition-[height,background-color] motion-safe:duration-75 ${
+              className={`w-1.5 rounded-sm motion-safe:transition-[height,background-color] motion-safe:duration-(--wb-dur-instant) ${
                 i < lit ? "bg-(--wb-accent)" : "bg-(--wb-line-strong)"
               }`}
               style={{ height: `${heights[i].toFixed(1)}%` }}

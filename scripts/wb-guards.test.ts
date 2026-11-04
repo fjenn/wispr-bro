@@ -494,6 +494,34 @@ describe("icons guard", () => {
 });
 
 describe("tokens guard", () => {
+  test("a raw hex colour in fork code fails outside tokens.css", () => {
+    const root = fixture({
+      "src/fork/home/Page.tsx": `${SPDX}const c = "bg-[#1a1a1a] text-(--wb-ink)";\nconst id = "#add-word"; const r = "#/fork/debug";\n// a comment may say #fff\n`,
+      "src/fork/home/page.css": `${SPDX}/* white on #000 */\na { color: #FFF; background: var(--wb-surface); }\n`,
+      "src/fork/styles/tokens.css": `${SPDX}:root { --wb-ink: #1a1a1a; }\n`,
+      "src/fork/debug/Panel.tsx": `${SPDX}const c = "#4f46e5";\n`,
+      "src/fork/home/ok.ts": `${SPDX}const c = "#ffffff"; // wb-allow-colour: a canvas fallback\n`,
+      "src/components/Handy.tsx": `const c = "#123456";\n`,
+    });
+    const r = runTokens({ root });
+    expect(rules(r)).toEqual(["tokens/raw-colour", "tokens/raw-colour"]);
+    expect(r.violations.map((v) => `${v.file}:${v.line}`)).toEqual([
+      "src/fork/home/Page.tsx:2",
+      "src/fork/home/page.css:3",
+    ]);
+    write(
+      root,
+      "src/fork/home/Page.tsx",
+      `${SPDX}const c = "bg-(--wb-ink)";\n`,
+    );
+    write(
+      root,
+      "src/fork/home/page.css",
+      `${SPDX}a { color: var(--wb-on-hud); }\n`,
+    );
+    expectPass(runTokens({ root }));
+  });
+
   test("a v1 token name fails; v2 roles and longer names pass", () => {
     const root = fixture({
       "src/fork/home/Page.tsx": `${SPDX}const c = "bg-(--wb-card) rounded-(--wb-radius-card)";\n`,

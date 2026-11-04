@@ -405,7 +405,7 @@ export function DataPrivacy() {
       <dialog
         ref={deleteDialog}
         aria-labelledby="wb-delete-title"
-        className="wb-settings-dialog m-auto w-[min(480px,calc(100vw-32px))] max-w-none rounded-(--wb-radius-lg) border-0 bg-(--wb-surface) p-6 text-(--wb-ink) shadow-(--wb-elev-3)"
+        className="wb-settings-dialog wb-modal m-auto w-[min(480px,calc(100vw-32px))] max-w-none rounded-(--wb-radius-lg) border-0 bg-(--wb-surface) p-6 text-(--wb-ink) shadow-(--wb-elev-3)"
         data-testid="wb-delete-dialog"
         onCancel={(event) => {
           // React propagates cancel/close through the component tree: keep

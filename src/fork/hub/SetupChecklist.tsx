@@ -295,7 +295,7 @@ export function SetupChecklist() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-7! gap-1! px-1.5! text-[12.5px]! text-(--wb-ink)!"
+                      className="h-7! gap-1! px-1.5! text-[13px]! text-(--wb-ink)!"
                       onClick={() => run(item)}
                       aria-describedby={item.bodyKey ? bodyId : undefined}
                       trailing={
@@ -313,7 +313,7 @@ export function SetupChecklist() {
         </ol>
       ) : (
         <p
-          className="text-[12.5px] text-(--wb-ink-2)"
+          className="text-[13px] text-(--wb-ink-2)"
           data-testid="wb-checklist-all-done"
         >
           {t("checklist.allDone")}

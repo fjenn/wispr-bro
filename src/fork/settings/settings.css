@@ -14,27 +14,7 @@
 
 /* 1. Motion ------------------------------------------------------------ */
 
-.wb-settings-dialog[open] {
-  animation: wb-settings-in var(--wb-dur-slow) var(--wb-ease-out);
-}
-.wb-settings-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.29);
-  background: var(--wb-scrim, rgba(0, 0, 0, 0.29));
-}
-.wb-settings-dialog[open]::backdrop {
-  animation: wb-settings-fade var(--wb-dur-base) var(--wb-ease-out);
-}
-@keyframes wb-settings-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.97);
-  }
-}
-@keyframes wb-settings-fade {
-  from {
-    opacity: 0;
-  }
-}
+/* The modal's spring-in and scrim: the shared `.wb-modal` in tokens.css. */
 .wb-settings-section {
   animation: wb-settings-section var(--wb-dur-base) var(--wb-ease-out);
 }
@@ -108,7 +88,7 @@
 }
 .wb-handy label > input.peer[type="checkbox"] + div::after {
   border: 0;
-  background: #ffffff;
+  background: var(--wb-light-surface);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   transition: translate var(--wb-dur-base) var(--wb-ease-out);
 }

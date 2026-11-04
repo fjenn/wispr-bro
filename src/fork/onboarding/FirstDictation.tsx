@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, StatNumber, useMotionPresets } from "../ui";
+import { DUR, EASE } from "../ui/motion";
 import { ArtSlot, CentredLayout, Title } from "./Layout";
 import { DEFAULT_TYPING_WPM, SPEAKING_WPM } from "./typing";
 
@@ -62,7 +63,12 @@ export function FirstDictation({
       useWorker: false,
       disableForReducedMotion: true,
     });
-    const colors = ["#f3f0ea", "#c3a0ee", "#f1dca6", "#8fd1b4", "#f2a28f"];
+    // The palette lives in tokens.css (`--wb-confetti`, comma-separated).
+    const colors = getComputedStyle(el)
+      .getPropertyValue("--wb-confetti")
+      .split(",")
+      .map((c) => c.trim())
+      .filter(Boolean);
     const fire = window.setTimeout(() => {
       void burst({
         particleCount: preview ? 40 : 110,
@@ -114,7 +120,7 @@ export function FirstDictation({
           opacity: 1,
           transition: m.reduced
             ? { duration: 0 }
-            : { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: stages[1] },
+            : { duration: DUR.grow, ease: EASE.out, delay: stages[1] },
         }}
       >
         {t("onboardingFlow.typing.wpm", { count: wpm })}
@@ -158,7 +164,8 @@ export function FirstDictation({
         <div className="relative flex flex-col gap-5">
           <motion.p
             {...at(1)}
-            className="type-heading-xl m-0 max-w-[340px] text-(--wb-ink)"
+            className="type-heading-xl m-0 max-w-[min(340px,calc(100%-88px))] text-balance text-(--wb-ink)"
+            data-testid="wb-first-dictation-lead"
           >
             {t("onboardingFlow.firstDictation.lead")}
           </motion.p>
@@ -177,11 +184,14 @@ export function FirstDictation({
             "wb-first-dictation-speaking",
           )}
           {/* W7's hand-drawn arrow (`stickers/arrow.svg`: shaft, then
-              head), drawn here so `pathLength` can animate it. */}
+              head), drawn here so `pathLength` can animate it. It reaches
+              80 px into this column; the lead keeps 88 px clear of it
+              (mirrored in RTL, where longer leads used to run under it). */}
           <svg
             aria-hidden="true"
             viewBox="0 0 220 140"
-            className="pointer-events-none absolute -end-20 -top-4 w-48 text-(--wb-accent) rtl:-scale-x-100"
+            className="pointer-events-none absolute -end-24 -top-2 w-44 text-(--wb-accent) rtl:-scale-x-100"
+            data-testid="wb-first-dictation-arrow"
             fill="none"
           >
             <motion.path
@@ -211,7 +221,7 @@ export function FirstDictation({
                 opacity: 1,
                 transition: m.reduced
                   ? { duration: 0 }
-                  : { duration: 0.2, delay: stages[2] + 0.7 },
+                  : { duration: DUR.base, delay: stages[2] + DUR.draw },
               }}
             />
           </svg>

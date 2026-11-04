@@ -323,7 +323,7 @@ export function HistoryList() {
     body = (
       <p
         data-testid="wb-history-loading"
-        className="px-3 py-8 text-center text-[13.5px] text-(--wb-ink-2)"
+        className="px-3 py-8 text-center text-[14px] text-(--wb-ink-2)"
       >
         {t("history.loading")}
       </p>
@@ -332,7 +332,7 @@ export function HistoryList() {
     body = (
       <div data-testid="wb-history-unavailable" role="status">
         <EmptyState
-          art={<ForkArt name="empty-unavailable" width={96} />}
+          art={<ForkArt name="empty-unavailable" width={160} />}
           title={t("history.unavailable")}
           body=""
           compact
@@ -343,7 +343,7 @@ export function HistoryList() {
     body = query ? (
       <EmptyState
         testId="wb-history-no-results"
-        art={<ForkArt name="empty-search" width={96} />}
+        art={<ForkArt name="empty-search" width={160} />}
         icon={SearchX}
         title={t("history.noResults.title")}
         body={t("history.noResults.body", { query })}
@@ -414,7 +414,7 @@ export function HistoryList() {
           })}
         </div>
         {loadingMore && (
-          <p className="py-3 text-center text-[12.5px] text-(--wb-ink-3)">
+          <p className="py-3 text-center text-[13px] text-(--wb-ink-3)">
             {t("history.loadingMore")}
           </p>
         )}
@@ -454,7 +454,7 @@ export function HistoryList() {
         <p
           role="status"
           data-testid="wb-history-results"
-          className="px-1 text-[12.5px] text-(--wb-ink-2)"
+          className="px-1 text-[13px] text-(--wb-ink-2)"
         >
           {next !== null
             ? t("history.resultsMore", { count: rows.length })

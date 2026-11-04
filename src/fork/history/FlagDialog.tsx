@@ -252,8 +252,8 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
         className="mt-0.5 accent-(--wb-accent)"
       />
       <span className="flex flex-col">
-        <span className="text-[13.5px] font-medium">{label}</span>
-        <span className="text-[12.5px] text-(--wb-ink-2)">{hint}</span>
+        <span className="text-[14px] font-medium">{label}</span>
+        <span className="text-[13px] text-(--wb-ink-2)">{hint}</span>
       </span>
     </label>
   );
@@ -315,7 +315,7 @@ export function FlagDialog({ row, onOpenChange, onFlagged }: FlagDialogProps) {
                   aria-pressed={picked}
                   data-testid="wb-flag-word"
                   onClick={() => choose(i)}
-                  className={`cursor-pointer rounded-[6px] px-1.5 py-0.5 text-[14px] ${picked ? "bg-(--wb-ink) text-(--wb-on-ink)" : "text-(--wb-ink) hover:bg-(--wb-fill-hover)"} ${FOCUS_RING}`}
+                  className={`cursor-pointer rounded-(--wb-radius-xs) px-1.5 py-0.5 text-[14px] ${picked ? "bg-(--wb-ink) text-(--wb-on-ink)" : "text-(--wb-ink) hover:bg-(--wb-fill-hover)"} ${FOCUS_RING}`}
                 >
                   {w.text}
                 </button>

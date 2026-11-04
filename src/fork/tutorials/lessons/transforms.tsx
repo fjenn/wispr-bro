@@ -27,6 +27,8 @@ import { navigate } from "../../hub/nav";
 import { FORK_NAMESPACE } from "../../i18n";
 import { chordLabel } from "../../settings/hotkeys/model";
 import { useForkSettingsStore } from "../../settings/store";
+import { DrawnBar } from "../../onboarding/scenes/DrawnBar";
+import "../../onboarding/scenes/scenes.css";
 import { DiffWords } from "../../transforms/DiffCard";
 import { Button } from "../../ui";
 import { useMotionPresets } from "../../ui/motion";
@@ -242,7 +244,7 @@ function Scene({ chapter }: { chapter: Chapter }) {
           <h4>{t("transforms.diff.changes", { count: changeCount(ops) })}</h4>
           <DiffWords ops={ops} />
         </div>
-        <DrawnBar state={bar} />
+        <LessonBar state={bar} />
       </div>
       {!still && (
         <PauseButton
@@ -261,7 +263,7 @@ function Scene({ chapter }: { chapter: Chapter }) {
 
 /* ---------- The drawn bar ---------- */
 
-function DrawnBar({
+function LessonBar({
   state,
   spot = false,
   onView,
@@ -273,9 +275,11 @@ function DrawnBar({
   viewRef?: React.Ref<HTMLButtonElement>;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
+  const view = t("lessons.transforms.practice.bar.view");
   return (
-    <div
+    <DrawnBar
       className="wb-lesson-bar"
+      state={state === "idle" ? "rest" : state === "working" ? "work" : "done"}
       data-state={state}
       data-spot={spot || undefined}
       data-testid="wb-lesson-bar"
@@ -284,34 +288,28 @@ function DrawnBar({
         onView ? t("lessons.transforms.practice.barLabel") : undefined
       }
       aria-hidden={onView ? undefined : true}
-    >
-      {state === "working" && (
-        <>
-          <span className="wb-lesson-spin" aria-hidden="true" />
-          <span>{t("lessons.transforms.practice.working")}</span>
-        </>
-      )}
-      {state === "done" && (
-        <>
-          <Check size={14} aria-hidden="true" />
-          <span>{t("lessons.transforms.practice.bar.done")}</span>
-          {onView ? (
-            <button
-              ref={viewRef}
-              type="button"
-              onClick={onView}
-              data-testid="wb-lesson-view-changes"
-            >
-              {t("lessons.transforms.practice.bar.view")}
-            </button>
-          ) : (
-            <span className="wb-lesson-bar-action">
-              {t("lessons.transforms.practice.bar.view")}
-            </span>
-          )}
-        </>
-      )}
-    </div>
+      text={
+        state === "working"
+          ? t("lessons.transforms.practice.working")
+          : state === "done"
+            ? t("lessons.transforms.practice.bar.done")
+            : undefined
+      }
+      action={
+        onView ? (
+          <button
+            ref={viewRef}
+            type="button"
+            onClick={onView}
+            data-testid="wb-lesson-view-changes"
+          >
+            {view}
+          </button>
+        ) : (
+          <span className="wb-drawn-action">{view}</span>
+        )
+      }
+    />
   );
 }
 
@@ -481,7 +479,7 @@ function Practice({ ctx }: { ctx: LessonStepContext }) {
             data-testid="wb-lesson-spotlight"
           />
         )}
-        <DrawnBar
+        <LessonBar
           state={
             phase === "working" ? "working" : phase === "done" ? "done" : "idle"
           }

@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { Check, Copy, Share } from "../ui/icons";
 import { commands } from "../bindings";
 import { BREW_CASK_PUBLISHED, BREW_COMMAND, DOWNLOAD_URL } from "../hub/links";
-import { PageHeader } from "../hub/PageHeader";
+import { PageHeader } from "../ui/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 import { ForkArt } from "@/assets/fork/art";
