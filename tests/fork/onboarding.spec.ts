@@ -317,15 +317,21 @@ test.describe("S-29a onboarding", () => {
     await expectStep(page, "shortcut_test");
   });
 
-  test("Edit shortcut opens the hotkeys panel", async ({ page, ipc }) => {
+  test("Edit shortcut changes only the dictation key", async ({
+    page,
+    ipc,
+  }) => {
     await openOnboarding(page, ipc, { step: "shortcut_test" });
     await page.getByTestId("wb-edit-shortcut").click();
-    await expect(page.getByTestId("wb-onboarding-hotkeys-modal")).toBeVisible();
-    await expect(page.getByTestId("wb-hotkeys-panel")).toBeVisible();
-    await page.getByTestId("wb-hotkeys-done").click();
-    await expect(page.getByTestId("wb-onboarding-hotkeys-modal")).toHaveCount(
-      0,
+    const dialog = page.getByTestId("wb-onboarding-key-dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText("Press the key or keys you want");
+    await expect(dialog).toContainText(
+      "Hold to talk. Double-tap for hands-free.",
     );
+    await expect(page.getByTestId("wb-hotkeys-panel")).toHaveCount(0);
+    await page.getByTestId("wb-dictation-key-cancel").click();
+    await expect(dialog).toHaveCount(0);
     // Closing renews the test with the (maybe new) binding.
     expect(
       (await ipc.calls("fork_onboarding_key_test")).length,

@@ -192,9 +192,6 @@
     },
     "general": {
       "shortcuts": "Kortkommandon",
-      "shortcutTitle": "Kortkommando för diktering",
-      "shortcutHint": "Välj hur du startar diktering och hantera alla tangentbordsåtgärder.",
-      "holdToTalk": "Håll ned {{shortcut}} för att prata",
       "change": "Ändra",
       "microphone": "Mikrofon",
       "languages": "Mina språk",
@@ -449,6 +446,14 @@
         "title": "Stäng av Apples diktering vid fn två gånger",
         "description": "Ett dubbeltryck startar inte också Apples diktering.",
         "active": "Apples diktering startar fortfarande vid fn två gånger. Ställ in kortkommandot för diktering på Av i tangentbordsinställningarna."
+      },
+      "key": {
+        "title": "Dikteringstangent",
+        "hint": "Håll ned för att prata. Tryck två gånger för handsfree.",
+        "prompt": "Tryck på den eller de tangenter du vill använda",
+        "save": "Spara",
+        "invalid": "Använd fn, eller två modifierartangenter samtidigt, till exempel ⌃ ⌥.",
+        "more": "Fler kortkommandon"
       }
     },
     "resetSetting": "Återställ {{setting}}",

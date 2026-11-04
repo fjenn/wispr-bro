@@ -3,7 +3,7 @@
  * Test your shortcut (S-29a). While this screen is open the backend runs
  * the shortcut test (`fork_onboarding_key_test`): pressing the dictation
  * trigger lights the on-screen key and starts no take. "Edit shortcut"
- * opens the hotkeys panel (S-14). "No" picks the likely cause from the
+ * opens the dictation key capture. "No" picks the likely cause from the
  * engine's state and offers the rest:
  *
  * - `tap`: the key listener is not running (Accessibility not granted, or
@@ -29,7 +29,7 @@ import { commands, events, type HotkeyStatus } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";
 import { CentredLayout, TestCard } from "./Layout";
-import { HotkeysDialog } from "./HotkeysDialog";
+import { DictationKeyDialog } from "./DictationKeyDialog";
 import {
   AppleDictationWarning,
   useRecheckOnFocus,
@@ -455,7 +455,7 @@ export function ShortcutTest({
         </section>
       )}
 
-      <HotkeysDialog
+      <DictationKeyDialog
         open={editorOpen}
         onClose={() => {
           setEditorOpen(false);

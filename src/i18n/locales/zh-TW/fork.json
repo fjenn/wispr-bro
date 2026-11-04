@@ -191,9 +191,6 @@
     },
     "general": {
       "shortcuts": "快速鍵",
-      "shortcutTitle": "聽寫快速鍵",
-      "shortcutHint": "選擇開始聽寫的方式，並管理所有鍵盤操作。",
-      "holdToTalk": "按住 {{shortcut}} 說話",
       "change": "更改",
       "microphone": "麥克風",
       "languages": "我的語言",
@@ -447,6 +444,14 @@
         "title": "關閉按兩下 fn 啟動的 Apple 聽寫",
         "description": "按兩下時不會同時啟動 Apple 聽寫。",
         "active": "按兩下 fn 仍會啟動 Apple 聽寫。請在鍵盤設定中將聽寫快速鍵設為「關閉」。"
+      },
+      "key": {
+        "title": "聽寫鍵",
+        "hint": "按住說話。按兩下即可免持聽寫。",
+        "prompt": "請按下你想用的按鍵",
+        "save": "儲存",
+        "invalid": "請使用 fn，或同時使用兩個修飾鍵，例如 ⌃ ⌥。",
+        "more": "更多快速鍵"
       }
     },
     "resetSetting": "重置「{{setting}}」",

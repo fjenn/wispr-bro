@@ -131,8 +131,12 @@ test("lists every action with its defaults and unset states", async ({
   ipc,
 }) => {
   await openHotkeys(page, ipc);
+  await expect(page.getByTestId("wb-dictation-key-current")).toContainText(
+    "Shortcut: fn",
+  );
+  // The dictation key is one row; the rest sits under "More shortcuts".
+  await expect(page.getByTestId("wb-hotkey-action-dictate")).toHaveCount(0);
   for (const id of [
-    "dictate",
     "hands_free",
     "cancel",
     "paste_last",
@@ -142,7 +146,6 @@ test("lists every action with its defaults and unset states", async ({
   ]) {
     await expect(page.getByTestId(`wb-hotkey-action-${id}`)).toBeVisible();
   }
-  await expect(page.getByTestId("wb-hotkey-dictate-0-chord")).toHaveText("fn");
   await expect(page.getByTestId("wb-hotkey-hands_free-1-chord")).toHaveText(
     "fn Space",
   );
@@ -261,8 +264,13 @@ test("Reset restores every default, including unset recovery actions", async ({
     dictate: [{ chord: "ctrl+option", activation: "hold" }],
     press_enter: [{ chord: "mousex1", activation: "press" }],
   });
+  await expect(page.getByTestId("wb-dictation-key-current")).toContainText(
+    "Shortcut: ⌃ ⌥",
+  );
   await page.getByTestId("wb-hotkeys-reset").click();
-  await expect(page.getByTestId("wb-hotkey-dictate-0-chord")).toHaveText("fn");
+  await expect(page.getByTestId("wb-dictation-key-current")).toContainText(
+    "Shortcut: fn",
+  );
   await expect(page.getByTestId("wb-hotkey-action-press_enter")).toContainText(
     "Not set",
   );
@@ -313,10 +321,10 @@ test("each action offers only as many shortcuts as it takes", async ({
   await expect(page.getByTestId("wb-hotkeys-panel")).toContainText(
     "Most actions take up to 4 shortcuts. Hold to talk, cancel and Command Mode take one each, hands-free two.",
   );
-  for (const id of ["dictate", "hands_free", "cancel"]) {
+  for (const id of ["hands_free", "cancel"]) {
     await expect(page.getByTestId(`wb-hotkey-${id}-add`)).toBeDisabled();
   }
-  await expect(page.getByTestId("wb-hotkey-dictate-add")).toHaveAttribute(
+  await expect(page.getByTestId("wb-hotkey-cancel-add")).toHaveAttribute(
     "title",
     "This action takes 1 shortcut.",
   );
@@ -389,7 +397,121 @@ for (const theme of ["light", "dark"] as const) {
     await page.evaluate(() => {
       document.documentElement.dir = "rtl";
     });
-    await expect(page.getByTestId("wb-hotkey-dictate-add")).toBeDisabled();
+    await expect(page.getByTestId("wb-hotkey-cancel-add")).toBeDisabled();
+    await expectNoSeriousAxeFindings(page);
+  });
+}
+
+// Owner test: changing the dictation key is one step, not the whole list.
+test("the dictation key changes in one step and moves hands-free with it", async ({
+  page,
+  ipc,
+}) => {
+  await openHotkeys(page, ipc);
+  await page.getByTestId("wb-dictation-key-change").click();
+  const capture = page.getByTestId("wb-dictation-key-capture");
+  await expect(capture).toContainText("Press the key or keys you want");
+  await expect(page.getByTestId("wb-dictation-key")).toContainText(
+    "Hold to talk. Double-tap for hands-free.",
+  );
+  await expect(page.getByTestId("wb-dictation-key-cancel")).toBeFocused();
+  await expect(page.getByTestId("wb-dictation-key-save")).toBeDisabled();
+  // Live caps while the keys are down.
+  await ipc.waitForListener("handy-keys-event");
+  await ipc.emit("handy-keys-event", {
+    modifiers: ["ctrl", "option"],
+    key: null,
+    is_key_down: true,
+    hotkey_string: "ctrl+option",
+  });
+  await expect(page.getByTestId("wb-dictation-key-field")).toHaveAttribute(
+    "data-live",
+    "ctrl+option",
+  );
+  await expect(page.getByTestId("wb-dictation-key-field")).toHaveText("⌃ ⌥");
+  await ipc.emit("handy-keys-event", {
+    modifiers: [],
+    key: null,
+    is_key_down: false,
+    hotkey_string: "",
+  });
+  await expect(page.getByTestId("wb-dictation-key-save")).toBeEnabled();
+  await page.getByTestId("wb-dictation-key-save").click();
+  await expect(capture).toHaveCount(0);
+  const saved = (await ipc.calls("fork_set_setting")).map(
+    (call) => (call.args as { update: { value: unknown } }).update.value,
+  );
+  expect(saved).toEqual([
+    {
+      action: "dictate",
+      bindings: [{ chord: "ctrl+option", activation: "hold" }],
+    },
+    {
+      action: "hands_free",
+      bindings: [
+        { chord: "ctrl+option", activation: "double_tap" },
+        { chord: "ctrl+option+space", activation: "press" },
+      ],
+    },
+  ]);
+  await expect(page.getByTestId("wb-dictation-key-current")).toContainText(
+    "Shortcut: ⌃ ⌥",
+  );
+});
+
+test("a key that can't be the dictation key says why, inline", async ({
+  page,
+  ipc,
+}) => {
+  await openHotkeys(page, ipc, {
+    paste_last: [{ chord: "ctrl+option", activation: "press" }],
+  });
+  await page.getByTestId("wb-dictation-key-change").click();
+  await press(ipc, ["option"], null, "option");
+  await expect(page.getByTestId("wb-dictation-key-problem")).toHaveText(
+    "Use fn, or two modifier keys together, such as ⌃ ⌥.",
+  );
+  await expect(page.getByTestId("wb-dictation-key-save")).toBeDisabled();
+  await press(ipc, ["ctrl", "option"], null, "ctrl+option");
+  await expect(page.getByTestId("wb-dictation-key-problem")).toContainText(
+    "Also used by Paste last dictation",
+  );
+  await expect(page.getByTestId("wb-dictation-key-save")).toBeDisabled();
+  await press(ipc, ["fn"], null, "fn");
+  await expect(page.getByTestId("wb-dictation-key-problem")).toHaveCount(0);
+  await expect(page.getByTestId("wb-dictation-key-save")).toBeEnabled();
+});
+
+test("Escape cancels the dictation key capture and saves nothing", async ({
+  page,
+  ipc,
+}) => {
+  await openHotkeys(page, ipc);
+  // Keyboard only: Tab to Change, Enter starts the capture.
+  await page.getByTestId("wb-dictation-key-change").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("wb-dictation-key-cancel")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("wb-dictation-key-capture")).toHaveCount(0);
+  await expect(page.getByTestId("wb-hotkeys-panel")).toBeVisible();
+  expect(await ipc.calls("fork_set_setting")).toHaveLength(0);
+  expect(await ipc.calls("stop_handy_keys_recording")).not.toHaveLength(0);
+});
+
+for (const theme of ["light", "dark"] as const) {
+  test(`the dictation key capture passes axe in ${theme} and RTL`, async ({
+    page,
+    ipc,
+  }) => {
+    await page.emulateMedia({ colorScheme: theme });
+    await openHotkeys(page, ipc);
+    await page.getByTestId("wb-dictation-key-change").click();
+    await press(ipc, ["option"], null, "option");
+    await expect(page.getByTestId("wb-dictation-key-problem")).toBeVisible();
+    await expectNoSeriousAxeFindings(page);
+    await page.evaluate(() => {
+      document.documentElement.dir = "rtl";
+    });
     await expectNoSeriousAxeFindings(page);
   });
 }

@@ -191,9 +191,6 @@
     },
     "general": {
       "shortcuts": "Phím tắt",
-      "shortcutTitle": "Phím tắt đọc chính tả",
-      "shortcutHint": "Chọn cách bạn bắt đầu đọc chính tả và quản lý mọi thao tác bàn phím.",
-      "holdToTalk": "Giữ {{shortcut}} để nói",
       "change": "Thay đổi",
       "microphone": "Micrô",
       "languages": "Ngôn ngữ của tôi",
@@ -447,6 +444,14 @@
         "title": "Tắt Đọc chính tả của Apple khi nhấn fn hai lần",
         "description": "Nhấn đúp sẽ không khởi động thêm Đọc chính tả của Apple.",
         "active": "Đọc chính tả của Apple vẫn bắt đầu khi nhấn fn hai lần. Trong cài đặt Bàn phím, đặt phím tắt Đọc chính tả thành Tắt."
+      },
+      "key": {
+        "title": "Phím đọc chính tả",
+        "hint": "Giữ để nói. Nhấn hai lần để đọc chính tả rảnh tay.",
+        "prompt": "Nhấn phím hoặc các phím bạn muốn",
+        "save": "Lưu",
+        "invalid": "Dùng fn, hoặc hai phím bổ trợ cùng lúc, như ⌃ ⌥.",
+        "more": "Thêm phím tắt"
       }
     },
     "resetSetting": "Đặt lại {{setting}}",

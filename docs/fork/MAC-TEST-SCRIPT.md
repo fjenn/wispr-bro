@@ -3154,3 +3154,8 @@ test profile (never the owner's data dir); network on.
 - **OT2-H.1** Fresh test profile, Transforms on: Polish works with no second download; creating a custom transform starts it and the Transforms page shows "Getting transforms ready: one-time download, N%" and the Qwen3.5-2B file lands in the profile's HF cache; ⌥1 before it finishes shows "Transforms are getting ready" (or runs on Apple's model when Apple Intelligence is on).
 - **OT2-H.2** Offline (network off) on a fresh profile: "Couldn't download what transforms need" with Try again; back online, Try again finishes the download.
 - **OT2-H.3** With the model ready: a custom "Make it more formal" + Shorter on a TextEdit selection is rewritten (⌘Z restores); Command Mode "make this friendlier" on a selection; `ps` shows a second `llama-server` from `llm-instruct` that stops after 120 s idle.
+
+## KEY: the dictation key in one step (`fix/keys`, queued for the Mac wave)
+
+- **KEY.1** Debug test identity, Settings › General: Change on "Dictation key", hold ⌃ and ⌥: the caps light while held; release, Save. Holding ⌃⌥ starts a take, a double-tap starts hands-free, ⌃⌥Space toggles hands-free; fn no longer starts one. Change back to fn the same way.
+- **KEY.2** Onboarding's shortcut test: Edit shortcut shows only the key capture; press ⌥ alone: the inline "Use fn, or two modifier keys…" line, Save off; Esc closes the dialog and the test runs again with the current key.

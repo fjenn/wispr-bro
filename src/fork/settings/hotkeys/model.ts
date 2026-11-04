@@ -153,3 +153,76 @@ export function chordLabel(chord: string): string {
     )
     .join(" ");
 }
+
+/**
+ * The dictation key (owner test: "this was just about one key"). The engine
+ * runs hold-to-talk, hands-free double-tap and key+Space on one trigger
+ * (`Trigger::from_hotkey` in `src-tauri/src/fork/shortcut/decision.rs`):
+ * fn alone, or two or more modifier groups without fn. Returns the chord
+ * normalized the way `normalize` in `bindings.rs` writes it, or null when the
+ * keys cannot be a trigger.
+ */
+export function triggerChord(chord: string): string | null {
+  const groups = new Set<string>();
+  for (const raw of chord.toLowerCase().split("+").filter(Boolean)) {
+    const part = raw.replace(/^(left|right)[_ ]?|[_ ]?(left|right)$/g, "");
+    if (part === "fn") groups.add("fn");
+    else if (part === "ctrl" || part === "control") groups.add("ctrl");
+    else if (part === "option" || part === "opt" || part === "alt")
+      groups.add("option");
+    else if (part === "shift") groups.add("shift");
+    else if (["command", "cmd", "super", "meta"].includes(part))
+      groups.add("command");
+    else return null;
+  }
+  if (groups.has("fn")) return groups.size === 1 ? "fn" : null;
+  if (groups.size < 2) return null;
+  return ["ctrl", "option", "shift", "command"]
+    .filter((group) => groups.has(group))
+    .join("+");
+}
+
+/**
+ * The bindings that move with the dictation key: hold to talk, the
+ * hands-free double-tap and key+Space. Other hands-free bindings stay.
+ */
+export function dictationKeyBindings(
+  hotkeys: ForkSettings["hotkeys"],
+  key: string,
+): { dictate: HotkeyBinding[]; hands_free: HotkeyBinding[] } {
+  const previous =
+    hotkeys.dictate?.find((binding) => binding.activation === "hold")?.chord ??
+    "fn";
+  const handsFree = hotkeys.hands_free ?? [];
+  const rest = handsFree.filter(
+    (binding) =>
+      binding.activation !== "double_tap" &&
+      binding.chord !== `${previous}+space`,
+  );
+  return {
+    dictate: [{ chord: key, activation: "hold" }],
+    hands_free: (
+      [
+        { chord: key, activation: "double_tap" },
+        { chord: `${key}+space`, activation: "press" },
+        ...rest,
+      ] satisfies HotkeyBinding[]
+    ).slice(0, maxBindings("hands_free")),
+  };
+}
+
+/** The other action already using `key` or `key`+Space, if any. */
+export function dictationKeyConflict(
+  hotkeys: ForkSettings["hotkeys"],
+  key: string,
+): string | null {
+  const taken = new Set([key, `${key}+space`]);
+  for (const [action, bindings] of Object.entries(hotkeys)) {
+    if (action === "dictate" || action === "hands_free") continue;
+    const clash = (bindings ?? []).some((binding) =>
+      taken.has(triggerChord(binding.chord) ?? binding.chord),
+    );
+    if (clash) return action;
+  }
+  return null;
+}

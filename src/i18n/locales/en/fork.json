@@ -192,9 +192,6 @@
     },
     "general": {
       "shortcuts": "Shortcuts",
-      "shortcutTitle": "Dictation shortcut",
-      "shortcutHint": "Choose how you start dictation and manage every keyboard action.",
-      "holdToTalk": "Hold {{shortcut}} to talk",
       "change": "Change",
       "microphone": "Microphone",
       "languages": "My languages",
@@ -441,6 +438,14 @@
         "title": "Turn off Apple Dictation on fn twice",
         "description": "Stops a double tap from also starting Apple's Dictation.",
         "active": "Apple's Dictation still starts on fn twice. In Keyboard settings, set the Dictation shortcut to Off."
+      },
+      "key": {
+        "title": "Dictation key",
+        "hint": "Hold to talk. Double-tap for hands-free.",
+        "prompt": "Press the key or keys you want",
+        "save": "Save",
+        "invalid": "Use fn, or two modifier keys together, such as ⌃ ⌥.",
+        "more": "More shortcuts"
       }
     },
     "resetSetting": "Reset {{setting}}",

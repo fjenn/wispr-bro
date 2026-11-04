@@ -193,9 +193,6 @@
     },
     "general": {
       "shortcuts": "Funciones rápidas",
-      "shortcutTitle": "Función rápida de dictado",
-      "shortcutHint": "Elige cómo empiezas a dictar y gestiona todas las acciones de teclado.",
-      "holdToTalk": "Mantén {{shortcut}} para hablar",
       "change": "Cambiar",
       "microphone": "Micrófono",
       "languages": "Mis idiomas",
@@ -451,6 +448,14 @@
         "title": "Desactivar el Dictado de Apple con fn dos veces",
         "description": "Evita que un doble toque también inicie el Dictado de Apple.",
         "active": "El Dictado de Apple todavía se inicia con fn dos veces. En los ajustes de Teclado, pon la función rápida de Dictado en «No»."
+      },
+      "key": {
+        "title": "Tecla de dictado",
+        "hint": "Mantén pulsada para hablar. Pulsa dos veces para dictar con manos libres.",
+        "prompt": "Pulsa la tecla o las teclas que quieras",
+        "save": "Guardar",
+        "invalid": "Usa fn, o dos teclas modificadoras a la vez, como ⌃ ⌥.",
+        "more": "Más funciones rápidas"
       }
     },
     "resetSetting": "Restablecer {{setting}}",

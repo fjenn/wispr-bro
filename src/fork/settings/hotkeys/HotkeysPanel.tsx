@@ -13,6 +13,7 @@ import { Plus } from "../../ui/icons";
 import { useForkSettings } from "../useForkSettings";
 import { AppleDictationRow, useRecheckOnFocus } from "./AppleDictation";
 import { BindingRow } from "./BindingRow";
+import { DictationKeyRow } from "./DictationKey";
 import {
   actionDefinition,
   actionIds,
@@ -105,6 +106,8 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
   }
 
   const ids = actionIds(settings.hotkeys);
+  // The dictation key has its own row above; the rest is "More shortcuts".
+  const more = ids.filter((id) => id !== "dictate");
   const reset = async () => {
     setBusy(true);
     setError(null);
@@ -125,7 +128,11 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
   const busyCapture = capture !== null || busy;
   return (
     <div className="flex flex-col gap-6" data-testid="wb-hotkeys-panel">
+      <DictationKeyRow actionName={actionName} />
       <div className="flex flex-col gap-1">
+        <h3 className="type-micro text-(--wb-ink-3)" id="wb-more-shortcuts">
+          {t("settingsModal.hotkeys.key.more")}
+        </h3>
         <p className="type-body text-(--wb-ink-2)">
           {t("settingsModal.hotkeys.descriptionLimits", {
             max: MAX_BINDINGS,
@@ -137,7 +144,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
       </div>
       <AppleDictationRow status={status} onChanged={recheck} />
       <div className="flex flex-col gap-3">
-        {ids.map((id) => {
+        {more.map((id) => {
           const definition = actionDefinition(id);
           const bindings = settings.hotkeys[id] ?? [];
           const activations: HotkeyActivation[] =

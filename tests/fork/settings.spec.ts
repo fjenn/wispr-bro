@@ -99,7 +99,12 @@ test("General opens as a modal and Change reaches the one hotkeys panel", async 
   await expect(page.getByText("My languages", { exact: true })).toBeVisible();
   await expect(page.getByText("App language and theme")).toBeVisible();
   await expect(page.getByTestId("wb-settings-advanced")).toHaveCount(0);
-  await page.getByTestId("wb-shortcuts-change").click();
+  // Change edits the one key in place; More shortcuts opens the panel.
+  await page.getByTestId("wb-dictation-key-change").click();
+  await expect(page.getByTestId("wb-dictation-key-capture")).toBeVisible();
+  await page.getByTestId("wb-dictation-key-cancel").click();
+  await expect(page.getByTestId("wb-dictation-key-capture")).toHaveCount(0);
+  await page.getByTestId("wb-more-shortcuts").click();
   await expect(page.getByTestId("wb-hotkeys-panel")).toBeVisible();
   await expect(page).toHaveURL(/#\/hub\/settings\/hotkeys$/);
   await page.getByTestId("wb-hotkeys-done").click();
@@ -166,9 +171,9 @@ test("the nav groups sections under micro labels with the version below", async 
   await expect(page.getByTestId("wb-settings-intro")).toHaveText(
     "Your shortcut, microphone, languages and how the app looks.",
   );
-  // The shortcut summary draws the key as a cap and still reads as text.
-  await expect(page.getByTestId("wb-shortcut-summary")).toHaveText(
-    "Hold fn to talk",
+  // The dictation key draws the key as a cap and still reads as text.
+  await expect(page.getByTestId("wb-dictation-key-current")).toContainText(
+    "Shortcut: fn",
   );
 });
 

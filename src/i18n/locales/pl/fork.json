@@ -194,9 +194,6 @@
     },
     "general": {
       "shortcuts": "Skróty",
-      "shortcutTitle": "Skrót dyktowania",
-      "shortcutHint": "Wybierz, jak rozpoczynasz dyktowanie, i zarządzaj wszystkimi akcjami klawiatury.",
-      "holdToTalk": "Przytrzymaj {{shortcut}}, aby mówić",
       "change": "Zmień",
       "microphone": "Mikrofon",
       "languages": "Moje języki",
@@ -453,6 +450,14 @@
         "title": "Wyłącz Dyktowanie Apple po dwukrotnym fn",
         "description": "Podwójne naciśnięcie nie uruchomi już także Dyktowania Apple.",
         "active": "Dyktowanie Apple nadal uruchamia się po dwukrotnym naciśnięciu fn. W ustawieniach Klawiatury ustaw skrót Dyktowania na Wył."
+      },
+      "key": {
+        "title": "Klawisz dyktowania",
+        "hint": "Przytrzymaj, aby mówić. Stuknij dwa razy, aby dyktować bez trzymania.",
+        "prompt": "Naciśnij wybrany klawisz lub klawisze",
+        "save": "Zachowaj",
+        "invalid": "Użyj fn albo dwóch klawiszy modyfikujących naraz, np. ⌃ ⌥.",
+        "more": "Więcej skrótów"
       }
     },
     "resetSetting": "Przywróć: {{setting}}",

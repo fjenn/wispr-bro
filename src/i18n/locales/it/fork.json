@@ -193,9 +193,6 @@
     },
     "general": {
       "shortcuts": "Abbreviazioni",
-      "shortcutTitle": "Abbreviazione per la dettatura",
-      "shortcutHint": "Scegli come avviare la dettatura e gestisci tutte le azioni da tastiera.",
-      "holdToTalk": "Tieni premuto {{shortcut}} per parlare",
       "change": "Cambia",
       "microphone": "Microfono",
       "languages": "Le mie lingue",
@@ -451,6 +448,14 @@
         "title": "Disattiva la Dettatura di Apple con fn due volte",
         "description": "Un doppio tocco non avvia più anche la Dettatura di Apple.",
         "active": "La Dettatura di Apple si avvia ancora con fn due volte. Nelle impostazioni Tastiera, imposta l'abbreviazione della Dettatura su No."
+      },
+      "key": {
+        "title": "Tasto di dettatura",
+        "hint": "Tieni premuto per parlare. Premi due volte per dettare a mani libere.",
+        "prompt": "Premi il tasto o i tasti che vuoi usare",
+        "save": "Salva",
+        "invalid": "Usa fn, oppure due tasti modificatori insieme, come ⌃ ⌥.",
+        "more": "Altre abbreviazioni"
       }
     },
     "resetSetting": "Ripristina {{setting}}",

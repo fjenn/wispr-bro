@@ -18,32 +18,50 @@ interface CaptureProps {
   onDone: (chord: string | null) => void;
 }
 
-export function Capture({ actionId, onDone }: CaptureProps) {
-  const { t } = useTranslation(FORK_NAMESPACE);
-  const [error, setError] = useState<"secure" | "failed" | null>(null);
+export type CaptureError = "secure" | "failed";
+
+interface KeyRecorderOptions {
+  actionId: string;
+  /** The keys held right now ("" when none), for live key caps. */
+  onLive?: (chord: string) => void;
+  /** A finished press: the keys that were down when it ended. */
+  onChord: (chord: string) => void;
+  /** Esc (as a page key) ends the recorder. */
+  onEscape: () => void;
+}
+
+/**
+ * Handy's key recorder (`startHandyKeysRecording`) while mounted: each
+ * finished press, modifier-only presses included, reaches `onChord`.
+ */
+export function useKeyRecorder({
+  actionId,
+  onLive,
+  onChord,
+  onEscape,
+}: KeyRecorderOptions): { ready: boolean; error: CaptureError | null } {
+  const [error, setError] = useState<CaptureError | null>(null);
   const [ready, setReady] = useState(false);
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const done = useRef(false);
-  const doneRef = useRef(onDone);
-  doneRef.current = onDone;
+  const callbacks = useRef({ onLive, onChord, onEscape });
+  callbacks.current = { onLive, onChord, onEscape };
 
   useEffect(() => {
-    cancelRef.current?.focus();
     let disposed = false;
     let keyed = "";
     let modifierOnly = "";
     let unlisten: (() => void) | undefined;
-    const finish = (chord: string | null) => {
-      if (done.current) return;
-      done.current = true;
-      doneRef.current(chord);
+    const finish = (chord: string) => {
+      keyed = "";
+      modifierOnly = "";
+      callbacks.current.onLive?.("");
+      callbacks.current.onChord(chord);
     };
     const pending = listen<HandyKeysEvent>("handy-keys-event", (event) => {
-      if (done.current) return;
       const { hotkey_string, is_key_down, key, modifiers } = event.payload;
       if (is_key_down && hotkey_string) {
         if (key) keyed = hotkey_string;
-        else modifierOnly = hotkey_string;
+        else if (!keyed) modifierOnly = hotkey_string;
+        callbacks.current.onLive?.(hotkey_string);
       } else if (!is_key_down && key) {
         const chord = keyed || hotkey_string;
         if (chord) finish(chord);
@@ -60,7 +78,7 @@ export function Capture({ actionId, onDone }: CaptureProps) {
       if (event.key !== "Escape") return;
       event.preventDefault();
       event.stopPropagation();
-      finish(null);
+      callbacks.current.onEscape();
     };
     window.addEventListener("keydown", onKey, true);
 
@@ -102,6 +120,27 @@ export function Capture({ actionId, onDone }: CaptureProps) {
     };
   }, [actionId]);
 
+  return { ready, error };
+}
+
+export function Capture({ actionId, onDone }: CaptureProps) {
+  const { t } = useTranslation(FORK_NAMESPACE);
+  const cancelRef = useRef<HTMLButtonElement>(null);
+  const done = useRef(false);
+  const finish = (chord: string | null) => {
+    if (done.current) return;
+    done.current = true;
+    onDone(chord);
+  };
+  const { ready, error } = useKeyRecorder({
+    actionId,
+    onChord: finish,
+    onEscape: () => finish(null),
+  });
+  useEffect(() => {
+    cancelRef.current?.focus();
+  }, []);
+
   return (
     <div
       className="flex flex-col items-start gap-2"
@@ -127,7 +166,7 @@ export function Capture({ actionId, onDone }: CaptureProps) {
         variant="ghost"
         size="sm"
         data-testid="wb-hotkey-capture-cancel"
-        onClick={() => doneRef.current(null)}
+        onClick={() => finish(null)}
       >
         {error
           ? t("settingsModal.hotkeys.capture.close")
