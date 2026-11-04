@@ -45,12 +45,22 @@ case "${1:-}" in
     if app_pid >/dev/null; then echo "already running: $(app_pid)"; exit 0; fi
     keep="${2:-}"
     shift 2 2>/dev/null || shift $#
+    # Portable or nothing: without the marker next to the binary the app
+    # uses ~/Library/Application Support/<identifier>, ignores Data/ (its
+    # cloned models) and downloads a speech model (Mac wave 7 incident).
+    printf "Handy Portable Mode\n" >"$APP_DIR/portable" || exit 1
+    grep -q "^Handy Portable Mode" "$APP_DIR/portable" || {
+      echo "refusing: no portable marker in $APP_DIR" >&2
+      exit 1
+    }
     wb_unbind_keys "$APP_DIR/Data" "$keep" "$@" || exit 1
     [ -d "$APP_DIR/Data/huggingface" ] || wb_clone_models "$APP_DIR/Data" "${WB_MODEL_CACHE:-}" || exit 1
     wb_test_mic_env "$APP_DIR/Data" || exit 1
     echo "test microphone: ${WISPRBRO_TEST_MIC_WAV:-off (WB_ALLOW_SPEAKERS=1, real mic)}"
     cd "$APP_DIR" || exit 1
-    nohup "./$(wb_bin_name "$APP_DIR")" --start-hidden </dev/null >"$APP_DIR/Data/s05-stdout.log" 2>&1 &
+    # A dead loopback for Hugging Face: a test run never downloads a model.
+    HF_ENDPOINT="${WB_HF_ENDPOINT:-http://127.0.0.1:9}" \
+      nohup "./$(wb_bin_name "$APP_DIR")" --start-hidden </dev/null >"$APP_DIR/Data/s05-stdout.log" 2>&1 &
     sleep 12
     app_pid || { echo "did not start"; exit 1; }
     ;;
