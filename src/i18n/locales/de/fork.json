@@ -1279,24 +1279,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Ausgewählten Text in jeder App umschreiben",
-      "body": "Wähle eine Transformation, markiere Text und nutze ihren Kurzbefehl. Deine Texte bleiben auf diesem Mac.",
       "tryIt": "Ausprobieren",
       "howItWorks": "So funktioniert’s"
     },
     "enable": {
-      "title": "Transformationen aktivieren",
-      "help": "Schaltet die Kurzbefehle zum Umschreiben und die Änderungsansicht ein. Transformationen sind aus, bis du sie aktivierst."
+      "title": "Transformationen aktivieren"
     },
     "commandMode": {
       "title": "Befehlsmodus",
-      "on": "Ein",
-      "off": "Aus",
-      "help": "Halte den Kurzbefehl für den Befehlsmodus gedrückt und sag, wie die Auswahl geändert oder was geschrieben werden soll. Ohne Auswahl dient das Feld als Kontext und das Ergebnis landet an der Einfügemarke. Alles bleibt auf diesem Mac, der Befehlsmodus schlägt nie etwas nach. Ist er aus, diktiert der Kurzbefehl ganz normal."
+      "help": "Kurzbefehl halten und sagen, was geschrieben oder geändert werden soll."
     },
     "auto": {
       "title": "Nach jedem Diktat anwenden",
-      "help": "Führt die gewählte Transformation nach der Bereinigung aus. Klappt das nicht, wird dein bereinigtes Diktat unverändert eingefügt. Läufe im Abstand von weniger als 5 Sekunden werden übersprungen.",
       "choice": "Anzuwendende Transformation",
       "none": "Transformation auswählen"
     },
@@ -1307,33 +1301,20 @@
     "myTransforms": "Meine Transformationen",
     "reset": "Auf Standard zurücksetzen",
     "resetConfirm": "Polish und Prompt Engineer zurücksetzen und alle eigenen Transformationen entfernen?",
-    "createNew": "Neu erstellen",
+    "createNew": "Neue Transformation",
     "deleteConfirm": "{{name}} löschen? Das kann nicht widerrufen werden.",
     "loading": "Transformationen werden geladen …",
     "empty": "Noch keine Transformationen. Erstelle eine, um loszulegen.",
     "error": "Die Änderung an der Transformation konnte nicht gespeichert werden. Versuch es noch einmal.",
     "card": {
-      "createOwn": "Eigene erstellen",
-      "createOwnHint": "Wähle Regeln, Anweisungen und Schreibbeispiele.",
       "delete": "{{name}} löschen"
     },
-    "builtin": {
-      "polish": {
-        "description": "Glättet Grammatik und Formulierungen und bewahrt dabei deinen Stil."
-      },
-      "prompt_engineer": {
-        "description": "Macht aus groben Notizen einen klaren, vollständigen KI-Prompt."
-      }
-    },
     "new": {
-      "name": "Meine Transformation",
-      "description": "Text so umschreiben, wie ich es möchte.",
-      "prompt": "Schreibe den ausgewählten Text um und bewahre dabei seine Bedeutung, die Fakten und die Sprache."
+      "name": "Meine Transformation"
     },
     "editor": {
       "title": "{{name}} bearbeiten",
       "name": "Name",
-      "description": "Beschreibung",
       "hotkey": "Kurzbefehl",
       "addHotkey": "Kurzbefehl hinzufügen",
       "example": "Beispiel",
@@ -1341,8 +1322,6 @@
       "exampleText": "ähm könntest du mir den bericht morgen schicken vielleicht können wir dann darüber reden",
       "preview": "Vorschau",
       "previewing": "Vorschau wird erstellt …",
-      "customPrompt": "Eigener Prompt",
-      "customPromptHelp": "Füge konkrete Anweisungen hinzu. Der ausgewählte Text wird umgeschrieben, nie beantwortet.",
       "rules": "Bearbeitungsregeln",
       "autosave": {
         "saved": "Automatisch sichern · Alle Änderungen gespeichert",
@@ -1359,28 +1338,26 @@
         "failed": "Die Antwort der lokalen KI hat die Sicherheitsprüfungen nicht bestanden. Versuche es erneut oder formuliere die Anweisung um.",
         "timeout": "Die lokale KI hat zu lange gebraucht. Versuche es erneut.",
         "no_engine": "Die lokale KI ist noch nicht bereit. Exakte Änderungen funktionieren trotzdem."
-      }
+      },
+      "instruction": "Was soll sie tun?",
+      "instructionPlaceholder": "Zum Beispiel: Ersetze alle „A“ durch 0, oder formuliere es freundlicher",
+      "more": "Weitere Optionen"
     },
     "rules": {
       "shorter": {
-        "title": "Kürzer",
-        "help": "Wiederholungen und überflüssige Wörter entfernen."
+        "title": "Kürzer"
       },
       "clearer": {
-        "title": "Klarere Formulierung",
-        "help": "Direkte, präzise Sprache verwenden."
+        "title": "Klarere Formulierung"
       },
       "better_order": {
-        "title": "Bessere Reihenfolge",
-        "help": "Gedanken in eine logische Reihenfolge bringen."
+        "title": "Bessere Reihenfolge"
       },
       "headings_lists": {
-        "title": "Überschriften und Listen hinzufügen",
-        "help": "Längere Texte leichter überfliegbar machen."
+        "title": "Überschriften und Listen hinzufügen"
       },
       "keep_tone": {
-        "title": "Meinen Ton beibehalten",
-        "help": "Deinen Stil und Grad an Förmlichkeit bewahren."
+        "title": "Meinen Ton beibehalten"
       }
     },
     "examples": {
@@ -1391,9 +1368,7 @@
       "paste": "Beispiel einfügen",
       "load": ".txt oder .md laden",
       "remove": "Beispiel {{number}} entfernen",
-      "readError": "Wähle eine .txt- oder .md-Datei mit höchstens {{chars}} Zeichen.",
-      "help_one": "Füge bis zu {{max}} Beispiel mit je {{chars}} Zeichen ein oder lade es. Beispiele geben den Stil vor, werden aber nicht Teil des Ergebnisses.",
-      "help_other": "Füge bis zu {{max}} Beispiele mit je {{chars}} Zeichen ein oder lade sie. Beispiele geben den Stil vor, werden aber nicht Teil des Ergebnisses."
+      "readError": "Wähle eine .txt- oder .md-Datei mit höchstens {{chars}} Zeichen."
     },
     "diff": {
       "changes_one": "{{count}} Änderung",
@@ -1409,10 +1384,8 @@
       "simpleView": "Bei dieser großen oder komplexen Änderung wird eine einzelne Ersetzung angezeigt.",
       "actionFailed": "Das hat nicht geklappt. Dein Text ist noch da. Versuch es noch einmal."
     },
-    "startTutorial": "Tutorial starten",
     "findReplace": {
       "title": "Suchen und ersetzen",
-      "help": "Exakte Änderungen, die bei jeder Ausführung dieser Transformation ohne KI erfolgen. Lass „Ersetzen durch“ leer, um den Text zu entfernen.",
       "find": "Suchen, Zeile {{number}}",
       "replace": "Ersetzen durch, Zeile {{number}}",
       "findPlaceholder": "Suchen",
@@ -1421,19 +1394,6 @@
       "remove": "Zeile {{number}} entfernen",
       "add": "Ersetzung hinzufügen"
     },
-    "plan": {
-      "exact": "Läuft exakt, ohne KI",
-      "mixed": "Exakt und ohne KI erledigt:",
-      "rulesUnused": "Bearbeitungsregeln und Schreibbeispiele werden nicht verwendet: Der Prompt verlangt nur exakte Änderungen.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "{{find}} entfernen",
-      "upper": "GROSSBUCHSTABEN",
-      "lower": "kleinbuchstaben",
-      "title": "Erster Buchstabe Groß",
-      "emoji": "Emojis",
-      "email": "E-Mail-Adressen",
-      "url": "Links"
-    },
     "model": {
       "downloading": "Transformationen werden vorbereitet: einmaliger Download, {{percent}} %",
       "verifying": "Transformationen werden vorbereitet: Download wird geprüft …",
@@ -1441,6 +1401,10 @@
       "progressLabel": "Download für Transformationen",
       "failed": "Was Transformationen brauchen, konnte nicht geladen werden. Prüfe deine Verbindung.",
       "retry": "Erneut versuchen"
+    },
+    "subtitle": "Text in einer beliebigen App auswählen und per Kurzbefehl umschreiben.",
+    "settings": {
+      "title": "Einstellungen für Transformationen"
     }
   },
   "cleanup": {

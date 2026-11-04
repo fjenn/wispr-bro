@@ -1279,24 +1279,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Seçili metni her uygulamada yeniden yazın",
-      "body": "Bir dönüştürme seçin, metni seçin ve dönüştürmenin kestirmesini kullanın. Yazdıklarınız bu Mac’te kalır.",
       "tryIt": "Dene",
       "howItWorks": "Nasıl çalışır?"
     },
     "enable": {
-      "title": "Dönüştürmeleri Etkinleştir",
-      "help": "Yeniden yazma kestirmelerini ve değişiklik görünümünü açar. Dönüştürmeler siz açana kadar kapalıdır."
+      "title": "Dönüştürmeleri Etkinleştir"
     },
     "commandMode": {
       "title": "Komut Modu",
-      "on": "Açık",
-      "off": "Kapalı",
-      "help": "Komut Modu kestirmesini basılı tutun, sonra seçimin nasıl değişeceğini veya ne yazılacağını söyleyin. Seçim yoksa alandaki metin bağlam olarak kullanılır ve sonuç imlecin olduğu yere yazılır. Her şey bu Mac’te kalır; Komut Modu hiçbir şeyi internette aramaz. Kapalıyken bu kestirme normal dikte eder."
+      "help": "Kısayolu basılı tutun ve ne yazılacağını ya da neyin değişeceğini söyleyin."
     },
     "auto": {
       "title": "Her dikteden sonra uygula",
-      "help": "Seçilen dönüştürmeyi temizlemeden sonra çalıştırır. Tamamlanamazsa temizlenmiş dikteniz değiştirilmeden yapıştırılır. Arasında 5 saniyeden az olan çalıştırmalar atlanır.",
       "choice": "Uygulanacak dönüştürme",
       "none": "Bir dönüştürme seçin"
     },
@@ -1307,33 +1301,20 @@
     "myTransforms": "Dönüştürmelerim",
     "reset": "Varsayılanlara sıfırla",
     "resetConfirm": "Polish ve Prompt Engineer sıfırlansın ve tüm özel dönüştürmeler silinsin mi?",
-    "createNew": "Yeni oluştur",
+    "createNew": "Yeni dönüştürme",
     "deleteConfirm": "{{name}} silinsin mi? Bu işlem geri alınamaz.",
     "loading": "Dönüştürmeleriniz yükleniyor…",
     "empty": "Henüz dönüştürme yok. Başlamak için bir tane oluşturun.",
     "error": "Dönüştürme değişikliği kaydedilemedi. Yeniden deneyin.",
     "card": {
-      "createOwn": "Kendinizinkini oluşturun",
-      "createOwnHint": "Kuralları, talimatları ve yazım örneklerini seçin.",
       "delete": "Sil: {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Üslubunuzu koruyarak dilbilgisini ve ifadeleri düzeltir."
-      },
-      "prompt_engineer": {
-        "description": "Dağınık notları net ve eksiksiz bir yapay zekâ istemine dönüştürür."
-      }
-    },
     "new": {
-      "name": "Dönüştürmem",
-      "description": "Metni istediğim gibi yeniden yaz.",
-      "prompt": "Seçili metni anlamını, bilgilerini ve dilini koruyarak yeniden yaz."
+      "name": "Dönüştürmem"
     },
     "editor": {
       "title": "Düzenle: {{name}}",
       "name": "Ad",
-      "description": "Açıklama",
       "hotkey": "Kestirme",
       "addHotkey": "Kestirme ekle",
       "example": "Örnek",
@@ -1341,8 +1322,6 @@
       "exampleText": "ııı raporu bana yarın gönderebilir misin belki o zaman üzerine konuşuruz",
       "preview": "Önizle",
       "previewing": "Önizleniyor…",
-      "customPrompt": "Özel istem",
-      "customPromptHelp": "Özel talimatlar ekleyin. Seçili metin dönüştürülür, asla yanıtlanmaz.",
       "rules": "Düzenleme kuralları",
       "autosave": {
         "saved": "Otomatik kayıt · Tüm değişiklikler kaydedildi",
@@ -1359,28 +1338,26 @@
         "failed": "Yerel yapay zekânın yanıtı güvenlik denetimlerini geçemedi. Yeniden deneyin veya talimatı farklı ifade edin.",
         "timeout": "Yerel yapay zekâ çok uzun sürdü. Yeniden deneyin.",
         "no_engine": "Yerel yapay zekâ henüz hazır değil. Tam değişiklikler yine de çalışır."
-      }
+      },
+      "instruction": "Ne yapmalı?",
+      "instructionPlaceholder": "Örneğin: tüm “A” harflerini 0 ile değiştir veya daha samimi yap",
+      "more": "Diğer seçenekler"
     },
     "rules": {
       "shorter": {
-        "title": "Daha kısa",
-        "help": "Tekrarları ve gereksiz kelimeleri çıkar."
+        "title": "Daha kısa"
       },
       "clearer": {
-        "title": "Daha net ifade",
-        "help": "Doğrudan ve kesin bir dil kullan."
+        "title": "Daha net ifade"
       },
       "better_order": {
-        "title": "Daha iyi sıralama",
-        "help": "Fikirleri mantıklı bir sıraya koyar."
+        "title": "Daha iyi sıralama"
       },
       "headings_lists": {
-        "title": "Başlık ve liste ekle",
-        "help": "Uzun metinlerin göz gezdirilmesini kolaylaştırır."
+        "title": "Başlık ve liste ekle"
       },
       "keep_tone": {
-        "title": "Tonumu koru",
-        "help": "Üslubunuzu ve resmiyet düzeyinizi korur."
+        "title": "Tonumu koru"
       }
     },
     "examples": {
@@ -1391,9 +1368,7 @@
       "paste": "Örnek yapıştır",
       "load": ".txt veya .md yükle",
       "remove": "{{number}}. örneği kaldır",
-      "readError": "En fazla {{chars}} karakterlik bir .txt veya .md dosyası seçin.",
-      "help_one": "En fazla {{max}} örnek yapıştırın veya yükleyin; her biri {{chars}} karakter olabilir. Örnekler stile yön verir ama sonuca eklenmez.",
-      "help_other": "En fazla {{max}} örnek yapıştırın veya yükleyin; her biri {{chars}} karakter olabilir. Örnekler stile yön verir ama sonuca eklenmez."
+      "readError": "En fazla {{chars}} karakterlik bir .txt veya .md dosyası seçin."
     },
     "diff": {
       "changes_one": "{{count}} değişiklik",
@@ -1409,10 +1384,8 @@
       "simpleView": "Bu büyük veya karmaşık değişiklik tek bir değiştirme olarak gösteriliyor.",
       "actionFailed": "Bu işlem yapılamadı. Metniniz hâlâ burada; yeniden deneyin."
     },
-    "startTutorial": "Eğitimi başlat",
     "findReplace": {
       "title": "Bul ve değiştir",
-      "help": "Bu dönüştürme her çalıştığında yapay zekâ olmadan yapılan tam değişiklikler. Metni kaldırmak için “Şununla değiştir” alanını boş bırakın.",
       "find": "Bul, satır {{number}}",
       "replace": "Şununla değiştir, satır {{number}}",
       "findPlaceholder": "Bul",
@@ -1421,19 +1394,6 @@
       "remove": "{{number}}. satırı kaldır",
       "add": "Değiştirme ekle"
     },
-    "plan": {
-      "exact": "Tam olarak çalışır, yapay zekâsız",
-      "mixed": "Tam olarak, yapay zekâsız yapıldı:",
-      "rulesUnused": "Düzenleme kuralları ve yazı örnekleri kullanılmaz: istem yalnızca tam değişiklikler ister.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "{{find}} öğesini kaldır",
-      "upper": "BÜYÜK HARF",
-      "lower": "küçük harf",
-      "title": "Her Sözcük Büyük Harfle",
-      "emoji": "emoji",
-      "email": "e-posta adresleri",
-      "url": "bağlantılar"
-    },
     "model": {
       "downloading": "Dönüşümler hazırlanıyor: tek seferlik indirme, %{{percent}}",
       "verifying": "Dönüşümler hazırlanıyor: indirme kontrol ediliyor…",
@@ -1441,6 +1401,10 @@
       "progressLabel": "Dönüşümler için indirme",
       "failed": "Dönüşümler için gerekenler indirilemedi. Bağlantınızı kontrol edin.",
       "retry": "Yeniden dene"
+    },
+    "subtitle": "Herhangi bir uygulamada metin seçin ve yeniden yazmak için bir kısayola basın.",
+    "settings": {
+      "title": "Dönüştürme ayarları"
     }
   },
   "cleanup": {

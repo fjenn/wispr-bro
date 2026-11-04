@@ -428,13 +428,13 @@ test.describe("Transforms lesson: How it works", () => {
 });
 
 test.describe("Lesson re-entry points", () => {
-  test("Start tutorial and Help › Essentials open the lesson", async ({
+  test("Try it and Help › Essentials open the lesson", async ({
     page,
     ipc,
     hub,
   }) => {
     await open(page, ipc, hub);
-    await page.getByTestId("wb-transforms-tutorial").click();
+    await page.getByTestId("wb-transforms-try-it").click();
     await expect(lesson(page)).toHaveAttribute("data-step", "examples");
     await page.keyboard.press("Escape");
     await expect(lesson(page)).toHaveCount(0);
@@ -451,24 +451,6 @@ test.describe("Lesson re-entry points", () => {
     await expect(
       page.locator('[role="dialog"]').filter({ has: lesson(page) }),
     ).toBeFocused();
-  });
-
-  test("the banner's buttons go with the banner; Start tutorial stays", async ({
-    page,
-    ipc,
-    hub,
-  }) => {
-    await open(
-      page,
-      ipc,
-      hub,
-      {},
-      {
-        fork: { dismissed_banners: ["transforms.rewrite"] },
-      },
-    );
-    await expect(page.getByTestId("wb-transforms-try-it")).toHaveCount(0);
-    await expect(page.getByTestId("wb-transforms-tutorial")).toBeVisible();
   });
 
   const completed = (checklist_done: string[]) => ({

@@ -1243,24 +1243,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "在任意 App 中改写所选文本",
-      "body": "选择一种转换，选中文本，然后使用它的快捷键。你写的内容保留在这台 Mac 上。",
       "tryIt": "试试",
       "howItWorks": "工作原理"
     },
     "enable": {
-      "title": "启用转换",
-      "help": "打开改写快捷键和更改视图。在你选择之前，转换一直处于关闭状态。"
+      "title": "启用转换"
     },
     "commandMode": {
       "title": "命令模式",
-      "on": "开",
-      "off": "关",
-      "help": "按住命令模式快捷键，然后说出要如何更改所选内容或要写什么。如果没有选中内容，会以输入栏中的文本作为上下文，结果插入到插入点处。所有内容都保留在这台 Mac 上；命令模式从不联网查找任何内容。关闭时，该快捷键照常用于听写。"
+      "help": "按住快捷键，说出要写或要改的内容。"
     },
     "auto": {
       "title": "每次听写后应用",
-      "help": "在清理后运行所选转换。如果无法完成，则原样粘贴清理后的听写内容。两次运行间隔不足 5 秒时会跳过。",
       "choice": "要应用的转换",
       "none": "选择转换"
     },
@@ -1271,33 +1265,20 @@
     "myTransforms": "我的转换",
     "reset": "恢复默认设置",
     "resetConfirm": "要重置 Polish 和 Prompt Engineer 并移除所有自定义转换吗？",
-    "createNew": "新建",
+    "createNew": "新建转换",
     "deleteConfirm": "要删除“{{name}}”吗？此操作无法撤销。",
     "loading": "正在载入你的转换…",
     "empty": "还没有转换。新建一个即可开始。",
     "error": "无法存储对该转换的更改。请重试。",
     "card": {
-      "createOwn": "自己创建",
-      "createOwnHint": "选择规则、指令和写作示例。",
       "delete": "删除“{{name}}”"
     },
-    "builtin": {
-      "polish": {
-        "description": "修正语法和措辞，同时保留你的语气。"
-      },
-      "prompt_engineer": {
-        "description": "将零散的笔记变成清晰完整的 AI 提示词。"
-      }
-    },
     "new": {
-      "name": "我的转换",
-      "description": "按我想要的方式改写文本。",
-      "prompt": "改写所选文本，同时保留其含义、事实和语言。"
+      "name": "我的转换"
     },
     "editor": {
       "title": "编辑“{{name}}”",
       "name": "名称",
-      "description": "描述",
       "hotkey": "快捷键",
       "addHotkey": "添加快捷键",
       "example": "示例",
@@ -1305,8 +1286,6 @@
       "exampleText": "嗯 你能不能明天把报告发给我 也许到时候我们可以聊一下",
       "preview": "预览",
       "previewing": "正在预览…",
-      "customPrompt": "自定义提示词",
-      "customPromptHelp": "添加具体指令。所选文本只会被转换，不会被当作问题来回答。",
       "rules": "编辑规则",
       "autosave": {
         "saved": "自动存储 · 所有更改已存储",
@@ -1323,28 +1302,26 @@
         "failed": "本地 AI 的回答未通过安全检查。请重试，或换个方式描述指令。",
         "timeout": "本地 AI 用时过长。请重试。",
         "no_engine": "本地 AI 尚未就绪。精确更改仍然可用。"
-      }
+      },
+      "instruction": "它应该做什么？",
+      "instructionPlaceholder": "例如：把所有“A”替换为 0，或者写得更友好",
+      "more": "更多选项"
     },
     "rules": {
       "shorter": {
-        "title": "更简短",
-        "help": "删除重复和多余的词语。"
+        "title": "更简短"
       },
       "clearer": {
-        "title": "措辞更清晰",
-        "help": "使用直接、准确的语言。"
+        "title": "措辞更清晰"
       },
       "better_order": {
-        "title": "顺序更合理",
-        "help": "按逻辑顺序组织观点。"
+        "title": "顺序更合理"
       },
       "headings_lists": {
-        "title": "添加标题和列表",
-        "help": "让较长的文本更易于浏览。"
+        "title": "添加标题和列表"
       },
       "keep_tone": {
-        "title": "保留我的语气",
-        "help": "保留你的风格和正式程度。"
+        "title": "保留我的语气"
       }
     },
     "examples": {
@@ -1355,8 +1332,7 @@
       "paste": "粘贴示例",
       "load": "载入 .txt 或 .md",
       "remove": "移除示例 {{number}}",
-      "readError": "请选择不超过 {{chars}} 个字符的 .txt 或 .md 文件。",
-      "help_other": "粘贴或载入最多 {{max}} 个示例，每个最多 {{chars}} 个字符。它们用于引导风格，不会成为结果的一部分。"
+      "readError": "请选择不超过 {{chars}} 个字符的 .txt 或 .md 文件。"
     },
     "diff": {
       "changes_other": "{{count}} 处更改",
@@ -1371,10 +1347,8 @@
       "simpleView": "此更改较大或较复杂，因此以整体替换的方式显示。",
       "actionFailed": "操作未成功。你的文本仍在这里，请重试。"
     },
-    "startTutorial": "开始教程",
     "findReplace": {
       "title": "查找和替换",
-      "help": "每次运行此转换时都会不使用 AI 而精确执行的更改。将“替换为”留空即可删除文本。",
       "find": "查找，第 {{number}} 行",
       "replace": "替换为，第 {{number}} 行",
       "findPlaceholder": "查找",
@@ -1383,19 +1357,6 @@
       "remove": "移除第 {{number}} 行",
       "add": "添加替换"
     },
-    "plan": {
-      "exact": "精确执行，不用 AI",
-      "mixed": "已精确完成，未使用 AI：",
-      "rulesUnused": "不会使用编辑规则和写作示例：提示词只要求精确更改。",
-      "replace": "{{find}} → {{with}}",
-      "remove": "移除 {{find}}",
-      "upper": "大写",
-      "lower": "小写",
-      "title": "首字母大写",
-      "emoji": "表情符号",
-      "email": "电子邮件地址",
-      "url": "链接"
-    },
     "model": {
       "downloading": "正在准备转换功能：一次性下载，{{percent}}%",
       "verifying": "正在准备转换功能：正在检查下载内容…",
@@ -1403,6 +1364,10 @@
       "progressLabel": "转换功能下载",
       "failed": "无法下载转换功能所需的内容。请检查网络连接。",
       "retry": "重试"
+    },
+    "subtitle": "在任意应用中选中文本，按下快捷键即可改写。",
+    "settings": {
+      "title": "转换设置"
     }
   },
   "cleanup": {

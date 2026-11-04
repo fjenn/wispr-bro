@@ -1243,24 +1243,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "在任何 App 中改寫所選文字",
-      "body": "選擇一種轉換、選取文字，然後使用它的快速鍵。你寫的內容會留在這台 Mac 上。",
       "tryIt": "試試看",
       "howItWorks": "運作方式"
     },
     "enable": {
-      "title": "啟用轉換",
-      "help": "開啟改寫快速鍵和變更檢視。在你選擇之前，轉換會保持關閉。"
+      "title": "啟用轉換"
     },
     "commandMode": {
       "title": "指令模式",
-      "on": "開啟",
-      "off": "關閉",
-      "help": "按住指令模式快速鍵，然後說出要如何更改所選內容或要寫什麼。如果沒有選取內容，會以輸入欄位中的文字作為情境，結果插入到插入點。所有內容都會留在這部 Mac 上；指令模式從不上網查詢任何內容。關閉時，該快速鍵會照常用於聽寫。"
+      "help": "按住快速鍵，說出要寫或要改的內容。"
     },
     "auto": {
       "title": "每次聽寫後套用",
-      "help": "在清理後執行所選的轉換。如果無法完成，會原樣貼上清理後的聽寫內容。兩次執行間隔不到 5 秒時會略過。",
       "choice": "要套用的轉換",
       "none": "選擇轉換"
     },
@@ -1271,33 +1265,20 @@
     "myTransforms": "我的轉換",
     "reset": "回復為預設值",
     "resetConfirm": "要重置 Polish 和 Prompt Engineer 並移除所有自訂轉換嗎？",
-    "createNew": "新增",
+    "createNew": "新增轉換",
     "deleteConfirm": "要刪除「{{name}}」嗎？此動作無法還原。",
     "loading": "正在載入你的轉換…",
     "empty": "還沒有轉換。新增一個即可開始。",
     "error": "無法儲存該轉換的變更。請再試一次。",
     "card": {
-      "createOwn": "自行建立",
-      "createOwnHint": "選擇規則、指示和寫作範例。",
       "delete": "刪除「{{name}}」"
     },
-    "builtin": {
-      "polish": {
-        "description": "修正文法和措辭，同時保留你的語氣。"
-      },
-      "prompt_engineer": {
-        "description": "將零散的筆記變成清楚完整的 AI 提示詞。"
-      }
-    },
     "new": {
-      "name": "我的轉換",
-      "description": "依我想要的方式改寫文字。",
-      "prompt": "改寫所選文字，同時保留其含義、事實和語言。"
+      "name": "我的轉換"
     },
     "editor": {
       "title": "編輯「{{name}}」",
       "name": "名稱",
-      "description": "描述",
       "hotkey": "快速鍵",
       "addHotkey": "加入快速鍵",
       "example": "範例",
@@ -1305,8 +1286,6 @@
       "exampleText": "嗯 你可不可以明天把報告寄給我 也許到時候我們可以聊一下",
       "preview": "預覽",
       "previewing": "正在預覽…",
-      "customPrompt": "自訂提示詞",
-      "customPromptHelp": "加入具體指示。所選文字只會被轉換，不會被當成問題來回答。",
       "rules": "編輯規則",
       "autosave": {
         "saved": "自動儲存 · 所有變更已儲存",
@@ -1323,28 +1302,26 @@
         "failed": "本機 AI 的回答未通過安全檢查。請重試，或換個方式描述指令。",
         "timeout": "本機 AI 花了太久時間。請重試。",
         "no_engine": "本機 AI 尚未就緒。精確更改仍然可用。"
-      }
+      },
+      "instruction": "它應該做什麼？",
+      "instructionPlaceholder": "例如：把所有「A」替換成 0，或寫得更親切",
+      "more": "更多選項"
     },
     "rules": {
       "shorter": {
-        "title": "更精簡",
-        "help": "刪除重複和多餘的字詞。"
+        "title": "更精簡"
       },
       "clearer": {
-        "title": "用字更清楚",
-        "help": "使用直接、精確的語言。"
+        "title": "用字更清楚"
       },
       "better_order": {
-        "title": "順序更合理",
-        "help": "依邏輯順序排列想法。"
+        "title": "順序更合理"
       },
       "headings_lists": {
-        "title": "加入標題和列表",
-        "help": "讓較長的文字更容易瀏覽。"
+        "title": "加入標題和列表"
       },
       "keep_tone": {
-        "title": "保留我的語氣",
-        "help": "保留你的風格和正式程度。"
+        "title": "保留我的語氣"
       }
     },
     "examples": {
@@ -1355,8 +1332,7 @@
       "paste": "貼上範例",
       "load": "載入 .txt 或 .md",
       "remove": "移除範例 {{number}}",
-      "readError": "請選擇不超過 {{chars}} 個字元的 .txt 或 .md 檔案。",
-      "help_other": "貼上或載入最多 {{max}} 個範例，每個最多 {{chars}} 個字元。範例用來引導風格，不會成為結果的一部分。"
+      "readError": "請選擇不超過 {{chars}} 個字元的 .txt 或 .md 檔案。"
     },
     "diff": {
       "changes_other": "{{count}} 處變更",
@@ -1371,10 +1347,8 @@
       "simpleView": "此變更較大或較複雜，因此以整段取代的方式顯示。",
       "actionFailed": "動作未成功。你的文字仍在這裡，請再試一次。"
     },
-    "startTutorial": "開始教學",
     "findReplace": {
       "title": "尋找並取代",
-      "help": "每次執行此轉換時都會不使用 AI 而精確進行的更改。將「取代為」留空即可移除文字。",
       "find": "尋找，第 {{number}} 列",
       "replace": "取代為，第 {{number}} 列",
       "findPlaceholder": "尋找",
@@ -1383,19 +1357,6 @@
       "remove": "移除第 {{number}} 列",
       "add": "新增取代"
     },
-    "plan": {
-      "exact": "精確執行，不用 AI",
-      "mixed": "已精確完成，未使用 AI：",
-      "rulesUnused": "不會使用編輯規則和寫作範例：提示詞只要求精確更改。",
-      "replace": "{{find}} → {{with}}",
-      "remove": "移除 {{find}}",
-      "upper": "大寫",
-      "lower": "小寫",
-      "title": "首字母大寫",
-      "emoji": "表情符號",
-      "email": "電子郵件地址",
-      "url": "連結"
-    },
     "model": {
       "downloading": "正在準備轉換功能：一次性下載，{{percent}}%",
       "verifying": "正在準備轉換功能：正在檢查下載內容…",
@@ -1403,6 +1364,10 @@
       "progressLabel": "轉換功能下載",
       "failed": "無法下載轉換功能所需的內容。請檢查網路連線。",
       "retry": "重試"
+    },
+    "subtitle": "在任何 App 中選取文字，按下快速鍵即可改寫。",
+    "settings": {
+      "title": "轉換設定"
     }
   },
   "cleanup": {

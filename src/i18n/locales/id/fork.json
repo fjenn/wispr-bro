@@ -1243,24 +1243,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Tulis ulang teks yang dipilih di app apa pun",
-      "body": "Pilih transformasi, pilih teks, lalu gunakan pintasannya. Tulisan Anda tetap di Mac ini.",
       "tryIt": "Coba",
       "howItWorks": "Cara kerjanya"
     },
     "enable": {
-      "title": "Aktifkan Transformasi",
-      "help": "Nyalakan pintasan penulisan ulang dan tampilan perubahan. Transformasi nonaktif sampai Anda memilihnya."
+      "title": "Aktifkan Transformasi"
     },
     "commandMode": {
       "title": "Command Mode",
-      "on": "Aktif",
-      "off": "Nonaktif",
-      "help": "Tahan pintasan Command Mode, lalu ucapkan cara mengubah pilihan atau apa yang ingin ditulis. Jika tidak ada yang dipilih, bidang teks memberi konteks dan hasilnya disisipkan di posisi kursor. Semuanya tetap di Mac ini; Command Mode tidak pernah mencari apa pun. Saat nonaktif, pintasan tersebut mendikte seperti biasa."
+      "help": "Tahan pintasan dan ucapkan apa yang ingin ditulis atau diubah."
     },
     "auto": {
       "title": "Terapkan setelah setiap dikte",
-      "help": "Menjalankan transformasi yang dipilih setelah pembersihan. Jika tidak dapat selesai, dikte yang sudah dibersihkan ditempel tanpa perubahan. Proses yang berjarak kurang dari 5 detik dilewati.",
       "choice": "Transformasi yang diterapkan",
       "none": "Pilih transformasi"
     },
@@ -1271,33 +1265,20 @@
     "myTransforms": "Transformasi Saya",
     "reset": "Atur ulang ke default",
     "resetConfirm": "Atur ulang Polish dan Prompt Engineer serta hapus semua transformasi kustom?",
-    "createNew": "Buat baru",
+    "createNew": "Transformasi baru",
     "deleteConfirm": "Hapus {{name}}? Tindakan ini tidak dapat diurungkan.",
     "loading": "Memuat transformasi Anda…",
     "empty": "Belum ada transformasi. Buat satu untuk memulai.",
     "error": "Perubahan transformasi itu tidak dapat disimpan. Coba lagi.",
     "card": {
-      "createOwn": "Buat sendiri",
-      "createOwnHint": "Pilih aturan, petunjuk, dan contoh penulisan.",
       "delete": "Hapus {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Rapikan tata bahasa dan pilihan kata tanpa menghilangkan gaya Anda."
-      },
-      "prompt_engineer": {
-        "description": "Ubah catatan kasar menjadi prompt AI yang jelas dan lengkap."
-      }
-    },
     "new": {
-      "name": "Transformasi saya",
-      "description": "Tulis ulang teks sesuai keinginan saya.",
-      "prompt": "Tulis ulang teks yang dipilih dengan tetap mempertahankan makna, fakta, dan bahasanya."
+      "name": "Transformasi saya"
     },
     "editor": {
       "title": "Edit {{name}}",
       "name": "Nama",
-      "description": "Deskripsi",
       "hotkey": "Pintasan",
       "addHotkey": "Tambah pintasan",
       "example": "Contoh",
@@ -1305,8 +1286,6 @@
       "exampleText": "um bisa kirim laporannya ke saya besok mungkin nanti kita bisa bahas",
       "preview": "Pratinjau",
       "previewing": "Membuat pratinjau…",
-      "customPrompt": "Prompt kustom",
-      "customPromptHelp": "Tambahkan instruksi khusus. Teks yang dipilih ditransformasi, tidak pernah dijawab.",
       "rules": "Aturan pengeditan",
       "autosave": {
         "saved": "Simpan otomatis · Semua perubahan disimpan",
@@ -1323,28 +1302,26 @@
         "failed": "Jawaban AI lokal tidak lolos pemeriksaan keamanan. Coba lagi atau ubah susunan instruksi Anda.",
         "timeout": "AI lokal terlalu lama merespons. Coba lagi.",
         "no_engine": "AI lokal belum siap. Perubahan persis tetap berfungsi."
-      }
+      },
+      "instruction": "Apa yang harus dilakukan?",
+      "instructionPlaceholder": "Misalnya: ganti semua “A” dengan 0, atau buat lebih ramah",
+      "more": "Opsi lainnya"
     },
     "rules": {
       "shorter": {
-        "title": "Lebih singkat",
-        "help": "Hapus pengulangan dan kata yang tidak perlu."
+        "title": "Lebih singkat"
       },
       "clearer": {
-        "title": "Kata-kata lebih jelas",
-        "help": "Gunakan bahasa yang langsung dan tepat."
+        "title": "Kata-kata lebih jelas"
       },
       "better_order": {
-        "title": "Urutan yang lebih baik",
-        "help": "Susun ide dalam urutan yang logis."
+        "title": "Urutan yang lebih baik"
       },
       "headings_lists": {
-        "title": "Tambahkan judul dan daftar",
-        "help": "Buat teks panjang lebih mudah dipindai."
+        "title": "Tambahkan judul dan daftar"
       },
       "keep_tone": {
-        "title": "Pertahankan nada saya",
-        "help": "Pertahankan gaya dan tingkat formalitas Anda."
+        "title": "Pertahankan nada saya"
       }
     },
     "examples": {
@@ -1355,8 +1332,7 @@
       "paste": "Tempel contoh",
       "load": "Muat .txt atau .md",
       "remove": "Hapus contoh {{number}}",
-      "readError": "Pilih file .txt atau .md yang tidak lebih dari {{chars}} karakter.",
-      "help_other": "Tempel atau muat hingga {{max}} contoh, masing-masing {{chars}} karakter. Contoh mengarahkan gaya tanpa menjadi bagian dari hasil."
+      "readError": "Pilih file .txt atau .md yang tidak lebih dari {{chars}} karakter."
     },
     "diff": {
       "changes_other": "{{count}} perubahan",
@@ -1371,10 +1347,8 @@
       "simpleView": "Menampilkan satu penggantian untuk perubahan yang besar atau rumit ini.",
       "actionFailed": "Tindakan itu tidak berhasil. Teks Anda masih ada di sini; coba lagi."
     },
-    "startTutorial": "Mulai tutorial",
     "findReplace": {
       "title": "Cari dan ganti",
-      "help": "Perubahan persis yang dilakukan tanpa AI setiap kali transformasi ini dijalankan. Kosongkan “Ganti dengan” untuk menghapus teks.",
       "find": "Cari, baris {{number}}",
       "replace": "Ganti dengan, baris {{number}}",
       "findPlaceholder": "Cari",
@@ -1383,19 +1357,6 @@
       "remove": "Hapus baris {{number}}",
       "add": "Tambahkan penggantian"
     },
-    "plan": {
-      "exact": "Dijalankan persis, tanpa AI",
-      "mixed": "Dilakukan persis, tanpa AI:",
-      "rulesUnused": "Aturan pengeditan dan contoh tulisan tidak digunakan: prompt hanya meminta perubahan persis.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Hapus {{find}}",
-      "upper": "HURUF KAPITAL",
-      "lower": "huruf kecil",
-      "title": "Huruf Awal Kapital",
-      "emoji": "emoji",
-      "email": "alamat email",
-      "url": "tautan"
-    },
     "model": {
       "downloading": "Menyiapkan transformasi: unduhan satu kali, {{percent}}%",
       "verifying": "Menyiapkan transformasi: memeriksa unduhan…",
@@ -1403,6 +1364,10 @@
       "progressLabel": "Unduhan transformasi",
       "failed": "Tidak dapat mengunduh yang dibutuhkan transformasi. Periksa koneksi Anda.",
       "retry": "Coba lagi"
+    },
+    "subtitle": "Pilih teks di aplikasi apa pun dan tekan pintasan untuk menulis ulang.",
+    "settings": {
+      "title": "Pengaturan transformasi"
     }
   },
   "cleanup": {

@@ -1279,24 +1279,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Omskriv valgt tekst i alle apps",
-      "body": "Vælg en transformation, vælg tekst, og brug dens genvej. Det, du skriver, bliver på denne Mac.",
       "tryIt": "Prøv det",
       "howItWorks": "Sådan virker det"
     },
     "enable": {
-      "title": "Slå Transformationer til",
-      "help": "Slår genveje til omskrivning og ændringsvisningen til. Transformationer er slået fra, indtil du vælger dem."
+      "title": "Slå Transformationer til"
     },
     "commandMode": {
       "title": "Kommandotilstand",
-      "on": "Til",
-      "off": "Fra",
-      "help": "Hold genvejen til Kommandotilstand nede, og sig, hvordan det valgte skal ændres, eller hvad der skal skrives. Uden valg giver feltet kontekst, og resultatet sættes ind ved indsætningsmærket. Alt bliver på denne Mac; Kommandotilstand slår aldrig noget op. Når den er slået fra, dikterer genvejen som normalt."
+      "help": "Hold genvejen nede, og sig, hvad der skal skrives eller ændres."
     },
     "auto": {
       "title": "Anvend efter hver diktering",
-      "help": "Kører den valgte transformation efter oprydning. Hvis den ikke kan gøres færdig, indsættes din oprensede diktering uændret. Kørsler med mindre end 5 sekunders mellemrum springes over.",
       "choice": "Transformation, der skal anvendes",
       "none": "Vælg en transformation"
     },
@@ -1307,33 +1301,20 @@
     "myTransforms": "Mine transformationer",
     "reset": "Nulstil til standard",
     "resetConfirm": "Vil du nulstille Polish og Prompt Engineer og fjerne alle egne transformationer?",
-    "createNew": "Opret ny",
+    "createNew": "Ny transformation",
     "deleteConfirm": "Vil du slette {{name}}? Det kan ikke fortrydes.",
     "loading": "Indlæser dine transformationer…",
     "empty": "Ingen transformationer endnu. Opret en for at komme i gang.",
     "error": "Ændringen af transformationen kunne ikke gemmes. Prøv igen.",
     "card": {
-      "createOwn": "Opret din egen",
-      "createOwnHint": "Vælg regler, instruktioner og skriveeksempler.",
       "delete": "Slet {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Retter grammatik og formulering, men bevarer din stemme."
-      },
-      "prompt_engineer": {
-        "description": "Gør løse noter til en tydelig og komplet AI-prompt."
-      }
-    },
     "new": {
-      "name": "Min transformation",
-      "description": "Omskriv tekst, som jeg vil have det.",
-      "prompt": "Omskriv den valgte tekst, og bevar dens betydning, fakta og sprog."
+      "name": "Min transformation"
     },
     "editor": {
       "title": "Rediger {{name}}",
       "name": "Navn",
-      "description": "Beskrivelse",
       "hotkey": "Genvej",
       "addHotkey": "Tilføj genvej",
       "example": "Eksempel",
@@ -1341,8 +1322,6 @@
       "exampleText": "øh kan du sende mig rapporten i morgen måske kan vi snakke om det der",
       "preview": "Eksempel",
       "previewing": "Viser eksempel…",
-      "customPrompt": "Egen prompt",
-      "customPromptHelp": "Tilføj specifikke instruktioner. Den valgte tekst bliver transformeret, aldrig besvaret.",
       "rules": "Redigeringsregler",
       "autosave": {
         "saved": "Automatisk arkivering · Alle ændringer er gemt",
@@ -1359,28 +1338,26 @@
         "failed": "Svaret fra den lokale AI bestod ikke sikkerhedstjekkene. Prøv igen, eller omformuler instruktionen.",
         "timeout": "Den lokale AI brugte for lang tid. Prøv igen.",
         "no_engine": "Den lokale AI er ikke klar endnu. Nøjagtige ændringer virker stadig."
-      }
+      },
+      "instruction": "Hvad skal den gøre?",
+      "instructionPlaceholder": "For eksempel: erstat alle “A” med 0, eller gør det venligere",
+      "more": "Flere muligheder"
     },
     "rules": {
       "shorter": {
-        "title": "Kortere",
-        "help": "Fjern gentagelser og ekstra ord."
+        "title": "Kortere"
       },
       "clearer": {
-        "title": "Tydeligere formulering",
-        "help": "Brug et direkte og præcist sprog."
+        "title": "Tydeligere formulering"
       },
       "better_order": {
-        "title": "Bedre rækkefølge",
-        "help": "Sæt idéer i en logisk rækkefølge."
+        "title": "Bedre rækkefølge"
       },
       "headings_lists": {
-        "title": "Tilføj overskrifter og lister",
-        "help": "Gør det lettere at skanne længere tekst."
+        "title": "Tilføj overskrifter og lister"
       },
       "keep_tone": {
-        "title": "Behold min tone",
-        "help": "Bevar din stemme og grad af formalitet."
+        "title": "Behold min tone"
       }
     },
     "examples": {
@@ -1391,9 +1368,7 @@
       "paste": "Indsæt et eksempel",
       "load": "Indlæs .txt eller .md",
       "remove": "Fjern eksempel {{number}}",
-      "readError": "Vælg en .txt- eller .md-fil med højst {{chars}} tegn.",
-      "help_one": "Indsæt eller indlæs op til {{max}} eksempel på {{chars}} tegn. Det styrer stilen uden at blive en del af resultatet.",
-      "help_other": "Indsæt eller indlæs op til {{max}} eksempler på hver {{chars}} tegn. De styrer stilen uden at blive en del af resultatet."
+      "readError": "Vælg en .txt- eller .md-fil med højst {{chars}} tegn."
     },
     "diff": {
       "changes_one": "{{count}} ændring",
@@ -1409,10 +1384,8 @@
       "simpleView": "Viser én erstatning for denne store eller komplekse ændring.",
       "actionFailed": "Handlingen virkede ikke. Din tekst er her stadig; prøv igen."
     },
-    "startTutorial": "Start vejledning",
     "findReplace": {
       "title": "Find og erstat",
-      "help": "Nøjagtige ændringer, der udføres uden AI, hver gang denne transformation kører. Lad “Erstat med” stå tomt for at fjerne teksten.",
       "find": "Find, række {{number}}",
       "replace": "Erstat med, række {{number}}",
       "findPlaceholder": "Find",
@@ -1421,19 +1394,6 @@
       "remove": "Fjern række {{number}}",
       "add": "Tilføj en erstatning"
     },
-    "plan": {
-      "exact": "Kører nøjagtigt, uden AI",
-      "mixed": "Udført nøjagtigt, uden AI:",
-      "rulesUnused": "Redigeringsregler og skriveeksempler bruges ikke: Prompten beder kun om nøjagtige ændringer.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Fjern {{find}}",
-      "upper": "STORE BOGSTAVER",
-      "lower": "små bogstaver",
-      "title": "Stort Begyndelsesbogstav",
-      "emoji": "emojis",
-      "email": "e-mailadresser",
-      "url": "links"
-    },
     "model": {
       "downloading": "Gør transformationer klar: engangsdownload, {{percent}} %",
       "verifying": "Gør transformationer klar: tjekker downloaden…",
@@ -1441,6 +1401,10 @@
       "progressLabel": "Download til transformationer",
       "failed": "Det, transformationer kræver, kunne ikke hentes. Tjek din forbindelse.",
       "retry": "Prøv igen"
+    },
+    "subtitle": "Markér tekst i en hvilken som helst app, og tryk på en genvej for at omskrive den.",
+    "settings": {
+      "title": "Indstillinger for transformationer"
     }
   },
   "cleanup": {

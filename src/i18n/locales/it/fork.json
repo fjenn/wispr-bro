@@ -1315,24 +1315,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Riscrivi il testo selezionato in qualsiasi app",
-      "body": "Scegli una trasformazione, seleziona del testo e usa la sua abbreviazione. Il tuo testo resta su questo Mac.",
       "tryIt": "Provalo",
       "howItWorks": "Come funziona"
     },
     "enable": {
-      "title": "Abilita Trasformazioni",
-      "help": "Attiva le abbreviazioni di riscrittura e la vista delle modifiche. Le trasformazioni restano disattivate finché non le scegli."
+      "title": "Abilita Trasformazioni"
     },
     "commandMode": {
       "title": "Modalità Comandi",
-      "on": "Attiva",
-      "off": "Non attiva",
-      "help": "Tieni premuta l’abbreviazione della modalità Comandi, poi di’ come modificare la selezione o cosa scrivere. Senza selezione, il campo fornisce il contesto e il risultato viene inserito nel punto di inserimento. Tutto resta su questo Mac; la modalità Comandi non cerca mai nulla online. Se è disattivata, l’abbreviazione detta normalmente."
+      "help": "Tieni premuta la scorciatoia e di' cosa scrivere o cambiare."
     },
     "auto": {
       "title": "Applica dopo ogni dettatura",
-      "help": "Esegue la trasformazione scelta dopo la pulizia. Se non riesce a terminare, la dettatura pulita viene incollata senza modifiche. Le esecuzioni a meno di 5 secondi l’una dall’altra vengono saltate.",
       "choice": "Trasformazione da applicare",
       "none": "Scegli una trasformazione"
     },
@@ -1343,33 +1337,20 @@
     "myTransforms": "Le mie trasformazioni",
     "reset": "Ripristina predefinite",
     "resetConfirm": "Ripristinare Polish e Prompt Engineer e rimuovere tutte le trasformazioni personalizzate?",
-    "createNew": "Crea nuova",
+    "createNew": "Nuova trasformazione",
     "deleteConfirm": "Eliminare {{name}}? L’operazione non può essere annullata.",
     "loading": "Caricamento delle trasformazioni…",
     "empty": "Ancora nessuna trasformazione. Creane una per iniziare.",
     "error": "Impossibile salvare la modifica alla trasformazione. Riprova.",
     "card": {
-      "createOwn": "Creane una tua",
-      "createOwnHint": "Scegli regole, istruzioni ed esempi di scrittura.",
       "delete": "Elimina {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Sistema grammatica e lessico mantenendo il tuo stile."
-      },
-      "prompt_engineer": {
-        "description": "Trasforma appunti grezzi in un prompt AI chiaro e completo."
-      }
-    },
     "new": {
-      "name": "La mia trasformazione",
-      "description": "Riscrive il testo come voglio io.",
-      "prompt": "Riscrivi il testo selezionato mantenendone significato, fatti e lingua."
+      "name": "La mia trasformazione"
     },
     "editor": {
       "title": "Modifica {{name}}",
       "name": "Nome",
-      "description": "Descrizione",
       "hotkey": "Abbreviazione",
       "addHotkey": "Aggiungi abbreviazione",
       "example": "Esempio",
@@ -1377,8 +1358,6 @@
       "exampleText": "ehm potresti mandarmi il report domani magari ne parliamo allora",
       "preview": "Anteprima",
       "previewing": "Anteprima in corso…",
-      "customPrompt": "Prompt personalizzato",
-      "customPromptHelp": "Aggiungi istruzioni specifiche. Il testo selezionato viene trasformato, mai trattato come una domanda a cui rispondere.",
       "rules": "Regole di modifica",
       "autosave": {
         "saved": "Salvataggio automatico · Tutte le modifiche salvate",
@@ -1395,28 +1374,26 @@
         "failed": "La risposta dell’IA locale non ha superato i controlli di sicurezza. Riprova o riformula l’istruzione.",
         "timeout": "L’IA locale ci ha messo troppo. Riprova.",
         "no_engine": "L’IA locale non è ancora pronta. Le modifiche esatte funzionano comunque."
-      }
+      },
+      "instruction": "Che cosa deve fare?",
+      "instructionPlaceholder": "Per esempio: sostituisci tutte le «A» con 0, oppure rendilo più cordiale",
+      "more": "Altre opzioni"
     },
     "rules": {
       "shorter": {
-        "title": "Più corto",
-        "help": "Elimina ripetizioni e parole superflue."
+        "title": "Più corto"
       },
       "clearer": {
-        "title": "Formulazione più chiara",
-        "help": "Usa un linguaggio diretto e preciso."
+        "title": "Formulazione più chiara"
       },
       "better_order": {
-        "title": "Ordine migliore",
-        "help": "Disponi le idee in una sequenza logica."
+        "title": "Ordine migliore"
       },
       "headings_lists": {
-        "title": "Aggiungi titoli ed elenchi",
-        "help": "Rende i testi lunghi più facili da scorrere."
+        "title": "Aggiungi titoli ed elenchi"
       },
       "keep_tone": {
-        "title": "Mantieni il mio tono",
-        "help": "Conserva il tuo stile e il livello di formalità."
+        "title": "Mantieni il mio tono"
       }
     },
     "examples": {
@@ -1427,10 +1404,7 @@
       "paste": "Incolla un esempio",
       "load": "Carica .txt o .md",
       "remove": "Rimuovi esempio {{number}}",
-      "readError": "Scegli un file .txt o .md di non più di {{chars}} caratteri.",
-      "help_one": "Incolla o carica fino a {{max}} esempio di massimo {{chars}} caratteri. Guida lo stile senza entrare nel risultato.",
-      "help_many": "Incolla o carica fino a {{max}} di esempi, di massimo {{chars}} caratteri ciascuno. Guidano lo stile senza entrare nel risultato.",
-      "help_other": "Incolla o carica fino a {{max}} esempi, di massimo {{chars}} caratteri ciascuno. Guidano lo stile senza entrare nel risultato."
+      "readError": "Scegli un file .txt o .md di non più di {{chars}} caratteri."
     },
     "diff": {
       "changes_one": "{{count}} modifica",
@@ -1447,10 +1421,8 @@
       "simpleView": "Viene mostrata un’unica sostituzione per questa modifica ampia o complessa.",
       "actionFailed": "L’azione non è riuscita. Il testo è ancora qui; riprova."
     },
-    "startTutorial": "Avvia tutorial",
     "findReplace": {
       "title": "Trova e sostituisci",
-      "help": "Modifiche esatte, eseguite senza IA a ogni esecuzione di questa trasformazione. Lascia «Sostituisci con» vuoto per rimuovere il testo.",
       "find": "Trova, riga {{number}}",
       "replace": "Sostituisci con, riga {{number}}",
       "findPlaceholder": "Trova",
@@ -1459,19 +1431,6 @@
       "remove": "Rimuovi la riga {{number}}",
       "add": "Aggiungi una sostituzione"
     },
-    "plan": {
-      "exact": "Eseguito esattamente, senza IA",
-      "mixed": "Fatto esattamente, senza IA:",
-      "rulesUnused": "Le regole di modifica e gli esempi di scrittura non vengono usati: il prompt richiede solo modifiche esatte.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Rimuovi {{find}}",
-      "upper": "MAIUSCOLO",
-      "lower": "minuscolo",
-      "title": "Iniziali Maiuscole",
-      "emoji": "emoji",
-      "email": "indirizzi email",
-      "url": "link"
-    },
     "model": {
       "downloading": "Preparazione delle trasformazioni: download una tantum, {{percent}}%",
       "verifying": "Preparazione delle trasformazioni: verifica del download…",
@@ -1479,6 +1438,10 @@
       "progressLabel": "Download per le trasformazioni",
       "failed": "Impossibile scaricare ciò che serve alle trasformazioni. Controlla la connessione.",
       "retry": "Riprova"
+    },
+    "subtitle": "Seleziona del testo in qualsiasi app e premi una scorciatoia per riscriverlo.",
+    "settings": {
+      "title": "Impostazioni delle trasformazioni"
     }
   },
   "cleanup": {

@@ -1,23 +1,29 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Play, RotateCcw, X } from "../ui/icons";
+import { ChevronDown, Play, RotateCcw, X } from "../ui/icons";
 import {
   commands,
   type HotkeyBinding,
   type TransformEntry,
   type TransformInput,
-  type TransformPlan,
   type TransformPreview,
+  type TransformRules,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Badge, Button, FOCUS_RING } from "../ui";
+import { Badge, Button, Chip, ChipGroup, FOCUS_RING } from "../ui";
 import { BindingRow } from "../settings/hotkeys/BindingRow";
 import { useForkSettings } from "../settings/useForkSettings";
 import { ExamplesEditor } from "./ExamplesEditor";
 import { FindReplaceEditor } from "./FindReplaceEditor";
-import { PlanNote } from "./PlanNote";
-import { RulesList } from "./RulesList";
+
+const RULE_KEYS = [
+  "shorter",
+  "clearer",
+  "better_order",
+  "headings_lists",
+  "keep_tone",
+] as const satisfies (keyof TransformRules)[];
 
 function inputFor(entry: TransformEntry): TransformInput {
   return {
@@ -49,9 +55,12 @@ export function TransformModal({
   const [previewing, setPreviewing] = useState(false);
   const [preview, setPreview] = useState<TransformPreview | null>(null);
   const [previewError, setPreviewError] = useState(false);
-  const [plan, setPlan] = useState<TransformPlan | null>(null);
   const [example, setExample] = useState(() =>
     t("transforms.editor.exampleText"),
+  );
+  // Find and replace rows and writing examples stay folded unless used.
+  const [moreOpen] = useState(
+    () => entry.replacements.length > 0 || entry.examples.length > 0,
   );
   const dialogRef = useRef<HTMLDialogElement>(null);
   const original = useRef(inputFor(entry));
@@ -83,21 +92,6 @@ export function TransformModal({
     },
     [entry.id, onSaved],
   );
-
-  useEffect(() => {
-    let current = true;
-    commands
-      .forkTransformPlan(draft)
-      .then((next) => {
-        if (current) setPlan(next);
-      })
-      .catch(() => {
-        if (current) setPlan(null);
-      });
-    return () => {
-      current = false;
-    };
-  }, [draft]);
 
   useEffect(() => {
     if (JSON.stringify(draft) === JSON.stringify(original.current)) return;
@@ -226,36 +220,48 @@ export function TransformModal({
               )}
             </div>
           </div>
+          {/* XF2: the one instruction, exactly what runs. */}
           <label className="flex flex-col gap-1.5 text-[14px] font-medium">
-            {t("transforms.editor.description")}
+            {t("transforms.editor.instruction")}
             <textarea
-              value={draft.description}
-              maxLength={500}
-              rows={2}
-              onChange={(event) =>
-                update("description", event.currentTarget.value)
-              }
-              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[15px] font-normal select-text transition-colors duration-(--wb-dur-fast) hover:border-(--wb-ink-3) ${FOCUS_RING}`}
-              data-testid="wb-transform-description"
+              value={draft.prompt}
+              maxLength={6000}
+              rows={4}
+              placeholder={t("transforms.editor.instructionPlaceholder")}
+              onChange={(event) => update("prompt", event.currentTarget.value)}
+              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[15px] font-normal select-text transition-colors duration-(--wb-dur-fast) placeholder:text-(--wb-ink-3) hover:border-(--wb-ink-3) ${FOCUS_RING}`}
+              data-testid="wb-transform-prompt"
             />
           </label>
+          <ChipGroup
+            label={t("transforms.editor.rules")}
+            data-testid="wb-transform-rules"
+          >
+            {RULE_KEYS.map((key) => (
+              <Chip
+                key={key}
+                size="sm"
+                selected={draft.rules[key]}
+                onSelectedChange={(on) =>
+                  update("rules", { ...draft.rules, [key]: on })
+                }
+                testId={`wb-transform-rule-${key}`}
+              >
+                {t(`transforms.rules.${key}.title`)}
+              </Chip>
+            ))}
+          </ChipGroup>
           <section
-            aria-labelledby="wb-transform-example-title"
+            aria-label={t("transforms.editor.example")}
             className="flex flex-col gap-3 rounded-(--wb-radius-md) bg-(--wb-surface-tint) p-4"
           >
-            <h3
-              id="wb-transform-example-title"
-              className="type-micro m-0 text-(--wb-ink-3)"
-            >
-              {t("transforms.editor.example")}
-            </h3>
             <label htmlFor="wb-transform-example-input" className="sr-only">
               {t("transforms.editor.exampleInput")}
             </label>
             <textarea
               id="wb-transform-example-input"
               value={example}
-              rows={3}
+              rows={2}
               onChange={(event) => {
                 setExample(event.currentTarget.value);
                 setPreview(null);
@@ -311,34 +317,31 @@ export function TransformModal({
               </p>
             )}
           </section>
-          <RulesList
-            value={draft.rules}
-            onChange={(rules) => update("rules", rules)}
-            unused={plan?.prompt_exact ?? false}
-          />
-          <label className="flex flex-col gap-1.5 text-[14px] font-medium">
-            {t("transforms.editor.customPrompt")}
-            <span className="type-small font-normal text-(--wb-ink-2)">
-              {t("transforms.editor.customPromptHelp")}
-            </span>
-            <textarea
-              value={draft.prompt}
-              maxLength={6000}
-              rows={5}
-              onChange={(event) => update("prompt", event.currentTarget.value)}
-              className={`resize-y rounded-(--wb-radius-sm) border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 text-[15px] font-normal select-text transition-colors duration-(--wb-dur-fast) hover:border-(--wb-ink-3) ${FOCUS_RING}`}
-              data-testid="wb-transform-prompt"
-            />
-          </label>
-          <PlanNote plan={plan} />
-          <FindReplaceEditor
-            value={draft.replacements}
-            onChange={(replacements) => update("replacements", replacements)}
-          />
-          <ExamplesEditor
-            value={draft.examples}
-            onChange={(examples) => update("examples", examples)}
-          />
+          <details open={moreOpen} className="group/more flex flex-col">
+            <summary
+              className={`flex w-fit cursor-pointer list-none items-center gap-1.5 rounded-(--wb-radius-xs) text-[14px] font-medium text-(--wb-ink-2) hover:text-(--wb-ink) [&::-webkit-details-marker]:hidden ${FOCUS_RING}`}
+              data-testid="wb-transform-more"
+            >
+              <ChevronDown
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-(--wb-dur-fast) group-open/more:rotate-180"
+              />
+              {t("transforms.editor.more")}
+            </summary>
+            <div className="mt-4 flex flex-col gap-6">
+              <FindReplaceEditor
+                value={draft.replacements}
+                onChange={(replacements) =>
+                  update("replacements", replacements)
+                }
+              />
+              <ExamplesEditor
+                value={draft.examples}
+                onChange={(examples) => update("examples", examples)}
+              />
+            </div>
+          </details>
         </div>
         <footer className="flex items-center justify-between border-t border-(--wb-line) px-6 py-4">
           <Button
