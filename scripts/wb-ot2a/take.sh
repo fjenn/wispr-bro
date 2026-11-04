@@ -103,7 +103,11 @@ docA=""; docB=""
 "$BIN/clip" save "$T/clip-saved" >"$T/clip-save.json"
 case "$CASE" in
   hold:cmdtab | free:cmdtab) docA=$(new_doc a); sleep 1; finder_open; expect=com.apple.finder ;;
-  hold:click) docB=$(new_doc b); sleep 1; docA=$(new_doc a); expect=com.apple.TextEdit ;;
+  hold:click)
+    # Two instances open their windows at the same place: side by side.
+    docB=$(new_doc b); sleep 1; "$BIN/te" move "$docB" 80 120 520 420
+    docA=$(new_doc a); sleep 1; "$BIN/te" move "$docA" 660 120 520 420
+    expect=com.apple.TextEdit ;;
   hold:finder | hold:desktop) finder_open; sleep 1; docA=$(new_doc a); expect=com.apple.TextEdit ;;
   *) echo "unknown case $CASE" >&2; exit 2 ;;
 esac

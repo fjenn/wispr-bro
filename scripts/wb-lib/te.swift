@@ -10,6 +10,8 @@
 //   te point <pid>      centre of its frontmost window, global top-left points
 //   te activate <pid>   brings that instance to the front
 //   te front            {"pid":…,"bundle":…} of the frontmost app
+//   te move <pid> <x> <y> [w h]   moves (and sizes) its first window (AX):
+//                       two instances open their windows at the same place
 //
 // Build: swiftc -O -o <bin>/te scripts/wb-lib/te.swift
 
@@ -38,7 +40,7 @@ func textArea(_ el: AXUIElement, depth: Int = 0) -> AXUIElement? {
 
 func pidArg() -> pid_t {
     guard CommandLine.arguments.count > 2, let p = Int32(CommandLine.arguments[2]) else {
-        fail("usage: te text|point|activate <pid> | te front")
+        fail("usage: te text|point|activate|move <pid> | te front")
     }
     guard let app = NSRunningApplication(processIdentifier: p),
           app.bundleIdentifier == "com.apple.TextEdit" else { fail("pid \(p) is not TextEdit") }
@@ -78,10 +80,30 @@ case "activate":
         if NSWorkspace.shared.frontmostApplication?.processIdentifier == p { exit(0) }
     }
     fail("pid \(p) did not come to the front")
+case "move":
+    let p = pidArg()
+    let a = CommandLine.arguments
+    guard a.count > 4, let x = Double(a[3]), let y = Double(a[4]) else { fail("te move <pid> <x> <y> [w h]") }
+    let app = AXUIElementCreateApplication(p)
+    var done = false
+    for _ in 0..<40 {
+        if let w = ((attr(app, kAXWindowsAttribute) as? [AXUIElement]) ?? []).first {
+            var pt = CGPoint(x: x, y: y)
+            if let v = AXValueCreate(.cgPoint, &pt) { AXUIElementSetAttributeValue(w, kAXPositionAttribute as CFString, v) }
+            if a.count > 6, let wd = Double(a[5]), let h = Double(a[6]) {
+                var sz = CGSize(width: wd, height: h)
+                if let v = AXValueCreate(.cgSize, &sz) { AXUIElementSetAttributeValue(w, kAXSizeAttribute as CFString, v) }
+            }
+            done = true
+            break
+        }
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.05))
+    }
+    if !done { fail("no window") }
 case "front":
     RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.002))
     let f = NSWorkspace.shared.frontmostApplication
     print("{\"pid\":\(f?.processIdentifier ?? -1),\"bundle\":\"\(f?.bundleIdentifier ?? "?")\"}")
 default:
-    fail("usage: te text|point|activate <pid> | te front")
+    fail("usage: te text|point|activate|move <pid> | te front")
 }
