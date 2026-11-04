@@ -3,7 +3,8 @@
  * One style group's tab (S-19a/b): the apps and sites that use it (icons;
  * "+" adds an app; each chip's menu moves it to another group, takes it out,
  * returns it to its default group and turns "Press Enter after dictating"
- * on or off), then the group's three presets as
+ * on or off; "+" adds a website by its domain, and websites dictated on
+ * with no group yet are offered for one click), then the group's three presets as
  * before/after cards. Other also covers every app not in a group.
  */
 import { useId, useState } from "react";
@@ -25,6 +26,7 @@ import { AppIcon } from "./AppIcon";
 import { AppPicker } from "./AppPicker";
 import { PresetCard } from "./PresetCard";
 import { SiteChip } from "./SiteChip";
+import { AddSiteDialog, recentUnassigned } from "./AddSiteDialog";
 import { EXAMPLES, PRESETS } from "./presets";
 import { STYLE_GROUPS, useStyleStore } from "./useStyle";
 
@@ -179,6 +181,9 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
   );
 }
 
+/** Sites a group shows before "Show all". */
+const SITES_COLLAPSED = 12;
+
 export function GroupTab({ group }: { group: StyleGroup }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const apps = useStyleStore((s) => s.apps);
@@ -187,6 +192,9 @@ export function GroupTab({ group }: { group: StyleGroup }) {
   const change = useStyleStore((s) => s.change);
   const { settings, pending, setSetting } = useForkSettings();
   const [picking, setPicking] = useState(false);
+  const [addingSite, setAddingSite] = useState(false);
+  const [showAllSites, setShowAllSites] = useState(false);
+  const recentHeading = useId();
   const name = useId();
   const appsHeading = useId();
   const sitesHeading = useId();
@@ -194,6 +202,11 @@ export function GroupTab({ group }: { group: StyleGroup }) {
 
   const members = apps.filter((a) => a.group === group);
   const siteMembers = sites.filter((s) => s.group === group);
+  const shownSites = showAllSites
+    ? siteMembers
+    : siteMembers.slice(0, SITES_COLLAPSED);
+  // Other already lists them as members.
+  const recent = group === "other" ? [] : recentUnassigned(sites);
   const groupName = t(`style.groups.${group}.label`);
   const current = settings?.styles[group];
   const example = EXAMPLES[group];
@@ -212,6 +225,21 @@ export function GroupTab({ group }: { group: StyleGroup }) {
     } else {
       toast.error(t("style.apps.changeFailed"));
     }
+  };
+
+  const addSite = async (host: string, to: StyleGroup) => {
+    const ok = await change(() => commands.forkStyleSetSiteGroup(host, to));
+    if (ok) {
+      toast.success(
+        t("style.apps.added", {
+          app: host,
+          group: t(`style.groups.${to}.label`),
+        }),
+      );
+    } else {
+      toast.error(t("style.apps.changeFailed"));
+    }
+    return ok;
   };
 
   return (
@@ -279,26 +307,82 @@ export function GroupTab({ group }: { group: StyleGroup }) {
         </div>
       )}
 
-      {siteMembers.length > 0 && (
-        <section
-          aria-labelledby={sitesHeading}
-          className="flex flex-col gap-2.5"
-          data-testid="wb-style-sites-section"
+      <section
+        aria-labelledby={sitesHeading}
+        className="flex flex-col gap-2.5"
+        data-testid="wb-style-sites-section"
+      >
+        <SectionLabel id={sitesHeading}>
+          {t("style.sites.heading")}
+        </SectionLabel>
+        <ul
+          className="flex flex-wrap items-center gap-2"
+          aria-label={t("style.sites.listLabel", { group: groupName })}
+          data-testid="wb-style-sites"
         >
-          <SectionLabel id={sitesHeading}>
-            {t("style.sites.heading")}
-          </SectionLabel>
-          <ul
-            className="flex flex-wrap items-center gap-2"
-            aria-label={t("style.sites.listLabel", { group: groupName })}
-            data-testid="wb-style-sites"
+          {shownSites.map((site) => (
+            <SiteChip key={site.host} site={site} group={group} />
+          ))}
+          <li>
+            <button
+              type="button"
+              onClick={() => setAddingSite(true)}
+              data-testid="wb-style-add-site"
+              className={`flex h-9 cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) border border-dashed border-(--wb-line-strong) px-3 text-[13px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            >
+              <Plus size={16} aria-hidden="true" />
+              {t("style.sites.addShort")}
+            </button>
+          </li>
+        </ul>
+        {siteMembers.length > SITES_COLLAPSED && (
+          <button
+            type="button"
+            onClick={() => setShowAllSites((v) => !v)}
+            aria-expanded={showAllSites}
+            data-testid="wb-style-sites-more"
+            className={`self-start rounded-(--wb-radius-sm) text-[13px] text-(--wb-ink-2) underline-offset-2 hover:text-(--wb-ink) hover:underline ${FOCUS_RING}`}
           >
-            {siteMembers.map((site) => (
-              <SiteChip key={site.host} site={site} group={group} />
-            ))}
-          </ul>
-        </section>
-      )}
+            {showAllSites
+              ? t("style.sites.showFewer")
+              : t("style.sites.showAll", { count: siteMembers.length })}
+          </button>
+        )}
+        {recent.length > 0 && (
+          <div
+            className="flex flex-col gap-2 pt-1"
+            data-testid="wb-style-sites-recent"
+          >
+            <p id={recentHeading} className="text-[13px] text-(--wb-ink-2)">
+              {t("style.sites.recent.hint", { group: groupName })}
+            </p>
+            <ul
+              className="flex flex-wrap items-center gap-2"
+              aria-labelledby={recentHeading}
+            >
+              {recent.map((site) => (
+                <li key={site.host}>
+                  <button
+                    type="button"
+                    onClick={() => void addSite(site.host, group)}
+                    aria-label={t("style.sites.recent.addLabel", {
+                      host: site.host,
+                      group: groupName,
+                    })}
+                    data-testid="wb-style-site-recent"
+                    data-host={site.host}
+                    dir="ltr"
+                    className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) border border-(--wb-line-2) bg-(--wb-surface) px-2.5 text-[13px] text-(--wb-ink) hover:bg-(--wb-surface-tint) ${FOCUS_RING}`}
+                  >
+                    <Plus size={14} aria-hidden="true" />
+                    {site.host}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
 
       <section aria-labelledby={presetsHeading} className="flex flex-col gap-4">
         <h2 id={presetsHeading} className="sr-only">
@@ -346,6 +430,13 @@ export function GroupTab({ group }: { group: StyleGroup }) {
         </p>
       </section>
 
+      <AddSiteDialog
+        open={addingSite}
+        onOpenChange={setAddingSite}
+        group={group}
+        sites={sites}
+        onAdd={addSite}
+      />
       <AppPicker
         open={picking}
         onOpenChange={setPicking}

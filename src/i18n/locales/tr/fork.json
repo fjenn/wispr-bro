@@ -229,12 +229,12 @@
       "intro": "Wispr Bro, düzenleyicinizin gösterdiği kod ve dosya adlarını okur. Dosyalarınızı asla açmaz.",
       "contextOff": "Bağlam farkındalığı kapalı olduğu için bu özelliklerin okuyacağı bir şey yok. Bunları kullanmak için bağlam farkındalığını açın.",
       "recognize": "Kod adlarını tanı",
-      "recognizeHint": "Düzenleyicide görünen adları kodunuzun yazdığı gibi yazar.",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "Ayarla",
       "change": "Düzenleyicileri değiştir",
       "setUpFor": "Şunlar için ayarla: {{editors}}",
       "fileTags": "Sohbette dosyaları etiketle",
-      "fileTagsHint": "Cursor veya Windsurf sohbetinde “index dot ts” demek @index.ts yazar.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "Düzenleyicilerinize Cursor veya Windsurf’ü ekledikten sonra kullanılabilir.",
       "fileTagsNeedsSetup": "Kod adı tanımayı ayarladıktan sonra kullanılabilir.",
       "setup": {
@@ -1905,7 +1905,28 @@
     },
     "sites": {
       "heading": "Bu sitelerde kullanılır",
-      "listLabel": "{{group}} stilini kullanan siteler"
+      "listLabel": "{{group}} stilini kullanan siteler",
+      "addShort": "Add website",
+      "showAll_one": "Show all {{count}} website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "{{group}} grubuna uygulama ekle",

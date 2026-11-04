@@ -229,12 +229,12 @@
       "intro": "Wispr Bro आपके एडिटर में दिखे कोड और फ़ाइल नाम पढ़ता है। यह आपकी फ़ाइलें कभी नहीं खोलता।",
       "contextOff": "संदर्भ की समझ बंद है, इसलिए इन सुविधाओं के पास पढ़ने को कुछ नहीं है। इन्हें इस्तेमाल करने के लिए उसे चालू करें।",
       "recognize": "कोड नाम पहचानें",
-      "recognizeHint": "एडिटर में दिखे नामों को वैसे ही लिखता है जैसे आपका कोड लिखता है।",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "सेट अप करें",
       "change": "एडिटर बदलें",
       "setUpFor": "{{editors}} के लिए सेट अप करें",
       "fileTags": "चैट में फ़ाइलें टैग करें",
-      "fileTagsHint": "Cursor या Windsurf चैट में “index dot ts” कहने पर @index.ts लिखा जाता है।",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "अपने एडिटर में Cursor या Windsurf जोड़ने के बाद उपलब्ध।",
       "fileTagsNeedsSetup": "कोड नाम पहचान सेट अप करने के बाद उपलब्ध।",
       "setup": {
@@ -1905,7 +1905,28 @@
     },
     "sites": {
       "heading": "इन साइट्स पर इस्तेमाल",
-      "listLabel": "{{group}} शैली इस्तेमाल करने वाली साइट्स"
+      "listLabel": "{{group}} शैली इस्तेमाल करने वाली साइट्स",
+      "addShort": "Add website",
+      "showAll_one": "Show all {{count}} website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "{{group}} में ऐप जोड़ें",

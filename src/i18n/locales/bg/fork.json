@@ -229,12 +229,12 @@
       "intro": "Wispr Bro чете имената от кода и файловете, които редакторът показва. Никога не отваря файловете ви.",
       "contextOff": "Отчитането на контекста е изключено, затова тези функции нямат какво да четат. Включете го, за да ги използвате.",
       "recognize": "Разпознаване на имена в кода",
-      "recognizeHint": "Пише имената, видими в редактора, така, както ги пише кодът ви.",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "Настрой",
       "change": "Смени редакторите",
       "setUpFor": "Настрой за {{editors}}",
       "fileTags": "Маркиране на файлове в чата",
-      "fileTagsHint": "В чата на Cursor или Windsurf „index dot ts“ се изписва като @index.ts.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "Достъпно, след като добавите Cursor или Windsurf към редакторите си.",
       "fileTagsNeedsSetup": "Достъпно, след като настроите разпознаването на имена в кода.",
       "setup": {
@@ -1905,7 +1905,28 @@
     },
     "sites": {
       "heading": "Използва се на тези сайтове",
-      "listLabel": "Сайтове със стил {{group}}"
+      "listLabel": "Сайтове със стил {{group}}",
+      "addShort": "Add website",
+      "showAll_one": "Show all {{count}} website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "Добавяне на приложение към {{group}}",

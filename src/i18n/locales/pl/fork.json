@@ -231,12 +231,12 @@
       "intro": "Wispr Bro czyta nazwy z kodu i plików widoczne w edytorze. Nigdy nie otwiera twoich plików.",
       "contextOff": "Świadomość kontekstu jest wyłączona, więc te funkcje nie mają czego odczytać. Włącz ją, aby z nich korzystać.",
       "recognize": "Rozpoznawaj nazwy z kodu",
-      "recognizeHint": "Zapisuje nazwy widoczne w edytorze tak, jak zapisuje je twój kod.",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "Skonfiguruj",
       "change": "Zmień edytory",
       "setUpFor": "Skonfiguruj dla: {{editors}}",
       "fileTags": "Oznaczaj pliki w czacie",
-      "fileTagsHint": "W czacie Cursor lub Windsurf „index dot ts” zamienia się w @index.ts.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "Dostępne po dodaniu Cursora lub Windsurfa do edytorów.",
       "fileTagsNeedsSetup": "Dostępne po skonfigurowaniu rozpoznawania nazw z kodu.",
       "setup": {
@@ -2059,7 +2059,30 @@
     },
     "sites": {
       "heading": "Używany na tych stronach",
-      "listLabel": "Strony używające stylu {{group}}"
+      "listLabel": "Strony używające stylu {{group}}",
+      "addShort": "Add website",
+      "showAll_one": "Show all {{count}} website",
+      "showAll_few": "Show all {{count}} websites",
+      "showAll_many": "Show all {{count}} websites",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "Dodaj aplikację do grupy {{group}}",

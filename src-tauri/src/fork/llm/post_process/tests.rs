@@ -717,6 +717,11 @@ mod styles {
             (gmail.group, gmail.preset),
             (Some(StyleGroup::Email), Some(StylePreset::Formal))
         );
+        // An AI chat site gets no style and counts as an AI chat (S-19b).
+        let chat = decide_style(&[], Some(CHROME), Some("chatgpt.com"), &s, true);
+        assert!(chat.ai_chat);
+        assert_eq!(chat.preset, None);
+        assert!(!decide_style(&[], Some(CHROME), Some("mail.google.com"), &s, true).ai_chat);
         let slack = decide_style(&[], Some(CHROME), Some("app.slack.com"), &s, true);
         assert_eq!(
             (slack.group, slack.preset),
@@ -745,6 +750,7 @@ mod styles {
             group: Some(StyleGroup::Personal),
             preset: Some(StylePreset::VeryRelaxed),
             auto_send: None,
+            ai_chat: false,
         };
         let keep = vec!["Wispr Bro".to_string()];
         assert_eq!(
@@ -764,6 +770,7 @@ mod styles {
             group: Some(StyleGroup::Work),
             preset: Some(StylePreset::Formal),
             auto_send: Some("com.tinyspeck.slackmacgap".into()),
+            ai_chat: false,
         };
         assert_eq!(
             auto_send_target(&d, None),

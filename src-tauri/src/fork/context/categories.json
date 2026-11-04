@@ -1,8 +1,11 @@
 {
-  "_about": "App and site taxonomies (R5 §4.3): style_group drives Styles, usage_category drives Insights, is_ai_chat drives the cleanup skip. A host rule overrides the browser app. Apps use an exact bundle id, then whole-token signatures, then the browser/other default. Hosts match themselves and subdomains; title_aliases may only reduce a window title to one of these known hosts. Loaded and tested by fork/context/categories.rs.",
-  "_sources": "`signatures` and `browsers` are the macOS-relevant app signatures of OpenWhispr src/helpers/toneAppCategories.js (OpenWhispr/openwhispr, commit b9e9ebefac4b961456c269164a93ddfdd53438b9, MIT, Copyright (c) 2024 OpenWhispr Team; LICENSES/MIT-OpenWhispr.txt). Several `apps` bundle ids come from AudioWhisper Sources/Managers/AppCategoryManager.swift (mazdak/AudioWhisper, commit 71fed3683d6e62f631c606003e57430622be0b2b, MIT, Copyright (c) 2024 AudioWhisper Contributors; LICENSES/MIT-AudioWhisper.txt). Host matching follows BetterWispr WritingMode.swift (commit 304335a073a98f7439e5f7b4fbc2c31b810b807e, VoiceInk-derived, GPL-3.0; Copyright (c) the VoiceInk authors). Modified by Wispr Bro contributors, 2026-10-31: mapped apps and sites to Wispr Bro's groups and usage categories. See docs/fork/PORTS.md.",
+  "_about": "App and site taxonomies (R5 §4.3): style_group drives Styles, usage_category drives Insights, is_ai_chat drives the cleanup skip. A host rule overrides the browser app. Apps use an exact bundle id, then whole-token signatures, then the browser/other default. Hosts match themselves and subdomains (the longest matching host wins); a host's is_ai_chat skips cleanup on that page as an AI-chat app's does; title_aliases may only reduce a window title to one of these known hosts. Loaded and tested by fork/context/categories.rs.",
+  "_sources": "`signatures` and `browsers` are the macOS-relevant app signatures of OpenWhispr src/helpers/toneAppCategories.js (OpenWhispr/openwhispr, commit b9e9ebefac4b961456c269164a93ddfdd53438b9, MIT, Copyright (c) 2024 OpenWhispr Team; LICENSES/MIT-OpenWhispr.txt). Several `apps` bundle ids come from AudioWhisper Sources/Managers/AppCategoryManager.swift (mazdak/AudioWhisper, commit 71fed3683d6e62f631c606003e57430622be0b2b, MIT, Copyright (c) 2024 AudioWhisper Contributors; LICENSES/MIT-AudioWhisper.txt). Host matching follows BetterWispr WritingMode.swift (commit 304335a073a98f7439e5f7b4fbc2c31b810b807e, VoiceInk-derived, GPL-3.0; Copyright (c) the VoiceInk authors). Modified by Wispr Bro contributors, 2026-10-31: mapped apps and sites to Wispr Bro's groups and usage categories. 2026-11-04: more apps and about 80 common sites (email, work chat and trackers, code hosts, social, documents, AI chats) added by Wispr Bro contributors from the apps' and sites' public names and addresses. See docs/fork/PORTS.md.",
   "apps": {
-    "com.apple.mail": { "style_group": "email", "usage_category": "email" },
+    "com.apple.mail": {
+      "style_group": "email",
+      "usage_category": "email"
+    },
     "com.microsoft.Outlook": {
       "style_group": "email",
       "usage_category": "email"
@@ -19,7 +22,10 @@
       "style_group": "email",
       "usage_category": "email"
     },
-    "com.google.Gmail": { "style_group": "email", "usage_category": "email" },
+    "com.google.Gmail": {
+      "style_group": "email",
+      "usage_category": "email"
+    },
     "com.freron.MailMate": {
       "style_group": "email",
       "usage_category": "email"
@@ -32,15 +38,22 @@
       "style_group": "email",
       "usage_category": "email"
     },
-
     "com.tinyspeck.slackmacgap": {
       "style_group": "work",
       "usage_category": "work"
     },
-    "com.microsoft.teams2": { "style_group": "work", "usage_category": "work" },
-    "com.microsoft.teams": { "style_group": "work", "usage_category": "work" },
-    "us.zoom.xos": { "style_group": "work", "usage_category": "work" },
-
+    "com.microsoft.teams2": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "com.microsoft.teams": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "us.zoom.xos": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
     "com.apple.MobileSMS": {
       "style_group": "personal",
       "usage_category": "personal"
@@ -73,7 +86,6 @@
       "style_group": "personal",
       "usage_category": "personal"
     },
-
     "com.apple.Notes": {
       "style_group": "other",
       "usage_category": "documents"
@@ -90,9 +102,18 @@
       "style_group": "other",
       "usage_category": "documents"
     },
-    "md.obsidian": { "style_group": "other", "usage_category": "documents" },
-    "notion.id": { "style_group": "other", "usage_category": "documents" },
-    "com.notion.id": { "style_group": "other", "usage_category": "documents" },
+    "md.obsidian": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "notion.id": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.notion.id": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
     "net.shinyfrog.bear": {
       "style_group": "other",
       "usage_category": "documents"
@@ -117,7 +138,6 @@
       "style_group": "other",
       "usage_category": "documents"
     },
-
     "com.openai.codex": {
       "style_group": "other",
       "usage_category": "ai_prompts",
@@ -150,6 +170,129 @@
     "com.exafunction.windsurf": {
       "style_group": "other",
       "usage_category": "ai_prompts"
+    },
+    "it.bloop.airmail2": {
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "io.canarymail.mac": {
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "ch.protonmail.desktop": {
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "com.frontapp.Front": {
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "Cisco-Systems.Spark": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "com.linear": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "com.atlassian.trello": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "com.basecamp.bc3-mac": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "Mattermost.Desktop": {
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "im.riot.app": {
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "com.skype.skype": {
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "com.facebook.archon.developerID": {
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "com.kakao.KakaoTalkMac": {
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "com.viber.osx": {
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "com.microsoft.Excel": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.microsoft.Powerpoint": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.microsoft.onenote.mac": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.apple.iWork.Keynote": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.apple.iWork.Numbers": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.apple.freeform": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.agiletortoise.Drafts-OSX": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "pro.writer.mac": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.literatureandlatte.scrivener3": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "net.cozic.joplin-desktop": {
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "com.electron.ollama": {
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "jan.ai.app": {
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "co.podzim.BoltGPT": {
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "com.microsoft.VSCode": {
+      "style_group": "other",
+      "usage_category": "other"
+    },
+    "com.microsoft.VSCodeInsiders": {
+      "style_group": "other",
+      "usage_category": "other"
+    },
+    "dev.zed.Zed": {
+      "style_group": "other",
+      "usage_category": "other"
     }
   },
   "signature_order": ["email", "work", "personal"],
@@ -223,17 +366,442 @@
     ]
   },
   "hosts": {
+    "mail.google.com": {
+      "name": "Gmail",
+      "style_group": "email",
+      "usage_category": "email",
+      "title_aliases": ["gmail"]
+    },
+    "outlook.live.com": {
+      "name": "Outlook",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "outlook.office.com": {
+      "name": "Outlook",
+      "style_group": "email",
+      "usage_category": "email",
+      "title_aliases": ["outlook"]
+    },
+    "outlook.office365.com": {
+      "name": "Outlook",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "outlook.cloud.microsoft": {
+      "name": "Outlook",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.yahoo.com": {
+      "name": "Yahoo Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.proton.me": {
+      "name": "Proton Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "app.fastmail.com": {
+      "name": "Fastmail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.zoho.com": {
+      "name": "Zoho Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.zoho.eu": {
+      "name": "Zoho Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "app.hey.com": {
+      "name": "HEY",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.superhuman.com": {
+      "name": "Superhuman",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "app.tuta.com": {
+      "name": "Tuta Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.aol.com": {
+      "name": "AOL Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.yandex.com": {
+      "name": "Yandex Mail",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "app.frontapp.com": {
+      "name": "Front",
+      "style_group": "email",
+      "usage_category": "email"
+    },
+    "mail.missiveapp.com": {
+      "name": "Missive",
+      "style_group": "email",
+      "usage_category": "email"
+    },
     "app.slack.com": {
       "name": "Slack",
       "style_group": "work",
       "usage_category": "work",
       "title_aliases": ["slack"]
     },
-    "mail.google.com": {
-      "name": "Gmail",
-      "style_group": "email",
-      "usage_category": "email",
-      "title_aliases": ["gmail"]
+    "teams.microsoft.com": {
+      "name": "Microsoft Teams",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "teams.live.com": {
+      "name": "Microsoft Teams",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "teams.cloud.microsoft": {
+      "name": "Microsoft Teams",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "chat.google.com": {
+      "name": "Google Chat",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "linear.app": {
+      "name": "Linear",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "atlassian.net": {
+      "name": "Jira and Confluence",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "app.asana.com": {
+      "name": "Asana",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "app.clickup.com": {
+      "name": "ClickUp",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "trello.com": {
+      "name": "Trello",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "basecamp.com": {
+      "name": "Basecamp",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "monday.com": {
+      "name": "monday.com",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "github.com": {
+      "name": "GitHub",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "gitlab.com": {
+      "name": "GitLab",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "bitbucket.org": {
+      "name": "Bitbucket",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "app.intercom.com": {
+      "name": "Intercom",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "app.hubspot.com": {
+      "name": "HubSpot",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "lightning.force.com": {
+      "name": "Salesforce",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "zendesk.com": {
+      "name": "Zendesk",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "linkedin.com": {
+      "name": "LinkedIn",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "webex.com": {
+      "name": "Webex",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "larksuite.com": {
+      "name": "Lark",
+      "style_group": "work",
+      "usage_category": "work"
+    },
+    "web.whatsapp.com": {
+      "name": "WhatsApp",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "web.telegram.org": {
+      "name": "Telegram",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "messenger.com": {
+      "name": "Messenger",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "facebook.com": {
+      "name": "Facebook",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "instagram.com": {
+      "name": "Instagram",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "x.com": {
+      "name": "X",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "twitter.com": {
+      "name": "X",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "discord.com": {
+      "name": "Discord",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "reddit.com": {
+      "name": "Reddit",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "threads.net": {
+      "name": "Threads",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "threads.com": {
+      "name": "Threads",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "bsky.app": {
+      "name": "Bluesky",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "mastodon.social": {
+      "name": "Mastodon",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "messages.google.com": {
+      "name": "Google Messages",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "app.element.io": {
+      "name": "Element",
+      "style_group": "personal",
+      "usage_category": "personal"
+    },
+    "docs.google.com": {
+      "name": "Google Docs",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "notion.so": {
+      "name": "Notion",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "coda.io": {
+      "name": "Coda",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "quip.com": {
+      "name": "Quip",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "paper.dropbox.com": {
+      "name": "Dropbox Paper",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "craft.do": {
+      "name": "Craft",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "medium.com": {
+      "name": "Medium",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "substack.com": {
+      "name": "Substack",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "overleaf.com": {
+      "name": "Overleaf",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "hackmd.io": {
+      "name": "HackMD",
+      "style_group": "other",
+      "usage_category": "documents"
+    },
+    "chatgpt.com": {
+      "name": "ChatGPT",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "chat.openai.com": {
+      "name": "ChatGPT",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "claude.ai": {
+      "name": "Claude",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "gemini.google.com": {
+      "name": "Gemini",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "aistudio.google.com": {
+      "name": "Google AI Studio",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "notebooklm.google.com": {
+      "name": "NotebookLM",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "perplexity.ai": {
+      "name": "Perplexity",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "copilot.microsoft.com": {
+      "name": "Copilot",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "chat.mistral.ai": {
+      "name": "Le Chat",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "chat.deepseek.com": {
+      "name": "DeepSeek",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "grok.com": {
+      "name": "Grok",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "meta.ai": {
+      "name": "Meta AI",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "poe.com": {
+      "name": "Poe",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "chat.qwen.ai": {
+      "name": "Qwen Chat",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "kimi.com": {
+      "name": "Kimi",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "v0.app": {
+      "name": "v0",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "v0.dev": {
+      "name": "v0",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "lovable.dev": {
+      "name": "Lovable",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
+    },
+    "bolt.new": {
+      "name": "Bolt",
+      "style_group": "other",
+      "usage_category": "ai_prompts",
+      "is_ai_chat": true
     }
   },
   "browsers": [

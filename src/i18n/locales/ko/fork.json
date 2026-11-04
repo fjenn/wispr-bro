@@ -228,12 +228,12 @@
       "intro": "Wispr Bro는 편집기에 표시된 코드와 파일 이름을 읽습니다. 파일을 열지는 않습니다.",
       "contextOff": "문맥 인식이 꺼져 있어 이 기능들이 읽을 내용이 없습니다. 사용하려면 켜세요.",
       "recognize": "코드 이름 인식",
-      "recognizeHint": "편집기에 보이는 이름을 코드에 적힌 대로 씁니다.",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "설정",
       "change": "편집기 변경",
       "setUpFor": "{{editors}} 설정",
       "fileTags": "채팅에서 파일 태그",
-      "fileTagsHint": "Cursor나 Windsurf 채팅에서 “index dot ts”라고 말하면 @index.ts로 씁니다.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "편집기에 Cursor 또는 Windsurf를 추가하면 사용할 수 있습니다.",
       "fileTagsNeedsSetup": "코드 이름 인식을 설정하면 사용할 수 있습니다.",
       "setup": {
@@ -1828,7 +1828,27 @@
     },
     "sites": {
       "heading": "이 사이트에서 사용",
-      "listLabel": "{{group}} 스타일을 사용하는 사이트"
+      "listLabel": "{{group}} 스타일을 사용하는 사이트",
+      "addShort": "Add website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "{{group}}에 앱 추가",

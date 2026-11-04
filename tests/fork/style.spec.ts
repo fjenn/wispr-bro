@@ -100,14 +100,20 @@ class FakeStyle {
       builtin_group: builtin.group,
       user_group: rule?.group ?? null,
       auto_send: rule?.auto ?? false,
+      builtin: host in BUILTIN_SITES,
+      recent: this.recentSites.has(host),
     };
   }
+
+  /** Hosts dictated on (`entry_meta.url_host`). */
+  recentSites = new Set<string>();
 
   overview() {
     const ids = new Set([...Object.keys(BUILTIN), ...this.rules.keys()]);
     const hosts = new Set([
-      ...Object.keys(BUILTIN_SITES),
       ...this.siteRules.keys(),
+      ...Object.keys(BUILTIN_SITES),
+      ...this.recentSites,
     ]);
     return {
       apps: [...ids]
@@ -538,6 +544,8 @@ styleTest.describe("style page", () => {
         ),
       ).toBeFocused();
       await page.keyboard.press("Tab");
+      await expect(page.getByTestId("wb-style-add-site")).toBeFocused();
+      await page.keyboard.press("Tab");
       await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
       await page.keyboard.press("ArrowRight");
       await expect(page.getByRole("radio", { name: "Relaxed" })).toBeChecked();
@@ -566,10 +574,162 @@ styleTest.describe("style page", () => {
   );
 });
 
+const siteChip = (page: Page, host: string) =>
+  page.locator(`[data-testid="wb-style-site"][data-host="${host}"]`);
+
+styleTest.describe("websites (OT2-C)", () => {
+  styleTest(
+    "+ adds a typed website to the chosen style, host only",
+    async ({ page, ipc, hub, style }) => {
+      await openStyle(page, ipc, hub, style);
+      await page.getByRole("tab", { name: "Work messages" }).click();
+      await page.getByTestId("wb-style-add-site").click();
+      const dialog = page.getByRole("dialog", { name: "Add a website" });
+      await expect(dialog).toBeVisible();
+      const input = page.getByTestId("wb-style-site-add-input");
+      await expect(input).toBeFocused();
+      const hint = page.getByTestId("wb-style-site-add-hint");
+      const submit = page.getByTestId("wb-style-site-add-submit");
+      await expect(submit).toBeDisabled();
+      await input.fill("not a site");
+      await input.blur();
+      await expect(hint).toHaveText(/doesn’t look like a website/);
+      await expect(input).toHaveAttribute("aria-invalid", "true");
+      await input.fill("https://www.Linear.app/team/issue/ABC-1?x=1");
+      await expect(hint).toHaveText("Adds linear.app and its subdomains.");
+      await expect(submit).toHaveText("Add to Work messages");
+      await shot(page, "add-site");
+      await submit.click();
+      await ipc.expectCalled("fork_style_set_site_group", {
+        host: "linear.app",
+        group: "work",
+      });
+      await expect(dialog).toBeHidden();
+      await expect(siteChip(page, "linear.app")).toBeVisible();
+      // Another style from the dialog's own choice; a built-in is named.
+      await page.getByTestId("wb-style-add-site").click();
+      await input.fill("mail.google.com");
+      await expect(hint).toHaveText(
+        "mail.google.com is in Email now. Adding it here moves it.",
+      );
+      await page.getByTestId("wb-style-site-add-group").click();
+      await page.getByRole("option", { name: "Personal messages" }).click();
+      await expect(submit).toHaveText("Add to Personal messages");
+      await page.keyboard.press("Escape");
+      await expect(dialog).toBeHidden();
+    },
+  );
+
+  styleTest(
+    "recently used websites are offered for one click",
+    async ({ page, ipc, hub, style }) => {
+      style.recentSites.add("forum.example.org");
+      style.recentSites.add("app.slack.com");
+      await openStyle(page, ipc, hub, style);
+      const recent = page.getByTestId("wb-style-site-recent");
+      // Only dictated sites with no style: not Slack (built in).
+      await expect(recent).toHaveText(["forum.example.org"]);
+      await expect(recent).toHaveAccessibleName(
+        "Add forum.example.org to Personal messages",
+      );
+      await recent.click();
+      await ipc.expectCalled("fork_style_set_site_group", {
+        host: "forum.example.org",
+        group: "personal",
+      });
+      await expect(siteChip(page, "forum.example.org")).toBeVisible();
+      await expect(recent).toHaveCount(0);
+      // Other lists unassigned sites as members, not as suggestions.
+      style.recentSites.add("news.example.net");
+      await page.getByRole("tab", { name: "Other" }).click();
+      await page.getByRole("tab", { name: "Work messages" }).click();
+      await page.getByRole("tab", { name: "Other" }).click();
+      await expect(page.getByTestId("wb-style-sites-recent")).toHaveCount(0);
+    },
+  );
+
+  styleTest(
+    "keyboard only: the dialog from + to a saved site",
+    async ({ page, ipc, hub, style }) => {
+      style.recentSites.add("forum.example.org");
+      await openStyle(page, ipc, hub, style);
+      await page.getByTestId("wb-style-add-site").focus();
+      await page.keyboard.press("Enter");
+      await expect(page.getByTestId("wb-style-site-add-input")).toBeFocused();
+      await page.keyboard.type("github.com");
+      await page.keyboard.press("Enter");
+      await ipc.expectCalled("fork_style_set_site_group", {
+        host: "github.com",
+        group: "personal",
+      });
+      await expect(page.getByRole("dialog")).toBeHidden();
+      await expect(page.getByTestId("wb-style-add-site")).toBeFocused();
+    },
+  );
+
+  styleTest(
+    "a long list of sites collapses",
+    async ({ page, ipc, hub, style }) => {
+      for (let i = 0; i < 15; i++) {
+        style.setSite(`site${String(i).padStart(2, "0")}.example.com`, {
+          group: "email",
+        });
+      }
+      await openStyle(page, ipc, hub, style);
+      await page.getByRole("tab", { name: "Email" }).click();
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(12);
+      const more = page.getByTestId("wb-style-sites-more");
+      await expect(more).toHaveText("Show all 16 websites");
+      await more.click();
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(16);
+      await expect(more).toHaveAttribute("aria-expanded", "true");
+    },
+  );
+
+  styleTest(
+    "RTL: the dialog mirrors, the domain stays left to right",
+    async ({ page, ipc, hub, style }) => {
+      style.recentSites.add("forum.example.org");
+      await openStyle(page, ipc, hub, style, {
+        handy: { app_language: "ar" },
+      });
+      await page.getByTestId("wb-style-add-site").click();
+      await expect(page.getByTestId("wb-style-site-add-input")).toHaveAttribute(
+        "dir",
+        "ltr",
+      );
+      await expectNoSeriousAxeFindings(page);
+      await shot(page, "add-site-rtl");
+    },
+  );
+});
+
+for (const theme of ["light", "dark"] as const) {
+  styleTest(
+    `axe: the add-website dialog and suggestions (${theme})`,
+    async ({ page, ipc, hub, style }) => {
+      // Many axe passes: room for a loaded machine.
+      styleTest.setTimeout(180_000);
+      await page.emulateMedia({ colorScheme: theme });
+      style.recentSites.add("forum.example.org");
+      await openStyle(page, ipc, hub, style, { handy: { theme } });
+      await expectNoSeriousAxeFindings(page);
+      await page.getByTestId("wb-style-add-site").click();
+      await page.getByTestId("wb-style-site-add-input").fill("bad site");
+      await page.getByTestId("wb-style-site-add-input").blur();
+      await expect(page.getByTestId("wb-style-site-add-recent")).toBeVisible();
+      await expectNoSeriousAxeFindings(page);
+      await shot(page, `add-site-${theme}`);
+    },
+  );
+}
+
 for (const theme of ["light", "dark"] as const) {
   styleTest(
     `axe: every tab, the app menu and the picker (${theme})`,
     async ({ page, ipc, hub, style }) => {
+      // Many axe passes: room for a loaded machine.
+      styleTest.setTimeout(180_000);
       await page.emulateMedia({ colorScheme: theme });
       style.set("com.tinyspeck.slackmacgap", { auto: true });
       await openStyle(page, ipc, hub, style, { handy: { theme } });
