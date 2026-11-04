@@ -231,7 +231,7 @@
       "trayKeptForDock": "Ikona w Docku jest wyłączona, więc ikona na pasku menu zostaje. Włącz Pokazuj aplikację w Docku, aby ją ukryć."
     },
     "vibe": {
-      "intro": "Wispr Bro czyta nazwy z kodu i plików widoczne w edytorze. Nigdy nie otwiera twoich plików.",
+      "intro": "Wispr Bro czyta nazwy z kodu widoczne w edytorze oraz nazwy plików i folderów otwartego projektu, na tym Macu. Czyta tylko nazwy, nigdy zawartości twoich plików.",
       "contextOff": "Świadomość kontekstu jest wyłączona, więc te funkcje nie mają czego odczytać. Włącz ją, aby z nich korzystać.",
       "recognize": "Rozpoznawaj nazwy z kodu",
       "recognizeHint": "Powiedz nazwę widoczną w edytorze, np. „get user by id”, a zostanie zapisana tak, jak w twoim kodzie: getUserById.",
@@ -239,7 +239,7 @@
       "change": "Zmień edytory",
       "setUpFor": "Skonfiguruj dla: {{editors}}",
       "fileTags": "Oznaczaj pliki w czacie",
-      "fileTagsHint": "W czacie Cursora lub Windsurfa powiedzenie „index dot ts” oznacza index.ts przez menu @ edytora, gdy ten plik jest otwarty na karcie lub widoczny w eksploratorze plików. Jeśli edytor nie zaproponuje dopasowania, @index.ts zostanie wpisane jako tekst.",
+      "fileTagsHint": "W czacie Cursora lub Windsurfa powiedzenie „index dot ts” oznacza index.ts przez menu @ edytora, dla dowolnego pliku w projekcie. Jeśli edytor nie zaproponuje dopasowania, @index.ts zostanie wpisane jako tekst.",
       "fileTagsNeedsChat": "Dostępne po dodaniu Cursora lub Windsurfa do edytorów.",
       "fileTagsNeedsSetup": "Dostępne po skonfigurowaniu rozpoznawania nazw z kodu.",
       "setup": {

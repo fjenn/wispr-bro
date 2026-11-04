@@ -229,7 +229,7 @@
       "trayKeptForDock": "Het Dock-pictogram staat uit, dus het pictogram in de menubalk blijft staan. Zet Toon app in Dock aan om het te verbergen."
     },
     "vibe": {
-      "intro": "Wispr Bro leest de code- en bestandsnamen die je editor toont. Het opent nooit je bestanden.",
+      "intro": "Wispr Bro leest de codenamen die je editor toont en de bestands- en mapnamen van je geopende project, op deze Mac. Het leest alleen namen, nooit wat er in je bestanden staat.",
       "contextOff": "Contextbewustzijn staat uit, dus deze functies hebben niets om te lezen. Zet het aan om ze te gebruiken.",
       "recognize": "Herken codenamen",
       "recognizeHint": "Zeg een naam die je editor toont, zoals “get user by id”, en die wordt geschreven zoals je code hem spelt: getUserById.",
@@ -237,7 +237,7 @@
       "change": "Wijzig editors",
       "setUpFor": "Stel in voor {{editors}}",
       "fileTags": "Tag bestanden in chat",
-      "fileTagsHint": "In de chat van Cursor of Windsurf tagt “index dot ts” het bestand index.ts via het @-menu van de editor als dat bestand in een tab open is of in de bestandsverkenner staat. Biedt de editor geen overeenkomst, dan wordt @index.ts als tekst geschreven.",
+      "fileTagsHint": "In de chat van Cursor of Windsurf tagt “index dot ts” het bestand index.ts via het @-menu van de editor, voor elk bestand in je project. Biedt de editor geen overeenkomst, dan wordt @index.ts als tekst geschreven.",
       "fileTagsNeedsChat": "Beschikbaar nadat je Cursor of Windsurf aan je editors hebt toegevoegd.",
       "fileTagsNeedsSetup": "Beschikbaar nadat je herkenning van codenamen hebt ingesteld.",
       "setup": {

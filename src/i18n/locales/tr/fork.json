@@ -229,7 +229,7 @@
       "trayKeptForDock": "Dock simgesi kapalı, bu yüzden menü çubuğu simgesi kalır. Gizlemek için “Uygulamayı Dock’ta göster” seçeneğini açın."
     },
     "vibe": {
-      "intro": "Wispr Bro, düzenleyicinizin gösterdiği kod ve dosya adlarını okur. Dosyalarınızı asla açmaz.",
+      "intro": "Wispr Bro, düzenleyicinizin gösterdiği kod adlarını ve açık projenizin dosya ve klasör adlarını bu Mac'te okur. Yalnızca adları okur, dosyalarınızın içeriğini asla okumaz.",
       "contextOff": "Bağlam farkındalığı kapalı olduğu için bu özelliklerin okuyacağı bir şey yok. Bunları kullanmak için bağlam farkındalığını açın.",
       "recognize": "Kod adlarını tanı",
       "recognizeHint": "Düzenleyicinizin gösterdiği bir adı söyleyin, örneğin “get user by id”; kodunuzdaki yazılışıyla yazılır: getUserById.",
@@ -237,7 +237,7 @@
       "change": "Düzenleyicileri değiştir",
       "setUpFor": "Şunlar için ayarla: {{editors}}",
       "fileTags": "Sohbette dosyaları etiketle",
-      "fileTagsHint": "Cursor veya Windsurf sohbetinde “index dot ts” demek, dosya bir sekmede açıksa ya da dosya gezgininde görünüyorsa düzenleyicinin @ menüsüyle index.ts’yi etiketler. Düzenleyici eşleşme sunmazsa @index.ts metin olarak yazılır.",
+      "fileTagsHint": "Cursor veya Windsurf sohbetinde “index dot ts” demek, projenizdeki herhangi bir dosya için düzenleyicinin @ menüsüyle index.ts’yi etiketler. Düzenleyici eşleşme sunmazsa @index.ts metin olarak yazılır.",
       "fileTagsNeedsChat": "Düzenleyicilerinize Cursor veya Windsurf’ü ekledikten sonra kullanılabilir.",
       "fileTagsNeedsSetup": "Kod adı tanımayı ayarladıktan sonra kullanılabilir.",
       "setup": {

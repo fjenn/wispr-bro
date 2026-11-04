@@ -231,7 +231,7 @@
       "trayKeptForDock": "Ikona v Docku je vypnutá, proto zůstává ikona na řádku nabídek. Chcete-li ji skrýt, zapněte Zobrazovat aplikaci v Docku."
     },
     "vibe": {
-      "intro": "Wispr Bro čte názvy z kódu a souborů, které editor zobrazuje. Vaše soubory nikdy neotevírá.",
+      "intro": "Wispr Bro čte názvy z kódu, které editor zobrazuje, a názvy souborů a složek otevřeného projektu, na tomto Macu. Čte jen názvy, nikdy obsah vašich souborů.",
       "contextOff": "Povědomí o kontextu je vypnuté, takže tyto funkce nemají co číst. Chcete-li je používat, zapněte ho.",
       "recognize": "Rozpoznávat názvy z kódu",
       "recognizeHint": "Řekněte název, který editor zobrazuje, například „get user by id“, a zapíše se tak, jak ho píše váš kód: getUserById.",
@@ -239,7 +239,7 @@
       "change": "Změnit editory",
       "setUpFor": "Nastavit pro {{editors}}",
       "fileTags": "Označovat soubory v chatu",
-      "fileTagsHint": "Když v chatu Cursoru nebo Windsurfu řeknete „index dot ts“, označí se index.ts přes nabídku @ editoru, pokud je soubor otevřený na kartě nebo zobrazený v průzkumníku souborů. Pokud editor nic nenabídne, zapíše se @index.ts jako text.",
+      "fileTagsHint": "Když v chatu Cursoru nebo Windsurfu řeknete „index dot ts“, označí se index.ts přes nabídku @ editoru, a to u každého souboru v projektu. Pokud editor nic nenabídne, zapíše se @index.ts jako text.",
       "fileTagsNeedsChat": "K dispozici po přidání Cursoru nebo Windsurfu mezi vaše editory.",
       "fileTagsNeedsSetup": "K dispozici po nastavení rozpoznávání názvů z kódu.",
       "setup": {

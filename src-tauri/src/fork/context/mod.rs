@@ -12,6 +12,7 @@ pub mod apps;
 pub mod awareness;
 pub mod caret;
 pub mod categories;
+pub mod file_names;
 pub mod frontmost;
 pub mod hints;
 pub mod ide;
@@ -19,6 +20,7 @@ pub mod ide;
 mod names_eval;
 pub mod take;
 pub mod url;
+pub mod workspace;
 
 use take::{ledger, TakeContext};
 

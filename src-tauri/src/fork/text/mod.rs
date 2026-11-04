@@ -184,6 +184,11 @@ pub fn process(
     let hints = crate::fork::context::awareness::hints();
     // S-36: the code and file names a set-up editor showed, if any.
     let identifiers = crate::fork::context::awareness::identifiers();
+    // ... and the file names it knows: visible, then the project's list.
+    let code_file_names = identifiers
+        .is_some()
+        .then(crate::fork::context::awareness::code_file_names)
+        .flatten();
     let file_names = crate::fork::context::awareness::file_names();
     let accent_words = active_accent_words();
     let outcome = catch_unwind(AssertUnwindSafe(|| {
@@ -194,7 +199,7 @@ pub fn process(
             dictionary_accent_stage(text, &accent_words, &mut record)
         };
         let text = match identifiers.as_deref() {
-            Some(ids) => identifier_stage(text, ids, &mut record),
+            Some(ids) => identifier_stage(text, ids, code_file_names.as_deref(), &mut record),
             None => text,
         };
         let text = match hints.as_deref() {
@@ -233,7 +238,7 @@ pub fn process(
         ) && s.changes > 0
     });
     ledger().note_processed(raw, &kept, record);
-    if hints.is_some() && (context_fixed || crate::fork::context::awareness::vocabulary_sent()) {
+    if context_fixed || (hints.is_some() && crate::fork::context::awareness::vocabulary_sent()) {
         crate::fork::context::awareness::note_used();
         ledger().note_context_used(&kept);
     }
@@ -279,14 +284,26 @@ fn protected_spans(record: &TextRecord) -> Vec<(usize, usize)> {
         .collect()
 }
 
-/// S-36's code-name stage: a spoken dotfile becomes its name
-/// ([`crate::fork::context::ide::dotfiles`]), then the exact spoken form of
-/// an identifier the editor shows becomes its spelling
-/// ([`crate::fork::context::ide::correct`]). Dictionary rule outputs are
-/// never touched and stay findable for stage 9.
-pub fn identifier_stage(text: String, identifiers: &[String], record: &mut TextRecord) -> String {
-    use crate::fork::context::ide;
-    let d = ide::dotfiles(&text, identifiers, &protected_spans(record));
+/// S-36's code-name stage: a spoken file name becomes the project's or a
+/// visible exact name ([`crate::fork::context::file_names::respell`]:
+/// "dot git attributes" → `.gitattributes`, "user service dot ts" →
+/// `user_service.ts`), then the exact spoken form of an identifier the
+/// editor shows becomes its spelling ([`crate::fork::context::ide::correct`]).
+/// Dictionary rule outputs are never touched and stay findable for stage 9.
+pub fn identifier_stage(
+    text: String,
+    identifiers: &[String],
+    names: Option<&crate::fork::context::file_names::NameSet>,
+    record: &mut TextRecord,
+) -> String {
+    use crate::fork::context::{file_names, ide};
+    let d = match names {
+        Some(names) => file_names::respell(&text, names, &protected_spans(record)),
+        None => crate::fork::context::hints::Corrected {
+            text,
+            ..Default::default()
+        },
+    };
     for p in &mut record.provenance {
         p.target_start = d.map_offset(p.target_start);
     }
@@ -301,7 +318,11 @@ pub fn identifier_stage(text: String, identifiers: &[String], record: &mut TextR
 /// S-36's file-tag stage: a spoken or written file name the editor shows
 /// becomes `@name` ([`file_tags::rewrite`]), outside dictionary rule
 /// outputs.
-pub fn file_tag_stage(text: String, names: &[String], record: &mut TextRecord) -> String {
+pub fn file_tag_stage(
+    text: String,
+    names: &crate::fork::context::file_names::NameSet,
+    record: &mut TextRecord,
+) -> String {
     let c = file_tags::rewrite_outside(&text, names, &protected_spans(record));
     for p in &mut record.provenance {
         p.target_start = c.map_offset(p.target_start);

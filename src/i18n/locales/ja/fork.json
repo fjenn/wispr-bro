@@ -228,7 +228,7 @@
       "trayKeptForDock": "Dock のアイコンがオフのため、メニューバーのアイコンは表示されたままです。非表示にするには、「Dock にアプリを表示」をオンにしてください。"
     },
     "vibe": {
-      "intro": "Wispr Bro はエディタに表示されたコード名とファイル名を読みます。ファイルを開くことはありません。",
+      "intro": "Wispr Bro は、エディタに表示されたコード名と、開いているプロジェクトのファイル名・フォルダ名をこの Mac 上で読みます。読むのは名前だけで、ファイルの中身は読みません。",
       "contextOff": "コンテキスト認識がオフのため、これらの機能は何も読み取れません。使用するにはオンにしてください。",
       "recognize": "コード上の名前を認識",
       "recognizeHint": "「get user by id」のようにエディタに表示されている名前を言うと、コードでの表記どおり getUserById と入力されます。",
@@ -236,7 +236,7 @@
       "change": "エディタを変更",
       "setUpFor": "{{editors}} 用に設定",
       "fileTags": "チャットでファイルをタグ付け",
-      "fileTagsHint": "Cursor または Windsurf のチャットで「index dot ts」と言うと、そのファイルがタブで開いているかファイルエクスプローラーに表示されているとき、エディタの @ メニューで index.ts をタグ付けします。エディタに一致する候補がない場合は、@index.ts がテキストとして入力されます。",
+      "fileTagsHint": "Cursor または Windsurf のチャットで「index dot ts」と言うと、プロジェクト内のどのファイルでも、エディタの @ メニューで index.ts をタグ付けします。エディタに一致する候補がない場合は、@index.ts がテキストとして入力されます。",
       "fileTagsNeedsChat": "エディタに Cursor または Windsurf を追加すると利用できます。",
       "fileTagsNeedsSetup": "コード上の名前の認識を設定すると利用できます。",
       "setup": {

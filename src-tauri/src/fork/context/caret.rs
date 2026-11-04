@@ -123,9 +123,12 @@ pub struct Read {
     /// S-36: "Recognize code names" applied to this read (its dotfile pass
     /// runs even when no code name was visible).
     pub code_names: bool,
-    /// S-36: file names in the editor's tabs and explorer, read only when
-    /// the focus is its chat input and "Tag files in chat" is on.
+    /// S-36: file names in the editor's tabs and explorer (a set-up
+    /// editor's read only).
     pub file_names: Vec<String>,
+    /// S-36: the editor window's active file and title, for the project's
+    /// file list ([`super::workspace`]; in memory only, never logged).
+    pub workspace: Option<super::workspace::WindowHint>,
     /// S-36: the editor this read was for, and whether its chat input had
     /// focus (ids only, for the log).
     pub ide: Option<(super::ide::Editor, bool)>,
@@ -437,7 +440,7 @@ pub const IDE_MAX_VISITED: usize = 1_500;
 pub struct IdeScan {
     /// `Some` when "Recognize code names" applies to this take.
     identifiers: Option<super::ide::Identifiers>,
-    /// `Some` when the focus is a chat input and "Tag files in chat" is on.
+    /// `Some` in a set-up editor (file tags, and file names to respell).
     files: Option<crate::fork::text::file_tags::FileNames>,
     left: usize,
 }
@@ -671,6 +674,7 @@ fn read_from_walk(
         identifiers,
         code_names,
         file_names,
+        workspace: None,
         ide: None,
         warming: false,
         chars,
@@ -1154,7 +1158,19 @@ pub mod mac {
         }
         let left = MAX_CHARS.saturating_sub(caret.chars());
 
-        let scan = || IdeScan::new(ide.is_some_and(|a| a.recognize), chat);
+        let recognize = ide.is_some_and(|a| a.recognize);
+        let scan = || IdeScan::new(recognize, chat || recognize);
+        // S-36: the project the editor window shows (its active file, set
+        // by VS Code-family apps as the window's represented file, and its
+        // title's folder name).
+        let workspace = ide.and(window.as_deref()).map(|w| {
+            el::set_timeout(w, CALL_TIMEOUT_S);
+            super::super::workspace::WindowHint {
+                document: el::attr_url(w, "AXDocument")
+                    .and_then(|d| super::super::workspace::document_path(&d)),
+                title: el::attr_string(w, "AXTitle").filter(|t| !t.is_empty()),
+            }
+        });
         let walk = match window.as_deref() {
             Some(w) if (left > 0 || scan().is_some()) && start.elapsed() < WALK_BUDGET => {
                 lines_around(w, walk_field, left, scan(), start + WALK_BUDGET)
@@ -1163,6 +1179,7 @@ pub mod mac {
         };
         Read {
             ide: ide.map(|a| (a.editor, chat)),
+            workspace,
             ..read_from_walk(caret, walk, languages)
         }
     }
@@ -1608,6 +1625,17 @@ mod live_tests {
             later.file_names,
             later.chars,
             later.ms
+        );
+        let root = later
+            .workspace
+            .as_ref()
+            .and_then(super::super::workspace::resolve);
+        let listed = root
+            .as_deref()
+            .map(|r| super::super::workspace::list(r).0.names().len());
+        eprintln!(
+            "workspace: hint={:?} root={root:?} names={listed:?}",
+            later.workspace
         );
         thread::keep_warm(Vec::new());
         assert!(!later.warming);

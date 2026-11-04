@@ -229,7 +229,7 @@
       "trayKeptForDock": "The Dock icon is off, so the menu bar icon stays. Turn on Show app in Dock to hide it."
     },
     "vibe": {
-      "intro": "Wispr Bro reads the code and file names your editor shows. It never opens your files.",
+      "intro": "Wispr Bro reads the code names your editor shows and the file and folder names of your open project, on this Mac. It reads names only, never what is in your files.",
       "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
       "recognize": "Recognize code names",
       "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
@@ -237,7 +237,7 @@
       "change": "Change editors",
       "setUpFor": "Set up for {{editors}}",
       "fileTags": "Tag files in chat",
-      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu, for any file in your project. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
       "fileTagsNeedsSetup": "Available after you set up code name recognition.",
       "setup": {

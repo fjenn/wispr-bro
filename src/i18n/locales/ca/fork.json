@@ -230,7 +230,7 @@
       "trayKeptForDock": "La icona del Dock està desactivada, així que la icona de la barra de menús es manté. Activa Mostrar l'app al Dock per amagar-la."
     },
     "vibe": {
-      "intro": "Wispr Bro llegeix els noms de codi i de fitxers que mostra l’editor. Mai no obre els teus fitxers.",
+      "intro": "Wispr Bro llegeix els noms de codi que mostra l’editor i els noms dels fitxers i carpetes del projecte obert, en aquest Mac. Només llegeix noms, mai el contingut dels teus fitxers.",
       "contextOff": "El context està desactivat, així que aquestes funcions no tenen res per llegir. Activa'l per fer-les servir.",
       "recognize": "Reconèixer noms de codi",
       "recognizeHint": "Digues un nom que mostri l’editor, com ara “get user by id”, i s’escriu tal com l’escriu el teu codi: getUserById.",
@@ -238,7 +238,7 @@
       "change": "Canviar editors",
       "setUpFor": "Configurar per a {{editors}}",
       "fileTags": "Etiquetar fitxers al xat",
-      "fileTagsHint": "Al xat de Cursor o Windsurf, dir “index dot ts” etiqueta index.ts amb el menú @ de l’editor quan aquest fitxer és obert en una pestanya o es veu a l’explorador de fitxers. Si l’editor no ofereix cap coincidència, s’escriu @index.ts com a text.",
+      "fileTagsHint": "Al xat de Cursor o Windsurf, dir “index dot ts” etiqueta index.ts amb el menú @ de l’editor, per a qualsevol fitxer del projecte. Si l’editor no ofereix cap coincidència, s’escriu @index.ts com a text.",
       "fileTagsNeedsChat": "Disponible quan afegeixis Cursor o Windsurf als teus editors.",
       "fileTagsNeedsSetup": "Disponible quan configuris el reconeixement de noms de codi.",
       "setup": {

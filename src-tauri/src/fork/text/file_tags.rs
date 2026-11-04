@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! "Tag files in chat" (S-36, D-60): in Cursor's or Windsurf's chat input,
-//! a spoken file name ("index dot ts") becomes a tag (`@index.ts`) when that
-//! exact name is visible in the editor's tabs or file explorer.
+//! a spoken file name ("index dot ts") becomes a tag (`@index.ts`) when the
+//! project has that exact name: a file in its list
+//! (`context::workspace`, names only) or one visible in the editor's tabs or
+//! file explorer ([`FileNames`], fed by `context::caret`), which win.
 //!
-//! The visible names come only from AX rows and tabs the context read
-//! walked ([`FileNames`], fed by `context::caret`); this module never lists
-//! a directory, opens a file or asks a shell or project index.
+//! This module never lists a directory or opens a file itself.
 
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::sync::LazyLock;
 
 use regex::Regex;
 
+use crate::fork::context::file_names::NameSet;
 use crate::fork::context::hints::Corrected;
 
 /// Visible file names one take keeps at most.
@@ -107,36 +108,25 @@ fn written(mention: &str) -> String {
     DOT.replace_all(mention, ".").into_owned()
 }
 
-/// Turns each mention of a visible file name into `@name`, spelled as the
-/// tab or explorer shows it. Spoken ("index dot ts") and written
+/// Turns each mention of a known file name into `@name`, spelled as the
+/// project or the editor shows it. Spoken ("index dot ts") and written
 /// (`index.ts`, as a cleanup may write it) mentions both count. Nothing
-/// changes for a name that is not visible, a name two visible spellings
-/// share (`index.ts` and `Index.ts`), a mention already tagged or inside a
-/// path, URL or e-mail address, or when no names are visible.
-pub fn rewrite(text: &str, visible: &[String]) -> Corrected {
-    rewrite_outside(text, visible, &[])
+/// changes for an unknown name, a name two spellings share (`index.ts` and
+/// `Index.ts`), a mention already tagged or inside a path, URL or e-mail
+/// address, or when no names are known.
+pub fn rewrite(text: &str, names: &NameSet) -> Corrected {
+    rewrite_outside(text, names, &[])
 }
 
 /// [`rewrite`], never touching the byte spans in `protected` (dictionary
 /// rule outputs).
-pub fn rewrite_outside(text: &str, visible: &[String], protected: &[(usize, usize)]) -> Corrected {
+pub fn rewrite_outside(text: &str, names: &NameSet, protected: &[(usize, usize)]) -> Corrected {
     let unchanged = || Corrected {
         text: text.to_owned(),
         ..Corrected::default()
     };
-    if text.is_empty() || visible.is_empty() {
+    if text.is_empty() || names.is_empty() {
         return unchanged();
-    }
-    let mut names: HashMap<String, Option<&str>> = HashMap::new();
-    for name in visible {
-        names
-            .entry(name.to_lowercase())
-            .and_modify(|current| {
-                if *current != Some(name.as_str()) {
-                    *current = None;
-                }
-            })
-            .or_insert(Some(name.as_str()));
     }
     let mut out = String::with_capacity(text.len());
     let mut copied = 0;
@@ -156,7 +146,10 @@ pub fn rewrite_outside(text: &str, visible: &[String], protected: &[(usize, usiz
         {
             continue;
         }
-        let Some(Some(name)) = names.get(&written(found.as_str()).to_lowercase()) else {
+        let Some(name) = names
+            .exact(&written(found.as_str()))
+            .filter(|name| file_name_like(name))
+        else {
             continue;
         };
         let replacement = format!("@{name}");
@@ -179,6 +172,10 @@ mod tests {
 
     fn strings(values: &[&str]) -> Vec<String> {
         values.iter().map(|value| value.to_string()).collect()
+    }
+
+    fn rewrite(text: &str, visible: &[String]) -> Corrected {
+        super::rewrite(text, &NameSet::from_names(visible))
     }
 
     #[test]
@@ -235,6 +232,25 @@ mod tests {
         ] {
             assert_eq!(rewrite(kept, &visible).text, kept, "{kept}");
         }
+    }
+
+    #[test]
+    fn any_project_file_is_tagged_and_visible_names_win() {
+        let names = NameSet::build(
+            ["user-service.ts"],
+            [
+                "user_service.ts",
+                "user-service.ts",
+                "deep_module.rs",
+                ".env",
+            ],
+        );
+        assert_eq!(
+            super::rewrite("see deep_module.rs and user-service dot ts", &names).text,
+            "see @deep_module.rs and @user-service.ts"
+        );
+        // A dotfile or folder without an extension is never a tag here.
+        assert_eq!(super::rewrite("check env", &names).text, "check env");
     }
 
     #[test]
