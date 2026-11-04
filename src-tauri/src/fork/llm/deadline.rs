@@ -61,6 +61,30 @@ pub fn transform(text: &str) -> Duration {
     formula(text).max(TRANSFORM_FLOOR).min(TAKE_CAP)
 }
 
+/// How long the instruction model's server may take to start (XF2). It is
+/// started on demand, not prewarmed by a take: its first start after launch
+/// loads a 2B model and can compile Metal kernels (several seconds; PERF.md
+/// "LLM cold start"), so 2.5 s cut the owner's first custom transforms off.
+pub const INSTRUCT_START: Duration = Duration::from_secs(30);
+/// Floor and cap of one instruction-model request (custom transforms and
+/// Command Mode). Esc cancels at any time.
+pub const INSTRUCT_FLOOR: Duration = Duration::from_secs(15);
+pub const INSTRUCT_CAP: Duration = Duration::from_secs(60);
+const INSTRUCT_BASE_MS: u64 = 5000;
+/// Qwen3.5-2B: prompt processing plus a reply about as long as the text.
+const INSTRUCT_PER_TOKEN_MS: u64 = 45;
+
+/// Deadline of one instruction-model request on `text` (XF2): the 2B
+/// instruction model is slower than Muesli and its replies can grow the
+/// text, so it gets more room than a cleanup; a run that times out says
+/// "Couldn't apply", so the deadline marks a real failure.
+pub fn instruct(text: &str) -> Duration {
+    Duration::from_millis(
+        INSTRUCT_BASE_MS.saturating_add(tokens(text).saturating_mul(INSTRUCT_PER_TOKEN_MS)),
+    )
+    .clamp(INSTRUCT_FLOOR, INSTRUCT_CAP)
+}
+
 /// Deadline of a whole take of `text` with `words` words.
 pub fn take(text: &str, words: u32) -> Duration {
     let blocks = u32::max(1, words.div_ceil(200));
@@ -89,6 +113,16 @@ mod tests {
         assert_eq!(transform(&"x".repeat(1900)).as_millis(), 1200 + 475 * 25);
         // 675 words (~3,800 characters): 24.95 s by the formula, capped.
         assert_eq!(transform(&"x".repeat(3800)), TAKE_CAP);
+    }
+
+    #[test]
+    fn instruct_deadline_allows_the_slower_model_and_scales() {
+        assert_eq!(instruct("short"), INSTRUCT_FLOOR);
+        // The owner's rc6 runs took up to 6.5 s on a sentence: well inside.
+        assert!(instruct(&"x".repeat(200)) >= Duration::from_secs(10));
+        assert_eq!(instruct(&"x".repeat(4000)).as_millis(), 5000 + 1000 * 45);
+        assert_eq!(instruct(&"x".repeat(100_000)), INSTRUCT_CAP);
+        assert!(INSTRUCT_START > START_BUDGET);
     }
 
     #[test]

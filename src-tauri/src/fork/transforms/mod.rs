@@ -5,6 +5,7 @@ pub mod auto;
 pub mod command;
 #[cfg(test)]
 pub mod eval;
+pub mod legacy;
 pub mod literal;
 #[cfg(test)]
 mod long_polish_bench;

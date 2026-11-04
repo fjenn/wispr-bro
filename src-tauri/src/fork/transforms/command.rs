@@ -180,10 +180,16 @@ pub async fn generate<E: Engine>(
     instruction: &str,
     input: &CommandInput,
 ) -> Result<Generated, GenerateError> {
+    // The instruction model's cold start has its own budget (XF2).
+    engine.prepare().await.map_err(|error| match error {
+        crate::fork::llm::post_process::EngineError::Timeout => GenerateError::Timeout,
+        crate::fork::llm::post_process::EngineError::Failed(error) => GenerateError::Failed(error),
+    })?;
     let started = Instant::now();
     let (system, request) = request_for(instruction, input);
-    // Scaled with the selection or field text, like a transform (OT2-D).
-    let budget = super::run::budget(&input.input.text);
+    // Scaled with the selection or field text, on the instruction model's
+    // deadline (XF2).
+    let budget = crate::fork::llm::deadline::instruct(&input.input.text);
     let cancel = CancellationToken::new();
     let reply = tokio::select! {
         biased;

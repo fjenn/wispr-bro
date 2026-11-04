@@ -14,7 +14,7 @@ use super::TransformKind;
 use crate::fork::llm::chat::{CancellationToken, ChatRequest};
 use crate::fork::llm::guards::{self, Reason};
 use crate::fork::llm::post_process::{self, CleanupEngine, Engine, EngineError, LocalEngine};
-use crate::fork::llm::{apple, instruct, prompt, runtime};
+use crate::fork::llm::{apple, deadline, instruct, prompt, runtime};
 use crate::fork::pill::model::PillMessage;
 use crate::fork::settings::CleanupLevel;
 
@@ -182,6 +182,16 @@ pub fn budget(source: &str) -> Duration {
     crate::fork::llm::deadline::transform(source)
 }
 
+/// The deadline for `guard`: custom transforms run on the slower
+/// instruction model (XF2).
+pub fn budget_for(guard: GuardProfile, source: &str) -> Duration {
+    if guard == GuardProfile::Instruction {
+        crate::fork::llm::deadline::instruct(source)
+    } else {
+        budget(source)
+    }
+}
+
 fn guarded_reply(
     raw: &str,
     guard: GuardProfile,
@@ -291,7 +301,8 @@ pub async fn generate_definition<E: Engine>(
     source: &str,
     cancel: &CancellationToken,
 ) -> Result<Generated, GenerateError> {
-    generate_within(engine, definition, source, cancel, budget(source)).await
+    let budget = budget_for(definition.guard, source);
+    generate_within(engine, definition, source, cancel, budget).await
 }
 
 async fn generate_within<E: Engine>(
@@ -301,11 +312,22 @@ async fn generate_within<E: Engine>(
     cancel: &CancellationToken,
     budget: Duration,
 ) -> Result<Generated, GenerateError> {
-    let started = Instant::now();
     let mut text = source.to_owned();
     let mut llm_ms = 0;
     if definition.uses_model() {
         let engine = engine.ok_or(GenerateError::NoEngine)?;
+        // A cold start has its own budget, before the request's deadline.
+        let prepared = tokio::select! {
+            biased;
+            _ = cancel.cancelled() => return Err(GenerateError::Cancelled),
+            prepared = engine.prepare() => prepared,
+        };
+        match prepared {
+            Ok(()) => {}
+            Err(EngineError::Timeout) => return Err(GenerateError::Timeout),
+            Err(EngineError::Failed(error)) => return Err(GenerateError::Failed(error)),
+        }
+        let started = Instant::now();
         let (system, request) = request_for(definition, source);
         let reply = tokio::select! {
             biased;
@@ -444,18 +466,32 @@ fn definition<R: Runtime>(
 }
 
 pub(crate) enum AppEngine {
-    Local(Arc<crate::fork::llm::supervisor::Supervisor>),
+    /// A local server and how long it may take to start.
+    Local(Arc<crate::fork::llm::supervisor::Supervisor>, Duration),
     Apple,
 }
 
 impl Engine for AppEngine {
+    async fn prepare(&self) -> Result<(), EngineError> {
+        let AppEngine::Local(supervisor, start) = self else {
+            return Ok(());
+        };
+        match tokio::time::timeout(*start, supervisor.ensure_ready()).await {
+            Err(_) => Err(EngineError::Timeout),
+            Ok(Err(error)) => Err(EngineError::Failed(
+                post_process::start_error_kind(&error).into(),
+            )),
+            Ok(Ok(_)) => Ok(()),
+        }
+    }
+
     async fn complete(
         &self,
         request: ChatRequest,
         timeout: Duration,
     ) -> Result<String, EngineError> {
         match self {
-            AppEngine::Local(supervisor) => {
+            AppEngine::Local(supervisor, _) => {
                 LocalEngine {
                     supervisor,
                     pill: false,
@@ -495,7 +531,10 @@ async fn cleanup_engine<R: Runtime>(app: &AppHandle<R>) -> Option<AppEngine> {
     let apple_ok = apple::usable_for(None);
     let (_, engine) = post_process::choose(apple::ROLE, false, ready, memory_ok, apple_ok);
     match engine {
-        CleanupEngine::Local => rt.supervisor().cloned().map(AppEngine::Local),
+        CleanupEngine::Local => rt
+            .supervisor()
+            .cloned()
+            .map(|supervisor| AppEngine::Local(supervisor, deadline::START_BUDGET)),
         CleanupEngine::Apple => Some(AppEngine::Apple),
         CleanupEngine::None => None,
     }
@@ -506,7 +545,7 @@ async fn cleanup_engine<R: Runtime>(app: &AppHandle<R>) -> Option<AppEngine> {
 /// when it is usable; else none ("getting ready").
 pub(crate) async fn instruct_engine<R: Runtime>(app: &AppHandle<R>) -> Option<AppEngine> {
     if let Some(supervisor) = instruct::ready_supervisor(app).await {
-        return Some(AppEngine::Local(supervisor));
+        return Some(AppEngine::Local(supervisor, deadline::INSTRUCT_START));
     }
     apple::usable_for(None).then_some(AppEngine::Apple)
 }

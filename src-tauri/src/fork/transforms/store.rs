@@ -5,6 +5,7 @@ use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
+use super::legacy;
 use super::literal::{self, LiteralRule};
 use super::record::{Definition, GuardProfile};
 use super::TransformKind;
@@ -137,6 +138,12 @@ fn read_entry(row: &rusqlite::Row<'_>) -> rusqlite::Result<TransformEntry> {
             }
         });
     let (description, examples, replacements) = read_examples(row.get(6)?);
+    let prompt = row.get::<_, Option<String>>(5)?.unwrap_or_default();
+    let (description, prompt) = if builtin_key.is_none() {
+        one_instruction(description, prompt)
+    } else {
+        (description, prompt)
+    };
     let key = key_for(id, builtin_key.as_deref());
     Ok(TransformEntry {
         id,
@@ -146,11 +153,26 @@ fn read_entry(row: &rusqlite::Row<'_>) -> rusqlite::Result<TransformEntry> {
         name: row.get(2)?,
         description,
         rules,
-        prompt: row.get::<_, Option<String>>(5)?.unwrap_or_default(),
+        prompt,
         examples,
         replacements,
         updated_at: row.get(7)?,
     })
+}
+
+/// One instruction field (XF2). Rows from rc6 and earlier kept the old
+/// generic default instruction while the user's words went into the
+/// description, which the model never saw: those read the description as the
+/// instruction. The description is no longer edited, so it is dropped.
+fn one_instruction(description: String, prompt: String) -> (String, String) {
+    let generic = prompt.trim().is_empty() || legacy::is_placeholder(&prompt);
+    if !generic {
+        return (description, prompt);
+    }
+    (
+        String::new(),
+        legacy::strip_description(&description).to_owned(),
+    )
 }
 
 const SELECT: &str = "SELECT id, builtin_key, name, hotkey, rules_json, prompt, examples_json, updated_at FROM transforms";
@@ -426,9 +448,6 @@ pub fn validate(input: &TransformInput) -> Result<TransformInput, String> {
         .filter(|rule| !rule.find.is_empty())
         .cloned()
         .collect::<Vec<_>>();
-    if input.prompt.trim().is_empty() && !input.rules.any() && replacements.is_empty() {
-        return Err("choose a rule, write a custom prompt or add a find and replace row".into());
-    }
     Ok(TransformInput {
         name,
         description: input.description.trim().to_owned(),
@@ -585,7 +604,7 @@ mod tests {
     }
 
     #[test]
-    fn invalid_examples_and_empty_instructions_are_refused() {
+    fn invalid_examples_are_refused_and_a_new_transform_may_start_empty() {
         let mut value = input("Mine");
         value.examples = vec!["x".repeat(1_501)];
         assert!(validate(&value).is_err());
@@ -598,6 +617,52 @@ mod tests {
             headings_lists: false,
             keep_tone: false,
         };
-        assert!(validate(&value).is_err());
+        // XF2: a new transform opens with an empty instruction box; it
+        // does nothing until the user writes one.
+        assert!(validate(&value).is_ok());
+    }
+
+    #[test]
+    fn the_owners_rc6_row_runs_what_was_typed_into_the_old_description() {
+        let dir = tempfile::tempdir().unwrap();
+        let db = ForkDb::in_dir(dir.path());
+        db.with_conn(|conn| {
+            // Exactly the owner's row: rc6 stored the generic default
+            // instruction and the user's words in `examples_json`.
+            conn.execute(
+                "INSERT INTO transforms (name, rules_json, prompt, examples_json, updated_at) VALUES (?1, ?2, ?3, ?4, 1)",
+                params![
+                    "My transform",
+                    r#"{"shorter":false,"clearer":false,"better_order":false,"headings_lists":false,"keep_tone":false}"#,
+                    "Rewrite the selected text while preserving its meaning, facts and language.",
+                    r#"{"description":"Rewrite text the way I want. replace all “A” and “e” with 0 and 1","examples":[],"replacements":[]}"#,
+                ],
+            )?;
+            let entry = get(conn, conn.last_insert_rowid())?.unwrap();
+            assert_eq!(entry.prompt, "replace all “A” and “e” with 0 and 1");
+            assert!(entry.description.is_empty());
+            let definition = definition_for(&entry);
+            assert!(!definition.uses_model(), "{definition:?}");
+            assert_eq!(
+                literal::apply(&definition.edits, "Please send the agenda").text,
+                "Pl10s1 s1nd th1 0g1nd0"
+            );
+            // A German row with an untouched default reads as empty.
+            conn.execute(
+                "INSERT INTO transforms (name, prompt, examples_json, updated_at) VALUES ('X', ?1, ?2, 1)",
+                params![
+                    "Schreibe den ausgewählten Text um und bewahre dabei seine Bedeutung, die Fakten und die Sprache.",
+                    r#"{"description":"Text so umschreiben, wie ich es möchte.","examples":[],"replacements":[]}"#,
+                ],
+            )?;
+            let untouched = get(conn, conn.last_insert_rowid())?.unwrap();
+            assert_eq!(untouched.prompt, "");
+            // A real instruction is never replaced by the description.
+            let kept = create(conn, &input("Kept"), 2)?;
+            assert_eq!(kept.prompt, "Keep every fact.");
+            assert_eq!(kept.description, "A concise description");
+            Ok(())
+        })
+        .unwrap();
     }
 }
