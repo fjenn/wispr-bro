@@ -127,10 +127,16 @@ test("System, Data and Privacy, collapsed Advanced, and About deep-link", async 
   );
   await expect(page.getByTestId("wb-advanced-models")).toBeVisible();
   await expect(page.getByTestId("wb-advanced-ai")).toBeVisible();
-  await expect(page.getByTestId("wb-advanced-live-text")).toBeVisible();
+  await expect(page.getByTestId("wb-advanced-update-checks")).toBeVisible();
   await expect(page.getByTestId("wb-advanced-update-channel")).toHaveText(
     "Stable",
   );
+  // Audit OT2: Handy rows the fork overrides or never reads are gone (the
+  // History limit and retention rows deleted History behind Data and
+  // Privacy's retention).
+  const advanced = page.getByTestId("wb-settings-advanced");
+  await expect(page.getByTestId("wb-advanced-live-text")).toHaveCount(0);
+  await expect(advanced.locator("input[type='number']")).toHaveCount(0);
   await page.getByTestId("wb-settings-nav-about").click();
   await expect(page.getByTestId("wb-about-version")).toHaveText(
     "Version 1.0.0-alpha.1",
@@ -252,14 +258,14 @@ test("Advanced choices persist across relaunch", async ({ page, ipc }) => {
   // A controlled toggle: it flips when the setting call resolves, so click
   // and wait (`check()` asserts the state right after the click and raced
   // the mock IPC under the full parallel suite).
-  await page.getByTestId("wb-advanced-live-text").click();
-  await expect(page.getByTestId("wb-advanced-live-text")).toBeChecked();
+  await page.getByTestId("wb-advanced-update-checks").click();
+  await expect(page.getByTestId("wb-advanced-update-checks")).not.toBeChecked();
   await chooseOption(page, "wb-advanced-update-channel", "beta");
   await expect(page.getByTestId("wb-advanced-update-channel")).toHaveText(
     "Beta",
   );
   await page.reload();
-  await expect(page.getByTestId("wb-advanced-live-text")).toBeChecked();
+  await expect(page.getByTestId("wb-advanced-update-checks")).not.toBeChecked();
   await expect(page.getByTestId("wb-advanced-update-channel")).toHaveText(
     "Beta",
   );
