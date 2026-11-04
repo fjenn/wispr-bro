@@ -14,7 +14,7 @@
 #             send the agenda before the meeting." PASS = the saved file is
 #             "Pl10s1 s1nd th1 0g1nd0 b1for1 th1 m11ting.", the log line has
 #             "llm 0" (no model), clipboard unchanged, one ⌘Z restores
-#   nomatch   same Polish on "Buy rum today." PASS = no "pasted" line, log
+#   nomatch   same Polish on "Buy hot rum now." PASS = no "pasted" line, log
 #             "Unchanged", the file unchanged; CHECK the bar said "Nothing
 #             to change" (nomatch.png)
 #   notapplied Prompt Engineer = "Make it about half as long" (instruction
@@ -89,11 +89,11 @@ case "${1:-}" in
   nomatch)
     set_prompt polish "Replace all A and E with 0 and 1"; launch
     lines=$(applog | grep -c "pasted in")
-    take nomatch "Buy rum today." "${MOD}1"
+    take nomatch "Buy hot rum now." "${MOD}1"
     wb_textedit_close "$te"
     [ "$(applog | grep -c "pasted in")" = "$lines" ] && log "PASS nothing pasted" || log "FAIL pasted"
     applog | grep "without a replacement" | tail -1 | grep -q Unchanged && log "PASS Unchanged" || log "FAIL no Unchanged line"
-    [ "$(cat "$OUT/nomatch.txt")" = "Buy rum today." ] && log "PASS text kept" || log "FAIL text: $(cat "$OUT/nomatch.txt")"
+    [ "$(cat "$OUT/nomatch.txt")" = "Buy hot rum now." ] && log "PASS text kept" || log "FAIL text: $(cat "$OUT/nomatch.txt")"
     log "CHECK by eye in nomatch.png: the bar says \"Nothing to change\""
     ;;
   notapplied)
