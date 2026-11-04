@@ -245,9 +245,36 @@ impl Identifiers {
         }
     }
 
+    /// The dotfile names (`.gitattributes`, `.env.local`) in the text of a
+    /// tab or explorer row. Code like `.then(` is never a file row.
+    pub fn push_dotnames(&mut self, text: &str) {
+        for word in text.split_whitespace() {
+            if self.is_full() {
+                return;
+            }
+            let word = word.trim_matches(|c: char| "\"'`,;:".contains(c));
+            let word = word.rsplit(['/', '\\']).next().unwrap_or(word);
+            if dotname_like(word) && self.seen.insert(word.to_owned()) {
+                self.found.push(word.to_owned());
+            }
+        }
+    }
+
     pub fn into_vec(self) -> Vec<String> {
         self.found
     }
+}
+
+fn dotname_like(token: &str) -> bool {
+    let mut chars = token.chars();
+    chars.next() == Some('.')
+        && chars.next().is_some_and(|c| c.is_ascii_alphabetic())
+        && (3..=MAX_IDENTIFIER_CHARS).contains(&token.len())
+        && token
+            .chars()
+            .all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '_' | '-'))
+        && !token.ends_with('.')
+        && !token.contains("..")
 }
 
 /// The identifiers in `sections`, nearest first (see [`Identifiers`]).
@@ -290,6 +317,147 @@ pub fn spoken_segments(identifier: &str) -> Vec<String> {
     out
 }
 
+/// Dotfiles and dot-directories most projects have, with the words a
+/// recognizer writes for the part after the dot.
+const DOTFILES: &[(&str, &str)] = &[
+    (".gitignore", "git ignore"),
+    (".gitattributes", "git attributes"),
+    (".gitmodules", "git modules"),
+    (".gitkeep", "git keep"),
+    (".github", "git hub"),
+    (".env", "env"),
+    (".env.local", "env local"),
+    (".env.example", "env example"),
+    (".editorconfig", "editor config"),
+    (".prettierrc", "prettier rc"),
+    (".prettierignore", "prettier ignore"),
+    (".eslintrc", "eslint rc"),
+    (".eslintignore", "eslint ignore"),
+    (".npmrc", "npm rc"),
+    (".nvmrc", "nvm rc"),
+    (".dockerignore", "docker ignore"),
+    (".babelrc", "babel rc"),
+    (".vscode", "vs code"),
+    (".cursor", "cursor"),
+    (".cursorrules", "cursor rules"),
+    (".cursorignore", "cursor ignore"),
+    (".husky", "husky"),
+    (".DS_Store", "ds store"),
+];
+
+/// Stage "identifiers", first pass: a dotfile said or written as "dot git
+/// attributes", "dot gitattributes" or ".git attributes" becomes
+/// `.gitattributes`, from [`DOTFILES`] and the dotfile names in `visible`
+/// (which win). A dot the cleanup glued to the word before ("check.git
+/// attributes") is split off again, but only for a name of two or more
+/// words, so `this.cursor` or `prod.env` stay. A full stop followed by a
+/// space is a sentence's own and is never read as a dot.
+pub fn dotfiles(text: &str, visible: &[String], protected: &[(usize, usize)]) -> Corrected {
+    if !text.contains('.') && !text.to_lowercase().contains("dot") {
+        return unchanged(text);
+    }
+    // Spoken key ("git attributes" and "gitattributes") -> name, and
+    // whether a glued dot may be split off for it.
+    let mut by_spoken: HashMap<String, (&str, bool)> = HashMap::new();
+    let visible_words: Vec<(&str, Vec<String>)> = visible
+        .iter()
+        .filter(|name| dotname_like(name))
+        .map(|name| {
+            let words = name[1..]
+                .split(['.', '-'])
+                .flat_map(spoken_segments)
+                .collect();
+            (name.as_str(), words)
+        })
+        .collect();
+    let table = DOTFILES.iter().map(|&(name, spoken)| {
+        (
+            name,
+            spoken.split(' ').map(str::to_owned).collect::<Vec<_>>(),
+        )
+    });
+    for (name, words) in visible_words.into_iter().chain(table) {
+        if words.is_empty() {
+            continue;
+        }
+        let several = words.len() > 1;
+        for key in [words.join(" "), words.concat()] {
+            by_spoken.entry(key).or_insert((name, several));
+        }
+    }
+    let mut keys: Vec<&String> = by_spoken.keys().collect();
+    keys.sort_by(|a, b| b.len().cmp(&a.len()).then_with(|| a.cmp(b)));
+    let alternatives = keys
+        .iter()
+        .map(|key| {
+            key.split(' ')
+                .map(regex::escape)
+                .collect::<Vec<_>>()
+                .join(r"[ \t]+")
+        })
+        .collect::<Vec<_>>()
+        .join("|");
+    let Ok(re) = Regex::new(&format!(r"(?i)(\bdot[ \t]+|\.)({alternatives})\b")) else {
+        return unchanged(text);
+    };
+    let overlaps = |s: usize, e: usize| protected.iter().any(|&(ps, pe)| s < pe && ps < e);
+    let mut out = String::with_capacity(text.len() + 8);
+    let mut copied = 0;
+    let mut edits = Vec::new();
+    for caps in re.captures_iter(text) {
+        let (Some(whole), Some(lead), Some(said)) = (caps.get(0), caps.get(1), caps.get(2)) else {
+            continue;
+        };
+        let (start, end) = (whole.start(), whole.end());
+        if start < copied || overlaps(start, end) {
+            continue;
+        }
+        // Part of a longer name (`.env.local.bak`, `.env_x`): leave it.
+        let mut after = text[end..].chars();
+        let (next, beyond) = (after.next(), after.next());
+        if next.is_some_and(|c| c == '_' || c == '@')
+            || (next.is_some_and(|c| matches!(c, '.' | '-' | '/'))
+                && beyond.is_some_and(char::is_alphanumeric))
+        {
+            continue;
+        }
+        let Some(&(name, several)) = by_spoken.get(&spoken_key(said.as_str())) else {
+            continue;
+        };
+        let before = text[..start].chars().next_back();
+        let spaced = if lead.as_str() == "." {
+            match before {
+                None => false,
+                Some(c) if c.is_whitespace() || "([{\"'`/".contains(c) => false,
+                Some(c) if c.is_alphanumeric() && several => true,
+                _ => continue,
+            }
+        } else if before.is_some_and(|c| matches!(c, '.' | '_' | '@' | '/')) {
+            continue;
+        } else {
+            false
+        };
+        let replacement = if spaced {
+            format!(" {name}")
+        } else {
+            name.to_owned()
+        };
+        if text[start..end] == replacement {
+            continue;
+        }
+        out.push_str(&text[copied..start]);
+        out.push_str(&replacement);
+        edits.push((start, end, replacement.len()));
+        copied = end;
+    }
+    out.push_str(&text[copied..]);
+    Corrected {
+        fixes: edits.len() as u32,
+        text: out,
+        edits,
+    }
+}
+
 fn spoken_key(text: &str) -> String {
     text.split_whitespace()
         .map(str::to_lowercase)
@@ -317,7 +485,7 @@ pub fn correct(text: &str, visible: &[String], protected: &[(usize, usize)]) -> 
     let mut by_spoken: HashMap<String, Option<&str>> = HashMap::new();
     for identifier in visible {
         let segments = spoken_segments(identifier);
-        if segments.len() < 2 {
+        if segments.len() < 2 || identifier.starts_with('.') {
             continue;
         }
         by_spoken
@@ -641,5 +809,60 @@ mod tests {
         let c = correct(text, &strings(&["getUserById"]), &[(start, start + 3)]);
         assert_eq!(c.text, text);
         assert_eq!(c.fixes, 0);
+    }
+
+    #[test]
+    fn spoken_dotfiles_become_their_names() {
+        let fix = |text: &str| dotfiles(text, &[], &[]).text;
+        // The owner's rc4 take in Cursor.
+        assert_eq!(fix("check.git attributes"), "check .gitattributes");
+        assert_eq!(fix("check .git attributes"), "check .gitattributes");
+        assert_eq!(fix("check dot git attributes"), "check .gitattributes");
+        assert_eq!(fix("Check dot gitattributes."), "Check .gitattributes.");
+        assert_eq!(fix("Dot env local has the key"), ".env.local has the key");
+        assert_eq!(
+            fix("add it to the dot git ignore"),
+            "add it to the .gitignore"
+        );
+        assert_eq!(
+            fix("open .vs code and .ds store"),
+            "open .vscode and .DS_Store"
+        );
+        let c = dotfiles("check.git attributes and dot env", &[], &[]);
+        assert_eq!(c.fixes, 2);
+        assert_eq!(c.text, "check .gitattributes and .env");
+    }
+
+    #[test]
+    fn sentences_code_and_written_names_stay() {
+        let fix = |text: &str| dotfiles(text, &[], &[]).text;
+        for text in [
+            "I checked it. Git attributes are fine.",
+            "Done. Cursor rules are next.",
+            "Read this.cursor and prod.env",
+            "git attributes and env vars",
+            "keep .gitattributes and .env.local as they are",
+            "see src/.env.local.bak",
+            "e.g. env vars",
+            "",
+        ] {
+            assert_eq!(fix(text), text, "{text:?}");
+        }
+        let text = "dot env";
+        assert_eq!(dotfiles(text, &[], &[(0, 3)]).text, text);
+    }
+
+    #[test]
+    fn visible_dotnames_are_collected_and_win() {
+        let mut ids = Identifiers::default();
+        ids.push_dotnames("src/.storybook  .env.production, .then( ... .x.");
+        assert_eq!(ids.into_vec(), strings(&[".storybook", ".env.production"]));
+        let visible = strings(&[".env.production", ".DS_STORE"]);
+        assert_eq!(
+            dotfiles("copy dot env production, delete .ds store", &visible, &[]).text,
+            "copy .env.production, delete .DS_STORE"
+        );
+        // A dotfile name is never an identifier's spoken form.
+        assert_eq!(correct("ds store", &visible, &[]).text, "ds store");
     }
 }

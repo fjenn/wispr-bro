@@ -69,7 +69,8 @@ pub fn land(generation: u64, read: Read) {
     log::info!("{}", log_line(&read));
     let mut s = slot();
     if let Some(s) = s.as_mut().filter(|s| s.generation == generation) {
-        s.identifiers = (!read.identifiers.is_empty()).then_some(read.identifiers);
+        s.identifiers =
+            (read.code_names || !read.identifiers.is_empty()).then_some(read.identifiers);
         s.file_names = (!read.file_names.is_empty()).then_some(read.file_names);
         s.hints = (!read.hints.is_empty()).then_some(read.hints);
         s.chat_editor = read.ide.and_then(|(editor, chat)| chat.then_some(editor));

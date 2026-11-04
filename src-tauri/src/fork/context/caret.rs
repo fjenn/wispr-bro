@@ -120,6 +120,9 @@ pub struct Read {
     pub hints: Vec<String>,
     /// S-36: code names visible in a set-up editor (nearest first).
     pub identifiers: Vec<String>,
+    /// S-36: "Recognize code names" applied to this read (its dotfile pass
+    /// runs even when no code name was visible).
+    pub code_names: bool,
     /// S-36: file names in the editor's tabs and explorer, read only when
     /// the focus is its chat input and "Tag files in chat" is on.
     pub file_names: Vec<String>,
@@ -463,6 +466,9 @@ impl IdeScan {
         self.left -= text.chars().count();
         if let Some(ids) = self.identifiers.as_mut() {
             ids.push(text);
+            if file_row {
+                ids.push_dotnames(text);
+            }
         }
         if file_row {
             if let Some(files) = self.files.as_mut() {
@@ -640,6 +646,7 @@ fn read_from_walk(
     let IdeScan {
         identifiers, files, ..
     } = ide.unwrap_or_default();
+    let code_names = identifiers.is_some();
     // Code names: the caret window first (nearest), then the walk's.
     let identifiers = identifiers
         .map(|walked| {
@@ -648,7 +655,11 @@ fn read_from_walk(
                 ids.push(section);
             }
             for id in walked.into_vec() {
-                ids.push(&id);
+                if id.starts_with('.') {
+                    ids.push_dotnames(&id);
+                } else {
+                    ids.push(&id);
+                }
             }
             ids.into_vec()
         })
@@ -658,6 +669,7 @@ fn read_from_walk(
     Read {
         hints,
         identifiers,
+        code_names,
         file_names,
         ide: None,
         warming: false,

@@ -279,16 +279,22 @@ fn protected_spans(record: &TextRecord) -> Vec<(usize, usize)> {
         .collect()
 }
 
-/// S-36's code-name stage: the exact spoken form of an identifier the
-/// editor shows becomes its spelling
+/// S-36's code-name stage: a spoken dotfile becomes its name
+/// ([`crate::fork::context::ide::dotfiles`]), then the exact spoken form of
+/// an identifier the editor shows becomes its spelling
 /// ([`crate::fork::context::ide::correct`]). Dictionary rule outputs are
 /// never touched and stay findable for stage 9.
 pub fn identifier_stage(text: String, identifiers: &[String], record: &mut TextRecord) -> String {
-    let c = crate::fork::context::ide::correct(&text, identifiers, &protected_spans(record));
+    use crate::fork::context::ide;
+    let d = ide::dotfiles(&text, identifiers, &protected_spans(record));
+    for p in &mut record.provenance {
+        p.target_start = d.map_offset(p.target_start);
+    }
+    let c = ide::correct(&d.text, identifiers, &protected_spans(record));
     for p in &mut record.provenance {
         p.target_start = c.map_offset(p.target_start);
     }
-    record.push(Stage::Identifiers, c.fixes);
+    record.push(Stage::Identifiers, d.fixes + c.fixes);
     c.text
 }
 
