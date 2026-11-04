@@ -262,3 +262,5 @@ Rules for Phase 1:
 ### Phase 2 (one agent): polish pass
 
 Cross-app consistency review against the comparison page, motion tuning on the real Mac (WebKit, 60 Hz and 120 Hz), the native bar on a real display, a dark-mode pass on every screen, and the owner's review.
+
+**Phase 2 as built (2026-11-03, `design/polish`):** the polish list and the cross-app consistency pass in R5 "Design polish pass": content-sized diff card (`geometry::diff_height`, `Fit`), one `DrawnBar` for scenes and lessons at W4's proportions, RTL/long-label fixes in onboarding, sorted flat locale files in the merge driver, load-proof specs, every colour a token (guard `tokens/raw-colour`), type/radius/motion drift snapped to the scale, the Transforms editor on the shared modal chrome. Motion tuning at 60/120 Hz, the native bar on a real display and the owner's review stay with the Mac wave.

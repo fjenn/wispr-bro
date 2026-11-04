@@ -1436,6 +1436,26 @@ noted; the shots in Playwright are the reference.
       a problem, the feature popup, What's new as a sheet; Reduce Motion
       crossfades them.
 
+### Design polish — queued for the Mac wave
+
+Built 2026-11-03 on `design/polish`. Debug build, test identity, takes by
+SIGUSR2 through the WAV microphone (as Design W4); by eye unless noted.
+
+- [ ] DP.1 Diff card height: Polish a one-sentence selection in TextEdit,
+      then ⌥O: the card holds its one or two lines with no empty band under
+      them; a ten-sentence selection gives the tallest card with the text
+      scrolling; a Japanese sentence wraps inside the card (no clipped
+      line). `swift scripts/wb-s03-pill.swift windows` shows the window
+      height = 104 + 24 × lines.
+- [ ] DP.2 Chips: deleted and inserted words never touch ("perhaps" and
+      "We could" have a gap) on the bar and in the Hub's View changes.
+- [ ] DP.3 Drawn bars: the first-use chooser's scene, the Transforms lesson
+      practice and How it works, and the whisper lesson show the same bar as
+      the real one (black capsule, 11 bars, the split "Transcribing…"
+      capsule, the white View changes pill).
+- [ ] DP.4 The Transforms editor (Transforms › a card › Edit) opens like the
+      Settings modal (scrim, rise) and closes with Esc.
+
 ### Design W2 (Hub pages) — queued for the Mac wave
 
 Built 2026-11-03 on `design/w2-hub` (SYSTEM-PLAN §7, W2). A debug build with
