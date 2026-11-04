@@ -28,7 +28,7 @@
     "macOS": {
       "minimumSystemVersion": "13.0",
       "dmg": {
-        "background": "dmg-fork/background.png",
+        "background": "icons-fork/dmg/background.png",
         "windowSize": {
           "width": 660,
           "height": 400

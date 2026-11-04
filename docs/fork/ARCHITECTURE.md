@@ -1312,7 +1312,7 @@ sign`; an update therefore installs an app that passes Gatekeeper offline.
   itself and mounts `-nobrowse`: no Finder, no AppleScript (Tauri's own
   `bundle_dmg.sh` drives Finder by AppleScript). The layout has one source,
   Tauri's `bundle.macOS.dmg` in `tauri.fork.conf.json`; the background
-  (`src-tauri/dmg-fork/background{,@2x}.png`) is drawn from it by
+  (`src-tauri/icons-fork/dmg/background{,@2x}.png`) is drawn from it by
   `dmg/background.ts` (`bun scripts/wb-release/dmg/background.ts`; `--check`
   compares sizes). Icon labels sit on a mid-tone tray readable with Finder's
   dark and light label colours.

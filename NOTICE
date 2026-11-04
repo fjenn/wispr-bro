@@ -838,6 +838,6 @@ GitHub; it is not licensed under the GPL and is not Wispr Bro's mark.
 Wispr Bro is not affiliated with or endorsed by GitHub.
 
 The install window's background in the disk image
-(src-tauri/dmg-fork/background.png and background@2x.png, drawn by
+(src-tauri/icons-fork/dmg/background.png and background@2x.png, drawn by
 scripts/wb-release/dmg/background.ts) was made for Wispr Bro and is
 licensed GPL-3.0-or-later with the rest of the app.

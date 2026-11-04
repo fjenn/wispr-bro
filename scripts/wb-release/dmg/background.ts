@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * wb-dmg-background (OT2-E): draws the install window's background for the
- * DMG, `src-tauri/dmg-fork/background.png` (1x) and `background@2x.png`
+ * DMG, `src-tauri/icons-fork/dmg/background.png` (1x) and `background@2x.png`
  * (2x), from the layout in `src-tauri/tauri.fork.conf.json`
  * (`bundle.macOS.dmg`: window size and the two icon centres), so the arrow
  * and the tray always sit under the icons `scripts/wb-release/dmg/build.sh`

@@ -219,6 +219,12 @@ describe("generate on a fixture tree", () => {
       "",
       "- Some photo, CC BY 4.0",
       "",
+      "=====",
+      "10. Trademarks shown in the app",
+      "=====",
+      "",
+      "- Some mark, used under its owner's guidelines",
+      "",
     ].join("\n");
 
   const treeFixture = () => {
@@ -274,6 +280,8 @@ describe("generate on a fixture tree", () => {
       "## Fonts",
       "## Art",
       "Some photo, CC BY 4.0",
+      "## Trademarks",
+      "Some mark, used under its owner's guidelines",
       "## Bundled programs",
       "### `LICENSES/MIT-some-server.txt`",
       "some-server MIT text",

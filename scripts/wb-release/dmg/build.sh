@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Makes the Wispr Bro DMG with its install window (OT2-E): our background
-# (src-tauri/dmg-fork/background.png + @2x), the app on the left, the
+# (src-tauri/icons-fork/dmg/background.png + @2x), the app on the left, the
 # Applications link on the right, icons at 128 pt, no toolbar, sidebar or
 # status bar, the window sized to the picture. Layout comes from Tauri's
 # `bundle.macOS.dmg` in src-tauri/tauri.fork.conf.json, the one source for
