@@ -192,9 +192,6 @@
     },
     "general": {
       "shortcuts": "Genveje",
-      "shortcutTitle": "Genvej til diktering",
-      "shortcutHint": "Vælg, hvordan du starter diktering, og administrer alle tastaturhandlinger.",
-      "holdToTalk": "Hold {{shortcut}} nede for at tale",
       "change": "Skift",
       "microphone": "Mikrofon",
       "languages": "Mine sprog",
@@ -448,6 +445,14 @@
         "title": "Slå Apples Diktering fra ved fn to gange",
         "description": "Et dobbelttryk starter ikke også Apples Diktering.",
         "active": "Apples Diktering starter stadig ved fn to gange. Sæt genvejen til Diktering til Fra i tastaturindstillingerne."
+      },
+      "key": {
+        "title": "Dikteringstast",
+        "hint": "Hold nede for at tale. Tryk to gange for håndfri diktering.",
+        "prompt": "Tryk på den eller de taster, du vil bruge",
+        "save": "Gem",
+        "invalid": "Brug fn eller to modifikatortaster sammen, fx ⌃ ⌥.",
+        "more": "Flere genveje"
       }
     },
     "resetSetting": "Nulstil {{setting}}",

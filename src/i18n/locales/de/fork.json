@@ -192,9 +192,6 @@
     },
     "general": {
       "shortcuts": "Kurzbefehle",
-      "shortcutTitle": "Kurzbefehl fürs Diktat",
-      "shortcutHint": "Leg fest, wie du das Diktat startest, und verwalte alle Tastaturaktionen.",
-      "holdToTalk": "{{shortcut}} halten und sprechen",
       "change": "Ändern",
       "microphone": "Mikrofon",
       "languages": "Meine Sprachen",
@@ -448,6 +445,14 @@
         "title": "Apple-Diktat bei zweimal fn ausschalten",
         "description": "Ein Doppeltipp startet nicht zusätzlich das Diktat von Apple.",
         "active": "Das Diktat von Apple startet weiterhin bei zweimal fn. Stelle in den Tastatureinstellungen den Kurzbefehl für Diktat auf „Aus“."
+      },
+      "key": {
+        "title": "Diktiertaste",
+        "hint": "Halten und sprechen. Doppelt tippen für freihändiges Diktat.",
+        "prompt": "Drück die gewünschte Taste oder Tastenkombination",
+        "save": "Speichern",
+        "invalid": "Nimm fn oder zwei Sondertasten zusammen, etwa ⌃ ⌥.",
+        "more": "Weitere Kurzbefehle"
       }
     },
     "resetSetting": "{{setting}} zurücksetzen",

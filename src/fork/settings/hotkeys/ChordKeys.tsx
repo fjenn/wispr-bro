@@ -10,11 +10,16 @@ import { chordLabel } from "./model";
 export function ChordKeys({
   chord,
   text,
+  pressed = false,
+  capClassName,
 }: {
   /** A stored chord (`fn+space`), labelled with `chordLabel`. */
   chord?: string;
   /** A label already made for display (the backend's `label.text`). */
   text?: string;
+  /** Keys held right now (the dictation key capture): accent caps. */
+  pressed?: boolean;
+  capClassName?: string;
 }) {
   const label = text ?? (chord ? chordLabel(chord) : "");
   const parts = label.split(" ").filter(Boolean);
@@ -26,7 +31,9 @@ export function ChordKeys({
       {keys.map((key, index) => (
         <span key={`${key}-${index}`} className="contents">
           {index > 0 && " "}
-          <Kbd>{key}</Kbd>
+          <Kbd pressed={pressed} className={capClassName}>
+            {key}
+          </Kbd>
         </span>
       ))}
     </span>

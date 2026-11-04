@@ -194,9 +194,6 @@
     },
     "general": {
       "shortcuts": "Zkratky",
-      "shortcutTitle": "Zkratka pro diktování",
-      "shortcutHint": "Zvolte, jak spouštíte diktování, a spravujte všechny akce klávesnice.",
-      "holdToTalk": "Pro mluvení podržte {{shortcut}}",
       "change": "Změnit",
       "microphone": "Mikrofon",
       "languages": "Moje jazyky",
@@ -452,6 +449,14 @@
         "title": "Vypnout Diktování Apple po dvojím stisku fn",
         "description": "Dvojí stisk už nespustí také Diktování Apple.",
         "active": "Diktování Apple se stále spouští dvojím stiskem fn. V nastavení Klávesnice nastavte zkratku diktování na Vypnuto."
+      },
+      "key": {
+        "title": "Klávesa diktování",
+        "hint": "Podržením mluvíte. Dvojitým stisknutím diktujete bez držení.",
+        "prompt": "Stiskněte požadovanou klávesu nebo klávesy",
+        "save": "Uložit",
+        "invalid": "Použijte fn nebo dvě modifikační klávesy současně, například ⌃ ⌥.",
+        "more": "Další zkratky"
       }
     },
     "resetSetting": "Obnovit {{setting}}",

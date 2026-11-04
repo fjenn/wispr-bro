@@ -10,6 +10,9 @@ import {
   maxBindings,
   nextBindingActivation,
   TRANSFORM_DEFAULTS,
+  dictationKeyBindings,
+  dictationKeyConflict,
+  triggerChord,
 } from "./model";
 
 const first = defaultHotkeys();
@@ -65,4 +68,29 @@ assert.equal(
     { chord: "fn", activation: "double_tap" },
   ]),
   "press",
+);
+
+// The dictation key: fn alone or two modifier groups, normalized.
+assert.equal(triggerChord("fn"), "fn");
+assert.equal(triggerChord("option+ctrl"), "ctrl+option");
+assert.equal(triggerChord("cmd+shift"), "shift+command");
+assert.equal(triggerChord("right_option+left_ctrl"), "ctrl+option");
+assert.equal(triggerChord("option"), null);
+assert.equal(triggerChord("fn+ctrl"), null);
+assert.equal(triggerChord("ctrl+space"), null);
+assert.equal(triggerChord("a"), null);
+assert.deepEqual(dictationKeyBindings(first, "ctrl+option"), {
+  dictate: [{ chord: "ctrl+option", activation: "hold" }],
+  hands_free: [
+    { chord: "ctrl+option", activation: "double_tap" },
+    { chord: "ctrl+option+space", activation: "press" },
+  ],
+});
+assert.equal(dictationKeyConflict(first, "fn"), null);
+assert.equal(
+  dictationKeyConflict(
+    { ...first, paste_last: [{ chord: "option+ctrl", activation: "press" }] },
+    "ctrl+option",
+  ),
+  "paste_last",
 );

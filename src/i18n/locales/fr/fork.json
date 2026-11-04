@@ -193,9 +193,6 @@
     },
     "general": {
       "shortcuts": "Raccourcis",
-      "shortcutTitle": "Raccourci de dictée",
-      "shortcutHint": "Choisissez comment lancer la dictée et gérez toutes les actions au clavier.",
-      "holdToTalk": "Maintenez {{shortcut}} pour parler",
       "change": "Modifier",
       "microphone": "Microphone",
       "languages": "Mes langues",
@@ -450,6 +447,14 @@
         "title": "Désactiver la Dictée d'Apple avec fn deux fois",
         "description": "Un double appui ne lance plus aussi la Dictée d'Apple.",
         "active": "La Dictée d'Apple démarre encore avec fn deux fois. Dans les réglages Clavier, réglez le raccourci de la Dictée sur Désactivé."
+      },
+      "key": {
+        "title": "Touche de dictée",
+        "hint": "Maintenez pour parler. Appuyez deux fois pour la dictée mains libres.",
+        "prompt": "Appuyez sur la ou les touches de votre choix",
+        "save": "Enregistrer",
+        "invalid": "Utilisez fn, ou deux touches de modification ensemble, comme ⌃ ⌥.",
+        "more": "Autres raccourcis"
       }
     },
     "resetSetting": "Réinitialiser {{setting}}",

@@ -191,9 +191,6 @@
     },
     "general": {
       "shortcuts": "Pintasan",
-      "shortcutTitle": "Pintasan Dikte",
-      "shortcutHint": "Pilih cara Anda memulai dikte dan kelola setiap tindakan papan ketik.",
-      "holdToTalk": "Tahan {{shortcut}} untuk berbicara",
       "change": "Ubah",
       "microphone": "Mikrofon",
       "languages": "Bahasa saya",
@@ -446,6 +443,14 @@
         "title": "Matikan Dikte Apple saat fn ditekan dua kali",
         "description": "Ketukan ganda tidak lagi ikut memulai Dikte Apple.",
         "active": "Dikte Apple masih dimulai saat fn ditekan dua kali. Di pengaturan Papan Ketik, atur pintasan Dikte ke Mati."
+      },
+      "key": {
+        "title": "Tombol dikte",
+        "hint": "Tahan untuk berbicara. Ketuk dua kali untuk dikte bebas genggam.",
+        "prompt": "Tekan tombol yang Anda inginkan",
+        "save": "Simpan",
+        "invalid": "Gunakan fn, atau dua tombol pengubah bersamaan, seperti ⌃ ⌥.",
+        "more": "Pintasan lainnya"
       }
     },
     "resetSetting": "Atur ulang {{setting}}",

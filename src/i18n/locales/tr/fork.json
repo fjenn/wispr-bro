@@ -192,9 +192,6 @@
     },
     "general": {
       "shortcuts": "Kestirmeler",
-      "shortcutTitle": "Dikte kestirmesi",
-      "shortcutHint": "Dikteyi nasıl başlatacağınızı seçin ve tüm klavye eylemlerini yönetin.",
-      "holdToTalk": "Konuşmak için {{shortcut}} tuşunu basılı tutun",
       "change": "Değiştir",
       "microphone": "Mikrofon",
       "languages": "Dillerim",
@@ -448,6 +445,14 @@
         "title": "fn'ye iki kez basınca Apple Dikte'yi kapat",
         "description": "Çift dokunuş Apple Dikte'yi de başlatmaz.",
         "active": "Apple Dikte hâlâ fn'ye iki kez basınca başlıyor. Klavye ayarlarında Dikte kestirmesini Kapalı yapın."
+      },
+      "key": {
+        "title": "Dikte tuşu",
+        "hint": "Konuşmak için basılı tutun. Eller serbest dikte için iki kez dokunun.",
+        "prompt": "İstediğiniz tuşa veya tuşlara basın",
+        "save": "Kaydet",
+        "invalid": "fn'yi ya da ⌃ ⌥ gibi iki değiştirici tuşu birlikte kullanın.",
+        "more": "Diğer kestirmeler"
       }
     },
     "resetSetting": "Sıfırla: {{setting}}",

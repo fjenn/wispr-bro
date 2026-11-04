@@ -191,9 +191,6 @@
     },
     "general": {
       "shortcuts": "快捷键",
-      "shortcutTitle": "听写快捷键",
-      "shortcutHint": "选择开始听写的方式，并管理所有键盘操作。",
-      "holdToTalk": "按住 {{shortcut}} 说话",
       "change": "更改",
       "microphone": "麦克风",
       "languages": "我的语言",
@@ -446,6 +443,14 @@
         "title": "关闭按两下 fn 启动的 Apple 听写",
         "description": "双击时不会同时启动 Apple 听写。",
         "active": "按两下 fn 仍会启动 Apple 听写。请在键盘设置中将听写快捷键设为“关”。"
+      },
+      "key": {
+        "title": "听写键",
+        "hint": "按住说话。连按两下即可免提听写。",
+        "prompt": "请按下你想用的键",
+        "save": "存储",
+        "invalid": "请使用 fn，或同时使用两个修饰键，例如 ⌃ ⌥。",
+        "more": "更多快捷键"
       }
     },
     "resetSetting": "重置「{{setting}}」",

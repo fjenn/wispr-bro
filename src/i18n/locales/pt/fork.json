@@ -193,9 +193,6 @@
     },
     "general": {
       "shortcuts": "Atalhos",
-      "shortcutTitle": "Atalho de ditado",
-      "shortcutHint": "Escolha como iniciar o ditado e gerencie todas as ações de teclado.",
-      "holdToTalk": "Mantenha {{shortcut}} pressionado para falar",
       "change": "Alterar",
       "microphone": "Microfone",
       "languages": "Meus idiomas",
@@ -450,6 +447,14 @@
         "title": "Desativar o Ditado da Apple com fn duas vezes",
         "description": "Um toque duplo deixa de iniciar também o Ditado da Apple.",
         "active": "O Ditado da Apple ainda inicia com fn duas vezes. Nos ajustes de Teclado, defina o atalho do Ditado como Desativado."
+      },
+      "key": {
+        "title": "Tecla de ditado",
+        "hint": "Mantenha pressionada para falar. Toque duas vezes para ditar sem as mãos.",
+        "prompt": "Pressione a tecla ou as teclas que deseja",
+        "save": "Salvar",
+        "invalid": "Use fn, ou duas teclas modificadoras juntas, como ⌃ ⌥.",
+        "more": "Mais atalhos"
       }
     },
     "resetSetting": "Redefinir {{setting}}",

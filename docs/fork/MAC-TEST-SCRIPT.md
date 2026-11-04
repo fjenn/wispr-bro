@@ -3160,3 +3160,8 @@ test profile (never the owner's data dir); network on.
 - **XF2.1** On a copy of a profile whose custom transform was made in rc6 (generic instruction, the words in the old Description; e.g. the owner's "replace all “A” and “e” with 0 and 1"), select "Please send the agenda" in TextEdit and press its shortcut: "Pl10s1 s1nd th1 0g1nd0" is pasted at once (exact edits, no model); the editor's "What should it do?" box shows that sentence.
 - **XF2.2** Quit and relaunch (instruction server cold), then run a free-form custom transform ("make it friendlier") on two sentences: it pastes, no "Couldn't apply" (cold start budget 30 s, request ≥ 15 s); Esc during the wait cancels.
 - **XF2.3** Transforms page by eye, light and dark: title, one line, the list and "New transform"; the settings button opens auto-apply, Command Mode, the ⌥-key note and Reset; the editor shows one instruction box, compact option chips, the preview and a folded "More options".
+
+## KEY: the dictation key in one step (`fix/keys`, queued for the Mac wave)
+
+- **KEY.1** Debug test identity, Settings › General: Change on "Dictation key", hold ⌃ and ⌥: the caps light while held; release, Save. Holding ⌃⌥ starts a take, a double-tap starts hands-free, ⌃⌥Space toggles hands-free; fn no longer starts one. Change back to fn the same way.
+- **KEY.2** Onboarding's shortcut test: Edit shortcut shows only the key capture; press ⌥ alone: the inline "Use fn, or two modifier keys…" line, Save off; Esc closes the dialog and the test runs again with the current key.

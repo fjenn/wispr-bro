@@ -193,9 +193,6 @@
     },
     "general": {
       "shortcuts": "Dreceres",
-      "shortcutTitle": "Drecera de dictat",
-      "shortcutHint": "Tria com comences el dictat i gestiona totes les accions de teclat.",
-      "holdToTalk": "Mantén premut {{shortcut}} per parlar",
       "change": "Canviar",
       "microphone": "Micròfon",
       "languages": "Els meus idiomes",
@@ -450,6 +447,14 @@
         "title": "Desactiva el Dictat d'Apple amb fn dues vegades",
         "description": "Evita que un doble toc també iniciï el Dictat d'Apple.",
         "active": "El Dictat d'Apple encara s'inicia amb fn dues vegades. A la configuració del teclat, posa la drecera del Dictat a «No»."
+      },
+      "key": {
+        "title": "Tecla de dictat",
+        "hint": "Mantén premut per parlar. Prem dues vegades per dictar sense mans.",
+        "prompt": "Prem la tecla o les tecles que vulguis",
+        "save": "Desar",
+        "invalid": "Fes servir fn, o dues tecles modificadores juntes, com ara ⌃ ⌥.",
+        "more": "Més dreceres"
       }
     },
     "resetSetting": "Restaurar {{setting}}",

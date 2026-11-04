@@ -192,9 +192,6 @@
     },
     "general": {
       "shortcuts": "Toetscombinaties",
-      "shortcutTitle": "Toetscombinatie voor dicteren",
-      "shortcutHint": "Kies hoe je het dicteren start en beheer alle toetsenbordacties.",
-      "holdToTalk": "Houd {{shortcut}} ingedrukt om te praten",
       "change": "Wijzig",
       "microphone": "Microfoon",
       "languages": "Mijn talen",
@@ -448,6 +445,14 @@
         "title": "Dicteren van Apple bij twee keer fn uitschakelen",
         "description": "Twee keer tikken start niet ook Dicteren van Apple.",
         "active": "Dicteren van Apple start nog steeds bij twee keer fn. Zet in de toetsenbordinstellingen de toetscombinatie voor Dicteren op Uit."
+      },
+      "key": {
+        "title": "Dicteertoets",
+        "hint": "Ingedrukt houden om te praten. Tik twee keer voor handsfree.",
+        "prompt": "Druk op de toets of toetsen die je wilt",
+        "save": "Bewaar",
+        "invalid": "Gebruik fn, of twee speciale toetsen samen, zoals ⌃ ⌥.",
+        "more": "Meer toetscombinaties"
       }
     },
     "resetSetting": "Herstel {{setting}}",
