@@ -18,6 +18,14 @@
 //! much that the noise floor would rise above [`NOISE_CEILING_DB`], so a
 //! quiet room's hiss or a café's noise is not raised into "speech".
 //!
+//! Mac wave 7: a whisper as loud as the café around it (0 dB SNR) gets no
+//! gain (the noise cap), and Silero kept as little as 1.25 s of a 3.6 s
+//! sentence. Each frame now also counts as speech when the spectral voice
+//! presence of [`super::speech`] (the meter's) reaches [`VOICED_PRESENCE`]:
+//! over the quiet set (turbo) whisper-30/35 at 0 dB WER 29.5 → 9.5 %, no
+//! empty take (was 1/8 each), all tiers 5.8 → 3.7 %, normal and loud
+//! unchanged, every noise-only take still empty.
+//!
 //! A take-level gain before the recognizer (`for_recognizer`, tests only)
 //! was built and measured too: one gain per take towards [`TARGET_DB`]
 //! with the same limits. It changed nothing for either model (turbo WER
@@ -36,6 +44,8 @@ pub const TARGET_DB: f32 = -24.0;
 pub const MAX_GAIN_DB: f32 = 30.0;
 /// The noise floor is never lifted above this (dBFS).
 pub const NOISE_CEILING_DB: f32 = -50.0;
+/// Spectral voice presence that counts a frame as speech by itself.
+pub const VOICED_PRESENCE: f32 = 0.6;
 /// Peaks are kept under this after the take gain (linear).
 #[cfg(test)]
 pub const PEAK_LIMIT: f32 = 0.9;
@@ -176,6 +186,7 @@ pub struct Conditioned {
     inner: Box<dyn SpeechScorer>,
     tracker: Tracker,
     scratch: Vec<f32>,
+    meter: crate::fork::audio::speech::SpeechMeter,
 }
 
 /// Wraps `inner`, which keeps its own threshold and state; it sees each
@@ -185,10 +196,17 @@ pub fn detector(inner: Box<dyn SpeechScorer>) -> Box<dyn SpeechScorer> {
         inner,
         tracker: Tracker::new(),
         scratch: Vec::new(),
+        meter: crate::fork::audio::speech::SpeechMeter::new(16_000),
     })
 }
 
 impl Conditioned {
+    /// Whether the spectral voice presence of [`super::speech`] hears a
+    /// voice in this frame (a whisper under café noise that Silero misses).
+    fn voiced(&mut self, frame: &[f32]) -> bool {
+        self.meter.push(frame, 1).presence >= VOICED_PRESENCE
+    }
+
     fn scaled(&mut self, frame: &[f32]) -> f32 {
         let ms = frame.iter().map(|s| s * s).sum::<f32>() / frame.len().max(1) as f32;
         let db = if ms > 1e-12 {
@@ -209,10 +227,11 @@ impl Conditioned {
 impl VoiceActivityDetector for Conditioned {
     fn push_frame<'a>(&'a mut self, frame: &'a [f32]) -> Result<VadFrame<'a>> {
         self.scaled(frame);
+        let voiced = self.voiced(frame);
         let scratch = std::mem::take(&mut self.scratch);
         let speech = self.inner.push_frame(&scratch).map(|f| f.is_speech());
         self.scratch = scratch;
-        Ok(if speech? {
+        Ok(if speech? || voiced {
             VadFrame::Speech(frame)
         } else {
             VadFrame::Noise
@@ -230,6 +249,7 @@ impl VoiceActivityDetector for Conditioned {
     fn reset(&mut self) {
         self.inner.reset();
         self.tracker = Tracker::new();
+        self.meter = crate::fork::audio::speech::SpeechMeter::new(16_000);
     }
 }
 
@@ -239,10 +259,11 @@ impl SpeechScorer for Conditioned {
         let mut out = Vec::with_capacity(frames.len() / n);
         for frame in frames.chunks(n) {
             self.scaled(frame);
+            let voiced = self.voiced(frame);
             let scratch = std::mem::take(&mut self.scratch);
             let p = self.inner.score(&scratch);
             self.scratch = scratch;
-            out.extend(p?);
+            out.extend(p?.into_iter().map(|p| if voiced { p.max(1.0) } else { p }));
         }
         Ok(out)
     }
@@ -375,6 +396,29 @@ mod tests {
         assert_eq!(scores.len(), 40);
     }
 
+    /// Mac wave 7 (OT2-B.2): a whisper as loud as the café around it
+    /// (0 dB SNR), which no gain may lift, is heard by its spectrum.
+    #[test]
+    fn a_whisper_at_the_cafes_level_is_heard_by_its_spectrum() {
+        let babble: Vec<Vec<f32>> = (0..8).map(|k| synth_speech(4.0, 50 + k, false)).collect();
+        let w = take(
+            &synth_speech(3.0, 9, true),
+            -48.0,
+            Some(0.0),
+            7,
+            &babble,
+            1.0,
+            0.5,
+        );
+        let mut plain = LevelDetector;
+        let mut wrapped = detector(Box::new(LevelDetector));
+        let (a, b) = (
+            speech_frames(&mut plain, &w),
+            speech_frames(wrapped.as_mut(), &w),
+        );
+        assert!(b >= a + 8, "{a} vs {b}");
+    }
+
     #[test]
     fn the_detector_does_not_raise_room_noise_into_speech() {
         for noise in [None, Some(-70.0), Some(-55.0)] {
@@ -382,7 +426,22 @@ mod tests {
             let mut wrapped = detector(Box::new(LevelDetector));
             assert_eq!(speech_frames(wrapped.as_mut(), &audio), 0, "{noise:?}");
         }
-        // Ordinary speech is not boosted past what the detector heard.
+        // Café noise with distant babble, no voice: the spectral presence
+        // check must not call it speech either.
+        let babble: Vec<Vec<f32>> = (0..8).map(|k| synth_speech(4.0, 50 + k, false)).collect();
+        for (level, seed) in [(-38.0, 11), (-48.0, 12)] {
+            let audio = noise_take(4.0, Some(level), seed, &babble);
+            let mut plain = LevelDetector;
+            let mut wrapped = detector(Box::new(LevelDetector));
+            let (a, b) = (
+                speech_frames(&mut plain, &audio),
+                speech_frames(wrapped.as_mut(), &audio),
+            );
+            assert!(b <= a, "café {level}: {a} vs {b}");
+        }
+        // Ordinary speech is not boosted far past what the detector heard:
+        // the gain adds nothing, the presence check only the meter's short
+        // release at word ends (Mac wave 7: at most ~0.6 s over 3 s).
         let normal = take(
             &synth_speech(3.0, 9, false),
             -26.0,
@@ -398,6 +457,6 @@ mod tests {
             speech_frames(&mut plain, &normal),
             speech_frames(wrapped.as_mut(), &normal),
         );
-        assert!(b <= a + 4, "{a} vs {b}");
+        assert!(b <= a + 20, "{a} vs {b}");
     }
 }
