@@ -1044,6 +1044,8 @@ describe("the current tree", () => {
     }
   });
 
+  // Whole-tree runs spawn every guard; under machine load they exceed bun's
+  // 5 s default, so they get the suite's load-only 180 s timeout.
   test("passes every guard in PR mode", () => {
     const results = runAll({
       base: process.env.WB_UPSTREAM_REF ?? "upstream/main",
@@ -1053,7 +1055,7 @@ describe("the current tree", () => {
         guard: r.guard,
         violations: [],
       });
-  });
+  }, 180_000);
 
   test("passes every guard in release mode (F-02 filled the placeholders)", () => {
     const results = runAll({
@@ -1065,5 +1067,5 @@ describe("the current tree", () => {
         guard: r.guard,
         violations: [],
       });
-  });
+  }, 180_000);
 });
