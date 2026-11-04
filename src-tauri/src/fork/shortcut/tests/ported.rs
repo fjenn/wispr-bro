@@ -25,6 +25,10 @@ fn u() -> Input {
 fn key(name: &str) -> Input {
     Input::KeyDown(Key::Other(name.into()))
 }
+/// A mouse button (or a key with ⌘/⌃ held), OT2-A.
+fn nav(name: &str) -> Input {
+    Input::KeyDown(Key::Nav(name.into()))
+}
 fn space() -> Input {
     Input::KeyDown(Key::Space)
 }
@@ -312,22 +316,17 @@ fn anarlog() -> Vec<Scenario> {
         ),
         sc(
             "anarlog/mouse_click_discards_modifier_only_within_threshold: click is a chord",
-            vec![(0, d()), (100, key("MouseLeft")), (200, u())],
+            vec![(0, d()), (100, nav("MouseLeft")), (200, u())],
             1000,
             vec![(100, chord("MouseLeft", false))],
         ),
-        // DIVERGES: upstream ignores a click after MODIFIER_ONLY_MIN; for us a
-        // mouse button is a non-modifier key, so DEC-54 drops the take.
+        // OT2-A: as upstream, a click after the take started is ignored (it
+        // moves focus); the take ends on the release.
         sc(
-            "anarlog/mouse_click_ignored_modifier_only_after_threshold: click after T_show drops (DEC-54)",
-            vec![(0, d()), (500, key("MouseLeft")), (600, u())],
+            "anarlog/mouse_click_ignored_modifier_only_after_threshold: click after T_show keeps the take",
+            vec![(0, d()), (500, nav("MouseLeft")), (600, u())],
             1500,
-            vec![
-                (150, OPEN),
-                (150, START),
-                (500, chord_kept("MouseLeft")),
-                (500, CLOSE),
-            ],
+            vec![(150, OPEN), (150, START), (600, RELEASE), (600, CLOSE)],
         ),
     ]
 }

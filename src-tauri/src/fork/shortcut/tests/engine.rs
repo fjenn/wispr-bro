@@ -924,3 +924,67 @@ fn an_idle_shadowed_esc_sends_nothing() {
     r.engine.shadow(10, "cancel", &mut r.host);
     assert!(r.host.commands.is_empty());
 }
+
+// OT2-A -----------------------------------------------------------------
+
+/// The owner's rc3 report: switching windows while holding fn cancelled
+/// the take. ⌘-Tab, a click into another app, ⌃-→ to another Space and
+/// ⌘-1 to another tab all keep it recording; the release stops it.
+#[test]
+fn a_held_take_survives_app_window_tab_and_space_switches() {
+    let mut r = Rig::new();
+    r.fn_down(0).at(200);
+    assert_eq!(r.host.names(), vec!["start"]);
+    // ⌘-Tab (twice, through the switcher) with fn held.
+    let fc = Modifiers::FN | Modifiers::CMD_LEFT;
+    r.ev(700, flags(fc, true, Modifiers::CMD_LEFT));
+    r.key(720, fc, HkKey::Tab);
+    r.key(760, fc, HkKey::Tab);
+    r.key(780, fc, HkKey::Num1);
+    r.ev(800, flags(Modifiers::FN, false, Modifiers::CMD_LEFT));
+    // A click into another window.
+    r.key(1_000, Modifiers::FN, HkKey::MouseLeft);
+    // ⌃-→ to the next Space.
+    let fx = Modifiers::FN | Modifiers::CTRL_LEFT;
+    r.ev(1_200, flags(fx, true, Modifiers::CTRL_LEFT));
+    r.key(1_220, fx, HkKey::RightArrow);
+    r.ev(1_260, flags(Modifiers::FN, false, Modifiers::CTRL_LEFT));
+    // The stuck guard still sees fn physically down.
+    r.host.physical = Some(true);
+    r.at(3_000);
+    assert_eq!(r.host.names(), vec!["start"], "nothing ended the take");
+    assert!(r.engine.grammar().take_active());
+    r.fn_up(3_100);
+    assert_eq!(r.host.names(), vec!["start", "stop"]);
+}
+
+/// Esc still cancels a held take after a switch; an ordinary fn+key chord
+/// still drops it (rule 2 is unchanged for plain keys).
+#[test]
+fn after_a_switch_esc_cancels_and_a_plain_chord_still_drops() {
+    let mut r = Rig::new();
+    r.fn_down(0).at(200);
+    let fc = Modifiers::FN | Modifiers::CMD_LEFT;
+    r.key(300, fc, HkKey::Tab);
+    r.key(400, Modifiers::FN, HkKey::Escape);
+    assert_eq!(r.host.names(), vec!["start", "cancel"]);
+    r.fn_up(500);
+
+    let mut r = Rig::new();
+    r.fn_down(0).at(200);
+    r.key(300, Modifiers::FN, HkKey::MouseLeft);
+    r.key(400, Modifiers::FN, HkKey::F);
+    assert_eq!(r.host.names(), vec!["start", "cancel"]);
+}
+
+/// Hands-free already let every key pass (the owner: "fine there"); still so.
+#[test]
+fn hands_free_keeps_recording_through_switches() {
+    let mut r = Rig::new();
+    r.fn_down(0).fn_up(80).fn_down(200).fn_up(260);
+    assert_eq!(r.host.names(), vec!["start", "lock"]);
+    r.key(800, Modifiers::CMD_LEFT, HkKey::Tab);
+    r.key(900, Modifiers::empty(), HkKey::MouseLeft);
+    r.at(5_000);
+    assert_eq!(r.host.names(), vec!["start", "lock"]);
+}

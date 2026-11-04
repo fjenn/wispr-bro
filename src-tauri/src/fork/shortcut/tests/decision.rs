@@ -114,11 +114,77 @@ fn key_downs_are_inputs_and_key_ups_are_not() {
 }
 
 #[test]
-fn a_mouse_click_with_fn_is_a_chord_key() {
+fn a_mouse_click_with_fn_is_a_navigation_key() {
+    // OT2-A: a click into another app or window while holding fn.
     let mut t = Translator::new(Trigger::Fn);
     assert_eq!(
         t.translate(&key(Modifiers::FN, HkKey::MouseLeft, true)),
-        input(Input::KeyDown(Key::Other("MouseLeft".into())))
+        input(Input::KeyDown(Key::Nav("MouseLeft".into())))
+    );
+    assert_eq!(
+        t.translate(&key(Modifiers::FN, HkKey::MouseRight, true)),
+        input(Input::KeyDown(Key::Nav("MouseRight".into())))
+    );
+}
+
+#[test]
+fn app_window_tab_and_space_switches_are_navigation_keys() {
+    let mut t = Translator::new(Trigger::Fn);
+    let nav = |m: Modifiers, k: HkKey| {
+        Decision::Input(Input::KeyDown(Key::Nav(key_name(k))))
+            == Translator::new(Trigger::Fn).translate(&key(m, k, true))
+    };
+    // ⌘-Tab, ⌘⇧-Tab, ⌘-`, ⌘-1, ⌃-Tab, ⌃-→ (Spaces), ⌘⌥-→ (browser tabs).
+    assert!(nav(Modifiers::FN | Modifiers::CMD_LEFT, HkKey::Tab));
+    assert!(nav(
+        Modifiers::FN | Modifiers::CMD_LEFT | Modifiers::SHIFT_LEFT,
+        HkKey::Tab
+    ));
+    assert!(nav(Modifiers::FN | Modifiers::CMD_RIGHT, HkKey::Grave));
+    assert!(nav(Modifiers::FN | Modifiers::CMD_LEFT, HkKey::Num1));
+    assert!(nav(Modifiers::FN | Modifiers::CTRL_LEFT, HkKey::Tab));
+    assert!(nav(Modifiers::FN | Modifiers::CTRL_LEFT, HkKey::RightArrow));
+    assert!(nav(
+        Modifiers::FN | Modifiers::CMD_LEFT | Modifiers::OPT_LEFT,
+        HkKey::RightArrow
+    ));
+    // Plain fn+key, Shift or Option combinations stay chords.
+    for (m, k) in [
+        (Modifiers::FN, HkKey::F),
+        (Modifiers::FN, HkKey::LeftArrow),
+        (Modifiers::FN | Modifiers::SHIFT_LEFT, HkKey::A),
+        (Modifiers::FN | Modifiers::OPT_LEFT, HkKey::Tab),
+    ] {
+        assert_eq!(
+            t.translate(&key(m, k, true)),
+            input(Input::KeyDown(Key::Other(key_name(k)))),
+            "{m:?} {k:?}"
+        );
+    }
+    // ⌘ with Space and Esc keep their own meaning.
+    assert_eq!(
+        t.translate(&key(
+            Modifiers::FN | Modifiers::CMD_LEFT,
+            HkKey::Escape,
+            true
+        )),
+        input(Input::KeyDown(Key::Escape))
+    );
+}
+
+#[test]
+fn a_modifier_pair_trigger_does_not_count_its_own_ctrl() {
+    // Ctrl+Opt held: Ctrl is the trigger's, so Ctrl+Opt+A is a chord; ⌘-Tab
+    // with the pair held still switches apps.
+    let mut t = Translator::new(Trigger::CTRL_OPT);
+    let co = Modifiers::CTRL_LEFT | Modifiers::OPT_LEFT;
+    assert_eq!(
+        t.translate(&key(co, HkKey::A, true)),
+        input(Input::KeyDown(Key::Other("A".into())))
+    );
+    assert_eq!(
+        t.translate(&key(co | Modifiers::CMD_LEFT, HkKey::Tab, true)),
+        input(Input::KeyDown(Key::Nav(key_name(HkKey::Tab))))
     );
 }
 

@@ -23,7 +23,10 @@
 //!   the key passes through (rule 2). This holds at any time in the press
 //!   (DEC-54); when the take had run ≥ `T` its transcript is kept for
 //!   History ([`Effect::ChordIgnored::keep`]). Keys while locked pass
-//!   through.
+//!   through. OT2-A: a [`Key::Nav`] (a mouse button, or a key with ⌘/⌃
+//!   held: switching apps, windows, tabs or Spaces) is a chord only while
+//!   the press is pending; once the take runs it passes through, and the
+//!   take ends on the trigger's release (or Esc) wherever focus went.
 //! - fn up before `T` → tap: wait `T` (from the release) for a second press.
 //!   A second press → hands-free lock, the mic opens at once; no second press
 //!   → cancel, nothing saved (rule 3).
@@ -95,8 +98,14 @@ impl Timings {
 pub enum Key {
     Space,
     Escape,
-    /// Any other key (or mouse button); the name is only for logs.
+    /// Any other key; the name is only for logs.
     Other(String),
+    /// A mouse button, or a key pressed with ⌘ or ⌃ held besides the
+    /// trigger: the user is moving to another app, window, tab or Space
+    /// (⌘-Tab, ⌘-`, ⌘-1…9, ⌃-Tab, ⌃-arrows, a click elsewhere). OT2-A: a
+    /// chord only while the press is pending; a running push-to-talk take
+    /// lets it pass and keeps recording until the trigger is released.
+    Nav(String),
 }
 
 /// One input. fn is tracked by its own down/up events; key-up events of
@@ -653,7 +662,7 @@ impl Grammar {
                 let name = match key {
                     Key::Space => "Space".to_string(),
                     Key::Escape => "Escape".to_string(),
-                    Key::Other(n) => n.clone(),
+                    Key::Other(n) | Key::Nav(n) => n.clone(),
                 };
                 match self.state {
                     State::Pending { .. } => {
@@ -664,6 +673,9 @@ impl Grammar {
                         });
                         self.state = State::Draining;
                     }
+                    // OT2-A: switching apps, windows or tabs (or clicking
+                    // elsewhere) during a held take keeps it recording.
+                    State::Holding { .. } if matches!(key, Key::Nav(_)) => {}
                     State::Holding { .. } => {
                         let keep = self.held_past_t(now);
                         out.push(Effect::ChordIgnored {

@@ -9,6 +9,9 @@
 //!   duplicate edges are absorbed by the grammar.
 //! - Every non-modifier key-down (and a mouse click with a modifier held,
 //!   which is all handy-keys reports) is `KeyDown`. Key-ups are not inputs.
+//!   A mouse button, or a key pressed with ⌘ or ⌃ held besides the
+//!   trigger's own modifiers, is [`Key::Nav`] (OT2-A: moving to another
+//!   app, window, tab or Space keeps a held take recording).
 //! - Other modifiers are not inputs: Shift/Cmd/Opt/Ctrl with fn neither
 //!   interrupt nor stop a take (DEC-31: Ctrl passes through while Command
 //!   Mode is off). For a modifier-pair trigger, adding a third modifier
@@ -143,8 +146,20 @@ impl Translator {
         match ev.key {
             // FlagsChanged of a modifier (key None), or of fn.
             None => self.modifiers_changed(ev),
-            Some(k) if ev.is_key_down => Decision::Input(Input::KeyDown(classify(k))),
+            Some(k) if ev.is_key_down => {
+                Decision::Input(Input::KeyDown(self.classify_with(k, ev.modifiers)))
+            }
             Some(_) => Decision::Nothing,
+        }
+    }
+
+    /// [`classify`], plus [`Key::Nav`] for mouse buttons and for keys held
+    /// with ⌘ or ⌃ beyond the trigger (a Ctrl+Opt trigger's own Ctrl does
+    /// not count).
+    pub fn classify_with(&self, k: HkKey, modifiers: Modifiers) -> Key {
+        match classify(k) {
+            Key::Other(name) if is_navigation(self.trigger, k, modifiers) => Key::Nav(name),
+            key => key,
         }
     }
 
@@ -173,6 +188,20 @@ pub fn classify(k: HkKey) -> Key {
         HkKey::Escape => Key::Escape,
         other => Key::Other(key_name(other)),
     }
+}
+
+/// A mouse button, or a key pressed with ⌘ or ⌃ held that the trigger does
+/// not itself hold: an app, window, tab or Space switch, or a click into
+/// another place (OT2-A).
+pub fn is_navigation(trigger: Trigger, k: HkKey, modifiers: Modifiers) -> bool {
+    if matches!(
+        k,
+        HkKey::MouseLeft | HkKey::MouseRight | HkKey::MouseMiddle | HkKey::MouseX1 | HkKey::MouseX2
+    ) {
+        return true;
+    }
+    let extra = compound(modifiers).difference(compound(trigger.modifiers()));
+    extra.intersects(Modifiers::CMD.union(Modifiers::CTRL))
 }
 
 /// Key name for logs and effects.
