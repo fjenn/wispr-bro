@@ -31,6 +31,24 @@
  *     as reviewed and is kept as is, unless
  *     it still names Handy or Handy's key disappeared.
  *   - `{{placeholders}}` and `<tags>` must survive unchanged (checked).
+ *
+ * Sentence case (OT2-E, Mac wave 6: Handy's hosted rows in Title Case next
+ * to the fork's sentence case). Every key outside `tray.*` (the native
+ * macOS menu, which keeps Apple's Title Case and is built from Handy's
+ * files at compile time) whose English text is a Title Case label
+ * ("Launch on Startup") gets an override in sentence case ("Launch on
+ * startup"), in English and in each locale from that locale's own text:
+ *   - a word after the first that starts with a capital and is otherwise
+ *     lower case is lowered (`toLocaleLowerCase(lng)`, so Turkish "I" →
+ *     "ı"), also after a hyphen ("Auto-Delete" → "Auto-delete");
+ *   - names stay: `KEEP_WORDS`/`KEEP_PHRASES` (Wispr Bro, GitHub, Whisper,
+ *     Secure Input, Hong Kong, Auto, …), all-caps (API, GPU) and mixed case
+ *     (OpenAI) words; English keeps its language names;
+ *   - locales without letter case (ar, he, hi, ja, ko, ne, zh, zh-TW) and
+ *     German (nouns are capitalised, which a rule cannot tell from Title
+ *     Case) are left as translated (`NO_SENTENCE_CASE`).
+ * A case change on a reviewed override keeps its flag; a new override
+ * whose only change is the case is flagged "machine" like a rebrand.
  */
 import fs from "fs";
 import path from "path";
@@ -76,6 +94,199 @@ export function rebrand(text: string, lng: string): string {
     out = out.replace(re, to);
   }
   return out;
+}
+
+/** Locales left alone by the sentence-case rule (see the header). */
+export const NO_SENTENCE_CASE = new Set([
+  "ar",
+  "de",
+  "he",
+  "hi",
+  "ja",
+  "ko",
+  "ne",
+  "zh",
+  "zh-TW",
+]);
+/** Words that keep their capital (names, product and option names). */
+export const KEEP_WORDS = new Set([
+  "Wispr",
+  "Bro",
+  "Bros",
+  "Handy",
+  "GitHub",
+  "Whisper",
+  "Parakeet",
+  "Breeze",
+  "Moonshine",
+  "SenseVoice",
+  "Apple",
+  "Mac",
+  "Windows",
+  "Linux",
+  "Auto",
+  "Hugging",
+  "Face",
+  // Places and languages that every language capitalises, as the locales
+  // spell them (Traditional (Taiwan), (Hong Kong), Translate to English).
+  "Taiwan",
+  "Hong",
+  "Kong",
+  "Тайван",
+  "Хонконг",
+  "Tchaj",
+  "Hongkong",
+  "Taiwán",
+  "Taïwan",
+  "Tajwan",
+  "Тайвань",
+  "Гонконг",
+  "Tayvan",
+  "Đài",
+  "Loan",
+  "Hồng",
+  "Kông",
+  "Inggris",
+  "Tionghoa",
+  "Engels",
+  "İngilizce",
+  "Anh",
+  "Hán",
+]);
+/**
+ * Other locales keep the English product terms Handy's translators left in
+ * English (Anthropic Messages, (Chat Completions), GitHub Releases).
+ */
+const KEEP_WORDS_FOREIGN = new Set([
+  "Messages",
+  "Chat",
+  "Completions",
+  "Releases",
+]);
+/** English also keeps language and place names. */
+const KEEP_WORDS_EN = new Set(["English", "Chinese"]);
+/** Multi-word names kept whole (their later words stay capitalised). */
+export const KEEP_PHRASES = ["Secure Input", "Hong Kong", "Wispr Bro"];
+/** Small words a Title Case label may leave in lower case. */
+const MINOR = new Set(
+  "a an and as at between by for from in into of on or per the to via vs with without".split(
+    " ",
+  ),
+);
+
+/** True for an English Title Case label (not a sentence). */
+export function isTitleCase(text: string): boolean {
+  const plain = text
+    .replace(/\{\{[^}]*\}\}/g, "")
+    .replace(/<[^>]+>/g, "")
+    .trim();
+  if (/[.!?:…]$/.test(plain)) return false;
+  const words = plain
+    .split(/[\s/]+/)
+    .map((w) => w.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, ""))
+    .filter((w) => /\p{L}/u.test(w));
+  if (words.length < 2) return false;
+  let capitals = 0;
+  for (const w of words.slice(1)) {
+    if (MINOR.has(w)) continue;
+    if (/^\p{Lu}/u.test(w)) capitals++;
+    else return false;
+  }
+  return capitals > 0;
+}
+
+/** A locale's text is Title Case: every later word of ≥ 4 letters capitalised. */
+function isTitleCaseIn(text: string): boolean {
+  const words = text
+    .replace(/\{\{[^}]*\}\}|<[^>]+>/g, "")
+    .split(/[\s/]+/)
+    .map((w) => w.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, ""))
+    .filter((w) => /\p{L}/u.test(w))
+    .slice(1)
+    .filter((w) => [...w].length >= 4);
+  return words.length > 0 && words.every((w) => /^\p{Lu}/u.test(w));
+}
+
+/** One word's sentence-case form (not the first word). */
+function lowerWord(word: string, lng: string, keep: Set<string>): string {
+  return word
+    .split("-")
+    .map((part, i) => {
+      const core = part.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, "");
+      // "Releases’i": a suffix after an apostrophe belongs to the name.
+      if (!core || keep.has(core) || keep.has(core.split(/['’]/)[0]))
+        return part;
+      // All caps (API) or mixed case (OpenAI, GitHub) stays.
+      if (core.length > 1 && core === core.toLocaleUpperCase(lng)) return part;
+      if (/\p{Lu}/u.test(core.slice(1))) return part;
+      if (!/^\p{Lu}/u.test(core)) return part;
+      // "Auto-Delete": the first part of a word keeps its capital only
+      // when it is the label's first word (handled by the caller).
+      void i;
+      const at = part.indexOf(core);
+      return (
+        part.slice(0, at) +
+        core[0].toLocaleLowerCase(lng) +
+        core.slice(1) +
+        part.slice(at + core.length)
+      );
+    })
+    .join("-");
+}
+
+/**
+ * Sentence case for one label in `lng`: the first word keeps its capital
+ * (its later hyphen parts are lowered), names and acronyms stay.
+ */
+export function sentenceCase(text: string, lng: string): string {
+  if (NO_SENTENCE_CASE.has(lng)) return text;
+  // A translation that already has a lower-case word of four or more
+  // letters after its first word is in sentence case already; its other
+  // capitals are names the translator chose (an option's name, "Inglês").
+  if (lng !== "en" && !isTitleCaseIn(text)) return text;
+  const keep =
+    lng === "en"
+      ? new Set([...KEEP_WORDS, ...KEEP_WORDS_EN])
+      : new Set([...KEEP_WORDS, ...KEEP_WORDS_FOREIGN]);
+  // Protect placeholders, tags and kept phrases.
+  const held: string[] = [];
+  const hold = (m: string) => {
+    held.push(m);
+    return `\u0000${held.length - 1}\u0000`;
+  };
+  // Quoted option names (« Auto », 'Wat is er nieuw') keep their case.
+  let out = text.replace(
+    /\{\{[^}]*\}\}|<[^>]+>|„[^“]*“|«[^»]*»|“[^”]*”|"[^"]*"|(?<=^|\s)'[^']*'/g,
+    hold,
+  );
+  for (const phrase of KEEP_PHRASES) out = out.split(phrase).join(hold(phrase));
+  let first = true;
+  out = out.replace(/[^\s/]+/g, (token) => {
+    if (token.includes("\u0000") || !/\p{L}/u.test(token)) {
+      if (/\p{L}|\u0000/u.test(token)) first = false;
+      return token;
+    }
+    if (first) {
+      first = false;
+      const [head, ...rest] = token.split("-");
+      return rest.length
+        ? [head, lowerWord(rest.join("-"), lng, keep)].join("-")
+        : token;
+    }
+    return lowerWord(token, lng, keep);
+  });
+  return out.replace(/\u0000(\d+)\u0000/g, (_, i) => held[Number(i)]);
+}
+
+/** Keys the sentence-case rule covers: English Title Case labels, no tray. */
+export function caseKeys(english: Map<string, string>): string[] {
+  return [...english.keys()].filter(
+    (k) =>
+      !k.startsWith("tray.") &&
+      // Model names ("Whisper Small") are names, not labels.
+      !/\.models\.[^.]+\.name$/.test(k) &&
+      isTitleCase(english.get(k)!),
+  );
 }
 
 export function flatten(obj: Json, prefix = ""): Map<string, string> {
@@ -160,6 +371,8 @@ export interface LocaleResult {
   missing: string[];
   stale: string[];
   stillBranded: string[];
+  /** Overrides on disk still in Title Case (OT2-E). */
+  notSentenceCase: string[];
   markupChanged: string[];
 }
 
@@ -175,6 +388,17 @@ export function computeLocale(
   const local = lng === SOURCE_LANG ? english : handyStrings(lng);
 
   const keys = brandKeys(english, local);
+  const branded = new Set(keys);
+  // Sentence case applies to English Title Case labels only, never to a
+  // brand override that is a sentence.
+  const labels = new Set(caseKeys(english));
+  const cased = (key: string, text: string) =>
+    labels.has(key) ? sentenceCase(text, lng) : text;
+  for (const key of labels) {
+    if (branded.has(key)) continue;
+    const base = local.get(key) ?? english.get(key)!;
+    if (sentenceCase(base, lng) !== base) keys.push(key);
+  }
   const result: LocaleResult = {
     lng,
     overrides: new Map(),
@@ -182,6 +406,7 @@ export function computeLocale(
     missing: [],
     stale: [],
     stillBranded: [],
+    notSentenceCase: [],
     markupChanged: [],
   };
   for (const key of keys) {
@@ -192,19 +417,22 @@ export function computeLocale(
     if (existing !== undefined && UPSTREAM_BRAND.test(existing)) {
       result.stillBranded.push(key);
     }
+    if (existing !== undefined && cased(key, existing) !== existing) {
+      result.notSentenceCase.push(key);
+    }
     const reviewed =
       existing !== undefined &&
       (flags[flagKey] === undefined || flags[flagKey] === "ai-reviewed") &&
       !UPSTREAM_BRAND.test(existing);
     let value: string;
     if (reviewed) {
-      value = existing;
+      value = cased(key, existing);
       // An AI review keeps its flag (wb-translate-missing.ts): it is not a
       // person's review, but it must not be rebranded over either.
       if (flags[flagKey] === "ai-reviewed")
         result.flags[flagKey] = "ai-reviewed";
     } else {
-      value = rebrand(base, lng);
+      value = cased(key, rebrand(base, lng));
       if (!local.has(key)) result.flags[flagKey] = "untranslated";
       else if (value !== base) result.flags[flagKey] = "machine";
     }
@@ -223,7 +451,8 @@ function writeLocale(r: LocaleResult): void {
   const jsonPath = path.join(dir, "fork.json");
   const flagsPath = path.join(dir, "fork.flags.json");
   const fork = readJson<Json>(jsonPath, {});
-  delete fork[OVERRIDES_KEY];
+  // Keep `overrides` where it is in the file (a new one goes last), so a
+  // regenerate changes only the values.
   fork[OVERRIDES_KEY] = nest([...r.overrides]);
   writeJson(jsonPath, fork);
 
@@ -245,7 +474,13 @@ function main(): void {
   for (const lng of locales()) {
     const r = computeLocale(lng, english);
     const problems = check
-      ? [...r.missing, ...r.stale, ...r.stillBranded, ...r.markupChanged]
+      ? [
+          ...r.missing,
+          ...r.stale,
+          ...r.stillBranded,
+          ...r.notSentenceCase,
+          ...r.markupChanged,
+        ]
       : r.markupChanged;
     if (problems.length) drift = true;
     if (!check) writeLocale(r);
@@ -254,6 +489,8 @@ function main(): void {
       r.stale.length && `${check ? "stale" : "removed"} ${r.stale.length}`,
       r.stillBranded.length &&
         `still names Handy: ${r.stillBranded.join(", ")}`,
+      r.notSentenceCase.length &&
+        `not in sentence case: ${r.notSentenceCase.join(", ")}`,
       r.markupChanged.length &&
         `placeholder/tag change: ${r.markupChanged.join(", ")}`,
       `${r.overrides.size} overrides, ${Object.keys(r.flags).length} flagged`,

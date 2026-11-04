@@ -189,7 +189,7 @@ login)
   # (not a ~/Library/LaunchAgents plist; Mac wave 2): read the app's log.
   applog | grep -E "(Registered|Unregistered) login item" | tail -2 | tee -a "$OUT/run.log"
   applog | grep -E "login item" | tail -1 | grep -q "Registered login item" \
-    && log "login item registered (uncheck Settings › System › Launch on Startup to remove it)" \
+    && log "login item registered (uncheck Settings › System › Launch on startup to remove it)" \
     || log "no login item registered (or it was removed)"
   ;;
 *)

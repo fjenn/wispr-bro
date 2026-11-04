@@ -11,6 +11,7 @@
 import type { i18n as I18n } from "i18next";
 import { installCspViolationRecorder } from "./debug/cspViolations";
 import { registerForkI18n as registerForkNamespace } from "./i18n";
+import { installFocusModality } from "./ui/focusModality";
 
 export { FORK_NAMESPACE, forkResources } from "./i18n";
 
@@ -43,5 +44,7 @@ export function startForkFrontend(): void {
 /** The `src/i18n/index.ts` hook. */
 export function registerForkI18n(i18n: I18n): void {
   registerForkNamespace(i18n);
+  // Every window: focus rings only after keyboard navigation (OT2-E).
+  installFocusModality();
   startForkFrontend();
 }
