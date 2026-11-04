@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { LiteralEdit, TransformPlan } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Badge } from "../ui";
-import { Check } from "../ui/icons";
+import { Check, Info } from "../ui/icons";
 
 export function useEditLabel() {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -23,29 +23,43 @@ export function useEditLabel() {
 export function PlanNote({ plan }: { plan: TransformPlan | null }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const label = useEditLabel();
-  if (!plan || plan.edits.length === 0) return null;
-  return (
-    <div
-      className="flex flex-col gap-2 rounded-(--wb-radius-sm) bg-(--wb-surface-tint) px-3 py-2.5"
-      role="status"
-      data-testid="wb-transform-plan"
-      data-exact={plan.uses_model ? "false" : "true"}
+  if (!plan) return null;
+  // "Replace vowels with 1 and 0": which letter gets which is not guessed.
+  const unclear = plan.unclear_mapping && (
+    <p
+      className="type-small m-0 flex items-center gap-1.5 text-(--wb-ink-2)"
+      data-testid="wb-transform-unclear"
     >
-      <p className="type-small m-0 flex items-center gap-1.5 font-medium text-(--wb-ink)">
-        <Check size={14} aria-hidden="true" />
-        {plan.uses_model
-          ? t("transforms.plan.mixed")
-          : t("transforms.plan.exact")}
-      </p>
-      <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0">
-        {plan.edits.map((edit, index) => (
-          <li key={index}>
-            <Badge tone="neutral">
-              <bdi>{label(edit)}</bdi>
-            </Badge>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <Info size={14} aria-hidden="true" className="shrink-0" />
+      {t("transforms.plan.unclearMapping")}
+    </p>
+  );
+  if (plan.edits.length === 0) return unclear || null;
+  return (
+    <>
+      {unclear}
+      <div
+        className="flex flex-col gap-2 rounded-(--wb-radius-sm) bg-(--wb-surface-tint) px-3 py-2.5"
+        role="status"
+        data-testid="wb-transform-plan"
+        data-exact={plan.uses_model ? "false" : "true"}
+      >
+        <p className="type-small m-0 flex items-center gap-1.5 font-medium text-(--wb-ink)">
+          <Check size={14} aria-hidden="true" />
+          {plan.uses_model
+            ? t("transforms.plan.mixed")
+            : t("transforms.plan.exact")}
+        </p>
+        <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0">
+          {plan.edits.map((edit, index) => (
+            <li key={index}>
+              <Badge tone="neutral">
+                <bdi>{label(edit)}</bdi>
+              </Badge>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }

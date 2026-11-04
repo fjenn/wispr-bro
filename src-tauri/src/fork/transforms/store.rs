@@ -199,6 +199,8 @@ pub fn get_by_key(conn: &Connection, key: &str) -> Result<Option<TransformEntry>
 pub struct Compiled {
     pub instruction: String,
     pub edits: Vec<literal::Edit>,
+    /// See [`literal::Plan::unclear`].
+    pub unclear: Vec<literal::Target>,
 }
 
 impl Compiled {
@@ -223,6 +225,7 @@ const RULE_FRAGMENTS: [&str; 5] = [
 pub fn compile(entry: &TransformEntry) -> Compiled {
     let plan = literal::plan(&entry.prompt);
     let prompt_exact = !plan.edits.is_empty() && plan.rest.is_empty();
+    let unclear = plan.unclear;
     let mut edits = plan.edits;
     edits.extend(literal::rule_edits(&entry.replacements));
     let rest = plan.rest.trim().to_owned();
@@ -230,6 +233,7 @@ pub fn compile(entry: &TransformEntry) -> Compiled {
         return Compiled {
             instruction: String::new(),
             edits,
+            unclear,
         };
     }
     let mut parts = Vec::new();
@@ -277,6 +281,7 @@ pub fn compile(entry: &TransformEntry) -> Compiled {
     Compiled {
         instruction: parts.join("\n\n"),
         edits,
+        unclear,
     }
 }
 
@@ -301,6 +306,7 @@ pub fn definition_for(entry: &TransformEntry) -> Definition {
         name: entry.name.clone(),
         instruction: compiled.instruction,
         edits: compiled.edits,
+        unclear: compiled.unclear,
         guard: guard_for(entry),
     }
 }

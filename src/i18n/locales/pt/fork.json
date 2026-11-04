@@ -1460,7 +1460,10 @@
       "title": "Primeira Letra Maiúscula",
       "emoji": "emojis",
       "email": "endereços de e-mail",
-      "url": "links"
+      "url": "links",
+      "vowels": "vogais",
+      "consonants": "consoantes",
+      "unclearMapping": "Diga qual letra vira o quê, por exemplo a → 1, e → 0."
     }
   },
   "cleanup": {

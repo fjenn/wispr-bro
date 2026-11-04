@@ -2740,7 +2740,15 @@ text: string;
  */
 spoken: string }
 export type LiteralCase = "upper" | "lower" | "title"
-export type LiteralCategory = "emoji" | "email" | "url"
+export type LiteralCategory = "emoji" | "email" | "url" | 
+/**
+ * Every vowel letter, accented ones included (a, e, i, o, u, é, ü …).
+ */
+"vowels" | 
+/**
+ * Every other Latin letter (b, c, ß, ñ, ç …).
+ */
+"consonants"
 /**
  * One exact edit, as the editor shows it.
  */
@@ -3725,7 +3733,12 @@ export type TransformPlan = { edits: LiteralEdit[]; uses_model: boolean;
  * The custom prompt is wholly exact edits, so the editing rules and
  * writing examples are not used.
  */
-prompt_exact: boolean }
+prompt_exact: boolean; 
+/**
+ * The prompt names letters with several replacements but not which
+ * becomes which; the editor asks for a mapping.
+ */
+unclear_mapping: boolean }
 /**
  * What the editor's Preview shows.
  */

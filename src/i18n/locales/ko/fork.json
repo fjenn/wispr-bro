@@ -1384,7 +1384,10 @@
       "title": "단어 첫 글자 대문자",
       "emoji": "이모지",
       "email": "이메일 주소",
-      "url": "링크"
+      "url": "링크",
+      "vowels": "모음",
+      "consonants": "자음",
+      "unclearMapping": "어떤 글자를 무엇으로 바꿀지 지정하세요. 예: a → 1, e → 0"
     }
   },
   "cleanup": {

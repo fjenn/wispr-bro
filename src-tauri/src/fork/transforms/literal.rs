@@ -47,6 +47,40 @@ pub enum Category {
     Emoji,
     Email,
     Url,
+    /// Every vowel letter, accented ones included (a, e, i, o, u, é, ü …).
+    Vowels,
+    /// Every other Latin letter (b, c, ß, ñ, ç …).
+    Consonants,
+}
+
+impl Category {
+    /// Vowels or consonants.
+    pub fn is_letters(self) -> bool {
+        matches!(self, Category::Vowels | Category::Consonants)
+    }
+
+    fn has(self, c: char) -> bool {
+        match self {
+            Category::Vowels => is_vowel(c),
+            Category::Consonants => is_latin_letter(c) && !is_vowel(c),
+            _ => false,
+        }
+    }
+}
+
+/// The vowels of the supported languages: a e i o u with their accented
+/// forms (é, ü, ã, ô …), plus æ, ø and œ. "y" is not one.
+fn is_vowel(c: char) -> bool {
+    let mut lower = c.to_lowercase();
+    let (Some(c), None) = (lower.next(), lower.next()) else {
+        return false;
+    };
+    "aeiouàáâãäåāăąèéêëēĕėęěìíîïĩīĭįòóôõöøōŏőùúûüũūŭůűųæœ".contains(c)
+}
+
+/// A letter of the Latin script (Basic Latin to Latin Extended-B).
+fn is_latin_letter(c: char) -> bool {
+    c.is_alphabetic() && (c.is_ascii_alphabetic() || ('\u{C0}'..='\u{24F}').contains(&c))
 }
 
 /// What to look for.
@@ -82,6 +116,11 @@ pub struct Plan {
     pub edits: Vec<Edit>,
     /// The prompt's other sentences, in order (empty when none).
     pub rest: String,
+    /// Letters a sentence asked to replace with several replacements without
+    /// saying which becomes which ("replace vowels with 1 and 0"). That
+    /// sentence stays in `rest` for the model; these let the run check that
+    /// the model did change them.
+    pub unclear: Vec<Target>,
 }
 
 // --- Language tables -------------------------------------------------------
@@ -101,6 +140,8 @@ struct Lang {
     emoji: &'static str,
     email: &'static str,
     url: &'static str,
+    vowels: &'static str,
+    consonants: &'static str,
     /// Punctuation named in words.
     marks: &'static [(&'static str, &'static str)],
     /// Words that point at the text itself or name a kind of thing; a bare
@@ -171,6 +212,8 @@ const EN: Lang = Lang {
     emoji: r"^(?:emojis?|emoticons?|emoji\s+characters|smileys?)$",
     email: r"^(?:e-?mail(?:\s+address(?:es)?)?s?|e-?mail\s+addresses)$",
     url: r"^(?:urls?|links?|web\s*links?|web\s+addresses|websites?)$",
+    vowels: r"^vowels?$",
+    consonants: r"^consonants?$",
     marks: &[
         ("exclamation marks", "!"),
         ("exclamation mark", "!"),
@@ -338,6 +381,8 @@ const DE: Lang = Lang {
     emoji: r"^(?:emojis?|smileys?)$",
     email: r"^(?:e-?mail-?adressen|e-?mail-?adresse|e-?mails)$",
     url: r"^(?:urls?|links?|webadressen)$",
+    vowels: r"^(?:vokale?|selbstlaute?)$",
+    consonants: r"^(?:konsonanten?|mitlaute?)$",
     marks: &[
         ("ausrufezeichen", "!"),
         ("fragezeichen", "?"),
@@ -391,6 +436,8 @@ const ES: Lang = Lang {
     emoji: r"^(?:emojis?|emoticonos?)$",
     email: r"^(?:correos(?:\s+electrónicos)?|direcciones\s+de\s+correo(?:\s+electrónico)?|e-?mails?)$",
     url: r"^(?:urls?|enlaces|links?)$",
+    vowels: r"^vocal(?:es)?$",
+    consonants: r"^consonantes?$",
     marks: &[
         ("signos de exclamación", "!"),
         ("exclamaciones", "!"),
@@ -452,6 +499,8 @@ const FR: Lang = Lang {
     emoji: r"^(?:emojis?|émojis?|émoticônes?|smileys?)$",
     email: r"^(?:adresses?\s+e-?mail|e-?mails?|courriels?|adresses?\s+électroniques?)$",
     url: r"^(?:urls?|liens?)$",
+    vowels: r"^voyelles?$",
+    consonants: r"^consonnes?$",
     marks: &[
         ("points d'exclamation", "!"),
         ("point d'exclamation", "!"),
@@ -514,6 +563,8 @@ const PT: Lang = Lang {
     emoji: r"^(?:emojis?|emoticons?)$",
     email: r"^(?:e-?mails?|endereços\s+de\s+e-?mail)$",
     url: r"^(?:urls?|links?)$",
+    vowels: r"^(?:vogal|vogais)$",
+    consonants: r"^consoantes?$",
     marks: &[
         ("pontos de exclamação", "!"),
         ("vírgulas", ","),
@@ -582,6 +633,8 @@ const IT: Lang = Lang {
     emoji: r"^(?:emoji|emoticon|faccine)$",
     email: r"^(?:e-?mail|indirizzi\s+e-?mail)$",
     url: r"^(?:url|link)$",
+    vowels: r"^vocal[ei]$",
+    consonants: r"^consonant[ei]$",
     marks: &[
         ("punti esclamativi", "!"),
         ("virgole", ","),
@@ -616,6 +669,8 @@ const NL: Lang = Lang {
     emoji: r"^(?:emoji'?s|emoji|smileys?)$",
     email: r"^(?:e-?mailadressen|e-?mails?)$",
     url: r"^(?:urls?|links?)$",
+    vowels: r"^klinkers?$",
+    consonants: r"^medeklinkers?$",
     marks: &[
         ("uitroeptekens", "!"),
         ("komma's", ","),
@@ -649,6 +704,8 @@ struct Compiled {
     emoji: Regex,
     email: Regex,
     url: Regex,
+    vowels: Regex,
+    consonants: Regex,
 }
 
 static COMPILED: Lazy<Vec<Compiled>> = Lazy::new(|| {
@@ -662,6 +719,8 @@ static COMPILED: Lazy<Vec<Compiled>> = Lazy::new(|| {
             emoji: Regex::new(lang.emoji).expect("static regex"),
             email: Regex::new(lang.email).expect("static regex"),
             url: Regex::new(lang.url).expect("static regex"),
+            vowels: Regex::new(lang.vowels).expect("static regex"),
+            consonants: Regex::new(lang.consonants).expect("static regex"),
         })
         .collect()
 });
@@ -887,6 +946,12 @@ fn item(c: &Compiled, group: &[Tok], side: Side, removing: bool) -> Option<Targe
         if c.url.is_match(&phrase) {
             return Some(Target::Category(Category::Url));
         }
+        if c.vowels.is_match(&phrase) {
+            return Some(Target::Category(Category::Vowels));
+        }
+        if c.consonants.is_match(&phrase) {
+            return Some(Target::Category(Category::Consonants));
+        }
     }
     // A bare item is one token.
     let [Tok::Bare(word)] = group else {
@@ -975,7 +1040,26 @@ fn with_texts(targets: Vec<Target>) -> Option<Vec<String>> {
         .collect()
 }
 
-fn parse_replace(c: &Compiled, toks: &[Tok]) -> Option<Vec<Edit>> {
+/// What one sentence is.
+enum Parsed {
+    Edits(Vec<Edit>),
+    /// Letters with several replacements and no mapping (see [`Plan::unclear`]).
+    Unclear(Vec<Target>),
+}
+
+/// Single letters or letter classes only: "which letter becomes which" is a
+/// question the user can answer.
+fn all_letters(finds: &[Target]) -> bool {
+    finds.iter().all(|find| match find {
+        Target::Text(text) => {
+            let mut chars = text.chars();
+            chars.next().is_some_and(char::is_alphabetic) && chars.next().is_none()
+        }
+        Target::Category(category) => category.is_letters(),
+    })
+}
+
+fn parse_replace(c: &Compiled, toks: &[Tok]) -> Option<Parsed> {
     let lang = c.lang;
     let verb = any_phrase_at(toks, 0, lang.replace_verbs)?;
     let verb_word = lower(&toks[0])?;
@@ -992,7 +1076,7 @@ fn parse_replace(c: &Compiled, toks: &[Tok]) -> Option<Vec<Edit>> {
     }
     // Pair list: "A with 0 and E with 1".
     if let Some(edits) = pair_list(c, body) {
-        return Some(edits);
+        return Some(Parsed::Edits(edits));
     }
     // "FINDS with WITHS": try every connector position, last one wins
     // ("change to to too" is rare; the last connector keeps "with" items).
@@ -1007,7 +1091,12 @@ fn parse_replace(c: &Compiled, toks: &[Tok]) -> Option<Vec<Edit>> {
         let Some(withs) = items(c, &body[i + 1..], Side::With, false).and_then(with_texts) else {
             continue;
         };
-        return pair(finds, withs);
+        let several = withs.len() > 1;
+        return match pair(finds.clone(), withs) {
+            Some(edits) => Some(Parsed::Edits(edits)),
+            // "vowels with 1 and 0": which vowel gets which is a guess.
+            None => (several && all_letters(&finds)).then_some(Parsed::Unclear(finds)),
+        };
     }
     None
 }
@@ -1122,6 +1211,13 @@ fn normalized(sentence: &str) -> String {
 
 /// One sentence as exact edits, or `None`.
 pub fn parse_sentence(sentence: &str) -> Option<Vec<Edit>> {
+    match parse(sentence)? {
+        Parsed::Edits(edits) => Some(edits),
+        Parsed::Unclear(_) => None,
+    }
+}
+
+fn parse(sentence: &str) -> Option<Parsed> {
     let text = sentence.trim();
     if text.is_empty() {
         return None;
@@ -1134,7 +1230,7 @@ pub fn parse_sentence(sentence: &str) -> Option<Vec<Edit>> {
             (&c.title, CaseMode::Title),
         ] {
             if re.is_match(&norm) {
-                return Some(vec![Edit::Case { mode }]);
+                return Some(Parsed::Edits(vec![Edit::Case { mode }]));
             }
         }
         if let Some(rest) = norm
@@ -1143,11 +1239,11 @@ pub fn parse_sentence(sentence: &str) -> Option<Vec<Edit>> {
         {
             let rest = rest.trim_start_matches("make it ").trim();
             if c.emoji.is_match(rest) {
-                return Some(vec![Edit::Replace {
+                return Some(Parsed::Edits(vec![Edit::Replace {
                     find: Target::Category(Category::Emoji),
                     with: String::new(),
                     match_case: false,
-                }]);
+                }]));
             }
         }
     }
@@ -1155,11 +1251,23 @@ pub fn parse_sentence(sentence: &str) -> Option<Vec<Edit>> {
     let body = text.strip_suffix('.').unwrap_or(text);
     let toks = tokenize(body)?;
     if let Some(edits) = parse_arrows(&toks) {
-        return Some(edits);
+        return Some(Parsed::Edits(edits));
     }
-    COMPILED
-        .iter()
-        .find_map(|c| parse_replace(c, &toks).or_else(|| parse_remove(c, &toks)))
+    // A clear reading in any language wins over an unclear one.
+    let mut unclear = None;
+    for c in COMPILED.iter() {
+        match parse_replace(c, &toks) {
+            Some(Parsed::Unclear(finds)) => {
+                unclear.get_or_insert(finds);
+            }
+            Some(edits) => return Some(edits),
+            None => {}
+        }
+        if let Some(edits) = parse_remove(c, &toks) {
+            return Some(Parsed::Edits(edits));
+        }
+    }
+    unclear.map(Parsed::Unclear)
 }
 
 /// Splits a prompt into sentences: lines, then `. `/`; `/`! `/`? ` outside
@@ -1206,8 +1314,12 @@ pub fn plan(prompt: &str) -> Plan {
     let mut plan = Plan::default();
     let mut rest = Vec::new();
     for sentence in sentences(prompt) {
-        match parse_sentence(&sentence) {
-            Some(edits) => plan.edits.extend(edits),
+        match parse(&sentence) {
+            Some(Parsed::Edits(edits)) => plan.edits.extend(edits),
+            Some(Parsed::Unclear(finds)) => {
+                plan.unclear.extend(finds);
+                rest.push(sentence);
+            }
             None => rest.push(sentence),
         }
     }
@@ -1281,6 +1393,40 @@ fn follow_case(found: &str, with: &str) -> String {
         return with.to_owned();
     }
     with.to_owned()
+}
+
+fn replace_letters(text: &str, class: Category, with: &str) -> (String, usize) {
+    let mut out = String::with_capacity(text.len());
+    let mut count = 0;
+    let mut buf = [0u8; 4];
+    for c in text.chars() {
+        if class.has(c) {
+            count += 1;
+            out.push_str(&follow_case(c.encode_utf8(&mut buf), with));
+        } else {
+            out.push(c);
+        }
+    }
+    (out, count)
+}
+
+/// How often `target` occurs in `text`, letters in any case.
+fn occurrences(target: &Target, text: &str) -> usize {
+    match target {
+        Target::Category(category) if category.is_letters() => {
+            text.chars().filter(|c| category.has(*c)).count()
+        }
+        Target::Text(find) if !find.is_empty() => replace_text(text, find, "", false).1,
+        _ => 0,
+    }
+}
+
+/// True when the model left every one of the `unclear` letters as it was:
+/// it cleaned the text up instead of doing the edit (see [`Plan::unclear`]).
+pub fn untouched(unclear: &[Target], source: &str, output: &str) -> bool {
+    let before: usize = unclear.iter().map(|t| occurrences(t, source)).sum();
+    let after: usize = unclear.iter().map(|t| occurrences(t, output)).sum();
+    before > 0 && after >= before
 }
 
 fn word_like(find: &str) -> bool {
@@ -1399,6 +1545,7 @@ pub fn apply(edits: &[Edit], text: &str) -> Applied {
     let mut current = text.to_owned();
     let mut changes = 0;
     let mut removed = false;
+    let mut removed_words = false;
     for edit in edits {
         match edit {
             Edit::Case { mode } => {
@@ -1433,12 +1580,19 @@ pub fn apply(edits: &[Edit], text: &str) -> Applied {
                         let count = URL.find_iter(&current).count();
                         (URL.replace_all(&current, with.as_str()).into_owned(), count)
                     }
+                    Target::Category(class @ (Category::Vowels | Category::Consonants)) => {
+                        replace_letters(&current, *class, with)
+                    }
                     Target::Text(find) if with.is_empty() && (find == "!" || find == "?") => {
                         remove_end_mark(&current, find.chars().next().unwrap_or('!'))
                     }
                     Target::Text(find) => replace_text(&current, find, with, *match_case),
                 };
                 removed |= with.is_empty() && count > 0;
+                // Letters taken out of a word leave no word to re-capitalise.
+                removed_words |= with.is_empty()
+                    && count > 0
+                    && !matches!(find, Target::Category(class) if class.is_letters());
                 changes += count;
                 current = next;
             }
@@ -1447,7 +1601,7 @@ pub fn apply(edits: &[Edit], text: &str) -> Applied {
     if removed {
         current = tidy(&current);
         // A removed first word leaves the sentence starting lower-case.
-        if text.chars().next().is_some_and(char::is_uppercase) {
+        if removed_words && text.chars().next().is_some_and(char::is_uppercase) {
             let mut chars = current.chars();
             if let Some(first) = chars.next() {
                 current = first.to_uppercase().chain(chars).collect();
@@ -1656,6 +1810,59 @@ mod tests {
         let text = "Line one, a\n\n- item, e";
         assert_eq!(run("Remove all commas", text), "Line one a\n\n- item e");
         assert_eq!(run("a → 0", text), "Line one, 0\n\n- item, e");
+    }
+
+    #[test]
+    fn vowels_and_consonants_are_letter_classes() {
+        assert_eq!(
+            run("Replace vowels with 1", "Area UNIT, Ölberg"),
+            "1r11 1N1T, 1lb1rg"
+        );
+        assert_eq!(
+            run("Replace all the vowels with x", "Area UNIT"),
+            "Xrxx XNXT"
+        );
+        assert_eq!(run("Remove vowels", "Apple pie, I said."), "ppl p, sd.");
+        assert_eq!(run("remove all consonants", "Strasse ñandú"), "ae aú");
+        assert_eq!(run("Replace consonants with *", "Hey you"), "*e* *ou");
+        for (prompt, text, want) in [
+            ("Ersetze alle Vokale durch 1", "Bäume", "B11m1"),
+            ("Reemplaza las vocales por 1", "canción", "c1nc11n"),
+            ("Remplace toutes les voyelles par 1", "été", "1t1"),
+            ("Substitua as vogais por 1", "pão", "p11"),
+            ("Sostituisci le vocali con 1", "città", "c1tt1"),
+            ("Vervang alle klinkers door 1", "boek", "b11k"),
+            ("Entferne alle Konsonanten", "Straße", "ae"),
+        ] {
+            assert_eq!(run(prompt, text), want, "{prompt}");
+        }
+        // A clear mapping is still exact.
+        assert_eq!(run("Replace vowels with 1 and y with 2", "yay"), "212");
+    }
+
+    #[test]
+    fn letters_with_several_replacements_and_no_mapping_are_not_guessed() {
+        for prompt in [
+            "Replace vowels with 1 and 0",
+            "replace the vowels with 1, 0 and 2",
+            "Ersetze alle Vokale durch 1 und 0",
+            "Replace a, e and i with 1 and 0",
+        ] {
+            let plan = plan(prompt);
+            assert!(plan.edits.is_empty(), "{prompt}");
+            assert!(!plan.unclear.is_empty(), "{prompt}");
+            assert_eq!(plan.rest, prompt);
+        }
+        let unclear = plan("Replace vowels with 1 and 0").unclear;
+        assert_eq!(unclear, vec![Target::Category(Category::Vowels)]);
+        assert!(untouched(&unclear, "hello there", "Hello there."));
+        assert!(!untouched(&unclear, "hello there", "h1ll0 th1r0"));
+        assert!(!untouched(&unclear, "rhythm", "rhythm"));
+        // Words, not letters: the model may do it; nothing to ask.
+        assert!(plan("Replace Bob and Jim with X, Y and Z")
+            .unclear
+            .is_empty());
+        assert!(plan("Make it formal").unclear.is_empty());
     }
 
     #[test]
