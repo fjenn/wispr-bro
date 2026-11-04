@@ -1266,29 +1266,29 @@ Built 2026-11-03 on `design/foundations` (docs/fork/design/SYSTEM-PLAN.md §7
 Phase 0). A debug build is enough (`bun run wb:dev`); one pass, by eye,
 mocked or empty profile only.
 
-- [ ] DP0.1 Title strip: the traffic lights are vertically centred in the
+- [x] DP0.1 **Mac wave 6: FIX → PASS (lights were 2.25 pt high; centre now 23.0 pt)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Title strip: the traffic lights are vertically centred in the
       46 pt strip, close button's centre about 21 pt from the left edge, in
       the Hub and on every onboarding step; they stay put after resizing,
       full screen and back, and after the Hub is parked and rebuilt (S-38).
       If they sit too high or low, adjust `TRAFFIC_LIGHTS` in
       `src-tauri/src/fork/hub/mod.rs` (tao's inset; one number) and note it.
-- [ ] DP0.2 The strip drags the window (Hub: the empty middle of the strip;
+- [ ] DP0.2 **Mac wave 6: NOT RUN (no drags with the owner at the Mac; spec-covered)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) The strip drags the window (Hub: the empty middle of the strip;
       onboarding: either side of the stepper); double-click zooms.
-- [ ] DP0.3 Inset content panel: 22 pt corners, 10 pt from the right and
+- [x] DP0.3 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Inset content panel: 22 pt corners, 10 pt from the right and
       bottom window edges, hairline edge, no footer bar; Settings › About
       shows the version.
-- [ ] DP0.4 Fonts in WebKit: UI text is Figtree (double-storey `a`), page
+- [x] DP0.4 **Mac wave 6: PASS (fonts by eye; Network panel not opened)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Fonts in WebKit: UI text is Figtree (double-storey `a`), page
       titles sans semibold, banner headlines EB Garamond, Russian or Greek UI
       falls back to Inter, CJK/Arabic to the system fonts. Web Inspector ›
       Network shows no font request leaving the app (only `asset`/`tauri`
       URLs).
-- [ ] DP0.5 Motion in WebKit: a dialog (Dictionary › Add word) springs in and
+- [ ] DP0.5 **Mac wave 6: PARTIAL (appearance only; Timelines and system Reduce Motion not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Motion in WebKit: a dialog (Dictionary › Add word) springs in and
       fades out; a page change crossfades; button press shows a small scale.
       With Reduce Motion on, both become a plain fade. Web Inspector ›
       Timelines: no dropped frames on the dialog open on M-26.
-- [ ] DP0.6 Light, dark and Increase Contrast: the hero banner, sidebar and
+- [ ] DP0.6 **Mac wave 6: PARTIAL (light/dark PASS after a dark heatmap fix; Increase Contrast not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Light, dark and Increase Contrast: the hero banner, sidebar and
       panel read clearly in each.
-- [ ] DP0.7 `#/fork/gallery` opens in the debug build (⌘⇧D panel works as
+- [x] DP0.7 **Mac wave 6: PASS (debug build; release gate not launched)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) `#/fork/gallery` opens in the debug build (⌘⇧D panel works as
       before) and not in a release build.
 
 ### Design Phase 0b (shared pieces) — queued for the Mac wave
@@ -1296,18 +1296,18 @@ mocked or empty profile only.
 Built 2026-11-03 on `design/foundations-2`. Same debug build and pass as
 Design Phase 0, by eye.
 
-- [ ] DP0b.1 Sidebar: the wordmark (bars + "Wispr Bro") heads the sidebar,
+- [x] DP0b.1 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Sidebar: the wordmark (bars + "Wispr Bro") heads the sidebar,
       about 28 pt below the title strip; collapsed, the bars alone, centred;
       the strip above and the wordmark row still drag the window.
-- [ ] DP0b.2 `#/fork/gallery` in WebKit: chips, radios, option cards (lilac
+- [ ] DP0b.2 **Mac wave 6: PARTIAL (gallery opens; scrolling and VoiceOver not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) `#/fork/gallery` in WebKit: chips, radios, option cards (lilac
       fill + purple edge + tick when chosen), setting rows and toast cards
       look as in the Playwright shots in light and dark; Tab/arrows/Space
       work on chips and radios; VoiceOver reads "toggle button, selected"
       on a chip and "radio button, 1 of 3" on an option card.
-- [ ] DP0b.3 A real toast (Dictionary › Export, or Show a toast on the
+- [x] DP0b.3 **Mac wave 6: PASS (real toast; Reduce Motion not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) A real toast (Dictionary › Export, or Show a toast on the
       gallery) is the dark card with a cream action, bottom right, and
       fades in and out (plain fade with Reduce Motion).
-- [ ] DP0b.4 In the gallery's dark board under a light window, a menu,
+- [ ] DP0b.4 **Mac wave 6: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) In the gallery's dark board under a light window, a menu,
       select and popover open dark.
 
 ### Design W5 (lessons and first use) — queued for the Mac wave
@@ -1315,12 +1315,12 @@ Design Phase 0, by eye.
 Built 2026-11-03 on `design/w5-lessons`. A debug build with an empty profile
 (`bun run wb:dev`), onboarding finished; one pass, by eye, light and dark.
 
-- [ ] W5.1 First-use chooser (opens after onboarding): a white sheet over the
+- [x] W5.1 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) First-use chooser (opens after onboarding): a white sheet over the
       Hub, the serif question with "try" in italic, seven outlined chips with
       icons, the scene on the colourful wallpaper with the dark caption pill
       under the bar; arrows/Home/End move the choice, Try it now still starts
       the spotlight, Maybe later closes it for good.
-- [ ] W5.2 Transforms lesson (Transforms › Try it): white sheet, dashes
+- [ ] W5.2 **Mac wave 6: PARTIAL (look PASS; practice ⌥1/⌥O not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Transforms lesson (Transforms › Try it): white sheet, dashes
       centred at the top, the heading's italic word in purple, three raised
       example cards (the Polish one shows struck and purple words), the
       ticker of ticks scrolls and pauses on hover and with its round button.
@@ -1328,15 +1328,15 @@ Built 2026-11-03 on `design/w5-lessons`. A debug build with an empty profile
       Done · View changes inside a round cut-out; ⌥O shows the dark changes
       card; ⌘Z puts the draft back. How it works: the dark stage plays and
       pauses from its corner button.
-- [ ] W5.3 Whisper lesson (home banner › Dictate quietly): warm sheet, the
+- [ ] W5.3 **Mac wave 6: PARTIAL (look PASS; take and quiz not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Whisper lesson (home banner › Dictate quietly): warm sheet, the
       photo with the 30 cm drawing under it, the quoted sentence in italic
       serif, a real take fills the mail composer (practice mode unchanged);
       the four questions as option cards and mic tiles; the table has a
       column per mic with its drawing and a green Best match band.
-- [ ] W5.4 Sidebar checklist: compact card (no clipping at 720 pt tall),
+- [x] W5.4 **Mac wave 6: FIX → PASS ("Show me →"; footer pinned under the card)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Sidebar checklist: compact card (no clipping at 720 pt tall),
       ink progress bar, hollow circles that fill with a tick, "Show me →"
       on the next item.
-- [ ] W5.5 Reduce Motion: sheets and steps only fade, every scene is still,
+- [ ] W5.5 **Mac wave 6: NOT RUN (system Reduce Motion / Increase Contrast)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Reduce Motion: sheets and steps only fade, every scene is still,
       no pause buttons; Increase Contrast: chips, option cards and the
       table's edges stay visible. WebKit timeline: no dropped frames when a
       lesson sheet opens on M-26.
@@ -1346,17 +1346,17 @@ Built 2026-11-03 on `design/w5-lessons`. A debug build with an empty profile
 Built 2026-11-03 on `design/w7-assets` (SYSTEM-PLAN §6, W7). A debug build
 with an empty profile is enough (`bun run wb:dev`); one pass, by eye.
 
-- [ ] W7.1 Banner photos in WebKit: Home, Dictionary, Snippets and Transforms
+- [x] W7.1 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Banner photos in WebKit: Home, Dictionary, Snippets and Transforms
       show their photo under the dark grade (mic, thesaurus spines, card
       catalogue drawers, typewriter keys); the headline and body stay
       readable; no banding or visible JPEG blocks at 2x on the built-in
       display; light and dark use the same photo.
-- [ ] W7.2 Empty-state characters: an empty History, Dictionary (All and
+- [x] W7.2 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Empty-state characters: an empty History, Dictionary (All and
       Suggested), Snippets, a search with no match and the notifications
       panel each show their character; the ink is near-black in light and
       near-white in dark, and switches with the title-strip theme toggle
       without a reload.
-- [ ] W7.3 Web Inspector › Network: every picture loads from the app
+- [x] W7.3 **Mac wave 6: PASS (bundled art; Web Inspector not opened)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Web Inspector › Network: every picture loads from the app
       (`tauri://`/`asset`), none from the network; no CSP error in the
       console (the characters are inlined SVGs with a `<style>` element;
       `style-src 'unsafe-inline'` allows it).
@@ -1373,20 +1373,20 @@ Reference: Wispr Flow's bar crops (local evidence `02-bar-click-*`,
 `03-bar-hover-*`; by eye only). Before/after renders of every web state:
 the builder's scratch folder (not in the repo).
 
-- [ ] W4.1 Sizes. `-e 'rest'`: the resting window is 54 × 18 pt (the 38 × 6
+- [x] W4.1 **Mac wave 6: PASS (hands-free path; push-to-talk and top position not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Sizes. `-e 'rest'`: the resting window is 54 × 18 pt (the 38 × 6
       line plus its hit area), the line's bottom 8 pt above the Dock. A held
       take (`appear 1 1500`, or SIGUSR2 + `windows` mid-take): the active
       window is 72 × 30 (push to talk) or 100 × 30 (hands-free: `clickbar`),
       300 × 72 while the mic label shows (label 34 tall, 8 pt above the
       capsule), back to 72/100 × 30 after about 2 s. Bar at the top of the
       display (Settings › bar position): the label hangs below the capsule.
-- [ ] W4.2 Look, by eye beside the reference crops: an opaque black capsule
+- [x] W4.2 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Look, by eye beside the reference crops: an opaque black capsule
       with no white edge on a light window; in dark mode a faint hairline
       only. Hands-free: ✕ in a dark 18 pt disc on the left, ✓ in a white disc
       with a black check on the right (mirrored in Arabic). Text on every
       state is 15 px. The resting line is the same black, a little
       translucent, with no edge.
-- [ ] W4.3 Morphs (Web Inspector › Timelines on the `fork-pill` page for
+- [ ] W4.3 **Mac wave 6: NOT RUN (Timelines)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Morphs (Web Inspector › Timelines on the `fork-pill` page for
       frame drops; M-26, 60 Hz and 120 Hz): fn down grows the resting line
       into the capsule in one spring with no jump at the hand-over from the
       native bridge to the web view; the mic label blurs in, holds, leaves;
@@ -1394,27 +1394,27 @@ the builder's scratch folder (not in the repo).
       the capsule back into the resting line. A click on the bar and a hover
       grow on the same spring. With Reduce Motion on: sizes change at once,
       the label only fades, the spinner is still.
-- [ ] W4.4 Waveform: a dotted line from fn down until the first audio frame,
+- [x] W4.4 **Mac wave 6: FIX → PASS (café hum lay at 0.55; loud 0.92 vs quiet 0.60)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Waveform: a dotted line from fn down until the first audio frame,
       then bars, tallest in the middle, moving with the words. Café WAV
       (`make-wav.py`): flat on the noise, lively on the speech (OT1.2). Peaks:
       two takes, `SPEECH_PEAK=0.15` and `SPEECH_PEAK=0.9`, with `--debug`:
       the `pill: level frames …, loudest bar …` lines of the loud take reach
       higher (≥ 0.95) than the ordinary one (≤ 0.9), and the ordinary take's
       bars no longer all sit at the top.
-- [ ] W4.5 Clicks: during the ~2 s label the window is wider than the
+- [ ] W4.5 **Mac wave 6: NOT RUN (no clicks with the owner at the Mac)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Clicks: during the ~2 s label the window is wider than the
       capsule; a click beside the capsule (inside that window, outside the
       capsule) is absorbed by the bar's panel, as designed (not passed to the
       app below), and the frontmost app keeps focus (DEC-28); ✕ and ✓ still cancel and finish without activating
       Wispr Bro (S-03's `watchfront` check). A take with the app hidden (⌘H)
       leaves it hidden (S-28.8 re-check).
-- [ ] W4.6 Card and diff: a card (take into the desktop) and the View
+- [ ] W4.6 **Mac wave 6: NOT RUN (needs a Polish in a target app)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Card and diff: a card (take into the desktop) and the View
       changes diff (⌥O after a Polish) look like the renders: dark card,
       15 px text, teal inserted chips, struck grey deleted chips, four
       outline actions.
-- [ ] W4.7 Spotlight (S-30 chooser › any card › Try it): the screen dims with
+- [x] W4.7 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Spotlight (S-30 chooser › any card › Try it): the screen dims with
       a round cut-out of about 224 pt centred on the bar, the hint in a black
       card above it; dictating there keeps the label inside the circle.
-- [ ] W4.8 Scratchpad group on the bar (S-24 on): the two buttons sit on the
+- [ ] W4.8 **Mac wave 6: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Scratchpad group on the bar (S-24 on): the two buttons sit on the
       black capsule (not 6 pt below it), hover help still per button.
 
 ### Design W6 (Scratchpad and dialogs) — queued for the Mac wave
@@ -1422,16 +1422,16 @@ the builder's scratch folder (not in the repo).
 Built 2026-11-03 on `design/w6-scratch-dialogs`. Debug build, by eye unless
 noted; the shots in Playwright are the reference.
 
-- [ ] DW6.1 Open the note (Hub › Scratchpad › New note, or the shortcut):
+- [x] DW6.1 **Mac wave 6: FIX → PASS (tab chip 2.5 pt from the lights; Arabic room moved right; now 90 pt physical)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Open the note (Hub › Scratchpad › New note, or the shortcut):
       no system title text; the traffic lights sit at the start of the
       44 pt strip, vertically centred, clear of the first tab chip; empty
       strip space drags the window; expand and close work. Repeat with the
       app language set to Arabic (strip mirrored, lights still clear).
-- [ ] DW6.2 Re-run S-24.1 (`scripts/wb-s24/`, WAV microphone): a take started
+- [x] DW6.2 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Re-run S-24.1 (`scripts/wb-s24/`, WAV microphone): a take started
       from the note keeps focus and the text lands in it with the new chrome.
-- [ ] DW6.3 Scratchpad page in light and dark: hero photo, note peek, hover
+- [x] DW6.3 **Mac wave 6: PASS (hover toolbar not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Scratchpad page in light and dark: hero photo, note peek, hover
       toolbar on a Recents card (red delete), Add to the bar switch.
-- [ ] DW6.4 Dialogs in WebKit: Add word (with a conflict), Snippet, the
+- [ ] DW6.4 **Mac wave 6: PARTIAL (Add word PASS; other dialogs only in Playwright WebKit)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Dialogs in WebKit: Add word (with a conflict), Snippet, the
       import wizard's column pickers (listbox opens, keyboard works), Report
       a problem, the feature popup, What's new as a sheet; Reduce Motion
       crossfades them.
@@ -1441,19 +1441,19 @@ noted; the shots in Playwright are the reference.
 Built 2026-11-03 on `design/polish`. Debug build, test identity, takes by
 SIGUSR2 through the WAV microphone (as Design W4); by eye unless noted.
 
-- [ ] DP.1 Diff card height: Polish a one-sentence selection in TextEdit,
+- [ ] DP.1 **Mac wave 6: NOT RUN (needs a Polish in TextEdit)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Diff card height: Polish a one-sentence selection in TextEdit,
       then ⌥O: the card holds its one or two lines with no empty band under
       them; a ten-sentence selection gives the tallest card with the text
       scrolling; a Japanese sentence wraps inside the card (no clipped
       line). `swift scripts/wb-s03-pill.swift windows` shows the window
       height = 104 + 24 × lines.
-- [ ] DP.2 Chips: deleted and inserted words never touch ("perhaps" and
+- [ ] DP.2 **Mac wave 6: NOT RUN (same)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Chips: deleted and inserted words never touch ("perhaps" and
       "We could" have a gap) on the bar and in the Hub's View changes.
-- [ ] DP.3 Drawn bars: the first-use chooser's scene, the Transforms lesson
+- [x] DP.3 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Drawn bars: the first-use chooser's scene, the Transforms lesson
       practice and How it works, and the whisper lesson show the same bar as
       the real one (black capsule, 11 bars, the split "Transcribing…"
       capsule, the white View changes pill).
-- [ ] DP.4 The Transforms editor (Transforms › a card › Edit) opens like the
+- [ ] DP.4 **Mac wave 6: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) The Transforms editor (Transforms › a card › Edit) opens like the
       Settings modal (scrim, rise) and closes with Esc.
 
 ### Design W2 (Hub pages) — queued for the Mac wave
@@ -1463,37 +1463,37 @@ a profile that has some history (the S-09/S-15b seeders, or a few WAV
 takes through `WISPRBRO_TEST_MIC_WAV`), one pass by eye, light then dark
 (title-strip toggle), at the default window size and once at the minimum.
 
-- [ ] W2.1 Home: sans 24 pt greeting with the pencil appearing on hover;
+- [x] W2.1 **Mac wave 6: FIX → PASS (sidebar footer pinned)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Home: sans 24 pt greeting with the pencil appearing on hover;
       photo banner (no example chips); the rail is one tinted card (serif
       numbers, then the voice profile under a hairline with the thin purple
       bar); History is one bordered list per day under uppercase day labels,
       rows hover to the warm tint and show play/copy/flag/⋯ over the row's
       end; Play still opens the player and the menu still opens.
-- [ ] W2.2 Insights: three tinted stat cards (number, micro label, hairline,
+- [x] W2.2 **Mac wave 6: FIX → PASS (dark heatmap contrast; Save as image not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Insights: three tinted stat cards (number, micro label, hairline,
       detail), the teal category bars with the share inside and the name
       after, the teal heatmap and legend; Voice locked shows the Insights
       photo hero with the white progress bar; "Save as image" still writes a
       PNG that looks like the page.
-- [ ] W2.3 Dictionary and Snippets: ghost Import/Export, black Add; the
+- [x] W2.3 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Dictionary and Snippets: ghost Import/Export, black Add; the
       search field and the "Sort" dropdown (a menu, not a native popup) work
       by mouse and keyboard; rows in one bordered list with edit/delete
       revealed on hover and on Tab; Suggested shows the auto-learn switch
       row and Accept/Reject always visible.
-- [ ] W2.4 Style: the page is a centred column; each group tab opens with
+- [x] W2.4 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Style: the page is a centred column; each group tab opens with
       the Style photo hero carrying the group's real app icons in frosted
       circles and a "+" (each icon's menu and the "+" picker work; VoiceOver
       reads the app name); three preset cards with the sample bubble, the
       chosen one with a purple edge, arrows move the choice; Cleanup shows
       three option cards (also in Settings › Advanced).
-- [ ] W2.5 Transforms: Beta tag; "Enable Transforms" switch and the ⌥ O
+- [x] W2.5 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Transforms: Beta tag; "Enable Transforms" switch and the ⌥ O
       "View changes" chip in the header; the auto-apply row (dropdown +
       switch) and the shortcut note; Command Mode as a tinted row with its
       switch; serif "My Transforms" with tutorial/reset/create, cards with
       their key caps; the editor and View changes still open.
-- [ ] W2.6 Share: one card with the serif headline, the link field + black
+- [x] W2.6 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Share: one card with the serif headline, the link field + black
       Copy, Share… (the share sheet still anchors to the button) and the
       character on the right.
-- [ ] W2.7 Increase Contrast and Reduce Motion on: hairlines darken, focus
+- [ ] W2.7 **Mac wave 6: NOT RUN (system settings)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Increase Contrast and Reduce Motion on: hairlines darken, focus
       rings show, no hover-only control is unreachable by keyboard.
 
 ### Design W1 (onboarding) — queued for the Mac wave
@@ -1504,24 +1504,24 @@ through every step, by eye, light and dark (title-strip theme or System
 Settings), once with Reduce Motion on. No take is needed except the
 practice (use the WAV microphone, `WISPRBRO_TEST_MIC_WAV`).
 
-- [ ] W1.1 Shell: the stepper is centred in the title strip between the
+- [x] W1.1 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Shell: the stepper is centred in the title strip between the
       traffic lights and Help, the purple line grows step by step, the
       window drags from the strip, "← Back" is top-left of each stage.
-- [ ] W1.2 Steps slide in the direction of travel (Back slides the other
+- [ ] W1.2 **Mac wave 6: NOT RUN (clicks through the flow)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Steps slide in the direction of travel (Back slides the other
       way) without a flash; with Reduce Motion they crossfade.
-- [ ] W1.3 Welcome's demo loops and pauses; Permissions shows the pane and
+- [ ] W1.3 **Mac wave 6: PARTIAL (look PASS; live fn/mic not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Welcome's demo loops and pauses; Permissions shows the pane and
       prompt for the permission being asked; the mic card's bars move
       with the WAV microphone and Yes goes on; the shortcut key turns
       purple while fn is held and Yes goes on.
-- [ ] W1.4 Typing test: click the paragraph, type; the caret walks the
+- [ ] W1.4 **Mac wave 6: PARTIAL (look PASS; typing not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Typing test: click the paragraph, type; the caret walks the
       paragraph (no visible second copy of the text), wrong letters turn
       red; the language menu opens on the dark stage in the window's
       theme.
-- [ ] W1.5 Celebration after a practice take: headline, bars, arrow
+- [ ] W1.5 **Mac wave 6: PARTIAL (look PASS; timing and Reduce Motion not run)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Celebration after a practice take: headline, bars, arrow
       drawing, number rolling to 3.3×, rocket, caption, Continue, one
       confetti burst; smooth at 60 Hz and 120 Hz (Web Inspector timeline:
       no long frames); with Reduce Motion all at once, no confetti.
-- [ ] W1.6 Time saved: the number rolls; dragging the slider rolls it
+- [ ] W1.6 **Mac wave 6: PARTIAL (look PASS; slider not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Time saved: the number rolls; dragging the slider rolls it
       again; Summary's switch and Start dictating finish setup.
 
 ### Design W3 (Settings) — queued for the Mac wave
@@ -1530,21 +1530,21 @@ Built 2026-11-03 on `design/w3-settings`. Same debug build as Design Phase
 0; by eye in light, dark, Increase Contrast and Reduce Motion, with the
 reference frames u-033 and o-0178 open beside it (local only).
 
-- [ ] DW3.1 Settings (⌘, or the sidebar) opens a 960 × 640 modal that
+- [x] DW3.1 **Mac wave 6: PASS (look; timing not measured)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Settings (⌘, or the sidebar) opens a 960 × 640 modal that
       springs in (no bounce), over a lighter scrim; with Reduce Motion it
       only fades. Section changes crossfade; the pane starts at the top.
-- [ ] DW3.2 Nav: glyphs, "SETTINGS" and "APP" micro labels, the active
+- [x] DW3.2 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Nav: glyphs, "SETTINGS" and "APP" micro labels, the active
       fill, the version at the bottom; Advanced's chevron turns. RTL
       (Arabic app language): the nav sits on the right, chevrons mirror.
-- [ ] DW3.3 Every section: serif title, one intro line, tinted row cards
+- [x] DW3.3 **Mac wave 6: FIX → PASS (drawn radios)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Every section: serif title, one intro line, tinted row cards
       with switches/selects at the end; Handy's rows (Launch on Startup,
       Advanced) look like the fork's rows: black switch with a white knob,
       field-style dropdowns, no pink anywhere; History Limit has no spin
       buttons and ↑/↓ still step it.
-- [ ] DW3.4 Selects open as popovers under the field, Esc closes only the
+- [ ] DW3.4 **Mac wave 6: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Selects open as popovers under the field, Esc closes only the
       list (the modal stays), VoiceOver reads "pop-up button" with the row
       title and the description.
-- [ ] DW3.5 Shortcuts panel: tinted cards, key caps in white fields,
+- [ ] DW3.5 **Mac wave 6: PARTIAL (look PASS; recording not driven)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Shortcuts panel: tinted cards, key caps in white fields,
       pencil/trash, "+" squares; record a new shortcut (field turns purple,
       Esc cancels); Reset to defaults and Done.
 
@@ -2781,10 +2781,10 @@ never the speakers or the real microphone.
       (up to 10 of 12 bars, moving), noise after mean 0.01, silence 0. The
       old fixed -60..0 dBFS mapping on the same readings: 6-7 bars on the
       noise, 6-10 during speech (the owner's report).
-- [ ] OT1.2 **Queued for the Mac wave.** The Flow Bar's waveform, by eye:
+- [x] OT1.2 **Mac wave 6: FIX → PASS (hum held the bars at 0.55; now flat)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) **Queued for the Mac wave.** The Flow Bar's waveform, by eye:
       same build and WAV (`WISPRBRO_TEST_MIC_WAV`), a take by SIGUSR2 with
       the café WAV: the bars lie flat on the noise and move with the words.
-- [ ] OT1.3 **Queued for the Mac wave.** A stuck alpha profile repairs itself
+- [x] OT1.3 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) **Queued for the Mac wave.** A stuck alpha profile repairs itself
       on the release build: a portable release test bundle whose
       `Contents/MacOS/Data/fork.db` is a v5 file with v6's columns (make it
       with `ForkDb::with_migrations(test_migrations(5))` + 0006's SQL, as
@@ -2792,7 +2792,7 @@ never the speakers or the real microphone.
       has `fork.db repair:` and `fork.db migrated from version 5 to 9`, one
       `fork.backup-v5-*.db`; Dictionary › Add word saves "Siobhán" and it
       survives a relaunch.
-- [ ] OT1.4 **Queued for the Mac wave.** A failed save is explained: with
+- [x] OT1.4 **Mac wave 6: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) **Queued for the Mac wave.** A failed save is explained: with
       the same bundle's `fork.db` replaced by a file that cannot migrate
       (`user_version` 99 makes it "too new"), Dictionary › Add word shows
       "Not saved: Wispr Bro can't open its data file. …" in the dialog and
