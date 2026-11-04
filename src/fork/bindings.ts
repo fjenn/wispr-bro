@@ -1439,6 +1439,22 @@ export type AppleAvailability = "available" |
  */
 "unsupported" | "unknown"
 /**
+ * What Settings › Shortcuts and onboarding show.
+ */
+export type AppleDictation = 
+/**
+ * fn is not the trigger, or Apple's shortcut is not "Press fn twice".
+ */
+"none" | 
+/**
+ * We switched it off while fn is the trigger.
+ */
+"turned_off" | 
+/**
+ * It still starts on fn twice (the user kept it, or macOS refused).
+ */
+"active"
+/**
  * What Apple's model is used for (RS-08 outcome).
  */
 export type AppleRole = 
@@ -2197,7 +2213,7 @@ export type ForkSettingUpdate =
 /**
  * Replaces the bindings of one action. An empty list unsets it.
  */
-{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "scratchpad_open_behavior"; value: ScratchpadOpenBehavior } | { key: "scratchpad_on_bar"; value: boolean } | { key: "scratchpad_text_size"; value: number } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings }
+{ key: "hotkey"; value: { action: string; bindings: HotkeyBinding[] } } | { key: "cleanup_level"; value: CleanupLevel } | { key: "styles"; value: StyleSettings } | { key: "context_awareness"; value: boolean } | { key: "transforms_enabled"; value: boolean } | { key: "command_mode_enabled"; value: boolean } | { key: "auto_apply_transform"; value: string | null } | { key: "bar_always_visible"; value: boolean } | { key: "bar_position"; value: BarPosition } | { key: "bar_hidden_until_ms"; value: number | null } | { key: "bar_hide_in_recordings"; value: boolean } | { key: "bar_x_by_display"; value: Partial<{ [key in string]: number }> } | { key: "live_text_in_pill"; value: boolean } | { key: "scratchpad_open_behavior"; value: ScratchpadOpenBehavior } | { key: "scratchpad_on_bar"; value: boolean } | { key: "scratchpad_text_size"; value: number } | { key: "text_retention_days"; value: number | null } | { key: "audio_retention_days"; value: number | null } | { key: "notifications"; value: NotificationSettings } | { key: "update_checks_enabled"; value: boolean } | { key: "update_channel"; value: UpdateChannel } | { key: "show_in_dock"; value: boolean } | { key: "onboarding"; value: OnboardingState } | { key: "dismissed_banners"; value: string[] } | { key: "seen_new_tags"; value: string[] } | { key: "first_use_choice"; value: string | null } | { key: "typing_wpm"; value: number | null } | { key: "typing_hours_per_day"; value: number } | { key: "greeting_name"; value: string | null } | { key: "auto_learn_enabled"; value: boolean } | { key: "vibe_coding"; value: VibeCodingSettings } | { key: "apple_dictation_shortcut_off"; value: boolean }
 /**
  * All fork settings. Missing fields take their [`Default`] value
  * (container-level `serde(default)`), so a partial file never fails as a
@@ -2296,6 +2312,11 @@ greeting_name: string | null;
  * DEC-20: opt-in.
  */
 auto_learn_enabled: boolean; vibe_coding: VibeCodingSettings; 
+/**
+ * OT2: switch Apple Dictation's "Press fn twice" shortcut off while fn
+ * is the trigger (default on; off keeps Apple's shortcut).
+ */
+apple_dictation_shortcut_off: boolean; 
 /**
  * S-08: "Auto-detect (system setting)" was chosen in the microphone
  * list, so the system default is used even when it is a Bluetooth
@@ -2632,7 +2653,12 @@ globe: string;
 /**
  * `{FN}` is in the blocking set.
  */
-fn_blocked: boolean; issues: Issue[]; bindings: BindingLabel[] }
+fn_blocked: boolean; 
+/**
+ * Apple's Dictation on "Press fn twice" while fn is the trigger
+ * (`apple_dictation.rs`).
+ */
+apple_dictation: AppleDictation; issues: Issue[]; bindings: BindingLabel[] }
 /**
  * A row whose word (or "from") is already in the dictionary with another
  * spelling or replacement.

@@ -2797,7 +2797,7 @@ never the speakers or the real microphone.
       "Not saved: Wispr Bro can't open its data file. …" in the dialog and
       the page shows "Your dictionary can't be opened".
 
-### Owner test 2 (OT2-A … OT2-F)
+### Owner test 2 (OT2-A … OT2-H)
 
 The owner tested rc3 (`docs/fork/AUDIT-OT2.md`); six fixes followed, one
 subsection each. Ids are unique per fix: `OT2-<fix>.<n>`. Earlier drafts
@@ -3082,6 +3082,41 @@ unless stated. Never the owner's Wispr Bro.
 - [ ] OT2-G.5 **queued for the Mac wave** The Scratchpad note: a take after
       `abc` pastes unchanged (own window, not read); paste-last (⌃⌘V) after
       `abc` in TextEdit gets the space.
+
+#### OT2-H: Apple Dictation on "Press fn twice" (`fix/appledict`)
+
+The owner's report: double-tapping fn (our hands-free start) also started
+Apple's Dictation, so the text appeared twice. Keyboard › Dictation ›
+Shortcut "Press fn twice" is symbolic hotkey 164; the app switches it off
+live while fn is the trigger (`CGSSetSymbolicHotKeyEnabled`, the preference
+is never written) and puts it back when fn stops being the trigger. A test
+identity changes the live table only with `WISPRBRO_TEST_APPLE_DICTATION=1`;
+the switch lasts until the next login at most. Quit the owner's Wispr Bro
+first (it holds fn). Probe: `scripts/wb-ot2h/probe.c` (read-only; build line
+in the file). Precondition: Dictation on, Shortcut "Press fn twice"
+(`probe164` says `live=1`).
+
+- [ ] OT2-H.1 **queued for the Mac wave** Start the S-05 test identity with
+      `WISPRBRO_TEST_APPLE_DICTATION=1` and fn bound (default): the log says
+      "Apple Dictation's fn-twice shortcut switched off", `probe164` says
+      `live=0`, `apple-dictation-shortcut.json` is in the test data dir, and
+      System Settings › Keyboard › Dictation still shows "Press fn twice".
+      The Hub shows the note once; Got it → it never returns (relaunch).
+- [ ] OT2-H.2 **queued for the Mac wave (owner: real fn)** Double-tap fn in
+      TextEdit, speak (or the WAV microphone), double-tap to end: one copy of
+      the text, Apple's Dictation never opens.
+- [ ] OT2-H.3 **queued for the Mac wave** Settings › Shortcuts: "Turn off
+      Apple Dictation on fn twice" is on; switch it off → `live=1`, the
+      warning line with Open Keyboard settings appears and opens Keyboard
+      settings; switch it on → `live=0`. Set the Shortcut to Off in System
+      Settings and come back to the app: the warning goes (re-check on focus).
+- [ ] OT2-H.4 **queued for the Mac wave** Restore: with it switched off by
+      the app, bind push-to-talk and hands-free to Ctrl+Option → `live=1`,
+      marker gone. Again with fn, then set System Settings to Off and rebind
+      to Ctrl+Option → stays off (the user's later Off wins). Finally put the
+      owner's own setting back as it was before the run.
+- [ ] OT2-H.5 **queued for the Mac wave** After a logout/login with fn still
+      the trigger, the next launch switches it off again (`live=0`).
 
 ### S-39 1.0 release
 

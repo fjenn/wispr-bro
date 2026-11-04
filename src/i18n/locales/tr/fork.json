@@ -444,7 +444,12 @@
       "addFor": "{{action}} için kestirme ekle",
       "descriptionLimits": "Çoğu eylem en fazla {{max}} kestirme alır. Basılı tut ve konuş, iptal ve Komut Modu birer tane, eller serbest dikte ise iki tane alır. Değişiklikler yaptıkça kaydedilir.",
       "limit_one": "Bu eylem {{count}} kestirme alır.",
-      "limit_other": "Bu eylem en fazla {{count}} kestirme alır."
+      "limit_other": "Bu eylem en fazla {{count}} kestirme alır.",
+      "appleDictation": {
+        "title": "fn'ye iki kez basınca Apple Dikte'yi kapat",
+        "description": "Çift dokunuş Apple Dikte'yi de başlatmaz.",
+        "active": "Apple Dikte hâlâ fn'ye iki kez basınca başlıyor. Klavye ayarlarında Dikte kestirmesini Kapalı yapın."
+      }
     },
     "resetSetting": "Sıfırla: {{setting}}",
     "intro": {
@@ -616,6 +621,9 @@
       "sponsor": "GitHub'da sponsor ol",
       "star": "GitHub'da yıldız ver",
       "contribute": "Katkıda bulun"
+    },
+    "appleDictationNote": {
+      "body": "Metniniz iki kez yazılmasın diye Apple Dikte'nin “fn'ye iki kez bas” kestirmesini kapattık. Ayarlar › Kestirmeler'den değiştirebilirsiniz."
     }
   },
   "ui": {

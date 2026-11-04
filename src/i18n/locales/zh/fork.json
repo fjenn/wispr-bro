@@ -442,7 +442,12 @@
       },
       "addFor": "为“{{action}}”添加快捷键",
       "descriptionLimits": "大多数操作最多可设置 {{max}} 个快捷键。“按住说话”、取消和指令模式各 1 个，免提听写 2 个。更改会立即保存。",
-      "limit_other": "此操作最多可设置 {{count}} 个快捷键。"
+      "limit_other": "此操作最多可设置 {{count}} 个快捷键。",
+      "appleDictation": {
+        "title": "关闭按两下 fn 启动的 Apple 听写",
+        "description": "双击时不会同时启动 Apple 听写。",
+        "active": "按两下 fn 仍会启动 Apple 听写。请在键盘设置中将听写快捷键设为“关”。"
+      }
     },
     "resetSetting": "重置「{{setting}}」",
     "intro": {
@@ -613,6 +618,9 @@
       "sponsor": "在 GitHub 上赞助",
       "star": "在 GitHub 上加星标",
       "contribute": "参与贡献"
+    },
+    "appleDictationNote": {
+      "body": "我们已关闭 Apple 听写的“按两下 fn 键”，以免文字被输入两次。可在设置 › 快捷键中更改。"
     }
   },
   "ui": {

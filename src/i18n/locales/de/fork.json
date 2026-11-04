@@ -444,7 +444,12 @@
       "addFor": "Kurzbefehl für {{action}} hinzufügen",
       "descriptionLimits": "Die meisten Aktionen haben bis zu {{max}} Kurzbefehle. „Halten und sprechen“, Abbrechen und Befehlsmodus haben je einen, das freihändige Diktat zwei. Änderungen werden sofort gespeichert.",
       "limit_one": "Diese Aktion hat {{count}} Kurzbefehl.",
-      "limit_other": "Diese Aktion hat bis zu {{count}} Kurzbefehle."
+      "limit_other": "Diese Aktion hat bis zu {{count}} Kurzbefehle.",
+      "appleDictation": {
+        "title": "Apple-Diktat bei zweimal fn ausschalten",
+        "description": "Ein Doppeltipp startet nicht zusätzlich das Diktat von Apple.",
+        "active": "Das Diktat von Apple startet weiterhin bei zweimal fn. Stelle in den Tastatureinstellungen den Kurzbefehl für Diktat auf „Aus“."
+      }
     },
     "resetSetting": "{{setting}} zurücksetzen",
     "intro": {
@@ -616,6 +621,9 @@
       "sponsor": "Auf GitHub sponsern",
       "star": "Auf GitHub mit Stern markieren",
       "contribute": "Mitwirken"
+    },
+    "appleDictationNote": {
+      "body": "Wir haben „fn zweimal drücken“ für das Diktat von Apple ausgeschaltet, damit dein Text nicht doppelt geschrieben wird. Ändern kannst du das unter Einstellungen › Kurzbefehle."
     }
   },
   "ui": {

@@ -448,7 +448,12 @@
       "limit_one": "Tato akce má {{count}} zkratku.",
       "limit_few": "Tato akce má až {{count}} zkratky.",
       "limit_many": "Tato akce má až {{count}} zkratky.",
-      "limit_other": "Tato akce má až {{count}} zkratek."
+      "limit_other": "Tato akce má až {{count}} zkratek.",
+      "appleDictation": {
+        "title": "Vypnout Diktování Apple po dvojím stisku fn",
+        "description": "Dvojí stisk už nespustí také Diktování Apple.",
+        "active": "Diktování Apple se stále spouští dvojím stiskem fn. V nastavení Klávesnice nastavte zkratku diktování na Vypnuto."
+      }
     },
     "resetSetting": "Obnovit {{setting}}",
     "intro": {
@@ -622,6 +627,9 @@
       "sponsor": "Sponzorovat na GitHubu",
       "star": "Dát hvězdičku na GitHubu",
       "contribute": "Přispět"
+    },
+    "appleDictationNote": {
+      "body": "Vypnuli jsme zkratku „Stisknout fn dvakrát“ pro Diktování Apple, aby se váš text nenapsal dvakrát. Změnit to můžete v Nastavení › Zkratky."
     }
   },
   "ui": {

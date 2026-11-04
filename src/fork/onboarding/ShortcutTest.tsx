@@ -30,6 +30,10 @@ import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";
 import { CentredLayout, TestCard } from "./Layout";
 import { HotkeysDialog } from "./HotkeysDialog";
+import {
+  AppleDictationWarning,
+  useRecheckOnFocus,
+} from "../settings/hotkeys/AppleDictation";
 
 export type Diagnosis = "tap" | "secure_input" | "no_fn" | "globe";
 
@@ -70,6 +74,7 @@ const PREVIEW_STATUS: HotkeyStatus = {
   trigger: "fn",
   globe: "emoji",
   fn_blocked: true,
+  apple_dictation: "none",
   issues: [],
   bindings: [],
 };
@@ -132,6 +137,10 @@ export function ShortcutTest({
       void commands.forkOnboardingKeyTest(false);
     };
   }, [preview, startTest]);
+
+  // Apple's Dictation shortcut may change in System Settings meanwhile.
+  const recheck = useCallback(() => void startTest(), [startTest]);
+  useRecheckOnFocus(recheck);
 
   const sayNo = async () => {
     setAnswer("no");
@@ -308,6 +317,21 @@ export function ShortcutTest({
           </p>
         </div>
       </TestCard>
+
+      {status?.trigger === "fn" && status.apple_dictation === "active" && (
+        <div className="mt-4 w-full max-w-[460px] rounded-(--wb-radius-md) bg-(--wb-surface) p-4 shadow-(--wb-elev-2)">
+          <AppleDictationWarning preview={preview} />
+        </div>
+      )}
+      {status?.trigger === "fn" && status.apple_dictation === "turned_off" && (
+        <p
+          role="status"
+          className="m-0 mt-4 w-full max-w-[460px] text-center text-[13px] leading-[18px] text-(--wb-ink-2)"
+          data-testid="wb-apple-dictation-turned-off"
+        >
+          {t("hub.appleDictationNote.body")}
+        </p>
+      )}
 
       {diagnosis && (
         <section

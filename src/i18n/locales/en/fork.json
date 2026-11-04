@@ -436,7 +436,12 @@
       "addFor": "Add a shortcut for {{action}}",
       "descriptionLimits": "Most actions take up to {{max}} shortcuts. Hold to talk, cancel and Command Mode take one each, hands-free two. Changes are saved as you make them.",
       "limit_one": "This action takes {{count}} shortcut.",
-      "limit_other": "This action takes up to {{count}} shortcuts."
+      "limit_other": "This action takes up to {{count}} shortcuts.",
+      "appleDictation": {
+        "title": "Turn off Apple Dictation on fn twice",
+        "description": "Stops a double tap from also starting Apple's Dictation.",
+        "active": "Apple's Dictation still starts on fn twice. In Keyboard settings, set the Dictation shortcut to Off."
+      }
     },
     "resetSetting": "Reset {{setting}}",
     "intro": {
@@ -608,6 +613,9 @@
       "sponsor": "Sponsor on GitHub",
       "star": "Star on GitHub",
       "contribute": "Contribute"
+    },
+    "appleDictationNote": {
+      "body": "We turned off Apple Dictation's “Press fn twice” so your text isn't typed twice. Change it in Settings › Shortcuts."
     }
   },
   "ui": {

@@ -446,7 +446,12 @@
       "descriptionLimits": "A maioria das ações aceita até {{max}} atalhos. Manter pressionado para falar, cancelar e Modo de Comando aceitam um cada, e o ditado sem as mãos aceita dois. As alterações são salvas conforme você as faz.",
       "limit_one": "Esta ação aceita {{count}} atalho.",
       "limit_many": "Esta ação aceita até {{count}} atalhos.",
-      "limit_other": "Esta ação aceita até {{count}} atalhos."
+      "limit_other": "Esta ação aceita até {{count}} atalhos.",
+      "appleDictation": {
+        "title": "Desativar o Ditado da Apple com fn duas vezes",
+        "description": "Um toque duplo deixa de iniciar também o Ditado da Apple.",
+        "active": "O Ditado da Apple ainda inicia com fn duas vezes. Nos ajustes de Teclado, defina o atalho do Ditado como Desativado."
+      }
     },
     "resetSetting": "Redefinir {{setting}}",
     "intro": {
@@ -619,6 +624,9 @@
       "sponsor": "Patrocinar no GitHub",
       "star": "Dar uma estrela no GitHub",
       "contribute": "Contribuir"
+    },
+    "appleDictationNote": {
+      "body": "Desativamos o “Pressionar fn duas vezes” do Ditado da Apple para que seu texto não seja digitado duas vezes. Altere em Ajustes › Atalhos."
     }
   },
   "ui": {

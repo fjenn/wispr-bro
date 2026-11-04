@@ -444,7 +444,12 @@
       "addFor": "Toetscombinatie toevoegen voor {{action}}",
       "descriptionLimits": "De meeste acties hebben tot {{max}} toetscombinaties. Ingedrukt houden om te praten, annuleren en Opdrachtmodus hebben er elk één, handsfree dicteren twee. Wijzigingen worden direct opgeslagen.",
       "limit_one": "Deze actie heeft {{count}} toetscombinatie.",
-      "limit_other": "Deze actie heeft maximaal {{count}} toetscombinaties."
+      "limit_other": "Deze actie heeft maximaal {{count}} toetscombinaties.",
+      "appleDictation": {
+        "title": "Dicteren van Apple bij twee keer fn uitschakelen",
+        "description": "Twee keer tikken start niet ook Dicteren van Apple.",
+        "active": "Dicteren van Apple start nog steeds bij twee keer fn. Zet in de toetsenbordinstellingen de toetscombinatie voor Dicteren op Uit."
+      }
     },
     "resetSetting": "Herstel {{setting}}",
     "intro": {
@@ -616,6 +621,9 @@
       "sponsor": "Sponsor op GitHub",
       "star": "Geef een ster op GitHub",
       "contribute": "Bijdragen"
+    },
+    "appleDictationNote": {
+      "body": "We hebben 'Druk twee keer op fn' voor Dicteren van Apple uitgeschakeld, zodat je tekst niet dubbel wordt getypt. Wijzig dit in Instellingen › Toetscombinaties."
     }
   },
   "ui": {

@@ -446,7 +446,12 @@
       "descriptionLimits": "La plupart des actions acceptent jusqu’à {{max}} raccourcis. Maintenir pour parler, annuler et le mode Commande en acceptent un chacun, la dictée mains libres deux. Les modifications sont enregistrées au fur et à mesure.",
       "limit_one": "Cette action accepte {{count}} raccourci.",
       "limit_many": "Cette action accepte jusqu’à {{count}} raccourcis.",
-      "limit_other": "Cette action accepte jusqu’à {{count}} raccourcis."
+      "limit_other": "Cette action accepte jusqu’à {{count}} raccourcis.",
+      "appleDictation": {
+        "title": "Désactiver la Dictée d'Apple avec fn deux fois",
+        "description": "Un double appui ne lance plus aussi la Dictée d'Apple.",
+        "active": "La Dictée d'Apple démarre encore avec fn deux fois. Dans les réglages Clavier, réglez le raccourci de la Dictée sur Désactivé."
+      }
     },
     "resetSetting": "Réinitialiser {{setting}}",
     "intro": {
@@ -619,6 +624,9 @@
       "sponsor": "Sponsoriser sur GitHub",
       "star": "Ajouter une étoile sur GitHub",
       "contribute": "Contribuer"
+    },
+    "appleDictationNote": {
+      "body": "Nous avons désactivé « Appuyer deux fois sur fn » pour la Dictée d'Apple afin que votre texte ne soit pas saisi deux fois. Modifiez-le dans Réglages › Raccourcis."
     }
   },
   "ui": {

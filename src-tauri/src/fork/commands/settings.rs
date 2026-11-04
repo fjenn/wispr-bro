@@ -54,6 +54,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
         crate::fork::transforms::sync_registration(&app, next.transforms_enabled);
         crate::fork::shortcut::reload(&app);
     }
+    if key == "apple_dictation_shortcut_off" {
+        crate::fork::shortcut::reconcile_apple_dictation(&app);
+    }
     if key == "hotkey" || key == "command_mode_enabled" {
         if key == "command_mode_enabled" && !next.command_mode_enabled {
             crate::fork::transforms::command::cancel();

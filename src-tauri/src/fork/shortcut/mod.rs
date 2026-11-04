@@ -26,6 +26,7 @@
 //! coordinator, unchanged.
 
 pub mod actions;
+pub mod apple_dictation;
 pub mod bindings;
 pub mod blocking;
 pub mod decision;
@@ -159,6 +160,9 @@ pub struct HotkeyStatus {
     pub globe: String,
     /// `{FN}` is in the blocking set.
     pub fn_blocked: bool,
+    /// Apple's Dictation on "Press fn twice" while fn is the trigger
+    /// (`apple_dictation.rs`).
+    pub apple_dictation: apple_dictation::AppleDictation,
     pub issues: Vec<Issue>,
     pub bindings: Vec<BindingLabel>,
 }
@@ -284,6 +288,7 @@ fn status_for(
         trigger: trigger_name(profile),
         globe: globe_name(globe).into(),
         fn_blocked: profile.trigger == Some(decision::Trigger::Fn) && globe.blocks_fn(),
+        apple_dictation: apple_dictation::AppleDictation::None,
         issues: profile.issues.clone(),
         bindings: flat
             .iter()
@@ -319,6 +324,7 @@ pub fn start<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
             trigger: trigger_name(&profile),
             globe: globe_name(globe).into(),
             fn_blocked: false,
+            apple_dictation: apple_dictation::AppleDictation::None,
             issues: profile.issues.clone(),
             bindings: Vec::new(),
         }),
@@ -546,6 +552,7 @@ pub fn reload<R: Runtime>(app: &AppHandle<R>) {
         // DEC-44: fn stopped being the trigger → the Globe setting we
         // changed goes back to the user's.
         globe::reconcile(app, fn_is_trigger(&profile));
+        apple_dictation::reconcile(app, apple_dictation_wanted(app, &profile));
         secure::set_spec(secure::ShadowSpec::from_profile(&profile));
         let _ = rt.tx.send(Msg::Profile(Box::new(profile)));
     }
@@ -560,6 +567,24 @@ fn fn_is_trigger(profile: &Profile) -> bool {
 pub fn reconcile_globe<R: Runtime>(app: &AppHandle<R>) {
     if let Some((profile, _, _)) = load_profile(app) {
         globe::reconcile(app, fn_is_trigger(&profile));
+        apple_dictation::reconcile(app, apple_dictation_wanted(app, &profile));
+    }
+}
+
+/// Apple Dictation's "Press fn twice" is switched off while fn is the
+/// trigger, unless the user kept it (Settings › Shortcuts).
+fn apple_dictation_wanted<R: Runtime>(app: &AppHandle<R>, profile: &Profile) -> bool {
+    fn_is_trigger(profile)
+        && app
+            .try_state::<ForkSettingsHandle>()
+            .and_then(|h| h.get(app).ok())
+            .is_some_and(|s| s.apple_dictation_shortcut_off)
+}
+
+/// The Settings switch changed: apply or restore now.
+pub fn reconcile_apple_dictation<R: Runtime>(app: &AppHandle<R>) {
+    if let Some((profile, _, _)) = load_profile(app) {
+        apple_dictation::reconcile(app, apple_dictation_wanted(app, &profile));
     }
 }
 
@@ -622,6 +647,7 @@ pub fn status<R: Runtime>(app: &AppHandle<R>, locale: &str) -> HotkeyStatus {
             trigger: None,
             globe: globe_name(globe).into(),
             fn_blocked: false,
+            apple_dictation: apple_dictation::AppleDictation::None,
             issues: Vec::new(),
             bindings: Vec::new(),
         };
@@ -636,6 +662,7 @@ pub fn status<R: Runtime>(app: &AppHandle<R>, locale: &str) -> HotkeyStatus {
     #[cfg(not(target_os = "macos"))]
     let layout: &dyn labels::Layout = &labels::Ansi;
     let mut s = status_for(&profile, globe, &flat, &actions, locale, layout);
+    s.apple_dictation = apple_dictation::state(app, fn_is_trigger(&profile));
     s.running = running;
     s.error = error;
     s

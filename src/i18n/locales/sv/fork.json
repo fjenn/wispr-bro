@@ -444,7 +444,12 @@
       "addFor": "Lägg till ett kortkommando för {{action}}",
       "descriptionLimits": "De flesta åtgärder kan ha upp till {{max}} kortkommandon. Håll ned för att prata, avbryt och Kommandoläge har ett vardera, handsfree-diktering två. Ändringar sparas direkt.",
       "limit_one": "Den här åtgärden har {{count}} kortkommando.",
-      "limit_other": "Den här åtgärden har upp till {{count}} kortkommandon."
+      "limit_other": "Den här åtgärden har upp till {{count}} kortkommandon.",
+      "appleDictation": {
+        "title": "Stäng av Apples diktering vid fn två gånger",
+        "description": "Ett dubbeltryck startar inte också Apples diktering.",
+        "active": "Apples diktering startar fortfarande vid fn två gånger. Ställ in kortkommandot för diktering på Av i tangentbordsinställningarna."
+      }
     },
     "resetSetting": "Återställ {{setting}}",
     "intro": {
@@ -616,6 +621,9 @@
       "sponsor": "Sponsra på GitHub",
       "star": "Ge en stjärna på GitHub",
       "contribute": "Bidra"
+    },
+    "appleDictationNote": {
+      "body": "Vi har stängt av ”Tryck på fn två gånger” för Apples diktering så att texten inte skrivs två gånger. Ändra det i Inställningar › Kortkommandon."
     }
   },
   "ui": {
