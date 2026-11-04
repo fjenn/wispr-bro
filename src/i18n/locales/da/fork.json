@@ -258,13 +258,13 @@
         "title": "Privat fra starten",
         "local": "Din diktering og dine data bliver på denne Mac.",
         "noCloud": "Talegenkendelse, oprydning og Historik kører lokalt. Der er ingen konto, ingen telemetri, ingen diktering i skyen og ingen oprydning i skyen.",
+        "network": "Hvad bruger netværket",
         "networkIntro": "Wispr Bro bruger kun netværket til disse to ting:",
         "models": "Hente tale- og oprydningsmodeller fra Hugging Face (huggingface.co).",
         "updates": "Søge efter appopdateringer på GitHub (github.com), når søgning efter opdateringer er slået til."
       },
       "locations": {
         "title": "Hvor dine data ligger",
-        "hint": "Disse mapper rummer alt, hvad Wispr Bro gemmer på denne Mac.",
         "data": "Appdata og indstillinger",
         "models": "Hentede modeller",
         "recordings": "Optagelser",
@@ -368,8 +368,7 @@
       "licenseLink": "Vis licens",
       "credit": "Bygget på Handy af CJ Pais og brugt under MIT-licensen. Tak til alle, der arbejder på det.",
       "creditLink": "Handy på GitHub",
-      "supportTitle": "Støt udviklingen",
-      "supportBody": "{{appName}} har intet betalt abonnement. Den bedste støtte er en fejlrapport, en idé eller et bidrag på GitHub."
+      "supportTitle": "Støt udviklingen"
     },
     "hotkeys": {
       "open": "Genveje",
@@ -1090,7 +1089,7 @@
     },
     "banner": {
       "title": "Lær {{appName}} dine ord",
-      "body": "Tilføj navne, produktnavne og forkortelser, så de staves, som du vil, eller erstat et ord, du siger, med den tekst, du ønsker.",
+      "lead": "Navne, termer og forkortelser stavet på din måde.",
       "examplesLabel": "Eksempler",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1526,11 +1525,10 @@
     },
     "banner": {
       "title": "Sig et par ord, og få hele teksten",
-      "body": "Gem tekst, du skriver igen og igen. Sig stikordet alene eller midt i en sætning, i en hvilken som helst app, og {{appName}} skriver den gemte tekst, linjeskift og det hele.",
+      "lead": "Sig et kort stikord, og {{appName}} skriver hele teksten.",
       "examplesLabel": "Eksempler",
       "example1": "”min adresse” → din fulde postadresse",
-      "example2": "”min hilsen” → Venlig hilsen og dit navn",
-      "example3": "”mit bookinglink” → linket, folk bruger til at booke et opkald"
+      "example2": "”min hilsen” → Venlig hilsen og dit navn"
     },
     "entry": {
       "becomes": "skrives som",
@@ -1956,7 +1954,6 @@
       "listLabel": "Apps, der bruger stilen ”{{group}}”",
       "addShort": "Tilføj app",
       "allOthers": "Alle apps, der ikke er i en anden gruppe, bruger også denne stil.",
-      "empty": "Ingen apps her endnu. Tilføj en med Tilføj app.",
       "unavailable": "Apps kunne ikke indlæses. De vises, når appen er klar.",
       "chipLabel": "{{app}}: indstillinger",
       "menuLabel": "Indstillinger for {{app}}",
@@ -1979,7 +1976,6 @@
       "addShort": "Tilføj websted",
       "recent": {
         "heading": "Senest brugte websteder",
-        "hint": "Websteder, du har dikteret på, som endnu ikke har en stil. Klik på et for at bruge ”{{group}}” der.",
         "addLabel": "Føj {{host}} til ”{{group}}”"
       },
       "add": {

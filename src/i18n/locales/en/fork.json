@@ -258,13 +258,13 @@
         "title": "Private by design",
         "local": "Your dictation and data stay on this Mac.",
         "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
+        "network": "What uses the network",
         "networkIntro": "Wispr Bro uses the network only for these two things:",
         "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
         "updates": "When update checks are on, look for app updates on GitHub (github.com)."
       },
       "locations": {
         "title": "Where your data lives",
-        "hint": "These folders hold everything Wispr Bro keeps on this Mac.",
         "data": "App data and settings",
         "models": "Downloaded models",
         "recordings": "Recordings",
@@ -368,8 +368,7 @@
       "licenseLink": "View license",
       "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
       "creditLink": "Handy on GitHub",
-      "supportTitle": "Support development",
-      "supportBody": "{{appName}} has no paid plan. The best support is a bug report, an idea or a contribution on GitHub."
+      "supportTitle": "Support development"
     },
     "hotkeys": {
       "open": "Shortcuts",
@@ -1407,7 +1406,7 @@
     },
     "banner": {
       "title": "Teach {{appName}} your words",
-      "body": "Add names, product terms and acronyms so they are spelled your way, or replace a word you say with the text you want.",
+      "lead": "Names, terms and acronyms, spelled your way.",
       "examplesLabel": "Examples",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1843,11 +1842,10 @@
     },
     "banner": {
       "title": "Say a few words, get the whole text",
-      "body": "Save text you write again and again. Say its cue on its own or in the middle of a sentence, in any app, and {{appName}} writes the saved text, line breaks and all.",
+      "lead": "Say a short cue and {{appName}} writes the full text.",
       "examplesLabel": "Examples",
       "example1": "“my address” → your full postal address",
-      "example2": "“my sign-off” → Best wishes, and your name",
-      "example3": "“my booking link” → the link people use to book a call"
+      "example2": "“my sign-off” → Best wishes, and your name"
     },
     "entry": {
       "becomes": "is written as",
@@ -2273,7 +2271,6 @@
       "listLabel": "Apps that use the {{group}} style",
       "addShort": "Add app",
       "allOthers": "Every app that is not in another group uses this style too.",
-      "empty": "No apps here yet. Add one with Add app.",
       "unavailable": "The apps could not be loaded. They will appear when the app is ready.",
       "chipLabel": "{{app}}: options",
       "menuLabel": "Options for {{app}}",
@@ -2296,7 +2293,6 @@
       "addShort": "Add website",
       "recent": {
         "heading": "Recently used websites",
-        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
         "addLabel": "Add {{host}} to {{group}}"
       },
       "add": {

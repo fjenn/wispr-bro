@@ -196,13 +196,24 @@ export function DataPrivacy() {
               <p className="text-(--wb-ink-2)">
                 {t("settingsModal.privacy.promise.noCloud")}
               </p>
-              <p className="text-(--wb-ink-2)">
-                {t("settingsModal.privacy.promise.networkIntro")}
-              </p>
-              <ul className="list-disc space-y-1 ps-5 text-(--wb-ink-2)">
-                <li>{t("settingsModal.privacy.promise.models")}</li>
-                <li>{t("settingsModal.privacy.promise.updates")}</li>
-              </ul>
+              {/* Declutter pass: the two hosts sit behind a disclosure. */}
+              <details
+                className="group text-(--wb-ink-2)"
+                data-testid="wb-privacy-network"
+              >
+                <summary
+                  className={`w-fit cursor-pointer rounded-(--wb-radius-sm) text-[13px] font-medium text-(--wb-ink-2) hover:text-(--wb-ink) ${FOCUS_RING}`}
+                >
+                  {t("settingsModal.privacy.promise.network")}
+                </summary>
+                <div className="mt-2 flex flex-col gap-2">
+                  <p>{t("settingsModal.privacy.promise.networkIntro")}</p>
+                  <ul className="list-disc space-y-1 ps-5">
+                    <li>{t("settingsModal.privacy.promise.models")}</li>
+                    <li>{t("settingsModal.privacy.promise.updates")}</li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         </PanelCard>
@@ -210,9 +221,6 @@ export function DataPrivacy() {
 
       <div data-testid="wb-privacy-locations">
         <SettingGroup label={t("settingsModal.privacy.locations.title")}>
-          <p className="type-small -mt-1 text-(--wb-ink-2)">
-            {t("settingsModal.privacy.locations.hint")}
-          </p>
           {LOCATION_KINDS.map((kind) => (
             <SettingRow
               key={kind}

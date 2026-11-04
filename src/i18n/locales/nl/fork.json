@@ -258,13 +258,13 @@
         "title": "Privé vanaf de basis",
         "local": "Je dictees en gegevens blijven op deze Mac.",
         "noCloud": "Spraakherkenning, opschonen en Geschiedenis werken lokaal. Er is geen account, geen telemetrie, geen dicteren in de cloud en geen opschonen in de cloud.",
+        "network": "Wat het netwerk gebruikt",
         "networkIntro": "Wispr Bro gebruikt het netwerk alleen voor deze twee dingen:",
         "models": "Spraak- en opschoonmodellen downloaden van Hugging Face (huggingface.co).",
         "updates": "Als controle op updates aanstaat, op GitHub (github.com) zoeken naar app-updates."
       },
       "locations": {
         "title": "Waar je gegevens staan",
-        "hint": "In deze mappen staat alles wat Wispr Bro op deze Mac bewaart.",
         "data": "Appgegevens en instellingen",
         "models": "Gedownloade modellen",
         "recordings": "Opnames",
@@ -368,8 +368,7 @@
       "licenseLink": "Bekijk licentie",
       "credit": "Gebouwd op Handy van CJ Pais, gebruikt onder de MIT-licentie. Dank aan iedereen die eraan werkt.",
       "creditLink": "Handy op GitHub",
-      "supportTitle": "Steun de ontwikkeling",
-      "supportBody": "{{appName}} heeft geen betaald abonnement. Je helpt het meest met een bugrapport, een idee of een bijdrage op GitHub."
+      "supportTitle": "Steun de ontwikkeling"
     },
     "hotkeys": {
       "open": "Toetscombinaties",
@@ -1090,7 +1089,7 @@
     },
     "banner": {
       "title": "Leer {{appName}} je woorden",
-      "body": "Voeg namen, producttermen en afkortingen toe zodat ze op jouw manier worden gespeld, of vervang een woord dat je zegt door de tekst die je wilt.",
+      "lead": "Namen, termen en afkortingen, gespeld zoals jij wilt.",
       "examplesLabel": "Voorbeelden",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1526,11 +1525,10 @@
     },
     "banner": {
       "title": "Zeg een paar woorden, krijg de hele tekst",
-      "body": "Bewaar tekst die je steeds opnieuw schrijft. Zeg het trefwoord los of midden in een zin, in elke app, en {{appName}} schrijft de bewaarde tekst, inclusief regeleinden.",
+      "lead": "Zeg een kort trefwoord en {{appName}} schrijft de hele tekst.",
       "examplesLabel": "Voorbeelden",
       "example1": "“mijn adres” → je volledige postadres",
-      "example2": "“mijn afsluiting” → Met vriendelijke groet, en je naam",
-      "example3": "“mijn afspraaklink” → de link waarmee mensen een gesprek inplannen"
+      "example2": "“mijn afsluiting” → Met vriendelijke groet, en je naam"
     },
     "entry": {
       "becomes": "wordt geschreven als",
@@ -1956,7 +1954,6 @@
       "listLabel": "Apps met de stijl “{{group}}”",
       "addShort": "Voeg app toe",
       "allOthers": "Elke app die niet in een andere groep staat, gebruikt deze stijl ook.",
-      "empty": "Nog geen apps. Voeg er een toe met “Voeg app toe”.",
       "unavailable": "De apps konden niet worden geladen. Ze verschijnen wanneer de app klaar is.",
       "chipLabel": "{{app}}: opties",
       "menuLabel": "Opties voor {{app}}",
@@ -1979,7 +1976,6 @@
       "addShort": "Voeg website toe",
       "recent": {
         "heading": "Recent gebruikte websites",
-        "hint": "Websites waarop je hebt gedicteerd en die nog geen stijl hebben. Klik op een ervan om daar “{{group}}” te gebruiken.",
         "addLabel": "Voeg {{host}} toe aan “{{group}}”"
       },
       "add": {

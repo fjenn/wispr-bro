@@ -3,7 +3,7 @@
  * The Snippets page (S-17, C-69..C-73): the Hub's Snippets slot.
  *
  *   Snippets                          [Import] [Export] [Add snippet]
- *   ┌ banner: say a few words, get a whole text · 3 examples ─── × ┐
+ *   ┌ banner: say a few words, get a whole text · 2 examples ─── × ┐
  *   3 snippets · used 12 times
  *   [search…]                              [sort ▾] [refresh]
  *   my address    Alex Morgan ⏎ 12 Harbour …   Used 4 times   ✎ 🗑
@@ -299,12 +299,11 @@ export function SnippetsPage() {
         id={BANNER_ID}
         image={photos.snippets.src}
         title={t("snippets.banner.title")}
-        body={t("snippets.banner.body", { appName })}
+        body={t("snippets.banner.lead", { appName })}
         examplesLabel={t("snippets.banner.examplesLabel")}
         examples={[
           t("snippets.banner.example1"),
           t("snippets.banner.example2"),
-          t("snippets.banner.example3"),
         ]}
       />
 

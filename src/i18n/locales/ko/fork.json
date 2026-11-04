@@ -257,13 +257,13 @@
         "title": "설계부터 개인정보 보호",
         "local": "받아쓰기와 데이터는 이 Mac에만 남습니다.",
         "noCloud": "음성 인식, 정리 및 기록은 모두 로컬에서 실행됩니다. 계정, 원격 측정, 클라우드 받아쓰기, 클라우드 정리가 없습니다.",
+        "network": "네트워크를 사용하는 기능",
         "networkIntro": "Wispr Bro는 다음 두 가지에만 네트워크를 사용합니다.",
         "models": "Hugging Face(huggingface.co)에서 음성 및 정리 모델 다운로드",
         "updates": "업데이트 확인이 켜져 있을 때 GitHub(github.com)에서 앱 업데이트 확인"
       },
       "locations": {
         "title": "데이터 저장 위치",
-        "hint": "Wispr Bro가 이 Mac에 보관하는 모든 것이 이 폴더들에 있습니다.",
         "data": "앱 데이터 및 설정",
         "models": "다운로드한 모델",
         "recordings": "녹음",
@@ -367,8 +367,7 @@
       "licenseLink": "라이선스 보기",
       "credit": "CJ Pais의 Handy를 기반으로 하며 MIT 라이선스에 따라 사용합니다. 참여해 주신 모든 분께 감사드립니다.",
       "creditLink": "GitHub의 Handy",
-      "supportTitle": "개발 지원",
-      "supportBody": "{{appName}}에는 유료 요금제가 없습니다. 가장 좋은 지원은 GitHub에서의 버그 보고, 아이디어 제안 또는 기여입니다."
+      "supportTitle": "개발 지원"
     },
     "hotkeys": {
       "open": "단축키",
@@ -1072,7 +1071,7 @@
     },
     "banner": {
       "title": "{{appName}}에 자주 쓰는 단어 알려주기",
-      "body": "이름, 제품 용어, 약어를 추가해 원하는 철자로 입력되게 하거나, 말한 단어를 원하는 텍스트로 바꾸세요.",
+      "lead": "이름, 용어, 약어를 원하는 표기로.",
       "examplesLabel": "예시",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1483,11 +1482,10 @@
     },
     "banner": {
       "title": "몇 마디로 전체 텍스트를 입력하기",
-      "body": "반복해서 쓰는 텍스트를 저장하세요. 어떤 앱에서든 신호어를 단독으로 또는 문장 중간에 말하면 {{appName}}이(가) 줄 바꿈까지 포함하여 저장된 텍스트를 입력합니다.",
+      "lead": "짧은 키워드를 말하면 {{appName}}이(가) 전체 텍스트를 입력합니다.",
       "examplesLabel": "예시",
       "example1": "‘내 주소’ → 전체 우편 주소",
-      "example2": "‘내 맺음말’ → ‘감사합니다’와 이름",
-      "example3": "‘내 예약 링크’ → 통화 예약에 쓰는 링크"
+      "example2": "‘내 맺음말’ → ‘감사합니다’와 이름"
     },
     "entry": {
       "becomes": "입력 내용",
@@ -1879,7 +1877,6 @@
       "listLabel": "{{group}} 스타일을 사용하는 앱",
       "addShort": "앱 추가",
       "allOthers": "다른 그룹에 없는 모든 앱도 이 스타일을 사용합니다.",
-      "empty": "아직 앱이 없습니다. ‘앱 추가’로 추가하세요.",
       "unavailable": "앱을 불러올 수 없습니다. 앱이 준비되면 표시됩니다.",
       "chipLabel": "{{app}}: 옵션",
       "menuLabel": "{{app}} 옵션",
@@ -1902,7 +1899,6 @@
       "addShort": "웹사이트 추가",
       "recent": {
         "heading": "최근 사용한 웹사이트",
-        "hint": "받아쓰기를 했지만 아직 스타일이 없는 웹사이트입니다. 하나를 클릭하면 그곳에서 “{{group}}”을(를) 사용합니다.",
         "addLabel": "{{host}}을(를) “{{group}}”에 추가"
       },
       "add": {

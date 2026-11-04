@@ -257,13 +257,13 @@
         "title": "Riêng tư ngay từ thiết kế",
         "local": "Bản đọc chính tả và dữ liệu của bạn ở lại trên máy Mac này.",
         "noCloud": "Nhận dạng giọng nói, dọn dẹp và Lịch sử chạy cục bộ. Không có tài khoản, đo lường từ xa, đọc chính tả trên đám mây hay dọn dẹp trên đám mây.",
+        "network": "Những gì dùng mạng",
         "networkIntro": "Wispr Bro chỉ dùng mạng cho hai việc sau:",
         "models": "Tải về mô hình giọng nói và mô hình dọn dẹp từ Hugging Face (huggingface.co).",
         "updates": "Khi bật kiểm tra cập nhật, tìm bản cập nhật ứng dụng trên GitHub (github.com)."
       },
       "locations": {
         "title": "Nơi lưu dữ liệu của bạn",
-        "hint": "Các thư mục này chứa mọi thứ Wispr Bro lưu trên máy Mac này.",
         "data": "Dữ liệu và cài đặt ứng dụng",
         "models": "Mô hình đã tải về",
         "recordings": "Bản ghi âm",
@@ -367,8 +367,7 @@
       "licenseLink": "Xem giấy phép",
       "credit": "Xây dựng trên Handy của CJ Pais, sử dụng theo Giấy phép MIT. Cảm ơn tất cả những người đã đóng góp.",
       "creditLink": "Handy trên GitHub",
-      "supportTitle": "Hỗ trợ phát triển",
-      "supportBody": "{{appName}} không có gói trả phí. Cách ủng hộ tốt nhất là báo lỗi, góp ý tưởng hoặc đóng góp trên GitHub."
+      "supportTitle": "Hỗ trợ phát triển"
     },
     "hotkeys": {
       "open": "Phím tắt",
@@ -1072,7 +1071,7 @@
     },
     "banner": {
       "title": "Dạy {{appName}} các từ của bạn",
-      "body": "Thêm tên, thuật ngữ sản phẩm và từ viết tắt để chúng được viết theo cách của bạn, hoặc thay một từ bạn nói bằng văn bản bạn muốn.",
+      "lead": "Tên, thuật ngữ và từ viết tắt, đúng cách bạn viết.",
       "examplesLabel": "Ví dụ",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1483,11 +1482,10 @@
     },
     "banner": {
       "title": "Nói vài từ, nhận cả đoạn văn bản",
-      "body": "Lưu những đoạn bạn viết đi viết lại. Nói câu gợi của nó riêng lẻ hoặc giữa câu, trong bất kỳ ứng dụng nào, và {{appName}} sẽ viết đoạn đã lưu, kể cả dấu xuống dòng.",
+      "lead": "Nói một từ khóa ngắn và {{appName}} sẽ viết toàn bộ văn bản.",
       "examplesLabel": "Ví dụ",
       "example1": "“địa chỉ của tôi” → địa chỉ bưu điện đầy đủ của bạn",
-      "example2": "“lời chào cuối thư” → Trân trọng, và tên của bạn",
-      "example3": "“liên kết đặt lịch của tôi” → liên kết mọi người dùng để đặt cuộc gọi"
+      "example2": "“lời chào cuối thư” → Trân trọng, và tên của bạn"
     },
     "entry": {
       "becomes": "được viết là",
@@ -1879,7 +1877,6 @@
       "listLabel": "Các ứng dụng dùng kiểu {{group}}",
       "addShort": "Thêm ứng dụng",
       "allOthers": "Mọi ứng dụng không thuộc nhóm khác cũng dùng kiểu này.",
-      "empty": "Chưa có ứng dụng nào ở đây. Hãy thêm bằng Thêm ứng dụng.",
       "unavailable": "Không thể tải danh sách ứng dụng. Chúng sẽ hiện khi ứng dụng sẵn sàng.",
       "chipLabel": "{{app}}: tùy chọn",
       "menuLabel": "Tùy chọn cho {{app}}",
@@ -1902,7 +1899,6 @@
       "addShort": "Thêm trang web",
       "recent": {
         "heading": "Trang web dùng gần đây",
-        "hint": "Các trang web bạn đã đọc chính tả nhưng chưa có kiểu. Bấm vào một trang để dùng “{{group}}” ở đó.",
         "addLabel": "Thêm {{host}} vào “{{group}}”"
       },
       "add": {

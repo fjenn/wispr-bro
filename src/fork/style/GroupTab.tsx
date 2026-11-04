@@ -5,9 +5,10 @@
  * returns it to its default group and turns "Press Enter after dictating"
  * on or off; a few headline websites plus the ones the user added or
  * dictated on (`shownSites`; the rest of the built-in list matches
- * silently); "+" adds a website by its domain, and websites dictated on
- * with no group yet are offered for one click), then the group's three presets as
- * before/after cards. Other also covers every app not in a group.
+ * silently; "+" adds a website by its domain and its dialog offers the
+ * websites dictated on with no group yet). The presets come right after the
+ * apps, before the websites (declutter pass: the choice people come for
+ * first). Other also covers every app not in a group.
  */
 import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,7 +29,7 @@ import { AppIcon } from "./AppIcon";
 import { AppPicker } from "./AppPicker";
 import { PresetCard } from "./PresetCard";
 import { SiteChip } from "./SiteChip";
-import { AddSiteDialog, recentUnassigned } from "./AddSiteDialog";
+import { AddSiteDialog } from "./AddSiteDialog";
 import { EXAMPLES, PRESETS } from "./presets";
 import { shownSites } from "./shownSites";
 import { STYLE_GROUPS, useStyleStore } from "./useStyle";
@@ -193,7 +194,6 @@ export function GroupTab({ group }: { group: StyleGroup }) {
   const { settings, pending, setSetting } = useForkSettings();
   const [picking, setPicking] = useState(false);
   const [addingSite, setAddingSite] = useState(false);
-  const recentHeading = useId();
   const name = useId();
   const appsHeading = useId();
   const sitesHeading = useId();
@@ -201,8 +201,6 @@ export function GroupTab({ group }: { group: StyleGroup }) {
 
   const members = apps.filter((a) => a.group === group);
   const visibleSites = shownSites(sites, group, apps);
-  // Other already lists them as members.
-  const recent = group === "other" ? [] : recentUnassigned(sites);
   const groupName = t(`style.groups.${group}.label`);
   const current = settings?.styles[group];
   const example = EXAMPLES[group];
@@ -278,21 +276,11 @@ export function GroupTab({ group }: { group: StyleGroup }) {
         }
       />
 
-      {(group === "other" ||
-        (status === "ready" && members.length === 0) ||
-        status === "unavailable") && (
+      {(group === "other" || status === "unavailable") && (
         <div className="-mt-2 flex flex-col gap-1">
           {group === "other" && (
             <p className="text-[13px] text-(--wb-ink-2)">
               {t("style.apps.allOthers")}
-            </p>
-          )}
-          {status === "ready" && members.length === 0 && group !== "other" && (
-            <p
-              className="text-[13px] text-(--wb-ink-2)"
-              data-testid="wb-style-apps-empty"
-            >
-              {t("style.apps.empty")}
             </p>
           )}
           {status === "unavailable" && (
@@ -302,76 +290,6 @@ export function GroupTab({ group }: { group: StyleGroup }) {
           )}
         </div>
       )}
-
-      <section
-        aria-labelledby={sitesHeading}
-        className="flex flex-col gap-2.5"
-        data-testid="wb-style-sites-section"
-      >
-        <SectionLabel id={sitesHeading}>
-          {t("style.sites.heading")}
-        </SectionLabel>
-        <ul
-          className="flex flex-wrap items-center gap-2"
-          aria-label={t("style.sites.listLabel", { group: groupName })}
-          data-testid="wb-style-sites"
-        >
-          {visibleSites.map((site) => (
-            <SiteChip key={site.host} site={site} group={group} />
-          ))}
-          <li>
-            <button
-              type="button"
-              onClick={() => setAddingSite(true)}
-              data-testid="wb-style-add-site"
-              className={`flex h-9 cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) border border-dashed border-(--wb-line-strong) px-3 text-[13px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) hover:text-(--wb-ink) ${FOCUS_RING}`}
-            >
-              <Plus size={16} aria-hidden="true" />
-              {t("style.sites.addShort")}
-            </button>
-          </li>
-        </ul>
-        <p
-          className="text-[13px] text-(--wb-ink-3)"
-          data-testid="wb-style-sites-note"
-        >
-          {t("style.sites.builtinNote")}
-        </p>
-        {recent.length > 0 && (
-          <div
-            className="flex flex-col gap-2 pt-1"
-            data-testid="wb-style-sites-recent"
-          >
-            <p id={recentHeading} className="text-[13px] text-(--wb-ink-2)">
-              {t("style.sites.recent.hint", { group: groupName })}
-            </p>
-            <ul
-              className="flex flex-wrap items-center gap-2"
-              aria-labelledby={recentHeading}
-            >
-              {recent.map((site) => (
-                <li key={site.host}>
-                  <button
-                    type="button"
-                    onClick={() => void addSite(site.host, group)}
-                    aria-label={t("style.sites.recent.addLabel", {
-                      host: site.host,
-                      group: groupName,
-                    })}
-                    data-testid="wb-style-site-recent"
-                    data-host={site.host}
-                    dir="ltr"
-                    className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) border border-(--wb-line-2) bg-(--wb-surface) px-2.5 text-[13px] text-(--wb-ink) hover:bg-(--wb-surface-tint) ${FOCUS_RING}`}
-                  >
-                    <Plus size={14} aria-hidden="true" />
-                    {site.host}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </section>
 
       <section aria-labelledby={presetsHeading} className="flex flex-col gap-4">
         <h2 id={presetsHeading} className="sr-only">
@@ -417,6 +335,36 @@ export function GroupTab({ group }: { group: StyleGroup }) {
         >
           {t("style.englishOnly")}
         </p>
+      </section>
+
+      <section
+        aria-labelledby={sitesHeading}
+        className="flex flex-col gap-2.5"
+        data-testid="wb-style-sites-section"
+      >
+        <SectionLabel id={sitesHeading}>
+          {t("style.sites.heading")}
+        </SectionLabel>
+        <ul
+          className="flex flex-wrap items-center gap-2"
+          aria-label={t("style.sites.listLabel", { group: groupName })}
+          data-testid="wb-style-sites"
+        >
+          {visibleSites.map((site) => (
+            <SiteChip key={site.host} site={site} group={group} />
+          ))}
+          <li>
+            <button
+              type="button"
+              onClick={() => setAddingSite(true)}
+              data-testid="wb-style-add-site"
+              className={`flex h-9 cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) border border-dashed border-(--wb-line-strong) px-3 text-[13px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            >
+              <Plus size={16} aria-hidden="true" />
+              {t("style.sites.addShort")}
+            </button>
+          </li>
+        </ul>
       </section>
 
       <AddSiteDialog

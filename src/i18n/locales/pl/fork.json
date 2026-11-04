@@ -260,13 +260,13 @@
         "title": "Prywatność w założeniu",
         "local": "Twoje dyktowania i dane pozostają na tym Macu.",
         "noCloud": "Rozpoznawanie mowy, porządkowanie i Historia działają lokalnie. Nie ma konta, telemetrii, dyktowania ani porządkowania w chmurze.",
+        "network": "Co korzysta z sieci",
         "networkIntro": "Wispr Bro korzysta z sieci tylko w tych dwóch celach:",
         "models": "Pobieranie modeli mowy i porządkowania z Hugging Face (huggingface.co).",
         "updates": "Gdy sprawdzanie aktualizacji jest włączone: szukanie aktualizacji aplikacji w serwisie GitHub (github.com)."
       },
       "locations": {
         "title": "Gdzie są Twoje dane",
-        "hint": "W tych folderach jest wszystko, co Wispr Bro przechowuje na tym Macu.",
         "data": "Dane i ustawienia aplikacji",
         "models": "Pobrane modele",
         "recordings": "Nagrania",
@@ -370,8 +370,7 @@
       "licenseLink": "Pokaż licencję",
       "credit": "Oparte na Handy autorstwa CJ Paisa, używanym na licencji MIT. Dziękujemy wszystkim, którzy nad nim pracują.",
       "creditLink": "Handy w serwisie GitHub",
-      "supportTitle": "Wesprzyj rozwój",
-      "supportBody": "{{appName}} nie ma płatnego planu. Najlepszym wsparciem jest zgłoszenie błędu, pomysł lub własny wkład w serwisie GitHub."
+      "supportTitle": "Wesprzyj rozwój"
     },
     "hotkeys": {
       "open": "Skróty",
@@ -1126,7 +1125,7 @@
     },
     "banner": {
       "title": "Naucz {{appName}} swoich słów",
-      "body": "Dodaj imiona, nazwy produktów i skróty, aby były pisane po Twojemu, albo zamieniaj wypowiadane słowo na dowolny tekst.",
+      "lead": "Imiona, terminy i skróty zapisane po Twojemu.",
       "examplesLabel": "Przykłady",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1612,11 +1611,10 @@
     },
     "banner": {
       "title": "Powiedz kilka słów, wstaw cały tekst",
-      "body": "Zachowaj tekst, który piszesz w kółko. Powiedz jego hasło osobno lub w środku zdania, w dowolnej aplikacji, a {{appName}} wpisze zachowany tekst razem z podziałami wierszy.",
+      "lead": "Powiedz krótkie hasło, a {{appName}} wpisze cały tekst.",
       "examplesLabel": "Przykłady",
       "example1": "„mój adres” → Twój pełny adres pocztowy",
-      "example2": "„moje pozdrowienia” → Pozdrawiam serdecznie i Twoje imię",
-      "example3": "„mój link do rezerwacji” → link, przez który można umówić rozmowę"
+      "example2": "„moje pozdrowienia” → Pozdrawiam serdecznie i Twoje imię"
     },
     "entry": {
       "becomes": "wpisuje",
@@ -2110,7 +2108,6 @@
       "listLabel": "Aplikacje używające stylu {{group}}",
       "addShort": "Dodaj aplikację",
       "allOthers": "Ten styl jest też używany przez wszystkie aplikacje, które nie należą do innej grupy.",
-      "empty": "Brak aplikacji. Dodaj je przyciskiem Dodaj aplikację.",
       "unavailable": "Nie można wczytać aplikacji. Pojawią się, gdy aplikacja będzie gotowa.",
       "chipLabel": "{{app}}: opcje",
       "menuLabel": "Opcje: {{app}}",
@@ -2133,7 +2130,6 @@
       "addShort": "Dodaj stronę",
       "recent": {
         "heading": "Ostatnio używane strony",
-        "hint": "Strony, na których dyktowano, a które nie mają jeszcze stylu. Kliknij jedną, aby używać tam stylu „{{group}}”.",
         "addLabel": "Dodaj {{host}} do stylu „{{group}}”"
       },
       "add": {

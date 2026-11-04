@@ -225,6 +225,12 @@ export function AddSiteDialog({
           </p>
         )}
       </form>
+      <p
+        className="mt-4 text-[13px] text-(--wb-ink-3)"
+        data-testid="wb-style-sites-note"
+      >
+        {t("style.sites.builtinNote")}
+      </p>
       {recent.length > 0 && (
         <section
           aria-labelledby={recentHeading}

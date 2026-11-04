@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// S-17 Snippets page: the banner with three examples, the Add snippet
+// S-17 Snippets page: the banner with two examples, the Add snippet
 // dialog (disabled until both fields are filled, 60 / 4,000-character
 // limits, line breaks kept, ⌘Return saves, duplicates and conflicts), edit,
 // delete with undo, search and sort, live counts (an edit elsewhere and a
@@ -171,7 +171,7 @@ const counts = (page: Page) => page.getByTestId("wb-snippets-counts");
 
 snipTest.describe("snippets page", () => {
   snipTest(
-    "empty page: banner with three examples, empty state, count at zero",
+    "empty page: banner with two examples, empty state, count at zero",
     async ({ page, ipc, hub, snips }) => {
       await openSnippets(page, ipc, hub, snips);
       await expect(page.getByTestId("wb-page-title")).toHaveText("Snippets");
@@ -179,7 +179,7 @@ snipTest.describe("snippets page", () => {
       await expect(banner).toContainText("Say a few words, get the whole text");
       await expect(
         banner.getByRole("list", { name: "Examples" }).getByRole("listitem"),
-      ).toHaveCount(3);
+      ).toHaveCount(2);
       await expect(page.getByTestId("wb-snippets-empty")).toBeVisible();
       await expect(counts(page)).toHaveText("0 snippets");
       await expect(page.getByTestId("wb-snippets-export")).toBeDisabled();

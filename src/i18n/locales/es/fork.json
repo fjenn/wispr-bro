@@ -259,13 +259,13 @@
         "title": "Privado por diseño",
         "local": "Tus dictados y tus datos se quedan en este Mac.",
         "noCloud": "El reconocimiento de voz, la limpieza y el Historial funcionan en local. No hay cuenta, telemetría, dictado en la nube ni limpieza en la nube.",
+        "network": "Qué usa la red",
         "networkIntro": "Wispr Bro solo usa la red para estas dos cosas:",
         "models": "Descargar modelos de voz y limpieza de Hugging Face (huggingface.co).",
         "updates": "Si la búsqueda de actualizaciones está activada, buscar actualizaciones de la app en GitHub (github.com)."
       },
       "locations": {
         "title": "Dónde se guardan tus datos",
-        "hint": "Estas carpetas guardan todo lo que Wispr Bro conserva en este Mac.",
         "data": "Datos y ajustes de la app",
         "models": "Modelos descargados",
         "recordings": "Grabaciones",
@@ -369,8 +369,7 @@
       "licenseLink": "Ver licencia",
       "credit": "Basado en Handy, de CJ Pais, usado bajo la licencia MIT. Gracias a todas las personas que trabajan en él.",
       "creditLink": "Handy en GitHub",
-      "supportTitle": "Apoyar el desarrollo",
-      "supportBody": "{{appName}} no tiene ningún plan de pago. La mejor forma de apoyarlo es un informe de error, una idea o una contribución en GitHub."
+      "supportTitle": "Apoyar el desarrollo"
     },
     "hotkeys": {
       "open": "Funciones rápidas",
@@ -1108,7 +1107,7 @@
     },
     "banner": {
       "title": "Enseña tus palabras a {{appName}}",
-      "body": "Añade nombres, términos de productos y siglas para que se escriban a tu manera, o sustituye una palabra que dices por el texto que quieras.",
+      "lead": "Nombres, términos y siglas, escritos a tu manera.",
       "examplesLabel": "Ejemplos",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1569,11 +1568,10 @@
     },
     "banner": {
       "title": "Di unas palabras y obtén el texto completo",
-      "body": "Guarda el texto que escribes una y otra vez. Di su frase clave sola o en medio de una oración, en cualquier app, y {{appName}} escribirá el texto guardado, saltos de línea incluidos.",
+      "lead": "Di una palabra clave y {{appName}} escribe el texto completo.",
       "examplesLabel": "Ejemplos",
       "example1": "“mi dirección” → tu dirección postal completa",
-      "example2": "“mi despedida” → Un saludo y tu nombre",
-      "example3": "“mi enlace de reservas” → el enlace con el que reservan una llamada contigo"
+      "example2": "“mi despedida” → Un saludo y tu nombre"
     },
     "entry": {
       "becomes": "se escribe como",
@@ -2033,7 +2031,6 @@
       "listLabel": "Aplicaciones que usan el estilo {{group}}",
       "addShort": "Añadir app",
       "allOthers": "Todas las apps que no están en otro grupo también usan este estilo.",
-      "empty": "Aún no hay ninguna app. Añade una con “Añadir app”.",
       "unavailable": "No se han podido cargar las apps. Aparecerán cuando la app esté lista.",
       "chipLabel": "{{app}}: opciones",
       "menuLabel": "Opciones para {{app}}",
@@ -2056,7 +2053,6 @@
       "addShort": "Añadir sitio web",
       "recent": {
         "heading": "Sitios web usados recientemente",
-        "hint": "Sitios web en los que dictaste y que aún no tienen estilo. Haz clic en uno para usar “{{group}}” allí.",
         "addLabel": "Añadir {{host}} a “{{group}}”"
       },
       "add": {

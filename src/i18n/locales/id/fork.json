@@ -257,13 +257,13 @@
         "title": "Privat sejak awal",
         "local": "Dikte dan data Anda tetap di Mac ini.",
         "noCloud": "Pengenalan ucapan, pembersihan, dan Riwayat berjalan secara lokal. Tidak ada akun, telemetri, dikte cloud, atau pembersihan cloud.",
+        "network": "Apa yang menggunakan jaringan",
         "networkIntro": "Wispr Bro hanya menggunakan jaringan untuk dua hal ini:",
         "models": "Mengunduh model ucapan dan model pembersihan dari Hugging Face (huggingface.co).",
         "updates": "Saat pemeriksaan pembaruan aktif, mencari pembaruan app di GitHub (github.com)."
       },
       "locations": {
         "title": "Tempat data Anda disimpan",
-        "hint": "Folder ini berisi semua yang disimpan Wispr Bro di Mac ini.",
         "data": "Data dan pengaturan app",
         "models": "Model yang diunduh",
         "recordings": "Rekaman",
@@ -367,8 +367,7 @@
       "licenseLink": "Lihat lisensi",
       "credit": "Dibangun di atas Handy karya CJ Pais, digunakan di bawah Lisensi MIT. Terima kasih kepada semua yang mengerjakannya.",
       "creditLink": "Handy di GitHub",
-      "supportTitle": "Dukung pengembangan",
-      "supportBody": "{{appName}} tidak punya paket berbayar. Dukungan terbaik adalah laporan bug, ide, atau kontribusi di GitHub."
+      "supportTitle": "Dukung pengembangan"
     },
     "hotkeys": {
       "open": "Pintasan",
@@ -1072,7 +1071,7 @@
     },
     "banner": {
       "title": "Ajarkan kata-kata Anda ke {{appName}}",
-      "body": "Tambahkan nama, istilah produk, dan akronim agar dieja sesuai keinginan Anda, atau ganti kata yang Anda ucapkan dengan teks yang Anda inginkan.",
+      "lead": "Nama, istilah, dan akronim, dieja sesuai keinginan Anda.",
       "examplesLabel": "Contoh",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1483,11 +1482,10 @@
     },
     "banner": {
       "title": "Ucapkan beberapa kata, dapatkan seluruh teksnya",
-      "body": "Simpan teks yang Anda tulis berulang kali. Ucapkan isyaratnya secara terpisah atau di tengah kalimat, di app apa pun, dan {{appName}} menulis teks yang disimpan, lengkap dengan jeda barisnya.",
+      "lead": "Ucapkan kata kunci singkat dan {{appName}} menulis teks lengkapnya.",
       "examplesLabel": "Contoh",
       "example1": "“alamat saya” → alamat pos lengkap Anda",
-      "example2": "“salam penutup saya” → Salam hangat, dan nama Anda",
-      "example3": "“tautan jadwal saya” → tautan yang dipakai orang untuk menjadwalkan panggilan"
+      "example2": "“salam penutup saya” → Salam hangat, dan nama Anda"
     },
     "entry": {
       "becomes": "ditulis sebagai",
@@ -1879,7 +1877,6 @@
       "listLabel": "App yang menggunakan gaya {{group}}",
       "addShort": "Tambah app",
       "allOthers": "Setiap app yang tidak termasuk kelompok lain juga menggunakan gaya ini.",
-      "empty": "Belum ada app di sini. Tambahkan dengan Tambah app.",
       "unavailable": "App tidak dapat dimuat. App akan muncul saat Wispr Bro siap.",
       "chipLabel": "{{app}}: opsi",
       "menuLabel": "Opsi untuk {{app}}",
@@ -1902,7 +1899,6 @@
       "addShort": "Tambah situs web",
       "recent": {
         "heading": "Situs web yang baru digunakan",
-        "hint": "Situs web tempat Anda mendikte yang belum punya gaya. Klik salah satunya untuk memakai “{{group}}” di sana.",
         "addLabel": "Tambahkan {{host}} ke “{{group}}”"
       },
       "add": {

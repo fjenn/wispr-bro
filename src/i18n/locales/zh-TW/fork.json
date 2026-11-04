@@ -257,13 +257,13 @@
         "title": "從設計就保護隱私",
         "local": "你的聽寫內容和資料都留在這台 Mac 上。",
         "noCloud": "語音辨識、清理和歷史記錄都在本機執行。沒有帳號、遙測、雲端聽寫或雲端清理。",
+        "network": "哪些功能會連網",
         "networkIntro": "Wispr Bro 只會在以下兩種情況使用網路：",
         "models": "從 Hugging Face（huggingface.co）下載語音和清理模型。",
         "updates": "開啟更新檢查時，在 GitHub（github.com）上尋找 App 更新。"
       },
       "locations": {
         "title": "你的資料存放位置",
-        "hint": "這些資料夾包含 Wispr Bro 在這台 Mac 上保存的所有內容。",
         "data": "App 資料和設定",
         "models": "已下載的模型",
         "recordings": "錄音",
@@ -367,8 +367,7 @@
       "licenseLink": "檢視授權條款",
       "credit": "以 CJ Pais 開發的 Handy 為基礎，依據 MIT 授權條款使用。感謝每一位參與開發的人。",
       "creditLink": "GitHub 上的 Handy",
-      "supportTitle": "支持開發",
-      "supportBody": "{{appName}} 沒有付費方案。最好的支持就是在 GitHub 上回報錯誤、提出想法或參與貢獻。"
+      "supportTitle": "支持開發"
     },
     "hotkeys": {
       "open": "快速鍵",
@@ -1072,7 +1071,7 @@
     },
     "banner": {
       "title": "教 {{appName}} 認識你的用詞",
-      "body": "加入名稱、產品術語和縮寫，讓它們依你的方式拼寫；或將你說出的某個字詞替換成想要的文字。",
+      "lead": "人名、術語和縮寫，照你的寫法拼寫。",
       "examplesLabel": "範例",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1483,11 +1482,10 @@
     },
     "banner": {
       "title": "說幾個字，得到整段文字",
-      "body": "儲存你經常重複輸入的文字。在任何 App 中單獨說出或在句子中說出它的提示語，{{appName}} 就會寫出儲存的文字，連換行也一併保留。",
+      "lead": "說出一個簡短的提示詞，{{appName}} 就會寫出完整內容。",
       "examplesLabel": "範例",
       "example1": "「我的地址」→ 你的完整郵寄地址",
-      "example2": "「我的結尾」→ 祝好，加上你的名字",
-      "example3": "「我的預約連結」→ 別人用來預約通話的連結"
+      "example2": "「我的結尾」→ 祝好，加上你的名字"
     },
     "entry": {
       "becomes": "寫成",
@@ -1879,7 +1877,6 @@
       "listLabel": "使用「{{group}}」風格的 App",
       "addShort": "加入 App",
       "allOthers": "不屬於其他分組的所有 App 也使用此風格。",
-      "empty": "這裡還沒有 App。使用「加入 App」加入一個。",
       "unavailable": "無法載入 App 列表。App 就緒後就會顯示。",
       "chipLabel": "{{app}}：選項",
       "menuLabel": "「{{app}}」的選項",
@@ -1902,7 +1899,6 @@
       "addShort": "加入網站",
       "recent": {
         "heading": "最近使用的網站",
-        "hint": "你聽寫過但還沒有風格的網站。按一下其中一個即可在該網站使用「{{group}}」。",
         "addLabel": "將 {{host}} 加入「{{group}}」"
       },
       "add": {

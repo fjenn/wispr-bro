@@ -84,7 +84,6 @@ export function About() {
       <div data-testid="wb-about-support">
         <SettingRow
           title={t("settingsModal.about.supportTitle")}
-          description={t("settingsModal.about.supportBody", { appName })}
           control={
             <>
               <Button

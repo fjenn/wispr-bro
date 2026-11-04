@@ -258,13 +258,13 @@
         "title": "Tasarımı gereği gizli",
         "local": "Dikteleriniz ve verileriniz bu Mac’te kalır.",
         "noCloud": "Konuşma tanıma, temizleme ve Geçmiş yerel olarak çalışır. Hesap, telemetri, bulutta dikte veya bulutta temizleme yoktur.",
+        "network": "Ağı ne kullanıyor",
         "networkIntro": "Wispr Bro ağı yalnızca şu iki şey için kullanır:",
         "models": "Konuşma ve temizleme modellerini Hugging Face’ten (huggingface.co) indirmek.",
         "updates": "Güncelleme denetimleri açıkken GitHub’da (github.com) uygulama güncellemelerini aramak."
       },
       "locations": {
         "title": "Verilerinizin konumu",
-        "hint": "Bu klasörler Wispr Bro’nun bu Mac’te tuttuğu her şeyi içerir.",
         "data": "Uygulama verileri ve ayarlar",
         "models": "İndirilen modeller",
         "recordings": "Kayıtlar",
@@ -368,8 +368,7 @@
       "licenseLink": "Lisansı görüntüle",
       "credit": "CJ Pais’in geliştirdiği Handy üzerine kurulmuştur ve MIT Lisansı kapsamında kullanılmaktadır. Handy’ye emek veren herkese teşekkürler.",
       "creditLink": "GitHub’da Handy",
-      "supportTitle": "Geliştirmeyi destekleyin",
-      "supportBody": "{{appName}} uygulamasının ücretli planı yoktur. En iyi destek, GitHub’da bir hata raporu, bir fikir veya bir katkıdır."
+      "supportTitle": "Geliştirmeyi destekleyin"
     },
     "hotkeys": {
       "open": "Kestirmeler",
@@ -1090,7 +1089,7 @@
     },
     "banner": {
       "title": "{{appName}} uygulamasına kendi kelimelerinizi öğretin",
-      "body": "Adları, ürün terimlerini ve kısaltmaları ekleyin; sizin yazdığınız gibi yazılsınlar. Ya da söylediğiniz bir kelimeyi istediğiniz metinle değiştirin.",
+      "lead": "Adlar, terimler ve kısaltmalar, sizin yazdığınız gibi.",
       "examplesLabel": "Örnekler",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1526,11 +1525,10 @@
     },
     "banner": {
       "title": "Birkaç kelime söyleyin, metnin tamamı gelsin",
-      "body": "Tekrar tekrar yazdığınız metinleri kaydedin. Herhangi bir uygulamada, işaret ifadesini tek başına ya da cümlenin ortasında söyleyin; {{appName}} kayıtlı metni satır sonlarıyla birlikte yazar.",
+      "lead": "Kısa bir ipucu söyleyin, {{appName}} metnin tamamını yazsın.",
       "examplesLabel": "Örnekler",
       "example1": "“adresim” → tam posta adresiniz",
-      "example2": "“kapanışım” → Saygılarımla ve adınız",
-      "example3": "“randevu bağlantım” → görüşme ayarlamak için kullanılan bağlantı"
+      "example2": "“kapanışım” → Saygılarımla ve adınız"
     },
     "entry": {
       "becomes": "şöyle yazılır:",
@@ -1956,7 +1954,6 @@
       "listLabel": "{{group}} stilini kullanan uygulamalar",
       "addShort": "Uygulama ekle",
       "allOthers": "Başka bir grupta olmayan tüm uygulamalar da bu stili kullanır.",
-      "empty": "Henüz uygulama yok. “Uygulama ekle” ile bir tane ekleyin.",
       "unavailable": "Uygulamalar yüklenemedi. Uygulama hazır olduğunda görünecekler.",
       "chipLabel": "{{app}}: seçenekler",
       "menuLabel": "{{app}} seçenekleri",
@@ -1979,7 +1976,6 @@
       "addShort": "Web sitesi ekle",
       "recent": {
         "heading": "Son kullanılan web siteleri",
-        "hint": "Dikte ettiğiniz ve henüz stili olmayan web siteleri. Orada “{{group}}” kullanmak için birine tıklayın.",
         "addLabel": "{{host}} sitesini “{{group}}” stiline ekle"
       },
       "add": {

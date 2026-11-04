@@ -260,13 +260,13 @@
         "title": "Soukromí už v základu",
         "local": "Vaše diktáty a data zůstávají na tomto Macu.",
         "noCloud": "Rozpoznávání řeči, vyčištění i Historie běží lokálně. Žádný účet, telemetrie, diktování ani vyčištění v cloudu.",
+        "network": "Co používá síť",
         "networkIntro": "Wispr Bro používá síť jen pro tyto dvě věci:",
         "models": "Stažení modelů řeči a vyčištění z Hugging Face (huggingface.co).",
         "updates": "Hledání aktualizací aplikace na GitHubu (github.com), když je kontrola aktualizací zapnutá."
       },
       "locations": {
         "title": "Kde jsou vaše data",
-        "hint": "V těchto složkách je vše, co Wispr Bro v tomto Macu uchovává.",
         "data": "Data a nastavení aplikace",
         "models": "Stažené modely",
         "recordings": "Nahrávky",
@@ -370,8 +370,7 @@
       "licenseLink": "Zobrazit licenci",
       "credit": "Postaveno na aplikaci Handy od CJ Paise, použité podle licence MIT. Děkujeme všem, kdo na ní pracují.",
       "creditLink": "Handy na GitHubu",
-      "supportTitle": "Podpořit vývoj",
-      "supportBody": "{{appName}} nemá žádný placený tarif. Nejlépe pomůžete hlášením chyby, nápadem nebo příspěvkem na GitHubu."
+      "supportTitle": "Podpořit vývoj"
     },
     "hotkeys": {
       "open": "Zkratky",
@@ -1126,7 +1125,7 @@
     },
     "banner": {
       "title": "Naučte {{appName}} svá slova",
-      "body": "Přidejte jména, názvy produktů a zkratky, aby se psaly po vašem, nebo nahraďte vyslovené slovo textem, který chcete.",
+      "lead": "Jména, termíny a zkratky napsané po vašem.",
       "examplesLabel": "Příklady",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1612,11 +1611,10 @@
     },
     "banner": {
       "title": "Řekněte pár slov a získejte celý text",
-      "body": "Uložte si text, který píšete pořád dokola. Vyslovte jeho povel samostatně nebo uprostřed věty v libovolné aplikaci a {{appName}} napíše uložený text včetně zalomení řádků.",
+      "lead": "Řekněte krátké heslo a {{appName}} napíše celý text.",
       "examplesLabel": "Příklady",
       "example1": "„moje adresa“ → vaše úplná poštovní adresa",
-      "example2": "„můj podpis“ → S pozdravem a vaše jméno",
-      "example3": "„můj rezervační odkaz“ → odkaz, přes který si lidé rezervují hovor"
+      "example2": "„můj podpis“ → S pozdravem a vaše jméno"
     },
     "entry": {
       "becomes": "se napíše jako",
@@ -2110,7 +2108,6 @@
       "listLabel": "Aplikace se stylem {{group}}",
       "addShort": "Přidat aplikaci",
       "allOthers": "Tento styl používají také všechny aplikace, které nejsou v jiné skupině.",
-      "empty": "Zatím tu nejsou žádné aplikace. Přidejte je tlačítkem Přidat aplikaci.",
       "unavailable": "Aplikace se nepodařilo načíst. Zobrazí se, až bude aplikace připravená.",
       "chipLabel": "{{app}}: možnosti",
       "menuLabel": "Možnosti pro {{app}}",
@@ -2133,7 +2130,6 @@
       "addShort": "Přidat web",
       "recent": {
         "heading": "Nedávno použité weby",
-        "hint": "Weby, na kterých jste diktovali a které zatím nemají styl. Kliknutím na některý tam použijete styl „{{group}}“.",
         "addLabel": "Přidat {{host}} do stylu „{{group}}“"
       },
       "add": {

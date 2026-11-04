@@ -441,7 +441,6 @@ styleTest.describe("style page", () => {
         bundleId: "com.tinyspeck.slackmacgap",
       });
       await expect(chips(page)).toHaveCount(0);
-      await expect(page.getByTestId("wb-style-apps-empty")).toBeVisible();
       await page.getByRole("tab", { name: "Other" }).click();
       await expect(chips(page)).toHaveText(["Notes", "Slack"]);
       // Other has no Remove: every other app is in it already.
@@ -531,7 +530,7 @@ styleTest.describe("style page", () => {
   );
 
   styleTest(
-    "keyboard only: tabs, a preset, an app's menu",
+    "keyboard only: tabs, an app's menu, a preset, the websites",
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style);
       await page.getByRole("tab", { name: "Personal messages" }).focus();
@@ -550,9 +549,14 @@ styleTest.describe("style page", () => {
       await expect(page.getByRole("menu")).toBeVisible();
       await page.keyboard.press("Escape");
       await expect(chip(page, "com.tinyspeck.slackmacgap")).toBeFocused();
-      // Add app, the site chip, then the selected preset.
+      // Add app, then the presets (declutter pass: before the websites).
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-style-add-app")).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
+      await page.keyboard.press("ArrowRight");
+      await expect(page.getByRole("radio", { name: "Relaxed" })).toBeChecked();
+      // Then the site chip and Add website.
       await page.keyboard.press("Tab");
       await expect(
         page.locator(
@@ -561,10 +565,6 @@ styleTest.describe("style page", () => {
       ).toBeFocused();
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-style-add-site")).toBeFocused();
-      await page.keyboard.press("Tab");
-      await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
-      await page.keyboard.press("ArrowRight");
-      await expect(page.getByRole("radio", { name: "Relaxed" })).toBeChecked();
       await expect
         .poll(() => hub.forkSettings.styles)
         .toMatchObject({
@@ -640,12 +640,15 @@ styleTest.describe("websites (OT2-C)", () => {
   );
 
   styleTest(
-    "recently used websites are offered for one click",
+    "recently used websites are offered for one click in the add dialog",
     async ({ page, ipc, hub, style }) => {
       style.recentSites.add("forum.example.org");
       style.recentSites.add("app.slack.com");
       await openStyle(page, ipc, hub, style);
-      const recent = page.getByTestId("wb-style-site-recent");
+      // Declutter pass: the suggestions live in the dialog only.
+      await expect(page.getByTestId("wb-style-site-recent")).toHaveCount(0);
+      await page.getByTestId("wb-style-add-site").click();
+      const recent = page.getByTestId("wb-style-site-add-recent-item");
       // Only dictated sites with no style: not Slack (built in).
       await expect(recent).toHaveText(["forum.example.org"]);
       await expect(recent).toHaveAccessibleName(
@@ -656,14 +659,8 @@ styleTest.describe("websites (OT2-C)", () => {
         host: "forum.example.org",
         group: "personal",
       });
+      await expect(page.getByRole("dialog")).toBeHidden();
       await expect(siteChip(page, "forum.example.org")).toBeVisible();
-      await expect(recent).toHaveCount(0);
-      // Other lists unassigned sites as members, not as suggestions.
-      style.recentSites.add("news.example.net");
-      await page.getByRole("tab", { name: "Other" }).click();
-      await page.getByRole("tab", { name: "Work messages" }).click();
-      await page.getByRole("tab", { name: "Other" }).click();
-      await expect(page.getByTestId("wb-style-sites-recent")).toHaveCount(0);
     },
   );
 
@@ -708,9 +705,13 @@ styleTest.describe("websites (OT2-C)", () => {
         ),
       ).toHaveCount(0);
       await expect(page.getByTestId("wb-style-sites-more")).toHaveCount(0);
+      // The built-in note lives in the add dialog (declutter pass).
+      await expect(page.getByTestId("wb-style-sites-note")).toHaveCount(0);
+      await page.getByTestId("wb-style-add-site").click();
       await expect(page.getByTestId("wb-style-sites-note")).toHaveText(
         "Many common websites already get the right style without being listed here.",
       );
+      await page.keyboard.press("Escape");
       await expect(
         shown.first().getByTestId("wb-style-site-monogram"),
       ).toHaveAttribute("data-letter", "S");

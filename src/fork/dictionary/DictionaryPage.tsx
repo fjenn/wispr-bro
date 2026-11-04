@@ -439,7 +439,7 @@ export function DictionaryPage() {
         id={BANNER_ID}
         image={photos.dictionary.src}
         title={t("dictionary.banner.title", { appName })}
-        body={t("dictionary.banner.body")}
+        body={t("dictionary.banner.lead")}
         examplesLabel={t("dictionary.banner.examplesLabel")}
         examples={[
           t("dictionary.banner.example1"),

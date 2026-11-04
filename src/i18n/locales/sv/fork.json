@@ -258,13 +258,13 @@
         "title": "Privat i grunden",
         "local": "Din diktering och dina data stannar på den här datorn.",
         "noCloud": "Taligenkänning, rensning och Historik körs lokalt. Det finns inget konto, ingen telemetri, ingen diktering i molnet och ingen rensning i molnet.",
+        "network": "Vad som använder nätverket",
         "networkIntro": "Wispr Bro använder bara nätverket till de här två sakerna:",
         "models": "Hämta tal- och rensningsmodeller från Hugging Face (huggingface.co).",
         "updates": "Söka efter appuppdateringar på GitHub (github.com) när uppdateringskontroller är på."
       },
       "locations": {
         "title": "Var dina data finns",
-        "hint": "De här mapparna rymmer allt Wispr Bro sparar på den här Macen.",
         "data": "Appdata och inställningar",
         "models": "Hämtade modeller",
         "recordings": "Inspelningar",
@@ -368,8 +368,7 @@
       "licenseLink": "Visa licens",
       "credit": "Bygger på Handy av CJ Pais och används under MIT-licensen. Tack till alla som arbetar med det.",
       "creditLink": "Handy på GitHub",
-      "supportTitle": "Stöd utvecklingen",
-      "supportBody": "{{appName}} har ingen betalplan. Bäst stöd är en buggrapport, en idé eller ett bidrag på GitHub."
+      "supportTitle": "Stöd utvecklingen"
     },
     "hotkeys": {
       "open": "Kortkommandon",
@@ -1090,7 +1089,7 @@
     },
     "banner": {
       "title": "Lär {{appName}} dina ord",
-      "body": "Lägg till namn, produkttermer och förkortningar så att de stavas som du vill, eller ersätt ett ord du säger med den text du vill ha.",
+      "lead": "Namn, termer och förkortningar stavade på ditt sätt.",
       "examplesLabel": "Exempel",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1526,11 +1525,10 @@
     },
     "banner": {
       "title": "Säg några ord, få hela texten",
-      "body": "Spara text som du skriver om och om igen. Säg frasen för sig eller mitt i en mening, i valfri app, så skriver {{appName}} den sparade texten, radbrytningar och allt.",
+      "lead": "Säg ett kort stickord så skriver {{appName}} hela texten.",
       "examplesLabel": "Exempel",
       "example1": "”min adress” → din fullständiga postadress",
-      "example2": "”min hälsning” → Vänliga hälsningar och ditt namn",
-      "example3": "”min bokningslänk” → länken som andra använder för att boka ett samtal"
+      "example2": "”min hälsning” → Vänliga hälsningar och ditt namn"
     },
     "entry": {
       "becomes": "skrivs som",
@@ -1956,7 +1954,6 @@
       "listLabel": "Appar som använder stilen ”{{group}}”",
       "addShort": "Lägg till app",
       "allOthers": "Alla appar som inte finns i en annan grupp använder också den här stilen.",
-      "empty": "Inga appar här än. Lägg till en med Lägg till app.",
       "unavailable": "Apparna kunde inte läsas in. De visas när appen är klar.",
       "chipLabel": "{{app}}: inställningar",
       "menuLabel": "Inställningar för {{app}}",
@@ -1979,7 +1976,6 @@
       "addShort": "Lägg till webbplats",
       "recent": {
         "heading": "Nyligen använda webbplatser",
-        "hint": "Webbplatser du har dikterat på som ännu inte har någon stil. Klicka på en för att använda ”{{group}}” där.",
         "addLabel": "Lägg till {{host}} i ”{{group}}”"
       },
       "add": {

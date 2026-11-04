@@ -259,13 +259,13 @@
         "title": "Confidentiel par conception",
         "local": "Vos dictées et vos données restent sur ce Mac.",
         "noCloud": "La reconnaissance vocale, le nettoyage et l’Historique fonctionnent en local. Pas de compte, pas de télémétrie, ni dictée ni nettoyage dans le cloud.",
+        "network": "Ce qui utilise le réseau",
         "networkIntro": "Wispr Bro n’utilise le réseau que pour ces deux choses :",
         "models": "Télécharger les modèles vocaux et de nettoyage depuis Hugging Face (huggingface.co).",
         "updates": "Si la recherche de mises à jour est activée, chercher les mises à jour de l’app sur GitHub (github.com)."
       },
       "locations": {
         "title": "Emplacement de vos données",
-        "hint": "Ces dossiers contiennent tout ce que Wispr Bro garde sur ce Mac.",
         "data": "Données et réglages de l’app",
         "models": "Modèles téléchargés",
         "recordings": "Enregistrements",
@@ -369,8 +369,7 @@
       "licenseLink": "Voir la licence",
       "credit": "Basé sur Handy de CJ Pais, utilisé sous licence MIT. Merci à toutes les personnes qui y contribuent.",
       "creditLink": "Handy sur GitHub",
-      "supportTitle": "Soutenir le développement",
-      "supportBody": "{{appName}} n’a pas de formule payante. Le meilleur soutien : un rapport de bug, une idée ou une contribution sur GitHub."
+      "supportTitle": "Soutenir le développement"
     },
     "hotkeys": {
       "open": "Raccourcis",
@@ -1108,7 +1107,7 @@
     },
     "banner": {
       "title": "Apprenez vos mots à {{appName}}",
-      "body": "Ajoutez des noms, des termes de produit et des acronymes pour qu’ils soient écrits à votre façon, ou remplacez un mot prononcé par le texte de votre choix.",
+      "lead": "Noms, termes et sigles, écrits à votre façon.",
       "examplesLabel": "Exemples",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1569,11 +1568,10 @@
     },
     "banner": {
       "title": "Dites quelques mots, obtenez tout le texte",
-      "body": "Enregistrez les textes que vous écrivez sans cesse. Dites leur mot-clé seul ou au milieu d’une phrase, dans n’importe quelle app, et {{appName}} écrit le texte enregistré, sauts de ligne compris.",
+      "lead": "Dites un mot-clé et {{appName}} écrit le texte entier.",
       "examplesLabel": "Exemples",
       "example1": "« mon adresse » → votre adresse postale complète",
-      "example2": "« ma signature » → Bien cordialement, suivi de votre nom",
-      "example3": "« mon lien de réservation » → le lien pour réserver un appel avec vous"
+      "example2": "« ma signature » → Bien cordialement, suivi de votre nom"
     },
     "entry": {
       "becomes": "s’écrit",
@@ -2033,7 +2031,6 @@
       "listLabel": "Apps qui utilisent le style {{group}}",
       "addShort": "Ajouter une app",
       "allOthers": "Toutes les apps qui ne figurent dans aucun autre groupe utilisent aussi ce style.",
-      "empty": "Aucune app pour l’instant. Ajoutez-en une avec Ajouter une app.",
       "unavailable": "Impossible de charger les apps. Elles apparaîtront quand l’app sera prête.",
       "chipLabel": "{{app}} : options",
       "menuLabel": "Options pour {{app}}",
@@ -2056,7 +2053,6 @@
       "addShort": "Ajouter un site",
       "recent": {
         "heading": "Sites web utilisés récemment",
-        "hint": "Les sites web où vous avez dicté et qui n’ont pas encore de style. Cliquez sur l’un d’eux pour y utiliser « {{group}} ».",
         "addLabel": "Ajouter {{host}} à « {{group}} »"
       },
       "add": {

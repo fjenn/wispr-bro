@@ -24,6 +24,12 @@ test("privacy promises name both allowed hosts and every local folder opens", as
 }) => {
   await openSettingsModal(page, ipc, "privacy");
   const privacy = page.getByTestId("wb-settings-privacy");
+  // The two hosts sit behind a disclosure (declutter pass).
+  const network = page.getByTestId("wb-privacy-network");
+  await expect(network.getByText("huggingface.co")).toBeHidden();
+  await network.getByText("What uses the network").click();
+  await expect(network).toHaveAttribute("open", "");
+  await expect(network).toBeVisible();
   await expect(privacy).toContainText("huggingface.co");
   await expect(privacy).toContainText("github.com");
   await expect(privacy).toContainText("no account, telemetry, cloud dictation");

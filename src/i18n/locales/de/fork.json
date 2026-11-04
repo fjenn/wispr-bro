@@ -258,13 +258,13 @@
         "title": "Privat aus Prinzip",
         "local": "Deine Diktate und Daten bleiben auf diesem Mac.",
         "noCloud": "Spracherkennung, Bereinigung und Verlauf laufen lokal. Es gibt kein Konto, keine Telemetrie, kein Cloud-Diktat und keine Cloud-Bereinigung.",
+        "network": "Was das Netzwerk nutzt",
         "networkIntro": "Wispr Bro nutzt das Netzwerk nur für diese zwei Dinge:",
         "models": "Sprach- und Bereinigungsmodelle von Hugging Face (huggingface.co) laden.",
         "updates": "Bei aktivierter Updateprüfung auf GitHub (github.com) nach App-Updates suchen."
       },
       "locations": {
         "title": "Wo deine Daten liegen",
-        "hint": "In diesen Ordnern liegt alles, was Wispr Bro auf diesem Mac speichert.",
         "data": "App-Daten und Einstellungen",
         "models": "Heruntergeladene Modelle",
         "recordings": "Aufnahmen",
@@ -368,8 +368,7 @@
       "licenseLink": "Lizenz anzeigen",
       "credit": "Basiert auf Handy von CJ Pais, genutzt unter der MIT-Lizenz. Danke an alle, die daran mitarbeiten.",
       "creditLink": "Handy auf GitHub",
-      "supportTitle": "Entwicklung unterstützen",
-      "supportBody": "{{appName}} hat kein kostenpflichtiges Abo. Am meisten hilft ein Fehlerbericht, eine Idee oder ein Beitrag auf GitHub."
+      "supportTitle": "Entwicklung unterstützen"
     },
     "hotkeys": {
       "open": "Kurzbefehle",
@@ -1090,7 +1089,7 @@
     },
     "banner": {
       "title": "Bring {{appName}} deine Wörter bei",
-      "body": "Füge Namen, Produktbegriffe und Abkürzungen hinzu, damit sie so geschrieben werden, wie du willst, oder ersetze ein gesprochenes Wort durch den Text deiner Wahl.",
+      "lead": "Namen, Begriffe und Abkürzungen, so geschrieben, wie du willst.",
       "examplesLabel": "Beispiele",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1526,11 +1525,10 @@
     },
     "banner": {
       "title": "Ein paar Worte sagen, den ganzen Text bekommen",
-      "body": "Sichere Text, den du immer wieder schreibst. Sag sein Stichwort allein oder mitten im Satz, in jeder App, und {{appName}} schreibt den gespeicherten Text samt Zeilenumbrüchen.",
+      "lead": "Sag ein kurzes Stichwort und {{appName}} schreibt den ganzen Text.",
       "examplesLabel": "Beispiele",
       "example1": "„meine Adresse“ → deine vollständige Postadresse",
-      "example2": "„meine Grußformel“ → Viele Grüße und dein Name",
-      "example3": "„mein Buchungslink“ → der Link, über den andere einen Termin buchen"
+      "example2": "„meine Grußformel“ → Viele Grüße und dein Name"
     },
     "entry": {
       "becomes": "wird geschrieben als",
@@ -1956,7 +1954,6 @@
       "listLabel": "Apps mit dem Stil „{{group}}“",
       "addShort": "App hinzufügen",
       "allOthers": "Alle Apps, die in keiner anderen Gruppe sind, nutzen ebenfalls diesen Stil.",
-      "empty": "Noch keine Apps. Füge mit „App hinzufügen“ eine hinzu.",
       "unavailable": "Die Apps konnten nicht geladen werden. Sie erscheinen, sobald die App bereit ist.",
       "chipLabel": "{{app}}: Optionen",
       "menuLabel": "Einstellungen für {{app}}",
@@ -1979,7 +1976,6 @@
       "addShort": "Website hinzufügen",
       "recent": {
         "heading": "Zuletzt verwendete Websites",
-        "hint": "Websites, auf denen du diktiert hast und die noch keinen Stil haben. Klick auf eine, um dort „{{group}}“ zu verwenden.",
         "addLabel": "{{host}} zu „{{group}}“ hinzufügen"
       },
       "add": {

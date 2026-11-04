@@ -259,13 +259,13 @@
         "title": "Privat per disseny",
         "local": "El teu dictat i les teves dades no surten d'aquest Mac.",
         "noCloud": "El reconeixement de veu, la neteja i l'Historial funcionen localment. No hi ha compte, ni telemetria, ni dictat ni neteja al núvol.",
+        "network": "Què fa servir la xarxa",
         "networkIntro": "Wispr Bro utilitza la xarxa només per a aquestes dues coses:",
         "models": "Baixar models de veu i de neteja de Hugging Face (huggingface.co).",
         "updates": "Quan la comprovació d'actualitzacions està activada, cercar actualitzacions de l'app a GitHub (github.com)."
       },
       "locations": {
         "title": "On es desen les teves dades",
-        "hint": "Aquestes carpetes contenen tot el que Wispr Bro conserva en aquest Mac.",
         "data": "Dades i configuració de l'app",
         "models": "Models baixats",
         "recordings": "Enregistraments",
@@ -369,8 +369,7 @@
       "licenseLink": "Veure la llicència",
       "credit": "Basat en Handy de CJ Pais, utilitzat sota la llicència MIT. Gràcies a tothom que hi contribueix.",
       "creditLink": "Handy al GitHub",
-      "supportTitle": "Donar suport al desenvolupament",
-      "supportBody": "{{appName}} no té cap pla de pagament. El millor suport és un informe d'error, una idea o una contribució a GitHub."
+      "supportTitle": "Donar suport al desenvolupament"
     },
     "hotkeys": {
       "open": "Dreceres",
@@ -1108,7 +1107,7 @@
     },
     "banner": {
       "title": "Ensenya les teves paraules a {{appName}}",
-      "body": "Afegeix noms, termes de productes i sigles perquè s'escriguin com tu vols, o substitueix una paraula que dius pel text que vulguis.",
+      "lead": "Noms, termes i sigles, escrits a la teva manera.",
       "examplesLabel": "Exemples",
       "example1": "Siobhán",
       "example2": "Kubernetes",
@@ -1569,11 +1568,10 @@
     },
     "banner": {
       "title": "Digues unes paraules i obtén el text sencer",
-      "body": "Desa el text que escrius una vegada i una altra. Digues la frase clau sola o enmig d'una frase, en qualsevol app, i {{appName}} escriu el text desat, amb salts de línia inclosos.",
+      "lead": "Digues una paraula clau i {{appName}} escriu el text sencer.",
       "examplesLabel": "Exemples",
       "example1": "“la meva adreça” → la teva adreça postal completa",
-      "example2": "“el meu comiat” → Salutacions cordials, i el teu nom",
-      "example3": "“el meu enllaç de reserva” → l'enllaç que la gent fa servir per reservar una trucada"
+      "example2": "“el meu comiat” → Salutacions cordials, i el teu nom"
     },
     "entry": {
       "becomes": "s'escriu com",
@@ -2033,7 +2031,6 @@
       "listLabel": "Apps que fan servir l'estil {{group}}",
       "addShort": "Afegir una app",
       "allOthers": "Totes les apps que no són en un altre grup també fan servir aquest estil.",
-      "empty": "Encara no hi ha cap app. Afegeix-ne una amb Afegir una app.",
       "unavailable": "No s'han pogut carregar les apps. Apareixeran quan l'app estigui a punt.",
       "chipLabel": "{{app}}: opcions",
       "menuLabel": "Opcions per a {{app}}",
@@ -2056,7 +2053,6 @@
       "addShort": "Afegeix lloc web",
       "recent": {
         "heading": "Llocs web utilitzats recentment",
-        "hint": "Llocs web on has dictat que encara no tenen estil. Fes clic en un per fer-hi servir “{{group}}”.",
         "addLabel": "Afegeix {{host}} a “{{group}}”"
       },
       "add": {
