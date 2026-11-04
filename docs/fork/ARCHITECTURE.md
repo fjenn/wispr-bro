@@ -2681,3 +2681,55 @@ com.wisprbro.desktop/fork.db` on the developer's Mac. Under test, a
   Handy's mapping saturates at about -38.8 on its scale, so speech has
   only 5-10 dB over a room to show in); a 400 ms gap starts a new take.
   `is_voice` and the silence warning still read Handy's raw levels.
+
+## Owner test 2: quiet speech and whispers (`fix/quiet`, OT2-B)
+
+The owner's rc3 report, in a café: a whisper was not picked up (Wispr Flow
+takes it) and even quiet speech did not move the bar at all. Measured on a
+test set made at test time (`fork/audio/quiet_set.rs`: `say` sentences from
+`scripts/wb-quiet/make-speech.sh` at dictation level, −20 dB, −30/−35 dB
+voiced and LPC-whispered, over synthetic café noise — pink, 120 Hz hum,
+distant babble of six other voices — at 0-20 dB SNR, plus noise-only takes)
+through Handy's own capture path (`fork/audio/quiet_bench.rs`).
+
+- **What dropped quiet takes: the voice detector.** Silero (threshold 0.3)
+  judged whispers and soft speech at 0-3 dB SNR as noise, so the recorder
+  kept fragments or nothing ("No speech heard"). The recognizers are fine
+  with the same audio once they get it: a take-level gain before the
+  recognizer changed nothing (turbo 16.7 → 16.4 % alone, 3.6 → 3.5 % on
+  top of the detector fix; unified 5.0 → 5.1 %). Every empty take in the
+  bench (16 of 184 quiet ones before, 2 after) was empty because the
+  detector kept no audio; the recognizer never returned nothing for audio
+  it got. Nothing else trims or gates a take: Handy's `stop_recording`
+  only pads short takes, and whisper's no-speech threshold stays at the
+  engine default (Handy passes no whisper knobs; the bench runs the same
+  options).
+- **`fork/audio/condition.rs` `detector`** wraps the detector Handy's
+  `create_detector` builds (one hook line, `managers/audio.rs`), so the
+  recording's VAD and long-take chunking both use it. Each frame is judged
+  on a copy brought towards −24 dBFS by a gain that follows the recent
+  speech peak (up at once, down 6 dB/s) and is capped at 30 dB and by the
+  room: the noise floor (a slow minimum, up 3 dB/s) is never raised above
+  −50 dBFS. The inner detector keeps its threshold and state; the
+  recording keeps the original samples. The take-level gain
+  (`for_recognizer`) stays in the file under `cfg(test)` for the bench.
+- **`fork/audio/speech.rs` `SpeechMeter`** replaces the broadband meter for
+  the mic test (`monitor.rs`) and the Flow Bar. `BANDS` (= the bar count, 11) RBJ band-passes from 250 Hz to 5.5 kHz at any sample rate (mixed to
+  mono), a reading every 16 ms over 32 ms, a noise floor per band (12th
+  percentile of 3 s; no reading in the first 400 ms). Presence = mean
+  excess of the 4 most excited bands over their floors, minus a 4 dB knee
+  (what steady noise scores), on `1 − e^(−x/5 dB)` (most of the range in
+  the first few dB). Level = presence × (0.3 + 0.7 × loudness), loudness
+  = the frame's dBFS on −70..−4; bars = level × (0.35 + 0.65 × the band's
+  own excess on 2..20 dB); 40 ms attack, 120 ms release. Noise reads ~0
+  whatever its level (each band's floor is its noise); a whisper about a
+  third; ordinary speech most; only loud speech the top.
+- **The take tap.** `handy_recorder::set_chunk_tap` (vendored crate, added)
+  hands every delivered chunk to `speech::on_chunk` on the delivery thread
+  (installed in `fork::audio::on_ready`); a 400 ms gap starts a new meter.
+  `fork::pill::on_levels` takes the bars from `speech::latest()` when the
+  tap is live (`Waveform::push_reading`), else Handy's buckets as before.
+  The hands-free silence timer (rule 8) and the silence warning also count
+  `presence ≥ 0.5` as voice, so a whispered hands-free take is not stopped
+  as silent.
+- **Frontend.** `settings/meterBars.ts` lights no bar below 0.05.
