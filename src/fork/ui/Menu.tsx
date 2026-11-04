@@ -46,6 +46,9 @@ export interface MenuProps {
    * item that opens a dialog).
    */
   onCloseAutoFocus?: (event: Event) => void;
+  /** Controlled open state (OT2-E: Help › Support opens the Support menu). */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function Menu({
@@ -56,12 +59,14 @@ export function Menu({
   label,
   testId,
   onCloseAutoFocus,
+  open,
+  onOpenChange,
 }: MenuProps) {
   const pinned = usePinnedThemeProps();
   return (
     // Non-modal: the rest of the window stays readable (no aria-hidden on
     // it); Esc, a click outside or Tab closes the menu.
-    <RadixMenu.Root modal={false}>
+    <RadixMenu.Root modal={false} open={open} onOpenChange={onOpenChange}>
       <RadixMenu.Trigger asChild>{trigger}</RadixMenu.Trigger>
       <RadixMenu.Portal>
         <RadixMenu.Content

@@ -14,7 +14,7 @@
  * settings load the banner is not shown (no flash of a dismissed banner); if
  * they cannot be read it is shown and still dismisses for this session.
  */
-import { useState, type ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
@@ -44,6 +44,14 @@ export interface BannerProps {
   aside?: ReactNode;
   /** Background photo URL (bundled asset); graded dark on the left. */
   image?: string;
+  /**
+   * Where the photo's subject starts, as a fraction of the photo's width
+   * from its left edge (OT2-E: the Home mic at 0.58). The photo is then
+   * anchored at its start edge, so cropping only ever pushes the subject
+   * further from the text, and the text column stops short of it; in RTL
+   * the photo is mirrored with the text.
+   */
+  imageSubjectAt?: number;
 }
 
 export function Banner({
@@ -58,6 +66,7 @@ export function Banner({
   art,
   aside,
   image,
+  imageSubjectAt,
 }: BannerProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const status = useForkSettingsStore((s) => s.status);
@@ -89,6 +98,7 @@ export function Banner({
       art={art}
       aside={aside}
       image={image}
+      imageSubjectAt={imageSubjectAt}
       onDismiss={dismiss}
       dismissLabel={t("ui.banner.dismiss")}
     />
@@ -116,10 +126,22 @@ export function Hero({
   art,
   aside,
   image,
+  imageSubjectAt,
   onDismiss,
   dismissLabel,
 }: HeroProps) {
   const titleId = `wb-banner-${id}-title`;
+  // With a known subject the text column ends 24 px before it. Banner
+  // photos are 4:1 and the hero is at least 180 px tall, so under
+  // `object-cover` anchored at the start the photo is at least
+  // max(width, 720 px) wide and the subject starts at least
+  // `imageSubjectAt` × that from the start edge. The section is the
+  // `hero` container: its width is 100cqw plus the 64 px padding, and the
+  // text column starts 32 px in, hence the 56 px.
+  const textMax =
+    image && imageSubjectAt !== undefined
+      ? `calc(${imageSubjectAt} * max(100cqw + 64px, 720px) - 56px)`
+      : undefined;
   return (
     <section
       aria-labelledby={titleId}
@@ -132,7 +154,10 @@ export function Hero({
             src={image}
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 -z-20 size-full object-cover"
+            data-subject-at={imageSubjectAt}
+            className={`absolute inset-0 -z-20 size-full object-cover ${
+              imageSubjectAt !== undefined ? "object-left rtl:-scale-x-100" : ""
+            }`}
           />
           <div
             aria-hidden="true"
@@ -146,7 +171,19 @@ export function Hero({
         />
       )}
       <div
-        className={`flex min-w-0 flex-1 flex-col gap-2 ${image ? "@min-[560px]/hero:max-w-[64%]" : ""}`}
+        data-testid={`wb-banner-${id}-text`}
+        className={`flex min-w-0 flex-1 flex-col gap-2 ${
+          textMax
+            ? "max-w-(--wb-hero-text-max)"
+            : image
+              ? "@min-[560px]/hero:max-w-[64%]"
+              : ""
+        }`}
+        style={
+          textMax
+            ? ({ "--wb-hero-text-max": textMax } as CSSProperties)
+            : undefined
+        }
       >
         <h2 id={titleId} className="type-serif-title pe-8 text-(--wb-on-hero)">
           {title}

@@ -632,6 +632,32 @@ body {
   }
 }
 
+/*
+ * OT2-E: focus modality (`src/fork/ui/focusModality.ts`). A ring on a
+ * control only after keyboard navigation: focus moved by script after a
+ * click or a deep link (a dialog's autofocus, a tab panel) matches
+ * `:focus-visible` in WebKit, and macOS shows no ring there. Text fields
+ * keep their ring however they were focused (the ring marks the caret's
+ * field). Box-shadow rings (Tailwind `ring-*`) are cleared through their
+ * variable, so a control's own shadow stays.
+ */
+html:not([data-wb-modality="keyboard"])
+  :focus-visible:not(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="button"],
+      [type="submit"],
+      [type="reset"]
+    ),
+    textarea,
+    [contenteditable]:not([contenteditable="false"])
+  ) {
+  outline: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+}
+
 /* Native checkboxes and radios that pages still draw take the ink. */
 input[type="checkbox"],
 input[type="radio"] {

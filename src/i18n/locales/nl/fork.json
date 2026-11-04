@@ -602,6 +602,14 @@
       "readyHint": "De update installeert zichzelf zodra je 20 minuten niet hebt gedicteerd, of als je stopt.",
       "policy": "Updates worden op de achtergrond gedownload en geïnstalleerd zodra je 20 minuten niet hebt gedicteerd, of als je stopt.",
       "needsPassword": "Deze kopie van de app staat in een map waarvoor een beheerderswachtwoord nodig is, dus updates worden alleen geïnstalleerd als je “Start nu opnieuw” kiest."
+    },
+    "support": {
+      "nav": "Steun {{appName}}",
+      "title": "Steun {{appName}}",
+      "free": "Gratis en open source",
+      "sponsor": "Sponsor op GitHub",
+      "star": "Geef een ster op GitHub",
+      "contribute": "Bijdragen"
     }
   },
   "ui": {
@@ -2662,6 +2670,11 @@
         },
         "showTrayIcon": {
           "description": "Toon het Wispr Bro-pictogram in de menubalk."
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Automatisch (aanbevolen)"
+          }
         }
       },
       "debug": {

@@ -599,6 +599,14 @@
       "readyHint": "你 20 分鐘沒有聽寫或結束 App 時，更新會自動安裝。",
       "policy": "更新會在背景下載，並在你 20 分鐘沒有聽寫時或結束 App 時安裝。",
       "needsPassword": "此 App 所在的檔案夾需要管理者密碼才能更改，因此只有在你選擇「立即重新啟動」時才會安裝更新。"
+    },
+    "support": {
+      "nav": "支持 {{appName}}",
+      "title": "支持 {{appName}}",
+      "free": "免費開源",
+      "sponsor": "在 GitHub 上贊助",
+      "star": "在 GitHub 上加星號",
+      "contribute": "參與貢獻"
     }
   },
   "ui": {

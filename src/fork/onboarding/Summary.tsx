@@ -8,7 +8,7 @@
  * dictating; the flow then completes and the resting bar appears (DEC-38).
  */
 import { useEffect, useState } from "react";
-import { Check } from "../ui/icons";
+import { Check, Minus } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "@/hooks/useSettings";
 import { languageList } from "@/lib/constants/languages";
@@ -50,9 +50,12 @@ export function Summary({
 
   const spoken = handy?.spoken_languages ?? [];
   const wpm = fork?.typing_wpm ?? null;
-  const rows: { id: string; label: string; value: string }[] = [
+  // `set: false` rows (nothing chosen, or skipped) get a neutral dash, not
+  // the green tick (OT2-E, Mac wave 6: a tick beside "Not set").
+  const rows: { id: string; label: string; value: string; set: boolean }[] = [
     {
       id: "languages",
+      set: spoken.length > 0,
       label: t("onboardingFlow.summary.languages"),
       value: spoken.length
         ? languageList(spoken, i18n.language)
@@ -60,6 +63,7 @@ export function Summary({
     },
     {
       id: "shortcut",
+      set: trigger === "fn" || trigger === "ctrl+option",
       label: t("onboardingFlow.summary.shortcut"),
       value:
         trigger === "fn"
@@ -70,11 +74,13 @@ export function Summary({
     },
     {
       id: "microphone",
+      set: true,
       label: t("onboardingFlow.summary.microphone"),
       value: mic || t("onboardingFlow.summary.micDefault"),
     },
     {
       id: "typing",
+      set: wpm != null,
       label: t("onboardingFlow.summary.typing"),
       value:
         wpm != null
@@ -110,12 +116,22 @@ export function Summary({
             key={row.id}
             className="flex items-start gap-3"
             data-testid={`wb-summary-${row.id}`}
+            data-state={row.set ? "set" : "unset"}
           >
-            <Check
-              size={16}
-              aria-hidden="true"
-              className="mt-0.5 shrink-0 text-(--wb-success)"
-            />
+            {row.set ? (
+              <Check
+                size={16}
+                aria-hidden="true"
+                className="mt-0.5 shrink-0 text-(--wb-success)"
+              />
+            ) : (
+              <Minus
+                size={16}
+                aria-hidden="true"
+                data-testid={`wb-summary-${row.id}-unset`}
+                className="mt-0.5 shrink-0 text-(--wb-ink-3)"
+              />
+            )}
             <dt className="w-[120px] shrink-0 text-(--wb-ink-2)">
               {row.label}
             </dt>

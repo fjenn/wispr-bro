@@ -7,13 +7,16 @@ import {
   LOCALES_DIR,
   UPSTREAM_BRAND,
   brandKeys,
+  caseKeys,
   computeLocale,
   flatten,
   handyStrings,
+  isTitleCase,
   locales,
   markup,
   readJson,
   rebrand,
+  sentenceCase,
 } from "./wb-brand-overrides";
 
 type Json = { [key: string]: string | Json };
@@ -105,5 +108,69 @@ describe("rebrand grammar", () => {
     );
     expect(rebrand("Handy'yi başlat", "tr")).toBe("Wispr Bro'yu başlat");
     expect(rebrand("Handy'ye", "tr")).toBe("Wispr Bro'ya");
+  });
+});
+
+describe("sentence case (OT2-E)", () => {
+  test("English labels", () => {
+    expect(sentenceCase("Launch on Startup", "en")).toBe("Launch on startup");
+    expect(sentenceCase("Auto-Delete Recordings", "en")).toBe(
+      "Auto-delete recordings",
+    );
+    expect(sentenceCase("Paste Delay (Before)", "en")).toBe(
+      "Paste delay (before)",
+    );
+    expect(sentenceCase("Traditional (Hong Kong)", "en")).toBe(
+      "Traditional (Hong Kong)",
+    );
+    expect(sentenceCase("Translate to English", "en")).toBe(
+      "Translate to English",
+    );
+    expect(sentenceCase("Wispr Bro Shortcuts", "en")).toBe(
+      "Wispr Bro shortcuts",
+    );
+    expect(sentenceCase("API Key", "en")).toBe("API key");
+    expect(sentenceCase("Clipboard (Ctrl+Shift+V)", "en")).toBe(
+      "Clipboard (Ctrl+Shift+V)",
+    );
+    expect(isTitleCase("Launch on Startup")).toBe(true);
+    expect(isTitleCase("Show release notes after Wispr Bro updates")).toBe(
+      false,
+    );
+  });
+
+  test("other locales: only Title Case text, names kept", () => {
+    expect(sentenceCase("Geçmiş Limiti", "tr")).toBe("Geçmiş limiti");
+    expect(sentenceCase("Son İşlem", "tr")).toBe("Son işlem");
+    // Already sentence case: the option's name keeps its capital.
+    expect(sentenceCase("Limita Automatico alle mie lingue", "it")).toBe(
+      "Limita Automatico alle mie lingue",
+    );
+    expect(sentenceCase("Terjemahkan ke Bahasa Inggris", "id")).toBe(
+      "Terjemahkan ke bahasa Inggris",
+    );
+    expect(sentenceCase("Ограничить «Авто» Моими Языками", "ru")).toBe(
+      "Ограничить «Авто» моими языками",
+    );
+    expect(sentenceCase("Anthropic Messages", "pt")).toBe("Anthropic Messages");
+    // Caseless languages and German are left as translated.
+    expect(sentenceCase("Beim Start Ausführen", "de")).toBe(
+      "Beim Start Ausführen",
+    );
+    expect(sentenceCase("起動時に実行", "ja")).toBe("起動時に実行");
+  });
+
+  test("every English Title Case label outside the tray is overridden", () => {
+    const overrides = overridesOf("en");
+    const keys = caseKeys(english);
+    expect(keys.length).toBeGreaterThan(50);
+    expect(keys.some((k) => k.startsWith("tray."))).toBe(false);
+    for (const key of keys) {
+      const value = overrides.get(key) ?? english.get(key)!;
+      expect(
+        isTitleCase(value) && sentenceCase(value, "en") !== value,
+        key,
+      ).toBe(false);
+    }
   });
 });

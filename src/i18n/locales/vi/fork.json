@@ -599,6 +599,14 @@
       "readyHint": "Bản cập nhật tự cài đặt khi bạn không đọc chính tả trong 20 phút, hoặc khi bạn thoát.",
       "policy": "Bản cập nhật được tải về trong nền và được cài đặt khi bạn không đọc chính tả trong 20 phút, hoặc khi bạn thoát.",
       "needsPassword": "Bản sao ứng dụng này nằm trong thư mục cần mật khẩu quản trị viên để thay đổi, vì vậy bản cập nhật chỉ được cài khi bạn chọn Khởi động lại ngay."
+    },
+    "support": {
+      "nav": "Ủng hộ {{appName}}",
+      "title": "Ủng hộ {{appName}}",
+      "free": "Miễn phí và mã nguồn mở",
+      "sponsor": "Tài trợ trên GitHub",
+      "star": "Gắn sao trên GitHub",
+      "contribute": "Đóng góp"
     }
   },
   "ui": {
@@ -2571,6 +2579,12 @@
         },
         "showTrayIcon": {
           "description": "Hiển thị biểu tượng Wispr Bro trên thanh menu."
+        },
+        "clipboardHandling": {
+          "title": "Xử lý clipboard",
+          "options": {
+            "dontModify": "Không sửa đổi clipboard"
+          }
         }
       },
       "debug": {
@@ -2601,6 +2615,15 @@
             "details": "Tính năng chuyển giọng nói thành văn bản cục bộ của Wispr Bro được xây dựng trên transcribe.cpp và ggml. Cảm ơn công sức tuyệt vời của Georgi Gerganov và các cộng tác viên."
           }
         }
+      },
+      "postProcessing": {
+        "prompts": {
+          "createNew": "Tạo prompt mới",
+          "promptLabel": "Nhãn prompt",
+          "promptInstructions": "Hướng dẫn prompt",
+          "deletePrompt": "Xóa prompt",
+          "createPrompt": "Tạo prompt"
+        }
       }
     },
     "whatsNew": {
@@ -2611,6 +2634,12 @@
     },
     "theme": {
       "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
+    },
+    "modelSelector": {
+      "modelReady": "Mô hình sẵn sàng",
+      "modelError": "Lỗi mô hình",
+      "modelUnloaded": "Mô hình đã gỡ",
+      "noModelDownloadRequired": "Chưa có mô hình - cần tải xuống"
     }
   }
 }

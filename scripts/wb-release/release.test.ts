@@ -147,3 +147,36 @@ describe("latest.json", () => {
     );
   });
 });
+
+describe("DMG install window (OT2-E)", () => {
+  test("the overlay's layout fits the window and the background matches it", async () => {
+    const { dmgLayout, pngSize, ICON_SIZE } = await import("./dmg/background");
+    const l = dmgLayout();
+    expect(l.width).toBe(660);
+    expect(l.height).toBe(400);
+    for (const p of [l.app, l.applications]) {
+      // Icon and a two-line label stay inside the window.
+      expect(p.x - ICON_SIZE / 2).toBeGreaterThan(0);
+      expect(p.x + ICON_SIZE / 2).toBeLessThan(l.width);
+      expect(p.y + ICON_SIZE / 2 + 40).toBeLessThan(l.height);
+    }
+    expect(l.app.x).toBeLessThan(l.applications.x);
+    const bg = join(ROOT, "src-tauri", l.background);
+    expect(pngSize(bg)).toEqual([l.width, l.height]);
+    expect(pngSize(bg.replace(/\.png$/, "@2x.png"))).toEqual([
+      2 * l.width,
+      2 * l.height,
+    ]);
+  });
+
+  test("the tray tone reads with Finder's dark and light labels", async () => {
+    const { TRAY } = await import("./dmg/background");
+    const ch = (i: number) => {
+      const c = parseInt(TRAY.slice(i, i + 2), 16) / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    };
+    const L = 0.2126 * ch(1) + 0.7152 * ch(3) + 0.0722 * ch(5);
+    expect(1.05 / (L + 0.05)).toBeGreaterThanOrEqual(4.5);
+    expect((L + 0.05) / 0.05).toBeGreaterThanOrEqual(4.5);
+  });
+});

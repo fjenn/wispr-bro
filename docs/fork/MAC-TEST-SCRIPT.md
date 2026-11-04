@@ -2887,6 +2887,72 @@ Build the read-back helper once:
       profile, signed out) goes in without cleanup (its cleanup reason is
       `ai_chat`) and without a style.
 
+### Owner test 2 fixes, part E (`fix/polish2`, OT2-E)
+
+Owner feedback on rc3: the DMG window, About's GitHub links, Support in the
+sidebar, and four design calls from Mac wave 6. Never the owner's Wispr Bro,
+`/Applications/Wispr Bro.app` or its data; no sudo. UI checks run on a debug
+test bundle (`com.wisprbro.polish2check`, shortcuts unbound,
+`WISPRBRO_HUB_ROUTE` for deep links) with `screencapture -l` on the app's own
+windows, light and dark, English and Arabic.
+
+- [x] OT2.1 **Builder run (2026-11-04): FIX → PASS.** The first dry run built
+      the app and the DMG with its window (every install-window check
+      passed) but `codesign --verify --deep --strict` rejected the app in
+      the image: hiding the `.app` extension (`SetFile -a E`) had put Finder
+      info on the bundle. The extension is no longer hidden (Finder hides
+      `.app` by default anyway); the DMG rebuilt by `dmg/build.sh` from the
+      same app then passed `verify.sh --unsigned` in full (window checks,
+      ad-hoc signature deep/strict, `--list-devices` smoke). Unsigned dry run
+      of the release pipeline: `macos.sh --out <scratch> --unsigned` runs the
+      tauri build, then `dmg/build.sh`, then `verify.sh --unsigned`, which reads
+      the mounted image's `.DS_Store`: background 1x + 2x, toolbar, sidebar and
+      status bar hidden, 660 × 400, icons 128, Wispr Bro.app at (180, 228),
+      Applications at (480, 228). No Finder window was opened (the image is
+      attached `-nobrowse`). A second full `macos.sh --unsigned` run after the
+      fix built the DMG through the pipeline; its `verify.sh` stalled in a
+      subshell `source` of `dmg/build.sh` and then in a plain `hdiutil detach`
+      while the Mac was loaded, so the venv lookup became `build.sh
+--print-python` and the detach gets 60 s before `-force`; `verify.sh
+--unsigned` on that DMG then passed every check in 3.4 s.
+- [ ] OT2.2 **Queued for the Mac wave.** The DMG window by eye: open the
+      dry-run (or next rc's) DMG in Finder, light and dark appearance.
+      Pass: the window opens at about 660 × 400 with no toolbar or sidebar,
+      our background whole (heading "Drag to install", the help line, the
+      tray, the arrow; nothing cut off at the bottom), the app icon left
+      and Applications right on the tray at 128 pt, both labels readable
+      (dark in light mode, light in dark mode), the volume icon is ours;
+      dragging the app onto Applications copies it (to a scratch
+      Applications folder alias if the owner's must stay untouched: drag
+      onto a Finder window of `<scratch>/Applications` instead). Then the
+      signed path: the next rc's `verify.sh` lists the install-window
+      checks and passes, and the stapled DMG still opens with no Gatekeeper
+      prompt.
+- [ ] OT2.3 **Queued for the Mac wave.** Sidebar Support: the item sits
+      between Share with a friend and Settings, stays at the bottom with the
+      setup card open at the default window size; a click opens "Support
+      Wispr Bro" (Star on GitHub with GitHub's mark, Contribute, Send
+      feedback; no Sponsor item); Help › Get in touch › Support Wispr Bro
+      opens the same menu. Light/dark, Arabic. Links are not clicked (they
+      open the owner's browser).
+- [ ] OT2.4 **Queued for the Mac wave.** Settings › About: View source code,
+      View license and Handy on GitHub show the GitHub mark in the button's
+      ink, crisp at 2x, light and dark.
+- [ ] OT2.5 **Queued for the Mac wave.** Handy's hosted rows in sentence
+      case: Settings › System ("Launch on startup", "Show tray icon", "Start
+      hidden"), Advanced and the debug rows; the Turkish and Italian Hub
+      show their rows in sentence case; Japanese and German unchanged.
+- [ ] OT2.6 **Queued for the Mac wave.** Home banner: at the default window
+      and at full screen, English and Arabic, the heading, body and button
+      stay clear of the microphone in the photo.
+- [ ] OT2.7 **Queued for the Mac wave.** Onboarding Summary on the unbound
+      test profile: "Not set" rows show a grey dash, set rows the green tick.
+- [ ] OT2.8 **Queued for the Mac wave.** No focus ring after a deep link:
+      `WISPRBRO_HUB_ROUTE=#/hub/settings/microphone` at launch, Help ›
+      Microphone by mouse, the tray's Shortcuts…, and a tab deep link
+      (Insights › Voice): no ring on the close button or the tab panel; one
+      Tab press then draws the ring on the next control.
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.

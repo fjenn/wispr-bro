@@ -605,6 +605,14 @@
       "readyHint": "Ela é instalada sozinha depois de 20 minutos sem ditado, ou quando você encerra o app.",
       "policy": "As atualizações são baixadas em segundo plano e instaladas depois de 20 minutos sem ditar, ou quando você encerra o app.",
       "needsPassword": "Esta cópia do app está em uma pasta que exige senha de administrador para ser alterada, então as atualizações só são instaladas quando você escolhe Reiniciar agora."
+    },
+    "support": {
+      "nav": "Apoiar o {{appName}}",
+      "title": "Apoiar o {{appName}}",
+      "free": "Gratuito e de código aberto",
+      "sponsor": "Patrocinar no GitHub",
+      "star": "Dar uma estrela no GitHub",
+      "contribute": "Contribuir"
     }
   },
   "ui": {
@@ -2730,7 +2738,18 @@
     "settings": {
       "general": {
         "shortcut": {
-          "title": "Atalhos do Wispr Bro"
+          "title": "Atalhos do Wispr Bro",
+          "bindings": {
+            "transcribe": {
+              "name": "Atalho de transcrição"
+            },
+            "cancel": {
+              "name": "Atalho de cancelar"
+            },
+            "transcribe_with_post_process": {
+              "name": "Tecla de pós-processamento"
+            }
+          }
         },
         "preferredLanguages": {
           "description": "Os idiomas que você fala. O Wispr Bro os usa para recomendar modelos."
@@ -2749,20 +2768,88 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Abrir o Wispr Bro automaticamente ao iniciar sessão no Mac."
+          "description": "Abrir o Wispr Bro automaticamente ao iniciar sessão no Mac.",
+          "label": "Iniciar na inicialização"
         },
         "showTrayIcon": {
           "description": "Exibir o ícone do Wispr Bro na barra de menus."
+        },
+        "experimentalToggle": {
+          "label": "Recursos experimentais"
+        },
+        "startHidden": {
+          "label": "Iniciar oculto"
+        },
+        "overlay": {
+          "position": {
+            "title": "Posição da sobreposição"
+          }
+        },
+        "pasteMethod": {
+          "title": "Método de colar",
+          "options": {
+            "clipboard": "Área de transferência ({{modifier}}+V)",
+            "clipboardCtrlShiftV": "Área de transferência (Ctrl+Shift+V)",
+            "clipboardShiftInsert": "Área de transferência (Shift+Insert)"
+          }
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Auto (recomendado)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Manipulação da área de transferência",
+          "options": {
+            "dontModify": "Não modificar área de transferência"
+          }
+        },
+        "modelUnload": {
+          "title": "Descarregar modelo"
+        },
+        "customWords": {
+          "title": "Palavras personalizadas"
         }
       },
       "debug": {
         "updateChecks": {
           "description": "Verificar automaticamente novas versões do Wispr Bro",
-          "lockedDescription": "Desativado pela configuração do sistema (WISPRBRO_DISABLE_UPDATER)"
+          "lockedDescription": "Desativado pela configuração do sistema (WISPRBRO_DISABLE_UPDATER)",
+          "label": "Verificar atualizações"
         },
         "keyboardDiagnostic": {
           "description": "Verifica se os eventos de teclado chegam ao Wispr Bro. Apenas a contagem de eventos é registrada — nunca quais teclas você pressiona.",
           "verdictOk": "Os eventos de tecla estão chegando normalmente ao Wispr Bro."
+        },
+        "logDirectory": {
+          "title": "Diretório de logs"
+        },
+        "liveLogs": {
+          "title": "Logs ao vivo"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Limite de correção de palavras"
+        },
+        "historyLimit": {
+          "title": "Limite de histórico"
+        },
+        "recordingRetention": {
+          "title": "Excluir gravações automaticamente"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Microfone sempre ativo"
+        },
+        "clamshellMicrophone": {
+          "title": "Microfone em modo fechado"
+        },
+        "muteWhileRecording": {
+          "label": "Silenciar durante gravação"
+        },
+        "appendTrailingSpace": {
+          "label": "Adicionar espaço final"
+        },
+        "keyboardImplementation": {
+          "title": "Implementação do teclado"
         }
       },
       "about": {
@@ -2773,26 +2860,70 @@
           "description": "Mostrar notas de versão após atualizações do Wispr Bro"
         },
         "appDataDirectory": {
-          "description": "Local onde o Wispr Bro armazena seus dados"
+          "description": "Local onde o Wispr Bro armazena seus dados",
+          "title": "Diretório de dados do app"
         },
         "supportDevelopment": {
-          "description": "Ajude a continuar o desenvolvimento do Wispr Bro"
+          "description": "Ajude a continuar o desenvolvimento do Wispr Bro",
+          "title": "Apoiar o desenvolvimento"
         },
         "acknowledgments": {
           "ggml": {
             "details": "A transcrição local do Wispr Bro é feita com transcribe.cpp e ggml. Obrigado pelo trabalho incrível de Georgi Gerganov e dos colaboradores."
           }
+        },
+        "sourceCode": {
+          "title": "Código fonte"
         }
+      },
+      "sound": {
+        "audioFeedback": {
+          "label": "Feedback de áudio"
+        },
+        "outputDevice": {
+          "title": "Dispositivo de saída"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "baseUrl": {
+            "title": "URL base"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Prompt selecionado"
+          },
+          "createNew": "Criar novo prompt",
+          "promptLabel": "Rótulo do prompt",
+          "promptInstructions": "Instruções do prompt",
+          "updatePrompt": "Atualizar prompt",
+          "deletePrompt": "Excluir prompt",
+          "createPrompt": "Criar prompt"
+        }
+      },
+      "history": {
+        "openFolder": "Abrir pasta de gravações"
       }
     },
     "whatsNew": {
       "title": "Novidades no Wispr Bro v{{version}}"
     },
     "appLanguage": {
-      "description": "Alterar o idioma da interface do Wispr Bro"
+      "description": "Alterar o idioma da interface do Wispr Bro",
+      "title": "Idioma da aplicação"
     },
     "theme": {
       "description": "Escolha se o Wispr Bro segue o tema do sistema ou fica sempre claro ou escuro"
+    },
+    "modelSelector": {
+      "modelReady": "Modelo pronto",
+      "modelError": "Erro no modelo",
+      "modelUnloaded": "Modelo descarregado",
+      "noModelDownloadRequired": "Sem modelo - download necessário"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Verificação de atualização desabilitada"
     }
   }
 }

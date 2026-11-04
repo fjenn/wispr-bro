@@ -23,6 +23,9 @@ export function PromoBanner() {
     <Banner
       id={PROMO_BANNER_ID}
       image={photos.home.src}
+      // The mic starts at 58 % of the photo: keep the text clear of it
+      // (OT2-E, Mac wave 6 observation).
+      imageSubjectAt={0.58}
       title={t("hub.pages.dictation.banner.title")}
       body={t("hub.pages.dictation.banner.body", { appName })}
       action={{

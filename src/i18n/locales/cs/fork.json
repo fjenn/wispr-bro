@@ -608,6 +608,14 @@
       "readyHint": "Nainstaluje se sama, jakmile 20 minut nebudete diktovat, nebo při ukončení aplikace.",
       "policy": "Aktualizace se stahují na pozadí a instalují se, když 20 minut nediktujete, nebo při ukončení aplikace.",
       "needsPassword": "Tato kopie aplikace je ve složce, jejíž změna vyžaduje heslo správce, takže se aktualizace nainstalují, jen když zvolíte Restartovat."
+    },
+    "support": {
+      "nav": "Podpořte {{appName}}",
+      "title": "Podpořte {{appName}}",
+      "free": "Zdarma a s otevřeným kódem",
+      "sponsor": "Sponzorovat na GitHubu",
+      "star": "Dát hvězdičku na GitHubu",
+      "contribute": "Přispět"
     }
   },
   "ui": {
@@ -2844,6 +2852,11 @@
         },
         "showTrayIcon": {
           "description": "Zobrazovat ikonu Wispr Bro na řádku nabídek."
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Auto (doporučeno)"
+          }
         }
       },
       "debug": {

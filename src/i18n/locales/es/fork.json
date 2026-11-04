@@ -605,6 +605,14 @@
       "readyHint": "Se instala sola cuando llevas 20 minutos sin dictar o cuando sales de la app.",
       "policy": "Las actualizaciones se descargan en segundo plano y se instalan cuando llevas 20 minutos sin dictar o cuando sales de la app.",
       "needsPassword": "Esta copia de la app está en una carpeta que requiere una contraseña de administrador para modificarla, así que las actualizaciones solo se instalan cuando eliges “Reiniciar ahora”."
+    },
+    "support": {
+      "nav": "Apoya {{appName}}",
+      "title": "Apoya {{appName}}",
+      "free": "Gratis y de código abierto",
+      "sponsor": "Patrocina en GitHub",
+      "star": "Dale una estrella en GitHub",
+      "contribute": "Contribuye"
     }
   },
   "ui": {

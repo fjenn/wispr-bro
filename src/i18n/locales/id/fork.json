@@ -599,6 +599,14 @@
       "readyHint": "Pembaruan terinstal sendiri setelah Anda tidak mendikte selama 20 menit, atau saat Anda keluar.",
       "policy": "Pembaruan diunduh di latar belakang dan diinstal setelah Anda tidak mendikte selama 20 menit, atau saat Anda keluar.",
       "needsPassword": "Salinan app ini berada di folder yang memerlukan kata sandi administrator untuk diubah, jadi pembaruan hanya terinstal saat Anda memilih Mulai ulang sekarang."
+    },
+    "support": {
+      "nav": "Dukung {{appName}}",
+      "title": "Dukung {{appName}}",
+      "free": "Gratis dan sumber terbuka",
+      "sponsor": "Sponsori di GitHub",
+      "star": "Beri bintang di GitHub",
+      "contribute": "Berkontribusi"
     }
   },
   "ui": {
@@ -2548,10 +2556,25 @@
     "settings": {
       "general": {
         "shortcut": {
-          "title": "Pintasan Wispr Bro"
+          "title": "Pintasan Wispr Bro",
+          "bindings": {
+            "transcribe": {
+              "name": "Pintasan transkripsi"
+            },
+            "cancel": {
+              "name": "Pintasan batal"
+            },
+            "transcribe_with_post_process": {
+              "name": "Pintasan pascaproses"
+            }
+          }
         },
         "preferredLanguages": {
-          "description": "Bahasa yang Anda gunakan. Wispr Bro memakainya untuk merekomendasikan model."
+          "description": "Bahasa yang Anda gunakan. Wispr Bro memakainya untuk merekomendasikan model.",
+          "title": "Bahasa pilihan"
+        },
+        "shortcutActivation": {
+          "title": "Perilaku pintasan"
         }
       },
       "models": {
@@ -2570,17 +2593,131 @@
           "description": "Mulai Wispr Bro secara otomatis saat Anda masuk ke Mac."
         },
         "showTrayIcon": {
-          "description": "Tampilkan ikon Wispr Bro di bar menu."
+          "description": "Tampilkan ikon Wispr Bro di bar menu.",
+          "label": "Tampilkan ikon baki sistem"
+        },
+        "experimentalToggle": {
+          "label": "Fitur eksperimental"
+        },
+        "lazyStreamClose": {
+          "label": "Biarkan mikrofon tetap aktif di antara transkripsi"
+        },
+        "overlay": {
+          "position": {
+            "title": "Posisi overlay"
+          }
+        },
+        "pasteMethod": {
+          "title": "Metode tempel",
+          "options": {
+            "externalScript": "Skrip eksternal"
+          }
+        },
+        "typingTool": {
+          "title": "Alat pengetikan",
+          "options": {
+            "auto": "Otomatis (direkomendasikan)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Penanganan papan klip",
+          "options": {
+            "dontModify": "Jangan ubah papan klip",
+            "copyToClipboard": "Salin ke papan klip"
+          }
+        },
+        "autoSubmit": {
+          "title": "Kirim otomatis"
+        },
+        "translateToEnglish": {
+          "label": "Terjemahkan ke bahasa Inggris"
+        },
+        "customWords": {
+          "title": "Kata khusus"
+        },
+        "voiceActivityDetection": {
+          "title": "Deteksi aktivitas suara"
+        },
+        "longFormChunking": {
+          "title": "Pemisahan audio panjang"
+        },
+        "vadBackend": {
+          "title": "Backend deteksi aktivitas suara"
+        },
+        "fillerWordRemoval": {
+          "title": "Hapus kata pengisi"
         }
       },
       "debug": {
         "updateChecks": {
           "description": "Periksa versi baru Wispr Bro secara otomatis",
-          "lockedDescription": "Dinonaktifkan oleh konfigurasi sistem (WISPRBRO_DISABLE_UPDATER)"
+          "lockedDescription": "Dinonaktifkan oleh konfigurasi sistem (WISPRBRO_DISABLE_UPDATER)",
+          "label": "Periksa pembaruan"
         },
         "keyboardDiagnostic": {
           "description": "Memeriksa apakah peristiwa papan ketik mencapai Wispr Bro. Hanya jumlah peristiwa yang dicatat — tidak pernah tombol yang Anda tekan.",
-          "verdictOk": "Peristiwa tombol mencapai Wispr Bro secara normal."
+          "verdictOk": "Peristiwa tombol mencapai Wispr Bro secara normal.",
+          "title": "Diagnostik keyboard"
+        },
+        "liveLogs": {
+          "title": "Log waktu nyata"
+        },
+        "whatsNewPreview": {
+          "title": "Pratinjau yang baru"
+        },
+        "onboardingPreview": {
+          "title": "Pratinjau penyiapan awal"
+        },
+        "onboardingRun": {
+          "title": "Jalankan orientasi"
+        },
+        "modelMigration": {
+          "title": "Migrasi model"
+        },
+        "soundTheme": {
+          "label": "Tema suara"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Ambang koreksi kata"
+        },
+        "historyLimit": {
+          "title": "Batas riwayat"
+        },
+        "recordingRetention": {
+          "title": "Hapus rekaman secara otomatis"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Mikrofon selalu aktif"
+        },
+        "clamshellMicrophone": {
+          "title": "Mikrofon saat laptop ditutup"
+        },
+        "muteWhileRecording": {
+          "label": "Bisukan saat merekam"
+        },
+        "appendTrailingSpace": {
+          "label": "Tambahkan spasi di akhir"
+        },
+        "keyboardImplementation": {
+          "title": "Implementasi keyboard"
+        },
+        "pasteDelay": {
+          "title": "Jeda tempel (sebelum)"
+        },
+        "pasteDelayAfter": {
+          "title": "Jeda tempel (sesudah)"
+        },
+        "holdThreshold": {
+          "title": "Ambang waktu tahan"
+        },
+        "reliablePaste": {
+          "title": "Tempel lebih andal (beta)"
+        },
+        "recordingBuffer": {
+          "title": "Buffer perekaman tambahan"
+        },
+        "languageDetectionWindow": {
+          "title": "Audio deteksi bahasa"
         }
       },
       "about": {
@@ -2588,29 +2725,84 @@
           "description": "Versi Wispr Bro saat ini"
         },
         "whatsNewUpdates": {
-          "description": "Tampilkan catatan rilis setelah Wispr Bro diperbarui"
+          "description": "Tampilkan catatan rilis setelah Wispr Bro diperbarui",
+          "label": "Tampilkan yang baru"
         },
         "appDataDirectory": {
-          "description": "Lokasi Wispr Bro menyimpan datanya"
+          "description": "Lokasi Wispr Bro menyimpan datanya",
+          "title": "Direktori data aplikasi"
         },
         "supportDevelopment": {
-          "description": "Bantu kami terus mengembangkan Wispr Bro"
+          "description": "Bantu kami terus mengembangkan Wispr Bro",
+          "title": "Dukung pengembangan"
         },
         "acknowledgments": {
           "ggml": {
             "details": "Fitur ucapan-ke-teks lokal Wispr Bro dibangun di atas transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
           }
+        },
+        "sourceCode": {
+          "title": "Kode sumber"
         }
+      },
+      "sound": {
+        "channel": {
+          "title": "Kanal masukan"
+        },
+        "audioFeedback": {
+          "label": "Umpan balik audio"
+        },
+        "outputDevice": {
+          "title": "Perangkat keluaran"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "baseUrl": {
+            "title": "URL dasar"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Prompt terpilih"
+          },
+          "createNew": "Buat prompt baru",
+          "promptLabel": "Label prompt",
+          "promptInstructions": "Instruksi prompt",
+          "updatePrompt": "Perbarui prompt",
+          "deletePrompt": "Hapus prompt",
+          "createPrompt": "Buat prompt"
+        }
+      },
+      "history": {
+        "openFolder": "Buka folder rekaman",
+        "transcribeFile": "Transkripsikan file"
       }
     },
     "whatsNew": {
       "title": "Baru di Wispr Bro v{{version}}"
     },
     "appLanguage": {
-      "description": "Ubah bahasa antarmuka Wispr Bro"
+      "description": "Ubah bahasa antarmuka Wispr Bro",
+      "title": "Bahasa aplikasi"
     },
     "theme": {
-      "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap"
+      "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap",
+      "title": "Tema aplikasi"
+    },
+    "modelSelector": {
+      "modelReady": "Model siap",
+      "modelError": "Kesalahan model",
+      "noModelDownloadRequired": "Model belum tersedia — perlu diunduh"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Pemeriksaan pembaruan dinonaktifkan"
+    },
+    "errors": {
+      "micPermissionDeniedTitle": "Akses mikrofon ditolak",
+      "noInputDeviceTitle": "Mikrofon tidak ditemukan",
+      "pasteFailedTitle": "Gagal menempelkan teks",
+      "transcriptionFailedTitle": "Transkripsi gagal"
     }
   }
 }

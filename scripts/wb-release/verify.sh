@@ -7,7 +7,9 @@
 #
 #   DMG:     signed by our Team ID, notarized and stapled
 #            (`spctl -t open --context context:primary-signature`,
-#            `stapler validate`)
+#            `stapler validate`); the install window's background (1x and
+#            2x), hidden toolbar/sidebar, window and icon size and icon
+#            positions (`dmg/check_layout.py`, against bundle.macOS.dmg)
 #   app:     (inside the DMG) `codesign --verify --deep --strict`, identifier,
 #            version, minimum macOS, hardened runtime, Team ID on every Mach-O
 #            incl. the `llama-server` sidecar, `spctl -a -t exec` (Notarized
@@ -51,7 +53,10 @@ check() { # <label> <command…>
 WORK="$(mktemp -d)"
 MNT="${WORK}/mnt"
 cleanup() {
-  hdiutil detach "$MNT" -quiet >/dev/null 2>&1 || true
+  # A plain detach can hang on a busy image (seen in the OT2-E dry run while
+  # the Mac was under load): give it 60 s, then force it.
+  perl -e 'alarm 60; exec @ARGV' hdiutil detach "$MNT" -quiet >/dev/null 2>&1 ||
+    perl -e 'alarm 60; exec @ARGV' hdiutil detach -force "$MNT" -quiet >/dev/null 2>&1 || true
   rm -rf "$WORK"
 }
 trap cleanup EXIT
@@ -70,6 +75,18 @@ hdiutil attach "$DMG" -nobrowse -readonly -noautoopen -mountpoint "$MNT" -quiet
 APP="${MNT}/${PRODUCT}.app"
 [[ -d "$APP" ]] && ok "DMG holds ${PRODUCT}.app" || { ko "no ${PRODUCT}.app in the DMG"; exit 1; }
 [[ -L "${MNT}/Applications" ]] && ok "DMG has the Applications link" || ko "no Applications link"
+# The install window (OT2-E): background picture (1x + 2x), toolbar and
+# sidebar hidden, window size, icon size and both icon positions, read from
+# the volume's .DS_Store against the overlay's bundle.macOS.dmg.
+echo "== DMG install window"
+DMG_PY="$("${ROOT}/scripts/wb-release/dmg/build.sh" --print-python)"
+if layout="$("$DMG_PY" -I "${ROOT}/scripts/wb-release/dmg/check_layout.py" "$MNT" "${ROOT}/src-tauri/tauri.fork.conf.json" 2>&1)"; then
+  echo "$layout"
+else
+  echo "$layout"
+  n="$(grep -c '✗' <<<"$layout" || true)"
+  fails=$((fails + (n > 0 ? n : 1)))
+fi
 
 verify_app() { # <app> <label>
   local app="$1" label="$2" plist="$1/Contents/Info.plist"
@@ -83,6 +100,7 @@ verify_app() { # <app> <label>
   [[ "$ver" == "$VERSION" ]] && ok "version $ver" || ko "version $ver ≠ $VERSION"
   [[ "$minos" == "13.0" ]] && ok "minimum macOS $minos" || ko "minimum macOS $minos"
   [[ -x "${app}/Contents/MacOS/llama-server" ]] && ok "llama-server sidecar present" || ko "llama-server missing"
+  APP_EXE="${app}/Contents/MacOS/${exe}"
   if [[ $UNSIGNED == 1 ]]; then
     check "ad-hoc signature valid (deep, strict)" codesign --verify --deep --strict "$app"
     return
