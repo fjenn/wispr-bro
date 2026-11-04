@@ -162,7 +162,6 @@ mod tests {
             name: "Polish".into(),
             instruction: "Polish".into(),
             edits: Vec::new(),
-            unclear: Vec::new(),
             guard: super::super::record::GuardProfile::Flexible,
         }
     }

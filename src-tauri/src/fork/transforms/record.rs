@@ -22,9 +22,6 @@ pub struct Definition {
     pub instruction: String,
     /// Exact edits applied by code after the model (or alone) (OT2-D).
     pub edits: Vec<super::literal::Edit>,
-    /// Letters the instruction asks the model to change without a clear
-    /// mapping; a reply that leaves them all alone was not applied.
-    pub unclear: Vec<super::literal::Target>,
     pub guard: GuardProfile,
 }
 

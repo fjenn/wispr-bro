@@ -1422,10 +1422,7 @@
       "title": "Stor Första Bokstav",
       "emoji": "emojier",
       "email": "e-postadresser",
-      "url": "länkar",
-      "vowels": "vokaler",
-      "consonants": "konsonanter",
-      "unclearMapping": "Ange vilken bokstav som blir vad, till exempel a → 1, e → 0."
+      "url": "länkar"
     }
   },
   "cleanup": {

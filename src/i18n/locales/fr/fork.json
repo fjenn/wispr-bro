@@ -1460,10 +1460,7 @@
       "title": "Première Lettre Capitale",
       "emoji": "émojis",
       "email": "adresses e-mail",
-      "url": "liens",
-      "vowels": "voyelles",
-      "consonants": "consonnes",
-      "unclearMapping": "Précisez quelle lettre devient quoi, par exemple a → 1, e → 0."
+      "url": "liens"
     }
   },
   "cleanup": {

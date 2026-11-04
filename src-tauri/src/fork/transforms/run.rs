@@ -215,7 +215,6 @@ pub async fn generate<E: Engine>(
         name: kind.builtin_key().to_owned(),
         instruction: instruction.to_owned(),
         edits: Vec::new(),
-        unclear: Vec::new(),
         guard: if kind == TransformKind::PromptEngineer {
             GuardProfile::Flexible
         } else {
@@ -264,11 +263,6 @@ async fn generate_within<E: Engine>(
             Err(EngineError::Failed(error)) => return Err(GenerateError::Failed(error)),
         };
         text = guarded_reply(&raw, definition.guard, source, &system)?;
-        // "Replace vowels with 1 and 0": a reply that changed none of them
-        // only cleaned the text up.
-        if literal::untouched(&definition.unclear, source, &text) {
-            return Err(GenerateError::Unchanged);
-        }
         llm_ms = started.elapsed().as_millis() as u64;
     } else if cancel.is_cancelled() {
         return Err(GenerateError::Cancelled);
@@ -350,8 +344,7 @@ fn generate_message(error: &GenerateError, definition: &record::Definition) -> O
         // Exact edits that matched nothing, or Polish on text that needs
         // nothing, report so rather than pasting the same text.
         GenerateError::Unchanged
-            if definition.unclear.is_empty()
-                && (!definition.uses_model() || definition.guard == GuardProfile::Strict) =>
+            if !definition.uses_model() || definition.guard == GuardProfile::Strict =>
         {
             Some(PillMessage::TransformNoChange)
         }
@@ -899,7 +892,6 @@ mod tests {
             name: "Mine".into(),
             instruction: instruction.into(),
             edits: literal::plan(edits).edits,
-            unclear: literal::plan(instruction).unclear,
             guard: GuardProfile::Instruction,
         }
     }
@@ -971,34 +963,6 @@ mod tests {
         assert_eq!(
             preview_outcome(&Err(no_engine), &mixed),
             PreviewOutcome::NoEngine
-        );
-    }
-
-    #[tokio::test]
-    async fn a_cleanup_for_an_unclear_letter_edit_is_not_applied() {
-        // The fake engine's "Polish" capitalises: a cleanup, no vowel changed.
-        let engine = FakeEngine {
-            delay: Duration::ZERO,
-            fail: false,
-        };
-        let vowels = definition("Polish. Replace vowels with 1 and 0", "");
-        assert!(!vowels.unclear.is_empty());
-        let error = generate_definition(
-            Some(&engine),
-            &vowels,
-            "hello there",
-            &CancellationToken::new(),
-        )
-        .await
-        .unwrap_err();
-        assert_eq!(error, GenerateError::Unchanged);
-        assert_eq!(
-            generate_message(&error, &vowels),
-            Some(PillMessage::TransformNotApplied)
-        );
-        assert_eq!(
-            preview_outcome(&Err(error), &vowels),
-            PreviewOutcome::NotApplied
         );
     }
 

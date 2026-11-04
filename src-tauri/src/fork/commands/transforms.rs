@@ -174,9 +174,6 @@ pub struct TransformPlan {
     /// The custom prompt is wholly exact edits, so the editing rules and
     /// writing examples are not used.
     pub prompt_exact: bool,
-    /// The prompt names letters with several replacements but not which
-    /// becomes which; the editor asks for a mapping.
-    pub unclear_mapping: bool,
 }
 
 #[tauri::command]
@@ -188,7 +185,6 @@ pub fn fork_transform_plan(input: TransformInput) -> TransformPlan {
     TransformPlan {
         uses_model: !compiled.instruction.is_empty(),
         prompt_exact: !plan.edits.is_empty() && plan.rest.trim().is_empty(),
-        unclear_mapping: !plan.unclear.is_empty(),
         edits: compiled.edits,
     }
 }

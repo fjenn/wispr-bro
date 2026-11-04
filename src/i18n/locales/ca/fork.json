@@ -1460,10 +1460,7 @@
       "title": "Primera Lletra En Majúscula",
       "emoji": "emojis",
       "email": "adreces electròniques",
-      "url": "enllaços",
-      "vowels": "vocals",
-      "consonants": "consonants",
-      "unclearMapping": "Digues quina lletra es converteix en quina, per exemple a → 1, e → 0."
+      "url": "enllaços"
     }
   },
   "cleanup": {

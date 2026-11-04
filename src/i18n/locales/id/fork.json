@@ -1384,10 +1384,7 @@
       "title": "Huruf Awal Kapital",
       "emoji": "emoji",
       "email": "alamat email",
-      "url": "tautan",
-      "vowels": "huruf vokal",
-      "consonants": "huruf konsonan",
-      "unclearMapping": "Sebutkan huruf mana menjadi apa, misalnya a → 1, e → 0."
+      "url": "tautan"
     }
   },
   "cleanup": {

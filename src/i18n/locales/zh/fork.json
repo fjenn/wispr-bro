@@ -1384,10 +1384,7 @@
       "title": "首字母大写",
       "emoji": "表情符号",
       "email": "电子邮件地址",
-      "url": "链接",
-      "vowels": "元音字母",
-      "consonants": "辅音字母",
-      "unclearMapping": "请说明哪个字母变成什么，例如 a → 1，e → 0。"
+      "url": "链接"
     }
   },
   "cleanup": {

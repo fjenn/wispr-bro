@@ -1498,10 +1498,7 @@
       "title": "Każde Słowo Wielką Literą",
       "emoji": "emoji",
       "email": "adresy e-mail",
-      "url": "linki",
-      "vowels": "samogłoski",
-      "consonants": "spółgłoski",
-      "unclearMapping": "Określ, która litera zmienia się w co, na przykład a → 1, e → 0."
+      "url": "linki"
     }
   },
   "cleanup": {

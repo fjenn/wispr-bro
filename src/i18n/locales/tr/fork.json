@@ -1422,10 +1422,7 @@
       "title": "Her Sözcük Büyük Harfle",
       "emoji": "emoji",
       "email": "e-posta adresleri",
-      "url": "bağlantılar",
-      "vowels": "ünlüler",
-      "consonants": "ünsüzler",
-      "unclearMapping": "Hangi harfin neye dönüşeceğini belirtin, örneğin a → 1, e → 0."
+      "url": "bağlantılar"
     }
   },
   "cleanup": {
