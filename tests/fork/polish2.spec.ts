@@ -148,6 +148,59 @@ test("About: GitHub links carry GitHub's mark", async ({ page, ipc, hub }) => {
   );
 });
 
+test("Handy's switches and rows match the fork's in Settings › System", async ({
+  page,
+  ipc,
+  hub,
+}) => {
+  await openHub(page, ipc, hub, { hash: "#/hub/settings/system" });
+  const modal = page.getByTestId("wb-settings-modal");
+  await expect(modal.getByText("Start hidden", { exact: true })).toBeVisible();
+  // Boxes of each on/off row: the row, its track and its title. Handy's
+  // switch is a `peer` checkbox and a drawn div; the fork's a role=switch.
+  const rows = await modal.evaluate((m) =>
+    [...m.querySelectorAll("input[type=checkbox]")].flatMap((i) => {
+      const handy = i.getAttribute("role") !== "switch";
+      const track = handy ? i.nextElementSibling! : i.parentElement!;
+      // Only switches that are a row's control (not one inside a sub-panel).
+      const row = handy
+        ? i.closest(".wb-handy-row")
+        : i.closest("[class*='min-h-16']");
+      if (!row) return [];
+      const title = row.querySelector(handy ? "h3" : "span[id]")!;
+      const top = row.getBoundingClientRect().y;
+      const box = (e: Element) => {
+        const b = e.getBoundingClientRect();
+        return [b.x, b.y - top, b.width, b.height];
+      };
+      return [
+        {
+          handy,
+          row: [
+            row.getBoundingClientRect().width,
+            row.getBoundingClientRect().height,
+          ],
+          track: box(track),
+          title: box(title).slice(0, 2),
+        },
+      ];
+    }),
+  );
+  const handy = rows.filter((r) => r.handy);
+  const fork = rows.filter((r) => !r.handy);
+  expect(handy.length).toBeGreaterThanOrEqual(2);
+  expect(fork.length).toBeGreaterThanOrEqual(2);
+  const ref = fork[0];
+  for (const r of handy) {
+    for (let k = 0; k < 4; k++)
+      expect(Math.abs(r.track[k] - ref.track[k])).toBeLessThan(0.75);
+    for (let k = 0; k < 2; k++) {
+      expect(Math.abs(r.title[k] - ref.title[k])).toBeLessThan(0.75);
+      expect(Math.abs(r.row[k] - ref.row[k])).toBeLessThan(1);
+    }
+  }
+});
+
 test("Handy's hosted rows read in sentence case", async ({
   page,
   ipc,
