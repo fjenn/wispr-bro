@@ -1350,24 +1350,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Przepisuj zaznaczony tekst w dowolnej aplikacji",
-      "body": "Wybierz przekształcenie, zaznacz tekst i użyj jego skrótu. Twój tekst nie opuszcza tego Maca.",
       "tryIt": "Wypróbuj",
       "howItWorks": "Jak to działa"
     },
     "enable": {
-      "title": "Włącz przekształcenia",
-      "help": "Włącz skróty przepisywania i widok zmian. Przekształcenia są wyłączone, dopóki ich nie wybierzesz."
+      "title": "Włącz przekształcenia"
     },
     "commandMode": {
       "title": "Tryb poleceń",
-      "on": "Włączony",
-      "off": "Wyłączony",
-      "help": "Przytrzymaj skrót Trybu poleceń, a potem powiedz, jak zmienić zaznaczenie lub co napisać. Bez zaznaczenia pole daje kontekst, a wynik trafia w miejsce kursora. Wszystko zostaje na tym Macu; Tryb poleceń niczego nie wyszukuje. Gdy jest wyłączony, skrót dyktuje normalnie."
+      "help": "Przytrzymaj skrót i powiedz, co napisać lub zmienić."
     },
     "auto": {
       "title": "Stosuj po każdym dyktowaniu",
-      "help": "Uruchamia wybrane przekształcenie po porządkowaniu. Jeśli nie może się zakończyć, uporządkowane dyktowanie zostaje wklejone bez zmian. Uruchomienia w odstępie krótszym niż 5 sekund są pomijane.",
       "choice": "Przekształcenie do zastosowania",
       "none": "Wybierz przekształcenie"
     },
@@ -1378,33 +1372,20 @@
     "myTransforms": "Moje przekształcenia",
     "reset": "Przywróć domyślne",
     "resetConfirm": "Przywrócić Polish i Prompt Engineer oraz usunąć wszystkie własne przekształcenia?",
-    "createNew": "Utwórz nowe",
+    "createNew": "Nowe przekształcenie",
     "deleteConfirm": "Usunąć {{name}}? Tej operacji nie można cofnąć.",
     "loading": "Wczytywanie przekształceń…",
     "empty": "Brak przekształceń. Utwórz pierwsze, aby zacząć.",
     "error": "Nie udało się zachować zmiany przekształcenia. Spróbuj ponownie.",
     "card": {
-      "createOwn": "Utwórz własne",
-      "createOwnHint": "Wybierz reguły, instrukcje i przykłady tekstu.",
       "delete": "Usuń {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Poprawia gramatykę i sformułowania, zachowując Twój styl."
-      },
-      "prompt_engineer": {
-        "description": "Zamienia luźne notatki w jasny, kompletny prompt dla AI."
-      }
-    },
     "new": {
-      "name": "Moje przekształcenie",
-      "description": "Przepisz tekst tak, jak chcę.",
-      "prompt": "Przepisz zaznaczony tekst, zachowując jego znaczenie, fakty i język."
+      "name": "Moje przekształcenie"
     },
     "editor": {
       "title": "Edytuj {{name}}",
       "name": "Nazwa",
-      "description": "Opis",
       "hotkey": "Skrót klawiszowy",
       "addHotkey": "Dodaj skrót klawiszowy",
       "example": "Przykład",
@@ -1412,8 +1393,6 @@
       "exampleText": "yyy możesz mi wysłać ten raport jutro może wtedy o tym pogadamy",
       "preview": "Podgląd",
       "previewing": "Tworzenie podglądu…",
-      "customPrompt": "Własny prompt",
-      "customPromptHelp": "Dodaj konkretne instrukcje. Zaznaczony tekst jest przekształcany, nigdy nie jest traktowany jak pytanie.",
       "rules": "Reguły edycji",
       "autosave": {
         "saved": "Autozachowywanie · Wszystkie zmiany zachowane",
@@ -1430,28 +1409,26 @@
         "failed": "Odpowiedź lokalnej AI nie przeszła kontroli bezpieczeństwa. Spróbuj ponownie lub przeformułuj polecenie.",
         "timeout": "Lokalna AI odpowiadała zbyt długo. Spróbuj ponownie.",
         "no_engine": "Lokalna AI nie jest jeszcze gotowa. Dokładne zmiany nadal działają."
-      }
+      },
+      "instruction": "Co ma robić?",
+      "instructionPlaceholder": "Na przykład: zamień wszystkie „A” na 0 albo napisz to przyjaźniej",
+      "more": "Więcej opcji"
     },
     "rules": {
       "shorter": {
-        "title": "Krócej",
-        "help": "Usuwa powtórzenia i zbędne słowa."
+        "title": "Krócej"
       },
       "clearer": {
-        "title": "Jaśniejsze sformułowania",
-        "help": "Używa bezpośredniego, precyzyjnego języka."
+        "title": "Jaśniejsze sformułowania"
       },
       "better_order": {
-        "title": "Lepsza kolejność",
-        "help": "Układa myśli w logicznej kolejności."
+        "title": "Lepsza kolejność"
       },
       "headings_lists": {
-        "title": "Dodaj nagłówki i listy",
-        "help": "Ułatwia przeglądanie dłuższego tekstu."
+        "title": "Dodaj nagłówki i listy"
       },
       "keep_tone": {
-        "title": "Zachowaj mój ton",
-        "help": "Zachowuje Twój styl i poziom formalności."
+        "title": "Zachowaj mój ton"
       }
     },
     "examples": {
@@ -1462,11 +1439,7 @@
       "paste": "Wklej przykład",
       "load": "Wczytaj .txt lub .md",
       "remove": "Usuń przykład {{number}}",
-      "readError": "Wybierz plik .txt lub .md mający najwyżej {{chars}} znaków.",
-      "help_one": "Wklej lub wczytaj do {{max}} przykładu, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku.",
-      "help_few": "Wklej lub wczytaj do {{max}} przykładów, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku.",
-      "help_many": "Wklej lub wczytaj do {{max}} przykładów, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku.",
-      "help_other": "Wklej lub wczytaj do {{max}} przykładu, każdy do {{chars}} znaków. Wskazują styl, ale nie trafiają do wyniku."
+      "readError": "Wybierz plik .txt lub .md mający najwyżej {{chars}} znaków."
     },
     "diff": {
       "changes_one": "{{count}} zmiana",
@@ -1484,10 +1457,8 @@
       "simpleView": "Ta zmiana jest duża lub złożona, więc jest pokazana jako jedno zastąpienie.",
       "actionFailed": "Ta czynność się nie powiodła. Twój tekst nadal tu jest; spróbuj ponownie."
     },
-    "startTutorial": "Rozpocznij samouczek",
     "findReplace": {
       "title": "Znajdź i zamień",
-      "help": "Dokładne zmiany wykonywane bez AI za każdym razem, gdy to przekształcenie jest uruchamiane. Zostaw „Zamień na” puste, aby usunąć tekst.",
       "find": "Znajdź, wiersz {{number}}",
       "replace": "Zamień na, wiersz {{number}}",
       "findPlaceholder": "Znajdź",
@@ -1496,19 +1467,6 @@
       "remove": "Usuń wiersz {{number}}",
       "add": "Dodaj zamianę"
     },
-    "plan": {
-      "exact": "Działa dokładnie, bez AI",
-      "mixed": "Wykonano dokładnie, bez AI:",
-      "rulesUnused": "Reguły edycji i przykłady pisania nie są używane: prompt wymaga tylko dokładnych zmian.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Usuń {{find}}",
-      "upper": "WIELKIE LITERY",
-      "lower": "małe litery",
-      "title": "Każde Słowo Wielką Literą",
-      "emoji": "emoji",
-      "email": "adresy e-mail",
-      "url": "linki"
-    },
     "model": {
       "downloading": "Przygotowywanie transformacji: jednorazowe pobieranie, {{percent}}%",
       "verifying": "Przygotowywanie transformacji: sprawdzanie pobranego pliku…",
@@ -1516,6 +1474,10 @@
       "progressLabel": "Pobieranie dla transformacji",
       "failed": "Nie udało się pobrać tego, czego potrzebują transformacje. Sprawdź połączenie.",
       "retry": "Spróbuj ponownie"
+    },
+    "subtitle": "Zaznacz tekst w dowolnej aplikacji i naciśnij skrót, aby go przepisać.",
+    "settings": {
+      "title": "Ustawienia przekształceń"
     }
   },
   "cleanup": {

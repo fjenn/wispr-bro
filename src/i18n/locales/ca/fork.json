@@ -1314,24 +1314,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Reescriu el text seleccionat a qualsevol app",
-      "body": "Tria una transformació, selecciona text i fes servir la seva drecera. El que escrius no surt d'aquest Mac.",
       "tryIt": "Provar-ho",
       "howItWorks": "Com funciona"
     },
     "enable": {
-      "title": "Activar les transformacions",
-      "help": "Activa les dreceres de reescriptura i la vista de canvis. Les transformacions estan desactivades fins que les activis."
+      "title": "Activar les transformacions"
     },
     "commandMode": {
       "title": "Mode d'ordres",
-      "on": "Activat",
-      "off": "Desactivat",
-      "help": "Mantén premuda la drecera del mode d'ordres i digues com vols canviar la selecció o què vols escriure. Sense selecció, el camp dona context i el resultat s'insereix al cursor. Tot es queda en aquest Mac; el mode d'ordres no cerca mai res. Quan està desactivat, la drecera dicta amb normalitat."
+      "help": "Mantén premuda la drecera i digues què cal escriure o canviar."
     },
     "auto": {
       "title": "Aplicar després de cada dictat",
-      "help": "Executa la transformació triada després de la neteja. Si no pot acabar, s'enganxa el dictat netejat sense canvis. S'ometen les execucions amb menys de 5 segons de diferència.",
       "choice": "Transformació que s'aplicarà",
       "none": "Triar una transformació"
     },
@@ -1342,33 +1336,20 @@
     "myTransforms": "Les meves transformacions",
     "reset": "Restaurar els valors per defecte",
     "resetConfirm": "Vols restaurar Polish i Prompt Engineer i eliminar totes les transformacions personalitzades?",
-    "createNew": "Crear-ne una",
+    "createNew": "Nova transformació",
     "deleteConfirm": "Vols eliminar {{name}}? Aquesta acció no es pot desfer.",
     "loading": "Carregant les transformacions…",
     "empty": "Encara no hi ha transformacions. Crea'n una per començar.",
     "error": "No s'ha pogut desar el canvi de la transformació. Torna-ho a provar.",
     "card": {
-      "createOwn": "Crear-ne una de pròpia",
-      "createOwnHint": "Tria regles, instruccions i exemples d'escriptura.",
       "delete": "Eliminar {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Corregeix la gramàtica i la redacció mantenint el teu estil."
-      },
-      "prompt_engineer": {
-        "description": "Converteix notes en brut en una instrucció d'IA clara i completa."
-      }
-    },
     "new": {
-      "name": "La meva transformació",
-      "description": "Reescriu el text com vull jo.",
-      "prompt": "Reescriu el text seleccionat conservant-ne el significat, els fets i l'idioma."
+      "name": "La meva transformació"
     },
     "editor": {
       "title": "Editar {{name}}",
       "name": "Nom",
-      "description": "Descripció",
       "hotkey": "Drecera",
       "addHotkey": "Afegir una drecera",
       "example": "Exemple",
@@ -1376,8 +1357,6 @@
       "exampleText": "eh em podries enviar l'informe demà potser en podem parlar llavors",
       "preview": "Previsualització",
       "previewing": "Previsualitzant…",
-      "customPrompt": "Instrucció personalitzada",
-      "customPromptHelp": "Afegeix instruccions específiques. El text seleccionat es transforma, mai no es respon.",
       "rules": "Regles d'edició",
       "autosave": {
         "saved": "Desament automàtic · S'han desat tots els canvis",
@@ -1394,28 +1373,26 @@
         "failed": "La resposta de la IA local no ha superat les comprovacions de seguretat. Torna-ho a provar o reformula la instrucció.",
         "timeout": "La IA local ha trigat massa. Torna-ho a provar.",
         "no_engine": "La IA local encara no està a punt. Els canvis exactes continuen funcionant."
-      }
+      },
+      "instruction": "Què ha de fer?",
+      "instructionPlaceholder": "Per exemple: substitueix totes les «A» per 0, o fes-lo més amable",
+      "more": "Més opcions"
     },
     "rules": {
       "shorter": {
-        "title": "Més curt",
-        "help": "Elimina repeticions i paraules sobreres."
+        "title": "Més curt"
       },
       "clearer": {
-        "title": "Redacció més clara",
-        "help": "Fes servir un llenguatge directe i precís."
+        "title": "Redacció més clara"
       },
       "better_order": {
-        "title": "Millor ordre",
-        "help": "Ordena les idees de manera lògica."
+        "title": "Millor ordre"
       },
       "headings_lists": {
-        "title": "Afegir títols i llistes",
-        "help": "Fa que els textos llargs es llegeixin més fàcilment."
+        "title": "Afegir títols i llistes"
       },
       "keep_tone": {
-        "title": "Mantenir el meu to",
-        "help": "Conserva el teu estil i el grau de formalitat."
+        "title": "Mantenir el meu to"
       }
     },
     "examples": {
@@ -1426,10 +1403,7 @@
       "paste": "Enganxar un exemple",
       "load": "Carregar .txt o .md",
       "remove": "Eliminar l'exemple {{number}}",
-      "readError": "Tria un fitxer .txt o .md de {{chars}} caràcters com a màxim.",
-      "help_one": "Enganxa o carrega fins a {{max}} exemple, de {{chars}} caràcters com a màxim. Orienta l'estil sense formar part del resultat.",
-      "help_many": "Enganxa o carrega fins a {{max}} d'exemples, de {{chars}} caràcters cadascun. Orienten l'estil sense formar part del resultat.",
-      "help_other": "Enganxa o carrega fins a {{max}} exemples, de {{chars}} caràcters cadascun. Orienten l'estil sense formar part del resultat."
+      "readError": "Tria un fitxer .txt o .md de {{chars}} caràcters com a màxim."
     },
     "diff": {
       "changes_one": "{{count}} canvi",
@@ -1446,10 +1420,8 @@
       "simpleView": "Es mostra una sola substitució per a aquest canvi gran o complex.",
       "actionFailed": "Aquesta acció no ha funcionat. El text encara és aquí; torna-ho a provar."
     },
-    "startTutorial": "Començar el tutorial",
     "findReplace": {
       "title": "Cerca i substitueix",
-      "help": "Canvis exactes, fets sense IA cada vegada que s’executa aquesta transformació. Deixa «Substitueix per» buit per eliminar el text.",
       "find": "Cerca, fila {{number}}",
       "replace": "Substitueix per, fila {{number}}",
       "findPlaceholder": "Cerca",
@@ -1458,19 +1430,6 @@
       "remove": "Elimina la fila {{number}}",
       "add": "Afegeix una substitució"
     },
-    "plan": {
-      "exact": "S’executa exactament, sense IA",
-      "mixed": "Fet exactament, sense IA:",
-      "rulesUnused": "Les regles d’edició i els exemples d’escriptura no s’utilitzen: la instrucció només demana canvis exactes.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Elimina {{find}}",
-      "upper": "MAJÚSCULES",
-      "lower": "minúscules",
-      "title": "Primera Lletra En Majúscula",
-      "emoji": "emojis",
-      "email": "adreces electròniques",
-      "url": "enllaços"
-    },
     "model": {
       "downloading": "Preparant les transformacions: baixada única, {{percent}}%",
       "verifying": "Preparant les transformacions: comprovant la baixada…",
@@ -1478,6 +1437,10 @@
       "progressLabel": "Baixada de les transformacions",
       "failed": "No s'ha pogut baixar el que necessiten les transformacions. Comprova la connexió.",
       "retry": "Torna-ho a provar"
+    },
+    "subtitle": "Selecciona text a qualsevol app i prem una drecera per reescriure'l.",
+    "settings": {
+      "title": "Configuració de les transformacions"
     }
   },
   "cleanup": {

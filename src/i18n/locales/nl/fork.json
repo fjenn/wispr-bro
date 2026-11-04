@@ -1278,24 +1278,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Herschrijf geselecteerde tekst in elke app",
-      "body": "Kies een transformatie, selecteer tekst en gebruik de toetscombinatie. Wat je schrijft, blijft op deze Mac.",
       "tryIt": "Probeer het",
       "howItWorks": "Hoe het werkt"
     },
     "enable": {
-      "title": "Schakel Transformaties in",
-      "help": "Zet de toetscombinaties voor herschrijven en de wijzigingsweergave aan. Transformaties staan uit totdat je ze kiest."
+      "title": "Schakel Transformaties in"
     },
     "commandMode": {
       "title": "Opdrachtmodus",
-      "on": "Aan",
-      "off": "Uit",
-      "help": "Houd de toetscombinatie van Opdrachtmodus ingedrukt en zeg hoe de selectie moet veranderen of wat er geschreven moet worden. Zonder selectie geeft het veld context en komt het resultaat bij de invoegpositie. Alles blijft op deze Mac; Opdrachtmodus zoekt nooit iets op. Als deze uitstaat, dicteert de toetscombinatie gewoon."
+      "help": "Houd de sneltoets ingedrukt en zeg wat er geschreven of veranderd moet worden."
     },
     "auto": {
       "title": "Pas toe na elk dictee",
-      "help": "Voert de gekozen transformatie uit na het opschonen. Lukt dat niet, dan wordt je opgeschoonde dictee ongewijzigd geplakt. Uitvoeringen binnen 5 seconden na elkaar worden overgeslagen.",
       "choice": "Toe te passen transformatie",
       "none": "Kies een transformatie"
     },
@@ -1306,33 +1300,20 @@
     "myTransforms": "Mijn transformaties",
     "reset": "Herstel standaardwaarden",
     "resetConfirm": "Polish en Prompt Engineer herstellen en alle eigen transformaties verwijderen?",
-    "createNew": "Maak nieuwe",
+    "createNew": "Nieuwe transformatie",
     "deleteConfirm": "{{name}} verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "loading": "Je transformaties laden…",
     "empty": "Nog geen transformaties. Maak er een om te beginnen.",
     "error": "Die transformatiewijziging kon niet worden bewaard. Probeer het opnieuw.",
     "card": {
-      "createOwn": "Maak je eigen",
-      "createOwnHint": "Kies regels, instructies en schrijfvoorbeelden.",
       "delete": "Verwijder {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Verbetert grammatica en formulering, met behoud van je eigen stem."
-      },
-      "prompt_engineer": {
-        "description": "Maakt van ruwe notities een duidelijke, volledige AI-prompt."
-      }
-    },
     "new": {
-      "name": "Mijn transformatie",
-      "description": "Herschrijf tekst zoals ik dat wil.",
-      "prompt": "Herschrijf de geselecteerde tekst en behoud de betekenis, feiten en taal."
+      "name": "Mijn transformatie"
     },
     "editor": {
       "title": "Wijzig {{name}}",
       "name": "Naam",
-      "description": "Omschrijving",
       "hotkey": "Toetscombinatie",
       "addHotkey": "Voeg toetscombinatie toe",
       "example": "Voorbeeld",
@@ -1340,8 +1321,6 @@
       "exampleText": "eh kun je me het rapport morgen sturen misschien kunnen we het er dan over hebben",
       "preview": "Voorvertoning",
       "previewing": "Voorvertoning maken…",
-      "customPrompt": "Eigen prompt",
-      "customPromptHelp": "Voeg specifieke instructies toe. De geselecteerde tekst wordt getransformeerd, nooit beantwoord.",
       "rules": "Wijzigingsregels",
       "autosave": {
         "saved": "Automatisch bewaren · Alle wijzigingen bewaard",
@@ -1358,28 +1337,26 @@
         "failed": "Het antwoord van de lokale AI heeft de veiligheidscontroles niet doorstaan. Probeer het opnieuw of formuleer de instructie anders.",
         "timeout": "De lokale AI deed er te lang over. Probeer het opnieuw.",
         "no_engine": "De lokale AI is nog niet klaar. Exacte wijzigingen werken nog wel."
-      }
+      },
+      "instruction": "Wat moet hij doen?",
+      "instructionPlaceholder": "Bijvoorbeeld: vervang alle ‘A’ door 0, of maak het vriendelijker",
+      "more": "Meer opties"
     },
     "rules": {
       "shorter": {
-        "title": "Korter",
-        "help": "Verwijder herhaling en overbodige woorden."
+        "title": "Korter"
       },
       "clearer": {
-        "title": "Duidelijker formuleren",
-        "help": "Gebruik directe, precieze taal."
+        "title": "Duidelijker formuleren"
       },
       "better_order": {
-        "title": "Betere volgorde",
-        "help": "Zet ideeën in een logische volgorde."
+        "title": "Betere volgorde"
       },
       "headings_lists": {
-        "title": "Voeg kopjes en lijsten toe",
-        "help": "Maak lange tekst makkelijker te scannen."
+        "title": "Voeg kopjes en lijsten toe"
       },
       "keep_tone": {
-        "title": "Behoud mijn toon",
-        "help": "Behoud je stem en mate van formaliteit."
+        "title": "Behoud mijn toon"
       }
     },
     "examples": {
@@ -1390,9 +1367,7 @@
       "paste": "Plak een voorbeeld",
       "load": "Laad .txt of .md",
       "remove": "Verwijder voorbeeld {{number}}",
-      "readError": "Kies een .txt- of .md-bestand met maximaal {{chars}} tekens.",
-      "help_one": "Plak of laad maximaal {{max}} voorbeeld van {{chars}} tekens. Het stuurt de stijl zonder deel van het resultaat te worden.",
-      "help_other": "Plak of laad maximaal {{max}} voorbeelden van elk {{chars}} tekens. Ze sturen de stijl zonder deel van het resultaat te worden."
+      "readError": "Kies een .txt- of .md-bestand met maximaal {{chars}} tekens."
     },
     "diff": {
       "changes_one": "{{count}} wijziging",
@@ -1408,10 +1383,8 @@
       "simpleView": "Voor deze grote of complexe wijziging wordt één vervanging getoond.",
       "actionFailed": "Die actie is niet gelukt. Je tekst staat nog hier; probeer het opnieuw."
     },
-    "startTutorial": "Start uitleg",
     "findReplace": {
       "title": "Zoeken en vervangen",
-      "help": "Exacte wijzigingen, zonder AI uitgevoerd telkens als deze transformatie wordt gebruikt. Laat “Vervangen door” leeg om de tekst te verwijderen.",
       "find": "Zoeken, rij {{number}}",
       "replace": "Vervangen door, rij {{number}}",
       "findPlaceholder": "Zoeken",
@@ -1420,19 +1393,6 @@
       "remove": "Rij {{number}} verwijderen",
       "add": "Vervanging toevoegen"
     },
-    "plan": {
-      "exact": "Wordt exact uitgevoerd, zonder AI",
-      "mixed": "Exact en zonder AI uitgevoerd:",
-      "rulesUnused": "Wijzigingsregels en schrijfvoorbeelden worden niet gebruikt: de prompt vraagt alleen om exacte wijzigingen.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "{{find}} verwijderen",
-      "upper": "HOOFDLETTERS",
-      "lower": "kleine letters",
-      "title": "Elk Woord Met Hoofdletter",
-      "emoji": "emoji",
-      "email": "e-mailadressen",
-      "url": "links"
-    },
     "model": {
       "downloading": "Transformaties klaarzetten: eenmalige download, {{percent}}%",
       "verifying": "Transformaties klaarzetten: download controleren…",
@@ -1440,6 +1400,10 @@
       "progressLabel": "Download voor transformaties",
       "failed": "Wat transformaties nodig hebben, kon niet worden gedownload. Controleer je verbinding.",
       "retry": "Opnieuw proberen"
+    },
+    "subtitle": "Selecteer tekst in een app en druk op een sneltoets om hem te herschrijven.",
+    "settings": {
+      "title": "Instellingen voor transformaties"
     }
   },
   "cleanup": {

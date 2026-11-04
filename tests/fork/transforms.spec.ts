@@ -193,16 +193,16 @@ test("Command Mode card is independently opt-in and keyboard accessible", async 
 }) => {
   const fake = new FakeTransforms();
   await openTransforms(page, ipc, hub, fake);
+  // XF2: secondary controls live behind the page's settings button.
+  await page.getByTestId("wb-transforms-settings").click();
   const card = page.getByTestId("wb-command-mode-card");
   const toggle = page.getByTestId("wb-command-mode-enabled");
-  await expect(card).toHaveAttribute("data-enabled", "false");
   await expect(toggle).not.toBeChecked();
   await expect(toggle).toHaveAccessibleName(/Command Mode/);
-  await expect(card).toContainText("never looks anything up");
+  await expect(card).toContainText("say what to write or change");
   await toggle.focus();
   await page.keyboard.press("Space");
   await expect(toggle).toBeChecked();
-  await expect(card).toHaveAttribute("data-enabled", "true");
   await expect.poll(() => hub.forkSettings.command_mode_enabled).toBe(true);
   await expect.poll(() => hub.forkSettings.transforms_enabled).toBe(false);
   await toggle.click();
@@ -210,28 +210,33 @@ test("Command Mode card is independently opt-in and keyboard accessible", async 
   await expect.poll(() => hub.forkSettings.command_mode_enabled).toBe(false);
 });
 
-test("opt-in, banner, auto-apply choice and safe shortcuts", async ({
+test("simple page: opt-in, list, settings with auto-apply and safe shortcuts", async ({
   page,
   ipc,
   hub,
 }) => {
   const fake = new FakeTransforms();
   await openTransforms(page, ipc, hub, fake);
-  await expect(page.getByTestId("wb-banner-transforms.rewrite")).toContainText(
-    "Rewrite selected text in any app",
+  // XF2: a title, one line with the lesson links, the list and one button.
+  await expect(page.getByTestId("wb-banner-transforms.rewrite")).toHaveCount(0);
+  await expect(page.getByTestId("wb-transforms")).toContainText(
+    "press a shortcut to rewrite it",
   );
-  // S-31 registered the lesson: the banner's buttons are there.
   await expect(page.getByTestId("wb-transforms-try-it")).toBeVisible();
   await expect(page.getByTestId("wb-transforms-how-it-works")).toBeVisible();
   await expect(page.getByTestId("wb-transform-polish")).toBeVisible();
   await expect(page.getByTestId("wb-transform-prompt_engineer")).toBeVisible();
-  await expect(page.getByTestId("wb-transform-create-card")).toBeVisible();
+  await expect(page.getByTestId("wb-transforms-create")).toHaveText(
+    "New transform",
+  );
+  await expect(page.getByTestId("wb-command-mode-card")).toHaveCount(0);
+  await expect(page.getByTestId("wb-transforms-auto")).toHaveCount(0);
   const enabled = page.getByTestId("wb-transforms-enabled");
   await expect(enabled).not.toBeChecked();
-  await expect(page.getByTestId("wb-transforms-auto")).toBeDisabled();
   await enabled.click();
   await expect(enabled).toBeChecked();
   await expect.poll(() => hub.forkSettings.transforms_enabled).toBe(true);
+  await page.getByTestId("wb-transforms-settings").click();
   await page.getByTestId("wb-transforms-auto").click();
   await expect(page.getByTestId("wb-transforms-auto")).toBeChecked();
   // A Radix select (W2): the trigger shows the chosen transform's name.
@@ -254,7 +259,7 @@ test("opt-in, banner, auto-apply choice and safe shortcuts", async ({
     });
 });
 
-test("Polish editor: five rules, preview, autosave, reset and Escape", async ({
+test("Polish editor: one instruction, five option chips, preview, autosave, reset and Escape", async ({
   page,
   ipc,
   hub,
@@ -264,14 +269,20 @@ test("Polish editor: five rules, preview, autosave, reset and Escape", async ({
   await page.getByTestId("wb-transform-open-polish").click();
   const modal = page.getByTestId("wb-transform-modal");
   await expect(modal).toBeVisible();
-  await expect(modal.locator('input[type="checkbox"]')).toHaveCount(5);
+  await expect(
+    page.getByTestId("wb-transform-rules").locator("button[aria-pressed]"),
+  ).toHaveCount(5);
+  await expect(page.getByTestId("wb-transform-description")).toHaveCount(0);
+  await expect(page.getByTestId("wb-transform-prompt")).toHaveValue(
+    "Polish this text.",
+  );
   await expect(page.getByTestId("wb-transform-autosave")).toContainText(
     "All changes saved",
   );
-  await page.getByTestId("wb-transform-description").fill("Make my email tidy");
+  await page.getByTestId("wb-transform-prompt").fill("Make my email tidy");
   await ipc.expectCalled("fork_transform_update", {
     id: 1,
-    input: { ...input(), description: "Make my email tidy" },
+    input: { ...input(), prompt: "Make my email tidy" },
   });
   await expect(page.getByTestId("wb-transform-autosave")).toContainText(
     "All changes saved",
@@ -280,9 +291,11 @@ test("Polish editor: five rules, preview, autosave, reset and Escape", async ({
   await expect(page.getByTestId("wb-transform-preview-result")).toHaveText(
     "Could we discuss the report tomorrow?",
   );
-  await page.getByTestId("wb-transform-rule-shorter").uncheck();
+  const shorter = page.getByTestId("wb-transform-rule-shorter");
+  await shorter.click();
+  await expect(shorter).toHaveAttribute("aria-pressed", "false");
   await page.getByTestId("wb-transform-reset").click();
-  await expect(page.getByTestId("wb-transform-rule-shorter")).toBeChecked();
+  await expect(shorter).toHaveAttribute("aria-pressed", "true");
   await page.keyboard.press("Escape");
   await expect(modal).toBeHidden();
 });
@@ -298,6 +311,14 @@ test("create custom, three-example limit, file loading and delete", async ({
   await expect(page.getByTestId("wb-transform-name")).toHaveValue(
     "My transform",
   );
+  // XF2: an empty instruction box, no hidden default prompt.
+  await expect(page.getByTestId("wb-transform-prompt")).toHaveValue("");
+  await expect(page.getByTestId("wb-transform-prompt")).toHaveAttribute(
+    "placeholder",
+    /replace all/,
+  );
+  await expect(page.getByTestId("wb-transform-example-add")).toBeHidden();
+  await page.getByTestId("wb-transform-more").click();
   await page.getByTestId("wb-transform-example-add").click();
   ipc.respond("plugin:dialog|open", "/tmp/example.txt");
   await page.getByTestId("wb-transform-example-load").click();
@@ -349,6 +370,7 @@ test("reset restores built-ins and clears auto-apply", async ({
   await openTransforms(page, ipc, hub, fake, {
     fork: { transforms_enabled: true, auto_apply_transform: "polish" },
   });
+  await page.getByTestId("wb-transforms-settings").click();
   page.once("dialog", (dialog) => void dialog.accept());
   await page.getByTestId("wb-transforms-reset").click();
   await ipc.expectCalled("fork_transforms_reset", {});
@@ -368,7 +390,7 @@ test("keyboard-only editor and dialog focus", async ({ page, ipc, hub }) => {
   await expect(page.getByTestId("wb-transform-modal")).toBeHidden();
 });
 
-test("RTL, reduced motion and axe in light/dark page, editor and diff", async ({
+test("RTL, reduced motion and axe in light/dark page, settings, editor and diff", async ({
   page,
   ipc,
   hub,
@@ -382,6 +404,15 @@ test("RTL, reduced motion and axe in light/dark page, editor and diff", async ({
     });
     await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
     await expectNoSeriousAxeFindings(page);
+    await page.getByTestId("wb-transforms-settings").click();
+    await expect(
+      page.getByTestId("wb-transforms-settings-dialog"),
+    ).toBeVisible();
+    await expectNoSeriousAxeFindings(page);
+    await page.keyboard.press("Escape");
+    await expect(
+      page.getByTestId("wb-transforms-settings-dialog"),
+    ).toBeHidden();
     await page.getByTestId("wb-transform-open-polish").click();
     await expectNoSeriousAxeFindings(page);
     await page.keyboard.press("Escape");
@@ -399,9 +430,11 @@ test("custom transform: exact edits run without AI, find and replace rows, hones
   const fake = new FakeTransforms();
   await openTransforms(page, ipc, hub, fake);
   await page.getByTestId("wb-transforms-create").click();
-  // A new transform starts with no editing rules checked.
+  // A new transform starts with no options and an empty instruction.
   await ipc.expectCalled("fork_transform_create", {
     input: {
+      prompt: "",
+      description: "",
       rules: {
         shorter: false,
         clearer: false,
@@ -412,16 +445,12 @@ test("custom transform: exact edits run without AI, find and replace rows, hones
       replacements: [],
     },
   });
-  await page.getByTestId("wb-transform-rule-shorter").check();
+  await page.getByTestId("wb-transform-rule-shorter").click();
   await page
     .getByTestId("wb-transform-prompt")
     .fill("Replace all A and E with 0 and 1");
-  const plan = page.getByTestId("wb-transform-plan");
-  await expect(plan).toHaveAttribute("data-exact", "true");
-  await expect(plan).toContainText("Runs exactly, without AI");
-  await expect(plan).toContainText("“A” → “0”");
-  await expect(plan).toContainText("“E” → “1”");
-  await expect(page.getByTestId("wb-transform-rules-unused")).toBeVisible();
+  // XF2: no explanations in the editor; the preview says it ran exactly.
+  await expect(page.getByTestId("wb-transform-plan")).toHaveCount(0);
   await page.getByTestId("wb-transform-preview").click();
   await expect(page.getByTestId("wb-transform-preview-exact")).toHaveText(
     "Exact · no AI",
@@ -432,14 +461,11 @@ test("custom transform: exact edits run without AI, find and replace rows, hones
 
   // A free-form instruction plus an exact row.
   await page.getByTestId("wb-transform-prompt").fill("Make it shorter");
-  await expect(page.getByTestId("wb-transform-rules-unused")).toHaveCount(0);
+  await page.getByTestId("wb-transform-more").click();
   await page.getByTestId("wb-transform-replace-add").click();
   await page.getByTestId("wb-transform-replace-find-0").fill("Bob");
   await page.getByTestId("wb-transform-replace-with-0").fill("Robert");
   await page.getByTestId("wb-transform-replace-case-0").check();
-  await expect(plan).toHaveAttribute("data-exact", "false");
-  await expect(plan).toContainText("Done exactly, without AI:");
-  await expect(plan).toContainText("“Bob” → “Robert”");
   await ipc.expectCalled("fork_transform_update", {
     id: 3,
     input: {
@@ -458,7 +484,6 @@ test("custom transform: exact edits run without AI, find and replace rows, hones
   );
   await page.getByTestId("wb-transform-replace-remove-0").click();
   await expect(page.getByTestId("wb-transform-replace-row-0")).toHaveCount(0);
-  await expect(plan).toHaveCount(0);
 });
 
 test("find and replace rows: keyboard only, RTL and axe in light/dark", async ({
@@ -476,6 +501,9 @@ test("find and replace rows: keyboard only, RTL and axe in light/dark", async ({
     await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
     await page.getByTestId("wb-transforms-create").click();
     await expect(page.getByTestId("wb-transform-modal")).toBeVisible();
+    const more = page.getByTestId("wb-transform-more");
+    await more.focus();
+    await page.keyboard.press("Enter");
     const add = page.getByTestId("wb-transform-replace-add");
     await add.focus();
     await page.keyboard.press("Enter");
@@ -493,7 +521,6 @@ test("find and replace rows: keyboard only, RTL and axe in light/dark", async ({
     await expect(
       page.getByTestId("wb-transform-replace-remove-0"),
     ).toBeFocused();
-    await expect(page.getByTestId("wb-transform-plan")).toBeVisible();
     await page
       .getByTestId("wb-transform-prompt")
       .fill("Replace all A and E with 0 and 1");

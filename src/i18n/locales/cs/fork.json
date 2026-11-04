@@ -1350,24 +1350,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Přepisujte vybraný text v libovolné aplikaci",
-      "body": "Zvolte transformaci, vyberte text a použijte její zkratku. Váš text zůstává na tomto Macu.",
       "tryIt": "Vyzkoušet",
       "howItWorks": "Jak to funguje"
     },
     "enable": {
-      "title": "Zapnout transformace",
-      "help": "Zapne zkratky pro přepisování a zobrazení změn. Dokud je nezapnete, transformace jsou vypnuté."
+      "title": "Zapnout transformace"
     },
     "commandMode": {
       "title": "Příkazový režim",
-      "on": "Zapnuto",
-      "off": "Vypnuto",
-      "help": "Podržte zkratku Režimu příkazů a řekněte, jak změnit výběr nebo co napsat. Bez výběru poslouží pole jako kontext a výsledek se vloží na místo kurzoru. Vše zůstává na tomto Macu; Režim příkazů nikdy nic nevyhledává. Když je vypnutý, zkratka diktuje normálně."
+      "help": "Podržte zkratku a řekněte, co napsat nebo změnit."
     },
     "auto": {
       "title": "Použít po každém diktování",
-      "help": "Spustí vybranou transformaci po vyčištění. Pokud ji nelze dokončit, vloží se vyčištěný diktát beze změny. Spuštění s odstupem kratším než 5 sekund se přeskočí.",
       "choice": "Transformace k použití",
       "none": "Vyberte transformaci"
     },
@@ -1378,33 +1372,20 @@
     "myTransforms": "Moje transformace",
     "reset": "Obnovit výchozí",
     "resetConfirm": "Obnovit Polish a Prompt Engineer a odstranit všechny vlastní transformace?",
-    "createNew": "Vytvořit novou",
+    "createNew": "Nová transformace",
     "deleteConfirm": "Smazat {{name}}? Tuto akci nelze odvolat.",
     "loading": "Načítají se transformace…",
     "empty": "Zatím žádné transformace. Začněte vytvořením první.",
     "error": "Změnu transformace se nepodařilo uložit. Zkuste to znovu.",
     "card": {
-      "createOwn": "Vytvořit vlastní",
-      "createOwnHint": "Zvolte pravidla, pokyny a ukázky textu.",
       "delete": "Smazat {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Opraví gramatiku a formulace a zachová váš styl."
-      },
-      "prompt_engineer": {
-        "description": "Z hrubých poznámek udělá jasný a úplný prompt pro AI."
-      }
-    },
     "new": {
-      "name": "Moje transformace",
-      "description": "Přepíše text tak, jak chci.",
-      "prompt": "Přepiš vybraný text a zachovej jeho význam, fakta a jazyk."
+      "name": "Moje transformace"
     },
     "editor": {
       "title": "Upravit {{name}}",
       "name": "Název",
-      "description": "Popis",
       "hotkey": "Zkratka",
       "addHotkey": "Přidat zkratku",
       "example": "Příklad",
@@ -1412,8 +1393,6 @@
       "exampleText": "ehm mohl bys mi poslat ten report zítra možná to pak můžeme probrat",
       "preview": "Náhled",
       "previewing": "Připravuje se náhled…",
-      "customPrompt": "Vlastní pokyny",
-      "customPromptHelp": "Přidejte konkrétní pokyny. Vybraný text se transformuje, nikdy se na něj neodpovídá.",
       "rules": "Pravidla úprav",
       "autosave": {
         "saved": "Automatické ukládání · Všechny změny uloženy",
@@ -1430,28 +1409,26 @@
         "failed": "Odpověď místní AI neprošla bezpečnostními kontrolami. Zkuste to znovu nebo instrukci přeformulujte.",
         "timeout": "Místní AI trvalo příliš dlouho. Zkuste to znovu.",
         "no_engine": "Místní AI ještě není připravena. Přesné změny fungují i tak."
-      }
+      },
+      "instruction": "Co má dělat?",
+      "instructionPlaceholder": "Například: nahraď všechna „A“ nulou, nebo to napiš přátelštěji",
+      "more": "Další možnosti"
     },
     "rules": {
       "shorter": {
-        "title": "Kratší",
-        "help": "Odstraní opakování a zbytečná slova."
+        "title": "Kratší"
       },
       "clearer": {
-        "title": "Jasnější formulace",
-        "help": "Použije přímý a přesný jazyk."
+        "title": "Jasnější formulace"
       },
       "better_order": {
-        "title": "Lepší pořadí",
-        "help": "Seřadí myšlenky v logickém sledu."
+        "title": "Lepší pořadí"
       },
       "headings_lists": {
-        "title": "Přidat nadpisy a seznamy",
-        "help": "Delší text bude přehlednější."
+        "title": "Přidat nadpisy a seznamy"
       },
       "keep_tone": {
-        "title": "Zachovat můj tón",
-        "help": "Zachová váš styl a míru formálnosti."
+        "title": "Zachovat můj tón"
       }
     },
     "examples": {
@@ -1462,11 +1439,7 @@
       "paste": "Vložit ukázku",
       "load": "Načíst .txt nebo .md",
       "remove": "Odstranit ukázku {{number}}",
-      "readError": "Vyberte soubor .txt nebo .md, který má nejvýše {{chars}} znaků.",
-      "help_one": "Vložte nebo načtěte až {{max}} ukázku, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou.",
-      "help_few": "Vložte nebo načtěte až {{max}} ukázky, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou.",
-      "help_many": "Vložte nebo načtěte až {{max}} ukázky, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou.",
-      "help_other": "Vložte nebo načtěte až {{max}} ukázek, každou nejvýše o {{chars}} znacích. Určují styl, ale do výsledku se nepřenesou."
+      "readError": "Vyberte soubor .txt nebo .md, který má nejvýše {{chars}} znaků."
     },
     "diff": {
       "changes_one": "{{count}} změna",
@@ -1484,10 +1457,8 @@
       "simpleView": "Tato změna je velká nebo složitá, proto se zobrazuje jako jedno nahrazení.",
       "actionFailed": "Akce se nezdařila. Text zůstal zachován, zkuste to znovu."
     },
-    "startTutorial": "Spustit průvodce",
     "findReplace": {
       "title": "Hledat a nahradit",
-      "help": "Přesné změny provedené bez AI při každém spuštění této transformace. Pokud chcete text odstranit, nechte „Nahradit čím“ prázdné.",
       "find": "Hledat, řádek {{number}}",
       "replace": "Nahradit čím, řádek {{number}}",
       "findPlaceholder": "Hledat",
@@ -1496,19 +1467,6 @@
       "remove": "Odstranit řádek {{number}}",
       "add": "Přidat nahrazení"
     },
-    "plan": {
-      "exact": "Provede se přesně, bez AI",
-      "mixed": "Provedeno přesně, bez AI:",
-      "rulesUnused": "Pravidla úprav a ukázky psaní se nepoužijí: prompt žádá jen přesné změny.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Odstranit {{find}}",
-      "upper": "VELKÁ PÍSMENA",
-      "lower": "malá písmena",
-      "title": "První Písmeno Velké",
-      "emoji": "emotikony",
-      "email": "e-mailové adresy",
-      "url": "odkazy"
-    },
     "model": {
       "downloading": "Připravujeme transformace: jednorázové stažení, {{percent}} %",
       "verifying": "Připravujeme transformace: kontrolujeme stažený soubor…",
@@ -1516,6 +1474,10 @@
       "progressLabel": "Stahování pro transformace",
       "failed": "Nepodařilo se stáhnout, co transformace potřebují. Zkontrolujte připojení.",
       "retry": "Zkusit znovu"
+    },
+    "subtitle": "Vyberte text v libovolné aplikaci a stiskněte zkratku, aby se přepsal.",
+    "settings": {
+      "title": "Nastavení transformací"
     }
   },
   "cleanup": {

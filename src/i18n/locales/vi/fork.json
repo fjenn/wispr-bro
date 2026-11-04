@@ -1242,24 +1242,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Viết lại văn bản đã chọn trong bất kỳ ứng dụng nào",
-      "body": "Chọn một chuyển đổi, chọn văn bản và dùng phím tắt của nó. Những gì bạn viết vẫn ở trên máy Mac này.",
       "tryIt": "Thử xem",
       "howItWorks": "Cách hoạt động"
     },
     "enable": {
-      "title": "Bật Chuyển đổi",
-      "help": "Bật các phím tắt viết lại và chế độ xem thay đổi. Chuyển đổi tắt cho đến khi bạn chọn dùng."
+      "title": "Bật Chuyển đổi"
     },
     "commandMode": {
       "title": "Command Mode",
-      "on": "Bật",
-      "off": "Tắt",
-      "help": "Giữ phím tắt Command Mode, rồi nói cách thay đổi phần đã chọn hoặc nội dung cần viết. Khi không chọn gì, trường văn bản cung cấp ngữ cảnh và kết quả được chèn tại con trỏ. Mọi thứ ở lại trên máy Mac này; Command Mode không bao giờ tra cứu gì. Khi tắt, phím tắt này đọc chính tả như bình thường."
+      "help": "Giữ phím tắt và nói nội dung cần viết hoặc thay đổi."
     },
     "auto": {
       "title": "Áp dụng sau mỗi lần đọc chính tả",
-      "help": "Chạy chuyển đổi đã chọn sau khi dọn dẹp. Nếu không hoàn tất được, bản đọc chính tả đã dọn dẹp sẽ được dán nguyên vẹn. Các lần chạy cách nhau dưới 5 giây sẽ bị bỏ qua.",
       "choice": "Chuyển đổi được áp dụng",
       "none": "Chọn một chuyển đổi"
     },
@@ -1270,33 +1264,20 @@
     "myTransforms": "Chuyển đổi của tôi",
     "reset": "Đặt lại về mặc định",
     "resetConfirm": "Đặt lại Polish và Prompt Engineer và xóa mọi chuyển đổi tùy chỉnh?",
-    "createNew": "Tạo mới",
+    "createNew": "Chuyển đổi mới",
     "deleteConfirm": "Xóa {{name}}? Không thể hoàn tác.",
     "loading": "Đang tải các chuyển đổi của bạn…",
     "empty": "Chưa có chuyển đổi nào. Tạo một chuyển đổi để bắt đầu.",
     "error": "Không thể lưu thay đổi chuyển đổi đó. Hãy thử lại.",
     "card": {
-      "createOwn": "Tự tạo",
-      "createOwnHint": "Chọn các quy tắc, hướng dẫn và ví dụ viết.",
       "delete": "Xóa {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Sửa ngữ pháp và cách diễn đạt mà vẫn giữ giọng văn của bạn."
-      },
-      "prompt_engineer": {
-        "description": "Biến ghi chú sơ sài thành lời nhắc AI rõ ràng, đầy đủ."
-      }
-    },
     "new": {
-      "name": "Chuyển đổi của tôi",
-      "description": "Viết lại văn bản theo cách tôi muốn.",
-      "prompt": "Viết lại văn bản đã chọn, giữ nguyên ý nghĩa, dữ kiện và ngôn ngữ."
+      "name": "Chuyển đổi của tôi"
     },
     "editor": {
       "title": "Sửa {{name}}",
       "name": "Tên",
-      "description": "Mô tả",
       "hotkey": "Phím tắt",
       "addHotkey": "Thêm phím tắt",
       "example": "Ví dụ",
@@ -1304,8 +1285,6 @@
       "exampleText": "ừm bạn gửi tôi bản báo cáo ngày mai được không có lẽ lúc đó mình bàn luôn",
       "preview": "Xem trước",
       "previewing": "Đang xem trước…",
-      "customPrompt": "Lời nhắc tùy chỉnh",
-      "customPromptHelp": "Thêm hướng dẫn cụ thể. Văn bản đã chọn được chuyển đổi, không bao giờ được trả lời.",
       "rules": "Quy tắc chỉnh sửa",
       "autosave": {
         "saved": "Tự động lưu · Đã lưu mọi thay đổi",
@@ -1322,28 +1301,26 @@
         "failed": "Câu trả lời của AI cục bộ không vượt qua các kiểm tra an toàn. Hãy thử lại hoặc diễn đạt lại hướng dẫn.",
         "timeout": "AI cục bộ mất quá nhiều thời gian. Hãy thử lại.",
         "no_engine": "AI cục bộ chưa sẵn sàng. Các thay đổi chính xác vẫn hoạt động."
-      }
+      },
+      "instruction": "Nó nên làm gì?",
+      "instructionPlaceholder": "Ví dụ: thay mọi chữ “A” bằng 0, hoặc viết thân thiện hơn",
+      "more": "Tùy chọn khác"
     },
     "rules": {
       "shorter": {
-        "title": "Ngắn hơn",
-        "help": "Bỏ phần lặp lại và từ thừa."
+        "title": "Ngắn hơn"
       },
       "clearer": {
-        "title": "Diễn đạt rõ hơn",
-        "help": "Dùng ngôn ngữ trực tiếp, chính xác."
+        "title": "Diễn đạt rõ hơn"
       },
       "better_order": {
-        "title": "Thứ tự tốt hơn",
-        "help": "Sắp xếp các ý theo trình tự hợp lý."
+        "title": "Thứ tự tốt hơn"
       },
       "headings_lists": {
-        "title": "Thêm tiêu đề và danh sách",
-        "help": "Giúp văn bản dài dễ đọc lướt hơn."
+        "title": "Thêm tiêu đề và danh sách"
       },
       "keep_tone": {
-        "title": "Giữ giọng điệu của tôi",
-        "help": "Giữ giọng văn và mức trang trọng của bạn."
+        "title": "Giữ giọng điệu của tôi"
       }
     },
     "examples": {
@@ -1354,8 +1331,7 @@
       "paste": "Dán một ví dụ",
       "load": "Tải .txt hoặc .md",
       "remove": "Xóa ví dụ {{number}}",
-      "readError": "Chọn tệp .txt hoặc .md không quá {{chars}} ký tự.",
-      "help_other": "Dán hoặc tải tối đa {{max}} ví dụ, mỗi ví dụ {{chars}} ký tự. Chúng định hướng văn phong mà không trở thành một phần của kết quả."
+      "readError": "Chọn tệp .txt hoặc .md không quá {{chars}} ký tự."
     },
     "diff": {
       "changes_other": "{{count}} thay đổi",
@@ -1370,10 +1346,8 @@
       "simpleView": "Đang hiện một thay thế duy nhất cho thay đổi lớn hoặc phức tạp này.",
       "actionFailed": "Hành động đó không thành công. Văn bản của bạn vẫn ở đây; hãy thử lại."
     },
-    "startTutorial": "Bắt đầu hướng dẫn",
     "findReplace": {
       "title": "Tìm và thay thế",
-      "help": "Các thay đổi chính xác, được thực hiện mà không dùng AI mỗi khi chuyển đổi này chạy. Để trống “Thay bằng” để xóa văn bản.",
       "find": "Tìm, hàng {{number}}",
       "replace": "Thay bằng, hàng {{number}}",
       "findPlaceholder": "Tìm",
@@ -1382,19 +1356,6 @@
       "remove": "Xóa hàng {{number}}",
       "add": "Thêm một phép thay thế"
     },
-    "plan": {
-      "exact": "Chạy chính xác, không dùng AI",
-      "mixed": "Đã thực hiện chính xác, không dùng AI:",
-      "rulesUnused": "Quy tắc chỉnh sửa và ví dụ viết không được dùng: lời nhắc chỉ yêu cầu các thay đổi chính xác.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Xóa {{find}}",
-      "upper": "CHỮ IN HOA",
-      "lower": "chữ thường",
-      "title": "Viết Hoa Chữ Cái Đầu",
-      "emoji": "emoji",
-      "email": "địa chỉ email",
-      "url": "liên kết"
-    },
     "model": {
       "downloading": "Đang chuẩn bị các phép biến đổi: tải xuống một lần, {{percent}}%",
       "verifying": "Đang chuẩn bị các phép biến đổi: đang kiểm tra bản tải xuống…",
@@ -1402,6 +1363,10 @@
       "progressLabel": "Tải xuống cho các phép biến đổi",
       "failed": "Không thể tải xuống những gì các phép biến đổi cần. Hãy kiểm tra kết nối.",
       "retry": "Thử lại"
+    },
+    "subtitle": "Chọn văn bản trong bất kỳ ứng dụng nào và nhấn phím tắt để viết lại.",
+    "settings": {
+      "title": "Cài đặt chuyển đổi"
     }
   },
   "cleanup": {

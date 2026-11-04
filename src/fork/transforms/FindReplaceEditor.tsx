@@ -33,9 +33,6 @@ export function FindReplaceEditor({
       <legend className="text-sm font-semibold">
         {t("transforms.findReplace.title")}
       </legend>
-      <p className="text-xs leading-5 text-(--wb-ink-2)">
-        {t("transforms.findReplace.help")}
-      </p>
       {value.map((rule, index) => (
         <div
           key={index}

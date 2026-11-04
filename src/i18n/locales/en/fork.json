@@ -1595,24 +1595,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Rewrite selected text in any app",
-      "body": "Choose a transform, select text, and use its shortcut. Your writing stays on this Mac.",
       "tryIt": "Try it",
       "howItWorks": "How it works"
     },
     "enable": {
-      "title": "Enable Transforms",
-      "help": "Turn on rewriting shortcuts and the changes view. Transforms are off until you choose them."
+      "title": "Enable Transforms"
     },
     "commandMode": {
       "title": "Command Mode",
-      "on": "On",
-      "off": "Off",
-      "help": "Hold the Command Mode shortcut, then say how to change the selection or what to write. With no selection, the field gives context and the result goes at the caret. Everything stays on this Mac; Command Mode never looks anything up. When off, the shortcut dictates normally."
+      "help": "Hold the shortcut and say what to write or change."
     },
     "auto": {
       "title": "Apply after every dictation",
-      "help": "Runs the chosen transform after cleanup. If it cannot finish, your cleaned dictation is pasted unchanged. Runs less than 5 seconds apart are skipped.",
       "choice": "Transform to apply",
       "none": "Choose a transform"
     },
@@ -1623,33 +1617,20 @@
     "myTransforms": "My Transforms",
     "reset": "Reset to defaults",
     "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "Create new",
+    "createNew": "New transform",
     "deleteConfirm": "Delete {{name}}? This cannot be undone.",
     "loading": "Loading your transforms…",
     "empty": "No transforms yet. Create one to get started.",
     "error": "That transform change could not be saved. Try again.",
     "card": {
-      "createOwn": "Create your own",
-      "createOwnHint": "Choose rules, instructions and writing examples.",
       "delete": "Delete {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Clear up grammar and wording while keeping your voice."
-      },
-      "prompt_engineer": {
-        "description": "Turn rough notes into a clear, complete AI prompt."
-      }
-    },
     "new": {
-      "name": "My transform",
-      "description": "Rewrite text the way I want.",
-      "prompt": "Rewrite the selected text while preserving its meaning, facts and language."
+      "name": "My transform"
     },
     "editor": {
       "title": "Edit {{name}}",
       "name": "Name",
-      "description": "Description",
       "hotkey": "Shortcut",
       "addHotkey": "Add shortcut",
       "example": "Example",
@@ -1657,8 +1638,6 @@
       "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
       "preview": "Preview",
       "previewing": "Previewing…",
-      "customPrompt": "Custom prompt",
-      "customPromptHelp": "Add specific instructions. The selected text is transformed, never answered.",
       "rules": "Editing rules",
       "autosave": {
         "saved": "Autosave · All changes saved",
@@ -1675,28 +1654,26 @@
         "failed": "The local AI's answer didn't pass its safety checks. Try again or reword the instruction.",
         "timeout": "The local AI took too long. Try again.",
         "no_engine": "The local AI isn't ready yet. Exact changes still work."
-      }
+      },
+      "instruction": "What should it do?",
+      "instructionPlaceholder": "For example: replace all “A” with 0, or make it friendlier",
+      "more": "More options"
     },
     "rules": {
       "shorter": {
-        "title": "Shorter",
-        "help": "Remove repetition and extra words."
+        "title": "Shorter"
       },
       "clearer": {
-        "title": "Clearer wording",
-        "help": "Use direct, precise language."
+        "title": "Clearer wording"
       },
       "better_order": {
-        "title": "Better order",
-        "help": "Put ideas in a logical sequence."
+        "title": "Better order"
       },
       "headings_lists": {
-        "title": "Add headings and lists",
-        "help": "Make longer text easier to scan."
+        "title": "Add headings and lists"
       },
       "keep_tone": {
-        "title": "Keep my tone",
-        "help": "Preserve your voice and formality."
+        "title": "Keep my tone"
       }
     },
     "examples": {
@@ -1707,9 +1684,7 @@
       "paste": "Paste an example",
       "load": "Load .txt or .md",
       "remove": "Remove example {{number}}",
-      "readError": "Choose a .txt or .md file with no more than {{chars}} characters.",
-      "help_one": "Paste or load up to {{max}} example, {{chars}} characters each. They guide style without becoming part of the result.",
-      "help_other": "Paste or load up to {{max}} examples, {{chars}} characters each. They guide style without becoming part of the result."
+      "readError": "Choose a .txt or .md file with no more than {{chars}} characters."
     },
     "diff": {
       "changes_one": "{{count}} change",
@@ -1725,10 +1700,8 @@
       "simpleView": "Showing one replacement for this large or complex change.",
       "actionFailed": "That action didn't work. Your text is still here; try again."
     },
-    "startTutorial": "Start tutorial",
     "findReplace": {
       "title": "Find and replace",
-      "help": "Exact changes, made without AI every time this transform runs. Leave “Replace with” empty to remove the text.",
       "find": "Find, row {{number}}",
       "replace": "Replace with, row {{number}}",
       "findPlaceholder": "Find",
@@ -1737,19 +1710,6 @@
       "remove": "Remove row {{number}}",
       "add": "Add a replacement"
     },
-    "plan": {
-      "exact": "Runs exactly, without AI",
-      "mixed": "Done exactly, without AI:",
-      "rulesUnused": "Editing rules and writing examples aren't used: the prompt asks only for exact changes.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Remove {{find}}",
-      "upper": "UPPERCASE",
-      "lower": "lowercase",
-      "title": "Title Case",
-      "emoji": "emoji",
-      "email": "email addresses",
-      "url": "links"
-    },
     "model": {
       "downloading": "Getting transforms ready: one-time download, {{percent}}%",
       "verifying": "Getting transforms ready: checking the download…",
@@ -1757,6 +1717,10 @@
       "progressLabel": "Transforms download",
       "failed": "Couldn't download what transforms need. Check your connection.",
       "retry": "Try again"
+    },
+    "subtitle": "Select text in any app and press a shortcut to rewrite it.",
+    "settings": {
+      "title": "Transform settings"
     }
   },
   "cleanup": {

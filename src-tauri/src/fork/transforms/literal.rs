@@ -1206,6 +1206,10 @@ pub fn plan(prompt: &str) -> Plan {
     let mut plan = Plan::default();
     let mut rest = Vec::new();
     for sentence in sentences(prompt) {
+        // The old editor's placeholders say nothing (XF2).
+        if super::legacy::is_placeholder(&sentence) {
+            continue;
+        }
         match parse_sentence(&sentence) {
             Some(edits) => plan.edits.extend(edits),
             None => rest.push(sentence),
@@ -1495,6 +1499,22 @@ mod tests {
             "Reemplaza las A y E por 0 y 1",
             "Remplace tous les A et E par 0 et 1",
             "Vervang alle A en E door 0 en 1",
+        ] {
+            assert_eq!(run(prompt, "Ate"), "0t1", "{prompt}");
+        }
+    }
+
+    #[test]
+    fn the_owners_rc6_transform_with_curly_quotes_and_the_old_preamble() {
+        let owner = "Rewrite text the way I want. replace all “A” and “e” with 0 and 1";
+        assert_eq!(
+            run(owner, "Please send the agenda. EASY!"),
+            "Pl10s1 s1nd th1 0g1nd0. 10SY!"
+        );
+        for prompt in [
+            "replace all “A” and “e” with 0 and 1",
+            "Replace all ‘a’ and ‘e’ with ‘0’ and ‘1’.",
+            "Rewrite the selected text while preserving its meaning, facts and language. Replace “A” with “0” and “E” with “1”.",
         ] {
             assert_eq!(run(prompt, "Ate"), "0t1", "{prompt}");
         }

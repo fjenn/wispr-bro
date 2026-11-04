@@ -1278,24 +1278,18 @@
   },
   "transforms": {
     "banner": {
-      "title": "Skriv om markerad text i valfri app",
-      "body": "Välj en omvandling, markera text och använd dess kortkommando. Det du skriver stannar på den här datorn.",
       "tryIt": "Prova",
       "howItWorks": "Hur det fungerar"
     },
     "enable": {
-      "title": "Aktivera Omvandlingar",
-      "help": "Slå på kortkommandon för omskrivning och ändringsvyn. Omvandlingar är avstängda tills du väljer dem."
+      "title": "Aktivera Omvandlingar"
     },
     "commandMode": {
       "title": "Kommandoläge",
-      "on": "På",
-      "off": "Av",
-      "help": "Håll ned kortkommandot för Kommandoläge och säg hur markeringen ska ändras eller vad som ska skrivas. Utan markering ger fältet kontext och resultatet hamnar vid insättningspunkten. Allt stannar på din Mac; Kommandoläget slår aldrig upp något. När det är av dikterar kortkommandot som vanligt."
+      "help": "Håll ned kortkommandot och säg vad som ska skrivas eller ändras."
     },
     "auto": {
       "title": "Använd efter varje diktering",
-      "help": "Kör den valda omvandlingen efter rensningen. Om den inte kan slutföras klistras den rensade dikteringen in oförändrad. Körningar med mindre än 5 sekunders mellanrum hoppas över.",
       "choice": "Omvandling att använda",
       "none": "Välj en omvandling"
     },
@@ -1306,33 +1300,20 @@
     "myTransforms": "Mina omvandlingar",
     "reset": "Återställ standardvärden",
     "resetConfirm": "Vill du återställa Polish och Prompt Engineer och ta bort alla egna omvandlingar?",
-    "createNew": "Skapa ny",
+    "createNew": "Ny omvandling",
     "deleteConfirm": "Vill du radera {{name}}? Det går inte att ångra.",
     "loading": "Läser in dina omvandlingar…",
     "empty": "Inga omvandlingar än. Skapa en för att komma igång.",
     "error": "Ändringen av omvandlingen kunde inte sparas. Försök igen.",
     "card": {
-      "createOwn": "Skapa ditt eget",
-      "createOwnHint": "Välj regler, instruktioner och skrivexempel.",
       "delete": "Radera {{name}}"
     },
-    "builtin": {
-      "polish": {
-        "description": "Putsar grammatik och formuleringar men behåller din röst."
-      },
-      "prompt_engineer": {
-        "description": "Gör grova anteckningar till en tydlig och komplett AI-prompt."
-      }
-    },
     "new": {
-      "name": "Min omvandling",
-      "description": "Skriv om text som jag vill.",
-      "prompt": "Skriv om den markerade texten och bevara dess betydelse, fakta och språk."
+      "name": "Min omvandling"
     },
     "editor": {
       "title": "Redigera {{name}}",
       "name": "Namn",
-      "description": "Beskrivning",
       "hotkey": "Kortkommando",
       "addHotkey": "Lägg till kortkommando",
       "example": "Exempel",
@@ -1340,8 +1321,6 @@
       "exampleText": "öh kan du skicka rapporten till mig i morgon kanske kan vi prata om den då",
       "preview": "Förhandsvisning",
       "previewing": "Förhandsvisar…",
-      "customPrompt": "Anpassad prompt",
-      "customPromptHelp": "Lägg till specifika instruktioner. Den valda texten förändras, svaras aldrig.",
       "rules": "Redigeringsregler",
       "autosave": {
         "saved": "Spara automatiskt · Alla ändringar har sparats",
@@ -1358,28 +1337,26 @@
         "failed": "Svaret från den lokala AI:n klarade inte säkerhetskontrollerna. Försök igen eller formulera om instruktionen.",
         "timeout": "Den lokala AI:n tog för lång tid. Försök igen.",
         "no_engine": "Den lokala AI:n är inte redo än. Exakta ändringar fungerar fortfarande."
-      }
+      },
+      "instruction": "Vad ska den göra?",
+      "instructionPlaceholder": "Till exempel: ersätt alla ”A” med 0, eller gör det vänligare",
+      "more": "Fler alternativ"
     },
     "rules": {
       "shorter": {
-        "title": "Kortare",
-        "help": "Ta bort upprepningar och extra ord."
+        "title": "Kortare"
       },
       "clearer": {
-        "title": "Tydligare formulering",
-        "help": "Använd ett direkt och precist språk."
+        "title": "Tydligare formulering"
       },
       "better_order": {
-        "title": "Bättre ordning",
-        "help": "Placera idéer i en logisk ordning."
+        "title": "Bättre ordning"
       },
       "headings_lists": {
-        "title": "Lägg till rubriker och listor",
-        "help": "Gör längre text lättare att skumma."
+        "title": "Lägg till rubriker och listor"
       },
       "keep_tone": {
-        "title": "Behåll min ton",
-        "help": "Bevara din röst och formalitetsnivå."
+        "title": "Behåll min ton"
       }
     },
     "examples": {
@@ -1390,9 +1367,7 @@
       "paste": "Klistra in ett exempel",
       "load": "Läs in .txt eller .md",
       "remove": "Ta bort exempel {{number}}",
-      "readError": "Välj en .txt- eller .md-fil med högst {{chars}} tecken.",
-      "help_one": "Klistra in eller läs in upp till {{max}} exempel på {{chars}} tecken. Det styr stilen utan att bli en del av resultatet.",
-      "help_other": "Klistra in eller läs in upp till {{max}} exempel på {{chars}} tecken vardera. De styr stilen utan att bli en del av resultatet."
+      "readError": "Välj en .txt- eller .md-fil med högst {{chars}} tecken."
     },
     "diff": {
       "changes_one": "{{count}} ändring",
@@ -1408,10 +1383,8 @@
       "simpleView": "Visar en enda ersättning för den här stora eller komplexa ändringen.",
       "actionFailed": "Åtgärden fungerade inte. Din text finns kvar; försök igen."
     },
-    "startTutorial": "Starta genomgången",
     "findReplace": {
       "title": "Sök och ersätt",
-      "help": "Exakta ändringar som görs utan AI varje gång den här omvandlingen körs. Lämna ”Ersätt med” tomt om du vill ta bort texten.",
       "find": "Sök, rad {{number}}",
       "replace": "Ersätt med, rad {{number}}",
       "findPlaceholder": "Sök",
@@ -1420,19 +1393,6 @@
       "remove": "Ta bort rad {{number}}",
       "add": "Lägg till en ersättning"
     },
-    "plan": {
-      "exact": "Körs exakt, utan AI",
-      "mixed": "Gjort exakt, utan AI:",
-      "rulesUnused": "Redigeringsregler och skrivexempel används inte: prompten ber bara om exakta ändringar.",
-      "replace": "{{find}} → {{with}}",
-      "remove": "Ta bort {{find}}",
-      "upper": "VERSALER",
-      "lower": "gemener",
-      "title": "Stor Första Bokstav",
-      "emoji": "emojier",
-      "email": "e-postadresser",
-      "url": "länkar"
-    },
     "model": {
       "downloading": "Förbereder transformeringar: engångsnedladdning, {{percent}} %",
       "verifying": "Förbereder transformeringar: kontrollerar nedladdningen …",
@@ -1440,6 +1400,10 @@
       "progressLabel": "Nedladdning för transformeringar",
       "failed": "Det som transformeringar behöver kunde inte laddas ned. Kontrollera anslutningen.",
       "retry": "Försök igen"
+    },
+    "subtitle": "Markera text i valfri app och tryck på ett kortkommando för att skriva om den.",
+    "settings": {
+      "title": "Inställningar för omvandlingar"
     }
   },
   "cleanup": {

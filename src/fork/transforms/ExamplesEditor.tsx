@@ -50,13 +50,6 @@ export function ExamplesEditor({
       <legend className="text-sm font-semibold">
         {t("transforms.examples.title")}
       </legend>
-      <p className="text-xs leading-5 text-(--wb-ink-2)">
-        {t("transforms.examples.help", {
-          count: MAX_EXAMPLES,
-          max: MAX_EXAMPLES,
-          chars,
-        })}
-      </p>
       {value.map((example, index) => (
         <div
           key={index}

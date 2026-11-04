@@ -3154,3 +3154,9 @@ test profile (never the owner's data dir); network on.
 - **OT2-H.1** Fresh test profile, Transforms on: Polish works with no second download; creating a custom transform starts it and the Transforms page shows "Getting transforms ready: one-time download, N%" and the Qwen3.5-2B file lands in the profile's HF cache; ⌥1 before it finishes shows "Transforms are getting ready" (or runs on Apple's model when Apple Intelligence is on).
 - **OT2-H.2** Offline (network off) on a fresh profile: "Couldn't download what transforms need" with Try again; back online, Try again finishes the download.
 - **OT2-H.3** With the model ready: a custom "Make it more formal" + Shorter on a TextEdit selection is rewritten (⌘Z restores); Command Mode "make this friendlier" on a selection; `ps` shows a second `llama-server` from `llm-instruct` that stops after 120 s idle.
+
+## XF2: the owner's transform, instruction-model deadline, simpler Transforms page (queued for the Mac wave)
+
+- **XF2.1** On a copy of a profile whose custom transform was made in rc6 (generic instruction, the words in the old Description; e.g. the owner's "replace all “A” and “e” with 0 and 1"), select "Please send the agenda" in TextEdit and press its shortcut: "Pl10s1 s1nd th1 0g1nd0" is pasted at once (exact edits, no model); the editor's "What should it do?" box shows that sentence.
+- **XF2.2** Quit and relaunch (instruction server cold), then run a free-form custom transform ("make it friendlier") on two sentences: it pastes, no "Couldn't apply" (cold start budget 30 s, request ≥ 15 s); Esc during the wait cancels.
+- **XF2.3** Transforms page by eye, light and dark: title, one line, the list and "New transform"; the settings button opens auto-apply, Command Mode, the ⌥-key note and Reset; the editor shows one instruction box, compact option chips, the preview and a folded "More options".

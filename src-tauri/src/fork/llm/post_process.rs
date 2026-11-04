@@ -202,6 +202,12 @@ pub trait Engine: Send + Sync {
         request: ChatRequest,
         timeout: Duration,
     ) -> impl Future<Output = Result<String, EngineError>> + Send;
+
+    /// Gets the engine ready (a cold server start) before a request, outside
+    /// its deadline (XF2). Most engines need nothing.
+    fn prepare(&self) -> impl Future<Output = Result<(), EngineError>> + Send {
+        async { Ok(()) }
+    }
 }
 
 /// The bundled `llama-server` through the supervisor. A server that is not
@@ -255,7 +261,7 @@ fn chat_error_kind(e: &ChatError) -> &'static str {
     }
 }
 
-fn start_error_kind(e: &StartError) -> &'static str {
+pub(crate) fn start_error_kind(e: &StartError) -> &'static str {
     match e {
         StartError::NoModel => "no_model",
         StartError::Backoff(_) => "backoff",
