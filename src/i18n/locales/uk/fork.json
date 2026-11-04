@@ -902,6 +902,7 @@
         "cancelled": "Скасовано",
         "no_transcript": "Ще немає чого вставити",
         "copied_last": "Останнє диктування скопійовано",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Готово",
         "command_done": "Готово",
         "command_needs_text": "Командний режим змінює й пише текст. Виділіть текст або клацніть у полі.",

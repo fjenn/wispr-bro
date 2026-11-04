@@ -887,6 +887,7 @@
         "cancelled": "בוטל",
         "no_transcript": "עדיין אין הכתבה להדבקה",
         "copied_last": "ההכתבה האחרונה הועתקה",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "בוצע",
         "command_done": "בוצע",
         "command_needs_text": "מצב פקודה עורך וכותב טקסט. בחר טקסט או לחץ בתוך שדה.",

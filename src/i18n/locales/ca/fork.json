@@ -887,6 +887,7 @@
         "cancelled": "Cancel·lat",
         "no_transcript": "Encara no hi ha cap dictat per enganxar",
         "copied_last": "S'ha copiat l'últim dictat",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Fet",
         "command_done": "Fet",
         "command_needs_text": "El mode d'ordres edita i escriu text. Selecciona text o fes clic en un camp.",

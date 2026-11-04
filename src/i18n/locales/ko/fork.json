@@ -857,6 +857,7 @@
         "cancelled": "취소됨",
         "no_transcript": "아직 붙여넣을 받아쓰기가 없음",
         "copied_last": "마지막 받아쓰기 복사됨",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "완료",
         "command_done": "완료",
         "command_needs_text": "명령 모드는 텍스트를 편집하고 작성합니다. 텍스트를 선택하거나 입력란을 클릭하세요.",

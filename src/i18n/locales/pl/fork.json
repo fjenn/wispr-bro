@@ -902,6 +902,7 @@
         "cancelled": "Anulowano",
         "no_transcript": "Nie ma jeszcze dyktowania do wklejenia",
         "copied_last": "Skopiowano ostatnie dyktowanie",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Gotowe",
         "command_done": "Gotowe",
         "command_needs_text": "Tryb poleceń edytuje i pisze tekst. Zaznacz tekst lub kliknij w pole.",

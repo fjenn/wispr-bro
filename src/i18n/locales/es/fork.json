@@ -887,6 +887,7 @@
         "cancelled": "Cancelado",
         "no_transcript": "Aún no hay ningún dictado que pegar",
         "copied_last": "Último dictado copiado",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Hecho",
         "command_done": "Hecho",
         "command_needs_text": "El modo de comandos edita y escribe texto. Selecciona texto o haz clic en un campo.",

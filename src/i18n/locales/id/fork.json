@@ -857,6 +857,7 @@
         "cancelled": "Dibatalkan",
         "no_transcript": "Belum ada dikte untuk ditempel",
         "copied_last": "Dikte terakhir disalin",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Selesai",
         "command_done": "Selesai",
         "command_needs_text": "Command Mode mengedit dan menulis teks. Pilih teks atau klik di sebuah bidang.",

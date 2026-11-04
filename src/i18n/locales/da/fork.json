@@ -872,6 +872,7 @@
         "cancelled": "Annulleret",
         "no_transcript": "Ingen diktering at indsætte endnu",
         "copied_last": "Seneste diktering kopieret",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Færdig",
         "command_done": "Færdig",
         "command_needs_text": "Kommandotilstand redigerer og skriver tekst. Vælg tekst, eller klik i et felt.",

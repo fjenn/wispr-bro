@@ -864,6 +864,7 @@
         "cancelled": "Canceled",
         "no_transcript": "No dictation to paste yet",
         "copied_last": "Last dictation copied",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Done",
         "command_done": "Done",
         "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",

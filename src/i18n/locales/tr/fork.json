@@ -872,6 +872,7 @@
         "cancelled": "İptal edildi",
         "no_transcript": "Henüz yapıştırılacak dikte yok",
         "copied_last": "Son dikte kopyalandı",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Bitti",
         "command_done": "Bitti",
         "command_needs_text": "Komut Modu metin düzenler ve yazar. Metin seçin veya bir alana tıklayın.",

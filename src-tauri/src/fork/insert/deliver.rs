@@ -116,6 +116,16 @@ impl CardReason {
         }
     }
 
+    /// OT2-A: there was no field to put the text in (no text field had
+    /// focus at the release, or focus moved on before delivery), so the
+    /// text goes on the clipboard as plain text, not restored, and the bar
+    /// says "Copied to clipboard". A password field, the lock screen
+    /// (`SecureField`) and the session interruptions keep the card: the user
+    /// is not there, or the text must not reach the clipboard.
+    pub fn copies_to_clipboard(self) -> bool {
+        matches!(self, CardReason::NoTextField | CardReason::FocusMoved)
+    }
+
     pub const ALL: [CardReason; 8] = [
         CardReason::Sleep,
         CardReason::ScreenLocked,

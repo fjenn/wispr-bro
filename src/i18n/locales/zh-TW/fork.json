@@ -857,6 +857,7 @@
         "cancelled": "已取消",
         "no_transcript": "還沒有可貼上的聽寫",
         "copied_last": "已拷貝上一次聽寫",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "完成",
         "command_done": "完成",
         "command_needs_text": "指令模式用於編輯和撰寫文字。請選取文字或按一下輸入欄位。",

@@ -872,6 +872,7 @@
         "cancelled": "रद्द किया गया",
         "no_transcript": "पेस्ट करने के लिए अभी कोई श्रुतलेख नहीं",
         "copied_last": "पिछला श्रुतलेख कॉपी हो गया",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "हो गया",
         "command_done": "हो गया",
         "command_needs_text": "Command Mode टेक्स्ट संपादित करता है और लिखता है। टेक्स्ट चुनें या किसी फ़ील्ड में क्लिक करें।",

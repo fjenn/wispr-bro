@@ -887,6 +887,7 @@
         "cancelled": "Cancelado",
         "no_transcript": "Ainda não há ditado para colar",
         "copied_last": "Último ditado copiado",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Pronto",
         "command_done": "Pronto",
         "command_needs_text": "O Modo de Comando edita e escreve texto. Selecione um texto ou clique em um campo.",

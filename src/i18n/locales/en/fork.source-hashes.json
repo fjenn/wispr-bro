@@ -1129,6 +1129,7 @@
   "rust.pill.message.command_done": "11a6767d5674",
   "rust.pill.message.command_needs_text": "3e80e3727493",
   "rust.pill.message.copied_last": "b757cf20dabd",
+  "rust.pill.message.copied_to_clipboard": "d37078fe6a1f",
   "rust.pill.message.download_failed": "a09ef3a2bd38",
   "rust.pill.message.inserted_without_cleanup": "4adfd3d58651",
   "rust.pill.message.mic_denied": "1fa819fc4028",

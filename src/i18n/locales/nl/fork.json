@@ -872,6 +872,7 @@
         "cancelled": "Geannuleerd",
         "no_transcript": "Nog geen dictee om te plakken",
         "copied_last": "Laatste dictee gekopieerd",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Gereed",
         "command_done": "Gereed",
         "command_needs_text": "Opdrachtmodus bewerkt en schrijft tekst. Selecteer tekst of klik in een veld.",

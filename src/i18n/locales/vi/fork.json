@@ -857,6 +857,7 @@
         "cancelled": "Đã hủy",
         "no_transcript": "Chưa có bản đọc chính tả nào để dán",
         "copied_last": "Đã sao chép bản đọc chính tả gần nhất",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Xong",
         "command_done": "Xong",
         "command_needs_text": "Command Mode sửa và viết văn bản. Hãy chọn văn bản hoặc bấm vào một trường.",

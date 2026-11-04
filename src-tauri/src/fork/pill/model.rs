@@ -100,6 +100,9 @@ pub enum PillMessage {
     NoTranscript,
     /// Copy-last put the last transcript on the clipboard (S-06).
     CopiedLast,
+    /// OT2-A: no text field had focus at the release (or focus moved on), so
+    /// the take's text went on the clipboard instead.
+    CopiedToClipboard,
     /// A transform finished; S-22 will present its before/after record.
     TransformDone,
     CommandDone,
@@ -154,6 +157,7 @@ impl PillMessage {
             | PillMessage::Cancelled
             | PillMessage::NoTranscript
             | PillMessage::CopiedLast
+            | PillMessage::CopiedToClipboard
             | PillMessage::TransformDone
             | PillMessage::CommandDone
             | PillMessage::CommandNeedsText
@@ -245,6 +249,7 @@ impl PillMessage {
             PillMessage::Cancelled => "cancelled",
             PillMessage::NoTranscript => "no_transcript",
             PillMessage::CopiedLast => "copied_last",
+            PillMessage::CopiedToClipboard => "copied_to_clipboard",
             PillMessage::TransformDone => "transform_done",
             PillMessage::CommandDone => "command_done",
             PillMessage::CommandNeedsText => "command_needs_text",
@@ -691,6 +696,16 @@ impl Model {
                 if self.phase() == Phase::Card && !kind.at_start() {
                     // S-05: Handy reports a take that went to the card as
                     // failed (its paste contract); the card already says why.
+                    return;
+                }
+                if kind == PillMessage::NotPasted
+                    && self.phase() == Phase::Message
+                    && self
+                        .message
+                        .is_some_and(|(current, _)| current == PillMessage::CopiedToClipboard)
+                {
+                    // OT2-A: the outcome event of a take that was copied
+                    // (outcome `card`) does not replace "Copied to clipboard".
                     return;
                 }
                 if kind == PillMessage::ShortcutBack
@@ -1334,6 +1349,7 @@ mod tests {
             Cancelled,
             NoTranscript,
             CopiedLast,
+            CopiedToClipboard,
             TransformDone,
             CommandDone,
             CommandNeedsText,
@@ -1578,6 +1594,24 @@ mod tests {
         m.step(0, Input::TakeStarted { locked: false });
         m.step(1, Input::Undoing);
         assert_eq!(phase(&mut m, 1), Some(PillPhase::Held));
+    }
+
+    #[test]
+    fn copied_to_clipboard_is_information_and_not_replaced_by_not_pasted() {
+        let k = PillMessage::CopiedToClipboard;
+        assert_eq!(
+            (k.tone(), k.fix(), k.duration(), k.key()),
+            (PillTone::Info, None, INFO_MS, "copied_to_clipboard")
+        );
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: false });
+        m.step(500, Input::Stopped);
+        m.step(900, Input::Message(PillMessage::CopiedToClipboard));
+        // The take's outcome event (`card`) arrives right after.
+        m.step(901, Input::Message(PillMessage::NotPasted));
+        let a = m.view_at(901).active.unwrap();
+        assert_eq!(a.phase, PillPhase::Message);
+        assert_eq!(a.message, Some(PillMessage::CopiedToClipboard));
     }
 
     #[test]

@@ -1157,6 +1157,7 @@
   "rust.pill.message.command_done": "ai-reviewed",
   "rust.pill.message.command_needs_text": "ai-reviewed",
   "rust.pill.message.copied_last": "ai-reviewed",
+  "rust.pill.message.copied_to_clipboard": "untranslated",
   "rust.pill.message.download_failed": "ai-reviewed",
   "rust.pill.message.inserted_without_cleanup": "ai-reviewed",
   "rust.pill.message.mic_denied": "ai-reviewed",

@@ -872,6 +872,7 @@
         "cancelled": "Abgebrochen",
         "no_transcript": "Noch kein Diktat zum Einfügen",
         "copied_last": "Letztes Diktat kopiert",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Fertig",
         "command_done": "Fertig",
         "command_needs_text": "Der Befehlsmodus bearbeitet und schreibt Text. Wähle Text aus oder klicke in ein Feld.",

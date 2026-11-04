@@ -872,6 +872,7 @@
         "cancelled": "Avbruten",
         "no_transcript": "Ingen diktering att klistra in än",
         "copied_last": "Senaste dikteringen har kopierats",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Klart",
         "command_done": "Klart",
         "command_needs_text": "Kommandoläget redigerar och skriver text. Markera text eller klicka i ett fält.",

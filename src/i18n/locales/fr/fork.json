@@ -887,6 +887,7 @@
         "cancelled": "Annulé",
         "no_transcript": "Aucune dictée à coller pour l’instant",
         "copied_last": "Dernière dictée copiée",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Terminé",
         "command_done": "Terminé",
         "command_needs_text": "Le mode Commande modifie et écrit du texte. Sélectionnez du texte ou cliquez dans un champ.",

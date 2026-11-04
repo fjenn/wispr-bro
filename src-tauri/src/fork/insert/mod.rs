@@ -22,7 +22,9 @@
 //! here and sent as [`ForkInsertOutcome`](super::events::ForkInsertOutcome)
 //! (S-09 stores it per take). A card goes to the Flow Bar
 //! ([`crate::fork::pill::show_insert_card`]: the reason, the text, Copy, ✕); the text is in
-//! History either way.
+//! History either way. OT2-A: when there was no field to put it in (no text
+//! field at the release, or focus moved on), the text goes on the clipboard
+//! instead and the bar says "Copied to clipboard" ([`end_card`]).
 
 pub mod deliver;
 pub mod session;
@@ -134,8 +136,8 @@ pub fn deliver_as(
     let take = next_take();
     if let Some(reason) = route(take, kind) {
         let delivery = Delivery::Card { reason };
-        publish_outcome(&app, take, delivery, &text, kind);
-        return (hook_result(delivery), delivery.paste_outcome());
+        let end = publish_outcome(&app, take, delivery, &text, kind);
+        return (hook_result(delivery, end), delivery.paste_outcome());
     }
     // Handy's own paste: it reports only success or failure.
     let result = crate::utils::paste(text.clone(), app.clone());
@@ -375,15 +377,62 @@ fn next_take() -> u32 {
     TAKE_SEQ.fetch_add(1, Ordering::Relaxed) + 1
 }
 
+/// How a take that was not pasted reaches the user.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum CardEnd {
+    /// An empty or formatting-only transcript: "No speech heard".
+    Empty,
+    /// OT2-A: on the clipboard (plain, unmarked, never restored) and the bar
+    /// says "Copied to clipboard".
+    Copied,
+    /// The bar's card (reason, text, Copy, ✕).
+    Card,
+}
+
+/// Decides [`CardEnd`] and, for a reason that copies, writes the clipboard
+/// with `write` (falling back to the card when the write fails).
+pub(crate) fn end_card(
+    reason: CardReason,
+    text: &str,
+    write: impl FnOnce(&str) -> Result<i64, String>,
+) -> CardEnd {
+    if text.trim().is_empty() {
+        return CardEnd::Empty;
+    }
+    if !reason.copies_to_clipboard() {
+        return CardEnd::Card;
+    }
+    match write(text) {
+        Ok(_) => CardEnd::Copied,
+        Err(e) => {
+            log::warn!("insert: could not copy the text, showing the card: {e}");
+            CardEnd::Card
+        }
+    }
+}
+
+/// The clipboard write of [`CardEnd::Copied`]: plain text, as the card's
+/// Copy writes it (§4.7 explicit copy: replaced, not restored).
+fn copy_plain(text: &str) -> Result<i64, String> {
+    #[cfg(target_os = "macos")]
+    return crate::fork::clipboard::nspb::write_text(text, false);
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = text;
+        Err("copying needs macOS".into())
+    }
+}
+
 /// Logs the outcome (no transcript text), remembers a card, and tells the
-/// windows.
+/// windows. Returns how a card ended ([`CardEnd`]), `None` for a paste or
+/// a cancel.
 fn publish_outcome<R: Runtime>(
     app: &AppHandle<R>,
     take: u32,
     delivery: Delivery,
     text: &str,
     kind: Kind,
-) {
+) -> Option<CardEnd> {
     if kind.is_take() {
         crate::fork::db::entry_meta::on_paste_outcome(app, text, delivery.paste_outcome());
         if delivery != Delivery::Cancelled {
@@ -398,22 +447,38 @@ fn publish_outcome<R: Runtime>(
         }
     }
     let event = outcome_event(take, delivery, text);
+    let mut end = None;
     if let Delivery::Card { reason } = delivery {
-        if text.trim().is_empty() {
+        let e = end_card(reason, text, copy_plain);
+        end = Some(e);
+        match e {
             // Nothing to copy: an empty or formatting-only transcript.
-            crate::fork::pill::show_message(crate::fork::pill::model::PillMessage::NoSpeech);
-        } else {
-            *lock(&LAST_CARD) = Some(CardText {
-                take,
-                reason,
-                text: text.to_string(),
-            });
-            crate::fork::pill::show_insert_card(card_reason(reason), text.to_string());
+            CardEnd::Empty => {
+                crate::fork::pill::show_message(crate::fork::pill::model::PillMessage::NoSpeech)
+            }
+            CardEnd::Copied => {
+                log::info!(
+                    "insert: take {take} copied to the clipboard ({})",
+                    reason.as_str()
+                );
+                crate::fork::pill::show_message(
+                    crate::fork::pill::model::PillMessage::CopiedToClipboard,
+                );
+            }
+            CardEnd::Card => {
+                *lock(&LAST_CARD) = Some(CardText {
+                    take,
+                    reason,
+                    text: text.to_string(),
+                });
+                crate::fork::pill::show_insert_card(card_reason(reason), text.to_string());
+            }
         }
     }
     if let Err(e) = tauri_specta::Event::emit(&event, app) {
         log::warn!("insert: could not emit the outcome: {e}");
     }
+    end
 }
 
 fn outcome_event(take: u32, delivery: Delivery, text: &str) -> ForkInsertOutcome {
@@ -451,10 +516,12 @@ pub fn card_reason(reason: CardReason) -> ForkCardReason {
     }
 }
 
-/// The hook's return value for a delivery.
-fn hook_result(delivery: Delivery) -> Result<(), String> {
+/// The hook's return value for a delivery. Text copied to the clipboard
+/// (OT2-A) is delivered: Handy shows no paste error for it.
+fn hook_result(delivery: Delivery, end: Option<CardEnd>) -> Result<(), String> {
     match delivery {
         Delivery::Pasted { .. } | Delivery::Cancelled => Ok(()),
+        Delivery::Card { .. } if end == Some(CardEnd::Copied) => Ok(()),
         Delivery::Card { reason } => Err(format!(
             "not pasted ({}); the text is on the card and in History",
             reason.as_str()

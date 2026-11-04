@@ -902,6 +902,7 @@
         "cancelled": "Zrušeno",
         "no_transcript": "Zatím není co vložit",
         "copied_last": "Poslední diktát zkopírován",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Hotovo",
         "command_done": "Hotovo",
         "command_needs_text": "Příkazový režim upravuje a píše text. Vyberte text nebo klikněte do pole.",

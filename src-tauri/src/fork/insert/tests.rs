@@ -852,16 +852,90 @@ fn outcome_event_carries_text_only_for_a_card() {
 
 #[test]
 fn hook_result_matches_handys_paste_contract() {
-    assert!(super::hook_result(Delivery::Pasted {
-        outcome: PasteOutcome::Unverified
-    })
+    assert!(super::hook_result(
+        Delivery::Pasted {
+            outcome: PasteOutcome::Unverified
+        },
+        None
+    )
     .is_ok());
-    assert!(super::hook_result(Delivery::Cancelled).is_ok());
-    let e = super::hook_result(Delivery::Card {
-        reason: CardReason::Sleep,
-    })
+    assert!(super::hook_result(Delivery::Cancelled, None).is_ok());
+    let e = super::hook_result(
+        Delivery::Card {
+            reason: CardReason::Sleep,
+        },
+        Some(super::CardEnd::Card),
+    )
     .unwrap_err();
     assert!(e.contains("sleep") && e.contains("History"));
+    // OT2-A: copied to the clipboard is delivered (no Handy paste error).
+    assert!(super::hook_result(
+        Delivery::Card {
+            reason: CardReason::NoTextField,
+        },
+        Some(super::CardEnd::Copied),
+    )
+    .is_ok());
+}
+
+// ---------------------------------------------------------------------------
+// OT2-A: no field at the release → the clipboard
+
+#[test]
+fn no_text_field_or_focus_moved_copies_to_the_clipboard_and_never_restores() {
+    use super::{end_card, CardEnd};
+    for reason in [CardReason::NoTextField, CardReason::FocusMoved] {
+        // The previous take was pasted and its restore is still pending
+        // when this take finds no field.
+        let f = Fake::new(user_items(), NATIVE);
+        let guard = Mutex::new(Line::new());
+        let (report, pending) = deliver::paste(&f, &guard, &native("earlier"), &OPEN);
+        assert!(report.delivery.inserted());
+        let text = "said in Finder";
+        let end = end_card(reason, text, |t| f.write_plain_text(t));
+        assert_eq!(end, CardEnd::Copied, "{reason:?}");
+        // Plain text, unmarked: the user pastes it wherever they like.
+        let copied = vec![PasteboardItem::text(text)];
+        assert_eq!(f.items(), copied);
+        // The earlier take's restore sees the change and leaves it alone:
+        // the old clipboard is not put back over the copied text.
+        let settled = deliver::settle(&f, &guard, pending.expect("a clipboard paste"), &Timing::R5);
+        assert_eq!(settled.decision, "clipboard_changed", "{reason:?}");
+        assert_eq!(f.items(), copied, "{reason:?}");
+        // The outcome still carries the text (History has it as usual).
+        let e = super::outcome_event(1, Delivery::Card { reason }, text);
+        assert_eq!(e.text.as_deref(), Some(text));
+    }
+}
+
+#[test]
+fn secure_lock_and_interruptions_keep_the_card_and_the_clipboard() {
+    use super::{end_card, CardEnd};
+    for reason in CardReason::ALL {
+        let mut wrote = false;
+        let end = end_card(reason, "secret", |_| {
+            wrote = true;
+            Ok(1)
+        });
+        if reason.copies_to_clipboard() {
+            assert_eq!(end, CardEnd::Copied);
+        } else {
+            assert_eq!(end, CardEnd::Card, "{reason:?}");
+            assert!(!wrote, "{reason:?} wrote the clipboard");
+        }
+    }
+    assert!(!CardReason::SecureField.copies_to_clipboard());
+    assert!(!CardReason::ScreenLocked.copies_to_clipboard());
+    // An empty transcript is "No speech heard", never a copy.
+    assert_eq!(
+        end_card(CardReason::NoTextField, "  \n", |_| panic!("no write")),
+        CardEnd::Empty
+    );
+    // A failed write falls back to the card (the text is never dropped).
+    assert_eq!(
+        end_card(CardReason::NoTextField, "hi", |_| Err("busy".into())),
+        CardEnd::Card
+    );
 }
 
 #[test]

@@ -3045,6 +3045,11 @@ export type PillMessage =
  */
 "copied_last" | 
 /**
+ * OT2-A: no text field had focus at the release (or focus moved on), so
+ * the take's text went on the clipboard instead.
+ */
+"copied_to_clipboard" | 
+/**
  * A transform finished; S-22 will present its before/after record.
  */
 "transform_done" | "command_done" | "command_needs_text" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed" | 

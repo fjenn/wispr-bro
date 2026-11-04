@@ -887,6 +887,7 @@
         "cancelled": "Annullata",
         "no_transcript": "Ancora nessuna dettatura da incollare",
         "copied_last": "Ultima dettatura copiata",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Fatto",
         "command_done": "Fatto",
         "command_needs_text": "La modalità Comandi modifica e scrive testo. Seleziona del testo o fai clic in un campo.",

@@ -56,8 +56,8 @@ pub(super) fn deliver(
         }
     } else if let Some(reason) = route(take, kind) {
         let delivery = deliver::Delivery::Card { reason };
-        publish_outcome(&app, take, delivery, &text, kind);
-        return (hook_result(delivery), delivery.paste_outcome());
+        let end = publish_outcome(&app, take, delivery, &text, kind);
+        return (hook_result(delivery, end), delivery.paste_outcome());
     }
 
     let (bundle, class) = frontmost_class();
@@ -115,14 +115,14 @@ pub(super) fn deliver(
             log::error!("insert: could not start the restore thread: {e}");
         }
     }
-    publish_outcome(&app, take, report.delivery, &text, kind);
+    let end = publish_outcome(&app, take, report.delivery, &text, kind);
     // S-34: a dictation left in the field (not sent by a Return) is watched
     // for the user's corrections when auto-learn is on.
     if kind == Kind::Take && report.delivery.inserted() && req.submit.is_none() {
         crate::fork::dictionary::learn::on_pasted(&app, &text);
     }
     (
-        hook_result(report.delivery),
+        hook_result(report.delivery, end),
         report.delivery.paste_outcome(),
     )
 }

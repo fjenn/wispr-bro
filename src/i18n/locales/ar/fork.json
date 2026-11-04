@@ -932,6 +932,7 @@
         "cancelled": "تم الإلغاء",
         "no_transcript": "لا يوجد إملاء للصقه بعد",
         "copied_last": "تم نسخ آخر إملاء",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "تم",
         "command_done": "تم",
         "command_needs_text": "وضع الأوامر يعدّل النص ويكتبه. حدد نصًا أو انقر داخل حقل.",

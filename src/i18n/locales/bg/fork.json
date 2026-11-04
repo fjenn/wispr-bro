@@ -872,6 +872,7 @@
         "cancelled": "Отменено",
         "no_transcript": "Все още няма диктовка за поставяне",
         "copied_last": "Последната диктовка е копирана",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "Готово",
         "command_done": "Готово",
         "command_needs_text": "Командният режим редактира и пише текст. Изберете текст или щракнете в поле.",

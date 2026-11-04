@@ -857,6 +857,7 @@
         "cancelled": "キャンセルしました",
         "no_transcript": "ペーストできる音声入力はまだありません",
         "copied_last": "最後の音声入力をコピーしました",
+        "copied_to_clipboard": "Copied to clipboard",
         "transform_done": "完了",
         "command_done": "完了",
         "command_needs_text": "コマンドモードはテキストを編集・作成します。テキストを選択するか、入力フィールドをクリックしてください。",

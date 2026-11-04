@@ -169,6 +169,13 @@ const STATES: Record<string, ForkPillState> = {
     message: "copied_last",
     tone: "info",
   }),
+  // OT2-A: no text field at the release; the text went on the clipboard.
+  copiedToClipboard: state({
+    phase: "message",
+    shape: "message",
+    message: "copied_to_clipboard",
+    tone: "info",
+  }),
   transformDone: state({
     phase: "message",
     shape: "message",
