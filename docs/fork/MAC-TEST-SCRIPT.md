@@ -821,12 +821,6 @@ target` line; no `models:` download, checksum or swap line falls between
 
 Last run: `docs/fork/test-runs/1.0.0-alpha.1-M-26-S-07a.md`.
 
-### S-07b Silent model policy
-
-- [ ] S-07b.1 RS-09 policy part on the real slice: language change to ja+en re-picks.
-- (R5 also lists "Intel picks CPU"; skipped under DEC-29.)
-- Procedure: TODO (S-07b).
-
 ### S-07c Offline queue and late delivery
 
 - [ ] S-07c.1 Offline first launch with networking off, 3 takes, quit, relaunch online.
@@ -2287,12 +2281,6 @@ onboarding <Data>` pass. ("Nothing but models left" is the `fork::erase`
 #### Mac wave 2 fixes (`fix/wave2`): crash relaunch
 
 - [x] S-27.6 **Mac wave 3: PASS (3 relaunches after `kill -ABRT`: ready in 1 s, no window, no restorer/alert frames, no savedState with the Hub open)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-3.md)) **Queued for the Mac wave** (finding 1: a relaunch after a crash hung behind AppKit's "reopen windows?" alert). Debug test bundle (any `com.wisprbro.<x>check`, keys unbound with `wb_unbind_keys`): launch with `--start-hidden`, wait for `fork ready`, `kill -ABRT` it ≈ 15 s after launch (as S-27.5 did), then launch it again with `--start-hidden` three times in a row. Pass: each launch logs `fork ready` and `startup: ready` within 20 s, no window of the app is on screen (`scripts/wb-window-id.swift <pid>` finds none), `sample <pid> 1` never shows `NSPersistentUIRestorer`/`NSAlert runModal`, and the log has no `window restoration is still on`. Also: no `~/Library/Saved Application State/<id>.savedState` is written while the Hub is open (the Hub is not restorable). Clean up the `.ips` reports as S-27.5 does.
-
-### S-28 Updates that never interrupt
-
-- [ ] S-28.1 RS-12 on the real slice.
-- [ ] S-28.2 An update during a long hands-free take waits.
-- Procedure: TODO (S-28).
 
 ### S-28 Updates that never interrupt
 
