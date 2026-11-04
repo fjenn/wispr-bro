@@ -361,6 +361,7 @@ export function NoteWindow() {
                   type="button"
                   onClick={() => void openNote(note.id)}
                   aria-current={note.id === selectedId ? "true" : undefined}
+                  dir={note.title ? "auto" : undefined}
                   className={`block h-8 w-full shrink-0 cursor-pointer truncate rounded-(--wb-radius-sm) px-2.5 text-start text-[13px] transition-colors duration-(--wb-dur-fast) ${note.id === selectedId ? "bg-(--wb-fill-active) font-medium text-(--wb-ink)" : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
                 >
                   {note.title || t("scratchpad.untitled")}

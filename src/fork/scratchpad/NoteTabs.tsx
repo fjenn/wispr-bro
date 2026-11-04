@@ -47,6 +47,7 @@ export function NoteTabs({
           }}
           className={`h-7 max-w-40 min-w-0 shrink-0 cursor-pointer truncate rounded-(--wb-radius-sm) px-2.5 text-[13px] whitespace-nowrap transition-colors duration-(--wb-dur-fast) ${selected === note.id ? "bg-(--wb-fill-active) font-medium text-(--wb-ink)" : "text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink)"} ${FOCUS_RING} focus-visible:-outline-offset-2`}
           data-testid={`wb-note-tab-${note.id}`}
+          dir={note.title ? "auto" : undefined}
         >
           {note.title || t("scratchpad.untitled")}
         </button>
