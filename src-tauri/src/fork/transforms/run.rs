@@ -21,6 +21,7 @@ use crate::fork::settings::CleanupLevel;
 pub const TRANSFORM_LATENCY_P50_MS: u128 = 2_000;
 pub const TRANSFORM_LATENCY_P95_MS: u128 = 3_500;
 /// The deadline of a short transform; longer texts get [`budget`].
+#[cfg(test)]
 const LLM_BUDGET: Duration = crate::fork::llm::deadline::TRANSFORM_FLOOR;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
