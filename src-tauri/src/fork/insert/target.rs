@@ -58,6 +58,11 @@ pub fn plan(had_target: bool, focus: Option<&Focus>) -> Route {
     let Some(f) = focus else {
         return Route::Paste { fail_open: true };
     };
+    // The lock screen (Mac wave 6): its password field reads as a plain
+    // window, so the verdict would fail open and paste into it.
+    if f.app == LOGIN_WINDOW {
+        return Route::Card(CardReason::SecureField);
+    }
     if had_target && f.same_as_captured == Some(false) {
         return Route::Card(CardReason::FocusMoved);
     }
@@ -67,6 +72,20 @@ pub fn plan(had_target: bool, focus: Option<&Focus>) -> Route {
         editable::Delivery::Card => Route::Card(CardReason::NoTextField),
         editable::Delivery::Refuse => Route::Card(CardReason::SecureField),
     }
+}
+
+/// The lock screen's process (`Focus::app`, the lower-case bundle name).
+const LOGIN_WINDOW: &str = "loginwindow";
+
+/// [`plan`] at delivery time: while the screen is locked nothing is pasted
+/// (the text goes to the card, hidden like a password field's), whatever AX
+/// reports or fails to report.
+pub fn plan_now(had_target: bool, focus: Option<&Focus>) -> Route {
+    #[cfg(target_os = "macos")]
+    if crate::fork::ax::element::screen_locked() {
+        return Route::Card(CardReason::SecureField);
+    }
+    plan(had_target, focus)
 }
 
 // ---------------------------------------------------------------------------
@@ -374,6 +393,26 @@ mod tests {
             ..f
         };
         assert_eq!(plan(false, Some(&moved)), PASTE);
+    }
+
+    /// Mac wave 6: the lock screen's field reads as a plain window
+    /// (`container_role`, fail-open); its text must never be pasted there.
+    #[test]
+    fn the_lock_screen_gets_the_hidden_card() {
+        let f = Focus {
+            pid: Some(1),
+            app: "loginwindow".into(),
+            family: Family::Native,
+            facts: Facts {
+                has_focused_window: true,
+                ..Facts::default()
+            },
+            verdict: Verdict::Unknown(Reason::NoElementWithWindow),
+            same_as_captured: Some(true),
+            ms: 0.5,
+        };
+        assert_eq!(plan(true, Some(&f)), Route::Card(CardReason::SecureField));
+        assert_eq!(plan(false, Some(&f)), Route::Card(CardReason::SecureField));
     }
 
     #[test]

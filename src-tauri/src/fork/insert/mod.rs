@@ -257,7 +257,7 @@ fn route_take(take: u32) -> Option<CardReason> {
     let pending = target::take_pending();
     let captured = pending.map(|(t, _)| t.id);
     let focus = crate::fork::ax::focus_now(captured, crate::fork::ax::READ_BUDGET);
-    let route = target::plan(pending.is_some(), focus.as_ref());
+    let route = target::plan_now(pending.is_some(), focus.as_ref());
     if let Some((_, start)) = pending {
         target::done(start);
     }
@@ -281,7 +281,7 @@ fn route(take: u32, kind: Kind) -> Option<CardReason> {
         Kind::Again => None,
     };
     let focus = crate::fork::ax::focus_now(captured, crate::fork::ax::READ_BUDGET);
-    let route = target::plan(captured.is_some(), focus.as_ref());
+    let route = target::plan_now(captured.is_some(), focus.as_ref());
     let as_target = captured.map(|id| target::Target {
         id,
         auto_stop: false,

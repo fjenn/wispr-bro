@@ -140,7 +140,7 @@ pub(super) fn deliver_transform<R: tauri::Runtime>(
     let _slot = lock(&SLOT);
     let focus_problem = || {
         let focus = crate::fork::ax::focus_now(Some(target), crate::fork::ax::READ_BUDGET);
-        match crate::fork::insert::target::plan(true, focus.as_ref()) {
+        match crate::fork::insert::target::plan_now(true, focus.as_ref()) {
             crate::fork::insert::target::Route::Card(reason) => Some(reason),
             crate::fork::insert::target::Route::Paste { .. } => None,
         }

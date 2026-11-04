@@ -109,6 +109,38 @@ pub fn secure_input_pid() -> Option<i32> {
     pid
 }
 
+/// True while the login window covers the session (the screen is locked:
+/// `CGSSessionScreenIsLocked` in the session dictionary). Mac wave 6: a
+/// take delivered then went to `loginwindow`, whose password field is not
+/// reported as one.
+pub fn screen_locked() -> bool {
+    // SAFETY: Copy rule; released below.
+    let dict = unsafe { CGSessionCopyCurrentDictionary() };
+    if dict.is_null() {
+        return false;
+    }
+    let key = CFString::from_str("CGSSessionScreenIsLocked");
+    // SAFETY: valid dictionary and CFString key; Get rule (not retained).
+    let value = unsafe { CFDictionaryGetValue(dict, (&*key as *const CFString).cast()) };
+    let locked = (!value.is_null()) && {
+        // SAFETY: a non-null value of the dictionary is a CFType.
+        let value: &CFType = unsafe { &*(value as *const CFType) };
+        value
+            .downcast_ref::<CFBoolean>()
+            .map(|b| b.as_bool())
+            .or_else(|| {
+                value
+                    .downcast_ref::<CFNumber>()
+                    .and_then(|n| n.as_i64())
+                    .map(|n| n != 0)
+            })
+            .unwrap_or(false)
+    };
+    // SAFETY: we own the dictionary (Copy rule).
+    unsafe { CFRelease(dict) };
+    locked
+}
+
 /* ───────────────────────────── AX helpers ───────────────────────────── */
 
 pub fn attr(element: &AXUIElement, name: &str) -> Result<CFRetained<CFType>, AXError> {
