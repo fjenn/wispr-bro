@@ -17,7 +17,8 @@
 # result exactly as before.
 #
 # Usage: scripts/wb-release/dmg/build.sh <app> <out.dmg>
-#   source it and call `wb_dmg_python` to get the venv's python (verify.sh).
+#        scripts/wb-release/dmg/build.sh --print-python   (verify.sh: the
+#        venv's python, installed first when missing)
 # Env: WB_DMG_VENV  venv folder (default ~/.cache/wispr-bro/dmgbuild-<hash>)
 set -euo pipefail
 
@@ -70,6 +71,10 @@ wb_dmg_build() { # <app> <out.dmg>
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-  [[ $# -eq 2 ]] || { echo "usage: build.sh <app> <out.dmg>" >&2; exit 2; }
+  if [[ "${1:-}" == "--print-python" ]]; then
+    wb_dmg_python
+    exit 0
+  fi
+  [[ $# -eq 2 ]] || { echo "usage: build.sh <app> <out.dmg> | --print-python" >&2; exit 2; }
   wb_dmg_build "$1" "$2"
 fi

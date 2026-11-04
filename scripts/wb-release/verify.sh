@@ -53,7 +53,10 @@ check() { # <label> <command…>
 WORK="$(mktemp -d)"
 MNT="${WORK}/mnt"
 cleanup() {
-  hdiutil detach "$MNT" -quiet >/dev/null 2>&1 || true
+  # A plain detach can hang on a busy image (seen in the OT2-E dry run while
+  # the Mac was under load): give it 60 s, then force it.
+  perl -e 'alarm 60; exec @ARGV' hdiutil detach "$MNT" -quiet >/dev/null 2>&1 ||
+    perl -e 'alarm 60; exec @ARGV' hdiutil detach -force "$MNT" -quiet >/dev/null 2>&1 || true
   rm -rf "$WORK"
 }
 trap cleanup EXIT
@@ -76,8 +79,7 @@ APP="${MNT}/${PRODUCT}.app"
 # sidebar hidden, window size, icon size and both icon positions, read from
 # the volume's .DS_Store against the overlay's bundle.macOS.dmg.
 echo "== DMG install window"
-# shellcheck source=dmg/build.sh
-DMG_PY="$(source "${ROOT}/scripts/wb-release/dmg/build.sh"; wb_dmg_python)"
+DMG_PY="$("${ROOT}/scripts/wb-release/dmg/build.sh" --print-python)"
 if layout="$("$DMG_PY" -I "${ROOT}/scripts/wb-release/dmg/check_layout.py" "$MNT" "${ROOT}/src-tauri/tauri.fork.conf.json" 2>&1)"; then
   echo "$layout"
 else
