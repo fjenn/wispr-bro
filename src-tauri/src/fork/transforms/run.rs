@@ -123,7 +123,9 @@ fn request_for(instruction: &str, text: &str) -> (String, ChatRequest) {
 /// list, a reply) and the cleanup budget for long ones (OT2-D).
 pub(crate) fn instruction_max_tokens(text: &str) -> u32 {
     let chars = u32::try_from(text.chars().count()).unwrap_or(u32::MAX);
-    prompt::max_tokens(text).max(64u32.saturating_add(chars)).clamp(256, 2048)
+    prompt::max_tokens(text)
+        .max(64u32.saturating_add(chars))
+        .clamp(256, 2048)
 }
 
 /// The deadline of one transform request (scaled with the text).
@@ -871,7 +873,11 @@ mod tests {
     fn long_texts_get_a_scaled_deadline() {
         assert_eq!(budget("short"), LLM_BUDGET);
         let note = "word ".repeat(336);
-        assert!(budget(&note) > Duration::from_secs(10), "{:?}", budget(&note));
+        assert!(
+            budget(&note) > Duration::from_secs(10),
+            "{:?}",
+            budget(&note)
+        );
         assert_eq!(
             budget(&"word ".repeat(2_000)),
             crate::fork::llm::deadline::TAKE_CAP

@@ -267,8 +267,8 @@ pub(crate) async fn process<R: Runtime>(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::Duration;
     use crate::fork::llm::post_process::EngineError;
+    use std::time::Duration;
 
     fn capture(selected: Option<&str>, field: Option<&str>) -> Capture {
         Capture {
@@ -364,9 +364,11 @@ mod tests {
             "text": "This is an old announcement. We first shared it last spring, and the details still hold: the venue, the date and the guest list are unchanged."
         })
         .to_string();
-        assert!(generate(&FakeEngine { reply: expanded }, "expand it", &input)
-            .await
-            .is_ok());
+        assert!(
+            generate(&FakeEngine { reply: expanded }, "expand it", &input)
+                .await
+                .is_ok()
+        );
         // … but a runaway reply is still refused.
         let too_long = serde_json::json!({"text": "x".repeat(1_500)}).to_string();
         let error = generate(&FakeEngine { reply: too_long }, "expand it", &input)
