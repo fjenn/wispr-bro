@@ -3130,6 +3130,6 @@ in the file). Precondition: Dictation on, Shortcut "Press fn twice"
 
 ## OT2-H: transforms on the instruction model (queued for the Mac wave)
 
-- **OT2-H.1** Fresh test profile, Transforms on: the Transforms page shows "Getting transforms ready: one-time download, N%" and the Qwen3.5-2B file lands in the profile's HF cache; ⌥1 before it finishes shows "Transforms are getting ready" (or runs on Apple's model when Apple Intelligence is on).
+- **OT2-H.1** Fresh test profile, Transforms on: Polish works with no second download; creating a custom transform starts it and the Transforms page shows "Getting transforms ready: one-time download, N%" and the Qwen3.5-2B file lands in the profile's HF cache; ⌥1 before it finishes shows "Transforms are getting ready" (or runs on Apple's model when Apple Intelligence is on).
 - **OT2-H.2** Offline (network off) on a fresh profile: "Couldn't download what transforms need" with Try again; back online, Try again finishes the download.
 - **OT2-H.3** With the model ready: a custom "Make it more formal" + Shorter on a TextEdit selection is rewritten (⌘Z restores); Command Mode "make this friendlier" on a selection; `ps` shows a second `llama-server` from `llm-instruct` that stops after 120 s idle.

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! The instruction model (OT2-H): a small general instruct model for custom
-//! transforms, the built-in transforms and Command Mode. Dictation cleanup
+//! transforms and Command Mode. Dictation cleanup
 //! stays on the cleanup model ([`super::runtime`]); the cleanup fine-tune
 //! answers any instruction with a cleaned copy of its input (OT2-D).
 //!
-//! - **On demand.** Nothing is downloaded until Transforms or Command Mode
-//!   is turned on, or a transform asks for the model; a file already on disk
-//!   is verified at launch and used without asking.
+//! - **On demand.** Nothing is downloaded until a custom transform is created
+//!   or used, or Command Mode is turned on (Polish and Prompt Engineer stay
+//!   on the cleanup model); a file already on disk is verified at launch.
 //! - **Its own server.** A second [`Supervisor`] in `<app data>/llm-instruct`
 //!   (socket, PID file, markers) runs the same bundled `llama-server`; it is
 //!   stopped after the same idle timeout as the cleanup server, never
@@ -169,10 +169,26 @@ pub fn register<R: Runtime>(app: &AppHandle<R>) {
     ));
 }
 
-fn wanted<R: Runtime>(app: &AppHandle<R>) -> bool {
-    app.try_state::<crate::fork::settings::ForkSettingsHandle>()
+/// `true` when something needs the instruction model: Command Mode is on,
+/// or Transforms is on with a custom transform. The built-ins run on the
+/// cleanup model, so people who only use them never download it.
+pub fn wanted<R: Runtime>(app: &AppHandle<R>) -> bool {
+    let Some(settings) = app
+        .try_state::<crate::fork::settings::ForkSettingsHandle>()
         .and_then(|h| h.get(app).ok())
-        .is_some_and(|s| s.transforms_enabled || s.command_mode_enabled)
+    else {
+        return false;
+    };
+    settings.command_mode_enabled || (settings.transforms_enabled && has_custom(app))
+}
+
+fn has_custom<R: Runtime>(app: &AppHandle<R>) -> bool {
+    app.try_state::<crate::fork::db::ForkDb>()
+        .and_then(|db| {
+            db.with_conn(|conn| crate::fork::transforms::store::list(conn))
+                .ok()
+        })
+        .is_some_and(|entries| entries.iter().any(|e| e.builtin_key.is_none()))
 }
 
 /// `fork::on_ready`: stale-PID kill, idle owner, and the model: used at once

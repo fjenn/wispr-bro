@@ -213,7 +213,7 @@ async fn execute<R: Runtime>(app: &AppHandle<R>, instruction: &str) -> Result<St
         InputIssue::NeedsText => PillMessage::CommandNeedsText,
         InputIssue::TooLong => PillMessage::SelectionTooLong,
     })?;
-    let engine = run::app_engine(app)
+    let engine = run::instruct_engine(app)
         .await
         .ok_or(PillMessage::TransformGettingReady)?;
     let generated = generate(&engine, instruction, &input)

@@ -81,7 +81,7 @@ pub async fn apply<R: Runtime>(
     }
     // Exact edits need no engine.
     let engine = if definition.uses_model() {
-        let Some(engine) = run::app_engine(app).await else {
+        let Some(engine) = run::engine_for(app, definition).await else {
             log::info!(
                 "transforms: auto-apply {} skipped (no engine)",
                 definition.id

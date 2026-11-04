@@ -2940,34 +2940,39 @@ Eval: `eval/transforms/` (37 items, code-checked; README there).
 Owner direction after OT2-D: a small general model should simply follow
 "replace all A's with 1"; no worked examples, no teaching. Muesli 2B v12 is a
 cleanup fine-tune and returns any instruction's text cleaned and unchanged, so
-custom transforms, Polish, Prompt Engineer and Command Mode now run on
-**Qwen3.5-2B Q4_K_M** (`catalog::INSTRUCT`, already pinned, Apache-2.0);
-dictation cleanup stays on Muesli.
+custom transforms and Command Mode now run on **Qwen3.5-2B Q4_K_M**
+(`catalog::INSTRUCT`, already pinned, Apache-2.0). Dictation cleanup, Polish
+and Prompt Engineer stay on Muesli with their OT2-D prompt (worked examples,
+rule fragments) and guards (`run::builtin_request_for`,
+`store::builtin_instruction`): they were made for it and pass 6/6 there.
 
 - `fork/llm/instruct.rs`: a second `Supervisor` in `<app data>/llm-instruct`
   (own socket, PID file, markers; same sidecar, spawn line and 120 s idle
   stop; never prewarmed by a take; no `local` transport). The model is
-  downloaded on demand: when Transforms or Command Mode is turned on
-  (`fork_set_setting` hook), when a transform needs it, or by Retry; a copy
-  already on disk is verified at launch. `ready_supervisor` checks the memory
+  downloaded on demand (`instruct::wanted`): when a custom transform is
+  created or used, when Command Mode is turned on, or when Transforms is
+  turned on with a custom transform already there, or by Retry; someone who
+  only uses the built-ins never downloads it. A copy already on disk is
+  verified at launch. `ready_supervisor` checks the memory
   rule for its size and stops an idle cleanup server first when both do not
   fit. Status: `fork_instruct_status` / `fork_instruct_retry` and the
   `ForkInstructStatus` event; the Transforms page shows the one-time
   download's progress or "Couldn't download…" with Try again
   (`src/fork/transforms/ModelStatus.tsx`).
-- Engine order (`run::app_engine`): instruction model; while it is missing
+- Engine order for custom transforms and Command Mode (`run::instruct_engine`;
+  built-ins use `run::cleanup_engine`): instruction model; while it is missing
   or memory is short, Apple's model when usable; else the pill says
   "Transforms are getting ready. Try again in a minute." (`TransformGettingReady`).
-- Prompt (`run::TRANSFORM_PROMPT`): system "Apply the instruction to the
+- Custom-transform prompt (`run::TRANSFORM_PROMPT`): system "Apply the instruction to the
   text. Return only the result.", user "Instruction: …\n\nText:\n…", plain-text
   reply (no JSON schema), temperature 0. The seven worked examples are gone.
-- The editor form is the instruction (`store::compile`): the user's prompt,
+- A custom transform's editor form is the instruction (`store::compile`): the user's prompt,
   one plain line per checked option ("Make it shorter.", "Use clearer
   wording.", "Put the ideas in a better order.", "Use headings and lists where
   they help.", "Keep my tone."), and the writing examples in quotes ("Write it
   in the style of my examples:"). No headings or hidden rules.
-- Guards: Polish keeps the cleanup chain (paragraph-tolerant lines); custom
-  transforms and Prompt Engineer refuse only an empty or runaway reply
+- Guards: Polish and Prompt Engineer keep their OT2-D chains; custom
+  transforms refuse only an empty or runaway reply
   (> max(1,200, 10×) characters). An unchanged result still ends in
   "Couldn't apply this transform" / "Nothing to change".
 - `literal.rs` stays: model-only, Qwen3.5-2B fails both letter-swap items
@@ -2977,10 +2982,11 @@ dictation cleanup stays on Muesli.
 
 Eval (`eval/transforms/`, now 50 items: 13 new editor-option items,
 `WB_XFORM_LITERAL=off` for model-only runs, `WB_EVAL_IDS` for a subset), M5
-Max under load 30-45: shipped path 45/50 (custom 28/31, built-in 4/6, options
-13/13), p50 308 ms, p95 670 ms. Fails: numbered list of one sentence, "fix
-grammar" kept "their", American spelling unchanged, Polish rewrote an entity
-sentence (guard refused), Prompt Engineer grew 5× (invented sections).
+Max under load 30-45: custom on Qwen3.5-2B 41/44 (custom 28/31, options
+13/13), p50 308 ms, p95 670 ms; built-ins on Muesli 6/6 (one Polish item timed out once at load ~190 and passed on the rerun). On Qwen the
+built-ins were 4/6 (Polish refused on an entity sentence, Prompt Engineer grew
+5×), hence they stay on Muesli. Custom fails: numbered list of one sentence,
+"fix grammar" kept "their", American spelling unchanged.
 
 ## Audit OT2-F: low-severity fixes (`fix/audit2`)
 

@@ -62,8 +62,11 @@ become instruction lines); `WB_EVAL_IDS=a,b` runs a subset.
 
 | Run                                | Custom (31) | Built-in (6) | Options (13) | p50 / p95    |
 | ---------------------------------- | ----------- | ------------ | ------------ | ------------ |
-| shipped path (exact edits by code) | 28          | 4            | 13           | 308 / 670 ms |
+| shipped path (exact edits by code) | 28          | 4 (Qwen)     | 13           | 308 / 670 ms |
 | model only, 12-item subset         | 7/10        | 1/2          | (in custom)  | -            |
 
 Model only, both letter swaps fail (the owner's "A and E → 0 and 1" timed
 out at 2.8 s, "every o → 0" came back unchanged), so exact edits stay code.
+
+Built-ins stay on Muesli (their OT2-D prompt and guards): 6/6 (one Polish item timed out once at load ~190 and passed on the rerun) on
+Muesli; on Qwen3.5-2B they were 4/6.

@@ -63,6 +63,8 @@ pub fn fork_transform_create<R: ForkRuntime>(
         .with_conn(|conn| store::create(conn, &input, crate::fork::context::now_ms()))
         .map_err(internal)?;
     changed(&app);
+    // OT2-H: custom transforms run on the instruction model.
+    crate::fork::llm::instruct::ensure_downloaded(&app);
     Ok(entry)
 }
 
