@@ -594,6 +594,14 @@
       "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
       "policy": "Updates download in the background and install once you haven't dictated for 20 minutes, or when you quit.",
       "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+    },
+    "support": {
+      "nav": "Support {{appName}}",
+      "title": "Support {{appName}}",
+      "free": "Free and open source",
+      "sponsor": "Sponsor on GitHub",
+      "star": "Star on GitHub",
+      "contribute": "Contribute"
     }
   },
   "ui": {
@@ -942,10 +950,25 @@
     "settings": {
       "general": {
         "shortcut": {
-          "title": "Wispr Bro Shortcuts"
+          "title": "Wispr Bro shortcuts",
+          "bindings": {
+            "transcribe": {
+              "name": "Transcribe shortcut"
+            },
+            "cancel": {
+              "name": "Cancel shortcut"
+            },
+            "transcribe_with_post_process": {
+              "name": "Post-processing hotkey"
+            }
+          }
         },
         "preferredLanguages": {
-          "description": "The languages you speak. Wispr Bro uses them to recommend models."
+          "description": "The languages you speak. Wispr Bro uses them to recommend models.",
+          "title": "Preferred languages"
+        },
+        "shortcutActivation": {
+          "title": "Shortcut behavior"
         }
       },
       "models": {
@@ -961,20 +984,162 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Automatically start Wispr Bro when you log in to your Mac."
+          "description": "Automatically start Wispr Bro when you log in to your Mac.",
+          "label": "Launch on startup"
         },
         "showTrayIcon": {
-          "description": "Show the Wispr Bro icon in the menu bar."
+          "description": "Show the Wispr Bro icon in the menu bar.",
+          "label": "Show tray icon"
+        },
+        "experimentalToggle": {
+          "label": "Experimental features"
+        },
+        "lazyStreamClose": {
+          "label": "Keep mic open between transcriptions"
+        },
+        "acceleration": {
+          "transcribe": {
+            "title": "Hardware acceleration"
+          }
+        },
+        "startHidden": {
+          "label": "Start hidden"
+        },
+        "overlay": {
+          "position": {
+            "title": "Overlay position"
+          }
+        },
+        "pasteMethod": {
+          "title": "Paste method",
+          "options": {
+            "externalScript": "External script"
+          }
+        },
+        "typingTool": {
+          "title": "Typing tool",
+          "options": {
+            "auto": "Auto (recommended)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Clipboard handling",
+          "options": {
+            "dontModify": "Don't modify clipboard",
+            "copyToClipboard": "Copy to clipboard"
+          }
+        },
+        "autoSubmit": {
+          "title": "Auto submit"
+        },
+        "modelUnload": {
+          "title": "Unload model"
+        },
+        "customWords": {
+          "title": "Custom words"
+        },
+        "voiceActivityDetection": {
+          "title": "Voice activity detection"
+        },
+        "longFormChunking": {
+          "title": "Long audio chunking"
+        },
+        "languageDetection": {
+          "title": "Limit Auto to my languages"
+        },
+        "vadBackend": {
+          "title": "Voice activity backend"
+        },
+        "fillerWordRemoval": {
+          "title": "Remove filler words"
+        },
+        "chineseScript": {
+          "title": "Chinese script",
+          "options": {
+            "asTranscribed": "As transcribed"
+          }
         }
       },
       "debug": {
         "updateChecks": {
           "description": "Automatically check for new versions of Wispr Bro",
-          "lockedDescription": "Disabled by system configuration (WISPRBRO_DISABLE_UPDATER)"
+          "lockedDescription": "Disabled by system configuration (WISPRBRO_DISABLE_UPDATER)",
+          "label": "Check for updates"
         },
         "keyboardDiagnostic": {
           "description": "Checks whether keyboard events reach Wispr Bro. Only event counts are recorded — never which keys you press.",
-          "verdictOk": "Key events are reaching Wispr Bro normally."
+          "verdictOk": "Key events are reaching Wispr Bro normally.",
+          "title": "Keyboard diagnostic"
+        },
+        "logDirectory": {
+          "title": "Log directory"
+        },
+        "logLevel": {
+          "title": "Log level"
+        },
+        "liveLogs": {
+          "title": "Live logs"
+        },
+        "whatsNewPreview": {
+          "title": "Preview what's new"
+        },
+        "onboardingPreview": {
+          "title": "Preview onboarding",
+          "exitButton": "Exit preview"
+        },
+        "onboardingRun": {
+          "title": "Run onboarding"
+        },
+        "modelMigration": {
+          "title": "Model migration"
+        },
+        "soundTheme": {
+          "label": "Sound theme"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Word correction threshold"
+        },
+        "historyLimit": {
+          "title": "History limit"
+        },
+        "recordingRetention": {
+          "title": "Auto-delete recordings"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Always-on microphone"
+        },
+        "clamshellMicrophone": {
+          "title": "Clamshell microphone"
+        },
+        "postProcessingToggle": {
+          "label": "Post processing"
+        },
+        "muteWhileRecording": {
+          "label": "Mute while recording"
+        },
+        "appendTrailingSpace": {
+          "label": "Append trailing space"
+        },
+        "keyboardImplementation": {
+          "title": "Keyboard implementation"
+        },
+        "pasteDelay": {
+          "title": "Paste delay (before)"
+        },
+        "pasteDelayAfter": {
+          "title": "Paste delay (after)"
+        },
+        "holdThreshold": {
+          "title": "Hold threshold"
+        },
+        "reliablePaste": {
+          "title": "Reliable paste (beta)"
+        },
+        "recordingBuffer": {
+          "title": "Extra recording buffer"
+        },
+        "languageDetectionWindow": {
+          "title": "Language detection audio"
         }
       },
       "about": {
@@ -982,29 +1147,96 @@
           "description": "Current version of Wispr Bro"
         },
         "whatsNewUpdates": {
-          "description": "Show release notes after Wispr Bro updates"
+          "description": "Show release notes after Wispr Bro updates",
+          "label": "Show what's new"
         },
         "appDataDirectory": {
-          "description": "Location where Wispr Bro stores its data"
+          "description": "Location where Wispr Bro stores its data",
+          "title": "App data directory"
         },
         "supportDevelopment": {
-          "description": "Help us continue building Wispr Bro"
+          "description": "Help us continue building Wispr Bro",
+          "title": "Support development"
         },
         "acknowledgments": {
           "ggml": {
             "details": "Wispr Bro's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
           }
+        },
+        "sourceCode": {
+          "title": "Source code"
         }
+      },
+      "sound": {
+        "channel": {
+          "title": "Input channel"
+        },
+        "audioFeedback": {
+          "label": "Audio feedback"
+        },
+        "outputDevice": {
+          "title": "Output device"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "apiFormat": {
+            "title": "API format",
+            "options": {
+              "openai": "OpenAI compatible (chat completions)",
+              "anthropic": "Anthropic messages"
+            }
+          },
+          "apiKey": {
+            "title": "API key"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Selected prompt"
+          },
+          "createNew": "Create new prompt",
+          "promptLabel": "Prompt label",
+          "promptInstructions": "Prompt instructions",
+          "updatePrompt": "Update prompt",
+          "deletePrompt": "Delete prompt",
+          "createPrompt": "Create prompt"
+        }
+      },
+      "history": {
+        "openFolder": "Open recordings folder",
+        "transcribeFile": "Transcribe file"
       }
     },
     "whatsNew": {
       "title": "New in Wispr Bro v{{version}}"
     },
     "appLanguage": {
-      "description": "Change the language of the Wispr Bro interface"
+      "description": "Change the language of the Wispr Bro interface",
+      "title": "Application language"
     },
     "theme": {
-      "description": "Choose whether Wispr Bro follows your system theme or stays light or dark"
+      "description": "Choose whether Wispr Bro follows your system theme or stays light or dark",
+      "title": "Application theme"
+    },
+    "sidebar": {
+      "postProcessing": "Post process"
+    },
+    "modelSelector": {
+      "modelReady": "Model ready",
+      "modelError": "Model error",
+      "modelUnloaded": "Model unloaded",
+      "noModelDownloadRequired": "No model - download required"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Update checking disabled",
+      "portableUpdateBrowseButton": "Open GitHub releases"
+    },
+    "errors": {
+      "micPermissionDeniedTitle": "Microphone access denied",
+      "noInputDeviceTitle": "No microphone found",
+      "pasteFailedTitle": "Failed to paste text",
+      "transcriptionFailedTitle": "Transcription failed"
     }
   },
   "speechModels": {

@@ -605,6 +605,14 @@
       "readyHint": "S'instal·la sola quan portes 20 minuts sense dictar, o quan surts de l'app.",
       "policy": "Les actualitzacions es baixen en segon pla i s'instal·len quan fa 20 minuts que no dictes, o quan surts de l'app.",
       "needsPassword": "Aquesta còpia de l'app és en una carpeta que necessita una contrasenya d'administrador per fer-hi canvis, així que les actualitzacions només s'instal·len quan tries Reiniciar ara."
+    },
+    "support": {
+      "nav": "Doneu suport a {{appName}}",
+      "title": "Doneu suport a {{appName}}",
+      "free": "Gratuït i de codi obert",
+      "sponsor": "Patrocineu a GitHub",
+      "star": "Doneu una estrella a GitHub",
+      "contribute": "Contribuïu"
     }
   },
   "ui": {

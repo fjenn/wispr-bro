@@ -3,7 +3,8 @@
  * Hub sidebar (S-13, C-01, C-14, C-15, C-210).
  *
  * Feature pages on top, then the setup-checklist slot (S-30), then Share,
- * Settings and Help at the bottom (the Help and Feedback popover, S-26b). Items are buttons; the current page has
+ * Support (OT2-E: its own menu, `SupportMenu`), Settings and Help at the
+ * bottom (the Help and Feedback popover, S-26b). Items are buttons; the current page has
  * `aria-current="page"`. Collapsed, the sidebar shows icons only, each with
  * its name as the accessible label and a tooltip.
  *
@@ -14,11 +15,12 @@
  * the wordmark (glyph only when collapsed) heads the sidebar (Phase 0b).
  */
 import { forwardRef, type ReactNode } from "react";
-import { CircleHelp } from "../ui/icons";
+import { CircleHelp, HandHeart } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { FOCUS_RING, Tag, Tooltip, Wordmark } from "../ui";
 import { HelpPopover } from "./HelpPopover";
+import { SupportMenu } from "./SupportMenu";
 import { navigate, useHubNav } from "./nav";
 import { HUB_PAGES, newTagId, pageLabelKey, type HubPage } from "./pages";
 
@@ -131,6 +133,23 @@ function HelpMenu({ collapsed }: { collapsed: boolean }) {
   );
 }
 
+function SupportItem({ collapsed }: { collapsed: boolean }) {
+  const { t } = useTranslation(FORK_NAMESPACE);
+  const label = t("hub.support.nav", { appName: t("rust.appName") });
+  return (
+    <SupportMenu
+      trigger={
+        <NavButton
+          testId="wb-nav-support"
+          label={label}
+          icon={HandHeart}
+          collapsed={collapsed}
+        />
+      }
+    />
+  );
+}
+
 export function Sidebar({ collapsed }: { collapsed: boolean }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const main = HUB_PAGES.filter((p) => p.group === "main");
@@ -179,11 +198,16 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
           )}
         </div>
         <ul className="flex shrink-0 flex-col gap-1 border-t border-(--wb-line) pt-3">
-          {bottom.map((page) => (
+          {bottom.map((page) => [
             <li key={page.id}>
               <PageButton page={page} collapsed={collapsed} />
-            </li>
-          ))}
+            </li>,
+            page.id === "share" && (
+              <li key="support">
+                <SupportItem collapsed={collapsed} />
+              </li>
+            ),
+          ])}
           <li>
             <HelpMenu collapsed={collapsed} />
           </li>

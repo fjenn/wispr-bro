@@ -602,6 +602,14 @@
       "readyHint": "Den installeras automatiskt när du inte har dikterat på 20 minuter, eller när du avslutar.",
       "policy": "Uppdateringar hämtas i bakgrunden och installeras när du inte har dikterat på 20 minuter, eller när du avslutar.",
       "needsPassword": "Den här kopian av appen ligger i en mapp där ändringar kräver ett administratörslösenord, så uppdateringar installeras bara när du väljer Starta om nu."
+    },
+    "support": {
+      "nav": "Stöd {{appName}}",
+      "title": "Stöd {{appName}}",
+      "free": "Gratis och öppen källkod",
+      "sponsor": "Sponsra på GitHub",
+      "star": "Ge en stjärna på GitHub",
+      "contribute": "Bidra"
     }
   },
   "ui": {
@@ -2641,6 +2649,11 @@
         },
         "showTrayIcon": {
           "description": "Visa Wispr Bro-ikonen i menyraden."
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Auto (rekommenderas)"
+          }
         }
       },
       "debug": {

@@ -599,6 +599,14 @@
       "readyHint": "你 20 分钟没有听写或退出 App 时，更新会自动安装。",
       "policy": "更新会在后台下载，并在你 20 分钟没有听写时或退出 App 时安装。",
       "needsPassword": "此 App 所在的文件夹需要管理员密码才能更改，因此只有在你选择「立即重新启动」时才会安装更新。"
+    },
+    "support": {
+      "nav": "支持 {{appName}}",
+      "title": "支持 {{appName}}",
+      "free": "免费开源",
+      "sponsor": "在 GitHub 上赞助",
+      "star": "在 GitHub 上加星标",
+      "contribute": "参与贡献"
     }
   },
   "ui": {

@@ -21,7 +21,7 @@
 //   3. C/C++ compiled into crates: the manual NATIVE list below. Every
 //      shipped crate that builds native code (a `cc`/`cmake` build
 //      dependency) must be in it, and every entry must still ship.
-//   4. NOTICE: §6 model attributions, §7 fonts and §9 art are copied
+//   4. NOTICE: §6 model attributions, §7 fonts, §9 art and §10 trademarks are copied
 //      verbatim; every CC-BY catalog model must be named there; every
 //      NOTICE file found in a shipped package must be named in §5
 //      (Apache-2.0 §4(d)).
@@ -634,6 +634,12 @@ export function render(input: RenderInput): string {
     "From `NOTICE` §9 (Design W7): photos and illustrations bundled in the app.",
     "",
     fence(noticeSection(input.notice, "Art")),
+    "",
+    "## Trademarks",
+    "",
+    "From `NOTICE` §10 (OT2-E): marks of others shown in the app.",
+    "",
+    fence(noticeSection(input.notice, "Trademarks shown in the app")),
     "",
   );
 

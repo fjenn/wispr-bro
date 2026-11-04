@@ -27,3 +27,14 @@ export const DOWNLOAD_URL =
  */
 export const BREW_CASK_PUBLISHED = false;
 export const BREW_COMMAND = "brew install --cask fjenn/tap/wispr-bro";
+/** Support › Contribute: how to help build Wispr Bro. */
+export const CONTRIBUTING_URL =
+  "https://github.com/fjenn/wispr-bro/blob/wispr-bro/CONTRIBUTING-WB.md";
+/**
+ * Support › Sponsor on GitHub (OT2-E). Hidden until the owner opens a GitHub
+ * Sponsors profile (none on 2026-11-04): turn `SPONSOR_PUBLISHED` on in the
+ * same change. GitHub is the only host the app may name (R5 §1), so no
+ * other donation service.
+ */
+export const SPONSOR_PUBLISHED = false;
+export const SPONSOR_URL = "https://github.com/sponsors/fjenn";

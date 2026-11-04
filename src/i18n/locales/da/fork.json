@@ -602,6 +602,14 @@
       "readyHint": "Den installerer sig selv, når du ikke har dikteret i 20 minutter, eller når du afslutter.",
       "policy": "Opdateringer hentes i baggrunden og installeres, når du ikke har dikteret i 20 minutter, eller når du afslutter.",
       "needsPassword": "Denne kopi af appen ligger i en mappe, der kræver en administratoradgangskode for at blive ændret, så opdateringer installeres kun, når du vælger Genstart nu."
+    },
+    "support": {
+      "nav": "Støt {{appName}}",
+      "title": "Støt {{appName}}",
+      "free": "Gratis og open source",
+      "sponsor": "Sponsorér på GitHub",
+      "star": "Giv en stjerne på GitHub",
+      "contribute": "Bidrag"
     }
   },
   "ui": {

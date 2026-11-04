@@ -605,6 +605,14 @@
       "readyHint": "Elle s’installe d’elle-même après 20 minutes sans dictée, ou quand vous quittez l’app.",
       "policy": "Les mises à jour se téléchargent en arrière-plan et s’installent après 20 minutes sans dictée, ou quand vous quittez l’app.",
       "needsPassword": "Cette copie de l’app se trouve dans un dossier dont la modification exige un mot de passe administrateur : les mises à jour ne s’installent donc que lorsque vous choisissez Redémarrer maintenant."
+    },
+    "support": {
+      "nav": "Soutenir {{appName}}",
+      "title": "Soutenir {{appName}}",
+      "free": "Gratuit et open source",
+      "sponsor": "Sponsoriser sur GitHub",
+      "star": "Ajouter une étoile sur GitHub",
+      "contribute": "Contribuer"
     }
   },
   "ui": {
@@ -2708,7 +2716,12 @@
     "settings": {
       "general": {
         "shortcut": {
-          "title": "Raccourcis Wispr Bro"
+          "title": "Raccourcis Wispr Bro",
+          "bindings": {
+            "transcribe": {
+              "name": "Raccourci de transcription"
+            }
+          }
         },
         "preferredLanguages": {
           "description": "Les langues que vous parlez. Wispr Bro s’en sert pour recommander des modèles."
@@ -2731,6 +2744,14 @@
         },
         "showTrayIcon": {
           "description": "Afficher l’icône de Wispr Bro dans la barre des menus."
+        },
+        "experimentalToggle": {
+          "label": "Fonctionnalités expérimentales"
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Auto (recommandé)"
+          }
         }
       },
       "debug": {
@@ -2771,6 +2792,12 @@
     },
     "theme": {
       "description": "Choisissez si Wispr Bro suit l’apparence du système ou reste en mode clair ou sombre"
+    },
+    "modelSelector": {
+      "modelReady": "Modèle prêt",
+      "modelError": "Erreur du modèle",
+      "modelUnloaded": "Modèle déchargé",
+      "noModelDownloadRequired": "Aucun modèle - téléchargement requis"
     }
   }
 }

@@ -602,6 +602,14 @@
       "readyHint": "Es installiert sich selbst, wenn du 20 Minuten nicht diktiert hast oder die App beendest.",
       "policy": "Updates werden im Hintergrund geladen und installiert, sobald du 20 Minuten lang nicht diktiert hast oder die App beendest.",
       "needsPassword": "Diese App liegt in einem Ordner, für dessen Änderung ein Administratorpasswort nötig ist. Updates werden daher nur installiert, wenn du „Jetzt neu starten“ wählst."
+    },
+    "support": {
+      "nav": "{{appName}} unterstützen",
+      "title": "{{appName}} unterstützen",
+      "free": "Kostenlos und Open Source",
+      "sponsor": "Auf GitHub sponsern",
+      "star": "Auf GitHub mit Stern markieren",
+      "contribute": "Mitwirken"
     }
   },
   "ui": {

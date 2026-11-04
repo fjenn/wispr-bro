@@ -3,13 +3,14 @@
  * Settings › About (S-14; S-26b, R2 C-104; S-28 updates): version, GPL-3.0
  * with the licence text, the source, the update panel (S-28), credit to
  * Handy (MIT) and how to support development (no paid plan: report a
- * problem or send feedback on GitHub).
+ * problem or send feedback on GitHub). Links to GitHub carry GitHub's mark
+ * (OT2-E, `GitHubMark`); the sidebar's Support item is the prominent way in.
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getVersion } from "@tauri-apps/api/app";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { Bug, ExternalLink, MessageSquareText } from "../ui/icons";
+import { Bug, GitHubMark, MessageSquareText } from "../ui/icons";
 import { ShowWhatsNewOnUpdate } from "@/components/settings/ShowWhatsNewOnUpdate";
 import { commands } from "../bindings";
 import { HANDY_URL, LICENSE_URL, REPO_URL } from "../hub/links";
@@ -57,7 +58,7 @@ export function About() {
               onClick={() => open(REPO_URL)}
               data-testid="wb-about-source"
             >
-              <ExternalLink size={14} />
+              <GitHubMark size={14} />
               {t("settingsModal.about.source")}
             </Button>
             <Button
@@ -66,7 +67,7 @@ export function About() {
               onClick={() => open(LICENSE_URL)}
               data-testid="wb-about-license-link"
             >
-              <ExternalLink size={14} />
+              <GitHubMark size={14} />
               {t("settingsModal.about.licenseLink")}
             </Button>
           </div>
@@ -119,7 +120,7 @@ export function About() {
               onClick={() => open(HANDY_URL)}
               data-testid="wb-about-handy"
             >
-              <ExternalLink size={14} />
+              <GitHubMark size={14} />
               {t("settingsModal.about.creditLink")}
             </Button>
           }

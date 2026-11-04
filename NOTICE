@@ -821,3 +821,23 @@ courtesy:
 The mark, wordmark, background pattern, stickers and "How it works"
 pictures (brand/, stickers/, how/) were drawn for Wispr Bro and are
 licensed GPL-3.0-or-later with the rest of the app.
+
+======================================================================
+10. Trademarks shown in the app
+======================================================================
+
+GitHub mark. The Invertocat on the buttons that open Wispr Bro's GitHub
+project (Settings > About: View source code, View license, Handy on
+GitHub; the sidebar's Support menu: Star on GitHub) is GitHub's mark, a
+trademark of GitHub, Inc. It is drawn from GitHub's own file,
+GitHub_Invertocat_Black.svg in the logo package at
+https://brand.github.com (GitHub_Logos.zip, read 2026-11-04), unchanged
+except that it takes the button's single ink colour. GitHub's logo
+guidelines allow the Invertocat as a button that links to a project on
+GitHub; it is not licensed under the GPL and is not Wispr Bro's mark.
+Wispr Bro is not affiliated with or endorsed by GitHub.
+
+The install window's background in the disk image
+(src-tauri/dmg-fork/background.png and background@2x.png, drawn by
+scripts/wb-release/dmg/background.ts) was made for Wispr Bro and is
+licensed GPL-3.0-or-later with the rest of the app.

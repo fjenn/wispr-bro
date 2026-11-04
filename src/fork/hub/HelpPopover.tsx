@@ -5,7 +5,9 @@
  * Three groups, as Wispr's popover: **Updates** (What's new: the release
  * notes on GitHub), **Essentials** (Shortcuts, Microphone, Languages,
  * Documentation, plus lessons S-31 registers with `setHelpLessons`) and
- * **Get in touch** (Report a problem…, Send feedback). Hosted help, support
+ * **Get in touch** (Report a problem…, Send feedback, and Support Wispr Bro,
+ * which opens the sidebar's Support menu: OT2-E, owner "Or just both!",
+ * so support is reachable from Help and on its own). Hosted help, support
  * chat and Contact sales are out (R2 C-102, C-215): GitHub is the help desk.
  *
  * It is a Radix menu (`../ui/Menu`): arrow keys move, typeahead, Esc closes,
@@ -16,6 +18,7 @@ import { useRef, useState, type ReactElement } from "react";
 import {
   BookOpen,
   Bug,
+  HandHeart,
   Keyboard,
   Languages,
   MessageSquareText,
@@ -30,6 +33,7 @@ import { Menu, type MenuItem } from "../ui";
 import { DOCS_URL, RELEASES_URL } from "./links";
 import { navigate } from "./nav";
 import { ReportProblemDialog } from "./ReportProblemDialog";
+import { useSupportMenu } from "./SupportMenu";
 
 /** Lesson entries for Essentials (S-31); null shows none. */
 let helpLessons: (() => MenuItem[]) | null = null;
@@ -123,6 +127,16 @@ export function HelpPopover({ trigger }: { trigger: ReactElement }) {
                 label: t("hub.help.sendFeedback"),
                 icon: MessageSquareText,
                 onSelect: () => void commands.forkOpenIssue("feedback"),
+              },
+              {
+                id: "support",
+                label: t("hub.support.nav", { appName: t("rust.appName") }),
+                icon: HandHeart,
+                onSelect: () => {
+                  // Open the Support menu once this one has closed.
+                  afterClose.current = () =>
+                    useSupportMenu.getState().setOpen(true);
+                },
               },
             ],
           },

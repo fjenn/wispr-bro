@@ -608,6 +608,14 @@
       "readyHint": "Zainstaluje się sama po 20 minutach bez dyktowania lub po zamknięciu aplikacji.",
       "policy": "Aktualizacje są pobierane w tle i instalowane, gdy przez 20 minut nie dyktujesz, lub po zamknięciu aplikacji.",
       "needsPassword": "Ta kopia aplikacji jest w folderze, którego zmiana wymaga hasła administratora, więc aktualizacje instalują się tylko po wybraniu „Uruchom ponownie”."
+    },
+    "support": {
+      "nav": "Wesprzyj {{appName}}",
+      "title": "Wesprzyj {{appName}}",
+      "free": "Darmowy i otwartoźródłowy",
+      "sponsor": "Wesprzyj na GitHubie",
+      "star": "Daj gwiazdkę na GitHubie",
+      "contribute": "Współtwórz"
     }
   },
   "ui": {
@@ -2821,6 +2829,14 @@
         },
         "showTrayIcon": {
           "description": "Pokazuj ikonę Wispr Bro na pasku menu."
+        },
+        "experimentalToggle": {
+          "label": "Funkcje eksperymentalne"
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Auto (zalecane)"
+          }
         }
       },
       "debug": {

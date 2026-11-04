@@ -602,6 +602,14 @@
       "readyHint": "20 dakika boyunca dikte etmediğinizde veya uygulamadan çıktığınızda kendiliğinden yüklenir.",
       "policy": "Güncellemeler arka planda indirilir ve 20 dakika boyunca dikte etmediğinizde veya uygulamadan çıktığınızda yüklenir.",
       "needsPassword": "Uygulamanın bu kopyası, değiştirilmesi için yönetici parolası gereken bir klasörde. Bu yüzden güncellemeler yalnızca Şimdi yeniden başlat’ı seçtiğinizde yüklenir."
+    },
+    "support": {
+      "nav": "{{appName}}'yu destekle",
+      "title": "{{appName}}'yu destekle",
+      "free": "Ücretsiz ve açık kaynak",
+      "sponsor": "GitHub'da sponsor ol",
+      "star": "GitHub'da yıldız ver",
+      "contribute": "Katkıda bulun"
     }
   },
   "ui": {
@@ -2618,10 +2626,22 @@
     "settings": {
       "general": {
         "shortcut": {
-          "title": "Wispr Bro Kestirmeleri"
+          "title": "Wispr Bro kestirmeleri",
+          "bindings": {
+            "transcribe": {
+              "name": "Transkripsiyon kısayolu"
+            },
+            "cancel": {
+              "name": "İptal kısayolu"
+            },
+            "transcribe_with_post_process": {
+              "name": "Son işlem kısayolu"
+            }
+          }
         },
         "preferredLanguages": {
-          "description": "Konuştuğunuz diller. Wispr Bro bunları model önermek için kullanır."
+          "description": "Konuştuğunuz diller. Wispr Bro bunları model önermek için kullanır.",
+          "title": "Tercih edilen diller"
         }
       },
       "models": {
@@ -2637,20 +2657,149 @@
       },
       "advanced": {
         "autostart": {
-          "description": "Mac’inizde oturum açtığınızda Wispr Bro’yu otomatik olarak başlatın."
+          "description": "Mac’inizde oturum açtığınızda Wispr Bro’yu otomatik olarak başlatın.",
+          "label": "Başlangıçta çalıştır"
         },
         "showTrayIcon": {
-          "description": "Wispr Bro simgesini menü çubuğunda gösterin."
+          "description": "Wispr Bro simgesini menü çubuğunda gösterin.",
+          "label": "Tepsi simgesini göster"
+        },
+        "experimentalToggle": {
+          "label": "Deneysel özellikler"
+        },
+        "lazyStreamClose": {
+          "label": "Transkripsiyonlar arasında mikrofonu açık tut"
+        },
+        "acceleration": {
+          "transcribe": {
+            "title": "Donanım hızlandırma"
+          }
+        },
+        "startHidden": {
+          "label": "Gizli başlat"
+        },
+        "overlay": {
+          "position": {
+            "title": "Ekran katmanı konumu"
+          }
+        },
+        "pasteMethod": {
+          "title": "Yapıştırma yöntemi",
+          "options": {
+            "externalScript": "Harici betik"
+          }
+        },
+        "typingTool": {
+          "title": "Yazma aracı",
+          "options": {
+            "auto": "Otomatik (önerilen)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Pano yönetimi",
+          "options": {
+            "dontModify": "Panoyu değiştirme",
+            "copyToClipboard": "Panoya kopyala"
+          }
+        },
+        "autoSubmit": {
+          "title": "Otomatik gönder"
+        },
+        "translateToEnglish": {
+          "label": "İngilizce'ye çevir"
+        },
+        "modelUnload": {
+          "title": "Modeli boşalt"
+        },
+        "customWords": {
+          "title": "Özel kelimeler"
+        },
+        "voiceActivityDetection": {
+          "title": "Ses etkinliği algılama"
+        },
+        "longFormChunking": {
+          "title": "Uzun sesi bölme"
+        },
+        "vadBackend": {
+          "title": "Ses etkinliği arka ucu"
+        },
+        "fillerWordRemoval": {
+          "title": "Dolgu sözcüklerini kaldır"
         }
       },
       "debug": {
         "updateChecks": {
           "description": "Wispr Bro’nun yeni sürümlerini otomatik olarak denetle",
-          "lockedDescription": "Sistem yapılandırması tarafından kapatıldı (WISPRBRO_DISABLE_UPDATER)"
+          "lockedDescription": "Sistem yapılandırması tarafından kapatıldı (WISPRBRO_DISABLE_UPDATER)",
+          "label": "Güncellemeleri kontrol et"
         },
         "keyboardDiagnostic": {
           "description": "Klavye olaylarının Wispr Bro’ya ulaşıp ulaşmadığını denetler. Yalnızca olay sayıları kaydedilir; hangi tuşlara bastığınız asla kaydedilmez.",
-          "verdictOk": "Tuş olayları Wispr Bro’ya normal şekilde ulaşıyor."
+          "verdictOk": "Tuş olayları Wispr Bro’ya normal şekilde ulaşıyor.",
+          "title": "Klavye tanılaması"
+        },
+        "logDirectory": {
+          "title": "Log dizini"
+        },
+        "logLevel": {
+          "title": "Log seviyesi"
+        },
+        "liveLogs": {
+          "title": "Canlı loglar"
+        },
+        "whatsNewPreview": {
+          "title": "Yenilikleri önizle"
+        },
+        "onboardingRun": {
+          "title": "İlk kurulumu çalıştır"
+        },
+        "modelMigration": {
+          "title": "Model geçişi"
+        },
+        "soundTheme": {
+          "label": "Ses teması"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Kelime düzeltme eşiği"
+        },
+        "historyLimit": {
+          "title": "Geçmiş limiti"
+        },
+        "recordingRetention": {
+          "title": "Kayıtları otomatik sil"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Mikrofon her zaman açık"
+        },
+        "clamshellMicrophone": {
+          "title": "Kapalı kapak mikrofonu"
+        },
+        "postProcessingToggle": {
+          "label": "Son işlem"
+        },
+        "muteWhileRecording": {
+          "label": "Kayıt sırasında sessize al"
+        },
+        "appendTrailingSpace": {
+          "label": "Sonuna boşluk ekle"
+        },
+        "keyboardImplementation": {
+          "title": "Klavye uygulaması"
+        },
+        "pasteDelay": {
+          "title": "Yapıştırma gecikmesi (önce)"
+        },
+        "pasteDelayAfter": {
+          "title": "Yapıştırma gecikmesi (sonra)"
+        },
+        "reliablePaste": {
+          "title": "Güvenilir yapıştırma (beta)"
+        },
+        "recordingBuffer": {
+          "title": "Ekstra kayıt tamponu"
+        },
+        "languageDetectionWindow": {
+          "title": "Dil algılama sesi"
         }
       },
       "about": {
@@ -2658,29 +2807,88 @@
           "description": "Wispr Bro’nun geçerli sürümü"
         },
         "whatsNewUpdates": {
-          "description": "Wispr Bro güncellendikten sonra sürüm notlarını göster"
+          "description": "Wispr Bro güncellendikten sonra sürüm notlarını göster",
+          "label": "Yenilikleri göster"
         },
         "appDataDirectory": {
-          "description": "Wispr Bro’nun verilerini sakladığı konum"
+          "description": "Wispr Bro’nun verilerini sakladığı konum",
+          "title": "Uygulama veri dizini"
         },
         "supportDevelopment": {
-          "description": "Wispr Bro’yu geliştirmeye devam etmemize yardımcı olun"
+          "description": "Wispr Bro’yu geliştirmeye devam etmemize yardımcı olun",
+          "title": "Geliştirmeyi destekle"
         },
         "acknowledgments": {
           "ggml": {
             "details": "Wispr Bro’nun yerel konuşmayı metne dönüştürme özelliği transcribe.cpp ve ggml üzerine kuruludur. Harika çalışmaları için Georgi Gerganov’a ve katkıda bulunanlara teşekkürler."
           }
+        },
+        "sourceCode": {
+          "title": "Kaynak kodu",
+          "button": "GitHub'da görüntüle"
         }
+      },
+      "sound": {
+        "channel": {
+          "title": "Giriş kanalı"
+        },
+        "audioFeedback": {
+          "label": "Sesli geri bildirim"
+        },
+        "outputDevice": {
+          "title": "Çıkış cihazı"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "apiFormat": {
+            "title": "API biçimi",
+            "options": {
+              "openai": "OpenAI uyumlu (Chat Completions)"
+            }
+          },
+          "apiKey": {
+            "title": "API anahtarı"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Seçili prompt"
+          },
+          "createNew": "Yeni prompt oluştur",
+          "promptLabel": "Prompt etiketi",
+          "promptInstructions": "Prompt talimatları",
+          "updatePrompt": "Promptu güncelle",
+          "createPrompt": "Prompt oluştur"
+        }
+      },
+      "history": {
+        "openFolder": "Kayıtlar klasörünü aç",
+        "transcribeFile": "Dosyayı yazıya dök"
       }
     },
     "whatsNew": {
       "title": "Wispr Bro v{{version}} sürümündeki yenilikler"
     },
     "appLanguage": {
-      "description": "Wispr Bro arayüzünün dilini değiştirin"
+      "description": "Wispr Bro arayüzünün dilini değiştirin",
+      "title": "Uygulama dili"
     },
     "theme": {
-      "description": "Wispr Bro’nun sistem temasını izlemesini veya hep açık ya da koyu kalmasını seçin"
+      "description": "Wispr Bro’nun sistem temasını izlemesini veya hep açık ya da koyu kalmasını seçin",
+      "title": "Uygulama teması"
+    },
+    "sidebar": {
+      "postProcessing": "Son işlem"
+    },
+    "modelSelector": {
+      "modelReady": "Model hazır",
+      "modelError": "Model hatası",
+      "modelUnloaded": "Model boşaltıldı",
+      "noModelDownloadRequired": "Model yok – indirme gerekli"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Güncelleme kontrolü devre dışı"
     }
   }
 }

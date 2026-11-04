@@ -24,6 +24,8 @@ const HELP_ITEMS = [
   "documentation",
   "report-problem",
   "send-feedback",
+  // OT2-E: opens the sidebar's Support menu.
+  "support",
 ];
 
 test.describe("help popover", () => {
@@ -43,9 +45,9 @@ test.describe("help popover", () => {
       await expect(page.getByTestId(`wb-menu-item-${id}`)).toBeFocused();
       await page.keyboard.press("ArrowDown");
     }
-    await expect(page.getByTestId("wb-menu-item-send-feedback")).toBeFocused();
+    await expect(page.getByTestId("wb-menu-item-support")).toBeFocused();
     await page.keyboard.press("ArrowUp");
-    await expect(page.getByTestId("wb-menu-item-report-problem")).toBeFocused();
+    await expect(page.getByTestId("wb-menu-item-send-feedback")).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(menu).toBeHidden();
     await expect(trigger).toBeFocused();
