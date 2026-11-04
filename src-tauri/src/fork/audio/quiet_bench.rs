@@ -663,3 +663,25 @@ fn write_wavs() {
         println!("wrote {file}.wav");
     }
 }
+
+/// Mac wave 7: what the recorder keeps of one WAV (`WB_QUIET_FILE`, 16 kHz
+/// mono), before and after the conditioner, in seconds: compares a Mac
+/// take's `Audio vector length` with the offline capture of the same file.
+#[test]
+#[ignore = "needs WB_QUIET_FILE"]
+fn kept_file() {
+    let Some(file) = env("WB_QUIET_FILE") else {
+        eprintln!("quiet_bench: set WB_QUIET_FILE");
+        return;
+    };
+    let audio = crate::audio_toolkit::read_wav_samples(&file).expect("wav");
+    for after in [false, true] {
+        let (kept, _) = captured(&audio, capture_vad(after));
+        println!(
+            "kept_file {}: {:.2} s of {:.2} s",
+            if after { "after" } else { "before" },
+            kept.len() as f32 / 16_000.0,
+            audio.len() as f32 / 16_000.0
+        );
+    }
+}
