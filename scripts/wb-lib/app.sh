@@ -131,6 +131,11 @@ wb_textedit_open() {
   return 1
 }
 
+# The frontmost app's pid (no helper needed).
+wb_front_pid() {
+  lsappinfo info -only pid "$(lsappinfo front)" 2>/dev/null | sed -n 's/.*"pid"=\([0-9]*\).*/\1/p'
+}
+
 wb_textedit_close() {
   local p="${1:?pid}"
   ps -o comm= -p "$p" 2>/dev/null | /usr/bin/grep -q TextEdit || return 0

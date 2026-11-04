@@ -25,8 +25,8 @@
 #                             with hidden text, Copy → concealed clipboard
 #   switch                    take starts in Chrome, TextEdit is activated
 #                             before the stop → text in TextEdit (S-05.4)
-#   moved:<ms>                take in TextEdit, stopped, Safari activated
-#                             <ms> later → nothing pasted, the text on the
+#   moved:<ms>                take in TextEdit, stopped, our own Chrome
+#                             instance (input page) activated <ms> later → nothing pasted, the text on the
 #                             clipboard (focus_moved, OT2-A; was the card)
 # Env: WB_S05_BIN = folder with the compiled helpers (clip, drive, pill:
 #   swiftc -O -o $WB_S05_BIN/<name> scripts/wb-s05/<name>.swift,
@@ -108,10 +108,13 @@ stop_take() {
   echo "focus taken by $now before the stop (expected $1); take cancelled" >"$T/skip"
   return 1
 }
+# TextEdit is an instance of this take's own (`open -n`, by pid): `tell
+# application "TextEdit"` would reach the owner's TextEdit and its documents.
 open_textedit() {
-  doc=$(osascript -e 'tell application "TextEdit"' -e 'activate' -e 'set d to make new document' \
-    -e 'return name of d' -e 'end tell')
+  : >"$T/textedit-doc.txt"
+  doc=$(wb_textedit_open "$T/textedit-doc.txt") || doc=""
 }
+textedit_text() { [ -n "$doc" ] && "$BIN/te" text "$doc" 2>/dev/null; }
 open_safari() {
   osascript -e 'tell application "Safari"' \
     -e "make new document with properties {URL:\"$PAGE#$1\"}" -e 'activate' -e 'end tell' >/dev/null
@@ -130,7 +133,7 @@ chrome_title() {
   [ -n "$cpid" ] && osascript -e "tell application \"System Events\" to get name of windows of (first process whose unix id is $cpid)"
 }
 close_all() {
-  [ -n "${doc:-}" ] && osascript -e "tell application \"TextEdit\" to close document \"$doc\" saving no" 2>/dev/null
+  [ -n "${doc:-}" ] && wb_textedit_close "$doc"
   osascript -e "tell application \"Safari\" to close (every document whose URL contains \"$PORT/fields.html\")" 2>/dev/null
   pkill -f "user-data-dir=$PROFILE" 2>/dev/null
   osascript -e 'tell application "Finder" to close Finder window "wb-s05-finder"' 2>/dev/null
@@ -169,7 +172,7 @@ case "$CASE" in
     ;;
   card:desktop) expect=com.apple.finder ;;
   switch) open_textedit; sleep 1; open_chrome input; expect=com.google.Chrome ;;
-  moved:*) open_safari input; sleep 2; open_textedit; expect=com.apple.TextEdit ;;
+  moved:*) open_chrome input; sleep 3; open_textedit; expect=com.apple.TextEdit ;;
   *) echo "unknown case $CASE" >&2; exit 2 ;;
 esac
 sleep 3
@@ -233,25 +236,26 @@ case "$CASE" in
       wb_cancel "$APP_DIR" >/dev/null 2>&1
       echo "focus taken before the stop; take cancelled" >"$T/skip"
     else
-      "$BIN/drive" stopswitch "$pid" "${CASE##*:}" com.apple.Safari >"$T/switch.json"
+      cpid=$(pgrep -f "Google Chrome --user-data-dir=$PROFILE" | head -1)
+      "$BIN/drive" stopswitch "$pid" "${CASE##*:}" "${cpid:-none}" >"$T/switch.json"
     fi
     sleep 4
     [ "$(active_h)" = "$CARD_H" ] && echo yes >"$T/card-shown"
     last_text
     "$BIN/clip" ours "$T/history-text.txt" >"$T/clip-ours.json"
     clip_restore
-    safari_title >"$T/safari.txt"
-    osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/textedit.txt"
+    chrome_title >"$T/other.txt"
+    textedit_text >"$T/textedit.txt"
     ;;
   switch)
     kill -USR2 "$pid"
     sleep 0.8
     wb_mic_play "$WAV"
-    "$BIN/drive" activate com.apple.TextEdit >"$T/switch.json"
+    "$BIN/drive" activate "$doc" >"$T/switch.json"
     sleep 0.6
     stop_take com.apple.TextEdit
     sleep 4
-    osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/textedit.txt"
+    textedit_text >"$T/textedit.txt"
     chrome_title >"$T/chrome.txt"
     ;;
   field:*)
@@ -260,7 +264,7 @@ case "$CASE" in
     sleep 4
     [ "$(active_h)" = "$CARD_H" ] && echo yes >"$T/card-shown"
     case "$CASE" in
-      field:textedit) osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/result.txt" ;;
+      field:textedit) textedit_text >"$T/result.txt" ;;
       field:safari:*) safari_title >"$T/result.txt" ;;
       field:chrome:*) chrome_title >"$T/result.txt" ;;
     esac

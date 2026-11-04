@@ -63,8 +63,11 @@ cursor_pid() {
 }
 in_front() {
   [ "$(front)" = "$expect" ] || return 1
-  [ "$opened" != cursor ] && return 0
-  [ "$(front_pid)" = "$(cursor_pid)" ]
+  case "$opened" in
+    cursor) [ "$(front_pid)" = "$(cursor_pid)" ] ;;
+    textedit) [ "$(front_pid)" = "$doc" ] ;;
+    *) return 0 ;;
+  esac
 }
 keys() {
   if ! in_front; then echo "SKIP keys ($1): front=$(front) pid $(front_pid)" >&2; return 1; fi
@@ -121,10 +124,11 @@ case "$CASE" in
     [ "$CASE" = chat ] && { keys 'keystroke "l" using command down'; sleep 2; }
     ;;
   textedit)
-    doc=$(osascript -e 'tell application "TextEdit"' -e 'activate' \
-      -e 'set d to make new document' \
-      -e 'set text of d to "Files: index.ts and user_service.ts" & return & return' \
-      -e 'return name of d' -e 'end tell')
+    # Our own TextEdit instance (by pid): `tell application "TextEdit"`
+    # would reach the owner's TextEdit and its documents.
+    printf 'Files: index.ts and user_service.ts\n\n' >"$T/doc.txt"
+    doc=$(wb_textedit_open "$T/doc.txt")
+    sleep 2
     opened=textedit; expect=com.apple.TextEdit
     # ⌘↓, not End: a synthetic End (key code 119) carries the fn flag and
     # leaves it set in the session's modifier state, so the app then waits
@@ -153,7 +157,7 @@ else
   sleep 9
   # Evidence: the window the take went into, before it is read back.
   if [ -x "$BIN/wbwin" ]; then
-    for wp in $(pgrep -f "user-data-dir=$PROFILE") $(pgrep -x TextEdit); do
+    for wp in $(pgrep -f "user-data-dir=$PROFILE") ${doc:-}; do
       w=$("$BIN/wbwin" "$wp" 2>/dev/null | cut -d' ' -f1)
       [ -n "$w" ] && { screencapture -x -o -l "$w" "$T/window.png"; break; }
     done
@@ -169,14 +173,14 @@ else
         keys 'keystroke "a" using command down'; keys 'keystroke "c" using command down'; sleep 0.5
         pbpaste >"$T/text"
       fi ;;
-    textedit) osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/text" ;;
+    textedit) keys 'keystroke "s" using command down'; sleep 1; cat "$T/doc.txt" >"$T/text" ;;
   esac
   echo "OK" >"$T/result"
 fi
 case "$opened" in
   cursor) pkill -f "Cursor.*--user-data-dir=$PROFILE" 2>/dev/null; sleep 1
     pkill -f "user-data-dir=$PROFILE" 2>/dev/null ;;
-  textedit) osascript -e "tell application \"TextEdit\" to close document \"$doc\" saving no" ;;
+  textedit) wb_textedit_close "$doc" ;;
 esac
 sleep 1
 clip_after=$("$BIN/clip" digest)

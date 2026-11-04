@@ -92,7 +92,9 @@ elif case == "switch":
     ok = len(te) > 0 and not card and not r["chrome_title_has_text"] and (r["route"] or "").startswith("paste")
 elif case.startswith("moved:"):
     te = read("textedit.txt") or ""
-    sa = read("safari.txt") or ""
+    # The window activated after the stop: our own Chrome instance since
+    # Mac wave 7 (other.txt); Safari before (safari.txt).
+    sa = (read("other.txt") or read("safari.txt") or "").strip()
     sw = read("switch.json") or ""
     r["textedit_chars"] = len(te)
     r["safari_empty"] = sa.endswith("empty")

@@ -3,11 +3,11 @@
 // S-05 real-Mac helper (docs/fork/MAC-TEST-SCRIPT.md S-05). Posts no key
 // events; the only click it posts lands on an empty spot of the desktop.
 //
-//   drive stopswitch <pid> <delay_ms> <bundle id>
+//   drive stopswitch <pid> <delay_ms> <bundle id|pid>
 //       SIGUSR2 to the test app (Handy's toggle: stops the take = key-up),
 //       then after <delay_ms> activates the app <bundle id> (a window this
 //       run opened). For "focus moved after key-up → card".
-//   drive activate <bundle id>
+//   drive activate <bundle id|pid>
 //   drive desktop
 //       clicks a spot of the main display that no window covers (the
 //       desktop), and waits until Finder is frontmost. Prints the point.
@@ -38,8 +38,11 @@ func front() -> String {
     return NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? "?"
 }
 
+/// <bundle id> or a pid: a pid picks the driver's own instance (its own
+/// TextEdit or Chrome), never another one with the same bundle id.
 func activate(_ bundle: String) -> Bool {
-    guard let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundle).first
+    let byPid = Int32(bundle).flatMap { NSRunningApplication(processIdentifier: $0) }
+    guard let app = byPid ?? NSRunningApplication.runningApplications(withBundleIdentifier: bundle).first
     else { return false }
     return app.activate(options: [])
 }

@@ -55,8 +55,17 @@ take_one() {
   local n="$1" before
   before="$(wc -l < "$DATA"/logs/*.log 2>/dev/null | tail -1)"
   wb_mic_load "$WAVS/$n.wav" || return 4
+  # Only into our own TextEdit: if anything else is in front at either
+  # end of the take, it is cancelled (nothing reaches another window).
+  if [ "$(wb_front_pid)" != "${TE_PID:?}" ]; then
+    echo "SKIP: our TextEdit ($TE_PID) is not in front"; return 5
+  fi
   kill -USR2 "$PID"; sleep 0.6
   wb_mic_play "$WAVS/$n.wav"; sleep 0.4
+  if [ "$(wb_front_pid)" != "$TE_PID" ]; then
+    wb_cancel "$(lsof -a -p "$PID" -d cwd -Fn | sed -n 's/^n//p')" >/dev/null 2>&1
+    echo "SKIP: focus moved during the take; cancelled"; return 5
+  fi
   kill -USR2 "$PID"; sleep 5
   local text
   text="$(sqlite3 "$DATA/history.db" "SELECT transcription_text FROM transcription_history ORDER BY id DESC LIMIT 1")"
@@ -84,11 +93,12 @@ takes() {
   : "${PID:?}" "${DATA:?}"
   wb_test_mic_env "$DATA" || exit 1
   local te n
-  te="$(wb_textedit_open "$OUT/take.txt")" || exit 1
   : > "$OUT/take.txt"
+  te="$(wb_textedit_open "$OUT/take.txt")" || exit 1
+  sleep 2
   for n in $NAMES; do
     echo "== $n"
-    OT2_TAKE=1 /usr/bin/lockf -k -t 600 "$LOCK" "$0" take "$n"
+    TE_PID="$te" OT2_TAKE=1 /usr/bin/lockf -k -t 600 "$LOCK" "$0" take "$n"
   done
   wb_textedit_close "$te"
 }

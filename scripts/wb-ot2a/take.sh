@@ -17,7 +17,8 @@
 #                   ⌘-Tab (with the trigger still held) and TextEdit
 #                   activated; released after the speech → the text in the
 #                   TextEdit document, the take never cancelled
-#   hold:click      two TextEdit documents, A in front; trigger held; 1 s
+#   hold:click      two TextEdit documents (two instances of our own), A
+#                   in front; trigger held; 1 s
 #                   in, a click (trigger flags held) into document B →
 #                   the text in B, A empty
 #   hold:finder     TextEdit in front; trigger held; 1 s in, a click into
@@ -28,7 +29,9 @@
 #   free:cmdtab     hands-free (double press), ⌘-Tab + TextEdit, a press
 #                   stops → the text in TextEdit (both modes decide alike)
 # Env: WB_S05_BIN = compiled helpers: clip, drive (scripts/wb-s05/*.swift),
-#   keys (swiftc -O -o $WB_S05_BIN/keys scripts/wb-s01-keys.swift).
+#   keys (swiftc -O -o $WB_S05_BIN/keys scripts/wb-s01-keys.swift), te
+#   (swiftc -O -o $WB_S05_BIN/te scripts/wb-lib/te.swift). TextEdit is
+#   always an instance of the take's own, by pid (never `tell application`).
 #   WB_OT2A_TRIGGER = ctrl-opt (default; the owner's Wispr Bro listens on
 #   fn) or fn (only when no other Wispr Bro runs; checked).
 set -u
@@ -74,16 +77,17 @@ log_from=$(wc -l <"$LOG")
 speech_ms=$(python3 -I -c 'import sys; print(int(float(sys.argv[1])*1000))' "$(wb_wav_seconds "$WAV")")
 
 front() { "$BIN/keys" -e front | python3 -I -c 'import json,sys; print(json.loads(sys.stdin.readline())["front"])'; }
-new_doc() {
-  osascript -e 'tell application "TextEdit"' -e 'activate' -e 'set d to make new document' \
-    -e 'return name of d' -e 'end tell'
+front_pid() { "$BIN/te" front | python3 -I -c 'import json,sys; print(json.load(sys.stdin)["pid"])'; }
+# Each "document" is a TextEdit instance of this take's own (a file opened
+# with `open -n`), addressed by its pid: `tell application "TextEdit"` would
+# reach the owner's TextEdit and its documents if it runs.
+new_doc() { # <name> → pid
+  : >"$T/$1.txt"
+  wb_textedit_open "$T/$1.txt"
 }
-doc_text() { osascript -e "tell application \"TextEdit\" to get text of document \"$1\"" 2>/dev/null; }
-# Centre of the TextEdit window showing document <name> (global, top-left).
-doc_point() {
-  osascript -e "tell application \"TextEdit\" to get bounds of (first window whose name is \"$1\")" \
-    | python3 -I -c 'import sys; a=[int(x) for x in sys.stdin.read().split(",")]; print((a[0]+a[2])//2, (a[1]+a[3])//2)'
-}
+doc_text() { "$BIN/te" text "$1" 2>/dev/null; }
+# Centre of that instance's window (global, top-left).
+doc_point() { "$BIN/te" point "$1"; }
 finder_open() {
   mkdir -p "$FINDER_DIR"
   osascript -e 'tell application "Finder"' -e 'activate' \
@@ -91,23 +95,25 @@ finder_open() {
     -e 'set bounds of w to {200, 200, 700, 600}' -e 'end tell' >/dev/null
 }
 close_all() {
-  for d in ${docA:-} ${docB:-}; do
-    osascript -e "tell application \"TextEdit\" to close document \"$d\" saving no" 2>/dev/null
-  done
+  for d in ${docA:-} ${docB:-}; do wb_textedit_close "$d"; done
   osascript -e 'tell application "Finder" to close (every Finder window whose name is "wb-ot2a-finder")' 2>/dev/null
 }
 
 docA=""; docB=""
 "$BIN/clip" save "$T/clip-saved" >"$T/clip-save.json"
 case "$CASE" in
-  hold:cmdtab | free:cmdtab) docA=$(new_doc); sleep 1; finder_open; expect=com.apple.finder ;;
-  hold:click) docB=$(new_doc); sleep 1; docA=$(new_doc); expect=com.apple.TextEdit ;;
-  hold:finder | hold:desktop) finder_open; sleep 1; docA=$(new_doc); expect=com.apple.TextEdit ;;
+  hold:cmdtab | free:cmdtab) docA=$(new_doc a); sleep 1; finder_open; expect=com.apple.finder ;;
+  hold:click) docB=$(new_doc b); sleep 1; docA=$(new_doc a); expect=com.apple.TextEdit ;;
+  hold:finder | hold:desktop) finder_open; sleep 1; docA=$(new_doc a); expect=com.apple.TextEdit ;;
   *) echo "unknown case $CASE" >&2; exit 2 ;;
 esac
 sleep 2
-if [ "$(front)" != "$expect" ]; then
-  echo "front=$(front) expected=$expect" >"$T/skip"
+front_ok() {
+  [ "$(front)" = "$expect" ] || return 1
+  [ "$expect" != com.apple.TextEdit ] || [ "$(front_pid)" = "$docA" ]
+}
+if [ -z "$docA" ] || ! front_ok; then
+  echo "front=$(front) pid=$(front_pid) expected=$expect ${docA:+pid $docA}" >"$T/skip"
   close_all
   python3 -I "$HERE/summarize.py" "$CASE" "$T"
   exit 0
@@ -118,7 +124,7 @@ pre=1000
 post=$((speech_ms - pre + 700))
 [ "$post" -lt 300 ] && post=300
 case "$CASE" in
-  *:cmdtab) SWITCH="mods down command; key tab; mods up command; activate com.apple.TextEdit" ;;
+  *:cmdtab) SWITCH="mods down command; key tab; mods up command; activate $docA" ;;
   hold:click) SWITCH="click $(doc_point "$docB")" ;;
   hold:finder) SWITCH="click 450 400" ;;
   hold:desktop) SWITCH="" ;;

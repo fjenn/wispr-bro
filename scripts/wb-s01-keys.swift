@@ -28,8 +28,10 @@
 //                               origin), with the modifiers currently held
 //                               (OT2-A: clicking into another window while
 //                               the trigger is held)
-//   activate <bundle id>        brings that app to the front (an app switch
-//                               without keys); prints the new frontmost app
+//   activate <bundle id|pid>    brings that app to the front (an app switch
+//                               without keys); prints the new frontmost app.
+//                               A pid picks one instance (the driver's own
+//                               TextEdit, never another one of the same id)
 //   front                       prints the frontmost app's bundle id
 //   expect <app name>           from here on, WB_FRONT is <app name> (a run
 //                               that switches apps on purpose moves its
@@ -189,12 +191,24 @@ func frontBundle() -> String {
     return NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? "?"
 }
 
-func activate(_ bundle: String) {
-    let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundle).first
+func activate(_ target: String) {
+    let app: NSRunningApplication?
+    if let pid = Int32(target) {
+        app = NSRunningApplication(processIdentifier: pid)
+    } else {
+        app = NSRunningApplication.runningApplications(withBundleIdentifier: target).first
+    }
+    let bundle = app?.bundleIdentifier ?? target
     _ = app?.activate(options: [])
     let t0 = now()
-    while frontBundle() != bundle && now() - t0 < 2000 { usleep(10_000) }
+    func there() -> Bool {
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.002))
+        let f = NSWorkspace.shared.frontmostApplication
+        return app != nil && f?.processIdentifier == app?.processIdentifier
+    }
+    while !there() && now() - t0 < 2000 { usleep(10_000) }
     out(["ev": "activate", "bundle": bundle, "front": frontBundle(),
+         "pid": Int(app?.processIdentifier ?? -1),
          "after_trigger_ms": held.isEmpty ? -1 : (now() - lastTrigger).rounded()])
 }
 
