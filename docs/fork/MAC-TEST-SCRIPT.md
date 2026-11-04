@@ -2937,6 +2937,12 @@ Build the read-back helper once:
 - [ ] OT2-C.7 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) An AI chat site: a take in Chrome on `chatgpt.com` (throwaway
       profile, signed out) goes in without cleanup (its cleanup reason is
       `ai_chat`) and without a style.
+- [ ] OT2-C.8 **queued for the Mac wave** (`fix/sites`) Style page by eye,
+      light and dark: each tab shows at most a few websites (headline ones
+      not covered by an installed app, plus added and dictated ones) with
+      letter discs, no "Show all"; a take on a built-in site that is not
+      shown (e.g. `reddit.com`) still gets its group's style and then
+      appears on its tab.
 
 #### OT2-D: transforms do what they say (`fix/xform`)
 

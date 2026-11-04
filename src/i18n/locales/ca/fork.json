@@ -2036,10 +2036,7 @@
       "heading": "S'utilitza en aquests llocs web",
       "listLabel": "Llocs web que fan servir l'estil {{group}}",
       "addShort": "Afegeix lloc web",
-      "showAll_one": "Mostra {{count}} lloc web",
-      "showAll_many": "Mostra els {{count}} llocs web",
-      "showAll_other": "Mostra els {{count}} llocs web",
-      "showFewer": "Mostra’n menys",
+      "builtinNote": "Molts llocs web habituals ja tenen l’estil adequat sense que apareguin aquí.",
       "recent": {
         "heading": "Llocs web utilitzats recentment",
         "hint": "Llocs web on has dictat que encara no tenen estil. Fes clic en un per fer-hi servir “{{group}}”.",

@@ -3,7 +3,9 @@
  * One style group's tab (S-19a/b): the apps and sites that use it (icons;
  * "+" adds an app; each chip's menu moves it to another group, takes it out,
  * returns it to its default group and turns "Press Enter after dictating"
- * on or off; "+" adds a website by its domain, and websites dictated on
+ * on or off; a few headline websites plus the ones the user added or
+ * dictated on (`shownSites`; the rest of the built-in list matches
+ * silently); "+" adds a website by its domain, and websites dictated on
  * with no group yet are offered for one click), then the group's three presets as
  * before/after cards. Other also covers every app not in a group.
  */
@@ -28,6 +30,7 @@ import { PresetCard } from "./PresetCard";
 import { SiteChip } from "./SiteChip";
 import { AddSiteDialog, recentUnassigned } from "./AddSiteDialog";
 import { EXAMPLES, PRESETS } from "./presets";
+import { shownSites } from "./shownSites";
 import { STYLE_GROUPS, useStyleStore } from "./useStyle";
 
 function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
@@ -181,9 +184,6 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
   );
 }
 
-/** Sites a group shows before "Show all". */
-const SITES_COLLAPSED = 12;
-
 export function GroupTab({ group }: { group: StyleGroup }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const apps = useStyleStore((s) => s.apps);
@@ -193,7 +193,6 @@ export function GroupTab({ group }: { group: StyleGroup }) {
   const { settings, pending, setSetting } = useForkSettings();
   const [picking, setPicking] = useState(false);
   const [addingSite, setAddingSite] = useState(false);
-  const [showAllSites, setShowAllSites] = useState(false);
   const recentHeading = useId();
   const name = useId();
   const appsHeading = useId();
@@ -201,10 +200,7 @@ export function GroupTab({ group }: { group: StyleGroup }) {
   const presetsHeading = useId();
 
   const members = apps.filter((a) => a.group === group);
-  const siteMembers = sites.filter((s) => s.group === group);
-  const shownSites = showAllSites
-    ? siteMembers
-    : siteMembers.slice(0, SITES_COLLAPSED);
+  const visibleSites = shownSites(sites, group, apps);
   // Other already lists them as members.
   const recent = group === "other" ? [] : recentUnassigned(sites);
   const groupName = t(`style.groups.${group}.label`);
@@ -320,7 +316,7 @@ export function GroupTab({ group }: { group: StyleGroup }) {
           aria-label={t("style.sites.listLabel", { group: groupName })}
           data-testid="wb-style-sites"
         >
-          {shownSites.map((site) => (
+          {visibleSites.map((site) => (
             <SiteChip key={site.host} site={site} group={group} />
           ))}
           <li>
@@ -335,19 +331,12 @@ export function GroupTab({ group }: { group: StyleGroup }) {
             </button>
           </li>
         </ul>
-        {siteMembers.length > SITES_COLLAPSED && (
-          <button
-            type="button"
-            onClick={() => setShowAllSites((v) => !v)}
-            aria-expanded={showAllSites}
-            data-testid="wb-style-sites-more"
-            className={`self-start rounded-(--wb-radius-sm) text-[13px] text-(--wb-ink-2) underline-offset-2 hover:text-(--wb-ink) hover:underline ${FOCUS_RING}`}
-          >
-            {showAllSites
-              ? t("style.sites.showFewer")
-              : t("style.sites.showAll", { count: siteMembers.length })}
-          </button>
-        )}
+        <p
+          className="text-[13px] text-(--wb-ink-3)"
+          data-testid="wb-style-sites-note"
+        >
+          {t("style.sites.builtinNote")}
+        </p>
         {recent.length > 0 && (
           <div
             className="flex flex-col gap-2 pt-1"

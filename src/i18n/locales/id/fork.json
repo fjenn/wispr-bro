@@ -1882,8 +1882,7 @@
       "heading": "Digunakan di situs ini",
       "listLabel": "Situs yang menggunakan gaya {{group}}",
       "addShort": "Tambah situs web",
-      "showAll_other": "Tampilkan semua {{count}} situs web",
-      "showFewer": "Tampilkan lebih sedikit",
+      "builtinNote": "Banyak situs web umum sudah mendapat gaya yang tepat tanpa tercantum di sini.",
       "recent": {
         "heading": "Situs web yang baru digunakan",
         "hint": "Situs web tempat Anda mendikte yang belum punya gaya. Klik salah satunya untuk memakai “{{group}}” di sana.",

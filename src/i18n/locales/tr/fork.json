@@ -1959,9 +1959,7 @@
       "heading": "Bu sitelerde kullanılır",
       "listLabel": "{{group}} stilini kullanan siteler",
       "addShort": "Web sitesi ekle",
-      "showAll_one": "{{count}} web sitesini göster",
-      "showAll_other": "{{count}} web sitesinin tümünü göster",
-      "showFewer": "Daha az göster",
+      "builtinNote": "Birçok yaygın web sitesi burada listelenmeden de doğru stili alır.",
       "recent": {
         "heading": "Son kullanılan web siteleri",
         "hint": "Dikte ettiğiniz ve henüz stili olmayan web siteleri. Orada “{{group}}” kullanmak için birine tıklayın.",

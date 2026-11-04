@@ -1882,8 +1882,7 @@
       "heading": "Dùng trên các trang web này",
       "listLabel": "Các trang web dùng kiểu {{group}}",
       "addShort": "Thêm trang web",
-      "showAll_other": "Hiện tất cả {{count}} trang web",
-      "showFewer": "Thu gọn",
+      "builtinNote": "Nhiều trang web phổ biến đã có kiểu phù hợp mà không cần liệt kê ở đây.",
       "recent": {
         "heading": "Trang web dùng gần đây",
         "hint": "Các trang web bạn đã đọc chính tả nhưng chưa có kiểu. Bấm vào một trang để dùng “{{group}}” ở đó.",

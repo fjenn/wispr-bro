@@ -1959,9 +1959,7 @@
       "heading": "Auf diesen Websites verwendet",
       "listLabel": "Websites mit dem Stil „{{group}}“",
       "addShort": "Website hinzufügen",
-      "showAll_one": "{{count}} Website anzeigen",
-      "showAll_other": "Alle {{count}} Websites anzeigen",
-      "showFewer": "Weniger anzeigen",
+      "builtinNote": "Viele bekannte Websites bekommen schon den passenden Stil, ohne hier aufgeführt zu sein.",
       "recent": {
         "heading": "Zuletzt verwendete Websites",
         "hint": "Websites, auf denen du diktiert hast und die noch keinen Stil haben. Klick auf eine, um dort „{{group}}“ zu verwenden.",

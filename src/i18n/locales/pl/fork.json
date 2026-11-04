@@ -2113,11 +2113,7 @@
       "heading": "Używany na tych stronach",
       "listLabel": "Strony używające stylu {{group}}",
       "addShort": "Dodaj stronę",
-      "showAll_one": "Pokaż {{count}} stronę",
-      "showAll_few": "Pokaż wszystkie {{count}} strony",
-      "showAll_many": "Pokaż wszystkie {{count}} stron",
-      "showAll_other": "Pokaż wszystkie {{count}} strony",
-      "showFewer": "Pokaż mniej",
+      "builtinNote": "Wiele popularnych stron ma już właściwy styl, choć nie ma ich na tej liście.",
       "recent": {
         "heading": "Ostatnio używane strony",
         "hint": "Strony, na których dyktowano, a które nie mają jeszcze stylu. Kliknij jedną, aby używać tam stylu „{{group}}”.",

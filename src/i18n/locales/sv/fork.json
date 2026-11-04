@@ -1959,9 +1959,7 @@
       "heading": "Används på de här webbplatserna",
       "listLabel": "Webbplatser som använder stilen ”{{group}}”",
       "addShort": "Lägg till webbplats",
-      "showAll_one": "Visa {{count}} webbplats",
-      "showAll_other": "Visa alla {{count}} webbplatser",
-      "showFewer": "Visa färre",
+      "builtinNote": "Många vanliga webbplatser får redan rätt stil utan att listas här.",
       "recent": {
         "heading": "Nyligen använda webbplatser",
         "hint": "Webbplatser du har dikterat på som ännu inte har någon stil. Klicka på en för att använda ”{{group}}” där.",

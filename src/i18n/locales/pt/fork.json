@@ -2036,10 +2036,7 @@
       "heading": "Usado nestes sites",
       "listLabel": "Sites que usam o estilo {{group}}",
       "addShort": "Adicionar site",
-      "showAll_one": "Mostrar {{count}} site",
-      "showAll_many": "Mostrar todos os {{count}} sites",
-      "showAll_other": "Mostrar todos os {{count}} sites",
-      "showFewer": "Mostrar menos",
+      "builtinNote": "Muitos sites comuns já recebem o estilo certo sem aparecer aqui.",
       "recent": {
         "heading": "Sites usados recentemente",
         "hint": "Sites em que você ditou e que ainda não têm estilo. Clique em um para usar “{{group}}” nele.",

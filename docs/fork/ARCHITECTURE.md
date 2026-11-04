@@ -1903,7 +1903,11 @@ because a take only learns the page's host. Sites dictated on
 History and Erase) that no built-in list or rule groups are offered as
 "Recently used websites" (`StyleSite::recent`, `::builtin`), one click to
 put them in the tab's group (in Other they are already listed). A group
-with more than 12 sites shows "Show all". Site changes log at DEBUG only
+lists only the sites the user added or moved there, the ones dictated on
+and a few headline sites (`src/fork/style/shownSites.ts`, at most four per
+group, left out when an app of the same name already shows in the icon
+row); the rest of `categories.json` keeps matching silently. Sites show a
+letter disc, never a fetched favicon. Site changes log at DEBUG only
 (hosts are user data).
 
 ## Accessibility layer and the card (S-05)
