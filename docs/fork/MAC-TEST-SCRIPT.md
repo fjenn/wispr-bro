@@ -2823,15 +2823,15 @@ saves and restores the whole clipboard. Helpers:
 `drive` from `scripts/wb-s05/`. Run:
 `WB_S05_BIN=<bin> scripts/wb-ot2a/run.sh <out> [rounds]`.
 
-- [ ] OT2-A.1 **Queued for the Mac wave.** `hold:cmdtab`: our Finder window
+- [x] OT2-A.1 **Mac wave 7: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `hold:cmdtab`: our Finder window
       in front, the trigger held; 1 s in, ⌘-Tab with the trigger still held
       and TextEdit activated; released after the speech. Pass: no
       `Cancelled`/`ChordIgnored`/`StuckReleased` in the log, the text in
       the TextEdit document (route `paste`), History has it.
-- [ ] OT2-A.2 **Queued for the Mac wave.** `hold:click`: two TextEdit
+- [x] OT2-A.2 **Mac wave 7: PASS (driver placed the two documents apart, 9d202bce)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `hold:click`: two TextEdit
       documents, a click (trigger flags held) from A into B mid-take. Pass:
       the text in B, A empty, the take never cancelled.
-- [ ] OT2-A.3 **Queued for the Mac wave.** `hold:finder` and
+- [ ] OT2-A.3 **Mac wave 7: PARTIAL: hold:finder PASS; hold:desktop not run (no uncovered desktop spot)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `hold:finder` and
       `hold:desktop`: start in TextEdit, click into our Finder window (or an
       empty desktop spot) mid-take, release there. Pass: nothing pasted
       (TextEdit empty), route `card (no_text_field)`, the log line
@@ -2839,15 +2839,15 @@ saves and restores the whole clipboard. Helpers:
       unmarked text equal to History's, the bar shows "Copied to clipboard" (not the card; check
       once by eye or `screencapture`), and the driver's restore is
       byte-identical.
-- [ ] OT2-A.4 **Queued for the Mac wave.** `free:cmdtab`: the same switch in
+- [x] OT2-A.4 **Mac wave 7: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `free:cmdtab`: the same switch in
       hands-free (double press, ⌘-Tab + TextEdit, a press stops). Pass: the
       text in TextEdit; both modes decide the target the same way.
-- [ ] OT2-A.5 **Queued for the Mac wave.** With fn (`WB_OT2A_TRIGGER=fn`,
+- [ ] OT2-A.5 **Mac wave 7: NOT RUN (owner: fn, real ⌘-Tab, Space swipe)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) With fn (`WB_OT2A_TRIGGER=fn`,
       only when the owner's app is quit, or a person): the four cases above
       on the real Globe key, plus a real ⌘-Tab through the switcher and a
       trackpad swipe to another Space while holding fn (synthetic events do
       not drive the system's own gestures).
-- [ ] OT2-A.6 **Queued for the Mac wave.** S-05's driver after OT2-A:
+- [x] OT2-A.6 **Mac wave 7: PASS (card:password in our own Chrome; driver fixes 5cb47833, b2553e7c)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) S-05's driver after OT2-A:
       `scripts/wb-s05/run.sh <out> 1 card:finder card:desktop moved:40`
       now expects "Copied to clipboard" and the plain text on the clipboard
       instead of the card (`summarize.py` updated); `card:password` still
@@ -2862,7 +2862,7 @@ models cloned, WAV microphone) for the takes. WAVs only, made by
 synthetic café noise with distant babble, `quiet_bench::write_wavs`): never
 the speakers, never the real microphone, never the owner's app or data.
 
-- [ ] OT2-B.1 **Queued for the Mac wave.** The mic meter with quiet speech
+- [x] OT2-B.1 **Mac wave 7: PASS (normal-20dB spans 4 bars over one continuous sentence; the café WAV with pauses 11)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) The mic meter with quiet speech
       and whispers, each WAV through `scripts/wb-meter/run.sh` (the quiet
       ones graded with `summary.py --quiet`):
       `EXE=<debug wispr-bro> OUT=<scratch> scripts/wb-quiet/run.sh meter`.
@@ -2871,7 +2871,7 @@ the speakers, never the real microphone, never the owner's app or data.
       quiet-20-3dB, whisper-30-3dB and whisper-35-0dB speech top > 0.2,
       mean > 0.1 and ≥ 2 bars of range (builder bench: whispers 3-5 of 12
       bars, noise 0).
-- [ ] OT2-B.2 **Queued for the Mac wave.** Whispers are heard: one SIGUSR2
+- [x] OT2-B.2 **Mac wave 7: FIX → PASS (whisper-35-0dB was "O ny"; f3f70c68; WER 0 %)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Whispers are heard: one SIGUSR2
       take per WAV into our own TextEdit, the app started with
       `scripts/wb-s05/app.sh start`:
       `PID=<pid> DATA=<its Data dir> OUT=<scratch> scripts/wb-quiet/run.sh takes`.
@@ -2880,7 +2880,7 @@ the speakers, never the real microphone, never the owner's app or data.
       whisper-35-0dB (builder bench, turbo: 0 / 2.9 / 1.9 / 22.9 % over 8
       sentences; before this fix 0 / 2.9 / 21.9 / 87.6 % with 4 of 8
       whisper-35-0dB takes empty).
-- [ ] OT2-B.3 **Queued for the Mac wave.** The bar's waveform by eye and by
+- [x] OT2-B.3 **Mac wave 7: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) The bar's waveform by eye and by
       log, during the OT2-B.2 takes: the debug log's "pill: level frames …,
       loudest bar …" lines during the whispers read ≥ 0.2 at least once a
       second while the voice runs and < 0.1 in the second before it
@@ -2899,33 +2899,33 @@ text and `@` tags (checked by a builder on 3.28.7), so no sign-in is needed.
 Build the read-back helper once:
 `swiftc -O -o $WB_S36_BIN/chat-tags scripts/wb-s36/chat-tags.swift`.
 
-- [ ] OT2-C.1 Cold start: quit and reopen the throwaway Cursor, wait 3 s, run
+- [ ] OT2-C.1 **Mac wave 7: NOT CONCLUSIVE (context read ok with 5 code names; throwaway Cursor needs sign-in)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Cold start: quit and reopen the throwaway Cursor, wait 3 s, run
       `scripts/wb-s36/take.sh editor <get-user-by-id.wav> <out>`: the log
       has `context: read ok (…, cursor: N code name(s) …)` with N ≥ 1 on the
       first take, and `user_service.ts` gets `getUserById` (S-36.1). If the
       log shows `context: the app's tree is still building` (debug level),
       a later read of the same take filled the names.
-- [ ] OT2-C.2 Chat tag: `take.sh chat <open-index-dot-ts.wav> <out>`: the log
+- [ ] OT2-C.2 **Mac wave 7: NOT CONCLUSIVE (Cursor's agent input behind Log In; owner signs in a throwaway profile)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Chat tag: `take.sh chat <open-index-dot-ts.wav> <out>`: the log
       has `cursor chat: … M file name(s)` with M ≥ 1 and an `insert:` line
       with `"mention_tags":[1,1]`; `chat-tags` prints `tags: 1 ["index.ts"]`
       (a real tag with its "Remove mention" button), and the chat was not
       submitted (S-36.2).
-- [ ] OT2-C.3 A spoken file that is not open in a tab: the text keeps
+- [ ] OT2-C.3 **Mac wave 7: NOT RUN (same)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) A spoken file that is not open in a tab: the text keeps
       `@name` as typed text, `"mention_tags":[0,1]`, no Return sent.
-- [ ] OT2-C.4 "Press Enter after dictating" on for Cursor (Style page): the
+- [ ] OT2-C.4 **Mac wave 7: NOT RUN (same)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) "Press Enter after dictating" on for Cursor (Style page): the
       chat take with a tag sends Return once, after the tag and the rest of
       the text.
-- [ ] OT2-C.5 Style page in the real app, by eye, light and dark: Work tab ›
+- [x] OT2-C.5 **Mac wave 7: PASS, light (linear.app is built in, so the hint says "already uses Work messages"; app_rules holds only linear.app)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Style page in the real app, by eye, light and dark: Work tab ›
       Add website › paste `https://www.linear.app/team/x?y=1` → the hint says
       "Adds linear.app and its subdomains", Add puts a `linear.app` chip in
       Work; `entry_meta`/`app_rules` hold only `linear.app`.
-- [ ] OT2-C.6 Recently used websites: dictate once (WAV) in Chrome with a
+- [ ] OT2-C.6 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Recently used websites: dictate once (WAV) in Chrome with a
       throwaway profile into a text field on a public page that is not in
       the built-in list (the S-19b driver's page on `example.org`); the
       Style page's Personal tab offers `example.org` under "Recently used
       websites"; one click moves it to Personal; the log has no host at
       INFO.
-- [ ] OT2-C.7 An AI chat site: a take in Chrome on `chatgpt.com` (throwaway
+- [ ] OT2-C.7 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) An AI chat site: a take in Chrome on `chatgpt.com` (throwaway
       profile, signed out) goes in without cleanup (its cleanup reason is
       `ai_chat`) and without a style.
 
@@ -2936,23 +2936,23 @@ Driver: `scripts/wb-ot2d/run.sh <case>` on a portable test bundle
 own `Data/fork.db`, never the owner's), its own TextEdit instance, no
 audio. Run `restore` last.
 
-- [ ] OT2-D.1 **Queued for the Mac wave.** `exact`: Polish's prompt set to
+- [x] OT2-D.1 **Mac wave 7: PASS (⌃⌥1)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `exact`: Polish's prompt set to
       "Replace all A and E with 0 and 1"; ⌥1 on a TextEdit sentence pastes
       "Pl10s1 s1nd th1 0g1nd0 b1for1 th1 m11ting." with `llm 0` in the
       `transforms: run` line, the clipboard unchanged, and one ⌘Z restores.
-- [ ] OT2-D.2 **Queued for the Mac wave.** `nomatch`: the same transform on
-      "Buy rum today." pastes nothing; the bar says "Nothing to change".
-- [ ] OT2-D.3 **Queued for the Mac wave.** `notapplied`: Prompt Engineer set
+- [x] OT2-D.2 **Mac wave 7: PASS by log (sentence changed to "Buy hot rum now.": the old one had an a)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `nomatch`: the same transform on
+      "Buy hot rum now." pastes nothing; the bar says "Nothing to change".
+- [x] OT2-D.3 **Mac wave 7: PASS ("Couldn't apply this transform")** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) `notapplied`: Prompt Engineer set
       to "Make it about half as long" on one sentence: either a shortened
       paste, or nothing pasted and the bar says "Couldn't apply this
       transform" (never the same text pasted with "Done").
-- [ ] OT2-D.4 **Queued for the Mac wave.** By eye in the Hub (light, dark,
+- [ ] OT2-D.4 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) By eye in the Hub (light, dark,
       Arabic): Transforms › Create new has no rules checked; typing "Replace
       all A and E with 0 and 1" shows "Runs exactly, without AI" with
       “A” → “0”, “E” → “1” and the rules note; a Find and replace row
       (Match case) works with the keyboard; Preview shows "Exact · no AI";
       a free-form prompt whose preview fails shows the reason in place.
-- [ ] OT2-D.5 **Queued for the Mac wave.** Scratchpad › a note of three
+- [ ] OT2-D.5 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Scratchpad › a note of three
       paragraphs (~340 words, pasted, not typed) › Polish: the note is
       rewritten within ~15 s (no timeout, no line-count refusal: the log's
       `transforms: preview ended` line must not appear); the same text
@@ -2987,7 +2987,7 @@ windows, light and dark, English and Arabic.
       while the Mac was loaded, so the venv lookup became `build.sh
 --print-python` and the detach gets 60 s before `-force`; `verify.sh
 --unsigned` on that DMG then passed every check in 3.4 s.
-- [ ] OT2-E.2 **Queued for the Mac wave.** The DMG window by eye: open the
+- [ ] OT2-E.2 **Mac wave 7: PARTIAL: unsigned dry-run window PASS light/dark by its .DS_Store and a scratch mount; rc4 verify.sh window checks PASS; the signed DMG in Finder and the drag not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) The DMG window by eye: open the
       dry-run (or next rc's) DMG in Finder, light and dark appearance.
       Pass: the window opens at about 660 × 400 with no toolbar or sidebar,
       our background whole (heading "Drag to install", the help line, the
@@ -3000,26 +3000,26 @@ windows, light and dark, English and Arabic.
       signed path: the next rc's `verify.sh` lists the install-window
       checks and passes, and the stapled DMG still opens with no Gatekeeper
       prompt.
-- [ ] OT2-E.3 **Queued for the Mac wave.** Sidebar Support: the item sits
+- [x] OT2-E.3 **Mac wave 7: PASS, light (dark/Arabic menu not opened)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Sidebar Support: the item sits
       between Share with a friend and Settings, stays at the bottom with the
       setup card open at the default window size; a click opens "Support
       Wispr Bro" (Star on GitHub with GitHub's mark, Contribute, Send
       feedback; no Sponsor item); Help › Get in touch › Support Wispr Bro
       opens the same menu. Light/dark, Arabic. Links are not clicked (they
       open the owner's browser).
-- [ ] OT2-E.4 **Queued for the Mac wave.** Settings › About: View source code,
+- [x] OT2-E.4 **Mac wave 7: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Settings › About: View source code,
       View license and Handy on GitHub show the GitHub mark in the button's
       ink, crisp at 2x, light and dark.
-- [ ] OT2-E.5 **Queued for the Mac wave.** Handy's hosted rows in sentence
+- [x] OT2-E.5 **Mac wave 7: PASS (System light/dark, Turkish, Italian; German as translated)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Handy's hosted rows in sentence
       case: Settings › System ("Launch on startup", "Show tray icon", "Start
       hidden"), Advanced and the debug rows; the Turkish and Italian Hub
       show their rows in sentence case; Japanese and German unchanged.
-- [ ] OT2-E.6 **Queued for the Mac wave.** Home banner: at the default window
+- [x] OT2-E.6 **Mac wave 7: FIX → PASS, English (the first-use banner ran over the mic; 6ed26217; Arabic by spec)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Home banner: at the default window
       and at full screen, English and Arabic, the heading, body and button
       stay clear of the microphone in the photo.
-- [ ] OT2-E.7 **Queued for the Mac wave.** Onboarding Summary on the unbound
+- [x] OT2-E.7 **Mac wave 7: PASS** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Onboarding Summary on the unbound
       test profile: "Not set" rows show a grey dash, set rows the green tick.
-- [ ] OT2-E.8 **Queued for the Mac wave.** No focus ring after a deep link:
+- [ ] OT2-E.8 **Mac wave 7: PARTIAL: deep links PASS; mouse, tray and Tab paths not run** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) No focus ring after a deep link:
       `WISPRBRO_HUB_ROUTE=#/hub/settings/microphone` at launch, Help ›
       Microphone by mouse, the tray's Shortcuts…, and a tab deep link
       (Insights › Voice): no ring on the close button or the tab panel; one
@@ -3033,25 +3033,25 @@ unbound, takes by SIGUSR2 and the test WAV microphone, paste target the
 checked"). Settings changes by hand in the test app's Hub. Never the
 owner's Wispr Bro.
 
-- [ ] OT2-F.1 **Queued for the Mac wave.** Dock and menu bar icon: with
+- [ ] OT2-F.1 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Dock and menu bar icon: with
       "Show app in Dock" off, the menu bar row is disabled with its hint;
       turn Dock back on, turn the menu bar icon off: the Dock row is
       disabled. Close the Hub: the Dock icon stays. Reopen from Finder
       (double-click the bundle) and from Spotlight: the Hub comes forward
       each time, also after it was parked (> 60 s hidden).
-- [ ] OT2-F.2 **Queued for the Mac wave.** Notifications: Settings › System
+- [ ] OT2-F.2 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Notifications: Settings › System
       › "Speech model ready" off, then Debug › post `model_ready`: no inbox
       entry and no banner; on again: both (banner only with the Hub in the
       background).
-- [ ] OT2-F.3 **Queued for the Mac wave.** Custom words: with Settings ›
+- [ ] OT2-F.3 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Custom words: with Settings ›
       Advanced open over the Dictionary page, add "Zyxquorian" in Handy's
       Custom words row: the Dictionary page lists it within a second
       without a restart; delete it on the page: the row drops it.
-- [ ] OT2-F.4 **Queued for the Mac wave.** Snippets in History: a take
+- [ ] OT2-F.4 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Snippets in History: a take
       with a snippet trigger (a WAV of "send my address" with the snippet
       "my address → 12 Harbour Lane"): the pasted text, History's row and
       its Copy all show the expanded text; History search finds "Harbour".
-- [ ] OT2-F.5 **Queued for the Mac wave.** Scratchpad text size: set 24 pt,
+- [ ] OT2-F.5 **Mac wave 7: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-7.md)) Scratchpad text size: set 24 pt,
       close the note window, wait 70 s (parked), reopen with the bar button:
       still 24 pt; same after a relaunch. Translate to English: with the
       Parakeet starter the row is off and explains why (by eye, light and
