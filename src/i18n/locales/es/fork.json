@@ -905,7 +905,9 @@
         "transform_failed": "No se ha podido transformar ese texto",
         "shortcut_lost": "Tu función rápida ha dejado de funcionar",
         "shortcut_stopped": "Tu función rápida ha dejado de responder",
-        "shortcut_back": "Tu función rápida vuelve a funcionar"
+        "shortcut_back": "Tu función rápida vuelve a funcionar",
+        "transform_no_change": "Nada que cambiar",
+        "transform_not_applied": "No se pudo aplicar esta transformación"
       },
       "card": {
         "no_text_field": "Primero haz clic en un campo de texto",
@@ -1367,7 +1369,15 @@
       },
       "reset": "Restablecer",
       "done": "OK",
-      "close": "Cerrar el editor"
+      "close": "Cerrar el editor",
+      "exactBadge": "Exacto · sin IA",
+      "outcome": {
+        "no_change": "No hay nada que cambiar en este texto.",
+        "not_applied": "La IA local no pudo hacer esta. Prueba con una instrucción más corta y concreta.",
+        "failed": "La respuesta de la IA local no superó sus comprobaciones de seguridad. Inténtalo de nuevo o reformula la instrucción.",
+        "timeout": "La IA local tardó demasiado. Inténtalo de nuevo.",
+        "no_engine": "La IA local aún no está lista. Los cambios exactos siguen funcionando."
+      }
     },
     "rules": {
       "shorter": {
@@ -1419,7 +1429,31 @@
       "simpleView": "Se muestra una única sustitución para este cambio grande o complejo.",
       "actionFailed": "Esa acción no ha funcionado. Tu texto sigue aquí; inténtalo de nuevo."
     },
-    "startTutorial": "Iniciar el tutorial"
+    "startTutorial": "Iniciar el tutorial",
+    "findReplace": {
+      "title": "Buscar y reemplazar",
+      "help": "Cambios exactos, hechos sin IA cada vez que se ejecuta esta transformación. Deja «Reemplazar con» vacío para eliminar el texto.",
+      "find": "Buscar, fila {{number}}",
+      "replace": "Reemplazar con, fila {{number}}",
+      "findPlaceholder": "Buscar",
+      "replacePlaceholder": "Reemplazar con",
+      "matchCase": "Distinguir mayúsculas",
+      "remove": "Eliminar la fila {{number}}",
+      "add": "Añadir un reemplazo"
+    },
+    "plan": {
+      "exact": "Se ejecuta exactamente, sin IA",
+      "mixed": "Hecho exactamente, sin IA:",
+      "rulesUnused": "Las reglas de edición y los ejemplos de escritura no se usan: la instrucción solo pide cambios exactos.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Eliminar {{find}}",
+      "upper": "MAYÚSCULAS",
+      "lower": "minúsculas",
+      "title": "Primera Letra En Mayúscula",
+      "emoji": "emojis",
+      "email": "direcciones de correo",
+      "url": "enlaces"
+    }
   },
   "cleanup": {
     "title": "Limpieza",

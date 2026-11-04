@@ -143,6 +143,7 @@ fn cleanup(text: &str) -> ChatRequest {
         user: prompt::cleanup_user(text),
         max_tokens: prompt::max_tokens(text),
         response_format: Some(prompt::response_format()),
+        examples: Vec::new(),
     }
 }
 
@@ -269,6 +270,7 @@ async fn rs06_bench() {
         user: "word ".repeat(400),
         max_tokens: 1500,
         response_format: None,
+        examples: Vec::new(),
     };
     let (mut cancel_return, mut after) = (Vec::new(), Vec::new());
     for _ in 0..10 {

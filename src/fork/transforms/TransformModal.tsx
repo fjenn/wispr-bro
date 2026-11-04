@@ -7,12 +7,16 @@ import {
   type HotkeyBinding,
   type TransformEntry,
   type TransformInput,
+  type TransformPlan,
+  type TransformPreview,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, FOCUS_RING } from "../ui";
+import { Badge, Button, FOCUS_RING } from "../ui";
 import { BindingRow } from "../settings/hotkeys/BindingRow";
 import { useForkSettings } from "../settings/useForkSettings";
 import { ExamplesEditor } from "./ExamplesEditor";
+import { FindReplaceEditor } from "./FindReplaceEditor";
+import { PlanNote } from "./PlanNote";
 import { RulesList } from "./RulesList";
 
 function inputFor(entry: TransformEntry): TransformInput {
@@ -22,6 +26,7 @@ function inputFor(entry: TransformEntry): TransformInput {
     rules: { ...entry.rules },
     prompt: entry.prompt,
     examples: [...entry.examples],
+    replacements: entry.replacements.map((rule) => ({ ...rule })),
   };
 }
 
@@ -42,7 +47,9 @@ export function TransformModal({
   );
   const [capturing, setCapturing] = useState(false);
   const [previewing, setPreviewing] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<TransformPreview | null>(null);
+  const [previewError, setPreviewError] = useState(false);
+  const [plan, setPlan] = useState<TransformPlan | null>(null);
   const [example, setExample] = useState(() =>
     t("transforms.editor.exampleText"),
   );
@@ -78,6 +85,21 @@ export function TransformModal({
   );
 
   useEffect(() => {
+    let current = true;
+    commands
+      .forkTransformPlan(draft)
+      .then((next) => {
+        if (current) setPlan(next);
+      })
+      .catch(() => {
+        if (current) setPlan(null);
+      });
+    return () => {
+      current = false;
+    };
+  }, [draft]);
+
+  useEffect(() => {
     if (JSON.stringify(draft) === JSON.stringify(original.current)) return;
     dirty.current = true;
     const timer = window.setTimeout(() => void save(draft), 550);
@@ -99,13 +121,14 @@ export function TransformModal({
   const runPreview = async () => {
     setPreviewing(true);
     setPreview(null);
+    setPreviewError(false);
     const result = await commands.forkTransformPreview(
       entry.id,
       draft,
       example,
     );
     if (result.status === "ok") setPreview(result.data);
-    else setSaveState("error");
+    else setPreviewError(true);
     setPreviewing(false);
   };
   const bindings = settings?.hotkeys[entry.action_id] ?? [];
@@ -252,18 +275,46 @@ export function TransformModal({
                   : t("transforms.editor.preview")}
               </Button>
             </div>
-            {preview !== null && (
+            {preview?.text != null && (
+              <div className="flex flex-col gap-2 border-t border-(--wb-line) pt-3">
+                {preview.exact && (
+                  <Badge tone="neutral" testId="wb-transform-preview-exact">
+                    {t("transforms.editor.exactBadge")}
+                  </Badge>
+                )}
+                <p
+                  className="m-0 whitespace-pre-wrap type-body leading-6 select-text"
+                  data-testid="wb-transform-preview-result"
+                >
+                  {preview.text}
+                </p>
+              </div>
+            )}
+            {preview !== null && preview.outcome !== "changed" && (
               <p
-                className="whitespace-pre-wrap border-t border-(--wb-line) pt-3 type-body leading-6 select-text"
-                data-testid="wb-transform-preview-result"
+                role="status"
+                className={`type-small m-0 border-t border-(--wb-line) pt-3 ${preview.outcome === "no_change" ? "text-(--wb-ink-2)" : "text-(--wb-danger)"}`}
+                data-testid="wb-transform-preview-outcome"
+                data-outcome={preview.outcome}
               >
-                {preview}
+                {t(`transforms.editor.outcome.${preview.outcome}`)}
+              </p>
+            )}
+            {previewError && (
+              <p
+                role="alert"
+                className="type-small m-0 border-t border-(--wb-line) pt-3 text-(--wb-danger)"
+                data-testid="wb-transform-preview-outcome"
+                data-outcome="failed"
+              >
+                {t("transforms.editor.outcome.failed")}
               </p>
             )}
           </section>
           <RulesList
             value={draft.rules}
             onChange={(rules) => update("rules", rules)}
+            unused={plan?.prompt_exact ?? false}
           />
           <label className="flex flex-col gap-1.5 text-[14px] font-medium">
             {t("transforms.editor.customPrompt")}
@@ -279,6 +330,11 @@ export function TransformModal({
               data-testid="wb-transform-prompt"
             />
           </label>
+          <PlanNote plan={plan} />
+          <FindReplaceEditor
+            value={draft.replacements}
+            onChange={(replacements) => update("replacements", replacements)}
+          />
           <ExamplesEditor
             value={draft.examples}
             onChange={(examples) => update("examples", examples)}

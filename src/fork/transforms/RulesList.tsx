@@ -15,16 +15,32 @@ export const RULE_KEYS = [
 export function RulesList({
   value,
   onChange,
+  unused = false,
 }: {
   value: TransformRules;
   onChange: (rules: TransformRules) => void;
+  /** OT2-D: the prompt asks only for exact changes, so rules don't apply. */
+  unused?: boolean;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
-    <fieldset className="flex flex-col gap-2" data-testid="wb-transform-rules">
+    <fieldset
+      className="flex flex-col gap-2"
+      data-testid="wb-transform-rules"
+      aria-describedby={unused ? "wb-transform-rules-unused" : undefined}
+    >
       <legend className="mb-1 text-sm font-semibold">
         {t("transforms.editor.rules")}
       </legend>
+      {unused && (
+        <p
+          id="wb-transform-rules-unused"
+          className="type-small m-0 text-(--wb-ink-2)"
+          data-testid="wb-transform-rules-unused"
+        >
+          {t("transforms.plan.rulesUnused")}
+        </p>
+      )}
       {RULE_KEYS.map((key) => (
         <label
           key={key}

@@ -890,7 +890,9 @@
         "transform_failed": "Bu metin dönüştürülemedi",
         "shortcut_lost": "Kestirmeniz çalışmayı durdurdu",
         "shortcut_stopped": "Kestirmeniz yanıt vermiyor",
-        "shortcut_back": "Kestirmeniz yeniden çalışıyor"
+        "shortcut_back": "Kestirmeniz yeniden çalışıyor",
+        "transform_no_change": "Değiştirilecek bir şey yok",
+        "transform_not_applied": "Dönüştürme uygulanamadı"
       },
       "card": {
         "no_text_field": "Önce bir metin alanına tıklayın",
@@ -1331,7 +1333,15 @@
       },
       "reset": "Sıfırla",
       "done": "Bitti",
-      "close": "Düzenleyiciyi kapat"
+      "close": "Düzenleyiciyi kapat",
+      "exactBadge": "Tam · yapay zekâsız",
+      "outcome": {
+        "no_change": "Bu metinde değiştirilecek bir şey yok.",
+        "not_applied": "Yerel yapay zekâ bunu yapamadı. Daha kısa ve daha belirli bir talimat deneyin.",
+        "failed": "Yerel yapay zekânın yanıtı güvenlik denetimlerini geçemedi. Yeniden deneyin veya talimatı farklı ifade edin.",
+        "timeout": "Yerel yapay zekâ çok uzun sürdü. Yeniden deneyin.",
+        "no_engine": "Yerel yapay zekâ henüz hazır değil. Tam değişiklikler yine de çalışır."
+      }
     },
     "rules": {
       "shorter": {
@@ -1381,7 +1391,31 @@
       "simpleView": "Bu büyük veya karmaşık değişiklik tek bir değiştirme olarak gösteriliyor.",
       "actionFailed": "Bu işlem yapılamadı. Metniniz hâlâ burada; yeniden deneyin."
     },
-    "startTutorial": "Eğitimi başlat"
+    "startTutorial": "Eğitimi başlat",
+    "findReplace": {
+      "title": "Bul ve değiştir",
+      "help": "Bu dönüştürme her çalıştığında yapay zekâ olmadan yapılan tam değişiklikler. Metni kaldırmak için “Şununla değiştir” alanını boş bırakın.",
+      "find": "Bul, satır {{number}}",
+      "replace": "Şununla değiştir, satır {{number}}",
+      "findPlaceholder": "Bul",
+      "replacePlaceholder": "Şununla değiştir",
+      "matchCase": "Büyük/küçük harfi eşleştir",
+      "remove": "{{number}}. satırı kaldır",
+      "add": "Değiştirme ekle"
+    },
+    "plan": {
+      "exact": "Tam olarak çalışır, yapay zekâsız",
+      "mixed": "Tam olarak, yapay zekâsız yapıldı:",
+      "rulesUnused": "Düzenleme kuralları ve yazı örnekleri kullanılmaz: istem yalnızca tam değişiklikler ister.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "{{find}} öğesini kaldır",
+      "upper": "BÜYÜK HARF",
+      "lower": "küçük harf",
+      "title": "Her Sözcük Büyük Harfle",
+      "emoji": "emoji",
+      "email": "e-posta adresleri",
+      "url": "bağlantılar"
+    }
   },
   "cleanup": {
     "title": "Temizleme",

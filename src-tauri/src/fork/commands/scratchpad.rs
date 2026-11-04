@@ -167,7 +167,12 @@ pub async fn fork_scratchpad_polish<R: ForkRuntime>(
         })
         .map_err(internal)?
         .ok_or_else(|| ForkError::Internal("the Polish transform is missing".into()))?;
-    crate::fork::transforms::run::preview(&app, definition, &source)
-        .await
-        .map_err(ForkError::Internal)
+    use crate::fork::transforms::run::{self, PreviewOutcome};
+    let preview = run::preview(&app, definition, &source).await;
+    match (preview.outcome, preview.text) {
+        (PreviewOutcome::Changed, Some(text)) => Ok(text),
+        // A note that needs no polish stays as it is.
+        (PreviewOutcome::NoChange, _) => Ok(source),
+        (outcome, _) => Err(ForkError::Internal(format!("polish ended: {outcome:?}"))),
+    }
 }

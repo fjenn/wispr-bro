@@ -322,6 +322,7 @@ fn sample() -> ChatRequest {
         user: "u".into(),
         max_tokens: 16,
         response_format: None,
+        examples: Vec::new(),
     }
 }
 
@@ -638,6 +639,7 @@ async fn real_server_on_the_socket_cleans_a_sentence() {
         user: super::super::prompt::cleanup_user(text),
         max_tokens: super::super::prompt::max_tokens(text),
         response_format: Some(super::super::prompt::response_format()),
+        examples: Vec::new(),
     };
     let r = sup
         .complete(&req, Duration::from_secs(30), &CancellationToken::new())
@@ -676,6 +678,7 @@ async fn real_server_killed_mid_request_fails_open_and_restarts() {
         user: long,
         max_tokens: 1500,
         response_format: None,
+        examples: Vec::new(),
     };
     let s2 = sup.clone();
     let task = tokio::spawn(async move {

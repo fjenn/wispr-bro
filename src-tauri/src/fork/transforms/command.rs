@@ -9,7 +9,7 @@
 // guard chain; field-context writing and local-only instruction handling.
 
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 use tauri::{AppHandle, Runtime};
 
@@ -54,7 +54,6 @@ Command Mode extension:
 
 const COMMAND_JSON_SUFFIX: &str =
     "\n\nReply only with JSON: {\"text\": \"<the requested replacement or text to insert>\"}.";
-const LLM_BUDGET: Duration = Duration::from_millis(2_800);
 static COMMAND_TAKE: AtomicBool = AtomicBool::new(false);
 
 /// Marks the take selected by the hotkey engine. An ordinary start also clears
@@ -148,8 +147,9 @@ pub(crate) fn request_for(instruction: &str, input: &CommandInput) -> (String, C
     let request = ChatRequest {
         system: system.clone(),
         user,
-        max_tokens: prompt::max_tokens(&input.input.text),
+        max_tokens: super::run::instruction_max_tokens(&input.input.text),
         response_format: Some(prompt::response_format()),
+        examples: Vec::new(),
     };
     (system, request)
 }
@@ -182,11 +182,13 @@ pub async fn generate<E: Engine>(
 ) -> Result<Generated, GenerateError> {
     let started = Instant::now();
     let (system, request) = request_for(instruction, input);
+    // Scaled with the selection or field text, like a transform (OT2-D).
+    let budget = super::run::budget(&input.input.text);
     let cancel = CancellationToken::new();
     let reply = tokio::select! {
         biased;
         _ = cancel.cancelled() => return Err(GenerateError::Cancelled),
-        reply = tokio::time::timeout(LLM_BUDGET, engine.complete(request, LLM_BUDGET)) => {
+        reply = tokio::time::timeout(budget, engine.complete(request, budget)) => {
             reply.map_err(|_| GenerateError::Timeout)?
         }
     };
@@ -266,6 +268,7 @@ pub(crate) async fn process<R: Runtime>(
 mod tests {
     use super::*;
     use crate::fork::llm::post_process::EngineError;
+    use std::time::Duration;
 
     fn capture(selected: Option<&str>, field: Option<&str>) -> Capture {
         Capture {
@@ -356,7 +359,18 @@ mod tests {
         .await
         .is_ok());
 
-        let too_long = serde_json::json!({"text": "x".repeat(200)}).to_string();
+        // "expand it" may grow the text well past 3× (OT2-D) …
+        let expanded = serde_json::json!({
+            "text": "This is an old announcement. We first shared it last spring, and the details still hold: the venue, the date and the guest list are unchanged."
+        })
+        .to_string();
+        assert!(
+            generate(&FakeEngine { reply: expanded }, "expand it", &input)
+                .await
+                .is_ok()
+        );
+        // … but a runaway reply is still refused.
+        let too_long = serde_json::json!({"text": "x".repeat(1_500)}).to_string();
         let error = generate(&FakeEngine { reply: too_long }, "expand it", &input)
             .await
             .unwrap_err();

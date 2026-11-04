@@ -37,7 +37,7 @@ pub struct AutoApplied {
 }
 
 pub async fn with_engine<E: Engine>(
-    engine: &E,
+    engine: Option<&E>,
     definition: &Definition,
     source: &str,
 ) -> AutoApplied {
@@ -48,7 +48,7 @@ pub async fn with_engine<E: Engine>(
             skipped: false,
         },
         Err(error) => {
-            if !matches!(error, GenerateError::Cancelled) {
+            if !matches!(error, GenerateError::Cancelled | GenerateError::Unchanged) {
                 log::info!("transforms: auto-apply failed open: {error:?}");
             }
             AutoApplied {
@@ -79,19 +79,25 @@ pub async fn apply<R: Runtime>(
             skipped: true,
         };
     }
-    let Some(engine) = run::app_engine(app).await else {
-        log::info!(
-            "transforms: auto-apply {} skipped (no engine)",
-            definition.id
-        );
-        return AutoApplied {
-            text: source.to_owned(),
-            applied: false,
-            skipped: false,
+    // Exact edits need no engine.
+    let engine = if definition.uses_model() {
+        let Some(engine) = run::app_engine(app).await else {
+            log::info!(
+                "transforms: auto-apply {} skipped (no engine)",
+                definition.id
+            );
+            return AutoApplied {
+                text: source.to_owned(),
+                applied: false,
+                skipped: false,
+            };
         };
+        Some(engine)
+    } else {
+        None
     };
     let started = Instant::now();
-    let result = with_engine(&engine, definition, source).await;
+    let result = with_engine(engine.as_ref(), definition, source).await;
     // Audit OT2: outcome and timing only (never the text), so a Mac run can
     // tell an unchanged rewrite from one that never ran.
     log::info!(
@@ -155,7 +161,8 @@ mod tests {
             key: "polish".into(),
             name: "Polish".into(),
             instruction: "Polish".into(),
-            flexible: true,
+            edits: Vec::new(),
+            guard: super::super::record::GuardProfile::Flexible,
         }
     }
 
@@ -170,10 +177,10 @@ mod tests {
     #[tokio::test]
     async fn auto_apply_is_fail_open() {
         let source = "Original cleanup output.";
-        let failed = with_engine(&FakeEngine { fail: true }, &definition(), source).await;
+        let failed = with_engine(Some(&FakeEngine { fail: true }), &definition(), source).await;
         assert_eq!(failed.text, source);
         assert!(!failed.applied);
-        let applied = with_engine(&FakeEngine { fail: false }, &definition(), source).await;
+        let applied = with_engine(Some(&FakeEngine { fail: false }), &definition(), source).await;
         assert_eq!(applied.text, "Rewritten text.");
         assert!(applied.applied);
     }

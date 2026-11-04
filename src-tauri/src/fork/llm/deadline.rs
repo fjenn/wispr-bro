@@ -50,6 +50,17 @@ pub fn request(text: &str) -> Duration {
     formula(text).min(REQUEST_CAP)
 }
 
+/// Floor of a transform's deadline: what the S-21 shortcut always had.
+pub const TRANSFORM_FLOOR: Duration = Duration::from_millis(2800);
+
+/// Deadline of one transform or Command Mode request on `text` (OT2-D): the
+/// same per-token formula as cleanup, never below the S-21 2.8 s and at most
+/// [`TAKE_CAP`]. A user-started rewrite of a long note or a multi-paragraph
+/// selection needs the time a dictation of that length gets; Esc cancels.
+pub fn transform(text: &str) -> Duration {
+    formula(text).max(TRANSFORM_FLOOR).min(TAKE_CAP)
+}
+
 /// Deadline of a whole take of `text` with `words` words.
 pub fn take(text: &str, words: u32) -> Duration {
     let blocks = u32::max(1, words.div_ceil(200));
@@ -69,6 +80,15 @@ mod tests {
         // Same numbers as the eval scorer's deadlineMs().
         let scorer = include_str!("../../../../scripts/wb-eval-cleanup.ts");
         assert!(scorer.contains("Math.min(6000, 1200 + 25 * expectedTokens)"));
+    }
+
+    #[test]
+    fn transform_deadline_scales_with_the_text() {
+        assert_eq!(transform("short"), TRANSFORM_FLOOR);
+        // A 336-word note (~1,900 characters) gets the cleanup formula.
+        assert_eq!(transform(&"x".repeat(1900)).as_millis(), 1200 + 475 * 25);
+        // 675 words (~3,800 characters): 24.95 s by the formula, capped.
+        assert_eq!(transform(&"x".repeat(3800)), TAKE_CAP);
     }
 
     #[test]

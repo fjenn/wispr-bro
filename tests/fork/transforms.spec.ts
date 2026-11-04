@@ -2,8 +2,10 @@
 import type { Page } from "@playwright/test";
 import type {
   ForkTransformViewChanges,
+  LiteralEdit,
   TransformEntry,
   TransformInput,
+  TransformPlan,
 } from "../../src/fork/bindings";
 import type { IpcMock } from "./fixtures";
 import {
@@ -27,6 +29,7 @@ const input = (name = "Polish"): TransformInput => ({
   rules: { ...RULES },
   prompt: "Polish this text.",
   examples: [],
+  replacements: [],
 });
 const entry = (id: number, key: string, name: string): TransformEntry => ({
   id,
@@ -45,6 +48,41 @@ const run: ForkTransformViewChanges = {
   rating: null,
   created_at_ms: 1,
 };
+
+/** A stand-in for the Rust planner: one known exact prompt plus the rows. */
+function exactPlan(value: TransformInput): TransformPlan {
+  const promptExact = /^replace all a and e with 0 and 1$/i.test(
+    value.prompt.trim(),
+  );
+  const edits: LiteralEdit[] = [
+    ...(promptExact
+      ? (["A", "E"] as const).map(
+          (find, index): LiteralEdit => ({
+            kind: "replace",
+            find: { kind: "text", value: find },
+            with: String(index),
+            match_case: false,
+          }),
+        )
+      : []),
+    ...value.replacements
+      .filter((rule) => rule.find)
+      .map(
+        (rule): LiteralEdit => ({
+          kind: "replace",
+          find: { kind: "text", value: rule.find },
+          with: rule.replace,
+          match_case: rule.match_case,
+        }),
+      ),
+  ];
+  const anyRule = Object.values(value.rules).some(Boolean);
+  return {
+    edits,
+    prompt_exact: promptExact,
+    uses_model: !promptExact && (value.prompt.trim() !== "" || anyRule),
+  };
+}
 
 class FakeTransforms {
   entries = [
@@ -84,8 +122,22 @@ class FakeTransforms {
       ];
       return this.entries;
     });
+    ipc.handle("fork_transform_preview", (args) => {
+      const value = args.input as TransformInput;
+      if (exactPlan(value).edits.length && !exactPlan(value).uses_model)
+        return { text: "Pl10s1 s1nd it", outcome: "changed", exact: true };
+      if (value.prompt.startsWith("Make it shorter"))
+        return { text: null, outcome: "not_applied", exact: false };
+      return {
+        text: "Could we discuss the report tomorrow?",
+        outcome: "changed",
+        exact: false,
+      };
+    });
+    ipc.handle("fork_transform_plan", (args) =>
+      exactPlan(args.input as TransformInput),
+    );
     ipc.respond({
-      fork_transform_preview: "Could we discuss the report tomorrow?",
       fork_transform_read_example: "A short example in my own voice.",
       fork_transform_latest: this.current,
       fork_transform_diff: {
@@ -336,5 +388,120 @@ test("RTL, reduced motion and axe in light/dark page, editor and diff", async ({
     await ipc.emit("fork-transform-view-changes", run);
     await expect(page.getByTestId("wb-transform-diff")).toBeVisible();
     await expectNoSeriousAxeFindings(page);
+  }
+});
+
+test("custom transform: exact edits run without AI, find and replace rows, honest preview", async ({
+  page,
+  ipc,
+  hub,
+}) => {
+  const fake = new FakeTransforms();
+  await openTransforms(page, ipc, hub, fake);
+  await page.getByTestId("wb-transforms-create").click();
+  // A new transform starts with no editing rules checked.
+  await ipc.expectCalled("fork_transform_create", {
+    input: {
+      rules: {
+        shorter: false,
+        clearer: false,
+        better_order: false,
+        headings_lists: false,
+        keep_tone: false,
+      },
+      replacements: [],
+    },
+  });
+  await page.getByTestId("wb-transform-rule-shorter").check();
+  await page
+    .getByTestId("wb-transform-prompt")
+    .fill("Replace all A and E with 0 and 1");
+  const plan = page.getByTestId("wb-transform-plan");
+  await expect(plan).toHaveAttribute("data-exact", "true");
+  await expect(plan).toContainText("Runs exactly, without AI");
+  await expect(plan).toContainText("“A” → “0”");
+  await expect(plan).toContainText("“E” → “1”");
+  await expect(page.getByTestId("wb-transform-rules-unused")).toBeVisible();
+  await page.getByTestId("wb-transform-preview").click();
+  await expect(page.getByTestId("wb-transform-preview-exact")).toHaveText(
+    "Exact · no AI",
+  );
+  await expect(page.getByTestId("wb-transform-preview-result")).toHaveText(
+    "Pl10s1 s1nd it",
+  );
+
+  // A free-form instruction plus an exact row.
+  await page.getByTestId("wb-transform-prompt").fill("Make it shorter");
+  await expect(page.getByTestId("wb-transform-rules-unused")).toHaveCount(0);
+  await page.getByTestId("wb-transform-replace-add").click();
+  await page.getByTestId("wb-transform-replace-find-0").fill("Bob");
+  await page.getByTestId("wb-transform-replace-with-0").fill("Robert");
+  await page.getByTestId("wb-transform-replace-case-0").check();
+  await expect(plan).toHaveAttribute("data-exact", "false");
+  await expect(plan).toContainText("Done exactly, without AI:");
+  await expect(plan).toContainText("“Bob” → “Robert”");
+  await ipc.expectCalled("fork_transform_update", {
+    id: 3,
+    input: {
+      prompt: "Make it shorter",
+      replacements: [{ find: "Bob", replace: "Robert", match_case: true }],
+    },
+  });
+  await page.getByTestId("wb-transform-preview").click();
+  const outcome = page.getByTestId("wb-transform-preview-outcome");
+  await expect(outcome).toHaveAttribute("data-outcome", "not_applied");
+  await expect(outcome).toContainText("couldn't do this one");
+  await expect(page.getByTestId("wb-transform-preview-result")).toHaveCount(0);
+  // The editor reports the preview, not a save error.
+  await expect(page.getByTestId("wb-transform-autosave")).not.toContainText(
+    "Couldn't save",
+  );
+  await page.getByTestId("wb-transform-replace-remove-0").click();
+  await expect(page.getByTestId("wb-transform-replace-row-0")).toHaveCount(0);
+  await expect(plan).toHaveCount(0);
+});
+
+test("find and replace rows: keyboard only, RTL and axe in light/dark", async ({
+  page,
+  ipc,
+  hub,
+}) => {
+  test.setTimeout(180_000);
+  const fake = new FakeTransforms();
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+    await openTransforms(page, ipc, hub, fake, {
+      handy: { theme, app_language: "ar" },
+    });
+    await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
+    await page.getByTestId("wb-transforms-create").click();
+    await expect(page.getByTestId("wb-transform-modal")).toBeVisible();
+    const add = page.getByTestId("wb-transform-replace-add");
+    await add.focus();
+    await page.keyboard.press("Enter");
+    const find = page.getByTestId("wb-transform-replace-find-0");
+    await find.focus();
+    await page.keyboard.type("a");
+    await page.keyboard.press("Tab");
+    await expect(page.getByTestId("wb-transform-replace-with-0")).toBeFocused();
+    await page.keyboard.type("0");
+    await page.keyboard.press("Tab");
+    await expect(page.getByTestId("wb-transform-replace-case-0")).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(page.getByTestId("wb-transform-replace-case-0")).toBeChecked();
+    await page.keyboard.press("Tab");
+    await expect(
+      page.getByTestId("wb-transform-replace-remove-0"),
+    ).toBeFocused();
+    await expect(page.getByTestId("wb-transform-plan")).toBeVisible();
+    await page
+      .getByTestId("wb-transform-prompt")
+      .fill("Replace all A and E with 0 and 1");
+    await page.getByTestId("wb-transform-preview").click();
+    await expect(page.getByTestId("wb-transform-preview-exact")).toBeVisible();
+    await expectNoSeriousAxeFindings(page);
+    await page.keyboard.press("Escape");
+    await expect(page.getByTestId("wb-transform-modal")).toBeHidden();
+    fake.entries = fake.entries.filter((item) => item.builtin_key !== null);
   }
 });

@@ -920,7 +920,9 @@
         "transform_failed": "Tento text se nepodařilo transformovat",
         "shortcut_lost": "Vaše zkratka přestala fungovat",
         "shortcut_stopped": "Vaše zkratka přestala reagovat",
-        "shortcut_back": "Vaše zkratka zase funguje"
+        "shortcut_back": "Vaše zkratka zase funguje",
+        "transform_no_change": "Není co měnit",
+        "transform_not_applied": "Transformaci se nepodařilo použít"
       },
       "card": {
         "no_text_field": "Nejdřív klikněte do textového pole",
@@ -1403,7 +1405,15 @@
       },
       "reset": "Obnovit",
       "done": "Hotovo",
-      "close": "Zavřít editor"
+      "close": "Zavřít editor",
+      "exactBadge": "Přesně · bez AI",
+      "outcome": {
+        "no_change": "V tomto textu není co měnit.",
+        "not_applied": "Místní AI tohle nezvládla. Zkuste kratší a konkrétnější instrukci.",
+        "failed": "Odpověď místní AI neprošla bezpečnostními kontrolami. Zkuste to znovu nebo instrukci přeformulujte.",
+        "timeout": "Místní AI trvalo příliš dlouho. Zkuste to znovu.",
+        "no_engine": "Místní AI ještě není připravena. Přesné změny fungují i tak."
+      }
     },
     "rules": {
       "shorter": {
@@ -1457,7 +1467,31 @@
       "simpleView": "Tato změna je velká nebo složitá, proto se zobrazuje jako jedno nahrazení.",
       "actionFailed": "Akce se nezdařila. Text zůstal zachován, zkuste to znovu."
     },
-    "startTutorial": "Spustit průvodce"
+    "startTutorial": "Spustit průvodce",
+    "findReplace": {
+      "title": "Hledat a nahradit",
+      "help": "Přesné změny provedené bez AI při každém spuštění této transformace. Pokud chcete text odstranit, nechte „Nahradit čím“ prázdné.",
+      "find": "Hledat, řádek {{number}}",
+      "replace": "Nahradit čím, řádek {{number}}",
+      "findPlaceholder": "Hledat",
+      "replacePlaceholder": "Nahradit čím",
+      "matchCase": "Rozlišovat velikost písmen",
+      "remove": "Odstranit řádek {{number}}",
+      "add": "Přidat nahrazení"
+    },
+    "plan": {
+      "exact": "Provede se přesně, bez AI",
+      "mixed": "Provedeno přesně, bez AI:",
+      "rulesUnused": "Pravidla úprav a ukázky psaní se nepoužijí: prompt žádá jen přesné změny.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Odstranit {{find}}",
+      "upper": "VELKÁ PÍSMENA",
+      "lower": "malá písmena",
+      "title": "První Písmeno Velké",
+      "emoji": "emotikony",
+      "email": "e-mailové adresy",
+      "url": "odkazy"
+    }
   },
   "cleanup": {
     "title": "Vyčištění",

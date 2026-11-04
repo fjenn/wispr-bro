@@ -2826,3 +2826,76 @@ through Handy's own capture path (`fork/audio/quiet_bench.rs`).
   `presence ≥ 0.5` as voice, so a whispered hands-free take is not stopped
   as silent.
 - **Frontend.** `settings/meterBars.ts` lights no bar below 0.05.
+
+## Transforms do what they say (OT2-D, `fix/xform`)
+
+Owner report on rc3: a custom transform "Replace all A and E with 0 and 1"
+did nothing. Reproduced headlessly through the editor's own create path
+(`store::validate` + `store::create` + `definition_by_id` +
+`run::generate_definition`) on the bundled Muesli 2B v12 sidecar
+(`fork::transforms::eval`): the model returned the text cleaned and
+unchanged, and even a correct answer would have been refused, because
+custom transforms kept the entity guard (no new digits) and the language
+guard (no translation). New transforms also started with four editing
+rules checked (Shorter, Clearer wording, Better order, Keep my tone), which
+told the model to rewrite what the user asked to keep. Three causes, three
+fixes:
+
+- **Exact edits by code** (`fork/transforms/literal.rs`). Sentences of the
+  custom prompt that are wholly an exact edit (replace, remove, upper/lower/
+  title case, emoji, e-mail addresses, links) are parsed in English,
+  German, Spanish, French, Portuguese, Italian and Dutch, plus the symbolic
+  `a → 0` / `a -> 0` form in any language, and applied by code: letters and
+  words match in any case and the replacement follows the case it replaces,
+  words match whole ("Jon" is not in "Jonathan"), a removed sentence-final
+  `!`/`?` leaves a full stop, removals tidy spaces, newlines survive.
+  Anything vaguer ("replace names", "change it to Spanish", "remove
+  fillers", "turn this into a list") stays an instruction for the model.
+  The editor's **Find and replace** rows (`LiteralRule`, stored in
+  `examples_json` beside the description: no migration) are the
+  language-independent way, with Match case. `store::compile` splits a
+  transform into the model's instruction and the exact edits: a prompt that
+  is only exact edits (or only rows, with no rules) is exact and never
+  reaches the model (no engine needed, `llm 0`); its rules and writing
+  examples are ignored and the editor says so. Otherwise the model runs
+  first and the exact edits are applied to its output.
+- **A transform prompt for a cleanup model** (`run.rs` `TRANSFORM_PROMPT`,
+  seven worked examples sent as earlier chat turns through the new
+  `ChatRequest::examples`; Apple FM gets them written into its
+  instructions). Measured on Muesli: the instruction alone, a system-prompt
+  list of examples, another JSON key or plain-text output all returned the
+  cleaned input for translation, lists and digits; multi-turn examples made
+  it translate, list, number, write digits and e-mails. Tone and length
+  changes stay weak (a fine-tune limit). The user's own instruction is sent
+  last ("Main instruction: …") after any rules, which the model reads as
+  secondary. The FreeFlow Command Mode prompt stays with Command Mode.
+- **Guards by profile, and saying so** (`record::GuardProfile`): Polish
+  keeps the cleanup guards, Prompt Engineer the S-21 flexible set, custom
+  transforms the instruction profile Command Mode already uses (framing,
+  assistant, prompt-echo, JSON and length checks only). A result equal to
+  the input is never pasted: exact edits that matched nothing and Polish on
+  text that needs nothing show "Nothing to change" (`TransformNoChange`,
+  info); a custom or Prompt Engineer run whose model echoed the text shows
+  "Couldn't apply this transform" (`TransformNotApplied`). The editor's
+  Preview returns `TransformPreview { text, outcome, exact }` and shows the
+  outcome in place (no more "Couldn't save" for a failed preview), an
+  "Exact · no AI" badge, and `fork_transform_plan` feeds a live note under
+  the prompt listing what runs exactly. "Create new" starts with no rules
+  checked. Scratchpad Polish keeps the note on "Nothing to change".
+
+- **Guards per kind, deadlines by length** (orchestrator's feature audit).
+  The 3× "too long" rule refused "expand it", "write a reply" and e-mails
+  in custom transforms, Prompt Engineer and Command Mode; the instruction
+  profile and Prompt Engineer now use `guards::is_runaway` (more than
+  max(1,200, 10 × input) characters) and `run::instruction_max_tokens`
+  (at least 256, 64 + input characters, at most 2048); Prompt Engineer also
+  drops the executed-instruction check ("write me …" is its input). Polish
+  (the shortcut, Scratchpad Polish) keeps the cleanup guards except the
+  exact line count: `guards::lines_survive_loosely` accepts a rewrite that
+  keeps either the paragraph count or the line count, so re-wrapped
+  multi-paragraph notes pass. Every transform and Command Mode request gets
+  `deadline::transform`: the cleanup formula (1.2 s + 25 ms per expected
+  token), at least the S-21 2.8 s, at most 24 s (`TAKE_CAP`); a 336-word
+  note gets ~13 s instead of 2.8 s. Esc still cancels at any point.
+
+Eval: `eval/transforms/` (37 items, code-checked; README there).

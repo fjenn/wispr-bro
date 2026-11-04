@@ -55,6 +55,7 @@ const entry = (id: number, key: string, name: string): TransformEntry => ({
   rules: { ...RULES },
   prompt: `${name} this text.`,
   examples: [],
+  replacements: [],
   updated_at: 0,
 });
 
@@ -70,8 +71,9 @@ function install(ipc: IpcMock, hub: HubState, b: Backend): void {
     entry(2, "prompt_engineer", "Prompt Engineer"),
   ]);
   ipc.handle("fork_transform_preview", () => {
-    if (b.preview === null) throw { kind: "Internal", message: "no engine" };
-    return b.preview;
+    if (b.preview === null)
+      return { text: null, outcome: "no_engine", exact: false };
+    return { text: b.preview, outcome: "changed", exact: false };
   });
   ipc.handle("fork_transform_diff", (args) => ({
     ops: [

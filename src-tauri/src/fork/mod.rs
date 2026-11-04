@@ -761,6 +761,7 @@ macro_rules! fork_specta_builder {
                 commands::transforms::fork_transform_delete::<$runtime>,
                 commands::transforms::fork_transforms_reset::<$runtime>,
                 commands::transforms::fork_transform_preview::<$runtime>,
+                commands::transforms::fork_transform_plan,
                 commands::transforms::fork_transform_latest::<$runtime>,
                 commands::transforms::fork_transform_diff,
                 commands::transforms::fork_transform_rate::<$runtime>,

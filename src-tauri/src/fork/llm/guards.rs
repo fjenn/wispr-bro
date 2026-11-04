@@ -168,7 +168,9 @@ pub fn check(raw: &str, ctx: &Context<'_>) -> Verdict {
 /// Applies the cleanup checks, then removes the similarity, entity and
 /// language rules that would reject an instruction's intended new content,
 /// numbering, entity changes or translation. JSON, assistant, framing and
-/// output-bound checks remain enforced.
+/// prompt-echo checks remain enforced. The 3× length rule becomes the
+/// runaway bound [`is_runaway`]: "expand this", "write a reply" and "turn
+/// this into an e-mail" legitimately grow a short text (OT2-D).
 pub fn check_with_profile(raw: &str, ctx: &Context<'_>, profile: Profile) -> Verdict {
     let mut verdict = check(raw, ctx);
     if profile == Profile::Instruction {
@@ -184,10 +186,42 @@ pub fn check_with_profile(raw: &str, ctx: &Context<'_>, profile: Profile) -> Ver
                     | Reason::Formatting
                     | Reason::ContentWords
                     | Reason::Language
+                    | Reason::TooLong
             )
         });
+        if let Some(text) = &verdict.text {
+            if is_runaway(ctx.input, text) {
+                verdict.reasons.push(Reason::TooLong);
+            }
+        }
     }
     verdict
+}
+
+/// An instruction's output that is no longer a rewrite: more than
+/// max(1,200, 10 × input) characters (OT2-D).
+pub fn is_runaway(input: &str, output: &str) -> bool {
+    const RATIO: usize = 10;
+    const FLOOR: usize = 1200;
+    output.chars().count() > FLOOR.max(input.chars().count().saturating_mul(RATIO))
+}
+
+/// Paragraphs: runs of non-empty lines separated by blank lines.
+pub fn paragraphs(s: &str) -> usize {
+    s.split('\n')
+        .fold((0, false), |(count, inside), line| {
+            let text = !line.trim().is_empty();
+            (count + usize::from(text && !inside), text)
+        })
+        .0
+}
+
+/// Polish's line rule (OT2-D): a rewrite may re-wrap lines inside a
+/// paragraph or turn single line breaks into paragraph breaks; it must keep
+/// either the paragraph count or the line count. Cleanup's exact rule
+/// refused 135- and 336-word notes.
+pub fn lines_survive_loosely(input: &str, output: &str) -> bool {
+    paragraphs(input) == paragraphs(output) || non_empty_lines(input) == non_empty_lines(output)
 }
 
 /// The input language: the take's, else a confident detection.

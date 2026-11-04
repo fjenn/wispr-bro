@@ -875,7 +875,9 @@
         "transform_failed": "テキストを書き換えられませんでした",
         "shortcut_lost": "ショートカットが機能しなくなりました",
         "shortcut_stopped": "ショートカットが応答しなくなりました",
-        "shortcut_back": "ショートカットが再び機能しています"
+        "shortcut_back": "ショートカットが再び機能しています",
+        "transform_no_change": "変更する箇所がありません",
+        "transform_not_applied": "この書き換えを適用できませんでした"
       },
       "card": {
         "no_text_field": "先にテキストフィールドをクリックしてください",
@@ -1295,7 +1297,15 @@
       },
       "reset": "リセット",
       "done": "完了",
-      "close": "エディタを閉じる"
+      "close": "エディタを閉じる",
+      "exactBadge": "正確 · AI なし",
+      "outcome": {
+        "no_change": "このテキストには変更する箇所がありません。",
+        "not_applied": "ローカル AI ではこれを処理できませんでした。より短く具体的な指示をお試しください。",
+        "failed": "ローカル AI の回答が安全性チェックに通りませんでした。もう一度試すか、指示の言い方を変えてください。",
+        "timeout": "ローカル AI の処理に時間がかかりすぎました。もう一度お試しください。",
+        "no_engine": "ローカル AI はまだ準備できていません。正確な変更は引き続き使えます。"
+      }
     },
     "rules": {
       "shorter": {
@@ -1343,7 +1353,31 @@
       "simpleView": "変更が大きいか複雑なため、まとめて 1 つの置き換えとして表示しています。",
       "actionFailed": "操作を完了できませんでした。テキストはそのまま残っています。もう一度お試しください。"
     },
-    "startTutorial": "チュートリアルを開始"
+    "startTutorial": "チュートリアルを開始",
+    "findReplace": {
+      "title": "検索と置換",
+      "help": "この書き換えを実行するたびに、AI を使わず正確に行う変更です。「置換後の文字列」を空にすると、テキストが削除されます。",
+      "find": "検索、{{number}} 行目",
+      "replace": "置換後の文字列、{{number}} 行目",
+      "findPlaceholder": "検索",
+      "replacePlaceholder": "置換後の文字列",
+      "matchCase": "大文字と小文字を区別",
+      "remove": "{{number}} 行目を削除",
+      "add": "置換を追加"
+    },
+    "plan": {
+      "exact": "AI を使わず正確に実行されます",
+      "mixed": "AI を使わず正確に実行しました:",
+      "rulesUnused": "編集ルールと文章の例は使われません。プロンプトは正確な変更のみを求めています。",
+      "replace": "{{find}} → {{with}}",
+      "remove": "{{find}} を削除",
+      "upper": "大文字",
+      "lower": "小文字",
+      "title": "各単語の先頭を大文字",
+      "emoji": "絵文字",
+      "email": "メールアドレス",
+      "url": "リンク"
+    }
   },
   "cleanup": {
     "title": "整形",

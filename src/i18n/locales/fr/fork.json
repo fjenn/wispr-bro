@@ -905,7 +905,9 @@
         "transform_failed": "Impossible de transformer ce texte",
         "shortcut_lost": "Votre raccourci ne fonctionne plus",
         "shortcut_stopped": "Votre raccourci ne répond plus",
-        "shortcut_back": "Votre raccourci fonctionne à nouveau"
+        "shortcut_back": "Votre raccourci fonctionne à nouveau",
+        "transform_no_change": "Rien à modifier",
+        "transform_not_applied": "Transformation non appliquée"
       },
       "card": {
         "no_text_field": "Cliquez d’abord dans un champ de texte",
@@ -1367,7 +1369,15 @@
       },
       "reset": "Réinitialiser",
       "done": "Terminé",
-      "close": "Fermer l’éditeur"
+      "close": "Fermer l’éditeur",
+      "exactBadge": "Exact · sans IA",
+      "outcome": {
+        "no_change": "Rien à modifier dans ce texte.",
+        "not_applied": "L’IA locale n’a pas réussi cette transformation. Essayez une instruction plus courte et plus précise.",
+        "failed": "La réponse de l’IA locale n’a pas passé ses contrôles de sécurité. Réessayez ou reformulez l’instruction.",
+        "timeout": "L’IA locale a mis trop de temps. Réessayez.",
+        "no_engine": "L’IA locale n’est pas encore prête. Les modifications exactes fonctionnent toujours."
+      }
     },
     "rules": {
       "shorter": {
@@ -1419,7 +1429,31 @@
       "simpleView": "Ce changement étant long ou complexe, il est affiché comme un seul remplacement.",
       "actionFailed": "Cette action a échoué. Votre texte est toujours là ; réessayez."
     },
-    "startTutorial": "Lancer le tutoriel"
+    "startTutorial": "Lancer le tutoriel",
+    "findReplace": {
+      "title": "Rechercher et remplacer",
+      "help": "Modifications exactes, effectuées sans IA à chaque exécution de cette transformation. Laissez «Remplacer par» vide pour supprimer le texte.",
+      "find": "Rechercher, ligne {{number}}",
+      "replace": "Remplacer par, ligne {{number}}",
+      "findPlaceholder": "Rechercher",
+      "replacePlaceholder": "Remplacer par",
+      "matchCase": "Respecter la casse",
+      "remove": "Supprimer la ligne {{number}}",
+      "add": "Ajouter un remplacement"
+    },
+    "plan": {
+      "exact": "S’exécute exactement, sans IA",
+      "mixed": "Effectué exactement, sans IA :",
+      "rulesUnused": "Les règles d’édition et les exemples d’écriture ne sont pas utilisés : le prompt ne demande que des modifications exactes.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Supprimer {{find}}",
+      "upper": "MAJUSCULES",
+      "lower": "minuscules",
+      "title": "Première Lettre Capitale",
+      "emoji": "émojis",
+      "email": "adresses e-mail",
+      "url": "liens"
+    }
   },
   "cleanup": {
     "title": "Nettoyage",

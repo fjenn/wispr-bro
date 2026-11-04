@@ -2,9 +2,9 @@
 //! Audit OT2: Scratchpad › Polish (`fork_scratchpad_polish` →
 //! `run::preview` → [`super::run::generate_definition`]) on notes of
 //! growing length, through the real sidecar and the seeded Polish
-//! definition, the same call the app makes. Every transform has one fixed
-//! generation budget (`run::LLM_BUDGET`, 2.8 s), while a note may hold
-//! 200,000 characters; this measures where Polish stops working.
+//! definition, the same call the app makes. The audit found one fixed 2.8 s
+//! budget for every transform; since OT2-D the budget scales with the text
+//! (`run::budget`, 2.8-24 s), and this measures where Polish stops working.
 //!
 //! ```text
 //! WB_LLAMA_SERVER=<sidecar> WB_LLM_MODEL=<gguf> \
@@ -57,14 +57,24 @@ async fn scratchpad_polish_on_long_notes() {
         "eval/perf/takes.jsonl has the m0x paragraphs"
     );
     // Warm-up, not scored.
-    let _ = super::run::generate_definition(&engine, &polish, &paras[0], &CancellationToken::new())
-        .await;
+    let _ = super::run::generate_definition(
+        Some(&engine),
+        &polish,
+        &paras[0],
+        &CancellationToken::new(),
+    )
+    .await;
     for n in 1..=paras.len() {
         let note = paras[..n].join("\n\n");
         let words = note.split_whitespace().count();
         let t = Instant::now();
-        let r = super::run::generate_definition(&engine, &polish, &note, &CancellationToken::new())
-            .await;
+        let r = super::run::generate_definition(
+            Some(&engine),
+            &polish,
+            &note,
+            &CancellationToken::new(),
+        )
+        .await;
         println!(
             "polish note of {words} words: {} in {} ms",
             match &r {

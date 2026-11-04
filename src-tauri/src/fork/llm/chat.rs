@@ -36,17 +36,23 @@ pub struct ChatRequest {
     pub max_tokens: u32,
     /// `response_format` (JSON schema) or `None` for plain text.
     pub response_format: Option<Value>,
+    /// Worked examples sent as earlier (user, assistant) turns between the
+    /// system prompt and `user` (transforms, OT2-D). Usually empty.
+    pub examples: Vec<(String, String)>,
 }
 
 impl ChatRequest {
     /// The JSON body (OpenAI chat completions + llama.cpp extensions).
     pub fn body(&self) -> Value {
+        let mut messages = vec![json!({ "role": "system", "content": self.system })];
+        for (user, assistant) in &self.examples {
+            messages.push(json!({ "role": "user", "content": user }));
+            messages.push(json!({ "role": "assistant", "content": assistant }));
+        }
+        messages.push(json!({ "role": "user", "content": self.user }));
         let mut body = json!({
             "model": MODEL_ALIAS,
-            "messages": [
-                { "role": "system", "content": self.system },
-                { "role": "user", "content": self.user },
-            ],
+            "messages": messages,
             "temperature": 0,
             "seed": SEED,
             "max_tokens": self.max_tokens,
@@ -342,6 +348,7 @@ mod tests {
             user: "U".into(),
             max_tokens: 70,
             response_format: Some(super::super::prompt::response_format()),
+            examples: Vec::new(),
         };
         let b = r.body();
         assert_eq!(b["messages"][0]["role"], "system");
@@ -356,6 +363,7 @@ mod tests {
         assert_eq!(b["response_format"]["type"], "json_schema");
         let plain = ChatRequest {
             response_format: None,
+            examples: Vec::new(),
             ..r
         };
         assert!(plain.body().get("response_format").is_none());
@@ -476,6 +484,7 @@ mod tests {
             user: "u".into(),
             max_tokens: 8,
             response_format: None,
+            examples: Vec::new(),
         };
         let c2 = cancel.clone();
         tokio::spawn(async move {

@@ -4,6 +4,9 @@
 pub mod auto;
 pub mod command;
 #[cfg(test)]
+pub mod eval;
+pub mod literal;
+#[cfg(test)]
 mod long_polish_bench;
 pub mod record;
 pub mod replace;

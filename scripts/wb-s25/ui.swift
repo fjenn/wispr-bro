@@ -19,7 +19,7 @@
 //   keys <text>            a path as US-layout key presses (the save panel)
 //   key <name>             return | escape | tab | space | down | up | cmd-a | cmd-shift-g | cmd-d
 //                          | cmd-c | cmd-v | cmd-x | cmd-z | cmd-shift-z | cmd-shift-slash (S-26a)
-//                          | cmd-slash (S-26b)
+//                          | cmd-slash (S-26b) | cmd-s (OT2-D)
 //   wait <ms>              sleep
 // Prints one line per command.
 import AppKit
@@ -138,7 +138,7 @@ let keys: [String: (CGKeyCode, CGEventFlags)] = [
     "cmd-shift-g": (5, [.maskCommand, .maskShift]), "cmd-d": (2, .maskCommand),
     // S-26a: the Edit menu's keys and Help's search box (⌘?).
     "cmd-c": (8, .maskCommand), "cmd-v": (9, .maskCommand), "cmd-x": (7, .maskCommand),
-    "cmd-z": (6, .maskCommand), "cmd-shift-z": (6, [.maskCommand, .maskShift]),
+    "cmd-z": (6, .maskCommand), "cmd-s": (1, .maskCommand), "cmd-shift-z": (6, [.maskCommand, .maskShift]),
     "cmd-shift-slash": (44, [.maskCommand, .maskShift]),
     "cmd-slash": (44, [.maskCommand]),
 ]

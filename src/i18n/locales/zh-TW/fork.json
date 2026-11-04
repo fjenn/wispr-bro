@@ -875,7 +875,9 @@
         "transform_failed": "無法轉換該文字",
         "shortcut_lost": "你的快速鍵已停止運作",
         "shortcut_stopped": "你的快速鍵已停止回應",
-        "shortcut_back": "你的快速鍵已恢復運作"
+        "shortcut_back": "你的快速鍵已恢復運作",
+        "transform_no_change": "沒有需要更改的內容",
+        "transform_not_applied": "無法套用此轉換"
       },
       "card": {
         "no_text_field": "請先按一下文字欄位",
@@ -1295,7 +1297,15 @@
       },
       "reset": "重設",
       "done": "完成",
-      "close": "關閉編輯器"
+      "close": "關閉編輯器",
+      "exactBadge": "精確 · 不用 AI",
+      "outcome": {
+        "no_change": "此文字中沒有需要更改的內容。",
+        "not_applied": "本機 AI 沒能完成這一項。請嘗試更簡短、更具體的指令。",
+        "failed": "本機 AI 的回答未通過安全檢查。請重試，或換個方式描述指令。",
+        "timeout": "本機 AI 花了太久時間。請重試。",
+        "no_engine": "本機 AI 尚未就緒。精確更改仍然可用。"
+      }
     },
     "rules": {
       "shorter": {
@@ -1343,7 +1353,31 @@
       "simpleView": "此變更較大或較複雜，因此以整段取代的方式顯示。",
       "actionFailed": "動作未成功。你的文字仍在這裡，請再試一次。"
     },
-    "startTutorial": "開始教學"
+    "startTutorial": "開始教學",
+    "findReplace": {
+      "title": "尋找並取代",
+      "help": "每次執行此轉換時都會不使用 AI 而精確進行的更改。將「取代為」留空即可移除文字。",
+      "find": "尋找，第 {{number}} 列",
+      "replace": "取代為，第 {{number}} 列",
+      "findPlaceholder": "尋找",
+      "replacePlaceholder": "取代為",
+      "matchCase": "區分大小寫",
+      "remove": "移除第 {{number}} 列",
+      "add": "新增取代"
+    },
+    "plan": {
+      "exact": "精確執行，不用 AI",
+      "mixed": "已精確完成，未使用 AI：",
+      "rulesUnused": "不會使用編輯規則和寫作範例：提示詞只要求精確更改。",
+      "replace": "{{find}} → {{with}}",
+      "remove": "移除 {{find}}",
+      "upper": "大寫",
+      "lower": "小寫",
+      "title": "首字母大寫",
+      "emoji": "表情符號",
+      "email": "電子郵件地址",
+      "url": "連結"
+    }
   },
   "cleanup": {
     "title": "清理",

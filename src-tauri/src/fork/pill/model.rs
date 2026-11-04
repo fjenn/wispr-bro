@@ -111,6 +111,12 @@ pub enum PillMessage {
     SelectionTooLong,
     TransformFocusMoved,
     TransformFailed,
+    /// OT2-D: the transform left the text as it was (exact edits matched
+    /// nothing, or Polish found nothing to fix); nothing was pasted.
+    TransformNoChange,
+    /// OT2-D: the model returned the text without carrying out a custom
+    /// transform's instruction; nothing was pasted.
+    TransformNotApplied,
     /// S-02: the shortcut stopped working: Accessibility is off (or the
     /// app's grant no longer matches it). Fix opens the Fix sheet. Stays
     /// until the shortcut works again, ✕ or the next take.
@@ -164,6 +170,7 @@ impl PillMessage {
             | PillMessage::SelectTextFirst
             | PillMessage::SelectionTooLong
             | PillMessage::TransformFocusMoved
+            | PillMessage::TransformNoChange
             | PillMessage::ShortcutBack => PillTone::Info,
             PillMessage::MicMuted
             | PillMessage::TranscriptionFailed
@@ -174,6 +181,7 @@ impl PillMessage {
             | PillMessage::CheckConnection
             | PillMessage::NoSpace
             | PillMessage::TransformFailed
+            | PillMessage::TransformNotApplied
             | PillMessage::ShortcutLost
             | PillMessage::ShortcutStopped => PillTone::Error,
         }
@@ -257,6 +265,8 @@ impl PillMessage {
             PillMessage::SelectionTooLong => "selection_too_long",
             PillMessage::TransformFocusMoved => "transform_focus_moved",
             PillMessage::TransformFailed => "transform_failed",
+            PillMessage::TransformNoChange => "transform_no_change",
+            PillMessage::TransformNotApplied => "transform_not_applied",
             PillMessage::ShortcutLost => "shortcut_lost",
             PillMessage::ShortcutStopped => "shortcut_stopped",
             PillMessage::ShortcutBack => "shortcut_back",
