@@ -36,6 +36,9 @@ const cancelled: ForkPillState = {
 };
 
 test.describe("Cancelled · Undo on the bar", () => {
+  // Load-only: under heavy machine load the bar's first paint and the IPC
+  // polls outlast the 30 s default (all pass alone in ~1 s).
+  test.describe.configure({ timeout: 180_000 });
   test.use({ ipcSetup: { windowLabel: "fork-pill" } });
 
   async function openBar(
