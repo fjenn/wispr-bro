@@ -143,6 +143,11 @@
 .wb-scene-caption-words > span.is-on {
   opacity: 1;
 }
+/* Room under the caption for the pause button (Mac wave 6: a two-line
+   caption ran under it in WebKit). */
+.wb-scene-stage--controls {
+  padding-bottom: 52px;
+}
 .wb-scene-pause {
   position: absolute;
   inset-inline-start: 12px;

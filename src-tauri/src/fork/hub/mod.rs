@@ -24,10 +24,20 @@
 use tauri::{AppHandle, LogicalSize, Manager, Runtime, WebviewWindow, WebviewWindowBuilder};
 
 /// Where the traffic lights go, in logical points from the window's top-left
-/// (tao's inset: `x` is the close button's left edge, `y` its distance below
-/// the top, which centres the 14 pt buttons in the 46 pt strip; REFERENCE-SPEC
-/// §1 measures the close button's centre at 21 / 23 pt).
-pub const TRAFFIC_LIGHTS: (f64, f64) = (14.0, 23.0);
+/// (tao's inset: `x` is the close button's left edge; `y` sets the title-bar
+/// container's height, `y` + the button's height, inside which AppKit places
+/// the buttons). REFERENCE-SPEC §1 measures the close button's centre at
+/// 21 / 23 pt, the middle of the 46 pt strip. Mac wave 6 measured our close
+/// button on macOS 26 (2× window capture): `y` = 23 put its centre at
+/// 20.75 pt, 2.25 pt high, so `y` is the strip's middle plus that offset.
+pub const TRAFFIC_LIGHTS: (f64, f64) = (
+    14.0,
+    TITLE_STRIP_HEIGHT / 2.0 + TRAFFIC_LIGHTS_CENTRE_OFFSET,
+);
+
+/// How far above tao's `y` the buttons' centre lands on macOS 26 (measured
+/// in Mac wave 6, see above; the Scratchpad note window uses it too).
+pub const TRAFFIC_LIGHTS_CENTRE_OFFSET: f64 = 2.25;
 
 /// Height of the Hub's title strip; keep in step with
 /// `--wb-titlebar-height` in `src/fork/styles/tokens.css`.
@@ -188,8 +198,48 @@ pub(crate) fn hide_title_text(window: &WebviewWindow<tauri::Wry>) {
         // Mac wave 2 finding 1: AppKit never saves or restores the Hub.
         crate::fork::restore::not_restorable(ns_window);
     });
+    test_keep_painting(window);
     if let Err(e) = result {
         log::warn!("fork hub: could not hide the title text: {e}");
+    }
+}
+
+/// Mac wave 6: `WISPRBRO_TEST_KEEP_PAINTING=1` keeps the Hub's web view
+/// painting while macOS reports its window occluded (a locked screen, a
+/// window behind others), so a scripted pass can capture the real WebKit
+/// screens with `screencapture -l`. Debug builds of test identities
+/// (`com.wisprbro.<slice>check`) only; WebKit's private
+/// `_setWindowOcclusionDetectionEnabled:`, used only when it answers it.
+#[cfg(target_os = "macos")]
+pub(crate) fn test_keep_painting(window: &WebviewWindow<tauri::Wry>) {
+    if !cfg!(debug_assertions)
+        || std::env::var_os("WISPRBRO_TEST_KEEP_PAINTING").is_none()
+        || !crate::fork::is_test_identity(&window.app_handle().config().identifier)
+    {
+        return;
+    }
+    let result = window.with_webview(|webview| {
+        use objc2::runtime::{AnyObject, Bool};
+        use objc2::{msg_send, sel};
+        let ptr = webview.inner();
+        if ptr.is_null() {
+            return;
+        }
+        // SAFETY: `inner()` is the live WKWebView of this window, used on
+        // the main thread inside `with_webview`; the selector is checked
+        // before it is sent.
+        unsafe {
+            let view = &*(ptr as *const AnyObject);
+            let sel = sel!(_setWindowOcclusionDetectionEnabled:);
+            let answers: bool = msg_send![view, respondsToSelector: sel];
+            if answers {
+                let _: () = msg_send![view, _setWindowOcclusionDetectionEnabled: Bool::NO];
+                log::info!("fork hub: test: occlusion detection off");
+            }
+        }
+    });
+    if let Err(e) = result {
+        log::warn!("fork hub: test keep-painting failed: {e}");
     }
 }
 
@@ -225,8 +275,8 @@ mod tests {
     fn traffic_lights_sit_in_the_title_strip() {
         let (x, y) = TRAFFIC_LIGHTS;
         assert!(x > 0.0 && x < 24.0);
-        // tao's y is the buttons' centre line for the default 14 pt buttons.
-        assert!((y - TITLE_STRIP_HEIGHT / 2.0).abs() < 1.0);
+        // The buttons' measured centre sits in the middle of the strip.
+        assert!((y - TRAFFIC_LIGHTS_CENTRE_OFFSET - TITLE_STRIP_HEIGHT / 2.0).abs() < 0.5);
     }
 
     #[test]

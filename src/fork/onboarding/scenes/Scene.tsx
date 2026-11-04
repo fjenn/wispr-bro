@@ -47,7 +47,9 @@ export function Scene({ choice }: { choice: FirstUseChoice }) {
         aria-label={`${t("firstUse.scene.label", {
           choice: t(`firstUse.choices.${choice}`),
         })}. ${t("firstUse.scene.written", { appName })}: ${text}`}
-        className="wb-scene-stage"
+        className={
+          still ? "wb-scene-stage" : "wb-scene-stage wb-scene-stage--controls"
+        }
         data-beat={frame.beat}
       >
         <div className="wb-scene-window" aria-hidden="true">

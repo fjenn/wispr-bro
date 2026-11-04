@@ -405,6 +405,7 @@ impl Ui {
                 self.web_shown = None;
                 if let Some(w) = self.app.get_webview_window(LABEL) {
                     let _ = w.set_content_protected(scene.protected);
+                    crate::fork::hub::test_keep_painting(&w);
                 }
                 if let Some(win) = self.web_window() {
                     win.setIgnoresMouseEvents(true);

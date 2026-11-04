@@ -463,6 +463,14 @@ test.describe("setup checklist", () => {
     await open(page, ipc, hub, b, {
       fork: { ...chosen, onboarding: completed(["try_in_app"]) },
     });
+    // Mac wave 6: the next item's link is "Show me →", not its own title
+    // a second time.
+    expect(en.checklist.items.add_word.action).not.toBe(
+      en.checklist.items.add_word.title,
+    );
+    await expect(page.getByTestId("wb-checklist-run-add_word")).toContainText(
+      en.checklist.items.add_word.action,
+    );
     await page.getByTestId("wb-checklist-run-add_word").click();
     await expect(page.getByTestId("wb-main")).toHaveAttribute(
       "data-page",

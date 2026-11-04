@@ -2380,7 +2380,7 @@
       },
       "add_word": {
         "title": "Añadir una palabra",
-        "action": "Añadir una palabra",
+        "action": "Muéstrame",
         "coachTitle": "Añade tu primera palabra",
         "coachBody": "Nombres, términos de productos y jerga que dices a menudo. Se escribirán tal como los escribes tú."
       },

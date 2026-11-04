@@ -2290,7 +2290,7 @@
       },
       "add_word": {
         "title": "Wort hinzufügen",
-        "action": "Wort hinzufügen",
+        "action": "Zeigen",
         "coachTitle": "Füge dein erstes Wort hinzu",
         "coachBody": "Namen, Produktbegriffe und Fachjargon, die du oft sagst. Sie werden so geschrieben, wie du sie schreibst."
       },

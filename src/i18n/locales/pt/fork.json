@@ -2380,7 +2380,7 @@
       },
       "add_word": {
         "title": "Adicionar uma palavra",
-        "action": "Adicionar palavra",
+        "action": "Mostrar",
         "coachTitle": "Adicione sua primeira palavra",
         "coachBody": "Nomes, termos de produtos e jargões que você fala muito. Eles saem escritos do seu jeito."
       },

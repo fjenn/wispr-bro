@@ -72,6 +72,7 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
     let window = title_strip(builder)
         .build()
         .map_err(|error| error.to_string())?;
+    R::test_keep_painting(&window);
     // Closing hides it (Handy's `CloseRequested`); hidden, it is parked.
     crate::fork::hub::park::watch(app, &window);
     present(&window)?;
@@ -83,9 +84,13 @@ pub fn open<R: ForkRuntime>(app: &AppHandle<R>, choice: Open) -> Result<Note, St
 pub const TITLE_STRIP_HEIGHT: f64 = 44.0;
 
 /// Where macOS draws the traffic lights: at the start of the title strip,
-/// on its centre line (tao's y is the buttons' centre for 14 pt buttons).
-/// The web page keeps 78 pt free for them (`ps-[78px]`).
-pub const TRAFFIC_LIGHTS: (f64, f64) = (16.0, TITLE_STRIP_HEIGHT / 2.0);
+/// on its centre line (tao's `y` lands the buttons' centre
+/// [`crate::fork::hub::TRAFFIC_LIGHTS_CENTRE_OFFSET`] above it, measured in
+/// Mac wave 6). The web page keeps 78 pt free for them (`ps-[78px]`).
+pub const TRAFFIC_LIGHTS: (f64, f64) = (
+    16.0,
+    TITLE_STRIP_HEIGHT / 2.0 + crate::fork::hub::TRAFFIC_LIGHTS_CENTRE_OFFSET,
+);
 
 /// Design W6: the note window draws its own title strip (tabs, expand,
 /// close) under an overlay title bar with hidden title text, like the Hub.
@@ -198,7 +203,8 @@ mod tests {
         // The three 14 pt buttons with their gaps end before the 78 pt the
         // page keeps free.
         assert!(x > 0.0 && x + 60.0 < 78.0);
-        assert!((y - super::TITLE_STRIP_HEIGHT / 2.0).abs() < 1.0);
+        let centre = y - crate::fork::hub::TRAFFIC_LIGHTS_CENTRE_OFFSET;
+        assert!((centre - super::TITLE_STRIP_HEIGHT / 2.0).abs() < 0.5);
         let page = std::fs::read_to_string(
             std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
                 .join("../src/fork/scratchpad/NoteWindow.tsx"),

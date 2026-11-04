@@ -797,6 +797,10 @@ pub trait ForkRuntime: Runtime {
     /// Hides a window's title text (macOS, S-13). No-op elsewhere.
     fn hub_hide_title_text(window: &tauri::WebviewWindow<Self>);
 
+    /// Mac wave 6 test hook (`hub::test_keep_painting`): keeps a window's
+    /// web view painting while it is occluded, in test debug builds only.
+    fn test_keep_painting(_window: &tauri::WebviewWindow<Self>) {}
+
     /// Applies Handy's appearance setting to the main window, as Handy's
     /// `.setup()` does after building it (S-38: a rebuilt Hub). No-op on
     /// runtimes without Handy's settings.
@@ -974,6 +978,13 @@ impl ForkRuntime for tauri::Wry {
     fn hub_hide_title_text(window: &tauri::WebviewWindow<Self>) {
         #[cfg(target_os = "macos")]
         hub::hide_title_text(window);
+        #[cfg(not(target_os = "macos"))]
+        let _ = window;
+    }
+
+    fn test_keep_painting(window: &tauri::WebviewWindow<Self>) {
+        #[cfg(target_os = "macos")]
+        hub::test_keep_painting(window);
         #[cfg(not(target_os = "macos"))]
         let _ = window;
     }

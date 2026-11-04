@@ -2470,7 +2470,7 @@
       },
       "add_word": {
         "title": "Dodaj słowo",
-        "action": "Dodaj słowo",
+        "action": "Pokaż",
         "coachTitle": "Dodaj pierwsze słowo",
         "coachBody": "Imiona, nazwy produktów i żargon, których często używasz. Będą zapisywane dokładnie tak, jak je piszesz."
       },

@@ -2380,7 +2380,7 @@
       },
       "add_word": {
         "title": "Ajouter un mot",
-        "action": "Ajouter un mot",
+        "action": "Voir",
         "coachTitle": "Ajoutez votre premier mot",
         "coachBody": "Les noms, termes de produit et le jargon que vous dites souvent. Ils sont écrits comme vous les orthographiez."
       },

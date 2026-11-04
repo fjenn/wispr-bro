@@ -2383,7 +2383,7 @@
       },
       "add_word": {
         "title": "Add a word",
-        "action": "Add a word",
+        "action": "Show me",
         "coachTitle": "Add your first word",
         "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
       },
