@@ -104,6 +104,8 @@ test.describe("hub shell", () => {
       "transforms",
       "scratchpad",
       "share",
+      // OT2-E: Support sits between Share and Settings.
+      "support",
       "settings",
       "help",
     ];
