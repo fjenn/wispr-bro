@@ -310,7 +310,7 @@ pub fn create_detector(
     backend: VadBackend,
     app_handle: &tauri::AppHandle,
 ) -> Result<Box<dyn SpeechScorer>, anyhow::Error> {
-    Ok(match backend {
+    Ok(crate::fork::audio::condition::detector(match backend {
         VadBackend::Silero => {
             let vad_path = app_handle
                 .path()
@@ -328,7 +328,7 @@ pub fn create_detector(
             EarshotVad::new(EARSHOT_VAD_THRESHOLD)
                 .map_err(|e| anyhow::anyhow!("Failed to create EarshotVad: {e}"))?,
         ),
-    })
+    }))
 }
 
 /// A detector for `backend` with a recording's smoothing (pre-roll, onset,

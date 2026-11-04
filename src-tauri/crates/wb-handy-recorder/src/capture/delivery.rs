@@ -543,7 +543,10 @@ fn deliver<S: Sink>(active: &mut Active<S>, samples: &[f32], valid: usize, forma
         valid_frames: valid,
     };
     // Added by Wispr Bro (Design W4): an uncapped level for the bar.
-    crate::note_chunk_level(&samples[..(valid * format.1 as usize).min(samples.len())]);
+    let real = &samples[..(valid * format.1 as usize).min(samples.len())];
+    crate::note_chunk_level(real);
+    // Added by Wispr Bro (OT2-B): the speech meter's tap.
+    crate::tap_chunk(real, format.0, format.1);
     let sink = &mut active.sink;
     match catch_unwind(AssertUnwindSafe(|| sink.process_chunk(chunk))) {
         Ok(()) => {

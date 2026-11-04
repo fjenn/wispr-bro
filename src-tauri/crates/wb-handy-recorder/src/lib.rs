@@ -102,6 +102,26 @@ pub fn file_source_active() -> bool {
         .is_some()
 }
 
+/// Sees every chunk delivered to any sink: interleaved samples (real
+/// frames only), sample rate, channels. Runs on the delivery thread, before
+/// the sink. Added by Wispr Bro (OT2-B: the Flow Bar's speech meter).
+pub type ChunkTap = fn(&[f32], u32, u16);
+
+static CHUNK_TAP: std::sync::RwLock<Option<ChunkTap>> = std::sync::RwLock::new(None);
+
+/// Sets (or with `None` clears) the [`ChunkTap`]. Added by Wispr Bro.
+pub fn set_chunk_tap(tap: Option<ChunkTap>) {
+    *CHUNK_TAP.write().unwrap_or_else(|e| e.into_inner()) = tap;
+}
+
+/// Hands one delivered chunk to the tap, if one is set.
+pub(crate) fn tap_chunk(samples: &[f32], sample_rate: u32, channels: u16) {
+    let tap = *CHUNK_TAP.read().unwrap_or_else(|e| e.into_inner());
+    if let Some(tap) = tap {
+        tap(samples, sample_rate, channels);
+    }
+}
+
 /// The loudest chunk's mean square delivered since the last
 /// [`take_peak_level_db`] (`f32` bits; positive floats order like their
 /// bits), and whether one arrived. Added by Wispr Bro (Design W4).
@@ -298,5 +318,22 @@ mod level_tap_tests {
         super::note_chunk_level(&[0.1; 32]);
         let db = super::take_peak_level_db().expect("a level");
         assert!(db > -20.1, "{db}");
+    }
+
+    static TAPPED: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+
+    fn count(samples: &[f32], rate: u32, channels: u16) {
+        assert_eq!((rate, channels), (16_000, 1));
+        TAPPED.fetch_add(samples.len(), std::sync::atomic::Ordering::SeqCst);
+    }
+
+    /// Added by Wispr Bro (OT2-B).
+    #[test]
+    fn the_chunk_tap_sees_chunks_until_cleared() {
+        super::set_chunk_tap(Some(count));
+        super::tap_chunk(&[0.0; 10], 16_000, 1);
+        super::set_chunk_tap(None);
+        super::tap_chunk(&[0.0; 10], 16_000, 1);
+        assert_eq!(TAPPED.load(std::sync::atomic::Ordering::SeqCst), 10);
     }
 }

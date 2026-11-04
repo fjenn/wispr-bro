@@ -12,6 +12,7 @@
 #   EXE   a debug build made with the metercheck identity:
 #         echo '{"identifier":"com.wisprbro.metercheck","productName":"Wispr Bro Meter Check","plugins":{"updater":{"active":false}}}' > <scratch>/meter.conf.json
 #         bun run tauri build --debug --no-bundle --config src-tauri/tauri.fork.conf.json --config <scratch>/meter.conf.json
+#   QUIET=1  grade the speech as quiet speech / a whisper (summary.py --quiet)
 #   wav   default: <OUT>/cafe-speech.wav, made by make-wav.py (4 s of café
 #         noise, speech from `say` over the noise, 3 s of noise, 2 s silence)
 # Holds ~/wb-bench/gui.lock.
@@ -90,4 +91,4 @@ for _ in $(seq 1 40); do [ -z "$(pid)" ] && break; sleep 0.5; done
 
 applog | grep "fork audio: meter " > "$OUT/levels.txt"
 log "levels: $(wc -l < "$OUT/levels.txt" | tr -d ' ') readings in $OUT/levels.txt"
-python3 -I "$HERE/summary.py" "$OUT/levels.txt" "$WAV.json" | tee -a "$OUT/run.log"
+python3 -I "$HERE/summary.py" "$OUT/levels.txt" "$WAV.json" ${QUIET:+--quiet} | tee -a "$OUT/run.log"

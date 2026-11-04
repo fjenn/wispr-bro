@@ -24,6 +24,17 @@ const litSpeech = speech.map((l) => litBars(l));
 assert.ok(Math.max(...litSpeech) >= 11, `${litSpeech}`);
 assert.ok(Math.max(...litSpeech) - Math.min(...litSpeech) >= 6, `${litSpeech}`);
 
+// OT2-B: a whisper in a café (the backend's levels for whispered speech at
+// 0-6 dB SNR) lights a few bars and moves; noise around it lights none.
+const whisper = [0.12, 0.22, 0.31, 0.18, 0.36, 0.25];
+const litWhisper = whisper.map((l) => litBars(l));
+assert.ok(Math.min(...litWhisper) >= 2, `${litWhisper}`);
+assert.ok(
+  Math.max(...litWhisper) - Math.min(...litWhisper) >= 2,
+  `${litWhisper}`,
+);
+for (const l of [0.02, 0.03, 0.045]) assert.equal(litBars(l), 0, `noise ${l}`);
+
 // Silence falls back to zero.
 const litSilence = silence.map((l) => litBars(l));
 assert.deepEqual(litSilence.slice(-2), [0, 0]);

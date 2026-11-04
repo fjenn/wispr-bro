@@ -231,16 +231,26 @@ pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
     if !WEB_SHOWN.load(Ordering::Acquire) {
         return;
     }
-    if SILENCE_WARNED.load(Ordering::Relaxed) && crate::fork::audio::is_voice(levels) {
+    let reading = crate::fork::audio::speech::latest();
+    let voice = crate::fork::audio::is_voice(levels)
+        || reading
+            .as_ref()
+            .is_some_and(|r| r.presence >= crate::fork::audio::speech::VOICE_PRESENCE);
+    if SILENCE_WARNED.load(Ordering::Relaxed) && voice {
         SILENCE_WARNED.store(false, Ordering::Relaxed);
         input(Input::Voice);
     }
     let now = monotonic_ms();
     let loud = handy_recorder::take_peak_level_db();
-    let shaped = WAVEFORM
-        .lock()
-        .unwrap_or_else(|e| e.into_inner())
-        .push(levels, now, loud);
+    // OT2-B: the speech meter's bars when the tap runs (product builds);
+    // Handy's buckets through the loudness gate otherwise.
+    let shaped = {
+        let mut wave = WAVEFORM.lock().unwrap_or_else(|e| e.into_inner());
+        match &reading {
+            Some(r) => wave.push_reading(r, now),
+            None => wave.push(levels, now, loud),
+        }
+    };
     if !THROTTLE.admit(now) {
         return;
     }

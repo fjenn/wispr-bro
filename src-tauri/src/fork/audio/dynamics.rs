@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Level dynamics for the microphone meter (S-29a's mic test, Settings'
-//! "Test microphone") and the Flow Bar's waveform.
+//! Level dynamics on a broadband or per-bucket dB level: the Flow Bar's
+//! waveform when it has only Handy's buckets (no take tap). The mic meter
+//! and the waveform read [`super::speech`] instead since owner test 2: in a
+//! café, quiet speech and whispers are only 0-6 dB over the noise in
+//! broadband RMS, inside this meter's knee, so they did not show at all.
 //!
 //! A meter on a fixed dBFS scale reads steady room noise as a level: in a
 //! café, -30 dBFS of hum sat at half the meter and speech moved it by one

@@ -12,6 +12,9 @@
 # Modified by Wispr Bro contributors, 2026-11-03: `set_file_source` and
 # `backend/file.rs`, a test microphone that plays prepared samples in real
 # time (Mac waves never play audio through the speakers). Fork-only.
+# Modified by Wispr Bro contributors, 2026-11-04: `set_chunk_tap`, a
+# callback that sees every delivered chunk before its sink (OT2-B: the Flow
+# Bar's speech meter). Fork-only.
 
 [package]
 name = "handy-recorder"
