@@ -340,6 +340,32 @@ after).
 - **Snippets in History (question, row 6):** History stores the text before
   snippet expansion. Decide whether History should show what was inserted.
 
+## Fixed afterwards on `fix/audit2` (OT2-F)
+
+These open rows are fixed; decisions and tests are in R5 under S-14
+"Audit OT2-F", Mac checks in MAC-TEST-SCRIPT OT2-F.1-OT2-F.5:
+
+- **Row 33, notifications:** each kind switch governs the inbox and the Mac
+  banner; "Problems that need attention" is now "Shortcut problems"; crash
+  and recovery notices are always kept, and Settings says so.
+- **Row 30, tray off with Dock off:** the two can no longer both be off
+  (Settings disables the last one, the backend refuses or restores it);
+  Reopen from Finder/Spotlight shows the Hub (guarded by a test).
+- **Row 56, Translate to English:** off and explained for models that
+  cannot translate (the Parakeet starters); works for Whisper/Canary.
+- **Row 58, Custom words:** the Dictionary page follows Handy's row at once.
+- **Row 74, shortcut limits:** per action (1, 2 for hands-free, 1, 1, else
+  4); the text says so.
+- **Row 75, conflict label:** custom transforms are named by their name.
+- **Row 82, Undo result:** a failed or skipped Undo is said.
+- **Row 89, Scratchpad text size:** a fork setting, kept across windows
+  and restarts.
+- **Row 6, snippets in History:** History shows, copies and finds what was
+  inserted; the spoken words stay in `final_text`.
+
+Still open from this list: row 87 (Preview error text, transform agent's
+area), row 60 (live text), the empty-repo links and B7.
+
 ## Queued for a Mac wave (needs a window in front)
 
 - Show in Finder for the four folders.

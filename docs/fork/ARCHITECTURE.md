@@ -558,6 +558,12 @@ block; the delegate is installed from `fork::on_ready`.
 | `src/fork/debug/NotificationsDebug.tsx`                   | Debug panel: permission state (no prompt) and a delayed sample poster                                                                                                                                                                                                                |
 | `scripts/wb-s18-notifications.swift`                      | Mac test helper: lists, waits for, clicks and presses buttons on Notification Center banners through AX                                                                                                                                                                              |
 
+**Kind switches (audit OT2).** The four DEC-21 kinds' switches in
+Settings › System gate the inbox entry as well as the banner
+(`policy::inbox_allowed` and `system_allowed` share `kind_switch`); "Mac
+notifications" is the banner-only master. Crash, recovery and slower-Mac
+notices have no switch and are always recorded.
+
 **When macOS is used.** `post` sends a macOS notification only when the kind
 is one of the four DEC-21 kinds, the master switch (`notifications.system`)
 and that kind's toggle are on, and no window of the app has focus. While the
@@ -2899,3 +2905,24 @@ fixes:
   note gets ~13 s instead of 2.8 s. Esc still cancels at any point.
 
 Eval: `eval/transforms/` (37 items, code-checked; README there).
+
+## Audit OT2-F: low-severity fixes (`fix/audit2`)
+
+Details and decisions in R5 under S-14 "Audit OT2-F". In short:
+
+- `fork::observe_handy_command` gets the `AppHandle` (taken from the
+  invoke before Handy's handler consumes it). It reacts to
+  `update_custom_words` (`dictionary::migrate::sync`, so the Dictionary
+  page follows Handy's Custom words row live) and
+  `change_show_tray_icon_setting` (`commands::settings::keep_a_way_back`:
+  never neither a Dock nor a menu bar icon).
+- `fork_set_setting(show_in_dock=false)` is refused while the menu bar icon
+  is off (`NO_WAY_BACK`); Settings › System disables the last way in.
+- Fork setting `scratchpad_text_size` (16/20/24) for the note window.
+- History shows and copies `entry_meta.inserted_text` (a snippet expanded)
+  when there is one; `fts::reindex_history_entry` indexes the final text
+  plus the inserted text.
+- `settings/advanced/TranslateRow.tsx` replaces Handy's Translate to
+  English row: off and explained for models without `supports_translation`.
+- `settings/hotkeys/model.ts` `ACTION_LIMITS`: per-action shortcut limits
+  matching `shortcut/bindings.rs`; custom transforms are named in the panel.

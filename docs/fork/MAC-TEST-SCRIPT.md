@@ -3017,6 +3017,38 @@ audio. Run `restore` last.
       selected in TextEdit › ⌥1 (Polish restored) pastes once and keeps
       the three paragraphs.
 
+### Audit OT2-F (`fix/audit2`): the open low-severity audit rows
+
+A debug test identity (`com.wisprbro.auditcheck`, portable, shortcuts
+unbound, takes by SIGUSR2 and the test WAV microphone, paste target the
+`external_script` file; as in `docs/fork/AUDIT-OT2.md` "How it was
+checked"). Settings changes by hand in the test app's Hub. Never the
+owner's Wispr Bro.
+
+- [ ] OT2-F.1 **Queued for the Mac wave.** Dock and menu bar icon: with
+      "Show app in Dock" off, the menu bar row is disabled with its hint;
+      turn Dock back on, turn the menu bar icon off: the Dock row is
+      disabled. Close the Hub: the Dock icon stays. Reopen from Finder
+      (double-click the bundle) and from Spotlight: the Hub comes forward
+      each time, also after it was parked (> 60 s hidden).
+- [ ] OT2-F.2 **Queued for the Mac wave.** Notifications: Settings › System
+      › "Speech model ready" off, then Debug › post `model_ready`: no inbox
+      entry and no banner; on again: both (banner only with the Hub in the
+      background).
+- [ ] OT2-F.3 **Queued for the Mac wave.** Custom words: with Settings ›
+      Advanced open over the Dictionary page, add "Zyxquorian" in Handy's
+      Custom words row: the Dictionary page lists it within a second
+      without a restart; delete it on the page: the row drops it.
+- [ ] OT2-F.4 **Queued for the Mac wave.** Snippets in History: a take
+      with a snippet trigger (a WAV of "send my address" with the snippet
+      "my address → 12 Harbour Lane"): the pasted text, History's row and
+      its Copy all show the expanded text; History search finds "Harbour".
+- [ ] OT2-F.5 **Queued for the Mac wave.** Scratchpad text size: set 24 pt,
+      close the note window, wait 70 s (parked), reopen with the bar button:
+      still 24 pt; same after a relaunch. Translate to English: with the
+      Parakeet starter the row is off and explains why (by eye, light and
+      dark).
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.
