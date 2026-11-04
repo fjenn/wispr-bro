@@ -52,6 +52,13 @@ const LOUD_KNEE_DB: f32 = 4.5;
 /// The bars' height at the bottom of the loudness scale (they still need
 /// Handy's buckets above the noise to show at all).
 const LOUD_BASE: f32 = 0.55;
+/// Below this broadband loudness (0..1, the meter's dynamics) the bars stay
+/// down, ramping up to full over it. Mac wave 6 (OT1.2): a real café WAV's
+/// buckets wander ±2-3 dB, more than [`WAVE_KNEE_DB`], and the reach
+/// stretch multiplies that by up to 1/[`MIN_REACH`], so the hum alone held
+/// the loudest bar at 0.55. The loudness reads hum as 0 (its knee is the
+/// meter's), so it gates the bars: noise lies flat, speech opens them.
+const LOUD_GATE: f32 = 0.12;
 /// A floor this close to Handy's ceiling leaves no headroom worth
 /// stretching (the room is louder than speech on that scale).
 const MIN_REACH: f32 = 0.3;
@@ -119,6 +126,10 @@ impl Waveform {
             .loudness
             .map(|l| LOUD_BASE + (1.0 - LOUD_BASE) * l)
             .unwrap_or(1.0);
+        let gate = self
+            .loudness
+            .map(|l| (l / LOUD_GATE).min(1.0))
+            .unwrap_or(1.0);
         let stretch = self.loudness.is_some();
         let raw = bars(levels);
         self.bars
@@ -132,7 +143,7 @@ impl Waveform {
                 // The most this bar can show under Handy's ceiling.
                 let x = (handy_db(1.0) - d.floor() - WAVE_KNEE_DB) / WAVE_SPAN_DB;
                 let reach = 1.0 - (1.0 - x.clamp(0.0, 1.0)).powi(2);
-                (level / reach.max(MIN_REACH)).min(1.0) * scale
+                (level / reach.max(MIN_REACH)).min(1.0) * scale * gate
             })
             .collect()
     }
@@ -337,6 +348,46 @@ mod tests {
             last = w.push(&[handy_value(-45.0); 16], 1_000 + i * 32, Some(-42.0));
         }
         assert!(last.iter().all(|b| *b < 0.05), "{last:?}");
+    }
+
+    /// Mac wave 6 (OT1.2): real café noise wanders ±3 dB per bucket and
+    /// ±2 dB in RMS; with the loudness level it still lies flat, and the
+    /// words that follow still open the bars.
+    #[test]
+    fn wandering_cafe_noise_lies_flat_with_the_loudness_level() {
+        let mut w = Waveform::default();
+        let mut t = 0u64;
+        let mut seed = 41u32;
+        let mut rnd = || {
+            seed ^= seed << 13;
+            seed ^= seed >> 17;
+            seed ^= seed << 5;
+            seed as f32 / u32::MAX as f32 - 0.5
+        };
+        let mut worst = 0.0f32;
+        for i in 0..150u64 {
+            t += 32;
+            let frame: Vec<f32> = (0..16).map(|_| handy_value(-42.0 + 6.0 * rnd())).collect();
+            let rms = -38.0 + 4.0 * rnd();
+            let bars = w.push(&frame, t, Some(rms));
+            if i > 15 {
+                worst = worst.max(bars.iter().copied().fold(0.0, f32::max));
+            }
+        }
+        assert!(worst < 0.1, "flat on wandering hum: {worst}");
+        let mut peak = 0.0f32;
+        for i in 0..30u64 {
+            t += 32;
+            let syllable = i % 5 < 3;
+            let (bucket, rms) = if syllable {
+                (-31.0, -24.0)
+            } else {
+                (-41.0, -37.0)
+            };
+            let bars = w.push(&[handy_value(bucket); 16], t, Some(rms));
+            peak = peak.max(bars.iter().copied().fold(0.0, f32::max));
+        }
+        assert!(peak > 0.6, "speech opens the bars: {peak}");
     }
 
     #[test]
