@@ -108,7 +108,12 @@ case "$CASE" in
     docB=$(new_doc b); sleep 1; "$BIN/te" move "$docB" 80 120 520 420
     docA=$(new_doc a); sleep 1; "$BIN/te" move "$docA" 660 120 520 420
     expect=com.apple.TextEdit ;;
-  hold:finder | hold:desktop) finder_open; sleep 1; docA=$(new_doc a); expect=com.apple.TextEdit ;;
+  hold:finder | hold:desktop)
+    # TextEdit opens over the Finder window (200-700, 200-600): move it
+    # clear, so the click at (450, 400) lands in Finder, not in TextEdit.
+    finder_open; sleep 1; docA=$(new_doc a); sleep 1
+    "$BIN/te" move "$docA" 760 120 520 420
+    expect=com.apple.TextEdit ;;
   *) echo "unknown case $CASE" >&2; exit 2 ;;
 esac
 sleep 2
