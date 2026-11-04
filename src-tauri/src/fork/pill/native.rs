@@ -48,7 +48,7 @@ use objc2_app_kit::{
 };
 use objc2_foundation::{NSArray, NSDictionary, NSObject, NSPoint, NSRect, NSSize, NSString};
 
-use super::geometry::{self, Shape};
+use super::geometry::{self, Fit, Shape};
 use super::placement::{self, Anchor, Rect, Screen};
 use super::slots::{self, Slot};
 
@@ -58,7 +58,7 @@ pub enum Mode {
     /// The thin resting bar (hover shows the hint).
     Rest,
     /// The active shape while the web view loads.
-    Bridge(Shape),
+    Bridge(Fit),
 }
 
 /// What the user did on the native bar.
@@ -507,7 +507,7 @@ impl RestingView {
     /// The capsule this view is heading for (points).
     fn target_size(&self) -> (f64, f64) {
         match self.ivars().mode.get() {
-            Mode::Bridge(shape) => shape.capsule(),
+            Mode::Bridge(fit) => fit.capsule(),
             Mode::Rest if self.ivars().scratchpad_enabled.get() => {
                 (slots::GROUP_WIDTH, slots::GROUP_HEIGHT)
             }
@@ -665,7 +665,7 @@ impl RestingView {
                 ))
                 .fill();
             }
-            Mode::Bridge(shape) => draw_bridge(shape, cap, content),
+            Mode::Bridge(fit) => draw_bridge(fit.shape, cap, content),
             Mode::Rest => {}
         }
     }

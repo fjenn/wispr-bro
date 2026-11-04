@@ -27,7 +27,14 @@ const geometry = JSON.parse(
   shapes: Record<ForkPillState["shape"], Size>;
   capsules: Record<ForkPillState["shape"], Size>;
   label: { h: number; gap: number };
+  diff: { chrome: number; line: number; minH: number; maxH: number };
 };
+/** The window a state asks for: the diff card's height follows its text. */
+function windowSize(s: ForkPillState): Size {
+  return s.shape === "diff" && s.diff
+    ? { w: geometry.shapes.diff.w, h: s.diff.height }
+    : geometry.shapes[s.shape];
+}
 const shotsDir = process.env.WB_SHOTS_DIR;
 
 test.use({ ipcSetup: { windowLabel: "fork-pill" } });
@@ -194,6 +201,8 @@ const STATES: Record<string, ForkPillState> = {
         changes: 3,
         degraded: false,
       },
+      // One line of text: `geometry::diff_height` gives the smallest card.
+      height: 128,
     },
   }),
 };
@@ -205,9 +214,7 @@ async function openPill(
   appSettings: unknown = null,
 ): Promise<void> {
   ipc.respond({ fork_pill_snapshot: snapshot, get_app_settings: appSettings });
-  const size = snapshot
-    ? geometry.shapes[snapshot.shape]
-    : geometry.shapes.held;
+  const size = snapshot ? windowSize(snapshot) : geometry.shapes.held;
   await page.setViewportSize({ width: size.w, height: size.h });
   await page.goto(PAGE);
   // The page sets `dir` from the app language; RTL tests pass an RTL
@@ -228,12 +235,14 @@ test.describe("states", () => {
       await expect(pill).toHaveAttribute("data-phase", s.phase);
       await expect(pill).toHaveAttribute("data-shape", s.shape);
       const box = await pill.boundingBox();
-      expect(box?.width).toBe(geometry.shapes[s.shape].w);
-      expect(box?.height).toBe(geometry.shapes[s.shape].h);
+      const size = windowSize(s);
+      expect(box?.width).toBe(size.w);
+      expect(box?.height).toBe(size.h);
       // The capsule has its own size, on the window's bottom edge.
       const capsule = await page.getByTestId("wb-pill-capsule").boundingBox();
-      expect(capsule?.width).toBe(geometry.capsules[s.shape].w);
-      expect(capsule?.height).toBe(geometry.capsules[s.shape].h);
+      const cap = s.shape === "diff" ? size : geometry.capsules[s.shape];
+      expect(capsule?.width).toBe(cap.w);
+      expect(capsule?.height).toBe(cap.h);
       expect(capsule!.y + capsule!.height).toBe(box!.y + box!.height);
       // Nothing overflows the window or the capsule's content.
       const overflow = await pill.evaluate(
@@ -539,6 +548,51 @@ test.describe("buttons", () => {
     await ipc.expectCalled("fork_pill_action", { action: "retry_diff" });
     await page.getByTestId("wb-pill-dismiss").click();
     await ipc.expectCalled("fork_pill_action", { action: "dismiss" });
+  });
+
+  test("Polish: the diff card is as tall as its text, chips keep a gap", async ({
+    page,
+    ipc,
+  }) => {
+    // Rust sizes the window to chrome + lines × line; the page must lay
+    // the card out to the same numbers, so n lines fill the body exactly.
+    expect(geometry.diff.minH).toBe(geometry.diff.chrome + geometry.diff.line);
+    expect(geometry.shapes.diff.h).toBe(geometry.diff.maxH);
+    const base = STATES.transformDiff.diff!;
+    for (const lines of [1, 3]) {
+      const height = geometry.diff.chrome + lines * geometry.diff.line;
+      await openPill(
+        page,
+        ipc,
+        state({ ...STATES.transformDiff, diff: { ...base, height } }),
+      );
+      const body = page.locator(".wb-pill-diff-body");
+      await expect(body).toBeVisible();
+      const card = await page.getByTestId("wb-pill-diff").boundingBox();
+      expect(card?.height).toBe(height);
+      expect(await body.evaluate((el) => el.clientHeight)).toBe(
+        lines * geometry.diff.line,
+      );
+    }
+    // The one-line example fits without scrolling or a blank band.
+    await openPill(page, ipc, STATES.transformDiff);
+    const body = page.locator(".wb-pill-diff-body");
+    const fit = await body.evaluate((el) => ({
+      scroll: el.scrollHeight,
+      client: el.clientHeight,
+      text: el.querySelector("p")!.getBoundingClientRect().height,
+    }));
+    expect(fit.scroll).toBeLessThanOrEqual(fit.client);
+    expect(fit.client - fit.text).toBeLessThan(geometry.diff.line);
+    // A deleted chip right before an inserted one does not touch it.
+    const gap = await page.evaluate(() => {
+      const del = document.querySelector('[data-diff="delete"]')!;
+      const ins = document.querySelector('[data-diff="insert"]')!;
+      const a = del.getClientRects();
+      const b = ins.getClientRects()[0];
+      return b.left - a[a.length - 1].right;
+    });
+    expect(gap).toBeGreaterThanOrEqual(2);
   });
 
   // The bar's panel never becomes key (it must not take focus from the

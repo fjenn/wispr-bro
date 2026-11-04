@@ -37,7 +37,7 @@ use objc2_foundation::{NSNotification, NSNotificationCenter, NSObject, NSPoint, 
 use tauri::{AppHandle, Manager, WebviewUrl, Wry};
 use tauri_nspanel::{CollectionBehavior, ManagerExt, PanelBuilder, PanelLevel, StyleMask};
 
-use super::geometry::Shape;
+use super::geometry::{Fit, Shape};
 use super::native::{self, Mode, NativeEvent, Resting, Texts};
 use super::placement::{self, Anchor, Edge, Screen};
 
@@ -88,7 +88,7 @@ pub struct Scene {
 pub enum NativeScene {
     Hidden,
     Rest,
-    Bridge(Shape),
+    Bridge(Fit),
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -100,8 +100,8 @@ pub enum WebScene {
     Loading,
     /// Built, off screen, after a take (destroyed after the linger time).
     Lingering,
-    /// Visible at this shape.
-    Shown(Shape),
+    /// Visible at this shape and size.
+    Shown(Fit),
 }
 
 /// Main-thread state.
@@ -112,7 +112,7 @@ struct Ui {
     anchor: Option<(Anchor, Screen)>,
     /// The web view exists.
     web_built: bool,
-    web_shown: Option<Shape>,
+    web_shown: Option<Fit>,
     scene: Option<Scene>,
     /// Where the active bar sits during a take (fixed at its start).
     take_anchor: Option<(Anchor, Screen)>,
@@ -227,15 +227,15 @@ impl Ui {
             WebScene::None => self.destroy_web(),
             WebScene::Loading => {
                 self.ensure_web(&scene);
-                if let NativeScene::Bridge(shape) = scene.native {
-                    self.frame_web(shape);
+                if let NativeScene::Bridge(fit) = scene.native {
+                    self.frame_web(fit);
                 }
                 self.hide_web(false);
             }
             WebScene::Lingering => self.hide_web(true),
-            WebScene::Shown(shape) => {
+            WebScene::Shown(fit) => {
                 self.ensure_web(&scene);
-                self.show_web(shape);
+                self.show_web(fit);
             }
         }
         if self.web_built && prefs_changed {
@@ -246,14 +246,14 @@ impl Ui {
         match scene.native {
             NativeScene::Hidden => self.resting.hide(),
             NativeScene::Rest => {
-                if let (Some(shape), None) = (last_web, self.web_shown) {
-                    self.resting.morph_from(shape.capsule());
+                if let (Some(fit), None) = (last_web, self.web_shown) {
+                    self.resting.morph_from(fit.capsule());
                 }
                 self.resting.set_mode(Mode::Rest);
                 self.resting.show();
             }
-            NativeScene::Bridge(shape) => {
-                self.resting.set_mode(Mode::Bridge(shape));
+            NativeScene::Bridge(fit) => {
+                self.resting.set_mode(Mode::Bridge(fit));
                 self.resting.show();
             }
         }
@@ -415,7 +415,7 @@ impl Ui {
                     prevent_activation(win);
                     native::stay_when_app_hidden(win);
                 }
-                self.frame_web(Shape::Held);
+                self.frame_web(Fit::of(Shape::Held));
                 // Ordered in (behind the native bar, see `hide_web`) so
                 // WebKit loads and paints it.
                 panel.show();
@@ -425,11 +425,11 @@ impl Ui {
         }
     }
 
-    fn frame_web(&self, shape: Shape) {
+    fn frame_web(&self, fit: Fit) {
         let Some((anchor, _)) = self.take_anchor.clone().or_else(|| self.anchor.clone()) else {
             return;
         };
-        let r = placement::frame(&anchor, shape.size());
+        let r = placement::frame(&anchor, fit.size());
         if let Some(win) = self.web_window() {
             let target = NSRect::new(NSPoint::new(r.x, r.y), NSSize::new(r.w, r.h));
             if win.frame() != target {
@@ -438,11 +438,11 @@ impl Ui {
         }
     }
 
-    fn show_web(&mut self, shape: Shape) {
-        if self.web_shown == Some(shape) {
+    fn show_web(&mut self, fit: Fit) {
+        if self.web_shown == Some(fit) {
             return;
         }
-        self.frame_web(shape);
+        self.frame_web(fit);
         if let Some(win) = self.web_window() {
             win.setIgnoresMouseEvents(false);
             win.setAlphaValue(1.0);
@@ -451,7 +451,7 @@ impl Ui {
         if self.web_shown.is_none() {
             super::WEB_SHOWN.store(true, std::sync::atomic::Ordering::Release);
         }
-        self.web_shown = Some(shape);
+        self.web_shown = Some(fit);
     }
 
     /// `order_out`: also take the window off screen (lingering after a

@@ -677,7 +677,7 @@ enum Web {
     Absent,
     /// Built; `shown` while visible at a shape.
     Built {
-        shown: Option<Shape>,
+        shown: Option<geometry::Fit>,
     },
 }
 
@@ -1150,7 +1150,7 @@ impl Controller {
                         self.painted = 0;
                         self.loading_since = None;
                         let scene = panel::Scene {
-                            native: panel::NativeScene::Bridge(active.shape),
+                            native: panel::NativeScene::Bridge(active.fit()),
                             web: panel::WebScene::None,
                             ..self.scene_base()
                         };
@@ -1171,18 +1171,18 @@ impl Controller {
                 }
                 if self.painted >= self.seq {
                     self.web = Web::Built {
-                        shown: Some(active.shape),
+                        shown: Some(active.fit()),
                     };
                     (
                         panel::NativeScene::Hidden,
-                        panel::WebScene::Shown(active.shape),
+                        panel::WebScene::Shown(active.fit()),
                     )
                 } else if let Some(old) = shown {
                     // Keep the last painted frame until the new one is ready.
                     (panel::NativeScene::Hidden, panel::WebScene::Shown(old))
                 } else {
                     (
-                        panel::NativeScene::Bridge(active.shape),
+                        panel::NativeScene::Bridge(active.fit()),
                         panel::WebScene::Loading,
                     )
                 }

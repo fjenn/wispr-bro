@@ -41,8 +41,9 @@ import { DUR, EASE, SPRING } from "../ui/motion";
 import {
   capsuleRadius,
   capsuleSize,
-  shapeSize,
   SPRING_PARAMS,
+  stateCapsule,
+  stateSize,
   type Size,
 } from "./geometry";
 import { springAt } from "./spring";
@@ -65,7 +66,7 @@ export function Pill() {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const state = usePillState();
   const reduced = useReducedMotion() ?? false;
-  const painted = useRef<{ seq: number; shape: Shape } | null>(null);
+  const painted = useRef<{ seq: number; size: Size } | null>(null);
 
   useEffect(() => {
     document.documentElement.dir = getLanguageDirection(i18n.language);
@@ -76,15 +77,15 @@ export function Pill() {
   // played inside the old window.
   let delay = 0;
   if (state && painted.current && painted.current.seq !== state.seq) {
-    const before = shapeSize(painted.current.shape);
-    const after = shapeSize(state.shape);
+    const before = painted.current.size;
+    const after = stateSize(state);
     if (!reduced && (after.w < before.w || after.h < before.h)) {
       delay = SHRINK_MS;
     }
   }
   useReportPainted(state?.seq ?? null, delay);
   useEffect(() => {
-    if (state) painted.current = { seq: state.seq, shape: state.shape };
+    if (state) painted.current = { seq: state.seq, size: stateSize(state) };
     else painted.current = null;
   }, [state]);
 
@@ -94,7 +95,7 @@ export function Pill() {
 
   if (!state) return <div data-testid="wb-pill-idle" />;
 
-  const size = shapeSize(state.shape);
+  const size = stateSize(state);
   const label = barLabel(state, t);
   let body: ReactNode;
   switch (state.phase) {
@@ -138,6 +139,7 @@ export function Pill() {
     >
       <Capsule
         shape={state.shape}
+        capsule={stateCapsule(state)}
         window={size}
         grownAt={state.grown_at_unix_ms}
         reduced={reduced}
@@ -167,7 +169,7 @@ export function Pill() {
                   filter: reduced ? "blur(0px)" : "blur(4px)",
                   transition: reduced
                     ? { duration: DUR.reduced, ease: "linear" }
-                    : { duration: 0.18, ease: EASE.in },
+                    : { duration: DUR.leave, ease: EASE.in },
                 }}
               >
                 <BarLabel label={label} />
@@ -189,6 +191,7 @@ export function Pill() {
  */
 function Capsule({
   shape,
+  capsule: target,
   window: win,
   grownAt,
   reduced,
@@ -197,6 +200,7 @@ function Capsule({
   children,
 }: {
   shape: Shape;
+  capsule: Size;
   window: Size;
   grownAt: number | null;
   reduced: boolean;
@@ -204,7 +208,6 @@ function Capsule({
   label: ReactNode;
   children: ReactNode;
 }) {
-  const target = capsuleSize(shape);
   const first = useRef(true);
   const start = useRef(initialSize(target, grownAt, reduced));
   const w = useMotionValue(start.current.w);
@@ -257,8 +260,8 @@ function Capsule({
       window.clearTimeout(timer);
       runs.forEach((r) => r.stop());
     };
-    // `target` is derived from `shape`; `win` follows it.
-  }, [shape, reduced]);
+    // `target` and `win` follow the state's shape and size.
+  }, [shape, target.w, target.h, reduced]);
 
   return (
     <div className="wb-pill-anchor">

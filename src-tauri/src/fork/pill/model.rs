@@ -364,12 +364,16 @@ pub enum Input {
 pub struct ForkTransformDiff {
     pub run: crate::fork::transforms::record::ForkTransformViewChanges,
     pub diff: crate::fork::text::diff::WordDiff,
+    /// The card's window height in points: it follows the text
+    /// (`geometry::diff_height`), so a short change gets a short card.
+    pub height: u32,
 }
 
 impl ForkTransformDiff {
     pub fn new(run: crate::fork::transforms::record::ForkTransformViewChanges) -> Self {
         let diff = crate::fork::text::diff::diff(&run.source_text, &run.result_text);
-        Self { run, diff }
+        let height = super::geometry::diff_height(&diff.ops);
+        Self { run, diff, height }
     }
 }
 
@@ -430,6 +434,16 @@ pub struct ActiveView {
     /// S-02: the app holding Secure Input (with the `secure_input`
     /// warning).
     pub holder: Option<String>,
+}
+
+impl ActiveView {
+    /// The shape at its window size (the diff card's follows its text).
+    pub fn fit(&self) -> super::geometry::Fit {
+        match (&self.diff, self.shape) {
+            (Some(diff), Shape::Diff) => super::geometry::Fit::diff(diff.height),
+            _ => super::geometry::Fit::of(self.shape),
+        }
+    }
 }
 
 /// Everything on screen.

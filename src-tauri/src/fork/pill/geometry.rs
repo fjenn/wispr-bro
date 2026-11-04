@@ -69,7 +69,7 @@ impl Shape {
             Shape::Message => (400.0, ACTIVE_H),
             Shape::Setup => (260.0, ACTIVE_H),
             Shape::Card => (440.0, CARD_H),
-            Shape::Diff => (560.0, DIFF_H),
+            Shape::Diff => (DIFF_W, DIFF_MAX_H),
         }
     }
 
@@ -138,8 +138,23 @@ pub const NOTICE_W: f64 = 460.0;
 pub const LABELLED_H: f64 = LABEL_H + LABEL_GAP + ACTIVE_H;
 /// The card: a label line and two lines of text beside Copy and ✕.
 pub const CARD_H: f64 = 76.0;
-/// The transform diff card: header, scrollable changes and the actions.
-pub const DIFF_H: f64 = 280.0;
+/// The transform diff card: header, the changes and the actions. Its
+/// height follows the changes ([`diff_height`]), from one line of text up
+/// to [`DIFF_MAX_H`] (longer changes scroll); [`Shape::size`] is the
+/// largest.
+pub const DIFF_W: f64 = 560.0;
+/// Everything but the text lines: padding, header row, actions row and
+/// the gaps between them (`.wb-pill-diff` in `pill.css`; a Playwright test
+/// checks the page lays the card out to these numbers).
+pub const DIFF_CHROME_H: f64 = 104.0;
+/// One line of the changes (15 px text, 24 px lines).
+pub const DIFF_LINE_H: f64 = 24.0;
+/// At most this many lines show before the text scrolls.
+pub const DIFF_MAX_LINES: f64 = 7.0;
+pub const DIFF_MIN_H: f64 = DIFF_CHROME_H + DIFF_LINE_H;
+pub const DIFF_MAX_H: f64 = DIFF_CHROME_H + DIFF_MAX_LINES * DIFF_LINE_H;
+/// Width of the text column: the card less its side padding (18 + 14).
+pub const DIFF_TEXT_W: f64 = DIFF_W - 32.0;
 
 /// The hover bubble of the resting bar: height, horizontal padding around
 /// its text, and its width limits (the text is measured, localized).
@@ -195,6 +210,104 @@ pub fn morph(from: (f64, f64), to: (f64, f64), t_ms: f64) -> (f64, f64) {
     (from.0 + (to.0 - from.0) * p, from.1 + (to.1 - from.1) * p)
 }
 
+/// A shape as it is shown: the shape and its window height. Every shape
+/// has one size except the diff card, whose height follows its text.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub struct Fit {
+    pub shape: Shape,
+    /// Window height in whole points.
+    h: u32,
+}
+
+impl Fit {
+    /// `shape` at its one size (the diff card at its largest).
+    pub const fn of(shape: Shape) -> Self {
+        Self {
+            shape,
+            h: shape.size().1 as u32,
+        }
+    }
+
+    /// The diff card `h` points tall (clamped to its limits).
+    pub fn diff(h: u32) -> Self {
+        Self {
+            shape: Shape::Diff,
+            h: h.clamp(DIFF_MIN_H as u32, DIFF_MAX_H as u32),
+        }
+    }
+
+    /// The window, in points.
+    pub fn size(self) -> (f64, f64) {
+        (self.shape.size().0, f64::from(self.h))
+    }
+
+    /// The capsule inside the window (see [`Shape::capsule`]).
+    pub fn capsule(self) -> (f64, f64) {
+        if self.shape.labelled() {
+            self.shape.capsule()
+        } else {
+            self.size()
+        }
+    }
+}
+
+/// How tall the diff card is for `ops`: an estimate of the lines the text
+/// wraps to in the card's text column, so short changes get a short card.
+/// It errs on the tall side (wide glyphs, chip padding, word-wrap waste);
+/// past [`DIFF_MAX_H`] the text scrolls.
+pub fn diff_height(ops: &[crate::fork::text::diff::DiffOp]) -> u32 {
+    use crate::fork::text::diff::DiffOpKind;
+    // Figtree at 15 px averages under 7.5 px a glyph for Latin text; CJK
+    // and emoji take about two. A line keeps ~10 % for word wrap.
+    const NARROW_PX: f64 = 7.5;
+    let per_line = DIFF_TEXT_W * 0.9;
+    let max_lines = DIFF_MAX_LINES as u32;
+    let mut lines = 0u32;
+    let mut width = 0.0f64;
+    for op in ops {
+        if op.kind != DiffOpKind::Equal {
+            // Chip padding and the gap between neighbouring chips.
+            width += 9.0;
+        }
+        for c in op.text.chars() {
+            if c == '\n' {
+                lines += (width / per_line).ceil().max(1.0) as u32;
+                width = 0.0;
+            } else {
+                width += if is_wide(c) {
+                    2.0 * NARROW_PX
+                } else {
+                    NARROW_PX
+                };
+            }
+        }
+        if lines > max_lines {
+            break;
+        }
+    }
+    lines += (width / per_line).ceil().max(1.0) as u32;
+    let lines = lines.clamp(1, max_lines);
+    Fit::diff((DIFF_CHROME_H + f64::from(lines) * DIFF_LINE_H) as u32).h
+}
+
+/// East Asian wide and full-width glyphs, and emoji.
+fn is_wide(c: char) -> bool {
+    matches!(u32::from(c),
+        0x1100..=0x115F
+        | 0x2E80..=0x303E
+        | 0x3041..=0x33FF
+        | 0x3400..=0x4DBF
+        | 0x4E00..=0x9FFF
+        | 0xA000..=0xA4CF
+        | 0xAC00..=0xD7A3
+        | 0xF900..=0xFAFF
+        | 0xFE30..=0xFE4F
+        | 0xFF00..=0xFF60
+        | 0xFFE0..=0xFFE6
+        | 0x1F300..=0x1FAFF
+        | 0x20000..=0x3FFFD)
+}
+
 /// The geometry the web view needs, as written to `geometry.gen.json`.
 pub fn geometry_json() -> serde_json::Value {
     let shapes: serde_json::Map<String, serde_json::Value> = Shape::ALL
@@ -216,6 +329,12 @@ pub fn geometry_json() -> serde_json::Value {
         "shapes": shapes,
         "capsules": capsules,
         "label": { "h": LABEL_H, "gap": LABEL_GAP },
+        "diff": {
+            "chrome": DIFF_CHROME_H,
+            "line": DIFF_LINE_H,
+            "minH": DIFF_MIN_H,
+            "maxH": DIFF_MAX_H,
+        },
         "bars": BARS,
         "edgeGap": EDGE_GAP,
         "spring": {
@@ -317,6 +436,57 @@ mod tests {
         assert!((spring(MORPH_MS - 1.0).0 - 1.0).abs() < 0.001);
         assert_eq!(morph((38.0, 6.0), (72.0, 30.0), 0.0), (38.0, 6.0));
         assert_eq!(morph((38.0, 6.0), (72.0, 30.0), MORPH_MS), (72.0, 30.0));
+    }
+
+    fn ops(
+        parts: &[(&str, crate::fork::text::diff::DiffOpKind)],
+    ) -> Vec<crate::fork::text::diff::DiffOp> {
+        parts
+            .iter()
+            .map(|(text, kind)| crate::fork::text::diff::DiffOp {
+                kind: *kind,
+                text: (*text).to_string(),
+            })
+            .collect()
+    }
+
+    /// Polish: the diff card is as tall as its text (one line at least,
+    /// scrolling past the largest card).
+    #[test]
+    fn the_diff_card_fits_its_text() {
+        use crate::fork::text::diff::DiffOpKind::{Delete, Equal, Insert};
+        let one = diff_height(&ops(&[
+            ("Hi ", Equal),
+            ("perhaps", Delete),
+            ("We could", Insert),
+            (" meet.", Equal),
+        ]));
+        assert_eq!(f64::from(one), DIFF_MIN_H);
+        let words = "word ".repeat(40); // ~200 glyphs: three or four lines
+        let three = diff_height(&ops(&[(&words, Equal)]));
+        assert!(
+            f64::from(three) >= DIFF_CHROME_H + 3.0 * DIFF_LINE_H,
+            "{three}"
+        );
+        assert!(
+            f64::from(three) <= DIFF_CHROME_H + 4.0 * DIFF_LINE_H,
+            "{three}"
+        );
+        // Paragraphs count as lines.
+        let paras = diff_height(&ops(&[("a\nb\nc", Equal)]));
+        assert_eq!(f64::from(paras), DIFF_CHROME_H + 3.0 * DIFF_LINE_H);
+        // Wide glyphs take more room than the same count of Latin ones.
+        let cjk = diff_height(&ops(&[(&"字".repeat(70), Equal)]));
+        let latin = diff_height(&ops(&[(&"a".repeat(70), Equal)]));
+        assert!(cjk > latin, "{cjk} vs {latin}");
+        // Long text stops at the largest card; nothing is ever below one line.
+        let long = diff_height(&ops(&[(&"word ".repeat(2000), Equal)]));
+        assert_eq!(f64::from(long), DIFF_MAX_H);
+        assert_eq!(f64::from(diff_height(&[])), DIFF_MIN_H);
+        assert_eq!(Fit::diff(1).size(), (DIFF_W, DIFF_MIN_H));
+        assert_eq!(Fit::diff(10_000).size(), (DIFF_W, DIFF_MAX_H));
+        assert_eq!(Fit::of(Shape::HeldLabel).capsule(), Shape::Held.size());
+        assert_eq!(Fit::of(Shape::Card).size(), Shape::Card.size());
     }
 
     /// The web view animates with `motion`'s `SPRING.bar`; it must be the

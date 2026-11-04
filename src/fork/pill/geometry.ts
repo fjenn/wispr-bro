@@ -9,7 +9,7 @@
  *   shapes, whose label pill (`LABEL.h` tall, `LABEL.gap` away) floats above
  *   the capsule, or below it when the bar sits at the top of the display.
  */
-import type { Shape } from "../bindings";
+import type { ForkPillState, Shape } from "../bindings";
 import geometry from "./geometry.gen.json";
 
 export type Size = { w: number; h: number };
@@ -31,6 +31,32 @@ export function shapeSize(shape: Shape): Size {
 
 export function capsuleSize(shape: Shape): Size {
   return CAPSULES[shape];
+}
+
+/** The diff card's layout numbers: everything but the text lines, one line, limits. */
+export const DIFF: {
+  chrome: number;
+  line: number;
+  minH: number;
+  maxH: number;
+} = geometry.diff;
+
+/**
+ * The window for a state: its shape's size, except the diff card, whose
+ * height follows its text (`ForkTransformDiff.height`, from Rust).
+ */
+export function stateSize(state: Pick<ForkPillState, "shape" | "diff">): Size {
+  const size = SHAPES[state.shape];
+  if (state.shape !== "diff" || !state.diff) return size;
+  const h = Math.min(DIFF.maxH, Math.max(DIFF.minH, state.diff.height));
+  return Number.isFinite(h) ? { w: size.w, h } : size;
+}
+
+/** The capsule for a state (see `stateSize`). */
+export function stateCapsule(
+  state: Pick<ForkPillState, "shape" | "diff">,
+): Size {
+  return labelled(state.shape) ? CAPSULES[state.shape] : stateSize(state);
 }
 
 export function labelled(shape: Shape): boolean {

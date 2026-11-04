@@ -12,18 +12,18 @@
  */
 
 :root {
-  --wb-pill-bg: var(--wb-hud, #000000);
-  --wb-pill-card: var(--wb-hud-2, #1b1b1b);
-  --wb-pill-control: var(--wb-hud-control, #30302f);
-  --wb-pill-control-hover: #3e3e3c;
-  --wb-pill-ink: #ffffff;
+  --wb-pill-bg: var(--wb-hud);
+  --wb-pill-card: var(--wb-hud-2);
+  --wb-pill-control: var(--wb-hud-control);
+  --wb-pill-control-hover: var(--wb-hud-control-hover);
+  --wb-pill-ink: var(--wb-on-hud);
   --wb-pill-ink-2: rgba(255, 255, 255, 0.74);
-  --wb-pill-accent: #c3a0ee;
-  --wb-pill-error: #ffb4ab;
-  --wb-pill-insert: rgba(56, 178, 156, 0.38);
-  --wb-pill-delete: rgba(255, 255, 255, 0.12);
+  --wb-pill-accent: var(--wb-hud-accent);
+  --wb-pill-error: var(--wb-hud-error);
+  --wb-pill-insert: var(--wb-hud-insert);
+  --wb-pill-delete: var(--wb-hud-delete);
   --wb-pill-edge: none;
-  --wb-pill-focus: #c3a0ee;
+  --wb-pill-focus: var(--wb-hud-accent);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -187,7 +187,7 @@ body {
   width: 2px;
   border-radius: 1px;
   background: var(--wb-pill-ink);
-  transition: opacity 140ms ease-out;
+  transition: opacity var(--wb-dur-fast) var(--wb-ease-out);
 }
 
 /* Before the first audio frame: a quiet dotted line. */
@@ -206,7 +206,7 @@ body {
   border: 0;
   border-radius: 999px;
   cursor: default;
-  transition: background-color 140ms ease-out;
+  transition: background-color var(--wb-dur-fast) var(--wb-ease-out);
 }
 
 .wb-pill-disc svg {
@@ -226,12 +226,12 @@ body {
 }
 
 .wb-pill-finish {
-  background: #ffffff;
-  color: #000000;
+  background: var(--wb-on-hud);
+  color: var(--wb-hud);
 }
 
 .wb-pill-finish:hover {
-  background: #e6e6e6;
+  background: var(--wb-hud-light-hover);
 }
 
 .wb-pill-finish svg {
@@ -341,17 +341,17 @@ body {
   padding: 0 12px;
   border: 0;
   border-radius: 999px;
-  background: #ffffff;
-  color: #000000;
+  background: var(--wb-on-hud);
+  color: var(--wb-hud);
   font: inherit;
   font-size: 14px;
   font-weight: 600;
   cursor: default;
-  transition: background-color 140ms ease-out;
+  transition: background-color var(--wb-dur-fast) var(--wb-ease-out);
 }
 
 .wb-pill-fix:hover {
-  background: #e6e6e6;
+  background: var(--wb-hud-light-hover);
 }
 
 /* ---- S-07a: "Setting up… 40%" with a progress ring. ---- */
@@ -383,7 +383,7 @@ body {
 .wb-pill-ring-fill {
   stroke: var(--wb-pill-accent);
   stroke-linecap: round;
-  transition: stroke-dasharray 300ms linear;
+  transition: stroke-dasharray var(--wb-dur-slow) linear;
 }
 
 .wb-pill-ring-spin {
@@ -468,12 +468,21 @@ body {
   gap: 10px;
 }
 
+/* The card's rows have fixed heights, so its chrome (padding 14 + 10,
+   header 28, two 10 px gaps, actions 32 = 104 px) matches
+   `geometry::DIFF_CHROME_H` and the window Rust sizes to the text holds
+   exactly its lines (24 px each). `pill-card.spec.ts` checks the sum. */
 .wb-pill-diff-header,
 .wb-pill-diff-actions {
+  flex: none;
   display: flex;
   align-items: center;
   gap: 6px;
   min-width: 0;
+}
+
+.wb-pill-diff-header {
+  height: 28px;
 }
 
 .wb-pill-diff-header strong {
@@ -520,13 +529,14 @@ body {
 .wb-pill-diff-body ins {
   padding: 1px 3px;
   border-radius: 4px;
+  margin-inline: 1px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 
 .wb-pill-diff-body del {
   background: var(--wb-pill-delete);
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--wb-on-hud-delete);
   text-decoration: line-through;
   text-decoration-color: rgba(255, 255, 255, 0.6);
 }
@@ -538,6 +548,7 @@ body {
 }
 
 .wb-pill-diff-actions {
+  height: 32px;
   gap: 2px;
   margin-inline-start: -6px;
 }
@@ -554,8 +565,8 @@ body {
   color: var(--wb-pill-ink-2);
   cursor: default;
   transition:
-    background-color 140ms ease-out,
-    color 140ms ease-out;
+    background-color var(--wb-dur-fast) var(--wb-ease-out),
+    color var(--wb-dur-fast) var(--wb-ease-out);
 }
 
 .wb-pill-icon-btn:hover {
