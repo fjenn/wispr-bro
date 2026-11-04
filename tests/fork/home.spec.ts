@@ -78,6 +78,8 @@ test.describe("dictation home", () => {
     ipc,
     hub,
   }) => {
+    // Two full Hub loads (open, then reload): room for a loaded machine.
+    test.setTimeout(180_000);
     await openHub(page, ipc, hub);
     ipc.handle("fork_account_name", () => ipcError("boom"));
     await page.reload();
