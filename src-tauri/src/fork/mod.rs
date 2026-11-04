@@ -1235,10 +1235,11 @@ where
         if is_fork_command(invoke.message.command()) {
             fork(invoke)
         } else {
-            let observed = observe_handy_command(invoke.message.command());
+            let observed = observe_handy_command::<R>(invoke.message.command());
+            let app = observed.map(|_| invoke.message.webview().app_handle().clone());
             let handled = handy(invoke);
-            if let Some(after) = observed {
-                after();
+            if let (Some(after), Some(app)) = (observed, app) {
+                after(app);
             }
             handled
         }
@@ -1250,9 +1251,25 @@ where
 /// languages (Settings › General, onboarding) re-picks the speech model.
 /// Handy's command may still be running (async commands), so the reaction
 /// only wakes the fork, which reads the settings when it gets to it.
-pub fn observe_handy_command(command: &str) -> Option<fn()> {
+///
+/// Audit OT2: Handy's Custom words row syncs into the Dictionary page at
+/// once (both ways: the page already rewrites Handy's list), and turning
+/// the menu bar icon off never leaves the app without a Dock icon too.
+pub fn observe_handy_command<R: ForkRuntime>(command: &str) -> Option<fn(AppHandle<R>)> {
     match command {
-        "change_spoken_languages_setting" => Some(|| {
+        "update_custom_words" => Some(|app| {
+            std::thread::spawn(move || {
+                std::thread::sleep(std::time::Duration::from_millis(300));
+                dictionary::migrate::sync(&app);
+            });
+        }),
+        "change_show_tray_icon_setting" => Some(|app| {
+            std::thread::spawn(move || {
+                std::thread::sleep(std::time::Duration::from_millis(300));
+                commands::settings::keep_a_way_back(&app);
+            });
+        }),
+        "change_spoken_languages_setting" => Some(|_| {
             std::thread::spawn(|| {
                 // Handy writes the setting synchronously in its command;
                 // give the store a moment anyway.
@@ -1263,7 +1280,7 @@ pub fn observe_handy_command(command: &str) -> Option<fn()> {
             });
         }),
         // S-26a: the menus' Microphone ▸ follows Handy's own picker too.
-        "set_selected_microphone" => Some(|| {
+        "set_selected_microphone" => Some(|_| {
             std::thread::spawn(|| {
                 std::thread::sleep(std::time::Duration::from_millis(300));
                 app_menu::request_refresh(app_menu::Refresh::Devices);

@@ -211,10 +211,10 @@
         "modelReady": "Mô hình giọng nói sẵn sàng",
         "updateReady": "Bản cập nhật sẵn sàng",
         "queuedReady": "Bản đọc chính tả trong hàng chờ đã sẵn sàng",
-        "errors": "Các vấn đề cần chú ý",
         "suggestions": "Gợi ý",
         "announcements": "Thông báo tính năng mới",
-        "milestones": "Cột mốc"
+        "milestones": "Cột mốc",
+        "shortcutProblems": "Sự cố phím tắt"
       },
       "scratchpad": "Bản nháp",
       "scratchpadLabel": "Khi Bản nháp mở",
@@ -222,7 +222,10 @@
       "scratchpadOptions": {
         "resume_last": "Tiếp tục ghi chú gần nhất",
         "new_note": "Bắt đầu ghi chú mới"
-      }
+      },
+      "notificationsHint": "Mỗi công tắc điều khiển thông báo đó trong Wispr Bro và trên Mac. “Thông báo của Mac” chỉ tắt biểu ngữ trên Mac. Thông báo sự cố và khôi phục luôn hiện trong Wispr Bro.",
+      "dockKeptForTray": "Biểu tượng trên thanh menu đang tắt nên biểu tượng Dock vẫn hiện. Bật biểu tượng trên thanh menu để ẩn nó.",
+      "trayKeptForDock": "Biểu tượng Dock đang tắt nên biểu tượng trên thanh menu vẫn hiện. Bật “Hiện ứng dụng trong Dock” để ẩn nó."
     },
     "vibe": {
       "intro": "Wispr Bro đọc tên mã và tên tệp mà trình soạn thảo hiển thị. Nó không bao giờ mở tệp của bạn.",
@@ -350,7 +353,9 @@
       "experimental": "Thử nghiệm và gỡ lỗi",
       "debugMode": "Công cụ gỡ lỗi",
       "debugModeHint": "Hiện các điều khiển chẩn đoán và tùy chọn ghi nhật ký chi tiết.",
-      "forkDiagnostics": "Chẩn đoán cài đặt fork"
+      "forkDiagnostics": "Chẩn đoán cài đặt fork",
+      "translateUnsupported": "{{model}} không thể dịch. Hãy chọn mô hình có thể dịch, như Whisper hoặc Canary, trong Mô hình giọng nói.",
+      "translateNoModel": "Mô hình giọng nói của bạn không thể dịch. Hãy chọn mô hình có thể dịch, như Whisper hoặc Canary, trong Mô hình giọng nói."
     },
     "about": {
       "tagline": "Đọc chính tả cục bộ, không cần tài khoản và không xử lý trên đám mây.",
@@ -435,8 +440,9 @@
           "open": "Tiếp tục ghi chú gần nhất hoặc bắt đầu ghi chú mới."
         }
       },
-      "description_other": "Thêm tối đa {{max}} phím tắt cho mỗi thao tác. Các thay đổi được lưu khi bạn thực hiện.",
-      "addFor": "Thêm phím tắt cho {{action}}"
+      "addFor": "Thêm phím tắt cho {{action}}",
+      "descriptionLimits": "Hầu hết thao tác có tối đa {{max}} phím tắt. Giữ để nói, hủy và Command Mode mỗi thao tác có một, đọc chính tả rảnh tay có hai. Thay đổi được lưu ngay khi bạn thực hiện.",
+      "limit_other": "Thao tác này có tối đa {{count}} phím tắt."
     },
     "resetSetting": "Đặt lại {{setting}}",
     "intro": {
@@ -865,7 +871,7 @@
         "cancelled": "Đã hủy",
         "no_transcript": "Chưa có bản đọc chính tả nào để dán",
         "copied_last": "Đã sao chép bản đọc chính tả gần nhất",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Đã sao chép vào bảng nhớ tạm",
         "transform_done": "Xong",
         "command_done": "Xong",
         "command_needs_text": "Command Mode sửa và viết văn bản. Hãy chọn văn bản hoặc bấm vào một trường.",
@@ -1184,7 +1190,9 @@
     "learn": {
       "toggle": "Học từ những chỗ tôi sửa",
       "hint": "Trong 30 giây sau khi bản đọc chính tả được dán, {{appName}} nhận biết các từ bạn sửa trong ô văn bản đó và gợi ý chúng ở đây. Chỉ từ bạn sửa được giữ lại, không bao giờ giữ phần còn lại của văn bản. Trường mật khẩu, trình quản lý mật khẩu, ứng dụng ngân hàng và terminal không bao giờ bị đọc."
-    }
+    },
+    "undoFailed": "Không thể khôi phục “{{entry}}”. Vui lòng thêm lại.",
+    "undoSkipped": "“{{entry}}” không được khôi phục: từ điển của bạn đã có mục này."
   },
   "pill": {
     "region": "Thanh đọc chính tả",
@@ -1561,7 +1569,9 @@
       "fileName": "{{appName}} đoạn văn bản.csv",
       "done_other": "Đã xuất {{count}} đoạn văn bản.",
       "failed": "Không thể xuất đoạn văn bản. Vui lòng thử lại."
-    }
+    },
+    "undoFailed": "Không thể khôi phục “{{trigger}}”. Vui lòng thêm lại.",
+    "undoSkipped": "“{{trigger}}” không được khôi phục: một đoạn văn bản khác hiện đang dùng cụm từ đó."
   },
   "insights": {
     "tabs": {

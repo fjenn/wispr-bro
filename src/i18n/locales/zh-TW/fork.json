@@ -211,10 +211,10 @@
         "modelReady": "語音模型已就緒",
         "updateReady": "更新已就緒",
         "queuedReady": "排入佇列的聽寫已就緒",
-        "errors": "需要處理的問題",
         "suggestions": "建議",
         "announcements": "功能公告",
-        "milestones": "里程碑"
+        "milestones": "里程碑",
+        "shortcutProblems": "快速鍵問題"
       },
       "scratchpad": "草稿板",
       "scratchpadLabel": "打開草稿板時",
@@ -222,7 +222,10 @@
       "scratchpadOptions": {
         "resume_last": "繼續上一則筆記",
         "new_note": "新增筆記"
-      }
+      },
+      "notificationsHint": "每個開關都會同時控制 Wispr Bro 內和 Mac 上的該項通知。「Mac 通知」只會關閉 Mac 橫幅。當機與復原通知一律會顯示在 Wispr Bro 內。",
+      "dockKeptForTray": "選單列圖像已關閉，因此 Dock 圖像會保留。開啟選單列圖像即可隱藏 Dock 圖像。",
+      "trayKeptForDock": "Dock 圖像已關閉，因此選單列圖像會保留。開啟「在 Dock 中顯示 App」即可隱藏選單列圖像。"
     },
     "vibe": {
       "intro": "Wispr Bro 會讀取編輯器顯示的程式碼名稱和檔案名稱。它絕不開啟你的檔案。",
@@ -350,7 +353,9 @@
       "experimental": "實驗與除錯",
       "debugMode": "除錯工具",
       "debugModeHint": "顯示診斷控制項和詳細記錄選項。",
-      "forkDiagnostics": "Fork 設定診斷"
+      "forkDiagnostics": "Fork 設定診斷",
+      "translateUnsupported": "{{model}} 無法翻譯。請在「語音模型」中選擇支援翻譯的模型，例如 Whisper 或 Canary。",
+      "translateNoModel": "你的語音模型無法翻譯。請在「語音模型」中選擇支援翻譯的模型，例如 Whisper 或 Canary。"
     },
     "about": {
       "tagline": "本機聽寫，不需要帳號，也不經雲端處理。",
@@ -435,8 +440,9 @@
           "open": "繼續上一則筆記或開始新的筆記。"
         }
       },
-      "description_other": "每個動作最多可加入 {{max}} 個快速鍵。變更會立即儲存。",
-      "addFor": "為「{{action}}」加入快捷鍵"
+      "addFor": "為「{{action}}」加入快捷鍵",
+      "descriptionLimits": "大多數動作最多可設定 {{max}} 個快速鍵。「按住說話」、取消和指令模式各 1 個，免持聽寫 2 個。變更會立即儲存。",
+      "limit_other": "此動作最多可設定 {{count}} 個快速鍵。"
     },
     "resetSetting": "重置「{{setting}}」",
     "intro": {
@@ -865,7 +871,7 @@
         "cancelled": "已取消",
         "no_transcript": "還沒有可貼上的聽寫",
         "copied_last": "已拷貝上一次聽寫",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "已拷貝到剪貼簿",
         "transform_done": "完成",
         "command_done": "完成",
         "command_needs_text": "指令模式用於編輯和撰寫文字。請選取文字或按一下輸入欄位。",
@@ -1184,7 +1190,9 @@
     "learn": {
       "toggle": "從我的修正中學習",
       "hint": "聽寫內容貼上後的 30 秒內，{{appName}} 會留意你在該文字框中修正的字詞，並在這裡提供建議。只會保留你修正的字詞，絕不保留其餘文字。從不讀取密碼欄位、密碼管理程式、銀行 App 和終端機。"
-    }
+    },
+    "undoFailed": "無法還原「{{entry}}」。請重新加入。",
+    "undoSkipped": "未還原「{{entry}}」：你的字典已經有這一項。"
   },
   "pill": {
     "region": "聽寫浮動列",
@@ -1561,7 +1569,9 @@
       "fileName": "{{appName}} 文字片段.csv",
       "done_other": "已匯出 {{count}} 個文字片段。",
       "failed": "無法匯出文字片段。請再試一次。"
-    }
+    },
+    "undoFailed": "無法還原「{{trigger}}」。請重新加入。",
+    "undoSkipped": "未還原「{{trigger}}」：現在有另一個文字片段使用了該詞句。"
   },
   "insights": {
     "tabs": {

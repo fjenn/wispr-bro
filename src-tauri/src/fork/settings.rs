@@ -248,8 +248,8 @@ pub enum UpdateChannel {
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type)]
 #[serde(default)]
 pub struct NotificationSettings {
-    /// Send macOS notifications (the in-app inbox always records the four
-    /// kinds below).
+    /// Send macOS notifications. The four kind switches below govern the
+    /// in-app inbox and the macOS banner alike (audit OT2).
     pub system: bool,
     pub model_ready: bool,
     pub update_ready: bool,
@@ -351,6 +351,9 @@ pub struct ForkSettings {
     pub scratchpad_open_behavior: ScratchpadOpenBehavior,
     /// S-24: add the Scratchpad slot to the resting Flow Bar.
     pub scratchpad_on_bar: bool,
+    /// Audit OT2: the Scratchpad note's text size in points (one of
+    /// [`SCRATCHPAD_TEXT_SIZES`]), kept across windows and restarts.
+    pub scratchpad_text_size: u8,
     /// DEC-7: `None` keeps text forever.
     pub text_retention_days: Option<u32>,
     /// DEC-7: audio 14 days; `None` keeps audio forever, `0` keeps none.
@@ -404,6 +407,7 @@ impl Default for ForkSettings {
             live_text_in_pill: false,
             scratchpad_open_behavior: ScratchpadOpenBehavior::ResumeLast,
             scratchpad_on_bar: false,
+            scratchpad_text_size: SCRATCHPAD_TEXT_SIZES[0],
             text_retention_days: None,
             audio_retention_days: Some(14),
             notifications: NotificationSettings::default(),
@@ -424,6 +428,10 @@ impl Default for ForkSettings {
         }
     }
 }
+
+/// Scratchpad text sizes in points; the first is the default. Same list as
+/// `TEXT_SIZES` in `src/fork/scratchpad/NoteWindow.tsx`.
+pub const SCRATCHPAD_TEXT_SIZES: [u8; 3] = [16, 20, 24];
 
 /// One change sent by `fork_set_setting`, typed per field:
 /// `{ "key": "cleanup_level", "value": "medium" }`. The internal fields
@@ -450,6 +458,7 @@ pub enum ForkSettingUpdate {
     LiveTextInPill(bool),
     ScratchpadOpenBehavior(ScratchpadOpenBehavior),
     ScratchpadOnBar(bool),
+    ScratchpadTextSize(u8),
     TextRetentionDays(Option<u32>),
     AudioRetentionDays(Option<u32>),
     Notifications(NotificationSettings),
@@ -646,6 +655,9 @@ pub fn validate(update: &ForkSettingUpdate) -> Result<(), String> {
             check_ids("onboarding.checklist_done", &state.checklist_done)
         }
         U::VibeCoding(v) => check_vibe_coding(v),
+        U::ScratchpadTextSize(size) if !SCRATCHPAD_TEXT_SIZES.contains(size) => Err(format!(
+            "scratchpad_text_size: one of {SCRATCHPAD_TEXT_SIZES:?}"
+        )),
         _ => Ok(()),
     }
 }
@@ -672,6 +684,7 @@ pub fn apply_update(settings: &mut ForkSettings, update: ForkSettingUpdate) -> R
         U::LiveTextInPill(v) => settings.live_text_in_pill = v,
         U::ScratchpadOpenBehavior(v) => settings.scratchpad_open_behavior = v,
         U::ScratchpadOnBar(v) => settings.scratchpad_on_bar = v,
+        U::ScratchpadTextSize(v) => settings.scratchpad_text_size = v,
         U::TextRetentionDays(v) => settings.text_retention_days = v,
         U::AudioRetentionDays(v) => settings.audio_retention_days = v,
         U::Notifications(v) => settings.notifications = v,
@@ -765,6 +778,10 @@ fn sanitize(settings: &mut ForkSettings) -> Vec<String> {
             "vibe_coding",
             ForkSettingUpdate::VibeCoding(settings.vibe_coding.clone()),
         ),
+        (
+            "scratchpad_text_size",
+            ForkSettingUpdate::ScratchpadTextSize(settings.scratchpad_text_size),
+        ),
     ];
     for (field, update) in checks {
         if validate(&update).is_err() {
@@ -792,6 +809,7 @@ fn reset_field(settings: &mut ForkSettings, defaults: &ForkSettings, field: &str
         "greeting_name" => settings.greeting_name = d.greeting_name,
         "onboarding" => settings.onboarding = d.onboarding,
         "vibe_coding" => settings.vibe_coding = d.vibe_coding,
+        "scratchpad_text_size" => settings.scratchpad_text_size = d.scratchpad_text_size,
         _ => {}
     }
 }

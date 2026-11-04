@@ -212,10 +212,10 @@
         "modelReady": "Sprachmodell bereit",
         "updateReady": "Update bereit",
         "queuedReady": "Diktate aus der Warteschlange fertig",
-        "errors": "Probleme, die Aufmerksamkeit brauchen",
         "suggestions": "Vorschläge",
         "announcements": "Neue Funktionen",
-        "milestones": "Meilensteine"
+        "milestones": "Meilensteine",
+        "shortcutProblems": "Probleme mit Kurzbefehlen"
       },
       "scratchpad": "Notizblock",
       "scratchpadLabel": "Wenn der Notizblock geöffnet wird",
@@ -223,7 +223,10 @@
       "scratchpadOptions": {
         "resume_last": "Letzte Notiz fortsetzen",
         "new_note": "Neue Notiz beginnen"
-      }
+      },
+      "notificationsHint": "Jeder Schalter steuert diese Mitteilung in Wispr Bro und auf dem Mac. „Mac-Mitteilungen“ schaltet nur die Banner auf dem Mac aus. Mitteilungen zu Abstürzen und Wiederherstellung erscheinen immer in Wispr Bro.",
+      "dockKeptForTray": "Das Symbol in der Menüleiste ist aus, deshalb bleibt das Dock-Symbol. Schalte das Symbol in der Menüleiste ein, um es auszublenden.",
+      "trayKeptForDock": "Das Dock-Symbol ist aus, deshalb bleibt das Symbol in der Menüleiste. Schalte „App im Dock anzeigen“ ein, um es auszublenden."
     },
     "vibe": {
       "intro": "Wispr Bro liest die Code- und Dateinamen, die dein Editor anzeigt. Deine Dateien öffnet es nie.",
@@ -351,7 +354,9 @@
       "experimental": "Experimentell und Debug",
       "debugMode": "Debug-Tools",
       "debugModeHint": "Diagnosesteuerung und ausführliche Protokolloptionen anzeigen.",
-      "forkDiagnostics": "Diagnose der Fork-Einstellungen"
+      "forkDiagnostics": "Diagnose der Fork-Einstellungen",
+      "translateUnsupported": "{{model}} kann nicht übersetzen. Wähle unter Sprachmodelle ein Modell, das das kann, etwa Whisper oder Canary.",
+      "translateNoModel": "Dein Sprachmodell kann nicht übersetzen. Wähle unter Sprachmodelle ein Modell, das das kann, etwa Whisper oder Canary."
     },
     "about": {
       "tagline": "Lokales Diktat, ohne Konto und ohne Cloud.",
@@ -436,9 +441,10 @@
           "open": "Setzt deine letzte Notiz fort oder beginnt eine neue."
         }
       },
-      "description_one": "Füge pro Aktion bis zu {{max}} Kurzbefehl hinzu. Änderungen werden sofort gespeichert.",
-      "description_other": "Füge pro Aktion bis zu {{max}} Kurzbefehle hinzu. Änderungen werden sofort gespeichert.",
-      "addFor": "Kurzbefehl für {{action}} hinzufügen"
+      "addFor": "Kurzbefehl für {{action}} hinzufügen",
+      "descriptionLimits": "Die meisten Aktionen haben bis zu {{max}} Kurzbefehle. „Halten und sprechen“, Abbrechen und Befehlsmodus haben je einen, das freihändige Diktat zwei. Änderungen werden sofort gespeichert.",
+      "limit_one": "Diese Aktion hat {{count}} Kurzbefehl.",
+      "limit_other": "Diese Aktion hat bis zu {{count}} Kurzbefehle."
     },
     "resetSetting": "{{setting}} zurücksetzen",
     "intro": {
@@ -880,7 +886,7 @@
         "cancelled": "Abgebrochen",
         "no_transcript": "Noch kein Diktat zum Einfügen",
         "copied_last": "Letztes Diktat kopiert",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "In die Zwischenablage kopiert",
         "transform_done": "Fertig",
         "command_done": "Fertig",
         "command_needs_text": "Der Befehlsmodus bearbeitet und schreibt Text. Wähle Text aus oder klicke in ein Feld.",
@@ -1219,7 +1225,9 @@
     "learn": {
       "toggle": "Von meinen Korrekturen lernen",
       "hint": "Bis 30 Sekunden nach dem Einfügen eines Diktats merkt sich {{appName}} Wörter, die du in diesem Textfeld korrigierst, und schlägt sie hier vor. Nur das korrigierte Wort wird behalten, nie der übrige Text. Passwortfelder, Passwortmanager, Banking-Apps und Terminals werden nie gelesen."
-    }
+    },
+    "undoFailed": "„{{entry}}“ konnte nicht wiederhergestellt werden. Füge den Eintrag bitte erneut hinzu.",
+    "undoSkipped": "„{{entry}}“ wurde nicht wiederhergestellt: Dein Wörterbuch enthält den Eintrag bereits."
   },
   "pill": {
     "region": "Diktatleiste",
@@ -1624,7 +1632,9 @@
       "done_one": "{{count}} Textbaustein exportiert.",
       "done_other": "{{count}} Textbausteine exportiert.",
       "failed": "Die Textbausteine konnten nicht exportiert werden. Versuch es noch einmal."
-    }
+    },
+    "undoFailed": "„{{trigger}}“ konnte nicht wiederhergestellt werden. Füge den Textbaustein bitte erneut hinzu.",
+    "undoSkipped": "„{{trigger}}“ wurde nicht wiederhergestellt: Ein anderer Textbaustein verwendet diese Wendung jetzt."
   },
   "insights": {
     "tabs": {

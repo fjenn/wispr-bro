@@ -211,10 +211,10 @@
         "modelReady": "Model ucapan siap",
         "updateReady": "Pembaruan siap",
         "queuedReady": "Dikte dalam antrean siap",
-        "errors": "Masalah yang perlu diperhatikan",
         "suggestions": "Saran",
         "announcements": "Pengumuman fitur",
-        "milestones": "Pencapaian"
+        "milestones": "Pencapaian",
+        "shortcutProblems": "Masalah pintasan"
       },
       "scratchpad": "Coretan",
       "scratchpadLabel": "Saat Coretan dibuka",
@@ -222,7 +222,10 @@
       "scratchpadOptions": {
         "resume_last": "Lanjutkan catatan terakhir saya",
         "new_note": "Mulai catatan baru"
-      }
+      },
+      "notificationsHint": "Setiap sakelar mengatur pemberitahuan itu di Wispr Bro dan di Mac. “Pemberitahuan Mac” hanya mematikan banner di Mac. Pemberitahuan crash dan pemulihan selalu muncul di Wispr Bro.",
+      "dockKeptForTray": "Ikon bar menu nonaktif, jadi ikon Dock tetap tampil. Aktifkan ikon bar menu untuk menyembunyikannya.",
+      "trayKeptForDock": "Ikon Dock nonaktif, jadi ikon bar menu tetap tampil. Aktifkan Tampilkan app di Dock untuk menyembunyikannya."
     },
     "vibe": {
       "intro": "Wispr Bro membaca nama kode dan file yang ditampilkan editor Anda. Ia tidak pernah membuka file Anda.",
@@ -350,7 +353,9 @@
       "experimental": "Eksperimental dan debug",
       "debugMode": "Alat debug",
       "debugModeHint": "Tampilkan kontrol diagnostik dan opsi log terperinci.",
-      "forkDiagnostics": "Diagnostik pengaturan fork"
+      "forkDiagnostics": "Diagnostik pengaturan fork",
+      "translateUnsupported": "{{model}} tidak dapat menerjemahkan. Pilih model yang bisa, seperti Whisper atau Canary, di Model ucapan.",
+      "translateNoModel": "Model ucapan Anda tidak dapat menerjemahkan. Pilih model yang bisa, seperti Whisper atau Canary, di Model ucapan."
     },
     "about": {
       "tagline": "Dikte lokal, tanpa akun dan tanpa pemrosesan cloud.",
@@ -435,8 +440,9 @@
           "open": "Lanjutkan catatan terakhir atau mulai yang baru."
         }
       },
-      "description_other": "Tambahkan hingga {{max}} pintasan untuk setiap tindakan. Perubahan disimpan saat Anda membuatnya.",
-      "addFor": "Tambahkan pintasan untuk {{action}}"
+      "addFor": "Tambahkan pintasan untuk {{action}}",
+      "descriptionLimits": "Sebagian besar aksi mendukung hingga {{max}} pintasan. Tahan untuk berbicara, batalkan, dan Command Mode masing-masing satu, dikte bebas genggam dua. Perubahan disimpan saat Anda membuatnya.",
+      "limit_other": "Aksi ini mendukung hingga {{count}} pintasan."
     },
     "resetSetting": "Atur ulang {{setting}}",
     "intro": {
@@ -865,7 +871,7 @@
         "cancelled": "Dibatalkan",
         "no_transcript": "Belum ada dikte untuk ditempel",
         "copied_last": "Dikte terakhir disalin",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Disalin ke papan klip",
         "transform_done": "Selesai",
         "command_done": "Selesai",
         "command_needs_text": "Command Mode mengedit dan menulis teks. Pilih teks atau klik di sebuah bidang.",
@@ -1184,7 +1190,9 @@
     "learn": {
       "toggle": "Belajar dari koreksi saya",
       "hint": "Selama 30 detik setelah dikte ditempel, {{appName}} memperhatikan kata yang Anda perbaiki di kotak teks itu dan menyarankannya di sini. Hanya kata yang Anda perbaiki yang disimpan, tidak pernah sisa teksnya. Bidang kata sandi, pengelola kata sandi, app perbankan, dan terminal tidak pernah dibaca."
-    }
+    },
+    "undoFailed": "“{{entry}}” tidak dapat dipulihkan. Tambahkan lagi.",
+    "undoSkipped": "“{{entry}}” tidak dipulihkan: kamus Anda sudah memilikinya."
   },
   "pill": {
     "region": "Bilah dikte",
@@ -1561,7 +1569,9 @@
       "fileName": "{{appName}} cuplikan.csv",
       "done_other": "{{count}} cuplikan diekspor.",
       "failed": "Cuplikan tidak dapat diekspor. Coba lagi."
-    }
+    },
+    "undoFailed": "“{{trigger}}” tidak dapat dipulihkan. Tambahkan lagi.",
+    "undoSkipped": "“{{trigger}}” tidak dipulihkan: cuplikan lain kini memakai frasa itu."
   },
   "insights": {
     "tabs": {

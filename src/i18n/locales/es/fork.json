@@ -213,10 +213,10 @@
         "modelReady": "Modelo de voz listo",
         "updateReady": "Actualización lista",
         "queuedReady": "Dictados en cola listos",
-        "errors": "Problemas que requieren tu atención",
         "suggestions": "Sugerencias",
         "announcements": "Novedades",
-        "milestones": "Logros"
+        "milestones": "Logros",
+        "shortcutProblems": "Problemas con las funciones rápidas"
       },
       "scratchpad": "Bloc de notas",
       "scratchpadLabel": "Al abrir el Bloc de notas",
@@ -224,7 +224,10 @@
       "scratchpadOptions": {
         "resume_last": "Reanudar mi última nota",
         "new_note": "Empezar una nota nueva"
-      }
+      },
+      "notificationsHint": "Cada interruptor controla ese aviso en Wispr Bro y en el Mac. “Notificaciones del Mac” desactiva solo los banners del Mac. Los avisos de fallos y de recuperación siempre aparecen en Wispr Bro.",
+      "dockKeptForTray": "El icono de la barra de menús está desactivado, así que el icono del Dock se mantiene. Activa el icono de la barra de menús para ocultarlo.",
+      "trayKeptForDock": "El icono del Dock está desactivado, así que el icono de la barra de menús se mantiene. Activa Mostrar la app en el Dock para ocultarlo."
     },
     "vibe": {
       "intro": "Wispr Bro lee los nombres de código y de archivos que muestra tu editor. Nunca abre tus archivos.",
@@ -352,7 +355,9 @@
       "experimental": "Funciones experimentales y depuración",
       "debugMode": "Herramientas de depuración",
       "debugModeHint": "Muestra controles de diagnóstico y opciones de registro detallado.",
-      "forkDiagnostics": "Diagnóstico de los ajustes del fork"
+      "forkDiagnostics": "Diagnóstico de los ajustes del fork",
+      "translateUnsupported": "{{model}} no puede traducir. Elige un modelo que sí pueda, como Whisper o Canary, en Modelos de voz.",
+      "translateNoModel": "Tu modelo de voz no puede traducir. Elige uno que sí pueda, como Whisper o Canary, en Modelos de voz."
     },
     "about": {
       "tagline": "Dictado local, sin cuenta y sin procesamiento en la nube.",
@@ -437,10 +442,11 @@
           "open": "Retoma tu última nota o empieza una nueva."
         }
       },
-      "description_one": "Añade hasta {{max}} función rápida por acción. Los cambios se guardan al momento.",
-      "description_many": "Añade hasta {{max}} de funciones rápidas por acción. Los cambios se guardan al momento.",
-      "description_other": "Añade hasta {{max}} funciones rápidas por acción. Los cambios se guardan al momento.",
-      "addFor": "Añadir una función rápida para {{action}}"
+      "addFor": "Añadir una función rápida para {{action}}",
+      "descriptionLimits": "La mayoría de las acciones admiten hasta {{max}} funciones rápidas. Mantener para hablar, cancelar y Modo de comandos admiten una cada una, y el dictado manos libres, dos. Los cambios se guardan al hacerlos.",
+      "limit_one": "Esta acción admite {{count}} función rápida.",
+      "limit_many": "Esta acción admite hasta {{count}} funciones rápidas.",
+      "limit_other": "Esta acción admite hasta {{count}} funciones rápidas."
     },
     "resetSetting": "Restablecer {{setting}}",
     "intro": {
@@ -895,7 +901,7 @@
         "cancelled": "Cancelado",
         "no_transcript": "Aún no hay ningún dictado que pegar",
         "copied_last": "Último dictado copiado",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Copiado al portapapeles",
         "transform_done": "Hecho",
         "command_done": "Hecho",
         "command_needs_text": "El modo de comandos edita y escribe texto. Selecciona texto o haz clic en un campo.",
@@ -1254,7 +1260,9 @@
     "learn": {
       "toggle": "Aprender de mis correcciones",
       "hint": "Durante los 30 segundos posteriores a pegar un dictado, {{appName}} detecta las palabras que corriges en ese campo de texto y te las sugiere aquí. Solo se guarda la palabra que has corregido, nunca el resto del texto. Nunca se leen los campos de contraseña, los gestores de contraseñas, las apps de banca ni los terminales."
-    }
+    },
+    "undoFailed": "No se ha podido restaurar “{{entry}}”. Vuelve a añadirlo.",
+    "undoSkipped": "No se ha restaurado “{{entry}}”: tu diccionario ya lo tiene."
   },
   "pill": {
     "region": "Barra de dictado",
@@ -1687,7 +1695,9 @@
       "done_many": "Se han exportado {{count}} de fragmentos.",
       "done_other": "Se han exportado {{count}} fragmentos.",
       "failed": "No se han podido exportar los fragmentos. Inténtalo de nuevo."
-    }
+    },
+    "undoFailed": "No se ha podido restaurar “{{trigger}}”. Vuelve a añadirlo.",
+    "undoSkipped": "No se ha restaurado “{{trigger}}”: otro fragmento ya usa esa frase."
   },
   "insights": {
     "tabs": {

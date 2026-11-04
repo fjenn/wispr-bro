@@ -212,10 +212,10 @@
         "modelReady": "Talmodellen är klar",
         "updateReady": "Uppdatering klar",
         "queuedReady": "Köade dikteringar är klara",
-        "errors": "Problem som behöver åtgärdas",
         "suggestions": "Förslag",
         "announcements": "Nya funktioner",
-        "milestones": "Milstolpar"
+        "milestones": "Milstolpar",
+        "shortcutProblems": "Problem med kortkommandon"
       },
       "scratchpad": "Kladdblock",
       "scratchpadLabel": "När Kladdblock öppnas",
@@ -223,7 +223,10 @@
       "scratchpadOptions": {
         "resume_last": "Fortsätt på min senaste anteckning",
         "new_note": "Starta en ny anteckning"
-      }
+      },
+      "notificationsHint": "Varje reglage styr den notisen i Wispr Bro och på datorn. ”Mac-notiser” stänger bara av Mac-bannern. Notiser om krascher och återställning visas alltid i Wispr Bro.",
+      "dockKeptForTray": "Ikonen i menyraden är avstängd, så Dock-ikonen finns kvar. Slå på ikonen i menyraden för att dölja den.",
+      "trayKeptForDock": "Dock-ikonen är avstängd, så ikonen i menyraden finns kvar. Slå på Visa appen i Dock för att dölja den."
     },
     "vibe": {
       "intro": "Wispr Bro läser de kod- och filnamn som din editor visar. Den öppnar aldrig dina filer.",
@@ -351,7 +354,9 @@
       "experimental": "Experimentellt och felsökning",
       "debugMode": "Felsökningsverktyg",
       "debugModeHint": "Visa diagnostikreglage och alternativ för detaljerad loggning.",
-      "forkDiagnostics": "Diagnostik för fork-inställningar"
+      "forkDiagnostics": "Diagnostik för fork-inställningar",
+      "translateUnsupported": "{{model}} kan inte översätta. Välj en modell som kan, till exempel Whisper eller Canary, under Talmodeller.",
+      "translateNoModel": "Din talmodell kan inte översätta. Välj en modell som kan, till exempel Whisper eller Canary, under Talmodeller."
     },
     "about": {
       "tagline": "Lokal diktering utan konto och utan molnbehandling.",
@@ -436,9 +441,10 @@
           "open": "Fortsätt din senaste anteckning eller börja en ny."
         }
       },
-      "description_one": "Lägg till upp till {{max}} kortkommando för varje åtgärd. Ändringar sparas direkt.",
-      "description_other": "Lägg till upp till {{max}} kortkommandon för varje åtgärd. Ändringar sparas direkt.",
-      "addFor": "Lägg till ett kortkommando för {{action}}"
+      "addFor": "Lägg till ett kortkommando för {{action}}",
+      "descriptionLimits": "De flesta åtgärder kan ha upp till {{max}} kortkommandon. Håll ned för att prata, avbryt och Kommandoläge har ett vardera, handsfree-diktering två. Ändringar sparas direkt.",
+      "limit_one": "Den här åtgärden har {{count}} kortkommando.",
+      "limit_other": "Den här åtgärden har upp till {{count}} kortkommandon."
     },
     "resetSetting": "Återställ {{setting}}",
     "intro": {
@@ -880,7 +886,7 @@
         "cancelled": "Avbruten",
         "no_transcript": "Ingen diktering att klistra in än",
         "copied_last": "Senaste dikteringen har kopierats",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Kopierat till urklipp",
         "transform_done": "Klart",
         "command_done": "Klart",
         "command_needs_text": "Kommandoläget redigerar och skriver text. Markera text eller klicka i ett fält.",
@@ -1219,7 +1225,9 @@
     "learn": {
       "toggle": "Lär av mina korrigeringar",
       "hint": "I 30 sekunder efter att en diktering har klistrats in uppmärksammar {{appName}} ord du rättar i textrutan och föreslår dem här. Bara det rättade ordet sparas, aldrig resten av texten. Lösenordsfält, lösenordshanterare, bankappar och terminaler läses aldrig."
-    }
+    },
+    "undoFailed": "”{{entry}}” kunde inte återställas. Lägg till det igen.",
+    "undoSkipped": "”{{entry}}” återställdes inte: din ordlista har det redan."
   },
   "pill": {
     "region": "Dikteringslist",
@@ -1624,7 +1632,9 @@
       "done_one": "Exporterade {{count}} textstycke.",
       "done_other": "Exporterade {{count}} textstycken.",
       "failed": "Det gick inte att exportera textstyckena. Försök igen."
-    }
+    },
+    "undoFailed": "”{{trigger}}” kunde inte återställas. Lägg till det igen.",
+    "undoSkipped": "”{{trigger}}” återställdes inte: ett annat textstycke använder nu den frasen."
   },
   "insights": {
     "tabs": {

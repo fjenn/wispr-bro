@@ -152,6 +152,30 @@ pub fn index_history_entry(
     upsert_document(conn, &HISTORY, entry_id, &[final_text])
 }
 
+/// Re-indexes one history entry from its `entry_meta` row: the final text
+/// (the spoken words) plus, when a snippet expanded, the text that was
+/// inserted, so History finds what it shows (audit OT2). No row or no text
+/// removes the document.
+pub fn reindex_history_entry(conn: &Connection, entry_id: i64) -> Result<(), DbError> {
+    use rusqlite::OptionalExtension;
+    let texts: Option<(Option<String>, Option<String>)> = conn
+        .prepare_cached("SELECT final_text, inserted_text FROM entry_meta WHERE entry_id = ?1")?
+        .query_row([entry_id], |r| Ok((r.get(0)?, r.get(1)?)))
+        .optional()?;
+    let (final_text, inserted) = texts.unwrap_or_default();
+    let final_text = final_text.unwrap_or_default();
+    let document = match inserted.filter(|t| !t.trim().is_empty() && *t != final_text) {
+        Some(inserted) if final_text.trim().is_empty() => inserted,
+        Some(inserted) => format!("{final_text}\n{inserted}"),
+        None => final_text,
+    };
+    if document.trim().is_empty() {
+        delete_document(conn, &HISTORY, entry_id)
+    } else {
+        index_history_entry(conn, entry_id, &document)
+    }
+}
+
 /// Searches history entries; see [`search`].
 pub fn search_history(conn: &Connection, query: &str, limit: u32) -> Result<Vec<i64>, DbError> {
     search(conn, &HISTORY, query, limit)

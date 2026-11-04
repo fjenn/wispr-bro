@@ -6,11 +6,12 @@
 //!   so a 10,000-row history is read a page at a time. Soft-deleted rows are
 //!   left out; a page is refilled from the next Handy page so it is never
 //!   short while more rows exist.
-//! - **Text:** the row shows `final_text` (the spoken words, what search and
-//!   the stats use), or Handy's `transcription_text` (the text before the
-//!   LLM cleanup) after "Undo AI edit" (`shown_variant = 'raw'`, DEC-19).
-//!   Copy uses the shown variant; for the final one it is what was inserted
-//!   (`inserted_text`, a snippet expanded, S-17), else the final text.
+//! - **Text:** the row shows what was inserted (`inserted_text`, after a
+//!   snippet expanded, S-17; audit OT2), else `final_text` (the spoken
+//!   words, which the stats use and `entry_meta` keeps for re-processing),
+//!   or Handy's `transcription_text` (the text before the LLM cleanup)
+//!   after "Undo AI edit" (`shown_variant = 'raw'`, DEC-19). Copy uses the
+//!   shown text. Search covers the final and the inserted text.
 //! - **Audio:** available while `audio_deleted_at` is NULL and the WAV is on
 //!   disk; `expired` once the retention job removed it; `missing` when it
 //!   was never written (a full disk sets `audio_deleted_at` to the take's
@@ -161,13 +162,16 @@ fn row(entry: &HistoryEntry, meta: Option<Meta>, audio_on_disk: bool) -> Option<
     };
     let (text, copy_text) = match variant {
         ShownVariant::Raw => (raw.clone(), raw),
+        // Audit OT2: what was inserted (a snippet expanded) is what the row
+        // shows and copies; `final_text` keeps the spoken words (stats,
+        // retries, auto-learn).
         ShownVariant::Final => {
-            let copy = meta
+            let inserted = meta
                 .inserted_text
                 .clone()
                 .filter(|t| !t.is_empty())
-                .unwrap_or_else(|| final_text.clone());
-            (final_text, copy)
+                .unwrap_or(final_text);
+            (inserted.clone(), inserted)
         }
     };
     let created_at = meta

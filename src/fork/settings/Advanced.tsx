@@ -30,7 +30,6 @@ import { LazyStreamClose } from "@/components/settings/LazyStreamClose";
 import { LongFormChunking } from "@/components/settings/LongFormChunking";
 import { ModelUnloadTimeoutSetting } from "@/components/settings/ModelUnloadTimeout";
 import { PasteMethodSetting } from "@/components/settings/PasteMethod";
-import { TranslateToEnglish } from "@/components/settings/TranslateToEnglish";
 import { TypingToolSetting } from "@/components/settings/TypingTool";
 import { VadBackendSelector } from "@/components/settings/VadBackendSelector";
 import { VoiceActivityDetection } from "@/components/settings/VoiceActivityDetection";
@@ -42,6 +41,7 @@ import type { UpdateChannel } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { CleanupLevelPicker } from "../style/CleanupLevelPicker";
 import { AiEngine } from "./advanced/AiEngine";
+import { TranslateRow } from "./advanced/TranslateRow";
 import { SpeechModels } from "./advanced/Models";
 import { BarSettings } from "./BarSettings";
 import { FOCUS_RING, SettingGroup } from "../ui";
@@ -50,11 +50,13 @@ import { HandyRow, PanelCard, SelectRow, ToggleRow } from "./Controls";
 import { ForkSettingsDebug } from "./ForkSettingsDebug";
 import { useForkSettings } from "./useForkSettings";
 
-/** Handy's transcription settings, each in its own row card. */
+/**
+ * Handy's transcription settings, each in its own row card. "Translate to
+ * English" is the fork's `TranslateRow` between the two lists: it is off
+ * and explained for models that cannot translate (audit OT2).
+ */
+const TRANSCRIPTION_BEFORE = [ChannelSelector, VoiceActivityDetection];
 const TRANSCRIPTION = [
-  ChannelSelector,
-  VoiceActivityDetection,
-  TranslateToEnglish,
   LongFormChunking,
   CustomWords,
   ModelUnloadTimeoutSetting,
@@ -113,6 +115,12 @@ export function Advanced() {
         </HandyRow>
       </SettingGroup>
       <SettingGroup label={g("transcription")}>
+        {TRANSCRIPTION_BEFORE.map((Setting, index) => (
+          <HandyRow key={index}>
+            <Setting descriptionMode="tooltip" grouped />
+          </HandyRow>
+        ))}
+        <TranslateRow />
         {TRANSCRIPTION.map((Setting, index) => (
           <HandyRow key={index}>
             <Setting descriptionMode="tooltip" grouped />

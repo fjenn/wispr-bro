@@ -214,10 +214,10 @@
         "modelReady": "Model řeči je připraven",
         "updateReady": "Aktualizace je připravena",
         "queuedReady": "Diktáty ve frontě jsou hotové",
-        "errors": "Problémy vyžadující pozornost",
         "suggestions": "Návrhy",
         "announcements": "Novinky ve funkcích",
-        "milestones": "Milníky"
+        "milestones": "Milníky",
+        "shortcutProblems": "Problémy se zkratkami"
       },
       "scratchpad": "Poznámkový blok",
       "scratchpadLabel": "Při otevření Poznámkového bloku",
@@ -225,7 +225,10 @@
       "scratchpadOptions": {
         "resume_last": "Pokračovat v poslední poznámce",
         "new_note": "Začít novou poznámku"
-      }
+      },
+      "notificationsHint": "Každý přepínač ovládá toto oznámení ve Wispr Bro i na Macu. „Oznámení Macu“ vypne jen bannery na Macu. Oznámení o pádu a obnovení se ve Wispr Bro zobrazují vždy.",
+      "dockKeptForTray": "Ikona na řádku nabídek je vypnutá, proto zůstává ikona v Docku. Chcete-li ji skrýt, zapněte ikonu na řádku nabídek.",
+      "trayKeptForDock": "Ikona v Docku je vypnutá, proto zůstává ikona na řádku nabídek. Chcete-li ji skrýt, zapněte Zobrazovat aplikaci v Docku."
     },
     "vibe": {
       "intro": "Wispr Bro čte názvy z kódu a souborů, které editor zobrazuje. Vaše soubory nikdy neotevírá.",
@@ -353,7 +356,9 @@
       "experimental": "Experimentální a ladění",
       "debugMode": "Ladicí nástroje",
       "debugModeHint": "Zobrazit diagnostické ovládací prvky a možnosti podrobného protokolování.",
-      "forkDiagnostics": "Diagnostika nastavení forku"
+      "forkDiagnostics": "Diagnostika nastavení forku",
+      "translateUnsupported": "{{model}} neumí překládat. V části Modely řeči zvolte model, který to umí, například Whisper nebo Canary.",
+      "translateNoModel": "Váš model řeči neumí překládat. V části Modely řeči zvolte model, který to umí, například Whisper nebo Canary."
     },
     "about": {
       "tagline": "Lokální diktování bez účtu a bez zpracování v cloudu.",
@@ -438,11 +443,12 @@
           "open": "Pokračovat v poslední poznámce nebo začít novou."
         }
       },
-      "description_one": "Ke každé akci přidejte až {{max}} zkratku. Změny se ukládají průběžně.",
-      "description_few": "Ke každé akci přidejte až {{max}} zkratky. Změny se ukládají průběžně.",
-      "description_many": "Ke každé akci přidejte až {{max}} zkratky. Změny se ukládají průběžně.",
-      "description_other": "Ke každé akci přidejte až {{max}} zkratek. Změny se ukládají průběžně.",
-      "addFor": "Přidat zkratku pro akci {{action}}"
+      "addFor": "Přidat zkratku pro akci {{action}}",
+      "descriptionLimits": "Většina akcí má až {{max}} zkratek. „Mluvit při podržení“, zrušení a Režim příkazů mají po jedné, diktování bez držení dvě. Změny se ukládají hned.",
+      "limit_one": "Tato akce má {{count}} zkratku.",
+      "limit_few": "Tato akce má až {{count}} zkratky.",
+      "limit_many": "Tato akce má až {{count}} zkratky.",
+      "limit_other": "Tato akce má až {{count}} zkratek."
     },
     "resetSetting": "Obnovit {{setting}}",
     "intro": {
@@ -910,7 +916,7 @@
         "cancelled": "Zrušeno",
         "no_transcript": "Zatím není co vložit",
         "copied_last": "Poslední diktát zkopírován",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Zkopírováno do schránky",
         "transform_done": "Hotovo",
         "command_done": "Hotovo",
         "command_needs_text": "Příkazový režim upravuje a píše text. Vyberte text nebo klikněte do pole.",
@@ -1289,7 +1295,9 @@
     "learn": {
       "toggle": "Učit se z mých oprav",
       "hint": "Po dobu 30 sekund od vložení diktátu si {{appName}} všímá slov, která v daném textovém poli opravíte, a navrhne je tady. Uchová se jen opravené slovo, nikdy zbytek textu. Pole pro hesla, správci hesel, bankovní aplikace a terminály se nikdy nečtou."
-    }
+    },
+    "undoFailed": "„{{entry}}“ se nepodařilo obnovit. Přidejte ho prosím znovu.",
+    "undoSkipped": "„{{entry}}“ nebylo obnoveno: Váš slovník ho už obsahuje."
   },
   "pill": {
     "region": "Lišta diktování",
@@ -1750,7 +1758,9 @@
       "done_many": "Exportováno {{count}} úryvku.",
       "done_other": "Exportováno {{count}} úryvků.",
       "failed": "Úryvky se nepodařilo exportovat. Zkuste to znovu."
-    }
+    },
+    "undoFailed": "„{{trigger}}“ se nepodařilo obnovit. Přidejte ho prosím znovu.",
+    "undoSkipped": "„{{trigger}}“ nebylo obnoveno: tuto frázi už používá jiný úryvek."
   },
   "insights": {
     "tabs": {

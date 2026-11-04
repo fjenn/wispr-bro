@@ -20,7 +20,7 @@ import type {
   SnippetInput,
   SnippetSaveOutcome,
 } from "../../src/fork/bindings";
-import type { IpcMock } from "./fixtures";
+import { ipcError, type IpcMock } from "./fixtures";
 import {
   test,
   expect,
@@ -316,6 +316,43 @@ snipTest.describe("snippets page", () => {
       await expect(page.getByTestId("wb-snippet-body-text")).toHaveText(
         "b@example.com",
       );
+    },
+  );
+
+  // Audit OT2: Undo's result is checked; a failure or a skip is said.
+  snipTest(
+    "a failed or skipped undo says so",
+    async ({ page, ipc, hub, snips }) => {
+      snips.seed({ trigger: "my address", body: "Kiel" });
+      snips.seed({ trigger: "sign off", body: "Best, Kim" });
+      await openSnippets(page, ipc, hub, snips);
+      ipc.respond(
+        "fork_snippets_restore",
+        ipcError({ kind: "Internal", message: "disk full" }),
+      );
+      await page.getByRole("button", { name: "Delete my address" }).click();
+      await page
+        .getByRole("listitem")
+        .filter({ hasText: "Deleted “my address”." })
+        .getByRole("button", { name: "Undo" })
+        .click();
+      await expect(
+        page.getByText(
+          "“my address” couldn't be restored. Please add it again.",
+        ),
+      ).toBeVisible();
+      ipc.respond("fork_snippets_restore", 0);
+      await page.getByRole("button", { name: "Delete sign off" }).click();
+      await page
+        .getByRole("listitem")
+        .filter({ hasText: "Deleted “sign off”." })
+        .getByRole("button", { name: "Undo" })
+        .click();
+      await expect(
+        page.getByText(
+          "“sign off” wasn't restored: another snippet now uses that phrase.",
+        ),
+      ).toBeVisible();
     },
   );
 

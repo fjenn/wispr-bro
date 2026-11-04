@@ -212,10 +212,10 @@
         "modelReady": "Speech model ready",
         "updateReady": "Update ready",
         "queuedReady": "Queued dictations ready",
-        "errors": "Problems that need attention",
         "suggestions": "Suggestions",
         "announcements": "Feature announcements",
-        "milestones": "Milestones"
+        "milestones": "Milestones",
+        "shortcutProblems": "Shortcut problems"
       },
       "scratchpad": "Scratchpad",
       "scratchpadLabel": "When Scratchpad opens",
@@ -223,7 +223,10 @@
       "scratchpadOptions": {
         "resume_last": "Resume my last note",
         "new_note": "Start a new note"
-      }
+      },
+      "notificationsHint": "Each switch covers that notice in Wispr Bro and on the Mac. “Mac notifications” turns off only the Mac banners. Crash and recovery notices always appear in Wispr Bro.",
+      "dockKeptForTray": "The menu bar icon is off, so the Dock icon stays. Turn on the menu bar icon to hide it.",
+      "trayKeptForDock": "The Dock icon is off, so the menu bar icon stays. Turn on Show app in Dock to hide it."
     },
     "vibe": {
       "intro": "Wispr Bro reads the code and file names your editor shows. It never opens your files.",
@@ -351,7 +354,9 @@
       "experimental": "Experimental and debug",
       "debugMode": "Debug tools",
       "debugModeHint": "Show diagnostic controls and verbose logging options.",
-      "forkDiagnostics": "Fork settings diagnostics"
+      "forkDiagnostics": "Fork settings diagnostics",
+      "translateUnsupported": "{{model}} can't translate. Choose a model that can, such as Whisper or Canary, in Speech models.",
+      "translateNoModel": "Your speech model can't translate. Choose a model that can, such as Whisper or Canary, in Speech models."
     },
     "about": {
       "tagline": "Local dictation, with no account and no cloud processing.",
@@ -428,9 +433,10 @@
         "transform.view_changes": "Review the latest transform before and after.",
         "scratchpad.open": "Resume your last note or start a new one."
       },
-      "description_one": "Add up to {{max}} shortcut for each action. Changes are saved as you make them.",
-      "description_other": "Add up to {{max}} shortcuts for each action. Changes are saved as you make them.",
-      "addFor": "Add a shortcut for {{action}}"
+      "addFor": "Add a shortcut for {{action}}",
+      "descriptionLimits": "Most actions take up to {{max}} shortcuts. Hold to talk, cancel and Command Mode take one each, hands-free two. Changes are saved as you make them.",
+      "limit_one": "This action takes {{count}} shortcut.",
+      "limit_other": "This action takes up to {{count}} shortcuts."
     },
     "resetSetting": "Reset {{setting}}",
     "intro": {
@@ -1536,7 +1542,9 @@
     "learn": {
       "toggle": "Learn from my corrections",
       "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
-    }
+    },
+    "undoFailed": "“{{entry}}” couldn't be restored. Please add it again.",
+    "undoSkipped": "“{{entry}}” wasn't restored: your dictionary already has it."
   },
   "pill": {
     "region": "Dictation bar",
@@ -1941,7 +1949,9 @@
       "done_one": "Exported {{count}} snippet.",
       "done_other": "Exported {{count}} snippets.",
       "failed": "The snippets couldn't be exported. Please try again."
-    }
+    },
+    "undoFailed": "“{{trigger}}” couldn't be restored. Please add it again.",
+    "undoSkipped": "“{{trigger}}” wasn't restored: another snippet now uses that phrase."
   },
   "insights": {
     "tabs": {

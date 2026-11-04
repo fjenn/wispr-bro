@@ -32,10 +32,18 @@ import {
   SearchField,
   useMotionPresets,
 } from "../ui";
+import { useForkSettings } from "../settings/useForkSettings";
 import { NoteTabs } from "./NoteTabs";
 
 const AUTOSAVE_MS = 500;
+/** Same list as `SCRATCHPAD_TEXT_SIZES` in `src-tauri/src/fork/settings.rs`. */
 const TEXT_SIZES = [16, 20, 24] as const;
+type TextSize = (typeof TEXT_SIZES)[number];
+
+/** The stored size, or the default for a value the list does not have. */
+function storedTextSize(value: number | undefined): TextSize {
+  return TEXT_SIZES.find((size) => size === value) ?? TEXT_SIZES[0];
+}
 
 type SaveState = "saved" | "saving" | "error";
 
@@ -60,7 +68,10 @@ export function NoteWindow() {
   const [polishing, setPolishing] = useState(false);
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [textSize, setTextSize] = useState<(typeof TEXT_SIZES)[number]>(16);
+  // Audit OT2: a fork setting, so the size survives a parked window and a
+  // restart (it was window state).
+  const { settings: forkSettings, setSetting } = useForkSettings();
+  const textSize = storedTextSize(forkSettings?.scratchpad_text_size);
   const bodyRef = useRef(body);
   const savedBodyRef = useRef(savedBody);
   const selectedRef = useRef(selectedId);
@@ -218,7 +229,12 @@ export function NoteWindow() {
   };
   const cycleTextSize = () => {
     const index = TEXT_SIZES.indexOf(textSize);
-    setTextSize(TEXT_SIZES[(index + 1) % TEXT_SIZES.length]);
+    void setSetting(
+      "scratchpad_text_size",
+      TEXT_SIZES[(index + 1) % TEXT_SIZES.length],
+    ).then((result) => {
+      if (result.status === "error") setError(true);
+    });
   };
 
   const toolButton = (

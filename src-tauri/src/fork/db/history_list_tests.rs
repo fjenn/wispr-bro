@@ -61,8 +61,10 @@ fn pages_follow_handys_cursor_and_skip_soft_deleted_rows() {
     assert_eq!(page(&db, &handy, None, 10_000).unwrap().rows.len(), 100);
 }
 
+/// Audit OT2: a row shows (and copies) what was inserted, not the text
+/// before a snippet expanded; the spoken words stay in `final_text`.
 #[test]
-fn a_row_shows_the_final_text_and_copies_what_was_inserted() {
+fn a_row_shows_and_copies_what_was_inserted() {
     let (_d, db, handy) = setup();
     add(
         &db,
@@ -79,8 +81,18 @@ fn a_row_shows_the_final_text_and_copies_what_was_inserted() {
     })
     .unwrap();
     let r = &rows(&db, &handy, &[1]).unwrap()[0];
-    assert_eq!(r.text, "Send my address.");
+    assert_eq!(r.text, "Send 1 Main St.");
     assert_eq!(r.copy_text, "Send 1 Main St.");
+    let kept: String = db
+        .with_conn(|c| {
+            Ok(c.query_row(
+                "SELECT final_text FROM entry_meta WHERE entry_id = 1",
+                [],
+                |r| r.get(0),
+            )?)
+        })
+        .unwrap();
+    assert_eq!(kept, "Send my address.", "the spoken words are kept");
     assert_eq!(r.variant, ShownVariant::Final);
     assert!(r.ai_edited);
     assert_eq!(r.audio, AudioState::Available);

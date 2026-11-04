@@ -86,6 +86,56 @@ fn toggles_filter_creation_by_group() {
     }
 }
 
+/// Audit OT2: each of the four Mac kinds' switches governs the inbox entry
+/// too, not only the banner; the master "Mac notifications" switch only the
+/// banner. Crash and recovery notices have no switch and are always kept.
+#[test]
+fn a_kind_switch_governs_the_inbox_and_the_banner() {
+    type TurnOff = fn(&mut NotificationSettings);
+    let cases: [(NotificationKind, TurnOff); 4] = [
+        (NotificationKind::ModelReady, |s| s.model_ready = false),
+        (NotificationKind::UpdateReady, |s| s.update_ready = false),
+        (NotificationKind::QueuedTakesReady, |s| {
+            s.queued_takes_ready = false
+        }),
+        (NotificationKind::ShortcutProblem, |s| s.errors = false),
+    ];
+    for (kind, turn_off) in cases {
+        let mut s = NotificationSettings::default();
+        turn_off(&mut s);
+        assert!(!policy::inbox_allowed(kind, &s), "{kind:?} inbox");
+        assert!(!policy::system_allowed(kind, &s), "{kind:?} banner");
+        for other in NotificationKind::ALL.into_iter().filter(|k| *k != kind) {
+            assert!(policy::inbox_allowed(other, &s), "{other:?} unaffected");
+        }
+    }
+    let banners_off = NotificationSettings {
+        system: false,
+        ..Default::default()
+    };
+    for kind in NotificationKind::ALL {
+        assert!(policy::inbox_allowed(kind, &banners_off), "{kind:?}");
+    }
+    let everything_off = NotificationSettings {
+        system: false,
+        model_ready: false,
+        update_ready: false,
+        queued_takes_ready: false,
+        errors: false,
+        suggestions: false,
+        announcements: false,
+        milestones: false,
+    };
+    for kind in [
+        NotificationKind::CrashReport,
+        NotificationKind::DataRecovered,
+        NotificationKind::TakeRecovered,
+        NotificationKind::SlowerMac,
+    ] {
+        assert!(policy::inbox_allowed(kind, &everything_off), "{kind:?}");
+    }
+}
+
 #[test]
 fn kinds_round_trip_their_stored_names() {
     for kind in NotificationKind::ALL {
@@ -723,8 +773,8 @@ mod app {
             assert!(post(handle, Notice::tip(&catalog::TIPS[1])).is_none());
             assert!(post(handle, Notice::words_milestone(5000)).is_none());
             assert!(post(handle, Notice::announcement(&catalog::FEATURES[0])).is_none());
-            // Still recorded, but not sent to macOS (its toggle is off).
-            assert!(post(handle, Notice::model_ready()).is_some());
+            // Audit OT2: its own switch governs the inbox too.
+            assert!(post(handle, Notice::model_ready()).is_none());
             post(handle, Notice::queued_takes_ready(2));
             set_notifications(handle, |n| n.system = false);
             post(handle, Notice::update_ready("9.9.9"));
@@ -735,10 +785,7 @@ mod app {
             )
             .unwrap()
         });
-        assert_eq!(
-            kinds(&page),
-            vec!["update_ready", "queued_takes_ready", "model_ready"]
-        );
+        assert_eq!(kinds(&page), vec!["update_ready", "queued_takes_ready"]);
         assert_eq!(h.sink.kinds(), vec![NotificationKind::QueuedTakesReady]);
         let sent = sink.delivered.lock().unwrap()[0].clone();
         assert_eq!(sent.title, "2 dictations ready");

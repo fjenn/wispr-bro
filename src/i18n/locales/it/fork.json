@@ -213,10 +213,10 @@
         "modelReady": "Modello vocale pronto",
         "updateReady": "Aggiornamento pronto",
         "queuedReady": "Dettature in coda pronte",
-        "errors": "Problemi che richiedono attenzione",
         "suggestions": "Suggerimenti",
         "announcements": "Annunci di nuove funzioni",
-        "milestones": "Traguardi"
+        "milestones": "Traguardi",
+        "shortcutProblems": "Problemi con le abbreviazioni"
       },
       "scratchpad": "Blocco note",
       "scratchpadLabel": "All’apertura del Blocco note",
@@ -224,7 +224,10 @@
       "scratchpadOptions": {
         "resume_last": "Riprendi l’ultima nota",
         "new_note": "Inizia una nuova nota"
-      }
+      },
+      "notificationsHint": "Ogni interruttore controlla quella notifica in Wispr Bro e sul Mac. “Notifiche del Mac” disattiva solo i banner del Mac. Le notifiche di arresto anomalo e di ripristino compaiono sempre in Wispr Bro.",
+      "dockKeptForTray": "L’icona nella barra dei menu è disattivata, quindi resta l’icona nel Dock. Attiva l’icona nella barra dei menu per nasconderla.",
+      "trayKeptForDock": "L’icona nel Dock è disattivata, quindi resta l’icona nella barra dei menu. Attiva Mostra l’app nel Dock per nasconderla."
     },
     "vibe": {
       "intro": "Wispr Bro legge i nomi di codice e di file che il tuo editor mostra. Non apre mai i tuoi file.",
@@ -352,7 +355,9 @@
       "experimental": "Sperimentale e debug",
       "debugMode": "Strumenti di debug",
       "debugModeHint": "Mostra i controlli diagnostici e le opzioni di logging dettagliate.",
-      "forkDiagnostics": "Diagnostica delle impostazioni del fork"
+      "forkDiagnostics": "Diagnostica delle impostazioni del fork",
+      "translateUnsupported": "{{model}} non può tradurre. Scegli un modello che possa farlo, come Whisper o Canary, in Modelli vocali.",
+      "translateNoModel": "Il tuo modello vocale non può tradurre. Scegli un modello che possa farlo, come Whisper o Canary, in Modelli vocali."
     },
     "about": {
       "tagline": "Dettatura in locale, senza account e senza elaborazione nel cloud.",
@@ -437,10 +442,11 @@
           "open": "Riprende l’ultima nota o ne inizia una nuova."
         }
       },
-      "description_one": "Aggiungi fino a {{max}} abbreviazione per azione. Le modifiche vengono salvate subito.",
-      "description_many": "Aggiungi fino a {{max}} di abbreviazioni per azione. Le modifiche vengono salvate subito.",
-      "description_other": "Aggiungi fino a {{max}} abbreviazioni per azione. Le modifiche vengono salvate subito.",
-      "addFor": "Aggiungi un’abbreviazione per {{action}}"
+      "addFor": "Aggiungi un’abbreviazione per {{action}}",
+      "descriptionLimits": "La maggior parte delle azioni accetta fino a {{max}} abbreviazioni. Tieni premuto per parlare, annulla e Modalità Comandi ne accettano una ciascuna, la dettatura a mani libere due. Le modifiche vengono salvate man mano.",
+      "limit_one": "Questa azione accetta {{count}} abbreviazione.",
+      "limit_many": "Questa azione accetta fino a {{count}} abbreviazioni.",
+      "limit_other": "Questa azione accetta fino a {{count}} abbreviazioni."
     },
     "resetSetting": "Ripristina {{setting}}",
     "intro": {
@@ -895,7 +901,7 @@
         "cancelled": "Annullata",
         "no_transcript": "Ancora nessuna dettatura da incollare",
         "copied_last": "Ultima dettatura copiata",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Copiato negli appunti",
         "transform_done": "Fatto",
         "command_done": "Fatto",
         "command_needs_text": "La modalità Comandi modifica e scrive testo. Seleziona del testo o fai clic in un campo.",
@@ -1254,7 +1260,9 @@
     "learn": {
       "toggle": "Impara dalle mie correzioni",
       "hint": "Per 30 secondi dopo che una dettatura è stata incollata, {{appName}} rileva le parole che correggi in quel campo di testo e te le suggerisce qui. Viene conservata solo la parola corretta, mai il resto del testo. Campi password, gestori di password, app bancarie e terminali non vengono mai letti."
-    }
+    },
+    "undoFailed": "Non è stato possibile ripristinare “{{entry}}”. Aggiungilo di nuovo.",
+    "undoSkipped": "“{{entry}}” non è stato ripristinato: il tuo dizionario lo contiene già."
   },
   "pill": {
     "region": "Barra di dettatura",
@@ -1687,7 +1695,9 @@
       "done_many": "{{count}} di frammenti esportati.",
       "done_other": "{{count}} frammenti esportati.",
       "failed": "Impossibile esportare i frammenti. Riprova."
-    }
+    },
+    "undoFailed": "Non è stato possibile ripristinare “{{trigger}}”. Aggiungilo di nuovo.",
+    "undoSkipped": "“{{trigger}}” non è stato ripristinato: un altro frammento usa ora quella frase."
   },
   "insights": {
     "tabs": {

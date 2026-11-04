@@ -2,6 +2,7 @@
 import type { Page } from "@playwright/test";
 import type { Note } from "../../src/fork/bindings";
 import type { IpcMock } from "./fixtures";
+import { forkSettingsDefaults } from "./settings-fixture";
 import {
   expect,
   expectNoSeriousAxeFindings,
@@ -115,8 +116,32 @@ async function openPage(
   await expect(page.getByTestId("wb-scratchpad-page")).toBeVisible();
 }
 
-async function openWindow(page: Page, ipc: IpcMock, fake: FakeNotes, id = 2) {
+/**
+ * The fork settings the note window reads (the text size since audit OT2),
+ * kept across reloads like the real store.
+ */
+function installSettings(ipc: IpcMock, start: Record<string, unknown> = {}) {
+  let current: Record<string, unknown> = {
+    ...structuredClone(forkSettingsDefaults),
+    ...start,
+  };
+  ipc.handle("fork_get_settings", () => current);
+  ipc.handle("fork_set_setting", (args) => {
+    const update = args.update as { key: string; value: unknown };
+    current = { ...current, [update.key]: update.value };
+    return current;
+  });
+}
+
+async function openWindow(
+  page: Page,
+  ipc: IpcMock,
+  fake: FakeNotes,
+  id = 2,
+  settings: Record<string, unknown> = {},
+) {
   fake.install(ipc);
+  installSettings(ipc, settings);
   await page.goto(`/src/fork/scratchpad/index.html?note=${id}`);
   await expect(page.getByTestId("wb-note-window")).toBeVisible();
   await expect(page.getByTestId("wb-note-body")).toBeVisible();
@@ -299,4 +324,27 @@ test("shortcut dialog supports Escape and page/window pass axe in light/dark RTL
     );
     await expectNoSeriousAxeFindings(page);
   }
+});
+
+// Audit OT2: the text size is a fork setting, so a parked or reopened
+// window keeps it.
+test("the text size is saved and comes back in a new window", async ({
+  page,
+  ipc,
+}) => {
+  const fake = new FakeNotes();
+  await openWindow(page, ipc, fake, 2, { scratchpad_text_size: 24 });
+  await expect(page.getByTestId("wb-note-body")).toHaveCSS("font-size", "24px");
+  await page.getByTestId("wb-note-text-size").focus();
+  await page.keyboard.press("Enter");
+  await ipc.expectCalled("fork_set_setting", {
+    update: { key: "scratchpad_text_size", value: 16 },
+  });
+  await expect(page.getByTestId("wb-note-body")).toHaveCSS("font-size", "16px");
+  await page.getByTestId("wb-note-text-size").click();
+  await expect(page.getByTestId("wb-note-body")).toHaveCSS("font-size", "20px");
+  // A rebuilt window (parked after 60 s, or the next launch) reads it back.
+  await page.reload();
+  await expect(page.getByTestId("wb-note-body")).toBeVisible();
+  await expect(page.getByTestId("wb-note-body")).toHaveCSS("font-size", "20px");
 });

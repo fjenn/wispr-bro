@@ -258,8 +258,12 @@ fn a_takes_use_is_counted_and_recorded_on_its_history_row() {
             r#"[{"stage":"rules","changes":0},{"stage":"snippets","changes":2}]"#
         );
         assert_eq!(inserted, "Send it to Kiel.");
-        // History keeps the spoken words.
+        // The spoken words are kept for re-processing.
         assert_eq!(final_text, "Send it to my address.");
+        // Audit OT2: History search finds the inserted text and the words.
+        let search = |q: &str| crate::fork::db::fts::search_history(c, q, 10);
+        assert_eq!(search("Kiel")?, vec![7]);
+        assert_eq!(search("my address")?, vec![7]);
         // A take with no row still counts on the snippet.
         store::record_use(
             c,

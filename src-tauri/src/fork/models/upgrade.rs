@@ -931,8 +931,16 @@ mod tests {
 
     #[test]
     fn a_language_change_in_handy_wakes_the_policy() {
-        assert!(crate::fork::observe_handy_command("change_spoken_languages_setting").is_some());
-        assert!(crate::fork::observe_handy_command("get_app_settings").is_none());
+        assert!(
+            crate::fork::observe_handy_command::<tauri::test::MockRuntime>(
+                "change_spoken_languages_setting"
+            )
+            .is_some()
+        );
+        assert!(
+            crate::fork::observe_handy_command::<tauri::test::MockRuntime>("get_app_settings")
+                .is_none()
+        );
         // Handy still has that command (the name is the contract).
         assert!(include_str!("../../lib.rs").contains("shortcut::change_spoken_languages_setting"));
     }

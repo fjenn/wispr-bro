@@ -108,8 +108,29 @@ export function nextBindingActivation(
   return actionDefinition(actionId).activation;
 }
 
-export function canAddBinding(bindings: HotkeyBinding[]): boolean {
-  return bindings.length < MAX_BINDINGS;
+/**
+ * How many shortcuts an action really takes (audit OT2). The engine
+ * (`compile` in `src-tauri/src/fork/shortcut/bindings.rs`) runs dictation
+ * on one trigger: Hold to talk is that trigger held, hands-free its
+ * double-tap plus trigger+Space, cancel is Esc, Command Mode fn+Ctrl.
+ * Every other action takes up to `MAX_BINDINGS`.
+ */
+export const ACTION_LIMITS: Readonly<Record<string, number>> = {
+  dictate: 1,
+  hands_free: 2,
+  cancel: 1,
+  command_mode: 1,
+};
+
+export function maxBindings(actionId: string): number {
+  return ACTION_LIMITS[actionId] ?? MAX_BINDINGS;
+}
+
+export function canAddBinding(
+  actionId: string,
+  bindings: HotkeyBinding[],
+): boolean {
+  return bindings.length < maxBindings(actionId);
 }
 
 export function chordLabel(chord: string): string {

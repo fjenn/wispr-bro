@@ -7,6 +7,7 @@ import {
   defaultHotkeys,
   HOTKEY_ACTIONS,
   MAX_BINDINGS,
+  maxBindings,
   nextBindingActivation,
   TRANSFORM_DEFAULTS,
 } from "./model";
@@ -32,16 +33,25 @@ first.dictate[0].chord = "ctrl+option";
 assert.equal(second.dictate[0].chord, "fn");
 
 assert.equal(MAX_BINDINGS, 4);
-assert.equal(canAddBinding([]), true);
-assert.equal(
-  canAddBinding(
-    Array.from({ length: 4 }, () => ({
-      chord: "fn",
-      activation: "hold",
-    })),
-  ),
-  false,
-);
+const press = (n: number) =>
+  Array.from({ length: n }, () => ({
+    chord: "f5",
+    activation: "press" as const,
+  }));
+assert.equal(canAddBinding("paste_last", []), true);
+assert.equal(canAddBinding("paste_last", press(3)), true);
+assert.equal(canAddBinding("paste_last", press(4)), false);
+// Audit OT2: dictation and cancel take only the keys the engine runs on.
+assert.equal(maxBindings("dictate"), 1);
+assert.equal(maxBindings("hands_free"), 2);
+assert.equal(maxBindings("cancel"), 1);
+assert.equal(maxBindings("command_mode"), 1);
+assert.equal(maxBindings("transform.custom-3"), MAX_BINDINGS);
+assert.equal(canAddBinding("dictate", first.dictate), false);
+assert.equal(canAddBinding("dictate", []), true);
+assert.equal(canAddBinding("hands_free", first.hands_free), false);
+assert.equal(canAddBinding("hands_free", first.hands_free.slice(1)), true);
+assert.equal(canAddBinding("cancel", first.cancel), false);
 
 const withRuntimeAction = actionIds({ "scratchpad.open": [] });
 assert.equal(

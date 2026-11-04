@@ -302,3 +302,94 @@ test("RTL and reduced motion keep the hotkeys panel accessible", async ({
   expect(overflow).toBe(false);
   await expectNoSeriousAxeFindings(page);
 });
+
+// Audit OT2: the panel says what each action really takes; dictation and
+// cancel run on the keys the engine uses, so their "+" stops at that.
+test("each action offers only as many shortcuts as it takes", async ({
+  page,
+  ipc,
+}) => {
+  await openHotkeys(page, ipc);
+  await expect(page.getByTestId("wb-hotkeys-panel")).toContainText(
+    "Most actions take up to 4 shortcuts. Hold to talk, cancel and Command Mode take one each, hands-free two.",
+  );
+  for (const id of ["dictate", "hands_free", "cancel"]) {
+    await expect(page.getByTestId(`wb-hotkey-${id}-add`)).toBeDisabled();
+  }
+  await expect(page.getByTestId("wb-hotkey-dictate-add")).toHaveAttribute(
+    "title",
+    "This action takes 1 shortcut.",
+  );
+  await expect(page.getByTestId("wb-hotkey-hands_free-add")).toHaveAttribute(
+    "title",
+    "This action takes up to 2 shortcuts.",
+  );
+  await expect(page.getByTestId("wb-hotkey-action-cancel")).toContainText(
+    "1 of 1 set",
+  );
+  await expect(page.getByTestId("wb-hotkey-paste_last-add")).toBeEnabled();
+  // Removing the hands-free Space binding frees its second slot.
+  await page.getByTestId("wb-hotkey-hands_free-1-delete").click();
+  await expect(page.getByTestId("wb-hotkey-hands_free-add")).toBeEnabled();
+  await expectNoSeriousAxeFindings(page);
+  // Keyboard: the freed "+" starts a capture from Enter.
+  await page.getByTestId("wb-hotkey-hands_free-add").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("wb-hotkey-hands_free-1-chord")).toHaveText(
+    "Press a shortcut…",
+  );
+});
+
+test("a conflict with a custom transform names the transform", async ({
+  page,
+  ipc,
+}) => {
+  ipc.respond("fork_transforms_list", [
+    {
+      id: 3,
+      key: "custom-3",
+      action_id: "transform.custom-3",
+      builtin_key: null,
+      name: "Make it friendly",
+      description: "",
+      rules: {
+        shorter: false,
+        clearer: false,
+        better_order: false,
+        headings_lists: false,
+        keep_tone: true,
+      },
+      prompt: "",
+      examples: [],
+      updated_at: 1,
+    },
+  ]);
+  await openHotkeys(page, ipc, {
+    "transform.custom-3": [{ chord: "ctrl+command+b", activation: "press" }],
+    press_enter: [{ chord: "ctrl+command+b", activation: "press" }],
+  });
+  await expect(page.getByTestId("wb-hotkey-press_enter-0-issue")).toContainText(
+    "Also used by Make it friendly",
+  );
+  await expect(page.getByTestId("wb-hotkeys-panel")).not.toContainText(
+    "transform.custom-3",
+  );
+  await expect(
+    page.getByRole("heading", { name: "Make it friendly" }),
+  ).toBeVisible();
+});
+
+for (const theme of ["light", "dark"] as const) {
+  test(`the limited actions pass axe in ${theme} and RTL`, async ({
+    page,
+    ipc,
+  }) => {
+    await page.emulateMedia({ colorScheme: theme });
+    await openHotkeys(page, ipc);
+    await page.evaluate(() => {
+      document.documentElement.dir = "rtl";
+    });
+    await expect(page.getByTestId("wb-hotkey-dictate-add")).toBeDisabled();
+    await expectNoSeriousAxeFindings(page);
+  });
+}

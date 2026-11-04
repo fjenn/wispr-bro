@@ -214,10 +214,10 @@
         "modelReady": "Model mowy gotowy",
         "updateReady": "Aktualizacja gotowa",
         "queuedReady": "Dyktowania z kolejki gotowe",
-        "errors": "Problemy wymagające uwagi",
         "suggestions": "Sugestie",
         "announcements": "Zapowiedzi funkcji",
-        "milestones": "Osiągnięcia"
+        "milestones": "Osiągnięcia",
+        "shortcutProblems": "Problemy ze skrótami"
       },
       "scratchpad": "Brudnopis",
       "scratchpadLabel": "Po otwarciu Brudnopisu",
@@ -225,7 +225,10 @@
       "scratchpadOptions": {
         "resume_last": "Wróć do ostatniej notatki",
         "new_note": "Zacznij nową notatkę"
-      }
+      },
+      "notificationsHint": "Każdy przełącznik obejmuje to powiadomienie w Wispr Bro i na Macu. „Powiadomienia Maca” wyłączają tylko banery na Macu. Powiadomienia o awarii i odzyskiwaniu zawsze pojawiają się w Wispr Bro.",
+      "dockKeptForTray": "Ikona na pasku menu jest wyłączona, więc ikona w Docku zostaje. Włącz ikonę na pasku menu, aby ją ukryć.",
+      "trayKeptForDock": "Ikona w Docku jest wyłączona, więc ikona na pasku menu zostaje. Włącz Pokazuj aplikację w Docku, aby ją ukryć."
     },
     "vibe": {
       "intro": "Wispr Bro czyta nazwy z kodu i plików widoczne w edytorze. Nigdy nie otwiera twoich plików.",
@@ -353,7 +356,9 @@
       "experimental": "Eksperymentalne i debugowanie",
       "debugMode": "Narzędzia debugowania",
       "debugModeHint": "Pokazuje narzędzia diagnostyczne i opcje szczegółowego logowania.",
-      "forkDiagnostics": "Diagnostyka ustawień forka"
+      "forkDiagnostics": "Diagnostyka ustawień forka",
+      "translateUnsupported": "{{model}} nie potrafi tłumaczyć. W Modele mowy wybierz model, który to potrafi, na przykład Whisper lub Canary.",
+      "translateNoModel": "Twój model mowy nie potrafi tłumaczyć. W Modele mowy wybierz model, który to potrafi, na przykład Whisper lub Canary."
     },
     "about": {
       "tagline": "Lokalne dyktowanie bez konta i bez przetwarzania w chmurze.",
@@ -438,11 +443,12 @@
           "open": "Wróć do ostatniej notatki lub zacznij nową."
         }
       },
-      "description_one": "Dodaj maksymalnie {{max}} skrót dla każdej akcji. Zmiany są zapisywane na bieżąco.",
-      "description_few": "Dodaj maksymalnie {{max}} skróty dla każdej akcji. Zmiany są zapisywane na bieżąco.",
-      "description_many": "Dodaj maksymalnie {{max}} skrótów dla każdej akcji. Zmiany są zapisywane na bieżąco.",
-      "description_other": "Dodaj maksymalnie {{max}} skrótu dla każdej akcji. Zmiany są zapisywane na bieżąco.",
-      "addFor": "Dodaj skrót dla: {{action}}"
+      "addFor": "Dodaj skrót dla: {{action}}",
+      "descriptionLimits": "Większość akcji może mieć do {{max}} skrótów. Przytrzymaj i mów, anuluj i Tryb poleceń mają po jednym, dyktowanie bez trzymania dwa. Zmiany zapisują się od razu.",
+      "limit_one": "Ta akcja ma {{count}} skrót.",
+      "limit_few": "Ta akcja ma do {{count}} skrótów.",
+      "limit_many": "Ta akcja ma do {{count}} skrótów.",
+      "limit_other": "Ta akcja ma do {{count}} skrótu."
     },
     "resetSetting": "Przywróć: {{setting}}",
     "intro": {
@@ -910,7 +916,7 @@
         "cancelled": "Anulowano",
         "no_transcript": "Nie ma jeszcze dyktowania do wklejenia",
         "copied_last": "Skopiowano ostatnie dyktowanie",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Skopiowano do schowka",
         "transform_done": "Gotowe",
         "command_done": "Gotowe",
         "command_needs_text": "Tryb poleceń edytuje i pisze tekst. Zaznacz tekst lub kliknij w pole.",
@@ -1289,7 +1295,9 @@
     "learn": {
       "toggle": "Ucz się z moich poprawek",
       "hint": "Przez 30 sekund po wklejeniu dyktowania {{appName}} zauważa słowa poprawiane przez Ciebie w tym polu tekstowym i sugeruje je tutaj. Zachowywane jest tylko poprawione słowo, nigdy reszta tekstu. Pola haseł, menedżery haseł, aplikacje bankowe i terminale nigdy nie są odczytywane."
-    }
+    },
+    "undoFailed": "Nie udało się przywrócić „{{entry}}”. Dodaj to ponownie.",
+    "undoSkipped": "Nie przywrócono „{{entry}}”: Twój słownik już to zawiera."
   },
   "pill": {
     "region": "Pasek dyktowania",
@@ -1750,7 +1758,9 @@
       "done_many": "Wyeksportowano {{count}} fragmentów tekstu.",
       "done_other": "Wyeksportowano {{count}} fragmentu tekstu.",
       "failed": "Nie można wyeksportować fragmentów tekstu. Spróbuj ponownie."
-    }
+    },
+    "undoFailed": "Nie udało się przywrócić „{{trigger}}”. Dodaj to ponownie.",
+    "undoSkipped": "Nie przywrócono „{{trigger}}”: ta fraza jest teraz używana przez inny fragment tekstu."
   },
   "insights": {
     "tabs": {

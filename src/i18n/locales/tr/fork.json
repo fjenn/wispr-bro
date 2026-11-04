@@ -212,10 +212,10 @@
         "modelReady": "Konuşma modeli hazır",
         "updateReady": "Güncelleme hazır",
         "queuedReady": "Sıradaki dikteler hazır",
-        "errors": "İlgilenilmesi gereken sorunlar",
         "suggestions": "Öneriler",
         "announcements": "Özellik duyuruları",
-        "milestones": "Kilometre taşları"
+        "milestones": "Kilometre taşları",
+        "shortcutProblems": "Kestirme sorunları"
       },
       "scratchpad": "Karalama",
       "scratchpadLabel": "Karalama açıldığında",
@@ -223,7 +223,10 @@
       "scratchpadOptions": {
         "resume_last": "Son notuma devam et",
         "new_note": "Yeni not başlat"
-      }
+      },
+      "notificationsHint": "Her anahtar, o bildirimi hem Wispr Bro’da hem Mac’te yönetir. “Mac bildirimleri” yalnızca Mac afişlerini kapatır. Çökme ve kurtarma bildirimleri her zaman Wispr Bro’da görünür.",
+      "dockKeptForTray": "Menü çubuğu simgesi kapalı, bu yüzden Dock simgesi kalır. Gizlemek için menü çubuğu simgesini açın.",
+      "trayKeptForDock": "Dock simgesi kapalı, bu yüzden menü çubuğu simgesi kalır. Gizlemek için “Uygulamayı Dock’ta göster” seçeneğini açın."
     },
     "vibe": {
       "intro": "Wispr Bro, düzenleyicinizin gösterdiği kod ve dosya adlarını okur. Dosyalarınızı asla açmaz.",
@@ -351,7 +354,9 @@
       "experimental": "Deneysel ve hata ayıklama",
       "debugMode": "Hata ayıklama araçları",
       "debugModeHint": "Tanılama denetimlerini ve ayrıntılı günlük seçeneklerini gösterir.",
-      "forkDiagnostics": "Fork ayarları tanılaması"
+      "forkDiagnostics": "Fork ayarları tanılaması",
+      "translateUnsupported": "{{model}} çeviri yapamıyor. Konuşma modelleri bölümünden Whisper veya Canary gibi çeviri yapabilen bir model seçin.",
+      "translateNoModel": "Konuşma modeliniz çeviri yapamıyor. Konuşma modelleri bölümünden Whisper veya Canary gibi çeviri yapabilen bir model seçin."
     },
     "about": {
       "tagline": "Hesap gerektirmeyen, bulutta işlem yapmayan yerel dikte.",
@@ -436,9 +441,10 @@
           "open": "Son notunuza devam edin ya da yenisini başlatın."
         }
       },
-      "description_one": "Her eyleme en fazla {{max}} kestirme ekleyin. Değişiklikler siz yaptıkça kaydedilir.",
-      "description_other": "Her eyleme en fazla {{max}} kestirme ekleyin. Değişiklikler siz yaptıkça kaydedilir.",
-      "addFor": "{{action}} için kestirme ekle"
+      "addFor": "{{action}} için kestirme ekle",
+      "descriptionLimits": "Çoğu eylem en fazla {{max}} kestirme alır. Basılı tut ve konuş, iptal ve Komut Modu birer tane, eller serbest dikte ise iki tane alır. Değişiklikler yaptıkça kaydedilir.",
+      "limit_one": "Bu eylem {{count}} kestirme alır.",
+      "limit_other": "Bu eylem en fazla {{count}} kestirme alır."
     },
     "resetSetting": "Sıfırla: {{setting}}",
     "intro": {
@@ -880,7 +886,7 @@
         "cancelled": "İptal edildi",
         "no_transcript": "Henüz yapıştırılacak dikte yok",
         "copied_last": "Son dikte kopyalandı",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Panoya kopyalandı",
         "transform_done": "Bitti",
         "command_done": "Bitti",
         "command_needs_text": "Komut Modu metin düzenler ve yazar. Metin seçin veya bir alana tıklayın.",
@@ -1219,7 +1225,9 @@
     "learn": {
       "toggle": "Düzeltmelerimden öğren",
       "hint": "Bir dikte yapıştırıldıktan sonraki 30 saniye boyunca {{appName}}, o metin kutusunda düzelttiğiniz kelimeleri fark eder ve burada önerir. Metnin geri kalanı değil, yalnızca düzelttiğiniz kelime saklanır. Parola alanları, parola yöneticileri, bankacılık uygulamaları ve terminaller asla okunmaz."
-    }
+    },
+    "undoFailed": "“{{entry}}” geri yüklenemedi. Lütfen yeniden ekleyin.",
+    "undoSkipped": "“{{entry}}” geri yüklenmedi: sözlüğünüzde zaten var."
   },
   "pill": {
     "region": "Dikte çubuğu",
@@ -1624,7 +1632,9 @@
       "done_one": "{{count}} metin parçası dışa aktarıldı.",
       "done_other": "{{count}} metin parçası dışa aktarıldı.",
       "failed": "Metin parçaları dışa aktarılamadı. Yeniden deneyin."
-    }
+    },
+    "undoFailed": "“{{trigger}}” geri yüklenemedi. Lütfen yeniden ekleyin.",
+    "undoSkipped": "“{{trigger}}” geri yüklenmedi: bu ifadeyi artık başka bir metin parçası kullanıyor."
   },
   "insights": {
     "tabs": {

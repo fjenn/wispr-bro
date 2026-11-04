@@ -213,10 +213,10 @@
         "modelReady": "Model de veu a punt",
         "updateReady": "Actualització a punt",
         "queuedReady": "Dictats en cua a punt",
-        "errors": "Problemes que necessiten atenció",
         "suggestions": "Suggeriments",
         "announcements": "Novetats",
-        "milestones": "Fites"
+        "milestones": "Fites",
+        "shortcutProblems": "Problemes amb les dreceres"
       },
       "scratchpad": "Esborrany",
       "scratchpadLabel": "Quan s'obre l'Esborrany",
@@ -224,7 +224,10 @@
       "scratchpadOptions": {
         "resume_last": "Continuar l'última nota",
         "new_note": "Començar una nota nova"
-      }
+      },
+      "notificationsHint": "Cada interruptor controla aquest avís al Wispr Bro i al Mac. “Notificacions del Mac” desactiva només els bàners del Mac. Els avisos de fallada i de recuperació sempre apareixen al Wispr Bro.",
+      "dockKeptForTray": "La icona de la barra de menús està desactivada, així que la icona del Dock es manté. Activa la icona de la barra de menús per amagar-la.",
+      "trayKeptForDock": "La icona del Dock està desactivada, així que la icona de la barra de menús es manté. Activa Mostrar l'app al Dock per amagar-la."
     },
     "vibe": {
       "intro": "Wispr Bro llegeix els noms de codi i de fitxers que mostra l’editor. Mai no obre els teus fitxers.",
@@ -352,7 +355,9 @@
       "experimental": "Experimental i depuració",
       "debugMode": "Eines de depuració",
       "debugModeHint": "Mostra controls de diagnòstic i opcions de registre detallat.",
-      "forkDiagnostics": "Diagnòstic de la configuració del fork"
+      "forkDiagnostics": "Diagnòstic de la configuració del fork",
+      "translateUnsupported": "{{model}} no pot traduir. Tria un model que pugui, com Whisper o Canary, a Models de veu.",
+      "translateNoModel": "El teu model de veu no pot traduir. Tria'n un que pugui, com Whisper o Canary, a Models de veu."
     },
     "about": {
       "tagline": "Dictat local, sense compte i sense processament al núvol.",
@@ -437,10 +442,11 @@
           "open": "Reprèn l’última nota o comença’n una de nova."
         }
       },
-      "description_one": "Afegeix fins a {{max}} drecera per a cada acció. Els canvis es desen a mesura que els fas.",
-      "description_many": "Afegeix fins a {{max}} de dreceres per a cada acció. Els canvis es desen a mesura que els fas.",
-      "description_other": "Afegeix fins a {{max}} dreceres per a cada acció. Els canvis es desen a mesura que els fas.",
-      "addFor": "Afegeix una drecera per a {{action}}"
+      "addFor": "Afegeix una drecera per a {{action}}",
+      "descriptionLimits": "La majoria d'accions admeten fins a {{max}} dreceres. Mantenir premut per parlar, cancel·lar i Mode d'ordres en admeten una cadascuna, i el dictat sense mans, dues. Els canvis es desen a mesura que els fas.",
+      "limit_one": "Aquesta acció admet {{count}} drecera.",
+      "limit_many": "Aquesta acció admet fins a {{count}} dreceres.",
+      "limit_other": "Aquesta acció admet fins a {{count}} dreceres."
     },
     "resetSetting": "Restaurar {{setting}}",
     "intro": {
@@ -895,7 +901,7 @@
         "cancelled": "Cancel·lat",
         "no_transcript": "Encara no hi ha cap dictat per enganxar",
         "copied_last": "S'ha copiat l'últim dictat",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Copiat al porta-retalls",
         "transform_done": "Fet",
         "command_done": "Fet",
         "command_needs_text": "El mode d'ordres edita i escriu text. Selecciona text o fes clic en un camp.",
@@ -1254,7 +1260,9 @@
     "learn": {
       "toggle": "Aprendre de les meves correccions",
       "hint": "Durant els 30 segons posteriors a enganxar un dictat, {{appName}} detecta les paraules que corregeixes en aquell quadre de text i te les suggereix aquí. Només es conserva la paraula corregida, mai la resta del text. No es llegeixen mai els camps de contrasenya, els gestors de contrasenyes, les apps bancàries ni els terminals."
-    }
+    },
+    "undoFailed": "No s'ha pogut restaurar “{{entry}}”. Torna-ho a afegir.",
+    "undoSkipped": "No s'ha restaurat “{{entry}}”: el teu diccionari ja el té."
   },
   "pill": {
     "region": "Barra de dictat",
@@ -1687,7 +1695,9 @@
       "done_many": "S'han exportat {{count}} de fragments.",
       "done_other": "S'han exportat {{count}} fragments.",
       "failed": "No s'han pogut exportar els fragments. Torna-ho a provar."
-    }
+    },
+    "undoFailed": "No s'ha pogut restaurar “{{trigger}}”. Torna-ho a afegir.",
+    "undoSkipped": "No s'ha restaurat “{{trigger}}”: un altre fragment ja fa servir aquesta frase."
   },
   "insights": {
     "tabs": {

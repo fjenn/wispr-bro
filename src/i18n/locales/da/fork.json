@@ -212,10 +212,10 @@
         "modelReady": "Talmodel klar",
         "updateReady": "Opdatering klar",
         "queuedReady": "Dikteringer i kø er klar",
-        "errors": "Problemer, der kræver handling",
         "suggestions": "Forslag",
         "announcements": "Nye funktioner",
-        "milestones": "Milepæle"
+        "milestones": "Milepæle",
+        "shortcutProblems": "Problemer med genveje"
       },
       "scratchpad": "Kladdeblok",
       "scratchpadLabel": "Når Kladdeblok åbnes",
@@ -223,7 +223,10 @@
       "scratchpadOptions": {
         "resume_last": "Fortsæt min seneste note",
         "new_note": "Start en ny note"
-      }
+      },
+      "notificationsHint": "Hver kontakt styrer den pågældende besked i Wispr Bro og på Mac’en. ”Mac-meddelelser” slår kun Mac-bannerne fra. Beskeder om nedbrud og gendannelse vises altid i Wispr Bro.",
+      "dockKeptForTray": "Ikonet i menulinjen er slået fra, så Dock-ikonet bliver. Slå ikonet i menulinjen til for at skjule det.",
+      "trayKeptForDock": "Dock-ikonet er slået fra, så ikonet i menulinjen bliver. Slå Vis app i Dock til for at skjule det."
     },
     "vibe": {
       "intro": "Wispr Bro læser de kode- og filnavne, din editor viser. Den åbner aldrig dine filer.",
@@ -351,7 +354,9 @@
       "experimental": "Eksperimentelt og fejlfinding",
       "debugMode": "Fejlfindingsværktøjer",
       "debugModeHint": "Vis diagnosticeringsværktøjer og muligheder for detaljeret logning.",
-      "forkDiagnostics": "Diagnosticering af fork-indstillinger"
+      "forkDiagnostics": "Diagnosticering af fork-indstillinger",
+      "translateUnsupported": "{{model}} kan ikke oversætte. Vælg en model, der kan, f.eks. Whisper eller Canary, under Talemodeller.",
+      "translateNoModel": "Din talemodel kan ikke oversætte. Vælg en model, der kan, f.eks. Whisper eller Canary, under Talemodeller."
     },
     "about": {
       "tagline": "Lokal diktering uden konto og uden behandling i skyen.",
@@ -436,9 +441,10 @@
           "open": "Fortsæt din seneste note, eller start en ny."
         }
       },
-      "description_one": "Tilføj op til {{max}} genvej til hver handling. Ændringer gemmes med det samme.",
-      "description_other": "Tilføj op til {{max}} genveje til hver handling. Ændringer gemmes med det samme.",
-      "addFor": "Tilføj en genvej til {{action}}"
+      "addFor": "Tilføj en genvej til {{action}}",
+      "descriptionLimits": "De fleste handlinger kan have op til {{max}} genveje. Hold nede for at tale, annuller og Kommandotilstand har én hver, håndfri diktering to. Ændringer gemmes, mens du laver dem.",
+      "limit_one": "Denne handling har {{count}} genvej.",
+      "limit_other": "Denne handling har op til {{count}} genveje."
     },
     "resetSetting": "Nulstil {{setting}}",
     "intro": {
@@ -880,7 +886,7 @@
         "cancelled": "Annulleret",
         "no_transcript": "Ingen diktering at indsætte endnu",
         "copied_last": "Seneste diktering kopieret",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Kopieret til udklipsholderen",
         "transform_done": "Færdig",
         "command_done": "Færdig",
         "command_needs_text": "Kommandotilstand redigerer og skriver tekst. Vælg tekst, eller klik i et felt.",
@@ -1219,7 +1225,9 @@
     "learn": {
       "toggle": "Lær af mine rettelser",
       "hint": "I 30 sekunder efter at en diktering er indsat, bemærker {{appName}} ord, du retter i tekstfeltet, og foreslår dem her. Kun det rettede ord gemmes, aldrig resten af teksten. Adgangskodefelter, adgangskodeadministratorer, bankapps og terminaler læses aldrig."
-    }
+    },
+    "undoFailed": "”{{entry}}” kunne ikke gendannes. Tilføj det igen.",
+    "undoSkipped": "”{{entry}}” blev ikke gendannet: din ordbog har det allerede."
   },
   "pill": {
     "region": "Dikteringsbjælke",
@@ -1624,7 +1632,9 @@
       "done_one": "Eksporterede {{count}} tekststykke.",
       "done_other": "Eksporterede {{count}} tekststykker.",
       "failed": "Tekststykkerne kunne ikke eksporteres. Prøv igen."
-    }
+    },
+    "undoFailed": "”{{trigger}}” kunne ikke gendannes. Tilføj det igen.",
+    "undoSkipped": "”{{trigger}}” blev ikke gendannet: et andet tekststykke bruger nu den frase."
   },
   "insights": {
     "tabs": {

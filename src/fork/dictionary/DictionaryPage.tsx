@@ -281,9 +281,22 @@ export function DictionaryPage() {
       action: {
         label: t("dictionary.undo"),
         onClick: () => {
-          void commands.forkDictionaryRestore(gone).then(() => {
-            void useDictionaryStore.getState().reload();
-          });
+          // Audit OT2: a failed or skipped restore is said, not swallowed.
+          void commands
+            .forkDictionaryRestore(gone)
+            .then((restored) => {
+              if (restored.status !== "ok") {
+                toast.error(t("dictionary.undoFailed", { entry: label }));
+              } else if (restored.data < gone.length) {
+                toast.error(t("dictionary.undoSkipped", { entry: label }));
+              }
+            })
+            .catch(() => {
+              toast.error(t("dictionary.undoFailed", { entry: label }));
+            })
+            .finally(() => {
+              void useDictionaryStore.getState().reload();
+            });
         },
       },
     });

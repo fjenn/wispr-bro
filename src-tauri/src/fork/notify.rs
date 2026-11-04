@@ -296,9 +296,13 @@ pub fn post<R: ForkRuntime>(app: &AppHandle<R>, notice: Notice) -> Option<Notifi
     Some(item)
 }
 
-/// Text of the newest dictation (Handy's history; post-processed text when
-/// there is one).
+/// Text of the newest dictation as History shows it (what was inserted,
+/// after a snippet expanded: `recovery::last`, audit OT2), else Handy's
+/// history (post-processed text when there is one).
 fn latest_dictation<R: ForkRuntime>(app: &AppHandle<R>) -> Option<String> {
+    if let Some(last) = crate::fork::recovery::last::find(app) {
+        return Some(last.text);
+    }
     let history = R::handy_history(app)?;
     let entries = history.entries().ok()?;
     entries

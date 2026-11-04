@@ -212,10 +212,10 @@
         "modelReady": "Spraakmodel klaar",
         "updateReady": "Update klaar",
         "queuedReady": "Dictees in de wachtrij klaar",
-        "errors": "Problemen die aandacht nodig hebben",
         "suggestions": "Suggesties",
         "announcements": "Nieuwe functies",
-        "milestones": "Mijlpalen"
+        "milestones": "Mijlpalen",
+        "shortcutProblems": "Problemen met toetscombinaties"
       },
       "scratchpad": "Kladblok",
       "scratchpadLabel": "Als het Kladblok opent",
@@ -223,7 +223,10 @@
       "scratchpadOptions": {
         "resume_last": "Ga verder met mijn laatste notitie",
         "new_note": "Begin een nieuwe notitie"
-      }
+      },
+      "notificationsHint": "Elke schakelaar regelt die melding in Wispr Bro en op de Mac. “Mac-meldingen” zet alleen de banners op de Mac uit. Meldingen over crashes en herstel verschijnen altijd in Wispr Bro.",
+      "dockKeptForTray": "Het pictogram in de menubalk staat uit, dus het Dock-pictogram blijft staan. Zet het pictogram in de menubalk aan om het te verbergen.",
+      "trayKeptForDock": "Het Dock-pictogram staat uit, dus het pictogram in de menubalk blijft staan. Zet Toon app in Dock aan om het te verbergen."
     },
     "vibe": {
       "intro": "Wispr Bro leest de code- en bestandsnamen die je editor toont. Het opent nooit je bestanden.",
@@ -351,7 +354,9 @@
       "experimental": "Experimenteel en debug",
       "debugMode": "Debugtools",
       "debugModeHint": "Toon diagnostische bediening en opties voor uitgebreide logging.",
-      "forkDiagnostics": "Diagnostiek van fork-instellingen"
+      "forkDiagnostics": "Diagnostiek van fork-instellingen",
+      "translateUnsupported": "{{model}} kan niet vertalen. Kies bij Spraakmodellen een model dat dat wel kan, zoals Whisper of Canary.",
+      "translateNoModel": "Je spraakmodel kan niet vertalen. Kies bij Spraakmodellen een model dat dat wel kan, zoals Whisper of Canary."
     },
     "about": {
       "tagline": "Lokaal dicteren, zonder account en zonder verwerking in de cloud.",
@@ -436,9 +441,10 @@
           "open": "Ga verder met je laatste notitie of begin een nieuwe."
         }
       },
-      "description_one": "Voeg per actie maximaal {{max}} toetscombinatie toe. Wijzigingen worden direct bewaard.",
-      "description_other": "Voeg per actie maximaal {{max}} toetscombinaties toe. Wijzigingen worden direct bewaard.",
-      "addFor": "Toetscombinatie toevoegen voor {{action}}"
+      "addFor": "Toetscombinatie toevoegen voor {{action}}",
+      "descriptionLimits": "De meeste acties hebben tot {{max}} toetscombinaties. Ingedrukt houden om te praten, annuleren en Opdrachtmodus hebben er elk één, handsfree dicteren twee. Wijzigingen worden direct opgeslagen.",
+      "limit_one": "Deze actie heeft {{count}} toetscombinatie.",
+      "limit_other": "Deze actie heeft maximaal {{count}} toetscombinaties."
     },
     "resetSetting": "Herstel {{setting}}",
     "intro": {
@@ -880,7 +886,7 @@
         "cancelled": "Geannuleerd",
         "no_transcript": "Nog geen dictee om te plakken",
         "copied_last": "Laatste dictee gekopieerd",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Gekopieerd naar het klembord",
         "transform_done": "Gereed",
         "command_done": "Gereed",
         "command_needs_text": "Opdrachtmodus bewerkt en schrijft tekst. Selecteer tekst of klik in een veld.",
@@ -1219,7 +1225,9 @@
     "learn": {
       "toggle": "Leer van mijn correcties",
       "hint": "Tot 30 seconden nadat een dictee is geplakt, merkt {{appName}} woorden op die je in dat tekstveld verbetert en stelt ze hier voor. Alleen het verbeterde woord wordt bewaard, nooit de rest van de tekst. Wachtwoordvelden, wachtwoordbeheerders, bankapps en terminals worden nooit gelezen."
-    }
+    },
+    "undoFailed": "“{{entry}}” kon niet worden hersteld. Voeg het opnieuw toe.",
+    "undoSkipped": "“{{entry}}” is niet hersteld: je woordenboek bevat het al."
   },
   "pill": {
     "region": "Dicteerbalk",
@@ -1624,7 +1632,9 @@
       "done_one": "{{count}} tekstfragment geëxporteerd.",
       "done_other": "{{count}} tekstfragmenten geëxporteerd.",
       "failed": "De tekstfragmenten konden niet worden geëxporteerd. Probeer het opnieuw."
-    }
+    },
+    "undoFailed": "“{{trigger}}” kon niet worden hersteld. Voeg het opnieuw toe.",
+    "undoSkipped": "“{{trigger}}” is niet hersteld: een ander tekstfragment gebruikt die zin nu."
   },
   "insights": {
     "tabs": {

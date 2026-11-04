@@ -175,9 +175,23 @@ export function SnippetsPage() {
       action: {
         label: t("snippets.undo"),
         onClick: () => {
-          void commands.forkSnippetsRestore(gone).then(() => {
-            void useSnippetsStore.getState().reload();
-          });
+          // Audit OT2: a failed or skipped restore is said, not swallowed.
+          const trigger = snippet.trigger;
+          void commands
+            .forkSnippetsRestore(gone)
+            .then((restored) => {
+              if (restored.status !== "ok") {
+                toast.error(t("snippets.undoFailed", { trigger }));
+              } else if (restored.data < gone.length) {
+                toast.error(t("snippets.undoSkipped", { trigger }));
+              }
+            })
+            .catch(() => {
+              toast.error(t("snippets.undoFailed", { trigger }));
+            })
+            .finally(() => {
+              void useSnippetsStore.getState().reload();
+            });
         },
       },
     });

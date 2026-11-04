@@ -389,6 +389,41 @@ dictTest.describe("dictionary page", () => {
     await expect(rows(page)).toHaveCount(1);
   });
 
+  // Audit OT2: Undo's result is checked; a failure or a skip is said.
+  dictTest(
+    "a failed or skipped undo says so",
+    async ({ page, ipc, hub, dict }) => {
+      dict.seed({ phrase: "Siobhan", replacement: null });
+      dict.seed({ phrase: "Kubernetes", replacement: null });
+      await openDictionary(page, ipc, hub, dict);
+      ipc.respond(
+        "fork_dictionary_restore",
+        ipcError({ kind: "Internal", message: "disk full" }),
+      );
+      await page.getByRole("button", { name: "Delete Siobhan" }).click();
+      await page
+        .getByRole("listitem")
+        .filter({ hasText: "Deleted “Siobhan”." })
+        .getByRole("button", { name: "Undo" })
+        .click();
+      await expect(
+        page.getByText("“Siobhan” couldn't be restored. Please add it again."),
+      ).toBeVisible();
+      ipc.respond("fork_dictionary_restore", 0);
+      await page.getByRole("button", { name: "Delete Kubernetes" }).click();
+      await page
+        .getByRole("listitem")
+        .filter({ hasText: "Deleted “Kubernetes”." })
+        .getByRole("button", { name: "Undo" })
+        .click();
+      await expect(
+        page.getByText(
+          "“Kubernetes” wasn't restored: your dictionary already has it.",
+        ),
+      ).toBeVisible();
+    },
+  );
+
   dictTest(
     "search ignores case and accents; sort; tabs by source",
     async ({ page, ipc, hub, dict }) => {

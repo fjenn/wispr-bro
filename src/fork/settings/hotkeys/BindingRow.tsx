@@ -26,6 +26,11 @@ interface BindingRowProps {
   captureBusy: boolean;
   status: HotkeyStatus | null;
   activations: HotkeyActivation[];
+  /**
+   * The shown name of an action id (custom transforms by their name); by
+   * default the translated built-in name.
+   */
+  actionName?: (id: string) => string;
   onCapture: () => void;
   onCaptured: (chord: string | null) => void;
   onActivation: (activation: HotkeyActivation) => void;
@@ -40,6 +45,7 @@ export function BindingRow({
   captureBusy,
   status,
   activations,
+  actionName,
   onCapture,
   onCaptured,
   onActivation,
@@ -138,9 +144,11 @@ export function BindingRow({
         >
           {issue.kind === "conflict"
             ? t("settingsModal.hotkeys.conflict", {
-                action: t(`settingsModal.hotkeys.actions.${issue.other}`, {
-                  defaultValue: issue.other,
-                }),
+                action: actionName
+                  ? actionName(issue.other)
+                  : t(`settingsModal.hotkeys.actions.${issue.other}`, {
+                      defaultValue: issue.other,
+                    }),
               })
             : issue.kind === "invalid"
               ? t("settingsModal.hotkeys.invalid")

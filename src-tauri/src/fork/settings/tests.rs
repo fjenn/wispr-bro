@@ -422,6 +422,32 @@ fn press(chord: &str) -> HotkeyBinding {
     HotkeyBinding::new(chord, HotkeyActivation::Press)
 }
 
+/// Audit OT2: the Scratchpad text size is a setting (it was window state
+/// and reset when the window was parked), one of three sizes.
+#[test]
+fn scratchpad_text_size_is_kept_and_checked() {
+    assert_eq!(ForkSettings::default().scratchpad_text_size, 16);
+    for size in [0, 15, 18, 32, 255] {
+        rejects(ForkSettingUpdate::ScratchpadTextSize(size));
+    }
+    let mut s = ForkSettings::default();
+    apply_update(&mut s, ForkSettingUpdate::ScratchpadTextSize(24)).unwrap();
+    assert_eq!(s.scratchpad_text_size, 24);
+    let update: ForkSettingUpdate =
+        serde_json::from_value(json!({ "key": "scratchpad_text_size", "value": 20 })).unwrap();
+    assert_eq!(update.key(), "scratchpad_text_size");
+    // A hand-edited file with an odd size falls back to the default.
+    let (s, status) = decode_stored(Some(&json!({
+        "schema_version": CURRENT_SCHEMA_VERSION,
+        "scratchpad_text_size": 13,
+    })));
+    assert_eq!(s.scratchpad_text_size, 16);
+    let LoadStatus::Salvaged { dropped } = &status else {
+        panic!("expected Salvaged, got {status:?}");
+    };
+    assert!(dropped.iter().any(|d| d == "scratchpad_text_size"));
+}
+
 #[test]
 fn set_setting_rejects_invalid_values() {
     use ForkSettingUpdate as U;

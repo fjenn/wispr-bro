@@ -2,11 +2,13 @@
 //! What a notification is, and the rules about where it may go (DEC-21).
 //!
 //! Pure: no Tauri, no database, no AppKit. [`inbox_allowed`] decides whether
-//! an entry is created at all (the Suggestions, Announcements and Milestones
-//! toggles filter at creation, C-91); [`system_allowed`] decides whether a
-//! macOS notification is also sent. Only four kinds may ever reach macOS:
-//! model ready, update ready, queued takes ready and errors needing action
-//! (today: shortcut problems).
+//! an entry is created at all (every kind switch filters at creation, C-91;
+//! audit OT2: the four Mac kinds too, so a switch governs the inbox and the
+//! banner alike); [`system_allowed`] decides whether a macOS notification is
+//! also sent. Only four kinds may ever reach macOS: model ready, update
+//! ready, queued takes ready and shortcut problems. Crash reports, recovered
+//! data and recovered takes have no switch: they are about the user's data
+//! and are always recorded in the inbox (Settings says so).
 //!
 //! Actions: every entry has a default action (the click) stored with it.
 //! Some kinds add buttons ([`buttons`]); [`resolve`] maps a click or a button
@@ -100,8 +102,9 @@ impl NotificationKind {
     }
 }
 
-/// Toggle groups (C-91). `App` entries (models, updates, problems) are always
-/// recorded in the inbox.
+/// Toggle groups (C-91). `App` entries have a switch of their own (model
+/// ready, update ready, queued takes, shortcut problems) or none (crash and
+/// recovery notices, always recorded).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NotificationGroup {
     App,
@@ -113,7 +116,7 @@ pub enum NotificationGroup {
 /// Whether an entry of `kind` is created at all.
 pub fn inbox_allowed(kind: NotificationKind, s: &NotificationSettings) -> bool {
     match kind.group() {
-        NotificationGroup::App => true,
+        NotificationGroup::App => kind_switch(kind, s).unwrap_or(true),
         NotificationGroup::Suggestions => s.suggestions,
         NotificationGroup::Announcements => s.announcements,
         NotificationGroup::Milestones => s.milestones,
@@ -123,15 +126,18 @@ pub fn inbox_allowed(kind: NotificationKind, s: &NotificationSettings) -> bool {
 /// Whether an entry of `kind` may also become a macOS notification. Only the
 /// four DEC-21 kinds, each behind its own toggle and the master switch.
 pub fn system_allowed(kind: NotificationKind, s: &NotificationSettings) -> bool {
-    if !s.system {
-        return false;
-    }
+    s.system && kind_switch(kind, s).unwrap_or(false)
+}
+
+/// The kind's own switch in Settings › System › Notifications, for the four
+/// kinds that may reach macOS; `None` for the others.
+fn kind_switch(kind: NotificationKind, s: &NotificationSettings) -> Option<bool> {
     match kind {
-        NotificationKind::ModelReady => s.model_ready,
-        NotificationKind::UpdateReady => s.update_ready,
-        NotificationKind::QueuedTakesReady => s.queued_takes_ready,
-        NotificationKind::ShortcutProblem => s.errors,
-        _ => false,
+        NotificationKind::ModelReady => Some(s.model_ready),
+        NotificationKind::UpdateReady => Some(s.update_ready),
+        NotificationKind::QueuedTakesReady => Some(s.queued_takes_ready),
+        NotificationKind::ShortcutProblem => Some(s.errors),
+        _ => None,
     }
 }
 

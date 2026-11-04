@@ -3,7 +3,6 @@ import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { AutostartToggle } from "@/components/settings/AutostartToggle";
 import { OutputDeviceSelector } from "@/components/settings/OutputDeviceSelector";
-import { ShowTrayIcon } from "@/components/settings/ShowTrayIcon";
 import { StartHidden } from "@/components/settings/StartHidden";
 import { useSettings } from "@/hooks/useSettings";
 import type { NotificationSettings, ScratchpadOpenBehavior } from "../bindings";
@@ -21,7 +20,7 @@ const NOTIFICATIONS: {
   { key: "model_ready", label: "modelReady" },
   { key: "update_ready", label: "updateReady" },
   { key: "queued_takes_ready", label: "queuedReady" },
-  { key: "errors", label: "errors" },
+  { key: "errors", label: "shortcutProblems" },
   { key: "suggestions", label: "suggestions" },
   { key: "announcements", label: "announcements" },
   { key: "milestones", label: "milestones" },
@@ -30,8 +29,18 @@ const NOTIFICATIONS: {
 export function System() {
   const { t } = useTranslation(FORK_NAMESPACE);
   const { settings, pending, setSetting } = useForkSettings();
-  const { audioFeedbackEnabled } = useSettings();
+  const { t: handy } = useTranslation();
+  const { audioFeedbackEnabled, getSetting, updateSetting, isUpdating } =
+    useSettings();
   if (!settings) return null;
+
+  // Audit OT2: the Dock icon and the menu bar icon are never both off (the
+  // app would have no way back in but Spotlight). The one that is the last
+  // way in is disabled and says why; the backend refuses it too.
+  const trayOn = getSetting("show_tray_icon") ?? true;
+  const dockOn = settings.show_in_dock;
+  const dockLocked = dockOn && !trayOn;
+  const trayLocked = trayOn && !dockOn;
 
   const notifications = settings.notifications;
   return (
@@ -50,15 +59,28 @@ export function System() {
         />
         <ToggleRow
           label={t("settingsModal.system.showDock")}
-          hint={t("settingsModal.system.showDockHint")}
-          checked={settings.show_in_dock}
-          disabled={!!pending.show_in_dock}
+          hint={
+            dockLocked
+              ? t("settingsModal.system.dockKeptForTray")
+              : t("settingsModal.system.showDockHint")
+          }
+          checked={dockOn}
+          disabled={!!pending.show_in_dock || dockLocked}
           onChange={(checked) => void setSetting("show_in_dock", checked)}
           testId="wb-system-show-dock"
         />
-        <HandyRow>
-          <ShowTrayIcon descriptionMode="inline" grouped />
-        </HandyRow>
+        <ToggleRow
+          label={handy("settings.advanced.showTrayIcon.label")}
+          hint={
+            trayLocked
+              ? t("settingsModal.system.trayKeptForDock")
+              : handy("settings.advanced.showTrayIcon.description")
+          }
+          checked={trayOn}
+          disabled={isUpdating("show_tray_icon") || trayLocked}
+          onChange={(checked) => void updateSetting("show_tray_icon", checked)}
+          testId="wb-system-show-tray"
+        />
         <HandyRow>
           <StartHidden descriptionMode="inline" grouped />
         </HandyRow>
@@ -94,6 +116,12 @@ export function System() {
               />
             ))}
           </ul>
+          <p
+            className="px-1 text-[13px] leading-[18px] text-(--wb-ink-2)"
+            data-testid="wb-notifications-hint"
+          >
+            {t("settingsModal.system.notificationsHint")}
+          </p>
         </SettingGroup>
       </div>
       <div data-testid="wb-system-scratchpad">

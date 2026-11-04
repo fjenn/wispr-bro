@@ -38,6 +38,7 @@ export const forkSettingsDefaults = {
   live_text_in_pill: false,
   scratchpad_open_behavior: "resume_last",
   scratchpad_on_bar: false,
+  scratchpad_text_size: 16,
   text_retention_days: null,
   audio_retention_days: 14,
   notifications: {

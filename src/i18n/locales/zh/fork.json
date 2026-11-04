@@ -211,10 +211,10 @@
         "modelReady": "语音模型已就绪",
         "updateReady": "更新已就绪",
         "queuedReady": "排队的听写已就绪",
-        "errors": "需要处理的问题",
         "suggestions": "建议",
         "announcements": "功能公告",
-        "milestones": "里程碑"
+        "milestones": "里程碑",
+        "shortcutProblems": "快捷键问题"
       },
       "scratchpad": "草稿板",
       "scratchpadLabel": "打开草稿板时",
@@ -222,7 +222,10 @@
       "scratchpadOptions": {
         "resume_last": "继续上一条笔记",
         "new_note": "新建笔记"
-      }
+      },
+      "notificationsHint": "每个开关都会同时控制 Wispr Bro 内和 Mac 上的该项通知。“Mac 通知”只会关闭 Mac 横幅。崩溃和恢复通知始终显示在 Wispr Bro 内。",
+      "dockKeptForTray": "菜单栏图标已关闭，因此 Dock 图标会保留。打开菜单栏图标即可隐藏 Dock 图标。",
+      "trayKeptForDock": "Dock 图标已关闭，因此菜单栏图标会保留。打开“在 Dock 中显示 App”即可隐藏菜单栏图标。"
     },
     "vibe": {
       "intro": "Wispr Bro 会读取编辑器显示的代码名称和文件名。它从不打开你的文件。",
@@ -350,7 +353,9 @@
       "experimental": "实验与调试",
       "debugMode": "调试工具",
       "debugModeHint": "显示诊断控件和详细记录选项。",
-      "forkDiagnostics": "Fork 设置诊断"
+      "forkDiagnostics": "Fork 设置诊断",
+      "translateUnsupported": "{{model}} 无法翻译。请在“语音模型”中选择支持翻译的模型，例如 Whisper 或 Canary。",
+      "translateNoModel": "你的语音模型无法翻译。请在“语音模型”中选择支持翻译的模型，例如 Whisper 或 Canary。"
     },
     "about": {
       "tagline": "本机听写，不需要账户，也不经云端处理。",
@@ -435,8 +440,9 @@
           "open": "继续上一条笔记或开始新笔记。"
         }
       },
-      "description_other": "每个操作最多可添加 {{max}} 个快捷键。更改会立即保存。",
-      "addFor": "为“{{action}}”添加快捷键"
+      "addFor": "为“{{action}}”添加快捷键",
+      "descriptionLimits": "大多数操作最多可设置 {{max}} 个快捷键。“按住说话”、取消和指令模式各 1 个，免提听写 2 个。更改会立即保存。",
+      "limit_other": "此操作最多可设置 {{count}} 个快捷键。"
     },
     "resetSetting": "重置「{{setting}}」",
     "intro": {
@@ -865,7 +871,7 @@
         "cancelled": "已取消",
         "no_transcript": "还没有可粘贴的听写",
         "copied_last": "已拷贝上一次听写",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "已拷贝到剪贴板",
         "transform_done": "完成",
         "command_done": "完成",
         "command_needs_text": "命令模式用于编辑和撰写文本。请选择文本或点按输入栏。",
@@ -1184,7 +1190,9 @@
     "learn": {
       "toggle": "从我的更正中学习",
       "hint": "听写内容粘贴后的 30 秒内，{{appName}} 会留意你在该文本框中改正的词语，并在这里提供建议。只保留你改正的词语，从不保留其余文本。从不读取密码栏、密码管理器、银行 App 和终端。"
-    }
+    },
+    "undoFailed": "无法恢复“{{entry}}”。请重新添加。",
+    "undoSkipped": "未恢复“{{entry}}”：你的词典中已有这一项。"
   },
   "pill": {
     "region": "听写浮动栏",
@@ -1561,7 +1569,9 @@
       "fileName": "{{appName}} 文本片段.csv",
       "done_other": "已导出 {{count}} 个文本片段。",
       "failed": "无法导出文本片段。请重试。"
-    }
+    },
+    "undoFailed": "无法恢复“{{trigger}}”。请重新添加。",
+    "undoSkipped": "未恢复“{{trigger}}”：现在有另一个文本片段使用了该短语。"
   },
   "insights": {
     "tabs": {

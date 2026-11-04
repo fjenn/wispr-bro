@@ -213,10 +213,10 @@
         "modelReady": "Modelo de fala pronto",
         "updateReady": "Atualização pronta",
         "queuedReady": "Ditados na fila prontos",
-        "errors": "Problemas que precisam de atenção",
         "suggestions": "Sugestões",
         "announcements": "Novos recursos",
-        "milestones": "Conquistas"
+        "milestones": "Conquistas",
+        "shortcutProblems": "Problemas com atalhos"
       },
       "scratchpad": "Rascunho",
       "scratchpadLabel": "Ao abrir o Rascunho",
@@ -224,7 +224,10 @@
       "scratchpadOptions": {
         "resume_last": "Continuar minha última nota",
         "new_note": "Começar uma nova nota"
-      }
+      },
+      "notificationsHint": "Cada chave controla esse aviso no Wispr Bro e no Mac. “Notificações do Mac” desativa apenas os banners do Mac. Avisos de falha e de recuperação sempre aparecem no Wispr Bro.",
+      "dockKeptForTray": "O ícone da barra de menus está desativado, então o ícone do Dock permanece. Ative o ícone da barra de menus para ocultá-lo.",
+      "trayKeptForDock": "O ícone do Dock está desativado, então o ícone da barra de menus permanece. Ative Mostrar o app no Dock para ocultá-lo."
     },
     "vibe": {
       "intro": "O Wispr Bro lê os nomes de código e de arquivos que seu editor mostra. Nunca abre seus arquivos.",
@@ -352,7 +355,9 @@
       "experimental": "Experimental e depuração",
       "debugMode": "Ferramentas de depuração",
       "debugModeHint": "Mostrar controles de diagnóstico e opções de registro detalhado.",
-      "forkDiagnostics": "Diagnóstico dos ajustes do fork"
+      "forkDiagnostics": "Diagnóstico dos ajustes do fork",
+      "translateUnsupported": "{{model}} não consegue traduzir. Escolha um modelo que consiga, como Whisper ou Canary, em Modelos de fala.",
+      "translateNoModel": "Seu modelo de fala não consegue traduzir. Escolha um que consiga, como Whisper ou Canary, em Modelos de fala."
     },
     "about": {
       "tagline": "Ditado local, sem conta e sem processamento na nuvem.",
@@ -437,10 +442,11 @@
           "open": "Retome sua última nota ou comece uma nova."
         }
       },
-      "description_one": "Adicione até {{max}} atalho para cada ação. As alterações são salvas na hora.",
-      "description_many": "Adicione até {{max}} de atalhos para cada ação. As alterações são salvas na hora.",
-      "description_other": "Adicione até {{max}} atalhos para cada ação. As alterações são salvas na hora.",
-      "addFor": "Adicionar um atalho para {{action}}"
+      "addFor": "Adicionar um atalho para {{action}}",
+      "descriptionLimits": "A maioria das ações aceita até {{max}} atalhos. Manter pressionado para falar, cancelar e Modo de Comando aceitam um cada, e o ditado sem as mãos aceita dois. As alterações são salvas conforme você as faz.",
+      "limit_one": "Esta ação aceita {{count}} atalho.",
+      "limit_many": "Esta ação aceita até {{count}} atalhos.",
+      "limit_other": "Esta ação aceita até {{count}} atalhos."
     },
     "resetSetting": "Redefinir {{setting}}",
     "intro": {
@@ -895,7 +901,7 @@
         "cancelled": "Cancelado",
         "no_transcript": "Ainda não há ditado para colar",
         "copied_last": "Último ditado copiado",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Copiado para a área de transferência",
         "transform_done": "Pronto",
         "command_done": "Pronto",
         "command_needs_text": "O Modo de Comando edita e escreve texto. Selecione um texto ou clique em um campo.",
@@ -1254,7 +1260,9 @@
     "learn": {
       "toggle": "Aprender com minhas correções",
       "hint": "Por 30 segundos depois que um ditado é colado, o {{appName}} nota as palavras que você corrige naquela caixa de texto e as sugere aqui. Só a palavra corrigida é mantida, nunca o resto do texto. Campos de senha, gerenciadores de senhas, apps de banco e terminais nunca são lidos."
-    }
+    },
+    "undoFailed": "Não foi possível restaurar “{{entry}}”. Adicione novamente.",
+    "undoSkipped": "“{{entry}}” não foi restaurada: seu dicionário já a tem."
   },
   "pill": {
     "region": "Barra de ditado",
@@ -1687,7 +1695,9 @@
       "done_many": "{{count}} de trechos exportados.",
       "done_other": "{{count}} trechos exportados.",
       "failed": "Não foi possível exportar os trechos. Tente novamente."
-    }
+    },
+    "undoFailed": "Não foi possível restaurar “{{trigger}}”. Adicione novamente.",
+    "undoSkipped": "“{{trigger}}” não foi restaurado: outro trecho agora usa essa frase."
   },
   "insights": {
     "tabs": {

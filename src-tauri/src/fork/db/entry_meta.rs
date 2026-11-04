@@ -362,11 +362,8 @@ pub fn write(conn: &mut Connection, w: &EntryWrite, retry: bool) -> Result<bool,
             (before, after)
         }
     };
-    if w.final_text.trim().is_empty() {
-        fts::delete_document(&tx, &fts::HISTORY, w.entry_id)?;
-    } else {
-        fts::index_history_entry(&tx, w.entry_id, &w.final_text)?;
-    }
+    // The final text, plus a snippet's inserted text when the row has one.
+    fts::reindex_history_entry(&tx, w.entry_id)?;
     let changed = stats::apply(&tx, before.as_ref(), after.as_ref())?;
     tx.commit()?;
     Ok(changed)

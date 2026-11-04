@@ -211,10 +211,10 @@
         "modelReady": "音声認識モデルの準備完了",
         "updateReady": "アップデートの準備完了",
         "queuedReady": "待機中の音声入力の準備完了",
-        "errors": "対応が必要な問題",
         "suggestions": "提案",
         "announcements": "新機能のお知らせ",
-        "milestones": "達成記録"
+        "milestones": "達成記録",
+        "shortcutProblems": "ショートカットの問題"
       },
       "scratchpad": "メモパッド",
       "scratchpadLabel": "メモパッドを開いたとき",
@@ -222,7 +222,10 @@
       "scratchpadOptions": {
         "resume_last": "最後のメモを再開",
         "new_note": "新規メモを作成"
-      }
+      },
+      "notificationsHint": "各スイッチは、その通知を Wispr Bro 内と Mac の両方に対して切り替えます。「Mac の通知」をオフにすると、Mac のバナーだけが止まります。クラッシュと復元の通知は常に Wispr Bro 内に表示されます。",
+      "dockKeptForTray": "メニューバーのアイコンがオフのため、Dock のアイコンは表示されたままです。非表示にするには、メニューバーのアイコンをオンにしてください。",
+      "trayKeptForDock": "Dock のアイコンがオフのため、メニューバーのアイコンは表示されたままです。非表示にするには、「Dock にアプリを表示」をオンにしてください。"
     },
     "vibe": {
       "intro": "Wispr Bro はエディタに表示されたコード名とファイル名を読みます。ファイルを開くことはありません。",
@@ -350,7 +353,9 @@
       "experimental": "実験的機能とデバッグ",
       "debugMode": "デバッグツール",
       "debugModeHint": "診断用のコントロールと詳細ログのオプションを表示します。",
-      "forkDiagnostics": "フォークの設定の診断"
+      "forkDiagnostics": "フォークの設定の診断",
+      "translateUnsupported": "{{model}} は翻訳に対応していません。「音声認識モデル」で、Whisper や Canary など対応しているモデルを選んでください。",
+      "translateNoModel": "現在の音声認識モデルは翻訳に対応していません。「音声認識モデル」で、Whisper や Canary など対応しているモデルを選んでください。"
     },
     "about": {
       "tagline": "ローカルで動く音声入力。アカウントもクラウド処理も不要です。",
@@ -435,8 +440,9 @@
           "open": "前回のメモを続けるか、新しいメモを始めます。"
         }
       },
-      "description_other": "各操作に最大 {{max}} 個のショートカットを追加できます。変更はすぐに保存されます。",
-      "addFor": "{{action}}のショートカットを追加"
+      "addFor": "{{action}}のショートカットを追加",
+      "descriptionLimits": "ほとんどの操作には最大 {{max}} 個のショートカットを設定できます。「押しながら話す」、キャンセル、コマンドモードは各 1 個、ハンズフリー音声入力は 2 個です。変更はその場で保存されます。",
+      "limit_other": "この操作には最大 {{count}} 個のショートカットを設定できます。"
     },
     "resetSetting": "{{setting}} をリセット",
     "intro": {
@@ -865,7 +871,7 @@
         "cancelled": "キャンセルしました",
         "no_transcript": "ペーストできる音声入力はまだありません",
         "copied_last": "最後の音声入力をコピーしました",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "クリップボードにコピーしました",
         "transform_done": "完了",
         "command_done": "完了",
         "command_needs_text": "コマンドモードはテキストを編集・作成します。テキストを選択するか、入力フィールドをクリックしてください。",
@@ -1184,7 +1190,9 @@
     "learn": {
       "toggle": "修正内容から学習",
       "hint": "音声入力がペーストされてから 30 秒間、{{appName}} はそのテキストボックスで修正された単語を検出し、ここに提案します。保持されるのは修正した単語だけで、ほかのテキストは保持されません。パスワードフィールド、パスワードマネージャ、銀行アプリ、ターミナルが読み取られることはありません。"
-    }
+    },
+    "undoFailed": "「{{entry}}」を元に戻せませんでした。もう一度追加してください。",
+    "undoSkipped": "「{{entry}}」は元に戻されませんでした。辞書にすでに登録されています。"
   },
   "pill": {
     "region": "音声入力バー",
@@ -1561,7 +1569,9 @@
       "fileName": "{{appName}} スニペット.csv",
       "done_other": "{{count}} 件のスニペットを書き出しました。",
       "failed": "スニペットを書き出せませんでした。もう一度お試しください。"
-    }
+    },
+    "undoFailed": "「{{trigger}}」を元に戻せませんでした。もう一度追加してください。",
+    "undoSkipped": "「{{trigger}}」は元に戻されませんでした。別のスニペットがすでにそのフレーズを使っています。"
   },
   "insights": {
     "tabs": {

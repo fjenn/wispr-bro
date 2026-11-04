@@ -18,6 +18,7 @@ import {
   canAddBinding,
   defaultHotkeys,
   MAX_BINDINGS,
+  maxBindings,
   nextBindingActivation,
 } from "./model";
 
@@ -33,6 +34,37 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
   const [capture, setCapture] = useState<CaptureTarget | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Audit OT2: custom transforms are named by the user; their action ids
+  // (`transform.custom-3`) are never shown.
+  const [transformNames, setTransformNames] = useState<Record<string, string>>(
+    {},
+  );
+
+  useEffect(() => {
+    let live = true;
+    commands
+      .forkTransformsList()
+      .then((result) => {
+        if (!live || result.status !== "ok") return;
+        setTransformNames(
+          Object.fromEntries(
+            result.data.map((entry) => [entry.action_id, entry.name]),
+          ),
+        );
+      })
+      .catch((cause) => console.warn("fork: transform names failed", cause));
+    return () => {
+      live = false;
+    };
+  }, [settings?.hotkeys]);
+
+  const actionName = useCallback(
+    (id: string) =>
+      t(`settingsModal.hotkeys.actions.${id}`, {
+        defaultValue: transformNames[id] ?? id,
+      }),
+    [t, transformNames],
+  );
 
   const refresh = useCallback(async () => {
     try {
@@ -91,8 +123,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
     <div className="flex flex-col gap-6" data-testid="wb-hotkeys-panel">
       <div className="flex flex-col gap-1">
         <p className="type-body text-(--wb-ink-2)">
-          {t("settingsModal.hotkeys.description", {
-            count: MAX_BINDINGS,
+          {t("settingsModal.hotkeys.descriptionLimits", {
             max: MAX_BINDINGS,
           })}
         </p>
@@ -110,9 +141,9 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
               : [definition.activation];
           const adding =
             capture?.action === id && capture.index === bindings.length;
-          const name = t(`settingsModal.hotkeys.actions.${id}`, {
-            defaultValue: id,
-          });
+          const name = actionName(id);
+          const max = maxBindings(id);
+          const full = !canAddBinding(id, bindings);
           return (
             <section
               key={id}
@@ -133,7 +164,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                 <span className="sr-only">
                   {t("settingsModal.hotkeys.count", {
                     count: bindings.length,
-                    max: MAX_BINDINGS,
+                    max,
                   })}
                 </span>
               </div>
@@ -152,6 +183,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                       index={index}
                       activations={activations}
                       status={status}
+                      actionName={actionName}
                       capturing={
                         capture?.action === id && capture.index === index
                       }
@@ -193,6 +225,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                       index={bindings.length}
                       activations={activations}
                       status={status}
+                      actionName={actionName}
                       capturing
                       captureBusy={busy}
                       onCapture={() => undefined}
@@ -217,8 +250,12 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                   aria-label={t("settingsModal.hotkeys.addFor", {
                     action: name,
                   })}
-                  title={t("settingsModal.hotkeys.add")}
-                  disabled={busyCapture || !canAddBinding(bindings)}
+                  title={
+                    full
+                      ? t("settingsModal.hotkeys.limit", { count: max })
+                      : t("settingsModal.hotkeys.add")
+                  }
+                  disabled={busyCapture || full}
                   onClick={() =>
                     setCapture({ action: id, index: bindings.length })
                   }

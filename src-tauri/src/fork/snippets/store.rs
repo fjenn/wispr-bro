@@ -265,6 +265,8 @@ pub fn record_use(conn: &mut Connection, used: &SnippetUse, now_ms: i64) -> Resu
                 "UPDATE entry_meta SET inserted_text = ?2 WHERE entry_id = ?1",
                 params![entry_id, inserted],
             )?;
+            // Audit OT2: History shows and finds what was inserted.
+            crate::fork::db::fts::reindex_history_entry(&tx, entry_id)?;
         }
     }
     tx.commit()?;

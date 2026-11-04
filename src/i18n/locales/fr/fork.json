@@ -213,10 +213,10 @@
         "modelReady": "Modèle vocal prêt",
         "updateReady": "Mise à jour prête",
         "queuedReady": "Dictées en attente prêtes",
-        "errors": "Problèmes nécessitant votre attention",
         "suggestions": "Suggestions",
         "announcements": "Annonces de nouveautés",
-        "milestones": "Étapes franchies"
+        "milestones": "Étapes franchies",
+        "shortcutProblems": "Problèmes de raccourcis"
       },
       "scratchpad": "Bloc-notes",
       "scratchpadLabel": "À l’ouverture du Bloc-notes",
@@ -224,7 +224,10 @@
       "scratchpadOptions": {
         "resume_last": "Reprendre ma dernière note",
         "new_note": "Créer une note"
-      }
+      },
+      "notificationsHint": "Chaque interrupteur couvre cette notification dans Wispr Bro et sur le Mac. « Notifications Mac » désactive uniquement les bannières du Mac. Les notifications de plantage et de récupération apparaissent toujours dans Wispr Bro.",
+      "dockKeptForTray": "L’icône de la barre des menus est désactivée, donc l’icône du Dock reste. Activez l’icône de la barre des menus pour la masquer.",
+      "trayKeptForDock": "L’icône du Dock est désactivée, donc l’icône de la barre des menus reste. Activez Afficher l’app dans le Dock pour la masquer."
     },
     "vibe": {
       "intro": "Wispr Bro lit les noms de code et de fichiers affichés par votre éditeur. Il n’ouvre jamais vos fichiers.",
@@ -352,7 +355,9 @@
       "experimental": "Expérimental et débogage",
       "debugMode": "Outils de débogage",
       "debugModeHint": "Affiche les commandes de diagnostic et les options de journalisation détaillée.",
-      "forkDiagnostics": "Diagnostics des réglages du fork"
+      "forkDiagnostics": "Diagnostics des réglages du fork",
+      "translateUnsupported": "{{model}} ne peut pas traduire. Choisissez un modèle qui le peut, comme Whisper ou Canary, dans Modèles vocaux.",
+      "translateNoModel": "Votre modèle vocal ne peut pas traduire. Choisissez-en un qui le peut, comme Whisper ou Canary, dans Modèles vocaux."
     },
     "about": {
       "tagline": "Dictée locale, sans compte ni traitement dans le cloud.",
@@ -437,10 +442,11 @@
           "open": "Reprend votre dernière note ou en commence une nouvelle."
         }
       },
-      "description_one": "Ajoutez jusqu’à {{max}} raccourci par action. Les modifications sont enregistrées au fur et à mesure.",
-      "description_many": "Ajoutez jusqu’à {{max}} de raccourcis par action. Les modifications sont enregistrées au fur et à mesure.",
-      "description_other": "Ajoutez jusqu’à {{max}} raccourcis par action. Les modifications sont enregistrées au fur et à mesure.",
-      "addFor": "Ajouter un raccourci pour {{action}}"
+      "addFor": "Ajouter un raccourci pour {{action}}",
+      "descriptionLimits": "La plupart des actions acceptent jusqu’à {{max}} raccourcis. Maintenir pour parler, annuler et le mode Commande en acceptent un chacun, la dictée mains libres deux. Les modifications sont enregistrées au fur et à mesure.",
+      "limit_one": "Cette action accepte {{count}} raccourci.",
+      "limit_many": "Cette action accepte jusqu’à {{count}} raccourcis.",
+      "limit_other": "Cette action accepte jusqu’à {{count}} raccourcis."
     },
     "resetSetting": "Réinitialiser {{setting}}",
     "intro": {
@@ -895,7 +901,7 @@
         "cancelled": "Annulé",
         "no_transcript": "Aucune dictée à coller pour l’instant",
         "copied_last": "Dernière dictée copiée",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "Copié dans le presse-papiers",
         "transform_done": "Terminé",
         "command_done": "Terminé",
         "command_needs_text": "Le mode Commande modifie et écrit du texte. Sélectionnez du texte ou cliquez dans un champ.",
@@ -1254,7 +1260,9 @@
     "learn": {
       "toggle": "Apprendre à partir de mes corrections",
       "hint": "Pendant 30 secondes après le collage d’une dictée, {{appName}} repère les mots que vous corrigez dans ce champ de texte et vous les suggère ici. Seul le mot corrigé est conservé, jamais le reste du texte. Les champs de mot de passe, les gestionnaires de mots de passe, les apps bancaires et les terminaux ne sont jamais lus."
-    }
+    },
+    "undoFailed": "« {{entry}} » n’a pas pu être restauré. Veuillez l’ajouter à nouveau.",
+    "undoSkipped": "« {{entry}} » n’a pas été restauré : votre dictionnaire le contient déjà."
   },
   "pill": {
     "region": "Barre de dictée",
@@ -1687,7 +1695,9 @@
       "done_many": "{{count}} de fragments exportés.",
       "done_other": "{{count}} fragments exportés.",
       "failed": "Impossible d’exporter les fragments. Réessayez."
-    }
+    },
+    "undoFailed": "« {{trigger}} » n’a pas pu être restauré. Veuillez l’ajouter à nouveau.",
+    "undoSkipped": "« {{trigger}} » n’a pas été restauré : un autre fragment utilise désormais cette expression."
   },
   "insights": {
     "tabs": {

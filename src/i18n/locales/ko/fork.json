@@ -211,10 +211,10 @@
         "modelReady": "음성 모델 준비됨",
         "updateReady": "업데이트 준비됨",
         "queuedReady": "대기 중이던 받아쓰기 준비됨",
-        "errors": "확인이 필요한 문제",
         "suggestions": "제안",
         "announcements": "기능 공지",
-        "milestones": "기록 달성"
+        "milestones": "기록 달성",
+        "shortcutProblems": "단축키 문제"
       },
       "scratchpad": "스크래치패드",
       "scratchpadLabel": "스크래치패드를 열 때",
@@ -222,7 +222,10 @@
       "scratchpadOptions": {
         "resume_last": "마지막 메모 이어서 쓰기",
         "new_note": "새 메모 시작"
-      }
+      },
+      "notificationsHint": "각 스위치는 해당 알림을 Wispr Bro와 Mac에서 함께 제어합니다. ‘Mac 알림’은 Mac 배너만 끕니다. 충돌 및 복구 알림은 항상 Wispr Bro에 표시됩니다.",
+      "dockKeptForTray": "메뉴 막대 아이콘이 꺼져 있어 Dock 아이콘이 유지됩니다. Dock 아이콘을 숨기려면 메뉴 막대 아이콘을 켜세요.",
+      "trayKeptForDock": "Dock 아이콘이 꺼져 있어 메뉴 막대 아이콘이 유지됩니다. 메뉴 막대 아이콘을 숨기려면 ‘Dock에 앱 표시’를 켜세요."
     },
     "vibe": {
       "intro": "Wispr Bro는 편집기에 표시된 코드와 파일 이름을 읽습니다. 파일을 열지는 않습니다.",
@@ -350,7 +353,9 @@
       "experimental": "실험 및 디버그",
       "debugMode": "디버그 도구",
       "debugModeHint": "진단 제어 및 상세 로깅 옵션을 표시합니다.",
-      "forkDiagnostics": "Fork 설정 진단"
+      "forkDiagnostics": "Fork 설정 진단",
+      "translateUnsupported": "{{model}}은(는) 번역할 수 없습니다. 음성 모델에서 Whisper나 Canary처럼 번역할 수 있는 모델을 선택하세요.",
+      "translateNoModel": "현재 음성 모델은 번역할 수 없습니다. 음성 모델에서 Whisper나 Canary처럼 번역할 수 있는 모델을 선택하세요."
     },
     "about": {
       "tagline": "계정도 클라우드 처리도 없는 로컬 받아쓰기.",
@@ -435,8 +440,9 @@
           "open": "마지막 메모를 이어 쓰거나 새 메모를 시작합니다."
         }
       },
-      "description_other": "동작마다 단축키를 최대 {{max}}개까지 추가할 수 있습니다. 변경 사항은 바로 저장됩니다.",
-      "addFor": "{{action}} 단축키 추가"
+      "addFor": "{{action}} 단축키 추가",
+      "descriptionLimits": "대부분의 동작은 단축키를 최대 {{max}}개까지 지정할 수 있습니다. 누른 채 말하기, 취소, 명령 모드는 각각 1개, 핸즈프리 받아쓰기는 2개입니다. 변경 사항은 바로 저장됩니다.",
+      "limit_other": "이 동작에는 단축키를 최대 {{count}}개까지 지정할 수 있습니다."
     },
     "resetSetting": "{{setting}} 재설정",
     "intro": {
@@ -865,7 +871,7 @@
         "cancelled": "취소됨",
         "no_transcript": "아직 붙여넣을 받아쓰기가 없음",
         "copied_last": "마지막 받아쓰기 복사됨",
-        "copied_to_clipboard": "Copied to clipboard",
+        "copied_to_clipboard": "클립보드에 복사됨",
         "transform_done": "완료",
         "command_done": "완료",
         "command_needs_text": "명령 모드는 텍스트를 편집하고 작성합니다. 텍스트를 선택하거나 입력란을 클릭하세요.",
@@ -1184,7 +1190,9 @@
     "learn": {
       "toggle": "내 수정 사항에서 학습",
       "hint": "받아쓰기가 붙여넣어진 후 30초 동안 {{appName}}이(가) 해당 텍스트 상자에서 고친 단어를 감지해 여기에 제안합니다. 고친 단어만 보관되며 나머지 텍스트는 절대 보관되지 않습니다. 암호 필드, 암호 관리자, 은행 앱 및 터미널은 절대 읽지 않습니다."
-    }
+    },
+    "undoFailed": "‘{{entry}}’을(를) 복원하지 못했습니다. 다시 추가해 주세요.",
+    "undoSkipped": "‘{{entry}}’은(는) 복원되지 않았습니다. 사전에 이미 있습니다."
   },
   "pill": {
     "region": "받아쓰기 바",
@@ -1561,7 +1569,9 @@
       "fileName": "{{appName}} 스니펫.csv",
       "done_other": "스니펫 {{count}}개를 내보냈습니다.",
       "failed": "스니펫을 내보낼 수 없습니다. 다시 시도하세요."
-    }
+    },
+    "undoFailed": "‘{{trigger}}’을(를) 복원하지 못했습니다. 다시 추가해 주세요.",
+    "undoSkipped": "‘{{trigger}}’은(는) 복원되지 않았습니다. 이제 다른 스니펫이 해당 문구를 사용합니다."
   },
   "insights": {
     "tabs": {
