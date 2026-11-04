@@ -832,6 +832,7 @@ async fn ask<E: Engine>(
         user: prompt::cleanup_user(core),
         max_tokens: prompt::max_tokens(core),
         response_format: Some(prompt::response_format()),
+        examples: Vec::new(),
     };
     let t0 = Instant::now();
     // The engine enforces the deadline on the request; this outer bound

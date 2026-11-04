@@ -17,9 +17,30 @@ pub struct Definition {
     pub id: i64,
     pub key: String,
     pub name: String,
+    /// What the model is asked to do; empty when the transform is only exact
+    /// edits and never reaches the model.
     pub instruction: String,
-    /// Prompt Engineer and custom rewrites may change length and structure.
-    pub flexible: bool,
+    /// Exact edits applied by code after the model (or alone) (OT2-D).
+    pub edits: Vec<super::literal::Edit>,
+    pub guard: GuardProfile,
+}
+
+impl Definition {
+    pub fn uses_model(&self) -> bool {
+        !self.instruction.trim().is_empty()
+    }
+}
+
+/// How closely a transform's model output must resemble its input.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GuardProfile {
+    /// Polish: the cleanup guards.
+    Strict,
+    /// Prompt Engineer: may restructure, must keep numbers and entities.
+    Flexible,
+    /// Custom transforms do what the user wrote: translate, add numbering,
+    /// rewrite. Only framing, assistant and output-bound checks apply.
+    Instruction,
 }
 
 pub fn definition(conn: &Connection, kind: TransformKind) -> Result<Option<Definition>, DbError> {

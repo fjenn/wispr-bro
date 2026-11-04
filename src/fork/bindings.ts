@@ -1051,13 +1051,16 @@ async forkTransformsReset() : Promise<Result<TransformEntry[], ForkError>> {
     else return { status: "error", error: e  as any };
 }
 },
-async forkTransformPreview(id: number, input: TransformInput, source: string) : Promise<Result<string, ForkError>> {
+async forkTransformPreview(id: number, input: TransformInput, source: string) : Promise<Result<TransformPreview, ForkError>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("fork_transform_preview", { id, input, source }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async forkTransformPlan(input: TransformInput) : Promise<TransformPlan> {
+    return await TAURI_INVOKE("fork_transform_plan", { input });
 },
 async forkTransformLatest() : Promise<Result<ForkTransformViewChanges | null, ForkError>> {
     try {
@@ -2731,6 +2734,29 @@ text: string;
  * For screen readers ("Control Command V").
  */
 spoken: string }
+export type LiteralCase = "upper" | "lower" | "title"
+export type LiteralCategory = "emoji" | "email" | "url"
+/**
+ * One exact edit, as the editor shows it.
+ */
+export type LiteralEdit = { kind: "replace"; find: LiteralTarget; with: string; match_case: boolean } | { kind: "case"; mode: LiteralCase }
+/**
+ * One editor "Find and replace" row.
+ */
+export type LiteralRule = { find: string; 
+/**
+ * Empty removes what was found.
+ */
+replace: string; 
+/**
+ * Off: letters and words match in any case, and the replacement follows
+ * the case of what it replaces.
+ */
+match_case: boolean }
+/**
+ * What to look for.
+ */
+export type LiteralTarget = { kind: "text"; value: string } | { kind: "category"; value: LiteralCategory }
 /**
  * Overall state shown in Settings › Advanced › AI engine.
  */
@@ -3054,6 +3080,16 @@ export type PillMessage =
  */
 "transform_done" | "command_done" | "command_needs_text" | "select_text_first" | "selection_too_long" | "transform_focus_moved" | "transform_failed" | 
 /**
+ * OT2-D: the transform left the text as it was (exact edits matched
+ * nothing, or Polish found nothing to fix); nothing was pasted.
+ */
+"transform_no_change" | 
+/**
+ * OT2-D: the model returned the text without carrying out a custom
+ * transform's instruction; nothing was pasted.
+ */
+"transform_not_applied" | 
+/**
  * S-02: the shortcut stopped working: Accessibility is off (or the
  * app's grant no longer matches it). Fix opens the Fix sheet. Stays
  * until the shortcut works again, ✕ or the next take.
@@ -3167,6 +3203,23 @@ export type PolicyPhase =
  * The download stopped; tried again at the next launch or change.
  */
 "paused"
+export type PreviewOutcome = "changed" | 
+/**
+ * Nothing changed (exact edits found no match, or nothing to fix).
+ */
+"no_change" | 
+/**
+ * The model returned the text without doing what was asked.
+ */
+"not_applied" | 
+/**
+ * The model's answer was rejected or it failed.
+ */
+"failed" | "timeout" | 
+/**
+ * The local AI is not ready (still downloading, or memory).
+ */
+"no_engine"
 /**
  * Where a queued take is (`queued_takes.status`).
  */
@@ -3652,8 +3705,34 @@ export type TransformEntry = { id: number;
 /**
  * Fork settings id and hotkey action suffix (`polish`, `custom-3`).
  */
-key: string; action_id: string; builtin_key: string | null; name: string; description: string; rules: TransformRules; prompt: string; examples: string[]; updated_at: number }
-export type TransformInput = { name: string; description: string; rules: TransformRules; prompt: string; examples: string[] }
+key: string; action_id: string; builtin_key: string | null; name: string; description: string; rules: TransformRules; prompt: string; examples: string[]; 
+/**
+ * "Find and replace" rows, applied exactly (OT2-D).
+ */
+replacements: LiteralRule[]; updated_at: number }
+export type TransformInput = { name: string; description: string; rules: TransformRules; prompt: string; examples: string[]; replacements: LiteralRule[] }
+/**
+ * What the editor says about a draft: exact edits it found and whether the
+ * local AI is used at all (OT2-D).
+ */
+export type TransformPlan = { edits: LiteralEdit[]; uses_model: boolean; 
+/**
+ * The custom prompt is wholly exact edits, so the editing rules and
+ * writing examples are not used.
+ */
+prompt_exact: boolean }
+/**
+ * What the editor's Preview shows.
+ */
+export type TransformPreview = { 
+/**
+ * The transformed text, when there is one.
+ */
+text: string | null; outcome: PreviewOutcome; 
+/**
+ * Exact edits only: the model was not used.
+ */
+exact: boolean }
 export type TransformRules = { shorter: boolean; clearer: boolean; better_order: boolean; headings_lists: boolean; keep_tone: boolean }
 /**
  * How a device is connected (CoreAudio `kAudioDevicePropertyTransportType`).

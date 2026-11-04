@@ -10,7 +10,7 @@ use crate::fork::db::{DbError, ForkDb};
 use crate::fork::text::diff::{self, WordDiff};
 use crate::fork::transforms::record::{self, ForkTransformViewChanges};
 use crate::fork::transforms::store::{self, TransformEntry, TransformInput};
-use crate::fork::transforms::{run, TransformKind};
+use crate::fork::transforms::{literal, run, TransformKind};
 use crate::fork::ForkRuntime;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type, tauri_specta::Event)]
@@ -129,6 +129,25 @@ pub fn fork_transforms_reset<R: ForkRuntime>(
     Ok(entries)
 }
 
+fn draft_entry(id: i64, builtin_key: Option<String>, input: &TransformInput) -> TransformEntry {
+    let key = builtin_key
+        .clone()
+        .unwrap_or_else(|| format!("custom-{id}"));
+    TransformEntry {
+        id,
+        action_id: format!("transform.{key}"),
+        key,
+        builtin_key,
+        name: input.name.clone(),
+        description: input.description.clone(),
+        rules: input.rules.clone(),
+        prompt: input.prompt.clone(),
+        examples: input.examples.clone(),
+        replacements: input.replacements.clone(),
+        updated_at: 0,
+    }
+}
+
 #[tauri::command]
 #[specta::specta]
 pub async fn fork_transform_preview<R: ForkRuntime>(
@@ -136,34 +155,38 @@ pub async fn fork_transform_preview<R: ForkRuntime>(
     id: i64,
     input: TransformInput,
     source: String,
-) -> Result<String, ForkError> {
+) -> Result<run::TransformPreview, ForkError> {
     let input = store::validate(&input).map_err(ForkError::InvalidSetting)?;
-    let flexible = db(&app)?
+    let builtin_key = db(&app)?
         .with_conn(|conn| store::get(conn, id))
         .map_err(internal)?
-        .is_none_or(|entry| entry.builtin_key.as_deref() != Some("polish"));
-    let entry = TransformEntry {
-        id,
-        key: format!("custom-{id}"),
-        action_id: format!("transform.custom-{id}"),
-        builtin_key: None,
-        name: input.name.clone(),
-        description: input.description.clone(),
-        rules: input.rules.clone(),
-        prompt: input.prompt.clone(),
-        examples: input.examples.clone(),
-        updated_at: 0,
-    };
-    let definition = record::Definition {
-        id,
-        key: entry.key.clone(),
-        name: entry.name.clone(),
-        flexible,
-        instruction: store::instruction(&entry),
-    };
-    run::preview(&app, definition, &source)
-        .await
-        .map_err(ForkError::Internal)
+        .and_then(|entry| entry.builtin_key);
+    let definition = store::definition_for(&draft_entry(id, builtin_key, &input));
+    Ok(run::preview(&app, definition, &source).await)
+}
+
+/// What the editor says about a draft: exact edits it found and whether the
+/// local AI is used at all (OT2-D).
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct TransformPlan {
+    pub edits: Vec<literal::Edit>,
+    pub uses_model: bool,
+    /// The custom prompt is wholly exact edits, so the editing rules and
+    /// writing examples are not used.
+    pub prompt_exact: bool,
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn fork_transform_plan(input: TransformInput) -> TransformPlan {
+    let entry = draft_entry(0, None, &input);
+    let compiled = store::compile(&entry);
+    let plan = literal::plan(&input.prompt);
+    TransformPlan {
+        uses_model: !compiled.instruction.is_empty(),
+        prompt_exact: !plan.edits.is_empty() && plan.rest.trim().is_empty(),
+        edits: compiled.edits,
+    }
 }
 
 #[tauri::command]

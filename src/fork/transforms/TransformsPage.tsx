@@ -28,15 +28,17 @@ function blankInput(t: (key: string) => string): TransformInput {
   return {
     name: t("transforms.new.name"),
     description: t("transforms.new.description"),
+    // OT2-D: a new transform does what its prompt says; rules are opt-in.
     rules: {
-      shorter: true,
-      clearer: true,
-      better_order: true,
+      shorter: false,
+      clearer: false,
+      better_order: false,
       headings_lists: false,
-      keep_tone: true,
+      keep_tone: false,
     },
     prompt: t("transforms.new.prompt"),
     examples: [],
+    replacements: [],
   };
 }
 

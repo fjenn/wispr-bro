@@ -211,11 +211,13 @@ impl Engine for AppleEngine {
         let mut cancel = CancelOnDrop { id, armed: true };
         let (guardrails, guided) = (self.guardrails, self.guided);
         REQUESTS.fetch_add(1, Ordering::Relaxed);
+        // Apple's session takes one instruction text: worked examples join it.
+        let instructions = with_examples(&request.system, &request.examples);
         let joined = tokio::task::spawn_blocking(move || {
             fm::complete(
                 id,
                 &Generation {
-                    instructions: &request.system,
+                    instructions: &instructions,
                     prompt: &request.user,
                     max_tokens: request.max_tokens,
                     timeout,
@@ -356,6 +358,19 @@ pub fn selfcheck<R: crate::fork::ForkRuntime>(app: &AppHandle<R>) {
             st.rate_limited
         );
     });
+}
+
+/// [`ChatRequest::examples`] written into the instructions.
+fn with_examples(system: &str, examples: &[(String, String)]) -> String {
+    if examples.is_empty() {
+        return system.to_owned();
+    }
+    let shown = examples
+        .iter()
+        .map(|(user, reply)| format!("Request:\n{user}\nReply: {reply}"))
+        .collect::<Vec<_>>()
+        .join("\n\n");
+    format!("{system}\n\nExamples:\n\n{shown}")
 }
 
 #[cfg(test)]

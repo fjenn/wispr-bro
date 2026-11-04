@@ -164,6 +164,7 @@ function transforms(): TransformEntry[] {
     rules: { ...RULES },
     prompt: "Polish this text.",
     examples: [],
+    replacements: [],
     updated_at: 0,
   }));
 }

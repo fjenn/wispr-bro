@@ -52,13 +52,18 @@ function install(ipc: IpcMock, hub: HubState): void {
     rules,
     prompt: `${name} this text.`,
     examples: [],
+    replacements: [],
     updated_at: 0,
   });
   ipc.respond("fork_transforms_list", [
     entry(1, "polish", "Polish"),
     entry(2, "prompt_engineer", "Prompt Engineer"),
   ]);
-  ipc.handle("fork_transform_preview", () => REWRITE);
+  ipc.handle("fork_transform_preview", () => ({
+    text: REWRITE,
+    outcome: "changed",
+    exact: false,
+  }));
   ipc.handle("fork_transform_diff", (args) => ({
     ops: [
       { kind: "delete", text: String(args.source).slice(0, 40) },

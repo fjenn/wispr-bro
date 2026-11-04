@@ -57,13 +57,13 @@ async fn scratchpad_polish_on_long_notes() {
         "eval/perf/takes.jsonl has the m0x paragraphs"
     );
     // Warm-up, not scored.
-    let _ = super::run::generate_definition(&engine, &polish, &paras[0], &CancellationToken::new())
+    let _ = super::run::generate_definition(Some(&engine), &polish, &paras[0], &CancellationToken::new())
         .await;
     for n in 1..=paras.len() {
         let note = paras[..n].join("\n\n");
         let words = note.split_whitespace().count();
         let t = Instant::now();
-        let r = super::run::generate_definition(&engine, &polish, &note, &CancellationToken::new())
+        let r = super::run::generate_definition(Some(&engine), &polish, &note, &CancellationToken::new())
             .await;
         println!(
             "polish note of {words} words: {} in {} ms",

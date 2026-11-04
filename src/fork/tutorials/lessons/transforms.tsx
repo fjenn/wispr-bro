@@ -349,10 +349,13 @@ async function realRewrite(
         rules: entry.rules,
         prompt: entry.prompt,
         examples: entry.examples,
+        replacements: entry.replacements,
       },
       source,
     )
-    .then((r) => (r.status === "ok" && r.data.trim() ? r.data : null))
+    .then((r) =>
+      r.status === "ok" && r.data.text?.trim() ? r.data.text : null,
+    )
     .catch(() => null);
   return Promise.race([run, timeout]);
 }

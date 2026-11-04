@@ -490,3 +490,13 @@ fn reason_names_are_stable() {
         assert_eq!(serde_json::to_value(r).unwrap(), serde_json::json!(s));
     }
 }
+
+#[test]
+fn paragraphs_count_blocks_between_blank_lines() {
+    use super::{lines_survive_loosely, paragraphs};
+    assert_eq!(paragraphs(""), 0);
+    assert_eq!(paragraphs("a\nb\n\n\nc\n"), 2);
+    assert!(lines_survive_loosely("a\nb\n\nc", "a b\n\nc"));
+    assert!(lines_survive_loosely("a\nb", "a\n\nb"));
+    assert!(!lines_survive_loosely("a\nb\n\nc", "a b c"));
+}
