@@ -882,7 +882,9 @@
         "transform_failed": "Kan die tekst niet transformeren",
         "shortcut_lost": "Je toetscombinatie werkt niet meer",
         "shortcut_stopped": "Je toetscombinatie reageert niet meer",
-        "shortcut_back": "Je toetscombinatie werkt weer"
+        "shortcut_back": "Je toetscombinatie werkt weer",
+        "transform_no_change": "Niets te wijzigen",
+        "transform_not_applied": "Transformatie niet toegepast"
       },
       "card": {
         "no_text_field": "Klik eerst in een tekstveld",
@@ -1323,7 +1325,15 @@
       },
       "reset": "Herstel",
       "done": "Gereed",
-      "close": "Sluit editor"
+      "close": "Sluit editor",
+      "exactBadge": "Exact · zonder AI",
+      "outcome": {
+        "no_change": "Er valt niets te wijzigen in deze tekst.",
+        "not_applied": "De lokale AI kon dit niet. Probeer een kortere, specifiekere instructie.",
+        "failed": "Het antwoord van de lokale AI heeft de veiligheidscontroles niet doorstaan. Probeer het opnieuw of formuleer de instructie anders.",
+        "timeout": "De lokale AI deed er te lang over. Probeer het opnieuw.",
+        "no_engine": "De lokale AI is nog niet klaar. Exacte wijzigingen werken nog wel."
+      }
     },
     "rules": {
       "shorter": {
@@ -1373,7 +1383,31 @@
       "simpleView": "Voor deze grote of complexe wijziging wordt één vervanging getoond.",
       "actionFailed": "Die actie is niet gelukt. Je tekst staat nog hier; probeer het opnieuw."
     },
-    "startTutorial": "Start uitleg"
+    "startTutorial": "Start uitleg",
+    "findReplace": {
+      "title": "Zoeken en vervangen",
+      "help": "Exacte wijzigingen, zonder AI uitgevoerd telkens als deze transformatie wordt gebruikt. Laat “Vervangen door” leeg om de tekst te verwijderen.",
+      "find": "Zoeken, rij {{number}}",
+      "replace": "Vervangen door, rij {{number}}",
+      "findPlaceholder": "Zoeken",
+      "replacePlaceholder": "Vervangen door",
+      "matchCase": "Hoofdlettergevoelig",
+      "remove": "Rij {{number}} verwijderen",
+      "add": "Vervanging toevoegen"
+    },
+    "plan": {
+      "exact": "Wordt exact uitgevoerd, zonder AI",
+      "mixed": "Exact en zonder AI uitgevoerd:",
+      "rulesUnused": "Wijzigingsregels en schrijfvoorbeelden worden niet gebruikt: de prompt vraagt alleen om exacte wijzigingen.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "{{find}} verwijderen",
+      "upper": "HOOFDLETTERS",
+      "lower": "kleine letters",
+      "title": "Elk Woord Met Hoofdletter",
+      "emoji": "emoji",
+      "email": "e-mailadressen",
+      "url": "links"
+    }
   },
   "cleanup": {
     "title": "Opschonen",

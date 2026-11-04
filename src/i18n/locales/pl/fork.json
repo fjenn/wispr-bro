@@ -912,7 +912,9 @@
         "transform_failed": "Nie udało się przekształcić tekstu",
         "shortcut_lost": "Twój skrót przestał działać",
         "shortcut_stopped": "Twój skrót przestał reagować",
-        "shortcut_back": "Twój skrót znów działa"
+        "shortcut_back": "Twój skrót znów działa",
+        "transform_no_change": "Nic do zmiany",
+        "transform_not_applied": "Nie udało się zastosować przekształcenia"
       },
       "card": {
         "no_text_field": "Najpierw kliknij w pole tekstowe",
@@ -1395,7 +1397,15 @@
       },
       "reset": "Resetuj",
       "done": "Gotowe",
-      "close": "Zamknij edytor"
+      "close": "Zamknij edytor",
+      "exactBadge": "Dokładnie · bez AI",
+      "outcome": {
+        "no_change": "W tym tekście nie ma nic do zmiany.",
+        "not_applied": "Lokalna AI nie dała rady. Spróbuj krótszego, bardziej szczegółowego polecenia.",
+        "failed": "Odpowiedź lokalnej AI nie przeszła kontroli bezpieczeństwa. Spróbuj ponownie lub przeformułuj polecenie.",
+        "timeout": "Lokalna AI odpowiadała zbyt długo. Spróbuj ponownie.",
+        "no_engine": "Lokalna AI nie jest jeszcze gotowa. Dokładne zmiany nadal działają."
+      }
     },
     "rules": {
       "shorter": {
@@ -1449,7 +1459,31 @@
       "simpleView": "Ta zmiana jest duża lub złożona, więc jest pokazana jako jedno zastąpienie.",
       "actionFailed": "Ta czynność się nie powiodła. Twój tekst nadal tu jest; spróbuj ponownie."
     },
-    "startTutorial": "Rozpocznij samouczek"
+    "startTutorial": "Rozpocznij samouczek",
+    "findReplace": {
+      "title": "Znajdź i zamień",
+      "help": "Dokładne zmiany wykonywane bez AI za każdym razem, gdy to przekształcenie jest uruchamiane. Zostaw „Zamień na” puste, aby usunąć tekst.",
+      "find": "Znajdź, wiersz {{number}}",
+      "replace": "Zamień na, wiersz {{number}}",
+      "findPlaceholder": "Znajdź",
+      "replacePlaceholder": "Zamień na",
+      "matchCase": "Uwzględnij wielkość liter",
+      "remove": "Usuń wiersz {{number}}",
+      "add": "Dodaj zamianę"
+    },
+    "plan": {
+      "exact": "Działa dokładnie, bez AI",
+      "mixed": "Wykonano dokładnie, bez AI:",
+      "rulesUnused": "Reguły edycji i przykłady pisania nie są używane: prompt wymaga tylko dokładnych zmian.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Usuń {{find}}",
+      "upper": "WIELKIE LITERY",
+      "lower": "małe litery",
+      "title": "Każde Słowo Wielką Literą",
+      "emoji": "emoji",
+      "email": "adresy e-mail",
+      "url": "linki"
+    }
   },
   "cleanup": {
     "title": "Porządkowanie",

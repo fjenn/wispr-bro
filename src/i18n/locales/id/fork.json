@@ -867,7 +867,9 @@
         "transform_failed": "Tidak dapat mentransformasi teks itu",
         "shortcut_lost": "Pintasan Anda berhenti bekerja",
         "shortcut_stopped": "Pintasan Anda berhenti merespons",
-        "shortcut_back": "Pintasan Anda berfungsi lagi"
+        "shortcut_back": "Pintasan Anda berfungsi lagi",
+        "transform_no_change": "Tidak ada yang perlu diubah",
+        "transform_not_applied": "Transformasi tidak dapat diterapkan"
       },
       "card": {
         "no_text_field": "Klik ke dalam bidang teks terlebih dahulu",
@@ -1287,7 +1289,15 @@
       },
       "reset": "Atur ulang",
       "done": "Selesai",
-      "close": "Tutup editor"
+      "close": "Tutup editor",
+      "exactBadge": "Persis · tanpa AI",
+      "outcome": {
+        "no_change": "Tidak ada yang perlu diubah dalam teks ini.",
+        "not_applied": "AI lokal tidak dapat menyelesaikan yang ini. Coba instruksi yang lebih singkat dan spesifik.",
+        "failed": "Jawaban AI lokal tidak lolos pemeriksaan keamanan. Coba lagi atau ubah susunan instruksi Anda.",
+        "timeout": "AI lokal terlalu lama merespons. Coba lagi.",
+        "no_engine": "AI lokal belum siap. Perubahan persis tetap berfungsi."
+      }
     },
     "rules": {
       "shorter": {
@@ -1335,7 +1345,31 @@
       "simpleView": "Menampilkan satu penggantian untuk perubahan yang besar atau rumit ini.",
       "actionFailed": "Tindakan itu tidak berhasil. Teks Anda masih ada di sini; coba lagi."
     },
-    "startTutorial": "Mulai tutorial"
+    "startTutorial": "Mulai tutorial",
+    "findReplace": {
+      "title": "Cari dan ganti",
+      "help": "Perubahan persis yang dilakukan tanpa AI setiap kali transformasi ini dijalankan. Kosongkan “Ganti dengan” untuk menghapus teks.",
+      "find": "Cari, baris {{number}}",
+      "replace": "Ganti dengan, baris {{number}}",
+      "findPlaceholder": "Cari",
+      "replacePlaceholder": "Ganti dengan",
+      "matchCase": "Cocokkan huruf besar/kecil",
+      "remove": "Hapus baris {{number}}",
+      "add": "Tambahkan penggantian"
+    },
+    "plan": {
+      "exact": "Dijalankan persis, tanpa AI",
+      "mixed": "Dilakukan persis, tanpa AI:",
+      "rulesUnused": "Aturan pengeditan dan contoh tulisan tidak digunakan: prompt hanya meminta perubahan persis.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Hapus {{find}}",
+      "upper": "HURUF KAPITAL",
+      "lower": "huruf kecil",
+      "title": "Huruf Awal Kapital",
+      "emoji": "emoji",
+      "email": "alamat email",
+      "url": "tautan"
+    }
   },
   "cleanup": {
     "title": "Pembersihan",

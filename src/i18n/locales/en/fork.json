@@ -874,7 +874,9 @@
         "transform_failed": "Couldn't transform that text",
         "shortcut_lost": "Your shortcut stopped working",
         "shortcut_stopped": "Your shortcut stopped responding",
-        "shortcut_back": "Your shortcut works again"
+        "shortcut_back": "Your shortcut works again",
+        "transform_no_change": "Nothing to change",
+        "transform_not_applied": "Couldn't apply this transform"
       },
       "card": {
         "no_text_field": "Click into a text field first",
@@ -1416,7 +1418,15 @@
       },
       "reset": "Reset",
       "done": "Done",
-      "close": "Close editor"
+      "close": "Close editor",
+      "exactBadge": "Exact · no AI",
+      "outcome": {
+        "no_change": "Nothing to change in this text.",
+        "not_applied": "The local AI couldn't do this one. Try a shorter, more specific instruction.",
+        "failed": "The local AI's answer didn't pass its safety checks. Try again or reword the instruction.",
+        "timeout": "The local AI took too long. Try again.",
+        "no_engine": "The local AI isn't ready yet. Exact changes still work."
+      }
     },
     "rules": {
       "shorter": {
@@ -1466,7 +1476,31 @@
       "simpleView": "Showing one replacement for this large or complex change.",
       "actionFailed": "That action didn't work. Your text is still here; try again."
     },
-    "startTutorial": "Start tutorial"
+    "startTutorial": "Start tutorial",
+    "findReplace": {
+      "title": "Find and replace",
+      "help": "Exact changes, made without AI every time this transform runs. Leave “Replace with” empty to remove the text.",
+      "find": "Find, row {{number}}",
+      "replace": "Replace with, row {{number}}",
+      "findPlaceholder": "Find",
+      "replacePlaceholder": "Replace with",
+      "matchCase": "Match case",
+      "remove": "Remove row {{number}}",
+      "add": "Add a replacement"
+    },
+    "plan": {
+      "exact": "Runs exactly, without AI",
+      "mixed": "Done exactly, without AI:",
+      "rulesUnused": "Editing rules and writing examples aren't used: the prompt asks only for exact changes.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Remove {{find}}",
+      "upper": "UPPERCASE",
+      "lower": "lowercase",
+      "title": "Title Case",
+      "emoji": "emoji",
+      "email": "email addresses",
+      "url": "links"
+    }
   },
   "cleanup": {
     "title": "Cleanup",

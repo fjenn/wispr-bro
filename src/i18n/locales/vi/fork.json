@@ -867,7 +867,9 @@
         "transform_failed": "Không thể chuyển đổi văn bản đó",
         "shortcut_lost": "Phím tắt của bạn đã ngừng hoạt động",
         "shortcut_stopped": "Phím tắt của bạn đã ngừng phản hồi",
-        "shortcut_back": "Phím tắt của bạn đã hoạt động lại"
+        "shortcut_back": "Phím tắt của bạn đã hoạt động lại",
+        "transform_no_change": "Không có gì để thay đổi",
+        "transform_not_applied": "Không thể áp dụng chuyển đổi này"
       },
       "card": {
         "no_text_field": "Hãy bấm vào một trường văn bản trước",
@@ -1287,7 +1289,15 @@
       },
       "reset": "Đặt lại",
       "done": "Xong",
-      "close": "Đóng trình sửa"
+      "close": "Đóng trình sửa",
+      "exactBadge": "Chính xác · không dùng AI",
+      "outcome": {
+        "no_change": "Không có gì để thay đổi trong văn bản này.",
+        "not_applied": "AI cục bộ không làm được việc này. Hãy thử một hướng dẫn ngắn hơn, cụ thể hơn.",
+        "failed": "Câu trả lời của AI cục bộ không vượt qua các kiểm tra an toàn. Hãy thử lại hoặc diễn đạt lại hướng dẫn.",
+        "timeout": "AI cục bộ mất quá nhiều thời gian. Hãy thử lại.",
+        "no_engine": "AI cục bộ chưa sẵn sàng. Các thay đổi chính xác vẫn hoạt động."
+      }
     },
     "rules": {
       "shorter": {
@@ -1335,7 +1345,31 @@
       "simpleView": "Đang hiện một thay thế duy nhất cho thay đổi lớn hoặc phức tạp này.",
       "actionFailed": "Hành động đó không thành công. Văn bản của bạn vẫn ở đây; hãy thử lại."
     },
-    "startTutorial": "Bắt đầu hướng dẫn"
+    "startTutorial": "Bắt đầu hướng dẫn",
+    "findReplace": {
+      "title": "Tìm và thay thế",
+      "help": "Các thay đổi chính xác, được thực hiện mà không dùng AI mỗi khi chuyển đổi này chạy. Để trống “Thay bằng” để xóa văn bản.",
+      "find": "Tìm, hàng {{number}}",
+      "replace": "Thay bằng, hàng {{number}}",
+      "findPlaceholder": "Tìm",
+      "replacePlaceholder": "Thay bằng",
+      "matchCase": "Phân biệt chữ hoa/thường",
+      "remove": "Xóa hàng {{number}}",
+      "add": "Thêm một phép thay thế"
+    },
+    "plan": {
+      "exact": "Chạy chính xác, không dùng AI",
+      "mixed": "Đã thực hiện chính xác, không dùng AI:",
+      "rulesUnused": "Quy tắc chỉnh sửa và ví dụ viết không được dùng: lời nhắc chỉ yêu cầu các thay đổi chính xác.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Xóa {{find}}",
+      "upper": "CHỮ IN HOA",
+      "lower": "chữ thường",
+      "title": "Viết Hoa Chữ Cái Đầu",
+      "emoji": "emoji",
+      "email": "địa chỉ email",
+      "url": "liên kết"
+    }
   },
   "cleanup": {
     "title": "Dọn dẹp",

@@ -882,7 +882,9 @@
         "transform_failed": "Text konnte nicht umgewandelt werden",
         "shortcut_lost": "Dein Kurzbefehl funktioniert nicht mehr",
         "shortcut_stopped": "Dein Kurzbefehl reagiert nicht mehr",
-        "shortcut_back": "Dein Kurzbefehl funktioniert wieder"
+        "shortcut_back": "Dein Kurzbefehl funktioniert wieder",
+        "transform_no_change": "Nichts zu ändern",
+        "transform_not_applied": "Transformation nicht angewendet"
       },
       "card": {
         "no_text_field": "Klicke zuerst in ein Textfeld",
@@ -1323,7 +1325,15 @@
       },
       "reset": "Zurücksetzen",
       "done": "Fertig",
-      "close": "Editor schließen"
+      "close": "Editor schließen",
+      "exactBadge": "Exakt · ohne KI",
+      "outcome": {
+        "no_change": "In diesem Text gibt es nichts zu ändern.",
+        "not_applied": "Die lokale KI konnte das nicht umsetzen. Versuche eine kürzere, genauere Anweisung.",
+        "failed": "Die Antwort der lokalen KI hat die Sicherheitsprüfungen nicht bestanden. Versuche es erneut oder formuliere die Anweisung um.",
+        "timeout": "Die lokale KI hat zu lange gebraucht. Versuche es erneut.",
+        "no_engine": "Die lokale KI ist noch nicht bereit. Exakte Änderungen funktionieren trotzdem."
+      }
     },
     "rules": {
       "shorter": {
@@ -1373,7 +1383,31 @@
       "simpleView": "Bei dieser großen oder komplexen Änderung wird eine einzelne Ersetzung angezeigt.",
       "actionFailed": "Das hat nicht geklappt. Dein Text ist noch da. Versuch es noch einmal."
     },
-    "startTutorial": "Tutorial starten"
+    "startTutorial": "Tutorial starten",
+    "findReplace": {
+      "title": "Suchen und ersetzen",
+      "help": "Exakte Änderungen, die bei jeder Ausführung dieser Transformation ohne KI erfolgen. Lass „Ersetzen durch“ leer, um den Text zu entfernen.",
+      "find": "Suchen, Zeile {{number}}",
+      "replace": "Ersetzen durch, Zeile {{number}}",
+      "findPlaceholder": "Suchen",
+      "replacePlaceholder": "Ersetzen durch",
+      "matchCase": "Groß-/Kleinschreibung beachten",
+      "remove": "Zeile {{number}} entfernen",
+      "add": "Ersetzung hinzufügen"
+    },
+    "plan": {
+      "exact": "Läuft exakt, ohne KI",
+      "mixed": "Exakt und ohne KI erledigt:",
+      "rulesUnused": "Bearbeitungsregeln und Schreibbeispiele werden nicht verwendet: Der Prompt verlangt nur exakte Änderungen.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "{{find}} entfernen",
+      "upper": "GROSSBUCHSTABEN",
+      "lower": "kleinbuchstaben",
+      "title": "Erster Buchstabe Groß",
+      "emoji": "Emojis",
+      "email": "E-Mail-Adressen",
+      "url": "Links"
+    }
   },
   "cleanup": {
     "title": "Bereinigung",

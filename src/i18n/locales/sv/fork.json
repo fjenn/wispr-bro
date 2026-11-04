@@ -882,7 +882,9 @@
         "transform_failed": "Det gick inte att omvandla texten",
         "shortcut_lost": "Ditt kortkommando slutade fungera",
         "shortcut_stopped": "Ditt kortkommando slutade svara",
-        "shortcut_back": "Ditt kortkommando fungerar igen"
+        "shortcut_back": "Ditt kortkommando fungerar igen",
+        "transform_no_change": "Inget att ändra",
+        "transform_not_applied": "Omvandlingen kunde inte tillämpas"
       },
       "card": {
         "no_text_field": "Klicka i ett textfält först",
@@ -1323,7 +1325,15 @@
       },
       "reset": "Återställ",
       "done": "Klar",
-      "close": "Stäng redigeraren"
+      "close": "Stäng redigeraren",
+      "exactBadge": "Exakt · utan AI",
+      "outcome": {
+        "no_change": "Det finns inget att ändra i den här texten.",
+        "not_applied": "Den lokala AI:n klarade inte det här. Prova en kortare, mer specifik instruktion.",
+        "failed": "Svaret från den lokala AI:n klarade inte säkerhetskontrollerna. Försök igen eller formulera om instruktionen.",
+        "timeout": "Den lokala AI:n tog för lång tid. Försök igen.",
+        "no_engine": "Den lokala AI:n är inte redo än. Exakta ändringar fungerar fortfarande."
+      }
     },
     "rules": {
       "shorter": {
@@ -1373,7 +1383,31 @@
       "simpleView": "Visar en enda ersättning för den här stora eller komplexa ändringen.",
       "actionFailed": "Åtgärden fungerade inte. Din text finns kvar; försök igen."
     },
-    "startTutorial": "Starta genomgången"
+    "startTutorial": "Starta genomgången",
+    "findReplace": {
+      "title": "Sök och ersätt",
+      "help": "Exakta ändringar som görs utan AI varje gång den här omvandlingen körs. Lämna ”Ersätt med” tomt om du vill ta bort texten.",
+      "find": "Sök, rad {{number}}",
+      "replace": "Ersätt med, rad {{number}}",
+      "findPlaceholder": "Sök",
+      "replacePlaceholder": "Ersätt med",
+      "matchCase": "Matcha skiftläge",
+      "remove": "Ta bort rad {{number}}",
+      "add": "Lägg till en ersättning"
+    },
+    "plan": {
+      "exact": "Körs exakt, utan AI",
+      "mixed": "Gjort exakt, utan AI:",
+      "rulesUnused": "Redigeringsregler och skrivexempel används inte: prompten ber bara om exakta ändringar.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Ta bort {{find}}",
+      "upper": "VERSALER",
+      "lower": "gemener",
+      "title": "Stor Första Bokstav",
+      "emoji": "emojier",
+      "email": "e-postadresser",
+      "url": "länkar"
+    }
   },
   "cleanup": {
     "title": "Rensning",

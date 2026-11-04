@@ -882,7 +882,9 @@
         "transform_failed": "Kunne ikke transformere teksten",
         "shortcut_lost": "Din genvej fungerer ikke længere",
         "shortcut_stopped": "Din genvej reagerer ikke længere",
-        "shortcut_back": "Din genvej fungerer igen"
+        "shortcut_back": "Din genvej fungerer igen",
+        "transform_no_change": "Intet at ændre",
+        "transform_not_applied": "Transformationen kunne ikke anvendes"
       },
       "card": {
         "no_text_field": "Klik først i et tekstfelt",
@@ -1323,7 +1325,15 @@
       },
       "reset": "Nulstil",
       "done": "Færdig",
-      "close": "Luk editor"
+      "close": "Luk editor",
+      "exactBadge": "Nøjagtig · uden AI",
+      "outcome": {
+        "no_change": "Der er intet at ændre i denne tekst.",
+        "not_applied": "Den lokale AI kunne ikke klare denne. Prøv en kortere, mere specifik instruktion.",
+        "failed": "Svaret fra den lokale AI bestod ikke sikkerhedstjekkene. Prøv igen, eller omformuler instruktionen.",
+        "timeout": "Den lokale AI brugte for lang tid. Prøv igen.",
+        "no_engine": "Den lokale AI er ikke klar endnu. Nøjagtige ændringer virker stadig."
+      }
     },
     "rules": {
       "shorter": {
@@ -1373,7 +1383,31 @@
       "simpleView": "Viser én erstatning for denne store eller komplekse ændring.",
       "actionFailed": "Handlingen virkede ikke. Din tekst er her stadig; prøv igen."
     },
-    "startTutorial": "Start vejledning"
+    "startTutorial": "Start vejledning",
+    "findReplace": {
+      "title": "Find og erstat",
+      "help": "Nøjagtige ændringer, der udføres uden AI, hver gang denne transformation kører. Lad “Erstat med” stå tomt for at fjerne teksten.",
+      "find": "Find, række {{number}}",
+      "replace": "Erstat med, række {{number}}",
+      "findPlaceholder": "Find",
+      "replacePlaceholder": "Erstat med",
+      "matchCase": "Forskel på store og små bogstaver",
+      "remove": "Fjern række {{number}}",
+      "add": "Tilføj en erstatning"
+    },
+    "plan": {
+      "exact": "Kører nøjagtigt, uden AI",
+      "mixed": "Udført nøjagtigt, uden AI:",
+      "rulesUnused": "Redigeringsregler og skriveeksempler bruges ikke: Prompten beder kun om nøjagtige ændringer.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Fjern {{find}}",
+      "upper": "STORE BOGSTAVER",
+      "lower": "små bogstaver",
+      "title": "Stort Begyndelsesbogstav",
+      "emoji": "emojis",
+      "email": "e-mailadresser",
+      "url": "links"
+    }
   },
   "cleanup": {
     "title": "Oprydning",

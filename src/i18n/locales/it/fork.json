@@ -897,7 +897,9 @@
         "transform_failed": "Impossibile trasformare quel testo",
         "shortcut_lost": "L’abbreviazione non funziona più",
         "shortcut_stopped": "L’abbreviazione non risponde più",
-        "shortcut_back": "L’abbreviazione funziona di nuovo"
+        "shortcut_back": "L’abbreviazione funziona di nuovo",
+        "transform_no_change": "Niente da modificare",
+        "transform_not_applied": "Impossibile applicare questa trasformazione"
       },
       "card": {
         "no_text_field": "Prima fai clic in un campo di testo",
@@ -1359,7 +1361,15 @@
       },
       "reset": "Ripristina",
       "done": "Fine",
-      "close": "Chiudi editor"
+      "close": "Chiudi editor",
+      "exactBadge": "Esatto · senza IA",
+      "outcome": {
+        "no_change": "Niente da modificare in questo testo.",
+        "not_applied": "L’IA locale non è riuscita a farlo. Prova con un’istruzione più breve e specifica.",
+        "failed": "La risposta dell’IA locale non ha superato i controlli di sicurezza. Riprova o riformula l’istruzione.",
+        "timeout": "L’IA locale ci ha messo troppo. Riprova.",
+        "no_engine": "L’IA locale non è ancora pronta. Le modifiche esatte funzionano comunque."
+      }
     },
     "rules": {
       "shorter": {
@@ -1411,7 +1421,31 @@
       "simpleView": "Viene mostrata un’unica sostituzione per questa modifica ampia o complessa.",
       "actionFailed": "L’azione non è riuscita. Il testo è ancora qui; riprova."
     },
-    "startTutorial": "Avvia tutorial"
+    "startTutorial": "Avvia tutorial",
+    "findReplace": {
+      "title": "Trova e sostituisci",
+      "help": "Modifiche esatte, eseguite senza IA a ogni esecuzione di questa trasformazione. Lascia «Sostituisci con» vuoto per rimuovere il testo.",
+      "find": "Trova, riga {{number}}",
+      "replace": "Sostituisci con, riga {{number}}",
+      "findPlaceholder": "Trova",
+      "replacePlaceholder": "Sostituisci con",
+      "matchCase": "Maiuscole/minuscole",
+      "remove": "Rimuovi la riga {{number}}",
+      "add": "Aggiungi una sostituzione"
+    },
+    "plan": {
+      "exact": "Eseguito esattamente, senza IA",
+      "mixed": "Fatto esattamente, senza IA:",
+      "rulesUnused": "Le regole di modifica e gli esempi di scrittura non vengono usati: il prompt richiede solo modifiche esatte.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Rimuovi {{find}}",
+      "upper": "MAIUSCOLO",
+      "lower": "minuscolo",
+      "title": "Iniziali Maiuscole",
+      "emoji": "emoji",
+      "email": "indirizzi email",
+      "url": "link"
+    }
   },
   "cleanup": {
     "title": "Pulizia",

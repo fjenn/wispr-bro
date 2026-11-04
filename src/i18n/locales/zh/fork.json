@@ -867,7 +867,9 @@
         "transform_failed": "无法转换该文本",
         "shortcut_lost": "你的快捷键已停止工作",
         "shortcut_stopped": "你的快捷键已停止响应",
-        "shortcut_back": "你的快捷键已恢复工作"
+        "shortcut_back": "你的快捷键已恢复工作",
+        "transform_no_change": "没有需要更改的内容",
+        "transform_not_applied": "无法应用此转换"
       },
       "card": {
         "no_text_field": "请先点按一个文本栏",
@@ -1287,7 +1289,15 @@
       },
       "reset": "重置",
       "done": "完成",
-      "close": "关闭编辑器"
+      "close": "关闭编辑器",
+      "exactBadge": "精确 · 不用 AI",
+      "outcome": {
+        "no_change": "此文本中没有需要更改的内容。",
+        "not_applied": "本地 AI 没能完成这一项。请尝试更简短、更具体的指令。",
+        "failed": "本地 AI 的回答未通过安全检查。请重试，或换个方式描述指令。",
+        "timeout": "本地 AI 用时过长。请重试。",
+        "no_engine": "本地 AI 尚未就绪。精确更改仍然可用。"
+      }
     },
     "rules": {
       "shorter": {
@@ -1335,7 +1345,31 @@
       "simpleView": "此更改较大或较复杂，因此以整体替换的方式显示。",
       "actionFailed": "操作未成功。你的文本仍在这里，请重试。"
     },
-    "startTutorial": "开始教程"
+    "startTutorial": "开始教程",
+    "findReplace": {
+      "title": "查找和替换",
+      "help": "每次运行此转换时都会不使用 AI 而精确执行的更改。将“替换为”留空即可删除文本。",
+      "find": "查找，第 {{number}} 行",
+      "replace": "替换为，第 {{number}} 行",
+      "findPlaceholder": "查找",
+      "replacePlaceholder": "替换为",
+      "matchCase": "区分大小写",
+      "remove": "移除第 {{number}} 行",
+      "add": "添加替换"
+    },
+    "plan": {
+      "exact": "精确执行，不用 AI",
+      "mixed": "已精确完成，未使用 AI：",
+      "rulesUnused": "不会使用编辑规则和写作示例：提示词只要求精确更改。",
+      "replace": "{{find}} → {{with}}",
+      "remove": "移除 {{find}}",
+      "upper": "大写",
+      "lower": "小写",
+      "title": "首字母大写",
+      "emoji": "表情符号",
+      "email": "电子邮件地址",
+      "url": "链接"
+    }
   },
   "cleanup": {
     "title": "清理",

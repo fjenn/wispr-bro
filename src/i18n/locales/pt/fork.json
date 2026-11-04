@@ -897,7 +897,9 @@
         "transform_failed": "Não foi possível transformar esse texto",
         "shortcut_lost": "Seu atalho parou de funcionar",
         "shortcut_stopped": "Seu atalho parou de responder",
-        "shortcut_back": "Seu atalho voltou a funcionar"
+        "shortcut_back": "Seu atalho voltou a funcionar",
+        "transform_no_change": "Nada para alterar",
+        "transform_not_applied": "Não foi possível aplicar esta transformação"
       },
       "card": {
         "no_text_field": "Clique em um campo de texto primeiro",
@@ -1359,7 +1361,15 @@
       },
       "reset": "Redefinir",
       "done": "OK",
-      "close": "Fechar editor"
+      "close": "Fechar editor",
+      "exactBadge": "Exato · sem IA",
+      "outcome": {
+        "no_change": "Nada para alterar neste texto.",
+        "not_applied": "A IA local não conseguiu fazer esta. Tente uma instrução mais curta e específica.",
+        "failed": "A resposta da IA local não passou nas verificações de segurança. Tente de novo ou reformule a instrução.",
+        "timeout": "A IA local demorou demais. Tente de novo.",
+        "no_engine": "A IA local ainda não está pronta. As alterações exatas continuam funcionando."
+      }
     },
     "rules": {
       "shorter": {
@@ -1411,7 +1421,31 @@
       "simpleView": "Mostrando uma única substituição para esta alteração grande ou complexa.",
       "actionFailed": "Essa ação não funcionou. Seu texto continua aqui; tente novamente."
     },
-    "startTutorial": "Iniciar tutorial"
+    "startTutorial": "Iniciar tutorial",
+    "findReplace": {
+      "title": "Localizar e substituir",
+      "help": "Alterações exatas, feitas sem IA toda vez que esta transformação é executada. Deixe “Substituir por” vazio para remover o texto.",
+      "find": "Localizar, linha {{number}}",
+      "replace": "Substituir por, linha {{number}}",
+      "findPlaceholder": "Localizar",
+      "replacePlaceholder": "Substituir por",
+      "matchCase": "Diferenciar maiúsculas e minúsculas",
+      "remove": "Remover a linha {{number}}",
+      "add": "Adicionar uma substituição"
+    },
+    "plan": {
+      "exact": "Executa exatamente, sem IA",
+      "mixed": "Feito exatamente, sem IA:",
+      "rulesUnused": "As regras de edição e os exemplos de escrita não são usados: o prompt pede apenas alterações exatas.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Remover {{find}}",
+      "upper": "MAIÚSCULAS",
+      "lower": "minúsculas",
+      "title": "Primeira Letra Maiúscula",
+      "emoji": "emojis",
+      "email": "endereços de e-mail",
+      "url": "links"
+    }
   },
   "cleanup": {
     "title": "Limpeza",

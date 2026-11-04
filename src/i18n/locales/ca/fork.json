@@ -897,7 +897,9 @@
         "transform_failed": "No s'ha pogut transformar el text",
         "shortcut_lost": "La drecera ha deixat de funcionar",
         "shortcut_stopped": "La drecera ha deixat de respondre",
-        "shortcut_back": "La drecera torna a funcionar"
+        "shortcut_back": "La drecera torna a funcionar",
+        "transform_no_change": "Res a canviar",
+        "transform_not_applied": "No s’ha pogut aplicar aquesta transformació"
       },
       "card": {
         "no_text_field": "Primer fes clic en un camp de text",
@@ -1359,7 +1361,15 @@
       },
       "reset": "Restaurar",
       "done": "Fet",
-      "close": "Tancar l'editor"
+      "close": "Tancar l'editor",
+      "exactBadge": "Exacte · sense IA",
+      "outcome": {
+        "no_change": "No hi ha res a canviar en aquest text.",
+        "not_applied": "La IA local no ha pogut fer-ho. Prova una instrucció més curta i concreta.",
+        "failed": "La resposta de la IA local no ha superat les comprovacions de seguretat. Torna-ho a provar o reformula la instrucció.",
+        "timeout": "La IA local ha trigat massa. Torna-ho a provar.",
+        "no_engine": "La IA local encara no està a punt. Els canvis exactes continuen funcionant."
+      }
     },
     "rules": {
       "shorter": {
@@ -1411,7 +1421,31 @@
       "simpleView": "Es mostra una sola substitució per a aquest canvi gran o complex.",
       "actionFailed": "Aquesta acció no ha funcionat. El text encara és aquí; torna-ho a provar."
     },
-    "startTutorial": "Començar el tutorial"
+    "startTutorial": "Començar el tutorial",
+    "findReplace": {
+      "title": "Cerca i substitueix",
+      "help": "Canvis exactes, fets sense IA cada vegada que s’executa aquesta transformació. Deixa «Substitueix per» buit per eliminar el text.",
+      "find": "Cerca, fila {{number}}",
+      "replace": "Substitueix per, fila {{number}}",
+      "findPlaceholder": "Cerca",
+      "replacePlaceholder": "Substitueix per",
+      "matchCase": "Distingeix majúscules i minúscules",
+      "remove": "Elimina la fila {{number}}",
+      "add": "Afegeix una substitució"
+    },
+    "plan": {
+      "exact": "S’executa exactament, sense IA",
+      "mixed": "Fet exactament, sense IA:",
+      "rulesUnused": "Les regles d’edició i els exemples d’escriptura no s’utilitzen: la instrucció només demana canvis exactes.",
+      "replace": "{{find}} → {{with}}",
+      "remove": "Elimina {{find}}",
+      "upper": "MAJÚSCULES",
+      "lower": "minúscules",
+      "title": "Primera Lletra En Majúscula",
+      "emoji": "emojis",
+      "email": "adreces electròniques",
+      "url": "enllaços"
+    }
   },
   "cleanup": {
     "title": "Neteja",
