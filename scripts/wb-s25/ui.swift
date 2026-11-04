@@ -151,6 +151,15 @@ func key(_ name: String) {
         e?.flags = flags
         post(e)
     }
+    // Both events carry the chord's flags, so the HID event state kept ⌘
+    // "held" afterwards and the app's delivery waited on it ("modifier keys
+    // were still held", Mac wave 7). A modifier event with no flags ends it.
+    if !flags.isEmpty {
+        let up = CGEvent(keyboardEventSource: source, virtualKey: 55, keyDown: false)
+        up?.type = .flagsChanged
+        up?.flags = []
+        post(up)
+    }
 }
 
 for raw in args[2].split(separator: ";") {
