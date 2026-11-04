@@ -228,12 +228,12 @@
       "intro": "Wispr Bro 會讀取編輯器顯示的程式碼名稱和檔案名稱。它絕不開啟你的檔案。",
       "contextOff": "情境感知已關閉，因此這些功能沒有內容可讀取。開啟後即可使用。",
       "recognize": "辨識程式碼名稱",
-      "recognizeHint": "依照程式碼中的拼寫寫出編輯器裡可見的名稱。",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "設定",
       "change": "更改編輯器",
       "setUpFor": "為 {{editors}} 設定",
       "fileTags": "在聊天中標記檔案",
-      "fileTagsHint": "在 Cursor 或 Windsurf 聊天中，說「index dot ts」會寫成 @index.ts。",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "將 Cursor 或 Windsurf 加入編輯器後即可使用。",
       "fileTagsNeedsSetup": "設定程式碼名稱辨識後即可使用。",
       "setup": {
@@ -1828,7 +1828,27 @@
     },
     "sites": {
       "heading": "用於以下網站",
-      "listLabel": "使用「{{group}}」風格的網站"
+      "listLabel": "使用「{{group}}」風格的網站",
+      "addShort": "Add website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "將 App 加入「{{group}}」",

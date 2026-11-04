@@ -650,6 +650,8 @@ for (const theme of ["light", "dark"] as const) {
   snipTest(
     `axe: page, dialog and every wizard step (${theme})`,
     async ({ page, ipc, hub, snips }) => {
+      // Many axe passes: room for a loaded machine (they hit 30 s there).
+      snipTest.setTimeout(180_000);
       await page.emulateMedia({ colorScheme: theme });
       snips.seed({ trigger: "my address", body: ADDRESS }, { hit_count: 3 });
       snips.seed({ trigger: "my email", body: "finn@example.com" });

@@ -3628,7 +3628,17 @@ export type StyleSettings = { personal: StylePreset; work: StylePreset; email: S
 /**
  * One site on the Style page (S-19b).
  */
-export type StyleSite = { host: string; name: string; group: StyleGroup; builtin_group: StyleGroup; user_group: StyleGroup | null; auto_send: boolean }
+export type StyleSite = { host: string; name: string; group: StyleGroup; builtin_group: StyleGroup; user_group: StyleGroup | null; auto_send: boolean; 
+/**
+ * In the built-in site list (`categories.json`).
+ */
+builtin: boolean; 
+/**
+ * The user dictated on this site (a host in `entry_meta`): with no
+ * built-in group and no user rule it is a "Recently used websites"
+ * suggestion.
+ */
+recent: boolean }
 export type TapHealth = "healthy" | "lost" | 
 /**
  * The permission is back; the tap is being rebuilt.

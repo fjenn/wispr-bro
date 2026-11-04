@@ -229,12 +229,12 @@
       "intro": "Wispr Bro liest die Code- und Dateinamen, die dein Editor anzeigt. Deine Dateien öffnet es nie.",
       "contextOff": "Kontextbezug ist aus, daher haben diese Funktionen nichts zu lesen. Schalte ihn ein, um sie zu nutzen.",
       "recognize": "Codenamen erkennen",
-      "recognizeHint": "Schreibt Namen, die in deinem Editor zu sehen sind, so wie dein Code sie schreibt.",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "Einrichten",
       "change": "Editoren ändern",
       "setUpFor": "Für {{editors}} einrichten",
       "fileTags": "Dateien im Chat markieren",
-      "fileTagsHint": "Im Chat von Cursor oder Windsurf wird aus „index dot ts“ @index.ts.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "Verfügbar, sobald du Cursor oder Windsurf zu deinen Editoren hinzufügst.",
       "fileTagsNeedsSetup": "Verfügbar, sobald du die Codenamen-Erkennung eingerichtet hast.",
       "setup": {
@@ -1905,7 +1905,28 @@
     },
     "sites": {
       "heading": "Auf diesen Websites verwendet",
-      "listLabel": "Websites mit dem Stil „{{group}}“"
+      "listLabel": "Websites mit dem Stil „{{group}}“",
+      "addShort": "Add website",
+      "showAll_one": "Show all {{count}} website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "App zu „{{group}}“ hinzufügen",

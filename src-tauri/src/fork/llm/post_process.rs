@@ -1093,6 +1093,9 @@ pub struct StyleDecision {
     /// The target app's bundle id when "Press Enter after dictating" is on
     /// for it (armed after the cleanup unless it fell back).
     pub auto_send: Option<String>,
+    /// The target is an AI chat: the app, or the browser page's site
+    /// (no style, no cleanup).
+    pub ai_chat: bool,
 }
 
 /// The preset of a group.
@@ -1119,8 +1122,12 @@ pub fn decide_style(
         return StyleDecision::default();
     };
     let resolved = crate::fork::context::app_rules::resolve(rules, bundle_id, name, url_host);
-    let ai_chat = crate::fork::context::categories::classify(bundle_id, name).is_ai_chat;
+    let ai_chat = crate::fork::context::categories::classify(bundle_id, name).is_ai_chat
+        || url_host
+            .and_then(crate::fork::context::categories::classify_host)
+            .is_some_and(|c| c.is_ai_chat);
     StyleDecision {
+        ai_chat,
         group: Some(resolved.group),
         preset: (english && !ai_chat).then(|| preset_for(styles, resolved.group)),
         auto_send: bundle_id.filter(|_| resolved.auto_send).map(str::to_owned),
@@ -1249,7 +1256,8 @@ pub async fn plan<R: crate::fork::ForkRuntime>(
     if level == CleanupLevel::None || !text.chars().any(char::is_alphanumeric) {
         return Some(plan);
     }
-    let ai_chat = source == Source::Dictation && target_is_ai_chat();
+    // An AI-chat app, or an AI-chat site in the browser in front (S-19b).
+    let ai_chat = source == Source::Dictation && (plan.style.ai_chat || target_is_ai_chat());
     let ready = rt.is_ready() && rt.supervisor().is_some();
     // The memory rule only matters once the model could run.
     let memory_ok = !ready || ai_chat || rt.memory_allows_start().await;

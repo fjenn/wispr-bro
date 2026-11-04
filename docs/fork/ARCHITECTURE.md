@@ -1849,6 +1849,35 @@ and the app in front is still the one it was armed for. Handy's global
 **Logs.** `style: <preset> for <group> (applied | no change)` and the
 auto-send decision; never the text.
 
+**Sites and coverage (OT2-C, 2026-11-04).** `categories.json` has 71
+apps and 83 sites: email (Gmail, Outlook web, Proton, Fastmail, Yahoo,
+HEY, …), work chat and trackers (Slack, Teams, Google Chat, Linear,
+Jira/Confluence on `atlassian.net`, Asana, ClickUp, Trello, HubSpot,
+Salesforce, Zendesk, LinkedIn, Webex, Lark), code hosts (GitHub, GitLab,
+Bitbucket: Work), social and personal chat (WhatsApp/Telegram web,
+Messenger, Facebook, Instagram, X, Reddit, Threads, Bluesky, Discord,
+Google Messages, Element), documents (Google Docs, Notion, Coda, Quip,
+Craft, Medium, Substack, Overleaf, HackMD) and AI chats (ChatGPT, Claude,
+Gemini, AI Studio, NotebookLM, Perplexity, Copilot, Le Chat, DeepSeek,
+Grok, Meta AI, Poe, Qwen, Kimi, v0, Lovable, Bolt). A host rule may carry
+`is_ai_chat`: such a page gets no style and no cleanup, as an AI-chat app
+(`StyleDecision::ai_chat`). The longest matching host wins. Webex's
+bundle id `Cisco-Systems.Spark` is pinned to Work (its "spark" token would
+match Spark Mail's email signature).
+
+The Style page's websites section is always shown, with "Add website"
+(`AddSiteDialog.tsx`): a typed domain or pasted address is reduced to its
+host (`commands::style::site_host`, the same rule in TypeScript for the
+preview; scheme, `www.`, `*.`, port, path and query dropped) and saved as a
+site rule for the chosen group; a rule covers the host and its subdomains,
+because a take only learns the page's host. Sites dictated on
+(`entry_meta.url_host`, host only, already kept by S-19b and removed with
+History and Erase) that no built-in list or rule groups are offered as
+"Recently used websites" (`StyleSite::recent`, `::builtin`), one click to
+put them in the tab's group (in Other they are already listed). A group
+with more than 12 sites shows "Show all". Site changes log at DEBUG only
+(hosts are user data).
+
 ## Accessibility layer and the card (S-05)
 
 R5 §4.6 (W-05) and S-05: where a take's text lands, and the card when it
@@ -2095,6 +2124,47 @@ gains `file_tags_enabled` (serde default, schema stays v6).
 files, so the user confirms it (the read then simply finds more text); file
 tags also need the setup (DEC-41) although tabs are in the AX tree without
 screen-reader mode. A chat input is recognized by its labels only.
+
+**Owner test 2 (OT2-C, 2026-11-04, `fix/vibe`).** The owner's rc3 report
+("vibe coding does nothing in Cursor") had three causes, found on a
+throwaway Cursor 3.28.7 (own `--user-data-dir`, AX reads only):
+
+1. _Cold tree._ Electron builds its AX tree only after
+   `AXManualAccessibility`, and over 1-2 s (12 empty groups and no focused
+   element at once, 269 elements two seconds later). The lease was switched
+   on at record start, so that take's read found nothing, and it lapses
+   60 s after the last read, so most takes started cold. Now the AX thread
+   (`ax/thread.rs` `keep_warm`, fed by `ide::sync_warm` at start and on a
+   `vibe_coding`/`context_awareness` change) renews the lease about once a
+   second while a set-up editor is frontmost, and a read that finds a tree
+   switched on less than 2.5 s ago (`Ctx::tree_warming`, `Read::warming`)
+   is repeated every 400 ms, at most 5 times, while its take is current
+   (`awareness::read_on_ax_thread`).
+2. _Chat input not recognized._ Cursor's agent input is an `AXTextArea`
+   described only as "Prompt"; its placeholder is a sibling text. The check
+   now also reads the field's `AXDOMClassList` and the DOM ids and classes
+   of its 12 nearest ancestors (`caret.rs` `chat_labels`), names only:
+   `aislash-editor-input`, `composer-…`, `workbench.panel.aichat.<id>`.
+   Monaco's buffer (`inputarea`), terminals and search fields never count.
+3. _A written `@name` is not a tag._ Cursor's input is a rich editor: a
+   pasted or burst-typed `@user_service.ts` stays text. A tag is made only
+   by its `@` picker, which searches per input event. `deliver::paste`
+   therefore splits a chat take at its `@name`s (`mention_segments`, only
+   names the read saw in tabs/explorer rows): the text before the first tag
+   goes in the usual way, each tag is typed key by key (30 ms apart), and
+   when the picker highlights that file (`Platform::mention_offered`: the
+   input's `AXLinkedUIElements` → `typeahead-item-0` or the selected item →
+   a static text equal to the name) Return picks it; the picker adds a
+   space, so a following space is dropped or, before punctuation, a
+   Backspace removes it. No offer within 1.2 s leaves `@name` as typed text,
+   and Return is never sent then. The auto-submit Return waits for the last
+   part. `chat-tags.swift` reads tags back (a tag is the name plus a
+   "Remove mention" button).
+
+Windsurf and VS Code are not installed here: Windsurf gets the same picker
+path (if its picker does not expose the same AX shape, the tag stays text,
+which the setting's text says); VS Code has no `@` file tags (Copilot uses
+`#file`), so only code names apply there.
 
 ## Data and Privacy (S-27)
 

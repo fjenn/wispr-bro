@@ -1031,6 +1031,8 @@ for (const theme of ["light", "dark"] as const) {
   dictTest(
     `axe: page, dialog and every wizard step (${theme})`,
     async ({ page, ipc, hub, dict }) => {
+      // Many axe passes: room for a loaded machine (they hit 30 s there).
+      dictTest.setTimeout(180_000);
       await page.emulateMedia({ colorScheme: theme });
       dict.seed({ phrase: "Siobhán", replacement: null });
       dict.seed({ phrase: "gonna", replacement: "going to" }, { hit_count: 3 });

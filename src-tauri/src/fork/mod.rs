@@ -555,6 +555,13 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     snippets::install(app);
     // S-19a: the Style page's app rules, cached for the take path.
     commands::style::on_ready(app);
+    // S-36: set-up editors keep their AX tree built while in front.
+    if let Some(s) = app
+        .try_state::<settings::ForkSettingsHandle>()
+        .and_then(|h| h.get(app).ok())
+    {
+        context::ide::sync_warm(&s);
+    }
     // S-34: auto-learn hears Return, keypad Enter and Tab from the fork tap.
     dictionary::learn::on_ready();
     // S-16: Handy's custom words and the dictionary's words (one-time

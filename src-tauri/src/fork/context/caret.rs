@@ -126,6 +126,9 @@ pub struct Read {
     /// S-36: the editor this read was for, and whether its chat input had
     /// focus (ids only, for the log).
     pub ide: Option<(super::ide::Editor, bool)>,
+    /// S-36: our lease switched this Chromium/Electron app's tree on moments
+    /// ago, so it may not be built yet: the read is worth repeating.
+    pub warming: bool,
     /// Characters read (never kept).
     pub chars: usize,
     pub ms: f64,
@@ -657,6 +660,7 @@ fn read_from_walk(
         identifiers,
         file_names,
         ide: None,
+        warming: false,
         chars,
         ms: 0.0,
         skip: None,
@@ -847,6 +851,50 @@ pub mod mac {
         }
     }
 
+    /// A web element's DOM classes, space-separated (empty elsewhere).
+    fn class_list(e: &AXUIElement) -> String {
+        let Ok(value) = el::attr(e, "AXDOMClassList") else {
+            return String::new();
+        };
+        let Some(list) = value.downcast_ref::<CFArray>() else {
+            return String::new();
+        };
+        // SAFETY: an array of CFTypes; every entry is checked by downcast.
+        let list: &CFArray<CFType> = unsafe { list.cast_unchecked() };
+        (0..list.len().min(16))
+            .filter_map(|i| list.get(i))
+            .filter_map(|v| v.downcast_ref::<CFString>().map(|s| s.to_string()))
+            .collect::<Vec<_>>()
+            .join(" ")
+    }
+
+    /// S-36: the focused field's own DOM classes, and the DOM ids and
+    /// classes of its nearest ancestors (Cursor's agent input says only
+    /// "Prompt"; its panel is `workbench.panel.aichat.<id>`). Names only:
+    /// no text is read here.
+    fn chat_labels(field: &AXUIElement) -> (String, String) {
+        let own = class_list(field);
+        let mut container = Vec::new();
+        let mut node = el::attr_element(field, "AXParent");
+        while let Some(n) = node {
+            if container.len() >= super::super::ide::CHAT_ANCESTORS {
+                break;
+            }
+            el::set_timeout(&n, CALL_TIMEOUT_S);
+            let role = string(&n, "AXRole");
+            if role == "AXWindow" || role == "AXApplication" || role == "AXWebArea" {
+                break;
+            }
+            container.push(format!(
+                "{} {}",
+                string(&n, "AXDOMIdentifier"),
+                class_list(&n)
+            ));
+            node = el::attr_element(&n, "AXParent");
+        }
+        (own, container.join(" "))
+    }
+
     /// The parents of `e`, nearest first, up to (not including) its window.
     fn ancestors(e: &AXUIElement) -> Vec<CFRetained<AXUIElement>> {
         let mut out = Vec::new();
@@ -973,6 +1021,7 @@ pub mod mac {
             return Read::skipped(skip, ms(start));
         }
         let lease = family.builds_tree_on_request() && ctx.lease_acquire(pid);
+        let warming = lease && ctx.tree_warming(pid);
         let read = read_app(ctx, pid, family, languages, start, ide);
         if lease {
             // The lease itself stays 60 s after its last reader (lease.rs).
@@ -980,9 +1029,16 @@ pub mod mac {
         }
         let took = ms(start);
         if start.elapsed() > READ_BUDGET {
-            return Read::skipped(Skip::Timeout, took);
+            return Read {
+                warming,
+                ..Read::skipped(Skip::Timeout, took)
+            };
         }
-        Read { ms: took, ..read }
+        Read {
+            ms: took,
+            warming,
+            ..read
+        }
     }
 
     pub(super) fn narrows_walk_to_focused_field(role: &str) -> bool {
@@ -1043,7 +1099,10 @@ pub mod mac {
                 return Read::skipped(skip, 0.0);
             }
             chat = ide.is_some_and(|access| {
-                access.file_tags && super::super::ide::is_chat_input(&role, &labels)
+                access.file_tags && {
+                    let (own, container) = chat_labels(f);
+                    super::super::ide::is_chat_input(&role, &format!("{labels} {own}"), &container)
+                }
             });
             if browser {
                 // Browser chrome is not page context. A text field outside
@@ -1082,6 +1141,7 @@ pub mod mac {
             caret = focused_caret(&role, || caret_window(f));
         }
         let left = MAX_CHARS.saturating_sub(caret.chars());
+
         let scan = || IdeScan::new(ide.is_some_and(|a| a.recognize), chat);
         let walk = match window.as_deref() {
             Some(w) if (left > 0 || scan().is_some()) && start.elapsed() < WALK_BUDGET => {
@@ -1479,5 +1539,66 @@ mod tests {
         );
         // A line's first word alone is not a name; an author line is.
         assert_eq!(hints, ["Bjørn", "Priya", "Aoife", "Ines", "Nowak"]);
+    }
+}
+
+/// S-36 live check of the editor read against a running throwaway editor in
+/// front (never in CI): a cold read is `warming`, the AX thread's
+/// keep-warm builds the tree, and a later read finds the chat input, code
+/// names and visible file names. Prints counts and names (test data only).
+/// `WB_S36_LIVE_PID=<pid> cargo test --lib live_editor_read -- --ignored --nocapture`
+#[cfg(all(test, target_os = "macos"))]
+mod live_tests {
+    use std::time::Duration;
+
+    use crate::fork::ax::thread;
+    use crate::fork::settings::VibeCodingSettings;
+
+    #[test]
+    #[ignore = "needs a throwaway editor in front (WB_S36_LIVE_PID)"]
+    fn live_editor_read() {
+        if std::env::var("WB_S36_LIVE_PID").is_err() {
+            eprintln!("WB_S36_LIVE_PID not set: skipped");
+            return;
+        }
+        let vibe = VibeCodingSettings {
+            enabled: true,
+            setup_completed: true,
+            editors: vec!["cursor".into(), "vscode".into(), "windsurf".into()],
+            file_tags_enabled: true,
+        };
+        let read = |vibe: VibeCodingSettings| {
+            thread::run(Duration::from_secs(2), move |ctx| {
+                super::mac::read(ctx, &[], &vibe)
+            })
+            .expect("the AX thread answered")
+        };
+        let first = read(vibe.clone());
+        eprintln!(
+            "first read: warming={} skip={:?} ide={:?} ids={:?} files={:?} chars={} {:.1} ms",
+            first.warming,
+            first.skip,
+            first.ide,
+            first.identifiers,
+            first.file_names,
+            first.chars,
+            first.ms
+        );
+        thread::keep_warm(super::super::ide::warm_bundles(&vibe, true));
+        std::thread::sleep(Duration::from_millis(3_000));
+        let later = read(vibe.clone());
+        eprintln!(
+            "after keep-warm: warming={} skip={:?} ide={:?} ids={:?} files={:?} chars={} {:.1} ms",
+            later.warming,
+            later.skip,
+            later.ide,
+            later.identifiers,
+            later.file_names,
+            later.chars,
+            later.ms
+        );
+        thread::keep_warm(Vec::new());
+        assert!(!later.warming);
+        assert!(later.ide.is_some());
     }
 }

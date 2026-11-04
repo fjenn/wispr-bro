@@ -128,6 +128,9 @@ struct HostRule {
     name: String,
     style_group: StyleGroup,
     usage_category: UsageCategory,
+    /// An AI chat site (chatgpt.com, claude.ai): no style, no cleanup.
+    #[serde(default)]
+    is_ai_chat: bool,
     #[serde(default)]
     title_aliases: Vec<String>,
 }
@@ -177,11 +180,14 @@ fn parse(json: &str) -> Result<Table, String> {
         .into_iter()
         .map(|(host, rule)| (host.to_lowercase(), rule))
         .collect();
-    hosts.sort_by(|a, b| a.0.cmp(&b.0));
-    let known_hosts = hosts
+    // Longest host first: the most specific match wins (a rule for
+    // `chat.google.com` before one for a parent domain); then by name.
+    hosts.sort_by(|a, b| b.0.len().cmp(&a.0.len()).then_with(|| a.0.cmp(&b.0)));
+    let mut known_hosts: Vec<(String, String, StyleGroup)> = hosts
         .iter()
         .map(|(host, rule)| (host.clone(), rule.name.clone(), rule.style_group))
         .collect();
+    known_hosts.sort_by(|a, b| a.0.cmp(&b.0));
     Ok(Table {
         known,
         known_hosts,
@@ -229,7 +235,7 @@ pub fn classify_host(url: &str) -> Option<AppClass> {
         (host == *pattern || host.ends_with(&format!(".{pattern}"))).then_some(AppClass {
             style_group: rule.style_group,
             usage_category: rule.usage_category,
-            is_ai_chat: false,
+            is_ai_chat: rule.is_ai_chat,
             is_browser: true,
             matched_by: MatchedBy::Browser,
         })
@@ -469,7 +475,95 @@ mod tests {
             Some("app.slack.com")
         );
         assert_eq!(host_from_title("A private title"), None);
-        assert_eq!(known_hosts().len(), 2);
+        assert!(known_hosts().len() >= 80, "{}", known_hosts().len());
+    }
+
+    #[test]
+    fn common_sites_have_their_group() {
+        for (url, group, usage) in [
+            (
+                "outlook.office.com/mail/",
+                StyleGroup::Email,
+                UsageCategory::Email,
+            ),
+            ("mail.proton.me", StyleGroup::Email, UsageCategory::Email),
+            ("teams.microsoft.com", StyleGroup::Work, UsageCategory::Work),
+            ("chat.google.com", StyleGroup::Work, UsageCategory::Work),
+            (
+                "github.com/fjenn/wispr-bro/pull/1",
+                StyleGroup::Work,
+                UsageCategory::Work,
+            ),
+            (
+                "acme.atlassian.net/browse/X-1",
+                StyleGroup::Work,
+                UsageCategory::Work,
+            ),
+            ("linear.app", StyleGroup::Work, UsageCategory::Work),
+            (
+                "web.whatsapp.com",
+                StyleGroup::Personal,
+                UsageCategory::Personal,
+            ),
+            ("x.com", StyleGroup::Personal, UsageCategory::Personal),
+            (
+                "old.reddit.com",
+                StyleGroup::Personal,
+                UsageCategory::Personal,
+            ),
+            (
+                "docs.google.com/document/d/1",
+                StyleGroup::Other,
+                UsageCategory::Documents,
+            ),
+            (
+                "www.notion.so/page",
+                StyleGroup::Other,
+                UsageCategory::Documents,
+            ),
+            ("chatgpt.com", StyleGroup::Other, UsageCategory::AiPrompts),
+            ("claude.ai/new", StyleGroup::Other, UsageCategory::AiPrompts),
+        ] {
+            let class = classify_host(url).unwrap_or_else(|| panic!("{url}"));
+            assert_eq!(
+                (class.style_group, class.usage_category),
+                (group, usage),
+                "{url}"
+            );
+        }
+        for ai in [
+            "chatgpt.com",
+            "claude.ai",
+            "gemini.google.com",
+            "perplexity.ai",
+        ] {
+            assert!(classify_host(ai).unwrap().is_ai_chat, "{ai}");
+        }
+        assert!(!classify_host("mail.google.com").unwrap().is_ai_chat);
+        // Lookalikes are not the site.
+        assert_eq!(classify_host("github.com.example.net"), None);
+        assert_eq!(classify_host("notgithub.com"), None);
+        // Every host is lower case, unique, and has a name.
+        let t = parse(DATA_JSON).unwrap();
+        for (host, rule) in &t.hosts {
+            assert_eq!(host, &host.to_lowercase());
+            assert!(!rule.name.trim().is_empty(), "{host}");
+            if rule.is_ai_chat {
+                assert_eq!(rule.usage_category, UsageCategory::AiPrompts, "{host}");
+            }
+        }
+    }
+
+    #[test]
+    fn webex_is_work_although_its_bundle_id_says_spark() {
+        assert_eq!(
+            c("Cisco-Systems.Spark", "Webex").style_group,
+            StyleGroup::Work
+        );
+        assert_eq!(
+            c("com.readdle.SparkDesktop", "Spark").style_group,
+            StyleGroup::Email
+        );
     }
 
     #[test]

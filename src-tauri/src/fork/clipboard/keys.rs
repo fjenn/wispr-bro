@@ -275,6 +275,9 @@ pub fn post_return(flags: u64) -> Result<(), String> {
     post_specs(&shortcut_event_specs(RETURN_KEY_CODE, &mods, 1))
 }
 
+/// macOS virtual key code of Delete (Backspace).
+pub const BACKSPACE_KEY_CODE: u16 = 51;
+
 /// Types `text` as synthesized key events, never touching the clipboard.
 pub fn type_text(text: &str) -> Result<(), String> {
     let mut events = Vec::new();

@@ -67,6 +67,11 @@ pub struct Ctx {
     pub lease_by_take: HashMap<u64, i32>,
     /// S-34: the field watched for corrections, if any.
     pub watched: Option<Watched>,
+    /// When our lease switched each app's tree on (Chromium and Electron
+    /// build it over the next second or two; S-36).
+    tree_on_since: HashMap<i32, Instant>,
+    /// The last [`Ctx::keep_warm`] check.
+    warm_checked: Option<Instant>,
 }
 
 impl Ctx {
@@ -77,6 +82,8 @@ impl Ctx {
             targets: VecDeque::new(),
             lease_by_take: HashMap::new(),
             watched: None,
+            tree_on_since: HashMap::new(),
+            warm_checked: None,
         }
     }
 
@@ -96,12 +103,16 @@ impl Ctx {
     /// if no lease is held. Returns whether the lease is held.
     pub fn lease_acquire(&mut self, pid: i32) -> bool {
         let app = self.app(pid);
-        self.leases.acquire(pid, Instant::now(), || {
+        let switched_on = std::cell::Cell::new(false);
+        let held = self.leases.acquire(pid, Instant::now(), || {
             let previous = attr_bool(&app, "AXManualAccessibility");
             match set_manual_accessibility(&app, true) {
-                AXError::Success => EnableResult::Enabled {
-                    previous: previous == Some(true),
-                },
+                AXError::Success => {
+                    switched_on.set(previous != Some(true));
+                    EnableResult::Enabled {
+                        previous: previous == Some(true),
+                    }
+                }
                 e => EnableResult::Failed {
                     unsupported: matches!(
                         e,
@@ -109,7 +120,50 @@ impl Ctx {
                     ),
                 },
             }
-        })
+        });
+        if switched_on.get() {
+            self.tree_on_since.insert(pid, Instant::now());
+        }
+        held
+    }
+
+    /// S-36: our lease switched `pid`'s tree on less than [`TREE_WARMING`]
+    /// ago, so Chromium/Electron may not have built it yet (a fresh Cursor
+    /// window answers with 12 empty groups and no focused element for about
+    /// a second; 269 elements and the focused chat input two seconds later).
+    pub fn tree_warming(&self, pid: i32) -> bool {
+        self.tree_on_since
+            .get(&pid)
+            .is_some_and(|since| since.elapsed() < TREE_WARMING)
+    }
+
+    /// S-36: while a set-up editor ([`keep_warm`]) is the frontmost app, its
+    /// lease is renewed about once a second, so its tree is already built
+    /// when a take starts (a lease switched on at record start is too late
+    /// for that take's read). The lease lapses [`HOLD`] after the editor
+    /// leaves the front, as any other.
+    fn keep_warm_tick(&mut self) {
+        let now = Instant::now();
+        if self
+            .warm_checked
+            .is_some_and(|at| now.saturating_duration_since(at) < WARM_EVERY)
+        {
+            return;
+        }
+        self.warm_checked = Some(now);
+        let wanted = lock_warm().clone();
+        if wanted.is_empty() {
+            return;
+        }
+        let Some((pid, bundle)) = frontmost_pid_bundle() else {
+            return;
+        };
+        if super::is_own_pid(pid) || !wanted.iter().any(|w| w.eq_ignore_ascii_case(&bundle)) {
+            return;
+        }
+        if self.lease_acquire(pid) {
+            self.lease_release(pid);
+        }
     }
 
     pub fn lease_release(&mut self, pid: i32) {
@@ -133,6 +187,7 @@ impl Ctx {
         let mut off = Vec::new();
         self.leases.expire(Instant::now(), |pid| off.push(pid));
         for pid in off {
+            self.tree_on_since.remove(&pid);
             let app = self.app(pid);
             let _ = set_manual_accessibility(&app, false);
         }
@@ -152,6 +207,43 @@ impl Ctx {
         self.lease_by_take.clear();
         self.watched = None;
     }
+}
+
+/// S-36: how long after our lease switched a tree on it may still be
+/// building ([`Ctx::tree_warming`]).
+pub const TREE_WARMING: Duration = Duration::from_millis(2_500);
+/// S-36: how often [`Ctx::keep_warm_tick`] looks at the frontmost app.
+const WARM_EVERY: Duration = Duration::from_millis(900);
+
+/// S-36: bundle ids whose tree is kept built while they are frontmost.
+static WARM: Mutex<Vec<String>> = Mutex::new(Vec::new());
+
+fn lock_warm() -> std::sync::MutexGuard<'static, Vec<String>> {
+    WARM.lock().unwrap_or_else(|e| e.into_inner())
+}
+
+/// S-36: keep the AX tree of these apps (bundle ids) built while one of
+/// them is the frontmost app; an empty list stops it. Starts the AX thread
+/// when there is something to keep warm.
+pub fn keep_warm(bundle_ids: Vec<String>) {
+    let start = !bundle_ids.is_empty();
+    *lock_warm() = bundle_ids;
+    if start {
+        post(|_| {});
+    }
+}
+
+/// The bundle ids [`keep_warm`] was last given.
+pub fn kept_warm() -> Vec<String> {
+    lock_warm().clone()
+}
+
+fn frontmost_pid_bundle() -> Option<(i32, String)> {
+    use objc2_app_kit::NSWorkspace;
+    let app = NSWorkspace::sharedWorkspace().frontmostApplication()?;
+    let pid = app.processIdentifier();
+    let bundle = app.bundleIdentifier()?.to_string();
+    (pid > 0).then_some((pid, bundle))
 }
 
 static TX: OnceLock<Mutex<Sender<Job>>> = OnceLock::new();
@@ -211,6 +303,7 @@ fn worker(jobs: Receiver<Job>) {
             Err(RecvTimeoutError::Disconnected) => break,
         }
         ctx.expire();
+        ctx.keep_warm_tick();
     }
     ctx.release_all();
 }

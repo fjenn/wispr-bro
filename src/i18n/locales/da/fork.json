@@ -229,12 +229,12 @@
       "intro": "Wispr Bro læser de kode- og filnavne, din editor viser. Den åbner aldrig dine filer.",
       "contextOff": "Kontekstbevidsthed er slået fra, så disse funktioner har intet at læse. Slå den til for at bruge dem.",
       "recognize": "Genkend kodenavne",
-      "recognizeHint": "Skriver navne, der ses i din editor, sådan som din kode staver dem.",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
       "setUp": "Konfigurer",
       "change": "Skift editorer",
       "setUpFor": "Konfigurer til {{editors}}",
       "fileTags": "Tag filer i chat",
-      "fileTagsHint": "I Cursor- eller Windsurf-chat bliver “index dot ts” til @index.ts.",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu when that file is open in a tab or shown in the file explorer. If the editor offers no match, @index.ts is written as text.",
       "fileTagsNeedsChat": "Tilgængelig, når du har føjet Cursor eller Windsurf til dine editorer.",
       "fileTagsNeedsSetup": "Tilgængelig, når du har konfigureret genkendelse af kodenavne.",
       "setup": {
@@ -1905,7 +1905,28 @@
     },
     "sites": {
       "heading": "Bruges på disse websteder",
-      "listLabel": "Websteder, der bruger stilen ”{{group}}”"
+      "listLabel": "Websteder, der bruger stilen ”{{group}}”",
+      "addShort": "Add website",
+      "showAll_one": "Show all {{count}} website",
+      "showAll_other": "Show all {{count}} websites",
+      "showFewer": "Show fewer",
+      "recent": {
+        "heading": "Recently used websites",
+        "hint": "Websites you dictated on that have no style yet. Click one to use {{group}} there.",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      }
     },
     "picker": {
       "title": "Tilføj en app til {{group}}",

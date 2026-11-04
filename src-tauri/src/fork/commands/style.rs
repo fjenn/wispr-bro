@@ -51,6 +51,12 @@ pub struct StyleSite {
     pub builtin_group: StyleGroup,
     pub user_group: Option<StyleGroup>,
     pub auto_send: bool,
+    /// In the built-in site list (`categories.json`).
+    pub builtin: bool,
+    /// The user dictated on this site (a host in `entry_meta`): with no
+    /// built-in group and no user rule it is a "Recently used websites"
+    /// suggestion.
+    pub recent: bool,
 }
 
 /// The Style page's apps and sites.
@@ -199,12 +205,16 @@ pub fn overview(
             .iter()
             .find(|r| r.kind == RuleKind::Host && r.key.eq_ignore_ascii_case(&host))
             .and_then(|r| r.style_group);
-        let name = categories::known_hosts()
+        let known = categories::known_hosts()
             .iter()
-            .find(|(h, _, _)| h.eq_ignore_ascii_case(&host))
-            .map(|(_, name, _)| name.clone())
-            .unwrap_or_else(|| host.clone());
+            .find(|(h, _, _)| h.eq_ignore_ascii_case(&host));
+        let name = known.map_or_else(|| host.clone(), |(_, name, _)| name.clone());
+        let recent = dictated_sites.iter().any(|h| {
+            crate::fork::context::url::host(h).is_some_and(|h| h.eq_ignore_ascii_case(&host))
+        });
         sites.push(StyleSite {
+            builtin: known.is_some(),
+            recent,
             host,
             name,
             group: resolved.group,
@@ -258,13 +268,38 @@ fn checked_id(bundle_id: &str) -> Result<String, ForkError> {
     Ok(id.to_string())
 }
 
-/// Site commands accept a host only, never a URL or path.
+/// The site a typed domain or address names: its host, lower case,
+/// without a scheme, `www.`, `*.`, port, path or query (a site rule covers
+/// the host and its subdomains; S-19b only ever sees a page's host, so a
+/// path could never match). `None` for anything that is not a domain.
+pub fn site_host(input: &str) -> Option<String> {
+    let mut text = input.trim().to_ascii_lowercase();
+    if text.is_empty() || text.len() > 512 || text.chars().any(char::is_whitespace) {
+        return None;
+    }
+    if let Some(rest) = text.strip_prefix("*.") {
+        text = rest.to_string();
+    }
+    if !text.contains("://") {
+        text = format!("https://{text}");
+    }
+    let host = crate::fork::context::url::host(&text)?;
+    let host = host.strip_prefix("www.").unwrap_or(&host).to_string();
+    let labels: Vec<&str> = host.split('.').collect();
+    let valid = labels.len() >= 2
+        && labels
+            .iter()
+            .all(|l| !l.is_empty() && l.len() <= 63 && !l.starts_with('-') && !l.ends_with('-'))
+        && labels
+            .last()
+            .is_some_and(|tld| tld.chars().all(|c| c.is_ascii_alphabetic()) && tld.len() >= 2)
+        && !host.contains(':');
+    valid.then_some(host)
+}
+
+/// Site commands accept a domain or an address and keep only its host.
 fn checked_host(input: &str) -> Result<String, ForkError> {
-    let input = input.trim();
-    let host = crate::fork::context::url::host(input)
-        .filter(|host| host.eq_ignore_ascii_case(input))
-        .ok_or_else(|| ForkError::InvalidSetting("not a site host".into()))?;
-    Ok(host)
+    site_host(input).ok_or_else(|| ForkError::InvalidSetting("not a website's domain".into()))
 }
 
 /// The name to store: the installed app's, else what the page sent.
@@ -383,7 +418,7 @@ pub fn fork_style_set_site_group<R: ForkRuntime>(
     db(&app)?
         .with_conn(|c| app_rules::set_site_group(c, &host, group, now))
         .map_err(internal)?;
-    log::info!(
+    log::debug!(
         "style: site {host} → {}",
         group.map_or("default", |g| g.as_str())
     );
@@ -402,7 +437,7 @@ pub fn fork_style_remove_site<R: ForkRuntime>(
     db(&app)?
         .with_conn(|c| app_rules::remove_site_from_group(c, &host, now))
         .map_err(internal)?;
-    log::info!("style: site {host} removed from its group");
+    log::debug!("style: site {host} removed from its group");
     changed(&app)
 }
 
@@ -419,7 +454,7 @@ pub fn fork_style_set_site_auto_send<R: ForkRuntime>(
     db(&app)?
         .with_conn(|c| app_rules::set_site_auto_send(c, &host, on, now))
         .map_err(internal)?;
-    log::info!("style: site {host} press Enter after dictating {on}");
+    log::debug!("style: site {host} press Enter after dictating {on}");
     changed(&app)
 }
 
@@ -516,7 +551,8 @@ mod tests {
         assert_eq!(site("mail.google.com").name, "Gmail");
         assert_eq!(site("app.slack.com").group, StyleGroup::Work);
         assert_eq!(site("example.com").group, StyleGroup::Other);
-        assert_eq!(o.sites.len(), 3);
+        // The built-in sites, plus the dictated one.
+        assert_eq!(o.sites.len(), categories::known_hosts().len() + 1);
     }
 
     #[test]
@@ -527,8 +563,66 @@ mod tests {
         assert!(checked_id("x'); DROP TABLE app_rules; --").is_err());
         assert!(checked_id("com.wisprbro.desktop").is_err());
         assert_eq!(checked_host(" Example.COM ").unwrap(), "example.com");
-        assert!(checked_host("https://example.com/private").is_err());
-        assert!(checked_host("example.com/private").is_err());
+        // A pasted address keeps only its host: the path is never stored.
+        assert_eq!(
+            checked_host("https://example.com/private").unwrap(),
+            "example.com"
+        );
+        assert_eq!(checked_host("example.com/private").unwrap(), "example.com");
+        assert!(checked_host("not a site").is_err());
         assert!(checked_host("").is_err());
+    }
+
+    #[test]
+    fn typed_sites_reduce_to_their_host() {
+        for (input, host) in [
+            ("github.com", "github.com"),
+            ("https://www.Example.com/org/repo?tab=1#x", "example.com"),
+            ("*.atlassian.net", "atlassian.net"),
+            ("mail.example.co.uk/u/0", "mail.example.co.uk"),
+            ("  notion.so  ", "notion.so"),
+        ] {
+            assert_eq!(site_host(input).as_deref(), Some(host), "{input}");
+        }
+        for input in [
+            "",
+            "localhost",
+            "not a site",
+            "https://",
+            "ftp://example.com",
+            "1.2.3.4",
+            "-bad.com",
+            "example.c0m",
+            "user@",
+            "file:///tmp/x",
+        ] {
+            assert_eq!(site_host(input), None, "{input}");
+        }
+    }
+
+    #[test]
+    fn dictated_sites_are_marked_recent_and_builtins_builtin() {
+        let o = overview(
+            &[],
+            &[],
+            &[],
+            &["https://forum.example.com".into(), "github.com".into()],
+        );
+        let forum = o
+            .sites
+            .iter()
+            .find(|s| s.host == "forum.example.com")
+            .unwrap();
+        assert!(forum.recent && !forum.builtin && forum.user_group.is_none());
+        assert_eq!(forum.group, StyleGroup::Other);
+        let github = o.sites.iter().find(|s| s.host == "github.com").unwrap();
+        assert!(github.recent && github.builtin);
+        assert_eq!(github.group, StyleGroup::Work);
+        let gmail = o
+            .sites
+            .iter()
+            .find(|s| s.host == "mail.google.com")
+            .unwrap();
+        assert!(!gmail.recent && gmail.builtin);
     }
 }

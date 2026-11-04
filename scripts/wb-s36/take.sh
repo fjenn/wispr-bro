@@ -18,11 +18,14 @@
 #   editor    user_service.ts open, caret on an empty last line; the text
 #             lands in the buffer (read back by saving the file)
 #   chat      index.ts and user_service.ts open in tabs; Cursor's chat
-#             input focused (⌘L); the chat text is read back by ⌘A ⌘C
+#             input focused (⌘L); the chat text and its file tags are read
+#             back through AX by $WB_S36_BIN/chat-tags (chat-tags.swift),
+#             else by ⌘A ⌘C
 #   textedit  a TextEdit document that names index.ts (not a listed
 #             editor: nothing may be tagged or respelled)
 # Env: WB_S36_BIN = folder with the compiled helpers
-#   (swiftc -O -o $WB_S36_BIN/clip scripts/wb-s05/clip.swift).
+#   (swiftc -O -o $WB_S36_BIN/clip scripts/wb-s05/clip.swift;
+#    swiftc -O -o $WB_S36_BIN/chat-tags scripts/wb-s36/chat-tags.swift).
 set -u
 CASE="$1"; WAV="$2"; OUT="$3"
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -157,8 +160,15 @@ else
   fi
   case "$CASE" in
     editor) keys 'keystroke "s" using command down'; sleep 1; tail -n 2 "$WS/user_service.ts" >"$T/text" ;;
-    chat) keys 'keystroke "a" using command down'; keys 'keystroke "c" using command down'; sleep 0.5
-      pbpaste >"$T/text" ;;
+    chat)
+      # OT2-C: real tags are pills in the input, which ⌘A ⌘C flattens to
+      # text; chat-tags reads them through AX (no clipboard).
+      if [ -x "$BIN/chat-tags" ]; then
+        "$BIN/chat-tags" "$(cursor_pid)" >"$T/text"
+      else
+        keys 'keystroke "a" using command down'; keys 'keystroke "c" using command down'; sleep 0.5
+        pbpaste >"$T/text"
+      fi ;;
     textedit) osascript -e "tell application \"TextEdit\" to get text of document \"$doc\"" >"$T/text" ;;
   esac
   echo "OK" >"$T/result"
