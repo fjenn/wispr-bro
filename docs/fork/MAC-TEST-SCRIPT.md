@@ -2887,6 +2887,36 @@ Build the read-back helper once:
       profile, signed out) goes in without cleanup (its cleanup reason is
       `ai_chat`) and without a style.
 
+### Owner test 2: transforms do what they say (OT2-D)
+
+Driver: `scripts/wb-ot2d/run.sh <case>` on a portable test bundle
+(onboarding completed, Transforms on, default ⌥1/⌥2, AI engine ready; its
+own `Data/fork.db`, never the owner's), its own TextEdit instance, no
+audio. Run `restore` last.
+
+- [ ] OT2-D.1 **Queued for the Mac wave.** `exact`: Polish's prompt set to
+      "Replace all A and E with 0 and 1"; ⌥1 on a TextEdit sentence pastes
+      "Pl10s1 s1nd th1 0g1nd0 b1for1 th1 m11ting." with `llm 0` in the
+      `transforms: run` line, the clipboard unchanged, and one ⌘Z restores.
+- [ ] OT2-D.2 **Queued for the Mac wave.** `nomatch`: the same transform on
+      "Buy rum today." pastes nothing; the bar says "Nothing to change".
+- [ ] OT2-D.3 **Queued for the Mac wave.** `notapplied`: Prompt Engineer set
+      to "Make it about half as long" on one sentence: either a shortened
+      paste, or nothing pasted and the bar says "Couldn't apply this
+      transform" (never the same text pasted with "Done").
+- [ ] OT2-D.4 **Queued for the Mac wave.** By eye in the Hub (light, dark,
+      Arabic): Transforms › Create new has no rules checked; typing "Replace
+      all A and E with 0 and 1" shows "Runs exactly, without AI" with
+      “A” → “0”, “E” → “1” and the rules note; a Find and replace row
+      (Match case) works with the keyboard; Preview shows "Exact · no AI";
+      a free-form prompt whose preview fails shows the reason in place.
+- [ ] OT2-D.5 **Queued for the Mac wave.** Scratchpad › a note of three
+      paragraphs (~340 words, pasted, not typed) › Polish: the note is
+      rewritten within ~15 s (no timeout, no line-count refusal: the log's
+      `transforms: preview ended` line must not appear); the same text
+      selected in TextEdit › ⌥1 (Polish restored) pastes once and keeps
+      the three paragraphs.
+
 ### S-39 1.0 release
 
 - [ ] S-39.1 RS-12 re-run `1.0.0-rc → 1.0.0`.
