@@ -442,7 +442,12 @@
       },
       "addFor": "Thêm phím tắt cho {{action}}",
       "descriptionLimits": "Hầu hết thao tác có tối đa {{max}} phím tắt. Giữ để nói, hủy và Command Mode mỗi thao tác có một, đọc chính tả rảnh tay có hai. Thay đổi được lưu ngay khi bạn thực hiện.",
-      "limit_other": "Thao tác này có tối đa {{count}} phím tắt."
+      "limit_other": "Thao tác này có tối đa {{count}} phím tắt.",
+      "appleDictation": {
+        "title": "Tắt Đọc chính tả của Apple khi nhấn fn hai lần",
+        "description": "Nhấn đúp sẽ không khởi động thêm Đọc chính tả của Apple.",
+        "active": "Đọc chính tả của Apple vẫn bắt đầu khi nhấn fn hai lần. Trong cài đặt Bàn phím, đặt phím tắt Đọc chính tả thành Tắt."
+      }
     },
     "resetSetting": "Đặt lại {{setting}}",
     "intro": {
@@ -613,6 +618,9 @@
       "sponsor": "Tài trợ trên GitHub",
       "star": "Gắn sao trên GitHub",
       "contribute": "Đóng góp"
+    },
+    "appleDictationNote": {
+      "body": "Chúng tôi đã tắt “Nhấn fn hai lần” của Đọc chính tả Apple để văn bản của bạn không bị nhập hai lần. Thay đổi trong Cài đặt › Phím tắt."
     }
   },
   "ui": {

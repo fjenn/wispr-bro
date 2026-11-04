@@ -442,7 +442,12 @@
       },
       "addFor": "Tambahkan pintasan untuk {{action}}",
       "descriptionLimits": "Sebagian besar aksi mendukung hingga {{max}} pintasan. Tahan untuk berbicara, batalkan, dan Command Mode masing-masing satu, dikte bebas genggam dua. Perubahan disimpan saat Anda membuatnya.",
-      "limit_other": "Aksi ini mendukung hingga {{count}} pintasan."
+      "limit_other": "Aksi ini mendukung hingga {{count}} pintasan.",
+      "appleDictation": {
+        "title": "Matikan Dikte Apple saat fn ditekan dua kali",
+        "description": "Ketukan ganda tidak lagi ikut memulai Dikte Apple.",
+        "active": "Dikte Apple masih dimulai saat fn ditekan dua kali. Di pengaturan Papan Ketik, atur pintasan Dikte ke Mati."
+      }
     },
     "resetSetting": "Atur ulang {{setting}}",
     "intro": {
@@ -613,6 +618,9 @@
       "sponsor": "Sponsori di GitHub",
       "star": "Beri bintang di GitHub",
       "contribute": "Berkontribusi"
+    },
+    "appleDictationNote": {
+      "body": "Kami mematikan “Tekan fn dua kali” untuk Dikte Apple agar teks Anda tidak diketik dua kali. Ubah di Pengaturan › Pintasan."
     }
   },
   "ui": {

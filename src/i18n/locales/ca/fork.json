@@ -446,7 +446,12 @@
       "descriptionLimits": "La majoria d'accions admeten fins a {{max}} dreceres. Mantenir premut per parlar, cancel·lar i Mode d'ordres en admeten una cadascuna, i el dictat sense mans, dues. Els canvis es desen a mesura que els fas.",
       "limit_one": "Aquesta acció admet {{count}} drecera.",
       "limit_many": "Aquesta acció admet fins a {{count}} dreceres.",
-      "limit_other": "Aquesta acció admet fins a {{count}} dreceres."
+      "limit_other": "Aquesta acció admet fins a {{count}} dreceres.",
+      "appleDictation": {
+        "title": "Desactiva el Dictat d'Apple amb fn dues vegades",
+        "description": "Evita que un doble toc també iniciï el Dictat d'Apple.",
+        "active": "El Dictat d'Apple encara s'inicia amb fn dues vegades. A la configuració del teclat, posa la drecera del Dictat a «No»."
+      }
     },
     "resetSetting": "Restaurar {{setting}}",
     "intro": {
@@ -619,6 +624,9 @@
       "sponsor": "Patrocineu a GitHub",
       "star": "Doneu una estrella a GitHub",
       "contribute": "Contribuïu"
+    },
+    "appleDictationNote": {
+      "body": "Hem desactivat «Prem fn dues vegades» del Dictat d'Apple perquè el text no s'escrigui dues vegades. Canvia-ho a Configuració › Dreceres."
     }
   },
   "ui": {

@@ -65,6 +65,7 @@ export const forkSettingsDefaults = {
   typing_hours_per_day: 2,
   greeting_name: null,
   auto_learn_enabled: false,
+  apple_dictation_shortcut_off: true,
   vibe_coding: {
     enabled: false,
     setup_completed: false,

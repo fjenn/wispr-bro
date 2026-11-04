@@ -446,7 +446,12 @@
       "descriptionLimits": "La mayoría de las acciones admiten hasta {{max}} funciones rápidas. Mantener para hablar, cancelar y Modo de comandos admiten una cada una, y el dictado manos libres, dos. Los cambios se guardan al hacerlos.",
       "limit_one": "Esta acción admite {{count}} función rápida.",
       "limit_many": "Esta acción admite hasta {{count}} funciones rápidas.",
-      "limit_other": "Esta acción admite hasta {{count}} funciones rápidas."
+      "limit_other": "Esta acción admite hasta {{count}} funciones rápidas.",
+      "appleDictation": {
+        "title": "Desactivar el Dictado de Apple con fn dos veces",
+        "description": "Evita que un doble toque también inicie el Dictado de Apple.",
+        "active": "El Dictado de Apple todavía se inicia con fn dos veces. En los ajustes de Teclado, pon la función rápida de Dictado en «No»."
+      }
     },
     "resetSetting": "Restablecer {{setting}}",
     "intro": {
@@ -619,6 +624,9 @@
       "sponsor": "Patrocina en GitHub",
       "star": "Dale una estrella en GitHub",
       "contribute": "Contribuye"
+    },
+    "appleDictationNote": {
+      "body": "Hemos desactivado «Pulsar fn dos veces» del Dictado de Apple para que tu texto no se escriba dos veces. Cámbialo en Ajustes › Funciones rápidas."
     }
   },
   "ui": {

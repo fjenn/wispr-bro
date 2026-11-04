@@ -442,7 +442,12 @@
       },
       "addFor": "為「{{action}}」加入快捷鍵",
       "descriptionLimits": "大多數動作最多可設定 {{max}} 個快速鍵。「按住說話」、取消和指令模式各 1 個，免持聽寫 2 個。變更會立即儲存。",
-      "limit_other": "此動作最多可設定 {{count}} 個快速鍵。"
+      "limit_other": "此動作最多可設定 {{count}} 個快速鍵。",
+      "appleDictation": {
+        "title": "關閉按兩下 fn 啟動的 Apple 聽寫",
+        "description": "按兩下時不會同時啟動 Apple 聽寫。",
+        "active": "按兩下 fn 仍會啟動 Apple 聽寫。請在鍵盤設定中將聽寫快速鍵設為「關閉」。"
+      }
     },
     "resetSetting": "重置「{{setting}}」",
     "intro": {
@@ -613,6 +618,9 @@
       "sponsor": "在 GitHub 上贊助",
       "star": "在 GitHub 上加星號",
       "contribute": "參與貢獻"
+    },
+    "appleDictationNote": {
+      "body": "我們已關閉 Apple 聽寫的「按兩下 fn 鍵」，以免文字被輸入兩次。可在設定 › 快速鍵中更改。"
     }
   },
   "ui": {

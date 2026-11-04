@@ -444,7 +444,12 @@
       "addFor": "Tilføj en genvej til {{action}}",
       "descriptionLimits": "De fleste handlinger kan have op til {{max}} genveje. Hold nede for at tale, annuller og Kommandotilstand har én hver, håndfri diktering to. Ændringer gemmes, mens du laver dem.",
       "limit_one": "Denne handling har {{count}} genvej.",
-      "limit_other": "Denne handling har op til {{count}} genveje."
+      "limit_other": "Denne handling har op til {{count}} genveje.",
+      "appleDictation": {
+        "title": "Slå Apples Diktering fra ved fn to gange",
+        "description": "Et dobbelttryk starter ikke også Apples Diktering.",
+        "active": "Apples Diktering starter stadig ved fn to gange. Sæt genvejen til Diktering til Fra i tastaturindstillingerne."
+      }
     },
     "resetSetting": "Nulstil {{setting}}",
     "intro": {
@@ -616,6 +621,9 @@
       "sponsor": "Sponsorér på GitHub",
       "star": "Giv en stjerne på GitHub",
       "contribute": "Bidrag"
+    },
+    "appleDictationNote": {
+      "body": "Vi har slået Apples Diktering-genvej „Tryk på fn to gange“ fra, så din tekst ikke skrives to gange. Skift det i Indstillinger › Genveje."
     }
   },
   "ui": {

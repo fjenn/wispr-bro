@@ -446,7 +446,12 @@
       "descriptionLimits": "La maggior parte delle azioni accetta fino a {{max}} abbreviazioni. Tieni premuto per parlare, annulla e Modalità Comandi ne accettano una ciascuna, la dettatura a mani libere due. Le modifiche vengono salvate man mano.",
       "limit_one": "Questa azione accetta {{count}} abbreviazione.",
       "limit_many": "Questa azione accetta fino a {{count}} abbreviazioni.",
-      "limit_other": "Questa azione accetta fino a {{count}} abbreviazioni."
+      "limit_other": "Questa azione accetta fino a {{count}} abbreviazioni.",
+      "appleDictation": {
+        "title": "Disattiva la Dettatura di Apple con fn due volte",
+        "description": "Un doppio tocco non avvia più anche la Dettatura di Apple.",
+        "active": "La Dettatura di Apple si avvia ancora con fn due volte. Nelle impostazioni Tastiera, imposta l'abbreviazione della Dettatura su No."
+      }
     },
     "resetSetting": "Ripristina {{setting}}",
     "intro": {
@@ -619,6 +624,9 @@
       "sponsor": "Sponsorizza su GitHub",
       "star": "Aggiungi una stella su GitHub",
       "contribute": "Contribuisci"
+    },
+    "appleDictationNote": {
+      "body": "Abbiamo disattivato “Premi fn due volte” della Dettatura di Apple, così il testo non viene scritto due volte. Puoi cambiarlo in Impostazioni › Abbreviazioni."
     }
   },
   "ui": {

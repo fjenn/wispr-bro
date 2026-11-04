@@ -378,6 +378,9 @@ pub struct ForkSettings {
     /// DEC-20: opt-in.
     pub auto_learn_enabled: bool,
     pub vibe_coding: VibeCodingSettings,
+    /// OT2: switch Apple Dictation's "Press fn twice" shortcut off while fn
+    /// is the trigger (default on; off keeps Apple's shortcut).
+    pub apple_dictation_shortcut_off: bool,
     /// S-08: "Auto-detect (system setting)" was chosen in the microphone
     /// list, so the system default is used even when it is a Bluetooth
     /// headset. Off (never chosen): a wireless default is skipped for the
@@ -423,6 +426,7 @@ impl Default for ForkSettings {
             greeting_name: None,
             auto_learn_enabled: false,
             vibe_coding: VibeCodingSettings::default(),
+            apple_dictation_shortcut_off: true,
             mic_follow_system: false,
             applied_first_run_defaults: Vec::new(),
         }
@@ -474,6 +478,7 @@ pub enum ForkSettingUpdate {
     GreetingName(Option<String>),
     AutoLearnEnabled(bool),
     VibeCoding(VibeCodingSettings),
+    AppleDictationShortcutOff(bool),
 }
 
 impl ForkSettingUpdate {
@@ -700,6 +705,7 @@ pub fn apply_update(settings: &mut ForkSettings, update: ForkSettingUpdate) -> R
         U::GreetingName(v) => settings.greeting_name = v.map(|s| s.trim().to_owned()),
         U::AutoLearnEnabled(v) => settings.auto_learn_enabled = v,
         U::VibeCoding(v) => settings.vibe_coding = v,
+        U::AppleDictationShortcutOff(v) => settings.apple_dictation_shortcut_off = v,
     }
     Ok(())
 }

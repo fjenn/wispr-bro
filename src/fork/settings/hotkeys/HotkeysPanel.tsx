@@ -11,6 +11,7 @@ import { FORK_NAMESPACE } from "../../i18n";
 import { Button, IconButton } from "../../ui";
 import { Plus } from "../../ui/icons";
 import { useForkSettings } from "../useForkSettings";
+import { AppleDictationRow, useRecheckOnFocus } from "./AppleDictation";
 import { BindingRow } from "./BindingRow";
 import {
   actionDefinition,
@@ -78,6 +79,9 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     void refresh();
   }, [refresh, settings?.hotkeys]);
+  // Apple's Dictation shortcut may have changed in System Settings.
+  const recheck = useCallback(() => void refresh(), [refresh]);
+  useRecheckOnFocus(recheck);
 
   const save = useCallback(
     async (action: string, bindings: HotkeyBinding[]) => {
@@ -131,6 +135,7 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
           {t("settingsModal.hotkeys.secureInputHelp")}
         </p>
       </div>
+      <AppleDictationRow status={status} onChanged={recheck} />
       <div className="flex flex-col gap-3">
         {ids.map((id) => {
           const definition = actionDefinition(id);

@@ -448,7 +448,12 @@
       "limit_one": "Ta akcja ma {{count}} skrót.",
       "limit_few": "Ta akcja ma do {{count}} skrótów.",
       "limit_many": "Ta akcja ma do {{count}} skrótów.",
-      "limit_other": "Ta akcja ma do {{count}} skrótu."
+      "limit_other": "Ta akcja ma do {{count}} skrótu.",
+      "appleDictation": {
+        "title": "Wyłącz Dyktowanie Apple po dwukrotnym fn",
+        "description": "Podwójne naciśnięcie nie uruchomi już także Dyktowania Apple.",
+        "active": "Dyktowanie Apple nadal uruchamia się po dwukrotnym naciśnięciu fn. W ustawieniach Klawiatury ustaw skrót Dyktowania na Wył."
+      }
     },
     "resetSetting": "Przywróć: {{setting}}",
     "intro": {
@@ -622,6 +627,9 @@
       "sponsor": "Wesprzyj na GitHubie",
       "star": "Daj gwiazdkę na GitHubie",
       "contribute": "Współtwórz"
+    },
+    "appleDictationNote": {
+      "body": "Wyłączyliśmy „Naciśnij fn dwa razy” w Dyktowaniu Apple, aby tekst nie był wpisywany dwukrotnie. Zmienisz to w Ustawienia › Skróty."
     }
   },
   "ui": {

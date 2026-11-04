@@ -54,6 +54,7 @@ import { useMenuActions } from "./menuActions";
 import { useNotificationsLive } from "./NotificationsPanel";
 import { hubPage, newTagId } from "./pages";
 import { ShortcutHealthBanner } from "./ShortcutHealthBanner";
+import { AppleDictationNote } from "./AppleDictationNote";
 import { setSidebarCard, Sidebar } from "./Sidebar";
 import { renderSetupChecklist } from "./SetupChecklist";
 import { FirstUseChooser } from "../onboarding/FirstUseChooser";
@@ -218,6 +219,7 @@ export function ForkApp(props: ForkAppProps) {
                   className="mx-auto flex w-full max-w-[1000px] flex-col gap-6 px-(--wb-page-pad-x) pt-(--wb-page-pad-top) pb-10 max-[860px]:px-8"
                 >
                   <ShortcutHealthBanner />
+                  <AppleDictationNote />
                   <SecureInputWarning />
                   <ErrorBoundary key={page.id} context={page.id}>
                     <Page />
