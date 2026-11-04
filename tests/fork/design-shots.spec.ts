@@ -80,7 +80,8 @@ test.describe("design shots", () => {
           location: step === "move_to_applications" ? "move_needed" : undefined,
         });
         await page.setViewportSize({ width: 1040, height: 720 });
-        await page.waitForTimeout(600);
+        // The celebration's staged reveal runs ~3 s.
+        await page.waitForTimeout(step === "first_dictation" ? 3600 : 600);
         await page.screenshot({
           path: path.join(dir!, `onboarding-${step}-${theme}.png`),
         });

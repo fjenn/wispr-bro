@@ -21,13 +21,27 @@ export const ONBOARDING_STEPS = [
 ] as const;
 
 export type OnboardingStep = (typeof ONBOARDING_STEPS)[number];
-export type OnboardingStage = "welcome" | "permissions" | "setup" | "practice";
+export type OnboardingStage =
+  | "welcome"
+  | "permissions"
+  | "setup"
+  | "practice"
+  | "finish";
 
+/** The header's five stages (Design W1: the reference's five-stage stepper). */
 export const STAGES: readonly OnboardingStage[] = [
   "welcome",
   "permissions",
   "setup",
   "practice",
+  "finish",
+];
+
+/** Steps on the always-dark stage (the celebration and what follows it). */
+export const DARK_STEPS: readonly OnboardingStep[] = [
+  "first_dictation",
+  "time_saved",
+  "typing_test",
 ];
 
 const STAGE_OF: Record<OnboardingStep, OnboardingStage> = {
@@ -39,9 +53,9 @@ const STAGE_OF: Record<OnboardingStep, OnboardingStage> = {
   shortcut_test: "setup",
   practice: "practice",
   first_dictation: "practice",
-  time_saved: "practice",
-  typing_test: "practice",
-  summary: "practice",
+  time_saved: "finish",
+  typing_test: "finish",
+  summary: "finish",
 };
 
 export function isOnboardingStep(value: unknown): value is OnboardingStep {

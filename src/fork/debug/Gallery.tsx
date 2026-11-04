@@ -143,6 +143,7 @@ const SAMPLE = {
   progress: "Setup progress",
   stepper: "Setup stages",
   stages: ["Get started", "Permissions", "Set up", "Learn"],
+  done: "(done)",
   badgeNew: "New",
   badgeCount: "12",
   badgeBest: "Best match",
@@ -806,6 +807,7 @@ function Board({ theme }: { theme: "light" | "dark" }) {
         </Row>
         <Stepper
           label={SAMPLE.stepper}
+          doneLabel={SAMPLE.done}
           current="setup"
           stages={[
             { id: "start", label: SAMPLE.stages[0] },

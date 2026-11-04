@@ -8,12 +8,20 @@
  * saves the result (`typing_wpm`) and returns to the time-saved estimate.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard } from "../ui/icons";
+import { RotateCcw, X } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "@/hooks/useSettings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button } from "../ui";
+import {
+  Button,
+  IconButton,
+  Select,
+  StatNumber,
+  ThemeScope,
+  useWindowTheme,
+} from "../ui";
+import { CentredLayout, Title } from "./Layout";
 import { defaultSampleLanguage, sampleFor, TYPING_SAMPLES } from "./samples";
 import {
   MIN_LIVE_SECONDS,
@@ -47,6 +55,7 @@ export function TypingTest({
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const { settings: handy } = useSettings();
   const { setSetting } = useForkSettings();
+  const windowTheme = useWindowTheme();
   const spoken = handy?.spoken_languages ?? [];
   const [language, setLanguage] = useState(() =>
     defaultSampleLanguage(spoken, i18n.language),
@@ -121,151 +130,165 @@ export function TypingTest({
   const typedChars = Array.from(typed);
 
   return (
-    <div className="mx-auto flex w-full max-w-[640px] flex-col items-center gap-4">
-      <div className="flex w-full items-start justify-between gap-3">
-        <div className="min-w-0 flex-1 text-start">
-          <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-            {t("onboardingFlow.typing.title")}
-          </h1>
-          <p className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-            {t("onboardingFlow.typing.instruction", {
-              count: TEST_SECONDS,
-              seconds: TEST_SECONDS,
-            })}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onSkip}
-          data-testid="wb-typing-skip"
-          className="shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-(--wb-ink-2) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
-        >
-          {t("onboardingFlow.typing.skip")}
-        </button>
-      </div>
-
-      <div className="flex w-full flex-wrap items-center justify-between gap-3">
-        <label className="flex items-center gap-2 text-sm text-(--wb-ink-2)">
-          {t("onboardingFlow.typing.language")}
-          <select
+    <CentredLayout tone="dark" width={640} top={56}>
+      <ThemeScope
+        theme={windowTheme}
+        className="relative w-full rounded-(--wb-radius-lg) bg-(--wb-surface) px-9 pt-7 pb-7 text-start shadow-(--wb-elev-3)"
+      >
+        <span className="absolute end-4 top-4">
+          <IconButton
+            aria-label={t("onboardingFlow.typing.skip")}
+            onClick={onSkip}
+            data-testid="wb-typing-skip"
+          >
+            <X size={18} />
+          </IconButton>
+        </span>
+        <h1 className="type-sheet m-0 pe-10 text-[32px] leading-[38px] text-balance">
+          <Title i18nKey="onboardingFlow.typing.title" />
+        </h1>
+        <p className="mt-2 mb-0 text-[13px] leading-[18px] text-pretty text-(--wb-ink-2)">
+          {t("onboardingFlow.typing.instruction", {
+            count: TEST_SECONDS,
+            seconds: TEST_SECONDS,
+          })}
+        </p>
+        <div className="mt-4 flex items-center gap-3">
+          <Select
             value={language}
-            disabled={run === "running"}
-            onChange={(e) => {
-              setLanguage(e.target.value);
+            onValueChange={(next) => {
+              setLanguage(next);
               reset();
             }}
-            data-testid="wb-typing-language"
-            className="cursor-pointer rounded-lg border border-(--wb-line-strong) bg-(--wb-surface) px-2 py-1 text-sm text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent) disabled:cursor-default disabled:opacity-60"
+            disabled={run === "running"}
+            label={t("onboardingFlow.typing.language")}
+            size="sm"
+            testId="wb-typing-language"
+            className="min-w-[180px]"
+            options={TYPING_SAMPLES.map((s) => ({
+              value: s.language,
+              label: languageName(s.language, i18n.language),
+            }))}
+          />
+        </div>
+
+        <div
+          className={`relative mt-4 cursor-text rounded-(--wb-radius-sm) outline-offset-[6px] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-(--wb-accent) ${
+            run === "done" ? "opacity-70" : ""
+          }`}
+        >
+          <p className="sr-only" lang={language}>
+            {sample}
+          </p>
+          <p
+            aria-hidden="true"
+            lang={language}
+            dir="ltr"
+            className="type-mono m-0 text-[15px] leading-[26px] break-words whitespace-pre-wrap"
+            data-testid="wb-typing-sample"
           >
-            {TYPING_SAMPLES.map((s) => (
-              <option key={s.language} value={s.language}>
-                {languageName(s.language, i18n.language)}
-              </option>
+            {chars.map((c, i) => {
+              const at = typedChars[i];
+              const cls =
+                at === undefined
+                  ? "text-(--wb-ink-3)"
+                  : at === c
+                    ? "text-(--wb-ink)"
+                    : "rounded-[2px] bg-(--wb-danger-soft) text-(--wb-danger) underline";
+              return (
+                <span key={i} className={cls}>
+                  {c}
+                </span>
+              );
+            })}
+          </p>
+          <label className="sr-only" htmlFor="wb-typing-input">
+            {t("onboardingFlow.typing.inputLabel")}
+          </label>
+          {/* The field lies over the paragraph with see-through text, so
+              the caret moves through the paragraph as you type. */}
+          <textarea
+            id="wb-typing-input"
+            ref={input}
+            value={typed}
+            readOnly={run === "done"}
+            onChange={(e) => onType(e.target.value)}
+            onPaste={(e) => e.preventDefault()}
+            onDrop={(e) => e.preventDefault()}
+            spellCheck={false}
+            autoCorrect="off"
+            autoCapitalize="off"
+            autoComplete="off"
+            lang={language}
+            dir="ltr"
+            data-testid="wb-typing-input"
+            className="type-mono absolute inset-0 m-0 size-full resize-none overflow-hidden border-0 bg-transparent p-0 text-[15px] leading-[26px] break-words whitespace-pre-wrap text-transparent caret-(--wb-ink) outline-none select-text"
+          />
+        </div>
+
+        <div
+          role="status"
+          className="mt-4 min-h-5 text-[15px]"
+          data-testid="wb-typing-result"
+        >
+          {run === "done" &&
+            (result == null ? (
+              <span className="text-(--wb-ink-2)">
+                {t("onboardingFlow.typing.nothing")}
+              </span>
+            ) : (
+              <span className="font-medium">
+                {t("onboardingFlow.typing.result", { count: result })}
+              </span>
             ))}
-          </select>
-        </label>
-        <div className="flex items-center gap-4 text-sm tabular-nums">
-          <span data-testid="wb-typing-wpm" data-wpm={live ?? ""}>
-            {live == null
-              ? t("onboardingFlow.typing.wpmPending")
-              : t("onboardingFlow.typing.wpm", { count: live })}
-          </span>
-          <span
-            className="text-(--wb-ink-2)"
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-end gap-x-8 gap-y-4">
+          <div
+            className="flex flex-col"
+            data-testid="wb-typing-wpm"
+            data-wpm={live ?? ""}
+          >
+            <span className="type-display text-[44px] leading-[48px] tabular-nums">
+              {live == null ? "—" : <StatNumber value={live} />}
+            </span>
+            <span className="text-[13px] text-(--wb-ink-2)">
+              {t("onboardingFlow.typing.wpmUnit", { count: live ?? 0 })}
+            </span>
+          </div>
+          <div
+            className="flex flex-col"
             data-testid="wb-typing-seconds"
             data-seconds={secondsLeft}
           >
-            {t("onboardingFlow.typing.secondsLeft", { count: secondsLeft })}
-          </span>
+            <span className="type-display text-[44px] leading-[48px] tabular-nums">
+              {secondsLeft}
+            </span>
+            <span className="text-[13px] text-(--wb-ink-2)">
+              {t("onboardingFlow.typing.secondsUnit", { count: secondsLeft })}
+            </span>
+          </div>
+          <div className="ms-auto flex flex-wrap items-center gap-2 pb-1">
+            <Button
+              variant="primary"
+              onClick={() => void recalculate()}
+              disabled={result == null || busy}
+              data-testid="wb-typing-recalculate"
+            >
+              {t("onboardingFlow.typing.recalculate")}
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={reset}
+              disabled={run === "ready"}
+              data-testid="wb-typing-again"
+              leading={<RotateCcw size={16} aria-hidden="true" />}
+            >
+              {t("onboardingFlow.typing.tryAgain")}
+            </Button>
+          </div>
         </div>
-      </div>
-
-      <div className="w-full rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start">
-        <p className="sr-only" lang={language}>
-          {sample}
-        </p>
-        <p
-          aria-hidden="true"
-          lang={language}
-          dir="ltr"
-          className="m-0 font-mono text-[14px] leading-7 break-words whitespace-pre-wrap"
-          data-testid="wb-typing-sample"
-        >
-          {chars.map((c, i) => {
-            const at = typedChars[i];
-            const cls =
-              at === undefined
-                ? "text-(--wb-ink-3)"
-                : at === c
-                  ? "text-(--wb-ink)"
-                  : "rounded-sm bg-(--wb-tag-beta-bg) text-(--wb-tag-beta-ink) underline";
-            return (
-              <span key={i} className={cls}>
-                {c}
-              </span>
-            );
-          })}
-        </p>
-      </div>
-
-      <label className="sr-only" htmlFor="wb-typing-input">
-        {t("onboardingFlow.typing.inputLabel")}
-      </label>
-      <textarea
-        id="wb-typing-input"
-        ref={input}
-        value={typed}
-        readOnly={run === "done"}
-        onChange={(e) => onType(e.target.value)}
-        onPaste={(e) => e.preventDefault()}
-        onDrop={(e) => e.preventDefault()}
-        spellCheck={false}
-        autoCorrect="off"
-        autoCapitalize="off"
-        autoComplete="off"
-        lang={language}
-        dir="ltr"
-        rows={3}
-        placeholder={t("onboardingFlow.typing.placeholder")}
-        data-testid="wb-typing-input"
-        className="w-full resize-none rounded-(--wb-radius-sm) select-text border border-(--wb-line-strong) bg-(--wb-surface) px-3 py-2 font-mono text-[14px] leading-6 text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--wb-accent) read-only:opacity-70"
-      />
-
-      <div
-        role="status"
-        className="min-h-6 text-center text-sm"
-        data-testid="wb-typing-result"
-      >
-        {run === "done" &&
-          (result == null ? (
-            <span className="text-(--wb-ink-2)">
-              {t("onboardingFlow.typing.nothing")}
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-2 font-semibold">
-              <Keyboard size={16} aria-hidden="true" />
-              {t("onboardingFlow.typing.result", { count: result })}
-            </span>
-          ))}
-      </div>
-
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <Button
-          onClick={reset}
-          disabled={run === "ready"}
-          data-testid="wb-typing-again"
-        >
-          {t("onboardingFlow.typing.tryAgain")}
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => void recalculate()}
-          disabled={result == null || busy}
-          data-testid="wb-typing-recalculate"
-        >
-          {t("onboardingFlow.typing.recalculate")}
-        </Button>
-      </div>
-    </div>
+      </ThemeScope>
+    </CentredLayout>
   );
 }

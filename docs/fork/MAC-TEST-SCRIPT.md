@@ -1444,6 +1444,33 @@ takes through `WISPRBRO_TEST_MIC_WAV`), one pass by eye, light then dark
       character on the right.
 - [ ] W2.7 Increase Contrast and Reduce Motion on: hairlines darken, focus
       rings show, no hover-only control is unreachable by keyboard.
+### Design W1 (onboarding) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w1-onboarding` (SYSTEM-PLAN §7 W1). A debug
+build with an empty profile shows onboarding (`bun run wb:dev`); one pass
+through every step, by eye, light and dark (title-strip theme or System
+Settings), once with Reduce Motion on. No take is needed except the
+practice (use the WAV microphone, `WISPRBRO_TEST_MIC_WAV`).
+
+- [ ] W1.1 Shell: the stepper is centred in the title strip between the
+      traffic lights and Help, the purple line grows step by step, the
+      window drags from the strip, "← Back" is top-left of each stage.
+- [ ] W1.2 Steps slide in the direction of travel (Back slides the other
+      way) without a flash; with Reduce Motion they crossfade.
+- [ ] W1.3 Welcome's demo loops and pauses; Permissions shows the pane and
+      prompt for the permission being asked; the mic card's bars move
+      with the WAV microphone and Yes goes on; the shortcut key turns
+      purple while fn is held and Yes goes on.
+- [ ] W1.4 Typing test: click the paragraph, type; the caret walks the
+      paragraph (no visible second copy of the text), wrong letters turn
+      red; the language menu opens on the dark stage in the window's
+      theme.
+- [ ] W1.5 Celebration after a practice take: headline, bars, arrow
+      drawing, number rolling to 3.3×, rocket, caption, Continue, one
+      confetti burst; smooth at 60 Hz and 120 Hz (Web Inspector timeline:
+      no long frames); with Reduce Motion all at once, no confetti.
+- [ ] W1.6 Time saved: the number rolls; dragging the slider rolls it
+      again; Summary's switch and Start dictating finish setup.
 
 ### S-14 Settings modal and hotkeys panel
 

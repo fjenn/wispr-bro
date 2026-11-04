@@ -1993,7 +1993,6 @@
     "continue": "Continuar",
     "yes": "Sim",
     "no": "Não",
-    "downloadHint": "A configuração da fala continua em segundo plano. Você nunca precisa esperar por ela aqui.",
     "navigationFailed": "Não foi possível salvar essa etapa. Tente novamente.",
     "stepper": {
       "label": "Progresso da configuração",
@@ -2001,7 +2000,8 @@
       "permissions": "Permissões",
       "setup": "Configuração",
       "practice": "Prática",
-      "done": "(concluído)"
+      "done": "(concluído)",
+      "finish": "Conclusão"
     },
     "help": {
       "chip": "Ajuda",
@@ -2015,14 +2015,13 @@
       "title": "Fale, e suas palavras aparecem",
       "subtitle": "Segure uma tecla, fale, solte. O texto limpo aparece onde você estiver digitando.",
       "privacyTitle": "Tudo fica neste Mac",
-      "privacy": "Sua voz e seu texto nunca saem do seu Mac. Sem conta, sem nuvem, sem rastreamento.",
-      "download": "A configuração da fala começa agora e roda em segundo plano.",
-      "start": "Começar"
+      "privacy": "Sem conta, sem nuvem, sem rastreamento.",
+      "start": "Começar",
+      "demoLabel": "Wispr Bro em ação"
     },
     "move": {
       "title": "Mova o Wispr Bro para Aplicativos",
-      "body": "O Wispr Bro está sendo executado fora da pasta Aplicativos. Movê-lo para lá mantém as atualizações e permissões funcionando.",
-      "note": "O Wispr Bro reabre sozinho depois de ser movido e continua a configuração.",
+      "body": "Atualizações e permissões funcionam melhor a partir de lá. O Wispr Bro reabre sozinho e continua.",
       "action": "Mover para Aplicativos",
       "moving": "Movendo…",
       "skip": "Agora não",
@@ -2030,7 +2029,7 @@
     },
     "languages": {
       "title": "Quais idiomas você fala?",
-      "subtitle": "Escolha todos os idiomas em que você dita. O Wispr Bro arruma suas palavras muito melhor quando os conhece.",
+      "subtitle": "Escolha todos os idiomas em que você dita.",
       "listLabel": "Idiomas",
       "noMatch": "Nenhum idioma corresponde a “{{query}}”.",
       "count_one": "O ditado funciona em {{count}} idioma. Você pode alterar os seus depois nos Ajustes.",
@@ -2050,7 +2049,7 @@
       "pane": "Nos Ajustes do Sistema",
       "microphone": {
         "title": "Microfone",
-        "why": "Para o Wispr Bro ouvir você enquanto segura a tecla. O áudio é processado só neste Mac.",
+        "why": "Para que o Wispr Bro possa ouvir você enquanto dita.",
         "action": "Permitir microfone",
         "promptAlt": "Imagem do aviso de microfone do macOS, com o botão Permitir em destaque",
         "paneAlt": "Imagem dos Ajustes do Sistema, Privacidade e Segurança, Microfone, com o botão do Wispr Bro ativado",
@@ -2058,7 +2057,7 @@
       },
       "accessibility": {
         "title": "Acessibilidade",
-        "why": "Para o Wispr Bro perceber seu atalho e digitar o texto no app que você está usando.",
+        "why": "Para que o Wispr Bro possa detectar seu atalho e digitar por você.",
         "action": "Permitir Acessibilidade",
         "promptAlt": "Imagem do aviso de Acessibilidade do macOS, com o botão Abrir Ajustes do Sistema em destaque",
         "paneAlt": "Imagem dos Ajustes do Sistema, Privacidade e Segurança, Acessibilidade, com o botão do Wispr Bro ativado",
@@ -2120,9 +2119,9 @@
       }
     },
     "practice": {
-      "title": "Prática: um e-mail inteiro, sem as mãos",
-      "instruction": "Pressione fn e Space juntos e fale. Você não precisa segurar nada. Pressione fn de novo quando terminar. Experimente: “Oi, Sam, obrigado pelas anotações. Podemos nos encontrar na quinta às dez?”",
-      "instructionFallback": "Pressione Control, Option e Space juntos e fale. Você não precisa segurar nada. Pressione Control e Option de novo quando terminar. Experimente: “Oi, Sam, obrigado pelas anotações. Podemos nos encontrar na quinta às dez?”",
+      "title": "Prática: um e-mail inteiro, <em>sem as mãos</em>",
+      "instruction": "Pressione fn e Space ao mesmo tempo e fale. Pressione fn de novo quando terminar.",
+      "instructionFallback": "Pressione Control, Option e Space ao mesmo tempo e fale. Pressione Control e Option de novo quando terminar.",
       "instructionUnbound": "Nenhum atalho de ditado está definido, então esta prática não pode começar. Pule por enquanto e defina um atalho nos Ajustes.",
       "skip": "Pular",
       "waiting": "Esperando você começar a falar…",
@@ -2141,12 +2140,16 @@
         "subject": "Assunto",
         "subjectText": "Quinta-feira",
         "body": "Mensagem",
-        "placeholder": "Suas palavras aparecem aqui."
+        "placeholder": "Tente dizer: “Oi, Sam, obrigado pelas anotações. Podemos nos encontrar na quinta às dez?”"
       }
     },
     "firstDictation": {
-      "title": "Pronto. Você ditou seu primeiro texto.",
-      "subtitle": "Em qualquer lugar onde você pode digitar, agora pode falar."
+      "title": "Pronto!",
+      "subtitle": "Em qualquer lugar onde você pode digitar, agora pode falar.",
+      "lead": "Você acabou de ditar seu primeiro texto.",
+      "typingLabel": "Digitando, em média",
+      "speakingLabel": "Falando, em média",
+      "faster": "<n/>× <em>mais rápido</em>"
     },
     "timeSaved": {
       "headline_one": "Ditar pode economizar cerca de {{hours}} hora por semana",
@@ -2165,21 +2168,20 @@
       "basisMeasured_other": "Com base na sua velocidade de digitação de {{wpm}} palavras por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
       "basisAverage_one": "Com base numa velocidade média de digitação de {{wpm}} palavra por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
       "basisAverage_many": "Com base numa velocidade média de digitação de {{wpm}} de palavras por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
-      "basisAverage_other": "Com base numa velocidade média de digitação de {{wpm}} palavras por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto."
+      "basisAverage_other": "Com base numa velocidade média de digitação de {{wpm}} palavras por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
+      "lead": "Ditar pode economizar cerca de",
+      "perWeek_one": "<n/> hora <em>por semana</em>",
+      "perWeek_many": "<n/> de horas <em>por semana</em>",
+      "perWeek_other": "<n/> horas <em>por semana</em>"
     },
     "typing": {
-      "title": "Qual é a sua velocidade de digitação?",
+      "title": "Qual é a sua velocidade de <em>digitação</em>?",
       "skip": "Pular",
       "language": "Idioma",
-      "wpmPending": "— palavras por minuto",
       "wpm_one": "{{count}} palavra por minuto",
       "wpm_many": "{{count}} de palavras por minuto",
       "wpm_other": "{{count}} palavras por minuto",
-      "secondsLeft_one": "Falta {{count}} segundo",
-      "secondsLeft_many": "Faltam {{count}} de segundos",
-      "secondsLeft_other": "Faltam {{count}} segundos",
       "inputLabel": "Digite o parágrafo aqui",
-      "placeholder": "Comece a digitar aqui…",
       "nothing": "Nada correspondeu ao parágrafo. Tente novamente.",
       "result_one": "Você digita cerca de {{count}} palavra por minuto.",
       "result_many": "Você digita cerca de {{count}} de palavras por minuto.",
@@ -2188,11 +2190,17 @@
       "recalculate": "Recalcular",
       "instruction_one": "Digite o parágrafo abaixo como faria normalmente. O cronômetro começa na primeira tecla e corre por {{seconds}} segundo.",
       "instruction_many": "Digite o parágrafo abaixo como faria normalmente. O cronômetro começa na primeira tecla e corre por {{seconds}} de segundos.",
-      "instruction_other": "Digite o parágrafo abaixo como faria normalmente. O cronômetro começa na primeira tecla e corre por {{seconds}} segundos."
+      "instruction_other": "Digite o parágrafo abaixo como faria normalmente. O cronômetro começa na primeira tecla e corre por {{seconds}} segundos.",
+      "wpmUnit_one": "palavra por minuto",
+      "wpmUnit_many": "de palavras por minuto",
+      "wpmUnit_other": "palavras por minuto",
+      "secondsUnit_one": "segundo restante",
+      "secondsUnit_many": "de segundos restantes",
+      "secondsUnit_other": "segundos restantes"
     },
     "summary": {
       "title": "Tudo pronto",
-      "subtitle": "Veja como o Wispr Bro está configurado. Segure seu atalho em qualquer app para ditar.",
+      "subtitle": "Mantenha seu atalho pressionado em qualquer app para ditar.",
       "languages": "Idiomas",
       "shortcut": "Atalho",
       "shortcutFn": "Segurar fn (🌐)",
@@ -2207,7 +2215,6 @@
       "notSet": "Não definido",
       "launchAtLogin": "Abrir o Wispr Bro ao iniciar sessão",
       "launchAtLoginHint": "Assim o ditado fica pronto sempre que você precisar.",
-      "later": "Você pode alterar tudo isso depois nos Ajustes.",
       "finish": "Começar a ditar"
     }
   },

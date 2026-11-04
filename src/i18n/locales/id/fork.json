@@ -1839,7 +1839,6 @@
     "continue": "Lanjutkan",
     "yes": "Ya",
     "no": "Tidak",
-    "downloadHint": "Penyiapan ucapan terus berjalan di latar belakang. Anda tidak perlu menunggunya di sini.",
     "navigationFailed": "Langkah itu tidak dapat disimpan. Coba lagi.",
     "stepper": {
       "label": "Kemajuan penyiapan",
@@ -1847,7 +1846,8 @@
       "permissions": "Izin",
       "setup": "Penyiapan",
       "practice": "Latihan",
-      "done": "(selesai)"
+      "done": "(selesai)",
+      "finish": "Selesai"
     },
     "help": {
       "chip": "Bantuan",
@@ -1861,14 +1861,13 @@
       "title": "Bicara, dan kata-kata Anda muncul",
       "subtitle": "Tahan satu tombol, bicara, lepaskan. Teks yang rapi muncul di mana pun Anda mengetik.",
       "privacyTitle": "Semuanya tetap di Mac ini",
-      "privacy": "Suara dan teks Anda tidak pernah meninggalkan Mac Anda. Tanpa akun, tanpa cloud, tanpa pelacakan.",
-      "download": "Penyiapan ucapan dimulai sekarang dan berjalan di latar belakang.",
-      "start": "Mulai"
+      "privacy": "Tanpa akun, tanpa cloud, tanpa pelacakan.",
+      "start": "Mulai",
+      "demoLabel": "Wispr Bro beraksi"
     },
     "move": {
       "title": "Pindahkan Wispr Bro ke Aplikasi",
-      "body": "Wispr Bro berjalan dari luar folder Aplikasi. Memindahkannya ke sana menjaga pembaruan dan izin tetap berfungsi.",
-      "note": "Wispr Bro terbuka lagi dengan sendirinya setelah dipindahkan dan melanjutkan penyiapan.",
+      "body": "Pembaruan dan izin bekerja paling baik dari sana. Wispr Bro akan terbuka kembali sendiri dan melanjutkan.",
       "action": "Pindahkan ke Aplikasi",
       "moving": "Memindahkan…",
       "skip": "Jangan sekarang",
@@ -1876,7 +1875,7 @@
     },
     "languages": {
       "title": "Bahasa apa saja yang Anda gunakan?",
-      "subtitle": "Pilih setiap bahasa yang Anda gunakan untuk mendikte. Wispr Bro merapikan kata-kata Anda jauh lebih baik jika mengetahuinya.",
+      "subtitle": "Pilih setiap bahasa yang Anda gunakan untuk mendikte.",
       "listLabel": "Bahasa",
       "noMatch": "Tidak ada bahasa yang cocok dengan “{{query}}”.",
       "count_other": "Dikte bekerja dalam {{count}} bahasa. Anda dapat mengubah bahasa Anda nanti di Pengaturan.",
@@ -1892,7 +1891,7 @@
       "pane": "Di Pengaturan Sistem",
       "microphone": {
         "title": "Mikrofon",
-        "why": "Agar Wispr Bro dapat mendengar Anda saat Anda menahan tombol. Audio hanya diproses di Mac ini.",
+        "why": "Agar Wispr Bro dapat mendengar Anda saat mendikte.",
         "action": "Izinkan mikrofon",
         "promptAlt": "Gambar permintaan mikrofon macOS, dengan tombol Izinkan disorot",
         "paneAlt": "Gambar Pengaturan Sistem › Privasi & Keamanan › Mikrofon, dengan sakelar Wispr Bro dinyalakan",
@@ -1900,7 +1899,7 @@
       },
       "accessibility": {
         "title": "Aksesibilitas",
-        "why": "Agar Wispr Bro dapat mengenali pintasan Anda dan mengetik teks ke app yang sedang Anda gunakan.",
+        "why": "Agar Wispr Bro dapat mengenali pintasan Anda dan mengetik untuk Anda.",
         "action": "Izinkan Aksesibilitas",
         "promptAlt": "Gambar permintaan Aksesibilitas macOS, dengan tombol Buka Pengaturan Sistem disorot",
         "paneAlt": "Gambar Pengaturan Sistem › Privasi & Keamanan › Aksesibilitas, dengan sakelar Wispr Bro dinyalakan",
@@ -1962,9 +1961,9 @@
       }
     },
     "practice": {
-      "title": "Latihan: satu email utuh, bebas genggam",
-      "instruction": "Tekan fn dan Space bersamaan, lalu bicara. Anda tidak perlu menahan apa pun. Tekan fn lagi saat selesai. Coba: “Halo Sam, terima kasih atas catatannya. Bisakah kita bertemu hari Kamis jam sepuluh?”",
-      "instructionFallback": "Tekan Control, Option, dan Space bersamaan, lalu bicara. Anda tidak perlu menahan apa pun. Tekan Control dan Option lagi saat selesai. Coba: “Halo Sam, terima kasih atas catatannya. Bisakah kita bertemu hari Kamis jam sepuluh?”",
+      "title": "Latihan: satu email utuh, <em>tanpa tangan</em>",
+      "instruction": "Tekan fn dan Space bersamaan, lalu bicara. Tekan fn lagi saat selesai.",
+      "instructionFallback": "Tekan Control, Option, dan Space bersamaan, lalu bicara. Tekan Control dan Option lagi saat selesai.",
       "instructionUnbound": "Belum ada pintasan dikte yang diatur, jadi latihan ini tidak dapat dimulai. Lewati untuk sekarang dan atur pintasan di Pengaturan.",
       "skip": "Lewati",
       "waiting": "Menunggu Anda mulai berbicara…",
@@ -1983,12 +1982,16 @@
         "subject": "Subjek",
         "subjectText": "Kamis",
         "body": "Pesan",
-        "placeholder": "Kata-kata Anda muncul di sini."
+        "placeholder": "Coba ucapkan: “Hai Sam, terima kasih atas catatannya. Bisakah kita bertemu hari Kamis pukul sepuluh?”"
       }
     },
     "firstDictation": {
-      "title": "Selesai. Anda telah mendikte teks pertama Anda.",
-      "subtitle": "Di mana pun Anda bisa mengetik, kini Anda bisa berbicara."
+      "title": "Begitu saja!",
+      "subtitle": "Di mana pun Anda bisa mengetik, kini Anda bisa berbicara.",
+      "lead": "Anda baru saja mendikte teks pertama Anda.",
+      "typingLabel": "Mengetik, rata-rata",
+      "speakingLabel": "Berbicara, rata-rata",
+      "faster": "<n/>× <em>lebih cepat</em>"
     },
     "timeSaved": {
       "headline_other": "Dikte bisa menghemat waktu Anda sekitar {{hours}} jam per minggu",
@@ -1999,26 +2002,27 @@
       "hoursPerDay_other": "{{hours}} jam per hari",
       "takeTest": "Ikuti tes mengetik",
       "basisMeasured_other": "Berdasarkan kecepatan mengetik Anda {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
-      "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit."
+      "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
+      "lead": "Dikte bisa menghemat waktu Anda sekitar",
+      "perWeek_other": "<n/> jam <em>per minggu</em>"
     },
     "typing": {
-      "title": "Seberapa cepat Anda mengetik?",
+      "title": "Seberapa cepat Anda <em>mengetik</em>?",
       "skip": "Lewati",
       "language": "Bahasa",
-      "wpmPending": "— kata per menit",
       "wpm_other": "{{count}} kata per menit",
-      "secondsLeft_other": "Sisa {{count}} detik",
       "inputLabel": "Ketik paragrafnya di sini",
-      "placeholder": "Mulai mengetik di sini…",
       "nothing": "Tidak ada yang cocok dengan paragrafnya. Coba lagi.",
       "result_other": "Anda mengetik sekitar {{count}} kata per menit.",
       "tryAgain": "Coba lagi",
       "recalculate": "Hitung ulang",
-      "instruction_other": "Ketik paragraf di bawah seperti biasa. Waktu mulai berjalan saat Anda menekan tombol pertama dan berlangsung selama {{seconds}} detik."
+      "instruction_other": "Ketik paragraf di bawah seperti biasa. Waktu mulai berjalan saat Anda menekan tombol pertama dan berlangsung selama {{seconds}} detik.",
+      "wpmUnit_other": "kata per menit",
+      "secondsUnit_other": "detik tersisa"
     },
     "summary": {
       "title": "Semuanya sudah siap",
-      "subtitle": "Beginilah Wispr Bro diatur. Tahan pintasan Anda di app apa pun untuk mendikte.",
+      "subtitle": "Tahan pintasan Anda di aplikasi apa pun untuk mendikte.",
       "languages": "Bahasa",
       "shortcut": "Pintasan",
       "shortcutFn": "Tahan fn (🌐)",
@@ -2031,7 +2035,6 @@
       "notSet": "Belum diatur",
       "launchAtLogin": "Buka Wispr Bro saat Anda masuk",
       "launchAtLoginHint": "Agar dikte siap kapan pun Anda membutuhkannya.",
-      "later": "Anda dapat mengubah semua ini nanti di Pengaturan.",
       "finish": "Mulai mendikte"
     }
   },

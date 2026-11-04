@@ -1,9 +1,0 @@
-/* SPDX-License-Identifier: GPL-3.0-or-later */
-/*
- * The celebration (S-29b, B-27) is dark in either theme: `tokens.css` points
- * every active token at its dark value under `.wb-stage-dark` (Design
- * Phase 0), so every child (stepper, buttons, footer) follows.
- */
-.wb-stage-dark {
-  color-scheme: dark;
-}

@@ -15,13 +15,20 @@
  *   dictation): DEC-44, set it to Do Nothing with consent (restored when fn
  *   stops being the trigger), or open Keyboard settings.
  */
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, Keyboard } from "../ui/icons";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+import { Check, ChevronRight, Globe, Pencil, RotateCcw } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { commands as handyCommands } from "@/bindings";
 import { commands, events, type HotkeyStatus } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
+import { Button, FOCUS_RING } from "../ui";
+import { CentredLayout, TestCard } from "./Layout";
 import { HotkeysDialog } from "./HotkeysDialog";
 
 export type Diagnosis = "tap" | "secure_input" | "no_fn" | "globe";
@@ -37,7 +44,7 @@ export const DIAGNOSES: readonly Diagnosis[] = [
 const GLOBE_ACTIONS = ["emoji", "input_source", "dictation"];
 
 /** Key caps (symbols, not words: the same in every language). */
-const FALLBACK_KEYS = "⌃ ⌥";
+const FALLBACK_KEYS = ["⌃", "⌥"] as const;
 const FN_KEY = "fn";
 
 /** The test renews itself before the backend's two-minute expiry. */
@@ -182,127 +189,145 @@ export function ShortcutTest({
   const globeFixed = status?.globe === "do_nothing";
   const others = DIAGNOSES.filter((d) => d !== diagnosis);
 
+  const keyCap = (label: ReactNode, corner?: ReactNode) => (
+    <span
+      className={`relative grid size-14 place-items-center rounded-[10px] border text-[15px] font-medium shadow-[inset_0_-2px_0_var(--wb-line)] motion-safe:transition-[background-color,border-color,color,transform] motion-safe:duration-(--wb-dur-fast) ${
+        pressed
+          ? "scale-95 border-(--wb-accent) bg-(--wb-accent) text-(--wb-on-ink) shadow-none"
+          : "border-(--wb-line-2) bg-(--wb-surface) text-(--wb-ink)"
+      }`}
+    >
+      {corner ? (
+        <>
+          <span className="absolute end-2 top-1.5 text-[12px] leading-none">
+            {corner}
+          </span>
+          <span className="absolute start-2 bottom-2 leading-none">
+            {label}
+          </span>
+        </>
+      ) : (
+        label
+      )}
+    </span>
+  );
+
   return (
-    <div className="mx-auto flex w-full max-w-[600px] flex-col items-center gap-5">
-      <div className="text-center">
-        <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-          {t("onboardingFlow.shortcut.title")}
-        </h1>
-        <p className="mt-2 mb-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-          {t(
-            unbound
-              ? "onboardingFlow.shortcut.unboundInstruction"
-              : fallback
-                ? "onboardingFlow.shortcut.fallbackInstruction"
-                : "onboardingFlow.shortcut.instruction",
-          )}
-        </p>
-      </div>
-      <div className="flex w-full flex-col items-center gap-5 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5">
-        <div
-          className={`grid min-h-24 min-w-32 place-items-center rounded-2xl border-2 px-6 py-4 motion-safe:transition-[background-color,border-color,transform] motion-safe:duration-150 ${
-            pressed
-              ? "scale-95 border-(--wb-accent) bg-(--wb-accent-soft) text-(--wb-accent)"
-              : "border-(--wb-line-strong) bg-(--wb-panel) text-(--wb-ink)"
-          }`}
-          data-testid="wb-shortcut-key"
-          data-pressed={pressed}
-          role="img"
-          aria-label={t(
-            fallback
-              ? "onboardingFlow.shortcut.fallbackKeyLabel"
-              : "onboardingFlow.shortcut.keyLabel",
-          )}
-        >
-          {fallback ? (
-            <span className="text-lg font-semibold" aria-hidden="true">
-              {FALLBACK_KEYS}
-            </span>
-          ) : (
-            <span
-              className="flex flex-col items-center leading-none"
-              aria-hidden="true"
-            >
-              <span className="text-2xl">🌐</span>
-              <span className="mt-2 text-sm font-semibold">{FN_KEY}</span>
-            </span>
-          )}
-        </div>
-        <p
-          className="m-0 min-h-5 text-center text-xs text-(--wb-ink-2)"
-          role="status"
-          data-testid="wb-shortcut-state"
-        >
-          {pressed
-            ? t("onboardingFlow.shortcut.pressed")
-            : lit
-              ? t("onboardingFlow.shortcut.worked")
-              : t("onboardingFlow.shortcut.notPressed")}
-        </p>
-        <fieldset className="m-0 flex flex-col items-center gap-3 border-0 p-0">
-          <legend className="mb-1 text-center text-sm font-medium">
+    <CentredLayout
+      title={t("onboardingFlow.shortcut.title")}
+      subtitle={t(
+        unbound
+          ? "onboardingFlow.shortcut.unboundInstruction"
+          : fallback
+            ? "onboardingFlow.shortcut.fallbackInstruction"
+            : "onboardingFlow.shortcut.instruction",
+      )}
+    >
+      <TestCard
+        title={
+          <h2 className="type-heading m-0" id="wb-shortcut-question">
             {t("onboardingFlow.shortcut.question")}
-          </legend>
-          <div className="flex gap-2">
+          </h2>
+        }
+        footer={
+          <>
             <Button
-              variant={answer === "yes" ? "primary" : "secondary"}
-              aria-pressed={answer === "yes"}
-              onClick={() => {
-                setAnswer("yes");
-                setDiagnosis(null);
-              }}
-              data-testid="wb-shortcut-yes"
+              variant="outline"
+              size="sm"
+              onClick={() => setEditorOpen(true)}
+              data-testid="wb-edit-shortcut"
+              leading={<Pencil size={14} aria-hidden="true" />}
             >
-              {t("onboardingFlow.yes")}
+              {t("onboardingFlow.shortcut.edit")}
             </Button>
+            <span className="flex-1" />
             <Button
-              variant={answer === "no" ? "primary" : "secondary"}
+              variant="secondary"
+              size="sm"
               aria-pressed={answer === "no"}
+              aria-describedby="wb-shortcut-question"
               onClick={() => void sayNo()}
               data-testid="wb-shortcut-no"
             >
               {t("onboardingFlow.no")}
             </Button>
-          </div>
-        </fieldset>
-        <Button
-          variant="ghost"
-          onClick={() => setEditorOpen(true)}
-          data-testid="wb-edit-shortcut"
-        >
-          <Keyboard size={16} aria-hidden="true" />
-          {t("onboardingFlow.shortcut.edit")}
-        </Button>
-      </div>
+            <Button
+              variant="primary"
+              size="sm"
+              aria-describedby="wb-shortcut-question"
+              onClick={onContinue}
+              data-testid="wb-shortcut-yes"
+            >
+              {t("onboardingFlow.yes")}
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col items-center gap-3 rounded-(--wb-radius-sm) bg-(--wb-surface-tint) px-5 pt-5 pb-3">
+          <span
+            className="flex items-center gap-2"
+            data-testid="wb-shortcut-key"
+            data-pressed={pressed}
+            role="img"
+            aria-label={t(
+              fallback
+                ? "onboardingFlow.shortcut.fallbackKeyLabel"
+                : "onboardingFlow.shortcut.keyLabel",
+            )}
+          >
+            {fallback ? (
+              <>
+                {keyCap(FALLBACK_KEYS[0])}
+                {keyCap(FALLBACK_KEYS[1])}
+              </>
+            ) : (
+              keyCap(<Globe size={16} aria-hidden="true" />, FN_KEY)
+            )}
+          </span>
+          <p
+            className={`m-0 min-h-[18px] text-center text-[13px] leading-[18px] ${
+              lit && !pressed
+                ? "font-medium text-(--wb-ink)"
+                : "text-(--wb-ink-2)"
+            }`}
+            role="status"
+            data-testid="wb-shortcut-state"
+          >
+            {lit && !pressed && (
+              <Check
+                size={14}
+                aria-hidden="true"
+                className="me-1 inline-block align-[-2px] text-(--wb-success)"
+              />
+            )}
+            {pressed
+              ? t("onboardingFlow.shortcut.pressed")
+              : lit
+                ? t("onboardingFlow.shortcut.worked")
+                : t("onboardingFlow.shortcut.notPressed")}
+          </p>
+        </div>
+      </TestCard>
 
       {diagnosis && (
         <section
           aria-labelledby="wb-shortcut-fix-title"
-          className="flex w-full flex-col items-start gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start"
+          className="mt-4 flex w-full max-w-[460px] flex-col items-start gap-3 rounded-(--wb-radius-md) bg-(--wb-surface) p-5 text-start shadow-(--wb-elev-2)"
           data-testid={`wb-diagnosis-panel-${diagnosis}`}
         >
           <h2
             id="wb-shortcut-fix-title"
-            className="m-0 text-sm font-semibold"
+            className="type-card-title m-0"
             tabIndex={-1}
           >
             {t(`onboardingFlow.shortcut.diagnoses.${diagnosis}.title`)}
           </h2>
-          <p className="m-0 text-xs leading-5 text-(--wb-ink-2)">
+          <p className="m-0 text-[13px] leading-[18px] text-(--wb-ink-2)">
             {t(`onboardingFlow.shortcut.diagnoses.${diagnosis}.body`)}
           </p>
-          {diagnosis === "tap" && (
-            <Button
-              variant="primary"
-              onClick={() => openPane("accessibility")}
-              data-testid="wb-diagnosis-tap-open"
-            >
-              {t("onboardingFlow.shortcut.diagnoses.tap.action")}
-            </Button>
-          )}
           {diagnosis === "secure_input" && (
             <p
-              className="m-0 text-xs font-medium"
+              className="m-0 text-[13px] font-medium"
               data-testid="wb-secure-input-state"
             >
               {t(
@@ -312,94 +337,107 @@ export function ShortcutTest({
               )}
             </p>
           )}
-          {diagnosis === "no_fn" && (
-            <Button
-              variant="primary"
-              disabled={busy || fallback}
-              onClick={() => void useFallback()}
-              data-testid="wb-diagnosis-no_fn-action"
-            >
-              {fallback && <Check size={16} aria-hidden="true" />}
-              {t(
-                fallback
-                  ? "onboardingFlow.shortcut.diagnoses.no_fn.changed"
-                  : "onboardingFlow.shortcut.diagnoses.no_fn.action",
-              )}
-            </Button>
-          )}
-          {diagnosis === "globe" && (
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2">
+            {diagnosis === "tap" && (
               <Button
                 variant="primary"
-                disabled={busy || globeFixed}
-                onClick={() => void fixGlobe()}
-                data-testid="wb-diagnosis-globe-action"
+                size="sm"
+                onClick={() => openPane("accessibility")}
+                data-testid="wb-diagnosis-tap-open"
               >
-                {globeFixed && <Check size={16} aria-hidden="true" />}
+                {t("onboardingFlow.shortcut.diagnoses.tap.action")}
+              </Button>
+            )}
+            {diagnosis === "no_fn" && (
+              <Button
+                variant="primary"
+                size="sm"
+                disabled={busy || fallback}
+                onClick={() => void useFallback()}
+                data-testid="wb-diagnosis-no_fn-action"
+                leading={fallback && <Check size={14} aria-hidden="true" />}
+              >
                 {t(
-                  globeFixed
-                    ? "onboardingFlow.shortcut.diagnoses.globe.changed"
-                    : "onboardingFlow.shortcut.diagnoses.globe.consent",
+                  fallback
+                    ? "onboardingFlow.shortcut.diagnoses.no_fn.changed"
+                    : "onboardingFlow.shortcut.diagnoses.no_fn.action",
                 )}
               </Button>
-              <Button
-                onClick={() => openPane("keyboard")}
-                data-testid="wb-diagnosis-globe-open"
-              >
-                {t("onboardingFlow.shortcut.diagnoses.globe.open")}
-              </Button>
-            </div>
-          )}
+            )}
+            {diagnosis === "globe" && (
+              <>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  disabled={busy || globeFixed}
+                  onClick={() => void fixGlobe()}
+                  data-testid="wb-diagnosis-globe-action"
+                  leading={globeFixed && <Check size={14} aria-hidden="true" />}
+                >
+                  {t(
+                    globeFixed
+                      ? "onboardingFlow.shortcut.diagnoses.globe.changed"
+                      : "onboardingFlow.shortcut.diagnoses.globe.consent",
+                  )}
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => openPane("keyboard")}
+                  data-testid="wb-diagnosis-globe-open"
+                >
+                  {t("onboardingFlow.shortcut.diagnoses.globe.open")}
+                </Button>
+              </>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => void tryAgain()}
+              data-testid="wb-shortcut-try-again"
+              leading={<RotateCcw size={14} aria-hidden="true" />}
+            >
+              {t("onboardingFlow.shortcut.tryAgain")}
+            </Button>
+          </div>
           {error && (
-            <p className="m-0 text-xs font-medium" role="alert">
+            <p className="m-0 text-[13px] font-medium" role="alert">
               {t("onboardingFlow.shortcut.changeFailed")}
             </p>
           )}
-          <Button
-            variant="secondary"
-            onClick={() => void tryAgain()}
-            data-testid="wb-shortcut-try-again"
-          >
-            {t("onboardingFlow.shortcut.tryAgain")}
-          </Button>
           <div className="w-full border-t border-(--wb-line) pt-3">
-            <p className="m-0 mb-2 text-xs text-(--wb-ink-2)">
+            <p className="type-micro m-0 mb-1.5 text-(--wb-ink-3)">
               {t("onboardingFlow.shortcut.otherCauses")}
             </p>
-            <div className="flex flex-wrap gap-2">
+            <ul className="m-0 flex list-none flex-col p-0">
               {others.map((choice) => (
-                <Button
-                  key={choice}
-                  variant="ghost"
-                  className="h-auto px-2.5 py-1.5 text-start text-xs whitespace-normal underline decoration-(--wb-line-strong) underline-offset-4"
-                  onClick={() => setDiagnosis(choice)}
-                  data-testid={`wb-diagnosis-${choice}`}
-                >
-                  {t(`onboardingFlow.shortcut.diagnoses.${choice}.choice`)}
-                </Button>
+                <li key={choice}>
+                  <button
+                    type="button"
+                    className={`-mx-2 inline-flex cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) px-2 py-1 text-start text-[13px] leading-[18px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+                    onClick={() => setDiagnosis(choice)}
+                    data-testid={`wb-diagnosis-${choice}`}
+                  >
+                    <ChevronRight
+                      size={14}
+                      aria-hidden="true"
+                      className="shrink-0 rtl:-scale-x-100"
+                    />
+                    {t(`onboardingFlow.shortcut.diagnoses.${choice}.choice`)}
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
       )}
 
-      <Button
-        variant="primary"
-        disabled={answer !== "yes" && !lit}
-        onClick={onContinue}
-        data-testid="wb-shortcut-finish"
-      >
-        {t("onboardingFlow.continue")}
-      </Button>
-
-      {editorOpen && (
-        <HotkeysDialog
-          onClose={() => {
-            setEditorOpen(false);
-            void startTest();
-          }}
-        />
-      )}
-    </div>
+      <HotkeysDialog
+        open={editorOpen}
+        onClose={() => {
+          setEditorOpen(false);
+          void startTest();
+        }}
+      />
+    </CentredLayout>
   );
 }

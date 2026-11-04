@@ -2009,7 +2009,6 @@
     "continue": "Continue",
     "yes": "Yes",
     "no": "No",
-    "downloadHint": "Speech setup continues in the background. You never have to wait for it here.",
     "navigationFailed": "That step could not be saved. Try again.",
     "stepper": {
       "label": "Setup progress",
@@ -2017,7 +2016,8 @@
       "permissions": "Permissions",
       "setup": "Setup",
       "practice": "Practice",
-      "done": "(done)"
+      "done": "(done)",
+      "finish": "Finish"
     },
     "help": {
       "chip": "Help",
@@ -2031,14 +2031,13 @@
       "title": "Talk, and your words appear",
       "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
       "privacyTitle": "Everything stays on this Mac",
-      "privacy": "Your voice and your text never leave your Mac. No account, no cloud, no tracking.",
-      "download": "Speech setup starts now and runs in the background.",
-      "start": "Get started"
+      "privacy": "No account, no cloud, no tracking.",
+      "start": "Get started",
+      "demoLabel": "Wispr Bro in action"
     },
     "move": {
       "title": "Move Wispr Bro to Applications",
-      "body": "Wispr Bro is running from outside your Applications folder. Moving it there keeps updates and permissions working.",
-      "note": "Wispr Bro reopens by itself after the move and continues setup.",
+      "body": "Updates and permissions work best from there. Wispr Bro reopens by itself and carries on.",
       "action": "Move to Applications",
       "moving": "Moving…",
       "skip": "Not now",
@@ -2046,7 +2045,7 @@
     },
     "languages": {
       "title": "Which languages do you speak?",
-      "subtitle": "Pick every language you dictate in. Wispr Bro tidies your words much better when it knows them.",
+      "subtitle": "Pick every language you dictate in.",
       "listLabel": "Languages",
       "noMatch": "No language matches “{{query}}”.",
       "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
@@ -2064,7 +2063,7 @@
       "pane": "In System Settings",
       "microphone": {
         "title": "Microphone",
-        "why": "So Wispr Bro can hear you while you hold the key. Audio is processed on this Mac only.",
+        "why": "So Wispr Bro can hear you while you dictate.",
         "action": "Allow microphone",
         "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
         "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
@@ -2072,7 +2071,7 @@
       },
       "accessibility": {
         "title": "Accessibility",
-        "why": "So Wispr Bro can notice your shortcut and type the text into the app you are using.",
+        "why": "So Wispr Bro can see your shortcut and type for you.",
         "action": "Allow Accessibility",
         "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
         "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
@@ -2134,9 +2133,9 @@
       }
     },
     "practice": {
-      "title": "Practice: a whole email, hands-free",
-      "instruction": "Press fn and Space together, then talk. You don't need to hold anything. Press fn again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
-      "instructionFallback": "Press Control, Option and Space together, then talk. You don't need to hold anything. Press Control and Option again when you're done. Try: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
+      "title": "Practice: a whole email, <em>hands-free</em>",
+      "instruction": "Press fn and Space together, then talk. Press fn again when you're done.",
+      "instructionFallback": "Press Control, Option and Space together, then talk. Press Control and Option again when you're done.",
       "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
       "skip": "Skip",
       "waiting": "Waiting for you to start talking…",
@@ -2155,12 +2154,16 @@
         "subject": "Subject",
         "subjectText": "Thursday",
         "body": "Message",
-        "placeholder": "Your words appear here."
+        "placeholder": "Try saying: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”"
       }
     },
     "firstDictation": {
-      "title": "That's it. You dictated your first text.",
-      "subtitle": "Anywhere you can type, you can now talk instead."
+      "title": "That's it!",
+      "subtitle": "Anywhere you can type, you can now talk instead.",
+      "lead": "You just dictated your first text.",
+      "typingLabel": "Typing, on average",
+      "speakingLabel": "Speaking, on average",
+      "faster": "<n/>× <em>faster</em>"
     },
     "timeSaved": {
       "headline_one": "Dictating could save you about {{hours}} hour a week",
@@ -2175,30 +2178,33 @@
       "basisMeasured_one": "Based on your typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
       "basisMeasured_other": "Based on your typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
       "basisAverage_one": "Based on an average typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
-      "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute."
+      "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
+      "lead": "Dictating could save you about",
+      "perWeek_one": "<n/> hour <em>a week</em>",
+      "perWeek_other": "<n/> hours <em>a week</em>"
     },
     "typing": {
-      "title": "How fast do you type?",
+      "title": "How fast do you <em>type</em>?",
       "skip": "Skip",
       "language": "Language",
-      "wpmPending": "— words a minute",
       "wpm_one": "{{count}} word a minute",
       "wpm_other": "{{count}} words a minute",
-      "secondsLeft_one": "{{count}} second left",
-      "secondsLeft_other": "{{count}} seconds left",
       "inputLabel": "Type the paragraph here",
-      "placeholder": "Start typing here…",
       "nothing": "Nothing matched the paragraph. Try again.",
       "result_one": "You type about {{count}} word a minute.",
       "result_other": "You type about {{count}} words a minute.",
       "tryAgain": "Try again",
       "recalculate": "Recalculate",
       "instruction_one": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} second.",
-      "instruction_other": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds."
+      "instruction_other": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
+      "wpmUnit_one": "word a minute",
+      "wpmUnit_other": "words a minute",
+      "secondsUnit_one": "second left",
+      "secondsUnit_other": "seconds left"
     },
     "summary": {
       "title": "You're all set",
-      "subtitle": "Here is how Wispr Bro is set up. Hold your shortcut in any app to dictate.",
+      "subtitle": "Hold your shortcut in any app to dictate.",
       "languages": "Languages",
       "shortcut": "Shortcut",
       "shortcutFn": "Hold fn (🌐)",
@@ -2212,7 +2218,6 @@
       "notSet": "Not set",
       "launchAtLogin": "Open Wispr Bro when you log in",
       "launchAtLoginHint": "So dictation is ready whenever you need it.",
-      "later": "You can change all of this later in Settings.",
       "finish": "Start dictating"
     }
   },

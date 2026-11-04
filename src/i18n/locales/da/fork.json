@@ -1916,7 +1916,6 @@
     "continue": "Fortsæt",
     "yes": "Ja",
     "no": "Nej",
-    "downloadHint": "Opsætningen af tale fortsætter i baggrunden. Du behøver aldrig vente på den her.",
     "navigationFailed": "Trinnet kunne ikke gemmes. Prøv igen.",
     "stepper": {
       "label": "Status for opsætning",
@@ -1924,7 +1923,8 @@
       "permissions": "Tilladelser",
       "setup": "Opsætning",
       "practice": "Øv",
-      "done": "(færdig)"
+      "done": "(færdig)",
+      "finish": "Afslut"
     },
     "help": {
       "chip": "Hjælp",
@@ -1938,14 +1938,13 @@
       "title": "Tal, og dine ord vises",
       "subtitle": "Hold én tast nede, tal, og slip. Ren tekst havner, hvor du skriver.",
       "privacyTitle": "Alt bliver på denne Mac",
-      "privacy": "Din stemme og din tekst forlader aldrig din Mac. Ingen konto, ingen sky, ingen sporing.",
-      "download": "Opsætningen af tale starter nu og kører i baggrunden.",
-      "start": "Kom i gang"
+      "privacy": "Ingen konto, ingen sky, ingen sporing.",
+      "start": "Kom i gang",
+      "demoLabel": "Wispr Bro i aktion"
     },
     "move": {
       "title": "Flyt Wispr Bro til Programmer",
-      "body": "Wispr Bro kører uden for din mappe Programmer. Når den flyttes dertil, fortsætter opdateringer og tilladelser med at virke.",
-      "note": "Wispr Bro åbner selv igen efter flytningen og fortsætter opsætningen.",
+      "body": "Opdateringer og tilladelser fungerer bedst derfra. Wispr Bro åbner igen af sig selv og fortsætter.",
       "action": "Flyt til Programmer",
       "moving": "Flytter…",
       "skip": "Ikke nu",
@@ -1953,7 +1952,7 @@
     },
     "languages": {
       "title": "Hvilke sprog taler du?",
-      "subtitle": "Vælg alle de sprog, du dikterer på. Wispr Bro rydder meget bedre op i dine ord, når den kender dem.",
+      "subtitle": "Vælg alle de sprog, du dikterer på.",
       "listLabel": "Sprog",
       "noMatch": "Ingen sprog matcher ”{{query}}”.",
       "count_one": "Diktering virker på {{count}} sprog. Du kan ændre dine senere i Indstillinger.",
@@ -1971,7 +1970,7 @@
       "pane": "I Systemindstillinger",
       "microphone": {
         "title": "Mikrofon",
-        "why": "Så Wispr Bro kan høre dig, mens du holder tasten nede. Lyden behandles kun på denne Mac.",
+        "why": "Så Wispr Bro kan høre dig, mens du dikterer.",
         "action": "Tillad mikrofon",
         "promptAlt": "Billede af mikrofondialogen i macOS med knappen Tillad fremhævet",
         "paneAlt": "Billede af Systemindstillinger, Anonymitet & sikkerhed, Mikrofon, med kontakten til Wispr Bro slået til",
@@ -1979,7 +1978,7 @@
       },
       "accessibility": {
         "title": "Tilgængelighed",
-        "why": "Så Wispr Bro kan registrere din genvej og skrive teksten i den app, du bruger.",
+        "why": "Så Wispr Bro kan se din genvej og skrive for dig.",
         "action": "Tillad Tilgængelighed",
         "promptAlt": "Billede af dialogen om Tilgængelighed i macOS med knappen Åbn Systemindstillinger fremhævet",
         "paneAlt": "Billede af Systemindstillinger, Anonymitet & sikkerhed, Tilgængelighed, med kontakten til Wispr Bro slået til",
@@ -2041,9 +2040,9 @@
       }
     },
     "practice": {
-      "title": "Øvelse: en hel e-mail, håndfrit",
-      "instruction": "Tryk på fn og Space samtidig, og tal. Du behøver ikke holde noget nede. Tryk på fn igen, når du er færdig. Prøv: ”Hej Sam, tak for noterne. Kan vi mødes torsdag kl. ti?”",
-      "instructionFallback": "Tryk på Control, Option og Space samtidig, og tal. Du behøver ikke holde noget nede. Tryk på Control og Option igen, når du er færdig. Prøv: ”Hej Sam, tak for noterne. Kan vi mødes torsdag kl. ti?”",
+      "title": "Øv: en hel e-mail, <em>håndfrit</em>",
+      "instruction": "Tryk på fn og Space samtidig, og tal. Tryk på fn igen, når du er færdig.",
+      "instructionFallback": "Tryk på Control, Option og Space samtidig, og tal. Tryk på Control og Option igen, når du er færdig.",
       "instructionUnbound": "Der er ikke angivet nogen genvej til diktering, så øvelsen kan ikke starte. Spring den over indtil videre, og angiv en genvej i Indstillinger.",
       "skip": "Spring over",
       "waiting": "Venter på, at du begynder at tale…",
@@ -2062,12 +2061,16 @@
         "subject": "Emne",
         "subjectText": "Torsdag",
         "body": "Besked",
-        "placeholder": "Dine ord vises her."
+        "placeholder": "Prøv at sige: ”Hej Sam, tak for noterne. Kan vi mødes torsdag klokken ti?”"
       }
     },
     "firstDictation": {
-      "title": "Det er det. Du har dikteret din første tekst.",
-      "subtitle": "Overalt, hvor du kan skrive, kan du nu tale i stedet."
+      "title": "Sådan!",
+      "subtitle": "Overalt, hvor du kan skrive, kan du nu tale i stedet.",
+      "lead": "Du har lige dikteret din første tekst.",
+      "typingLabel": "Skrivning, i gennemsnit",
+      "speakingLabel": "Tale, i gennemsnit",
+      "faster": "<n/>× <em>hurtigere</em>"
     },
     "timeSaved": {
       "headline_one": "Diktering kan spare dig omkring {{hours}} time om ugen",
@@ -2082,30 +2085,33 @@
       "basisMeasured_one": "Ud fra din skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
       "basisMeasured_other": "Ud fra din skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
       "basisAverage_one": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
-      "basisAverage_other": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet."
+      "basisAverage_other": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
+      "lead": "Diktering kan spare dig omkring",
+      "perWeek_one": "<n/> time <em>om ugen</em>",
+      "perWeek_other": "<n/> timer <em>om ugen</em>"
     },
     "typing": {
-      "title": "Hvor hurtigt skriver du?",
+      "title": "Hvor hurtigt <em>skriver</em> du?",
       "skip": "Spring over",
       "language": "Sprog",
-      "wpmPending": "— ord i minuttet",
       "wpm_one": "{{count}} ord i minuttet",
       "wpm_other": "{{count}} ord i minuttet",
-      "secondsLeft_one": "{{count}} sekund tilbage",
-      "secondsLeft_other": "{{count}} sekunder tilbage",
       "inputLabel": "Skriv afsnittet her",
-      "placeholder": "Begynd at skrive her…",
       "nothing": "Intet matchede afsnittet. Prøv igen.",
       "result_one": "Du skriver omkring {{count}} ord i minuttet.",
       "result_other": "Du skriver omkring {{count}} ord i minuttet.",
       "tryAgain": "Prøv igen",
       "recalculate": "Beregn igen",
       "instruction_one": "Skriv afsnittet nedenfor, som du plejer. Uret starter ved dit første tastetryk og kører i {{seconds}} sekund.",
-      "instruction_other": "Skriv afsnittet nedenfor, som du plejer. Uret starter ved dit første tastetryk og kører i {{seconds}} sekunder."
+      "instruction_other": "Skriv afsnittet nedenfor, som du plejer. Uret starter ved dit første tastetryk og kører i {{seconds}} sekunder.",
+      "wpmUnit_one": "ord i minuttet",
+      "wpmUnit_other": "ord i minuttet",
+      "secondsUnit_one": "sekund tilbage",
+      "secondsUnit_other": "sekunder tilbage"
     },
     "summary": {
       "title": "Du er klar",
-      "subtitle": "Sådan er Wispr Bro konfigureret. Hold din genvej nede i en hvilken som helst app for at diktere.",
+      "subtitle": "Hold din genvej nede i en hvilken som helst app for at diktere.",
       "languages": "Sprog",
       "shortcut": "Genvej",
       "shortcutFn": "Hold fn (🌐) nede",
@@ -2119,7 +2125,6 @@
       "notSet": "Ikke angivet",
       "launchAtLogin": "Åbn Wispr Bro når du logger ind",
       "launchAtLoginHint": "Så diktering er klar, når du har brug for det.",
-      "later": "Du kan ændre alt dette senere i Indstillinger.",
       "finish": "Begynd at diktere"
     }
   },

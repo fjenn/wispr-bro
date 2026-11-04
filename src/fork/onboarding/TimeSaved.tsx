@@ -7,12 +7,13 @@
  * the typing time a day (`typing_hours_per_day`, default 2 h). The math is
  * in `typing.ts`.
  */
-import { useEffect, useRef, useState } from "react";
-import { Clock } from "../ui/icons";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ArrowRight } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button } from "../ui";
+import { Button, FOCUS_RING, StatNumber } from "../ui";
+import { CentredLayout, Title } from "./Layout";
 import {
   clampHours,
   DEFAULT_TYPING_WPM,
@@ -22,42 +23,6 @@ import {
   HOURS_STEP,
   SPEAKING_WPM,
 } from "./typing";
-
-const COUNT_MS = 900;
-
-function reducedMotion(): boolean {
-  return (
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
-/** Counts from the shown value to `target` (at once with reduced motion). */
-function useCountUp(target: number): number {
-  const [shown, setShown] = useState(0);
-  const from = useRef(0);
-  useEffect(() => {
-    const start = from.current;
-    if (start === target || reducedMotion()) {
-      from.current = target;
-      setShown(target);
-      return;
-    }
-    const began = performance.now();
-    let frame = 0;
-    const step = (now: number) => {
-      const k = Math.min(1, (now - began) / COUNT_MS);
-      const eased = 1 - (1 - k) ** 3;
-      const value = start + (target - start) * eased;
-      from.current = value;
-      setShown(k < 1 ? Math.round(value * 2) / 2 : target);
-      if (k < 1) frame = requestAnimationFrame(step);
-    };
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-  }, [target]);
-  return shown;
-}
 
 export function TimeSaved({
   preview,
@@ -85,13 +50,15 @@ export function TimeSaved({
   const revealed = measured != null || skipped;
   const wpm = measured ?? DEFAULT_TYPING_WPM;
   const target = revealed ? hoursSavedPerWeek(wpm, hours) : 0;
-  const shown = useCountUp(target);
   const number = new Intl.NumberFormat(i18n.language, {
     maximumFractionDigits: 1,
   });
-  const hoursLabel = new Intl.NumberFormat(i18n.language, {
-    maximumFractionDigits: 1,
-  }).format(hours);
+  const hoursLabel = number.format(hours);
+  const fill = ((hours - HOURS_MIN) / (HOURS_MAX - HOURS_MIN)) * 100;
+  const headline = t("onboardingFlow.timeSaved.headline", {
+    count: target,
+    hours: number.format(target),
+  });
 
   const saveHours = (value: number) => {
     setHours(value);
@@ -99,37 +66,130 @@ export function TimeSaved({
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[580px] flex-col items-center gap-6 text-center">
-      <div
-        className="grid size-16 place-items-center rounded-[20px] bg-(--wb-accent-soft) text-(--wb-accent)"
+    <CentredLayout
+      tone="dark"
+      width={620}
+      action={
+        revealed ? (
+          <div className="flex w-full flex-col items-center gap-4">
+            {measured == null && (
+              <button
+                type="button"
+                onClick={onTakeTest}
+                data-testid="wb-time-saved-take-test"
+                className={`inline-flex cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) px-2 py-1 text-[15px] font-medium text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
+              >
+                {t("onboardingFlow.timeSaved.takeTest")}
+                <span className="grid size-6 place-items-center rounded-(--wb-radius-xs) bg-(--wb-secondary)">
+                  <ArrowRight
+                    size={14}
+                    aria-hidden="true"
+                    className="rtl:-scale-x-100"
+                  />
+                </span>
+              </button>
+            )}
+            <Button
+              variant="cream"
+              size="lg"
+              className="w-full max-w-[300px]"
+              onClick={onContinue}
+              data-testid="wb-time-saved-continue"
+            >
+              {t("onboardingFlow.continue")}
+            </Button>
+          </div>
+        ) : (
+          <div className="flex w-full flex-col items-center gap-2">
+            <Button
+              variant="cream"
+              size="lg"
+              className="w-full max-w-[300px]"
+              onClick={onTakeTest}
+              data-testid="wb-time-saved-test"
+            >
+              {t("onboardingFlow.timeSaved.howFast")}
+            </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              className="w-full max-w-[300px]"
+              onClick={() => setSkipped(true)}
+              data-testid="wb-time-saved-skip"
+            >
+              {t("onboardingFlow.timeSaved.skipTest")}
+            </Button>
+          </div>
+        )
+      }
+    >
+      <p
         aria-hidden="true"
+        className="mt-6 mb-0 text-[20px] leading-7 font-medium text-(--wb-ink)"
       >
-        <Clock size={32} strokeWidth={1.6} />
-      </div>
+        {t("onboardingFlow.timeSaved.lead")}
+      </p>
       <h1
-        className="m-0 font-(--wb-font-display) text-[34px] leading-[1.12] font-semibold tracking-[-0.02em] text-balance"
+        className="m-0 mt-2"
         data-testid="wb-time-saved-headline"
         data-hours={target}
       >
-        {t("onboardingFlow.timeSaved.headline", {
-          count: shown,
-          hours: number.format(shown),
-        })}
+        <span
+          aria-hidden="true"
+          className="type-display block text-[72px] leading-[80px] whitespace-nowrap text-(--wb-ink) [&_em]:text-(--wb-accent)"
+        >
+          <Title
+            i18nKey="onboardingFlow.timeSaved.perWeek"
+            values={{ count: target }}
+            components={{ n: <StatNumber value={target} /> }}
+          />
+        </span>
+        <span className="sr-only" data-testid="wb-time-saved-headline-text">
+          {headline}
+        </span>
       </h1>
-      {/* The final number once, for screen readers (the heading counts). */}
+      {/* The final number once, for screen readers. */}
       <p className="sr-only" role="status">
-        {revealed
-          ? t("onboardingFlow.timeSaved.headline", {
-              count: target,
-              hours: number.format(target),
-            })
-          : ""}
+        {revealed ? headline : ""}
       </p>
 
       {revealed ? (
         <>
+          <div className="mt-10 flex w-full max-w-[460px] flex-col gap-1">
+            <label
+              htmlFor="wb-time-saved-hours"
+              className="text-[15px] font-medium text-(--wb-ink)"
+            >
+              {t("onboardingFlow.timeSaved.sliderLabel")}
+            </label>
+            <input
+              id="wb-time-saved-hours"
+              type="range"
+              min={HOURS_MIN}
+              max={HOURS_MAX}
+              step={HOURS_STEP}
+              value={hours}
+              aria-valuetext={t("onboardingFlow.timeSaved.hoursPerDay", {
+                count: hours,
+                hours: hoursLabel,
+              })}
+              onChange={(e) => saveHours(Number(e.target.value))}
+              data-testid="wb-time-saved-slider"
+              className="wb-onb-range mt-2"
+              style={{ "--wb-fill": `${fill}%` } as CSSProperties}
+            />
+            <span
+              className="text-[15px] text-(--wb-ink-2) tabular-nums"
+              data-testid="wb-time-saved-hours-value"
+            >
+              {t("onboardingFlow.timeSaved.hoursPerDay", {
+                count: hours,
+                hours: hoursLabel,
+              })}
+            </span>
+          </div>
           <p
-            className="m-0 text-sm leading-6 text-pretty text-(--wb-ink-2)"
+            className="mt-6 mb-0 max-w-[460px] text-[13px] leading-[18px] text-pretty text-(--wb-ink-3)"
             data-testid="wb-time-saved-basis"
           >
             {measured != null
@@ -144,80 +204,12 @@ export function TimeSaved({
                   speaking: SPEAKING_WPM,
                 })}
           </p>
-          <div className="flex w-full flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-4 text-start">
-            <div className="flex items-baseline justify-between gap-3">
-              <label
-                htmlFor="wb-time-saved-hours"
-                className="text-sm font-semibold"
-              >
-                {t("onboardingFlow.timeSaved.sliderLabel")}
-              </label>
-              <span
-                className="text-sm text-(--wb-ink-2) tabular-nums"
-                data-testid="wb-time-saved-hours-value"
-              >
-                {t("onboardingFlow.timeSaved.hoursPerDay", {
-                  count: hours,
-                  hours: hoursLabel,
-                })}
-              </span>
-            </div>
-            <input
-              id="wb-time-saved-hours"
-              type="range"
-              min={HOURS_MIN}
-              max={HOURS_MAX}
-              step={HOURS_STEP}
-              value={hours}
-              aria-valuetext={t("onboardingFlow.timeSaved.hoursPerDay", {
-                count: hours,
-                hours: hoursLabel,
-              })}
-              onChange={(e) => saveHours(Number(e.target.value))}
-              data-testid="wb-time-saved-slider"
-              className="w-full accent-(--wb-ink)"
-            />
-          </div>
-          {measured == null && (
-            <button
-              type="button"
-              onClick={onTakeTest}
-              data-testid="wb-time-saved-take-test"
-              className="cursor-pointer rounded-lg px-2 py-1 text-sm font-medium text-(--wb-ink-2) underline decoration-(--wb-line-strong) underline-offset-4 hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
-            >
-              {t("onboardingFlow.timeSaved.takeTest")}
-            </button>
-          )}
-          <Button
-            variant="primary"
-            onClick={onContinue}
-            data-testid="wb-time-saved-continue"
-          >
-            {t("onboardingFlow.continue")}
-          </Button>
         </>
       ) : (
-        <>
-          <p className="m-0 text-sm leading-6 text-pretty text-(--wb-ink-2)">
-            {t("onboardingFlow.timeSaved.intro")}
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button
-              variant="primary"
-              onClick={onTakeTest}
-              data-testid="wb-time-saved-test"
-            >
-              {t("onboardingFlow.timeSaved.howFast")}
-            </Button>
-            <Button
-              onClick={() => setSkipped(true)}
-              data-testid="wb-time-saved-skip"
-            >
-              {t("onboardingFlow.timeSaved.skipTest")}
-            </Button>
-          </div>
-        </>
+        <p className="mt-8 mb-0 max-w-[440px] text-[15px] leading-[22px] text-pretty text-(--wb-ink-2)">
+          {t("onboardingFlow.timeSaved.intro")}
+        </p>
       )}
-    </div>
+    </CentredLayout>
   );
 }

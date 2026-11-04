@@ -1,10 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+/**
+ * Test your microphone (S-29a; Design W1 centred layout): one white test
+ * card with the question, the live meter as large bars on a tinted well
+ * (the meter starts by itself), and Change microphone, No and Yes. Yes
+ * goes on; No opens the microphone list in the S-08 order.
+ */
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Mic } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { MicLevelMeter, MicrophonePicker } from "../settings/MicrophonePicker";
 import { Button } from "../ui";
+import { CentredLayout, TestCard } from "./Layout";
 
 export function MicTest({
   preview,
@@ -14,40 +20,38 @@ export function MicTest({
   onContinue: () => void;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
-  const [answer, setAnswer] = useState<"yes" | "no" | null>(null);
+  const [answer, setAnswer] = useState<"no" | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
 
   return (
-    <div className="mx-auto flex w-full max-w-[570px] flex-col items-center gap-5">
-      <div className="text-center">
-        <span className="mb-3 inline-grid size-12 place-items-center rounded-2xl bg-(--wb-accent-soft) text-(--wb-accent)">
-          <Mic size={24} aria-hidden="true" />
-        </span>
-        <h1 className="m-0 font-(--wb-font-display) text-3xl font-semibold text-balance">
-          {t("onboardingFlow.mic.title")}
-        </h1>
-        <p className="mt-2 mb-0 text-sm leading-6 text-(--wb-ink-2) text-pretty">
-          {t("onboardingFlow.mic.guidance")}
-        </p>
-      </div>
-      <div className="flex w-full flex-col items-center gap-4 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-5">
-        <MicLevelMeter autoStart={!preview} inert={preview} />
-        <fieldset className="m-0 flex flex-col items-center gap-3 border-0 p-0">
-          <legend className="mb-1 text-center text-sm font-medium">
+    <CentredLayout
+      title={t("onboardingFlow.mic.title")}
+      subtitle={t("onboardingFlow.mic.guidance")}
+    >
+      <TestCard
+        title={
+          <h2 className="type-heading m-0" id="wb-mic-question">
             {t("onboardingFlow.mic.question")}
-          </legend>
-          <div className="flex gap-2">
+          </h2>
+        }
+        footer={
+          <>
             <Button
-              variant={answer === "yes" ? "primary" : "secondary"}
-              aria-pressed={answer === "yes"}
-              onClick={() => setAnswer("yes")}
-              data-testid="wb-mic-yes"
+              variant="secondary"
+              size="sm"
+              aria-expanded={pickerOpen}
+              aria-controls="wb-onboarding-mic-list"
+              onClick={() => setPickerOpen((open) => !open)}
+              data-testid="wb-mic-change"
             >
-              {t("onboardingFlow.yes")}
+              {t("onboardingFlow.mic.change")}
             </Button>
+            <span className="flex-1" />
             <Button
-              variant={answer === "no" ? "primary" : "secondary"}
+              variant="secondary"
+              size="sm"
               aria-pressed={answer === "no"}
+              aria-describedby="wb-mic-question"
               onClick={() => {
                 setAnswer("no");
                 setPickerOpen(true);
@@ -56,34 +60,31 @@ export function MicTest({
             >
               {t("onboardingFlow.no")}
             </Button>
-          </div>
-        </fieldset>
+            <Button
+              variant="primary"
+              size="sm"
+              aria-describedby="wb-mic-question"
+              onClick={onContinue}
+              data-testid="wb-mic-yes"
+            >
+              {t("onboardingFlow.yes")}
+            </Button>
+          </>
+        }
+      >
+        <MicLevelMeter autoStart={!preview} inert={preview} variant="well" />
         {answer === "no" && (
           <p
-            className="m-0 text-center text-xs leading-5 text-(--wb-ink-2)"
+            className="m-0 text-[13px] leading-[18px] text-(--wb-ink-2)"
             role="status"
           >
             {t("onboardingFlow.mic.noHelp")}
           </p>
         )}
-        <button
-          type="button"
-          aria-expanded={pickerOpen}
-          aria-controls="wb-onboarding-mic-list"
-          onClick={() => setPickerOpen((open) => !open)}
-          className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-(--wb-ink-2) underline decoration-(--wb-line-strong) underline-offset-4 hover:text-(--wb-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--wb-accent)"
-        >
-          {pickerOpen ? (
-            <ChevronUp size={14} aria-hidden="true" />
-          ) : (
-            <ChevronDown size={14} aria-hidden="true" />
-          )}
-          {t("onboardingFlow.mic.change")}
-        </button>
         {pickerOpen && (
           <div
             id="wb-onboarding-mic-list"
-            className="max-h-[240px] w-full overflow-y-auto border-t border-(--wb-line) pt-4 text-start"
+            className="max-h-[200px] w-full overflow-y-auto border-t border-(--wb-line) pt-4 text-start"
             data-testid="wb-onboarding-mic-list"
           >
             {preview ? (
@@ -95,15 +96,7 @@ export function MicTest({
             )}
           </div>
         )}
-      </div>
-      <Button
-        variant="primary"
-        disabled={answer !== "yes"}
-        onClick={onContinue}
-        data-testid="wb-mic-continue"
-      >
-        {t("onboardingFlow.continue")}
-      </Button>
-    </div>
+      </TestCard>
+    </CentredLayout>
   );
 }
