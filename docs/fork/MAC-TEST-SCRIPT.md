@@ -1444,6 +1444,7 @@ takes through `WISPRBRO_TEST_MIC_WAV`), one pass by eye, light then dark
       character on the right.
 - [ ] W2.7 Increase Contrast and Reduce Motion on: hairlines darken, focus
       rings show, no hover-only control is unreachable by keyboard.
+
 ### Design W1 (onboarding) — queued for the Mac wave
 
 Built 2026-11-03 on `design/w1-onboarding` (SYSTEM-PLAN §7 W1). A debug
