@@ -212,6 +212,31 @@ fn trigger_name(p: &Profile) -> Option<String> {
     })
 }
 
+/// The bindings of features that are on. Transforms (`transform.*`) and
+/// Command Mode are opt-in (DEC-31): while one is off its bindings are kept
+/// in the settings but not compiled, so they neither fire nor show as
+/// "can't be used" errors in Settings › Shortcuts (audit OT2: a new install
+/// showed four such errors for ⌥1, ⌥2, ⌥O and fn+Ctrl).
+pub(crate) fn active_hotkeys(
+    settings: &crate::fork::settings::ForkSettings,
+) -> std::collections::BTreeMap<String, Vec<crate::fork::settings::HotkeyBinding>> {
+    use crate::fork::settings::hotkey_actions::COMMAND_MODE;
+    settings
+        .hotkeys
+        .iter()
+        .filter(|(id, _)| {
+            if id.starts_with("transform.") {
+                settings.transforms_enabled
+            } else if id.as_str() == COMMAND_MODE {
+                settings.command_mode_enabled
+            } else {
+                true
+            }
+        })
+        .map(|(id, list)| (id.clone(), list.clone()))
+        .collect()
+}
+
 /// The current profile from fork settings.
 fn load_profile<R: Runtime>(
     app: &AppHandle<R>,
@@ -230,7 +255,7 @@ fn load_profile<R: Runtime>(
     };
     let reg = registry();
     let command_mode = settings.command_mode_enabled;
-    let profile = bindings::compile(&settings.hotkeys, |id| {
+    let profile = bindings::compile(&active_hotkeys(&settings), |id| {
         reg.handles(id)
             || (command_mode && id == crate::fork::settings::hotkey_actions::COMMAND_MODE)
     });

@@ -8,14 +8,24 @@ import {
   HOTKEY_ACTIONS,
   MAX_BINDINGS,
   nextBindingActivation,
+  TRANSFORM_DEFAULTS,
 } from "./model";
 
 const first = defaultHotkeys();
 const second = defaultHotkeys();
-assert.deepEqual(
-  Object.keys(first),
-  HOTKEY_ACTIONS.map((action) => action.id),
-);
+assert.deepEqual(Object.keys(first), [
+  ...HOTKEY_ACTIONS.map((action) => action.id),
+  ...Object.keys(TRANSFORM_DEFAULTS),
+]);
+// Audit OT2: Reset to defaults restores the built-in transform shortcuts.
+assert.deepEqual(first["transform.polish"], [
+  { chord: "option+1", activation: "press" },
+]);
+assert.deepEqual(first["transform.view_changes"], [
+  { chord: "option+o", activation: "press" },
+]);
+first["transform.polish"][0].chord = "option+9";
+assert.equal(second["transform.polish"][0].chord, "option+1");
 assert.deepEqual(first.dictate, [{ chord: "fn", activation: "hold" }]);
 assert.deepEqual(first.press_enter, []);
 first.dictate[0].chord = "ctrl+option";

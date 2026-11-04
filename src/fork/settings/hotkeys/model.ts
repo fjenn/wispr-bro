@@ -71,13 +71,33 @@ export function actionIds(hotkeys: ForkSettings["hotkeys"]): string[] {
   ];
 }
 
+/**
+ * Built-in transform shortcuts (S-21/S-22), listed apart from
+ * `HOTKEY_ACTIONS` so their rows keep their place after the core actions.
+ * Same values as `default_hotkeys()` in `src-tauri/src/fork/settings.rs`.
+ * Audit OT2: Reset to defaults saved these as unset before.
+ */
+export const TRANSFORM_DEFAULTS: Readonly<Record<string, HotkeyBinding[]>> = {
+  "transform.polish": [{ chord: "option+1", activation: "press" }],
+  "transform.prompt_engineer": [{ chord: "option+2", activation: "press" }],
+  "transform.view_changes": [{ chord: "option+o", activation: "press" }],
+};
+
+/** Every action's default bindings, as `default_hotkeys()` in Rust. */
 export function defaultHotkeys(): Record<string, HotkeyBinding[]> {
-  return Object.fromEntries(
-    HOTKEY_ACTIONS.map((action) => [
-      action.id,
-      action.defaults.map((binding) => ({ ...binding })),
-    ]),
-  );
+  return Object.fromEntries([
+    ...HOTKEY_ACTIONS.map(
+      (action) =>
+        [
+          action.id,
+          action.defaults.map((binding) => ({ ...binding })),
+        ] as const,
+    ),
+    ...Object.entries(TRANSFORM_DEFAULTS).map(
+      ([id, bindings]) =>
+        [id, bindings.map((binding) => ({ ...binding }))] as const,
+    ),
+  ]);
 }
 
 export function nextBindingActivation(
