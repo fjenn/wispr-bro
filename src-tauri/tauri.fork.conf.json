@@ -26,7 +26,26 @@
     ],
     "externalBin": ["target/wb-sidecar/llama-server"],
     "macOS": {
-      "minimumSystemVersion": "13.0"
+      "minimumSystemVersion": "13.0",
+      "dmg": {
+        "background": "dmg-fork/background.png",
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        },
+        "windowPosition": {
+          "x": 200,
+          "y": 160
+        },
+        "appPosition": {
+          "x": 180,
+          "y": 228
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 228
+        }
+      }
     },
     "windows": {
       "signCommand": null

@@ -22,9 +22,11 @@
 #   5. the updater archive `Wispr-Bro_<v>_aarch64.app.tar.gz` is made from the
 #      *stapled* app and signed with the updater key (`tauri signer sign`),
 #      then checked against the overlay pubkey;
-#   6. the DMG is made from the stapled app (hdiutil, app + /Applications
-#      link), signed, notarized and stapled (RS-12: staple the DMG
-#      explicitly);
+#   6. the DMG is made from the stapled app with its install window
+#      (scripts/wb-release/dmg/build.sh: dmgbuild, our background, the app
+#      left and the /Applications link right, layout from the overlay's
+#      bundle.macOS.dmg; OT2-E), signed, notarized and stapled (RS-12:
+#      staple the DMG explicitly);
 #   7. `latest.json` for the release, SHA256SUMS, and scripts/wb-release/
 #      verify.sh on the outputs.
 #
@@ -173,11 +175,7 @@ fi
 if [[ $UNSIGNED == 1 ]]; then
   step "unsigned dry run: DMG only"
   DMG="${OUT}/${ASSET_PREFIX}_${VERSION}_${ARCH}.dmg"
-  STAGE="$(mktemp -d)"
-  ditto "$APP" "${STAGE}/${PRODUCT}.app"
-  ln -s /Applications "${STAGE}/Applications"
-  hdiutil create -volname "$PRODUCT" -srcfolder "$STAGE" -fs HFS+ -format UDZO -ov "$DMG" >/dev/null
-  rm -rf "$STAGE"
+  scripts/wb-release/dmg/build.sh "$APP" "$DMG" 2>>"$LOG"
   scripts/wb-release/verify.sh --dmg "$DMG" --unsigned | tee -a "$LOG"
   exit 0
 fi
@@ -216,12 +214,7 @@ bun scripts/wb-release/minisign.ts "$TARBALL" | tee -a "$LOG"
 
 step "DMG from the stapled app"
 DMG="${OUT}/${ASSET_PREFIX}_${VERSION}_${ARCH}.dmg"
-STAGE="$(mktemp -d)"
-ditto "$APP" "${STAGE}/${PRODUCT}.app"
-ln -s /Applications "${STAGE}/Applications"
-rm -f "$DMG"
-hdiutil create -volname "$PRODUCT" -srcfolder "$STAGE" -fs HFS+ -format UDZO -ov "$DMG" >/dev/null
-rm -rf "$STAGE"
+scripts/wb-release/dmg/build.sh "$APP" "$DMG" 2>>"$LOG"
 codesign --force --timestamp ${KEYCHAIN_ARGS[@]+"${KEYCHAIN_ARGS[@]}"} --sign "$IDENTITY" "$DMG"
 notarize "$DMG" dmg
 xcrun stapler staple "$DMG" | tee -a "$LOG"
