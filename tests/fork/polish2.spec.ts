@@ -153,9 +153,15 @@ test("Handy's switches and rows match the fork's in Settings › System", async 
   ipc,
   hub,
 }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await openHub(page, ipc, hub, { hash: "#/hub/settings/system" });
   const modal = page.getByTestId("wb-settings-modal");
   await expect(modal.getByText("Start hidden", { exact: true })).toBeVisible();
+  // Measure at rest: the modal's spring-in and the section crossfade move
+  // and scale the rows while they run (a full-suite run caught one).
+  await page.waitForFunction(() =>
+    document.getAnimations().every((a) => a.playState !== "running"),
+  );
   // Boxes of each on/off row: the row, its track and its title. Handy's
   // switch is a `peer` checkbox and a drawn div; the fork's a role=switch.
   const rows = await modal.evaluate((m) =>
