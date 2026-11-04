@@ -11,24 +11,43 @@
 //!   `{enabled = 1; value = {type = modifier; parameters = (8388608, …)}}`
 //!   (8388608 = `NSEventModifierFlagFunction`); the other double presses
 //!   (Control, Command) carry their own modifier flag, Off is `enabled = 0`.
-//! - Live: WindowServer's symbolic hotkey table
-//!   (`CGSIsSymbolicHotKeyEnabled(164)`, SkyLight), loaded from the
+//! - Live: WindowServer's symbolic hotkey table (SkyLight), loaded from the
 //!   preference at login.
+//!
+//! What actually fires it (macOS 26.6, read from HIToolbox/DictationServices
+//! and the unified log): every app's HIToolbox registers its own
+//! per-connection hotkey on symbolic hotkey 164 at launch
+//! (`SyncIronwoodHotKey`) and detects the double fn press itself
+//! (`TSMAdjustDoubleTapAction`) from the hotkey's *modifier value*, then
+//! asks imklaunchagent to start DictationIM. Disabling 164
+//! (`CGSSetSymbolicHotKeyEnabled(164, false)`, rc6) reaches every app
+//! (`AdjustToIronwoodHotKeyChange … enabled = 0, virtKey=0x800000`) but the
+//! fn mask stays armed, so it still fires. Apple's own off path (HIToolbox
+//! `islUpdateFnUsageType`, "Press 🌐 to" away from Dictation) also sets the
+//! value to "no key": `CGSSetSymbolicHotKeyValue(164, 0xFFFF, 0xFFFF, 0)`.
+//! Every app then logs `hotmod:0 … keyChar=0xffff, virtKey=0xffff`: the
+//! double press is disarmed live.
 //!
 //! The owner's call: while fn is the trigger the app switches the shortcut
 //! off itself (no consent step), says so once, and has a Settings switch to
-//! keep it. It is switched off live with `CGSSetSymbolicHotKeyEnabled(164,
-//! false)` (the call AltTab uses for ⌘-Tab): the user's preference is never
-//! written, so System Settings still shows their choice and the next login
-//! starts from it; the app re-applies at every launch. Writing the
-//! preference instead is not picked up until the next login.
+//! keep it. It is switched off live only (disable + "no key" value): the
+//! user's preference is never written, so System Settings still shows their
+//! choice and the next login starts from it; the app re-applies at every
+//! launch.
+//!
+//! Restore is deferred to the next login on purpose: putting the fn
+//! modifier value back live makes every app's HIToolbox see "fn twice,
+//! enabled" and switch Keyboard › "Press 🌐 key to" to Start Dictation
+//! (`TISUpdateFnUsageType(3)`, plus `AppleDictationAutoEnable = 1`) —
+//! observed on this Mac — which would change a setting the user never
+//! chose. Since the preference was never touched, logging out and in
+//! brings Apple's shortcut back exactly.
 //!
 //! Lifecycle as in `globe.rs`: a marker is written *before* the change;
 //! [`reconcile`] (launch, binding change, the Settings switch) applies while
-//! fn is the trigger and restores otherwise; a restore only re-enables when
-//! the preference still says "Press fn twice" (a later Off in System
-//! Settings wins). An unset entry 164 (macOS default, never touched) is not
-//! acted on: the default differs by keyboard.
+//! fn is the trigger and drops the marker otherwise. An unset entry 164
+//! (macOS default, never touched) is not acted on: the default differs by
+//! keyboard.
 
 use std::path::{Path, PathBuf};
 
@@ -85,11 +104,14 @@ pub enum AppleDictation {
     Active,
 }
 
-/// WindowServer's live symbolic hotkey table, behind a trait for tests.
+/// WindowServer's live symbolic hotkey 164, behind a trait for tests.
 pub trait LiveHotkey {
-    /// `None` when the private entry points are missing.
-    fn is_enabled(&self) -> Option<bool>;
-    fn set_enabled(&mut self, on: bool);
+    /// Whether the live value is still the fn modifier (what apps' double
+    /// tap detection uses, whatever the enabled flag says). `None` when the
+    /// private entry points are missing.
+    fn fn_armed(&self) -> Option<bool>;
+    /// Disables 164 and sets its value to "no key" (Apple's off path).
+    fn disarm(&mut self);
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -134,7 +156,7 @@ fn write_marker(path: &Path) -> Result<(), String> {
 pub enum Applied {
     /// The preference is not "Press fn twice" (or Dictation is off).
     NotNeeded,
-    /// Already off live (by us earlier this login, or by someone else).
+    /// Already disarmed live (by us earlier this login, or by someone else).
     AlreadyOff,
     TurnedOff,
 }
@@ -149,13 +171,13 @@ pub fn apply_with(
     if !fn_double {
         return Ok(Applied::NotNeeded);
     }
-    match sys.is_enabled() {
+    match sys.fn_armed() {
         None => Err("this macOS does not let apps switch the Dictation shortcut off".into()),
         Some(false) => Ok(Applied::AlreadyOff),
         Some(true) => {
             write_marker(marker)?;
-            sys.set_enabled(false);
-            if sys.is_enabled() != Some(false) {
+            sys.disarm();
+            if sys.fn_armed() != Some(false) {
                 return Err("macOS did not switch the Dictation shortcut off".into());
             }
             Ok(Applied::TurnedOff)
@@ -163,19 +185,16 @@ pub fn apply_with(
     }
 }
 
-/// Switches it back on if we switched it off and the preference still
-/// asks for it, then drops the marker. Returns whether it was re-enabled.
-pub fn restore_with(sys: &mut dyn LiveHotkey, marker: &Path, fn_double: bool) -> bool {
+/// Gives the shortcut back: drops the marker; the live table is left
+/// disarmed and the untouched preference brings it back at the next login
+/// (see the module docs for why it is not re-armed live). Returns whether
+/// we had switched it off.
+pub fn restore_with(marker: &Path) -> bool {
     if !has_marker(marker) {
         return false;
     }
-    let mut restored = false;
-    if fn_double && sys.is_enabled() == Some(false) {
-        sys.set_enabled(true);
-        restored = true;
-    }
     let _ = std::fs::remove_file(marker);
-    restored
+    true
 }
 
 /// The state shown to the user (pure).
@@ -188,7 +207,7 @@ pub fn state_with(
     if !fn_is_trigger || !fn_double {
         return AppleDictation::None;
     }
-    match sys.is_enabled() {
+    match sys.fn_armed() {
         Some(false) if has_marker(marker) => AppleDictation::TurnedOff,
         Some(false) => AppleDictation::None,
         _ => AppleDictation::Active,
@@ -222,9 +241,9 @@ pub fn reconcile<R: tauri::Runtime>(app: &tauri::AppHandle<R>, want_off: bool) {
     let Some(marker) = marker_path(app) else {
         return;
     };
-    let fn_double = fires_on_fn_double_now();
-    let mut sys = platform::System;
     if want_off {
+        let fn_double = fires_on_fn_double_now();
+        let mut sys = platform::System;
         match apply_with(&mut sys, &marker, fn_double) {
             Ok(Applied::TurnedOff) => {
                 log::info!("fork hotkeys: Apple Dictation's fn-twice shortcut switched off")
@@ -232,8 +251,10 @@ pub fn reconcile<R: tauri::Runtime>(app: &tauri::AppHandle<R>, want_off: bool) {
             Ok(_) => {}
             Err(e) => log::warn!("fork hotkeys: Apple Dictation shortcut: {e}"),
         }
-    } else if restore_with(&mut sys, &marker, fn_double) {
-        log::info!("fork hotkeys: Apple Dictation's fn-twice shortcut switched back on");
+    } else if restore_with(&marker) {
+        log::info!(
+            "fork hotkeys: Apple Dictation's fn-twice shortcut given back (live again after the next login)"
+        );
     }
 }
 
@@ -378,13 +399,20 @@ mod platform {
         }
     }
 
-    type IsEnabled = unsafe extern "C" fn(i32) -> bool;
     type SetEnabled = unsafe extern "C" fn(i32, bool) -> i32;
+    type GetModifier = unsafe extern "C" fn(i32, *mut u32, *mut u32, *mut u32) -> i32;
+    type SetKeyValue = unsafe extern "C" fn(i32, u16, u16, u32) -> i32;
 
-    fn entry_points() -> Option<(IsEnabled, SetEnabled)> {
+    struct Entry {
+        set_enabled: SetEnabled,
+        get_modifier: GetModifier,
+        set_key_value: SetKeyValue,
+    }
+
+    fn entry_points() -> Option<Entry> {
         use std::sync::OnceLock;
-        static ENTRY: OnceLock<Option<(usize, usize)>> = OnceLock::new();
-        let (is, set) = (*ENTRY.get_or_init(|| {
+        static ENTRY: OnceLock<Option<[usize; 3]>> = OnceLock::new();
+        let [set, get, value] = (*ENTRY.get_or_init(|| {
             // SAFETY: dlopen/dlsym with valid NUL-terminated strings; the
             // handle stays open for the life of the process.
             unsafe {
@@ -396,41 +424,56 @@ mod platform {
                     if lib.is_null() {
                         continue;
                     }
-                    let is = libc::dlsym(lib, c"CGSIsSymbolicHotKeyEnabled".as_ptr());
                     let set = libc::dlsym(lib, c"CGSSetSymbolicHotKeyEnabled".as_ptr());
-                    if !is.is_null() && !set.is_null() {
-                        return Some((is as usize, set as usize));
+                    let get = libc::dlsym(lib, c"CGSGetSymbolicHotModifierValue".as_ptr());
+                    let value = libc::dlsym(lib, c"CGSSetSymbolicHotKeyValue".as_ptr());
+                    if !set.is_null() && !get.is_null() && !value.is_null() {
+                        return Some([set as usize, get as usize, value as usize]);
                     }
                 }
                 None
             }
         }))?;
-        // SAFETY: `bool CGSIsSymbolicHotKeyEnabled(CGSSymbolicHotKey)` and
-        // `CGError CGSSetSymbolicHotKeyEnabled(CGSSymbolicHotKey, bool)`.
+        // SAFETY: `CGError CGSSetSymbolicHotKeyEnabled(CGSSymbolicHotKey,
+        // bool)`, `CGError CGSGetSymbolicHotModifierValue(CGSSymbolicHotKey,
+        // uint32_t *, uint32_t *, uint32_t *)` and `CGError
+        // CGSSetSymbolicHotKeyValue(CGSSymbolicHotKey, unichar, CGKeyCode,
+        // CGSModifierFlags)`, as HIToolbox calls them.
         unsafe {
-            Some((
-                std::mem::transmute::<usize, IsEnabled>(is),
-                std::mem::transmute::<usize, SetEnabled>(set),
-            ))
+            Some(Entry {
+                set_enabled: std::mem::transmute::<usize, SetEnabled>(set),
+                get_modifier: std::mem::transmute::<usize, GetModifier>(get),
+                set_key_value: std::mem::transmute::<usize, SetKeyValue>(value),
+            })
         }
     }
 
     pub struct System;
 
     impl super::LiveHotkey for System {
-        fn is_enabled(&self) -> Option<bool> {
-            let (is, _) = entry_points()?;
-            // SAFETY: a C function taking one int.
-            Some(unsafe { is(super::HOTKEY_ID) })
+        fn fn_armed(&self) -> Option<bool> {
+            let e = entry_points()?;
+            let (mut a, mut flag, mut mask) = (0u32, 0u32, 0u32);
+            // SAFETY: three valid out-pointers; an error means 164 is not a
+            // modifier-type hotkey (e.g. "no key").
+            let err = unsafe { (e.get_modifier)(super::HOTKEY_ID, &mut a, &mut flag, &mut mask) };
+            Some(err == 0 && i64::from(flag) & super::FN_FLAG != 0)
         }
 
-        fn set_enabled(&mut self, on: bool) {
-            if let Some((_, set)) = entry_points() {
-                // SAFETY: a C function taking an int and a bool.
-                let err = unsafe { set(super::HOTKEY_ID, on) };
-                if err != 0 {
-                    log::warn!("fork hotkeys: CGSSetSymbolicHotKeyEnabled returned {err}");
-                }
+        fn disarm(&mut self) {
+            let Some(e) = entry_points() else {
+                return;
+            };
+            // SAFETY: C functions taking plain integers (HIToolbox's own off
+            // sequence: disable, then the "no key" value).
+            let (off, none) = unsafe {
+                (
+                    (e.set_enabled)(super::HOTKEY_ID, false),
+                    (e.set_key_value)(super::HOTKEY_ID, 0xFFFF, 0xFFFF, 0),
+                )
+            };
+            if off != 0 || none != 0 {
+                log::warn!("fork hotkeys: disarming symbolic hotkey 164 returned {off}/{none}");
             }
         }
     }
@@ -471,10 +514,10 @@ mod platform {
     pub struct System;
 
     impl super::LiveHotkey for System {
-        fn is_enabled(&self) -> Option<bool> {
+        fn fn_armed(&self) -> Option<bool> {
             None
         }
-        fn set_enabled(&mut self, _on: bool) {}
+        fn disarm(&mut self) {}
     }
 }
 
@@ -482,29 +525,30 @@ mod platform {
 mod tests {
     use super::*;
 
+    /// Live hotkey 164: `armed` = still the fn modifier value.
     struct Fake {
-        live: Option<bool>,
+        armed: Option<bool>,
         ignore: bool,
-        sets: Vec<bool>,
+        disarms: usize,
     }
 
     impl LiveHotkey for Fake {
-        fn is_enabled(&self) -> Option<bool> {
-            self.live
+        fn fn_armed(&self) -> Option<bool> {
+            self.armed
         }
-        fn set_enabled(&mut self, on: bool) {
-            self.sets.push(on);
+        fn disarm(&mut self) {
+            self.disarms += 1;
             if !self.ignore {
-                self.live = Some(on);
+                self.armed = Some(false);
             }
         }
     }
 
-    fn fake(live: Option<bool>) -> Fake {
+    fn fake(armed: Option<bool>) -> Fake {
         Fake {
-            live,
+            armed,
             ignore: false,
-            sets: Vec::new(),
+            disarms: 0,
         }
     }
 
@@ -515,16 +559,30 @@ mod tests {
     }
 
     #[test]
-    fn apply_marks_first_then_switches_off_and_restore_switches_back() {
+    fn apply_marks_first_then_disarms_and_restore_drops_the_marker_only() {
         let (_d, m) = marker();
         let mut sys = fake(Some(true));
         assert_eq!(apply_with(&mut sys, &m, true), Ok(Applied::TurnedOff));
-        assert_eq!(sys.live, Some(false));
+        assert_eq!(sys.armed, Some(false));
+        assert_eq!(sys.disarms, 1);
         assert!(m.exists());
         assert_eq!(state_with(&sys, &m, true, true), AppleDictation::TurnedOff);
-        assert!(restore_with(&mut sys, &m, true));
-        assert_eq!(sys.live, Some(true));
+        assert!(restore_with(&m));
+        // Not re-armed live: that would flip "Press 🌐 key to" (module docs).
+        assert_eq!(sys.armed, Some(false));
         assert!(!m.exists());
+        assert!(!restore_with(&m));
+    }
+
+    #[test]
+    fn disabled_but_still_fn_valued_counts_as_armed() {
+        // rc6 left 164 disabled with the fn value: apps still fire on it.
+        let (_d, m) = marker();
+        write_marker(&m).unwrap();
+        let mut sys = fake(Some(true));
+        assert_eq!(state_with(&sys, &m, true, true), AppleDictation::Active);
+        assert_eq!(apply_with(&mut sys, &m, true), Ok(Applied::TurnedOff));
+        assert_eq!(state_with(&sys, &m, true, true), AppleDictation::TurnedOff);
     }
 
     #[test]
@@ -532,30 +590,20 @@ mod tests {
         let (_d, m) = marker();
         let mut sys = fake(Some(true));
         assert_eq!(apply_with(&mut sys, &m, false), Ok(Applied::NotNeeded));
-        assert!(sys.sets.is_empty());
+        assert_eq!(sys.disarms, 0);
         assert!(!m.exists());
         assert_eq!(state_with(&sys, &m, true, false), AppleDictation::None);
     }
 
     #[test]
-    fn already_off_needs_no_marker_and_is_not_ours_to_restore() {
+    fn already_disarmed_needs_no_marker_and_is_not_ours_to_restore() {
         let (_d, m) = marker();
         let mut sys = fake(Some(false));
         assert_eq!(apply_with(&mut sys, &m, true), Ok(Applied::AlreadyOff));
+        assert_eq!(sys.disarms, 0);
         assert!(!m.exists());
-        assert!(!restore_with(&mut sys, &m, true));
-        assert_eq!(sys.live, Some(false));
-    }
-
-    #[test]
-    fn a_later_off_in_system_settings_wins_over_the_restore() {
-        let (_d, m) = marker();
-        let mut sys = fake(Some(true));
-        apply_with(&mut sys, &m, true).unwrap();
-        // The user picked Off in System Settings meanwhile.
-        assert!(!restore_with(&mut sys, &m, false));
-        assert_eq!(sys.live, Some(false));
-        assert!(!m.exists());
+        assert!(!restore_with(&m));
+        assert_eq!(state_with(&sys, &m, true, true), AppleDictation::None);
     }
 
     #[test]
@@ -572,14 +620,15 @@ mod tests {
     }
 
     #[test]
-    fn re_enabled_by_the_user_shows_active_and_a_new_login_reapplies() {
+    fn a_new_login_rearms_and_the_next_launch_disarms_again() {
         let (_d, m) = marker();
         let mut sys = fake(Some(true));
         apply_with(&mut sys, &m, true).unwrap();
-        // A new login loads the preference again: live is on, marker kept.
-        sys.live = Some(true);
+        // A new login loads the preference again: armed live, marker kept.
+        sys.armed = Some(true);
         assert_eq!(state_with(&sys, &m, true, true), AppleDictation::Active);
         assert_eq!(apply_with(&mut sys, &m, true), Ok(Applied::TurnedOff));
+        assert_eq!(sys.disarms, 2);
     }
 
     #[test]
@@ -594,8 +643,7 @@ mod tests {
         let (_d, m) = marker();
         std::fs::create_dir_all(m.parent().unwrap()).unwrap();
         std::fs::write(&m, b"{not json").unwrap();
-        let mut sys = fake(Some(false));
-        assert!(!restore_with(&mut sys, &m, true));
+        assert!(!restore_with(&m));
         assert!(!m.exists());
     }
 
