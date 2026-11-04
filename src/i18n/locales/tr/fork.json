@@ -1962,9 +1962,6 @@
       "heading": "Bu sitelerde kullanılır",
       "listLabel": "{{group}} stilini kullanan siteler",
       "addShort": "Web sitesi ekle",
-      "showAll_one": "{{count}} web sitesini göster",
-      "showAll_other": "{{count}} web sitesinin tümünü göster",
-      "showFewer": "Daha az göster",
       "recent": {
         "heading": "Son kullanılan web siteleri",
         "hint": "Dikte ettiğiniz ve henüz stili olmayan web siteleri. Orada “{{group}}” kullanmak için birine tıklayın.",
@@ -1982,7 +1979,8 @@
         "covered": "{{host}}, {{parent}} (“{{group}}”) kapsamında. Eklemek ona kendi stilini verir.",
         "groupLabel": "Stil",
         "submit": "“{{group}}” stiline ekle"
-      }
+      },
+      "builtinNote": "Birçok yaygın web sitesi burada listelenmeden de doğru stili alır."
     },
     "picker": {
       "title": "{{group}} grubuna uygulama ekle",

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useTranslation } from "react-i18next";
-import { CornerDownLeft, Globe } from "../ui/icons";
+import { CornerDownLeft } from "../ui/icons";
 import { toast } from "sonner";
 import { commands, type StyleGroup, type StyleSite } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -129,14 +129,12 @@ export function SiteChip({
             data-testid="wb-style-site"
             data-host={site.host}
             data-auto-send={site.auto_send}
+            title={site.host}
             aria-label={t("style.apps.chipLabel", { app: label })}
-            className={`flex h-9 cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) border border-(--wb-line-2) bg-(--wb-surface) px-3 text-[13px] text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) ${FOCUS_RING}`}
+            className={`flex h-9 cursor-pointer items-center gap-2 rounded-full border border-(--wb-line-2) bg-(--wb-surface) ps-1 pe-3 text-[13px] text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) ${FOCUS_RING}`}
           >
-            <Globe size={16} aria-hidden="true" className="text-(--wb-ink-2)" />
-            <span>{site.name}</span>{" "}
-            <span className="max-w-48 truncate text-[12px] text-(--wb-ink-3)">
-              {site.host}
-            </span>
+            <SiteMonogram name={site.name} />
+            <span className="max-w-48 truncate">{site.name}</span>
             {site.auto_send && (
               <CornerDownLeft
                 size={14}
@@ -148,5 +146,23 @@ export function SiteChip({
         }
       />
     </li>
+  );
+}
+
+/**
+ * A website's letter in a neutral disc: no favicon is fetched (the app
+ * contacts only GitHub and Hugging Face). Decorative, the name is next to it.
+ */
+function SiteMonogram({ name }: { name: string }) {
+  const letter = [...name.replace(/^www\./i, "").trim()][0] ?? "";
+  // Drawn by CSS so the letter is not part of the button's visible text
+  // (its accessible name starts with the site's name).
+  return (
+    <span
+      aria-hidden="true"
+      data-testid="wb-style-site-monogram"
+      data-letter={letter.toLocaleUpperCase()}
+      className="grid size-7 shrink-0 place-items-center rounded-full bg-(--wb-fill-active) text-[12px] font-semibold text-(--wb-ink-2) before:content-[attr(data-letter)]"
+    />
   );
 }

@@ -1962,9 +1962,6 @@
       "heading": "Används på de här webbplatserna",
       "listLabel": "Webbplatser som använder stilen ”{{group}}”",
       "addShort": "Lägg till webbplats",
-      "showAll_one": "Visa {{count}} webbplats",
-      "showAll_other": "Visa alla {{count}} webbplatser",
-      "showFewer": "Visa färre",
       "recent": {
         "heading": "Nyligen använda webbplatser",
         "hint": "Webbplatser du har dikterat på som ännu inte har någon stil. Klicka på en för att använda ”{{group}}” där.",
@@ -1982,7 +1979,8 @@
         "covered": "{{host}} hör till {{parent}} (”{{group}}”). Om du lägger till det får det en egen stil.",
         "groupLabel": "Stil",
         "submit": "Lägg till i ”{{group}}”"
-      }
+      },
+      "builtinNote": "Många vanliga webbplatser får redan rätt stil utan att listas här."
     },
     "picker": {
       "title": "Lägg till en app i {{group}}",

@@ -54,7 +54,14 @@ const BUILTIN: Record<string, StyleGroup> = {
 
 const BUILTIN_SITES: Record<string, { name: string; group: StyleGroup }> = {
   "app.slack.com": { name: "Slack", group: "work" },
+  "teams.microsoft.com": { name: "Microsoft Teams", group: "work" },
+  "app.asana.com": { name: "Asana", group: "work" },
   "mail.google.com": { name: "Gmail", group: "email" },
+  "outlook.live.com": { name: "Outlook", group: "email" },
+  "outlook.office.com": { name: "Outlook", group: "email" },
+  "web.whatsapp.com": { name: "WhatsApp", group: "personal" },
+  "discord.com": { name: "Discord", group: "personal" },
+  "reddit.com": { name: "Reddit", group: "personal" },
 };
 
 /** A small stand-in for `fork::commands::style`. */
@@ -335,10 +342,15 @@ styleTest.describe("style page", () => {
       );
       await expect(gmail).toBeVisible();
       await expect(gmail).toContainText("Gmail");
-      await expect(gmail).toContainText("mail.google.com");
+      await expect(gmail).toHaveAttribute("title", "mail.google.com");
       await expect(gmail).toHaveAccessibleName(
         "Gmail mail.google.com: options",
       );
+      // Headline sites only, one chip per name (Outlook has two hosts).
+      await expect(page.getByTestId("wb-style-site")).toHaveText([
+        "Gmail",
+        "Outlook",
+      ]);
       await gmail.click();
       await expectNoSeriousAxeFindings(page);
       await page
@@ -349,15 +361,19 @@ styleTest.describe("style page", () => {
         host: "mail.google.com",
         group: "work",
       });
-      await expect(page.getByTestId("wb-style-site")).toHaveCount(0);
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(1);
       await page.getByRole("tab", { name: "Work messages" }).click();
       await expect(chips(page)).toHaveText(["Slack"]);
-      await expect(page.getByTestId("wb-style-site")).toHaveCount(2);
-      await expect(page.getByTestId("wb-style-sites")).toContainText(
-        "app.slack.com",
-      );
-      await expect(page.getByTestId("wb-style-sites")).toContainText(
+      // The Slack app shows, so Slack's site does not; Asana matches silently.
+      const shown = page.getByTestId("wb-style-site");
+      await expect(shown).toHaveCount(2);
+      await expect(shown.nth(0)).toHaveAttribute(
+        "data-host",
         "mail.google.com",
+      );
+      await expect(shown.nth(1)).toHaveAttribute(
+        "data-host",
+        "teams.microsoft.com",
       );
       await gmail.click();
       await page
@@ -540,7 +556,7 @@ styleTest.describe("style page", () => {
       await page.keyboard.press("Tab");
       await expect(
         page.locator(
-          '[data-testid="wb-style-site"][data-host="app.slack.com"]',
+          '[data-testid="wb-style-site"][data-host="teams.microsoft.com"]',
         ),
       ).toBeFocused();
       await page.keyboard.press("Tab");
@@ -671,21 +687,33 @@ styleTest.describe("websites (OT2-C)", () => {
   );
 
   styleTest(
-    "a long list of sites collapses",
+    "only headline, added and dictated sites show; the rest match silently",
     async ({ page, ipc, hub, style }) => {
+      style.recentSites.add("reddit.com");
       for (let i = 0; i < 15; i++) {
         style.setSite(`site${String(i).padStart(2, "0")}.example.com`, {
-          group: "email",
+          group: "personal",
         });
       }
       await openStyle(page, ipc, hub, style);
-      await page.getByRole("tab", { name: "Email" }).click();
-      await expect(page.getByTestId("wb-style-site")).toHaveCount(12);
-      const more = page.getByTestId("wb-style-sites-more");
-      await expect(more).toHaveText("Show all 16 websites");
-      await more.click();
-      await expect(page.getByTestId("wb-style-site")).toHaveCount(16);
-      await expect(more).toHaveAttribute("aria-expanded", "true");
+      const shown = page.getByTestId("wb-style-site");
+      // 15 added, Reddit (dictated on), Discord (headline); WhatsApp's site
+      // hides behind the WhatsApp app.
+      await expect(shown).toHaveCount(17);
+      await expect(shown.nth(15)).toHaveAttribute("data-host", "reddit.com");
+      await expect(shown.nth(16)).toHaveAttribute("data-host", "discord.com");
+      await expect(
+        page.locator(
+          '[data-testid="wb-style-site"][data-host="web.whatsapp.com"]',
+        ),
+      ).toHaveCount(0);
+      await expect(page.getByTestId("wb-style-sites-more")).toHaveCount(0);
+      await expect(page.getByTestId("wb-style-sites-note")).toHaveText(
+        "Many common websites already get the right style without being listed here.",
+      );
+      await expect(
+        shown.first().getByTestId("wb-style-site-monogram"),
+      ).toHaveAttribute("data-letter", "S");
     },
   );
 

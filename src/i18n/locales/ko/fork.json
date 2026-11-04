@@ -1885,8 +1885,6 @@
       "heading": "이 사이트에서 사용",
       "listLabel": "{{group}} 스타일을 사용하는 사이트",
       "addShort": "웹사이트 추가",
-      "showAll_other": "웹사이트 {{count}}개 모두 보기",
-      "showFewer": "간단히 보기",
       "recent": {
         "heading": "최근 사용한 웹사이트",
         "hint": "받아쓰기를 했지만 아직 스타일이 없는 웹사이트입니다. 하나를 클릭하면 그곳에서 “{{group}}”을(를) 사용합니다.",
@@ -1904,7 +1902,8 @@
         "covered": "{{host}}은(는) {{parent}}(“{{group}}”)의 일부입니다. 추가하면 고유한 스타일을 갖게 됩니다.",
         "groupLabel": "스타일",
         "submit": "“{{group}}”에 추가"
-      }
+      },
+      "builtinNote": "많이 쓰는 웹사이트는 여기에 없어도 이미 알맞은 스타일이 적용됩니다."
     },
     "picker": {
       "title": "{{group}}에 앱 추가",

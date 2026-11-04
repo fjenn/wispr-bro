@@ -2039,10 +2039,6 @@
       "heading": "Usato su questi siti",
       "listLabel": "Siti che usano lo stile {{group}}",
       "addShort": "Aggiungi sito web",
-      "showAll_one": "Mostra {{count}} sito web",
-      "showAll_many": "Mostra tutti i {{count}} siti web",
-      "showAll_other": "Mostra tutti i {{count}} siti web",
-      "showFewer": "Mostra meno",
       "recent": {
         "heading": "Siti web usati di recente",
         "hint": "Siti web su cui hai dettato che non hanno ancora uno stile. Fai clic su uno per usarvi “{{group}}”.",
@@ -2060,7 +2056,8 @@
         "covered": "{{host}} fa parte di {{parent}} (“{{group}}”). Aggiungerlo gli dà uno stile tutto suo.",
         "groupLabel": "Stile",
         "submit": "Aggiungi a “{{group}}”"
-      }
+      },
+      "builtinNote": "Molti siti web comuni hanno già lo stile giusto senza comparire qui."
     },
     "picker": {
       "title": "Aggiungi un’app a {{group}}",

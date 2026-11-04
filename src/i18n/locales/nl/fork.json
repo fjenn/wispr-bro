@@ -1962,9 +1962,6 @@
       "heading": "Gebruikt op deze sites",
       "listLabel": "Sites met de stijl “{{group}}”",
       "addShort": "Voeg website toe",
-      "showAll_one": "Toon {{count}} website",
-      "showAll_other": "Toon alle {{count}} websites",
-      "showFewer": "Toon minder",
       "recent": {
         "heading": "Recent gebruikte websites",
         "hint": "Websites waarop je hebt gedicteerd en die nog geen stijl hebben. Klik op een ervan om daar “{{group}}” te gebruiken.",
@@ -1982,7 +1979,8 @@
         "covered": "{{host}} hoort bij {{parent}} (“{{group}}”). Als je het toevoegt, krijgt het een eigen stijl.",
         "groupLabel": "Stijl",
         "submit": "Voeg toe aan “{{group}}”"
-      }
+      },
+      "builtinNote": "Veel bekende websites krijgen al de juiste stijl zonder dat ze hier staan."
     },
     "picker": {
       "title": "Voeg een app toe aan {{group}}",

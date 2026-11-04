@@ -1962,9 +1962,6 @@
       "heading": "Auf diesen Websites verwendet",
       "listLabel": "Websites mit dem Stil „{{group}}“",
       "addShort": "Website hinzufügen",
-      "showAll_one": "{{count}} Website anzeigen",
-      "showAll_other": "Alle {{count}} Websites anzeigen",
-      "showFewer": "Weniger anzeigen",
       "recent": {
         "heading": "Zuletzt verwendete Websites",
         "hint": "Websites, auf denen du diktiert hast und die noch keinen Stil haben. Klick auf eine, um dort „{{group}}“ zu verwenden.",
@@ -1982,7 +1979,8 @@
         "covered": "{{host}} gehört zu {{parent}} („{{group}}“). Fügst du es hinzu, bekommt es einen eigenen Stil.",
         "groupLabel": "Stil",
         "submit": "Zu „{{group}}“ hinzufügen"
-      }
+      },
+      "builtinNote": "Viele bekannte Websites bekommen schon den passenden Stil, ohne hier aufgeführt zu sein."
     },
     "picker": {
       "title": "App zu „{{group}}“ hinzufügen",

@@ -1962,9 +1962,6 @@
       "heading": "Bruges på disse websteder",
       "listLabel": "Websteder, der bruger stilen ”{{group}}”",
       "addShort": "Tilføj websted",
-      "showAll_one": "Vis {{count}} websted",
-      "showAll_other": "Vis alle {{count}} websteder",
-      "showFewer": "Vis færre",
       "recent": {
         "heading": "Senest brugte websteder",
         "hint": "Websteder, du har dikteret på, som endnu ikke har en stil. Klik på et for at bruge ”{{group}}” der.",
@@ -1982,7 +1979,8 @@
         "covered": "{{host}} hører under {{parent}} (”{{group}}”). Tilføjer du det, får det sin egen stil.",
         "groupLabel": "Stil",
         "submit": "Føj til ”{{group}}”"
-      }
+      },
+      "builtinNote": "Mange almindelige websteder får allerede den rigtige stil uden at stå her."
     },
     "picker": {
       "title": "Tilføj en app til {{group}}",

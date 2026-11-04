@@ -2039,10 +2039,6 @@
       "heading": "Usado nestes sites",
       "listLabel": "Sites que usam o estilo {{group}}",
       "addShort": "Adicionar site",
-      "showAll_one": "Mostrar {{count}} site",
-      "showAll_many": "Mostrar todos os {{count}} sites",
-      "showAll_other": "Mostrar todos os {{count}} sites",
-      "showFewer": "Mostrar menos",
       "recent": {
         "heading": "Sites usados recentemente",
         "hint": "Sites em que você ditou e que ainda não têm estilo. Clique em um para usar “{{group}}” nele.",
@@ -2060,7 +2056,8 @@
         "covered": "{{host}} faz parte de {{parent}} (“{{group}}”). Adicioná-lo dá a ele um estilo próprio.",
         "groupLabel": "Estilo",
         "submit": "Adicionar a “{{group}}”"
-      }
+      },
+      "builtinNote": "Muitos sites comuns já recebem o estilo certo sem aparecer aqui."
     },
     "picker": {
       "title": "Adicionar um app a {{group}}",

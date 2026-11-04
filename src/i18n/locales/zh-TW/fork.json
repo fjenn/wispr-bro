@@ -1885,8 +1885,6 @@
       "heading": "用於以下網站",
       "listLabel": "使用「{{group}}」風格的網站",
       "addShort": "加入網站",
-      "showAll_other": "顯示全部 {{count}} 個網站",
-      "showFewer": "收合",
       "recent": {
         "heading": "最近使用的網站",
         "hint": "你聽寫過但還沒有風格的網站。按一下其中一個即可在該網站使用「{{group}}」。",
@@ -1904,7 +1902,8 @@
         "covered": "{{host}} 屬於 {{parent}}（「{{group}}」）。加入後它會有自己的風格。",
         "groupLabel": "風格",
         "submit": "加入「{{group}}」"
-      }
+      },
+      "builtinNote": "許多常用網站不必列在這裡，也會套用合適的風格。"
     },
     "picker": {
       "title": "將 App 加入「{{group}}」",

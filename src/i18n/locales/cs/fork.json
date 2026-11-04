@@ -2116,11 +2116,6 @@
       "heading": "Používá se na těchto webech",
       "listLabel": "Weby se stylem {{group}}",
       "addShort": "Přidat web",
-      "showAll_one": "Zobrazit {{count}} web",
-      "showAll_few": "Zobrazit všechny {{count}} weby",
-      "showAll_many": "Zobrazit všech {{count}} webu",
-      "showAll_other": "Zobrazit všech {{count}} webů",
-      "showFewer": "Zobrazit méně",
       "recent": {
         "heading": "Nedávno použité weby",
         "hint": "Weby, na kterých jste diktovali a které zatím nemají styl. Kliknutím na některý tam použijete styl „{{group}}“.",
@@ -2138,7 +2133,8 @@
         "covered": "{{host}} patří k {{parent}} („{{group}}“). Přidáním získá vlastní styl.",
         "groupLabel": "Styl",
         "submit": "Přidat do stylu „{{group}}“"
-      }
+      },
+      "builtinNote": "Mnoho běžných webů už má správný styl, i když tu nejsou uvedené."
     },
     "picker": {
       "title": "Přidat aplikaci do skupiny {{group}}",
