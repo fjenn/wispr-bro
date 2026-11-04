@@ -28,6 +28,29 @@ pub fn items() -> Vec<Value> {
         .collect()
 }
 
+/// An item's checked editor options (`rules`: names of `TransformRules`).
+pub fn rules_of(item: &Value) -> TransformRules {
+    let names = strings(&item["rules"]);
+    let on = |name: &str| names.iter().any(|n| n == name);
+    TransformRules {
+        shorter: on("shorter"),
+        clearer: on("clearer"),
+        better_order: on("better_order"),
+        headings_lists: on("headings_lists"),
+        keep_tone: on("keep_tone"),
+    }
+}
+
+fn strings(value: &Value) -> Vec<String> {
+    value
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+        .map(str::to_owned)
+        .collect()
+}
+
 /// The rules every transform got from the rc3 editor's "Create new".
 pub fn legacy_rules() -> TransformRules {
     TransformRules::default()
@@ -170,7 +193,7 @@ mod tests {
         use crate::fork::llm::chat::CancellationToken;
         use crate::fork::llm::post_process::LocalEngine;
         use crate::fork::llm::supervisor::{Config, ProcessLauncher, Supervisor};
-        use crate::fork::transforms::{run, store, TransformKind};
+        use crate::fork::transforms::{run, store};
         use std::io::Write;
         use std::sync::Arc;
         use std::time::Instant;
@@ -184,6 +207,7 @@ mod tests {
             return;
         };
         let legacy = std::env::var("WB_XFORM_RULES").as_deref() == Ok("legacy");
+        let no_literal = std::env::var("WB_XFORM_LITERAL").as_deref() == Ok("off");
         let dir = tempfile::tempdir().unwrap();
         let mut config = Config::new(bin.into(), dir.path().join("llm"));
         config.model = Some(model.clone().into());
@@ -195,36 +219,51 @@ mod tests {
         };
         let db = ForkDb::in_dir(dir.path());
         let mut file = std::fs::File::create(out).unwrap();
-        let items = items();
+        // `WB_EVAL_IDS=a,b,c` runs only those items.
+        let only: Option<Vec<String>> = std::env::var("WB_EVAL_IDS")
+            .ok()
+            .map(|ids| ids.split(',').map(str::to_owned).collect());
+        let items: Vec<Value> = items()
+            .into_iter()
+            .filter(|item| {
+                only.as_ref()
+                    .is_none_or(|ids| ids.iter().any(|id| item["id"] == id.as_str()))
+            })
+            .collect();
         let mut passed = (0usize, 0usize, 0usize, 0usize);
         for item in &items {
             let id = item["id"].as_str().unwrap();
             let source = item["input"].as_str().unwrap();
             let definition = db
                 .with_conn(|conn| {
-                    if item["kind"] == "builtin" {
-                        let kind = TransformKind::ALL
-                            .into_iter()
-                            .find(|kind| item["builtin"] == kind.builtin_key())
-                            .unwrap();
-                        return store::definition(conn, kind);
-                    }
-                    let mut input = store::TransformInput {
-                        name: id.to_owned(),
-                        description: String::new(),
-                        rules: store::new_transform_rules(),
-                        prompt: item["prompt"].as_str().unwrap().to_owned(),
-                        examples: Vec::new(),
-                        replacements: Vec::new(),
+                    let entry = if item["kind"] == "builtin" {
+                        store::get_by_key(conn, item["builtin"].as_str().unwrap())?.unwrap()
+                    } else {
+                        let mut input = store::TransformInput {
+                            name: id.to_owned(),
+                            description: String::new(),
+                            rules: rules_of(item),
+                            prompt: item["prompt"].as_str().unwrap_or_default().to_owned(),
+                            examples: strings(&item["examples"]),
+                            replacements: serde_json::from_value(
+                                item.get("replacements").cloned().unwrap_or(Value::Null),
+                            )
+                            .unwrap_or_default(),
+                        };
+                        if legacy {
+                            input.rules = legacy_rules();
+                        }
+                        let input = store::validate(&input).expect("valid transform");
+                        let entry = store::create(conn, &input, 0)?;
+                        store::get(conn, entry.id)?.unwrap()
                     };
-                    if legacy {
-                        input.rules = legacy_rules();
+                    let mut definition = store::definition_for(&entry);
+                    if no_literal {
+                        definition.edits.clear();
+                        definition.instruction = store::plain_instruction(&entry);
                     }
-                    let input = store::validate(&input).expect("valid transform");
-                    let entry = store::create(conn, &input, 0)?;
-                    store::definition_by_id(conn, entry.id)
+                    Ok::<_, crate::fork::db::DbError>(definition)
                 })
-                .unwrap()
                 .unwrap();
             let started = Instant::now();
             let result = run::generate_definition(
@@ -257,7 +296,7 @@ mod tests {
                 passed.1 += usize::from(pass);
             }
             let row = serde_json::json!({
-                "id": id, "kind": item["kind"], "input": source, "output": output,
+                "id": id, "kind": item["kind"], "rules": item["rules"], "input": source, "output": output,
                 "error": error, "pass": pass, "failed": failed, "ms": ms,
             });
             writeln!(file, "{row}").unwrap();

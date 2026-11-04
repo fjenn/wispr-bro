@@ -921,7 +921,8 @@
         "shortcut_stopped": "הקיצור שלך הפסיק להגיב",
         "shortcut_back": "הקיצור שלך עובד שוב",
         "transform_no_change": "אין מה לשנות",
-        "transform_not_applied": "לא ניתן להחיל את ההמרה הזו"
+        "transform_not_applied": "לא ניתן להחיל את ההמרה הזו",
+        "transform_getting_ready": "ההמרות בהכנה. נסו שוב בעוד דקה."
       },
       "card": {
         "no_text_field": "לחץ קודם בתוך שדה טקסט",
@@ -1469,6 +1470,11 @@
       "emoji": "אימוג׳י",
       "email": "כתובות אימייל",
       "url": "קישורים"
+    },
+    "model": {
+      "downloading": "מכינים את ההמרות: הורדה חד־פעמית, {{percent}}%",
+      "failed": "לא הצלחנו להוריד את מה שההמרות צריכות. בדקו את החיבור.",
+      "retry": "נסו שוב"
     }
   },
   "cleanup": {

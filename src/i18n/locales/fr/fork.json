@@ -921,7 +921,8 @@
         "shortcut_stopped": "Votre raccourci ne répond plus",
         "shortcut_back": "Votre raccourci fonctionne à nouveau",
         "transform_no_change": "Rien à modifier",
-        "transform_not_applied": "Transformation non appliquée"
+        "transform_not_applied": "Transformation non appliquée",
+        "transform_getting_ready": "Les transformations se préparent. Réessayez dans une minute."
       },
       "card": {
         "no_text_field": "Cliquez d’abord dans un champ de texte",
@@ -1469,6 +1470,11 @@
       "emoji": "émojis",
       "email": "adresses e-mail",
       "url": "liens"
+    },
+    "model": {
+      "downloading": "Préparation des transformations : téléchargement unique, {{percent}} %",
+      "failed": "Impossible de télécharger ce dont les transformations ont besoin. Vérifiez votre connexion.",
+      "retry": "Réessayer"
     }
   },
   "cleanup": {

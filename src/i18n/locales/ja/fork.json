@@ -891,7 +891,8 @@
         "shortcut_stopped": "ショートカットが応答しなくなりました",
         "shortcut_back": "ショートカットが再び機能しています",
         "transform_no_change": "変更する箇所がありません",
-        "transform_not_applied": "この書き換えを適用できませんでした"
+        "transform_not_applied": "この書き換えを適用できませんでした",
+        "transform_getting_ready": "変換を準備しています。1分ほどしてからもう一度お試しください。"
       },
       "card": {
         "no_text_field": "先にテキストフィールドをクリックしてください",
@@ -1393,6 +1394,11 @@
       "emoji": "絵文字",
       "email": "メールアドレス",
       "url": "リンク"
+    },
+    "model": {
+      "downloading": "変換を準備中：初回のみのダウンロード、{{percent}}%",
+      "failed": "変換に必要なデータをダウンロードできませんでした。接続を確認してください。",
+      "retry": "再試行"
     }
   },
   "cleanup": {

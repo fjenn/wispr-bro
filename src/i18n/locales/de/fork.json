@@ -906,7 +906,8 @@
         "shortcut_stopped": "Dein Kurzbefehl reagiert nicht mehr",
         "shortcut_back": "Dein Kurzbefehl funktioniert wieder",
         "transform_no_change": "Nichts zu ändern",
-        "transform_not_applied": "Transformation nicht angewendet"
+        "transform_not_applied": "Transformation nicht angewendet",
+        "transform_getting_ready": "Transformationen werden vorbereitet. Versuche es in einer Minute erneut."
       },
       "card": {
         "no_text_field": "Klicke zuerst in ein Textfeld",
@@ -1431,6 +1432,11 @@
       "emoji": "Emojis",
       "email": "E-Mail-Adressen",
       "url": "Links"
+    },
+    "model": {
+      "downloading": "Transformationen werden vorbereitet: einmaliger Download, {{percent}} %",
+      "failed": "Was Transformationen brauchen, konnte nicht geladen werden. Prüfe deine Verbindung.",
+      "retry": "Erneut versuchen"
     }
   },
   "cleanup": {

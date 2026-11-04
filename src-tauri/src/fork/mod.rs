@@ -407,6 +407,8 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
             hub::park::register(app);
             // S-10: LLM runtime state (nothing starts before on_ready).
             llm::runtime::register(app);
+            // OT2-H: the instruction model for transforms and Command Mode.
+            llm::instruct::register(app);
             // Merges into the same registry Handy's builder mounts into later
             // (`EventRegistry::get_or_manage`), so order does not matter.
             specta_builder::<R>().mount_events(app);
@@ -440,6 +442,7 @@ pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
                 audio::permission::on_exit(app);
                 audio::mute::restore_on_exit();
                 llm::runtime::on_exit(app);
+                llm::instruct::on_exit(app);
                 // S-28: a quit that skipped `ExitRequested` (installs once).
                 update::scheduler::on_exit(app);
                 // S-05: apps whose accessibility tree we switched on get it
@@ -587,6 +590,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // S-10: stale sidecar kill, prewarm wiring, silent model download.
     llm::runtime::on_ready(app);
+    // OT2-H: the instruction model (on disk: verified; else on demand).
+    llm::instruct::on_ready(app);
     // S-12b: WISPRBRO_SELFCHECK_APPLE (Mac test).
     llm::apple::selfcheck(app);
 
@@ -701,6 +706,8 @@ macro_rules! fork_specta_builder {
                 commands::llm::fork_llm_status::<$runtime>,
                 commands::llm::fork_llm_try::<$runtime>,
                 commands::llm::fork_llm_retry::<$runtime>,
+                commands::llm::fork_instruct_status::<$runtime>,
+                commands::llm::fork_instruct_retry::<$runtime>,
                 commands::dictionary::fork_dictionary_list::<$runtime>,
                 commands::dictionary::fork_dictionary_add::<$runtime>,
                 commands::dictionary::fork_dictionary_update::<$runtime>,
@@ -801,6 +808,7 @@ macro_rules! fork_specta_builder {
                 shortcut::ForkHotkeyEvent,
                 events::ForkStatsUpdated,
                 llm::runtime::ForkLlmStatus,
+                llm::instruct::ForkInstructStatus,
                 dictionary::ForkDictionaryChanged,
                 notify::ForkNotificationsChanged,
                 notify::ForkNotificationOpened,

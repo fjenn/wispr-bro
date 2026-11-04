@@ -906,7 +906,8 @@
         "shortcut_stopped": "Din genvej reagerer ikke længere",
         "shortcut_back": "Din genvej fungerer igen",
         "transform_no_change": "Intet at ændre",
-        "transform_not_applied": "Transformationen kunne ikke anvendes"
+        "transform_not_applied": "Transformationen kunne ikke anvendes",
+        "transform_getting_ready": "Transformationer gøres klar. Prøv igen om et minut."
       },
       "card": {
         "no_text_field": "Klik først i et tekstfelt",
@@ -1431,6 +1432,11 @@
       "emoji": "emojis",
       "email": "e-mailadresser",
       "url": "links"
+    },
+    "model": {
+      "downloading": "Gør transformationer klar: engangsdownload, {{percent}} %",
+      "failed": "Det, transformationer kræver, kunne ikke hentes. Tjek din forbindelse.",
+      "retry": "Prøv igen"
     }
   },
   "cleanup": {

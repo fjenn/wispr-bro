@@ -898,7 +898,8 @@
         "shortcut_stopped": "Your shortcut stopped responding",
         "shortcut_back": "Your shortcut works again",
         "transform_no_change": "Nothing to change",
-        "transform_not_applied": "Couldn't apply this transform"
+        "transform_not_applied": "Couldn't apply this transform",
+        "transform_getting_ready": "Transforms are getting ready. Try again in a minute."
       },
       "card": {
         "no_text_field": "Click into a text field first",
@@ -1748,6 +1749,11 @@
       "emoji": "emoji",
       "email": "email addresses",
       "url": "links"
+    },
+    "model": {
+      "downloading": "Getting transforms ready: one-time download, {{percent}}%",
+      "failed": "Couldn't download what transforms need. Check your connection.",
+      "retry": "Try again"
     }
   },
   "cleanup": {

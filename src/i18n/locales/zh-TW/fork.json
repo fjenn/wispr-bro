@@ -891,7 +891,8 @@
         "shortcut_stopped": "你的快速鍵已停止回應",
         "shortcut_back": "你的快速鍵已恢復運作",
         "transform_no_change": "沒有需要更改的內容",
-        "transform_not_applied": "無法套用此轉換"
+        "transform_not_applied": "無法套用此轉換",
+        "transform_getting_ready": "轉換功能正在準備中。請一分鐘後再試。"
       },
       "card": {
         "no_text_field": "請先按一下文字欄位",
@@ -1393,6 +1394,11 @@
       "emoji": "表情符號",
       "email": "電子郵件地址",
       "url": "連結"
+    },
+    "model": {
+      "downloading": "正在準備轉換功能：一次性下載，{{percent}}%",
+      "failed": "無法下載轉換功能所需的內容。請檢查網路連線。",
+      "retry": "重試"
     }
   },
   "cleanup": {

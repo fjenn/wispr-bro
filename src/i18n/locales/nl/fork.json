@@ -906,7 +906,8 @@
         "shortcut_stopped": "Je toetscombinatie reageert niet meer",
         "shortcut_back": "Je toetscombinatie werkt weer",
         "transform_no_change": "Niets te wijzigen",
-        "transform_not_applied": "Transformatie niet toegepast"
+        "transform_not_applied": "Transformatie niet toegepast",
+        "transform_getting_ready": "Transformaties worden klaargezet. Probeer het over een minuut opnieuw."
       },
       "card": {
         "no_text_field": "Klik eerst in een tekstveld",
@@ -1431,6 +1432,11 @@
       "emoji": "emoji",
       "email": "e-mailadressen",
       "url": "links"
+    },
+    "model": {
+      "downloading": "Transformaties klaarzetten: eenmalige download, {{percent}}%",
+      "failed": "Wat transformaties nodig hebben, kon niet worden gedownload. Controleer je verbinding.",
+      "retry": "Opnieuw proberen"
     }
   },
   "cleanup": {

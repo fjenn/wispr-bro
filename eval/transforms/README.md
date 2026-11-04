@@ -1,4 +1,4 @@
-# Transforms eval (OT2-D)
+# Transforms eval (OT2-D, OT2-H)
 
 Realistic transforms with pass criteria checked by code (no LLM judge).
 31 custom transforms (letter swaps, word and name replacement, upper /
@@ -53,3 +53,17 @@ What still fails is the model, not the path: tone and length changes
 ("more formal" keeps "Hey", hedging removal, one sentence, half as long,
 one-sentence summary) and American spelling. Those runs now end with
 "Couldn't apply this transform" instead of pasting the same text.
+
+## OT2-H: Qwen3.5-2B, plain prompt (M5 Max under load, 2026-11-04)
+
+13 items test the editor's options (`rules`, `examples`, `replacements` in the
+item; ids `opt-*`). `WB_XFORM_LITERAL=off` runs the model alone (exact edits
+become instruction lines); `WB_EVAL_IDS=a,b` runs a subset.
+
+| Run                                | Custom (31) | Built-in (6) | Options (13) | p50 / p95    |
+| ---------------------------------- | ----------- | ------------ | ------------ | ------------ |
+| shipped path (exact edits by code) | 28          | 4            | 13           | 308 / 670 ms |
+| model only, 12-item subset         | 7/10        | 1/2          | (in custom)  | -            |
+
+Model only, both letter swaps fail (the owner's "A and E → 0 and 1" timed
+out at 2.8 s, "every o → 0" came back unchanged), so exact edits stay code.

@@ -891,7 +891,8 @@
         "shortcut_stopped": "단축키가 응답하지 않음",
         "shortcut_back": "단축키가 다시 작동함",
         "transform_no_change": "변경할 내용이 없습니다",
-        "transform_not_applied": "이 변환을 적용하지 못했습니다"
+        "transform_not_applied": "이 변환을 적용하지 못했습니다",
+        "transform_getting_ready": "변환을 준비하고 있습니다. 1분 후에 다시 시도하세요."
       },
       "card": {
         "no_text_field": "먼저 텍스트 필드를 클릭하세요",
@@ -1393,6 +1394,11 @@
       "emoji": "이모지",
       "email": "이메일 주소",
       "url": "링크"
+    },
+    "model": {
+      "downloading": "변환 준비 중: 한 번만 다운로드, {{percent}}%",
+      "failed": "변환에 필요한 항목을 다운로드하지 못했습니다. 연결을 확인하세요.",
+      "retry": "다시 시도"
     }
   },
   "cleanup": {

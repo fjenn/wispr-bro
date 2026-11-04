@@ -57,6 +57,12 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key == "apple_dictation_shortcut_off" {
         crate::fork::shortcut::reconcile_apple_dictation(&app);
     }
+    // OT2-H: transforms and Command Mode run on the instruction model.
+    if (key == "transforms_enabled" && next.transforms_enabled)
+        || (key == "command_mode_enabled" && next.command_mode_enabled)
+    {
+        crate::fork::llm::instruct::ensure_downloaded(&app);
+    }
     if key == "hotkey" || key == "command_mode_enabled" {
         if key == "command_mode_enabled" && !next.command_mode_enabled {
             crate::fork::transforms::command::cancel();

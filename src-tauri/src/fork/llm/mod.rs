@@ -27,6 +27,7 @@ pub mod download;
 mod eval_run;
 pub mod guards;
 pub mod health;
+pub mod instruct;
 pub mod leadins;
 pub mod markers;
 pub mod memory;

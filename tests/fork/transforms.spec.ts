@@ -505,3 +505,59 @@ test("find and replace rows: keyboard only, RTL and axe in light/dark", async ({
     fake.entries = fake.entries.filter((item) => item.builtin_key !== null);
   }
 });
+
+test("instruction model download: progress, offline retry, keyboard, RTL and axe", async ({
+  page,
+  ipc,
+  hub,
+}) => {
+  test.setTimeout(180_000);
+  const fake = new FakeTransforms();
+  const status = (state: string, downloaded = 0): Record<string, unknown> => ({
+    state,
+    model_name: "Qwen3.5 2B",
+    downloaded_bytes: downloaded,
+    total_bytes: 1000,
+    error: state === "download_failed" ? "offline" : null,
+  });
+  let retries = 0;
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+    await openTransforms(page, ipc, hub, fake, {
+      handy: { theme, app_language: "ar" },
+      beforeNavigate: () => {
+        ipc.handle("fork_instruct_status", () => status("not_downloaded"));
+        ipc.handle("fork_instruct_retry", () => {
+          retries += 1;
+          return status("verifying");
+        });
+      },
+    });
+    // Nothing shows until Transforms (or Command Mode) wants the model.
+    const enabled = page.getByTestId("wb-transforms-enabled");
+    if (theme === "light") {
+      await expect(page.getByTestId("wb-transforms-model")).toHaveCount(0);
+      await enabled.click();
+    }
+    await expect(enabled).toBeChecked();
+    await expect
+      .poll(() => ipc.listenerCount("fork-instruct-status"))
+      .toBeGreaterThan(0);
+    await ipc.emit("fork-instruct-status", status("downloading", 420));
+    const line = page.getByTestId("wb-transforms-model");
+    await expect(line).toHaveAttribute("data-state", "downloading");
+    await expect(line).toContainText("42");
+    await expect(page.getByTestId("wb-hub")).toHaveAttribute("dir", "rtl");
+    await expectNoSeriousAxeFindings(page);
+    await ipc.emit("fork-instruct-status", status("download_failed"));
+    await expect(line).toHaveAttribute("data-state", "download_failed");
+    await expectNoSeriousAxeFindings(page);
+    const retry = page.getByTestId("wb-transforms-model-retry");
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect.poll(() => retries).toBeGreaterThan(theme === "light" ? 0 : 1);
+    await expect(line).toHaveAttribute("data-state", "verifying");
+    await ipc.emit("fork-instruct-status", status("ready"));
+    await expect(line).toHaveCount(0);
+  }
+});

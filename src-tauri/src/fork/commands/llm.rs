@@ -5,6 +5,7 @@
 use tauri::{AppHandle, Runtime};
 
 use super::ForkError;
+use crate::fork::llm::instruct::{self, ForkInstructStatus};
 use crate::fork::llm::runtime::{self, ForkLlmError, ForkLlmStatus, ForkLlmTryResult};
 
 /// Longest sample "Try it" accepts (the Settings box is a sentence or two).
@@ -34,6 +35,25 @@ pub async fn fork_llm_try<R: Runtime>(
         ));
     }
     runtime::try_cleanup(&app, text).await
+}
+
+/// OT2-H: the instruction model's state (transforms and Command Mode).
+#[tauri::command]
+#[specta::specta]
+pub fn fork_instruct_status<R: Runtime>(
+    app: AppHandle<R>,
+) -> Result<ForkInstructStatus, ForkError> {
+    instruct::runtime(&app)
+        .map(|rt| rt.status())
+        .ok_or(ForkError::NotReady)
+}
+
+/// OT2-H: downloads the instruction model now, or retries a failed download.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_instruct_retry<R: Runtime>(app: AppHandle<R>) -> Result<ForkInstructStatus, ForkError> {
+    instruct::retry(&app);
+    fork_instruct_status(app)
 }
 
 /// Retries a failed model download.

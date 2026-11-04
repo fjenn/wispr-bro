@@ -891,7 +891,8 @@
         "shortcut_stopped": "Phím tắt của bạn đã ngừng phản hồi",
         "shortcut_back": "Phím tắt của bạn đã hoạt động lại",
         "transform_no_change": "Không có gì để thay đổi",
-        "transform_not_applied": "Không thể áp dụng chuyển đổi này"
+        "transform_not_applied": "Không thể áp dụng chuyển đổi này",
+        "transform_getting_ready": "Đang chuẩn bị các phép biến đổi. Hãy thử lại sau một phút."
       },
       "card": {
         "no_text_field": "Hãy bấm vào một trường văn bản trước",
@@ -1393,6 +1394,11 @@
       "emoji": "emoji",
       "email": "địa chỉ email",
       "url": "liên kết"
+    },
+    "model": {
+      "downloading": "Đang chuẩn bị các phép biến đổi: tải xuống một lần, {{percent}}%",
+      "failed": "Không thể tải xuống những gì các phép biến đổi cần. Hãy kiểm tra kết nối.",
+      "retry": "Thử lại"
     }
   },
   "cleanup": {

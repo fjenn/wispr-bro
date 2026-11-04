@@ -460,6 +460,28 @@ async forkLlmRetry() : Promise<Result<ForkLlmStatus, ForkError>> {
 }
 },
 /**
+ * OT2-H: the instruction model's state (transforms and Command Mode).
+ */
+async forkInstructStatus() : Promise<Result<ForkInstructStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_instruct_status") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * OT2-H: downloads the instruction model now, or retries a failed download.
+ */
+async forkInstructRetry() : Promise<Result<ForkInstructStatus, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_instruct_retry") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
  * Every active and suggested entry. Takes over words added in Handy's own
  * settings first, so the page shows them.
  */
@@ -1342,6 +1364,7 @@ forkCleanupResult: ForkCleanupResult,
 forkDictionaryChanged: ForkDictionaryChanged,
 forkHotkeyEvent: ForkHotkeyEvent,
 forkInsertOutcome: ForkInsertOutcome,
+forkInstructStatus: ForkInstructStatus,
 forkLessonShortcut: ForkLessonShortcut,
 forkLlmStatus: ForkLlmStatus,
 forkMenuAction: ForkMenuAction,
@@ -1373,6 +1396,7 @@ forkCleanupResult: "fork-cleanup-result",
 forkDictionaryChanged: "fork-dictionary-changed",
 forkHotkeyEvent: "fork-hotkey-event",
 forkInsertOutcome: "fork-insert-outcome",
+forkInstructStatus: "fork-instruct-status",
 forkLessonShortcut: "fork-lesson-shortcut",
 forkLlmStatus: "fork-llm-status",
 forkMenuAction: "fork-menu-action",
@@ -1885,6 +1909,14 @@ export type ForkInsertOutcome = {
  * Delivery counter since launch.
  */
 take: number; outcome: ForkPasteOutcome | null; card_reason: ForkCardReason | null; text: string | null }
+/**
+ * `fork_instruct_status` reply and event.
+ */
+export type ForkInstructStatus = { state: InstructState; model_name: string | null; downloaded_bytes: number; total_bytes: number; 
+/**
+ * Last download error (no user data).
+ */
+error: string | null }
 /**
  * A shortcut pressed while a practice step was open with Wispr Bro in
  * front. Only the action id: the page reads its own composer.
@@ -2722,6 +2754,27 @@ room: number }
  */
 export type ImportRow = { row: number; phrase: string; replacement: string | null }
 /**
+ * Where the instruction model is.
+ */
+export type InstructState = 
+/**
+ * No local LLM on this Mac (Intel, under 8 GB, or a plain Handy build).
+ */
+"unsupported" | 
+/**
+ * The `llama-server` sidecar is not in this build.
+ */
+"missing_runtime" | 
+/**
+ * Not on disk; downloaded when a transform first needs it.
+ */
+"not_downloaded" | "downloading" | "verifying" | "ready" | 
+/**
+ * The download failed (offline, a server error); Retry is offered and
+ * the next transform tries again.
+ */
+"download_failed"
+/**
  * A row that is not a valid entry.
  */
 export type InvalidRow = { row: number; phrase: string; problem: EntryProblem }
@@ -3120,6 +3173,11 @@ export type PillMessage =
  * transform's instruction; nothing was pasted.
  */
 "transform_not_applied" | 
+/**
+ * OT2-H: the instruction model is still downloading (or its download
+ * failed); the transform did not run.
+ */
+"transform_getting_ready" | 
 /**
  * S-02: the shortcut stopped working: Accessibility is off (or the
  * app's grant no longer matches it). Fix opens the Fix sheet. Stays

@@ -81,6 +81,10 @@ pub const QWEN35_2B: LlmModel = LlmModel {
     prompt_style: PromptStyle::ChatJsonSchema,
 };
 
+/// The instruction model for transforms and Command Mode (OT2-H), chosen
+/// by `eval/transforms/` on a plain prompt. Downloaded on demand.
+pub const INSTRUCT: LlmModel = QWEN35_2B;
+
 /// Every model the app knows. The licence register
 /// (`docs/fork/LICENSE-REGISTER.md`) lists each one.
 pub const ALL: &[LlmModel] = &[MUESLI_2B_V12, QWEN35_2B];
@@ -119,6 +123,12 @@ pub fn select(physical_ram_bytes: u64, cpu: Cpu) -> Option<&'static LlmModel> {
         }
         _ => None,
     }
+}
+
+/// The instruction model for a Mac (same tiers as [`select`]: every Apple
+/// Silicon Mac with 8 GB or more).
+pub fn select_instruct(physical_ram_bytes: u64, cpu: Cpu) -> Option<&'static LlmModel> {
+    select(physical_ram_bytes, cpu).map(|_| &INSTRUCT)
 }
 
 /// Looks a model up by id.

@@ -921,7 +921,8 @@
         "shortcut_stopped": "Seu atalho parou de responder",
         "shortcut_back": "Seu atalho voltou a funcionar",
         "transform_no_change": "Nada para alterar",
-        "transform_not_applied": "Não foi possível aplicar esta transformação"
+        "transform_not_applied": "Não foi possível aplicar esta transformação",
+        "transform_getting_ready": "As transformações estão a ser preparadas. Tente novamente dentro de um minuto."
       },
       "card": {
         "no_text_field": "Clique em um campo de texto primeiro",
@@ -1469,6 +1470,11 @@
       "emoji": "emojis",
       "email": "endereços de e-mail",
       "url": "links"
+    },
+    "model": {
+      "downloading": "A preparar as transformações: transferência única, {{percent}}%",
+      "failed": "Não foi possível transferir o que as transformações precisam. Verifique a ligação.",
+      "retry": "Tentar novamente"
     }
   },
   "cleanup": {

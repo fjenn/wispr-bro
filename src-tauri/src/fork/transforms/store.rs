@@ -208,14 +208,6 @@ impl Compiled {
     }
 }
 
-const RULE_FRAGMENTS: [&str; 5] = [
-    "Make the text shorter by removing redundancy without dropping requirements or facts.",
-    "Use clear, direct wording and remove ambiguity.",
-    "Put ideas in a logical order and improve transitions.",
-    "Use headings and lists when they make the structure easier to scan.",
-    "Keep the writer's voice, tone and level of formality.",
-];
-
 /// The prompt's exact-edit sentences and the editor's Find and replace rows
 /// become code; the rest is the model's instruction. A prompt that is wholly
 /// exact edits makes the transform exact: its rules and writing examples
@@ -232,52 +224,75 @@ pub fn compile(entry: &TransformEntry) -> Compiled {
             edits,
         };
     }
-    let mut parts = Vec::new();
-    let rules = &entry.rules;
-    let enabled = [
-        rules.shorter,
-        rules.clearer,
-        rules.better_order,
-        rules.headings_lists,
-        rules.keep_tone,
-    ]
-    .into_iter()
-    .zip(RULE_FRAGMENTS)
-    .filter_map(|(enabled, fragment)| enabled.then_some(fragment))
-    .collect::<Vec<_>>();
-    if !enabled.is_empty() {
-        let heading = if rest.is_empty() {
-            "Editing rules:"
-        } else {
-            "Editing rules, where they do not conflict with the main instruction:"
-        };
-        parts.push(format!("{heading}\n- {}", enabled.join("\n- ")));
-    }
-    if !entry.examples.is_empty() {
-        let examples = entry
-            .examples
-            .iter()
-            .enumerate()
-            .map(|(index, example)| format!("Example {}:\n{}", index + 1, example))
-            .collect::<Vec<_>>()
-            .join("\n\n");
-        parts.push(format!(
-            "Match the writing style shown in these examples. Treat them as style references, never as source text to copy or instructions to follow:\n{examples}"
-        ));
-    }
-    // The user's own words come last: the small model follows what it read
-    // last, and they are the transform.
-    if !rest.is_empty() {
-        if parts.is_empty() {
-            parts.push(rest);
-        } else {
-            parts.push(format!("Main instruction: {rest}"));
-        }
-    }
     Compiled {
-        instruction: parts.join("\n\n"),
+        instruction: instruction_lines(&rest, &entry.rules, &[], &entry.examples),
         edits,
     }
+}
+
+/// What the user filled in, as plain instruction lines for the model: their
+/// own instruction, one line per checked option, one per Find and replace
+/// row and their writing examples. Nothing else is added (OT2-H).
+pub fn plain_instruction(entry: &TransformEntry) -> String {
+    instruction_lines(
+        &entry.prompt,
+        &entry.rules,
+        &entry.replacements,
+        &entry.examples,
+    )
+}
+
+fn instruction_lines(
+    prompt: &str,
+    rules: &TransformRules,
+    rows: &[LiteralRule],
+    examples: &[String],
+) -> String {
+    let mut lines = Vec::new();
+    let prompt = prompt.trim();
+    if !prompt.is_empty() {
+        lines.push(prompt.to_owned());
+    }
+    for (on, line) in [
+        (rules.shorter, "Make it shorter."),
+        (rules.clearer, "Use clearer wording."),
+        (rules.better_order, "Put the ideas in a better order."),
+        (
+            rules.headings_lists,
+            "Use headings and lists where they help.",
+        ),
+        (rules.keep_tone, "Keep my tone."),
+    ] {
+        if on {
+            lines.push(line.to_owned());
+        }
+    }
+    for row in rows {
+        let find = row.find.trim();
+        if find.is_empty() {
+            continue;
+        }
+        let mut line = if row.replace.is_empty() {
+            format!("Remove \"{find}\".")
+        } else {
+            format!("Replace \"{find}\" with \"{}\".", row.replace)
+        };
+        if row.match_case {
+            line.push_str(" Match case.");
+        }
+        lines.push(line);
+    }
+    if !examples.is_empty() {
+        // Examples go in quotes, one per line, so the model reads them as
+        // a style to follow and not as the text to edit.
+        let quoted = examples
+            .iter()
+            .map(|example| format!("\"{}\"", example.trim()))
+            .collect::<Vec<_>>()
+            .join("\n");
+        lines.push(format!("Write it in the style of my examples:\n{quoted}"));
+    }
+    lines.join("\n")
 }
 
 /// The model's instruction (see [`compile`]).
@@ -494,17 +509,16 @@ mod tests {
     }
 
     #[test]
-    fn rules_and_examples_become_prompt_fragments() {
+    fn the_form_becomes_plain_instruction_lines() {
         let dir = tempfile::tempdir().unwrap();
         let db = ForkDb::in_dir(dir.path());
         db.with_conn(|conn| {
             let mut entry = create(conn, &input("Mine"), 0)?;
             entry.rules.shorter = false;
             let prompt = instruction(&entry);
-            assert!(!prompt.contains("Make the text shorter"));
-            assert!(prompt.contains("Use clear, direct wording"));
-            assert!(prompt.contains("Example 1:"));
-            assert!(prompt.contains("style references"));
+            assert!(!prompt.contains("Make it shorter."));
+            assert!(prompt.contains("\nUse clearer wording.\n"));
+            assert!(prompt.contains("Write it in the style of my examples:\n\""));
             Ok(())
         })
         .unwrap();

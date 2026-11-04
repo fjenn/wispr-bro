@@ -906,7 +906,8 @@
         "shortcut_stopped": "Ditt kortkommando slutade svara",
         "shortcut_back": "Ditt kortkommando fungerar igen",
         "transform_no_change": "Inget att ändra",
-        "transform_not_applied": "Omvandlingen kunde inte tillämpas"
+        "transform_not_applied": "Omvandlingen kunde inte tillämpas",
+        "transform_getting_ready": "Transformeringar förbereds. Försök igen om en minut."
       },
       "card": {
         "no_text_field": "Klicka i ett textfält först",
@@ -1431,6 +1432,11 @@
       "emoji": "emojier",
       "email": "e-postadresser",
       "url": "länkar"
+    },
+    "model": {
+      "downloading": "Förbereder transformeringar: engångsnedladdning, {{percent}} %",
+      "failed": "Det som transformeringar behöver kunde inte laddas ned. Kontrollera anslutningen.",
+      "retry": "Försök igen"
     }
   },
   "cleanup": {

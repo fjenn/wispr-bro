@@ -906,7 +906,8 @@
         "shortcut_stopped": "Kestirmeniz yanıt vermiyor",
         "shortcut_back": "Kestirmeniz yeniden çalışıyor",
         "transform_no_change": "Değiştirilecek bir şey yok",
-        "transform_not_applied": "Dönüştürme uygulanamadı"
+        "transform_not_applied": "Dönüştürme uygulanamadı",
+        "transform_getting_ready": "Dönüşümler hazırlanıyor. Bir dakika sonra yeniden deneyin."
       },
       "card": {
         "no_text_field": "Önce bir metin alanına tıklayın",
@@ -1431,6 +1432,11 @@
       "emoji": "emoji",
       "email": "e-posta adresleri",
       "url": "bağlantılar"
+    },
+    "model": {
+      "downloading": "Dönüşümler hazırlanıyor: tek seferlik indirme, %{{percent}}",
+      "failed": "Dönüşümler için gerekenler indirilemedi. Bağlantınızı kontrol edin.",
+      "retry": "Yeniden dene"
     }
   },
   "cleanup": {

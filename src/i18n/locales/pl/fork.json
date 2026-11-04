@@ -936,7 +936,8 @@
         "shortcut_stopped": "Twój skrót przestał reagować",
         "shortcut_back": "Twój skrót znów działa",
         "transform_no_change": "Nic do zmiany",
-        "transform_not_applied": "Nie udało się zastosować przekształcenia"
+        "transform_not_applied": "Nie udało się zastosować przekształcenia",
+        "transform_getting_ready": "Transformacje są przygotowywane. Spróbuj ponownie za minutę."
       },
       "card": {
         "no_text_field": "Najpierw kliknij w pole tekstowe",
@@ -1507,6 +1508,11 @@
       "emoji": "emoji",
       "email": "adresy e-mail",
       "url": "linki"
+    },
+    "model": {
+      "downloading": "Przygotowywanie transformacji: jednorazowe pobieranie, {{percent}}%",
+      "failed": "Nie udało się pobrać tego, czego potrzebują transformacje. Sprawdź połączenie.",
+      "retry": "Spróbuj ponownie"
     }
   },
   "cleanup": {

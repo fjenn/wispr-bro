@@ -891,7 +891,8 @@
         "shortcut_stopped": "Pintasan Anda berhenti merespons",
         "shortcut_back": "Pintasan Anda berfungsi lagi",
         "transform_no_change": "Tidak ada yang perlu diubah",
-        "transform_not_applied": "Transformasi tidak dapat diterapkan"
+        "transform_not_applied": "Transformasi tidak dapat diterapkan",
+        "transform_getting_ready": "Transformasi sedang disiapkan. Coba lagi dalam satu menit."
       },
       "card": {
         "no_text_field": "Klik ke dalam bidang teks terlebih dahulu",
@@ -1393,6 +1394,11 @@
       "emoji": "emoji",
       "email": "alamat email",
       "url": "tautan"
+    },
+    "model": {
+      "downloading": "Menyiapkan transformasi: unduhan satu kali, {{percent}}%",
+      "failed": "Tidak dapat mengunduh yang dibutuhkan transformasi. Periksa koneksi Anda.",
+      "retry": "Coba lagi"
     }
   },
   "cleanup": {

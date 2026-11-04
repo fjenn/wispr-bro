@@ -117,6 +117,9 @@ pub enum PillMessage {
     /// OT2-D: the model returned the text without carrying out a custom
     /// transform's instruction; nothing was pasted.
     TransformNotApplied,
+    /// OT2-H: the instruction model is still downloading (or its download
+    /// failed); the transform did not run.
+    TransformGettingReady,
     /// S-02: the shortcut stopped working: Accessibility is off (or the
     /// app's grant no longer matches it). Fix opens the Fix sheet. Stays
     /// until the shortcut works again, ✕ or the next take.
@@ -182,6 +185,7 @@ impl PillMessage {
             | PillMessage::NoSpace
             | PillMessage::TransformFailed
             | PillMessage::TransformNotApplied
+            | PillMessage::TransformGettingReady
             | PillMessage::ShortcutLost
             | PillMessage::ShortcutStopped => PillTone::Error,
         }
@@ -267,6 +271,7 @@ impl PillMessage {
             PillMessage::TransformFailed => "transform_failed",
             PillMessage::TransformNoChange => "transform_no_change",
             PillMessage::TransformNotApplied => "transform_not_applied",
+            PillMessage::TransformGettingReady => "transform_getting_ready",
             PillMessage::ShortcutLost => "shortcut_lost",
             PillMessage::ShortcutStopped => "shortcut_stopped",
             PillMessage::ShortcutBack => "shortcut_back",
@@ -1367,6 +1372,7 @@ mod tests {
             SelectionTooLong,
             TransformFocusMoved,
             TransformFailed,
+            TransformGettingReady,
         ] {
             assert!(!k.key().is_empty());
             assert!(k.duration() >= INFO_MS);

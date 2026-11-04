@@ -215,7 +215,7 @@ async fn execute<R: Runtime>(app: &AppHandle<R>, instruction: &str) -> Result<St
     })?;
     let engine = run::app_engine(app)
         .await
-        .ok_or(PillMessage::TransformFailed)?;
+        .ok_or(PillMessage::TransformGettingReady)?;
     let generated = generate(&engine, instruction, &input)
         .await
         .map_err(|error| {

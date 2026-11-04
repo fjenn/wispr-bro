@@ -18,6 +18,7 @@ import { Banner, Button, KbdCombo, Select, Switch, Tag, Tooltip } from "../ui";
 import { chordLabel } from "../settings/hotkeys/model";
 import { openLesson, TRANSFORMS_LESSON, useLesson } from "../tutorials";
 import { CommandModeCard } from "./CommandModeCard";
+import { ModelStatus } from "./ModelStatus";
 import { DiffCard } from "./DiffCard";
 import { useTransformViewStore } from "./store";
 import { TransformCard, CreateTransformCard } from "./TransformCard";
@@ -223,6 +224,9 @@ export function TransformsPage() {
           </span>
         )}
       </PageHeader>
+      <ModelStatus
+        wanted={enabled || (settings?.command_mode_enabled ?? false)}
+      />
       <Banner
         id="transforms.rewrite"
         image={photos.transforms.src}
