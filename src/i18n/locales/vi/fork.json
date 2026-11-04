@@ -228,7 +228,7 @@
       "trayKeptForDock": "Biểu tượng Dock đang tắt nên biểu tượng trên thanh menu vẫn hiện. Bật “Hiện ứng dụng trong Dock” để ẩn nó."
     },
     "vibe": {
-      "intro": "Wispr Bro đọc tên mã và tên tệp mà trình soạn thảo hiển thị. Nó không bao giờ mở tệp của bạn.",
+      "intro": "Wispr Bro đọc tên mã mà trình soạn thảo hiển thị và tên tệp, thư mục của dự án đang mở, ngay trên máy Mac này. Nó chỉ đọc tên, không bao giờ đọc nội dung tệp của bạn.",
       "contextOff": "Nhận biết ngữ cảnh đang tắt nên các tính năng này không có gì để đọc. Hãy bật lên để sử dụng.",
       "recognize": "Nhận dạng tên trong mã",
       "recognizeHint": "Nói một tên mà trình sửa mã hiển thị, như “get user by id”, và tên đó được viết đúng như trong mã của bạn: getUserById.",
@@ -236,7 +236,7 @@
       "change": "Đổi trình sửa mã",
       "setUpFor": "Thiết lập cho {{editors}}",
       "fileTags": "Gắn thẻ tệp trong chat",
-      "fileTagsHint": "Trong chat của Cursor hoặc Windsurf, nói “index dot ts” sẽ gắn thẻ index.ts qua menu @ của trình sửa mã khi tệp đó đang mở trong một thẻ hoặc hiện trong trình khám phá tệp. Nếu trình sửa mã không đưa ra kết quả khớp, @index.ts được viết dưới dạng văn bản.",
+      "fileTagsHint": "Trong chat của Cursor hoặc Windsurf, nói “index dot ts” sẽ gắn thẻ index.ts qua menu @ của trình sửa mã, với bất kỳ tệp nào trong dự án của bạn. Nếu trình sửa mã không đưa ra kết quả khớp, @index.ts được viết dưới dạng văn bản.",
       "fileTagsNeedsChat": "Có sau khi bạn thêm Cursor hoặc Windsurf vào danh sách trình sửa mã.",
       "fileTagsNeedsSetup": "Có sau khi bạn thiết lập nhận dạng tên trong mã.",
       "setup": {

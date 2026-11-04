@@ -230,7 +230,7 @@
       "trayKeptForDock": "L’icône du Dock est désactivée, donc l’icône de la barre des menus reste. Activez Afficher l’app dans le Dock pour la masquer."
     },
     "vibe": {
-      "intro": "Wispr Bro lit les noms de code et de fichiers affichés par votre éditeur. Il n’ouvre jamais vos fichiers.",
+      "intro": "Wispr Bro lit les noms de code affichés par votre éditeur et les noms des fichiers et dossiers de votre projet ouvert, sur ce Mac. Il ne lit que des noms, jamais le contenu de vos fichiers.",
       "contextOff": "La prise en compte du contexte est désactivée : ces fonctions n’ont donc rien à lire. Activez-la pour les utiliser.",
       "recognize": "Reconnaître les noms de code",
       "recognizeHint": "Dites un nom affiché par votre éditeur, comme « get user by id », et il est écrit comme votre code l’écrit : getUserById.",
@@ -238,7 +238,7 @@
       "change": "Changer d’éditeurs",
       "setUpFor": "Configurer pour {{editors}}",
       "fileTags": "Mentionner des fichiers dans le chat",
-      "fileTagsHint": "Dans le chat de Cursor ou de Windsurf, dire « index dot ts » mentionne index.ts via le menu @ de l’éditeur quand ce fichier est ouvert dans un onglet ou visible dans l’explorateur de fichiers. Si l’éditeur ne propose rien, @index.ts est écrit en texte.",
+      "fileTagsHint": "Dans le chat de Cursor ou de Windsurf, dire « index dot ts » mentionne index.ts via le menu @ de l’éditeur, pour n’importe quel fichier de votre projet. Si l’éditeur ne propose rien, @index.ts est écrit en texte.",
       "fileTagsNeedsChat": "Disponible une fois Cursor ou Windsurf ajouté à vos éditeurs.",
       "fileTagsNeedsSetup": "Disponible une fois la reconnaissance des noms de code configurée.",
       "setup": {

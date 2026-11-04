@@ -228,7 +228,7 @@
       "trayKeptForDock": "Dock 圖像已關閉，因此選單列圖像會保留。開啟「在 Dock 中顯示 App」即可隱藏選單列圖像。"
     },
     "vibe": {
-      "intro": "Wispr Bro 會讀取編輯器顯示的程式碼名稱和檔案名稱。它絕不開啟你的檔案。",
+      "intro": "Wispr Bro 會在這台 Mac 上讀取編輯器顯示的程式碼名稱，以及你開啟的專案中的檔案和資料夾名稱。它只讀取名稱，絕不讀取檔案內容。",
       "contextOff": "情境感知已關閉，因此這些功能沒有內容可讀取。開啟後即可使用。",
       "recognize": "辨識程式碼名稱",
       "recognizeHint": "說出編輯器中顯示的名稱，例如「get user by id」，就會依程式碼中的寫法寫成 getUserById。",
@@ -236,7 +236,7 @@
       "change": "更改編輯器",
       "setUpFor": "為 {{editors}} 設定",
       "fileTags": "在聊天中標記檔案",
-      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，說「index dot ts」會在該檔案已在分頁中開啟或顯示在檔案總管中時，透過編輯器的 @ 選單標記 index.ts。如果編輯器沒有提供相符項目，就會以文字形式寫入 @index.ts。",
+      "fileTagsHint": "在 Cursor 或 Windsurf 的聊天中，說「index dot ts」會透過編輯器的 @ 選單標記 index.ts，專案中的任何檔案都可以。如果編輯器沒有提供相符項目，就會以文字形式寫入 @index.ts。",
       "fileTagsNeedsChat": "將 Cursor 或 Windsurf 加入編輯器後即可使用。",
       "fileTagsNeedsSetup": "設定程式碼名稱辨識後即可使用。",
       "setup": {

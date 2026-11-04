@@ -229,7 +229,7 @@
       "trayKeptForDock": "Dock-ikonen är avstängd, så ikonen i menyraden finns kvar. Slå på Visa appen i Dock för att dölja den."
     },
     "vibe": {
-      "intro": "Wispr Bro läser de kod- och filnamn som din editor visar. Den öppnar aldrig dina filer.",
+      "intro": "Wispr Bro läser de kodnamn som din editor visar och fil- och mappnamnen i ditt öppna projekt, på den här Macen. Den läser bara namn, aldrig vad som står i dina filer.",
       "contextOff": "Kontextmedvetenhet är avstängd, så de här funktionerna har inget att läsa. Slå på den för att använda dem.",
       "recognize": "Känn igen kodnamn",
       "recognizeHint": "Säg ett namn som din redigerare visar, till exempel ”get user by id”, så skrivs det som din kod stavar det: getUserById.",
@@ -237,7 +237,7 @@
       "change": "Byt redigerare",
       "setUpFor": "Konfigurera för {{editors}}",
       "fileTags": "Tagga filer i chatten",
-      "fileTagsHint": "I chatten i Cursor eller Windsurf taggar ”index dot ts” filen index.ts via redigerarens @-meny när filen är öppen i en flik eller syns i filutforskaren. Om redigeraren inte hittar någon träff skrivs @index.ts som text.",
+      "fileTagsHint": "I chatten i Cursor eller Windsurf taggar ”index dot ts” filen index.ts via redigerarens @-meny, för vilken fil som helst i ditt projekt. Om redigeraren inte hittar någon träff skrivs @index.ts som text.",
       "fileTagsNeedsChat": "Tillgängligt när du har lagt till Cursor eller Windsurf bland dina redigerare.",
       "fileTagsNeedsSetup": "Tillgängligt när du har konfigurerat igenkänning av kodnamn.",
       "setup": {

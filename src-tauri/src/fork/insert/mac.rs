@@ -94,7 +94,7 @@ pub(super) fn deliver(
     // S-36: a take into an editor's chat input types its file tags through
     // the input's own `@` picker, so they become real tags.
     if kind == Kind::Take {
-        req.mentions = chat_mentions(bundle.as_deref());
+        req.mentions = chat_mentions(bundle.as_deref(), &req.text);
     }
 
     let platform = AppPlatform { app: app.clone() };
@@ -260,10 +260,11 @@ fn submit_flags(key: AutoSubmitKey) -> u64 {
 // ---------------------------------------------------------------------------
 // S-36: file tags in an editor's chat
 
-/// The visible file names whose `@name` this take types through the `@`
-/// picker: only when the take's context read found that editor's chat input
-/// focused and that editor is still in front.
-fn chat_mentions(bundle: Option<&str>) -> Vec<String> {
+/// The file names whose `@name` this take's text has and types through the
+/// `@` picker (any file of the project, or one visible in the editor): only
+/// when the take's context read found that editor's chat input focused and
+/// that editor is still in front.
+fn chat_mentions(bundle: Option<&str>, text: &str) -> Vec<String> {
     use crate::fork::context::{awareness, ide::Editor};
     let Some(editor) = awareness::chat_editor() else {
         return Vec::new();
@@ -271,7 +272,9 @@ fn chat_mentions(bundle: Option<&str>) -> Vec<String> {
     if !editor.tags_files() || Editor::from_bundle(bundle) != Some(editor) {
         return Vec::new();
     }
-    awareness::file_names().unwrap_or_default()
+    awareness::file_names()
+        .map(|names| names.mentioned_in(text))
+        .unwrap_or_default()
 }
 
 /// Whether the focused input's `@` picker highlights the file `name`. The
@@ -526,6 +529,8 @@ mod live_tests {
         assert!(!super::mention_offered_for_test(&name), "no picker yet");
         keys::type_text("check ").unwrap();
         for c in format!("@{name}").chars() {
+            // Keys only ever go to the throwaway editor.
+            assert_eq!(front_pid(), pid, "the throwaway editor left the front");
             keys::type_text(&c.to_string()).unwrap();
             std::thread::sleep(crate::fork::insert::deliver::MENTION_KEY_GAP);
         }

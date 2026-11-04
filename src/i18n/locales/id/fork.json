@@ -228,7 +228,7 @@
       "trayKeptForDock": "Ikon Dock nonaktif, jadi ikon bar menu tetap tampil. Aktifkan Tampilkan app di Dock untuk menyembunyikannya."
     },
     "vibe": {
-      "intro": "Wispr Bro membaca nama kode dan file yang ditampilkan editor Anda. Ia tidak pernah membuka file Anda.",
+      "intro": "Wispr Bro membaca nama kode yang ditampilkan editor Anda serta nama file dan folder proyek yang sedang terbuka, di Mac ini. Ia hanya membaca nama, tidak pernah isi file Anda.",
       "contextOff": "Kesadaran konteks nonaktif, jadi fitur ini tidak punya apa pun untuk dibaca. Nyalakan untuk menggunakannya.",
       "recognize": "Kenali nama kode",
       "recognizeHint": "Ucapkan nama yang ditampilkan editor Anda, seperti “get user by id”, dan nama itu ditulis seperti ejaan kode Anda: getUserById.",
@@ -236,7 +236,7 @@
       "change": "Ubah editor",
       "setUpFor": "Atur untuk {{editors}}",
       "fileTags": "Tandai file di chat",
-      "fileTagsHint": "Di chat Cursor atau Windsurf, mengucapkan “index dot ts” menandai index.ts lewat menu @ editor saat file itu terbuka di tab atau tampil di penjelajah file. Jika editor tidak menawarkan kecocokan, @index.ts ditulis sebagai teks.",
+      "fileTagsHint": "Di chat Cursor atau Windsurf, mengucapkan “index dot ts” menandai index.ts lewat menu @ editor, untuk file apa pun di proyek Anda. Jika editor tidak menawarkan kecocokan, @index.ts ditulis sebagai teks.",
       "fileTagsNeedsChat": "Tersedia setelah Anda menambahkan Cursor atau Windsurf ke editor Anda.",
       "fileTagsNeedsSetup": "Tersedia setelah Anda mengatur pengenalan nama kode.",
       "setup": {

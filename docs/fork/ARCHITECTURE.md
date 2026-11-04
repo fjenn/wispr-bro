@@ -2157,6 +2157,31 @@ files, so the user confirms it (the read then simply finds more text); file
 tags also need the setup (DEC-41) although tabs are in the AX tree without
 screen-reader mode. A chat input is recognized by its labels only.
 
+**Project file names (2026-11-04, `fix/tree`; supersedes "AX only" above
+for file names, at the owner's request).** A set-up editor's read also
+takes the window's `AXDocument` (the active file, Electron's
+`representedFilename`) and `AXTitle`. `fork/context/workspace.rs` resolves
+the root (nearest ancestor of the file named like a title segment, else the
+git work tree; never `$HOME` or above; a window without a document reuses a
+listed root of that folder name), lists it on a worker thread at record
+start (`git ls-files --cached --others --exclude-standard -z` from a real
+git binary, never the `/usr/bin/git` stub; else a walk that skips
+`node_modules`, `.git`, build and cache folders; ≤ 50,000 paths, 500 ms)
+and caches names and relative paths per root in memory (≤ 6 roots,
+re-listed when older than 30 s; never on disk, paths and names only at
+DEBUG). `fork/context/file_names.rs`: `NameSet` (visible names win over the
+project's; a key two names share is ambiguous and left alone) and
+`respell`, the identifier stage's first pass (spoken key = letters and
+digits, lower case, with the dots; `_`, `-`, spaces and case ignored; a
+dotfile also without its inner dots): "check.git attributes" →
+`check .gitattributes`, "user service dot ts" → `user_service.ts`, only
+when a dot is said or written. `file_tags::rewrite` and the `@` delivery
+use the same set, so any project file can be tagged (`chat_mentions` takes
+only the names the text tags). The recognizer vocabulary gets up to 8 file
+names (open tabs, then the active file's folder and the project's top
+level) after the code names. The 23-entry dotfile table is gone; without a
+root only visible names are used.
+
 **Owner test 2 (OT2-C, 2026-11-04, `fix/vibe`).** The owner's rc3 report
 ("vibe coding does nothing in Cursor") had three causes, found on a
 throwaway Cursor 3.28.7 (own `--user-data-dir`, AX reads only):

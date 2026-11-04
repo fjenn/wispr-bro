@@ -228,7 +228,7 @@
       "trayKeptForDock": "Dock 아이콘이 꺼져 있어 메뉴 막대 아이콘이 유지됩니다. 메뉴 막대 아이콘을 숨기려면 ‘Dock에 앱 표시’를 켜세요."
     },
     "vibe": {
-      "intro": "Wispr Bro는 편집기에 표시된 코드와 파일 이름을 읽습니다. 파일을 열지는 않습니다.",
+      "intro": "Wispr Bro는 편집기에 표시된 코드 이름과 열려 있는 프로젝트의 파일 및 폴더 이름을 이 Mac에서 읽습니다. 이름만 읽고, 파일 내용은 절대 읽지 않습니다.",
       "contextOff": "문맥 인식이 꺼져 있어 이 기능들이 읽을 내용이 없습니다. 사용하려면 켜세요.",
       "recognize": "코드 이름 인식",
       "recognizeHint": "“get user by id”처럼 편집기에 표시된 이름을 말하면 코드의 표기대로 getUserById로 입력됩니다.",
@@ -236,7 +236,7 @@
       "change": "편집기 변경",
       "setUpFor": "{{editors}} 설정",
       "fileTags": "채팅에서 파일 태그",
-      "fileTagsHint": "Cursor나 Windsurf 채팅에서 “index dot ts”라고 말하면, 그 파일이 탭에 열려 있거나 파일 탐색기에 보일 때 편집기의 @ 메뉴로 index.ts를 태그합니다. 편집기가 일치 항목을 제시하지 않으면 @index.ts가 텍스트로 입력됩니다.",
+      "fileTagsHint": "Cursor나 Windsurf 채팅에서 “index dot ts”라고 말하면, 프로젝트의 어떤 파일이든 편집기의 @ 메뉴로 index.ts를 태그합니다. 편집기가 일치 항목을 제시하지 않으면 @index.ts가 텍스트로 입력됩니다.",
       "fileTagsNeedsChat": "편집기에 Cursor 또는 Windsurf를 추가하면 사용할 수 있습니다.",
       "fileTagsNeedsSetup": "코드 이름 인식을 설정하면 사용할 수 있습니다.",
       "setup": {

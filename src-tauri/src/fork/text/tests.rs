@@ -576,7 +576,8 @@ fn editor_names_spell_code_and_tag_files() {
     let p = ledger().take_processed(&kept).expect("processed");
     assert!(p.context_used);
     let described = p.record.describe();
-    assert!(described.contains("identifiers=1"), "{described}");
+    // One code name and two file names respelled, then both tagged.
+    assert!(described.contains("identifiers=3"), "{described}");
     assert!(described.contains("file_tags=2"), "{described}");
     // After an LLM rewrite that wrote the name out, the tag comes back.
     assert_eq!(

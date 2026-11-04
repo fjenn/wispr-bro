@@ -21,10 +21,20 @@
 //! Nothing here is written to disk or logged: the log gets counts, times
 //! and skip reasons only.
 
-use std::sync::Mutex;
+use std::path::PathBuf;
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
 use super::caret::{Read, Skip};
+use super::file_names::NameSet;
+use super::workspace;
+
+/// File names a take adds to the recognizer's vocabulary at most (open tabs
+/// first, then the active file's folder and the project's top level).
+pub const MAX_FILE_HINTS: usize = 8;
+/// How long the text stage waits for a project's first list (a root seen
+/// for the first time; later takes use the cached list at once).
+pub const FIRST_LIST_WAIT: Duration = Duration::from_millis(300);
 
 /// An armed slot older than this is dropped (a take that never ended).
 pub const ARMED_TTL: Duration = Duration::from_secs(120);
@@ -35,9 +45,19 @@ struct Slot {
     /// `None` while the read runs (or when it found nothing).
     hints: Option<Vec<String>>,
     identifiers: Option<Vec<String>>,
-    file_names: Option<Vec<String>>,
+    /// S-36: the file names in the editor's tabs and explorer.
+    visible_files: Vec<String>,
+    /// S-36: a set-up editor was in front at record start.
+    editor: bool,
     /// S-36: the editor whose chat input had focus at record start.
     chat_editor: Option<super::ide::Editor>,
+    /// S-36: the project root the editor window showed, and its active
+    /// file relative to it (`src/user_service.ts`).
+    root: Option<PathBuf>,
+    document: Option<String>,
+    /// S-36: the take's file names, built once (with the project's list
+    /// when `.0`).
+    names: Option<(bool, Arc<NameSet>)>,
     armed_at: Option<Instant>,
     used: bool,
     vocabulary_sent: bool,
@@ -71,9 +91,30 @@ pub fn land(generation: u64, read: Read) {
     if let Some(s) = s.as_mut().filter(|s| s.generation == generation) {
         s.identifiers =
             (read.code_names || !read.identifiers.is_empty()).then_some(read.identifiers);
-        s.file_names = (!read.file_names.is_empty()).then_some(read.file_names);
+        s.visible_files = read.file_names;
         s.hints = (!read.hints.is_empty()).then_some(read.hints);
+        s.editor = read.ide.is_some();
         s.chat_editor = read.ide.and_then(|(editor, chat)| chat.then_some(editor));
+        if let Some(hint) = read.workspace.filter(|_| s.editor) {
+            s.root = workspace::resolve(&hint);
+            if let Some(root) = s.root.as_deref() {
+                workspace::ensure(root);
+                s.document = hint
+                    .document
+                    .as_deref()
+                    .and_then(|d| d.strip_prefix(root).ok())
+                    .and_then(|d| d.to_str())
+                    .map(str::to_owned);
+            }
+            log::debug!(
+                "context: project root {}",
+                if s.root.is_some() {
+                    "found"
+                } else {
+                    "not found"
+                }
+            );
+        }
     }
 }
 
@@ -128,9 +169,95 @@ pub fn identifiers() -> Option<Vec<String>> {
     armed_value(|s| s.identifiers.clone())
 }
 
-/// The armed chat take's visible file names (a copy), if any.
-pub fn file_names() -> Option<Vec<String>> {
-    armed_value(|s| s.file_names.clone())
+/// The armed take's file names: the visible ones (and the dotfile names
+/// among its code names) first, then the project's list when its root was
+/// found. `None` outside a set-up editor or when no name is known.
+fn take_names() -> Option<Arc<NameSet>> {
+    let (visible, root, cached) = {
+        let mut guard = slot();
+        let s = guard.as_ref()?;
+        let armed = s.armed_at?;
+        if armed.elapsed() > ARMED_TTL {
+            *guard = None;
+            return None;
+        }
+        if !s.editor {
+            return None;
+        }
+        let mut visible = s.visible_files.clone();
+        visible.extend(
+            s.identifiers
+                .iter()
+                .flatten()
+                .filter(|id| id.starts_with('.'))
+                .cloned(),
+        );
+        (visible, s.root.clone(), s.names.clone())
+    };
+    let project = root
+        .as_deref()
+        .and_then(|r| workspace::names(r).or_else(|| workspace::wait_for(r, FIRST_LIST_WAIT)));
+    if let Some((with_project, names)) = cached {
+        if with_project || project.is_none() {
+            return (!names.is_empty()).then_some(names);
+        }
+    }
+    let names = Arc::new(NameSet::build(
+        visible.iter().map(String::as_str),
+        project
+            .iter()
+            .flat_map(|p| p.names().iter().map(String::as_str)),
+    ));
+    if let Some(s) = slot().as_mut() {
+        s.names = Some((project.is_some(), names.clone()));
+    }
+    (!names.is_empty()).then_some(names)
+}
+
+/// The armed chat take's file names (visible, then the project's), for its
+/// `@` tags, if any.
+pub fn file_names() -> Option<Arc<NameSet>> {
+    chat_editor()?;
+    take_names()
+}
+
+/// The armed take's file names for respelling spoken ones, when
+/// "Recognize code names" applied to its read.
+pub fn code_file_names() -> Option<Arc<NameSet>> {
+    if !slot().as_ref().is_some_and(|s| s.identifiers.is_some()) {
+        return None;
+    }
+    take_names()
+}
+
+/// The file names the recognizer is told about for the armed take: open
+/// tabs and explorer rows first, then the active file's folder and the
+/// project's top level, at most [`MAX_FILE_HINTS`].
+fn file_hints() -> Vec<String> {
+    let (mut out, root, document) = {
+        let guard = slot();
+        let Some(s) = guard.as_ref().filter(|s| s.editor && s.armed_at.is_some()) else {
+            return Vec::new();
+        };
+        let visible: Vec<String> = s
+            .visible_files
+            .iter()
+            .take(MAX_FILE_HINTS)
+            .cloned()
+            .collect();
+        (visible, s.root.clone(), s.document.clone())
+    };
+    if let Some(project) = root.as_deref().and_then(workspace::names) {
+        for name in project.near(document.as_deref(), MAX_FILE_HINTS) {
+            if out.len() >= MAX_FILE_HINTS {
+                break;
+            }
+            if !out.contains(&name) {
+                out.push(name);
+            }
+        }
+    }
+    out
 }
 
 /// S-36: the editor whose chat input the armed take goes to, if the read
@@ -199,10 +326,20 @@ pub fn vocabulary(supports: bool, custom_words: Vec<String>) -> Vec<String> {
     if !supports {
         return custom_words;
     }
-    let Some(hints) = hints() else {
+    // Code names and S-20's names lead; a few file names always fit.
+    let files = file_hints();
+    let mut terms = hints().unwrap_or_default();
+    terms
+        .truncate(super::hints::MAX_VOCABULARY.saturating_sub(files.len().min(MAX_FILE_HINTS / 2)));
+    for name in files {
+        if !terms.contains(&name) {
+            terms.push(name);
+        }
+    }
+    if terms.is_empty() {
         return custom_words;
-    };
-    let out = super::hints::vocabulary_terms(&custom_words, &hints);
+    }
+    let out = super::hints::vocabulary_terms(&custom_words, &terms);
     if out.len() > custom_words.len() {
         if let Some(s) = slot().as_mut() {
             s.vocabulary_sent = true;
@@ -320,6 +457,8 @@ pub(crate) mod tests {
         let mut r = read(&[]);
         r.identifiers = identifiers.iter().map(|s| s.to_string()).collect();
         r.file_names = file_names.iter().map(|s| s.to_string()).collect();
+        r.code_names = true;
+        r.ide = Some((super::super::ide::Editor::Cursor, true));
         land(g, r);
         on_stopped();
     }
@@ -445,18 +584,94 @@ pub(crate) mod tests {
         let mut r = read(&["Priya", "getUserById"]);
         r.identifiers = vec!["getUserById".into(), "user_id".into()];
         r.file_names = vec!["index.ts".into()];
+        r.ide = Some((super::super::ide::Editor::Cursor, true));
         land(g, r);
         assert_eq!(identifiers(), None, "not armed yet");
-        assert_eq!(file_names(), None, "not armed yet");
+        assert!(file_names().is_none(), "not armed yet");
         on_stopped();
         assert_eq!(
             hints(),
             Some(vec!["getUserById".into(), "user_id".into(), "Priya".into()])
         );
-        assert_eq!(file_names(), Some(vec!["index.ts".to_string()]));
+        let names = file_names().expect("chat take");
+        assert_eq!(names.exact("index.ts"), Some("index.ts"));
         on_take_over();
         assert_eq!(identifiers(), None);
-        assert_eq!(file_names(), None);
+        assert!(file_names().is_none());
+    }
+
+    #[test]
+    fn tags_need_the_chat_and_respelling_needs_code_names() {
+        let _l = lock();
+        // The editor buffer (no chat): names to respell, no tags.
+        let g = begin();
+        let mut r = read(&[]);
+        r.file_names = vec!["index.ts".into()];
+        r.code_names = true;
+        r.ide = Some((super::super::ide::Editor::Cursor, false));
+        land(g, r);
+        on_stopped();
+        assert!(file_names().is_none());
+        assert!(code_file_names().is_some_and(|n| n.exact("index.ts").is_some()));
+        // Not an editor: neither.
+        armed_take(&["Priya"]);
+        assert!(file_names().is_none() && code_file_names().is_none());
+        on_take_over();
+    }
+
+    #[test]
+    fn the_project_list_joins_the_visible_names() {
+        let _l = lock();
+        workspace::clear();
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path().to_path_buf();
+        for rel in [
+            "src/user_service.ts",
+            "src/index.ts",
+            ".gitattributes",
+            "README.md",
+        ] {
+            let path = root.join(rel);
+            std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+            std::fs::write(path, b"").unwrap();
+        }
+        let g = begin();
+        let mut r = read(&[]);
+        r.file_names = vec!["index.ts".into()];
+        r.identifiers = vec!["getUserById".into()];
+        r.code_names = true;
+        r.ide = Some((super::super::ide::Editor::Cursor, true));
+        land(g, r);
+        // The read's root (resolved from AX in the app; set here).
+        if let Some(s) = slot().as_mut() {
+            s.root = Some(root.clone());
+            s.document = Some("src/user_service.ts".into());
+        }
+        // The list runs on its worker; the text stage waits up to
+        // FIRST_LIST_WAIT for a first one, a loaded test machine longer.
+        workspace::ensure(&root);
+        assert!(workspace::wait_for(&root, Duration::from_secs(20)).is_some());
+        on_stopped();
+        let names = file_names().expect("names");
+        assert_eq!(names.exact("user_service.ts"), Some("user_service.ts"));
+        assert_eq!(names.spoken(".gitattributes"), Some(".gitattributes"));
+        assert!(code_file_names().is_some());
+        // The recognizer hears the open tab first, then the active file's
+        // folder; code names lead.
+        assert_eq!(
+            vocabulary(true, vec!["Wispr".into()]),
+            [
+                "Wispr",
+                "getUserById",
+                "index.ts",
+                "user_service.ts",
+                ".gitattributes",
+                "README.md",
+                "src"
+            ]
+        );
+        on_take_over();
+        workspace::clear();
     }
 
     #[test]
