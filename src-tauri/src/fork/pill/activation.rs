@@ -17,6 +17,16 @@
 //! non-activating and never key, so wry's activation is never wanted for
 //! them; wry's other windows (the Hub, the Scratchpad) are built outside
 //! this guard and still activate the app as before.
+//!
+//! Audit OT2: the launch is the other exception. tao's
+//! `applicationDidFinishLaunching:` calls `activateIgnoringOtherApps:YES`
+//! and Handy's `.setup()` builds the hidden main window (wry `activate()`),
+//! so a `--start-hidden` launch (login item, the quiet relaunch after an
+//! update, S-28) became the active app with no window: keyboard focus left
+//! the field the user was typing in. [`suppress_at_launch`] (fork plugin
+//! `setup`, inside `Builder::build`) keeps activation off until
+//! [`end_launch`] (`fork::on_ready`), which focuses the Hub when the launch
+//! showed it.
 
 use objc2::runtime::{AnyClass, AnyObject, Bool, Imp, Method, Sel};
 use objc2::{sel, ClassType, MainThreadMarker};
@@ -48,6 +58,17 @@ fn method(class: &'static AnyClass, sel: Sel) -> Option<&'static Method> {
 /// `-[NSApplication activate]` and `-[NSApplication
 /// activateIgnoringOtherApps:]` doing nothing.
 pub(super) fn without_app_activation<T>(_mtm: MainThreadMarker, build: impl FnOnce() -> T) -> T {
+    let _restore = swap_out();
+    build()
+}
+
+thread_local! {
+    /// The launch guard's originals (main thread only).
+    static LAUNCH: std::cell::RefCell<Option<Restore>> = const { std::cell::RefCell::new(None) };
+}
+
+/// Swaps both activation methods for no-ops and returns what to restore.
+fn swap_out() -> Restore {
     let class = NSApplication::class();
     let mut restore = Restore(Vec::new());
     let noops: [(Sel, Imp); 2] = [
@@ -67,13 +88,26 @@ pub(super) fn without_app_activation<T>(_mtm: MainThreadMarker, build: impl FnOn
     for (sel, noop) in noops {
         // `activate` exists from macOS 14 on.
         if let Some(m) = method(class, sel) {
-            // SAFETY: same signature (above); main thread only (`_mtm`), and
-            // `restore` puts the original back before this returns.
+            // SAFETY: same signature (above); callers are on the main thread
+            // and `Restore` puts the original back.
             let old = unsafe { m.set_implementation(noop) };
             restore.0.push((m, old));
         }
     }
-    build()
+    restore
+}
+
+/// Turns app activation off for the launch; [`end_launch`] turns it back
+/// on. Only once per process, on the main thread.
+pub(crate) fn suppress_at_launch(_mtm: MainThreadMarker) {
+    static ONCE: std::sync::Once = std::sync::Once::new();
+    ONCE.call_once(|| LAUNCH.with(|slot| *slot.borrow_mut() = Some(swap_out())));
+}
+
+/// Ends [`suppress_at_launch`]: puts both methods back. Returns `true` when
+/// the guard was on (the caller then re-focuses a Hub the launch showed).
+pub(crate) fn end_launch(_mtm: MainThreadMarker) -> bool {
+    LAUNCH.with(|slot| slot.borrow_mut().take()).is_some()
 }
 
 #[cfg(test)]
@@ -113,6 +147,27 @@ mod tests {
         assert!(panicked.is_err());
         let after = (imp(sel!(activate)), imp(sel!(activateIgnoringOtherApps:)));
         assert_eq!(after, before, "restored after a panicking build");
+    }
+
+    /// Audit OT2: the launch guard holds activation off until `end_launch`,
+    /// then puts the originals back; it is armed once per process.
+    #[test]
+    fn the_launch_guard_lasts_until_end_launch() {
+        let _serial = SERIAL.lock().unwrap_or_else(|e| e.into_inner());
+        let before = imp(sel!(activateIgnoringOtherApps:));
+        // SAFETY: test-only; the guard swaps method pointers only, and the
+        // launch slot is per thread, so both calls run on this one.
+        let mtm = unsafe { MainThreadMarker::new_unchecked() };
+        suppress_at_launch(mtm);
+        assert_eq!(
+            imp(sel!(activateIgnoringOtherApps:)),
+            Some(no_activate_ignoring as *const () as usize)
+        );
+        assert!(end_launch(mtm), "the guard was on");
+        assert_eq!(imp(sel!(activateIgnoringOtherApps:)), before, "restored");
+        assert!(!end_launch(mtm), "nothing left to end");
+        suppress_at_launch(mtm);
+        assert_eq!(imp(sel!(activateIgnoringOtherApps:)), before, "armed once");
     }
 
     /// Inside the guard the installed implementations are the no-ops.

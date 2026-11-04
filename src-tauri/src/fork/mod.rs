@@ -388,6 +388,12 @@ fn early_log_dir(home: Option<&std::path::Path>) -> Option<std::path::PathBuf> {
 pub fn init<R: ForkRuntime>() -> TauriPlugin<R> {
     tauri::plugin::Builder::new(PLUGIN_NAME)
         .setup(|app, _api| {
+            // Audit OT2: no app activation until `on_ready` (a hidden
+            // launch must not take focus; see `end_launch_activation_guard`).
+            #[cfg(target_os = "macos")]
+            if let Some(mtm) = objc2::MainThreadMarker::new() {
+                pill::activation::suppress_at_launch(mtm);
+            }
             app.manage(ForkState::default());
             // F-08: crash files follow Tauri's (portable-aware) log dir.
             if is_product_identity(&app.config().identifier) {
@@ -451,9 +457,57 @@ pub fn is_headless(args: &CliArgs) -> bool {
     args.transcribe_file.is_some() || args.list_devices || args.list_models
 }
 
+/// Audit OT2: app activation was off since the plugin's `setup` (inside
+/// `Builder::build`, before tao's `applicationDidFinishLaunching:` calls
+/// `activateIgnoringOtherApps:` and before Handy's `.setup()` builds the
+/// hidden Hub, whose wry build calls `activate`), so a `--start-hidden`
+/// launch (login item, the quiet relaunch after an update) never takes
+/// focus from the app in front. Turns it back on; a launch that showed the
+/// Hub (Handy's `show_main_window` ran inside the guard) focuses it now.
+fn end_launch_activation_guard<R: Runtime>(app: &AppHandle<R>) {
+    #[cfg(target_os = "macos")]
+    {
+        let Some(mtm) = objc2::MainThreadMarker::new() else {
+            return;
+        };
+        if !pill::activation::end_launch(mtm) {
+            return;
+        }
+        if let Some(main) = app.get_webview_window("main") {
+            if main.is_visible().unwrap_or(false) {
+                if let Err(e) = main.set_focus() {
+                    log::warn!("fork: could not focus the Hub after launch: {e}");
+                }
+            } else {
+                log::info!("fork: hidden launch, app not activated");
+            }
+        }
+    }
+    #[cfg(not(target_os = "macos"))]
+    let _ = app;
+}
+
+/// Audit OT2: Handy launches a `--start-hidden` app as Accessory (no Dock
+/// icon) whenever a tray icon exists (`lib.rs`
+/// `apply_startup_activation_policy`), so "Show app in Dock" (on by
+/// default, S-14) lost its icon after every login launch and quiet relaunch
+/// after an update (S-28). Setting it back to Regular does not activate the
+/// app.
+fn keep_dock_icon_at_hidden_launch<R: Runtime>(app: &AppHandle<R>) {
+    #[cfg(target_os = "macos")]
+    if is_product_build() && settings::show_in_dock() {
+        if let Err(e) = app.set_activation_policy(tauri::ActivationPolicy::Regular) {
+            log::warn!("fork: could not keep the Dock icon: {e}");
+        }
+    }
+    #[cfg(not(target_os = "macos"))]
+    let _ = app;
+}
+
 /// Runs once, on `RunEvent::Ready`, after Handy's `.setup()` closure (and so
 /// after `initialize_core_logic`) has returned.
 pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
+    end_launch_activation_guard(app);
     let headless = app
         .try_state::<CliArgs>()
         .map(|args| is_headless(&args))
@@ -489,6 +543,7 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // F-07: fork settings, ENFORCED and FIRST_RUN_DEFAULTS (every start).
     settings::on_ready(app);
+    keep_dock_icon_at_hidden_launch(app);
     // S-04: session observers and recording phases for delivery.
     insert::on_ready(app);
     db::jobs::start(app);
