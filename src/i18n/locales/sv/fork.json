@@ -2489,22 +2489,18 @@
       "mics": {
         "built_in": {
           "name": "Inbyggd mikrofon",
-          "hint": "Finns redan i din bärbara dator eller iMac",
           "why": "Den finns redan där; sitt nära så räcker den hemma."
         },
         "wired_headset": {
           "name": "Headset med sladd",
-          "hint": "Hörlurar med sladd och en mikrofon nära munnen",
           "why": "Mikrofonen sitter precis vid munnen, så även en svag viskning går fram, var du än är."
         },
         "wireless_earbuds": {
           "name": "Trådlösa hörlurar",
-          "hint": "Hörlurar med mikrofon, utan sladd",
           "why": "Inget att koppla in, och de följer med dig överallt."
         },
         "desk_usb": {
           "name": "Bords- eller USB-mikrofon",
-          "hint": "En mikrofon som står på skrivbordet",
           "why": "Det klaraste ljudet när du arbetar vid ett och samma skrivbord och sitter nära det."
         }
       },
@@ -2554,7 +2550,6 @@
         "bestLine": "Bästa match: {{mic}}.",
         "caption": "Så klarar sig varje typ av mikrofon",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Mikrofonkvalitet",
           "others": "Viska bland andra",
           "home": "Viska hemma",

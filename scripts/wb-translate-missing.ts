@@ -476,9 +476,24 @@ export function sourceHash(text: string): string {
 export function sourceHashes(
   source: Map<string, string>,
 ): Record<string, string> {
-  return Object.fromEntries(
-    [...source].map(([key, text]) => [key, sourceHash(text)]),
+  return sortedKeys(
+    Object.fromEntries(
+      [...source].map(([key, text]) => [key, sourceHash(text)]),
+    ),
   );
+}
+
+/**
+ * The flat files (`fork.flags.json`, `en/fork.source-hashes.json`) are
+ * written with their keys sorted (code-unit order), the same order
+ * `scripts/wb-merge-json.py` writes after a merge, so merges never reorder
+ * them (design polish pass; before, a merge appended "theirs" keys and the
+ * next run moved them back).
+ */
+export function sortedKeys<T>(record: Record<string, T>): Record<string, T> {
+  const out: Record<string, T> = {};
+  for (const key of Object.keys(record).sort()) out[key] = record[key];
+  return out;
 }
 
 /** English keys whose text differs from the recorded hash. */
@@ -659,22 +674,22 @@ export async function syncLocale(
   for (const key of current.keys()) {
     if (!expected.has(key)) report.removed.push(key);
   }
-  const sorted: Flags = {};
+  const kept: Flags = {};
   for (const key of expected.keys()) {
     const flag = nextFlags[key];
     if (!flag) continue;
-    sorted[key] = flag;
+    kept[key] = flag;
     if (flag === "machine") report.machine++;
     else if (flag === "ai-reviewed") report.aiReviewed++;
     else report.untranslated++;
   }
-  for (const key of Object.keys(nextFlags).sort()) {
+  for (const key of Object.keys(nextFlags)) {
     if (isOverrideFlag(key)) {
-      sorted[key] = nextFlags[key];
+      kept[key] = nextFlags[key];
       if (nextFlags[key] !== "ai-reviewed") report.overrideFlags++;
     }
   }
-  return { next, flags: sorted, report };
+  return { next, flags: sortedKeys(kept), report };
 }
 
 async function processLocale(

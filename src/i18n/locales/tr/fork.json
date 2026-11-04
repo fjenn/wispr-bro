@@ -2489,22 +2489,18 @@
       "mics": {
         "built_in": {
           "name": "Yerleşik mikrofon",
-          "hint": "Dizüstü bilgisayarınızda veya iMac’inizde zaten var",
           "why": "Zaten elinizin altında; yakın oturursanız evde işinizi görür."
         },
         "wired_headset": {
           "name": "Kablolu kulaklık",
-          "hint": "Mikrofonu ağzınıza yakın duran kablolu kulaklık",
           "why": "Mikrofon tam ağzınızın yanında durur; bu yüzden nerede olursanız olun hafif bir fısıltı bile algılanır."
         },
         "wireless_earbuds": {
           "name": "Kablosuz kulaklık",
-          "hint": "Mikrofonlu, kablosuz kulak içi kulaklık",
           "why": "Takılacak bir şey yok ve her yere sizinle gelir."
         },
         "desk_usb": {
           "name": "Masaüstü veya USB mikrofon",
-          "hint": "Masanızda duran bir mikrofon",
           "why": "Tek bir masada çalışıp ona yakın oturduğunuzda en net sesi verir."
         }
       },
@@ -2554,7 +2550,6 @@
         "bestLine": "En iyi eşleşme: {{mic}}.",
         "caption": "Her mikrofon türünün performansı",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Mikrofon kalitesi",
           "others": "Başkalarının yanında fısıldama",
           "home": "Evde fısıldama",

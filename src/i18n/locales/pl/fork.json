@@ -2669,22 +2669,18 @@
       "mics": {
         "built_in": {
           "name": "Wbudowany mikrofon",
-          "hint": "Masz go już w laptopie lub iMacu",
           "why": "Już go masz; usiądź blisko, a w domu sprawdzi się dobrze."
         },
         "wired_headset": {
           "name": "Przewodowy zestaw słuchawkowy",
-          "hint": "Słuchawki z kablem i mikrofonem blisko ust",
           "why": "Mikrofon jest tuż przy ustach, więc nawet cichy szept zostanie usłyszany, gdziekolwiek jesteś."
         },
         "wireless_earbuds": {
           "name": "Słuchawki bezprzewodowe",
-          "hint": "Słuchawki douszne z mikrofonem, bez kabla",
           "why": "Nie trzeba niczego podłączać i możesz je zabrać wszędzie."
         },
         "desk_usb": {
           "name": "Mikrofon biurkowy lub USB",
-          "hint": "Mikrofon stojący na biurku",
           "why": "Najczystszy dźwięk, gdy pracujesz przy jednym biurku i siedzisz blisko."
         }
       },
@@ -2734,7 +2730,6 @@
         "bestLine": "Najlepsze dopasowanie: {{mic}}.",
         "caption": "Jak sprawdza się każdy rodzaj mikrofonu",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Jakość mikrofonu",
           "others": "Szeptanie przy innych",
           "home": "Szeptanie w domu",

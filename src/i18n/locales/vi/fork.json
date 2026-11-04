@@ -2399,22 +2399,18 @@
       "mics": {
         "built_in": {
           "name": "Micrô tích hợp",
-          "hint": "Có sẵn trong laptop hoặc iMac của bạn",
           "why": "Đã có sẵn; ngồi gần thì đủ dùng ở nhà."
         },
         "wired_headset": {
           "name": "Tai nghe có dây",
-          "hint": "Tai nghe có dây với micrô gần miệng bạn",
           "why": "Micrô nằm ngay cạnh miệng, nên dù thì thầm nhỏ cũng nghe được, ở bất cứ đâu."
         },
         "wireless_earbuds": {
           "name": "Tai nghe không dây",
-          "hint": "Tai nghe nhét tai có micrô, không dây",
           "why": "Không cần cắm gì và đi đâu cũng mang theo được."
         },
         "desk_usb": {
           "name": "Micrô để bàn hoặc USB",
-          "hint": "Micrô đặt trên bàn làm việc",
           "why": "Âm thanh rõ nhất khi bạn làm việc ở một bàn cố định và ngồi gần nó."
         }
       },
@@ -2464,7 +2460,6 @@
         "bestLine": "Hợp nhất: {{mic}}.",
         "caption": "Hiệu quả của từng loại micrô",
         "columns": {
-          "mic": "Micrô",
           "quality": "Chất lượng micrô",
           "others": "Thì thầm khi có người xung quanh",
           "home": "Thì thầm ở nhà",

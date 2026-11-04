@@ -2579,22 +2579,18 @@
       "mics": {
         "built_in": {
           "name": "Micro intégré",
-          "hint": "Déjà présent dans votre portable ou votre iMac",
           "why": "Il est déjà là ; installez-vous près de lui et il fait l’affaire à la maison."
         },
         "wired_headset": {
           "name": "Casque filaire",
-          "hint": "Un casque filaire avec un micro près de la bouche",
           "why": "Le micro est juste à côté de votre bouche : même un chuchotement léger passe, où que vous soyez."
         },
         "wireless_earbuds": {
           "name": "Écouteurs sans fil",
-          "hint": "Des écouteurs avec micro, sans câble",
           "why": "Rien à brancher, et ils vous suivent partout."
         },
         "desk_usb": {
           "name": "Micro de bureau ou USB",
-          "hint": "Un micro posé sur votre bureau",
           "why": "Le son le plus clair si vous travaillez à un seul bureau, près du micro."
         }
       },
@@ -2644,7 +2640,6 @@
         "bestLine": "Le plus adapté : {{mic}}.",
         "caption": "Performances de chaque type de micro",
         "columns": {
-          "mic": "Microphone",
           "quality": "Qualité du micro",
           "others": "Chuchoter entouré de monde",
           "home": "Chuchoter à la maison",

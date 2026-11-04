@@ -2669,22 +2669,18 @@
       "mics": {
         "built_in": {
           "name": "Vestavěný mikrofon",
-          "hint": "Už je ve vašem notebooku nebo iMacu",
           "why": "Už ho máte; když sedíte blízko, doma bohatě stačí."
         },
         "wired_headset": {
           "name": "Kabelová náhlavní souprava",
-          "hint": "Sluchátka s kabelem a mikrofonem blízko úst",
           "why": "Mikrofon je přímo u úst, takže projde i tichý šepot, ať jste kdekoli."
         },
         "wireless_earbuds": {
           "name": "Bezdrátová sluchátka",
-          "hint": "Sluchátka do uší s mikrofonem, bez kabelu",
           "why": "Nic nepřipojujete a máte je všude s sebou."
         },
         "desk_usb": {
           "name": "Stolní nebo USB mikrofon",
-          "hint": "Mikrofon, který stojí na stole",
           "why": "Nejčistší zvuk, když pracujete u jednoho stolu a sedíte blízko."
         }
       },
@@ -2734,7 +2730,6 @@
         "bestLine": "Nejlepší volba: {{mic}}.",
         "caption": "Jak si vedou jednotlivé druhy mikrofonů",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Kvalita",
           "others": "Šeptání mezi lidmi",
           "home": "Šeptání doma",

@@ -2489,22 +2489,18 @@
       "mics": {
         "built_in": {
           "name": "Integriertes Mikrofon",
-          "hint": "Bereits in deinem Laptop oder iMac",
           "why": "Es ist schon da. Setz dich nah heran, dann reicht es zu Hause völlig."
         },
         "wired_headset": {
           "name": "Kabel-Headset",
-          "hint": "Kopfhörer mit Kabel und einem Mikrofon nah am Mund",
           "why": "Das Mikrofon sitzt direkt am Mund, daher kommt auch leises Flüstern überall an."
         },
         "wireless_earbuds": {
           "name": "Kabellose Ohrhörer",
-          "hint": "Ohrhörer mit Mikrofon, ohne Kabel",
           "why": "Nichts anzuschließen, und du hast sie überall dabei."
         },
         "desk_usb": {
           "name": "Tisch- oder USB-Mikrofon",
-          "hint": "Ein Mikrofon, das auf deinem Schreibtisch steht",
           "why": "Der klarste Klang, wenn du an einem festen Schreibtisch arbeitest und nah davor sitzt."
         }
       },
@@ -2554,7 +2550,6 @@
         "bestLine": "Beste Wahl: {{mic}}.",
         "caption": "So schneidet jede Mikrofonart ab",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Klangqualität",
           "others": "Flüstern neben anderen",
           "home": "Flüstern zu Hause",

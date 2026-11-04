@@ -2399,22 +2399,18 @@
       "mics": {
         "built_in": {
           "name": "Mikrofon bawaan",
-          "hint": "Sudah ada di laptop atau iMac Anda",
           "why": "Sudah tersedia; duduklah dekat dan mikrofon ini cukup untuk di rumah."
         },
         "wired_headset": {
           "name": "Headset berkabel",
-          "hint": "Headphone berkabel dengan mikrofon di dekat mulut Anda",
           "why": "Mikrofon berada tepat di dekat mulut, jadi bisikan pelan pun tertangkap, di mana pun Anda berada."
         },
         "wireless_earbuds": {
           "name": "Earbud nirkabel",
-          "hint": "Earbud dengan mikrofon, tanpa kabel",
           "why": "Tidak perlu dicolokkan dan bisa dibawa ke mana saja."
         },
         "desk_usb": {
           "name": "Mic meja atau USB",
-          "hint": "Mikrofon yang diletakkan di meja Anda",
           "why": "Suara paling jernih saat Anda bekerja di satu meja dan duduk dekat dengannya."
         }
       },
@@ -2464,7 +2460,6 @@
         "bestLine": "Paling cocok: {{mic}}.",
         "caption": "Kinerja setiap jenis mikrofon",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Kualitas mikrofon",
           "others": "Berbisik di dekat orang lain",
           "home": "Berbisik di rumah",

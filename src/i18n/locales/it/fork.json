@@ -2579,22 +2579,18 @@
       "mics": {
         "built_in": {
           "name": "Microfono integrato",
-          "hint": "Già presente nel tuo portatile o iMac",
           "why": "C’è già; siediti vicino e a casa fa il suo lavoro."
         },
         "wired_headset": {
           "name": "Cuffie con filo",
-          "hint": "Cuffie con cavo e un microfono vicino alla bocca",
           "why": "Il microfono è proprio vicino alla bocca, quindi anche un sussurro delicato si sente, ovunque tu sia."
         },
         "wireless_earbuds": {
           "name": "Auricolari wireless",
-          "hint": "Auricolari con microfono, senza cavo",
           "why": "Niente da collegare e vengono ovunque con te."
         },
         "desk_usb": {
           "name": "Microfono da scrivania o USB",
-          "hint": "Un microfono da appoggiare sulla scrivania",
           "why": "Il suono più nitido quando lavori sempre alla stessa scrivania e ti siedi vicino."
         }
       },
@@ -2644,7 +2640,6 @@
         "bestLine": "Il più adatto: {{mic}}.",
         "caption": "Come se la cava ogni tipo di microfono",
         "columns": {
-          "mic": "Microfono",
           "quality": "Qualità del microfono",
           "others": "Sussurrare vicino ad altri",
           "home": "Sussurrare a casa",

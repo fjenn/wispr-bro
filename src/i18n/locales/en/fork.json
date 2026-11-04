@@ -2582,22 +2582,18 @@
       "mics": {
         "built_in": {
           "name": "Built-in microphone",
-          "hint": "Already in your laptop or iMac",
           "why": "It is already there; sit close and it does the job at home."
         },
         "wired_headset": {
           "name": "Wired headset",
-          "hint": "Headphones with a cable and a mic close to your mouth",
           "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
         },
         "wireless_earbuds": {
           "name": "Wireless earbuds",
-          "hint": "Earbuds with a microphone, no cable",
           "why": "Nothing to plug in and they go everywhere with you."
         },
         "desk_usb": {
           "name": "Desk or USB mic",
-          "hint": "A microphone that stands on your desk",
           "why": "The clearest sound when you work at one desk and sit close to it."
         }
       },
@@ -2647,7 +2643,6 @@
         "bestLine": "Best match: {{mic}}.",
         "caption": "How each kind of microphone does",
         "columns": {
-          "mic": "Microphone",
           "quality": "Mic quality",
           "others": "Whispering around others",
           "home": "Whispering at home",

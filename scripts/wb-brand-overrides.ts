@@ -231,7 +231,11 @@ function writeLocale(r: LocaleResult): void {
   for (const key of Object.keys(flags)) {
     if (key.startsWith(FLAG_PREFIX)) delete flags[key];
   }
-  writeJson(flagsPath, { ...flags, ...r.flags });
+  // Sorted, like `wb-translate-missing.ts` and the merge driver.
+  const merged: Flags = { ...flags, ...r.flags };
+  const sorted: Flags = {};
+  for (const key of Object.keys(merged).sort()) sorted[key] = merged[key];
+  writeJson(flagsPath, sorted);
 }
 
 function main(): void {

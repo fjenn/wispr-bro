@@ -2489,22 +2489,18 @@
       "mics": {
         "built_in": {
           "name": "Ingebouwde microfoon",
-          "hint": "Al in je laptop of iMac",
           "why": "Hij zit er al in; ga dichtbij zitten en thuis volstaat hij prima."
         },
         "wired_headset": {
           "name": "Bekabelde headset",
-          "hint": "Koptelefoon met kabel en een microfoon dicht bij je mond",
           "why": "De microfoon zit direct bij je mond, dus zelfs een zachte fluistering komt door, waar je ook bent."
         },
         "wireless_earbuds": {
           "name": "Draadloze oordopjes",
-          "hint": "Oordopjes met een microfoon, zonder kabel",
           "why": "Niets om aan te sluiten, en je neemt ze overal mee naartoe."
         },
         "desk_usb": {
           "name": "Bureau- of USB-microfoon",
-          "hint": "Een microfoon die op je bureau staat",
           "why": "Het helderste geluid als je aan één bureau werkt en er dichtbij zit."
         }
       },
@@ -2554,7 +2550,6 @@
         "bestLine": "Beste match: {{mic}}.",
         "caption": "Hoe elk soort microfoon presteert",
         "columns": {
-          "mic": "Microfoon",
           "quality": "Microfoonkwaliteit",
           "others": "Fluisteren tussen anderen",
           "home": "Fluisteren thuis",

@@ -6,8 +6,12 @@ Parallel slices add keys to the same 26 locale files, so text merges conflict
 on almost every merge. This merges them as JSON instead, key by key, three
 ways: a key changed on one side takes that side; a key deleted on one side and
 unchanged on the other is deleted; a key changed differently on both sides
-keeps ours and fails the merge (exit 1) so a person decides. Output keeps
-"ours" key order, new keys from "theirs" appended, 2-space indent.
+keeps ours and fails the merge (exit 1) so a person decides. Output: a flat
+file (fork.flags.json, en/fork.source-hashes.json: no nested objects) has its
+keys sorted, the order `scripts/wb-translate-missing.ts` writes, so a merge
+never leaves key-order churn; a nested fork.json keeps "ours" key order with
+new keys from "theirs" appended (the translate script rewrites locale files
+in English order). 2-space indent.
 
 Registered by `scripts/wb-setup-git.sh`:
   git config merge.wbjson.driver "python3 scripts/wb-merge-json.py %O %A %B"
@@ -55,6 +59,9 @@ def main():
         return 1  # not valid JSON on a side: leave it to git's text merge
     conflicts = []
     out = merge(base if base is not None else {}, ours, theirs, [], conflicts)
+    if isinstance(out, dict) and not any(isinstance(v, dict) for v in out.values()):
+        # Code-unit order, as JavaScript's default sort (keys are ASCII).
+        out = {k: out[k] for k in sorted(out, key=lambda k: k.encode("utf-16-be"))}
     with open(ours_p, "w", encoding="utf-8") as f:
         f.write(json.dumps(out, ensure_ascii=False, indent=2) + "\n")
     for c in conflicts:

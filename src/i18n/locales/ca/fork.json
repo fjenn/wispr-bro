@@ -2579,22 +2579,18 @@
       "mics": {
         "built_in": {
           "name": "Micròfon integrat",
-          "hint": "Ja és al teu portàtil o iMac",
           "why": "Ja el tens; seu a prop i a casa fa la feina."
         },
         "wired_headset": {
           "name": "Auriculars amb cable",
-          "hint": "Auriculars amb cable i un micròfon a prop de la boca",
           "why": "El micròfon queda just al costat de la boca, així que fins i tot un xiuxiueig fluix se sent, siguis on siguis."
         },
         "wireless_earbuds": {
           "name": "Auriculars sense fil",
-          "hint": "Auriculars de botó amb micròfon, sense cable",
           "why": "No cal connectar res i els portes a tot arreu."
         },
         "desk_usb": {
           "name": "Micròfon de taula o USB",
-          "hint": "Un micròfon que es col·loca damunt la taula",
           "why": "El so més clar quan treballes en una mateixa taula i hi seus a prop."
         }
       },
@@ -2644,7 +2640,6 @@
         "bestLine": "El que et va millor: {{mic}}.",
         "caption": "Com funciona cada tipus de micròfon",
         "columns": {
-          "mic": "Micròfon",
           "quality": "Qualitat del micròfon",
           "others": "Xiuxiuejar amb gent a prop",
           "home": "Xiuxiuejar a casa",

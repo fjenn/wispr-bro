@@ -2489,22 +2489,18 @@
       "mics": {
         "built_in": {
           "name": "Indbygget mikrofon",
-          "hint": "Sidder allerede i din bærbare eller iMac",
           "why": "Den er der allerede; sid tæt på, så klarer den opgaven derhjemme."
         },
         "wired_headset": {
           "name": "Headset med kabel",
-          "hint": "Hovedtelefoner med kabel og en mikrofon tæt ved munden",
           "why": "Mikrofonen sidder lige ved munden, så selv en svag hvisken kommer igennem, uanset hvor du er."
         },
         "wireless_earbuds": {
           "name": "Trådløse earbuds",
-          "hint": "Earbuds med mikrofon, uden kabel",
           "why": "Intet at tilslutte, og de kan komme med overalt."
         },
         "desk_usb": {
           "name": "Bord- eller USB-mikrofon",
-          "hint": "En mikrofon, der står på dit skrivebord",
           "why": "Den klareste lyd, når du arbejder ved ét skrivebord og sidder tæt på det."
         }
       },
@@ -2554,7 +2550,6 @@
         "bestLine": "Bedste match: {{mic}}.",
         "caption": "Sådan klarer hver type mikrofon sig",
         "columns": {
-          "mic": "Mikrofon",
           "quality": "Mikrofonkvalitet",
           "others": "Hvisken blandt andre",
           "home": "Hvisken derhjemme",

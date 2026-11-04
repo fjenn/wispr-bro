@@ -2579,22 +2579,18 @@
       "mics": {
         "built_in": {
           "name": "Microfone embutido",
-          "hint": "Já vem no seu notebook ou iMac",
           "why": "Ele já está aí; sente perto e ele dá conta em casa."
         },
         "wired_headset": {
           "name": "Headset com fio",
-          "hint": "Fones com fio e um microfone perto da boca",
           "why": "O microfone fica bem perto da boca, então até um sussurro suave é captado, onde quer que você esteja."
         },
         "wireless_earbuds": {
           "name": "Fones sem fio",
-          "hint": "Fones de ouvido com microfone, sem cabo",
           "why": "Nada para conectar, e eles vão com você para todo lado."
         },
         "desk_usb": {
           "name": "Microfone de mesa ou USB",
-          "hint": "Um microfone que fica na sua mesa",
           "why": "O som mais nítido quando você trabalha numa mesa só e senta perto dele."
         }
       },
@@ -2644,7 +2640,6 @@
         "bestLine": "Melhor opção: {{mic}}.",
         "caption": "Como cada tipo de microfone se sai",
         "columns": {
-          "mic": "Microfone",
           "quality": "Qualidade do microfone",
           "others": "Sussurrar perto de outros",
           "home": "Sussurrar em casa",

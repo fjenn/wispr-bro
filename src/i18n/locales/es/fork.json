@@ -2579,22 +2579,18 @@
       "mics": {
         "built_in": {
           "name": "Micrófono integrado",
-          "hint": "Ya viene en tu portátil o iMac",
           "why": "Ya lo tienes; siéntate cerca y en casa cumple su función."
         },
         "wired_headset": {
           "name": "Auriculares con cable",
-          "hint": "Auriculares con cable y un micrófono cerca de la boca",
           "why": "El micrófono está junto a tu boca, así que hasta un susurro suave se oye, estés donde estés."
         },
         "wireless_earbuds": {
           "name": "Auriculares inalámbricos",
-          "hint": "Auriculares con micrófono, sin cable",
           "why": "No hay que conectar nada y van contigo a todas partes."
         },
         "desk_usb": {
           "name": "Micrófono de escritorio o USB",
-          "hint": "Un micrófono que se coloca sobre la mesa",
           "why": "El sonido más claro si trabajas en una sola mesa y te sientas cerca."
         }
       },
@@ -2644,7 +2640,6 @@
         "bestLine": "Más recomendado: {{mic}}.",
         "caption": "Cómo funciona cada tipo de micrófono",
         "columns": {
-          "mic": "Micrófono",
           "quality": "Calidad del micrófono",
           "others": "Susurrar con gente cerca",
           "home": "Susurrar en casa",
