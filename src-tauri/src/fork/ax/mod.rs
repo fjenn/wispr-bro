@@ -154,3 +154,28 @@ pub(crate) fn accessibility_trusted() -> bool {
     // SAFETY: no arguments; reads the TCC state.
     unsafe { AXIsProcessTrusted() != 0 }
 }
+
+/// How long a delivery waits for [`before_caret`] (it is two or three AX
+/// calls; a slow app pastes without the smart space).
+pub const BEFORE_CARET_BUDGET: Duration = Duration::from_millis(120);
+
+/// The text just before the caret of the focused field, at most `units`
+/// UTF-16 units (`focus::before_caret`). `None` when AX could not tell
+/// (within [`BEFORE_CARET_BUDGET`], or on another platform).
+pub fn before_caret(units: isize) -> Option<String> {
+    #[cfg(target_os = "macos")]
+    {
+        if !accessibility_trusted() {
+            return None;
+        }
+        thread::run(BEFORE_CARET_BUDGET, move |ctx| {
+            focus::before_caret(ctx, units)
+        })
+        .flatten()
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = units;
+        None
+    }
+}

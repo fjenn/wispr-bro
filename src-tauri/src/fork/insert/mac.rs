@@ -50,6 +50,9 @@ pub(super) fn deliver(
 
     // S-05: the key-up target still has focus and is a place to type.
     let mut fail_open = false;
+    // The text as pasted: with the smart leading space when the field is
+    // read and the paste goes ahead. History, the card and S-34 keep `text`.
+    let mut pasted = None;
     if cancelled() || interruption().is_some() {
         // `paste` reports the cancel or the interruption.
         if kind == Kind::Take {
@@ -62,12 +65,15 @@ pub(super) fn deliver(
                 let end = publish_outcome(&app, take, delivery, &text, kind);
                 return (hook_result(delivery, end), delivery.paste_outcome());
             }
-            super::target::Route::Paste { fail_open: f } => fail_open = f,
+            super::target::Route::Paste { fail_open: f } => {
+                fail_open = f;
+                pasted = Some(super::with_leading_space(take, &text));
+            }
         }
     }
 
     let (bundle, class) = frontmost_class();
-    let mut req = Request::new(&text, class);
+    let mut req = Request::new(pasted.as_deref().unwrap_or(&text), class);
     // Paste-last puts the text back; it never sends it (S-06).
     req.submit = (settings.auto_submit && kind != Kind::Again)
         .then(|| submit_flags(settings.auto_submit_key));

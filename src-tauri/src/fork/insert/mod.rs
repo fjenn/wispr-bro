@@ -28,6 +28,7 @@
 
 pub mod deliver;
 pub mod session;
+pub mod spacing;
 pub mod target;
 pub mod verify;
 
@@ -140,7 +141,7 @@ pub fn deliver_as(
         return (hook_result(delivery, end), delivery.paste_outcome());
     }
     // Handy's own paste: it reports only success or failure.
-    let result = crate::utils::paste(text.clone(), app.clone());
+    let result = crate::utils::paste(with_leading_space(take, &text), app.clone());
     let outcome = match result {
         Ok(()) => PasteOutcome::Unverified,
         Err(_) => PasteOutcome::Card,
@@ -153,6 +154,27 @@ pub fn deliver_as(
         }
     }
     (result, Some(outcome))
+}
+
+/// The smart leading space ([`spacing`]): one space in front of `text`
+/// when the text before the caret ends with a word. Reads the field only
+/// when the text could take a space; an unreadable field changes nothing.
+/// Logs the decision, never the text.
+fn with_leading_space(take: u32, text: &str) -> String {
+    if text.chars().next().is_none_or(char::is_whitespace) {
+        return text.to_owned();
+    }
+    let before = crate::fork::ax::before_caret(spacing::TAIL_UNITS);
+    let out = spacing::lead(text.to_owned(), before.as_deref());
+    log::debug!(
+        "insert: take {take} leading space {}",
+        match before {
+            None => "unknown (field not read)",
+            Some(_) if out.len() != text.len() => "added",
+            Some(_) => "not needed",
+        }
+    );
+    out
 }
 
 /// The text reached a field (S-30 counts it as a real use).
