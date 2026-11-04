@@ -117,6 +117,10 @@ function ForkDebugHost() {
       else void openIfAllowed();
     };
     document.addEventListener("keydown", onKeyDown);
+    // Tests (and the CSP self-check) wait for this instead of a fixed delay:
+    // the chord does nothing until the listener is attached.
+    const root = document.getElementById(ROOT_ID);
+    if (root) root.dataset.chordReady = "true";
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, close, openIfAllowed]);
 

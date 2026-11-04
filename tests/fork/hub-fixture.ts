@@ -213,12 +213,14 @@ export async function openHub(
   // A spec's own backend, installed over these defaults.
   options.beforeNavigate?.();
 
-  await page.goto(`/${options.hash ?? ""}`);
-  // The first Hub page of a run compiles every Hub module on the dev server
-  // (S-30 added the chooser, checklist and driver.js); under the full
-  // parallel suite that took longer than the 5 s default twice.
-  await expect(page.getByTestId("wb-sidebar")).toBeVisible({
-    timeout: 20_000,
+  await page.goto(`/${options.hash ?? ""}`, { waitUntil: "load" });
+  // The first Hub page of a run compiles every Hub module on the dev server,
+  // which under load took longer than any fixed wait (20 s flaked). Wait for
+  // the sidebar itself, with no limit of its own: the test's timeout bounds
+  // it, so a slow compile is waited out and a broken page still fails.
+  await page.waitForSelector('[data-testid="wb-sidebar"]', {
+    state: "visible",
+    timeout: 0,
   });
 }
 

@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import type { Page } from "@playwright/test";
 import { test, expect, NOT_READY } from "./fixtures";
+
+/** The chord listener is attached (not just the host's root element). */
+async function waitForChord(page: Page): Promise<void> {
+  await page.waitForSelector("#fork-debug-root[data-chord-ready]", {
+    state: "attached",
+  });
+}
 
 const pingReply = {
   message: "pong",
@@ -77,11 +85,17 @@ test.describe("fork debug panel", () => {
       fork_ping: { ...pingReply, debug_build: false, cli_debug: false },
     });
     await page.goto("/");
-    await page.waitForFunction(
-      () => !!document.getElementById("fork-debug-root"),
-    );
+    await waitForChord(page);
+    // Pings from start-up don't count: wait for the one the chord makes and
+    // for its reply to be handled, then check nothing opened.
+    const before = (await ipc.calls("fork_ping")).length;
     await page.keyboard.press("ControlOrMeta+Shift+D");
-    await ipc.expectCalled("fork_ping");
+    await expect
+      .poll(async () => (await ipc.calls("fork_ping")).length)
+      .toBeGreaterThan(before);
+    await page.evaluate(
+      () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0))),
+    );
     await expect(page.getByTestId("fork-debug-panel")).toHaveCount(0);
   });
 
@@ -90,9 +104,7 @@ test.describe("fork debug panel", () => {
       fork_ping: { ...pingReply, debug_build: false, cli_debug: true },
     });
     await page.goto("/");
-    await page.waitForFunction(
-      () => !!document.getElementById("fork-debug-root"),
-    );
+    await waitForChord(page);
     await page.keyboard.press("ControlOrMeta+Shift+D");
     await expect(page.getByTestId("fork-debug-panel")).toBeVisible();
   });

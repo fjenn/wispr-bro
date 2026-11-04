@@ -13,6 +13,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import type { ForkPillState, HealthStatus } from "../../src/fork/bindings";
 import { ipcError, type IpcMock } from "./fixtures";
+import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 import {
   test,
   expect,
@@ -282,16 +283,38 @@ function secureState(locked: boolean, holder: string | null): ForkPillState {
   });
 }
 
+/**
+ * Opens the bar on `state` and waits until it is settled: the page loaded,
+ * the state painted (the page reports it with `fork_pill_ready`, as it does
+ * to the backend) and, for an RTL language, the direction applied. Every
+ * wait is on an event or state, bounded only by the test's timeout, so a
+ * slow first compile of the page under load is waited out (the bar tests
+ * timed out under load before). Reduce Motion keeps the sizes still, so
+ * boxes are measured at rest, not mid-morph.
+ */
 async function openPill(
   page: Page,
   ipc: IpcMock,
   state: ForkPillState,
+  appSettings: unknown = null,
 ): Promise<void> {
-  ipc.respond({ fork_pill_snapshot: state, get_app_settings: null });
+  ipc.respond({ fork_pill_snapshot: state, get_app_settings: appSettings });
   const size = geometry.shapes[state.shape];
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: size.w, height: size.h });
-  await page.goto(PILL);
-  await expect(page.getByTestId("wb-pill")).toBeVisible();
+  await page.goto(PILL, { waitUntil: "load" });
+  await page.waitForSelector(
+    `[data-testid="wb-pill"][data-phase="${state.phase}"]`,
+    {
+      state: "visible",
+      timeout: 0,
+    },
+  );
+  await expect
+    .poll(async () => (await ipc.calls("fork_pill_ready")).length, {
+      timeout: 0,
+    })
+    .toBeGreaterThan(0); // the call log is the page's: a new load starts at 0
 }
 
 test.describe("the bar", () => {
@@ -387,10 +410,9 @@ test.describe("the bar", () => {
   });
 
   test("RTL mirrors the notice and the message", async ({ page, ipc }) => {
-    await openPill(page, ipc, LOST_PILL);
-    await page.evaluate(() => {
-      document.documentElement.dir = "rtl";
-    });
+    // The page sets its own direction from the app language (pill-page.ts).
+    await openPill(page, ipc, LOST_PILL, RTL_APP_SETTINGS);
+    await expectRtl(page);
     await expect
       .poll(async () => {
         const msg = (await page
