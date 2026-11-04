@@ -20,7 +20,7 @@
 //                         containing <text> (exit 5 on timeout)
 //   field                 print the practice field's value ("field: …")
 //   select-all            select all of the practice field's text
-//   key <name>            opt-1 | opt-2 (OT2-D) | opt-o | ctrl-opt-1 | cmd-z | escape | up
+//   key <name>            opt-1 | opt-2 (OT2-D) | opt-o | ctrl-opt-1 | ctrl-opt-2 | ctrl-opt-o | cmd-z | escape | up
 //   focus <title>         focus the first element whose title or description
 //                         is <title> and print its value ("focus …: <value>")
 //   value <title>         print that element's value (S-37.4: the History
@@ -155,6 +155,8 @@ for raw in args[2].split(separator: ";") {
         case "opt-1": post(18, .maskAlternate)
         case "opt-2": post(19, .maskAlternate)
         case "ctrl-opt-1": post(18, [.maskAlternate, .maskControl])
+        case "ctrl-opt-2": post(19, [.maskAlternate, .maskControl])
+        case "ctrl-opt-o": post(31, [.maskAlternate, .maskControl])
         case "opt-o": post(31, .maskAlternate)
         case "cmd-z": post(6, .maskCommand)
         case "escape": post(53, [])

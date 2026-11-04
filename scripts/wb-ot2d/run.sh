@@ -25,6 +25,9 @@
 #   restore   Transforms › Reset to defaults equivalent: the built-ins'
 #             prompts back to their seeds
 #   APP=<bundle> OUT=<dir> LESSON=<compiled wb-s31/lesson.swift> [WBUI=<compiled wb-s25/ui.swift>]
+#   WB_OT2D_MOD=ctrl-opt: the transforms are bound to ⌃⌥1/⌃⌥2 in the test
+#   profile and the driver presses those (a Wispr Bro of the owner's with
+#   Transforms on also answers ⌥1/⌥2, in any app; Mac wave 7)
 set -u
 : "${APP:?}" "${OUT:?}" "${LESSON:?}"
 LOCK="$HOME/wb-bench/gui.lock"
@@ -34,6 +37,7 @@ DATA="$APP/Contents/MacOS/Data"
 DB="$DATA/fork.db"
 LOGS="$DATA/logs"
 mkdir -p "$OUT"
+case "${WB_OT2D_MOD:-opt}" in ctrl-opt) MOD=ctrl-opt- ;; *) MOD=opt- ;; esac
 
 if [ "${WB_OT2D_LOCKED:-}" != 1 ]; then
   WB_OT2D_LOCKED=1 exec /usr/bin/lockf -k -t 1800 "$LOCK" /bin/bash "$0" "$@"
@@ -71,7 +75,7 @@ case "${1:-}" in
   exact)
     set_prompt polish "Replace all A and E with 0 and 1"; launch
     before=$(clip_hash); lines=$(applog | grep -c "pasted in")
-    take exact "Please send the agenda before the meeting." opt-1
+    take exact "Please send the agenda before the meeting." "${MOD}1"
     [ "$(cat "$OUT/exact.txt")" = "Pl10s1 s1nd th1 0g1nd0 b1for1 th1 m11ting." ] \
       && log "PASS exact text" || log "FAIL text: $(cat "$OUT/exact.txt")"
     applog | grep "pasted in" | tail -1 | grep -q "llm 0" && log "PASS no model (llm 0)" || log "FAIL the model ran or nothing pasted"
@@ -85,7 +89,7 @@ case "${1:-}" in
   nomatch)
     set_prompt polish "Replace all A and E with 0 and 1"; launch
     lines=$(applog | grep -c "pasted in")
-    take nomatch "Buy rum today." opt-1
+    take nomatch "Buy rum today." "${MOD}1"
     wb_textedit_close "$te"
     [ "$(applog | grep -c "pasted in")" = "$lines" ] && log "PASS nothing pasted" || log "FAIL pasted"
     applog | grep "without a replacement" | tail -1 | grep -q Unchanged && log "PASS Unchanged" || log "FAIL no Unchanged line"
@@ -95,7 +99,7 @@ case "${1:-}" in
   notapplied)
     set_prompt prompt_engineer "Make it about half as long"; launch
     lines=$(applog | grep -c "pasted in")
-    take notapplied "Thank you so much for taking the time to meet with us yesterday, we really enjoyed it." opt-2
+    take notapplied "Thank you so much for taking the time to meet with us yesterday, we really enjoyed it." "${MOD}2"
     wb_textedit_close "$te"
     if [ "$(applog | grep -c "pasted in")" = "$lines" ]; then
       applog | grep "without a replacement" | tail -1 | grep -Eq "Unchanged|Guard" && log "PASS refused, nothing pasted" || log "FAIL no reason line"
