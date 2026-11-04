@@ -296,6 +296,24 @@ test.describe("first-use chooser", () => {
 test.describe("own-apps banner", () => {
   const chosen = { first_use_choice: "email" };
 
+  // Mac wave 6: at the Hub's 720 pt minimum with the setup card open, the
+  // sidebar scrolled and Settings and Help were out of view. They are
+  // pinned; only the pages and the card scroll.
+  test("the setup card never pushes Settings and Help out of view", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await page.setViewportSize({ width: 1040, height: 720 });
+    await open(page, ipc, hub, backend(), { fork: chosen });
+    await expect(page.getByTestId("wb-checklist")).toBeVisible();
+    for (const id of ["wb-nav-dictation", "wb-nav-settings", "wb-nav-help"]) {
+      const box = (await page.getByTestId(id).boundingBox())!;
+      expect(box.y, id).toBeGreaterThanOrEqual(0);
+      expect(box.y + box.height, id).toBeLessThanOrEqual(720);
+    }
+  });
+
   test("follows the spotlight: Hide the hint, Show the hint again", async ({
     page,
     ipc,

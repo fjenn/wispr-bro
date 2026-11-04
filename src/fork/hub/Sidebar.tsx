@@ -156,18 +156,29 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
       </div>
       <nav
         aria-label={t("hub.nav.label")}
-        className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 pb-2.5"
+        className="flex min-h-0 flex-1 flex-col gap-3 px-3 pb-2.5"
       >
-        <ul className="flex flex-col gap-1">
-          {main.map((page) => (
-            <li key={page.id}>
-              <PageButton page={page} collapsed={collapsed} />
-            </li>
-          ))}
-        </ul>
-        <div className="flex-1" />
-        {card && !collapsed && <div data-testid="wb-sidebar-card">{card}</div>}
-        <ul className="flex flex-col gap-1 border-t border-(--wb-line) pt-3">
+        {/* Only the pages and the setup card scroll: Share, Settings and
+            Help stay pinned at the bottom (Mac wave 6: at the default
+            752 pt window with the checklist open, they had scrolled out
+            of view). */}
+        <div
+          className="-mx-3 flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3"
+          data-testid="wb-sidebar-scroll"
+        >
+          <ul className="flex flex-col gap-1">
+            {main.map((page) => (
+              <li key={page.id}>
+                <PageButton page={page} collapsed={collapsed} />
+              </li>
+            ))}
+          </ul>
+          <div className="flex-1" />
+          {card && !collapsed && (
+            <div data-testid="wb-sidebar-card">{card}</div>
+          )}
+        </div>
+        <ul className="flex shrink-0 flex-col gap-1 border-t border-(--wb-line) pt-3">
           {bottom.map((page) => (
             <li key={page.id}>
               <PageButton page={page} collapsed={collapsed} />
