@@ -494,11 +494,12 @@ test("RTL: the list mirrors (radios on the right) and stays accessible", async (
   await page.evaluate(() => {
     document.documentElement.dir = "rtl";
   });
+  // The radio sits in the option's right half (the drawn RadioMark wraps
+  // the native radio in its own span, so compare with the whole row).
   const radio = mic.getByRole("radio").first();
-  const label = options(page).first().locator("span").first();
-  const r = await radio.boundingBox();
-  const l = await label.boundingBox();
-  expect(r && l && r.x > l.x).toBe(true);
+  const r = (await radio.boundingBox())!;
+  const o = (await options(page).first().boundingBox())!;
+  expect(r.x + r.width / 2).toBeGreaterThan(o.x + o.width / 2);
   await expectNoSeriousAxeFindings(page);
   await shot(page, "rtl");
 });
