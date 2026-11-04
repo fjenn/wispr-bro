@@ -73,6 +73,17 @@ describe("wb_bin_name", () => {
     expect(statSync(join(dir, "handy")).isFile()).toBe(true);
   });
 
+  test("only the app's own command counts as running", () => {
+    const re = new RegExp(`(^|/)${sh("echo $WB_BIN_RE").out}( |$)`);
+    expect(re.test("./wispr-bro --start-hidden")).toBe(true);
+    expect(re.test("/x/Wispr Bro.app/Contents/MacOS/wispr-bro")).toBe(true);
+    expect(re.test("handy")).toBe(true);
+    expect(re.test("rustc --crate-name x /Users/a/wispr-bro-macw7/src")).toBe(
+      false,
+    );
+    expect(re.test("/x/target/debug/deps/handy_app_lib-a1ef")).toBe(false);
+  });
+
   test("the pgrep pattern matches both names", () => {
     const re = new RegExp(`${sh("echo $WB_BIN_RE").out} --start-hidden`);
     expect(re.test("./wispr-bro --start-hidden")).toBe(true);
@@ -103,8 +114,11 @@ describe("wb_cli / wb_cancel", () => {
     mkdirSync(dir);
     const marker = join(tmp, "started");
     exe(join(dir, "wispr-bro"), `#!/bin/sh\ntouch "${marker}"\n`);
+    const t = Date.now();
     const r = sh(`wb_cancel "${dir}"`);
     expect(r.code).toBe(1);
+    // One lsof for the app's own processes, not one per path match.
+    expect(Date.now() - t).toBeLessThan(10_000);
     expect(() => statSync(marker)).toThrow();
   }, 30_000);
 });

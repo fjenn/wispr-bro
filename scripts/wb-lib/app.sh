@@ -68,14 +68,17 @@ wb_bin_path() {
 
 # Whether an instance of the app runs with <dir> as its working directory
 # (how every driver starts it).
+#
+# Only processes whose command is the app (`./wispr-bro`, `…/MacOS/wispr-bro`,
+# `handy`) count, and their working directories come from one `lsof` call:
+# the old `pgrep -f "$WB_BIN_RE"` also matched every compiler, test binary,
+# Vite and browser process with "wispr-bro" in a path, and one `lsof` per
+# match took over 30 s on a loaded Mac (the `wb_cancel` self-test timeout).
 wb_running_in() {
-  local dir="${1:?dir}" p
-  for p in $(pgrep -f "$WB_BIN_RE"); do
-    if lsof -a -p "$p" -d cwd -Fn 2>/dev/null | /usr/bin/grep -qx "n$dir"; then
-      return 0
-    fi
-  done
-  return 1
+  local dir="${1:?dir}" pids
+  pids=$(pgrep -f "(^|/)$WB_BIN_RE( |\$)" | paste -sd, -)
+  [ -n "$pids" ] || return 1
+  lsof -a -p "$pids" -d cwd -Fn 2>/dev/null | /usr/bin/grep -qx "n$dir"
 }
 
 wb_cli() {
