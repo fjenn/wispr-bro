@@ -195,6 +195,9 @@ export function HistoryRow({
         <p
           ref={textRef}
           data-testid="wb-history-text"
+          // The user's own words take their own direction (Mac wave 6:
+          // English rows in the Arabic Hub put the full stop first).
+          dir={hasText && !busy ? "auto" : undefined}
           className={`text-[15px] leading-[22px] break-words whitespace-pre-wrap ${
             busy
               ? "text-(--wb-ink-2) motion-safe:animate-pulse"

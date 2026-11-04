@@ -86,7 +86,8 @@ pub const TITLE_STRIP_HEIGHT: f64 = 44.0;
 /// Where macOS draws the traffic lights: at the start of the title strip,
 /// on its centre line (tao's `y` lands the buttons' centre
 /// [`crate::fork::hub::TRAFFIC_LIGHTS_CENTRE_OFFSET`] above it, measured in
-/// Mac wave 6). The web page keeps 78 pt free for them (`ps-[78px]`).
+/// Mac wave 6). The web page keeps 90 pt free for them on the left, in
+/// every language (`pl-[90px]`).
 pub const TRAFFIC_LIGHTS: (f64, f64) = (
     16.0,
     TITLE_STRIP_HEIGHT / 2.0 + crate::fork::hub::TRAFFIC_LIGHTS_CENTRE_OFFSET,
@@ -200,9 +201,10 @@ mod tests {
     #[test]
     fn traffic_lights_sit_in_the_note_title_strip() {
         let (x, y) = super::TRAFFIC_LIGHTS;
-        // The three 14 pt buttons with their gaps end before the 78 pt the
-        // page keeps free.
-        assert!(x > 0.0 && x + 60.0 < 78.0);
+        // macOS 26 draws the three buttons over 60 pt from `x` (measured in
+        // Mac wave 6: close centre 22.5 pt, zoom's right edge 76 pt); the
+        // first tab chip starts at least 10 pt after them.
+        assert!(x > 0.0 && x + 60.0 + 10.0 <= 90.0);
         let centre = y - crate::fork::hub::TRAFFIC_LIGHTS_CENTRE_OFFSET;
         assert!((centre - super::TITLE_STRIP_HEIGHT / 2.0).abs() < 0.5);
         let page = std::fs::read_to_string(
@@ -210,6 +212,6 @@ mod tests {
                 .join("../src/fork/scratchpad/NoteWindow.tsx"),
         )
         .unwrap();
-        assert!(page.contains("h-11") && page.contains("ps-[78px]"));
+        assert!(page.contains("h-11") && page.contains("pl-[90px]"));
     }
 }

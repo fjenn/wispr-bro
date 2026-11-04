@@ -287,6 +287,16 @@ test("shortcut dialog supports Escape and page/window pass axe in light/dark RTL
       "dir",
       "rtl",
     );
+    // Mac wave 6: macOS keeps the traffic lights on the left in every
+    // language, so the strip keeps its room for them on the left in RTL.
+    const strip = page.getByTestId("wb-note-window").locator("header");
+    expect(await strip.evaluate((el) => getComputedStyle(el).paddingLeft)).toBe(
+      "90px",
+    );
+    await expect(page.getByTestId("wb-note-body")).toHaveAttribute(
+      "dir",
+      "auto",
+    );
     await expectNoSeriousAxeFindings(page);
   }
 });

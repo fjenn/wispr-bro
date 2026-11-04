@@ -920,6 +920,12 @@ test.describe("history", () => {
     // strip), so in RTL they sit over the left end of the text.
     expect(acts.x).toBeLessThanOrEqual(text.x + 1);
     expect(acts.x + acts.width).toBeLessThan(text.x + text.width / 2);
+    // Mac wave 6: a row's own words take their own direction, so an
+    // English dictation in the Arabic Hub keeps its full stop at the end.
+    await expect(r.getByTestId("wb-history-text")).toHaveAttribute(
+      "dir",
+      "auto",
+    );
     await expectNoSeriousAxeFindings(page);
   });
 });

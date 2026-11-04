@@ -252,12 +252,15 @@ export function NoteWindow() {
       className="flex h-screen flex-col bg-(--wb-chrome) text-(--wb-ink) select-none"
       data-testid="wb-note-window"
     >
-      {/* The title strip: macOS draws the traffic lights over its start
-          (overlay title bar, `fork/scratchpad/window.rs`); empty space
-          drags the window. */}
+      {/* The title strip: macOS draws the traffic lights over its left
+          end in every language (overlay title bar,
+          `fork/scratchpad/window.rs`), so the room for them is physical
+          left padding, not `ps-` (Mac wave 6: in Arabic `ps-` moved it to
+          the right and the expand/close buttons slid under the lights).
+          Empty space drags the window. */}
       <header
         data-tauri-drag-region
-        className="flex h-11 shrink-0 items-center gap-1 ps-[78px] pe-2"
+        className="flex h-11 shrink-0 items-center gap-1 pr-2 pl-[90px]"
       >
         <NoteTabs
           notes={notes}
@@ -397,6 +400,7 @@ export function NoteWindow() {
             </div>
           ) : (
             <textarea
+              dir="auto"
               aria-label={t("scratchpad.noteBody")}
               value={body}
               onChange={(event) => setBody(event.currentTarget.value)}

@@ -252,9 +252,14 @@ export function ScratchpadPage() {
                         className="shrink-0 text-(--wb-ink-2)"
                       />
                     )}
-                    <span className="truncate">{name}</span>
+                    <span dir="auto" className="truncate">
+                      {name}
+                    </span>
                   </span>
-                  <span className="mt-1.5 line-clamp-2 block text-[15px] leading-[22px] text-(--wb-ink-2)">
+                  <span
+                    dir={rest ? "auto" : undefined}
+                    className="mt-1.5 line-clamp-2 block text-[15px] leading-[22px] text-(--wb-ink-2)"
+                  >
                     {rest || (note.body ? "" : t("scratchpad.emptyNote"))}
                   </span>
                   <span className="mt-3 flex justify-between gap-3 text-[13px] text-(--wb-ink-3) tabular-nums">
