@@ -14,18 +14,23 @@
  *
  * Every question can be left unanswered (Continue is always on), so the
  * quiz never dead-ends; an unanswered question weighs nothing either way.
+ * Questions are option cards (Design W5): a stacked list of title + one
+ * line, or a row of drawn microphone tiles; the table has a column per
+ * microphone with its drawing on top and the Best match column marked by a
+ * green band.
+ *
  * Answers live for one opening of the lesson (`useMicQuizStore`, reset on
  * each open); nothing is saved or sent anywhere. Copy results puts plain
  * text on the clipboard (Wispr's "Email results" is cloud, R2 B-43).
  */
 import { useState } from "react";
-import { Check, Copy, ExternalLink } from "../ui/icons";
+import { Check, Copy, ExternalLink, Star } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { create } from "zustand";
 import { MICROPHONES_DOC_URL } from "../hub/links";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, FOCUS_RING } from "../ui";
+import { Button, CheckCard, FOCUS_RING, OptionCard, RadioGroup } from "../ui";
 import { MicArt } from "./art/MicArt";
 import { useLessonStore } from "./lessonRegistry";
 import {
@@ -72,109 +77,90 @@ function useAnswers(): QuizAnswers & {
   };
 }
 
-const OPTION =
-  "flex cursor-pointer items-center gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) p-3 text-start hover:bg-(--wb-fill-hover) has-[:checked]:border-(--wb-accent) has-[:checked]:bg-(--wb-fill-active) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent)";
+const micArt = (kind: MicKind, size: "md" | "lg" = "lg") => (
+  <MicArt
+    kind={kind}
+    className={`grid shrink-0 place-items-center text-(--wb-ink) ${size === "lg" ? "size-16 [&>svg]:size-16" : "size-9 [&>svg]:size-9"}`}
+  />
+);
 
-/** One choice in a group (native radio or checkbox: arrows, Space). */
-function Option({
-  type,
-  name,
-  checked,
-  onChange,
-  label,
-  hint,
-  art,
-  testId,
-}: {
-  type: "radio" | "checkbox";
-  name: string;
-  checked: boolean;
-  onChange: () => void;
-  label: string;
-  hint?: string;
-  art?: React.ReactNode;
-  testId: string;
-}) {
-  return (
-    <label className={OPTION} data-testid={testId}>
-      <input
-        type={type}
-        name={name}
-        checked={checked}
-        onChange={onChange}
-        className="sr-only"
-      />
-      {art}
-      <span className="flex min-w-0 flex-1 flex-col">
-        <span className="text-[14px] font-medium">{label}</span>
-        {hint && (
-          <span className="text-[12.5px] leading-4 text-(--wb-ink-2)">
-            {hint}
-          </span>
-        )}
-      </span>
-      <span
-        aria-hidden="true"
-        className={`grid size-5 shrink-0 place-items-center border border-(--wb-line-strong) ${type === "radio" ? "rounded-full" : "rounded-[5px]"} ${checked ? "border-(--wb-ink) bg-(--wb-ink) text-(--wb-on-ink)" : ""}`}
-      >
-        {checked && <Check size={12} strokeWidth={3} />}
-      </span>
-    </label>
-  );
-}
-
-function Group({
+/** A one-of-many question: option cards in a named group. */
+function Choices<T extends string>({
   labelKey,
-  children,
-  columns = 2,
+  name,
+  value,
+  onChange,
+  options,
+  layout = "list",
 }: {
   labelKey: string;
-  children: React.ReactNode;
-  columns?: 1 | 2;
+  name: string;
+  value: T | null;
+  onChange: (value: T) => void;
+  options: readonly {
+    value: T;
+    title: string;
+    hint?: string;
+    art?: React.ReactNode;
+  }[];
+  layout?: "list" | "grid";
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
-    <fieldset className="m-0 border-0 p-0">
-      <legend className="sr-only">{t(labelKey)}</legend>
-      <div className={`grid gap-2 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
-        {children}
-      </div>
-    </fieldset>
+    <RadioGroup
+      label={t(labelKey)}
+      name={name}
+      value={value ?? undefined}
+      onValueChange={(v) => onChange(v as T)}
+      layout={layout}
+      columns={4}
+      className={
+        layout === "list"
+          ? "mx-auto w-full max-w-[360px] gap-3!"
+          : "mx-auto w-full max-w-[680px] gap-3! max-sm:grid-cols-2!"
+      }
+    >
+      {options.map((o) => (
+        // The wrapper carries the test id (the input is inside).
+        <div key={o.value} data-testid={`${name}-${o.value}`}>
+          <OptionCard
+            value={o.value}
+            title={o.title}
+            description={o.hint}
+            media={o.art}
+            className={`h-full ${o.art ? "p-4! text-center" : "px-5! py-4!"}`}
+          />
+        </div>
+      ))}
+    </RadioGroup>
   );
 }
-
-const micArt = (kind: MicKind) => (
-  <MicArt
-    kind={kind}
-    className="grid size-12 shrink-0 place-items-center text-(--wb-ink) [&>svg]:size-12"
-  />
-);
 
 /** Question 1: a comfortable microphone, and more about mics. */
 export function QuizComfortable() {
   const { t } = useTranslation(FORK_NAMESPACE);
   const a = useAnswers();
   return (
-    <div className="flex flex-col gap-3" data-testid="wb-quiz-comfortable">
-      <Group labelKey="lessons.whisper.quiz.comfortable.title">
-        {MIC_KINDS.map((kind) => (
-          <Option
-            key={kind}
-            type="radio"
-            name="wb-quiz-comfortable"
-            checked={a.comfortable === kind}
-            onChange={() => a.set({ comfortable: kind })}
-            label={t(`lessons.whisper.mics.${kind}.name`)}
-            hint={t(`lessons.whisper.mics.${kind}.hint`)}
-            art={micArt(kind)}
-            testId={`wb-quiz-comfortable-${kind}`}
-          />
-        ))}
-      </Group>
+    <div
+      className="flex flex-col items-center gap-5"
+      data-testid="wb-quiz-comfortable"
+    >
+      <Choices
+        labelKey="lessons.whisper.quiz.comfortable.title"
+        name="wb-quiz-comfortable"
+        value={a.comfortable}
+        onChange={(comfortable) => a.set({ comfortable })}
+        layout="grid"
+        options={MIC_KINDS.map((kind) => ({
+          value: kind,
+          title: t(`lessons.whisper.mics.${kind}.name`),
+          art: micArt(kind),
+        }))}
+      />
       <button
         type="button"
         onClick={() => void openUrl(MICROPHONES_DOC_URL).catch(() => undefined)}
-        className={`inline-flex cursor-pointer items-center gap-1.5 self-start rounded text-[13px] font-medium text-(--wb-ink) underline underline-offset-2 hover:text-(--wb-ink-2) ${FOCUS_RING}`}
+        className={`type-small inline-flex cursor-pointer items-center gap-1.5 rounded font-medium text-(--wb-ink-2) underline decoration-(--wb-line-2) underline-offset-4 hover:text-(--wb-ink) ${FOCUS_RING}`}
         data-testid="wb-quiz-more-mics"
       >
         {t("lessons.whisper.quiz.more")}
@@ -190,20 +176,17 @@ export function QuizWorkplace() {
   const a = useAnswers();
   return (
     <div data-testid="wb-quiz-workplace">
-      <Group labelKey="lessons.whisper.quiz.workplace.title" columns={1}>
-        {WORKPLACES.map((place) => (
-          <Option
-            key={place}
-            type="radio"
-            name="wb-quiz-workplace"
-            checked={a.workplace === place}
-            onChange={() => a.set({ workplace: place })}
-            label={t(`lessons.whisper.quiz.workplace.${place}.label`)}
-            hint={t(`lessons.whisper.quiz.workplace.${place}.hint`)}
-            testId={`wb-quiz-workplace-${place}`}
-          />
-        ))}
-      </Group>
+      <Choices
+        labelKey="lessons.whisper.quiz.workplace.title"
+        name="wb-quiz-workplace"
+        value={a.workplace}
+        onChange={(workplace) => a.set({ workplace })}
+        options={WORKPLACES.map((place) => ({
+          value: place,
+          title: t(`lessons.whisper.quiz.workplace.${place}.label`),
+          hint: t(`lessons.whisper.quiz.workplace.${place}.hint`),
+        }))}
+      />
     </div>
   );
 }
@@ -214,20 +197,17 @@ export function QuizMoves() {
   const a = useAnswers();
   return (
     <div data-testid="wb-quiz-moves">
-      <Group labelKey="lessons.whisper.quiz.moves.title" columns={1}>
-        {MOVES.map((moves) => (
-          <Option
-            key={moves}
-            type="radio"
-            name="wb-quiz-moves"
-            checked={a.moves === moves}
-            onChange={() => a.set({ moves })}
-            label={t(`lessons.whisper.quiz.moves.${moves}.label`)}
-            hint={t(`lessons.whisper.quiz.moves.${moves}.hint`)}
-            testId={`wb-quiz-moves-${moves}`}
-          />
-        ))}
-      </Group>
+      <Choices
+        labelKey="lessons.whisper.quiz.moves.title"
+        name="wb-quiz-moves"
+        value={a.moves}
+        onChange={(moves) => a.set({ moves })}
+        options={MOVES.map((moves) => ({
+          value: moves,
+          title: t(`lessons.whisper.quiz.moves.${moves}.label`),
+          hint: t(`lessons.whisper.quiz.moves.${moves}.hint`),
+        }))}
+      />
     </div>
   );
 }
@@ -244,20 +224,24 @@ export function QuizOwned() {
     });
   return (
     <div data-testid="wb-quiz-owned">
-      <Group labelKey="lessons.whisper.quiz.owned.title">
-        {MIC_KINDS.map((kind) => (
-          <Option
-            key={kind}
-            type="checkbox"
-            name={`wb-quiz-owned-${kind}`}
-            checked={a.owned.includes(kind)}
-            onChange={() => toggle(kind)}
-            label={t(`lessons.whisper.mics.${kind}.name`)}
-            art={micArt(kind)}
-            testId={`wb-quiz-owned-${kind}`}
-          />
-        ))}
-      </Group>
+      <fieldset className="m-0 border-0 p-0">
+        <legend className="sr-only">
+          {t("lessons.whisper.quiz.owned.title")}
+        </legend>
+        <div className="mx-auto grid w-full max-w-[680px] grid-cols-4 gap-3 max-sm:grid-cols-2">
+          {MIC_KINDS.map((kind) => (
+            <div key={kind} data-testid={`wb-quiz-owned-${kind}`}>
+              <CheckCard
+                checked={a.owned.includes(kind)}
+                onCheckedChange={() => toggle(kind)}
+                title={t(`lessons.whisper.mics.${kind}.name`)}
+                media={micArt(kind)}
+                className="h-full p-4! text-center"
+              />
+            </div>
+          ))}
+        </div>
+      </fieldset>
     </div>
   );
 }
@@ -271,16 +255,23 @@ const RATING_KEY: Record<Rating, string> = {
 function RatingCell({ value }: { value: Rating }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   return (
-    <span className="inline-flex items-center gap-1.5">
+    <span className="inline-flex flex-col items-center gap-0.5">
       <span aria-hidden="true" className="inline-flex gap-0.5">
         {[1, 2, 3].map((n) => (
-          <i
+          <Star
             key={n}
-            className={`block size-1.5 rounded-full ${n <= value ? "bg-(--wb-ink)" : "bg-(--wb-line-strong)"}`}
+            size={14}
+            className={
+              n <= value
+                ? "fill-current text-(--wb-ink)"
+                : "text-(--wb-line-strong)"
+            }
           />
         ))}
       </span>
-      {t(RATING_KEY[value])}
+      <span className="text-[12px] leading-4 text-(--wb-ink-2)">
+        {t(RATING_KEY[value])}
+      </span>
     </span>
   );
 }
@@ -339,94 +330,94 @@ export function QuizResults() {
     }
   };
 
-  const th =
-    "px-2.5 py-2 text-start text-[12px] font-semibold text-(--wb-ink-2) align-bottom";
-  const td = "px-2.5 py-2 text-[13px] align-middle";
+  const CRITERIA = ["quality", "others", "home", "price"] as const;
+  const cell = (row: MicRow, criterion: (typeof CRITERIA)[number]) => {
+    switch (criterion) {
+      case "quality":
+        return <RatingCell value={row.quality} />;
+      case "others":
+        return <RatingCell value={row.aroundOthers} />;
+      case "home":
+        return <RatingCell value={row.atHome} />;
+      case "price":
+        return (
+          <span className="text-[13px] leading-4">{priceLabel(row, t)}</span>
+        );
+    }
+  };
   return (
     <div
-      className="flex flex-col gap-3"
+      className="flex flex-col items-center gap-4"
       data-testid="wb-quiz-results"
       data-best={best}
     >
-      <p className="m-0 flex items-center gap-3 rounded-(--wb-radius-md) bg-(--wb-accent-soft) p-3 text-[14px]">
-        {micArt(best)}
-        <span>
+      <p className="type-body m-0 max-w-[560px] text-center text-(--wb-ink-2)">
+        <span className="font-semibold text-(--wb-ink)">
           {t("lessons.whisper.results.bestLine", {
             mic: t(`lessons.whisper.mics.${best}.name`),
-          })}{" "}
-          <span className="text-(--wb-ink-2)">
-            {t(`lessons.whisper.mics.${best}.why`)}
-          </span>
-        </span>
+          })}
+        </span>{" "}
+        {t(`lessons.whisper.mics.${best}.why`)}
       </p>
-      <div className="overflow-x-auto rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface)">
-        <table className="w-full border-collapse" data-testid="wb-quiz-table">
+      <div className="w-full overflow-x-auto pt-6">
+        <table className="wb-mic-table" data-testid="wb-quiz-table">
           <caption className="sr-only">
             {t("lessons.whisper.results.caption")}
           </caption>
-          <thead className="border-b border-(--wb-line)">
+          <thead>
             <tr>
-              <th scope="col" className={th}>
-                {t("lessons.whisper.results.columns.mic")}
-              </th>
-              <th scope="col" className={th}>
-                {t("lessons.whisper.results.columns.quality")}
-              </th>
-              <th scope="col" className={th}>
-                {t("lessons.whisper.results.columns.others")}
-              </th>
-              <th scope="col" className={th}>
-                {t("lessons.whisper.results.columns.home")}
-              </th>
-              <th scope="col" className={th}>
-                {t("lessons.whisper.results.columns.price")}
-              </th>
-              <th scope="col" className={th}>
-                {t("lessons.whisper.results.columns.best")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr
-                key={row.kind}
-                data-testid={`wb-quiz-row-${row.kind}`}
-                data-best={row.best || undefined}
-                className={`border-b border-(--wb-line) last:border-b-0 ${row.best ? "bg-(--wb-fill-active)" : ""}`}
-              >
-                <th scope="row" className={`${td} text-start font-medium`}>
-                  {t(`lessons.whisper.mics.${row.kind}.name`)}
-                </th>
-                <td className={td}>
-                  <RatingCell value={row.quality} />
-                </td>
-                <td className={td}>
-                  <RatingCell value={row.aroundOthers} />
-                </td>
-                <td className={td}>
-                  <RatingCell value={row.atHome} />
-                </td>
-                <td className={td}>{priceLabel(row, t)}</td>
-                <td className={td}>
-                  {row.best ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-(--wb-ink) px-2 py-0.5 text-[12px] font-semibold text-(--wb-on-ink)">
-                      <Check size={12} strokeWidth={3} aria-hidden="true" />
+              <td className="wb-mic-corner" />
+              {rows.map((row) => (
+                <th
+                  key={row.kind}
+                  scope="col"
+                  data-testid={`wb-quiz-row-${row.kind}`}
+                  data-best={row.best || undefined}
+                >
+                  {row.best && (
+                    <span className="wb-mic-band" data-testid="wb-quiz-best">
                       {t("lessons.whisper.results.columns.best")}
                     </span>
-                  ) : (
+                  )}
+                  <span className="flex flex-col items-center gap-2">
+                    {micArt(row.kind, "md")}
+                    <span>{t(`lessons.whisper.mics.${row.kind}.name`)}</span>
+                  </span>
+                  {!row.best && (
                     <span className="sr-only">
                       {t("lessons.whisper.results.notBest")}
                     </span>
                   )}
-                </td>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {CRITERIA.map((criterion) => (
+              <tr key={criterion}>
+                <th scope="row">
+                  {t(`lessons.whisper.results.columns.${criterion}`)}
+                </th>
+                {rows.map((row) => (
+                  <td
+                    key={row.kind}
+                    data-best={row.best || undefined}
+                    data-testid={`wb-quiz-cell-${row.kind}-${criterion}`}
+                  >
+                    {cell(row, criterion)}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={() => void copy()} data-testid="wb-quiz-copy">
-          <Copy size={14} aria-hidden="true" />
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button
+          onClick={() => void copy()}
+          leading={<Copy size={14} aria-hidden="true" />}
+          data-testid="wb-quiz-copy"
+        >
           {copied === "ok"
             ? t("lessons.whisper.results.copied")
             : t("lessons.whisper.results.copy.label")}

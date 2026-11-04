@@ -187,39 +187,38 @@ export interface OptionCardProps extends ItemProps {
   media?: ReactNode;
 }
 
-export function OptionCard({
-  value,
+/** The option card's frame: rest, selected, disabled (shared with `CheckCard`). */
+function cardClass(selected: boolean, media: boolean, off: boolean): string {
+  return `relative flex rounded-(--wb-radius-md) border p-[22px] text-(--wb-ink) transition-[background-color,border-color,box-shadow] duration-(--wb-dur-fast) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent) ${
+    media ? "flex-col gap-3" : "items-start gap-4"
+  } ${
+    selected
+      ? "border-(--wb-accent-2) bg-(--wb-accent-soft) shadow-[inset_0_0_0_0.5px_var(--wb-accent-2)]"
+      : "border-(--wb-line-strong) bg-(--wb-surface) hover:bg-(--wb-surface-tint)"
+  } ${off ? "cursor-default opacity-50" : "cursor-pointer"}`;
+}
+
+/** Media tile, glyph, title, line and the tick of an option/check card. */
+function CardBody({
   title,
   description,
+  descId,
   icon,
   media,
-  disabled = false,
-  testId,
-  className = "",
-}: OptionCardProps) {
-  const ctx = useGroup("OptionCard");
-  const descId = useId();
-  const off = disabled || ctx.disabled;
-  const selected = ctx.value === value;
+  selected,
+  square = false,
+}: {
+  title: ReactNode;
+  description?: ReactNode;
+  descId: string;
+  icon?: ReactNode;
+  media?: ReactNode;
+  selected: boolean;
+  /** A square tick (several may be chosen) instead of a round one. */
+  square?: boolean;
+}) {
   return (
-    <label
-      data-selected={selected || undefined}
-      className={`relative flex rounded-(--wb-radius-md) border p-[22px] text-(--wb-ink) transition-[background-color,border-color,box-shadow] duration-(--wb-dur-fast) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent) ${
-        media ? "flex-col gap-3" : "items-start gap-4"
-      } ${
-        selected
-          ? "border-(--wb-accent-2) bg-(--wb-accent-soft) shadow-[inset_0_0_0_0.5px_var(--wb-accent-2)]"
-          : "border-(--wb-line-strong) bg-(--wb-surface) hover:bg-(--wb-surface-tint)"
-      } ${off ? "cursor-default opacity-50" : "cursor-pointer"} ${className}`}
-    >
-      <NativeRadio
-        ctx={ctx}
-        value={value}
-        disabled={off}
-        testId={testId}
-        describedBy={description ? descId : undefined}
-        className="sr-only"
-      />
+    <>
       {media && (
         <span
           aria-hidden="true"
@@ -243,10 +242,106 @@ export function OptionCard({
       </span>
       <span
         aria-hidden="true"
-        className={`absolute end-4 top-4 grid size-5 place-items-center rounded-full bg-(--wb-accent) text-(--wb-on-ink) transition-opacity duration-(--wb-dur-fast) ${selected ? "opacity-100" : "opacity-0"}`}
+        className={`absolute end-4 top-4 grid size-5 place-items-center bg-(--wb-accent) text-(--wb-on-ink) transition-opacity duration-(--wb-dur-fast) ${square ? "rounded-(--wb-radius-xs)" : "rounded-full"} ${selected ? "opacity-100" : "opacity-0"}`}
       >
         <Check size={14} />
       </span>
+    </>
+  );
+}
+
+export function OptionCard({
+  value,
+  title,
+  description,
+  icon,
+  media,
+  disabled = false,
+  testId,
+  className = "",
+}: OptionCardProps) {
+  const ctx = useGroup("OptionCard");
+  const descId = useId();
+  const off = disabled || ctx.disabled;
+  const selected = ctx.value === value;
+  return (
+    <label
+      data-selected={selected || undefined}
+      className={`${cardClass(selected, !!media, off)} ${className}`}
+    >
+      <NativeRadio
+        ctx={ctx}
+        value={value}
+        disabled={off}
+        testId={testId}
+        describedBy={description ? descId : undefined}
+        className="sr-only"
+      />
+      <CardBody
+        title={title}
+        description={description}
+        descId={descId}
+        icon={icon}
+        media={media}
+        selected={selected}
+      />
+    </label>
+  );
+}
+
+export interface CheckCardProps {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  title: ReactNode;
+  description?: ReactNode;
+  icon?: ReactNode;
+  media?: ReactNode;
+  disabled?: boolean;
+  /** On the native checkbox. */
+  testId?: string;
+  className?: string;
+}
+
+/**
+ * `OptionCard`'s look for picking several (Design W5: "Which microphones do
+ * you have?"): a native checkbox underneath (Space toggles), a square tick.
+ * Put a set of them in a named `group` (e.g. a `fieldset` with a legend).
+ */
+export function CheckCard({
+  checked,
+  onCheckedChange,
+  title,
+  description,
+  icon,
+  media,
+  disabled = false,
+  testId,
+  className = "",
+}: CheckCardProps) {
+  const descId = useId();
+  return (
+    <label
+      data-selected={checked || undefined}
+      className={`${cardClass(checked, !!media, disabled)} ${className}`}
+    >
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        data-testid={testId}
+        aria-describedby={description ? descId : undefined}
+        onChange={(event) => onCheckedChange(event.target.checked)}
+        className="sr-only"
+      />
+      <CardBody
+        title={title}
+        description={description}
+        descId={descId}
+        icon={icon}
+        media={media}
+        selected={checked}
+        square
+      />
     </label>
   );
 }

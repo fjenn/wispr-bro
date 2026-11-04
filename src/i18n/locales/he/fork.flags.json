@@ -2000,5 +2000,6 @@
   "onboardingFlow.typing.wpmUnit_other": "ai-reviewed",
   "onboardingFlow.typing.secondsUnit_one": "ai-reviewed",
   "onboardingFlow.typing.secondsUnit_two": "ai-reviewed",
-  "onboardingFlow.typing.secondsUnit_other": "ai-reviewed"
+  "onboardingFlow.typing.secondsUnit_other": "ai-reviewed",
+  "lessons.common.sheetLabel": "ai-reviewed"
 }

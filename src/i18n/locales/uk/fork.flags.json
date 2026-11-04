@@ -2089,5 +2089,6 @@
   "onboardingFlow.typing.secondsUnit_one": "ai-reviewed",
   "onboardingFlow.typing.secondsUnit_few": "ai-reviewed",
   "onboardingFlow.typing.secondsUnit_many": "ai-reviewed",
-  "onboardingFlow.typing.secondsUnit_other": "ai-reviewed"
+  "onboardingFlow.typing.secondsUnit_other": "ai-reviewed",
+  "lessons.common.sheetLabel": "ai-reviewed"
 }

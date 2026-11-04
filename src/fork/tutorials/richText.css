@@ -1,0 +1,15 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* The one italic word of a sheet heading (Design W5). Scripts without a
+   true italic (CJK, Arabic, Hebrew, Devanagari) keep it upright: a slanted
+   fallback face reads as a rendering fault there, and the accent colour
+   still marks the word on the Transforms lesson. */
+.wb-em {
+  font-style: italic;
+}
+:is(:lang(ja), :lang(ko), :lang(zh), :lang(ar), :lang(he), :lang(hi), :lang(ne))
+  .wb-em {
+  font-style: normal;
+}
+.wb-em[data-accent] {
+  color: color-mix(in srgb, var(--wb-accent) 70%, var(--wb-accent-2));
+}

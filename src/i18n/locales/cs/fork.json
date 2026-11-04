@@ -2365,7 +2365,7 @@
     }
   },
   "firstUse": {
-    "title": "Co chcete vyzkoušet jako první?",
+    "title": "Co chcete <em>vyzkoušet</em> jako první?",
     "subtitle": "Vyberte si jednu možnost a podívejte se, jak to funguje. Pak to zkuste ve své aplikaci.",
     "choicesLabel": "Jak začít",
     "choices": {
@@ -2499,13 +2499,14 @@
       "progress": "Krok {{step}} z {{total}}",
       "pause": "Pozastavit animaci",
       "play": "Přehrát animaci",
-      "turnOnFailed": "Zapnutí se nezdařilo. Zkuste to znovu nebo použijte přepínač na příslušné stránce."
+      "turnOnFailed": "Zapnutí se nezdařilo. Zkuste to znovu nebo použijte přepínač na příslušné stránce.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformace",
       "help": "Seznámit se s transformacemi",
       "intro": {
-        "title": "Pište tak, aby text vyzněl, jak ho myslíte",
+        "title": "Pište tak, aby text vyzněl, jak ho <em>myslíte</em>",
         "body": "Vyberte text v libovolné aplikaci a stiskněte zkratku. Transformace ho přepíše přímo na místě, na tomto Macu.",
         "continue": "Vyzkoušet"
       },
@@ -2534,10 +2535,10 @@
         "anywhere": "Funguje v každé aplikaci, ve které píšete"
       },
       "practice": {
-        "title": "Vyberte text a stiskněte {{shortcut}}",
+        "title": "<em>Vyberte</em> text a stiskněte <kbd>{{shortcut}}</kbd>",
         "body": "Vyberte zprávu níže (⌘A vybere vše) a stiskněte zkratku pro Polish.",
-        "doneTitle": "Text přepsán",
-        "doneBody": "Stisknutím {{view}} zobrazíte změny. {{undo}} je vrátí zpět.",
+        "doneTitle": "Text <em>přepsán</em>",
+        "doneBody": "Stisknutím <kbd>{{view}}</kbd> zobrazíte změny. <kbd>{{undo}}</kbd> je vrátí zpět.",
         "app": "Chat s Jordanem",
         "context": "Platí ta zítřejší revize?",
         "fieldLabel": "Vaše odpověď Jordanovi",
@@ -2559,17 +2560,17 @@
       },
       "how": {
         "select": {
-          "title": "Vyberte text v libovolné aplikaci",
+          "title": "<em>Vyberte</em> text v libovolné aplikaci",
           "body": "Pište nebo diktujte jako obvykle: e-mail, chat, dokument. Pak vyberte, co chcete přepsat.",
           "scene": "Animace: je vybrán koncept e-mailu."
         },
         "press": {
-          "title": "Stiskněte {{shortcut}}",
+          "title": "<em>Stiskněte</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish přepíše výběr přímo na místě. Prompt Engineer ({{prompt}}) z něj udělá jasný prompt pro AI asistenta.",
           "scene": "Animace: stiskne se {{shortcut}} a koncept se nahradí srozumitelnější verzí."
         },
         "changes": {
-          "title": "Podívejte se, co se změnilo",
+          "title": "Podívejte se, co se <em>změnilo</em>",
           "body": "Stiskněte {{view}} nebo klikněte na liště na Zobrazit změny: odstraněná slova jsou přeškrtnutá, nová zvýrazněná. {{undo}} vrátí původní text.",
           "scene": "Animace: karta se seznamem změn, odstraněná slova jsou přeškrtnutá a nová zvýrazněná."
         }
@@ -2588,7 +2589,7 @@
       "title": "Diktujte potichu",
       "help": "Naučte se diktovat potichu",
       "soft": {
-        "title": "Stačí tichý hlas",
+        "title": "Stačí <em>tichý</em> hlas",
         "body": "Nemusíte mluvit nahlas. I když šeptáte, vaše slova se promění v čistý text, takže můžete diktovat v open space, ve vlaku nebo když vedle někdo spí.",
         "app": "Poznámky",
         "spoken": "„připomeň mi poslat prezentaci před obědem a zarezervovat zasedačku na pátek“",
@@ -2596,7 +2597,7 @@
         "scene": "Animace: zašeptaná věta se objeví jako napsaný text: „{{text}}“"
       },
       "how": {
-        "title": "Jak šeptat svému Macu",
+        "title": "Jak <em>šeptat</em> svému Macu",
         "body": "S vestavěným mikrofonem Macu vám čtyři zvyky pomohou, aby byl tichý hlas dobře slyšet.",
         "distance": "Asi 30 cm (délka předloktí) od mikrofonu",
         "tips": {
@@ -2619,9 +2620,9 @@
         }
       },
       "practice": {
-        "title": "Zašeptejte tento e-mail",
+        "title": "<em>Zašeptejte</em> tento e-mail",
         "body": "Toto je skutečné diktování. Text se objeví jen ve zprávě níže a nikde jinde.",
-        "doneTitle": "Slyšeli jsme vás, i když šeptáte",
+        "doneTitle": "Slyšeli jsme vás, i když <em>šeptáte</em>",
         "doneBody": "Nic víc není potřeba. Pokračujte a najděte mikrofon, který vám vyhovuje.",
         "instruction": "Podržte {{key}}, zašeptejte e-mail níže a pak pusťte.",
         "unbound": "Není nastavená žádná zkratka pro diktování, takže tady nelze začít nahrávat. Zatím tento krok přeskočte a zkratku nastavte v Nastavení.",
@@ -2714,7 +2715,7 @@
         }
       },
       "results": {
-        "title": "Doporučený mikrofon",
+        "title": "<em>Doporučený</em> mikrofon",
         "body": "Na základě vašich odpovědí. Nic se neukládá ani nikam neodesílá.",
         "bestLine": "Nejlepší volba: {{mic}}.",
         "caption": "Jak si vedou jednotlivé druhy mikrofonů",

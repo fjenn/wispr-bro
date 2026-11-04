@@ -1821,5 +1821,6 @@
   "onboardingFlow.timeSaved.lead": "ai-reviewed",
   "onboardingFlow.timeSaved.perWeek_other": "ai-reviewed",
   "onboardingFlow.typing.wpmUnit_other": "ai-reviewed",
-  "onboardingFlow.typing.secondsUnit_other": "ai-reviewed"
+  "onboardingFlow.typing.secondsUnit_other": "ai-reviewed",
+  "lessons.common.sheetLabel": "ai-reviewed"
 }

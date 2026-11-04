@@ -2365,7 +2365,7 @@
     }
   },
   "firstUse": {
-    "title": "Co chcesz wypróbować najpierw?",
+    "title": "Co chcesz <em>wypróbować</em> najpierw?",
     "subtitle": "Wybierz jedną opcję i zobacz, jak to działa. Potem wypróbuj to we własnej aplikacji.",
     "choicesLabel": "Na początek",
     "choices": {
@@ -2499,13 +2499,14 @@
       "progress": "Krok {{step}} z {{total}}",
       "pause": "Wstrzymaj animację",
       "play": "Odtwórz animację",
-      "turnOnFailed": "Nie udało się włączyć. Spróbuj ponownie lub użyj przełącznika na odpowiedniej stronie."
+      "turnOnFailed": "Nie udało się włączyć. Spróbuj ponownie lub użyj przełącznika na odpowiedniej stronie.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Przekształcenia",
       "help": "Poznaj przekształcenia",
       "intro": {
-        "title": "Niech Twój tekst mówi dokładnie to, co masz na myśli",
+        "title": "Niech Twój tekst mówi dokładnie to, co masz <em>na myśli</em>",
         "body": "Zaznacz tekst w dowolnej aplikacji i naciśnij skrót. Przekształcenie przepisze go w tym samym miejscu, bezpośrednio na tym Macu.",
         "continue": "Wypróbuj"
       },
@@ -2534,10 +2535,10 @@
         "anywhere": "Działa w każdej aplikacji, w której piszesz"
       },
       "practice": {
-        "title": "Zaznacz tekst, a potem naciśnij {{shortcut}}",
+        "title": "<em>Zaznacz</em> tekst, a potem naciśnij <kbd>{{shortcut}}</kbd>",
         "body": "Zaznacz poniższą wiadomość (⌘A zaznacza całość), a potem naciśnij skrót Polish.",
-        "doneTitle": "Tekst przepisany",
-        "doneBody": "Naciśnij {{view}}, aby zobaczyć zmiany. {{undo}} je cofa.",
+        "doneTitle": "Tekst <em>przepisany</em>",
+        "doneBody": "Naciśnij <kbd>{{view}}</kbd>, aby zobaczyć zmiany. <kbd>{{undo}}</kbd> je cofa.",
         "app": "Czat z Jordanem",
         "context": "Jutrzejszy przegląd nadal aktualny?",
         "fieldLabel": "Twoja odpowiedź dla Jordana",
@@ -2559,17 +2560,17 @@
       },
       "how": {
         "select": {
-          "title": "Zaznacz tekst w dowolnej aplikacji",
+          "title": "<em>Zaznacz</em> tekst w dowolnej aplikacji",
           "body": "Pisz lub dyktuj jak zwykle: e‑mail, czat, dokument. Potem zaznacz to, co chcesz przepisać.",
           "scene": "Animacja: zaznaczony jest szkic e‑maila."
         },
         "press": {
-          "title": "Naciśnij {{shortcut}}",
+          "title": "<em>Naciśnij</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish przepisuje zaznaczenie w tym samym miejscu. Prompt Engineer ({{prompt}}) zamienia je w jasny prompt dla asystenta AI.",
           "scene": "Animacja: po naciśnięciu {{shortcut}} szkic zostaje zastąpiony jaśniejszą wersją."
         },
         "changes": {
-          "title": "Zobacz, co się zmieniło",
+          "title": "Zobacz, co się <em>zmieniło</em>",
           "body": "Naciśnij {{view}} lub kliknij Pokaż zmiany na pasku: usunięte słowa są przekreślone, a nowe wyróżnione. {{undo}} przywraca oryginał.",
           "scene": "Animacja: karta pokazuje zmiany, usunięte słowa są przekreślone, a nowe wyróżnione."
         }
@@ -2588,7 +2589,7 @@
       "title": "Dyktuj cicho",
       "help": "Naucz się cicho dyktować",
       "soft": {
-        "title": "Cichy głos wystarczy",
+        "title": "<em>Cichy</em> głos wystarczy",
         "body": "Nie musisz mówić głośno. Szepcz, a Twoje słowa i tak zamienią się w czysty tekst, więc możesz dyktować w otwartym biurze, w pociągu albo gdy ktoś obok śpi.",
         "app": "Notatki",
         "spoken": "„przypomnij mi żeby wysłać slajdy przed lunchem i zarezerwować salę na piątek”",
@@ -2596,7 +2597,7 @@
         "scene": "Animacja: wyszeptane zdanie pojawia się jako wpisany tekst: „{{text}}”"
       },
       "how": {
-        "title": "Jak szeptać do Maca",
+        "title": "Jak <em>szeptać</em> do Maca",
         "body": "Przy wbudowanym mikrofonie Maca cztery nawyki sprawiają, że cichy głos jest dobrze słyszalny.",
         "distance": "Około 30 cm (długość przedramienia) od mikrofonu",
         "tips": {
@@ -2619,9 +2620,9 @@
         }
       },
       "practice": {
-        "title": "Wyszepcz ten e‑mail",
+        "title": "<em>Wyszepcz</em> ten e‑mail",
         "body": "To prawdziwe dyktowanie. Tekst trafi tylko do wiadomości poniżej i nigdzie indziej.",
-        "doneTitle": "Słychać Cię, nawet szeptem",
+        "doneTitle": "Słychać Cię, nawet <em>szeptem</em>",
         "doneBody": "Tylko tyle trzeba. Przejdź dalej, aby znaleźć odpowiedni dla siebie mikrofon.",
         "instruction": "Przytrzymaj {{key}}, wyszepcz poniższy e‑mail, a potem puść.",
         "unbound": "Nie ustawiono skrótu dyktowania, więc nie można tu rozpocząć nagrania. Pomiń na razie ten krok i ustaw skrót w Ustawieniach.",
@@ -2714,7 +2715,7 @@
         }
       },
       "results": {
-        "title": "Twój dopasowany mikrofon",
+        "title": "Twój <em>dopasowany</em> mikrofon",
         "body": "Na podstawie Twoich odpowiedzi. Nic nie jest zapisywane ani nigdzie wysyłane.",
         "bestLine": "Najlepsze dopasowanie: {{mic}}.",
         "caption": "Jak sprawdza się każdy rodzaj mikrofonu",

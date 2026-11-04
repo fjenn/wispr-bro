@@ -2095,7 +2095,7 @@
     }
   },
   "firstUse": {
-    "title": "你想先试试什么？",
+    "title": "你想先<em>试试</em>什么？",
     "subtitle": "选择一项看看效果，然后在你自己的 App 中试试。",
     "choicesLabel": "开始的方式",
     "choices": {
@@ -2229,13 +2229,14 @@
       "progress": "第 {{step}} 步，共 {{total}} 步",
       "pause": "暂停动画",
       "play": "播放动画",
-      "turnOnFailed": "未能打开。请重试，或使用其页面上的开关。"
+      "turnOnFailed": "未能打开。请重试，或使用其页面上的开关。",
+      "sheetLabel": "{{lesson}}：{{mode}}"
     },
     "transforms": {
       "title": "转换",
       "help": "了解转换",
       "intro": {
-        "title": "让文字准确表达你的本意",
+        "title": "让文字准确表达你的<em>本意</em>",
         "body": "在任意 App 中选择文本并按下快捷键。转换会直接在这台 Mac 上就地改写文本。",
         "continue": "试试看"
       },
@@ -2264,10 +2265,10 @@
         "anywhere": "适用于你写字的任何 App"
       },
       "practice": {
-        "title": "选择文本，然后按 {{shortcut}}",
+        "title": "<em>选择</em>文本，然后按 <kbd>{{shortcut}}</kbd>",
         "body": "选择下方的消息（按 ⌘A 可全选），然后按 Polish 快捷键。",
-        "doneTitle": "文本已改写",
-        "doneBody": "按 {{view}} 查看更改。按 {{undo}} 撤销。",
+        "doneTitle": "文本已<em>改写</em>",
+        "doneBody": "按 <kbd>{{view}}</kbd> 查看更改。按 <kbd>{{undo}}</kbd> 撤销。",
         "app": "与 Jordan 聊天",
         "context": "明天的评审还照常吗？",
         "fieldLabel": "你给 Jordan 的回复",
@@ -2289,17 +2290,17 @@
       },
       "how": {
         "select": {
-          "title": "在任意 App 中选择文本",
+          "title": "在任意 App 中<em>选择</em>文本",
           "body": "像平常一样书写或听写：邮件、聊天、文稿都可以。然后选择想要改写的内容。",
           "scene": "动画：选中了一封邮件草稿。"
         },
         "press": {
-          "title": "按 {{shortcut}}",
+          "title": "<em>按</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish 会就地改写所选内容。Prompt Engineer（{{prompt}}）会将其变成给 AI 助手的清晰提示词。",
           "scene": "动画：按下 {{shortcut}} 后，草稿被替换为更清晰的版本。"
         },
         "changes": {
-          "title": "查看更改内容",
+          "title": "查看<em>更改</em>内容",
           "body": "按 {{view}} 或点按浮动栏上的“查看更改”：删除的词会被划掉，新的词会高亮显示。按 {{undo}} 可恢复原文。",
           "scene": "动画：一张卡片列出更改，删除的词被划掉，新的词高亮显示。"
         }
@@ -2318,7 +2319,7 @@
       "title": "轻声听写",
       "help": "学习轻声听写",
       "soft": {
-        "title": "轻声说话就够了",
+        "title": "<em>轻声</em>说话就够了",
         "body": "你不必提高音量。轻声说话，你的话照样会变成整洁的文本，因此你可以在开放式办公室、火车上或有人在旁边睡觉时听写。",
         "app": "备忘录",
         "spoken": "“提醒我午饭前把幻灯片发出去 再订一间周五的会议室”",
@@ -2326,7 +2327,7 @@
         "scene": "动画：一句轻声说出的话变成了输入的文本：“{{text}}”"
       },
       "how": {
-        "title": "如何对着 Mac 轻声说话",
+        "title": "如何对着 Mac <em>轻声</em>说话",
         "body": "使用 Mac 的内建麦克风时，四个习惯能让轻声也容易被听清。",
         "distance": "距离麦克风约 30 厘米（大约一个前臂的长度）",
         "tips": {
@@ -2349,9 +2350,9 @@
         }
       },
       "practice": {
-        "title": "轻声说出这封邮件",
+        "title": "<em>轻声</em>说出这封邮件",
         "body": "这是一次真实的听写。文字只会出现在下方的邮件中，不会出现在其他地方。",
-        "doneTitle": "即使轻声，也听清了",
+        "doneTitle": "即使<em>轻声</em>，也听清了",
         "doneBody": "就这么简单。继续下一步，找到适合你的麦克风。",
         "instruction": "按住 {{key}}，轻声说出下面的邮件，然后松开。",
         "unbound": "尚未设置听写快捷键，因此无法在这里开始听写。请先跳过此步骤，然后在设置中设置快捷键。",
@@ -2444,7 +2445,7 @@
         }
       },
       "results": {
-        "title": "最适合你的麦克风",
+        "title": "<em>最适合</em>你的麦克风",
         "body": "根据你的回答得出。不会存储或发送任何内容。",
         "bestLine": "最佳推荐：{{mic}}。",
         "caption": "各类麦克风的表现",

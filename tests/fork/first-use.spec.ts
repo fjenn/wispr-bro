@@ -21,11 +21,15 @@ import {
 import type { IpcMock } from "./fixtures";
 import { expectRtl, RTL_APP_SETTINGS } from "./pill-page";
 
+// The rendered text of a string: headings mark their italic word with
+// `<em>` and shortcuts with `<kbd>` (Design W5), which never show as text.
 const en = JSON.parse(
   readFileSync(
     new URL("../../src/i18n/locales/en/fork.json", import.meta.url),
     "utf8",
   ),
+  (_key, value) =>
+    typeof value === "string" ? value.replace(/<\/?(em|kbd)>/g, "") : value,
 );
 const CHOICES = [
   "ai_chat",
@@ -178,7 +182,7 @@ test.describe("first-use chooser", () => {
     });
     // Pause holds the frame.
     await page.getByTestId("wb-scene-pause").click();
-    await expect(page.getByTestId("wb-scene-pause")).toHaveText(
+    await expect(page.getByTestId("wb-scene-pause")).toHaveAccessibleName(
       en.firstUse.scene.play,
     );
   });

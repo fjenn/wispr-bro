@@ -1,30 +1,56 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* First-use scenes (S-30): a drawn app, the spoken caption, the bar. */
+/* First-use scenes (S-30; Design W5): a drawn app on a colourful wallpaper
+   (our own mesh gradient), the bar under it and the spoken words as a dark
+   caption pill. The wallpaper and the drawn app look the same in both
+   themes, like a screenshot; the chrome around them follows the theme. */
 .wb-scene {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
+  height: 100%;
+  min-height: 0;
 }
 .wb-scene-stage {
   position: relative;
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 14px;
-  min-height: 300px;
-  padding: 22px 20px 16px;
+  min-height: 340px;
+  padding: 28px 28px 22px;
   border-radius: var(--wb-radius-md);
-  background: var(--wb-accent-soft);
   overflow: hidden;
+  background:
+    radial-gradient(70% 60% at 12% 8%, #f6b98a 0%, transparent 62%),
+    radial-gradient(60% 70% at 92% 14%, #9a72ba 0%, transparent 60%),
+    radial-gradient(80% 70% at 78% 100%, #3d6fb6 0%, transparent 62%),
+    radial-gradient(70% 60% at 4% 96%, #e7849a 0%, transparent 60%),
+    linear-gradient(160deg, #f3d7c0 0%, #b9a5dc 52%, #5f86c9 100%);
+}
+/* A soft sheen so the gradient reads as a wallpaper, not a flat fill. */
+.wb-scene-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 80% at 50% 120%,
+    rgb(255 255 255 / 0.22),
+    transparent 60%
+  );
+  pointer-events: none;
 }
 .wb-scene-window {
+  position: relative;
   width: 100%;
-  max-width: 380px;
-  border-radius: 12px;
-  background: var(--wb-surface);
-  border: 1px solid var(--wb-line);
-  box-shadow: var(--wb-elev-1);
+  max-width: 400px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1a1a1a;
+  box-shadow:
+    0 0 0 0.5px rgb(0 0 0 / 0.12),
+    0 20px 44px rgb(20 16 40 / 0.28);
   overflow: hidden;
   text-align: start;
 }
@@ -32,43 +58,50 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: 7px 10px;
-  border-bottom: 1px solid var(--wb-line);
+  padding: 8px 12px;
+  border-bottom: 1px solid #ecebe6;
+  background: #f5f4f0;
   font-size: 12px;
   font-weight: 600;
-  color: var(--wb-ink-2);
+  color: #555555;
 }
 .wb-scene-dots {
   display: inline-flex;
-  gap: 4px;
+  gap: 5px;
   margin-inline-end: 4px;
 }
 .wb-scene-dots i {
   display: block;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: var(--wb-line-strong);
+  background: #d9d7d0;
 }
 .wb-scene-body {
-  padding: 12px 14px 14px;
+  padding: 14px 16px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 .wb-scene-context {
   margin: 0;
-  font-size: 13px;
-  color: var(--wb-ink-2);
+  align-self: flex-start;
+  max-width: 90%;
+  border-radius: 12px;
+  border-end-start-radius: 4px;
+  background: #f5f4f0;
+  padding: 6px 10px;
+  font-size: 12.5px;
+  color: #555555;
 }
 .wb-scene-field {
-  min-height: 64px;
-  padding: 9px 10px;
-  border-radius: 9px;
-  border: 1px solid var(--wb-line-strong);
-  font-size: 13.5px;
+  min-height: 72px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d9d7d0;
+  font-size: 14px;
   line-height: 1.45;
-  color: var(--wb-ink);
+  color: #1a1a1a;
 }
 .wb-scene-caret {
   display: inline-block;
@@ -76,58 +109,33 @@
   height: 1.05em;
   margin-inline-start: 1px;
   vertical-align: -0.18em;
-  background: var(--wb-ink);
+  background: #1a1a1a;
   animation: wb-scene-blink 1s steps(1) infinite;
 }
 .wb-scene-landed {
-  animation: wb-scene-land 380ms ease-out;
+  animation: wb-scene-land 380ms var(--wb-ease-out);
 }
-.wb-scene-caption {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  max-width: 420px;
-  min-height: 60px;
-  text-align: center;
-}
-.wb-scene-caption-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--wb-ink-2);
-}
-.wb-scene-caption-words {
-  font-family: var(--wb-font-display);
-  font-size: 18px;
-  line-height: 1.35;
-  color: var(--wb-ink);
-}
-.wb-scene-caption-words > span {
-  opacity: 0.18;
-  transition: opacity 120ms linear;
-}
-.wb-scene-caption-words > span.is-on {
-  opacity: 1;
-}
+/* The bar: the reference's resting pill, held capsule and spinner. */
 .wb-scene-pill {
+  position: relative;
   display: grid;
   place-items: center;
-  height: 26px;
-  min-width: 46px;
-  padding: 0 10px;
+  height: 30px;
+  min-width: 72px;
+  padding: 0 12px;
   border-radius: 999px;
-  background: #17171c;
-  border: 1px solid rgb(255 255 255 / 0.14);
+  background: #000000;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
   transition:
-    min-width 160ms ease,
-    opacity 160ms ease;
+    min-width var(--wb-dur-base) var(--wb-ease-out),
+    height var(--wb-dur-base) var(--wb-ease-out),
+    opacity var(--wb-dur-base) var(--wb-ease-out);
 }
 .wb-scene-pill[data-state="hidden"] {
-  min-width: 34px;
-  height: 8px;
-  opacity: 0.7;
+  min-width: 38px;
+  height: 6px;
+  padding: 0;
+  opacity: 0.8;
 }
 .wb-scene-bars {
   display: inline-flex;
@@ -137,38 +145,58 @@
 }
 .wb-scene-bars i {
   display: block;
-  width: 3px;
+  width: 2px;
   height: 4px;
   border-radius: 2px;
-  background: #fff;
+  background: #ffffff;
   animation: wb-scene-bar 520ms ease-in-out infinite alternate;
 }
 .wb-scene-spin {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   border: 2px solid rgb(255 255 255 / 0.3);
-  border-top-color: #fff;
+  border-top-color: #ffffff;
   animation: wb-scene-rot 800ms linear infinite;
 }
+/* The words being said, under the bar. */
+.wb-scene-caption {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  max-width: min(440px, 100%);
+  min-height: 34px;
+  padding: 7px 14px;
+  border-radius: 17px;
+  background: rgb(0 0 0 / 0.82);
+  color: #ffffff;
+  text-align: start;
+}
+.wb-scene-caption-label {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.7);
+}
+.wb-scene-caption-words {
+  font-size: 14px;
+  line-height: 20px;
+}
+.wb-scene-caption-words > span {
+  opacity: 0.3;
+  transition: opacity 120ms linear;
+}
+.wb-scene-caption-words > span.is-on {
+  opacity: 1;
+}
 .wb-scene-pause {
-  align-self: flex-end;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  border-radius: var(--wb-radius-sm);
-  font-size: 12px;
-  color: var(--wb-ink-2);
-  cursor: pointer;
-}
-.wb-scene-pause:hover {
-  background: var(--wb-fill-hover);
-  color: var(--wb-ink);
-}
-.wb-scene-pause:focus-visible {
-  outline: 2px solid var(--wb-accent);
-  outline-offset: 2px;
+  position: absolute;
+  inset-inline-start: 12px;
+  bottom: 12px;
+  z-index: 2;
 }
 @keyframes wb-scene-blink {
   50% {
@@ -183,7 +211,7 @@
 }
 @keyframes wb-scene-bar {
   to {
-    height: 13px;
+    height: 14px;
   }
 }
 @keyframes wb-scene-rot {
@@ -202,4 +230,10 @@
   .wb-scene-pill {
     transition: none;
   }
+}
+
+/* The chooser sheet: the reference's proportion of the window. */
+.wb-chooser-sheet {
+  max-width: min(940px, 84vw);
+  height: min(620px, calc(100dvh - 6rem));
 }

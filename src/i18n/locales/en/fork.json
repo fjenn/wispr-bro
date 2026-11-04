@@ -2278,7 +2278,7 @@
     }
   },
   "firstUse": {
-    "title": "What do you want to try first?",
+    "title": "What do you want to <em>try</em> first?",
     "subtitle": "Pick one to see how it goes. Then try it in your own app.",
     "choicesLabel": "Ways to start",
     "choices": {
@@ -2412,13 +2412,14 @@
       "progress": "Step {{step}} of {{total}}",
       "pause": "Pause animation",
       "play": "Play animation",
-      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page."
+      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transforms",
       "help": "Learn Transforms",
       "intro": {
-        "title": "Make your writing say it the way you mean it",
+        "title": "Make your writing say it the way you <em>mean</em> it",
         "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
         "continue": "Try it out"
       },
@@ -2447,10 +2448,10 @@
         "anywhere": "Works in any app you write in"
       },
       "practice": {
-        "title": "Select the text, then press {{shortcut}}",
+        "title": "<em>Select</em> the text, then press <kbd>{{shortcut}}</kbd>",
         "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
-        "doneTitle": "Text rewritten",
-        "doneBody": "Press {{view}} to view the changes. {{undo}} undoes it.",
+        "doneTitle": "Text <em>rewritten</em>",
+        "doneBody": "Press <kbd>{{view}}</kbd> to view the changes. <kbd>{{undo}}</kbd> undoes it.",
         "app": "Chat with Jordan",
         "context": "Are we still on for the review tomorrow?",
         "fieldLabel": "Your reply to Jordan",
@@ -2472,17 +2473,17 @@
       },
       "how": {
         "select": {
-          "title": "Select text in any app",
+          "title": "<em>Select</em> text in any app",
           "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
           "scene": "Animation: a draft email is selected."
         },
         "press": {
-          "title": "Press {{shortcut}}",
+          "title": "<em>Press</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
           "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
         },
         "changes": {
-          "title": "See what changed",
+          "title": "See what <em>changed</em>",
           "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
           "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
         }
@@ -2501,7 +2502,7 @@
       "title": "Dictate quietly",
       "help": "Learn to dictate quietly",
       "soft": {
-        "title": "A soft voice is enough",
+        "title": "A <em>soft</em> voice is enough",
         "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
         "app": "Notes",
         "spoken": "“remind me to send the slides before lunch and book a room for friday”",
@@ -2509,7 +2510,7 @@
         "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
       },
       "how": {
-        "title": "How to whisper to your Mac",
+        "title": "How to <em>whisper</em> to your Mac",
         "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
         "distance": "About 30 cm (a forearm's length) from the microphone",
         "tips": {
@@ -2532,9 +2533,9 @@
         }
       },
       "practice": {
-        "title": "Whisper this email",
+        "title": "<em>Whisper</em> this email",
         "body": "This is a real dictation. The text goes only into the message below, nowhere else.",
-        "doneTitle": "Heard you, even in a whisper",
+        "doneTitle": "Heard you, even in a <em>whisper</em>",
         "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
         "instruction": "Hold {{key}}, whisper the email below, then let go.",
         "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
@@ -2627,7 +2628,7 @@
         }
       },
       "results": {
-        "title": "Your microphone match",
+        "title": "Your microphone <em>match</em>",
         "body": "Based on your answers. Nothing is saved or sent anywhere.",
         "bestLine": "Best match: {{mic}}.",
         "caption": "How each kind of microphone does",

@@ -1310,6 +1310,37 @@ Design Phase 0, by eye.
 - [ ] DP0b.4 In the gallery's dark board under a light window, a menu,
       select and popover open dark.
 
+### Design W5 (lessons and first use) — queued for the Mac wave
+
+Built 2026-11-03 on `design/w5-lessons`. A debug build with an empty profile
+(`bun run wb:dev`), onboarding finished; one pass, by eye, light and dark.
+
+- [ ] W5.1 First-use chooser (opens after onboarding): a white sheet over the
+      Hub, the serif question with "try" in italic, seven outlined chips with
+      icons, the scene on the colourful wallpaper with the dark caption pill
+      under the bar; arrows/Home/End move the choice, Try it now still starts
+      the spotlight, Maybe later closes it for good.
+- [ ] W5.2 Transforms lesson (Transforms › Try it): white sheet, dashes
+      centred at the top, the heading's italic word in purple, three raised
+      example cards (the Polish one shows struck and purple words), the
+      ticker of ticks scrolls and pauses on hover and with its round button.
+      Practice: ⌥1 on the selected draft rewrites it, the bar below shows
+      Done · View changes inside a round cut-out; ⌥O shows the dark changes
+      card; ⌘Z puts the draft back. How it works: the dark stage plays and
+      pauses from its corner button.
+- [ ] W5.3 Whisper lesson (home banner › Dictate quietly): warm sheet, the
+      photo with the 30 cm drawing under it, the quoted sentence in italic
+      serif, a real take fills the mail composer (practice mode unchanged);
+      the four questions as option cards and mic tiles; the table has a
+      column per mic with its drawing and a green Best match band.
+- [ ] W5.4 Sidebar checklist: compact card (no clipping at 720 pt tall),
+      ink progress bar, hollow circles that fill with a tick, "Show me →"
+      on the next item.
+- [ ] W5.5 Reduce Motion: sheets and steps only fade, every scene is still,
+      no pause buttons; Increase Contrast: chips, option cards and the
+      table's edges stay visible. WebKit timeline: no dropped frames when a
+      lesson sheet opens on M-26.
+
 ### Design W7 (art) — queued for the Mac wave
 
 Built 2026-11-03 on `design/w7-assets` (SYSTEM-PLAN §6, W7). A debug build

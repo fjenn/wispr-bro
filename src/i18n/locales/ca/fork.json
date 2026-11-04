@@ -2275,7 +2275,7 @@
     }
   },
   "firstUse": {
-    "title": "Què vols provar primer?",
+    "title": "Què vols <em>provar</em> primer?",
     "subtitle": "Tria'n un per veure com va. Després prova-ho a la teva pròpia app.",
     "choicesLabel": "Maneres de començar",
     "choices": {
@@ -2409,13 +2409,14 @@
       "progress": "Pas {{step}} de {{total}}",
       "pause": "Posar en pausa l'animació",
       "play": "Reproduir l'animació",
-      "turnOnFailed": "No s'ha pogut activar. Torna-ho a provar o fes servir l'interruptor de la seva pàgina."
+      "turnOnFailed": "No s'ha pogut activar. Torna-ho a provar o fes servir l'interruptor de la seva pàgina.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformacions",
       "help": "Aprendre a fer servir les transformacions",
       "intro": {
-        "title": "Fes que el teu text digui exactament el que vols dir",
+        "title": "Fes que el teu text digui exactament el que vols <em>dir</em>",
         "body": "Selecciona text en qualsevol app i prem una drecera. Una transformació el reescriu allà mateix, en aquest Mac.",
         "continue": "Provar-ho"
       },
@@ -2444,10 +2445,10 @@
         "anywhere": "Funciona a qualsevol app on escriguis"
       },
       "practice": {
-        "title": "Selecciona el text i prem {{shortcut}}",
+        "title": "<em>Selecciona</em> el text i prem <kbd>{{shortcut}}</kbd>",
         "body": "Selecciona el missatge de sota (⌘A el selecciona sencer) i prem la drecera de Polish.",
-        "doneTitle": "Text reescrit",
-        "doneBody": "Prem {{view}} per veure els canvis. {{undo}} els desfà.",
+        "doneTitle": "Text <em>reescrit</em>",
+        "doneBody": "Prem <kbd>{{view}}</kbd> per veure els canvis. <kbd>{{undo}}</kbd> els desfà.",
         "app": "Xat amb Jordan",
         "context": "Encara fem la revisió demà?",
         "fieldLabel": "La teva resposta a Jordan",
@@ -2469,17 +2470,17 @@
       },
       "how": {
         "select": {
-          "title": "Selecciona text en qualsevol app",
+          "title": "<em>Selecciona</em> text en qualsevol app",
           "body": "Escriu o dicta com sempre: un correu, un xat, un document. Després selecciona el que vulguis reescriure.",
           "scene": "Animació: se selecciona un esborrany de correu."
         },
         "press": {
-          "title": "Prem {{shortcut}}",
+          "title": "<em>Prem</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish reescriu la selecció allà mateix. Prompt Engineer ({{prompt}}) la converteix en una instrucció clara per a un assistent d'IA.",
           "scene": "Animació: es prem {{shortcut}} i l'esborrany se substitueix per una versió més clara."
         },
         "changes": {
-          "title": "Mira què ha canviat",
+          "title": "Mira què ha <em>canviat</em>",
           "body": "Prem {{view}} o fes clic a Veure els canvis a la barra: les paraules eliminades apareixen ratllades i les noves, destacades. {{undo}} recupera l'original.",
           "scene": "Animació: una targeta mostra els canvis, amb les paraules eliminades ratllades i les noves destacades."
         }
@@ -2498,7 +2499,7 @@
       "title": "Dictar en veu baixa",
       "help": "Aprendre a dictar en veu baixa",
       "soft": {
-        "title": "N'hi ha prou amb una veu suau",
+        "title": "N'hi ha prou amb una veu <em>suau</em>",
         "body": "No cal que alcis la veu. Xiuxiueja i les teves paraules igualment es converteixen en text net, així que pots dictar en una oficina oberta, en un tren o mentre algú dorm a prop.",
         "app": "Notes",
         "spoken": "“recorda'm enviar les diapositives abans de dinar i reservar una sala per a divendres”",
@@ -2506,7 +2507,7 @@
         "scene": "Animació: una frase xiuxiuejada apareix com a text escrit: “{{text}}”"
       },
       "how": {
-        "title": "Com xiuxiuejar al Mac",
+        "title": "Com <em>xiuxiuejar</em> al Mac",
         "body": "Amb el micròfon integrat del Mac, quatre hàbits fan que una veu baixa se senti bé.",
         "distance": "Uns 30 cm (la llargada d'un avantbraç) del micròfon",
         "tips": {
@@ -2529,9 +2530,9 @@
         }
       },
       "practice": {
-        "title": "Xiuxiueja aquest correu",
+        "title": "<em>Xiuxiueja</em> aquest correu",
         "body": "És un dictat real. El text va només al missatge de sota, i enlloc més.",
-        "doneTitle": "T'hem sentit, fins i tot xiuxiuejant",
+        "doneTitle": "T'hem sentit, fins i tot <em>xiuxiuejant</em>",
         "doneBody": "Això és tot. Continua per trobar el micròfon que et va millor.",
         "instruction": "Mantén premuda {{key}}, xiuxiueja el correu de sota i deixa-la anar.",
         "unbound": "No hi ha cap drecera de dictat definida, així que aquí no es pot començar un dictat. Omet aquest pas de moment i defineix una drecera a Configuració.",
@@ -2624,7 +2625,7 @@
         }
       },
       "results": {
-        "title": "El micròfon que et va millor",
+        "title": "El micròfon que et va <em>millor</em>",
         "body": "Segons les teves respostes. No es desa ni s'envia res enlloc.",
         "bestLine": "El que et va millor: {{mic}}.",
         "caption": "Com funciona cada tipus de micròfon",

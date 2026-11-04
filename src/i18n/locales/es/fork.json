@@ -2275,7 +2275,7 @@
     }
   },
   "firstUse": {
-    "title": "¿Qué quieres probar primero?",
+    "title": "¿Qué quieres <em>probar</em> primero?",
     "subtitle": "Elige una opción para ver cómo funciona. Después, pruébalo en tu propia app.",
     "choicesLabel": "Formas de empezar",
     "choices": {
@@ -2409,13 +2409,14 @@
       "progress": "Paso {{step}} de {{total}}",
       "pause": "Pausar animación",
       "play": "Reproducir animación",
-      "turnOnFailed": "No se ha podido activar. Inténtalo de nuevo o usa el interruptor de su página."
+      "turnOnFailed": "No se ha podido activar. Inténtalo de nuevo o usa el interruptor de su página.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
     },
     "transforms": {
       "title": "Transformaciones",
       "help": "Aprender sobre Transformaciones",
       "intro": {
-        "title": "Haz que lo que escribes diga exactamente lo que quieres decir",
+        "title": "Haz que lo que escribes diga exactamente lo que quieres <em>decir</em>",
         "body": "Selecciona texto en cualquier app y pulsa una función rápida. Una transformación lo reescribe en el mismo sitio, aquí en este Mac.",
         "continue": "Probar"
       },
@@ -2444,10 +2445,10 @@
         "anywhere": "Funciona en cualquier app en la que escribas"
       },
       "practice": {
-        "title": "Selecciona el texto y pulsa {{shortcut}}",
+        "title": "<em>Selecciona</em> el texto y pulsa <kbd>{{shortcut}}</kbd>",
         "body": "Selecciona el mensaje de abajo (⌘A lo selecciona entero) y pulsa la función rápida de Polish.",
-        "doneTitle": "Texto reescrito",
-        "doneBody": "Pulsa {{view}} para ver los cambios. {{undo}} los deshace.",
+        "doneTitle": "Texto <em>reescrito</em>",
+        "doneBody": "Pulsa <kbd>{{view}}</kbd> para ver los cambios. <kbd>{{undo}}</kbd> los deshace.",
         "app": "Chat con Jordan",
         "context": "¿Sigue en pie la revisión de mañana?",
         "fieldLabel": "Tu respuesta a Jordan",
@@ -2469,17 +2470,17 @@
       },
       "how": {
         "select": {
-          "title": "Selecciona texto en cualquier app",
+          "title": "<em>Selecciona</em> texto en cualquier app",
           "body": "Escribe o dicta como siempre: un correo, un chat, un documento. Luego selecciona lo que quieras reescribir.",
           "scene": "Animación: se selecciona el borrador de un correo."
         },
         "press": {
-          "title": "Pulsa {{shortcut}}",
+          "title": "<em>Pulsa</em> <kbd>{{shortcut}}</kbd>",
           "body": "Polish reescribe la selección en el mismo sitio. Prompt Engineer ({{prompt}}) la convierte en un prompt claro para un asistente de IA.",
           "scene": "Animación: se pulsa {{shortcut}} y el borrador se sustituye por una versión más clara."
         },
         "changes": {
-          "title": "Mira qué ha cambiado",
+          "title": "Mira qué ha <em>cambiado</em>",
           "body": "Pulsa {{view}} o haz clic en Ver cambios en la barra: las palabras eliminadas aparecen tachadas y las nuevas, resaltadas. {{undo}} recupera tu original.",
           "scene": "Animación: una tarjeta muestra los cambios, con las palabras eliminadas tachadas y las nuevas resaltadas."
         }
@@ -2498,7 +2499,7 @@
       "title": "Dicta en voz baja",
       "help": "Aprende a dictar en voz baja",
       "soft": {
-        "title": "Una voz suave basta",
+        "title": "Una voz <em>suave</em> basta",
         "body": "No hace falta que hables alto. Susurra y tus palabras se seguirán convirtiendo en texto limpio, así que puedes dictar en una oficina abierta, en el tren o con alguien durmiendo cerca.",
         "app": "Notas",
         "spoken": "“recuérdame mandar las diapositivas antes de comer y reservar una sala para el viernes”",
@@ -2506,7 +2507,7 @@
         "scene": "Animación: una frase susurrada aparece como texto escrito: “{{text}}”"
       },
       "how": {
-        "title": "Cómo susurrar a tu Mac",
+        "title": "Cómo <em>susurrar</em> a tu Mac",
         "body": "Con el micrófono integrado de tu Mac, cuatro hábitos hacen que una voz baja se oiga bien.",
         "distance": "Unos 30 cm (lo que mide un antebrazo) del micrófono",
         "tips": {
@@ -2529,9 +2530,9 @@
         }
       },
       "practice": {
-        "title": "Susurra este correo",
+        "title": "<em>Susurra</em> este correo",
         "body": "Es un dictado real. El texto va solo al mensaje de abajo y a ningún otro sitio.",
-        "doneTitle": "Te he oído, incluso susurrando",
+        "doneTitle": "Te he oído, incluso <em>susurrando</em>",
         "doneBody": "No hace falta más. Continúa para encontrar el micrófono que más te conviene.",
         "instruction": "Mantén pulsada {{key}}, susurra el correo de abajo y suelta.",
         "unbound": "No hay ninguna función rápida de dictado asignada, así que aquí no se puede empezar una toma. Omite este paso por ahora y asigna una función rápida en Ajustes.",
@@ -2624,7 +2625,7 @@
         }
       },
       "results": {
-        "title": "Tu micrófono recomendado",
+        "title": "Tu micrófono <em>recomendado</em>",
         "body": "Según tus respuestas. No se guarda ni se envía nada.",
         "bestLine": "Más recomendado: {{mic}}.",
         "caption": "Cómo funciona cada tipo de micrófono",

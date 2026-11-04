@@ -1,25 +1,26 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* Lessons (S-31): progress dashes, the simulated composer, the drawn bar
-   and its spotlight, example cards, the benefits ticker and the How it
-   works scenes. Our own drawing; Hub tokens only (light and dark). */
+/* Lessons (S-31, S-32; Design W5): the lesson sheet's size, the example
+   cards and ticker, the drawn composer, the drawn bar and its spotlight, the
+   How it works stage and the soft-voice scene. Our own drawing; tokens only
+   (light, dark, Increase Contrast), Reduce Motion stills everything. */
 
-.wb-lesson-dashes li {
-  width: 28px;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--wb-line-strong);
-}
-.wb-lesson-dashes li[data-on] {
-  background: var(--wb-ink);
+/* The sheet keeps the reference's proportion of the window (~ 80 % × 84 %)
+   instead of filling our smaller default window. Unlayered, so it wins
+   over the Sheet's own size utilities. */
+.wb-lesson-sheet {
+  max-width: min(940px, 82vw);
+  height: min(640px, calc(100dvh - 6rem));
 }
 
-/* Example cards: Original / Polish / Prompt Engineer. */
+/* ---------- Examples: Original / Polish / Prompt Engineer ---------- */
+
 .wb-lesson-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  align-items: start;
+  gap: 16px;
 }
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .wb-lesson-cards {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -27,45 +28,39 @@
 .wb-lesson-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   border: 1px solid var(--wb-line);
   border-radius: var(--wb-radius-md);
   background: var(--wb-surface);
-  padding: 14px;
+  box-shadow: var(--wb-elev-2);
+  padding: 18px 18px 20px;
 }
-.wb-lesson-card[data-kind="original"] {
-  background: var(--wb-panel);
+/* The middle card sits a little lower, like a hand of cards. */
+.wb-lesson-card[data-kind="polish"] {
+  margin-top: 14px;
 }
-.wb-lesson-card h4 {
+.wb-lesson-card h3 {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12.5px;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 600;
-  color: var(--wb-ink-2);
+  color: var(--wb-ink);
+}
+.wb-lesson-card[data-kind="polish"] p {
+  color: var(--wb-ink);
 }
 .wb-lesson-card p {
-  font-size: 13.5px;
-  line-height: 1.45;
-  color: var(--wb-ink);
+  font-size: 13px;
+  line-height: 19px;
+  color: var(--wb-ink-2);
 }
-.wb-lesson-card kbd,
-.wb-kbd {
-  font-family: inherit;
-  font-size: 11.5px;
-  padding: 1px 6px;
-  border-radius: 6px;
-  border: 1px solid var(--wb-line-strong);
-  background: var(--wb-surface);
-  color: var(--wb-ink);
-  box-shadow: 0 1px 0 var(--wb-line-strong);
-}
-
-/* Benefits ticker: one slow line, paused on hover/focus or by its button. */
+/* Benefits ticker: one slow line of ticks, paused on hover or by its button. */
 .wb-ticker {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .wb-ticker-view {
   position: relative;
@@ -75,16 +70,16 @@
   mask-image: linear-gradient(
     to right,
     transparent 0,
-    black 24px,
-    black calc(100% - 24px),
+    black 48px,
+    black calc(100% - 48px),
     transparent 100%
   );
 }
 .wb-ticker-track {
   display: flex;
   width: max-content;
-  gap: 8px;
-  animation: wb-ticker 28s linear infinite;
+  gap: 28px;
+  animation: wb-ticker 32s linear infinite;
 }
 [dir="rtl"] .wb-ticker-track {
   animation-name: wb-ticker-rtl;
@@ -95,25 +90,28 @@
 }
 .wb-ticker-track ul {
   display: flex;
-  gap: 8px;
+  gap: 28px;
 }
 .wb-ticker-track li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   white-space: nowrap;
-  border-radius: 999px;
-  border: 1px solid var(--wb-line);
-  background: var(--wb-surface);
-  padding: 4px 12px;
-  font-size: 12.5px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--wb-ink-2);
+}
+.wb-ticker-track li svg {
   color: var(--wb-ink);
 }
 @keyframes wb-ticker {
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-50% - 14px));
   }
 }
 @keyframes wb-ticker-rtl {
   to {
-    transform: translateX(50%);
+    transform: translateX(calc(50% + 14px));
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -126,129 +124,173 @@
   }
   .wb-ticker-track ul {
     flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 8px;
   }
   .wb-ticker-track ul[aria-hidden] {
     display: none;
   }
 }
 
-/* The simulated app. */
+/* ---------- The drawn composer ---------- */
+
 .wb-practice {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 16px;
-  border-radius: var(--wb-radius-md);
-  background: var(--wb-accent-soft);
-  overflow: hidden;
+  gap: 22px;
+  padding-bottom: 6px;
 }
 .wb-practice-window {
+  position: relative;
   width: 100%;
   border: 1px solid var(--wb-line);
-  border-radius: 10px;
+  border-radius: var(--wb-radius-md);
   background: var(--wb-surface);
-  box-shadow: var(--wb-elev-1);
+  box-shadow: var(--wb-elev-2);
   overflow: hidden;
+  text-align: start;
 }
-.wb-practice-titlebar {
+.wb-practice-tools,
+.wb-practice-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 14px;
+  color: var(--wb-ink-3);
+}
+.wb-practice-tools {
+  border-bottom: 1px solid var(--wb-line);
+  background: var(--wb-surface-tint);
+}
+.wb-practice-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 10px;
+  padding: 11px 16px;
   border-bottom: 1px solid var(--wb-line);
-  font-size: 12px;
-  color: var(--wb-ink-2);
-}
-.wb-practice-dots {
-  display: inline-flex;
-  gap: 5px;
-  margin-inline-end: 6px;
-}
-.wb-practice-dots i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--wb-line-strong);
+  background: var(--wb-surface-tint);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--wb-ink);
 }
 .wb-practice-body {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 12px;
+  gap: 12px;
+  padding: 14px 16px 4px;
+}
+.wb-practice[data-variant="mail"] .wb-practice-body {
+  padding-bottom: 16px;
+}
+.wb-practice-thread {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.wb-practice-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--wb-ink-3);
 }
 .wb-practice-context {
-  align-self: flex-start;
-  max-width: 80%;
+  max-width: 85%;
   border-radius: 14px;
-  background: var(--wb-fill-hover);
-  padding: 6px 12px;
+  border-end-start-radius: 4px;
+  background: var(--wb-surface-tint);
+  padding: 7px 12px;
   font-size: 13px;
+  line-height: 18px;
   color: var(--wb-ink);
 }
 .wb-practice-field {
   width: 100%;
   resize: none;
-  border: 1px solid var(--wb-line-strong);
-  border-radius: 10px;
-  background: var(--wb-panel);
-  padding: 10px 12px;
+  border: 0;
+  border-radius: var(--wb-radius-sm);
+  background: transparent;
+  padding: 6px 0;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 21px;
   color: var(--wb-ink);
   user-select: text;
 }
+.wb-practice[data-variant="mail"] .wb-practice-field {
+  border: 1px solid var(--wb-line-strong);
+  background: var(--wb-surface);
+  padding: 10px 12px;
+}
+.wb-practice-field::placeholder {
+  color: var(--wb-ink-3);
+  font-style: italic;
+}
 .wb-practice-field:focus-visible {
   outline: 2px solid var(--wb-accent);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 .wb-practice-field::selection {
-  background: color-mix(in srgb, var(--wb-ink) 32%, transparent);
+  background: var(--wb-accent-soft);
+  color: var(--wb-ink);
 }
 
-/* The drawn bar: "Done · View changes" after a rewrite. */
+/* ---------- The drawn bar (REFERENCE-SPEC §7, our drawing) ---------- */
+
 .wb-lesson-bar {
   position: relative;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-height: 34px;
-  padding: 4px 6px 4px 14px;
+  min-height: 30px;
+  padding: 3px 4px 3px 14px;
   border-radius: 999px;
-  background: #17171a;
-  color: #f5f5f7;
-  font-size: 13px;
-  box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
+  background: var(--wb-hud);
+  color: var(--wb-on-hud);
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    min-width var(--wb-dur-base) var(--wb-ease-out),
+    padding var(--wb-dur-base) var(--wb-ease-out);
 }
 .wb-lesson-bar[data-state="idle"] {
-  min-width: 64px;
-  min-height: 12px;
+  min-width: 38px;
+  min-height: 6px;
   padding: 0;
-  opacity: 0.85;
+  opacity: 0.75;
+}
+.wb-lesson-bar[data-state="working"] {
+  padding-inline-end: 12px;
+}
+.wb-lesson-bar button,
+.wb-lesson-bar-action {
+  border-radius: 999px;
+  background: var(--wb-hud-control);
+  color: var(--wb-on-hud);
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 500;
 }
 .wb-lesson-bar button {
   cursor: pointer;
-  border-radius: 999px;
-  background: #34343a;
-  color: #fff;
-  padding: 4px 12px;
-  font-size: 12.5px;
-  font-weight: 600;
+  transition: background-color var(--wb-dur-fast);
 }
 .wb-lesson-bar button:hover {
   background: #45454d;
 }
 .wb-lesson-bar button:focus-visible {
-  outline: 2px solid #8fb8ff;
+  outline: 2px solid var(--wb-on-hud);
   outline-offset: 2px;
 }
 .wb-lesson-spin {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid rgb(255 255 255 / 0.35);
+  border: 2px solid rgb(255 255 255 / 0.3);
   border-top-color: #fff;
   animation: wb-lesson-spin 0.9s linear infinite;
 }
@@ -258,94 +300,163 @@
   }
 }
 
-/* Spotlight on the bar: the rest of the simulated app dims. */
+/* Spotlight on the bar: everything else in the practice dims, with a round
+   cut-out around the bar (REFERENCE-SPEC §7 "Spotlight"). */
 .wb-lesson-dim {
   position: absolute;
-  inset: 0;
+  inset: -40px -64px -24px;
   z-index: 1;
-  background: rgb(0 0 0 / 0.55);
   border: 0;
   cursor: default;
-  animation: wb-lesson-fade 0.25s ease-out;
+  background: radial-gradient(
+    circle 92px at 50% calc(100% - 39px),
+    transparent 0 97%,
+    rgb(0 0 0 / 0.5) 100%
+  );
+  /* Soft edges, so the dim reads as the screen dimming, not a box. */
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      black 56px,
+      black calc(100% - 56px),
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 36px,
+      black calc(100% - 20px),
+      transparent
+    );
+  mask-composite: intersect;
+  animation: wb-lesson-fade var(--wb-dur-slow) var(--wb-ease-out);
 }
 .wb-lesson-bar[data-spot] {
-  outline: 3px solid color-mix(in srgb, #fff 70%, transparent);
-  outline-offset: 4px;
-  animation: wb-lesson-pulse 1.6s ease-in-out infinite;
+  box-shadow: 0 0 0 6px rgb(255 255 255 / 0.18);
 }
 @keyframes wb-lesson-fade {
   from {
     opacity: 0;
   }
 }
-@keyframes wb-lesson-pulse {
-  50% {
-    outline-offset: 7px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wb-lesson-dim,
-  .wb-lesson-bar[data-spot],
-  .wb-lesson-spin {
-    animation: none;
-  }
-}
 
-/* How it works scenes. */
-.wb-lesson-scene {
+/* The changes card under the practice (View changes). */
+.wb-lesson-changes {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-2);
+  padding: 14px 16px 16px;
+  font-size: 14px;
+  animation: wb-lesson-rise var(--wb-dur-slow) var(--wb-ease-out);
+}
+@keyframes wb-lesson-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---------- How it works: a dark stage, like a player ---------- */
+
+.wb-lesson-scene {
+  position: relative;
 }
 .wb-lesson-stage {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  min-height: 250px;
-  padding: 18px;
+  justify-content: center;
+  gap: 18px;
+  min-height: 300px;
+  padding: 28px 24px 22px;
   border-radius: var(--wb-radius-md);
-  background: var(--wb-accent-soft);
+  background:
+    radial-gradient(
+      120% 90% at 85% 0%,
+      rgb(154 114 186 / 0.35),
+      transparent 60%
+    ),
+    radial-gradient(90% 80% at 0% 100%, rgb(46 92 92 / 0.45), transparent 60%),
+    var(--wb-hud-2);
   overflow: hidden;
 }
-.wb-lesson-stage .wb-practice-window {
-  max-width: 520px;
+.wb-scene-control {
+  position: absolute;
+  inset-inline-start: 12px;
+  bottom: 12px;
+  z-index: 3;
+}
+.wb-scene-window {
+  width: 100%;
+  max-width: 460px;
+  border-radius: 10px;
+  background: #fff;
+  color: #1a1a1a;
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
+  overflow: hidden;
+  text-align: start;
+}
+.wb-scene-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ecebe6;
+  background: #f5f4f0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+}
+.wb-scene-dots {
+  display: inline-flex;
+  gap: 5px;
+  margin-inline-end: 4px;
+}
+.wb-scene-dots i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d9d7d0;
 }
 .wb-scene-draft {
-  min-height: 72px;
-  border-radius: 10px;
-  border: 1px solid var(--wb-line);
-  background: var(--wb-panel);
-  padding: 10px 12px;
-  font-size: 13.5px;
+  min-height: 92px;
+  padding: 14px 16px;
+  font-size: 14px;
   line-height: 1.5;
-  color: var(--wb-ink);
+  color: #1a1a1a;
 }
 .wb-scene-draft mark {
   color: inherit;
   background: transparent;
+  border-radius: 3px;
   transition: background-color 0.6s ease;
 }
 .wb-lesson-stage[data-beat="selecting"] .wb-scene-draft mark {
-  background: color-mix(in srgb, var(--wb-ink) 18%, transparent);
+  background: rgb(154 114 186 / 0.18);
 }
 .wb-lesson-stage[data-beat="selected"] .wb-scene-draft mark,
 .wb-lesson-stage[data-beat="keys"] .wb-scene-draft mark,
 .wb-lesson-stage[data-beat="working"] .wb-scene-draft mark {
-  background: color-mix(in srgb, var(--wb-ink) 32%, transparent);
+  background: rgb(154 114 186 / 0.32);
 }
 .wb-scene-keys {
   position: absolute;
-  top: 46%;
+  top: 44%;
   left: 50%;
   display: flex;
-  gap: 6px;
+  gap: 8px;
   transform: translate(-50%, -50%) scale(0.9);
   opacity: 0;
   transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+    opacity var(--wb-dur-base) var(--wb-ease-out),
+    transform var(--wb-dur-base) var(--wb-ease-out);
 }
 .wb-lesson-stage[data-beat="keys"] .wb-scene-keys,
 .wb-lesson-stage[data-beat="undo"] .wb-scene-keys {
@@ -355,31 +466,35 @@
 .wb-scene-keys span {
   display: grid;
   place-items: center;
-  min-width: 44px;
-  height: 44px;
-  padding: 0 10px;
+  min-width: 52px;
+  height: 52px;
+  padding: 0 12px;
   border-radius: 10px;
-  border: 1px solid var(--wb-line-strong);
-  background: var(--wb-surface);
-  color: var(--wb-ink);
-  font-size: 18px;
-  font-weight: 600;
-  box-shadow: 0 3px 0 var(--wb-line-strong);
+  background: var(--wb-hud);
+  color: var(--wb-on-hud);
+  font-size: 20px;
+  font-weight: 500;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.14),
+    0 10px 24px rgb(0 0 0 / 0.35);
 }
 .wb-scene-diff {
   position: absolute;
-  inset-inline: 10%;
-  top: 14%;
-  border: 1px solid var(--wb-line);
-  border-radius: var(--wb-radius-md);
-  background: var(--wb-surface);
-  box-shadow: var(--wb-elev-1);
-  padding: 12px 14px;
+  inset-inline: 12%;
+  top: 16%;
+  border-radius: var(--wb-radius-lg);
+  background: var(--wb-hud-2);
+  color: var(--wb-on-hud);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 18px 40px rgb(0 0 0 / 0.4);
+  padding: 14px 16px;
+  font-size: 14px;
   opacity: 0;
   transform: translateY(8px);
   transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+    opacity var(--wb-dur-slow) var(--wb-ease-out),
+    transform var(--wb-dur-slow) var(--wb-ease-out);
 }
 .wb-lesson-stage[data-beat="diff"] .wb-scene-diff {
   opacity: 1;
@@ -387,46 +502,36 @@
 }
 .wb-scene-diff h4 {
   margin-bottom: 6px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
+  color: var(--wb-on-hud-2);
 }
 @media (prefers-reduced-motion: reduce) {
+  .wb-lesson-bar,
   .wb-scene-draft mark,
   .wb-scene-keys,
   .wb-scene-diff {
     transition: none;
   }
+  .wb-lesson-dim,
+  .wb-lesson-changes,
+  .wb-lesson-spin {
+    animation: none;
+  }
 }
 
-.wb-lesson-pause {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  border-radius: var(--wb-radius-sm);
-  font-size: 12px;
-  color: var(--wb-ink-2);
-  cursor: pointer;
-}
-.wb-lesson-pause:hover {
-  background: var(--wb-fill-hover);
-  color: var(--wb-ink);
-}
-.wb-lesson-pause:focus-visible {
-  outline: 2px solid var(--wb-accent);
-  outline-offset: 2px;
-}
+/* ---------- S-32: the soft-voice scene ---------- */
 
-/* S-32: the soft-voice scene (a quiet caption, small levels, the text lands). */
 .wb-whisper-caption {
   margin: 0;
   max-width: 460px;
   text-align: center;
-  font-size: 13px;
+  font-family: var(--wb-font-display);
+  font-size: 20px;
+  line-height: 1.35;
   font-style: italic;
-  color: var(--wb-ink-2);
-  opacity: 0.25;
+  color: var(--wb-on-hud);
+  opacity: 0.3;
   transition: opacity 0.6s ease;
 }
 .wb-whisper-stage[data-beat="words"] .wb-whisper-caption,
@@ -446,29 +551,29 @@
 .wb-whisper-levels {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   height: 14px;
 }
 .wb-whisper-levels i {
   display: block;
-  width: 3px;
+  width: 2px;
   height: 3px;
   border-radius: 2px;
-  background: #f5f5f7;
+  background: var(--wb-on-hud);
 }
 .wb-whisper-stage[data-beat="words"] .wb-whisper-levels i {
   animation: wb-whisper-level 0.9s ease-in-out infinite;
 }
-.wb-whisper-levels i:nth-child(2) {
+.wb-whisper-levels i:nth-child(2n) {
   animation-delay: 0.15s;
 }
-.wb-whisper-levels i:nth-child(3) {
+.wb-whisper-levels i:nth-child(3n) {
   animation-delay: 0.3s;
 }
-.wb-whisper-levels i:nth-child(4) {
+.wb-whisper-levels i:nth-child(4n) {
   animation-delay: 0.45s;
 }
-.wb-whisper-levels i:nth-child(5) {
+.wb-whisper-levels i:nth-child(5n) {
   animation-delay: 0.6s;
 }
 @keyframes wb-whisper-level {
@@ -484,4 +589,139 @@
   .wb-whisper-stage[data-beat="words"] .wb-whisper-levels i {
     animation: none;
   }
+}
+
+/* ---------- S-32: the microphone table (a column per microphone) ---------- */
+
+.wb-mic-table {
+  margin-inline: auto;
+  border-collapse: separate;
+  border-spacing: 8px 0;
+  font-size: 13px;
+  color: var(--wb-ink);
+}
+.wb-mic-table thead th,
+.wb-mic-table td {
+  position: relative;
+  min-width: 112px;
+  padding: 7px 10px;
+  text-align: center;
+  vertical-align: middle;
+  background: var(--wb-surface);
+  border-inline: 1px solid var(--wb-line);
+}
+.wb-mic-table thead th {
+  padding-top: 12px;
+  border-top: 1px solid var(--wb-line);
+  border-start-start-radius: var(--wb-radius-sm);
+  border-start-end-radius: var(--wb-radius-sm);
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 600;
+  vertical-align: bottom;
+}
+.wb-mic-table tbody tr:last-child td {
+  border-bottom: 1px solid var(--wb-line);
+  border-end-start-radius: var(--wb-radius-sm);
+  border-end-end-radius: var(--wb-radius-sm);
+  padding-bottom: 14px;
+}
+.wb-mic-table tbody th {
+  padding: 7px 8px 7px 0;
+  text-align: end;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--wb-ink-2);
+  max-width: 120px;
+}
+.wb-mic-table .wb-mic-corner {
+  background: transparent;
+  border: 0;
+}
+/* The Best match column: a green band on top and a green edge. */
+.wb-mic-table [data-best] {
+  border-color: var(--wb-success);
+  border-inline-width: 1.5px;
+  background: color-mix(in srgb, var(--wb-success) 6%, var(--wb-surface));
+}
+.wb-mic-table thead th[data-best] {
+  border-top-width: 1.5px;
+}
+.wb-mic-table tbody tr:last-child td[data-best] {
+  border-bottom-width: 1.5px;
+}
+.wb-mic-band {
+  position: absolute;
+  inset-inline: -1.5px;
+  bottom: 100%;
+  border-start-start-radius: var(--wb-radius-sm);
+  border-start-end-radius: var(--wb-radius-sm);
+  background: color-mix(in srgb, var(--wb-success) 82%, #000);
+  color: var(--wb-on-ink);
+  padding: 3px 6px;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+}
+
+/* The sentence to whisper: set like a quote, in the display italic. */
+.wb-whisper-script {
+  max-width: 480px;
+  text-align: center;
+  font-family: var(--wb-font-display);
+  font-size: 20px;
+  line-height: 27px;
+  font-style: italic;
+  color: var(--wb-ink);
+  quotes: auto;
+}
+.wb-whisper-script::before {
+  content: open-quote;
+}
+.wb-whisper-script::after {
+  content: close-quote;
+}
+
+/* ---------- Image slots (W7 photos; a token gradient until then) ---------- */
+
+.wb-art-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--wb-radius-md);
+  overflow: hidden;
+  background: var(--wb-hero);
+  box-shadow: var(--wb-elev-2);
+}
+.wb-art-slot[data-placeholder] {
+  background:
+    radial-gradient(
+      70% 90% at 78% 18%,
+      rgb(240 237 230 / 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      60% 70% at 12% 100%,
+      rgb(154 114 186 / 0.3),
+      transparent 65%
+    ),
+    var(--wb-hero-grade), var(--wb-hero);
+}
+.wb-art-slot picture,
+.wb-art-slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wb-art-slot-overlay {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 0 24px;
 }

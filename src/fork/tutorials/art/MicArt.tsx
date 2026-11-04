@@ -128,7 +128,7 @@ export function WhisperDistanceArt({ className }: { className?: string }) {
       {/* Laptop with the mic dot. */}
       <rect x="156" y="22" width="48" height="34" rx="3" />
       <path d="M150 62h60l-4 6h-52z" />
-      <circle cx="180" cy="26" r="2" fill={MIC} stroke={MIC} />
+      <circle cx="180" cy="26" r="2" fill="currentColor" />
     </svg>
   );
 }
