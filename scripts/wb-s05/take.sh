@@ -152,6 +152,8 @@ last_text() {
 }
 finish() {
   # The app log of this take: target decision and outcome (no text).
+  # The log plugin rotates a big debug log: a shorter file is a new one.
+  [ "$(wc -l <"$LOG")" -lt "$log_from" ] && log_from=0
   tail -n +"$((log_from + 1))" "$LOG" | grep -E "insert: take [0-9]+ |pill: card copied|copied to the clipboard" >"$T/app.log"
   python3 -I "$HERE/summarize.py" "$CASE" "$T"
 }

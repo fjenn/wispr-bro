@@ -160,6 +160,8 @@ print("identical" if a["digest"]==b["digest"] and a["saved"]==b["restored"] else
   "$T/clip-save.json" "$T/clip-restore.json" >"$T/clip-restored"
 close_all
 # The take's app log: hotkey effects (debug build), target and outcome.
+# The log plugin rotates a big debug log: a shorter file is a new one.
+[ "$(wc -l <"$LOG")" -lt "$log_from" ] && log_from=0
 tail -n +"$((log_from + 1))" "$LOG" \
   | grep -E "insert: take [0-9]+ |fork hotkeys: (Effect|StuckReleased)|copied to the clipboard" >"$T/app.log"
 python3 -I "$HERE/summarize.py" "$CASE" "$T"
