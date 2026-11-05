@@ -698,8 +698,17 @@ fn handy_hooks_are_in_place() {
     assert!(actions.contains("if wav_saved || crate::fork::keep_take(&wav_path_for_verify) {"));
     let transcription = read("src/managers/transcription.rs");
     assert!(transcription.contains("crate::fork::text::process(text, &output_language, |text| {"));
-    // S-20: the context hints reach the recognizer's vocabulary.
-    assert!(transcription.contains("vocabulary: crate::fork::context::awareness::vocabulary("));
+    // S-20: the context hints reach the recognizer: the awareness vocabulary
+    // (custom words + hints) is the term list `recognizer_prompt::run_options`
+    // turns into Whisper's prompt or the vocabulary slot.
+    let compact: String = transcription.split_whitespace().collect();
+    assert!(compact.contains(
+        "..crate::fork::context::recognizer_prompt::run_options(&info.arch,crate::fork::context::awareness::vocabulary("
+    ));
+    // The prompt echo guard runs on every transcript.
+    assert!(transcription.contains(
+        "crate::fork::context::recognizer_prompt::strip_echo(text, &setup.run_options);"
+    ));
 }
 
 /// S-20 (R5 tests: "nothing persisted (DB and logs checked)"): a take whose
