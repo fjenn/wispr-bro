@@ -72,7 +72,8 @@ export interface ChoiceCardProps {
   exampleTestId: string;
   title: string;
   description: string;
-  /** English sample text, shown in a tinted box at the bottom. */
+  /** English sample text, shown in a tinted box at the bottom; its line
+   *  breaks show (an email's greeting and sign-off). */
   example: string;
   /** Read before the example by screen readers. */
   exampleLabel: string;
@@ -157,7 +158,7 @@ export function ChoiceCard({
           lang="en"
           dir="ltr"
           data-testid={exampleTestId}
-          className={`w-full rounded-(--wb-radius-md) bg-(--wb-accent-soft) text-start text-[16px] leading-[24px] text-(--wb-ink) ${
+          className={`w-full rounded-(--wb-radius-md) bg-(--wb-accent-soft) text-start whitespace-pre-line text-[16px] leading-[24px] text-(--wb-ink) ${
             chat
               ? "rounded-ee-none px-[14px] py-[18px]"
               : "px-4 py-3 leading-[20px]! italic [font-synthesis:style]"

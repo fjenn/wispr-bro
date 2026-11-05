@@ -362,11 +362,13 @@ mod tests {
                 .nth(1)
                 .and_then(|b| b.split("\n  },").next())
                 .unwrap_or_else(|| panic!("no example for {group}"));
+            // The TS strings spell a line break `\n`.
             let texts: std::collections::HashMap<String, String> = entry
                 .captures_iter(block)
-                .map(|c| (c[1].to_string(), c[2].to_string()))
+                .map(|c| (c[1].to_string(), c[2].replace("\\n", "\n")))
                 .collect();
             let formal = &texts["formal"];
+            let mut shown = vec![formal.clone()];
             for (key, preset) in [
                 ("relaxed", Relaxed),
                 ("very_relaxed", VeryRelaxed),
@@ -374,11 +376,74 @@ mod tests {
             ] {
                 if let Some(expected) = texts.get(key) {
                     assert_eq!(&s(preset, formal), expected, "{group} {key}");
+                    shown.push(expected.clone());
                     checked += 1;
                 }
             }
+            // rc9: every card of a group shows a difference from every
+            // other one (Upbeat's is its "!", the others' at least two
+            // characters).
+            for (i, a) in shown.iter().enumerate() {
+                for b in &shown[i + 1..] {
+                    let apart = a.chars().zip(b.chars()).filter(|(x, y)| x != y).count()
+                        + a.chars().count().abs_diff(b.chars().count());
+                    let upbeat = a.ends_with('!')
+                        || b.ends_with('!')
+                        || a.contains("!\n")
+                        || b.contains("!\n");
+                    assert!(
+                        apart >= if upbeat { 1 } else { 2 },
+                        "{group}: {a:?} vs {b:?}"
+                    );
+                }
+            }
+            assert_eq!(shown.len(), 3, "{group}: three cards");
         }
         assert_eq!(checked, 8);
+    }
+
+    /// rc9: Style › Cleanup's three cards (`CLEANUP_EXAMPLES`) show the
+    /// levels apart: None keeps the fillers, Light drops them, Medium also
+    /// rewords (at least two words differ from Light).
+    #[test]
+    fn cleanup_examples_differ() {
+        let ts = include_str!("../../../../src/fork/style/presets.ts");
+        let block = ts
+            .split("export const CLEANUP_EXAMPLES")
+            .nth(1)
+            .expect("CLEANUP_EXAMPLES");
+        let entry = regex::Regex::new(r#"(none|light|medium):\s*"([^"]*)""#).unwrap();
+        let texts: std::collections::HashMap<String, String> = entry
+            .captures_iter(block)
+            .map(|c| (c[1].to_string(), c[2].to_string()))
+            .collect();
+        let words = |t: &str| -> Vec<String> {
+            t.split_whitespace()
+                .map(|w| {
+                    w.chars()
+                        .filter(|c| c.is_alphanumeric() || *c == '\'')
+                        .collect::<String>()
+                        .to_lowercase()
+                })
+                .filter(|w| !w.is_empty())
+                .collect()
+        };
+        let fillers = ["um", "uh"];
+        let (none, light, medium) = (
+            words(&texts["none"]),
+            words(&texts["light"]),
+            words(&texts["medium"]),
+        );
+        assert!(none.iter().any(|w| fillers.contains(&w.as_str())));
+        for t in [&light, &medium] {
+            assert!(!t.iter().any(|w| fillers.contains(&w.as_str())));
+        }
+        let only_in = |a: &[String], b: &[String]| a.iter().filter(|w| !b.contains(w)).count();
+        assert!(
+            only_in(&light, &medium) + only_in(&medium, &light) >= 2,
+            "Light and Medium must differ visibly: {light:?} vs {medium:?}"
+        );
+        assert!(medium.len() < light.len(), "Medium is the tighter text");
     }
 
     #[test]

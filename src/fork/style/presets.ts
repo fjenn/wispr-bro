@@ -28,51 +28,43 @@ export interface GroupExample {
 
 export const EXAMPLES: Record<StyleGroup, GroupExample> = {
   personal: {
-    before:
-      "hey sam um are you around this weekend we could grab dinner on saturday if you're free",
+    before: "hey sam um are you free tonight let's get pizza my treat",
     after: {
-      formal:
-        "Hey Sam, are you around this weekend? We could grab dinner on Saturday, if you're free.",
-      relaxed:
-        "Hey Sam are you around this weekend? We could grab dinner on Saturday if you're free",
-      very_relaxed:
-        "hey Sam are you around this weekend? we could grab dinner on Saturday if you're free",
+      formal: "Hey Sam, are you free tonight? Let's get pizza, my treat.",
+      relaxed: "Hey Sam are you free tonight? Let's get pizza my treat",
+      very_relaxed: "hey Sam are you free tonight? let's get pizza my treat",
     },
   },
   work: {
-    before:
-      "hi team uh the release notes are ready for review thanks everyone for the quick turnaround",
+    before: "hi team uh the release is out great work everyone",
     after: {
-      formal:
-        "Hi team, the release notes are ready for review. Thanks, everyone, for the quick turnaround.",
-      relaxed:
-        "Hi team the release notes are ready for review. Thanks everyone for the quick turnaround",
-      upbeat:
-        "Hi team, the release notes are ready for review. Thanks, everyone, for the quick turnaround!",
+      formal: "Hi team, the release is out. Great work, everyone.",
+      relaxed: "Hi team the release is out. Great work everyone",
+      upbeat: "Hi team, the release is out. Great work, everyone!",
     },
   },
   email: {
     before:
-      "hi priya thanks for sending the contract over i'll review it and get back to you by friday",
+      "hi priya new line thanks the contract looks good i'll sign it today and um send it back tomorrow best mary",
     after: {
       formal:
-        "Hi Priya, thanks for sending the contract over. I'll review it and get back to you by Friday.",
+        "Hi Priya,\n\nThanks, the contract looks good. I'll sign it today, and send it back tomorrow.\n\nBest,\nMary",
       relaxed:
-        "Hi Priya thanks for sending the contract over. I'll review it and get back to you by Friday",
+        "Hi Priya,\n\nThanks the contract looks good. I'll sign it today and send it back tomorrow.\n\nBest,\nMary",
       upbeat:
-        "Hi Priya, thanks for sending the contract over. I'll review it and get back to you by Friday!",
+        "Hi Priya,\n\nThanks, the contract looks good. I'll sign it today, and send it back tomorrow!\n\nBest,\nMary",
     },
   },
   other: {
     before:
-      "um the new onboarding flow is live and early feedback looks good next up is the pricing page",
+      "um so far the new onboarding is live and feedback is good next up the pricing page",
     after: {
       formal:
-        "The new onboarding flow is live, and early feedback looks good. Next up is the pricing page.",
+        "So far, the new onboarding is live, and feedback is good. Next up, the pricing page.",
       relaxed:
-        "The new onboarding flow is live and early feedback looks good. Next up is the pricing page",
+        "So far the new onboarding is live and feedback is good. Next up the pricing page",
       upbeat:
-        "The new onboarding flow is live, and early feedback looks good. Next up is the pricing page!",
+        "So far, the new onboarding is live, and feedback is good. Next up, the pricing page!",
     },
   },
 };
@@ -80,12 +72,14 @@ export const EXAMPLES: Record<StyleGroup, GroupExample> = {
 /**
  * Style › Cleanup's sample (flowmatch): one spoken sentence and what each
  * cleanup level makes of it. English data like the examples above; our own
- * text.
+ * text. None keeps the fillers and the false start, Light removes them,
+ * Medium also cuts the wordy opener (`style_rules.rs`
+ * `cleanup_examples_differ` checks they stay apart).
  */
 export const CLEANUP_EXAMPLES: Record<"none" | "light" | "medium", string> = {
-  none: "so um I think we should uh move the call to Thursday, no wait, Friday afternoon if that's okay with everyone",
+  none: "so um what I wanted to say is uh the new onboarding goes live Thursday, no wait, Friday and like the early feedback is really good",
   light:
-    "So I think we should move the call to Friday afternoon, if that's okay with everyone.",
+    "What I wanted to say is the new onboarding goes live Friday, and the early feedback is really good.",
   medium:
-    "I think we should move the call to Friday afternoon, if that works for everyone.",
+    "The new onboarding goes live Friday, and early feedback is really good.",
 };

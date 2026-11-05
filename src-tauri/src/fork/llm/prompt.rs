@@ -327,7 +327,8 @@ mod tests {
             ..Spec::default()
         });
         let tail = medium.strip_prefix(*OPENWHISPR_CLEANUP).unwrap();
-        assert!(tail.starts_with("\n\nLEVEL MEDIUM: besides the cleanup above"));
+        assert!(tail.starts_with("\n\nLEVEL MEDIUM (this overrides"));
+        assert!(tail.contains("MEDIUM EXAMPLES:"));
         assert!(tail.ends_with(JSON_SUFFIX));
         assert!(!tail.contains("VOCABULARY") && !tail.contains("LANGUAGE:"));
     }

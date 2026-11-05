@@ -254,9 +254,7 @@ styleTest.describe("style page", () => {
       await expect(page.getByTestId("wb-style-preset-upbeat")).toHaveCount(0);
       await expect(
         page.getByTestId("wb-style-example-very_relaxed"),
-      ).toHaveText(
-        "hey Sam are you around this weekend? we could grab dinner on Saturday if you're free",
-      );
+      ).toHaveText("hey Sam are you free tonight? let's get pizza my treat");
       await expect(page.getByTestId("wb-banner-style-personal")).toContainText(
         "Styles apply to dictations in English. Cleanup works in every language.",
       );
@@ -302,7 +300,7 @@ styleTest.describe("style page", () => {
           work: "upbeat",
         });
       await expect(page.getByTestId("wb-style-example-upbeat")).toContainText(
-        "for the quick turnaround!",
+        "Great work, everyone!",
       );
       await shot(page, "work");
     },
