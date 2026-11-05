@@ -2,8 +2,9 @@
 //! A click outside the bar dismisses its open hint (rc9 owner report;
 //! macOS, main thread).
 //!
-//! The bar's hints (the hover bubble and the Scratchpad tooltip, the S-30
-//! first-use spotlight) used to go away only with Esc. While one is open an
+//! The bar's hints (the hover bubble and the Scratchpad tooltip) used to go
+//! away only with Esc (the S-30 spotlight is not one of them: it asks the
+//! user to click where they want to write, so a click never ends it). While one is open an
 //! `NSEvent` mouse-down monitor (left and right button) watches for a click:
 //! a global monitor for clicks in other apps, a local one for clicks in our
 //! own windows (the Hub, the note). A click inside the bar group (the bar,
@@ -29,8 +30,6 @@ use objc2_app_kit::{NSEvent, NSEventMask};
 pub enum Hint {
     /// The bar's hover bubble and the Scratchpad circle's tooltip.
     Hover,
-    /// The S-30 first-use spotlight and its hint.
-    Spotlight,
 }
 
 type Dismiss = Rc<dyn Fn()>;

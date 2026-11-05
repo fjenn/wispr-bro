@@ -3244,7 +3244,7 @@ Test identity with "Scratchpad on the bar" on; the owner's running Wispr Bro sta
 
 - **BH.1** Hover the bar (hint bubble grows), then move the pointer away without the tracking area seeing it leave (warp it by CGEvent to another app's window) and click there: the bubble shrinks at once, the click reaches that app (its window takes the click, focus as before), Wispr Bro is not activated. Same with a right click.
 - **BH.2** Click in the Hub while the bar's bubble is shown (warp as in BH.1): the bubble shrinks; the Hub control gets the click.
-- **BH.3** S-30 spotlight on (`WISPRBRO_S30_SPOTLIGHT=email`): a click anywhere but the bar ends it (log `spotlight: off (ClickedOutside)`), the click reaches the app below; a click on the bar starts a take and leaves the spotlight on. Esc still ends it.
+- **BH.3** S-30 spotlight on (`WISPRBRO_S30_SPOTLIGHT=email`): clicks in other apps and on the bar leave it on (it asks for a click where to write); Esc still ends it.
 - **BH.4** Glide left → right at 1 pt per 4 ms from the hovered bar's centre to the circle's centre at the circle's mid-height: the bar keeps its bubble the whole way (frames of the bar's window never shrink), the circle stays 34 pt and moves not at all, its "Scratchpad" tooltip appears only once the pointer is over the circle's window. A click there opens the Scratchpad.
 - **BH.5** Glide right → left along the bar's line from the circle (bar at rest) to the bar's centre: the bar grows on entering it, the circle stays 34 pt (no shrink-and-regrow) and its tooltip fades; glide back to the moved circle: no shrink.
 - **BH.6** BH.4/BH.5 in Arabic (circle on the left) and with the bar dragged to the right display edge (circle flipped to the left).

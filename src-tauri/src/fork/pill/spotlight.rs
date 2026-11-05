@@ -16,8 +16,7 @@
 //! - The cut-out follows the bar (it moves with the cursor's display, 2 Hz).
 //! - It ends on the first take pasted into another app
 //!   ([`on_take_pasted`]), on Esc (observed through the S-01 registry, never
-//!   blocked; an Esc that cancelled a take belongs to the take), on a click
-//!   outside the bar (rc9: `outside.rs`, the click still reaches its app), after
+//!   blocked; an Esc that cancelled a take belongs to the take), after
 //!   [`MAX_MS`], or from the Hub (`fork_spotlight_stop`). The window is
 //!   destroyed then, so its WebContent process exits.
 //!
@@ -101,8 +100,6 @@ pub enum EndReason {
     /// The first take pasted into another app.
     Dictated,
     Esc,
-    /// A mouse click anywhere but the bar (rc9 owner report).
-    ClickedOutside,
     Timeout,
     /// From the Hub ("Stop the hint") or a new chooser run.
     Stopped,
@@ -184,12 +181,6 @@ impl Machine {
             return None;
         }
         self.end(EndReason::Esc)
-    }
-
-    /// A click outside the bar (the hint is click-through: a click on it
-    /// is a click on the app below).
-    pub fn on_click_outside(&mut self) -> Option<EndReason> {
-        self.end(EndReason::ClickedOutside)
     }
 
     /// A take was pasted. Into Wispr Bro itself (a Scratchpad note, a
@@ -311,12 +302,6 @@ pub fn on_take_pasted(own_app: bool) {
 
 fn on_esc(cancelled_take: bool) {
     let reason = machine().on_esc(cancelled_take);
-    ended(reason);
-}
-
-#[cfg(target_os = "macos")]
-fn on_click_outside() {
-    let reason = machine().on_click_outside();
     ended(reason);
 }
 
@@ -545,9 +530,6 @@ mod mac {
                     super::super::native::stay_when_app_hidden(win);
                 }
                 panel.show();
-                super::super::outside::open(super::super::outside::Hint::Spotlight, || {
-                    super::on_click_outside();
-                });
                 log::info!("spotlight: panel built");
             }
             Err(e) => log::error!("spotlight: cannot build the panel: {e}"),
@@ -584,7 +566,6 @@ mod mac {
 
     fn destroy(app: &AppHandle<Wry>) {
         PLACED.with(|p| *p.borrow_mut() = None);
-        super::super::outside::close(super::super::outside::Hint::Spotlight);
         if let Some(win) = window(app) {
             win.orderOut(None);
         }
@@ -683,15 +664,6 @@ mod tests {
         let (hole, _) = layout(&s, &a);
         assert_eq!(hole.x + hole.w / 2.0, 1280.0);
         assert_eq!(hole.y + hole.h / 2.0, 1440.0 - 8.0 - 15.0);
-    }
-
-    #[test]
-    fn a_click_outside_the_bar_ends_it() {
-        let mut m = Machine::new();
-        m.start("note", 0).unwrap();
-        assert_eq!(m.on_click_outside(), Some(EndReason::ClickedOutside));
-        assert!(!m.is_active());
-        assert_eq!(m.on_click_outside(), None);
     }
 
     #[test]
