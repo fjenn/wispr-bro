@@ -14,6 +14,7 @@ import { useSettings } from "@/hooks/useSettings";
 import { languageList } from "@/lib/constants/languages";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
+import { chordLabel } from "../settings/hotkeys/model";
 import { useForkSettings } from "../settings/useForkSettings";
 import { Button, Switch } from "../ui";
 import { ArtSlot, SplitLayout } from "./Layout";
@@ -63,14 +64,16 @@ export function Summary({
     },
     {
       id: "shortcut",
-      set: trigger === "fn" || trigger === "ctrl+option",
+      set: Boolean(trigger),
       label: t("onboardingFlow.summary.shortcut"),
       value:
         trigger === "fn"
           ? t("onboardingFlow.summary.shortcutFn")
           : trigger === "ctrl+option"
             ? t("onboardingFlow.summary.shortcutFallback")
-            : t("onboardingFlow.summary.notSet"),
+            : trigger
+              ? chordLabel(trigger)
+              : t("onboardingFlow.summary.notSet"),
     },
     {
       id: "microphone",

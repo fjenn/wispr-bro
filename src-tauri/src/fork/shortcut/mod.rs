@@ -213,6 +213,10 @@ fn trigger_name(p: &Profile) -> Option<String> {
         decision::Trigger::Mods(m) => bindings::normalize(&m.to_string())
             .map(|(c, _)| c)
             .unwrap_or_else(|| m.to_string()),
+        decision::Trigger::Combo(m, k) => {
+            let chord = format!("{m}+{k}");
+            bindings::normalize(&chord).map(|(c, _)| c).unwrap_or(chord)
+        }
     })
 }
 
@@ -512,6 +516,15 @@ pub(crate) fn trigger_held(trigger: decision::Trigger, held: handy_keys::Modifie
         .into_iter()
         .filter(|group| want.intersects(*group))
         .all(|group| held.intersects(group))
+}
+
+/// The shortcut test's key light after `ev`: the trigger's modifiers held,
+/// or for a modifier+key trigger (⌥Space) its key held with them.
+pub(crate) fn key_test_down(trigger: decision::Trigger, was: bool, ev: &KeyEvent) -> bool {
+    match trigger {
+        decision::Trigger::Combo(m, k) => decision::combo_down(was, m, k, ev),
+        t => trigger_held(t, ev.modifiers),
+    }
 }
 
 static KEY_TEST_DOWN: AtomicBool = AtomicBool::new(false);
@@ -860,7 +873,7 @@ fn run<R: crate::fork::ForkRuntime>(
                 let down = engine
                     .profile()
                     .trigger
-                    .is_some_and(|t| trigger_held(t, ev.modifiers));
+                    .is_some_and(|t| key_test_down(t, KEY_TEST_DOWN.load(Ordering::Relaxed), &ev));
                 emit_key_test(&host.app, down);
             }
             Msg::Tap(TapMsg::Event { at, ev }) => {

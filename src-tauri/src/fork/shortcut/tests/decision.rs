@@ -295,3 +295,55 @@ fn stuck_guard_never_fires_without_system_state_or_with_fn_up() {
         assert!(!g.observe(t, false, Some(false)));
     }
 }
+
+#[test]
+fn modifier_key_combos_are_triggers_but_shift_or_fn_combos_and_esc_are_not() {
+    let t = |s: &str| Trigger::from_hotkey(&s.parse::<Hotkey>().unwrap());
+    assert_eq!(
+        t("option+space"),
+        Some(Trigger::Combo(Modifiers::OPT, HkKey::Space))
+    );
+    assert_eq!(
+        t("ctrl+option+d"),
+        Some(Trigger::Combo(Modifiers::CTRL | Modifiers::OPT, HkKey::D))
+    );
+    assert!(t("command+shift+k").is_some());
+    assert_eq!(t("shift+a"), None);
+    assert_eq!(t("fn+space"), None);
+    assert_eq!(t("option+escape"), None);
+    assert_eq!(t("space"), None);
+}
+
+#[test]
+fn a_combo_trigger_goes_down_on_its_key_and_up_on_key_or_modifier_release() {
+    let combo = Trigger::Combo(Modifiers::OPT, HkKey::Space);
+    let mut t = Translator::new(combo);
+    let opt = Modifiers::OPT_RIGHT;
+    assert_eq!(t.translate(&flags(opt, true, opt)), Decision::Nothing);
+    assert_eq!(
+        t.translate(&key(opt, HkKey::Space, true)),
+        input(Input::FnDown)
+    );
+    assert_eq!(
+        t.translate(&key(opt, HkKey::Space, true)),
+        Decision::Nothing
+    );
+    assert!(matches!(
+        t.translate(&key(opt, HkKey::A, true)),
+        Decision::Input(Input::KeyDown(_))
+    ));
+    assert_eq!(
+        t.translate(&key(opt, HkKey::Space, false)),
+        input(Input::FnUp)
+    );
+    t.translate(&key(opt, HkKey::Space, true));
+    assert_eq!(
+        t.translate(&flags(Modifiers::empty(), false, opt)),
+        input(Input::FnUp)
+    );
+    // Space with Shift too is a key, not the trigger.
+    assert!(matches!(
+        t.translate(&key(opt | Modifiers::SHIFT_LEFT, HkKey::Space, true)),
+        Decision::Input(Input::KeyDown(Key::Space))
+    ));
+}

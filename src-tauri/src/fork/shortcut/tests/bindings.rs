@@ -222,9 +222,9 @@ fn a_second_hold_trigger_is_unsupported() {
 }
 
 #[test]
-fn hold_on_a_keyed_chord_is_unsupported() {
+fn hold_on_a_shift_only_keyed_chord_is_unsupported() {
     let mut map = default_hotkeys();
-    map.insert("dictate".into(), vec![b("ctrl+d", Hold)]);
+    map.insert("dictate".into(), vec![b("shift+d", Hold)]);
     let p = compile(&map, |_| false);
     assert_eq!(
         p.trigger,
@@ -319,4 +319,22 @@ fn opt_in_features_that_are_off_report_no_issues() {
         active, on.hotkeys,
         "everything compiles once the features are on"
     );
+}
+
+#[test]
+fn a_modifier_key_combo_is_the_trigger_for_hold_and_double_tap() {
+    use handy_keys::{Key, Modifiers};
+    let mut map = default_hotkeys();
+    map.insert("dictate".into(), vec![b("option+ctrl+d", Hold)]);
+    map.insert("hands_free".into(), vec![b("ctrl+option+d", DoubleTap)]);
+    let p = compile(&map, |_| false);
+    assert_eq!(
+        p.trigger,
+        Some(Trigger::Combo(Modifiers::CTRL | Modifiers::OPT, Key::D))
+    );
+    assert!(p.hold && p.double_tap && !p.trigger_space);
+    assert!(!p
+        .issues
+        .iter()
+        .any(|i| matches!(i, Issue::Unsupported { action, .. } if action == "dictate" || action == "hands_free")));
 }

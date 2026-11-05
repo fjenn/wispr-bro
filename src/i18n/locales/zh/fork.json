@@ -450,7 +450,7 @@
         "hint": "按住说话。连按两下即可免提听写。",
         "prompt": "请按下你想用的键",
         "save": "存储",
-        "invalid": "请使用 fn，或同时使用两个修饰键，例如 ⌃ ⌥。",
+        "invalid": "请使用 fn、两个修饰键（如 ⌃ ⌥），或修饰键加一个按键（如 ⌥ Space）。",
         "more": "更多快捷键"
       }
     },
@@ -2078,7 +2078,8 @@
           "action": "使用 Control + Option",
           "changed": "你的快捷键已设为 Control + Option"
         }
-      }
+      },
+      "customInstruction": "按住 {{keys}}。按住时，下方的按键会亮起。"
     },
     "practice": {
       "title": "练习：<em>免提</em>写完整封邮件",
@@ -2103,7 +2104,9 @@
         "subjectText": "周四",
         "body": "正文",
         "placeholder": "试着说：“Sam 你好，谢谢你的笔记。我们周四十点见面可以吗？”"
-      }
+      },
+      "instructionCustom": "快速按两次 {{keys}}，然后说话。说完后再按一次 {{keys}}。",
+      "listening_custom": "正在聆听… 说完后按 {{keys}}。"
     },
     "firstDictation": {
       "title": "就这么简单！",

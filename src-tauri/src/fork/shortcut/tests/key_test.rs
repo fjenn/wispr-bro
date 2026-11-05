@@ -30,3 +30,33 @@ fn the_test_mode_expires() {
     assert!(!key_test_active(1_000, 1_000));
     assert!(!key_test_active(0, 5));
 }
+
+#[test]
+fn a_combo_lights_only_while_its_key_is_held_with_its_modifiers() {
+    use super::super::key_test_down;
+    use handy_keys::{Key, KeyEvent};
+    let combo = Trigger::Combo(M::OPT, Key::Space);
+    let ev = |modifiers, key, down| KeyEvent {
+        modifiers,
+        key,
+        is_key_down: down,
+        changed_modifier: None,
+    };
+    assert!(!key_test_down(combo, false, &ev(M::OPT_LEFT, None, true)));
+    assert!(key_test_down(
+        combo,
+        false,
+        &ev(M::OPT_LEFT, Some(Key::Space), true)
+    ));
+    assert!(key_test_down(
+        combo,
+        true,
+        &ev(M::OPT_LEFT, Some(Key::A), true)
+    ));
+    assert!(!key_test_down(
+        combo,
+        true,
+        &ev(M::OPT_LEFT, Some(Key::Space), false)
+    ));
+    assert!(!key_test_down(combo, true, &ev(M::empty(), None, false)));
+}

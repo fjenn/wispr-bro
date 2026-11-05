@@ -988,3 +988,64 @@ fn hands_free_keeps_recording_through_switches() {
     r.at(5_000);
     assert_eq!(r.host.names(), vec!["start", "lock"]);
 }
+
+/// Owner report (rc8): a modifier+key dictation key such as ⌥Space (Handy's
+/// own default) holds, double-taps and is swallowed so it never types.
+fn combo_profile(chord: &str) -> crate::fork::shortcut::bindings::Profile {
+    use crate::fork::settings::{hotkey_actions::*, HotkeyActivation, HotkeyBinding};
+    let b = |activation: HotkeyActivation| HotkeyBinding {
+        chord: chord.into(),
+        activation,
+    };
+    let mut map = default_hotkeys();
+    map.insert(DICTATE.into(), vec![b(HotkeyActivation::Hold)]);
+    map.insert(HANDS_FREE.into(), vec![b(HotkeyActivation::DoubleTap)]);
+    compile(&map, |_| false)
+}
+
+#[test]
+fn an_option_space_trigger_holds_to_talk_and_absorbs_its_repeats() {
+    let p = combo_profile("option+space");
+    assert!(p.hold && p.double_tap && !p.trigger_space, "{:?}", p.issues);
+    let mut r = Rig::with(p, Registry::default());
+    assert!(r.host.blocking.contains(&hk("option+space")));
+    r.ev(0, flags(Modifiers::OPT_LEFT, true, Modifiers::OPT_LEFT));
+    r.ev(10, key_ev(Modifiers::OPT_LEFT, HkKey::Space, true));
+    // Auto-repeat while held is not a chord key.
+    r.ev(400, key_ev(Modifiers::OPT_LEFT, HkKey::Space, true));
+    r.ev(500, key_ev(Modifiers::OPT_LEFT, HkKey::Space, true));
+    r.at(1500);
+    assert_eq!(r.host.names(), vec!["start"]);
+    r.ev(2000, key_ev(Modifiers::OPT_LEFT, HkKey::Space, false));
+    assert_eq!(r.host.names(), vec!["start", "stop"]);
+}
+
+#[test]
+fn a_ctrl_option_d_trigger_double_taps_and_releasing_a_modifier_stops() {
+    let mut r = Rig::with(combo_profile("ctrl+option+d"), Registry::default());
+    let m = Modifiers::CTRL_LEFT | Modifiers::OPT_LEFT;
+    r.ev(0, key_ev(m, HkKey::D, true));
+    r.ev(90, key_ev(m, HkKey::D, false));
+    r.ev(250, key_ev(m, HkKey::D, true));
+    r.ev(330, key_ev(m, HkKey::D, false));
+    assert_eq!(r.host.names(), vec!["start", "lock"]);
+
+    let mut r = Rig::with(combo_profile("ctrl+option+d"), Registry::default());
+    r.ev(0, key_ev(m, HkKey::D, true)).at(1000);
+    assert_eq!(r.host.names(), vec!["start"]);
+    r.ev(
+        1200,
+        flags(Modifiers::CTRL_LEFT, false, Modifiers::OPT_LEFT),
+    );
+    assert_eq!(r.host.names(), vec!["start", "stop"]);
+}
+
+#[test]
+fn the_combo_key_with_other_modifiers_is_ordinary_typing() {
+    let mut r = Rig::with(combo_profile("option+space"), Registry::default());
+    // ⇧⌥Space and plain Space never start a take.
+    r.key(0, Modifiers::OPT_LEFT | Modifiers::SHIFT_LEFT, HkKey::Space);
+    r.key(100, Modifiers::empty(), HkKey::Space);
+    r.at(2000);
+    assert!(r.host.commands.is_empty());
+}

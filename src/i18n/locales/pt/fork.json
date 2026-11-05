@@ -454,7 +454,7 @@
         "hint": "Mantenha pressionada para falar. Toque duas vezes para ditar sem as mãos.",
         "prompt": "Pressione a tecla ou as teclas que deseja",
         "save": "Salvar",
-        "invalid": "Use fn, ou duas teclas modificadoras juntas, como ⌃ ⌥.",
+        "invalid": "Use fn, duas teclas modificadoras como ⌃ ⌥, ou uma modificadora com uma tecla como ⌥ Space.",
         "more": "Mais atalhos"
       }
     },
@@ -2236,7 +2236,8 @@
           "action": "Usar Control + Option",
           "changed": "Control + Option é o seu atalho"
         }
-      }
+      },
+      "customInstruction": "Pressione e segure {{keys}}. As teclas abaixo acendem enquanto você as segura."
     },
     "practice": {
       "title": "Prática: um e-mail inteiro, <em>sem as mãos</em>",
@@ -2261,7 +2262,9 @@
         "subjectText": "Quinta-feira",
         "body": "Mensagem",
         "placeholder": "Tente dizer: “Oi, Sam, obrigado pelas anotações. Podemos nos encontrar na quinta às dez?”"
-      }
+      },
+      "instructionCustom": "Pressione {{keys}} duas vezes rapidamente e fale. Pressione {{keys}} de novo quando terminar.",
+      "listening_custom": "Ouvindo… pressione {{keys}} quando terminar."
     },
     "firstDictation": {
       "title": "Pronto!",

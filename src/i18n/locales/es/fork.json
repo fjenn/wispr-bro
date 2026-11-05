@@ -454,7 +454,7 @@
         "hint": "Mantén pulsada para hablar. Pulsa dos veces para dictar con manos libres.",
         "prompt": "Pulsa la tecla o las teclas que quieras",
         "save": "Guardar",
-        "invalid": "Usa fn, o dos teclas modificadoras a la vez, como ⌃ ⌥.",
+        "invalid": "Usa fn, dos teclas modificadoras como ⌃ ⌥, o una modificadora con una tecla como ⌥ Space.",
         "more": "Más funciones rápidas"
       }
     },
@@ -2236,7 +2236,8 @@
           "action": "Usar Control + Opción",
           "changed": "Control + Opción es tu función rápida"
         }
-      }
+      },
+      "customInstruction": "Mantén pulsado {{keys}}. Las teclas de abajo se iluminan mientras las mantienes pulsadas."
     },
     "practice": {
       "title": "Práctica: un correo entero, <em>manos libres</em>",
@@ -2261,7 +2262,9 @@
         "subjectText": "Jueves",
         "body": "Mensaje",
         "placeholder": "Prueba a decir: «Hola, Sam, gracias por las notas. ¿Podemos vernos el jueves a las diez?»"
-      }
+      },
+      "instructionCustom": "Pulsa {{keys}} dos veces rápido y habla. Vuelve a pulsar {{keys}} cuando termines.",
+      "listening_custom": "Escuchando… pulsa {{keys}} cuando termines."
     },
     "firstDictation": {
       "title": "¡Así de fácil!",

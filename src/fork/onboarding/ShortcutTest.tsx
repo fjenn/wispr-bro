@@ -30,6 +30,7 @@ import { FORK_NAMESPACE } from "../i18n";
 import { Button, FOCUS_RING } from "../ui";
 import { CentredLayout, TestCard } from "./Layout";
 import { DictationKeyDialog } from "./DictationKeyDialog";
+import { chordLabel } from "../settings/hotkeys/model";
 import {
   AppleDictationWarning,
   useRecheckOnFocus,
@@ -195,6 +196,11 @@ export function ShortcutTest({
 
   const fallback = status?.trigger === "ctrl+option";
   const unbound = !!status && status.trigger === null;
+  // Any other dictation key (⌥Space, ⌃⌥D, ⌘⇧): its own caps and wording.
+  const custom =
+    status?.trigger && status.trigger !== "fn" && !fallback
+      ? status.trigger
+      : null;
   const globeFixed = status?.globe === "do_nothing";
   const others = DIAGNOSES.filter((d) => d !== diagnosis);
 
@@ -227,9 +233,12 @@ export function ShortcutTest({
       subtitle={t(
         unbound
           ? "onboardingFlow.shortcut.unboundInstruction"
-          : fallback
-            ? "onboardingFlow.shortcut.fallbackInstruction"
-            : "onboardingFlow.shortcut.instruction",
+          : custom
+            ? "onboardingFlow.shortcut.customInstruction"
+            : fallback
+              ? "onboardingFlow.shortcut.fallbackInstruction"
+              : "onboardingFlow.shortcut.instruction",
+        { keys: custom ? chordLabel(custom) : "" },
       )}
     >
       <TestCard
@@ -278,13 +287,23 @@ export function ShortcutTest({
             data-testid="wb-shortcut-key"
             data-pressed={pressed}
             role="img"
-            aria-label={t(
-              fallback
-                ? "onboardingFlow.shortcut.fallbackKeyLabel"
-                : "onboardingFlow.shortcut.keyLabel",
-            )}
+            aria-label={
+              custom
+                ? chordLabel(custom)
+                : t(
+                    fallback
+                      ? "onboardingFlow.shortcut.fallbackKeyLabel"
+                      : "onboardingFlow.shortcut.keyLabel",
+                  )
+            }
           >
-            {fallback ? (
+            {custom ? (
+              custom
+                .split("+")
+                .map((part) => (
+                  <span key={part}>{keyCap(chordLabel(part))}</span>
+                ))
+            ) : fallback ? (
               <>
                 {keyCap(FALLBACK_KEYS[0])}
                 {keyCap(FALLBACK_KEYS[1])}

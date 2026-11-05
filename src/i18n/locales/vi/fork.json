@@ -450,7 +450,7 @@
         "hint": "Giữ để nói. Nhấn hai lần để đọc chính tả rảnh tay.",
         "prompt": "Nhấn phím hoặc các phím bạn muốn",
         "save": "Lưu",
-        "invalid": "Dùng fn, hoặc hai phím bổ trợ cùng lúc, như ⌃ ⌥.",
+        "invalid": "Dùng fn, hai phím bổ trợ như ⌃ ⌥, hoặc một phím bổ trợ cùng một phím như ⌥ Space.",
         "more": "Thêm phím tắt"
       }
     },
@@ -2078,7 +2078,8 @@
           "action": "Dùng Control + Option",
           "changed": "Control + Option là phím tắt của bạn"
         }
-      }
+      },
+      "customInstruction": "Nhấn và giữ {{keys}}. Các phím bên dưới sẽ sáng lên khi bạn giữ."
     },
     "practice": {
       "title": "Luyện tập: cả một email, <em>rảnh tay</em>",
@@ -2103,7 +2104,9 @@
         "subjectText": "Thứ Năm",
         "body": "Nội dung",
         "placeholder": "Hãy thử nói: “Chào Sam, cảm ơn bạn về ghi chú. Mình gặp nhau lúc mười giờ thứ Năm được không?”"
-      }
+      },
+      "instructionCustom": "Nhấn nhanh {{keys}} hai lần, rồi nói. Nhấn {{keys}} lần nữa khi bạn xong.",
+      "listening_custom": "Đang nghe… nhấn {{keys}} khi bạn xong."
     },
     "firstDictation": {
       "title": "Xong rồi!",

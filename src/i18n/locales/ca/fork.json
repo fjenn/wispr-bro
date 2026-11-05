@@ -454,7 +454,7 @@
         "hint": "Mantén premut per parlar. Prem dues vegades per dictar sense mans.",
         "prompt": "Prem la tecla o les tecles que vulguis",
         "save": "Desar",
-        "invalid": "Fes servir fn, o dues tecles modificadores juntes, com ara ⌃ ⌥.",
+        "invalid": "Fes servir fn, dues tecles modificadores com ⌃ ⌥, o una modificadora amb una tecla com ⌥ Space.",
         "more": "Més dreceres"
       }
     },
@@ -2236,7 +2236,8 @@
           "action": "Fer servir Control + Opció",
           "changed": "Control + Opció és la teva drecera"
         }
-      }
+      },
+      "customInstruction": "Mantén premudes {{keys}}. Les tecles de sota s'il·luminen mentre les mantens premudes."
     },
     "practice": {
       "title": "Pràctica: un correu sencer, <em>sense mans</em>",
@@ -2261,7 +2262,9 @@
         "subjectText": "Dijous",
         "body": "Missatge",
         "placeholder": "Prova de dir: «Hola, Sam, gràcies per les notes. Podem quedar dijous a les deu?»"
-      }
+      },
+      "instructionCustom": "Prem {{keys}} dues vegades ràpidament i parla. Torna a prémer {{keys}} quan acabis.",
+      "listening_custom": "Escoltant… prem {{keys}} quan acabis."
     },
     "firstDictation": {
       "title": "Ja està!",

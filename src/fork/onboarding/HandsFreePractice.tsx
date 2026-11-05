@@ -22,6 +22,7 @@ import { commands, events, type ForkSpeechSetup } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 import { CentredLayout, SkipLink, Title } from "./Layout";
+import { chordLabel } from "../settings/hotkeys/model";
 
 /** The practice mode renews itself before the backend's two-minute expiry. */
 const RENEW_MS = 60_000;
@@ -132,10 +133,14 @@ export function HandsFreePractice({
   }, [preview, onSetup]);
 
   const fallback = trigger === "ctrl+option";
+  // Any other dictation key (⌥Space, ⌘⇧): hands-free by double-tap.
+  const custom = trigger && trigger !== "fn" && !fallback ? trigger : null;
+  const keys = custom ? chordLabel(custom) : "";
   const status =
     phase === "listening"
       ? t("onboardingFlow.practice.listening", {
-          context: fallback ? "fallback" : undefined,
+          context: custom ? "custom" : fallback ? "fallback" : undefined,
+          keys,
         })
       : phase === "working"
         ? t("onboardingFlow.practice.working")
@@ -156,9 +161,12 @@ export function HandsFreePractice({
         <span data-testid="wb-practice-instruction">
           {trigger
             ? t(
-                fallback
-                  ? "onboardingFlow.practice.instructionFallback"
-                  : "onboardingFlow.practice.instruction",
+                custom
+                  ? "onboardingFlow.practice.instructionCustom"
+                  : fallback
+                    ? "onboardingFlow.practice.instructionFallback"
+                    : "onboardingFlow.practice.instruction",
+                { keys },
               )
             : t("onboardingFlow.practice.instructionUnbound")}
         </span>

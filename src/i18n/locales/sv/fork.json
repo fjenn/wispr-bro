@@ -452,7 +452,7 @@
         "hint": "Håll ned för att prata. Tryck två gånger för handsfree.",
         "prompt": "Tryck på den eller de tangenter du vill använda",
         "save": "Spara",
-        "invalid": "Använd fn, eller två modifierartangenter samtidigt, till exempel ⌃ ⌥.",
+        "invalid": "Använd fn, två modifierartangenter som ⌃ ⌥, eller en modifierartangent med en tangent som ⌥ Space.",
         "more": "Fler kortkommandon"
       }
     },
@@ -2157,7 +2157,8 @@
           "action": "Använd Control + Option",
           "changed": "Control + Option är ditt kortkommando"
         }
-      }
+      },
+      "customInstruction": "Håll ned {{keys}}. Tangenterna nedan lyser medan du håller ned dem."
     },
     "practice": {
       "title": "Öva: ett helt mejl, <em>handsfree</em>",
@@ -2182,7 +2183,9 @@
         "subjectText": "Torsdag",
         "body": "Meddelande",
         "placeholder": "Säg till exempel: ”Hej Sam, tack för anteckningarna. Kan vi ses på torsdag klockan tio?”"
-      }
+      },
+      "instructionCustom": "Tryck snabbt två gånger på {{keys}} och prata. Tryck på {{keys}} igen när du är klar.",
+      "listening_custom": "Lyssnar… tryck på {{keys}} när du är klar."
     },
     "firstDictation": {
       "title": "Så enkelt var det!",

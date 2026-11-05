@@ -454,7 +454,7 @@
         "hint": "Maintenez pour parler. Appuyez deux fois pour la dictée mains libres.",
         "prompt": "Appuyez sur la ou les touches de votre choix",
         "save": "Enregistrer",
-        "invalid": "Utilisez fn, ou deux touches de modification ensemble, comme ⌃ ⌥.",
+        "invalid": "Utilisez fn, deux touches de modification comme ⌃ ⌥, ou une touche de modification avec une touche comme ⌥ Space.",
         "more": "Autres raccourcis"
       }
     },
@@ -2236,7 +2236,8 @@
           "action": "Utiliser Control + Option",
           "changed": "Votre raccourci est Control + Option"
         }
-      }
+      },
+      "customInstruction": "Maintenez {{keys}}. Les touches ci-dessous s’allument tant que vous les maintenez."
     },
     "practice": {
       "title": "Entraînement : un e-mail entier, <em>mains libres</em>",
@@ -2261,7 +2262,9 @@
         "subjectText": "Jeudi",
         "body": "Message",
         "placeholder": "Essayez de dire : « Bonjour Sam, merci pour les notes. Peut-on se voir jeudi à dix heures ? »"
-      }
+      },
+      "instructionCustom": "Appuyez deux fois rapidement sur {{keys}}, puis parlez. Appuyez de nouveau sur {{keys}} quand vous avez terminé.",
+      "listening_custom": "Écoute… appuyez sur {{keys}} quand vous avez terminé."
     },
     "firstDictation": {
       "title": "C’est tout !",

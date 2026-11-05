@@ -469,7 +469,7 @@ test("a key that can't be the dictation key says why, inline", async ({
   await page.getByTestId("wb-dictation-key-change").click();
   await press(ipc, ["option"], null, "option");
   await expect(page.getByTestId("wb-dictation-key-problem")).toHaveText(
-    "Use fn, or two modifier keys together, such as ⌃ ⌥.",
+    "Use fn, two modifier keys such as ⌃ ⌥, or a modifier with a key such as ⌥ Space.",
   );
   await expect(page.getByTestId("wb-dictation-key-save")).toBeDisabled();
   await press(ipc, ["ctrl", "option"], null, "ctrl+option");
@@ -480,6 +480,101 @@ test("a key that can't be the dictation key says why, inline", async ({
   await press(ipc, ["fn"], null, "fn");
   await expect(page.getByTestId("wb-dictation-key-problem")).toHaveCount(0);
   await expect(page.getByTestId("wb-dictation-key-save")).toBeEnabled();
+});
+
+// Owner report (rc8): fn, and the shortcuts people expect, are accepted
+// and saved as one trigger the engine holds and double-taps.
+for (const c of [
+  {
+    name: "fn after another key",
+    start: "ctrl+option",
+    modifiers: ["fn"],
+    key: null,
+    hotkey: "fn",
+    chord: "fn",
+    caps: "Shortcut: fn",
+  },
+  {
+    name: "fn from a Globe key set to Start Dictation",
+    start: "ctrl+option",
+    modifiers: ["fn"],
+    key: "dictation",
+    hotkey: "fn+dictation",
+    chord: "fn",
+    caps: "Shortcut: fn",
+  },
+  {
+    name: "⌥Space",
+    start: "fn",
+    modifiers: [],
+    key: "space",
+    hotkey: "option_left+space",
+    chord: "option+space",
+    caps: "Shortcut: ⌥ Space",
+  },
+  {
+    name: "⌃⌥D",
+    start: "fn",
+    modifiers: [],
+    key: "d",
+    hotkey: "ctrl_left+option_right+d",
+    chord: "ctrl+option+d",
+    caps: "Shortcut: ⌃ ⌥ D",
+  },
+  {
+    name: "⌘⇧ (two modifiers)",
+    start: "fn",
+    modifiers: [],
+    key: null,
+    hotkey: "shift_left+command_left",
+    chord: "shift+command",
+    caps: "Shortcut: ⇧ ⌘",
+  },
+]) {
+  test(`the dictation key takes ${c.name}`, async ({ page, ipc }) => {
+    await openHotkeys(page, ipc, {
+      dictate: [{ chord: c.start, activation: "hold" }],
+      hands_free: [
+        { chord: c.start, activation: "double_tap" },
+        { chord: `${c.start}+space`, activation: "press" },
+      ],
+    });
+    await page.getByTestId("wb-dictation-key-change").click();
+    await press(ipc, c.modifiers, c.key, c.hotkey);
+    await expect(page.getByTestId("wb-dictation-key-problem")).toHaveCount(0);
+    await page.getByTestId("wb-dictation-key-save").click();
+    await expect(page.getByTestId("wb-dictation-key-capture")).toHaveCount(0);
+    const saved = (await ipc.calls("fork_set_setting")).map(
+      (call) => (call.args as { update: { value: unknown } }).update.value,
+    );
+    const keyed =
+      c.chord.includes("+") &&
+      !/^(ctrl|option|shift|command|\+)+$/.test(c.chord);
+    expect(saved).toEqual([
+      { action: "dictate", bindings: [{ chord: c.chord, activation: "hold" }] },
+      {
+        action: "hands_free",
+        bindings: [
+          { chord: c.chord, activation: "double_tap" },
+          ...(keyed
+            ? []
+            : [{ chord: `${c.chord}+space`, activation: "press" }]),
+        ],
+      },
+    ]);
+    await expect(page.getByTestId("wb-dictation-key-current")).toContainText(
+      c.caps,
+    );
+  });
+}
+
+test("a refused key stays drawn beside the reason", async ({ page, ipc }) => {
+  await openHotkeys(page, ipc);
+  await page.getByTestId("wb-dictation-key-change").click();
+  await press(ipc, [], "a", "shift_left+a");
+  await expect(page.getByTestId("wb-dictation-key-problem")).toBeVisible();
+  await expect(page.getByTestId("wb-dictation-key-field")).toHaveText("⇧ A");
+  await expect(page.getByTestId("wb-dictation-key-save")).toBeDisabled();
 });
 
 test("Escape cancels the dictation key capture and saves nothing", async ({

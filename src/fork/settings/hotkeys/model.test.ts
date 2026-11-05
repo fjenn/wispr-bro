@@ -4,6 +4,7 @@ import {
   actionDefinition,
   actionIds,
   canAddBinding,
+  chordLabel,
   defaultHotkeys,
   HOTKEY_ACTIONS,
   MAX_BINDINGS,
@@ -70,15 +71,29 @@ assert.equal(
   "press",
 );
 
-// The dictation key: fn alone or two modifier groups, normalized.
+// The dictation key: fn alone, two modifier groups, or modifiers + a key.
 assert.equal(triggerChord("fn"), "fn");
 assert.equal(triggerChord("option+ctrl"), "ctrl+option");
 assert.equal(triggerChord("cmd+shift"), "shift+command");
 assert.equal(triggerChord("right_option+left_ctrl"), "ctrl+option");
 assert.equal(triggerChord("option"), null);
 assert.equal(triggerChord("fn+ctrl"), null);
-assert.equal(triggerChord("ctrl+space"), null);
 assert.equal(triggerChord("a"), null);
+// Owner report (rc8): fn from a Globe key set to Start Dictation, and the
+// shortcuts people expect.
+assert.equal(triggerChord("fn+dictation"), "fn");
+assert.equal(chordLabel("option_left+space"), "⌥ Space");
+assert.equal(triggerChord("option+space"), "option+space");
+assert.equal(triggerChord("ctrl+space"), "ctrl+space");
+assert.equal(triggerChord("option_left+ctrl_right+d"), "ctrl+option+d");
+assert.equal(triggerChord("command+shift+k"), "shift+command+k");
+assert.equal(triggerChord("shift+a"), null);
+assert.equal(triggerChord("fn+space"), null);
+assert.equal(triggerChord("option+escape"), null);
+assert.deepEqual(dictationKeyBindings(defaultHotkeys(), "option+space"), {
+  dictate: [{ chord: "option+space", activation: "hold" }],
+  hands_free: [{ chord: "option+space", activation: "double_tap" }],
+});
 assert.deepEqual(dictationKeyBindings(first, "ctrl+option"), {
   dictate: [{ chord: "ctrl+option", activation: "hold" }],
   hands_free: [

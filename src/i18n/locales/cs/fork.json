@@ -456,7 +456,7 @@
         "hint": "Podržením mluvíte. Dvojitým stisknutím diktujete bez držení.",
         "prompt": "Stiskněte požadovanou klávesu nebo klávesy",
         "save": "Uložit",
-        "invalid": "Použijte fn nebo dvě modifikační klávesy současně, například ⌃ ⌥.",
+        "invalid": "Použijte fn, dvě modifikační klávesy jako ⌃ ⌥, nebo modifikační klávesu s další klávesou jako ⌥ Space.",
         "more": "Další zkratky"
       }
     },
@@ -2315,7 +2315,8 @@
           "action": "Použít Control + Option",
           "changed": "Vaše zkratka je Control + Option"
         }
-      }
+      },
+      "customInstruction": "Stiskněte a podržte {{keys}}. Klávesy níže se rozsvítí, dokud je držíte."
     },
     "practice": {
       "title": "Vyzkoušení: celý e-mail <em>bez rukou</em>",
@@ -2340,7 +2341,9 @@
         "subjectText": "Čtvrtek",
         "body": "Zpráva",
         "placeholder": "Zkuste říct: „Ahoj Same, díky za poznámky. Můžeme se sejít ve čtvrtek v deset?“"
-      }
+      },
+      "instructionCustom": "Stiskněte rychle dvakrát {{keys}} a mluvte. Až budete hotovi, stiskněte znovu {{keys}}.",
+      "listening_custom": "Poslouchám… Až budete hotovi, stiskněte {{keys}}."
     },
     "firstDictation": {
       "title": "A je to!",

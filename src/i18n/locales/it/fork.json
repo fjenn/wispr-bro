@@ -454,7 +454,7 @@
         "hint": "Tieni premuto per parlare. Premi due volte per dettare a mani libere.",
         "prompt": "Premi il tasto o i tasti che vuoi usare",
         "save": "Salva",
-        "invalid": "Usa fn, oppure due tasti modificatori insieme, come ⌃ ⌥.",
+        "invalid": "Usa fn, due tasti modificatori come ⌃ ⌥, oppure un modificatore con un tasto come ⌥ Space.",
         "more": "Altre abbreviazioni"
       }
     },
@@ -2236,7 +2236,8 @@
           "action": "Usa Controllo + Opzione",
           "changed": "Controllo + Opzione è la tua abbreviazione"
         }
-      }
+      },
+      "customInstruction": "Tieni premuto {{keys}}. I tasti qui sotto si illuminano mentre li tieni premuti."
     },
     "practice": {
       "title": "Prova: un’intera email, <em>a mani libere</em>",
@@ -2261,7 +2262,9 @@
         "subjectText": "Giovedì",
         "body": "Messaggio",
         "placeholder": "Prova a dire: «Ciao Sam, grazie per gli appunti. Possiamo vederci giovedì alle dieci?»"
-      }
+      },
+      "instructionCustom": "Premi {{keys}} due volte rapidamente, poi parla. Premi di nuovo {{keys}} quando hai finito.",
+      "listening_custom": "In ascolto… premi {{keys}} quando hai finito."
     },
     "firstDictation": {
       "title": "Tutto qui!",

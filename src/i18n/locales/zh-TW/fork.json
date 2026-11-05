@@ -450,7 +450,7 @@
         "hint": "按住說話。按兩下即可免持聽寫。",
         "prompt": "請按下你想用的按鍵",
         "save": "儲存",
-        "invalid": "請使用 fn，或同時使用兩個修飾鍵，例如 ⌃ ⌥。",
+        "invalid": "請使用 fn、兩個修飾鍵（如 ⌃ ⌥），或修飾鍵加一個按鍵（如 ⌥ Space）。",
         "more": "更多快速鍵"
       }
     },
@@ -2078,7 +2078,8 @@
           "action": "使用 Control + Option",
           "changed": "你的快速鍵已設為 Control + Option"
         }
-      }
+      },
+      "customInstruction": "按住 {{keys}}。按住時，下方的按鍵會亮起。"
     },
     "practice": {
       "title": "練習：<em>免持</em>寫完整封郵件",
@@ -2103,7 +2104,9 @@
         "subjectText": "星期四",
         "body": "內文",
         "placeholder": "試著說：「Sam 你好，謝謝你的筆記。我們星期四十點見面可以嗎？」"
-      }
+      },
+      "instructionCustom": "快速按兩次 {{keys}}，然後說話。說完後再按一次 {{keys}}。",
+      "listening_custom": "正在聆聽… 說完後按 {{keys}}。"
     },
     "firstDictation": {
       "title": "就這麼簡單！",

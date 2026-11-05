@@ -452,7 +452,7 @@
         "hint": "Hold nede for at tale. Tryk to gange for håndfri diktering.",
         "prompt": "Tryk på den eller de taster, du vil bruge",
         "save": "Gem",
-        "invalid": "Brug fn eller to modifikatortaster sammen, fx ⌃ ⌥.",
+        "invalid": "Brug fn, to modifikatortaster som ⌃ ⌥ eller en modifikatortast med en tast som ⌥ Space.",
         "more": "Flere genveje"
       }
     },
@@ -2157,7 +2157,8 @@
           "action": "Brug Control + Option",
           "changed": "Control + Option er din genvej"
         }
-      }
+      },
+      "customInstruction": "Hold {{keys}} nede. Tasterne nedenfor lyser, mens du holder dem nede."
     },
     "practice": {
       "title": "Øv: en hel e-mail, <em>håndfrit</em>",
@@ -2182,7 +2183,9 @@
         "subjectText": "Torsdag",
         "body": "Besked",
         "placeholder": "Prøv at sige: ”Hej Sam, tak for noterne. Kan vi mødes torsdag klokken ti?”"
-      }
+      },
+      "instructionCustom": "Tryk hurtigt to gange på {{keys}}, og tal. Tryk på {{keys}} igen, når du er færdig.",
+      "listening_custom": "Lytter… tryk på {{keys}}, når du er færdig."
     },
     "firstDictation": {
       "title": "Sådan!",

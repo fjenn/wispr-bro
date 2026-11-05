@@ -450,7 +450,7 @@
         "hint": "누른 채 말하세요. 두 번 누르면 핸즈프리입니다.",
         "prompt": "원하는 키를 누르세요",
         "save": "저장",
-        "invalid": "fn 또는 ⌃ ⌥처럼 보조 키 두 개를 함께 사용하세요.",
+        "invalid": "fn, ⌃ ⌥ 같은 보조 키 두 개, 또는 ⌥ Space 같은 보조 키와 키 조합을 사용하세요.",
         "more": "단축키 더 보기"
       }
     },
@@ -2078,7 +2078,8 @@
           "action": "Control + Option 사용",
           "changed": "단축키가 Control + Option으로 설정됨"
         }
-      }
+      },
+      "customInstruction": "{{keys}}을(를) 길게 누르세요. 누르고 있는 동안 아래의 키에 불이 들어옵니다."
     },
     "practice": {
       "title": "연습: 이메일 한 통을 <em>핸즈프리</em>로",
@@ -2103,7 +2104,9 @@
         "subjectText": "목요일",
         "body": "메시지",
         "placeholder": "이렇게 말해 보세요: “샘, 안녕하세요. 메모 고마워요. 목요일 10시에 만날 수 있을까요?”"
-      }
+      },
+      "instructionCustom": "{{keys}}을(를) 빠르게 두 번 누른 다음 말하세요. 다 말했으면 {{keys}}을(를) 다시 누르세요.",
+      "listening_custom": "듣는 중… 다 말했으면 {{keys}}을(를) 누르세요."
     },
     "firstDictation": {
       "title": "이게 전부입니다!",

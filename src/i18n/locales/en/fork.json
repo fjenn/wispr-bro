@@ -444,7 +444,7 @@
         "hint": "Hold to talk. Double-tap for hands-free.",
         "prompt": "Press the key or keys you want",
         "save": "Save",
-        "invalid": "Use fn, or two modifier keys together, such as ⌃ ⌥.",
+        "invalid": "Use fn, two modifier keys such as ⌃ ⌥, or a modifier with a key such as ⌥ Space.",
         "more": "More shortcuts"
       }
     },
@@ -2474,7 +2474,8 @@
           "action": "Use Control + Option",
           "changed": "Control + Option is your shortcut"
         }
-      }
+      },
+      "customInstruction": "Press and hold {{keys}}. The keys below light up while you hold them."
     },
     "practice": {
       "title": "Practice: a whole email, <em>hands-free</em>",
@@ -2499,7 +2500,9 @@
         "subjectText": "Thursday",
         "body": "Message",
         "placeholder": "Try saying: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”"
-      }
+      },
+      "instructionCustom": "Press {{keys}} twice quickly, then talk. Press {{keys}} again when you're done.",
+      "listening_custom": "Listening… press {{keys}} when you're done."
     },
     "firstDictation": {
       "title": "That's it!",

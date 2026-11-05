@@ -452,7 +452,7 @@
         "hint": "Halten und sprechen. Doppelt tippen für freihändiges Diktat.",
         "prompt": "Drück die gewünschte Taste oder Tastenkombination",
         "save": "Speichern",
-        "invalid": "Nimm fn oder zwei Sondertasten zusammen, etwa ⌃ ⌥.",
+        "invalid": "Nimm fn, zwei Sondertasten wie ⌃ ⌥ oder eine Sondertaste mit einer Taste wie ⌥ Space.",
         "more": "Weitere Kurzbefehle"
       }
     },
@@ -2157,7 +2157,8 @@
           "action": "Control + Option verwenden",
           "changed": "Control + Option ist jetzt dein Kurzbefehl"
         }
-      }
+      },
+      "customInstruction": "Halte {{keys}} gedrückt. Die Tasten unten leuchten, solange du sie hältst."
     },
     "practice": {
       "title": "Üben: eine ganze E-Mail, <em>freihändig</em>",
@@ -2182,7 +2183,9 @@
         "subjectText": "Donnerstag",
         "body": "Nachricht",
         "placeholder": "Sag zum Beispiel: „Hallo Sam, danke für die Notizen. Können wir uns am Donnerstag um zehn treffen?“"
-      }
+      },
+      "instructionCustom": "Drück zweimal schnell {{keys}} und sprich. Drück erneut {{keys}}, wenn du fertig bist.",
+      "listening_custom": "Hört zu … drück {{keys}}, wenn du fertig bist."
     },
     "firstDictation": {
       "title": "Das war’s!",

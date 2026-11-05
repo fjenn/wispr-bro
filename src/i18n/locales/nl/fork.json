@@ -452,7 +452,7 @@
         "hint": "Ingedrukt houden om te praten. Tik twee keer voor handsfree.",
         "prompt": "Druk op de toets of toetsen die je wilt",
         "save": "Bewaar",
-        "invalid": "Gebruik fn, of twee speciale toetsen samen, zoals ⌃ ⌥.",
+        "invalid": "Gebruik fn, twee speciale toetsen zoals ⌃ ⌥, of een speciale toets met een toets zoals ⌥ Space.",
         "more": "Meer toetscombinaties"
       }
     },
@@ -2157,7 +2157,8 @@
           "action": "Gebruik Control + Option",
           "changed": "Control + Option is je toetscombinatie"
         }
-      }
+      },
+      "customInstruction": "Houd {{keys}} ingedrukt. De toetsen hieronder lichten op zolang je ze vasthoudt."
     },
     "practice": {
       "title": "Oefenen: een hele e-mail, <em>handsfree</em>",
@@ -2182,7 +2183,9 @@
         "subjectText": "Donderdag",
         "body": "Bericht",
         "placeholder": "Zeg bijvoorbeeld: “Hoi Sam, bedankt voor de aantekeningen. Kunnen we donderdag om tien uur afspreken?”"
-      }
+      },
+      "instructionCustom": "Druk twee keer snel op {{keys}} en praat. Druk nog een keer op {{keys}} als je klaar bent.",
+      "listening_custom": "Luistert… druk op {{keys}} als je klaar bent."
     },
     "firstDictation": {
       "title": "Zo simpel is het!",

@@ -456,7 +456,7 @@
         "hint": "Przytrzymaj, aby mówić. Stuknij dwa razy, aby dyktować bez trzymania.",
         "prompt": "Naciśnij wybrany klawisz lub klawisze",
         "save": "Zachowaj",
-        "invalid": "Użyj fn albo dwóch klawiszy modyfikujących naraz, np. ⌃ ⌥.",
+        "invalid": "Użyj fn, dwóch klawiszy modyfikujących, np. ⌃ ⌥, albo modyfikatora z klawiszem, np. ⌥ Space.",
         "more": "Więcej skrótów"
       }
     },
@@ -2315,7 +2315,8 @@
           "action": "Użyj Control + Option",
           "changed": "Twój skrót to Control + Option"
         }
-      }
+      },
+      "customInstruction": "Naciśnij i przytrzymaj {{keys}}. Klawisze poniżej podświetlają się, gdy je przytrzymujesz."
     },
     "practice": {
       "title": "Ćwiczenie: cały e-mail <em>bez użycia rąk</em>",
@@ -2340,7 +2341,9 @@
         "subjectText": "Czwartek",
         "body": "Wiadomość",
         "placeholder": "Spróbuj powiedzieć: „Cześć Sam, dzięki za notatki. Możemy się spotkać w czwartek o dziesiątej?”"
-      }
+      },
+      "instructionCustom": "Naciśnij szybko dwa razy {{keys}}, a potem mów. Gdy skończysz, naciśnij ponownie {{keys}}.",
+      "listening_custom": "Słucham… gdy skończysz, naciśnij {{keys}}."
     },
     "firstDictation": {
       "title": "To wszystko!",

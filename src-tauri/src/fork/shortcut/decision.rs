@@ -30,6 +30,11 @@ pub enum Trigger {
     /// Two or more modifiers held together (fallback: Ctrl+Opt). Compound
     /// bits only (`Modifiers::CTRL`, not `CTRL_LEFT`): either side counts.
     Mods(#[serde(skip)] Modifiers),
+    /// Modifiers plus one key, such as ⌥Space or ⌃⌥D (Handy's own default
+    /// was ⌥Space). Down while the key is held with exactly these modifiers;
+    /// up when the key or any of the modifiers is released. At least one of
+    /// ⌃, ⌥ or ⌘ (Shift alone would swallow capitals), never fn.
+    Combo(#[serde(skip)] Modifiers, #[serde(skip)] HkKey),
 }
 
 impl Trigger {
@@ -40,18 +45,39 @@ impl Trigger {
     pub fn modifiers(self) -> Modifiers {
         match self {
             Trigger::Fn => Modifiers::FN,
-            Trigger::Mods(m) => m,
+            Trigger::Mods(m) | Trigger::Combo(m, _) => m,
         }
     }
 
-    /// From a modifier-only hotkey: `fn` alone, or ≥ 2 modifier groups
-    /// without fn. A single ordinary modifier (Shift, Opt, …) is not a
-    /// trigger: it would fire on every shortcut that uses it.
-    pub fn from_hotkey(h: &Hotkey) -> Option<Trigger> {
-        if h.key.is_some() {
-            return None;
+    /// The key a [`Trigger::Combo`] holds besides its modifiers.
+    pub fn key(self) -> Option<HkKey> {
+        match self {
+            Trigger::Combo(_, k) => Some(k),
+            _ => None,
         }
+    }
+
+    /// From a hotkey: `fn` alone, ≥ 2 modifier groups without fn, or a key
+    /// with ⌃, ⌥ or ⌘ (and optionally more modifiers, never fn). A single
+    /// ordinary modifier (Shift, Opt, …) is not a trigger: it would fire on
+    /// every shortcut that uses it. Esc (cancel) and mouse buttons are never
+    /// part of a trigger.
+    pub fn from_hotkey(h: &Hotkey) -> Option<Trigger> {
         let m = compound(h.modifiers);
+        if let Some(k) = h.key {
+            let usable = !m.contains(Modifiers::FN)
+                && m.intersects(Modifiers::CTRL | Modifiers::OPT | Modifiers::CMD)
+                && !matches!(
+                    k,
+                    HkKey::Escape
+                        | HkKey::MouseLeft
+                        | HkKey::MouseRight
+                        | HkKey::MouseMiddle
+                        | HkKey::MouseX1
+                        | HkKey::MouseX2
+                );
+            return usable.then_some(Trigger::Combo(m, k));
+        }
         if m == Modifiers::FN {
             return Some(Trigger::Fn);
         }
@@ -75,7 +101,7 @@ impl Trigger {
     pub fn held_in(self, modifiers: Modifiers) -> bool {
         match self {
             Trigger::Fn => modifiers.contains(Modifiers::FN),
-            Trigger::Mods(m) => [
+            Trigger::Mods(m) | Trigger::Combo(m, _) => [
                 Modifiers::CMD,
                 Modifiers::SHIFT,
                 Modifiers::CTRL,
@@ -143,6 +169,9 @@ impl Translator {
     }
 
     pub fn translate(&mut self, ev: &KeyEvent) -> Decision {
+        if let Trigger::Combo(m, k) = self.trigger {
+            return self.combo(m, k, ev);
+        }
         match ev.key {
             // FlagsChanged of a modifier (key None), or of fn.
             None => self.modifiers_changed(ev),
@@ -163,6 +192,25 @@ impl Translator {
         }
     }
 
+    /// A modifier+key trigger: its key-down with exactly its modifiers is
+    /// `FnDown`, its key-up or a modifier release `FnUp`; its auto-repeat
+    /// while down is absorbed. Other keys are ordinary `KeyDown`s.
+    fn combo(&mut self, m: Modifiers, k: HkKey, ev: &KeyEvent) -> Decision {
+        let was = self.down;
+        self.down = combo_down(was, m, k, ev);
+        match (was, self.down) {
+            (false, true) => Decision::Input(Input::FnDown),
+            (true, false) => Decision::Input(Input::FnUp),
+            _ if was && ev.key == Some(k) => Decision::Nothing,
+            _ => match ev.key {
+                Some(key) if ev.is_key_down => {
+                    Decision::Input(Input::KeyDown(self.classify_with(key, ev.modifiers)))
+                }
+                _ => Decision::Nothing,
+            },
+        }
+    }
+
     fn modifiers_changed(&mut self, ev: &KeyEvent) -> Decision {
         let now_down = match self.trigger {
             // fn is tracked by its own edge, as in the RS-01 spike: Shift or
@@ -178,6 +226,16 @@ impl Translator {
         }
         self.down = now_down;
         Decision::Input(if now_down { Input::FnDown } else { Input::FnUp })
+    }
+}
+
+/// Whether a [`Trigger::Combo`] of `m` + `k` is down after `ev`, given
+/// whether it was down before (also the shortcut test's key light).
+pub fn combo_down(was: bool, m: Modifiers, k: HkKey, ev: &KeyEvent) -> bool {
+    match ev.key {
+        Some(key) if key == k => ev.is_key_down && (was || m.matches(ev.modifiers)),
+        None => was && Trigger::Mods(m).held_in(ev.modifiers),
+        Some(_) => was,
     }
 }
 

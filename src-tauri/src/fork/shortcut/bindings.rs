@@ -5,10 +5,11 @@
 //! adds what the grammar can run and conflict detection across actions.
 //!
 //! What S-01 runs:
-//! - one **trigger** (a modifier-only chord: `fn`, or ≥ 2 modifiers such as
-//!   `ctrl+option`), bound to `dictate` as `hold` and/or to `hands_free` as
-//!   `double_tap`;
-//! - `<trigger>+space` bound to `hands_free` as `press` (rule 6);
+//! - one **trigger** (`fn`, ≥ 2 modifiers such as `ctrl+option`, or
+//!   modifiers plus a key such as `option+space`), bound to `dictate` as
+//!   `hold` and/or to `hands_free` as `double_tap`;
+//! - `<trigger>+space` bound to `hands_free` as `press` (rule 6; not for a
+//!   modifier+key trigger);
 //! - `escape` bound to `cancel` as `press` (rule 7);
 //! - keyed chords bound as `press` to an action the registry handles
 //!   (`actions.rs`), for example ⌃⌘V once paste-last exists.
@@ -177,7 +178,9 @@ pub fn compile(
         let as_trigger = Trigger::from_hotkey(hotkey);
         let is_trigger = as_trigger.is_some() && as_trigger == p.trigger;
         let is_trigger_space = p.trigger.is_some_and(|t| {
-            hotkey.key == Some(Key::Space) && compound(hotkey.modifiers) == t.modifiers()
+            t.key().is_none()
+                && hotkey.key == Some(Key::Space)
+                && compound(hotkey.modifiers) == t.modifiers()
         });
         match (action.as_str(), act) {
             (DICTATE, Hold) if is_trigger => p.hold = true,
@@ -201,7 +204,7 @@ pub fn compile(
                 &mut p,
                 action,
                 chord,
-                "hold and double-tap need a modifier-only chord (fn, or two modifiers)",
+                "hold and double-tap need fn, two modifiers, or a modifier with a key",
             ),
             (DICTATE | HANDS_FREE | CANCEL, _) => unsupported(
                 &mut p,

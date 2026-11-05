@@ -450,7 +450,7 @@
         "hint": "Tahan untuk berbicara. Ketuk dua kali untuk dikte bebas genggam.",
         "prompt": "Tekan tombol yang Anda inginkan",
         "save": "Simpan",
-        "invalid": "Gunakan fn, atau dua tombol pengubah bersamaan, seperti ⌃ ⌥.",
+        "invalid": "Gunakan fn, dua tombol pengubah seperti ⌃ ⌥, atau tombol pengubah dengan satu tombol seperti ⌥ Space.",
         "more": "Pintasan lainnya"
       }
     },
@@ -2078,7 +2078,8 @@
           "action": "Gunakan Control + Option",
           "changed": "Control + Option adalah pintasan Anda"
         }
-      }
+      },
+      "customInstruction": "Tekan dan tahan {{keys}}. Tombol di bawah menyala selama Anda menahannya."
     },
     "practice": {
       "title": "Latihan: satu email utuh, <em>tanpa tangan</em>",
@@ -2103,7 +2104,9 @@
         "subjectText": "Kamis",
         "body": "Pesan",
         "placeholder": "Coba ucapkan: “Hai Sam, terima kasih atas catatannya. Bisakah kita bertemu hari Kamis pukul sepuluh?”"
-      }
+      },
+      "instructionCustom": "Tekan {{keys}} dua kali dengan cepat, lalu bicara. Tekan {{keys}} lagi saat selesai.",
+      "listening_custom": "Mendengarkan… tekan {{keys}} saat selesai."
     },
     "firstDictation": {
       "title": "Begitu saja!",

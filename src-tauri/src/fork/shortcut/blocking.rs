@@ -11,6 +11,7 @@
 //!   the fork leaves fn unblocked for every other value (DEC-44 update,
 //!   round 2). A modifier-pair trigger (Ctrl+Opt) is never blocked: it has no
 //!   system action and other apps' Ctrl+Opt shortcuts must keep working.
+//! - `{modifiers, key}` of a modifier+key trigger (⌥Space): always.
 //! - `{trigger, Space}`: while the trigger is down, so Space is swallowed
 //!   only as the lock chord (rule 6).
 //! - `{Esc}`, `{FN, Esc}` (or `{trigger, Esc}`): while a take is recording
@@ -43,6 +44,13 @@ pub fn hotkeys(profile: &Profile, grammar: Blocking, extra: Extra) -> HashSet<Ho
         let m = trigger.modifiers();
         if grammar.fn_press && trigger == Trigger::Fn && (profile.hold || profile.double_tap) {
             set.insert(hk(Modifiers::FN, None));
+        }
+        // A modifier+key trigger (⌥Space) is always swallowed, repeats
+        // included, so it never types into the focused app.
+        if let Some(k) = trigger.key() {
+            if profile.hold || profile.double_tap {
+                set.insert(hk(m, Some(k)));
+            }
         }
         if grammar.fn_space && profile.trigger_space {
             set.insert(hk(m, Some(Key::Space)));

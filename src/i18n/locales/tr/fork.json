@@ -452,7 +452,7 @@
         "hint": "Konuşmak için basılı tutun. Eller serbest dikte için iki kez dokunun.",
         "prompt": "İstediğiniz tuşa veya tuşlara basın",
         "save": "Kaydet",
-        "invalid": "fn'yi ya da ⌃ ⌥ gibi iki değiştirici tuşu birlikte kullanın.",
+        "invalid": "fn, ⌃ ⌥ gibi iki değiştirici tuş ya da ⌥ Space gibi bir tuşla birlikte değiştirici kullanın.",
         "more": "Diğer kestirmeler"
       }
     },
@@ -2157,7 +2157,8 @@
           "action": "Control + Option Kullan",
           "changed": "Kestirmeniz artık Control + Option"
         }
-      }
+      },
+      "customInstruction": "{{keys}} tuşlarını basılı tutun. Siz basılı tuttukça aşağıdaki tuşlar yanar."
     },
     "practice": {
       "title": "Alıştırma: koca bir e-posta, <em>eller serbest</em>",
@@ -2182,7 +2183,9 @@
         "subjectText": "Perşembe",
         "body": "İleti",
         "placeholder": "Şunu söylemeyi deneyin: “Merhaba Sam, notlar için teşekkürler. Perşembe saat onda görüşebilir miyiz?”"
-      }
+      },
+      "instructionCustom": "{{keys}} tuşlarına hızlıca iki kez basın, ardından konuşun. Bitirince {{keys}} tuşlarına yeniden basın.",
+      "listening_custom": "Dinleniyor… Bitirince {{keys}} tuşlarına basın."
     },
     "firstDictation": {
       "title": "İşte bu kadar!",

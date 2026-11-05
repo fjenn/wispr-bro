@@ -112,6 +112,9 @@ export function KeyCapture({
   const { settings, setSetting } = useForkSettings();
   const [live, setLive] = useState("");
   const [picked, setPicked] = useState<string | null>(null);
+  // The keys of a refused press stay drawn beside the reason (owner report
+  // rc8: the field fell back to the current fn, so fn looked refused).
+  const [refused, setRefused] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -126,12 +129,14 @@ export function KeyCapture({
       const key = triggerChord(chord);
       if (!key) {
         setPicked(null);
+        setRefused(chord);
         setProblem(t("settingsModal.hotkeys.key.invalid"));
         return;
       }
       const other = settings && dictationKeyConflict(settings.hotkeys, key);
       if (other) {
         setPicked(null);
+        setRefused(key);
         setProblem(
           t("settingsModal.hotkeys.conflict", {
             action: actionName
@@ -144,6 +149,7 @@ export function KeyCapture({
         return;
       }
       setProblem(null);
+      setRefused(null);
       setPicked(key);
     },
     onEscape: () => onClose(false),
@@ -172,7 +178,7 @@ export function KeyCapture({
     onClose(true);
   };
 
-  const shown = live || picked || current || "";
+  const shown = live || picked || refused || current || "";
   const message = error ? t(`settingsModal.hotkeys.capture.${error}`) : problem;
   return (
     <div
