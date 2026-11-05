@@ -179,6 +179,24 @@ pub fn bar_placement() -> Option<(Anchor, Screen)> {
     ))
 }
 
+/// S-34: whether the pointer is over the shown web view (the "New word"
+/// note pauses its countdown); `None` when nothing is shown. Main thread
+/// only.
+pub fn pointer_over_web() -> Option<bool> {
+    with_ui(|ui| {
+        ui.web_shown?;
+        let f = ui.web_window()?.frame();
+        let (x, y) = native::cursor();
+        Some(
+            x >= f.origin.x
+                && x <= f.origin.x + f.size.width
+                && y >= f.origin.y
+                && y <= f.origin.y + f.size.height,
+        )
+    })
+    .flatten()
+}
+
 impl Ui {
     fn apply(&mut self, scene: Scene) {
         let before = (

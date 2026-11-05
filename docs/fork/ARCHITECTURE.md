@@ -1677,6 +1677,28 @@ chat composer grows in height). A deleted learned entry and a rejected
 suggestion stay as `rejected` rows, so they never return; adding the word
 by hand makes it active. Erase (S-27) calls `learn::stop()` first.
 
+**"New word" note (2026-11-05, `fix/learn`).** `review::suggest_entries`
+returns the rows it added (`Suggested { id, word }`, the corrected
+spelling); `learn::save` hands them to `fork::pill::words_learned`. The
+bar's model (`pill/model.rs`, `Phase::Word`, `Shape::Word` 340 × 30)
+queues them (3 waiting at most; more stay in Dictionary only) and shows one
+at a time, only while nothing else is active and setup has ended: a take,
+message, card or diff that replaces a note puts it back at the front of
+the queue with its full time. The note offers Add (`PillUiAction::AddWord`
+→ `fork_dictionary_accept`, then "Added to Dictionary" or "Dictionary is
+full" for 1.8 s) and ✕ / 15 s (the word stays suggested). Hover pauses the
+countdown: the web view gets no mouse events while another app is active,
+so the controller asks the main thread every 150 ms whether the cursor is
+inside the shown web panel (`panel::pointer_over_web`) and feeds
+`Input::WordHover`; the state carries the time left and `paused`, and the
+page's ring (`states/WordNote.tsx`) runs from there (still under Reduce
+Motion). Accept/Reject on the Dictionary page call `pill::words_resolved`,
+which closes or drops a note for those words. The panel is the bar's
+non-activating web panel, so the user's app keeps focus. VoiceOver says
+"New word: …" once per note (`accessibility.rs`). The Hub sidebar's
+Dictionary item shows the waiting count (`useSuggestedCountLive`, from
+`ForkDictionaryChanged`'s counts; a dot when collapsed).
+
 ## Cleanup levels (S-12a)
 
 R5 §4.10 stage 8 on the local LLM: every dictation is cleaned at the

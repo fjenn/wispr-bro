@@ -354,6 +354,58 @@ body {
   background: var(--wb-hud-light-hover);
 }
 
+/* ---- S-34: "New word: Kubernetes" · Add · ✕ with the countdown. ---- */
+
+.wb-pill[data-phase="word"] .wb-pill-content {
+  padding-inline: 12px 3px;
+  gap: 6px;
+}
+
+.wb-pill-word,
+.wb-pill-word-result {
+  font-size: 15px;
+  color: var(--wb-pill-ink);
+}
+
+.wb-pill-word svg,
+.wb-pill-word-result svg {
+  color: var(--wb-pill-accent);
+}
+
+.wb-pill-word-label {
+  color: var(--wb-pill-ink-2);
+}
+
+.wb-pill-word-term {
+  font-weight: 600;
+}
+
+.wb-pill-word-close {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+}
+
+.wb-pill-word-ring {
+  position: absolute;
+  inset: 0;
+  width: 26px;
+  height: 26px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.wb-pill-word-ring circle {
+  fill: none;
+  stroke: var(--wb-pill-ink-2);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+
 /* ---- S-07a: "Setting up… 40%" with a progress ring. ---- */
 
 .wb-pill[data-phase="setting_up"] .wb-pill-content {

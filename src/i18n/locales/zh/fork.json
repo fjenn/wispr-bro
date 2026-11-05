@@ -471,7 +471,8 @@
     },
     "sidebar": {
       "collapse": "收起侧边栏",
-      "expand": "展开侧边栏"
+      "expand": "展开侧边栏",
+      "suggested": "建议的词：{{count}}"
     },
     "header": {
       "toDark": "切换为深色外观",
@@ -872,7 +873,8 @@
         "undo": "「撤销」会在听写浮动栏上显示 4 秒。",
         "diff": "可以查看转换的更改了。",
         "secureInputWarning": "安全输入已开启。fn 和空格键无法锁定听写。按 Esc 或关闭按钮仍可取消。",
-        "inserted": "已插入文字"
+        "inserted": "已插入文字",
+        "newWord": "新词：{{word}}。可在听写栏中添加，或稍后在字典中添加。"
       },
       "message": {
         "no_speech": "未听到语音",
@@ -913,6 +915,10 @@
         "session_inactive": "未粘贴：你切换了用户",
         "paste_failed": "无法粘贴此文本",
         "disk_full": "磁盘已满：录音已停止"
+      },
+      "word": {
+        "added": "已添加到字典",
+        "full": "字典已满。该词仍保留在“建议的”中。"
       }
     },
     "share": {
@@ -1249,6 +1255,12 @@
     "shortcutDetail": {
       "permission": "辅助功能权限已关闭",
       "stopped": "键盘监听已停止"
+    },
+    "word": {
+      "new": "新词",
+      "add": "添加",
+      "addLabel": "将 {{word}} 添加到字典",
+      "notNow": "以后再说"
     }
   },
   "transforms": {

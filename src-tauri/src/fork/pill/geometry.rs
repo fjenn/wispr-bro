@@ -39,10 +39,12 @@ pub enum Shape {
     Card,
     /// A transform's word diff and actions (S-22).
     Diff,
+    /// S-34: "New word: Kubernetes" with Add and ✕.
+    Word,
 }
 
 impl Shape {
-    pub const ALL: [Shape; 12] = [
+    pub const ALL: [Shape; 13] = [
         Shape::Rest,
         Shape::Held,
         Shape::HeldLabel,
@@ -55,6 +57,7 @@ impl Shape {
         Shape::Setup,
         Shape::Card,
         Shape::Diff,
+        Shape::Word,
     ];
 
     /// Width and height of the window, in points.
@@ -70,6 +73,7 @@ impl Shape {
             Shape::Setup => (260.0, ACTIVE_H),
             Shape::Card => (440.0, CARD_H),
             Shape::Diff => (DIFF_W, DIFF_MAX_H),
+            Shape::Word => (WORD_W, ACTIVE_H),
         }
     }
 
@@ -107,6 +111,7 @@ impl Shape {
             Shape::Setup => "setup",
             Shape::Card => "card",
             Shape::Diff => "diff",
+            Shape::Word => "word",
         }
     }
 }
@@ -155,6 +160,9 @@ pub const DIFF_MIN_H: f64 = DIFF_CHROME_H + DIFF_LINE_H;
 pub const DIFF_MAX_H: f64 = DIFF_CHROME_H + DIFF_MAX_LINES * DIFF_LINE_H;
 /// Width of the text column: the card less its side padding (18 + 14).
 pub const DIFF_TEXT_W: f64 = DIFF_W - 32.0;
+
+/// The "New word" note (S-34): the word, Add and ✕ in one capsule.
+pub const WORD_W: f64 = 340.0;
 
 /// The hover bubble of the resting bar: height, horizontal padding around
 /// its text, and its width limits (the text is measured, localized).

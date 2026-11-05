@@ -465,7 +465,8 @@
     },
     "sidebar": {
       "collapse": "Collapse sidebar",
-      "expand": "Expand sidebar"
+      "expand": "Expand sidebar",
+      "suggested": "Suggested words: {{count}}"
     },
     "header": {
       "toDark": "Switch to dark appearance",
@@ -879,7 +880,8 @@
         "undo": "Undo is on the dictation bar for 4 seconds.",
         "diff": "Transform changes are ready to review.",
         "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Esc or the close button still cancels.",
-        "inserted": "Text inserted"
+        "inserted": "Text inserted",
+        "newWord": "New word: {{word}}. Add it from the dictation bar, or later in Dictionary."
       },
       "message": {
         "no_speech": "No speech heard",
@@ -920,6 +922,10 @@
         "session_inactive": "Not pasted: you switched users",
         "paste_failed": "Couldn't paste this text",
         "disk_full": "Disk full: recording stopped"
+      },
+      "word": {
+        "added": "Added to Dictionary",
+        "full": "Dictionary is full. The word stays in Suggested."
       }
     },
     "share": {
@@ -1602,6 +1608,12 @@
     "shortcutDetail": {
       "permission": "Accessibility access is off",
       "stopped": "The keyboard listener stopped"
+    },
+    "word": {
+      "new": "New word",
+      "add": "Add",
+      "addLabel": "Add {{word}} to Dictionary",
+      "notNow": "Not now"
     }
   },
   "transforms": {

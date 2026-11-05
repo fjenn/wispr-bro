@@ -136,6 +136,8 @@ pub struct ForkPillState {
     /// curve, so the hand-over is seamless. `None` in tests and snapshots
     /// without an appearance.
     pub grown_at_unix_ms: Option<u64>,
+    /// S-34: the "New word" note.
+    pub word: Option<model::ForkPillWord>,
 }
 
 /// One waveform frame (≤ 30 per second, only to `fork-pill`).
@@ -165,6 +167,8 @@ pub enum PillUiAction {
     RateDiff {
         rating: i64,
     },
+    /// S-34: Add on the "New word" note: the word goes into the dictionary.
+    AddWord,
 }
 
 #[derive(Debug)]
@@ -447,6 +451,28 @@ pub fn setup_view(s: &crate::fork::models::setup::ForkSpeechSetup) -> SetupView 
     }
 }
 
+/// S-34: auto-learn suggested these words; the bar's note offers Add for
+/// each, one at a time, once nothing else shows (any thread; dropped where
+/// the bar does not run, the words still wait in Dictionary).
+pub fn words_learned(words: Vec<model::LearnedWord>) {
+    if !words.is_empty() {
+        input(Input::WordsLearned(words));
+    }
+}
+
+/// S-34: suggestions were accepted or rejected (Dictionary, or the note's
+/// own Add): a note for them closes or never shows.
+pub fn words_resolved(ids: &[i64]) {
+    if !ids.is_empty() {
+        input(Input::WordsResolved(ids.to_vec()));
+    }
+}
+
+/// How often the pointer is checked over the "New word" note (hover pauses
+/// its countdown; a web view gets no mouse events while another app is
+/// active, so the controller asks the main thread).
+pub const WORD_HOVER_POLL_MS: u64 = 150;
+
 /// `fork_pill_snapshot`.
 pub fn snapshot() -> Option<ForkPillState> {
     SNAPSHOT.lock().unwrap_or_else(|e| e.into_inner()).clone()
@@ -524,6 +550,7 @@ pub fn state_event(seq: u32, a: &ActiveView) -> ForkPillState {
         holder: a.holder.clone(),
         top: false,
         grown_at_unix_ms: None,
+        word: a.word.clone(),
     }
 }
 
@@ -717,6 +744,8 @@ struct Controller {
     /// was last resent.
     unpainted_since: Option<u64>,
     last_resend: u64,
+    /// S-34: when the pointer is next checked over the "New word" note.
+    next_hover: u64,
 }
 
 #[cfg(target_os = "macos")]
@@ -747,6 +776,7 @@ impl Controller {
             mic_lookup: false,
             unpainted_since: None,
             last_resend: 0,
+            next_hover: 0,
         }
     }
 
@@ -758,6 +788,7 @@ impl Controller {
                 Some(self.next_tick),
                 self.model.next_deadline(),
                 self.web_until,
+                self.model.showing_word().then_some(self.next_hover),
             ]
             .into_iter()
             .flatten()
@@ -773,6 +804,14 @@ impl Controller {
             if now >= self.next_tick {
                 self.tick(now);
             }
+            if self.model.showing_word() && now >= self.next_hover {
+                self.next_hover = now + WORD_HOVER_POLL_MS;
+                let _ = self.app.run_on_main_thread(|| {
+                    if let Some(over) = panel::pointer_over_web() {
+                        input(Input::WordHover(over));
+                    }
+                });
+            }
             self.render(now);
         }
     }
@@ -782,6 +821,10 @@ impl Controller {
         match msg {
             Msg::Input(Input::Dismiss) => self.dismiss(now),
             Msg::Input(i) => {
+                if let Input::WordsLearned(words) = &i {
+                    // Counts only: the words are user text.
+                    log::info!("pill: {} new word note(s) queued", words.len());
+                }
                 let starting = matches!(i, Input::TakeStarted { .. } | Input::Locked)
                     && !self.model.recording();
                 self.model.step(now, i);
@@ -900,6 +943,7 @@ impl Controller {
                     }
                 }
             }
+            PillUiAction::AddWord => self.add_word(now),
             PillUiAction::ConfigureDiff => {
                 crate::fork::transforms::record::view_changes(&self.app);
             }
@@ -929,6 +973,34 @@ impl Controller {
                         self.model.step(now, Input::DiffRating(rating));
                     }
                 }
+            }
+        }
+    }
+
+    /// S-34: Add on the "New word" note accepts the suggestion (as
+    /// Dictionary › Suggested's ✓ does) and confirms briefly.
+    fn add_word(&mut self, now: u64) {
+        let Some(id) = self.model.word_on_screen() else {
+            return;
+        };
+        let result =
+            crate::fork::commands::dictionary::fork_dictionary_accept(self.app.clone(), vec![id]);
+        match result {
+            Ok(out) if out.accepted > 0 => {
+                log::info!("pill: learned word added from the note");
+                self.model
+                    .step(now, Input::WordResult(id, model::WordResult::Added));
+            }
+            Ok(out) if out.full > 0 => {
+                log::info!("pill: learned word not added (dictionary full)");
+                self.model
+                    .step(now, Input::WordResult(id, model::WordResult::Full));
+            }
+            // Already accepted or rejected elsewhere.
+            Ok(_) => self.model.step(now, Input::Dismiss),
+            Err(e) => {
+                log::warn!("pill: could not add the learned word: {e:?}");
+                self.model.step(now, Input::Dismiss);
             }
         }
     }

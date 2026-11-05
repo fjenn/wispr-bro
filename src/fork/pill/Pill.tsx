@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The active Flow Bar (S-03): held, hands-free, processing, messages;
- * S-07a adds "Setting up" and the card. Design W4 restyles it after Wispr
+ * S-07a adds "Setting up" and the card; S-34 the "New word" note. Design W4 restyles it after Wispr
  * Flow's bar: an opaque black capsule, 15 px text, a label pill that blurs
  * in above the capsule, and size changes that morph on the bar's spring.
  *
@@ -54,6 +54,7 @@ import { Listening } from "./states/Listening";
 import { Message } from "./states/Message";
 import { SettingUp } from "./states/SettingUp";
 import { isShortcutLost, ShortcutLost } from "./states/ShortcutLost";
+import { WordNote } from "./states/WordNote";
 import { Working } from "./states/Working";
 import { usePillState, useReportPainted } from "./usePill";
 
@@ -123,6 +124,9 @@ export function Pill() {
     case "diff":
       body = <DiffCard state={state} />;
       break;
+    case "word":
+      body = state.word ? <WordNote word={state.word} /> : null;
+      break;
   }
 
   return (
@@ -143,7 +147,11 @@ export function Pill() {
         window={size}
         grownAt={state.grown_at_unix_ms}
         reduced={reduced}
-        contentKey={state.phase}
+        contentKey={
+          state.word
+            ? `${state.phase}-${state.word.id}-${state.word.result ?? ""}`
+            : state.phase
+        }
         label={
           <AnimatePresence initial={!reduced}>
             {label && (

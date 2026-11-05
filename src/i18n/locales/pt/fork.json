@@ -475,7 +475,8 @@
     },
     "sidebar": {
       "collapse": "Recolher barra lateral",
-      "expand": "Expandir barra lateral"
+      "expand": "Expandir barra lateral",
+      "suggested": "Palavras sugeridas: {{count}}"
     },
     "header": {
       "toDark": "Mudar para aparência escura",
@@ -902,7 +903,8 @@
         "undo": "Desfazer fica na barra de ditado por 4 segundos.",
         "diff": "As alterações da transformação estão prontas para revisão.",
         "secureInputWarning": "A Entrada Segura está ativada. fn e Space não conseguem travar o ditado. Esc ou o botão de fechar ainda cancelam.",
-        "inserted": "Texto inserido"
+        "inserted": "Texto inserido",
+        "newWord": "Nova palavra: {{word}}. Adicione pela barra de ditado ou depois no Dicionário."
       },
       "message": {
         "no_speech": "Nenhuma fala detectada",
@@ -943,6 +945,10 @@
         "session_inactive": "Não colado: você trocou de usuário",
         "paste_failed": "Não foi possível colar este texto",
         "disk_full": "Disco cheio: a gravação parou"
+      },
+      "word": {
+        "added": "Adicionada ao Dicionário",
+        "full": "O Dicionário está cheio. A palavra fica em Sugeridos."
       }
     },
     "share": {
@@ -1321,6 +1327,12 @@
     "shortcutDetail": {
       "permission": "O acesso à Acessibilidade está desativado",
       "stopped": "A escuta do teclado parou"
+    },
+    "word": {
+      "new": "Nova palavra",
+      "add": "Adicionar",
+      "addLabel": "Adicionar {{word}} ao Dicionário",
+      "notNow": "Agora não"
     }
   },
   "transforms": {

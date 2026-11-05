@@ -473,7 +473,8 @@
     },
     "sidebar": {
       "collapse": "Dölj sidofältet",
-      "expand": "Visa sidofältet"
+      "expand": "Visa sidofältet",
+      "suggested": "Föreslagna ord: {{count}}"
     },
     "header": {
       "toDark": "Byt till mörkt utseende",
@@ -887,7 +888,8 @@
         "undo": "Ångra finns i dikteringslisten i 4 sekunder.",
         "diff": "Ändringarna från omvandlingen är klara att granska.",
         "secureInputWarning": "Säker inmatning är på. fn och Space kan inte låsa dikteringen. Esc eller stängningsknappen avbryter fortfarande.",
-        "inserted": "Text infogad"
+        "inserted": "Text infogad",
+        "newWord": "Nytt ord: {{word}}. Lägg till det från dikteringsfältet eller senare i Ordlista."
       },
       "message": {
         "no_speech": "Inget tal hördes",
@@ -928,6 +930,10 @@
         "session_inactive": "Inte inklistrat: du bytte användare",
         "paste_failed": "Det gick inte att klistra in texten",
         "disk_full": "Disken är full: inspelningen stoppades"
+      },
+      "word": {
+        "added": "Tillagt i Ordlista",
+        "full": "Ordlistan är full. Ordet ligger kvar under Föreslagna."
       }
     },
     "share": {
@@ -1285,6 +1291,12 @@
     "shortcutDetail": {
       "permission": "Åtkomst till Hjälpmedel är avstängd",
       "stopped": "Tangentbordsavlyssningen stoppades"
+    },
+    "word": {
+      "new": "Nytt ord",
+      "add": "Lägg till",
+      "addLabel": "Lägg till {{word}} i Ordlista",
+      "notNow": "Inte nu"
     }
   },
   "transforms": {

@@ -105,6 +105,14 @@ fn pending(conn: &Connection) -> Result<usize, DbError> {
     Ok(usize::try_from(n).unwrap_or(usize::MAX))
 }
 
+/// A suggestion [`suggest_entries`] added: its row and the word the bar's
+/// note names (the corrected spelling).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Suggested {
+    pub id: i64,
+    pub word: String,
+}
+
 /// Adds the suggestions `corrections` give (in one transaction). Returns
 /// how many were added.
 pub fn suggest(
@@ -112,10 +120,19 @@ pub fn suggest(
     corrections: &[Correction],
     now_ms: i64,
 ) -> Result<usize, DbError> {
+    suggest_entries(conn, corrections, now_ms).map(|s| s.len())
+}
+
+/// [`suggest`], returning what was added.
+pub fn suggest_entries(
+    conn: &mut Connection,
+    corrections: &[Correction],
+    now_ms: i64,
+) -> Result<Vec<Suggested>, DbError> {
     let tx = conn.transaction()?;
-    let mut added = 0;
+    let mut added = Vec::new();
     for c in corrections {
-        if added == MAX_PER_EDIT || pending(&tx)? >= MAX_PENDING {
+        if added.len() == MAX_PER_EDIT || pending(&tx)? >= MAX_PENDING {
             break;
         }
         let Some(entry) = entry_for(c) else { continue };
@@ -135,12 +152,16 @@ pub fn suggest(
                 now_ms
             ],
         )?;
+        let id = tx.last_insert_rowid();
         tx.execute(
             "INSERT INTO corrections (entry_id, from_text, to_text, source, created_at)
              VALUES (NULL, ?1, ?2, 'learn', ?3)",
             params![c.heard, c.corrected, now_ms],
         )?;
-        added += 1;
+        added.push(Suggested {
+            id,
+            word: entry.replacement.clone().unwrap_or(entry.phrase.clone()),
+        });
     }
     tx.commit()?;
     Ok(added)

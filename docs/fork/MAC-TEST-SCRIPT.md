@@ -2547,6 +2547,15 @@ Slack) in a separate Chrome profile stands in, as S-20's thread page does.
 - [ ] S-34.8 **Mac wave 3: PARTIAL scripted: the Suggested tab and Settings › Data and Privacy toggles follow one setting (`auto_learn_enabled`) both ways; light/dark by eye (owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-3.md)) **Mac wave 2: PARTIAL: Suggested tab, Accept/Reject seen by AX; toggle, light/dark by eye (owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) (person, UI wave) Dictionary › Suggested: the toggle, Accept/Reject, the row leaves the tab; Settings › Data and Privacy › "Learn from my corrections" follows the same setting; light and dark.
 - Not covered on this Mac: Slack itself (not installed); Electron apps are covered by the S-05 lease path only.
 
+**S-34 "New word" note on the bar (`fix/learn`, 2026-11-05): queued for the Mac wave.** Same profile and `fix` case as S-34.1 (setting on), with `WB_PID` set for `scripts/wb-s03-pill.swift`; never the owner's app or data, WAV microphone only.
+
+- [ ] S-34.9 After `fix` commits: the log has `pill: 1 new word note(s) queued`; `swift scripts/wb-s03-pill.swift -e 'windows'` shows one active window 340 × 30 just above the resting bar's place; Chrome (the composer) is still frontmost and keeps keyboard focus (type a key: it lands in the composer). By eye: "New word **Kubernetes**", Add, ✕ with a thin ring that empties.
+- [ ] S-34.10 Untouched, the note is gone 15 s (± 1 s) after it appeared and the bar rests; `learned` still shows `word|Kubernetes|||suggested`; the Hub's sidebar shows the Dictionary badge "1" and Dictionary › Suggested lists it with Accept/Reject.
+- [ ] S-34.11 Hover pauses: `fix` again (after rejecting, or `setup.sh … on`), then `move` the cursor onto the note's centre within 5 s; after 25 s it is still on screen; move away: it goes within the time that was left.
+- [ ] S-34.12 Add: `fix` again, then `clickat` on Add (its centre, about 60 pt from the window's right end, 15 pt up): "Added to Dictionary" for ~2 s, then rest; `learned` shows the word `active`; the log has `pill: learned word added from the note`; Chrome stayed frontmost; the badge is gone.
+- [ ] S-34.13 Never during a take: start a take (`fn down`) within 2 s after a `fix` commit: no note while recording/transcribing; it appears after the take's text is pasted. ✕ (`clickat` on the ✕) closes it and the word stays suggested.
+- [ ] S-34.14 By eye (owner): light and dark, Reduce Motion (ring still, no morph), Arabic (mirrored), VoiceOver reads "New word: Kubernetes…" once.
+
 **Profile:** the S-20 portable debug build (`com.wisprbro.s20check` or an
 `s34check` identity, never the owner's app, data or clipboard), set up as
 under S-20, then with the app stopped:

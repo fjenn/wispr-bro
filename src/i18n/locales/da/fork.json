@@ -473,7 +473,8 @@
     },
     "sidebar": {
       "collapse": "Skjul indholdsoversigt",
-      "expand": "Vis indholdsoversigt"
+      "expand": "Vis indholdsoversigt",
+      "suggested": "Foreslåede ord: {{count}}"
     },
     "header": {
       "toDark": "Skift til mørkt udseende",
@@ -887,7 +888,8 @@
         "undo": "Fortryd er på dikteringsbjælken i 4 sekunder.",
         "diff": "Ændringerne fra transformationen er klar til gennemsyn.",
         "secureInputWarning": "Sikker indtastning er slået til. fn og Space kan ikke låse dikteringen. Esc eller lukkeknappen annullerer stadig.",
-        "inserted": "Tekst indsat"
+        "inserted": "Tekst indsat",
+        "newWord": "Nyt ord: {{word}}. Tilføj det fra dikteringslinjen eller senere i Ordbog."
       },
       "message": {
         "no_speech": "Ingen tale hørt",
@@ -928,6 +930,10 @@
         "session_inactive": "Ikke indsat: Du skiftede bruger",
         "paste_failed": "Kunne ikke indsætte teksten",
         "disk_full": "Disken er fuld: Optagelse stoppet"
+      },
+      "word": {
+        "added": "Føjet til Ordbog",
+        "full": "Ordbogen er fuld. Ordet bliver under Foreslået."
       }
     },
     "share": {
@@ -1285,6 +1291,12 @@
     "shortcutDetail": {
       "permission": "Adgang til Tilgængelighed er slået fra",
       "stopped": "Tastaturovervågningen stoppede"
+    },
+    "word": {
+      "new": "Nyt ord",
+      "add": "Tilføj",
+      "addLabel": "Føj {{word}} til Ordbog",
+      "notNow": "Ikke nu"
     }
   },
   "transforms": {

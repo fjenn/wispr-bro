@@ -471,7 +471,8 @@
     },
     "sidebar": {
       "collapse": "Ciutkan bar samping",
-      "expand": "Luaskan bar samping"
+      "expand": "Luaskan bar samping",
+      "suggested": "Kata yang disarankan: {{count}}"
     },
     "header": {
       "toDark": "Beralih ke tampilan gelap",
@@ -872,7 +873,8 @@
         "undo": "Urungkan ada di bilah dikte selama 4 detik.",
         "diff": "Perubahan transformasi siap ditinjau.",
         "secureInputWarning": "Secure Input aktif. fn dan Space tidak dapat mengunci dikte. Esc atau tombol tutup tetap membatalkan.",
-        "inserted": "Teks disisipkan"
+        "inserted": "Teks disisipkan",
+        "newWord": "Kata baru: {{word}}. Tambahkan dari bilah dikte, atau nanti di Kamus."
       },
       "message": {
         "no_speech": "Tidak ada ucapan yang terdengar",
@@ -913,6 +915,10 @@
         "session_inactive": "Tidak ditempel: Anda beralih pengguna",
         "paste_failed": "Tidak dapat menempel teks ini",
         "disk_full": "Disk penuh: perekaman berhenti"
+      },
+      "word": {
+        "added": "Ditambahkan ke Kamus",
+        "full": "Kamus penuh. Kata tetap ada di Disarankan."
       }
     },
     "share": {
@@ -1249,6 +1255,12 @@
     "shortcutDetail": {
       "permission": "Akses Aksesibilitas nonaktif",
       "stopped": "Pendengar keyboard berhenti"
+    },
+    "word": {
+      "new": "Kata baru",
+      "add": "Tambah",
+      "addLabel": "Tambahkan {{word}} ke Kamus",
+      "notNow": "Nanti saja"
     }
   },
   "transforms": {

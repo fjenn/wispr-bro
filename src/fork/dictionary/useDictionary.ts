@@ -164,3 +164,30 @@ export function sortEntries(
       return sorted.sort((a, b) => b.hit_count - a.hit_count || byNewest(a, b));
   }
 }
+
+/** S-34: how many auto-learn suggestions wait for review. */
+export function useSuggestedCount(): number {
+  return useDictionaryStore((s) => s.counts.suggested);
+}
+
+/**
+ * Keeps [`useSuggestedCount`] live where the Dictionary page is not mounted
+ * (the sidebar's badge): reads the counts once, then follows
+ * `ForkDictionaryChanged`, which carries them.
+ */
+export function useSuggestedCountLive(): void {
+  useEffect(() => {
+    if (useDictionaryStore.getState().status !== "ready") {
+      void useDictionaryStore.getState().reload();
+    }
+    const off = events.forkDictionaryChanged
+      .listen((event) => {
+        useDictionaryStore.setState({ counts: event.payload.counts });
+      })
+      .catch((e) => {
+        console.warn("fork: listening for dictionary changes failed", e);
+        return null;
+      });
+    return () => void off.then((stop) => stop?.());
+  }, []);
+}

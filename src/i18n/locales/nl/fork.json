@@ -473,7 +473,8 @@
     },
     "sidebar": {
       "collapse": "Vouw navigatiekolom in",
-      "expand": "Vouw navigatiekolom uit"
+      "expand": "Vouw navigatiekolom uit",
+      "suggested": "Voorgestelde woorden: {{count}}"
     },
     "header": {
       "toDark": "Schakel naar donkere weergave",
@@ -887,7 +888,8 @@
         "undo": "“Herstel” staat 4 seconden op de dicteerbalk.",
         "diff": "De wijzigingen van de transformatie zijn klaar om te bekijken.",
         "secureInputWarning": "Beveiligde invoer staat aan. fn en Space kunnen het dicteren niet vastzetten. Esc of de sluitknop annuleert nog steeds.",
-        "inserted": "Tekst ingevoegd"
+        "inserted": "Tekst ingevoegd",
+        "newWord": "Nieuw woord: {{word}}. Voeg het toe via de dicteerbalk of later in Woordenboek."
       },
       "message": {
         "no_speech": "Geen spraak gehoord",
@@ -928,6 +930,10 @@
         "session_inactive": "Niet geplakt: je bent van gebruiker gewisseld",
         "paste_failed": "Kan deze tekst niet plakken",
         "disk_full": "Schijf vol: opname gestopt"
+      },
+      "word": {
+        "added": "Toegevoegd aan Woordenboek",
+        "full": "Het woordenboek is vol. Het woord blijft bij Voorgesteld."
       }
     },
     "share": {
@@ -1285,6 +1291,12 @@
     "shortcutDetail": {
       "permission": "Toegang tot Toegankelijkheid staat uit",
       "stopped": "De toetsenbordbewaking is gestopt"
+    },
+    "word": {
+      "new": "Nieuw woord",
+      "add": "Voeg toe",
+      "addLabel": "Voeg {{word}} toe aan Woordenboek",
+      "notNow": "Niet nu"
     }
   },
   "transforms": {

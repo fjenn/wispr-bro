@@ -475,7 +475,8 @@
     },
     "sidebar": {
       "collapse": "Contraer la barra lateral",
-      "expand": "Expandir la barra lateral"
+      "expand": "Expandir la barra lateral",
+      "suggested": "Palabras sugeridas: {{count}}"
     },
     "header": {
       "toDark": "Cambiar a apariencia oscura",
@@ -902,7 +903,8 @@
         "undo": "Deshacer está en la barra de dictado durante 4 segundos.",
         "diff": "Los cambios de la transformación están listos para revisarlos.",
         "secureInputWarning": "La entrada segura está activada. fn y Espacio no pueden bloquear el dictado. Esc o el botón de cerrar siguen cancelándolo.",
-        "inserted": "Texto insertado"
+        "inserted": "Texto insertado",
+        "newWord": "Palabra nueva: {{word}}. Añádela desde la barra de dictado o más tarde en el Diccionario."
       },
       "message": {
         "no_speech": "No se ha oído nada",
@@ -943,6 +945,10 @@
         "session_inactive": "No se ha pegado: has cambiado de usuario",
         "paste_failed": "No se ha podido pegar este texto",
         "disk_full": "Disco lleno: se ha detenido la grabación"
+      },
+      "word": {
+        "added": "Añadida al Diccionario",
+        "full": "El Diccionario está lleno. La palabra queda en Sugeridas."
       }
     },
     "share": {
@@ -1321,6 +1327,12 @@
     "shortcutDetail": {
       "permission": "El acceso a Accesibilidad está desactivado",
       "stopped": "La detección del teclado se ha detenido"
+    },
+    "word": {
+      "new": "Palabra nueva",
+      "add": "Añadir",
+      "addLabel": "Añadir {{word}} al Diccionario",
+      "notNow": "Ahora no"
     }
   },
   "transforms": {

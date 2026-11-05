@@ -473,7 +473,8 @@
     },
     "sidebar": {
       "collapse": "Kenar çubuğunu daralt",
-      "expand": "Kenar çubuğunu genişlet"
+      "expand": "Kenar çubuğunu genişlet",
+      "suggested": "Önerilen kelimeler: {{count}}"
     },
     "header": {
       "toDark": "Koyu görünüme geç",
@@ -887,7 +888,8 @@
         "undo": "Geri Al düğmesi 4 saniye boyunca dikte çubuğunda.",
         "diff": "Dönüştürme değişiklikleri incelemeye hazır.",
         "secureInputWarning": "Güvenli Giriş açık. fn ve Space dikteyi kilitleyemez. Esc veya kapatma düğmesi yine de iptal eder.",
-        "inserted": "Metin eklendi"
+        "inserted": "Metin eklendi",
+        "newWord": "Yeni kelime: {{word}}. Dikte çubuğundan ya da daha sonra Sözlük'ten ekleyin."
       },
       "message": {
         "no_speech": "Konuşma duyulmadı",
@@ -928,6 +930,10 @@
         "session_inactive": "Yapıştırılmadı: kullanıcı değiştirdiniz",
         "paste_failed": "Bu metin yapıştırılamadı",
         "disk_full": "Disk dolu: kayıt durdu"
+      },
+      "word": {
+        "added": "Sözlük'e eklendi",
+        "full": "Sözlük dolu. Kelime Önerilen'de kalır."
       }
     },
     "share": {
@@ -1285,6 +1291,12 @@
     "shortcutDetail": {
       "permission": "Erişilebilirlik izni kapalı",
       "stopped": "Klavye dinleyicisi durdu"
+    },
+    "word": {
+      "new": "Yeni kelime",
+      "add": "Ekle",
+      "addLabel": "{{word}} kelimesini Sözlük'e ekle",
+      "notNow": "Şimdi değil"
     }
   },
   "transforms": {
