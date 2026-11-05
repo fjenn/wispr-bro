@@ -276,6 +276,7 @@ test.describe("dictation home", () => {
     ipc,
     hub,
   }) => {
+    test.setTimeout(180_000);
     await openHub(page, ipc, hub);
     await expect(statValue(page, "words")).toHaveText("0");
     await ipc.waitForListener("fork-stats-updated");
@@ -287,9 +288,11 @@ test.describe("dictation home", () => {
       window.addEventListener("focus", stop, true);
       document.addEventListener("visibilitychange", stop, true);
     });
-    // Slow replies so the events overlap the read in flight.
+    // Slow replies so the events overlap the read in flight, even when a
+    // loaded machine spaces the six emits out (rc8 run: 300 ms let a third
+    // read start).
     ipc.handle("fork_stats_summary", async () => {
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 2_000));
       return hub.stats;
     });
     ipc.clearCalls();
@@ -297,8 +300,10 @@ test.describe("dictation home", () => {
     for (let i = 0; i < 6; i++) {
       await ipc.emit("fork-stats-updated", { day: "2026-10-30" });
     }
-    await expect(statValue(page, "words")).toHaveText("42");
-    await page.waitForTimeout(800);
+    await expect(statValue(page, "words")).toHaveText("42", {
+      timeout: 15_000,
+    });
+    await page.waitForTimeout(2_500);
     const reads = await ipc.calls("fork_stats_summary");
     expect(reads.length).toBeGreaterThanOrEqual(1);
     expect(reads.length).toBeLessThanOrEqual(2);
