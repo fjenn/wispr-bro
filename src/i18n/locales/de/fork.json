@@ -195,7 +195,8 @@
       "change": "Ändern",
       "microphone": "Mikrofon",
       "languages": "Meine Sprachen",
-      "appearance": "App-Sprache und Erscheinungsbild"
+      "appearance": "App-Sprache und Erscheinungsbild",
+      "typingHint": "Damit wird berechnet, wie viel Zeit dir das Diktieren spart."
     },
     "system": {
       "app": "App-Verhalten",
@@ -1637,16 +1638,19 @@
       "failed": "Das Bild konnte nicht gespeichert werden. Versuch es noch einmal."
     },
     "speed": {
-      "title": "Sprechtempo",
-      "value": "{{wpm}} Wörter/Min.",
+      "title": "Wörter pro Minute",
       "notEnough": "Diktiere noch etwas mehr, um dein Tempo zu sehen.",
       "measured": "{{ratio}}× so schnell wie dein Tipptempo von {{typing}} Wörtern/Min.",
-      "average": "{{ratio}}× so schnell wie durchschnittliches Tippen ({{typing}} Wörter/Min.)"
+      "average": "{{ratio}}× so schnell wie durchschnittliches Tippen ({{typing}} Wörter/Min.)",
+      "speaking": "Sprechen",
+      "typing": "Dein Tippen",
+      "typingAverage": "Durchschnittliches Tippen"
     },
     "words": {
       "title": "Wörter insgesamt",
       "dictations_one": "in {{count, number}} Diktat",
-      "dictations_other": "in {{count, number}} Diktaten"
+      "dictations_other": "in {{count, number}} Diktaten",
+      "saved": "{{time}} gespart gegenüber dem Tippen"
     },
     "fixes": {
       "title": "Korrekturen",
@@ -1663,7 +1667,8 @@
       "email": "E-Mail",
       "work": "Arbeitsnachrichten",
       "personal": "Persönliche Nachrichten",
-      "other": "Alles andere"
+      "other": "Alles andere",
+      "used": "Genutzte Kategorien"
     },
     "heatmap": {
       "title": "Deine Serie",
@@ -1681,7 +1686,9 @@
       "band1": "1 bis 249 Wörter",
       "band2": "250 bis 499 Wörter",
       "band3": "500 bis 749 Wörter",
-      "band4": "750 Wörter oder mehr"
+      "band4": "750 Wörter oder mehr",
+      "streak_one": "Aktuelle Serie: {{count, number}} Tag",
+      "streak_other": "Aktuelle Serie: {{count, number}} Tage"
     },
     "voice": {
       "locked": "Gesperrt",
@@ -1710,6 +1717,10 @@
       "lockedTitle_other": "Dein Stimmprofil wird bei {{goal}} Wörtern freigeschaltet",
       "lockedBody_one": "Diktiere weiter: bisher {{current}} von {{goal}} Wort. Dann siehst du deine häufigste Redewendung, wann und wo du diktierst und welche Wörter {{appName}} für dich korrigiert.",
       "lockedBody_other": "Diktiere weiter: bisher {{current}} von {{goal}} Wörtern. Dann siehst du deine häufigste Redewendung, wann und wo du diktierst und welche Wörter {{appName}} für dich korrigiert."
+    },
+    "typing": {
+      "take": "Tipptest machen",
+      "retake": "Tipptest wiederholen"
     }
   },
   "history": {
@@ -2158,7 +2169,8 @@
       "basisAverage_other": "Ausgehend von einem durchschnittlichen Tipptempo von {{wpm}} Wörtern pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
       "lead": "Mit Diktieren sparst du etwa",
       "perWeek_one": "<n/> Stunde <em>pro Woche</em>",
-      "perWeek_other": "<n/> Stunden <em>pro Woche</em>"
+      "perWeek_other": "<n/> Stunden <em>pro Woche</em>",
+      "retakeTest": "Tipptest wiederholen"
     },
     "typing": {
       "title": "Wie schnell <em>tippst</em> du?",

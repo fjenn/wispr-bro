@@ -197,7 +197,8 @@
       "change": "Změnit",
       "microphone": "Mikrofon",
       "languages": "Moje jazyky",
-      "appearance": "Jazyk a motiv aplikace"
+      "appearance": "Jazyk a motiv aplikace",
+      "typingHint": "Slouží k výpočtu, kolik času vám diktování ušetří."
     },
     "system": {
       "app": "Chování aplikace",
@@ -1761,18 +1762,21 @@
       "failed": "Obrázek se nepodařilo uložit. Zkuste to znovu."
     },
     "speed": {
-      "title": "Rychlost mluvení",
-      "value": "{{wpm}} sl./min",
+      "title": "Slov za minutu",
       "notEnough": "Diktujte ještě chvíli a uvidíte svou rychlost.",
       "measured": "{{ratio}}× vaše rychlost psaní ({{typing}} sl./min)",
-      "average": "{{ratio}}× rychlost průměrného písaře ({{typing}} sl./min)"
+      "average": "{{ratio}}× rychlost průměrného písaře ({{typing}} sl./min)",
+      "speaking": "Mluvení",
+      "typing": "Vaše psaní",
+      "typingAverage": "Průměrné psaní"
     },
     "words": {
       "title": "Celkem slov",
       "dictations_one": "v {{count, number}} diktování",
       "dictations_few": "ve {{count, number}} diktováních",
       "dictations_many": "v {{count, number}} diktování",
-      "dictations_other": "v {{count, number}} diktováních"
+      "dictations_other": "v {{count, number}} diktováních",
+      "saved": "Ušetřeno {{time}} oproti psaní"
     },
     "fixes": {
       "title": "Provedené opravy",
@@ -1791,7 +1795,8 @@
       "email": "E-mail",
       "work": "Pracovní zprávy",
       "personal": "Osobní zprávy",
-      "other": "Všechno ostatní"
+      "other": "Všechno ostatní",
+      "used": "Použité kategorie"
     },
     "heatmap": {
       "title": "Vaše série",
@@ -1815,7 +1820,11 @@
       "band1": "1 až 249 slov",
       "band2": "250 až 499 slov",
       "band3": "500 až 749 slov",
-      "band4": "750 slov a více"
+      "band4": "750 slov a více",
+      "streak_one": "Aktuální série: {{count, number}} den",
+      "streak_few": "Aktuální série: {{count, number}} dny",
+      "streak_many": "Aktuální série: {{count, number}} dne",
+      "streak_other": "Aktuální série: {{count, number}} dní"
     },
     "voice": {
       "locked": "Zamčeno",
@@ -1856,6 +1865,10 @@
       "lockedBody_few": "Pokračujte v diktování: zatím {{current}} z {{goal}} slov. Pak uvidíte, kterou frázi používáte nejčastěji, kdy a kde diktujete a která slova za vás {{appName}} opravuje.",
       "lockedBody_many": "Pokračujte v diktování: zatím {{current}} z {{goal}} slova. Pak uvidíte, kterou frázi používáte nejčastěji, kdy a kde diktujete a která slova za vás {{appName}} opravuje.",
       "lockedBody_other": "Pokračujte v diktování: zatím {{current}} z {{goal}} slov. Pak uvidíte, kterou frázi používáte nejčastěji, kdy a kde diktujete a která slova za vás {{appName}} opravuje."
+    },
+    "typing": {
+      "take": "Udělat test psaní",
+      "retake": "Zopakovat test psaní"
     }
   },
   "history": {
@@ -2324,7 +2337,8 @@
       "perWeek_one": "<n/> hodinu <em>týdně</em>",
       "perWeek_few": "<n/> hodiny <em>týdně</em>",
       "perWeek_many": "<n/> hodiny <em>týdně</em>",
-      "perWeek_other": "<n/> hodin <em>týdně</em>"
+      "perWeek_other": "<n/> hodin <em>týdně</em>",
+      "retakeTest": "Zopakovat test psaní"
     },
     "typing": {
       "title": "Jak rychle <em>píšete</em>?",

@@ -194,7 +194,8 @@
       "change": "更改",
       "microphone": "麥克風",
       "languages": "我的語言",
-      "appearance": "App 語言和主題"
+      "appearance": "App 語言和主題",
+      "typingHint": "用於計算聽寫為你節省的時間。"
     },
     "system": {
       "app": "App 行為",
@@ -1575,15 +1576,18 @@
       "failed": "無法儲存影像。請再試一次。"
     },
     "speed": {
-      "title": "語速",
-      "value": "每分鐘 {{wpm}} 字",
+      "title": "每分鐘字數",
       "notEnough": "再多聽寫一些就能看到你的語速。",
       "measured": "是你打字速度（每分鐘 {{typing}} 字）的 {{ratio}} 倍",
-      "average": "是一般打字速度（每分鐘 {{typing}} 字）的 {{ratio}} 倍"
+      "average": "是一般打字速度（每分鐘 {{typing}} 字）的 {{ratio}} 倍",
+      "speaking": "說話",
+      "typing": "你的打字",
+      "typingAverage": "平均打字"
     },
     "words": {
       "title": "總字數",
-      "dictations_other": "來自 {{count, number}} 次聽寫"
+      "dictations_other": "來自 {{count, number}} 次聽寫",
+      "saved": "比打字節省了 {{time}}"
     },
     "fixes": {
       "title": "已做的修正",
@@ -1599,7 +1603,8 @@
       "email": "郵件",
       "work": "工作訊息",
       "personal": "個人訊息",
-      "other": "其他"
+      "other": "其他",
+      "used": "使用的類別"
     },
     "heatmap": {
       "title": "你的連續紀錄",
@@ -1614,7 +1619,8 @@
       "band1": "1 到 249 個字",
       "band2": "250 到 499 個字",
       "band3": "500 到 749 個字",
-      "band4": "750 個字以上"
+      "band4": "750 個字以上",
+      "streak_other": "目前連續天數：{{count, number}} 天"
     },
     "voice": {
       "locked": "已鎖定",
@@ -1637,6 +1643,10 @@
       },
       "lockedTitle_other": "達到 {{goal}} 個字時解鎖你的語音檔案",
       "lockedBody_other": "繼續聽寫：目前已有 {{current}} / {{goal}} 個字。解鎖後，你會看到最常說的一句話、你在何時何處聽寫，以及 {{appName}} 為你修正的字詞。"
+    },
+    "typing": {
+      "take": "進行打字測驗",
+      "retake": "重新進行打字測驗"
     }
   },
   "history": {
@@ -2075,7 +2085,8 @@
       "basisMeasured_other": "根據你每分鐘 {{wpm}} 字的打字速度，以及每分鐘約 {{speaking}} 字的語速估算。",
       "basisAverage_other": "根據每分鐘 {{wpm}} 字的平均打字速度，以及每分鐘約 {{speaking}} 字的語速估算。",
       "lead": "聽寫可為你節省約",
-      "perWeek_other": "<em>每週</em> <n/> 小時"
+      "perWeek_other": "<em>每週</em> <n/> 小時",
+      "retakeTest": "重新進行打字測驗"
     },
     "typing": {
       "title": "你<em>打字</em>有多快？",

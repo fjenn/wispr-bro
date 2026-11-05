@@ -196,7 +196,8 @@
       "change": "Canviar",
       "microphone": "Micròfon",
       "languages": "Els meus idiomes",
-      "appearance": "Idioma i tema de l'app"
+      "appearance": "Idioma i tema de l'app",
+      "typingHint": "Serveix per calcular quant temps t'estalvia dictar."
     },
     "system": {
       "app": "Comportament de l'app",
@@ -1699,17 +1700,20 @@
       "failed": "No s'ha pogut desar la imatge. Torna-ho a provar."
     },
     "speed": {
-      "title": "Velocitat de parla",
-      "value": "{{wpm}} ppm",
+      "title": "Paraules per minut",
       "notEnough": "Dicta una mica més per veure la teva velocitat.",
       "measured": "{{ratio}}× la teva velocitat d'escriptura de {{typing}} ppm",
-      "average": "{{ratio}}× la velocitat d'una persona que escriu a una velocitat mitjana ({{typing}} ppm)"
+      "average": "{{ratio}}× la velocitat d'una persona que escriu a una velocitat mitjana ({{typing}} ppm)",
+      "speaking": "Parlant",
+      "typing": "La teva escriptura",
+      "typingAverage": "Escriptura mitjana"
     },
     "words": {
       "title": "Paraules en total",
       "dictations_one": "en {{count, number}} dictat",
       "dictations_many": "en {{count, number}} de dictats",
-      "dictations_other": "en {{count, number}} dictats"
+      "dictations_other": "en {{count, number}} dictats",
+      "saved": "Estalvi de {{time}} respecte a escriure"
     },
     "fixes": {
       "title": "Correccions fetes",
@@ -1727,7 +1731,8 @@
       "email": "Correu electrònic",
       "work": "Missatges de feina",
       "personal": "Missatges personals",
-      "other": "Tota la resta"
+      "other": "Tota la resta",
+      "used": "Categories usades"
     },
     "heatmap": {
       "title": "La teva ratxa",
@@ -1748,7 +1753,10 @@
       "band1": "D'1 a 249 paraules",
       "band2": "De 250 a 499 paraules",
       "band3": "De 500 a 749 paraules",
-      "band4": "750 paraules o més"
+      "band4": "750 paraules o més",
+      "streak_one": "Ratxa actual: {{count, number}} dia",
+      "streak_many": "Ratxa actual: {{count, number}} de dies",
+      "streak_other": "Ratxa actual: {{count, number}} dies"
     },
     "voice": {
       "locked": "Bloquejat",
@@ -1783,6 +1791,10 @@
       "lockedBody_one": "Continua dictant: de moment, {{current}} de {{goal}} paraula. Després veuràs la frase que més fas servir, quan i on dictes, i les paraules que {{appName}} et corregeix.",
       "lockedBody_many": "Continua dictant: de moment, {{current}} de {{goal}} de paraules. Després veuràs la frase que més fas servir, quan i on dictes, i les paraules que {{appName}} et corregeix.",
       "lockedBody_other": "Continua dictant: de moment, {{current}} de {{goal}} paraules. Després veuràs la frase que més fas servir, quan i on dictes, i les paraules que {{appName}} et corregeix."
+    },
+    "typing": {
+      "take": "Fer la prova d'escriptura",
+      "retake": "Repetir la prova d'escriptura"
     }
   },
   "history": {
@@ -2241,7 +2253,8 @@
       "lead": "Dictar et podria estalviar prop de",
       "perWeek_one": "<n/> hora <em>a la setmana</em>",
       "perWeek_many": "<n/> d'hores <em>a la setmana</em>",
-      "perWeek_other": "<n/> hores <em>a la setmana</em>"
+      "perWeek_other": "<n/> hores <em>a la setmana</em>",
+      "retakeTest": "Repetir la prova d'escriptura"
     },
     "typing": {
       "title": "A quina velocitat <em>escrius</em>?",

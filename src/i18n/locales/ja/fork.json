@@ -194,7 +194,8 @@
       "change": "変更",
       "microphone": "マイク",
       "languages": "使用する言語",
-      "appearance": "アプリの言語とテーマ"
+      "appearance": "アプリの言語とテーマ",
+      "typingHint": "音声入力で節約できる時間の計算に使います。"
     },
     "system": {
       "app": "アプリの動作",
@@ -1575,15 +1576,18 @@
       "failed": "画像を保存できませんでした。もう一度お試しください。"
     },
     "speed": {
-      "title": "話す速度",
-      "value": "{{wpm}} 語／分",
+      "title": "1分あたりの語数",
       "notEnough": "もう少し音声入力すると、速度が表示されます。",
       "measured": "タイピング速度（{{typing}} 語／分）の {{ratio}} 倍",
-      "average": "平均的なタイピング速度（{{typing}} 語／分）の {{ratio}} 倍"
+      "average": "平均的なタイピング速度（{{typing}} 語／分）の {{ratio}} 倍",
+      "speaking": "話す",
+      "typing": "あなたのタイピング",
+      "typingAverage": "平均的なタイピング"
     },
     "words": {
       "title": "合計語数",
-      "dictations_other": "{{count, number}} 回の音声入力"
+      "dictations_other": "{{count, number}} 回の音声入力",
+      "saved": "タイピングと比べて{{time}}の節約"
     },
     "fixes": {
       "title": "修正数",
@@ -1599,7 +1603,8 @@
       "email": "メール",
       "work": "仕事のメッセージ",
       "personal": "個人のメッセージ",
-      "other": "その他"
+      "other": "その他",
+      "used": "使用したカテゴリ"
     },
     "heatmap": {
       "title": "連続記録",
@@ -1614,7 +1619,8 @@
       "band1": "1～249 語",
       "band2": "250～499 語",
       "band3": "500～749 語",
-      "band4": "750 語以上"
+      "band4": "750 語以上",
+      "streak_other": "現在の連続日数：{{count, number}} 日"
     },
     "voice": {
       "locked": "ロック中",
@@ -1637,6 +1643,10 @@
       },
       "lockedTitle_other": "{{goal}} 語に達すると音声プロファイルが表示されます",
       "lockedBody_other": "音声入力を続けましょう。現在 {{current}}／{{goal}} 語です。達成すると、最もよく使うフレーズ、音声入力する時間帯と場所、{{appName}} が修正した単語を確認できます。"
+    },
+    "typing": {
+      "take": "タイピングテストを受ける",
+      "retake": "タイピングテストをもう一度"
     }
   },
   "history": {
@@ -2075,7 +2085,8 @@
       "basisMeasured_other": "タイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
       "basisAverage_other": "平均的なタイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
       "lead": "音声入力で節約できる時間は",
-      "perWeek_other": "<em>週</em>約 <n/> 時間"
+      "perWeek_other": "<em>週</em>約 <n/> 時間",
+      "retakeTest": "タイピングテストをもう一度"
     },
     "typing": {
       "title": "<em>タイピング</em>の速さは？",

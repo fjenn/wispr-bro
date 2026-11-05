@@ -40,6 +40,7 @@ function usageFixture(over: Partial<UsageInsights> = {}): UsageInsights {
       typing_wpm: 50,
       typing_source: "measured",
       times_typing: 3,
+      time_saved_ms: 1_400_000,
     },
     fixes_dictionary: 7,
     fixes_llm: 31,
@@ -129,8 +130,23 @@ test.describe("insights", () => {
       "aria-selected",
       "true",
     );
-    await expect(page.getByTestId("wb-insights-speed-value")).toHaveText(
-      "150 wpm",
+    await expect(page.getByTestId("wb-insights-speed-value")).toHaveText("150");
+    await expect(page.getByTestId("wb-insights-speed")).toContainText(
+      "Words per minute",
+    );
+    // Speaking against the measured typing speed, as two bars.
+    await expect(page.getByTestId("wb-insights-bar-speaking")).toContainText(
+      "Speaking150",
+    );
+    await expect(page.getByTestId("wb-insights-bar-typing")).toContainText(
+      "Your typing50",
+    );
+    await expect(page.getByTestId("wb-insights-typing-test")).toHaveText(
+      "Retake typing test",
+    );
+    // 1,750 words: 35 min at 50 wpm typing, 11⅔ min speaking.
+    await expect(page.getByTestId("wb-insights-saved")).toHaveText(
+      "23 min saved over typing",
     );
     await expect(page.getByTestId("wb-insights-speed-compare")).toHaveText(
       "3.0× your typing speed of 50 wpm",
@@ -162,7 +178,10 @@ test.describe("insights", () => {
     await expect(chart.locator(".recharts-label-list")).toContainText("50%");
     // Streak and heatmap: bands 4, 2, 1, 3 on the last four days.
     await expect(page.getByTestId("wb-insights-streak-current")).toHaveText(
-      "4 days",
+      "4-day streak",
+    );
+    await expect(page.getByTestId("wb-insights-categories-used")).toHaveText(
+      "3",
     );
     await expect(page.getByTestId("wb-insights-streak-longest")).toHaveText(
       "4 days",
@@ -179,6 +198,8 @@ test.describe("insights", () => {
       els.slice(-4).map((e) => e.getAttribute("data-level")),
     );
     expect(levels).toEqual(["4", "2", "1", "3"]);
+    // The current streak's four days are outlined, no others.
+    await expect(heat.locator("rect[data-streak]")).toHaveCount(4);
     await expect(cells.last()).toContainText("Oct 31, 2026: 530 words");
     await expect(
       page.getByTestId("wb-insights-legend").locator("li"),
@@ -202,11 +223,82 @@ test.describe("insights", () => {
       typing_wpm: 40,
       typing_source: "average",
       times_typing: 3.9,
+      time_saved_ms: 7_200_000,
     };
     await openInsights(page, ipc, hub, b);
     await expect(page.getByTestId("wb-insights-speed-compare")).toHaveText(
       "3.9× the speed of an average typist (40 wpm)",
     );
+    await expect(page.getByTestId("wb-insights-bar-typing")).toContainText(
+      "Average typing40",
+    );
+    await expect(page.getByTestId("wb-insights-typing-test")).toHaveText(
+      "Take the typing test",
+    );
+    await expect(page.getByTestId("wb-insights-saved")).toHaveText(
+      "2 hr saved over typing",
+    );
+  });
+
+  test("retake the typing test: the result is saved and the page recalculates", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const b = fresh();
+    await openInsights(page, ipc, hub, b, { fork: { typing_wpm: 50 } });
+    const before = (await ipc.calls("fork_insights_usage")).length;
+    // Keyboard only: focus the button and press Enter.
+    await page.getByTestId("wb-insights-typing-test").focus();
+    await page.keyboard.press("Enter");
+    const dialog = page.getByTestId("wb-typing-dialog");
+    await expect(
+      page.getByRole("dialog", { name: "How fast do you type?" }),
+    ).toBeVisible();
+    await expect(page.getByTestId("wb-typing-recalculate")).toBeDisabled();
+    // The whole paragraph at once ends the test early; the result is capped
+    // at the setting's bound (the wpm math itself is S-29b's clock test).
+    const sample = await page.getByTestId("wb-typing-sample").innerText();
+    await page.getByTestId("wb-typing-input").fill(sample);
+    await expect(page.getByTestId("wb-typing-result")).toHaveText(
+      "You type about 300 words a minute.",
+    );
+    // What the backend then computes from the new speed.
+    b.usage = usageFixture({
+      speed: {
+        words_per_minute: 150,
+        typing_wpm: 300,
+        typing_source: "measured",
+        times_typing: 0.5,
+        time_saved_ms: 0,
+      },
+    });
+    await page.getByTestId("wb-typing-recalculate").click();
+    await expect(dialog).toBeHidden();
+    expect(hub.forkSettings.typing_wpm).toBe(300);
+    await expect
+      .poll(async () => (await ipc.calls("fork_insights_usage")).length)
+      .toBeGreaterThan(before);
+    await expect(page.getByTestId("wb-insights-speed-compare")).toHaveText(
+      "0.5× your typing speed of 300 wpm",
+    );
+    // A typist faster than the speaker saves nothing: no line.
+    await expect(page.getByTestId("wb-insights-saved")).toHaveCount(0);
+  });
+
+  test("closing the typing test keeps the stored speed", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await openInsights(page, ipc, hub, fresh(), { fork: { typing_wpm: 50 } });
+    await page.getByTestId("wb-insights-typing-test").click();
+    await expect(page.getByTestId("wb-typing-dialog")).toBeVisible();
+    await page.getByTestId("wb-typing-input").fill("Every");
+    await page.keyboard.press("Escape");
+    await expect(page.getByTestId("wb-typing-dialog")).toBeHidden();
+    expect(hub.forkSettings.typing_wpm).toBe(50);
+    await expect(page.getByTestId("wb-insights-typing-test")).toBeFocused();
   });
 
   test("an empty profile explains itself", async ({ page, ipc, hub }) => {
@@ -220,6 +312,7 @@ test.describe("insights", () => {
         typing_wpm: 40,
         typing_source: "average",
         times_typing: null,
+        time_saved_ms: null,
       },
       fixes_dictionary: 0,
       fixes_llm: 0,
@@ -244,8 +337,11 @@ test.describe("insights", () => {
       "Dictate in a few apps to see where your words go.",
     );
     await expect(page.getByTestId("wb-insights-streak-current")).toHaveText(
-      "0 days",
+      "0-day streak",
     );
+    // No speaking rate, no time saved; the typing test is still offered.
+    await expect(page.getByTestId("wb-insights-saved")).toHaveCount(0);
+    await expect(page.getByTestId("wb-insights-typing-test")).toBeVisible();
   });
 
   test("no percentile anywhere", async ({ page, ipc, hub }) => {
@@ -515,6 +611,13 @@ test.describe("insights", () => {
       chartBox!.x + chartBox!.width / 2,
     );
     await expectNoSeriousAxeFindings(page);
+    // The typing test in Arabic: the paragraph stays left to right.
+    await page.getByTestId("wb-insights-typing-test").click();
+    await expect(page.getByTestId("wb-typing-sample")).toHaveAttribute(
+      "dir",
+      "ltr",
+    );
+    await expectNoSeriousAxeFindings(page);
   });
 
   for (const theme of ["light", "dark"] as const) {
@@ -526,6 +629,17 @@ test.describe("insights", () => {
       await expectNoSeriousAxeFindings(page);
       await page.getByRole("tab", { name: "Voice" }).click();
       await expect(page.getByTestId("wb-voice-locked")).toBeVisible();
+      await expectNoSeriousAxeFindings(page);
+    });
+
+    test(`axe: the typing test dialog in ${theme}`, async ({
+      page,
+      ipc,
+      hub,
+    }) => {
+      await openInsights(page, ipc, hub, fresh(), { handy: { theme } });
+      await page.getByTestId("wb-insights-typing-test").click();
+      await expect(page.getByTestId("wb-typing-sample")).toBeVisible();
       await expectNoSeriousAxeFindings(page);
     });
 

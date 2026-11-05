@@ -180,8 +180,10 @@ test.describe("S-29b practice", () => {
     await expect(page.getByTestId("wb-time-saved-basis")).toContainText(
       `your typing speed of ${final} words a minute`,
     );
-    // Measured: no "Take the typing test" link.
-    await expect(page.getByTestId("wb-time-saved-take-test")).toHaveCount(0);
+    // Measured: the link offers to retake the test.
+    await expect(page.getByTestId("wb-time-saved-take-test")).toHaveText(
+      "Retake the typing test",
+    );
 
     // The slider changes the estimate and is saved.
     const slider = page.getByTestId("wb-time-saved-slider");

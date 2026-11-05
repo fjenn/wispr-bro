@@ -196,7 +196,8 @@
       "change": "Cambiar",
       "microphone": "Micrófono",
       "languages": "Mis idiomas",
-      "appearance": "Idioma de la app y tema"
+      "appearance": "Idioma de la app y tema",
+      "typingHint": "Sirve para calcular cuánto tiempo te ahorra dictar."
     },
     "system": {
       "app": "Comportamiento de la app",
@@ -1699,17 +1700,20 @@
       "failed": "No se ha podido guardar la imagen. Inténtalo de nuevo."
     },
     "speed": {
-      "title": "Velocidad al hablar",
-      "value": "{{wpm}} ppm",
+      "title": "Palabras por minuto",
       "notEnough": "Dicta un poco más para ver tu velocidad.",
       "measured": "{{ratio}}× tu velocidad de escritura de {{typing}} ppm",
-      "average": "{{ratio}}× la velocidad de un mecanógrafo medio ({{typing}} ppm)"
+      "average": "{{ratio}}× la velocidad de un mecanógrafo medio ({{typing}} ppm)",
+      "speaking": "Hablando",
+      "typing": "Tu escritura",
+      "typingAverage": "Escritura media"
     },
     "words": {
       "title": "Palabras totales",
       "dictations_one": "en {{count, number}} dictado",
       "dictations_many": "en {{count, number}} de dictados",
-      "dictations_other": "en {{count, number}} dictados"
+      "dictations_other": "en {{count, number}} dictados",
+      "saved": "Ahorro de {{time}} frente a escribir"
     },
     "fixes": {
       "title": "Correcciones realizadas",
@@ -1727,7 +1731,8 @@
       "email": "Correo",
       "work": "Mensajes de trabajo",
       "personal": "Mensajes personales",
-      "other": "Todo lo demás"
+      "other": "Todo lo demás",
+      "used": "Categorías usadas"
     },
     "heatmap": {
       "title": "Tu racha",
@@ -1748,7 +1753,10 @@
       "band1": "De 1 a 249 palabras",
       "band2": "De 250 a 499 palabras",
       "band3": "De 500 a 749 palabras",
-      "band4": "750 palabras o más"
+      "band4": "750 palabras o más",
+      "streak_one": "Racha actual: {{count, number}} día",
+      "streak_many": "Racha actual: {{count, number}} de días",
+      "streak_other": "Racha actual: {{count, number}} días"
     },
     "voice": {
       "locked": "Bloqueado",
@@ -1783,6 +1791,10 @@
       "lockedBody_one": "Sigue dictando: llevas {{current}} de {{goal}} palabra. Después verás la frase que más usas, cuándo y dónde dictas, y las palabras que {{appName}} te corrige.",
       "lockedBody_many": "Sigue dictando: llevas {{current}} de {{goal}} de palabras. Después verás la frase que más usas, cuándo y dónde dictas, y las palabras que {{appName}} te corrige.",
       "lockedBody_other": "Sigue dictando: llevas {{current}} de {{goal}} palabras. Después verás la frase que más usas, cuándo y dónde dictas, y las palabras que {{appName}} te corrige."
+    },
+    "typing": {
+      "take": "Hacer la prueba de escritura",
+      "retake": "Repetir la prueba de escritura"
     }
   },
   "history": {
@@ -2241,7 +2253,8 @@
       "lead": "Dictar podría ahorrarte alrededor de",
       "perWeek_one": "<n/> hora <em>a la semana</em>",
       "perWeek_many": "<n/> de horas <em>a la semana</em>",
-      "perWeek_other": "<n/> horas <em>a la semana</em>"
+      "perWeek_other": "<n/> horas <em>a la semana</em>",
+      "retakeTest": "Repetir la prueba de escritura"
     },
     "typing": {
       "title": "¿A qué velocidad <em>escribes</em>?",

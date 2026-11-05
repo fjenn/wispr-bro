@@ -8,10 +8,12 @@
  * Everything is computed on this Mac (`fork_insights_usage`,
  * `fork_insights_voice`) and refreshes live after every take. "Save as
  * image" renders the visible tab with a dated heading; the buttons are
- * left out of the picture.
+ * left out of the picture. The speed card's "Retake typing test" opens the
+ * typing test in a dialog (`TypingTestDialog`); a saved result reloads the
+ * page's numbers.
  */
 import { ChartColumn, ImageDown } from "../ui/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { FORK_NAMESPACE } from "../i18n";
@@ -22,6 +24,8 @@ import { formatDay } from "./format";
 import { saveAsImage } from "./saveImage";
 import { UsageTab } from "./UsageTab";
 import { useInsights } from "./useInsights";
+import { TypingTestDialog } from "./TypingTestDialog";
+import { useForkSettings } from "../settings/useForkSettings";
 import { VoiceTab } from "./VoiceTab";
 import "./insights.css";
 import { ForkArt } from "@/assets/fork/art";
@@ -34,7 +38,20 @@ export function InsightsPage() {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const requested = useHubNav((s) => s.section);
   const tab: TabId = isTab(requested) ? requested : "usage";
-  const { usage, voice, status } = useInsights();
+  const { usage, voice, status, reload } = useInsights();
+  const [typingTest, setTypingTest] = useState(false);
+  // A new typing test result (here or in Settings) changes the speed card.
+  const typingWpm = useForkSettings().settings?.typing_wpm;
+  const seenWpm = useRef(typingWpm);
+  useEffect(() => {
+    // `undefined` until the settings load: that first value is no change.
+    if (seenWpm.current === undefined || seenWpm.current === typingWpm) {
+      seenWpm.current = typingWpm;
+      return;
+    }
+    seenWpm.current = typingWpm;
+    reload();
+  }, [typingWpm, reload]);
   const exportRef = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState(false);
   const appName = t("rust.appName");
@@ -123,7 +140,10 @@ export function InsightsPage() {
               })}
             </p>
             <TabPanel value="usage">
-              <UsageTab usage={usage} />
+              <UsageTab
+                usage={usage}
+                onTypingTest={() => setTypingTest(true)}
+              />
             </TabPanel>
             <TabPanel value="voice">
               {voice ? (
@@ -135,6 +155,11 @@ export function InsightsPage() {
           </div>
         </Tabs>
       )}
+      <TypingTestDialog
+        open={typingTest}
+        onOpenChange={setTypingTest}
+        onSaved={() => reload()}
+      />
     </div>
   );
 }

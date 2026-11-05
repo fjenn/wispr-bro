@@ -3689,7 +3689,13 @@ words_per_minute: number | null; typing_wpm: number; typing_source: TypingSource
 /**
  * `words_per_minute / typing_wpm`, rounded to one decimal.
  */
-times_typing: number | null }
+times_typing: number | null; 
+/**
+ * Time dictating saved over typing every dictated word at
+ * `typing_wpm`: `words / typing_wpm - words / words_per_minute`, never
+ * below 0; `None` without a speaking rate.
+ */
+time_saved_ms: number | null }
 export type SpotlightEdge = "bottom" | "top"
 /**
  * A rectangle in the page's coordinates: CSS pixels (= points) from the

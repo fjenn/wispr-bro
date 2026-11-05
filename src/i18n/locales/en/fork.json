@@ -195,7 +195,8 @@
       "change": "Change",
       "microphone": "Microphone",
       "languages": "My languages",
-      "appearance": "App language and theme"
+      "appearance": "App language and theme",
+      "typingHint": "Used to work out how much time dictating saves you."
     },
     "system": {
       "app": "App behavior",
@@ -1954,16 +1955,19 @@
       "failed": "The image could not be saved. Try again."
     },
     "speed": {
-      "title": "Speaking speed",
-      "value": "{{wpm}} wpm",
+      "title": "Words per minute",
       "notEnough": "Dictate a little more to see your speed.",
       "measured": "{{ratio}}× your typing speed of {{typing}} wpm",
-      "average": "{{ratio}}× the speed of an average typist ({{typing}} wpm)"
+      "average": "{{ratio}}× the speed of an average typist ({{typing}} wpm)",
+      "speaking": "Speaking",
+      "typing": "Your typing",
+      "typingAverage": "Average typing"
     },
     "words": {
       "title": "Total words",
       "dictations_one": "in {{count, number}} dictation",
-      "dictations_other": "in {{count, number}} dictations"
+      "dictations_other": "in {{count, number}} dictations",
+      "saved": "{{time}} saved over typing"
     },
     "fixes": {
       "title": "Fixes made",
@@ -1980,7 +1984,8 @@
       "email": "Email",
       "work": "Work messages",
       "personal": "Personal messages",
-      "other": "Everything else"
+      "other": "Everything else",
+      "used": "Categories used"
     },
     "heatmap": {
       "title": "Your streak",
@@ -1998,7 +2003,9 @@
       "band1": "1 to 249 words",
       "band2": "250 to 499 words",
       "band3": "500 to 749 words",
-      "band4": "750 words or more"
+      "band4": "750 words or more",
+      "streak_one": "{{count, number}}-day streak",
+      "streak_other": "{{count, number}}-day streak"
     },
     "voice": {
       "locked": "Locked",
@@ -2027,6 +2034,10 @@
       "lockedTitle_other": "Your voice profile unlocks at {{goal}} words",
       "lockedBody_one": "Keep dictating: {{current}} of {{goal}} word so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you.",
       "lockedBody_other": "Keep dictating: {{current}} of {{goal}} words so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you."
+    },
+    "typing": {
+      "take": "Take the typing test",
+      "retake": "Retake typing test"
     }
   },
   "history": {
@@ -2475,7 +2486,8 @@
       "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
       "lead": "Dictating could save you about",
       "perWeek_one": "<n/> hour <em>a week</em>",
-      "perWeek_other": "<n/> hours <em>a week</em>"
+      "perWeek_other": "<n/> hours <em>a week</em>",
+      "retakeTest": "Retake the typing test"
     },
     "typing": {
       "title": "How fast do you <em>type</em>?",

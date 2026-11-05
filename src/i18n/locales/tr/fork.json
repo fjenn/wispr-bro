@@ -195,7 +195,8 @@
       "change": "Değiştir",
       "microphone": "Mikrofon",
       "languages": "Dillerim",
-      "appearance": "Uygulama dili ve tema"
+      "appearance": "Uygulama dili ve tema",
+      "typingHint": "Dikte etmenin size ne kadar zaman kazandırdığını hesaplamak için kullanılır."
     },
     "system": {
       "app": "Uygulama davranışı",
@@ -1637,16 +1638,19 @@
       "failed": "Görüntü kaydedilemedi. Yeniden deneyin."
     },
     "speed": {
-      "title": "Konuşma hızı",
-      "value": "{{wpm}} kelime/dk",
+      "title": "Dakikada kelime",
       "notEnough": "Hızınızı görmek için biraz daha dikte edin.",
       "measured": "{{typing}} kelime/dk olan yazma hızınızın {{ratio}} katı",
-      "average": "Ortalama bir klavye kullanıcısının hızının {{ratio}} katı ({{typing}} kelime/dk)"
+      "average": "Ortalama bir klavye kullanıcısının hızının {{ratio}} katı ({{typing}} kelime/dk)",
+      "speaking": "Konuşma",
+      "typing": "Yazmanız",
+      "typingAverage": "Ortalama yazma"
     },
     "words": {
       "title": "Toplam kelime",
       "dictations_one": "{{count, number}} diktede",
-      "dictations_other": "{{count, number}} diktede"
+      "dictations_other": "{{count, number}} diktede",
+      "saved": "Yazmaya göre {{time}} kazanıldı"
     },
     "fixes": {
       "title": "Yapılan düzeltmeler",
@@ -1663,7 +1667,8 @@
       "email": "E-posta",
       "work": "İş mesajları",
       "personal": "Kişisel mesajlar",
-      "other": "Diğer her şey"
+      "other": "Diğer her şey",
+      "used": "Kullanılan kategoriler"
     },
     "heatmap": {
       "title": "Seriniz",
@@ -1681,7 +1686,9 @@
       "band1": "1–249 kelime",
       "band2": "250–499 kelime",
       "band3": "500–749 kelime",
-      "band4": "750 kelime veya daha fazla"
+      "band4": "750 kelime veya daha fazla",
+      "streak_one": "Güncel seri: {{count, number}} gün",
+      "streak_other": "Güncel seri: {{count, number}} gün"
     },
     "voice": {
       "locked": "Kilitli",
@@ -1710,6 +1717,10 @@
       "lockedTitle_other": "Ses profiliniz {{goal}} kelimede açılır",
       "lockedBody_one": "Dikte etmeye devam edin: şu ana kadar {{goal}} kelimeden {{current}}. Ardından en çok kullandığınız ifadeyi, ne zaman ve nerede dikte ettiğinizi ve {{appName}} uygulamasının sizin için düzelttiği kelimeleri göreceksiniz.",
       "lockedBody_other": "Dikte etmeye devam edin: şu ana kadar {{goal}} kelimeden {{current}}. Ardından en çok kullandığınız ifadeyi, ne zaman ve nerede dikte ettiğinizi ve {{appName}} uygulamasının sizin için düzelttiği kelimeleri göreceksiniz."
+    },
+    "typing": {
+      "take": "Yazma Testini Yap",
+      "retake": "Yazma testini tekrarla"
     }
   },
   "history": {
@@ -2158,7 +2169,8 @@
       "basisAverage_other": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
       "lead": "Dikte ile kazanabileceğiniz süre yaklaşık",
       "perWeek_one": "<em>haftada</em> <n/> saat",
-      "perWeek_other": "<em>haftada</em> <n/> saat"
+      "perWeek_other": "<em>haftada</em> <n/> saat",
+      "retakeTest": "Yazma testini tekrarla"
     },
     "typing": {
       "title": "Ne kadar hızlı <em>yazıyorsunuz</em>?",

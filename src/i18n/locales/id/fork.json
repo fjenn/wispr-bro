@@ -194,7 +194,8 @@
       "change": "Ubah",
       "microphone": "Mikrofon",
       "languages": "Bahasa saya",
-      "appearance": "Bahasa dan tema app"
+      "appearance": "Bahasa dan tema app",
+      "typingHint": "Dipakai untuk menghitung berapa banyak waktu yang dihemat dengan mendikte."
     },
     "system": {
       "app": "Perilaku app",
@@ -1575,15 +1576,18 @@
       "failed": "Gambar tidak dapat disimpan. Coba lagi."
     },
     "speed": {
-      "title": "Kecepatan bicara",
-      "value": "{{wpm}} kpm",
+      "title": "Kata per menit",
       "notEnough": "Dikte sedikit lagi untuk melihat kecepatan Anda.",
       "measured": "{{ratio}}× kecepatan mengetik Anda ({{typing}} kpm)",
-      "average": "{{ratio}}× kecepatan pengetik rata-rata ({{typing}} kpm)"
+      "average": "{{ratio}}× kecepatan pengetik rata-rata ({{typing}} kpm)",
+      "speaking": "Berbicara",
+      "typing": "Ketikan Anda",
+      "typingAverage": "Rata-rata mengetik"
     },
     "words": {
       "title": "Total kata",
-      "dictations_other": "dalam {{count, number}} dikte"
+      "dictations_other": "dalam {{count, number}} dikte",
+      "saved": "Hemat {{time}} dibanding mengetik"
     },
     "fixes": {
       "title": "Perbaikan yang dilakukan",
@@ -1599,7 +1603,8 @@
       "email": "Email",
       "work": "Pesan kerja",
       "personal": "Pesan pribadi",
-      "other": "Lainnya"
+      "other": "Lainnya",
+      "used": "Kategori dipakai"
     },
     "heatmap": {
       "title": "Rentetan Anda",
@@ -1614,7 +1619,8 @@
       "band1": "1 hingga 249 kata",
       "band2": "250 hingga 499 kata",
       "band3": "500 hingga 749 kata",
-      "band4": "750 kata atau lebih"
+      "band4": "750 kata atau lebih",
+      "streak_other": "Rentetan saat ini: {{count, number}} hari"
     },
     "voice": {
       "locked": "Terkunci",
@@ -1637,6 +1643,10 @@
       },
       "lockedTitle_other": "Profil suara Anda terbuka pada {{goal}} kata",
       "lockedBody_other": "Terus mendikte: sejauh ini {{current}} dari {{goal}} kata. Setelah itu Anda akan melihat frasa yang paling sering Anda gunakan, kapan dan di mana Anda mendikte, serta kata-kata yang diperbaiki {{appName}} untuk Anda."
+    },
+    "typing": {
+      "take": "Ikuti tes mengetik",
+      "retake": "Ulangi tes mengetik"
     }
   },
   "history": {
@@ -2075,7 +2085,8 @@
       "basisMeasured_other": "Berdasarkan kecepatan mengetik Anda {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
       "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
       "lead": "Dikte bisa menghemat waktu Anda sekitar",
-      "perWeek_other": "<n/> jam <em>per minggu</em>"
+      "perWeek_other": "<n/> jam <em>per minggu</em>",
+      "retakeTest": "Ulangi tes mengetik"
     },
     "typing": {
       "title": "Seberapa cepat Anda <em>mengetik</em>?",

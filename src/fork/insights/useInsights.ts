@@ -8,9 +8,10 @@
  * and the streak roll over); the same triggers as the Home rail
  * (`useStatsSummary`). Overlapping triggers collapse into one extra read.
  * `NotReady` is retried at 1, 2, 4, 8 and 16 s. Data already shown stays if
- * a later read fails.
+ * a later read fails. `reload()` reads again on demand (a new typing test
+ * result changes the speed card).
  */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   commands,
   events,
@@ -27,14 +28,20 @@ export interface InsightsState {
   status: InsightsStatus;
 }
 
+export interface UseInsights extends InsightsState {
+  /** Reads both tabs again (e.g. after a new typing test result). */
+  reload: () => void;
+}
+
 const MAX_RETRIES = 5;
 
-export function useInsights(): InsightsState {
+export function useInsights(): UseInsights {
   const [state, setState] = useState<InsightsState>({
     usage: null,
     voice: null,
     status: "loading",
   });
+  const loadRef = useRef<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -90,6 +97,8 @@ export function useInsights(): InsightsState {
       }
     };
 
+    loadRef.current = load;
+
     const scheduleMidnight = () => {
       midnightTimer = setTimeout(() => {
         void load();
@@ -114,6 +123,7 @@ export function useInsights(): InsightsState {
 
     return () => {
       alive = false;
+      loadRef.current = null;
       clearTimeout(retryTimer);
       clearTimeout(midnightTimer);
       document.removeEventListener("visibilitychange", onVisible);
@@ -122,5 +132,6 @@ export function useInsights(): InsightsState {
     };
   }, []);
 
-  return state;
+  const reload = useCallback(() => void loadRef.current?.(), []);
+  return { ...state, reload };
 }

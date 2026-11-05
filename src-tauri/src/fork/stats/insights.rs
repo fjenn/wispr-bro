@@ -81,6 +81,10 @@ pub struct SpeedInsight {
     pub typing_source: TypingSource,
     /// `words_per_minute / typing_wpm`, rounded to one decimal.
     pub times_typing: Option<f64>,
+    /// Time dictating saved over typing every dictated word at
+    /// `typing_wpm`: `words / typing_wpm - words / words_per_minute`, never
+    /// below 0; `None` without a speaking rate.
+    pub time_saved_ms: Option<u64>,
 }
 
 /// Words in one usage category.
@@ -138,7 +142,19 @@ pub fn speed(totals: &Totals, typing_wpm: Option<u32>) -> SpeedInsight {
         typing_wpm: typing,
         typing_source: source,
         times_typing: wpm.map(|w| (w / f64::from(typing) * 10.0).round() / 10.0),
+        time_saved_ms: wpm.map(|w| time_saved_ms(totals.words, w, typing)),
     }
+}
+
+/// Milliseconds saved by speaking `words` at `speaking_wpm` instead of
+/// typing them at `typing_wpm` (0 when typing is as fast or faster).
+pub fn time_saved_ms(words: u64, speaking_wpm: f64, typing_wpm: u32) -> u64 {
+    if speaking_wpm.is_nan() || speaking_wpm <= 0.0 || typing_wpm == 0 {
+        return 0;
+    }
+    let words = words as f64;
+    let minutes = words / f64::from(typing_wpm) - words / speaking_wpm;
+    (minutes.max(0.0) * 60_000.0).round() as u64
 }
 
 /// All six categories with their share of the words.
@@ -267,6 +283,31 @@ mod tests {
         let none = speed(&Totals::default(), Some(60));
         assert_eq!(none.words_per_minute, None);
         assert_eq!(none.times_typing, None);
+        assert_eq!(none.time_saved_ms, None);
+    }
+
+    #[test]
+    fn time_saved_against_typing() {
+        // 1,500 words: typing at 50 wpm takes 30 min, speaking at 150 wpm
+        // 10 min, so 20 min saved.
+        assert_eq!(time_saved_ms(1_500, 150.0, 50), 20 * 60_000);
+        // A typist as fast as the speaker saves nothing, never less.
+        assert_eq!(time_saved_ms(1_500, 50.0, 50), 0);
+        assert_eq!(time_saved_ms(1_500, 40.0, 50), 0);
+        assert_eq!(time_saved_ms(0, 150.0, 50), 0);
+        assert_eq!(time_saved_ms(1_500, 0.0, 50), 0);
+        assert_eq!(time_saved_ms(1_500, 150.0, 0), 0);
+        // Speed uses the lifetime words and the test result.
+        let t = Totals {
+            words: 300,
+            timed_words: 300,
+            speech_ms: 120_000, // 150 wpm
+            ..Totals::default()
+        };
+        // 300 / 60 = 5 min typing, 2 min speaking: 3 min.
+        assert_eq!(speed(&t, Some(60)).time_saved_ms, Some(180_000));
+        // The average typist (40 wpm): 7.5 − 2 = 5.5 min.
+        assert_eq!(speed(&t, None).time_saved_ms, Some(330_000));
     }
 
     #[test]
@@ -401,6 +442,8 @@ mod tests {
         // 1,750 words over 700 s of speech = 150 wpm; 150 / 50 = 3.0×.
         assert_eq!(u.speed.words_per_minute, Some(150.0));
         assert_eq!(u.speed.times_typing, Some(3.0));
+        // 1,750 / 50 = 35 min typing, 1,750 / 150 = 11⅔ min speaking.
+        assert_eq!(u.speed.time_saved_ms, Some(1_400_000));
         assert_eq!((u.total_words, u.total_dictations), (1_750, 23));
         assert_eq!((u.fixes_dictionary, u.fixes_llm), (7, 31));
         // 875 / 1,750 = 50 %, 525 = 30 %, 350 = 20 %.

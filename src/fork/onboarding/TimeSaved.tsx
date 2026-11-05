@@ -3,7 +3,8 @@
  * Time saved (S-29b, B-28, DEC-50): "Dictating could save you about N
  * hours a week". The counter starts at 0 and counts up once there is a
  * typing speed: the test's (fork setting `typing_wpm`), or, after "Skip the
- * test", the 40 wpm average with a link back to the test. The slider sets
+ * test", the 40 wpm average with a link back to the test (after a measured
+ * result the link reads "Retake the typing test"). The slider sets
  * the typing time a day (`typing_hours_per_day`, default 2 h). The math is
  * in `typing.ts`.
  */
@@ -72,23 +73,26 @@ export function TimeSaved({
       action={
         revealed ? (
           <div className="flex w-full flex-col items-center gap-4">
-            {measured == null && (
-              <button
-                type="button"
-                onClick={onTakeTest}
-                data-testid="wb-time-saved-take-test"
-                className={`inline-flex cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) px-2 py-1 text-[15px] font-medium text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
-              >
-                {t("onboardingFlow.timeSaved.takeTest")}
-                <span className="grid size-6 place-items-center rounded-(--wb-radius-xs) bg-(--wb-secondary)">
-                  <ArrowRight
-                    size={14}
-                    aria-hidden="true"
-                    className="rtl:-scale-x-100"
-                  />
-                </span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={onTakeTest}
+              data-testid="wb-time-saved-take-test"
+              data-measured={measured != null ? "" : undefined}
+              className={`inline-flex cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) px-2 py-1 text-[15px] font-medium text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
+            >
+              {t(
+                measured == null
+                  ? "onboardingFlow.timeSaved.takeTest"
+                  : "onboardingFlow.timeSaved.retakeTest",
+              )}
+              <span className="grid size-6 place-items-center rounded-(--wb-radius-xs) bg-(--wb-secondary)">
+                <ArrowRight
+                  size={14}
+                  aria-hidden="true"
+                  className="rtl:-scale-x-100"
+                />
+              </span>
+            </button>
             <Button
               variant="cream"
               size="lg"

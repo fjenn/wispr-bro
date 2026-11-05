@@ -152,6 +152,12 @@ export interface DialogProps {
   /** Fade the body's top and bottom edges while it scrolls. */
   contentFades?: boolean;
   testId?: string;
+  /**
+   * Where the dialog portals (default `<body>`). Inside a native modal
+   * `<dialog>` (Settings) everything else is inert, so a dialog opened from
+   * there portals into it.
+   */
+  container?: HTMLElement | null;
 }
 
 export function Dialog({
@@ -172,6 +178,7 @@ export function Dialog({
   contentClassName = "",
   contentFades = true,
   testId,
+  container,
 }: DialogProps) {
   const titleId = useId();
   const descriptionId = useId();
@@ -249,7 +256,7 @@ export function Dialog({
         </motion.div>
       )}
     </AnimatePresence>,
-    document.body,
+    container ?? document.body,
   );
 }
 

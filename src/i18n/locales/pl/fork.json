@@ -197,7 +197,8 @@
       "change": "Zmień",
       "microphone": "Mikrofon",
       "languages": "Moje języki",
-      "appearance": "Język i motyw aplikacji"
+      "appearance": "Język i motyw aplikacji",
+      "typingHint": "Służy do obliczenia, ile czasu oszczędza ci dyktowanie."
     },
     "system": {
       "app": "Działanie aplikacji",
@@ -1761,18 +1762,21 @@
       "failed": "Nie można zachować obrazka. Spróbuj ponownie."
     },
     "speed": {
-      "title": "Tempo mówienia",
-      "value": "{{wpm}} sł./min",
+      "title": "Słowa na minutę",
       "notEnough": "Dyktuj trochę więcej, aby zobaczyć swoje tempo.",
       "measured": "{{ratio}}× Twoje tempo pisania ({{typing}} sł./min)",
-      "average": "{{ratio}}× tempo przeciętnej osoby piszącej na klawiaturze ({{typing}} sł./min)"
+      "average": "{{ratio}}× tempo przeciętnej osoby piszącej na klawiaturze ({{typing}} sł./min)",
+      "speaking": "Mówienie",
+      "typing": "Twoje pisanie",
+      "typingAverage": "Średnie pisanie"
     },
     "words": {
       "title": "Łącznie słów",
       "dictations_one": "w {{count, number}} dyktowaniu",
       "dictations_few": "w {{count, number}} dyktowaniach",
       "dictations_many": "w {{count, number}} dyktowaniach",
-      "dictations_other": "w {{count, number}} dyktowania"
+      "dictations_other": "w {{count, number}} dyktowania",
+      "saved": "Zaoszczędzono {{time}} w porównaniu z pisaniem"
     },
     "fixes": {
       "title": "Wprowadzone poprawki",
@@ -1791,7 +1795,8 @@
       "email": "E-mail",
       "work": "Wiadomości służbowe",
       "personal": "Wiadomości prywatne",
-      "other": "Wszystko inne"
+      "other": "Wszystko inne",
+      "used": "Użyte kategorie"
     },
     "heatmap": {
       "title": "Twoja passa",
@@ -1815,7 +1820,11 @@
       "band1": "Od 1 do 249 słów",
       "band2": "Od 250 do 499 słów",
       "band3": "Od 500 do 749 słów",
-      "band4": "750 słów lub więcej"
+      "band4": "750 słów lub więcej",
+      "streak_one": "Obecna passa: {{count, number}} dzień",
+      "streak_few": "Obecna passa: {{count, number}} dni",
+      "streak_many": "Obecna passa: {{count, number}} dni",
+      "streak_other": "Obecna passa: {{count, number}} dnia"
     },
     "voice": {
       "locked": "Zablokowane",
@@ -1856,6 +1865,10 @@
       "lockedBody_few": "Dyktuj dalej: na razie {{current}} z {{goal}} słów. Potem zobaczysz swój najczęstszy zwrot, kiedy i gdzie dyktujesz oraz słowa, które {{appName}} poprawia za Ciebie.",
       "lockedBody_many": "Dyktuj dalej: na razie {{current}} z {{goal}} słów. Potem zobaczysz swój najczęstszy zwrot, kiedy i gdzie dyktujesz oraz słowa, które {{appName}} poprawia za Ciebie.",
       "lockedBody_other": "Dyktuj dalej: na razie {{current}} z {{goal}} słowa. Potem zobaczysz swój najczęstszy zwrot, kiedy i gdzie dyktujesz oraz słowa, które {{appName}} poprawia za Ciebie."
+    },
+    "typing": {
+      "take": "Zrób test pisania",
+      "retake": "Powtórz test pisania"
     }
   },
   "history": {
@@ -2324,7 +2337,8 @@
       "perWeek_one": "<n/> godziny <em>tygodniowo</em>",
       "perWeek_few": "<n/> godzin <em>tygodniowo</em>",
       "perWeek_many": "<n/> godzin <em>tygodniowo</em>",
-      "perWeek_other": "<n/> godziny <em>tygodniowo</em>"
+      "perWeek_other": "<n/> godziny <em>tygodniowo</em>",
+      "retakeTest": "Powtórz test pisania"
     },
     "typing": {
       "title": "Jak szybko <em>piszesz</em>?",

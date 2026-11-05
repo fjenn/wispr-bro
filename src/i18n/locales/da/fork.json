@@ -195,7 +195,8 @@
       "change": "Skift",
       "microphone": "Mikrofon",
       "languages": "Mine sprog",
-      "appearance": "Appsprog og tema"
+      "appearance": "Appsprog og tema",
+      "typingHint": "Bruges til at beregne, hvor meget tid diktering sparer dig."
     },
     "system": {
       "app": "Appens adfærd",
@@ -1637,16 +1638,19 @@
       "failed": "Billedet kunne ikke gemmes. Prøv igen."
     },
     "speed": {
-      "title": "Taletempo",
-      "value": "{{wpm}} ord/min",
+      "title": "Ord i minuttet",
       "notEnough": "Diktér lidt mere for at se dit tempo.",
       "measured": "{{ratio}}× din skrivehastighed på {{typing}} ord/min",
-      "average": "{{ratio}}× hastigheden for en gennemsnitlig maskinskriver ({{typing}} ord/min)"
+      "average": "{{ratio}}× hastigheden for en gennemsnitlig maskinskriver ({{typing}} ord/min)",
+      "speaking": "Tale",
+      "typing": "Din skrivning",
+      "typingAverage": "Gennemsnitlig skrivning"
     },
     "words": {
       "title": "Ord i alt",
       "dictations_one": "i {{count, number}} diktering",
-      "dictations_other": "i {{count, number}} dikteringer"
+      "dictations_other": "i {{count, number}} dikteringer",
+      "saved": "Sparet {{time}} i forhold til at skrive"
     },
     "fixes": {
       "title": "Rettelser",
@@ -1663,7 +1667,8 @@
       "email": "E-mail",
       "work": "Arbejdsbeskeder",
       "personal": "Personlige beskeder",
-      "other": "Alt andet"
+      "other": "Alt andet",
+      "used": "Brugte kategorier"
     },
     "heatmap": {
       "title": "Din stime",
@@ -1681,7 +1686,9 @@
       "band1": "1 til 249 ord",
       "band2": "250 til 499 ord",
       "band3": "500 til 749 ord",
-      "band4": "750 ord eller mere"
+      "band4": "750 ord eller mere",
+      "streak_one": "Nuværende stime: {{count, number}} dag",
+      "streak_other": "Nuværende stime: {{count, number}} dage"
     },
     "voice": {
       "locked": "Låst",
@@ -1710,6 +1717,10 @@
       "lockedTitle_other": "Din stemmeprofil låses op ved {{goal}} ord",
       "lockedBody_one": "Bliv ved med at diktere: {{current}} af {{goal}} ord indtil nu. Så kan du se det udtryk, du bruger mest, hvornår og hvor du dikterer, og de ord, {{appName}} retter for dig.",
       "lockedBody_other": "Bliv ved med at diktere: {{current}} af {{goal}} ord indtil nu. Så kan du se det udtryk, du bruger mest, hvornår og hvor du dikterer, og de ord, {{appName}} retter for dig."
+    },
+    "typing": {
+      "take": "Tag skrivetesten",
+      "retake": "Tag skrivetesten igen"
     }
   },
   "history": {
@@ -2158,7 +2169,8 @@
       "basisAverage_other": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
       "lead": "Diktering kan spare dig omkring",
       "perWeek_one": "<n/> time <em>om ugen</em>",
-      "perWeek_other": "<n/> timer <em>om ugen</em>"
+      "perWeek_other": "<n/> timer <em>om ugen</em>",
+      "retakeTest": "Tag skrivetesten igen"
     },
     "typing": {
       "title": "Hvor hurtigt <em>skriver</em> du?",

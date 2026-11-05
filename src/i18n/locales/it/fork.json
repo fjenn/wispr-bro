@@ -196,7 +196,8 @@
       "change": "Cambia",
       "microphone": "Microfono",
       "languages": "Le mie lingue",
-      "appearance": "Lingua e tema dell’app"
+      "appearance": "Lingua e tema dell’app",
+      "typingHint": "Serve a calcolare quanto tempo ti fa risparmiare la dettatura."
     },
     "system": {
       "app": "Comportamento dell’app",
@@ -1699,17 +1700,20 @@
       "failed": "Impossibile salvare l’immagine. Riprova."
     },
     "speed": {
-      "title": "Velocità di parola",
-      "value": "{{wpm}} parole/min",
+      "title": "Parole al minuto",
       "notEnough": "Detta ancora un po’ per vedere la tua velocità.",
       "measured": "{{ratio}}× la tua velocità di battitura di {{typing}} parole/min",
-      "average": "{{ratio}}× la velocità di chi digita in media ({{typing}} parole/min)"
+      "average": "{{ratio}}× la velocità di chi digita in media ({{typing}} parole/min)",
+      "speaking": "Parlando",
+      "typing": "La tua battitura",
+      "typingAverage": "Battitura media"
     },
     "words": {
       "title": "Parole totali",
       "dictations_one": "in {{count, number}} dettatura",
       "dictations_many": "in {{count, number}} di dettature",
-      "dictations_other": "in {{count, number}} dettature"
+      "dictations_other": "in {{count, number}} dettature",
+      "saved": "Risparmiati {{time}} rispetto alla battitura"
     },
     "fixes": {
       "title": "Correzioni apportate",
@@ -1727,7 +1731,8 @@
       "email": "Email",
       "work": "Messaggi di lavoro",
       "personal": "Messaggi personali",
-      "other": "Tutto il resto"
+      "other": "Tutto il resto",
+      "used": "Categorie usate"
     },
     "heatmap": {
       "title": "La tua serie di giorni",
@@ -1748,7 +1753,10 @@
       "band1": "Da 1 a 249 parole",
       "band2": "Da 250 a 499 parole",
       "band3": "Da 500 a 749 parole",
-      "band4": "750 parole o più"
+      "band4": "750 parole o più",
+      "streak_one": "Serie attuale: {{count, number}} giorno",
+      "streak_many": "Serie attuale: {{count, number}} di giorni",
+      "streak_other": "Serie attuale: {{count, number}} giorni"
     },
     "voice": {
       "locked": "Bloccato",
@@ -1783,6 +1791,10 @@
       "lockedBody_one": "Continua a dettare: finora {{current}} di {{goal}} parola. Poi vedrai la frase che usi di più, quando e dove detti e le parole che {{appName}} corregge per te.",
       "lockedBody_many": "Continua a dettare: finora {{current}} di {{goal}} di parole. Poi vedrai la frase che usi di più, quando e dove detti e le parole che {{appName}} corregge per te.",
       "lockedBody_other": "Continua a dettare: finora {{current}} di {{goal}} parole. Poi vedrai la frase che usi di più, quando e dove detti e le parole che {{appName}} corregge per te."
+    },
+    "typing": {
+      "take": "Fai il test di battitura",
+      "retake": "Rifai il test di battitura"
     }
   },
   "history": {
@@ -2241,7 +2253,8 @@
       "lead": "Dettare potrebbe farti risparmiare circa",
       "perWeek_one": "<n/> ora <em>a settimana</em>",
       "perWeek_many": "<n/> di ore <em>a settimana</em>",
-      "perWeek_other": "<n/> ore <em>a settimana</em>"
+      "perWeek_other": "<n/> ore <em>a settimana</em>",
+      "retakeTest": "Rifai il test di battitura"
     },
     "typing": {
       "title": "Quanto sei veloce a <em>digitare</em>?",

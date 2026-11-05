@@ -196,7 +196,8 @@
       "change": "Modifier",
       "microphone": "Microphone",
       "languages": "Mes langues",
-      "appearance": "Langue de l’app et thème"
+      "appearance": "Langue de l’app et thème",
+      "typingHint": "Sert à calculer le temps que la dictée vous fait gagner."
     },
     "system": {
       "app": "Comportement de l’app",
@@ -1699,17 +1700,20 @@
       "failed": "Impossible d’enregistrer l’image. Réessayez."
     },
     "speed": {
-      "title": "Débit de parole",
-      "value": "{{wpm}} mots/min",
+      "title": "Mots par minute",
       "notEnough": "Dictez encore un peu pour voir votre débit.",
       "measured": "{{ratio}}× votre vitesse de frappe ({{typing}} mots/min)",
-      "average": "{{ratio}}× la vitesse de frappe moyenne ({{typing}} mots/min)"
+      "average": "{{ratio}}× la vitesse de frappe moyenne ({{typing}} mots/min)",
+      "speaking": "À l’oral",
+      "typing": "Votre frappe",
+      "typingAverage": "Frappe moyenne"
     },
     "words": {
       "title": "Total de mots",
       "dictations_one": "en {{count, number}} dictée",
       "dictations_many": "en {{count, number}} de dictées",
-      "dictations_other": "en {{count, number}} dictées"
+      "dictations_other": "en {{count, number}} dictées",
+      "saved": "Gain de temps : {{time}} par rapport à la frappe"
     },
     "fixes": {
       "title": "Corrections apportées",
@@ -1727,7 +1731,8 @@
       "email": "E-mail",
       "work": "Messages professionnels",
       "personal": "Messages personnels",
-      "other": "Tout le reste"
+      "other": "Tout le reste",
+      "used": "Catégories utilisées"
     },
     "heatmap": {
       "title": "Votre série",
@@ -1748,7 +1753,10 @@
       "band1": "De 1 à 249 mots",
       "band2": "De 250 à 499 mots",
       "band3": "De 500 à 749 mots",
-      "band4": "750 mots ou plus"
+      "band4": "750 mots ou plus",
+      "streak_one": "Série actuelle : {{count, number}} jour",
+      "streak_many": "Série actuelle : {{count, number}} de jours",
+      "streak_other": "Série actuelle : {{count, number}} jours"
     },
     "voice": {
       "locked": "Verrouillé",
@@ -1783,6 +1791,10 @@
       "lockedBody_one": "Continuez à dicter : {{current}} mot sur {{goal}} pour l’instant. Vous verrez ensuite l’expression que vous employez le plus, quand et où vous dictez, et les mots que {{appName}} corrige pour vous.",
       "lockedBody_many": "Continuez à dicter : {{current}} mots sur {{goal}} pour l’instant. Vous verrez ensuite l’expression que vous employez le plus, quand et où vous dictez, et les mots que {{appName}} corrige pour vous.",
       "lockedBody_other": "Continuez à dicter : {{current}} mots sur {{goal}} pour l’instant. Vous verrez ensuite l’expression que vous employez le plus, quand et où vous dictez, et les mots que {{appName}} corrige pour vous."
+    },
+    "typing": {
+      "take": "Faire le test de frappe",
+      "retake": "Refaire le test de frappe"
     }
   },
   "history": {
@@ -2241,7 +2253,8 @@
       "lead": "La dictée pourrait vous faire gagner environ",
       "perWeek_one": "<n/> heure <em>par semaine</em>",
       "perWeek_many": "<n/> d’heures <em>par semaine</em>",
-      "perWeek_other": "<n/> heures <em>par semaine</em>"
+      "perWeek_other": "<n/> heures <em>par semaine</em>",
+      "retakeTest": "Refaire le test de frappe"
     },
     "typing": {
       "title": "À quelle vitesse <em>tapez</em>-vous ?",

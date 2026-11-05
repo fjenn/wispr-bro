@@ -15,6 +15,7 @@
  * - The calendar is a picture for screen readers (`role="img"` with a
  *   summary); the numbers are also in the streak figures and the legend
  *   beside it, which are text. Each cell has a `<title>` for the pointer.
+ * - The current streak's days are outlined (the legend says so).
  * - Time runs left to right in every language (`dir="ltr"`), like a
  *   chart axis.
  */
@@ -89,9 +90,11 @@ export interface HeatmapProps {
   days: HeatmapDay[];
   /** Read by screen readers instead of the cells. */
   summary: string;
+  /** Days of the current streak, outlined (`YYYY-MM-DD`). */
+  streak?: Set<string>;
 }
 
-export default function Heatmap({ days, summary }: HeatmapProps) {
+export default function Heatmap({ days, summary, streak }: HeatmapProps) {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const language = i18n.language;
   const dark = useIsDark();
@@ -157,7 +160,16 @@ export default function Heatmap({ days, summary }: HeatmapProps) {
           renderBlock={(block, activity) =>
             cloneElement(
               block,
-              { "data-level": activity.level } as Record<string, unknown>,
+              {
+                "data-level": activity.level,
+                ...(streak?.has(activity.date)
+                  ? {
+                      "data-streak": "",
+                      stroke: "var(--wb-ink)",
+                      strokeWidth: 1.5,
+                    }
+                  : {}),
+              } as Record<string, unknown>,
               <title>
                 {t("insights.heatmap.day", {
                   count: activity.count,

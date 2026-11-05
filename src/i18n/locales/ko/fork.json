@@ -194,7 +194,8 @@
       "change": "변경",
       "microphone": "마이크",
       "languages": "내 언어",
-      "appearance": "앱 언어 및 테마"
+      "appearance": "앱 언어 및 테마",
+      "typingHint": "받아쓰기로 절약되는 시간을 계산하는 데 쓰입니다."
     },
     "system": {
       "app": "앱 동작",
@@ -1575,15 +1576,18 @@
       "failed": "이미지를 저장할 수 없습니다. 다시 시도하세요."
     },
     "speed": {
-      "title": "말하기 속도",
-      "value": "분당 {{wpm}}단어",
+      "title": "분당 단어 수",
       "notEnough": "조금 더 받아쓰기하면 속도를 확인할 수 있습니다.",
       "measured": "타이핑 속도(분당 {{typing}}단어)의 {{ratio}}배",
-      "average": "평균 타이핑 속도(분당 {{typing}}단어)의 {{ratio}}배"
+      "average": "평균 타이핑 속도(분당 {{typing}}단어)의 {{ratio}}배",
+      "speaking": "말하기",
+      "typing": "내 타이핑",
+      "typingAverage": "평균 타이핑"
     },
     "words": {
       "title": "총 단어 수",
-      "dictations_other": "받아쓰기 {{count, number}}회"
+      "dictations_other": "받아쓰기 {{count, number}}회",
+      "saved": "타이핑보다 {{time}} 절약"
     },
     "fixes": {
       "title": "수정 횟수",
@@ -1599,7 +1603,8 @@
       "email": "이메일",
       "work": "업무 메시지",
       "personal": "개인 메시지",
-      "other": "기타"
+      "other": "기타",
+      "used": "사용한 카테고리"
     },
     "heatmap": {
       "title": "연속 기록",
@@ -1614,7 +1619,8 @@
       "band1": "1~249단어",
       "band2": "250~499단어",
       "band3": "500~749단어",
-      "band4": "750단어 이상"
+      "band4": "750단어 이상",
+      "streak_other": "현재 연속 기록: {{count, number}}일"
     },
     "voice": {
       "locked": "잠김",
@@ -1637,6 +1643,10 @@
       },
       "lockedTitle_other": "{{goal}}단어가 되면 음성 프로필이 잠금 해제됩니다",
       "lockedBody_other": "계속 받아쓰기하세요. 지금까지 {{goal}}단어 중 {{current}}단어를 입력했습니다. 잠금이 해제되면 가장 많이 쓰는 문구, 받아쓰기하는 시간과 장소, {{appName}}이(가) 수정해 주는 단어를 볼 수 있습니다."
+    },
+    "typing": {
+      "take": "타이핑 테스트 하기",
+      "retake": "타이핑 테스트 다시 하기"
     }
   },
   "history": {
@@ -2075,7 +2085,8 @@
       "basisMeasured_other": "분당 {{wpm}}단어의 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
       "basisAverage_other": "분당 {{wpm}}단어의 평균 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
       "lead": "받아쓰기로 절약할 수 있는 시간",
-      "perWeek_other": "<em>주당</em> 약 <n/>시간"
+      "perWeek_other": "<em>주당</em> 약 <n/>시간",
+      "retakeTest": "타이핑 테스트 다시 하기"
     },
     "typing": {
       "title": "<em>타이핑</em> 속도는 어느 정도인가요?",

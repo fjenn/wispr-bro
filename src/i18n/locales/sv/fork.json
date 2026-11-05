@@ -195,7 +195,8 @@
       "change": "Ändra",
       "microphone": "Mikrofon",
       "languages": "Mina språk",
-      "appearance": "Appspråk och tema"
+      "appearance": "Appspråk och tema",
+      "typingHint": "Används för att räkna ut hur mycket tid diktering sparar dig."
     },
     "system": {
       "app": "Appens beteende",
@@ -1637,16 +1638,19 @@
       "failed": "Bilden kunde inte sparas. Försök igen."
     },
     "speed": {
-      "title": "Taltempo",
-      "value": "{{wpm}} ord/min",
+      "title": "Ord per minut",
       "notEnough": "Diktera lite mer för att se ditt tempo.",
       "measured": "{{ratio}}× din skrivhastighet på {{typing}} ord/min",
-      "average": "{{ratio}}× hastigheten för en genomsnittlig maskinskrivare ({{typing}} ord/min)"
+      "average": "{{ratio}}× hastigheten för en genomsnittlig maskinskrivare ({{typing}} ord/min)",
+      "speaking": "Tal",
+      "typing": "Ditt skrivande",
+      "typingAverage": "Genomsnittligt skrivande"
     },
     "words": {
       "title": "Ord totalt",
       "dictations_one": "i {{count, number}} diktering",
-      "dictations_other": "i {{count, number}} dikteringar"
+      "dictations_other": "i {{count, number}} dikteringar",
+      "saved": "Sparat {{time}} jämfört med att skriva"
     },
     "fixes": {
       "title": "Rättningar",
@@ -1663,7 +1667,8 @@
       "email": "E-post",
       "work": "Arbetsmeddelanden",
       "personal": "Personliga meddelanden",
-      "other": "Allt annat"
+      "other": "Allt annat",
+      "used": "Använda kategorier"
     },
     "heatmap": {
       "title": "Din svit",
@@ -1681,7 +1686,9 @@
       "band1": "1 till 249 ord",
       "band2": "250 till 499 ord",
       "band3": "500 till 749 ord",
-      "band4": "750 ord eller mer"
+      "band4": "750 ord eller mer",
+      "streak_one": "Nuvarande svit: {{count, number}} dag",
+      "streak_other": "Nuvarande svit: {{count, number}} dagar"
     },
     "voice": {
       "locked": "Låst",
@@ -1710,6 +1717,10 @@
       "lockedTitle_other": "Din röstprofil låses upp vid {{goal}} ord",
       "lockedBody_one": "Fortsätt diktera: {{current}} av {{goal}} ord hittills. Sedan ser du den fras du använder mest, när och var du dikterar och vilka ord {{appName}} rättar åt dig.",
       "lockedBody_other": "Fortsätt diktera: {{current}} av {{goal}} ord hittills. Sedan ser du den fras du använder mest, när och var du dikterar och vilka ord {{appName}} rättar åt dig."
+    },
+    "typing": {
+      "take": "Gör skrivtestet",
+      "retake": "Gör skrivtestet igen"
     }
   },
   "history": {
@@ -2158,7 +2169,8 @@
       "basisAverage_other": "Baserat på en genomsnittlig skrivhastighet på {{wpm}} ord per minut och ett taltempo på ungefär {{speaking}} ord per minut.",
       "lead": "Diktering kan spara dig ungefär",
       "perWeek_one": "<n/> timme <em>i veckan</em>",
-      "perWeek_other": "<n/> timmar <em>i veckan</em>"
+      "perWeek_other": "<n/> timmar <em>i veckan</em>",
+      "retakeTest": "Gör skrivtestet igen"
     },
     "typing": {
       "title": "Hur snabbt <em>skriver</em> du?",

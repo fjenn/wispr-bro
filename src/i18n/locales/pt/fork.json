@@ -196,7 +196,8 @@
       "change": "Alterar",
       "microphone": "Microfone",
       "languages": "Meus idiomas",
-      "appearance": "Idioma e tema do app"
+      "appearance": "Idioma e tema do app",
+      "typingHint": "Serve para calcular quanto tempo ditar economiza para você."
     },
     "system": {
       "app": "Comportamento do app",
@@ -1699,17 +1700,20 @@
       "failed": "Não foi possível salvar a imagem. Tente novamente."
     },
     "speed": {
-      "title": "Velocidade de fala",
-      "value": "{{wpm}} ppm",
+      "title": "Palavras por minuto",
       "notEnough": "Dite um pouco mais para ver sua velocidade.",
       "measured": "{{ratio}}× sua velocidade de digitação de {{typing}} ppm",
-      "average": "{{ratio}}× a velocidade de uma pessoa digitando em média ({{typing}} ppm)"
+      "average": "{{ratio}}× a velocidade de uma pessoa digitando em média ({{typing}} ppm)",
+      "speaking": "Falando",
+      "typing": "Sua digitação",
+      "typingAverage": "Digitação média"
     },
     "words": {
       "title": "Total de palavras",
       "dictations_one": "em {{count, number}} ditado",
       "dictations_many": "em {{count, number}} de ditados",
-      "dictations_other": "em {{count, number}} ditados"
+      "dictations_other": "em {{count, number}} ditados",
+      "saved": "Economia de {{time}} em relação a digitar"
     },
     "fixes": {
       "title": "Correções feitas",
@@ -1727,7 +1731,8 @@
       "email": "E-mail",
       "work": "Mensagens de trabalho",
       "personal": "Mensagens pessoais",
-      "other": "Todo o resto"
+      "other": "Todo o resto",
+      "used": "Categorias usadas"
     },
     "heatmap": {
       "title": "Sua sequência",
@@ -1748,7 +1753,10 @@
       "band1": "1 a 249 palavras",
       "band2": "250 a 499 palavras",
       "band3": "500 a 749 palavras",
-      "band4": "750 palavras ou mais"
+      "band4": "750 palavras ou mais",
+      "streak_one": "Sequência atual: {{count, number}} dia",
+      "streak_many": "Sequência atual: {{count, number}} de dias",
+      "streak_other": "Sequência atual: {{count, number}} dias"
     },
     "voice": {
       "locked": "Bloqueado",
@@ -1783,6 +1791,10 @@
       "lockedBody_one": "Continue ditando: {{current}} de {{goal}} palavra até agora. Depois você vai ver a frase que mais usa, quando e onde dita, e as palavras que o {{appName}} corrige para você.",
       "lockedBody_many": "Continue ditando: {{current}} de {{goal}} de palavras até agora. Depois você vai ver a frase que mais usa, quando e onde dita, e as palavras que o {{appName}} corrige para você.",
       "lockedBody_other": "Continue ditando: {{current}} de {{goal}} palavras até agora. Depois você vai ver a frase que mais usa, quando e onde dita, e as palavras que o {{appName}} corrige para você."
+    },
+    "typing": {
+      "take": "Fazer o teste de digitação",
+      "retake": "Refazer o teste de digitação"
     }
   },
   "history": {
@@ -2241,7 +2253,8 @@
       "lead": "Ditar pode economizar cerca de",
       "perWeek_one": "<n/> hora <em>por semana</em>",
       "perWeek_many": "<n/> de horas <em>por semana</em>",
-      "perWeek_other": "<n/> horas <em>por semana</em>"
+      "perWeek_other": "<n/> horas <em>por semana</em>",
+      "retakeTest": "Refazer o teste de digitação"
     },
     "typing": {
       "title": "Qual é a sua velocidade de <em>digitação</em>?",

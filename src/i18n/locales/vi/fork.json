@@ -194,7 +194,8 @@
       "change": "Thay đổi",
       "microphone": "Micrô",
       "languages": "Ngôn ngữ của tôi",
-      "appearance": "Ngôn ngữ và chủ đề của ứng dụng"
+      "appearance": "Ngôn ngữ và chủ đề của ứng dụng",
+      "typingHint": "Dùng để tính thời gian bạn tiết kiệm được khi đọc chính tả."
     },
     "system": {
       "app": "Hành vi ứng dụng",
@@ -1575,15 +1576,18 @@
       "failed": "Không thể lưu hình ảnh. Hãy thử lại."
     },
     "speed": {
-      "title": "Tốc độ nói",
-      "value": "{{wpm}} từ/phút",
+      "title": "Từ mỗi phút",
       "notEnough": "Hãy đọc chính tả thêm một chút để xem tốc độ của bạn.",
       "measured": "{{ratio}}× tốc độ gõ {{typing}} từ/phút của bạn",
-      "average": "{{ratio}}× tốc độ của người gõ trung bình ({{typing}} từ/phút)"
+      "average": "{{ratio}}× tốc độ của người gõ trung bình ({{typing}} từ/phút)",
+      "speaking": "Nói",
+      "typing": "Bạn gõ",
+      "typingAverage": "Gõ trung bình"
     },
     "words": {
       "title": "Tổng số từ",
-      "dictations_other": "trong {{count, number}} bản đọc chính tả"
+      "dictations_other": "trong {{count, number}} bản đọc chính tả",
+      "saved": "Tiết kiệm {{time}} so với gõ phím"
     },
     "fixes": {
       "title": "Số lần sửa",
@@ -1599,7 +1603,8 @@
       "email": "Email",
       "work": "Tin nhắn công việc",
       "personal": "Tin nhắn cá nhân",
-      "other": "Mọi thứ khác"
+      "other": "Mọi thứ khác",
+      "used": "Danh mục đã dùng"
     },
     "heatmap": {
       "title": "Chuỗi ngày của bạn",
@@ -1614,7 +1619,8 @@
       "band1": "1 đến 249 từ",
       "band2": "250 đến 499 từ",
       "band3": "500 đến 749 từ",
-      "band4": "750 từ trở lên"
+      "band4": "750 từ trở lên",
+      "streak_other": "Chuỗi hiện tại: {{count, number}} ngày"
     },
     "voice": {
       "locked": "Đã khóa",
@@ -1637,6 +1643,10 @@
       },
       "lockedTitle_other": "Hồ sơ giọng nói của bạn mở khóa khi đạt {{goal}} từ",
       "lockedBody_other": "Tiếp tục đọc chính tả: đã có {{current}}/{{goal}} từ. Sau đó bạn sẽ thấy cụm từ bạn dùng nhiều nhất, khi nào và ở đâu bạn đọc chính tả, và những từ {{appName}} sửa giúp bạn."
+    },
+    "typing": {
+      "take": "Làm bài kiểm tra gõ",
+      "retake": "Làm lại bài kiểm tra gõ"
     }
   },
   "history": {
@@ -2075,7 +2085,8 @@
       "basisMeasured_other": "Dựa trên tốc độ gõ {{wpm}} từ/phút của bạn và tốc độ nói khoảng {{speaking}} từ/phút.",
       "basisAverage_other": "Dựa trên tốc độ gõ trung bình {{wpm}} từ/phút và tốc độ nói khoảng {{speaking}} từ/phút.",
       "lead": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng",
-      "perWeek_other": "<n/> giờ <em>mỗi tuần</em>"
+      "perWeek_other": "<n/> giờ <em>mỗi tuần</em>",
+      "retakeTest": "Làm lại bài kiểm tra gõ"
     },
     "typing": {
       "title": "Bạn <em>gõ</em> nhanh đến mức nào?",

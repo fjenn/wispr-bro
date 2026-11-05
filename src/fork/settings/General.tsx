@@ -7,11 +7,14 @@ import { ThemeSelector } from "@/components/settings/ThemeSelector";
 import { useSettings } from "@/hooks/useSettings";
 import { isChinese } from "@/lib/utils/languageSuggestions";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, SettingGroup } from "../ui";
+import { Button, SettingGroup, SettingRow } from "../ui";
 import { ChevronRight } from "../ui/icons";
 import { HandyRow } from "./Controls";
 import { MicrophonePicker } from "./MicrophonePicker";
 import { DictationKeyRow } from "./hotkeys/DictationKey";
+import { useForkSettings } from "./useForkSettings";
+import { TypingTestDialog } from "../insights/TypingTestDialog";
+import { useState } from "react";
 
 export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -19,6 +22,9 @@ export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
   const speaksChinese =
     (getSetting("spoken_languages") ?? []).some(isChinese) ||
     (getSetting("chinese_script") ?? "as_transcribed") !== "as_transcribed";
+  const { settings: forkSettings } = useForkSettings();
+  const typingWpm = forkSettings?.typing_wpm ?? null;
+  const [typingTest, setTypingTest] = useState(false);
 
   return (
     <div className="flex flex-col gap-8" data-testid="wb-settings-general">
@@ -40,6 +46,38 @@ export function General({ onChangeHotkeys }: { onChangeHotkeys: () => void }) {
           {t("settingsModal.hotkeys.key.more")}
         </Button>
       </div>
+      <SettingGroup>
+        <SettingRow
+          title={t("onboardingFlow.summary.typing")}
+          description={t("settingsModal.general.typingHint")}
+          testId="wb-typing-speed-row"
+          control={
+            <>
+              <span
+                className="text-[14px] text-(--wb-ink-2) tabular-nums"
+                data-testid="wb-typing-speed-value"
+              >
+                {typingWpm != null
+                  ? t("onboardingFlow.summary.typingWpm", { count: typingWpm })
+                  : t("onboardingFlow.summary.typingSkipped")}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setTypingTest(true)}
+                data-testid="wb-typing-speed-test"
+              >
+                {t(
+                  typingWpm != null
+                    ? "insights.typing.retake"
+                    : "insights.typing.take",
+                )}
+              </Button>
+            </>
+          }
+        />
+      </SettingGroup>
+      <TypingTestDialog open={typingTest} onOpenChange={setTypingTest} />
       <section aria-labelledby="wb-general-mic" className="flex flex-col gap-3">
         <h3 id="wb-general-mic" className="type-micro text-(--wb-ink-3)">
           {t("settingsModal.general.microphone")}

@@ -195,7 +195,8 @@
       "change": "Wijzig",
       "microphone": "Microfoon",
       "languages": "Mijn talen",
-      "appearance": "Taal en thema van de app"
+      "appearance": "Taal en thema van de app",
+      "typingHint": "Hiermee wordt berekend hoeveel tijd dicteren je bespaart."
     },
     "system": {
       "app": "Gedrag van de app",
@@ -1637,16 +1638,19 @@
       "failed": "De afbeelding kon niet worden bewaard. Probeer het opnieuw."
     },
     "speed": {
-      "title": "Spreeksnelheid",
-      "value": "{{wpm}} wpm",
+      "title": "Woorden per minuut",
       "notEnough": "Dicteer nog wat meer om je snelheid te zien.",
       "measured": "{{ratio}}× je typsnelheid van {{typing}} wpm",
-      "average": "{{ratio}}× de snelheid van een gemiddelde typist ({{typing}} wpm)"
+      "average": "{{ratio}}× de snelheid van een gemiddelde typist ({{typing}} wpm)",
+      "speaking": "Spreken",
+      "typing": "Jouw typen",
+      "typingAverage": "Gemiddeld typen"
     },
     "words": {
       "title": "Woorden in totaal",
       "dictations_one": "in {{count, number}} dictee",
-      "dictations_other": "in {{count, number}} dictees"
+      "dictations_other": "in {{count, number}} dictees",
+      "saved": "{{time}} bespaard ten opzichte van typen"
     },
     "fixes": {
       "title": "Correcties",
@@ -1663,7 +1667,8 @@
       "email": "E-mail",
       "work": "Werkberichten",
       "personal": "Persoonlijke berichten",
-      "other": "Al het andere"
+      "other": "Al het andere",
+      "used": "Gebruikte categorieën"
     },
     "heatmap": {
       "title": "Je reeks",
@@ -1681,7 +1686,9 @@
       "band1": "1 tot 249 woorden",
       "band2": "250 tot 499 woorden",
       "band3": "500 tot 749 woorden",
-      "band4": "750 woorden of meer"
+      "band4": "750 woorden of meer",
+      "streak_one": "Huidige reeks: {{count, number}} dag",
+      "streak_other": "Huidige reeks: {{count, number}} dagen"
     },
     "voice": {
       "locked": "Vergrendeld",
@@ -1710,6 +1717,10 @@
       "lockedTitle_other": "Je stemprofiel wordt ontgrendeld bij {{goal}} woorden",
       "lockedBody_one": "Blijf dicteren: tot nu toe {{current}} van {{goal}} woord. Daarna zie je de uitdrukking die je het meest gebruikt, wanneer en waar je dicteert, en de woorden die {{appName}} voor je verbetert.",
       "lockedBody_other": "Blijf dicteren: tot nu toe {{current}} van {{goal}} woorden. Daarna zie je de uitdrukking die je het meest gebruikt, wanneer en waar je dicteert, en de woorden die {{appName}} voor je verbetert."
+    },
+    "typing": {
+      "take": "Doe de typetest",
+      "retake": "Typetest opnieuw doen"
     }
   },
   "history": {
@@ -2158,7 +2169,8 @@
       "basisAverage_other": "Op basis van een gemiddelde typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
       "lead": "Met dicteren bespaar je ongeveer",
       "perWeek_one": "<n/> uur <em>per week</em>",
-      "perWeek_other": "<n/> uur <em>per week</em>"
+      "perWeek_other": "<n/> uur <em>per week</em>",
+      "retakeTest": "Typetest opnieuw doen"
     },
     "typing": {
       "title": "Hoe snel <em>typ</em> je?",

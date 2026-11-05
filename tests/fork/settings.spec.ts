@@ -346,3 +346,41 @@ for (const section of [
     });
   }
 }
+
+test("General: typing speed row takes and retakes the typing test", async ({
+  page,
+  ipc,
+}) => {
+  await openSection(page, ipc);
+  installPersistentSettings(ipc);
+  const row = page.getByTestId("wb-typing-speed-row");
+  await expect(page.getByTestId("wb-typing-speed-value")).toHaveText(
+    "Not measured",
+  );
+  const button = page.getByTestId("wb-typing-speed-test");
+  await expect(button).toHaveText("Take the typing test");
+  await expect(row).toContainText("Typing speed");
+  // Keyboard only: the dialog opens over Settings and takes focus.
+  await button.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("wb-typing-dialog")).toBeVisible();
+  // The whole paragraph at once ends the test early (capped at 300).
+  const sample = await page.getByTestId("wb-typing-sample").innerText();
+  await page.getByTestId("wb-typing-input").fill(sample);
+  await page.getByTestId("wb-typing-recalculate").click();
+  await expect(page.getByTestId("wb-typing-dialog")).toBeHidden();
+  await expect(page.getByTestId("wb-typing-speed-value")).toHaveText(
+    "300 words a minute",
+  );
+  await expect(button).toHaveText("Retake typing test");
+  // Settings itself is still open; Esc in the test closes only the test.
+  await expect(page.getByTestId("wb-settings-general")).toBeVisible();
+  await button.click();
+  await expect(page.getByTestId("wb-typing-dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("wb-typing-dialog")).toBeHidden();
+  await expect(page.getByTestId("wb-settings-general")).toBeVisible();
+  await expect(page.getByTestId("wb-typing-speed-value")).toHaveText(
+    "300 words a minute",
+  );
+});

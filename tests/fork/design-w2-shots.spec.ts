@@ -77,6 +77,7 @@ function usage(empty = false): UsageInsights {
       typing_wpm: 48,
       typing_source: "measured",
       times_typing: empty ? null : 3,
+      time_saved_ms: empty ? null : 10_626_000,
     },
     fixes_dictionary: empty ? 0 : 37,
     fixes_llm: empty ? 0 : 412,
