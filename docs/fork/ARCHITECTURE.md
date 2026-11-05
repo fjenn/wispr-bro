@@ -683,6 +683,18 @@ across relaunch. Late transcription updates History and posts one batch
 notification; it never pastes, shows a card or writes the clipboard. Only
 Copy latest, History Copy or ⌃⌘V writes it.
 
+**Partial starter (rc9, `fix/starter`).** When no small model hears every
+language the user speaks, the first model is the small one for the first
+language that has one (English + Dutch → parakeet-110m); S-07b's policy
+downloads the full model right after it. Until the swap, `transcribe_take`
+holds a take whose language the starter does not hear
+(`starter::needs_full_model`: Handy's language when it is one language;
+with Auto only the onboarding practice take runs on the starter) in the
+same queue; `drain` starts only the takes the starter may run
+(`queue::start_ready_where`), `fork-speech-setup` reports the full model's
+download while a take is held (with `eta_seconds`), and `upgrade::swap`
+drains the rest on the new model (`setup::after_swap`).
+
 | File                                                        | Role                                                                                                                                                                                                                                                                                                   |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `src-tauri/src/fork/models/catalog.fork.json`, `starter.rs` | Which model comes first: the candidates in order (parakeet-110m, whisper-base, Parakeet TDT 0.6B v3) and the languages each is unusable for (whisper-base: nl, RS-09). Pick = first candidate usable for every language the user speaks, else for the first one. Pins come from Handy's `catalog.json` |
